@@ -106,7 +106,7 @@ IndexType MeshDataValueFormat::_parseIndexType(const DataValue& dataValue)
     auto it = indexTypes.find(dataValue.asString());
     if (it == indexTypes.end())
     {
-        throw Error(format("Invalid index type '%s'", dataValue.asString()));
+        throw Error(format("Invalid index type '%s'", dataValue.asString().c_str()));
     }
 
     return (*it).second;
@@ -128,7 +128,7 @@ PrimitiveType MeshDataValueFormat::_parsePrimitiveType(const DataValue& dataValu
     auto it = primitiveTypes.find(dataValue.asString());
     if (it == primitiveTypes.end())
     {
-        throw Error(format("Invalid primitive type '%s'", dataValue.asString()));
+        throw Error(format("Invalid primitive type '%s'", dataValue.asString().c_str()));
     }
 
     return (*it).second;
@@ -158,7 +158,7 @@ VertexAttributeSemantic MeshDataValueFormat::_parseAttributeSemantic(const DataV
     auto it = attributeSemantics.find(dataValue.asString());
     if (it == attributeSemantics.end())
     {
-        throw Error(format("Invalid vertex attribute semantic '%s'", dataValue.asString()));
+        throw Error(format("Invalid vertex attribute semantic '%s'", dataValue.asString().c_str()));
     }
 
     return (*it).second;
@@ -177,7 +177,7 @@ VertexAttributeType MeshDataValueFormat::_parseAttributeType(const DataValue& da
     auto it = attributeTypes.find(dataValue.asString());
     if (it == attributeTypes.end())
     {
-        throw Error(format("Invalid vertex attribute type '%s'", dataValue.asString()));
+        throw Error(format("Invalid vertex attribute type '%s'", dataValue.asString().c_str()));
     }
 
     return (*it).second;

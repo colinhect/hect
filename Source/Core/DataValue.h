@@ -151,18 +151,10 @@ public:
     DataValue(const std::string& value);
 
     ///
-    /// Constructs a data value copied from another.
-    ///
-    /// \param dataValue The data value to copy.
-    DataValue(const DataValue& dataValue);
-
-    ///
     /// Constructs a data value moved from another.
     ///
     /// \param dataValue The data value to move.
     DataValue(DataValue&& dataValue);
-
-    ~DataValue();
 
     ///
     /// Returns the type.
@@ -243,7 +235,7 @@ public:
     ///
     /// Returns the value as a string (empty string if the data value is not a
     /// string).
-    const char* asString() const;
+    const std::string& asString() const;
 
     ///
     /// Returns the number of elements or members.
@@ -272,14 +264,6 @@ public:
     ///
     /// \throws Error If the data value is not an array.
     void addElement(const DataValue& dataValue);
-
-    ///
-    /// Assigns a new data value.
-    ///
-    /// \param value The new data value.
-    ///
-    /// \returns A reference to the data value.
-    DataValue& operator=(const DataValue& dataValue);
 
     ///
     /// Returns the element at the given index.
@@ -311,14 +295,6 @@ public:
 
 private:
     DataValueType _type;
-
-    union
-    {
-        char* asString;
-        double asDouble;        
-        uint64_t asInt;
-    } _value;
-
     Any _any;
 
     static const DataValue _null;

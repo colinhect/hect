@@ -31,54 +31,59 @@ const DataValue::Array DataValue::_emptyArray;
 DataValue::DataValue() :
     _type(DataValueType::Null)
 {
-    _value.asInt = 0;
 }
 
 DataValue::DataValue(DataValueType type) :
     _type(type)
 {
-    _value.asInt = 0;
-
-    if (type == DataValueType::Array)
+    switch (type)
     {
+    case DataValueType::Bool:
+        _any = false;
+        break;
+    case DataValueType::Number:
+        _any = 0.0;
+        break;
+    case DataValueType::String:
+        _any = std::string();
+        break;
+    case DataValueType::Array:
         _any = DataValue::Array();
-    }
-    else if (type == DataValueType::Object)
-    {
+        break;
+    case DataValueType::Object:
         _any = DataValue::Object();
+        break;
     }
 }
 
 DataValue::DataValue(bool value) :
-    _type(DataValueType::Bool)
+    _type(DataValueType::Bool),
+    _any(value)
 {
-    _value.asDouble = value ? 1 : 0;
 }
 
 DataValue::DataValue(int value) :
-    _type(DataValueType::Number)
+    _type(DataValueType::Number),
+    _any((double)value)
 {
-    _value.asDouble = (double)value;
 }
 
 DataValue::DataValue(unsigned value) :
-    _type(DataValueType::Number)
+    _type(DataValueType::Number),
+    _any((double)value)
 {
-    _value.asDouble = (double)value;
 }
 
 DataValue::DataValue(double value) :
-    _type(DataValueType::Number)
+    _type(DataValueType::Number),
+    _any(value)
 {
-    _value.asDouble = value;
 }
 
 DataValue::DataValue(const Vector2<>& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
-    _value.asInt = 0;
-
     DataValue::Array& elements = _any.as<DataValue::Array>();
     elements.push_back(value.x);
     elements.push_back(value.y);
@@ -88,8 +93,6 @@ DataValue::DataValue(const Vector3<>& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
-    _value.asInt = 0;
-    
     DataValue::Array& elements = _any.as<DataValue::Array>();
     elements.push_back(value.x);
     elements.push_back(value.y);
@@ -100,8 +103,6 @@ DataValue::DataValue(const Vector4<>& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
-    _value.asInt = 0;
-    
     DataValue::Array& elements = _any.as<DataValue::Array>();
     elements.push_back(value.x);
     elements.push_back(value.y);
@@ -113,8 +114,6 @@ DataValue::DataValue(const Matrix4<>& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
-    _value.asInt = 0;
-
     DataValue::Array& elements = _any.as<DataValue::Array>();
     for (unsigned i = 0; i < 16; ++i)
     {
@@ -126,8 +125,6 @@ DataValue::DataValue(const Quaternion<>& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
-    _value.asInt = 0;
-
     DataValue::Array& elements = _any.as<DataValue::Array>();
     elements.push_back(value.x);
     elements.push_back(value.y);
@@ -136,39 +133,22 @@ DataValue::DataValue(const Quaternion<>& value) :
 }
 
 DataValue::DataValue(const char* value) :
-    _type(DataValueType::String)
+    _type(DataValueType::String),
+    _any(std::string(value))
 {
-    _value.asString = new char[strlen(value) + 1];
-    strcpy(_value.asString, value);
 }
 
 DataValue::DataValue(const std::string& value) :
-    _type(DataValueType::String)
+    _type(DataValueType::String),
+    _any(value)
 {
-    _value.asString = new char[value.length() + 1];
-    strcpy(_value.asString, value.c_str());
-}
-
-DataValue::DataValue(const DataValue& dataValue)
-{
-    *this = dataValue;
 }
 
 DataValue::DataValue(DataValue&& dataValue) :
     _type(dataValue._type),
-    _value(dataValue._value),
     _any(std::move(dataValue._any))
 {
     dataValue._type = DataValueType::Null;
-    dataValue._value.asInt = 0;
-}
-
-DataValue::~DataValue()
-{
-    if (_type == DataValueType::String && _value.asString)
-    {
-        delete [] _value.asString;
-    }
 }
 
 DataValueType DataValue::type() const
@@ -222,7 +202,7 @@ bool DataValue::asBool() const
 {
     if (isBool())
     {
-        return _value.asDouble == 1;
+        return _any.as<bool>();
     }
     else
     {
@@ -234,7 +214,7 @@ int DataValue::asInt() const
 {
     if (isNumber())
     {
-        return (int)_value.asDouble;
+        return (int)_any.as<double>();
     }
     else
     {
@@ -246,7 +226,7 @@ unsigned DataValue::asUnsigned() const
 {
     if (isNumber())
     {
-        return (unsigned)_value.asDouble;
+        return (unsigned)_any.as<double>();
     }
     else
     {
@@ -258,7 +238,7 @@ double DataValue::asDouble() const
 {
     if (isNumber())
     {
-        return _value.asDouble;
+        return _any.as<double>();
     }
     else
     {
@@ -366,15 +346,17 @@ Quaternion<> DataValue::asQuaternion() const
     return result;
 }
 
-const char* DataValue::asString() const
+const std::string& DataValue::asString() const
 {
+    static std::string empty;
+
     if (isString())
     {
-        return _value.asString;
+        return _any.as<std::string>();
     }
     else
     {
-        return "";
+        return empty;
     }
 }
 
@@ -431,21 +413,6 @@ void DataValue::addElement(const DataValue& dataValue)
     {
         throw Error("The data value is not an array");
     }
-}
-
-DataValue& DataValue::operator=(const DataValue& dataValue)
-{
-    _type = dataValue._type;
-    _value = dataValue._value;
-    _any = dataValue._any;
-
-    if (_type == DataValueType::String)
-    {
-        _value.asString = new char[strlen(dataValue._value.asString) + 1];
-        strcpy(_value.asString, dataValue._value.asString);
-    }
-
-    return *this;
 }
 
 const DataValue& DataValue::operator[](size_t index) const

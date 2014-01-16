@@ -72,7 +72,7 @@ TextureFilter TextureDataValueFormat::_parseTextureFilter(const DataValue& dataV
     auto it = textureFilters.find(dataValue.asString());
     if (it == textureFilters.end())
     {
-        throw Error(format("Invalid texture filter '%s'", dataValue.asString()));
+        throw Error(format("Invalid texture filter '%s'", dataValue.asString().c_str()));
     }
 
     return (*it).second;

@@ -51,7 +51,6 @@ void DataValueJsonFormat::load(DataValue& dataValue, const std::string& json)
     {
         throw Error(reader.getFormattedErrorMessages());
     }
-    int i = sizeof(DataValue);
     dataValue = toDataValue(root);
 }
 

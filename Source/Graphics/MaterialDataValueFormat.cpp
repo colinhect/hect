@@ -193,7 +193,7 @@ RenderState MaterialDataValueFormat::_parseState(const DataValue& dataValue)
     auto it = states.find(dataValue.asString());
     if (it == states.end())
     {
-        throw Error(format("Invalid render state '%s'", dataValue.asString()));
+        throw Error(format("Invalid render state '%s'", dataValue.asString().c_str()));
     }
 
     return (*it).second;
@@ -220,7 +220,7 @@ BlendFactor MaterialDataValueFormat::_parseBlendFactor(const DataValue& dataValu
     auto it = blendFactors.find(dataValue.asString());
     if (it == blendFactors.end())
     {
-        throw Error(format("Invalid blend factor '%s'", dataValue.asString()));
+        throw Error(format("Invalid blend factor '%s'", dataValue.asString().c_str()));
     }
 
     return (*it).second;
