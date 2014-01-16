@@ -1,0 +1,22 @@
+{
+    "name" : "Something",
+    "transform" : {
+        "position" : [0, 0, 10]
+    },
+    "components" : [
+        {
+            "type" : "Camera",
+            "fieldOfView" : 90,
+            "nearClip" : 0.1,
+            "farClip" : 10000
+        }
+    ],
+    "children" : [
+        {
+            "name" : "ChildA"
+        },
+        {
+            "name" : "ChildB"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "techniques" :
+    [
+        [
+            {
+                "shader" : "Cube.shader"
+            }
+        ]
+    ]
+}

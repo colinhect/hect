@@ -1,0 +1,16 @@
+{
+    "Transform" :
+    {
+        "position" : [ 0, 0, -10 ]
+    },
+    "Geometry" :
+    {
+        "surfaces" :
+        [
+           {
+              "mesh" : "Cube.mesh",
+              "material" : "Cube.material"
+           }
+        ]
+    }
+}

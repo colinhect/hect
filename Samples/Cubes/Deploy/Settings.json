@@ -1,0 +1,52 @@
+{
+    "videoMode" :
+    {
+        "width" : 1440,
+        "height" : 900,
+        "bitsPerPixel" : 32,
+        "fullscreen" : false
+    },
+    "dataSources" :
+    [
+        "Data"
+    ],
+    "inputAxes" :
+    {
+        "viewX" :
+        {
+            "source" : "MouseMoveX",
+            "acceleration" : 0.0025,
+            "gravity" : 10
+        },
+        "viewY" :
+        {
+            "source" : "MouseMoveY",
+            "acceleration" : 0.0025,
+            "gravity" : 10
+        },
+        "moveX" :
+        {
+            "source" : "Key",
+            "positiveKey" : "D",
+            "negativeKey" : "A",
+            "acceleration" : 4,
+            "gravity" : 10
+        },
+        "moveY" :
+        {
+            "source" : "Key",
+            "positiveKey" : "W",
+            "negativeKey" : "S",
+            "acceleration" : 4,
+            "gravity" : 10
+        },
+        "roll" :
+        {
+            "source" : "Key",
+            "positiveKey" : "E",
+            "negativeKey" : "Q",
+            "acceleration" : 4,
+            "gravity" : 10
+        }
+    }
+}

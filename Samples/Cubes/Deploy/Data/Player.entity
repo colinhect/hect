@@ -1,0 +1,10 @@
+{
+    "Transform" : { },
+    "Camera" :
+    {
+        "fieldOfView" : 80,
+        "nearClip" : 0.01,
+        "farClip" : 250000
+    },
+    "PlayerCamera" : { }
+}

@@ -1,0 +1,14 @@
+{
+    "techniques" : [
+        [
+            {
+                "shader" : "Window.shader",
+                "renderMode" : {
+                    "enabledStates" : [ "Blend" ],
+                    "disabledStates" : [ "DepthTest", "CullFace" ],
+                    "blendFactors" : [ "Zero", "OneMinusSourceAlpha" ]
+                }
+            }
+        ]
+    ]
+}

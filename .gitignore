@@ -1,0 +1,14 @@
+Bin/*
+Win32/*
+x64/*
+Ignore.txt
+Doc/*
+Intermediate/*
+Dependencies/*
+Samples/Common/Intermediate/*
+Samples/Cubes/Intermediate/*
+Tests/UnitTests/Intermediate/*
+*.opensdf
+*.sdf
+*.suo
+*.sublime-workspace

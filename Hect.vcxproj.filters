@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{7c2bee44-7002-4211-9469-16fb6784a5cb}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Asset">
+      <UniqueIdentifier>{cc1da510-315e-45f1-a062-366764e93848}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Core">
+      <UniqueIdentifier>{e7d2f7a3-35c1-4933-9ee9-a6d822097cb2}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Entity">
+      <UniqueIdentifier>{5d093005-925d-44ba-8c9b-24d787d83e15}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Entity\Components">
+      <UniqueIdentifier>{1cc3b6d0-a00f-4934-b13e-34f3fa1233a7}</UniqueIdentifier>
+      <Extensions>cpp;h;inl</Extensions>
+    </Filter>
+    <Filter Include="Source\Entity\Systems">
+      <UniqueIdentifier>{dc945a01-43e3-4dc2-9344-675a519ec12a}</UniqueIdentifier>
+      <Extensions>cpp;h;inl</Extensions>
+    </Filter>
+    <Filter Include="Source\Graphics">
+      <UniqueIdentifier>{5158d07c-5b8a-4a0c-8051-a9c6f1499976}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{77278d46-4ce5-46aa-adbb-f2e2a568e9c8}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Internal">
+      <UniqueIdentifier>{12282db1-10b5-4fe8-84df-980536c3dad0}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\IO">
+      <UniqueIdentifier>{5bbdd8d5-f376-4058-9ae4-7fe7e9446d8c}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Math">
+      <UniqueIdentifier>{9587974b-3e96-4d3a-abd3-54aaaa7db50a}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Noise">
+      <UniqueIdentifier>{69dbeee7-c972-43ae-9e4f-e9c2ef387b47}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Network">
+      <UniqueIdentifier>{999f82bf-a1d8-43de-a449-3caead469c9f}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Asset\AssetCache.cpp">
+      <Filter>Source\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Any.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DataValue.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Error.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Format.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Logging.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Memory.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\TaskPool.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\TimeSpan.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Components\Camera.cpp">
+      <Filter>Source\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Components\Geometry.cpp">
+      <Filter>Source\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Components\RigidBody.cpp">
+      <Filter>Source\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Components\Transform.cpp">
+      <Filter>Source\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Systems\CameraSystem.cpp">
+      <Filter>Source\Entity\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Systems\PhysicsSystem.cpp">
+      <Filter>Source\Entity\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Entity.cpp">
+      <Filter>Source\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Scene.cpp">
+      <Filter>Source\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\FrameBuffer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Image.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\ImageLoader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\ImagePngFormat.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Material.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\MaterialLoader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Mesh.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\MeshLoader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Pass.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\PassUniformValue.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\RenderMode.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\RenderTarget.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Shader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\ShaderLoader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\ShaderModule.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\ShaderModuleLoader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Technique.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Texture.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\TextureLoader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Uniform.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\UniformValue.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\VertexAttribute.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\VertexLayout.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\InputAxis.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\Keyboard.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\Mouse.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Internal\Bullet.cpp">
+      <Filter>Source\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\FileReadStream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\FileWriteStream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\MemoryReadStream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\MemoryWriteStream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\Path.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\ReadStream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\WriteStream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Network\IpAddress.cpp">
+      <Filter>Source\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Network\Packet.cpp">
+      <Filter>Source\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Network\Peer.cpp">
+      <Filter>Source\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Network\Socket.cpp">
+      <Filter>Source\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Noise\Random.cpp">
+      <Filter>Source\Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DataValueLoader.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Component.cpp">
+      <Filter>Source\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\System.cpp">
+      <Filter>Source\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Timer.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Window.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Renderer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\RendererObject.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\FileSystem.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\InputSystem.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\EntitySerializer.cpp">
+      <Filter>Source\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Components\DirectionalLight.cpp">
+      <Filter>Source\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\VideoMode.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Components\AmbientLight.cpp">
+      <Filter>Source\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\EntityData.cpp">
+      <Filter>Source\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DataValueJsonFormat.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\MeshWriter.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\MeshReader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\ShaderDataValueFormat.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\MaterialDataValueFormat.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\TextureDataValueFormat.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\VideoModeDataValueFormat.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\InputAxisDataValueFormat.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\MeshDataValueFormat.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\DataReader.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\DataWriter.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\LogicLayer.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\LogicFlow.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\MeshBinaryFormat.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Systems\BasicRenderSystem.cpp">
+      <Filter>Source\Entity\Systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Asset\AssetCache.h">
+      <Filter>Source\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Asset\AssetEntry.h">
+      <Filter>Source\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Asset\AssetHandle.h">
+      <Filter>Source\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Asset\AssetLoader.h">
+      <Filter>Source\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Any.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\DataValue.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Error.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Format.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Logging.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Memory.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\TaskPool.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\TimeSpan.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Uncopyable.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Components\Camera.h">
+      <Filter>Source\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Components\Geometry.h">
+      <Filter>Source\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Components\RigidBody.h">
+      <Filter>Source\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Components\Transform.h">
+      <Filter>Source\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Systems\CameraSystem.h">
+      <Filter>Source\Entity\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Systems\PhysicsSystem.h">
+      <Filter>Source\Entity\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Entity.h">
+      <Filter>Source\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Scene.h">
+      <Filter>Source\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\FrameBuffer.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Image.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\ImagePngFormat.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Material.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Mesh.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Pass.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\PassUniformValue.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\RenderMode.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\RenderTarget.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Shader.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\ShaderModule.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Technique.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Texture.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Uniform.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\UniformValue.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\VertexAttribute.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\VertexLayout.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\InputAxis.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Keyboard.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Mouse.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Internal\Bullet.h">
+      <Filter>Source\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\FileReadStream.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\FileWriteStream.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\MemoryReadStream.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\MemoryWriteStream.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\Path.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\ReadStream.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\WriteStream.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Angle.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\AxisAlignedBox.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Box.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Frustum.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Matrix4.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Plane.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Quaternion.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Vector2.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Vector3.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Vector4.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Network\IpAddress.h">
+      <Filter>Source\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Network\Packet.h">
+      <Filter>Source\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Network\Peer.h">
+      <Filter>Source\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Network\Socket.h">
+      <Filter>Source\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Noise\Random.h">
+      <Filter>Source\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\ComponentSerializer.h">
+      <Filter>Source\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Component.h">
+      <Filter>Source\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\System.h">
+      <Filter>Source\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Timer.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Window.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Renderer.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\RendererObject.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\FileSystem.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\InputSystem.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\EntitySerializer.h">
+      <Filter>Source\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Components\DirectionalLight.h">
+      <Filter>Source\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Sphere.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\VideoMode.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Components\AmbientLight.h">
+      <Filter>Source\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\EntityData.h">
+      <Filter>Source\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\DataValueJsonFormat.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\MeshWriter.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\MeshReader.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\ShaderDataValueFormat.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\MaterialDataValueFormat.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\TextureDataValueFormat.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\VideoModeDataValueFormat.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\InputAxisDataValueFormat.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\MeshDataValueFormat.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\DataReader.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\DataWriter.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\LogicLayer.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\LogicFlow.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\MeshBinaryFormat.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\IdPool.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Dispatcher.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Listener.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity\Systems\BasicRenderSystem.h">
+      <Filter>Source\Entity\Systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Asset\AssetCache.inl">
+      <Filter>Source\Asset</Filter>
+    </None>
+    <None Include="Source\Asset\AssetEntry.inl">
+      <Filter>Source\Asset</Filter>
+    </None>
+    <None Include="Source\Asset\AssetHandle.inl">
+      <Filter>Source\Asset</Filter>
+    </None>
+    <None Include="Source\Core\Any.inl">
+      <Filter>Source\Core</Filter>
+    </None>
+    <None Include="Source\Entity\Entity.inl">
+      <Filter>Source\Entity</Filter>
+    </None>
+    <None Include="Source\Entity\Scene.inl">
+      <Filter>Source\Entity</Filter>
+    </None>
+    <None Include="Source\Math\Angle.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Math\AxisAlignedBox.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Math\Box.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Math\Frustum.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Math\Matrix4.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Math\Plane.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Math\Quaternion.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Math\Vector2.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Math\Vector3.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Math\Vector4.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Entity\Component.inl">
+      <Filter>Source\Entity</Filter>
+    </None>
+    <None Include="Source\Entity\ComponentSerializer.inl">
+      <Filter>Source\Entity</Filter>
+    </None>
+    <None Include="Source\Entity\EntitySerializer.inl">
+      <Filter>Source\Entity</Filter>
+    </None>
+    <None Include="Source\Math\Sphere.inl">
+      <Filter>Source\Math</Filter>
+    </None>
+    <None Include="Source\Graphics\MeshWriter.inl">
+      <Filter>Source\Graphics</Filter>
+    </None>
+    <None Include="Source\Graphics\MeshReader.inl">
+      <Filter>Source\Graphics</Filter>
+    </None>
+    <None Include="Source\Core\IdPool.inl">
+      <Filter>Source\Core</Filter>
+    </None>
+    <None Include="Source\Core\Dispatcher.inl">
+      <Filter>Source\Core</Filter>
+    </None>
+  </ItemGroup>
+</Project>

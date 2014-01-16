@@ -1,0 +1,7 @@
+{
+    "entities" :
+    [
+        "Player.entity",
+        "Cube.entity"
+    ]
+}

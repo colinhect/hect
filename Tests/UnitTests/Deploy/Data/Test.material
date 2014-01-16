@@ -1,0 +1,16 @@
+{
+    "base" : "Base.material",
+    "techniques" : [
+        [
+            {
+                "textures" : [
+                    "Test.texture"
+                ],
+                "renderMode" : {
+                    "enabledStates" : [ "CullFace" ],
+                    "disabledStates" : [ "Blend" ]
+                }
+            }
+        ]
+    ]
+}
