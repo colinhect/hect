@@ -83,7 +83,7 @@ InputAxisSource InputAxisDataValueFormat::_parseSource(const DataValue& dataValu
     auto it = sources.find(dataValue.asString());
     if (it == sources.end())
     {
-        throw Error(format("Invalid input axis source '%s'", dataValue.asString().c_str()));
+        throw Error(format("Invalid input axis source '%s'", dataValue.asString()));
     }
 
     return (*it).second;
@@ -157,7 +157,7 @@ Key InputAxisDataValueFormat::_parseKey(const DataValue& dataValue)
     auto it = keys.find(dataValue.asString());
     if (it == keys.end())
     {
-        throw Error(format("Invalid key '%s'", dataValue.asString().c_str()));
+        throw Error(format("Invalid key '%s'", dataValue.asString()));
     }
 
     return (*it).second;
@@ -177,7 +177,7 @@ MouseButton InputAxisDataValueFormat::_parseMouseButton(const DataValue& dataVal
     auto it = mouseButtons.find(dataValue.asString());
     if (it == mouseButtons.end())
     {
-        throw Error(format("Invalid mouse button '%s'", dataValue.asString().c_str()));
+        throw Error(format("Invalid mouse button '%s'", dataValue.asString()));
     }
 
     return (*it).second;

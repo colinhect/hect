@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A data value type.
-enum class DataValueType
+enum class DataValueType : uint8_t
 {
 
     ///
@@ -151,10 +151,18 @@ public:
     DataValue(const std::string& value);
 
     ///
+    /// Constructs a data value copied from another.
+    ///
+    /// \param dataValue The data value to copy.
+    DataValue(const DataValue& dataValue);
+
+    ///
     /// Constructs a data value moved from another.
     ///
     /// \param dataValue The data value to move.
     DataValue(DataValue&& dataValue);
+
+    ~DataValue();
 
     ///
     /// Returns the type.
@@ -235,7 +243,7 @@ public:
     ///
     /// Returns the value as a string (empty string if the data value is not a
     /// string).
-    const std::string& asString() const;
+    const char* asString() const;
 
     ///
     /// Returns the number of elements or members.
@@ -252,18 +260,26 @@ public:
     /// is overwritten with the new value.
     ///
     /// \param name The member name.
-    /// \param value The member value.
+    /// \param dataValue The member value.
     ///
     /// \throws Error If the data value is not an object.
-    void addMember(const std::string& name, const DataValue& value);
+    void addMember(const std::string& name, const DataValue& dataValue);
 
     ///
     /// Adds a new element to the data value.
     ///
-    /// \param value The element value.
+    /// \param dataValue The element value.
     ///
     /// \throws Error If the data value is not an array.
-    void addElement(const DataValue& value);
+    void addElement(const DataValue& dataValue);
+
+    ///
+    /// Assigns a new data value.
+    ///
+    /// \param value The new data value.
+    ///
+    /// \returns A reference to the data value.
+    DataValue& operator=(const DataValue& dataValue);
 
     ///
     /// Returns the element at the given index.
@@ -296,14 +312,17 @@ public:
 private:
     DataValueType _type;
 
-    std::string _stringValue;
-    double _numberValue;
-    Array _elements;
-    Object _members;
+    union
+    {
+        char* asString;
+        double asDouble;        
+        uint64_t asInt;
+    } _value;
+
+    Any _any;
 
     static const DataValue _null;
     static const Array _emptyArray;
-    static const std::string _emptyString;
 };
 
 }

@@ -117,7 +117,7 @@ UniformBinding ShaderDataValueFormat::_parseUniformBinding(const DataValue& data
     auto it = uniformBindings.find(dataValue.asString());
     if (it == uniformBindings.end())
     {
-        throw Error(format("Invalid uniform binding '%s'", dataValue.asString().c_str()));
+        throw Error(format("Invalid uniform binding '%s'", dataValue.asString()));
     }
 
     return (*it).second;
@@ -141,7 +141,7 @@ UniformType ShaderDataValueFormat::_parseType(const DataValue& dataValue)
     auto it = valueTypes.find(dataValue.asString());
     if (it == valueTypes.end())
     {
-        throw Error(format("Invalid uniform type '%s'", dataValue.asString().c_str()));
+        throw Error(format("Invalid uniform type '%s'", dataValue.asString()));
     }
 
     return (*it).second;
