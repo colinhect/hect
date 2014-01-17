@@ -93,32 +93,32 @@ void Camera::setFieldOfView(Angle<> fieldOfView)
     _fieldOfView = fieldOfView;
 }
 
-double Camera::aspectRatio() const
+Real Camera::aspectRatio() const
 {
     return _aspectRatio;
 }
 
-void Camera::setAspectRatio(double aspectRatio)
+void Camera::setAspectRatio(Real aspectRatio)
 {
     _aspectRatio = aspectRatio;
 }
 
-double Camera::nearClip() const
+Real Camera::nearClip() const
 {
     return _nearClip;
 }
 
-void Camera::setNearClip(double nearClip)
+void Camera::setNearClip(Real nearClip)
 {
     _nearClip = nearClip;
 }
 
-double Camera::farClip() const
+Real Camera::farClip() const
 {
     return _farClip;
 }
 
-void Camera::setFarClip(double farClip)
+void Camera::setFarClip(Real farClip)
 {
     _farClip = farClip;
 }
@@ -142,7 +142,7 @@ void CameraSerializer::load(Camera& camera, DataReader& reader, AssetCache& asse
 
     if (reader.hasMember("fieldOfView"))
     {
-        double degrees = reader.readDouble("fieldOfView");
+        Real degrees = reader.readDouble("fieldOfView");
         camera.setFieldOfView(Angle<>::fromDegrees(degrees));
     }
 

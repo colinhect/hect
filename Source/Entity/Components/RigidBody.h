@@ -42,13 +42,13 @@ public:
 
     ///
     /// Returns the mass.
-    double mass() const;
+    Real mass() const;
 
     ///
     /// Sets the mass.
     ///
     /// \param mass The new mass.
-    void setMass(double mass);
+    void setMass(Real mass);
 
     ///
     /// Returns the linear velocity.
@@ -85,7 +85,7 @@ public:
     void setMesh(const AssetHandle<Mesh>& mesh);
 
 private:
-    double _mass;
+    Real _mass;
     mutable Vector3<> _linearVelocity;
     mutable Vector3<> _angularVelocity;
     AssetHandle<Mesh> _mesh;

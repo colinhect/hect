@@ -50,12 +50,14 @@
 #endif
 #endif
 
+typedef double Real;
+
 namespace hect
 {
 
 ///
 /// An approximation of Pi.
-const double pi = 3.14159265358979323846;
+const Real pi = 3.14159265358979323846;
 
 }
 

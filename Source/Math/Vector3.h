@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A 3-dimensional vector.
-template <typename T = double>
+template <typename T = Real>
 class Vector3
 {
 public:

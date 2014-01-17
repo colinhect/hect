@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A 2-dimensional vector.
-template <typename T = double>
+template <typename T = Real>
 class Vector2
 {
 public:

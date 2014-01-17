@@ -124,33 +124,33 @@ public:
 
     ///
     /// Returns the current value.
-    double value() const;
+    Real value() const;
 
     ///
     /// Sets the current value.
     ///
     /// \param value The new value.
-    void setValue(double value);
+    void setValue(Real value);
 
     ///
     /// Returns the acceleration.
-    double acceleration() const;
+    Real acceleration() const;
 
     ///
     /// Sets the acceleration.
     ///
     /// \param acceleration The new acceleration.
-    void setAcceleration(double acceleration);
+    void setAcceleration(Real acceleration);
 
     ///
     /// Returns the gravity.
-    double gravity() const;
+    Real gravity() const;
 
     ///
     /// Sets the gravity.
     ///
     /// \param gravity The new gravity.
-    void setGravity(double gravity);
+    void setGravity(Real gravity);
 
 private:
     std::string _name;
@@ -162,9 +162,9 @@ private:
     Key _positiveKey;
     Key _negativeKey;
 
-    double _value;
-    double _acceleration;
-    double _gravity;
+    Real _value;
+    Real _acceleration;
+    Real _gravity;
 };
 
 }

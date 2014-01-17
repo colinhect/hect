@@ -157,7 +157,7 @@ void TransformSerializer::load(Transform& transform, DataReader& reader, AssetCa
 
         if (reader.hasMember("angle"))
         {
-            double degrees = reader.readDouble("angle");
+            Real degrees = reader.readDouble("angle");
             angle = Angle<>::fromDegrees(degrees);
         }
 

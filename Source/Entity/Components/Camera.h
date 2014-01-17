@@ -78,33 +78,33 @@ public:
 
     ///
     /// Returns the aspect ratio.
-    double aspectRatio() const;
+    Real aspectRatio() const;
 
     ///
     /// Sets the aspect ratio.
     ///
     /// \param aspectRatio The new aspect ratio.
-    void setAspectRatio(double aspectRatio);
+    void setAspectRatio(Real aspectRatio);
 
     ///
     /// Returns the near clip distance.
-    double nearClip() const;
+    Real nearClip() const;
 
     ///
     /// Sets the near clip distance.
     ///
     /// \param nearClip The new near clip distance.
-    void setNearClip(double nearClip);
+    void setNearClip(Real nearClip);
 
     ///
     /// Returns the far clip distance.
-    double farClip() const;
+    Real farClip() const;
 
     ///
     /// Sets the far clip distance.
     ///
     /// \param farClip The new far clip distance.
-    void setFarClip(double farClip);
+    void setFarClip(Real farClip);
 
     ///
     /// Returns the frustum.
@@ -113,9 +113,9 @@ public:
 private:
     Angle<> _fieldOfView;
 
-    double _aspectRatio;
-    double _nearClip;
-    double _farClip;
+    Real _aspectRatio;
+    Real _nearClip;
+    Real _farClip;
 
     Vector3<> _front;
     Vector3<> _up;

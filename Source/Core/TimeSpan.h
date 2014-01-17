@@ -48,7 +48,7 @@ public:
     /// Creates a time span from seconds.
     ///
     /// \param seconds The duration of time in seconds.
-    static TimeSpan fromSeconds(double seconds);
+    static TimeSpan fromSeconds(Real seconds);
 
     ///
     /// Constructs a timespan of zero seconds.
@@ -64,7 +64,7 @@ public:
 
     ///
     /// Returns the time span in seconds.
-    double seconds();
+    Real seconds();
 
     ///
     /// Returns the sum of the time span and another time span.
@@ -82,13 +82,13 @@ public:
     /// Returns the product of the time span and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    TimeSpan operator*(double value) const;
+    TimeSpan operator*(Real value) const;
 
     ///
     /// Returns the quotient of the time span and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    TimeSpan operator/(double value) const;
+    TimeSpan operator/(Real value) const;
 
     ///
     /// Returns a negated copy of the time span.
@@ -116,7 +116,7 @@ public:
     /// \param value The value to multiply by.
     ///
     /// \returns A reference to the time span.
-    TimeSpan& operator*=(double value);
+    TimeSpan& operator*=(Real value);
 
     ///
     /// Divides the time span by a scalar.
@@ -124,7 +124,7 @@ public:
     /// \param value The value to divide by.
     ///
     /// \returns A reference to the time span.
-    TimeSpan& operator/=(double value);
+    TimeSpan& operator/=(Real value);
 
 private:
     TimeSpan(int64_t microseconds);

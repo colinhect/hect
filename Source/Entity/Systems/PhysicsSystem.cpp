@@ -42,7 +42,7 @@ bool PhysicsSystem::includesEntity(const Entity& entity) const
     return entity.hasComponent<Transform>() && entity.hasComponent<RigidBody>();
 }
 
-void PhysicsSystem::update(double timeStep, unsigned maxSubStepCount)
+void PhysicsSystem::update(Real timeStep, unsigned maxSubStepCount)
 {
     // Update the dynamics world
     _world->stepSimulation(timeStep, maxSubStepCount);

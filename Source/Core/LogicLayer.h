@@ -39,14 +39,14 @@ public:
     ///
     /// \param timeStep The duration of time between each fixed update (in
     /// seconds).
-    virtual void fixedUpdate(double timeStep);
+    virtual void fixedUpdate(Real timeStep);
 
     ///
     /// Called once every frame.
     ///
     /// \param delta The delta between the last fixed update and the next
     /// fixed update.
-    virtual void frameUpdate(double delta);
+    virtual void frameUpdate(Real delta);
 
     ///
     /// Returns whether the layer is active.

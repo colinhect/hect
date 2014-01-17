@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A sphere.
-template <typename T = double>
+template <typename T = Real>
 class Sphere
 {
 public:

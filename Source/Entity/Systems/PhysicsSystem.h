@@ -52,7 +52,7 @@ public:
     ///
     /// \param timeStep The duration of time between each update (in seconds).
     /// \param maxSubStepCount The maximum number of sub-steps.
-    void update(double timeStep, unsigned maxSubStepCount);
+    void update(Real timeStep, unsigned maxSubStepCount);
 
     ///
     /// Returns the gravity.

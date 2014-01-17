@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A plane in 3-dimensional space.
-template <typename T = double>
+template <typename T = Real>
 class Plane
 {
 public:

@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A box aligned with the global axes.
-template <typename T = double>
+template <typename T = Real>
 class AxisAlignedBox
 {
 public:

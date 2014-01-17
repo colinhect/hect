@@ -89,7 +89,7 @@ public:
     /// Constructs a floating-point uniform value.
     ///
     /// \param value The value.
-    UniformValue(double value);
+    UniformValue(Real value);
 
     ///
     /// Constructs a 2-dimensional vector uniform value.
@@ -137,7 +137,7 @@ public:
     /// \param value The value.
     ///
     /// \throws Error If the uniform value is not a float.
-    void setValue(double value);
+    void setValue(Real value);
 
     ///
     /// Sets the value of the uniform value as a 2-dimensional vector.

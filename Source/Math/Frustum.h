@@ -47,7 +47,7 @@ enum class FrustumTestResult
 /// A pyramid with a near and far plane cutting the top and bottom.
 ///
 /// \remarks Useful for check if objects are with the bounds of a camera.
-template <typename T = double>
+template <typename T = Real>
 class Frustum
 {
 public:

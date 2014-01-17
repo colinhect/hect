@@ -58,7 +58,7 @@ public:
     /// Updates all input axes in the system.
     ///
     /// \param timeStep The duration of time between each update (in seconds).
-    void updateAxes(double timeStep);
+    void updateAxes(Real timeStep);
 
     ///
     /// Returns the mouse connected to the system.

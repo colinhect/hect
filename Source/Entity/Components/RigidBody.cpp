@@ -32,12 +32,12 @@ RigidBody::RigidBody() :
 {
 }
 
-double RigidBody::mass() const
+Real RigidBody::mass() const
 {
     return _mass;
 }
 
-void RigidBody::setMass(double mass)
+void RigidBody::setMass(Real mass)
 {
     if (_rigidBody)
     {

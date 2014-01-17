@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A box.
-template <typename T = double>
+template <typename T = Real>
 class Box
 {
 public:

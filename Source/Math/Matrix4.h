@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A column-major 4 by 4 matrix.
-template <typename T = double>
+template <typename T = Real>
 class Matrix4
 {
 public:

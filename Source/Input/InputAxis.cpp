@@ -88,34 +88,34 @@ void InputAxis::setNegativeKey(Key key)
     _negativeKey = key;
 }
 
-double InputAxis::value() const
+Real InputAxis::value() const
 {
     return _value;
 }
 
-void InputAxis::setValue(double value)
+void InputAxis::setValue(Real value)
 {
     _value = value;
     _value = std::max(-1.0, _value);
     _value = std::min(1.0, _value);
 }
 
-double InputAxis::acceleration() const
+Real InputAxis::acceleration() const
 {
     return _acceleration;
 }
 
-void InputAxis::setAcceleration(double acceleration)
+void InputAxis::setAcceleration(Real acceleration)
 {
     _acceleration = acceleration;
 }
 
-double InputAxis::gravity() const
+Real InputAxis::gravity() const
 {
     return _gravity;
 }
 
-void InputAxis::setGravity(double gravity)
+void InputAxis::setGravity(Real gravity)
 {
     _gravity = gravity;
 }

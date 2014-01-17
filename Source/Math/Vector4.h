@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A 4-dimensional vector.
-template <typename T = double>
+template <typename T = Real>
 class Vector4
 {
 public:

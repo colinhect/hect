@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// An angle.
-template <typename T = double>
+template <typename T = Real>
 class Angle
 {
 public:

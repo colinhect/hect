@@ -30,12 +30,12 @@ LogicLayer::LogicLayer() :
 {
 }
 
-void LogicLayer::fixedUpdate(double timeStep)
+void LogicLayer::fixedUpdate(Real timeStep)
 {
     timeStep;
 }
 
-void LogicLayer::frameUpdate(double delta)
+void LogicLayer::frameUpdate(Real delta)
 {
     delta;
 }

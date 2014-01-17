@@ -60,13 +60,13 @@ const InputAxis& InputSystem::axisWithName(const std::string& name) const
     return *(*it).second;
 }
 
-void InputSystem::updateAxes(double timeStep)
+void InputSystem::updateAxes(Real timeStep)
 {
     for (InputAxis& axis : _axes)
     {
-        double value = axis.value();
-        double acceleration = axis.acceleration();
-        double gravity = axis.gravity();
+        Real value = axis.value();
+        Real acceleration = axis.acceleration();
+        Real gravity = axis.gravity();
 
         // Gravitate towards zero
         if (gravity != 0)
@@ -115,8 +115,8 @@ void InputSystem::receiveEvent(const MouseEvent& event)
 {
     if (event.type == MouseEventType::Movement)
     {
-        double movementX = (double)event.cursorMovement.x;
-        double movementY = (double)event.cursorMovement.y;
+        Real movementX = (Real)event.cursorMovement.x;
+        Real movementY = (Real)event.cursorMovement.y;
 
         for (InputAxis& axis : _axes)
         {
@@ -132,7 +132,7 @@ void InputSystem::receiveEvent(const MouseEvent& event)
     }
     else if (event.type == MouseEventType::ScrollUp || event.type == MouseEventType::ScrollDown)
     {
-        double movement = event.type == MouseEventType::ScrollUp ? 1 : -1;
+        Real movement = event.type == MouseEventType::ScrollUp ? 1 : -1;
 
         for (InputAxis& axis : _axes)
         {
