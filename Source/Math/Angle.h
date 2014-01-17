@@ -54,6 +54,12 @@ public:
     AngleT();
 
     ///
+    /// Constructs an angle from a value in radians.
+    ///
+    /// \param radians The angle in radians.
+    AngleT(T radians);
+
+    ///
     /// Returns the value of the angle in degrees.
     T degrees() const;
 
@@ -130,8 +136,6 @@ public:
     }
 
 private:
-    AngleT(T radians);
-
     T _radians;
 };
 

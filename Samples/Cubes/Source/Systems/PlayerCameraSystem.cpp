@@ -36,7 +36,9 @@ PlayerCameraSystem::PlayerCameraSystem(InputSystem& inputSystem) :
 
 bool PlayerCameraSystem::includesEntity(const Entity& entity) const
 {
-    return entity.hasComponent<Transform>() && entity.hasComponent<Camera>() && entity.hasComponent<PlayerCamera>();
+    return entity.hasComponent<Transform>()
+        && entity.hasComponent<Camera>()
+        && entity.hasComponent<PlayerCamera>();
 }
 
 void PlayerCameraSystem::update(double timeStep)
@@ -50,10 +52,18 @@ void PlayerCameraSystem::update(double timeStep)
 
     Transform& transform = entity.component<Transform>();
     Camera& camera = entity.component<Camera>();
+
+    const Vector3& up = camera.up();
+    const Vector3& right = camera.right();
+    const Vector3& front = camera.front();
     
-    transform.rotateGlobal(camera.up(), Angle::fromRadians(_viewX->value() * 50.0 * timeStep));
-    transform.rotateGlobal(camera.right(), Angle::fromRadians(_viewY->value() * -50.0 * timeStep));
-    transform.rotateGlobal(camera.front(),  Angle::fromRadians(_roll->value() * -2.0 * timeStep));
-    transform.translate(camera.right() * _moveX->value() * _speed * timeStep);
-    transform.translate(camera.front() * _moveY->value() * _speed * timeStep);
+    Real rotateSpeed = timeStep * 50;
+    Real rollSpeed = timeStep * 2;
+    Real moveSpeed = timeStep * _speed;
+    
+    transform.rotateGlobal(up, _viewX->value() * rotateSpeed);
+    transform.rotateGlobal(right, _viewY->value() * -rotateSpeed);
+    transform.rotateGlobal(front, _roll->value() * -rollSpeed);
+    transform.translate(right * _moveX->value() * moveSpeed);
+    transform.translate(front * _moveY->value() * moveSpeed);
 }

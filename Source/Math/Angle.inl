@@ -43,6 +43,12 @@ AngleT<T>::AngleT():
 }
 
 template <typename T>
+AngleT<T>::AngleT(T radians):
+    _radians(radians)
+{
+}
+
+template <typename T>
 T AngleT<T>::degrees() const
 {
     T degrees = ((T)180 / (T)pi) * _radians;
@@ -115,12 +121,6 @@ AngleT<T>& AngleT<T>::operator/=(T value)
 {
     _radians /= value;
     return *this;
-}
-
-template <typename T>
-AngleT<T>::AngleT(T radians):
-    _radians(radians)
-{
 }
 
 }
