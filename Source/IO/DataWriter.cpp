@@ -126,32 +126,32 @@ void DataValueWriter::writeString(const char* name, const std::string& value)
     _write(name, value);
 }
 
-void DataValueWriter::writeVector2(const Vector2<>& value)
+void DataValueWriter::writeVector2(const Vector2& value)
 {
     _write(value);
 }
 
-void DataValueWriter::writeVector2(const char* name, const Vector2<>& value)
+void DataValueWriter::writeVector2(const char* name, const Vector2& value)
 {
     _write(name, value);
 }
 
-void DataValueWriter::writeVector3(const Vector3<>& value)
+void DataValueWriter::writeVector3(const Vector3& value)
 {
     _write(value);
 }
 
-void DataValueWriter::writeVector3(const char* name, const Vector3<>& value)
+void DataValueWriter::writeVector3(const char* name, const Vector3& value)
 {
     _write(name, value);
 }
 
-void DataValueWriter::writeVector4(const Vector4<>& value)
+void DataValueWriter::writeVector4(const Vector4& value)
 {
     _write(value);
 }
 
-void DataValueWriter::writeVector4(const char* name, const Vector4<>& value)
+void DataValueWriter::writeVector4(const char* name, const Vector4& value)
 {
     _write(name, value);
 }
@@ -237,37 +237,37 @@ void BinaryDataWriter::writeString(const char* name, const std::string& value)
     _stream->writeString(value);
 }
 
-void BinaryDataWriter::writeVector2(const Vector2<>& value)
+void BinaryDataWriter::writeVector2(const Vector2& value)
 {
     ++_elementCount;
     _stream->writeVector2(value);
 }
 
-void BinaryDataWriter::writeVector2(const char* name, const Vector2<>& value)
+void BinaryDataWriter::writeVector2(const char* name, const Vector2& value)
 {
     name;
     _stream->writeVector2(value);
 }
 
-void BinaryDataWriter::writeVector3(const Vector3<>& value)
+void BinaryDataWriter::writeVector3(const Vector3& value)
 {
     ++_elementCount;
     _stream->writeVector3(value);
 }
 
-void BinaryDataWriter::writeVector3(const char* name, const Vector3<>& value)
+void BinaryDataWriter::writeVector3(const char* name, const Vector3& value)
 {
     name;
     _stream->writeVector3(value);
 }
 
-void BinaryDataWriter::writeVector4(const Vector4<>& value)
+void BinaryDataWriter::writeVector4(const Vector4& value)
 {
     ++_elementCount;
     _stream->writeVector4(value);
 }
 
-void BinaryDataWriter::writeVector4(const char* name, const Vector4<>& value)
+void BinaryDataWriter::writeVector4(const char* name, const Vector4& value)
 {
     name;
     _stream->writeVector4(value);

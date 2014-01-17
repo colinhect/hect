@@ -112,25 +112,25 @@ public:
     /// Writes a 2-dimensional vector.
     ///
     /// \param value The vector to write.
-    void writeVector2(const Vector2<>& value);
+    void writeVector2(const Vector2& value);
 
     ///
     /// Writes a 3-dimensional vector.
     ///
     /// \param value The vector to write.
-    void writeVector3(const Vector3<>& value);
+    void writeVector3(const Vector3& value);
 
     ///
     /// Writes a 4-dimensional vector.
     ///
     /// \param value The vector to write.
-    void writeVector4(const Vector4<>& value);
+    void writeVector4(const Vector4& value);
 
     ///
     /// Writes a quaternion.
     ///
     /// \param value The quaternion to write.
-    void writeQuaternion(const Quaternion<>& value);
+    void writeQuaternion(const Quaternion& value);
 
     ///
     /// Returns the current byte offset position in the stream.

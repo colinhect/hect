@@ -39,17 +39,17 @@ SUITE(MeshReader)
         {
             MeshWriter meshWriter(mesh);
             meshWriter.addVertex();
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<>(1, 2, 3));
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3<>(4, 5, 6));
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(1, 2, 3));
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(4, 5, 6));
             meshWriter.addVertex();
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<>(7, 8, 9));
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3<>(10, 11, 12));
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(7, 8, 9));
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(10, 11, 12));
             meshWriter.addVertex();
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<>(13, 14, 15));
-            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3<>(16, 17, 18));
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(13, 14, 15));
+            meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(16, 17, 18));
         }
 
-        Vector3<> value;
+        Vector3 value;
         MeshReader meshReader(mesh);
 
         CHECK(meshReader.nextVertex());
@@ -102,7 +102,7 @@ SUITE(MeshReader)
             meshWriter.addIndex(2);
         }
 
-        Vector3<> value;
+        Vector3 value;
         MeshReader meshReader(mesh);
 
         CHECK(meshReader.nextIndex());

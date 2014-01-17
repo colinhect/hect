@@ -25,26 +25,26 @@ namespace hect
 {
 
 template <typename T>
-Quaternion<T> Quaternion<T>::fromAxisAngle(const Vector3<T>& axis, Angle<T> angle)
+QuaternionT<T> QuaternionT<T>::fromAxisAngle(const Vector3T<T>& axis, AngleT<T> angle)
 {
     // Special case for identity quaternion
     if (angle.degrees() == (T)0 || axis.lengthSquared() == (T)0)
     {
-        return Quaternion();
+        return QuaternionT();
     }
     else
     {
         T halfRadians = angle.radians() / (T)2.0;
 
-        Vector3<T> v = axis.normalized() * (T)std::sin(halfRadians);
+        Vector3T<T> v = axis.normalized() * (T)std::sin(halfRadians);
         T w = (T)std::cos(halfRadians);
 
-        return Quaternion(v, w).normalized();
+        return QuaternionT(v, w).normalized();
     }
 }
 
 template <typename T>
-Quaternion<T>::Quaternion() :
+QuaternionT<T>::QuaternionT() :
     x(0),
     y(0),
     z(0),
@@ -53,7 +53,7 @@ Quaternion<T>::Quaternion() :
 }
 
 template <typename T>
-Quaternion<T>::Quaternion(T x, T y, T z, T w) :
+QuaternionT<T>::QuaternionT(T x, T y, T z, T w) :
     x(x),
     y(y),
     z(z),
@@ -62,7 +62,7 @@ Quaternion<T>::Quaternion(T x, T y, T z, T w) :
 }
 
 template <typename T>
-Quaternion<T>::Quaternion(const Vector3<T>& v, T w) :
+QuaternionT<T>::QuaternionT(const Vector3T<T>& v, T w) :
     x(v.x),
     y(v.y),
     z(v.z),
@@ -71,7 +71,7 @@ Quaternion<T>::Quaternion(const Vector3<T>& v, T w) :
 }
 
 template <typename T>
-Quaternion<T>::Quaternion(const Vector4<T>& v) :
+QuaternionT<T>::QuaternionT(const Vector4T<T>& v) :
     x(v.x),
     y(v.y),
     z(v.z),
@@ -80,7 +80,7 @@ Quaternion<T>::Quaternion(const Vector4<T>& v) :
 }
 
 template <typename T>
-void Quaternion<T>::normalize()
+void QuaternionT<T>::normalize()
 {
     T inv = (T)1.0 / length();
     x *= inv;
@@ -90,95 +90,95 @@ void Quaternion<T>::normalize()
 }
 
 template <typename T>
-Quaternion<T> Quaternion<T>::normalized() const
+QuaternionT<T> QuaternionT<T>::normalized() const
 {
-    Quaternion q(*this);
+    QuaternionT q(*this);
     q.normalize();
     return q;
 }
 
 template <typename T>
-T Quaternion<T>::dot(const Quaternion& q) const
+T QuaternionT<T>::dot(const QuaternionT& q) const
 {
     return x * q.x + y * q.y + z * q.z + w * q.w;
 }
 
 template <typename T>
-T Quaternion<T>::length() const
+T QuaternionT<T>::length() const
 {
     return (T)std::sqrt(lengthSquared());
 }
 
 template <typename T>
-T Quaternion<T>::lengthSquared() const
+T QuaternionT<T>::lengthSquared() const
 {
     return dot(*this);
 }
 
 template <typename T>
-Quaternion<T> Quaternion<T>::conjugate() const
+QuaternionT<T> QuaternionT<T>::conjugate() const
 {
-    return Quaternion(-x, -y, -z, w);
+    return QuaternionT(-x, -y, -z, w);
 }
 
 template <typename T>
-Quaternion<T> Quaternion<T>::inverse() const
+QuaternionT<T> QuaternionT<T>::inverse() const
 {
     T inv = 1.0 / length();
-    return Quaternion(-(x * inv), -(y * inv), -(z * inv), w * inv);
+    return QuaternionT(-(x * inv), -(y * inv), -(z * inv), w * inv);
 }
 
 template <typename T>
-void Quaternion<T>::toAxisAngle(Vector3<T>& axis, Angle<T>& angle) const
+void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, AngleT<T>& angle) const
 {
     // Special case for identity quaternion
     if (w == (T)0 || (x + y + z) == (T)0)
     {
-        axis = Vector3<>::zero();
-        angle = Angle<T>::fromRadians((T)0);
+        axis = Vector3T<>::zero();
+        angle = AngleT<T>::fromRadians((T)0);
     }
     else
     {
-        Quaternion q(*this);
+        QuaternionT q(*this);
         q.normalize();
 
-        axis = Vector3<T>(q.x, q.y, q.z).normalized();
-        angle = Angle<T>::fromRadians((T)2.0 * (T)std::acos(w));
+        axis = Vector3T<T>(q.x, q.y, q.z).normalized();
+        angle = AngleT<T>::fromRadians((T)2.0 * (T)std::acos(w));
     }
 }
 
 template <typename T>
-Quaternion<T> Quaternion<T>::operator*(T value) const
+QuaternionT<T> QuaternionT<T>::operator*(T value) const
 {
-    return Quaternion(x * value, y * value, z * value, w * value);
+    return QuaternionT(x * value, y * value, z * value, w * value);
 }
 
 template <typename T>
-Vector3<T> Quaternion<T>::operator*(const Vector3<T>& v) const
+Vector3T<T> QuaternionT<T>::operator*(const Vector3T<T>& v) const
 {
-    return Matrix4<T>::fromRotation(*this) * v;
+    return Matrix4T<T>::fromRotation(*this) * v;
 }
 
 template <typename T>
-Quaternion<T> Quaternion<T>::operator*(const Quaternion& q) const
+QuaternionT<T> QuaternionT<T>::operator*(const QuaternionT& q) const
 {
-    Vector3<T> av(x, y, z);
-    Vector3<T> bv(q.x, q.y, q.z);
+    Vector3T<T> av(x, y, z);
+    Vector3T<T> bv(q.x, q.y, q.z);
 
-    Vector3<T> newV = (bv * w) + (av * q.w) + av.cross(bv);
+    Vector3T<T> newV = (bv * w) + (av * q.w) + av.cross(bv);
     T newW = w * q.w - av.dot(bv);
 
-    return Quaternion<T>(newV, newW);
+    return QuaternionT<T>(newV, newW);
 }
 
 template <typename T>
-Quaternion<T> Quaternion<T>::operator-() const
+QuaternionT<T> QuaternionT<T>::operator-() const
 {
-    return Quaternion(-x, -y, -z, -w);
+    return QuaternionT(-x, -y, -z, -w);
 }
 
 template <typename T>
-Quaternion<T>& Quaternion<T>::operator*=(T value)
+QuaternionT<T>& QuaternionT<T>::operator*=(T value)
 {
     x *= value;
     y *= value;
@@ -188,20 +188,20 @@ Quaternion<T>& Quaternion<T>::operator*=(T value)
 }
 
 template <typename T>
-Quaternion<T>& Quaternion<T>::operator*=(const Quaternion& q)
+QuaternionT<T>& QuaternionT<T>::operator*=(const QuaternionT& q)
 {
     return *this = *this * q;
 }
 
 template <typename T>
-T& Quaternion<T>::operator[](size_t i)
+T& QuaternionT<T>::operator[](size_t i)
 {
     assert(i < 4);
     return ((T*)this)[i];
 }
 
 template <typename T>
-const T& Quaternion<T>::operator[](size_t i) const
+const T& QuaternionT<T>::operator[](size_t i) const
 {
     assert(i < 4);
     return ((const T*)this)[i];

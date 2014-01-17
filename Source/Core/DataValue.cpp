@@ -80,7 +80,7 @@ DataValue::DataValue(double value) :
 {
 }
 
-DataValue::DataValue(const Vector2<>& value) :
+DataValue::DataValue(const Vector2& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
@@ -89,7 +89,7 @@ DataValue::DataValue(const Vector2<>& value) :
     elements.push_back(value.y);
 }
 
-DataValue::DataValue(const Vector3<>& value) :
+DataValue::DataValue(const Vector3& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
@@ -99,7 +99,7 @@ DataValue::DataValue(const Vector3<>& value) :
     elements.push_back(value.z);
 }
 
-DataValue::DataValue(const Vector4<>& value) :
+DataValue::DataValue(const Vector4& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
@@ -110,7 +110,7 @@ DataValue::DataValue(const Vector4<>& value) :
     elements.push_back(value.w);
 }
 
-DataValue::DataValue(const Matrix4<>& value) :
+DataValue::DataValue(const Matrix4& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
@@ -121,7 +121,7 @@ DataValue::DataValue(const Matrix4<>& value) :
     }
 }
 
-DataValue::DataValue(const Quaternion<>& value) :
+DataValue::DataValue(const Quaternion& value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
@@ -246,9 +246,9 @@ double DataValue::asDouble() const
     }
 }
 
-Vector2<> DataValue::asVector2() const
+Vector2 DataValue::asVector2() const
 {
-    Vector2<> result;
+    Vector2 result;
 
     size_t i = 0;
     for (const DataValue& component : *this)
@@ -266,9 +266,9 @@ Vector2<> DataValue::asVector2() const
     return result;
 }
 
-Vector3<> DataValue::asVector3() const
+Vector3 DataValue::asVector3() const
 {
-    Vector3<> result;
+    Vector3 result;
 
     size_t i = 0;
     for (const DataValue& component : *this)
@@ -286,9 +286,9 @@ Vector3<> DataValue::asVector3() const
     return result;
 }
 
-Vector4<> DataValue::asVector4() const
+Vector4 DataValue::asVector4() const
 {
-    Vector4<> result;
+    Vector4 result;
 
     size_t i = 0;
     for (const DataValue& component : *this)
@@ -306,9 +306,9 @@ Vector4<> DataValue::asVector4() const
     return result;
 }
 
-Matrix4<> DataValue::asMatrix4() const
+Matrix4 DataValue::asMatrix4() const
 {
-    Matrix4<> result;
+    Matrix4 result;
 
     size_t i = 0;
     for (const DataValue& component : *this)
@@ -326,9 +326,9 @@ Matrix4<> DataValue::asMatrix4() const
     return result;
 }
 
-Quaternion<> DataValue::asQuaternion() const
+Quaternion DataValue::asQuaternion() const
 {
-    Quaternion<> result;
+    Quaternion result;
 
     size_t i = 0;
     for (const DataValue& component : *this)

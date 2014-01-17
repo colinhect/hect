@@ -26,7 +26,7 @@ SUITE(Vector4)
     template <typename T>
     void testDefaultConstructor()
     {
-        Vector4<T> a;
+        Vector4T<T> a;
         CHECK_CLOSE((T)0.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, a.z, (T)epsilon);
@@ -42,7 +42,7 @@ SUITE(Vector4)
     template <typename T>
     void testScalarConstructor()
     {
-        Vector4<T> a((T)1.0);
+        Vector4T<T> a((T)1.0);
         CHECK_CLOSE((T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)1.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)1.0, a.z, (T)epsilon);
@@ -58,7 +58,7 @@ SUITE(Vector4)
     template <typename T>
     void testComponentConstructor()
     {
-        Vector4<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        Vector4T<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
         CHECK_CLOSE((T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)3.0, a.z, (T)epsilon);
@@ -74,8 +74,8 @@ SUITE(Vector4)
     template <typename T>
     void testCopyConstructor()
     {
-        Vector4<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
-        Vector4<T> b(a);
+        Vector4T<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        Vector4T<T> b(a);
         CHECK_CLOSE(a.x, b.x, (T)epsilon);
         CHECK_CLOSE(a.y, b.y, (T)epsilon);
         CHECK_CLOSE(a.z, b.z, (T)epsilon);
@@ -91,7 +91,7 @@ SUITE(Vector4)
     template <typename T>
     void testLength()
     {
-        Vector4<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        Vector4T<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
         CHECK_CLOSE((T)std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w), a.length(), (T)epsilon);
     }
 
@@ -104,7 +104,7 @@ SUITE(Vector4)
     template <typename T>
     void testLengthSquared()
     {
-        Vector4<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        Vector4T<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
         CHECK_CLOSE(a.length(), (T)std::sqrt(a.lengthSquared()), (T)epsilon);
     }
 
@@ -117,7 +117,7 @@ SUITE(Vector4)
     template <typename T>
     void testNormalize()
     {
-        Vector4<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        Vector4T<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
         a.normalize();
         CHECK_CLOSE((T)1.0, a.length(), (T)epsilon);
     }
@@ -131,7 +131,7 @@ SUITE(Vector4)
     template <typename T>
     void testNormalized()
     {
-        Vector4<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        Vector4T<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
         CHECK_CLOSE((T)1.0, a.normalized().length(), (T)epsilon);
     }
 
@@ -144,30 +144,30 @@ SUITE(Vector4)
     template <typename T>
     void testAngleFrom()
     {
-        CHECK_CLOSE((T)0.0, Vector4<T>::unitX().angleFrom(Vector4<T>::unitX()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)180.0, Vector4<T>::unitX().angleFrom(-Vector4<T>::unitX()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)0.0, Vector4T<T>::unitX().angleFrom(Vector4T<T>::unitX()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)180.0, Vector4T<T>::unitX().angleFrom(-Vector4T<T>::unitX()).degrees(), (T)epsilon);
 
-        CHECK_CLOSE((T)0.0, Vector4<T>::unitY().angleFrom(Vector4<T>::unitY()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)180.0, Vector4<T>::unitY().angleFrom(-Vector4<T>::unitY()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)0.0, Vector4T<T>::unitY().angleFrom(Vector4T<T>::unitY()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)180.0, Vector4T<T>::unitY().angleFrom(-Vector4T<T>::unitY()).degrees(), (T)epsilon);
 
-        CHECK_CLOSE((T)0.0, Vector4<T>::unitZ().angleFrom(Vector4<T>::unitZ()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)180.0, Vector4<T>::unitZ().angleFrom(-Vector4<T>::unitZ()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)0.0, Vector4T<T>::unitZ().angleFrom(Vector4T<T>::unitZ()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)180.0, Vector4T<T>::unitZ().angleFrom(-Vector4T<T>::unitZ()).degrees(), (T)epsilon);
 
-        CHECK_CLOSE((T)0.0, Vector4<T>::unitW().angleFrom(Vector4<T>::unitW()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)180.0, Vector4<T>::unitW().angleFrom(-Vector4<T>::unitW()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)0.0, Vector4T<T>::unitW().angleFrom(Vector4T<T>::unitW()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)180.0, Vector4T<T>::unitW().angleFrom(-Vector4T<T>::unitW()).degrees(), (T)epsilon);
 
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitX().angleFrom(Vector4<T>::unitY()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitX().angleFrom(Vector4<T>::unitZ()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitX().angleFrom(Vector4<T>::unitW()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitY().angleFrom(Vector4<T>::unitX()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitY().angleFrom(Vector4<T>::unitZ()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitY().angleFrom(Vector4<T>::unitW()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitZ().angleFrom(Vector4<T>::unitX()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitZ().angleFrom(Vector4<T>::unitY()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitZ().angleFrom(Vector4<T>::unitW()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitW().angleFrom(Vector4<T>::unitX()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitW().angleFrom(Vector4<T>::unitY()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector4<T>::unitW().angleFrom(Vector4<T>::unitZ()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitX().angleFrom(Vector4T<T>::unitY()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitX().angleFrom(Vector4T<T>::unitZ()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitX().angleFrom(Vector4T<T>::unitW()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitY().angleFrom(Vector4T<T>::unitX()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitY().angleFrom(Vector4T<T>::unitZ()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitY().angleFrom(Vector4T<T>::unitW()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitZ().angleFrom(Vector4T<T>::unitX()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitZ().angleFrom(Vector4T<T>::unitY()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitZ().angleFrom(Vector4T<T>::unitW()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitW().angleFrom(Vector4T<T>::unitX()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitW().angleFrom(Vector4T<T>::unitY()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector4T<T>::unitW().angleFrom(Vector4T<T>::unitZ()).degrees(), (T)epsilon);
     }
 
     TEST(AngleFrom)
@@ -179,7 +179,7 @@ SUITE(Vector4)
     template <typename T>
     void testAdd()
     {
-        Vector4<T> a = Vector4<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0) + Vector4<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
+        Vector4T<T> a = Vector4T<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0) + Vector4T<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)6.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)9.0, a.z, (T)epsilon);
@@ -195,8 +195,8 @@ SUITE(Vector4)
     template <typename T>
     void testAddEquals()
     {
-        Vector4<T> a = Vector4<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0);
-        a += Vector4<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
+        Vector4T<T> a = Vector4T<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        a += Vector4T<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)6.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)9.0, a.z, (T)epsilon);
@@ -212,7 +212,7 @@ SUITE(Vector4)
     template <typename T>
     void testSubtract()
     {
-        Vector4<T> a = Vector4<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0) - Vector4<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
+        Vector4T<T> a = Vector4T<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0) - Vector4T<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
         CHECK_CLOSE((T)-1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)-2.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)-3.0, a.z, (T)epsilon);
@@ -228,8 +228,8 @@ SUITE(Vector4)
     template <typename T>
     void testSubtractEquals()
     {
-        Vector4<T> a = Vector4<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0);
-        a -= Vector4<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
+        Vector4T<T> a = Vector4T<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        a -= Vector4T<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
         CHECK_CLOSE((T)-1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)-2.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)-3.0, a.z, (T)epsilon);
@@ -245,7 +245,7 @@ SUITE(Vector4)
     template <typename T>
     void testMultiply()
     {
-        Vector4<T> a = Vector4<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0) * Vector4<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
+        Vector4T<T> a = Vector4T<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0) * Vector4T<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
         CHECK_CLOSE((T)2.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)8.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)18.0, a.z, (T)epsilon);
@@ -261,8 +261,8 @@ SUITE(Vector4)
     template <typename T>
     void testMultiplyEquals()
     {
-        Vector4<T> a = Vector4<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0);
-        a *= Vector4<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
+        Vector4T<T> a = Vector4T<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        a *= Vector4T<T>((T)2.0, (T)4.0, (T)6.0, (T)8.0);
         CHECK_CLOSE((T)2.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)8.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)18.0, a.z, (T)epsilon);
@@ -278,7 +278,7 @@ SUITE(Vector4)
     template <typename T>
     void testMultiplyScalar()
     {
-        Vector4<T> a = Vector4<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0) * (T)4.0;
+        Vector4T<T> a = Vector4T<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0) * (T)4.0;
         CHECK_CLOSE((T)4.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)8.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)12.0, a.z, (T)epsilon);
@@ -294,7 +294,7 @@ SUITE(Vector4)
     template <typename T>
     void testMultiplyScalarEquals()
     {
-        Vector4<T> a = Vector4<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        Vector4T<T> a = Vector4T<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0);
         a *= (T)4.0;
         CHECK_CLOSE((T)4.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)8.0, a.y, (T)epsilon);
@@ -311,7 +311,7 @@ SUITE(Vector4)
     template <typename T>
     void testDivide()
     {
-        Vector4<T> a = Vector4<T>((T)6.0, (T)8.0, (T)12.0, (T)16.0) / Vector4<T>((T)2.0, (T)4.0, (T)4.0, (T)8.0);
+        Vector4T<T> a = Vector4T<T>((T)6.0, (T)8.0, (T)12.0, (T)16.0) / Vector4T<T>((T)2.0, (T)4.0, (T)4.0, (T)8.0);
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)3.0, a.z, (T)epsilon);
@@ -327,8 +327,8 @@ SUITE(Vector4)
     template <typename T>
     void testDivideEquals()
     {
-        Vector4<T> a = Vector4<T>((T)6.0, (T)8.0, (T)12.0, (T)16.0);
-        a /= Vector4<T>((T)2.0, (T)4.0, (T)4.0, (T)8.0);
+        Vector4T<T> a = Vector4T<T>((T)6.0, (T)8.0, (T)12.0, (T)16.0);
+        a /= Vector4T<T>((T)2.0, (T)4.0, (T)4.0, (T)8.0);
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)3.0, a.z, (T)epsilon);
@@ -344,7 +344,7 @@ SUITE(Vector4)
     template <typename T>
     void testDivideScalar()
     {
-        Vector4<T> a = Vector4<T>((T)6.0, (T)8.0, (T)16.0, (T)24.0) / (T)2.0;
+        Vector4T<T> a = Vector4T<T>((T)6.0, (T)8.0, (T)16.0, (T)24.0) / (T)2.0;
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)4.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)8.0, a.z, (T)epsilon);
@@ -360,7 +360,7 @@ SUITE(Vector4)
     template <typename T>
     void testDivideScalarEquals()
     {
-        Vector4<T> a = Vector4<T>((T)6.0, (T)8.0, (T)16.0, (T)24.0);
+        Vector4T<T> a = Vector4T<T>((T)6.0, (T)8.0, (T)16.0, (T)24.0);
         a /= (T)2.0;
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)4.0, a.y, (T)epsilon);
@@ -377,8 +377,8 @@ SUITE(Vector4)
     template <typename T, typename U>
     void testCast()
     {
-        Vector4<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
-        Vector4<U> b = a;
+        Vector4T<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        Vector4T<U> b = a;
 
         CHECK_CLOSE(a.x, (T)b.x, (T)epsilon);
         CHECK_CLOSE(a.y, (T)b.y, (T)epsilon);
@@ -395,7 +395,7 @@ SUITE(Vector4)
     template <typename T>
     void testIndex()
     {
-        Vector4<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        Vector4T<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
 
         CHECK_CLOSE((T)1.0, a[0], (T)epsilon);
         CHECK_CLOSE((T)2.0, a[1], (T)epsilon);

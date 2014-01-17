@@ -135,32 +135,32 @@ std::string DataValueReader::readString(const char* name)
     return _read(name).asString();
 }
 
-Vector2<> DataValueReader::readVector2()
+Vector2 DataValueReader::readVector2()
 {
     return _read().asVector2();
 }
 
-Vector2<> DataValueReader::readVector2(const char* name)
+Vector2 DataValueReader::readVector2(const char* name)
 {
     return _read(name).asVector2();
 }
 
-Vector3<> DataValueReader::readVector3()
+Vector3 DataValueReader::readVector3()
 {
     return _read().asVector3();
 }
 
-Vector3<> DataValueReader::readVector3(const char* name)
+Vector3 DataValueReader::readVector3(const char* name)
 {
     return _read(name).asVector3();
 }
 
-Vector4<> DataValueReader::readVector4()
+Vector4 DataValueReader::readVector4()
 {
     return _read().asVector4();
 }
 
-Vector4<> DataValueReader::readVector4(const char* name)
+Vector4 DataValueReader::readVector4(const char* name)
 {
     return _read(name).asVector4();
 }
@@ -257,37 +257,37 @@ std::string BinaryDataReader::readString(const char* name)
     return _stream->readString();
 }
 
-Vector2<> BinaryDataReader::readVector2()
+Vector2 BinaryDataReader::readVector2()
 {
     ++_elementIndex;
     return _stream->readVector2();
 }
 
-Vector2<> BinaryDataReader::readVector2(const char* name)
+Vector2 BinaryDataReader::readVector2(const char* name)
 {
     name;
     return _stream->readVector2();
 }
 
-Vector3<> BinaryDataReader::readVector3()
+Vector3 BinaryDataReader::readVector3()
 {
     ++_elementIndex;
     return _stream->readVector3();
 }
 
-Vector3<> BinaryDataReader::readVector3(const char* name)
+Vector3 BinaryDataReader::readVector3(const char* name)
 {
     name;
     return _stream->readVector3();
 }
 
-Vector4<> BinaryDataReader::readVector4()
+Vector4 BinaryDataReader::readVector4()
 {
     ++_elementIndex;
     return _stream->readVector4();
 }
 
-Vector4<> BinaryDataReader::readVector4(const char* name)
+Vector4 BinaryDataReader::readVector4(const char* name)
 {
     name;
     return _stream->readVector4();

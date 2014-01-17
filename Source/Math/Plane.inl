@@ -25,23 +25,23 @@ namespace hect
 {
 
 template <typename T>
-Plane<T> Plane<T>::fromPoints(const Vector3<T>& p0, const Vector3<T>& p1, const Vector3<T>& p2)
+PlaneT<T> PlaneT<T>::fromPoints(const Vector3T<T>& p0, const Vector3T<T>& p1, const Vector3T<T>& p2)
 {
-    Vector3<T> position = p1;
-    Vector3<T> normal = (p2 - p1).cross(p0 - p1).normalized();
+    Vector3T<T> position = p1;
+    Vector3T<T> normal = (p2 - p1).cross(p0 - p1).normalized();
     T distance = -normal.dot(position);
 
-    return Plane<T>(position, normal, distance);
+    return PlaneT<T>(position, normal, distance);
 }
 
 template <typename T>
-Plane<T>::Plane() :
+PlaneT<T>::PlaneT() :
     _distance(0)
 {
 }
 
 template <typename T>
-Plane<T>::Plane(const Vector3<T>& position, const Vector3<T>& normal, T distance) :
+PlaneT<T>::PlaneT(const Vector3T<T>& position, const Vector3T<T>& normal, T distance) :
     _position(position),
     _normal(normal),
     _distance(distance)
@@ -49,19 +49,19 @@ Plane<T>::Plane(const Vector3<T>& position, const Vector3<T>& normal, T distance
 }
 
 template <typename T>
-const Vector3<T>& Plane<T>::position() const
+const Vector3T<T>& PlaneT<T>::position() const
 {
     return _position;
 }
 
 template <typename T>
-const Vector3<T>& Plane<T>::normal() const
+const Vector3T<T>& PlaneT<T>::normal() const
 {
     return _normal;
 }
 
 template <typename T>
-T Plane<T>::distance() const
+T PlaneT<T>::distance() const
 {
     return _distance;
 }

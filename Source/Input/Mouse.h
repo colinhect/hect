@@ -91,11 +91,11 @@ public:
 
     ///
     /// The coordinates of the cursor.
-    Vector2<int> cursorPosition;
+    Vector2T<int> cursorPosition;
 
     ///
     /// The movement of the cursor.
-    Vector2<int> cursorMovement;
+    Vector2T<int> cursorMovement;
 };
 
 ///
@@ -113,7 +113,7 @@ public:
 
     ///
     /// Returns the position of the cursor in window space.
-    const Vector2<int>& cursorPosition() const;
+    const Vector2T<int>& cursorPosition() const;
 
     ///
     /// Returns the dispatcher of mouse events.
@@ -129,7 +129,7 @@ private:
     std::vector<MouseEvent> _events;
 
     bool _cursorLocked;
-    Vector2<int> _cursorPosition;
+    Vector2T<int> _cursorPosition;
 
     std::vector<bool> _buttonStates;
 };

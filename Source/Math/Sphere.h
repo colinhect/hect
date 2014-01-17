@@ -29,19 +29,19 @@ namespace hect
 ///
 /// A sphere.
 template <typename T = Real>
-class Sphere
+class SphereT
 {
 public:
 
     ///
     /// Constructs a sphere with a radius of one.
-    Sphere();
+    SphereT();
 
     ///
     /// Constructs a sphere given its radius
     ///
     /// \param radius The radius of the sphere.
-    Sphere(T radius);
+    SphereT(T radius);
 
     ///
     /// Returns the radius.
@@ -56,6 +56,8 @@ public:
 private:
     T _radius;
 };
+
+typedef SphereT<> Sphere;
 
 }
 

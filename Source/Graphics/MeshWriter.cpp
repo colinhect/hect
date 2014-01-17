@@ -53,7 +53,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, float valu
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector2<>& value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector2& value)
 {
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
@@ -72,7 +72,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector3<>& value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector3& value)
 {
     // If this data is a position then expand the bounding box to include it
     if (semantic == VertexAttributeSemantic::Position)
@@ -102,7 +102,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector4<>& value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector4& value)
 {
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)

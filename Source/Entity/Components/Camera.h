@@ -44,37 +44,37 @@ public:
 
     ///
     /// Returns the front vector.
-    const Vector3<>& front() const;
+    const Vector3& front() const;
 
     ///
     /// Returns the up vector.
-    const Vector3<>& up() const;
+    const Vector3& up() const;
 
     ///
     /// Returns the right vector.
-    const Vector3<>& right() const;
+    const Vector3& right() const;
 
     ///
     /// Returns the position.
-    const Vector3<>& position() const;
+    const Vector3& position() const;
 
     ///
     /// Returns the view matrix.
-    const Matrix4<>& viewMatrix() const;
+    const Matrix4& viewMatrix() const;
 
     ///
     /// Returns the projection matrix.
-    const Matrix4<>& projectionMatrix() const;
+    const Matrix4& projectionMatrix() const;
 
     ///
     /// Returns the horizontal field of view.
-    Angle<> fieldOfView() const;
+    Angle fieldOfView() const;
 
     ///
     /// Sets the horizontal field of view.
     ///
     /// \param fieldOfView The new horizontal field of view.
-    void setFieldOfView(Angle<> fieldOfView);
+    void setFieldOfView(Angle fieldOfView);
 
     ///
     /// Returns the aspect ratio.
@@ -108,25 +108,25 @@ public:
 
     ///
     /// Returns the frustum.
-    const Frustum<>& frustum() const;
+    const Frustum& frustum() const;
 
 private:
-    Angle<> _fieldOfView;
+    Angle _fieldOfView;
 
     Real _aspectRatio;
     Real _nearClip;
     Real _farClip;
 
-    Vector3<> _front;
-    Vector3<> _up;
-    Vector3<> _right;
+    Vector3 _front;
+    Vector3 _up;
+    Vector3 _right;
 
-    Vector3<> _position;
+    Vector3 _position;
 
-    Matrix4<> _viewMatrix;
-    Matrix4<> _projectionMatrix;
+    Matrix4 _viewMatrix;
+    Matrix4 _projectionMatrix;
 
-    Frustum<> _frustum;
+    Frustum _frustum;
 };
 
 ///

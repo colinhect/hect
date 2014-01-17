@@ -36,16 +36,16 @@ public:
 
     ///
     /// Returns the color
-    const Vector3<>& color() const;
+    const Vector3& color() const;
 
     ///
     /// Sets the color.
     ///
     /// \param color The new color.
-    void setColor(const Vector3<>& color);
+    void setColor(const Vector3& color);
 
 private:
-    Vector3<> _color;
+    Vector3 _color;
 };
 
 ///

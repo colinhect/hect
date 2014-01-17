@@ -48,13 +48,13 @@ enum class FrustumTestResult
 ///
 /// \remarks Useful for check if objects are with the bounds of a camera.
 template <typename T = Real>
-class Frustum
+class FrustumT
 {
 public:
 
     ///
     /// Constructs a default frustum.
-    Frustum();
+    FrustumT();
 
     ///
     /// Constructs a frustum
@@ -67,11 +67,11 @@ public:
     /// \param nearClip The distance from the position to begin the
     /// frustum.
     /// \param farClip The distance from the position to end the frustum.
-    Frustum(
-        const Vector3<T>& position,
-        const Vector3<T>& front,
-        const Vector3<T>& up,
-        Angle<T> fieldOfView,
+    FrustumT(
+        const Vector3T<T>& position,
+        const Vector3T<T>& front,
+        const Vector3T<T>& up,
+        AngleT<T> fieldOfView,
         T aspectRatio,
         T nearClip,
         T farClip);
@@ -82,19 +82,21 @@ public:
     /// \param box The box.
     ///
     /// \returns The test result.
-    FrustumTestResult testAxisAlignedBox(const AxisAlignedBox<T>& box) const;
+    FrustumTestResult testAxisAlignedBox(const AxisAlignedBoxT<T>& box) const;
 
     ///
     /// Returns whether a sphere at a certain positin is within the frustum.
     ///
     /// \param sphere The sphere.
     /// \param position The position of the sphere.
-    bool containsSphere(const Sphere<T>& sphere, const Vector3<T>& position) const;
+    bool containsSphere(const SphereT<T>& sphere, const Vector3T<T>& position) const;
 
 private:
-    Plane<T> _planes[6];
-    Vector3<T> _position;
+    PlaneT<T> _planes[6];
+    Vector3T<T> _position;
 };
+
+typedef FrustumT<> Frustum;
 
 }
 

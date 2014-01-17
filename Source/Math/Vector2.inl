@@ -25,134 +25,134 @@ namespace hect
 {
 
 template <typename T>
-Vector2<T> Vector2<T>::zero()
+Vector2T<T> Vector2T<T>::zero()
 {
-    return Vector2(0);
+    return Vector2T(0);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::one()
+Vector2T<T> Vector2T<T>::one()
 {
-    return Vector2(1);
+    return Vector2T(1);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::unitX()
+Vector2T<T> Vector2T<T>::unitX()
 {
-    return Vector2(1, 0);
+    return Vector2T(1, 0);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::unitY()
+Vector2T<T> Vector2T<T>::unitY()
 {
-    return Vector2(0, 1);
+    return Vector2T(0, 1);
 }
 
 template <typename T>
-Vector2<T>::Vector2() :
+Vector2T<T>::Vector2T() :
     x(0),
     y(0)
 {
 }
 
 template <typename T>
-Vector2<T>::Vector2(T value) :
+Vector2T<T>::Vector2T(T value) :
     x(value),
     y(value)
 {
 }
 
 template <typename T>
-Vector2<T>::Vector2(T x, T y) :
+Vector2T<T>::Vector2T(T x, T y) :
     x(x),
     y(y)
 {
 }
 
 template <typename T>
-void Vector2<T>::normalize()
+void Vector2T<T>::normalize()
 {
     T inv = (T)1.0 / length();
     *this *= inv;
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::normalized() const
+Vector2T<T> Vector2T<T>::normalized() const
 {
-    Vector2 v(*this);
+    Vector2T v(*this);
     v.normalize();
     return v;
 }
 
 template <typename T>
-T Vector2<T>::dot(const Vector2& v) const
+T Vector2T<T>::dot(const Vector2T& v) const
 {
     return x * v.x + y * v.y;
 }
 
 template <typename T>
-Angle<T> Vector2<T>::angleFrom(const Vector2& v) const
+AngleT<T> Vector2T<T>::angleFrom(const Vector2T& v) const
 {
     T radians = (T)std::acos(dot(v));
-    return Angle<T>::fromRadians(radians);
+    return AngleT<T>::fromRadians(radians);
 }
 
 template <typename T>
-T Vector2<T>::length() const
+T Vector2T<T>::length() const
 {
     return (T)std::sqrt(lengthSquared());
 }
 
 template <typename T>
-T Vector2<T>::lengthSquared() const
+T Vector2T<T>::lengthSquared() const
 {
     return dot(*this);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator+(const Vector2& v) const
+Vector2T<T> Vector2T<T>::operator+(const Vector2T& v) const
 {
-    return Vector2(x + v.x, y + v.y);
+    return Vector2T(x + v.x, y + v.y);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator-(const Vector2& v) const
+Vector2T<T> Vector2T<T>::operator-(const Vector2T& v) const
 {
-    return Vector2(x - v.x, y - v.y);
+    return Vector2T(x - v.x, y - v.y);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator*(T value) const
+Vector2T<T> Vector2T<T>::operator*(T value) const
 {
-    return Vector2(x * value, y * value);
+    return Vector2T(x * value, y * value);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator*(const Vector2& v) const
+Vector2T<T> Vector2T<T>::operator*(const Vector2T& v) const
 {
-    return Vector2(x * v.x, y * v.y);
+    return Vector2T(x * v.x, y * v.y);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator/(T value) const
+Vector2T<T> Vector2T<T>::operator/(T value) const
 {
-    return Vector2(x / value, y / value);
+    return Vector2T(x / value, y / value);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator/(const Vector2& v) const
+Vector2T<T> Vector2T<T>::operator/(const Vector2T& v) const
 {
-    return Vector2(x / v.x, y / v.y);
+    return Vector2T(x / v.x, y / v.y);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator-() const
+Vector2T<T> Vector2T<T>::operator-() const
 {
-    return Vector2(-x, -y);
+    return Vector2T(-x, -y);
 }
 
 template <typename T>
-Vector2<T>& Vector2<T>::operator+=(const Vector2& v)
+Vector2T<T>& Vector2T<T>::operator+=(const Vector2T& v)
 {
     x += v.x;
     y += v.y;
@@ -160,7 +160,7 @@ Vector2<T>& Vector2<T>::operator+=(const Vector2& v)
 }
 
 template <typename T>
-Vector2<T>& Vector2<T>::operator-=(const Vector2& v)
+Vector2T<T>& Vector2T<T>::operator-=(const Vector2T& v)
 {
     x -= v.x;
     y -= v.y;
@@ -168,7 +168,7 @@ Vector2<T>& Vector2<T>::operator-=(const Vector2& v)
 }
 
 template <typename T>
-Vector2<T>& Vector2<T>::operator*=(T value)
+Vector2T<T>& Vector2T<T>::operator*=(T value)
 {
     x *= value;
     y *= value;
@@ -176,7 +176,7 @@ Vector2<T>& Vector2<T>::operator*=(T value)
 }
 
 template <typename T>
-Vector2<T>& Vector2<T>::operator*=(const Vector2& v)
+Vector2T<T>& Vector2T<T>::operator*=(const Vector2T& v)
 {
     x *= v.x;
     y *= v.y;
@@ -184,7 +184,7 @@ Vector2<T>& Vector2<T>::operator*=(const Vector2& v)
 }
 
 template <typename T>
-Vector2<T>& Vector2<T>::operator/=(T value)
+Vector2T<T>& Vector2T<T>::operator/=(T value)
 {
     x /= value;
     y /= value;
@@ -192,7 +192,7 @@ Vector2<T>& Vector2<T>::operator/=(T value)
 }
 
 template <typename T>
-Vector2<T>& Vector2<T>::operator/=(const Vector2& v)
+Vector2T<T>& Vector2T<T>::operator/=(const Vector2T& v)
 {
     x /= v.x;
     y /= v.y;
@@ -200,14 +200,14 @@ Vector2<T>& Vector2<T>::operator/=(const Vector2& v)
 }
 
 template <typename T>
-T& Vector2<T>::operator[](size_t i)
+T& Vector2T<T>::operator[](size_t i)
 {
     assert(i < 2);
     return ((T*)this)[i];
 }
 
 template <typename T>
-const T& Vector2<T>::operator[](size_t i) const
+const T& Vector2T<T>::operator[](size_t i) const
 {
     assert(i < 2);
     return ((const T*)this)[i];

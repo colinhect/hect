@@ -25,16 +25,16 @@ namespace hect
 {
 
 template <typename T>
-Frustum<T>::Frustum()
+FrustumT<T>::FrustumT()
 {
 }
 
 template <typename T>
-Frustum<T>::Frustum(
-    const Vector3<T>& position,
-    const Vector3<T>& front,
-    const Vector3<T>& up,
-    Angle<T> fieldOfView,
+FrustumT<T>::FrustumT(
+    const Vector3T<T>& position,
+    const Vector3T<T>& front,
+    const Vector3T<T>& up,
+    AngleT<T> fieldOfView,
     T aspectRatio,
     T nearClip,
     T farClip) :
@@ -48,41 +48,41 @@ Frustum<T>::Frustum(
     T farHeight = farClip * tangent;
     T farWidth = farHeight * aspectRatio;
 
-    Vector3<T> z = -front;
+    Vector3T<T> z = -front;
     z.normalize();
 
-    Vector3<T> x = up.cross(z);
+    Vector3T<T> x = up.cross(z);
     x.normalize();
 
-    Vector3<T> y = z.cross(x);
+    Vector3T<T> y = z.cross(x);
 
     // Compute center of near/far planes
-    Vector3<T> nearCenter = position - z * nearClip;
-    Vector3<T> farCenter = position - z * farClip;
+    Vector3T<T> nearCenter = position - z * nearClip;
+    Vector3T<T> farCenter = position - z * farClip;
 
     // Compute corners of near plane
-    Vector3<T> nearTopLeft = nearCenter + y * nearHeight - x * nearWidth;
-    Vector3<T> nearTopRight = nearCenter + y * nearHeight + x * nearWidth;
-    Vector3<T> nearBottomLeft = nearCenter - y * nearHeight - x * nearWidth;
-    Vector3<T> nearBottomRight = nearCenter - y * nearHeight + x * nearWidth;
+    Vector3T<T> nearTopLeft = nearCenter + y * nearHeight - x * nearWidth;
+    Vector3T<T> nearTopRight = nearCenter + y * nearHeight + x * nearWidth;
+    Vector3T<T> nearBottomLeft = nearCenter - y * nearHeight - x * nearWidth;
+    Vector3T<T> nearBottomRight = nearCenter - y * nearHeight + x * nearWidth;
 
     // Compute corners of far plane
-    Vector3<T> farTopLeft = farCenter + y * farHeight - x * farWidth;
-    Vector3<T> farTopRight = farCenter + y * farHeight + x * farWidth;
-    Vector3<T> farBottomLeft = farCenter - y * farHeight - x * farWidth;
-    Vector3<T> farBottomRight = farCenter - y * farHeight + x * farWidth;
+    Vector3T<T> farTopLeft = farCenter + y * farHeight - x * farWidth;
+    Vector3T<T> farTopRight = farCenter + y * farHeight + x * farWidth;
+    Vector3T<T> farBottomLeft = farCenter - y * farHeight - x * farWidth;
+    Vector3T<T> farBottomRight = farCenter - y * farHeight + x * farWidth;
 
     // Build planes from points
-    _planes[0] = Plane<T>::fromPoints(nearTopRight, nearTopLeft, farTopLeft); // Top
-    _planes[1] = Plane<T>::fromPoints(nearBottomLeft, nearBottomRight, farBottomRight); // Bottom
-    _planes[2] = Plane<T>::fromPoints(nearTopLeft, nearBottomLeft, farBottomLeft); // Left
-    _planes[3] = Plane<T>::fromPoints(nearBottomRight, nearTopRight, farBottomRight); // Right
-    _planes[4] = Plane<T>::fromPoints(nearTopLeft, nearTopRight, nearBottomRight); // Near
-    _planes[5] = Plane<T>::fromPoints(farTopRight, farTopLeft, farBottomLeft); // Far
+    _planes[0] = PlaneT<T>::fromPoints(nearTopRight, nearTopLeft, farTopLeft); // Top
+    _planes[1] = PlaneT<T>::fromPoints(nearBottomLeft, nearBottomRight, farBottomRight); // Bottom
+    _planes[2] = PlaneT<T>::fromPoints(nearTopLeft, nearBottomLeft, farBottomLeft); // Left
+    _planes[3] = PlaneT<T>::fromPoints(nearBottomRight, nearTopRight, farBottomRight); // Right
+    _planes[4] = PlaneT<T>::fromPoints(nearTopLeft, nearTopRight, nearBottomRight); // Near
+    _planes[5] = PlaneT<T>::fromPoints(farTopRight, farTopLeft, farBottomLeft); // Far
 }
 
 template <typename T>
-FrustumTestResult Frustum<T>::testAxisAlignedBox(const AxisAlignedBox<T>& box) const
+FrustumTestResult FrustumT<T>::testAxisAlignedBox(const AxisAlignedBoxT<T>& box) const
 {
     FrustumTestResult result = FrustumTestResult::Inside;
 
@@ -93,13 +93,13 @@ FrustumTestResult Frustum<T>::testAxisAlignedBox(const AxisAlignedBox<T>& box) c
 
     for (int i = 0; i < 6; i++)
     {
-        Vector3<T> normal(_planes[i].normal());
+        Vector3T<T> normal(_planes[i].normal());
 
-        Vector3<T> minimum(box.minimum());
-        Vector3<T> maximum(box.maximum());
+        Vector3T<T> minimum(box.minimum());
+        Vector3T<T> maximum(box.maximum());
 
-        Vector3<T> p(minimum);
-        Vector3<T> n(maximum);
+        Vector3T<T> p(minimum);
+        Vector3T<T> n(maximum);
 
         if (normal.x >= 0)
         {
@@ -136,7 +136,7 @@ FrustumTestResult Frustum<T>::testAxisAlignedBox(const AxisAlignedBox<T>& box) c
 }
 
 template <typename T>
-bool Frustum<T>::containsSphere(const Sphere<T>& sphere, const Vector3<T>& position) const
+bool FrustumT<T>::containsSphere(const SphereT<T>& sphere, const Vector3T<T>& position) const
 {
     T radius = sphere.radius();
 

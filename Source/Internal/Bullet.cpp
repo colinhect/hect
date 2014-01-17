@@ -26,12 +26,12 @@
 namespace hect
 {
 
-btVector3 convertToBullet(const Vector3<>& v)
+btVector3 convertToBullet(const Vector3& v)
 {
     return btVector3(v.x, v.y, v.z);
 }
 
-btQuaternion convertToBullet(const Quaternion<>& q)
+btQuaternion convertToBullet(const Quaternion& q)
 {
     return btQuaternion(q.x, q.y, q.z, -q.w);
 }
@@ -51,7 +51,7 @@ btTriangleMesh* convertToBullet(const Mesh& m)
     std::vector<btVector3> vertices;
     while (meshReader.nextVertex())
     {
-        Vector3<> position = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
+        Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
         vertices.push_back(convertToBullet(position));
     }
 
@@ -70,14 +70,14 @@ btTriangleMesh* convertToBullet(const Mesh& m)
     return mesh;
 }
 
-Vector3<> convertFromBullet(const btVector3& v)
+Vector3 convertFromBullet(const btVector3& v)
 {
-    return Vector3<>(v.x(), v.y(), v.z());
+    return Vector3(v.x(), v.y(), v.z());
 }
 
-Quaternion<> convertFromBullet(const btQuaternion& q)
+Quaternion convertFromBullet(const btQuaternion& q)
 {
-    return Quaternion<>(q.x(), q.y(), q.z(), -q.w());
+    return Quaternion(q.x(), q.y(), q.z(), -q.w());
 }
 
 Transform convertFromBullet(const btTransform& t)

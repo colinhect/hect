@@ -26,16 +26,16 @@ SUITE(Frustum)
     template <typename T>
     void testOutsideBehind()
     {
-        Frustum<T> frustum(
-            Vector3<T>(0, 0, 0),
-            Vector3<T>(0, 0, -1),
-            Vector3<T>(0, 1, 0),
-            Angle<T>::fromDegrees(90),
+        FrustumT<T> frustum(
+            Vector3T<T>(0, 0, 0),
+            Vector3T<T>(0, 0, -1),
+            Vector3T<T>(0, 1, 0),
+            AngleT<T>::fromDegrees(90),
             1,
             (T)0.1,
             100);
 
-        AxisAlignedBox<T> box(Vector3<T>(-1, -1, 10), Vector3<T>(1, 1, 11));
+        AxisAlignedBoxT<T> box(Vector3T<T>(-1, -1, 10), Vector3T<T>(1, 1, 11));
 
         CHECK(FrustumTestResult::Outside == frustum.testAxisAlignedBox(box));
     }
@@ -49,16 +49,16 @@ SUITE(Frustum)
     template <typename T>
     void testOutsideLeft()
     {
-        Frustum<T> frustum(
-            Vector3<T>(0, 0, 0),
-            Vector3<T>(0, 0, -1),
-            Vector3<T>(0, 1, 0),
-            Angle<T>::fromDegrees(90),
+        FrustumT<T> frustum(
+            Vector3T<T>(0, 0, 0),
+            Vector3T<T>(0, 0, -1),
+            Vector3T<T>(0, 1, 0),
+            AngleT<T>::fromDegrees(90),
             1,
             (T)0.1,
             100);
 
-        AxisAlignedBox<T> box(Vector3<T>(-100, -1, -11), Vector3<T>(-101, 1, -10));
+        AxisAlignedBoxT<T> box(Vector3T<T>(-100, -1, -11), Vector3T<T>(-101, 1, -10));
 
         CHECK(FrustumTestResult::Outside == frustum.testAxisAlignedBox(box));
     }
@@ -72,16 +72,16 @@ SUITE(Frustum)
     template <typename T>
     void testInside()
     {
-        Frustum<T> frustum(
-            Vector3<T>(0, 0, 0),
-            Vector3<T>(0, 0, -1),
-            Vector3<T>(0, 1, 0),
-            Angle<T>::fromDegrees(90),
+        FrustumT<T> frustum(
+            Vector3T<T>(0, 0, 0),
+            Vector3T<T>(0, 0, -1),
+            Vector3T<T>(0, 1, 0),
+            AngleT<T>::fromDegrees(90),
             1,
             (T)0.1,
             100);
 
-        AxisAlignedBox<T> box(Vector3<T>(-1, -1, -50), Vector3<T>(1, 1, -51));
+        AxisAlignedBoxT<T> box(Vector3T<T>(-1, -1, -50), Vector3T<T>(1, 1, -51));
 
         CHECK(FrustumTestResult::Inside == frustum.testAxisAlignedBox(box));
     }
@@ -95,16 +95,16 @@ SUITE(Frustum)
     template <typename T>
     void testIntersect()
     {
-        Frustum<T> frustum(
-            Vector3<T>(0, 0, 0),
-            Vector3<T>(0, 0, -1),
-            Vector3<T>(0, 1, 0),
-            Angle<T>::fromDegrees(90),
+        FrustumT<T> frustum(
+            Vector3T<T>(0, 0, 0),
+            Vector3T<T>(0, 0, -1),
+            Vector3T<T>(0, 1, 0),
+            AngleT<T>::fromDegrees(90),
             1,
             (T)0.1,
             100);
 
-        AxisAlignedBox<T> box(Vector3<T>(-1, -1, -200), Vector3<T>(1, 1, -51));
+        AxisAlignedBoxT<T> box(Vector3T<T>(-1, -1, -200), Vector3T<T>(1, 1, -51));
 
         CHECK(FrustumTestResult::Intersect == frustum.testAxisAlignedBox(box));
     }

@@ -27,9 +27,9 @@ SUITE(DataReaderWriter)
     {
         writer.writeString("String", "Testing 1 2 3");
         writer.writeDouble("Double", 5);
-        writer.writeVector2("Vector2", Vector2<>(1, 2));
-        writer.writeVector3("Vector3", Vector3<>(1, 2, 3));
-        writer.writeVector4("Vector4", Vector4<>(1, 2, 3, 4));
+        writer.writeVector2("Vector2", Vector2(1, 2));
+        writer.writeVector3("Vector3", Vector3(1, 2, 3));
+        writer.writeVector4("Vector4", Vector4(1, 2, 3, 4));
     }
 
     void readSimple(DataReader& reader)
@@ -41,18 +41,18 @@ SUITE(DataReaderWriter)
         CHECK_EQUAL(5, reader.readDouble("Double"));
 
         CHECK(reader.hasMember("Vector2"));
-        Vector2<> vector2 = reader.readVector2("Vector2");
+        Vector2 vector2 = reader.readVector2("Vector2");
         CHECK_EQUAL(1, vector2.x);
         CHECK_EQUAL(2, vector2.y);
 
         CHECK(reader.hasMember("Vector3"));
-        Vector3<> vector3 = reader.readVector3("Vector3");
+        Vector3 vector3 = reader.readVector3("Vector3");
         CHECK_EQUAL(1, vector3.x);
         CHECK_EQUAL(2, vector3.y);
         CHECK_EQUAL(3, vector3.z);
 
         CHECK(reader.hasMember("Vector4"));
-        Vector4<> vector4 = reader.readVector4("Vector4");
+        Vector4 vector4 = reader.readVector4("Vector4");
         CHECK_EQUAL(1, vector4.x);
         CHECK_EQUAL(2, vector4.y);
         CHECK_EQUAL(3, vector4.z);
@@ -95,9 +95,9 @@ SUITE(DataReaderWriter)
         writer.writeString("String", "Testing 1 2 3");
         writer.writeDouble("Double", 5);
         writer.beginObject("Object");
-        writer.writeVector2("Vector2", Vector2<>(1, 2));
-        writer.writeVector3("Vector3", Vector3<>(1, 2, 3));
-        writer.writeVector4("Vector4", Vector4<>(1, 2, 3, 4));
+        writer.writeVector2("Vector2", Vector2(1, 2));
+        writer.writeVector3("Vector3", Vector3(1, 2, 3));
+        writer.writeVector4("Vector4", Vector4(1, 2, 3, 4));
         writer.endObject();
     }
 
@@ -112,18 +112,18 @@ SUITE(DataReaderWriter)
         CHECK(reader.beginObject("Object"));
 
         CHECK(reader.hasMember("Vector2"));
-        Vector2<> vector2 = reader.readVector2("Vector2");
+        Vector2 vector2 = reader.readVector2("Vector2");
         CHECK_EQUAL(1, vector2.x);
         CHECK_EQUAL(2, vector2.y);
 
         CHECK(reader.hasMember("Vector3"));
-        Vector3<> vector3 = reader.readVector3("Vector3");
+        Vector3 vector3 = reader.readVector3("Vector3");
         CHECK_EQUAL(1, vector3.x);
         CHECK_EQUAL(2, vector3.y);
         CHECK_EQUAL(3, vector3.z);
 
         CHECK(reader.hasMember("Vector4"));
-        Vector4<> vector4 = reader.readVector4("Vector4");
+        Vector4 vector4 = reader.readVector4("Vector4");
         CHECK_EQUAL(1, vector4.x);
         CHECK_EQUAL(2, vector4.y);
         CHECK_EQUAL(3, vector4.z);
@@ -168,9 +168,9 @@ SUITE(DataReaderWriter)
         writer.writeString("String", "Testing 1 2 3");
         writer.writeDouble("Double", 5);
         writer.beginArray("Array");
-        writer.writeVector2(Vector2<>(1, 2));
-        writer.writeVector3(Vector3<>(1, 2, 3));
-        writer.writeVector4(Vector4<>(1, 2, 3, 4));
+        writer.writeVector2(Vector2(1, 2));
+        writer.writeVector3(Vector3(1, 2, 3));
+        writer.writeVector4(Vector4(1, 2, 3, 4));
         writer.endArray();
     }
 
@@ -186,20 +186,20 @@ SUITE(DataReaderWriter)
 
         CHECK(!reader.endArray());
 
-        Vector2<> vector2 = reader.readVector2();
+        Vector2 vector2 = reader.readVector2();
         CHECK_EQUAL(1, vector2.x);
         CHECK_EQUAL(2, vector2.y);
 
         CHECK(!reader.endArray());
 
-        Vector3<> vector3 = reader.readVector3();
+        Vector3 vector3 = reader.readVector3();
         CHECK_EQUAL(1, vector3.x);
         CHECK_EQUAL(2, vector3.y);
         CHECK_EQUAL(3, vector3.z);
 
         CHECK(!reader.endArray());
 
-        Vector4<> vector4 = reader.readVector4();
+        Vector4 vector4 = reader.readVector4();
         CHECK_EQUAL(1, vector4.x);
         CHECK_EQUAL(2, vector4.y);
         CHECK_EQUAL(3, vector4.z);

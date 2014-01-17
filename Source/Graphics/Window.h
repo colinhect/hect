@@ -84,12 +84,12 @@ public:
     void bind(Renderer* renderer);
 
 private:
-    Vector2<int> _cursorPosition();
+    Vector2T<int> _cursorPosition();
 
     void* _sfmlWindow;
 
     bool _cursorLocked;
-    Vector2<int> _lastCursorPosition;
+    Vector2T<int> _lastCursorPosition;
 };
 
 }

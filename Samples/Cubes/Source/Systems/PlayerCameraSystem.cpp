@@ -51,9 +51,9 @@ void PlayerCameraSystem::update(double timeStep)
     Transform& transform = entity.component<Transform>();
     Camera& camera = entity.component<Camera>();
     
-    transform.rotateGlobal(camera.up(), Angle<>::fromRadians(_viewX->value() * 50.0 * timeStep));
-    transform.rotateGlobal(camera.right(), Angle<>::fromRadians(_viewY->value() * -50.0 * timeStep));
-    transform.rotateGlobal(camera.front(),  Angle<>::fromRadians(_roll->value() * -2.0 * timeStep));
+    transform.rotateGlobal(camera.up(), Angle::fromRadians(_viewX->value() * 50.0 * timeStep));
+    transform.rotateGlobal(camera.right(), Angle::fromRadians(_viewY->value() * -50.0 * timeStep));
+    transform.rotateGlobal(camera.front(),  Angle::fromRadians(_roll->value() * -2.0 * timeStep));
     transform.translate(camera.right() * _moveX->value() * _speed * timeStep);
     transform.translate(camera.front() * _moveY->value() * _speed * timeStep);
 }

@@ -26,7 +26,7 @@ SUITE(Angle)
     template <typename T>
     void testDefaultConstructor()
     {
-        Angle<T> a;
+        AngleT<T> a;
         CHECK_CLOSE((T)0.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)0.0, a.radians(), (T)epsilon);
     }
@@ -40,7 +40,7 @@ SUITE(Angle)
     template <typename T>
     void testFromAndToDegrees()
     {
-        Angle<T> a = Angle<T>::fromDegrees((T)180.0);
+        AngleT<T> a = AngleT<T>::fromDegrees((T)180.0);
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
     }
@@ -54,7 +54,7 @@ SUITE(Angle)
     template <typename T>
     void testFromAndToRadians()
     {
-        Angle<T> a = Angle<T>::fromRadians((T)pi);
+        AngleT<T> a = AngleT<T>::fromRadians((T)pi);
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
     }
@@ -68,7 +68,7 @@ SUITE(Angle)
     template <typename T>
     void testNegate()
     {
-        Angle<T> a = Angle<T>::fromRadians((T)pi);
+        AngleT<T> a = AngleT<T>::fromRadians((T)pi);
         a = -a;
         CHECK_CLOSE((T)-180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)-pi, a.radians(), (T)epsilon);
@@ -83,7 +83,7 @@ SUITE(Angle)
     template <typename T>
     void testAdd()
     {
-        Angle<T> a = Angle<T>::fromDegrees(45.0) + Angle<T>::fromDegrees(135.0);
+        AngleT<T> a = AngleT<T>::fromDegrees(45.0) + AngleT<T>::fromDegrees(135.0);
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
     }
@@ -97,8 +97,8 @@ SUITE(Angle)
     template <typename T>
     void testAddEquals()
     {
-        Angle<T> a = Angle<T>::fromDegrees((T)45.0);
-        a += Angle<T>::fromDegrees((T)135.0);
+        AngleT<T> a = AngleT<T>::fromDegrees((T)45.0);
+        a += AngleT<T>::fromDegrees((T)135.0);
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
     }
@@ -112,7 +112,7 @@ SUITE(Angle)
     template <typename T>
     void testSubtract()
     {
-        Angle<T> a = Angle<T>::fromDegrees((T)270.0) - Angle<T>::fromDegrees((T)90.0);
+        AngleT<T> a = AngleT<T>::fromDegrees((T)270.0) - AngleT<T>::fromDegrees((T)90.0);
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
     }
@@ -126,8 +126,8 @@ SUITE(Angle)
     template <typename T>
     void testSubtractEquals()
     {
-        Angle<T> a = Angle<T>::fromDegrees((T)270.0);
-        a -= Angle<T>::fromDegrees((T)90.0);
+        AngleT<T> a = AngleT<T>::fromDegrees((T)270.0);
+        a -= AngleT<T>::fromDegrees((T)90.0);
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
     }
@@ -141,7 +141,7 @@ SUITE(Angle)
     template <typename T>
     void testMultiply()
     {
-        Angle<T> a = Angle<T>::fromDegrees((T)90.0) * (T)2.0;
+        AngleT<T> a = AngleT<T>::fromDegrees((T)90.0) * (T)2.0;
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
     }
@@ -155,7 +155,7 @@ SUITE(Angle)
     template <typename T>
     void testMultiplyEquals()
     {
-        Angle<T> a = Angle<T>::fromDegrees((T)90.0);
+        AngleT<T> a = AngleT<T>::fromDegrees((T)90.0);
         a *= (T)2.0;
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
@@ -170,7 +170,7 @@ SUITE(Angle)
     template <typename T>
     void testDivide()
     {
-        Angle<T> a = Angle<T>::fromDegrees((T)360.0) / (T)2.0;
+        AngleT<T> a = AngleT<T>::fromDegrees((T)360.0) / (T)2.0;
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
     }
@@ -184,7 +184,7 @@ SUITE(Angle)
     template <typename T>
     void testDivideEquals()
     {
-        Angle<T> a = Angle<T>::fromDegrees((T)360.0);
+        AngleT<T> a = AngleT<T>::fromDegrees((T)360.0);
         a /= (T)2.0;
         CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
         CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
@@ -199,8 +199,8 @@ SUITE(Angle)
     template <typename T, typename U>
     void testCast()
     {
-        Angle<T> a = Angle<T>::fromDegrees((T)45.0);
-        Angle<U> b = a;
+        AngleT<T> a = AngleT<T>::fromDegrees((T)45.0);
+        AngleT<U> b = a;
 
         CHECK_CLOSE(a.degrees(), b.degrees(), (T)epsilon);
         CHECK_CLOSE(a.radians(), b.radians(), (T)epsilon);

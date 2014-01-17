@@ -85,20 +85,20 @@ void WriteStream::writeDouble(double value)
     writeBytes((const uint8_t*)&value, 8);
 }
 
-void WriteStream::writeVector2(const Vector2<>& value)
+void WriteStream::writeVector2(const Vector2& value)
 {
     writeDouble(value.x);
     writeDouble(value.y);
 }
 
-void WriteStream::writeVector3(const Vector3<>& value)
+void WriteStream::writeVector3(const Vector3& value)
 {
     writeDouble(value.x);
     writeDouble(value.y);
     writeDouble(value.z);
 }
 
-void WriteStream::writeVector4(const Vector4<>& value)
+void WriteStream::writeVector4(const Vector4& value)
 {
     writeDouble(value.x);
     writeDouble(value.y);
@@ -106,7 +106,7 @@ void WriteStream::writeVector4(const Vector4<>& value)
     writeDouble(value.w);
 }
 
-void WriteStream::writeQuaternion(const Quaternion<>& value)
+void WriteStream::writeQuaternion(const Quaternion& value)
 {
     writeDouble(value.x);
     writeDouble(value.y);

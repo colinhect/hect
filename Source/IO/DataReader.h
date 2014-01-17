@@ -124,7 +124,7 @@ public:
     /// \returns The read value.
     ///
     /// \throw Error If the current value is not an array.
-    virtual Vector2<> readVector2() = 0;
+    virtual Vector2 readVector2() = 0;
 
     ///
     /// Reads a named 2-dimensional vector.
@@ -134,7 +134,7 @@ public:
     /// \returns The read value.
     ///
     /// \throw Error If the current value is not an object
-    virtual Vector2<> readVector2(const char* name) = 0;
+    virtual Vector2 readVector2(const char* name) = 0;
 
     ///
     /// Reads an unnamed 3-dimensional vector.
@@ -142,7 +142,7 @@ public:
     /// \returns The read value.
     ///
     /// \throw Error If the current value is not an array.
-    virtual Vector3<> readVector3() = 0;
+    virtual Vector3 readVector3() = 0;
 
     ///
     /// Reads a named 3-dimensional vector.
@@ -152,7 +152,7 @@ public:
     /// \returns The read value.
     ///
     /// \throw Error If the current value is not an object
-    virtual Vector3<> readVector3(const char* name) = 0;
+    virtual Vector3 readVector3(const char* name) = 0;
 
     ///
     /// Reads an unnamed 4-dimensional vector.
@@ -160,7 +160,7 @@ public:
     /// \returns The read value.
     ///
     /// \throw Error If the current value is not an array.
-    virtual Vector4<> readVector4() = 0;
+    virtual Vector4 readVector4() = 0;
 
     ///
     /// Reads a named 4-dimensional vector.
@@ -170,7 +170,7 @@ public:
     /// \returns The read value.
     ///
     /// \throw Error If the current value is not an object
-    virtual Vector4<> readVector4(const char* name) = 0;
+    virtual Vector4 readVector4(const char* name) = 0;
 };
 
 ///
@@ -196,12 +196,12 @@ public:
     double readDouble(const char* name);
     std::string readString();
     std::string readString(const char* name);
-    Vector2<> readVector2();
-    Vector2<> readVector2(const char* name);
-    Vector3<> readVector3();
-    Vector3<> readVector3(const char* name);
-    Vector4<> readVector4();
-    Vector4<> readVector4(const char* name);
+    Vector2 readVector2();
+    Vector2 readVector2(const char* name);
+    Vector3 readVector3();
+    Vector3 readVector3(const char* name);
+    Vector4 readVector4();
+    Vector4 readVector4(const char* name);
 
 private:
     const DataValue& _read();
@@ -237,12 +237,12 @@ public:
     double readDouble(const char* name);
     std::string readString();
     std::string readString(const char* name);
-    Vector2<> readVector2();
-    Vector2<> readVector2(const char* name);
-    Vector3<> readVector3();
-    Vector3<> readVector3(const char* name);
-    Vector4<> readVector4();
-    Vector4<> readVector4(const char* name);
+    Vector2 readVector2();
+    Vector2 readVector2(const char* name);
+    Vector3 readVector3();
+    Vector3 readVector3(const char* name);
+    Vector4 readVector4();
+    Vector4 readVector4(const char* name);
 
 private:
     unsigned _elementIndex;

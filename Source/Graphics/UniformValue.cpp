@@ -52,25 +52,25 @@ UniformValue::UniformValue(double value) :
     setValue(value);
 }
 
-UniformValue::UniformValue(const Vector2<>& value) :
+UniformValue::UniformValue(const Vector2& value) :
     _type(UniformType::Vector2)
 {
     setValue(value);
 }
 
-UniformValue::UniformValue(const Vector3<>& value) :
+UniformValue::UniformValue(const Vector3& value) :
     _type(UniformType::Vector3)
 {
     setValue(value);
 }
 
-UniformValue::UniformValue(const Vector4<>& value) :
+UniformValue::UniformValue(const Vector4& value) :
     _type(UniformType::Vector4)
 {
     setValue(value);
 }
 
-UniformValue::UniformValue(const Matrix4<>& value) :
+UniformValue::UniformValue(const Matrix4& value) :
     _type(UniformType::Matrix4)
 {
     setValue(value);
@@ -106,7 +106,7 @@ void UniformValue::setValue(double value)
     _value.floatValues[0] = (float)value;
 }
 
-void UniformValue::setValue(const Vector2<>& value)
+void UniformValue::setValue(const Vector2& value)
 {
     if (_type != UniformType::Vector2)
     {
@@ -117,7 +117,7 @@ void UniformValue::setValue(const Vector2<>& value)
     _value.floatValues[1] = (float)value.y;
 }
 
-void UniformValue::setValue(const Vector3<>& value)
+void UniformValue::setValue(const Vector3& value)
 {
     if (_type != UniformType::Vector3)
     {
@@ -129,7 +129,7 @@ void UniformValue::setValue(const Vector3<>& value)
     _value.floatValues[2] = (float)value.z;
 }
 
-void UniformValue::setValue(const Vector4<>& value)
+void UniformValue::setValue(const Vector4& value)
 {
     if (_type != UniformType::Vector4)
     {
@@ -142,7 +142,7 @@ void UniformValue::setValue(const Vector4<>& value)
     _value.floatValues[3] = (float)value.w;
 }
 
-void UniformValue::setValue(const Matrix4<>& value)
+void UniformValue::setValue(const Matrix4& value)
 {
     if (_type != UniformType::Matrix4)
     {

@@ -29,45 +29,45 @@ namespace hect
 ///
 /// A 2-dimensional vector.
 template <typename T = Real>
-class Vector2
+class Vector2T
 {
 public:
 
     ///
     /// Constructs a 2-dimensional vector with all components equal to
     /// zero.
-    static Vector2 zero();
+    static Vector2T zero();
 
     ///
     /// Constructs a 2-dimensional vector with all components equal to one.
-    static Vector2 one();
+    static Vector2T one();
 
     ///
     /// Constructs a 2-dimensional vector with the x component equal to
     /// one.
-    static Vector2 unitX();
+    static Vector2T unitX();
 
     ///
     /// Constructs a 2-dimensional vector with the y component equal to
     /// one.
-    static Vector2 unitY();
+    static Vector2T unitY();
 
     ///
     /// Constructs a vector with all components equal to zero.
-    Vector2();
+    Vector2T();
 
     ///
     /// Constructs a vector with a value for all components.
     ///
     /// \param value The value for each component.
-    Vector2(T value);
+    Vector2T(T value);
 
     ///
     /// Constructs a vector with a value for each component.
     ///
     /// \param x The value for the x component.
     /// \param y The value for the y component.
-    Vector2(T x, T y);
+    Vector2T(T x, T y);
 
     ///
     /// Scales the vector to unit length while preserving the direction.
@@ -75,19 +75,19 @@ public:
 
     ///
     /// Returns a normalized copy of the vector.
-    Vector2 normalized() const;
+    Vector2T normalized() const;
 
     ///
     /// Returns the dot product of the vector another vector.
     ///
     /// \param v The vector to compute the dot product with.
-    T dot(const Vector2& v) const;
+    T dot(const Vector2T& v) const;
 
     ///
     /// Returns the angle from the vector to another vector.
     ///
     /// \param v The vector to compute the angle from.
-    Angle<T> angleFrom(const Vector2& v) const;
+    AngleT<T> angleFrom(const Vector2T& v) const;
 
     ///
     /// Returns the length of the vector.
@@ -104,83 +104,83 @@ public:
     /// Returns the sum of the vector and another vector.
     ///
     /// \param v The vector to compute the sum with.
-    Vector2 operator+(const Vector2& v) const;
+    Vector2T operator+(const Vector2T& v) const;
 
     ///
     /// Returns the difference of the vector and another vector.
     ///
     /// \param v The vector to compute the difference with.
-    Vector2 operator-(const Vector2& v) const;
+    Vector2T operator-(const Vector2T& v) const;
 
     ///
     /// Returns the product of the vector and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    Vector2 operator*(T value) const;
+    Vector2T operator*(T value) const;
 
     ///
     /// Returns the product of the vector and another vector.
     ///
     /// \param v The vector to compute the product with.
-    Vector2 operator*(const Vector2& v) const;
+    Vector2T operator*(const Vector2T& v) const;
 
     ///
     /// Returns the quotient of the vector and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    Vector2 operator/(T value) const;
+    Vector2T operator/(T value) const;
 
     ///
     /// Returns the quotient of the vector and another vector.
     ///
     /// \param v The vector to compute the quotient with.
-    Vector2 operator/(const Vector2& v) const;
+    Vector2T operator/(const Vector2T& v) const;
 
     ///
     /// Returns a negated copy of the vector.
-    Vector2 operator-() const;
+    Vector2T operator-() const;
 
     /// Adds a vector to the vector.
     ///
     /// \param v The vector to add.
     ///
     /// \returns A reference to the vector.
-    Vector2& operator+=(const Vector2& v);
+    Vector2T& operator+=(const Vector2T& v);
 
     /// Subtracts a vector from the vector.
     ///
     /// \param v The vector to subtract.
     ///
     /// \returns A reference to the vector.
-    Vector2& operator-=(const Vector2& v);
+    Vector2T& operator-=(const Vector2T& v);
 
     /// Multiplies the vector by a scalar.
     ///
     /// \param value The scalar to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector2& operator*=(T value);
+    Vector2T& operator*=(T value);
 
     /// Multiplies the vector by another vector.
     ///
     /// \param v The vector to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector2& operator*=(const Vector2& v);
+    Vector2T& operator*=(const Vector2T& v);
 
     /// Divides the vector by a scalar.
     ///
     /// \param value The scalar to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector2& operator/=(T value);
+    Vector2T& operator/=(T value);
 
     /// Divides the vector by another vector.
     ///
     /// \param v The vector to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector2& operator/=(const Vector2& v);
+    Vector2T& operator/=(const Vector2T& v);
 
     ///
     /// Returns the ith component of the vertex.
@@ -197,9 +197,9 @@ public:
     ///
     /// Converts to an equivalent vector with a different underlying type.
     template <typename U>
-    operator Vector2<U>() const
+    operator Vector2T<U>() const
     {
-        return Vector2<U>((U)x, (U)y);
+        return Vector2T<U>((U)x, (U)y);
     }
 
     ///
@@ -210,6 +210,8 @@ public:
     /// The y component of the vector.
     T y;
 };
+
+typedef Vector2T<> Vector2;
 
 }
 

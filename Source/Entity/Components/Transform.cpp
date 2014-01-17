@@ -27,13 +27,13 @@ using namespace hect;
 
 Transform::Transform() :
     _dirtyBits(0),
-    _scale(Vector3<>::one())
+    _scale(Vector3::one())
 {
 }
 
-void Transform::buildMatrix(Matrix4<>& matrix) const
+void Transform::buildMatrix(Matrix4& matrix) const
 {
-    matrix = Matrix4<>();
+    matrix = Matrix4();
 
     if (_dirtyBits & PositionBit)
     {
@@ -51,58 +51,58 @@ void Transform::buildMatrix(Matrix4<>& matrix) const
     }
 }
 
-void Transform::translate(const Vector3<>& translation)
+void Transform::translate(const Vector3& translation)
 {
     _position += translation;
     _dirtyBits |= PositionBit;
 }
 
-void Transform::scale(const Vector3<>& scale)
+void Transform::scale(const Vector3& scale)
 {
     _scale *= scale;
     _dirtyBits |= ScaleBit;
 }
 
-void Transform::rotateGlobal(const Quaternion<>& rotation)
+void Transform::rotateGlobal(const Quaternion& rotation)
 {
     _rotation *= rotation;
     _rotation.normalize();
     _dirtyBits |= RotationBit;
 }
 
-void Transform::rotateGlobal(const Vector3<>& axis, Angle<> angle)
+void Transform::rotateGlobal(const Vector3& axis, Angle angle)
 {
-    rotateGlobal(Quaternion<>::fromAxisAngle(axis, angle));
+    rotateGlobal(Quaternion::fromAxisAngle(axis, angle));
 }
 
-const Vector3<>& Transform::position() const
+const Vector3& Transform::position() const
 {
     return _position;
 }
 
-void Transform::setPosition(const Vector3<>& position)
+void Transform::setPosition(const Vector3& position)
 {
     _position = position;
     _dirtyBits |= PositionBit;
 }
 
-const Vector3<>& Transform::scale() const
+const Vector3& Transform::scale() const
 {
     return _scale;
 }
 
-void Transform::setScale(const Vector3<>& scale)
+void Transform::setScale(const Vector3& scale)
 {
     _scale = scale;
     _dirtyBits |= ScaleBit;
 }
 
-const Quaternion<>& Transform::rotation() const
+const Quaternion& Transform::rotation() const
 {
     return _rotation;
 }
 
-void Transform::setRotation(const Quaternion<>& rotation)
+void Transform::setRotation(const Quaternion& rotation)
 {
     _rotation = rotation;
     _dirtyBits |= RotationBit;
@@ -119,8 +119,8 @@ void Transform::transformBy(const Transform& transform)
 
 void TransformSerializer::save(const Transform& transform, DataWriter& writer) const
 {
-    Vector3<> axis;
-    Angle<> angle;
+    Vector3 axis;
+    Angle angle;
     transform.rotation().toAxisAngle(axis, angle);
 
     writer.writeVector3("position", transform.position());
@@ -147,8 +147,8 @@ void TransformSerializer::load(Transform& transform, DataReader& reader, AssetCa
 
     if (reader.beginObject("rotation"))
     {
-        Vector3<> axis;
-        Angle<> angle;
+        Vector3 axis;
+        Angle angle;
 
         if (reader.hasMember("axis"))
         {
@@ -158,10 +158,10 @@ void TransformSerializer::load(Transform& transform, DataReader& reader, AssetCa
         if (reader.hasMember("angle"))
         {
             Real degrees = reader.readDouble("angle");
-            angle = Angle<>::fromDegrees(degrees);
+            angle = Angle::fromDegrees(degrees);
         }
 
-        transform.setRotation(Quaternion<>::fromAxisAngle(axis, angle));
+        transform.setRotation(Quaternion::fromAxisAngle(axis, angle));
         reader.endObject();
     }
 }

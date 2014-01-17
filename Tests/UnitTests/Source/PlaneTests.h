@@ -26,7 +26,7 @@ SUITE(Plane)
     template <typename T>
     void testFromPoints()
     {
-        Plane<T> p = Plane<T>::fromPoints(Vector3<T>(-1, 0, -1), Vector3<T>(0, 0, 0), Vector3<T>(1, 0, -1));
+        PlaneT<T> p = PlaneT<T>::fromPoints(Vector3T<T>(-1, 0, -1), Vector3T<T>(0, 0, 0), Vector3T<T>(1, 0, -1));
 
         CHECK_EQUAL(0, p.position().x);
         CHECK_EQUAL(0, p.position().y);

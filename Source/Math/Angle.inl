@@ -25,25 +25,25 @@ namespace hect
 {
 
 template <typename T>
-Angle<T> Angle<T>::fromDegrees(T degrees)
+AngleT<T> AngleT<T>::fromDegrees(T degrees)
 {
-    return Angle(((T)pi / (T)180) * degrees);
+    return AngleT(((T)pi / (T)180) * degrees);
 }
 
 template <typename T>
-Angle<T> Angle<T>::fromRadians(T radians)
+AngleT<T> AngleT<T>::fromRadians(T radians)
 {
-    return Angle(radians);
+    return AngleT(radians);
 }
 
 template <typename T>
-Angle<T>::Angle():
+AngleT<T>::AngleT():
     _radians(0)
 {
 }
 
 template <typename T>
-T Angle<T>::degrees() const
+T AngleT<T>::degrees() const
 {
     T degrees = ((T)180 / (T)pi) * _radians;
     if (degrees == (T)360)
@@ -54,71 +54,71 @@ T Angle<T>::degrees() const
 }
 
 template <typename T>
-T Angle<T>::radians() const
+T AngleT<T>::radians() const
 {
     return _radians;
 }
 
 template <typename T>
-Angle<T> Angle<T>::operator+(const Angle& a) const
+AngleT<T> AngleT<T>::operator+(const AngleT& a) const
 {
-    return Angle(_radians + a._radians);
+    return AngleT(_radians + a._radians);
 }
 
 template <typename T>
-Angle<T> Angle<T>::operator-(const Angle& a) const
+AngleT<T> AngleT<T>::operator-(const AngleT& a) const
 {
-    return Angle(_radians - a._radians);
+    return AngleT(_radians - a._radians);
 }
 
 template <typename T>
-Angle<T> Angle<T>::operator*(T value) const
+AngleT<T> AngleT<T>::operator*(T value) const
 {
-    return Angle(_radians * value);
+    return AngleT(_radians * value);
 }
 
 template <typename T>
-Angle<T> Angle<T>::operator/(T value) const
+AngleT<T> AngleT<T>::operator/(T value) const
 {
-    return Angle(_radians / value);
+    return AngleT(_radians / value);
 }
 
 template <typename T>
-Angle<T> Angle<T>::operator-() const
+AngleT<T> AngleT<T>::operator-() const
 {
-    return Angle(-_radians);
+    return AngleT(-_radians);
 }
 
 template <typename T>
-Angle<T>& Angle<T>::operator+=(const Angle& a)
+AngleT<T>& AngleT<T>::operator+=(const AngleT& a)
 {
     _radians += a._radians;
     return *this;
 }
 
 template <typename T>
-Angle<T>& Angle<T>::operator-=(const Angle& a)
+AngleT<T>& AngleT<T>::operator-=(const AngleT& a)
 {
     _radians -= a._radians;
     return *this;
 }
 
 template <typename T>
-Angle<T>& Angle<T>::operator*=(T value)
+AngleT<T>& AngleT<T>::operator*=(T value)
 {
     _radians *= value;
     return *this;
 }
 
 template <typename T>
-Angle<T>& Angle<T>::operator/=(T value)
+AngleT<T>& AngleT<T>::operator/=(T value)
 {
     _radians /= value;
     return *this;
 }
 
 template <typename T>
-Angle<T>::Angle(T radians):
+AngleT<T>::AngleT(T radians):
     _radians(radians)
 {
 }

@@ -29,7 +29,7 @@ namespace hect
 ///
 /// A plane in 3-dimensional space.
 template <typename T = Real>
-class Plane
+class PlaneT
 {
 public:
 
@@ -39,11 +39,11 @@ public:
     /// \param p0 The first point.
     /// \param p1 The second point.
     /// \param p2 The third point.
-    static Plane fromPoints(const Vector3<T>& p0, const Vector3<T>& p1, const Vector3<T>& p2);
+    static PlaneT fromPoints(const Vector3T<T>& p0, const Vector3T<T>& p1, const Vector3T<T>& p2);
 
     ///
     /// Constructs a default plane.
-    Plane();
+    PlaneT();
 
     ///
     /// Constructs a plane given a position, normal, and distance.
@@ -51,25 +51,27 @@ public:
     /// \param position The origin of the plane.
     /// \param normal The direction from the origin the plane faces.
     /// \param distance The distance from the origin along the normal.
-    Plane(const Vector3<T>& position, const Vector3<T>& normal, T distance);
+    PlaneT(const Vector3T<T>& position, const Vector3T<T>& normal, T distance);
 
     ///
     /// Returns the position.
-    const Vector3<T>& position() const;
+    const Vector3T<T>& position() const;
 
     ///
     /// Returns the normal.
-    const Vector3<T>& normal() const;
+    const Vector3T<T>& normal() const;
 
     ///
     /// Returns the distance.
     T distance() const;
 
 private:
-    Vector3<T> _position;
-    Vector3<T> _normal;
+    Vector3T<T> _position;
+    Vector3T<T> _normal;
     T _distance;
 };
+
+typedef PlaneT<> Plane;
 
 }
 

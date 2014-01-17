@@ -132,12 +132,12 @@ IndexType Mesh::indexType() const
     return _indexType;
 }
 
-AxisAlignedBox<>& Mesh::boundingBox()
+AxisAlignedBox& Mesh::boundingBox()
 {
     return _boundingBox;
 }
 
-const AxisAlignedBox<>& Mesh::boundingBox() const
+const AxisAlignedBox& Mesh::boundingBox() const
 {
     return _boundingBox;
 }

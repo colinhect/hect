@@ -29,7 +29,7 @@ namespace hect
 ///
 /// A box.
 template <typename T = Real>
-class Box
+class BoxT
 {
 public:
 
@@ -37,15 +37,17 @@ public:
     /// Constructs the box given its scale.
     ///
     /// \param scale The scale in all three dimensions.
-    Box(const Vector3<T>& scale);
+    BoxT(const Vector3T<T>& scale);
 
     ///
     /// Returns the scale.
-    const Vector3<T>& scale() const;
+    const Vector3T<T>& scale() const;
 
 private:
-    Vector3<T> _scale;
+    Vector3T<T> _scale;
 };
+
+typedef BoxT<> Box;
 
 }
 

@@ -26,27 +26,27 @@
 using namespace hect;
 
 DirectionalLight::DirectionalLight() :
-    _direction(Vector3<>::unitX()),
-    _color(Vector3<>::one())
+    _direction(Vector3::unitX()),
+    _color(Vector3::one())
 {
 }
 
-const Vector3<>& DirectionalLight::direction() const
+const Vector3& DirectionalLight::direction() const
 {
     return _direction;
 }
 
-void DirectionalLight::setDirection(const Vector3<>& direction)
+void DirectionalLight::setDirection(const Vector3& direction)
 {
     _direction = direction.normalized();
 }
 
-const Vector3<>& DirectionalLight::color() const
+const Vector3& DirectionalLight::color() const
 {
     return _color;
 }
 
-void DirectionalLight::setColor(const Vector3<>& color)
+void DirectionalLight::setColor(const Vector3& color)
 {
     _color = color;
 }

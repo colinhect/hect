@@ -60,11 +60,11 @@ float MeshReader::readAttributeFloat(VertexAttributeSemantic semantic) const
     return value;
 }
 
-Vector2<> MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
+Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
-    Vector2<> value;
+    Vector2 value;
 
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
@@ -85,11 +85,11 @@ Vector2<> MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) con
     return value;
 }
 
-Vector3<> MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
+Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
-    Vector3<> value;
+    Vector3 value;
 
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
@@ -115,11 +115,11 @@ Vector3<> MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) con
     return value;
 }
 
-Vector4<> MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
+Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
-    Vector4<> value;
+    Vector4 value;
 
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)

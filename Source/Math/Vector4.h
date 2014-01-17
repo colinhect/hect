@@ -29,48 +29,48 @@ namespace hect
 ///
 /// A 4-dimensional vector.
 template <typename T = Real>
-class Vector4
+class Vector4T
 {
 public:
 
     ///
     /// Constructs a 4-dimensional vector with all components equal to
     /// zero.
-    static Vector4 zero();
+    static Vector4T zero();
 
     ///
     /// Constructs a 4-dimensional vector with all components equal to one.
-    static Vector4 one();
+    static Vector4T one();
 
     ///
     /// Constructs a 4-dimensional vector with the x component equal to
     /// one.
-    static Vector4 unitX();
+    static Vector4T unitX();
 
     ///
     /// Constructs a 4-dimensional vector with the y component equal to
     /// one.
-    static Vector4 unitY();
+    static Vector4T unitY();
 
     ///
     /// Constructs a 4-dimensional vector with the z component equal to
     /// one.
-    static Vector4 unitZ();
+    static Vector4T unitZ();
 
     ///
     /// Constructs a 4-dimensional vector with the w component equal to
     /// one.
-    static Vector4 unitW();
+    static Vector4T unitW();
 
     ///
     /// Constructs a vector with all components equal to zero.
-    Vector4();
+    Vector4T();
 
     ///
     /// Constructs a vector with a value for all components.
     ///
     /// \param value The value for each component.
-    Vector4(T value);
+    Vector4T(T value);
 
     ///
     /// Constructs a vector with a value for each component.
@@ -79,113 +79,113 @@ public:
     /// \param y The value for the y component.
     /// \param z The value for the z component.
     /// \param w The value for the w component.
-    Vector4(T x, T y, T z, T w);
+    Vector4T(T x, T y, T z, T w);
 
     ///
-    /// \copydoc Vector2::normalize()
+    /// \copydoc Vector2T::normalize()
     void normalize();
 
     ///
-    /// \copydoc Vector2::normalized()
-    Vector4 normalized() const;
+    /// \copydoc Vector2T::normalized()
+    Vector4T normalized() const;
 
     ///
-    /// \copydoc Vector2::dot()
-    T dot(const Vector4& v) const;
+    /// \copydoc Vector2T::dot()
+    T dot(const Vector4T& v) const;
 
     ///
-    /// \copydoc Vector2::angleFrom()
-    Angle<T> angleFrom(const Vector4& v) const;
+    /// \copydoc Vector2T::angleFrom()
+    AngleT<T> angleFrom(const Vector4T& v) const;
 
     ///
-    /// \copydoc Vector2::length()
+    /// \copydoc Vector2T::length()
     T length() const;
 
     ///
-    /// \copydoc Vector2::lengthSquared()
+    /// \copydoc Vector2T::lengthSquared()
     T lengthSquared() const;
 
     ///
     /// Returns the sum of the vector and another vector.
     ///
     /// \param v The vector to compute the sum with.
-    Vector4 operator+(const Vector4& v) const;
+    Vector4T operator+(const Vector4T& v) const;
 
     ///
     /// Returns the difference of the vector and another vector.
     ///
     /// \param v The vector to compute the difference with.
-    Vector4 operator-(const Vector4& v) const;
+    Vector4T operator-(const Vector4T& v) const;
 
     ///
     /// Returns the product of the vector and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    Vector4 operator*(T value) const;
+    Vector4T operator*(T value) const;
 
     ///
     /// Returns the product of the vector and another vector.
     ///
     /// \param v The vector to compute the product with.
-    Vector4 operator*(const Vector4& v) const;
+    Vector4T operator*(const Vector4T& v) const;
 
     ///
     /// Returns the quotient of the vector and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    Vector4 operator/(T value) const;
+    Vector4T operator/(T value) const;
 
     ///
     /// Returns the quotient of the vector and another vector.
     ///
     /// \param v The vector to compute the quotient with.
-    Vector4 operator/(const Vector4& v) const;
+    Vector4T operator/(const Vector4T& v) const;
 
     ///
     /// Returns a negated copy of the vector.
-    Vector4 operator-() const;
+    Vector4T operator-() const;
 
     /// Adds a vector to the vector.
     ///
     /// \param v The vector to add.
     ///
     /// \returns A reference to the vector.
-    Vector4& operator+=(const Vector4& v);
+    Vector4T& operator+=(const Vector4T& v);
 
     /// Subtracts a vector from the vector.
     ///
     /// \param v The vector to subtract.
     ///
     /// \returns A reference to the vector.
-    Vector4& operator-=(const Vector4& v);
+    Vector4T& operator-=(const Vector4T& v);
 
     /// Multiplies the vector by a scalar.
     ///
     /// \param value The scalar to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector4& operator*=(T value);
+    Vector4T& operator*=(T value);
 
     /// Multiplies the vector by another vector.
     ///
     /// \param v The vector to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector4& operator*=(const Vector4& v);
+    Vector4T& operator*=(const Vector4T& v);
 
     /// Divides the vector by a scalar.
     ///
     /// \param value The scalar to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector4& operator/=(T value);
+    Vector4T& operator/=(T value);
 
     /// Divides the vector by another vector.
     ///
     /// \param v The vector to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector4& operator/=(const Vector4& v);
+    Vector4T& operator/=(const Vector4T& v);
 
     ///
     /// Returns the ith component of the vertex.
@@ -202,9 +202,9 @@ public:
     ///
     /// Converts to an equivalent vector with a different underlying type.
     template <typename U>
-    operator Vector4<U>() const
+    operator Vector4T<U>() const
     {
-        return Vector4<U>((U)x, (U)y, (U)z, (U)w);
+        return Vector4T<U>((U)x, (U)y, (U)z, (U)w);
     }
 
     ///
@@ -223,6 +223,8 @@ public:
     /// The w component of the vector.
     T w;
 };
+
+typedef Vector4T<> Vector4;
 
 }
 

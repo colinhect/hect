@@ -52,23 +52,23 @@ public:
 
     ///
     /// Returns the linear velocity.
-    const Vector3<>& linearVelocity() const;
+    const Vector3& linearVelocity() const;
 
     ///
     /// Sets the linear velocity.
     ///
     /// \param linearVelocity The new linear velocity.
-    void setLinearVelocity(const Vector3<>& linearVelocity);
+    void setLinearVelocity(const Vector3& linearVelocity);
 
     ///
     /// Returns the angular velocity.
-    const Vector3<>& angularVelocity() const;
+    const Vector3& angularVelocity() const;
 
     ///
     /// Sets the angular velocity.
     ///
     /// \param angularVelocity The new angular velocity.
-    void setAngularVelocity(const Vector3<>& angularVelocity);
+    void setAngularVelocity(const Vector3& angularVelocity);
 
     ///
     /// Returns the mesh.
@@ -86,8 +86,8 @@ public:
 
 private:
     Real _mass;
-    mutable Vector3<> _linearVelocity;
-    mutable Vector3<> _angularVelocity;
+    mutable Vector3 _linearVelocity;
+    mutable Vector3 _angularVelocity;
     AssetHandle<Mesh> _mesh;
     
     std::shared_ptr<btRigidBody> _rigidBody;

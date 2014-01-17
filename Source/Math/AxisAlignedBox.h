@@ -29,40 +29,40 @@ namespace hect
 ///
 /// A box aligned with the global axes.
 template <typename T = Real>
-class AxisAlignedBox
+class AxisAlignedBoxT
 {
 public:
 
     ///
     /// Constructs an axis aligned box at the origin without a size.
-    AxisAlignedBox();
+    AxisAlignedBoxT();
 
     ///
     /// Constructs an axis aligned box given a minimum and maximum point.
     ///
     /// \param minimum The minimum point.
     /// \param maximum The maximum point.
-    AxisAlignedBox(const Vector3<T>& minimum, const Vector3<T>& maximum);
+    AxisAlignedBoxT(const Vector3T<T>& minimum, const Vector3T<T>& maximum);
 
     ///
     /// Expands the bounds of the box to include point.
     ///
     /// \param point The point to include.
-    void expandToInclude(const Vector3<T>& point);
+    void expandToInclude(const Vector3T<T>& point);
 
     ///
     /// Expands the bounds of the box to include another box.
     ///
     /// \param box The box to include.
-    void expandToInclude(const AxisAlignedBox<T>& box);
+    void expandToInclude(const AxisAlignedBoxT<T>& box);
 
     ///
     /// Returns the minimum point.
-    const Vector3<T>& minimum() const;
+    const Vector3T<T>& minimum() const;
 
     ///
     /// Returns the maximum point.
-    const Vector3<T>& maximum() const;
+    const Vector3T<T>& maximum() const;
 
     ///
     /// Returns whether the box has a non-negligible size.
@@ -71,14 +71,14 @@ public:
     ///
     /// Converts to an equivalent vector with a different underlying type.
     template <typename U>
-    operator AxisAlignedBox<U>() const
+    operator AxisAlignedBoxT<U>() const
     {
-        return AxisAlignedBox<U>(_minimum, _maximum);
+        return AxisAlignedBoxT<U>(_minimum, _maximum);
     }
 
 private:
-    void _mergeMinimum(const Vector3<T>& point);
-    void _mergeMaximum(const Vector3<T>& point);
+    void _mergeMinimum(const Vector3T<T>& point);
+    void _mergeMaximum(const Vector3T<T>& point);
 
     enum Flags
     {
@@ -92,9 +92,11 @@ private:
 
     int _flags;
 
-    Vector3<T> _minimum;
-    Vector3<T> _maximum;
+    Vector3T<T> _minimum;
+    Vector3T<T> _maximum;
 };
+
+typedef AxisAlignedBoxT<> AxisAlignedBox;
 
 }
 

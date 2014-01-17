@@ -34,7 +34,7 @@ PhysicsSystem::PhysicsSystem() :
     _solver(new btSequentialImpulseConstraintSolver()),
     _world(new btDiscreteDynamicsWorld(_dispatcher.get(), _broadphase.get(), _solver.get(), _configuration.get()))
 {
-    setGravity(Vector3<>::zero());
+    setGravity(Vector3::zero());
 }
 
 bool PhysicsSystem::includesEntity(const Entity& entity) const
@@ -56,12 +56,12 @@ void PhysicsSystem::update(Real timeStep, unsigned maxSubStepCount)
     }
 }
 
-const Vector3<>& PhysicsSystem::gravity() const
+const Vector3& PhysicsSystem::gravity() const
 {
     return _gravity;
 }
 
-void PhysicsSystem::setGravity(const Vector3<>& gravity)
+void PhysicsSystem::setGravity(const Vector3& gravity)
 {
     _gravity = gravity;
     _world->setGravity(convertToBullet(gravity));

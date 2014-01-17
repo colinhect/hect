@@ -26,7 +26,7 @@ SUITE(Quaternion)
     template <typename T>
     void testDefaultConstructor()
     {
-        Quaternion<T> a;
+        QuaternionT<T> a;
         CHECK_CLOSE((T)0.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, a.z, (T)epsilon);
@@ -42,7 +42,7 @@ SUITE(Quaternion)
     template <typename T>
     void testComponentConstructor()
     {
-        Quaternion<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        QuaternionT<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
         CHECK_CLOSE((T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)3.0, a.z, (T)epsilon);
@@ -58,7 +58,7 @@ SUITE(Quaternion)
     template <typename T>
     void testVector3Constructor()
     {
-        Quaternion<T> a(Vector3<T>((T)1.0, (T)2.0, (T)3.0), (T)4.0);
+        QuaternionT<T> a(Vector3T<T>((T)1.0, (T)2.0, (T)3.0), (T)4.0);
         CHECK_CLOSE((T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)3.0, a.z, (T)epsilon);
@@ -74,7 +74,7 @@ SUITE(Quaternion)
     template <typename T>
     void testVector4Constructor()
     {
-        Quaternion<T> a(Vector4<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0));
+        QuaternionT<T> a(Vector4T<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0));
         CHECK_CLOSE((T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)3.0, a.z, (T)epsilon);
@@ -90,7 +90,7 @@ SUITE(Quaternion)
     template <typename T>
     void testCopyConstructor()
     {
-        Quaternion<T> a(Quaternion<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0));
+        QuaternionT<T> a(QuaternionT<T>((T)1.0, (T)2.0, (T)3.0, (T)4.0));
         CHECK_CLOSE((T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
         CHECK_CLOSE((T)3.0, a.z, (T)epsilon);
@@ -106,10 +106,10 @@ SUITE(Quaternion)
     template <typename T>
     void testAxisAngle()
     {
-        Quaternion<T> a = Quaternion<T>::fromAxisAngle(Vector3<T>::unitY(), Angle<T>::fromDegrees((T)180.0));
+        QuaternionT<T> a = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
 
-        Vector3<T> axis;
-        Angle<T> angle;
+        Vector3T<T> axis;
+        AngleT<T> angle;
         a.toAxisAngle(axis, angle);
 
         CHECK_CLOSE((T)0.0, axis.x, (T)epsilon);
@@ -127,13 +127,13 @@ SUITE(Quaternion)
     template <typename T>
     void testMultiply()
     {
-        Vector3<T> axis;
-        Angle<T> angle;
-        Quaternion<T> a;
-        Quaternion<T> b;
+        Vector3T<T> axis;
+        AngleT<T> angle;
+        QuaternionT<T> a;
+        QuaternionT<T> b;
 
-        a = Quaternion<T>::fromAxisAngle(Vector3<T>::unitY(), Angle<T>::fromDegrees((T)90.0));
-        b = Quaternion<T>::fromAxisAngle(Vector3<T>::unitY(), Angle<T>::fromDegrees((T)180.0));
+        a = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)90.0));
+        b = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
         a = b * a;
         a.toAxisAngle(axis, angle);
 
@@ -142,8 +142,8 @@ SUITE(Quaternion)
         CHECK_CLOSE((T)0.0, axis.z, (T)epsilon);
         CHECK_CLOSE((T)270.0, angle.degrees(), (T)epsilon);
 
-        a = Quaternion<T>::fromAxisAngle(Vector3<T>::unitY(), Angle<T>::fromDegrees((T)90.0));
-        b = Quaternion<T>::fromAxisAngle(Vector3<T>::unitY(), Angle<T>::fromDegrees((T)180.0));
+        a = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)90.0));
+        b = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
         a *= b;
         a.toAxisAngle(axis, angle);
 
@@ -162,17 +162,17 @@ SUITE(Quaternion)
     template <typename T>
     void testMultiplyVector()
     {
-        Quaternion<T> r;
-        Vector3<T> v;
+        QuaternionT<T> r;
+        Vector3T<T> v;
 
-        r = Quaternion<T>::fromAxisAngle(Vector3<T>::unitY(), Angle<T>::fromDegrees((T)180.0));
-        v = r * Vector3<T>::unitX();
+        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
+        v = r * Vector3T<T>::unitX();
         CHECK_CLOSE((T)-1.0, v.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.z, (T)epsilon);
 
-        r = Quaternion<T>::fromAxisAngle(Vector3<T>::unitY(), Angle<T>::fromDegrees((T)90.0));
-        v = r * Vector3<T>::unitX();
+        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)90.0));
+        v = r * Vector3T<T>::unitX();
         CHECK_CLOSE((T)0.0, v.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.y, (T)epsilon);
         CHECK_CLOSE((T)1.0, v.z, (T)epsilon);
@@ -187,19 +187,19 @@ SUITE(Quaternion)
     template <typename T>
     void testMultiplyVectorByIdentity()
     {
-        Vector3<T> v;
+        Vector3T<T> v;
 
-        v = Quaternion<T>() * Vector3<T>::unitX();
+        v = QuaternionT<T>() * Vector3T<T>::unitX();
         CHECK_CLOSE((T)1.0, v.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.z, (T)epsilon);
 
-        v = Quaternion<T>() * Vector3<T>::unitY();
+        v = QuaternionT<T>() * Vector3T<T>::unitY();
         CHECK_CLOSE((T)0.0, v.x, (T)epsilon);
         CHECK_CLOSE((T)1.0, v.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.z, (T)epsilon);
 
-        v = Quaternion<T>() * Vector3<T>::unitZ();
+        v = QuaternionT<T>() * Vector3T<T>::unitZ();
         CHECK_CLOSE((T)0.0, v.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.y, (T)epsilon);
         CHECK_CLOSE((T)1.0, v.z, (T)epsilon);
@@ -214,8 +214,8 @@ SUITE(Quaternion)
     template <typename T, typename U>
     void testCast()
     {
-        Quaternion<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
-        Quaternion<U> b = a;
+        QuaternionT<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        QuaternionT<U> b = a;
 
         CHECK_CLOSE(a.x, (T)b.x, (T)epsilon);
         CHECK_CLOSE(a.y, (T)b.y, (T)epsilon);
@@ -232,7 +232,7 @@ SUITE(Quaternion)
     template <typename T>
     void testIndex()
     {
-        Quaternion<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
+        QuaternionT<T> a((T)1.0, (T)2.0, (T)3.0, (T)4.0);
 
         CHECK_CLOSE((T)1.0, a[0], (T)epsilon);
         CHECK_CLOSE((T)2.0, a[1], (T)epsilon);

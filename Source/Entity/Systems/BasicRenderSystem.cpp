@@ -70,7 +70,7 @@ void BasicRenderSystem::_renderMeshPass(const Camera& camera, const RenderTarget
     pass.prepare(*_renderer);
 
     // Buid the model matrix
-    Matrix4<> model;
+    Matrix4 model;
     transform.buildMatrix(model);
 
     // Set uniforms with bindings
@@ -84,7 +84,7 @@ void BasicRenderSystem::_renderMeshPass(const Camera& camera, const RenderTarget
             switch (binding)
             {
             case UniformBinding::RenderTargetSize:
-                _renderer->setUniform(uniform, Vector2<>(target.width(), target.height()));
+                _renderer->setUniform(uniform, Vector2(target.width(), target.height()));
                 break;
             case UniformBinding::CameraPosition:
                 _renderer->setUniform(uniform, camera.position());

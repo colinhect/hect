@@ -26,7 +26,7 @@ SUITE(Vector2)
     template <typename T>
     void testDefaultConstructor()
     {
-        Vector2<T> a;
+        Vector2T<T> a;
         CHECK_CLOSE((T)0.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, a.y, (T)epsilon);
     }
@@ -40,7 +40,7 @@ SUITE(Vector2)
     template <typename T>
     void testScalarConstructor()
     {
-        Vector2<T> a((T)1.0);
+        Vector2T<T> a((T)1.0);
         CHECK_CLOSE((T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)1.0, a.y, (T)epsilon);
     }
@@ -54,7 +54,7 @@ SUITE(Vector2)
     template <typename T>
     void testComponentConstructor()
     {
-        Vector2<T> a((T)1.0, (T)2.0);
+        Vector2T<T> a((T)1.0, (T)2.0);
         CHECK_CLOSE((T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
     }
@@ -68,8 +68,8 @@ SUITE(Vector2)
     template <typename T>
     void testCopyConstructor()
     {
-        Vector2<T> a((T)1.0, (T)2.0);
-        Vector2<T> b(a);
+        Vector2T<T> a((T)1.0, (T)2.0);
+        Vector2T<T> b(a);
         CHECK_CLOSE(a.x, b.x, (T)epsilon);
         CHECK_CLOSE(a.y, b.y, (T)epsilon);
     }
@@ -83,7 +83,7 @@ SUITE(Vector2)
     template <typename T>
     void testLength()
     {
-        Vector2<T> a((T)1.0, (T)2.0);
+        Vector2T<T> a((T)1.0, (T)2.0);
         CHECK_CLOSE((T)std::sqrt(a.x * a.x + a.y * a.y), a.length(), (T)epsilon);
     }
 
@@ -96,7 +96,7 @@ SUITE(Vector2)
     template <typename T>
     void testLengthSquared()
     {
-        Vector2<T> a((T)1.0, (T)2.0);
+        Vector2T<T> a((T)1.0, (T)2.0);
         CHECK_CLOSE(a.length(), (T)std::sqrt(a.lengthSquared()), (T)epsilon);
     }
 
@@ -109,7 +109,7 @@ SUITE(Vector2)
     template <typename T>
     void testNormalize()
     {
-        Vector2<T> a((T)1.0, (T)2.0);
+        Vector2T<T> a((T)1.0, (T)2.0);
         a.normalize();
         CHECK_CLOSE((T)1.0, a.length(), (T)epsilon);
     }
@@ -123,7 +123,7 @@ SUITE(Vector2)
     template <typename T>
     void testNormalized()
     {
-        Vector2<T> a((T)1.0, (T)2.0);
+        Vector2T<T> a((T)1.0, (T)2.0);
         CHECK_CLOSE((T)1.0, a.normalized().length(), (T)epsilon);
     }
 
@@ -136,14 +136,14 @@ SUITE(Vector2)
     template <typename T>
     void testAngleFrom()
     {
-        CHECK_CLOSE((T)0.0, Vector2<T>::unitX().angleFrom(Vector2<T>::unitX()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)180.0, Vector2<T>::unitX().angleFrom(-Vector2<T>::unitX()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)0.0, Vector2T<T>::unitX().angleFrom(Vector2T<T>::unitX()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)180.0, Vector2T<T>::unitX().angleFrom(-Vector2T<T>::unitX()).degrees(), (T)epsilon);
 
-        CHECK_CLOSE((T)0.0, Vector2<T>::unitY().angleFrom(Vector2<T>::unitY()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)180.0, Vector2<T>::unitY().angleFrom(-Vector2<T>::unitY()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)0.0, Vector2T<T>::unitY().angleFrom(Vector2T<T>::unitY()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)180.0, Vector2T<T>::unitY().angleFrom(-Vector2T<T>::unitY()).degrees(), (T)epsilon);
 
-        CHECK_CLOSE((T)90.0, Vector2<T>::unitX().angleFrom(Vector2<T>::unitY()).degrees(), (T)epsilon);
-        CHECK_CLOSE((T)90.0, Vector2<T>::unitY().angleFrom(Vector2<T>::unitX()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector2T<T>::unitX().angleFrom(Vector2T<T>::unitY()).degrees(), (T)epsilon);
+        CHECK_CLOSE((T)90.0, Vector2T<T>::unitY().angleFrom(Vector2T<T>::unitX()).degrees(), (T)epsilon);
     }
 
     TEST(AngleFrom)
@@ -155,7 +155,7 @@ SUITE(Vector2)
     template <typename T>
     void testAdd()
     {
-        Vector2<T> a = Vector2<T>((T)1.0, (T)2.0) + Vector2<T>((T)2.0, (T)4.0);
+        Vector2T<T> a = Vector2T<T>((T)1.0, (T)2.0) + Vector2T<T>((T)2.0, (T)4.0);
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)6.0, a.y, (T)epsilon);
     }
@@ -169,8 +169,8 @@ SUITE(Vector2)
     template <typename T>
     void testAddEquals()
     {
-        Vector2<T> a = Vector2<T>((T)1.0, (T)2.0);
-        a += Vector2<T>((T)2.0, (T)4.0);
+        Vector2T<T> a = Vector2T<T>((T)1.0, (T)2.0);
+        a += Vector2T<T>((T)2.0, (T)4.0);
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)6.0, a.y, (T)epsilon);
     }
@@ -184,7 +184,7 @@ SUITE(Vector2)
     template <typename T>
     void testSubtract()
     {
-        Vector2<T> a = Vector2<T>((T)1.0, (T)2.0) - Vector2<T>((T)2.0, (T)4.0);
+        Vector2T<T> a = Vector2T<T>((T)1.0, (T)2.0) - Vector2T<T>((T)2.0, (T)4.0);
         CHECK_CLOSE(-(T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE(-(T)2.0, a.y, (T)epsilon);
     }
@@ -198,8 +198,8 @@ SUITE(Vector2)
     template <typename T>
     void testSubtractEquals()
     {
-        Vector2<T> a = Vector2<T>((T)1.0, (T)2.0);
-        a -= Vector2<T>((T)2.0, (T)4.0);
+        Vector2T<T> a = Vector2T<T>((T)1.0, (T)2.0);
+        a -= Vector2T<T>((T)2.0, (T)4.0);
         CHECK_CLOSE(-(T)1.0, a.x, (T)epsilon);
         CHECK_CLOSE(-(T)2.0, a.y, (T)epsilon);
     }
@@ -213,7 +213,7 @@ SUITE(Vector2)
     template <typename T>
     void testMultiply()
     {
-        Vector2<T> a = Vector2<T>((T)1.0, (T)2.0) * Vector2<T>((T)2.0, (T)4.0);
+        Vector2T<T> a = Vector2T<T>((T)1.0, (T)2.0) * Vector2T<T>((T)2.0, (T)4.0);
         CHECK_CLOSE((T)2.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)8.0, a.y, (T)epsilon);
     }
@@ -227,8 +227,8 @@ SUITE(Vector2)
     template <typename T>
     void testMultiplyEquals()
     {
-        Vector2<T> a = Vector2<T>((T)1.0, (T)2.0);
-        a *= Vector2<T>((T)2.0, (T)4.0);
+        Vector2T<T> a = Vector2T<T>((T)1.0, (T)2.0);
+        a *= Vector2T<T>((T)2.0, (T)4.0);
         CHECK_CLOSE((T)2.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)8.0, a.y, (T)epsilon);
     }
@@ -242,7 +242,7 @@ SUITE(Vector2)
     template <typename T>
     void testMultiplyScalar()
     {
-        Vector2<T> a = Vector2<T>((T)1.0, (T)2.0) * (T)4.0;
+        Vector2T<T> a = Vector2T<T>((T)1.0, (T)2.0) * (T)4.0;
         CHECK_CLOSE((T)4.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)8.0, a.y, (T)epsilon);
     }
@@ -256,7 +256,7 @@ SUITE(Vector2)
     template <typename T>
     void testMultiplyScalarEquals()
     {
-        Vector2<T> a = Vector2<T>((T)1.0, (T)2.0);
+        Vector2T<T> a = Vector2T<T>((T)1.0, (T)2.0);
         a *= (T)4.0;
         CHECK_CLOSE((T)4.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)8.0, a.y, (T)epsilon);
@@ -271,7 +271,7 @@ SUITE(Vector2)
     template <typename T>
     void testDivide()
     {
-        Vector2<T> a = Vector2<T>((T)6.0, (T)8.0) / Vector2<T>((T)2.0, (T)4.0);
+        Vector2T<T> a = Vector2T<T>((T)6.0, (T)8.0) / Vector2T<T>((T)2.0, (T)4.0);
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
     }
@@ -285,8 +285,8 @@ SUITE(Vector2)
     template <typename T>
     void testDivideEquals()
     {
-        Vector2<T> a = Vector2<T>((T)6.0, (T)8.0);
-        a /= Vector2<T>((T)2.0, (T)4.0);
+        Vector2T<T> a = Vector2T<T>((T)6.0, (T)8.0);
+        a /= Vector2T<T>((T)2.0, (T)4.0);
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)2.0, a.y, (T)epsilon);
     }
@@ -300,7 +300,7 @@ SUITE(Vector2)
     template <typename T>
     void testDivideScalar()
     {
-        Vector2<T> a = Vector2<T>((T)6.0, (T)8.0) / (T)2.0;
+        Vector2T<T> a = Vector2T<T>((T)6.0, (T)8.0) / (T)2.0;
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)4.0, a.y, (T)epsilon);
     }
@@ -314,7 +314,7 @@ SUITE(Vector2)
     template <typename T>
     void testDivideScalarEquals()
     {
-        Vector2<T> a = Vector2<T>((T)6.0, (T)8.0);
+        Vector2T<T> a = Vector2T<T>((T)6.0, (T)8.0);
         a /= (T)2.0;
         CHECK_CLOSE((T)3.0, a.x, (T)epsilon);
         CHECK_CLOSE((T)4.0, a.y, (T)epsilon);
@@ -329,8 +329,8 @@ SUITE(Vector2)
     template <typename T, typename U>
     void testCast()
     {
-        Vector2<T> a((T)1.0, (T)2.0);
-        Vector2<U> b = a;
+        Vector2T<T> a((T)1.0, (T)2.0);
+        Vector2T<U> b = a;
 
         CHECK_CLOSE(a.x, (T)b.x, (T)epsilon);
         CHECK_CLOSE(a.y, (T)b.y, (T)epsilon);
@@ -345,7 +345,7 @@ SUITE(Vector2)
     template <typename T>
     void testIndex()
     {
-        Vector2<T> a((T)1.0, (T)2.0);
+        Vector2T<T> a((T)1.0, (T)2.0);
 
         CHECK_CLOSE((T)1.0, a[0], (T)epsilon);
         CHECK_CLOSE((T)2.0, a[1], (T)epsilon);

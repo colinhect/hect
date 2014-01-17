@@ -29,7 +29,7 @@ namespace hect
 ///
 /// A column-major 4 by 4 matrix.
 template <typename T = Real>
-class Matrix4
+class Matrix4T
 {
 public:
 
@@ -39,7 +39,7 @@ public:
     /// \param translation The translation of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4 fromTranslation(const Vector3<T>& translation);
+    static Matrix4T fromTranslation(const Vector3T<T>& translation);
 
     ///
     /// Constructs a matrix from a scale.
@@ -47,7 +47,7 @@ public:
     /// \param scale The scale of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4 fromScale(const Vector3<T>& scale);
+    static Matrix4T fromScale(const Vector3T<T>& scale);
 
     ///
     /// Constructs a matrix from a rotation.
@@ -55,7 +55,7 @@ public:
     /// \param rotation The rotation of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4 fromRotation(const Quaternion<T>& rotation);
+    static Matrix4T fromRotation(const QuaternionT<T>& rotation);
 
     ///
     /// Constructs a view matrix.
@@ -65,7 +65,7 @@ public:
     /// \param up The up direction of the view.
     ///
     /// \returns The view matrix.
-    static Matrix4 createView(const Vector3<T>& position, const Vector3<T>& direction, const Vector3<T>& up);
+    static Matrix4T createView(const Vector3T<T>& position, const Vector3T<T>& direction, const Vector3T<T>& up);
 
     ///
     /// Constructs a perspective projection matrix.
@@ -76,7 +76,7 @@ public:
     /// \param farClip The maximum distance from the origin to clip.
     ///
     /// \returns The projection matrix.
-    static Matrix4 createPerspective(Angle<T> fieldOfView, T aspectRatio, T nearClip, T farClip);
+    static Matrix4T createPerspective(AngleT<T> fieldOfView, T aspectRatio, T nearClip, T farClip);
 
     ///
     /// Constructs an orthogonal projection matrix.
@@ -89,47 +89,47 @@ public:
     /// \param farValue The far clip value.
     ///
     /// \returns The projection matrix.
-    static Matrix4 createOrthogonal(T left, T right, T bottom, T top, T nearValue, T farValue);
+    static Matrix4T createOrthogonal(T left, T right, T bottom, T top, T nearValue, T farValue);
 
     ///
     /// Constructs an identity matrix.
-    Matrix4();
+    Matrix4T();
 
     ///
     /// Translates the matrix.
     ///
     /// \param translation The translation to apply.
-    void translate(const Vector3<T>& translation);
+    void translate(const Vector3T<T>& translation);
 
     ///
     /// Scales the matrix.
     ///
     /// \param scale The scale to apply.
-    void scale(const Vector3<T>& scale);
+    void scale(const Vector3T<T>& scale);
 
     ///
     /// Rotates the matrix.
     ///
     /// \param rotation The rotation to apply.
-    void rotate(const Quaternion<T>& rotation);
+    void rotate(const QuaternionT<T>& rotation);
 
     ///
     /// Returns the given 3-dimensional vector transformed by the matrix.
     ///
     /// \param v The vector to transform.
-    Vector3<T> operator*(const Vector3<T>& v) const;
+    Vector3T<T> operator*(const Vector3T<T>& v) const;
 
     ///
     /// Returns the given 4-dimensional vector transformed by the matrix.
     ///
     /// \param v The vector to transform.
-    Vector4<T> operator*(const Vector4<T>& v) const;
+    Vector4T<T> operator*(const Vector4T<T>& v) const;
 
     ///
     /// Returns the product of the matrix and another matrix.
     ///
     /// \param m The matrix to compute the product with.
-    Matrix4 operator*(const Matrix4& m) const;
+    Matrix4T operator*(const Matrix4T& m) const;
 
     ///
     /// Multiplies the matrix by another matrix.
@@ -137,7 +137,7 @@ public:
     /// \param m The matrix to multiply by.
     ///
     /// \returns A reference to the matrix.
-    Matrix4& operator*=(const Matrix4& m);
+    Matrix4T& operator*=(const Matrix4T& m);
 
     ///
     /// Returns the ith value of the matrix.
@@ -154,9 +154,9 @@ public:
     ///
     /// Converts to an equivalent matrix with a different underlying type.
     template <typename U>
-    operator Matrix4<U>() const
+    operator Matrix4T<U>() const
     {
-        Matrix4<U> m;
+        Matrix4T<U> m;
         for (size_t i = 0; i < 16; ++i)
         {
             m[i] = (U)_c[i];
@@ -167,6 +167,8 @@ public:
 private:
     T _c[16];
 };
+
+typedef Matrix4T<> Matrix4;
 
 }
 

@@ -100,20 +100,20 @@ SUITE(DataValue)
 
     TEST(Vector2)
     {
-        DataValue value(Vector2<>(1, 2));
+        DataValue value(Vector2(1, 2));
         CHECK(value.isArray());
 
-        Vector2<> v = value.asVector2();
+        Vector2 v = value.asVector2();
         CHECK_EQUAL(1, v.x);
         CHECK_EQUAL(2, v.y);
     }
 
     TEST(Vector3)
     {
-        DataValue value(Vector3<>(1, 2, 3));
+        DataValue value(Vector3(1, 2, 3));
         CHECK(value.isArray());
 
-        Vector3<> v = value.asVector3();
+        Vector3 v = value.asVector3();
         CHECK_EQUAL(1, v.x);
         CHECK_EQUAL(2, v.y);
         CHECK_EQUAL(3, v.z);
@@ -121,10 +121,10 @@ SUITE(DataValue)
 
     TEST(Vector4)
     {
-        DataValue value(Vector4<>(1, 2, 3, 4));
+        DataValue value(Vector4(1, 2, 3, 4));
         CHECK(value.isArray());
 
-        Vector4<> v = value.asVector4();
+        Vector4 v = value.asVector4();
         CHECK_EQUAL(1, v.x);
         CHECK_EQUAL(2, v.y);
         CHECK_EQUAL(3, v.z);

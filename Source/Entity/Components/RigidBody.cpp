@@ -46,7 +46,7 @@ void RigidBody::setMass(Real mass)
     _mass = mass;
 }
 
-const Vector3<>& RigidBody::linearVelocity() const
+const Vector3& RigidBody::linearVelocity() const
 {
     // Update the current value from the Bullet rigid body
     if (_rigidBody)
@@ -57,7 +57,7 @@ const Vector3<>& RigidBody::linearVelocity() const
     return _linearVelocity;
 }
 
-void RigidBody::setLinearVelocity(const Vector3<>& linearVelocity)
+void RigidBody::setLinearVelocity(const Vector3& linearVelocity)
 {
     // Set the new value in the bullet rigid body as well
     if (_rigidBody)
@@ -68,7 +68,7 @@ void RigidBody::setLinearVelocity(const Vector3<>& linearVelocity)
     _linearVelocity = linearVelocity;
 }
 
-const Vector3<>& RigidBody::angularVelocity() const
+const Vector3& RigidBody::angularVelocity() const
 {
     // Update the current value from the Bullet rigid body
     if (_rigidBody)
@@ -79,7 +79,7 @@ const Vector3<>& RigidBody::angularVelocity() const
     return _angularVelocity;
 }
 
-void RigidBody::setAngularVelocity(const Vector3<>& angularVelocity)
+void RigidBody::setAngularVelocity(const Vector3& angularVelocity)
 {
     // Set the new value in the bullet rigid body as well
     if (_rigidBody)

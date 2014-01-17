@@ -36,7 +36,7 @@ bool Mouse::isButtonDown(MouseButton button) const
     return _buttonStates[(int)button];
 }
 
-const Vector2<int>& Mouse::cursorPosition() const
+const Vector2T<int>& Mouse::cursorPosition() const
 {
     return _cursorPosition;
 }

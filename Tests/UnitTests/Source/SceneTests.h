@@ -54,7 +54,7 @@ SUITE(Scene)
         public Component<Position>
     {
     public:
-        Vector3<double> value;
+        Vector3 value;
     };
 
     class PositionSerializer :
@@ -81,7 +81,7 @@ SUITE(Scene)
         public Component<Velocity>
     {
     public:
-        Vector3<double> value;
+        Vector3 value;
     };
 
     class VelocitySerializer :
@@ -334,7 +334,7 @@ SUITE(Scene)
 
         Entity frank = scene.createEntity();
         frank.addComponent<Name>().value = "Frank";
-        frank.addComponent<Position>().value = Vector3<>(1, 2, 3);
+        frank.addComponent<Position>().value = Vector3(1, 2, 3);
 
         DataValue frankValue;
         frank.save(frankValue);
@@ -362,7 +362,7 @@ SUITE(Scene)
 
         Entity frank = scene.createEntity();
         frank.addComponent<Name>().value = "Frank";
-        frank.addComponent<Position>().value = Vector3<>(1, 2, 3);
+        frank.addComponent<Position>().value = Vector3(1, 2, 3);
 
         std::vector<uint8_t> data;
 

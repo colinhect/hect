@@ -25,13 +25,13 @@ namespace hect
 {
 
 template <typename T>
-Box<T>::Box(const Vector3<T>& scale) :
+BoxT<T>::BoxT(const Vector3T<T>& scale) :
     _scale(scale)
 {
 }
 
 template <typename T>
-const Vector3<T>& Box<T>::scale() const
+const Vector3T<T>& BoxT<T>::scale() const
 {
     return _scale;
 }

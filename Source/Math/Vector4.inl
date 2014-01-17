@@ -25,43 +25,43 @@ namespace hect
 {
 
 template <typename T>
-Vector4<T> Vector4<T>::zero()
+Vector4T<T> Vector4T<T>::zero()
 {
-    return Vector4(0);
+    return Vector4T(0);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::one()
+Vector4T<T> Vector4T<T>::one()
 {
-    return Vector4(1);
+    return Vector4T(1);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::unitX()
+Vector4T<T> Vector4T<T>::unitX()
 {
-    return Vector4(1, 0, 0, 0);
+    return Vector4T(1, 0, 0, 0);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::unitY()
+Vector4T<T> Vector4T<T>::unitY()
 {
-    return Vector4(0, 1, 0, 0);
+    return Vector4T(0, 1, 0, 0);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::unitZ()
+Vector4T<T> Vector4T<T>::unitZ()
 {
-    return Vector4(0, 0, 1, 0);
+    return Vector4T(0, 0, 1, 0);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::unitW()
+Vector4T<T> Vector4T<T>::unitW()
 {
-    return Vector4(0, 0, 0, 1);
+    return Vector4T(0, 0, 0, 1);
 }
 
 template <typename T>
-Vector4<T>::Vector4() :
+Vector4T<T>::Vector4T() :
     x(0),
     y(0),
     z(0),
@@ -70,7 +70,7 @@ Vector4<T>::Vector4() :
 }
 
 template <typename T>
-Vector4<T>::Vector4(T value) :
+Vector4T<T>::Vector4T(T value) :
     x(value),
     y(value),
     z(value),
@@ -79,7 +79,7 @@ Vector4<T>::Vector4(T value) :
 }
 
 template <typename T>
-Vector4<T>::Vector4(T x, T y, T z, T w) :
+Vector4T<T>::Vector4T(T x, T y, T z, T w) :
     x(x),
     y(y),
     z(z),
@@ -88,89 +88,89 @@ Vector4<T>::Vector4(T x, T y, T z, T w) :
 }
 
 template <typename T>
-void Vector4<T>::normalize()
+void Vector4T<T>::normalize()
 {
     T inv = (T)1.0 / length();
     *this *= inv;
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::normalized() const
+Vector4T<T> Vector4T<T>::normalized() const
 {
-    Vector4 v(*this);
+    Vector4T v(*this);
     v.normalize();
     return v;
 }
 
 template <typename T>
-T Vector4<T>::dot(const Vector4& v) const
+T Vector4T<T>::dot(const Vector4T& v) const
 {
     return x * v.x + y * v.y + z * v.z + w * v.w;
 }
 
 template <typename T>
-Angle<T> Vector4<T>::angleFrom(const Vector4& v) const
+AngleT<T> Vector4T<T>::angleFrom(const Vector4T& v) const
 {
     T radians = (T)std::acos(dot(v));
-    return Angle<T>::fromRadians(radians);
+    return AngleT<T>::fromRadians(radians);
 }
 
 template <typename T>
-T Vector4<T>::length() const
+T Vector4T<T>::length() const
 {
     return (T)std::sqrt(lengthSquared());
 }
 
 template <typename T>
-T Vector4<T>::lengthSquared() const
+T Vector4T<T>::lengthSquared() const
 {
     return dot(*this);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::operator+(const Vector4& v) const
+Vector4T<T> Vector4T<T>::operator+(const Vector4T& v) const
 {
-    return Vector4(x + v.x, y + v.y, z + v.z, w + v.w);
+    return Vector4T(x + v.x, y + v.y, z + v.z, w + v.w);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::operator-(const Vector4& v) const
+Vector4T<T> Vector4T<T>::operator-(const Vector4T& v) const
 {
-    return Vector4(x - v.x, y - v.y, z - v.z, w - v.w);
+    return Vector4T(x - v.x, y - v.y, z - v.z, w - v.w);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::operator*(T value) const
+Vector4T<T> Vector4T<T>::operator*(T value) const
 {
-    return Vector4(x * value, y * value, z * value, w * value);
+    return Vector4T(x * value, y * value, z * value, w * value);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::operator*(const Vector4& v) const
+Vector4T<T> Vector4T<T>::operator*(const Vector4T& v) const
 {
-    return Vector4(x * v.x, y * v.y, z * v.z, w * v.w);
+    return Vector4T(x * v.x, y * v.y, z * v.z, w * v.w);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::operator/(T value) const
+Vector4T<T> Vector4T<T>::operator/(T value) const
 {
-    return Vector4(x / value, y / value, z / value, w / value);
+    return Vector4T(x / value, y / value, z / value, w / value);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::operator/(const Vector4& v) const
+Vector4T<T> Vector4T<T>::operator/(const Vector4T& v) const
 {
-    return Vector4(x / v.x, y / v.y, z / v.z, w / v.w);
+    return Vector4T(x / v.x, y / v.y, z / v.z, w / v.w);
 }
 
 template <typename T>
-Vector4<T> Vector4<T>::operator-() const
+Vector4T<T> Vector4T<T>::operator-() const
 {
-    return Vector4(-x, -y, -z, -w);
+    return Vector4T(-x, -y, -z, -w);
 }
 
 template <typename T>
-Vector4<T>& Vector4<T>::operator+=(const Vector4& v)
+Vector4T<T>& Vector4T<T>::operator+=(const Vector4T& v)
 {
     x += v.x;
     y += v.y;
@@ -180,7 +180,7 @@ Vector4<T>& Vector4<T>::operator+=(const Vector4& v)
 }
 
 template <typename T>
-Vector4<T>& Vector4<T>::operator-=(const Vector4& v)
+Vector4T<T>& Vector4T<T>::operator-=(const Vector4T& v)
 {
     x -= v.x;
     y -= v.y;
@@ -190,7 +190,7 @@ Vector4<T>& Vector4<T>::operator-=(const Vector4& v)
 }
 
 template <typename T>
-Vector4<T>& Vector4<T>::operator*=(T value)
+Vector4T<T>& Vector4T<T>::operator*=(T value)
 {
     x *= value;
     y *= value;
@@ -200,7 +200,7 @@ Vector4<T>& Vector4<T>::operator*=(T value)
 }
 
 template <typename T>
-Vector4<T>& Vector4<T>::operator*=(const Vector4& v)
+Vector4T<T>& Vector4T<T>::operator*=(const Vector4T& v)
 {
     x *= v.x;
     y *= v.y;
@@ -210,7 +210,7 @@ Vector4<T>& Vector4<T>::operator*=(const Vector4& v)
 }
 
 template <typename T>
-Vector4<T>& Vector4<T>::operator/=(T value)
+Vector4T<T>& Vector4T<T>::operator/=(T value)
 {
     x /= value;
     y /= value;
@@ -220,7 +220,7 @@ Vector4<T>& Vector4<T>::operator/=(T value)
 }
 
 template <typename T>
-Vector4<T>& Vector4<T>::operator/=(const Vector4& v)
+Vector4T<T>& Vector4T<T>::operator/=(const Vector4T& v)
 {
     x /= v.x;
     y /= v.y;
@@ -230,14 +230,14 @@ Vector4<T>& Vector4<T>::operator/=(const Vector4& v)
 }
 
 template <typename T>
-T& Vector4<T>::operator[](size_t i)
+T& Vector4T<T>::operator[](size_t i)
 {
     assert(i < 4);
     return ((T*)this)[i];
 }
 
 template <typename T>
-const T& Vector4<T>::operator[](size_t i) const
+const T& Vector4T<T>::operator[](size_t i) const
 {
     assert(i < 4);
     return ((const T*)this)[i];

@@ -25,13 +25,13 @@ namespace hect
 {
 
 template <typename T>
-AxisAlignedBox<T>::AxisAlignedBox() :
+AxisAlignedBoxT<T>::AxisAlignedBoxT() :
     _flags(0)
 {
 }
 
 template <typename T>
-AxisAlignedBox<T>::AxisAlignedBox(const Vector3<T>& minimum, const Vector3<T>& maximum) :
+AxisAlignedBoxT<T>::AxisAlignedBoxT(const Vector3T<T>& minimum, const Vector3T<T>& maximum) :
     _flags(MinX | MinY | MinZ | MaxX | MaxY | MaxZ),
     _minimum(minimum),
     _maximum(maximum)
@@ -39,14 +39,14 @@ AxisAlignedBox<T>::AxisAlignedBox(const Vector3<T>& minimum, const Vector3<T>& m
 }
 
 template <typename T>
-void AxisAlignedBox<T>::expandToInclude(const Vector3<T>& point)
+void AxisAlignedBoxT<T>::expandToInclude(const Vector3T<T>& point)
 {
     _mergeMinimum(point);
     _mergeMaximum(point);
 }
 
 template <typename T>
-void AxisAlignedBox<T>::expandToInclude(const AxisAlignedBox<T>& box)
+void AxisAlignedBoxT<T>::expandToInclude(const AxisAlignedBoxT<T>& box)
 {
     if (!box.hasSize())
     {
@@ -63,25 +63,25 @@ void AxisAlignedBox<T>::expandToInclude(const AxisAlignedBox<T>& box)
 }
 
 template <typename T>
-const Vector3<T>& AxisAlignedBox<T>::minimum() const
+const Vector3T<T>& AxisAlignedBoxT<T>::minimum() const
 {
     return _minimum;
 }
 
 template <typename T>
-const Vector3<T>& AxisAlignedBox<T>::maximum() const
+const Vector3T<T>& AxisAlignedBoxT<T>::maximum() const
 {
     return _maximum;
 }
 
 template <typename T>
-bool AxisAlignedBox<T>::hasSize() const
+bool AxisAlignedBoxT<T>::hasSize() const
 {
     return _flags != 0;
 }
 
 template <typename T>
-void AxisAlignedBox<T>::_mergeMinimum(const Vector3<T>& point)
+void AxisAlignedBoxT<T>::_mergeMinimum(const Vector3T<T>& point)
 {
     if (!(_flags & MinX) || point.x < _minimum.x)
     {
@@ -103,7 +103,7 @@ void AxisAlignedBox<T>::_mergeMinimum(const Vector3<T>& point)
 }
 
 template <typename T>
-void AxisAlignedBox<T>::_mergeMaximum(const Vector3<T>& point)
+void AxisAlignedBoxT<T>::_mergeMaximum(const Vector3T<T>& point)
 {
     if (!(_flags & MaxX) || point.x > _maximum.x)
     {

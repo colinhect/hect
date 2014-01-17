@@ -56,13 +56,13 @@ public:
 
     ///
     /// Returns the gravity.
-    const Vector3<>& gravity() const;
+    const Vector3& gravity() const;
 
     ///
     /// Sets the gravity.
     ///
     /// \param gravity The new gravity.
-    void setGravity(const Vector3<>& gravity);
+    void setGravity(const Vector3& gravity);
 
 protected:
     void addEntity(const Entity& entity);
@@ -79,7 +79,7 @@ private:
 
     std::map<Mesh*, std::shared_ptr<btTriangleMesh>> _bulletMeshes;
 
-    Vector3<> _gravity;
+    Vector3 _gravity;
 };
 
 }

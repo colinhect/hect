@@ -107,7 +107,7 @@ public:
     /// \param value The value to write.
     ///
     /// \throws Error If the current value is not an array.
-    virtual void writeVector2(const Vector2<>& value) = 0;
+    virtual void writeVector2(const Vector2& value) = 0;
 
     ///
     /// Writes an unnamed 2-dimensional vector.
@@ -116,7 +116,7 @@ public:
     /// \param value The value to write.
     ///
     /// \throws Error If the current value is not an object.
-    virtual void writeVector2(const char* name, const Vector2<>& value) = 0;
+    virtual void writeVector2(const char* name, const Vector2& value) = 0;
 
     ///
     /// Writes an unnamed 3-dimensional vector.
@@ -124,7 +124,7 @@ public:
     /// \param value The value to write.
     ///
     /// \throws Error If the current value is not an array.
-    virtual void writeVector3(const Vector3<>& value) = 0;
+    virtual void writeVector3(const Vector3& value) = 0;
 
     ///
     /// Writes an unnamed 3-dimensional vector.
@@ -133,7 +133,7 @@ public:
     /// \param value The value to write.
     ///
     /// \throws Error If the current value is not an object.
-    virtual void writeVector3(const char* name, const Vector3<>& value) = 0;
+    virtual void writeVector3(const char* name, const Vector3& value) = 0;
 
     ///
     /// Writes an unnamed 4-dimensional vector.
@@ -141,7 +141,7 @@ public:
     /// \param value The value to write.
     ///
     /// \throws Error If the current value is not an array.
-    virtual void writeVector4(const Vector4<>& value) = 0;
+    virtual void writeVector4(const Vector4& value) = 0;
 
     ///
     /// Writes an unnamed 4-dimensional vector.
@@ -150,7 +150,7 @@ public:
     /// \param value The value to write.
     ///
     /// \throws Error If the current value is not an object.
-    virtual void writeVector4(const char* name, const Vector4<>& value) = 0;
+    virtual void writeVector4(const char* name, const Vector4& value) = 0;
 };
 
 ///
@@ -177,12 +177,12 @@ public:
     void writeDouble(const char* name, double value);
     void writeString(const std::string& value);
     void writeString(const char* name, const std::string& value);
-    void writeVector2(const Vector2<>& value);
-    void writeVector2(const char* name, const Vector2<>& value);
-    void writeVector3(const Vector3<>& value);
-    void writeVector3(const char* name, const Vector3<>& value);
-    void writeVector4(const Vector4<>& value);
-    void writeVector4(const char* name, const Vector4<>& value);
+    void writeVector2(const Vector2& value);
+    void writeVector2(const char* name, const Vector2& value);
+    void writeVector3(const Vector3& value);
+    void writeVector3(const char* name, const Vector3& value);
+    void writeVector4(const Vector4& value);
+    void writeVector4(const char* name, const Vector4& value);
 
 private:
     void _write(const DataValue& value);
@@ -217,12 +217,12 @@ public:
     void writeDouble(const char* name, double value);
     void writeString(const std::string& value);
     void writeString(const char* name, const std::string& value);
-    void writeVector2(const Vector2<>& value);
-    void writeVector2(const char* name, const Vector2<>& value);
-    void writeVector3(const Vector3<>& value);
-    void writeVector3(const char* name, const Vector3<>& value);
-    void writeVector4(const Vector4<>& value);
-    void writeVector4(const char* name, const Vector4<>& value);
+    void writeVector2(const Vector2& value);
+    void writeVector2(const char* name, const Vector2& value);
+    void writeVector3(const Vector3& value);
+    void writeVector3(const char* name, const Vector3& value);
+    void writeVector4(const Vector4& value);
+    void writeVector4(const char* name, const Vector4& value);
 
 private:
     size_t _elementCountPosition;
