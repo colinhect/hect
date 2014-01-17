@@ -27,7 +27,7 @@ namespace hect
 template <typename T>
 T& AssetCache::get(const Path& path)
 {
-    return *getHandle<T>(path).getShared();
+    return *getHandle<T>(path);
 }
 
 template <typename T>

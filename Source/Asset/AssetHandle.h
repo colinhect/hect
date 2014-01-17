@@ -27,7 +27,11 @@ namespace hect
 {
 
 ///
-/// A handle for an asset.
+/// A reference-counted handle for an asset.
+///
+/// \remarks An asset handle may reference an asset which was loaded from the
+/// file system.  Alternatively, it may reference a manually created asset.
+/// A handle works much like a smart pointer.
 template <typename T>
 class AssetHandle
 {
@@ -36,10 +40,17 @@ public:
     ///
     /// An array of asset handles.
     typedef std::vector<AssetHandle<T>> Array;
-
+    
     ///
     /// Constructs an empty asset handle.
     AssetHandle();
+
+    ///
+    /// Constructs an asset handle given an asset.
+    ///
+    /// \param asset The asset (the lifetime of the asset will be owned by
+    /// the handle).
+    AssetHandle(T* asset);
 
     ///
     /// Constructs an asset handle given an asset entry.
@@ -48,22 +59,36 @@ public:
     AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry);
 
     ///
-    /// Returns a reference to the asset.
-    ///
-    /// \throws Error If the asset failed to load.
-    T& get() const;
-
-    ///
-    /// Returns a shared pointer to the asset.
-    ///
-    /// \throws Error If the asset failed to load.
-    std::shared_ptr<T> getShared() const;
-
-    ///
     /// Returns the path to the asset.
+    ///
+    /// \remarks If the asset handle does not refer to an asset which was
+    /// loaded from the file system, then an empty path is returned.
     const Path& path() const;
 
+    ///
+    /// Returns whether the handle refers to a asset.
+    operator bool() const;
+    
+    ///
+    /// Returns a reference to the asset.
+    ///
+    /// \throws Error If the handle does not refer to an asset or if the
+    /// referred asset failed to load.
+    T& operator*() const;
+
+    ///
+    /// Provides pointer-like access to the asset.
+    ///
+    /// \throws Error If the handle does not refer to an asset or if the
+    /// referred asset failed to load.
+    T* operator->() const;
+
+    ///
+    /// Returns whether the handle refers to the same asset as another handle.
+    bool operator==(const AssetHandle<T>& handle) const;
+
 private:
+    std::shared_ptr<T> _asset;
     std::shared_ptr<AssetEntry<T>> _entry;
 };
 

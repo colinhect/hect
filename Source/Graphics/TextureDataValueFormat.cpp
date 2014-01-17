@@ -30,8 +30,8 @@ void TextureDataValueFormat::load(Texture& texture, const std::string& name, con
     // Image
     if (dataValue["image"].isString())
     {
-        AssetHandle<Image> handle = assetCache.getHandle<Image>(dataValue["image"].asString());
-        texture = Texture(name, handle.getShared());
+        AssetHandle<Image> image = assetCache.getHandle<Image>(dataValue["image"].asString());
+        texture = Texture(name, image);
     }
 
     // Min filter

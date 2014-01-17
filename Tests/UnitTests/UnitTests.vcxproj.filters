@@ -91,6 +91,9 @@
     <ClInclude Include="Source\EventTests.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Source\AssetHandleTests.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

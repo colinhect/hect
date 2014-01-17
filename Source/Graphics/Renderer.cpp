@@ -448,12 +448,12 @@ void Renderer::uploadShader(Shader& shader)
     // Attach each shader to the program
     for (const AssetHandle<ShaderModule>& module : shader.modules())
     {
-        if (!module.get().isUploaded())
+        if (!module->isUploaded())
         {
-            uploadShaderModule(module.get());
+            uploadShaderModule(*module);
         }
 
-        auto moduleData = (ShaderModuleData*)module.get()._data;
+        auto moduleData = (ShaderModuleData*)module->_data;
         GL_ASSERT( glAttachShader(data->id, moduleData->id); )
     }
 
@@ -513,7 +513,7 @@ void Renderer::destroyShader(Shader& shader)
     // Detach all attached shaders.
     for (const AssetHandle<ShaderModule>& module : shader.modules())
     {
-        auto moduleData = (ShaderModuleData*)module.get()._data;
+        auto moduleData = (ShaderModuleData*)module->_data;
         GL_ASSERT( glDetachShader(data->id, moduleData->id); )
     }
 
@@ -677,25 +677,24 @@ void Renderer::uploadTexture(Texture& texture)
         GL_ASSERT( glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); )
     }
 
-    Image* image = texture._image.get();
-    assert(image); // The texture should always have an image at this point
+    Image& image = *texture._image;
 
     GL_ASSERT(
         glTexImage2D(
             GL_TEXTURE_2D,
             0,
-            _internalImageFormatLookUp[(int)image->colorSpace()][(int)image->pixelFormat()][(int)image->pixelType()],
-            image->width(),
-            image->height(),
+            _internalImageFormatLookUp[(int)image.colorSpace()][(int)image.pixelFormat()][(int)image.pixelType()],
+            image.width(),
+            image.height(),
             0,
-            _pixelFormatLookUp[(int)image->pixelFormat()],
-            _pixelTypeLookUp[(int)image->pixelType()],
-            &image->pixelData()[0]
+            _pixelFormatLookUp[(int)image.pixelFormat()],
+            _pixelTypeLookUp[(int)image.pixelType()],
+            &image.pixelData()[0]
         );
     )
 
     // The texture no longer needs the source image
-    texture._image = Image::Ref();
+    texture._image = AssetHandle<Image>();
 
     if (texture.isMipmapped())
     {

@@ -33,8 +33,8 @@ void MaterialDataValueFormat::load(Material& material, const std::string& name, 
     if (dataValue["base"].isString())
     {
         Path basePath = dataValue["base"].asString();
-        AssetHandle<Material> handle = assetCache.getHandle<Material>(basePath);
-        techniques = handle.get().techniques(); // Copy the base material techniques
+        Material& baseMaterial = assetCache.get<Material>(basePath);
+        techniques = baseMaterial.techniques(); // Copy the base material techniques
     }
 
     // Techniques
@@ -75,7 +75,7 @@ void MaterialDataValueFormat::load(Material& material, const std::string& name, 
             const DataValue& uniformValue = passValue["uniformValues"];
             for (const std::string& name : uniformValue.memberNames())
             {
-                const Uniform& uniform = shader.get().uniformWithName(name);
+                const Uniform& uniform = shader->uniformWithName(name);
                 UniformValue value = ShaderDataValueFormat::parseValue(uniform.type(), uniformValue[name]);
 
                 bool foundUniformValue = false;

@@ -26,7 +26,7 @@
 using namespace hect;
 
 Texture::Texture() :
-    _image(Image::Ref(new Image())),
+    _image(new Image()),
     _width(_image->width()),
     _height(_image->height()),
     _pixelType(_image->pixelType()),
@@ -40,7 +40,7 @@ Texture::Texture() :
 
 Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
     _name(name),
-    _image(Image::Ref(new Image(width, height, pixelType, pixelFormat))),
+    _image(new Image(width, height, pixelType, pixelFormat)),
     _width(width),
     _height(height),
     _pixelType(pixelType),
@@ -52,7 +52,7 @@ Texture::Texture(const std::string& name, unsigned width, unsigned height, Pixel
 {
 }
 
-Texture::Texture(const std::string& name, Image::Ref image) :
+Texture::Texture(const std::string& name, const AssetHandle<Image>& image) :
     _name(name),
     _image(image),
     _width(_image->width()),
@@ -80,9 +80,9 @@ Texture::Texture(const Texture& texture) :
 {
     if (texture.isUploaded())
     {
-        // Download the image for the source texture and copy to the heap as
-        // the source image for this texture
-        _image = Image::Ref(new Image(texture.renderer()->downloadTextureImage(texture)));
+        // Download the image for the source texture and copy it as the source
+        // image for this texture
+        _image = AssetHandle<Image>(new Image(texture.renderer()->downloadTextureImage(texture)));
     }
 }
 

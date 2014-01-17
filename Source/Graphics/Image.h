@@ -80,10 +80,6 @@ class Image
 public:
 
     ///
-    /// A shared reference to an image.
-    typedef std::shared_ptr<Image> Ref;
-
-    ///
     /// Raw pixel data.
     typedef std::vector<uint8_t> RawPixelData;
 

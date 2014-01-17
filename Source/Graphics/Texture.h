@@ -76,7 +76,7 @@ public:
     ///
     /// \param name The name.
     /// \param image The source image.
-    Texture(const std::string& name, Image::Ref image);
+    Texture(const std::string& name, const AssetHandle<Image>& image);
 
     ///
     /// Constructs a copy of another texture.
@@ -164,7 +164,7 @@ private:
     std::string _name;
 
     // A texture will only have an image if it hasn't been uploaded yet
-    Image::Ref _image;
+    AssetHandle<Image> _image;
 
     unsigned _width;
     unsigned _height;

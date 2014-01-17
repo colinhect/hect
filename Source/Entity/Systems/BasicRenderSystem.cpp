@@ -50,8 +50,8 @@ void BasicRenderSystem::renderAll(Camera& camera, RenderTarget& target)
         size_t surfaceCount = geometry.surfaceCount();
         for (size_t surfaceIndex = 0; surfaceIndex < surfaceCount; ++surfaceIndex)
         {
-            Mesh& mesh = geometry.meshes()[surfaceIndex].get();
-            Material& material = geometry.materials()[surfaceIndex].get();
+            Mesh& mesh = *geometry.meshes()[surfaceIndex];
+            Material& material = *geometry.materials()[surfaceIndex];
 
             // Render the mesh for each pass
             for (const Pass& pass : material.techniques()[0].passes())
@@ -74,7 +74,7 @@ void BasicRenderSystem::_renderMeshPass(const Camera& camera, const RenderTarget
     transform.buildMatrix(model);
 
     // Set uniforms with bindings
-    Shader& shader = pass.shader().get();
+    Shader& shader = *pass.shader();
     for (const Uniform& uniform : shader.uniforms())
     {
         if (uniform.hasBinding())

@@ -25,8 +25,13 @@ namespace hect
 {
 
 template <typename T>
-AssetHandle<T>::AssetHandle() :
-    _entry(nullptr)
+AssetHandle<T>::AssetHandle()
+{
+}
+
+template <typename T>
+AssetHandle<T>::AssetHandle(T* asset) :
+    _asset(asset)
 {
 }
 
@@ -37,29 +42,56 @@ AssetHandle<T>::AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry) :
 }
 
 template <typename T>
-T& AssetHandle<T>::get() const
+const Path& AssetHandle<T>::path() const
 {
-    return *getShared();
+    static Path emptyPath;
+    if (_entry)
+    {
+        return _entry->path();
+    }
+    
+    return emptyPath;
 }
 
 template <typename T>
-std::shared_ptr<T> AssetHandle<T>::getShared() const
+AssetHandle<T>::operator bool() const
+{
+    return _entry || _asset;
+}
+
+template <typename T>
+T& AssetHandle<T>::operator*() const
 {
     if (_entry)
     {
-        return _entry->get();
+        return *_entry->get();
     }
-    return std::shared_ptr<T>();
+    else if (_asset)
+    {
+        return *_asset;
+    }
+
+    throw Error("Asset handle does not have an entry or asset");
 }
 
 template <typename T>
-const Path& AssetHandle<T>::path() const
+T* AssetHandle<T>::operator->() const
 {
-    if (!_entry)
+    return &**this;
+}
+
+template <typename T>
+bool AssetHandle<T>::operator==(const AssetHandle<T>& handle) const
+{
+    if (_entry)
     {
-        throw Error("Asset entry is null");
+        return _entry == handle._entry;
     }
-    return _entry->path();
+    else (_asset)
+    {
+        return _asset == handle._asset;
+    }
+    return false;
 }
 
 }

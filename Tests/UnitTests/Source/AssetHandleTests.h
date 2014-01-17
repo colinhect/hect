@@ -21,59 +21,62 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <UnitTest++.h>
+#pragma once
 
-#include <Hect.h>
-
-#ifdef HECT_WINDOWS
-#ifdef HECT_DEBUG
-#include <vld.h>
-#endif
-#endif
-
-using namespace hect;
-
-const double epsilon = 0.0001;
-
-#include "AngleTests.h"
-#include "AnyTests.h"
-#include "AssetCacheTests.h"
-#include "AssetHandleTests.h"
-#include "DataValueJsonFormatTests.h"
-#include "DataReaderWriterTests.h"
-#include "DataValueTests.h"
-#include "EntityTests.h"
-#include "EventTests.h"
-#include "FileSystemTests.h"
-#include "FormatTests.h"
-#include "FrustumTests.h"
-#include "MaterialDataFormatTests.h"
-#include "Matrix4Tests.h"
-#include "MemoryStreamTests.h"
-#include "MeshDataFormatTests.h"
-#include "MeshTests.h"
-#include "MeshWriterTests.h"
-#include "MeshReaderTests.h"
-#include "NetworkTests.h"
-#include "PathTests.h"
-#include "PlaneTests.h"
-#include "QuaternionTests.h"
-#include "SceneTests.h"
-#include "TaskPoolTests.h"
-#include "TimeSpanTests.h"
-#include "Vector2Tests.h"
-#include "Vector3Tests.h"
-#include "Vector4Tests.h"
-#include "VertexAttributeTests.h"
-#include "VertexLayoutTests.h"
-
-int main()
+class Asset
 {
-    int failed = UnitTest::RunAllTests();
-    if (failed)
+public:
+    Asset() : value(-1) { }
+    Asset(int value) : value(value) { }
+
+    int value;
+};
+
+namespace hect
+{
+    void AssetLoader<Asset>::load(Asset& asset, const Path& assetPath, AssetCache& assetCache)
     {
-        Window::showFatalError(format("%d failures.", failed));
+    }
+}
+
+SUITE(AssetHandle)
+{
+    TEST(ConstructAndDereference)
+    {
+        Asset* a = new Asset(123);
+        AssetHandle<Asset> b(a);
+        
+        CHECK_EQUAL(a, &*b);
+        CHECK_EQUAL(123, b->value);
     }
 
-    return failed;
+    TEST(BoolOperator)
+    {
+        AssetHandle<Asset> a(new Asset(123));
+        AssetHandle<Asset> b;
+        
+        CHECK(a);
+        CHECK(!b);
+    }
+    
+    TEST(CopyConstructor)
+    {
+        AssetHandle<Asset> a(new Asset(123));
+        AssetHandle<Asset> b(a);
+        
+        CHECK_EQUAL(&*a, &*b);
+    }
+
+    TEST(AssignmentOperator)
+    {
+        AssetHandle<Asset> a(new Asset(123));
+
+        {
+            AssetHandle<Asset> b;
+            b = a;
+            CHECK_EQUAL(&*a, &*b);
+        }
+        
+        CHECK(a);
+    }
 }

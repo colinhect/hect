@@ -38,7 +38,7 @@ SUITE(MaterialDataFormat)
 
         const Pass& pass = base.techniques()[0].passes()[0];
 
-        CHECK_EQUAL(&window, &pass.shader().get());
+        CHECK_EQUAL(&window, &*pass.shader());
 
         const RenderMode& renderMode = pass.renderMode();
         CHECK(renderMode.isStateEnabled(RenderState::Blend));
@@ -64,7 +64,7 @@ SUITE(MaterialDataFormat)
         const Pass& basePass = base.techniques()[0].passes()[0];
         const Pass& pass = test.techniques()[0].passes()[0];
 
-        CHECK_EQUAL(&basePass.shader().get(), &pass.shader().get());
+        CHECK_EQUAL(&*basePass.shader(), &*pass.shader());
 
         const RenderMode& renderMode = pass.renderMode();
         CHECK(!renderMode.isStateEnabled(RenderState::Blend));

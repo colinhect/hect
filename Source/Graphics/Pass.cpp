@@ -43,12 +43,12 @@ void Pass::prepare(Renderer& renderer) const
     unsigned textureIndex = 0;
     for (const AssetHandle<Texture>& texture : _textures)
     {
-        renderer.bindTexture(texture.get(), textureIndex);
+        renderer.bindTexture(*texture, textureIndex);
         ++textureIndex;
     }
 
     // Bind the shader
-    renderer.bindShader(_shader.get());
+    renderer.bindShader(*_shader);
 
     // Set the uniform values
     for (auto& pair : _resolvedUniformValues)
@@ -90,7 +90,7 @@ void Pass::_resolvePassUniformValues()
     // invalidated if the shader changes)
     for (const PassUniformValue& uniformValue : _uniformValues)
     {
-        const Uniform& uniform = _shader.get().uniformWithName(uniformValue.uniformName());
+        const Uniform& uniform = _shader->uniformWithName(uniformValue.uniformName());
         _resolvedUniformValues[&uniform] = uniformValue.value();
     }
 }
