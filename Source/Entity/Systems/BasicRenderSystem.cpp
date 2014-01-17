@@ -84,31 +84,31 @@ void BasicRenderSystem::_renderMeshPass(const Camera& camera, const RenderTarget
             switch (binding)
             {
             case UniformBinding::RenderTargetSize:
-                _renderer->setUniform(uniform, Vector2<float>((float)target.width(), (float)target.height()));
+                _renderer->setUniform(uniform, Vector2<>(target.width(), target.height()));
                 break;
             case UniformBinding::CameraPosition:
-                _renderer->setUniform(uniform, (Vector3<float>)camera.position());
+                _renderer->setUniform(uniform, camera.position());
                 break;
             case UniformBinding::CameraUp:
-                _renderer->setUniform(uniform, (Vector3<float>)camera.up());
+                _renderer->setUniform(uniform, camera.up());
                 break;
             case UniformBinding::ViewMatrix:
-                _renderer->setUniform(uniform, (Matrix4<float>)camera.viewMatrix());
+                _renderer->setUniform(uniform, camera.viewMatrix());
                 break;
             case UniformBinding::ProjectionMatrix:
-                _renderer->setUniform(uniform, (Matrix4<float>)camera.projectionMatrix());
+                _renderer->setUniform(uniform, camera.projectionMatrix());
                 break;
             case UniformBinding::ViewProjectionMatrix:
-                _renderer->setUniform(uniform, (Matrix4<float>)(camera.projectionMatrix() * camera.viewMatrix()));
+                _renderer->setUniform(uniform, camera.projectionMatrix() * camera.viewMatrix());
                 break;
             case UniformBinding::ModelMatrix:
-                _renderer->setUniform(uniform, (Matrix4<float>)model);
+                _renderer->setUniform(uniform, model);
                 break;
             case UniformBinding::ModelViewMatrix:
-                _renderer->setUniform(uniform, (Matrix4<float>)(camera.viewMatrix() * model));
+                _renderer->setUniform(uniform, camera.viewMatrix() * model);
                 break;
             case UniformBinding::ModelViewProjectionMatrix:
-                _renderer->setUniform(uniform, (Matrix4<float>)(camera.projectionMatrix() * (camera.viewMatrix() * model)));
+                _renderer->setUniform(uniform, camera.projectionMatrix() * (camera.viewMatrix() * model));
                 break;
             }
         }

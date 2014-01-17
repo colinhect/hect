@@ -36,6 +36,9 @@ namespace hect
 {
     void AssetLoader<Asset>::load(Asset& asset, const Path& assetPath, AssetCache& assetCache)
     {
+        asset;
+        assetPath;
+        assetCache;
     }
 }
 

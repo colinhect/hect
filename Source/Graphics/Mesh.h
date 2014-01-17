@@ -138,11 +138,11 @@ public:
 
     ///
     /// Returns the bounding box.
-    AxisAlignedBox<float>& boundingBox();
+    AxisAlignedBox<>& boundingBox();
 
     ///
     /// Returns the bounding box.
-    const AxisAlignedBox<float>& boundingBox() const;
+    const AxisAlignedBox<>& boundingBox() const;
 
 private:
     std::string _name;
@@ -157,7 +157,7 @@ private:
     size_t _vertexCount;
     size_t _indexCount;
 
-    AxisAlignedBox<float> _boundingBox;
+    AxisAlignedBox<> _boundingBox;
 };
 
 }

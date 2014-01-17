@@ -46,31 +46,31 @@ UniformValue::UniformValue(int value, UniformType type) :
     setValue(value);
 }
 
-UniformValue::UniformValue(float value) :
+UniformValue::UniformValue(double value) :
     _type(UniformType::Float)
 {
     setValue(value);
 }
 
-UniformValue::UniformValue(const Vector2<float>& value) :
+UniformValue::UniformValue(const Vector2<>& value) :
     _type(UniformType::Vector2)
 {
     setValue(value);
 }
 
-UniformValue::UniformValue(const Vector3<float>& value) :
+UniformValue::UniformValue(const Vector3<>& value) :
     _type(UniformType::Vector3)
 {
     setValue(value);
 }
 
-UniformValue::UniformValue(const Vector4<float>& value) :
+UniformValue::UniformValue(const Vector4<>& value) :
     _type(UniformType::Vector4)
 {
     setValue(value);
 }
 
-UniformValue::UniformValue(const Matrix4<float>& value) :
+UniformValue::UniformValue(const Matrix4<>& value) :
     _type(UniformType::Matrix4)
 {
     setValue(value);
@@ -96,52 +96,61 @@ void UniformValue::setValue(int value)
     _value.intValue = value;
 }
 
-void UniformValue::setValue(float value)
+void UniformValue::setValue(double value)
 {
     if (_type != UniformType::Float)
     {
         throw Error("Shader value is not of type 'Float'");
     }
 
-    _value.floatValues[0] = value;
+    _value.floatValues[0] = (float)value;
 }
 
-void UniformValue::setValue(const Vector2<float>& value)
+void UniformValue::setValue(const Vector2<>& value)
 {
     if (_type != UniformType::Vector2)
     {
         throw Error("Shader value is not of type 'Vector2'");
     }
-
-    *(hect::Vector2<float>*)&_value = value;
+    
+    _value.floatValues[0] = (float)value.x;
+    _value.floatValues[1] = (float)value.y;
 }
 
-void UniformValue::setValue(const Vector3<float>& value)
+void UniformValue::setValue(const Vector3<>& value)
 {
     if (_type != UniformType::Vector3)
     {
         throw Error("Shader value is not of type 'Vector3'");
     }
-
-    *(hect::Vector3<float>*)&_value = value;
+    
+    _value.floatValues[0] = (float)value.x;
+    _value.floatValues[1] = (float)value.y;
+    _value.floatValues[2] = (float)value.z;
 }
 
-void UniformValue::setValue(const Vector4<float>& value)
+void UniformValue::setValue(const Vector4<>& value)
 {
     if (_type != UniformType::Vector4)
     {
         throw Error("Shader value is not of type 'Vector4'");
     }
-
-    *(hect::Vector4<float>*)&_value = value;
+    
+    _value.floatValues[0] = (float)value.x;
+    _value.floatValues[1] = (float)value.y;
+    _value.floatValues[2] = (float)value.z;
+    _value.floatValues[3] = (float)value.w;
 }
 
-void UniformValue::setValue(const Matrix4<float>& value)
+void UniformValue::setValue(const Matrix4<>& value)
 {
     if (_type != UniformType::Matrix4)
     {
         throw Error("Shader value is not of type 'Matrix4'");
     }
 
-    *(hect::Matrix4<float>*)&_value = value;
+    for (int i = 0; i < 16; ++i)
+    {
+        _value.floatValues[i] = (float)value[i];
+    }
 }

@@ -64,7 +64,7 @@ SUITE(MeshWriter)
         Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<float>(1.0f, 2.0f, 3.0f));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<>(1.0, 2.0, 3.0));
 
         CHECK_EQUAL(1u, mesh.vertexCount());
         CHECK_EQUAL(0u, mesh.indexCount());
@@ -83,7 +83,7 @@ SUITE(MeshWriter)
         Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector4<float>(1.0f, 2.0f, 3.0f, 4.0f));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector4<>(1.0, 2.0, 3.0, 4.0));
 
         CHECK_EQUAL(1u, mesh.vertexCount());
         CHECK_EQUAL(0u, mesh.indexCount());
@@ -102,7 +102,7 @@ SUITE(MeshWriter)
         Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector2<float>(1.0f, 2.0f));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector2<>(1.0, 2.0));
 
         CHECK_EQUAL(1u, mesh.vertexCount());
         CHECK_EQUAL(0u, mesh.indexCount());
@@ -121,14 +121,14 @@ SUITE(MeshWriter)
         Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<float>(1.0f, 2.0f, 3.0f));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3<float>(-1.0f, -2.0f, -3.0f));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<>(1.0, 2.0, 3.0));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3<>(-1.0, -2.0, -3.0));
         meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<float>(4.0f, 5.0f, 6.0f));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3<float>(-4.0f, -5.0f, -6.0f));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<>(4.0, 5.0, 6.0));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3<>(-4.0, -5.0, -6.0));
         meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<float>(7.0f, 8.0f, 9.0f));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3<float>(-7.0f, -8.0f, -9.0f));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3<>(7.0, 8.0, 9.0));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3<>(-7.0, -8.0, -9.0));
 
         meshWriter.addIndex(0);
         meshWriter.addIndex(1);

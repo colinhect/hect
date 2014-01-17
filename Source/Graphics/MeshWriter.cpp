@@ -53,38 +53,26 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, float valu
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector2<float>& value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector2<>& value)
 {
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
     {
-        VertexAttributeType type = attribute->type();
         unsigned cardinality = attribute->cardinality();
 
-        // If the type matches and the cardinality is large enough then set it
-        // all components at the same time
-        if (type == VertexAttributeType::Float && cardinality >= 2)
+        if (cardinality > 0)
         {
-            _writeAttributeData(*attribute, value);
+            _setComponentValue(attribute, 0, (float)value.x);
         }
 
-        // Otherwise set each component individually
-        else
+        if (cardinality > 1)
         {
-            if (cardinality > 0)
-            {
-                _setComponentValue(attribute, 0, value.x);
-            }
-
-            if (cardinality > 1)
-            {
-                _setComponentValue(attribute, 1, value.y);
-            }
+            _setComponentValue(attribute, 1, (float)value.y);
         }
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector3<float>& value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector3<>& value)
 {
     // If this data is a position then expand the bounding box to include it
     if (semantic == VertexAttributeSemantic::Position)
@@ -95,74 +83,50 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
     {
-        VertexAttributeType type = attribute->type();
         unsigned cardinality = attribute->cardinality();
 
-        // If the type matches and the cardinality is large enough then set it
-        // all components at the same time
-        if (type == VertexAttributeType::Float && cardinality >= 3)
+        if (cardinality > 0)
         {
-            _writeAttributeData(*attribute, value);
+            _setComponentValue(attribute, 0, (float)value.x);
         }
 
-        // Otherwise set each component individually
-        else
+        if (cardinality > 1)
         {
-            if (cardinality > 0)
-            {
-                _setComponentValue(attribute, 0, value.x);
-            }
+            _setComponentValue(attribute, 1, (float)value.y);
+        }
 
-            if (cardinality > 1)
-            {
-                _setComponentValue(attribute, 1, value.y);
-            }
-
-            if (cardinality > 2)
-            {
-                _setComponentValue(attribute, 2, value.z);
-            }
+        if (cardinality > 2)
+        {
+            _setComponentValue(attribute, 2, (float)value.z);
         }
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector4<float>& value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector4<>& value)
 {
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
     {
-        VertexAttributeType type = attribute->type();
         unsigned cardinality = attribute->cardinality();
 
-        // If the type matches and the cardinality is large enough then set it
-        // all components at the same time
-        if (type == VertexAttributeType::Float && cardinality >= 4)
+        if (cardinality > 0)
         {
-            _writeAttributeData(*attribute, value);
+            _setComponentValue(attribute, 0, (float)value.x);
         }
 
-        // Otherwise set each component individually
-        else
+        if (cardinality > 1)
         {
-            if (cardinality > 0)
-            {
-                _setComponentValue(attribute, 0, value.x);
-            }
+            _setComponentValue(attribute, 1, (float)value.y);
+        }
 
-            if (cardinality > 1)
-            {
-                _setComponentValue(attribute, 1, value.y);
-            }
+        if (cardinality > 2)
+        {
+            _setComponentValue(attribute, 2, (float)value.z);
+        }
 
-            if (cardinality > 2)
-            {
-                _setComponentValue(attribute, 2, value.z);
-            }
-
-            if (cardinality > 3)
-            {
-                _setComponentValue(attribute, 3, value.w);
-            }
+        if (cardinality > 3)
+        {
+            _setComponentValue(attribute, 3, (float)value.w);
         }
     }
 }

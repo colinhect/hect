@@ -59,7 +59,7 @@ public:
     ///
     /// \param semantic The semantic of the attribute to set the data for.
     /// \param value The value.
-    void writeAttributeData(VertexAttributeSemantic semantic, const Vector2<float>& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, const Vector2<>& value);
 
     ///
     /// Writes attribute data of the most recently added vertex for a given
@@ -67,7 +67,7 @@ public:
     ///
     /// \param semantic The semantic of the attribute to set the data for.
     /// \param value The value.
-    void writeAttributeData(VertexAttributeSemantic semantic, const Vector3<float>& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, const Vector3<>& value);
 
     ///
     /// Writes attribute data of the most recently added vertex for a given
@@ -75,7 +75,7 @@ public:
     ///
     /// \param semantic The semantic of the attribute to set the data for.
     /// \param value The value.
-    void writeAttributeData(VertexAttributeSemantic semantic, const Vector4<float>& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, const Vector4<>& value);
 
     ///
     /// Adds an index to the mesh.

@@ -60,126 +60,90 @@ float MeshReader::readAttributeFloat(VertexAttributeSemantic semantic) const
     return value;
 }
 
-Vector2<float> MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
+Vector2<> MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
-    Vector2<float> value;
+    Vector2<> value;
 
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
     {
-        VertexAttributeType type = attribute->type();
         unsigned cardinality = attribute->cardinality();
 
-        // If the type matches and the cardinality is large enough then read
-        // all components at the same time
-        if (type == VertexAttributeType::Float && cardinality >= 2)
+        if (cardinality > 0)
         {
-            value = _readAttributeData<Vector2<float>>(*attribute);
+            value.x = _readComponentValue(attribute, 0);
         }
 
-        // Otherwise set each component individually
-        else
+        if (cardinality > 1)
         {
-            if (cardinality > 0)
-            {
-                value.x = _readComponentValue(attribute, 0);
-            }
-
-            if (cardinality > 1)
-            {
-                value.y = _readComponentValue(attribute, 1);
-            }
+            value.y = _readComponentValue(attribute, 1);
         }
     }
 
     return value;
 }
 
-Vector3<float> MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
+Vector3<> MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
-    Vector3<float> value;
+    Vector3<> value;
 
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
     {
-        VertexAttributeType type = attribute->type();
         unsigned cardinality = attribute->cardinality();
 
-        // If the type matches and the cardinality is large enough then read
-        // all components at the same time
-        if (type == VertexAttributeType::Float && cardinality >= 3)
+        if (cardinality > 0)
         {
-            value = _readAttributeData<Vector3<float>>(*attribute);
+            value.x = _readComponentValue(attribute, 0);
         }
 
-        // Otherwise set each component individually
-        else
+        if (cardinality > 1)
         {
-            if (cardinality > 0)
-            {
-                value.x = _readComponentValue(attribute, 0);
-            }
+            value.y = _readComponentValue(attribute, 1);
+        }
 
-            if (cardinality > 1)
-            {
-                value.y = _readComponentValue(attribute, 1);
-            }
-
-            if (cardinality > 2)
-            {
-                value.z = _readComponentValue(attribute, 2);
-            }
+        if (cardinality > 2)
+        {
+            value.z = _readComponentValue(attribute, 2);
         }
     }
 
     return value;
 }
 
-Vector4<float> MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
+Vector4<> MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
-    Vector4<float> value;
+    Vector4<> value;
 
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
     {
-        VertexAttributeType type = attribute->type();
         unsigned cardinality = attribute->cardinality();
 
-        // If the type matches and the cardinality is large enough then read
-        // all components at the same time
-        if (type == VertexAttributeType::Float && cardinality >= 4)
+        if (cardinality > 0)
         {
-            value = _readAttributeData<Vector4<float>>(*attribute);
+            value.x = _readComponentValue(attribute, 0);
         }
 
-        // Otherwise set each component individually
-        else
+        if (cardinality > 1)
         {
-            if (cardinality > 0)
-            {
-                value.x = _readComponentValue(attribute, 0);
-            }
+            value.y = _readComponentValue(attribute, 1);
+        }
 
-            if (cardinality > 1)
-            {
-                value.y = _readComponentValue(attribute, 1);
-            }
+        if (cardinality > 2)
+        {
+            value.z = _readComponentValue(attribute, 2);
+        }
 
-            if (cardinality > 2)
-            {
-                value.z = _readComponentValue(attribute, 2);
-            }
-
-            if (cardinality > 3)
-            {
-                value.w = _readComponentValue(attribute, 3);
-            }
+        if (cardinality > 3)
+        {
+            value.w = _readComponentValue(attribute, 3);
         }
     }
 

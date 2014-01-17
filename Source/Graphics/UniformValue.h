@@ -86,34 +86,34 @@ public:
     UniformValue(int value, UniformType type);
 
     ///
-    /// Constructs a float uniform value.
+    /// Constructs a floating-point uniform value.
     ///
     /// \param value The value.
-    UniformValue(float value);
+    UniformValue(double value);
 
     ///
     /// Constructs a 2-dimensional vector uniform value.
     ///
     /// \param value The value.
-    UniformValue(const Vector2<float>& value);
+    UniformValue(const Vector2<>& value);
 
     ///
     /// Constructs a 3-dimensional vector uniform value.
     ///
     /// \param value The value.
-    UniformValue(const Vector3<float>& value);
+    UniformValue(const Vector3<>& value);
 
     ///
     /// Constructs a 4-dimensional vector uniform value.
     ///
     /// \param value The value.
-    UniformValue(const Vector4<float>& value);
+    UniformValue(const Vector4<>& value);
 
     ///
     /// Constructs a 4 by 4 matrix uniform value.
     ///
     /// \param value The value.
-    UniformValue(const hect::Matrix4<float>& value);
+    UniformValue(const hect::Matrix4<>& value);
 
     ///
     /// Returns the type.
@@ -132,12 +132,12 @@ public:
     void setValue(int value);
 
     ///
-    /// Sets the value of the uniform value as a float.
+    /// Sets the value of the uniform value as a floating-point number.
     ///
     /// \param value The value.
     ///
     /// \throws Error If the uniform value is not a float.
-    void setValue(float value);
+    void setValue(double value);
 
     ///
     /// Sets the value of the uniform value as a 2-dimensional vector.
@@ -145,7 +145,7 @@ public:
     /// \param value The value.
     ///
     /// \throws Error If the uniform value is not a 2-dimensional vector.
-    void setValue(const Vector2<float>& value);
+    void setValue(const Vector2<>& value);
 
     ///
     /// Sets the value of the uniform value as a 3-dimensional vector.
@@ -153,7 +153,7 @@ public:
     /// \param value The value.
     ///
     /// \throws Error If the uniform value is not a 3-dimensional vector.
-    void setValue(const Vector3<float>& value);
+    void setValue(const Vector3<>& value);
 
     ///
     /// Sets the value of the uniform value as a 4-dimensional vector.
@@ -161,7 +161,7 @@ public:
     /// \param value The value.
     ///
     /// \throws Error If the uniform value is not a 4-dimensional vector.
-    void setValue(const Vector4<float>& value);
+    void setValue(const Vector4<>& value);
 
     ///
     /// Sets the value of the uniform value as a 4 by 4 matrix.
@@ -169,7 +169,7 @@ public:
     /// \param value The value.
     ///
     /// \throws Error If the uniform value is not a 4 by 4 matrix.
-    void setValue(const Matrix4<float>& value);
+    void setValue(const Matrix4<>& value);
 
 private:
     UniformType _type;
