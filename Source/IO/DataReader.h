@@ -23,6 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <stack>
+
+#include "Core/DataValue.h"
+#include "Math/Vector2.h"
+#include "Math/Vector3.h"
+#include "Math/Vector4.h"
+
 namespace hect
 {
 

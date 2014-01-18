@@ -617,6 +617,15 @@
     <ClInclude Include="Source\Entity\Systems\BasicRenderSystem.h">
       <Filter>Source\Entity\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Configuration.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Real.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\Constants.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Asset\AssetCache.inl">

@@ -23,6 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Math/AxisAlignedBox.h"
+#include "Math/Plane.h"
+#include "Math/Sphere.h"
+#include "Math/Vector3.h"
+
 namespace hect
 {
 

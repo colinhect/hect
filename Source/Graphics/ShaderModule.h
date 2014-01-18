@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <string>
+
+#include "Graphics/RendererObject.h"
+
 namespace hect
 {
 

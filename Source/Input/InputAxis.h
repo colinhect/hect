@@ -23,6 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <vector>
+
+#include "Core/Real.h"
+#include "Input/Keyboard.h"
+#include "Input/Mouse.h"
+
 namespace hect
 {
 

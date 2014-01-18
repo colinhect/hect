@@ -23,6 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Real.h"
+#include "Math/Angle.h"
+#include "Math/Vector3.h"
+#include "Math/Vector4.h"
+
 namespace hect
 {
 

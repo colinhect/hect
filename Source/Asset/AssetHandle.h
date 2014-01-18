@@ -23,6 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <memory>
+#include <vector>
+
+#include "Asset/AssetEntry.h"
+#include "IO/Path.h"
+
 namespace hect
 {
 

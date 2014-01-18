@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Entity/Component.h"
+#include "Entity/ComponentSerializer.h"
+#include "Graphics/Mesh.h"
+
 // Forward declare Bullet classes
 class btRigidBody;
 class btMotionState;

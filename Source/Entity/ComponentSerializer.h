@@ -23,6 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Configuration.h"
+#include "Asset/AssetCache.h"
+#include "Entity/Component.h"
+#include "IO/DataReader.h"
+#include "IO/DataWriter.h"
+
 namespace hect
 {
 

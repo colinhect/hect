@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Entity/Component.h"
+#include "Entity/ComponentSerializer.h"
+#include "Math/Frustum.h"
+
 namespace hect
 {
 

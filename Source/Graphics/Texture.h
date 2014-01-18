@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Asset/AssetHandle.h"
+#include "Graphics/Image.h"
+#include "Graphics/RendererObject.h"
+
 namespace hect
 {
 

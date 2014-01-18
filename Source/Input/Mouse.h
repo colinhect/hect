@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Dispatcher.h"
+#include "Math/Vector2.h"
+
 namespace hect
 {
 

@@ -39,28 +39,8 @@
 #include <thread>
 #include <cstdint>
 
-#ifdef _MSC_VER
-
-// Some template tricks in ComponentSerializer causes this warning
-#pragma warning(disable:4505)
-
-#define HECT_WINDOWS
-#ifdef _DEBUG
-#define HECT_DEBUG
-#endif
-#endif
-
-typedef double Real;
-
-namespace hect
-{
-
-///
-/// An approximation of Pi.
-const Real pi = 3.14159265358979323846;
-
-}
-
+#include "Core/Configuration.h"
+#include "Core/Real.h"
 #include "Core/Format.h"
 #include "Core/Logging.h"
 #include "Core/Error.h"
@@ -74,6 +54,7 @@ const Real pi = 3.14159265358979323846;
 #include "Core/Listener.h"
 #include "Core/Dispatcher.h"
 
+#include "Math/Constants.h"
 #include "Math/Angle.h"
 #include "Math/Vector2.h"
 #include "Math/Vector3.h"

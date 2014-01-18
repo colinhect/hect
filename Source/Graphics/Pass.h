@@ -23,6 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <map>
+
+#include "Asset/AssetHandle.h"
+#include "Graphics/PassUniformValue.h"
+#include "Graphics/RenderMode.h"
+#include "Graphics/Shader.h"
+#include "Graphics/Texture.h"
+
 namespace hect
 {
 

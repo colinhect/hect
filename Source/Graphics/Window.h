@@ -23,6 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <string>
+
+#include "Core/Uncopyable.h"
+#include "Graphics/RenderTarget.h"
+#include "Graphics/VideoMode.h"
+#include "Math/Vector2.h"
+
 namespace hect
 {
 

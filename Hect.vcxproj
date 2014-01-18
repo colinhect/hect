@@ -111,6 +111,7 @@
     <ClInclude Include="Source\Asset\AssetHandle.h" />
     <ClInclude Include="Source\Asset\AssetLoader.h" />
     <ClInclude Include="Source\Core\Any.h" />
+    <ClInclude Include="Source\Core\Configuration.h" />
     <ClInclude Include="Source\Core\DataValueJsonFormat.h" />
     <ClInclude Include="Source\Core\DataValue.h" />
     <ClInclude Include="Source\Core\Error.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="Source\Core\Memory.h" />
     <ClInclude Include="Source\Core\Listener.h" />
     <ClInclude Include="Source\Core\Dispatcher.h" />
+    <ClInclude Include="Source\Core\Real.h" />
     <ClInclude Include="Source\Core\TaskPool.h" />
     <ClInclude Include="Source\Core\Timer.h" />
     <ClInclude Include="Source\Core\TimeSpan.h" />
@@ -191,6 +193,7 @@
     <ClInclude Include="Source\Math\Angle.h" />
     <ClInclude Include="Source\Math\AxisAlignedBox.h" />
     <ClInclude Include="Source\Math\Box.h" />
+    <ClInclude Include="Source\Math\Constants.h" />
     <ClInclude Include="Source\Math\Frustum.h" />
     <ClInclude Include="Source\Math\Matrix4.h" />
     <ClInclude Include="Source\Math\Plane.h" />

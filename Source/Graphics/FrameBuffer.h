@@ -23,8 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Graphics/RenderTarget.h"
+#include "Graphics/Texture.h"
+
 namespace hect
 {
+
+class Renderer;
 
 ///
 /// A buffer on the GPU that can be rendered to.

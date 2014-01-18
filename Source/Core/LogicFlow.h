@@ -23,6 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <vector>
+
+#include "Core/Uncopyable.h"
+#include "Core/Timer.h"
+#include "Core/TimeSpan.h"
+#include "Core/LogicLayer.h"
+
 namespace hect
 {
 

@@ -23,6 +23,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <atomic>
+#include <condition_variable>
+#include <functional>
+#include <mutex>
+#include <memory>
+#include <queue>
+#include <thread>
+#include <vector>
+
+#include "Core/Uncopyable.h"
+#include "Core/Error.h"
+
 namespace hect
 {
 

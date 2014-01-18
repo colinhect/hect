@@ -23,17 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
+#include "Core/Real.h"
 
 namespace hect
 {
 
 ///
-/// Performs printf-style formating on a string with arguments.
-///
-/// \param fmt The format string.
-///
-/// \returns The formated string.
-std::string format(const char* fmt, ...);
+/// An approximation of Pi.
+const Real pi = 3.14159265358979323846;
 
 }

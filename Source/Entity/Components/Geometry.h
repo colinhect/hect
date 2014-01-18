@@ -23,6 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Entity/Component.h"
+#include "Entity/ComponentSerializer.h"
+#include "Graphics/Material.h"
+#include "Graphics/Mesh.h"
+
 namespace hect
 {
 

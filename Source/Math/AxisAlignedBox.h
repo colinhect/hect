@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Math/AxisAlignedBox.h"
+#include "Math/Vector3.h"
+
 namespace hect
 {
 

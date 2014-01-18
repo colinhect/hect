@@ -23,6 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <map>
+
+#include "Core/Uncopyable.h"
+#include "Asset/AssetHandle.h"
+#include "IO/Path.h"
+#include "IO/FileSystem.h"
+
 namespace hect
 {
 

@@ -23,6 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <map>
+
+#include "Core/Listener.h"
+#include "Input/InputAxis.h"
+#include "Input/Mouse.h"
+#include "Input/Keyboard.h"
+
 namespace hect
 {
 

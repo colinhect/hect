@@ -23,6 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <cstdint>
+
+#include "Graphics/RendererObject.h"
+#include "Graphics/VertexLayout.h"
+#include "Math/AxisAlignedBox.h"
+
 namespace hect
 {
 

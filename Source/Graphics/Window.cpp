@@ -21,7 +21,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "Window.h"
+
+#include "Core/Configuration.h"
+#include "Graphics/Renderer.h"
+#include "Input/InputSystem.h"
+#include "Input/Mouse.h"
+#include "Input/Keyboard.h"
 
 using namespace hect;
 

@@ -23,17 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
+#ifdef _MSC_VER
 
-namespace hect
-{
+// Some template tricks in ComponentSerializer causes this warning
+#pragma warning(disable:4505)
 
-///
-/// Performs printf-style formating on a string with arguments.
-///
-/// \param fmt The format string.
-///
-/// \returns The formated string.
-std::string format(const char* fmt, ...);
-
-}
+#define HECT_WINDOWS
+#ifdef _DEBUG
+#define HECT_DEBUG
+#endif
+#endif

@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <vector>
+
+#include "Graphics/UniformValue.h"
+
 namespace hect
 {
 

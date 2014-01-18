@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Uncopyable.h"
+#include "IO/WriteStream.h"
+
 namespace hect
 {
 

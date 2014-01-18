@@ -21,11 +21,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "Logging.h"
+
+#include "Core/Configuration.h"
 
 #ifdef HECT_WINDOWS
 #include <Windows.h>
 #endif
+
+#include <iostream>
 
 namespace hect
 {
