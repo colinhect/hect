@@ -91,8 +91,8 @@
     <ClCompile Include="Source\Internal\Bullet.cpp" />
     <ClCompile Include="Source\IO\DataReader.cpp" />
     <ClCompile Include="Source\IO\DataWriter.cpp" />
-    <ClCompile Include="Source\IO\Decoder.cpp" />
-    <ClCompile Include="Source\IO\Encoder.cpp" />
+    <ClCompile Include="Source\IO\Deserializer.cpp" />
+    <ClCompile Include="Source\IO\Serializer.cpp" />
     <ClCompile Include="Source\IO\FileReadStream.cpp" />
     <ClCompile Include="Source\IO\FileWriteStream.cpp" />
     <ClCompile Include="Source\IO\MemoryReadStream.cpp" />
@@ -184,8 +184,8 @@
     <ClInclude Include="Source\Internal\Bullet.h" />
     <ClInclude Include="Source\IO\DataReader.h" />
     <ClInclude Include="Source\IO\DataWriter.h" />
-    <ClInclude Include="Source\IO\Decoder.h" />
-    <ClInclude Include="Source\IO\Encoder.h" />
+    <ClInclude Include="Source\IO\Deserializer.h" />
+    <ClInclude Include="Source\IO\Serializer.h" />
     <ClInclude Include="Source\IO\FileReadStream.h" />
     <ClInclude Include="Source\IO\FileWriteStream.h" />
     <ClInclude Include="Source\IO\MemoryReadStream.h" />

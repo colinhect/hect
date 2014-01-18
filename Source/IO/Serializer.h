@@ -33,89 +33,89 @@ namespace hect
 
     ///
     /// Provides access for encoding an array.
-    class ArrayEncoder
+    class ArraySerializer
     {
-        friend class Encoder;
-        friend class DataValueEncoder;
+        friend class Serializer;
+        friend class DataValueSerializer;
 
-        friend class ObjectEncoder;
+        friend class ObjectSerializer;
     public:
-        ArrayEncoder(const ArrayEncoder& encoder);
-        ArrayEncoder(ArrayEncoder&& encoder);
-        ~ArrayEncoder();
+        ArraySerializer(const ArraySerializer& serializer);
+        ArraySerializer(ArraySerializer&& serializer);
+        ~ArraySerializer();
 
         ///
-        /// Encodes a string.
+        /// Serializes a string.
         ///
-        /// \param value The value to encode.
-        void encodeString(const std::string& value);
+        /// \param value The value to serialize.
+        void writeString(const std::string& value);
 
         ///
-        /// Encodes an array.
+        /// Serializes an array.
         ///
-        /// \returns The encoder.
-        ArrayEncoder encodeArray();
+        /// \returns The serializer.
+        ArraySerializer writeArray();
 
         ///
-        /// Encodes an object.
+        /// Serializes an object.
         ///
-        /// \returns The encoder.
-        ObjectEncoder encodeObject();
+        /// \returns The serializer.
+        ObjectSerializer writeObject();
 
     private:
-        ArrayEncoder();
-        ArrayEncoder(Encoder* encoder);
+        ArraySerializer();
+        ArraySerializer(Serializer* serializer);
 
-        Encoder* _encoder;
+        Serializer* _serializer;
     };
 
-    class ObjectEncoder
+    class ObjectSerializer
     {
-        friend class Encoder;
-        friend class DataValueEncoder;
+        friend class Serializer;
+        friend class DataValueSerializer;
 
-        friend class ArrayEncoder;
+        friend class ArraySerializer;
     public:
-        ObjectEncoder(const ObjectEncoder& encoder);
-        ObjectEncoder(ObjectEncoder&& encoder);
-        ~ObjectEncoder();
+        ObjectSerializer(const ObjectSerializer& serializer);
+        ObjectSerializer(ObjectSerializer&& serializer);
+        ~ObjectSerializer();
 
         ///
-        /// Encodes a string.
+        /// Serializes a string.
         ///
-        /// \param name The name of the member to encode to.
-        /// \param value The value to encode.
-        void encodeString(const char* name, const std::string& value);
+        /// \param name The name of the member to serialize to.
+        /// \param value The value to serialize.
+        void writeString(const char* name, const std::string& value);
 
         ///
-        /// Encodes an array.
+        /// Serializes an array.
         ///
-        /// \param name The name of the member to encode to.
+        /// \param name The name of the member to serialize to.
         ///
-        /// \returns The encoder.
-        ArrayEncoder encodeArray(const char* name);
+        /// \returns The serializer.
+        ArraySerializer writeArray(const char* name);
 
         ///
-        /// Encodes an object.
+        /// Serializes an object.
         ///
-        /// \param name The name of the member to encode to.
+        /// \param name The name of the member to serialize to.
         ///
-        /// \returns The encoder.
-        ObjectEncoder encodeObject(const char* name);
+        /// \returns The serializer.
+        ObjectSerializer writeObject(const char* name);
 
     private:
-        ObjectEncoder();
-        ObjectEncoder(Encoder* encoder);
+        ObjectSerializer();
+        ObjectSerializer(Serializer* serializer);
 
-        Encoder* _encoder;
+        Serializer* _serializer;
     };
 
     ///
     /// Provides abstract access for encoding structured data.
-    class Encoder
+    class Serializer
     {
-        friend class ArrayEncoder;
-        friend class ObjectEncoder;
+        friend class ArraySerializer;
+        friend class ObjectSerializer;
     public:
 
         ///
@@ -123,16 +123,16 @@ namespace hect
         virtual bool isHumanReadable() const = 0;
 
         ///
-        /// Encodes an array.
+        /// Serializes an array.
         ///
-        /// \returns The encoder.
-        virtual ArrayEncoder encodeArray() = 0;
+        /// \returns The serializer.
+        virtual ArraySerializer writeArray() = 0;
 
         ///
-        /// Encodes an object.
+        /// Serializes an object.
         ///
-        /// \returns The encoder.
-        virtual ObjectEncoder encodeObject() = 0;
+        /// \returns The serializer.
+        virtual ObjectSerializer writeObject() = 0;
 
     protected:
         virtual void beginArray() = 0;
@@ -143,24 +143,24 @@ namespace hect
         virtual void beginObject(const char* name) = 0;
         virtual void endObject() = 0;
 
-        virtual void encodeString(const std::string& value) = 0;
-        virtual void encodeString(const char* name, const std::string& value) = 0;
+        virtual void writeString(const std::string& value) = 0;
+        virtual void writeString(const char* name, const std::string& value) = 0;
     };
 
     ///
     /// Provides access for encoding structured data to a data value.
-    class DataValueEncoder :
-        public Encoder
+    class DataValueSerializer :
+        public Serializer
     {
     public:
         bool isHumanReadable() const;
 
-        ArrayEncoder encodeArray();
-        ObjectEncoder encodeObject();
+        ArraySerializer writeArray();
+        ObjectSerializer writeObject();
 
         ///
-        /// Returns the encoded data values.
-        DataValue::Array& encodedDataValue();
+        /// Returns the serialized data values.
+        DataValue::Array& serializedDataValue();
 
     private:
         void beginArray();
@@ -171,11 +171,11 @@ namespace hect
         void beginObject(const char* name);
         void endObject();
 
-        void encodeString(const std::string& value);
-        void encodeString(const char* name, const std::string& value);
+        void writeString(const std::string& value);
+        void writeString(const char* name, const std::string& value);
 
-        void _encode(const DataValue& value);
-        void _encode(const char* name, const DataValue& value);
+        void _serialize(const DataValue& value);
+        void _serialize(const char* name, const DataValue& value);
 
         std::stack<std::string> _nameStack;
         std::stack<DataValue> _valueStack;

@@ -33,62 +33,62 @@ namespace hect
 
     ///
     /// Provides access for decoding an array.
-    class ArrayDecoder
+    class ArrayDeserializer
     {
-        friend class Decoder;
-        friend class DataValueDecoder;
+        friend class Deserializer;
+        friend class DataValueDeserializer;
 
-        friend class ObjectDecoder;
+        friend class ObjectDeserializer;
     public:
-        ArrayDecoder(const ArrayDecoder& decoder);
-        ArrayDecoder(ArrayDecoder&& decoder);
-        ~ArrayDecoder();
+        ArrayDeserializer(const ArrayDeserializer& deserializer);
+        ArrayDeserializer(ArrayDeserializer&& deserializer);
+        ~ArrayDeserializer();
 
         ///
-        /// Returns whether the decoder has reached the end of the array.
+        /// Returns whether the deserializer has reached the end of the array.
         bool hasMoreElements() const;
 
         ///
-        /// Decodes a string.
+        /// Deserializes a string.
         ///
-        /// \returns The decoded string.
-        std::string decodeString();
+        /// \returns The deserialized string.
+        std::string readString();
 
         ///
-        /// Decodes an array.
+        /// Deserializes an array.
         ///
-        /// \returns The decoder.
-        ArrayDecoder decodeArray();
+        /// \returns The deserializer.
+        ArrayDeserializer readArray();
 
         ///
-        /// Decodes an object.
+        /// Deserializes an object.
         ///
-        /// \returns The decoder.
-        ObjectDecoder decodeObject();
+        /// \returns The deserializer.
+        ObjectDeserializer readObject();
 
         ///
-        /// Returns whether the decoder has an array to decode.
+        /// Returns whether the deserializer has an array to deserialize.
         operator bool() const;
 
     private:
-        ArrayDecoder();
-        ArrayDecoder(Decoder* decoder);
+        ArrayDeserializer();
+        ArrayDeserializer(Deserializer* deserializer);
 
-        Decoder* _decoder;
+        Deserializer* _deserializer;
     };
 
     ///
     /// Provides access for decoding an object.
-    class ObjectDecoder
+    class ObjectDeserializer
     {
-        friend class Decoder;
-        friend class DataValueDecoder;
+        friend class Deserializer;
+        friend class DataValueDeserializer;
 
-        friend class ArrayDecoder;
+        friend class ArrayDeserializer;
     public:
-        ObjectDecoder(const ObjectDecoder& decoder);
-        ObjectDecoder(ObjectDecoder&& decoder);
-        ~ObjectDecoder();
+        ObjectDeserializer(const ObjectDeserializer& deserializer);
+        ObjectDeserializer(ObjectDeserializer&& deserializer);
+        ~ObjectDeserializer();
 
         ///
         /// Returns whether the object has a member with a specific name.
@@ -97,46 +97,46 @@ namespace hect
         bool hasMember(const char* name) const;
         
         ///
-        /// Decodes a string.
+        /// Deserializes a string.
         ///
-        /// \param name The name of the member to decode.
+        /// \param name The name of the member to deserialize.
         ///
-        /// \returns The decoded string.
-        std::string decodeString(const char* name);
+        /// \returns The deserialized string.
+        std::string readString(const char* name);
         
         ///
-        /// Decodes an array.
+        /// Deserializes an array.
         ///
-        /// \param name The name of the member to decode.
+        /// \param name The name of the member to deserialize.
         ///
-        /// \returns The decoder.
-        ArrayDecoder decodeArray(const char* name);
+        /// \returns The deserializer.
+        ArrayDeserializer readArray(const char* name);
 
         ///
-        /// Decodes an object.
+        /// Deserializes an object.
         ///
-        /// \param name The name of the member to decode.
+        /// \param name The name of the member to deserialize.
         ///
-        /// \returns The decoder.
-        ObjectDecoder decodeObject(const char* name);
+        /// \returns The deserializer.
+        ObjectDeserializer readObject(const char* name);
         
         ///
-        /// Returns whether the decoder has an object to decode.
+        /// Returns whether the deserializer has an object to deserialize.
         operator bool() const;
 
     private:
-        ObjectDecoder();
-        ObjectDecoder(Decoder* decoder);
+        ObjectDeserializer();
+        ObjectDeserializer(Deserializer* deserializer);
 
-        Decoder* _decoder;
+        Deserializer* _deserializer;
     };
 
     ///
     /// Provides abstract access for decoding structured data.
-    class Decoder
+    class Deserializer
     {
-        friend class ArrayDecoder;
-        friend class ObjectDecoder;
+        friend class ArrayDeserializer;
+        friend class ObjectDeserializer;
     public:
 
         ///
@@ -144,16 +144,16 @@ namespace hect
         virtual bool isHumanReadable() const = 0;
 
         ///
-        /// Decodes an array.
+        /// Deserializes an array.
         ///
-        /// \returns The decoder.
-        virtual ArrayDecoder decodeArray() = 0;
+        /// \returns The deserializer.
+        virtual ArrayDeserializer readArray() = 0;
 
         ///
-        /// Decodes an object.
+        /// Deserializes an object.
         ///
-        /// \returns The decoder.
-        virtual ObjectDecoder decodeObject() = 0;
+        /// \returns The deserializer.
+        virtual ObjectDeserializer readObject() = 0;
 
     protected:
         virtual bool beginArray() = 0;
@@ -168,27 +168,27 @@ namespace hect
 
         virtual bool hasMember(const char* name) const = 0;
 
-        virtual std::string decodeString() = 0;
-        virtual std::string decodeString(const char* name) = 0;
+        virtual std::string readString() = 0;
+        virtual std::string readString(const char* name) = 0;
     };
 
     ///
     /// Provides access for decoding structured data from a data value.
-    class DataValueDecoder :
-        public Decoder
+    class DataValueDeserializer :
+        public Deserializer
     {
     public:
 
         ///
-        /// Constructs a decoder given the data value to decode.
+        /// Constructs a deserializer given the data value to deserialize.
         ///
-        /// \param dataValue The data value to decode.
-        DataValueDecoder(const DataValue& dataValue);
+        /// \param dataValue The data value to deserialize.
+        DataValueDeserializer(const DataValue& dataValue);
 
         bool isHumanReadable() const;
 
-        ArrayDecoder decodeArray();
-        ObjectDecoder decodeObject();
+        ArrayDeserializer readArray();
+        ObjectDeserializer readObject();
 
     private:
         bool beginArray();
@@ -203,11 +203,11 @@ namespace hect
 
         bool hasMember(const char* name) const;
 
-        std::string decodeString();
-        std::string decodeString(const char* name);
+        std::string readString();
+        std::string readString(const char* name);
 
-        const DataValue& _decode();
-        const DataValue& _decode(const char* name);
+        const DataValue& _deserialize();
+        const DataValue& _deserialize(const char* name);
 
         std::stack<size_t> _indexStack;
         std::stack<DataValue> _valueStack;

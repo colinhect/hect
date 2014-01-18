@@ -94,7 +94,7 @@
     <ClInclude Include="Source\AssetHandleTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EncoderDecoderTests.h">
+    <ClInclude Include="Source\SerializationTests.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

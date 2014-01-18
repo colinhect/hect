@@ -21,116 +21,116 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Encoder.h"
+#include "Serializer.h"
 
 using namespace hect;
 
-ArrayEncoder::ArrayEncoder(const ArrayEncoder& encoder) :
-    _encoder(nullptr)
+ArraySerializer::ArraySerializer(const ArraySerializer& serializer) :
+    _serializer(nullptr)
 {
-    encoder;
+    serializer;
 }
 
-ArrayEncoder::ArrayEncoder(ArrayEncoder&& encoder) :
-    _encoder(encoder._encoder)
+ArraySerializer::ArraySerializer(ArraySerializer&& serializer) :
+    _serializer(serializer._serializer)
 {
-    encoder._encoder = nullptr;
+    serializer._serializer = nullptr;
 }
 
-ArrayEncoder::~ArrayEncoder()
+ArraySerializer::~ArraySerializer()
 {
-    if (_encoder)
+    if (_serializer)
     {
-        _encoder->endArray();
+        _serializer->endArray();
     }
 }
 
-void ArrayEncoder::encodeString(const std::string& value)
+void ArraySerializer::writeString(const std::string& value)
 {
-    assert(_encoder);
-    _encoder->encodeString(value);
+    assert(_serializer);
+    _serializer->writeString(value);
 }
         
-ArrayEncoder ArrayEncoder::encodeArray()
+ArraySerializer ArraySerializer::writeArray()
 {
-    assert(_encoder);
-    _encoder->beginArray();
-    return ArrayEncoder(_encoder);
+    assert(_serializer);
+    _serializer->beginArray();
+    return ArraySerializer(_serializer);
 }
 
-ObjectEncoder ArrayEncoder::encodeObject()
+ObjectSerializer ArraySerializer::writeObject()
 {
-    assert(_encoder);
-    _encoder->beginObject();
-    return ObjectEncoder(_encoder);
+    assert(_serializer);
+    _serializer->beginObject();
+    return ObjectSerializer(_serializer);
 }
 
-ArrayEncoder::ArrayEncoder() :
-    _encoder(nullptr)
-{
-}
-
-ArrayEncoder::ArrayEncoder(Encoder* encoder) :
-    _encoder(encoder)
+ArraySerializer::ArraySerializer() :
+    _serializer(nullptr)
 {
 }
 
-ObjectEncoder::ObjectEncoder(const ObjectEncoder& encoder) :
-    _encoder(nullptr)
+ArraySerializer::ArraySerializer(Serializer* serializer) :
+    _serializer(serializer)
 {
-    encoder;
 }
 
-ObjectEncoder::ObjectEncoder(ObjectEncoder&& encoder) :
-    _encoder(encoder._encoder)
+ObjectSerializer::ObjectSerializer(const ObjectSerializer& serializer) :
+    _serializer(nullptr)
 {
-    encoder._encoder = nullptr;
+    serializer;
 }
 
-ObjectEncoder::~ObjectEncoder()
+ObjectSerializer::ObjectSerializer(ObjectSerializer&& serializer) :
+    _serializer(serializer._serializer)
 {
-    if (_encoder)
+    serializer._serializer = nullptr;
+}
+
+ObjectSerializer::~ObjectSerializer()
+{
+    if (_serializer)
     {
-        _encoder->endObject();
+        _serializer->endObject();
     }
 }
 
-void ObjectEncoder::encodeString(const char* name, const std::string& value)
+void ObjectSerializer::writeString(const char* name, const std::string& value)
 {
-    assert(_encoder);
-    _encoder->encodeString(name, value);
+    assert(_serializer);
+    _serializer->writeString(name, value);
 }
 
-ArrayEncoder ObjectEncoder::encodeArray(const char* name)
+ArraySerializer ObjectSerializer::writeArray(const char* name)
 {
-    assert(_encoder);
-    _encoder->beginArray(name);
-    return ArrayEncoder(_encoder);
+    assert(_serializer);
+    _serializer->beginArray(name);
+    return ArraySerializer(_serializer);
 }
 
-ObjectEncoder ObjectEncoder::encodeObject(const char* name)
+ObjectSerializer ObjectSerializer::writeObject(const char* name)
 {
-    assert(_encoder);
-    _encoder->beginObject(name);
-    return ObjectEncoder(_encoder);
+    assert(_serializer);
+    _serializer->beginObject(name);
+    return ObjectSerializer(_serializer);
 }
 
-ObjectEncoder::ObjectEncoder() :
-    _encoder(nullptr)
-{
-}
-
-ObjectEncoder::ObjectEncoder(Encoder* encoder) :
-    _encoder(encoder)
+ObjectSerializer::ObjectSerializer() :
+    _serializer(nullptr)
 {
 }
 
-bool DataValueEncoder::isHumanReadable() const
+ObjectSerializer::ObjectSerializer(Serializer* serializer) :
+    _serializer(serializer)
+{
+}
+
+bool DataValueSerializer::isHumanReadable() const
 {
     return true;
 }
 
-ArrayEncoder DataValueEncoder::encodeArray()
+ArraySerializer DataValueSerializer::writeArray()
 {
     if (!_valueStack.empty())
     {
@@ -138,10 +138,10 @@ ArrayEncoder DataValueEncoder::encodeArray()
     }
 
     _valueStack.push(DataValue(DataValueType::Array));
-    return ArrayEncoder(this);
+    return ArraySerializer(this);
 }
 
-ObjectEncoder DataValueEncoder::encodeObject()
+ObjectSerializer DataValueSerializer::writeObject()
 {
     if (!_valueStack.empty())
     {
@@ -149,46 +149,46 @@ ObjectEncoder DataValueEncoder::encodeObject()
     }
 
     _valueStack.push(DataValue(DataValueType::Object));
-    return ObjectEncoder(this);
+    return ObjectSerializer(this);
 }
 
-DataValue::Array& DataValueEncoder::encodedDataValue()
+DataValue::Array& DataValueSerializer::serializedDataValue()
 {
     return _completed;
 }
 
-void DataValueEncoder::beginArray()
+void DataValueSerializer::beginArray()
 {
     assert(_valueStack.top().isArray());
     _valueStack.push(DataValue(DataValueType::Array));
 }
 
-void DataValueEncoder::beginArray(const char* name)
+void DataValueSerializer::beginArray(const char* name)
 {
     assert(_valueStack.top().isObject());
     _nameStack.push(name);
     _valueStack.push(DataValue(DataValueType::Array));
 }
 
-void DataValueEncoder::endArray()
+void DataValueSerializer::endArray()
 {
     endObject();
 }
 
-void DataValueEncoder::beginObject()
+void DataValueSerializer::beginObject()
 {
     assert(_valueStack.top().isArray());
     _valueStack.push(DataValue(DataValueType::Object));
 }
 
-void DataValueEncoder::beginObject(const char* name)
+void DataValueSerializer::beginObject(const char* name)
 {
     assert(_valueStack.top().isObject());
     _nameStack.push(name);
     _valueStack.push(DataValue(DataValueType::Object));
 }
 
-void DataValueEncoder::endObject()
+void DataValueSerializer::endObject()
 {
     DataValue value = _valueStack.top();
     _valueStack.pop();
@@ -208,24 +208,24 @@ void DataValueEncoder::endObject()
     }
 }
 
-void DataValueEncoder::encodeString(const std::string& value)
+void DataValueSerializer::writeString(const std::string& value)
 {
-    _encode(value);
+    _serialize(value);
 }
 
-void DataValueEncoder::encodeString(const char* name, const std::string& value)
+void DataValueSerializer::writeString(const char* name, const std::string& value)
 {
-    _encode(name, value);
+    _serialize(name, value);
 }
 
-void DataValueEncoder::_encode(const DataValue& value)
+void DataValueSerializer::_serialize(const DataValue& value)
 {
     DataValue& top = _valueStack.top();
     assert(top.isArray());
     top.addElement(value);
 }
 
-void DataValueEncoder::_encode(const char* name, const DataValue& value)
+void DataValueSerializer::_serialize(const char* name, const DataValue& value)
 {
     DataValue& top = _valueStack.top();
     assert(top.isObject());

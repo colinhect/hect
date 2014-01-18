@@ -321,10 +321,10 @@
     <ClCompile Include="Source\Entity\Systems\BasicRenderSystem.cpp">
       <Filter>Source\Entity\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IO\Encoder.cpp">
+    <ClCompile Include="Source\IO\Serializer.cpp">
       <Filter>Source\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IO\Decoder.cpp">
+    <ClCompile Include="Source\IO\Deserializer.cpp">
       <Filter>Source\IO</Filter>
     </ClCompile>
   </ItemGroup>
@@ -632,10 +632,10 @@
     <ClInclude Include="Source\Math\Constants.h">
       <Filter>Source\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\IO\Encoder.h">
+    <ClInclude Include="Source\IO\Serializer.h">
       <Filter>Source\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\IO\Decoder.h">
+    <ClInclude Include="Source\IO\Deserializer.h">
       <Filter>Source\IO</Filter>
     </ClInclude>
   </ItemGroup>
