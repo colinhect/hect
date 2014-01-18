@@ -21,10 +21,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "Socket.h"
+
+#include "Core/Error.h"
 
 using namespace hect;
 
+#include <algorithm>
 #include <enet/enet.h>
 
 int _enetInitializationCounter = 0;

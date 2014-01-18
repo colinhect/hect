@@ -23,6 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Uncopyable.h"
+#include "Core/TimeSpan.h"
+#include "Network/Packet.h"
+#include "Network/Peer.h"
+
 namespace hect
 {
 

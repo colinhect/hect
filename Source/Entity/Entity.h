@@ -23,6 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/DataValue.h"
+#include "Asset/AssetCache.h"
+#include "Entity/Component.h"
+#include "IO/ReadStream.h"
+#include "IO/WriteStream.h"
+
 namespace hect
 {
 
@@ -36,6 +42,10 @@ class Entity
 {
     friend class Scene;
 public:
+    
+    ///
+    /// An array of entities.
+    typedef std::vector<Entity> Array;
 
     ///
     /// The id of an entity within a scene.

@@ -21,7 +21,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "Asset/AssetLoader.h"
+#include "Asset/AssetCache.h"
+#include "Core/DataValueJsonFormat.h"
+#include "Graphics/Shader.h"
+#include "Graphics/ShaderDataValueFormat.h"
 
 using namespace hect;
 

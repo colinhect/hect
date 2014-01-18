@@ -21,6 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
 void testWriteAndReadFile(std::function<void(WriteStream*)> writer, std::function<void(ReadStream*)> reader)
 {
     FileSystem fileSystem;

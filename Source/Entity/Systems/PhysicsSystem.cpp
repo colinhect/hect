@@ -21,7 +21,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "PhysicsSystem.h"
+
+#include "Entity/Scene.h"
+#include "Entity/Components/Transform.h"
+#include "Entity/Components/RigidBody.h"
 
 using namespace hect;
 

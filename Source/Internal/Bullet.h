@@ -23,7 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect.h"
+#include "Core/Configuration.h"
+#include "Entity/Components/Transform.h"
+#include "Graphics/Mesh.h"
+#include "Math/Vector3.h"
+#include "Math/Quaternion.h"
 
 #ifdef HECT_WINDOWS
 #pragma warning(push, 0)

@@ -21,7 +21,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "MeshDataValueFormat.h"
+
+#include "Graphics/MeshWriter.h"
 
 using namespace hect;
 

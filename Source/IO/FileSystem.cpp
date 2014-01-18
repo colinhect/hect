@@ -21,7 +21,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "FileSystem.h"
+
+#include "Core/Configuration.h"
+#include "Core/Error.h"
+#include "Core/Format.h"
 
 #include <physfs.h>
 

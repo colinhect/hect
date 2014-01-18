@@ -21,6 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
 void testWriteAndReadMemory(std::function<void(WriteStream*)> writer, std::function<void(ReadStream*)> reader)
 {
     std::vector<uint8_t> data;

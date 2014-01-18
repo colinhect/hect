@@ -21,7 +21,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "FileWriteStream.h"
+
+#include "Core/Error.h"
+#include "Core/Format.h"
 
 #include <physfs.h>
 
@@ -69,10 +72,7 @@ FileWriteStream::FileWriteStream(const Path& path) :
     _path(path),
     _handle(nullptr)
 {
-    std::stringstream ss;
-    ss << path;
-
-    _handle = PHYSFS_openWrite(ss.str().c_str());
+    _handle = PHYSFS_openWrite(path.toString().c_str());
     if (!_handle)
     {
         throw Error(format("Failed to open file for writing: %s", PHYSFS_getLastError()));

@@ -21,6 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
 void runTestServer(unsigned maxConnectionCount, uint8_t channelCount, std::function<void(Socket&, SocketEvent&)> eventHandler)
 {
     Socket socket(6006, maxConnectionCount, channelCount);

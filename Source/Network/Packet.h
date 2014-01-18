@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "IO/MemoryReadStream.h"
+#include "IO/MemoryWriteStream.h"
+
 namespace hect
 {
 

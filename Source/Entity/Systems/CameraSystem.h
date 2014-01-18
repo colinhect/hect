@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Entity/System.h"
+#include "Entity/Components/Camera.h"
+
 namespace hect
 {
 

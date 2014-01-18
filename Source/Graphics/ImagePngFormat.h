@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Graphics/Image.h"
+#include "IO/ReadStream.h"
+#include "IO/WriteStream.h"
+
 namespace hect
 {
 

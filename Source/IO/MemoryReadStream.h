@@ -23,6 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <vector>
+#include <cstdint>
+
+#include "IO/ReadStream.h"
+
 namespace hect
 {
 

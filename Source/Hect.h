@@ -23,22 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <atomic>
-#include <bitset>
-#include <condition_variable>
-#include <functional>
-#include <iostream>
-#include <map>
-#include <memory>
-#include <mutex>
-#include <queue>
-#include <vector>
-#include <sstream>
-#include <stack>
-#include <string>
-#include <thread>
-#include <cstdint>
-
 #include "Core/Configuration.h"
 #include "Core/Real.h"
 #include "Core/Format.h"

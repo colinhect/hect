@@ -21,15 +21,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "EntitySerializer.h"
+
+#include "Entity/Entity.h"
+#include "Entity/Components/AmbientLight.h"
+#include "Entity/Components/Camera.h"
+#include "Entity/Components/DirectionalLight.h"
+#include "Entity/Components/Geometry.h"
+#include "Entity/Components/Transform.h"
+#include "Entity/Components/RigidBody.h"
 
 using namespace hect;
 
 EntitySerializer::EntitySerializer()
 {
     // Register all hect components
-    registerComponent<Camera, CameraSerializer>("Camera");
     registerComponent<AmbientLight, AmbientLightSerializer>("AmbientLight");
+    registerComponent<Camera, CameraSerializer>("Camera");
     registerComponent<DirectionalLight, DirectionalLightSerializer>("DirectionalLight");
     registerComponent<Geometry, GeometrySerializer>("Geometry");
     registerComponent<Transform, TransformSerializer>("Transform");

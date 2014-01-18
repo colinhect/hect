@@ -21,7 +21,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "Asset/AssetLoader.h"
+#include "Asset/AssetCache.h"
+#include "Core/DataValueJsonFormat.h"
+#include "Graphics/Mesh.h"
+#include "Graphics/MeshBinaryFormat.h"
+#include "Graphics/MeshDataValueFormat.h"
 
 using namespace hect;
 

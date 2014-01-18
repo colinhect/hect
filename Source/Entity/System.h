@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Entity/Entity.h"
+
 namespace hect
 {
 
@@ -59,14 +61,14 @@ public:
 
     ///
     /// Returns the entities currently in the system.
-    std::vector<Entity>& entities();
+    Entity::Array& entities();
 
     ///
     /// Returns the entities currently in the system.
-    const std::vector<Entity>& entities() const;
+    const Entity::Array& entities() const;
 
 private:
-    std::vector<Entity> _entities;
+    Entity::Array _entities;
 };
 
 }

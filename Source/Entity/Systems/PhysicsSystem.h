@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Uncopyable.h"
+#include "Entity/System.h"
+#include "Graphics/Mesh.h"
+
 // Forward declare Bullet classes
 class btCollisionConfiguration;
 class btCollisionDispatcher;

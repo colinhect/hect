@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Core/Uncopyable.h"
+#include "IO/Path.h"
 #include "IO/ReadStream.h"
 
 namespace hect

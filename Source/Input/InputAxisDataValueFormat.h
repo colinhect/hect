@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/DataValue.h"
+#include "Input/InputAxis.h"
+
 namespace hect
 {
 

@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <functional>
+
+#include "Entity/ComponentSerializer.h"
+
 namespace hect
 {
 

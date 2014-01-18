@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/DataValue.h"
+#include "Asset/AssetCache.h"
+#include "Graphics/Texture.h"
+
 namespace hect
 {
 

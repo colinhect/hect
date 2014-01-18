@@ -21,7 +21,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect.h"
+#include "System.h"
+
+#include <algorithm>
 
 using namespace hect;
 
@@ -51,12 +53,12 @@ bool System::includesEntity(const Entity& entity) const
     return true;
 }
 
-std::vector<Entity>& System::entities()
+Entity::Array& System::entities()
 {
     return _entities;
 }
 
-const std::vector<Entity>& System::entities() const
+const Entity::Array& System::entities() const
 {
     return _entities;
 }

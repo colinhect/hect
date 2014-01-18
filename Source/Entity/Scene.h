@@ -23,6 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/IdPool.h"
+#include "Entity/Entity.h"
+#include "Entity/EntityData.h"
+#include "Entity/EntitySerializer.h"
+#include "Entity/System.h"
+
 namespace hect
 {
 

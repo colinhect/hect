@@ -23,6 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Entity/Component.h"
+#include "Entity/ComponentSerializer.h"
+#include "Math/Angle.h"
+#include "Math/Vector3.h"
+#include "Math/Matrix4.h"
+#include "Math/Quaternion.h"
+
 namespace hect
 {
 

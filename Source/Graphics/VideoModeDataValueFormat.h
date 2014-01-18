@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/DataValue.h"
+#include "Asset/AssetCache.h"
+#include "Graphics/VideoMode.h"
+
 namespace hect
 {
 

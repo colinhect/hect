@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Uncopyable.h"
+#include "IO/Path.h"
 #include "IO/FileReadStream.h"
 #include "IO/FileWriteStream.h"
 
