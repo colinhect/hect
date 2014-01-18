@@ -30,16 +30,49 @@
 namespace hect
 {
 
+///
+/// An object which can be serialized and deserialized.
 class Serializable
 {
 public:
-    virtual void serialize(ObjectSerializer& serializer) const;
-    virtual void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
 
+    ///
+    /// Serializes the object using a serializer.
+    ///
+    /// \param serializer The serializer.
+    virtual void serialize(ObjectSerializer& serializer) const;
+
+    ///
+    /// Serializes the object to a data value.
+    ///
+    /// \returns The resulting data value.
     DataValue serializeToDataValue() const;
+
+    ///
+    /// Serializes the object to a stream.
+    ///
+    /// \param stream The stream.
     void serializeToStream(WriteStream& stream) const;
 
+    ///
+    /// Deserializes the object using a deserializer.
+    ///
+    /// \param deserializer The deserializer.
+    /// \param assetCache The asset cache to load referenced assets from.
+    virtual void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+
+    ///
+    /// Deserializes the object from a data value.
+    ///
+    /// \param dataValue The data value.
+    /// \param assetCache The asset cache to load referenced assets from.
     void deserializeFromDataValue(const DataValue& dataValue, AssetCache& assetCache);
+
+    ///
+    /// Deserializes the object from a stream
+    ///
+    /// \param stream The stream.
+    /// \param assetCache The asset cache to load referenced assets from.
     void deserializeFromStream(ReadStream& stream, AssetCache& assetCache);
 };
 

@@ -30,12 +30,6 @@ void Serializable::serialize(ObjectSerializer& serializer) const
     serializer;
 }
 
-void Serializable::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
-{
-    deserializer;
-    assetCache;
-}
-
 DataValue Serializable::serializeToDataValue() const
 {
     DataValueSerializer serializer;
@@ -51,6 +45,12 @@ void Serializable::serializeToStream(WriteStream& stream) const
     BinarySerializer serializer(stream);
     ObjectSerializer object = serializer.writeObject();
     serialize(object);
+}
+
+void Serializable::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+{
+    deserializer;
+    assetCache;
 }
 
 void Serializable::deserializeFromDataValue(const DataValue& dataValue, AssetCache& assetCache)
