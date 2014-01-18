@@ -217,7 +217,7 @@ SUITE(SerializerTests)
             CHECK_EQUAL(3, objectCount);
         });
     }
-
+    
     TEST(AllInArray)
     {
         testSerializeDeserialize([] (Serializer& serializer)
@@ -235,6 +235,7 @@ SUITE(SerializerTests)
             array.writeUnsignedLong(12);
             array.writeFloat(123.0f);
             array.writeDouble(123.0);
+            array.writeReal(123);
             array.writeVector2(Vector2(1, 2));
             array.writeVector3(Vector3(1, 2, 3));
             array.writeVector4(Vector4(1, 2, 3, 4));
@@ -267,6 +268,8 @@ SUITE(SerializerTests)
             CHECK(array.hasMoreElements());
             CHECK_EQUAL(123.0, array.readDouble());
             CHECK(array.hasMoreElements());
+            CHECK_EQUAL(123, array.readReal());
+            CHECK(array.hasMoreElements());
             Vector2 v2 = array.readVector2();
             CHECK_EQUAL(1, v2.x);
             CHECK_EQUAL(2, v2.y);
@@ -282,6 +285,76 @@ SUITE(SerializerTests)
             CHECK_EQUAL(3, v4.z);
             CHECK_EQUAL(4, v4.w);
             CHECK(!array.hasMoreElements());
+        });
+    }
+
+    TEST(AllInObject)
+    {
+        testSerializeDeserialize([] (Serializer& serializer)
+        {
+            ObjectSerializer object = serializer.writeObject();
+            
+            object.writeString("String", "Test");
+            object.writeByte("Byte", 12);
+            object.writeUnsignedByte("UnsignedByte", 12);
+            object.writeShort("Short", 12);
+            object.writeUnsignedShort("UnsignedShort", 12);
+            object.writeInt("Int", 12);
+            object.writeUnsignedInt("UnsignedInt", 12);
+            object.writeLong("Long", 12);
+            object.writeUnsignedLong("UnsignedLong", 12);
+            object.writeFloat("Float", 123.0f);
+            object.writeDouble("Double", 123.0);
+            object.writeReal("Real", 123);
+            object.writeVector2("Vector2", Vector2(1, 2));
+            object.writeVector3("Vector3", Vector3(1, 2, 3));
+            object.writeVector4("Vector4", Vector4(1, 2, 3, 4));
+        }, [] (Deserializer& deserializer)
+        {
+            ObjectDeserializer object = deserializer.readObject();
+
+            bool hasObject = object;
+            CHECK(hasObject);
+            
+            CHECK(object.hasMember("String"));
+            CHECK_EQUAL("Test", object.readString("String"));
+            CHECK(object.hasMember("Byte"));
+            CHECK_EQUAL(12, object.readByte("Byte"));
+            CHECK(object.hasMember("UnsignedByte"));
+            CHECK_EQUAL(12u, object.readUnsignedByte("UnsignedByte"));
+            CHECK(object.hasMember("Short"));
+            CHECK_EQUAL(12, object.readShort("Short"));
+            CHECK(object.hasMember("UnsignedShort"));
+            CHECK_EQUAL(12u, object.readUnsignedShort("UnsignedShort"));
+            CHECK(object.hasMember("Int"));
+            CHECK_EQUAL(12, object.readInt("Int"));
+            CHECK(object.hasMember("UnsignedInt"));
+            CHECK_EQUAL(12u, object.readUnsignedInt("UnsignedInt"));
+            CHECK(object.hasMember("Long"));
+            CHECK_EQUAL(12, object.readLong("Long"));
+            CHECK(object.hasMember("UnsignedLong"));
+            CHECK_EQUAL(12u, object.readUnsignedLong("UnsignedLong"));
+            CHECK(object.hasMember("Float"));
+            CHECK_EQUAL(123.0f, object.readFloat("Float"));
+            CHECK(object.hasMember("Double"));
+            CHECK_EQUAL(123.0, object.readDouble("Double"));
+            CHECK(object.hasMember("Real"));
+            CHECK_EQUAL(123, object.readReal("Real"));
+            CHECK(object.hasMember("Vector2"));
+            Vector2 v2 = object.readVector2("Vector2");
+            CHECK_EQUAL(1, v2.x);
+            CHECK_EQUAL(2, v2.y);
+            CHECK(object.hasMember("Vector3"));
+            Vector3 v3 = object.readVector3("Vector3");
+            CHECK_EQUAL(1, v3.x);
+            CHECK_EQUAL(2, v3.y);
+            CHECK_EQUAL(3, v3.z);
+            CHECK(object.hasMember("Vector4"));
+            Vector4 v4 = object.readVector4("Vector4");
+            CHECK_EQUAL(1, v4.x);
+            CHECK_EQUAL(2, v4.y);
+            CHECK_EQUAL(3, v4.z);
+            CHECK_EQUAL(4, v4.w);
         });
     }
 }

@@ -143,6 +143,12 @@ double ArrayDeserializer::readDouble()
     return _deserializer->readDouble();
 }
 
+Real ArrayDeserializer::readReal()
+{
+    assert(_deserializer);
+    return _deserializer->readReal();
+}
+
 Vector2 ArrayDeserializer::readVector2()
 {
     assert(_deserializer);
@@ -291,6 +297,12 @@ double ObjectDeserializer::readDouble(const char* name)
 {
     assert(_deserializer);
     return _deserializer->readDouble(name);
+}
+
+Real ObjectDeserializer::readReal(const char* name)
+{
+    assert(_deserializer);
+    return _deserializer->readReal(name);
 }
 
 Vector2 ObjectDeserializer::readVector2(const char* name)
@@ -570,6 +582,16 @@ double DataValueDeserializer::readDouble(const char* name)
     return _deserialize(name).asDouble();
 }
 
+Real DataValueDeserializer::readReal()
+{
+    return (Real)_deserialize().asDouble();
+}
+
+Real DataValueDeserializer::readReal(const char* name)
+{
+    return (Real)_deserialize(name).asDouble();
+}
+
 Vector2 DataValueDeserializer::readVector2()
 {
     return _deserialize().asVector2();
@@ -818,6 +840,18 @@ double BinaryDeserializer::readDouble(const char* name)
 {
     name;
     return _stream->readDouble();
+}
+
+Real BinaryDeserializer::readReal()
+{
+    ++_indexStack.top();
+    return _stream->readReal();
+}
+
+Real BinaryDeserializer::readReal(const char* name)
+{
+    name;
+    return _stream->readReal();
 }
 
 Vector2 BinaryDeserializer::readVector2()

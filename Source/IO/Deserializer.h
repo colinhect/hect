@@ -72,6 +72,7 @@ namespace hect
         uint64_t readUnsignedLong();
         float readFloat();
         double readDouble();
+        Real readReal();
         Vector2 readVector2();
         Vector3 readVector3();
         Vector4 readVector4();
@@ -134,6 +135,7 @@ namespace hect
         uint64_t readUnsignedLong(const char* name);
         float readFloat(const char* name);
         double readDouble(const char* name);
+        Real readReal(const char* name);
         Vector2 readVector2(const char* name);
         Vector3 readVector3(const char* name);
         Vector4 readVector4(const char* name);
@@ -208,6 +210,8 @@ namespace hect
         virtual float readFloat(const char* name) = 0;
         virtual double readDouble() = 0;
         virtual double readDouble(const char* name) = 0;
+        virtual Real readReal() = 0;
+        virtual Real readReal(const char* name) = 0;
         virtual Vector2 readVector2() = 0;
         virtual Vector2 readVector2(const char* name) = 0;
         virtual Vector3 readVector3() = 0;
@@ -269,6 +273,8 @@ namespace hect
         float readFloat(const char* name);
         double readDouble();
         double readDouble(const char* name);
+        Real readReal();
+        Real readReal(const char* name);
         Vector2 readVector2();
         Vector2 readVector2(const char* name);
         Vector3 readVector3();
@@ -336,6 +342,8 @@ namespace hect
         float readFloat(const char* name);
         double readDouble();
         double readDouble(const char* name);
+        Real readReal();
+        Real readReal(const char* name);
         Vector2 readVector2();
         Vector2 readVector2(const char* name);
         Vector3 readVector3();

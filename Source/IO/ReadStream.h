@@ -91,10 +91,14 @@ public:
     ///
     /// Reads a 32-bit float.
     float readFloat();
-
+    
     ///
     /// Reads a 64-bit float.
     double readDouble();
+
+    ///
+    /// Reads a real number.
+    Real readReal();
 
     ///
     /// Reads a 2-dimensional vector.
@@ -107,10 +111,6 @@ public:
     ///
     /// Reads a 4-dimensional vector.
     Vector4 readVector4();
-
-    ///
-    /// Reads a quaternion.
-    Quaternion readQuaternion();
 
     ///
     /// Returns whether the end of the stream has been reached.

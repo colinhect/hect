@@ -29,7 +29,6 @@
 #include "Math/Vector2.h"
 #include "Math/Vector3.h"
 #include "Math/Vector4.h"
-#include "Math/Quaternion.h"
 
 namespace hect
 {
@@ -109,12 +108,18 @@ public:
     ///
     /// \param value The value to write.
     void writeFloat(float value);
-
+    
     ///
     /// Writes a 64-bit float
     ///
     /// \param value The value to write.
     void writeDouble(double value);
+
+    ///
+    /// Writes a real number.
+    ///
+    /// \param value The value to write.
+    void writeReal(Real value);
 
     ///
     /// Writes a 2-dimensional vector.
@@ -133,12 +138,6 @@ public:
     ///
     /// \param value The vector to write.
     void writeVector4(const Vector4& value);
-
-    ///
-    /// Writes a quaternion.
-    ///
-    /// \param value The quaternion to write.
-    void writeQuaternion(const Quaternion& value);
 
     ///
     /// Returns the current byte offset position in the stream.

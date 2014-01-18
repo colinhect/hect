@@ -111,35 +111,31 @@ double ReadStream::readDouble()
     return value;
 }
 
+Real ReadStream::readReal()
+{
+    return readDouble();
+}
+
 Vector2 ReadStream::readVector2()
 {
-    double x = readDouble();
-    double y = readDouble();
+    Real x = readReal();
+    Real y = readReal();
     return Vector2(x, y);
 }
 
 Vector3 ReadStream::readVector3()
 {
-    double x = readDouble();
-    double y = readDouble();
-    double z = readDouble();
+    Real x = readReal();
+    Real y = readReal();
+    Real z = readReal();
     return Vector3(x, y, z);
 }
 
 Vector4 ReadStream::readVector4()
 {
-    double x = readDouble();
-    double y = readDouble();
-    double z = readDouble();
-    double w = readDouble();
+    Real x = readReal();
+    Real y = readReal();
+    Real z = readReal();
+    Real w = readReal();
     return Vector4(x, y, z, w);
-}
-
-Quaternion ReadStream::readQuaternion()
-{
-    double x = readDouble();
-    double y = readDouble();
-    double z = readDouble();
-    double w = readDouble();
-    return Quaternion(x, y, z, w);
 }

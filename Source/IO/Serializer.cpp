@@ -125,6 +125,12 @@ void ArraySerializer::writeDouble(double value)
     _serializer->writeDouble(value);
 }
 
+void ArraySerializer::writeReal(Real value)
+{
+    assert(_serializer);
+    _serializer->writeReal(value);
+}
+
 void ArraySerializer::writeVector2(const Vector2& value)
 {
     assert(_serializer);
@@ -251,6 +257,12 @@ void ObjectSerializer::writeDouble(const char* name, double value)
 {
     assert(_serializer);
     _serializer->writeDouble(name, value);
+}
+
+void ObjectSerializer::writeReal(const char* name, Real value)
+{
+    assert(_serializer);
+    _serializer->writeReal(name, value);
 }
 
 void ObjectSerializer::writeVector2(const char* name, const Vector2& value)
@@ -470,6 +482,16 @@ void DataValueSerializer::writeDouble(double value)
 }
 
 void DataValueSerializer::writeDouble(const char* name, double value)
+{
+    _serialize(name, value);
+}
+
+void DataValueSerializer::writeReal(Real value)
+{
+    _serialize(value);
+}
+
+void DataValueSerializer::writeReal(const char* name, Real value)
 {
     _serialize(name, value);
 }
@@ -713,6 +735,18 @@ void BinarySerializer::writeDouble(const char* name, double value)
 {
     name;
     _stream->writeDouble(value);
+}
+
+void BinarySerializer::writeReal(Real value)
+{
+    ++_countStack.top();
+    _stream->writeReal(value);
+}
+
+void BinarySerializer::writeReal(const char* name, Real value)
+{
+    name;
+    _stream->writeReal(value);
 }
 
 void BinarySerializer::writeVector2(const Vector2& value)

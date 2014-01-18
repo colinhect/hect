@@ -171,6 +171,10 @@ public:
     }
 
     ///
+    /// Converts to a 4-dimensional vector.
+    operator Vector4T<T>() const;
+
+    ///
     /// The x component of the quaternion.
     T x;
 

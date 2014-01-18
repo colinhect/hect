@@ -68,6 +68,7 @@ namespace hect
         void writeUnsignedLong(uint64_t value);
         void writeFloat(float value);
         void writeDouble(double value);
+        void writeReal(Real value);
         void writeVector2(const Vector2& value);
         void writeVector3(const Vector3& value);
         void writeVector4(const Vector4& value);
@@ -118,6 +119,7 @@ namespace hect
         void writeUnsignedLong(const char* name, uint64_t value);
         void writeFloat(const char* name, float value);
         void writeDouble(const char* name, double value);
+        void writeReal(const char* name, Real value);
         void writeVector2(const char* name, const Vector2& value);
         void writeVector3(const char* name, const Vector3& value);
         void writeVector4(const char* name, const Vector4& value);
@@ -184,6 +186,8 @@ namespace hect
         virtual void writeFloat(const char* name, float value) = 0;
         virtual void writeDouble(double value) = 0;
         virtual void writeDouble(const char* name, double value) = 0;
+        virtual void writeReal(Real value) = 0;
+        virtual void writeReal(const char* name, Real value) = 0;
         virtual void writeVector2(const Vector2& value) = 0;
         virtual void writeVector2(const char* name, const Vector2& value) = 0;
         virtual void writeVector3(const Vector3& value) = 0;
@@ -238,6 +242,8 @@ namespace hect
         void writeFloat(const char* name, float value);
         void writeDouble(double value);
         void writeDouble(const char* name, double value);
+        void writeReal(Real value);
+        void writeReal(const char* name, Real value);
         void writeVector2(const Vector2& value);
         void writeVector2(const char* name, const Vector2& value);
         void writeVector3(const Vector3& value);
@@ -303,6 +309,8 @@ namespace hect
         void writeFloat(const char* name, float value);
         void writeDouble(double value);
         void writeDouble(const char* name, double value);
+        void writeReal(Real value);
+        void writeReal(const char* name, Real value);
         void writeVector2(const Vector2& value);
         void writeVector2(const char* name, const Vector2& value);
         void writeVector3(const Vector3& value);

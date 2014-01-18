@@ -209,4 +209,10 @@ const T& QuaternionT<T>::operator[](size_t i) const
     return ((const T*)this)[i];
 }
 
+template <typename T>
+QuaternionT<T>::operator Vector4T<T>() const
+{
+    return Vector4T<T>(x, y, z, w);
+}
+
 }
