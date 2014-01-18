@@ -114,7 +114,7 @@ void UniformValue::setValue(const Vector2& value)
     {
         throw Error("Shader value is not of type 'Vector2'");
     }
-    
+
     _value.floatValues[0] = (float)value.x;
     _value.floatValues[1] = (float)value.y;
 }
@@ -125,7 +125,7 @@ void UniformValue::setValue(const Vector3& value)
     {
         throw Error("Shader value is not of type 'Vector3'");
     }
-    
+
     _value.floatValues[0] = (float)value.x;
     _value.floatValues[1] = (float)value.y;
     _value.floatValues[2] = (float)value.z;
@@ -137,7 +137,7 @@ void UniformValue::setValue(const Vector4& value)
     {
         throw Error("Shader value is not of type 'Vector4'");
     }
-    
+
     _value.floatValues[0] = (float)value.x;
     _value.floatValues[1] = (float)value.y;
     _value.floatValues[2] = (float)value.z;

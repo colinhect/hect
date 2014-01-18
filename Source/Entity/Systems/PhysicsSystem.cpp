@@ -78,7 +78,7 @@ void PhysicsSystem::addEntity(const Entity& entity)
     Transform& transform = entity.component<Transform>();
     RigidBody& rigidBody = entity.component<RigidBody>();
     Mesh& mesh = *rigidBody.mesh();
-    
+
     rigidBody._collisionShape.reset(new btConvexTriangleMeshShape(_toBulletMesh(&mesh)));
 
     btScalar mass = rigidBody.mass();

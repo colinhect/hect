@@ -58,7 +58,7 @@ public:
     ///
     /// \param layer The layer to add.
     void addLayer(LogicLayer& layer);
-    
+
     ///
     /// Removes a layer from the flow.
     ///

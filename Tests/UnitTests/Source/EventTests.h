@@ -68,7 +68,7 @@ SUITE(Event)
         CHECK(EventA::A == listener.lastEventA);
         dispatcher.notifyEvent(EventA::B);
         CHECK(EventA::B == listener.lastEventA);
-        
+
         dispatcher.removeListener(listener);
         dispatcher.notifyEvent(EventA::A);
 
@@ -81,13 +81,13 @@ SUITE(Event)
         Dispatcher<EventB> dispatcherB;
 
         TestListener listener;
-        
+
         dispatcherA.addListener(listener);
         dispatcherB.addListener(listener);
-        
+
         dispatcherA.notifyEvent(EventA::A);
         CHECK(EventA::A == listener.lastEventA);
-        
+
         dispatcherB.notifyEvent(EventB::A);
         CHECK(EventB::A == listener.lastEventB);
 
@@ -100,7 +100,7 @@ SUITE(Event)
         Dispatcher<EventA> dispatcher;
 
         TestListener listener;
-        
+
         dispatcher.addListener(listener);
         dispatcher.addListener(listener);
 

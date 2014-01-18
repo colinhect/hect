@@ -51,7 +51,7 @@ const Path& AssetHandle<T>::path() const
     {
         return _entry->path();
     }
-    
+
     return emptyPath;
 }
 

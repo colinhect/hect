@@ -34,12 +34,12 @@ public:
 
 namespace hect
 {
-    void AssetLoader<Asset>::load(Asset& asset, const Path& assetPath, AssetCache& assetCache)
-    {
-        asset;
-        assetPath;
-        assetCache;
-    }
+void AssetLoader<Asset>::load(Asset& asset, const Path& assetPath, AssetCache& assetCache)
+{
+    asset;
+    assetPath;
+    assetCache;
+}
 }
 
 SUITE(AssetHandle)
@@ -48,7 +48,7 @@ SUITE(AssetHandle)
     {
         Asset* a = new Asset(123);
         AssetHandle<Asset> b(a);
-        
+
         CHECK_EQUAL(a, &*b);
         CHECK_EQUAL(123, b->value);
     }
@@ -57,16 +57,16 @@ SUITE(AssetHandle)
     {
         AssetHandle<Asset> a(new Asset(123));
         AssetHandle<Asset> b;
-        
+
         CHECK(a);
         CHECK(!b);
     }
-    
+
     TEST(CopyConstructor)
     {
         AssetHandle<Asset> a(new Asset(123));
         AssetHandle<Asset> b(a);
-        
+
         CHECK_EQUAL(&*a, &*b);
     }
 
@@ -79,7 +79,7 @@ SUITE(AssetHandle)
             b = a;
             CHECK_EQUAL(&*a, &*b);
         }
-        
+
         CHECK(a);
     }
 }

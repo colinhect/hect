@@ -93,7 +93,7 @@ enum class VertexAttributeType
     ///
     /// An 8-bit signed integer.
     Byte,
-    
+
     ///
     /// An 8-bit unsigned integer.
     UnsignedByte,

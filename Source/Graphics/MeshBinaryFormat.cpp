@@ -51,7 +51,7 @@ void MeshBinaryFormat::load(Mesh& mesh, const std::string& name, ReadStream& str
 
         attributes.push_back(VertexAttribute(semantic, type, cardinality));
     }
-    
+
     // Create vertex layout
     VertexLayout vertexLayout(attributes);
 
@@ -61,17 +61,17 @@ void MeshBinaryFormat::load(Mesh& mesh, const std::string& name, ReadStream& str
 
     // Create the mesh
     mesh = Mesh(name, vertexLayout, primitiveType, indexType);
-    
+
     // Read vertex data
     uint32_t vertexDataSize = stream.readUnsignedInt();
     Mesh::VertexData vertexData(vertexDataSize);
     stream.readBytes(&vertexData[0], vertexDataSize);
-    
+
     // Read index data
     uint32_t indexDataSize = stream.readUnsignedInt();
     Mesh::IndexData indexData(indexDataSize);
     stream.readBytes(&indexData[0], indexDataSize);
-    
+
     // Set vertex/index data
     mesh.setVertexData(vertexData);
     mesh.setIndexData(indexData);
@@ -86,7 +86,7 @@ void MeshBinaryFormat::save(const Mesh& mesh, WriteStream& stream)
     const VertexLayout& vertexLayout = mesh.vertexLayout();
     size_t attributeCount = vertexLayout.attributes().size();
     stream.writeUnsignedByte((uint8_t)attributeCount);
-    
+
     // Write each attribute
     for (const VertexAttribute& attribute : vertexLayout.attributes())
     {
@@ -98,7 +98,7 @@ void MeshBinaryFormat::save(const Mesh& mesh, WriteStream& stream)
     // Write the primitive/index type
     stream.writeUnsignedByte((uint8_t)mesh.primitiveType());
     stream.writeUnsignedByte((uint8_t)mesh.indexType());
-    
+
     // Write vertex data
     uint32_t vertexDataSize = (uint32_t)(mesh.vertexCount() * vertexLayout.vertexSize());
     stream.writeUnsignedInt(vertexDataSize);

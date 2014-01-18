@@ -91,7 +91,7 @@ public:
     ///
     /// Reads a 32-bit float.
     float readFloat();
-    
+
     ///
     /// Reads a 64-bit float.
     double readDouble();

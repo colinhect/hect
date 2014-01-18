@@ -40,7 +40,7 @@ public:
     ///
     /// The number identifying a file in this format.
     static const uint32_t Signature;
-    
+
     ///
     /// Loads a mesh from a stream.
     ///

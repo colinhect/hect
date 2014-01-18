@@ -46,7 +46,7 @@ public:
     ///
     /// An array of asset handles.
     typedef std::vector<AssetHandle<T>> Array;
-    
+
     ///
     /// Constructs an empty asset handle.
     AssetHandle();
@@ -74,7 +74,7 @@ public:
     ///
     /// Returns whether the handle refers to a asset.
     operator bool() const;
-    
+
     ///
     /// Returns a reference to the asset.
     ///

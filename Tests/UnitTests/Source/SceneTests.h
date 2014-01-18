@@ -380,7 +380,7 @@ SUITE(Scene)
             Entity frank = scene.createEntity();
             frank.addComponent<Name>().value = "Frank";
             frank.activate();
-            
+
             Entity joe = scene.createEntity();
             joe.addComponent<Name>().value = "Joe";
             joe.activate();

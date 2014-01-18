@@ -37,7 +37,7 @@ class MainLogicLayer :
 public:
     MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
     ~MainLogicLayer();
-    
+
     void fixedUpdate(double timeStep);
     void frameUpdate(double delta);
 

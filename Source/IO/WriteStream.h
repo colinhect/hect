@@ -108,7 +108,7 @@ public:
     ///
     /// \param value The value to write.
     void writeFloat(float value);
-    
+
     ///
     /// Writes a 64-bit float
     ///

@@ -45,7 +45,7 @@ public:
     ///
     /// \param listener The listener to register.
     void addListener(Listener<T>& listener);
-    
+
     ///
     /// Unregisters a listener from receiving events notified from the
     /// dispatcher.

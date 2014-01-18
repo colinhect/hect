@@ -95,7 +95,7 @@ SUITE(SerializerTests)
             {
                 strings.push_back(array.readString());
             }
-        
+
             CHECK_EQUAL("Zero", strings[0]);
             CHECK_EQUAL("One", strings[1]);
             CHECK_EQUAL("Two", strings[2]);
@@ -130,7 +130,7 @@ SUITE(SerializerTests)
             {
                 strings.push_back(array.readString());
             }
-        
+
             CHECK_EQUAL("Zero", strings[0]);
             CHECK_EQUAL("One", strings[1]);
             CHECK_EQUAL("Two", strings[2]);
@@ -217,13 +217,13 @@ SUITE(SerializerTests)
             CHECK_EQUAL(3, objectCount);
         });
     }
-    
+
     TEST(AllInArray)
     {
         testSerializeDeserialize([] (Serializer& serializer)
         {
             ArraySerializer array = serializer.writeArray();
-            
+
             array.writeString("Test");
             array.writeByte(12);
             array.writeUnsignedByte(12);
@@ -293,7 +293,7 @@ SUITE(SerializerTests)
         testSerializeDeserialize([] (Serializer& serializer)
         {
             ObjectSerializer object = serializer.writeObject();
-            
+
             object.writeString("String", "Test");
             object.writeByte("Byte", 12);
             object.writeUnsignedByte("UnsignedByte", 12);
@@ -315,7 +315,7 @@ SUITE(SerializerTests)
 
             bool hasObject = object;
             CHECK(hasObject);
-            
+
             CHECK(object.hasMember("String"));
             CHECK_EQUAL("Test", object.readString("String"));
             CHECK(object.hasMember("Byte"));

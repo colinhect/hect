@@ -42,7 +42,7 @@ class Entity :
 {
     friend class Scene;
 public:
-    
+
     ///
     /// An array of entities.
     typedef std::vector<Entity> Array;

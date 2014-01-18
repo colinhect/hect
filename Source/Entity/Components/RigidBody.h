@@ -95,7 +95,7 @@ private:
     mutable Vector3 _linearVelocity;
     mutable Vector3 _angularVelocity;
     AssetHandle<Mesh> _mesh;
-    
+
     std::shared_ptr<btRigidBody> _rigidBody;
     std::shared_ptr<btMotionState> _motionState;
     std::shared_ptr<btCollisionShape> _collisionShape;
