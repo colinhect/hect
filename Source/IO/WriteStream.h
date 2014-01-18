@@ -51,10 +51,10 @@ public:
     /// Writes a string with its length prepended as an unsigned 32-bit
     /// integer.
     ///
-    /// \param string The string to write.
+    /// \param value The string to write.
     /// \param prependLength Whether or not to prepend the length of the
     /// string.
-    void writeString(const std::string& string, bool prependLength = true);
+    void writeString(const std::string& value, bool prependLength = true);
 
     ///
     /// Writes a signed 8-bit integer.

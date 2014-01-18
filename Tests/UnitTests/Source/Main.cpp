@@ -42,6 +42,7 @@ const double epsilon = 0.0001;
 #include "DataValueJsonFormatTests.h"
 #include "DataReaderWriterTests.h"
 #include "DataValueTests.h"
+#include "EncoderDecoderTests.h"
 #include "EntityTests.h"
 #include "EventTests.h"
 #include "FileSystemTests.h"

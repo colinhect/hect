@@ -25,14 +25,14 @@
 
 using namespace hect;
 
-void WriteStream::writeString(const std::string& string, bool prependLength)
+void WriteStream::writeString(const std::string& value, bool prependLength)
 {
-    size_t length = string.size();
+    size_t length = value.size();
     if (prependLength)
     {
         writeUnsignedInt((uint32_t)length);
     }
-    writeBytes((uint8_t*)&string[0], length);
+    writeBytes((uint8_t*)&value[0], length);
 }
 
 void WriteStream::writeByte(int8_t value)

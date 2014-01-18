@@ -321,6 +321,12 @@
     <ClCompile Include="Source\Entity\Systems\BasicRenderSystem.cpp">
       <Filter>Source\Entity\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Source\IO\Encoder.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\Decoder.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Asset\AssetCache.h">
@@ -625,6 +631,12 @@
     </ClInclude>
     <ClInclude Include="Source\Math\Constants.h">
       <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\Encoder.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\Decoder.h">
+      <Filter>Source\IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

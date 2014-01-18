@@ -61,6 +61,8 @@
 #include "IO/MemoryReadStream.h"
 #include "IO/MemoryWriteStream.h"
 #include "IO/FileSystem.h"
+#include "IO/Encoder.h"
+#include "IO/Decoder.h"
 #include "IO/DataReader.h"
 #include "IO/DataWriter.h"
 #include "Asset/AssetLoader.h"

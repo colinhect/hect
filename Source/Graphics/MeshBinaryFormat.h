@@ -45,6 +45,7 @@ public:
     /// Loads a mesh from a stream.
     ///
     /// \param mesh The mesh to load to.
+    /// \param name The name of the mesh.
     /// \param stream The stream to read from.
     static void load(Mesh& mesh, const std::string& name, ReadStream& stream);
 
