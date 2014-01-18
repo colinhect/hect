@@ -29,81 +29,66 @@ SUITE(Scene)
         public Component<Name>
     {
     public:
-        std::string value;
-    };
-
-    class NameSerializer :
-        public ComponentSerializer<Name>
-    {
-    public:
-        void save(const Name& name, ObjectSerializer& serializer) const
+        void serialize(ObjectSerializer& serializer) const
         {
-            serializer.writeString("value", name.value);
+            serializer.writeString("value", value);
         }
 
-        void load(Name& name, ObjectDeserializer& deserializer, AssetCache& assetCache) const
+        void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
         {
             assetCache;
 
             if (deserializer.hasMember("value"))
             {
-                name.value = deserializer.readString("value");
+                value = deserializer.readString("value");
             }
         }
+
+        std::string value;
     };
 
     class Position :
         public Component<Position>
     {
     public:
-        Vector3 value;
-    };
-
-    class PositionSerializer :
-        public ComponentSerializer<Position>
-    {
-    public:
-        void save(const Position& position, ObjectSerializer& serializer) const
+        void serialize(ObjectSerializer& serializer) const
         {
-            serializer.writeVector3("value", position.value);
+            serializer.writeVector3("value", value);
         }
 
-        void load(Position& position, ObjectDeserializer& deserializer, AssetCache& assetCache) const
+        void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
         {
             assetCache;
 
             if (deserializer.hasMember("value"))
             {
-                position.value = deserializer.readVector3("value");
+                value = deserializer.readVector3("value");
             }
         }
+
+        Vector3 value;
     };
 
     class Velocity :
         public Component<Velocity>
     {
     public:
-        Vector3 value;
-    };
-
-    class VelocitySerializer :
-        public ComponentSerializer<Velocity>
-    {
-    public:
-        void save(const Velocity& velocity, ObjectSerializer& serializer) const
+        void serialize(ObjectSerializer& serializer) const
         {
-            serializer.writeVector3("value", velocity.value);
+            serializer.writeVector3("value", value);
         }
 
-        void load(Velocity& velocity, ObjectDeserializer& deserializer, AssetCache& assetCache) const
+        void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
         {
             assetCache;
 
             if (deserializer.hasMember("value"))
             {
-                velocity.value = deserializer.readVector3("value");
+                value = deserializer.readVector3("value");
             }
         }
+
+        Vector3 value;
     };
 
     class MovementSystem :
@@ -331,8 +316,8 @@ SUITE(Scene)
         Scene scene;
 
         EntitySerializer& entitySerializer = scene.entitySerializer();
-        entitySerializer.registerComponent<Name, NameSerializer>("Name");
-        entitySerializer.registerComponent<Position, PositionSerializer>("Position");
+        entitySerializer.registerComponent<Name>("Name");
+        entitySerializer.registerComponent<Position>("Position");
 
         Entity frank = scene.createEntity();
         frank.addComponent<Name>().value = "Frank";
@@ -359,8 +344,8 @@ SUITE(Scene)
         Scene scene;
 
         EntitySerializer& entitySerializer = scene.entitySerializer();
-        entitySerializer.registerComponent<Name, NameSerializer>("Name");
-        entitySerializer.registerComponent<Position, PositionSerializer>("Position");
+        entitySerializer.registerComponent<Name>("Name");
+        entitySerializer.registerComponent<Position>("Position");
 
         Entity frank = scene.createEntity();
         frank.addComponent<Name>().value = "Frank";
@@ -397,7 +382,7 @@ SUITE(Scene)
             Scene scene;
 
             EntitySerializer& entitySerializer = scene.entitySerializer();
-            entitySerializer.registerComponent<Name, NameSerializer>("Name");
+            entitySerializer.registerComponent<Name>("Name");
 
             Entity frank = scene.createEntity();
             frank.addComponent<Name>().value = "Frank";
@@ -421,7 +406,7 @@ SUITE(Scene)
         Scene scene;
 
         EntitySerializer& entitySerializer = scene.entitySerializer();
-        entitySerializer.registerComponent<Name, NameSerializer>("Name");
+        entitySerializer.registerComponent<Name>("Name");
 
         scene.addSystem(namingSystem);
 
@@ -446,7 +431,7 @@ SUITE(Scene)
             Scene scene;
 
             EntitySerializer& entitySerializer = scene.entitySerializer();
-            entitySerializer.registerComponent<Name, NameSerializer>("Name");
+            entitySerializer.registerComponent<Name>("Name");
 
             Entity frank = scene.createEntity();
             frank.addComponent<Name>().value = "Frank";
@@ -473,7 +458,7 @@ SUITE(Scene)
         Scene scene;
 
         EntitySerializer& entitySerializer = scene.entitySerializer();
-        entitySerializer.registerComponent<Name, NameSerializer>("Name");
+        entitySerializer.registerComponent<Name>("Name");
 
         scene.addSystem(namingSystem);
 

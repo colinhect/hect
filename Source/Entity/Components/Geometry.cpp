@@ -56,20 +56,20 @@ const AssetHandle<Material>::Array& Geometry::materials() const
     return _materials;
 }
 
-void GeometrySerializer::save(const Geometry& geometry, ObjectSerializer& serializer) const
+void Geometry::serialize(ObjectSerializer& serializer) const
 {
-    size_t surfaceCount = geometry.surfaceCount();
+    size_t surfaceCount = _meshes.size();
 
     ArraySerializer surfaces = serializer.writeArray("surfaces");
     for (size_t i = 0; i < surfaceCount; ++i)
     {
         ObjectSerializer surface = surfaces.writeObject();
-        surface.writeString("mesh", geometry.meshes()[i].path().toString());
-        surface.writeString("material", geometry.materials()[i].path().toString());
+        surface.writeString("mesh", _meshes[i].path().toString());
+        surface.writeString("material", _materials[i].path().toString());
     }
 }
 
-void GeometrySerializer::load(Geometry& geometry, ObjectDeserializer& deserializer, AssetCache& assetCache) const
+void Geometry::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
 {
     ArrayDeserializer surfaces = deserializer.readArray("surfaces");
     if (surfaces)
@@ -85,7 +85,7 @@ void GeometrySerializer::load(Geometry& geometry, ObjectDeserializer& deserializ
                 AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
                 AssetHandle<Material> material = assetCache.getHandle<Material>(materialPath);
 
-                geometry.addSurface(mesh, material);
+                addSurface(mesh, material);
             }
         }
     }

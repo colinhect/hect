@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Entity/Component.h"
-#include "Entity/ComponentSerializer.h"
 #include "Math/Frustum.h"
 
 namespace hect
@@ -114,6 +113,9 @@ public:
     /// Returns the frustum.
     const Frustum& frustum() const;
 
+    void serialize(ObjectSerializer& serializer) const;
+    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+
 private:
     Angle _fieldOfView;
 
@@ -131,22 +133,6 @@ private:
     Matrix4 _projectionMatrix;
 
     Frustum _frustum;
-};
-
-///
-/// Serializer for Camera.
-class CameraSerializer :
-    public ComponentSerializer<Camera>
-{
-public:
-
-    ///
-    /// See BaseComponentSerializer::save()
-    void save(const Camera& camera, ObjectSerializer& serializer) const;
-
-    ///
-    /// See BaseComponentSerializer::load()
-    void load(Camera& camera, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Entity/Component.h"
-#include "Entity/ComponentSerializer.h"
 #include "Math/Angle.h"
 #include "Math/Vector3.h"
 #include "Math/Matrix4.h"
@@ -109,6 +108,9 @@ public:
     /// Transforms by another transform.
     void transformBy(const Transform& transform);
 
+    void serialize(ObjectSerializer& serializer) const;
+    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+
 private:
     enum DirtyBit
     {
@@ -122,22 +124,6 @@ private:
     Vector3 _position;
     Vector3 _scale;
     Quaternion _rotation;
-};
-
-///
-/// Serializer for Transform.
-class TransformSerializer :
-    public ComponentSerializer<Transform>
-{
-public:
-
-    ///
-    /// See BaseComponentSerializer::save()
-    void save(const Transform& transform, ObjectSerializer& serializer) const;
-
-    ///
-    /// See BaseComponentSerializer::load()
-    void load(Transform& transform, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

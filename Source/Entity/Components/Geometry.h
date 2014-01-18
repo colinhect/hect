@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Entity/Component.h"
-#include "Entity/ComponentSerializer.h"
 #include "Graphics/Material.h"
 #include "Graphics/Mesh.h"
 
@@ -65,25 +64,12 @@ public:
     /// Returns the materials
     const AssetHandle<Material>::Array& materials() const;
 
+    void serialize(ObjectSerializer& serializer) const;
+    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+
 private:
     AssetHandle<Mesh>::Array _meshes;
     AssetHandle<Material>::Array _materials;
-};
-
-///
-/// Serializer for Geometry.
-class GeometrySerializer :
-    public ComponentSerializer<Geometry>
-{
-public:
-
-    ///
-    /// See BaseComponentSerializer::save()
-    void save(const Geometry& geometry, ObjectSerializer& serializer) const;
-
-    ///
-    /// See BaseComponentSerializer::load()
-    void load(Geometry& geometry, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

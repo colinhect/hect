@@ -36,12 +36,12 @@ using namespace hect;
 EntitySerializer::EntitySerializer()
 {
     // Register all hect components
-    registerComponent<AmbientLight, AmbientLightSerializer>("AmbientLight");
-    registerComponent<Camera, CameraSerializer>("Camera");
-    registerComponent<DirectionalLight, DirectionalLightSerializer>("DirectionalLight");
-    registerComponent<Geometry, GeometrySerializer>("Geometry");
-    registerComponent<Transform, TransformSerializer>("Transform");
-    registerComponent<RigidBody, RigidBodySerializer>("RigidBody");
+    registerComponent<AmbientLight>("AmbientLight");
+    registerComponent<Camera>("Camera");
+    registerComponent<DirectionalLight>("DirectionalLight");
+    registerComponent<Geometry>("Geometry");
+    registerComponent<Transform>("Transform");
+    registerComponent<RigidBody>("RigidBody");
 }
 
 void EntitySerializer::save(const Entity& entity, DataValue& dataValue)
@@ -58,18 +58,14 @@ void EntitySerializer::save(const Entity& entity, DataValue& dataValue)
     {
         ComponentTypeId typeId = component->componentTypeId();
         const std::string& typeName = _typeName(typeId);
-        const BaseComponentSerializer& serializer = _serializer(typeId);
 
         // Serialize
-        DataValueSerializer dataValueSerializer;
-        {
-            ObjectSerializer object = dataValueSerializer.writeObject();
-            serializer.save(component, object);
-        }
+        DataValue componentDataValue;
+        component->serialize(componentDataValue);
 
         // Save the resulting data value from the writer to the member data
         // value
-        dataValue.addMember(typeName, dataValueSerializer.serializedDataValues()[0]);
+        dataValue.addMember(typeName, componentDataValue);
     }
 }
 
@@ -88,17 +84,12 @@ void EntitySerializer::save(const Entity& entity, WriteStream& stream)
     for (BaseComponent* component : components)
     {
         ComponentTypeId typeId = component->componentTypeId();
-        const BaseComponentSerializer& serializer = _serializer(typeId);
 
         // Write the type id as a byte
         stream.writeByte((uint8_t)typeId);
 
         // Serialize
-        BinarySerializer binarySerializer(stream);
-        {
-            ObjectSerializer object = binarySerializer.writeObject();
-            serializer.save(component, object);
-        }
+        component->serialize(stream);
     }
 }
 
@@ -113,21 +104,13 @@ void EntitySerializer::load(const Entity& entity, const DataValue& dataValue, As
     for (const std::string& typeName : dataValue.memberNames())
     {
         ComponentTypeId typeId = _typeId(typeName);
-        const BaseComponentSerializer& serializer = _serializer(typeId);
 
         // Create component
         BaseComponent* component = _constructComponent(typeId);
 
         // Deserialize
-        DataValueDeserializer deserializer(dataValue[typeName]);
-        ObjectDeserializer object = deserializer.readObject();
-        if (object)
-        {
-            serializer.load(component, object, assetCache);
-
-            // Add component
-            entity.addComponent(component);
-        }
+        component->deserialize(dataValue[typeName], assetCache);
+        entity.addComponent(component);
     }
 }
 
@@ -145,21 +128,13 @@ void EntitySerializer::load(const Entity& entity, ReadStream& stream, AssetCache
     for (uint8_t i = 0; i < componentCount; ++i)
     {
         ComponentTypeId typeId = stream.readByte();
-        const BaseComponentSerializer& serializer = _serializer(typeId);
 
         // Create component
         BaseComponent* component = _constructComponent(typeId);
 
         // Deserialize
-        BinaryDeserializer deserializer(stream);
-        ObjectDeserializer object = deserializer.readObject();
-        if (object)
-        {
-            serializer.load(component, object, assetCache);
-
-            // Add component
-            entity.addComponent(component);
-        }
+        component->deserialize(stream, assetCache);
+        entity.addComponent(component);
     }
 }
 
@@ -181,16 +156,6 @@ const std::string& EntitySerializer::_typeName(ComponentTypeId typeId) const
         throw Error(format("No serializer registered for component type id '%d'", typeId));
     }
     return (*it).second;
-}
-
-const BaseComponentSerializer& EntitySerializer::_serializer(ComponentTypeId typeId) const
-{
-    auto it = _componentSerializers.find(typeId);
-    if (it == _componentSerializers.end())
-    {
-        throw Error(format("No serializer registered for component type id '%d'", typeId));
-    }
-    return *(*it).second;
 }
 
 BaseComponent* EntitySerializer::_constructComponent(ComponentTypeId typeId) const

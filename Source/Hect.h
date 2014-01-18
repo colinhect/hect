@@ -61,6 +61,7 @@
 #include "IO/MemoryReadStream.h"
 #include "IO/MemoryWriteStream.h"
 #include "IO/FileSystem.h"
+#include "IO/Serializable.h"
 #include "IO/Serializer.h"
 #include "IO/Deserializer.h"
 #include "Asset/AssetLoader.h"
@@ -117,7 +118,6 @@
 #include "Entity/EntityData.h"
 #include "Entity/Entity.h"
 #include "Entity/System.h"
-#include "Entity/ComponentSerializer.h"
 #include "Entity/EntitySerializer.h"
 #include "Entity/Scene.h"
 

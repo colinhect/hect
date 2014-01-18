@@ -24,10 +24,6 @@
 #pragma once
 
 #ifdef _MSC_VER
-
-// Some template tricks in ComponentSerializer causes this warning
-#pragma warning(disable:4505)
-
 #define HECT_WINDOWS
 #ifdef _DEBUG
 #define HECT_DEBUG

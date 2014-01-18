@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Entity/Component.h"
-#include "Entity/ComponentSerializer.h"
 #include "Graphics/Mesh.h"
 
 // Forward declare Bullet classes
@@ -88,6 +87,9 @@ public:
     /// \param mesh The new mesh.
     void setMesh(const AssetHandle<Mesh>& mesh);
 
+    void serialize(ObjectSerializer& serializer) const;
+    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+
 private:
     Real _mass;
     mutable Vector3 _linearVelocity;
@@ -97,22 +99,6 @@ private:
     std::shared_ptr<btRigidBody> _rigidBody;
     std::shared_ptr<btMotionState> _motionState;
     std::shared_ptr<btCollisionShape> _collisionShape;
-};
-
-///
-/// Serializer for RigidBody.
-class RigidBodySerializer :
-    public ComponentSerializer<RigidBody>
-{
-public:
-
-    ///
-    /// See BaseComponentSerializer::save()
-    void save(const RigidBody& rigidBody, ObjectSerializer& serializer) const;
-
-    ///
-    /// See BaseComponentSerializer::load()
-    void load(RigidBody& rigidBody, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

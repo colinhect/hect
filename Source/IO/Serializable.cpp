@@ -21,28 +21,48 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-namespace hect
+#include "Serializable.h"
+
+using namespace hect;
+
+void Serializable::serialize(ObjectSerializer& serializer) const
 {
-
-template <typename T>
-void EntitySerializer::registerComponent(const std::string& componentTypeName)
-{
-    ComponentTypeId typeId = T::typeId();
-
-    // Check that the type name is not already registered
-    if (_componentTypeIds.find(componentTypeName) != _componentTypeIds.end())
-    {
-        throw Error(format("Component type '%s' is already registered", componentTypeName.c_str()));
-    }
-
-    // Map the type name to the type id
-    _componentTypeIds[componentTypeName] = typeId;
-
-    // Map the type id to the type name
-    _componentTypeNames[typeId] = componentTypeName;
-
-    // Create the constructor
-    _componentConstructors[typeId] = [] { return new T(); };
+    serializer;
 }
 
+void Serializable::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+{
+    deserializer;
+    assetCache;
+}
+
+void Serializable::serialize(DataValue& dataValue) const
+{
+    DataValueSerializer serializer;
+    {
+        ObjectSerializer object = serializer.writeObject();
+        serialize(object);
+    }
+    dataValue = serializer.serializedDataValues()[0];
+}
+
+void Serializable::serialize(WriteStream& stream) const
+{
+    BinarySerializer serializer(stream);
+    ObjectSerializer object = serializer.writeObject();
+    serialize(object);
+}
+
+void Serializable::deserialize(const DataValue& dataValue, AssetCache& assetCache)
+{
+    DataValueDeserializer deserializer(dataValue);
+    ObjectDeserializer object = deserializer.readObject();
+    deserialize(object, assetCache);
+}
+
+void Serializable::deserialize(ReadStream& stream, AssetCache& assetCache)
+{
+    BinaryDeserializer deserializer(stream);
+    ObjectDeserializer object = deserializer.readObject();
+    deserialize(object, assetCache);
 }

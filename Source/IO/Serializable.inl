@@ -25,38 +25,48 @@ namespace hect
 {
 
 template <typename T>
-void ComponentSerializer<T>::save(const T& component, ObjectSerializer& serializer) const
+void Serializable<T>::serialize(ObjectSerializer& serializer) const
 {
-    component;
     serializer;
 }
 
 template <typename T>
-void ComponentSerializer<T>::load(T& component, ObjectDeserializer& deserializer, AssetCache& assetCache) const
+void Serializable<T>::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
 {
-    component;
     deserializer;
     assetCache;
 }
 
 template <typename T>
-void ComponentSerializer<T>::save(const BaseComponent* component, ObjectSerializer& serializer) const
+void Serializable<T>::serialize(DataValue& dataValue) const
 {
-    // Cast the component into its type
-    const T& typedComponent = *(const T*)component;
-
-    // And call the typed version of save
-    return save(typedComponent, serializer);
+    DataValueSerializer serializer(dataValue);
+    ObjectSerializer object = serializer.writeObject();
+    serialize(object);
 }
 
 template <typename T>
-void ComponentSerializer<T>::load(BaseComponent* component, ObjectDeserializer& deserializer, AssetCache& assetCache) const
+void Serializable<T>::serialize(WriteStream& stream) const
 {
-    // Cast the component into its type
-    T& typedComponent = *(T*)component;
+    BinarySerializer serializer(stream);
+    ObjectSerializer object = serializer.writeObject();
+    serialize(object);
+}
 
-    // And call the typed version of load
-    load(typedComponent, deserializer, assetCache);
+template <typename T>
+void Serializable<T>::deserialize(const DataValue& dataValue, AssetCache& assetCache)
+{
+    DataValueDeserializer deserializer(dataValue);
+    ObjectDeserializer object = deserializer.readObject();
+    deserialize(object, assetCache);
+}
+
+template <typename T>
+void Serializable<T>::deserialize(ReadStream& stream, AssetCache& assetCache)
+{
+    BinaryDeserializer deserializer(stream);
+    ObjectDeserializer object = deserializer.readObject();
+    deserialize(object, assetCache);
 }
 
 }

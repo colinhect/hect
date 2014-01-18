@@ -30,8 +30,3 @@ class PlayerCamera :
     public Component<PlayerCamera>
 {
 };
-
-class PlayerCameraSerializer :
-    public ComponentSerializer<PlayerCamera>
-{
-};

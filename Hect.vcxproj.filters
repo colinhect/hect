@@ -321,6 +321,9 @@
     <ClCompile Include="Source\IO\Deserializer.cpp">
       <Filter>Source\IO</Filter>
     </ClCompile>
+    <ClCompile Include="Source\IO\Serializable.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Asset\AssetCache.h">
@@ -518,9 +521,6 @@
     <ClInclude Include="Source\Hect.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Entity\ComponentSerializer.h">
-      <Filter>Source\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Entity\Component.h">
       <Filter>Source\Entity</Filter>
     </ClInclude>
@@ -626,6 +626,9 @@
     <ClInclude Include="Source\IO\Deserializer.h">
       <Filter>Source\IO</Filter>
     </ClInclude>
+    <ClInclude Include="Source\IO\Serializable.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Asset\AssetCache.inl">
@@ -679,9 +682,6 @@
     <None Include="Source\Entity\Component.inl">
       <Filter>Source\Entity</Filter>
     </None>
-    <None Include="Source\Entity\ComponentSerializer.inl">
-      <Filter>Source\Entity</Filter>
-    </None>
     <None Include="Source\Entity\EntitySerializer.inl">
       <Filter>Source\Entity</Filter>
     </None>
@@ -699,6 +699,9 @@
     </None>
     <None Include="Source\Core\Dispatcher.inl">
       <Filter>Source\Core</Filter>
+    </None>
+    <None Include="Source\IO\Serializable.inl">
+      <Filter>Source\IO</Filter>
     </None>
   </ItemGroup>
 </Project>

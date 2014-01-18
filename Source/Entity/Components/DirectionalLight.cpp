@@ -51,23 +51,23 @@ void DirectionalLight::setColor(const Vector3& color)
     _color = color;
 }
 
-void DirectionalLightSerializer::save(const DirectionalLight& light, ObjectSerializer& serializer) const
+void DirectionalLight::serialize(ObjectSerializer& serializer) const
 {
-    serializer.writeVector3("direction", light.direction());
-    serializer.writeVector3("color", light.color());
+    serializer.writeVector3("direction", direction());
+    serializer.writeVector3("color", color());
 }
 
-void DirectionalLightSerializer::load(DirectionalLight& light, ObjectDeserializer& deserializer, AssetCache& assetCache) const
+void DirectionalLight::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
 {
     assetCache;
 
     if (deserializer.hasMember("direction"))
     {
-        light.setDirection(deserializer.readVector3("direction"));
+        setDirection(deserializer.readVector3("direction"));
     }
 
     if (deserializer.hasMember("color"))
     {
-        light.setColor(deserializer.readVector3("color"));
+        setColor(deserializer.readVector3("color"));
     }
 }

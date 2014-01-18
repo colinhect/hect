@@ -90,6 +90,7 @@
     <ClCompile Include="Source\Input\Mouse.cpp" />
     <ClCompile Include="Source\Internal\Bullet.cpp" />
     <ClCompile Include="Source\IO\Deserializer.cpp" />
+    <ClCompile Include="Source\IO\Serializable.cpp" />
     <ClCompile Include="Source\IO\Serializer.cpp" />
     <ClCompile Include="Source\IO\FileReadStream.cpp" />
     <ClCompile Include="Source\IO\FileWriteStream.cpp" />
@@ -137,7 +138,6 @@
     <ClInclude Include="Source\Entity\Entity.h" />
     <ClInclude Include="Source\Entity\EntityData.h" />
     <ClInclude Include="Source\Entity\Component.h" />
-    <ClInclude Include="Source\Entity\ComponentSerializer.h" />
     <ClInclude Include="Source\Entity\EntitySerializer.h" />
     <ClInclude Include="Source\Entity\System.h" />
     <ClInclude Include="Source\Entity\Scene.h" />
@@ -181,6 +181,7 @@
     <ClInclude Include="Source\Input\Mouse.h" />
     <ClInclude Include="Source\Internal\Bullet.h" />
     <ClInclude Include="Source\IO\Deserializer.h" />
+    <ClInclude Include="Source\IO\Serializable.h" />
     <ClInclude Include="Source\IO\Serializer.h" />
     <ClInclude Include="Source\IO\FileReadStream.h" />
     <ClInclude Include="Source\IO\FileWriteStream.h" />
@@ -215,13 +216,13 @@
     <None Include="Source\Core\Any.inl" />
     <None Include="Source\Core\IdPool.inl" />
     <None Include="Source\Core\Dispatcher.inl" />
-    <None Include="Source\Entity\ComponentSerializer.inl" />
     <None Include="Source\Entity\Entity.inl" />
     <None Include="Source\Entity\Component.inl" />
     <None Include="Source\Entity\EntitySerializer.inl" />
     <None Include="Source\Entity\Scene.inl" />
     <None Include="Source\Graphics\MeshReader.inl" />
     <None Include="Source\Graphics\MeshWriter.inl" />
+    <None Include="Source\IO\Serializable.inl" />
     <None Include="Source\Math\Angle.inl" />
     <None Include="Source\Math\AxisAlignedBox.inl" />
     <None Include="Source\Math\Box.inl" />

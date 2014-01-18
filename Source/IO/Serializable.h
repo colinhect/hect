@@ -21,28 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include "Asset/AssetCache.h"
+#include "IO/Serializer.h"
+#include "IO/Deserializer.h"
+
 namespace hect
 {
 
-template <typename T>
-void EntitySerializer::registerComponent(const std::string& componentTypeName)
+class Serializable
 {
-    ComponentTypeId typeId = T::typeId();
+public:
+    virtual void serialize(ObjectSerializer& serializer) const;
+    virtual void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
 
-    // Check that the type name is not already registered
-    if (_componentTypeIds.find(componentTypeName) != _componentTypeIds.end())
-    {
-        throw Error(format("Component type '%s' is already registered", componentTypeName.c_str()));
-    }
+    void serialize(DataValue& dataValue) const;
+    void serialize(WriteStream& stream) const;
 
-    // Map the type name to the type id
-    _componentTypeIds[componentTypeName] = typeId;
-
-    // Map the type id to the type name
-    _componentTypeNames[typeId] = componentTypeName;
-
-    // Create the constructor
-    _componentConstructors[typeId] = [] { return new T(); };
-}
+    void deserialize(const DataValue& dataValue, AssetCache& assetCache);
+    void deserialize(ReadStream& stream, AssetCache& assetCache);
+};
 
 }

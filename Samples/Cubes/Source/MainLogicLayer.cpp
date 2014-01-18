@@ -32,7 +32,7 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _playerCameraSystem(inputSystem)
 {
     EntitySerializer& entitySerializer = _scene.entitySerializer();
-    entitySerializer.registerComponent<PlayerCamera, PlayerCameraSerializer>("PlayerCamera");
+    entitySerializer.registerComponent<PlayerCamera>("PlayerCamera");
 
     _scene.addSystem(_cameraSystem);
     _scene.addSystem(_renderSystem);

@@ -109,29 +109,29 @@ void RigidBody::setMesh(const AssetHandle<Mesh>& mesh)
     _mesh = mesh;
 }
 
-void RigidBodySerializer::save(const RigidBody& rigidBody, ObjectSerializer& serializer) const
+void RigidBody::serialize(ObjectSerializer& serializer) const
 {
-    serializer.writeReal("mass", rigidBody.mass());
-    serializer.writeVector3("linearVelocity", rigidBody.linearVelocity());
-    serializer.writeVector3("angularVelocity", rigidBody.angularVelocity());
-    serializer.writeString("mesh", rigidBody.mesh().path().toString());
+    serializer.writeReal("mass", _mass);
+    serializer.writeVector3("linearVelocity", _linearVelocity);
+    serializer.writeVector3("angularVelocity", _angularVelocity);
+    serializer.writeString("mesh", _mesh.path().toString());
 }
 
-void RigidBodySerializer::load(RigidBody& rigidBody, ObjectDeserializer& deserializer, AssetCache& assetCache) const
+void RigidBody::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
 {
     if (deserializer.hasMember("mass"))
     {
-        rigidBody.setMass(deserializer.readReal("mass"));
+        setMass(deserializer.readReal("mass"));
     }
 
     if (deserializer.hasMember("linearVelocity"))
     {
-        rigidBody.setLinearVelocity(deserializer.readVector3("linearVelocity"));
+        setLinearVelocity(deserializer.readVector3("linearVelocity"));
     }
 
     if (deserializer.hasMember("angularVelocity"))
     {
-        rigidBody.setAngularVelocity(deserializer.readVector3("angularVelocity"));
+        setAngularVelocity(deserializer.readVector3("angularVelocity"));
     }
 
     if (deserializer.hasMember("mesh"))
@@ -139,6 +139,6 @@ void RigidBodySerializer::load(RigidBody& rigidBody, ObjectDeserializer& deseria
         std::string meshPath = deserializer.readString("mesh");
         AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
 
-        rigidBody.setMesh(mesh);
+        setMesh(mesh);
     }
 }

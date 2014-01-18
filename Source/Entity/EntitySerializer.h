@@ -25,7 +25,7 @@
 
 #include <functional>
 
-#include "Entity/ComponentSerializer.h"
+#include "Entity/Entity.h"
 
 namespace hect
 {
@@ -83,18 +83,17 @@ public:
     void load(const Entity& entity, ReadStream& stream, AssetCache& assetCache);
 
     ///
-    /// Registers a component with its serializer.
+    /// Registers a component.
     ///
     /// \param componentTypeName The type name of the component.
     ///
     /// \throws Error If the component type is already registered.
-    template <typename T, typename S>
+    template <typename T>
     void registerComponent(const std::string& componentTypeName);
 
 private:
     ComponentTypeId _typeId(const std::string& typeName) const;
     const std::string& _typeName(ComponentTypeId typeId) const;
-    const BaseComponentSerializer& _serializer(ComponentTypeId typeId) const;
     BaseComponent* _constructComponent(ComponentTypeId typeId) const;
 
     // Component types mapped to component type names
@@ -102,9 +101,6 @@ private:
 
     // Component type names mapped to component types
     std::map<std::string, ComponentTypeId> _componentTypeIds;
-
-    // Component types mapped to registered component serializers
-    std::map<ComponentTypeId, BaseComponentSerializer::Ref> _componentSerializers;
 
     // Component types mapped to component constructors
     std::map<ComponentTypeId, std::function<BaseComponent*()>> _componentConstructors;

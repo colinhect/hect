@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Entity/Component.h"
-#include "Entity/ComponentSerializer.h"
 
 namespace hect
 {
@@ -57,25 +56,12 @@ public:
     /// \param color The new color.
     void setColor(const Vector3& color);
 
+    void serialize(ObjectSerializer& serializer) const;
+    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+
 private:
     Vector3 _direction;
     Vector3 _color;
-};
-
-///
-/// Serializer for DirectionalLight.
-class DirectionalLightSerializer :
-    public ComponentSerializer<DirectionalLight>
-{
-public:
-
-    ///
-    /// See BaseComponentSerializer::save()
-    void save(const DirectionalLight& light, ObjectSerializer& serializer) const;
-
-    ///
-    /// See BaseComponentSerializer::load()
-    void load(DirectionalLight& light, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }
