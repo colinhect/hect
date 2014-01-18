@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// An angle.
-template <typename T = Real>
+template <typename T>
 class AngleT
 {
 public:
@@ -139,7 +139,7 @@ private:
     T _radians;
 };
 
-typedef AngleT<> Angle;
+typedef AngleT<Real> Angle;
 
 }
 

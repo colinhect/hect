@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A column-major 4 by 4 matrix.
-template <typename T = Real>
+template <typename T>
 class Matrix4T
 {
 public:
@@ -168,7 +168,7 @@ private:
     T _c[16];
 };
 
-typedef Matrix4T<> Matrix4;
+typedef Matrix4T<Real> Matrix4;
 
 }
 

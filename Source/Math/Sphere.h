@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A sphere.
-template <typename T = Real>
+template <typename T>
 class SphereT
 {
 public:
@@ -57,7 +57,7 @@ private:
     T _radius;
 };
 
-typedef SphereT<> Sphere;
+typedef SphereT<Real> Sphere;
 
 }
 

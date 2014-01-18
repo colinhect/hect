@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A plane in 3-dimensional space.
-template <typename T = Real>
+template <typename T>
 class PlaneT
 {
 public:
@@ -71,7 +71,7 @@ private:
     T _distance;
 };
 
-typedef PlaneT<> Plane;
+typedef PlaneT<Real> Plane;
 
 }
 

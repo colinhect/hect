@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A 3-dimensional vector.
-template <typename T = Real>
+template <typename T>
 class Vector3T
 {
 public:
@@ -220,7 +220,8 @@ public:
     T z;
 };
 
-typedef Vector3T<> Vector3;
+typedef Vector3T<Real> Vector3;
+typedef Vector3T<int> IntVector3;
 
 }
 

@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A box.
-template <typename T = Real>
+template <typename T>
 class BoxT
 {
 public:
@@ -47,7 +47,7 @@ private:
     Vector3T<T> _scale;
 };
 
-typedef BoxT<> Box;
+typedef BoxT<Real> Box;
 
 }
 

@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A rotation in 3-dimensional space.
-template <typename T = Real>
+template <typename T>
 class QuaternionT
 {
 public:
@@ -182,7 +182,7 @@ public:
     T w;
 };
 
-typedef QuaternionT<> Quaternion;
+typedef QuaternionT<Real> Quaternion;
 
 }
 

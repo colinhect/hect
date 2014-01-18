@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A box aligned with the global axes.
-template <typename T = Real>
+template <typename T>
 class AxisAlignedBoxT
 {
 public:
@@ -96,7 +96,7 @@ private:
     Vector3T<T> _maximum;
 };
 
-typedef AxisAlignedBoxT<> AxisAlignedBox;
+typedef AxisAlignedBoxT<Real> AxisAlignedBox;
 
 }
 

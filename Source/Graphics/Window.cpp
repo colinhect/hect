@@ -32,7 +32,7 @@ using namespace hect;
 #endif
 
 // Translates an SFML mouse event to an internal mouse event.
-MouseEvent _translateMouseEvent(const sf::Event& event, const Vector2T<int>& cursorPosition, const Vector2T<int>& lastCursorPosition)
+MouseEvent _translateMouseEvent(const sf::Event& event, const IntVector2& cursorPosition, const IntVector2& lastCursorPosition)
 {
     MouseEvent mouseEvent;
 
@@ -226,8 +226,8 @@ bool Window::isCursorLocked() const
     return _cursorLocked;
 }
 
-Vector2T<int> Window::_cursorPosition()
+IntVector2 Window::_cursorPosition()
 {
     sf::Vector2i position = sf::Mouse::getPosition(*((sf::Window*)_sfmlWindow));
-    return Vector2T<int>(position.x, ((sf::Window*)_sfmlWindow)->getSize().y - position.y);
+    return IntVector2(position.x, ((sf::Window*)_sfmlWindow)->getSize().y - position.y);
 }

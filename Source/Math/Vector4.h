@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A 4-dimensional vector.
-template <typename T = Real>
+template <typename T>
 class Vector4T
 {
 public:
@@ -224,7 +224,8 @@ public:
     T w;
 };
 
-typedef Vector4T<> Vector4;
+typedef Vector4T<Real> Vector4;
+typedef Vector4T<int> IntVector4;
 
 }
 

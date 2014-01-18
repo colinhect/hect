@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A 2-dimensional vector.
-template <typename T = Real>
+template <typename T>
 class Vector2T
 {
 public:
@@ -211,7 +211,8 @@ public:
     T y;
 };
 
-typedef Vector2T<> Vector2;
+typedef Vector2T<Real> Vector2;
+typedef Vector2T<int> IntVector2;
 
 }
 
