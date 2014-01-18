@@ -1,16 +1,19 @@
 {
-    "Transform" :
-    {
-        "position" : [ 0, 0, -10 ]
-    },
-    "Geometry" :
-    {
-        "surfaces" :
-        [
-           {
-              "mesh" : "Cube.mesh",
-              "material" : "Cube.material"
-           }
-        ]
-    }
+    "components" :
+    [
+        {
+            "type" : "Transform",
+            "position" : [ 0, 0, -10 ]
+        },
+        {
+            "type" : "Geometry",
+            "surfaces" :
+            [
+               {
+                  "mesh" : "Cube.mesh",
+                  "material" : "Cube.material"
+               }
+            ]
+        }
+    ]
 }

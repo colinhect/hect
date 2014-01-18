@@ -261,9 +261,6 @@
     <ClCompile Include="Source\Input\InputSystem.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Entity\EntitySerializer.cpp">
-      <Filter>Source\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Entity\Components\DirectionalLight.cpp">
       <Filter>Source\Entity\Components</Filter>
     </ClCompile>
@@ -545,9 +542,6 @@
     <ClInclude Include="Source\Input\InputSystem.h">
       <Filter>Source\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Entity\EntitySerializer.h">
-      <Filter>Source\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Entity\Components\DirectionalLight.h">
       <Filter>Source\Entity\Components</Filter>
     </ClInclude>
@@ -682,9 +676,6 @@
     <None Include="Source\Entity\Component.inl">
       <Filter>Source\Entity</Filter>
     </None>
-    <None Include="Source\Entity\EntitySerializer.inl">
-      <Filter>Source\Entity</Filter>
-    </None>
     <None Include="Source\Math\Sphere.inl">
       <Filter>Source\Math</Filter>
     </None>
@@ -699,9 +690,6 @@
     </None>
     <None Include="Source\Core\Dispatcher.inl">
       <Filter>Source\Core</Filter>
-    </None>
-    <None Include="Source\IO\Serializable.inl">
-      <Filter>Source\IO</Filter>
     </None>
   </ItemGroup>
 </Project>

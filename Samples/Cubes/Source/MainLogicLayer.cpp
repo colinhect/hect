@@ -31,8 +31,7 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _renderSystem(renderer),
     _playerCameraSystem(inputSystem)
 {
-    EntitySerializer& entitySerializer = _scene.entitySerializer();
-    entitySerializer.registerComponent<PlayerCamera>("PlayerCamera");
+    _scene.registerComponent<PlayerCamera>("PlayerCamera");
 
     _scene.addSystem(_cameraSystem);
     _scene.addSystem(_renderSystem);
@@ -40,7 +39,7 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _scene.addSystem(_playerCameraSystem);
 
     DataValue& sceneDataValue = assetCache.get<DataValue>("Scene.scene");
-    _scene.load(sceneDataValue, assetCache);
+    _scene.deserializeFromDataValue(sceneDataValue, assetCache);
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);

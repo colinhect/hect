@@ -25,6 +25,27 @@ namespace hect
 {
 
 template <typename T>
+void Scene::registerComponent(const std::string& componentTypeName)
+{
+    ComponentTypeId typeId = T::typeId();
+
+    // Check that the type name is not already registered
+    if (_componentTypeIds.find(componentTypeName) != _componentTypeIds.end())
+    {
+        throw Error(format("Component type '%s' is already registered", componentTypeName.c_str()));
+    }
+
+    // Map the type name to the type id
+    _componentTypeIds[componentTypeName] = typeId;
+
+    // Map the type id to the type name
+    _componentTypeNames[typeId] = componentTypeName;
+
+    // Create the constructor
+    _componentConstructors[typeId] = [] { return new T(); };
+}
+
+template <typename T>
 bool Scene::_hasComponent(const Entity& entity) const
 {
     Entity::Id id = entity._id;

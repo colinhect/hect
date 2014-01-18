@@ -1,7 +1,41 @@
 {
     "entities" :
     [
-        "Player.entity",
-        "Cube.entity"
+        {
+            "components" :
+            [
+                {
+                    "type" : "Transform"
+                },
+                {
+                    "type" : "Camera",
+                    "fieldOfView" : 80,
+                    "nearClip" : 0.01,
+                    "farClip" : 250000
+                },
+                {
+                    "type" : "PlayerCamera"
+                }
+            ]
+        },
+        {
+            "components" :
+            [
+                {
+                    "type" : "Transform",
+                    "position" : [ 0, 0, -10 ]
+                },
+                {
+                    "type" : "Geometry",
+                    "surfaces" :
+                    [
+                       {
+                          "mesh" : "Cube.mesh",
+                          "material" : "Cube.material"
+                       }
+                    ]
+                }
+            ]
+        }
     ]
 }

@@ -42,7 +42,6 @@
     <ClCompile Include="Source\Entity\Entity.cpp" />
     <ClCompile Include="Source\Entity\EntityData.cpp" />
     <ClCompile Include="Source\Entity\Component.cpp" />
-    <ClCompile Include="Source\Entity\EntitySerializer.cpp" />
     <ClCompile Include="Source\Entity\System.cpp" />
     <ClCompile Include="Source\Entity\Scene.cpp" />
     <ClCompile Include="Source\Entity\Systems\BasicRenderSystem.cpp" />
@@ -138,7 +137,6 @@
     <ClInclude Include="Source\Entity\Entity.h" />
     <ClInclude Include="Source\Entity\EntityData.h" />
     <ClInclude Include="Source\Entity\Component.h" />
-    <ClInclude Include="Source\Entity\EntitySerializer.h" />
     <ClInclude Include="Source\Entity\System.h" />
     <ClInclude Include="Source\Entity\Scene.h" />
     <ClInclude Include="Source\Entity\Systems\CameraSystem.h" />
@@ -218,11 +216,9 @@
     <None Include="Source\Core\Dispatcher.inl" />
     <None Include="Source\Entity\Entity.inl" />
     <None Include="Source\Entity\Component.inl" />
-    <None Include="Source\Entity\EntitySerializer.inl" />
     <None Include="Source\Entity\Scene.inl" />
     <None Include="Source\Graphics\MeshReader.inl" />
     <None Include="Source\Graphics\MeshWriter.inl" />
-    <None Include="Source\IO\Serializable.inl" />
     <None Include="Source\Math\Angle.inl" />
     <None Include="Source\Math\AxisAlignedBox.inl" />
     <None Include="Source\Math\Box.inl" />

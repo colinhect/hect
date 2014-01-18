@@ -48,52 +48,24 @@ Entity::Id Entity::id() const
     return _id;
 }
 
-void Entity::save(DataValue& dataValue) const
+void Entity::serialize(ObjectSerializer& serializer) const
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    _scene->entitySerializer().save(*this, dataValue);
+    _scene->_serializeEntity(*this, serializer);
 }
 
-void Entity::save(WriteStream& stream) const
+void Entity::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    _scene->entitySerializer().save(*this, stream);
-}
-
-void Entity::load(const DataValue& dataValue, AssetCache& assetCache) const
-{
-    if (!_scene)
-    {
-        throw Error("Entity is null");
-    }
-    else if (isActivated())
-    {
-        throw Error("Entity is activated");
-    }
-
-    _scene->entitySerializer().load(*this, dataValue, assetCache);
-}
-
-void Entity::load(ReadStream& stream, AssetCache& assetCache) const
-{
-    if (!_scene)
-    {
-        throw Error("Entity is null");
-    }
-    else if (isActivated())
-    {
-        throw Error("Entity is activated");
-    }
-
-    _scene->entitySerializer().load(*this, stream, assetCache);
+    _scene->_deserializeEntity(*this, deserializer, assetCache);
 }
 
 void Entity::destroy() const

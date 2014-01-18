@@ -23,6 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Scene.h"
 
+#include "Entity/Components/AmbientLight.h"
+#include "Entity/Components/Camera.h"
+#include "Entity/Components/DirectionalLight.h"
+#include "Entity/Components/Geometry.h"
+#include "Entity/Components/Transform.h"
+#include "Entity/Components/RigidBody.h"
+
 using namespace hect;
 
 Scene::Scene() :
@@ -30,6 +37,12 @@ Scene::Scene() :
     _entityData(InitialPoolSize),
     _entityComponents(InitialPoolSize)
 {
+    registerComponent<AmbientLight>("AmbientLight");
+    registerComponent<Camera>("Camera");
+    registerComponent<DirectionalLight>("DirectionalLight");
+    registerComponent<Geometry>("Geometry");
+    registerComponent<Transform>("Transform");
+    registerComponent<RigidBody>("RigidBody");
 }
 
 Scene::~Scene()
@@ -141,82 +154,31 @@ Entity Scene::entityWithId(Entity::Id id) const
     return Entity(*const_cast<Scene*>(this), id);
 }
 
-void Scene::save(DataValue& dataValue) const
+void Scene::serialize(ObjectSerializer& serializer) const
 {
-    // Save each activated entity to a separate data value
-    DataValue entities(DataValueType::Array);
+    ArraySerializer entities = serializer.writeArray("entities");
+
     for (Entity::Id id = 0; id < _entityData.size(); ++id)
     {
         Entity entity = entityWithId(id);
         if (entity && entity.isActivated() && entity.isSerializable())
         {
-            // Save the entity to a data value
-            DataValue entityDataValue;
-            entity.save(entityDataValue);
-
-            // Add the data value to the elements
-            entities.addElement(entityDataValue);
-        }
-    }
-
-    // Save the entire scene as a data value object with the entities as a
-    // member
-    dataValue = DataValue(DataValueType::Object);
-    dataValue.addMember("entities", entities);
-}
-
-void Scene::save(WriteStream& stream) const
-{
-    // Serialize each activated entity to the stream
-    for (Entity::Id id = 0; id < _entityData.size(); ++id)
-    {
-        Entity entity = entityWithId(id);
-        if (entity && entity.isActivated() && entity.isSerializable())
-        {
-            // Serialize the entity
-            entity.save(stream);
+            ObjectSerializer entitySerializer = entities.writeObject();
+            entity.serialize(entitySerializer);
         }
     }
 }
 
-void Scene::load(const DataValue& dataValue, AssetCache& assetCache)
+void Scene::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
 {
-    // For each entity data value
-    for (const DataValue& entityValue : dataValue["entities"])
+    ArrayDeserializer entities = deserializer.readArray("entities");
+    while (entities.hasMoreElements())
     {
+        ObjectDeserializer entityDeserializer = entities.readObject();
         Entity entity = createEntity();
-
-        if (entityValue.isString())
-        {
-            // Load the components using the referenced file
-            DataValue& value = assetCache.get<DataValue>(entityValue.asString());
-            entity.load(value, assetCache);
-        }
-        else
-        {
-            // Load the components using the inline data value
-            entity.load(entityValue, assetCache);
-        }
-
+        entity.deserialize(entityDeserializer, assetCache);
         entity.activate();
     }
-}
-
-void Scene::load(ReadStream& stream, AssetCache& assetCache)
-{
-    // While there is still data in the stream
-    while (!stream.endOfStream())
-    {
-        // Create an entity and load the components
-        Entity entity = createEntity();
-        entity.load(stream, assetCache);
-        entity.activate();
-    }
-}
-
-EntitySerializer& Scene::entitySerializer()
-{
-    return _entitySerializer;
 }
 
 Entity Scene::_cloneEntity(const Entity& entity)
@@ -238,6 +200,47 @@ Entity Scene::_cloneEntity(const Entity& entity)
     }
 
     return clone;
+}
+
+void Scene::_serializeEntity(const Entity& entity, ObjectSerializer& serializer) const
+{
+    if (!entity)
+    {
+        throw Error("Entity is null");
+    }
+
+    ArraySerializer components = serializer.writeArray("components");
+
+    for (BaseComponent* component : entity.components())
+    {
+        ComponentTypeId typeId = component->componentTypeId();
+        const std::string& typeName = _typeName(typeId);
+
+        ObjectSerializer componentSerializer = components.writeObject();
+        componentSerializer.writeString("type", typeName);
+        component->serialize(componentSerializer);
+    }
+}
+
+void Scene::_deserializeEntity(const Entity& entity, ObjectDeserializer& deserializer, AssetCache& assetCache)
+{
+    if (!entity)
+    {
+        throw Error("Entity is null");
+    }
+
+    ArrayDeserializer components = deserializer.readArray("components");
+    while (components.hasMoreElements())
+    {
+        ObjectDeserializer componentDeserializer = components.readObject();
+
+        std::string typeName = componentDeserializer.readString("type");
+        ComponentTypeId typeId = _typeId(typeName);
+        BaseComponent* component = _constructComponent(typeId);
+
+        component->deserialize(componentDeserializer, assetCache);
+        entity.addComponent(component);
+    }
 }
 
 void Scene::_destroyEntity(const Entity& entity)
@@ -352,4 +355,34 @@ void Scene::_addComponentWithoutReturn(const Entity& entity, const BaseComponent
     // Set the flag in the entity data to include the component type
     data.setHasComponent(typeId, true);
     _entityComponents[id][typeId] = component;
+}
+
+ComponentTypeId Scene::_typeId(const std::string& typeName) const
+{
+    auto it = _componentTypeIds.find(typeName);
+    if (it == _componentTypeIds.end())
+    {
+        throw Error(format("No serializer registered for component type name '%s'", typeName.c_str()));
+    }
+    return (*it).second;
+}
+
+const std::string& Scene::_typeName(ComponentTypeId typeId) const
+{
+    auto it = _componentTypeNames.find(typeId);
+    if (it == _componentTypeNames.end())
+    {
+        throw Error(format("No serializer registered for component type id '%d'", typeId));
+    }
+    return (*it).second;
+}
+
+BaseComponent* Scene::_constructComponent(ComponentTypeId typeId) const
+{
+    auto it = _componentConstructors.find(typeId);
+    if (it == _componentConstructors.end())
+    {
+        throw Error(format("No serializer registered for component type id '%d'", typeId));
+    }
+    return (*it).second();
 }

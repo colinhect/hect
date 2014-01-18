@@ -308,26 +308,23 @@ SUITE(Scene)
         CHECK(!b.isActivated());
     }
 
-    TEST(SaveAndLoadEntityUsingDataValue)
+    TEST(SerializeAndDeserializeEntityUsingDataValue)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
 
         Scene scene;
-
-        EntitySerializer& entitySerializer = scene.entitySerializer();
-        entitySerializer.registerComponent<Name>("Name");
-        entitySerializer.registerComponent<Position>("Position");
+        scene.registerComponent<Name>("Name");
+        scene.registerComponent<Position>("Position");
 
         Entity frank = scene.createEntity();
         frank.addComponent<Name>().value = "Frank";
         frank.addComponent<Position>().value = Vector3(1, 2, 3);
 
-        DataValue frankValue;
-        frank.save(frankValue);
+        DataValue frankValue = frank.serializeToDataValue();
 
         Entity frankDeserialized = scene.createEntity();
-        frankDeserialized.load(frankValue, assetCache);
+        frankDeserialized.deserializeFromDataValue(frankValue, assetCache);
 
         CHECK(frankDeserialized.hasComponent<Name>());
         CHECK(frankDeserialized.hasComponent<Position>());
@@ -336,16 +333,14 @@ SUITE(Scene)
         CHECK_EQUAL(2, frankDeserialized.component<Position>().value.y);
     }
 
-    TEST(SaveAndLoadEntityUsingStream)
+    TEST(SerializeAndDeserializeEntityUsingStream)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
 
         Scene scene;
-
-        EntitySerializer& entitySerializer = scene.entitySerializer();
-        entitySerializer.registerComponent<Name>("Name");
-        entitySerializer.registerComponent<Position>("Position");
+        scene.registerComponent<Name>("Name");
+        scene.registerComponent<Position>("Position");
 
         Entity frank = scene.createEntity();
         frank.addComponent<Name>().value = "Frank";
@@ -355,14 +350,14 @@ SUITE(Scene)
 
         {
             MemoryWriteStream stream(data);
-            frank.save(stream);
+            frank.serializeToStream(stream);
         }
 
         Entity frankDeserialized = scene.createEntity();
 
         {
             MemoryReadStream stream(data);
-            frankDeserialized.load(stream, assetCache);
+            frankDeserialized.deserializeFromStream(stream, assetCache);
         }
 
         CHECK(frankDeserialized.hasComponent<Name>());
@@ -372,7 +367,7 @@ SUITE(Scene)
         CHECK_EQUAL(2, frankDeserialized.component<Position>().value.y);
     }
 
-    TEST(SaveAndLoadSceneUsingDataValue)
+    TEST(SerializeAndDeserializeSceneUsingDataValue)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
@@ -380,9 +375,7 @@ SUITE(Scene)
         DataValue sceneValue;
         {
             Scene scene;
-
-            EntitySerializer& entitySerializer = scene.entitySerializer();
-            entitySerializer.registerComponent<Name>("Name");
+            scene.registerComponent<Name>("Name");
 
             Entity frank = scene.createEntity();
             frank.addComponent<Name>().value = "Frank";
@@ -398,19 +391,17 @@ SUITE(Scene)
             billy.activate();
 
             scene.refresh();
-            scene.save(sceneValue);
+            sceneValue = scene.serializeToDataValue();
         }
 
         NamingSystem namingSystem;
 
         Scene scene;
-
-        EntitySerializer& entitySerializer = scene.entitySerializer();
-        entitySerializer.registerComponent<Name>("Name");
+        scene.registerComponent<Name>("Name");
 
         scene.addSystem(namingSystem);
 
-        scene.load(sceneValue, assetCache);
+        scene.deserializeFromDataValue(sceneValue, assetCache);
         scene.refresh();
 
         auto& entities = namingSystem.entities();
@@ -421,7 +412,7 @@ SUITE(Scene)
         CHECK_EQUAL("Joe", entities[1].component<Name>().value);
     }
 
-    TEST(SaveAndLoadSceneUsingStream)
+    TEST(SerializeAndDeserializeSceneUsingStream)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
@@ -429,9 +420,7 @@ SUITE(Scene)
         std::vector<uint8_t> data;
         {
             Scene scene;
-
-            EntitySerializer& entitySerializer = scene.entitySerializer();
-            entitySerializer.registerComponent<Name>("Name");
+            scene.registerComponent<Name>("Name");
 
             Entity frank = scene.createEntity();
             frank.addComponent<Name>().value = "Frank";
@@ -449,22 +438,20 @@ SUITE(Scene)
             scene.refresh();
             {
                 MemoryWriteStream stream(data);
-                scene.save(stream);
+                scene.serializeToStream(stream);
             }
         }
 
         NamingSystem namingSystem;
 
         Scene scene;
-
-        EntitySerializer& entitySerializer = scene.entitySerializer();
-        entitySerializer.registerComponent<Name>("Name");
+        scene.registerComponent<Name>("Name");
 
         scene.addSystem(namingSystem);
 
         {
             MemoryReadStream stream(data);
-            scene.load(stream, assetCache);
+            scene.deserializeFromStream(stream, assetCache);
         }
         scene.refresh();
 

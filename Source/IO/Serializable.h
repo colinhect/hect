@@ -36,11 +36,11 @@ public:
     virtual void serialize(ObjectSerializer& serializer) const;
     virtual void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
 
-    void serialize(DataValue& dataValue) const;
-    void serialize(WriteStream& stream) const;
+    DataValue serializeToDataValue() const;
+    void serializeToStream(WriteStream& stream) const;
 
-    void deserialize(const DataValue& dataValue, AssetCache& assetCache);
-    void deserialize(ReadStream& stream, AssetCache& assetCache);
+    void deserializeFromDataValue(const DataValue& dataValue, AssetCache& assetCache);
+    void deserializeFromStream(ReadStream& stream, AssetCache& assetCache);
 };
 
 }

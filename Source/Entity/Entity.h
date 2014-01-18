@@ -26,8 +26,7 @@
 #include "Core/DataValue.h"
 #include "Asset/AssetCache.h"
 #include "Entity/Component.h"
-#include "IO/ReadStream.h"
-#include "IO/WriteStream.h"
+#include "IO/Serializable.h"
 
 namespace hect
 {
@@ -38,7 +37,8 @@ namespace hect
 /// \remarks An entity value is a lightweight handle for an entity within a
 /// scene.  Copying an entity value will result in another handle pointing
 /// to the same entity.
-class Entity
+class Entity :
+    public Serializable
 {
     friend class Scene;
 public:
@@ -65,39 +65,8 @@ public:
     /// Returns the entity id.
     Id id() const;
 
-    ///
-    /// Serializes the entity's components to a data value.
-    ///
-    /// \param dataValue The data value.
-    ///
-    /// \throws Error If the entity is null.
-    void save(DataValue& dataValue) const;
-
-    ///
-    /// Serializes the entity's components to a binary stream.
-    ///
-    /// \param stream The stream to write to.
-    ///
-    /// \throws Error If the entity is null.
-    void save(WriteStream& stream) const;
-
-    ///
-    /// Deserializes and adds components to the entity from a data value.
-    ///
-    /// \param dataValue The data value.
-    /// \param assetCache The asset cache to use to load referenced assets.
-    ///
-    /// \throws Error If the entity is null or activated.
-    void load(const DataValue& dataValue, AssetCache& assetCache) const;
-
-    ///
-    /// Deserializes and adds components to the entity from a binary stream.
-    ///
-    /// \param stream The stream to read from.
-    /// \param assetCache The asset cache to use to load referenced assets.
-    ///
-    /// \throws Error If the entity is null or activated.
-    void load(ReadStream& stream, AssetCache& assetCache) const;
+    void serialize(ObjectSerializer& serializer) const;
+    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
 
     ///
     /// Activates the entity, enqueuing it to be added to systems in the scene

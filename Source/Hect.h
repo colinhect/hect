@@ -118,7 +118,6 @@
 #include "Entity/EntityData.h"
 #include "Entity/Entity.h"
 #include "Entity/System.h"
-#include "Entity/EntitySerializer.h"
 #include "Entity/Scene.h"
 
 #include "Entity/Components/Camera.h"

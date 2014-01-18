@@ -1,10 +1,17 @@
 {
-    "Transform" : { },
-    "Camera" :
-    {
-        "fieldOfView" : 80,
-        "nearClip" : 0.01,
-        "farClip" : 250000
-    },
-    "PlayerCamera" : { }
+    "components" :
+    [
+        {
+            "type" : "Transform"
+        },
+        {
+            "type" : "Camera",
+            "fieldOfView" : 80,
+            "nearClip" : 0.01,
+            "farClip" : 250000
+        },
+        {
+            "type" : "PlayerCamera"
+        }
+    ]
 }

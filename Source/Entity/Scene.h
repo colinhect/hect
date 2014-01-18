@@ -23,11 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <functional>
+
 #include "Core/IdPool.h"
 #include "Entity/Entity.h"
 #include "Entity/EntityData.h"
-#include "Entity/EntitySerializer.h"
 #include "Entity/System.h"
+#include "IO/Serializable.h"
 
 namespace hect
 {
@@ -35,7 +37,8 @@ namespace hect
 ///
 /// A scene of entities.
 class Scene :
-    public Uncopyable
+    public Uncopyable,
+    public Serializable
 {
     friend class Entity;
 public:
@@ -86,36 +89,16 @@ public:
     Entity entityWithId(Entity::Id id) const;
 
     ///
-    /// Serializes all activated entities in the scene to a data value.
+    /// Registers a component.
     ///
-    /// \param dataValue The data value.
-    void save(DataValue& dataValue) const;
+    /// \param componentTypeName The type name of the component.
+    ///
+    /// \throws Error If the component type is already registered.
+    template <typename T>
+    void registerComponent(const std::string& componentTypeName);
 
-    ///
-    /// Serializes all activated entities in the scene to a binary stream.
-    ///
-    /// \param stream The stream to write to.
-    void save(WriteStream& stream) const;
-
-    ///
-    /// Deserializes all entities from a data value and activates them in the
-    /// scene.
-    ///
-    /// \param dataValue The data value.
-    /// \param assetCache The asset cache to use to load referenced assets.
-    void load(const DataValue& dataValue, AssetCache& assetCache);
-
-    ///
-    /// Deserializes all entities from a binary stream and activates them in
-    /// the scene.
-    ///
-    /// \param stream The stream to read from.
-    /// \param assetCache The asset cache to use to load referenced assets.
-    void load(ReadStream& stream, AssetCache& assetCache);
-    
-    ///
-    /// Returns the entity serializer;
-    EntitySerializer& entitySerializer();
+    void serialize(ObjectSerializer& serializer) const;
+    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
 
 private:
     enum
@@ -124,6 +107,9 @@ private:
     };
 
     Entity _cloneEntity(const Entity& entity);
+
+    void _serializeEntity(const Entity& entity, ObjectSerializer& serializer) const;
+    void _deserializeEntity(const Entity& entity, ObjectDeserializer& deserializer, AssetCache& assetCache);
 
     void _destroyEntity(const Entity& entity);
     void _activateEntity(const Entity& entity);
@@ -143,6 +129,10 @@ private:
 
     template <typename T>
     T& _component(const Entity& entity);
+
+    ComponentTypeId _typeId(const std::string& typeName) const;
+    const std::string& _typeName(ComponentTypeId typeId) const;
+    BaseComponent* _constructComponent(ComponentTypeId typeId) const;
 
     // The number of activated entities
     size_t _activatedEntityCount;
@@ -165,8 +155,14 @@ private:
     // Systems involved in the scene
     std::vector<System*> _systems;
 
-    // The entity serializer
-    EntitySerializer _entitySerializer;
+    // Component types mapped to component type names
+    std::map<ComponentTypeId, std::string> _componentTypeNames;
+
+    // Component type names mapped to component types
+    std::map<std::string, ComponentTypeId> _componentTypeIds;
+
+    // Component types mapped to component constructors
+    std::map<ComponentTypeId, std::function<BaseComponent*()>> _componentConstructors;
 };
 
 }
