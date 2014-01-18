@@ -109,34 +109,34 @@ void RigidBody::setMesh(const AssetHandle<Mesh>& mesh)
     _mesh = mesh;
 }
 
-void RigidBodySerializer::save(const RigidBody& rigidBody, DataWriter& writer) const
+void RigidBodySerializer::save(const RigidBody& rigidBody, ObjectSerializer& serializer) const
 {
-    writer.writeDouble("mass", rigidBody.mass());
-    writer.writeVector3("linearVelocity", rigidBody.linearVelocity());
-    writer.writeVector3("angularVelocity", rigidBody.angularVelocity());
-    writer.writeString("mesh", rigidBody.mesh().path().toString());
+    serializer.writeReal("mass", rigidBody.mass());
+    serializer.writeVector3("linearVelocity", rigidBody.linearVelocity());
+    serializer.writeVector3("angularVelocity", rigidBody.angularVelocity());
+    serializer.writeString("mesh", rigidBody.mesh().path().toString());
 }
 
-void RigidBodySerializer::load(RigidBody& rigidBody, DataReader& reader, AssetCache& assetCache) const
+void RigidBodySerializer::load(RigidBody& rigidBody, ObjectDeserializer& deserializer, AssetCache& assetCache) const
 {
-    if (reader.hasMember("mass"))
+    if (deserializer.hasMember("mass"))
     {
-        rigidBody.setMass(reader.readDouble("mass"));
+        rigidBody.setMass(deserializer.readReal("mass"));
     }
 
-    if (reader.hasMember("linearVelocity"))
+    if (deserializer.hasMember("linearVelocity"))
     {
-        rigidBody.setLinearVelocity(reader.readVector3("linearVelocity"));
+        rigidBody.setLinearVelocity(deserializer.readVector3("linearVelocity"));
     }
 
-    if (reader.hasMember("angularVelocity"))
+    if (deserializer.hasMember("angularVelocity"))
     {
-        rigidBody.setAngularVelocity(reader.readVector3("angularVelocity"));
+        rigidBody.setAngularVelocity(deserializer.readVector3("angularVelocity"));
     }
 
-    if (reader.hasMember("mesh"))
+    if (deserializer.hasMember("mesh"))
     {
-        std::string meshPath = reader.readString("mesh");
+        std::string meshPath = deserializer.readString("mesh");
         AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
 
         rigidBody.setMesh(mesh);

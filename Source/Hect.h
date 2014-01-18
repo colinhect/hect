@@ -63,8 +63,6 @@
 #include "IO/FileSystem.h"
 #include "IO/Serializer.h"
 #include "IO/Deserializer.h"
-#include "IO/DataReader.h"
-#include "IO/DataWriter.h"
 #include "Asset/AssetLoader.h"
 #include "Asset/AssetEntry.h"
 #include "Asset/AssetHandle.h"

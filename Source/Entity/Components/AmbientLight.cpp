@@ -40,17 +40,17 @@ void AmbientLight::setColor(const Vector3& color)
     _color = color;
 }
 
-void AmbientLightSerializer::save(const AmbientLight& light, DataWriter& writer) const
+void AmbientLightSerializer::save(const AmbientLight& light, ObjectSerializer& serializer) const
 {
-    writer.writeVector3("color", light.color());
+    serializer.writeVector3("color", light.color());
 }
 
-void AmbientLightSerializer::load(AmbientLight& light, DataReader& reader, AssetCache& assetCache) const
+void AmbientLightSerializer::load(AmbientLight& light, ObjectDeserializer& deserializer, AssetCache& assetCache) const
 {
     assetCache;
 
-    if (reader.hasMember("color"))
+    if (deserializer.hasMember("color"))
     {
-        light.setColor(reader.readVector3("color"));
+        light.setColor(deserializer.readVector3("color"));
     }
 }

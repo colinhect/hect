@@ -133,11 +133,11 @@ public:
 
     ///
     /// See BaseComponentSerializer::save()
-    void save(const Transform& transform, DataWriter& writer) const;
+    void save(const Transform& transform, ObjectSerializer& serializer) const;
 
     ///
     /// See BaseComponentSerializer::load()
-    void load(Transform& transform, DataReader& reader, AssetCache& assetCache) const;
+    void load(Transform& transform, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

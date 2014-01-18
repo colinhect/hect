@@ -61,11 +61,11 @@ public:
 
     ///
     /// See BaseComponentSerializer::save()
-    void save(const AmbientLight& light, DataWriter& writer) const;
+    void save(const AmbientLight& light, ObjectSerializer& serializer) const;
 
     ///
     /// See BaseComponentSerializer::load()
-    void load(AmbientLight& light, DataReader& reader, AssetCache& assetCache) const;
+    void load(AmbientLight& light, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

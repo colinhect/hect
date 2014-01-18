@@ -71,11 +71,11 @@ public:
 
     ///
     /// See BaseComponentSerializer::save()
-    void save(const DirectionalLight& light, DataWriter& writer) const;
+    void save(const DirectionalLight& light, ObjectSerializer& serializer) const;
 
     ///
     /// See BaseComponentSerializer::load()
-    void load(DirectionalLight& light, DataReader& reader, AssetCache& assetCache) const;
+    void load(DirectionalLight& light, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

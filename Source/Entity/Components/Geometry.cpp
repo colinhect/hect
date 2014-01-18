@@ -56,40 +56,37 @@ const AssetHandle<Material>::Array& Geometry::materials() const
     return _materials;
 }
 
-void GeometrySerializer::save(const Geometry& geometry, DataWriter& writer) const
+void GeometrySerializer::save(const Geometry& geometry, ObjectSerializer& serializer) const
 {
     size_t surfaceCount = geometry.surfaceCount();
 
-    writer.beginArray("surfaces");
+    ArraySerializer surfaces = serializer.writeArray("surfaces");
     for (size_t i = 0; i < surfaceCount; ++i)
     {
-        writer.beginObject();
-        writer.writeString("mesh", geometry.meshes()[i].path().toString());
-        writer.writeString("material", geometry.materials()[i].path().toString());
-        writer.endObject();
+        ObjectSerializer surface = surfaces.writeObject();
+        surface.writeString("mesh", geometry.meshes()[i].path().toString());
+        surface.writeString("material", geometry.materials()[i].path().toString());
     }
-    writer.endArray();
 }
 
-void GeometrySerializer::load(Geometry& geometry, DataReader& reader, AssetCache& assetCache) const
+void GeometrySerializer::load(Geometry& geometry, ObjectDeserializer& deserializer, AssetCache& assetCache) const
 {
-    if (reader.beginArray("surfaces"))
+    ArrayDeserializer surfaces = deserializer.readArray("surfaces");
+    if (surfaces)
     {
-        while (!reader.endArray())
+        while (surfaces.hasMoreElements())
         {
-            reader.beginObject();
-            if (reader.hasMember("mesh") && reader.hasMember("material"))
+            ObjectDeserializer surface = surfaces.readObject();
+            if (surface.hasMember("mesh") && surface.hasMember("material"))
             {
-                std::string meshPath = reader.readString("mesh");
-                std::string materialPath = reader.readString("material");
+                std::string meshPath = surface.readString("mesh");
+                std::string materialPath = surface.readString("material");
 
                 AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
                 AssetHandle<Material> material = assetCache.getHandle<Material>(materialPath);
 
                 geometry.addSurface(mesh, material);
             }
-
-            reader.endObject();
         }
     }
 }

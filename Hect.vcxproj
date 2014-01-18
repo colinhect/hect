@@ -89,8 +89,6 @@
     <ClCompile Include="Source\Input\Keyboard.cpp" />
     <ClCompile Include="Source\Input\Mouse.cpp" />
     <ClCompile Include="Source\Internal\Bullet.cpp" />
-    <ClCompile Include="Source\IO\DataReader.cpp" />
-    <ClCompile Include="Source\IO\DataWriter.cpp" />
     <ClCompile Include="Source\IO\Deserializer.cpp" />
     <ClCompile Include="Source\IO\Serializer.cpp" />
     <ClCompile Include="Source\IO\FileReadStream.cpp" />
@@ -182,8 +180,6 @@
     <ClInclude Include="Source\Input\Keyboard.h" />
     <ClInclude Include="Source\Input\Mouse.h" />
     <ClInclude Include="Source\Internal\Bullet.h" />
-    <ClInclude Include="Source\IO\DataReader.h" />
-    <ClInclude Include="Source\IO\DataWriter.h" />
     <ClInclude Include="Source\IO\Deserializer.h" />
     <ClInclude Include="Source\IO\Serializer.h" />
     <ClInclude Include="Source\IO\FileReadStream.h" />

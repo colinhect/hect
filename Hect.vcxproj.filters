@@ -303,12 +303,6 @@
     <ClCompile Include="Source\Graphics\MeshDataValueFormat.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IO\DataReader.cpp">
-      <Filter>Source\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\IO\DataWriter.cpp">
-      <Filter>Source\IO</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\LogicLayer.cpp">
       <Filter>Source\Core</Filter>
     </ClCompile>
@@ -595,12 +589,6 @@
     </ClInclude>
     <ClInclude Include="Source\Graphics\MeshDataValueFormat.h">
       <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\IO\DataReader.h">
-      <Filter>Source\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\IO\DataWriter.h">
-      <Filter>Source\IO</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\LogicLayer.h">
       <Filter>Source\Core</Filter>

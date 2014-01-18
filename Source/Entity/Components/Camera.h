@@ -142,11 +142,11 @@ public:
 
     ///
     /// See BaseComponentSerializer::save()
-    void save(const Camera& camera, DataWriter& writer) const;
+    void save(const Camera& camera, ObjectSerializer& serializer) const;
 
     ///
     /// See BaseComponentSerializer::load()
-    void load(Camera& camera, DataReader& reader, AssetCache& assetCache) const;
+    void load(Camera& camera, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

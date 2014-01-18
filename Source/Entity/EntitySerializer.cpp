@@ -61,12 +61,15 @@ void EntitySerializer::save(const Entity& entity, DataValue& dataValue)
         const BaseComponentSerializer& serializer = _serializer(typeId);
 
         // Serialize
-        DataValueWriter writer;
-        serializer.save(component, writer);
+        DataValueSerializer dataValueSerializer;
+        {
+            ObjectSerializer object = dataValueSerializer.writeObject();
+            serializer.save(component, object);
+        }
 
         // Save the resulting data value from the writer to the member data
         // value
-        dataValue.addMember(typeName, writer.currentDataValue());
+        dataValue.addMember(typeName, dataValueSerializer.serializedDataValues()[0]);
     }
 }
 
@@ -91,8 +94,11 @@ void EntitySerializer::save(const Entity& entity, WriteStream& stream)
         stream.writeByte((uint8_t)typeId);
 
         // Serialize
-        BinaryDataWriter writer(stream);
-        serializer.save(component, writer);
+        BinarySerializer binarySerializer(stream);
+        {
+            ObjectSerializer object = binarySerializer.writeObject();
+            serializer.save(component, object);
+        }
     }
 }
 
@@ -113,11 +119,15 @@ void EntitySerializer::load(const Entity& entity, const DataValue& dataValue, As
         BaseComponent* component = _constructComponent(typeId);
 
         // Deserialize
-        DataValueReader reader(dataValue[typeName]);
-        serializer.load(component, reader, assetCache);
+        DataValueDeserializer deserializer(dataValue[typeName]);
+        ObjectDeserializer object = deserializer.readObject();
+        if (object)
+        {
+            serializer.load(component, object, assetCache);
 
-        // Add component
-        entity.addComponent(component);
+            // Add component
+            entity.addComponent(component);
+        }
     }
 }
 
@@ -141,11 +151,15 @@ void EntitySerializer::load(const Entity& entity, ReadStream& stream, AssetCache
         BaseComponent* component = _constructComponent(typeId);
 
         // Deserialize
-        BinaryDataReader reader(stream);
-        serializer.load(component, reader, assetCache);
+        BinaryDeserializer deserializer(stream);
+        ObjectDeserializer object = deserializer.readObject();
+        if (object)
+        {
+            serializer.load(component, object, assetCache);
 
-        // Add component
-        entity.addComponent(component);
+            // Add component
+            entity.addComponent(component);
+        }
     }
 }
 

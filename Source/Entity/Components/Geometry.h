@@ -79,11 +79,11 @@ public:
 
     ///
     /// See BaseComponentSerializer::save()
-    void save(const Geometry& geometry, DataWriter& writer) const;
+    void save(const Geometry& geometry, ObjectSerializer& serializer) const;
 
     ///
     /// See BaseComponentSerializer::load()
-    void load(Geometry& geometry, DataReader& reader, AssetCache& assetCache) const;
+    void load(Geometry& geometry, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

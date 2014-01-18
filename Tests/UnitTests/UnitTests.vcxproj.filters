@@ -85,9 +85,6 @@
     <ClInclude Include="Source\MeshReaderTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DataReaderWriterTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\EventTests.h">
       <Filter>Source</Filter>
     </ClInclude>

@@ -26,8 +26,8 @@
 #include "Core/Configuration.h"
 #include "Asset/AssetCache.h"
 #include "Entity/Component.h"
-#include "IO/DataReader.h"
-#include "IO/DataWriter.h"
+#include "IO/Deserializer.h"
+#include "IO/Serializer.h"
 
 namespace hect
 {
@@ -49,7 +49,7 @@ public:
     ///
     /// \param component The component.
     /// \param writer The data writer.
-    virtual void save(const BaseComponent* component, DataWriter& writer) const = 0;
+    virtual void save(const BaseComponent* component, ObjectSerializer& serializer) const = 0;
 
     ///
     /// Deserializes a component using a data reader.
@@ -57,7 +57,7 @@ public:
     /// \param component The component.
     /// \param reader The data reader.
     /// \param assetCache The asset cache to load referenced assets from.
-    virtual void load(BaseComponent* component, DataReader& reader, AssetCache& assetCache) const = 0;
+    virtual void load(BaseComponent* component, ObjectDeserializer& deserializer, AssetCache& assetCache) const = 0;
 };
 
 ///
@@ -73,7 +73,7 @@ public:
     ///
     /// \param component The component.
     /// \param writer The data writer.
-    virtual void save(const T& component, DataWriter& writer) const;
+    virtual void save(const T& component, ObjectSerializer& serializer) const;
 
     ///
     /// Deserializes a component using a data reader.
@@ -81,10 +81,10 @@ public:
     /// \param component The component.
     /// \param reader The data reader.
     /// \param assetCache The asset cache to load referenced assets from.
-    virtual void load(T& component, DataReader& reader, AssetCache& assetCache) const;
+    virtual void load(T& component, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 
-    void save(const BaseComponent* component, DataWriter& writer) const;
-    void load(BaseComponent* component, DataReader& reader, AssetCache& assetCache) const;
+    void save(const BaseComponent* component, ObjectSerializer& serializer) const;
+    void load(BaseComponent* component, ObjectDeserializer& deserializer, AssetCache& assetCache) const;
 };
 
 }

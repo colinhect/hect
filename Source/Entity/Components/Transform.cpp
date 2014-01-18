@@ -117,51 +117,51 @@ void Transform::transformBy(const Transform& transform)
     _dirtyBits = PositionBit | ScaleBit | RotationBit;
 }
 
-void TransformSerializer::save(const Transform& transform, DataWriter& writer) const
+void TransformSerializer::save(const Transform& transform, ObjectSerializer& serializer) const
 {
     Vector3 axis;
     Angle angle;
     transform.rotation().toAxisAngle(axis, angle);
 
-    writer.writeVector3("position", transform.position());
-    writer.writeVector3("scale", transform.scale());
-    writer.beginObject("rotation");
-    writer.writeVector3("axis", axis);
-    writer.writeDouble("angle", angle.degrees());
-    writer.endObject();
+    serializer.writeVector3("position", transform.position());
+    serializer.writeVector3("scale", transform.scale());
+
+    ObjectSerializer rotation = serializer.writeObject("rotation");
+    rotation.writeVector3("axis", axis);
+    rotation.writeReal("angle", angle.degrees());
 }
 
-void TransformSerializer::load(Transform& transform, DataReader& reader, AssetCache& assetCache) const
+void TransformSerializer::load(Transform& transform, ObjectDeserializer& deserializer, AssetCache& assetCache) const
 {
     assetCache;
 
-    if (reader.hasMember("position"))
+    if (deserializer.hasMember("position"))
     {
-        transform.setPosition(reader.readVector3("position"));
+        transform.setPosition(deserializer.readVector3("position"));
     }
 
-    if (reader.hasMember("scale"))
+    if (deserializer.hasMember("scale"))
     {
-        transform.setScale(reader.readVector3("scale"));
+        transform.setScale(deserializer.readVector3("scale"));
     }
 
-    if (reader.beginObject("rotation"))
+    ObjectDeserializer rotation = deserializer.readObject("rotation");
+    if (rotation)
     {
         Vector3 axis;
         Angle angle;
 
-        if (reader.hasMember("axis"))
+        if (rotation.hasMember("axis"))
         {
-            axis = reader.readVector3("axis");
+            axis = rotation.readVector3("axis");
         }
 
-        if (reader.hasMember("angle"))
+        if (rotation.hasMember("angle"))
         {
-            Real degrees = reader.readDouble("angle");
+            Real degrees = rotation.readReal("angle");
             angle = Angle::fromDegrees(degrees);
         }
 
         transform.setRotation(Quaternion::fromAxisAngle(axis, angle));
-        reader.endObject();
     }
 }

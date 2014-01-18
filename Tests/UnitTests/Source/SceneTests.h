@@ -36,18 +36,18 @@ SUITE(Scene)
         public ComponentSerializer<Name>
     {
     public:
-        void save(const Name& name, DataWriter& writer) const
+        void save(const Name& name, ObjectSerializer& serializer) const
         {
-            writer.writeString("value", name.value);
+            serializer.writeString("value", name.value);
         }
 
-        void load(Name& name, DataReader& reader, AssetCache& assetCache) const
+        void load(Name& name, ObjectDeserializer& deserializer, AssetCache& assetCache) const
         {
             assetCache;
 
-            if (reader.hasMember("value"))
+            if (deserializer.hasMember("value"))
             {
-                name.value = reader.readString("value");
+                name.value = deserializer.readString("value");
             }
         }
     };
@@ -63,18 +63,18 @@ SUITE(Scene)
         public ComponentSerializer<Position>
     {
     public:
-        void save(const Position& position, DataWriter& writer) const
+        void save(const Position& position, ObjectSerializer& serializer) const
         {
-            writer.writeVector3("value", position.value);
+            serializer.writeVector3("value", position.value);
         }
 
-        void load(Position& position, DataReader& reader, AssetCache& assetCache) const
+        void load(Position& position, ObjectDeserializer& deserializer, AssetCache& assetCache) const
         {
             assetCache;
 
-            if (reader.hasMember("value"))
+            if (deserializer.hasMember("value"))
             {
-                position.value = reader.readVector3("value");
+                position.value = deserializer.readVector3("value");
             }
         }
     };
@@ -90,18 +90,18 @@ SUITE(Scene)
         public ComponentSerializer<Velocity>
     {
     public:
-        void save(const Velocity& velocity, DataWriter& writer) const
+        void save(const Velocity& velocity, ObjectSerializer& serializer) const
         {
-            writer.writeVector3("value", velocity.value);
+            serializer.writeVector3("value", velocity.value);
         }
 
-        void load(Velocity& velocity, DataReader& reader, AssetCache& assetCache) const
+        void load(Velocity& velocity, ObjectDeserializer& deserializer, AssetCache& assetCache) const
         {
             assetCache;
 
-            if (reader.hasMember("value"))
+            if (deserializer.hasMember("value"))
             {
-                velocity.value = reader.readVector3("value");
+                velocity.value = deserializer.readVector3("value");
             }
         }
     };
