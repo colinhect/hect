@@ -46,12 +46,6 @@ namespace hect
         ~ArraySerializer();
 
         ///
-        /// Writes a string.
-        ///
-        /// \param value The value to write.
-        void writeString(const std::string& value);
-
-        ///
         /// Begins writing an array.
         ///
         /// \returns The serializer for the array.
@@ -62,6 +56,21 @@ namespace hect
         ///
         /// \returns The serializer for the object.
         ObjectSerializer writeObject();
+
+        void writeString(const std::string& value);
+        void writeByte(int8_t value);
+        void writeUnsignedByte(uint8_t value);
+        void writeShort(int16_t value);
+        void writeUnsignedShort(uint16_t value);
+        void writeInt(int32_t value);
+        void writeUnsignedInt(uint32_t value);
+        void writeLong(int64_t value);
+        void writeUnsignedLong(uint64_t value);
+        void writeFloat(float value);
+        void writeDouble(double value);
+        void writeVector2(const Vector2& value);
+        void writeVector3(const Vector3& value);
+        void writeVector4(const Vector4& value);
 
     private:
         ArraySerializer();
@@ -83,13 +92,6 @@ namespace hect
         ~ObjectSerializer();
 
         ///
-        /// Writes a string.
-        ///
-        /// \param name The name of the member to write to.
-        /// \param value The value to write.
-        void writeString(const char* name, const std::string& value);
-
-        ///
         /// Begins writing an array.
         ///
         /// \param name The name of the member to write to.
@@ -104,6 +106,21 @@ namespace hect
         ///
         /// \returns The serializer for the object.
         ObjectSerializer writeObject(const char* name);
+
+        void writeString(const char* name, const std::string& value);
+        void writeByte(const char* name, int8_t value);
+        void writeUnsignedByte(const char* name, uint8_t value);
+        void writeShort(const char* name, int16_t value);
+        void writeUnsignedShort(const char* name, uint16_t value);
+        void writeInt(const char* name, int32_t value);
+        void writeUnsignedInt(const char* name, uint32_t value);
+        void writeLong(const char* name, int64_t value);
+        void writeUnsignedLong(const char* name, uint64_t value);
+        void writeFloat(const char* name, float value);
+        void writeDouble(const char* name, double value);
+        void writeVector2(const char* name, const Vector2& value);
+        void writeVector3(const char* name, const Vector3& value);
+        void writeVector4(const char* name, const Vector4& value);
 
     private:
         ObjectSerializer();
@@ -147,6 +164,32 @@ namespace hect
 
         virtual void writeString(const std::string& value) = 0;
         virtual void writeString(const char* name, const std::string& value) = 0;
+        virtual void writeByte(int8_t value) = 0;
+        virtual void writeByte(const char* name, int8_t value) = 0;
+        virtual void writeUnsignedByte(uint8_t value) = 0;
+        virtual void writeUnsignedByte(const char* name, uint8_t value) = 0;
+        virtual void writeShort(int16_t value) = 0;
+        virtual void writeShort(const char* name, int16_t value) = 0;
+        virtual void writeUnsignedShort(uint16_t value) = 0;
+        virtual void writeUnsignedShort(const char* name, uint16_t value) = 0;
+        virtual void writeInt(int32_t value) = 0;
+        virtual void writeInt(const char* name, int32_t value) = 0;
+        virtual void writeUnsignedInt(uint32_t value) = 0;
+        virtual void writeUnsignedInt(const char* name, uint32_t value) = 0;
+        virtual void writeLong(int64_t value) = 0;
+        virtual void writeLong(const char* name, int64_t value) = 0;
+        virtual void writeUnsignedLong(uint64_t value) = 0;
+        virtual void writeUnsignedLong(const char* name, uint64_t value) = 0;
+        virtual void writeFloat(float value) = 0;
+        virtual void writeFloat(const char* name, float value) = 0;
+        virtual void writeDouble(double value) = 0;
+        virtual void writeDouble(const char* name, double value) = 0;
+        virtual void writeVector2(const Vector2& value) = 0;
+        virtual void writeVector2(const char* name, const Vector2& value) = 0;
+        virtual void writeVector3(const Vector3& value) = 0;
+        virtual void writeVector3(const char* name, const Vector3& value) = 0;
+        virtual void writeVector4(const Vector4& value) = 0;
+        virtual void writeVector4(const char* name, const Vector4& value) = 0;
     };
 
     ///
@@ -175,6 +218,32 @@ namespace hect
 
         void writeString(const std::string& value);
         void writeString(const char* name, const std::string& value);
+        void writeByte(int8_t value);
+        void writeByte(const char* name, int8_t value);
+        void writeUnsignedByte(uint8_t value);
+        void writeUnsignedByte(const char* name, uint8_t value);
+        void writeShort(int16_t value);
+        void writeShort(const char* name, int16_t value);
+        void writeUnsignedShort(uint16_t value);
+        void writeUnsignedShort(const char* name, uint16_t value);
+        void writeInt(int32_t value);
+        void writeInt(const char* name, int32_t value);
+        void writeUnsignedInt(uint32_t value);
+        void writeUnsignedInt(const char* name, uint32_t value);
+        void writeLong(int64_t value);
+        void writeLong(const char* name, int64_t value);
+        void writeUnsignedLong(uint64_t value);
+        void writeUnsignedLong(const char* name, uint64_t value);
+        void writeFloat(float value);
+        void writeFloat(const char* name, float value);
+        void writeDouble(double value);
+        void writeDouble(const char* name, double value);
+        void writeVector2(const Vector2& value);
+        void writeVector2(const char* name, const Vector2& value);
+        void writeVector3(const Vector3& value);
+        void writeVector3(const char* name, const Vector3& value);
+        void writeVector4(const Vector4& value);
+        void writeVector4(const char* name, const Vector4& value);
 
         void _serialize(const DataValue& value);
         void _serialize(const char* name, const DataValue& value);
@@ -214,6 +283,32 @@ namespace hect
 
         void writeString(const std::string& value);
         void writeString(const char* name, const std::string& value);
+        void writeByte(int8_t value);
+        void writeByte(const char* name, int8_t value);
+        void writeUnsignedByte(uint8_t value);
+        void writeUnsignedByte(const char* name, uint8_t value);
+        void writeShort(int16_t value);
+        void writeShort(const char* name, int16_t value);
+        void writeUnsignedShort(uint16_t value);
+        void writeUnsignedShort(const char* name, uint16_t value);
+        void writeInt(int32_t value);
+        void writeInt(const char* name, int32_t value);
+        void writeUnsignedInt(uint32_t value);
+        void writeUnsignedInt(const char* name, uint32_t value);
+        void writeLong(int64_t value);
+        void writeLong(const char* name, int64_t value);
+        void writeUnsignedLong(uint64_t value);
+        void writeUnsignedLong(const char* name, uint64_t value);
+        void writeFloat(float value);
+        void writeFloat(const char* name, float value);
+        void writeDouble(double value);
+        void writeDouble(const char* name, double value);
+        void writeVector2(const Vector2& value);
+        void writeVector2(const char* name, const Vector2& value);
+        void writeVector3(const Vector3& value);
+        void writeVector3(const char* name, const Vector3& value);
+        void writeVector4(const Vector4& value);
+        void writeVector4(const char* name, const Vector4& value);
 
         std::stack<size_t> _countPositionStack;
         std::stack<unsigned> _countStack;

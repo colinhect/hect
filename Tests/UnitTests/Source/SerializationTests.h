@@ -57,7 +57,7 @@ void testSerializeDeserialize(std::function<void(Serializer&)> serialize, std::f
 
 SUITE(SerializerTests)
 {
-    TEST(SingleObjectDataValue)
+    TEST(SingleObject)
     {
         testSerializeDeserialize([] (Serializer& serializer)
         {
@@ -75,7 +75,7 @@ SUITE(SerializerTests)
         });
     }
 
-    TEST(SingleArrayDataValue)
+    TEST(SingleArray)
     {
         testSerializeDeserialize([] (Serializer& serializer)
         {
@@ -102,7 +102,7 @@ SUITE(SerializerTests)
         });
     }
 
-    TEST(ArrayInObjectDataValue)
+    TEST(ArrayInObject)
     {
         testSerializeDeserialize([] (Serializer& serializer)
         {
@@ -137,7 +137,7 @@ SUITE(SerializerTests)
         });
     }
 
-    TEST(ArrayInArrayDataValue)
+    TEST(ArrayInArray)
     {
         testSerializeDeserialize([] (Serializer& serializer)
         {
@@ -182,7 +182,7 @@ SUITE(SerializerTests)
         });
     }
 
-    TEST(ObjectInArrayDataValue)
+    TEST(ObjectInArray)
     {
         testSerializeDeserialize([] (Serializer& serializer)
         {
@@ -215,6 +215,73 @@ SUITE(SerializerTests)
             }
 
             CHECK_EQUAL(3, objectCount);
+        });
+    }
+
+    TEST(AllInArray)
+    {
+        testSerializeDeserialize([] (Serializer& serializer)
+        {
+            ArraySerializer array = serializer.writeArray();
+            
+            array.writeString("Test");
+            array.writeByte(12);
+            array.writeUnsignedByte(12);
+            array.writeShort(12);
+            array.writeUnsignedShort(12);
+            array.writeInt(12);
+            array.writeUnsignedInt(12);
+            array.writeLong(12);
+            array.writeUnsignedLong(12);
+            array.writeFloat(123.0f);
+            array.writeDouble(123.0);
+            array.writeVector2(Vector2(1, 2));
+            array.writeVector3(Vector3(1, 2, 3));
+            array.writeVector4(Vector4(1, 2, 3, 4));
+        }, [] (Deserializer& deserializer)
+        {
+            ArrayDeserializer array = deserializer.readArray();
+
+            bool hasArray = array;
+            CHECK(hasArray);
+
+            CHECK_EQUAL("Test", array.readString());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(12, array.readByte());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(12u, array.readUnsignedByte());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(12, array.readShort());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(12u, array.readUnsignedShort());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(12, array.readInt());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(12u, array.readUnsignedInt());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(12, array.readLong());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(12u, array.readUnsignedLong());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(123.0f, array.readFloat());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(123.0, array.readDouble());
+            CHECK(array.hasMoreElements());
+            Vector2 v2 = array.readVector2();
+            CHECK_EQUAL(1, v2.x);
+            CHECK_EQUAL(2, v2.y);
+            CHECK(array.hasMoreElements());
+            Vector3 v3 = array.readVector3();
+            CHECK_EQUAL(1, v3.x);
+            CHECK_EQUAL(2, v3.y);
+            CHECK_EQUAL(3, v3.z);
+            CHECK(array.hasMoreElements());
+            Vector4 v4 = array.readVector4();
+            CHECK_EQUAL(1, v4.x);
+            CHECK_EQUAL(2, v4.y);
+            CHECK_EQUAL(3, v4.z);
+            CHECK_EQUAL(4, v4.w);
+            CHECK(!array.hasMoreElements());
         });
     }
 }
