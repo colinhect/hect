@@ -32,11 +32,12 @@ namespace hect
 {
 
     ///
-    /// Provides access for encoding an array.
+    /// Provides access for serializing an array.
     class ArraySerializer
     {
         friend class Serializer;
         friend class DataValueSerializer;
+        friend class BinarySerializer;
 
         friend class ObjectSerializer;
     public:
@@ -45,21 +46,21 @@ namespace hect
         ~ArraySerializer();
 
         ///
-        /// Serializes a string.
+        /// Writes a string.
         ///
-        /// \param value The value to serialize.
+        /// \param value The value to write.
         void writeString(const std::string& value);
 
         ///
-        /// Serializes an array.
+        /// Begins writing an array.
         ///
-        /// \returns The serializer.
+        /// \returns The serializer for the array.
         ArraySerializer writeArray();
 
         ///
-        /// Serializes an object.
+        /// Begins writing an object.
         ///
-        /// \returns The serializer.
+        /// \returns The serializer for the object.
         ObjectSerializer writeObject();
 
     private:
@@ -73,6 +74,7 @@ namespace hect
     {
         friend class Serializer;
         friend class DataValueSerializer;
+        friend class BinarySerializer;
 
         friend class ArraySerializer;
     public:
@@ -81,26 +83,26 @@ namespace hect
         ~ObjectSerializer();
 
         ///
-        /// Serializes a string.
+        /// Writes a string.
         ///
-        /// \param name The name of the member to serialize to.
-        /// \param value The value to serialize.
+        /// \param name The name of the member to write to.
+        /// \param value The value to write.
         void writeString(const char* name, const std::string& value);
 
         ///
-        /// Serializes an array.
+        /// Begins writing an array.
         ///
-        /// \param name The name of the member to serialize to.
+        /// \param name The name of the member to write to.
         ///
-        /// \returns The serializer.
+        /// \returns The serializer for the array.
         ArraySerializer writeArray(const char* name);
 
         ///
-        /// Serializes an object.
+        /// Begins writing an object.
         ///
-        /// \param name The name of the member to serialize to.
+        /// \param name The name of the member to write to.
         ///
-        /// \returns The serializer.
+        /// \returns The serializer for the object.
         ObjectSerializer writeObject(const char* name);
 
     private:
@@ -111,7 +113,7 @@ namespace hect
     };
 
     ///
-    /// Provides abstract access for encoding structured data.
+    /// Provides abstract access for serializing structured data.
     class Serializer
     {
         friend class ArraySerializer;
@@ -123,15 +125,15 @@ namespace hect
         virtual bool isHumanReadable() const = 0;
 
         ///
-        /// Serializes an array.
+        /// Begins writing an array.
         ///
-        /// \returns The serializer.
+        /// \returns The serializer for the array.
         virtual ArraySerializer writeArray() = 0;
 
         ///
-        /// Serializes an object.
+        /// Begins writing an object.
         ///
-        /// \returns The serializer.
+        /// \returns The serializer for the object.
         virtual ObjectSerializer writeObject() = 0;
 
     protected:
@@ -148,7 +150,7 @@ namespace hect
     };
 
     ///
-    /// Provides access for encoding structured data to a data value.
+    /// Provides access for serializing structured data to a data value.
     class DataValueSerializer :
         public Serializer
     {
@@ -160,7 +162,7 @@ namespace hect
 
         ///
         /// Returns the serialized data values.
-        DataValue::Array& serializedDataValue();
+        DataValue::Array& serializedDataValues();
 
     private:
         void beginArray();
@@ -183,4 +185,39 @@ namespace hect
         DataValue::Array _completed;
     };
 
+     ///
+    /// Provides access for serializing structured data to a binary stream.
+    class BinarySerializer :
+        public Serializer
+    {
+    public:
+        
+        ///
+        /// Constructs a serializer given the stream to serialize to.
+        ///
+        /// \param stream The stream to serialize to.
+        BinarySerializer(WriteStream& stream);
+
+        bool isHumanReadable() const;
+
+        ArraySerializer writeArray();
+        ObjectSerializer writeObject();
+
+    private:
+        void beginArray();
+        void beginArray(const char* name);
+        void endArray();
+
+        void beginObject();
+        void beginObject(const char* name);
+        void endObject();
+
+        void writeString(const std::string& value);
+        void writeString(const char* name, const std::string& value);
+
+        std::stack<size_t> _countPositionStack;
+        std::stack<unsigned> _countStack;
+
+        WriteStream* _stream;
+    };
 }

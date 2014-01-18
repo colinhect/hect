@@ -32,11 +32,12 @@ namespace hect
 {
 
     ///
-    /// Provides access for decoding an array.
+    /// Provides access for deserializing an array.
     class ArrayDeserializer
     {
         friend class Deserializer;
         friend class DataValueDeserializer;
+        friend class BinaryDeserializer;
 
         friend class ObjectDeserializer;
     public:
@@ -49,21 +50,21 @@ namespace hect
         bool hasMoreElements() const;
 
         ///
-        /// Deserializes a string.
+        /// Reads a string.
         ///
-        /// \returns The deserialized string.
+        /// \returns The read string.
         std::string readString();
 
         ///
-        /// Deserializes an array.
+        /// Begins reading an array.
         ///
-        /// \returns The deserializer.
+        /// \returns The deserializer for the array.
         ArrayDeserializer readArray();
 
         ///
-        /// Deserializes an object.
+        /// Begins reading an object.
         ///
-        /// \returns The deserializer.
+        /// \returns The deserializer for the object.
         ObjectDeserializer readObject();
 
         ///
@@ -78,11 +79,12 @@ namespace hect
     };
 
     ///
-    /// Provides access for decoding an object.
+    /// Provides access for deserializing an object.
     class ObjectDeserializer
     {
         friend class Deserializer;
         friend class DataValueDeserializer;
+        friend class BinaryDeserializer;
 
         friend class ArrayDeserializer;
     public:
@@ -97,27 +99,27 @@ namespace hect
         bool hasMember(const char* name) const;
         
         ///
-        /// Deserializes a string.
+        /// Reads a string.
         ///
-        /// \param name The name of the member to deserialize.
+        /// \param name The name of the member to read.
         ///
-        /// \returns The deserialized string.
+        /// \returns The read string.
         std::string readString(const char* name);
         
         ///
-        /// Deserializes an array.
+        /// Begins reading an array.
         ///
-        /// \param name The name of the member to deserialize.
+        /// \param name The name of the member to begin reading.
         ///
-        /// \returns The deserializer.
+        /// \returns The deserializer for the array.
         ArrayDeserializer readArray(const char* name);
 
         ///
-        /// Deserializes an object.
+        /// Begins reading an object.
         ///
-        /// \param name The name of the member to deserialize.
+        /// \param name The name of the member to begin reading.
         ///
-        /// \returns The deserializer.
+        /// \returns The deserializer for the object.
         ObjectDeserializer readObject(const char* name);
         
         ///
@@ -132,7 +134,7 @@ namespace hect
     };
 
     ///
-    /// Provides abstract access for decoding structured data.
+    /// Provides abstract access for deserializing structured data.
     class Deserializer
     {
         friend class ArrayDeserializer;
@@ -144,15 +146,15 @@ namespace hect
         virtual bool isHumanReadable() const = 0;
 
         ///
-        /// Deserializes an array.
+        /// Begins reading an array.
         ///
-        /// \returns The deserializer.
+        /// \returns The deserializer for the array.
         virtual ArrayDeserializer readArray() = 0;
 
         ///
-        /// Deserializes an object.
+        /// Begins reading an object.
         ///
-        /// \returns The deserializer.
+        /// \returns The deserializer for the object.
         virtual ObjectDeserializer readObject() = 0;
 
     protected:
@@ -173,7 +175,7 @@ namespace hect
     };
 
     ///
-    /// Provides access for decoding structured data from a data value.
+    /// Provides access for deserializing structured data from a data value.
     class DataValueDeserializer :
         public Deserializer
     {
@@ -213,4 +215,42 @@ namespace hect
         std::stack<DataValue> _valueStack;
     };
 
+    ///
+    /// Provides access for deserializing structured data from a binary stream.
+    class BinaryDeserializer :
+        public Deserializer
+    {
+    public:
+
+        ///
+        /// Constructs a deserializer given the stream to deserialize from.
+        ///
+        /// \param stream The stream to deserialize from.
+        BinaryDeserializer(ReadStream& stream);
+
+        bool isHumanReadable() const;
+
+        ArrayDeserializer readArray();
+        ObjectDeserializer readObject();
+
+    private:
+        bool beginArray();
+        bool beginArray(const char* name);
+        void endArray();
+
+        bool hasMoreElements() const;
+
+        bool beginObject();
+        bool beginObject(const char* name);
+        void endObject();
+
+        bool hasMember(const char* name) const;
+
+        std::string readString();
+        std::string readString(const char* name);
+
+        std::stack<unsigned> _indexStack;
+        std::stack<unsigned> _countStack;
+        ReadStream* _stream;
+    };
 }

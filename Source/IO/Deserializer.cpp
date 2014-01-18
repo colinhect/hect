@@ -327,3 +327,89 @@ const DataValue& DataValueDeserializer::_deserialize(const char* name)
     assert(top.isObject());
     return top[name];
 }
+
+BinaryDeserializer::BinaryDeserializer(ReadStream& stream) :
+    _stream(&stream)
+{
+}
+
+bool BinaryDeserializer::isHumanReadable() const
+{
+    return false;
+}
+
+ArrayDeserializer BinaryDeserializer::readArray()
+{
+    _countStack.push(_stream->readUnsignedInt());
+    _indexStack.push(0);
+
+    return ArrayDeserializer(this);
+}
+
+ObjectDeserializer BinaryDeserializer::readObject()
+{
+    return ObjectDeserializer(this);
+}
+
+bool BinaryDeserializer::beginArray()
+{
+    ++_indexStack.top();
+
+    _countStack.push(_stream->readUnsignedInt());
+    _indexStack.push(0);
+    return true;
+}
+
+bool BinaryDeserializer::beginArray(const char* name)
+{
+    name;
+
+    _countStack.push(_stream->readUnsignedInt());
+    _indexStack.push(0);
+    return true;
+}
+
+void BinaryDeserializer::endArray()
+{
+    _indexStack.pop();
+    _countStack.pop();
+}
+
+bool BinaryDeserializer::hasMoreElements() const
+{
+    return _indexStack.top() < _countStack.top();
+}
+
+bool BinaryDeserializer::beginObject()
+{
+    ++_indexStack.top();
+    return true;
+}
+
+bool BinaryDeserializer::beginObject(const char* name)
+{
+    name;
+    return true;
+}
+
+void BinaryDeserializer::endObject()
+{
+}
+
+bool BinaryDeserializer::hasMember(const char* name) const
+{
+    name;
+    return true; // Assume that all values are written
+}
+
+std::string BinaryDeserializer::readString()
+{
+    ++_indexStack.top();
+    return _stream->readString();
+}
+
+std::string BinaryDeserializer::readString(const char* name)
+{
+    name;
+    return _stream->readString();
+}

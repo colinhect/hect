@@ -23,231 +23,198 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+void testSerializeDeserialize(std::function<void(Serializer&)> serialize, std::function<void(Deserializer&)> deserialize)
+{
+    // DataValueSerializer/Deserializer
+    {
+        DataValue dataValue;
+        {
+            DataValueSerializer serializer;
+            serialize(serializer);
+            dataValue = serializer.serializedDataValues()[0];
+        }
+        {
+            DataValueDeserializer deserializer(dataValue);
+            deserialize(deserializer);
+        }
+    }
+
+    // BinarySerializer/Deserializer
+    {
+        std::vector<uint8_t> data;
+        {
+            MemoryWriteStream stream(data);
+            BinarySerializer serializer(stream);
+            serialize(serializer);
+        }
+        {
+            MemoryReadStream stream(data);
+            BinaryDeserializer deserializer(stream);
+            deserialize(deserializer);
+        }
+    }
+}
+
 SUITE(SerializerTests)
 {
-    void serializeSingleObject(Serializer& serializer)
-    {
-        ObjectSerializer object = serializer.writeObject();
-        object.writeString("String", "Testing");
-    }
-
-    void deserializeSingleObject(Deserializer& deserializer)
-    {
-        ObjectDeserializer object = deserializer.readObject();
-
-        bool hasObject = object;
-        CHECK(hasObject);
-
-        CHECK(object.hasMember("String"));
-        CHECK_EQUAL("Testing", object.readString("String"));
-    }
-
     TEST(SingleObjectDataValue)
     {
-        DataValue dataValue;
+        testSerializeDeserialize([] (Serializer& serializer)
         {
-            DataValueSerializer serializer;
-            serializeSingleObject(serializer);
-            dataValue = serializer.serializedDataValue()[0];
-        }
-        {
-            DataValueDeserializer deserializer(dataValue);
-            deserializeSingleObject(deserializer);
-        }
-    }
-
-    void serializeSingleArray(Serializer& serializer)
-    {
-        ArraySerializer array = serializer.writeArray();
-        array.writeString("Zero");
-        array.writeString("One");
-        array.writeString("Two");
-    }
-
-    void deserializeSingleArray(Deserializer& deserializer)
-    {
-        ArrayDeserializer array = deserializer.readArray();
-
-        bool hasArray = array;
-        CHECK(hasArray);
-
-        std::vector<std::string> strings;
-        while (array.hasMoreElements())
-        {
-            strings.push_back(array.readString());
-        }
-        
-        CHECK_EQUAL("Zero", strings[0]);
-        CHECK_EQUAL("One", strings[1]);
-        CHECK_EQUAL("Two", strings[2]);
-    }
-
-    TEST(SingleArrayDataValue)
-    {
-        DataValue dataValue;
-        {
-            DataValueSerializer serializer;
-            serializeSingleArray(serializer);
-            dataValue = serializer.serializedDataValue()[0];
-        }
-        {
-            DataValueDeserializer deserializer(dataValue);
-            deserializeSingleArray(deserializer);
-        }
-    }
-
-    void writeArrayInObject(Serializer& serializer)
-    {
-        ObjectSerializer object = serializer.writeObject();
-        ArraySerializer array = object.writeArray("Array");
-        array.writeString("Zero");
-        array.writeString("One");
-        array.writeString("Two");
-    }
-
-    void readArrayInObject(Deserializer& deserializer)
-    {
-        ObjectDeserializer object = deserializer.readObject();
-
-        bool hasObject = object;
-        CHECK(hasObject);
-
-        CHECK(object.hasMember("Array"));
-
-        ArrayDeserializer array = object.readArray("Array");
-
-        bool hasArray = array;
-        CHECK(hasArray);
-
-        std::vector<std::string> strings;
-        while (array.hasMoreElements())
-        {
-            strings.push_back(array.readString());
-        }
-        
-        CHECK_EQUAL("Zero", strings[0]);
-        CHECK_EQUAL("One", strings[1]);
-        CHECK_EQUAL("Two", strings[2]);
-    }
-
-    TEST(ArrayInObjectDataValue)
-    {
-        DataValue dataValue;
-        {
-            DataValueSerializer serializer;
-            writeArrayInObject(serializer);
-            dataValue = serializer.serializedDataValue()[0];
-        }
-        {
-            DataValueDeserializer deserializer(dataValue);
-            readArrayInObject(deserializer);
-        }
-    }
-
-    void writeArrayInArray(Serializer& serializer)
-    {
-        ArraySerializer array = serializer.writeArray();
-
-        for (int i = 0; i < 3; ++i)
-        {
-            ArraySerializer nested = array.writeArray();
-            nested.writeString("Zero");
-            nested.writeString("One");
-            nested.writeString("Two");
-        }
-    }
-
-    void readArrayInArray(Deserializer& deserializer)
-    {
-        ArrayDeserializer array = deserializer.readArray();
-
-        bool hasArray = array;
-        CHECK(hasArray);
-
-        int arrayCount = 0;
-        while (array.hasMoreElements())
-        {
-            ArrayDeserializer nested = array.readArray();
-
-            bool hasArray = nested;
-            CHECK(hasArray);
-
-            std::vector<std::string> strings;
-            while (nested.hasMoreElements())
-            {
-                strings.push_back(nested.readString());
-            }
-
-            CHECK_EQUAL("Zero", strings[0]);
-            CHECK_EQUAL("One", strings[1]);
-            CHECK_EQUAL("Two", strings[2]);
-
-            ++arrayCount;
-        }
-
-        CHECK_EQUAL(3, arrayCount);
-    }
-
-    TEST(ArrayInArrayDataValue)
-    {
-        DataValue dataValue;
-        {
-            DataValueSerializer serializer;
-            writeArrayInArray(serializer);
-            dataValue = serializer.serializedDataValue()[0];
-        }
-        {
-            DataValueDeserializer deserializer(dataValue);
-            readArrayInArray(deserializer);
-        }
-    }
-
-    void writeObjectInArray(Serializer& serializer)
-    {
-        ArraySerializer array = serializer.writeArray();
-
-        for (int i = 0; i < 3; ++i)
-        {
-            ObjectSerializer object = array.writeObject();
+            ObjectSerializer object = serializer.writeObject();
             object.writeString("String", "Testing");
-        }
-    }
-
-    void readObjectInArray(Deserializer& deserializer)
-    {
-        ArrayDeserializer array = deserializer.readArray();
-
-        bool hasArray = array;
-        CHECK(hasArray);
-
-        int objectCount = 0;
-        while (array.hasMoreElements())
+        }, [] (Deserializer& deserializer)
         {
-            ObjectDeserializer object = array.readObject();
+            ObjectDeserializer object = deserializer.readObject();
 
             bool hasObject = object;
             CHECK(hasObject);
 
             CHECK(object.hasMember("String"));
             CHECK_EQUAL("Testing", object.readString("String"));
+        });
+    }
 
-            ++objectCount;
-        }
+    TEST(SingleArrayDataValue)
+    {
+        testSerializeDeserialize([] (Serializer& serializer)
+        {
+            ArraySerializer array = serializer.writeArray();
+            array.writeString("Zero");
+            array.writeString("One");
+            array.writeString("Two");
+        }, [] (Deserializer& deserializer)
+        {
+            ArrayDeserializer array = deserializer.readArray();
 
-        CHECK_EQUAL(3, objectCount);
+            bool hasArray = array;
+            CHECK(hasArray);
+
+            std::vector<std::string> strings;
+            while (array.hasMoreElements())
+            {
+                strings.push_back(array.readString());
+            }
+        
+            CHECK_EQUAL("Zero", strings[0]);
+            CHECK_EQUAL("One", strings[1]);
+            CHECK_EQUAL("Two", strings[2]);
+        });
+    }
+
+    TEST(ArrayInObjectDataValue)
+    {
+        testSerializeDeserialize([] (Serializer& serializer)
+        {
+            ObjectSerializer object = serializer.writeObject();
+            ArraySerializer array = object.writeArray("Array");
+            array.writeString("Zero");
+            array.writeString("One");
+            array.writeString("Two");
+        }, [] (Deserializer& deserializer)
+        {
+            ObjectDeserializer object = deserializer.readObject();
+
+            bool hasObject = object;
+            CHECK(hasObject);
+
+            CHECK(object.hasMember("Array"));
+
+            ArrayDeserializer array = object.readArray("Array");
+
+            bool hasArray = array;
+            CHECK(hasArray);
+
+            std::vector<std::string> strings;
+            while (array.hasMoreElements())
+            {
+                strings.push_back(array.readString());
+            }
+        
+            CHECK_EQUAL("Zero", strings[0]);
+            CHECK_EQUAL("One", strings[1]);
+            CHECK_EQUAL("Two", strings[2]);
+        });
+    }
+
+    TEST(ArrayInArrayDataValue)
+    {
+        testSerializeDeserialize([] (Serializer& serializer)
+        {
+            ArraySerializer array = serializer.writeArray();
+
+            for (int i = 0; i < 3; ++i)
+            {
+                ArraySerializer nested = array.writeArray();
+                nested.writeString("Zero");
+                nested.writeString("One");
+                nested.writeString("Two");
+            }
+        }, [] (Deserializer& deserializer)
+        {
+            ArrayDeserializer array = deserializer.readArray();
+
+            bool hasArray = array;
+            CHECK(hasArray);
+
+            int arrayCount = 0;
+            while (array.hasMoreElements())
+            {
+                ArrayDeserializer nested = array.readArray();
+
+                bool hasArray = nested;
+                CHECK(hasArray);
+
+                std::vector<std::string> strings;
+                while (nested.hasMoreElements())
+                {
+                    strings.push_back(nested.readString());
+                }
+
+                CHECK_EQUAL("Zero", strings[0]);
+                CHECK_EQUAL("One", strings[1]);
+                CHECK_EQUAL("Two", strings[2]);
+
+                ++arrayCount;
+            }
+
+            CHECK_EQUAL(3, arrayCount);
+        });
     }
 
     TEST(ObjectInArrayDataValue)
     {
-        DataValue dataValue;
+        testSerializeDeserialize([] (Serializer& serializer)
         {
-            DataValueSerializer serializer;
-            writeObjectInArray(serializer);
-            dataValue = serializer.serializedDataValue()[0];
-        }
+            ArraySerializer array = serializer.writeArray();
+
+            for (int i = 0; i < 3; ++i)
+            {
+                ObjectSerializer object = array.writeObject();
+                object.writeString("String", "Testing");
+            }
+        }, [] (Deserializer& deserializer)
         {
-            DataValueDeserializer deserializer(dataValue);
-            readObjectInArray(deserializer);
-        }
+            ArrayDeserializer array = deserializer.readArray();
+
+            bool hasArray = array;
+            CHECK(hasArray);
+
+            int objectCount = 0;
+            while (array.hasMoreElements())
+            {
+                ObjectDeserializer object = array.readObject();
+
+                bool hasObject = object;
+                CHECK(hasObject);
+
+                CHECK(object.hasMember("String"));
+                CHECK_EQUAL("Testing", object.readString("String"));
+
+                ++objectCount;
+            }
+
+            CHECK_EQUAL(3, objectCount);
+        });
     }
 }

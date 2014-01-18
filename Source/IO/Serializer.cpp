@@ -152,7 +152,7 @@ ObjectSerializer DataValueSerializer::writeObject()
     return ObjectSerializer(this);
 }
 
-DataValue::Array& DataValueSerializer::serializedDataValue()
+DataValue::Array& DataValueSerializer::serializedDataValues()
 {
     return _completed;
 }
@@ -230,4 +230,81 @@ void DataValueSerializer::_serialize(const char* name, const DataValue& value)
     DataValue& top = _valueStack.top();
     assert(top.isObject());
     top.addMember(name, value);
+}
+
+BinarySerializer::BinarySerializer(WriteStream& stream) :
+    _stream(&stream)
+{
+}
+
+bool BinarySerializer::isHumanReadable() const
+{
+    return false;
+}
+
+ArraySerializer BinarySerializer::writeArray()
+{
+    _countStack.push(0);
+    _countPositionStack.push(_stream->position());
+    _stream->writeUnsignedInt(0);
+    return ArraySerializer(this);
+}
+
+ObjectSerializer BinarySerializer::writeObject()
+{
+    _countStack.push(0);
+    return ObjectSerializer(this);
+}
+
+void BinarySerializer::beginArray()
+{
+    ++_countStack.top();
+    _countStack.push(0);
+    _countPositionStack.push(_stream->position());
+    _stream->writeUnsignedInt(0);
+}
+
+void BinarySerializer::beginArray(const char* name)
+{
+    name;
+    _countStack.push(0);
+    _countPositionStack.push(_stream->position());
+    _stream->writeUnsignedInt(0);
+}
+
+void BinarySerializer::endArray()
+{
+    size_t currentPosition = _stream->position();
+    _stream->seek(_countPositionStack.top());
+    _stream->writeUnsignedInt(_countStack.top());
+    _stream->seek(currentPosition);
+
+    _countPositionStack.pop();
+    _countStack.pop();
+}
+
+void BinarySerializer::beginObject()
+{
+    ++_countStack.top();
+}
+
+void BinarySerializer::beginObject(const char* name)
+{
+    name;
+}
+
+void BinarySerializer::endObject()
+{
+}
+
+void BinarySerializer::writeString(const std::string& value)
+{
+    ++_countStack.top();
+    _stream->writeString(value);
+}
+
+void BinarySerializer::writeString(const char* name, const std::string& value)
+{
+    name;
+    _stream->writeString(value);
 }
