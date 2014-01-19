@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DataReader.h"
 
+#include "Core/Format.h"
+
 using namespace hect;
 
 ArrayReader::ArrayReader(const ArrayReader& reader) :
@@ -633,7 +635,14 @@ const DataValue& DataValueReader::_deserialize(const char* name)
 {
     DataValue& top = _valueStack.top();
     assert(top.isObject());
-    return top[name];
+
+    const DataValue& result = top[name];
+    if (result.isNull())
+    {
+        throw Error(format("No member value '%s'", name));
+    }
+
+    return result;
 }
 
 BinaryReader::BinaryReader(ReadStream& stream) :

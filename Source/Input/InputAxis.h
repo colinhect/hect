@@ -28,6 +28,7 @@
 #include "Core/Real.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
+#include "IO/Serializable.h"
 
 namespace hect
 {
@@ -59,7 +60,8 @@ enum class InputAxisSource
 
 ///
 /// An axis manipulated by an input device.
-class InputAxis
+class InputAxis :
+    public Serializable
 {
 public:
 
@@ -71,8 +73,7 @@ public:
     /// Constructs an input axis.
     ///
     /// \param name The name of the axis (must be unique).
-    /// \param source The source of the axis.
-    InputAxis(const std::string& name, InputAxisSource source);
+    InputAxis(const std::string& name);
 
     ///
     /// Returns the name.
@@ -81,6 +82,12 @@ public:
     ///
     /// Returns the source.
     InputAxisSource source() const;
+
+    ///
+    /// Sets the source.
+    ///
+    /// \param source The new source.
+    void setSource(InputAxisSource source);
 
     ///
     /// Returns the mouse button which causes the axis to move in the positive
@@ -158,7 +165,14 @@ public:
     /// \param gravity The new gravity.
     void setGravity(Real gravity);
 
+    void serialize(ObjectWriter& writer) const;
+    void deserialize(ObjectReader& reader, AssetCache& assetCache);
+
 private:
+    static InputAxisSource _parseSource(const std::string& value);
+    static Key _parseKey(const std::string& value);
+    static MouseButton _parseMouseButton(const std::string& value);
+
     std::string _name;
     InputAxisSource _source;
 

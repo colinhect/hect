@@ -294,9 +294,6 @@
     <ClCompile Include="Source\Graphics\VideoModeDataValueFormat.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Input\InputAxisDataValueFormat.cpp">
-      <Filter>Source\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Graphics\MeshDataValueFormat.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
@@ -577,9 +574,6 @@
     </ClInclude>
     <ClInclude Include="Source\Graphics\VideoModeDataValueFormat.h">
       <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Input\InputAxisDataValueFormat.h">
-      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="Source\Graphics\MeshDataValueFormat.h">
       <Filter>Source\Graphics</Filter>

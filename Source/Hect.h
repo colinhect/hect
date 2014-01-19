@@ -104,7 +104,6 @@
 #include "Input/Mouse.h"
 #include "Input/Keyboard.h"
 #include "Input/InputAxis.h"
-#include "Input/InputAxisDataValueFormat.h"
 #include "Input/InputSystem.h"
 
 #include "Noise/Random.h"

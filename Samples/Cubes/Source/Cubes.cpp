@@ -32,7 +32,8 @@ void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const
     InputAxis::Array axes;
     for (const std::string& axisName : settings["inputAxes"].memberNames())
     {
-        InputAxis axis = InputAxisDataValueFormat::load(axisName, settings["inputAxes"][axisName]);
+        InputAxis axis(axisName);
+        axis.deserializeFromDataValue(settings["inputAxes"][axisName], assetCache);
         axes.push_back(axis);
     }
 
