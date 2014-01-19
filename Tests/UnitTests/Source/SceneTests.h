@@ -29,18 +29,18 @@ SUITE(Scene)
         public Component<Name>
     {
     public:
-        void serialize(ObjectSerializer& serializer) const
+        void serialize(ObjectWriter& writer) const
         {
-            serializer.writeString("value", value);
+            writer.writeString("value", value);
         }
 
-        void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+        void deserialize(ObjectReader& reader, AssetCache& assetCache)
         {
             assetCache;
 
-            if (deserializer.hasMember("value"))
+            if (reader.hasMember("value"))
             {
-                value = deserializer.readString("value");
+                value = reader.readString("value");
             }
         }
 
@@ -51,18 +51,18 @@ SUITE(Scene)
         public Component<Position>
     {
     public:
-        void serialize(ObjectSerializer& serializer) const
+        void serialize(ObjectWriter& writer) const
         {
-            serializer.writeVector3("value", value);
+            writer.writeVector3("value", value);
         }
 
-        void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+        void deserialize(ObjectReader& reader, AssetCache& assetCache)
         {
             assetCache;
 
-            if (deserializer.hasMember("value"))
+            if (reader.hasMember("value"))
             {
-                value = deserializer.readVector3("value");
+                value = reader.readVector3("value");
             }
         }
 
@@ -73,18 +73,18 @@ SUITE(Scene)
         public Component<Velocity>
     {
     public:
-        void serialize(ObjectSerializer& serializer) const
+        void serialize(ObjectWriter& writer) const
         {
-            serializer.writeVector3("value", value);
+            writer.writeVector3("value", value);
         }
 
-        void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+        void deserialize(ObjectReader& reader, AssetCache& assetCache)
         {
             assetCache;
 
-            if (deserializer.hasMember("value"))
+            if (reader.hasMember("value"))
             {
-                value = deserializer.readVector3("value");
+                value = reader.readVector3("value");
             }
         }
 

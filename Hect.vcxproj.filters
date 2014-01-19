@@ -312,13 +312,13 @@
     <ClCompile Include="Source\Entity\Systems\BasicRenderSystem.cpp">
       <Filter>Source\Entity\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IO\Serializer.cpp">
-      <Filter>Source\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\IO\Deserializer.cpp">
-      <Filter>Source\IO</Filter>
-    </ClCompile>
     <ClCompile Include="Source\IO\Serializable.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\DataWriter.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO\DataReader.cpp">
       <Filter>Source\IO</Filter>
     </ClCompile>
   </ItemGroup>
@@ -614,13 +614,13 @@
     <ClInclude Include="Source\Math\Constants.h">
       <Filter>Source\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\IO\Serializer.h">
-      <Filter>Source\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\IO\Deserializer.h">
-      <Filter>Source\IO</Filter>
-    </ClInclude>
     <ClInclude Include="Source\IO\Serializable.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\DataWriter.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IO\DataReader.h">
       <Filter>Source\IO</Filter>
     </ClInclude>
   </ItemGroup>

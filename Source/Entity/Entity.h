@@ -65,8 +65,8 @@ public:
     /// Returns the entity id.
     Id id() const;
 
-    void serialize(ObjectSerializer& serializer) const;
-    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+    void serialize(ObjectWriter& writer) const;
+    void deserialize(ObjectReader& reader, AssetCache& assetCache);
 
     ///
     /// Activates the entity, enqueuing it to be added to systems in the scene

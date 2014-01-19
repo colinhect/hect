@@ -56,27 +56,27 @@ const AssetHandle<Material>::Array& Geometry::materials() const
     return _materials;
 }
 
-void Geometry::serialize(ObjectSerializer& serializer) const
+void Geometry::serialize(ObjectWriter& writer) const
 {
     size_t surfaceCount = _meshes.size();
 
-    ArraySerializer surfaces = serializer.writeArray("surfaces");
+    ArrayWriter surfaces = writer.writeArray("surfaces");
     for (size_t i = 0; i < surfaceCount; ++i)
     {
-        ObjectSerializer surface = surfaces.writeObject();
+        ObjectWriter surface = surfaces.writeObject();
         surface.writeString("mesh", _meshes[i].path().toString());
         surface.writeString("material", _materials[i].path().toString());
     }
 }
 
-void Geometry::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+void Geometry::deserialize(ObjectReader& reader, AssetCache& assetCache)
 {
-    ArrayDeserializer surfaces = deserializer.readArray("surfaces");
+    ArrayReader surfaces = reader.readArray("surfaces");
     if (surfaces)
     {
         while (surfaces.hasMoreElements())
         {
-            ObjectDeserializer surface = surfaces.readObject();
+            ObjectReader surface = surfaces.readObject();
             if (surface.hasMember("mesh") && surface.hasMember("material"))
             {
                 std::string meshPath = surface.readString("mesh");

@@ -97,8 +97,8 @@ public:
     template <typename T>
     void registerComponent(const std::string& componentTypeName);
 
-    void serialize(ObjectSerializer& serializer) const;
-    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+    void serialize(ObjectWriter& writer) const;
+    void deserialize(ObjectReader& reader, AssetCache& assetCache);
 
 private:
     enum
@@ -108,8 +108,8 @@ private:
 
     Entity _cloneEntity(const Entity& entity);
 
-    void _serializeEntity(const Entity& entity, ObjectSerializer& serializer) const;
-    void _deserializeEntity(const Entity& entity, ObjectDeserializer& deserializer, AssetCache& assetCache);
+    void _serializeEntity(const Entity& entity, ObjectWriter& writer) const;
+    void _deserializeEntity(const Entity& entity, ObjectReader& reader, AssetCache& assetCache);
 
     void _destroyEntity(const Entity& entity);
     void _activateEntity(const Entity& entity);

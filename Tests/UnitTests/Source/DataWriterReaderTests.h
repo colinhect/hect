@@ -23,49 +23,49 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-void testSerializeDeserialize(std::function<void(Serializer&)> serialize, std::function<void(Deserializer&)> deserialize)
+void testWriteAndRead(std::function<void(DataWriter&)> serialize, std::function<void(DataReader&)> deserialize)
 {
-    // DataValueSerializer/Deserializer
+    // DataValueWriter/DataReader
     {
         DataValue dataValue;
         {
-            DataValueSerializer serializer;
-            serialize(serializer);
-            dataValue = serializer.serializedDataValues()[0];
+            DataValueWriter writer;
+            serialize(writer);
+            dataValue = writer.serializedDataValues()[0];
         }
         {
-            DataValueDeserializer deserializer(dataValue);
-            deserialize(deserializer);
+            DataValueReader reader(dataValue);
+            deserialize(reader);
         }
     }
 
-    // BinarySerializer/Deserializer
+    // BinaryWriter/DataReader
     {
         std::vector<uint8_t> data;
         {
             MemoryWriteStream stream(data);
-            BinarySerializer serializer(stream);
-            serialize(serializer);
+            BinaryWriter writer(stream);
+            serialize(writer);
         }
         {
             MemoryReadStream stream(data);
-            BinaryDeserializer deserializer(stream);
-            deserialize(deserializer);
+            BinaryReader reader(stream);
+            deserialize(reader);
         }
     }
 }
 
-SUITE(SerializerTests)
+SUITE(WriterTests)
 {
     TEST(SingleObject)
     {
-        testSerializeDeserialize([] (Serializer& serializer)
+        testWriteAndRead([] (DataWriter& writer)
         {
-            ObjectSerializer object = serializer.writeObject();
+            ObjectWriter object = writer.writeObject();
             object.writeString("String", "Testing");
-        }, [] (Deserializer& deserializer)
+        }, [] (DataReader& reader)
         {
-            ObjectDeserializer object = deserializer.readObject();
+            ObjectReader object = reader.readObject();
 
             bool hasObject = object;
             CHECK(hasObject);
@@ -77,15 +77,15 @@ SUITE(SerializerTests)
 
     TEST(SingleArray)
     {
-        testSerializeDeserialize([] (Serializer& serializer)
+        testWriteAndRead([] (DataWriter& writer)
         {
-            ArraySerializer array = serializer.writeArray();
+            ArrayWriter array = writer.writeArray();
             array.writeString("Zero");
             array.writeString("One");
             array.writeString("Two");
-        }, [] (Deserializer& deserializer)
+        }, [] (DataReader& reader)
         {
-            ArrayDeserializer array = deserializer.readArray();
+            ArrayReader array = reader.readArray();
 
             bool hasArray = array;
             CHECK(hasArray);
@@ -104,23 +104,23 @@ SUITE(SerializerTests)
 
     TEST(ArrayInObject)
     {
-        testSerializeDeserialize([] (Serializer& serializer)
+        testWriteAndRead([] (DataWriter& writer)
         {
-            ObjectSerializer object = serializer.writeObject();
-            ArraySerializer array = object.writeArray("Array");
+            ObjectWriter object = writer.writeObject();
+            ArrayWriter array = object.writeArray("Array");
             array.writeString("Zero");
             array.writeString("One");
             array.writeString("Two");
-        }, [] (Deserializer& deserializer)
+        }, [] (DataReader& reader)
         {
-            ObjectDeserializer object = deserializer.readObject();
+            ObjectReader object = reader.readObject();
 
             bool hasObject = object;
             CHECK(hasObject);
 
             CHECK(object.hasMember("Array"));
 
-            ArrayDeserializer array = object.readArray("Array");
+            ArrayReader array = object.readArray("Array");
 
             bool hasArray = array;
             CHECK(hasArray);
@@ -139,20 +139,20 @@ SUITE(SerializerTests)
 
     TEST(ArrayInArray)
     {
-        testSerializeDeserialize([] (Serializer& serializer)
+        testWriteAndRead([] (DataWriter& writer)
         {
-            ArraySerializer array = serializer.writeArray();
+            ArrayWriter array = writer.writeArray();
 
             for (int i = 0; i < 3; ++i)
             {
-                ArraySerializer nested = array.writeArray();
+                ArrayWriter nested = array.writeArray();
                 nested.writeString("Zero");
                 nested.writeString("One");
                 nested.writeString("Two");
             }
-        }, [] (Deserializer& deserializer)
+        }, [] (DataReader& reader)
         {
-            ArrayDeserializer array = deserializer.readArray();
+            ArrayReader array = reader.readArray();
 
             bool hasArray = array;
             CHECK(hasArray);
@@ -160,7 +160,7 @@ SUITE(SerializerTests)
             int arrayCount = 0;
             while (array.hasMoreElements())
             {
-                ArrayDeserializer nested = array.readArray();
+                ArrayReader nested = array.readArray();
 
                 bool hasArray = nested;
                 CHECK(hasArray);
@@ -184,18 +184,18 @@ SUITE(SerializerTests)
 
     TEST(ObjectInArray)
     {
-        testSerializeDeserialize([] (Serializer& serializer)
+        testWriteAndRead([] (DataWriter& writer)
         {
-            ArraySerializer array = serializer.writeArray();
+            ArrayWriter array = writer.writeArray();
 
             for (int i = 0; i < 3; ++i)
             {
-                ObjectSerializer object = array.writeObject();
+                ObjectWriter object = array.writeObject();
                 object.writeString("String", "Testing");
             }
-        }, [] (Deserializer& deserializer)
+        }, [] (DataReader& reader)
         {
-            ArrayDeserializer array = deserializer.readArray();
+            ArrayReader array = reader.readArray();
 
             bool hasArray = array;
             CHECK(hasArray);
@@ -203,7 +203,7 @@ SUITE(SerializerTests)
             int objectCount = 0;
             while (array.hasMoreElements())
             {
-                ObjectDeserializer object = array.readObject();
+                ObjectReader object = array.readObject();
 
                 bool hasObject = object;
                 CHECK(hasObject);
@@ -220,9 +220,9 @@ SUITE(SerializerTests)
 
     TEST(AllInArray)
     {
-        testSerializeDeserialize([] (Serializer& serializer)
+        testWriteAndRead([] (DataWriter& writer)
         {
-            ArraySerializer array = serializer.writeArray();
+            ArrayWriter array = writer.writeArray();
 
             array.writeString("Test");
             array.writeByte(12);
@@ -239,9 +239,9 @@ SUITE(SerializerTests)
             array.writeVector2(Vector2(1, 2));
             array.writeVector3(Vector3(1, 2, 3));
             array.writeVector4(Vector4(1, 2, 3, 4));
-        }, [] (Deserializer& deserializer)
+        }, [] (DataReader& reader)
         {
-            ArrayDeserializer array = deserializer.readArray();
+            ArrayReader array = reader.readArray();
 
             bool hasArray = array;
             CHECK(hasArray);
@@ -290,9 +290,9 @@ SUITE(SerializerTests)
 
     TEST(AllInObject)
     {
-        testSerializeDeserialize([] (Serializer& serializer)
+        testWriteAndRead([] (DataWriter& writer)
         {
-            ObjectSerializer object = serializer.writeObject();
+            ObjectWriter object = writer.writeObject();
 
             object.writeString("String", "Test");
             object.writeByte("Byte", 12);
@@ -309,9 +309,9 @@ SUITE(SerializerTests)
             object.writeVector2("Vector2", Vector2(1, 2));
             object.writeVector3("Vector3", Vector3(1, 2, 3));
             object.writeVector4("Vector4", Vector4(1, 2, 3, 4));
-        }, [] (Deserializer& deserializer)
+        }, [] (DataReader& reader)
         {
-            ObjectDeserializer object = deserializer.readObject();
+            ObjectReader object = reader.readObject();
 
             bool hasObject = object;
             CHECK(hasObject);

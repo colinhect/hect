@@ -48,24 +48,24 @@ Entity::Id Entity::id() const
     return _id;
 }
 
-void Entity::serialize(ObjectSerializer& serializer) const
+void Entity::serialize(ObjectWriter& writer) const
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    _scene->_serializeEntity(*this, serializer);
+    _scene->_serializeEntity(*this, writer);
 }
 
-void Entity::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+void Entity::deserialize(ObjectReader& reader, AssetCache& assetCache)
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    _scene->_deserializeEntity(*this, deserializer, assetCache);
+    _scene->_deserializeEntity(*this, reader, assetCache);
 }
 
 void Entity::destroy() const

@@ -32,34 +32,34 @@ namespace hect
 {
 
 ///
-/// Provides access for deserializing an array.
-class ArrayDeserializer
+/// Provides access for reading an array.
+class ArrayReader
 {
-    friend class Deserializer;
-    friend class DataValueDeserializer;
-    friend class BinaryDeserializer;
+    friend class DataReader;
+    friend class DataValueReader;
+    friend class BinaryReader;
 
-    friend class ObjectDeserializer;
+    friend class ObjectReader;
 public:
-    ArrayDeserializer(const ArrayDeserializer& deserializer);
-    ArrayDeserializer(ArrayDeserializer&& deserializer);
-    ~ArrayDeserializer();
+    ArrayReader(const ArrayReader& reader);
+    ArrayReader(ArrayReader&& reader);
+    ~ArrayReader();
 
     ///
-    /// Returns whether the deserializer has reached the end of the array.
+    /// Returns whether the reader has reached the end of the array.
     bool hasMoreElements() const;
 
     ///
     /// Begins reading an array.
     ///
-    /// \returns The deserializer for the array.
-    ArrayDeserializer readArray();
+    /// \returns The reader for the array.
+    ArrayReader readArray();
 
     ///
     /// Begins reading an object.
     ///
-    /// \returns The deserializer for the object.
-    ObjectDeserializer readObject();
+    /// \returns The reader for the object.
+    ObjectReader readObject();
 
     std::string readString();
     int8_t readByte();
@@ -78,29 +78,29 @@ public:
     Vector4 readVector4();
 
     ///
-    /// Returns whether the deserializer has an array to deserialize.
+    /// Returns whether the reader has an array to deserialize.
     operator bool() const;
 
 private:
-    ArrayDeserializer();
-    ArrayDeserializer(Deserializer* deserializer);
+    ArrayReader();
+    ArrayReader(DataReader* reader);
 
-    Deserializer* _deserializer;
+    DataReader* _reader;
 };
 
 ///
-/// Provides access for deserializing an object.
-class ObjectDeserializer
+/// Provides access for reading an object.
+class ObjectReader
 {
-    friend class Deserializer;
-    friend class DataValueDeserializer;
-    friend class BinaryDeserializer;
+    friend class DataReader;
+    friend class DataValueReader;
+    friend class BinaryReader;
 
-    friend class ArrayDeserializer;
+    friend class ArrayReader;
 public:
-    ObjectDeserializer(const ObjectDeserializer& deserializer);
-    ObjectDeserializer(ObjectDeserializer&& deserializer);
-    ~ObjectDeserializer();
+    ObjectReader(const ObjectReader& reader);
+    ObjectReader(ObjectReader&& reader);
+    ~ObjectReader();
 
     ///
     /// Returns whether the object has a member with a specific name.
@@ -113,16 +113,16 @@ public:
     ///
     /// \param name The name of the member to begin reading.
     ///
-    /// \returns The deserializer for the array.
-    ArrayDeserializer readArray(const char* name);
+    /// \returns The reader for the array.
+    ArrayReader readArray(const char* name);
 
     ///
     /// Begins reading an object.
     ///
     /// \param name The name of the member to begin reading.
     ///
-    /// \returns The deserializer for the object.
-    ObjectDeserializer readObject(const char* name);
+    /// \returns The reader for the object.
+    ObjectReader readObject(const char* name);
 
     std::string readString(const char* name);
     int8_t readByte(const char* name);
@@ -141,22 +141,22 @@ public:
     Vector4 readVector4(const char* name);
 
     ///
-    /// Returns whether the deserializer has an object to deserialize.
+    /// Returns whether the reader has an object to deserialize.
     operator bool() const;
 
 private:
-    ObjectDeserializer();
-    ObjectDeserializer(Deserializer* deserializer);
+    ObjectReader();
+    ObjectReader(DataReader* reader);
 
-    Deserializer* _deserializer;
+    DataReader* _reader;
 };
 
 ///
-/// Provides abstract access for deserializing structured data.
-class Deserializer
+/// Provides abstract access for reading structured data.
+class DataReader
 {
-    friend class ArrayDeserializer;
-    friend class ObjectDeserializer;
+    friend class ArrayReader;
+    friend class ObjectReader;
 public:
 
     ///
@@ -166,14 +166,14 @@ public:
     ///
     /// Begins reading an array.
     ///
-    /// \returns The deserializer for the array.
-    virtual ArrayDeserializer readArray() = 0;
+    /// \returns The reader for the array.
+    virtual ArrayReader readArray() = 0;
 
     ///
     /// Begins reading an object.
     ///
-    /// \returns The deserializer for the object.
-    virtual ObjectDeserializer readObject() = 0;
+    /// \returns The reader for the object.
+    virtual ObjectReader readObject() = 0;
 
 protected:
     virtual bool beginArray() = 0;
@@ -221,22 +221,22 @@ protected:
 };
 
 ///
-/// Provides access for deserializing structured data from a data value.
-class DataValueDeserializer :
-    public Deserializer
+/// Provides access for reading structured data from a data value.
+class DataValueReader :
+    public DataReader
 {
 public:
 
     ///
-    /// Constructs a deserializer given the data value to deserialize.
+    /// Constructs a reader given the data value to deserialize.
     ///
     /// \param dataValue The data value to deserialize.
-    DataValueDeserializer(const DataValue& dataValue);
+    DataValueReader(const DataValue& dataValue);
 
     bool isHumanReadable() const;
 
-    ArrayDeserializer readArray();
-    ObjectDeserializer readObject();
+    ArrayReader readArray();
+    ObjectReader readObject();
 
 private:
     bool beginArray();
@@ -290,22 +290,22 @@ private:
 };
 
 ///
-/// Provides access for deserializing structured data from a binary stream.
-class BinaryDeserializer :
-    public Deserializer
+/// Provides access for reading structured data from a binary stream.
+class BinaryReader :
+    public DataReader
 {
 public:
 
     ///
-    /// Constructs a deserializer given the stream to deserialize from.
+    /// Constructs a reader given the stream to deserialize from.
     ///
     /// \param stream The stream to deserialize from.
-    BinaryDeserializer(ReadStream& stream);
+    BinaryReader(ReadStream& stream);
 
     bool isHumanReadable() const;
 
-    ArrayDeserializer readArray();
-    ObjectDeserializer readObject();
+    ArrayReader readArray();
+    ObjectReader readObject();
 
 private:
     bool beginArray();

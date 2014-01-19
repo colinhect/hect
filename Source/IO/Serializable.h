@@ -24,8 +24,8 @@
 #pragma once
 
 #include "Asset/AssetCache.h"
-#include "IO/Serializer.h"
-#include "IO/Deserializer.h"
+#include "IO/DataWriter.h"
+#include "IO/DataReader.h"
 
 namespace hect
 {
@@ -37,10 +37,10 @@ class Serializable
 public:
 
     ///
-    /// Serializes the object using a serializer.
+    /// Serializes the object using a writer.
     ///
-    /// \param serializer The serializer.
-    virtual void serialize(ObjectSerializer& serializer) const;
+    /// \param writer The writer.
+    virtual void serialize(ObjectWriter& writer) const;
 
     ///
     /// Serializes the object to a data value.
@@ -55,11 +55,11 @@ public:
     void serializeToStream(WriteStream& stream) const;
 
     ///
-    /// Deserializes the object using a deserializer.
+    /// Deserializes the object using a reader.
     ///
-    /// \param deserializer The deserializer.
+    /// \param reader The reader.
     /// \param assetCache The asset cache to load referenced assets from.
-    virtual void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+    virtual void deserialize(ObjectReader& reader, AssetCache& assetCache);
 
     ///
     /// Deserializes the object from a data value.

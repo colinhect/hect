@@ -87,8 +87,8 @@ public:
     /// \param mesh The new mesh.
     void setMesh(const AssetHandle<Mesh>& mesh);
 
-    void serialize(ObjectSerializer& serializer) const;
-    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+    void serialize(ObjectWriter& writer) const;
+    void deserialize(ObjectReader& reader, AssetCache& assetCache);
 
 private:
     Real _mass;

@@ -154,29 +154,29 @@ Entity Scene::entityWithId(Entity::Id id) const
     return Entity(*const_cast<Scene*>(this), id);
 }
 
-void Scene::serialize(ObjectSerializer& serializer) const
+void Scene::serialize(ObjectWriter& writer) const
 {
-    ArraySerializer entities = serializer.writeArray("entities");
+    ArrayWriter entities = writer.writeArray("entities");
 
     for (Entity::Id id = 0; id < _entityData.size(); ++id)
     {
         Entity entity = entityWithId(id);
         if (entity && entity.isActivated() && entity.isSerializable())
         {
-            ObjectSerializer entitySerializer = entities.writeObject();
-            entity.serialize(entitySerializer);
+            ObjectWriter entityWriter = entities.writeObject();
+            entity.serialize(entityWriter);
         }
     }
 }
 
-void Scene::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+void Scene::deserialize(ObjectReader& reader, AssetCache& assetCache)
 {
-    ArrayDeserializer entities = deserializer.readArray("entities");
+    ArrayReader entities = reader.readArray("entities");
     while (entities.hasMoreElements())
     {
-        ObjectDeserializer entityDeserializer = entities.readObject();
+        ObjectReader entityReader = entities.readObject();
         Entity entity = createEntity();
-        entity.deserialize(entityDeserializer, assetCache);
+        entity.deserialize(entityReader, assetCache);
         entity.activate();
     }
 }
@@ -202,43 +202,43 @@ Entity Scene::_cloneEntity(const Entity& entity)
     return clone;
 }
 
-void Scene::_serializeEntity(const Entity& entity, ObjectSerializer& serializer) const
+void Scene::_serializeEntity(const Entity& entity, ObjectWriter& writer) const
 {
     if (!entity)
     {
         throw Error("Entity is null");
     }
 
-    ArraySerializer components = serializer.writeArray("components");
+    ArrayWriter components = writer.writeArray("components");
 
     for (BaseComponent* component : entity.components())
     {
         ComponentTypeId typeId = component->componentTypeId();
         const std::string& typeName = _typeName(typeId);
 
-        ObjectSerializer componentSerializer = components.writeObject();
-        componentSerializer.writeString("type", typeName);
-        component->serialize(componentSerializer);
+        ObjectWriter componentWriter = components.writeObject();
+        componentWriter.writeString("type", typeName);
+        component->serialize(componentWriter);
     }
 }
 
-void Scene::_deserializeEntity(const Entity& entity, ObjectDeserializer& deserializer, AssetCache& assetCache)
+void Scene::_deserializeEntity(const Entity& entity, ObjectReader& reader, AssetCache& assetCache)
 {
     if (!entity)
     {
         throw Error("Entity is null");
     }
 
-    ArrayDeserializer components = deserializer.readArray("components");
+    ArrayReader components = reader.readArray("components");
     while (components.hasMoreElements())
     {
-        ObjectDeserializer componentDeserializer = components.readObject();
+        ObjectReader componentReader = components.readObject();
 
-        std::string typeName = componentDeserializer.readString("type");
+        std::string typeName = componentReader.readString("type");
         ComponentTypeId typeId = _typeId(typeName);
         BaseComponent* component = _constructComponent(typeId);
 
-        component->deserialize(componentDeserializer, assetCache);
+        component->deserialize(componentReader, assetCache);
         entity.addComponent(component);
     }
 }
@@ -362,7 +362,7 @@ ComponentTypeId Scene::_typeId(const std::string& typeName) const
     auto it = _componentTypeIds.find(typeName);
     if (it == _componentTypeIds.end())
     {
-        throw Error(format("No serializer registered for component type name '%s'", typeName.c_str()));
+        throw Error(format("No writer registered for component type name '%s'", typeName.c_str()));
     }
     return (*it).second;
 }
@@ -372,7 +372,7 @@ const std::string& Scene::_typeName(ComponentTypeId typeId) const
     auto it = _componentTypeNames.find(typeId);
     if (it == _componentTypeNames.end())
     {
-        throw Error(format("No serializer registered for component type id '%d'", typeId));
+        throw Error(format("No writer registered for component type id '%d'", typeId));
     }
     return (*it).second;
 }
@@ -382,7 +382,7 @@ BaseComponent* Scene::_constructComponent(ComponentTypeId typeId) const
     auto it = _componentConstructors.find(typeId);
     if (it == _componentConstructors.end())
     {
-        throw Error(format("No serializer registered for component type id '%d'", typeId));
+        throw Error(format("No writer registered for component type id '%d'", typeId));
     }
     return (*it).second();
 }

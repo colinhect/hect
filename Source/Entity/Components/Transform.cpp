@@ -117,35 +117,35 @@ void Transform::transformBy(const Transform& transform)
     _dirtyBits = PositionBit | ScaleBit | RotationBit;
 }
 
-void Transform::serialize(ObjectSerializer& serializer) const
+void Transform::serialize(ObjectWriter& writer) const
 {
     Vector3 axis;
     Angle angle;
     _rotation.toAxisAngle(axis, angle);
 
-    serializer.writeVector3("position", _position);
-    serializer.writeVector3("scale", _scale);
+    writer.writeVector3("position", _position);
+    writer.writeVector3("scale", _scale);
 
-    ObjectSerializer rotation = serializer.writeObject("rotation");
+    ObjectWriter rotation = writer.writeObject("rotation");
     rotation.writeVector3("axis", axis);
     rotation.writeReal("angle", angle.degrees());
 }
 
-void Transform::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+void Transform::deserialize(ObjectReader& reader, AssetCache& assetCache)
 {
     assetCache;
 
-    if (deserializer.hasMember("position"))
+    if (reader.hasMember("position"))
     {
-        setPosition(deserializer.readVector3("position"));
+        setPosition(reader.readVector3("position"));
     }
 
-    if (deserializer.hasMember("scale"))
+    if (reader.hasMember("scale"))
     {
-        setScale(deserializer.readVector3("scale"));
+        setScale(reader.readVector3("scale"));
     }
 
-    ObjectDeserializer rotation = deserializer.readObject("rotation");
+    ObjectReader rotation = reader.readObject("rotation");
     if (rotation)
     {
         Vector3 axis;

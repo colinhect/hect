@@ -25,44 +25,44 @@
 
 using namespace hect;
 
-void Serializable::serialize(ObjectSerializer& serializer) const
+void Serializable::serialize(ObjectWriter& writer) const
 {
-    serializer;
+    writer;
 }
 
 DataValue Serializable::serializeToDataValue() const
 {
-    DataValueSerializer serializer;
+    DataValueWriter writer;
     {
-        ObjectSerializer object = serializer.writeObject();
+        ObjectWriter object = writer.writeObject();
         serialize(object);
     }
-    return serializer.serializedDataValues()[0];
+    return writer.serializedDataValues()[0];
 }
 
 void Serializable::serializeToStream(WriteStream& stream) const
 {
-    BinarySerializer serializer(stream);
-    ObjectSerializer object = serializer.writeObject();
+    BinaryWriter writer(stream);
+    ObjectWriter object = writer.writeObject();
     serialize(object);
 }
 
-void Serializable::deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache)
+void Serializable::deserialize(ObjectReader& reader, AssetCache& assetCache)
 {
-    deserializer;
+    reader;
     assetCache;
 }
 
 void Serializable::deserializeFromDataValue(const DataValue& dataValue, AssetCache& assetCache)
 {
-    DataValueDeserializer deserializer(dataValue);
-    ObjectDeserializer object = deserializer.readObject();
+    DataValueReader reader(dataValue);
+    ObjectReader object = reader.readObject();
     deserialize(object, assetCache);
 }
 
 void Serializable::deserializeFromStream(ReadStream& stream, AssetCache& assetCache)
 {
-    BinaryDeserializer deserializer(stream);
-    ObjectDeserializer object = deserializer.readObject();
+    BinaryReader reader(stream);
+    ObjectReader object = reader.readObject();
     deserialize(object, assetCache);
 }

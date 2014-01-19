@@ -113,8 +113,8 @@ public:
     /// Returns the frustum.
     const Frustum& frustum() const;
 
-    void serialize(ObjectSerializer& serializer) const;
-    void deserialize(ObjectDeserializer& deserializer, AssetCache& assetCache);
+    void serialize(ObjectWriter& writer) const;
+    void deserialize(ObjectReader& reader, AssetCache& assetCache);
 
 private:
     Angle _fieldOfView;

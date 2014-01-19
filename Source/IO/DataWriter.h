@@ -32,30 +32,30 @@ namespace hect
 {
 
 ///
-/// Provides access for serializing an array.
-class ArraySerializer
+/// Provides access for writing an array.
+class ArrayWriter
 {
-    friend class Serializer;
-    friend class DataValueSerializer;
-    friend class BinarySerializer;
+    friend class DataWriter;
+    friend class DataValueWriter;
+    friend class BinaryWriter;
 
-    friend class ObjectSerializer;
+    friend class ObjectWriter;
 public:
-    ArraySerializer(const ArraySerializer& serializer);
-    ArraySerializer(ArraySerializer&& serializer);
-    ~ArraySerializer();
+    ArrayWriter(const ArrayWriter& writer);
+    ArrayWriter(ArrayWriter&& writer);
+    ~ArrayWriter();
 
     ///
     /// Begins writing an array.
     ///
-    /// \returns The serializer for the array.
-    ArraySerializer writeArray();
+    /// \returns The writer for the array.
+    ArrayWriter writeArray();
 
     ///
     /// Begins writing an object.
     ///
-    /// \returns The serializer for the object.
-    ObjectSerializer writeObject();
+    /// \returns The writer for the object.
+    ObjectWriter writeObject();
 
     void writeString(const std::string& value);
     void writeByte(int8_t value);
@@ -74,39 +74,39 @@ public:
     void writeVector4(const Vector4& value);
 
 private:
-    ArraySerializer();
-    ArraySerializer(Serializer* serializer);
+    ArrayWriter();
+    ArrayWriter(DataWriter* writer);
 
-    Serializer* _serializer;
+    DataWriter* _writer;
 };
 
-class ObjectSerializer
+class ObjectWriter
 {
-    friend class Serializer;
-    friend class DataValueSerializer;
-    friend class BinarySerializer;
+    friend class DataWriter;
+    friend class DataValueWriter;
+    friend class BinaryWriter;
 
-    friend class ArraySerializer;
+    friend class ArrayWriter;
 public:
-    ObjectSerializer(const ObjectSerializer& serializer);
-    ObjectSerializer(ObjectSerializer&& serializer);
-    ~ObjectSerializer();
+    ObjectWriter(const ObjectWriter& writer);
+    ObjectWriter(ObjectWriter&& writer);
+    ~ObjectWriter();
 
     ///
     /// Begins writing an array.
     ///
     /// \param name The name of the member to write to.
     ///
-    /// \returns The serializer for the array.
-    ArraySerializer writeArray(const char* name);
+    /// \returns The writer for the array.
+    ArrayWriter writeArray(const char* name);
 
     ///
     /// Begins writing an object.
     ///
     /// \param name The name of the member to write to.
     ///
-    /// \returns The serializer for the object.
-    ObjectSerializer writeObject(const char* name);
+    /// \returns The writer for the object.
+    ObjectWriter writeObject(const char* name);
 
     void writeString(const char* name, const std::string& value);
     void writeByte(const char* name, int8_t value);
@@ -125,18 +125,18 @@ public:
     void writeVector4(const char* name, const Vector4& value);
 
 private:
-    ObjectSerializer();
-    ObjectSerializer(Serializer* serializer);
+    ObjectWriter();
+    ObjectWriter(DataWriter* writer);
 
-    Serializer* _serializer;
+    DataWriter* _writer;
 };
 
 ///
-/// Provides abstract access for serializing structured data.
-class Serializer
+/// Provides abstract access for writing structured data.
+class DataWriter
 {
-    friend class ArraySerializer;
-    friend class ObjectSerializer;
+    friend class ArrayWriter;
+    friend class ObjectWriter;
 public:
 
     ///
@@ -146,14 +146,14 @@ public:
     ///
     /// Begins writing an array.
     ///
-    /// \returns The serializer for the array.
-    virtual ArraySerializer writeArray() = 0;
+    /// \returns The writer for the array.
+    virtual ArrayWriter writeArray() = 0;
 
     ///
     /// Begins writing an object.
     ///
-    /// \returns The serializer for the object.
-    virtual ObjectSerializer writeObject() = 0;
+    /// \returns The writer for the object.
+    virtual ObjectWriter writeObject() = 0;
 
 protected:
     virtual void beginArray() = 0;
@@ -197,15 +197,15 @@ protected:
 };
 
 ///
-/// Provides access for serializing structured data to a data value.
-class DataValueSerializer :
-    public Serializer
+/// Provides access for writing structured data to a data value.
+class DataValueWriter :
+    public DataWriter
 {
 public:
     bool isHumanReadable() const;
 
-    ArraySerializer writeArray();
-    ObjectSerializer writeObject();
+    ArrayWriter writeArray();
+    ObjectWriter writeObject();
 
     ///
     /// Returns the serialized data values.
@@ -261,22 +261,22 @@ private:
 };
 
 ///
-/// Provides access for serializing structured data to a binary stream.
-class BinarySerializer :
-    public Serializer
+/// Provides access for writing structured data to a binary stream.
+class BinaryWriter :
+    public DataWriter
 {
 public:
 
     ///
-    /// Constructs a serializer given the stream to serialize to.
+    /// Constructs a writer given the stream to serialize to.
     ///
     /// \param stream The stream to serialize to.
-    BinarySerializer(WriteStream& stream);
+    BinaryWriter(WriteStream& stream);
 
     bool isHumanReadable() const;
 
-    ArraySerializer writeArray();
-    ObjectSerializer writeObject();
+    ArrayWriter writeArray();
+    ObjectWriter writeObject();
 
 private:
     void beginArray();
