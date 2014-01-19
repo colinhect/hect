@@ -61,24 +61,68 @@ public:
     /// \returns The reader for the object.
     ObjectReader readObject();
 
+    ///
+    /// Reads a string.
     std::string readString();
+
+    ///
+    /// Reads a signed 8-bit integer.
     int8_t readByte();
+
+    ///
+    /// Reads an unsigned 16-bit integer.
     uint8_t readUnsignedByte();
+
+    ///
+    /// Reads a signed 16-bit integer.
     int16_t readShort();
+
+    ///
+    /// Reads an unsigned 16-bit integer.
     uint16_t readUnsignedShort();
+
+    ///
+    /// Reads a signed 32-bit integer.
     int32_t readInt();
+
+    ///
+    /// Reads an unsigned 32-bit integer.
     uint32_t readUnsignedInt();
+
+    ///
+    /// Reads a signed 64-bit integer.
     int64_t readLong();
+
+    ///
+    /// Reads an unsigned 64-bit integer.
     uint64_t readUnsignedLong();
+
+    ///
+    /// Reads a 32-bit float.
     float readFloat();
+
+    ///
+    /// Reads a 64-bit float.
     double readDouble();
+
+    ///
+    /// Reads a real number.
     Real readReal();
+
+    ///
+    /// Reads a 2-dimensional vector.
     Vector2 readVector2();
+
+    ///
+    /// Reads a 3-dimensional vector.
     Vector3 readVector3();
+
+    ///
+    /// Reads a 4-dimensional vector.
     Vector4 readVector4();
 
     ///
-    /// Returns whether the reader has an array to deserialize.
+    /// Returns whether the reader has an array to read.
     operator bool() const;
 
 private:
@@ -124,24 +168,98 @@ public:
     /// \returns The reader for the object.
     ObjectReader readObject(const char* name);
 
+    ///
+    /// Reads a string.
+    ///
+    /// \param name The name of the member to read.
     std::string readString(const char* name);
+
+    ///
+    /// Reads a signed 8-bit integer.
+    ///
+    /// \param name The name of the member to read.
     int8_t readByte(const char* name);
+
+    ///
+    /// Reads an unsigned 16-bit integer.
+    ///
+    /// \param name The name of the member to read.
     uint8_t readUnsignedByte(const char* name);
+
+    ///
+    /// Reads a signed 16-bit integer.
+    ///
+    /// \param name The name of the member to read.
     int16_t readShort(const char* name);
+
+    ///
+    /// Reads an unsigned 16-bit integer.
+    ///
+    /// \param name The name of the member to read.
     uint16_t readUnsignedShort(const char* name);
+
+    ///
+    /// Reads a signed 32-bit integer.
+    ///
+    /// \param name The name of the member to read.
     int32_t readInt(const char* name);
+
+    ///
+    /// Reads an unsigned 32-bit integer.
+    ///
+    /// \param name The name of the member to read.
     uint32_t readUnsignedInt(const char* name);
+
+    ///
+    /// Reads a signed 64-bit integer.
+    ///
+    /// \param name The name of the member to read.
     int64_t readLong(const char* name);
+
+    ///
+    /// Reads an unsigned 64-bit integer.
+    ///
+    /// \param name The name of the member to read.
     uint64_t readUnsignedLong(const char* name);
+
+    ///
+    /// Reads a 32-bit float.
+    ///
+    /// \param name The name of the member to read.
     float readFloat(const char* name);
+
+    ///
+    /// Reads a 64-bit float.
+    ///
+    /// \param name The name of the member to read.
     double readDouble(const char* name);
+
+    ///
+    /// Reads a real number.
+    ///
+    /// \param name The name of the member to read.
     Real readReal(const char* name);
+
+    ///
+    /// Reads a 2-dimensional vector.
+    ///
+    /// \param name The name of the member to read.
     Vector2 readVector2(const char* name);
+
+    ///
+    /// Reads a 3-dimensional vector.
+    ///
+    /// \param name The name of the member to read.
     Vector3 readVector3(const char* name);
+
+    ///
+    /// Reads a 4-dimensional vector.
+    ///
+    /// \param name The name of the member to read.
     Vector4 readVector4(const char* name);
 
     ///
-    /// Returns whether the reader has an object to deserialize.
+    /// Returns whether the reader has an object to read.
     operator bool() const;
 
 private:

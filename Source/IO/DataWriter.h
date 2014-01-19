@@ -57,20 +57,94 @@ public:
     /// \returns The writer for the object.
     ObjectWriter writeObject();
 
+    ///
+    /// Writes a string.
+    ///
+    /// \param value The string to write.
     void writeString(const std::string& value);
+
+    ///
+    /// Writes a signed 8-bit integer.
+    ///
+    /// \param value The value to write.
     void writeByte(int8_t value);
+
+    ///
+    /// Writes an unsigned 8-bit integer.
+    ///
+    /// \param value The value to write.
     void writeUnsignedByte(uint8_t value);
+
+    ///
+    /// Writes a signed 16-bit integer.
+    ///
+    /// \param value The value to write.
     void writeShort(int16_t value);
+
+    ///
+    /// Writes an unsigned 16-bit integer.
+    ///
+    /// \param value The value to write.
     void writeUnsignedShort(uint16_t value);
+
+    ///
+    /// Writes a signed 32-bit integer.
+    ///
+    /// \param value The value to write.
     void writeInt(int32_t value);
+
+    ///
+    /// Writes an unsigned 32-bit integer.
+    ///
+    /// \param value The value to write.
     void writeUnsignedInt(uint32_t value);
+
+    ///
+    /// Writes a signed 64-bit integer.
+    ///
+    /// \param value The value to write.
     void writeLong(int64_t value);
+
+    ///
+    /// Writes an unsigned 64-bit integer.
+    ///
+    /// \param value The value to write.
     void writeUnsignedLong(uint64_t value);
+
+    ///
+    /// Writes a 32-bit float.
+    ///
+    /// \param value The value to write.
     void writeFloat(float value);
+
+    ///
+    /// Writes a 64-bit float
+    ///
+    /// \param value The value to write.
     void writeDouble(double value);
+
+    ///
+    /// Writes a real number.
+    ///
+    /// \param value The value to write.
     void writeReal(Real value);
+
+    ///
+    /// Writes a 2-dimensional vector.
+    ///
+    /// \param value The vector to write.
     void writeVector2(const Vector2& value);
+
+    ///
+    /// Writes a 3-dimensional vector.
+    ///
+    /// \param value The vector to write.
     void writeVector3(const Vector3& value);
+
+    ///
+    /// Writes a 4-dimensional vector.
+    ///
+    /// \param value The vector to write.
     void writeVector4(const Vector4& value);
 
 private:
@@ -108,20 +182,109 @@ public:
     /// \returns The writer for the object.
     ObjectWriter writeObject(const char* name);
 
+    ///
+    /// Writes a string.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The string to write.
     void writeString(const char* name, const std::string& value);
+
+    ///
+    /// Writes a signed 8-bit integer.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeByte(const char* name, int8_t value);
+
+    ///
+    /// Writes an unsigned 8-bit integer.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeUnsignedByte(const char* name, uint8_t value);
+
+    ///
+    /// Writes a signed 16-bit integer.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeShort(const char* name, int16_t value);
+
+    ///
+    /// Writes an unsigned 16-bit integer.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeUnsignedShort(const char* name, uint16_t value);
+
+    ///
+    /// Writes a signed 32-bit integer.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeInt(const char* name, int32_t value);
+
+    ///
+    /// Writes an unsigned 32-bit integer.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeUnsignedInt(const char* name, uint32_t value);
+
+    ///
+    /// Writes a signed 64-bit integer.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeLong(const char* name, int64_t value);
+
+    ///
+    /// Writes an unsigned 64-bit integer.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeUnsignedLong(const char* name, uint64_t value);
+
+    ///
+    /// Writes a 32-bit float.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeFloat(const char* name, float value);
+
+    ///
+    /// Writes a 64-bit float
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeDouble(const char* name, double value);
+
+    ///
+    /// Writes a real number.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
     void writeReal(const char* name, Real value);
+
+    ///
+    /// Writes a 2-dimensional vector.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The vector to write.
     void writeVector2(const char* name, const Vector2& value);
+
+    ///
+    /// Writes a 3-dimensional vector.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The vector to write.
     void writeVector3(const char* name, const Vector3& value);
+
+    ///
+    /// Writes a 4-dimensional vector.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The vector to write.
     void writeVector4(const char* name, const Vector4& value);
 
 private:
