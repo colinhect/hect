@@ -108,10 +108,10 @@ Vector3T<T> Vector3T<T>::cross(const Vector3T& v) const
 }
 
 template <typename T>
-AngleT<T> Vector3T<T>::angleFrom(const Vector3T& v) const
+Angle Vector3T<T>::angleFrom(const Vector3T& v) const
 {
-    T radians = (T)std::acos(dot(v));
-    return AngleT<T>::fromRadians(radians);
+    Real radians = (Real)std::acos(dot(v));
+    return Angle::fromRadians(radians);
 }
 
 template <typename T>

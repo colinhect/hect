@@ -318,6 +318,9 @@
     <ClCompile Include="Source\IO\DataReader.cpp">
       <Filter>Source\IO</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Math\Angle.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Asset\AssetCache.h">
@@ -636,9 +639,6 @@
     </None>
     <None Include="Source\Entity\Scene.inl">
       <Filter>Source\Entity</Filter>
-    </None>
-    <None Include="Source\Math\Angle.inl">
-      <Filter>Source\Math</Filter>
     </None>
     <None Include="Source\Math\AxisAlignedBox.inl">
       <Filter>Source\Math</Filter>

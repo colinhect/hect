@@ -82,7 +82,7 @@ public:
     /// \param farClip The maximum distance from the origin to clip.
     ///
     /// \returns The projection matrix.
-    static Matrix4T createPerspective(AngleT<T> fieldOfView, T aspectRatio, T nearClip, T farClip);
+    static Matrix4T createPerspective(Angle fieldOfView, T aspectRatio, T nearClip, T farClip);
 
     ///
     /// Constructs an orthogonal projection matrix.

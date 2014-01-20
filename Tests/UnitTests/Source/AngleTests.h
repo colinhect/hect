@@ -25,192 +25,92 @@
 
 SUITE(Angle)
 {
-    template <typename T>
-    void testDefaultConstructor()
-    {
-        AngleT<T> a;
-        CHECK_CLOSE((T)0.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)0.0, a.radians(), (T)epsilon);
-    }
-
     TEST(DefaultConstructor)
     {
-        testDefaultConstructor<float>();
-        testDefaultConstructor<double>();
-    }
-
-    template <typename T>
-    void testFromAndToDegrees()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees((T)180.0);
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
+        Angle a;
+        CHECK_CLOSE(0, a.degrees(), epsilon);
+        CHECK_CLOSE(0, a.radians(), epsilon);
     }
 
     TEST(FromAndToDegrees)
     {
-        testFromAndToDegrees<float>();
-        testFromAndToDegrees<double>();
+        Angle a = Angle::fromDegrees(180);
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
-
-    template <typename T>
-    void testFromAndToRadians()
-    {
-        AngleT<T> a = AngleT<T>::fromRadians((T)pi);
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
-    }
-
+    
     TEST(FromAndToRadians)
     {
-        testFromAndToRadians<float>();
-        testFromAndToRadians<double>();
-    }
-
-    template <typename T>
-    void testNegate()
-    {
-        AngleT<T> a = AngleT<T>::fromRadians((T)pi);
-        a = -a;
-        CHECK_CLOSE((T)-180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)-pi, a.radians(), (T)epsilon);
+        Angle a = Angle::fromRadians(pi);
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
 
     TEST(Negate)
     {
-        testNegate<float>();
-        testNegate<double>();
-    }
-
-    template <typename T>
-    void testAdd()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees(45.0) + AngleT<T>::fromDegrees(135.0);
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
+        Angle a = Angle::fromRadians(pi);
+        a = -a;
+        CHECK_CLOSE(-180, a.degrees(), epsilon);
+        CHECK_CLOSE(-pi, a.radians(), epsilon);
     }
 
     TEST(Add)
     {
-        testAdd<float>();
-        testAdd<double>();
-    }
-
-    template <typename T>
-    void testAddEquals()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees((T)45.0);
-        a += AngleT<T>::fromDegrees((T)135.0);
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
+        Angle a = Angle::fromDegrees(45) + Angle::fromDegrees(135);
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
 
     TEST(AddEquals)
     {
-        testAddEquals<float>();
-        testAddEquals<double>();
-    }
-
-    template <typename T>
-    void testSubtract()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees((T)270.0) - AngleT<T>::fromDegrees((T)90.0);
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
+        Angle a = Angle::fromDegrees(45);
+        a += Angle::fromDegrees(135);
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
 
     TEST(Subtract)
     {
-        testSubtract<float>();
-        testSubtract<double>();
-    }
-
-    template <typename T>
-    void testSubtractEquals()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees((T)270.0);
-        a -= AngleT<T>::fromDegrees((T)90.0);
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
+        Angle a = Angle::fromDegrees(270) - Angle::fromDegrees(90);
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
 
     TEST(SubtractEquals)
     {
-        testSubtractEquals<float>();
-        testSubtractEquals<double>();
-    }
-
-    template <typename T>
-    void testMultiply()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees((T)90.0) * (T)2.0;
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
+        Angle a = Angle::fromDegrees(270);
+        a -= Angle::fromDegrees(90);
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
 
     TEST(Multiply)
     {
-        testMultiply<float>();
-        testMultiply<double>();
-    }
-
-    template <typename T>
-    void testMultiplyEquals()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees((T)90.0);
-        a *= (T)2.0;
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
+        Angle a = Angle::fromDegrees(90) * 2;
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
 
     TEST(MultiplyEquals)
     {
-        testMultiplyEquals<float>();
-        testMultiplyEquals<double>();
-    }
-
-    template <typename T>
-    void testDivide()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees((T)360.0) / (T)2.0;
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
+        Angle a = Angle::fromDegrees(90);
+        a *= 2;
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
 
     TEST(Divide)
     {
-        testDivide<float>();
-        testDivide<double>();
-    }
-
-    template <typename T>
-    void testDivideEquals()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees((T)360.0);
-        a /= (T)2.0;
-        CHECK_CLOSE((T)180.0, a.degrees(), (T)epsilon);
-        CHECK_CLOSE((T)pi, a.radians(), (T)epsilon);
+        Angle a = Angle::fromDegrees(360) / 2;
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
 
     TEST(DivideEquals)
     {
-        testDivideEquals<float>();
-        testDivideEquals<double>();
-    }
-
-    template <typename T, typename U>
-    void testCast()
-    {
-        AngleT<T> a = AngleT<T>::fromDegrees((T)45.0);
-        AngleT<U> b = a;
-
-        CHECK_CLOSE(a.degrees(), b.degrees(), (T)epsilon);
-        CHECK_CLOSE(a.radians(), b.radians(), (T)epsilon);
-    }
-
-    TEST(Cast)
-    {
-        testCast<float, double>();
-        testCast<double, float>();
+        Angle a = Angle::fromDegrees(360);
+        a /= 2;
+        CHECK_CLOSE(180, a.degrees(), epsilon);
+        CHECK_CLOSE(pi, a.radians(), epsilon);
     }
 }

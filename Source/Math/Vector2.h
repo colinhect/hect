@@ -90,7 +90,7 @@ public:
     /// Returns the angle from the vector to another vector.
     ///
     /// \param v The vector to compute the angle from.
-    AngleT<T> angleFrom(const Vector2T& v) const;
+    Angle angleFrom(const Vector2T& v) const;
 
     ///
     /// Returns the length of the vector.

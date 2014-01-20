@@ -98,7 +98,7 @@ public:
 
     ///
     /// \copydoc Vector2T::angleFrom()
-    AngleT<T> angleFrom(const Vector4T& v) const;
+    Angle angleFrom(const Vector4T& v) const;
 
     ///
     /// \copydoc Vector2T::length()

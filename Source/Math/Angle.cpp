@@ -21,105 +21,92 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include "Angle.h"
+
 #include "Math/Constants.h"
 
 namespace hect
 {
 
-template <typename T>
-AngleT<T> AngleT<T>::fromDegrees(T degrees)
+Angle Angle::fromDegrees(Real degrees)
 {
-    return AngleT(((T)pi / (T)180) * degrees);
+    return Angle((pi / (Real)180) * degrees);
 }
 
-template <typename T>
-AngleT<T> AngleT<T>::fromRadians(T radians)
+Angle Angle::fromRadians(Real radians)
 {
-    return AngleT(radians);
+    return Angle(radians);
 }
 
-template <typename T>
-AngleT<T>::AngleT():
+Angle::Angle():
     _radians(0)
 {
 }
 
-template <typename T>
-AngleT<T>::AngleT(T radians):
+Angle::Angle(Real radians):
     _radians(radians)
 {
 }
 
-template <typename T>
-T AngleT<T>::degrees() const
+Real Angle::degrees() const
 {
-    T degrees = ((T)180 / (T)pi) * _radians;
-    if (degrees == (T)360)
+    Real degrees = ((Real)180 / pi) * _radians;
+    if (degrees == (Real)360)
     {
-        degrees = (T)0;
+        degrees = (Real)0;
     }
     return degrees;
 }
 
-template <typename T>
-T AngleT<T>::radians() const
+Real Angle::radians() const
 {
     return _radians;
 }
 
-template <typename T>
-AngleT<T> AngleT<T>::operator+(const AngleT& a) const
+Angle Angle::operator+(const Angle& a) const
 {
-    return AngleT(_radians + a._radians);
+    return Angle(_radians + a._radians);
 }
 
-template <typename T>
-AngleT<T> AngleT<T>::operator-(const AngleT& a) const
+Angle Angle::operator-(const Angle& a) const
 {
-    return AngleT(_radians - a._radians);
+    return Angle(_radians - a._radians);
 }
 
-template <typename T>
-AngleT<T> AngleT<T>::operator*(T value) const
+Angle Angle::operator*(Real value) const
 {
-    return AngleT(_radians * value);
+    return Angle(_radians * value);
 }
 
-template <typename T>
-AngleT<T> AngleT<T>::operator/(T value) const
+Angle Angle::operator/(Real value) const
 {
-    return AngleT(_radians / value);
+    return Angle(_radians / value);
 }
 
-template <typename T>
-AngleT<T> AngleT<T>::operator-() const
+Angle Angle::operator-() const
 {
-    return AngleT(-_radians);
+    return Angle(-_radians);
 }
 
-template <typename T>
-AngleT<T>& AngleT<T>::operator+=(const AngleT& a)
+Angle& Angle::operator+=(const Angle& a)
 {
     _radians += a._radians;
     return *this;
 }
 
-template <typename T>
-AngleT<T>& AngleT<T>::operator-=(const AngleT& a)
+Angle& Angle::operator-=(const Angle& a)
 {
     _radians -= a._radians;
     return *this;
 }
 
-template <typename T>
-AngleT<T>& AngleT<T>::operator*=(T value)
+Angle& Angle::operator*=(Real value)
 {
     _radians *= value;
     return *this;
 }
 
-template <typename T>
-AngleT<T>& AngleT<T>::operator/=(T value)
+Angle& Angle::operator/=(Real value)
 {
     _radians /= value;
     return *this;

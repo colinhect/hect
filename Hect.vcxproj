@@ -98,6 +98,7 @@
     <ClCompile Include="Source\IO\ReadStream.cpp" />
     <ClCompile Include="Source\IO\FileSystem.cpp" />
     <ClCompile Include="Source\IO\WriteStream.cpp" />
+    <ClCompile Include="Source\Math\Angle.cpp" />
     <ClCompile Include="Source\Network\IpAddress.cpp" />
     <ClCompile Include="Source\Network\Packet.cpp" />
     <ClCompile Include="Source\Network\Peer.cpp" />
@@ -217,7 +218,6 @@
     <None Include="Source\Entity\Scene.inl" />
     <None Include="Source\Graphics\MeshReader.inl" />
     <None Include="Source\Graphics\MeshWriter.inl" />
-    <None Include="Source\Math\Angle.inl" />
     <None Include="Source\Math\AxisAlignedBox.inl" />
     <None Include="Source\Math\Box.inl" />
     <None Include="Source\Math\Frustum.inl" />

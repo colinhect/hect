@@ -76,7 +76,7 @@ public:
         const Vector3T<T>& position,
         const Vector3T<T>& front,
         const Vector3T<T>& up,
-        AngleT<T> fieldOfView,
+        Angle fieldOfView,
         T aspectRatio,
         T nearClip,
         T farClip);

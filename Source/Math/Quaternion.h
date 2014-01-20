@@ -43,7 +43,7 @@ public:
     ///
     /// \param axis The axis that the angle is relative to.
     /// \param angle The angle relative to the axis.
-    static QuaternionT fromAxisAngle(const Vector3T<T>& axis, AngleT<T> angle);
+    static QuaternionT fromAxisAngle(const Vector3T<T>& axis, Angle angle);
 
     ///
     /// Constructs an identity quaternion.
@@ -110,7 +110,7 @@ public:
     ///
     /// \param axis The resulting axis.
     /// \param angle The resulting angle.
-    void toAxisAngle(Vector3T<T>& axis, AngleT<T>& angle) const;
+    void toAxisAngle(Vector3T<T>& axis, Angle& angle) const;
 
     ///
     /// Returns the product of the quaternion and a scalar.

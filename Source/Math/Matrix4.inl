@@ -93,7 +93,7 @@ Matrix4T<T> Matrix4T<T>::createView(const Vector3T<T>& position, const Vector3T<
 }
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::createPerspective(AngleT<T> fieldOfView, T aspectRatio, T nearClip, T farClip)
+Matrix4T<T> Matrix4T<T>::createPerspective(Angle fieldOfView, T aspectRatio, T nearClip, T farClip)
 {
     Matrix4T m;
 

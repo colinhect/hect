@@ -108,16 +108,16 @@ SUITE(Quaternion)
     template <typename T>
     void testAxisAngle()
     {
-        QuaternionT<T> a = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
+        QuaternionT<T> a = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(180));
 
         Vector3T<T> axis;
-        AngleT<T> angle;
+        Angle angle;
         a.toAxisAngle(axis, angle);
 
         CHECK_CLOSE((T)0.0, axis.x, (T)epsilon);
         CHECK_CLOSE((T)1.0, axis.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, axis.z, (T)epsilon);
-        CHECK_CLOSE((T)180.0, angle.degrees(), (T)epsilon);
+        CHECK_CLOSE(180, angle.degrees(), epsilon);
     }
 
     TEST(AxisAngle)
@@ -130,29 +130,29 @@ SUITE(Quaternion)
     void testMultiply()
     {
         Vector3T<T> axis;
-        AngleT<T> angle;
+        Angle angle;
         QuaternionT<T> a;
         QuaternionT<T> b;
 
-        a = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)90.0));
-        b = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
+        a = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(90));
+        b = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(180));
         a = b * a;
         a.toAxisAngle(axis, angle);
 
         CHECK_CLOSE((T)0.0, axis.x, (T)epsilon);
         CHECK_CLOSE((T)1.0, axis.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, axis.z, (T)epsilon);
-        CHECK_CLOSE((T)270.0, angle.degrees(), (T)epsilon);
+        CHECK_CLOSE(270, angle.degrees(), epsilon);
 
-        a = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)90.0));
-        b = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
+        a = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(90));
+        b = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(180));
         a *= b;
         a.toAxisAngle(axis, angle);
 
         CHECK_CLOSE((T)0.0, axis.x, (T)epsilon);
         CHECK_CLOSE((T)1.0, axis.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, axis.z, (T)epsilon);
-        CHECK_CLOSE((T)270.0, angle.degrees(), (T)epsilon);
+        CHECK_CLOSE(270, angle.degrees(), epsilon);
     }
 
     TEST(Multiply)
@@ -167,13 +167,13 @@ SUITE(Quaternion)
         QuaternionT<T> r;
         Vector3T<T> v;
 
-        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
+        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(180));
         v = r * Vector3T<T>::unitX();
         CHECK_CLOSE((T)-1.0, v.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.z, (T)epsilon);
 
-        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)90.0));
+        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(90));
         v = r * Vector3T<T>::unitX();
         CHECK_CLOSE((T)0.0, v.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.y, (T)epsilon);

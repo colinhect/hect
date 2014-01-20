@@ -27,16 +27,16 @@ namespace hect
 {
 
 template <typename T>
-QuaternionT<T> QuaternionT<T>::fromAxisAngle(const Vector3T<T>& axis, AngleT<T> angle)
+QuaternionT<T> QuaternionT<T>::fromAxisAngle(const Vector3T<T>& axis, Angle angle)
 {
     // Special case for identity quaternion
-    if (angle.degrees() == (T)0 || axis.lengthSquared() == (T)0)
+    if (angle.degrees() == 0 || axis.lengthSquared() == (T)0)
     {
         return QuaternionT();
     }
     else
     {
-        T halfRadians = angle.radians() / (T)2.0;
+        T halfRadians = (T)angle.radians() / (T)2.0;
 
         Vector3T<T> v = axis.normalized() * (T)std::sin(halfRadians);
         T w = (T)std::cos(halfRadians);
@@ -131,13 +131,13 @@ QuaternionT<T> QuaternionT<T>::inverse() const
 }
 
 template <typename T>
-void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, AngleT<T>& angle) const
+void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, Angle& angle) const
 {
     // Special case for identity quaternion
     if (w == (T)0 || (x + y + z) == (T)0)
     {
         axis = Vector3T<T>::zero();
-        angle = AngleT<T>::fromRadians((T)0);
+        angle = Angle::fromRadians(0);
     }
     else
     {
@@ -145,7 +145,7 @@ void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, AngleT<T>& angle) const
         q.normalize();
 
         axis = Vector3T<T>(q.x, q.y, q.z).normalized();
-        angle = AngleT<T>::fromRadians((T)2.0 * (T)std::acos(w));
+        angle = Angle::fromRadians(2.0 * (Real)std::acos(w));
     }
 }
 

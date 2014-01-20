@@ -111,10 +111,10 @@ T Vector4T<T>::dot(const Vector4T& v) const
 }
 
 template <typename T>
-AngleT<T> Vector4T<T>::angleFrom(const Vector4T& v) const
+Angle Vector4T<T>::angleFrom(const Vector4T& v) const
 {
-    T radians = (T)std::acos(dot(v));
-    return AngleT<T>::fromRadians(radians);
+    Real radians = (Real)std::acos(dot(v));
+    return Angle::fromRadians(radians);
 }
 
 template <typename T>

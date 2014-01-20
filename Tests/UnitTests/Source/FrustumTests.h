@@ -32,7 +32,7 @@ SUITE(Frustum)
             Vector3T<T>(0, 0, 0),
             Vector3T<T>(0, 0, -1),
             Vector3T<T>(0, 1, 0),
-            AngleT<T>::fromDegrees(90),
+            Angle::fromDegrees(90),
             1,
             (T)0.1,
             100);
@@ -55,7 +55,7 @@ SUITE(Frustum)
             Vector3T<T>(0, 0, 0),
             Vector3T<T>(0, 0, -1),
             Vector3T<T>(0, 1, 0),
-            AngleT<T>::fromDegrees(90),
+            Angle::fromDegrees(90),
             1,
             (T)0.1,
             100);
@@ -78,7 +78,7 @@ SUITE(Frustum)
             Vector3T<T>(0, 0, 0),
             Vector3T<T>(0, 0, -1),
             Vector3T<T>(0, 1, 0),
-            AngleT<T>::fromDegrees(90),
+            Angle::fromDegrees(90),
             1,
             (T)0.1,
             100);
@@ -101,7 +101,7 @@ SUITE(Frustum)
             Vector3T<T>(0, 0, 0),
             Vector3T<T>(0, 0, -1),
             Vector3T<T>(0, 1, 0),
-            AngleT<T>::fromDegrees(90),
+            Angle::fromDegrees(90),
             1,
             (T)0.1,
             100);

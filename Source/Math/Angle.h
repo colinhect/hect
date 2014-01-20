@@ -23,13 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Real.h"
+
 namespace hect
 {
 
 ///
 /// An angle.
-template <typename T>
-class AngleT
+class Angle
 {
 public:
 
@@ -39,7 +40,7 @@ public:
     /// \param degrees The angle in degrees.
     ///
     /// \returns The angle.
-    static AngleT fromDegrees(T degrees);
+    static Angle fromDegrees(Real degrees);
 
     ///
     /// Constructs an angle from a value in radians.
@@ -47,53 +48,53 @@ public:
     /// \param radians The angle in radians.
     ///
     /// \returns The angle.
-    static AngleT fromRadians(T radians);
+    static Angle fromRadians(Real radians);
 
     ///
     /// Constructs a zero-degree angle.
-    AngleT();
+    Angle();
 
     ///
     /// Constructs an angle from a value in radians.
     ///
     /// \param radians The angle in radians.
-    AngleT(T radians);
+    Angle(Real radians);
 
     ///
     /// Returns the value of the angle in degrees.
-    T degrees() const;
+    Real degrees() const;
 
     ///
     /// Returns the value of the angle in radians.
-    T radians() const;
+    Real radians() const;
 
     ///
     /// Returns the sum of the angle and another angle.
     ///
     /// \param a The angle to compute the sum with.
-    AngleT operator+(const AngleT& a) const;
+    Angle operator+(const Angle& a) const;
 
     ///
     /// Returns the difference of the angle and another angle.
     ///
     /// \param a The angle to compute the diference with.
-    AngleT operator-(const AngleT& a) const;
+    Angle operator-(const Angle& a) const;
 
     ///
     /// Returns the product of the angle and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    AngleT operator*(T value) const;
+    Angle operator*(Real value) const;
 
     ///
     /// Returns the quotient of the angle and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    AngleT operator/(T value) const;
+    Angle operator/(Real value) const;
 
     ///
     /// Returns a negated copy of the angle.
-    AngleT operator-() const;
+    Angle operator-() const;
 
     ///
     /// Adds an angle to the angle.
@@ -101,7 +102,7 @@ public:
     /// \param a The angle to add.
     ///
     /// \returns A reference to the angle.
-    AngleT& operator+=(const AngleT& a);
+    Angle& operator+=(const Angle& a);
 
     ///
     /// Subtracts an angle from the angle.
@@ -109,7 +110,7 @@ public:
     /// \param a The angle to subtract.
     ///
     /// \returns A reference to the angle.
-    AngleT& operator-=(const AngleT& a);
+    Angle& operator-=(const Angle& a);
 
     ///
     /// Multiples the angle by a scalar.
@@ -117,7 +118,7 @@ public:
     /// \param value The scalar to multiply by.
     ///
     /// \returns A reference to the angle.
-    AngleT& operator*=(T value);
+    Angle& operator*=(Real value);
 
     ///
     /// Divides the angle by a scalar.
@@ -125,22 +126,10 @@ public:
     /// \param value The scalar to divide by.
     ///
     /// \returns A reference to the angle.
-    AngleT& operator/=(T value);
-
-    ///
-    /// Converts to an equivalent angle with a different underlying type.
-    template <typename U>
-    operator AngleT<U>() const
-    {
-        return AngleT<U>::fromRadians((U)_radians);
-    }
+    Angle& operator/=(Real value);
 
 private:
-    T _radians;
+    Real _radians;
 };
 
-typedef AngleT<Real> Angle;
-
 }
-
-#include "Angle.inl"

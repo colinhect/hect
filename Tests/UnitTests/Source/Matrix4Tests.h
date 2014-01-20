@@ -32,14 +32,14 @@ SUITE(Matrix4)
         Matrix4T<T> m;
         Vector3T<T> v;
 
-        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
+        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(180));
         m = Matrix4T<T>::fromRotation(r);
         v = m * Vector3T<T>::unitX();
         CHECK_CLOSE((T)-1.0, v.x, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.y, (T)epsilon);
         CHECK_CLOSE((T)0.0, v.z, (T)epsilon);
 
-        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)90.0));
+        r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(90));
         m = Matrix4T<T>::fromRotation(r);
         v = m * Vector3T<T>::unitX();
         CHECK_CLOSE((T)0.0, v.x, (T)epsilon);
@@ -81,7 +81,7 @@ SUITE(Matrix4)
     template <typename T, typename U>
     void testCast()
     {
-        QuaternionT<T> r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), AngleT<T>::fromDegrees((T)180.0));
+        QuaternionT<T> r = QuaternionT<T>::fromAxisAngle(Vector3T<T>::unitY(), Angle::fromDegrees(180));
         Matrix4T<T> a = Matrix4T<T>::fromRotation(r);
         Matrix4T<U> b = a;
 
