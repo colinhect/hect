@@ -21,32 +21,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include "AxisAlignedBox.h"
+
 namespace hect
 {
 
-template <typename T>
-AxisAlignedBoxT<T>::AxisAlignedBoxT() :
+AxisAlignedBox::AxisAlignedBox() :
     _flags(0)
 {
 }
 
-template <typename T>
-AxisAlignedBoxT<T>::AxisAlignedBoxT(const Vector3T<T>& minimum, const Vector3T<T>& maximum) :
+AxisAlignedBox::AxisAlignedBox(const Vector3& minimum, const Vector3& maximum) :
     _flags(MinX | MinY | MinZ | MaxX | MaxY | MaxZ),
     _minimum(minimum),
     _maximum(maximum)
 {
 }
 
-template <typename T>
-void AxisAlignedBoxT<T>::expandToInclude(const Vector3T<T>& point)
+void AxisAlignedBox::expandToInclude(const Vector3& point)
 {
     _mergeMinimum(point);
     _mergeMaximum(point);
 }
 
-template <typename T>
-void AxisAlignedBoxT<T>::expandToInclude(const AxisAlignedBoxT<T>& box)
+void AxisAlignedBox::expandToInclude(const AxisAlignedBox& box)
 {
     if (!box.hasSize())
     {
@@ -62,26 +60,22 @@ void AxisAlignedBoxT<T>::expandToInclude(const AxisAlignedBoxT<T>& box)
     _mergeMaximum(box._maximum);
 }
 
-template <typename T>
-const Vector3T<T>& AxisAlignedBoxT<T>::minimum() const
+const Vector3& AxisAlignedBox::minimum() const
 {
     return _minimum;
 }
 
-template <typename T>
-const Vector3T<T>& AxisAlignedBoxT<T>::maximum() const
+const Vector3& AxisAlignedBox::maximum() const
 {
     return _maximum;
 }
 
-template <typename T>
-bool AxisAlignedBoxT<T>::hasSize() const
+bool AxisAlignedBox::hasSize() const
 {
     return _flags != 0;
 }
 
-template <typename T>
-void AxisAlignedBoxT<T>::_mergeMinimum(const Vector3T<T>& point)
+void AxisAlignedBox::_mergeMinimum(const Vector3& point)
 {
     if (!(_flags & MinX) || point.x < _minimum.x)
     {
@@ -102,8 +96,7 @@ void AxisAlignedBoxT<T>::_mergeMinimum(const Vector3T<T>& point)
     }
 }
 
-template <typename T>
-void AxisAlignedBoxT<T>::_mergeMaximum(const Vector3T<T>& point)
+void AxisAlignedBox::_mergeMaximum(const Vector3& point)
 {
     if (!(_flags & MaxX) || point.x > _maximum.x)
     {

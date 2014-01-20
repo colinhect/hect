@@ -321,6 +321,12 @@
     <ClCompile Include="Source\Math\Angle.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Math\AxisAlignedBox.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\Box.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Asset\AssetCache.h">
@@ -639,12 +645,6 @@
     </None>
     <None Include="Source\Entity\Scene.inl">
       <Filter>Source\Entity</Filter>
-    </None>
-    <None Include="Source\Math\AxisAlignedBox.inl">
-      <Filter>Source\Math</Filter>
-    </None>
-    <None Include="Source\Math\Box.inl">
-      <Filter>Source\Math</Filter>
     </None>
     <None Include="Source\Math\Frustum.inl">
       <Filter>Source\Math</Filter>

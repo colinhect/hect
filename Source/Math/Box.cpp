@@ -21,17 +21,17 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include "Box.h"
+
 namespace hect
 {
 
-template <typename T>
-BoxT<T>::BoxT(const Vector3T<T>& scale) :
+Box::Box(const Vector3& scale) :
     _scale(scale)
 {
 }
 
-template <typename T>
-const Vector3T<T>& BoxT<T>::scale() const
+const Vector3& Box::scale() const
 {
     return _scale;
 }

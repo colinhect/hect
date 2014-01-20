@@ -23,13 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Math/Vector3.h"
+
 namespace hect
 {
 
 ///
 /// A box.
-template <typename T>
-class BoxT
+class Box
 {
 public:
 
@@ -37,18 +38,14 @@ public:
     /// Constructs the box given its scale.
     ///
     /// \param scale The scale in all three dimensions.
-    BoxT(const Vector3T<T>& scale);
+    Box(const Vector3& scale);
 
     ///
     /// Returns the scale.
-    const Vector3T<T>& scale() const;
+    const Vector3& scale() const;
 
 private:
-    Vector3T<T> _scale;
+    Vector3 _scale;
 };
 
-typedef BoxT<Real> Box;
-
 }
-
-#include "Box.inl"

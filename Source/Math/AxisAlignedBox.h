@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Math/AxisAlignedBox.h"
 #include "Math/Vector3.h"
 
 namespace hect
@@ -31,57 +30,48 @@ namespace hect
 
 ///
 /// A box aligned with the global axes.
-template <typename T>
-class AxisAlignedBoxT
+class AxisAlignedBox
 {
 public:
 
     ///
     /// Constructs an axis aligned box at the origin without a size.
-    AxisAlignedBoxT();
+    AxisAlignedBox();
 
     ///
     /// Constructs an axis aligned box given a minimum and maximum point.
     ///
     /// \param minimum The minimum point.
     /// \param maximum The maximum point.
-    AxisAlignedBoxT(const Vector3T<T>& minimum, const Vector3T<T>& maximum);
+    AxisAlignedBox(const Vector3& minimum, const Vector3& maximum);
 
     ///
     /// Expands the bounds of the box to include point.
     ///
     /// \param point The point to include.
-    void expandToInclude(const Vector3T<T>& point);
+    void expandToInclude(const Vector3& point);
 
     ///
     /// Expands the bounds of the box to include another box.
     ///
     /// \param box The box to include.
-    void expandToInclude(const AxisAlignedBoxT<T>& box);
+    void expandToInclude(const AxisAlignedBox& box);
 
     ///
     /// Returns the minimum point.
-    const Vector3T<T>& minimum() const;
+    const Vector3& minimum() const;
 
     ///
     /// Returns the maximum point.
-    const Vector3T<T>& maximum() const;
+    const Vector3& maximum() const;
 
     ///
     /// Returns whether the box has a non-negligible size.
     bool hasSize() const;
 
-    ///
-    /// Converts to an equivalent vector with a different underlying type.
-    template <typename U>
-    operator AxisAlignedBoxT<U>() const
-    {
-        return AxisAlignedBoxT<U>(_minimum, _maximum);
-    }
-
 private:
-    void _mergeMinimum(const Vector3T<T>& point);
-    void _mergeMaximum(const Vector3T<T>& point);
+    void _mergeMinimum(const Vector3& point);
+    void _mergeMaximum(const Vector3& point);
 
     enum Flags
     {
@@ -95,12 +85,8 @@ private:
 
     int _flags;
 
-    Vector3T<T> _minimum;
-    Vector3T<T> _maximum;
+    Vector3 _minimum;
+    Vector3 _maximum;
 };
 
-typedef AxisAlignedBoxT<Real> AxisAlignedBox;
-
 }
-
-#include "AxisAlignedBox.inl"

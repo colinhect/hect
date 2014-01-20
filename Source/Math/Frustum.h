@@ -87,7 +87,7 @@ public:
     /// \param box The box.
     ///
     /// \returns The test result.
-    FrustumTestResult testAxisAlignedBox(const AxisAlignedBoxT<T>& box) const;
+    FrustumTestResult testAxisAlignedBox(const AxisAlignedBox& box) const;
 
     ///
     /// Returns whether a sphere at a certain positin is within the frustum.

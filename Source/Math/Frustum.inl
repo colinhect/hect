@@ -82,7 +82,7 @@ FrustumT<T>::FrustumT(
 }
 
 template <typename T>
-FrustumTestResult FrustumT<T>::testAxisAlignedBox(const AxisAlignedBoxT<T>& box) const
+FrustumTestResult FrustumT<T>::testAxisAlignedBox(const AxisAlignedBox& box) const
 {
     FrustumTestResult result = FrustumTestResult::Inside;
 
