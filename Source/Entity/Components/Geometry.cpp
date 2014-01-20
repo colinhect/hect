@@ -71,9 +71,9 @@ void Geometry::serialize(ObjectWriter& writer) const
 
 void Geometry::deserialize(ObjectReader& reader, AssetCache& assetCache)
 {
-    ArrayReader surfaces = reader.readArray("surfaces");
-    if (surfaces)
+    if (reader.hasMember("surfaces"))
     {
+        ArrayReader surfaces = reader.readArray("surfaces");
         while (surfaces.hasMoreElements())
         {
             ObjectReader surface = surfaces.readObject();

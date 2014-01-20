@@ -56,27 +56,15 @@ bool ArrayReader::hasMoreElements() const
 ArrayReader ArrayReader::readArray()
 {
     assert(_reader);
-    if (_reader->beginArray())
-    {
-        return ArrayReader(_reader);
-    }
-    else
-    {
-        return ArrayReader();
-    }
+    _reader->beginArray();
+    return ArrayReader(_reader);
 }
 
 ObjectReader ArrayReader::readObject()
 {
     assert(_reader);
-    if (_reader->beginObject())
-    {
-        return ObjectReader(_reader);
-    }
-    else
-    {
-        return ObjectReader();
-    }
+    _reader->beginObject();
+    return ObjectReader(_reader);
 }
 
 std::string ArrayReader::readString()
@@ -169,11 +157,6 @@ Vector4 ArrayReader::readVector4()
     return _reader->readVector4();
 }
 
-ArrayReader::operator bool() const
-{
-    return _reader != nullptr;
-}
-
 ArrayReader::ArrayReader() :
     _reader(nullptr)
 {
@@ -212,27 +195,15 @@ bool ObjectReader::hasMember(const char* name) const
 ArrayReader ObjectReader::readArray(const char* name)
 {
     assert(_reader);
-    if (_reader->beginArray(name))
-    {
-        return ArrayReader(_reader);
-    }
-    else
-    {
-        return ArrayReader();
-    }
+    _reader->beginArray(name);
+    return ArrayReader(_reader);
 }
 
 ObjectReader ObjectReader::readObject(const char* name)
 {
     assert(_reader);
-    if (_reader->beginObject(name))
-    {
-        return ObjectReader(_reader);
-    }
-    else
-    {
-        return ObjectReader();
-    }
+    _reader->beginObject(name);
+    return ObjectReader(_reader);
 }
 
 std::string ObjectReader::readString(const char* name)
@@ -325,11 +296,6 @@ Vector4 ObjectReader::readVector4(const char* name)
     return _reader->readVector4(name);
 }
 
-ObjectReader::operator bool() const
-{
-    return _reader != nullptr;
-}
-
 ObjectReader::ObjectReader() :
     _reader(nullptr)
 {
@@ -359,7 +325,7 @@ ArrayReader DataValueReader::readArray()
     }
     else
     {
-        return ArrayReader();
+        throw Error("The root value is not an array");
     }
 }
 
@@ -371,29 +337,25 @@ ObjectReader DataValueReader::readObject()
     }
     else
     {
-        return ObjectReader();
+        throw Error("The root value is not an object");
     }
 }
 
-bool DataValueReader::beginArray()
+void DataValueReader::beginArray()
 {
-    DataValue& top = _valueStack.top();
-    assert(top.isArray());
-
-    DataValue value = _deserialize();
+    DataValue value = _read();
     if (value.isArray())
     {
         _indexStack.push(0);
         _valueStack.push(value);
-        return true;
     }
     else
     {
-        return false;
+        throw Error("The next value is not an array");
     }
 }
 
-bool DataValueReader::beginArray(const char* name)
+void DataValueReader::beginArray(const char* name)
 {
     DataValue& top = _valueStack.top();
     assert(top.isObject());
@@ -403,11 +365,10 @@ bool DataValueReader::beginArray(const char* name)
     {
         _indexStack.push(0);
         _valueStack.push(value);
-        return true;
     }
     else
     {
-        return false;
+        throw Error(format("No member value '%s'", name));
     }
 }
 
@@ -426,24 +387,23 @@ bool DataValueReader::hasMoreElements() const
     return _indexStack.top() < top.size();
 }
 
-bool DataValueReader::beginObject()
+void DataValueReader::beginObject()
 {
     DataValue& top = _valueStack.top();
     assert(top.isArray());
 
-    DataValue value = _deserialize();
+    DataValue value = _read();
     if (value.isObject())
     {
         _valueStack.push(value);
-        return true;
     }
     else
     {
-        return false;
+        throw Error("The next value is not an object");
     }
 }
 
-bool DataValueReader::beginObject(const char* name)
+void DataValueReader::beginObject(const char* name)
 {
     DataValue& top = _valueStack.top();
     assert(top.isObject());
@@ -452,11 +412,10 @@ bool DataValueReader::beginObject(const char* name)
     if (!value.isNull())
     {
         _valueStack.push(value);
-        return true;
     }
     else
     {
-        return false;
+        throw Error(format("No member value '%s'", name));
     }
 }
 
@@ -476,162 +435,162 @@ bool DataValueReader::hasMember(const char* name) const
 
 std::string DataValueReader::readString()
 {
-    return _deserialize().asString();
+    return _read().asString();
 }
 
 std::string DataValueReader::readString(const char* name)
 {
-    return _deserialize(name).asString();
+    return _read(name).asString();
 }
 
 int8_t DataValueReader::readByte()
 {
-    return (int8_t)_deserialize().asDouble();
+    return (int8_t)_read().asDouble();
 }
 
 int8_t DataValueReader::readByte(const char* name)
 {
-    return (int8_t)_deserialize(name).asDouble();
+    return (int8_t)_read(name).asDouble();
 }
 
 uint8_t DataValueReader::readUnsignedByte()
 {
-    return (uint8_t)_deserialize().asDouble();
+    return (uint8_t)_read().asDouble();
 }
 
 uint8_t DataValueReader::readUnsignedByte(const char* name)
 {
-    return (uint8_t)_deserialize(name).asDouble();
+    return (uint8_t)_read(name).asDouble();
 }
 
 int16_t DataValueReader::readShort()
 {
-    return (int16_t)_deserialize().asDouble();
+    return (int16_t)_read().asDouble();
 }
 
 int16_t DataValueReader::readShort(const char* name)
 {
-    return (int16_t)_deserialize(name).asDouble();
+    return (int16_t)_read(name).asDouble();
 }
 
 uint16_t DataValueReader::readUnsignedShort()
 {
-    return (uint16_t)_deserialize().asDouble();
+    return (uint16_t)_read().asDouble();
 }
 
 uint16_t DataValueReader::readUnsignedShort(const char* name)
 {
-    return (uint16_t)_deserialize(name).asDouble();
+    return (uint16_t)_read(name).asDouble();
 }
 
 int32_t DataValueReader::readInt()
 {
-    return (int32_t)_deserialize().asDouble();
+    return (int32_t)_read().asDouble();
 }
 
 int32_t DataValueReader::readInt(const char* name)
 {
-    return (int32_t)_deserialize(name).asDouble();
+    return (int32_t)_read(name).asDouble();
 }
 
 uint32_t DataValueReader::readUnsignedInt()
 {
-    return (uint32_t)_deserialize().asDouble();
+    return (uint32_t)_read().asDouble();
 }
 
 uint32_t DataValueReader::readUnsignedInt(const char* name)
 {
-    return (uint32_t)_deserialize(name).asDouble();
+    return (uint32_t)_read(name).asDouble();
 }
 
 int64_t DataValueReader::readLong()
 {
-    return (int64_t)_deserialize().asDouble();
+    return (int64_t)_read().asDouble();
 }
 
 int64_t DataValueReader::readLong(const char* name)
 {
-    return (int64_t)_deserialize(name).asDouble();
+    return (int64_t)_read(name).asDouble();
 }
 
 uint64_t DataValueReader::readUnsignedLong()
 {
-    return (uint64_t)_deserialize().asDouble();
+    return (uint64_t)_read().asDouble();
 }
 
 uint64_t DataValueReader::readUnsignedLong(const char* name)
 {
-    return (uint64_t)_deserialize(name).asDouble();
+    return (uint64_t)_read(name).asDouble();
 }
 
 float DataValueReader::readFloat()
 {
-    return (float)_deserialize().asDouble();
+    return (float)_read().asDouble();
 }
 
 float DataValueReader::readFloat(const char* name)
 {
-    return (float)_deserialize(name).asDouble();
+    return (float)_read(name).asDouble();
 }
 
 double DataValueReader::readDouble()
 {
-    return _deserialize().asDouble();
+    return _read().asDouble();
 }
 
 double DataValueReader::readDouble(const char* name)
 {
-    return _deserialize(name).asDouble();
+    return _read(name).asDouble();
 }
 
 Real DataValueReader::readReal()
 {
-    return (Real)_deserialize().asDouble();
+    return (Real)_read().asDouble();
 }
 
 Real DataValueReader::readReal(const char* name)
 {
-    return (Real)_deserialize(name).asDouble();
+    return (Real)_read(name).asDouble();
 }
 
 Vector2 DataValueReader::readVector2()
 {
-    return _deserialize().asVector2();
+    return _read().asVector2();
 }
 
 Vector2 DataValueReader::readVector2(const char* name)
 {
-    return _deserialize(name).asVector2();
+    return _read(name).asVector2();
 }
 
 Vector3 DataValueReader::readVector3()
 {
-    return _deserialize().asVector3();
+    return _read().asVector3();
 }
 
 Vector3 DataValueReader::readVector3(const char* name)
 {
-    return _deserialize(name).asVector3();
+    return _read(name).asVector3();
 }
 
 Vector4 DataValueReader::readVector4()
 {
-    return _deserialize().asVector4();
+    return _read().asVector4();
 }
 
 Vector4 DataValueReader::readVector4(const char* name)
 {
-    return _deserialize(name).asVector4();
+    return _read(name).asVector4();
 }
 
-const DataValue& DataValueReader::_deserialize()
+const DataValue& DataValueReader::_read()
 {
     DataValue& top = _valueStack.top();
     assert(top.isArray());
     return top[_indexStack.top()++];
 }
 
-const DataValue& DataValueReader::_deserialize(const char* name)
+const DataValue& DataValueReader::_read(const char* name)
 {
     DataValue& top = _valueStack.top();
     assert(top.isObject());
@@ -668,22 +627,20 @@ ObjectReader BinaryReader::readObject()
     return ObjectReader(this);
 }
 
-bool BinaryReader::beginArray()
+void BinaryReader::beginArray()
 {
     ++_indexStack.top();
 
     _countStack.push(_stream->readUnsignedInt());
     _indexStack.push(0);
-    return true;
 }
 
-bool BinaryReader::beginArray(const char* name)
+void BinaryReader::beginArray(const char* name)
 {
     name;
 
     _countStack.push(_stream->readUnsignedInt());
     _indexStack.push(0);
-    return true;
 }
 
 void BinaryReader::endArray()
@@ -697,16 +654,14 @@ bool BinaryReader::hasMoreElements() const
     return _indexStack.top() < _countStack.top();
 }
 
-bool BinaryReader::beginObject()
+void BinaryReader::beginObject()
 {
     ++_indexStack.top();
-    return true;
 }
 
-bool BinaryReader::beginObject(const char* name)
+void BinaryReader::beginObject(const char* name)
 {
     name;
-    return true;
 }
 
 void BinaryReader::endObject()

@@ -37,7 +37,7 @@ DataValue Serializable::serializeToDataValue() const
         ObjectWriter object = writer.writeObject();
         serialize(object);
     }
-    return writer.serializedDataValues()[0];
+    return writer.dataValues()[0];
 }
 
 void Serializable::serializeToStream(WriteStream& stream) const

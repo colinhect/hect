@@ -145,9 +145,10 @@ void Transform::deserialize(ObjectReader& reader, AssetCache& assetCache)
         setScale(reader.readVector3("scale"));
     }
 
-    ObjectReader rotation = reader.readObject("rotation");
-    if (rotation)
+    if (reader.hasMember("rotation"))
     {
+        ObjectReader rotation = reader.readObject("rotation");
+
         Vector3 axis;
         Angle angle;
 

@@ -372,7 +372,7 @@ public:
 
     ///
     /// Returns the serialized data values.
-    DataValue::Array& serializedDataValues();
+    DataValue::Array& dataValues();
 
 private:
     void beginArray();
@@ -414,8 +414,8 @@ private:
     void writeVector4(const Vector4& value);
     void writeVector4(const char* name, const Vector4& value);
 
-    void _serialize(const DataValue& value);
-    void _serialize(const char* name, const DataValue& value);
+    void _write(const DataValue& value);
+    void _write(const char* name, const DataValue& value);
 
     std::stack<std::string> _nameStack;
     std::stack<DataValue> _valueStack;

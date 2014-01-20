@@ -31,7 +31,7 @@ void testWriteAndRead(std::function<void(DataWriter&)> serialize, std::function<
         {
             DataValueWriter writer;
             serialize(writer);
-            dataValue = writer.serializedDataValues()[0];
+            dataValue = writer.dataValues()[0];
         }
         {
             DataValueReader reader(dataValue);
@@ -67,9 +67,6 @@ SUITE(WriterTests)
         {
             ObjectReader object = reader.readObject();
 
-            bool hasObject = object;
-            CHECK(hasObject);
-
             CHECK(object.hasMember("String"));
             CHECK_EQUAL("Testing", object.readString("String"));
         });
@@ -86,9 +83,6 @@ SUITE(WriterTests)
         }, [] (DataReader& reader)
         {
             ArrayReader array = reader.readArray();
-
-            bool hasArray = array;
-            CHECK(hasArray);
 
             std::vector<std::string> strings;
             while (array.hasMoreElements())
@@ -115,15 +109,9 @@ SUITE(WriterTests)
         {
             ObjectReader object = reader.readObject();
 
-            bool hasObject = object;
-            CHECK(hasObject);
-
             CHECK(object.hasMember("Array"));
 
             ArrayReader array = object.readArray("Array");
-
-            bool hasArray = array;
-            CHECK(hasArray);
 
             std::vector<std::string> strings;
             while (array.hasMoreElements())
@@ -154,16 +142,10 @@ SUITE(WriterTests)
         {
             ArrayReader array = reader.readArray();
 
-            bool hasArray = array;
-            CHECK(hasArray);
-
             int arrayCount = 0;
             while (array.hasMoreElements())
             {
                 ArrayReader nested = array.readArray();
-
-                bool hasArray = nested;
-                CHECK(hasArray);
 
                 std::vector<std::string> strings;
                 while (nested.hasMoreElements())
@@ -197,16 +179,10 @@ SUITE(WriterTests)
         {
             ArrayReader array = reader.readArray();
 
-            bool hasArray = array;
-            CHECK(hasArray);
-
             int objectCount = 0;
             while (array.hasMoreElements())
             {
                 ObjectReader object = array.readObject();
-
-                bool hasObject = object;
-                CHECK(hasObject);
 
                 CHECK(object.hasMember("String"));
                 CHECK_EQUAL("Testing", object.readString("String"));
@@ -242,9 +218,6 @@ SUITE(WriterTests)
         }, [] (DataReader& reader)
         {
             ArrayReader array = reader.readArray();
-
-            bool hasArray = array;
-            CHECK(hasArray);
 
             CHECK_EQUAL("Test", array.readString());
             CHECK(array.hasMoreElements());
@@ -312,9 +285,6 @@ SUITE(WriterTests)
         }, [] (DataReader& reader)
         {
             ObjectReader object = reader.readObject();
-
-            bool hasObject = object;
-            CHECK(hasObject);
 
             CHECK(object.hasMember("String"));
             CHECK_EQUAL("Test", object.readString("String"));

@@ -320,7 +320,7 @@ ObjectWriter DataValueWriter::writeObject()
     return ObjectWriter(this);
 }
 
-DataValue::Array& DataValueWriter::serializedDataValues()
+DataValue::Array& DataValueWriter::dataValues()
 {
     return _completed;
 }
@@ -378,162 +378,162 @@ void DataValueWriter::endObject()
 
 void DataValueWriter::writeString(const std::string& value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeString(const char* name, const std::string& value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeByte(int8_t value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeByte(const char* name, int8_t value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeUnsignedByte(uint8_t value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeUnsignedByte(const char* name, uint8_t value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeShort(int16_t value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeShort(const char* name, int16_t value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeUnsignedShort(uint16_t value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeUnsignedShort(const char* name, uint16_t value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeInt(int32_t value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeInt(const char* name, int32_t value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeUnsignedInt(uint32_t value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeUnsignedInt(const char* name, uint32_t value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeLong(int64_t value)
 {
-    _serialize((double)value);
+    _write((double)value);
 }
 
 void DataValueWriter::writeLong(const char* name, int64_t value)
 {
-    _serialize(name, (double)value);
+    _write(name, (double)value);
 }
 
 void DataValueWriter::writeUnsignedLong(uint64_t value)
 {
-    _serialize((double)value);
+    _write((double)value);
 }
 
 void DataValueWriter::writeUnsignedLong(const char* name, uint64_t value)
 {
-    _serialize(name, (double)value);
+    _write(name, (double)value);
 }
 
 void DataValueWriter::writeFloat(float value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeFloat(const char* name, float value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeDouble(double value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeDouble(const char* name, double value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeReal(Real value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeReal(const char* name, Real value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeVector2(const Vector2& value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeVector2(const char* name, const Vector2& value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeVector3(const Vector3& value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeVector3(const char* name, const Vector3& value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
 void DataValueWriter::writeVector4(const Vector4& value)
 {
-    _serialize(value);
+    _write(value);
 }
 
 void DataValueWriter::writeVector4(const char* name, const Vector4& value)
 {
-    _serialize(name, value);
+    _write(name, value);
 }
 
-void DataValueWriter::_serialize(const DataValue& value)
+void DataValueWriter::_write(const DataValue& value)
 {
     DataValue& top = _valueStack.top();
     assert(top.isArray());
     top.addElement(value);
 }
 
-void DataValueWriter::_serialize(const char* name, const DataValue& value)
+void DataValueWriter::_write(const char* name, const DataValue& value)
 {
     DataValue& top = _valueStack.top();
     assert(top.isObject());

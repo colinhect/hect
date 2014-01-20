@@ -121,10 +121,6 @@ public:
     /// Reads a 4-dimensional vector.
     Vector4 readVector4();
 
-    ///
-    /// Returns whether the reader has an array to read.
-    operator bool() const;
-
 private:
     ArrayReader();
     ArrayReader(DataReader* reader);
@@ -258,10 +254,6 @@ public:
     /// \param name The name of the member to read.
     Vector4 readVector4(const char* name);
 
-    ///
-    /// Returns whether the reader has an object to read.
-    operator bool() const;
-
 private:
     ObjectReader();
     ObjectReader(DataReader* reader);
@@ -294,14 +286,14 @@ public:
     virtual ObjectReader readObject() = 0;
 
 protected:
-    virtual bool beginArray() = 0;
-    virtual bool beginArray(const char* name) = 0;
+    virtual void beginArray() = 0;
+    virtual void beginArray(const char* name) = 0;
     virtual void endArray() = 0;
 
     virtual bool hasMoreElements() const = 0;
 
-    virtual bool beginObject() = 0;
-    virtual bool beginObject(const char* name) = 0;
+    virtual void beginObject() = 0;
+    virtual void beginObject(const char* name) = 0;
     virtual void endObject() = 0;
 
     virtual bool hasMember(const char* name) const = 0;
@@ -357,14 +349,14 @@ public:
     ObjectReader readObject();
 
 private:
-    bool beginArray();
-    bool beginArray(const char* name);
+    void beginArray();
+    void beginArray(const char* name);
     void endArray();
 
     bool hasMoreElements() const;
 
-    bool beginObject();
-    bool beginObject(const char* name);
+    void beginObject();
+    void beginObject(const char* name);
     void endObject();
 
     bool hasMember(const char* name) const;
@@ -400,8 +392,8 @@ private:
     Vector4 readVector4();
     Vector4 readVector4(const char* name);
 
-    const DataValue& _deserialize();
-    const DataValue& _deserialize(const char* name);
+    const DataValue& _read();
+    const DataValue& _read(const char* name);
 
     std::stack<size_t> _indexStack;
     std::stack<DataValue> _valueStack;
@@ -426,14 +418,14 @@ public:
     ObjectReader readObject();
 
 private:
-    bool beginArray();
-    bool beginArray(const char* name);
+    void beginArray();
+    void beginArray(const char* name);
     void endArray();
 
     bool hasMoreElements() const;
 
-    bool beginObject();
-    bool beginObject(const char* name);
+    void beginObject();
+    void beginObject(const char* name);
     void endObject();
 
     bool hasMember(const char* name) const;
