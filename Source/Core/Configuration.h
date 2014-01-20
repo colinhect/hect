@@ -29,3 +29,5 @@
 #define HECT_DEBUG
 #endif
 #endif
+
+#define HECT_DOUBLE_PRECISION

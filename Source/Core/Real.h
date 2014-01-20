@@ -23,9 +23,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Configuration.h"
+
 namespace hect
 {
 
+#ifdef HECT_DOUBLE_PRECISION
 typedef double Real;
+#else
+typedef float Real;
+#endif
 
 }

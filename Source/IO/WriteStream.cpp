@@ -87,7 +87,11 @@ void WriteStream::writeDouble(double value)
 
 void WriteStream::writeReal(Real value)
 {
-    writeDouble(value);
+    #ifdef HECT_DOUBLE_PRECISION
+    return writeDouble(value);
+    #else
+    return writeFloat(value);
+    #endif
 }
 
 void WriteStream::writeVector2(const Vector2& value)

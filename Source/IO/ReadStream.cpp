@@ -113,7 +113,11 @@ double ReadStream::readDouble()
 
 Real ReadStream::readReal()
 {
+    #ifdef HECT_DOUBLE_PRECISION
     return readDouble();
+    #else
+    return readFloat();
+    #endif
 }
 
 Vector2 ReadStream::readVector2()
