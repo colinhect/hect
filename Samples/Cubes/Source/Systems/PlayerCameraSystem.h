@@ -33,7 +33,7 @@ public:
 
     bool includesEntity(const Entity& entity) const;
 
-    void update(double timeStep);
+    void update(Real timeStep);
 
 private:
     Mouse* _mouse;
@@ -46,5 +46,5 @@ private:
 
     const InputAxis* _roll;
 
-    double _speed;
+    Real _speed;
 };

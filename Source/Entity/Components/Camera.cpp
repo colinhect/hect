@@ -30,7 +30,7 @@ using namespace hect;
 Camera::Camera() :
     _fieldOfView(Angle::fromDegrees(90)),
     _aspectRatio(1),
-    _nearClip(0.1),
+    _nearClip((Real)0.1),
     _farClip(1000),
     _front(-Vector3::unitZ()),
     _up(Vector3::unitY()),

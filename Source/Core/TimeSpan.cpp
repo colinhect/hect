@@ -57,7 +57,7 @@ int64_t TimeSpan::milliseconds()
 
 Real TimeSpan::seconds()
 {
-    return (Real)(milliseconds()) / 1000.0;
+    return (Real)(milliseconds()) / (Real)1000.0;
 }
 
 TimeSpan TimeSpan::operator+(const TimeSpan& t) const

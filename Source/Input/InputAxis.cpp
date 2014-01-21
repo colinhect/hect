@@ -101,8 +101,8 @@ Real InputAxis::value() const
 void InputAxis::setValue(Real value)
 {
     _value = value;
-    _value = std::max(-1.0, _value);
-    _value = std::min(1.0, _value);
+    _value = std::max<Real>(-1, _value);
+    _value = std::min<Real>(1, _value);
 }
 
 Real InputAxis::acceleration() const

@@ -33,7 +33,7 @@
 
 using namespace hect;
 
-const Real epsilon = 0.0001;
+const Real epsilon = (Real)0.0001;
 
 #include "AngleTests.h"
 #include "AnyTests.h"

@@ -209,7 +209,7 @@ public:
     ///
     /// Returns the value as an int (zero if the data value is not a number).
     int asInt() const;
-
+    
     ///
     /// Returns the value as an unsigned int (zero if the data value is not a
     /// number).
@@ -218,6 +218,10 @@ public:
     ///
     /// Returns the value as a double (zero if the data value is not a number).
     double asDouble() const;
+
+    ///
+    /// Returns the value as a real (zero if the data value is not a number).
+    Real asReal() const;
 
     ///
     /// Returns the value as a 2-dimensional vector (assumes the value is an

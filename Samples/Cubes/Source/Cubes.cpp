@@ -42,7 +42,7 @@ void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const
 
     // Create the logic flow
     MainLogicLayer main(assetCache, inputSystem, window, renderer);
-    LogicFlow logicFlow(TimeSpan::fromSeconds(1.0 / 60.0));
+    LogicFlow logicFlow(TimeSpan::fromSeconds((Real)1 / (Real)60));
     logicFlow.addLayer(main);
 
     // Update until the flow is complete

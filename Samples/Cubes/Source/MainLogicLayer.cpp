@@ -53,7 +53,7 @@ MainLogicLayer::~MainLogicLayer()
     keyboardDispatcher.removeListener(*this);
 }
 
-void MainLogicLayer::fixedUpdate(double timeStep)
+void MainLogicLayer::fixedUpdate(Real timeStep)
 {
     _cameraSystem.update();
     _physicsSystem.update(timeStep, 1);
@@ -63,7 +63,7 @@ void MainLogicLayer::fixedUpdate(double timeStep)
     _input->updateAxes(timeStep);
 }
 
-void MainLogicLayer::frameUpdate(double delta)
+void MainLogicLayer::frameUpdate(Real delta)
 {
     delta;
 

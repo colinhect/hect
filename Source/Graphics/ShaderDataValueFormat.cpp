@@ -55,7 +55,7 @@ UniformValue ShaderDataValueFormat::parseValue(UniformType type, const DataValue
     case UniformType::Texture:
         return UniformValue(dataValue.asInt(), type);
     case UniformType::Float:
-        return UniformValue(dataValue.asDouble());
+        return UniformValue(dataValue.asReal());
     case UniformType::Vector2:
         return UniformValue(dataValue.asVector2());
     case UniformType::Vector3:

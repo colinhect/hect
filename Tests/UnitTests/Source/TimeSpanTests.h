@@ -39,7 +39,7 @@ SUITE(TimeSpan)
 
     TEST(FromSeconds)
     {
-        TimeSpan t = TimeSpan::fromSeconds(0.001);
+        TimeSpan t = TimeSpan::fromSeconds((Real)0.001);
         CHECK_EQUAL(1000, t.microseconds());
     }
 

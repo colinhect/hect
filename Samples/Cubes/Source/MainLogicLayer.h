@@ -38,8 +38,8 @@ public:
     MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
     ~MainLogicLayer();
 
-    void fixedUpdate(double timeStep);
-    void frameUpdate(double delta);
+    void fixedUpdate(Real timeStep);
+    void frameUpdate(Real delta);
 
     void receiveEvent(const KeyboardEvent& event);
 

@@ -74,7 +74,7 @@ void InputSystem::updateAxes(Real timeStep)
         // Gravitate towards zero
         if (gravity != 0)
         {
-            axis.setValue(value - value * std::min(1.0, gravity * timeStep));
+            axis.setValue(value - value * std::min<Real>(1, gravity * timeStep));
         }
 
         if (axis.source() == InputAxisSource::Key)
@@ -135,7 +135,9 @@ void InputSystem::receiveEvent(const MouseEvent& event)
     }
     else if (event.type == MouseEventType::ScrollUp || event.type == MouseEventType::ScrollDown)
     {
-        Real movement = event.type == MouseEventType::ScrollUp ? 1 : -1;
+        Real movement = event.type == MouseEventType::ScrollUp
+            ? (Real)1
+            : (Real)-1;
 
         for (InputAxis& axis : _axes)
         {

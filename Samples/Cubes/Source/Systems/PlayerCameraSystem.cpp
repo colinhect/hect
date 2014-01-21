@@ -41,7 +41,7 @@ bool PlayerCameraSystem::includesEntity(const Entity& entity) const
            && entity.hasComponent<PlayerCamera>();
 }
 
-void PlayerCameraSystem::update(double timeStep)
+void PlayerCameraSystem::update(Real timeStep)
 {
     if (entities().empty())
     {

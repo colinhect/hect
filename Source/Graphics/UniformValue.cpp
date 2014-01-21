@@ -48,7 +48,7 @@ UniformValue::UniformValue(int value, UniformType type) :
     setValue(value);
 }
 
-UniformValue::UniformValue(double value) :
+UniformValue::UniformValue(Real value) :
     _type(UniformType::Float)
 {
     setValue(value);
@@ -98,7 +98,7 @@ void UniformValue::setValue(int value)
     _value.intValue = value;
 }
 
-void UniformValue::setValue(double value)
+void UniformValue::setValue(Real value)
 {
     if (_type != UniformType::Float)
     {

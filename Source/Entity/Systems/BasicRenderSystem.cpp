@@ -89,7 +89,7 @@ void BasicRenderSystem::_renderMeshPass(const Camera& camera, const RenderTarget
             switch (binding)
             {
             case UniformBinding::RenderTargetSize:
-                _renderer->setUniform(uniform, Vector2(target.width(), target.height()));
+                _renderer->setUniform(uniform, Vector2((Real)target.width(), (Real)target.height()));
                 break;
             case UniformBinding::CameraPosition:
                 _renderer->setUniform(uniform, camera.position());

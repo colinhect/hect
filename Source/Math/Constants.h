@@ -30,6 +30,6 @@ namespace hect
 
 ///
 /// An approximation of Pi.
-const Real pi = 3.14159265358979323846;
+const Real pi = (Real)3.14159265358979323846;
 
 }

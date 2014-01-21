@@ -246,6 +246,11 @@ double DataValue::asDouble() const
     }
 }
 
+Real DataValue::asReal() const
+{
+    return (Real)asDouble();
+}
+
 Vector2 DataValue::asVector2() const
 {
     Vector2 result;
@@ -255,7 +260,7 @@ Vector2 DataValue::asVector2() const
     {
         if (i < 2)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.asReal();
         }
         else
         {
@@ -275,7 +280,7 @@ Vector3 DataValue::asVector3() const
     {
         if (i < 3)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.asReal();
         }
         else
         {
@@ -295,7 +300,7 @@ Vector4 DataValue::asVector4() const
     {
         if (i < 4)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.asReal();
         }
         else
         {
@@ -315,7 +320,7 @@ Matrix4 DataValue::asMatrix4() const
     {
         if (i < 16)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.asReal();
         }
         else
         {
@@ -335,7 +340,7 @@ Quaternion DataValue::asQuaternion() const
     {
         if (i < 4)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.asReal();
         }
         else
         {
