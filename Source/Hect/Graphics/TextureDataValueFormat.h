@@ -23,36 +23,30 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/DataValue.h"
+#include "Hect/Asset/AssetCache.h"
+#include "Hect/Graphics/Texture.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// Provides functionality for loading textures from data values.
+class TextureDataValueFormat
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
-
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Loads a texture from a data value.
+    ///
+    /// \param texture The texture to load to.
+    /// \param name The name of the texture.
+    /// \param dataValue The root data value.
+    /// \param assetCache The asset cache to use to load referenced assets.
+    static void load(Texture& texture, const std::string& name, const DataValue& dataValue, AssetCache& assetCache);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    static TextureFilter _parseTextureFilter(const DataValue& dataValue);
 };
+
+}

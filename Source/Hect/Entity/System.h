@@ -23,36 +23,52 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Entity/Entity.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// A system which handles entities with specific components.
+class System
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Adds an entity to the system.
+    ///
+    /// \param entity The entity.
+    virtual void addEntity(const Entity& entity);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Removes an entity from the system.
+    ///
+    /// \param entity The entity.
+    virtual void removeEntity(const Entity& entity);
+
+    ///
+    /// Removes all from the system.
+    void removeAllEntities();
+
+    ///
+    /// Returns whether the system includes the given entity.
+    ///
+    /// \remarks If this returns false for an entity, then addEntity() will
+    /// not even be called for that entity.
+    ///
+    /// \param entity The entity to check if the system includes.
+    virtual bool includesEntity(const Entity& entity) const;
+
+    ///
+    /// Returns the entities currently in the system.
+    Entity::Array& entities();
+
+    ///
+    /// Returns the entities currently in the system.
+    const Entity::Array& entities() const;
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    Entity::Array _entities;
 };
+
+}

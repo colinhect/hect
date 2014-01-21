@@ -21,38 +21,35 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Hect/Asset/AssetLoader.h"
+#include "Hect/Asset/AssetCache.h"
+#include "Hect/Graphics/ShaderModule.h"
 
-#include <Hect.h>
 using namespace hect;
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+void AssetLoader<ShaderModule>::load(ShaderModule& shaderModule, const Path& assetPath, AssetCache& assetCache)
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ShaderModuleType type;
+    std::string extension = assetPath.extension();
+    if (extension == "vert")
+    {
+        type = ShaderModuleType::Vertex;
+    }
+    else if (extension == "frag")
+    {
+        type = ShaderModuleType::Pixel;
+    }
+    else if (extension == "geom")
+    {
+        type = ShaderModuleType::Geometry;
+    }
+    else
+    {
+        throw Error(format("Unknown shader module type '%s'", extension.c_str()));
+    }
 
-    void receiveEvent(const KeyboardEvent& event);
-
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
-};
+    std::string source = stream.readAllToString();
+    shaderModule = ShaderModule(assetPath.toString(), type, source);
+}

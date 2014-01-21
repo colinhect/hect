@@ -23,36 +23,33 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/DataValue.h"
+#include "Hect/Asset/AssetCache.h"
+#include "Hect/Graphics/Mesh.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// Provides functionality for loading meshes from data values.
+class MeshDataValueFormat
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
-
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Loads a mesh from a data value.
+    ///
+    /// \param mesh The mesh to load to.
+    /// \param name The name of the mesh.
+    /// \param dataValue The root data value.
+    static void load(Mesh& mesh, const std::string& name, const DataValue& dataValue);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    static IndexType _parseIndexType(const DataValue& dataValue);
+    static PrimitiveType _parsePrimitiveType(const DataValue& dataValue);
+    static VertexAttributeSemantic _parseAttributeSemantic(const DataValue& dataValue);
+    static VertexAttributeType _parseAttributeType(const DataValue& dataValue);
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
 };
+
+}

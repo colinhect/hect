@@ -23,36 +23,67 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <vector>
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/Core/Timer.h"
+#include "Hect/Core/TimeSpan.h"
+#include "Hect/Core/LogicLayer.h"
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
+namespace hect
+{
+
+///
+/// Manages a flow of logic layers.
+///
+/// \remarks All layers in the flow are updated in the order in which they were
+/// added.  Inactive layers are removed from the flow.
+class LogicFlow :
     public Uncopyable
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs a logic flow given the duration of time between each fixed
+    /// update.
+    ///
+    /// \param timeStep The duration of time between each fixed update.
+    LogicFlow(TimeSpan timeStep);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Adds a layer to the flow.
+    ///
+    /// \remarks The layer will remain in the flow until it is inactive or
+    /// explicitly removed.
+    ///
+    /// \param layer The layer to add.
+    void addLayer(LogicLayer& layer);
+
+    ///
+    /// Removes a layer from the flow.
+    ///
+    /// \param layer The layer to remove.
+    void removeLayer(LogicLayer& layer);
+
+    ///
+    /// Removes all layers from the flow.
+    void removeAllLayers();
+
+    ///
+    /// Updates all layers in the flow.
+    ///
+    /// \returns True if there are layers in the flow; false otherwise.
+    bool update();
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    void _removeInactiveLayers();
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+    Timer _timer;
+    TimeSpan _timeStep;
+    TimeSpan _accumulator;
+    TimeSpan _delta;
 
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    std::vector<LogicLayer*> _layers;
 };
+
+}

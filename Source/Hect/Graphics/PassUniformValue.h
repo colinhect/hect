@@ -23,36 +23,41 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <vector>
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#include "Hect/Graphics/UniformValue.h"
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
+{
+
+///
+/// A pass's value for a uniform.
+class PassUniformValue
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// An array of pass uniform values.
+    typedef std::vector<PassUniformValue> Array;
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs an pass uniform value given a name an a value.
+    ///
+    /// \param uniformName The name of the uniform.
+    /// \param value The default value.
+    PassUniformValue(const std::string& uniformName, const UniformValue& value);
+
+    ///
+    /// Returns the name of the uniform.
+    const std::string& uniformName() const;
+
+    ///
+    /// Returns the value.
+    const UniformValue& value() const;
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    std::string _uniformName;
+    UniformValue _value;
 };
+
+}

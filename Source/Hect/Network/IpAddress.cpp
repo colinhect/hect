@@ -21,38 +21,47 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "IpAddress.h"
 
-#include <Hect.h>
+#include "Hect/Core/Memory.h"
+
 using namespace hect;
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#include <SFML/Network.hpp>
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+IpAddress IpAddress::localAddress()
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+    uint32_t address = sf::IpAddress::getLocalAddress().toInteger();
+    return IpAddress(reverseBytes(address));
+}
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+IpAddress IpAddress::publicAddress()
+{
+    uint32_t address = sf::IpAddress::getPublicAddress().toInteger();
+    return IpAddress(reverseBytes(address));
+}
 
-    void receiveEvent(const KeyboardEvent& event);
+IpAddress::IpAddress(const std::string& address) :
+    _address(reverseBytes(sf::IpAddress(address).toInteger()))
+{
+}
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+IpAddress::IpAddress(uint32_t address) :
+    _address(address)
+{
+}
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+bool IpAddress::isValid() const
+{
+    return _address != 0;
+}
 
-    PlayerCameraSystem _playerCameraSystem;
+std::string IpAddress::toString() const
+{
+    return sf::IpAddress(_address).toString();
+}
 
-    Scene _scene;
-};
+IpAddress::operator uint32_t() const
+{
+    return _address;
+}

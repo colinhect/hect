@@ -23,36 +23,53 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Math/Vector3.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// A plane in 3-dimensional space.
+class Plane
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs a plane from 3 points.
+    ///
+    /// \param p0 The first point.
+    /// \param p1 The second point.
+    /// \param p2 The third point.
+    static Plane fromPoints(const Vector3& p0, const Vector3& p1, const Vector3& p2);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs a default plane.
+    Plane();
+
+    ///
+    /// Constructs a plane given a position, normal, and distance.
+    ///
+    /// \param position The origin of the plane.
+    /// \param normal The direction from the origin the plane faces.
+    /// \param distance The distance from the origin along the normal.
+    Plane(const Vector3& position, const Vector3& normal, Real distance);
+
+    ///
+    /// Returns the position.
+    const Vector3& position() const;
+
+    ///
+    /// Returns the normal.
+    const Vector3& normal() const;
+
+    ///
+    /// Returns the distance.
+    Real distance() const;
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    Vector3 _position;
+    Vector3 _normal;
+    Real _distance;
 };
+
+}

@@ -23,36 +23,35 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/TimeSpan.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// A utility for measuring time durations.
+class Timer
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Returns the total elapsed time since initialization.
+    static TimeSpan totalElapsed();
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs a timer and resets it.
+    Timer();
+
+    ///
+    /// Resets the timer.
+    void reset();
+
+    ///
+    /// Returns the elapsed time since the last reset.
+    TimeSpan elapsed() const;
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    TimeSpan _start;
 };
+
+}

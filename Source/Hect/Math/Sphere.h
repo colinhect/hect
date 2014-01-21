@@ -23,36 +23,39 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/Real.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// A sphere.
+class Sphere
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs a sphere with a radius of one.
+    Sphere();
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs a sphere given its radius
+    ///
+    /// \param radius The radius of the sphere.
+    Sphere(Real radius);
+
+    ///
+    /// Returns the radius.
+    Real radius() const;
+
+    ///
+    /// Sets the radius.
+    ///
+    /// \param radius The new radius.
+    void setRadius(Real radius);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    Real _radius;
 };
+
+}

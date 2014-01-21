@@ -23,36 +23,49 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <vector>
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#include "Hect/Core/Listener.h"
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
+{
+
+///
+/// An event dispatcher which notifies registered listeners of specific events.
+template <typename T>
+class Dispatcher
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Registers a listener to receive events notified from the dispatcher.
+    ///
+    /// \note If the listener is already registered to the dispatcher then
+    /// there is no effect.
+    ///
+    /// \param listener The listener to register.
+    void addListener(Listener<T>& listener);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Unregisters a listener from receiving events notified from the
+    /// dispatcher.
+    ///
+    /// \note If the listener is not registered to the dispatcher then there is
+    /// no effect.
+    ///
+    /// \param listener The listener to unregister.
+    void removeListener(Listener<T>& listener);
+
+    ///
+    /// Notifies an event to all registered listeners.
+    ///
+    /// \param event The event.
+    void notifyEvent(const T& event);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    std::vector<Listener<T>*> _listeners;
 };
+
+}
+
+#include "Dispatcher.inl"

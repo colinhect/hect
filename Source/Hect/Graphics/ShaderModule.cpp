@@ -21,38 +21,43 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "ShaderModule.h"
 
-#include <Hect.h>
+#include "Hect/Graphics/Renderer.h"
+
 using namespace hect;
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+ShaderModule::ShaderModule() :
+    _type(ShaderModuleType::Vertex)
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+}
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+ShaderModule::ShaderModule(const std::string& name, ShaderModuleType type, const std::string& source) :
+    _name(name),
+    _type(type),
+    _source(source)
+{
+}
 
-    void receiveEvent(const KeyboardEvent& event);
+ShaderModule::~ShaderModule()
+{
+    if (isUploaded())
+    {
+        renderer()->destroyShaderModule(*this);
+    }
+}
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+const std::string& ShaderModule::name() const
+{
+    return _name;
+}
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+ShaderModuleType ShaderModule::type() const
+{
+    return _type;
+}
 
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
-};
+const std::string& ShaderModule::source() const
+{
+    return _source;
+}

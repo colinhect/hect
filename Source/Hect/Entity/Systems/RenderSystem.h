@@ -23,36 +23,43 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Entity/System.h"
+#include "Hect/Entity/Components/Camera.h"
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/Graphics/Renderer.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// Provides basic rendering.
+class RenderSystem :
+    public System
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs the system given the renderer.
+    ///
+    /// \param renderer The renderer.
+    RenderSystem(Renderer& renderer);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// \copydoc System::includesEntity()
+    virtual bool includesEntity(const Entity& entity) const;
+
+    ///
+    /// Renders all visible entities.
+    ///
+    /// \param camera The camera to render from.
+    /// \param target The target to render to.
+    virtual void renderAll(Camera& camera, RenderTarget& target);
+
+protected:
+    void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    Renderer* _renderer;
 };
+
+}

@@ -21,38 +21,62 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Shader.h"
 
-#include <Hect.h>
+#include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
+#include "Hect/Graphics/Renderer.h"
+
 using namespace hect;
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+Shader::Shader()
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+}
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+Shader::Shader(const std::string& name, const AssetHandle<ShaderModule>::Array& modules, const Uniform::Array& uniforms) :
+    _name(name),
+    _modules(modules),
+    _uniforms(uniforms)
+{
+}
 
-    void receiveEvent(const KeyboardEvent& event);
+Shader::~Shader()
+{
+    if (isUploaded())
+    {
+        renderer()->destroyShader(*this);
+    }
+}
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+const std::string& Shader::name() const
+{
+    return _name;
+}
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+const AssetHandle<ShaderModule>::Array& Shader::modules() const
+{
+    return _modules;
+}
 
-    PlayerCameraSystem _playerCameraSystem;
+Uniform::Array& Shader::uniforms()
+{
+    return _uniforms;
+}
 
-    Scene _scene;
-};
+const Uniform::Array& Shader::uniforms() const
+{
+    return _uniforms;
+}
+
+const Uniform& Shader::uniformWithName(const std::string& name) const
+{
+    for (const Uniform& uniform : _uniforms)
+    {
+        if (uniform.name() == name)
+        {
+            return uniform;
+        }
+    }
+
+    throw Error(format("Shader does not have uniform '%s'", name.c_str()));
+}

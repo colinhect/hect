@@ -23,36 +23,46 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/DataValue.h"
+#include "Hect/IO/ReadStream.h"
+#include "Hect/IO/WriteStream.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// Provides the functionality for parsing JSON into a data value.
+class DataValueJsonFormat
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Saves a data value to a JSON string.
+    ///
+    /// \param dataValue The data value.
+    /// \param json The resulting JSON string.
+    static void save(const DataValue& dataValue, std::string& json);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Saves a data value to a stream as a JSON string.
+    ///
+    /// \param dataValue The data value.
+    /// \param stream The stream to write to.
+    static void save(const DataValue& dataValue, WriteStream& stream);
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    ///
+    /// Parses a JSON string into a data value.
+    ///
+    /// \param dataValue The data value to load to.
+    /// \param json The JSON string.
+    static void load(DataValue& dataValue, const std::string& json);
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    ///
+    /// Parses JSON from a stream into a data value.
+    ///
+    /// \param dataValue The data value to load to.
+    /// \param stream The stream to read from.
+    static void load(DataValue& dataValue, ReadStream& stream);
 };
+
+}

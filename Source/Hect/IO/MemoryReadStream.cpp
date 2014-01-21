@@ -21,38 +21,57 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "MemoryReadStream.h"
 
-#include <Hect.h>
+#include "Hect/Core/Error.h"
+
 using namespace hect;
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+MemoryReadStream::MemoryReadStream(const std::vector<uint8_t>& data) :
+    _data(&data),
+    _position(0)
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+}
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+void MemoryReadStream::readBytes(uint8_t* bytes, size_t byteCount)
+{
+    assert(bytes);
 
-    void receiveEvent(const KeyboardEvent& event);
+    size_t length = this->length();
+    size_t position = this->position();
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    if (position + byteCount >= length + 1)
+    {
+        throw Error("Attempt to read past end of data");
+    }
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+    std::memcpy(bytes, &(*_data)[position], byteCount);
+    _position += byteCount;
+}
 
-    PlayerCameraSystem _playerCameraSystem;
+bool MemoryReadStream::endOfStream() const
+{
+    return _position >= length();
+}
 
-    Scene _scene;
-};
+size_t MemoryReadStream::length() const
+{
+    return _data->size();
+}
+
+size_t MemoryReadStream::position() const
+{
+    return _position;
+}
+
+void MemoryReadStream::seek(size_t position)
+{
+    size_t length = this->length();
+
+    if (position >= length + 1)
+    {
+        throw Error("Attempt to seek past end of data");
+    }
+
+    _position = position;
+}

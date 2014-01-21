@@ -23,36 +23,33 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/IO/Path.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+class AssetCache;
+
+///
+/// Provides the functionality for loading an asset of a certain type.
+///
+/// \remarks Each asset type implements the load() method for their type.  This
+/// is how asset types are hooked into the asset cache.
+template <typename T>
+class AssetLoader
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
-
-    void receiveEvent(const KeyboardEvent& event);
-
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    ///
+    /// Loads the asset at the given path.
+    ///
+    /// \remarks May support multiple file formats.  The format of the asset is
+    /// automatically detected.
+    ///
+    /// \param asset The asset to load to.
+    /// \param assetPath The path to the asset.
+    /// \param assetCache The asset cache to load referenced assets using.
+    static void load(T& asset, const Path& assetPath, AssetCache& assetCache);
 };
+
+}

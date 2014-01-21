@@ -23,36 +23,37 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Entity/System.h"
+#include "Hect/Entity/Components/Camera.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// Provides access to the active camera in the scene.
+class CameraSystem :
+    public System
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// \copydoc System::includesEntity()
+    bool includesEntity(const Entity& entity) const;
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Returns whether there is an active camera in the scene.
+    bool hasCamera() const;
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    ///
+    /// Returns the active camera in the scene.
+    ///
+    /// \warning Always call hasCamera() before calling this function to
+    /// avoid undefined behavior.
+    Camera& camera();
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    ///
+    /// Updates all cameras to follow their transforms.
+    void update();
 };
+
+}

@@ -23,36 +23,51 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/IO/Path.h"
+#include "Hect/IO/ReadStream.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
+///
+/// Provides read access to a file.
+class FileReadStream :
+    public ReadStream,
     public Uncopyable
 {
+    friend class FileSystem;
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Closes the file stream.
+    ~FileReadStream();
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// \copydoc ReadStream::readBytes()
+    void readBytes(uint8_t* bytes, size_t byteCount);
+
+    ///
+    /// \copydoc ReadStream::endOfStream()
+    bool endOfStream() const;
+
+    ///
+    /// \copydoc ReadStream::length()
+    size_t length() const;
+
+    ///
+    /// \copydoc ReadStream::position()
+    size_t position() const;
+
+    ///
+    /// \copydoc ReadStream::seek()
+    void seek(size_t position);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    FileReadStream(const Path& path);
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    Path _path;
+    void* _handle;
 };
+
+}

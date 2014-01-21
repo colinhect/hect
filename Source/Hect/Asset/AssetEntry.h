@@ -23,36 +23,57 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/IO/Path.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+class AssetCache;
+
+///
+/// Base asset entry.
+class AssetEntryBase
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+    virtual ~AssetEntryBase() { }
+};
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+///
+/// Refers to the asset at a path.
+template <typename T>
+class AssetEntry :
+    public AssetEntryBase
+{
+public:
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs an asset entry given the asset cache and the path to the
+    /// asset.
+    ///
+    /// \param assetCache The asset cache.
+    /// \param path The path to the asset.
+    AssetEntry(AssetCache& assetCache, const Path& path);
+
+    ///
+    /// Returns a shared pointer to the asset.
+    std::shared_ptr<T> get();
+
+    ///
+    /// Returns the path of the asset.
+    const Path& path() const;
 
 private:
+    void _load();
+
     AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    Path _path;
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+    std::shared_ptr<T> _asset;
 
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    bool _errorOccurred;
+    std::string _errorMessage;
 };
+
+}
+
+#include "AssetEntry.inl"

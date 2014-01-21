@@ -23,36 +23,53 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Entity/Component.h"
+#include "Hect/Graphics/Material.h"
+#include "Hect/Graphics/Mesh.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// A geometry component.
+class Geometry :
+    public Component<Geometry>
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Adds a surface.
+    ///
+    /// \param mesh The mesh.
+    /// \param material The material.
+    void addSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Returns the number of surfaces.
+    size_t surfaceCount() const;
+
+    ///
+    /// Returns the meshes.
+    AssetHandle<Mesh>::Array& meshes();
+
+    ///
+    /// Returns the meshes.
+    const AssetHandle<Mesh>::Array& meshes() const;
+
+    ///
+    /// Returns the materials
+    AssetHandle<Material>::Array& materials();
+
+    ///
+    /// Returns the materials
+    const AssetHandle<Material>::Array& materials() const;
+
+    void serialize(ObjectWriter& writer) const;
+    void deserialize(ObjectReader& reader, AssetCache& assetCache);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    AssetHandle<Mesh>::Array _meshes;
+    AssetHandle<Material>::Array _materials;
 };
+
+}

@@ -21,38 +21,45 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Hect/Core/Format.h"
 
-#include <Hect.h>
-using namespace hect;
-
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+template <typename T>
+T& AssetCache::get(const Path& path)
+{
+    return *getHandle<T>(path);
+}
 
-    void receiveEvent(const KeyboardEvent& event);
+template <typename T>
+AssetHandle<T> AssetCache::getHandle(const Path& path)
+{
+    std::shared_ptr<AssetEntry<T>> entry;
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    auto it = _entries.find(path);
+    if (it == _entries.end())
+    {
+        // First time this asset was requested so create a new entry
+        entry.reset(new AssetEntry<T>(*this, path));
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+        // Add the new entry to the entry map
+        _entries[path] = entry;
+    }
+    else
+    {
+        // There is already an entry for this asset.
+        entry = std::dynamic_pointer_cast<AssetEntry<T>>((*it).second);
 
-    PlayerCameraSystem _playerCameraSystem;
+        // Throw an error if the asset is not of the same type as the template
+        // type
+        if (!entry)
+        {
+            throw Error(format("Asset '%s' is not of the expected type", path.toString().c_str()));
+        }
+    }
 
-    Scene _scene;
-};
+    return AssetHandle<T>(entry);
+}
+
+}

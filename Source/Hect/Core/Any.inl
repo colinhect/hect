@@ -21,38 +21,66 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Hect/Core/Error.h"
 
-#include <Hect.h>
-using namespace hect;
-
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+template <typename T>
+Any::Any(const T& value) :
+    _container(new ContainerValue<T>(value))
+{
+}
 
-    void receiveEvent(const KeyboardEvent& event);
+template <typename T>
+Any& Any::operator=(const T& value)
+{
+    if (_container)
+    {
+        delete _container;
+    }
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    _container = new ContainerValue<T>(value);
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+    return *this;
+}
 
-    PlayerCameraSystem _playerCameraSystem;
+template <typename T>
+bool Any::isType() const
+{
+    if (_container)
+    {
+        return dynamic_cast<ContainerValue<T>*>(_container) != nullptr;
+    }
+    else
+    {
+        return false;
+    }
+}
 
-    Scene _scene;
-};
+template <typename T>
+T& Any::as() const
+{
+    auto containerValue = dynamic_cast<ContainerValue<T>*>(_container);
+
+    if (!containerValue)
+    {
+        throw Error("Invalid type");
+    }
+
+    return containerValue->held;
+}
+
+template <typename T>
+Any::ContainerValue<T>::ContainerValue(const T& value) :
+    held(value)
+{
+}
+
+template <typename T>
+Any::Container* Any::ContainerValue<T>::clone() const
+{
+    return new ContainerValue(held);
+}
+
+}

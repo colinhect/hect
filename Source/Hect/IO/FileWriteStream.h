@@ -23,36 +23,43 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/IO/Path.h"
+#include "Hect/IO/WriteStream.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
+///
+/// Provides write access to a file.
+class FileWriteStream :
+    public WriteStream,
     public Uncopyable
 {
+    friend class FileSystem;
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Closes the file stream.
+    ~FileWriteStream();
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// \copydoc WriteStream::writeBytes()
+    void writeBytes(const uint8_t* bytes, size_t byteCount);
+
+    ///
+    /// \copydoc WriteStream::position()
+    size_t position() const;
+
+    ///
+    /// \copydoc WriteStream::seek()
+    void seek(size_t position);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    FileWriteStream(const Path& path);
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    Path _path;
+    void* _handle;
 };
+
+}

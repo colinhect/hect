@@ -23,36 +23,28 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/DataValue.h"
+#include "Hect/Asset/AssetCache.h"
+#include "Hect/Graphics/VideoMode.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// Provides functionality for loading video modes from data values.
+class VideoModeDataValueFormat
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
-
-    void receiveEvent(const KeyboardEvent& event);
-
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    ///
+    /// Loads a video mode from a data value.
+    ///
+    /// \param dataValue The data value to load the video mode from.
+    ///
+    /// \returns The video mode.
+    ///
+    /// \throws Error If an error occurred while loading the video mode.
+    static VideoMode load(const DataValue& dataValue);
 };
+
+}

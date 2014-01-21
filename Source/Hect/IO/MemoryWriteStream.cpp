@@ -21,38 +21,44 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "MemoryWriteStream.h"
 
-#include <Hect.h>
+#include "Hect/Core/Error.h"
+
 using namespace hect;
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+MemoryWriteStream::MemoryWriteStream(std::vector<uint8_t>& data) :
+    _data(&data),
+    _position(data.size())
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+}
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+void MemoryWriteStream::writeBytes(const uint8_t* bytes, size_t byteCount)
+{
+    assert(bytes);
 
-    void receiveEvent(const KeyboardEvent& event);
+    while (_position + byteCount > _data->size())
+    {
+        _data->push_back(0);
+    }
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    std::memcpy(&(*_data)[_position], bytes, byteCount);
+    _position += byteCount;
+}
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+size_t MemoryWriteStream::position() const
+{
+    return _position;
+}
 
-    PlayerCameraSystem _playerCameraSystem;
+void MemoryWriteStream::seek(size_t position)
+{
+    size_t length = _data->size();
 
-    Scene _scene;
-};
+    if (position >= length + 1)
+    {
+        throw Error("Attempt to seek past end of data");
+    }
+
+    _position = position;
+}

@@ -21,38 +21,58 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "FrameBuffer.h"
 
-#include <Hect.h>
+#include "Hect/Graphics/Renderer.h"
+
 using namespace hect;
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+FrameBuffer::FrameBuffer() :
+    _depthComponent(false)
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+}
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+FrameBuffer::FrameBuffer(const Texture::Array& targets, bool depthComponent) :
+    _depthComponent(depthComponent),
+    _targets(targets)
+{
+    unsigned width = 0;
+    unsigned height = 0;
 
-    void receiveEvent(const KeyboardEvent& event);
+    for (Texture& target : _targets)
+    {
+        width = std::max(width, target.width());
+        height = std::max(height, target.height());
+    }
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    setWidth(width);
+    setHeight(height);
+}
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+FrameBuffer::~FrameBuffer()
+{
+    if (isUploaded())
+    {
+        renderer()->destroyFrameBuffer(*this);
+    }
+}
 
-    PlayerCameraSystem _playerCameraSystem;
+void FrameBuffer::bind(Renderer* renderer)
+{
+    renderer->bindFrameBuffer(*this);
+}
 
-    Scene _scene;
-};
+Texture::Array& FrameBuffer::targets()
+{
+    return _targets;
+}
+
+const Texture::Array& FrameBuffer::targets() const
+{
+    return _targets;
+}
+
+bool FrameBuffer::hasDepthComponent() const
+{
+    return _depthComponent;
+}

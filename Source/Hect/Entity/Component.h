@@ -23,36 +23,63 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <cstdint>
+#include <memory>
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#include "Hect/IO/Serializable.h"
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
+{
+
+class Entity;
+class Scene;
+
+///
+/// A number identifying a component type.
+typedef uint32_t ComponentTypeId;
+
+///
+/// Base entity component.
+class BaseComponent :
+    public Serializable
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// A shared reference to a base component.
+    typedef std::shared_ptr<BaseComponent> Ref;
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Returns the next available component type id.
+    static ComponentTypeId nextTypeId();
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    virtual ~BaseComponent() { }
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+    ///
+    /// Clones the component.
+    virtual BaseComponent* clone() const = 0;
 
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    ///
+    /// Returns the type id of the component.
+    virtual ComponentTypeId componentTypeId() const = 0;
 };
+
+///
+/// A component of an entity.
+template <typename T>
+class Component :
+    public BaseComponent
+{
+public:
+
+    ///
+    /// Returns the component type id for this type of component.
+    static ComponentTypeId typeId();
+
+    BaseComponent* clone() const;
+    ComponentTypeId componentTypeId() const;
+};
+
+}
+
+#include "Component.inl"

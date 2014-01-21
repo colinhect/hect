@@ -21,38 +21,95 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Angle.h"
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Math/Constants.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+Angle Angle::fromDegrees(Real degrees)
+{
+    return Angle((pi / (Real)180) * degrees);
+}
 
-    void receiveEvent(const KeyboardEvent& event);
+Angle Angle::fromRadians(Real radians)
+{
+    return Angle(radians);
+}
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+Angle::Angle():
+    _radians(0)
+{
+}
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+Angle::Angle(Real radians):
+    _radians(radians)
+{
+}
 
-    PlayerCameraSystem _playerCameraSystem;
+Real Angle::degrees() const
+{
+    Real degrees = ((Real)180 / pi) * _radians;
+    if (degrees == (Real)360)
+    {
+        degrees = (Real)0;
+    }
+    return degrees;
+}
 
-    Scene _scene;
-};
+Real Angle::radians() const
+{
+    return _radians;
+}
+
+Angle Angle::operator+(const Angle& a) const
+{
+    return Angle(_radians + a._radians);
+}
+
+Angle Angle::operator-(const Angle& a) const
+{
+    return Angle(_radians - a._radians);
+}
+
+Angle Angle::operator*(Real value) const
+{
+    return Angle(_radians * value);
+}
+
+Angle Angle::operator/(Real value) const
+{
+    return Angle(_radians / value);
+}
+
+Angle Angle::operator-() const
+{
+    return Angle(-_radians);
+}
+
+Angle& Angle::operator+=(const Angle& a)
+{
+    _radians += a._radians;
+    return *this;
+}
+
+Angle& Angle::operator-=(const Angle& a)
+{
+    _radians -= a._radians;
+    return *this;
+}
+
+Angle& Angle::operator*=(Real value)
+{
+    _radians *= value;
+    return *this;
+}
+
+Angle& Angle::operator/=(Real value)
+{
+    _radians /= value;
+    return *this;
+}
+
+}

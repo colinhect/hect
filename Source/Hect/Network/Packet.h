@@ -23,36 +23,62 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/IO/MemoryReadStream.h"
+#include "Hect/IO/MemoryWriteStream.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
 {
+
+///
+/// Provides functionality to read from a packet.
+typedef MemoryReadStream PacketReadStream;
+
+///
+/// Provides functionality to write to a packet.
+typedef MemoryWriteStream PacketWriteStream;
+
+///
+/// A flag describing how a packet is transported.
+enum PacketFlag
+{
+    ///
+    /// Packet must be received by the target peer and resend attempts
+    /// should be made until the packet is delivered.
+    Reliable = 1,
+
+    ///
+    /// Packet will not be sequenced with other packets.
+    ///
+    /// \warning Not supported for reliable packets.
+    Unsequenced = 2
+};
+
+///
+/// A packet of data to be transported across a network connection.
+class Packet
+{
+    friend class Socket;
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs a packet given its flags.
+    ///
+    /// \param flags The flags describing how the packet is transported.
+    Packet(uint8_t flags = 0);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Returns a read stream for the packet data.
+    PacketReadStream readStream() const;
+
+    ///
+    /// Returns a write stream for the packet data.
+    PacketWriteStream writeStream();
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    Packet(const std::vector<uint8_t>& data);
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    uint8_t _flags;
+    std::vector<uint8_t> _data;
 };
+
+}

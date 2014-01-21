@@ -23,36 +23,39 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/IO/ReadStream.h"
+#include "Hect/IO/WriteStream.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// Provides functionality for saving/loading meshes to/from the internal
+/// bianry mesh format.
+class MeshBinaryFormat
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// The number identifying a file in this format.
+    static const uint32_t Signature;
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Loads a mesh from a stream.
+    ///
+    /// \param mesh The mesh to load to.
+    /// \param name The name of the mesh.
+    /// \param stream The stream to read from.
+    static void load(Mesh& mesh, const std::string& name, ReadStream& stream);
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    ///
+    /// Saves a mesh to stream.
+    ///
+    /// \param mesh The mesh to save.
+    /// \param stream The stream to write to.
+    static void save(const Mesh& mesh, WriteStream& stream);
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
 };
+
+}

@@ -23,36 +23,39 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Graphics/Technique.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// The manner in which a surface is rendered.
+class Material
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs a material without any techniques.
+    Material();
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs a material given its techniques.
+    ///
+    /// \param name The name of the material.
+    /// \param techniques The techniques to include in the material.
+    Material(const std::string& name, const Technique::Array& techniques);
+
+    ///
+    /// Returns the name.
+    const std::string& name() const;
+
+    ///
+    /// Returns the techniques.
+    const Technique::Array& techniques() const;
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    std::string _name;
+    Technique::Array _techniques;
 };
+
+}

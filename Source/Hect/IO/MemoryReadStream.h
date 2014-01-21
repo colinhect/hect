@@ -23,36 +23,50 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <vector>
+#include <cstdint>
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#include "Hect/IO/ReadStream.h"
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
+{
+
+///
+/// Provides read access to raw data.
+class MemoryReadStream :
+    public ReadStream
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs the stream given the data to read from.
+    ///
+    /// \param data The data to read from.
+    MemoryReadStream(const std::vector<uint8_t>& data);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// \copydoc ReadStream::readBytes()
+    void readBytes(uint8_t* bytes, size_t byteCount);
+
+    ///
+    /// \copydoc ReadStream::endOfStream()
+    bool endOfStream() const;
+
+    ///
+    /// \copydoc ReadStream::length()
+    size_t length() const;
+
+    ///
+    /// \copydoc ReadStream::position()
+    size_t position() const;
+
+    ///
+    /// \copydoc ReadStream::seek()
+    void seek(size_t position);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    const std::vector<uint8_t>* _data;
+    size_t _position;
 };
+
+}

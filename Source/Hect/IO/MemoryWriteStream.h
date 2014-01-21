@@ -23,36 +23,42 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <vector>
+#include <cstdint>
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#include "Hect/IO/WriteStream.h"
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
+{
+
+///
+/// Provides write access to raw data.
+class MemoryWriteStream :
+    public WriteStream
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs the stream given the data to write to.
+    ///
+    /// \param data The data to write to.
+    MemoryWriteStream(std::vector<uint8_t>& data);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// \copydoc WriteStream::writeBytes()
+    void writeBytes(const uint8_t* bytes, size_t byteCount);
+
+    ///
+    /// \copydoc WriteStream::position()
+    size_t position() const;
+
+    ///
+    /// \copydoc WriteStream::seek()
+    void seek(size_t position);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    std::vector<uint8_t>* _data;
+    size_t _position;
 };
+
+}

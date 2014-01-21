@@ -21,38 +21,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Logging.h"
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/Configuration.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#ifdef HECT_WINDOWS
+#include <Windows.h>
+#endif
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+#include <iostream>
+
+namespace hect
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+void log(const std::string& category, const std::string& message)
+{
+    category;
 
-    void receiveEvent(const KeyboardEvent& event);
+    std::cout << message << std::endl;
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+#ifdef HECT_DEBUG
+#ifdef HECT_WINDOWS
+    OutputDebugString((message + "\n").c_str());
+#endif
+#endif
+}
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
-};
+}

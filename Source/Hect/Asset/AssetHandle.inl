@@ -21,38 +21,79 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Hect/Core/Error.h"
 
-#include <Hect.h>
-using namespace hect;
-
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+template <typename T>
+AssetHandle<T>::AssetHandle()
+{
+}
 
-    void receiveEvent(const KeyboardEvent& event);
+template <typename T>
+AssetHandle<T>::AssetHandle(T* asset) :
+    _asset(asset)
+{
+}
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+template <typename T>
+AssetHandle<T>::AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry) :
+    _entry(entry)
+{
+}
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
+template <typename T>
+const Path& AssetHandle<T>::path() const
+{
+    static Path emptyPath;
+    if (_entry)
+    {
+        return _entry->path();
+    }
 
-    PlayerCameraSystem _playerCameraSystem;
+    return emptyPath;
+}
 
-    Scene _scene;
-};
+template <typename T>
+AssetHandle<T>::operator bool() const
+{
+    return _entry || _asset;
+}
+
+template <typename T>
+T& AssetHandle<T>::operator*() const
+{
+    if (_entry)
+    {
+        return *_entry->get();
+    }
+    else if (_asset)
+    {
+        return *_asset;
+    }
+
+    throw Error("Asset handle does not have an entry or asset");
+}
+
+template <typename T>
+T* AssetHandle<T>::operator->() const
+{
+    return &**this;
+}
+
+template <typename T>
+bool AssetHandle<T>::operator==(const AssetHandle<T>& handle) const
+{
+    if (_entry)
+    {
+        return _entry == handle._entry;
+    }
+    else (_asset)
+    {
+        return _asset == handle._asset;
+    }
+    return false;
+}
+
+}

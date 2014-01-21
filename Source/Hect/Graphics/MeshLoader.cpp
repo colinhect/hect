@@ -21,38 +21,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Hect/Asset/AssetLoader.h"
+#include "Hect/Asset/AssetCache.h"
+#include "Hect/Core/DataValueJsonFormat.h"
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/Graphics/MeshBinaryFormat.h"
+#include "Hect/Graphics/MeshDataValueFormat.h"
 
-#include <Hect.h>
 using namespace hect;
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+void AssetLoader<Mesh>::load(Mesh& mesh, const Path& assetPath, AssetCache& assetCache)
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    uint32_t signature = stream.readUnsignedInt();
+    stream.seek(0);
 
-    void receiveEvent(const KeyboardEvent& event);
-
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
-};
+    if (signature == MeshBinaryFormat::Signature)
+    {
+        MeshBinaryFormat::load(mesh, assetPath.toString(), stream);
+    }
+    else
+    {
+        DataValue dataValue;
+        DataValueJsonFormat::load(dataValue, stream);
+        MeshDataValueFormat::load(mesh, assetPath.toString(), dataValue);
+    }
+}

@@ -21,38 +21,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "CameraSystem.h"
 
-#include <Hect.h>
+#include "Hect/Entity/Scene.h"
+#include "Hect/Entity/Components/Camera.h"
+#include "Hect/Entity/Components/Transform.h"
+
 using namespace hect;
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
-
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+bool CameraSystem::includesEntity(const Entity& entity) const
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
+    return entity.hasComponent<Transform>() && entity.hasComponent<Camera>();
+}
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+bool CameraSystem::hasCamera() const
+{
+    return !entities().empty();
+}
 
-    void receiveEvent(const KeyboardEvent& event);
+Camera& CameraSystem::camera()
+{
+    assert(hasCamera());
+    return entities().back().component<Camera>();
+}
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
-};
+void CameraSystem::update()
+{
+    for (const Entity& entity : entities())
+    {
+        Camera& camera = entity.component<Camera>();
+        Transform& transform = entity.component<Transform>();
+        camera.transformTo(transform);
+    }
+}

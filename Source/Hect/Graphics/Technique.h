@@ -23,36 +23,43 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Graphics/Pass.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// An implementation of a material.
+///
+/// \remarks A technique is made up of multiple passes.
+class Technique
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// An array of techniques.
+    typedef std::vector<Technique> Array;
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs a technique without any passes.
+    Technique();
+
+    ///
+    /// Constructs a technique given its passes.
+    ///
+    /// \param passes The passes to include in the technique.
+    Technique(const Pass::Array& passes);
+
+    ///
+    /// Returns the passes.
+    Pass::Array& passes();
+
+    ///
+    /// Returns the passes.
+    const Pass::Array& passes() const;
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    Pass::Array _passes;
 };
+
+}

@@ -23,36 +23,69 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <string>
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#include "Hect/Graphics/RendererObject.h"
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+namespace hect
+{
+
+///
+/// A shader module type.
+enum class ShaderModuleType
+{
+
+    ///
+    /// A vertex program module.
+    Vertex,
+
+    ///
+    /// A pixel program module.
+    Pixel,
+
+    ///
+    /// A geometry program module.
+    Geometry
+};
+
+///
+/// A shader module.
+class ShaderModule :
+    public RendererObject
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs an empty shader module.
+    ShaderModule();
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs a shader module given its type and source.
+    ///
+    /// \param name The name.
+    /// \param type The type.
+    /// \param source The source.
+    ShaderModule(const std::string& name, ShaderModuleType type, const std::string& source);
+
+    ///
+    /// Destroys the shader if it is uploaded.
+    ~ShaderModule();
+
+    ///
+    /// Returns the name.
+    const std::string& name() const;
+
+    ///
+    /// Returns the type.
+    ShaderModuleType type() const;
+
+    /// Returns the source.
+    const std::string& source() const;
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    std::string _name;
+    ShaderModuleType _type;
+    std::string _source;
 };
+
+}

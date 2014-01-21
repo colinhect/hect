@@ -23,36 +23,48 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Graphics/VertexAttribute.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// An ordered layout of vertex attributes.
+class VertexLayout
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Creates the default vertex layout.
+    static VertexLayout createDefault();
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs an empty vertex layout.
+    VertexLayout();
+
+    ///
+    /// Constructs a vertex layout given vertex attributes.
+    ///
+    /// \param attributes The attributes in the layout (in order).
+    VertexLayout(const VertexAttribute::Array& attributes);
+
+    ///
+    /// Returns the attribute with the given semantic (null if no attribute
+    /// exists with the semantic).
+    ///
+    /// \param semantic The semantic to find the attribute for.
+    const VertexAttribute* attributeWithSemantic(VertexAttributeSemantic semantic) const;
+
+    /// Returns the attributes.
+    const VertexAttribute::Array& attributes() const;
+
+    ///
+    /// Returns the total size in bytes of a vertex in this layout.
+    unsigned vertexSize() const;
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    VertexAttribute::Array _attributes;
+    unsigned _vertexSize;
 };
+
+}

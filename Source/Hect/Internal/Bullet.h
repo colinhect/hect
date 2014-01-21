@@ -23,36 +23,32 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/Configuration.h"
+#include "Hect/Entity/Components/Transform.h"
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/Math/Vector3.h"
+#include "Hect/Math/Quaternion.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+#ifdef HECT_WINDOWS
+#pragma warning(push, 0)
+#endif
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+#include <btBulletDynamicsCommon.h>
+
+#ifdef HECT_WINDOWS
+#pragma warning(pop)
+#endif
+
+namespace hect
 {
-public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+btVector3 convertToBullet(const Vector3& v);
+btQuaternion convertToBullet(const Quaternion& q);
+btTransform convertToBullet(const Transform& t);
+btTriangleMesh* convertToBullet(const Mesh& m);
 
-    void receiveEvent(const KeyboardEvent& event);
+Vector3 convertFromBullet(const btVector3& v);
+Quaternion convertFromBullet(const btQuaternion& q);
+Transform convertFromBullet(const btTransform& t);
 
-private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
-};
+}

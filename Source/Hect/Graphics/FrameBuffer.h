@@ -23,36 +23,58 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Graphics/RenderTarget.h"
+#include "Hect/Graphics/Texture.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+class Renderer;
+
+///
+/// A buffer on the GPU that can be rendered to.
+class FrameBuffer :
+    public RenderTarget,
+    public RendererObject
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Constructs a frame buffer without any targets.
+    FrameBuffer();
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Constructs a frame buffer of a given size with an optional depth
+    /// component.
+    ///
+    /// \param targets The texture targets.
+    /// \param depthComponent True if the frame buffer will have a depth
+    /// component; false otherwise.
+    FrameBuffer(const Texture::Array& targets, bool depthComponent = true);
+
+    ///
+    /// Destroys the frame buffer if it is uploaded.
+    ~FrameBuffer();
+
+    ///
+    /// \copydoc RenderTarget::bind()
+    void bind(Renderer* renderer);
+
+    ///
+    /// Returns the targets.
+    Texture::Array& targets();
+
+    ///
+    /// Returns the targets.
+    const Texture::Array& targets() const;
+
+    ///
+    /// Returns whether the frame buffer has a depth component.
+    bool hasDepthComponent() const;
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    bool _depthComponent;
+    Texture::Array _targets;
 };
+
+}

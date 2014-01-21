@@ -23,36 +23,41 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include "Hect/Core/DataValue.h"
+#include "Hect/Asset/AssetCache.h"
+#include "Hect/Graphics/Shader.h"
 
-#include "Components/PlayerCamera.h"
-#include "Systems/PlayerCameraSystem.h"
+namespace hect
+{
 
-class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+///
+/// Provides functionality for loading shaders from data values.
+class ShaderDataValueFormat
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
-    ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    ///
+    /// Loads a shader from a data value.
+    ///
+    /// \param shader The shader to load to.
+    /// \param name The name of the shader.
+    /// \param dataValue The root data value.
+    /// \param assetCache The asset cache to use to load referenced assets.
+    static void load(Shader& shader, const std::string& name, const DataValue& dataValue, AssetCache& assetCache);
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Parses a uniform value of a certain type.
+    ///
+    /// \param type The uniform value type.
+    /// \param dataValue The data value to parse from.
+    ///
+    /// \returns The parsed uniform value.
+    static UniformValue parseValue(UniformType type, const DataValue& dataValue);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
-
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
-    PhysicsSystem _physicsSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
-
-    Scene _scene;
+    static Uniform _parseUniform(const std::string& name, const DataValue& dataValue);
+    static UniformBinding _parseUniformBinding(const DataValue& dataValue);
+    static UniformType _parseType(const DataValue& dataValue);
 };
+
+}
