@@ -23,42 +23,39 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Core/Real.h"
+
 namespace hect
 {
 
 ///
 /// A sphere.
-template <typename T>
-class SphereT
+class Sphere
 {
 public:
 
     ///
     /// Constructs a sphere with a radius of one.
-    SphereT();
+    Sphere();
 
     ///
     /// Constructs a sphere given its radius
     ///
     /// \param radius The radius of the sphere.
-    SphereT(T radius);
+    Sphere(Real radius);
 
     ///
     /// Returns the radius.
-    T radius() const;
+    Real radius() const;
 
     ///
     /// Sets the radius.
     ///
     /// \param radius The new radius.
-    void setRadius(T radius);
+    void setRadius(Real radius);
 
 private:
-    T _radius;
+    Real _radius;
 };
 
-typedef SphereT<Real> Sphere;
-
 }
-
-#include "Sphere.inl"

@@ -52,14 +52,13 @@ enum class FrustumTestResult
 /// A pyramid with a near and far plane cutting the top and bottom.
 ///
 /// \remarks Useful for check if objects are with the bounds of a camera.
-template <typename T>
-class FrustumT
+class Frustum
 {
 public:
 
     ///
     /// Constructs a default frustum.
-    FrustumT();
+    Frustum();
 
     ///
     /// Constructs a frustum
@@ -72,14 +71,14 @@ public:
     /// \param nearClip The distance from the position to begin the
     /// frustum.
     /// \param farClip The distance from the position to end the frustum.
-    FrustumT(
-        const Vector3T<T>& position,
-        const Vector3T<T>& front,
-        const Vector3T<T>& up,
+    Frustum(
+        const Vector3& position,
+        const Vector3& front,
+        const Vector3& up,
         Angle fieldOfView,
-        T aspectRatio,
-        T nearClip,
-        T farClip);
+        Real aspectRatio,
+        Real nearClip,
+        Real farClip);
 
     ///
     /// Tests an axis aligned box against the frustum.
@@ -94,15 +93,11 @@ public:
     ///
     /// \param sphere The sphere.
     /// \param position The position of the sphere.
-    bool containsSphere(const SphereT<T>& sphere, const Vector3T<T>& position) const;
+    bool containsSphere(const Sphere& sphere, const Vector3& position) const;
 
 private:
-    PlaneT<T> _planes[6];
-    Vector3T<T> _position;
+    Plane _planes[6];
+    Vector3 _position;
 };
 
-typedef FrustumT<Real> Frustum;
-
 }
-
-#include "Frustum.inl"

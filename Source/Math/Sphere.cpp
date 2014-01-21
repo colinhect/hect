@@ -21,49 +21,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include "Sphere.h"
+
 namespace hect
 {
 
-template <typename T>
-PlaneT<T> PlaneT<T>::fromPoints(const Vector3T<T>& p0, const Vector3T<T>& p1, const Vector3T<T>& p2)
-{
-    Vector3T<T> position = p1;
-    Vector3T<T> normal = (p2 - p1).cross(p0 - p1).normalized();
-    T distance = -normal.dot(position);
-
-    return PlaneT<T>(position, normal, distance);
-}
-
-template <typename T>
-PlaneT<T>::PlaneT() :
-    _distance(0)
+Sphere::Sphere() :
+    _radius(1)
 {
 }
 
-template <typename T>
-PlaneT<T>::PlaneT(const Vector3T<T>& position, const Vector3T<T>& normal, T distance) :
-    _position(position),
-    _normal(normal),
-    _distance(distance)
+Sphere::Sphere(Real radius) :
+    _radius(radius)
 {
 }
 
-template <typename T>
-const Vector3T<T>& PlaneT<T>::position() const
+Real Sphere::radius() const
 {
-    return _position;
+    return _radius;
 }
 
-template <typename T>
-const Vector3T<T>& PlaneT<T>::normal() const
+void Sphere::setRadius(Real radius)
 {
-    return _normal;
-}
-
-template <typename T>
-T PlaneT<T>::distance() const
-{
-    return _distance;
+    _radius = radius;
 }
 
 }

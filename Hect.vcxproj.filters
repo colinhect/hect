@@ -327,6 +327,15 @@
     <ClCompile Include="Source\Math\Box.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Math\Frustum.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\Plane.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\Sphere.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Asset\AssetCache.h">
@@ -646,13 +655,7 @@
     <None Include="Source\Entity\Scene.inl">
       <Filter>Source\Entity</Filter>
     </None>
-    <None Include="Source\Math\Frustum.inl">
-      <Filter>Source\Math</Filter>
-    </None>
     <None Include="Source\Math\Matrix4.inl">
-      <Filter>Source\Math</Filter>
-    </None>
-    <None Include="Source\Math\Plane.inl">
       <Filter>Source\Math</Filter>
     </None>
     <None Include="Source\Math\Quaternion.inl">
@@ -669,9 +672,6 @@
     </None>
     <None Include="Source\Entity\Component.inl">
       <Filter>Source\Entity</Filter>
-    </None>
-    <None Include="Source\Math\Sphere.inl">
-      <Filter>Source\Math</Filter>
     </None>
     <None Include="Source\Graphics\MeshWriter.inl">
       <Filter>Source\Graphics</Filter>

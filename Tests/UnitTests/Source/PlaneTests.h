@@ -25,10 +25,9 @@
 
 SUITE(Plane)
 {
-    template <typename T>
-    void testFromPoints()
+    TEST(FromPoints)
     {
-        PlaneT<T> p = PlaneT<T>::fromPoints(Vector3T<T>(-1, 0, -1), Vector3T<T>(0, 0, 0), Vector3T<T>(1, 0, -1));
+        Plane p = Plane::fromPoints(Vector3(-1, 0, -1), Vector3(0, 0, 0), Vector3(1, 0, -1));
 
         CHECK_EQUAL(0, p.position().x);
         CHECK_EQUAL(0, p.position().y);
@@ -37,11 +36,5 @@ SUITE(Plane)
         CHECK_EQUAL(1, p.normal().y);
         CHECK_EQUAL(0, p.normal().z);
         CHECK_EQUAL(0, p.distance());
-    }
-
-    TEST(FromPoints)
-    {
-        testFromPoints<float>();
-        testFromPoints<double>();
     }
 }

@@ -101,6 +101,9 @@
     <ClCompile Include="Source\Math\Angle.cpp" />
     <ClCompile Include="Source\Math\AxisAlignedBox.cpp" />
     <ClCompile Include="Source\Math\Box.cpp" />
+    <ClCompile Include="Source\Math\Frustum.cpp" />
+    <ClCompile Include="Source\Math\Plane.cpp" />
+    <ClCompile Include="Source\Math\Sphere.cpp" />
     <ClCompile Include="Source\Network\IpAddress.cpp" />
     <ClCompile Include="Source\Network\Packet.cpp" />
     <ClCompile Include="Source\Network\Peer.cpp" />
@@ -220,11 +223,8 @@
     <None Include="Source\Entity\Scene.inl" />
     <None Include="Source\Graphics\MeshReader.inl" />
     <None Include="Source\Graphics\MeshWriter.inl" />
-    <None Include="Source\Math\Frustum.inl" />
     <None Include="Source\Math\Matrix4.inl" />
-    <None Include="Source\Math\Plane.inl" />
     <None Include="Source\Math\Quaternion.inl" />
-    <None Include="Source\Math\Sphere.inl" />
     <None Include="Source\Math\Vector2.inl" />
     <None Include="Source\Math\Vector3.inl" />
     <None Include="Source\Math\Vector4.inl" />

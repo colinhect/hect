@@ -23,13 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Math/Vector3.h"
+
 namespace hect
 {
 
 ///
 /// A plane in 3-dimensional space.
-template <typename T>
-class PlaneT
+class Plane
 {
 public:
 
@@ -39,11 +40,11 @@ public:
     /// \param p0 The first point.
     /// \param p1 The second point.
     /// \param p2 The third point.
-    static PlaneT fromPoints(const Vector3T<T>& p0, const Vector3T<T>& p1, const Vector3T<T>& p2);
+    static Plane fromPoints(const Vector3& p0, const Vector3& p1, const Vector3& p2);
 
     ///
     /// Constructs a default plane.
-    PlaneT();
+    Plane();
 
     ///
     /// Constructs a plane given a position, normal, and distance.
@@ -51,28 +52,24 @@ public:
     /// \param position The origin of the plane.
     /// \param normal The direction from the origin the plane faces.
     /// \param distance The distance from the origin along the normal.
-    PlaneT(const Vector3T<T>& position, const Vector3T<T>& normal, T distance);
+    Plane(const Vector3& position, const Vector3& normal, Real distance);
 
     ///
     /// Returns the position.
-    const Vector3T<T>& position() const;
+    const Vector3& position() const;
 
     ///
     /// Returns the normal.
-    const Vector3T<T>& normal() const;
+    const Vector3& normal() const;
 
     ///
     /// Returns the distance.
-    T distance() const;
+    Real distance() const;
 
 private:
-    Vector3T<T> _position;
-    Vector3T<T> _normal;
-    T _distance;
+    Vector3 _position;
+    Vector3 _normal;
+    Real _distance;
 };
 
-typedef PlaneT<Real> Plane;
-
 }
-
-#include "Plane.inl"
