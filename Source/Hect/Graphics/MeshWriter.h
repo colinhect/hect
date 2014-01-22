@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Graphics/Mesh.h"
+#include "Hect/IO/MemoryWriteStream.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -89,13 +90,10 @@ public:
 private:
     void _setComponentValue(const VertexAttribute* attribute, unsigned index, float value);
 
-    template <typename T>
-    void _writeAttributeData(const VertexAttribute& attribute, const T& value);
-
     Mesh* _mesh;
-    size_t _vertexDataIndex;
+    size_t _vertexPosition;
+    MemoryWriteStream _vertexStream;
+    MemoryWriteStream _indexStream;
 };
 
 }
-
-#include "MeshWriter.inl"

@@ -661,12 +661,6 @@
     <None Include="Source\Hect\Entity\Scene.inl">
       <Filter>Source\Hect\Entity</Filter>
     </None>
-    <None Include="Source\Hect\Graphics\MeshReader.inl">
-      <Filter>Source\Hect\Graphics</Filter>
-    </None>
-    <None Include="Source\Hect\Graphics\MeshWriter.inl">
-      <Filter>Source\Hect\Graphics</Filter>
-    </None>
     <None Include="Source\Hect\Math\Matrix4.inl">
       <Filter>Source\Hect\Math</Filter>
     </None>

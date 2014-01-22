@@ -219,8 +219,6 @@
     <None Include="Source\Hect\Entity\Component.inl" />
     <None Include="Source\Hect\Entity\Entity.inl" />
     <None Include="Source\Hect\Entity\Scene.inl" />
-    <None Include="Source\Hect\Graphics\MeshReader.inl" />
-    <None Include="Source\Hect\Graphics\MeshWriter.inl" />
     <None Include="Source\Hect\Math\Matrix4.inl" />
     <None Include="Source\Hect\Math\Quaternion.inl" />
     <None Include="Source\Hect\Math\Vector2.inl" />

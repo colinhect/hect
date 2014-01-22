@@ -29,18 +29,20 @@ using namespace hect;
 
 MeshWriter::MeshWriter(Mesh& mesh) :
     _mesh(&mesh),
-    _vertexDataIndex(0)
+    _vertexPosition(0),
+    _vertexStream(mesh._vertexData),
+    _indexStream(mesh._indexData)
 {
 }
 
 size_t MeshWriter::addVertex()
 {
-    _vertexDataIndex = _mesh->_vertexData.size();
+    _vertexPosition = _vertexStream.position();
 
     // Push back zeroed data for the added vertex
     for (unsigned i = 0; i < _mesh->vertexLayout().vertexSize(); ++i)
     {
-        _mesh->_vertexData.push_back(0);
+        _vertexStream.writeUnsignedByte(0);
     }
 
     return _mesh->_vertexCount++;
@@ -135,30 +137,17 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 
 void MeshWriter::addIndex(uint64_t value)
 {
-    IndexType indexType = _mesh->indexType();
-    size_t indexSize = _mesh->indexSize();
-
-    // Push back zeroed data for the added index
-    size_t indexDataIndex = _mesh->_indexData.size();
-    for (unsigned i = 0; i < indexSize; ++i)
-    {
-        _mesh->_indexData.push_back(0);
-    }
-
-    // Get the location of the index
-    void* index = &_mesh->_indexData[indexDataIndex];
-
-    // Set the index data based on the type
-    switch (indexType)
+    // Write the index data based on the type
+    switch (_mesh->indexType())
     {
     case IndexType::UnsignedByte:
-        *(uint8_t*)index = (uint8_t)value;
+        _indexStream.writeUnsignedByte((uint8_t)value);
         break;
     case IndexType::UnsignedShort:
-        *(uint16_t*)index = (uint16_t)value;
+        _indexStream.writeUnsignedShort((uint16_t)value);
         break;
     case IndexType::UnsignedInt:
-        *(uint32_t*)index = (uint32_t)value;
+        _indexStream.writeUnsignedInt((uint32_t)value);
         break;
     }
 
@@ -167,34 +156,44 @@ void MeshWriter::addIndex(uint64_t value)
 
 void MeshWriter::_setComponentValue(const VertexAttribute* attribute, unsigned index, float value)
 {
-    size_t offset = _vertexDataIndex + attribute->offset();
+    size_t position = _vertexStream.position();
+    size_t offset = _vertexPosition + attribute->offset();
 
-    // Set the vertex data based on the type
+    // Write the vertex data based on the type
     switch (attribute->type())
     {
     case VertexAttributeType::Byte:
-        *(int8_t*)&_mesh->_vertexData[offset + index * 1] = (int8_t)value;
+        _vertexStream.seek(offset + index * sizeof(int8_t));
+        _vertexStream.writeByte((int8_t)value);
         break;
     case VertexAttributeType::UnsignedByte:
-        *(uint8_t*)&_mesh->_vertexData[offset + index * 1] = (uint8_t)value;
+        _vertexStream.seek(offset + index * sizeof(uint8_t));
+        _vertexStream.writeUnsignedByte((uint8_t)value);
         break;
     case VertexAttributeType::Short:
-        *(int16_t*)&_mesh->_vertexData[offset + index * 2] = (int16_t)value;
+        _vertexStream.seek(offset + index * sizeof(int16_t));
+        _vertexStream.writeShort((int16_t)value);
         break;
     case VertexAttributeType::UnsignedShort:
-        *(uint16_t*)&_mesh->_vertexData[offset + index * 2] = (uint16_t)value;
+        _vertexStream.seek(offset + index * sizeof(uint16_t));
+        _vertexStream.writeUnsignedShort((uint16_t)value);
         break;
     case VertexAttributeType::Int:
-        *(int32_t*)&_mesh->_vertexData[offset + index * 4] = (int32_t)value;
+        _vertexStream.seek(offset + index * sizeof(int32_t));
+        _vertexStream.writeInt((int32_t)value);
         break;
     case VertexAttributeType::UnsignedInt:
-        *(uint32_t*)&_mesh->_vertexData[offset + index * 4] = (uint32_t)value;
+        _vertexStream.seek(offset + index * sizeof(uint32_t));
+        _vertexStream.writeUnsignedInt((uint32_t)value);
         break;
     case VertexAttributeType::Half:
         throw Error("16-bit floats are not yet implemented");
         break;
     case VertexAttributeType::Float:
-        *(float*)&_mesh->_vertexData[offset + index * 4] = value;
+        _vertexStream.seek(offset + index * sizeof(float));
+        _vertexStream.writeFloat(value);
         break;
     }
+
+    _vertexStream.seek(position);
 }

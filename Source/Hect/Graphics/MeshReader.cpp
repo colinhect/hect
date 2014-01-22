@@ -30,9 +30,11 @@ using namespace hect;
 MeshReader::MeshReader(const Mesh& mesh) :
     _mesh(&mesh),
     _vertexCount(0),
-    _vertexDataIndex(0),
+    _vertexPosition(0),
+    _vertexStream(mesh.vertexData()),
     _indexCount(0),
-    _indexDataIndex(0)
+    _indexPosition(0),
+    _indexStream(mesh.indexData())
 {
 }
 
@@ -40,7 +42,7 @@ bool MeshReader::nextVertex()
 {
     if (_vertexCount != 0)
     {
-        _vertexDataIndex += _mesh->vertexLayout().vertexSize();
+        _vertexPosition += _mesh->vertexLayout().vertexSize();
     }
 
     ++_vertexCount;
@@ -156,7 +158,7 @@ bool MeshReader::nextIndex()
 {
     if (_indexCount != 0)
     {
-        _indexDataIndex += _mesh->indexSize();
+        _indexPosition += _mesh->indexSize();
     }
 
     ++_indexCount;
@@ -176,24 +178,20 @@ uint16_t MeshReader::readIndexShort() const
 uint32_t MeshReader::readIndexInt() const
 {
     _checkIndexBoundary();
-
-    IndexType indexType = _mesh->indexType();
-
-    // Get the location of the index
-    const void* indexData = &_mesh->indexData()[_indexDataIndex];
-
+    _indexStream.seek(_indexPosition);
+    
     // Read the index data based on the type
     uint32_t index = 0;
-    switch (indexType)
+    switch (_mesh->indexType())
     {
     case IndexType::UnsignedByte:
-        index = *(uint8_t*)indexData;
+        index = _indexStream.readUnsignedByte();
         break;
     case IndexType::UnsignedShort:
-        index = *(uint16_t*)indexData;
+        index = _indexStream.readUnsignedShort();
         break;
     case IndexType::UnsignedInt:
-        index = *(uint32_t*)indexData;
+        index = _indexStream.readUnsignedInt();
         break;
     }
 
@@ -226,35 +224,44 @@ void MeshReader::_checkIndexBoundary() const
 
 float MeshReader::_readComponentValue(const VertexAttribute* attribute, unsigned index) const
 {
-    size_t offset = _vertexDataIndex + attribute->offset();
+    _vertexStream.seek(_vertexPosition);
+
+    size_t offset = _vertexPosition + attribute->offset();
 
     // Read the vertex data based on the type
     float value = 0;
     switch (attribute->type())
     {
     case VertexAttributeType::Byte:
-        value = (float)*(int8_t*)&_mesh->vertexData()[offset + index * 1];
+        _vertexStream.seek(offset + index * sizeof(int8_t));
+        value = (float)_vertexStream.readByte();
         break;
     case VertexAttributeType::UnsignedByte:
-        value = (float)*(uint8_t*)&_mesh->vertexData()[offset + index * 1];
+        _vertexStream.seek(offset + index * sizeof(uint8_t));
+        value = (float)_vertexStream.readUnsignedByte();
         break;
     case VertexAttributeType::Short:
-        value = (float)*(int16_t*)&_mesh->vertexData()[offset + index * 2];
+        _vertexStream.seek(offset + index * sizeof(int16_t));
+        value = (float)_vertexStream.readShort();
         break;
     case VertexAttributeType::UnsignedShort:
-        value = (float)*(uint16_t*)&_mesh->vertexData()[offset + index * 2];
+        _vertexStream.seek(offset + index * sizeof(uint16_t));
+        value = (float)_vertexStream.readUnsignedShort();
         break;
     case VertexAttributeType::Int:
-        value = (float)*(int32_t*)&_mesh->vertexData()[offset + index * 4];
+        _vertexStream.seek(offset + index * sizeof(int32_t));
+        value = (float)_vertexStream.readInt();
         break;
     case VertexAttributeType::UnsignedInt:
-        value = (float)*(uint32_t*)&_mesh->vertexData()[offset + index * 4];
+        _vertexStream.seek(offset + index * sizeof(uint32_t));
+        value = (float)_vertexStream.readUnsignedInt();
         break;
     case VertexAttributeType::Half:
         throw Error("16-bit floats are not yet implemented");
         break;
     case VertexAttributeType::Float:
-        value = *(float*)&_mesh->vertexData()[offset + index * 4];
+        _vertexStream.seek(offset + index * sizeof(float));
+        value = _vertexStream.readFloat();
         break;
     }
 

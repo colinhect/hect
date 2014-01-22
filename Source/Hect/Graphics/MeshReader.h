@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Graphics/Mesh.h"
+#include "Hect/IO/MemoryReadStream.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -114,18 +115,15 @@ private:
 
     float _readComponentValue(const VertexAttribute* attribute, unsigned index) const;
 
-    template <typename T>
-    const T& _readAttributeData(const VertexAttribute& attribute) const;
-
     const Mesh* _mesh;
 
     size_t _vertexCount;
-    size_t _vertexDataIndex;
+    size_t _vertexPosition;
+    mutable MemoryReadStream _vertexStream;
 
     size_t _indexCount;
-    size_t _indexDataIndex;
+    size_t _indexPosition;
+    mutable MemoryReadStream _indexStream;
 };
 
 }
-
-#include "MeshReader.inl"
