@@ -23,6 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DataValue.h"
 
+#include "Hect/IO/ReadStream.h"
+#include "Hect/IO/WriteStream.h"
+
+#include <json/json.h>
+
 using namespace hect;
 
 const DataValue DataValue::_null;
@@ -480,4 +485,106 @@ DataValue::Array::const_iterator DataValue::end() const
     {
         return _emptyArray.end();
     }
+}
+
+DataValue toDataValue(Json::Value& jsonValue);
+Json::Value fromDataValue(const DataValue& dataValue);
+
+std::string DataValue::saveToJson() const
+{
+    Json::Value jsonValue = fromDataValue(*this);
+    return jsonValue.toStyledString();
+}
+
+void DataValue::saveToJson(WriteStream& stream) const
+{
+    stream.writeString(saveToJson(), false);
+}
+
+void DataValue::loadFromJson(const std::string& json)
+{
+    Json::Value root;
+    Json::Reader reader;
+    if (!reader.parse(json, root))
+    {
+        throw Error(reader.getFormattedErrorMessages());
+    }
+    *this = toDataValue(root);
+}
+
+void DataValue::loadFromJson(ReadStream& stream)
+{
+    loadFromJson(stream.readAllToString());
+}
+
+DataValue toDataValue(Json::Value& jsonValue)
+{
+    if (jsonValue.isBool())
+    {
+        return DataValue(jsonValue.asBool());
+    }
+    else if (jsonValue.isNumeric())
+    {
+        return DataValue(jsonValue.asDouble());
+    }
+    else if (jsonValue.isString())
+    {
+        return DataValue(jsonValue.asString());
+    }
+    else if (jsonValue.isArray())
+    {
+        DataValue dataValue(DataValueType::Array);
+        for (Json::Value& element : jsonValue)
+        {
+            dataValue.addElement(toDataValue(element));
+        }
+        return dataValue;
+    }
+    else if (jsonValue.isObject())
+    {
+        DataValue dataValue(DataValueType::Object);
+        for (std::string& name : jsonValue.getMemberNames())
+        {
+            dataValue.addMember(name, toDataValue(jsonValue[name]));
+        }
+        return dataValue;
+    }
+
+    return DataValue();
+}
+
+Json::Value fromDataValue(const DataValue& dataValue)
+{
+    if (dataValue.isBool())
+    {
+        return Json::Value(dataValue.asBool());
+    }
+    else if (dataValue.isNumber())
+    {
+        return Json::Value(dataValue.asDouble());
+    }
+    else if (dataValue.isString())
+    {
+        return Json::Value(dataValue.asString());
+    }
+    else if (dataValue.isArray())
+    {
+        Json::Value jsonValue(Json::arrayValue);
+        for (const DataValue& element : dataValue)
+        {
+            jsonValue.append(fromDataValue(element));
+        }
+        return jsonValue;
+    }
+    else if (dataValue.isObject())
+    {
+        Json::Value jsonValue(Json::objectValue);
+        for (const std::string& name : dataValue.memberNames())
+        {
+            jsonValue[name] = fromDataValue(dataValue[name]);
+        }
+        return jsonValue;
+    }
+
+    return Json::Value();
 }

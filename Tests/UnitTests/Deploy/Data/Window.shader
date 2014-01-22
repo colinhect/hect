@@ -1,12 +1,15 @@
 {
-    "modules" : [
+    "modules" :
+    [
         "Window.frag",
         "Window.vert"
     ],
-    "uniforms" : {
-        "sourceTexture" : {
+    "uniforms" :
+    [
+        { 
+            "name" : "sourceTexture",
             "type" : "Texture",
             "defaultValue" : 0
         }
-    }
+    ]
 }

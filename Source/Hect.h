@@ -69,8 +69,6 @@
 #include "Hect/Asset/AssetHandle.h"
 #include "Hect/Asset/AssetCache.h"
 
-#include "Hect/Core/DataValueJsonFormat.h"
-
 #include "Hect/Graphics/VertexAttribute.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/Graphics/RendererObject.h"
@@ -94,8 +92,6 @@
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Graphics/MeshReader.h"
-#include "Hect/Graphics/MeshBinaryFormat.h"
-#include "Hect/Graphics/MeshDataValueFormat.h"
 #include "Hect/Graphics/VideoMode.h"
 #include "Hect/Graphics/Window.h"
 #include "Hect/Graphics/Renderer.h"

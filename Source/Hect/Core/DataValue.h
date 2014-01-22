@@ -38,6 +38,9 @@
 namespace hect
 {
 
+class ReadStream;
+class WriteStream;
+
 ///
 /// A data value type.
 enum class DataValueType : uint8_t
@@ -308,6 +311,30 @@ public:
     ///
     /// \remarks Only applies to data values that are arrays.
     Array::const_iterator end() const;
+
+    ///
+    /// Saves the data value to JSON.
+    ///
+    /// \returns The resulting JSON string.
+    std::string saveToJson() const;
+
+    ///
+    /// Saves the data value to JSON.
+    ///
+    /// \param stream The stream to write the resulting JSON to.
+    void saveToJson(WriteStream& stream) const;
+
+    ///
+    /// Loads the data value from JSON.
+    ///
+    /// \param json The JSON string.
+    void loadFromJson(const std::string& json);
+
+    ///
+    /// Loads the data value from JSON.
+    ///
+    /// \param stream The stream to read the JSON from.
+    void loadFromJson(ReadStream& stream);
 
 private:
     DataValueType _type;

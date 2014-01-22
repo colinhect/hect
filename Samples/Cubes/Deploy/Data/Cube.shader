@@ -5,10 +5,10 @@
         "Cube.vert"
     ],
     "uniforms" :
-    {
-        "modelViewProjection" :
+    [
         {
+            "name" : "modelViewProjection",
             "binding" : "ModelViewProjectionMatrix"
         }
-    }
+    ]
 }

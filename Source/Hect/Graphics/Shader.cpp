@@ -33,6 +33,11 @@ Shader::Shader()
 {
 }
 
+Shader::Shader(const std::string& name) :
+    _name(name)
+{
+}
+
 Shader::Shader(const std::string& name, const AssetHandle<ShaderModule>::Array& modules, const Uniform::Array& uniforms) :
     _name(name),
     _modules(modules),
@@ -79,4 +84,38 @@ const Uniform& Shader::uniformWithName(const std::string& name) const
     }
 
     throw Error(format("Shader does not have uniform '%s'", name.c_str()));
+}
+
+void Shader::save(ObjectWriter& writer) const
+{
+    writer;
+    throw Error("Shader serialization is not implemented");
+}
+
+void Shader::load(ObjectReader& reader, AssetCache& assetCache)
+{
+    // Add all modules
+    if (reader.hasMember("modules"))
+    {
+        ArrayReader modulesReader = reader.readArray("modules");
+        while (modulesReader.hasMoreElements())
+        {
+            Path modulePath = modulesReader.readString();
+            AssetHandle<ShaderModule> module = assetCache.getHandle<ShaderModule>(modulePath);
+            _modules.push_back(module);
+        }
+    }
+
+    // Add all uniforms
+    if (reader.hasMember("uniforms"))
+    {
+        ArrayReader uniformsReader = reader.readArray("uniforms");
+        while (uniformsReader.hasMoreElements())
+        {
+            ObjectReader uniformReader = uniformsReader.readObject();
+            Uniform uniform;
+            uniform.load(uniformReader, assetCache);
+            _uniforms.push_back(uniform);
+        }
+    }
 }

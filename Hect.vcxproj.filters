@@ -93,9 +93,6 @@
     <ClInclude Include="Source\Hect\Core\DataValue.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\DataValueJsonFormat.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Core\Dispatcher.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
@@ -193,12 +190,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Mesh.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\MeshBinaryFormat.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\MeshDataValueFormat.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\MeshReader.h">
@@ -374,9 +365,6 @@
     <ClCompile Include="Source\Hect\Core\DataValue.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Core\DataValueJsonFormat.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Core\DataValueLoader.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
@@ -468,12 +456,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Mesh.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\MeshBinaryFormat.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\MeshDataValueFormat.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\MeshLoader.cpp">

@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Asset/AssetLoader.h"
 #include "Hect/Asset/AssetCache.h"
-#include "Hect/Core/DataValueJsonFormat.h"
+#include "Hect/Core/DataValue.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/ShaderDataValueFormat.h"
 
@@ -31,10 +31,13 @@ using namespace hect;
 
 void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache& assetCache)
 {
+    shader = Shader(assetPath.toString());
+
     DataValue dataValue;
     {
         FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-        DataValueJsonFormat::load(dataValue, stream);
+        dataValue.loadFromJson(stream);
     }
-    ShaderDataValueFormat::load(shader, assetPath.toString(), dataValue, assetCache);
+
+    shader.loadFromDataValue(dataValue, assetCache);
 }

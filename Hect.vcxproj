@@ -27,7 +27,6 @@
     <ClInclude Include="Source\Hect\Core\Any.h" />
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\DataValue.h" />
-    <ClInclude Include="Source\Hect\Core\DataValueJsonFormat.h" />
     <ClInclude Include="Source\Hect\Core\Dispatcher.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
     <ClInclude Include="Source\Hect\Core\Format.h" />
@@ -62,8 +61,6 @@
     <ClInclude Include="Source\Hect\Graphics\Material.h" />
     <ClInclude Include="Source\Hect\Graphics\MaterialDataValueFormat.h" />
     <ClInclude Include="Source\Hect\Graphics\Mesh.h" />
-    <ClInclude Include="Source\Hect\Graphics\MeshBinaryFormat.h" />
-    <ClInclude Include="Source\Hect\Graphics\MeshDataValueFormat.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshReader.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshWriter.h" />
     <ClInclude Include="Source\Hect\Graphics\Pass.h" />
@@ -122,7 +119,6 @@
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp" />
     <ClCompile Include="Source\Hect\Core\Any.cpp" />
     <ClCompile Include="Source\Hect\Core\DataValue.cpp" />
-    <ClCompile Include="Source\Hect\Core\DataValueJsonFormat.cpp" />
     <ClCompile Include="Source\Hect\Core\DataValueLoader.cpp" />
     <ClCompile Include="Source\Hect\Core\Error.cpp" />
     <ClCompile Include="Source\Hect\Core\Format.cpp" />
@@ -155,8 +151,6 @@
     <ClCompile Include="Source\Hect\Graphics\MaterialDataValueFormat.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MaterialLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Mesh.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\MeshBinaryFormat.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\MeshDataValueFormat.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshReader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshWriter.cpp" />

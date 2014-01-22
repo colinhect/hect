@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Asset/AssetCache.h"
 #include "Hect/Asset/AssetLoader.h"
-#include "Hect/Core/DataValueJsonFormat.h"
+#include "Hect/Core/DataValue.h"
 #include "Hect/IO/Path.h"
 #include "Hect/IO/FileReadStream.h"
 
@@ -32,6 +32,5 @@ using namespace hect;
 void AssetLoader<DataValue>::load(DataValue& dataValue, const Path& assetPath, AssetCache& assetCache)
 {
     FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-    std::string json = stream.readAllToString();
-    DataValueJsonFormat::load(dataValue, json);
+    dataValue.loadFromJson(stream);
 }

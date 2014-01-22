@@ -29,7 +29,7 @@ SUITE(DataValueJsonFormat)
     {
         std::string json = "{ \"someBool\" : true, \"someArray\" : [ 0, 1, 2 ] }";
         DataValue value;
-        DataValueJsonFormat::load(value, json);
+        value.loadFromJson(json);
 
         CHECK(value.isObject());
         CHECK_EQUAL(2u, value.size());

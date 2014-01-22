@@ -27,6 +27,7 @@
 
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/VertexLayout.h"
+#include "Hect/IO/Serializable.h"
 #include "Hect/Math/AxisAlignedBox.h"
 
 namespace hect
@@ -55,7 +56,8 @@ enum class IndexType
 ///
 /// A mesh of vertices and indices.
 class Mesh :
-    public RendererObject
+    public RendererObject,
+    public Serializable
 {
     friend class MeshWriter;
 public:
@@ -72,6 +74,13 @@ public:
     /// Constructs a mesh with the default vertex layout, primitive type,
     /// and index type.
     Mesh();
+
+    ///
+    /// Constructs a mesh with the default vertex layout, primitive type,
+    /// and index type and a name.
+    ///
+    /// \param name The name of the mesh.
+    Mesh(const std::string& name);
 
     ///
     /// Constructs a mesh.
@@ -150,7 +159,15 @@ public:
     /// Returns the bounding box.
     const AxisAlignedBox& boundingBox() const;
 
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
+
 private:
+    static IndexType _parseIndexType(const std::string& value);
+    static PrimitiveType _parsePrimitiveType(const std::string& value);
+    static VertexAttributeSemantic _parseAttributeSemantic(const std::string& value);
+    static VertexAttributeType _parseAttributeType(const std::string& value);
+
     std::string _name;
 
     VertexLayout _vertexLayout;

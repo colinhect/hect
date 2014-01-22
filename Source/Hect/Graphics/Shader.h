@@ -26,6 +26,7 @@
 #include "Hect/Asset/AssetHandle.h"
 #include "Hect/Graphics/Uniform.h"
 #include "Hect/Graphics/ShaderModule.h"
+#include "Hect/IO/Serializable.h"
 
 namespace hect
 {
@@ -33,13 +34,20 @@ namespace hect
 ///
 /// A GPU shader program.
 class Shader :
-    public RendererObject
+    public RendererObject,
+    public Serializable
 {
 public:
 
     ///
     /// Constructs a shader without any modules or uniforms.
     Shader();
+    
+    ///
+    /// Constructs a shader without any modules or uniforms.
+    ///
+    /// \param name The name of the shader.
+    Shader(const std::string& name);
 
     ///
     /// Constructs a shader given its modules and uniforms.
@@ -76,6 +84,9 @@ public:
     ///
     /// \throws Error If no uniform with the given name exists.
     const Uniform& uniformWithName(const std::string& name) const;
+
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
 
 private:
     std::string _name;

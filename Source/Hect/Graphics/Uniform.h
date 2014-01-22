@@ -26,6 +26,7 @@
 #include <vector>
 
 #include "Hect/Graphics/UniformValue.h"
+#include "Hect/IO/Serializable.h"
 
 namespace hect
 {
@@ -78,13 +79,18 @@ enum class UniformBinding
 
 ///
 /// A global variable of a shader which serves as parameter.
-class Uniform
+class Uniform :
+    public Serializable
 {
 public:
 
     ///
     /// An array of uniforms.
     typedef std::vector<Uniform> Array;
+
+    ///
+    /// Constructs an empty uniform.
+    Uniform();
 
     ///
     /// Constructs a uniform given its name and type.
@@ -142,7 +148,13 @@ public:
     /// \param location The compiled location.
     void setLocation(int location);
 
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
+
 private:
+    static UniformBinding _parseUniformBinding(const std::string& value);
+    static UniformType _parseType(const std::string& value);
+
     std::string _name;
 
     UniformType _type;

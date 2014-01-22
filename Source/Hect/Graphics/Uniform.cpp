@@ -25,6 +25,14 @@
 
 using namespace hect;
 
+Uniform::Uniform() :
+    _type(UniformType::Float),
+    _binding(UniformBinding::None),
+    _defaultValueSet(false),
+    _location(-1)
+{
+}
+
 Uniform::Uniform(const std::string& name, UniformType type) :
     _name(name),
     _type(type),
@@ -109,4 +117,118 @@ int Uniform::location() const
 void Uniform::setLocation(int location)
 {
     _location = location;
+}
+
+void Uniform::save(ObjectWriter& writer) const
+{
+    writer;
+    throw Error("Uniform serialization is not implemented");
+}
+
+void Uniform::load(ObjectReader& reader, AssetCache& assetCache)
+{
+    assetCache;
+
+    if (reader.hasMember("name"))
+    {
+        _name = reader.readString("name");
+    }
+    else
+    {
+        throw Error("No uniform name specified");
+    }
+
+    if (reader.hasMember("type"))
+    {
+        _type = _parseType(reader.readString("type"));
+
+        if (reader.hasMember("defaultValue"))
+        {
+            _defaultValueSet = true;
+            switch (_type)
+            {
+            case UniformType::Int:
+            case UniformType::Texture:
+                _defaultValue = UniformValue(reader.readInt("defaultValue"), _type);
+                break;
+            case UniformType::Float:
+                _defaultValue = UniformValue(reader.readReal("defaultValue"));
+                break;
+            case UniformType::Vector2:
+                _defaultValue = UniformValue(reader.readVector2("defaultValue"));
+                break;
+            case UniformType::Vector3:
+                _defaultValue = UniformValue(reader.readVector3("defaultValue"));
+                break;
+            case UniformType::Vector4:
+                _defaultValue = UniformValue(reader.readVector4("defaultValue"));
+                break;
+            default:
+                throw Error("Unsupported default uniform value type");
+            }
+        }
+        else
+        {
+            _defaultValueSet = false;
+        }
+    }
+    else if (reader.hasMember("binding"))
+    {
+        _binding = _parseUniformBinding(reader.readString("binding"));
+    }
+    else
+    {
+        throw Error("No uniform type or binding specified");
+    }
+}
+
+UniformBinding Uniform::_parseUniformBinding(const std::string& value)
+{
+    static std::map<std::string, UniformBinding> uniformBindings;
+
+    if (uniformBindings.empty())
+    {
+        uniformBindings["None"] = UniformBinding::None;
+        uniformBindings["RenderTargetSize"] = UniformBinding::RenderTargetSize;
+        uniformBindings["CameraPosition"] = UniformBinding::CameraPosition;
+        uniformBindings["CameraUp"] = UniformBinding::CameraUp;
+        uniformBindings["ViewMatrix"] = UniformBinding::ViewMatrix;
+        uniformBindings["ProjectionMatrix"] = UniformBinding::ProjectionMatrix;
+        uniformBindings["ViewProjectionMatrix"] = UniformBinding::ViewProjectionMatrix;
+        uniformBindings["ModelMatrix"] = UniformBinding::ModelMatrix;
+        uniformBindings["ModelViewMatrix"] = UniformBinding::ModelViewMatrix;
+        uniformBindings["ModelViewProjectionMatrix"] = UniformBinding::ModelViewProjectionMatrix;
+    }
+
+    auto it = uniformBindings.find(value);
+    if (it == uniformBindings.end())
+    {
+        throw Error(format("Invalid uniform binding '%s'", value.c_str()));
+    }
+
+    return (*it).second;
+}
+
+UniformType Uniform::_parseType(const std::string& value)
+{
+    static std::map<std::string, UniformType> valueTypes;
+
+    if (valueTypes.empty())
+    {
+        valueTypes["Int"] = UniformType::Int;
+        valueTypes["Float"] = UniformType::Float;
+        valueTypes["Vector2"] = UniformType::Vector2;
+        valueTypes["Vector3"] = UniformType::Vector3;
+        valueTypes["Vector4"] = UniformType::Vector4;
+        valueTypes["Matrix4"] = UniformType::Matrix4;
+        valueTypes["Texture"] = UniformType::Texture;
+    }
+
+    auto it = valueTypes.find(value);
+    if (it == valueTypes.end())
+    {
+        throw Error(format("Invalid uniform type '%s'", value.c_str()));
+    }
+
+    return (*it).second;
 }

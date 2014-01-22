@@ -53,7 +53,7 @@ int main(int argc, const char* argv[])
         DataValue settings;
         {
             FileReadStream stream = fileSystem.openFileForRead("Settings.json");
-            DataValueJsonFormat::load(settings, stream);
+            settings.loadFromJson(stream);
         }
 
         // Add the data sources listed in the settings
