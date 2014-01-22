@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "VertexLayout.h"
 
+#include "Hect/Graphics/VertexLayoutSerializer.h"
+
 using namespace hect;
 
 VertexLayout VertexLayout::createDefault()
@@ -45,11 +47,7 @@ VertexLayout::VertexLayout(const VertexAttribute::Array& attributes) :
     _attributes(attributes),
     _vertexSize(0)
 {
-    for (VertexAttribute& attribute : _attributes)
-    {
-        attribute._offset = _vertexSize;
-        _vertexSize += attribute.size();
-    }
+    _computeAttributeOffsets();
 }
 
 const VertexAttribute* VertexLayout::attributeWithSemantic(VertexAttributeSemantic semantic) const
@@ -73,4 +71,25 @@ const VertexAttribute::Array& VertexLayout::attributes() const
 unsigned VertexLayout::vertexSize() const
 {
     return _vertexSize;
+}
+
+void VertexLayout::save(ObjectWriter& writer) const
+{
+    VertexLayoutSerializer::save(*this, writer);
+}
+
+void VertexLayout::load(ObjectReader& reader, AssetCache& assetCache)
+{
+    assetCache;
+    VertexLayoutSerializer::load(*this, reader);
+}
+
+void VertexLayout::_computeAttributeOffsets()
+{
+    _vertexSize = 0;
+    for (VertexAttribute& attribute : _attributes)
+    {
+        attribute._offset = _vertexSize;
+        _vertexSize += attribute.size();
+    }
 }

@@ -165,8 +165,6 @@ public:
 private:
     static IndexType _parseIndexType(const std::string& value);
     static PrimitiveType _parsePrimitiveType(const std::string& value);
-    static VertexAttributeSemantic _parseAttributeSemantic(const std::string& value);
-    static VertexAttributeType _parseAttributeType(const std::string& value);
 
     std::string _name;
 

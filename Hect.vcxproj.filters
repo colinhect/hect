@@ -345,6 +345,9 @@
     <ClInclude Include="Source\Hect\Entity\Systems\RenderSystem.h">
       <Filter>Source\Hect\Entity\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\VertexLayoutSerializer.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -595,6 +598,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Entity\Systems\RenderSystem.cpp">
       <Filter>Source\Hect\Entity\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\VertexLayoutSerializer.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

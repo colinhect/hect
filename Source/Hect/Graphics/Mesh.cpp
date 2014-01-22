@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Graphics/MeshWriter.h"
+#include "Hect/Graphics/VertexLayoutSerializer.h"
 
 using namespace hect;
 
@@ -165,42 +166,31 @@ void Mesh::load(ObjectReader& reader, AssetCache& assetCache)
 {
     assetCache;
 
-    // Index type (optional)
-    IndexType indexType = _indexType;
+    _vertexData.clear();
+    _vertexCount = 0;
+    _indexData.clear();
+    _indexCount = 0;
+    _boundingBox = AxisAlignedBox();
+
+    // Index type
     if (reader.hasMember("indexType"))
     {
-        indexType = _parseIndexType(reader.readString("indexType"));
+        _indexType = _parseIndexType(reader.readString("indexType"));
     }
 
-    // Primitive type (optional)
-    PrimitiveType primitiveType = _primitiveType;
+    // Primitive type
     if (reader.hasMember("primitiveType"))
     {
-        primitiveType = _parsePrimitiveType(reader.readString("primitiveType"));
+        _primitiveType = _parsePrimitiveType(reader.readString("primitiveType"));
     }
 
-    // Vertex layout (optional)
-    VertexLayout vertexLayout = _vertexLayout;
+    // Vertex layout
     if (reader.hasMember("vertexLayout"))
     {
-        VertexAttribute::Array attributes;
-        ArrayReader vertexLayoutReader = reader.readArray("vertexLayout");
-
-        while (vertexLayoutReader.hasMoreElements())
-        {
-            ObjectReader attributeReader = vertexLayoutReader.readObject();
-
-            auto semantic =_parseAttributeSemantic(attributeReader.readString("semantic"));
-            auto type = _parseAttributeType(attributeReader.readString("type"));
-            auto cardinality = attributeReader.readUnsignedInt("cardinality");
-
-            attributes.push_back(VertexAttribute(semantic, type, cardinality));
-        }
-
-        vertexLayout = VertexLayout(attributes);
+        ObjectReader vertexLayoutReader = reader.readObject("vertexLayout");
+        _vertexLayout.load(vertexLayoutReader, assetCache);
     }
 
-    *this = Mesh(_name, vertexLayout, primitiveType, indexType);
     MeshWriter meshWriter(*this);
 
     // Add the vertices
@@ -217,7 +207,7 @@ void Mesh::load(ObjectReader& reader, AssetCache& assetCache)
             {
                 ObjectReader attributeReader = attributesReader.readObject();
 
-                auto semantic = _parseAttributeSemantic(attributeReader.readString("semantic"));
+                auto semantic = VertexLayoutSerializer::attributeSemanticFromString(attributeReader.readString("semantic"));
 
                 switch (semantic)
                 {
@@ -283,55 +273,6 @@ PrimitiveType Mesh::_parsePrimitiveType(const std::string& value)
     if (it == primitiveTypes.end())
     {
         throw Error(format("Invalid primitive type '%s'", value.c_str()));
-    }
-
-    return (*it).second;
-}
-
-VertexAttributeSemantic Mesh::_parseAttributeSemantic(const std::string& value)
-{
-    static std::map<std::string, VertexAttributeSemantic> attributeSemantics;
-
-    if (attributeSemantics.empty())
-    {
-        attributeSemantics["Position"] = VertexAttributeSemantic::Position;
-        attributeSemantics["Normal"] = VertexAttributeSemantic::Normal;
-        attributeSemantics["Color"] = VertexAttributeSemantic::Color;
-        attributeSemantics["Tangent"] = VertexAttributeSemantic::Tangent;
-        attributeSemantics["Binormal"] = VertexAttributeSemantic::Binormal;
-        attributeSemantics["Weight0"] = VertexAttributeSemantic::Weight0;
-        attributeSemantics["Weight1"] = VertexAttributeSemantic::Weight1;
-        attributeSemantics["Weight2"] = VertexAttributeSemantic::Weight2;
-        attributeSemantics["Weight3"] = VertexAttributeSemantic::Weight3;
-        attributeSemantics["TextureCoords0"] = VertexAttributeSemantic::TextureCoords0;
-        attributeSemantics["TextureCoords1"] = VertexAttributeSemantic::TextureCoords1;
-        attributeSemantics["TextureCoords2"] = VertexAttributeSemantic::TextureCoords2;
-        attributeSemantics["TextureCoords3"] = VertexAttributeSemantic::TextureCoords3;
-    }
-
-    auto it = attributeSemantics.find(value);
-    if (it == attributeSemantics.end())
-    {
-        throw Error(format("Invalid vertex attribute semantic '%s'", value.c_str()));
-    }
-
-    return (*it).second;
-}
-
-VertexAttributeType Mesh::_parseAttributeType(const std::string& value)
-{
-    static std::map<std::string, VertexAttributeType> attributeTypes;
-
-    if (attributeTypes.empty())
-    {
-        attributeTypes["Half"] = VertexAttributeType::Half;
-        attributeTypes["Float"] = VertexAttributeType::Float;
-    }
-
-    auto it = attributeTypes.find(value);
-    if (it == attributeTypes.end())
-    {
-        throw Error(format("Invalid vertex attribute type '%s'", value.c_str()));
     }
 
     return (*it).second;

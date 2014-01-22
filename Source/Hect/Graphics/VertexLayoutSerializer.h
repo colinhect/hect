@@ -23,55 +23,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/VertexAttribute.h"
-#include "Hect/IO/Serializable.h"
+#include "Hect/Graphics/VertexLayout.h"
 
 namespace hect
 {
 
-///
-/// An ordered layout of vertex attributes.
-class VertexLayout
+class VertexLayoutSerializer
 {
-    friend class VertexLayoutSerializer;
-public:
+public:    
+    static void save(const VertexLayout& vertexLayout, ObjectWriter& writer);
+    static void load(VertexLayout& vertexLayout, ObjectReader& reader);
 
-    ///
-    /// Creates the default vertex layout.
-    static VertexLayout createDefault();
-
-    ///
-    /// Constructs an empty vertex layout.
-    VertexLayout();
-
-    ///
-    /// Constructs a vertex layout given vertex attributes.
-    ///
-    /// \param attributes The attributes in the layout (in order).
-    VertexLayout(const VertexAttribute::Array& attributes);
-
-    ///
-    /// Returns the attribute with the given semantic (null if no attribute
-    /// exists with the semantic).
-    ///
-    /// \param semantic The semantic to find the attribute for.
-    const VertexAttribute* attributeWithSemantic(VertexAttributeSemantic semantic) const;
-
-    /// Returns the attributes.
-    const VertexAttribute::Array& attributes() const;
-
-    ///
-    /// Returns the total size in bytes of a vertex in this layout.
-    unsigned vertexSize() const;
-
-    void save(ObjectWriter& writer) const;
-    void load(ObjectReader& reader, AssetCache& assetCache);
-
-private:
-    void _computeAttributeOffsets();
-
-    VertexAttribute::Array _attributes;
-    unsigned _vertexSize;
+    static VertexAttributeSemantic attributeSemanticFromString(const std::string& value);
+    static std::string attributeSemanticToString(VertexAttributeSemantic semantic);
+    
+    static VertexAttributeType attributeTypeFromString(const std::string& value);
+    static std::string attributeTypeToString(VertexAttributeType type);
 };
 
 }
