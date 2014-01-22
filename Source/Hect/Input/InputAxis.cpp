@@ -125,13 +125,13 @@ void InputAxis::setGravity(Real gravity)
     _gravity = gravity;
 }
 
-void InputAxis::serialize(ObjectWriter& writer) const
+void InputAxis::save(ObjectWriter& writer) const
 {
     writer;
     throw Error("Cannot serialize an input axis");
 }
 
-void InputAxis::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void InputAxis::load(ObjectReader& reader, AssetCache& assetCache)
 {
     assetCache;
 

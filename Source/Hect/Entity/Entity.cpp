@@ -48,7 +48,7 @@ Entity::Id Entity::id() const
     return _id;
 }
 
-void Entity::serialize(ObjectWriter& writer) const
+void Entity::save(ObjectWriter& writer) const
 {
     if (!_scene)
     {
@@ -58,7 +58,7 @@ void Entity::serialize(ObjectWriter& writer) const
     _scene->_serializeEntity(*this, writer);
 }
 
-void Entity::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void Entity::load(ObjectReader& reader, AssetCache& assetCache)
 {
     if (!_scene)
     {

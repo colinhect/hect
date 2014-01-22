@@ -165,8 +165,8 @@ public:
     /// \param gravity The new gravity.
     void setGravity(Real gravity);
 
-    void serialize(ObjectWriter& writer) const;
-    void deserialize(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
 
 private:
     static InputAxisSource _parseSource(const std::string& value);

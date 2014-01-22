@@ -40,40 +40,40 @@ public:
     /// Serializes the object using a writer.
     ///
     /// \param writer The writer.
-    virtual void serialize(ObjectWriter& writer) const;
+    virtual void save(ObjectWriter& writer) const;
 
     ///
     /// Serializes the object to a data value.
     ///
     /// \returns The resulting data value.
-    DataValue serializeToDataValue() const;
+    DataValue saveToDataValue() const;
 
     ///
     /// Serializes the object to a stream.
     ///
     /// \param stream The stream.
-    void serializeToStream(WriteStream& stream) const;
+    void saveToBinaryStream(WriteStream& stream) const;
 
     ///
     /// Deserializes the object using a reader.
     ///
     /// \param reader The reader.
     /// \param assetCache The asset cache to load referenced assets from.
-    virtual void deserialize(ObjectReader& reader, AssetCache& assetCache);
+    virtual void load(ObjectReader& reader, AssetCache& assetCache);
 
     ///
     /// Deserializes the object from a data value.
     ///
     /// \param dataValue The data value.
     /// \param assetCache The asset cache to load referenced assets from.
-    void deserializeFromDataValue(const DataValue& dataValue, AssetCache& assetCache);
+    void loadFromDataValue(const DataValue& dataValue, AssetCache& assetCache);
 
     ///
     /// Deserializes the object from a stream
     ///
     /// \param stream The stream.
     /// \param assetCache The asset cache to load referenced assets from.
-    void deserializeFromStream(ReadStream& stream, AssetCache& assetCache);
+    void loadFromBinaryStream(ReadStream& stream, AssetCache& assetCache);
 };
 
 }

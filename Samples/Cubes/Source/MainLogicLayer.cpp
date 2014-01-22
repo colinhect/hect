@@ -39,7 +39,7 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _scene.addSystem(_playerCameraSystem);
 
     DataValue& sceneDataValue = assetCache.get<DataValue>("Scene.scene");
-    _scene.deserializeFromDataValue(sceneDataValue, assetCache);
+    _scene.loadFromDataValue(sceneDataValue, assetCache);
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);

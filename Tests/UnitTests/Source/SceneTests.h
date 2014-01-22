@@ -29,12 +29,12 @@ SUITE(Scene)
         public Component<Name>
     {
     public:
-        void serialize(ObjectWriter& writer) const
+        void save(ObjectWriter& writer) const
         {
             writer.writeString("value", value);
         }
 
-        void deserialize(ObjectReader& reader, AssetCache& assetCache)
+        void load(ObjectReader& reader, AssetCache& assetCache)
         {
             assetCache;
 
@@ -51,12 +51,12 @@ SUITE(Scene)
         public Component<Position>
     {
     public:
-        void serialize(ObjectWriter& writer) const
+        void save(ObjectWriter& writer) const
         {
             writer.writeVector3("value", value);
         }
 
-        void deserialize(ObjectReader& reader, AssetCache& assetCache)
+        void load(ObjectReader& reader, AssetCache& assetCache)
         {
             assetCache;
 
@@ -73,12 +73,12 @@ SUITE(Scene)
         public Component<Velocity>
     {
     public:
-        void serialize(ObjectWriter& writer) const
+        void save(ObjectWriter& writer) const
         {
             writer.writeVector3("value", value);
         }
 
-        void deserialize(ObjectReader& reader, AssetCache& assetCache)
+        void load(ObjectReader& reader, AssetCache& assetCache)
         {
             assetCache;
 
@@ -321,10 +321,10 @@ SUITE(Scene)
         frank.addComponent<Name>().value = "Frank";
         frank.addComponent<Position>().value = Vector3(1, 2, 3);
 
-        DataValue frankValue = frank.serializeToDataValue();
+        DataValue frankValue = frank.saveToDataValue();
 
         Entity frankDeserialized = scene.createEntity();
-        frankDeserialized.deserializeFromDataValue(frankValue, assetCache);
+        frankDeserialized.loadFromDataValue(frankValue, assetCache);
 
         CHECK(frankDeserialized.hasComponent<Name>());
         CHECK(frankDeserialized.hasComponent<Position>());
@@ -350,14 +350,14 @@ SUITE(Scene)
 
         {
             MemoryWriteStream stream(data);
-            frank.serializeToStream(stream);
+            frank.saveToBinaryStream(stream);
         }
 
         Entity frankDeserialized = scene.createEntity();
 
         {
             MemoryReadStream stream(data);
-            frankDeserialized.deserializeFromStream(stream, assetCache);
+            frankDeserialized.loadFromBinaryStream(stream, assetCache);
         }
 
         CHECK(frankDeserialized.hasComponent<Name>());
@@ -391,7 +391,7 @@ SUITE(Scene)
             billy.activate();
 
             scene.refresh();
-            sceneValue = scene.serializeToDataValue();
+            sceneValue = scene.saveToDataValue();
         }
 
         NamingSystem namingSystem;
@@ -401,7 +401,7 @@ SUITE(Scene)
 
         scene.addSystem(namingSystem);
 
-        scene.deserializeFromDataValue(sceneValue, assetCache);
+        scene.loadFromDataValue(sceneValue, assetCache);
         scene.refresh();
 
         auto& entities = namingSystem.entities();
@@ -438,7 +438,7 @@ SUITE(Scene)
             scene.refresh();
             {
                 MemoryWriteStream stream(data);
-                scene.serializeToStream(stream);
+                scene.saveToBinaryStream(stream);
             }
         }
 
@@ -451,7 +451,7 @@ SUITE(Scene)
 
         {
             MemoryReadStream stream(data);
-            scene.deserializeFromStream(stream, assetCache);
+            scene.loadFromBinaryStream(stream, assetCache);
         }
         scene.refresh();
 

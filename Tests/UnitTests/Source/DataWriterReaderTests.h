@@ -23,19 +23,19 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-void testWriteAndRead(std::function<void(DataWriter&)> serialize, std::function<void(DataReader&)> deserialize)
+void testWriteAndRead(std::function<void(DataWriter&)> save, std::function<void(DataReader&)> load)
 {
     // DataValueWriter/DataReader
     {
         DataValue dataValue;
         {
             DataValueWriter writer;
-            serialize(writer);
+            save(writer);
             dataValue = writer.dataValues()[0];
         }
         {
             DataValueReader reader(dataValue);
-            deserialize(reader);
+            load(reader);
         }
     }
 
@@ -45,12 +45,12 @@ void testWriteAndRead(std::function<void(DataWriter&)> serialize, std::function<
         {
             MemoryWriteStream stream(data);
             BinaryWriter writer(stream);
-            serialize(writer);
+            save(writer);
         }
         {
             MemoryReadStream stream(data);
             BinaryReader reader(stream);
-            deserialize(reader);
+            load(reader);
         }
     }
 }

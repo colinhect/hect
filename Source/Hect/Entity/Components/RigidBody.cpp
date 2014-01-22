@@ -109,7 +109,7 @@ void RigidBody::setMesh(const AssetHandle<Mesh>& mesh)
     _mesh = mesh;
 }
 
-void RigidBody::serialize(ObjectWriter& writer) const
+void RigidBody::save(ObjectWriter& writer) const
 {
     writer.writeReal("mass", _mass);
     writer.writeVector3("linearVelocity", _linearVelocity);
@@ -117,7 +117,7 @@ void RigidBody::serialize(ObjectWriter& writer) const
     writer.writeString("mesh", _mesh.path().toString());
 }
 
-void RigidBody::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void RigidBody::load(ObjectReader& reader, AssetCache& assetCache)
 {
     if (reader.hasMember("mass"))
     {

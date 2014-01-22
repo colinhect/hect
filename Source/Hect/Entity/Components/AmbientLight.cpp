@@ -40,12 +40,12 @@ void AmbientLight::setColor(const Vector3& color)
     _color = color;
 }
 
-void AmbientLight::serialize(ObjectWriter& writer) const
+void AmbientLight::save(ObjectWriter& writer) const
 {
     writer.writeVector3("color", color());
 }
 
-void AmbientLight::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void AmbientLight::load(ObjectReader& reader, AssetCache& assetCache)
 {
     assetCache;
 

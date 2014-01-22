@@ -47,8 +47,8 @@ public:
     /// \param color The new color.
     void setColor(const Vector3& color);
 
-    void serialize(ObjectWriter& writer) const;
-    void deserialize(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
 
 private:
     Vector3 _color;

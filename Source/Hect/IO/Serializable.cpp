@@ -25,44 +25,44 @@
 
 using namespace hect;
 
-void Serializable::serialize(ObjectWriter& writer) const
+void Serializable::save(ObjectWriter& writer) const
 {
     writer;
 }
 
-DataValue Serializable::serializeToDataValue() const
+DataValue Serializable::saveToDataValue() const
 {
     DataValueWriter writer;
     {
         ObjectWriter object = writer.writeObject();
-        serialize(object);
+        save(object);
     }
     return writer.dataValues()[0];
 }
 
-void Serializable::serializeToStream(WriteStream& stream) const
+void Serializable::saveToBinaryStream(WriteStream& stream) const
 {
     BinaryWriter writer(stream);
     ObjectWriter object = writer.writeObject();
-    serialize(object);
+    save(object);
 }
 
-void Serializable::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void Serializable::load(ObjectReader& reader, AssetCache& assetCache)
 {
     reader;
     assetCache;
 }
 
-void Serializable::deserializeFromDataValue(const DataValue& dataValue, AssetCache& assetCache)
+void Serializable::loadFromDataValue(const DataValue& dataValue, AssetCache& assetCache)
 {
     DataValueReader reader(dataValue);
     ObjectReader object = reader.readObject();
-    deserialize(object, assetCache);
+    load(object, assetCache);
 }
 
-void Serializable::deserializeFromStream(ReadStream& stream, AssetCache& assetCache)
+void Serializable::loadFromBinaryStream(ReadStream& stream, AssetCache& assetCache)
 {
     BinaryReader reader(stream);
     ObjectReader object = reader.readObject();
-    deserialize(object, assetCache);
+    load(object, assetCache);
 }

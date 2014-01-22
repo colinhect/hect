@@ -130,7 +130,7 @@ const Frustum& Camera::frustum() const
     return _frustum;
 }
 
-void Camera::serialize(ObjectWriter& writer) const
+void Camera::save(ObjectWriter& writer) const
 {
     writer.writeDouble("fieldOfView", fieldOfView().degrees());
     writer.writeDouble("aspectRatio", aspectRatio());
@@ -138,7 +138,7 @@ void Camera::serialize(ObjectWriter& writer) const
     writer.writeDouble("farClip", farClip());
 }
 
-void Camera::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void Camera::load(ObjectReader& reader, AssetCache& assetCache)
 {
     assetCache;
 

@@ -65,7 +65,7 @@ int main(int argc, const char* argv[])
         // Load video mode
         AssetCache assetCache(fileSystem);
         VideoMode videoMode;
-        videoMode.deserializeFromDataValue(settings["videoMode"], assetCache);
+        videoMode.loadFromDataValue(settings["videoMode"], assetCache);
 
         // Create window/renderer
         Window window("Sample", videoMode);

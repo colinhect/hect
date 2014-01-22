@@ -56,7 +56,7 @@ const AssetHandle<Material>::Array& Geometry::materials() const
     return _materials;
 }
 
-void Geometry::serialize(ObjectWriter& writer) const
+void Geometry::save(ObjectWriter& writer) const
 {
     size_t surfaceCount = _meshes.size();
 
@@ -69,7 +69,7 @@ void Geometry::serialize(ObjectWriter& writer) const
     }
 }
 
-void Geometry::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void Geometry::load(ObjectReader& reader, AssetCache& assetCache)
 {
     if (reader.hasMember("surfaces"))
     {

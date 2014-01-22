@@ -64,8 +64,8 @@ public:
     /// Returns whether fullscreen is enabled.
     bool isFullscreen() const;
 
-    void serialize(ObjectWriter& writer) const;
-    void deserialize(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
 
 private:
     unsigned _width;

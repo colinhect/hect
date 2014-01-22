@@ -117,7 +117,7 @@ void Transform::transformBy(const Transform& transform)
     _dirtyBits = PositionBit | ScaleBit | RotationBit;
 }
 
-void Transform::serialize(ObjectWriter& writer) const
+void Transform::save(ObjectWriter& writer) const
 {
     Vector3 axis;
     Angle angle;
@@ -131,7 +131,7 @@ void Transform::serialize(ObjectWriter& writer) const
     rotation.writeReal("angle", angle.degrees());
 }
 
-void Transform::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void Transform::load(ObjectReader& reader, AssetCache& assetCache)
 {
     assetCache;
 

@@ -61,7 +61,7 @@ bool VideoMode::isFullscreen() const
     return _fullscreen;
 }
 
-void VideoMode::serialize(ObjectWriter& writer) const
+void VideoMode::save(ObjectWriter& writer) const
 {
     writer.writeUnsignedInt("width", _width);
     writer.writeUnsignedInt("height", _height);
@@ -69,7 +69,7 @@ void VideoMode::serialize(ObjectWriter& writer) const
     writer.writeBool("fullscreen", _fullscreen);
 }
 
-void VideoMode::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void VideoMode::load(ObjectReader& reader, AssetCache& assetCache)
 {
     assetCache;
 

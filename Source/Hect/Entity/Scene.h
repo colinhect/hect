@@ -97,8 +97,8 @@ public:
     template <typename T>
     void registerComponent(const std::string& componentTypeName);
 
-    void serialize(ObjectWriter& writer) const;
-    void deserialize(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
 
 private:
     enum

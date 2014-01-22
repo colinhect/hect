@@ -154,7 +154,7 @@ Entity Scene::entityWithId(Entity::Id id) const
     return Entity(*const_cast<Scene*>(this), id);
 }
 
-void Scene::serialize(ObjectWriter& writer) const
+void Scene::save(ObjectWriter& writer) const
 {
     ArrayWriter entities = writer.writeArray("entities");
 
@@ -164,19 +164,19 @@ void Scene::serialize(ObjectWriter& writer) const
         if (entity && entity.isActivated() && entity.isSerializable())
         {
             ObjectWriter entityWriter = entities.writeObject();
-            entity.serialize(entityWriter);
+            entity.save(entityWriter);
         }
     }
 }
 
-void Scene::deserialize(ObjectReader& reader, AssetCache& assetCache)
+void Scene::load(ObjectReader& reader, AssetCache& assetCache)
 {
     ArrayReader entities = reader.readArray("entities");
     while (entities.hasMoreElements())
     {
         ObjectReader entityReader = entities.readObject();
         Entity entity = createEntity();
-        entity.deserialize(entityReader, assetCache);
+        entity.load(entityReader, assetCache);
         entity.activate();
     }
 }
@@ -218,7 +218,7 @@ void Scene::_serializeEntity(const Entity& entity, ObjectWriter& writer) const
 
         ObjectWriter componentWriter = components.writeObject();
         componentWriter.writeString("type", typeName);
-        component->serialize(componentWriter);
+        component->save(componentWriter);
     }
 }
 
@@ -238,7 +238,7 @@ void Scene::_deserializeEntity(const Entity& entity, ObjectReader& reader, Asset
         ComponentTypeId typeId = _typeId(typeName);
         BaseComponent* component = _constructComponent(typeId);
 
-        component->deserialize(componentReader, assetCache);
+        component->load(componentReader, assetCache);
         entity.addComponent(component);
     }
 }

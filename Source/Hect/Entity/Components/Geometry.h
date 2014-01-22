@@ -64,8 +64,8 @@ public:
     /// Returns the materials
     const AssetHandle<Material>::Array& materials() const;
 
-    void serialize(ObjectWriter& writer) const;
-    void deserialize(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
 
 private:
     AssetHandle<Mesh>::Array _meshes;

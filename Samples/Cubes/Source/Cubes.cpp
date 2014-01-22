@@ -32,7 +32,7 @@ void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const
     for (const std::string& axisName : settings["inputAxes"].memberNames())
     {
         InputAxis axis(axisName);
-        axis.deserializeFromDataValue(settings["inputAxes"][axisName], assetCache);
+        axis.loadFromDataValue(settings["inputAxes"][axisName], assetCache);
         axes.push_back(axis);
     }
 
