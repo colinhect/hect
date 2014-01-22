@@ -26,6 +26,7 @@
 #include "Hect/Asset/AssetHandle.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/RendererObject.h"
+#include "Hect/IO/Serializable.h"
 
 namespace hect
 {
@@ -45,7 +46,8 @@ enum class TextureFilter
 ///
 /// A 2-dimensional texture.
 class Texture :
-    public RendererObject
+    public RendererObject,
+    public Serializable
 {
     friend class Renderer;
 public:
@@ -53,10 +55,16 @@ public:
     ///
     /// An array of textures.
     typedef std::vector<Texture> Array;
-
+    
     ///
     /// Constructs a default 2-dimensional texture.
     Texture();
+
+    ///
+    /// Constructs a default 2-dimensional texture.
+    ///
+    /// \param name The name.
+    Texture(const std::string& name);
 
     ///
     /// Constructs a 2-dimensional texture given its properties.
@@ -163,8 +171,13 @@ public:
     ///
     /// Returns the number of bytes in a pixel of this texture.
     int bytesPerPixel() const;
+    
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
 
 private:
+    static TextureFilter _parseTextureFilter(const std::string& value);
+
     std::string _name;
 
     // A texture will only have an image if it hasn't been uploaded yet

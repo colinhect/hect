@@ -24,7 +24,6 @@
 #include "Hect/Asset/AssetLoader.h"
 #include "Hect/Core/DataValue.h"
 #include "Hect/Graphics/Material.h"
-#include "Hect/Graphics/MaterialDataValueFormat.h"
 
 using namespace hect;
 
@@ -35,5 +34,7 @@ void AssetLoader<Material>::load(Material& material, const Path& assetPath, Asse
         FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
         dataValue.loadFromJson(stream);
     }
-    MaterialDataValueFormat::load(material, assetPath.toString(), dataValue, assetCache);
+
+    material = Material(assetPath.toString());
+    material.loadFromDataValue(dataValue, assetCache);
 }

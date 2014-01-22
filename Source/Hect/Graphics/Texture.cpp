@@ -42,6 +42,20 @@ Texture::Texture() :
 {
 }
 
+Texture::Texture(const std::string& name) :
+    _name(name),
+    _image(new Image()),
+    _width(_image->width()),
+    _height(_image->height()),
+    _pixelType(_image->pixelType()),
+    _pixelFormat(_image->pixelFormat()),
+    _minFilter(TextureFilter::Linear),
+    _magFilter(TextureFilter::Linear),
+    _mipmapped(true),
+    _wrapped(false)
+{
+}
+
 Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
     _name(name),
     _image(new Image(width, height, pixelType, pixelFormat)),
@@ -211,4 +225,60 @@ int Texture::bytesPerPixel() const
     }
 
     return 0;
+}
+
+void Texture::save(ObjectWriter& writer) const
+{
+    writer;
+    throw Error("Texture serialization is not implemented");
+}
+
+void Texture::load(ObjectReader& reader, AssetCache& assetCache)
+{
+    // Image
+    AssetHandle<Image> image = assetCache.getHandle<Image>(reader.readString("image"));
+    *this = Texture(_name, image);
+
+    // Min filter
+    if (reader.hasMember("minFilter"))
+    {
+        setMinFilter(_parseTextureFilter(reader.readString("minFilter")));
+    }
+
+    // Mag filter
+    if (reader.hasMember("magFilter"))
+    {
+        setMagFilter(_parseTextureFilter(reader.readString("magFilter")));
+    }
+
+    // Wrapped
+    if (reader.hasMember("wrapped"))
+    {
+        setWrapped(reader.readBool("wrapped"));
+    }
+
+    // Mipmapped
+    if (reader.hasMember("mipmapped"))
+    {
+        setMipmapped(reader.readBool("mipmapped"));
+    }
+}
+
+TextureFilter Texture::_parseTextureFilter(const std::string& value)
+{
+    static std::map<std::string, TextureFilter> textureFilters;
+
+    if (textureFilters.empty())
+    {
+        textureFilters["Nearest"] = TextureFilter::Nearest;
+        textureFilters["Linear"] = TextureFilter::Linear;
+    }
+
+    auto it = textureFilters.find(value);
+    if (it == textureFilters.end())
+    {
+        throw Error(format("Invalid texture filter '%s'", value.c_str()));
+    }
+
+    return (*it).second;
 }

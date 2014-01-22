@@ -25,7 +25,6 @@
 #include "Hect/Asset/AssetCache.h"
 #include "Hect/Core/DataValue.h"
 #include "Hect/Graphics/Shader.h"
-#include "Hect/Graphics/ShaderDataValueFormat.h"
 
 using namespace hect;
 

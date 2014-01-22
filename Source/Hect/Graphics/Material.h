@@ -24,19 +24,27 @@
 #pragma once
 
 #include "Hect/Graphics/Technique.h"
+#include "Hect/IO/Serializable.h"
 
 namespace hect
 {
 
 ///
 /// The manner in which a surface is rendered.
-class Material
+class Material :
+    public Serializable
 {
 public:
-
+    
     ///
     /// Constructs a material without any techniques.
     Material();
+
+    ///
+    /// Constructs a material without any techniques.
+    ///
+    /// \param name The name of the material.
+    Material(const std::string& name);
 
     ///
     /// Constructs a material given its techniques.
@@ -52,8 +60,14 @@ public:
     ///
     /// Returns the techniques.
     const Technique::Array& techniques() const;
+    
+    void save(ObjectWriter& writer) const;
+    void load(ObjectReader& reader, AssetCache& assetCache);
 
 private:
+    static RenderState _parseState(const std::string& value);
+    static BlendFactor _parseBlendFactor(const std::string& value);
+
     std::string _name;
     Technique::Array _techniques;
 };

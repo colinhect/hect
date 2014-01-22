@@ -186,9 +186,6 @@
     <ClInclude Include="Source\Hect\Graphics\Material.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\MaterialDataValueFormat.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Mesh.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -219,9 +216,6 @@
     <ClInclude Include="Source\Hect\Graphics\Shader.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\ShaderDataValueFormat.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\ShaderModule.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -229,9 +223,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Texture.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\TextureDataValueFormat.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Uniform.h">
@@ -449,9 +440,6 @@
     <ClCompile Include="Source\Hect\Graphics\Material.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\MaterialDataValueFormat.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\MaterialLoader.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
@@ -488,9 +476,6 @@
     <ClCompile Include="Source\Hect\Graphics\Shader.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\ShaderDataValueFormat.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\ShaderLoader.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
@@ -504,9 +489,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Texture.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\TextureDataValueFormat.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\TextureLoader.cpp">

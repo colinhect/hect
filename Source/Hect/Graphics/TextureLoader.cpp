@@ -25,7 +25,6 @@
 #include "Hect/Asset/AssetCache.h"
 #include "Hect/Core/DataValue.h"
 #include "Hect/Graphics/Texture.h"
-#include "Hect/Graphics/TextureDataValueFormat.h"
 
 using namespace hect;
 
@@ -34,5 +33,7 @@ void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCa
     FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
     DataValue dataValue;
     dataValue.loadFromJson(stream);
-    TextureDataValueFormat::load(texture, assetPath.toString(), dataValue, assetCache);
+
+    texture = Texture(assetPath.toString());
+    texture.loadFromDataValue(dataValue, assetCache);
 }

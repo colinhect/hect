@@ -59,7 +59,6 @@
     <ClInclude Include="Source\Hect\Graphics\Image.h" />
     <ClInclude Include="Source\Hect\Graphics\ImagePngFormat.h" />
     <ClInclude Include="Source\Hect\Graphics\Material.h" />
-    <ClInclude Include="Source\Hect\Graphics\MaterialDataValueFormat.h" />
     <ClInclude Include="Source\Hect\Graphics\Mesh.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshReader.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshWriter.h" />
@@ -70,11 +69,9 @@
     <ClInclude Include="Source\Hect\Graphics\RenderMode.h" />
     <ClInclude Include="Source\Hect\Graphics\RenderTarget.h" />
     <ClInclude Include="Source\Hect\Graphics\Shader.h" />
-    <ClInclude Include="Source\Hect\Graphics\ShaderDataValueFormat.h" />
     <ClInclude Include="Source\Hect\Graphics\ShaderModule.h" />
     <ClInclude Include="Source\Hect\Graphics\Technique.h" />
     <ClInclude Include="Source\Hect\Graphics\Texture.h" />
-    <ClInclude Include="Source\Hect\Graphics\TextureDataValueFormat.h" />
     <ClInclude Include="Source\Hect\Graphics\Uniform.h" />
     <ClInclude Include="Source\Hect\Graphics\UniformValue.h" />
     <ClInclude Include="Source\Hect\Graphics\VertexAttribute.h" />
@@ -148,7 +145,6 @@
     <ClCompile Include="Source\Hect\Graphics\ImageLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ImagePngFormat.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Material.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\MaterialDataValueFormat.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MaterialLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Mesh.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshLoader.cpp" />
@@ -161,13 +157,11 @@
     <ClCompile Include="Source\Hect\Graphics\RenderMode.cpp" />
     <ClCompile Include="Source\Hect\Graphics\RenderTarget.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Shader.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\ShaderDataValueFormat.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderModule.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderModuleLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Technique.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Texture.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\TextureDataValueFormat.cpp" />
     <ClCompile Include="Source\Hect\Graphics\TextureLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Uniform.cpp" />
     <ClCompile Include="Source\Hect\Graphics\UniformValue.cpp" />
