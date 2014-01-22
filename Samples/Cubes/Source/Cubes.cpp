@@ -25,7 +25,6 @@
 
 void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const DataValue& settings)
 {
-    // Create the asset cache
     AssetCache assetCache(fileSystem);
 
     // Load the input axes from the settings

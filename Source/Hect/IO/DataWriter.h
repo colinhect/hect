@@ -128,6 +128,12 @@ public:
     ///
     /// \param value The value to write.
     void writeReal(Real value);
+    
+    ///
+    /// Writes a bool as an unsigned 8-bit integer.
+    ///
+    /// \param value The value to write.
+    void writeBool(bool value);
 
     ///
     /// Writes a 2-dimensional vector.
@@ -265,6 +271,13 @@ public:
     /// \param name The name of the member to write to.
     /// \param value The value to write.
     void writeReal(const char* name, Real value);
+    
+    ///
+    /// Writes a bool as an unsigned 8-bit integer.
+    ///
+    /// \param name The name of the member to write to.
+    /// \param value The value to write.
+    void writeBool(const char* name, bool value);
 
     ///
     /// Writes a 2-dimensional vector.
@@ -351,6 +364,8 @@ protected:
     virtual void writeDouble(const char* name, double value) = 0;
     virtual void writeReal(Real value) = 0;
     virtual void writeReal(const char* name, Real value) = 0;
+    virtual void writeBool(bool value) = 0;
+    virtual void writeBool(const char* name, bool value) = 0;
     virtual void writeVector2(const Vector2& value) = 0;
     virtual void writeVector2(const char* name, const Vector2& value) = 0;
     virtual void writeVector3(const Vector3& value) = 0;
@@ -407,6 +422,8 @@ private:
     void writeDouble(const char* name, double value);
     void writeReal(Real value);
     void writeReal(const char* name, Real value);
+    void writeBool(bool value);
+    void writeBool(const char* name, bool value);
     void writeVector2(const Vector2& value);
     void writeVector2(const char* name, const Vector2& value);
     void writeVector3(const Vector3& value);
@@ -474,6 +491,8 @@ private:
     void writeDouble(const char* name, double value);
     void writeReal(Real value);
     void writeReal(const char* name, Real value);
+    void writeBool(bool value);
+    void writeBool(const char* name, bool value);
     void writeVector2(const Vector2& value);
     void writeVector2(const char* name, const Vector2& value);
     void writeVector3(const Vector3& value);

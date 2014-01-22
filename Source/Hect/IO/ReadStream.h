@@ -61,7 +61,7 @@ public:
     int8_t readByte();
 
     ///
-    /// Reads an unsigned 16-bit integer.
+    /// Reads an unsigned 8-bit integer.
     uint8_t readUnsignedByte();
 
     ///
@@ -99,6 +99,10 @@ public:
     ///
     /// Reads a real number.
     Real readReal();
+    
+    ///
+    /// Reads bool as an unsigned 8-bit integer.
+    bool readBool();
 
     ///
     /// Reads a 2-dimensional vector.

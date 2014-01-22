@@ -131,6 +131,12 @@ void ArrayWriter::writeReal(Real value)
     _writer->writeReal(value);
 }
 
+void ArrayWriter::writeBool(bool value)
+{
+    assert(_writer);
+    _writer->writeBool(value);
+}
+
 void ArrayWriter::writeVector2(const Vector2& value)
 {
     assert(_writer);
@@ -263,6 +269,12 @@ void ObjectWriter::writeReal(const char* name, Real value)
 {
     assert(_writer);
     _writer->writeReal(name, value);
+}
+
+void ObjectWriter::writeBool(const char* name, bool value)
+{
+    assert(_writer);
+    _writer->writeBool(name, value);
 }
 
 void ObjectWriter::writeVector2(const char* name, const Vector2& value)
@@ -492,6 +504,16 @@ void DataValueWriter::writeReal(Real value)
 }
 
 void DataValueWriter::writeReal(const char* name, Real value)
+{
+    _write(name, value);
+}
+
+void DataValueWriter::writeBool(bool value)
+{
+    _write(value);
+}
+
+void DataValueWriter::writeBool(const char* name, bool value)
 {
     _write(name, value);
 }
@@ -747,6 +769,18 @@ void BinaryWriter::writeReal(const char* name, Real value)
 {
     name;
     _stream->writeReal(value);
+}
+
+void BinaryWriter::writeBool(bool value)
+{
+    ++_countStack.top();
+    _stream->writeBool(value);
+}
+
+void BinaryWriter::writeBool(const char* name, bool value)
+{
+    name;
+    _stream->writeBool(value);
 }
 
 void BinaryWriter::writeVector2(const Vector2& value)

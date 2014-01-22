@@ -94,6 +94,11 @@ void WriteStream::writeReal(Real value)
     #endif
 }
 
+void WriteStream::writeBool(bool value)
+{
+    writeUnsignedByte(value ? 1 : 0);
+}
+
 void WriteStream::writeVector2(const Vector2& value)
 {
     writeReal(value.x);

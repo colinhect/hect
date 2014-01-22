@@ -97,7 +97,6 @@
 #include "Hect/Graphics/MeshBinaryFormat.h"
 #include "Hect/Graphics/MeshDataValueFormat.h"
 #include "Hect/Graphics/VideoMode.h"
-#include "Hect/Graphics/VideoModeDataValueFormat.h"
 #include "Hect/Graphics/Window.h"
 #include "Hect/Graphics/Renderer.h"
 

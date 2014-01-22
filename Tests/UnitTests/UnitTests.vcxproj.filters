@@ -19,9 +19,6 @@
     <ClInclude Include="Source\Matrix4Tests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MemoryStreamTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MeshTests.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -92,6 +89,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\DataWriterReaderTests.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StreamTests.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

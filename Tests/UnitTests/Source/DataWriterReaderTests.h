@@ -212,6 +212,7 @@ SUITE(WriterTests)
             array.writeFloat(123.0f);
             array.writeDouble(123.0);
             array.writeReal(123);
+            array.writeBool(true);
             array.writeVector2(Vector2(1, 2));
             array.writeVector3(Vector3(1, 2, 3));
             array.writeVector4(Vector4(1, 2, 3, 4));
@@ -242,6 +243,8 @@ SUITE(WriterTests)
             CHECK_EQUAL(123.0, array.readDouble());
             CHECK(array.hasMoreElements());
             CHECK_EQUAL(123, array.readReal());
+            CHECK(array.hasMoreElements());
+            CHECK_EQUAL(true, array.readBool());
             CHECK(array.hasMoreElements());
             Vector2 v2 = array.readVector2();
             CHECK_EQUAL(1, v2.x);
@@ -279,6 +282,7 @@ SUITE(WriterTests)
             object.writeFloat("Float", 123.0f);
             object.writeDouble("Double", 123.0);
             object.writeReal("Real", 123);
+            object.writeBool("Bool", true);
             object.writeVector2("Vector2", Vector2(1, 2));
             object.writeVector3("Vector3", Vector3(1, 2, 3));
             object.writeVector4("Vector4", Vector4(1, 2, 3, 4));
@@ -310,6 +314,8 @@ SUITE(WriterTests)
             CHECK_EQUAL(123.0, object.readDouble("Double"));
             CHECK(object.hasMember("Real"));
             CHECK_EQUAL(123, object.readReal("Real"));
+            CHECK(object.hasMember("Bool"));
+            CHECK_EQUAL(true, object.readBool("Bool"));
             CHECK(object.hasMember("Vector2"));
             Vector2 v2 = object.readVector2("Vector2");
             CHECK_EQUAL(1, v2.x);

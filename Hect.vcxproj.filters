@@ -258,9 +258,6 @@
     <ClInclude Include="Source\Hect\Graphics\VideoMode.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\VideoModeDataValueFormat.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Window.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -546,9 +543,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\VideoMode.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\VideoModeDataValueFormat.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Window.cpp">

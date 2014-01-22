@@ -139,6 +139,12 @@ Real ArrayReader::readReal()
     return _reader->readReal();
 }
 
+bool ArrayReader::readBool()
+{
+    assert(_reader);
+    return _reader->readBool();
+}
+
 Vector2 ArrayReader::readVector2()
 {
     assert(_reader);
@@ -276,6 +282,12 @@ Real ObjectReader::readReal(const char* name)
 {
     assert(_reader);
     return _reader->readReal(name);
+}
+
+bool ObjectReader::readBool(const char* name)
+{
+    assert(_reader);
+    return _reader->readBool(name);
 }
 
 Vector2 ObjectReader::readVector2(const char* name)
@@ -553,6 +565,16 @@ Real DataValueReader::readReal(const char* name)
     return (Real)_read(name).asDouble();
 }
 
+bool DataValueReader::readBool()
+{
+    return _read().asBool();
+}
+
+bool DataValueReader::readBool(const char* name)
+{
+    return _read(name).asBool();
+}
+
 Vector2 DataValueReader::readVector2()
 {
     return _read().asVector2();
@@ -816,6 +838,18 @@ Real BinaryReader::readReal(const char* name)
 {
     name;
     return _stream->readReal();
+}
+
+bool BinaryReader::readBool()
+{
+    ++_indexStack.top();
+    return _stream->readBool();
+}
+
+bool BinaryReader::readBool(const char* name)
+{
+    name;
+    return _stream->readBool();
 }
 
 Vector2 BinaryReader::readVector2()

@@ -54,7 +54,7 @@ public:
     /// \param prependLength Whether or not to prepend the length of the
     /// string.
     void writeString(const std::string& value, bool prependLength = true);
-
+    
     ///
     /// Writes a signed 8-bit integer.
     ///
@@ -120,6 +120,12 @@ public:
     ///
     /// \param value The value to write.
     void writeReal(Real value);
+
+    ///
+    /// Writes a bool as an unsigned 8-bit integer.
+    ///
+    /// \param value The value to write.
+    void writeBool(bool value);
 
     ///
     /// Writes a 2-dimensional vector.

@@ -83,7 +83,6 @@
     <ClInclude Include="Source\Hect\Graphics\VertexAttribute.h" />
     <ClInclude Include="Source\Hect\Graphics\VertexLayout.h" />
     <ClInclude Include="Source\Hect\Graphics\VideoMode.h" />
-    <ClInclude Include="Source\Hect\Graphics\VideoModeDataValueFormat.h" />
     <ClInclude Include="Source\Hect\Graphics\Window.h" />
     <ClInclude Include="Source\Hect\Input\InputAxis.h" />
     <ClInclude Include="Source\Hect\Input\InputSystem.h" />
@@ -181,7 +180,6 @@
     <ClCompile Include="Source\Hect\Graphics\VertexAttribute.cpp" />
     <ClCompile Include="Source\Hect\Graphics\VertexLayout.cpp" />
     <ClCompile Include="Source\Hect\Graphics\VideoMode.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\VideoModeDataValueFormat.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Window.cpp" />
     <ClCompile Include="Source\Hect\Input\InputAxis.cpp" />
     <ClCompile Include="Source\Hect\Input\InputSystem.cpp" />

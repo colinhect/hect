@@ -166,7 +166,6 @@
     <ClInclude Include="Source\SceneTests.h" />
     <ClInclude Include="Source\FileSystemTests.h" />
     <ClInclude Include="Source\MaterialDataFormatTests.h" />
-    <ClInclude Include="Source\MemoryStreamTests.h" />
     <ClInclude Include="Source\DataValueTests.h" />
     <ClInclude Include="Source\FrustumTests.h" />
     <ClInclude Include="Source\DataValueJsonFormatTests.h" />
@@ -179,6 +178,7 @@
     <ClInclude Include="Source\PlaneTests.h" />
     <ClInclude Include="Source\QuaternionTests.h" />
     <ClInclude Include="Source\EventTests.h" />
+    <ClInclude Include="Source\StreamTests.h" />
     <ClInclude Include="Source\TaskPoolTests.h" />
     <ClInclude Include="Source\TimeSpanTests.h" />
     <ClInclude Include="Source\FormatTests.h" />

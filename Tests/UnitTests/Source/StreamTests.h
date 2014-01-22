@@ -23,24 +23,73 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-void testWriteAndReadMemory(std::function<void(WriteStream*)> writer, std::function<void(ReadStream*)> reader)
+void testWriteAndReadStream(std::function<void(WriteStream*)> writer, std::function<void(ReadStream*)> reader)
 {
-    std::vector<uint8_t> data;
+    // Memory streams
     {
-        MemoryWriteStream stream(data);
-        writer(&stream);
+        std::vector<uint8_t> data;
+        {
+            MemoryWriteStream stream(data);
+            writer(&stream);
+        }
+        {
+            MemoryReadStream stream(data);
+            reader(&stream);
+        }
     }
+
+    // File streams
     {
-        MemoryReadStream stream(data);
-        reader(&stream);
+        FileSystem fileSystem;
+        Path workingDirectory = fileSystem.workingDirectory();
+        fileSystem.addDataSource(workingDirectory);
+        fileSystem.setWriteDirectory(workingDirectory);
+
+        Path path("File");
+
+        CHECK(!fileSystem.exists(path));
+        {
+            FileWriteStream stream = fileSystem.openFileForWrite(path);
+            writer(&stream);
+        }
+        CHECK(fileSystem.exists(path));
+        {
+            FileReadStream stream = fileSystem.openFileForRead(path);
+            reader(&stream);
+        }
+        fileSystem.remove(path);
+        CHECK(!fileSystem.exists(path));
     }
 }
 
 SUITE(MemoryStream)
 {
+    TEST(WriteAndReadPastEndOfStream)
+    {
+        testWriteAndReadStream([] (WriteStream* stream)
+        {
+            stream->writeString("Testing");
+        }, [] (ReadStream* stream)
+        {
+            bool errorOccurred = false;
+
+            try
+            {
+                uint8_t data[16];
+                stream->readBytes(data, 16);
+            }
+            catch (Error&)
+            {
+                errorOccurred = true;
+            }
+
+            CHECK(errorOccurred);
+        });
+    }
+
     TEST(WriteAndReadString)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeString("Testing");
         }, [] (ReadStream* stream)
@@ -53,7 +102,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadByte)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeByte(123);
         }, [] (ReadStream* stream)
@@ -66,7 +115,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadUnsignedByte)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeUnsignedByte(123);
         }, [] (ReadStream* stream)
@@ -79,7 +128,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadShort)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeShort(123);
         }, [] (ReadStream* stream)
@@ -92,7 +141,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadUnsignedShort)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeUnsignedShort(123);
         }, [] (ReadStream* stream)
@@ -105,7 +154,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadInt)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeInt(123);
         }, [] (ReadStream* stream)
@@ -118,7 +167,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadUnsignedInt)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeUnsignedInt(123);
         }, [] (ReadStream* stream)
@@ -131,7 +180,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadLong)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeLong(123456789);
         }, [] (ReadStream* stream)
@@ -144,7 +193,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadUnsignedLong)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeUnsignedLong(123456789);
         }, [] (ReadStream* stream)
@@ -157,7 +206,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadFloat)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeFloat((float)pi);
         }, [] (ReadStream* stream)
@@ -170,7 +219,7 @@ SUITE(MemoryStream)
 
     TEST(WriteAndReadDouble)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             stream->writeDouble(pi);
         }, [] (ReadStream* stream)
@@ -181,9 +230,36 @@ SUITE(MemoryStream)
         });
     }
 
+    TEST(WriteAndReadReal)
+    {
+        testWriteAndReadStream([] (WriteStream* stream)
+        {
+            stream->writeReal(pi);
+        }, [] (ReadStream* stream)
+        {
+            Real value = stream->readReal();
+            CHECK_CLOSE(pi, value, epsilon);
+            CHECK(stream->endOfStream());
+        });
+    }
+
+    TEST(WriteAndReadBool)
+    {
+        testWriteAndReadStream([] (WriteStream* stream)
+        {
+            stream->writeBool(true);
+            stream->writeBool(false);
+        }, [] (ReadStream* stream)
+        {
+            CHECK(stream->readBool());
+            CHECK(!stream->readBool());
+            CHECK(stream->endOfStream());
+        });
+    }
+
     TEST(SeekOnWrite)
     {
-        testWriteAndReadMemory([] (WriteStream* stream)
+        testWriteAndReadStream([] (WriteStream* stream)
         {
             size_t position = stream->position();
             stream->writeUnsignedInt(3);

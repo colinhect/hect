@@ -62,8 +62,12 @@ int main(int argc, const char* argv[])
             fileSystem.addDataSource(dataSource.asString());
         }
 
-        // Create window
-        VideoMode videoMode = VideoModeDataValueFormat::load(settings["videoMode"]);
+        // Load video mode
+        AssetCache assetCache(fileSystem);
+        VideoMode videoMode;
+        videoMode.deserializeFromDataValue(settings["videoMode"], assetCache);
+
+        // Create window/renderer
         Window window("Sample", videoMode);
         Renderer renderer(window);
 

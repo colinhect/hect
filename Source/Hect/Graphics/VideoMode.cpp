@@ -60,3 +60,36 @@ bool VideoMode::isFullscreen() const
 {
     return _fullscreen;
 }
+
+void VideoMode::serialize(ObjectWriter& writer) const
+{
+    writer.writeUnsignedInt("width", _width);
+    writer.writeUnsignedInt("height", _height);
+    writer.writeUnsignedInt("bitsPerPixel", _bitsPerPixel);
+    writer.writeBool("fullscreen", _fullscreen);
+}
+
+void VideoMode::deserialize(ObjectReader& reader, AssetCache& assetCache)
+{
+    assetCache;
+
+    if (reader.hasMember("width"))
+    {
+        _width = reader.readUnsignedInt("width");
+    }
+
+    if (reader.hasMember("height"))
+    {
+        _height = reader.readUnsignedInt("height");
+    }
+
+    if (reader.hasMember("bitsPerPixel"))
+    {
+        _bitsPerPixel = reader.readUnsignedInt("bitsPerPixel");
+    }
+
+    if (reader.hasMember("fullscreen"))
+    {
+        _fullscreen = reader.readBool("fullscreen");
+    }
+}

@@ -120,6 +120,11 @@ Real ReadStream::readReal()
     #endif
 }
 
+bool ReadStream::readBool()
+{
+    return readUnsignedByte() != 0;
+}
+
 Vector2 ReadStream::readVector2()
 {
     Real x = readReal();

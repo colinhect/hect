@@ -108,6 +108,10 @@ public:
     ///
     /// Reads a real number.
     Real readReal();
+    
+    ///
+    /// Reads bool as an unsigned 8-bit integer.
+    bool readBool();
 
     ///
     /// Reads a 2-dimensional vector.
@@ -235,6 +239,12 @@ public:
     ///
     /// \param name The name of the member to read.
     Real readReal(const char* name);
+    
+    ///
+    /// Reads bool as an unsigned 8-bit integer.
+    ///
+    /// \param name The name of the member to read
+    bool readBool(const char* name);
 
     ///
     /// Reads a 2-dimensional vector.
@@ -322,6 +332,8 @@ protected:
     virtual double readDouble(const char* name) = 0;
     virtual Real readReal() = 0;
     virtual Real readReal(const char* name) = 0;
+    virtual bool readBool() = 0;
+    virtual bool readBool(const char* name) = 0;
     virtual Vector2 readVector2() = 0;
     virtual Vector2 readVector2(const char* name) = 0;
     virtual Vector3 readVector3() = 0;
@@ -385,6 +397,8 @@ private:
     double readDouble(const char* name);
     Real readReal();
     Real readReal(const char* name);
+    bool readBool();
+    bool readBool(const char* name);
     Vector2 readVector2();
     Vector2 readVector2(const char* name);
     Vector3 readVector3();
@@ -454,6 +468,8 @@ private:
     double readDouble(const char* name);
     Real readReal();
     Real readReal(const char* name);
+    bool readBool();
+    bool readBool(const char* name);
     Vector2 readVector2();
     Vector2 readVector2(const char* name);
     Vector3 readVector3();
