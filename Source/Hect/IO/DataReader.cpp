@@ -47,6 +47,12 @@ ArrayReader::~ArrayReader()
     }
 }
 
+bool ArrayReader::isHumanReadable() const
+{
+    assert(_reader);
+    return _reader->isHumanReadable();
+}
+
 bool ArrayReader::hasMoreElements() const
 {
     assert(_reader);
@@ -191,6 +197,12 @@ ObjectReader::~ObjectReader()
     {
         _reader->endObject();
     }
+}
+
+bool ObjectReader::isHumanReadable() const
+{
+    assert(_reader);
+    return _reader->isHumanReadable();
 }
 
 bool ObjectReader::hasMember(const char* name) const

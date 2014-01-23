@@ -84,6 +84,35 @@ void VertexLayout::load(ObjectReader& reader, AssetCache& assetCache)
     VertexLayoutSerializer::load(*this, reader);
 }
 
+bool VertexLayout::operator==(const VertexLayout& vertexLayout) const
+{
+    if (_attributes.size() != vertexLayout._attributes.size())
+    {
+        return false;
+    }
+
+    if (_vertexSize != vertexLayout._vertexSize)
+    {
+        return false;
+    }
+
+    size_t attributeCount = _attributes.size();
+    for (size_t i = 0; i < attributeCount; ++i)
+    {
+        if (_attributes[i] != vertexLayout._attributes[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool VertexLayout::operator!=(const VertexLayout& vertexLayout) const
+{
+    return !(*this == vertexLayout);
+}
+
 void VertexLayout::_computeAttributeOffsets()
 {
     _vertexSize = 0;

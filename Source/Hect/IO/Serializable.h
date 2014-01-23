@@ -39,7 +39,7 @@ public:
     ///
     /// Serializes the object using a writer.
     ///
-    /// \param writer The writer.
+    /// \param writer The writer to use to serialize.
     virtual void save(ObjectWriter& writer) const;
 
     ///
@@ -52,12 +52,12 @@ public:
     /// Serializes the object to a stream.
     ///
     /// \param stream The stream.
-    void saveToBinaryStream(WriteStream& stream) const;
+    void saveToBinary(WriteStream& stream) const;
 
     ///
     /// Deserializes the object using a reader.
     ///
-    /// \param reader The reader.
+    /// \param reader The reader to use to deserialize.
     /// \param assetCache The asset cache to load referenced assets from.
     virtual void load(ObjectReader& reader, AssetCache& assetCache);
 
@@ -73,7 +73,7 @@ public:
     ///
     /// \param stream The stream.
     /// \param assetCache The asset cache to load referenced assets from.
-    void loadFromBinaryStream(ReadStream& stream, AssetCache& assetCache);
+    void loadFromBinary(ReadStream& stream, AssetCache& assetCache);
 };
 
 }

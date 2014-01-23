@@ -44,6 +44,10 @@ public:
     ArrayReader(const ArrayReader& reader);
     ArrayReader(ArrayReader&& reader);
     ~ArrayReader();
+    
+    ///
+    /// Returns whether the source data is human-readable.
+    bool isHumanReadable() const;
 
     ///
     /// Returns whether the reader has reached the end of the array.
@@ -145,6 +149,10 @@ public:
     ObjectReader(const ObjectReader& reader);
     ObjectReader(ObjectReader&& reader);
     ~ObjectReader();
+    
+    ///
+    /// Returns whether the source data is human-readable.
+    bool isHumanReadable() const;
 
     ///
     /// Returns whether the object has a member with a specific name.

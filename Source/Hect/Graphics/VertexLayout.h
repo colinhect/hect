@@ -31,7 +31,8 @@ namespace hect
 
 ///
 /// An ordered layout of vertex attributes.
-class VertexLayout
+class VertexLayout :
+    public Serializable
 {
     friend class VertexLayoutSerializer;
 public:
@@ -64,8 +65,33 @@ public:
     /// Returns the total size in bytes of a vertex in this layout.
     unsigned vertexSize() const;
 
+    ///
+    /// Serializes the layout.
+    ///
+    /// \param writer The writer to use to serialize.
     void save(ObjectWriter& writer) const;
+
+    ///
+    /// Deserializes the layout.
+    ///
+    /// \note Any pre-existing attributes the layout has will be removed before
+    /// deserialization begins.
+    ///
+    /// \param reader The reader to use to deserialize.
+    /// \param assetCache The asset cache to load referenced assets from.
     void load(ObjectReader& reader, AssetCache& assetCache);
+    
+    ///
+    /// Returns whether the layout is equivalent to another.
+    ///
+    /// \param vertexLayout The other layout.
+    bool operator==(const VertexLayout& vertexLayout) const;
+
+    ///
+    /// Returns whether the layout is different from another.
+    ///
+    /// \param vertexLayout The other layout.
+    bool operator!=(const VertexLayout& vertexLayout) const;
 
 private:
     void _computeAttributeOffsets();

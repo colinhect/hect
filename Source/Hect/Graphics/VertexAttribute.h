@@ -169,6 +169,9 @@ public:
     /// Returns the offset into the vertex data in bytes.
     unsigned offset() const;
 
+    bool operator==(const VertexAttribute& vertexAttribute) const;
+    bool operator!=(const VertexAttribute& vertexAttribute) const;
+
 private:
     VertexAttributeSemantic _semantic;
     VertexAttributeType _type;

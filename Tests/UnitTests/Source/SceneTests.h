@@ -350,14 +350,14 @@ SUITE(Scene)
 
         {
             MemoryWriteStream stream(data);
-            frank.saveToBinaryStream(stream);
+            frank.saveToBinary(stream);
         }
 
         Entity frankDeserialized = scene.createEntity();
 
         {
             MemoryReadStream stream(data);
-            frankDeserialized.loadFromBinaryStream(stream, assetCache);
+            frankDeserialized.loadFromBinary(stream, assetCache);
         }
 
         CHECK(frankDeserialized.hasComponent<Name>());
@@ -438,7 +438,7 @@ SUITE(Scene)
             scene.refresh();
             {
                 MemoryWriteStream stream(data);
-                scene.saveToBinaryStream(stream);
+                scene.saveToBinary(stream);
             }
         }
 
@@ -451,7 +451,7 @@ SUITE(Scene)
 
         {
             MemoryReadStream stream(data);
-            scene.loadFromBinaryStream(stream, assetCache);
+            scene.loadFromBinary(stream, assetCache);
         }
         scene.refresh();
 

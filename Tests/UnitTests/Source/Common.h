@@ -21,59 +21,42 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <UnitTest++.h>
+#pragma once
 
-#include <Hect.h>
+const Real epsilon = (Real)0.0001;
 
-#ifdef HECT_WINDOWS
-#ifdef HECT_DEBUG
-#include <vld.h>
-#endif
-#endif
-
-using namespace hect;
-
-#include "Common.h"
-
-#include "AngleTests.h"
-#include "AnyTests.h"
-#include "AssetCacheTests.h"
-#include "AssetHandleTests.h"
-#include "DataValueJsonFormatTests.h"
-#include "DataValueTests.h"
-#include "DataWriterReaderTests.h"
-#include "EntityTests.h"
-#include "EventTests.h"
-#include "FileSystemTests.h"
-#include "FormatTests.h"
-#include "FrustumTests.h"
-#include "MaterialDataFormatTests.h"
-#include "Matrix4Tests.h"
-#include "MeshDataFormatTests.h"
-#include "MeshTests.h"
-#include "MeshWriterTests.h"
-#include "MeshReaderTests.h"
-#include "NetworkTests.h"
-#include "PathTests.h"
-#include "PlaneTests.h"
-#include "QuaternionTests.h"
-#include "SceneTests.h"
-#include "StreamTests.h"
-#include "TaskPoolTests.h"
-#include "TimeSpanTests.h"
-#include "Vector2Tests.h"
-#include "Vector3Tests.h"
-#include "Vector4Tests.h"
-#include "VertexAttributeTests.h"
-#include "VertexLayoutTests.h"
-
-int main()
+template <typename T>
+void testSerialization(T& serializable)
 {
-    int failed = UnitTest::RunAllTests();
-    if (failed)
-    {
-        Window::showFatalError(format("%d failures.", failed));
-    }
+    FileSystem fileSystem;
+    fileSystem.addDataSource("Data");
 
-    return failed;
+    AssetCache assetCache(fileSystem);
+
+    // Binary
+    {
+        T deserialized;
+
+        std::vector<uint8_t> data;
+        {
+            MemoryWriteStream stream(data);
+            serializable.saveToBinary(stream);
+        }
+        {
+            MemoryReadStream stream(data);
+            deserialized.loadFromBinary(stream, assetCache);
+        }
+
+        CHECK(serializable == deserialized);
+    }
+        
+    // JSON
+    {
+        T deserialized;
+
+        DataValue dataValue = serializable.saveToDataValue();
+        deserialized.loadFromDataValue(dataValue, assetCache);
+
+        CHECK(serializable == deserialized);
+    }
 }

@@ -98,4 +98,11 @@ SUITE(VertexLayout)
 
         CHECK_EQUAL(4u * 3u + 2u * 3u, vertexLayout.vertexSize());
     }
+
+    TEST(Serialization)
+    {
+        VertexLayout vertexLayout = VertexLayout::createDefault();
+
+        testSerialization(vertexLayout);
+    }
 }

@@ -45,6 +45,12 @@ ArrayWriter::~ArrayWriter()
     }
 }
 
+bool ArrayWriter::isHumanReadable() const
+{
+    assert(_writer);
+    return _writer->isHumanReadable();
+}
+
 ArrayWriter ArrayWriter::writeArray()
 {
     assert(_writer);
@@ -183,6 +189,12 @@ ObjectWriter::~ObjectWriter()
     {
         _writer->endObject();
     }
+}
+
+bool ObjectWriter::isHumanReadable() const
+{
+    assert(_writer);
+    return _writer->isHumanReadable();
 }
 
 ArrayWriter ObjectWriter::writeArray(const char* name)

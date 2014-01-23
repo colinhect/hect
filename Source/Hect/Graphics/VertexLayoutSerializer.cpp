@@ -31,14 +31,26 @@ void VertexLayoutSerializer::save(const VertexLayout& vertexLayout, ObjectWriter
     for (const VertexAttribute& attribute : vertexLayout.attributes())
     {
         ObjectWriter attributeWriter = attributesWriter.writeObject();
-        attributeWriter.writeString("semantic", attributeSemanticToString(attribute.semantic()));
-        attributeWriter.writeString("type", attributeTypeToString(attribute.type()));
+
+        if (attributeWriter.isHumanReadable())
+        {
+            attributeWriter.writeString("semantic", attributeSemanticToString(attribute.semantic()));
+            attributeWriter.writeString("type", attributeTypeToString(attribute.type()));
+        }
+        else
+        {
+            attributeWriter.writeUnsignedByte("semantic", (uint8_t)attribute.semantic());
+            attributeWriter.writeUnsignedByte("type", (uint8_t)attribute.type());
+        }
+
         attributeWriter.writeUnsignedInt("cardinality", attribute.cardinality());
     }
 }
 
 void VertexLayoutSerializer::load(VertexLayout& vertexLayout, ObjectReader& reader)
 {
+    vertexLayout._attributes.clear();
+
     ArrayReader vertexLayoutReader = reader.readArray("attributes");
     while (vertexLayoutReader.hasMoreElements())
     {
@@ -48,8 +60,17 @@ void VertexLayoutSerializer::load(VertexLayout& vertexLayout, ObjectReader& read
         VertexAttributeType type;
         unsigned cardinality;
 
-        semantic = attributeSemanticFromString(attributeReader.readString("semantic"));
-        type = attributeTypeFromString(attributeReader.readString("type"));
+        if (attributeReader.isHumanReadable())
+        {
+            semantic = attributeSemanticFromString(attributeReader.readString("semantic"));
+            type = attributeTypeFromString(attributeReader.readString("type"));
+        }
+        else
+        {
+            semantic = (VertexAttributeSemantic)attributeReader.readUnsignedByte("semantic");
+            type = (VertexAttributeType)attributeReader.readUnsignedByte("type");
+        }
+
         cardinality = attributeReader.readUnsignedInt("cardinality");
 
         VertexAttribute attribute(semantic, type, cardinality);

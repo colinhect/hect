@@ -160,6 +160,7 @@
     <ClInclude Include="Source\AnyTests.h" />
     <ClInclude Include="Source\AssetCacheTests.h" />
     <ClInclude Include="Source\AssetHandleTests.h" />
+    <ClInclude Include="Source\Common.h" />
     <ClInclude Include="Source\DataWriterReaderTests.h" />
     <ClInclude Include="Source\EntityTests.h" />
     <ClInclude Include="Source\MeshReaderTests.h" />

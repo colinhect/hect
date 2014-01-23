@@ -44,6 +44,10 @@ public:
     ArrayWriter(const ArrayWriter& writer);
     ArrayWriter(ArrayWriter&& writer);
     ~ArrayWriter();
+    
+    ///
+    /// Returns whether the resulting data is human-readable.
+    bool isHumanReadable() const;
 
     ///
     /// Begins writing an array.
@@ -171,6 +175,10 @@ public:
     ObjectWriter(const ObjectWriter& writer);
     ObjectWriter(ObjectWriter&& writer);
     ~ObjectWriter();
+    
+    ///
+    /// Returns whether the resulting data is human-readable.
+    bool isHumanReadable() const;
 
     ///
     /// Begins writing an array.

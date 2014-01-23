@@ -40,7 +40,7 @@ DataValue Serializable::saveToDataValue() const
     return writer.dataValues()[0];
 }
 
-void Serializable::saveToBinaryStream(WriteStream& stream) const
+void Serializable::saveToBinary(WriteStream& stream) const
 {
     BinaryWriter writer(stream);
     ObjectWriter object = writer.writeObject();
@@ -60,7 +60,7 @@ void Serializable::loadFromDataValue(const DataValue& dataValue, AssetCache& ass
     load(object, assetCache);
 }
 
-void Serializable::loadFromBinaryStream(ReadStream& stream, AssetCache& assetCache)
+void Serializable::loadFromBinary(ReadStream& stream, AssetCache& assetCache)
 {
     BinaryReader reader(stream);
     ObjectReader object = reader.readObject();
