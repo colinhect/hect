@@ -48,12 +48,12 @@ size_t MeshWriter::addVertex()
     return _mesh->_vertexCount++;
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, float value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Real value)
 {
     const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
     if (attribute)
     {
-        _setComponentValue(attribute, 0, value);
+        _setComponentValue(attribute, 0, (float)value);
     }
 }
 

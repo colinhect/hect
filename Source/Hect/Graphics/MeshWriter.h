@@ -57,7 +57,7 @@ public:
     ///
     /// \param semantic The semantic of the attribute to set the data for.
     /// \param value The value.
-    void writeAttributeData(VertexAttributeSemantic semantic, float value);
+    void writeAttributeData(VertexAttributeSemantic semantic, Real value);
 
     ///
     /// Writes attribute data of the most recently added vertex for a given

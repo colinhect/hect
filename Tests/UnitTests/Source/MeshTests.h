@@ -162,4 +162,26 @@ SUITE(Mesh)
         CHECK_EQUAL(3, indexData[4]);
         CHECK_EQUAL(0, indexData[5]);
     }
+
+    TEST(Serialization)
+    {
+        Mesh mesh("Test");
+        MeshWriter meshWriter(mesh);
+        meshWriter.addVertex();
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(1.0, 2.0, 3.0));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(-1.0, -2.0, -3.0));
+        meshWriter.addVertex();
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(4.0, 5.0, 6.0));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(-4.0, -5.0, -6.0));
+        meshWriter.addVertex();
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(7.0, 8.0, 9.0));
+        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(-7.0, -8.0, -9.0));
+
+        meshWriter.addIndex(0);
+        meshWriter.addIndex(1);
+        meshWriter.addIndex(2);
+        meshWriter.addIndex(0);
+
+        testSerialization(mesh);
+    }
 }

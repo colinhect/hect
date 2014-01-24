@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <cstdint>
-
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/IO/Serializable.h"
@@ -35,7 +33,7 @@ namespace hect
 
 ///
 /// How the primitives of a mesh are rendered.
-enum class PrimitiveType
+enum class PrimitiveType : uint8_t
 {
     Triangles,
     TriangleStrip,
@@ -46,7 +44,7 @@ enum class PrimitiveType
 
 ///
 /// The type of each index in an index sequence.
-enum class IndexType
+enum class IndexType : uint8_t
 {
     UnsignedByte,
     UnsignedShort,
@@ -60,6 +58,7 @@ class Mesh :
     public Serializable
 {
     friend class MeshWriter;
+    friend class MeshSerializer;
 public:
 
     ///
@@ -158,9 +157,45 @@ public:
     ///
     /// Returns the bounding box.
     const AxisAlignedBox& boundingBox() const;
-
+        
+    ///
+    /// Serializes the mesh.
+    ///
+    /// \param writer The writer to use to serialize.
     void save(ObjectWriter& writer) const;
+    
+    ///
+    /// Clears all mesh data
+    ///
+    /// \note If the mesh was uploaded to a renderer then it will be destroyed.
+    void clear();
+
+    ///
+    /// Deserializes the mesh.
+    ///
+    /// \note All vertex/index and layout data is cleared before
+    /// deserialization begins.  If the mesh was uploaded to a renderer
+    /// then it will be destroyed before deserialization begins.
+    ///
+    /// \param reader The reader to use to deserialize.
+    /// \param assetCache The asset cache to load referenced assets from.
     void load(ObjectReader& reader, AssetCache& assetCache);
+
+    ///
+    /// Returns whether the mesh is equivalent to another.
+    ///
+    /// \remarks Does not compare the name.
+    ///
+    /// \param mesh The other mesh.
+    bool operator==(const Mesh& mesh) const;
+
+    ///
+    /// Returns whether the mesh is different from another.
+    ///
+    /// \remarks Does not compare the name.
+    ///
+    /// \param mesh The other mesh.
+    bool operator!=(const Mesh& mesh) const;
 
 private:
     static IndexType _parseIndexType(const std::string& value);

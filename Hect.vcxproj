@@ -61,6 +61,7 @@
     <ClInclude Include="Source\Hect\Graphics\Material.h" />
     <ClInclude Include="Source\Hect\Graphics\Mesh.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshReader.h" />
+    <ClInclude Include="Source\Hect\Graphics\MeshSerializer.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshWriter.h" />
     <ClInclude Include="Source\Hect\Graphics\Pass.h" />
     <ClInclude Include="Source\Hect\Graphics\PassUniformValue.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="Source\Hect\Graphics\Mesh.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshReader.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\MeshSerializer.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshWriter.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Pass.cpp" />
     <ClCompile Include="Source\Hect\Graphics\PassUniformValue.cpp" />

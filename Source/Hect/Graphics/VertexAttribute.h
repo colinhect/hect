@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <cstdint>
 #include <vector>
 
 namespace hect
@@ -30,7 +31,7 @@ namespace hect
 
 ///
 /// A semantic describing how a vertex attribute is used.
-enum class VertexAttributeSemantic
+enum class VertexAttributeSemantic : uint8_t
 {
 
     ///
@@ -88,7 +89,7 @@ enum class VertexAttributeSemantic
 
 ///
 /// A type of a vertex attribute.
-enum class VertexAttributeType
+enum class VertexAttributeType : uint8_t
 {
     ///
     /// An 8-bit signed integer.
@@ -168,8 +169,17 @@ public:
     ///
     /// Returns the offset into the vertex data in bytes.
     unsigned offset() const;
-
+    
+    ///
+    /// Returns whether the attribute is equivalent to another.
+    ///
+    /// \param vertexAttribute The other attribute.
     bool operator==(const VertexAttribute& vertexAttribute) const;
+
+    ///
+    /// Returns whether the attribute is different from another.
+    ///
+    /// \param vertexAttribute The other attribute.
     bool operator!=(const VertexAttribute& vertexAttribute) const;
 
 private:

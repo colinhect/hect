@@ -25,7 +25,9 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Graphics/MeshWriter.h"
+#include "Hect/Graphics/MeshSerializer.h"
 #include "Hect/Graphics/VertexLayoutSerializer.h"
+#include "Hect/Graphics/Renderer.h"
 
 using namespace hect;
 
@@ -156,124 +158,72 @@ const AxisAlignedBox& Mesh::boundingBox() const
     return _boundingBox;
 }
 
-void Mesh::save(ObjectWriter& writer) const
+void Mesh::clear()
 {
-    writer;
-    throw Error("Mesh serialization is not implemented");
-}
-
-void Mesh::load(ObjectReader& reader, AssetCache& assetCache)
-{
-    assetCache;
+    if (isUploaded())
+    {
+        renderer()->destroyMesh(*this);
+    }
 
     _vertexData.clear();
     _vertexCount = 0;
     _indexData.clear();
     _indexCount = 0;
     _boundingBox = AxisAlignedBox();
+}
 
-    // Index type
-    if (reader.hasMember("indexType"))
+void Mesh::save(ObjectWriter& writer) const
+{
+    MeshSerializer::save(*this, writer);
+}
+
+void Mesh::load(ObjectReader& reader, AssetCache& assetCache)
+{
+    MeshSerializer::load(*this, reader, assetCache);
+}
+
+bool Mesh::operator==(const Mesh& mesh) const
+{
+    // Compare vertex layout
+    if (_vertexLayout != mesh._vertexLayout)
     {
-        _indexType = _parseIndexType(reader.readString("indexType"));
+        return false;
     }
 
-    // Primitive type
-    if (reader.hasMember("primitiveType"))
+    // Compare primitive/index types
+    if (_primitiveType != mesh._primitiveType || _indexType != mesh._indexType)
     {
-        _primitiveType = _parsePrimitiveType(reader.readString("primitiveType"));
+        return false;
     }
 
-    // Vertex layout
-    if (reader.hasMember("vertexLayout"))
+    // Compare vertex/index counts
+    if (_vertexCount != mesh._vertexCount || _indexCount != mesh._indexCount)
     {
-        ObjectReader vertexLayoutReader = reader.readObject("vertexLayout");
-        _vertexLayout.load(vertexLayoutReader, assetCache);
+        return false;
     }
-
-    MeshWriter meshWriter(*this);
-
-    // Add the vertices
-    if (reader.hasMember("vertices"))
+    
+    // Compare vertex data
+    for (size_t i = 0; i < _vertexCount; ++i)
     {
-        ArrayReader verticesReader = reader.readArray("vertices");
-        while (verticesReader.hasMoreElements())
+        if (_vertexData[i] != mesh._vertexData[i])
         {
-            meshWriter.addVertex();
-
-            // For each attribute
-            ArrayReader attributesReader = verticesReader.readArray();
-            while (attributesReader.hasMoreElements())
-            {
-                ObjectReader attributeReader = attributesReader.readObject();
-
-                auto semantic = VertexLayoutSerializer::attributeSemanticFromString(attributeReader.readString("semantic"));
-
-                switch (semantic)
-                {
-                case VertexAttributeSemantic::Position:
-                case VertexAttributeSemantic::Normal:
-                case VertexAttributeSemantic::Tangent:
-                case VertexAttributeSemantic::Binormal:
-                    meshWriter.writeAttributeData(semantic, attributeReader.readVector3("data"));
-                    break;
-                default:
-                    meshWriter.writeAttributeData(semantic, attributeReader.readVector2("data"));
-                }
-            }
+            return false;
         }
     }
 
-    // Add the indices
-    if (reader.hasMember("indices"))
+    // Compare index data
+    for (size_t i = 0; i < _indexCount; ++i)
     {
-        ArrayReader indicesReader = reader.readArray("indices");
-        while (indicesReader.hasMoreElements())
+        if (_indexData[i] != mesh._indexData[i])
         {
-            unsigned indexValue = indicesReader.readUnsignedInt();
-            meshWriter.addIndex(indexValue);
+            return false;
         }
     }
+
+    return true;
 }
 
-IndexType Mesh::_parseIndexType(const std::string& value)
+bool Mesh::operator!=(const Mesh& mesh) const
 {
-    static std::map<std::string, IndexType> indexTypes;
-
-    if (indexTypes.empty())
-    {
-        indexTypes["UnsignedByte"] = IndexType::UnsignedByte;
-        indexTypes["UnsignedShort"] = IndexType::UnsignedShort;
-        indexTypes["UnsignedInt"] = IndexType::UnsignedInt;
-    }
-
-    auto it = indexTypes.find(value);
-    if (it == indexTypes.end())
-    {
-        throw Error(format("Invalid index type '%s'", value.c_str()));
-    }
-
-    return (*it).second;
-}
-
-PrimitiveType Mesh::_parsePrimitiveType(const std::string& value)
-{
-    static std::map<std::string, PrimitiveType> primitiveTypes;
-
-    if (primitiveTypes.empty())
-    {
-        primitiveTypes["Triangles"] = PrimitiveType::Triangles;
-        primitiveTypes["TriangleStrip"] = PrimitiveType::TriangleStrip;
-        primitiveTypes["Lines"] = PrimitiveType::Lines;
-        primitiveTypes["LineStrip"] = PrimitiveType::LineStrip;
-        primitiveTypes["Points"] = PrimitiveType::Points;
-    }
-
-    auto it = primitiveTypes.find(value);
-    if (it == primitiveTypes.end())
-    {
-        throw Error(format("Invalid primitive type '%s'", value.c_str()));
-    }
-
-    return (*it).second;
+    return !(*this == mesh);
 }
