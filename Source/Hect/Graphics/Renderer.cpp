@@ -449,8 +449,8 @@ void Renderer::uploadShader(Shader& shader)
     auto data = new ShaderData();
     data->id = GL_ASSERT( glCreateProgram(); )
 
-               // Attach each shader to the program
-               for (const AssetHandle<ShaderModule>& module : shader.modules())
+    // Attach each shader to the program
+    for (const AssetHandle<ShaderModule>& module : shader.modules())
     {
         if (!module->isUploaded())
         {
@@ -531,7 +531,7 @@ void Renderer::setUniform(const Uniform& uniform, const UniformValue& value)
 {
     if (!_boundShader)
     {
-        throw Error("Attempt to set uniform with no shader bound");
+        throw Error("Cannot set uniform with no shader bound");
     }
 
     int location = uniform.location();
@@ -622,7 +622,7 @@ void Renderer::bindTexture(Texture& texture, unsigned index)
 {
     if (index >= _capabilities.maxTextureUnits)
     {
-        throw Error("Attempt to bind a texture unit beyond hardware capabilities");
+        throw Error("Cannot bind a texture unit beyond hardware capabilities");
     }
 
     if (_boundTextures[index] == &texture)
@@ -881,7 +881,7 @@ void Renderer::draw()
 {
     if (!_boundMesh)
     {
-        throw Error("Attempt to draw without a mesh bound");
+        throw Error("Cannot draw without a mesh bound");
     }
 
     GL_ASSERT(

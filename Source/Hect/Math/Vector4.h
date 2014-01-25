@@ -205,6 +205,18 @@ public:
     const T& operator[](size_t i) const;
 
     ///
+    /// Returns whether the vector is equivalent to another.
+    ///
+    /// \param v The other vector.
+    bool operator==(const Vector4T& v) const;
+
+    ///
+    /// Returns whether the vector is different from another.
+    ///
+    /// \param v The other vector.
+    bool operator!=(const Vector4T& v) const;
+
+    ///
     /// Converts to an equivalent vector with a different underlying type.
     template <typename U>
     operator Vector4T<U>() const

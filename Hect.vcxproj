@@ -86,6 +86,9 @@
     <ClInclude Include="Source\Hect\IO\DataEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\ImagePngEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\MeshEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\Encoders\ShaderEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\Encoders\UniformEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\Encoders\UniformValueEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.h" />
     <ClInclude Include="Source\Hect\IO\FileReadStream.h" />
     <ClInclude Include="Source\Hect\IO\FileSystem.h" />
@@ -179,6 +182,9 @@
     <ClCompile Include="Source\Hect\IO\DataEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\ImagePngEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\MeshEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encoders\ShaderEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encoders\UniformEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encoders\UniformValueEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\FileReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\FileSystem.cpp" />

@@ -215,10 +215,6 @@ public:
     ///
     /// Decodes the mesh.
     ///
-    /// \note All vertex/index and layout data is cleared before
-    /// decoding begins.  If the mesh was uploaded to a renderer
-    /// then it will be destroyed before decoding begins.
-    ///
     /// \param decoder The decoder to use.
     /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);

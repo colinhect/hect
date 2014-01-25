@@ -23,23 +23,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "UniformValue.h"
 
-#include "Hect/Core/Error.h"
+#include "Hect/IO/Encoders/UniformValueEncoder.h"
 
 using namespace hect;
 
 UniformValue::UniformValue() :
     _type(UniformType::Float)
 {
+    _zeroValueMemory();
 }
 
 UniformValue::UniformValue(UniformType type) :
     _type(type)
 {
+    _zeroValueMemory();
 }
 
 UniformValue::UniformValue(int value, UniformType type) :
     _type(type)
 {
+    _zeroValueMemory();
+
     if (type != UniformType::Int && type != UniformType::Texture)
     {
         throw Error("Invalid uniform value type");
@@ -83,6 +87,12 @@ UniformType UniformValue::type() const
     return _type;
 }
 
+void UniformValue::setType(UniformType type)
+{
+    _type = type;
+    _zeroValueMemory();
+}
+
 const void* UniformValue::data() const
 {
     return &_value;
@@ -92,7 +102,7 @@ void UniformValue::setValue(int value)
 {
     if (_type != UniformType::Int && _type != UniformType::Texture)
     {
-        throw Error("Shader value is not of type 'Int'");
+        throw Error("Uniform value is not of type 'Int' or 'Texture'");
     }
 
     _value.intValue = value;
@@ -102,7 +112,7 @@ void UniformValue::setValue(Real value)
 {
     if (_type != UniformType::Float)
     {
-        throw Error("Shader value is not of type 'Float'");
+        throw Error("Uniform value is not of type 'Float'");
     }
 
     _value.floatValues[0] = (float)value;
@@ -112,7 +122,7 @@ void UniformValue::setValue(const Vector2& value)
 {
     if (_type != UniformType::Vector2)
     {
-        throw Error("Shader value is not of type 'Vector2'");
+        throw Error("Uniform value is not of type 'Vector2'");
     }
 
     _value.floatValues[0] = (float)value.x;
@@ -123,7 +133,7 @@ void UniformValue::setValue(const Vector3& value)
 {
     if (_type != UniformType::Vector3)
     {
-        throw Error("Shader value is not of type 'Vector3'");
+        throw Error("Uniform value is not of type 'Vector3'");
     }
 
     _value.floatValues[0] = (float)value.x;
@@ -135,7 +145,7 @@ void UniformValue::setValue(const Vector4& value)
 {
     if (_type != UniformType::Vector4)
     {
-        throw Error("Shader value is not of type 'Vector4'");
+        throw Error("Uniform value is not of type 'Vector4'");
     }
 
     _value.floatValues[0] = (float)value.x;
@@ -148,11 +158,98 @@ void UniformValue::setValue(const Matrix4& value)
 {
     if (_type != UniformType::Matrix4)
     {
-        throw Error("Shader value is not of type 'Matrix4'");
+        throw Error("Uniform value is not of type 'Matrix4'");
     }
 
     for (int i = 0; i < 16; ++i)
     {
         _value.floatValues[i] = (float)value[i];
     }
+}
+
+int UniformValue::asInt() const
+{
+    return _value.intValue;
+}
+
+Real UniformValue::asReal() const
+{
+    return (Real)_value.floatValues[0];
+}
+
+Vector2 UniformValue::asVector2() const
+{
+    Real x = (Real)_value.floatValues[0];
+    Real y = (Real)_value.floatValues[1];
+    return Vector2(x, y);
+}
+
+Vector3 UniformValue::asVector3() const
+{
+    Real x = (Real)_value.floatValues[0];
+    Real y = (Real)_value.floatValues[1];
+    Real z = (Real)_value.floatValues[2];
+    return Vector3(x, y, z);
+}
+
+Vector4 UniformValue::asVector4() const
+{
+    Real x = (Real)_value.floatValues[0];
+    Real y = (Real)_value.floatValues[1];
+    Real z = (Real)_value.floatValues[2];
+    Real w = (Real)_value.floatValues[3];
+    return Vector4(x, y, z, w);
+}
+
+void UniformValue::encode(ObjectEncoder& encoder) const
+{
+    UniformValueEncoder::encode(*this, encoder);
+}
+
+void UniformValue::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+{
+    assetCache;
+    UniformValueEncoder::decode(*this, decoder);
+}
+
+bool UniformValue::operator==(const UniformValue& uniformValue) const
+{
+    // Type
+    if (_type != uniformValue._type)
+    {
+        return false;
+    }
+
+    // Value
+    switch (_type)
+    {
+    case UniformType::Int:
+    case UniformType::Texture:
+        return asInt() == uniformValue.asInt();
+        break;
+    case UniformType::Float:
+        return asReal() == uniformValue.asReal();
+        break;
+    case UniformType::Vector2:
+        return asVector2() == uniformValue.asVector2();
+        break;
+    case UniformType::Vector3:
+        return asVector3() == uniformValue.asVector3();
+        break;
+    case UniformType::Vector4:
+        return asVector4() == uniformValue.asVector4();
+        break;
+    default:
+        throw Error("Unsupported uniform value type");
+    }
+}
+
+bool UniformValue::operator!=(const UniformValue& uniformValue) const
+{
+    return !(*this == uniformValue);
+}
+
+void UniformValue::_zeroValueMemory()
+{
+    std::memset(&_value.floatValues[0], 0, sizeof(float) * 16);
 }

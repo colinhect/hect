@@ -61,6 +61,8 @@ using namespace hect;
 #include "StreamTests.h"
 #include "TaskPoolTests.h"
 #include "TimeSpanTests.h"
+#include "UniformTests.h"
+#include "UniformValueTests.h"
 #include "Vector2Tests.h"
 #include "Vector3Tests.h"
 #include "Vector4Tests.h"

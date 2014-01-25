@@ -110,7 +110,7 @@ void Mesh::setVertexLayout(const VertexLayout& vertexLayout)
 
     if (_vertexData.size() != 0)
     {
-        throw Error("Attempt to change the vertex layout of a mesh with vertex data");
+        throw Error("Cannot change the vertex layout of a mesh with vertex data");
     }
 
     _vertexLayout = vertexLayout;
@@ -145,7 +145,7 @@ void Mesh::setIndexType(IndexType indexType)
 
     if (_indexData.size() != 0)
     {
-        throw Error("Attempt to change the index type of a mesh with index data");
+        throw Error("Cannot change the index type of a mesh with index data");
     }
 
     _indexType = indexType;

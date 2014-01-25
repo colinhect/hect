@@ -236,4 +236,16 @@ const T& Vector3T<T>::operator[](size_t i) const
     return ((const T*)this)[i];
 }
 
+template <typename T>
+bool Vector3T<T>::operator==(const Vector3T& v) const
+{
+    return x == v.x && y == v.y && z == v.z;
+}
+
+template <typename T>
+bool Vector3T<T>::operator!=(const Vector3T& v) const
+{
+    return !(*this == v);
+}
+
 }

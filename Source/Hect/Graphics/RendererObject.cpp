@@ -92,7 +92,7 @@ Renderer& RendererObject::renderer() const
 {
     if (!_renderer)
     {
-        throw Error("Attempt to get the renderer of a renderer object which is not uploaded");
+        throw Error("Cannot get the renderer of a renderer object which is not uploaded");
     }
     return *_renderer;
 }

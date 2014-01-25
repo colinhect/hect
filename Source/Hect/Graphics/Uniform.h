@@ -78,7 +78,10 @@ enum class UniformBinding
 };
 
 ///
-/// A global variable of a shader which serves as parameter.
+/// A variable of a shader which serves as parameter.
+///
+/// \note A uniform must either have a default value or a binding.  The type
+/// is determined by those.
 class Uniform :
     public Encodable
 {
@@ -91,13 +94,6 @@ public:
     ///
     /// Constructs an empty uniform.
     Uniform();
-
-    ///
-    /// Constructs a uniform given its name and type.
-    ///
-    /// \param name The name.
-    /// \param type The type.
-    Uniform(const std::string& name, UniformType type);
 
     ///
     /// Constructs a uniform given its name and binding
@@ -113,14 +109,30 @@ public:
     /// \param defaultValue The default value which will be set when the shader
     /// is bound (see Renderer::bindShader()).
     Uniform(const std::string& name, const UniformValue& defaultValue);
-
+    
     ///
     /// Returns the uniform type.
     UniformType type() const;
 
     ///
+    /// Sets the uniform type.
+    ///
+    /// \param type The new type.
+    ///
+    /// \throws Error If the uniform has a binding.
+    void setType(UniformType type);
+
+    ///
     /// Returns the uniform binding.
     UniformBinding binding() const;
+
+    ///
+    /// Sets the uniform binding.
+    ///
+    /// \note The uniform type is changed to reflect the new binding.
+    ///
+    /// \param binding The new binding.
+    void setBinding(UniformBinding binding);
 
     ///
     /// Returns whether the uniform has a binding.
@@ -131,12 +143,26 @@ public:
     const UniformValue& defaultValue() const;
 
     ///
+    /// Sets the default value.
+    ///
+    /// \note The uniform type is changed to reflect the new value.
+    ///
+    /// \param defaultValue The new default value.
+    void setDefaultValue(const UniformValue& defaultValue);
+
+    ///
     /// Returns whether the uniform has a default value.
     bool hasDefaultValue() const;
 
     ///
-    /// Returns the name of the uniform.
+    /// Returns the name.
     const std::string& name() const;
+
+    ///
+    /// Sets the name.
+    ///
+    /// \param name The new name.
+    void setName(const std::string& name);
 
     ///
     /// Returns the compiled location.
@@ -147,14 +173,33 @@ public:
     ///
     /// \param location The compiled location.
     void setLocation(int location);
-
+    
+    ///
+    /// Encodes the uniform.
+    ///
+    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
+
+    ///
+    /// Decodes the uniform.
+    ///
+    /// \param decoder The decoder to use.
+    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
-private:
-    static UniformBinding _parseUniformBinding(const std::string& value);
-    static UniformType _parseType(const std::string& value);
+    ///
+    /// Returns whether the uniform is equivalent to another.
+    ///
+    /// \param uniform The other uniform.
+    bool operator==(const Uniform& uniform) const;
 
+    ///
+    /// Returns whether the uniform is different from another.
+    ///
+    /// \param uniform The other uniform.
+    bool operator!=(const Uniform& uniform) const;
+
+private:
     std::string _name;
 
     UniformType _type;

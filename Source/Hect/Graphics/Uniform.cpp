@@ -23,21 +23,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Uniform.h"
 
+#include "Hect/IO/Encoders/UniformEncoder.h"
+
 using namespace hect;
 
 Uniform::Uniform() :
     _type(UniformType::Float),
     _binding(UniformBinding::None),
-    _defaultValueSet(false),
-    _location(-1)
-{
-}
-
-Uniform::Uniform(const std::string& name, UniformType type) :
-    _name(name),
-    _type(type),
-    _binding(UniformBinding::None),
-    _defaultValueSet(false),
+    _defaultValueSet(true),
+    _defaultValue((Real)0),
     _location(-1)
 {
 }
@@ -48,6 +42,41 @@ Uniform::Uniform(const std::string& name, UniformBinding binding) :
     _binding(binding),
     _defaultValueSet(false),
     _location(-1)
+{
+    setBinding(binding);
+}
+
+Uniform::Uniform(const std::string& name, const UniformValue& defaultValue) :
+    _name(name),
+    _type(defaultValue.type()),
+    _binding(UniformBinding::None),
+    _defaultValueSet(true),
+    _defaultValue(defaultValue),
+    _location(-1)
+{
+}
+
+UniformType Uniform::type() const
+{
+    return _type;
+}
+
+void Uniform::setType(UniformType type)
+{
+    if (hasBinding())
+    {
+        throw Error("Cannot change the type of a uniform with a binding");
+    }
+
+    _type = type;
+}
+
+UniformBinding Uniform::binding() const
+{
+    return _binding;
+}
+
+void Uniform::setBinding(UniformBinding binding)
 {
     switch (binding)
     {
@@ -67,26 +96,13 @@ Uniform::Uniform(const std::string& name, UniformBinding binding) :
         _type = UniformType::Matrix4;
         break;
     }
-}
 
-Uniform::Uniform(const std::string& name, const UniformValue& defaultValue) :
-    _name(name),
-    _type(defaultValue.type()),
-    _binding(UniformBinding::None),
-    _defaultValueSet(true),
-    _defaultValue(defaultValue),
-    _location(-1)
-{
-}
+    _binding = binding;
 
-UniformType Uniform::type() const
-{
-    return _type;
-}
-
-UniformBinding Uniform::binding() const
-{
-    return _binding;
+    if (_binding != UniformBinding::None)
+    {
+        _defaultValueSet = false;
+    }
 }
 
 bool Uniform::hasBinding() const
@@ -99,6 +115,15 @@ const UniformValue& Uniform::defaultValue() const
     return _defaultValue;
 }
 
+void Uniform::setDefaultValue(const UniformValue& defaultValue)
+{
+    _defaultValueSet = true;
+    _binding = UniformBinding::None;
+
+    _type = defaultValue.type();
+    _defaultValue = defaultValue;
+}
+
 bool Uniform::hasDefaultValue() const
 {
     return _defaultValueSet;
@@ -107,6 +132,11 @@ bool Uniform::hasDefaultValue() const
 const std::string& Uniform::name() const
 {
     return _name;
+}
+
+void Uniform::setName(const std::string& name)
+{
+    _name = name;
 }
 
 int Uniform::location() const
@@ -121,114 +151,51 @@ void Uniform::setLocation(int location)
 
 void Uniform::encode(ObjectEncoder& encoder) const
 {
-    encoder;
-    throw Error("Not implemented");
+    UniformEncoder::encode(*this, encoder);
 }
 
 void Uniform::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
-
-    if (decoder.hasMember("name"))
-    {
-        _name = decoder.decodeString("name");
-    }
-    else
-    {
-        throw Error("No uniform name specified");
-    }
-
-    if (decoder.hasMember("type"))
-    {
-        _type = _parseType(decoder.decodeString("type"));
-
-        if (decoder.hasMember("defaultValue"))
-        {
-            _defaultValueSet = true;
-            switch (_type)
-            {
-            case UniformType::Int:
-            case UniformType::Texture:
-                _defaultValue = UniformValue(decoder.decodeInt("defaultValue"), _type);
-                break;
-            case UniformType::Float:
-                _defaultValue = UniformValue(decoder.decodeReal("defaultValue"));
-                break;
-            case UniformType::Vector2:
-                _defaultValue = UniformValue(decoder.decodeVector2("defaultValue"));
-                break;
-            case UniformType::Vector3:
-                _defaultValue = UniformValue(decoder.decodeVector3("defaultValue"));
-                break;
-            case UniformType::Vector4:
-                _defaultValue = UniformValue(decoder.decodeVector4("defaultValue"));
-                break;
-            default:
-                throw Error("Unsupported default uniform value type");
-            }
-        }
-        else
-        {
-            _defaultValueSet = false;
-        }
-    }
-    else if (decoder.hasMember("binding"))
-    {
-        _binding = _parseUniformBinding(decoder.decodeString("binding"));
-    }
-    else
-    {
-        throw Error("No uniform type or binding specified");
-    }
+    UniformEncoder::decode(*this, decoder);
 }
 
-UniformBinding Uniform::_parseUniformBinding(const std::string& value)
+bool Uniform::operator==(const Uniform& uniform) const
 {
-    static std::map<std::string, UniformBinding> uniformBindings;
-
-    if (uniformBindings.empty())
+    // Name
+    if (_name != uniform._name)
     {
-        uniformBindings["None"] = UniformBinding::None;
-        uniformBindings["RenderTargetSize"] = UniformBinding::RenderTargetSize;
-        uniformBindings["CameraPosition"] = UniformBinding::CameraPosition;
-        uniformBindings["CameraUp"] = UniformBinding::CameraUp;
-        uniformBindings["ViewMatrix"] = UniformBinding::ViewMatrix;
-        uniformBindings["ProjectionMatrix"] = UniformBinding::ProjectionMatrix;
-        uniformBindings["ViewProjectionMatrix"] = UniformBinding::ViewProjectionMatrix;
-        uniformBindings["ModelMatrix"] = UniformBinding::ModelMatrix;
-        uniformBindings["ModelViewMatrix"] = UniformBinding::ModelViewMatrix;
-        uniformBindings["ModelViewProjectionMatrix"] = UniformBinding::ModelViewProjectionMatrix;
+        return false;
+    }
+    
+    // Type
+    if (_type != uniform._type)
+    {
+        return false;
     }
 
-    auto it = uniformBindings.find(value);
-    if (it == uniformBindings.end())
+    // Binding
+    if (_binding != uniform._binding)
     {
-        throw Error(format("Invalid uniform binding '%s'", value.c_str()));
+        return false;
     }
 
-    return (*it).second;
+    // Has default value
+    if (_defaultValueSet != uniform._defaultValueSet)
+    {
+        return false;
+    }
+
+    // Default value
+    if (_defaultValue != uniform._defaultValue)
+    {
+        return false;
+    }
+
+    return true;
 }
 
-UniformType Uniform::_parseType(const std::string& value)
+bool Uniform::operator!=(const Uniform& uniform) const
 {
-    static std::map<std::string, UniformType> valueTypes;
-
-    if (valueTypes.empty())
-    {
-        valueTypes["Int"] = UniformType::Int;
-        valueTypes["Float"] = UniformType::Float;
-        valueTypes["Vector2"] = UniformType::Vector2;
-        valueTypes["Vector3"] = UniformType::Vector3;
-        valueTypes["Vector4"] = UniformType::Vector4;
-        valueTypes["Matrix4"] = UniformType::Matrix4;
-        valueTypes["Texture"] = UniformType::Texture;
-    }
-
-    auto it = valueTypes.find(value);
-    if (it == valueTypes.end())
-    {
-        throw Error(format("Invalid uniform type '%s'", value.c_str()));
-    }
-
-    return (*it).second;
+    return !(*this == uniform);
 }

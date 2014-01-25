@@ -21,21 +21,43 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/Asset/AssetLoader.h"
-#include "Hect/Asset/AssetCache.h"
-#include "Hect/Core/DataValue.h"
-#include "Hect/Graphics/Shader.h"
+#pragma once
 
-using namespace hect;
-
-void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache& assetCache)
+SUITE(UniformValue)
 {
-    DataValue dataValue;
+    TEST(EncodingInt)
     {
-        FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-        dataValue.decodeFromJson(stream);
+        UniformValue a(123, UniformType::Int);
+        testEncodable(a);
     }
 
-    shader.setName(assetPath.toString());
-    shader.decodeFromDataValue(dataValue, assetCache);
+    TEST(EncodingTexture)
+    {
+        UniformValue a(123, UniformType::Texture);
+        testEncodable(a);
+    }
+
+    TEST(EncodingReal)
+    {
+        UniformValue a((Real)123);
+        testEncodable(a);
+    }
+
+    TEST(EncodingVector2)
+    {
+        UniformValue a(Vector2(1, 2));
+        testEncodable(a);
+    }
+
+    TEST(EncodingVector3)
+    {
+        UniformValue a(Vector3(1, 2, 3));
+        testEncodable(a);
+    }
+
+    TEST(EncodingVector4)
+    {
+        UniformValue a(Vector4(1, 2, 3, 4));
+        testEncodable(a);
+    }
 }

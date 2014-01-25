@@ -27,13 +27,14 @@
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
 #include "Hect/Math/Matrix4.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
 
 ///
 /// A uniform value type.
-enum class UniformType
+enum class UniformType : uint8_t
 {
     ///
     /// An integer.
@@ -68,7 +69,8 @@ enum class UniformType
 /// A value for a uniform.
 ///
 /// \note A uniform's type cannot change.
-class UniformValue
+class UniformValue :
+    public Encodable
 {
 public:
 
@@ -91,7 +93,7 @@ public:
     UniformValue(int value, UniformType type);
 
     ///
-    /// Constructs a floating-point uniform value.
+    /// Constructs a real uniform value.
     ///
     /// \param value The value.
     UniformValue(Real value);
@@ -119,10 +121,18 @@ public:
     ///
     /// \param value The value.
     UniformValue(const hect::Matrix4& value);
-
+    
     ///
     /// Returns the type.
     UniformType type() const;
+
+    ///
+    /// Sets the type.
+    ///
+    /// \note The value is reset to default when the type changes.
+    ///
+    /// \param type The new type.
+    void setType(UniformType type);
 
     ///
     /// Returns the raw data.
@@ -137,11 +147,11 @@ public:
     void setValue(int value);
 
     ///
-    /// Sets the value of the uniform value as a floating-point number.
+    /// Sets the value of the uniform value as a real number.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a float.
+    /// \throws Error If the uniform value is not a real.
     void setValue(Real value);
 
     ///
@@ -175,8 +185,55 @@ public:
     ///
     /// \throws Error If the uniform value is not a 4 by 4 matrix.
     void setValue(const Matrix4& value);
+    
+    ///
+    /// Returns the value as an integer.
+    int asInt() const;
+
+    ///
+    /// Returns the value as a real.
+    Real asReal() const;
+    
+    ///
+    /// Returns the value as a 2-dimensional vector.
+    Vector2 asVector2() const;
+
+    ///
+    /// Returns the value as a 3-dimensional vector.
+    Vector3 asVector3() const;
+
+    ///
+    /// Returns the value as a 4-dimensional vector.
+    Vector4 asVector4() const;
+
+    ///
+    /// Encodes the uniform value.
+    ///
+    /// \param encoder The encoder to use.
+    void encode(ObjectEncoder& encoder) const;
+
+    ///
+    /// Decodes the uniform value.
+    ///
+    /// \param decoder The decoder to use.
+    /// \param assetCache The asset cache to get referenced assets from.
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+
+    ///
+    /// Returns whether the uniform value is equivalent to another.
+    ///
+    /// \param uniformValue The other uniform value.
+    bool operator==(const UniformValue& uniformValue) const;
+
+    ///
+    /// Returns whether the uniform value is different from another.
+    ///
+    /// \param uniformValue The other uniform value.
+    bool operator!=(const UniformValue& uniformValue) const;
 
 private:
+    void _zeroValueMemory();
+
     UniformType _type;
 
     union

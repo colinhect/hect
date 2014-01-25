@@ -245,4 +245,16 @@ const T& Vector4T<T>::operator[](size_t i) const
     return ((const T*)this)[i];
 }
 
+template <typename T>
+bool Vector4T<T>::operator==(const Vector4T& v) const
+{
+    return x == v.x && y == v.y && z == v.z && w == v.w;
+}
+
+template <typename T>
+bool Vector4T<T>::operator!=(const Vector4T& v) const
+{
+    return !(*this == v);
+}
+
 }

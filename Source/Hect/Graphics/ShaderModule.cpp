@@ -32,10 +32,19 @@ ShaderModule::ShaderModule() :
 {
 }
 
-ShaderModule::ShaderModule(const std::string& name, ShaderModuleType type, const std::string& source) :
-    _name(name),
-    _type(type),
-    _source(source)
+ShaderModule::ShaderModule(const ShaderModule& shaderModule) :
+    RendererObject(shaderModule),
+    _name(shaderModule._name),
+    _type(shaderModule._type),
+    _source(shaderModule._source)
+{
+}
+
+ShaderModule::ShaderModule(ShaderModule&& shaderModule) :
+    RendererObject(shaderModule),
+    _name(std::move(shaderModule._name)),
+    _type(shaderModule._type),
+    _source(std::move(shaderModule._source))
 {
 }
 
@@ -52,12 +61,79 @@ const std::string& ShaderModule::name() const
     return _name;
 }
 
+void ShaderModule::setName(const std::string& name)
+{
+    _name = name;
+}
+
 ShaderModuleType ShaderModule::type() const
 {
     return _type;
 }
 
+void ShaderModule::setType(ShaderModuleType type)
+{
+    if (isUploaded())
+    {
+        renderer().destroyShaderModule(*this);
+    }
+
+    _type = type;
+}
+
 const std::string& ShaderModule::source() const
 {
     return _source;
+}
+
+void ShaderModule::setSource(const std::string& source)
+{
+    if (isUploaded())
+    {
+        renderer().destroyShaderModule(*this);
+    }
+
+    _source = source;
+}
+
+bool ShaderModule::operator==(const ShaderModule& shaderModule) const
+{
+    return _type == shaderModule._type && _source == shaderModule._source;
+}
+
+bool ShaderModule::operator!=(const ShaderModule& shaderModule) const
+{
+    return !(*this == shaderModule);
+}
+
+ShaderModule& ShaderModule::operator=(const ShaderModule& shaderModule)
+{
+    if (isUploaded())
+    {
+        renderer().destroyShaderModule(*this);
+    }
+
+    RendererObject::operator=(shaderModule);
+    
+    _name = shaderModule._name;
+    _type = shaderModule._type;
+    _source = shaderModule._source;
+
+    return *this;
+}
+
+ShaderModule& ShaderModule::operator=(ShaderModule&& shaderModule)
+{
+    if (isUploaded())
+    {
+        renderer().destroyShaderModule(*this);
+    }
+
+    RendererObject::operator=(shaderModule);
+    
+    _name = std::move(shaderModule._name);
+    _type = shaderModule._type;
+    _source = std::move(shaderModule._source);
+
+    return *this;
 }

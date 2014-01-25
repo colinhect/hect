@@ -126,7 +126,7 @@ void Texture::setMinFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
-        throw Error("Attempt to set the min filter of a texture that is uploaded");
+        throw Error("Cannot set the min filter of a texture that is uploaded");
     }
 
     _minFilter = filter;
@@ -141,7 +141,7 @@ void Texture::setMagFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
-        throw Error("Attempt to set the mag filter of a texture that is uploaded");
+        throw Error("Cannot to set the mag filter of a texture that is uploaded");
     }
 
     _magFilter = filter;
@@ -156,7 +156,7 @@ void Texture::setMipmapped(bool mipmapped)
 {
     if (isUploaded())
     {
-        throw Error("Attempt to set mipmapping of a texture that is uploaded");
+        throw Error("Cannot to set mipmapping of a texture that is uploaded");
     }
 
     _mipmapped = mipmapped;
@@ -171,7 +171,7 @@ void Texture::setWrapped(bool wrapped)
 {
     if (isUploaded())
     {
-        throw Error("Attempt to set wrapping of a texture that is uploaded");
+        throw Error("Cannot to set wrapping of a texture that is uploaded");
     }
 
     _wrapped = wrapped;

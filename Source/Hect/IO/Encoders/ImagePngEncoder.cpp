@@ -63,7 +63,7 @@ void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
     // Verify pixel format and type.
     if (image.pixelType() != PixelType::Byte || image.pixelFormat() != PixelFormat::Rgba)
     {
-        throw Error("Attempt to encode an image to PNG which does not conform to the 32-bit RGBA format");
+        throw Error("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
     }
 
     // Flip the image from OpenGL ordering

@@ -26,6 +26,7 @@
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Graphics/Renderer.h"
+#include "Hect/IO/Encoders/ShaderEncoder.h"
 
 using namespace hect;
 
@@ -38,10 +39,19 @@ Shader::Shader(const std::string& name) :
 {
 }
 
-Shader::Shader(const std::string& name, const AssetHandle<ShaderModule>::Array& modules, const Uniform::Array& uniforms) :
-    _name(name),
-    _modules(modules),
-    _uniforms(uniforms)
+Shader::Shader(const Shader& shader) :
+    RendererObject(shader),
+    _name(shader._name),
+    _modules(shader._modules),
+    _uniforms(shader._uniforms)
+{
+}
+
+Shader::Shader(Shader&& shader) :
+    RendererObject(shader),
+    _name(std::move(shader._name)),
+    _modules(std::move(shader._modules)),
+    _uniforms(std::move(shader._uniforms))
 {
 }
 
@@ -58,9 +68,36 @@ const std::string& Shader::name() const
     return _name;
 }
 
+void Shader::setName(const std::string& name)
+{
+    _name = name;
+}
+
+void Shader::addModule(const AssetHandle<ShaderModule>& module)
+{
+    if (isUploaded())
+    {
+        // The shader will need to be re-uploaded for the change to take effect
+        renderer().destroyShader(*this);
+    }
+
+    _modules.push_back(module);
+}
+
 const AssetHandle<ShaderModule>::Array& Shader::modules() const
 {
     return _modules;
+}
+
+void Shader::addUniform(const Uniform& uniform)
+{
+    if (isUploaded())
+    {
+        // The shader will need to be re-uploaded for the change to take effect
+        renderer().destroyShader(*this);
+    }
+
+    _uniforms.push_back(uniform);
 }
 
 Uniform::Array& Shader::uniforms()
@@ -88,34 +125,86 @@ const Uniform& Shader::uniformWithName(const std::string& name) const
 
 void Shader::encode(ObjectEncoder& encoder) const
 {
-    encoder;
-    throw Error("Not implemented");
+    ShaderEncoder::encode(*this, encoder);
 }
 
 void Shader::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    // Add all modules
-    if (decoder.hasMember("modules"))
+    ShaderEncoder::decode(*this, decoder, assetCache);
+}
+
+bool Shader::operator==(const Shader& shader) const
+{
+    // Module count
+    if (_modules.size() != shader._modules.size())
     {
-        ArrayDecoder modulesDecoder = decoder.decodeArray("modules");
-        while (modulesDecoder.hasMoreElements())
+        return false;
+    }
+
+    // Modules
+    size_t moduleCount = _modules.size();
+    for (size_t i = 0; i < moduleCount; ++i)
+    {
+        if (_modules[i] != shader._modules[i])
         {
-            Path modulePath = modulesDecoder.decodeString();
-            AssetHandle<ShaderModule> module = assetCache.getHandle<ShaderModule>(modulePath);
-            _modules.push_back(module);
+            return false;
         }
     }
 
-    // Add all uniforms
-    if (decoder.hasMember("uniforms"))
+    // Uniform count
+    if (_uniforms.size() != shader._uniforms.size())
     {
-        ArrayDecoder uniformsDecoder = decoder.decodeArray("uniforms");
-        while (uniformsDecoder.hasMoreElements())
+        return false;
+    }
+
+    // Uniforms
+    size_t uniformCount = _uniforms.size();
+    for (size_t i = 0; i < uniformCount; ++i)
+    {
+        if (_uniforms[i] != shader._uniforms[i])
         {
-            ObjectDecoder uniformDecoder = uniformsDecoder.decodeObject();
-            Uniform uniform;
-            uniform.decode(uniformDecoder, assetCache);
-            _uniforms.push_back(uniform);
+            return false;
         }
     }
+
+    return true;
+}
+
+bool Shader::operator!=(const Shader& shader) const
+{
+    return !(*this == shader);
+}
+
+Shader& Shader::operator=(const Shader& shader)
+{
+    if (isUploaded())
+    {
+        // The shader will need to be re-uploaded for the change to take effect
+        renderer().destroyShader(*this);
+    }
+
+    RendererObject::operator=(shader);
+    
+    _name = shader._name;
+    _modules = shader._modules;
+    _uniforms = shader._uniforms;
+
+    return *this;
+}
+
+Shader& Shader::operator=(Shader&& shader)
+{
+    if (isUploaded())
+    {
+        // The shader will need to be re-uploaded for the change to take effect
+        renderer().destroyShader(*this);
+    }
+
+    RendererObject::operator=(shader);
+    
+    _name = std::move(shader._name);
+    _modules = std::move(shader._modules);
+    _uniforms = std::move(shader._uniforms);
+
+    return *this;
 }

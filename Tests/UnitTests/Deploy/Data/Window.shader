@@ -8,8 +8,11 @@
     [
         { 
             "name" : "sourceTexture",
-            "type" : "Texture",
-            "defaultValue" : 0
+            "defaultValue" :
+            {
+              "type" : "Texture",
+              "value" : 0
+            }
         }
     ]
 }

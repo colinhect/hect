@@ -21,21 +21,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/Asset/AssetLoader.h"
-#include "Hect/Asset/AssetCache.h"
-#include "Hect/Core/DataValue.h"
-#include "Hect/Graphics/Shader.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Graphics/UniformValue.h"
 
-void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache& assetCache)
+namespace hect
 {
-    DataValue dataValue;
-    {
-        FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-        dataValue.decodeFromJson(stream);
-    }
 
-    shader.setName(assetPath.toString());
-    shader.decodeFromDataValue(dataValue, assetCache);
+class UniformValueEncoder
+{
+public:
+    static void encode(const UniformValue& uniformValue, ObjectEncoder& encoder);
+    static void decode(UniformValue& uniformValue, ObjectDecoder& decoder);
+
+    static UniformType uniformTypeFromString(const std::string& value);
+    static std::string uniformTypeToString(UniformType uniformType);
+};
+
 }

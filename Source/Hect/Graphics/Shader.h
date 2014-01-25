@@ -50,12 +50,16 @@ public:
     Shader(const std::string& name);
 
     ///
-    /// Constructs a shader given its modules and uniforms.
+    /// Constructs a shader as a copy of another.
     ///
-    /// \param name The name.
-    /// \param modules The modules.
-    /// \param uniforms The uniforms.
-    Shader(const std::string& name, const AssetHandle<ShaderModule>::Array& modules, const Uniform::Array& uniforms);
+    /// \param shader The shader to copy.
+    Shader(const Shader& shader);
+
+    ///
+    /// Constructs a shader moved from another.
+    ///
+    /// \param shader The shader to move.
+    Shader(Shader&& shader);
 
     ///
     /// Destroys the shader if it is uploaded.
@@ -66,8 +70,32 @@ public:
     const std::string& name() const;
 
     ///
+    /// Sets the name.
+    ///
+    /// \param name The new name.
+    void setName(const std::string& name);
+
+    ///
+    /// Adds a module to the shader.
+    ///
+    /// \notes If the shader is uploaded to a renderer then it will be
+    /// destroyed before the module is added.
+    ///
+    /// \param module The module to add.
+    void addModule(const AssetHandle<ShaderModule>& module);
+
+    ///
     /// Returns the modules.
     const AssetHandle<ShaderModule>::Array& modules() const;
+
+    ///
+    /// Adds a uniform to the shader.
+    ///
+    /// \notes If the shader is uploaded to a renderer then it will be
+    /// destroyed before the uniform is added.
+    ///
+    /// \param uniform The uniform to add.
+    void addUniform(const Uniform& uniform);
 
     ///
     /// Returns the uniforms.
@@ -84,9 +112,57 @@ public:
     ///
     /// \throws Error If no uniform with the given name exists.
     const Uniform& uniformWithName(const std::string& name) const;
-
+    
+    ///
+    /// Encodes the shader.
+    ///
+    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
+
+    ///
+    /// Decodes the shader.
+    ///
+    /// \param decoder The decoder to use.
+    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+
+    ///
+    /// Returns whether the shader is equivalent to another.
+    ///
+    /// \note Does not compare the name.
+    ///
+    /// \param shader The other shader.
+    bool operator==(const Shader& shader) const;
+
+    ///
+    /// Returns whether the shader is different from another.
+    ///
+    /// \note Does not compare the name.
+    ///
+    /// \param shader The other shader.
+    bool operator!=(const Shader& shader) const;
+
+    ///
+    /// Replaces the shader with a copy of another.
+    ///
+    /// \note If the shader was uploaded to a renderer then it will be destroyed
+    /// before assigned.
+    ///
+    /// \param shader The shader to copy.
+    ///
+    /// \returns A reference to the shader.
+    Shader& operator=(const Shader& shader);
+
+    ///
+    /// Replaces the shader by moving another.
+    ///
+    /// \note If the shader was uploaded to a renderer then it will be destroyed
+    /// before assigned.
+    ///
+    /// \param shader The shader to move.
+    ///
+    /// \returns A reference to the shader.
+    Shader& operator=(Shader&& shader);
 
 private:
     std::string _name;

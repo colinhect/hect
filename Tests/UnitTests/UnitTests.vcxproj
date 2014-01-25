@@ -183,6 +183,8 @@
     <ClInclude Include="Source\TaskPoolTests.h" />
     <ClInclude Include="Source\TimeSpanTests.h" />
     <ClInclude Include="Source\FormatTests.h" />
+    <ClInclude Include="Source\UniformTests.h" />
+    <ClInclude Include="Source\UniformValueTests.h" />
     <ClInclude Include="Source\Vector2Tests.h" />
     <ClInclude Include="Source\Vector3Tests.h" />
     <ClInclude Include="Source\Vector4Tests.h" />
