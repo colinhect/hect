@@ -46,8 +46,14 @@ public:
     ~ArrayDecoder();
     
     ///
-    /// Returns whether the source data is human-readable.
-    bool isHumanReadable() const;
+    /// Returns whether the decoder is reading from a binary stream.
+    bool isBinaryStream() const;
+
+    ///
+    /// Returns the raw binary stream.
+    ///
+    /// \throws Error If the decoder is not reading from a binary stream.
+    ReadStream& binaryStream();
 
     ///
     /// Returns whether there are more elements in the array.
@@ -151,8 +157,14 @@ public:
     ~ObjectDecoder();
     
     ///
-    /// Returns whether the source data is human-readable.
-    bool isHumanReadable() const;
+    /// Returns whether the decoder is reading from a binary stream.
+    bool isBinaryStream() const;
+    
+    ///
+    /// Returns the raw binary stream.
+    ///
+    /// \throws Error If the decoder is not reading from a binary stream.
+    ReadStream& binaryStream();
 
     ///
     /// Returns whether the object has a member with a specific name.
@@ -288,8 +300,14 @@ class DataDecoder
 public:
 
     ///
-    /// Returns whether the source data is human-readable.
-    virtual bool isHumanReadable() const = 0;
+    /// Returns whether the decoder is reading from a binary stream.
+    virtual bool isBinaryStream() const = 0;
+
+    ///
+    /// Returns the raw binary stream.
+    ///
+    /// \throws Error If the decoder is not reading from a binary stream.
+    virtual ReadStream& binaryStream() = 0;
 
     ///
     /// Begins decoding an array.
@@ -363,7 +381,8 @@ public:
     /// \param dataValue The data value to decode.
     DataValueDecoder(const DataValue& dataValue);
 
-    bool isHumanReadable() const;
+    bool isBinaryStream() const;
+    ReadStream& binaryStream();
 
     ArrayDecoder decodeArray();
     ObjectDecoder decodeObject();
@@ -434,7 +453,8 @@ public:
     /// \param stream The stream to decode from.
     BinaryDecoder(ReadStream& stream);
 
-    bool isHumanReadable() const;
+    bool isBinaryStream() const;
+    ReadStream& binaryStream();
 
     ArrayDecoder decodeArray();
     ObjectDecoder decodeObject();

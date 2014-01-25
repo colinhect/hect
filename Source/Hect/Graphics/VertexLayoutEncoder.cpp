@@ -32,15 +32,16 @@ void VertexLayoutEncoder::save(const VertexLayout& vertexLayout, ObjectEncoder& 
     {
         ObjectEncoder attributeEncoder = attributesEncoder.encodeObject();
 
-        if (attributeEncoder.isHumanReadable())
+        if (attributeEncoder.isBinaryStream())
         {
-            attributeEncoder.encodeString("semantic", attributeSemanticToString(attribute.semantic()));
-            attributeEncoder.encodeString("type", attributeTypeToString(attribute.type()));
+            WriteStream& stream = attributeEncoder.binaryStream();
+            stream.writeUnsignedByte((uint8_t)attribute.semantic());
+            stream.writeUnsignedByte((uint8_t)attribute.type());
         }
         else
         {
-            attributeEncoder.encodeUnsignedByte("semantic", (uint8_t)attribute.semantic());
-            attributeEncoder.encodeUnsignedByte("type", (uint8_t)attribute.type());
+            attributeEncoder.encodeString("semantic", attributeSemanticToString(attribute.semantic()));
+            attributeEncoder.encodeString("type", attributeTypeToString(attribute.type()));
         }
 
         attributeEncoder.encodeUnsignedInt("cardinality", attribute.cardinality());
@@ -60,15 +61,16 @@ void VertexLayoutEncoder::load(VertexLayout& vertexLayout, ObjectDecoder& decode
         VertexAttributeType type;
         unsigned cardinality;
 
-        if (attributeDecoder.isHumanReadable())
+        if (attributeDecoder.isBinaryStream())
         {
-            semantic = attributeSemanticFromString(attributeDecoder.decodeString("semantic"));
-            type = attributeTypeFromString(attributeDecoder.decodeString("type"));
+            ReadStream& stream = attributeDecoder.binaryStream();
+            semantic = (VertexAttributeSemantic)stream.readUnsignedByte();
+            type = (VertexAttributeType)stream.readUnsignedByte();
         }
         else
         {
-            semantic = (VertexAttributeSemantic)attributeDecoder.decodeUnsignedByte("semantic");
-            type = (VertexAttributeType)attributeDecoder.decodeUnsignedByte("type");
+            semantic = attributeSemanticFromString(attributeDecoder.decodeString("semantic"));
+            type = attributeTypeFromString(attributeDecoder.decodeString("type"));
         }
 
         cardinality = attributeDecoder.decodeUnsignedInt("cardinality");

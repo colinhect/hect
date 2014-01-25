@@ -45,10 +45,16 @@ ArrayEncoder::~ArrayEncoder()
     }
 }
 
-bool ArrayEncoder::isHumanReadable() const
+bool ArrayEncoder::isBinaryStream() const
 {
     assert(_encoder);
-    return _encoder->isHumanReadable();
+    return _encoder->isBinaryStream();
+}
+
+WriteStream& ArrayEncoder::binaryStream()
+{
+    assert(_encoder);
+    return _encoder->binaryStream();
 }
 
 ArrayEncoder ArrayEncoder::encodeArray()
@@ -191,10 +197,16 @@ ObjectEncoder::~ObjectEncoder()
     }
 }
 
-bool ObjectEncoder::isHumanReadable() const
+bool ObjectEncoder::isBinaryStream() const
 {
     assert(_encoder);
-    return _encoder->isHumanReadable();
+    return _encoder->isBinaryStream();
+}
+
+WriteStream& ObjectEncoder::binaryStream()
+{
+    assert(_encoder);
+    return _encoder->binaryStream();
 }
 
 ArrayEncoder ObjectEncoder::encodeArray(const char* name)
@@ -317,9 +329,14 @@ ObjectEncoder::ObjectEncoder(DataEncoder* encoder) :
 {
 }
 
-bool DataValueEncoder::isHumanReadable() const
+bool DataValueEncoder::isBinaryStream() const
 {
-    return true;
+    return false;
+}
+
+WriteStream& DataValueEncoder::binaryStream()
+{
+    throw Error("The encoder is not writing to a binary stream");
 }
 
 ArrayEncoder DataValueEncoder::encodeArray()
@@ -579,9 +596,14 @@ BinaryEncoder::BinaryEncoder(WriteStream& stream) :
 {
 }
 
-bool BinaryEncoder::isHumanReadable() const
+bool BinaryEncoder::isBinaryStream() const
 {
-    return false;
+    return true;
+}
+
+WriteStream& BinaryEncoder::binaryStream()
+{
+    return *_stream;
 }
 
 ArrayEncoder BinaryEncoder::encodeArray()

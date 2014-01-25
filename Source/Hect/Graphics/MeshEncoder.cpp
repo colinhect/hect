@@ -38,63 +38,96 @@ void MeshEncoder::save(const Mesh& mesh, ObjectEncoder& encoder)
     }
     
     // Index type
-    encoder.encodeString("indexType", indexTypeToString(mesh.indexType()));
+    if (encoder.isBinaryStream())
+    {
+        WriteStream& stream = encoder.binaryStream();
+        stream.writeUnsignedByte((uint8_t)mesh.indexType());
+    }
+    else
+    {
+        encoder.encodeString("indexType", indexTypeToString(mesh.indexType()));
+    }
 
     // Primitive type
-    encoder.encodeString("primitiveType", primitiveTypeToString(mesh.primitiveType()));
-
-    MeshReader reader(mesh);
-
-    // Vertex data
+    if (encoder.isBinaryStream())
     {
-        ArrayEncoder verticesEncoder = encoder.encodeArray("vertices");
-        while (reader.nextVertex())
+        WriteStream& stream = encoder.binaryStream();
+        stream.writeUnsignedByte((uint8_t)mesh.primitiveType());
+    }
+    else
+    {
+        encoder.encodeString("primitiveType", primitiveTypeToString(mesh.primitiveType()));
+    }
+
+    if (encoder.isBinaryStream())
+    {
+        WriteStream& stream = encoder.binaryStream();
+        
+        // Vertex data
+        uint32_t vertexDataSize = (uint32_t)mesh.vertexData().size();
+        stream.writeUnsignedInt(vertexDataSize);
+        stream.writeBytes(&mesh.vertexData()[0], vertexDataSize);
+
+        // Index data
+        uint32_t indexDataSize = (uint32_t)mesh.indexData().size();
+        stream.writeUnsignedInt(indexDataSize);
+        stream.writeBytes(&mesh.indexData()[0], indexDataSize);
+    }
+    else
+    {
+        MeshReader reader(mesh);
+
+        // Vertex data
         {
-            ArrayEncoder attributesEncoder = verticesEncoder.encodeArray();
-            for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
+            ArrayEncoder verticesEncoder = encoder.encodeArray("vertices");
+            while (reader.nextVertex())
             {
-                ObjectEncoder attributeEncoder = attributesEncoder.encodeObject();
-                VertexAttributeSemantic semantic = attribute.semantic();
+                ArrayEncoder attributesEncoder = verticesEncoder.encodeArray();
+                for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
+                {
+                    ObjectEncoder attributeEncoder = attributesEncoder.encodeObject();
+                    VertexAttributeSemantic semantic = attribute.semantic();
 
-                attributeEncoder.encodeString("semantic", VertexLayoutEncoder::attributeSemanticToString(semantic));
+                    attributeEncoder.encodeString("semantic", VertexLayoutEncoder::attributeSemanticToString(semantic));
 
-                unsigned cardinality = attribute.cardinality();
-                if (cardinality == 1)
-                {
-                    attributeEncoder.encodeReal("data", reader.readAttributeReal(semantic));
-                }
-                else if (cardinality == 2)
-                {
-                    attributeEncoder.encodeVector2("data", reader.readAttributeVector2(semantic));
-                }
-                else if (cardinality == 3)
-                {
-                    attributeEncoder.encodeVector3("data", reader.readAttributeVector3(semantic));
-                }
-                else if (cardinality == 4)
-                {
-                    attributeEncoder.encodeVector4("data", reader.readAttributeVector4(semantic));
+                    unsigned cardinality = attribute.cardinality();
+                    if (cardinality == 1)
+                    {
+                        attributeEncoder.encodeReal("data", reader.readAttributeReal(semantic));
+                    }
+                    else if (cardinality == 2)
+                    {
+                        attributeEncoder.encodeVector2("data", reader.readAttributeVector2(semantic));
+                    }
+                    else if (cardinality == 3)
+                    {
+                        attributeEncoder.encodeVector3("data", reader.readAttributeVector3(semantic));
+                    }
+                    else if (cardinality == 4)
+                    {
+                        attributeEncoder.encodeVector4("data", reader.readAttributeVector4(semantic));
+                    }
                 }
             }
         }
-    }
 
-    // Index data
-    {
-        ArrayEncoder indicesEncoder = encoder.encodeArray("indices");
-        while (reader.nextIndex())
+        // Index data
         {
-            switch (mesh.indexType())
+            ArrayEncoder indicesEncoder = encoder.encodeArray("indices");
+            while (reader.nextIndex())
             {
-            case IndexType::UnsignedByte:
-                indicesEncoder.encodeUnsignedByte(reader.readIndexByte());
-                break;
-            case IndexType::UnsignedShort:
-                indicesEncoder.encodeUnsignedShort(reader.readIndexShort());
-                break;
-            case IndexType::UnsignedInt:
-                indicesEncoder.encodeUnsignedInt(reader.readIndexInt());
-                break;
+                switch (mesh.indexType())
+                {
+                case IndexType::UnsignedByte:
+                    indicesEncoder.encodeUnsignedByte(reader.readIndexByte());
+                    break;
+                case IndexType::UnsignedShort:
+                    indicesEncoder.encodeUnsignedShort(reader.readIndexShort());
+                    break;
+                case IndexType::UnsignedInt:
+                    indicesEncoder.encodeUnsignedInt(reader.readIndexInt());
+                    break;
+                }
             }
         }
     }
@@ -112,77 +145,106 @@ void MeshEncoder::load(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCach
     }
 
     // Index type
-    if (decoder.hasMember("indexType"))
+    if (decoder.isBinaryStream())
+    {
+        ReadStream& stream = decoder.binaryStream();
+        mesh._indexType = (IndexType)stream.readUnsignedByte();
+    }
+    else if (decoder.hasMember("indexType"))
     {
         mesh._indexType = indexTypeFromString(decoder.decodeString("indexType"));
     }
 
     // Primitive type
-    if (decoder.hasMember("primitiveType"))
+    if (decoder.isBinaryStream())
+    {
+        ReadStream& stream = decoder.binaryStream();
+        mesh._primitiveType = (PrimitiveType)stream.readUnsignedByte();
+    }
+    else if (decoder.hasMember("primitiveType"))
     {
         mesh._primitiveType = primitiveTypeFromString(decoder.decodeString("primitiveType"));
     }
 
-    MeshWriter meshWriter(mesh);
-
-    // Add the vertices
-    if (decoder.hasMember("vertices"))
+    if (decoder.isBinaryStream())
     {
-        ArrayDecoder verticesDecoder = decoder.decodeArray("vertices");
-        while (verticesDecoder.hasMoreElements())
+        ReadStream& stream = decoder.binaryStream();
+
+        // Vertex data
+        uint32_t vertexDataSize = stream.readUnsignedInt();
+        Mesh::VertexData vertexData(vertexDataSize);
+        stream.readBytes(&vertexData[0], vertexDataSize);
+        mesh.setVertexData(vertexData);
+
+        // Index data
+        uint32_t indexDataSize = stream.readUnsignedInt();
+        Mesh::VertexData indexData(indexDataSize);
+        stream.readBytes(&indexData[0], indexDataSize);
+        mesh.setIndexData(indexData);
+    }
+    else
+    {
+        MeshWriter meshWriter(mesh);
+
+        // Vertex data
+        if (decoder.hasMember("vertices"))
         {
-            meshWriter.addVertex();
-
-            // For each attribute
-            ArrayDecoder attributesDecoder = verticesDecoder.decodeArray();
-            while (attributesDecoder.hasMoreElements())
+            ArrayDecoder verticesDecoder = decoder.decodeArray("vertices");
+            while (verticesDecoder.hasMoreElements())
             {
-                ObjectDecoder attributeDecoder = attributesDecoder.decodeObject();
+                meshWriter.addVertex();
 
-                auto semantic = VertexLayoutEncoder::attributeSemanticFromString(attributeDecoder.decodeString("semantic"));
-                const VertexAttribute* attribute = mesh.vertexLayout().attributeWithSemantic(semantic);
-                if (attribute)
+                // For each attribute
+                ArrayDecoder attributesDecoder = verticesDecoder.decodeArray();
+                while (attributesDecoder.hasMoreElements())
                 {
-                    unsigned cardinality = attribute->cardinality();
+                    ObjectDecoder attributeDecoder = attributesDecoder.decodeObject();
 
-                    if (cardinality == 1)
+                    auto semantic = VertexLayoutEncoder::attributeSemanticFromString(attributeDecoder.decodeString("semantic"));
+                    const VertexAttribute* attribute = mesh.vertexLayout().attributeWithSemantic(semantic);
+                    if (attribute)
                     {
-                        meshWriter.writeAttributeData(semantic, attributeDecoder.decodeReal("data"));
-                    }
-                    else if (cardinality == 2)
-                    {
-                        meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector2("data"));
-                    }
-                    else if (cardinality == 3)
-                    {
-                        meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector3("data"));
-                    }
-                    else if (cardinality == 4)
-                    {
-                        meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector4("data"));
+                        unsigned cardinality = attribute->cardinality();
+
+                        if (cardinality == 1)
+                        {
+                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeReal("data"));
+                        }
+                        else if (cardinality == 2)
+                        {
+                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector2("data"));
+                        }
+                        else if (cardinality == 3)
+                        {
+                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector3("data"));
+                        }
+                        else if (cardinality == 4)
+                        {
+                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector4("data"));
+                        }
                     }
                 }
             }
         }
-    }
 
-    // Add the indices
-    if (decoder.hasMember("indices"))
-    {
-        ArrayDecoder indicesDecoder = decoder.decodeArray("indices");
-        while (indicesDecoder.hasMoreElements())
+        // Index data
+        if (decoder.hasMember("indices"))
         {
-            switch (mesh.indexType())
+            ArrayDecoder indicesDecoder = decoder.decodeArray("indices");
+            while (indicesDecoder.hasMoreElements())
             {
-            case IndexType::UnsignedByte:
-                meshWriter.addIndex(indicesDecoder.decodeUnsignedByte());
-                break;
-            case IndexType::UnsignedShort:
-                meshWriter.addIndex(indicesDecoder.decodeUnsignedShort());
-                break;
-            case IndexType::UnsignedInt:
-                meshWriter.addIndex(indicesDecoder.decodeUnsignedInt());
-                break;
+                switch (mesh.indexType())
+                {
+                case IndexType::UnsignedByte:
+                    meshWriter.addIndex(indicesDecoder.decodeUnsignedByte());
+                    break;
+                case IndexType::UnsignedShort:
+                    meshWriter.addIndex(indicesDecoder.decodeUnsignedShort());
+                    break;
+                case IndexType::UnsignedInt:
+                    meshWriter.addIndex(indicesDecoder.decodeUnsignedInt());
+                    break;
+                }
             }
         }
     }

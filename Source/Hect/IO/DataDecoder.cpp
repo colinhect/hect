@@ -47,10 +47,16 @@ ArrayDecoder::~ArrayDecoder()
     }
 }
 
-bool ArrayDecoder::isHumanReadable() const
+bool ArrayDecoder::isBinaryStream() const
 {
     assert(_decoder);
-    return _decoder->isHumanReadable();
+    return _decoder->isBinaryStream();
+}
+
+ReadStream& ArrayDecoder::binaryStream()
+{
+    assert(_decoder);
+    return _decoder->binaryStream();
 }
 
 bool ArrayDecoder::hasMoreElements() const
@@ -199,10 +205,16 @@ ObjectDecoder::~ObjectDecoder()
     }
 }
 
-bool ObjectDecoder::isHumanReadable() const
+bool ObjectDecoder::isBinaryStream() const
 {
     assert(_decoder);
-    return _decoder->isHumanReadable();
+    return _decoder->isBinaryStream();
+}
+
+ReadStream& ObjectDecoder::binaryStream()
+{
+    assert(_decoder);
+    return _decoder->binaryStream();
 }
 
 bool ObjectDecoder::hasMember(const char* name) const
@@ -335,9 +347,14 @@ DataValueDecoder::DataValueDecoder(const DataValue& dataValue)
     _valueStack.push(dataValue);
 }
 
-bool DataValueDecoder::isHumanReadable() const
+bool DataValueDecoder::isBinaryStream() const
 {
-    return true;
+    return false;
+}
+
+ReadStream& DataValueDecoder::binaryStream()
+{
+    throw Error("The decoder is not reading from a binary stream");
 }
 
 ArrayDecoder DataValueDecoder::decodeArray()
@@ -643,9 +660,14 @@ BinaryDecoder::BinaryDecoder(ReadStream& stream) :
 {
 }
 
-bool BinaryDecoder::isHumanReadable() const
+bool BinaryDecoder::isBinaryStream() const
 {
-    return false;
+    return true;
+}
+
+ReadStream& BinaryDecoder::binaryStream()
+{
+    return *_stream;
 }
 
 ArrayDecoder BinaryDecoder::decodeArray()

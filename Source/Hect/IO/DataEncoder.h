@@ -46,8 +46,14 @@ public:
     ~ArrayEncoder();
     
     ///
-    /// Returns whether the resulting data is human-readable.
-    bool isHumanReadable() const;
+    /// Returns whether the encoder is writing to a binary stream.
+    bool isBinaryStream() const;
+    
+    ///
+    /// Returns the raw binary stream.
+    ///
+    /// \throws Error If the encoder is not writing to a binary stream.
+    WriteStream& binaryStream();
 
     ///
     /// Begins encoding an array.
@@ -177,8 +183,14 @@ public:
     ~ObjectEncoder();
     
     ///
-    /// Returns whether the resulting data is human-readable.
-    bool isHumanReadable() const;
+    /// Returns whether the encoder is writing to a binary stream.
+    bool isBinaryStream() const;
+    
+    ///
+    /// Returns the raw binary stream.
+    ///
+    /// \throws Error If the encoder is not writing to a binary stream.
+    WriteStream& binaryStream();
 
     ///
     /// Begins encoding an array.
@@ -324,8 +336,14 @@ class DataEncoder
 public:
 
     ///
-    /// Returns whether the resulting data is human-readable.
-    virtual bool isHumanReadable() const = 0;
+    /// Returns whether the encoder is writing to a binary stream.
+    virtual bool isBinaryStream() const = 0;
+    
+    ///
+    /// Returns the raw binary stream.
+    ///
+    /// \throws Error If the encoder is not writing to a binary stream.
+    virtual WriteStream& binaryStream() = 0;
 
     ///
     /// Begins encoding an array.
@@ -388,7 +406,8 @@ class DataValueEncoder :
     public DataEncoder
 {
 public:
-    bool isHumanReadable() const;
+    bool isBinaryStream() const;
+    WriteStream& binaryStream();
 
     ArrayEncoder encodeArray();
     ObjectEncoder encodeObject();
@@ -461,7 +480,8 @@ public:
     /// \param stream The stream to encode to.
     BinaryEncoder(WriteStream& stream);
 
-    bool isHumanReadable() const;
+    bool isBinaryStream() const;
+    WriteStream& binaryStream();
 
     ArrayEncoder encodeArray();
     ObjectEncoder encodeObject();
