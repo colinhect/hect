@@ -119,13 +119,13 @@ void Uniform::setLocation(int location)
     _location = location;
 }
 
-void Uniform::save(ObjectEncoder& encoder) const
+void Uniform::encode(ObjectEncoder& encoder) const
 {
     encoder;
     throw Error("Not implemented");
 }
 
-void Uniform::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Uniform::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 

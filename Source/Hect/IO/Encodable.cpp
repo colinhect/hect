@@ -25,44 +25,44 @@
 
 using namespace hect;
 
-void Encodable::save(ObjectEncoder& encoder) const
+void Encodable::encode(ObjectEncoder& encoder) const
 {
     encoder;
 }
 
-DataValue Encodable::saveToDataValue() const
+DataValue Encodable::encodeToDataValue() const
 {
     DataValueEncoder encoder;
     {
         ObjectEncoder objectEncoder = encoder.encodeObject();
-        save(objectEncoder);
+        encode(objectEncoder);
     }
     return encoder.dataValues()[0];
 }
 
-void Encodable::saveToBinary(WriteStream& stream) const
+void Encodable::encodeToBinary(WriteStream& stream) const
 {
     BinaryEncoder encoder(stream);
     ObjectEncoder objectEncode = encoder.encodeObject();
-    save(objectEncode);
+    encode(objectEncode);
 }
 
-void Encodable::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Encodable::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     decoder;
     assetCache;
 }
 
-void Encodable::loadFromDataValue(const DataValue& dataValue, AssetCache& assetCache)
+void Encodable::decodeFromDataValue(const DataValue& dataValue, AssetCache& assetCache)
 {
     DataValueDecoder decoder(dataValue);
     ObjectDecoder objectDecoder = decoder.decodeObject();
-    load(objectDecoder, assetCache);
+    decode(objectDecoder, assetCache);
 }
 
-void Encodable::loadFromBinary(ReadStream& stream, AssetCache& assetCache)
+void Encodable::decodeFromBinary(ReadStream& stream, AssetCache& assetCache)
 {
     BinaryDecoder decoder(stream);
     ObjectDecoder objectDecoder = decoder.decodeObject();
-    load(objectDecoder, assetCache);
+    decode(objectDecoder, assetCache);
 }

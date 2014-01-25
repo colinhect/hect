@@ -154,7 +154,7 @@ Entity Scene::entityWithId(Entity::Id id) const
     return Entity(*const_cast<Scene*>(this), id);
 }
 
-void Scene::save(ObjectEncoder& encoder) const
+void Scene::encode(ObjectEncoder& encoder) const
 {
     ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
 
@@ -164,12 +164,12 @@ void Scene::save(ObjectEncoder& encoder) const
         if (entity && entity.isActivated() && entity.isEncodable())
         {
             ObjectEncoder entityEncoder = entitiesEncoder.encodeObject();
-            entity.save(entityEncoder);
+            entity.encode(entityEncoder);
         }
     }
 }
 
-void Scene::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
     while (entitiesDecoder.hasMoreElements())
@@ -177,7 +177,7 @@ void Scene::load(ObjectDecoder& decoder, AssetCache& assetCache)
         Entity entity = createEntity();
 
         ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
-        entity.load(entityDecoder, assetCache);
+        entity.decode(entityDecoder, assetCache);
 
         entity.activate();
     }
@@ -204,7 +204,7 @@ Entity Scene::_cloneEntity(const Entity& entity)
     return clone;
 }
 
-void Scene::_saveEntity(const Entity& entity, ObjectEncoder& encoder) const
+void Scene::_encodeEntity(const Entity& entity, ObjectEncoder& encoder) const
 {
     if (!entity)
     {
@@ -220,11 +220,11 @@ void Scene::_saveEntity(const Entity& entity, ObjectEncoder& encoder) const
 
         ObjectEncoder componentEncoder = componentsEncoder.encodeObject();
         componentEncoder.encodeString("type", typeName);
-        component->save(componentEncoder);
+        component->encode(componentEncoder);
     }
 }
 
-void Scene::_loadEntity(const Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
+void Scene::_decodeEntity(const Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (!entity)
     {
@@ -240,7 +240,7 @@ void Scene::_loadEntity(const Entity& entity, ObjectDecoder& decoder, AssetCache
         ComponentTypeId typeId = _typeId(typeName);
         BaseComponent* component = _constructComponent(typeId);
 
-        component->load(componentDecoder, assetCache);
+        component->decode(componentDecoder, assetCache);
         entity.addComponent(component);
     }
 }

@@ -313,28 +313,28 @@ public:
     Array::const_iterator end() const;
 
     ///
-    /// Saves the data value to JSON.
+    /// Encodes the data value to JSON.
     ///
     /// \returns The resulting JSON string.
-    std::string saveToJson() const;
+    std::string encodeToJson() const;
 
     ///
-    /// Saves the data value to JSON.
+    /// Encodes the data value to JSON.
     ///
     /// \param stream The stream to write the resulting JSON to.
-    void saveToJson(WriteStream& stream) const;
+    void encodeToJson(WriteStream& stream) const;
 
     ///
-    /// Loads the data value from JSON.
+    /// Decodes the data value from JSON.
     ///
     /// \param json The JSON string.
-    void loadFromJson(const std::string& json);
+    void decodeFromJson(const std::string& json);
 
     ///
-    /// Loads the data value from JSON.
+    /// Decodes the data value from JSON.
     ///
     /// \param stream The stream to read the JSON from.
-    void loadFromJson(ReadStream& stream);
+    void decodeFromJson(ReadStream& stream);
 
 private:
     DataValueType _type;

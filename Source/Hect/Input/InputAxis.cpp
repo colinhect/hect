@@ -125,13 +125,13 @@ void InputAxis::setGravity(Real gravity)
     _gravity = gravity;
 }
 
-void InputAxis::save(ObjectEncoder& encoder) const
+void InputAxis::encode(ObjectEncoder& encoder) const
 {
     encoder;
     throw Error("Cannot encode an input axis");
 }
 
-void InputAxis::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void InputAxis::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 

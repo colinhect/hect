@@ -64,8 +64,8 @@ public:
     /// Returns whether fullscreen is enabled.
     bool isFullscreen() const;
 
-    void save(ObjectEncoder& encoder) const;
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     unsigned _width;

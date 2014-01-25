@@ -29,12 +29,12 @@ SUITE(Scene)
         public Component<Name>
     {
     public:
-        void save(ObjectEncoder& encoder) const
+        void encode(ObjectEncoder& encoder) const
         {
             encoder.encodeString("value", value);
         }
 
-        void load(ObjectDecoder& decoder, AssetCache& assetCache)
+        void decode(ObjectDecoder& decoder, AssetCache& assetCache)
         {
             assetCache;
 
@@ -51,12 +51,12 @@ SUITE(Scene)
         public Component<Position>
     {
     public:
-        void save(ObjectEncoder& encoder) const
+        void encode(ObjectEncoder& encoder) const
         {
             encoder.encodeVector3("value", value);
         }
 
-        void load(ObjectDecoder& decoder, AssetCache& assetCache)
+        void decode(ObjectDecoder& decoder, AssetCache& assetCache)
         {
             assetCache;
 
@@ -73,12 +73,12 @@ SUITE(Scene)
         public Component<Velocity>
     {
     public:
-        void save(ObjectEncoder& encoder) const
+        void encode(ObjectEncoder& encoder) const
         {
             encoder.encodeVector3("value", value);
         }
 
-        void load(ObjectDecoder& decoder, AssetCache& assetCache)
+        void decode(ObjectDecoder& decoder, AssetCache& assetCache)
         {
             assetCache;
 
@@ -308,7 +308,7 @@ SUITE(Scene)
         CHECK(!b.isActivated());
     }
 
-    TEST(SaveAndLoadEntityUsingDataValue)
+    TEST(EncodeAndDecodeEntityUsingDataValue)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
@@ -321,19 +321,19 @@ SUITE(Scene)
         frank.addComponent<Name>().value = "Frank";
         frank.addComponent<Position>().value = Vector3(1, 2, 3);
 
-        DataValue frankValue = frank.saveToDataValue();
+        DataValue frankValue = frank.encodeToDataValue();
 
-        Entity frankLoaded = scene.createEntity();
-        frankLoaded.loadFromDataValue(frankValue, assetCache);
+        Entity frankDecoded = scene.createEntity();
+        frankDecoded.decodeFromDataValue(frankValue, assetCache);
 
-        CHECK(frankLoaded.hasComponent<Name>());
-        CHECK(frankLoaded.hasComponent<Position>());
+        CHECK(frankDecoded.hasComponent<Name>());
+        CHECK(frankDecoded.hasComponent<Position>());
 
-        CHECK_EQUAL("Frank", frankLoaded.component<Name>().value);
-        CHECK_EQUAL(2, frankLoaded.component<Position>().value.y);
+        CHECK_EQUAL("Frank", frankDecoded.component<Name>().value);
+        CHECK_EQUAL(2, frankDecoded.component<Position>().value.y);
     }
 
-    TEST(SaveAndLoadEntityUsingStream)
+    TEST(EncodeAndDecodeEntityUsingStream)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
@@ -350,24 +350,24 @@ SUITE(Scene)
 
         {
             MemoryWriteStream stream(data);
-            frank.saveToBinary(stream);
+            frank.encodeToBinary(stream);
         }
 
-        Entity frankLoaded = scene.createEntity();
+        Entity frankDecoded = scene.createEntity();
 
         {
             MemoryReadStream stream(data);
-            frankLoaded.loadFromBinary(stream, assetCache);
+            frankDecoded.decodeFromBinary(stream, assetCache);
         }
 
-        CHECK(frankLoaded.hasComponent<Name>());
-        CHECK(frankLoaded.hasComponent<Position>());
+        CHECK(frankDecoded.hasComponent<Name>());
+        CHECK(frankDecoded.hasComponent<Position>());
 
-        CHECK_EQUAL("Frank", frankLoaded.component<Name>().value);
-        CHECK_EQUAL(2, frankLoaded.component<Position>().value.y);
+        CHECK_EQUAL("Frank", frankDecoded.component<Name>().value);
+        CHECK_EQUAL(2, frankDecoded.component<Position>().value.y);
     }
 
-    TEST(SaveAndLoadSceneUsingDataValue)
+    TEST(EncodeAndDecodeSceneUsingDataValue)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
@@ -391,7 +391,7 @@ SUITE(Scene)
             billy.activate();
 
             scene.refresh();
-            sceneValue = scene.saveToDataValue();
+            sceneValue = scene.encodeToDataValue();
         }
 
         NamingSystem namingSystem;
@@ -401,7 +401,7 @@ SUITE(Scene)
 
         scene.addSystem(namingSystem);
 
-        scene.loadFromDataValue(sceneValue, assetCache);
+        scene.decodeFromDataValue(sceneValue, assetCache);
         scene.refresh();
 
         auto& entities = namingSystem.entities();
@@ -412,7 +412,7 @@ SUITE(Scene)
         CHECK_EQUAL("Joe", entities[1].component<Name>().value);
     }
 
-    TEST(SaveAndLoadSceneUsingStream)
+    TEST(EncodeAndDecodeSceneUsingStream)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
@@ -438,7 +438,7 @@ SUITE(Scene)
             scene.refresh();
             {
                 MemoryWriteStream stream(data);
-                scene.saveToBinary(stream);
+                scene.encodeToBinary(stream);
             }
         }
 
@@ -451,7 +451,7 @@ SUITE(Scene)
 
         {
             MemoryReadStream stream(data);
-            scene.loadFromBinary(stream, assetCache);
+            scene.decodeFromBinary(stream, assetCache);
         }
         scene.refresh();
 

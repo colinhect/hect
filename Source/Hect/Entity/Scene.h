@@ -97,8 +97,8 @@ public:
     template <typename T>
     void registerComponent(const std::string& componentTypeName);
 
-    void save(ObjectEncoder& encoder) const;
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     enum
@@ -108,8 +108,8 @@ private:
 
     Entity _cloneEntity(const Entity& entity);
 
-    void _saveEntity(const Entity& entity, ObjectEncoder& encoder) const;
-    void _loadEntity(const Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
+    void _encodeEntity(const Entity& entity, ObjectEncoder& encoder) const;
+    void _decodeEntity(const Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
 
     void _destroyEntity(const Entity& entity);
     void _activateEntity(const Entity& entity);

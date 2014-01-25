@@ -148,8 +148,8 @@ public:
     /// \param location The compiled location.
     void setLocation(int location);
 
-    void save(ObjectEncoder& encoder) const;
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     static UniformBinding _parseUniformBinding(const std::string& value);

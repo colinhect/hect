@@ -130,7 +130,7 @@ const Frustum& Camera::frustum() const
     return _frustum;
 }
 
-void Camera::save(ObjectEncoder& encoder) const
+void Camera::encode(ObjectEncoder& encoder) const
 {
     encoder.encodeDouble("fieldOfView", fieldOfView().degrees());
     encoder.encodeDouble("aspectRatio", aspectRatio());
@@ -138,7 +138,7 @@ void Camera::save(ObjectEncoder& encoder) const
     encoder.encodeDouble("farClip", farClip());
 }
 
-void Camera::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Camera::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 

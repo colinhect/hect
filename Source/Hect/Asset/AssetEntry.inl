@@ -66,7 +66,7 @@ void AssetEntry<T>::_load()
     _asset = std::make_shared<T>();
     _errorOccurred = false;
 
-    // Load the asset and save the error message
+    // Load the asset and keep the error message
     try
     {
         LOG_INFO(format("Loading '%s'...", _path.toString().c_str()));

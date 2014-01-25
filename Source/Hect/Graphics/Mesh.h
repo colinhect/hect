@@ -162,7 +162,7 @@ public:
     /// Encodes the mesh.
     ///
     /// \param encoder The encoder to use.
-    void save(ObjectEncoder& encoder) const;
+    void encode(ObjectEncoder& encoder) const;
     
     ///
     /// Clears all mesh data
@@ -178,8 +178,8 @@ public:
     /// then it will be destroyed before decoding begins.
     ///
     /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to load referenced assets from.
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    /// \param assetCache The asset cache to get referenced assets from.
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
     /// Returns whether the mesh is equivalent to another.

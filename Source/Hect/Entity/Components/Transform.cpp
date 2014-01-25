@@ -117,7 +117,7 @@ void Transform::transformBy(const Transform& transform)
     _dirtyBits = PositionBit | ScaleBit | RotationBit;
 }
 
-void Transform::save(ObjectEncoder& encoder) const
+void Transform::encode(ObjectEncoder& encoder) const
 {
     Vector3 axis;
     Angle angle;
@@ -131,7 +131,7 @@ void Transform::save(ObjectEncoder& encoder) const
     rotationEncoder.encodeReal("angle", angle.degrees());
 }
 
-void Transform::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Transform::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 

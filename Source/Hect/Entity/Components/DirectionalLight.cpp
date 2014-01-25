@@ -51,13 +51,13 @@ void DirectionalLight::setColor(const Vector3& color)
     _color = color;
 }
 
-void DirectionalLight::save(ObjectEncoder& encoder) const
+void DirectionalLight::encode(ObjectEncoder& encoder) const
 {
     encoder.encodeVector3("direction", direction());
     encoder.encodeVector3("color", color());
 }
 
-void DirectionalLight::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void DirectionalLight::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 

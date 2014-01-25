@@ -40,12 +40,12 @@ void AmbientLight::setColor(const Vector3& color)
     _color = color;
 }
 
-void AmbientLight::save(ObjectEncoder& encoder) const
+void AmbientLight::encode(ObjectEncoder& encoder) const
 {
     encoder.encodeVector3("color", color());
 }
 
-void AmbientLight::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void AmbientLight::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 

@@ -119,7 +119,7 @@ btTriangleMesh* PhysicsSystem::_toBulletMesh(Mesh* mesh)
     }
     else
     {
-        // Create a Bullet mesh from the mesh and save it to be looked up later
+        // Create a Bullet mesh from the mesh and keep it to be looked up later
         btTriangleMesh* bulletMesh = convertToBullet(*mesh);
         _bulletMeshes[mesh] = std::shared_ptr<btTriangleMesh>(bulletMesh);
         return bulletMesh;

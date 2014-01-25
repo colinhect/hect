@@ -109,7 +109,7 @@ void RigidBody::setMesh(const AssetHandle<Mesh>& mesh)
     _mesh = mesh;
 }
 
-void RigidBody::save(ObjectEncoder& encoder) const
+void RigidBody::encode(ObjectEncoder& encoder) const
 {
     encoder.encodeReal("mass", _mass);
     encoder.encodeVector3("linearVelocity", _linearVelocity);
@@ -117,7 +117,7 @@ void RigidBody::save(ObjectEncoder& encoder) const
     encoder.encodeString("mesh", _mesh.path().toString());
 }
 
-void RigidBody::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void RigidBody::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (decoder.hasMember("mass"))
     {

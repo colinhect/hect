@@ -33,9 +33,9 @@ void AssetLoader<Mesh>::load(Mesh& mesh, const Path& assetPath, AssetCache& asse
     DataValue dataValue;
     {
         FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-        dataValue.loadFromJson(stream);
+        dataValue.decodeFromJson(stream);
     }
 
     mesh = Mesh(assetPath.toString());
-    mesh.loadFromDataValue(dataValue, assetCache);
+    mesh.decodeFromDataValue(dataValue, assetCache);
 }

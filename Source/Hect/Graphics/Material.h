@@ -61,8 +61,8 @@ public:
     /// Returns the techniques.
     const Technique::Array& techniques() const;
     
-    void save(ObjectEncoder& encoder) const;
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     static RenderState _parseState(const std::string& value);

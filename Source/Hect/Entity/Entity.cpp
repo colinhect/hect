@@ -48,24 +48,24 @@ Entity::Id Entity::id() const
     return _id;
 }
 
-void Entity::save(ObjectEncoder& encoder) const
+void Entity::encode(ObjectEncoder& encoder) const
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    _scene->_saveEntity(*this, encoder);
+    _scene->_encodeEntity(*this, encoder);
 }
 
-void Entity::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    _scene->_loadEntity(*this, decoder, assetCache);
+    _scene->_decodeEntity(*this, decoder, assetCache);
 }
 
 void Entity::destroy() const

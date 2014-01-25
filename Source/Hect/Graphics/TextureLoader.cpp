@@ -32,8 +32,8 @@ void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCa
 {
     FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
     DataValue dataValue;
-    dataValue.loadFromJson(stream);
+    dataValue.decodeFromJson(stream);
 
     texture = Texture(assetPath.toString());
-    texture.loadFromDataValue(dataValue, assetCache);
+    texture.decodeFromDataValue(dataValue, assetCache);
 }

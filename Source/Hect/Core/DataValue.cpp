@@ -490,18 +490,18 @@ DataValue::Array::const_iterator DataValue::end() const
 DataValue toDataValue(Json::Value& jsonValue);
 Json::Value fromDataValue(const DataValue& dataValue);
 
-std::string DataValue::saveToJson() const
+std::string DataValue::encodeToJson() const
 {
     Json::Value jsonValue = fromDataValue(*this);
     return jsonValue.toStyledString();
 }
 
-void DataValue::saveToJson(WriteStream& stream) const
+void DataValue::encodeToJson(WriteStream& stream) const
 {
-    stream.writeString(saveToJson(), false);
+    stream.writeString(encodeToJson(), false);
 }
 
-void DataValue::loadFromJson(const std::string& json)
+void DataValue::decodeFromJson(const std::string& json)
 {
     Json::Value root;
     Json::Reader reader;
@@ -512,9 +512,9 @@ void DataValue::loadFromJson(const std::string& json)
     *this = toDataValue(root);
 }
 
-void DataValue::loadFromJson(ReadStream& stream)
+void DataValue::decodeFromJson(ReadStream& stream)
 {
-    loadFromJson(stream.readAllToString());
+    decodeFromJson(stream.readAllToString());
 }
 
 DataValue toDataValue(Json::Value& jsonValue)

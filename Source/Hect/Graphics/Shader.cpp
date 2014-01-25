@@ -86,13 +86,13 @@ const Uniform& Shader::uniformWithName(const std::string& name) const
     throw Error(format("Shader does not have uniform '%s'", name.c_str()));
 }
 
-void Shader::save(ObjectEncoder& encoder) const
+void Shader::encode(ObjectEncoder& encoder) const
 {
     encoder;
     throw Error("Not implemented");
 }
 
-void Shader::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Shader::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     // Add all modules
     if (decoder.hasMember("modules"))
@@ -114,7 +114,7 @@ void Shader::load(ObjectDecoder& decoder, AssetCache& assetCache)
         {
             ObjectDecoder uniformDecoder = uniformsDecoder.decodeObject();
             Uniform uniform;
-            uniform.load(uniformDecoder, assetCache);
+            uniform.decode(uniformDecoder, assetCache);
             _uniforms.push_back(uniform);
         }
     }

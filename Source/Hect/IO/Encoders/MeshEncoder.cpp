@@ -25,16 +25,16 @@
 
 #include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Graphics/MeshReader.h"
-#include "Hect/Graphics/VertexLayoutEncoder.h"
+#include "Hect/IO/Encoders/VertexLayoutEncoder.h"
 
 using namespace hect;
 
-void MeshEncoder::save(const Mesh& mesh, ObjectEncoder& encoder)
+void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
 {
     // Vertex layout
     {
         ObjectEncoder vertexLayoutEncoder = encoder.encodeObject("vertexLayout");
-        mesh.vertexLayout().save(vertexLayoutEncoder);
+        mesh.vertexLayout().encode(vertexLayoutEncoder);
     }
     
     // Index type
@@ -133,7 +133,7 @@ void MeshEncoder::save(const Mesh& mesh, ObjectEncoder& encoder)
     }
 }
 
-void MeshEncoder::load(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache)
+void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache)
 {
     mesh.clear();
 
@@ -141,7 +141,7 @@ void MeshEncoder::load(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCach
     if (decoder.hasMember("vertexLayout"))
     {
         ObjectDecoder vertexLayoutDecoder = decoder.decodeObject("vertexLayout");
-        mesh._vertexLayout.load(vertexLayoutDecoder, assetCache);
+        mesh._vertexLayout.decode(vertexLayoutDecoder, assetCache);
     }
 
     // Index type

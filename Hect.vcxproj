@@ -57,11 +57,9 @@
     <ClInclude Include="Source\Hect\Entity\Systems\PhysicsSystem.h" />
     <ClInclude Include="Source\Hect\Graphics\FrameBuffer.h" />
     <ClInclude Include="Source\Hect\Graphics\Image.h" />
-    <ClInclude Include="Source\Hect\Graphics\ImagePngFormat.h" />
     <ClInclude Include="Source\Hect\Graphics\Material.h" />
     <ClInclude Include="Source\Hect\Graphics\Mesh.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshReader.h" />
-    <ClInclude Include="Source\Hect\Graphics\MeshEncoder.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshWriter.h" />
     <ClInclude Include="Source\Hect\Graphics\Pass.h" />
     <ClInclude Include="Source\Hect\Graphics\PassUniformValue.h" />
@@ -77,7 +75,6 @@
     <ClInclude Include="Source\Hect\Graphics\UniformValue.h" />
     <ClInclude Include="Source\Hect\Graphics\VertexAttribute.h" />
     <ClInclude Include="Source\Hect\Graphics\VertexLayout.h" />
-    <ClInclude Include="Source\Hect\Graphics\VertexLayoutEncoder.h" />
     <ClInclude Include="Source\Hect\Graphics\VideoMode.h" />
     <ClInclude Include="Source\Hect\Graphics\Window.h" />
     <ClInclude Include="Source\Hect\Input\InputAxis.h" />
@@ -87,6 +84,9 @@
     <ClInclude Include="Source\Hect\Internal\Bullet.h" />
     <ClInclude Include="Source\Hect\IO\DataDecoder.h" />
     <ClInclude Include="Source\Hect\IO\DataEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\Encoders\ImagePngEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\Encoders\MeshEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.h" />
     <ClInclude Include="Source\Hect\IO\FileReadStream.h" />
     <ClInclude Include="Source\Hect\IO\FileSystem.h" />
     <ClInclude Include="Source\Hect\IO\FileWriteStream.h" />
@@ -145,13 +145,11 @@
     <ClCompile Include="Source\Hect\Graphics\FrameBuffer.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Image.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ImageLoader.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\ImagePngFormat.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Material.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MaterialLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Mesh.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshReader.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\MeshEncoder.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshWriter.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Pass.cpp" />
     <ClCompile Include="Source\Hect\Graphics\PassUniformValue.cpp" />
@@ -170,7 +168,6 @@
     <ClCompile Include="Source\Hect\Graphics\UniformValue.cpp" />
     <ClCompile Include="Source\Hect\Graphics\VertexAttribute.cpp" />
     <ClCompile Include="Source\Hect\Graphics\VertexLayout.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\VertexLayoutEncoder.cpp" />
     <ClCompile Include="Source\Hect\Graphics\VideoMode.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Window.cpp" />
     <ClCompile Include="Source\Hect\Input\InputAxis.cpp" />
@@ -180,6 +177,9 @@
     <ClCompile Include="Source\Hect\Internal\Bullet.cpp" />
     <ClCompile Include="Source\Hect\IO\DataDecoder.cpp" />
     <ClCompile Include="Source\Hect\IO\DataEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encoders\ImagePngEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encoders\MeshEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\FileReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\FileSystem.cpp" />
     <ClCompile Include="Source\Hect\IO\FileWriteStream.cpp" />

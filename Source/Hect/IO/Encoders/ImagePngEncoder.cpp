@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ImagePngFormat.h"
+#include "ImagePngEncoder.h"
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
@@ -30,11 +30,11 @@ using namespace hect;
 
 #include <lodepng.h>
 
-void ImagePngFormat::load(Image& image, ReadStream& stream)
+void ImagePngEncoder::decode(Image& image, ReadStream& stream)
 {
     image._pixelData.clear();
 
-    // Load the PNG pixel data
+    // Read the encoded data
     size_t length = stream.length();
     Image::RawPixelData encodedPixelData(length, 0);
     stream.readBytes(&encodedPixelData[0], length);
@@ -58,12 +58,12 @@ void ImagePngFormat::load(Image& image, ReadStream& stream)
     image.flipVertical();
 }
 
-void ImagePngFormat::save(const Image& image, WriteStream& stream)
+void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
 {
     // Verify pixel format and type.
     if (image.pixelType() != PixelType::Byte || image.pixelFormat() != PixelFormat::Rgba)
     {
-        throw Error("Attempt to save an image to PNG which does not conform to the 32-bit RGBA format");
+        throw Error("Attempt to encode an image to PNG which does not conform to the 32-bit RGBA format");
     }
 
     // Flip the image from OpenGL ordering
@@ -78,6 +78,6 @@ void ImagePngFormat::save(const Image& image, WriteStream& stream)
         throw Error(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
     }
 
-    // Write the encoded data to disk
+    // Write the encoded data
     stream.writeBytes(&encodedPixelData[0], encodedPixelData.size());
 }

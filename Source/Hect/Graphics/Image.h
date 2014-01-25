@@ -79,7 +79,7 @@ enum class ColorSpace
 /// A 2-dimensional image.
 class Image
 {
-    friend class ImagePngFormat;
+    friend class ImagePngEncoder;
 public:
 
     ///

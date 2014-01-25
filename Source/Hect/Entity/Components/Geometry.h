@@ -64,8 +64,8 @@ public:
     /// Returns the materials
     const AssetHandle<Material>::Array& materials() const;
 
-    void save(ObjectEncoder& encoder) const;
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     AssetHandle<Mesh>::Array _meshes;

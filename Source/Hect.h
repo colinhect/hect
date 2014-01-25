@@ -74,7 +74,6 @@
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/RenderMode.h"
 #include "Hect/Graphics/Image.h"
-#include "Hect/Graphics/ImagePngFormat.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture.h"
 #include "Hect/Graphics/FrameBuffer.h"

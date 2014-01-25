@@ -40,11 +40,11 @@ void testEncodable(T& encodable)
         std::vector<uint8_t> data;
         {
             MemoryWriteStream stream(data);
-            encodable.saveToBinary(stream);
+            encodable.encodeToBinary(stream);
         }
         {
             MemoryReadStream stream(data);
-            decoded.loadFromBinary(stream, assetCache);
+            decoded.decodeFromBinary(stream, assetCache);
         }
 
         CHECK(encodable == decoded);
@@ -54,8 +54,8 @@ void testEncodable(T& encodable)
     {
         T decoded;
 
-        DataValue dataValue = encodable.saveToDataValue();
-        decoded.loadFromDataValue(dataValue, assetCache);
+        DataValue dataValue = encodable.encodeToDataValue();
+        decoded.decodeFromDataValue(dataValue, assetCache);
 
         CHECK(encodable == decoded);
     }

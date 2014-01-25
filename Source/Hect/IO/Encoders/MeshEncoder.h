@@ -31,8 +31,8 @@ namespace hect
 class MeshEncoder
 {
 public:    
-    static void save(const Mesh& mesh, ObjectEncoder& encoder);
-    static void load(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache);
+    static void encode(const Mesh& mesh, ObjectEncoder& encoder);
+    static void decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache);
 
     static IndexType indexTypeFromString(const std::string& value);
     static std::string indexTypeToString(IndexType indexType);

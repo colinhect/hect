@@ -31,8 +31,8 @@ namespace hect
 class VertexLayoutEncoder
 {
 public:    
-    static void save(const VertexLayout& vertexLayout, ObjectEncoder& encoder);
-    static void load(VertexLayout& vertexLayout, ObjectDecoder& decoder);
+    static void encode(const VertexLayout& vertexLayout, ObjectEncoder& encoder);
+    static void decode(VertexLayout& vertexLayout, ObjectDecoder& decoder);
 
     static VertexAttributeSemantic attributeSemanticFromString(const std::string& value);
     static std::string attributeSemanticToString(VertexAttributeSemantic semantic);

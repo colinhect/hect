@@ -25,7 +25,7 @@
 
 using namespace hect;
 
-void VertexLayoutEncoder::save(const VertexLayout& vertexLayout, ObjectEncoder& encoder)
+void VertexLayoutEncoder::encode(const VertexLayout& vertexLayout, ObjectEncoder& encoder)
 {
     ArrayEncoder attributesEncoder = encoder.encodeArray("attributes");
     for (const VertexAttribute& attribute : vertexLayout.attributes())
@@ -48,7 +48,7 @@ void VertexLayoutEncoder::save(const VertexLayout& vertexLayout, ObjectEncoder& 
     }
 }
 
-void VertexLayoutEncoder::load(VertexLayout& vertexLayout, ObjectDecoder& decoder)
+void VertexLayoutEncoder::decode(VertexLayout& vertexLayout, ObjectDecoder& decoder)
 {
     vertexLayout._attributes.clear();
 

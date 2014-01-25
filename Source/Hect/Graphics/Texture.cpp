@@ -227,13 +227,13 @@ int Texture::bytesPerPixel() const
     return 0;
 }
 
-void Texture::save(ObjectEncoder& encoder) const
+void Texture::encode(ObjectEncoder& encoder) const
 {
     encoder;
     throw Error("Not implemented");
 }
 
-void Texture::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Texture::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     // Image
     Path imagePath = decoder.decodeString("image");

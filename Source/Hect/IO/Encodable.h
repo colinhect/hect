@@ -40,40 +40,40 @@ public:
     /// Encodes the object.
     ///
     /// \param encoder The encoder to use.
-    virtual void save(ObjectEncoder& encoder) const;
+    virtual void encode(ObjectEncoder& encoder) const;
 
     ///
     /// Encodes the object to a data value.
     ///
     /// \returns The resulting data value.
-    DataValue saveToDataValue() const;
+    DataValue encodeToDataValue() const;
 
     ///
     /// Encodes the object to binary stream.
     ///
     /// \param stream The stream.
-    void saveToBinary(WriteStream& stream) const;
+    void encodeToBinary(WriteStream& stream) const;
 
     ///
     /// Decodes the object.
     ///
     /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to load referenced assets from.
-    virtual void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    /// \param assetCache The asset cache to get referenced assets from.
+    virtual void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
     /// Decodes the object from a data value.
     ///
     /// \param dataValue The data value.
-    /// \param assetCache The asset cache to load referenced assets from.
-    void loadFromDataValue(const DataValue& dataValue, AssetCache& assetCache);
+    /// \param assetCache The asset cache to get referenced assets from.
+    void decodeFromDataValue(const DataValue& dataValue, AssetCache& assetCache);
 
     ///
     /// Decodes the object from binary a stream
     ///
     /// \param stream The stream.
-    /// \param assetCache The asset cache to load referenced assets from.
-    void loadFromBinary(ReadStream& stream, AssetCache& assetCache);
+    /// \param assetCache The asset cache to get referenced assets from.
+    void decodeFromBinary(ReadStream& stream, AssetCache& assetCache);
 };
 
 }

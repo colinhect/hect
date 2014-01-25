@@ -53,7 +53,7 @@ int main(int argc, const char* argv[])
         DataValue settings;
         {
             FileReadStream stream = fileSystem.openFileForRead("Settings.json");
-            settings.loadFromJson(stream);
+            settings.decodeFromJson(stream);
         }
 
         // Add the data sources listed in the settings
@@ -65,7 +65,7 @@ int main(int argc, const char* argv[])
         // Load video mode
         AssetCache assetCache(fileSystem);
         VideoMode videoMode;
-        videoMode.loadFromDataValue(settings["videoMode"], assetCache);
+        videoMode.decodeFromDataValue(settings["videoMode"], assetCache);
 
         // Create window/renderer
         Window window("Sample", videoMode);

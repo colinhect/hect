@@ -24,12 +24,12 @@
 #include "Hect/Asset/AssetLoader.h"
 #include "Hect/Asset/AssetCache.h"
 #include "Hect/Graphics/Image.h"
-#include "Hect/Graphics/ImagePngFormat.h"
+#include "Hect/IO/Encoders/ImagePngEncoder.h"
 
 using namespace hect;
 
 void AssetLoader<Image>::load(Image& image, const Path& assetPath, AssetCache& assetCache)
 {
     FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-    ImagePngFormat().load(image, stream);
+    ImagePngEncoder::decode(image, stream);
 }

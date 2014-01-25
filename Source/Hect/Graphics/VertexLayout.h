@@ -69,7 +69,7 @@ public:
     /// Encodes the layout.
     ///
     /// \param encoder The encoder to use.
-    void save(ObjectEncoder& encoder) const;
+    void encode(ObjectEncoder& encoder) const;
 
     ///
     /// Decodes the layout.
@@ -78,8 +78,8 @@ public:
     /// decoding begins.
     ///
     /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to load referenced assets from.
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    /// \param assetCache The asset cache to get referenced assets from.
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
     
     ///
     /// Returns whether the layout is equivalent to another.

@@ -65,8 +65,8 @@ public:
     /// Returns the entity id.
     Id id() const;
 
-    void save(ObjectEncoder& encoder) const;
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
     /// Activates the entity, enqueuing it to be added to systems in the scene
@@ -103,13 +103,13 @@ public:
     bool isNull() const;
 
     ///
-    /// Returns whether the entity should be saved when the scene it is
-    /// in is saved.
+    /// Returns whether the entity should be encoded when the scene it is
+    /// in is encoded.
     bool isEncodable() const;
 
     ///
-    /// Sets whether the entity should be saved when the scene it is in is
-    /// saved.
+    /// Sets whether the entity should be encoded when the scene it is in is
+    /// encoded.
     ///
     /// \param encodable The new encodable value.
     void setEncodable(bool encodable) const;

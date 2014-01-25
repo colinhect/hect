@@ -67,6 +67,9 @@
       <Extensions>
       </Extensions>
     </Filter>
+    <Filter Include="Source\Hect\IO\Encoders">
+      <UniqueIdentifier>{772319fc-e0b7-4c8b-91ab-02bb7147edea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Hect.h">
@@ -178,9 +181,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Image.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\ImagePngFormat.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Material.h">
@@ -345,11 +345,14 @@
     <ClInclude Include="Source\Hect\IO\Encodable.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\MeshEncoder.h">
-      <Filter>Source\Hect\Graphics</Filter>
+    <ClInclude Include="Source\Hect\IO\Encoders\MeshEncoder.h">
+      <Filter>Source\Hect\IO\Encoders</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\VertexLayoutEncoder.h">
-      <Filter>Source\Hect\Graphics</Filter>
+    <ClInclude Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.h">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Encoders\ImagePngEncoder.h">
+      <Filter>Source\Hect\IO\Encoders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -438,9 +441,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\ImageLoader.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\ImagePngFormat.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Material.cpp">
@@ -602,11 +602,14 @@
     <ClCompile Include="Source\Hect\IO\Encodable.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\MeshEncoder.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
+    <ClCompile Include="Source\Hect\IO\Encoders\MeshEncoder.cpp">
+      <Filter>Source\Hect\IO\Encoders</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\VertexLayoutEncoder.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
+    <ClCompile Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.cpp">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\Encoders\ImagePngEncoder.cpp">
+      <Filter>Source\Hect\IO\Encoders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

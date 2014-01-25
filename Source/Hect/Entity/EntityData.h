@@ -67,13 +67,13 @@ public:
     void setNull(bool null);
 
     ///
-    /// Returns whether the entity should be saved when the scene it is
-    /// in is saved.
+    /// Returns whether the entity should be encoded when the scene it is
+    /// in is encoded.
     bool isEncodable() const;
 
     ///
-    /// Sets whether the entity should be saved when the scene it is in is
-    /// saved.
+    /// Sets whether the entity should be encoded when the scene it is in is
+    /// encoded.
     ///
     /// \param encodable The new encodable value.
     void setEncodable(bool encodable);

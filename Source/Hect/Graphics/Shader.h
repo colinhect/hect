@@ -85,8 +85,8 @@ public:
     /// \throws Error If no uniform with the given name exists.
     const Uniform& uniformWithName(const std::string& name) const;
 
-    void save(ObjectEncoder& encoder) const;
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     std::string _name;

@@ -61,7 +61,7 @@ bool VideoMode::isFullscreen() const
     return _fullscreen;
 }
 
-void VideoMode::save(ObjectEncoder& encoder) const
+void VideoMode::encode(ObjectEncoder& encoder) const
 {
     encoder.encodeUnsignedInt("width", _width);
     encoder.encodeUnsignedInt("height", _height);
@@ -69,7 +69,7 @@ void VideoMode::save(ObjectEncoder& encoder) const
     encoder.encodeBool("fullscreen", _fullscreen);
 }
 
-void VideoMode::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void VideoMode::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 

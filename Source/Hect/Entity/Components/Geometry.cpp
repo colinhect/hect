@@ -56,7 +56,7 @@ const AssetHandle<Material>::Array& Geometry::materials() const
     return _materials;
 }
 
-void Geometry::save(ObjectEncoder& encoder) const
+void Geometry::encode(ObjectEncoder& encoder) const
 {
     size_t surfaceCount = _meshes.size();
 
@@ -69,7 +69,7 @@ void Geometry::save(ObjectEncoder& encoder) const
     }
 }
 
-void Geometry::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Geometry::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (decoder.hasMember("surfaces"))
     {

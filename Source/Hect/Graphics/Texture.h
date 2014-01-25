@@ -172,8 +172,8 @@ public:
     /// Returns the number of bytes in a pixel of this texture.
     int bytesPerPixel() const;
     
-    void save(ObjectEncoder& encoder) const;
-    void load(ObjectDecoder& decoder, AssetCache& assetCache);
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     static TextureFilter _parseTextureFilter(const std::string& value);

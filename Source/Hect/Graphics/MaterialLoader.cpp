@@ -32,9 +32,9 @@ void AssetLoader<Material>::load(Material& material, const Path& assetPath, Asse
     DataValue dataValue;
     {
         FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-        dataValue.loadFromJson(stream);
+        dataValue.decodeFromJson(stream);
     }
 
     material = Material(assetPath.toString());
-    material.loadFromDataValue(dataValue, assetCache);
+    material.decodeFromDataValue(dataValue, assetCache);
 }

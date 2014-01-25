@@ -50,13 +50,13 @@ const Technique::Array& Material::techniques() const
     return _techniques;
 }
 
-void Material::save(ObjectEncoder& encoder) const
+void Material::encode(ObjectEncoder& encoder) const
 {
     encoder;
     throw Error("Not implemented");
 }
 
-void Material::load(ObjectDecoder& decoder, AssetCache& assetCache)
+void Material::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     // Techniques
     ArrayDecoder techniquesDecoder = decoder.decodeArray("techniques");
