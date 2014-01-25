@@ -34,7 +34,6 @@ namespace hect
 class VertexLayout :
     public Encodable
 {
-    friend class VertexLayoutEncoder;
 public:
 
     ///
@@ -46,17 +45,29 @@ public:
     VertexLayout();
 
     ///
-    /// Constructs a vertex layout given vertex attributes.
+    /// Appends an attribute to the end of the layout.
     ///
-    /// \param attributes The attributes in the layout (in order).
-    VertexLayout(const VertexAttribute::Array& attributes);
+    /// \param attribute The new attribute to add.
+    void appendAttribute(const VertexAttribute& attribute);
 
     ///
-    /// Returns the attribute with the given semantic (null if no attribute
-    /// exists with the semantic).
+    /// Clears all attributes from the layout.
+    void clearAttributes();
+
+    ///
+    /// Returns whether the vertex layout has an attribute with the given semantic.
+    ///
+    /// \param semantic The semantic.
+    bool hasAttributeWithSemantic(VertexAttributeSemantic semantic) const;
+
+    ///
+    /// Returns the attribute with the given semantic.
     ///
     /// \param semantic The semantic to find the attribute for.
-    const VertexAttribute* attributeWithSemantic(VertexAttributeSemantic semantic) const;
+    ///
+    /// \throws Error If the vertex layout does not have an attribute with the
+    /// given semantic
+    const VertexAttribute& attributeWithSemantic(VertexAttributeSemantic semantic) const;
 
     /// Returns the attributes.
     const VertexAttribute::Array& attributes() const;

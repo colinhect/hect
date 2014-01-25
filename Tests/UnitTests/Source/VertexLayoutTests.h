@@ -31,70 +31,68 @@ SUITE(VertexLayout)
         CHECK_EQUAL(0u, vertexLayout.attributes().size());
     }
 
-    TEST(AttributeConstructor)
+    TEST(AppendAttribute)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
 
-        VertexLayout vertexLayout(attributes);
         CHECK_EQUAL(2u, vertexLayout.attributes().size());
     }
 
     TEST(AttributeIndexing)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-
-        VertexLayout vertexLayout(attributes);
-
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
+        
         CHECK(VertexAttributeSemantic::Position == vertexLayout.attributes()[0].semantic());
         CHECK(VertexAttributeSemantic::Normal == vertexLayout.attributes()[1].semantic());
     }
 
     TEST(AttributeOffsets)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-
-        VertexLayout vertexLayout(attributes);
-
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
+        
         CHECK_EQUAL(0u, vertexLayout.attributes()[0].offset());
         CHECK_EQUAL(vertexLayout.attributes()[0].size(), vertexLayout.attributes()[1].offset());
     }
 
     TEST(AttributeWithSemantic)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 4));
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-
-        VertexLayout vertexLayout(attributes);
-
-        CHECK_EQUAL(4u, vertexLayout.attributeWithSemantic(VertexAttributeSemantic::Position)->cardinality());
-        CHECK_EQUAL(3u, vertexLayout.attributeWithSemantic(VertexAttributeSemantic::Normal)->cardinality());
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 4));
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
+        
+        CHECK_EQUAL(4u, vertexLayout.attributeWithSemantic(VertexAttributeSemantic::Position).cardinality());
+        CHECK_EQUAL(3u, vertexLayout.attributeWithSemantic(VertexAttributeSemantic::Normal).cardinality());
+    }
+    
+    TEST(HasAttributeWithSemantic)
+    {
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 4));
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
+        
+        CHECK(vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic::Position));
     }
 
-    TEST(AttributeWithSemanticNegative)
+    TEST(HasAttributeWithSemanticNegative)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-
-        VertexLayout vertexLayout(attributes);
-
-        CHECK(!vertexLayout.attributeWithSemantic(VertexAttributeSemantic::Color));
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
+        
+        CHECK(!vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic::Color));
     }
 
     TEST(VertexSize)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-
-        VertexLayout vertexLayout(attributes);
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
 
         CHECK_EQUAL(4u * 3u + 2u * 3u, vertexLayout.vertexSize());
     }

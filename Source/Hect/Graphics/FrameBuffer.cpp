@@ -53,7 +53,7 @@ FrameBuffer::~FrameBuffer()
 {
     if (isUploaded())
     {
-        renderer()->destroyFrameBuffer(*this);
+        renderer().destroyFrameBuffer(*this);
     }
 }
 

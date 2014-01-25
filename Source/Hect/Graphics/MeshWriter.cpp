@@ -50,19 +50,22 @@ size_t MeshWriter::addVertex()
 
 void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Real value)
 {
-    const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
-    if (attribute)
+    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
+        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
         _setComponentValue(attribute, 0, (float)value);
     }
 }
 
 void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector2& value)
 {
-    const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
-    if (attribute)
+    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
-        unsigned cardinality = attribute->cardinality();
+        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+
+        unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
@@ -84,10 +87,12 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
         _mesh->boundingBox().expandToInclude(value);
     }
 
-    const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
-    if (attribute)
+    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
-        unsigned cardinality = attribute->cardinality();
+        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+
+        unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
@@ -108,10 +113,12 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 
 void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector4& value)
 {
-    const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
-    if (attribute)
+    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
-        unsigned cardinality = attribute->cardinality();
+        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+
+        unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
@@ -154,13 +161,13 @@ void MeshWriter::addIndex(uint64_t value)
     ++_mesh->_indexCount;
 }
 
-void MeshWriter::_setComponentValue(const VertexAttribute* attribute, unsigned index, float value)
+void MeshWriter::_setComponentValue(const VertexAttribute& attribute, unsigned index, float value)
 {
     size_t position = _vertexStream.position();
-    size_t offset = _vertexPosition + attribute->offset();
+    size_t offset = _vertexPosition + attribute.offset();
 
     // Write the vertex data based on the type
-    switch (attribute->type())
+    switch (attribute.type())
     {
     case VertexAttributeType::Byte:
         _vertexStream.seek(offset + index * sizeof(int8_t));

@@ -50,8 +50,9 @@ void VertexLayoutEncoder::encode(const VertexLayout& vertexLayout, ObjectEncoder
 
 void VertexLayoutEncoder::decode(VertexLayout& vertexLayout, ObjectDecoder& decoder)
 {
-    vertexLayout._attributes.clear();
+    vertexLayout.clearAttributes();
 
+    // Attributes
     ArrayDecoder attributesDecoder = decoder.decodeArray("attributes");
     while (attributesDecoder.hasMoreElements())
     {
@@ -75,10 +76,10 @@ void VertexLayoutEncoder::decode(VertexLayout& vertexLayout, ObjectDecoder& deco
 
         cardinality = attributeDecoder.decodeUnsignedInt("cardinality");
 
+        // Append the new attribute
         VertexAttribute attribute(semantic, type, cardinality);
-        vertexLayout._attributes.push_back(attribute);
+        vertexLayout.appendAttribute(attribute);
     }
-    vertexLayout._computeAttributeOffsets();
 }
 
 VertexAttributeSemantic VertexLayoutEncoder::attributeSemanticFromString(const std::string& value)

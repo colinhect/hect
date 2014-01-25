@@ -36,6 +36,6 @@ void AssetLoader<Mesh>::load(Mesh& mesh, const Path& assetPath, AssetCache& asse
         dataValue.decodeFromJson(stream);
     }
 
-    mesh = Mesh(assetPath.toString());
+    mesh.setName(assetPath.toString());
     mesh.decodeFromDataValue(dataValue, assetCache);
 }

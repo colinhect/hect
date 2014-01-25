@@ -113,7 +113,7 @@ private:
     void _checkVertexBoundary() const;
     void _checkIndexBoundary() const;
 
-    float _readComponentValue(const VertexAttribute* attribute, unsigned index) const;
+    float _readComponentValue(const VertexAttribute& attribute, unsigned index) const;
 
     const Mesh* _mesh;
 

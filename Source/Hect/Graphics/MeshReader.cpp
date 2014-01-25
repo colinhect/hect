@@ -55,9 +55,10 @@ Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
 
     float value = 0;
 
-    const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
-    if (attribute)
+    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
+        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
         value = _readComponentValue(attribute, 0);
     }
 
@@ -70,11 +71,12 @@ Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
 
     Vector2 value;
 
-    const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
-    if (attribute)
+    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
-        unsigned cardinality = attribute->cardinality();
+        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
 
+        unsigned cardinality = attribute.cardinality();
         if (cardinality > 0)
         {
             value.x = _readComponentValue(attribute, 0);
@@ -95,10 +97,12 @@ Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
 
     Vector3 value;
 
-    const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
-    if (attribute)
+    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
-        unsigned cardinality = attribute->cardinality();
+        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+
+        unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
@@ -125,10 +129,12 @@ Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
 
     Vector4 value;
 
-    const VertexAttribute* attribute = _mesh->vertexLayout().attributeWithSemantic(semantic);
-    if (attribute)
+    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
-        unsigned cardinality = attribute->cardinality();
+        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+
+        unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
@@ -222,15 +228,15 @@ void MeshReader::_checkIndexBoundary() const
     }
 }
 
-float MeshReader::_readComponentValue(const VertexAttribute* attribute, unsigned index) const
+float MeshReader::_readComponentValue(const VertexAttribute& attribute, unsigned index) const
 {
     _vertexStream.seek(_vertexPosition);
 
-    size_t offset = _vertexPosition + attribute->offset();
+    size_t offset = _vertexPosition + attribute.offset();
 
     // Read the vertex data based on the type
     float value = 0;
-    switch (attribute->type())
+    switch (attribute.type())
     {
     case VertexAttributeType::Byte:
         _vertexStream.seek(offset + index * sizeof(int8_t));

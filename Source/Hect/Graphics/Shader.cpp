@@ -49,7 +49,7 @@ Shader::~Shader()
 {
     if (isUploaded())
     {
-        renderer()->destroyShader(*this);
+        renderer().destroyShader(*this);
     }
 }
 

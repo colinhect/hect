@@ -27,7 +27,11 @@ SUITE(MeshReader)
 {
     TEST(EmptyMesh)
     {
-        Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(createVetexLayout());
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
+
         MeshReader meshReader(mesh);
 
         CHECK(!meshReader.nextVertex());
@@ -36,7 +40,10 @@ SUITE(MeshReader)
 
     TEST(ReadAttributeVector3)
     {
-        Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(createVetexLayout());
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
 
         {
             MeshWriter meshWriter(mesh);
@@ -95,7 +102,10 @@ SUITE(MeshReader)
 
     TEST(ReadIndexByte)
     {
-        Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(createVetexLayout());
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
 
         {
             MeshWriter meshWriter(mesh);

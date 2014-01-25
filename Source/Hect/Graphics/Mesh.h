@@ -46,8 +46,16 @@ enum class PrimitiveType : uint8_t
 /// The type of each index in an index sequence.
 enum class IndexType : uint8_t
 {
+    ///
+    /// An 8-bit unsigned integer.
     UnsignedByte,
+
+    ///
+    /// A 16-bit unsigned integer.
     UnsignedShort,
+
+    ///
+    /// A 32-bit unsigned integer.
     UnsignedInt
 };
 
@@ -58,7 +66,6 @@ class Mesh :
     public Encodable
 {
     friend class MeshWriter;
-    friend class MeshEncoder;
 public:
 
     ///
@@ -82,23 +89,77 @@ public:
     Mesh(const std::string& name);
 
     ///
-    /// Constructs a mesh.
+    /// Constructs a mesh as a copy of another.
     ///
-    /// \param name The name of the mesh.
-    /// \param vertexLayout The vertex layout.
-    /// \param primitiveType The primitive type.
-    /// \param indexType The index type.
-    Mesh(const std::string& name, const VertexLayout& vertexLayout, PrimitiveType primitiveType, IndexType indexType);
+    /// \param mesh The mesh to copy.
+    Mesh(const Mesh& mesh);
 
     ///
-    /// Constructs a mesh as a copy from another mesh.
+    /// Constructs a mesh moved from another.
     ///
-    /// \param mesh The mesh to copy from.
-    Mesh(const Mesh& mesh);
+    /// \param mesh The mesh to move.
+    Mesh(Mesh&& mesh);
+
+    ///
+    /// Destroys the shader if it is uploaded.
+    ~Mesh();
 
     ///
     /// Returns the name.
     const std::string& name() const;
+
+    ///
+    /// Sets the name.
+    ///
+    /// \param name The new name.
+    void setName(const std::string& name);
+
+    ///
+    /// Returns the vertex layout.
+    const VertexLayout& vertexLayout() const;
+
+    ///
+    /// Sets the vertex layout.
+    ///
+    /// \param vertexLayout The new vertex layout.
+    ///
+    /// \note If the mesh is uploaded to a renderer then it will be destroyed
+    /// before the primitive type is set.
+    ///
+    /// \throws Error If the mesh already has vertex data.
+    void setVertexLayout(const VertexLayout& vertexLayout);
+    
+    ///
+    /// Returns the primitive type.
+    PrimitiveType primitiveType() const;
+
+    ///
+    /// Sets the primitive type.
+    ///
+    /// \param primitiveType The new primitive type.
+    ///
+    /// \note If the mesh is uploaded to a renderer then it will be destroyed
+    /// before the primitive type is set.
+    void setPrimitiveType(PrimitiveType primitiveType);
+
+    ///
+    /// Returns the index type.
+    IndexType indexType() const;
+
+    ///
+    /// Sets the index type.
+    ///
+    /// \param indexType The new index type.
+    ///
+    /// \note If the mesh is uploaded to a renderer then it will be destroyed
+    /// before the index type is set.
+    ///
+    /// \throws Error If the mesh already has index data.
+    void setIndexType(IndexType indexType);
+
+    ///
+    /// Returns the raw vertex data.
+    const VertexData& vertexData() const;
 
     ///
     /// Sets the raw vertex data.
@@ -106,16 +167,17 @@ public:
     /// \param vertexData The vertex data to set.  Assumed to conform to the
     /// vertex layout.
     ///
-    /// \throws Error If the mesh has vertex data.
+    /// \note If the mesh is uploaded to a renderer then it will be destroyed
+    /// before the vertex data is set.
     void setVertexData(const VertexData& vertexData);
-
-    ///
-    /// Returns the raw vertex data.
-    const VertexData& vertexData() const;
 
     ///
     /// Returns the number of vertices.
     size_t vertexCount() const;
+
+    ///
+    /// Returns the raw index data.
+    const IndexData& indexData() const;
 
     ///
     /// Sets the raw index data.
@@ -123,12 +185,10 @@ public:
     /// \param indexData The index data to set.  Assumed to conform to the
     /// index type.
     ///
-    /// \throws Error If the mesh has vertex data.
+    /// \note If the mesh is uploaded to a renderer then it will be destroyed
+    /// before the index data is set.
     void setIndexData(const IndexData& indexData);
 
-    ///
-    /// Returns the raw index data.
-    const IndexData& indexData() const;
 
     ///
     /// Returns the number of indices.
@@ -137,18 +197,6 @@ public:
     ///
     /// Returns the size of an index in bytes.
     unsigned indexSize() const;
-
-    ///
-    /// Returns the vertex layout.
-    const VertexLayout& vertexLayout() const;
-
-    ///
-    /// Returns the primitive type.
-    PrimitiveType primitiveType() const;
-
-    ///
-    /// Returns the index type.
-    IndexType indexType() const;
 
     ///
     /// Returns the bounding box.
@@ -163,12 +211,6 @@ public:
     ///
     /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-
-    ///
-    /// Clears all mesh data
-    ///
-    /// \note If the mesh was uploaded to a renderer then it will be destroyed.
-    void clear();
 
     ///
     /// Decodes the mesh.
@@ -197,6 +239,28 @@ public:
     /// \param mesh The other mesh.
     bool operator!=(const Mesh& mesh) const;
 
+    ///
+    /// Replaces the mesh with a copy of another.
+    ///
+    /// \note If the mesh was uploaded to a renderer then it will be destroyed
+    /// before assigned.
+    ///
+    /// \param mesh The mesh to copy.
+    ///
+    /// \returns A reference to the mesh.
+    Mesh& operator=(const Mesh& mesh);
+
+    ///
+    /// Replaces the mesh by moving another.
+    ///
+    /// \note If the mesh was uploaded to a renderer then it will be destroyed
+    /// before assigned.
+    ///
+    /// \param mesh The mesh to move.
+    ///
+    /// \returns A reference to the mesh.
+    Mesh& operator=(Mesh&& mesh);
+
 private:
     static IndexType _parseIndexType(const std::string& value);
     static PrimitiveType _parsePrimitiveType(const std::string& value);
@@ -208,9 +272,9 @@ private:
     IndexType _indexType;
 
     VertexData _vertexData;
-    IndexData _indexData;
-
     size_t _vertexCount;
+
+    IndexData _indexData;
     size_t _indexCount;
 
     AxisAlignedBox _boundingBox;

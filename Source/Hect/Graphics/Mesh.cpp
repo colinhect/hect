@@ -50,26 +50,40 @@ Mesh::Mesh(const std::string& name) :
 {
 }
 
-Mesh::Mesh(const std::string& name, const VertexLayout& vertexLayout, PrimitiveType primitiveType, IndexType indexType) :
-    _name(name),
-    _vertexLayout(vertexLayout),
-    _primitiveType(primitiveType),
-    _indexType(indexType),
-    _vertexCount(0),
-    _indexCount(0)
-{
-}
-
 Mesh::Mesh(const Mesh& mesh) :
+    RendererObject(mesh),
+    _name(mesh._name),
     _vertexLayout(mesh._vertexLayout),
     _primitiveType(mesh._primitiveType),
     _indexType(mesh._indexType),
     _vertexData(mesh._vertexData),
-    _indexData(mesh._indexData),
     _vertexCount(mesh._vertexCount),
+    _indexData(mesh._indexData),
     _indexCount(mesh._indexCount),
     _boundingBox(mesh._boundingBox)
 {
+}
+
+Mesh::Mesh(Mesh&& mesh) :
+    RendererObject(mesh),
+    _name(std::move(mesh._name)),
+    _vertexLayout(std::move(mesh._vertexLayout)),
+    _primitiveType(mesh._primitiveType),
+    _indexType(mesh._indexType),
+    _vertexData(std::move(mesh._vertexData)),
+    _vertexCount(mesh._vertexCount),
+    _indexData(std::move(mesh._indexData)),
+    _indexCount(mesh._indexCount),
+    _boundingBox(mesh._boundingBox)
+{
+}
+
+Mesh::~Mesh()
+{
+    if (isUploaded())
+    {
+        renderer().destroyMesh(*this);
+    }
 }
 
 const std::string& Mesh::name() const
@@ -77,15 +91,64 @@ const std::string& Mesh::name() const
     return _name;
 }
 
-void Mesh::setVertexData(const VertexData& vertexData)
+void Mesh::setName(const std::string& name)
 {
-    if (_vertexData.size() > 0)
+    _name = name;
+}
+
+const VertexLayout& Mesh::vertexLayout() const
+{
+    return _vertexLayout;
+}
+
+void Mesh::setVertexLayout(const VertexLayout& vertexLayout)
+{
+    if (isUploaded())
     {
-        throw Error("Attempt to set the vertex data of a mesh with vertex data");
+        renderer().destroyMesh(*this);
     }
 
-    _vertexData = vertexData;
-    _vertexCount = vertexData.size() / _vertexLayout.vertexSize();
+    if (_vertexData.size() != 0)
+    {
+        throw Error("Attempt to change the vertex layout of a mesh with vertex data");
+    }
+
+    _vertexLayout = vertexLayout;
+}
+
+PrimitiveType Mesh::primitiveType() const
+{
+    return _primitiveType;
+}
+
+void Mesh::setPrimitiveType(PrimitiveType primitiveType)
+{
+    if (isUploaded())
+    {
+        renderer().destroyMesh(*this);
+    }
+
+    _primitiveType = primitiveType;
+}
+
+IndexType Mesh::indexType() const
+{
+    return _indexType;
+}
+
+void Mesh::setIndexType(IndexType indexType)
+{
+    if (isUploaded())
+    {
+        renderer().destroyMesh(*this);
+    }
+
+    if (_indexData.size() != 0)
+    {
+        throw Error("Attempt to change the index type of a mesh with index data");
+    }
+
+    _indexType = indexType;
 }
 
 const Mesh::VertexData& Mesh::vertexData() const
@@ -93,25 +156,36 @@ const Mesh::VertexData& Mesh::vertexData() const
     return _vertexData;
 }
 
+void Mesh::setVertexData(const VertexData& vertexData)
+{
+    if (isUploaded())
+    {
+        renderer().destroyMesh(*this);
+    }
+
+    _vertexData = vertexData;
+    _vertexCount = vertexData.size() / _vertexLayout.vertexSize();
+}
+
 size_t Mesh::vertexCount() const
 {
     return _vertexCount;
 }
 
+const Mesh::IndexData& Mesh::indexData() const
+{
+    return _indexData;
+}
+
 void Mesh::setIndexData(const IndexData& indexData)
 {
-    if (_indexData.size() > 0)
+    if (isUploaded())
     {
-        throw Error("Attempt to set the index data of a mesh with index data");
+        renderer().destroyMesh(*this);
     }
 
     _indexData = indexData;
     _indexCount = indexData.size() / indexSize();
-}
-
-const Mesh::IndexData& Mesh::indexData() const
-{
-    return _indexData;
 }
 
 size_t Mesh::indexCount() const
@@ -133,21 +207,6 @@ unsigned Mesh::indexSize() const
     return 0;
 }
 
-const VertexLayout& Mesh::vertexLayout() const
-{
-    return _vertexLayout;
-}
-
-PrimitiveType Mesh::primitiveType() const
-{
-    return _primitiveType;
-}
-
-IndexType Mesh::indexType() const
-{
-    return _indexType;
-}
-
 AxisAlignedBox& Mesh::boundingBox()
 {
     return _boundingBox;
@@ -156,20 +215,6 @@ AxisAlignedBox& Mesh::boundingBox()
 const AxisAlignedBox& Mesh::boundingBox() const
 {
     return _boundingBox;
-}
-
-void Mesh::clear()
-{
-    if (isUploaded())
-    {
-        renderer()->destroyMesh(*this);
-    }
-
-    _vertexData.clear();
-    _vertexCount = 0;
-    _indexData.clear();
-    _indexCount = 0;
-    _boundingBox = AxisAlignedBox();
 }
 
 void Mesh::encode(ObjectEncoder& encoder) const
@@ -226,4 +271,48 @@ bool Mesh::operator==(const Mesh& mesh) const
 bool Mesh::operator!=(const Mesh& mesh) const
 {
     return !(*this == mesh);
+}
+
+Mesh& Mesh::operator=(const Mesh& mesh)
+{
+    if (isUploaded())
+    {
+        renderer().destroyMesh(*this);
+    }
+
+    RendererObject::operator=(mesh);
+
+    _name = mesh.name();
+    _vertexLayout = mesh.vertexLayout();
+    _primitiveType = mesh.primitiveType();
+    _indexType = mesh.indexType();
+    _vertexData = mesh.vertexData();
+    _vertexCount = mesh.vertexCount();
+    _indexData = mesh.indexData();
+    _indexCount = mesh.indexCount();
+    _boundingBox = mesh.boundingBox();
+
+    return *this;
+}
+
+Mesh& Mesh::operator=(Mesh&& mesh)
+{
+    if (isUploaded())
+    {
+        renderer().destroyMesh(*this);
+    }
+
+    RendererObject::operator=(mesh);
+
+    _name = std::move(mesh.name());
+    _vertexLayout = std::move(mesh.vertexLayout());
+    _primitiveType = mesh.primitiveType();
+    _indexType = mesh.indexType();
+    _vertexData = std::move(mesh.vertexData());
+    _vertexCount = mesh.vertexCount();
+    _indexData = std::move(mesh.indexData());
+    _indexCount = mesh.indexCount();
+    _boundingBox = mesh.boundingBox();
+
+    return *this;
 }

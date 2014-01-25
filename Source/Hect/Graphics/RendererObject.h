@@ -37,22 +37,34 @@ struct RendererObjectData
 
 ///
 /// An object which can be uploaded to the GPU.
+///
+/// \warning Classes which inherit from RenderObject must implement a copy
+/// constructor, move constructor, destructor, assignment operator, and
+/// move assignment operator all which destroy the object from the renderer
+/// if needed.
 class RendererObject
 {
     friend class Renderer;
 public:
     RendererObject();
+    RendererObject(const RendererObject& renderObject);
+    RendererObject(RendererObject&& renderObject);
     virtual ~RendererObject();
 
     ///
     /// Returns whether the object is uploaded to the GPU.
     bool isUploaded() const;
 
+    RendererObject& operator=(const RendererObject& rendererObject);
+    RendererObject& operator=(RendererObject&& rendererObject);
+
 protected:
 
     ///
     /// Returns the renderer that the object is uploaded to.
-    Renderer* renderer() const;
+    ///
+    /// \throws Error If the object is not uploaded.
+    Renderer& renderer() const;
 
 private:
     mutable bool _uploaded;

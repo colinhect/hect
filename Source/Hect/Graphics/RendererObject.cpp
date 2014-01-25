@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "RendererObject.h"
 
+#include "Hect/Core/Error.h"
+
 using namespace hect;
 
 RendererObject::RendererObject() :
@@ -30,6 +32,23 @@ RendererObject::RendererObject() :
     _data(nullptr),
     _renderer(nullptr)
 {
+}
+
+RendererObject::RendererObject(const RendererObject& renderObject) :
+    _uploaded(false),
+    _data(nullptr),
+    _renderer(nullptr)
+{
+    renderObject;
+}
+
+RendererObject::RendererObject(RendererObject&& renderObject) :
+    _uploaded(renderObject._uploaded),
+    _data(renderObject._data),
+    _renderer(renderObject._renderer)
+{
+    renderObject._data = nullptr;
+    renderObject._renderer = nullptr;
 }
 
 RendererObject::~RendererObject()
@@ -45,7 +64,35 @@ bool RendererObject::isUploaded() const
     return _uploaded;
 }
 
-Renderer* RendererObject::renderer() const
+RendererObject& RendererObject::operator=(const RendererObject& rendererObject)
 {
-    return _renderer;
+    rendererObject;
+
+    _uploaded = false;
+    _data = nullptr;
+    _renderer = nullptr;
+
+    return *this;
+}
+
+RendererObject& RendererObject::operator=(RendererObject&& rendererObject)
+{
+    _uploaded = rendererObject._uploaded;
+    _data = rendererObject._data;
+    _renderer = rendererObject._renderer;
+
+    rendererObject._uploaded = nullptr;
+    rendererObject._data = nullptr;
+    rendererObject._renderer = nullptr;
+
+    return *this;
+}
+
+Renderer& RendererObject::renderer() const
+{
+    if (!_renderer)
+    {
+        throw Error("Attempt to get the renderer of a renderer object which is not uploaded");
+    }
+    return *_renderer;
 }

@@ -25,18 +25,22 @@
 
 VertexLayout createVetexLayout()
 {
-    VertexAttribute::Array attributes;
-    attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-    attributes.push_back(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float, 3));
+    VertexLayout vertexLayout;
+    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float, 3));
 
-    return VertexLayout(attributes);
+    return vertexLayout;
 }
 
 SUITE(MeshWriter)
 {
     TEST(EmptyMesh)
     {
-        Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(createVetexLayout());
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
+
         MeshWriter meshWriter(mesh);
 
         CHECK_EQUAL(0u, mesh.vertexCount());
@@ -45,7 +49,11 @@ SUITE(MeshWriter)
 
     TEST(AddVertexWithoutAttributeData)
     {
-        Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(createVetexLayout());
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
+
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
 
@@ -63,7 +71,11 @@ SUITE(MeshWriter)
 
     TEST(SetAttributeDataOfSameTypeAndCardinality)
     {
-        Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(createVetexLayout());
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
+
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
         meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(1.0, 2.0, 3.0));
@@ -82,7 +94,11 @@ SUITE(MeshWriter)
 
     TEST(SetAttributeDataOfSameTypeAndLarger)
     {
-        Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(createVetexLayout());
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
+
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
         meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector4(1.0, 2.0, 3.0, 4.0));
@@ -101,7 +117,11 @@ SUITE(MeshWriter)
 
     TEST(SetAttributeDataOfSameTypeAndSmaller)
     {
-        Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(createVetexLayout());
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
+
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
         meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector2(1.0, 2.0));
@@ -120,7 +140,11 @@ SUITE(MeshWriter)
 
     TEST(SimpleMesh)
     {
-        Mesh mesh("Test", createVetexLayout(), PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(createVetexLayout());
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
+
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
         meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(1.0, 2.0, 3.0));

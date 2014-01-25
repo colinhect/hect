@@ -43,7 +43,7 @@ ShaderModule::~ShaderModule()
 {
     if (isUploaded())
     {
-        renderer()->destroyShaderModule(*this);
+        renderer().destroyShaderModule(*this);
     }
 }
 

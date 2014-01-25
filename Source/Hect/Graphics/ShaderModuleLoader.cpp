@@ -29,8 +29,7 @@ using namespace hect;
 
 void AssetLoader<ShaderModule>::load(ShaderModule& shaderModule, const Path& assetPath, AssetCache& assetCache)
 {
-    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-
+    // Determine the shader module type by the extension
     ShaderModuleType type;
     std::string extension = assetPath.extension();
     if (extension == "vert")
@@ -50,6 +49,10 @@ void AssetLoader<ShaderModule>::load(ShaderModule& shaderModule, const Path& ass
         throw Error(format("Unknown shader module type '%s'", extension.c_str()));
     }
 
+    // Read the source contents
+    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
     std::string source = stream.readAllToString();
+
+    // Create the shader module
     shaderModule = ShaderModule(assetPath.toString(), type, source);
 }

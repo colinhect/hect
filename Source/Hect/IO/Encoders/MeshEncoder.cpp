@@ -135,55 +135,71 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
 
 void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    mesh.clear();
-
     // Vertex layout
     if (decoder.hasMember("vertexLayout"))
     {
         ObjectDecoder vertexLayoutDecoder = decoder.decodeObject("vertexLayout");
-        mesh._vertexLayout.decode(vertexLayoutDecoder, assetCache);
+
+        VertexLayout vertexLayout;
+        vertexLayout.decode(vertexLayoutDecoder, assetCache);
+
+        mesh.setVertexLayout(vertexLayout);
     }
 
     // Index type
     if (decoder.isBinaryStream())
     {
         ReadStream& stream = decoder.binaryStream();
-        mesh._indexType = (IndexType)stream.readUnsignedByte();
+        IndexType indexType = (IndexType)stream.readUnsignedByte();
+
+        mesh.setIndexType(indexType);
     }
     else if (decoder.hasMember("indexType"))
     {
-        mesh._indexType = indexTypeFromString(decoder.decodeString("indexType"));
+        IndexType indexType = indexTypeFromString(decoder.decodeString("indexType"));
+
+        mesh.setIndexType(indexType);
     }
 
     // Primitive type
     if (decoder.isBinaryStream())
     {
         ReadStream& stream = decoder.binaryStream();
-        mesh._primitiveType = (PrimitiveType)stream.readUnsignedByte();
+        PrimitiveType primitiveType = (PrimitiveType)stream.readUnsignedByte();
+        mesh.setPrimitiveType(primitiveType);
     }
     else if (decoder.hasMember("primitiveType"))
     {
-        mesh._primitiveType = primitiveTypeFromString(decoder.decodeString("primitiveType"));
+        PrimitiveType primitiveType = primitiveTypeFromString(decoder.decodeString("primitiveType"));
+        mesh.setPrimitiveType(primitiveType);
     }
 
+    // Vertex and index data
     if (decoder.isBinaryStream())
     {
         ReadStream& stream = decoder.binaryStream();
 
         // Vertex data
+        Mesh::VertexData vertexData;
         uint32_t vertexDataSize = stream.readUnsignedInt();
-        Mesh::VertexData vertexData(vertexDataSize);
+        vertexData = Mesh::VertexData(vertexDataSize);
         stream.readBytes(&vertexData[0], vertexDataSize);
-        mesh.setVertexData(vertexData);
 
         // Index data
+        Mesh::IndexData indexData;
         uint32_t indexDataSize = stream.readUnsignedInt();
-        Mesh::VertexData indexData(indexDataSize);
+        indexData = Mesh::VertexData(indexDataSize);
         stream.readBytes(&indexData[0], indexDataSize);
+
+        // Set vertex/index data
+        mesh.setVertexData(vertexData);
         mesh.setIndexData(indexData);
     }
     else
     {
+        const VertexLayout& vertexLayout = mesh.vertexLayout();
+
+        // Use a mesh writer to write vertex and index data
         MeshWriter meshWriter(mesh);
 
         // Vertex data
@@ -201,10 +217,11 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
                     ObjectDecoder attributeDecoder = attributesDecoder.decodeObject();
 
                     auto semantic = VertexLayoutEncoder::attributeSemanticFromString(attributeDecoder.decodeString("semantic"));
-                    const VertexAttribute* attribute = mesh.vertexLayout().attributeWithSemantic(semantic);
-                    if (attribute)
+
+                    if (vertexLayout.hasAttributeWithSemantic(semantic))
                     {
-                        unsigned cardinality = attribute->cardinality();
+                        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+                        unsigned cardinality = attribute.cardinality();
 
                         if (cardinality == 1)
                         {

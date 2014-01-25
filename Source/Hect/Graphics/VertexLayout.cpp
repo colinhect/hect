@@ -29,13 +29,13 @@ using namespace hect;
 
 VertexLayout VertexLayout::createDefault()
 {
-    VertexAttribute::Array attributes;
-    attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-    attributes.push_back(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float, 3));
-    attributes.push_back(VertexAttribute(VertexAttributeSemantic::Tangent, VertexAttributeType::Float, 3));
-    attributes.push_back(VertexAttribute(VertexAttributeSemantic::TextureCoords0, VertexAttributeType::Float, 2));
+    VertexLayout vertexLayout;
+    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float, 3));
+    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Tangent, VertexAttributeType::Float, 3));
+    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::TextureCoords0, VertexAttributeType::Float, 2));
 
-    return VertexLayout(attributes);
+    return vertexLayout;
 }
 
 VertexLayout::VertexLayout() :
@@ -43,24 +43,40 @@ VertexLayout::VertexLayout() :
 {
 }
 
-VertexLayout::VertexLayout(const VertexAttribute::Array& attributes) :
-    _attributes(attributes),
-    _vertexSize(0)
+void VertexLayout::appendAttribute(const VertexAttribute& attribute)
 {
+    _attributes.push_back(attribute);
     _computeAttributeOffsets();
 }
 
-const VertexAttribute* VertexLayout::attributeWithSemantic(VertexAttributeSemantic semantic) const
+void VertexLayout::clearAttributes()
 {
-    const VertexAttribute* resultingAttribute = nullptr;
+    _attributes.clear();
+    _computeAttributeOffsets();
+}
+
+bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic semantic) const
+{
     for (const VertexAttribute& attribute : _attributes)
     {
-        if (!resultingAttribute && attribute.semantic() == semantic)
+        if (attribute.semantic() == semantic)
         {
-            resultingAttribute = &attribute;
+            return true;
         }
     }
-    return resultingAttribute;
+    return false;
+}
+
+const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemantic semantic) const
+{
+    for (const VertexAttribute& attribute : _attributes)
+    {
+        if (attribute.semantic() == semantic)
+        {
+            return attribute;
+        }
+    }
+    throw Error(format("Vertex layout does not have an attribute with semantic '%s'", VertexLayoutEncoder::attributeSemanticToString(semantic)));
 }
 
 const VertexAttribute::Array& VertexLayout::attributes() const

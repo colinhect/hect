@@ -37,13 +37,14 @@ SUITE(Mesh)
 
     TEST(Constructor)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
 
-        VertexLayout vertexLayout(attributes);
-
-        Mesh mesh("Test", vertexLayout, PrimitiveType::Triangles, IndexType::UnsignedByte);
+        Mesh mesh("Test");
+        mesh.setVertexLayout(vertexLayout);
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
 
         const VertexLayout& meshVertexLayout = mesh.vertexLayout();
         CHECK_EQUAL(2u, meshVertexLayout.attributes().size());
@@ -57,12 +58,13 @@ SUITE(Mesh)
 
     TEST(SetVertexData)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-
-        VertexLayout vertexLayout(attributes);
-
-        Mesh mesh("Test", vertexLayout, PrimitiveType::Triangles, IndexType::UnsignedByte);
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+                
+        Mesh mesh("Test");
+        mesh.setVertexLayout(vertexLayout);
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
 
         const float rawVertexData[9] =
         {
@@ -80,12 +82,13 @@ SUITE(Mesh)
 
     TEST(GetVertexData)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-
-        VertexLayout vertexLayout(attributes);
-
-        Mesh mesh("Test", vertexLayout, PrimitiveType::Triangles, IndexType::UnsignedByte);
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+                
+        Mesh mesh("Test");
+        mesh.setVertexLayout(vertexLayout);
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
 
         const float rawOriginalVertexData[9] =
         {
@@ -113,12 +116,13 @@ SUITE(Mesh)
 
     TEST(SetIndexData)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-
-        VertexLayout vertexLayout(attributes);
-
-        Mesh mesh("Test", vertexLayout, PrimitiveType::Triangles, IndexType::UnsignedByte);
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        
+        Mesh mesh("Test");
+        mesh.setVertexLayout(vertexLayout);
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
 
         std::vector<uint8_t> indexData;
         indexData.push_back(0);
@@ -135,12 +139,13 @@ SUITE(Mesh)
 
     TEST(GetIndexDataUnsignedByte)
     {
-        VertexAttribute::Array attributes;
-        attributes.push_back(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-
-        VertexLayout vertexLayout(attributes);
-
-        Mesh mesh("Test", vertexLayout, PrimitiveType::Triangles, IndexType::UnsignedByte);
+        VertexLayout vertexLayout;
+        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        
+        Mesh mesh("Test");
+        mesh.setVertexLayout(vertexLayout);
+        mesh.setPrimitiveType(PrimitiveType::Triangles);
+        mesh.setIndexType(IndexType::UnsignedByte);
 
         std::vector<uint8_t> originalIndexData;
         originalIndexData.push_back(0);

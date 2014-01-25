@@ -100,7 +100,7 @@ Texture::Texture(const Texture& texture) :
     {
         // Download the image for the source texture and copy it as the source
         // image for this texture
-        _image = AssetHandle<Image>(new Image(texture.renderer()->downloadTextureImage(texture)));
+        _image = AssetHandle<Image>(new Image(texture.renderer().downloadTextureImage(texture)));
     }
 }
 
@@ -108,7 +108,7 @@ Texture::~Texture()
 {
     if (isUploaded())
     {
-        renderer()->destroyTexture(*this);
+        renderer().destroyTexture(*this);
     }
 }
 
