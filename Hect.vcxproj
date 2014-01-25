@@ -61,7 +61,7 @@
     <ClInclude Include="Source\Hect\Graphics\Material.h" />
     <ClInclude Include="Source\Hect\Graphics\Mesh.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshReader.h" />
-    <ClInclude Include="Source\Hect\Graphics\MeshSerializer.h" />
+    <ClInclude Include="Source\Hect\Graphics\MeshEncoder.h" />
     <ClInclude Include="Source\Hect\Graphics\MeshWriter.h" />
     <ClInclude Include="Source\Hect\Graphics\Pass.h" />
     <ClInclude Include="Source\Hect\Graphics\PassUniformValue.h" />
@@ -77,7 +77,7 @@
     <ClInclude Include="Source\Hect\Graphics\UniformValue.h" />
     <ClInclude Include="Source\Hect\Graphics\VertexAttribute.h" />
     <ClInclude Include="Source\Hect\Graphics\VertexLayout.h" />
-    <ClInclude Include="Source\Hect\Graphics\VertexLayoutSerializer.h" />
+    <ClInclude Include="Source\Hect\Graphics\VertexLayoutEncoder.h" />
     <ClInclude Include="Source\Hect\Graphics\VideoMode.h" />
     <ClInclude Include="Source\Hect\Graphics\Window.h" />
     <ClInclude Include="Source\Hect\Input\InputAxis.h" />
@@ -85,8 +85,8 @@
     <ClInclude Include="Source\Hect\Input\Keyboard.h" />
     <ClInclude Include="Source\Hect\Input\Mouse.h" />
     <ClInclude Include="Source\Hect\Internal\Bullet.h" />
-    <ClInclude Include="Source\Hect\IO\DataReader.h" />
-    <ClInclude Include="Source\Hect\IO\DataWriter.h" />
+    <ClInclude Include="Source\Hect\IO\DataDecoder.h" />
+    <ClInclude Include="Source\Hect\IO\DataEncoder.h" />
     <ClInclude Include="Source\Hect\IO\FileReadStream.h" />
     <ClInclude Include="Source\Hect\IO\FileSystem.h" />
     <ClInclude Include="Source\Hect\IO\FileWriteStream.h" />
@@ -94,7 +94,7 @@
     <ClInclude Include="Source\Hect\IO\MemoryWriteStream.h" />
     <ClInclude Include="Source\Hect\IO\Path.h" />
     <ClInclude Include="Source\Hect\IO\ReadStream.h" />
-    <ClInclude Include="Source\Hect\IO\Serializable.h" />
+    <ClInclude Include="Source\Hect\IO\Encodable.h" />
     <ClInclude Include="Source\Hect\IO\WriteStream.h" />
     <ClInclude Include="Source\Hect\Math\Angle.h" />
     <ClInclude Include="Source\Hect\Math\AxisAlignedBox.h" />
@@ -151,7 +151,7 @@
     <ClCompile Include="Source\Hect\Graphics\Mesh.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshReader.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\MeshSerializer.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\MeshEncoder.cpp" />
     <ClCompile Include="Source\Hect\Graphics\MeshWriter.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Pass.cpp" />
     <ClCompile Include="Source\Hect\Graphics\PassUniformValue.cpp" />
@@ -170,7 +170,7 @@
     <ClCompile Include="Source\Hect\Graphics\UniformValue.cpp" />
     <ClCompile Include="Source\Hect\Graphics\VertexAttribute.cpp" />
     <ClCompile Include="Source\Hect\Graphics\VertexLayout.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\VertexLayoutSerializer.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\VertexLayoutEncoder.cpp" />
     <ClCompile Include="Source\Hect\Graphics\VideoMode.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Window.cpp" />
     <ClCompile Include="Source\Hect\Input\InputAxis.cpp" />
@@ -178,8 +178,8 @@
     <ClCompile Include="Source\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="Source\Hect\Input\Mouse.cpp" />
     <ClCompile Include="Source\Hect\Internal\Bullet.cpp" />
-    <ClCompile Include="Source\Hect\IO\DataReader.cpp" />
-    <ClCompile Include="Source\Hect\IO\DataWriter.cpp" />
+    <ClCompile Include="Source\Hect\IO\DataDecoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\DataEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\FileReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\FileSystem.cpp" />
     <ClCompile Include="Source\Hect\IO\FileWriteStream.cpp" />
@@ -187,7 +187,7 @@
     <ClCompile Include="Source\Hect\IO\MemoryWriteStream.cpp" />
     <ClCompile Include="Source\Hect\IO\Path.cpp" />
     <ClCompile Include="Source\Hect\IO\ReadStream.cpp" />
-    <ClCompile Include="Source\Hect\IO\Serializable.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encodable.cpp" />
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
     <ClCompile Include="Source\Hect\Math\Angle.cpp" />
     <ClCompile Include="Source\Hect\Math\AxisAlignedBox.cpp" />

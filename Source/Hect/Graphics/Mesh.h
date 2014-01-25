@@ -25,7 +25,7 @@
 
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/VertexLayout.h"
-#include "Hect/IO/Serializable.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Math/AxisAlignedBox.h"
 
 namespace hect
@@ -55,10 +55,10 @@ enum class IndexType : uint8_t
 /// A mesh of vertices and indices.
 class Mesh :
     public RendererObject,
-    public Serializable
+    public Encodable
 {
     friend class MeshWriter;
-    friend class MeshSerializer;
+    friend class MeshEncoder;
 public:
 
     ///
@@ -159,10 +159,10 @@ public:
     const AxisAlignedBox& boundingBox() const;
         
     ///
-    /// Serializes the mesh.
+    /// Encodes the mesh.
     ///
-    /// \param writer The writer to use to serialize.
-    void save(ObjectWriter& writer) const;
+    /// \param encoder The encoder to use.
+    void save(ObjectEncoder& encoder) const;
     
     ///
     /// Clears all mesh data
@@ -171,15 +171,15 @@ public:
     void clear();
 
     ///
-    /// Deserializes the mesh.
+    /// Decodes the mesh.
     ///
     /// \note All vertex/index and layout data is cleared before
-    /// deserialization begins.  If the mesh was uploaded to a renderer
-    /// then it will be destroyed before deserialization begins.
+    /// decoding begins.  If the mesh was uploaded to a renderer
+    /// then it will be destroyed before decoding begins.
     ///
-    /// \param reader The reader to use to deserialize.
+    /// \param decoder The decoder to use.
     /// \param assetCache The asset cache to load referenced assets from.
-    void load(ObjectReader& reader, AssetCache& assetCache);
+    void load(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
     /// Returns whether the mesh is equivalent to another.

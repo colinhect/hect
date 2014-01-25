@@ -41,7 +41,7 @@ using namespace hect;
 #include "AssetHandleTests.h"
 #include "DataValueJsonFormatTests.h"
 #include "DataValueTests.h"
-#include "DataWriterReaderTests.h"
+#include "DataEncodingTests.h"
 #include "EntityTests.h"
 #include "EventTests.h"
 #include "FileSystemTests.h"

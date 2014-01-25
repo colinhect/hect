@@ -21,59 +21,59 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "MeshSerializer.h"
+#include "MeshEncoder.h"
 
 #include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Graphics/MeshReader.h"
-#include "Hect/Graphics/VertexLayoutSerializer.h"
+#include "Hect/Graphics/VertexLayoutEncoder.h"
 
 using namespace hect;
 
-void MeshSerializer::save(const Mesh& mesh, ObjectWriter& writer)
+void MeshEncoder::save(const Mesh& mesh, ObjectEncoder& encoder)
 {
     // Vertex layout
     {
-        ObjectWriter vertexLayoutWriter = writer.writeObject("vertexLayout");
-        mesh.vertexLayout().save(vertexLayoutWriter);
+        ObjectEncoder vertexLayoutEncoder = encoder.encodeObject("vertexLayout");
+        mesh.vertexLayout().save(vertexLayoutEncoder);
     }
     
     // Index type
-    writer.writeString("indexType", indexTypeToString(mesh.indexType()));
+    encoder.encodeString("indexType", indexTypeToString(mesh.indexType()));
 
     // Primitive type
-    writer.writeString("primitiveType", primitiveTypeToString(mesh.primitiveType()));
+    encoder.encodeString("primitiveType", primitiveTypeToString(mesh.primitiveType()));
 
     MeshReader reader(mesh);
 
     // Vertex data
     {
-        ArrayWriter verticesWriter = writer.writeArray("vertices");
+        ArrayEncoder verticesEncoder = encoder.encodeArray("vertices");
         while (reader.nextVertex())
         {
-            ArrayWriter attributesWriter = verticesWriter.writeArray();
+            ArrayEncoder attributesEncoder = verticesEncoder.encodeArray();
             for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
             {
-                ObjectWriter attributeWriter = attributesWriter.writeObject();
+                ObjectEncoder attributeEncoder = attributesEncoder.encodeObject();
                 VertexAttributeSemantic semantic = attribute.semantic();
 
-                attributeWriter.writeString("semantic", VertexLayoutSerializer::attributeSemanticToString(semantic));
+                attributeEncoder.encodeString("semantic", VertexLayoutEncoder::attributeSemanticToString(semantic));
 
                 unsigned cardinality = attribute.cardinality();
                 if (cardinality == 1)
                 {
-                    attributeWriter.writeReal("data", reader.readAttributeReal(semantic));
+                    attributeEncoder.encodeReal("data", reader.readAttributeReal(semantic));
                 }
                 else if (cardinality == 2)
                 {
-                    attributeWriter.writeVector2("data", reader.readAttributeVector2(semantic));
+                    attributeEncoder.encodeVector2("data", reader.readAttributeVector2(semantic));
                 }
                 else if (cardinality == 3)
                 {
-                    attributeWriter.writeVector3("data", reader.readAttributeVector3(semantic));
+                    attributeEncoder.encodeVector3("data", reader.readAttributeVector3(semantic));
                 }
                 else if (cardinality == 4)
                 {
-                    attributeWriter.writeVector4("data", reader.readAttributeVector4(semantic));
+                    attributeEncoder.encodeVector4("data", reader.readAttributeVector4(semantic));
                 }
             }
         }
@@ -81,65 +81,65 @@ void MeshSerializer::save(const Mesh& mesh, ObjectWriter& writer)
 
     // Index data
     {
-        ArrayWriter indicesWriter = writer.writeArray("indices");
+        ArrayEncoder indicesEncoder = encoder.encodeArray("indices");
         while (reader.nextIndex())
         {
             switch (mesh.indexType())
             {
             case IndexType::UnsignedByte:
-                indicesWriter.writeUnsignedByte(reader.readIndexByte());
+                indicesEncoder.encodeUnsignedByte(reader.readIndexByte());
                 break;
             case IndexType::UnsignedShort:
-                indicesWriter.writeUnsignedShort(reader.readIndexShort());
+                indicesEncoder.encodeUnsignedShort(reader.readIndexShort());
                 break;
             case IndexType::UnsignedInt:
-                indicesWriter.writeUnsignedInt(reader.readIndexInt());
+                indicesEncoder.encodeUnsignedInt(reader.readIndexInt());
                 break;
             }
         }
     }
 }
 
-void MeshSerializer::load(Mesh& mesh, ObjectReader& reader, AssetCache& assetCache)
+void MeshEncoder::load(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache)
 {
     mesh.clear();
 
     // Vertex layout
-    if (reader.hasMember("vertexLayout"))
+    if (decoder.hasMember("vertexLayout"))
     {
-        ObjectReader vertexLayoutReader = reader.readObject("vertexLayout");
-        mesh._vertexLayout.load(vertexLayoutReader, assetCache);
+        ObjectDecoder vertexLayoutDecoder = decoder.decodeObject("vertexLayout");
+        mesh._vertexLayout.load(vertexLayoutDecoder, assetCache);
     }
 
     // Index type
-    if (reader.hasMember("indexType"))
+    if (decoder.hasMember("indexType"))
     {
-        mesh._indexType = indexTypeFromString(reader.readString("indexType"));
+        mesh._indexType = indexTypeFromString(decoder.decodeString("indexType"));
     }
 
     // Primitive type
-    if (reader.hasMember("primitiveType"))
+    if (decoder.hasMember("primitiveType"))
     {
-        mesh._primitiveType = primitiveTypeFromString(reader.readString("primitiveType"));
+        mesh._primitiveType = primitiveTypeFromString(decoder.decodeString("primitiveType"));
     }
 
     MeshWriter meshWriter(mesh);
 
     // Add the vertices
-    if (reader.hasMember("vertices"))
+    if (decoder.hasMember("vertices"))
     {
-        ArrayReader verticesReader = reader.readArray("vertices");
-        while (verticesReader.hasMoreElements())
+        ArrayDecoder verticesDecoder = decoder.decodeArray("vertices");
+        while (verticesDecoder.hasMoreElements())
         {
             meshWriter.addVertex();
 
             // For each attribute
-            ArrayReader attributesReader = verticesReader.readArray();
-            while (attributesReader.hasMoreElements())
+            ArrayDecoder attributesDecoder = verticesDecoder.decodeArray();
+            while (attributesDecoder.hasMoreElements())
             {
-                ObjectReader attributeReader = attributesReader.readObject();
+                ObjectDecoder attributeDecoder = attributesDecoder.decodeObject();
 
-                auto semantic = VertexLayoutSerializer::attributeSemanticFromString(attributeReader.readString("semantic"));
+                auto semantic = VertexLayoutEncoder::attributeSemanticFromString(attributeDecoder.decodeString("semantic"));
                 const VertexAttribute* attribute = mesh.vertexLayout().attributeWithSemantic(semantic);
                 if (attribute)
                 {
@@ -147,19 +147,19 @@ void MeshSerializer::load(Mesh& mesh, ObjectReader& reader, AssetCache& assetCac
 
                     if (cardinality == 1)
                     {
-                        meshWriter.writeAttributeData(semantic, attributeReader.readReal("data"));
+                        meshWriter.writeAttributeData(semantic, attributeDecoder.decodeReal("data"));
                     }
                     else if (cardinality == 2)
                     {
-                        meshWriter.writeAttributeData(semantic, attributeReader.readVector2("data"));
+                        meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector2("data"));
                     }
                     else if (cardinality == 3)
                     {
-                        meshWriter.writeAttributeData(semantic, attributeReader.readVector3("data"));
+                        meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector3("data"));
                     }
                     else if (cardinality == 4)
                     {
-                        meshWriter.writeAttributeData(semantic, attributeReader.readVector4("data"));
+                        meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector4("data"));
                     }
                 }
             }
@@ -167,28 +167,28 @@ void MeshSerializer::load(Mesh& mesh, ObjectReader& reader, AssetCache& assetCac
     }
 
     // Add the indices
-    if (reader.hasMember("indices"))
+    if (decoder.hasMember("indices"))
     {
-        ArrayReader indicesReader = reader.readArray("indices");
-        while (indicesReader.hasMoreElements())
+        ArrayDecoder indicesDecoder = decoder.decodeArray("indices");
+        while (indicesDecoder.hasMoreElements())
         {
             switch (mesh.indexType())
             {
             case IndexType::UnsignedByte:
-                meshWriter.addIndex(indicesReader.readUnsignedByte());
+                meshWriter.addIndex(indicesDecoder.decodeUnsignedByte());
                 break;
             case IndexType::UnsignedShort:
-                meshWriter.addIndex(indicesReader.readUnsignedShort());
+                meshWriter.addIndex(indicesDecoder.decodeUnsignedShort());
                 break;
             case IndexType::UnsignedInt:
-                meshWriter.addIndex(indicesReader.readUnsignedInt());
+                meshWriter.addIndex(indicesDecoder.decodeUnsignedInt());
                 break;
             }
         }
     }
 }
 
-IndexType MeshSerializer::indexTypeFromString(const std::string& value)
+IndexType MeshEncoder::indexTypeFromString(const std::string& value)
 {
     static std::map<std::string, IndexType> indexTypes;
 
@@ -208,7 +208,7 @@ IndexType MeshSerializer::indexTypeFromString(const std::string& value)
     return (*it).second;
 }
 
-std::string MeshSerializer::indexTypeToString(IndexType indexType)
+std::string MeshEncoder::indexTypeToString(IndexType indexType)
 {
     static std::map<IndexType, std::string> indexTypeNames;
 
@@ -228,7 +228,7 @@ std::string MeshSerializer::indexTypeToString(IndexType indexType)
     return (*it).second;
 }
     
-PrimitiveType MeshSerializer::primitiveTypeFromString(const std::string& value)
+PrimitiveType MeshEncoder::primitiveTypeFromString(const std::string& value)
 {
     static std::map<std::string, PrimitiveType> primitiveTypes;
 
@@ -250,7 +250,7 @@ PrimitiveType MeshSerializer::primitiveTypeFromString(const std::string& value)
     return (*it).second;
 }
 
-std::string MeshSerializer::primitiveTypeToString(PrimitiveType primitiveType)
+std::string MeshEncoder::primitiveTypeToString(PrimitiveType primitiveType)
 {
     static std::map<PrimitiveType, std::string> primitiveTypeNames;
 

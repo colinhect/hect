@@ -50,25 +50,25 @@ const Technique::Array& Material::techniques() const
     return _techniques;
 }
 
-void Material::save(ObjectWriter& writer) const
+void Material::save(ObjectEncoder& encoder) const
 {
-    writer;
-    throw Error("Material serialization is not implemented");
+    encoder;
+    throw Error("Not implemented");
 }
 
-void Material::load(ObjectReader& reader, AssetCache& assetCache)
+void Material::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     // Techniques
-    ArrayReader techniquesReader = reader.readArray("techniques");
-    while (techniquesReader.hasMoreElements())
+    ArrayDecoder techniquesDecoder = decoder.decodeArray("techniques");
+    while (techniquesDecoder.hasMoreElements())
     {
         Pass::Array passes;
 
         // Passes
-        ArrayReader passesReader = techniquesReader.readArray();
-        while (passesReader.hasMoreElements())
+        ArrayDecoder passesDecoder = techniquesDecoder.decodeArray();
+        while (passesDecoder.hasMoreElements())
         {
-            ObjectReader passReader = passesReader.readObject();
+            ObjectDecoder passDecoder = passesDecoder.decodeObject();
 
             RenderMode renderMode;
             AssetHandle<Texture>::Array textures;
@@ -76,17 +76,17 @@ void Material::load(ObjectReader& reader, AssetCache& assetCache)
             PassUniformValue::Array uniformValues;
 
             // Shader
-            Path path = passReader.readString("shader");
+            Path path = passDecoder.decodeString("shader");
             shader = assetCache.getHandle<Shader>(path);
 
             // Uniform values
-            if (passReader.hasMember("uniformValues"))
+            if (passDecoder.hasMember("uniformValues"))
             {
-                ArrayReader uniformValuesReader = passReader.readArray("uniformValues");
-                while (uniformValuesReader.hasMoreElements())
+                ArrayDecoder uniformValuesDecoder = passDecoder.decodeArray("uniformValues");
+                while (uniformValuesDecoder.hasMoreElements())
                 {
-                    ObjectReader uniformValueReader = uniformValuesReader.readObject();
-                    std::string name = uniformValueReader.readString("name");
+                    ObjectDecoder uniformValueDecoder = uniformValuesDecoder.decodeObject();
+                    std::string name = uniformValueDecoder.decodeString("name");
 
                     const Uniform& uniform = shader->uniformWithName(name);
 
@@ -95,19 +95,19 @@ void Material::load(ObjectReader& reader, AssetCache& assetCache)
                     {
                     case UniformType::Int:
                     case UniformType::Texture:
-                        value = UniformValue(reader.readInt("value"), uniform.type());
+                        value = UniformValue(uniformValueDecoder.decodeInt("value"), uniform.type());
                         break;
                     case UniformType::Float:
-                        value = UniformValue(reader.readReal("value"));
+                        value = UniformValue(uniformValueDecoder.decodeReal("value"));
                         break;
                     case UniformType::Vector2:
-                        value = UniformValue(reader.readVector2("value"));
+                        value = UniformValue(uniformValueDecoder.decodeVector2("value"));
                         break;
                     case UniformType::Vector3:
-                        value = UniformValue(reader.readVector3("value"));
+                        value = UniformValue(uniformValueDecoder.decodeVector3("value"));
                         break;
                     case UniformType::Vector4:
-                        value = UniformValue(reader.readVector4("value"));
+                        value = UniformValue(uniformValueDecoder.decodeVector4("value"));
                         break;
                     default:
                         throw Error("Unsupported uniform value type");
@@ -118,48 +118,48 @@ void Material::load(ObjectReader& reader, AssetCache& assetCache)
             }
 
             // Textures
-            if (passReader.hasMember("textures"))
+            if (passDecoder.hasMember("textures"))
             {
-                ArrayReader texturesReader = passReader.readArray("textures");
-                while (texturesReader.hasMoreElements())
+                ArrayDecoder texturesDecoder = passDecoder.decodeArray("textures");
+                while (texturesDecoder.hasMoreElements())
                 {
-                    Path path = texturesReader.readString();
+                    Path path = texturesDecoder.decodeString();
                     AssetHandle<Texture> texture = assetCache.getHandle<Texture>(path);
                     textures.push_back(texture);
                 }
             }
 
             // Render mode
-            if (passReader.hasMember("renderMode"))
+            if (passDecoder.hasMember("renderMode"))
             {
-                ObjectReader renderModeReader = passReader.readObject("renderMode");
+                ObjectDecoder renderModeDecoder = passDecoder.decodeObject("renderMode");
 
                 // Enabled states
-                if (renderModeReader.hasMember("enabledStates"))
+                if (renderModeDecoder.hasMember("enabledStates"))
                 {
-                    ArrayReader statesReader = renderModeReader.readArray("enabledStates");
-                    while (statesReader.hasMoreElements())
+                    ArrayDecoder statesDecoder = renderModeDecoder.decodeArray("enabledStates");
+                    while (statesDecoder.hasMoreElements())
                     {
-                        renderMode.enableState(_parseState(statesReader.readString()));
+                        renderMode.enableState(_parseState(statesDecoder.decodeString()));
                     }
                 }
 
                 // Disabled states
-                if (renderModeReader.hasMember("disabledStates"))
+                if (renderModeDecoder.hasMember("disabledStates"))
                 {
-                    ArrayReader statesReader = renderModeReader.readArray("disabledStates");
-                    while (statesReader.hasMoreElements())
+                    ArrayDecoder statesDecoder = renderModeDecoder.decodeArray("disabledStates");
+                    while (statesDecoder.hasMoreElements())
                     {
-                        renderMode.disableState(_parseState(statesReader.readString()));
+                        renderMode.disableState(_parseState(statesDecoder.decodeString()));
                     }
                 }
 
                 // Blend factors
-                if (renderModeReader.hasMember("blendFactors"))
+                if (renderModeDecoder.hasMember("blendFactors"))
                 {
-                    ArrayReader blendFactorsReader = renderModeReader.readArray("blendFactors");
-                    auto sourceFactor = _parseBlendFactor(blendFactorsReader.readString());
-                    auto destFactor = _parseBlendFactor(blendFactorsReader.readString());
+                    ArrayDecoder blendFactorsDecoder = renderModeDecoder.decodeArray("blendFactors");
+                    auto sourceFactor = _parseBlendFactor(blendFactorsDecoder.decodeString());
+                    auto destFactor = _parseBlendFactor(blendFactorsDecoder.decodeString());
                     renderMode.setBlendFactors(sourceFactor, destFactor);
                 }
             }

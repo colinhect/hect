@@ -23,18 +23,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-void testWriteAndReadStream(std::function<void(WriteStream*)> writer, std::function<void(ReadStream*)> reader)
+void testWriteAndReadStream(std::function<void(WriteStream*)> write, std::function<void(ReadStream*)> read)
 {
     // Memory streams
     {
         std::vector<uint8_t> data;
         {
             MemoryWriteStream stream(data);
-            writer(&stream);
+            write(&stream);
         }
         {
             MemoryReadStream stream(data);
-            reader(&stream);
+            read(&stream);
         }
     }
 
@@ -50,12 +50,12 @@ void testWriteAndReadStream(std::function<void(WriteStream*)> writer, std::funct
         CHECK(!fileSystem.exists(path));
         {
             FileWriteStream stream = fileSystem.openFileForWrite(path);
-            writer(&stream);
+            write(&stream);
         }
         CHECK(fileSystem.exists(path));
         {
             FileReadStream stream = fileSystem.openFileForRead(path);
-            reader(&stream);
+            read(&stream);
         }
         fileSystem.remove(path);
         CHECK(!fileSystem.exists(path));

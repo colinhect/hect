@@ -24,52 +24,52 @@
 #pragma once
 
 #include "Hect/Asset/AssetCache.h"
-#include "Hect/IO/DataWriter.h"
-#include "Hect/IO/DataReader.h"
+#include "Hect/IO/DataEncoder.h"
+#include "Hect/IO/DataDecoder.h"
 
 namespace hect
 {
 
 ///
-/// An object which can be serialized and deserialized.
-class Serializable
+/// An object which can be encoded and decoded.
+class Encodable
 {
 public:
 
     ///
-    /// Serializes the object using a writer.
+    /// Encodes the object.
     ///
-    /// \param writer The writer to use to serialize.
-    virtual void save(ObjectWriter& writer) const;
+    /// \param encoder The encoder to use.
+    virtual void save(ObjectEncoder& encoder) const;
 
     ///
-    /// Serializes the object to a data value.
+    /// Encodes the object to a data value.
     ///
     /// \returns The resulting data value.
     DataValue saveToDataValue() const;
 
     ///
-    /// Serializes the object to a stream.
+    /// Encodes the object to binary stream.
     ///
     /// \param stream The stream.
     void saveToBinary(WriteStream& stream) const;
 
     ///
-    /// Deserializes the object using a reader.
+    /// Decodes the object.
     ///
-    /// \param reader The reader to use to deserialize.
+    /// \param decoder The decoder to use.
     /// \param assetCache The asset cache to load referenced assets from.
-    virtual void load(ObjectReader& reader, AssetCache& assetCache);
+    virtual void load(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
-    /// Deserializes the object from a data value.
+    /// Decodes the object from a data value.
     ///
     /// \param dataValue The data value.
     /// \param assetCache The asset cache to load referenced assets from.
     void loadFromDataValue(const DataValue& dataValue, AssetCache& assetCache);
 
     ///
-    /// Deserializes the object from a stream
+    /// Decodes the object from binary a stream
     ///
     /// \param stream The stream.
     /// \param assetCache The asset cache to load referenced assets from.

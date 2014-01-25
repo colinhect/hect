@@ -99,10 +99,10 @@ SUITE(VertexLayout)
         CHECK_EQUAL(4u * 3u + 2u * 3u, vertexLayout.vertexSize());
     }
 
-    TEST(Serialization)
+    TEST(Encoding)
     {
         VertexLayout vertexLayout = VertexLayout::createDefault();
 
-        testSerialization(vertexLayout);
+        testEncodable(vertexLayout);
     }
 }

@@ -130,36 +130,36 @@ const Frustum& Camera::frustum() const
     return _frustum;
 }
 
-void Camera::save(ObjectWriter& writer) const
+void Camera::save(ObjectEncoder& encoder) const
 {
-    writer.writeDouble("fieldOfView", fieldOfView().degrees());
-    writer.writeDouble("aspectRatio", aspectRatio());
-    writer.writeDouble("nearClip", nearClip());
-    writer.writeDouble("farClip", farClip());
+    encoder.encodeDouble("fieldOfView", fieldOfView().degrees());
+    encoder.encodeDouble("aspectRatio", aspectRatio());
+    encoder.encodeDouble("nearClip", nearClip());
+    encoder.encodeDouble("farClip", farClip());
 }
 
-void Camera::load(ObjectReader& reader, AssetCache& assetCache)
+void Camera::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 
-    if (reader.hasMember("fieldOfView"))
+    if (decoder.hasMember("fieldOfView"))
     {
-        Real degrees = reader.readReal("fieldOfView");
+        Real degrees = decoder.decodeReal("fieldOfView");
         setFieldOfView(Angle::fromDegrees(degrees));
     }
 
-    if (reader.hasMember("aspectRatio"))
+    if (decoder.hasMember("aspectRatio"))
     {
-        setAspectRatio(reader.readReal("aspectRatio"));
+        setAspectRatio(decoder.decodeReal("aspectRatio"));
     }
 
-    if (reader.hasMember("nearClip"))
+    if (decoder.hasMember("nearClip"))
     {
-        setNearClip(reader.readReal("nearClip"));
+        setNearClip(decoder.decodeReal("nearClip"));
     }
 
-    if (reader.hasMember("farClip"))
+    if (decoder.hasMember("farClip"))
     {
-        setFarClip(reader.readReal("farClip"));
+        setFarClip(decoder.decodeReal("farClip"));
     }
 }

@@ -163,7 +163,7 @@ SUITE(Mesh)
         CHECK_EQUAL(0, indexData[5]);
     }
 
-    TEST(Serialization)
+    TEST(Encoding)
     {
         Mesh mesh("Test");
         MeshWriter meshWriter(mesh);
@@ -182,6 +182,6 @@ SUITE(Mesh)
         meshWriter.addIndex(2);
         meshWriter.addIndex(0);
 
-        testSerialization(mesh);
+        testEncodable(mesh);
     }
 }

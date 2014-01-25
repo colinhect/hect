@@ -227,40 +227,41 @@ int Texture::bytesPerPixel() const
     return 0;
 }
 
-void Texture::save(ObjectWriter& writer) const
+void Texture::save(ObjectEncoder& encoder) const
 {
-    writer;
-    throw Error("Texture serialization is not implemented");
+    encoder;
+    throw Error("Not implemented");
 }
 
-void Texture::load(ObjectReader& reader, AssetCache& assetCache)
+void Texture::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     // Image
-    AssetHandle<Image> image = assetCache.getHandle<Image>(reader.readString("image"));
+    Path imagePath = decoder.decodeString("image");
+    AssetHandle<Image> image = assetCache.getHandle<Image>(imagePath);
     *this = Texture(_name, image);
 
     // Min filter
-    if (reader.hasMember("minFilter"))
+    if (decoder.hasMember("minFilter"))
     {
-        setMinFilter(_parseTextureFilter(reader.readString("minFilter")));
+        setMinFilter(_parseTextureFilter(decoder.decodeString("minFilter")));
     }
 
     // Mag filter
-    if (reader.hasMember("magFilter"))
+    if (decoder.hasMember("magFilter"))
     {
-        setMagFilter(_parseTextureFilter(reader.readString("magFilter")));
+        setMagFilter(_parseTextureFilter(decoder.decodeString("magFilter")));
     }
 
     // Wrapped
-    if (reader.hasMember("wrapped"))
+    if (decoder.hasMember("wrapped"))
     {
-        setWrapped(reader.readBool("wrapped"));
+        setWrapped(decoder.decodeBool("wrapped"));
     }
 
     // Mipmapped
-    if (reader.hasMember("mipmapped"))
+    if (decoder.hasMember("mipmapped"))
     {
-        setMipmapped(reader.readBool("mipmapped"));
+        setMipmapped(decoder.decodeBool("mipmapped"));
     }
 }
 

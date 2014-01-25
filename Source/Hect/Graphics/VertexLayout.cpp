@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "VertexLayout.h"
 
-#include "Hect/Graphics/VertexLayoutSerializer.h"
+#include "Hect/Graphics/VertexLayoutEncoder.h"
 
 using namespace hect;
 
@@ -73,15 +73,15 @@ unsigned VertexLayout::vertexSize() const
     return _vertexSize;
 }
 
-void VertexLayout::save(ObjectWriter& writer) const
+void VertexLayout::save(ObjectEncoder& encoder) const
 {
-    VertexLayoutSerializer::save(*this, writer);
+    VertexLayoutEncoder::save(*this, encoder);
 }
 
-void VertexLayout::load(ObjectReader& reader, AssetCache& assetCache)
+void VertexLayout::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
-    VertexLayoutSerializer::load(*this, reader);
+    VertexLayoutEncoder::load(*this, decoder);
 }
 
 bool VertexLayout::operator==(const VertexLayout& vertexLayout) const

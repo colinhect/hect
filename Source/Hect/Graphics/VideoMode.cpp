@@ -61,35 +61,35 @@ bool VideoMode::isFullscreen() const
     return _fullscreen;
 }
 
-void VideoMode::save(ObjectWriter& writer) const
+void VideoMode::save(ObjectEncoder& encoder) const
 {
-    writer.writeUnsignedInt("width", _width);
-    writer.writeUnsignedInt("height", _height);
-    writer.writeUnsignedInt("bitsPerPixel", _bitsPerPixel);
-    writer.writeBool("fullscreen", _fullscreen);
+    encoder.encodeUnsignedInt("width", _width);
+    encoder.encodeUnsignedInt("height", _height);
+    encoder.encodeUnsignedInt("bitsPerPixel", _bitsPerPixel);
+    encoder.encodeBool("fullscreen", _fullscreen);
 }
 
-void VideoMode::load(ObjectReader& reader, AssetCache& assetCache)
+void VideoMode::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 
-    if (reader.hasMember("width"))
+    if (decoder.hasMember("width"))
     {
-        _width = reader.readUnsignedInt("width");
+        _width = decoder.decodeUnsignedInt("width");
     }
 
-    if (reader.hasMember("height"))
+    if (decoder.hasMember("height"))
     {
-        _height = reader.readUnsignedInt("height");
+        _height = decoder.decodeUnsignedInt("height");
     }
 
-    if (reader.hasMember("bitsPerPixel"))
+    if (decoder.hasMember("bitsPerPixel"))
     {
-        _bitsPerPixel = reader.readUnsignedInt("bitsPerPixel");
+        _bitsPerPixel = decoder.decodeUnsignedInt("bitsPerPixel");
     }
 
-    if (reader.hasMember("fullscreen"))
+    if (decoder.hasMember("fullscreen"))
     {
-        _fullscreen = reader.readBool("fullscreen");
+        _fullscreen = decoder.decodeBool("fullscreen");
     }
 }

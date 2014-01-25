@@ -26,7 +26,7 @@
 #include <cstdint>
 #include <memory>
 
-#include "Hect/IO/Serializable.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -41,7 +41,7 @@ typedef uint32_t ComponentTypeId;
 ///
 /// Base entity component.
 class BaseComponent :
-    public Serializable
+    public Encodable
 {
 public:
 

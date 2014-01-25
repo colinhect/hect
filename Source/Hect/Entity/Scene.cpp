@@ -154,29 +154,31 @@ Entity Scene::entityWithId(Entity::Id id) const
     return Entity(*const_cast<Scene*>(this), id);
 }
 
-void Scene::save(ObjectWriter& writer) const
+void Scene::save(ObjectEncoder& encoder) const
 {
-    ArrayWriter entities = writer.writeArray("entities");
+    ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
 
     for (Entity::Id id = 0; id < _entityData.size(); ++id)
     {
         Entity entity = entityWithId(id);
-        if (entity && entity.isActivated() && entity.isSerializable())
+        if (entity && entity.isActivated() && entity.isEncodable())
         {
-            ObjectWriter entityWriter = entities.writeObject();
-            entity.save(entityWriter);
+            ObjectEncoder entityEncoder = entitiesEncoder.encodeObject();
+            entity.save(entityEncoder);
         }
     }
 }
 
-void Scene::load(ObjectReader& reader, AssetCache& assetCache)
+void Scene::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    ArrayReader entities = reader.readArray("entities");
-    while (entities.hasMoreElements())
+    ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
+    while (entitiesDecoder.hasMoreElements())
     {
-        ObjectReader entityReader = entities.readObject();
         Entity entity = createEntity();
-        entity.load(entityReader, assetCache);
+
+        ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
+        entity.load(entityDecoder, assetCache);
+
         entity.activate();
     }
 }
@@ -202,43 +204,43 @@ Entity Scene::_cloneEntity(const Entity& entity)
     return clone;
 }
 
-void Scene::_serializeEntity(const Entity& entity, ObjectWriter& writer) const
+void Scene::_saveEntity(const Entity& entity, ObjectEncoder& encoder) const
 {
     if (!entity)
     {
         throw Error("Entity is null");
     }
 
-    ArrayWriter components = writer.writeArray("components");
+    ArrayEncoder componentsEncoder = encoder.encodeArray("components");
 
     for (BaseComponent* component : entity.components())
     {
         ComponentTypeId typeId = component->componentTypeId();
         const std::string& typeName = _typeName(typeId);
 
-        ObjectWriter componentWriter = components.writeObject();
-        componentWriter.writeString("type", typeName);
-        component->save(componentWriter);
+        ObjectEncoder componentEncoder = componentsEncoder.encodeObject();
+        componentEncoder.encodeString("type", typeName);
+        component->save(componentEncoder);
     }
 }
 
-void Scene::_deserializeEntity(const Entity& entity, ObjectReader& reader, AssetCache& assetCache)
+void Scene::_loadEntity(const Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (!entity)
     {
         throw Error("Entity is null");
     }
 
-    ArrayReader components = reader.readArray("components");
-    while (components.hasMoreElements())
+    ArrayDecoder componentsDecoder = decoder.decodeArray("components");
+    while (componentsDecoder.hasMoreElements())
     {
-        ObjectReader componentReader = components.readObject();
+        ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
 
-        std::string typeName = componentReader.readString("type");
+        std::string typeName = componentDecoder.decodeString("type");
         ComponentTypeId typeId = _typeId(typeName);
         BaseComponent* component = _constructComponent(typeId);
 
-        component->load(componentReader, assetCache);
+        component->load(componentDecoder, assetCache);
         entity.addComponent(component);
     }
 }
@@ -305,9 +307,9 @@ bool Scene::_isNull(const Entity& entity) const
     return data.isNull();
 }
 
-bool Scene::_isSerializable(const Entity& entity) const
+bool Scene::_isEncodable(const Entity& entity) const
 {
-    // Check the entity data to see if the entity is serializable
+    // Check the entity data to see if the entity is encodable
     Entity::Id id = entity._id;
     const EntityData& data = _entityData[id];
 
@@ -316,10 +318,10 @@ bool Scene::_isSerializable(const Entity& entity) const
         throw Error("Entity is null");
     }
 
-    return data.isSerializable();
+    return data.isEncodable();
 }
 
-void Scene::_setSerializable(const Entity& entity, bool serializable)
+void Scene::_setEncodable(const Entity& entity, bool encodable)
 {
     Entity::Id id = entity._id;
     EntityData& data = _entityData[id];
@@ -329,7 +331,7 @@ void Scene::_setSerializable(const Entity& entity, bool serializable)
         throw Error("Entity is null");
     }
 
-    data.setSerializable(serializable);
+    data.setEncodable(encodable);
 }
 
 void Scene::_addComponentWithoutReturn(const Entity& entity, const BaseComponent::Ref& component)
@@ -362,7 +364,7 @@ ComponentTypeId Scene::_typeId(const std::string& typeName) const
     auto it = _componentTypeIds.find(typeName);
     if (it == _componentTypeIds.end())
     {
-        throw Error(format("No writer registered for component type name '%s'", typeName.c_str()));
+        throw Error(format("No entity registered for component type name '%s'", typeName.c_str()));
     }
     return (*it).second;
 }
@@ -372,7 +374,7 @@ const std::string& Scene::_typeName(ComponentTypeId typeId) const
     auto it = _componentTypeNames.find(typeId);
     if (it == _componentTypeNames.end())
     {
-        throw Error(format("No writer registered for component type id '%d'", typeId));
+        throw Error(format("No entity registered for component type id '%d'", typeId));
     }
     return (*it).second;
 }
@@ -382,7 +384,7 @@ BaseComponent* Scene::_constructComponent(ComponentTypeId typeId) const
     auto it = _componentConstructors.find(typeId);
     if (it == _componentConstructors.end())
     {
-        throw Error(format("No writer registered for component type id '%d'", typeId));
+        throw Error(format("No entity registered for component type id '%d'", typeId));
     }
     return (*it).second();
 }

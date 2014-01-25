@@ -56,31 +56,31 @@ const AssetHandle<Material>::Array& Geometry::materials() const
     return _materials;
 }
 
-void Geometry::save(ObjectWriter& writer) const
+void Geometry::save(ObjectEncoder& encoder) const
 {
     size_t surfaceCount = _meshes.size();
 
-    ArrayWriter surfaces = writer.writeArray("surfaces");
+    ArrayEncoder surfacesEncoder = encoder.encodeArray("surfaces");
     for (size_t i = 0; i < surfaceCount; ++i)
     {
-        ObjectWriter surface = surfaces.writeObject();
-        surface.writeString("mesh", _meshes[i].path().toString());
-        surface.writeString("material", _materials[i].path().toString());
+        ObjectEncoder surfaceEncoder = surfacesEncoder.encodeObject();
+        surfaceEncoder.encodeString("mesh", _meshes[i].path().toString());
+        surfaceEncoder.encodeString("material", _materials[i].path().toString());
     }
 }
 
-void Geometry::load(ObjectReader& reader, AssetCache& assetCache)
+void Geometry::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    if (reader.hasMember("surfaces"))
+    if (decoder.hasMember("surfaces"))
     {
-        ArrayReader surfaces = reader.readArray("surfaces");
-        while (surfaces.hasMoreElements())
+        ArrayDecoder surfacesDecoder = decoder.decodeArray("surfaces");
+        while (surfacesDecoder.hasMoreElements())
         {
-            ObjectReader surface = surfaces.readObject();
-            if (surface.hasMember("mesh") && surface.hasMember("material"))
+            ObjectDecoder surfaceDecoder = surfacesDecoder.decodeObject();
+            if (surfaceDecoder.hasMember("mesh") && surfaceDecoder.hasMember("material"))
             {
-                std::string meshPath = surface.readString("mesh");
-                std::string materialPath = surface.readString("material");
+                Path meshPath = surfaceDecoder.decodeString("mesh");
+                Path materialPath = surfaceDecoder.decodeString("material");
 
                 AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
                 AssetHandle<Material> material = assetCache.getHandle<Material>(materialPath);

@@ -86,35 +86,35 @@ const Uniform& Shader::uniformWithName(const std::string& name) const
     throw Error(format("Shader does not have uniform '%s'", name.c_str()));
 }
 
-void Shader::save(ObjectWriter& writer) const
+void Shader::save(ObjectEncoder& encoder) const
 {
-    writer;
-    throw Error("Shader serialization is not implemented");
+    encoder;
+    throw Error("Not implemented");
 }
 
-void Shader::load(ObjectReader& reader, AssetCache& assetCache)
+void Shader::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     // Add all modules
-    if (reader.hasMember("modules"))
+    if (decoder.hasMember("modules"))
     {
-        ArrayReader modulesReader = reader.readArray("modules");
-        while (modulesReader.hasMoreElements())
+        ArrayDecoder modulesDecoder = decoder.decodeArray("modules");
+        while (modulesDecoder.hasMoreElements())
         {
-            Path modulePath = modulesReader.readString();
+            Path modulePath = modulesDecoder.decodeString();
             AssetHandle<ShaderModule> module = assetCache.getHandle<ShaderModule>(modulePath);
             _modules.push_back(module);
         }
     }
 
     // Add all uniforms
-    if (reader.hasMember("uniforms"))
+    if (decoder.hasMember("uniforms"))
     {
-        ArrayReader uniformsReader = reader.readArray("uniforms");
-        while (uniformsReader.hasMoreElements())
+        ArrayDecoder uniformsDecoder = decoder.decodeArray("uniforms");
+        while (uniformsDecoder.hasMoreElements())
         {
-            ObjectReader uniformReader = uniformsReader.readObject();
+            ObjectDecoder uniformDecoder = uniformsDecoder.decodeObject();
             Uniform uniform;
-            uniform.load(uniformReader, assetCache);
+            uniform.load(uniformDecoder, assetCache);
             _uniforms.push_back(uniform);
         }
     }

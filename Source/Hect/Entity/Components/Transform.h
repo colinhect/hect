@@ -108,8 +108,8 @@ public:
     /// Transforms by another transform.
     void transformBy(const Transform& transform);
 
-    void save(ObjectWriter& writer) const;
-    void load(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectEncoder& encoder) const;
+    void load(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     enum DirtyBit

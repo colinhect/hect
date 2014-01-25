@@ -25,8 +25,8 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Graphics/MeshWriter.h"
-#include "Hect/Graphics/MeshSerializer.h"
-#include "Hect/Graphics/VertexLayoutSerializer.h"
+#include "Hect/Graphics/MeshEncoder.h"
+#include "Hect/Graphics/VertexLayoutEncoder.h"
 #include "Hect/Graphics/Renderer.h"
 
 using namespace hect;
@@ -172,14 +172,14 @@ void Mesh::clear()
     _boundingBox = AxisAlignedBox();
 }
 
-void Mesh::save(ObjectWriter& writer) const
+void Mesh::save(ObjectEncoder& encoder) const
 {
-    MeshSerializer::save(*this, writer);
+    MeshEncoder::save(*this, encoder);
 }
 
-void Mesh::load(ObjectReader& reader, AssetCache& assetCache)
+void Mesh::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    MeshSerializer::load(*this, reader, assetCache);
+    MeshEncoder::load(*this, decoder, assetCache);
 }
 
 bool Mesh::operator==(const Mesh& mesh) const

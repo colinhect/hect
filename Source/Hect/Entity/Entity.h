@@ -26,7 +26,7 @@
 #include "Hect/Core/DataValue.h"
 #include "Hect/Asset/AssetCache.h"
 #include "Hect/Entity/Component.h"
-#include "Hect/IO/Serializable.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -38,7 +38,7 @@ namespace hect
 /// scene.  Copying an entity value will result in another handle pointing
 /// to the same entity.
 class Entity :
-    public Serializable
+    public Encodable
 {
     friend class Scene;
 public:
@@ -65,8 +65,8 @@ public:
     /// Returns the entity id.
     Id id() const;
 
-    void save(ObjectWriter& writer) const;
-    void load(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectEncoder& encoder) const;
+    void load(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
     /// Activates the entity, enqueuing it to be added to systems in the scene
@@ -103,16 +103,16 @@ public:
     bool isNull() const;
 
     ///
-    /// Returns whether the entity should be serialized when the scene it is
-    /// in is serialized.
-    bool isSerializable() const;
+    /// Returns whether the entity should be saved when the scene it is
+    /// in is saved.
+    bool isEncodable() const;
 
     ///
-    /// Sets whether the entity should be serialized when the scene it is in is
-    /// serialized.
+    /// Sets whether the entity should be saved when the scene it is in is
+    /// saved.
     ///
-    /// \param serializable The new serializable value.
-    void setSerializable(bool serializable) const;
+    /// \param encodable The new encodable value.
+    void setEncodable(bool encodable) const;
 
     ///
     /// Returns whether an entity has a component of a certain type.

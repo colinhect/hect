@@ -117,49 +117,49 @@ void Transform::transformBy(const Transform& transform)
     _dirtyBits = PositionBit | ScaleBit | RotationBit;
 }
 
-void Transform::save(ObjectWriter& writer) const
+void Transform::save(ObjectEncoder& encoder) const
 {
     Vector3 axis;
     Angle angle;
     _rotation.toAxisAngle(axis, angle);
 
-    writer.writeVector3("position", _position);
-    writer.writeVector3("scale", _scale);
+    encoder.encodeVector3("position", _position);
+    encoder.encodeVector3("scale", _scale);
 
-    ObjectWriter rotation = writer.writeObject("rotation");
-    rotation.writeVector3("axis", axis);
-    rotation.writeReal("angle", angle.degrees());
+    ObjectEncoder rotationEncoder = encoder.encodeObject("rotation");
+    rotationEncoder.encodeVector3("axis", axis);
+    rotationEncoder.encodeReal("angle", angle.degrees());
 }
 
-void Transform::load(ObjectReader& reader, AssetCache& assetCache)
+void Transform::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 
-    if (reader.hasMember("position"))
+    if (decoder.hasMember("position"))
     {
-        setPosition(reader.readVector3("position"));
+        setPosition(decoder.decodeVector3("position"));
     }
 
-    if (reader.hasMember("scale"))
+    if (decoder.hasMember("scale"))
     {
-        setScale(reader.readVector3("scale"));
+        setScale(decoder.decodeVector3("scale"));
     }
 
-    if (reader.hasMember("rotation"))
+    if (decoder.hasMember("rotation"))
     {
-        ObjectReader rotation = reader.readObject("rotation");
+        ObjectDecoder rotationDecoder = decoder.decodeObject("rotation");
 
         Vector3 axis;
         Angle angle;
 
-        if (rotation.hasMember("axis"))
+        if (rotationDecoder.hasMember("axis"))
         {
-            axis = rotation.readVector3("axis");
+            axis = rotationDecoder.decodeVector3("axis");
         }
 
-        if (rotation.hasMember("angle"))
+        if (rotationDecoder.hasMember("angle"))
         {
-            Real degrees = rotation.readReal("angle");
+            Real degrees = rotationDecoder.decodeReal("angle");
             angle = Angle::fromDegrees(degrees);
         }
 

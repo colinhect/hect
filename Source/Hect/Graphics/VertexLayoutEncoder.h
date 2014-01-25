@@ -23,22 +23,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/Mesh.h"
+#include "Hect/Graphics/VertexLayout.h"
 
 namespace hect
 {
 
-class MeshSerializer
+class VertexLayoutEncoder
 {
 public:    
-    static void save(const Mesh& mesh, ObjectWriter& writer);
-    static void load(Mesh& mesh, ObjectReader& reader, AssetCache& assetCache);
+    static void save(const VertexLayout& vertexLayout, ObjectEncoder& encoder);
+    static void load(VertexLayout& vertexLayout, ObjectDecoder& decoder);
 
-    static IndexType indexTypeFromString(const std::string& value);
-    static std::string indexTypeToString(IndexType indexType);
+    static VertexAttributeSemantic attributeSemanticFromString(const std::string& value);
+    static std::string attributeSemanticToString(VertexAttributeSemantic semantic);
     
-    static PrimitiveType primitiveTypeFromString(const std::string& value);
-    static std::string primitiveTypeToString(PrimitiveType primitiveType);
+    static VertexAttributeType attributeTypeFromString(const std::string& value);
+    static std::string attributeTypeToString(VertexAttributeType type);
 };
 
 }

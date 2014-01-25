@@ -1,0 +1,492 @@
+///////////////////////////////////////////////////////////////////////////////
+// This source file is part of Hect.
+//
+// Copyright (c) 2014 Colin Hill
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include <stack>
+
+#include "Hect/Core/DataValue.h"
+#include "Hect/IO/ReadStream.h"
+
+namespace hect
+{
+
+///
+/// Provides access for decoding an array.
+class ArrayDecoder
+{
+    friend class DataDecoder;
+    friend class DataValueDecoder;
+    friend class BinaryDecoder;
+
+    friend class ObjectDecoder;
+public:
+    ArrayDecoder(const ArrayDecoder& decoder);
+    ArrayDecoder(ArrayDecoder&& decoder);
+    ~ArrayDecoder();
+    
+    ///
+    /// Returns whether the source data is human-readable.
+    bool isHumanReadable() const;
+
+    ///
+    /// Returns whether there are more elements in the array.
+    bool hasMoreElements() const;
+
+    ///
+    /// Begins decoding an array.
+    ///
+    /// \returns The decoder for the array.
+    ArrayDecoder decodeArray();
+
+    ///
+    /// Begins decoding an object.
+    ///
+    /// \returns The decoder for the object.
+    ObjectDecoder decodeObject();
+
+    ///
+    /// Decodes a string.
+    std::string decodeString();
+
+    ///
+    /// Decodes a signed 8-bit integer.
+    int8_t decodeByte();
+
+    ///
+    /// Decodes an unsigned 16-bit integer.
+    uint8_t decodeUnsignedByte();
+
+    ///
+    /// Decodes a signed 16-bit integer.
+    int16_t decodeShort();
+
+    ///
+    /// Decodes an unsigned 16-bit integer.
+    uint16_t decodeUnsignedShort();
+
+    ///
+    /// Decodes a signed 32-bit integer.
+    int32_t decodeInt();
+
+    ///
+    /// Decodes an unsigned 32-bit integer.
+    uint32_t decodeUnsignedInt();
+
+    ///
+    /// Decodes a signed 64-bit integer.
+    int64_t decodeLong();
+
+    ///
+    /// Decodes an unsigned 64-bit integer.
+    uint64_t decodeUnsignedLong();
+
+    ///
+    /// Decodes a 32-bit float.
+    float decodeFloat();
+
+    ///
+    /// Decodes a 64-bit float.
+    double decodeDouble();
+
+    ///
+    /// Decodes a real number.
+    Real decodeReal();
+    
+    ///
+    /// Decodes bool as an unsigned 8-bit integer.
+    bool decodeBool();
+
+    ///
+    /// Decodes a 2-dimensional vector.
+    Vector2 decodeVector2();
+
+    ///
+    /// Decodes a 3-dimensional vector.
+    Vector3 decodeVector3();
+
+    ///
+    /// Decodes a 4-dimensional vector.
+    Vector4 decodeVector4();
+
+private:
+    ArrayDecoder();
+    ArrayDecoder(DataDecoder* decoder);
+
+    DataDecoder* _decoder;
+};
+
+///
+/// Provides access for decoding an object.
+class ObjectDecoder
+{
+    friend class DataDecoder;
+    friend class DataValueDecoder;
+    friend class BinaryDecoder;
+
+    friend class ArrayDecoder;
+public:
+    ObjectDecoder(const ObjectDecoder& decoder);
+    ObjectDecoder(ObjectDecoder&& decoder);
+    ~ObjectDecoder();
+    
+    ///
+    /// Returns whether the source data is human-readable.
+    bool isHumanReadable() const;
+
+    ///
+    /// Returns whether the object has a member with a specific name.
+    ///
+    /// \param name The name of the member in question.
+    bool hasMember(const char* name) const;
+
+    ///
+    /// Begins decoding an array.
+    ///
+    /// \param name The name of the member to begin decoding.
+    ///
+    /// \returns The decoder for the array.
+    ArrayDecoder decodeArray(const char* name);
+
+    ///
+    /// Begins decoding an object.
+    ///
+    /// \param name The name of the member to begin decoding.
+    ///
+    /// \returns The decoder for the object.
+    ObjectDecoder decodeObject(const char* name);
+
+    ///
+    /// Decodes a string.
+    ///
+    /// \param name The name of the member to decode.
+    std::string decodeString(const char* name);
+
+    ///
+    /// Decodes a signed 8-bit integer.
+    ///
+    /// \param name The name of the member to decode.
+    int8_t decodeByte(const char* name);
+
+    ///
+    /// Decodes an unsigned 16-bit integer.
+    ///
+    /// \param name The name of the member to decode.
+    uint8_t decodeUnsignedByte(const char* name);
+
+    ///
+    /// Decodes a signed 16-bit integer.
+    ///
+    /// \param name The name of the member to decode.
+    int16_t decodeShort(const char* name);
+
+    ///
+    /// Decodes an unsigned 16-bit integer.
+    ///
+    /// \param name The name of the member to decode.
+    uint16_t decodeUnsignedShort(const char* name);
+
+    ///
+    /// Decodes a signed 32-bit integer.
+    ///
+    /// \param name The name of the member to decode.
+    int32_t decodeInt(const char* name);
+
+    ///
+    /// Decodes an unsigned 32-bit integer.
+    ///
+    /// \param name The name of the member to decode.
+    uint32_t decodeUnsignedInt(const char* name);
+
+    ///
+    /// Decodes a signed 64-bit integer.
+    ///
+    /// \param name The name of the member to decode.
+    int64_t decodeLong(const char* name);
+
+    ///
+    /// Decodes an unsigned 64-bit integer.
+    ///
+    /// \param name The name of the member to decode.
+    uint64_t decodeUnsignedLong(const char* name);
+
+    ///
+    /// Decodes a 32-bit float.
+    ///
+    /// \param name The name of the member to decode.
+    float decodeFloat(const char* name);
+
+    ///
+    /// Decodes a 64-bit float.
+    ///
+    /// \param name The name of the member to decode.
+    double decodeDouble(const char* name);
+
+    ///
+    /// Decodes a real number.
+    ///
+    /// \param name The name of the member to decode.
+    Real decodeReal(const char* name);
+    
+    ///
+    /// Decodes bool as an unsigned 8-bit integer.
+    ///
+    /// \param name The name of the member to decode
+    bool decodeBool(const char* name);
+
+    ///
+    /// Decodes a 2-dimensional vector.
+    ///
+    /// \param name The name of the member to decode.
+    Vector2 decodeVector2(const char* name);
+
+    ///
+    /// Decodes a 3-dimensional vector.
+    ///
+    /// \param name The name of the member to decode.
+    Vector3 decodeVector3(const char* name);
+
+    ///
+    /// Decodes a 4-dimensional vector.
+    ///
+    /// \param name The name of the member to decode.
+    Vector4 decodeVector4(const char* name);
+
+private:
+    ObjectDecoder();
+    ObjectDecoder(DataDecoder* decoder);
+
+    DataDecoder* _decoder;
+};
+
+///
+/// Provides abstract access for decoding structured data.
+class DataDecoder
+{
+    friend class ArrayDecoder;
+    friend class ObjectDecoder;
+public:
+
+    ///
+    /// Returns whether the source data is human-readable.
+    virtual bool isHumanReadable() const = 0;
+
+    ///
+    /// Begins decoding an array.
+    ///
+    /// \returns The decoder for the array.
+    virtual ArrayDecoder decodeArray() = 0;
+
+    ///
+    /// Begins decoding an object.
+    ///
+    /// \returns The decoder for the object.
+    virtual ObjectDecoder decodeObject() = 0;
+
+protected:
+    virtual void beginArray() = 0;
+    virtual void beginArray(const char* name) = 0;
+    virtual void endArray() = 0;
+
+    virtual bool hasMoreElements() const = 0;
+
+    virtual void beginObject() = 0;
+    virtual void beginObject(const char* name) = 0;
+    virtual void endObject() = 0;
+
+    virtual bool hasMember(const char* name) const = 0;
+
+    virtual std::string decodeString() = 0;
+    virtual std::string decodeString(const char* name) = 0;
+    virtual int8_t decodeByte() = 0;
+    virtual int8_t decodeByte(const char* name) = 0;
+    virtual uint8_t decodeUnsignedByte() = 0;
+    virtual uint8_t decodeUnsignedByte(const char* name) = 0;
+    virtual int16_t decodeShort() = 0;
+    virtual int16_t decodeShort(const char* name) = 0;
+    virtual uint16_t decodeUnsignedShort() = 0;
+    virtual uint16_t decodeUnsignedShort(const char* name) = 0;
+    virtual int32_t decodeInt() = 0;
+    virtual int32_t decodeInt(const char* name) = 0;
+    virtual uint32_t decodeUnsignedInt() = 0;
+    virtual uint32_t decodeUnsignedInt(const char* name) = 0;
+    virtual int64_t decodeLong() = 0;
+    virtual int64_t decodeLong(const char* name) = 0;
+    virtual uint64_t decodeUnsignedLong() = 0;
+    virtual uint64_t decodeUnsignedLong(const char* name) = 0;
+    virtual float decodeFloat() = 0;
+    virtual float decodeFloat(const char* name) = 0;
+    virtual double decodeDouble() = 0;
+    virtual double decodeDouble(const char* name) = 0;
+    virtual Real decodeReal() = 0;
+    virtual Real decodeReal(const char* name) = 0;
+    virtual bool decodeBool() = 0;
+    virtual bool decodeBool(const char* name) = 0;
+    virtual Vector2 decodeVector2() = 0;
+    virtual Vector2 decodeVector2(const char* name) = 0;
+    virtual Vector3 decodeVector3() = 0;
+    virtual Vector3 decodeVector3(const char* name) = 0;
+    virtual Vector4 decodeVector4() = 0;
+    virtual Vector4 decodeVector4(const char* name) = 0;
+};
+
+///
+/// Provides access for decoding structured data from a data value.
+class DataValueDecoder :
+    public DataDecoder
+{
+public:
+
+    ///
+    /// Constructs a decoder given the data value to decode.
+    ///
+    /// \param dataValue The data value to decode.
+    DataValueDecoder(const DataValue& dataValue);
+
+    bool isHumanReadable() const;
+
+    ArrayDecoder decodeArray();
+    ObjectDecoder decodeObject();
+
+private:
+    void beginArray();
+    void beginArray(const char* name);
+    void endArray();
+
+    bool hasMoreElements() const;
+
+    void beginObject();
+    void beginObject(const char* name);
+    void endObject();
+
+    bool hasMember(const char* name) const;
+
+    std::string decodeString();
+    std::string decodeString(const char* name);
+    int8_t decodeByte();
+    int8_t decodeByte(const char* name);
+    uint8_t decodeUnsignedByte();
+    uint8_t decodeUnsignedByte(const char* name);
+    int16_t decodeShort();
+    int16_t decodeShort(const char* name);
+    uint16_t decodeUnsignedShort();
+    uint16_t decodeUnsignedShort(const char* name);
+    int32_t decodeInt();
+    int32_t decodeInt(const char* name);
+    uint32_t decodeUnsignedInt();
+    uint32_t decodeUnsignedInt(const char* name);
+    int64_t decodeLong();
+    int64_t decodeLong(const char* name);
+    uint64_t decodeUnsignedLong();
+    uint64_t decodeUnsignedLong(const char* name);
+    float decodeFloat();
+    float decodeFloat(const char* name);
+    double decodeDouble();
+    double decodeDouble(const char* name);
+    Real decodeReal();
+    Real decodeReal(const char* name);
+    bool decodeBool();
+    bool decodeBool(const char* name);
+    Vector2 decodeVector2();
+    Vector2 decodeVector2(const char* name);
+    Vector3 decodeVector3();
+    Vector3 decodeVector3(const char* name);
+    Vector4 decodeVector4();
+    Vector4 decodeVector4(const char* name);
+
+    const DataValue& _decode();
+    const DataValue& _decode(const char* name);
+
+    std::stack<size_t> _indexStack;
+    std::stack<DataValue> _valueStack;
+};
+
+///
+/// Provides access for decoding structured data from a binary stream.
+class BinaryDecoder :
+    public DataDecoder
+{
+public:
+
+    ///
+    /// Constructs a decoder given the stream to decode from.
+    ///
+    /// \param stream The stream to decode from.
+    BinaryDecoder(ReadStream& stream);
+
+    bool isHumanReadable() const;
+
+    ArrayDecoder decodeArray();
+    ObjectDecoder decodeObject();
+
+private:
+    void beginArray();
+    void beginArray(const char* name);
+    void endArray();
+
+    bool hasMoreElements() const;
+
+    void beginObject();
+    void beginObject(const char* name);
+    void endObject();
+
+    bool hasMember(const char* name) const;
+
+    std::string decodeString();
+    std::string decodeString(const char* name);
+    int8_t decodeByte();
+    int8_t decodeByte(const char* name);
+    uint8_t decodeUnsignedByte();
+    uint8_t decodeUnsignedByte(const char* name);
+    int16_t decodeShort();
+    int16_t decodeShort(const char* name);
+    uint16_t decodeUnsignedShort();
+    uint16_t decodeUnsignedShort(const char* name);
+    int32_t decodeInt();
+    int32_t decodeInt(const char* name);
+    uint32_t decodeUnsignedInt();
+    uint32_t decodeUnsignedInt(const char* name);
+    int64_t decodeLong();
+    int64_t decodeLong(const char* name);
+    uint64_t decodeUnsignedLong();
+    uint64_t decodeUnsignedLong(const char* name);
+    float decodeFloat();
+    float decodeFloat(const char* name);
+    double decodeDouble();
+    double decodeDouble(const char* name);
+    Real decodeReal();
+    Real decodeReal(const char* name);
+    bool decodeBool();
+    bool decodeBool(const char* name);
+    Vector2 decodeVector2();
+    Vector2 decodeVector2(const char* name);
+    Vector3 decodeVector3();
+    Vector3 decodeVector3(const char* name);
+    Vector4 decodeVector4();
+    Vector4 decodeVector4(const char* name);
+
+    std::stack<unsigned> _indexStack;
+    std::stack<unsigned> _countStack;
+    ReadStream* _stream;
+};
+}

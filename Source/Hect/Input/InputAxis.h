@@ -28,7 +28,7 @@
 #include "Hect/Core/Real.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
-#include "Hect/IO/Serializable.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -61,7 +61,7 @@ enum class InputAxisSource
 ///
 /// An axis manipulated by an input device.
 class InputAxis :
-    public Serializable
+    public Encodable
 {
 public:
 
@@ -165,8 +165,8 @@ public:
     /// \param gravity The new gravity.
     void setGravity(Real gravity);
 
-    void save(ObjectWriter& writer) const;
-    void load(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectEncoder& encoder) const;
+    void load(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     static InputAxisSource _parseSource(const std::string& value);

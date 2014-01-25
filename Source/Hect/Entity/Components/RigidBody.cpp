@@ -109,34 +109,34 @@ void RigidBody::setMesh(const AssetHandle<Mesh>& mesh)
     _mesh = mesh;
 }
 
-void RigidBody::save(ObjectWriter& writer) const
+void RigidBody::save(ObjectEncoder& encoder) const
 {
-    writer.writeReal("mass", _mass);
-    writer.writeVector3("linearVelocity", _linearVelocity);
-    writer.writeVector3("angularVelocity", _angularVelocity);
-    writer.writeString("mesh", _mesh.path().toString());
+    encoder.encodeReal("mass", _mass);
+    encoder.encodeVector3("linearVelocity", _linearVelocity);
+    encoder.encodeVector3("angularVelocity", _angularVelocity);
+    encoder.encodeString("mesh", _mesh.path().toString());
 }
 
-void RigidBody::load(ObjectReader& reader, AssetCache& assetCache)
+void RigidBody::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    if (reader.hasMember("mass"))
+    if (decoder.hasMember("mass"))
     {
-        setMass(reader.readReal("mass"));
+        setMass(decoder.decodeReal("mass"));
     }
 
-    if (reader.hasMember("linearVelocity"))
+    if (decoder.hasMember("linearVelocity"))
     {
-        setLinearVelocity(reader.readVector3("linearVelocity"));
+        setLinearVelocity(decoder.decodeVector3("linearVelocity"));
     }
 
-    if (reader.hasMember("angularVelocity"))
+    if (decoder.hasMember("angularVelocity"))
     {
-        setAngularVelocity(reader.readVector3("angularVelocity"));
+        setAngularVelocity(decoder.decodeVector3("angularVelocity"));
     }
 
-    if (reader.hasMember("mesh"))
+    if (decoder.hasMember("mesh"))
     {
-        std::string meshPath = reader.readString("mesh");
+        Path meshPath = decoder.decodeString("mesh");
         AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
 
         setMesh(mesh);

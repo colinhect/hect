@@ -88,13 +88,13 @@
     <ClInclude Include="Source\AssetHandleTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DataWriterReaderTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\StreamTests.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\Common.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DataEncodingTests.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

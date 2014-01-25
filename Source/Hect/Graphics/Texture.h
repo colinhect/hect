@@ -26,7 +26,7 @@
 #include "Hect/Asset/AssetHandle.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/RendererObject.h"
-#include "Hect/IO/Serializable.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -47,7 +47,7 @@ enum class TextureFilter
 /// A 2-dimensional texture.
 class Texture :
     public RendererObject,
-    public Serializable
+    public Encodable
 {
     friend class Renderer;
 public:
@@ -172,8 +172,8 @@ public:
     /// Returns the number of bytes in a pixel of this texture.
     int bytesPerPixel() const;
     
-    void save(ObjectWriter& writer) const;
-    void load(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectEncoder& encoder) const;
+    void load(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     static TextureFilter _parseTextureFilter(const std::string& value);

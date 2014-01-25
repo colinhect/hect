@@ -26,7 +26,7 @@
 const Real epsilon = (Real)0.0001;
 
 template <typename T>
-void testSerialization(T& serializable)
+void testEncodable(T& encodable)
 {
     FileSystem fileSystem;
     fileSystem.addDataSource("Data");
@@ -35,28 +35,28 @@ void testSerialization(T& serializable)
 
     // Binary
     {
-        T deserialized;
+        T decoded;
 
         std::vector<uint8_t> data;
         {
             MemoryWriteStream stream(data);
-            serializable.saveToBinary(stream);
+            encodable.saveToBinary(stream);
         }
         {
             MemoryReadStream stream(data);
-            deserialized.loadFromBinary(stream, assetCache);
+            decoded.loadFromBinary(stream, assetCache);
         }
 
-        CHECK(serializable == deserialized);
+        CHECK(encodable == decoded);
     }
         
     // JSON
     {
-        T deserialized;
+        T decoded;
 
-        DataValue dataValue = serializable.saveToDataValue();
-        deserialized.loadFromDataValue(dataValue, assetCache);
+        DataValue dataValue = encodable.saveToDataValue();
+        decoded.loadFromDataValue(dataValue, assetCache);
 
-        CHECK(serializable == deserialized);
+        CHECK(encodable == decoded);
     }
 }

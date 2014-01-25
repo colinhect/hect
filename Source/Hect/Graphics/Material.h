@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/Graphics/Technique.h"
-#include "Hect/IO/Serializable.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -32,7 +32,7 @@ namespace hect
 ///
 /// The manner in which a surface is rendered.
 class Material :
-    public Serializable
+    public Encodable
 {
 public:
     
@@ -61,8 +61,8 @@ public:
     /// Returns the techniques.
     const Technique::Array& techniques() const;
     
-    void save(ObjectWriter& writer) const;
-    void load(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectEncoder& encoder) const;
+    void load(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     static RenderState _parseState(const std::string& value);

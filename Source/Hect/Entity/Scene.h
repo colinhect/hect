@@ -29,7 +29,7 @@
 #include "Hect/Entity/Entity.h"
 #include "Hect/Entity/EntityData.h"
 #include "Hect/Entity/System.h"
-#include "Hect/IO/Serializable.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -38,7 +38,7 @@ namespace hect
 /// A scene of entities.
 class Scene :
     public Uncopyable,
-    public Serializable
+    public Encodable
 {
     friend class Entity;
 public:
@@ -97,8 +97,8 @@ public:
     template <typename T>
     void registerComponent(const std::string& componentTypeName);
 
-    void save(ObjectWriter& writer) const;
-    void load(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectEncoder& encoder) const;
+    void load(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     enum
@@ -108,8 +108,8 @@ private:
 
     Entity _cloneEntity(const Entity& entity);
 
-    void _serializeEntity(const Entity& entity, ObjectWriter& writer) const;
-    void _deserializeEntity(const Entity& entity, ObjectReader& reader, AssetCache& assetCache);
+    void _saveEntity(const Entity& entity, ObjectEncoder& encoder) const;
+    void _loadEntity(const Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
 
     void _destroyEntity(const Entity& entity);
     void _activateEntity(const Entity& entity);
@@ -117,8 +117,8 @@ private:
     bool _isActivated(const Entity& entity) const;
     bool _isNull(const Entity& entity) const;
 
-    bool _isSerializable(const Entity& entity) const;
-    void _setSerializable(const Entity& entity, bool serializable);
+    bool _isEncodable(const Entity& entity) const;
+    void _setEncodable(const Entity& entity, bool encodable);
 
     template <typename T>
     bool _hasComponent(const Entity& entity) const;

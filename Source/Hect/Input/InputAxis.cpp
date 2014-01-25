@@ -125,54 +125,54 @@ void InputAxis::setGravity(Real gravity)
     _gravity = gravity;
 }
 
-void InputAxis::save(ObjectWriter& writer) const
+void InputAxis::save(ObjectEncoder& encoder) const
 {
-    writer;
-    throw Error("Cannot serialize an input axis");
+    encoder;
+    throw Error("Cannot encode an input axis");
 }
 
-void InputAxis::load(ObjectReader& reader, AssetCache& assetCache)
+void InputAxis::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 
-    if (reader.hasMember("source"))
+    if (decoder.hasMember("source"))
     {
-        std::string value = reader.readString("source");
+        std::string value = decoder.decodeString("source");
         setSource(_parseSource(value));
     }
 
-    if (reader.hasMember("positiveMouseButton"))
+    if (decoder.hasMember("positiveMouseButton"))
     {
-        std::string value = reader.readString("positiveMouseButton");
+        std::string value = decoder.decodeString("positiveMouseButton");
         setPositiveMouseButton(_parseMouseButton(value));
     }
 
-    if (reader.hasMember("negativeMouseButton"))
+    if (decoder.hasMember("negativeMouseButton"))
     {
-        std::string value = reader.readString("negativeMouseButton");
+        std::string value = decoder.decodeString("negativeMouseButton");
         setNegativeMouseButton(_parseMouseButton(value));
     }
 
-    if (reader.hasMember("positiveKey"))
+    if (decoder.hasMember("positiveKey"))
     {
-        std::string value = reader.readString("positiveKey");
+        std::string value = decoder.decodeString("positiveKey");
         setPositiveKey(_parseKey(value));
     }
 
-    if (reader.hasMember("negativeKey"))
+    if (decoder.hasMember("negativeKey"))
     {
-        std::string value = reader.readString("negativeKey");
+        std::string value = decoder.decodeString("negativeKey");
         setNegativeKey(_parseKey(value));
     }
 
-    if (reader.hasMember("acceleration"))
+    if (decoder.hasMember("acceleration"))
     {
-        setAcceleration(reader.readReal("acceleration"));
+        setAcceleration(decoder.decodeReal("acceleration"));
     }
 
-    if (reader.hasMember("gravity"))
+    if (decoder.hasMember("gravity"))
     {
-        setGravity(reader.readReal("gravity"));
+        setGravity(decoder.decodeReal("gravity"));
     }
 }
 

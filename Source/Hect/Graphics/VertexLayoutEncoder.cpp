@@ -21,57 +21,57 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "VertexLayoutSerializer.h"
+#include "VertexLayoutEncoder.h"
 
 using namespace hect;
 
-void VertexLayoutSerializer::save(const VertexLayout& vertexLayout, ObjectWriter& writer)
+void VertexLayoutEncoder::save(const VertexLayout& vertexLayout, ObjectEncoder& encoder)
 {
-    ArrayWriter attributesWriter = writer.writeArray("attributes");
+    ArrayEncoder attributesEncoder = encoder.encodeArray("attributes");
     for (const VertexAttribute& attribute : vertexLayout.attributes())
     {
-        ObjectWriter attributeWriter = attributesWriter.writeObject();
+        ObjectEncoder attributeEncoder = attributesEncoder.encodeObject();
 
-        if (attributeWriter.isHumanReadable())
+        if (attributeEncoder.isHumanReadable())
         {
-            attributeWriter.writeString("semantic", attributeSemanticToString(attribute.semantic()));
-            attributeWriter.writeString("type", attributeTypeToString(attribute.type()));
+            attributeEncoder.encodeString("semantic", attributeSemanticToString(attribute.semantic()));
+            attributeEncoder.encodeString("type", attributeTypeToString(attribute.type()));
         }
         else
         {
-            attributeWriter.writeUnsignedByte("semantic", (uint8_t)attribute.semantic());
-            attributeWriter.writeUnsignedByte("type", (uint8_t)attribute.type());
+            attributeEncoder.encodeUnsignedByte("semantic", (uint8_t)attribute.semantic());
+            attributeEncoder.encodeUnsignedByte("type", (uint8_t)attribute.type());
         }
 
-        attributeWriter.writeUnsignedInt("cardinality", attribute.cardinality());
+        attributeEncoder.encodeUnsignedInt("cardinality", attribute.cardinality());
     }
 }
 
-void VertexLayoutSerializer::load(VertexLayout& vertexLayout, ObjectReader& reader)
+void VertexLayoutEncoder::load(VertexLayout& vertexLayout, ObjectDecoder& decoder)
 {
     vertexLayout._attributes.clear();
 
-    ArrayReader vertexLayoutReader = reader.readArray("attributes");
-    while (vertexLayoutReader.hasMoreElements())
+    ArrayDecoder attributesDecoder = decoder.decodeArray("attributes");
+    while (attributesDecoder.hasMoreElements())
     {
-        ObjectReader attributeReader = vertexLayoutReader.readObject();
+        ObjectDecoder attributeDecoder = attributesDecoder.decodeObject();
 
         VertexAttributeSemantic semantic;
         VertexAttributeType type;
         unsigned cardinality;
 
-        if (attributeReader.isHumanReadable())
+        if (attributeDecoder.isHumanReadable())
         {
-            semantic = attributeSemanticFromString(attributeReader.readString("semantic"));
-            type = attributeTypeFromString(attributeReader.readString("type"));
+            semantic = attributeSemanticFromString(attributeDecoder.decodeString("semantic"));
+            type = attributeTypeFromString(attributeDecoder.decodeString("type"));
         }
         else
         {
-            semantic = (VertexAttributeSemantic)attributeReader.readUnsignedByte("semantic");
-            type = (VertexAttributeType)attributeReader.readUnsignedByte("type");
+            semantic = (VertexAttributeSemantic)attributeDecoder.decodeUnsignedByte("semantic");
+            type = (VertexAttributeType)attributeDecoder.decodeUnsignedByte("type");
         }
 
-        cardinality = attributeReader.readUnsignedInt("cardinality");
+        cardinality = attributeDecoder.decodeUnsignedInt("cardinality");
 
         VertexAttribute attribute(semantic, type, cardinality);
         vertexLayout._attributes.push_back(attribute);
@@ -79,7 +79,7 @@ void VertexLayoutSerializer::load(VertexLayout& vertexLayout, ObjectReader& read
     vertexLayout._computeAttributeOffsets();
 }
 
-VertexAttributeSemantic VertexLayoutSerializer::attributeSemanticFromString(const std::string& value)
+VertexAttributeSemantic VertexLayoutEncoder::attributeSemanticFromString(const std::string& value)
 {
     static std::map<std::string, VertexAttributeSemantic> attributeSemantics;
 
@@ -109,7 +109,7 @@ VertexAttributeSemantic VertexLayoutSerializer::attributeSemanticFromString(cons
     return (*it).second;
 }
 
-std::string VertexLayoutSerializer::attributeSemanticToString(VertexAttributeSemantic semantic)
+std::string VertexLayoutEncoder::attributeSemanticToString(VertexAttributeSemantic semantic)
 {
     static std::map<VertexAttributeSemantic, std::string> attributeSemanticNames;
 
@@ -139,7 +139,7 @@ std::string VertexLayoutSerializer::attributeSemanticToString(VertexAttributeSem
     return (*it).second;
 }
 
-VertexAttributeType VertexLayoutSerializer::attributeTypeFromString(const std::string& value)
+VertexAttributeType VertexLayoutEncoder::attributeTypeFromString(const std::string& value)
 {
     static std::map<std::string, VertexAttributeType> attributeTypes;
 
@@ -158,7 +158,7 @@ VertexAttributeType VertexLayoutSerializer::attributeTypeFromString(const std::s
     return (*it).second;
 }
 
-std::string VertexLayoutSerializer::attributeTypeToString(VertexAttributeType type)
+std::string VertexLayoutEncoder::attributeTypeToString(VertexAttributeType type)
 {
     static std::map<VertexAttributeType, std::string> attributeTypeNames;
 

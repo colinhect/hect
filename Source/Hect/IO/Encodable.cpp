@@ -21,48 +21,48 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Serializable.h"
+#include "Encodable.h"
 
 using namespace hect;
 
-void Serializable::save(ObjectWriter& writer) const
+void Encodable::save(ObjectEncoder& encoder) const
 {
-    writer;
+    encoder;
 }
 
-DataValue Serializable::saveToDataValue() const
+DataValue Encodable::saveToDataValue() const
 {
-    DataValueWriter writer;
+    DataValueEncoder encoder;
     {
-        ObjectWriter object = writer.writeObject();
-        save(object);
+        ObjectEncoder objectEncoder = encoder.encodeObject();
+        save(objectEncoder);
     }
-    return writer.dataValues()[0];
+    return encoder.dataValues()[0];
 }
 
-void Serializable::saveToBinary(WriteStream& stream) const
+void Encodable::saveToBinary(WriteStream& stream) const
 {
-    BinaryWriter writer(stream);
-    ObjectWriter object = writer.writeObject();
-    save(object);
+    BinaryEncoder encoder(stream);
+    ObjectEncoder objectEncode = encoder.encodeObject();
+    save(objectEncode);
 }
 
-void Serializable::load(ObjectReader& reader, AssetCache& assetCache)
+void Encodable::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    reader;
+    decoder;
     assetCache;
 }
 
-void Serializable::loadFromDataValue(const DataValue& dataValue, AssetCache& assetCache)
+void Encodable::loadFromDataValue(const DataValue& dataValue, AssetCache& assetCache)
 {
-    DataValueReader reader(dataValue);
-    ObjectReader object = reader.readObject();
-    load(object, assetCache);
+    DataValueDecoder decoder(dataValue);
+    ObjectDecoder objectDecoder = decoder.decodeObject();
+    load(objectDecoder, assetCache);
 }
 
-void Serializable::loadFromBinary(ReadStream& stream, AssetCache& assetCache)
+void Encodable::loadFromBinary(ReadStream& stream, AssetCache& assetCache)
 {
-    BinaryReader reader(stream);
-    ObjectReader object = reader.readObject();
-    load(object, assetCache);
+    BinaryDecoder decoder(stream);
+    ObjectDecoder objectDecoder = decoder.decodeObject();
+    load(objectDecoder, assetCache);
 }

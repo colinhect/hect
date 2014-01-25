@@ -258,12 +258,6 @@
     <ClInclude Include="Source\Hect\Internal\Bullet.h">
       <Filter>Source\Hect\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\IO\DataReader.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\DataWriter.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\IO\FileReadStream.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
@@ -283,9 +277,6 @@
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\IO\ReadStream.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Serializable.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\IO\WriteStream.h">
@@ -345,10 +336,19 @@
     <ClInclude Include="Source\Hect\Entity\Systems\RenderSystem.h">
       <Filter>Source\Hect\Entity\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\VertexLayoutSerializer.h">
+    <ClInclude Include="Source\Hect\IO\DataDecoder.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\DataEncoder.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Encodable.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\MeshEncoder.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\MeshSerializer.h">
+    <ClInclude Include="Source\Hect\Graphics\VertexLayoutEncoder.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -533,12 +533,6 @@
     <ClCompile Include="Source\Hect\Internal\Bullet.cpp">
       <Filter>Source\Hect\Internal</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\IO\DataReader.cpp">
-      <Filter>Source\Hect\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\DataWriter.cpp">
-      <Filter>Source\Hect\IO</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\IO\FileReadStream.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
@@ -558,9 +552,6 @@
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\ReadStream.cpp">
-      <Filter>Source\Hect\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Serializable.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp">
@@ -602,10 +593,19 @@
     <ClCompile Include="Source\Hect\Entity\Systems\RenderSystem.cpp">
       <Filter>Source\Hect\Entity\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\VertexLayoutSerializer.cpp">
+    <ClCompile Include="Source\Hect\IO\DataDecoder.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\DataEncoder.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\Encodable.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\MeshEncoder.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\MeshSerializer.cpp">
+    <ClCompile Include="Source\Hect\Graphics\VertexLayoutEncoder.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

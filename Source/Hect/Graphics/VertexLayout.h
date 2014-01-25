@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/Graphics/VertexAttribute.h"
-#include "Hect/IO/Serializable.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -32,9 +32,9 @@ namespace hect
 ///
 /// An ordered layout of vertex attributes.
 class VertexLayout :
-    public Serializable
+    public Encodable
 {
-    friend class VertexLayoutSerializer;
+    friend class VertexLayoutEncoder;
 public:
 
     ///
@@ -66,20 +66,20 @@ public:
     unsigned vertexSize() const;
 
     ///
-    /// Serializes the layout.
+    /// Encodes the layout.
     ///
-    /// \param writer The writer to use to serialize.
-    void save(ObjectWriter& writer) const;
+    /// \param encoder The encoder to use.
+    void save(ObjectEncoder& encoder) const;
 
     ///
-    /// Deserializes the layout.
+    /// Decodes the layout.
     ///
     /// \note Any pre-existing attributes the layout has will be removed before
-    /// deserialization begins.
+    /// decoding begins.
     ///
-    /// \param reader The reader to use to deserialize.
+    /// \param decoder The decoder to use.
     /// \param assetCache The asset cache to load referenced assets from.
-    void load(ObjectReader& reader, AssetCache& assetCache);
+    void load(ObjectDecoder& decoder, AssetCache& assetCache);
     
     ///
     /// Returns whether the layout is equivalent to another.

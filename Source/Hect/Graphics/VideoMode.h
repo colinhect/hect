@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/IO/Serializable.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -31,7 +31,7 @@ namespace hect
 ///
 /// Describes the video mode a window uses.
 class VideoMode :
-    public Serializable
+    public Encodable
 {
 public:
 
@@ -64,8 +64,8 @@ public:
     /// Returns whether fullscreen is enabled.
     bool isFullscreen() const;
 
-    void save(ObjectWriter& writer) const;
-    void load(ObjectReader& reader, AssetCache& assetCache);
+    void save(ObjectEncoder& encoder) const;
+    void load(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     unsigned _width;

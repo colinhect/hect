@@ -67,16 +67,16 @@ public:
     void setNull(bool null);
 
     ///
-    /// Returns whether the entity should be serialized when the scene it is
-    /// in is serialized.
-    bool isSerializable() const;
+    /// Returns whether the entity should be saved when the scene it is
+    /// in is saved.
+    bool isEncodable() const;
 
     ///
-    /// Sets whether the entity should be serialized when the scene it is in is
-    /// serialized.
+    /// Sets whether the entity should be saved when the scene it is in is
+    /// saved.
     ///
-    /// \param serializable The new serializable value.
-    void setSerializable(bool serializable);
+    /// \param encodable The new encodable value.
+    void setEncodable(bool encodable);
 
     ///
     /// Returns whether the entity as a component of a certain type.

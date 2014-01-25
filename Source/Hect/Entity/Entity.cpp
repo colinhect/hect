@@ -48,24 +48,24 @@ Entity::Id Entity::id() const
     return _id;
 }
 
-void Entity::save(ObjectWriter& writer) const
+void Entity::save(ObjectEncoder& encoder) const
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    _scene->_serializeEntity(*this, writer);
+    _scene->_saveEntity(*this, encoder);
 }
 
-void Entity::load(ObjectReader& reader, AssetCache& assetCache)
+void Entity::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    _scene->_deserializeEntity(*this, reader, assetCache);
+    _scene->_loadEntity(*this, decoder, assetCache);
 }
 
 void Entity::destroy() const
@@ -113,24 +113,24 @@ bool Entity::isNull() const
     return !_scene || _scene->_isNull(*this);
 }
 
-bool Entity::isSerializable() const
+bool Entity::isEncodable() const
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    return _scene->_isSerializable(*this);
+    return _scene->_isEncodable(*this);
 }
 
-void Entity::setSerializable(bool serializable) const
+void Entity::setEncodable(bool encodable) const
 {
     if (!_scene)
     {
         throw Error("Entity is null");
     }
 
-    _scene->_setSerializable(*this, serializable);
+    _scene->_setEncodable(*this, encodable);
 }
 
 void Entity::addComponent(BaseComponent* component) const

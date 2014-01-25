@@ -119,49 +119,49 @@ void Uniform::setLocation(int location)
     _location = location;
 }
 
-void Uniform::save(ObjectWriter& writer) const
+void Uniform::save(ObjectEncoder& encoder) const
 {
-    writer;
-    throw Error("Uniform serialization is not implemented");
+    encoder;
+    throw Error("Not implemented");
 }
 
-void Uniform::load(ObjectReader& reader, AssetCache& assetCache)
+void Uniform::load(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 
-    if (reader.hasMember("name"))
+    if (decoder.hasMember("name"))
     {
-        _name = reader.readString("name");
+        _name = decoder.decodeString("name");
     }
     else
     {
         throw Error("No uniform name specified");
     }
 
-    if (reader.hasMember("type"))
+    if (decoder.hasMember("type"))
     {
-        _type = _parseType(reader.readString("type"));
+        _type = _parseType(decoder.decodeString("type"));
 
-        if (reader.hasMember("defaultValue"))
+        if (decoder.hasMember("defaultValue"))
         {
             _defaultValueSet = true;
             switch (_type)
             {
             case UniformType::Int:
             case UniformType::Texture:
-                _defaultValue = UniformValue(reader.readInt("defaultValue"), _type);
+                _defaultValue = UniformValue(decoder.decodeInt("defaultValue"), _type);
                 break;
             case UniformType::Float:
-                _defaultValue = UniformValue(reader.readReal("defaultValue"));
+                _defaultValue = UniformValue(decoder.decodeReal("defaultValue"));
                 break;
             case UniformType::Vector2:
-                _defaultValue = UniformValue(reader.readVector2("defaultValue"));
+                _defaultValue = UniformValue(decoder.decodeVector2("defaultValue"));
                 break;
             case UniformType::Vector3:
-                _defaultValue = UniformValue(reader.readVector3("defaultValue"));
+                _defaultValue = UniformValue(decoder.decodeVector3("defaultValue"));
                 break;
             case UniformType::Vector4:
-                _defaultValue = UniformValue(reader.readVector4("defaultValue"));
+                _defaultValue = UniformValue(decoder.decodeVector4("defaultValue"));
                 break;
             default:
                 throw Error("Unsupported default uniform value type");
@@ -172,9 +172,9 @@ void Uniform::load(ObjectReader& reader, AssetCache& assetCache)
             _defaultValueSet = false;
         }
     }
-    else if (reader.hasMember("binding"))
+    else if (decoder.hasMember("binding"))
     {
-        _binding = _parseUniformBinding(reader.readString("binding"));
+        _binding = _parseUniformBinding(decoder.decodeString("binding"));
     }
     else
     {
