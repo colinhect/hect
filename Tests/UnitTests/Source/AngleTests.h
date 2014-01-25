@@ -38,7 +38,7 @@ SUITE(Angle)
         CHECK_CLOSE(180, a.degrees(), epsilon);
         CHECK_CLOSE(pi, a.radians(), epsilon);
     }
-    
+
     TEST(FromAndToRadians)
     {
         Angle a = Angle::fromRadians(pi);

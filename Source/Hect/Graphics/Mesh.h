@@ -157,13 +157,13 @@ public:
     ///
     /// Returns the bounding box.
     const AxisAlignedBox& boundingBox() const;
-        
+
     ///
     /// Encodes the mesh.
     ///
     /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-    
+
     ///
     /// Clears all mesh data
     ///

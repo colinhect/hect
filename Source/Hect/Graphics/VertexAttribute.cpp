@@ -78,9 +78,9 @@ unsigned VertexAttribute::offset() const
 bool VertexAttribute::operator==(const VertexAttribute& vertexAttribute) const
 {
     return _semantic == vertexAttribute._semantic
-        && _type == vertexAttribute._type
-        && _cardinality == vertexAttribute._cardinality
-        && _offset == vertexAttribute._offset;
+           && _type == vertexAttribute._type
+           && _cardinality == vertexAttribute._cardinality
+           && _offset == vertexAttribute._offset;
 }
 
 bool VertexAttribute::operator!=(const VertexAttribute& vertexAttribute) const

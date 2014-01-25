@@ -44,7 +44,7 @@ public:
     ArrayDecoder(const ArrayDecoder& decoder);
     ArrayDecoder(ArrayDecoder&& decoder);
     ~ArrayDecoder();
-    
+
     ///
     /// Returns whether the decoder is reading from a binary stream.
     bool isBinaryStream() const;
@@ -118,7 +118,7 @@ public:
     ///
     /// Decodes a real number.
     Real decodeReal();
-    
+
     ///
     /// Decodes bool as an unsigned 8-bit integer.
     bool decodeBool();
@@ -155,11 +155,11 @@ public:
     ObjectDecoder(const ObjectDecoder& decoder);
     ObjectDecoder(ObjectDecoder&& decoder);
     ~ObjectDecoder();
-    
+
     ///
     /// Returns whether the decoder is reading from a binary stream.
     bool isBinaryStream() const;
-    
+
     ///
     /// Returns the raw binary stream.
     ///
@@ -259,7 +259,7 @@ public:
     ///
     /// \param name The name of the member to decode.
     Real decodeReal(const char* name);
-    
+
     ///
     /// Decodes bool as an unsigned 8-bit integer.
     ///

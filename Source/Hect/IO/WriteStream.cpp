@@ -87,11 +87,11 @@ void WriteStream::writeDouble(double value)
 
 void WriteStream::writeReal(Real value)
 {
-    #ifdef HECT_DOUBLE_PRECISION
+#ifdef HECT_DOUBLE_PRECISION
     return writeDouble(value);
-    #else
+#else
     return writeFloat(value);
-    #endif
+#endif
 }
 
 void WriteStream::writeBool(bool value)

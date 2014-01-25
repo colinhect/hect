@@ -35,7 +35,7 @@ class Material :
     public Encodable
 {
 public:
-    
+
     ///
     /// Constructs a material without any techniques.
     Material();
@@ -60,7 +60,7 @@ public:
     ///
     /// Returns the techniques.
     const Technique::Array& techniques() const;
-    
+
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 

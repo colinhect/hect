@@ -55,7 +55,7 @@ public:
     ///
     /// An array of textures.
     typedef std::vector<Texture> Array;
-    
+
     ///
     /// Constructs a default 2-dimensional texture.
     Texture();
@@ -171,7 +171,7 @@ public:
     ///
     /// Returns the number of bytes in a pixel of this texture.
     int bytesPerPixel() const;
-    
+
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 

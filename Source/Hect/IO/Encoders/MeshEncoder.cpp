@@ -36,7 +36,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
         ObjectEncoder vertexLayoutEncoder = encoder.encodeObject("vertexLayout");
         mesh.vertexLayout().encode(vertexLayoutEncoder);
     }
-    
+
     // Index type
     if (encoder.isBinaryStream())
     {
@@ -62,7 +62,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
     if (encoder.isBinaryStream())
     {
         WriteStream& stream = encoder.binaryStream();
-        
+
         // Vertex data
         uint32_t vertexDataSize = (uint32_t)mesh.vertexData().size();
         stream.writeUnsignedInt(vertexDataSize);
@@ -289,7 +289,7 @@ std::string MeshEncoder::indexTypeToString(IndexType indexType)
 
     return (*it).second;
 }
-    
+
 PrimitiveType MeshEncoder::primitiveTypeFromString(const std::string& value)
 {
     static std::map<std::string, PrimitiveType> primitiveTypes;

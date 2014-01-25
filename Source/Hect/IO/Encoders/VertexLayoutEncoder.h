@@ -30,13 +30,13 @@ namespace hect
 
 class VertexLayoutEncoder
 {
-public:    
+public:
     static void encode(const VertexLayout& vertexLayout, ObjectEncoder& encoder);
     static void decode(VertexLayout& vertexLayout, ObjectDecoder& decoder);
 
     static VertexAttributeSemantic attributeSemanticFromString(const std::string& value);
     static std::string attributeSemanticToString(VertexAttributeSemantic semantic);
-    
+
     static VertexAttributeType attributeTypeFromString(const std::string& value);
     static std::string attributeTypeToString(VertexAttributeType type);
 };

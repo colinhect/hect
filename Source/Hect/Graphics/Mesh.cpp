@@ -201,7 +201,7 @@ bool Mesh::operator==(const Mesh& mesh) const
     {
         return false;
     }
-    
+
     // Compare vertex data
     for (size_t i = 0; i < _vertexCount; ++i)
     {

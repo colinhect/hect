@@ -42,7 +42,7 @@ public:
     ///
     /// Constructs a shader without any modules or uniforms.
     Shader();
-    
+
     ///
     /// Constructs a shader without any modules or uniforms.
     ///

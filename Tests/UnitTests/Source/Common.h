@@ -49,7 +49,7 @@ void testEncodable(T& encodable)
 
         CHECK(encodable == decoded);
     }
-        
+
     // JSON
     {
         T decoded;

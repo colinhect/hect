@@ -179,7 +179,7 @@ uint32_t MeshReader::readIndexInt() const
 {
     _checkIndexBoundary();
     _indexStream.seek(_indexPosition);
-    
+
     // Read the index data based on the type
     uint32_t index = 0;
     switch (_mesh->indexType())

@@ -169,7 +169,7 @@ public:
     ///
     /// Returns the offset into the vertex data in bytes.
     unsigned offset() const;
-    
+
     ///
     /// Returns whether the attribute is equivalent to another.
     ///

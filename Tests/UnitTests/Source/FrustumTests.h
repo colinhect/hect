@@ -40,7 +40,7 @@ SUITE(Frustum)
 
         CHECK(FrustumTestResult::Outside == frustum.testAxisAlignedBox(box));
     }
-    
+
     TEST(OutsideLeft)
     {
         Frustum frustum(

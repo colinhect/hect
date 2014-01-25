@@ -99,7 +99,7 @@ public:
     ///
     /// Reads a real number.
     Real readReal();
-    
+
     ///
     /// Reads bool as an unsigned 8-bit integer.
     bool readBool();

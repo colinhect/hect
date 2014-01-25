@@ -33,7 +33,7 @@ SUITE(VertexAttribute)
         CHECK(VertexAttributeType::Float == attribute.type());
         CHECK_EQUAL(3u, attribute.cardinality());
     }
-    
+
     TEST(Size)
     {
         VertexAttribute attribute(VertexAttributeSemantic::Position, VertexAttributeType::Half, 3);
@@ -51,7 +51,7 @@ SUITE(VertexAttribute)
         VertexAttribute a(VertexAttributeSemantic::Position, VertexAttributeType::Half, 3);
         VertexAttribute b(VertexAttributeSemantic::Position, VertexAttributeType::Half, 3);
         VertexAttribute c(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3);
-        
+
         CHECK(a == b);
         CHECK(a != c);
     }

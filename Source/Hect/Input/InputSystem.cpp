@@ -136,8 +136,8 @@ void InputSystem::receiveEvent(const MouseEvent& event)
     else if (event.type == MouseEventType::ScrollUp || event.type == MouseEventType::ScrollDown)
     {
         Real movement = event.type == MouseEventType::ScrollUp
-            ? (Real)1
-            : (Real)-1;
+                        ? (Real)1
+                        : (Real)-1;
 
         for (InputAxis& axis : _axes)
         {

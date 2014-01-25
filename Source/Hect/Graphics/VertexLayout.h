@@ -80,7 +80,7 @@ public:
     /// \param decoder The decoder to use.
     /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-    
+
     ///
     /// Returns whether the layout is equivalent to another.
     ///

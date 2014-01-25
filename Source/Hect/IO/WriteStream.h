@@ -54,7 +54,7 @@ public:
     /// \param prependLength Whether or not to prepend the length of the
     /// string.
     void writeString(const std::string& value, bool prependLength = true);
-    
+
     ///
     /// Writes a signed 8-bit integer.
     ///

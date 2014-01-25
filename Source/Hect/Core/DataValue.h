@@ -212,7 +212,7 @@ public:
     ///
     /// Returns the value as an int (zero if the data value is not a number).
     int asInt() const;
-    
+
     ///
     /// Returns the value as an unsigned int (zero if the data value is not a
     /// number).

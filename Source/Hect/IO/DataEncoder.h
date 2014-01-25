@@ -44,11 +44,11 @@ public:
     ArrayEncoder(const ArrayEncoder& encoder);
     ArrayEncoder(ArrayEncoder&& encoder);
     ~ArrayEncoder();
-    
+
     ///
     /// Returns whether the encoder is writing to a binary stream.
     bool isBinaryStream() const;
-    
+
     ///
     /// Returns the raw binary stream.
     ///
@@ -138,7 +138,7 @@ public:
     ///
     /// \param value The value to encode.
     void encodeReal(Real value);
-    
+
     ///
     /// Encodes a bool as an unsigned 8-bit integer.
     ///
@@ -181,11 +181,11 @@ public:
     ObjectEncoder(const ObjectEncoder& encoder);
     ObjectEncoder(ObjectEncoder&& encoder);
     ~ObjectEncoder();
-    
+
     ///
     /// Returns whether the encoder is writing to a binary stream.
     bool isBinaryStream() const;
-    
+
     ///
     /// Returns the raw binary stream.
     ///
@@ -291,7 +291,7 @@ public:
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
     void encodeReal(const char* name, Real value);
-    
+
     ///
     /// Encodes a bool as an unsigned 8-bit integer.
     ///
@@ -338,7 +338,7 @@ public:
     ///
     /// Returns whether the encoder is writing to a binary stream.
     virtual bool isBinaryStream() const = 0;
-    
+
     ///
     /// Returns the raw binary stream.
     ///
