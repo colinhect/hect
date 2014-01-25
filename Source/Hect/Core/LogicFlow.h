@@ -36,7 +36,7 @@ namespace hect
 ///
 /// Manages a flow of logic layers.
 ///
-/// \remarks All layers in the flow are updated in the order in which they were
+/// \note All layers in the flow are updated in the order in which they were
 /// added.  Inactive layers are removed from the flow.
 class LogicFlow :
     public Uncopyable
@@ -53,7 +53,7 @@ public:
     ///
     /// Adds a layer to the flow.
     ///
-    /// \remarks The layer will remain in the flow until it is inactive or
+    /// \note The layer will remain in the flow until it is inactive or
     /// explicitly removed.
     ///
     /// \param layer The layer to add.

@@ -37,7 +37,7 @@ namespace hect
 ///
 /// A step in a material technique.
 ///
-/// \remarks Contains the render mode, textures, shader, and uniform values
+/// \note Contains the render mode, textures, shader, and uniform values
 /// used when rendering geometry for this step in the technique.
 class Pass
 {

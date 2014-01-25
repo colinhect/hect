@@ -59,7 +59,7 @@ public:
     ///
     /// Returns a handle for the asset at the given path.
     ///
-    /// \remarks The asset is not necessarily loaded immediately.  The handle
+    /// \note The asset is not necessarily loaded immediately.  The handle
     /// provides access to the asset itself.
     ///
     /// \param path The case-sensitive path to the asset.

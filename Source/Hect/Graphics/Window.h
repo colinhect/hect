@@ -38,7 +38,7 @@ class InputSystem;
 ///
 /// The window that the engine is rendering to.
 ///
-/// \remarks In most cases the window represents the native OS window.
+/// \note In most cases the window represents the native OS window.
 class Window :
     public RenderTarget,
     public Uncopyable

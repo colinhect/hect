@@ -31,7 +31,7 @@ namespace hect
 ///
 /// An implementation of a material.
 ///
-/// \remarks A technique is made up of multiple passes.
+/// \note A technique is made up of multiple passes.
 class Technique
 {
 public:

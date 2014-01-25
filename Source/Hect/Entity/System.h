@@ -53,7 +53,7 @@ public:
     ///
     /// Returns whether the system includes the given entity.
     ///
-    /// \remarks If this returns false for an entity, then addEntity() will
+    /// \note If this returns false for an entity, then addEntity() will
     /// not even be called for that entity.
     ///
     /// \param entity The entity to check if the system includes.

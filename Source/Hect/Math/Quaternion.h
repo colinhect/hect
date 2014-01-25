@@ -93,7 +93,7 @@ public:
     ///
     /// Returns the squared length of the quaternion.
     ///
-    /// \remarks Useful for comparing quaternion lengths while avoiding
+    /// \note Useful for comparing quaternion lengths while avoiding
     /// computation of a square root.
     T lengthSquared() const;
 

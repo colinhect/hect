@@ -67,7 +67,7 @@ public:
     ///
     /// Adds a data source to be accessible for reading.
     ///
-    /// \remarks A data source can be a directory or an archive.  Any file
+    /// \note A data source can be a directory or an archive.  Any file
     /// with the same path as a file in a previously added data source will
     /// be overriden by the file in the most recently added data source.
     ///
@@ -97,7 +97,7 @@ public:
     ///
     /// Creates a directory.
     ///
-    /// \remarks Any missing parent directories are also created if they don't
+    /// \note Any missing parent directories are also created if they don't
     /// exist.  If the directory already exists then nothing happens.
     ///
     /// \warning The write directory must first be set using the

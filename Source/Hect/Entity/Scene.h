@@ -54,7 +54,7 @@ public:
     ///
     /// Refreshes the scene.
     ///
-    /// \remarks All entities activated since the last call to refresh() are
+    /// \note All entities activated since the last call to refresh() are
     /// added to the systems that include them.  All entities destroyed since
     /// the last call to refresh are removed from the systems that include
     /// them.
@@ -63,7 +63,7 @@ public:
     ///
     /// Adds a system to the scene.
     ///
-    /// \remarks All activated entities that are included in the system are
+    /// \note All activated entities that are included in the system are
     /// added to the system.
     ///
     /// \param system The system to add.
@@ -72,7 +72,7 @@ public:
     ///
     /// Removes a system from the scene.
     ///
-    /// \remarks All entities included in the system are removed from the
+    /// \note All entities included in the system are removed from the
     /// system.
     ///
     /// \param system The system to remove.

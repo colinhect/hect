@@ -75,7 +75,7 @@ public:
     ///
     /// Selects a render target to begin rendering to.
     ///
-    /// \remarks All rendering occurring after this call will render to the
+    /// \note All rendering occurring after this call will render to the
     /// bound target.
     ///
     /// \param renderTarget The render target to bind.

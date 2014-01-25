@@ -39,7 +39,7 @@ public:
     ///
     /// Decodes an image from a stream of PNG data.
     ///
-    /// \remarks The resulting image will be 32-bit RGBA.
+    /// \note The resulting image will be 32-bit RGBA.
     ///
     /// \param image The image to decode to (existing data is lost).
     /// \param stream The stream containing the PNG data.
@@ -48,7 +48,7 @@ public:
     ///
     /// Encodes an image as PNG data to a stream.
     ///
-    /// \remarks The image must be 32-bit RGBA format.
+    /// \note The image must be 32-bit RGBA format.
     ///
     /// \param image The image to encode.
     /// \param stream The stream to write the PNG data to.

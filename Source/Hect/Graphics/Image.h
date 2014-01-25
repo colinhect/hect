@@ -66,7 +66,7 @@ enum class ColorSpace
     ///
     /// Non-linear color space (sRGB).
     ///
-    /// \remarks Only an image with a pixel type of PixelType::Byte can
+    /// \note Only an image with a pixel type of PixelType::Byte can
     /// be non-linear.
     NonLinear,
 

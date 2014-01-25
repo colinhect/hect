@@ -83,7 +83,7 @@ public:
 ///
 /// A local point of contact for remote communication over UDP.
 ///
-/// \remarks A socket can either listen for incoming connections or attempt
+/// \note A socket can either listen for incoming connections or attempt
 /// to connect to a remote socket which is listening.
 class Socket :
     public Uncopyable
@@ -115,7 +115,7 @@ public:
     ///
     /// Triggers a connection handshake attempt with a remote socket.
     ///
-    /// \remarks Although a peer is always returned successfully, the
+    /// \note Although a peer is always returned successfully, the
     /// connection to that peer may or may not successfully establish.  If the
     /// connection succeeds then an event will be received and the peer's state
     /// will change to Peer::Connected.
@@ -127,7 +127,7 @@ public:
     ///
     /// Triggers a disconnection handshake attempt with a remote socket.
     ///
-    /// \remarks If a connection to the peer is not established then nothing
+    /// \note If a connection to the peer is not established then nothing
     /// happens.
     ///
     /// \param peer The peer.
@@ -145,7 +145,7 @@ public:
     ///
     /// Sends a packet to a remote socket.
     ///
-    /// \remarks The packet is not sent instantaneously.  It will eventually
+    /// \note The packet is not sent instantaneously.  It will eventually
     /// occur during a call to pollEvent() or can be forced by calling flush().
     ///
     /// \param peer The peer to receive the packet.
@@ -156,7 +156,7 @@ public:
     ///
     /// Broadcasts a packet to all connected remote sockets.
     ///
-    /// \remarks The packet is not sent instantaneously.  It will eventually
+    /// \note The packet is not sent instantaneously.  It will eventually
     /// occur during a call to pollEvent() or can be forced by calling flush().
     ///
     /// \param channel The channel to send the packet on.

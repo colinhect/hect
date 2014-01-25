@@ -34,7 +34,7 @@ namespace hect
 ///
 /// A game object in a scene.
 ///
-/// \remarks An entity value is a lightweight handle for an entity within a
+/// \note An entity value is a lightweight handle for an entity within a
 /// scene.  Copying an entity value will result in another handle pointing
 /// to the same entity.
 class Entity :
@@ -72,7 +72,7 @@ public:
     /// Activates the entity, enqueuing it to be added to systems in the scene
     /// which include the entity on the next call to Scene::refresh().
     ///
-    /// \remarks Once the entity is activated, components can no longer be
+    /// \note Once the entity is activated, components can no longer be
     /// added or removed.  The entity cannot be deactivated.
     ///
     /// \throws Error If the entity is already activated or is null.
@@ -82,7 +82,7 @@ public:
     /// Destroys the entity, enqueuing it to be removed from systems in the
     /// scene which include the entity on the next call to Scene::refresh().
     ///
-    /// \remarks The entity cannot be re-created.
+    /// \note The entity cannot be re-created.
     ///
     /// \throws Error If the entity is already destroyed or is null.
     void destroy() const;
@@ -90,7 +90,7 @@ public:
     ///
     /// Creates a clone of the entity.
     ///
-    /// \remarks Each component of the entity will be copied and added to the
+    /// \note Each component of the entity will be copied and added to the
     /// cloned entity.
     Entity clone() const;
 

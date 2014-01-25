@@ -101,7 +101,7 @@ public:
     ///
     /// Returns the squared length of the vector.
     ///
-    /// \remarks Useful for comparing vector lengths while avoiding
+    /// \note Useful for comparing vector lengths while avoiding
     /// computation of a square root.
     T lengthSquared() const;
 

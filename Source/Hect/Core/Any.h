@@ -46,7 +46,7 @@ public:
     ///
     /// Constructs a copy of another container.
     ///
-    /// \remarks The held value in the container itself is copied.
+    /// \note The held value in the container itself is copied.
     ///
     /// \param any The container to copy.
     Any(const Any& any);
@@ -54,7 +54,7 @@ public:
     ///
     /// Constructs a container moved from another container.
     ///
-    /// \remarks The held value in the container itself is not copied.
+    /// \note The held value in the container itself is not copied.
     ///
     /// \param any The container to move.
     Any(Any&& any);
@@ -66,7 +66,7 @@ public:
     ///
     /// Assigns a value to the container.
     ///
-    /// \remarks If the container already had a value then that value is
+    /// \note If the container already had a value then that value is
     /// overwritten.
     ///
     /// \param value The new value.
@@ -78,7 +78,7 @@ public:
     ///
     /// Assigns a value from another container to the container.
     ///
-    /// \remarks If the container already had a value then that value is
+    /// \note If the container already had a value then that value is
     /// overwritten.
     ///
     /// \param any The container to assign the value from.

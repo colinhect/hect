@@ -88,7 +88,7 @@ public:
     ///
     /// The mouse button related to the event.
     ///
-    /// \remarks Only relevant for a MouseEvent::ButtonDown or
+    /// \note Only relevant for a MouseEvent::ButtonDown or
     /// MouseEvent::ButtonUp event.
     MouseButton button;
 

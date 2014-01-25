@@ -184,7 +184,7 @@ public:
     ///
     /// Returns whether the mesh is equivalent to another.
     ///
-    /// \remarks Does not compare the name.
+    /// \note Does not compare the name.
     ///
     /// \param mesh The other mesh.
     bool operator==(const Mesh& mesh) const;
@@ -192,7 +192,7 @@ public:
     ///
     /// Returns whether the mesh is different from another.
     ///
-    /// \remarks Does not compare the name.
+    /// \note Does not compare the name.
     ///
     /// \param mesh The other mesh.
     bool operator!=(const Mesh& mesh) const;

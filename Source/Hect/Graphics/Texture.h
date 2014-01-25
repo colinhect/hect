@@ -83,7 +83,7 @@ public:
     ///
     /// Constructs a 2-dimensional texture given a source image.
     ///
-    /// \remarks Once the texture is uploaded it will no longer hold a
+    /// \note Once the texture is uploaded it will no longer hold a
     /// reference to the source image.
     ///
     /// \param name The name.

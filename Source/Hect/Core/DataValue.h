@@ -74,7 +74,7 @@ enum class DataValueType : uint8_t
 ///
 /// A hierarchical structure of data.
 ///
-/// \remarks Data values are normally constructed from JSON.  The majority of
+/// \note Data values are normally constructed from JSON.  The majority of
 /// asset types are defined in JSON and parsed through data values.
 class DataValue
 {
@@ -267,7 +267,7 @@ public:
     ///
     /// Adds a new member to the data value.
     ///
-    /// \remarks If a member with the given name already exists then its value
+    /// \note If a member with the given name already exists then its value
     /// is overwritten with the new value.
     ///
     /// \param name The member name.
@@ -287,7 +287,7 @@ public:
     ///
     /// Returns the element at the given index.
     ///
-    /// \remarks Only applies to data values that are arrays.
+    /// \note Only applies to data values that are arrays.
     ///
     /// \param index The index to access the element at.
     const DataValue& operator[](size_t index) const;
@@ -295,7 +295,7 @@ public:
     ///
     /// Returns the member of the given name.
     ///
-    /// \remarks Only applies to data values that are objects.
+    /// \note Only applies to data values that are objects.
     ///
     /// \param name The name of the member to access.
     const DataValue& operator[](const std::string& name) const;
@@ -303,13 +303,13 @@ public:
     ///
     /// Returns an iterator at the beginning of the elements.
     ///
-    /// \remarks Only applies to data values that are arrays.
+    /// \note Only applies to data values that are arrays.
     Array::const_iterator begin() const;
 
     ///
     /// Returns an iterator at the end of the elements.
     ///
-    /// \remarks Only applies to data values that are arrays.
+    /// \note Only applies to data values that are arrays.
     Array::const_iterator end() const;
 
     ///

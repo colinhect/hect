@@ -67,7 +67,7 @@ enum class UniformType
 ///
 /// A value for a uniform.
 ///
-/// \remarks A uniform's type cannot change.
+/// \note A uniform's type cannot change.
 class UniformValue
 {
 public:

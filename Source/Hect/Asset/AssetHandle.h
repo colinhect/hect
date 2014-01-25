@@ -35,7 +35,7 @@ namespace hect
 ///
 /// A reference-counted handle for an asset.
 ///
-/// \remarks An asset handle may reference an asset which was loaded from the
+/// \note An asset handle may reference an asset which was loaded from the
 /// file system.  Alternatively, it may reference a manually created asset.
 /// A handle works much like a smart pointer.
 template <typename T>
@@ -67,7 +67,7 @@ public:
     ///
     /// Returns the path to the asset.
     ///
-    /// \remarks If the asset handle does not refer to an asset which was
+    /// \note If the asset handle does not refer to an asset which was
     /// loaded from the file system, then an empty path is returned.
     const Path& path() const;
 

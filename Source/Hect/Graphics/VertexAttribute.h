@@ -117,7 +117,7 @@ enum class VertexAttributeType : uint8_t
 
     ///
     /// A 16-bit float.
-    /// \remarks Also known as "half".
+    /// \note Also known as "half".
     Half,
 
     ///
@@ -128,7 +128,7 @@ enum class VertexAttributeType : uint8_t
 ///
 /// An attribute of a vertex (position, normal, etc).
 ///
-/// \remarks A vertex attribute is made up of a semantic, a type, and a
+/// \note A vertex attribute is made up of a semantic, a type, and a
 /// cardinality.  The semantic describes how the attribute is used.  The
 /// type describes the type of each component in the attribute.  The
 /// cardinality is number of components (of the attributes type) the

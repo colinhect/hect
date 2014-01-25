@@ -77,7 +77,7 @@ enum class PeerState
 ///
 /// A remote point of contact for remote communication over UDP.
 ///
-/// \remarks Peers are lightweight handles.  Copying a peer will copy the
+/// \note Peers are lightweight handles.  Copying a peer will copy the
 /// the handle and they will both refer to the same peer.  Peers are created
 /// and destroyed from a socket and are provided in socket events.
 class Peer
