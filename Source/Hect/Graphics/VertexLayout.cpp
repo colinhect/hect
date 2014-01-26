@@ -30,10 +30,10 @@ using namespace hect;
 VertexLayout VertexLayout::createDefault()
 {
     VertexLayout vertexLayout;
-    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float, 3));
-    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Tangent, VertexAttributeType::Float, 3));
-    vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::TextureCoords0, VertexAttributeType::Float, 2));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Tangent, VertexAttributeType::Float, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::TextureCoords0, VertexAttributeType::Float, 2));
 
     return vertexLayout;
 }
@@ -43,7 +43,7 @@ VertexLayout::VertexLayout() :
 {
 }
 
-void VertexLayout::appendAttribute(const VertexAttribute& attribute)
+void VertexLayout::addAttribute(const VertexAttribute& attribute)
 {
     _attributes.push_back(attribute);
     _computeAttributeOffsets();

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Any.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -75,14 +76,8 @@ class UniformValue :
 public:
 
     ///
-    /// Constructs a default uniform value.
+    /// Constructs an empty uniform value.
     UniformValue();
-
-    ///
-    /// Constructs a uniform value given its type.
-    ///
-    /// \param type The type.
-    UniformValue(UniformType type);
 
     ///
     /// Constructs an integer based uniform value given its the integer value
@@ -129,7 +124,7 @@ public:
     ///
     /// Sets the type.
     ///
-    /// \note The value is reset to default when the type changes.
+    /// \note The value is reset to the default value for the new type.
     ///
     /// \param type The new type.
     void setType(UniformType type);
@@ -137,6 +132,10 @@ public:
     ///
     /// Returns the raw data.
     const void* data() const;
+
+    ///
+    /// Sets the value to the default value for the uniform value's type.
+    void setDefaultValue();
 
     ///
     /// Sets the value of the uniform value as an integer.
@@ -201,10 +200,14 @@ public:
     ///
     /// Returns the value as a 3-dimensional vector.
     Vector3 asVector3() const;
-
+    
     ///
     /// Returns the value as a 4-dimensional vector.
     Vector4 asVector4() const;
+
+    ///
+    /// Returns the value as a 4 by 4 matrix.
+    Matrix4 asMatrix4() const;
 
     ///
     /// Encodes the uniform value.
@@ -232,15 +235,10 @@ public:
     bool operator!=(const UniformValue& uniformValue) const;
 
 private:
-    void _zeroValueMemory();
 
     UniformType _type;
 
-    union
-    {
-        int intValue;
-        float floatValues[16];
-    } _value;
+    Any _value;
 };
 
 }

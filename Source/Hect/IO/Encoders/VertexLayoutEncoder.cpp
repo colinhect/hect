@@ -78,7 +78,7 @@ void VertexLayoutEncoder::decode(VertexLayout& vertexLayout, ObjectDecoder& deco
 
         // Append the new attribute
         VertexAttribute attribute(semantic, type, cardinality);
-        vertexLayout.appendAttribute(attribute);
+        vertexLayout.addAttribute(attribute);
     }
 }
 

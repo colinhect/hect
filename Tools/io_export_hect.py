@@ -47,8 +47,8 @@ def export_mesh(obj, path):
         normal = mesh.vertices[i].normal
 
         out.write("        [\n");
-        out.write("            { \"semantic\" : \"Position\", \"data\" : [ %f, %f, %f ] },\n" % (co[0], co[2], -co[1]))
-        out.write("            { \"semantic\" : \"Normal\", \"data\" : [ %f, %f, %f ] }\n" % (normal[0], normal[2], -normal[1]))
+        out.write("            [ \"Position\", [ %f, %f, %f ] ],\n" % (co[0], co[2], -co[1]))
+        out.write("            [ \"Normal\", [ %f, %f, %f ] ]\n" % (normal[0], normal[2], -normal[1]))
         if i != vertex_count - 1:
             out.write("        ],\n");
         else:

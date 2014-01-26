@@ -38,8 +38,8 @@ SUITE(Mesh)
     TEST(Constructor)
     {
         VertexLayout vertexLayout;
-        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
+        vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
 
         Mesh mesh("Test");
         mesh.setVertexLayout(vertexLayout);
@@ -59,7 +59,7 @@ SUITE(Mesh)
     TEST(SetVertexData)
     {
         VertexLayout vertexLayout;
-        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
                 
         Mesh mesh("Test");
         mesh.setVertexLayout(vertexLayout);
@@ -83,7 +83,7 @@ SUITE(Mesh)
     TEST(GetVertexData)
     {
         VertexLayout vertexLayout;
-        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
                 
         Mesh mesh("Test");
         mesh.setVertexLayout(vertexLayout);
@@ -117,7 +117,7 @@ SUITE(Mesh)
     TEST(SetIndexData)
     {
         VertexLayout vertexLayout;
-        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
         
         Mesh mesh("Test");
         mesh.setVertexLayout(vertexLayout);
@@ -140,7 +140,7 @@ SUITE(Mesh)
     TEST(GetIndexDataUnsignedByte)
     {
         VertexLayout vertexLayout;
-        vertexLayout.appendAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
+        vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
         
         Mesh mesh("Test");
         mesh.setVertexLayout(vertexLayout);
@@ -166,27 +166,5 @@ SUITE(Mesh)
         CHECK_EQUAL(2, indexData[3]);
         CHECK_EQUAL(3, indexData[4]);
         CHECK_EQUAL(0, indexData[5]);
-    }
-
-    TEST(Encoding)
-    {
-        Mesh mesh("Test");
-        MeshWriter meshWriter(mesh);
-        meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(1.0, 2.0, 3.0));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(-1.0, -2.0, -3.0));
-        meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(4.0, 5.0, 6.0));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(-4.0, -5.0, -6.0));
-        meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(7.0, 8.0, 9.0));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(-7.0, -8.0, -9.0));
-
-        meshWriter.addIndex(0);
-        meshWriter.addIndex(1);
-        meshWriter.addIndex(2);
-        meshWriter.addIndex(0);
-
-        testEncodable(mesh);
     }
 }

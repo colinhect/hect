@@ -169,10 +169,9 @@
     <ClInclude Include="Source\MaterialDataFormatTests.h" />
     <ClInclude Include="Source\DataValueTests.h" />
     <ClInclude Include="Source\FrustumTests.h" />
-    <ClInclude Include="Source\DataValueJsonFormatTests.h" />
     <ClInclude Include="Source\Matrix4Tests.h" />
     <ClInclude Include="Source\MeshWriterTests.h" />
-    <ClInclude Include="Source\MeshDataFormatTests.h" />
+    <ClInclude Include="Source\MeshEncoderTests.h" />
     <ClInclude Include="Source\MeshTests.h" />
     <ClInclude Include="Source\NetworkTests.h" />
     <ClInclude Include="Source\PathTests.h" />
@@ -183,8 +182,8 @@
     <ClInclude Include="Source\TaskPoolTests.h" />
     <ClInclude Include="Source\TimeSpanTests.h" />
     <ClInclude Include="Source\FormatTests.h" />
-    <ClInclude Include="Source\UniformTests.h" />
-    <ClInclude Include="Source\UniformValueTests.h" />
+    <ClInclude Include="Source\UniformEncoderTests.h" />
+    <ClInclude Include="Source\UniformValueEncoderTests.h" />
     <ClInclude Include="Source\Vector2Tests.h" />
     <ClInclude Include="Source\Vector3Tests.h" />
     <ClInclude Include="Source\Vector4Tests.h" />

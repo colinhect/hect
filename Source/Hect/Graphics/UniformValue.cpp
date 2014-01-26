@@ -30,20 +30,12 @@ using namespace hect;
 UniformValue::UniformValue() :
     _type(UniformType::Float)
 {
-    _zeroValueMemory();
-}
-
-UniformValue::UniformValue(UniformType type) :
-    _type(type)
-{
-    _zeroValueMemory();
+    setDefaultValue();
 }
 
 UniformValue::UniformValue(int value, UniformType type) :
     _type(type)
 {
-    _zeroValueMemory();
-
     if (type != UniformType::Int && type != UniformType::Texture)
     {
         throw Error("Invalid uniform value type");
@@ -90,12 +82,63 @@ UniformType UniformValue::type() const
 void UniformValue::setType(UniformType type)
 {
     _type = type;
-    _zeroValueMemory();
+    setDefaultValue();
 }
 
 const void* UniformValue::data() const
 {
-    return &_value;
+    switch (_type)
+    {
+    case UniformType::Int:
+    case UniformType::Texture:
+        return &_value.as<int>();
+        break;
+    case UniformType::Float:
+        return &_value.as<float>();
+        break;
+    case UniformType::Vector2:
+        return &_value.as<Vector2T<float>>();
+        break;
+    case UniformType::Vector3:
+        return &_value.as<Vector3T<float>>();
+        break;
+    case UniformType::Vector4:
+        return &_value.as<Vector4T<float>>();
+        break;
+    case UniformType::Matrix4:
+        return &_value.as<Matrix4T<float>>();
+        break;
+    default:
+        throw Error("Unexpected uniform value type");
+    }
+}
+
+void UniformValue::setDefaultValue()
+{
+    switch (_type)
+    {
+    case UniformType::Int:
+    case UniformType::Texture:
+        _value = (int)0;
+        break;
+    case UniformType::Float:
+        _value = 0.0f;
+        break;
+    case UniformType::Vector2:
+        _value = Vector2T<float>();
+        break;
+    case UniformType::Vector3:
+        _value = Vector3T<float>();
+        break;
+    case UniformType::Vector4:
+        _value = Vector4T<float>();
+        break;
+    case UniformType::Matrix4:
+        _value = Matrix4T<float>();
+        break;
+    default:
+        throw Error("Unexpected uniform value type");
+    }
 }
 
 void UniformValue::setValue(int value)
@@ -105,7 +148,7 @@ void UniformValue::setValue(int value)
         throw Error("Uniform value is not of type 'Int' or 'Texture'");
     }
 
-    _value.intValue = value;
+    _value = value;
 }
 
 void UniformValue::setValue(Real value)
@@ -115,7 +158,7 @@ void UniformValue::setValue(Real value)
         throw Error("Uniform value is not of type 'Float'");
     }
 
-    _value.floatValues[0] = (float)value;
+    _value = (float)value;
 }
 
 void UniformValue::setValue(const Vector2& value)
@@ -125,8 +168,7 @@ void UniformValue::setValue(const Vector2& value)
         throw Error("Uniform value is not of type 'Vector2'");
     }
 
-    _value.floatValues[0] = (float)value.x;
-    _value.floatValues[1] = (float)value.y;
+    _value = Vector2T<float>(value);
 }
 
 void UniformValue::setValue(const Vector3& value)
@@ -135,10 +177,8 @@ void UniformValue::setValue(const Vector3& value)
     {
         throw Error("Uniform value is not of type 'Vector3'");
     }
-
-    _value.floatValues[0] = (float)value.x;
-    _value.floatValues[1] = (float)value.y;
-    _value.floatValues[2] = (float)value.z;
+    
+    _value = Vector3T<float>(value);
 }
 
 void UniformValue::setValue(const Vector4& value)
@@ -147,11 +187,8 @@ void UniformValue::setValue(const Vector4& value)
     {
         throw Error("Uniform value is not of type 'Vector4'");
     }
-
-    _value.floatValues[0] = (float)value.x;
-    _value.floatValues[1] = (float)value.y;
-    _value.floatValues[2] = (float)value.z;
-    _value.floatValues[3] = (float)value.w;
+    
+    _value = Vector4T<float>(value);
 }
 
 void UniformValue::setValue(const Matrix4& value)
@@ -161,44 +198,67 @@ void UniformValue::setValue(const Matrix4& value)
         throw Error("Uniform value is not of type 'Matrix4'");
     }
 
-    for (int i = 0; i < 16; ++i)
-    {
-        _value.floatValues[i] = (float)value[i];
-    }
+    _value = Matrix4T<float>(value);
 }
 
 int UniformValue::asInt() const
 {
-    return _value.intValue;
+    if (_type != UniformType::Int && _type != UniformType::Texture)
+    {
+        throw Error("Uniform value is not of type 'Int' or 'Texture'");
+    }
+
+    return _value.as<int>();
 }
 
 Real UniformValue::asReal() const
 {
-    return (Real)_value.floatValues[0];
+    if (_type != UniformType::Float)
+    {
+        throw Error("Uniform value is not of type 'Float'");
+    }
+
+    return (Real)_value.as<float>();
 }
 
 Vector2 UniformValue::asVector2() const
 {
-    Real x = (Real)_value.floatValues[0];
-    Real y = (Real)_value.floatValues[1];
-    return Vector2(x, y);
+    if (_type != UniformType::Vector2)
+    {
+        throw Error("Uniform value is not of type 'Vector2'");
+    }
+    
+    return (Vector2)_value.as<Vector2T<float>>();
 }
 
 Vector3 UniformValue::asVector3() const
 {
-    Real x = (Real)_value.floatValues[0];
-    Real y = (Real)_value.floatValues[1];
-    Real z = (Real)_value.floatValues[2];
-    return Vector3(x, y, z);
+    if (_type != UniformType::Vector3)
+    {
+        throw Error("Uniform value is not of type 'Vector3'");
+    }
+    
+    return (Vector3)_value.as<Vector3T<float>>();
 }
 
 Vector4 UniformValue::asVector4() const
 {
-    Real x = (Real)_value.floatValues[0];
-    Real y = (Real)_value.floatValues[1];
-    Real z = (Real)_value.floatValues[2];
-    Real w = (Real)_value.floatValues[3];
-    return Vector4(x, y, z, w);
+    if (_type != UniformType::Vector4)
+    {
+        throw Error("Uniform value is not of type 'Vector4'");
+    }
+    
+    return (Vector4)_value.as<Vector4T<float>>();
+}
+
+Matrix4 UniformValue::asMatrix4() const
+{
+    if (_type != UniformType::Matrix4)
+    {
+        throw Error("Uniform value is not of type 'Matrix4'");
+    }
+    
+    return (Matrix4)_value.as<Matrix4T<float>>();
 }
 
 void UniformValue::encode(ObjectEncoder& encoder) const
@@ -247,9 +307,4 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
 bool UniformValue::operator!=(const UniformValue& uniformValue) const
 {
     return !(*this == uniformValue);
-}
-
-void UniformValue::_zeroValueMemory()
-{
-    std::memset(&_value.floatValues[0], 0, sizeof(float) * 16);
 }

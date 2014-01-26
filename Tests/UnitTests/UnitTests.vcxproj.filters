@@ -61,9 +61,6 @@
     <ClInclude Include="Source\TaskPoolTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MeshDataFormatTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MaterialDataFormatTests.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -71,9 +68,6 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\EntityTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DataValueJsonFormatTests.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\MeshWriterTests.h">
@@ -97,10 +91,13 @@
     <ClInclude Include="Source\DataEncodingTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UniformValueTests.h">
+    <ClInclude Include="Source\MeshEncoderTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UniformTests.h">
+    <ClInclude Include="Source\UniformEncoderTests.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UniformValueEncoderTests.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

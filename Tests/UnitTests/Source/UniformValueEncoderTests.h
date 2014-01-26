@@ -23,17 +23,41 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-SUITE(Uniform)
+SUITE(UniformValueEncoder)
 {
-    TEST(EncodingWithDefaultValue)
+    TEST_FIXTURE(AssetCacheFixture, Int)
     {
-        Uniform uniform("Test", Vector3(1, 2, 3));
-        testEncodable(uniform);
+        UniformValue a(123, UniformType::Int);
+        testEncodable(a, assetCache);
     }
 
-    TEST(EncodingWithBinding)
+    TEST_FIXTURE(AssetCacheFixture, Texture)
     {
-        Uniform uniform("Test", UniformBinding::ModelViewProjectionMatrix);
-        testEncodable(uniform);
+        UniformValue a(123, UniformType::Texture);
+        testEncodable(a, assetCache);
+    }
+
+    TEST_FIXTURE(AssetCacheFixture, Real)
+    {
+        UniformValue a((Real)123);
+        testEncodable(a, assetCache);
+    }
+
+    TEST_FIXTURE(AssetCacheFixture, Vector2)
+    {
+        UniformValue a(Vector2(1, 2));
+        testEncodable(a, assetCache);
+    }
+
+    TEST_FIXTURE(AssetCacheFixture, Vector3)
+    {
+        UniformValue a(Vector3(1, 2, 3));
+        testEncodable(a, assetCache);
+    }
+
+    TEST_FIXTURE(AssetCacheFixture, Vector4)
+    {
+        UniformValue a(Vector4(1, 2, 3, 4));
+        testEncodable(a, assetCache);
     }
 }

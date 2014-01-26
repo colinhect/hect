@@ -66,12 +66,18 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
         // Vertex data
         uint32_t vertexDataSize = (uint32_t)mesh.vertexData().size();
         stream.writeUnsignedInt(vertexDataSize);
-        stream.writeBytes(&mesh.vertexData()[0], vertexDataSize);
+        if (vertexDataSize > 0)
+        {
+            stream.writeBytes(&mesh.vertexData()[0], vertexDataSize);
+        }
 
         // Index data
         uint32_t indexDataSize = (uint32_t)mesh.indexData().size();
         stream.writeUnsignedInt(indexDataSize);
-        stream.writeBytes(&mesh.indexData()[0], indexDataSize);
+        if (indexDataSize > 0)
+        {
+            stream.writeBytes(&mesh.indexData()[0], indexDataSize);
+        }
     }
     else
     {
@@ -85,27 +91,27 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
                 ArrayEncoder attributesEncoder = verticesEncoder.encodeArray();
                 for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
                 {
-                    ObjectEncoder attributeEncoder = attributesEncoder.encodeObject();
+                    ArrayEncoder attributeEncoder = attributesEncoder.encodeArray();
                     VertexAttributeSemantic semantic = attribute.semantic();
 
-                    attributeEncoder.encodeString("semantic", VertexLayoutEncoder::attributeSemanticToString(semantic));
+                    attributeEncoder.encodeString(VertexLayoutEncoder::attributeSemanticToString(semantic));
 
                     unsigned cardinality = attribute.cardinality();
                     if (cardinality == 1)
                     {
-                        attributeEncoder.encodeReal("data", reader.readAttributeReal(semantic));
+                        attributeEncoder.encodeReal(reader.readAttributeReal(semantic));
                     }
                     else if (cardinality == 2)
                     {
-                        attributeEncoder.encodeVector2("data", reader.readAttributeVector2(semantic));
+                        attributeEncoder.encodeVector2(reader.readAttributeVector2(semantic));
                     }
                     else if (cardinality == 3)
                     {
-                        attributeEncoder.encodeVector3("data", reader.readAttributeVector3(semantic));
+                        attributeEncoder.encodeVector3(reader.readAttributeVector3(semantic));
                     }
                     else if (cardinality == 4)
                     {
-                        attributeEncoder.encodeVector4("data", reader.readAttributeVector4(semantic));
+                        attributeEncoder.encodeVector4(reader.readAttributeVector4(semantic));
                     }
                 }
             }
@@ -183,13 +189,19 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
         Mesh::VertexData vertexData;
         uint32_t vertexDataSize = stream.readUnsignedInt();
         vertexData = Mesh::VertexData(vertexDataSize);
-        stream.readBytes(&vertexData[0], vertexDataSize);
+        if (vertexDataSize > 0)
+        {
+            stream.readBytes(&vertexData[0], vertexDataSize);
+        }
 
         // Index data
         Mesh::IndexData indexData;
         uint32_t indexDataSize = stream.readUnsignedInt();
         indexData = Mesh::VertexData(indexDataSize);
-        stream.readBytes(&indexData[0], indexDataSize);
+        if (indexDataSize > 0)
+        {
+            stream.readBytes(&indexData[0], indexDataSize);
+        }
 
         // Set vertex/index data
         mesh.setVertexData(vertexData);
@@ -214,9 +226,9 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
                 ArrayDecoder attributesDecoder = verticesDecoder.decodeArray();
                 while (attributesDecoder.hasMoreElements())
                 {
-                    ObjectDecoder attributeDecoder = attributesDecoder.decodeObject();
+                    ArrayDecoder attributeDecoder = attributesDecoder.decodeArray();
 
-                    auto semantic = VertexLayoutEncoder::attributeSemanticFromString(attributeDecoder.decodeString("semantic"));
+                    auto semantic = VertexLayoutEncoder::attributeSemanticFromString(attributeDecoder.decodeString());
 
                     if (vertexLayout.hasAttributeWithSemantic(semantic))
                     {
@@ -225,19 +237,19 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
 
                         if (cardinality == 1)
                         {
-                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeReal("data"));
+                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeReal());
                         }
                         else if (cardinality == 2)
                         {
-                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector2("data"));
+                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector2());
                         }
                         else if (cardinality == 3)
                         {
-                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector3("data"));
+                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector3());
                         }
                         else if (cardinality == 4)
                         {
-                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector4("data"));
+                            meshWriter.writeAttributeData(semantic, attributeDecoder.decodeVector4());
                         }
                     }
                 }

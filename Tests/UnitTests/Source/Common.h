@@ -25,14 +25,22 @@
 
 const Real epsilon = (Real)0.0001;
 
-template <typename T>
-void testEncodable(T& encodable)
+class AssetCacheFixture
 {
+public:
+    AssetCacheFixture() :
+        assetCache(fileSystem)
+    {
+        fileSystem.addDataSource("Data");
+    }
+
     FileSystem fileSystem;
-    fileSystem.addDataSource("Data");
+    AssetCache assetCache;
+};
 
-    AssetCache assetCache(fileSystem);
-
+template <typename T>
+void testEncodable(T& encodable, AssetCache& assetCache)
+{
     // Binary
     {
         T decoded;

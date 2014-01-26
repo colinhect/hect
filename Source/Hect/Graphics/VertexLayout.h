@@ -48,7 +48,7 @@ public:
     /// Appends an attribute to the end of the layout.
     ///
     /// \param attribute The new attribute to add.
-    void appendAttribute(const VertexAttribute& attribute);
+    void addAttribute(const VertexAttribute& attribute);
 
     ///
     /// Clears all attributes from the layout.
