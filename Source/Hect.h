@@ -123,3 +123,13 @@
 
 #include "Hect/Core/LogicLayer.h"
 #include "Hect/Core/LogicFlow.h"
+
+#include "Hect/IO/Encoders/ImagePngEncoder.h"
+#include "Hect/IO/Encoders/InputAxisEncoder.h"
+#include "Hect/IO/Encoders/MaterialEncoder.h"
+#include "Hect/IO/Encoders/MeshEncoder.h"
+#include "Hect/IO/Encoders/ShaderEncoder.h"
+#include "Hect/IO/Encoders/TextureEncoder.h"
+#include "Hect/IO/Encoders/UniformEncoder.h"
+#include "Hect/IO/Encoders/UniformValueEncoder.h"
+#include "Hect/IO/Encoders/VertexLayoutEncoder.h"

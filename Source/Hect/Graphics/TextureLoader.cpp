@@ -34,6 +34,6 @@ void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCa
     DataValue dataValue;
     dataValue.decodeFromJson(stream);
 
-    texture = Texture(assetPath.toString());
+    texture.setName(assetPath.toString());
     texture.decodeFromDataValue(dataValue, assetCache);
 }
