@@ -21,51 +21,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Technique.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Input/InputAxis.h"
 
-Technique::Technique()
+namespace hect
 {
-}
 
-Technique::Technique(const Pass::Array& passes) :
-    _passes(passes)
+class InputAxisEncoder
 {
-}
+public:
+    static void encode(const InputAxis& inputAxis, ObjectEncoder& encoder);
+    static void decode(InputAxis& inputAxis, ObjectDecoder& decoder);
 
-Pass::Array& Technique::passes()
-{
-    return _passes;
-}
+    static InputAxisSource inputAxisSourceFromString(const std::string& value);
+    static Key keyFromString(const std::string& value);
+    static MouseButton mouseButtonFromString(const std::string& value);
+};
 
-const Pass::Array& Technique::passes() const
-{
-    return _passes;
-}
-
-bool Technique::operator==(const Technique& technique) const
-{
-    // Pass count
-    if (_passes.size() != technique.passes().size())
-    {
-        return false;
-    }
-
-    // Passes
-    size_t passCount = _passes.size();
-    for (size_t i = 0; i < passCount; ++i)
-    {
-        if (_passes[i] != technique.passes()[i])
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool Technique::operator!=(const Technique& technique) const
-{
-    return !(*this == technique);
 }

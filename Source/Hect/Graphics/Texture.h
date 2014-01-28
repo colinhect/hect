@@ -91,10 +91,16 @@ public:
     Texture(const std::string& name, const AssetHandle<Image>& image);
 
     ///
-    /// Constructs a copy of another texture.
+    /// Constructs a texture copied from another.
     ///
     /// \param texture The texture to copy.
     Texture(const Texture& texture);
+    
+    ///
+    /// Constructs a texture moved from another.
+    ///
+    /// \param mesh The texture to move.
+    Texture(Texture&& texture);
 
     ///
     /// Destroys the texture on the GPU if it is uploaded.
@@ -105,15 +111,31 @@ public:
     const std::string& name() const;
 
     ///
+    /// Sets the name.
+    ///
+    /// \param name The new name.
+    void setName(const std::string& name);
+
+    ///
+    /// Sets the image (may affect width/height of texture).
+    ///
+    /// \note If the texture is uploaded to a renderer then it will be
+    /// destroyed before the image is set.
+    ///
+    /// \param image The new image.
+    void setImage(const AssetHandle<Image>& image);
+
+    ///
     /// Returns the minification filter.
     TextureFilter minFilter() const;
 
     ///
     /// Sets the minification filter.
     ///
-    /// \param filter The new minification filter.
+    /// \note If the texture is uploaded to a renderer then it will be
+    /// destroyed before the filter is set.
     ///
-    /// \throws Error If the texture is uploaded.
+    /// \param filter The new minification filter.
     void setMinFilter(TextureFilter filter);
 
     ///
@@ -123,9 +145,10 @@ public:
     ///
     /// Sets the magnification filter.
     ///
-    /// \param filter The new magnification filter.
+    /// \note If the texture is uploaded to a renderer then it will be
+    /// destroyed before the filter is set.
     ///
-    /// \throws Error If the texture is uploaded.
+    /// \param filter The new magnification filter.
     void setMagFilter(TextureFilter filter);
 
     ///
@@ -135,9 +158,10 @@ public:
     ///
     /// Sets whether the texture is mipmapped.
     ///
-    /// \param mipmapped True if the texture is mipmapped; false otherwise.
+    /// \note If the texture is uploaded to a renderer then it will be
+    /// destroyed before the mipmap value is set.
     ///
-    /// \throws Error If the texture is uploaded.
+    /// \param mipmapped True if the texture is mipmapped; false otherwise.
     void setMipmapped(bool mipmapped);
 
     ///
@@ -147,9 +171,10 @@ public:
     ///
     /// Sets whether the texture is wrapped.
     ///
-    /// \param wrapped True if the texture is wrapped; false otherwise.
+    /// \note If the texture is uploaded to a renderer then it will be
+    /// destroyed before the wrap value is set.
     ///
-    /// \throws Error If the texture is uploaded.
+    /// \param wrapped True if the texture is wrapped; false otherwise.
     void setWrapped(bool wrapped);
 
     ///
@@ -172,8 +197,40 @@ public:
     /// Returns the number of bytes in a pixel of this texture.
     int bytesPerPixel() const;
 
+    ///
+    /// Encodes the texture.
+    ///
+    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
+
+    ///
+    /// Decodes the texture.
+    ///
+    /// \param decoder The decoder to use.
+    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+
+    ///
+    /// Replaces the texture with a copy of another.
+    ///
+    /// \note If the texture was uploaded to a renderer then it will be
+    /// destroyed before assigned.
+    ///
+    /// \param texture The texture to copy.
+    ///
+    /// \returns A reference to the texture.
+    Texture& operator=(const Texture& texture);
+
+    ///
+    /// Replaces the texture by moving another.
+    ///
+    /// \note If the texture was uploaded to a renderer then it will be
+    /// destroyed before assigned.
+    ///
+    /// \param texture The texture to move.
+    ///
+    /// \returns A reference to the texture.
+    Texture& operator=(Texture&& texture);
 
 private:
     static TextureFilter _parseTextureFilter(const std::string& value);

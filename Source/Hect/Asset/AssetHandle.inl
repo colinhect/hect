@@ -89,11 +89,17 @@ bool AssetHandle<T>::operator==(const AssetHandle<T>& handle) const
     {
         return _entry == handle._entry;
     }
-    else (_asset)
+    else if (_asset)
     {
         return _asset == handle._asset;
     }
     return false;
+}
+
+template <typename T>
+bool AssetHandle<T>::operator!=(const AssetHandle<T>& handle) const
+{
+    return !(*this == handle);
 }
 
 }

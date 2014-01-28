@@ -137,6 +137,18 @@ public:
     /// Returns the destination blend factor.
     BlendFactor destBlendFactor() const;
 
+    ///
+    /// Returns whether the render mode is equivalent to another.
+    ///
+    /// \param renderMode The other render mode.
+    bool operator==(const RenderMode& renderMode) const;
+
+    ///
+    /// Returns whether the render mode is different from another.
+    ///
+    /// \param renderMode The other render mode.
+    bool operator!=(const RenderMode& renderMode) const;
+
 private:
     int _stateBits;
     BlendFactor _sourceFactor;

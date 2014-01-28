@@ -363,6 +363,15 @@
     <ClInclude Include="Source\Hect\IO\Encoders\UniformValueEncoder.h">
       <Filter>Source\Hect\IO\Encoders</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Encoders\MaterialEncoder.h">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisEncoder.h">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Encoders\TextureEncoder.h">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -627,6 +636,15 @@
       <Filter>Source\Hect\IO\Encoders</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\Encoders\UniformValueEncoder.cpp">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\Encoders\MaterialEncoder.cpp">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisEncoder.cpp">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\Encoders\TextureEncoder.cpp">
       <Filter>Source\Hect\IO\Encoders</Filter>
     </ClCompile>
   </ItemGroup>

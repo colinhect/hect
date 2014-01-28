@@ -165,14 +165,20 @@ public:
     /// \param gravity The new gravity.
     void setGravity(Real gravity);
 
+    ///
+    /// Encodes the input axis.
+    ///
+    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
+
+    ///
+    /// Decodes the input axis.
+    ///
+    /// \param decoder The decoder to use.
+    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    static InputAxisSource _parseSource(const std::string& value);
-    static Key _parseKey(const std::string& value);
-    static MouseButton _parseMouseButton(const std::string& value);
-
     std::string _name;
     InputAxisSource _source;
 

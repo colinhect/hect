@@ -26,34 +26,27 @@
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Error.h"
 #include "Hect/Graphics/Renderer.h"
+#include "Hect/IO/Encoders/TextureEncoder.h"
 
 using namespace hect;
 
 Texture::Texture() :
-    _image(new Image()),
-    _width(_image->width()),
-    _height(_image->height()),
-    _pixelType(_image->pixelType()),
-    _pixelFormat(_image->pixelFormat()),
     _minFilter(TextureFilter::Linear),
     _magFilter(TextureFilter::Linear),
     _mipmapped(true),
     _wrapped(false)
 {
+    setImage(new Image());
 }
 
 Texture::Texture(const std::string& name) :
     _name(name),
-    _image(new Image()),
-    _width(_image->width()),
-    _height(_image->height()),
-    _pixelType(_image->pixelType()),
-    _pixelFormat(_image->pixelFormat()),
     _minFilter(TextureFilter::Linear),
     _magFilter(TextureFilter::Linear),
     _mipmapped(true),
     _wrapped(false)
 {
+    setImage(new Image());
 }
 
 Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
@@ -72,21 +65,17 @@ Texture::Texture(const std::string& name, unsigned width, unsigned height, Pixel
 
 Texture::Texture(const std::string& name, const AssetHandle<Image>& image) :
     _name(name),
-    _image(image),
-    _width(_image->width()),
-    _height(_image->height()),
-    _pixelType(_image->pixelType()),
-    _pixelFormat(_image->pixelFormat()),
     _minFilter(TextureFilter::Linear),
     _magFilter(TextureFilter::Linear),
     _mipmapped(true),
     _wrapped(false)
 {
+    setImage(image);
 }
 
 Texture::Texture(const Texture& texture) :
+    RendererObject(texture),
     _name(texture._name),
-    _image(texture._image),
     _width(texture.width()),
     _height(texture.height()),
     _pixelType(texture.pixelType()),
@@ -100,8 +89,23 @@ Texture::Texture(const Texture& texture) :
     {
         // Download the image for the source texture and copy it as the source
         // image for this texture
-        _image = AssetHandle<Image>(new Image(texture.renderer().downloadTextureImage(texture)));
+        setImage(new Image(texture.renderer().downloadTextureImage(texture)));
     }
+}
+
+Texture::Texture(Texture&& texture) :
+    RendererObject(texture),
+    _name(std::move(texture._name)),
+    _image(texture._image),
+    _width(texture.width()),
+    _height(texture.height()),
+    _pixelType(texture.pixelType()),
+    _pixelFormat(texture.pixelFormat()),
+    _minFilter(texture.minFilter()),
+    _magFilter(texture.magFilter()),
+    _mipmapped(texture.isMipmapped()),
+    _wrapped(texture.isWrapped())
+{
 }
 
 Texture::~Texture()
@@ -117,6 +121,25 @@ const std::string& Texture::name() const
     return _name;
 }
 
+void Texture::setName(const std::string& name)
+{
+    _name = name;
+}
+
+void Texture::setImage(const AssetHandle<Image>& image)
+{
+    if (isUploaded())
+    {
+        renderer().destroyTexture(*this);
+    }
+
+    _image = image;
+    _width = image->width();
+    _height = image->height();
+    _pixelType = image->pixelType();
+    _pixelFormat = image->pixelFormat();
+}
+
 TextureFilter Texture::minFilter() const
 {
     return _minFilter;
@@ -126,7 +149,7 @@ void Texture::setMinFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
-        throw Error("Cannot set the min filter of a texture that is uploaded");
+        renderer().destroyTexture(*this);
     }
 
     _minFilter = filter;
@@ -141,7 +164,7 @@ void Texture::setMagFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
-        throw Error("Cannot to set the mag filter of a texture that is uploaded");
+        renderer().destroyTexture(*this);
     }
 
     _magFilter = filter;
@@ -156,7 +179,7 @@ void Texture::setMipmapped(bool mipmapped)
 {
     if (isUploaded())
     {
-        throw Error("Cannot to set mipmapping of a texture that is uploaded");
+        renderer().destroyTexture(*this);
     }
 
     _mipmapped = mipmapped;
@@ -171,7 +194,7 @@ void Texture::setWrapped(bool wrapped)
 {
     if (isUploaded())
     {
-        throw Error("Cannot to set wrapping of a texture that is uploaded");
+        renderer().destroyTexture(*this);
     }
 
     _wrapped = wrapped;
@@ -229,57 +252,67 @@ int Texture::bytesPerPixel() const
 
 void Texture::encode(ObjectEncoder& encoder) const
 {
-    encoder;
-    throw Error("Not implemented");
+    TextureEncoder::encode(*this, encoder);
 }
 
 void Texture::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    // Image
-    Path imagePath = decoder.decodeString("image");
-    AssetHandle<Image> image = assetCache.getHandle<Image>(imagePath);
-    *this = Texture(_name, image);
-
-    // Min filter
-    if (decoder.hasMember("minFilter"))
-    {
-        setMinFilter(_parseTextureFilter(decoder.decodeString("minFilter")));
-    }
-
-    // Mag filter
-    if (decoder.hasMember("magFilter"))
-    {
-        setMagFilter(_parseTextureFilter(decoder.decodeString("magFilter")));
-    }
-
-    // Wrapped
-    if (decoder.hasMember("wrapped"))
-    {
-        setWrapped(decoder.decodeBool("wrapped"));
-    }
-
-    // Mipmapped
-    if (decoder.hasMember("mipmapped"))
-    {
-        setMipmapped(decoder.decodeBool("mipmapped"));
-    }
+    TextureEncoder::decode(*this, decoder, assetCache);
 }
 
-TextureFilter Texture::_parseTextureFilter(const std::string& value)
+Texture& Texture::operator=(const Texture& texture)
 {
-    static std::map<std::string, TextureFilter> textureFilters;
-
-    if (textureFilters.empty())
+    if (isUploaded())
     {
-        textureFilters["Nearest"] = TextureFilter::Nearest;
-        textureFilters["Linear"] = TextureFilter::Linear;
+        renderer().destroyTexture(*this);
     }
 
-    auto it = textureFilters.find(value);
-    if (it == textureFilters.end())
+    RendererObject::operator=(texture);
+
+    _name = texture.name();
+
+    if (texture.isUploaded())
     {
-        throw Error(format("Invalid texture filter '%s'", value.c_str()));
+        // Download the image for the source texture and copy it as the source
+        // image for this texture
+        _image = new Image(texture.renderer().downloadTextureImage(texture));
+    }
+    else
+    {
+        _image = texture._image;
     }
 
-    return (*it).second;
+    _width = texture.width();
+    _height = texture.height();
+    _pixelType = texture.pixelType();
+    _pixelFormat = texture.pixelFormat();
+    _minFilter = texture.minFilter();
+    _magFilter = texture.magFilter();
+    _mipmapped = texture.isMipmapped();
+    _wrapped = texture.isWrapped();
+
+    return *this;
+}
+
+Texture& Texture::operator=(Texture&& texture)
+{
+    if (isUploaded())
+    {
+        renderer().destroyTexture(*this);
+    }
+
+    RendererObject::operator=(texture);
+
+    _name = std::move(texture.name());
+    _image = texture._image;
+    _width = texture.width();
+    _height = texture.height();
+    _pixelType = texture.pixelType();
+    _pixelFormat = texture.pixelFormat();
+    _minFilter = texture.minFilter();
+    _magFilter = texture.magFilter();
+    _mipmapped = texture.isMipmapped();
+    _wrapped = texture.isWrapped();
+
+    return *this;
 }

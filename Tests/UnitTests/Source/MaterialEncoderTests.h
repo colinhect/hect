@@ -23,30 +23,25 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-SUITE(MaterialDataFormat)
+SUITE(MaterialEncoder)
 {
-    TEST(NoBase)
+    TEST_FIXTURE(AssetCacheFixture, ShaderTexturesAndRenderMode)
     {
-        FileSystem fileSystem;
-        fileSystem.addDataSource("Data");
+        Material& material = assetCache.get<Material>("Materials/ShaderTexturesAndRenderMode.material");
 
-        AssetCache assetCache(fileSystem);
+        CHECK_EQUAL(1u, material.techniques().size());
+        CHECK_EQUAL(1u, material.techniques()[0].passes().size());
+        CHECK_EQUAL(1u, material.techniques()[0].passes()[0].textures().size());
 
-        Material& base = assetCache.get<Material>("Base.material");
-        Shader& window = assetCache.get<Shader>("Window.shader");
+        const Pass& pass = material.techniques()[0].passes()[0];
 
-        CHECK_EQUAL(1u, base.techniques().size());
-        CHECK_EQUAL(1u, base.techniques()[0].passes().size());
-
-        const Pass& pass = base.techniques()[0].passes()[0];
-
-        CHECK_EQUAL(&window, &*pass.shader());
+        CHECK_EQUAL(1u, material.techniques()[0].passes().size());
 
         const RenderMode& renderMode = pass.renderMode();
-        CHECK(renderMode.isStateEnabled(RenderState::Blend));
-        CHECK(!renderMode.isStateEnabled(RenderState::DepthTest));
-        CHECK(!renderMode.isStateEnabled(RenderState::CullFace));
-        CHECK(BlendFactor::Zero == renderMode.sourceBlendFactor());
-        CHECK(BlendFactor::OneMinusSourceAlpha == renderMode.destBlendFactor());
+        CHECK(renderMode.isStateEnabled(RenderState::CullFace));
+        CHECK(renderMode.isStateEnabled(RenderState::DepthTest));
+        CHECK(!renderMode.isStateEnabled(RenderState::Blend));
+
+        testEncodable(material, assetCache);
     }
 }

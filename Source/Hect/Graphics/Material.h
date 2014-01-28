@@ -47,27 +47,55 @@ public:
     Material(const std::string& name);
 
     ///
-    /// Constructs a material given its techniques.
-    ///
-    /// \param name The name of the material.
-    /// \param techniques The techniques to include in the material.
-    Material(const std::string& name, const Technique::Array& techniques);
-
-    ///
     /// Returns the name.
     const std::string& name() const;
+
+    ///
+    /// Sets the name.
+    ///
+    /// \param name The new name.
+    void setName(const std::string& name);
+
+    ///
+    /// Adds a technique to the material.
+    ///
+    /// \param technique The technique to add.
+    void addTechnique(const Technique& technique);
 
     ///
     /// Returns the techniques.
     const Technique::Array& techniques() const;
 
+    ///
+    /// Encodes the mesh.
+    ///
+    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
+
+    ///
+    /// Decodes the mesh.
+    ///
+    /// \param decoder The decoder to use.
+    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
-private:
-    static RenderState _parseState(const std::string& value);
-    static BlendFactor _parseBlendFactor(const std::string& value);
+    ///
+    /// Returns whether the material is equivalent to another.
+    ///
+    /// \note Does not compare the name.
+    ///
+    /// \param material The other material.
+    bool operator==(const Material& material) const;
 
+    ///
+    /// Returns whether the material is different from another.
+    ///
+    /// \note Does not compare the name.
+    ///
+    /// \param material The other material.
+    bool operator!=(const Material& material) const;
+
+private:
     std::string _name;
     Technique::Array _techniques;
 };

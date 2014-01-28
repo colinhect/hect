@@ -40,3 +40,14 @@ const UniformValue& PassUniformValue::value() const
 {
     return _value;
 }
+
+bool PassUniformValue::operator==(const PassUniformValue& passUniformValue) const
+{
+    return _uniformName == passUniformValue.uniformName()
+        && _value == passUniformValue.value();
+}
+
+bool PassUniformValue::operator!=(const PassUniformValue& passUniformValue) const
+{
+    return !(*this == passUniformValue);
+}

@@ -93,6 +93,10 @@ public:
     /// Returns whether the handle refers to the same asset as another handle.
     bool operator==(const AssetHandle<T>& handle) const;
 
+    ///
+    /// Returns whether the handle refers to a different asset as another handle.
+    bool operator!=(const AssetHandle<T>& handle) const;
+
 private:
     std::shared_ptr<T> _asset;
     std::shared_ptr<AssetEntry<T>> _entry;

@@ -64,7 +64,17 @@ public:
     /// Returns whether fullscreen is enabled.
     bool isFullscreen() const;
 
+    ///
+    /// Encodes the video mode.
+    ///
+    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
+
+    ///
+    /// Decodes the video mode.
+    ///
+    /// \param decoder The decoder to use.
+    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:

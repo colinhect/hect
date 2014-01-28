@@ -58,6 +58,18 @@ public:
     /// Returns the passes.
     const Pass::Array& passes() const;
 
+    ///
+    /// Returns whether the technique is equivalent to another.
+    ///
+    /// \param technique The other technique.
+    bool operator==(const Technique& technique) const;
+
+    ///
+    /// Returns whether the technique is different from another.
+    ///
+    /// \param technique The other technique.
+    bool operator!=(const Technique& technique) const;
+
 private:
     Pass::Array _passes;
 };

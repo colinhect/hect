@@ -21,51 +21,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Technique.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Graphics/Texture.h"
 
-Technique::Technique()
+namespace hect
 {
-}
 
-Technique::Technique(const Pass::Array& passes) :
-    _passes(passes)
+class TextureEncoder
 {
-}
+public:
+    static void encode(const Texture& texture, ObjectEncoder& encoder);
+    static void decode(Texture& texture, ObjectDecoder& decoder, AssetCache& assetCache);
 
-Pass::Array& Technique::passes()
-{
-    return _passes;
-}
+    static TextureFilter textureFilterFromString(const std::string& value);
+};
 
-const Pass::Array& Technique::passes() const
-{
-    return _passes;
-}
-
-bool Technique::operator==(const Technique& technique) const
-{
-    // Pass count
-    if (_passes.size() != technique.passes().size())
-    {
-        return false;
-    }
-
-    // Passes
-    size_t passCount = _passes.size();
-    for (size_t i = 0; i < passCount; ++i)
-    {
-        if (_passes[i] != technique.passes()[i])
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool Technique::operator!=(const Technique& technique) const
-{
-    return !(*this == technique);
 }

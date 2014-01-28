@@ -62,3 +62,15 @@ BlendFactor RenderMode::destBlendFactor() const
 {
     return _destFactor;
 }
+
+bool RenderMode::operator==(const RenderMode& renderMode) const
+{
+    return _stateBits == renderMode._stateBits
+        && _sourceFactor == renderMode.sourceBlendFactor()
+        && _destFactor == renderMode.destBlendFactor();
+}
+
+bool RenderMode::operator!=(const RenderMode& renderMode) const
+{
+    return !(*this == renderMode);
+}

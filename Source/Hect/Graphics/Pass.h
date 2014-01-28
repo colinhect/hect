@@ -82,6 +82,18 @@ public:
     /// Returns the uniform values.
     const PassUniformValue::Array& uniformValues() const;
 
+    ///
+    /// Returns whether the pass is equivalent to another.
+    ///
+    /// \param pass The other pass.
+    bool operator==(const Pass& pass) const;
+
+    ///
+    /// Returns whether the pass is different from another.
+    ///
+    /// \param pass The other pass.
+    bool operator!=(const Pass& pass) const;
+
 private:
 
     // Resolves which uniforms the uniform values apply to for fast

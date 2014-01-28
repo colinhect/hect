@@ -61,9 +61,6 @@
     <ClInclude Include="Source\TaskPoolTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MaterialDataFormatTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SceneTests.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -98,6 +95,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\UniformValueEncoderTests.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MaterialEncoderTests.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

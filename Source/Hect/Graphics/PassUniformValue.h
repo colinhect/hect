@@ -55,6 +55,18 @@ public:
     /// Returns the value.
     const UniformValue& value() const;
 
+    ///
+    /// Returns whether the pass uniform value is equivalent to another.
+    ///
+    /// \param passUniformValue The other pass uniform value.
+    bool operator==(const PassUniformValue& passUniformValue) const;
+
+    ///
+    /// Returns whether the pass uniform value is different from another.
+    ///
+    /// \param passUniformValue The other pass uniform value.
+    bool operator!=(const PassUniformValue& passUniformValue) const;
+
 private:
     std::string _uniformName;
     UniformValue _value;

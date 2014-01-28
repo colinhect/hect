@@ -21,51 +21,24 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Technique.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Graphics/Material.h"
 
-Technique::Technique()
+namespace hect
 {
-}
 
-Technique::Technique(const Pass::Array& passes) :
-    _passes(passes)
+class MaterialEncoder
 {
-}
+public:
+    static void encode(const Material& material, ObjectEncoder& encoder);
+    static void decode(Material& material, ObjectDecoder& decoder, AssetCache& assetCache);
 
-Pass::Array& Technique::passes()
-{
-    return _passes;
-}
+    static RenderState renderStateFromString(const std::string& value);
+    static std::string renderStateToString(const RenderState& renderState);
 
-const Pass::Array& Technique::passes() const
-{
-    return _passes;
-}
+    static BlendFactor blendFactorFromString(const std::string& value);
+    static std::string blendFactorToString(const BlendFactor& blendFactor);
+};
 
-bool Technique::operator==(const Technique& technique) const
-{
-    // Pass count
-    if (_passes.size() != technique.passes().size())
-    {
-        return false;
-    }
-
-    // Passes
-    size_t passCount = _passes.size();
-    for (size_t i = 0; i < passCount; ++i)
-    {
-        if (_passes[i] != technique.passes()[i])
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool Technique::operator!=(const Technique& technique) const
-{
-    return !(*this == technique);
 }

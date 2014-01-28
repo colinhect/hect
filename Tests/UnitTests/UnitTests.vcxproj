@@ -166,7 +166,7 @@
     <ClInclude Include="Source\MeshReaderTests.h" />
     <ClInclude Include="Source\SceneTests.h" />
     <ClInclude Include="Source\FileSystemTests.h" />
-    <ClInclude Include="Source\MaterialDataFormatTests.h" />
+    <ClInclude Include="Source\MaterialEncoderTests.h" />
     <ClInclude Include="Source\DataValueTests.h" />
     <ClInclude Include="Source\FrustumTests.h" />
     <ClInclude Include="Source\Matrix4Tests.h" />

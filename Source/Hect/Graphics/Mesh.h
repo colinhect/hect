@@ -189,7 +189,6 @@ public:
     /// before the index data is set.
     void setIndexData(const IndexData& indexData);
 
-
     ///
     /// Returns the number of indices.
     size_t indexCount() const;

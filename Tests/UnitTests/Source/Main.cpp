@@ -46,7 +46,7 @@ using namespace hect;
 #include "FileSystemTests.h"
 #include "FormatTests.h"
 #include "FrustumTests.h"
-#include "MaterialDataFormatTests.h"
+#include "MaterialEncoderTests.h"
 #include "Matrix4Tests.h"
 #include "MeshEncoderTests.h"
 #include "MeshTests.h"

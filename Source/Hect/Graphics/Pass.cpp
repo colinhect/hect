@@ -86,6 +86,60 @@ const PassUniformValue::Array& Pass::uniformValues() const
     return _uniformValues;
 }
 
+bool Pass::operator==(const Pass& pass) const
+{
+    // Render mode
+    if (_renderMode != pass.renderMode())
+    {
+        return false;
+    }
+
+    // Texture count
+    if (_textures.size() != pass.textures().size())
+    {
+        return false;
+    }
+
+    // Textures
+    size_t textureCount = _textures.size();
+    for (size_t i = 0; i < textureCount; ++i)
+    {
+        if (_textures[i] != pass.textures()[i])
+        {
+            return false;
+        }
+    }
+
+    // Shader
+    if (_shader != pass.shader())
+    {
+        return _shader;
+    }
+
+    // Uniform value count
+    if (_uniformValues.size() != pass.uniformValues().size())
+    {
+        return false;
+    }
+
+    // Textures
+    size_t uniformValueCount = _uniformValues.size();
+    for (size_t i = 0; i < uniformValueCount; ++i)
+    {
+        if (_uniformValues[i] != pass.uniformValues()[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Pass::operator!=(const Pass& pass) const
+{
+    return !(*this == pass);
+}
+
 void Pass::_resolvePassUniformValues()
 {
     // Resolve the uniforms that the uniform values refer to (this would be

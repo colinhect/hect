@@ -35,6 +35,6 @@ void AssetLoader<Material>::load(Material& material, const Path& assetPath, Asse
         dataValue.decodeFromJson(stream);
     }
 
-    material = Material(assetPath.toString());
+    material.setName(assetPath.toString());
     material.decodeFromDataValue(dataValue, assetCache);
 }
