@@ -23,19 +23,19 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Asset/AssetLoader.h"
 #include "Hect/Asset/AssetCache.h"
-#include "Hect/Core/DataValue.h"
+#include "Hect/IO/JsonValue.h"
 #include "Hect/Graphics/Shader.h"
 
 using namespace hect;
 
 void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache& assetCache)
 {
-    DataValue dataValue;
+    JsonValue jsonValue;
     {
         FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-        dataValue.decodeFromJson(stream);
+        jsonValue.decodeFromJson(stream);
     }
 
     shader.setName(assetPath.toString());
-    shader.decodeFromDataValue(dataValue, assetCache);
+    shader.decodeFromJsonValue(jsonValue, assetCache);
 }

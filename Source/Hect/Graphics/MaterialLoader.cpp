@@ -22,19 +22,19 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Asset/AssetLoader.h"
-#include "Hect/Core/DataValue.h"
+#include "Hect/IO/JsonValue.h"
 #include "Hect/Graphics/Material.h"
 
 using namespace hect;
 
 void AssetLoader<Material>::load(Material& material, const Path& assetPath, AssetCache& assetCache)
 {
-    DataValue dataValue;
+    JsonValue jsonValue;
     {
         FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-        dataValue.decodeFromJson(stream);
+        jsonValue.decodeFromJson(stream);
     }
 
     material.setName(assetPath.toString());
-    material.decodeFromDataValue(dataValue, assetCache);
+    material.decodeFromJsonValue(jsonValue, assetCache);
 }

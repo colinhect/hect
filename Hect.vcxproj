@@ -26,7 +26,6 @@
     <ClInclude Include="Source\Hect\Asset\AssetLoader.h" />
     <ClInclude Include="Source\Hect\Core\Any.h" />
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
-    <ClInclude Include="Source\Hect\Core\DataValue.h" />
     <ClInclude Include="Source\Hect\Core\Dispatcher.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
     <ClInclude Include="Source\Hect\Core\Format.h" />
@@ -82,8 +81,10 @@
     <ClInclude Include="Source\Hect\Input\Keyboard.h" />
     <ClInclude Include="Source\Hect\Input\Mouse.h" />
     <ClInclude Include="Source\Hect\Internal\Bullet.h" />
-    <ClInclude Include="Source\Hect\IO\DataDecoder.h" />
-    <ClInclude Include="Source\Hect\IO\DataEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\BinaryDecoder.h" />
+    <ClInclude Include="Source\Hect\IO\BinaryEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\Decoder.h" />
+    <ClInclude Include="Source\Hect\IO\Encoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\ImagePngEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\InputAxisEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\MaterialEncoder.h" />
@@ -96,6 +97,10 @@
     <ClInclude Include="Source\Hect\IO\FileReadStream.h" />
     <ClInclude Include="Source\Hect\IO\FileSystem.h" />
     <ClInclude Include="Source\Hect\IO\FileWriteStream.h" />
+    <ClInclude Include="Source\Hect\IO\EncodingMagicNumber.h" />
+    <ClInclude Include="Source\Hect\IO\JsonDecoder.h" />
+    <ClInclude Include="Source\Hect\IO\JsonEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\JsonValue.h" />
     <ClInclude Include="Source\Hect\IO\MemoryReadStream.h" />
     <ClInclude Include="Source\Hect\IO\MemoryWriteStream.h" />
     <ClInclude Include="Source\Hect\IO\Path.h" />
@@ -123,8 +128,6 @@
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp" />
     <ClCompile Include="Source\Hect\Core\Any.cpp" />
-    <ClCompile Include="Source\Hect\Core\DataValue.cpp" />
-    <ClCompile Include="Source\Hect\Core\DataValueLoader.cpp" />
     <ClCompile Include="Source\Hect\Core\Error.cpp" />
     <ClCompile Include="Source\Hect\Core\Format.cpp" />
     <ClCompile Include="Source\Hect\Core\Logging.cpp" />
@@ -181,8 +184,10 @@
     <ClCompile Include="Source\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="Source\Hect\Input\Mouse.cpp" />
     <ClCompile Include="Source\Hect\Internal\Bullet.cpp" />
-    <ClCompile Include="Source\Hect\IO\DataDecoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\DataEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\BinaryDecoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\BinaryEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Decoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\ImagePngEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\InputAxisEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\MaterialEncoder.cpp" />
@@ -195,6 +200,10 @@
     <ClCompile Include="Source\Hect\IO\FileReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\FileSystem.cpp" />
     <ClCompile Include="Source\Hect\IO\FileWriteStream.cpp" />
+    <ClCompile Include="Source\Hect\IO\JsonDecoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\JsonEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\JsonValue.cpp" />
+    <ClCompile Include="Source\Hect\IO\JsonValueLoader.cpp" />
     <ClCompile Include="Source\Hect\IO\MemoryReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\MemoryWriteStream.cpp" />
     <ClCompile Include="Source\Hect\IO\Path.cpp" />

@@ -21,16 +21,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/Asset/AssetCache.h"
-#include "Hect/Asset/AssetLoader.h"
-#include "Hect/Core/DataValue.h"
-#include "Hect/IO/Path.h"
-#include "Hect/IO/FileReadStream.h"
+#pragma once
 
-using namespace hect;
+#include <cstdint>
 
-void AssetLoader<DataValue>::load(DataValue& dataValue, const Path& assetPath, AssetCache& assetCache)
+enum EncodingMagicNumber : uint8_t
 {
-    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-    dataValue.decodeFromJson(stream);
-}
+    BeginObject = 0xfa,
+    EndObject = 0xfb,
+    BeginArray = 0xfc,
+    EndArray = 0xfd
+};

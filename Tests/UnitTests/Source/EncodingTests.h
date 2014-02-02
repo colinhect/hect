@@ -23,18 +23,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-void testEncodeAndDecode(std::function<void(DataEncoder&)> encode, std::function<void(DataDecoder&)> decode)
+void testEncodeAndDecode(std::function<void(Encoder&)> encode, std::function<void(Decoder&)> decode)
 {
     // JSON
     {
-        DataValue dataValue;
+        JsonValue jsonValue;
         {
-            DataValueEncoder encoder;
+            JsonEncoder encoder;
             encode(encoder);
-            dataValue = encoder.dataValues()[0];
+            jsonValue = encoder.jsonValues()[0];
         }
         {
-            DataValueDecoder decoder(dataValue);
+            JsonDecoder decoder(jsonValue);
             decode(decoder);
         }
     }
@@ -55,15 +55,15 @@ void testEncodeAndDecode(std::function<void(DataEncoder&)> encode, std::function
     }
 }
 
-SUITE(DataEncoding)
+SUITE(Encoding)
 {
     TEST(SingleObject)
     {
-        testEncodeAndDecode([] (DataEncoder& encoder)
+        testEncodeAndDecode([] (Encoder& encoder)
         {
             ObjectEncoder object = encoder.encodeObject();
             object.encodeString("String", "Testing");
-        }, [] (DataDecoder& decoder)
+        }, [] (Decoder& decoder)
         {
             ObjectDecoder object = decoder.decodeObject();
 
@@ -74,13 +74,13 @@ SUITE(DataEncoding)
 
     TEST(SingleArray)
     {
-        testEncodeAndDecode([] (DataEncoder& encoder)
+        testEncodeAndDecode([] (Encoder& encoder)
         {
             ArrayEncoder array = encoder.encodeArray();
             array.encodeString("Zero");
             array.encodeString("One");
             array.encodeString("Two");
-        }, [] (DataDecoder& decoder)
+        }, [] (Decoder& decoder)
         {
             ArrayDecoder array = decoder.decodeArray();
 
@@ -98,14 +98,14 @@ SUITE(DataEncoding)
 
     TEST(ArrayInObject)
     {
-        testEncodeAndDecode([] (DataEncoder& encoder)
+        testEncodeAndDecode([] (Encoder& encoder)
         {
             ObjectEncoder object = encoder.encodeObject();
             ArrayEncoder array = object.encodeArray("Array");
             array.encodeString("Zero");
             array.encodeString("One");
             array.encodeString("Two");
-        }, [] (DataDecoder& decoder)
+        }, [] (Decoder& decoder)
         {
             ObjectDecoder object = decoder.decodeObject();
 
@@ -127,7 +127,7 @@ SUITE(DataEncoding)
 
     TEST(ArrayInArray)
     {
-        testEncodeAndDecode([] (DataEncoder& encoder)
+        testEncodeAndDecode([] (Encoder& encoder)
         {
             ArrayEncoder array = encoder.encodeArray();
 
@@ -138,7 +138,7 @@ SUITE(DataEncoding)
                 nested.encodeString("One");
                 nested.encodeString("Two");
             }
-        }, [] (DataDecoder& decoder)
+        }, [] (Decoder& decoder)
         {
             ArrayDecoder array = decoder.decodeArray();
 
@@ -166,7 +166,7 @@ SUITE(DataEncoding)
 
     TEST(ObjectInArray)
     {
-        testEncodeAndDecode([] (DataEncoder& encoder)
+        testEncodeAndDecode([] (Encoder& encoder)
         {
             ArrayEncoder array = encoder.encodeArray();
 
@@ -175,7 +175,7 @@ SUITE(DataEncoding)
                 ObjectEncoder object = array.encodeObject();
                 object.encodeString("String", "Testing");
             }
-        }, [] (DataDecoder& decoder)
+        }, [] (Decoder& decoder)
         {
             ArrayDecoder array = decoder.decodeArray();
 
@@ -196,7 +196,7 @@ SUITE(DataEncoding)
 
     TEST(AllInArray)
     {
-        testEncodeAndDecode([] (DataEncoder& encoder)
+        testEncodeAndDecode([] (Encoder& encoder)
         {
             ArrayEncoder array = encoder.encodeArray();
 
@@ -216,7 +216,7 @@ SUITE(DataEncoding)
             array.encodeVector2(Vector2(1, 2));
             array.encodeVector3(Vector3(1, 2, 3));
             array.encodeVector4(Vector4(1, 2, 3, 4));
-        }, [] (DataDecoder& decoder)
+        }, [] (Decoder& decoder)
         {
             ArrayDecoder array = decoder.decodeArray();
 
@@ -266,7 +266,7 @@ SUITE(DataEncoding)
 
     TEST(AllInObject)
     {
-        testEncodeAndDecode([] (DataEncoder& encoder)
+        testEncodeAndDecode([] (Encoder& encoder)
         {
             ObjectEncoder object = encoder.encodeObject();
 
@@ -286,7 +286,7 @@ SUITE(DataEncoding)
             object.encodeVector2("Vector2", Vector2(1, 2));
             object.encodeVector3("Vector3", Vector3(1, 2, 3));
             object.encodeVector4("Vector4", Vector4(1, 2, 3, 4));
-        }, [] (DataDecoder& decoder)
+        }, [] (Decoder& decoder)
         {
             ObjectDecoder object = decoder.decodeObject();
 

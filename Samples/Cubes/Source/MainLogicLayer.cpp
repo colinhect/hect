@@ -38,8 +38,8 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _scene.addSystem(_physicsSystem);
     _scene.addSystem(_playerCameraSystem);
 
-    DataValue& sceneDataValue = assetCache.get<DataValue>("Scene.scene");
-    _scene.decodeFromDataValue(sceneDataValue, assetCache);
+    JsonValue& sceneJsonValue = assetCache.get<JsonValue>("Scene.scene");
+    _scene.decodeFromJsonValue(sceneJsonValue, assetCache);
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);

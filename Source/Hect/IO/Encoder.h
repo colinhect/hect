@@ -23,9 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <stack>
-
-#include "Hect/Core/DataValue.h"
 #include "Hect/IO/WriteStream.h"
 
 namespace hect
@@ -35,8 +32,8 @@ namespace hect
 /// Provides access for encoding an array.
 class ArrayEncoder
 {
-    friend class DataEncoder;
-    friend class DataValueEncoder;
+    friend class Encoder;
+    friend class JsonEncoder;
     friend class BinaryEncoder;
 
     friend class ObjectEncoder;
@@ -165,15 +162,15 @@ public:
 
 private:
     ArrayEncoder();
-    ArrayEncoder(DataEncoder* encoder);
+    ArrayEncoder(Encoder* encoder);
 
-    DataEncoder* _encoder;
+    Encoder* _encoder;
 };
 
 class ObjectEncoder
 {
-    friend class DataEncoder;
-    friend class DataValueEncoder;
+    friend class Encoder;
+    friend class JsonEncoder;
     friend class BinaryEncoder;
 
     friend class ArrayEncoder;
@@ -322,14 +319,14 @@ public:
 
 private:
     ObjectEncoder();
-    ObjectEncoder(DataEncoder* encoder);
+    ObjectEncoder(Encoder* encoder);
 
-    DataEncoder* _encoder;
+    Encoder* _encoder;
 };
 
 ///
 /// Provides abstract access for encoding structured data.
-class DataEncoder
+class Encoder
 {
     friend class ArrayEncoder;
     friend class ObjectEncoder;
@@ -400,137 +397,4 @@ protected:
     virtual void encodeVector4(const char* name, const Vector4& value) = 0;
 };
 
-///
-/// Provides access for encoding structured data to a data value.
-class DataValueEncoder :
-    public DataEncoder
-{
-public:
-    bool isBinaryStream() const;
-    WriteStream& binaryStream();
-
-    ArrayEncoder encodeArray();
-    ObjectEncoder encodeObject();
-
-    ///
-    /// Returns the encoded data values.
-    DataValue::Array& dataValues();
-
-private:
-    void beginArray();
-    void beginArray(const char* name);
-    void endArray();
-
-    void beginObject();
-    void beginObject(const char* name);
-    void endObject();
-
-    void encodeString(const std::string& value);
-    void encodeString(const char* name, const std::string& value);
-    void encodeByte(int8_t value);
-    void encodeByte(const char* name, int8_t value);
-    void encodeUnsignedByte(uint8_t value);
-    void encodeUnsignedByte(const char* name, uint8_t value);
-    void encodeShort(int16_t value);
-    void encodeShort(const char* name, int16_t value);
-    void encodeUnsignedShort(uint16_t value);
-    void encodeUnsignedShort(const char* name, uint16_t value);
-    void encodeInt(int32_t value);
-    void encodeInt(const char* name, int32_t value);
-    void encodeUnsignedInt(uint32_t value);
-    void encodeUnsignedInt(const char* name, uint32_t value);
-    void encodeLong(int64_t value);
-    void encodeLong(const char* name, int64_t value);
-    void encodeUnsignedLong(uint64_t value);
-    void encodeUnsignedLong(const char* name, uint64_t value);
-    void encodeFloat(float value);
-    void encodeFloat(const char* name, float value);
-    void encodeDouble(double value);
-    void encodeDouble(const char* name, double value);
-    void encodeReal(Real value);
-    void encodeReal(const char* name, Real value);
-    void encodeBool(bool value);
-    void encodeBool(const char* name, bool value);
-    void encodeVector2(const Vector2& value);
-    void encodeVector2(const char* name, const Vector2& value);
-    void encodeVector3(const Vector3& value);
-    void encodeVector3(const char* name, const Vector3& value);
-    void encodeVector4(const Vector4& value);
-    void encodeVector4(const char* name, const Vector4& value);
-
-    void _encode(const DataValue& value);
-    void _encode(const char* name, const DataValue& value);
-
-    std::stack<std::string> _nameStack;
-    std::stack<DataValue> _valueStack;
-
-    DataValue::Array _completed;
-};
-
-///
-/// Provides access for encoding structured data to a binary stream.
-class BinaryEncoder :
-    public DataEncoder
-{
-public:
-
-    ///
-    /// Constructs an encoder given the stream to encode to.
-    ///
-    /// \param stream The stream to encode to.
-    BinaryEncoder(WriteStream& stream);
-
-    bool isBinaryStream() const;
-    WriteStream& binaryStream();
-
-    ArrayEncoder encodeArray();
-    ObjectEncoder encodeObject();
-
-private:
-    void beginArray();
-    void beginArray(const char* name);
-    void endArray();
-
-    void beginObject();
-    void beginObject(const char* name);
-    void endObject();
-
-    void encodeString(const std::string& value);
-    void encodeString(const char* name, const std::string& value);
-    void encodeByte(int8_t value);
-    void encodeByte(const char* name, int8_t value);
-    void encodeUnsignedByte(uint8_t value);
-    void encodeUnsignedByte(const char* name, uint8_t value);
-    void encodeShort(int16_t value);
-    void encodeShort(const char* name, int16_t value);
-    void encodeUnsignedShort(uint16_t value);
-    void encodeUnsignedShort(const char* name, uint16_t value);
-    void encodeInt(int32_t value);
-    void encodeInt(const char* name, int32_t value);
-    void encodeUnsignedInt(uint32_t value);
-    void encodeUnsignedInt(const char* name, uint32_t value);
-    void encodeLong(int64_t value);
-    void encodeLong(const char* name, int64_t value);
-    void encodeUnsignedLong(uint64_t value);
-    void encodeUnsignedLong(const char* name, uint64_t value);
-    void encodeFloat(float value);
-    void encodeFloat(const char* name, float value);
-    void encodeDouble(double value);
-    void encodeDouble(const char* name, double value);
-    void encodeReal(Real value);
-    void encodeReal(const char* name, Real value);
-    void encodeBool(bool value);
-    void encodeBool(const char* name, bool value);
-    void encodeVector2(const Vector2& value);
-    void encodeVector2(const char* name, const Vector2& value);
-    void encodeVector3(const Vector3& value);
-    void encodeVector3(const char* name, const Vector3& value);
-    void encodeVector4(const Vector4& value);
-    void encodeVector4(const char* name, const Vector4& value);
-
-    std::stack<size_t> _countPositionStack;
-    std::stack<unsigned> _countStack;
-
-    WriteStream* _stream;
-};
 }

@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "DataValue.h"
+#include "JsonValue.h"
 
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
@@ -30,142 +30,142 @@
 
 using namespace hect;
 
-const DataValue DataValue::_null;
-const DataValue::Array DataValue::_emptyArray;
+const JsonValue JsonValue::_null;
+const JsonValue::Array JsonValue::_emptyArray;
 
-DataValue::DataValue() :
-    _type(DataValueType::Null)
+JsonValue::JsonValue() :
+    _type(JsonValueType::Null)
 {
 }
 
-DataValue::DataValue(DataValueType type) :
+JsonValue::JsonValue(JsonValueType type) :
     _type(type)
 {
     switch (type)
     {
-    case DataValueType::Bool:
+    case JsonValueType::Bool:
         _any = false;
         break;
-    case DataValueType::Number:
+    case JsonValueType::Number:
         _any = 0.0;
         break;
-    case DataValueType::String:
+    case JsonValueType::String:
         _any = std::string();
         break;
-    case DataValueType::Array:
-        _any = DataValue::Array();
+    case JsonValueType::Array:
+        _any = JsonValue::Array();
         break;
-    case DataValueType::Object:
-        _any = DataValue::Object();
+    case JsonValueType::Object:
+        _any = JsonValue::Object();
         break;
     }
 }
 
-DataValue::DataValue(bool value) :
-    _type(DataValueType::Bool),
+JsonValue::JsonValue(bool value) :
+    _type(JsonValueType::Bool),
     _any(value)
 {
 }
 
-DataValue::DataValue(int value) :
-    _type(DataValueType::Number),
+JsonValue::JsonValue(int value) :
+    _type(JsonValueType::Number),
     _any((double)value)
 {
 }
 
-DataValue::DataValue(unsigned value) :
-    _type(DataValueType::Number),
+JsonValue::JsonValue(unsigned value) :
+    _type(JsonValueType::Number),
     _any((double)value)
 {
 }
 
-DataValue::DataValue(double value) :
-    _type(DataValueType::Number),
+JsonValue::JsonValue(double value) :
+    _type(JsonValueType::Number),
     _any(value)
 {
 }
 
-DataValue::DataValue(const Vector2& value) :
-    _type(DataValueType::Array),
-    _any(DataValue::Array())
+JsonValue::JsonValue(const Vector2& value) :
+    _type(JsonValueType::Array),
+    _any(JsonValue::Array())
 {
-    DataValue::Array& elements = _any.as<DataValue::Array>();
+    JsonValue::Array& elements = _any.as<JsonValue::Array>();
     elements.push_back(value.x);
     elements.push_back(value.y);
 }
 
-DataValue::DataValue(const Vector3& value) :
-    _type(DataValueType::Array),
-    _any(DataValue::Array())
+JsonValue::JsonValue(const Vector3& value) :
+    _type(JsonValueType::Array),
+    _any(JsonValue::Array())
 {
-    DataValue::Array& elements = _any.as<DataValue::Array>();
+    JsonValue::Array& elements = _any.as<JsonValue::Array>();
     elements.push_back(value.x);
     elements.push_back(value.y);
     elements.push_back(value.z);
 }
 
-DataValue::DataValue(const Vector4& value) :
-    _type(DataValueType::Array),
-    _any(DataValue::Array())
+JsonValue::JsonValue(const Vector4& value) :
+    _type(JsonValueType::Array),
+    _any(JsonValue::Array())
 {
-    DataValue::Array& elements = _any.as<DataValue::Array>();
+    JsonValue::Array& elements = _any.as<JsonValue::Array>();
     elements.push_back(value.x);
     elements.push_back(value.y);
     elements.push_back(value.z);
     elements.push_back(value.w);
 }
 
-DataValue::DataValue(const Matrix4& value) :
-    _type(DataValueType::Array),
-    _any(DataValue::Array())
+JsonValue::JsonValue(const Matrix4& value) :
+    _type(JsonValueType::Array),
+    _any(JsonValue::Array())
 {
-    DataValue::Array& elements = _any.as<DataValue::Array>();
+    JsonValue::Array& elements = _any.as<JsonValue::Array>();
     for (unsigned i = 0; i < 16; ++i)
     {
         elements.push_back(value[i]);
     }
 }
 
-DataValue::DataValue(const Quaternion& value) :
-    _type(DataValueType::Array),
-    _any(DataValue::Array())
+JsonValue::JsonValue(const Quaternion& value) :
+    _type(JsonValueType::Array),
+    _any(JsonValue::Array())
 {
-    DataValue::Array& elements = _any.as<DataValue::Array>();
+    JsonValue::Array& elements = _any.as<JsonValue::Array>();
     elements.push_back(value.x);
     elements.push_back(value.y);
     elements.push_back(value.z);
     elements.push_back(value.w);
 }
 
-DataValue::DataValue(const char* value) :
-    _type(DataValueType::String),
+JsonValue::JsonValue(const char* value) :
+    _type(JsonValueType::String),
     _any(std::string(value))
 {
 }
 
-DataValue::DataValue(const std::string& value) :
-    _type(DataValueType::String),
+JsonValue::JsonValue(const std::string& value) :
+    _type(JsonValueType::String),
     _any(value)
 {
 }
 
-DataValue::DataValue(DataValue&& dataValue) :
-    _type(dataValue._type),
-    _any(std::move(dataValue._any))
+JsonValue::JsonValue(JsonValue&& jsonValue) :
+    _type(jsonValue._type),
+    _any(std::move(jsonValue._any))
 {
-    dataValue._type = DataValueType::Null;
+    jsonValue._type = JsonValueType::Null;
 }
 
-DataValueType DataValue::type() const
+JsonValueType JsonValue::type() const
 {
     return _type;
 }
 
-const DataValue& DataValue::or(const DataValue& dataValue) const
+const JsonValue& JsonValue::or(const JsonValue& jsonValue) const
 {
     if (isNull())
     {
-        return dataValue;
+        return jsonValue;
     }
     else
     {
@@ -173,37 +173,37 @@ const DataValue& DataValue::or(const DataValue& dataValue) const
     }
 }
 
-bool DataValue::isNull() const
+bool JsonValue::isNull() const
 {
-    return _type == DataValueType::Null;
+    return _type == JsonValueType::Null;
 }
 
-bool DataValue::isBool() const
+bool JsonValue::isBool() const
 {
-    return _type == DataValueType::Bool;
+    return _type == JsonValueType::Bool;
 }
 
-bool DataValue::isNumber() const
+bool JsonValue::isNumber() const
 {
-    return _type == DataValueType::Number;
+    return _type == JsonValueType::Number;
 }
 
-bool DataValue::isString() const
+bool JsonValue::isString() const
 {
-    return _type == DataValueType::String;
+    return _type == JsonValueType::String;
 }
 
-bool DataValue::isArray() const
+bool JsonValue::isArray() const
 {
-    return _type == DataValueType::Array;
+    return _type == JsonValueType::Array;
 }
 
-bool DataValue::isObject() const
+bool JsonValue::isObject() const
 {
-    return _type == DataValueType::Object;
+    return _type == JsonValueType::Object;
 }
 
-bool DataValue::asBool() const
+bool JsonValue::asBool() const
 {
     if (isBool())
     {
@@ -215,7 +215,7 @@ bool DataValue::asBool() const
     }
 }
 
-int DataValue::asInt() const
+int JsonValue::asInt() const
 {
     if (isNumber())
     {
@@ -227,7 +227,7 @@ int DataValue::asInt() const
     }
 }
 
-unsigned DataValue::asUnsigned() const
+unsigned JsonValue::asUnsigned() const
 {
     if (isNumber())
     {
@@ -239,7 +239,7 @@ unsigned DataValue::asUnsigned() const
     }
 }
 
-double DataValue::asDouble() const
+double JsonValue::asDouble() const
 {
     if (isNumber())
     {
@@ -251,17 +251,17 @@ double DataValue::asDouble() const
     }
 }
 
-Real DataValue::asReal() const
+Real JsonValue::asReal() const
 {
     return (Real)asDouble();
 }
 
-Vector2 DataValue::asVector2() const
+Vector2 JsonValue::asVector2() const
 {
     Vector2 result;
 
     size_t i = 0;
-    for (const DataValue& component : *this)
+    for (const JsonValue& component : *this)
     {
         if (i < 2)
         {
@@ -276,12 +276,12 @@ Vector2 DataValue::asVector2() const
     return result;
 }
 
-Vector3 DataValue::asVector3() const
+Vector3 JsonValue::asVector3() const
 {
     Vector3 result;
 
     size_t i = 0;
-    for (const DataValue& component : *this)
+    for (const JsonValue& component : *this)
     {
         if (i < 3)
         {
@@ -296,12 +296,12 @@ Vector3 DataValue::asVector3() const
     return result;
 }
 
-Vector4 DataValue::asVector4() const
+Vector4 JsonValue::asVector4() const
 {
     Vector4 result;
 
     size_t i = 0;
-    for (const DataValue& component : *this)
+    for (const JsonValue& component : *this)
     {
         if (i < 4)
         {
@@ -316,12 +316,12 @@ Vector4 DataValue::asVector4() const
     return result;
 }
 
-Matrix4 DataValue::asMatrix4() const
+Matrix4 JsonValue::asMatrix4() const
 {
     Matrix4 result;
 
     size_t i = 0;
-    for (const DataValue& component : *this)
+    for (const JsonValue& component : *this)
     {
         if (i < 16)
         {
@@ -336,12 +336,12 @@ Matrix4 DataValue::asMatrix4() const
     return result;
 }
 
-Quaternion DataValue::asQuaternion() const
+Quaternion JsonValue::asQuaternion() const
 {
     Quaternion result;
 
     size_t i = 0;
-    for (const DataValue& component : *this)
+    for (const JsonValue& component : *this)
     {
         if (i < 4)
         {
@@ -356,7 +356,7 @@ Quaternion DataValue::asQuaternion() const
     return result;
 }
 
-const std::string& DataValue::asString() const
+const std::string& JsonValue::asString() const
 {
     static std::string empty;
 
@@ -370,26 +370,26 @@ const std::string& DataValue::asString() const
     }
 }
 
-size_t DataValue::size() const
+size_t JsonValue::size() const
 {
     if (isArray())
     {
-        return _any.as<DataValue::Array>().size();
+        return _any.as<JsonValue::Array>().size();
     }
     else if (isObject())
     {
-        return _any.as<DataValue::Object>().size();
+        return _any.as<JsonValue::Object>().size();
     }
 
     return 0;
 }
 
-std::vector<std::string> DataValue::memberNames() const
+std::vector<std::string> JsonValue::memberNames() const
 {
     if (isObject())
     {
         std::vector<std::string> result;
-        for (auto& pair : _any.as<DataValue::Object>())
+        for (auto& pair : _any.as<JsonValue::Object>())
         {
             result.push_back(pair.first);
         }
@@ -401,35 +401,35 @@ std::vector<std::string> DataValue::memberNames() const
     }
 }
 
-void DataValue::addMember(const std::string& name, const DataValue& dataValue)
+void JsonValue::addMember(const std::string& name, const JsonValue& jsonValue)
 {
     if (isObject())
     {
-        _any.as<DataValue::Object>()[name] = dataValue;
+        _any.as<JsonValue::Object>()[name] = jsonValue;
     }
     else
     {
-        throw Error("The data value is not an object");
+        throw Error("The JSON value is not an object");
     }
 }
 
-void DataValue::addElement(const DataValue& dataValue)
+void JsonValue::addElement(const JsonValue& jsonValue)
 {
     if (isArray())
     {
-        _any.as<DataValue::Array>().push_back(dataValue);
+        _any.as<JsonValue::Array>().push_back(jsonValue);
     }
     else
     {
-        throw Error("The data value is not an array");
+        throw Error("The JSON value is not an array");
     }
 }
 
-const DataValue& DataValue::operator[](size_t index) const
+const JsonValue& JsonValue::operator[](size_t index) const
 {
     if (isArray())
     {
-        const Array& array = _any.as<DataValue::Array>();
+        const Array& array = _any.as<JsonValue::Array>();
         if (index < array.size())
         {
             return array[index];
@@ -445,11 +445,11 @@ const DataValue& DataValue::operator[](size_t index) const
     }
 }
 
-const DataValue& DataValue::operator[](const std::string& name) const
+const JsonValue& JsonValue::operator[](const std::string& name) const
 {
     if (isObject())
     {
-        const DataValue::Object& members = _any.as<DataValue::Object>();
+        const JsonValue::Object& members = _any.as<JsonValue::Object>();
         auto it = members.find(name);
         if (it == members.end())
         {
@@ -463,11 +463,11 @@ const DataValue& DataValue::operator[](const std::string& name) const
     }
 }
 
-DataValue::Array::const_iterator DataValue::begin() const
+JsonValue::Array::const_iterator JsonValue::begin() const
 {
     if (isArray())
     {
-        return _any.as<DataValue::Array>().begin();
+        return _any.as<JsonValue::Array>().begin();
     }
     else
     {
@@ -475,11 +475,11 @@ DataValue::Array::const_iterator DataValue::begin() const
     }
 }
 
-DataValue::Array::const_iterator DataValue::end() const
+JsonValue::Array::const_iterator JsonValue::end() const
 {
     if (isArray())
     {
-        return _any.as<DataValue::Array>().end();
+        return _any.as<JsonValue::Array>().end();
     }
     else
     {
@@ -487,21 +487,21 @@ DataValue::Array::const_iterator DataValue::end() const
     }
 }
 
-DataValue toDataValue(Json::Value& jsonValue);
-Json::Value fromDataValue(const DataValue& dataValue);
+JsonValue toJsonValue(Json::Value& jsonValue);
+Json::Value fromJsonValue(const JsonValue& jsonValue);
 
-std::string DataValue::encodeToJson() const
+std::string JsonValue::encodeToJson() const
 {
-    Json::Value jsonValue = fromDataValue(*this);
+    Json::Value jsonValue = fromJsonValue(*this);
     return jsonValue.toStyledString();
 }
 
-void DataValue::encodeToJson(WriteStream& stream) const
+void JsonValue::encodeToJson(WriteStream& stream) const
 {
     stream.writeString(encodeToJson(), false);
 }
 
-void DataValue::decodeFromJson(const std::string& json)
+void JsonValue::decodeFromJson(const std::string& json)
 {
     Json::Value root;
     Json::Reader reader;
@@ -509,81 +509,81 @@ void DataValue::decodeFromJson(const std::string& json)
     {
         throw Error(reader.getFormattedErrorMessages());
     }
-    *this = toDataValue(root);
+    *this = toJsonValue(root);
 }
 
-void DataValue::decodeFromJson(ReadStream& stream)
+void JsonValue::decodeFromJson(ReadStream& stream)
 {
     decodeFromJson(stream.readAllToString());
 }
 
-DataValue toDataValue(Json::Value& jsonValue)
+JsonValue toJsonValue(Json::Value& jsonValue)
 {
     if (jsonValue.isBool())
     {
-        return DataValue(jsonValue.asBool());
+        return JsonValue(jsonValue.asBool());
     }
     else if (jsonValue.isNumeric())
     {
-        return DataValue(jsonValue.asDouble());
+        return JsonValue(jsonValue.asDouble());
     }
     else if (jsonValue.isString())
     {
-        return DataValue(jsonValue.asString());
+        return JsonValue(jsonValue.asString());
     }
     else if (jsonValue.isArray())
     {
-        DataValue dataValue(DataValueType::Array);
+        JsonValue value(JsonValueType::Array);
         for (Json::Value& element : jsonValue)
         {
-            dataValue.addElement(toDataValue(element));
+            value.addElement(toJsonValue(element));
         }
-        return dataValue;
+        return value;
     }
     else if (jsonValue.isObject())
     {
-        DataValue dataValue(DataValueType::Object);
+        JsonValue value(JsonValueType::Object);
         for (std::string& name : jsonValue.getMemberNames())
         {
-            dataValue.addMember(name, toDataValue(jsonValue[name]));
+            value.addMember(name, toJsonValue(jsonValue[name]));
         }
-        return dataValue;
+        return value;
     }
 
-    return DataValue();
+    return JsonValue();
 }
 
-Json::Value fromDataValue(const DataValue& dataValue)
+Json::Value fromJsonValue(const JsonValue& jsonValue)
 {
-    if (dataValue.isBool())
+    if (jsonValue.isBool())
     {
-        return Json::Value(dataValue.asBool());
+        return Json::Value(jsonValue.asBool());
     }
-    else if (dataValue.isNumber())
+    else if (jsonValue.isNumber())
     {
-        return Json::Value(dataValue.asDouble());
+        return Json::Value(jsonValue.asDouble());
     }
-    else if (dataValue.isString())
+    else if (jsonValue.isString())
     {
-        return Json::Value(dataValue.asString());
+        return Json::Value(jsonValue.asString());
     }
-    else if (dataValue.isArray())
+    else if (jsonValue.isArray())
     {
-        Json::Value jsonValue(Json::arrayValue);
-        for (const DataValue& element : dataValue)
+        Json::Value value(Json::arrayValue);
+        for (const JsonValue& element : jsonValue)
         {
-            jsonValue.append(fromDataValue(element));
+            value.append(fromJsonValue(element));
         }
-        return jsonValue;
+        return value;
     }
-    else if (dataValue.isObject())
+    else if (jsonValue.isObject())
     {
-        Json::Value jsonValue(Json::objectValue);
-        for (const std::string& name : dataValue.memberNames())
+        Json::Value value(Json::objectValue);
+        for (const std::string& name : jsonValue.memberNames())
         {
-            jsonValue[name] = fromDataValue(dataValue[name]);
+            value[name] = fromJsonValue(jsonValue[name]);
         }
-        return jsonValue;
+        return value;
     }
 
     return Json::Value();

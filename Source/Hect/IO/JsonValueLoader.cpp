@@ -21,35 +21,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "MainLogicLayer.h"
+#include "Hect/Asset/AssetCache.h"
+#include "Hect/Asset/AssetLoader.h"
+#include "Hect/IO/JsonValue.h"
+#include "Hect/IO/Path.h"
+#include "Hect/IO/FileReadStream.h"
 
-void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const JsonValue& settings)
+using namespace hect;
+
+void AssetLoader<JsonValue>::load(JsonValue& jsonValue, const Path& assetPath, AssetCache& assetCache)
 {
-    AssetCache assetCache(fileSystem);
-
-    // Load the input axes from the settings
-    InputAxis::Array axes;
-    for (const std::string& axisName : settings["inputAxes"].memberNames())
-    {
-        InputAxis axis(axisName);
-        axis.decodeFromJsonValue(settings["inputAxes"][axisName], assetCache);
-        axes.push_back(axis);
-    }
-
-    // Create the input system
-    InputSystem inputSystem(axes);
-
-    // Create the logic flow
-    MainLogicLayer main(assetCache, inputSystem, window, renderer);
-    LogicFlow logicFlow(TimeSpan::fromSeconds((Real)1 / (Real)60));
-    logicFlow.addLayer(main);
-
-    // Update until the flow is complete
-    while (window.pollEvents(inputSystem))
-    {
-        if (!logicFlow.update())
-        {
-            break;
-        }
-    }
+    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
+    jsonValue.decodeFromJson(stream);
 }

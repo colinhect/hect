@@ -24,8 +24,9 @@
 #pragma once
 
 #include "Hect/Asset/AssetCache.h"
-#include "Hect/IO/DataEncoder.h"
-#include "Hect/IO/DataDecoder.h"
+#include "Hect/IO/JsonValue.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
 namespace hect
 {
@@ -43,10 +44,10 @@ public:
     virtual void encode(ObjectEncoder& encoder) const;
 
     ///
-    /// Encodes the object to a data value.
+    /// Encodes the object to a JSON value.
     ///
-    /// \returns The resulting data value.
-    DataValue encodeToDataValue() const;
+    /// \returns The resulting JSON value.
+    JsonValue encodeToJsonValue() const;
 
     ///
     /// Encodes the object to binary stream.
@@ -62,11 +63,11 @@ public:
     virtual void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
-    /// Decodes the object from a data value.
+    /// Decodes the object from a JSON value.
     ///
-    /// \param dataValue The data value.
+    /// \param jsonValue The JSON value.
     /// \param assetCache The asset cache to get referenced assets from.
-    void decodeFromDataValue(const DataValue& dataValue, AssetCache& assetCache);
+    void decodeFromJsonValue(const JsonValue& jsonValue, AssetCache& assetCache);
 
     ///
     /// Decodes the object from binary a stream

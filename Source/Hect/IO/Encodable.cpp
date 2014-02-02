@@ -23,6 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Encodable.h"
 
+#include "Hect/IO/BinaryEncoder.h"
+#include "Hect/IO/BinaryDecoder.h"
+#include "Hect/IO/JsonEncoder.h"
+#include "Hect/IO/JsonDecoder.h"
+
 using namespace hect;
 
 void Encodable::encode(ObjectEncoder& encoder) const
@@ -30,14 +35,14 @@ void Encodable::encode(ObjectEncoder& encoder) const
     encoder;
 }
 
-DataValue Encodable::encodeToDataValue() const
+JsonValue Encodable::encodeToJsonValue() const
 {
-    DataValueEncoder encoder;
+    JsonEncoder encoder;
     {
         ObjectEncoder objectEncoder = encoder.encodeObject();
         encode(objectEncoder);
     }
-    return encoder.dataValues()[0];
+    return encoder.jsonValues()[0];
 }
 
 void Encodable::encodeToBinary(WriteStream& stream) const
@@ -53,9 +58,9 @@ void Encodable::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     assetCache;
 }
 
-void Encodable::decodeFromDataValue(const DataValue& dataValue, AssetCache& assetCache)
+void Encodable::decodeFromJsonValue(const JsonValue& jsonValue, AssetCache& assetCache)
 {
-    DataValueDecoder decoder(dataValue);
+    JsonDecoder decoder(jsonValue);
     ObjectDecoder objectDecoder = decoder.decodeObject();
     decode(objectDecoder, assetCache);
 }

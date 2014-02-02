@@ -161,13 +161,13 @@
     <ClInclude Include="Source\AssetCacheTests.h" />
     <ClInclude Include="Source\AssetHandleTests.h" />
     <ClInclude Include="Source\Common.h" />
-    <ClInclude Include="Source\DataEncodingTests.h" />
+    <ClInclude Include="Source\EncodingTests.h" />
     <ClInclude Include="Source\EntityTests.h" />
     <ClInclude Include="Source\MeshReaderTests.h" />
     <ClInclude Include="Source\SceneTests.h" />
     <ClInclude Include="Source\FileSystemTests.h" />
     <ClInclude Include="Source\MaterialEncoderTests.h" />
-    <ClInclude Include="Source\DataValueTests.h" />
+    <ClInclude Include="Source\JsonTests.h" />
     <ClInclude Include="Source\FrustumTests.h" />
     <ClInclude Include="Source\Matrix4Tests.h" />
     <ClInclude Include="Source\MeshWriterTests.h" />

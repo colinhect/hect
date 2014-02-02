@@ -30,7 +30,7 @@ using namespace hect;
 #endif
 #endif
 
-void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const DataValue& settings);
+void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const JsonValue& settings);
 
 int main(int argc, const char* argv[])
 {
@@ -50,14 +50,14 @@ int main(int argc, const char* argv[])
         fileSystem.setWriteDirectory(workingDirectory);
 
         // Load the settings
-        DataValue settings;
+        JsonValue settings;
         {
             FileReadStream stream = fileSystem.openFileForRead("Settings.json");
             settings.decodeFromJson(stream);
         }
 
         // Add the data sources listed in the settings
-        for (const DataValue& dataSource : settings["dataSources"])
+        for (const JsonValue& dataSource : settings["dataSources"])
         {
             fileSystem.addDataSource(dataSource.asString());
         }
@@ -65,7 +65,7 @@ int main(int argc, const char* argv[])
         // Load video mode
         AssetCache assetCache(fileSystem);
         VideoMode videoMode;
-        videoMode.decodeFromDataValue(settings["videoMode"], assetCache);
+        videoMode.decodeFromJsonValue(settings["videoMode"], assetCache);
 
         // Create window/renderer
         Window window("Sample", videoMode);

@@ -23,38 +23,38 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-SUITE(DataValue)
+SUITE(Json)
 {
     TEST(Null)
     {
-        DataValue value;
+        JsonValue value;
         CHECK(value.isNull());
     }
 
     TEST(Bool)
     {
-        DataValue value(true);
+        JsonValue value(true);
         CHECK(value.isBool());
         CHECK(value.asBool());
     }
 
     TEST(Number)
     {
-        DataValue value(5.0);
+        JsonValue value(5.0);
         CHECK(value.isNumber());
         CHECK_EQUAL(5.0, value.asDouble());
     }
 
     TEST(String)
     {
-        DataValue value("Testing");
+        JsonValue value("Testing");
         CHECK(value.isString());
         CHECK_EQUAL("Testing", value.asString());
     }
 
     TEST(Array)
     {
-        DataValue value(DataValueType::Array);
+        JsonValue value(JsonValueType::Array);
         value.addElement(true);
         value.addElement(5.0);
         value.addElement("Testing");
@@ -84,7 +84,7 @@ SUITE(DataValue)
 
     TEST(Object)
     {
-        DataValue value(DataValueType::Object);
+        JsonValue value(JsonValueType::Object);
         value.addMember("someBool", true);
         value.addMember("someNumber", 5.0);
         value.addMember("someString", "Testing");
@@ -102,7 +102,7 @@ SUITE(DataValue)
 
     TEST(Vector2)
     {
-        DataValue value(Vector2(1, 2));
+        JsonValue value(Vector2(1, 2));
         CHECK(value.isArray());
 
         Vector2 v = value.asVector2();
@@ -112,7 +112,7 @@ SUITE(DataValue)
 
     TEST(Vector3)
     {
-        DataValue value(Vector3(1, 2, 3));
+        JsonValue value(Vector3(1, 2, 3));
         CHECK(value.isArray());
 
         Vector3 v = value.asVector3();
@@ -123,7 +123,7 @@ SUITE(DataValue)
 
     TEST(Vector4)
     {
-        DataValue value(Vector4(1, 2, 3, 4));
+        JsonValue value(Vector4(1, 2, 3, 4));
         CHECK(value.isArray());
 
         Vector4 v = value.asVector4();
@@ -135,7 +135,7 @@ SUITE(DataValue)
 
     TEST(MemberNames)
     {
-        DataValue value(DataValueType::Object);
+        JsonValue value(JsonValueType::Object);
         value.addMember("someBool", true);
         value.addMember("someNumber", 5.0);
         value.addMember("someString", "Testing");
@@ -150,19 +150,19 @@ SUITE(DataValue)
 
     TEST(OrFromNull)
     {
-        DataValue value;
+        JsonValue value;
         CHECK(value.or(true).asBool());
     }
 
     TEST(OrFromNotNull)
     {
-        DataValue value(true);
+        JsonValue value(true);
         CHECK(value.or(false).asBool());
     }
 
     TEST(Iterate)
     {
-        DataValue value(DataValueType::Array);
+        JsonValue value(JsonValueType::Array);
         for (int i = 0; i < 10; ++i)
         {
             value.addElement((double)i);
@@ -172,7 +172,7 @@ SUITE(DataValue)
         CHECK_EQUAL(10u, value.size());
 
         int i = 0;
-        for (const DataValue& element : value)
+        for (const JsonValue& element : value)
         {
             CHECK(element.isNumber());
             CHECK_EQUAL(i++, element.asDouble());
@@ -181,8 +181,8 @@ SUITE(DataValue)
 
     TEST(IterateOnNull)
     {
-        DataValue value;
-        for (const DataValue& element : value)
+        JsonValue value;
+        for (const JsonValue& element : value)
         {
             element;
             CHECK(false);
@@ -191,14 +191,14 @@ SUITE(DataValue)
 
     TEST(DeepNull)
     {
-        DataValue value;
+        JsonValue value;
         CHECK(value["root"][10]["something"].isNull());
     }
 
     TEST(DecodeFromJson)
     {
         std::string json = "{ \"someBool\" : true, \"someArray\" : [ 0, 1, 2 ] }";
-        DataValue value;
+        JsonValue value;
         value.decodeFromJson(json);
 
         CHECK(value.isObject());

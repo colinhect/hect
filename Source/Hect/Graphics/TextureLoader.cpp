@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Asset/AssetLoader.h"
 #include "Hect/Asset/AssetCache.h"
-#include "Hect/Core/DataValue.h"
+#include "Hect/IO/JsonValue.h"
 #include "Hect/Graphics/Texture.h"
 
 using namespace hect;
@@ -31,9 +31,9 @@ using namespace hect;
 void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCache& assetCache)
 {
     FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-    DataValue dataValue;
-    dataValue.decodeFromJson(stream);
+    JsonValue jsonValue;
+    jsonValue.decodeFromJson(stream);
 
     texture.setName(assetPath.toString());
-    texture.decodeFromDataValue(dataValue, assetCache);
+    texture.decodeFromJsonValue(jsonValue, assetCache);
 }

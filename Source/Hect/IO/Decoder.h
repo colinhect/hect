@@ -23,9 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <stack>
-
-#include "Hect/Core/DataValue.h"
 #include "Hect/IO/ReadStream.h"
 
 namespace hect
@@ -35,8 +32,8 @@ namespace hect
 /// Provides access for decoding an array.
 class ArrayDecoder
 {
-    friend class DataDecoder;
-    friend class DataValueDecoder;
+    friend class Decoder;
+    friend class JsonDecoder;
     friend class BinaryDecoder;
 
     friend class ObjectDecoder;
@@ -137,17 +134,17 @@ public:
 
 private:
     ArrayDecoder();
-    ArrayDecoder(DataDecoder* decoder);
+    ArrayDecoder(Decoder* decoder);
 
-    DataDecoder* _decoder;
+    Decoder* _decoder;
 };
 
 ///
 /// Provides access for decoding an object.
 class ObjectDecoder
 {
-    friend class DataDecoder;
-    friend class DataValueDecoder;
+    friend class Decoder;
+    friend class JsonDecoder;
     friend class BinaryDecoder;
 
     friend class ArrayDecoder;
@@ -286,14 +283,14 @@ public:
 
 private:
     ObjectDecoder();
-    ObjectDecoder(DataDecoder* decoder);
+    ObjectDecoder(Decoder* decoder);
 
-    DataDecoder* _decoder;
+    Decoder* _decoder;
 };
 
 ///
 /// Provides abstract access for decoding structured data.
-class DataDecoder
+class Decoder
 {
     friend class ArrayDecoder;
     friend class ObjectDecoder;
@@ -368,145 +365,4 @@ protected:
     virtual Vector4 decodeVector4(const char* name) = 0;
 };
 
-///
-/// Provides access for decoding structured data from a data value.
-class DataValueDecoder :
-    public DataDecoder
-{
-public:
-
-    ///
-    /// Constructs a decoder given the data value to decode.
-    ///
-    /// \param dataValue The data value to decode.
-    DataValueDecoder(const DataValue& dataValue);
-
-    bool isBinaryStream() const;
-    ReadStream& binaryStream();
-
-    ArrayDecoder decodeArray();
-    ObjectDecoder decodeObject();
-
-private:
-    void beginArray();
-    void beginArray(const char* name);
-    void endArray();
-
-    bool hasMoreElements() const;
-
-    void beginObject();
-    void beginObject(const char* name);
-    void endObject();
-
-    bool hasMember(const char* name) const;
-
-    std::string decodeString();
-    std::string decodeString(const char* name);
-    int8_t decodeByte();
-    int8_t decodeByte(const char* name);
-    uint8_t decodeUnsignedByte();
-    uint8_t decodeUnsignedByte(const char* name);
-    int16_t decodeShort();
-    int16_t decodeShort(const char* name);
-    uint16_t decodeUnsignedShort();
-    uint16_t decodeUnsignedShort(const char* name);
-    int32_t decodeInt();
-    int32_t decodeInt(const char* name);
-    uint32_t decodeUnsignedInt();
-    uint32_t decodeUnsignedInt(const char* name);
-    int64_t decodeLong();
-    int64_t decodeLong(const char* name);
-    uint64_t decodeUnsignedLong();
-    uint64_t decodeUnsignedLong(const char* name);
-    float decodeFloat();
-    float decodeFloat(const char* name);
-    double decodeDouble();
-    double decodeDouble(const char* name);
-    Real decodeReal();
-    Real decodeReal(const char* name);
-    bool decodeBool();
-    bool decodeBool(const char* name);
-    Vector2 decodeVector2();
-    Vector2 decodeVector2(const char* name);
-    Vector3 decodeVector3();
-    Vector3 decodeVector3(const char* name);
-    Vector4 decodeVector4();
-    Vector4 decodeVector4(const char* name);
-
-    const DataValue& _decode();
-    const DataValue& _decode(const char* name);
-
-    std::stack<size_t> _indexStack;
-    std::stack<DataValue> _valueStack;
-};
-
-///
-/// Provides access for decoding structured data from a binary stream.
-class BinaryDecoder :
-    public DataDecoder
-{
-public:
-
-    ///
-    /// Constructs a decoder given the stream to decode from.
-    ///
-    /// \param stream The stream to decode from.
-    BinaryDecoder(ReadStream& stream);
-
-    bool isBinaryStream() const;
-    ReadStream& binaryStream();
-
-    ArrayDecoder decodeArray();
-    ObjectDecoder decodeObject();
-
-private:
-    void beginArray();
-    void beginArray(const char* name);
-    void endArray();
-
-    bool hasMoreElements() const;
-
-    void beginObject();
-    void beginObject(const char* name);
-    void endObject();
-
-    bool hasMember(const char* name) const;
-
-    std::string decodeString();
-    std::string decodeString(const char* name);
-    int8_t decodeByte();
-    int8_t decodeByte(const char* name);
-    uint8_t decodeUnsignedByte();
-    uint8_t decodeUnsignedByte(const char* name);
-    int16_t decodeShort();
-    int16_t decodeShort(const char* name);
-    uint16_t decodeUnsignedShort();
-    uint16_t decodeUnsignedShort(const char* name);
-    int32_t decodeInt();
-    int32_t decodeInt(const char* name);
-    uint32_t decodeUnsignedInt();
-    uint32_t decodeUnsignedInt(const char* name);
-    int64_t decodeLong();
-    int64_t decodeLong(const char* name);
-    uint64_t decodeUnsignedLong();
-    uint64_t decodeUnsignedLong(const char* name);
-    float decodeFloat();
-    float decodeFloat(const char* name);
-    double decodeDouble();
-    double decodeDouble(const char* name);
-    Real decodeReal();
-    Real decodeReal(const char* name);
-    bool decodeBool();
-    bool decodeBool(const char* name);
-    Vector2 decodeVector2();
-    Vector2 decodeVector2(const char* name);
-    Vector3 decodeVector3();
-    Vector3 decodeVector3(const char* name);
-    Vector4 decodeVector4();
-    Vector4 decodeVector4(const char* name);
-
-    std::stack<unsigned> _indexStack;
-    std::stack<unsigned> _countStack;
-    ReadStream* _stream;
-};
 }

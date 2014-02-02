@@ -62,8 +62,8 @@ void testEncodable(T& encodable, AssetCache& assetCache)
     {
         T decoded;
 
-        DataValue dataValue = encodable.encodeToDataValue();
-        decoded.decodeFromDataValue(dataValue, assetCache);
+        JsonValue jsonValue = encodable.encodeToJsonValue();
+        decoded.decodeFromJsonValue(jsonValue, assetCache);
 
         CHECK(encodable == decoded);
     }

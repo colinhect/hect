@@ -93,9 +93,6 @@
     <ClInclude Include="Source\Hect\Core\Configuration.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\DataValue.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Core\Dispatcher.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
@@ -336,12 +333,6 @@
     <ClInclude Include="Source\Hect\Entity\Systems\RenderSystem.h">
       <Filter>Source\Hect\Entity\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\IO\DataDecoder.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\DataEncoder.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\IO\Encodable.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
@@ -372,18 +363,36 @@
     <ClInclude Include="Source\Hect\IO\Encoders\TextureEncoder.h">
       <Filter>Source\Hect\IO\Encoders</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\IO\EncodingMagicNumber.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\JsonValue.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Encoder.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Decoder.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\JsonEncoder.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\BinaryEncoder.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\JsonDecoder.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\BinaryDecoder.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
       <Filter>Source\Hect\Asset</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Core\DataValue.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Core\DataValueLoader.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Core\Error.cpp">
@@ -611,12 +620,6 @@
     <ClCompile Include="Source\Hect\Entity\Systems\RenderSystem.cpp">
       <Filter>Source\Hect\Entity\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\IO\DataDecoder.cpp">
-      <Filter>Source\Hect\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\DataEncoder.cpp">
-      <Filter>Source\Hect\IO</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\IO\Encodable.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
@@ -646,6 +649,30 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\Encoders\TextureEncoder.cpp">
       <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\JsonValue.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\JsonValueLoader.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\Encoder.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\Decoder.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\JsonDecoder.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\BinaryEncoder.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\JsonEncoder.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\BinaryDecoder.cpp">
+      <Filter>Source\Hect\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

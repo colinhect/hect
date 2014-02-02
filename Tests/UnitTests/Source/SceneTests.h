@@ -308,7 +308,7 @@ SUITE(Scene)
         CHECK(!b.isActivated());
     }
 
-    TEST(EncodeAndDecodeEntityUsingDataValue)
+    TEST(EncodeAndDecodeEntityUsingJsonValue)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
@@ -321,10 +321,10 @@ SUITE(Scene)
         frank.addComponent<Name>().value = "Frank";
         frank.addComponent<Position>().value = Vector3(1, 2, 3);
 
-        DataValue frankValue = frank.encodeToDataValue();
+        JsonValue frankValue = frank.encodeToJsonValue();
 
         Entity frankDecoded = scene.createEntity();
-        frankDecoded.decodeFromDataValue(frankValue, assetCache);
+        frankDecoded.decodeFromJsonValue(frankValue, assetCache);
 
         CHECK(frankDecoded.hasComponent<Name>());
         CHECK(frankDecoded.hasComponent<Position>());
@@ -367,12 +367,12 @@ SUITE(Scene)
         CHECK_EQUAL(2, frankDecoded.component<Position>().value.y);
     }
 
-    TEST(EncodeAndDecodeSceneUsingDataValue)
+    TEST(EncodeAndDecodeSceneUsingJsonValue)
     {
         FileSystem fileSystem;
         AssetCache assetCache(fileSystem);
 
-        DataValue sceneValue;
+        JsonValue sceneValue;
         {
             Scene scene;
             scene.registerComponent<Name>("Name");
@@ -391,7 +391,7 @@ SUITE(Scene)
             billy.activate();
 
             scene.refresh();
-            sceneValue = scene.encodeToDataValue();
+            sceneValue = scene.encodeToJsonValue();
         }
 
         NamingSystem namingSystem;
@@ -401,7 +401,7 @@ SUITE(Scene)
 
         scene.addSystem(namingSystem);
 
-        scene.decodeFromDataValue(sceneValue, assetCache);
+        scene.decodeFromJsonValue(sceneValue, assetCache);
         scene.refresh();
 
         auto& entities = namingSystem.entities();
