@@ -184,7 +184,7 @@ Shader& Shader::operator=(const Shader& shader)
     }
 
     RendererObject::operator=(shader);
-    
+
     _name = shader._name;
     _modules = shader._modules;
     _uniforms = shader._uniforms;
@@ -201,7 +201,7 @@ Shader& Shader::operator=(Shader&& shader)
     }
 
     RendererObject::operator=(shader);
-    
+
     _name = std::move(shader._name);
     _modules = std::move(shader._modules);
     _uniforms = std::move(shader._uniforms);

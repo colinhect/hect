@@ -21,12 +21,37 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Reflector.h"
 
-#include "Hect/Core/Export.h"
+#include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
 
-class HECT_API Object
+using namespace hect;
+
+Reflector::Reflector(const std::string& className) :
+    _className(className)
 {
-public:
+}
 
-};
+const std::string& Reflector::className() const
+{
+    return _className;
+}
+
+const Property& Reflector::propertyWithName(const std::string& name) const
+{
+    for (Property* property : _properties)
+    {
+        if (property->name() == name)
+        {
+            return *property;
+        }
+    }
+
+    throw Error(format("No property with name '%s'", name.c_str()));
+}
+
+const Property::Array& Reflector::properties() const
+{
+    return _properties;
+}

@@ -115,7 +115,7 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 // Blend factors
                 {
                     ArrayEncoder blendFactorsEncoder = passEncoder.encodeArray("blendFactors");
-                    
+
                     blendFactorsEncoder.encodeString(blendFactorToString(pass.renderMode().sourceBlendFactor()));
                     blendFactorsEncoder.encodeString(blendFactorToString(pass.renderMode().destBlendFactor()));
                 }

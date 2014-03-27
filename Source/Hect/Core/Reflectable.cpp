@@ -21,33 +21,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "PassUniformValue.h"
+#include "Reflectable.h"
 
 using namespace hect;
 
-PassUniformValue::PassUniformValue(const std::string& uniformName, const UniformValue& value) :
-    _uniformName(uniformName),
-    _value(value)
+Reflectable::Reflectable()
 {
 }
 
-const std::string& PassUniformValue::uniformName() const
+Reflectable::~Reflectable()
 {
-    return _uniformName;
-}
-
-const UniformValue& PassUniformValue::value() const
-{
-    return _value;
-}
-
-bool PassUniformValue::operator==(const PassUniformValue& passUniformValue) const
-{
-    return _uniformName == passUniformValue.uniformName()
-           && _value == passUniformValue.value();
-}
-
-bool PassUniformValue::operator!=(const PassUniformValue& passUniformValue) const
-{
-    return !(*this == passUniformValue);
 }

@@ -100,7 +100,7 @@
     <ClInclude Include="Source\EncodingTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MetaClassTests.h">
+    <ClInclude Include="Source\ReflectableTests.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

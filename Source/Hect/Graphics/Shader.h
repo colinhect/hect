@@ -79,7 +79,7 @@ public:
     ///
     /// Adds a module to the shader.
     ///
-    /// \notes If the shader is uploaded to a renderer then it will be
+    /// \note If the shader is uploaded to a renderer then it will be
     /// destroyed before the module is added.
     ///
     /// \param module The module to add.
@@ -92,7 +92,7 @@ public:
     ///
     /// Adds a uniform to the shader.
     ///
-    /// \notes If the shader is uploaded to a renderer then it will be
+    /// \note If the shader is uploaded to a renderer then it will be
     /// destroyed before the uniform is added.
     ///
     /// \param uniform The uniform to add.
@@ -113,7 +113,7 @@ public:
     ///
     /// \throws Error If no uniform with the given name exists.
     const Uniform& uniformWithName(const std::string& name) const;
-    
+
     ///
     /// Encodes the shader.
     ///

@@ -23,60 +23,23 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <functional>
-#include <string>
-#include <vector>
-#include <memory>
+#include "Hect/Core/Export.h"
+#include "Hect/Core/Reflector.h"
 
 namespace hect
 {
 
-template <typename ClassType, typename PropertyType>
-class TypedMetaProperty;
-
-template <typename ClassType>
-class MetaProperty
+///
+/// An object whose class properties can be observed at runtime.
+class HECT_API Reflectable
 {
 public:
-    MetaProperty(const std::string& name);
-    virtual ~MetaProperty();
+    Reflectable();
+    virtual ~Reflectable();
 
-    const std::string& name() const;
-
-    template <typename PropertyType>
-    bool isType() const;
-
-    template <typename PropertyType>
-    const TypedMetaProperty<ClassType, PropertyType>* asType() const;
-
-    template <typename PropertyType>
-    const PropertyType& get(const ClassType& instance) const;
-
-    template <typename PropertyType>
-    void set(ClassType& instance, const PropertyType& value) const;
-
-private:
-    std::string _name;
-};
-
-template <typename ClassType, typename PropertyType>
-class TypedMetaProperty :
-    public MetaProperty<ClassType>
-{
-public:
-    typedef std::function<const PropertyType&(const ClassType&)> Getter;
-    typedef std::function<void(ClassType&, const PropertyType&)> Setter;
-
-    TypedMetaProperty(const std::string& name, Getter get, Setter set);
-
-    const PropertyType& get(const ClassType& instance) const;
-    void set(ClassType& instance, const PropertyType& value) const;
-
-private:
-    Getter _get;
-    Setter _set;
+    ///
+    /// Returns the reflector for the reflectable object.
+    virtual const Reflector& reflector() const = 0;
 };
 
 }
-
-#include "MetaProperty.inl"

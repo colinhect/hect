@@ -114,7 +114,7 @@ ShaderModule& ShaderModule::operator=(const ShaderModule& shaderModule)
     }
 
     RendererObject::operator=(shaderModule);
-    
+
     _name = shaderModule._name;
     _type = shaderModule._type;
     _source = shaderModule._source;
@@ -130,7 +130,7 @@ ShaderModule& ShaderModule::operator=(ShaderModule&& shaderModule)
     }
 
     RendererObject::operator=(shaderModule);
-    
+
     _name = std::move(shaderModule._name);
     _type = shaderModule._type;
     _source = std::move(shaderModule._source);

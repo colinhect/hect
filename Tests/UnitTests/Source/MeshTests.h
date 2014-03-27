@@ -60,7 +60,7 @@ SUITE(Mesh)
     {
         VertexLayout vertexLayout;
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-                
+
         Mesh mesh("Test");
         mesh.setVertexLayout(vertexLayout);
         mesh.setPrimitiveType(PrimitiveType::Triangles);
@@ -84,7 +84,7 @@ SUITE(Mesh)
     {
         VertexLayout vertexLayout;
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-                
+
         Mesh mesh("Test");
         mesh.setVertexLayout(vertexLayout);
         mesh.setPrimitiveType(PrimitiveType::Triangles);
@@ -118,7 +118,7 @@ SUITE(Mesh)
     {
         VertexLayout vertexLayout;
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-        
+
         Mesh mesh("Test");
         mesh.setVertexLayout(vertexLayout);
         mesh.setPrimitiveType(PrimitiveType::Triangles);
@@ -141,7 +141,7 @@ SUITE(Mesh)
     {
         VertexLayout vertexLayout;
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-        
+
         Mesh mesh("Test");
         mesh.setVertexLayout(vertexLayout);
         mesh.setPrimitiveType(PrimitiveType::Triangles);

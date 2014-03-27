@@ -96,11 +96,11 @@ public:
     ///
     /// \param texture The texture to copy.
     Texture(const Texture& texture);
-    
+
     ///
     /// Constructs a texture moved from another.
     ///
-    /// \param mesh The texture to move.
+    /// \param texture The texture to move.
     Texture(Texture&& texture);
 
     ///

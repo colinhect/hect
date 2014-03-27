@@ -117,7 +117,7 @@ public:
     ///
     /// \param value The value.
     UniformValue(const hect::Matrix4& value);
-    
+
     ///
     /// Returns the type.
     UniformType type() const;
@@ -185,7 +185,7 @@ public:
     ///
     /// \throws Error If the uniform value is not a 4 by 4 matrix.
     void setValue(const Matrix4& value);
-    
+
     ///
     /// Returns the value as an integer.
     int asInt() const;
@@ -193,7 +193,7 @@ public:
     ///
     /// Returns the value as a real.
     Real asReal() const;
-    
+
     ///
     /// Returns the value as a 2-dimensional vector.
     Vector2 asVector2() const;
@@ -201,7 +201,7 @@ public:
     ///
     /// Returns the value as a 3-dimensional vector.
     Vector3 asVector3() const;
-    
+
     ///
     /// Returns the value as a 4-dimensional vector.
     Vector4 asVector4() const;

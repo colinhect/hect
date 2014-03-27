@@ -129,7 +129,7 @@ public:
     ///
     /// \throws Error If the mesh already has vertex data.
     void setVertexLayout(const VertexLayout& vertexLayout);
-    
+
     ///
     /// Returns the primitive type.
     PrimitiveType primitiveType() const;

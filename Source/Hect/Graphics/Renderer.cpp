@@ -449,8 +449,8 @@ void Renderer::uploadShader(Shader& shader)
     auto data = new ShaderData();
     data->id = GL_ASSERT( glCreateProgram(); )
 
-    // Attach each shader to the program
-    for (const AssetHandle<ShaderModule>& module : shader.modules())
+               // Attach each shader to the program
+               for (const AssetHandle<ShaderModule>& module : shader.modules())
     {
         if (!module->isUploaded())
         {

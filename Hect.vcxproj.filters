@@ -390,13 +390,13 @@
     <ClInclude Include="Source\Hect\Core\Export.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\MetaClass.h">
+    <ClInclude Include="Source\Hect\Core\Property.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\MetaProperty.h">
+    <ClInclude Include="Source\Hect\Core\Reflectable.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\Object.h">
+    <ClInclude Include="Source\Hect\Core\Reflector.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
   </ItemGroup>
@@ -689,6 +689,15 @@
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Hect\Core\Property.cpp">
+      <Filter>Source\Hect\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Core\Reflectable.cpp">
+      <Filter>Source\Hect\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Core\Reflector.cpp">
+      <Filter>Source\Hect\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Asset\AssetCache.inl">
@@ -733,10 +742,10 @@
     <None Include="Source\Hect\Math\Vector4.inl">
       <Filter>Source\Hect\Math</Filter>
     </None>
-    <None Include="Source\Hect\Core\MetaClass.inl">
+    <None Include="Source\Hect\Core\Property.inl">
       <Filter>Source\Hect\Core</Filter>
     </None>
-    <None Include="Source\Hect\Core\MetaProperty.inl">
+    <None Include="Source\Hect\Core\Reflector.inl">
       <Filter>Source\Hect\Core</Filter>
     </None>
   </ItemGroup>

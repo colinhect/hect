@@ -177,7 +177,7 @@ void UniformValue::setValue(const Vector3& value)
     {
         throw Error("Uniform value is not of type 'Vector3'");
     }
-    
+
     _value = Vector3T<float>(value);
 }
 
@@ -187,7 +187,7 @@ void UniformValue::setValue(const Vector4& value)
     {
         throw Error("Uniform value is not of type 'Vector4'");
     }
-    
+
     _value = Vector4T<float>(value);
 }
 
@@ -227,7 +227,7 @@ Vector2 UniformValue::asVector2() const
     {
         throw Error("Uniform value is not of type 'Vector2'");
     }
-    
+
     return (Vector2)_value.as<Vector2T<float>>();
 }
 
@@ -237,7 +237,7 @@ Vector3 UniformValue::asVector3() const
     {
         throw Error("Uniform value is not of type 'Vector3'");
     }
-    
+
     return (Vector3)_value.as<Vector3T<float>>();
 }
 
@@ -247,7 +247,7 @@ Vector4 UniformValue::asVector4() const
     {
         throw Error("Uniform value is not of type 'Vector4'");
     }
-    
+
     return (Vector4)_value.as<Vector4T<float>>();
 }
 
@@ -257,7 +257,7 @@ Matrix4 UniformValue::asMatrix4() const
     {
         throw Error("Uniform value is not of type 'Matrix4'");
     }
-    
+
     return (Matrix4)_value.as<Matrix4T<float>>();
 }
 

@@ -21,41 +21,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Property.h"
 
-#include <string>
-#include <vector>
-#include <memory>
+using namespace hect;
 
-#include "Hect/Core/MetaProperty.h"
-
-namespace hect
+Property::Property(const std::string& name) :
+    _name(name)
 {
-
-template <typename ClassType>
-class MetaClass
-{
-public:
-    MetaClass(const std::string& name);
-
-    const std::string& name() const;
-    
-    template <typename PropertyType>
-    void addProperty(const std::string& name, PropertyType (ClassType::*get)() const, void (ClassType::*set)(PropertyType));
-
-    template <typename PropertyType>
-    void addProperty(const std::string& name, const PropertyType& (ClassType::*get)() const, void (ClassType::*set)(const PropertyType&));
-    
-    MetaProperty<ClassType>* findProperty(const std::string& name);
-
-    const std::vector<MetaProperty<ClassType>*> properties() const;
-
-private:
-    std::string _name;
-    std::vector<MetaProperty<ClassType>*> _properties;
-    std::vector<std::shared_ptr<MetaProperty<ClassType>>> _ownedProperties;
-};
-
 }
 
-#include "MetaClass.inl"
+Property::~Property()
+{
+}
+
+const std::string& Property::name() const
+{
+    return _name;
+}

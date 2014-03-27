@@ -105,7 +105,7 @@ public:
 
     /// Returns the source.
     const std::string& source() const;
-    
+
     ///
     /// Sets the source.
     ///

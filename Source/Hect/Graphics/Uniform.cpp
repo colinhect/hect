@@ -167,7 +167,7 @@ bool Uniform::operator==(const Uniform& uniform) const
     {
         return false;
     }
-    
+
     // Type
     if (_type != uniform._type)
     {

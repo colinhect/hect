@@ -110,7 +110,7 @@ public:
     /// \param defaultValue The default value which will be set when the shader
     /// is bound (see Renderer::bindShader()).
     Uniform(const std::string& name, const UniformValue& defaultValue);
-    
+
     ///
     /// Returns the uniform type.
     UniformType type() const;
@@ -174,7 +174,7 @@ public:
     ///
     /// \param location The compiled location.
     void setLocation(int location);
-    
+
     ///
     /// Encodes the uniform.
     ///

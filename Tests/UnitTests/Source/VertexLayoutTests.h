@@ -45,7 +45,7 @@ SUITE(VertexLayout)
         VertexLayout vertexLayout;
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-        
+
         CHECK(VertexAttributeSemantic::Position == vertexLayout.attributes()[0].semantic());
         CHECK(VertexAttributeSemantic::Normal == vertexLayout.attributes()[1].semantic());
     }
@@ -55,7 +55,7 @@ SUITE(VertexLayout)
         VertexLayout vertexLayout;
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-        
+
         CHECK_EQUAL(0u, vertexLayout.attributes()[0].offset());
         CHECK_EQUAL(vertexLayout.attributes()[0].size(), vertexLayout.attributes()[1].offset());
     }
@@ -65,17 +65,17 @@ SUITE(VertexLayout)
         VertexLayout vertexLayout;
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 4));
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-        
+
         CHECK_EQUAL(4u, vertexLayout.attributeWithSemantic(VertexAttributeSemantic::Position).cardinality());
         CHECK_EQUAL(3u, vertexLayout.attributeWithSemantic(VertexAttributeSemantic::Normal).cardinality());
     }
-    
+
     TEST(HasAttributeWithSemantic)
     {
         VertexLayout vertexLayout;
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 4));
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-        
+
         CHECK(vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic::Position));
     }
 
@@ -84,7 +84,7 @@ SUITE(VertexLayout)
         VertexLayout vertexLayout;
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
         vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Half, 3));
-        
+
         CHECK(!vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic::Color));
     }
 
