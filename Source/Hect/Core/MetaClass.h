@@ -21,61 +21,41 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <UnitTest++.h>
+#pragma once
 
-#include <Hect.h>
+#include <string>
+#include <vector>
+#include <memory>
 
-#ifdef HECT_WINDOWS
-#ifdef HECT_DEBUG
-#include <vld.h>
-#endif
-#endif
+#include "Hect/Core/MetaProperty.h"
 
-using namespace hect;
-
-#include "Common.h"
-
-#include "AngleTests.h"
-#include "AnyTests.h"
-#include "AssetCacheTests.h"
-#include "AssetHandleTests.h"
-#include "EncodingTests.h"
-#include "EntityTests.h"
-#include "EventTests.h"
-#include "FileSystemTests.h"
-#include "FormatTests.h"
-#include "FrustumTests.h"
-#include "JsonTests.h"
-#include "MaterialEncoderTests.h"
-#include "Matrix4Tests.h"
-#include "MeshEncoderTests.h"
-#include "MeshTests.h"
-#include "MeshWriterTests.h"
-#include "MeshReaderTests.h"
-#include "MetaClassTests.h"
-#include "NetworkTests.h"
-#include "PathTests.h"
-#include "PlaneTests.h"
-#include "QuaternionTests.h"
-#include "SceneTests.h"
-#include "StreamTests.h"
-#include "TaskPoolTests.h"
-#include "TimeSpanTests.h"
-#include "UniformEncoderTests.h"
-#include "UniformValueEncoderTests.h"
-#include "Vector2Tests.h"
-#include "Vector3Tests.h"
-#include "Vector4Tests.h"
-#include "VertexAttributeTests.h"
-#include "VertexLayoutTests.h"
-
-int main()
+namespace hect
 {
-    int failed = UnitTest::RunAllTests();
-    if (failed)
-    {
-        Window::showFatalError(format("%d failures.", failed));
-    }
 
-    return failed;
+template <typename ClassType>
+class MetaClass
+{
+public:
+    MetaClass(const std::string& name);
+
+    const std::string& name() const;
+    
+    template <typename PropertyType>
+    void addProperty(const std::string& name, PropertyType (ClassType::*get)() const, void (ClassType::*set)(PropertyType));
+
+    template <typename PropertyType>
+    void addProperty(const std::string& name, const PropertyType& (ClassType::*get)() const, void (ClassType::*set)(const PropertyType&));
+    
+    MetaProperty<ClassType>* findProperty(const std::string& name);
+
+    const std::vector<MetaProperty<ClassType>*> properties() const;
+
+private:
+    std::string _name;
+    std::vector<MetaProperty<ClassType>*> _properties;
+    std::vector<std::shared_ptr<MetaProperty<ClassType>>> _ownedProperties;
+};
+
 }
+
+#include "MetaClass.inl"

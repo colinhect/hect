@@ -390,6 +390,15 @@
     <ClInclude Include="Source\Hect\Core\Export.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Core\MetaClass.h">
+      <Filter>Source\Hect\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Core\MetaProperty.h">
+      <Filter>Source\Hect\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Core\Object.h">
+      <Filter>Source\Hect\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -723,6 +732,12 @@
     </None>
     <None Include="Source\Hect\Math\Vector4.inl">
       <Filter>Source\Hect\Math</Filter>
+    </None>
+    <None Include="Source\Hect\Core\MetaClass.inl">
+      <Filter>Source\Hect\Core</Filter>
+    </None>
+    <None Include="Source\Hect\Core\MetaProperty.inl">
+      <Filter>Source\Hect\Core</Filter>
     </None>
   </ItemGroup>
 </Project>

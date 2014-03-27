@@ -21,61 +21,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <UnitTest++.h>
+#pragma once
 
-#include <Hect.h>
+#include "Hect/Core/Export.h"
 
-#ifdef HECT_WINDOWS
-#ifdef HECT_DEBUG
-#include <vld.h>
-#endif
-#endif
-
-using namespace hect;
-
-#include "Common.h"
-
-#include "AngleTests.h"
-#include "AnyTests.h"
-#include "AssetCacheTests.h"
-#include "AssetHandleTests.h"
-#include "EncodingTests.h"
-#include "EntityTests.h"
-#include "EventTests.h"
-#include "FileSystemTests.h"
-#include "FormatTests.h"
-#include "FrustumTests.h"
-#include "JsonTests.h"
-#include "MaterialEncoderTests.h"
-#include "Matrix4Tests.h"
-#include "MeshEncoderTests.h"
-#include "MeshTests.h"
-#include "MeshWriterTests.h"
-#include "MeshReaderTests.h"
-#include "MetaClassTests.h"
-#include "NetworkTests.h"
-#include "PathTests.h"
-#include "PlaneTests.h"
-#include "QuaternionTests.h"
-#include "SceneTests.h"
-#include "StreamTests.h"
-#include "TaskPoolTests.h"
-#include "TimeSpanTests.h"
-#include "UniformEncoderTests.h"
-#include "UniformValueEncoderTests.h"
-#include "Vector2Tests.h"
-#include "Vector3Tests.h"
-#include "Vector4Tests.h"
-#include "VertexAttributeTests.h"
-#include "VertexLayoutTests.h"
-
-int main()
+class HECT_API Object
 {
-    int failed = UnitTest::RunAllTests();
-    if (failed)
-    {
-        Window::showFatalError(format("%d failures.", failed));
-    }
+public:
 
-    return failed;
-}
+};

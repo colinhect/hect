@@ -24,6 +24,8 @@
 #pragma once
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Core/MetaProperty.h"
+#include "Hect/Core/MetaClass.h"
 #include "Hect/Core/Real.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
