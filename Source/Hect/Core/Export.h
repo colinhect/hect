@@ -23,23 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
-#include "Hect/Graphics/Mesh.h"
+#ifdef HECT_EXPORTS
+#define HECT_API __declspec(dllexport) 
+#else
+#define HECT_API __declspec(dllimport) 
+#endif
 
-namespace hect
-{
-
-class HECT_API MeshEncoder
-{
-public:
-    static void encode(const Mesh& mesh, ObjectEncoder& encoder);
-    static void decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache);
-
-    static IndexType indexTypeFromString(const std::string& value);
-    static std::string indexTypeToString(IndexType indexType);
-
-    static PrimitiveType primitiveTypeFromString(const std::string& value);
-    static std::string primitiveTypeToString(PrimitiveType primitiveType);
-};
-
-}
+#pragma warning (disable : 4251)
+#pragma warning (disable : 4275)

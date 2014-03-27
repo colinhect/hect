@@ -387,6 +387,9 @@
     <ClInclude Include="Source\Hect\IO\BinaryDecoder.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Core\Export.h">
+      <Filter>Source\Hect\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -673,6 +676,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\BinaryDecoder.cpp">
       <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Core\Uncopyable.cpp">
+      <Filter>Source\Hect\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

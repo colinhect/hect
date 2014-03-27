@@ -25,6 +25,7 @@
 
 #include <functional>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/IdPool.h"
 #include "Hect/Entity/Entity.h"
 #include "Hect/Entity/EntityData.h"
@@ -36,7 +37,7 @@ namespace hect
 
 ///
 /// A scene of entities.
-class Scene :
+class HECT_API Scene :
     public Uncopyable,
     public Encodable
 {

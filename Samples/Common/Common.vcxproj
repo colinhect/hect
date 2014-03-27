@@ -140,6 +140,11 @@
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hect.vcxproj">
+      <Project>{eafd1572-5569-4643-a694-7f8f8d66e3ae}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Entity/System.h"
 #include "Hect/Entity/Components/Camera.h"
 
@@ -31,7 +32,7 @@ namespace hect
 
 ///
 /// Provides access to the active camera in the scene.
-class CameraSystem :
+class HECT_API CameraSystem :
     public System
 {
 public:

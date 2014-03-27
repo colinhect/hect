@@ -23,16 +23,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-namespace
+#include "Hect/Core/Export.h"
+
+namespace hect
 {
 
 ///
 /// An object that cannot be copied.
-class Uncopyable
+class HECT_API Uncopyable
 {
 protected:
-    Uncopyable() { }
-    ~Uncopyable() { }
+    Uncopyable();
+    ~Uncopyable();
 private:
     Uncopyable(const Uncopyable&);
     Uncopyable& operator=(const Uncopyable&);

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/IO/Encodable.h"
@@ -61,7 +62,7 @@ enum class IndexType : uint8_t
 
 ///
 /// A mesh of vertices and indices.
-class Mesh :
+class HECT_API Mesh :
     public RendererObject,
     public Encodable
 {

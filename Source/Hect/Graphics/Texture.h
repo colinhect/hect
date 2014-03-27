@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Asset/AssetHandle.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/RendererObject.h"
@@ -45,7 +46,7 @@ enum class TextureFilter
 
 ///
 /// A 2-dimensional texture.
-class Texture :
+class HECT_API Texture :
     public RendererObject,
     public Encodable
 {

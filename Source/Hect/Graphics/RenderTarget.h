@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
@@ -30,7 +32,7 @@ class Renderer;
 
 ///
 /// A target that can be rendered to.
-class RenderTarget
+class HECT_API RenderTarget
 {
 public:
 

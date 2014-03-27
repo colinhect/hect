@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/Path.h"
 #include "Hect/IO/FileReadStream.h"
@@ -35,7 +36,7 @@ namespace hect
 /// Provides read and write access to files.
 ///
 /// \warning Only one can be instantiated at a time.
-class FileSystem :
+class HECT_API FileSystem :
     public Uncopyable
 {
 public:

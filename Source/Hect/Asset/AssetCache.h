@@ -35,7 +35,7 @@ namespace hect
 
 ///
 /// Provides cached access to assets loaded from the file system.
-class AssetCache :
+class HECT_API AssetCache :
     public Uncopyable
 {
 public:

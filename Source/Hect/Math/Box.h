@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Math/Vector3.h"
 
 namespace hect
@@ -30,7 +31,7 @@ namespace hect
 
 ///
 /// A box.
-class Box
+class HECT_API Box
 {
 public:
 

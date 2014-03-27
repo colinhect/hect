@@ -28,6 +28,7 @@
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\Dispatcher.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
+    <ClInclude Include="Source\Hect\Core\Export.h" />
     <ClInclude Include="Source\Hect\Core\Format.h" />
     <ClInclude Include="Source\Hect\Core\IdPool.h" />
     <ClInclude Include="Source\Hect\Core\Listener.h" />
@@ -137,6 +138,7 @@
     <ClCompile Include="Source\Hect\Core\TaskPool.cpp" />
     <ClCompile Include="Source\Hect\Core\Timer.cpp" />
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp" />
+    <ClCompile Include="Source\Hect\Core\Uncopyable.cpp" />
     <ClCompile Include="Source\Hect\Entity\Component.cpp" />
     <ClCompile Include="Source\Hect\Entity\Components\AmbientLight.cpp" />
     <ClCompile Include="Source\Hect\Entity\Components\Camera.cpp" />
@@ -238,32 +240,52 @@
     <None Include="Source\Hect\Math\Vector3.inl" />
     <None Include="Source\Hect\Math\Vector4.inl" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Dependencies\Bullet\Bullet.vcxproj">
+      <Project>{f8dc1d2d-edf4-4949-ba12-80f8a652dc89}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Dependencies\ENet\ENet.vcxproj">
+      <Project>{6d545e59-6771-4434-9919-58c356610d54}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Dependencies\Glew\Glew.vcxproj">
+      <Project>{7a5eaad7-89f1-43c7-a5b4-1ac4ffeca75d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Dependencies\JsonCpp\JsonCpp.vcxproj">
+      <Project>{47aff5c0-d11a-428c-9462-94938cfa6564}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Dependencies\LodePng\LodePng.vcxproj">
+      <Project>{7ba6f903-7248-467b-b171-843bba603ae0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Dependencies\PhysFS\PhysFS.vcxproj">
+      <Project>{8a40f4e7-7350-4693-8346-2b706cc061e2}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EAFD1572-5569-4643-A694-7F8F8D66E3AE}</ProjectGuid>
     <RootNamespace>Hect</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -290,30 +312,30 @@
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <CustomBuildAfterTargets>
     </CustomBuildAfterTargets>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
-    <TargetName>$(ProjectName)Static</TargetName>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CustomBuildAfterTargets />
     <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
-    <TargetName>$(ProjectName)Static</TargetName>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <CustomBuildAfterTargets>
     </CustomBuildAfterTargets>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
-    <TargetName>$(ProjectName)Static</TargetName>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CustomBuildAfterTargets />
     <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
-    <TargetName>$(ProjectName)Static</TargetName>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -321,7 +343,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\Sfml\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -329,6 +351,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>OpenGL32.lib;glu32.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Sfml\Bin\$(Configuration)\$(Platform)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -339,10 +363,12 @@
       </Message>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)sfml-audio-s.lib $(TargetDir)sfml-graphics-s.lib $(TargetDir)sfml-network-s.lib $(TargetDir)sfml-system-s.lib $(TargetDir)sfml-window-s.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Building Hect.lib</Message>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -351,7 +377,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\Sfml\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -359,6 +385,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>OpenGL32.lib;glu32.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Sfml\Bin\$(Configuration)\$(Platform)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -369,10 +397,12 @@
       </Message>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)sfml-audio-s.lib $(TargetDir)sfml-graphics-s.lib $(TargetDir)sfml-network-s.lib $(TargetDir)sfml-system-s.lib $(TargetDir)sfml-window-s.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Building Hect.lib</Message>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -383,7 +413,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\Sfml\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -391,6 +421,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>OpenGL32.lib;glu32.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Sfml\Bin\$(Configuration)\$(Platform)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -401,10 +433,12 @@
       </Message>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)sfml-audio-s.lib $(TargetDir)sfml-graphics-s.lib $(TargetDir)sfml-network-s.lib $(TargetDir)sfml-system-s.lib $(TargetDir)sfml-window-s.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Building Hect.lib</Message>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -415,7 +449,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\Sfml\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -423,6 +457,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>OpenGL32.lib;glu32.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Sfml\Bin\$(Configuration)\$(Platform)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -433,10 +469,12 @@
       </Message>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)sfml-audio-s.lib $(TargetDir)sfml-graphics-s.lib $(TargetDir)sfml-network-s.lib $(TargetDir)sfml-system-s.lib $(TargetDir)sfml-window-s.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Building Hect.lib</Message>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

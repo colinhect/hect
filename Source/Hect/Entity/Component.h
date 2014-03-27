@@ -26,6 +26,7 @@
 #include <cstdint>
 #include <memory>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
@@ -40,7 +41,7 @@ typedef uint32_t ComponentTypeId;
 
 ///
 /// Base entity component.
-class BaseComponent :
+class HECT_API BaseComponent :
     public Encodable
 {
 public:

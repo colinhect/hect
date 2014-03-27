@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/UniformValue.h"
 
 namespace hect
@@ -32,7 +33,7 @@ namespace hect
 
 ///
 /// A pass's value for a uniform.
-class PassUniformValue
+class HECT_API PassUniformValue
 {
 public:
 

@@ -25,6 +25,7 @@
 
 #include <map>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Listener.h"
 #include "Hect/Input/InputAxis.h"
 #include "Hect/Input/Mouse.h"
@@ -35,7 +36,7 @@ namespace hect
 
 ///
 /// Provides access to input peripherals connected to the system.
-class InputSystem :
+class HECT_API InputSystem :
     public Listener<MouseEvent>
 {
     friend class Window;

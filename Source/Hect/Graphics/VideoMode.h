@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
@@ -30,7 +31,7 @@ namespace hect
 
 ///
 /// Describes the video mode a window uses.
-class VideoMode :
+class HECT_API VideoMode :
     public Encodable
 {
 public:

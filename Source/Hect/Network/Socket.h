@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Core/TimeSpan.h"
 #include "Hect/Network/Packet.h"
@@ -58,7 +59,7 @@ enum class SocketEventType
 
 ///
 /// An event triggered from a remote socket.
-class SocketEvent
+class HECT_API SocketEvent
 {
 public:
 
@@ -85,7 +86,7 @@ public:
 ///
 /// \note A socket can either listen for incoming connections or attempt
 /// to connect to a remote socket which is listening.
-class Socket :
+class HECT_API Socket :
     public Uncopyable
 {
 public:

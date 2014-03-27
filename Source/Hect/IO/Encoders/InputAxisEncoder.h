@@ -23,12 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Input/InputAxis.h"
 
 namespace hect
 {
 
-class InputAxisEncoder
+class HECT_API InputAxisEncoder
 {
 public:
     static void encode(const InputAxis& inputAxis, ObjectEncoder& encoder);

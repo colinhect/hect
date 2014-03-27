@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
@@ -34,7 +36,7 @@ public:
 
     ///
     /// Constructs a container without a value.
-    Any();
+    HECT_API Any();
 
     ///
     /// Constructs a container with a value.
@@ -49,7 +51,7 @@ public:
     /// \note The held value in the container itself is copied.
     ///
     /// \param any The container to copy.
-    Any(const Any& any);
+    HECT_API Any(const Any& any);
 
     ///
     /// Constructs a container moved from another container.
@@ -57,11 +59,11 @@ public:
     /// \note The held value in the container itself is not copied.
     ///
     /// \param any The container to move.
-    Any(Any&& any);
+    HECT_API Any(Any&& any);
 
     ///
     /// Destructor.
-    ~Any();
+    HECT_API ~Any();
 
     ///
     /// Assigns a value to the container.
@@ -84,7 +86,7 @@ public:
     /// \param any The container to assign the value from.
     ///
     /// \returns A reference to the container.
-    Any& operator=(const Any& any);
+    HECT_API Any& operator=(const Any& any);
 
     ///
     /// Returns whether the container holds a value of a certain type.
@@ -93,7 +95,7 @@ public:
 
     ///
     /// Returns whether the container holds any value at all.
-    bool hasValue() const;
+    HECT_API bool hasValue() const;
 
     ///
     /// Returns the value the container holds as a specific type.

@@ -25,6 +25,7 @@
 
 #include <map>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Asset/AssetHandle.h"
 #include "Hect/Graphics/PassUniformValue.h"
 #include "Hect/Graphics/RenderMode.h"
@@ -39,7 +40,7 @@ namespace hect
 ///
 /// \note Contains the render mode, textures, shader, and uniform values
 /// used when rendering geometry for this step in the technique.
-class Pass
+class HECT_API Pass
 {
 public:
 

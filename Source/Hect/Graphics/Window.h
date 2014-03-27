@@ -25,6 +25,7 @@
 
 #include <string>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/VideoMode.h"
@@ -39,7 +40,7 @@ class InputSystem;
 /// The window that the engine is rendering to.
 ///
 /// \note In most cases the window represents the native OS window.
-class Window :
+class HECT_API Window :
     public RenderTarget,
     public Uncopyable
 {

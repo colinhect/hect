@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Entity/Entity.h"
 
 namespace hect
@@ -30,7 +31,7 @@ namespace hect
 
 ///
 /// A system which handles entities with specific components.
-class System
+class HECT_API System
 {
 public:
 

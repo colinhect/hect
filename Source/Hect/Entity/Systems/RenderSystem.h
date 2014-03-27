@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Entity/System.h"
 #include "Hect/Entity/Components/Camera.h"
 #include "Hect/Graphics/Mesh.h"
@@ -33,7 +34,7 @@ namespace hect
 
 ///
 /// Provides basic rendering.
-class RenderSystem :
+class HECT_API RenderSystem :
     public System
 {
 public:

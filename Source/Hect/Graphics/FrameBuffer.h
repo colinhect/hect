@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture.h"
 
@@ -33,7 +34,7 @@ class Renderer;
 
 ///
 /// A buffer on the GPU that can be rendered to.
-class FrameBuffer :
+class HECT_API FrameBuffer :
     public RenderTarget,
     public RendererObject
 {

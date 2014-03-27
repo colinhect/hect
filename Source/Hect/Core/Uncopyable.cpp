@@ -21,25 +21,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Uncopyable.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Graphics/Mesh.h"
+using namespace hect;
 
-namespace hect
+Uncopyable::Uncopyable()
 {
+}
 
-class HECT_API MeshEncoder
+Uncopyable::~Uncopyable()
 {
-public:
-    static void encode(const Mesh& mesh, ObjectEncoder& encoder);
-    static void decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache);
-
-    static IndexType indexTypeFromString(const std::string& value);
-    static std::string indexTypeToString(IndexType indexType);
-
-    static PrimitiveType primitiveTypeFromString(const std::string& value);
-    static std::string primitiveTypeToString(PrimitiveType primitiveType);
-};
-
 }

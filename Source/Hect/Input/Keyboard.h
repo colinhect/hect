@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Dispatcher.h"
 
 namespace hect
@@ -106,7 +107,7 @@ enum class KeyboardEventType
 
 ///
 /// An event triggered by pressing or releasing a key on the keyboard.
-class KeyboardEvent
+class HECT_API KeyboardEvent
 {
 public:
 
@@ -125,7 +126,7 @@ public:
 
 ///
 /// Provides access to the system keyboard.
-class Keyboard
+class HECT_API Keyboard
 {
     friend class InputSystem;
 public:

@@ -26,6 +26,7 @@
 #include <string>
 #include <cstdint>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -36,7 +37,7 @@ namespace hect
 
 ///
 /// An interface for reading streamed data.
-class ReadStream
+class HECT_API ReadStream
 {
 public:
 

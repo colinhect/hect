@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Asset/AssetHandle.h"
 #include "Hect/Graphics/Uniform.h"
 #include "Hect/Graphics/ShaderModule.h"
@@ -33,7 +34,7 @@ namespace hect
 
 ///
 /// A GPU shader program.
-class Shader :
+class HECT_API Shader :
     public RendererObject,
     public Encodable
 {

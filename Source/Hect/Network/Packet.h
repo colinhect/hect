@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/MemoryReadStream.h"
 #include "Hect/IO/MemoryWriteStream.h"
 
@@ -55,7 +56,7 @@ enum PacketFlag
 
 ///
 /// A packet of data to be transported across a network connection.
-class Packet
+class HECT_API Packet
 {
     friend class Socket;
 public:

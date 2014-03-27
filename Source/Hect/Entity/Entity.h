@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/Asset/AssetCache.h"
 #include "Hect/Entity/Component.h"
@@ -37,7 +38,7 @@ namespace hect
 /// \note An entity value is a lightweight handle for an entity within a
 /// scene.  Copying an entity value will result in another handle pointing
 /// to the same entity.
-class Entity :
+class HECT_API Entity :
     public Encodable
 {
     friend class Scene;

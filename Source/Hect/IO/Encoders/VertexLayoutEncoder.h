@@ -23,12 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/VertexLayout.h"
 
 namespace hect
 {
 
-class VertexLayoutEncoder
+class HECT_API VertexLayoutEncoder
 {
 public:
     static void encode(const VertexLayout& vertexLayout, ObjectEncoder& encoder);

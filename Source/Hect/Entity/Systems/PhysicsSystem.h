@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Entity/System.h"
 #include "Hect/Graphics/Mesh.h"
@@ -40,7 +41,7 @@ namespace hect
 
 ///
 /// Simulates physical interactions of physical bodies.
-class PhysicsSystem :
+class HECT_API PhysicsSystem :
     public System,
     public Uncopyable
 {

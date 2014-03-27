@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Technique.h"
 #include "Hect/IO/Encodable.h"
 
@@ -31,7 +32,7 @@ namespace hect
 
 ///
 /// The manner in which a surface is rendered.
-class Material :
+class HECT_API Material :
     public Encodable
 {
 public:

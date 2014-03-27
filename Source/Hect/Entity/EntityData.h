@@ -25,6 +25,7 @@
 
 #include <bitset>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Entity/Component.h"
 
 namespace hect
@@ -32,7 +33,7 @@ namespace hect
 
 ///
 /// Contains entity state information and component existence.
-class EntityData
+class HECT_API EntityData
 {
 public:
 

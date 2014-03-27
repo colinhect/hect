@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
@@ -96,7 +98,7 @@ enum class BlendFactor
 ///
 /// Describes a mode that the renderer is in which affects the resulting
 /// rendered pixels.
-class RenderMode
+class HECT_API RenderMode
 {
 public:
 

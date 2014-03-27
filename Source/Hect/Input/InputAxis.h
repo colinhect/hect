@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
@@ -60,7 +61,7 @@ enum class InputAxisSource
 
 ///
 /// An axis manipulated by an input device.
-class InputAxis :
+class HECT_API InputAxis :
     public Encodable
 {
 public:

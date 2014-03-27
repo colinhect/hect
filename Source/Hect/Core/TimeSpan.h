@@ -25,6 +25,7 @@
 
 #include <cstdint>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
 
 namespace hect
@@ -32,7 +33,7 @@ namespace hect
 
 ///
 /// A duration of time.
-class TimeSpan
+class HECT_API TimeSpan
 {
 public:
 

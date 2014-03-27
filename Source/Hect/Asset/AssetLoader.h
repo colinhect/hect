@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Path.h"
 
 namespace hect
@@ -49,7 +50,7 @@ public:
     /// \param asset The asset to load to.
     /// \param assetPath The path to the asset.
     /// \param assetCache The asset cache to load referenced assets using.
-    static void load(T& asset, const Path& assetPath, AssetCache& assetCache);
+    HECT_API static void load(T& asset, const Path& assetPath, AssetCache& assetCache);
 };
 
 }

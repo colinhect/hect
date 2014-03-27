@@ -25,6 +25,8 @@
 
 #include <string>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
@@ -34,6 +36,6 @@ namespace hect
 /// \param fmt The format string.
 ///
 /// \returns The formated string.
-std::string format(const char* fmt, ...);
+HECT_API std::string format(const char* fmt, ...);
 
 }
