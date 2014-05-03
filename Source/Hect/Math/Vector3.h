@@ -237,7 +237,12 @@ public:
     T z;
 };
 
+///
+/// A 3-dimensional vector of real numbers.
 typedef Vector3T<Real> Vector3;
+
+///
+/// A 3-dimensional vector of integers.
 typedef Vector3T<int> IntVector3;
 
 }

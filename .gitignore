@@ -8,6 +8,7 @@ Dependencies/*
 Samples/Common/Intermediate/*
 Samples/Cubes/Intermediate/*
 Tests/UnitTests/Intermediate/*
+Source/Hect/Reflection/_*
 *.opensdf
 *.sdf
 *.suo

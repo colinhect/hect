@@ -128,6 +128,7 @@
     <ClInclude Include="Source\Hect\Network\Peer.h" />
     <ClInclude Include="Source\Hect\Network\Socket.h" />
     <ClInclude Include="Source\Hect\Noise\Random.h" />
+    <ClInclude Include="Source\Hect\Reflection\Type.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp" />
@@ -229,6 +230,8 @@
     <ClCompile Include="Source\Hect\Network\Peer.cpp" />
     <ClCompile Include="Source\Hect\Network\Socket.cpp" />
     <ClCompile Include="Source\Hect\Noise\Random.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\_RegisterTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Asset\AssetCache.inl" />
@@ -378,6 +381,9 @@
       <Message>
       </Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>doxygen &amp; python generate_reflection.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -412,6 +418,9 @@
       <Message>
       </Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>doxygen &amp; python generate_reflection.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -448,6 +457,9 @@
       <Message>
       </Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>doxygen &amp; python generate_reflection.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -484,6 +496,9 @@
       <Message>
       </Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>doxygen &amp; python generate_reflection.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

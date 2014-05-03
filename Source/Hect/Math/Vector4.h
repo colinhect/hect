@@ -241,7 +241,12 @@ public:
     T w;
 };
 
+///
+/// A 4-dimensional vector of real numbers.
 typedef Vector4T<Real> Vector4;
+
+///
+/// A 4-dimensional vector of integers.
 typedef Vector4T<int> IntVector4;
 
 }

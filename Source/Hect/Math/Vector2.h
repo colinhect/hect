@@ -228,7 +228,12 @@ public:
     T y;
 };
 
+///
+/// A 2-dimensional vector of real numbers.
 typedef Vector2T<Real> Vector2;
+
+///
+/// A 2-dimensional vector of integers.
 typedef Vector2T<int> IntVector2;
 
 }

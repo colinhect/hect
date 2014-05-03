@@ -70,6 +70,9 @@
     <Filter Include="Source\Hect\IO\Encoders">
       <UniqueIdentifier>{772319fc-e0b7-4c8b-91ab-02bb7147edea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Hect\Reflection">
+      <UniqueIdentifier>{faf25e69-c179-4656-80d1-3c05a4134188}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Hect.h">
@@ -399,6 +402,9 @@
     <ClInclude Include="Source\Hect\Core\Reflector.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Reflection\Type.h">
+      <Filter>Source\Hect\Reflection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -697,6 +703,12 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Core\Reflector.cpp">
       <Filter>Source\Hect\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Reflection\Type.cpp">
+      <Filter>Source\Hect\Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Reflection\_RegisterTypes.cpp">
+      <Filter>Source\Hect\Reflection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

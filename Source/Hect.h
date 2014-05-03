@@ -139,3 +139,7 @@
 #include "Hect/IO/Encoders/UniformEncoder.h"
 #include "Hect/IO/Encoders/UniformValueEncoder.h"
 #include "Hect/IO/Encoders/VertexLayoutEncoder.h"
+
+///
+/// The namespace containing all Hect API.
+namespace hect { }
