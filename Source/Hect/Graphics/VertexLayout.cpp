@@ -24,6 +24,7 @@
 #include "VertexLayout.h"
 
 #include "Hect/IO/Encoders/VertexLayoutEncoder.h"
+#include "Hect/Reflection/Type.h"
 
 using namespace hect;
 
@@ -55,7 +56,7 @@ void VertexLayout::clearAttributes()
     _computeAttributeOffsets();
 }
 
-bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic semantic) const
+bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic::Enum semantic) const
 {
     for (const VertexAttribute& attribute : _attributes)
     {
@@ -67,7 +68,7 @@ bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic semantic) co
     return false;
 }
 
-const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemantic semantic) const
+const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemantic::Enum semantic) const
 {
     for (const VertexAttribute& attribute : _attributes)
     {
@@ -76,7 +77,7 @@ const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemant
             return attribute;
         }
     }
-    throw Error(format("Vertex layout does not have an attribute with semantic '%s'", VertexLayoutEncoder::attributeSemanticToString(semantic)));
+    throw Error(format("Vertex layout does not have an attribute with semantic '%s'", Enum::toString(semantic)));
 }
 
 const VertexAttribute::Array& VertexLayout::attributes() const

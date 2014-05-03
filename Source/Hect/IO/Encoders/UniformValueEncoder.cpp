@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "UniformValueEncoder.h"
 
+#include "Hect/Reflection/Type.h"
+
 using namespace hect;
 
 void UniformValueEncoder::encode(const UniformValue& uniformValue, ObjectEncoder& encoder)
@@ -35,7 +37,7 @@ void UniformValueEncoder::encode(const UniformValue& uniformValue, ObjectEncoder
     }
     else
     {
-        encoder.encodeString("type", uniformTypeToString(uniformValue.type()));
+        encoder.encodeString("type", Enum::toString(uniformValue.type()));
     }
 
     // Value
@@ -68,11 +70,11 @@ void UniformValueEncoder::decode(UniformValue& uniformValue, ObjectDecoder& deco
     if (decoder.isBinaryStream())
     {
         ReadStream& stream = decoder.binaryStream();
-        uniformValue.setType((UniformType)stream.readUnsignedByte());
+        uniformValue.setType((UniformType::Enum)stream.readUnsignedByte());
     }
     else if (decoder.hasMember("type"))
     {
-        uniformValue.setType(uniformTypeFromString(decoder.decodeString("type")));
+        uniformValue.setType(Enum::fromString<UniformType::Enum>(decoder.decodeString("type")));
     }
     else
     {
@@ -108,52 +110,4 @@ void UniformValueEncoder::decode(UniformValue& uniformValue, ObjectDecoder& deco
     {
         throw Error("No uniform value specified");
     }
-}
-
-UniformType UniformValueEncoder::uniformTypeFromString(const std::string& value)
-{
-    static std::map<std::string, UniformType> valueTypes;
-
-    if (valueTypes.empty())
-    {
-        valueTypes["Int"] = UniformType::Int;
-        valueTypes["Float"] = UniformType::Float;
-        valueTypes["Vector2"] = UniformType::Vector2;
-        valueTypes["Vector3"] = UniformType::Vector3;
-        valueTypes["Vector4"] = UniformType::Vector4;
-        valueTypes["Matrix4"] = UniformType::Matrix4;
-        valueTypes["Texture"] = UniformType::Texture;
-    }
-
-    auto it = valueTypes.find(value);
-    if (it == valueTypes.end())
-    {
-        throw Error(format("Invalid uniform type '%s'", value.c_str()));
-    }
-
-    return (*it).second;
-}
-
-std::string UniformValueEncoder::uniformTypeToString(UniformType uniformType)
-{
-    static std::map<UniformType, std::string> valueTypeNames;
-
-    if (valueTypeNames.empty())
-    {
-        valueTypeNames[UniformType::Int] = "Int";
-        valueTypeNames[UniformType::Float] = "Float";
-        valueTypeNames[UniformType::Vector2] = "Vector2";
-        valueTypeNames[UniformType::Vector3] = "Vector3";
-        valueTypeNames[UniformType::Vector4] = "Vector4";
-        valueTypeNames[UniformType::Matrix4] = "Matrix4";
-        valueTypeNames[UniformType::Texture] = "Texture";
-    }
-
-    auto it = valueTypeNames.find(uniformType);
-    if (it == valueTypeNames.end())
-    {
-        throw Error(format("Invalid uniform type '%d'", uniformType));
-    }
-
-    return (*it).second;
 }

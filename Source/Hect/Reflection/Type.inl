@@ -24,8 +24,84 @@
 namespace hect
 {
 
+template <typename T>
+T Enum::fromString(const std::string& string)
+{
+    const Type& type = Type::get<T>();
+    std::map<std::string, int>& stringToValue = _stringToValue[std::type_index(typeid(T))];
+    auto it = stringToValue.find(string);
+    if (it != stringToValue.end())
+    {
+        return (T)it->second;
+    }
+    else
+    {
+        throw Error(format("Invalid string '%s' for type '%s'", string.c_str(), type.name().c_str()));
+    }
+}
+
+template <typename T>
+const std::string& Enum::toString(T value)
+{
+    const Type& type = Type::get<T>();
+    std::map<int, std::string>& valueToString = _valueToString[std::type_index(typeid(T))];
+    auto it = valueToString.find(value);
+    if (it != valueToString.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        throw Error(format("Invalid value for type '%s'", type.name().c_str()));
+    }
+}
+
+template <typename T>
+void Enum::add(const std::string& string, T value)
+{
+    Type::get<T>();
+    _stringToValue[std::type_index(typeid(T))][string] = (int)value;
+    _valueToString[std::type_index(typeid(T))][(int)value] = string;
+}
+
+template <typename T>
+Type& Type::create(Kind::Enum kind, const std::string& name)
+{
+    std::shared_ptr<Type> type(new Type(kind, name));
+    _types[std::type_index(typeid(T))] = type;
+    return *type;
+}
+
+template <typename T>
+const Type& Type::get()
+{
+    Type* type = _types[std::type_index(typeid(T))].get();
+    if (type)
+    {
+        return *type;
+    }
+    else
+    {
+        throw Error("Unknown type");
+    }
+}
+
+template <typename T>
+const Type& Type::of(const T& object)
+{
+    Type* type = _types[std::type_index(typeid(object))].get();
+    if (type)
+    {
+        return *type;
+    }
+    else
+    {
+        throw Error("Unknown type");
+    }
+}
+
 template <typename ClassType, typename PropertyType>
-void Reflector::addProperty(const std::string& name, PropertyType (ClassType::*getter)() const, void (ClassType::*setter)(PropertyType))
+void Type::addProperty(const std::string& name, PropertyType (ClassType::*getter)() const, void (ClassType::*setter)(PropertyType))
 {
     auto propertyGetter = [=] (const void* instance) -> const PropertyType&
     {
@@ -45,7 +121,7 @@ void Reflector::addProperty(const std::string& name, PropertyType (ClassType::*g
 }
 
 template <typename ClassType, typename PropertyType>
-void Reflector::addProperty(const std::string& name, const PropertyType& (ClassType::*getter)() const, void (ClassType::*setter)(const PropertyType&))
+void Type::addProperty(const std::string& name, const PropertyType& (ClassType::*getter)() const, void (ClassType::*setter)(const PropertyType&))
 {
     auto propertyGetter = [=] (const void* instance) -> const PropertyType&
     {

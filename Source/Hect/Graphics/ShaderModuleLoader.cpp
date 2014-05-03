@@ -30,7 +30,7 @@ using namespace hect;
 void AssetLoader<ShaderModule>::load(ShaderModule& shaderModule, const Path& assetPath, AssetCache& assetCache)
 {
     // Determine the shader module type by the extension
-    ShaderModuleType type;
+    ShaderModuleType::Enum type;
     std::string extension = assetPath.extension();
     if (extension == "vert")
     {

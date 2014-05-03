@@ -39,6 +39,8 @@ int main(int argc, const char* argv[])
 
     try
     {
+        Type::registerTypes();
+
         // Create file system
         FileSystem fileSystem;
 

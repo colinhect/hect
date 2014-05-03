@@ -27,6 +27,18 @@
 
 using namespace hect;
 
+InputAxis::InputAxis() :
+    _source(InputAxisSource::Key),
+    _positiveMouseButton(MouseButton::Left),
+    _negativeMouseButton(MouseButton::Right),
+    _positiveKey(Key::A),
+    _negativeKey(Key::B),
+    _value(0),
+    _acceleration(1),
+    _gravity(0)
+{
+}
+
 InputAxis::InputAxis(const std::string& name) :
     _name(name),
     _source(InputAxisSource::Key),
@@ -45,52 +57,57 @@ const std::string& InputAxis::name() const
     return _name;
 }
 
-InputAxisSource InputAxis::source() const
+void InputAxis::setName(const std::string& name)
+{
+    _name = name;
+}
+
+InputAxisSource::Enum InputAxis::source() const
 {
     return _source;
 }
 
-void InputAxis::setSource(InputAxisSource source)
+void InputAxis::setSource(InputAxisSource::Enum source)
 {
     _source = source;
 }
 
-MouseButton InputAxis::positiveMouseButton() const
+MouseButton::Enum InputAxis::positiveMouseButton() const
 {
     return _positiveMouseButton;
 }
 
-void InputAxis::setPositiveMouseButton(MouseButton button)
+void InputAxis::setPositiveMouseButton(MouseButton::Enum button)
 {
     _positiveMouseButton = button;
 }
 
-MouseButton InputAxis::negativeMouseButton() const
+MouseButton::Enum InputAxis::negativeMouseButton() const
 {
     return _negativeMouseButton;
 }
 
-void InputAxis::setNegativeMouseButton(MouseButton button)
+void InputAxis::setNegativeMouseButton(MouseButton::Enum button)
 {
     _negativeMouseButton = button;
 }
 
-Key InputAxis::positiveKey() const
+Key::Enum InputAxis::positiveKey() const
 {
     return _positiveKey;
 }
 
-void InputAxis::setPositiveKey(Key key)
+void InputAxis::setPositiveKey(Key::Enum key)
 {
     _positiveKey = key;
 }
 
-Key InputAxis::negativeKey() const
+Key::Enum InputAxis::negativeKey() const
 {
     return _negativeKey;
 }
 
-void InputAxis::setNegativeKey(Key key)
+void InputAxis::setNegativeKey(Key::Enum key)
 {
     _negativeKey = key;
 }

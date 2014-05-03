@@ -25,10 +25,9 @@
 
 #include <string>
 
-SUITE(Reflectable)
+SUITE(Reflection)
 {
-    class Person :
-        public Reflectable
+    class Person
     {
     public:
 
@@ -58,21 +57,6 @@ SUITE(Reflectable)
             _age = age;
         }
 
-        const Reflector& reflector() const
-        {
-            static Reflector _reflector("Person");
-            static bool _reflectorBuilt = false;
-
-            if (!_reflectorBuilt)
-            {
-                _reflectorBuilt = true;
-                _reflector.addProperty<Person, std::string>("name", &Person::name, &Person::setName);
-                _reflector.addProperty<Person, int>("age", &Person::age, &Person::setAge);
-            }
-
-            return _reflector;
-        }
-
     private:
         std::string _name;
         int _age;
@@ -81,13 +65,16 @@ SUITE(Reflectable)
     TEST(GetAndSetProperty)
     {
         Person frank("Frank", 37);
-        const Reflector& reflector = frank.reflector();
 
-        const Property& nameProperty = reflector.propertyWithName("name");
+        Type& type = Type::create<Person>(Kind::Class, "Person");
+        type.addProperty<Person, std::string>("name", &Person::name, &Person::setName);
+        type.addProperty<Person, int>("age", &Person::age, &Person::setAge);
+
+        const Property& nameProperty = type.propertyWithName("name");
         CHECK(nameProperty.isType<std::string>());
         CHECK(!nameProperty.isType<int>());
 
-        const Property& ageProperty = reflector.propertyWithName("age");
+        const Property& ageProperty = type.propertyWithName("age");
         CHECK(!ageProperty.isType<std::string>());
         CHECK(ageProperty.isType<int>());
 
@@ -100,21 +87,16 @@ SUITE(Reflectable)
         CHECK_EQUAL(37, ageProperty.get<int>(frank));
         ageProperty.set<int>(frank, 42);
         CHECK_EQUAL(42, ageProperty.get<int>(frank));
-    }
-
-    TEST(IterateProperties)
-    {
-        Person frank("Frank", 37);
-        const Reflector& reflector = frank.reflector();
-
+        
+        // Iterate
         size_t i = 0;
-        for (Property* property : reflector.properties())
+        for (Property* property : type.properties())
         {
             if (i == 0)
             {
                 CHECK_EQUAL("name", property->name());
                 CHECK(property->isType<std::string>());
-                CHECK_EQUAL("Frank", property->get<std::string>(frank));
+                CHECK_EQUAL("Joe", property->get<std::string>(frank));
             }
             else if (i == 1)
             {

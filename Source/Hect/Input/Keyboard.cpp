@@ -31,7 +31,7 @@ KeyboardEvent::KeyboardEvent() :
 {
 }
 
-bool Keyboard::isKeyDown(Key key) const
+bool Keyboard::isKeyDown(Key::Enum key) const
 {
     return _keyStates[(int)key];
 }

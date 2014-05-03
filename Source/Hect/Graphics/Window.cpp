@@ -63,7 +63,7 @@ MouseEvent _translateMouseEvent(const sf::Event& event, const IntVector2& cursor
             event.type == sf::Event::MouseButtonPressed ?
             MouseEventType::ButtonDown :
             MouseEventType::ButtonUp;
-        mouseEvent.button = (MouseButton)event.mouseButton.button;
+        mouseEvent.button = (MouseButton::Enum)event.mouseButton.button;
     }
     break;
     case sf::Event::MouseWheelMoved:
@@ -97,7 +97,7 @@ KeyboardEvent _translateKeyboardEvent(const sf::Event& event)
             event.type == sf::Event::KeyPressed ?
             KeyboardEventType::KeyDown :
             KeyboardEventType::KeyUp;
-        keyboardEvent.key = (Key)event.key.code;
+        keyboardEvent.key = (Key::Enum)event.key.code;
     }
     break;
     }

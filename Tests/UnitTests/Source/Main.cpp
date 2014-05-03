@@ -56,7 +56,7 @@ using namespace hect;
 #include "PathTests.h"
 #include "PlaneTests.h"
 #include "QuaternionTests.h"
-#include "ReflectableTests.h"
+#include "ReflectionTests.h"
 #include "SceneTests.h"
 #include "StreamTests.h"
 #include "TaskPoolTests.h"
@@ -71,6 +71,8 @@ using namespace hect;
 
 int main()
 {
+    hect::Type::registerTypes();
+
     int failed = UnitTest::RunAllTests();
     if (failed)
     {

@@ -23,17 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Type.h"
 
+#include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
+
 using namespace hect;
-
-Kind::Enum Type::getKind() const
-{
-    return _kind;
-}
-
-const std::string& Type::getName() const
-{
-    return _name;
-}
 
 Type::Type(Kind::Enum kind, const std::string& name) :
     _kind(kind),
@@ -41,4 +34,50 @@ Type::Type(Kind::Enum kind, const std::string& name) :
 {
 }
 
+Kind::Enum Type::kind() const
+{
+    return _kind;
+}
+
+const std::string& Type::name() const
+{
+    return _name;
+}
+
+const Property& Type::propertyWithName(const std::string& name) const
+{
+    for (Property* property : _properties)
+    {
+        if (property->name() == name)
+        {
+            return *property;
+        }
+    }
+
+    throw Error(format("No property with name '%s'", name.c_str()));
+}
+
+const Property::Array& Type::properties() const
+{
+    return _properties;
+}
+
+void Type::addRegisterFunction(RegisterFunction registerFunction)
+{
+    _registerFunctions.push_back(registerFunction);
+}
+
+void Type::registerTypes()
+{
+    for (const RegisterFunction& registerFunction : _registerFunctions)
+    {
+        registerFunction();
+    }
+    _registerFunctions.clear();
+}
+
+std::vector<Type::RegisterFunction> Type::_registerFunctions;
 std::map<std::type_index, std::shared_ptr<Type>> Type::_types;
+
+std::map<std::type_index, std::map<std::string, int>> Enum::_stringToValue;
+std::map<std::type_index, std::map<int, std::string>> Enum::_valueToString;

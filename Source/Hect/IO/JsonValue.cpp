@@ -38,7 +38,7 @@ JsonValue::JsonValue() :
 {
 }
 
-JsonValue::JsonValue(JsonValueType type) :
+JsonValue::JsonValue(JsonValueType::Enum type) :
     _type(type)
 {
     switch (type)
@@ -156,7 +156,7 @@ JsonValue::JsonValue(JsonValue&& jsonValue) :
     jsonValue._type = JsonValueType::Null;
 }
 
-JsonValueType JsonValue::type() const
+JsonValueType::Enum JsonValue::type() const
 {
     return _type;
 }

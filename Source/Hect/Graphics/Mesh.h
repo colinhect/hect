@@ -34,31 +34,37 @@ namespace hect
 
 ///
 /// How the primitives of a mesh are rendered.
-enum class PrimitiveType : uint8_t
+namespace PrimitiveType
 {
-    Triangles,
-    TriangleStrip,
-    Lines,
-    LineStrip,
-    Points
-};
+    enum Enum : uint8_t
+    {
+        Triangles,
+        TriangleStrip,
+        Lines,
+        LineStrip,
+        Points
+    };
+}
 
 ///
 /// The type of each index in an index sequence.
-enum class IndexType : uint8_t
+namespace IndexType
 {
-    ///
-    /// An 8-bit unsigned integer.
-    UnsignedByte,
+    enum Enum : uint8_t
+    {
+        ///
+        /// An 8-bit unsigned integer.
+        UnsignedByte,
 
-    ///
-    /// A 16-bit unsigned integer.
-    UnsignedShort,
+        ///
+        /// A 16-bit unsigned integer.
+        UnsignedShort,
 
-    ///
-    /// A 32-bit unsigned integer.
-    UnsignedInt
-};
+        ///
+        /// A 32-bit unsigned integer.
+        UnsignedInt
+    };
+}
 
 ///
 /// A mesh of vertices and indices.
@@ -132,7 +138,7 @@ public:
 
     ///
     /// Returns the primitive type.
-    PrimitiveType primitiveType() const;
+    PrimitiveType::Enum primitiveType() const;
 
     ///
     /// Sets the primitive type.
@@ -141,11 +147,11 @@ public:
     ///
     /// \note If the mesh is uploaded to a renderer then it will be destroyed
     /// before the primitive type is set.
-    void setPrimitiveType(PrimitiveType primitiveType);
+    void setPrimitiveType(PrimitiveType::Enum primitiveType);
 
     ///
     /// Returns the index type.
-    IndexType indexType() const;
+    IndexType::Enum indexType() const;
 
     ///
     /// Sets the index type.
@@ -156,7 +162,7 @@ public:
     /// before the index type is set.
     ///
     /// \throws Error If the mesh already has index data.
-    void setIndexType(IndexType indexType);
+    void setIndexType(IndexType::Enum indexType);
 
     ///
     /// Returns the raw vertex data.
@@ -258,14 +264,14 @@ public:
     Mesh& operator=(Mesh&& mesh);
 
 private:
-    static IndexType _parseIndexType(const std::string& value);
-    static PrimitiveType _parsePrimitiveType(const std::string& value);
+    static IndexType::Enum _parseIndexType(const std::string& value);
+    static PrimitiveType::Enum _parsePrimitiveType(const std::string& value);
 
     std::string _name;
 
     VertexLayout _vertexLayout;
-    PrimitiveType _primitiveType;
-    IndexType _indexType;
+    PrimitiveType::Enum _primitiveType;
+    IndexType::Enum _indexType;
 
     VertexData _vertexData;
     size_t _vertexCount;

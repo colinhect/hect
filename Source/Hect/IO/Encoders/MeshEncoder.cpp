@@ -26,6 +26,7 @@
 #include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Graphics/MeshReader.h"
 #include "Hect/IO/Encoders/VertexLayoutEncoder.h"
+#include "Hect/Reflection/Type.h"
 
 using namespace hect;
 
@@ -45,7 +46,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
     }
     else
     {
-        encoder.encodeString("indexType", indexTypeToString(mesh.indexType()));
+        encoder.encodeString("indexType", Enum::toString(mesh.indexType()));
     }
 
     // Primitive type
@@ -56,7 +57,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
     }
     else
     {
-        encoder.encodeString("primitiveType", primitiveTypeToString(mesh.primitiveType()));
+        encoder.encodeString("primitiveType", Enum::toString(mesh.primitiveType()));
     }
 
     if (encoder.isBinaryStream())
@@ -92,9 +93,9 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
                 for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
                 {
                     ArrayEncoder attributeEncoder = attributesEncoder.encodeArray();
-                    VertexAttributeSemantic semantic = attribute.semantic();
+                    VertexAttributeSemantic::Enum semantic = attribute.semantic();
 
-                    attributeEncoder.encodeString(VertexLayoutEncoder::attributeSemanticToString(semantic));
+                    attributeEncoder.encodeString(Enum::toString(semantic));
 
                     unsigned cardinality = attribute.cardinality();
                     if (cardinality == 1)
@@ -156,13 +157,13 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
     if (decoder.isBinaryStream())
     {
         ReadStream& stream = decoder.binaryStream();
-        IndexType indexType = (IndexType)stream.readUnsignedByte();
+        IndexType::Enum indexType = (IndexType::Enum)stream.readUnsignedByte();
 
         mesh.setIndexType(indexType);
     }
     else if (decoder.hasMember("indexType"))
     {
-        IndexType indexType = indexTypeFromString(decoder.decodeString("indexType"));
+        IndexType::Enum indexType = Enum::fromString<IndexType::Enum>(decoder.decodeString("indexType"));
 
         mesh.setIndexType(indexType);
     }
@@ -171,12 +172,12 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
     if (decoder.isBinaryStream())
     {
         ReadStream& stream = decoder.binaryStream();
-        PrimitiveType primitiveType = (PrimitiveType)stream.readUnsignedByte();
+        PrimitiveType::Enum primitiveType = (PrimitiveType::Enum)stream.readUnsignedByte();
         mesh.setPrimitiveType(primitiveType);
     }
     else if (decoder.hasMember("primitiveType"))
     {
-        PrimitiveType primitiveType = primitiveTypeFromString(decoder.decodeString("primitiveType"));
+        PrimitiveType::Enum primitiveType = Enum::fromString<PrimitiveType::Enum>(decoder.decodeString("primitiveType"));
         mesh.setPrimitiveType(primitiveType);
     }
 
@@ -228,7 +229,7 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
                 {
                     ArrayDecoder attributeDecoder = attributesDecoder.decodeArray();
 
-                    auto semantic = VertexLayoutEncoder::attributeSemanticFromString(attributeDecoder.decodeString());
+                    auto semantic = Enum::fromString<VertexAttributeSemantic::Enum>(attributeDecoder.decodeString());
 
                     if (vertexLayout.hasAttributeWithSemantic(semantic))
                     {
@@ -277,88 +278,4 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
             }
         }
     }
-}
-
-IndexType MeshEncoder::indexTypeFromString(const std::string& value)
-{
-    static std::map<std::string, IndexType> indexTypes;
-
-    if (indexTypes.empty())
-    {
-        indexTypes["UnsignedByte"] = IndexType::UnsignedByte;
-        indexTypes["UnsignedShort"] = IndexType::UnsignedShort;
-        indexTypes["UnsignedInt"] = IndexType::UnsignedInt;
-    }
-
-    auto it = indexTypes.find(value);
-    if (it == indexTypes.end())
-    {
-        throw Error(format("Invalid index type '%s'", value.c_str()));
-    }
-
-    return (*it).second;
-}
-
-std::string MeshEncoder::indexTypeToString(IndexType indexType)
-{
-    static std::map<IndexType, std::string> indexTypeNames;
-
-    if (indexTypeNames.empty())
-    {
-        indexTypeNames[IndexType::UnsignedByte] = "UnsignedByte";
-        indexTypeNames[IndexType::UnsignedShort] = "UnsignedShort";
-        indexTypeNames[IndexType::UnsignedInt] = "UnsignedInt";
-    }
-
-    auto it = indexTypeNames.find(indexType);
-    if (it == indexTypeNames.end())
-    {
-        throw Error(format("Invalid index type '%d'", indexType));
-    }
-
-    return (*it).second;
-}
-
-PrimitiveType MeshEncoder::primitiveTypeFromString(const std::string& value)
-{
-    static std::map<std::string, PrimitiveType> primitiveTypes;
-
-    if (primitiveTypes.empty())
-    {
-        primitiveTypes["Triangles"] = PrimitiveType::Triangles;
-        primitiveTypes["TriangleStrip"] = PrimitiveType::TriangleStrip;
-        primitiveTypes["Lines"] = PrimitiveType::Lines;
-        primitiveTypes["LineStrip"] = PrimitiveType::LineStrip;
-        primitiveTypes["Points"] = PrimitiveType::Points;
-    }
-
-    auto it = primitiveTypes.find(value);
-    if (it == primitiveTypes.end())
-    {
-        throw Error(format("Invalid primitive type '%s'", value.c_str()));
-    }
-
-    return (*it).second;
-}
-
-std::string MeshEncoder::primitiveTypeToString(PrimitiveType primitiveType)
-{
-    static std::map<PrimitiveType, std::string> primitiveTypeNames;
-
-    if (primitiveTypeNames.empty())
-    {
-        primitiveTypeNames[PrimitiveType::Triangles] = "Triangles";
-        primitiveTypeNames[PrimitiveType::TriangleStrip] = "TriangleStrip";
-        primitiveTypeNames[PrimitiveType::Lines] = "Lines";
-        primitiveTypeNames[PrimitiveType::LineStrip] = "LineStrip";
-        primitiveTypeNames[PrimitiveType::Points] = "Points";
-    }
-
-    auto it = primitiveTypeNames.find(primitiveType);
-    if (it == primitiveTypeNames.end())
-    {
-        throw Error(format("Invalid primitive type '%d'", primitiveType));
-    }
-
-    return (*it).second;
 }

@@ -116,12 +116,12 @@ void Mesh::setVertexLayout(const VertexLayout& vertexLayout)
     _vertexLayout = vertexLayout;
 }
 
-PrimitiveType Mesh::primitiveType() const
+PrimitiveType::Enum Mesh::primitiveType() const
 {
     return _primitiveType;
 }
 
-void Mesh::setPrimitiveType(PrimitiveType primitiveType)
+void Mesh::setPrimitiveType(PrimitiveType::Enum primitiveType)
 {
     if (isUploaded())
     {
@@ -131,12 +131,12 @@ void Mesh::setPrimitiveType(PrimitiveType primitiveType)
     _primitiveType = primitiveType;
 }
 
-IndexType Mesh::indexType() const
+IndexType::Enum Mesh::indexType() const
 {
     return _indexType;
 }
 
-void Mesh::setIndexType(IndexType indexType)
+void Mesh::setIndexType(IndexType::Enum indexType)
 {
     if (isUploaded())
     {

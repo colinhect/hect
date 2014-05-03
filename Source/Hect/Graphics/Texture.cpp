@@ -49,7 +49,7 @@ Texture::Texture(const std::string& name) :
     setImage(new Image());
 }
 
-Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
+Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType::Enum pixelType, PixelFormat::Enum pixelFormat, TextureFilter::Enum minFilter, TextureFilter::Enum magFilter, bool mipmapped, bool wrapped) :
     _name(name),
     _image(new Image(width, height, pixelType, pixelFormat)),
     _width(width),
@@ -140,12 +140,12 @@ void Texture::setImage(const AssetHandle<Image>& image)
     _pixelFormat = image->pixelFormat();
 }
 
-TextureFilter Texture::minFilter() const
+TextureFilter::Enum Texture::minFilter() const
 {
     return _minFilter;
 }
 
-void Texture::setMinFilter(TextureFilter filter)
+void Texture::setMinFilter(TextureFilter::Enum filter)
 {
     if (isUploaded())
     {
@@ -155,12 +155,12 @@ void Texture::setMinFilter(TextureFilter filter)
     _minFilter = filter;
 }
 
-TextureFilter Texture::magFilter() const
+TextureFilter::Enum Texture::magFilter() const
 {
     return _magFilter;
 }
 
-void Texture::setMagFilter(TextureFilter filter)
+void Texture::setMagFilter(TextureFilter::Enum filter)
 {
     if (isUploaded())
     {
@@ -210,12 +210,12 @@ unsigned Texture::height() const
     return _height;
 }
 
-PixelFormat Texture::pixelFormat() const
+PixelFormat::Enum Texture::pixelFormat() const
 {
     return _pixelFormat;
 }
 
-PixelType Texture::pixelType() const
+PixelType::Enum Texture::pixelType() const
 {
     return _pixelType;
 }

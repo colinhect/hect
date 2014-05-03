@@ -24,6 +24,7 @@
 #include "UniformEncoder.h"
 
 #include "Hect/IO/Encoders/UniformValueEncoder.h"
+#include "Hect/Reflection/Type.h"
 
 using namespace hect;
 
@@ -56,7 +57,7 @@ void UniformEncoder::encode(const Uniform& uniform, ObjectEncoder& encoder)
         }
         else
         {
-            encoder.encodeString("binding", uniformBindingToString(uniform.binding()));
+            encoder.encodeString("binding", Enum::toString(uniform.binding()));
         }
     }
     else
@@ -105,69 +106,15 @@ void UniformEncoder::decode(Uniform& uniform, ObjectDecoder& decoder)
         if (decoder.isBinaryStream())
         {
             ReadStream& stream = decoder.binaryStream();
-            uniform.setBinding((UniformBinding)stream.readUnsignedByte());
+            uniform.setBinding((UniformBinding::Enum)stream.readUnsignedByte());
         }
         else
         {
-            uniform.setBinding(uniformBindingFromString(decoder.decodeString("binding")));
+            uniform.setBinding(Enum::fromString<UniformBinding::Enum>(decoder.decodeString("binding")));
         }
     }
     else
     {
         throw Error("No default value or binding specified");
     }
-}
-
-UniformBinding UniformEncoder::uniformBindingFromString(const std::string& value)
-{
-    static std::map<std::string, UniformBinding> uniformBindings;
-
-    if (uniformBindings.empty())
-    {
-        uniformBindings["None"] = UniformBinding::None;
-        uniformBindings["RenderTargetSize"] = UniformBinding::RenderTargetSize;
-        uniformBindings["CameraPosition"] = UniformBinding::CameraPosition;
-        uniformBindings["CameraUp"] = UniformBinding::CameraUp;
-        uniformBindings["ViewMatrix"] = UniformBinding::ViewMatrix;
-        uniformBindings["ProjectionMatrix"] = UniformBinding::ProjectionMatrix;
-        uniformBindings["ViewProjectionMatrix"] = UniformBinding::ViewProjectionMatrix;
-        uniformBindings["ModelMatrix"] = UniformBinding::ModelMatrix;
-        uniformBindings["ModelViewMatrix"] = UniformBinding::ModelViewMatrix;
-        uniformBindings["ModelViewProjectionMatrix"] = UniformBinding::ModelViewProjectionMatrix;
-    }
-
-    auto it = uniformBindings.find(value);
-    if (it == uniformBindings.end())
-    {
-        throw Error(format("Invalid uniform binding '%s'", value.c_str()));
-    }
-
-    return (*it).second;
-}
-
-std::string UniformEncoder::uniformBindingToString(UniformBinding uniformBinding)
-{
-    static std::map<UniformBinding, std::string> uniformBindingNames;
-
-    if (uniformBindingNames.empty())
-    {
-        uniformBindingNames[UniformBinding::None] = "None";
-        uniformBindingNames[UniformBinding::RenderTargetSize] = "RenderTargetSize";
-        uniformBindingNames[UniformBinding::CameraPosition] = "CameraPosition";
-        uniformBindingNames[UniformBinding::CameraUp] = "CameraUp";
-        uniformBindingNames[UniformBinding::ViewMatrix] = "ViewMatrix";
-        uniformBindingNames[UniformBinding::ProjectionMatrix] = "ProjectionMatrix";
-        uniformBindingNames[UniformBinding::ViewProjectionMatrix] = "ViewProjectionMatrix";
-        uniformBindingNames[UniformBinding::ModelMatrix] = "ModelMatrix";
-        uniformBindingNames[UniformBinding::ModelViewMatrix] = "ModelViewMatrix";
-        uniformBindingNames[UniformBinding::ModelViewProjectionMatrix] = "ModelViewProjectionMatrix";
-    }
-
-    auto it = uniformBindingNames.find(uniformBinding);
-    if (it == uniformBindingNames.end())
-    {
-        throw Error(format("Invalid uniform binding '%d'", uniformBinding));
-    }
-
-    return (*it).second;
 }

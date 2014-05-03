@@ -34,10 +34,6 @@ class HECT_API InputAxisEncoder
 public:
     static void encode(const InputAxis& inputAxis, ObjectEncoder& encoder);
     static void decode(InputAxis& inputAxis, ObjectDecoder& decoder);
-
-    static InputAxisSource inputAxisSourceFromString(const std::string& value);
-    static Key keyFromString(const std::string& value);
-    static MouseButton mouseButtonFromString(const std::string& value);
 };
 
 }

@@ -36,28 +36,31 @@ namespace hect
 
 ///
 /// The source of an input axis.
-enum class InputAxisSource
+namespace InputAxisSource
 {
-    ///
-    /// A mouse movement along the x axis.
-    MouseMoveX,
+    enum Enum
+    {
+        ///
+        /// A mouse movement along the x axis.
+        MouseMoveX,
 
-    ///
-    /// A mouse movement along the y axis.
-    MouseMoveY,
+        ///
+        /// A mouse movement along the y axis.
+        MouseMoveY,
 
-    ///
-    /// A mouse button press.
-    MouseButton,
+        ///
+        /// A mouse button press.
+        MouseButton,
 
-    ///
-    /// A mouse scroll.
-    MouseScroll,
+        ///
+        /// A mouse scroll.
+        MouseScroll,
 
-    ///
-    /// A key press.
-    Key
-};
+        ///
+        /// A key press.
+        Key
+    };
+}
 
 ///
 /// An axis manipulated by an input device.
@@ -69,72 +72,86 @@ public:
     ///
     /// An array of input axes.
     typedef std::vector<InputAxis> Array;
+    
+    ///
+    /// Constructs an input axis.
+    InputAxis();
 
     ///
     /// Constructs an input axis.
     ///
     /// \param name The name of the axis (must be unique).
     InputAxis(const std::string& name);
-
+    
     ///
     /// Returns the name.
+    ///
+    /// \property name
     const std::string& name() const;
 
     ///
+    /// Sets the name.
+    ///
+    /// \param name The new name.
+    ///
+    /// \property name
+    void setName(const std::string& name);
+
+    ///
     /// Returns the source.
-    InputAxisSource source() const;
+    InputAxisSource::Enum source() const;
 
     ///
     /// Sets the source.
     ///
     /// \param source The new source.
-    void setSource(InputAxisSource source);
+    void setSource(InputAxisSource::Enum source);
 
     ///
     /// Returns the mouse button which causes the axis to move in the positive
     /// direction.
-    MouseButton positiveMouseButton() const;
+    MouseButton::Enum positiveMouseButton() const;
 
     ///
     /// Sets the mouse button which causes the axis to move in the positive
     /// direction.
     ///
     /// \param button The new button.
-    void setPositiveMouseButton(MouseButton button);
+    void setPositiveMouseButton(MouseButton::Enum button);
 
     ///
     /// Returns the mouse button which causes the axis to move in the negative
     /// direction.
-    MouseButton negativeMouseButton() const;
+    MouseButton::Enum negativeMouseButton() const;
 
     ///
     /// Sets the mouse button which causes the axis to move in the negative
     /// direction.
     ///
     /// \param button The new button.
-    void setNegativeMouseButton(MouseButton button);
+    void setNegativeMouseButton(MouseButton::Enum button);
 
     ///
     /// Returns the key which causes the axis to move in the positive
     /// direction.
-    Key positiveKey() const;
+    Key::Enum positiveKey() const;
 
     ///
     /// Sets the key which causes the axis to move in the positive direction.
     ///
     /// \param key The new key.
-    void setPositiveKey(Key key);
+    void setPositiveKey(Key::Enum key);
 
     ///
     /// Returns the key which causes the axis to move in the negative
     /// direction.
-    Key negativeKey() const;
+    Key::Enum negativeKey() const;
 
     ///
     /// Sets the key which causes the axis to move in the negative direction.
     ///
     /// \param key The new key.
-    void setNegativeKey(Key key);
+    void setNegativeKey(Key::Enum key);
 
     ///
     /// Returns the current value.
@@ -181,13 +198,13 @@ public:
 
 private:
     std::string _name;
-    InputAxisSource _source;
+    InputAxisSource::Enum _source;
 
-    MouseButton _positiveMouseButton;
-    MouseButton _negativeMouseButton;
+    MouseButton::Enum _positiveMouseButton;
+    MouseButton::Enum _negativeMouseButton;
 
-    Key _positiveKey;
-    Key _negativeKey;
+    Key::Enum _positiveKey;
+    Key::Enum _negativeKey;
 
     Real _value;
     Real _acceleration;

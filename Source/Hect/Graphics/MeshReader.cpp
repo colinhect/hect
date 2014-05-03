@@ -49,7 +49,7 @@ bool MeshReader::nextVertex()
     return _mesh->vertexCount() >= _vertexCount;
 }
 
-Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
+Real MeshReader::readAttributeReal(VertexAttributeSemantic::Enum semantic) const
 {
     _checkVertexBoundary();
 
@@ -65,7 +65,7 @@ Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
     return value;
 }
 
-Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
+Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic::Enum semantic) const
 {
     _checkVertexBoundary();
 
@@ -91,7 +91,7 @@ Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
     return value;
 }
 
-Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
+Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic::Enum semantic) const
 {
     _checkVertexBoundary();
 
@@ -123,7 +123,7 @@ Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
     return value;
 }
 
-Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
+Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic::Enum semantic) const
 {
     _checkVertexBoundary();
 

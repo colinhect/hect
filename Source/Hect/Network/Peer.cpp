@@ -52,14 +52,14 @@ IpAddress Peer::address() const
     return IpAddress(((ENetPeer*)_enetPeer)->address.host);
 }
 
-PeerState Peer::state() const
+PeerState::Enum Peer::state() const
 {
     if (!_enetPeer)
     {
         return PeerState::Disconnected;
     }
 
-    return (PeerState)((ENetPeer*)_enetPeer)->state;
+    return (PeerState::Enum)((ENetPeer*)_enetPeer)->state;
 }
 
 bool Peer::operator==(const Peer& peer) const

@@ -31,79 +31,85 @@ namespace hect
 
 ///
 /// A key on a keyboard.
-enum class Key
+namespace Key
 {
-    A = 0,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-    I,
-    J,
-    K,
-    L,
-    M,
-    N,
-    O,
-    P,
-    Q,
-    R,
-    S,
-    T,
-    U,
-    V,
-    W,
-    X,
-    Y,
-    Z,
-    Num0 = 26,
-    Num1,
-    Num2,
-    Num3,
-    Num4,
-    Num5,
-    Num6,
-    Num7,
-    Num8,
-    Num9,
-    Esc = 36,
-    Ctrl,
-    Shift,
-    Alt,
-    Space = 57,
-    Enter,
-    Backspace,
-    Tab,
-    Tick = 54,
-    F1 = 85,
-    F2,
-    F3,
-    F4,
-    F5,
-    F6,
-    F7,
-    F8,
-    F9,
-    F10,
-    F11,
-    F12
-};
+    enum Enum
+    {
+        A = 0,
+        B,
+        C,
+        D,
+        E,
+        F,
+        G,
+        H,
+        I,
+        J,
+        K,
+        L,
+        M,
+        N,
+        O,
+        P,
+        Q,
+        R,
+        S,
+        T,
+        U,
+        V,
+        W,
+        X,
+        Y,
+        Z,
+        Num0 = 26,
+        Num1,
+        Num2,
+        Num3,
+        Num4,
+        Num5,
+        Num6,
+        Num7,
+        Num8,
+        Num9,
+        Esc = 36,
+        Ctrl,
+        Shift,
+        Alt,
+        Space = 57,
+        Enter,
+        Backspace,
+        Tab,
+        Tick = 54,
+        F1 = 85,
+        F2,
+        F3,
+        F4,
+        F5,
+        F6,
+        F7,
+        F8,
+        F9,
+        F10,
+        F11,
+        F12
+    };
+}
 
 ///
 /// A keyboard event type.
-enum class KeyboardEventType
+namespace KeyboardEventType
 {
-    ///
-    /// A key was pressed down.
-    KeyDown,
+    enum Enum
+    {
+        ///
+        /// A key was pressed down.
+        KeyDown,
 
-    ///
-    /// A key was released up.
-    KeyUp
-};
+        ///
+        /// A key was released up.
+        KeyUp
+    };
+}
 
 ///
 /// An event triggered by pressing or releasing a key on the keyboard.
@@ -117,11 +123,11 @@ public:
 
     ///
     /// The type of the event.
-    KeyboardEventType type;
+    KeyboardEventType::Enum type;
 
     ///
     /// The key relating to the event.
-    Key key;
+    Key::Enum key;
 };
 
 ///
@@ -135,7 +141,7 @@ public:
     /// Returns whether the given key is down.
     ///
     /// \param key The key to check if it is down.
-    bool isKeyDown(Key key) const;
+    bool isKeyDown(Key::Enum key) const;
 
     ///
     /// Returns the dispatcher of keyboard events.

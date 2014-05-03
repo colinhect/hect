@@ -24,9 +24,10 @@
 #pragma once
 
 #include "Hect/Core/Configuration.h"
-#include "Hect/Core/Property.h"
-#include "Hect/Core/Reflector.h"
-#include "Hect/Core/Reflectable.h"
+
+#include "Hect/Reflection/Type.h"
+#include "Hect/Reflection/Property.h"
+
 #include "Hect/Core/Real.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"

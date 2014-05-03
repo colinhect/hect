@@ -34,9 +34,6 @@ class HECT_API UniformValueEncoder
 public:
     static void encode(const UniformValue& uniformValue, ObjectEncoder& encoder);
     static void decode(UniformValue& uniformValue, ObjectDecoder& decoder);
-
-    static UniformType uniformTypeFromString(const std::string& value);
-    static std::string uniformTypeToString(UniformType uniformType);
 };
 
 }

@@ -33,49 +33,58 @@ namespace hect
 
 ///
 /// The type of each component in a pixel.
-enum class PixelType
+namespace PixelType
 {
-    ///
-    /// 16-bit floating point.
-    Half,
+    enum Enum
+    {
+        ///
+        /// 16-bit floating point.
+        Half,
 
-    ///
-    /// 32-bit floating point.
-    Float,
+        ///
+        /// 32-bit floating point.
+        Float,
 
-    ///
-    /// A byte.
-    Byte
-};
+        ///
+        /// A byte.
+        Byte
+    };
+}
 
 ///
 /// The layout of the component(s) in a pixel.
-enum class PixelFormat
+namespace PixelFormat
 {
-    ///
-    /// Red, green, and blue channels.
-    Rgb,
+    enum Enum
+    {
+        ///
+        /// Red, green, and blue channels.
+        Rgb,
 
-    ///
-    /// Red, green, blue, and alpha channels.
-    Rgba
-};
+        ///
+        /// Red, green, blue, and alpha channels.
+        Rgba
+    };
+}
 
 ///
 /// The color space a pixel is in.
-enum class ColorSpace
+namespace ColorSpace
 {
-    ///
-    /// Non-linear color space (sRGB).
-    ///
-    /// \note Only an image with a pixel type of PixelType::Byte can
-    /// be non-linear.
-    NonLinear,
+    enum Enum
+    {
+        ///
+        /// Non-linear color space (sRGB).
+        ///
+        /// \note Only an image with a pixel type of PixelType::Byte can
+        /// be non-linear.
+        NonLinear,
 
-    ///
-    /// Linear color space.
-    Linear
-};
+        ///
+        /// Linear color space.
+        Linear
+    };
+}
 
 ///
 /// A 2-dimensional image.
@@ -96,7 +105,7 @@ public:
     /// \param pixelType The pixel type.
     /// \param pixelFormat The pixel format.
     /// \param colorSpace The color space.
-    Image(unsigned width = 1, unsigned height = 1, PixelType pixelType = PixelType::Byte, PixelFormat pixelFormat = PixelFormat::Rgba, ColorSpace colorSpace = ColorSpace::Linear);
+    Image(unsigned width = 1, unsigned height = 1, PixelType::Enum pixelType = PixelType::Byte, PixelFormat::Enum pixelFormat = PixelFormat::Rgba, ColorSpace::Enum colorSpace = ColorSpace::Linear);
 
     ///
     /// Constructs an image moved from another.
@@ -126,15 +135,15 @@ public:
 
     ///
     /// Returns the pixel type.
-    PixelType pixelType() const;
+    PixelType::Enum pixelType() const;
 
     ///
     /// Returns the pixel format.
-    PixelFormat pixelFormat() const;
+    PixelFormat::Enum pixelFormat() const;
 
     ///
     /// Returns the color space.
-    ColorSpace colorSpace() const;
+    ColorSpace::Enum colorSpace() const;
 
     ///
     /// Returns the number of bytes in a pixel of this image.
@@ -144,10 +153,10 @@ private:
     unsigned _width;
     unsigned _height;
 
-    PixelType _pixelType;
-    PixelFormat _pixelFormat;
+    PixelType::Enum _pixelType;
+    PixelFormat::Enum _pixelFormat;
 
-    ColorSpace _colorSpace;
+    ColorSpace::Enum _colorSpace;
 
     RawPixelData _pixelData;
 };

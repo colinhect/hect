@@ -84,7 +84,7 @@ void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& targ
     {
         if (uniform.hasBinding())
         {
-            UniformBinding binding = uniform.binding();
+            UniformBinding::Enum binding = uniform.binding();
 
             switch (binding)
             {

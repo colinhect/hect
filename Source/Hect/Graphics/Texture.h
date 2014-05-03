@@ -34,15 +34,18 @@ namespace hect
 
 ///
 /// Describes how a texture pixel is rendered when magnified or minified.
-enum class TextureFilter
+namespace TextureFilter
 {
-    ///
-    /// The nearest pixel is selected.
-    Nearest,
+    enum Enum
+    {
+        ///
+        /// The nearest pixel is selected.
+        Nearest,
 
-    /// The pixel is interpolated linearly.
-    Linear
-};
+        /// The pixel is interpolated linearly.
+        Linear
+    };
+}
 
 ///
 /// A 2-dimensional texture.
@@ -79,7 +82,7 @@ public:
     /// \param magFilter The Magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
     /// \param wrapped True if the texture is wrapped; false otherwise.
-    Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped);
+    Texture(const std::string& name, unsigned width, unsigned height, PixelType::Enum pixelType, PixelFormat::Enum pixelFormat, TextureFilter::Enum minFilter, TextureFilter::Enum magFilter, bool mipmapped, bool wrapped);
 
     ///
     /// Constructs a 2-dimensional texture given a source image.
@@ -128,7 +131,7 @@ public:
 
     ///
     /// Returns the minification filter.
-    TextureFilter minFilter() const;
+    TextureFilter::Enum minFilter() const;
 
     ///
     /// Sets the minification filter.
@@ -137,11 +140,11 @@ public:
     /// destroyed before the filter is set.
     ///
     /// \param filter The new minification filter.
-    void setMinFilter(TextureFilter filter);
+    void setMinFilter(TextureFilter::Enum filter);
 
     ///
     /// Returns the magnification filter.
-    TextureFilter magFilter() const;
+    TextureFilter::Enum magFilter() const;
 
     ///
     /// Sets the magnification filter.
@@ -150,7 +153,7 @@ public:
     /// destroyed before the filter is set.
     ///
     /// \param filter The new magnification filter.
-    void setMagFilter(TextureFilter filter);
+    void setMagFilter(TextureFilter::Enum filter);
 
     ///
     /// Returns whether the texture is mipmapped.
@@ -188,11 +191,11 @@ public:
 
     ///
     /// Returns the pixel type.
-    PixelType pixelType() const;
+    PixelType::Enum pixelType() const;
 
     ///
     /// Returns the pixel format.
-    PixelFormat pixelFormat() const;
+    PixelFormat::Enum pixelFormat() const;
 
     ///
     /// Returns the number of bytes in a pixel of this texture.
@@ -234,7 +237,7 @@ public:
     Texture& operator=(Texture&& texture);
 
 private:
-    static TextureFilter _parseTextureFilter(const std::string& value);
+    static TextureFilter::Enum _parseTextureFilter(const std::string& value);
 
     std::string _name;
 
@@ -244,11 +247,11 @@ private:
     unsigned _width;
     unsigned _height;
 
-    PixelType _pixelType;
-    PixelFormat _pixelFormat;
+    PixelType::Enum _pixelType;
+    PixelFormat::Enum _pixelFormat;
 
-    TextureFilter _minFilter;
-    TextureFilter _magFilter;
+    TextureFilter::Enum _minFilter;
+    TextureFilter::Enum _magFilter;
 
     bool _mipmapped;
     bool _wrapped;

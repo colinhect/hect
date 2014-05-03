@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <functional>
 #include <string>
 #include <map>
 #include <memory>
@@ -31,12 +32,13 @@
 #include <typeindex>
 
 #include "Hect/Core/Export.h"
+#include "Hect/Reflection/Property.h"
 
 namespace hect
 {
 
 ///
-/// A kind of type
+/// A kind of type.
 namespace Kind
 {
     enum Enum
@@ -48,37 +50,87 @@ namespace Kind
     };
 }
 
-
 class Type
 {
 public:
 
-    Kind::Enum getKind() const;
-    const std::string& getName() const;
+    typedef std::function<void()> RegisterFunction;
+
+    HECT_API Type(Kind::Enum kind, const std::string& name);
+
+    HECT_API Kind::Enum kind() const;
+    HECT_API const std::string& name() const;
 
     template <typename T>
-    static Type& create(Kind::Enum kind, const std::string& name)
-    {
-        std::shared_ptr<Type> type(new Type(kind, name));
-        _types[std::type_index(typeid(T))] = type;
-        return *type;
-    }
+    static Type& create(Kind::Enum kind, const std::string& name);
+    
+    template <typename T>
+    static const Type& get();
 
     template <typename T>
-    static const Type& of(const T& object)
-    {
-        return *_types[std::type_index(typeid(object))];
-    }
+    static const Type& of(const T& object);
 
-    static void registerTypes();
+    ///
+    /// Returns the property of the given name.
+    ///
+    /// \param name The name of the property to get.
+    ///
+    /// \throws Error If no property with the given name exists.
+    HECT_API const Property& propertyWithName(const std::string& name) const;
+
+    ///
+    /// Returns all of the exposed properties in the type.
+    HECT_API const Property::Array& properties() const;
+
+    ///
+    /// Adds a property to the type.
+    ///
+    /// \param name The name of the property.
+    /// \param getter A pointer to the getter member function.
+    /// \param setter A pointer to the setter member function.
+    template <typename ClassType, typename PropertyType>
+    void addProperty(const std::string& name, PropertyType (ClassType::*getter)() const, void (ClassType::*setter)(PropertyType));
+    
+    ///
+    /// Adds a property to the type.
+    ///
+    /// \param name The name of the property.
+    /// \param getter A pointer to the getter member function.
+    /// \param setter A pointer to the setter member function.
+    template <typename ClassType, typename PropertyType>
+    void addProperty(const std::string& name, const PropertyType& (ClassType::*getter)() const, void (ClassType::*setter)(const PropertyType&));
+
+    static HECT_API void addRegisterFunction(RegisterFunction registerFunction);
+    static HECT_API void registerTypes();
 
 private:
-    Type(Kind::Enum kind, const std::string& name);
-
     Kind::Enum _kind;
     std::string _name;
 
-    static std::map<std::type_index, std::shared_ptr<Type>> _types;
+    Property::Array _properties;
+    std::vector<std::shared_ptr<Property>> _ownedProperties;
+
+    static HECT_API std::vector<RegisterFunction> _registerFunctions;
+    static HECT_API std::map<std::type_index, std::shared_ptr<Type>> _types;
+};
+
+class Enum
+{
+public:
+    template <typename T>
+    static T fromString(const std::string& string);
+
+    template <typename T>
+    static const std::string& toString(T value);
+
+    template <typename T>
+    static void add(const std::string& string, T value);
+
+private:
+    static HECT_API std::map<std::type_index, std::map<std::string, int>> _stringToValue;
+    static HECT_API std::map<std::type_index, std::map<int, std::string>> _valueToString;
 };
 
 }
+
+#include "Type.inl"

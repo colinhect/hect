@@ -25,7 +25,6 @@
     <ClInclude Include="Source\Hect\Asset\AssetHandle.h" />
     <ClInclude Include="Source\Hect\Asset\AssetLoader.h" />
     <ClInclude Include="Source\Hect\Core\Any.h" />
-    <ClInclude Include="Source\Hect\Core\Reflector.h" />
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\Dispatcher.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
@@ -37,9 +36,7 @@
     <ClInclude Include="Source\Hect\Core\LogicFlow.h" />
     <ClInclude Include="Source\Hect\Core\LogicLayer.h" />
     <ClInclude Include="Source\Hect\Core\Memory.h" />
-    <ClInclude Include="Source\Hect\Core\Property.h" />
     <ClInclude Include="Source\Hect\Core\Real.h" />
-    <ClInclude Include="Source\Hect\Core\Reflectable.h" />
     <ClInclude Include="Source\Hect\Core\TaskPool.h" />
     <ClInclude Include="Source\Hect\Core\Timer.h" />
     <ClInclude Include="Source\Hect\Core\TimeSpan.h" />
@@ -128,6 +125,7 @@
     <ClInclude Include="Source\Hect\Network\Peer.h" />
     <ClInclude Include="Source\Hect\Network\Socket.h" />
     <ClInclude Include="Source\Hect\Noise\Random.h" />
+    <ClInclude Include="Source\Hect\Reflection\Property.h" />
     <ClInclude Include="Source\Hect\Reflection\Type.h" />
   </ItemGroup>
   <ItemGroup>
@@ -139,9 +137,6 @@
     <ClCompile Include="Source\Hect\Core\LogicFlow.cpp" />
     <ClCompile Include="Source\Hect\Core\LogicLayer.cpp" />
     <ClCompile Include="Source\Hect\Core\Memory.cpp" />
-    <ClCompile Include="Source\Hect\Core\Reflectable.cpp" />
-    <ClCompile Include="Source\Hect\Core\Reflector.cpp" />
-    <ClCompile Include="Source\Hect\Core\Property.cpp" />
     <ClCompile Include="Source\Hect\Core\TaskPool.cpp" />
     <ClCompile Include="Source\Hect\Core\Timer.cpp" />
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp" />
@@ -230,18 +225,17 @@
     <ClCompile Include="Source\Hect\Network\Peer.cpp" />
     <ClCompile Include="Source\Hect\Network\Socket.cpp" />
     <ClCompile Include="Source\Hect\Noise\Random.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\Property.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
-    <ClCompile Include="Source\Hect\Reflection\_RegisterTypes.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\_HectTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Asset\AssetCache.inl" />
     <None Include="Source\Hect\Asset\AssetEntry.inl" />
     <None Include="Source\Hect\Asset\AssetHandle.inl" />
     <None Include="Source\Hect\Core\Any.inl" />
-    <None Include="Source\Hect\Core\Reflector.inl" />
     <None Include="Source\Hect\Core\Dispatcher.inl" />
     <None Include="Source\Hect\Core\IdPool.inl" />
-    <None Include="Source\Hect\Core\Property.inl" />
     <None Include="Source\Hect\Entity\Component.inl" />
     <None Include="Source\Hect\Entity\Entity.inl" />
     <None Include="Source\Hect\Entity\Scene.inl" />
@@ -250,6 +244,8 @@
     <None Include="Source\Hect\Math\Vector2.inl" />
     <None Include="Source\Hect\Math\Vector3.inl" />
     <None Include="Source\Hect\Math\Vector4.inl" />
+    <None Include="Source\Hect\Reflection\Property.inl" />
+    <None Include="Source\Hect\Reflection\Type.inl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Dependencies\Bullet\Bullet.vcxproj">
@@ -382,7 +378,7 @@
       </Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>doxygen &amp; python generate_reflection.py</Command>
+      <Command>doxygen &amp; python generate_types.py "Doc/xml/*.xml" "Source/Hect/Reflection/_HectTypes.cpp" HectTypes</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -419,7 +415,7 @@
       </Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>doxygen &amp; python generate_reflection.py</Command>
+      <Command>doxygen &amp; python generate_types.py "Doc/xml/*.xml" "Source/Hect/Reflection/_HectTypes.cpp" HectTypes</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -458,7 +454,7 @@
       </Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>doxygen &amp; python generate_reflection.py</Command>
+      <Command>doxygen &amp; python generate_types.py "Doc/xml/*.xml" "Source/Hect/Reflection/_HectTypes.cpp" HectTypes</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -497,7 +493,7 @@
       </Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>doxygen &amp; python generate_reflection.py</Command>
+      <Command>doxygen &amp; python generate_types.py "Doc/xml/*.xml" "Source/Hect/Reflection/_HectTypes.cpp" HectTypes</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

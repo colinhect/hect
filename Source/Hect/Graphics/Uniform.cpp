@@ -36,7 +36,7 @@ Uniform::Uniform() :
 {
 }
 
-Uniform::Uniform(const std::string& name, UniformBinding binding) :
+Uniform::Uniform(const std::string& name, UniformBinding::Enum binding) :
     _name(name),
     _type(UniformType::Float),
     _binding(binding),
@@ -56,12 +56,12 @@ Uniform::Uniform(const std::string& name, const UniformValue& defaultValue) :
 {
 }
 
-UniformType Uniform::type() const
+UniformType::Enum Uniform::type() const
 {
     return _type;
 }
 
-void Uniform::setType(UniformType type)
+void Uniform::setType(UniformType::Enum type)
 {
     if (hasBinding())
     {
@@ -71,12 +71,12 @@ void Uniform::setType(UniformType type)
     _type = type;
 }
 
-UniformBinding Uniform::binding() const
+UniformBinding::Enum Uniform::binding() const
 {
     return _binding;
 }
 
-void Uniform::setBinding(UniformBinding binding)
+void Uniform::setBinding(UniformBinding::Enum binding)
 {
     switch (binding)
     {

@@ -32,33 +32,33 @@ RenderMode::RenderMode() :
 {
 }
 
-void RenderMode::enableState(RenderState state)
+void RenderMode::enableState(RenderState::Enum state)
 {
     _stateBits |= state;
 }
 
-void RenderMode::disableState(RenderState state)
+void RenderMode::disableState(RenderState::Enum state)
 {
     _stateBits &= ~state;
 }
 
-bool RenderMode::isStateEnabled(RenderState state) const
+bool RenderMode::isStateEnabled(RenderState::Enum state) const
 {
     return (_stateBits & state) == state;
 }
 
-void RenderMode::setBlendFactors(BlendFactor sourceFactor, BlendFactor destFactor)
+void RenderMode::setBlendFactors(BlendFactor::Enum sourceFactor, BlendFactor::Enum destFactor)
 {
     _sourceFactor = sourceFactor;
     _destFactor = destFactor;
 }
 
-BlendFactor RenderMode::sourceBlendFactor() const
+BlendFactor::Enum RenderMode::sourceBlendFactor() const
 {
     return _sourceFactor;
 }
 
-BlendFactor RenderMode::destBlendFactor() const
+BlendFactor::Enum RenderMode::destBlendFactor() const
 {
     return _destFactor;
 }

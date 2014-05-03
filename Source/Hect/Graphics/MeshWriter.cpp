@@ -48,7 +48,7 @@ size_t MeshWriter::addVertex()
     return _mesh->_vertexCount++;
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Real value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic::Enum semantic, Real value)
 {
     const VertexLayout& vertexLayout = _mesh->vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
@@ -58,7 +58,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Real value
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector2& value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic::Enum semantic, const Vector2& value)
 {
     const VertexLayout& vertexLayout = _mesh->vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
@@ -79,7 +79,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector3& value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic::Enum semantic, const Vector3& value)
 {
     // If this data is a position then expand the bounding box to include it
     if (semantic == VertexAttributeSemantic::Position)
@@ -111,7 +111,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector4& value)
+void MeshWriter::writeAttributeData(VertexAttributeSemantic::Enum semantic, const Vector4& value)
 {
     const VertexLayout& vertexLayout = _mesh->vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))

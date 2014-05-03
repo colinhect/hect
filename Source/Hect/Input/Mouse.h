@@ -32,45 +32,51 @@ namespace hect
 
 ///
 /// A mouse button.
-enum class MouseButton
+namespace MouseButton
 {
-    ///
-    /// The left mouse button.
-    Left,
+    enum Enum
+    {
+        ///
+        /// The left mouse button.
+        Left,
 
-    ///
-    /// The right mouse button.
-    Right,
+        ///
+        /// The right mouse button.
+        Right,
 
-    ///
-    /// The middle mouse button.
-    Middle
-};
+        ///
+        /// The middle mouse button.
+        Middle
+    };
+}
 
 ///
 /// A mouse event type.
-enum class MouseEventType
+namespace MouseEventType
 {
-    ///
-    /// The mouse was moved.
-    Movement,
+    enum Enum
+    {
+        ///
+        /// The mouse was moved.
+        Movement,
 
-    ///
-    /// A mouse button was pressed down.
-    ButtonDown,
+        ///
+        /// A mouse button was pressed down.
+        ButtonDown,
 
-    ///
-    /// A mouse button was released up.
-    ButtonUp,
+        ///
+        /// A mouse button was released up.
+        ButtonUp,
 
-    ///
-    /// The scroll wheel was moved down.
-    ScrollDown,
+        ///
+        /// The scroll wheel was moved down.
+        ScrollDown,
 
-    ///
-    /// The scroll wheel was moved up.
-    ScrollUp
-};
+        ///
+        /// The scroll wheel was moved up.
+        ScrollUp
+    };
+}
 
 ///
 /// An event caused by the alteration of the mouse.
@@ -84,14 +90,14 @@ public:
 
     ///
     /// The type of the event.
-    MouseEventType type;
+    MouseEventType::Enum type;
 
     ///
     /// The mouse button related to the event.
     ///
     /// \note Only relevant for a MouseEvent::ButtonDown or
     /// MouseEvent::ButtonUp event.
-    MouseButton button;
+    MouseButton::Enum button;
 
     ///
     /// The coordinates of the cursor.
@@ -113,7 +119,7 @@ public:
     /// Returns whether the given button is down.
     ///
     /// \param button The button to check if it is down.
-    bool isButtonDown(MouseButton button) const;
+    bool isButtonDown(MouseButton::Enum button) const;
 
     ///
     /// Returns the position of the cursor in window space.

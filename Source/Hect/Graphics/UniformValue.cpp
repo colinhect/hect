@@ -33,7 +33,7 @@ UniformValue::UniformValue() :
     setDefaultValue();
 }
 
-UniformValue::UniformValue(int value, UniformType type) :
+UniformValue::UniformValue(int value, UniformType::Enum type) :
     _type(type)
 {
     if (type != UniformType::Int && type != UniformType::Texture)
@@ -74,12 +74,12 @@ UniformValue::UniformValue(const Matrix4& value) :
     setValue(value);
 }
 
-UniformType UniformValue::type() const
+UniformType::Enum UniformValue::type() const
 {
     return _type;
 }
 
-void UniformValue::setType(UniformType type)
+void UniformValue::setType(UniformType::Enum type)
 {
     _type = type;
     setDefaultValue();

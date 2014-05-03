@@ -81,9 +81,9 @@ Frustum::Frustum(
     _planes[5] = Plane::fromPoints(farTopRight, farTopLeft, farBottomLeft); // Far
 }
 
-FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
+FrustumTestResult::Enum Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
 {
-    FrustumTestResult result = FrustumTestResult::Inside;
+    FrustumTestResult::Enum result = FrustumTestResult::Inside;
 
     if (!box.hasSize())
     {

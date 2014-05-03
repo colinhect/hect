@@ -34,9 +34,6 @@ class HECT_API UniformEncoder
 public:
     static void encode(const Uniform& uniform, ObjectEncoder& encoder);
     static void decode(Uniform& uniform, ObjectDecoder& decoder);
-
-    static UniformBinding uniformBindingFromString(const std::string& value);
-    static std::string uniformBindingToString(UniformBinding uniformBinding);
 };
 
 }

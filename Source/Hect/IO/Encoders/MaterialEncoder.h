@@ -34,12 +34,6 @@ class HECT_API MaterialEncoder
 public:
     static void encode(const Material& material, ObjectEncoder& encoder);
     static void decode(Material& material, ObjectDecoder& decoder, AssetCache& assetCache);
-
-    static RenderState renderStateFromString(const std::string& value);
-    static std::string renderStateToString(const RenderState& renderState);
-
-    static BlendFactor blendFactorFromString(const std::string& value);
-    static std::string blendFactorToString(const BlendFactor& blendFactor);
 };
 
 }

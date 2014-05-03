@@ -132,7 +132,7 @@ bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
     ENetEvent enetEvent;
     if (enet_host_service((ENetHost*)_enetHost, &enetEvent, (uint32_t)timeOut.milliseconds()) > 0)
     {
-        event.type = (SocketEventType)enetEvent.type;
+        event.type = (SocketEventType::Enum)enetEvent.type;
         event.peer._enetPeer = enetEvent.peer;
 
         if (enetEvent.type == ENET_EVENT_TYPE_RECEIVE)

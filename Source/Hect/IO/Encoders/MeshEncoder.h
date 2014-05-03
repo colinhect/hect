@@ -34,12 +34,6 @@ class HECT_API MeshEncoder
 public:
     static void encode(const Mesh& mesh, ObjectEncoder& encoder);
     static void decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache);
-
-    static IndexType indexTypeFromString(const std::string& value);
-    static std::string indexTypeToString(IndexType indexType);
-
-    static PrimitiveType primitiveTypeFromString(const std::string& value);
-    static std::string primitiveTypeToString(PrimitiveType primitiveType);
 };
 
 }

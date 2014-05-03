@@ -35,48 +35,51 @@ namespace hect
 ///
 /// A binding from a shader uniform variable to a built-in value in the
 /// rendering pipeline.
-enum class UniformBinding
+namespace UniformBinding
 {
-    ///
-    /// No binding.
-    None,
+    enum Enum
+    {
+        ///
+        /// No binding.
+        None,
 
-    ///
-    /// Bound to the size of the active render target.
-    RenderTargetSize,
+        ///
+        /// Bound to the size of the active render target.
+        RenderTargetSize,
 
-    ///
-    /// Bound to the world-space position of the active camera.
-    CameraPosition,
+        ///
+        /// Bound to the world-space position of the active camera.
+        CameraPosition,
 
-    ///
-    /// Bound to the world-space up direction of the active camera.
-    CameraUp,
+        ///
+        /// Bound to the world-space up direction of the active camera.
+        CameraUp,
 
-    ///
-    /// Bound to the view matrix.
-    ViewMatrix,
+        ///
+        /// Bound to the view matrix.
+        ViewMatrix,
 
-    ///
-    /// Bound to the projection matrix.
-    ProjectionMatrix,
+        ///
+        /// Bound to the projection matrix.
+        ProjectionMatrix,
 
-    ///
-    /// Bound to the product of the view and projection matrices.
-    ViewProjectionMatrix,
+        ///
+        /// Bound to the product of the view and projection matrices.
+        ViewProjectionMatrix,
 
-    ///
-    /// Bound to the model matrix.
-    ModelMatrix,
+        ///
+        /// Bound to the model matrix.
+        ModelMatrix,
 
-    ///
-    /// Bound to the product of the model and the view matrix.
-    ModelViewMatrix,
+        ///
+        /// Bound to the product of the model and the view matrix.
+        ModelViewMatrix,
 
-    ///
-    /// Bound to the product of the model, view, and projection matrices.
-    ModelViewProjectionMatrix
-};
+        ///
+        /// Bound to the product of the model, view, and projection matrices.
+        ModelViewProjectionMatrix
+    };
+}
 
 ///
 /// A variable of a shader which serves as parameter.
@@ -101,7 +104,7 @@ public:
     ///
     /// \param name The name.
     /// \param binding The binding.
-    Uniform(const std::string& name, UniformBinding binding);
+    Uniform(const std::string& name, UniformBinding::Enum binding);
 
     ///
     /// Constructs a uniform given its name and default value.
@@ -113,7 +116,7 @@ public:
 
     ///
     /// Returns the uniform type.
-    UniformType type() const;
+    UniformType::Enum type() const;
 
     ///
     /// Sets the uniform type.
@@ -121,11 +124,11 @@ public:
     /// \param type The new type.
     ///
     /// \throws Error If the uniform has a binding.
-    void setType(UniformType type);
+    void setType(UniformType::Enum type);
 
     ///
     /// Returns the uniform binding.
-    UniformBinding binding() const;
+    UniformBinding::Enum binding() const;
 
     ///
     /// Sets the uniform binding.
@@ -133,7 +136,7 @@ public:
     /// \note The uniform type is changed to reflect the new binding.
     ///
     /// \param binding The new binding.
-    void setBinding(UniformBinding binding);
+    void setBinding(UniformBinding::Enum binding);
 
     ///
     /// Returns whether the uniform has a binding.
@@ -203,9 +206,9 @@ public:
 private:
     std::string _name;
 
-    UniformType _type;
+    UniformType::Enum _type;
 
-    UniformBinding _binding;
+    UniformBinding::Enum _binding;
 
     bool _defaultValueSet;
     UniformValue _defaultValue;

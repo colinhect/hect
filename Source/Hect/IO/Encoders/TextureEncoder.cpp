@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "TextureEncoder.h"
 
+#include "Hect/Reflection/Type.h"
+
 using namespace hect;
 
 void TextureEncoder::encode(const Texture& texture, ObjectEncoder& encoder)
@@ -42,13 +44,13 @@ void TextureEncoder::decode(Texture& texture, ObjectDecoder& decoder, AssetCache
     // Min filter
     if (decoder.hasMember("minFilter"))
     {
-        texture.setMinFilter(textureFilterFromString(decoder.decodeString("minFilter")));
+        texture.setMinFilter(Enum::fromString<TextureFilter::Enum>(decoder.decodeString("minFilter")));
     }
 
     // Mag filter
     if (decoder.hasMember("magFilter"))
     {
-        texture.setMagFilter(textureFilterFromString(decoder.decodeString("magFilter")));
+        texture.setMagFilter(Enum::fromString<TextureFilter::Enum>(decoder.decodeString("magFilter")));
     }
 
     // Wrapped
@@ -62,23 +64,4 @@ void TextureEncoder::decode(Texture& texture, ObjectDecoder& decoder, AssetCache
     {
         texture.setMipmapped(decoder.decodeBool("mipmapped"));
     }
-}
-
-TextureFilter TextureEncoder::textureFilterFromString(const std::string& value)
-{
-    static std::map<std::string, TextureFilter> textureFilters;
-
-    if (textureFilters.empty())
-    {
-        textureFilters["Nearest"] = TextureFilter::Nearest;
-        textureFilters["Linear"] = TextureFilter::Linear;
-    }
-
-    auto it = textureFilters.find(value);
-    if (it == textureFilters.end())
-    {
-        throw Error(format("Invalid texture filter '%s'", value.c_str()));
-    }
-
-    return (*it).second;
 }

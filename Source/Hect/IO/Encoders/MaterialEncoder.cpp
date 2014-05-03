@@ -24,6 +24,7 @@
 #include "MaterialEncoder.h"
 
 #include "Hect/IO/Encoders/MaterialEncoder.h"
+#include "Hect/Reflection/Type.h"
 
 using namespace hect;
 
@@ -69,7 +70,7 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
 
                 // Bulld a list of all states
                 size_t stateCount = 4;
-                RenderState states[] =
+                RenderState::Enum states[] =
                 {
                     RenderState::Blend,
                     RenderState::DepthTest,
@@ -78,8 +79,8 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 };
 
                 // Build a list of enabled/disabled states
-                std::vector<RenderState> enabledStates;
-                std::vector<RenderState> disabledStates;
+                std::vector<RenderState::Enum> enabledStates;
+                std::vector<RenderState::Enum> disabledStates;
                 for (size_t i = 0; i < stateCount; ++i)
                 {
                     if (pass.renderMode().isStateEnabled(states[i]))
@@ -96,9 +97,9 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 {
                     ArrayEncoder statesEncoder = renderModeEncoder.encodeArray("enabledStates");
 
-                    for (const RenderState& state : enabledStates)
+                    for (const RenderState::Enum& state : enabledStates)
                     {
-                        statesEncoder.encodeString(renderStateToString(state));
+                        statesEncoder.encodeString(Enum::toString(state));
                     }
                 }
 
@@ -106,9 +107,9 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 {
                     ArrayEncoder statesEncoder = renderModeEncoder.encodeArray("disabledStates");
 
-                    for (const RenderState& state : disabledStates)
+                    for (const RenderState::Enum& state : disabledStates)
                     {
-                        statesEncoder.encodeString(renderStateToString(state));
+                        statesEncoder.encodeString(Enum::toString(state));
                     }
                 }
 
@@ -116,8 +117,8 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 {
                     ArrayEncoder blendFactorsEncoder = passEncoder.encodeArray("blendFactors");
 
-                    blendFactorsEncoder.encodeString(blendFactorToString(pass.renderMode().sourceBlendFactor()));
-                    blendFactorsEncoder.encodeString(blendFactorToString(pass.renderMode().destBlendFactor()));
+                    blendFactorsEncoder.encodeString(Enum::toString(pass.renderMode().sourceBlendFactor()));
+                    blendFactorsEncoder.encodeString(Enum::toString(pass.renderMode().destBlendFactor()));
                 }
             }
         }
@@ -178,7 +179,7 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     ArrayDecoder statesDecoder = renderModeDecoder.decodeArray("enabledStates");
                     while (statesDecoder.hasMoreElements())
                     {
-                        renderMode.enableState(renderStateFromString(statesDecoder.decodeString()));
+                        renderMode.enableState(Enum::fromString<RenderState::Enum>(statesDecoder.decodeString()));
                     }
                 }
 
@@ -188,7 +189,7 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     ArrayDecoder statesDecoder = renderModeDecoder.decodeArray("disabledStates");
                     while (statesDecoder.hasMoreElements())
                     {
-                        renderMode.disableState(renderStateFromString(statesDecoder.decodeString()));
+                        renderMode.disableState(Enum::fromString<RenderState::Enum>(statesDecoder.decodeString()));
                     }
                 }
 
@@ -196,8 +197,8 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                 if (renderModeDecoder.hasMember("blendFactors"))
                 {
                     ArrayDecoder blendFactorsDecoder = renderModeDecoder.decodeArray("blendFactors");
-                    auto sourceFactor = blendFactorFromString(blendFactorsDecoder.decodeString());
-                    auto destFactor = blendFactorFromString(blendFactorsDecoder.decodeString());
+                    auto sourceFactor = Enum::fromString<BlendFactor::Enum>(blendFactorsDecoder.decodeString());
+                    auto destFactor = Enum::fromString<BlendFactor::Enum>(blendFactorsDecoder.decodeString());
                     renderMode.setBlendFactors(sourceFactor, destFactor);
                 }
             }
@@ -207,100 +208,4 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
 
         material.addTechnique(passes);
     }
-}
-
-RenderState MaterialEncoder::renderStateFromString(const std::string& value)
-{
-    static std::map<std::string, RenderState> states;
-
-    if (states.empty())
-    {
-        states["Blend"] = RenderState::Blend;
-        states["DepthTest"] = RenderState::DepthTest;
-        states["DepthWrite"] = RenderState::DepthWrite;
-        states["CullFace"] = RenderState::CullFace;
-    }
-
-    auto it = states.find(value);
-    if (it == states.end())
-    {
-        throw Error(format("Invalid render state '%s'", value.c_str()));
-    }
-
-    return (*it).second;
-}
-
-std::string MaterialEncoder::renderStateToString(const RenderState& renderState)
-{
-    static std::map<RenderState, std::string> stateNames;
-
-    if (stateNames.empty())
-    {
-        stateNames[RenderState::Blend] = "Blend";
-        stateNames[RenderState::DepthTest] = "DepthTest";
-        stateNames[RenderState::DepthWrite] = "DepthWrite";
-        stateNames[RenderState::CullFace] = "CullFace";
-    }
-
-    auto it = stateNames.find(renderState);
-    if (it == stateNames.end())
-    {
-        throw Error(format("Invalid render state '%d'", renderState));
-    }
-
-    return (*it).second;
-}
-
-BlendFactor MaterialEncoder::blendFactorFromString(const std::string& value)
-{
-    static std::map<std::string, BlendFactor> blendFactors;
-
-    if (blendFactors.empty())
-    {
-        blendFactors["Zero"] = BlendFactor::Zero;
-        blendFactors["One"] = BlendFactor::One;
-        blendFactors["SourceColor"] = BlendFactor::SourceColor;
-        blendFactors["OneMinusSourceColor"] = BlendFactor::OneMinusSourceColor;
-        blendFactors["DestColor"] = BlendFactor::DestColor;
-        blendFactors["OneMinusDestColor"] = BlendFactor::OneMinusDestColor;
-        blendFactors["SourceAlpha"] = BlendFactor::SourceAlpha;
-        blendFactors["OneMinusSourceAlpha"] = BlendFactor::OneMinusSourceAlpha;
-        blendFactors["DestAlpha"] = BlendFactor::DestAlpha;
-        blendFactors["OneMinusDestAlpha"] = BlendFactor::OneMinusDestAlpha;
-    }
-
-    auto it = blendFactors.find(value);
-    if (it == blendFactors.end())
-    {
-        throw Error(format("Invalid blend factor '%s'", value.c_str()));
-    }
-
-    return (*it).second;
-}
-
-std::string MaterialEncoder::blendFactorToString(const BlendFactor& blendFactor)
-{
-    static std::map<BlendFactor, std::string> blendFactorNames;
-
-    if (blendFactorNames.empty())
-    {
-        blendFactorNames[BlendFactor::Zero] = "Zero";
-        blendFactorNames[BlendFactor::One] = "One";
-        blendFactorNames[BlendFactor::SourceColor] = "SourceColor";
-        blendFactorNames[BlendFactor::OneMinusSourceColor] = "OneMinusSourceColor";
-        blendFactorNames[BlendFactor::DestColor] = "DestColor";
-        blendFactorNames[BlendFactor::OneMinusDestColor] = "OneMinusDestColor";
-        blendFactorNames[BlendFactor::SourceAlpha] = "SourceAlpha";
-        blendFactorNames[BlendFactor::OneMinusSourceAlpha] = "OneMinusSourceAlpha";
-        blendFactorNames[BlendFactor::DestAlpha] = "DestAlpha";
-        blendFactorNames[BlendFactor::OneMinusDestAlpha] = "OneMinusDestAlpha";
-    }
-
-    auto it = blendFactorNames.find(blendFactor);
-    if (it == blendFactorNames.end())
-    {
-        throw Error(format("Invalid blend factor '%d'", blendFactor));
-    }
-
-    return (*it).second;
 }

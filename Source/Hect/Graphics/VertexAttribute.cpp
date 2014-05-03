@@ -25,7 +25,7 @@
 
 using namespace hect;
 
-VertexAttribute::VertexAttribute(VertexAttributeSemantic semantic, VertexAttributeType type, unsigned cardinality) :
+VertexAttribute::VertexAttribute(VertexAttributeSemantic::Enum semantic, VertexAttributeType::Enum type, unsigned cardinality) :
     _semantic(semantic),
     _type(type),
     _cardinality(cardinality),
@@ -33,12 +33,12 @@ VertexAttribute::VertexAttribute(VertexAttributeSemantic semantic, VertexAttribu
 {
 }
 
-VertexAttributeSemantic VertexAttribute::semantic() const
+VertexAttributeSemantic::Enum VertexAttribute::semantic() const
 {
     return _semantic;
 }
 
-VertexAttributeType VertexAttribute::type() const
+VertexAttributeType::Enum VertexAttribute::type() const
 {
     return _type;
 }

@@ -393,16 +393,10 @@
     <ClInclude Include="Source\Hect\Core\Export.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\Property.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Core\Reflectable.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Core\Reflector.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Reflection\Type.h">
+      <Filter>Source\Hect\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Reflection\Property.h">
       <Filter>Source\Hect\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
@@ -695,19 +689,13 @@
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Core\Property.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Core\Reflectable.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Core\Reflector.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Reflection\Type.cpp">
       <Filter>Source\Hect\Reflection</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Reflection\_RegisterTypes.cpp">
+    <ClCompile Include="Source\Hect\Reflection\_HectTypes.cpp">
+      <Filter>Source\Hect\Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Reflection\Property.cpp">
       <Filter>Source\Hect\Reflection</Filter>
     </ClCompile>
   </ItemGroup>
@@ -754,11 +742,11 @@
     <None Include="Source\Hect\Math\Vector4.inl">
       <Filter>Source\Hect\Math</Filter>
     </None>
-    <None Include="Source\Hect\Core\Property.inl">
-      <Filter>Source\Hect\Core</Filter>
+    <None Include="Source\Hect\Reflection\Type.inl">
+      <Filter>Source\Hect\Reflection</Filter>
     </None>
-    <None Include="Source\Hect\Core\Reflector.inl">
-      <Filter>Source\Hect\Core</Filter>
+    <None Include="Source\Hect\Reflection\Property.inl">
+      <Filter>Source\Hect\Reflection</Filter>
     </None>
   </ItemGroup>
 </Project>

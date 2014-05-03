@@ -66,12 +66,12 @@ void ShaderModule::setName(const std::string& name)
     _name = name;
 }
 
-ShaderModuleType ShaderModule::type() const
+ShaderModuleType::Enum ShaderModule::type() const
 {
     return _type;
 }
 
-void ShaderModule::setType(ShaderModuleType type)
+void ShaderModule::setType(ShaderModuleType::Enum type)
 {
     if (isUploaded())
     {

@@ -31,7 +31,7 @@ MouseEvent::MouseEvent() :
 {
 }
 
-bool Mouse::isButtonDown(MouseButton button) const
+bool Mouse::isButtonDown(MouseButton::Enum button) const
 {
     return _buttonStates[(int)button];
 }

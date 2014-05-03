@@ -25,7 +25,7 @@
 
 using namespace hect;
 
-Image::Image(unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, ColorSpace colorSpace) :
+Image::Image(unsigned width, unsigned height, PixelType::Enum pixelType, PixelFormat::Enum pixelFormat, ColorSpace::Enum colorSpace) :
     _width(width),
     _height(height),
     _pixelType(pixelType),
@@ -79,17 +79,17 @@ unsigned Image::height() const
     return _height;
 }
 
-PixelFormat Image::pixelFormat() const
+PixelFormat::Enum Image::pixelFormat() const
 {
     return _pixelFormat;
 }
 
-PixelType Image::pixelType() const
+PixelType::Enum Image::pixelType() const
 {
     return _pixelType;
 }
 
-ColorSpace Image::colorSpace() const
+ColorSpace::Enum Image::colorSpace() const
 {
     return _colorSpace;
 }

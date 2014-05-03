@@ -34,8 +34,6 @@ class HECT_API TextureEncoder
 public:
     static void encode(const Texture& texture, ObjectEncoder& encoder);
     static void decode(Texture& texture, ObjectDecoder& decoder, AssetCache& assetCache);
-
-    static TextureFilter textureFilterFromString(const std::string& value);
 };
 
 }

@@ -36,36 +36,39 @@ namespace hect
 
 ///
 /// A uniform value type.
-enum class UniformType : uint8_t
+namespace UniformType
 {
-    ///
-    /// An integer.
-    Int,
+    enum Enum : uint8_t
+    {
+        ///
+        /// An integer.
+        Int,
 
-    ///
-    /// A floating point number.
-    Float,
+        ///
+        /// A floating point number.
+        Float,
 
-    ///
-    /// A 2-dimensional vector.
-    Vector2,
+        ///
+        /// A 2-dimensional vector.
+        Vector2,
 
-    ///
-    /// A 3-dimensional vector.
-    Vector3,
+        ///
+        /// A 3-dimensional vector.
+        Vector3,
 
-    ///
-    /// A 4-dimensional vector.
-    Vector4,
+        ///
+        /// A 4-dimensional vector.
+        Vector4,
 
-    ///
-    /// A 4 by 4 matrix.
-    Matrix4,
+        ///
+        /// A 4 by 4 matrix.
+        Matrix4,
 
-    ///
-    /// A texture (the index of the texture).
-    Texture
-};
+        ///
+        /// A texture (the index of the texture).
+        Texture
+    };
+}
 
 ///
 /// A value for a uniform.
@@ -86,7 +89,7 @@ public:
     ///
     /// \param value The integer value.
     /// \param type The type.
-    UniformValue(int value, UniformType type);
+    UniformValue(int value, UniformType::Enum type);
 
     ///
     /// Constructs a real uniform value.
@@ -120,7 +123,7 @@ public:
 
     ///
     /// Returns the type.
-    UniformType type() const;
+    UniformType::Enum type() const;
 
     ///
     /// Sets the type.
@@ -128,7 +131,7 @@ public:
     /// \note The value is reset to the default value for the new type.
     ///
     /// \param type The new type.
-    void setType(UniformType type);
+    void setType(UniformType::Enum type);
 
     ///
     /// Returns the raw data.
@@ -237,7 +240,7 @@ public:
 
 private:
 
-    UniformType _type;
+    UniformType::Enum _type;
 
     Any _value;
 };
