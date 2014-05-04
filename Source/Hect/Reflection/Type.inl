@@ -100,42 +100,4 @@ const Type& Type::of(const T& object)
     }
 }
 
-template <typename ClassType, typename PropertyType>
-void Type::addProperty(const std::string& name, PropertyType (ClassType::*getter)() const, void (ClassType::*setter)(PropertyType))
-{
-    auto propertyGetter = [=] (const void* instance) -> const PropertyType&
-    {
-        static PropertyType value = PropertyType();
-        value = ((reinterpret_cast<const ClassType*>(instance))->*getter)();
-        return value;
-    };
-
-    auto propertySetter = [=] (void* instance, const PropertyType& value) -> void
-    {
-        ((reinterpret_cast<ClassType*>(instance))->*setter)(value);
-    };
-
-    std::shared_ptr<Property> property(new TypedProperty<PropertyType>(name, propertyGetter, propertySetter));
-    _properties.push_back(property.get());
-    _ownedProperties.push_back(property);
-}
-
-template <typename ClassType, typename PropertyType>
-void Type::addProperty(const std::string& name, const PropertyType& (ClassType::*getter)() const, void (ClassType::*setter)(const PropertyType&))
-{
-    auto propertyGetter = [=] (const void* instance) -> const PropertyType&
-    {
-        return ((reinterpret_cast<const ClassType*>(instance))->*getter)();
-    };
-
-    auto propertySetter = [=] (void* instance, const PropertyType& value) -> void
-    {
-        ((reinterpret_cast<ClassType*>(instance))->*setter)(value);
-    };
-
-    std::shared_ptr<Property> property(new TypedProperty<PropertyType>(name, propertyGetter, propertySetter));
-    _properties.push_back(property.get());
-    _ownedProperties.push_back(property);
-}
-
 }

@@ -125,7 +125,6 @@
     <ClInclude Include="Source\Hect\Network\Peer.h" />
     <ClInclude Include="Source\Hect\Network\Socket.h" />
     <ClInclude Include="Source\Hect\Noise\Random.h" />
-    <ClInclude Include="Source\Hect\Reflection\Property.h" />
     <ClInclude Include="Source\Hect\Reflection\Type.h" />
   </ItemGroup>
   <ItemGroup>
@@ -225,7 +224,6 @@
     <ClCompile Include="Source\Hect\Network\Peer.cpp" />
     <ClCompile Include="Source\Hect\Network\Socket.cpp" />
     <ClCompile Include="Source\Hect\Noise\Random.cpp" />
-    <ClCompile Include="Source\Hect\Reflection\Property.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
     <ClCompile Include="Source\Hect\Reflection\_HectTypes.cpp" />
   </ItemGroup>
@@ -244,7 +242,6 @@
     <None Include="Source\Hect\Math\Vector2.inl" />
     <None Include="Source\Hect\Math\Vector3.inl" />
     <None Include="Source\Hect\Math\Vector4.inl" />
-    <None Include="Source\Hect\Reflection\Property.inl" />
     <None Include="Source\Hect\Reflection\Type.inl" />
   </ItemGroup>
   <ItemGroup>

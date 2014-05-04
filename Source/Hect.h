@@ -26,7 +26,6 @@
 #include "Hect/Core/Configuration.h"
 
 #include "Hect/Reflection/Type.h"
-#include "Hect/Reflection/Property.h"
 
 #include "Hect/Core/Real.h"
 #include "Hect/Core/Format.h"

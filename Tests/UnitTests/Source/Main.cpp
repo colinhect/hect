@@ -56,7 +56,6 @@ using namespace hect;
 #include "PathTests.h"
 #include "PlaneTests.h"
 #include "QuaternionTests.h"
-#include "ReflectionTests.h"
 #include "SceneTests.h"
 #include "StreamTests.h"
 #include "TaskPoolTests.h"

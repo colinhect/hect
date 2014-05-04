@@ -44,24 +44,6 @@ const std::string& Type::name() const
     return _name;
 }
 
-const Property& Type::propertyWithName(const std::string& name) const
-{
-    for (Property* property : _properties)
-    {
-        if (property->name() == name)
-        {
-            return *property;
-        }
-    }
-
-    throw Error(format("No property with name '%s'", name.c_str()));
-}
-
-const Property::Array& Type::properties() const
-{
-    return _properties;
-}
-
 void Type::addRegisterFunction(RegisterFunction registerFunction)
 {
     _registerFunctions.push_back(registerFunction);

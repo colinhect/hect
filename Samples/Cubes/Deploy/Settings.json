@@ -11,42 +11,42 @@
         "Data"
     ],
     "inputAxes" :
-    {
-        "viewX" :
+    [
         {
+            "name" : "viewX",
             "source" : "MouseMoveX",
             "acceleration" : 0.0025,
             "gravity" : 10
         },
-        "viewY" :
         {
+            "name" : "viewY",
             "source" : "MouseMoveY",
             "acceleration" : 0.0025,
             "gravity" : 10
         },
-        "moveX" :
         {
+            "name" : "moveX",
             "source" : "Key",
             "positiveKey" : "D",
             "negativeKey" : "A",
             "acceleration" : 4,
             "gravity" : 10
         },
-        "moveY" :
         {
+            "name" : "moveY",
             "source" : "Key",
             "positiveKey" : "W",
             "negativeKey" : "S",
             "acceleration" : 4,
             "gravity" : 10
         },
-        "roll" :
         {
+            "name" : "roll",
             "source" : "Key",
             "positiveKey" : "E",
             "negativeKey" : "Q",
             "acceleration" : 4,
             "gravity" : 10
         }
-    }
+    ]
 }

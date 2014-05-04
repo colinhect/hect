@@ -396,9 +396,6 @@
     <ClInclude Include="Source\Hect\Reflection\Type.h">
       <Filter>Source\Hect\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Reflection\Property.h">
-      <Filter>Source\Hect\Reflection</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -695,9 +692,6 @@
     <ClCompile Include="Source\Hect\Reflection\_HectTypes.cpp">
       <Filter>Source\Hect\Reflection</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Reflection\Property.cpp">
-      <Filter>Source\Hect\Reflection</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Asset\AssetCache.inl">
@@ -743,9 +737,6 @@
       <Filter>Source\Hect\Math</Filter>
     </None>
     <None Include="Source\Hect\Reflection\Type.inl">
-      <Filter>Source\Hect\Reflection</Filter>
-    </None>
-    <None Include="Source\Hect\Reflection\Property.inl">
       <Filter>Source\Hect\Reflection</Filter>
     </None>
   </ItemGroup>
