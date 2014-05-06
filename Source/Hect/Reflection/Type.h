@@ -36,32 +36,18 @@
 namespace hect
 {
 
-///
-/// A kind of type.
-namespace Kind
-{
-    enum Enum
-    {
-        Primitive,
-        Structure,
-        Class,
-        Enumeration
-    };
-}
-
 class Type
 {
 public:
 
     typedef std::function<void()> RegisterFunction;
 
-    HECT_API Type(Kind::Enum kind, const std::string& name);
+    HECT_API Type(const std::string& name);
 
-    HECT_API Kind::Enum kind() const;
     HECT_API const std::string& name() const;
     
     template <typename T>
-    static Type& create(Kind::Enum kind, const std::string& name);
+    static Type& create(const std::string& name);
     
     template <typename T>
     static const Type& get();
@@ -73,7 +59,6 @@ public:
     static HECT_API void registerTypes();
 
 private:
-    Kind::Enum _kind;
     std::string _name;
 
     static HECT_API std::vector<RegisterFunction> _registerFunctions;

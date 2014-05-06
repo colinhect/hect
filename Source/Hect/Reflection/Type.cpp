@@ -28,15 +28,9 @@
 
 using namespace hect;
 
-Type::Type(Kind::Enum kind, const std::string& name) :
-    _kind(kind),
+Type::Type(const std::string& name) :
     _name(name)
 {
-}
-
-Kind::Enum Type::kind() const
-{
-    return _kind;
 }
 
 const std::string& Type::name() const

@@ -65,9 +65,9 @@ void Enum::add(const std::string& string, T value)
 }
 
 template <typename T>
-Type& Type::create(Kind::Enum kind, const std::string& name)
+Type& Type::create(const std::string& name)
 {
-    std::shared_ptr<Type> type(new Type(kind, name));
+    std::shared_ptr<Type> type(new Type(name));
     _types[std::type_index(typeid(T))] = type;
     return *type;
 }

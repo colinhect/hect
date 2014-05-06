@@ -4,86 +4,88 @@ import sys
 import re
 import xml.etree.ElementTree as ET
 
-class ReflectType:
-    def __init__(self, header, kind, name, values, properties):
+class Type:
+    def __init__(self, header, name):
         self.header = header
-        self.kind = kind
         self.name = name
+        
+class EnumType(Type):
+    def __init__(self, header, name, values):
+        Type.__init__(self, header, name)
         self.values = values
+        
+class ClassType(Type):
+    def __init__(self, header, name, properties):
+        Type.__init__(self, header, name)
         self.properties = properties
-        
-    def has_values(self):
-        return not self.values is None and len(self.values) > 0
-        
-    def has_properties(self):
-        return not self.properties is None and len(self.properties) > 0
         
 setter_regex = re.compile(".*Setter for property \<emphasis\>([a-zA-Z0-9]+)\<\/emphasis\>.*", re.DOTALL)
 getter_regex = re.compile(".*Getter for property \<emphasis\>([a-zA-Z0-9]+)\<\/emphasis\>.*", re.DOTALL)
+
+def process_xml(root):
+    types = []
+    for compounddef in root.iter("compounddef"):
+        
+        # Get the name of the type
+        name = compounddef.find("compoundname").text
+        
+        # Get the path to the header file
+        header = compounddef.find("location")
+        if not header is None:
+            header = header.attrib["file"]
+                
+        # Get the kind of the type
+        kind = compounddef.attrib["kind"]
+        
+        # If the kind is a namespace then it will be treated as an enum
+        if kind == "namespace" and name != "hect":
+            values = []
+            for sectiondef in compounddef.iter("sectiondef"):
+                for memberdef in compounddef.iter("memberdef"):
+                    for enumvalue in memberdef.iter("enumvalue"):
+                        values.append((enumvalue.find("name").text, name + "::" + enumvalue.find("name").text))
+            name = name + "::Enum"
+            types.append(EnumType(header, name, values))
+        elif kind == "class" or kind == "struct":
+            is_template = False
+            for templateparamlist in compounddef.iter("templateparamlist"):
+                is_template = True
+            if not is_template and compounddef.attrib["prot"] == "public":
+                properties = { }
+                for memberdef in root.iter("memberdef"):
+                    if memberdef.attrib["kind"] == "function":
+                        detaileddescription = memberdef.find("detaileddescription")
+                        if not detaileddescription is None:
+                            text = str(ET.tostring(detaileddescription, encoding='utf8', method='xml'))
+                            if not text is None:
+                                setter_match = setter_regex.match(text)
+                                getter_match = getter_regex.match(text)
+                                if setter_match:
+                                    property_name = setter_match.group(1)
+                                    if not property_name in properties:
+                                        properties[property_name] = { }
+                                    properties[property_name]["setter"] = memberdef.find("name").text
+                                elif getter_match:
+                                    property_name = getter_match.group(1)
+                                    if not property_name in properties:
+                                        properties[property_name] = { }
+                                    properties[property_name]["getter"] = memberdef.find("name").text
+                                    if not memberdef.find("type").text is None:
+                                        type_text = memberdef.find("type").text
+                                    else:
+                                        type_text = memberdef.find("type").find("ref").text
+                                    properties[property_name]["type"] = type_text.replace("const ", "").replace("&", "").strip()
+                types.append(ClassType(header, name, properties))
+    return types
 
 if __name__ == "__main__":
     types = []
     
     for file_name in glob.glob(sys.argv[1]):
         with open(file_name, "r") as in_file:
-            xml_string = in_file.read()
-            root = ET.fromstring(xml_string)
-            for compounddef in root.iter("compounddef"):
-                name = compounddef.find("compoundname").text
-                header = compounddef.find("location")
-                if not header is None:
-                    header = header.attrib["file"]
-                if compounddef.attrib["kind"] == "class":
-                    kind = "Kind::Class"
-                elif compounddef.attrib["kind"] == "struct":
-                    kind = "Kind::Structure"
-                elif compounddef.attrib["kind"] == "namespace":
-                    kind = "Kind::Enumeration"
-                else:
-                    break;
-                    
-                if kind == "Kind::Enumeration":
-                    if name != "hect":
-                        values = []
-                        for sectiondef in compounddef.iter("sectiondef"):
-                            for memberdef in compounddef.iter("memberdef"):
-                                for enumvalue in memberdef.iter("enumvalue"):
-                                    values.append((enumvalue.find("name").text, name + "::" + enumvalue.find("name").text))
-                        name = name + "::Enum"
-                        types.append(ReflectType(header, kind, name, values, None))
-                else:
-                    is_template = False
-                    for templateparamlist in compounddef.iter("templateparamlist"):
-                        is_template = True
-                    if not is_template and compounddef.attrib["prot"] == "public":
-                        properties = { }
-                        if kind == "Kind::Class":
-                            for memberdef in root.iter("memberdef"):
-                                if memberdef.attrib["kind"] == "function":
-                                    detaileddescription = memberdef.find("detaileddescription")
-                                    if not detaileddescription is None:
-                                        text = str(ET.tostring(detaileddescription, encoding='utf8', method='xml'))
-                                        if not text is None:
-                                            setter_match = setter_regex.match(text)
-                                            getter_match = getter_regex.match(text)
-                                            if setter_match:
-                                                property_name = setter_match.group(1)
-                                                if not property_name in properties:
-                                                    properties[property_name] = { }
-                                                properties[property_name]["setter"] = memberdef.find("name").text
-                                            elif getter_match:
-                                                property_name = getter_match.group(1)
-                                                if not property_name in properties:
-                                                    properties[property_name] = { }
-                                                properties[property_name]["getter"] = memberdef.find("name").text
-                                                if not memberdef.find("type").text is None:
-                                                    type_text = memberdef.find("type").text
-                                                else:
-                                                    type_text = memberdef.find("type").find("ref").text
-                                                properties[property_name]["type"] = type_text.replace("const ", "").replace("&", "").strip()
-                        types.append(ReflectType(header, kind, name, None, properties))
-                        
-    types = [t for t in types if t.has_values() or t.has_properties()]
+            root = ET.fromstring(in_file.read())
+            types.extend(process_xml(root))
+            
     for type in types:
         type.name = type.name.replace("hect::", "").strip()
     
@@ -103,8 +105,8 @@ if __name__ == "__main__":
             code.write("        // " + type.name + "\n")
             code.write("        Type::addRegisterFunction([]()\n")
             code.write("        {\n")
-            code.write("            Type::create<" + type.name + ">(" + type.kind  + ", \"" + type.name + "\");\n")
-            if type.has_values() :
+            code.write("            Type::create<" + type.name + ">(\"" + type.name + "\");\n")
+            if isinstance(type, EnumType):
                 for value in type.values:
                     code.write("            Enum::add<" + type.name + ">(\"" + value[0] + "\", " + value[1] + ");\n")
             code.write("        });\n")
@@ -118,7 +120,7 @@ if __name__ == "__main__":
             ("uint8_t", "(uint8_t)jsonValue.asUnsigned()"),
             ("uint16_t", "(uint16_t)jsonValue.asUnsigned()"),
             ("uint32_t", "(uint32_t)jsonValue.asUnsigned()"),
-            ("uint64_t", "(uint64_t)jsonValue.asInt()"),
+            ("uint64_t", "(uint64_t)jsonValue.asUnsigned()"),
             ("int8_t", "(int8_t)jsonValue.asInt()"),
             ("int16_t", "(int16_t)jsonValue.asInt()"),
             ("int32_t", "(int32_t)jsonValue.asInt()"),
@@ -137,12 +139,12 @@ if __name__ == "__main__":
             code.write("HECT_API void Object::fromJson<" + type.name + ">(" + type.name + "&, const JsonValue&);\n")
             code.write("\n")
         
-        for type in types:            
-            if (not type.properties is None and len(type.properties) > 0) or (type.kind == "Kind::Enumeration"):
+        for type in types:
+            if (isinstance(type, ClassType) and len(type.properties) > 0) or isinstance(type, EnumType):
                 code.write("template <>\n")
                 code.write("HECT_API void Object::fromJson<" + type.name + ">(" + type.name + "& object, const JsonValue& jsonValue)\n")
                 code.write("{\n")
-                if not type.properties is None and len(type.properties) > 0:
+                if isinstance(type, ClassType):
                     for property_name in type.properties:
                         code.write("    if (!jsonValue[\"" + property_name + "\"].isNull())\n")
                         code.write("    {\n")
@@ -151,8 +153,8 @@ if __name__ == "__main__":
                         code.write("        Object::fromJson<" + property["type"] + ">(propertyValue, jsonValue[\"" + property_name + "\"]);\n")
                         code.write("        object." + property["setter"] + "(propertyValue);\n")
                         code.write("    }\n")
-                elif type.kind == "Kind::Enumeration":
+                elif isinstance(type, EnumType):
                     code.write("    object = Enum::fromString<" + type.name + ">(jsonValue.asString());\n")
-            code.write("}\n")
-            code.write("\n")
+                code.write("}\n")
+                code.write("\n")
         
