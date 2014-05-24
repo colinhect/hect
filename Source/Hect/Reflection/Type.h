@@ -65,32 +65,6 @@ private:
     static HECT_API std::map<std::type_index, std::shared_ptr<Type>> _types;
 };
 
-class Enum
-{
-public:
-    template <typename T>
-    static T fromString(const std::string& string);
-
-    template <typename T>
-    static const std::string& toString(T value);
-
-    template <typename T>
-    static void add(const std::string& string, T value);
-
-private:
-    static HECT_API std::map<std::type_index, std::map<std::string, int>> _stringToValue;
-    static HECT_API std::map<std::type_index, std::map<int, std::string>> _valueToString;
-};
-
-class JsonValue;
-
-class Object
-{
-public:
-    template <typename T>
-    static HECT_API void fromJson(T& object, const JsonValue& jsonValue);
-};
-
 }
 
 #include "Type.inl"

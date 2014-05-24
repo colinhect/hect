@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputAxisEncoder.h"
 
-#include "Hect/Reflection/Type.h"
+#include "Hect/Reflection/Enum.h"
 
 using namespace hect;
 
@@ -36,6 +36,12 @@ void InputAxisEncoder::encode(const InputAxis& inputAxis, ObjectEncoder& encoder
 
 void InputAxisEncoder::decode(InputAxis& inputAxis, ObjectDecoder& decoder)
 {
+    if (decoder.hasMember("name"))
+    {
+        std::string value = decoder.decodeString("name");
+        inputAxis.setName(value);
+    }
+
     if (decoder.hasMember("source"))
     {
         std::string value = decoder.decodeString("source");

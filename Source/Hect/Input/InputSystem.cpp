@@ -26,6 +26,8 @@
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
 
+#include <algorithm>
+
 using namespace hect;
 
 InputSystem::InputSystem()

@@ -46,7 +46,7 @@ void LogicFlow::removeAllLayers()
 {
     _layers.clear();
 }
-
+#include <Windows.h>
 bool LogicFlow::update()
 {
     _removeInactiveLayers();
@@ -55,7 +55,7 @@ bool LogicFlow::update()
     {
         return false;
     }
-
+    
     TimeSpan deltaTime = _timer.elapsed();
     _timer.reset();
 

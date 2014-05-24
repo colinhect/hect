@@ -61,9 +61,13 @@ void PlayerCameraSystem::update(Real timeStep)
     Real rollSpeed = timeStep * 2;
     Real moveSpeed = timeStep * _speed;
 
-    transform.rotateGlobal(up, _viewX->value() * rotateSpeed);
-    transform.rotateGlobal(right, _viewY->value() * -rotateSpeed);
-    transform.rotateGlobal(front, _roll->value() * -rollSpeed);
+    if (_mouse->mode() == MouseMode::Relative)
+    {
+        transform.rotateGlobal(up, _viewX->value() * rotateSpeed);
+        transform.rotateGlobal(right, _viewY->value() * -rotateSpeed);
+        transform.rotateGlobal(front, _roll->value() * -rollSpeed);
+    }
+
     transform.translate(right * _moveX->value() * moveSpeed);
     transform.translate(front * _moveY->value() * moveSpeed);
 }

@@ -52,9 +52,6 @@
     <ClInclude Include="Source\FileSystemTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\NetworkTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\TaskPoolTests.h">
       <Filter>Source</Filter>
     </ClInclude>

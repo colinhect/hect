@@ -85,37 +85,27 @@ public:
     
     ///
     /// Returns the name.
-    ///
-    /// \property_getter{name}
     const std::string& name() const;
 
     ///
     /// Sets the name.
     ///
     /// \param name The new name.
-    ///
-    /// \property_setter{name}
     void setName(const std::string& name);
 
     ///
     /// Returns the source.
-    ///
-    /// \property_getter{source}
     InputAxisSource::Enum source() const;
 
     ///
     /// Sets the source.
     ///
     /// \param source The new source.
-    ///
-    /// \property_setter{source}
     void setSource(InputAxisSource::Enum source);
 
     ///
     /// Returns the mouse button which causes the axis to move in the positive
     /// direction.
-    ///
-    /// \property_getter{positiveMouseButton}
     MouseButton::Enum positiveMouseButton() const;
 
     ///
@@ -123,15 +113,11 @@ public:
     /// direction.
     ///
     /// \param button The new button.
-    ///
-    /// \property_setter{positiveMouseButton}
     void setPositiveMouseButton(MouseButton::Enum button);
 
     ///
     /// Returns the mouse button which causes the axis to move in the negative
     /// direction.
-    ///
-    /// \property_getter{negativeMouseButton}
     MouseButton::Enum negativeMouseButton() const;
 
     ///
@@ -139,38 +125,28 @@ public:
     /// direction.
     ///
     /// \param button The new button.
-    ///
-    /// \property_setter{negativeMouseButton}
     void setNegativeMouseButton(MouseButton::Enum button);
 
     ///
     /// Returns the key which causes the axis to move in the positive
     /// direction.
-    ///
-    /// \property_getter{positiveKey}
     Key::Enum positiveKey() const;
 
     ///
     /// Sets the key which causes the axis to move in the positive direction.
     ///
     /// \param key The new key.
-    ///
-    /// \property_setter{positiveKey}
     void setPositiveKey(Key::Enum key);
 
     ///
     /// Returns the key which causes the axis to move in the negative
     /// direction.
-    ///
-    /// \property_getter{negativeKey}
     Key::Enum negativeKey() const;
 
     ///
     /// Sets the key which causes the axis to move in the negative direction.
     ///
     /// \param key The new key.
-    ///
-    /// \property_setter{negativeKey}
     void setNegativeKey(Key::Enum key);
 
     ///
@@ -185,30 +161,22 @@ public:
 
     ///
     /// Returns the acceleration.
-    ///
-    /// \property_getter{acceleration}
     Real acceleration() const;
 
     ///
     /// Sets the acceleration.
     ///
     /// \param acceleration The new acceleration.
-    ///
-    /// \property_setter{acceleration}
     void setAcceleration(Real acceleration);
 
     ///
     /// Returns the gravity.
-    ///
-    /// \property_getter{gravity}
     Real gravity() const;
 
     ///
     /// Sets the gravity.
     ///
     /// \param gravity The new gravity.
-    ///
-    /// \property_setter{gravity}
     void setGravity(Real gravity);
 
     ///

@@ -31,79 +31,87 @@
 
 using namespace hect;
 
-#include <SFML/Graphics.hpp>
+#include <SDL.h>
+
+static SDL_Window* _sdlWindow = nullptr;
+static SDL_GLContext  _glContext = nullptr;
+
+Key::Enum _convertKey(SDL_Keycode key)
+{
+    switch (key)
+    {
+    case SDLK_a:
+        return Key::A;
+    case SDLK_b:
+        return Key::B;
+    case SDLK_c:
+        return Key::C;
+    case SDLK_d:
+        return Key::D;
+    case SDLK_e:
+        return Key::E;
+    case SDLK_f:
+        return Key::F;
+    case SDLK_g:
+        return Key::G;
+    case SDLK_h:
+        return Key::H;
+    case SDLK_i:
+        return Key::I;
+    case SDLK_j:
+        return Key::J;
+    case SDLK_k:
+        return Key::K;
+    case SDLK_l:
+        return Key::L;
+    case SDLK_m:
+        return Key::M;
+    case SDLK_n:
+        return Key::N;
+    case SDLK_o:
+        return Key::O;
+    case SDLK_p:
+        return Key::P;
+    case SDLK_q:
+        return Key::Q;
+    case SDLK_r:
+        return Key::R;
+    case SDLK_s:
+        return Key::S;
+    case SDLK_t:
+        return Key::T;
+    case SDLK_u:
+        return Key::U;
+    case SDLK_v:
+        return Key::V;
+    case SDLK_w:
+        return Key::W;
+    case SDLK_x:
+        return Key::X;
+    case SDLK_y:
+        return Key::Y;
+    case SDLK_z:
+        return Key::Z;
+    case SDLK_ESCAPE:
+        return Key::Esc;
+    case SDLK_TAB:
+        return Key::Tab;
+
+    case SDLK_LCTRL:
+        return Key::LeftCtrl;
+    case SDLK_LSHIFT:
+        return Key::LeftShift;
+    case SDLK_LALT:
+        return Key::LeftAlt;
+
+    default:
+        return Key::Unknown;
+    }
+}
 
 #ifdef HECT_WINDOWS
 #include <Windows.h>
 #endif
-
-// Translates an SFML mouse event to an internal mouse event.
-MouseEvent _translateMouseEvent(const sf::Event& event, const IntVector2& cursorPosition, const IntVector2& lastCursorPosition)
-{
-    MouseEvent mouseEvent;
-
-    switch (event.type)
-    {
-    case sf::Event::MouseMoved:
-    {
-        mouseEvent.type = MouseEventType::Movement;
-    }
-    break;
-    case sf::Event::MouseButtonPressed:
-    case sf::Event::MouseButtonReleased:
-    {
-
-        // Ignore unsupported buttons
-        if (event.mouseButton.button >= 3)
-        {
-            break;
-        }
-
-        mouseEvent.type =
-            event.type == sf::Event::MouseButtonPressed ?
-            MouseEventType::ButtonDown :
-            MouseEventType::ButtonUp;
-        mouseEvent.button = (MouseButton::Enum)event.mouseButton.button;
-    }
-    break;
-    case sf::Event::MouseWheelMoved:
-    {
-        mouseEvent.type =
-            event.mouseWheel.delta < 0 ?
-            MouseEventType::ScrollDown :
-            MouseEventType::ScrollUp;
-    }
-    break;
-    }
-
-    // Get the position and movement of the cursor
-    mouseEvent.cursorPosition = cursorPosition;
-    mouseEvent.cursorMovement = mouseEvent.cursorPosition - lastCursorPosition;
-
-    return mouseEvent;
-}
-
-// Translates an SFML keyboard event to an internal keyboard event.
-KeyboardEvent _translateKeyboardEvent(const sf::Event& event)
-{
-    KeyboardEvent keyboardEvent;
-
-    switch (event.type)
-    {
-    case sf::Event::KeyPressed:
-    case sf::Event::KeyReleased:
-    {
-        keyboardEvent.type =
-            event.type == sf::Event::KeyPressed ?
-            KeyboardEventType::KeyDown :
-            KeyboardEventType::KeyUp;
-        keyboardEvent.key = (Key::Enum)event.key.code;
-    }
-    break;
-    }
-
-    return keyboardEvent;
-}
 
 void Window::showFatalError(const std::string& message)
 {
@@ -114,31 +122,48 @@ void Window::showFatalError(const std::string& message)
 
 Window::Window(const std::string& title, const VideoMode& videoMode) :
     RenderTarget(videoMode.width(), videoMode.height()),
-    _sfmlWindow(nullptr),
-    _cursorLocked(false)
+    _mouseMode(MouseMode::Cursor)
 {
-    sf::VideoMode mode;
-    mode.width = videoMode.width();
-    mode.height = videoMode.height();
-    mode.bitsPerPixel = videoMode.bitsPerPixel();
+    // Currently only a single window is supported
+    if (_sdlWindow)
+    {
+        throw Error("Mutliple windows are not supported");
+    }
 
-    unsigned style = sf::Style::Titlebar | sf::Style::Close;
+    // Initialize SDL
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        throw Error(format("Failed to initialize SDL: %s", SDL_GetError()));
+    }
+
+    // Create the window flags
+    uint32_t flags = SDL_WINDOW_OPENGL;
     if (videoMode.isFullscreen())
     {
-        style |= sf::Style::Fullscreen;
+        flags |= SDL_WINDOW_FULLSCREEN;
     }
 
     // Create the window
-    _sfmlWindow = new sf::Window(mode, title, style);
+    _sdlWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), SDL_WINDOW_OPENGL);
+    if (!_sdlWindow)
+    {
+        throw Error(format("Failed to create SDL window: %s", SDL_GetError()));
+    }
+
+    // Create the OpenGL context
+    _glContext = SDL_GL_CreateContext(_sdlWindow);
 }
 
 Window::~Window()
 {
-    if (_sfmlWindow)
-    {
-        ((sf::Window*)_sfmlWindow)->close();
-        delete (sf::Window*)_sfmlWindow;
-    }
+    // Destroy the OpenGL context
+    SDL_GL_DeleteContext(_glContext);
+
+    // Destroy the window
+    SDL_DestroyWindow(_sdlWindow);
+
+    // Quit SDL
+    SDL_Quit();
 }
 
 void Window::bind(Renderer* renderer)
@@ -148,92 +173,68 @@ void Window::bind(Renderer* renderer)
 
 bool Window::pollEvents(InputSystem& inputSystem)
 {
-    static bool cursorVisible = true;
-
-    sf::Vector2u windowSize = ((sf::Window*)_sfmlWindow)->getSize();
-    sf::Vector2i windowCenter(windowSize.x / 2, windowSize.y / 2);
-
-    // Occurs the first time pollEvents() is called after the mouse is locked
-    if (_cursorLocked && cursorVisible)
+    // Update the mouse mode if needed
+    MouseMode::Enum currentMouseMode = inputSystem.mouse().mode();
+    if (currentMouseMode != _mouseMode)
     {
-        // Hide the cursor
-        ((sf::Window*)_sfmlWindow)->setMouseCursorVisible(false);
-        cursorVisible = false;
+        _mouseMode = currentMouseMode;
 
-        // Move cursor to center of window
-        sf::Mouse::setPosition(windowCenter, *((sf::Window*)_sfmlWindow));
-        _lastCursorPosition = _cursorPosition();
-    }
-
-    // Occurs the first time pollEvents() is called after the mouse is unlocked
-    else if (!_cursorLocked && !cursorVisible)
-    {
-        // Show the cursor
-        ((sf::Window*)_sfmlWindow)->setMouseCursorVisible(true);
-        cursorVisible = true;
-
-        // Move cursor to center of window
-        sf::Mouse::setPosition(windowCenter, *((sf::Window*)_sfmlWindow));
-        _lastCursorPosition = _cursorPosition();
-    }
-
-    // Poll all pending events and translate/dispatch to the proper systems
-    sf::Event event;
-    while (((sf::Window*)_sfmlWindow)->pollEvent(event))
-    {
-        switch (event.type)
+        switch (currentMouseMode)
         {
-        case sf::Event::Closed:
-            ((sf::Window*)_sfmlWindow)->close();
+        case MouseMode::Cursor:
+            SDL_SetRelativeMouseMode(SDL_FALSE);
             break;
-        case sf::Event::MouseMoved:
-        case sf::Event::MouseButtonPressed:
-        case sf::Event::MouseButtonReleased:
-        case sf::Event::MouseWheelMoved:
-            inputSystem._enqueueEvent(_translateMouseEvent(event, _cursorPosition(), _lastCursorPosition));
+        case MouseMode::Relative:
+            SDL_SetRelativeMouseMode(SDL_TRUE);
             break;
-        case sf::Event::KeyPressed:
-        case sf::Event::KeyReleased:
-            inputSystem._enqueueEvent(_translateKeyboardEvent(event));
+        }
+    }
+
+    bool active = true;
+
+    SDL_Event e;
+    while (SDL_PollEvent(&e))
+    {
+        switch (e.type)
+        {
+        case SDL_QUIT:
+            active = false;
             break;
+        case SDL_KEYDOWN:
+        case SDL_KEYUP:
+            {
+                KeyboardEvent event;
+                event.type = e.type == SDL_KEYDOWN ? KeyboardEventType::KeyDown : KeyboardEventType::KeyUp;
+                event.key = _convertKey(e.key.keysym.sym);
+                inputSystem._enqueueEvent(event);        
+            } break;
+        case SDL_MOUSEMOTION:
+            {
+                // Get relative cursor movement
+                int movementX = 0;
+                int movementY = 0;
+                SDL_GetRelativeMouseState(&movementX, &movementY);
+
+                // Get absolute cursor position
+                int positionX = 0;
+                int positionY = 0;
+                SDL_GetMouseState(&positionX, &positionY);
+
+                // Enqueue the event
+                MouseEvent event;
+                event.cursorMovement = IntVector2(movementX, -movementY);
+                event.cursorPosition = IntVector2(positionX, positionY);
+                inputSystem._enqueueEvent(event);
+            } break;
         }
     }
 
     inputSystem._dispatchEvents();
 
-    // If the cursor is locked then move it back to the center of the window
-    if (_cursorLocked)
-    {
-        if (sf::Mouse::getPosition(*((sf::Window*)_sfmlWindow)) != windowCenter)
-        {
-            sf::Mouse::setPosition(windowCenter, *((sf::Window*)_sfmlWindow));
-        }
-    }
-
-    // Save the current cursor position as the last current position in order to
-    // compute the relative cursor movements
-    _lastCursorPosition = _cursorPosition();
-
-    return ((sf::Window*)_sfmlWindow)->isOpen();
+    return active;
 }
 
 void Window::swapBuffers()
 {
-    ((sf::Window*)_sfmlWindow)->display();
-}
-
-void Window::setCursorLocked(bool locked)
-{
-    _cursorLocked = locked;
-}
-
-bool Window::isCursorLocked() const
-{
-    return _cursorLocked;
-}
-
-IntVector2 Window::_cursorPosition()
-{
-    sf::Vector2i position = sf::Mouse::getPosition(*((sf::Window*)_sfmlWindow));
-    return IntVector2(position.x, ((sf::Window*)_sfmlWindow)->getSize().y - position.y);
+    SDL_GL_SwapWindow(_sdlWindow);
 }

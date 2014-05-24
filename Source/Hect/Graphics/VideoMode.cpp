@@ -28,15 +28,13 @@ using namespace hect;
 VideoMode::VideoMode() :
     _width(800),
     _height(600),
-    _bitsPerPixel(32),
     _fullscreen(false)
 {
 }
 
-VideoMode::VideoMode(unsigned width, unsigned height, unsigned bitsPerPixel, bool fullscreen) :
+VideoMode::VideoMode(unsigned width, unsigned height, bool fullscreen) :
     _width(width),
     _height(height),
-    _bitsPerPixel(bitsPerPixel),
     _fullscreen(fullscreen)
 {
 }
@@ -51,11 +49,6 @@ unsigned VideoMode::height() const
     return _height;
 }
 
-unsigned VideoMode::bitsPerPixel() const
-{
-    return _bitsPerPixel;
-}
-
 bool VideoMode::isFullscreen() const
 {
     return _fullscreen;
@@ -65,7 +58,6 @@ void VideoMode::encode(ObjectEncoder& encoder) const
 {
     encoder.encodeUnsignedInt("width", _width);
     encoder.encodeUnsignedInt("height", _height);
-    encoder.encodeUnsignedInt("bitsPerPixel", _bitsPerPixel);
     encoder.encodeBool("fullscreen", _fullscreen);
 }
 
@@ -81,11 +73,6 @@ void VideoMode::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     if (decoder.hasMember("height"))
     {
         _height = decoder.decodeUnsignedInt("height");
-    }
-
-    if (decoder.hasMember("bitsPerPixel"))
-    {
-        _bitsPerPixel = decoder.decodeUnsignedInt("bitsPerPixel");
     }
 
     if (decoder.hasMember("fullscreen"))

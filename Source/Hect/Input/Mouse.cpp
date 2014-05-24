@@ -41,13 +41,23 @@ const IntVector2& Mouse::cursorPosition() const
     return _cursorPosition;
 }
 
+void Mouse::setMode(MouseMode::Enum mode)
+{
+    _mode = mode;
+}
+
+MouseMode::Enum Mouse::mode() const
+{
+    return _mode;
+}
+
 Dispatcher<MouseEvent>& Mouse::dispatcher()
 {
     return _dispatcher;
 }
 
 Mouse::Mouse() :
-    _cursorLocked(false),
+    _mode(MouseMode::Cursor),
     _buttonStates(16, false)
 {
 }

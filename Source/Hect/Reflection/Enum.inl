@@ -21,31 +21,47 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Timer.h"
-
-#include <SDL.h>
-
-using namespace hect;
-
-static const uint64_t _frequency = SDL_GetPerformanceFrequency();
-
-TimeSpan Timer::totalElapsed()
+namespace hect
 {
-    uint64_t ticks = SDL_GetPerformanceCounter();
-    return TimeSpan::fromMicroseconds(1000000 * ticks / _frequency);
+
+template <typename T>
+T Enum::fromString(const std::string& string)
+{
+    const Type& type = Type::get<T>();
+    std::map<std::string, int>& stringToValue = _stringToValue[std::type_index(typeid(T))];
+    auto it = stringToValue.find(string);
+    if (it != stringToValue.end())
+    {
+        return (T)it->second;
+    }
+    else
+    {
+        throw Error(format("Invalid string '%s' for type '%s'", string.c_str(), type.name().c_str()));
+    }
 }
 
-Timer::Timer()
+template <typename T>
+const std::string& Enum::toString(T value)
 {
-    reset();
+    const Type& type = Type::get<T>();
+    std::map<int, std::string>& valueToString = _valueToString[std::type_index(typeid(T))];
+    auto it = valueToString.find(value);
+    if (it != valueToString.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        throw Error(format("Invalid value for type '%s'", type.name().c_str()));
+    }
 }
 
-void Timer::reset()
+template <typename T>
+void Enum::add(const std::string& string, T value)
 {
-    _start = totalElapsed();
+    Type::get<T>();
+    _stringToValue[std::type_index(typeid(T))][string] = (int)value;
+    _valueToString[std::type_index(typeid(T))][(int)value] = string;
 }
 
-TimeSpan Timer::elapsed() const
-{
-    return totalElapsed() - _start;
 }

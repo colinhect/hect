@@ -30,6 +30,7 @@
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/VideoMode.h"
 #include "Hect/Math/Vector2.h"
+#include "Hect/Input/Mouse.h"
 
 namespace hect
 {
@@ -76,27 +77,13 @@ public:
     ///
     /// Swaps the back buffer.
     void swapBuffers();
-
-    ///
-    /// Sets whether the cursor is locked at the center of the window.
-    ///
-    /// \param locked Whether the cursor is locked.
-    void setCursorLocked(bool locked);
-
-    ///
-    /// Returns whether the cursor is locked.
-    bool isCursorLocked() const;
-
+    
     ///
     /// \copydoc RenderTarget::bind()
     void bind(Renderer* renderer);
 
-private:
-    IntVector2 _cursorPosition();
-
-    void* _sfmlWindow;
-
-    bool _cursorLocked;
+private:    
+    MouseMode::Enum _mouseMode;
     IntVector2 _lastCursorPosition;
 };
 

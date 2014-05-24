@@ -54,6 +54,3 @@ void Type::registerTypes()
 
 std::vector<Type::RegisterFunction> Type::_registerFunctions;
 std::map<std::type_index, std::shared_ptr<Type>> Type::_types;
-
-std::map<std::type_index, std::map<std::string, int>> Enum::_stringToValue;
-std::map<std::type_index, std::map<int, std::string>> Enum::_valueToString;

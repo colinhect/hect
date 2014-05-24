@@ -21,31 +21,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Timer.h"
-
-#include <SDL.h>
+#include "Enum.h"
 
 using namespace hect;
 
-static const uint64_t _frequency = SDL_GetPerformanceFrequency();
-
-TimeSpan Timer::totalElapsed()
-{
-    uint64_t ticks = SDL_GetPerformanceCounter();
-    return TimeSpan::fromMicroseconds(1000000 * ticks / _frequency);
-}
-
-Timer::Timer()
-{
-    reset();
-}
-
-void Timer::reset()
-{
-    _start = totalElapsed();
-}
-
-TimeSpan Timer::elapsed() const
-{
-    return totalElapsed() - _start;
-}
+std::map<std::type_index, std::map<std::string, int>> Enum::_stringToValue;
+std::map<std::type_index, std::map<int, std::string>> Enum::_valueToString;

@@ -25,6 +25,8 @@
 
 #include "Hect/IO/Encoders/InputAxisEncoder.h"
 
+#include <algorithm>
+
 using namespace hect;
 
 InputAxis::InputAxis() :

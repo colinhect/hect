@@ -29,10 +29,10 @@ void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const
 
     // Load the input axes from the settings
     InputAxis::Array axes;
-    for (const JsonValue& axisValue: settings["inputAxes"])
+    for (const JsonValue& axisValue : settings["inputAxes"])
     {
         InputAxis axis;
-        Object::fromJson(axis, axisValue);
+        axis.decodeFromJsonValue(axisValue, assetCache);
         axes.push_back(axis);
     }
 

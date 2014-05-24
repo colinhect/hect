@@ -21,31 +21,35 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Timer.h"
+#pragma once
 
-#include <SDL.h>
+#include <string>
+#include <map>
+#include <typeinfo>
+#include <typeindex>
 
-using namespace hect;
+#include "Hect/Reflection/Type.h"
 
-static const uint64_t _frequency = SDL_GetPerformanceFrequency();
-
-TimeSpan Timer::totalElapsed()
+namespace hect
 {
-    uint64_t ticks = SDL_GetPerformanceCounter();
-    return TimeSpan::fromMicroseconds(1000000 * ticks / _frequency);
+
+class Enum
+{
+public:
+    template <typename T>
+    static T fromString(const std::string& string);
+
+    template <typename T>
+    static const std::string& toString(T value);
+
+    template <typename T>
+    static void add(const std::string& string, T value);
+
+private:
+    static HECT_API std::map<std::type_index, std::map<std::string, int>> _stringToValue;
+    static HECT_API std::map<std::type_index, std::map<int, std::string>> _valueToString;
+};
+
 }
 
-Timer::Timer()
-{
-    reset();
-}
-
-void Timer::reset()
-{
-    _start = totalElapsed();
-}
-
-TimeSpan Timer::elapsed() const
-{
-    return totalElapsed() - _start;
-}
+#include "Enum.inl"

@@ -35,7 +35,8 @@ namespace Key
 {
     enum Enum
     {
-        A = 0,
+        Unknown,
+        A,
         B,
         C,
         D,
@@ -61,7 +62,7 @@ namespace Key
         X,
         Y,
         Z,
-        Num0 = 26,
+        Num0,
         Num1,
         Num2,
         Num3,
@@ -71,16 +72,13 @@ namespace Key
         Num7,
         Num8,
         Num9,
-        Esc = 36,
-        Ctrl,
-        Shift,
-        Alt,
-        Space = 57,
+        Esc,
+        Space,
         Enter,
         Backspace,
         Tab,
-        Tick = 54,
-        F1 = 85,
+        Tick,
+        F1,
         F2,
         F3,
         F4,
@@ -91,7 +89,10 @@ namespace Key
         F9,
         F10,
         F11,
-        F12
+        F12,
+        LeftCtrl,
+        LeftShift,
+        LeftAlt,
     };
 }
 

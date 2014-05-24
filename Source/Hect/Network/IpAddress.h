@@ -38,18 +38,10 @@ class HECT_API IpAddress
 public:
 
     ///
-    /// Returns the local IP address.
-    static IpAddress localAddress();
-
+    /// Constructs an IP address from a host name.
     ///
-    /// Returns the public IP address.
-    static IpAddress publicAddress();
-
-    ///
-    /// Constructs an IP address from a string.
-    ///
-    /// \param address A string representation of the address.
-    IpAddress(const std::string& address);
+    /// \param hostName The name of the host.
+    IpAddress(const std::string& hostName);
 
     ///
     /// Constructs an IP address from a raw 32-bit value.

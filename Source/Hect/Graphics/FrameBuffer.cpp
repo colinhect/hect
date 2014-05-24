@@ -25,6 +25,8 @@
 
 #include "Hect/Graphics/Renderer.h"
 
+#include <algorithm>
+
 using namespace hect;
 
 FrameBuffer::FrameBuffer() :

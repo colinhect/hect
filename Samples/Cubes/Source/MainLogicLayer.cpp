@@ -44,7 +44,8 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);
 
-    _window->setCursorLocked(true);
+    Mouse& mouse = _input->mouse();
+    mouse.setMode(MouseMode::Relative);
 }
 
 MainLogicLayer::~MainLogicLayer()
@@ -90,5 +91,18 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
     if (event.key == Key::Esc)
     {
         setActive(false);
+    }
+
+    if (event.key == Key::Tab)
+    {
+        Mouse& mouse = _input->mouse();
+        if (mouse.mode() == MouseMode::Cursor)
+        {
+            mouse.setMode(MouseMode::Relative);
+        }
+        else
+        {
+            mouse.setMode(MouseMode::Cursor);
+        }
     }
 }

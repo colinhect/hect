@@ -24,7 +24,7 @@
 #include "MaterialEncoder.h"
 
 #include "Hect/IO/Encoders/MaterialEncoder.h"
-#include "Hect/Reflection/Type.h"
+#include "Hect/Reflection/Enum.h"
 
 using namespace hect;
 

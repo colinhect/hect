@@ -25,25 +25,18 @@
 
 #include "Hect/Core/Memory.h"
 
+#include <enet/enet.h>
+
 using namespace hect;
 
-#include <SFML/Network.hpp>
-
-IpAddress IpAddress::localAddress()
+IpAddress::IpAddress(const std::string& hostName) :
+    _address(0)
 {
-    uint32_t address = sf::IpAddress::getLocalAddress().toInteger();
-    return IpAddress(reverseBytes(address));
-}
-
-IpAddress IpAddress::publicAddress()
-{
-    uint32_t address = sf::IpAddress::getPublicAddress().toInteger();
-    return IpAddress(reverseBytes(address));
-}
-
-IpAddress::IpAddress(const std::string& address) :
-    _address(reverseBytes(sf::IpAddress(address).toInteger()))
-{
+    ENetAddress address = { 0 };
+    if (enet_address_set_host(&address, hostName.c_str()) == 0)
+    {
+        _address = address.host;
+    }
 }
 
 IpAddress::IpAddress(uint32_t address) :
@@ -58,7 +51,18 @@ bool IpAddress::isValid() const
 
 std::string IpAddress::toString() const
 {
-    return sf::IpAddress(_address).toString();
+    ENetAddress address = { 0 };
+    address.host = _address;
+
+    char hostName[128];
+    if (enet_address_get_host_ip(&address, hostName, sizeof(hostName)) == 0)
+    {
+        return hostName;
+    }
+    else
+    {
+        return "unknown";
+    }
 }
 
 IpAddress::operator uint32_t() const

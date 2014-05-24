@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -125,6 +125,7 @@
     <ClInclude Include="Source\Hect\Network\Peer.h" />
     <ClInclude Include="Source\Hect\Network\Socket.h" />
     <ClInclude Include="Source\Hect\Noise\Random.h" />
+    <ClInclude Include="Source\Hect\Reflection\Enum.h" />
     <ClInclude Include="Source\Hect\Reflection\Type.h" />
   </ItemGroup>
   <ItemGroup>
@@ -224,8 +225,9 @@
     <ClCompile Include="Source\Hect\Network\Peer.cpp" />
     <ClCompile Include="Source\Hect\Network\Socket.cpp" />
     <ClCompile Include="Source\Hect\Noise\Random.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\Enum.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
-    <ClCompile Include="Source\Hect\Reflection\_HectTypes.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\_Reflect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Asset\AssetCache.inl" />
@@ -242,6 +244,7 @@
     <None Include="Source\Hect\Math\Vector2.inl" />
     <None Include="Source\Hect\Math\Vector3.inl" />
     <None Include="Source\Hect\Math\Vector4.inl" />
+    <None Include="Source\Hect\Reflection\Enum.inl" />
     <None Include="Source\Hect\Reflection\Type.inl" />
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +266,9 @@
     <ProjectReference Include="Dependencies\PhysFS\PhysFS.vcxproj">
       <Project>{8a40f4e7-7350-4693-8346-2b706cc061e2}</Project>
     </ProjectReference>
+    <ProjectReference Include="Tools\Reflect\Reflect.vcxproj">
+      <Project>{1ddd379a-3e50-4988-8830-df9b4d5dfc74}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EAFD1572-5569-4643-A694-7F8F8D66E3AE}</ProjectGuid>
@@ -272,26 +278,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -318,6 +324,7 @@
     </CustomBuildAfterTargets>
     <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
     <TargetName>$(ProjectName)</TargetName>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CustomBuildAfterTargets />
@@ -325,6 +332,7 @@
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
     <TargetName>$(ProjectName)</TargetName>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
@@ -333,6 +341,7 @@
     </CustomBuildAfterTargets>
     <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
     <TargetName>$(ProjectName)</TargetName>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <CustomBuildAfterTargets />
@@ -340,13 +349,14 @@
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
     <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
     <TargetName>$(ProjectName)</TargetName>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\Sfml\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\;$(SolutionDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
@@ -355,16 +365,17 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glu32.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Sfml\Bin\$(Configuration)\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;glu32.lib;SDL2.lib;Ws2_32.lib;Winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
       </Message>
+      <Outputs>$(TargetDir)SDL2.dll</Outputs>
+      <TreatOutputAsContent>true</TreatOutputAsContent>
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>
@@ -375,7 +386,8 @@
       </Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>doxygen &amp; python generate_types.py "Doc/xml/*.xml" "Source/Hect/Reflection/_HectTypes.cpp" HectTypes</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -383,7 +395,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\Sfml\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\;$(SolutionDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
@@ -392,16 +404,17 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGL32.lib;glu32.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Sfml\Bin\$(Configuration)\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;glu32.lib;SDL2.lib;Ws2_32.lib;Winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
       </Message>
+      <Outputs>$(TargetDir)SDL2.dll</Outputs>
+      <TreatOutputAsContent>true</TreatOutputAsContent>
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>
@@ -412,7 +425,8 @@
       </Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>doxygen &amp; python generate_types.py "Doc/xml/*.xml" "Source/Hect/Reflection/_HectTypes.cpp" HectTypes</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -422,7 +436,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\Sfml\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\;$(SolutionDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -431,16 +445,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OpenGL32.lib;glu32.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Sfml\Bin\$(Configuration)\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;glu32.lib;SDL2.lib;Ws2_32.lib;Winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
       </Message>
+      <Outputs>$(TargetDir)SDL2.dll</Outputs>
+      <TreatOutputAsContent>true</TreatOutputAsContent>
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>
@@ -451,7 +466,8 @@
       </Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>doxygen &amp; python generate_types.py "Doc/xml/*.xml" "Source/Hect/Reflection/_HectTypes.cpp" HectTypes</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -461,7 +477,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\Sfml\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\;$(SolutionDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -470,16 +486,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OpenGL32.lib;glu32.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-network-s.lib;sfml-system-s.lib;sfml-window-s.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Sfml\Bin\$(Configuration)\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;glu32.lib;SDL2.lib;Ws2_32.lib;Winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
       </Message>
+      <Outputs>$(TargetDir)SDL2.dll</Outputs>
+      <TreatOutputAsContent>true</TreatOutputAsContent>
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>
@@ -490,7 +507,8 @@
       </Message>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>doxygen &amp; python generate_types.py "Doc/xml/*.xml" "Source/Hect/Reflection/_HectTypes.cpp" HectTypes</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

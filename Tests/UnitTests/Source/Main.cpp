@@ -52,7 +52,6 @@ using namespace hect;
 #include "MeshTests.h"
 #include "MeshWriterTests.h"
 #include "MeshReaderTests.h"
-#include "NetworkTests.h"
 #include "PathTests.h"
 #include "PlaneTests.h"
 #include "QuaternionTests.h"

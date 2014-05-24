@@ -31,6 +31,22 @@ namespace hect
 {
 
 ///
+/// The mode a mouse is in.
+namespace MouseMode
+{
+    enum Enum
+    {
+        ///
+        /// The cursor is active.
+        Cursor,
+
+        ///
+        /// The cursor is inactive and only relative movement is dispatched.
+        Relative
+    };
+}
+
+///
 /// A mouse button.
 namespace MouseButton
 {
@@ -126,6 +142,16 @@ public:
     const IntVector2& cursorPosition() const;
 
     ///
+    /// Sets the mode.
+    ///
+    /// \param mode The new mode.
+    void setMode(MouseMode::Enum mode);
+
+    ///
+    /// Returns the mode.
+    MouseMode::Enum mode() const;
+
+    ///
     /// Returns the dispatcher of mouse events.
     Dispatcher<MouseEvent>& dispatcher();
 
@@ -138,7 +164,7 @@ private:
     Dispatcher<MouseEvent> _dispatcher;
     std::vector<MouseEvent> _events;
 
-    bool _cursorLocked;
+    MouseMode::Enum _mode;
     IntVector2 _cursorPosition;
 
     std::vector<bool> _buttonStates;

@@ -45,9 +45,8 @@ public:
     ///
     /// \param width The width.
     /// \param height The height.
-    /// \param bitsPerPixel The bits per pixel.
     /// \param fullscreen True if a fullscreen mode should be used.
-    VideoMode(unsigned width, unsigned height, unsigned bitsPerPixel, bool fullscreen);
+    VideoMode(unsigned width, unsigned height, bool fullscreen);
 
     ///
     /// Returns the width.
@@ -56,10 +55,6 @@ public:
     ///
     /// Returns the height.
     unsigned height() const;
-
-    ///
-    /// Returns the bits per pixel.
-    unsigned bitsPerPixel() const;
 
     ///
     /// Returns whether fullscreen is enabled.
@@ -81,7 +76,6 @@ public:
 private:
     unsigned _width;
     unsigned _height;
-    unsigned _bitsPerPixel;
     bool _fullscreen;
 };
 
