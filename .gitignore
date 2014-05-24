@@ -4,6 +4,7 @@ x64/*
 Hect/Doc/*
 Hect/Intermediate/*
 Hect/Source/Hect/Reflection/_*
+Hect/Tools/Reflect/Intermediate/_*
 Zeroth/Intermediate/*
 Tests/UnitTests/Intermediate/*
 Dependencies/*
