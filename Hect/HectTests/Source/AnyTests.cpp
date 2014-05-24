@@ -21,65 +21,66 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect.h>
+using namespace hect;
 
-class Asset
-{
-public:
-    Asset() : value(-1) { }
-    Asset(int value) : value(value) { }
+#include <catch.hpp>
 
-    int value;
-};
+TEST_CASE("Any_HasValue")
+{
+    Any a;
+    REQUIRE(!a.hasValue());
 
-namespace hect
-{
-void AssetLoader<Asset>::load(Asset& asset, const Path& assetPath, AssetCache& assetCache)
-{
-    asset;
-    assetPath;
-    assetCache;
-}
+    Any b(5);
+    REQUIRE(b.hasValue());
 }
 
-SUITE(AssetHandle)
+TEST_CASE("Any_IsType")
 {
-    TEST(ConstructAndDereference)
-    {
-        Asset* a = new Asset(123);
-        AssetHandle<Asset> b(a);
+    Any a;
+    REQUIRE(!a.isType<int>());
 
-        CHECK_EQUAL(a, &*b);
-        CHECK_EQUAL(123, b->value);
+    Any b(5);
+    REQUIRE(b.isType<int>());
+}
+
+TEST_CASE("Any_As")
+{
+    Any a(5);
+    REQUIRE(a.as<int>() == 5);
+}
+
+TEST_CASE("Any_AsError")
+{
+    Any a(5);
+
+    bool errorThrown = false;
+    try
+    {
+        a.as<double>();
+    }
+    catch (Error&)
+    {
+        errorThrown = true;
     }
 
-    TEST(BoolOperator)
-    {
-        AssetHandle<Asset> a(new Asset(123));
-        AssetHandle<Asset> b;
+    REQUIRE(errorThrown);
+}
 
-        CHECK(a);
-        CHECK(!b);
-    }
+TEST_CASE("Any_Copy")
+{
+    Any a(5);
+    Any b(a);
 
-    TEST(CopyConstructor)
-    {
-        AssetHandle<Asset> a(new Asset(123));
-        AssetHandle<Asset> b(a);
+    REQUIRE(a.as<int>() == 5);
+    REQUIRE(b.as<int>() == 5);
+}
 
-        CHECK_EQUAL(&*a, &*b);
-    }
+TEST_CASE("Any_Assign")
+{
+    Any a(5);
+    REQUIRE(a.as<int>() == 5);
 
-    TEST(AssignmentOperator)
-    {
-        AssetHandle<Asset> a(new Asset(123));
-
-        {
-            AssetHandle<Asset> b;
-            b = a;
-            CHECK_EQUAL(&*a, &*b);
-        }
-
-        CHECK(a);
-    }
+    a = std::string("Testing");
+    REQUIRE(a.as<std::string>() == "Testing");
 }

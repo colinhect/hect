@@ -35,10 +35,6 @@ using namespace hect;
 
 #include "Common.h"
 
-#include "AngleTests.h"
-#include "AnyTests.h"
-#include "AssetCacheTests.h"
-#include "AssetHandleTests.h"
 #include "EncodingTests.h"
 #include "EntityTests.h"
 #include "EventTests.h"
@@ -54,16 +50,12 @@ using namespace hect;
 #include "MeshReaderTests.h"
 #include "PathTests.h"
 #include "PlaneTests.h"
-#include "QuaternionTests.h"
 #include "SceneTests.h"
 #include "StreamTests.h"
 #include "TaskPoolTests.h"
 #include "TimeSpanTests.h"
 #include "UniformEncoderTests.h"
 #include "UniformValueEncoderTests.h"
-#include "Vector2Tests.h"
-#include "Vector3Tests.h"
-#include "Vector4Tests.h"
 #include "VertexAttributeTests.h"
 #include "VertexLayoutTests.h"
 

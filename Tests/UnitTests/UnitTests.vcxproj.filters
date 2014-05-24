@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Source\AngleTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\AnyTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\FormatTests.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -25,28 +19,13 @@
     <ClInclude Include="Source\PlaneTests.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\QuaternionTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\TimeSpanTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Vector2Tests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Vector3Tests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Vector4Tests.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\VertexAttributeTests.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\VertexLayoutTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\AssetCacheTests.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\FileSystemTests.h">
@@ -68,9 +47,6 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\EventTests.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\AssetHandleTests.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\StreamTests.h">
