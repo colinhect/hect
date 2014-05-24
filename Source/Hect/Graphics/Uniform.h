@@ -37,48 +37,48 @@ namespace hect
 /// rendering pipeline.
 namespace UniformBinding
 {
-    enum Enum
-    {
-        ///
-        /// No binding.
-        None,
+enum Enum
+{
+    ///
+    /// No binding.
+    None,
 
-        ///
-        /// Bound to the size of the active render target.
-        RenderTargetSize,
+    ///
+    /// Bound to the size of the active render target.
+    RenderTargetSize,
 
-        ///
-        /// Bound to the world-space position of the active camera.
-        CameraPosition,
+    ///
+    /// Bound to the world-space position of the active camera.
+    CameraPosition,
 
-        ///
-        /// Bound to the world-space up direction of the active camera.
-        CameraUp,
+    ///
+    /// Bound to the world-space up direction of the active camera.
+    CameraUp,
 
-        ///
-        /// Bound to the view matrix.
-        ViewMatrix,
+    ///
+    /// Bound to the view matrix.
+    ViewMatrix,
 
-        ///
-        /// Bound to the projection matrix.
-        ProjectionMatrix,
+    ///
+    /// Bound to the projection matrix.
+    ProjectionMatrix,
 
-        ///
-        /// Bound to the product of the view and projection matrices.
-        ViewProjectionMatrix,
+    ///
+    /// Bound to the product of the view and projection matrices.
+    ViewProjectionMatrix,
 
-        ///
-        /// Bound to the model matrix.
-        ModelMatrix,
+    ///
+    /// Bound to the model matrix.
+    ModelMatrix,
 
-        ///
-        /// Bound to the product of the model and the view matrix.
-        ModelViewMatrix,
+    ///
+    /// Bound to the product of the model and the view matrix.
+    ModelViewMatrix,
 
-        ///
-        /// Bound to the product of the model, view, and projection matrices.
-        ModelViewProjectionMatrix
-    };
+    ///
+    /// Bound to the product of the model, view, and projection matrices.
+    ModelViewProjectionMatrix
+};
 }
 
 ///

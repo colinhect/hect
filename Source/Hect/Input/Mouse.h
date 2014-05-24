@@ -34,64 +34,64 @@ namespace hect
 /// The mode a mouse is in.
 namespace MouseMode
 {
-    enum Enum
-    {
-        ///
-        /// The cursor is active.
-        Cursor,
+enum Enum
+{
+    ///
+    /// The cursor is active.
+    Cursor,
 
-        ///
-        /// The cursor is inactive and only relative movement is dispatched.
-        Relative
-    };
+    ///
+    /// The cursor is inactive and only relative movement is dispatched.
+    Relative
+};
 }
 
 ///
 /// A mouse button.
 namespace MouseButton
 {
-    enum Enum
-    {
-        ///
-        /// The left mouse button.
-        Left,
+enum Enum
+{
+    ///
+    /// The left mouse button.
+    Left,
 
-        ///
-        /// The right mouse button.
-        Right,
+    ///
+    /// The right mouse button.
+    Right,
 
-        ///
-        /// The middle mouse button.
-        Middle
-    };
+    ///
+    /// The middle mouse button.
+    Middle
+};
 }
 
 ///
 /// A mouse event type.
 namespace MouseEventType
 {
-    enum Enum
-    {
-        ///
-        /// The mouse was moved.
-        Movement,
+enum Enum
+{
+    ///
+    /// The mouse was moved.
+    Movement,
 
-        ///
-        /// A mouse button was pressed down.
-        ButtonDown,
+    ///
+    /// A mouse button was pressed down.
+    ButtonDown,
 
-        ///
-        /// A mouse button was released up.
-        ButtonUp,
+    ///
+    /// A mouse button was released up.
+    ButtonUp,
 
-        ///
-        /// The scroll wheel was moved down.
-        ScrollDown,
+    ///
+    /// The scroll wheel was moved down.
+    ScrollDown,
 
-        ///
-        /// The scroll wheel was moved up.
-        ScrollUp
-    };
+    ///
+    /// The scroll wheel was moved up.
+    ScrollUp
+};
 }
 
 ///

@@ -27,13 +27,13 @@ using namespace hect;
 
 namespace EntityDataBit
 {
-    enum Enum
-    {
-        NotEncodable = 60,
-        Destroyed = 61,
-        Activated = 62,
-        NotNull = 63
-    };
+enum Enum
+{
+    NotEncodable = 60,
+    Destroyed = 61,
+    Activated = 62,
+    NotNull = 63
+};
 }
 
 bool EntityData::isActivated() const

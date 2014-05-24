@@ -40,24 +40,24 @@ typedef uint16_t Port;
 /// An event type.
 namespace SocketEventType
 {
-    enum Enum
-    {
-        ///
-        /// No event occurred.
-        None = 0,
+enum Enum
+{
+    ///
+    /// No event occurred.
+    None = 0,
 
-        ///
-        /// A connection to a peer has been established.
-        Connect,
+    ///
+    /// A connection to a peer has been established.
+    Connect,
 
-        ///
-        /// A connection to a peer has been lost.
-        Disconnect,
+    ///
+    /// A connection to a peer has been lost.
+    Disconnect,
 
-        ///
-        /// A packet has been received from a peer.
-        Receive
-    };
+    ///
+    /// A packet has been received from a peer.
+    Receive
+};
 }
 
 ///

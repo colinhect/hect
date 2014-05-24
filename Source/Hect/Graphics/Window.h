@@ -77,12 +77,12 @@ public:
     ///
     /// Swaps the back buffer.
     void swapBuffers();
-    
+
     ///
     /// \copydoc RenderTarget::bind()
     void bind(Renderer* renderer);
 
-private:    
+private:
     MouseMode::Enum _mouseMode;
     IntVector2 _lastCursorPosition;
 };

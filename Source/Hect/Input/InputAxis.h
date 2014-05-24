@@ -38,28 +38,28 @@ namespace hect
 /// The source of an input axis.
 namespace InputAxisSource
 {
-    enum Enum
-    {
-        ///
-        /// A mouse movement along the x axis.
-        MouseMoveX,
+enum Enum
+{
+    ///
+    /// A mouse movement along the x axis.
+    MouseMoveX,
 
-        ///
-        /// A mouse movement along the y axis.
-        MouseMoveY,
+    ///
+    /// A mouse movement along the y axis.
+    MouseMoveY,
 
-        ///
-        /// A mouse button press.
-        MouseButton,
+    ///
+    /// A mouse button press.
+    MouseButton,
 
-        ///
-        /// A mouse scroll.
-        MouseScroll,
+    ///
+    /// A mouse scroll.
+    MouseScroll,
 
-        ///
-        /// A key press.
-        Key
-    };
+    ///
+    /// A key press.
+    Key
+};
 }
 
 ///
@@ -72,7 +72,7 @@ public:
     ///
     /// An array of input axes.
     typedef std::vector<InputAxis> Array;
-    
+
     ///
     /// Constructs an input axis.
     InputAxis();
@@ -82,7 +82,7 @@ public:
     ///
     /// \param name The name of the axis (must be unique).
     InputAxis(const std::string& name);
-    
+
     ///
     /// Returns the name.
     const std::string& name() const;

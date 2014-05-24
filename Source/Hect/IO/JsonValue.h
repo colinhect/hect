@@ -47,33 +47,33 @@ class WriteStream;
 /// A JSON value type.
 namespace JsonValueType
 {
-    enum Enum : uint8_t
-    {
+enum Enum : uint8_t
+{
 
-        ///
-        /// The JSON value holds no data.
-        Null,
+    ///
+    /// The JSON value holds no data.
+    Null,
 
-        ///
-        /// A bool value.
-        Bool,
+    ///
+    /// A bool value.
+    Bool,
 
-        ///
-        /// A floating point number.
-        Number,
+    ///
+    /// A floating point number.
+    Number,
 
-        ///
-        /// A string.
-        String,
+    ///
+    /// A string.
+    String,
 
-        ///
-        /// An collection of other data values.
-        Array,
+    ///
+    /// An collection of other data values.
+    Array,
 
-        ///
-        /// A collection of key/value pairs of data values.
-        Object
-    };
+    ///
+    /// A collection of key/value pairs of data values.
+    Object
+};
 }
 
 ///

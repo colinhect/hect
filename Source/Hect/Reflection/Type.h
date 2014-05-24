@@ -45,10 +45,10 @@ public:
     HECT_API Type(const std::string& name);
 
     HECT_API const std::string& name() const;
-    
+
     template <typename T>
     static Type& create(const std::string& name);
-    
+
     template <typename T>
     static const Type& get();
 

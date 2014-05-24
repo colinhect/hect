@@ -202,30 +202,32 @@ bool Window::pollEvents(InputSystem& inputSystem)
             break;
         case SDL_KEYDOWN:
         case SDL_KEYUP:
-            {
-                KeyboardEvent event;
-                event.type = e.type == SDL_KEYDOWN ? KeyboardEventType::KeyDown : KeyboardEventType::KeyUp;
-                event.key = _convertKey(e.key.keysym.sym);
-                inputSystem._enqueueEvent(event);        
-            } break;
+        {
+            KeyboardEvent event;
+            event.type = e.type == SDL_KEYDOWN ? KeyboardEventType::KeyDown : KeyboardEventType::KeyUp;
+            event.key = _convertKey(e.key.keysym.sym);
+            inputSystem._enqueueEvent(event);
+        }
+        break;
         case SDL_MOUSEMOTION:
-            {
-                // Get relative cursor movement
-                int movementX = 0;
-                int movementY = 0;
-                SDL_GetRelativeMouseState(&movementX, &movementY);
+        {
+            // Get relative cursor movement
+            int movementX = 0;
+            int movementY = 0;
+            SDL_GetRelativeMouseState(&movementX, &movementY);
 
-                // Get absolute cursor position
-                int positionX = 0;
-                int positionY = 0;
-                SDL_GetMouseState(&positionX, &positionY);
+            // Get absolute cursor position
+            int positionX = 0;
+            int positionY = 0;
+            SDL_GetMouseState(&positionX, &positionY);
 
-                // Enqueue the event
-                MouseEvent event;
-                event.cursorMovement = IntVector2(movementX, -movementY);
-                event.cursorPosition = IntVector2(positionX, positionY);
-                inputSystem._enqueueEvent(event);
-            } break;
+            // Enqueue the event
+            MouseEvent event;
+            event.cursorMovement = IntVector2(movementX, -movementY);
+            event.cursorPosition = IntVector2(positionX, positionY);
+            inputSystem._enqueueEvent(event);
+        }
+        break;
         }
     }
 

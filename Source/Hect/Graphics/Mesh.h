@@ -36,34 +36,34 @@ namespace hect
 /// How the primitives of a mesh are rendered.
 namespace PrimitiveType
 {
-    enum Enum : uint8_t
-    {
-        Triangles,
-        TriangleStrip,
-        Lines,
-        LineStrip,
-        Points
-    };
+enum Enum : uint8_t
+{
+    Triangles,
+    TriangleStrip,
+    Lines,
+    LineStrip,
+    Points
+};
 }
 
 ///
 /// The type of each index in an index sequence.
 namespace IndexType
 {
-    enum Enum : uint8_t
-    {
-        ///
-        /// An 8-bit unsigned integer.
-        UnsignedByte,
+enum Enum : uint8_t
+{
+    ///
+    /// An 8-bit unsigned integer.
+    UnsignedByte,
 
-        ///
-        /// A 16-bit unsigned integer.
-        UnsignedShort,
+    ///
+    /// A 16-bit unsigned integer.
+    UnsignedShort,
 
-        ///
-        /// A 32-bit unsigned integer.
-        UnsignedInt
-    };
+    ///
+    /// A 32-bit unsigned integer.
+    UnsignedInt
+};
 }
 
 ///

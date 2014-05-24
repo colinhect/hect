@@ -55,7 +55,7 @@ bool LogicFlow::update()
     {
         return false;
     }
-    
+
     TimeSpan deltaTime = _timer.elapsed();
     _timer.reset();
 

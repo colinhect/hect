@@ -33,83 +33,83 @@ namespace hect
 /// A key on a keyboard.
 namespace Key
 {
-    enum Enum
-    {
-        Unknown,
-        A,
-        B,
-        C,
-        D,
-        E,
-        F,
-        G,
-        H,
-        I,
-        J,
-        K,
-        L,
-        M,
-        N,
-        O,
-        P,
-        Q,
-        R,
-        S,
-        T,
-        U,
-        V,
-        W,
-        X,
-        Y,
-        Z,
-        Num0,
-        Num1,
-        Num2,
-        Num3,
-        Num4,
-        Num5,
-        Num6,
-        Num7,
-        Num8,
-        Num9,
-        Esc,
-        Space,
-        Enter,
-        Backspace,
-        Tab,
-        Tick,
-        F1,
-        F2,
-        F3,
-        F4,
-        F5,
-        F6,
-        F7,
-        F8,
-        F9,
-        F10,
-        F11,
-        F12,
-        LeftCtrl,
-        LeftShift,
-        LeftAlt,
-    };
+enum Enum
+{
+    Unknown,
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    H,
+    I,
+    J,
+    K,
+    L,
+    M,
+    N,
+    O,
+    P,
+    Q,
+    R,
+    S,
+    T,
+    U,
+    V,
+    W,
+    X,
+    Y,
+    Z,
+    Num0,
+    Num1,
+    Num2,
+    Num3,
+    Num4,
+    Num5,
+    Num6,
+    Num7,
+    Num8,
+    Num9,
+    Esc,
+    Space,
+    Enter,
+    Backspace,
+    Tab,
+    Tick,
+    F1,
+    F2,
+    F3,
+    F4,
+    F5,
+    F6,
+    F7,
+    F8,
+    F9,
+    F10,
+    F11,
+    F12,
+    LeftCtrl,
+    LeftShift,
+    LeftAlt,
+};
 }
 
 ///
 /// A keyboard event type.
 namespace KeyboardEventType
 {
-    enum Enum
-    {
-        ///
-        /// A key was pressed down.
-        KeyDown,
+enum Enum
+{
+    ///
+    /// A key was pressed down.
+    KeyDown,
 
-        ///
-        /// A key was released up.
-        KeyUp
-    };
+    ///
+    /// A key was released up.
+    KeyUp
+};
 }
 
 ///

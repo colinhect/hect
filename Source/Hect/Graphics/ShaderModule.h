@@ -35,21 +35,21 @@ namespace hect
 /// A shader module type.
 namespace ShaderModuleType
 {
-    enum Enum
-    {
+enum Enum
+{
 
-        ///
-        /// A vertex program module.
-        Vertex,
+    ///
+    /// A vertex program module.
+    Vertex,
 
-        ///
-        /// A pixel program module.
-        Pixel,
+    ///
+    /// A pixel program module.
+    Pixel,
 
-        ///
-        /// A geometry program module.
-        Geometry
-    };
+    ///
+    /// A geometry program module.
+    Geometry
+};
 }
 
 ///

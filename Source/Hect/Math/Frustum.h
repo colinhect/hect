@@ -36,20 +36,20 @@ namespace hect
 /// The result of a frustum test.
 namespace FrustumTestResult
 {
-    enum Enum
-    {
-        ///
-        /// The tested geometry is outside of the frustum.
-        Outside,
+enum Enum
+{
+    ///
+    /// The tested geometry is outside of the frustum.
+    Outside,
 
-        ///
-        /// The tested geometry is completely inside of the frustum.
-        Inside,
+    ///
+    /// The tested geometry is completely inside of the frustum.
+    Inside,
 
-        ///
-        /// The tested geometry is partially inside of the frustum.
-        Intersect
-    };
+    ///
+    /// The tested geometry is partially inside of the frustum.
+    Intersect
+};
 }
 
 ///

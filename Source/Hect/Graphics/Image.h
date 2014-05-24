@@ -35,55 +35,55 @@ namespace hect
 /// The type of each component in a pixel.
 namespace PixelType
 {
-    enum Enum
-    {
-        ///
-        /// 16-bit floating point.
-        Half,
+enum Enum
+{
+    ///
+    /// 16-bit floating point.
+    Half,
 
-        ///
-        /// 32-bit floating point.
-        Float,
+    ///
+    /// 32-bit floating point.
+    Float,
 
-        ///
-        /// A byte.
-        Byte
-    };
+    ///
+    /// A byte.
+    Byte
+};
 }
 
 ///
 /// The layout of the component(s) in a pixel.
 namespace PixelFormat
 {
-    enum Enum
-    {
-        ///
-        /// Red, green, and blue channels.
-        Rgb,
+enum Enum
+{
+    ///
+    /// Red, green, and blue channels.
+    Rgb,
 
-        ///
-        /// Red, green, blue, and alpha channels.
-        Rgba
-    };
+    ///
+    /// Red, green, blue, and alpha channels.
+    Rgba
+};
 }
 
 ///
 /// The color space a pixel is in.
 namespace ColorSpace
 {
-    enum Enum
-    {
-        ///
-        /// Non-linear color space (sRGB).
-        ///
-        /// \note Only an image with a pixel type of PixelType::Byte can
-        /// be non-linear.
-        NonLinear,
+enum Enum
+{
+    ///
+    /// Non-linear color space (sRGB).
+    ///
+    /// \note Only an image with a pixel type of PixelType::Byte can
+    /// be non-linear.
+    NonLinear,
 
-        ///
-        /// Linear color space.
-        Linear
-    };
+    ///
+    /// Linear color space.
+    Linear
+};
 }
 
 ///
