@@ -87,7 +87,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Dependencies\UnitTest++\Source\;$(SolutionDir)Dependencies\VisualLeakDetector\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hect\Source\;$(SolutionDir)Dependencies\UnitTest++\Source\;$(SolutionDir)Dependencies\VisualLeakDetector\Source\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -103,7 +103,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Dependencies\UnitTest++\Source\;$(SolutionDir)Dependencies\VisualLeakDetector\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hect\Source\;$(SolutionDir)Dependencies\UnitTest++\Source\;$(SolutionDir)Dependencies\VisualLeakDetector\Source\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -121,7 +121,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Dependencies\UnitTest++\Source\;$(SolutionDir)Dependencies\VisualLeakDetector\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hect\Source\;$(SolutionDir)Dependencies\UnitTest++\Source\;$(SolutionDir)Dependencies\VisualLeakDetector\Source\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -140,7 +140,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Dependencies\UnitTest++\Source\;$(SolutionDir)Dependencies\VisualLeakDetector\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Hect\Source\;$(SolutionDir)Dependencies\UnitTest++\Source\;$(SolutionDir)Dependencies\VisualLeakDetector\Source\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -193,7 +193,7 @@
     <ProjectReference Include="..\..\Dependencies\UnitTest++\UnitTest++.vcxproj">
       <Project>{2b692be6-3355-488b-94f3-1bc09aa2e28f}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Hect.vcxproj">
+    <ProjectReference Include="..\..\Hect\Hect.vcxproj">
       <Project>{eafd1572-5569-4643-a694-7f8f8d66e3ae}</Project>
     </ProjectReference>
   </ItemGroup>

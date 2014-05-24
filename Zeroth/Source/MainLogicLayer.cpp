@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MainLogicLayer.h"
 
-
 MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
     _assetCache(&assetCache),
     _input(&inputSystem),

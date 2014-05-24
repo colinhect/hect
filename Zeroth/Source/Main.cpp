@@ -30,6 +30,8 @@ using namespace hect;
 #endif
 #endif
 
+#include "MainLogicLayer.h"
+
 void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const JsonValue& settings);
 
 int main(int argc, const char* argv[])
@@ -65,16 +67,40 @@ int main(int argc, const char* argv[])
         }
 
         // Load video mode
-        AssetCache assetCache(fileSystem);
         VideoMode videoMode;
-        videoMode.decodeFromJsonValue(settings["videoMode"], assetCache);
+        videoMode.decodeFromJsonValue(settings["videoMode"]);
 
         // Create window/renderer
         Window window("Sample", videoMode);
         Renderer renderer(window);
 
-        // Run the sample
-        runSample(fileSystem, window, renderer, settings);
+        // Load the input axes from the settings
+        InputAxis::Array axes;
+        for (const JsonValue& axisValue : settings["inputAxes"])
+        {
+            InputAxis axis;
+            axis.decodeFromJsonValue(axisValue);
+            axes.push_back(axis);
+        }
+
+        // Create the input system
+        InputSystem inputSystem(axes);
+
+        AssetCache assetCache(fileSystem);
+
+        // Create the logic flow
+        MainLogicLayer main(assetCache, inputSystem, window, renderer);
+        LogicFlow logicFlow(TimeSpan::fromSeconds((Real)1 / (Real)60));
+        logicFlow.addLayer(main);
+
+        // Update until the flow is complete
+        while (window.pollEvents(inputSystem))
+        {
+            if (!logicFlow.update())
+            {
+                break;
+            }
+        }
     }
     catch (Error& error)
     {

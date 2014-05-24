@@ -2,19 +2,17 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>
-      </Extensions>
+      <UniqueIdentifier>{4b6e72f8-59c6-436f-b303-4405c8453bf8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Components">
-      <UniqueIdentifier>{c45f72b0-9d30-46aa-9c34-e3ee49b9adcf}</UniqueIdentifier>
+      <UniqueIdentifier>{5b7edbdb-e2ce-4812-b031-87f14a61f4c1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Systems">
-      <UniqueIdentifier>{ceac3003-9a89-4e7f-b5c1-f273847efd42}</UniqueIdentifier>
+      <UniqueIdentifier>{29b4a073-216d-4a3f-b0ca-c6594abf201b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Cubes.cpp">
+    <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\MainLogicLayer.cpp">
@@ -28,11 +26,11 @@
     <ClInclude Include="Source\MainLogicLayer.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Systems\PlayerCameraSystem.h">
-      <Filter>Source\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Components\PlayerCamera.h">
       <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Systems\PlayerCameraSystem.h">
+      <Filter>Source\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

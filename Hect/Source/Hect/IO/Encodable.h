@@ -67,8 +67,20 @@ public:
     /// Decodes the object from a JSON value.
     ///
     /// \param jsonValue The JSON value.
+    void decodeFromJsonValue(const JsonValue& jsonValue);
+
+    ///
+    /// Decodes the object from a JSON value.
+    ///
+    /// \param jsonValue The JSON value.
     /// \param assetCache The asset cache to get referenced assets from.
     void decodeFromJsonValue(const JsonValue& jsonValue, AssetCache& assetCache);
+
+    ///
+    /// Decodes the object from binary a stream
+    ///
+    /// \param stream The stream.
+    void decodeFromBinary(ReadStream& stream);
 
     ///
     /// Decodes the object from binary a stream

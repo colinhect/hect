@@ -41,6 +41,10 @@ class HECT_API AssetCache :
 public:
 
     ///
+    /// Constructs an empty asset cache without a file system.
+    AssetCache();
+
+    ///
     /// Constructs an asset cache given a file system.
     ///
     /// \param fileSystem The file system.
@@ -77,7 +81,7 @@ public:
     FileSystem& fileSystem();
 
 private:
-    FileSystem& _fileSystem;
+    FileSystem* _fileSystem;
 
     std::map<Path, std::shared_ptr<AssetEntryBase>> _entries;
 };

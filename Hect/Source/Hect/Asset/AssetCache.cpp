@@ -21,53 +21,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Encodable.h"
-
-#include "Hect/IO/BinaryEncoder.h"
-#include "Hect/IO/BinaryDecoder.h"
-#include "Hect/IO/JsonEncoder.h"
-#include "Hect/IO/JsonDecoder.h"
+#include "AssetCache.h"
 
 using namespace hect;
 
-void Encodable::encode(ObjectEncoder& encoder) const
+AssetCache::AssetCache() :
+    _fileSystem(nullptr)
 {
-    encoder;
 }
 
-JsonValue Encodable::encodeToJsonValue() const
+AssetCache::AssetCache(FileSystem& fileSystem) :
+    _fileSystem(&fileSystem)
 {
-    JsonEncoder encoder;
+}
+
+void AssetCache::clear()
+{
+    _entries.clear();
+}
+
+FileSystem& AssetCache::fileSystem()
+{
+    if (!_fileSystem)
     {
-        ObjectEncoder objectEncoder = encoder.encodeObject();
-        encode(objectEncoder);
+        throw Error("Asset cache does not have a file system");
     }
-    return encoder.jsonValues()[0];
-}
-
-void Encodable::encodeToBinary(WriteStream& stream) const
-{
-    BinaryEncoder encoder(stream);
-    ObjectEncoder objectEncode = encoder.encodeObject();
-    encode(objectEncode);
-}
-
-void Encodable::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    decoder;
-    assetCache;
-}
-
-void Encodable::decodeFromJsonValue(const JsonValue& jsonValue, AssetCache& assetCache)
-{
-    JsonDecoder decoder(jsonValue);
-    ObjectDecoder objectDecoder = decoder.decodeObject();
-    decode(objectDecoder, assetCache);
-}
-
-void Encodable::decodeFromBinary(ReadStream& stream, AssetCache& assetCache)
-{
-    BinaryDecoder decoder(stream);
-    ObjectDecoder objectDecoder = decoder.decodeObject();
-    decode(objectDecoder, assetCache);
+    return *_fileSystem;
 }

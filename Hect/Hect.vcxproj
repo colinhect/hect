@@ -248,22 +248,22 @@
     <None Include="Source\Hect\Reflection\Type.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Dependencies\Bullet\Bullet.vcxproj">
+    <ProjectReference Include="..\Dependencies\Bullet\Bullet.vcxproj">
       <Project>{f8dc1d2d-edf4-4949-ba12-80f8a652dc89}</Project>
     </ProjectReference>
-    <ProjectReference Include="Dependencies\ENet\ENet.vcxproj">
+    <ProjectReference Include="..\Dependencies\ENet\ENet.vcxproj">
       <Project>{6d545e59-6771-4434-9919-58c356610d54}</Project>
     </ProjectReference>
-    <ProjectReference Include="Dependencies\Glew\Glew.vcxproj">
+    <ProjectReference Include="..\Dependencies\Glew\Glew.vcxproj">
       <Project>{7a5eaad7-89f1-43c7-a5b4-1ac4ffeca75d}</Project>
     </ProjectReference>
-    <ProjectReference Include="Dependencies\JsonCpp\JsonCpp.vcxproj">
+    <ProjectReference Include="..\Dependencies\JsonCpp\JsonCpp.vcxproj">
       <Project>{47aff5c0-d11a-428c-9462-94938cfa6564}</Project>
     </ProjectReference>
-    <ProjectReference Include="Dependencies\LodePng\LodePng.vcxproj">
+    <ProjectReference Include="..\Dependencies\LodePng\LodePng.vcxproj">
       <Project>{7ba6f903-7248-467b-b171-843bba603ae0}</Project>
     </ProjectReference>
-    <ProjectReference Include="Dependencies\PhysFS\PhysFS.vcxproj">
+    <ProjectReference Include="..\Dependencies\PhysFS\PhysFS.vcxproj">
       <Project>{8a40f4e7-7350-4693-8346-2b706cc061e2}</Project>
     </ProjectReference>
     <ProjectReference Include="Tools\Reflect\Reflect.vcxproj">
