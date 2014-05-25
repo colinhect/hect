@@ -21,12 +21,58 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect.h>
+using namespace hect;
 
-SUITE(Utils)
+#include <catch.hpp>
+
+TEST_CASE("Matrix4_MultiplyVector")
 {
-    TEST(Format)
+    Quaternion r;
+    Matrix4 m;
+    Vector3 v;
+
+    r = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
+    m = Matrix4::fromRotation(r);
+    v = m * Vector3::unitX();
+    REQUIRE(-1.0 == v.x);
+    REQUIRE(0.0 == v.y);
+    REQUIRE(std::abs(v.z - 0.0) < 0.01);
+
+    r = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(90));
+    m = Matrix4::fromRotation(r);
+    v = m * Vector3::unitX();
+    REQUIRE(std::abs(v.x - 0.0) < 0.01);
+    REQUIRE(0.0 == v.y);
+    REQUIRE(std::abs(v.z - 1.0) < 0.01);
+}
+
+TEST_CASE("Matrix4_MultiplyVectorByIdentity")
+{
+    Vector3 v = Matrix4() * Vector3::unitX();
+    REQUIRE(1.0 == v.x);
+    REQUIRE(0.0 == v.y);
+    REQUIRE(0.0 == v.z);
+
+    v = Matrix4() * Vector3::unitY();
+    REQUIRE(0.0 == v.x);
+    REQUIRE(1.0 == v.y);
+    REQUIRE(0.0 == v.z);
+
+    v = Matrix4() * Vector3::unitZ();
+    REQUIRE(0.0 == v.x);
+    REQUIRE(0.0 == v.y);
+    REQUIRE(1.0 == v.z);
+}
+
+TEST_CASE("Matrix4_Cast")
+{
+    Quaternion r = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
+    Matrix4 a = Matrix4::fromRotation(r);
+    Matrix4T<float> b = a;
+
+    for (size_t i = 0; i < 16; ++i)
     {
-        CHECK_EQUAL("Testing 1, 2, 3...", format("Testing %d, %d, %d...", 1, 2, 3));
+        REQUIRE(std::abs(a[i] - b[i]) < 0.01);
     }
 }

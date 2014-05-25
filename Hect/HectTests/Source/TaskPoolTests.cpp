@@ -21,7 +21,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect.h>
+using namespace hect;
+
+#include <catch.hpp>
 
 const unsigned maxThreadCount = 6;
 const unsigned maxTaskCount = 8;
@@ -70,8 +73,8 @@ void testTasks(unsigned threadCount, unsigned taskCount, TaskAction action)
     {
         task.wait();
 
-        CHECK_EQUAL(true, taskDone[i]);
-        CHECK_EQUAL(task.isDone(), taskDone[i++]);
+        REQUIRE(taskDone[i] == true);
+        REQUIRE(taskDone[i++] == task.isDone());
     }
 }
 
@@ -102,53 +105,50 @@ void testTasksWithErrors(unsigned threadCount, unsigned taskCount, TaskAction ac
             errorThrown = true;
         }
 
-        CHECK_EQUAL(true, errorThrown);
+        REQUIRE(errorThrown == true);
     }
 }
 
 #define TEST_TASKS(action)\
-    for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) {\
-        for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) {\
-            testTasks(threadCount, taskCount, action);\
-        }\
-    }
+for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) {\
+    for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) {\
+        testTasks(threadCount, taskCount, action); \
+    }\
+}
 
 #define TEST_TASKS_WITH_ERRORS(action)\
-    for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) {\
-        for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) {\
-            testTasksWithErrors(threadCount, taskCount, action);\
-        }\
-    }
+for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) {\
+    for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) {\
+        testTasksWithErrors(threadCount, taskCount, action); \
+    }\
+}
 
-SUITE(TaskPool)
+TEST_CASE("TaskPool_EmptyTasks")
 {
-    TEST(EmptyTasks)
-    {
-        TEST_TASKS(emptyTask);
-    }
+    TEST_TASKS(emptyTask);
+}
 
-    TEST(ShortTasks)
-    {
-        TEST_TASKS(shortTask);
-    }
+TEST_CASE("TaskPool_ShortTasks")
+{
+    TEST_TASKS(shortTask);
+}
 
-    TEST(LongTasks)
-    {
-        TEST_TASKS(longTask);
-    }
+TEST_CASE("TaskPool_LongTasks")
+{
+    TEST_TASKS(longTask);
+}
 
-    TEST(EmptyTasksWithErrors)
-    {
-        TEST_TASKS_WITH_ERRORS(emptyTask);
-    }
+TEST_CASE("TaskPool_EmptyTasksWithErrors")
+{
+    TEST_TASKS_WITH_ERRORS(emptyTask);
+}
 
-    TEST(ShortTasksWithErrors)
-    {
-        TEST_TASKS_WITH_ERRORS(shortTask);
-    }
+TEST_CASE("TaskPool_ShortTasksWithErrors")
+{
+    TEST_TASKS_WITH_ERRORS(shortTask);
+}
 
-    TEST(LongTasksWithErrors)
-    {
-        TEST_TASKS_WITH_ERRORS(longTask);
-    }
+TEST_CASE("TaskPool_LongTasksWithErrors")
+{
+    TEST_TASKS_WITH_ERRORS(longTask);
 }

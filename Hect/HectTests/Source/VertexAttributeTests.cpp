@@ -21,27 +21,38 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect.h>
+using namespace hect;
 
-SUITE(MaterialEncoder)
+#include <catch.hpp>
+
+TEST_CASE("VertexAttribute_ConstructorAndAccessors")
 {
-    TEST_FIXTURE(AssetCacheFixture, ShaderTexturesAndRenderMode)
-    {
-        Material& material = assetCache.get<Material>("Materials/ShaderTexturesAndRenderMode.material");
+    VertexAttribute attribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3);
 
-        CHECK_EQUAL(1u, material.techniques().size());
-        CHECK_EQUAL(1u, material.techniques()[0].passes().size());
-        CHECK_EQUAL(1u, material.techniques()[0].passes()[0].textures().size());
+    REQUIRE(VertexAttributeSemantic::Position == attribute.semantic());
+    REQUIRE(VertexAttributeType::Float == attribute.type());
+    REQUIRE(attribute.cardinality() == 3u);
+}
 
-        const Pass& pass = material.techniques()[0].passes()[0];
+TEST_CASE("VertexAttribute_Size")
+{
+    VertexAttribute attribute(VertexAttributeSemantic::Position, VertexAttributeType::Half, 3);
+    REQUIRE(attribute.size() == 2u * 3u);
 
-        CHECK_EQUAL(1u, material.techniques()[0].passes().size());
+    attribute = VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3);
+    REQUIRE(attribute.size() == 4u * 3u);
 
-        const RenderMode& renderMode = pass.renderMode();
-        CHECK(renderMode.isStateEnabled(RenderState::CullFace));
-        CHECK(renderMode.isStateEnabled(RenderState::DepthTest));
-        CHECK(!renderMode.isStateEnabled(RenderState::Blend));
+    attribute = VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 2);
+    REQUIRE(attribute.size() == 4u * 2u);
+}
 
-        testEncodable(material, assetCache);
-    }
+TEST_CASE("VertexAttribute_Equality")
+{
+    VertexAttribute a(VertexAttributeSemantic::Position, VertexAttributeType::Half, 3);
+    VertexAttribute b(VertexAttributeSemantic::Position, VertexAttributeType::Half, 3);
+    VertexAttribute c(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3);
+
+    REQUIRE(a == b);
+    REQUIRE(a != c);
 }

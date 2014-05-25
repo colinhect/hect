@@ -21,19 +21,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect.h>
+using namespace hect;
 
-SUITE(UniformEncoder)
+#include <catch.hpp>
+
+TEST_CASE("Format_Format")
 {
-    TEST_FIXTURE(AssetCacheFixture, WithDefaultValue)
-    {
-        Uniform uniform("Test", Vector3(1, 2, 3));
-        testEncodable(uniform, assetCache);
-    }
-
-    TEST_FIXTURE(AssetCacheFixture, WithBinding)
-    {
-        Uniform uniform("Test", UniformBinding::ModelViewProjectionMatrix);
-        testEncodable(uniform, assetCache);
-    }
+    REQUIRE(format("Testing %d, %d, %d...", 1, 2, 3) == "Testing 1, 2, 3...");
 }

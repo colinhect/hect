@@ -141,10 +141,26 @@
   <ItemGroup>
     <ClCompile Include="Source\AngleTests.cpp" />
     <ClCompile Include="Source\AnyTests.cpp" />
+    <ClCompile Include="Source\EncodingTests.cpp" />
+    <ClCompile Include="Source\EventTests.cpp" />
+    <ClCompile Include="Source\FileSystemTests.cpp" />
+    <ClCompile Include="Source\FormatTests.cpp" />
+    <ClCompile Include="Source\FrustumTests.cpp" />
+    <ClCompile Include="Source\JsonTests.cpp" />
+    <ClCompile Include="Source\Matrix4Tests.cpp" />
+    <ClCompile Include="Source\MeshReaderTests.cpp" />
+    <ClCompile Include="Source\MeshTests.cpp" />
+    <ClCompile Include="Source\PathTests.cpp" />
+    <ClCompile Include="Source\PlaneTests.cpp" />
     <ClCompile Include="Source\QuaternionTests.cpp" />
+    <ClCompile Include="Source\StreamTests.cpp" />
+    <ClCompile Include="Source\TaskPoolTests.cpp" />
+    <ClCompile Include="Source\TimeSpanTests.cpp" />
     <ClCompile Include="Source\Vector2Tests.cpp" />
     <ClCompile Include="Source\Vector3Tests.cpp" />
     <ClCompile Include="Source\Vector4Tests.cpp" />
+    <ClCompile Include="Source\VertexAttributeTests.cpp" />
+    <ClCompile Include="Source\VertexLayoutTests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

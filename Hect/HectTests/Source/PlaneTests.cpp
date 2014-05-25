@@ -21,43 +21,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect.h>
+using namespace hect;
 
-SUITE(UniformValueEncoder)
+#include <catch.hpp>
+
+TEST_CASE("Plane_FromPoints")
 {
-    TEST_FIXTURE(AssetCacheFixture, Int)
-    {
-        UniformValue a(123, UniformType::Int);
-        testEncodable(a, assetCache);
-    }
+    Plane p = Plane::fromPoints(Vector3(-1, 0, -1), Vector3(0, 0, 0), Vector3(1, 0, -1));
 
-    TEST_FIXTURE(AssetCacheFixture, Texture)
-    {
-        UniformValue a(123, UniformType::Texture);
-        testEncodable(a, assetCache);
-    }
-
-    TEST_FIXTURE(AssetCacheFixture, Real)
-    {
-        UniformValue a((Real)123);
-        testEncodable(a, assetCache);
-    }
-
-    TEST_FIXTURE(AssetCacheFixture, Vector2)
-    {
-        UniformValue a(Vector2(1, 2));
-        testEncodable(a, assetCache);
-    }
-
-    TEST_FIXTURE(AssetCacheFixture, Vector3)
-    {
-        UniformValue a(Vector3(1, 2, 3));
-        testEncodable(a, assetCache);
-    }
-
-    TEST_FIXTURE(AssetCacheFixture, Vector4)
-    {
-        UniformValue a(Vector4(1, 2, 3, 4));
-        testEncodable(a, assetCache);
-    }
+    REQUIRE(p.position().x == 0);
+    REQUIRE(p.position().y == 0);
+    REQUIRE(p.position().z == 0);
+    REQUIRE(p.normal().x == 0);
+    REQUIRE(p.normal().y == 1);
+    REQUIRE(p.normal().z == 0);
+    REQUIRE(p.distance() == 0);
 }
