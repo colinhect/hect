@@ -25,59 +25,44 @@ namespace hect
 {
 
 template <typename T>
-void Scene::registerComponent(const std::string& componentTypeName)
+T& Scene::addEntityComponent(EntityId entityId, const T& component)
 {
-    ComponentTypeId typeId = T::typeId();
-
-    // Check that the type name is not already registered
-    if (_componentTypeIds.find(componentTypeName) != _componentTypeIds.end())
-    {
-        throw Error(format("Component type '%s' is already registered", componentTypeName.c_str()));
-    }
-
-    // Map the type name to the type id
-    _componentTypeIds[componentTypeName] = typeId;
-
-    // Map the type id to the type name
-    _componentTypeNames[typeId] = componentTypeName;
-
-    // Create the constructor
-    _componentConstructors[typeId] = [] { return new T(); };
+    return _componentPool<T>().add(entityId, component);
 }
 
 template <typename T>
-bool Scene::_hasComponent(const Entity& entity) const
+bool Scene::removeComponent(EntityId entityId)
 {
-    Entity::Id id = entity._id;
-    const EntityData& data = _entityData[id];
-
-    if (data.isNull())
-    {
-        throw Error("Entity is null");
-    }
-
-    return data.hasComponent(Component<T>::typeId());
+    return _componentPool<T>().remove(entityId);
 }
 
 template <typename T>
-T& Scene::_addComponent(const Entity& entity, const BaseComponent::Ref& component)
+bool Scene::entityHasComponent(EntityId entityId) const
 {
-    _addComponentWithoutReturn(entity, component);
-    return *(T*)component.get();
+    return _componentPool<T>().has(entityId);
 }
 
 template <typename T>
-T& Scene::_component(const Entity& entity)
+T& Scene::entityComponent(EntityId entityId)
 {
-    ComponentTypeId typeId = Component<T>::typeId();
+    return _componentPool<T>().get(entityId);
+}
 
-    if (!_hasComponent<T>(entity))
+template <typename T>
+ComponentPool<T>& Scene::_componentPool() const
+{
+    std::type_index typeIndex(typeid(T));
+    auto it = _componentPools.find(typeIndex);
+    if (it != _componentPools.end())
     {
-        throw Error(format("Entity does not have a component with type id '%d'", typeId));
+        return *((ComponentPool<T>*)it->second.get());
     }
-
-    // Return the component at the type index
-    return *dynamic_cast<T*>(_entityComponents[entity._id][typeId].get());
+    else
+    {
+        std::shared_ptr<ComponentPoolBase> componentPool(new ComponentPool<T>());
+        _componentPools[typeIndex] = componentPool;
+        return *((ComponentPool<T>*)componentPool.get());
+    }
 }
 
 }

@@ -23,17 +23,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <functional>
+#include <typeinfo>
+#include <typeindex>
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/IdPool.h"
-#include "Hect/Entity/Entity.h"
-#include "Hect/Entity/EntityData.h"
-#include "Hect/Entity/System.h"
 #include "Hect/IO/Encodable.h"
+#include "Hect/Entity/Component.h"
+#include "Hect/Entity/ComponentPool.h"
 
 namespace hect
 {
+
+struct EntityData
+{
+    EntityData();
+
+    bool exists;
+};
 
 ///
 /// A scene of entities.
@@ -41,129 +48,45 @@ class HECT_API Scene :
     public Uncopyable,
     public Encodable
 {
-    friend class Entity;
 public:
-
-    ///
-    /// Constructs a scene with no entities.
     Scene();
-
-    ///
-    /// Removes all entities from all systems.
     ~Scene();
 
-    ///
-    /// Refreshes the scene.
-    ///
-    /// \note All entities activated since the last call to refresh() are
-    /// added to the systems that include them.  All entities destroyed since
-    /// the last call to refresh are removed from the systems that include
-    /// them.
-    void refresh();
+    EntityId createEntity();
+    EntityId cloneEntity(EntityId entityId);
 
-    ///
-    /// Adds a system to the scene.
-    ///
-    /// \note All activated entities that are included in the system are
-    /// added to the system.
-    ///
-    /// \param system The system to add.
-    void addSystem(System& system);
+    bool destroyEntity(EntityId entityId);
+    bool entityExists(EntityId entityId) const;
 
-    ///
-    /// Removes a system from the scene.
-    ///
-    /// \note All entities included in the system are removed from the
-    /// system.
-    ///
-    /// \param system The system to remove.
-    void removeSystem(System& system);
+    size_t entityCount() const;
 
-    ///
-    /// Creates a new entity using the next available id.
-    ///
-    /// \returns The new entity.
-    Entity createEntity();
+    void addEntityComponent(EntityId entityId, const ComponentBase& component);
 
-    ///
-    /// Returns the entity of the given id.
-    Entity entityWithId(Entity::Id id) const;
-
-    ///
-    /// Registers a component.
-    ///
-    /// \param componentTypeName The type name of the component.
-    ///
-    /// \throws Error If the component type is already registered.
     template <typename T>
-    void registerComponent(const std::string& componentTypeName);
+    T& addEntityComponent(EntityId entityId, const T& component);
+
+    template <typename T>
+    bool removeComponent(EntityId entityId);
+
+    template <typename T>
+    bool entityHasComponent(EntityId entityId) const;
+
+    template <typename T>
+    T& entityComponent(EntityId entityId);
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    enum
-    {
-        InitialPoolSize = 128
-    };
-
-    Entity _cloneEntity(const Entity& entity);
-
-    void _encodeEntity(const Entity& entity, ObjectEncoder& encoder) const;
-    void _decodeEntity(const Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
-
-    void _destroyEntity(const Entity& entity);
-    void _activateEntity(const Entity& entity);
-
-    bool _isActivated(const Entity& entity) const;
-    bool _isNull(const Entity& entity) const;
-
-    bool _isEncodable(const Entity& entity) const;
-    void _setEncodable(const Entity& entity, bool encodable);
 
     template <typename T>
-    bool _hasComponent(const Entity& entity) const;
+    ComponentPool<T>& _componentPool() const;
 
-    template <typename T>
-    T& _addComponent(const Entity& entity, const BaseComponent::Ref& component);
-    void _addComponentWithoutReturn(const Entity& entity, const BaseComponent::Ref& component);
-
-    template <typename T>
-    T& _component(const Entity& entity);
-
-    ComponentTypeId _typeId(const std::string& typeName) const;
-    const std::string& _typeName(ComponentTypeId typeId) const;
-    BaseComponent* _constructComponent(ComponentTypeId typeId) const;
-
-    // The number of activated entities
-    size_t _activatedEntityCount;
-
-    // The entity id pool
-    IdPool<Entity::Id> _entityIdPool;
-
-    // Data for each entity
+    IdPool<EntityId> _entityIdPool;
     std::vector<EntityData> _entityData;
+    size_t _entityCount;
 
-    // Components for each entity
-    std::vector<std::map<ComponentTypeId, BaseComponent::Ref>> _entityComponents;
-
-    // Entities activated since the last call to refresh()
-    std::vector<Entity::Id> _activatedEntities;
-
-    // Entities destroyed since the last call to refresh()
-    std::vector<Entity::Id> _destroyedEntities;
-
-    // Systems involved in the scene
-    std::vector<System*> _systems;
-
-    // Component types mapped to component type names
-    std::map<ComponentTypeId, std::string> _componentTypeNames;
-
-    // Component type names mapped to component types
-    std::map<std::string, ComponentTypeId> _componentTypeIds;
-
-    // Component types mapped to component constructors
-    std::map<ComponentTypeId, std::function<BaseComponent*()>> _componentConstructors;
+    mutable std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
 };
 
 }

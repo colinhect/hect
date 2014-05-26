@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Hect/Core/Configuration.h"
-#include "Hect/Entity/Components/Transform.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Quaternion.h"
@@ -42,6 +41,7 @@
 namespace hect
 {
 
+/*
 btVector3 convertToBullet(const Vector3& v);
 btQuaternion convertToBullet(const Quaternion& q);
 btTransform convertToBullet(const Transform& t);
@@ -50,5 +50,6 @@ btTriangleMesh* convertToBullet(const Mesh& m);
 Vector3 convertFromBullet(const btVector3& v);
 Quaternion convertFromBullet(const btQuaternion& q);
 Transform convertFromBullet(const btTransform& t);
+*/
 
 }

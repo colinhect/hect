@@ -27,7 +27,7 @@
 
 namespace hect
 {
-
+/*
 btVector3 convertToBullet(const Vector3& v)
 {
     return btVector3(v.x, v.y, v.z);
@@ -89,5 +89,5 @@ Transform convertFromBullet(const btTransform& t)
     transform.setRotation(convertFromBullet(t.getRotation()));
     return transform;
 }
-
+*/
 }

@@ -21,67 +21,51 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "EntityData.h"
+#pragma once
 
-using namespace hect;
+#include <cstdint>
+#include <vector>
 
-namespace EntityDataBit
+#include "Hect/Core/IdPool.h"
+#include "Hect/Core/Export.h"
+
+namespace hect
 {
-enum Enum
+    
+typedef uint32_t EntityId;
+typedef uint32_t ComponentId;
+
+class ComponentPoolBase
 {
-    NotEncodable = 60,
-    Destroyed = 61,
-    Activated = 62,
-    NotNull = 63
+public:
+    virtual ~ComponentPoolBase() { }
+
+    virtual bool remove(EntityId entityId) = 0;
+    virtual void clone(EntityId sourceEntityId, EntityId destEntityId) = 0;
 };
+
+template <typename T>
+class ComponentPool :
+    public ComponentPoolBase
+{
+public:
+    ComponentPool();
+
+    T& add(EntityId entityId, const T& component);
+
+    bool remove(EntityId entityId);
+    void clone(EntityId sourceEntityId, EntityId destEntityId);
+
+    bool has(EntityId entityId) const;
+
+    T& get(EntityId entityId);
+
+private:
+    IdPool<ComponentId> _componentIdPool;
+    std::vector<T> _components;
+    std::vector<ComponentId> _entityIdToComponentId;
+};
+
 }
 
-bool EntityData::isActivated() const
-{
-    return _bitset.test((size_t)EntityDataBit::Activated);
-}
-
-void EntityData::setActivated(bool activated)
-{
-    _bitset.set((size_t)EntityDataBit::Activated, activated);
-}
-
-bool EntityData::isDestroyed() const
-{
-    return _bitset.test((size_t)EntityDataBit::Destroyed);
-}
-
-void EntityData::setDestroyed(bool destroyed)
-{
-    _bitset.set((size_t)EntityDataBit::Destroyed, destroyed);
-}
-
-bool EntityData::isNull() const
-{
-    return !_bitset.test((size_t)EntityDataBit::NotNull);
-}
-
-void EntityData::setNull(bool null)
-{
-    _bitset.set((size_t)EntityDataBit::NotNull, !null);
-}
-
-bool EntityData::isEncodable() const
-{
-    return !_bitset.test((size_t)EntityDataBit::NotEncodable);
-}
-
-void EntityData::setEncodable(bool encodable)
-{
-    _bitset.set((size_t)EntityDataBit::NotEncodable, !encodable);
-}
-
-bool EntityData::hasComponent(ComponentTypeId typeId) const
-{
-    return _bitset.test(typeId);
-}
-
-void EntityData::setHasComponent(ComponentTypeId typeId, bool value)
-{
-    _bitset.set(typeId, value);
-}
+#include "ComponentPool.inl"

@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <queue>
+#include <deque>
 
 namespace hect
 {
@@ -51,7 +51,7 @@ public:
 
 private:
     T _nextId;
-    std::queue<T> _nextIds;
+    std::deque<T> _nextIds;
 };
 
 }

@@ -138,37 +138,7 @@
     <ClInclude Include="Source\Hect\Core\Uncopyable.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\AmbientLight.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\Camera.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\DirectionalLight.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\Geometry.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\RigidBody.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\Transform.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Systems\CameraSystem.h">
-      <Filter>Source\Hect\Entity\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Systems\PhysicsSystem.h">
-      <Filter>Source\Hect\Entity\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Entity\Component.h">
-      <Filter>Source\Hect\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Entity.h">
-      <Filter>Source\Hect\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\EntityData.h">
       <Filter>Source\Hect\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Entity\Scene.h">
@@ -333,9 +303,6 @@
     <ClInclude Include="Source\Hect\Noise\Random.h">
       <Filter>Source\Hect\Noise</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Systems\RenderSystem.h">
-      <Filter>Source\Hect\Entity\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\IO\Encodable.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
@@ -399,6 +366,9 @@
     <ClInclude Include="Source\Hect\Reflection\Enum.h">
       <Filter>Source\Hect\Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\ComponentPool.h">
+      <Filter>Source\Hect\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -434,37 +404,7 @@
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\AmbientLight.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\Camera.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\DirectionalLight.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\Geometry.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\RigidBody.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\Transform.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Systems\CameraSystem.cpp">
-      <Filter>Source\Hect\Entity\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Systems\PhysicsSystem.cpp">
-      <Filter>Source\Hect\Entity\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Entity\Component.cpp">
-      <Filter>Source\Hect\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Entity.cpp">
-      <Filter>Source\Hect\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\EntityData.cpp">
       <Filter>Source\Hect\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Entity\Scene.cpp">
@@ -629,9 +569,6 @@
     <ClCompile Include="Source\Hect\Noise\Random.cpp">
       <Filter>Source\Hect\Noise</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Systems\RenderSystem.cpp">
-      <Filter>Source\Hect\Entity\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\IO\Encodable.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
@@ -721,9 +658,6 @@
     <None Include="Source\Hect\Entity\Component.inl">
       <Filter>Source\Hect\Entity</Filter>
     </None>
-    <None Include="Source\Hect\Entity\Entity.inl">
-      <Filter>Source\Hect\Entity</Filter>
-    </None>
     <None Include="Source\Hect\Entity\Scene.inl">
       <Filter>Source\Hect\Entity</Filter>
     </None>
@@ -747,6 +681,9 @@
     </None>
     <None Include="Source\Hect\Reflection\Enum.inl">
       <Filter>Source\Hect\Reflection</Filter>
+    </None>
+    <None Include="Source\Hect\Entity\ComponentPool.inl">
+      <Filter>Source\Hect\Entity</Filter>
     </None>
   </ItemGroup>
 </Project>

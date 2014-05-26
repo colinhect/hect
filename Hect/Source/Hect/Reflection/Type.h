@@ -36,29 +36,52 @@
 namespace hect
 {
 
+///
+/// A reflected type.
 class Type
 {
 public:
 
+    ///
+    /// A function which registers a type.
     typedef std::function<void()> RegisterFunction;
 
-    HECT_API Type(const std::string& name);
-
+    ///
+    /// Returns the name.
     HECT_API const std::string& name() const;
 
+    ///
+    /// Creates a type given its type name.
     template <typename T>
     static Type& create(const std::string& name);
 
+    ///
+    /// Gets a type.
     template <typename T>
     static const Type& get();
 
+    ///
+    /// Gets the type of an instance.
+    ///
+    /// \param instance The instance to get the type of.
+    ///
+    /// \returns The type.
     template <typename T>
-    static const Type& of(const T& object);
+    static const Type& of(const T& instance);
 
+    ///
+    /// Adds a type registration function.
+    ///
+    /// \param registerFunction The type registration function.
     static HECT_API void addRegisterFunction(RegisterFunction registerFunction);
+
+    ///
+    /// Registers all types.
     static HECT_API void registerTypes();
 
 private:
+    HECT_API Type(const std::string& name);
+
     std::string _name;
 
     static HECT_API std::vector<RegisterFunction> _registerFunctions;

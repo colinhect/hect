@@ -33,15 +33,38 @@
 namespace hect
 {
 
+///
+/// Provides reflection functionality for enums.
 class Enum
 {
 public:
+
+    ///
+    /// Creates an enum value for a specific enum type from its string
+    /// representation.
+    ///
+    /// \param string The string representation of the enum value.
+    ///
+    /// \returns The enum value.
+    ///
+    /// \throws Error If the string does not represent a valid enum value.
     template <typename T>
     static T fromString(const std::string& string);
 
+    ///
+    /// Converts an enum value to its string representation.
+    ///
+    /// \param value The enum value.
+    ///
+    /// \returns The string representation of the enum value.
     template <typename T>
     static const std::string& toString(T value);
 
+    ///
+    /// Adds a string representation for an enum value.
+    ///
+    /// \param string The string representation.
+    /// \param value The enum value.
     template <typename T>
     static void add(const std::string& string, T value);
 

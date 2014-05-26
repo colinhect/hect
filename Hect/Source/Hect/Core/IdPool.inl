@@ -37,7 +37,7 @@ T IdPool<T>::create()
     if (!_nextIds.empty())
     {
         id = _nextIds.back();
-        _nextIds.pop();
+        _nextIds.pop_back();
     }
     else
     {
@@ -50,7 +50,7 @@ T IdPool<T>::create()
 template <typename T>
 void IdPool<T>::destroy(T id)
 {
-    _nextIds.push(id);
+    _nextIds.push_front(id);
 }
 
 }

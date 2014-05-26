@@ -28,11 +28,6 @@
 
 using namespace hect;
 
-Type::Type(const std::string& name) :
-    _name(name)
-{
-}
-
 const std::string& Type::name() const
 {
     return _name;
@@ -50,6 +45,11 @@ void Type::registerTypes()
         registerFunction();
     }
     _registerFunctions.clear();
+}
+
+Type::Type(const std::string& name) :
+    _name(name)
+{
 }
 
 std::vector<Type::RegisterFunction> Type::_registerFunctions;

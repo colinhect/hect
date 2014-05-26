@@ -23,368 +23,107 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Scene.h"
 
-#include "Hect/Entity/Components/AmbientLight.h"
-#include "Hect/Entity/Components/Camera.h"
-#include "Hect/Entity/Components/DirectionalLight.h"
-#include "Hect/Entity/Components/Geometry.h"
-#include "Hect/Entity/Components/Transform.h"
-#include "Hect/Entity/Components/RigidBody.h"
+#include <algorithm>
 
 using namespace hect;
 
-Scene::Scene() :
-    _activatedEntityCount(0),
-    _entityData(InitialPoolSize),
-    _entityComponents(InitialPoolSize)
+EntityData::EntityData() :
+    exists(false)
 {
-    registerComponent<AmbientLight>("AmbientLight");
-    registerComponent<Camera>("Camera");
-    registerComponent<DirectionalLight>("DirectionalLight");
-    registerComponent<Geometry>("Geometry");
-    registerComponent<Transform>("Transform");
-    registerComponent<RigidBody>("RigidBody");
+}
+
+Scene::Scene() :
+    _entityData(4096),
+    _entityCount(0)
+{
 }
 
 Scene::~Scene()
 {
-    // All entities in the scene will be invalidated when the scene is
-    // destroyed, so we remove the entities from all of the scenes first
-    for (System* system : _systems)
-    {
-        system->removeAllEntities();
-    }
 }
 
-void Scene::refresh()
+EntityId Scene::createEntity()
 {
-    // Add all activated entities to systems that include them
-    for (Entity::Id id : _activatedEntities)
+    EntityId entityId = _entityIdPool.create();
+
+    while (entityId >= _entityData.size())
     {
-        Entity entity = entityWithId(id);
-        for (System* system : _systems)
+        _entityData.resize(_entityData.size() * 2);
+    }
+    _entityData[entityId].exists = true;
+    ++_entityCount;
+
+    return entityId;
+}
+
+EntityId Scene::cloneEntity(EntityId entityId)
+{
+    if (!entityExists(entityId))
+    {
+        throw Error("Attempt to clone an entity which does not exist");
+    }
+
+    EntityId clonedEntityId = createEntity();
+
+    for (auto& pair : _componentPools)
+    {
+        pair.second->clone(entityId, clonedEntityId);
+    }
+
+    return clonedEntityId;
+}
+
+bool Scene::destroyEntity(EntityId entityId)
+{
+    bool entityExisted = false;
+    if (entityId < _entityData.size())
+    {
+        EntityData& entityData = _entityData[entityId];
+        if (entityData.exists)
         {
-            if (system->includesEntity(entity))
+            for (auto& pair : _componentPools)
             {
-                system->addEntity(entity);
+                pair.second->remove(entityId);
             }
-        }
-
-        // Maintain the activated entity count
-        ++_activatedEntityCount;
-    }
-    _activatedEntities.clear();
-
-    // Remove all destroyed entities from systems that include them
-    for (Entity::Id id : _destroyedEntities)
-    {
-        Entity entity = entityWithId(id);
-        for (System* system : _systems)
-        {
-            if (system->includesEntity(entity))
-            {
-                system->removeEntity(entity);
-            }
-        }
-
-        // Maintain the activated entity count
-        if (entity.isActivated())
-        {
-            --_activatedEntityCount;
-        }
-
-        // Clear entity data
-        _entityComponents[id].clear();
-        _entityData[id] = EntityData();
-
-        // Re-use this id
-        _entityIdPool.destroy(id);
-    }
-    _destroyedEntities.clear();
-}
-
-void Scene::addSystem(System& system)
-{
-    // Add the system to the scene
-    _systems.push_back(&system);
-
-    // Add any entities the systems is filtered for
-    for (Entity::Id id = 0; id < _entityData.size(); ++id)
-    {
-        Entity entity = entityWithId(id);
-        if (entity && entity.isActivated() && system.includesEntity(entity))
-        {
-            system.addEntity(entity);
+            entityExisted = true;
+            entityData.exists = false;
+            _entityIdPool.destroy(entityId);
+            --_entityCount;
         }
     }
+    
+    return entityExisted;
 }
 
-void Scene::removeSystem(System& system)
+bool Scene::entityExists(EntityId entityId) const
 {
-    // Remove all entities from the system
-    system.removeAllEntities();
-
-    // Remove the system from the scene
-    _systems.erase(std::remove(_systems.begin(), _systems.end(), &system), _systems.end());
-}
-
-Entity Scene::createEntity()
-{
-    Entity::Id id = _entityIdPool.create();
-
-    // Resize the pool if needed
-    if (id >= _entityComponents.size())
+    bool entityExists = false;
+    if (entityId < _entityData.size())
     {
-        size_t size = _entityComponents.size() * 2;
-        _entityData.resize(size);
-        _entityComponents.resize(size);
+        const EntityData& entityData = _entityData[entityId];
+        entityExists = entityData.exists;
     }
 
-    // Set the entity as no longer being null; the rest of the data is
-    // properly initialized
-    _entityData[id].setNull(false);
-    return Entity(*this, id);
+    return entityExists;
 }
 
-Entity Scene::entityWithId(Entity::Id id) const
+size_t Scene::entityCount() const
 {
-    if (id >= _entityData.size())
-    {
-        return Entity();
-    }
-    return Entity(*const_cast<Scene*>(this), id);
+    return _entityCount;
+}
+
+void Scene::addEntityComponent(EntityId entityId, const ComponentBase& component)
+{
+    // Implement this
 }
 
 void Scene::encode(ObjectEncoder& encoder) const
 {
-    ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
-
-    for (Entity::Id id = 0; id < _entityData.size(); ++id)
-    {
-        Entity entity = entityWithId(id);
-        if (entity && entity.isActivated() && entity.isEncodable())
-        {
-            ObjectEncoder entityEncoder = entitiesEncoder.encodeObject();
-            entity.encode(entityEncoder);
-        }
-    }
+    encoder;
 }
 
 void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
-    while (entitiesDecoder.hasMoreElements())
-    {
-        Entity entity = createEntity();
-
-        ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
-        entity.decode(entityDecoder, assetCache);
-
-        entity.activate();
-    }
-}
-
-Entity Scene::_cloneEntity(const Entity& entity)
-{
-    // Create the cloned entity
-    Entity clone = createEntity();
-
-    // For each component in the source entity
-    auto& components = _entityComponents[entity._id];
-    for (auto& pair : components)
-    {
-        BaseComponent* component = pair.second.get();
-
-        // Clone the component
-        BaseComponent::Ref clonedComponent(component->clone());
-
-        // Add the clone component to the cloned entity
-        _addComponentWithoutReturn(clone, clonedComponent);
-    }
-
-    return clone;
-}
-
-void Scene::_encodeEntity(const Entity& entity, ObjectEncoder& encoder) const
-{
-    if (!entity)
-    {
-        throw Error("Entity is null");
-    }
-
-    ArrayEncoder componentsEncoder = encoder.encodeArray("components");
-
-    for (BaseComponent* component : entity.components())
-    {
-        ComponentTypeId typeId = component->componentTypeId();
-        const std::string& typeName = _typeName(typeId);
-
-        ObjectEncoder componentEncoder = componentsEncoder.encodeObject();
-        componentEncoder.encodeString("type", typeName);
-        component->encode(componentEncoder);
-    }
-}
-
-void Scene::_decodeEntity(const Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    if (!entity)
-    {
-        throw Error("Entity is null");
-    }
-
-    ArrayDecoder componentsDecoder = decoder.decodeArray("components");
-    while (componentsDecoder.hasMoreElements())
-    {
-        ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
-
-        std::string typeName = componentDecoder.decodeString("type");
-        ComponentTypeId typeId = _typeId(typeName);
-        BaseComponent* component = _constructComponent(typeId);
-
-        component->decode(componentDecoder, assetCache);
-        entity.addComponent(component);
-    }
-}
-
-void Scene::_destroyEntity(const Entity& entity)
-{
-    Entity::Id id = entity._id;
-    EntityData& data = _entityData[id];
-
-    if (data.isNull())
-    {
-        throw Error("Entity is null");
-    }
-    else if (data.isDestroyed())
-    {
-        throw Error("Entity is already destroyed");
-    }
-
-    // Set the entity as destroyed and enqueue it to be removed from the
-    // systems
-    data.setDestroyed(true);
-    _destroyedEntities.push_back(id);
-}
-
-void Scene::_activateEntity(const Entity& entity)
-{
-    Entity::Id id = entity._id;
-    EntityData& data = _entityData[id];
-
-    if (data.isNull())
-    {
-        throw Error("Entity is null");
-    }
-    else if (data.isActivated())
-    {
-        throw Error("Entity is already activated");
-    }
-
-    // Set the entity as activated and enqueue it to be removed from the
-    // systems
-    data.setActivated(true);
-    _activatedEntities.push_back(id);
-}
-
-bool Scene::_isActivated(const Entity& entity) const
-{
-    // Check the entity data to see if the entity is activated
-    Entity::Id id = entity._id;
-    const EntityData& data = _entityData[id];
-
-    if (data.isNull())
-    {
-        throw Error("Entity is null");
-    }
-
-    return data.isActivated();
-}
-
-bool Scene::_isNull(const Entity& entity) const
-{
-    // Check the entity data to see if the entity is null
-    Entity::Id id = entity._id;
-    const EntityData& data = _entityData[id];
-    return data.isNull();
-}
-
-bool Scene::_isEncodable(const Entity& entity) const
-{
-    // Check the entity data to see if the entity is encodable
-    Entity::Id id = entity._id;
-    const EntityData& data = _entityData[id];
-
-    if (data.isNull())
-    {
-        throw Error("Entity is null");
-    }
-
-    return data.isEncodable();
-}
-
-void Scene::_setEncodable(const Entity& entity, bool encodable)
-{
-    Entity::Id id = entity._id;
-    EntityData& data = _entityData[id];
-
-    if (data.isNull())
-    {
-        throw Error("Entity is null");
-    }
-
-    data.setEncodable(encodable);
-}
-
-void Scene::_addComponentWithoutReturn(const Entity& entity, const BaseComponent::Ref& component)
-{
-    Entity::Id id = entity._id;
-    EntityData& data = _entityData[id];
-
-    ComponentTypeId typeId = component->componentTypeId();
-
-    if (data.isNull())
-    {
-        throw Error("Entity is null");
-    }
-    else if (data.isActivated())
-    {
-        throw Error("Entity is activated");
-    }
-    else if (data.hasComponent(typeId))
-    {
-        throw Error(format("Entity already has a component with type id '%d'", typeId));
-    }
-
-    // Set the flag in the entity data to include the component type
-    data.setHasComponent(typeId, true);
-    _entityComponents[id][typeId] = component;
-}
-
-ComponentTypeId Scene::_typeId(const std::string& typeName) const
-{
-    auto it = _componentTypeIds.find(typeName);
-    if (it == _componentTypeIds.end())
-    {
-        throw Error(format("No entity registered for component type name '%s'", typeName.c_str()));
-    }
-    return (*it).second;
-}
-
-const std::string& Scene::_typeName(ComponentTypeId typeId) const
-{
-    auto it = _componentTypeNames.find(typeId);
-    if (it == _componentTypeNames.end())
-    {
-        throw Error(format("No entity registered for component type id '%d'", typeId));
-    }
-    return (*it).second;
-}
-
-BaseComponent* Scene::_constructComponent(ComponentTypeId typeId) const
-{
-    auto it = _componentConstructors.find(typeId);
-    if (it == _componentConstructors.end())
-    {
-        throw Error(format("No entity registered for component type id '%d'", typeId));
-    }
-    return (*it).second();
+    decoder;
+    assetCache;
 }
