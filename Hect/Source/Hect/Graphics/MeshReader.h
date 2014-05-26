@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/IO/MemoryReadStream.h"
 #include "Hect/Math/Vector2.h"
@@ -36,7 +35,7 @@ namespace hect
 ///
 /// Provides an interface for reading from a mesh without knowledge of the
 /// vertex layout.
-class HECT_API MeshReader
+class MeshReader
 {
 public:
 

@@ -23,13 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Texture.h"
 
 namespace hect
 {
 
-class HECT_API TextureEncoder
+class TextureEncoder
 {
 public:
     static void encode(const Texture& texture, ObjectEncoder& encoder);

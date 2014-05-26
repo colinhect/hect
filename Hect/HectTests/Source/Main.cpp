@@ -21,19 +21,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect.h>
 
-#include <string>
+#ifdef HECT_WINDOWS
+#ifdef HECT_DEBUG
+#include <vld.h>
+#endif
+#endif
 
-namespace hect
-{
-
-///
-/// Performs printf-style formating on a string with arguments.
-///
-/// \param fmt The format string.
-///
-/// \returns The formated string.
-std::string format(const char* fmt, ...);
-
-}
+#define CATCH_CONFIG_MAIN
+#include <catch.hpp>

@@ -31,8 +31,6 @@
 #include <typeinfo>
 #include <typeindex>
 
-#include "Hect/Core/Export.h"
-
 namespace hect
 {
 
@@ -48,7 +46,7 @@ public:
 
     ///
     /// Returns the name.
-    HECT_API const std::string& name() const;
+    const std::string& name() const;
 
     ///
     /// Creates a type given its type name.
@@ -73,19 +71,19 @@ public:
     /// Adds a type registration function.
     ///
     /// \param registerFunction The type registration function.
-    static HECT_API void addRegisterFunction(RegisterFunction registerFunction);
+    static void addRegisterFunction(RegisterFunction registerFunction);
 
     ///
     /// Registers all types.
-    static HECT_API void registerTypes();
+    static void registerTypes();
 
 private:
-    HECT_API Type(const std::string& name);
+    Type(const std::string& name);
 
     std::string _name;
 
-    static HECT_API std::vector<RegisterFunction> _registerFunctions;
-    static HECT_API std::map<std::type_index, std::shared_ptr<Type>> _types;
+    static std::vector<RegisterFunction> _registerFunctions;
+    static std::map<std::type_index, std::shared_ptr<Type>> _types;
 };
 
 }

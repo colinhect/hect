@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/Dispatcher.h"
 #include "Hect/Math/Vector2.h"
 
@@ -96,7 +95,7 @@ enum Enum
 
 ///
 /// An event caused by the alteration of the mouse.
-class HECT_API MouseEvent
+class MouseEvent
 {
 public:
 
@@ -126,7 +125,7 @@ public:
 
 ///
 /// Provides access to the system mouse.
-class HECT_API Mouse
+class Mouse
 {
     friend class InputSystem;
 public:

@@ -28,7 +28,6 @@
 #include <string>
 #include <vector>
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/Any.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
@@ -78,7 +77,7 @@ enum Enum : uint8_t
 
 ///
 /// A hierarchical structure of JSON data.
-class HECT_API JsonValue
+class JsonValue
 {
 public:
 

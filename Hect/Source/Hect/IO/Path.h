@@ -26,14 +26,12 @@
 #include <string>
 #include <iostream>
 
-#include "Hect/Core/Export.h"
-
 namespace hect
 {
 
 ///
 /// A path to a file or directory.
-class HECT_API Path
+class Path
 {
 public:
 
@@ -90,6 +88,6 @@ private:
 ///
 /// \param os the output stream.
 /// \param path the path to output.
-HECT_API std::ostream& operator<<(std::ostream& os, const Path& path);
+std::ostream& operator<<(std::ostream& os, const Path& path);
 
 }

@@ -23,9 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "RigidBody.h"
 
+#include "Hect/Entity/Scene.h"
+#include "Hect/Internal/Bullet.h"
+
 using namespace hect;
 
-#include "Hect/Internal/Bullet.h"
+HECT_COMPONENT(RigidBody);
 
 RigidBody::RigidBody() :
     _mass(0)

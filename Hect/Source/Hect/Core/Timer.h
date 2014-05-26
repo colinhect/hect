@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/TimeSpan.h"
 
 namespace hect
@@ -31,7 +30,7 @@ namespace hect
 
 ///
 /// A utility for measuring time durations.
-class HECT_API Timer
+class Timer
 {
 public:
 

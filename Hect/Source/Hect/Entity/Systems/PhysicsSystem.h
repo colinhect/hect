@@ -42,11 +42,10 @@ namespace hect
 ///
 /// Simulates physical interactions of physical bodies.
 class HECT_API PhysicsSystem :
-    public System,
     public Uncopyable
 {
 public:
-    PhysicsSystem();
+    PhysicsSystem(Scene& scene);
 
     ///
     /// \copydoc System::includesEntity()
@@ -75,6 +74,8 @@ protected:
 
 private:
     btTriangleMesh* _toBulletMesh(Mesh* mesh);
+
+    Scene* _scene;
 
     std::shared_ptr<btCollisionConfiguration> _configuration;
     std::shared_ptr<btCollisionDispatcher> _dispatcher;

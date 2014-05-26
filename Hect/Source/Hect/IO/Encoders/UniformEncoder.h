@@ -23,13 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Uniform.h"
 
 namespace hect
 {
 
-class HECT_API UniformEncoder
+class UniformEncoder
 {
 public:
     static void encode(const Uniform& uniform, ObjectEncoder& encoder);

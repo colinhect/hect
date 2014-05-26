@@ -25,7 +25,6 @@
 
 #include <stack>
 
-#include "Hect/Core/Export.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/ReadStream.h"
 
@@ -34,7 +33,7 @@ namespace hect
 
 ///
 /// Provides access for decoding structured data from a binary stream.
-class HECT_API BinaryDecoder :
+class BinaryDecoder :
     public Decoder
 {
 public:

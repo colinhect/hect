@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Entity/Component.h"
 
 namespace hect
@@ -31,7 +30,7 @@ namespace hect
 
 ///
 /// A directional light component
-class HECT_API DirectionalLight :
+class DirectionalLight :
     public Component<DirectionalLight>
 {
 public:

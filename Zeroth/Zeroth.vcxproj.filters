@@ -21,6 +21,9 @@
     <ClCompile Include="Source\Systems\PlayerCameraSystem.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Components\PlayerCamera.cpp">
+      <Filter>Source\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainLogicLayer.h">

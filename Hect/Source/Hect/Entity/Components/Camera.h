@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Entity/Component.h"
 #include "Hect/Math/Frustum.h"
 
@@ -34,7 +33,7 @@ class Transform;
 
 ///
 /// A camera component.
-class HECT_API Camera :
+class Camera :
     public Component<Camera>
 {
 public:

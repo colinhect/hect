@@ -23,8 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
-#include "Hect/Entity/System.h"
+#include "Hect/Entity/Scene.h"
 #include "Hect/Entity/Components/Camera.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/Renderer.h"
@@ -34,21 +33,17 @@ namespace hect
 
 ///
 /// Provides basic rendering.
-class HECT_API RenderSystem :
-    public System
+class RenderSystem
 {
 public:
 
     ///
     /// Constructs the system given the renderer.
     ///
+    /// \param scene The scene.
     /// \param renderer The renderer.
-    RenderSystem(Renderer& renderer);
-
-    ///
-    /// \copydoc System::includesEntity()
-    virtual bool includesEntity(const Entity& entity) const;
-
+    RenderSystem(Scene& scene, Renderer& renderer);
+    
     ///
     /// Renders all visible entities.
     ///
@@ -60,6 +55,7 @@ protected:
     void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
 
 private:
+    Scene* _scene;
     Renderer* _renderer;
 };
 

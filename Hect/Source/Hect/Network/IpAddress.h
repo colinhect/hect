@@ -26,14 +26,12 @@
 #include <cstdint>
 #include <string>
 
-#include "Hect/Core/Export.h"
-
 namespace hect
 {
 
 ///
 /// An Internet Protocol address.
-class HECT_API IpAddress
+class IpAddress
 {
 public:
 

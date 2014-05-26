@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/IO/Path.h"
 
 namespace hect
@@ -33,7 +32,7 @@ class AssetCache;
 
 ///
 /// Base asset entry.
-class HECT_API AssetEntryBase
+class AssetEntryBase
 {
 public:
     virtual ~AssetEntryBase() { }

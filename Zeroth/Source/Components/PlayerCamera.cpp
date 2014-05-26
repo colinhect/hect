@@ -21,13 +21,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "PlayerCamera.h"
 
-#ifdef HECT_EXPORTS
-#define HECT_API __declspec(dllexport)
-#else
-#define HECT_API __declspec(dllimport)
-#endif
-
-#pragma warning (disable : 4251)
-#pragma warning (disable : 4275)
+HECT_COMPONENT(PlayerCamera);

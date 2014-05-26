@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/FrameBuffer.h"
 #include "Hect/Graphics/Material.h"
@@ -39,7 +38,7 @@ namespace hect
 ///
 /// A higher-level abstraction over a hardware-accelerated graphics API such as
 /// OpenGL or DirectX.
-class HECT_API Renderer :
+class Renderer :
     public Uncopyable
 {
 public:

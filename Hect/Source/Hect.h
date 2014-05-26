@@ -114,6 +114,15 @@
 #include "Hect/Entity/Component.h"
 #include "Hect/Entity/Scene.h"
 
+#include "Hect/Entity/Components/AmbientLight.h"
+#include "Hect/Entity/Components/DirectionalLight.h"
+#include "Hect/Entity/Components/Camera.h"
+#include "Hect/Entity/Components/Geometry.h"
+#include "Hect/Entity/Components/Transform.h"
+
+#include "Hect/Entity/Systems/CameraSystem.h"
+#include "Hect/Entity/Systems/RenderSystem.h"
+
 #include "Hect/Core/LogicLayer.h"
 #include "Hect/Core/LogicFlow.h"
 

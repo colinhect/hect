@@ -25,7 +25,6 @@
 
 #include <stack>
 
-#include "Hect/Core/Export.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/IO/Decoder.h"
 
@@ -34,7 +33,7 @@ namespace hect
 
 ///
 /// Provides access for decoding structured data from a JSON value.
-class HECT_API JsonDecoder :
+class JsonDecoder :
     public Decoder
 {
 public:

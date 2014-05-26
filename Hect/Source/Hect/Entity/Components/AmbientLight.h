@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Entity/Component.h"
 #include "Hect/Math/Vector3.h"
 
@@ -32,7 +31,7 @@ namespace hect
 
 ///
 /// An ambient light component
-class HECT_API AmbientLight :
+class AmbientLight :
     public Component<AmbientLight>
 {
 public:

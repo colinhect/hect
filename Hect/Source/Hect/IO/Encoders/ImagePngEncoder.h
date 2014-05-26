@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
@@ -33,7 +32,7 @@ namespace hect
 
 ///
 /// Provides functionality for encoding/decoding images from/to PNG data.
-class HECT_API ImagePngEncoder
+class ImagePngEncoder
 {
 public:
 

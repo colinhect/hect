@@ -69,8 +69,8 @@ public:
     static void add(const std::string& string, T value);
 
 private:
-    static HECT_API std::map<std::type_index, std::map<std::string, int>> _stringToValue;
-    static HECT_API std::map<std::type_index, std::map<int, std::string>> _valueToString;
+    static std::map<std::type_index, std::map<std::string, int>> _stringToValue;
+    static std::map<std::type_index, std::map<int, std::string>> _valueToString;
 };
 
 }

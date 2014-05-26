@@ -23,23 +23,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <typeinfo>
 #include <typeindex>
 
-#include "Hect/Core/Export.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
 {
 
+typedef uint32_t EntityId;
+typedef uint32_t ComponentId;
+
 ///
 /// Base entity component.
-class HECT_API ComponentBase :
+class ComponentBase :
     public Encodable
 {
 public:
     virtual std::type_index typeIndex() const = 0;
 };
+
+template <typename T>
+class ComponentPool;
 
 ///
 /// A component of an entity.
@@ -47,8 +51,16 @@ template <typename T>
 class Component :
     public ComponentBase
 {
+    friend class ComponentPool<T>;
 public:
+    Component();
+
+    EntityId entityId() const;
+
     std::type_index typeIndex() const;
+
+private:
+    EntityId _entityId;
 };
 
 }

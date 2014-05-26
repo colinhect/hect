@@ -23,7 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DirectionalLight.h"
 
+#include "Hect/Entity/Scene.h"
+
 using namespace hect;
+
+HECT_COMPONENT(DirectionalLight);
 
 DirectionalLight::DirectionalLight() :
     _direction(Vector3::unitX()),

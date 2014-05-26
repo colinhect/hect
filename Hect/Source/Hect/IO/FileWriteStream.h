@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/Path.h"
 #include "Hect/IO/WriteStream.h"
@@ -33,7 +32,7 @@ namespace hect
 
 ///
 /// Provides write access to a file.
-class HECT_API FileWriteStream :
+class FileWriteStream :
     public WriteStream,
     public Uncopyable
 {

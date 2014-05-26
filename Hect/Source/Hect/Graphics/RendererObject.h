@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
-
 namespace hect
 {
 
@@ -32,7 +30,7 @@ class Renderer;
 
 ///
 /// Data which provides a handle to the API-specific data.
-struct HECT_API RendererObjectData
+struct RendererObjectData
 {
     virtual ~RendererObjectData() { }
 };
@@ -44,7 +42,7 @@ struct HECT_API RendererObjectData
 /// constructor, move constructor, destructor, assignment operator, and
 /// move assignment operator all which destroy the object from the renderer
 /// if needed.
-class HECT_API RendererObject
+class RendererObject
 {
     friend class Renderer;
 public:
