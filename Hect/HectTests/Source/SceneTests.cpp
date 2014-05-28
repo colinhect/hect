@@ -57,8 +57,6 @@ public:
     std::string value;
 };
 
-HECT_COMPONENT(Name);
-
 TEST_CASE("Scene_CreateAndDestroyEntities")
 {
     Scene scene;
@@ -114,6 +112,7 @@ TEST_CASE("Scene_CreateAndDestroyEntities")
 TEST_CASE("Scene_AddRemoveComponents")
 {
     Scene scene;
+    scene.registerComponent<Name>("Name");
 
     EntityId a = scene.createEntity();
     scene.addEntityComponent(a, Name("a"));
@@ -154,6 +153,7 @@ TEST_CASE("Scene_AddRemoveComponents")
 TEST_CASE("Scene_AddComponentFromBase")
 {
     Scene scene;
+    scene.registerComponent<Name>("Name");
 
     EntityId a = scene.createEntity();
     Name name("a");
@@ -168,6 +168,8 @@ TEST_CASE("Scene_AddComponentFromBase")
 TEST_CASE("Scene_CloneEntity")
 {
     Scene scene;
+    scene.registerComponent<Name>("Name");
+
     REQUIRE(scene.entityCount() == 0);
 
     EntityId a = scene.createEntity();
@@ -191,6 +193,8 @@ TEST_CASE("Scene_CloneEntity")
 TEST_CASE("Scene_Decode")
 {
     Scene scene;
+    scene.registerComponent<Name>("Name");
+
     REQUIRE(scene.entityCount() == 0);
 
     JsonValue jsonValue;
@@ -203,6 +207,7 @@ TEST_CASE("Scene_Decode")
 TEST_CASE("Scene_IterateComponents")
 {
     Scene scene;
+    scene.registerComponent<Name>("Name");
 
     EntityId a = scene.createEntity();
     scene.addEntityComponent(a, Name("a"));
@@ -224,6 +229,7 @@ TEST_CASE("Scene_IterateComponents")
 TEST_CASE("Scene_IterateComponentsConst")
 {
     Scene scene;
+    scene.registerComponent<Name>("Name");
 
     EntityId a = scene.createEntity();
     scene.addEntityComponent(a, Name("a"));

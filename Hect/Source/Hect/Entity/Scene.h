@@ -41,10 +41,6 @@ struct HECT_API EntityData
     bool exists;
 };
 
-class Scene;
-
-typedef std::function<void(Scene&)> ComponentRegistration;
-
 ///
 /// A scene of entities.
 class HECT_API Scene :
@@ -54,10 +50,7 @@ class HECT_API Scene :
     friend class EntityIterator;
 public:
 
-    static void addComponentRegistration(ComponentRegistration registration);
-
     Scene();
-    ~Scene();
 
     EntityId createEntity();
     EntityId cloneEntity(EntityId entityId);
@@ -102,23 +95,8 @@ private:
 
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
     std::map<std::string, std::function<ComponentBase*(Scene&, EntityId)>> _componentAdders;
-
-    static std::vector<ComponentRegistration> _componentRegistrations;
 };
 
 }
-
-#define HECT_COMPONENT(component)\
-struct __Register ## component\
-{\
-    __Register ## component()\
-    {\
-        Scene::addComponentRegistration([](Scene& scene) -> void\
-            {\
-                scene.registerComponent<component>(#component); \
-            }\
-        );\
-    }\
-} __ ## component;\
 
 #include "Scene.inl"

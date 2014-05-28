@@ -31,11 +31,8 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _renderSystem(_scene, renderer),
     _playerCameraSystem(_scene, inputSystem)
 {
-    _scene.registerComponent<Camera>("Camera");
-    _scene.registerComponent<Transform>("Transform");
-    _scene.registerComponent<Geometry>("Geometry");
     _scene.registerComponent<PlayerCamera>("PlayerCamera");
-    
+
     JsonValue& sceneJsonValue = assetCache.get<JsonValue>("Scene.scene");
     _scene.decodeFromJsonValue(sceneJsonValue, assetCache);
 

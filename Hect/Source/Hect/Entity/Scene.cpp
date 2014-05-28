@@ -23,6 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Scene.h"
 
+#include "Hect/Entity/Components/AmbientLight.h"
+#include "Hect/Entity/Components/Camera.h"
+#include "Hect/Entity/Components/DirectionalLight.h"
+#include "Hect/Entity/Components/Geometry.h"
+#include "Hect/Entity/Components/Transform.h"
+
 #include <algorithm>
 
 using namespace hect;
@@ -32,24 +38,15 @@ EntityData::EntityData() :
 {
 }
 
-std::vector<ComponentRegistration> Scene::_componentRegistrations;
-
-void Scene::addComponentRegistration(ComponentRegistration registration)
-{
-    _componentRegistrations.push_back(registration);
-}
-
 Scene::Scene() :
     _entityCount(0)
 {
-    for (ComponentRegistration registration : _componentRegistrations)
-    {
-        registration(*this);
-    }
-}
-
-Scene::~Scene()
-{
+    // Register all built-in Hect components
+    registerComponent<AmbientLight>("AmbientLight");
+    registerComponent<Camera>("Camera");
+    registerComponent<DirectionalLight>("DirectionalLight");
+    registerComponent<Geometry>("Geometry");
+    registerComponent<Transform>("Transform");
 }
 
 EntityId Scene::createEntity()

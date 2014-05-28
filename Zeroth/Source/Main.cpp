@@ -32,8 +32,6 @@ using namespace hect;
 
 #include "MainLogicLayer.h"
 
-void runSample(FileSystem& fileSystem, Window& window, Renderer& renderer, const JsonValue& settings); 
-
 int main(int argc, const char* argv[])
 {
     argc;

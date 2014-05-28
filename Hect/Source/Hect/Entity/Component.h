@@ -30,8 +30,17 @@
 namespace hect
 {
 
+///
+/// A numeric entity identifier.
 typedef uint32_t EntityId;
+
+///
+/// A numeric component identifier.
 typedef uint32_t ComponentId;
+
+///
+/// A numeric component type identifier.
+typedef uint32_t ComponentTypeId;
 
 ///
 /// Base entity component.
@@ -39,6 +48,9 @@ class HECT_API ComponentBase :
     public Encodable
 {
 public:
+
+    ///
+    /// Returns the type index for the component's type.
     virtual std::type_index typeIndex() const = 0;
 };
 

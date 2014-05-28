@@ -23,11 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Transform.h"
 
-#include "Hect/Entity/Scene.h"
-
 using namespace hect;
-
-HECT_COMPONENT(Transform);
 
 Transform::Transform() :
     _dirtyBits(0),
