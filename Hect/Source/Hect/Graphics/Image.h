@@ -26,6 +26,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
@@ -86,7 +88,7 @@ enum Enum
 
 ///
 /// A 2-dimensional image.
-class Image
+class HECT_API Image
 {
     friend class ImagePngEncoder;
 public:

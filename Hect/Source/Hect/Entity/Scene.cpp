@@ -32,20 +32,10 @@ EntityData::EntityData() :
 {
 }
 
-std::vector<ComponentRegistration> Scene::_componentRegistrations;
-
-void Scene::addComponentRegistration(ComponentRegistration registration)
-{
-    _componentRegistrations.push_back(registration);
-}
-
 Scene::Scene() :
+    _entityData(4096),
     _entityCount(0)
 {
-    for (ComponentRegistration registration : _componentRegistrations)
-    {
-        registration(*this);
-    }
 }
 
 Scene::~Scene()
@@ -58,7 +48,7 @@ EntityId Scene::createEntity()
 
     while (entityId >= _entityData.size())
     {
-        _entityData.resize(std::max(_entityData.size() * 2, (size_t)8));
+        _entityData.resize(_entityData.size() * 2);
     }
     _entityData[entityId].exists = true;
     ++_entityCount;
@@ -77,7 +67,7 @@ EntityId Scene::cloneEntity(EntityId entityId)
 
     for (auto& pair : _componentPools)
     {
-        pair.second->_clone(entityId, clonedEntityId);
+        pair.second->clone(entityId, clonedEntityId);
     }
 
     return clonedEntityId;
@@ -93,7 +83,7 @@ bool Scene::destroyEntity(EntityId entityId)
         {
             for (auto& pair : _componentPools)
             {
-                pair.second->_remove(entityId);
+                pair.second->remove(entityId);
             }
             entityExisted = true;
             entityData.exists = false;
@@ -124,12 +114,7 @@ size_t Scene::entityCount() const
 
 void Scene::addEntityComponent(EntityId entityId, const ComponentBase& component)
 {
-    std::type_index typeIndex = component.typeIndex();
-    auto it = _componentPools.find(typeIndex);
-    if (it != _componentPools.end())
-    {
-        it->second->_add(entityId, component);
-    }
+    // Implement this
 }
 
 void Scene::encode(ObjectEncoder& encoder) const
@@ -139,34 +124,6 @@ void Scene::encode(ObjectEncoder& encoder) const
 
 void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
-    while (entitiesDecoder.hasMoreElements())
-    {
-        EntityId entityId = createEntity();
-
-        ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
-        {
-            ArrayDecoder componentsDecoder = entityDecoder.decodeArray("components");
-            while (componentsDecoder.hasMoreElements())
-            {
-                ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
-
-                std::string componentName = componentDecoder.decodeString("type");
-                ComponentBase& component = _addComponentByName(entityId, componentName);
-
-                component.decode(componentDecoder, assetCache);
-            }
-        }
-    }
-}
-
-ComponentBase& Scene::_addComponentByName(EntityId entityId, const std::string& componentName)
-{
-    auto it = _componentAdders.find(componentName);
-    if (it == _componentAdders.end())
-    {
-        throw Error(format("Unknown component type '%s'", componentName.c_str()));
-    }
-
-    return *it->second(*this, entityId);
+    decoder;
+    assetCache;
 }

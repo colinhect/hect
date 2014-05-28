@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Asset/AssetCache.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/IO/Encoder.h"
@@ -33,7 +34,7 @@ namespace hect
 
 ///
 /// An object which can be encoded and decoded.
-class Encodable
+class HECT_API Encodable
 {
 public:
 

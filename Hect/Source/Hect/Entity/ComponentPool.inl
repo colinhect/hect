@@ -24,67 +24,19 @@
 namespace hect
 {
 
-template<typename T>
-T& ComponentIterator<T>::operator*() const
-{
-    return _componentPool->_components[_index];
-}
-
-template<typename T>
-typename ComponentIterator<T>& ComponentIterator<T>::operator++()
-{
-    auto& components = _componentPool->_components;
-    do
-    {
-        ++_index;
-    } while (_index < components.size() && components[_index].entityId() == (EntityId)-1);
-
-    return *this;
-}
-
-template<typename T>
-bool ComponentIterator<T>::operator==(const ComponentIterator<T>& other) const
-{
-    return _componentPool == other._componentPool && _index == other._index;
-}
-
-template<typename T>
-bool ComponentIterator<T>::operator!=(const ComponentIterator<T>& other) const
-{
-    return _componentPool != other._componentPool || _index != other._index;
-}
-
-template<typename T>
-ComponentIterator<T>::ComponentIterator(ComponentPool<T>* componentPool, size_t index) :
-    _componentPool(componentPool),
-    _index(index)
+template <typename T>
+ComponentPool<T>::ComponentPool() :
+    _components(32, T()),
+    _entityIdToComponentId(1024, (ComponentId)-1)
 {
 }
 
 template <typename T>
-typename ComponentIterator<T> ComponentPool<T>::begin()
-{
-    return ComponentIterator<T>(this, 0);
-}
-
-template <typename T>
-typename ComponentIterator<T> ComponentPool<T>::end()
-{
-    return ComponentIterator<T>(this, _components.size());
-}
-
-template <typename T>
-void ComponentPool<T>::_add(EntityId entityId, const ComponentBase& component)
-{
-    _add(entityId, *(T*)&component);
-}
-
-template <typename T>
-T& ComponentPool<T>::_add(EntityId entityId, const T& component)
+T& ComponentPool<T>::add(EntityId entityId, const T& component)
 {
     while (entityId >= _entityIdToComponentId.size())
     {
-        _entityIdToComponentId.resize(std::max(_entityIdToComponentId.size() * 2, (size_t)8), (ComponentId)-1);
+        _entityIdToComponentId.resize(_entityIdToComponentId.size() * 2);
     }
 
     ComponentId& componentId = _entityIdToComponentId[entityId];
@@ -93,18 +45,11 @@ T& ComponentPool<T>::_add(EntityId entityId, const T& component)
         componentId = _componentIdPool.create();
     }
 
-    while (componentId >= _components.size())
-    {
-        _components.resize(std::max(_components.size() * 2, (size_t)8), T());
-    }
-
-    T& addedComponent = _components[componentId] = component;
-    addedComponent._entityId = entityId;
-    return addedComponent;
+    return _components[componentId] = component;
 }
 
 template <typename T>
-bool ComponentPool<T>::_remove(EntityId entityId)
+bool ComponentPool<T>::remove(EntityId entityId)
 {
     bool hadComponent = false;
     if (entityId < _entityIdToComponentId.size())
@@ -115,7 +60,6 @@ bool ComponentPool<T>::_remove(EntityId entityId)
             _componentIdPool.destroy(componentId);
 
             hadComponent = true;
-            _components[componentId]._entityId = (EntityId)-1;
             componentId = (ComponentId)-1;
         }
     }
@@ -124,20 +68,20 @@ bool ComponentPool<T>::_remove(EntityId entityId)
 }
 
 template <typename T>
-void ComponentPool<T>::_clone(EntityId sourceEntityId, EntityId destEntityId)
+void ComponentPool<T>::clone(EntityId sourceEntityId, EntityId destEntityId)
 {
     if (sourceEntityId < _entityIdToComponentId.size())
     {
         ComponentId& componentId = _entityIdToComponentId[sourceEntityId];
         if (componentId != (ComponentId)-1)
         {
-            _add(destEntityId, _components[componentId]);
+            add(destEntityId, _components[componentId]);
         }
     }
 }
 
 template <typename T>
-bool ComponentPool<T>::_has(EntityId entityId) const
+bool ComponentPool<T>::has(EntityId entityId) const
 {
     bool entityHasComponent = false;
     if (entityId < _entityIdToComponentId.size())
@@ -150,7 +94,7 @@ bool ComponentPool<T>::_has(EntityId entityId) const
 }
 
 template <typename T>
-T& ComponentPool<T>::_get(EntityId entityId)
+T& ComponentPool<T>::get(EntityId entityId)
 {
     if (entityId < _entityIdToComponentId.size())
     {

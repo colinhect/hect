@@ -50,6 +50,7 @@ private:
 
     CameraSystem _cameraSystem;
     RenderSystem _renderSystem;
+    PhysicsSystem _physicsSystem;
 
     PlayerCameraSystem _playerCameraSystem;
 

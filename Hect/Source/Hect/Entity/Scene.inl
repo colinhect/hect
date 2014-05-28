@@ -27,44 +27,29 @@ namespace hect
 template <typename T>
 T& Scene::addEntityComponent(EntityId entityId, const T& component)
 {
-    return components<T>()._add(entityId, component);
+    return _componentPool<T>().add(entityId, component);
 }
 
 template <typename T>
-bool Scene::removeEntityComponent(EntityId entityId)
+bool Scene::removeComponent(EntityId entityId)
 {
-    return components<T>()._remove(entityId);
+    return _componentPool<T>().remove(entityId);
 }
 
 template <typename T>
 bool Scene::entityHasComponent(EntityId entityId) const
 {
-    return components<T>()._has(entityId);
+    return _componentPool<T>().has(entityId);
 }
 
 template <typename T>
 T& Scene::entityComponent(EntityId entityId)
 {
-    return components<T>()._get(entityId);
+    return _componentPool<T>().get(entityId);
 }
 
 template <typename T>
-void Scene::registerComponent(const std::string& componentName)
-{
-    std::type_index typeIndex(typeid(T));
-
-    // Create a component pool for this type of component
-    _componentPools[typeIndex] = std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>());
-
-    // Create a component adder for this type of component
-    _componentAdders[componentName] = [](Scene& scene, EntityId entityId)
-    {
-        return &scene.addEntityComponent(entityId, T());
-    };
-}
-
-template <typename T>
-ComponentPool<T>& Scene::components()
+ComponentPool<T>& Scene::_componentPool() const
 {
     std::type_index typeIndex(typeid(T));
     auto it = _componentPools.find(typeIndex);
@@ -74,22 +59,9 @@ ComponentPool<T>& Scene::components()
     }
     else
     {
-        throw Error("Unknown component type");
-    }
-}
-
-template <typename T>
-const ComponentPool<T>& Scene::components() const
-{
-    std::type_index typeIndex(typeid(T));
-    auto it = _componentPools.find(typeIndex);
-    if (it != _componentPools.end())
-    {
-        return *((ComponentPool<T>*)it->second.get());
-    }
-    else
-    {
-        throw Error("Unknown component type");
+        std::shared_ptr<ComponentPoolBase> componentPool(new ComponentPool<T>());
+        _componentPools[typeIndex] = componentPool;
+        return *((ComponentPool<T>*)componentPool.get());
     }
 }
 

@@ -25,12 +25,14 @@
 
 #include <stdexcept>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
 ///
 /// An error.
-class Error :
+class HECT_API Error :
     public std::runtime_error
 {
 public:

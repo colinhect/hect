@@ -25,18 +25,6 @@ namespace hect
 {
 
 template <typename T>
-Component<T>::Component() :
-    _entityId((EntityId)-1)
-{
-}
-
-template <typename T>
-EntityId Component<T>::entityId() const
-{
-    return _entityId;
-}
-
-template <typename T>
 std::type_index Component<T>::typeIndex() const
 {
     return std::type_index(typeid(T));

@@ -30,10 +30,14 @@
 
 using namespace hect;
 
-RenderSystem::RenderSystem(Scene& scene, Renderer& renderer) :
-    _scene(&scene),
+RenderSystem::RenderSystem(Renderer& renderer) :
     _renderer(&renderer)
 {
+}
+
+bool RenderSystem::includesEntity(const Entity& entity) const
+{
+    return entity.hasComponent<Transform>() && entity.hasComponent<Geometry>();
 }
 
 void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
@@ -43,16 +47,10 @@ void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
     _renderer->clear();
 
     // Render geometery
-    for (Geometry& geometry : _scene->components<Geometry>())
+    for (Entity& entity : entities())
     {
-        EntityId entityId = geometry.entityId();
-
-        if (!_scene->entityHasComponent<Transform>(entityId))
-        {
-            continue;
-        }
-
-        Transform& transform = _scene->entityComponent<Transform>(entityId);
+        Geometry& geometry = entity.component<Geometry>();
+        Transform& transform = entity.component<Transform>();
 
         size_t surfaceCount = geometry.surfaceCount();
         for (size_t surfaceIndex = 0; surfaceIndex < surfaceCount; ++surfaceIndex)

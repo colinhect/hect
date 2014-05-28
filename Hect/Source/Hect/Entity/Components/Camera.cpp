@@ -24,11 +24,8 @@
 #include "Camera.h"
 
 #include "Hect/Entity/Components/Transform.h"
-#include "Hect/Entity/Scene.h"
 
 using namespace hect;
-
-HECT_COMPONENT(Camera);
 
 Camera::Camera() :
     _fieldOfView(Angle::fromDegrees(90)),

@@ -23,7 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Entity/Scene.h"
+#include "Hect/Core/Export.h"
+#include "Hect/Entity/System.h"
 #include "Hect/Entity/Components/Camera.h"
 
 namespace hect
@@ -31,11 +32,15 @@ namespace hect
 
 ///
 /// Provides access to the active camera in the scene.
-class CameraSystem
+class HECT_API CameraSystem :
+    public System
 {
 public:
-    CameraSystem(Scene& scene);
-    
+
+    ///
+    /// \copydoc System::includesEntity()
+    bool includesEntity(const Entity& entity) const;
+
     ///
     /// Returns whether there is an active camera in the scene.
     bool hasCamera() const;
@@ -50,9 +55,6 @@ public:
     ///
     /// Updates all cameras to follow their transforms.
     void update();
-
-private:
-    Scene* _scene;
 };
 
 }

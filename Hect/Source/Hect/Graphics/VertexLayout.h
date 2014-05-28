@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/VertexAttribute.h"
 #include "Hect/IO/Encodable.h"
 
@@ -31,7 +32,7 @@ namespace hect
 
 ///
 /// An ordered layout of vertex attributes.
-class VertexLayout :
+class HECT_API VertexLayout :
     public Encodable
 {
 public:

@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/UniformValue.h"
 #include "Hect/IO/Encodable.h"
 
@@ -85,7 +86,7 @@ enum Enum
 ///
 /// \note A uniform must either have a default value or a binding.  The type
 /// is determined by those.
-class Uniform :
+class HECT_API Uniform :
     public Encodable
 {
 public:

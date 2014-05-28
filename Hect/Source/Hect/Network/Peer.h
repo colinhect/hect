@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Network/IpAddress.h"
 
 namespace hect
@@ -82,7 +83,7 @@ enum Enum
 /// \note Peers are lightweight handles.  Copying a peer will copy the
 /// the handle and they will both refer to the same peer.  Peers are created
 /// and destroyed from a socket and are provided in socket events.
-class Peer
+class HECT_API Peer
 {
     friend class Socket;
 public:

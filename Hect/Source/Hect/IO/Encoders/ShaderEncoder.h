@@ -23,12 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Shader.h"
 
 namespace hect
 {
 
-class ShaderEncoder
+class HECT_API ShaderEncoder
 {
 public:
     static void encode(const Shader& shader, ObjectEncoder& encoder);

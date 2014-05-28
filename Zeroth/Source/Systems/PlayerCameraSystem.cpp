@@ -23,8 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerCameraSystem.h"
 
-PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
-    _scene(&scene),
+PlayerCameraSystem::PlayerCameraSystem(InputSystem& inputSystem) :
     _mouse(&inputSystem.mouse()),
     _viewX(&inputSystem.axisWithName("viewX")),
     _viewY(&inputSystem.axisWithName("viewY")),
@@ -35,33 +34,40 @@ PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
 {
 }
 
+bool PlayerCameraSystem::includesEntity(const Entity& entity) const
+{
+    return entity.hasComponent<Transform>()
+           && entity.hasComponent<Camera>()
+           && entity.hasComponent<PlayerCamera>();
+}
+
 void PlayerCameraSystem::update(Real timeStep)
 {
-    for (PlayerCamera& playerCamera : _scene->components<PlayerCamera>())
+    if (entities().empty())
     {
-        EntityId entityId = playerCamera.entityId();
-
-        Transform& transform = _scene->entityComponent<Transform>(entityId);
-        Camera& camera = _scene->entityComponent<Camera>(entityId);
-
-        const Vector3& up = camera.up();
-        const Vector3& right = camera.right();
-        const Vector3& front = camera.front();
-
-        Real rotateSpeed = timeStep * 50;
-        Real rollSpeed = timeStep * 2;
-        Real moveSpeed = timeStep * _speed;
-
-        if (_mouse->mode() == MouseMode::Relative)
-        {
-            transform.rotateGlobal(up, _viewX->value() * rotateSpeed);
-            transform.rotateGlobal(right, _viewY->value() * -rotateSpeed);
-            transform.rotateGlobal(front, _roll->value() * -rollSpeed);
-        }
-
-        transform.translate(right * _moveX->value() * moveSpeed);
-        transform.translate(front * _moveY->value() * moveSpeed);
+        return;
     }
 
+    Entity& entity = entities().front();
 
+    Transform& transform = entity.component<Transform>();
+    Camera& camera = entity.component<Camera>();
+
+    const Vector3& up = camera.up();
+    const Vector3& right = camera.right();
+    const Vector3& front = camera.front();
+
+    Real rotateSpeed = timeStep * 50;
+    Real rollSpeed = timeStep * 2;
+    Real moveSpeed = timeStep * _speed;
+
+    if (_mouse->mode() == MouseMode::Relative)
+    {
+        transform.rotateGlobal(up, _viewX->value() * rotateSpeed);
+        transform.rotateGlobal(right, _viewY->value() * -rotateSpeed);
+        transform.rotateGlobal(front, _roll->value() * -rollSpeed);
+    }
+
+    transform.translate(right * _moveX->value() * moveSpeed);
+    transform.translate(front * _moveY->value() * moveSpeed);
 }

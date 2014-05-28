@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Pass.h"
 
 namespace hect
@@ -32,7 +33,7 @@ namespace hect
 /// An implementation of a material.
 ///
 /// \note A technique is made up of multiple passes.
-class Technique
+class HECT_API Technique
 {
 public:
 

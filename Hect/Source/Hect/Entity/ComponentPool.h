@@ -23,69 +23,44 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <algorithm>
 #include <cstdint>
 #include <vector>
 
 #include "Hect/Core/IdPool.h"
-#include "Hect/Entity/Component.h"
+#include "Hect/Core/Export.h"
 
 namespace hect
 {
+    
+typedef uint32_t EntityId;
+typedef uint32_t ComponentId;
 
 class ComponentPoolBase
 {
-    friend class Scene;
 public:
     virtual ~ComponentPoolBase() { }
 
-protected:
-    virtual void _add(EntityId, const ComponentBase& component) = 0;
-    virtual bool _remove(EntityId entityId) = 0;
-    virtual void _clone(EntityId sourceEntityId, EntityId destEntityId) = 0;
-};
-
-template <typename T>
-class ComponentIterator
-{
-    friend class ComponentPool<T>;
-public:
-    T& operator*() const;
-
-    ComponentIterator& operator++();
-
-    bool operator==(const ComponentIterator<T>& other) const;
-    bool operator!=(const ComponentIterator<T>& other) const;
-
-private:
-    ComponentIterator(ComponentPool<T>* componentPool, size_t index);
-
-    ComponentPool<T>* _componentPool;
-    size_t _index;
+    virtual bool remove(EntityId entityId) = 0;
+    virtual void clone(EntityId sourceEntityId, EntityId destEntityId) = 0;
 };
 
 template <typename T>
 class ComponentPool :
     public ComponentPoolBase
 {
-    friend class Scene;
-    friend class ComponentIterator<T>;
 public:
+    ComponentPool();
 
-    ComponentIterator<T> begin();
-    ComponentIterator<T> end();
-    
+    T& add(EntityId entityId, const T& component);
+
+    bool remove(EntityId entityId);
+    void clone(EntityId sourceEntityId, EntityId destEntityId);
+
+    bool has(EntityId entityId) const;
+
+    T& get(EntityId entityId);
+
 private:
-    void _add(EntityId entityId, const ComponentBase& component);
-    T& _add(EntityId entityId, const T& component);
-
-    bool _remove(EntityId entityId);
-    void _clone(EntityId sourceEntityId, EntityId destEntityId);
-
-    bool _has(EntityId entityId) const;
-
-    T& _get(EntityId entityId);
-
     IdPool<ComponentId> _componentIdPool;
     std::vector<T> _components;
     std::vector<ComponentId> _entityIdToComponentId;

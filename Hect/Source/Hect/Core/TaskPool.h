@@ -32,6 +32,7 @@
 #include <thread>
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Core/Error.h"
 
@@ -44,7 +45,7 @@ typedef std::function<void()> TaskAction;
 
 ///
 /// A handle for an enqueued task.
-class Task
+class HECT_API Task
 {
     friend class TaskPool;
 public:
@@ -79,7 +80,7 @@ private:
 
 ///
 /// Provides the functionality for executing asynchronous tasks.
-class TaskPool :
+class HECT_API TaskPool :
     public Uncopyable
 {
 public:

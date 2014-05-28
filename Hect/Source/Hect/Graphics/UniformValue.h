@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Any.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
@@ -73,7 +74,7 @@ enum Enum : uint8_t
 /// A value for a uniform.
 ///
 /// \note A uniform's type cannot change.
-class UniformValue :
+class HECT_API UniformValue :
     public Encodable
 {
 public:

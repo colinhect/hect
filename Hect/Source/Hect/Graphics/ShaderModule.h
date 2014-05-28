@@ -25,6 +25,7 @@
 
 #include <string>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/RendererObject.h"
 
 namespace hect
@@ -53,7 +54,7 @@ enum Enum
 
 ///
 /// A shader module.
-class ShaderModule :
+class HECT_API ShaderModule :
     public RendererObject
 {
 public:

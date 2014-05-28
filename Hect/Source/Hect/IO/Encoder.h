@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/WriteStream.h"
 
 namespace hect
@@ -30,7 +31,7 @@ namespace hect
 
 ///
 /// Provides access for encoding an array.
-class ArrayEncoder
+class HECT_API ArrayEncoder
 {
     friend class Encoder;
     friend class JsonEncoder;
@@ -167,7 +168,7 @@ private:
     Encoder* _encoder;
 };
 
-class ObjectEncoder
+class HECT_API ObjectEncoder
 {
     friend class Encoder;
     friend class JsonEncoder;
@@ -326,7 +327,7 @@ private:
 
 ///
 /// Provides abstract access for encoding structured data.
-class Encoder
+class HECT_API Encoder
 {
     friend class ArrayEncoder;
     friend class ObjectEncoder;

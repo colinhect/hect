@@ -25,15 +25,17 @@
 
 #include "Components/PlayerCamera.h"
 
-class PlayerCameraSystem
+class PlayerCameraSystem :
+    public System
 {
 public:
-    PlayerCameraSystem(Scene& scene, InputSystem& inputSystem);
-    
+    PlayerCameraSystem(InputSystem& inputSystem);
+
+    bool includesEntity(const Entity& entity) const;
+
     void update(Real timeStep);
 
 private:
-    Scene* _scene;
     Mouse* _mouse;
 
     const InputAxis* _viewX;

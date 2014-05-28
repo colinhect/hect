@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Math/AxisAlignedBox.h"
 #include "Hect/Math/Plane.h"
 #include "Hect/Math/Sphere.h"
@@ -55,7 +56,7 @@ enum Enum
 /// A pyramid with a near and far plane cutting the top and bottom.
 ///
 /// \note Useful for check if objects are with the bounds of a camera.
-class Frustum
+class HECT_API Frustum
 {
 public:
 

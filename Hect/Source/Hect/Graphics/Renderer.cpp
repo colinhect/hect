@@ -37,28 +37,28 @@ using namespace hect;
 #define GL_ASSERT(expression) expression
 #endif
 
-class ShaderModuleData :
+class HECT_API ShaderModuleData :
     public RendererObjectData
 {
 public:
     GLuint id;
 };
 
-class ShaderData :
+class HECT_API ShaderData :
     public RendererObjectData
 {
 public:
     GLuint id;
 };
 
-class TextureData :
+class HECT_API TextureData :
     public RendererObjectData
 {
 public:
     GLuint id;
 };
 
-class FrameBufferData :
+class HECT_API FrameBufferData :
     public RendererObjectData
 {
 public:
@@ -66,7 +66,7 @@ public:
     GLuint depthBufferId;
 };
 
-class MeshData :
+class HECT_API MeshData :
     public RendererObjectData
 {
 public:

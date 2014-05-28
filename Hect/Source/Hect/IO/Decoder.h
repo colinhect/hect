@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/ReadStream.h"
 
 namespace hect
@@ -30,7 +31,7 @@ namespace hect
 
 ///
 /// Provides access for decoding an array.
-class ArrayDecoder
+class HECT_API ArrayDecoder
 {
     friend class Decoder;
     friend class JsonDecoder;
@@ -141,7 +142,7 @@ private:
 
 ///
 /// Provides access for decoding an object.
-class ObjectDecoder
+class HECT_API ObjectDecoder
 {
     friend class Decoder;
     friend class JsonDecoder;
@@ -290,7 +291,7 @@ private:
 
 ///
 /// Provides abstract access for decoding structured data.
-class Decoder
+class HECT_API Decoder
 {
     friend class ArrayDecoder;
     friend class ObjectDecoder;

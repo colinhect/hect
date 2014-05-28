@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Core/Timer.h"
 #include "Hect/Core/TimeSpan.h"
@@ -38,7 +39,7 @@ namespace hect
 ///
 /// \note All layers in the flow are updated in the order in which they were
 /// added.  Inactive layers are removed from the flow.
-class LogicFlow :
+class HECT_API LogicFlow :
     public Uncopyable
 {
 public:

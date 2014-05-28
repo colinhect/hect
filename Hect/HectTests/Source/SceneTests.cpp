@@ -39,25 +39,8 @@ public:
     {
     }
 
-    void encode(ObjectEncoder& encoder) const
-    {
-        encoder.encodeString("value", value);
-    }
-
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache)
-    {
-        assetCache;
-
-        if (decoder.hasMember("value"))
-        {
-            value = decoder.decodeString("value");
-        }
-    }
-
     std::string value;
 };
-
-HECT_COMPONENT(Name);
 
 TEST_CASE("Scene_CreateAndDestroyEntities")
 {
@@ -127,12 +110,11 @@ TEST_CASE("Scene_AddRemoveComponents")
 
         Name& name = scene.entityComponent<Name>(b);
         REQUIRE(name.value == "b");
-        REQUIRE(name.entityId() == b);
 
         SECTION("Remove component")
         {
-            REQUIRE(scene.removeEntityComponent<Name>(b));
-            REQUIRE(!scene.removeEntityComponent<Name>(b));
+            REQUIRE(scene.removeComponent<Name>(b));
+            REQUIRE(!scene.removeComponent<Name>(b));
             REQUIRE_THROWS_AS(scene.entityComponent<Name>(b), Error);
         }
     }
@@ -141,28 +123,13 @@ TEST_CASE("Scene_AddRemoveComponents")
 
     Name& name = scene.entityComponent<Name>(a);
     REQUIRE(name.value == "a");
-    REQUIRE(name.entityId() == a);
 
     SECTION("Remove component")
     {
-        REQUIRE(scene.removeEntityComponent<Name>(a));
-        REQUIRE(!scene.removeEntityComponent<Name>(a));
+        REQUIRE(scene.removeComponent<Name>(a));
+        REQUIRE(!scene.removeComponent<Name>(a));
         REQUIRE_THROWS_AS(scene.entityComponent<Name>(a), Error);
     }
-}
-
-TEST_CASE("Scene_AddComponentFromBase")
-{
-    Scene scene;
-
-    EntityId a = scene.createEntity();
-    Name name("a");
-    const ComponentBase& base = name;
-    scene.addEntityComponent(a, base);
-
-    REQUIRE(scene.entityHasComponent<Name>(a));
-
-    REQUIRE(scene.entityComponent<Name>(a).value == "a");
 }
 
 TEST_CASE("Scene_CloneEntity")
@@ -186,37 +153,4 @@ TEST_CASE("Scene_CloneEntity")
 
     REQUIRE(nameA != nameB);
     REQUIRE(nameA->value == nameB->value);
-}
-
-TEST_CASE("Scene_Decode")
-{
-    Scene scene;
-    REQUIRE(scene.entityCount() == 0);
-
-    JsonValue jsonValue;
-    jsonValue.decodeFromJson("{ \"entities\" : [ { \"components\" : [ { \"type\" : \"Name\", \"value\" : \"a\" } ] } ] }");
-
-    scene.decodeFromJsonValue(jsonValue);
-}
-
-
-TEST_CASE("Scene_IterateComponents")
-{
-    Scene scene;
-
-    EntityId a = scene.createEntity();
-    scene.addEntityComponent(a, Name("a"));
-
-    EntityId b = scene.createEntity();
-    scene.addEntityComponent(b, Name("b"));
-
-    std::vector<std::string> foundNames;
-    for (Name& name : scene.components<Name>())
-    {
-        foundNames.push_back(name.value);
-    }
-
-    REQUIRE(foundNames.size() == 2);
-    REQUIRE(foundNames[0] == "a");
-    REQUIRE(foundNames[1] == "b");
 }

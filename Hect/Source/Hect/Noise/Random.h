@@ -23,12 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
 ///
 /// Provides the functionality for generating psuedo-random numbers.
-class Random
+class HECT_API Random
 {
 public:
 

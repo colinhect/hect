@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Entity/Component.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
@@ -32,7 +33,7 @@ namespace hect
 
 ///
 /// A geometry component.
-class Geometry :
+class HECT_API Geometry :
     public Component<Geometry>
 {
 public:

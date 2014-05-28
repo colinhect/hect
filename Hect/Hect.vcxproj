@@ -28,6 +28,7 @@
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\Dispatcher.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
+    <ClInclude Include="Source\Hect\Core\Export.h" />
     <ClInclude Include="Source\Hect\Core\Format.h" />
     <ClInclude Include="Source\Hect\Core\IdPool.h" />
     <ClInclude Include="Source\Hect\Core\Listener.h" />
@@ -42,16 +43,8 @@
     <ClInclude Include="Source\Hect\Core\Uncopyable.h" />
     <ClInclude Include="Source\Hect\Entity\Component.h" />
     <ClInclude Include="Source\Hect\Entity\ComponentPool.h" />
-    <ClInclude Include="Source\Hect\Entity\Components\AmbientLight.h" />
-    <ClInclude Include="Source\Hect\Entity\Components\Camera.h" />
-    <ClInclude Include="Source\Hect\Entity\Components\DirectionalLight.h" />
-    <ClInclude Include="Source\Hect\Entity\Components\Geometry.h" />
-    <ClInclude Include="Source\Hect\Entity\Components\Transform.h" />
-    <ClInclude Include="Source\Hect\Entity\EntityCollection.h" />
     <ClInclude Include="Source\Hect\Entity\Scene.h" />
     <ClInclude Include="Source\Hect\Entity\System.h" />
-    <ClInclude Include="Source\Hect\Entity\Systems\CameraSystem.h" />
-    <ClInclude Include="Source\Hect\Entity\Systems\RenderSystem.h" />
     <ClInclude Include="Source\Hect\Graphics\FrameBuffer.h" />
     <ClInclude Include="Source\Hect\Graphics\Image.h" />
     <ClInclude Include="Source\Hect\Graphics\Material.h" />
@@ -139,16 +132,8 @@
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp" />
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp" />
     <ClCompile Include="Source\Hect\Entity\Component.cpp" />
-    <ClCompile Include="Source\Hect\Entity\Components\AmbientLight.cpp" />
-    <ClCompile Include="Source\Hect\Entity\Components\Camera.cpp" />
-    <ClCompile Include="Source\Hect\Entity\Components\DirectionalLight.cpp" />
-    <ClCompile Include="Source\Hect\Entity\Components\Geometry.cpp" />
-    <ClCompile Include="Source\Hect\Entity\Components\Transform.cpp" />
-    <ClCompile Include="Source\Hect\Entity\EntityCollection.cpp" />
     <ClCompile Include="Source\Hect\Entity\Scene.cpp" />
     <ClCompile Include="Source\Hect\Entity\System.cpp" />
-    <ClCompile Include="Source\Hect\Entity\Systems\CameraSystem.cpp" />
-    <ClCompile Include="Source\Hect\Entity\Systems\RenderSystem.cpp" />
     <ClCompile Include="Source\Hect\Graphics\FrameBuffer.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Image.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ImageLoader.cpp" />
@@ -270,26 +255,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -363,13 +348,12 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"&amp;
-copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"</Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
       </Message>
-      <Outputs>$(TargetDir)SDL2.dll;$(TargetDir)SDL2.lib</Outputs>
+      <Outputs>$(TargetDir)SDL2.dll</Outputs>
       <TreatOutputAsContent>true</TreatOutputAsContent>
     </CustomBuildStep>
     <PostBuildEvent>
@@ -403,13 +387,12 @@ copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(Targe
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"&amp;
-copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"</Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
       </Message>
-      <Outputs>$(TargetDir)SDL2.dll;$(TargetDir)SDL2.lib</Outputs>
+      <Outputs>$(TargetDir)SDL2.dll</Outputs>
       <TreatOutputAsContent>true</TreatOutputAsContent>
     </CustomBuildStep>
     <PostBuildEvent>
@@ -445,13 +428,12 @@ copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(Targe
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"&amp;
-copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"</Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
       </Message>
-      <Outputs>$(TargetDir)SDL2.dll;$(TargetDir)SDL2.lib</Outputs>
+      <Outputs>$(TargetDir)SDL2.dll</Outputs>
       <TreatOutputAsContent>true</TreatOutputAsContent>
     </CustomBuildStep>
     <PostBuildEvent>
@@ -487,13 +469,12 @@ copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(Targe
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"&amp;
-copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"</Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
       </Message>
-      <Outputs>$(TargetDir)SDL2.dll;$(TargetDir)SDL2.lib</Outputs>
+      <Outputs>$(TargetDir)SDL2.dll</Outputs>
       <TreatOutputAsContent>true</TreatOutputAsContent>
     </CustomBuildStep>
     <PostBuildEvent>
