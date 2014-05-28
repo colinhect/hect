@@ -27,16 +27,15 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _assetCache(&assetCache),
     _input(&inputSystem),
     _window(&window),
-    _renderSystem(renderer),
-    _playerCameraSystem(inputSystem)
+    _cameraSystem(_scene),
+    _renderSystem(_scene, renderer),
+    _playerCameraSystem(_scene, inputSystem)
 {
+    _scene.registerComponent<Camera>("Camera");
+    _scene.registerComponent<Transform>("Transform");
+    _scene.registerComponent<Geometry>("Geometry");
     _scene.registerComponent<PlayerCamera>("PlayerCamera");
-
-    _scene.addSystem(_cameraSystem);
-    _scene.addSystem(_renderSystem);
-    _scene.addSystem(_physicsSystem);
-    _scene.addSystem(_playerCameraSystem);
-
+    
     JsonValue& sceneJsonValue = assetCache.get<JsonValue>("Scene.scene");
     _scene.decodeFromJsonValue(sceneJsonValue, assetCache);
 
@@ -56,9 +55,7 @@ MainLogicLayer::~MainLogicLayer()
 void MainLogicLayer::fixedUpdate(Real timeStep)
 {
     _cameraSystem.update();
-    _physicsSystem.update(timeStep, 1);
     _playerCameraSystem.update(timeStep);
-    _scene.refresh();
 
     _input->updateAxes(timeStep);
 }

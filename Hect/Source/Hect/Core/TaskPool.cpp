@@ -141,7 +141,7 @@ void TaskPool::_initializeThreads(size_t threadCount)
 
 void TaskPool::_threadLoop()
 {
-    while (true)
+    for (;;)
     {
         Task task;
 

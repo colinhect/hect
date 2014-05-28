@@ -369,6 +369,27 @@
     <ClInclude Include="Source\Hect\Entity\ComponentPool.h">
       <Filter>Source\Hect\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Systems\CameraSystem.h">
+      <Filter>Source\Hect\Entity\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Systems\RenderSystem.h">
+      <Filter>Source\Hect\Entity\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Components\AmbientLight.h">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Components\Camera.h">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Components\DirectionalLight.h">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Components\Geometry.h">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Components\Transform.h">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -634,6 +655,27 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp">
       <Filter>Source\Hect\Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Systems\CameraSystem.cpp">
+      <Filter>Source\Hect\Entity\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Systems\RenderSystem.cpp">
+      <Filter>Source\Hect\Entity\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Components\AmbientLight.cpp">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Components\Camera.cpp">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Components\DirectionalLight.cpp">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Components\Geometry.cpp">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Components\Transform.cpp">
+      <Filter>Source\Hect\Entity\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

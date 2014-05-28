@@ -23,7 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Geometry.h"
 
+#include "Hect/Entity/Scene.h"
+
 using namespace hect;
+
+HECT_COMPONENT(Geometry);
 
 void Geometry::addSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material)
 {

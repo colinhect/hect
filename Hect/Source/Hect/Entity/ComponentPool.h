@@ -65,15 +65,38 @@ private:
 };
 
 template <typename T>
+class ConstComponentIterator
+{
+    friend class ComponentPool<T>;
+public:
+    const T& operator*() const;
+
+    ConstComponentIterator& operator++();
+
+    bool operator==(const ConstComponentIterator<T>& other) const;
+    bool operator!=(const ConstComponentIterator<T>& other) const;
+
+private:
+    ConstComponentIterator(const ComponentPool<T>* componentPool, size_t index);
+
+    const ComponentPool<T>* _componentPool;
+    size_t _index;
+};
+
+template <typename T>
 class ComponentPool :
     public ComponentPoolBase
 {
     friend class Scene;
     friend class ComponentIterator<T>;
+    friend class ConstComponentIterator<T>;
 public:
 
     ComponentIterator<T> begin();
+    ConstComponentIterator<T> begin() const;
+
     ComponentIterator<T> end();
+    ConstComponentIterator<T> end() const;
     
 private:
     void _add(EntityId entityId, const ComponentBase& component);

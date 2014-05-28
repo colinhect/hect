@@ -23,7 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "AmbientLight.h"
 
+#include "Hect/Entity/Scene.h"
+
 using namespace hect;
+
+HECT_COMPONENT(AmbientLight);
 
 AmbientLight::AmbientLight() :
     _color(Vector3::one())

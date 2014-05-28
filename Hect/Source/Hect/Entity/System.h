@@ -28,4 +28,18 @@
 namespace hect
 {
 
+class Scene;
+
+class HECT_API System 
+{
+public:
+    System(Scene& scene);
+
+    Scene& scene();
+    const Scene& scene() const;
+
+private:
+    Scene* _scene;
+};
+
 }

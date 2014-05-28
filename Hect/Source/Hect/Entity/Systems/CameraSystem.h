@@ -36,10 +36,7 @@ class HECT_API CameraSystem :
     public System
 {
 public:
-
-    ///
-    /// \copydoc System::includesEntity()
-    bool includesEntity(const Entity& entity) const;
+    CameraSystem(Scene& scene);
 
     ///
     /// Returns whether there is an active camera in the scene.

@@ -61,6 +61,43 @@ ComponentIterator<T>::ComponentIterator(ComponentPool<T>* componentPool, size_t 
 {
 }
 
+template<typename T>
+const T& ConstComponentIterator<T>::operator*() const
+{
+    return _componentPool->_components[_index];
+}
+
+template<typename T>
+typename ConstComponentIterator<T>& ConstComponentIterator<T>::operator++()
+{
+    auto& components = _componentPool->_components;
+    do
+    {
+        ++_index;
+    } while (_index < components.size() && components[_index].entityId() == (EntityId)-1);
+
+    return *this;
+}
+
+template<typename T>
+bool ConstComponentIterator<T>::operator==(const ConstComponentIterator<T>& other) const
+{
+    return _componentPool == other._componentPool && _index == other._index;
+}
+
+template<typename T>
+bool ConstComponentIterator<T>::operator!=(const ConstComponentIterator<T>& other) const
+{
+    return _componentPool != other._componentPool || _index != other._index;
+}
+
+template<typename T>
+ConstComponentIterator<T>::ConstComponentIterator(const ComponentPool<T>* componentPool, size_t index) :
+    _componentPool(componentPool),
+    _index(index)
+{
+}
+
 template <typename T>
 typename ComponentIterator<T> ComponentPool<T>::begin()
 {
@@ -68,9 +105,21 @@ typename ComponentIterator<T> ComponentPool<T>::begin()
 }
 
 template <typename T>
+typename ConstComponentIterator<T> ComponentPool<T>::begin() const
+{
+    return ConstComponentIterator<T>(this, 0);
+}
+
+template <typename T>
 typename ComponentIterator<T> ComponentPool<T>::end()
 {
     return ComponentIterator<T>(this, _components.size());
+}
+
+template <typename T>
+typename ConstComponentIterator<T> ComponentPool<T>::end() const
+{
+    return ConstComponentIterator<T>(this, _components.size());
 }
 
 template <typename T>

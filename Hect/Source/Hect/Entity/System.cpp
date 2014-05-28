@@ -23,6 +23,19 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "System.h"
 
-#include <algorithm>
-
 using namespace hect;
+
+System::System(Scene& scene) :
+    _scene(&scene)
+{
+}
+
+Scene& System::scene()
+{
+    return *_scene;
+}
+
+const Scene& System::scene() const
+{
+    return *_scene;
+}

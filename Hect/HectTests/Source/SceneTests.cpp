@@ -220,3 +220,25 @@ TEST_CASE("Scene_IterateComponents")
     REQUIRE(foundNames[0] == "a");
     REQUIRE(foundNames[1] == "b");
 }
+
+TEST_CASE("Scene_IterateComponentsConst")
+{
+    Scene scene;
+
+    EntityId a = scene.createEntity();
+    scene.addEntityComponent(a, Name("a"));
+
+    EntityId b = scene.createEntity();
+    scene.addEntityComponent(b, Name("b"));
+
+    std::vector<std::string> foundNames;
+    const Scene& sceneConst = scene;
+    for (const Name& name : sceneConst.components<Name>())
+    {
+        foundNames.push_back(name.value);
+    }
+
+    REQUIRE(foundNames.size() == 2);
+    REQUIRE(foundNames[0] == "a");
+    REQUIRE(foundNames[1] == "b");
+}

@@ -29,9 +29,7 @@ class PlayerCameraSystem :
     public System
 {
 public:
-    PlayerCameraSystem(InputSystem& inputSystem);
-
-    bool includesEntity(const Entity& entity) const;
+    PlayerCameraSystem(Scene& scene, InputSystem& inputSystem);
 
     void update(Real timeStep);
 

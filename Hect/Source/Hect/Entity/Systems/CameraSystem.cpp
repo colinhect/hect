@@ -29,28 +29,41 @@
 
 using namespace hect;
 
-bool CameraSystem::includesEntity(const Entity& entity) const
+CameraSystem::CameraSystem(Scene& scene) :
+    System(scene)
 {
-    return entity.hasComponent<Transform>() && entity.hasComponent<Camera>();
 }
 
 bool CameraSystem::hasCamera() const
 {
-    return !entities().empty();
+    bool foundCamera = false;
+    for (const Camera& camera : scene().components<Camera>())
+    {
+        camera;
+        foundCamera = true;
+    }
+    return foundCamera;
 }
 
 Camera& CameraSystem::camera()
 {
-    assert(hasCamera());
-    return entities().back().component<Camera>();
+    Camera* foundCamera = nullptr;
+    for (Camera& camera : scene().components<Camera>())
+    {
+        if (!foundCamera)
+        {
+            foundCamera = &camera;
+        }
+    }
+    return *foundCamera;
 }
 
 void CameraSystem::update()
 {
-    for (const Entity& entity : entities())
+    for (Camera& camera : scene().components<Camera>())
     {
-        Camera& camera = entity.component<Camera>();
-        Transform& transform = entity.component<Transform>();
+        EntityId entityId = camera.entityId();
+        Transform& transform = scene().entityComponent<Transform>(entityId);
         camera.transformTo(transform);
     }
 }
