@@ -26,7 +26,6 @@
 #include <typeinfo>
 #include <typeindex>
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/IdPool.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Entity/Component.h"
@@ -35,12 +34,16 @@
 namespace hect
 {
 
-struct EntityData
+struct HECT_API EntityData
 {
     EntityData();
 
     bool exists;
 };
+
+class Scene;
+
+typedef std::function<void(Scene&)> ComponentRegistration;
 
 ///
 /// A scene of entities.
@@ -48,7 +51,11 @@ class HECT_API Scene :
     public Uncopyable,
     public Encodable
 {
+    friend class EntityIterator;
 public:
+
+    static void addComponentRegistration(ComponentRegistration registration);
+
     Scene();
     ~Scene();
 
@@ -66,7 +73,7 @@ public:
     T& addEntityComponent(EntityId entityId, const T& component);
 
     template <typename T>
-    bool removeComponent(EntityId entityId);
+    bool removeEntityComponent(EntityId entityId);
 
     template <typename T>
     bool entityHasComponent(EntityId entityId) const;
@@ -74,21 +81,44 @@ public:
     template <typename T>
     T& entityComponent(EntityId entityId);
 
+    template <typename T>
+    void registerComponent(const std::string& componentName);
+
+    template <typename T>
+    ComponentPool<T>& components();
+
+    template <typename T>
+    const ComponentPool<T>& components() const;
+
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-
-    template <typename T>
-    ComponentPool<T>& _componentPool() const;
+    ComponentBase& _addComponentByName(EntityId entityId, const std::string& componentName);
 
     IdPool<EntityId> _entityIdPool;
     std::vector<EntityData> _entityData;
     size_t _entityCount;
 
-    mutable std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
+    std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
+    std::map<std::string, std::function<ComponentBase*(Scene&, EntityId)>> _componentAdders;
+
+    static std::vector<ComponentRegistration> _componentRegistrations;
 };
 
 }
+
+#define HECT_COMPONENT(component)\
+struct __Register ## component\
+{\
+    __Register ## component()\
+    {\
+        Scene::addComponentRegistration([](Scene& scene) -> void\
+            {\
+                scene.registerComponent<component>(#component); \
+            }\
+        );\
+    }\
+} __ ## component;\
 
 #include "Scene.inl"

@@ -27,29 +27,44 @@ namespace hect
 template <typename T>
 T& Scene::addEntityComponent(EntityId entityId, const T& component)
 {
-    return _componentPool<T>().add(entityId, component);
+    return components<T>()._add(entityId, component);
 }
 
 template <typename T>
-bool Scene::removeComponent(EntityId entityId)
+bool Scene::removeEntityComponent(EntityId entityId)
 {
-    return _componentPool<T>().remove(entityId);
+    return components<T>()._remove(entityId);
 }
 
 template <typename T>
 bool Scene::entityHasComponent(EntityId entityId) const
 {
-    return _componentPool<T>().has(entityId);
+    return components<T>()._has(entityId);
 }
 
 template <typename T>
 T& Scene::entityComponent(EntityId entityId)
 {
-    return _componentPool<T>().get(entityId);
+    return components<T>()._get(entityId);
 }
 
 template <typename T>
-ComponentPool<T>& Scene::_componentPool() const
+void Scene::registerComponent(const std::string& componentName)
+{
+    std::type_index typeIndex(typeid(T));
+
+    // Create a component pool for this type of component
+    _componentPools[typeIndex] = std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>());
+
+    // Create a component adder for this type of component
+    _componentAdders[componentName] = [](Scene& scene, EntityId entityId)
+    {
+        return &scene.addEntityComponent(entityId, T());
+    };
+}
+
+template <typename T>
+ComponentPool<T>& Scene::components()
 {
     std::type_index typeIndex(typeid(T));
     auto it = _componentPools.find(typeIndex);
@@ -59,9 +74,22 @@ ComponentPool<T>& Scene::_componentPool() const
     }
     else
     {
-        std::shared_ptr<ComponentPoolBase> componentPool(new ComponentPool<T>());
-        _componentPools[typeIndex] = componentPool;
-        return *((ComponentPool<T>*)componentPool.get());
+        throw Error("Unknown component type");
+    }
+}
+
+template <typename T>
+const ComponentPool<T>& Scene::components() const
+{
+    std::type_index typeIndex(typeid(T));
+    auto it = _componentPools.find(typeIndex);
+    if (it != _componentPools.end())
+    {
+        return *((ComponentPool<T>*)it->second.get());
+    }
+    else
+    {
+        throw Error("Unknown component type");
     }
 }
 
