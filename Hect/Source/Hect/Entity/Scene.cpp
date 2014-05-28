@@ -98,7 +98,7 @@ bool Scene::destroyEntity(EntityId entityId)
             --_entityCount;
         }
     }
-    
+
     return entityExisted;
 }
 

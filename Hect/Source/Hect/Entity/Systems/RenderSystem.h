@@ -39,7 +39,7 @@ class HECT_API RenderSystem :
 {
 public:
     RenderSystem(Scene& scene, Renderer& renderer);
-    
+
     ///
     /// Renders all visible entities.
     ///

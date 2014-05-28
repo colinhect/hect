@@ -30,7 +30,7 @@ namespace hect
 
 class Scene;
 
-class HECT_API System 
+class HECT_API System
 {
 public:
     System(Scene& scene);

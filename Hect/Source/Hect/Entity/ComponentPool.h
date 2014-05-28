@@ -97,7 +97,7 @@ public:
 
     ComponentIterator<T> end();
     ConstComponentIterator<T> end() const;
-    
+
 private:
     void _add(EntityId entityId, const ComponentBase& component);
     T& _add(EntityId entityId, const T& component);
