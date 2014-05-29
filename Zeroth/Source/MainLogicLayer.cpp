@@ -66,10 +66,10 @@ void MainLogicLayer::fixedUpdate(Real timeStep)
     _playerCameraSystem.update(timeStep);
 
     _physicsTask = _taskPool.enqueue([this, timeStep]()
-        {
-            _physicsSystem.update(timeStep, 4);
-        }
-    );
+    {
+        _physicsSystem.update(timeStep, 4);
+    }
+                                    );
 
     _input->updateAxes(timeStep);
 
@@ -129,7 +129,7 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
 
             cloneEntityId = _scene.cloneEntity(sourceEntityId);
         }
-        
+
         Transform& cloneTransform = _scene.entityComponent<Transform>(cloneEntityId);
         cloneTransform = _scene.entityComponent<Transform>(playerEntityId);
 

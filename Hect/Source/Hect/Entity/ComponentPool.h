@@ -38,16 +38,16 @@ namespace hect
 /// A component pool event type.
 namespace ComponentPoolEventType
 {
-    enum Enum
-    {
-        ///
-        /// A component was added.
-        Add,
+enum Enum
+{
+    ///
+    /// A component was added.
+    Add,
 
-        ///
-        /// A component was removed.
-        Remove
-    };
+    ///
+    /// A component was removed.
+    Remove
+};
 }
 
 ///
