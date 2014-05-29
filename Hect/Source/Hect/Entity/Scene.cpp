@@ -24,10 +24,11 @@
 #include "Scene.h"
 
 #include "Hect/Entity/Components/AmbientLight.h"
-#include "Hect/Entity/Components/Camera.h"
 #include "Hect/Entity/Components/DirectionalLight.h"
+#include "Hect/Entity/Components/Camera.h"
 #include "Hect/Entity/Components/Geometry.h"
 #include "Hect/Entity/Components/Transform.h"
+#include "Hect/Entity/Components/RigidBody.h"
 
 #include <algorithm>
 
@@ -43,10 +44,11 @@ Scene::Scene() :
 {
     // Register all built-in Hect components
     registerComponent<AmbientLight>("AmbientLight");
-    registerComponent<Camera>("Camera");
     registerComponent<DirectionalLight>("DirectionalLight");
+    registerComponent<Camera>("Camera");
     registerComponent<Geometry>("Geometry");
     registerComponent<Transform>("Transform");
+    registerComponent<RigidBody>("RigidBody");
 }
 
 EntityId Scene::createEntity()

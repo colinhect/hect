@@ -26,10 +26,12 @@
 #include <Hect/Core/LogicLayer.h>
 #include <Hect/Core/Listener.h>
 #include <Hect/Core/Uncopyable.h>
+#include <Hect/Core/TaskPool.h>
 #include <Hect/Asset/AssetCache.h>
 #include <Hect/Entity/Scene.h>
 #include <Hect/Entity/Systems/CameraSystem.h>
 #include <Hect/Entity/Systems/RenderSystem.h>
+#include <Hect/Entity/Systems/PhysicsSystem.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
 #include <Hect/Input/InputSystem.h>
@@ -56,10 +58,14 @@ private:
     hect::InputSystem* _input;
     hect::Window* _window;
 
-    hect::CameraSystem _cameraSystem;
-    hect::RenderSystem _renderSystem;
-
-    PlayerCameraSystem _playerCameraSystem;
+    hect::TaskPool _taskPool;
+    hect::Task _physicsTask;
 
     hect::Scene _scene;
+
+    hect::CameraSystem _cameraSystem;
+    hect::RenderSystem _renderSystem;
+    hect::PhysicsSystem _physicsSystem;
+
+    PlayerCameraSystem _playerCameraSystem;
 };

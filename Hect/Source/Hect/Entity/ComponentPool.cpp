@@ -21,34 +21,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "ComponentPool.h"
 
-#include "Hect/Core/Configuration.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Math/Quaternion.h"
-#include "Hect/Entity/Components/Transform.h"
-#include "Hect/Graphics/Mesh.h"
+using namespace hect;
 
-#ifdef HECT_WINDOWS
-#pragma warning(push, 0)
-#endif
-
-#include <btBulletDynamicsCommon.h>
-
-#ifdef HECT_WINDOWS
-#pragma warning(pop)
-#endif
-
-namespace hect
+ComponentPoolEvent::ComponentPoolEvent(ComponentPoolEventType::Enum type, EntityId entityId) :
+    type(type),
+    entityId(entityId)
 {
-
-btVector3 convertToBullet(const Vector3& v);
-btQuaternion convertToBullet(const Quaternion& q);
-btTransform convertToBullet(const Transform& t);
-btTriangleMesh* convertToBullet(const Mesh& m);
-
-Vector3 convertFromBullet(const btVector3& v);
-Quaternion convertFromBullet(const btQuaternion& q);
-Transform convertFromBullet(const btTransform& t);
-
 }

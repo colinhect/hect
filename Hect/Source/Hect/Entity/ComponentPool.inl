@@ -24,15 +24,22 @@
 namespace hect
 {
 
-template<typename T>
+template <typename T>
 T& ComponentIterator<T>::operator*() const
 {
     return (*_components)[_index];
 }
 
-template<typename T>
+template <typename T>
+T* ComponentIterator<T>::operator->() const
+{
+    return &(*_components)[_index];
+}
+
+template <typename T>
 typename ComponentIterator<T>& ComponentIterator<T>::operator++()
 {
+    // Move to the next component
     size_t size = _components->size();
     do
     {
@@ -42,23 +49,24 @@ typename ComponentIterator<T>& ComponentIterator<T>::operator++()
     return *this;
 }
 
-template<typename T>
+template <typename T>
 bool ComponentIterator<T>::operator==(const ComponentIterator<T>& other) const
 {
     return _components == other._components && _index == other._index;
 }
 
-template<typename T>
+template <typename T>
 bool ComponentIterator<T>::operator!=(const ComponentIterator<T>& other) const
 {
     return _components != other._components || _index != other._index;
 }
 
-template<typename T>
+template <typename T>
 ComponentIterator<T>::ComponentIterator(std::vector<T>* components, size_t index) :
     _components(components),
     _index(index)
 {
+    // Move to the first component
     size_t size = _components->size();
     while (_index < size && (*_components)[_index].entityId() == (EntityId)-1)
     {
@@ -66,15 +74,22 @@ ComponentIterator<T>::ComponentIterator(std::vector<T>* components, size_t index
     }
 }
 
-template<typename T>
+template <typename T>
 const T& ConstComponentIterator<T>::operator*() const
 {
     return (*_components)[_index];
 }
 
-template<typename T>
+template <typename T>
+const T* ConstComponentIterator<T>::operator->() const
+{
+    return &(*_components)[_index];
+}
+
+template <typename T>
 typename ConstComponentIterator<T>& ConstComponentIterator<T>::operator++()
 {
+    // Move to the next component
     size_t size = _components->size();
     do
     {
@@ -84,28 +99,35 @@ typename ConstComponentIterator<T>& ConstComponentIterator<T>::operator++()
     return *this;
 }
 
-template<typename T>
+template <typename T>
 bool ConstComponentIterator<T>::operator==(const ConstComponentIterator<T>& other) const
 {
     return _components == other._components && _index == other._index;
 }
 
-template<typename T>
+template <typename T>
 bool ConstComponentIterator<T>::operator!=(const ConstComponentIterator<T>& other) const
 {
     return _components != other._components || _index != other._index;
 }
 
-template<typename T>
+template <typename T>
 ConstComponentIterator<T>::ConstComponentIterator(const std::vector<T>* components, size_t index) :
     _components(components),
     _index(index)
 {
+    // Move to the first component
     size_t size = _components->size();
     while (_index < size && (*_components)[_index].entityId() == (EntityId)-1)
     {
         ++_index;
     }
+}
+
+template <typename T>
+Dispatcher<ComponentPoolEvent>& ComponentPool<T>::dispatcher()
+{
+    return _dispatcher;
 }
 
 template <typename T>
@@ -117,26 +139,42 @@ void ComponentPool<T>::add(EntityId entityId, const ComponentBase& component)
 template <typename T>
 T& ComponentPool<T>::add(EntityId entityId, const T& component)
 {
+    // Expand the entity to component vector if needed
     while (entityId >= _entityIdToComponentId.size())
     {
         size_t size = _entityIdToComponentId.size();
         _entityIdToComponentId.resize(std::max(size * 2, (size_t)8), (ComponentId)-1);
     }
 
+    // Get the component id for the entity
     ComponentId& componentId = _entityIdToComponentId[entityId];
     if (componentId == (ComponentId)-1)
     {
+        // The entity did not have a component in the pool so create a new one
         componentId = _componentIdPool.create();
     }
+    else
+    {
+        // The entity already had a component so dispatch a remove event first
+        _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
+    }
 
+    // Expand the components vector if needed
     while (componentId >= _components.size())
     {
         size_t size = _components.size();
         _components.resize(std::max(size * 2, (size_t)8), T());
     }
 
+    // Assign the new component and get a reference to it
     T& addedComponent = _components[componentId] = component;
+
+    // Introduce the component to its entity (nice to meet your, sir)
     addedComponent._entityId = entityId;
+
+    // Dispatch the add event
+    _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entityId));
+
     return addedComponent;
 }
 
@@ -149,6 +187,9 @@ bool ComponentPool<T>::remove(EntityId entityId)
         ComponentId& componentId = _entityIdToComponentId[entityId];
         if (componentId != (ComponentId)-1)
         {
+            // Dispatch the add event
+            _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
+            
             _componentIdPool.destroy(componentId);
 
             hadComponent = true;

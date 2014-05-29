@@ -28,16 +28,59 @@
 #include <vector>
 
 #include "Hect/Core/IdPool.h"
+#include "Hect/Core/Dispatcher.h"
 #include "Hect/Entity/Component.h"
 
 namespace hect
 {
 
 ///
+/// A component pool event type.
+namespace ComponentPoolEventType
+{
+    enum Enum
+    {
+        ///
+        /// A component was added.
+        Add,
+
+        ///
+        /// A component was removed.
+        Remove
+    };
+}
+
+///
+/// An event dispatched from a ComponentPool.
+class HECT_API ComponentPoolEvent
+{
+public:
+
+    ///
+    /// Constructs a component pool event.
+    ///
+    /// \param type The event type.
+    /// \param entityId The id of the entity that the event pertains to.
+    ComponentPoolEvent(ComponentPoolEventType::Enum type, EntityId entityId);
+
+    ///
+    /// The type of the event.
+    ComponentPoolEventType::Enum type;
+
+    ///
+    /// The id of the entity that the event pertains to.
+    EntityId entityId;
+};
+
+///
 /// Abstract interface to a ComponentPool of any component type.
 class HECT_API ComponentPoolBase
 {
 public:
+
+    ///
+    /// Returns the dispatcher of component pool events.
+    virtual Dispatcher<ComponentPoolEvent>& dispatcher() = 0;
 
     ///
     /// Adds a component to an entity.
@@ -79,6 +122,10 @@ public:
     T& operator*() const;
 
     ///
+    /// Provides pointer-like access to the underlying component.
+    T* operator->() const;
+
+    ///
     /// Moves to the next component.
     ComponentIterator& operator++();
 
@@ -116,6 +163,10 @@ public:
     const T& operator*() const;
 
     ///
+    /// Provides pointer-like access to the underlying component.
+    const T* operator->() const;
+
+    ///
     /// Moves to the next component.
     ConstComponentIterator& operator++();
 
@@ -149,6 +200,10 @@ class ComponentPool :
     friend class ComponentIterator<T>;
     friend class ConstComponentIterator<T>;
 public:
+
+    ///
+    /// Returns the dispatcher of component pool events.
+    Dispatcher<ComponentPoolEvent>& dispatcher();
 
     ///
     /// Adds a component to an entity.
@@ -219,6 +274,7 @@ public:
     ConstComponentIterator<T> end() const;
 
 private:
+    Dispatcher<ComponentPoolEvent> _dispatcher;
     IdPool<ComponentId> _componentIdPool;
     std::vector<T> _components;
     std::vector<ComponentId> _entityIdToComponentId;

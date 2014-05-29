@@ -25,6 +25,7 @@
 
 #include <Hect/Entity/Components/Geometry.h>
 #include <Hect/Entity/Components/Transform.h>
+#include <Hect/Entity/Components/RigidBody.h>
 
 using namespace hect;
 
@@ -32,8 +33,10 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _assetCache(&assetCache),
     _input(&inputSystem),
     _window(&window),
+    _taskPool(4),
     _cameraSystem(_scene),
     _renderSystem(_scene, renderer),
+    _physicsSystem(_scene),
     _playerCameraSystem(_scene, inputSystem)
 {
     _scene.registerComponent<PlayerCamera>("PlayerCamera");
@@ -56,10 +59,20 @@ MainLogicLayer::~MainLogicLayer()
 
 void MainLogicLayer::fixedUpdate(Real timeStep)
 {
+    _physicsTask.wait();
+
     _cameraSystem.update();
+    _physicsSystem.updateTransforms();
     _playerCameraSystem.update(timeStep);
 
+    _physicsTask = _taskPool.enqueue([this, timeStep]()
+        {
+            _physicsSystem.update(timeStep, 4);
+        }
+    );
+
     _input->updateAxes(timeStep);
+
 }
 
 void MainLogicLayer::frameUpdate(Real delta)
@@ -106,16 +119,25 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
 
     if (event.key == Key::F)
     {
-        PlayerCamera& playerCamera = *_scene.componentPool<PlayerCamera>().begin();
-        EntityId playerEntityId = playerCamera.entityId();
+        EntityId cloneEntityId;
+        ComponentIterator<Camera> playerCamera = _scene.componentPool<Camera>().begin();
+        EntityId playerEntityId = playerCamera->entityId();
 
-        Transform& playerTransform = _scene.entityComponent<Transform>(playerEntityId);
+        {
+            Geometry& geometry = *_scene.componentPool<Geometry>().begin();
+            EntityId sourceEntityId = geometry.entityId();
 
-        Geometry& geometry = *_scene.componentPool<Geometry>().begin();
-        EntityId sourceEntityId = geometry.entityId();
-
-        EntityId cloneEntityId = _scene.cloneEntity(sourceEntityId);
+            cloneEntityId = _scene.cloneEntity(sourceEntityId);
+        }
+        
         Transform& cloneTransform = _scene.entityComponent<Transform>(cloneEntityId);
-        cloneTransform = playerTransform;
+        cloneTransform = _scene.entityComponent<Transform>(playerEntityId);
+
+        RigidBody rigidBody;
+        rigidBody.setMass(1.0f);
+        rigidBody.setMesh(_scene.componentPool<Geometry>().begin()->meshes()[0]);
+        rigidBody.setLinearVelocity(playerCamera->front() * 5.0f);
+
+        _scene.addEntityComponent(cloneEntityId, rigidBody);
     }
 }

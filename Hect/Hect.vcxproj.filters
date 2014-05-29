@@ -384,6 +384,12 @@
     <ClInclude Include="Source\Hect\Entity\Components\Transform.h">
       <Filter>Source\Hect\Entity\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Systems\PhysicsSystem.h">
+      <Filter>Source\Hect\Entity\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Components\RigidBody.h">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -663,6 +669,15 @@
       <Filter>Source\Hect\Entity\Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Entity\Components\Transform.cpp">
+      <Filter>Source\Hect\Entity\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\ComponentPool.cpp">
+      <Filter>Source\Hect\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Systems\PhysicsSystem.cpp">
+      <Filter>Source\Hect\Entity\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Components\RigidBody.cpp">
       <Filter>Source\Hect\Entity\Components</Filter>
     </ClCompile>
   </ItemGroup>

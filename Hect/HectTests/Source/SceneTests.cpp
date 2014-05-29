@@ -57,6 +57,18 @@ public:
     std::string value;
 };
 
+class ComponentPoolListener :
+    public Listener<ComponentPoolEvent>
+{
+public:
+    void receiveEvent(const ComponentPoolEvent& event)
+    {
+        receivedEvents.push_back(event);
+    }
+
+    std::vector<ComponentPoolEvent> receivedEvents;
+};
+
 TEST_CASE("Scene_CreateAndDestroyEntities")
 {
     Scene scene;
@@ -150,21 +162,6 @@ TEST_CASE("Scene_AddRemoveComponents")
     }
 }
 
-TEST_CASE("Scene_AddComponentFromBase")
-{
-    Scene scene;
-    scene.registerComponent<Name>("Name");
-
-    EntityId a = scene.createEntity();
-    Name name("a");
-    const ComponentBase& base = name;
-    scene.addEntityComponent(a, base);
-
-    REQUIRE(scene.entityHasComponent<Name>(a));
-
-    REQUIRE(scene.entityComponent<Name>(a).value == "a");
-}
-
 TEST_CASE("Scene_CloneEntity")
 {
     Scene scene;
@@ -247,4 +244,43 @@ TEST_CASE("Scene_IterateComponentsConst")
     REQUIRE(foundNames.size() == 2);
     REQUIRE(foundNames[0] == "a");
     REQUIRE(foundNames[1] == "b");
+}
+
+TEST_CASE("Scene_ComponentPoolListeners")
+{
+    Scene scene;
+    scene.registerComponent<Name>("Name");
+
+    ComponentPoolListener listener;
+    scene.componentPool<Name>().dispatcher().addListener(listener);
+
+    EntityId a = scene.createEntity();
+    scene.addEntityComponent(a, Name("a"));
+
+    EntityId b = scene.createEntity();
+    scene.addEntityComponent(b, Name("b"));
+
+    REQUIRE(listener.receivedEvents.size() == 2);
+    REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Add);
+    REQUIRE(listener.receivedEvents[0].entityId == a);
+    REQUIRE(listener.receivedEvents[1].type == ComponentPoolEventType::Add);
+    REQUIRE(listener.receivedEvents[1].entityId == b);
+    listener.receivedEvents.clear();
+
+    scene.destroyEntity(a);
+
+    REQUIRE(listener.receivedEvents.size() == 1);
+    REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);
+    REQUIRE(listener.receivedEvents[0].entityId == a);
+    listener.receivedEvents.clear();
+
+    scene.removeEntityComponent<Name>((EntityId)-1);
+
+    REQUIRE(listener.receivedEvents.size() == 0);
+
+    scene.removeEntityComponent<Name>(b);
+
+    REQUIRE(listener.receivedEvents.size() == 1);
+    REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);
+    REQUIRE(listener.receivedEvents[0].entityId == b);
 }

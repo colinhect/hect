@@ -25,6 +25,8 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
+#include "Hect/Core/Listener.h"
+#include "Hect/Entity/ComponentPool.h"
 #include "Hect/Entity/System.h"
 #include "Hect/Graphics/Mesh.h"
 
@@ -43,21 +45,16 @@ namespace hect
 /// Simulates physical interactions of physical bodies.
 class HECT_API PhysicsSystem :
     public System,
+    public Listener<ComponentPoolEvent>,
     public Uncopyable
 {
 public:
-    PhysicsSystem();
+    PhysicsSystem(Scene& scene);
+    ~PhysicsSystem();
 
-    ///
-    /// \copydoc System::includesEntity()
-    bool includesEntity(const Entity& entity) const;
-
-    ///
-    /// Updates all physical bodies.
-    ///
-    /// \param timeStep The duration of time between each update (in seconds).
-    /// \param maxSubStepCount The maximum number of sub-steps.
     void update(Real timeStep, unsigned maxSubStepCount);
+    
+    void updateTransforms();
 
     ///
     /// Returns the gravity.
@@ -69,9 +66,7 @@ public:
     /// \param gravity The new gravity.
     void setGravity(const Vector3& gravity);
 
-protected:
-    void addEntity(const Entity& entity);
-    void removeEntity(const Entity& entity);
+    void receiveEvent(const ComponentPoolEvent& event);
 
 private:
     btTriangleMesh* _toBulletMesh(Mesh* mesh);
