@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Hect.h" />
     <ClInclude Include="Source\Hect\Asset\AssetCache.h" />
     <ClInclude Include="Source\Hect\Asset\AssetEntry.h" />
     <ClInclude Include="Source\Hect\Asset\AssetHandle.h" />
@@ -35,7 +34,6 @@
     <ClInclude Include="Source\Hect\Core\Logging.h" />
     <ClInclude Include="Source\Hect\Core\LogicFlow.h" />
     <ClInclude Include="Source\Hect\Core\LogicLayer.h" />
-    <ClInclude Include="Source\Hect\Core\Memory.h" />
     <ClInclude Include="Source\Hect\Core\Real.h" />
     <ClInclude Include="Source\Hect\Core\TaskPool.h" />
     <ClInclude Include="Source\Hect\Core\Timer.h" />
@@ -133,12 +131,10 @@
     <ClCompile Include="Source\Hect\Core\Logging.cpp" />
     <ClCompile Include="Source\Hect\Core\LogicFlow.cpp" />
     <ClCompile Include="Source\Hect\Core\LogicLayer.cpp" />
-    <ClCompile Include="Source\Hect\Core\Memory.cpp" />
     <ClCompile Include="Source\Hect\Core\TaskPool.cpp" />
     <ClCompile Include="Source\Hect\Core\Timer.cpp" />
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp" />
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp" />
-    <ClCompile Include="Source\Hect\Entity\Component.cpp" />
     <ClCompile Include="Source\Hect\Entity\Components\AmbientLight.cpp" />
     <ClCompile Include="Source\Hect\Entity\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Entity\Components\DirectionalLight.cpp" />

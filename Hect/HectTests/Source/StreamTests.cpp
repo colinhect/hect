@@ -21,8 +21,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect.h>
+#include <Hect/Core/Error.h>
+#include <Hect/IO/FileSystem.h>
+#include <Hect/IO/MemoryReadStream.h>
+#include <Hect/IO/MemoryWriteStream.h>
+#include <Hect/Math/Constants.h>
 using namespace hect;
+
+#include <functional>
 
 #include <catch.hpp>
 

@@ -23,10 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <Hect/Entity/Component.h>
 
 class PlayerCamera :
-    public Component<PlayerCamera>
+    public hect::Component<PlayerCamera>
 {
 };

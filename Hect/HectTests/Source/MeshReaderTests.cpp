@@ -21,7 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect.h>
+#include <Hect/Graphics/MeshReader.h>
+#include <Hect/Graphics/MeshWriter.h>
 using namespace hect;
 
 #include <catch.hpp>

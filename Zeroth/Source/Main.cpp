@@ -21,8 +21,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect.h>
-using namespace hect;
+#include <Hect/Core/Configuration.h>
+#include <Hect/Core/LogicFlow.h>
+#include <Hect/IO/JsonValue.h>
+#include <Hect/IO/FileSystem.h>
+#include <Hect/Graphics/Renderer.h>
+#include <Hect/Graphics/Window.h>
+#include <Hect/Reflection/Type.h>
 
 #ifdef HECT_WINDOWS
 #ifdef HECT_DEBUG
@@ -39,56 +44,56 @@ int main(int argc, const char* argv[])
 
     try
     {
-        Type::registerTypes();
+        hect::Type::registerTypes();
 
         // Create file system
-        FileSystem fileSystem;
+        hect::FileSystem fileSystem;
 
         // Add the working directory as a data source
-        Path workingDirectory = fileSystem.workingDirectory();
+        hect::Path workingDirectory = fileSystem.workingDirectory();
         fileSystem.addDataSource(workingDirectory);
 
         // Set the working directory as the write directory
         fileSystem.setWriteDirectory(workingDirectory);
 
         // Load the settings
-        JsonValue settings;
+        hect::JsonValue settings;
         {
-            FileReadStream stream = fileSystem.openFileForRead("Settings.json");
+            hect::FileReadStream stream = fileSystem.openFileForRead("Settings.json");
             settings.decodeFromJson(stream);
         }
 
         // Add the data sources listed in the settings
-        for (const JsonValue& dataSource : settings["dataSources"])
+        for (const hect::JsonValue& dataSource : settings["dataSources"])
         {
             fileSystem.addDataSource(dataSource.asString());
         }
 
         // Load video mode
-        VideoMode videoMode;
+        hect::VideoMode videoMode;
         videoMode.decodeFromJsonValue(settings["videoMode"]);
 
         // Create window/renderer
-        Window window("Sample", videoMode);
-        Renderer renderer(window);
+        hect::Window window("Sample", videoMode);
+        hect::Renderer renderer(window);
 
         // Load the input axes from the settings
-        InputAxis::Array axes;
-        for (const JsonValue& axisValue : settings["inputAxes"])
+        hect::InputAxis::Array axes;
+        for (const hect::JsonValue& axisValue : settings["inputAxes"])
         {
-            InputAxis axis;
+            hect::InputAxis axis;
             axis.decodeFromJsonValue(axisValue);
             axes.push_back(axis);
         }
 
         // Create the input system
-        InputSystem inputSystem(axes);
+        hect::InputSystem inputSystem(axes);
 
-        AssetCache assetCache(fileSystem);
+        hect::AssetCache assetCache(fileSystem);
 
         // Create the logic flow
         MainLogicLayer main(assetCache, inputSystem, window, renderer);
-        LogicFlow logicFlow(TimeSpan::fromSeconds((Real)1 / (Real)60));
+        hect::LogicFlow logicFlow(hect::TimeSpan::fromSeconds((hect::Real)1 / (hect::Real)60));
         logicFlow.addLayer(main);
 
         // Update until the flow is complete
@@ -100,9 +105,9 @@ int main(int argc, const char* argv[])
             }
         }
     }
-    catch (Error& error)
+    catch (hect::Error& error)
     {
-        Window::showFatalError(error.what());
+        hect::Window::showFatalError(error.what());
     }
 
     return 0;

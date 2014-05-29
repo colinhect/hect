@@ -23,6 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MainLogicLayer.h"
 
+#include <Hect/Entity/Components/Geometry.h>
+#include <Hect/Entity/Components/Transform.h>
+
+using namespace hect;
+
 MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
     _assetCache(&assetCache),
     _input(&inputSystem),
@@ -97,5 +102,20 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
         {
             mouse.setMode(MouseMode::Cursor);
         }
+    }
+
+    if (event.key == Key::F)
+    {
+        PlayerCamera& playerCamera = *_scene.componentPool<PlayerCamera>().begin();
+        EntityId playerEntityId = playerCamera.entityId();
+
+        Transform& playerTransform = _scene.entityComponent<Transform>(playerEntityId);
+
+        Geometry& geometry = *_scene.componentPool<Geometry>().begin();
+        EntityId sourceEntityId = geometry.entityId();
+
+        EntityId cloneEntityId = _scene.cloneEntity(sourceEntityId);
+        Transform& cloneTransform = _scene.entityComponent<Transform>(cloneEntityId);
+        cloneTransform = playerTransform;
     }
 }

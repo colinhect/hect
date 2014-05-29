@@ -43,7 +43,7 @@ void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
     _renderer->clear();
 
     // Render geometery
-    for (Geometry& geometry : scene().components<Geometry>())
+    for (Geometry& geometry : scene().componentPool<Geometry>())
     {
         EntityId entityId = geometry.entityId();
         Transform& transform = scene().entityComponent<Transform>(entityId);

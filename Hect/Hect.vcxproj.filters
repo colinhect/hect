@@ -75,9 +75,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Hect.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Asset\AssetCache.h">
       <Filter>Source\Hect\Asset</Filter>
     </ClInclude>
@@ -118,9 +115,6 @@
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Core\LogicLayer.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Core\Memory.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Core\Real.h">
@@ -413,9 +407,6 @@
     <ClCompile Include="Source\Hect\Core\LogicLayer.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Core\Memory.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Core\TaskPool.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
@@ -424,9 +415,6 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp">
       <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Component.cpp">
-      <Filter>Source\Hect\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Entity\Scene.cpp">
       <Filter>Source\Hect\Entity</Filter>

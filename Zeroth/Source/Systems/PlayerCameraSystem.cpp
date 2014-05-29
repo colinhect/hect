@@ -23,6 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PlayerCameraSystem.h"
 
+#include <Hect/Entity/Components/Camera.h>
+#include <Hect/Entity/Components/Transform.h>
+
+using namespace hect;
+
 PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
     System(scene),
     _mouse(&inputSystem.mouse()),
@@ -37,7 +42,7 @@ PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
 
 void PlayerCameraSystem::update(Real timeStep)
 {
-    for (PlayerCamera& playerCamera : scene().components<PlayerCamera>())
+    for (PlayerCamera& playerCamera : scene().componentPool<PlayerCamera>())
     {
         EntityId entityId = playerCamera.entityId();
 

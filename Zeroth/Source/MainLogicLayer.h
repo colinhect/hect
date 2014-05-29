@@ -23,35 +23,43 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect.h>
-using namespace hect;
+#include <Hect/Core/LogicLayer.h>
+#include <Hect/Core/Listener.h>
+#include <Hect/Core/Uncopyable.h>
+#include <Hect/Asset/AssetCache.h>
+#include <Hect/Entity/Scene.h>
+#include <Hect/Entity/Systems/CameraSystem.h>
+#include <Hect/Entity/Systems/RenderSystem.h>
+#include <Hect/Graphics/Renderer.h>
+#include <Hect/Graphics/Window.h>
+#include <Hect/Input/InputSystem.h>
 
 #include "Components/PlayerCamera.h"
 #include "Systems/PlayerCameraSystem.h"
 
 class MainLogicLayer :
-    public LogicLayer,
-    public Listener<KeyboardEvent>,
-    public Uncopyable
+    public hect::LogicLayer,
+    public hect::Listener<hect::KeyboardEvent>,
+    public hect::Uncopyable
 {
 public:
-    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
+    MainLogicLayer(hect::AssetCache& assetCache, hect::InputSystem& inputSystem, hect::Window& window, hect::Renderer& renderer);
     ~MainLogicLayer();
 
-    void fixedUpdate(Real timeStep);
-    void frameUpdate(Real delta);
+    void fixedUpdate(hect::Real timeStep);
+    void frameUpdate(hect::Real delta);
 
-    void receiveEvent(const KeyboardEvent& event);
+    void receiveEvent(const hect::KeyboardEvent& event);
 
 private:
-    AssetCache* _assetCache;
-    InputSystem* _input;
-    Window* _window;
+    hect::AssetCache* _assetCache;
+    hect::InputSystem* _input;
+    hect::Window* _window;
 
-    CameraSystem _cameraSystem;
-    RenderSystem _renderSystem;
+    hect::CameraSystem _cameraSystem;
+    hect::RenderSystem _renderSystem;
 
     PlayerCameraSystem _playerCameraSystem;
 
-    Scene _scene;
+    hect::Scene _scene;
 };

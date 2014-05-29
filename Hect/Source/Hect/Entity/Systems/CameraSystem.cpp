@@ -37,7 +37,7 @@ CameraSystem::CameraSystem(Scene& scene) :
 bool CameraSystem::hasCamera() const
 {
     bool foundCamera = false;
-    for (const Camera& camera : scene().components<Camera>())
+    for (const Camera& camera : scene().componentPool<Camera>())
     {
         camera;
         foundCamera = true;
@@ -48,7 +48,7 @@ bool CameraSystem::hasCamera() const
 Camera& CameraSystem::camera()
 {
     Camera* foundCamera = nullptr;
-    for (Camera& camera : scene().components<Camera>())
+    for (Camera& camera : scene().componentPool<Camera>())
     {
         if (!foundCamera)
         {
@@ -60,7 +60,7 @@ Camera& CameraSystem::camera()
 
 void CameraSystem::update()
 {
-    for (Camera& camera : scene().components<Camera>())
+    for (Camera& camera : scene().componentPool<Camera>())
     {
         EntityId entityId = camera.entityId();
         Transform& transform = scene().entityComponent<Transform>(entityId);

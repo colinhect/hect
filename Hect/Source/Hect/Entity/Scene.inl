@@ -27,25 +27,25 @@ namespace hect
 template <typename T>
 T& Scene::addEntityComponent(EntityId entityId, const T& component)
 {
-    return components<T>()._add(entityId, component);
+    return componentPool<T>().add(entityId, component);
 }
 
 template <typename T>
 bool Scene::removeEntityComponent(EntityId entityId)
 {
-    return components<T>()._remove(entityId);
+    return componentPool<T>().remove(entityId);
 }
 
 template <typename T>
 bool Scene::entityHasComponent(EntityId entityId) const
 {
-    return components<T>()._has(entityId);
+    return componentPool<T>().has(entityId);
 }
 
 template <typename T>
 T& Scene::entityComponent(EntityId entityId)
 {
-    return components<T>()._get(entityId);
+    return componentPool<T>().get(entityId);
 }
 
 template <typename T>
@@ -64,7 +64,7 @@ void Scene::registerComponent(const std::string& componentName)
 }
 
 template <typename T>
-ComponentPool<T>& Scene::components()
+ComponentPool<T>& Scene::componentPool()
 {
     std::type_index typeIndex(typeid(T));
     auto it = _componentPools.find(typeIndex);
@@ -79,7 +79,7 @@ ComponentPool<T>& Scene::components()
 }
 
 template <typename T>
-const ComponentPool<T>& Scene::components() const
+const ComponentPool<T>& Scene::componentPool() const
 {
     std::type_index typeIndex(typeid(T));
     auto it = _componentPools.find(typeIndex);

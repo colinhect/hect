@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "IpAddress.h"
 
-#include "Hect/Core/Memory.h"
-
 #include <enet/enet.h>
 
 using namespace hect;

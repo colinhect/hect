@@ -67,8 +67,12 @@ class Component :
 public:
     Component();
 
+    ///
+    /// Returns the id of the entity that the component belongs to.
     EntityId entityId() const;
 
+    ///
+    /// \copydoc ComponentBase::typeIndex()
     std::type_index typeIndex() const;
 
 private:

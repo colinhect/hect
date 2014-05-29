@@ -195,4 +195,5 @@ typedef QuaternionT<Real> Quaternion;
 
 }
 
+#include "Hect/Math/Matrix4.h"
 #include "Quaternion.inl"

@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect.h>
+#include <Hect/Entity/Scene.h>
 using namespace hect;
 
 #include <catch.hpp>
@@ -216,7 +216,7 @@ TEST_CASE("Scene_IterateComponents")
     scene.addEntityComponent(b, Name("b"));
 
     std::vector<std::string> foundNames;
-    for (Name& name : scene.components<Name>())
+    for (Name& name : scene.componentPool<Name>())
     {
         foundNames.push_back(name.value);
     }
@@ -239,7 +239,7 @@ TEST_CASE("Scene_IterateComponentsConst")
 
     std::vector<std::string> foundNames;
     const Scene& sceneConst = scene;
-    for (const Name& name : sceneConst.components<Name>())
+    for (const Name& name : sceneConst.componentPool<Name>())
     {
         foundNames.push_back(name.value);
     }

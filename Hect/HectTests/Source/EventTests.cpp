@@ -21,7 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect.h>
+#include <Hect/Core/Listener.h>
+#include <Hect/Core/Dispatcher.h>
 using namespace hect;
 
 #include <catch.hpp>

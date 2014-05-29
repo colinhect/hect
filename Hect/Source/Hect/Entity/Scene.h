@@ -50,38 +50,106 @@ class HECT_API Scene :
     friend class EntityIterator;
 public:
 
+    ///
+    /// Constructs an empty scene.
     Scene();
 
+    ///
+    /// Creates a new entity.
+    ///
+    /// \returns The id of the new entity.
     EntityId createEntity();
+
+    ///
+    /// Clones an existing entity.
+    ///
+    /// \param entityId The id of the entity to clone.
+    ///
+    /// \returns The id of the cloned entity.
+    ///
+    /// \throws Error If the entity id does not correspond to a valid entity.
     EntityId cloneEntity(EntityId entityId);
 
+    ///
+    /// Destroys an entity.
+    ///
+    /// \param entityId The id of the entity to destroy.
+    ///
+    /// \returns True if the entity was destroy; false if the entity id does
+    /// not correspond to a valid entity.
     bool destroyEntity(EntityId entityId);
+
+    ///
+    /// Returns whether an entity exists with a certain id.
+    ///
+    /// \param entityId The id of the entity.
     bool entityExists(EntityId entityId) const;
 
+    ///
+    /// Returns the number of entities in the scene.
     size_t entityCount() const;
 
+    ///
+    /// Adds a component to an entity.
+    ///
+    /// \param entityId The id of the entity.
+    /// \param component The component to add.
     void addEntityComponent(EntityId entityId, const ComponentBase& component);
 
+    ///
+    /// Adds a component to an entity.
+    ///
+    /// \remarks If the entity already has an entity of the given type then the
+    /// existing component is overwritten.
+    ///
+    /// \param entityId The id of the entity.
+    /// \param component The component to add.
     template <typename T>
     T& addEntityComponent(EntityId entityId, const T& component);
 
+    ///
+    /// Removes a component from an entity.
+    ///
+    /// \param entityId The id of the entity.
+    ///
+    /// \returns True if the component was removed from the entity; false if
+    /// entity did not have the component.
     template <typename T>
     bool removeEntityComponent(EntityId entityId);
 
+    ///
+    /// Returns whether an entity has a component of a given type.
+    ///
+    /// \param entityId The id of the entity.
     template <typename T>
     bool entityHasComponent(EntityId entityId) const;
 
+    ///
+    /// Gets the component for an entity of a given type.
+    ///
+    /// \param entityId The id of the entity.
+    ///
+    /// \throws Error If the entity does not have a component of the given
+    /// type.
     template <typename T>
     T& entityComponent(EntityId entityId);
 
+    ///
+    /// Registers a component type.
+    ///
+    /// \param componentName The type name of the component.
     template <typename T>
     void registerComponent(const std::string& componentName);
 
+    ///
+    /// Returns the component pool of a specific component type.
     template <typename T>
-    ComponentPool<T>& components();
+    ComponentPool<T>& componentPool();
 
+    ///
+    /// Returns the component pool of a specific component type.
     template <typename T>
-    const ComponentPool<T>& components() const;
+    const ComponentPool<T>& componentPool() const;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);

@@ -31,3 +31,7 @@
 #endif
 
 #define HECT_DOUBLE_PRECISION
+
+///
+/// The namespace containing all Hect API.
+namespace hect {}

@@ -67,14 +67,14 @@ EntityId Scene::cloneEntity(EntityId entityId)
 {
     if (!entityExists(entityId))
     {
-        throw Error("Attempt to clone an entity which does not exist");
+        throw Error("Entity id does not correspond to a valid entity");
     }
 
     EntityId clonedEntityId = createEntity();
 
     for (auto& pair : _componentPools)
     {
-        pair.second->_clone(entityId, clonedEntityId);
+        pair.second->clone(entityId, clonedEntityId);
     }
 
     return clonedEntityId;
@@ -90,7 +90,7 @@ bool Scene::destroyEntity(EntityId entityId)
         {
             for (auto& pair : _componentPools)
             {
-                pair.second->_remove(entityId);
+                pair.second->remove(entityId);
             }
             entityExisted = true;
             entityData.exists = false;
@@ -125,7 +125,7 @@ void Scene::addEntityComponent(EntityId entityId, const ComponentBase& component
     auto it = _componentPools.find(typeIndex);
     if (it != _componentPools.end())
     {
-        it->second->_add(entityId, component);
+        it->second->add(entityId, component);
     }
 }
 

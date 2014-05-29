@@ -23,26 +23,30 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <Hect/Entity/Scene.h>
+#include <Hect/Entity/System.h>
+#include <Hect/Input/InputSystem.h>
+
 #include "Components/PlayerCamera.h"
 
 class PlayerCameraSystem :
-    public System
+    public hect::System
 {
 public:
-    PlayerCameraSystem(Scene& scene, InputSystem& inputSystem);
+    PlayerCameraSystem(hect::Scene& scene, hect::InputSystem& inputSystem);
 
-    void update(Real timeStep);
+    void update(hect::Real timeStep);
 
 private:
-    Mouse* _mouse;
+    hect::Mouse* _mouse;
 
-    const InputAxis* _viewX;
-    const InputAxis* _viewY;
+    const hect::InputAxis* _viewX;
+    const hect::InputAxis* _viewY;
 
-    const InputAxis* _moveX;
-    const InputAxis* _moveY;
+    const hect::InputAxis* _moveX;
+    const hect::InputAxis* _moveY;
 
-    const InputAxis* _roll;
+    const hect::InputAxis* _roll;
 
-    Real _speed;
+    hect::Real _speed;
 };
