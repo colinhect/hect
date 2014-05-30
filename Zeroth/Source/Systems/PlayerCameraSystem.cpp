@@ -46,16 +46,15 @@ void PlayerCameraSystem::update(Real timeStep)
     {
         EntityId entityId = playerCamera.entityId();
 
-        if (scene().entityHasComponent<Transform>(entityId))
+        auto transform = scene().entityComponent<Transform>(entityId);
+        if (transform.isValid())
         {
-            Transform& transform = scene().entityComponent<Transform>(entityId);
-            if (scene().entityHasComponent<Camera>(entityId))
+            auto camera = scene().entityComponent<Camera>(entityId);
+            if (camera.isValid())
             {
-                Camera& camera = scene().entityComponent<Camera>(entityId);
-
-                const Vector3& up = camera.up();
-                const Vector3& right = camera.right();
-                const Vector3& front = camera.front();
+                const Vector3& up = camera->up();
+                const Vector3& right = camera->right();
+                const Vector3& front = camera->front();
 
                 Real rotateSpeed = timeStep * 50;
                 Real rollSpeed = timeStep * 2;
@@ -63,13 +62,13 @@ void PlayerCameraSystem::update(Real timeStep)
 
                 if (_mouse->mode() == MouseMode::Relative)
                 {
-                    transform.rotateGlobal(up, _viewX->value() * rotateSpeed);
-                    transform.rotateGlobal(right, _viewY->value() * -rotateSpeed);
-                    transform.rotateGlobal(front, _roll->value() * -rollSpeed);
+                    transform->rotateGlobal(up, _viewX->value() * rotateSpeed);
+                    transform->rotateGlobal(right, _viewY->value() * -rotateSpeed);
+                    transform->rotateGlobal(front, _roll->value() * -rollSpeed);
                 }
 
-                transform.translate(right * _moveX->value() * moveSpeed);
-                transform.translate(front * _moveY->value() * moveSpeed);
+                transform->translate(right * _moveX->value() * moveSpeed);
+                transform->translate(front * _moveY->value() * moveSpeed);
             }
         }
     }

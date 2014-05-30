@@ -63,7 +63,10 @@ void CameraSystem::update()
     for (Camera& camera : scene().componentPool<Camera>())
     {
         EntityId entityId = camera.entityId();
-        Transform& transform = scene().entityComponent<Transform>(entityId);
-        camera.transformTo(transform);
+        auto transform = scene().entityComponent<Transform>(entityId);
+        if (transform.isValid())
+        {
+            camera.transformTo(*transform);
+        }
     }
 }

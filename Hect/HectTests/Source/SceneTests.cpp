@@ -136,29 +136,31 @@ TEST_CASE("Scene_AddRemoveComponents")
 
         REQUIRE(scene.entityHasComponent<Name>(b));
 
-        Name& name = scene.entityComponent<Name>(b);
-        REQUIRE(name.value == "b");
-        REQUIRE(name.entityId() == b);
+        auto name = scene.entityComponent<Name>(b);
+        REQUIRE(name.isValid());
+        REQUIRE(name->value == "b");
+        REQUIRE(name->entityId() == b);
 
         SECTION("Remove component")
         {
             REQUIRE(scene.removeEntityComponent<Name>(b));
             REQUIRE(!scene.removeEntityComponent<Name>(b));
-            REQUIRE_THROWS_AS(scene.entityComponent<Name>(b), Error);
+            REQUIRE(!scene.entityComponent<Name>(b).isValid());
         }
     }
 
     REQUIRE(scene.entityHasComponent<Name>(a));
 
-    Name& name = scene.entityComponent<Name>(a);
-    REQUIRE(name.value == "a");
-    REQUIRE(name.entityId() == a);
+    auto name = scene.entityComponent<Name>(a);
+    REQUIRE(name.isValid());
+    REQUIRE(name->value == "a");
+    REQUIRE(name->entityId() == a);
 
     SECTION("Remove component")
     {
         REQUIRE(scene.removeEntityComponent<Name>(a));
         REQUIRE(!scene.removeEntityComponent<Name>(a));
-        REQUIRE_THROWS_AS(scene.entityComponent<Name>(a), Error);
+        REQUIRE(!scene.entityComponent<Name>(a).isValid());
     }
 }
 
@@ -180,11 +182,14 @@ TEST_CASE("Scene_CloneEntity")
     REQUIRE(scene.entityHasComponent<Name>(a));
     REQUIRE(scene.entityHasComponent<Name>(b));
 
-    Name* nameA = &scene.entityComponent<Name>(a);
-    Name* nameB = &scene.entityComponent<Name>(b);
+    Name* nameA = &*scene.entityComponent<Name>(a);
+    Name* nameB = &*scene.entityComponent<Name>(b);
 
     REQUIRE(nameA != nameB);
     REQUIRE(nameA->value == nameB->value);
+
+    REQUIRE(nameA->entityId() == a);
+    REQUIRE(nameB->entityId() == b);
 }
 
 TEST_CASE("Scene_Decode")

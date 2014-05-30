@@ -119,25 +119,25 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
 
     if (event.key == Key::F)
     {
-        EntityId cloneEntityId;
-        ComponentIterator<Camera> playerCamera = _scene.componentPool<Camera>().begin();
-        EntityId playerEntityId = playerCamera->entityId();
-
+        auto playerCamera = _scene.componentPool<Camera>().begin();
+        auto geometry = _scene.componentPool<Geometry>().begin();
+        if (playerCamera.isValid() && geometry.isValid())
         {
-            Geometry& geometry = *_scene.componentPool<Geometry>().begin();
-            EntityId sourceEntityId = geometry.entityId();
+            EntityId playerEntityId = playerCamera->entityId();
+            EntityId sourceEntityId = geometry->entityId();
+            EntityId cloneEntityId = _scene.cloneEntity(sourceEntityId);
 
-            cloneEntityId = _scene.cloneEntity(sourceEntityId);
+            auto transform = _scene.entityComponent<Transform>(cloneEntityId);
+            if (transform.isValid())
+            {
+                transform->translate(Vector3(10.0f, 0.0, 0.0));
+            }
+            
+            RigidBody rigidBody;
+            rigidBody.setMass(1.0f);
+            rigidBody.setMesh(geometry->meshes()[0]);
+            rigidBody.setLinearVelocity(playerCamera->front() * 5.0f);
+            _scene.addEntityComponent(cloneEntityId, rigidBody);
         }
-
-        Transform& cloneTransform = _scene.entityComponent<Transform>(cloneEntityId);
-        cloneTransform = _scene.entityComponent<Transform>(playerEntityId);
-
-        RigidBody rigidBody;
-        rigidBody.setMass(1.0f);
-        rigidBody.setMesh(_scene.componentPool<Geometry>().begin()->meshes()[0]);
-        rigidBody.setLinearVelocity(playerCamera->front() * 5.0f);
-
-        _scene.addEntityComponent(cloneEntityId, rigidBody);
     }
 }

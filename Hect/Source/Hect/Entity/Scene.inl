@@ -25,7 +25,7 @@ namespace hect
 {
 
 template <typename T>
-T& Scene::addEntityComponent(EntityId entityId, const T& component)
+typename ComponentPool<T>::Iterator Scene::addEntityComponent(EntityId entityId, const T& component)
 {
     return componentPool<T>().add(entityId, component);
 }
@@ -43,7 +43,7 @@ bool Scene::entityHasComponent(EntityId entityId) const
 }
 
 template <typename T>
-T& Scene::entityComponent(EntityId entityId)
+typename ComponentPool<T>::Iterator Scene::entityComponent(EntityId entityId)
 {
     return componentPool<T>().get(entityId);
 }
@@ -59,7 +59,7 @@ void Scene::registerComponent(const std::string& componentName)
     // Create a component adder for this type of component
     _componentAdders[componentName] = [](Scene& scene, EntityId entityId)
     {
-        return &scene.addEntityComponent(entityId, T());
+        return &*scene.addEntityComponent(entityId, T());
     };
 }
 

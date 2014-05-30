@@ -46,18 +46,20 @@ void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
     for (Geometry& geometry : scene().componentPool<Geometry>())
     {
         EntityId entityId = geometry.entityId();
-        Transform& transform = scene().entityComponent<Transform>(entityId);
-
-        size_t surfaceCount = geometry.surfaceCount();
-        for (size_t surfaceIndex = 0; surfaceIndex < surfaceCount; ++surfaceIndex)
+        auto transform = scene().entityComponent<Transform>(entityId);
+        if (transform.isValid())
         {
-            Mesh& mesh = *geometry.meshes()[surfaceIndex];
-            Material& material = *geometry.materials()[surfaceIndex];
-
-            // Render the mesh for each pass
-            for (const Pass& pass : material.techniques()[0].passes())
+            size_t surfaceCount = geometry.surfaceCount();
+            for (size_t surfaceIndex = 0; surfaceIndex < surfaceCount; ++surfaceIndex)
             {
-                renderMeshPass(camera, target, pass, mesh, transform);
+                Mesh& mesh = *geometry.meshes()[surfaceIndex];
+                Material& material = *geometry.materials()[surfaceIndex];
+
+                // Render the mesh for each pass
+                for (const Pass& pass : material.techniques()[0].passes())
+                {
+                    renderMeshPass(camera, target, pass, mesh, *transform);
+                }
             }
         }
     }

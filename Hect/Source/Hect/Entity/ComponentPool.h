@@ -110,96 +110,100 @@ public:
 };
 
 ///
-/// A component iterator.
-template <typename T>
-class ComponentIterator
-{
-    friend class ComponentPool<T>;
-public:
-
-    ///
-    /// Dereferences the iterator.
-    T& operator*() const;
-
-    ///
-    /// Provides pointer-like access to the underlying component.
-    T* operator->() const;
-
-    ///
-    /// Moves to the next component.
-    ComponentIterator& operator++();
-
-    ///
-    /// Returns whether the iterator refers to the same component as another
-    /// iterator.
-    ///
-    /// \param other The other iterator.
-    bool operator==(const ComponentIterator<T>& other) const;
-
-    ///
-    /// Returns whether the iterator refers to a different component than
-    /// another iterator.
-    ///
-    /// \param other The other iterator.
-    bool operator!=(const ComponentIterator<T>& other) const;
-
-private:
-    ComponentIterator(std::vector<T>* components, size_t index);
-
-    std::vector<T>* _components;
-    size_t _index;
-};
-
-///
-/// A constant component iterator.
-template <typename T>
-class ConstComponentIterator
-{
-    friend class ComponentPool<T>;
-public:
-
-    ///
-    /// Dereferences the iterator.
-    const T& operator*() const;
-
-    ///
-    /// Provides pointer-like access to the underlying component.
-    const T* operator->() const;
-
-    ///
-    /// Moves to the next component.
-    ConstComponentIterator& operator++();
-
-    ///
-    /// Returns whether the iterator refers to the same component as another
-    /// iterator.
-    ///
-    /// \param other The other iterator.
-    bool operator==(const ConstComponentIterator<T>& other) const;
-
-    ///
-    /// Returns whether the iterator refers to a different component than
-    /// another iterator.
-    ///
-    /// \param other The other iterator.
-    bool operator!=(const ConstComponentIterator<T>& other) const;
-
-private:
-    ConstComponentIterator(const std::vector<T>* components, size_t index);
-
-    const std::vector<T>* _components;
-    size_t _index;
-};
-
-///
 /// Contains all of the components of a specific type in a scene.
 template <typename T>
 class ComponentPool :
     public ComponentPoolBase
 {
-    friend class ComponentIterator<T>;
-    friend class ConstComponentIterator<T>;
 public:
+
+    ///
+    /// A component iterator.
+    class Iterator
+    {
+        friend class ComponentPool<T>;
+    public:
+
+        ///
+        /// Returns whether the iterator refers to a valid component.
+        bool isValid() const;
+
+        ///
+        /// Dereferences the iterator.
+        T& operator*() const;
+
+        ///
+        /// Provides pointer-like access to the underlying component.
+        T* operator->() const;
+
+        ///
+        /// Moves to the next component.
+        Iterator& operator++();
+
+        ///
+        /// Returns whether the iterator refers to the same component as another
+        /// iterator.
+        ///
+        /// \param other The other iterator.
+        bool operator==(const Iterator& other) const;
+
+        ///
+        /// Returns whether the iterator refers to a different component than
+        /// another iterator.
+        ///
+        /// \param other The other iterator.
+        bool operator!=(const Iterator& other) const;
+
+    private:
+        Iterator(std::vector<T>* components, size_t index);
+
+        std::vector<T>* _components;
+        size_t _index;
+    };
+
+    ///
+    /// A constant component iterator.
+    class ConstIterator
+    {
+        friend class ComponentPool<T>;
+    public:
+
+        ///
+        /// Returns whether the iterator refers to a valid component.
+        bool isValid() const;
+
+        ///
+        /// Dereferences the iterator.
+        const T& operator*() const;
+
+        ///
+        /// Provides pointer-like access to the underlying component.
+        const T* operator->() const;
+
+        ///
+        /// Moves to the next component.
+        ConstIterator& operator++();
+
+        ///
+        /// Returns whether the iterator refers to the same component as another
+        /// iterator.
+        ///
+        /// \param other The other iterator.
+        bool operator==(const ConstIterator& other) const;
+
+        ///
+        /// Returns whether the iterator refers to a different component than
+        /// another iterator.
+        ///
+        /// \param other The other iterator.
+        bool operator!=(const ConstIterator& other) const;
+
+    private:
+        ConstIterator(const std::vector<T>* components, size_t index);
+
+        const std::vector<T>* _components;
+        size_t _index;
+    };
 
     ///
     /// Returns the dispatcher of component pool events.
@@ -224,8 +228,8 @@ public:
     /// \param entityId The id of the entity.
     /// \param component The component to add.
     ///
-    /// \returns A reference to the newly added component.
-    T& add(EntityId entityId, const T& component);
+    /// \returns An iterator to the newly added component.
+    Iterator add(EntityId entityId, const T& component);
 
     ///
     /// Removes a component from an entity.
@@ -255,23 +259,23 @@ public:
     /// \param entityId The id of the entity.
     ///
     /// \throws Error If the entity does not have a component in the pool.
-    T& get(EntityId entityId);
+    Iterator get(EntityId entityId);
 
     ///
     /// Returns an iterator to the first component in the pool.
-    ComponentIterator<T> begin();
+    Iterator begin();
 
     ///
     /// Returns an iterator to the first component in the pool.
-    ConstComponentIterator<T> begin() const;
+    ConstIterator begin() const;
 
     ///
     /// Returns an iterator to the end of the pool.
-    ComponentIterator<T> end();
+    Iterator end();
 
     ///
     /// Returns an iterator to the end of the pool.
-    ConstComponentIterator<T> end() const;
+    ConstIterator end() const;
 
 private:
     Dispatcher<ComponentPoolEvent> _dispatcher;

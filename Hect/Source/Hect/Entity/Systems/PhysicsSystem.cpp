@@ -66,12 +66,14 @@ void PhysicsSystem::updateTransforms()
     {
         EntityId entityId = rigidBody.entityId();
 
-        // If the entity has a transform component
-        if (scene().entityHasComponent<Transform>(entityId))
+        auto transform = scene().entityComponent<Transform>(entityId);
+        if (transform.isValid())
         {
             // Update the transform to what Bullet says it should be
-            Transform& transform = scene().entityComponent<Transform>(entityId);
-            transform = convertFromBullet(rigidBody._rigidBody->getWorldTransform());
+            Transform newTransform = convertFromBullet(rigidBody._rigidBody->getWorldTransform());
+
+            transform->setPosition(newTransform.position());
+            transform->setRotation(newTransform.rotation());
         }
     }
 }
@@ -91,37 +93,42 @@ void PhysicsSystem::receiveEvent(const ComponentPoolEvent& event)
 {
     EntityId entityId = event.entityId;
 
-    Transform& transform = scene().entityComponent<Transform>(entityId);
-    RigidBody& rigidBody = scene().entityComponent<RigidBody>(entityId);
-
-    if (event.type == ComponentPoolEventType::Add)
+    auto transform = scene().entityComponent<Transform>(entityId);
+    if (transform.isValid())
     {
-        Mesh& mesh = *rigidBody.mesh();
-
-        rigidBody._collisionShape.reset(new btConvexTriangleMeshShape(_toBulletMesh(&mesh)));
-
-        btScalar mass = rigidBody.mass();
-        btVector3 localInertia(0, 0, 0);
-        if (mass != 0.0)
+        auto rigidBody = scene().entityComponent<RigidBody>(entityId);
+        if (rigidBody.isValid())
         {
-            rigidBody._collisionShape->calculateLocalInertia(mass, localInertia);
+            if (event.type == ComponentPoolEventType::Add)
+            {
+                Mesh& mesh = *rigidBody->mesh();
+
+                rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(_toBulletMesh(&mesh)));
+
+                btScalar mass = rigidBody->mass();
+                btVector3 localInertia(0, 0, 0);
+                if (mass != 0.0)
+                {
+                    rigidBody->_collisionShape->calculateLocalInertia(mass, localInertia);
+                }
+
+                btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity());
+                btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity());
+
+                rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
+                btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);
+                rigidBody->_rigidBody.reset(new btRigidBody(info));
+                rigidBody->_rigidBody->setSleepingThresholds(0, 0);
+                rigidBody->_rigidBody->setLinearVelocity(linearVelocity);
+                rigidBody->_rigidBody->setAngularVelocity(angularVelocity);
+
+                _world->addRigidBody(rigidBody->_rigidBody.get());
+            }
+            else if (event.type == ComponentPoolEventType::Remove)
+            {
+                _world->removeRigidBody(rigidBody->_rigidBody.get());
+            }
         }
-
-        btVector3 linearVelocity = convertToBullet(rigidBody.linearVelocity());
-        btVector3 angularVelocity = convertToBullet(rigidBody.angularVelocity());
-
-        rigidBody._motionState.reset(new btDefaultMotionState(convertToBullet(transform)));
-        btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody._motionState.get(), rigidBody._collisionShape.get(), localInertia);
-        rigidBody._rigidBody.reset(new btRigidBody(info));
-        rigidBody._rigidBody->setSleepingThresholds(0, 0);
-        rigidBody._rigidBody->setLinearVelocity(linearVelocity);
-        rigidBody._rigidBody->setAngularVelocity(angularVelocity);
-
-        _world->addRigidBody(rigidBody._rigidBody.get());
-    }
-    else if (event.type == ComponentPoolEventType::Remove)
-    {
-        _world->removeRigidBody(rigidBody._rigidBody.get());
     }
 }
 

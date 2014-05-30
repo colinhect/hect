@@ -104,8 +104,10 @@ public:
     ///
     /// \param entityId The id of the entity.
     /// \param component The component to add.
+    ///
+    /// \returns An iterator to the added component.
     template <typename T>
-    T& addEntityComponent(EntityId entityId, const T& component);
+    typename ComponentPool<T>::Iterator addEntityComponent(EntityId entityId, const T& component);
 
     ///
     /// Removes a component from an entity.
@@ -128,11 +130,8 @@ public:
     /// Gets the component for an entity of a given type.
     ///
     /// \param entityId The id of the entity.
-    ///
-    /// \throws Error If the entity does not have a component of the given
-    /// type.
     template <typename T>
-    T& entityComponent(EntityId entityId);
+    typename ComponentPool<T>::Iterator entityComponent(EntityId entityId);
 
     ///
     /// Registers a component type.
