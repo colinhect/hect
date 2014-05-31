@@ -75,48 +75,48 @@ TEST_CASE("Scene_CreateAndDestroyEntities")
     REQUIRE(scene.entityCount() == 0);
 
     // Create a
-    EntityId a = scene.createEntity();
-    REQUIRE(scene.entityExists(a));
-    REQUIRE(!scene.entityExists(a + 1));
-    REQUIRE(!scene.entityExists(a - 1));
+    Entity a = scene.createEntity();
+    REQUIRE(a);
+    REQUIRE(!scene.entityExists(a.id() + 1));
+    REQUIRE(!scene.entityExists(a.id() - 1));
     REQUIRE(scene.entityCount() == 1);
 
     // Create b
-    EntityId b = scene.createEntity();
-    REQUIRE(scene.entityExists(a));
-    REQUIRE(scene.entityExists(b));
-    REQUIRE(!scene.entityExists(b + 1));
+    Entity b = scene.createEntity();
+    REQUIRE(a);
+    REQUIRE(b);
+    REQUIRE(!scene.entityExists(b.id() + 1));
     REQUIRE(scene.entityCount() == 2);
 
     // Create c
-    EntityId c = scene.createEntity();
-    REQUIRE(scene.entityExists(a));
-    REQUIRE(scene.entityExists(b));
-    REQUIRE(scene.entityExists(c));
+    Entity c = scene.createEntity();
+    REQUIRE(a);
+    REQUIRE(b);
+    REQUIRE(c);
     REQUIRE(scene.entityCount() == 3);
 
     // Destroy a
     REQUIRE(scene.destroyEntity(a));
     REQUIRE(!scene.destroyEntity(a));
-    REQUIRE(!scene.entityExists(a));
-    REQUIRE(scene.entityExists(b));
-    REQUIRE(scene.entityExists(c));
+    REQUIRE(!a);
+    REQUIRE(b);
+    REQUIRE(c);
     REQUIRE(scene.entityCount() == 2);
 
     // Destroy b
     REQUIRE(scene.destroyEntity(b));
     REQUIRE(!scene.destroyEntity(b));
-    REQUIRE(!scene.entityExists(a));
-    REQUIRE(!scene.entityExists(b));
-    REQUIRE(scene.entityExists(c));
+    REQUIRE(!a);
+    REQUIRE(!b);
+    REQUIRE(c);
     REQUIRE(scene.entityCount() == 1);
 
     // Destroy c
     REQUIRE(scene.destroyEntity(c));
     REQUIRE(!scene.destroyEntity(c));
-    REQUIRE(!scene.entityExists(a));
-    REQUIRE(!scene.entityExists(b));
-    REQUIRE(!scene.entityExists(c));
+    REQUIRE(!a);
+    REQUIRE(!b);
+    REQUIRE(!c);
 
     REQUIRE(scene.entityCount() == 0);
 }
@@ -126,41 +126,37 @@ TEST_CASE("Scene_AddRemoveComponents")
     Scene scene;
     scene.registerComponent<Name>("Name");
 
-    EntityId a = scene.createEntity();
-    scene.addEntityComponent(a, Name("a"));
+    Entity a = scene.createEntity();
+    a.addComponent(Name("a"));
 
     SECTION("With more than one entity")
     {
-        EntityId b = scene.createEntity();
-        scene.addEntityComponent(b, Name("b"));
-
-        REQUIRE(scene.entityHasComponent<Name>(b));
-
-        auto name = scene.entityComponent<Name>(b);
-        REQUIRE(name.isValid());
+        Entity b = scene.createEntity();
+        b.addComponent(Name("b"));
+        
+        auto name = b.component<Name>();
+        REQUIRE(name);
         REQUIRE(name->value == "b");
-        REQUIRE(name->entityId() == b);
+        REQUIRE(name->entity() == b);
 
         SECTION("Remove component")
         {
-            REQUIRE(scene.removeEntityComponent<Name>(b));
-            REQUIRE(!scene.removeEntityComponent<Name>(b));
-            REQUIRE(!scene.entityComponent<Name>(b).isValid());
+            REQUIRE(b.removeComponent<Name>());
+            REQUIRE(!b.removeComponent<Name>());
+            REQUIRE(!b.component<Name>());
         }
     }
-
-    REQUIRE(scene.entityHasComponent<Name>(a));
-
-    auto name = scene.entityComponent<Name>(a);
-    REQUIRE(name.isValid());
+    
+    auto name = a.component<Name>();
+    REQUIRE(name);
     REQUIRE(name->value == "a");
-    REQUIRE(name->entityId() == a);
+    REQUIRE(name->entity() == a);
 
     SECTION("Remove component")
     {
-        REQUIRE(scene.removeEntityComponent<Name>(a));
-        REQUIRE(!scene.removeEntityComponent<Name>(a));
-        REQUIRE(!scene.entityComponent<Name>(a).isValid());
+        REQUIRE(a.removeComponent<Name>());
+        REQUIRE(!a.removeComponent<Name>());
+        REQUIRE(!a.component<Name>());
     }
 }
 
@@ -171,25 +167,22 @@ TEST_CASE("Scene_CloneEntity")
 
     REQUIRE(scene.entityCount() == 0);
 
-    EntityId a = scene.createEntity();
+    Entity a = scene.createEntity();
     REQUIRE(scene.entityCount() == 1);
 
-    scene.addEntityComponent(a, Name("a"));
+    a.addComponent(Name("a"));
 
-    EntityId b = scene.cloneEntity(a);
+    Entity b = scene.cloneEntity(a);
     REQUIRE(scene.entityCount() == 2);
 
-    REQUIRE(scene.entityHasComponent<Name>(a));
-    REQUIRE(scene.entityHasComponent<Name>(b));
-
-    Name* nameA = &*scene.entityComponent<Name>(a);
-    Name* nameB = &*scene.entityComponent<Name>(b);
+    Name* nameA = &*a.component<Name>();
+    Name* nameB = &*b.component<Name>();
 
     REQUIRE(nameA != nameB);
     REQUIRE(nameA->value == nameB->value);
 
-    REQUIRE(nameA->entityId() == a);
-    REQUIRE(nameB->entityId() == b);
+    REQUIRE(nameA->entity() == a);
+    REQUIRE(nameB->entity() == b);
 }
 
 TEST_CASE("Scene_Decode")
@@ -203,22 +196,23 @@ TEST_CASE("Scene_Decode")
     jsonValue.decodeFromJson("{ \"entities\" : [ { \"components\" : [ { \"type\" : \"Name\", \"value\" : \"a\" } ] } ] }");
 
     scene.decodeFromJsonValue(jsonValue);
-}
 
+    REQUIRE(scene.entityCount() == 1);
+}
 
 TEST_CASE("Scene_IterateComponents")
 {
     Scene scene;
     scene.registerComponent<Name>("Name");
 
-    EntityId a = scene.createEntity();
-    scene.addEntityComponent(a, Name("a"));
+    Entity a = scene.createEntity();
+    a.addComponent(Name("a"));
 
-    EntityId b = scene.createEntity();
-    scene.addEntityComponent(b, Name("b"));
+    Entity b = scene.createEntity();
+    b.addComponent(Name("b"));
 
     std::vector<std::string> foundNames;
-    for (Name& name : scene.componentPool<Name>())
+    for (Name& name : scene.components<Name>())
     {
         foundNames.push_back(name.value);
     }
@@ -233,15 +227,15 @@ TEST_CASE("Scene_IterateComponentsConst")
     Scene scene;
     scene.registerComponent<Name>("Name");
 
-    EntityId a = scene.createEntity();
-    scene.addEntityComponent(a, Name("a"));
+    Entity a = scene.createEntity();
+    a.addComponent(Name("a"));
 
-    EntityId b = scene.createEntity();
-    scene.addEntityComponent(b, Name("b"));
+    Entity b = scene.createEntity();
+    b.addComponent(Name("b"));
 
     std::vector<std::string> foundNames;
     const Scene& sceneConst = scene;
-    for (const Name& name : sceneConst.componentPool<Name>())
+    for (const Name& name : sceneConst.components<Name>())
     {
         foundNames.push_back(name.value);
     }
@@ -257,35 +251,31 @@ TEST_CASE("Scene_ComponentPoolListeners")
     scene.registerComponent<Name>("Name");
 
     ComponentPoolListener listener;
-    scene.componentPool<Name>().dispatcher().addListener(listener);
+    scene.components<Name>().dispatcher().addListener(listener);
 
-    EntityId a = scene.createEntity();
-    scene.addEntityComponent(a, Name("a"));
+    Entity a = scene.createEntity();
+    a.addComponent(Name("a"));
 
-    EntityId b = scene.createEntity();
-    scene.addEntityComponent(b, Name("b"));
+    Entity b = scene.createEntity();
+    b.addComponent(Name("b"));
 
     REQUIRE(listener.receivedEvents.size() == 2);
     REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Add);
-    REQUIRE(listener.receivedEvents[0].entityId == a);
+    REQUIRE(listener.receivedEvents[0].entityId == a.id());
     REQUIRE(listener.receivedEvents[1].type == ComponentPoolEventType::Add);
-    REQUIRE(listener.receivedEvents[1].entityId == b);
+    REQUIRE(listener.receivedEvents[1].entityId == b.id());
     listener.receivedEvents.clear();
 
     scene.destroyEntity(a);
 
     REQUIRE(listener.receivedEvents.size() == 1);
     REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);
-    REQUIRE(listener.receivedEvents[0].entityId == a);
+    REQUIRE(listener.receivedEvents[0].entityId == a.id());
     listener.receivedEvents.clear();
-
-    scene.removeEntityComponent<Name>((EntityId)-1);
-
-    REQUIRE(listener.receivedEvents.size() == 0);
-
-    scene.removeEntityComponent<Name>(b);
+    
+    b.removeComponent<Name>();
 
     REQUIRE(listener.receivedEvents.size() == 1);
     REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);
-    REQUIRE(listener.receivedEvents[0].entityId == b);
+    REQUIRE(listener.receivedEvents[0].entityId == b.id());
 }

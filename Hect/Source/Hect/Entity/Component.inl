@@ -25,15 +25,14 @@ namespace hect
 {
 
 template <typename T>
-Component<T>::Component() :
-    _entityId((EntityId)-1)
+Component<T>::Component()
 {
 }
 
 template <typename T>
-EntityId Component<T>::entityId() const
+Entity Component<T>::entity() const
 {
-    return _entityId;
+    return _entity;
 }
 
 template <typename T>

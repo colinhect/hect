@@ -25,46 +25,22 @@ namespace hect
 {
 
 template <typename T>
-typename ComponentPool<T>::Iterator Scene::addEntityComponent(EntityId entityId, const T& component)
-{
-    return componentPool<T>().add(entityId, component);
-}
-
-template <typename T>
-bool Scene::removeEntityComponent(EntityId entityId)
-{
-    return componentPool<T>().remove(entityId);
-}
-
-template <typename T>
-bool Scene::entityHasComponent(EntityId entityId) const
-{
-    return componentPool<T>().has(entityId);
-}
-
-template <typename T>
-typename ComponentPool<T>::Iterator Scene::entityComponent(EntityId entityId)
-{
-    return componentPool<T>().get(entityId);
-}
-
-template <typename T>
 void Scene::registerComponent(const std::string& componentName)
 {
     std::type_index typeIndex(typeid(T));
 
     // Create a component pool for this type of component
-    _componentPools[typeIndex] = std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>());
+    _componentPools[typeIndex] = std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>(this));
 
     // Create a component adder for this type of component
-    _componentAdders[componentName] = [](Scene& scene, EntityId entityId)
+    _componentAdders[componentName] = [](Entity entity)
     {
-        return &*scene.addEntityComponent(entityId, T());
+        return &*entity.addComponent(T());
     };
 }
 
 template <typename T>
-ComponentPool<T>& Scene::componentPool()
+ComponentPool<T>& Scene::components()
 {
     std::type_index typeIndex(typeid(T));
     auto it = _componentPools.find(typeIndex);
@@ -79,7 +55,7 @@ ComponentPool<T>& Scene::componentPool()
 }
 
 template <typename T>
-const ComponentPool<T>& Scene::componentPool() const
+const ComponentPool<T>& Scene::components() const
 {
     std::type_index typeIndex(typeid(T));
     auto it = _componentPools.find(typeIndex);

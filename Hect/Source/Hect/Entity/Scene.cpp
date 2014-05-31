@@ -51,7 +51,7 @@ Scene::Scene() :
     registerComponent<RigidBody>("RigidBody");
 }
 
-EntityId Scene::createEntity()
+Entity Scene::createEntity()
 {
     EntityId entityId = _entityIdPool.create();
 
@@ -62,28 +62,30 @@ EntityId Scene::createEntity()
     _entityData[entityId].exists = true;
     ++_entityCount;
 
-    return entityId;
+    return Entity(*this, entityId);
 }
 
-EntityId Scene::cloneEntity(EntityId entityId)
+Entity Scene::cloneEntity(Entity entity)
 {
-    if (!entityExists(entityId))
+    if (!entity)
     {
-        throw Error("Entity id does not correspond to a valid entity");
+        throw Error("Attempt to clone a non-existant entity");
     }
 
-    EntityId clonedEntityId = createEntity();
+    Entity clonedEntity = createEntity();
 
     for (auto& pair : _componentPools)
     {
-        pair.second->clone(entityId, clonedEntityId);
+        pair.second->clone(entity.id(), clonedEntity.id());
     }
 
-    return clonedEntityId;
+    return clonedEntity;
 }
 
-bool Scene::destroyEntity(EntityId entityId)
+bool Scene::destroyEntity(Entity entity)
 {
+    EntityId entityId = entity.id();
+
     bool entityExisted = false;
     if (entityId < _entityData.size())
     {
@@ -121,16 +123,6 @@ size_t Scene::entityCount() const
     return _entityCount;
 }
 
-void Scene::addEntityComponent(EntityId entityId, const ComponentBase& component)
-{
-    std::type_index typeIndex = component.typeIndex();
-    auto it = _componentPools.find(typeIndex);
-    if (it != _componentPools.end())
-    {
-        it->second->add(entityId, component);
-    }
-}
-
 void Scene::encode(ObjectEncoder& encoder) const
 {
     encoder;
@@ -141,7 +133,7 @@ void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
     while (entitiesDecoder.hasMoreElements())
     {
-        EntityId entityId = createEntity();
+        Entity entity = createEntity();
 
         ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
         {
@@ -151,15 +143,14 @@ void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
                 ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
 
                 std::string componentName = componentDecoder.decodeString("type");
-                ComponentBase& component = _addComponentByName(entityId, componentName);
-
+                ComponentBase& component = _addComponentByName(entity, componentName);
                 component.decode(componentDecoder, assetCache);
             }
         }
     }
 }
 
-ComponentBase& Scene::_addComponentByName(EntityId entityId, const std::string& componentName)
+ComponentBase& Scene::_addComponentByName(Entity entity, const std::string& componentName)
 {
     auto it = _componentAdders.find(componentName);
     if (it == _componentAdders.end())
@@ -167,5 +158,5 @@ ComponentBase& Scene::_addComponentByName(EntityId entityId, const std::string& 
         throw Error(format("Unknown component type '%s'", componentName.c_str()));
     }
 
-    return *it->second(*this, entityId);
+    return *it->second(entity);
 }

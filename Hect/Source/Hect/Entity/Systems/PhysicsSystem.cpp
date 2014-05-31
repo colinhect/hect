@@ -42,14 +42,14 @@ PhysicsSystem::PhysicsSystem(Scene& scene) :
     setGravity(Vector3::zero());
 
     // Register to component pool events for rigid bodies
-    ComponentPool<RigidBody>& rigidBodyPool = scene.componentPool<RigidBody>();
+    ComponentPool<RigidBody>& rigidBodyPool = scene.components<RigidBody>();
     rigidBodyPool.dispatcher().addListener(*this);
 }
 
 PhysicsSystem::~PhysicsSystem()
 {
     // Unregister to component pool events for rigid bodies
-    ComponentPool<RigidBody>& rigidBodyPool = scene().componentPool<RigidBody>();
+    ComponentPool<RigidBody>& rigidBodyPool = scene().components<RigidBody>();
     rigidBodyPool.dispatcher().removeListener(*this);
 }
 
@@ -62,12 +62,12 @@ void PhysicsSystem::update(Real timeStep, unsigned maxSubStepCount)
 void PhysicsSystem::updateTransforms()
 {
     // For each rigid body component
-    for (RigidBody& rigidBody : scene().componentPool<RigidBody>())
+    for (RigidBody& rigidBody : scene().components<RigidBody>())
     {
-        EntityId entityId = rigidBody.entityId();
+        Entity entity = rigidBody.entity();
 
-        auto transform = scene().entityComponent<Transform>(entityId);
-        if (transform.isValid())
+        auto transform = entity.component<Transform>();
+        if (transform)
         {
             // Update the transform to what Bullet says it should be
             Transform newTransform = convertFromBullet(rigidBody._rigidBody->getWorldTransform());
@@ -92,12 +92,13 @@ void PhysicsSystem::setGravity(const Vector3& gravity)
 void PhysicsSystem::receiveEvent(const ComponentPoolEvent& event)
 {
     EntityId entityId = event.entityId;
+    Entity entity(scene(), entityId);
 
-    auto transform = scene().entityComponent<Transform>(entityId);
-    if (transform.isValid())
+    auto transform = entity.component<Transform>();
+    if (transform)
     {
-        auto rigidBody = scene().entityComponent<RigidBody>(entityId);
-        if (rigidBody.isValid())
+        auto rigidBody = entity.component<RigidBody>();
+        if (rigidBody)
         {
             if (event.type == ComponentPoolEventType::Add)
             {

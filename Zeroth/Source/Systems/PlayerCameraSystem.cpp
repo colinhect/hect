@@ -42,15 +42,15 @@ PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
 
 void PlayerCameraSystem::update(Real timeStep)
 {
-    for (PlayerCamera& playerCamera : scene().componentPool<PlayerCamera>())
+    for (PlayerCamera& playerCamera : scene().components<PlayerCamera>())
     {
-        EntityId entityId = playerCamera.entityId();
+        Entity entity = playerCamera.entity();
 
-        auto transform = scene().entityComponent<Transform>(entityId);
-        if (transform.isValid())
+        auto transform = entity.component<Transform>();
+        if (transform)
         {
-            auto camera = scene().entityComponent<Camera>(entityId);
-            if (camera.isValid())
+            auto camera = entity.component<Camera>();
+            if (camera)
             {
                 const Vector3& up = camera->up();
                 const Vector3& right = camera->right();

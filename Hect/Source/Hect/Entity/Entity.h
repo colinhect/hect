@@ -21,52 +21,51 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "CameraSystem.h"
+#pragma once
 
-#include "Hect/Entity/Scene.h"
-#include "Hect/Entity/Components/Camera.h"
-#include "Hect/Entity/Components/Transform.h"
+#include "Hect/Entity/ComponentPool.h"
 
-using namespace hect;
-
-CameraSystem::CameraSystem(Scene& scene) :
-    System(scene)
+namespace hect
 {
+
+class HECT_API Entity
+{
+    friend class Scene;
+public:
+    Entity();
+    Entity(Scene& scene, EntityId id);
+
+    void addComponent(const ComponentBase& component);
+
+    template <typename T>
+    typename ComponentPool<T>::Iterator addComponent(const T& component);
+
+    template <typename T>
+    bool removeComponent();
+
+    template <typename T>
+    typename ComponentPool<T>::Iterator component();
+
+    bool exists() const;
+
+    Scene& scene();
+    const Scene& scene() const;
+
+    EntityId id() const;
+
+    bool operator==(const Entity& entity) const;
+    bool operator!=(const Entity& entity) const;
+
+    operator bool() const;
+
+private:
+
+    void _ensureExists() const;
+
+    Scene* _scene;
+    EntityId _id;
+};
+
 }
 
-bool CameraSystem::hasCamera() const
-{
-    bool foundCamera = false;
-    for (const Camera& camera : scene().components<Camera>())
-    {
-        camera;
-        foundCamera = true;
-    }
-    return foundCamera;
-}
-
-Camera& CameraSystem::camera()
-{
-    Camera* foundCamera = nullptr;
-    for (Camera& camera : scene().components<Camera>())
-    {
-        if (!foundCamera)
-        {
-            foundCamera = &camera;
-        }
-    }
-    return *foundCamera;
-}
-
-void CameraSystem::update()
-{
-    for (Camera& camera : scene().components<Camera>())
-    {
-        Entity entity = camera.entity();
-        auto transform = entity.component<Transform>();
-        if (transform)
-        {
-            camera.transformTo(*transform);
-        }
-    }
-}
+#include "Entity.inl"

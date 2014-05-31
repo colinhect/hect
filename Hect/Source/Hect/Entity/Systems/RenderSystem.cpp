@@ -43,11 +43,11 @@ void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
     _renderer->clear();
 
     // Render geometery
-    for (Geometry& geometry : scene().componentPool<Geometry>())
+    for (Geometry& geometry : scene().components<Geometry>())
     {
-        EntityId entityId = geometry.entityId();
-        auto transform = scene().entityComponent<Transform>(entityId);
-        if (transform.isValid())
+        Entity entity = geometry.entity();
+        auto transform = entity.component<Transform>();
+        if (transform)
         {
             size_t surfaceCount = geometry.surfaceCount();
             for (size_t surfaceIndex = 0; surfaceIndex < surfaceCount; ++surfaceIndex)

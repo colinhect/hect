@@ -30,6 +30,7 @@
 #include "Hect/IO/Encodable.h"
 #include "Hect/Entity/Component.h"
 #include "Hect/Entity/ComponentPool.h"
+#include "Hect/Entity/Entity.h"
 
 namespace hect
 {
@@ -47,91 +48,22 @@ class HECT_API Scene :
     public Uncopyable,
     public Encodable
 {
-    friend class EntityIterator;
+    friend class Entity;
 public:
 
     ///
     /// Constructs an empty scene.
     Scene();
 
-    ///
-    /// Creates a new entity.
-    ///
-    /// \returns The id of the new entity.
-    EntityId createEntity();
+    Entity createEntity();
 
-    ///
-    /// Clones an existing entity.
-    ///
-    /// \param entityId The id of the entity to clone.
-    ///
-    /// \returns The id of the cloned entity.
-    ///
-    /// \throws Error If the entity id does not correspond to a valid entity.
-    EntityId cloneEntity(EntityId entityId);
+    Entity cloneEntity(Entity entityId);
 
-    ///
-    /// Destroys an entity.
-    ///
-    /// \param entityId The id of the entity to destroy.
-    ///
-    /// \returns True if the entity was destroy; false if the entity id does
-    /// not correspond to a valid entity.
-    bool destroyEntity(EntityId entityId);
+    bool destroyEntity(Entity entityId);
 
-    ///
-    /// Returns whether an entity exists with a certain id.
-    ///
-    /// \param entityId The id of the entity.
     bool entityExists(EntityId entityId) const;
 
-    ///
-    /// Returns the number of entities in the scene.
     size_t entityCount() const;
-
-    ///
-    /// Adds a component to an entity.
-    ///
-    /// \param entityId The id of the entity.
-    /// \param component The component to add.
-    void addEntityComponent(EntityId entityId, const ComponentBase& component);
-
-    ///
-    /// Adds a component to an entity.
-    ///
-    /// \remarks If the entity already has an entity of the given type then the
-    /// existing component is overwritten.
-    ///
-    /// \param entityId The id of the entity.
-    /// \param component The component to add.
-    ///
-    /// \returns An iterator to the added component.
-    template <typename T>
-    typename ComponentPool<T>::Iterator addEntityComponent(EntityId entityId, const T& component);
-
-    ///
-    /// Removes a component from an entity.
-    ///
-    /// \param entityId The id of the entity.
-    ///
-    /// \returns True if the component was removed from the entity; false if
-    /// entity did not have the component.
-    template <typename T>
-    bool removeEntityComponent(EntityId entityId);
-
-    ///
-    /// Returns whether an entity has a component of a given type.
-    ///
-    /// \param entityId The id of the entity.
-    template <typename T>
-    bool entityHasComponent(EntityId entityId) const;
-
-    ///
-    /// Gets the component for an entity of a given type.
-    ///
-    /// \param entityId The id of the entity.
-    template <typename T>
-    typename ComponentPool<T>::Iterator entityComponent(EntityId entityId);
 
     ///
     /// Registers a component type.
@@ -143,25 +75,25 @@ public:
     ///
     /// Returns the component pool of a specific component type.
     template <typename T>
-    ComponentPool<T>& componentPool();
+    ComponentPool<T>& components();
 
     ///
     /// Returns the component pool of a specific component type.
     template <typename T>
-    const ComponentPool<T>& componentPool() const;
+    const ComponentPool<T>& components() const;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    ComponentBase& _addComponentByName(EntityId entityId, const std::string& componentName);
+    ComponentBase& _addComponentByName(Entity entity, const std::string& componentName);
 
     IdPool<EntityId> _entityIdPool;
     std::vector<EntityData> _entityData;
     size_t _entityCount;
 
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
-    std::map<std::string, std::function<ComponentBase*(Scene&, EntityId)>> _componentAdders;
+    std::map<std::string, std::function<ComponentBase*(Entity)>> _componentAdders;
 };
 
 }

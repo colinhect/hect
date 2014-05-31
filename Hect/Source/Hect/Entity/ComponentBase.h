@@ -21,52 +21,37 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "CameraSystem.h"
+#pragma once
 
-#include "Hect/Entity/Scene.h"
-#include "Hect/Entity/Components/Camera.h"
-#include "Hect/Entity/Components/Transform.h"
+#include <typeindex>
 
-using namespace hect;
+#include "Hect/IO/Encodable.h"
 
-CameraSystem::CameraSystem(Scene& scene) :
-    System(scene)
+namespace hect
 {
-}
 
-bool CameraSystem::hasCamera() const
-{
-    bool foundCamera = false;
-    for (const Camera& camera : scene().components<Camera>())
-    {
-        camera;
-        foundCamera = true;
-    }
-    return foundCamera;
-}
+///
+/// A numeric entity identifier.
+typedef uint32_t EntityId;
 
-Camera& CameraSystem::camera()
-{
-    Camera* foundCamera = nullptr;
-    for (Camera& camera : scene().components<Camera>())
-    {
-        if (!foundCamera)
-        {
-            foundCamera = &camera;
-        }
-    }
-    return *foundCamera;
-}
+///
+/// A numeric component identifier.
+typedef uint32_t ComponentId;
 
-void CameraSystem::update()
+///
+/// A numeric component type identifier.
+typedef uint32_t ComponentTypeId;
+
+///
+/// Base entity component.
+class HECT_API ComponentBase :
+    public Encodable
 {
-    for (Camera& camera : scene().components<Camera>())
-    {
-        Entity entity = camera.entity();
-        auto transform = entity.component<Transform>();
-        if (transform)
-        {
-            camera.transformTo(*transform);
-        }
-    }
+public:
+
+    ///
+    /// Returns the type index for the component's type.
+    virtual std::type_index typeIndex() const = 0;
+};
+
 }

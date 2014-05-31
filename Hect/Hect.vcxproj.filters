@@ -390,6 +390,15 @@
     <ClInclude Include="Source\Hect\Entity\Components\RigidBody.h">
       <Filter>Source\Hect\Entity\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\Entity.h">
+      <Filter>Source\Hect\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\EntityPool.h">
+      <Filter>Source\Hect\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Entity\ComponentBase.h">
+      <Filter>Source\Hect\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -680,6 +689,12 @@
     <ClCompile Include="Source\Hect\Entity\Components\RigidBody.cpp">
       <Filter>Source\Hect\Entity\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\Entity.cpp">
+      <Filter>Source\Hect\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Entity\EntityPool.cpp">
+      <Filter>Source\Hect\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Asset\AssetCache.inl">
@@ -728,6 +743,9 @@
       <Filter>Source\Hect\Reflection</Filter>
     </None>
     <None Include="Source\Hect\Entity\ComponentPool.inl">
+      <Filter>Source\Hect\Entity</Filter>
+    </None>
+    <None Include="Source\Hect\Entity\Entity.inl">
       <Filter>Source\Hect\Entity</Filter>
     </None>
   </ItemGroup>

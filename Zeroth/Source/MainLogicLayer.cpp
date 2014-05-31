@@ -72,7 +72,6 @@ void MainLogicLayer::fixedUpdate(Real timeStep)
                                     );
 
     _input->updateAxes(timeStep);
-
 }
 
 void MainLogicLayer::frameUpdate(Real delta)
@@ -119,16 +118,16 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
 
     if (event.key == Key::F)
     {
-        auto playerCamera = _scene.componentPool<Camera>().begin();
-        auto geometry = _scene.componentPool<Geometry>().begin();
-        if (playerCamera.isValid() && geometry.isValid())
+        auto playerCamera = _scene.components<Camera>().begin();
+        auto geometry = _scene.components<Geometry>().begin();
+        if (playerCamera && geometry)
         {
-            EntityId playerEntityId = playerCamera->entityId();
-            EntityId sourceEntityId = geometry->entityId();
-            EntityId cloneEntityId = _scene.cloneEntity(sourceEntityId);
+            Entity playerEntity = playerCamera->entity();
+            Entity sourceEntity = geometry->entity();
+            Entity cloneEntity = _scene.cloneEntity(sourceEntity);
 
-            auto transform = _scene.entityComponent<Transform>(cloneEntityId);
-            if (transform.isValid())
+            auto transform = cloneEntity.component<Transform>();
+            if (transform)
             {
                 transform->translate(Vector3(10.0f, 0.0, 0.0));
             }
@@ -137,7 +136,7 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
             rigidBody.setMass(1.0f);
             rigidBody.setMesh(geometry->meshes()[0]);
             rigidBody.setLinearVelocity(playerCamera->front() * 5.0f);
-            _scene.addEntityComponent(cloneEntityId, rigidBody);
+            cloneEntity.addComponent(rigidBody);
         }
     }
 }

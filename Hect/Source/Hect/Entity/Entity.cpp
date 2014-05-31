@@ -21,52 +21,82 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "CameraSystem.h"
+#include "Entity.h"
 
 #include "Hect/Entity/Scene.h"
-#include "Hect/Entity/Components/Camera.h"
-#include "Hect/Entity/Components/Transform.h"
 
 using namespace hect;
 
-CameraSystem::CameraSystem(Scene& scene) :
-    System(scene)
+Entity::Entity() :
+    _scene(nullptr),
+    _id((EntityId)-1)
 {
 }
 
-bool CameraSystem::hasCamera() const
+Entity::Entity(Scene& scene, EntityId id) :
+_scene(&scene),
+_id(id)
 {
-    bool foundCamera = false;
-    for (const Camera& camera : scene().components<Camera>())
+}
+
+void Entity::addComponent(const ComponentBase& component)
+{
+    _ensureExists();
+
+    std::type_index typeIndex = component.typeIndex();
+    auto it = _scene->_componentPools.find(typeIndex);
+    if (it != _scene->_componentPools.end())
     {
-        camera;
-        foundCamera = true;
+        it->second->add(_id, component);
     }
-    return foundCamera;
 }
 
-Camera& CameraSystem::camera()
+bool Entity::exists() const
 {
-    Camera* foundCamera = nullptr;
-    for (Camera& camera : scene().components<Camera>())
+    if (_scene)
     {
-        if (!foundCamera)
-        {
-            foundCamera = &camera;
-        }
+        return _scene->entityExists(_id);
     }
-    return *foundCamera;
+
+    return false;
 }
 
-void CameraSystem::update()
+Scene& Entity::scene()
 {
-    for (Camera& camera : scene().components<Camera>())
+    _ensureExists();
+    return *_scene;    
+}
+
+const Scene& Entity::scene() const
+{
+    _ensureExists();
+    return *_scene;
+}
+
+EntityId Entity::id() const
+{
+    return _id;
+}
+
+bool Entity::operator == (const Entity& entity) const
+{
+    return _scene == entity._scene && _id == entity._id;
+}
+
+bool Entity::operator!=(const Entity& entity) const
+{
+    return _scene != entity._scene || _id != entity._id;
+}
+
+Entity::operator bool() const
+{
+    return exists();
+}
+
+void Entity::_ensureExists() const
+{
+    if (!exists())
     {
-        Entity entity = camera.entity();
-        auto transform = entity.component<Transform>();
-        if (transform)
-        {
-            camera.transformTo(*transform);
-        }
+        throw Error("Entity does not exist");
     }
 }

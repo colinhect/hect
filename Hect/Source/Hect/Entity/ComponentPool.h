@@ -29,7 +29,7 @@
 
 #include "Hect/Core/IdPool.h"
 #include "Hect/Core/Dispatcher.h"
-#include "Hect/Entity/Component.h"
+#include "Hect/Entity/ComponentBase.h"
 
 namespace hect
 {
@@ -60,7 +60,7 @@ public:
     /// Constructs a component pool event.
     ///
     /// \param type The event type.
-    /// \param entityId The id of the entity that the event pertains to.
+    /// \param entity The entity that the event pertains to.
     ComponentPoolEvent(ComponentPoolEventType::Enum type, EntityId entityId);
 
     ///
@@ -109,6 +109,8 @@ public:
     virtual void clone(EntityId sourceEntityId, EntityId destEntityId) = 0;
 };
 
+class Scene;
+
 ///
 /// Contains all of the components of a specific type in a scene.
 template <typename T>
@@ -154,6 +156,8 @@ public:
         /// \param other The other iterator.
         bool operator!=(const Iterator& other) const;
 
+        operator bool() const;
+
     private:
         Iterator(std::vector<T>* components, size_t index);
 
@@ -198,12 +202,16 @@ public:
         /// \param other The other iterator.
         bool operator!=(const ConstIterator& other) const;
 
+        operator bool() const;
+
     private:
         ConstIterator(const std::vector<T>* components, size_t index);
 
         const std::vector<T>* _components;
         size_t _index;
     };
+
+    ComponentPool(Scene* scene);
 
     ///
     /// Returns the dispatcher of component pool events.
@@ -278,6 +286,7 @@ public:
     ConstIterator end() const;
 
 private:
+    Scene* _scene;
     Dispatcher<ComponentPoolEvent> _dispatcher;
     IdPool<ComponentId> _componentIdPool;
     std::vector<T> _components;
