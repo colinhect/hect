@@ -77,15 +77,12 @@ TEST_CASE("Scene_CreateAndDestroyEntities")
     // Create a
     Entity a = scene.createEntity();
     REQUIRE(a);
-    REQUIRE(!scene.entityExists(a.id() + 1));
-    REQUIRE(!scene.entityExists(a.id() - 1));
     REQUIRE(scene.entityCount() == 1);
 
     // Create b
     Entity b = scene.createEntity();
     REQUIRE(a);
     REQUIRE(b);
-    REQUIRE(!scene.entityExists(b.id() + 1));
     REQUIRE(scene.entityCount() == 2);
 
     // Create c
@@ -96,24 +93,24 @@ TEST_CASE("Scene_CreateAndDestroyEntities")
     REQUIRE(scene.entityCount() == 3);
 
     // Destroy a
-    REQUIRE(scene.destroyEntity(a));
-    REQUIRE(!scene.destroyEntity(a));
+    a.destroy();
+    REQUIRE_THROWS_AS(a.destroy(), Error);
     REQUIRE(!a);
     REQUIRE(b);
     REQUIRE(c);
     REQUIRE(scene.entityCount() == 2);
 
     // Destroy b
-    REQUIRE(scene.destroyEntity(b));
-    REQUIRE(!scene.destroyEntity(b));
+    b.destroy();
+    REQUIRE_THROWS_AS(b.destroy(), Error);
     REQUIRE(!a);
     REQUIRE(!b);
     REQUIRE(c);
     REQUIRE(scene.entityCount() == 1);
 
     // Destroy c
-    REQUIRE(scene.destroyEntity(c));
-    REQUIRE(!scene.destroyEntity(c));
+    c.destroy();
+    REQUIRE_THROWS_AS(c.destroy(), Error);
     REQUIRE(!a);
     REQUIRE(!b);
     REQUIRE(!c);
@@ -172,7 +169,7 @@ TEST_CASE("Scene_CloneEntity")
 
     a.addComponent(Name("a"));
 
-    Entity b = scene.cloneEntity(a);
+    Entity b = a.clone();
     REQUIRE(scene.entityCount() == 2);
 
     Name* nameA = &*a.component<Name>();
@@ -266,7 +263,7 @@ TEST_CASE("Scene_ComponentPoolListeners")
     REQUIRE(listener.receivedEvents[1].entityId == b.id());
     listener.receivedEvents.clear();
 
-    scene.destroyEntity(a);
+    a.destroy();
 
     REQUIRE(listener.receivedEvents.size() == 1);
     REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);

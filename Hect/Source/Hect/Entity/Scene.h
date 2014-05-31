@@ -57,12 +57,6 @@ public:
 
     Entity createEntity();
 
-    Entity cloneEntity(Entity entityId);
-
-    bool destroyEntity(Entity entityId);
-
-    bool entityExists(EntityId entityId) const;
-
     size_t entityCount() const;
 
     ///
@@ -86,14 +80,20 @@ public:
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    ComponentBase& _addComponentByName(Entity entity, const std::string& componentName);
+    EntityId _cloneEntity(EntityId entityId);
+
+    void _destroyEntity(EntityId entityId);
+
+    bool _entityExists(EntityId entityId) const;
+
+    ComponentBase* _createComponentByName(const std::string& componentName);
 
     IdPool<EntityId> _entityIdPool;
     std::vector<EntityData> _entityData;
     size_t _entityCount;
 
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
-    std::map<std::string, std::function<ComponentBase*(Entity)>> _componentAdders;
+    std::map<std::string, std::function<ComponentBase*(void)>> _componentConstructors;
 };
 
 }

@@ -35,7 +35,7 @@ public:
     Entity();
     Entity(Scene& scene, EntityId id);
 
-    void addComponent(const ComponentBase& component);
+    void addComponentBase(const ComponentBase& component);
 
     template <typename T>
     typename ComponentPool<T>::Iterator addComponent(const T& component);
@@ -45,6 +45,9 @@ public:
 
     template <typename T>
     typename ComponentPool<T>::Iterator component();
+
+    Entity clone() const;
+    void destroy();
 
     bool exists() const;
 

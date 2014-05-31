@@ -211,7 +211,7 @@ typename ComponentPool<T>::Iterator ComponentPool<T>::add(EntityId entityId, con
     while (componentId >= _components.size())
     {
         size_t size = _components.size();
-        _components.resize(std::max(size * 2, (size_t)8), T());
+        _components.resize(std::max(size * 2, (size_t)8));
     }
 
     // Assign the new component and get a reference to it

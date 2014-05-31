@@ -49,7 +49,6 @@
     <ClInclude Include="Source\Hect\Entity\Components\RigidBody.h" />
     <ClInclude Include="Source\Hect\Entity\Components\Transform.h" />
     <ClInclude Include="Source\Hect\Entity\Entity.h" />
-    <ClInclude Include="Source\Hect\Entity\EntityPool.h" />
     <ClInclude Include="Source\Hect\Entity\Scene.h" />
     <ClInclude Include="Source\Hect\Entity\System.h" />
     <ClInclude Include="Source\Hect\Entity\Systems\CameraSystem.h" />
@@ -148,7 +147,6 @@
     <ClCompile Include="Source\Hect\Entity\Components\RigidBody.cpp" />
     <ClCompile Include="Source\Hect\Entity\Components\Transform.cpp" />
     <ClCompile Include="Source\Hect\Entity\Entity.cpp" />
-    <ClCompile Include="Source\Hect\Entity\EntityPool.cpp" />
     <ClCompile Include="Source\Hect\Entity\Scene.cpp" />
     <ClCompile Include="Source\Hect\Entity\System.cpp" />
     <ClCompile Include="Source\Hect\Entity\Systems\CameraSystem.cpp" />

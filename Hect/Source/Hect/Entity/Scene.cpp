@@ -65,59 +65,6 @@ Entity Scene::createEntity()
     return Entity(*this, entityId);
 }
 
-Entity Scene::cloneEntity(Entity entity)
-{
-    if (!entity)
-    {
-        throw Error("Attempt to clone a non-existant entity");
-    }
-
-    Entity clonedEntity = createEntity();
-
-    for (auto& pair : _componentPools)
-    {
-        pair.second->clone(entity.id(), clonedEntity.id());
-    }
-
-    return clonedEntity;
-}
-
-bool Scene::destroyEntity(Entity entity)
-{
-    EntityId entityId = entity.id();
-
-    bool entityExisted = false;
-    if (entityId < _entityData.size())
-    {
-        EntityData& entityData = _entityData[entityId];
-        if (entityData.exists)
-        {
-            for (auto& pair : _componentPools)
-            {
-                pair.second->remove(entityId);
-            }
-            entityExisted = true;
-            entityData.exists = false;
-            _entityIdPool.destroy(entityId);
-            --_entityCount;
-        }
-    }
-
-    return entityExisted;
-}
-
-bool Scene::entityExists(EntityId entityId) const
-{
-    bool entityExists = false;
-    if (entityId < _entityData.size())
-    {
-        const EntityData& entityData = _entityData[entityId];
-        entityExists = entityData.exists;
-    }
-
-    return entityExists;
-}
-
 size_t Scene::entityCount() const
 {
     return _entityCount;
@@ -143,20 +90,66 @@ void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
                 ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
 
                 std::string componentName = componentDecoder.decodeString("type");
-                ComponentBase& component = _addComponentByName(entity, componentName);
-                component.decode(componentDecoder, assetCache);
+                std::unique_ptr<ComponentBase> component(_createComponentByName(componentName));
+                component->decode(componentDecoder, assetCache);
+
+                entity.addComponentBase(*component);
             }
         }
     }
 }
 
-ComponentBase& Scene::_addComponentByName(Entity entity, const std::string& componentName)
+EntityId Scene::_cloneEntity(EntityId entityId)
 {
-    auto it = _componentAdders.find(componentName);
-    if (it == _componentAdders.end())
+    EntityId clonedEntityId = createEntity().id();
+
+    for (auto& pair : _componentPools)
+    {
+        pair.second->clone(entityId, clonedEntityId);
+    }
+
+    return clonedEntityId;
+}
+
+void Scene::_destroyEntity(EntityId entityId)
+{
+    bool entityExisted = false;
+    if (entityId < _entityData.size())
+    {
+        EntityData& entityData = _entityData[entityId];
+        if (entityData.exists)
+        {
+            for (auto& pair : _componentPools)
+            {
+                pair.second->remove(entityId);
+            }
+            entityExisted = true;
+            entityData.exists = false;
+            _entityIdPool.destroy(entityId);
+            --_entityCount;
+        }
+    }
+}
+
+bool Scene::_entityExists(EntityId entityId) const
+{
+    bool entityExists = false;
+    if (entityId < _entityData.size())
+    {
+        const EntityData& entityData = _entityData[entityId];
+        entityExists = entityData.exists;
+    }
+
+    return entityExists;
+}
+
+ComponentBase* Scene::_createComponentByName(const std::string& componentName)
+{
+    auto it = _componentConstructors.find(componentName);
+    if (it == _componentConstructors.end())
     {
         throw Error(format("Unknown component type '%s'", componentName.c_str()));
     }
 
-    return *it->second(entity);
+    return it->second();
 }

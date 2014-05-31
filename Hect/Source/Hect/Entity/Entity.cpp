@@ -39,7 +39,7 @@ _id(id)
 {
 }
 
-void Entity::addComponent(const ComponentBase& component)
+void Entity::addComponentBase(const ComponentBase& component)
 {
     _ensureExists();
 
@@ -51,11 +51,24 @@ void Entity::addComponent(const ComponentBase& component)
     }
 }
 
+Entity Entity::clone() const
+{
+    _ensureExists();
+    EntityId clonedEntityId = _scene->_cloneEntity(_id);
+    return Entity(*_scene, clonedEntityId);
+}
+
+void Entity::destroy()
+{
+    _ensureExists();
+    _scene->_destroyEntity(_id);
+}
+
 bool Entity::exists() const
 {
     if (_scene)
     {
-        return _scene->entityExists(_id);
+        return _scene->_entityExists(_id);
     }
 
     return false;
