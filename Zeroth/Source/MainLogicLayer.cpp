@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MainLogicLayer.h"
 
-#include <Hect/Entity/Components/Geometry.h>
-#include <Hect/Entity/Components/Transform.h>
-#include <Hect/Entity/Components/RigidBody.h>
+#include <Hect/Graphics/Components/Geometry.h>
+#include <Hect/Graphics/Components/Transform.h>
+#include <Hect/Physics/Components/RigidBody.h>
 
 using namespace hect;
 

@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Entity/Component.h"
+#include "Hect/Logic/Component.h"
 #include "Hect/Math/Frustum.h"
 
 namespace hect

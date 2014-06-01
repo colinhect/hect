@@ -26,8 +26,8 @@
 #include "Hect/Core/Configuration.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Quaternion.h"
-#include "Hect/Entity/Components/Transform.h"
 #include "Hect/Graphics/Mesh.h"
+#include "Hect/Graphics/Components/Transform.h"
 
 #ifdef HECT_WINDOWS
 #pragma warning(push, 0)

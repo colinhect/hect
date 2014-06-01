@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Entity.h"
 
-#include "Hect/Entity/Scene.h"
+#include "Hect/Logic/Scene.h"
 
 using namespace hect;
 

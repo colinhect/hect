@@ -29,7 +29,7 @@
 
 #include "Hect/Core/IdPool.h"
 #include "Hect/Core/Dispatcher.h"
-#include "Hect/Entity/ComponentBase.h"
+#include "Hect/Logic/ComponentBase.h"
 
 namespace hect
 {

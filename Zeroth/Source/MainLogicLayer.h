@@ -28,10 +28,10 @@
 #include <Hect/Core/Uncopyable.h>
 #include <Hect/Core/TaskPool.h>
 #include <Hect/Asset/AssetCache.h>
-#include <Hect/Entity/Scene.h>
-#include <Hect/Entity/Systems/CameraSystem.h>
-#include <Hect/Entity/Systems/RenderSystem.h>
-#include <Hect/Entity/Systems/PhysicsSystem.h>
+#include <Hect/Logic/Scene.h>
+#include <Hect/Graphics/Systems/CameraSystem.h>
+#include <Hect/Graphics/Systems/RenderSystem.h>
+#include <Hect/Physics/Systems/PhysicsSystem.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
 #include <Hect/Input/InputSystem.h>

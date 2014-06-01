@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PhysicsSystem.h"
 
-#include "Hect/Entity/Scene.h"
-#include "Hect/Entity/Components/Transform.h"
-#include "Hect/Entity/Components/RigidBody.h"
+#include "Hect/Logic/Scene.h"
+#include "Hect/Graphics/Components/Transform.h"
+#include "Hect/Physics/Components/RigidBody.h"
 
 using namespace hect;
 

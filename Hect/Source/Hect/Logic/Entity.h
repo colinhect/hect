@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Entity/ComponentPool.h"
+#include "Hect/Logic/ComponentPool.h"
 
 namespace hect
 {

@@ -23,10 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "RenderSystem.h"
 
-#include "Hect/Entity/Scene.h"
-#include "Hect/Entity/Components/Camera.h"
-#include "Hect/Entity/Components/Geometry.h"
-#include "Hect/Entity/Components/Transform.h"
+#include "Hect/Logic/Scene.h"
+#include "Hect/Graphics/Components/Camera.h"
+#include "Hect/Graphics/Components/Geometry.h"
+#include "Hect/Graphics/Components/Transform.h"
 
 using namespace hect;
 

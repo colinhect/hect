@@ -21,52 +21,48 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "CameraSystem.h"
+#pragma once
 
-#include "Hect/Entity/Scene.h"
-#include "Hect/Entity/Components/Camera.h"
-#include "Hect/Entity/Components/Transform.h"
+#include "Hect/Core/Export.h"
+#include "Hect/Logic/Component.h"
 
-using namespace hect;
-
-CameraSystem::CameraSystem(Scene& scene) :
-    System(scene)
+namespace hect
 {
-}
 
-bool CameraSystem::hasCamera() const
+///
+/// A directional light component
+class HECT_API DirectionalLight :
+    public Component<DirectionalLight>
 {
-    bool foundCamera = false;
-    for (const Camera& camera : scene().components<Camera>())
-    {
-        camera;
-        foundCamera = true;
-    }
-    return foundCamera;
-}
+public:
+    DirectionalLight();
 
-Camera& CameraSystem::camera()
-{
-    Camera* foundCamera = nullptr;
-    for (Camera& camera : scene().components<Camera>())
-    {
-        if (!foundCamera)
-        {
-            foundCamera = &camera;
-        }
-    }
-    return *foundCamera;
-}
+    ///
+    /// Returns the world-space direction.
+    const Vector3& direction() const;
 
-void CameraSystem::update()
-{
-    for (Camera& camera : scene().components<Camera>())
-    {
-        Entity entity = camera.entity();
-        auto transform = entity.component<Transform>();
-        if (transform)
-        {
-            camera.transformTo(*transform);
-        }
-    }
+    ///
+    /// Sets the world-space direction.
+    ///
+    /// \param direction The new world-space direction.
+    void setDirection(const Vector3& direction);
+
+    ///
+    /// Returns the color
+    const Vector3& color() const;
+
+    ///
+    /// Sets the color.
+    ///
+    /// \param color The new color.
+    void setColor(const Vector3& color);
+
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+
+private:
+    Vector3 _direction;
+    Vector3 _color;
+};
+
 }

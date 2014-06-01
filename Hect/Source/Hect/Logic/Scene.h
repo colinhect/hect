@@ -28,9 +28,9 @@
 
 #include "Hect/Core/IdPool.h"
 #include "Hect/IO/Encodable.h"
-#include "Hect/Entity/Component.h"
-#include "Hect/Entity/ComponentPool.h"
-#include "Hect/Entity/Entity.h"
+#include "Hect/Logic/Component.h"
+#include "Hect/Logic/ComponentPool.h"
+#include "Hect/Logic/Entity.h"
 
 namespace hect
 {

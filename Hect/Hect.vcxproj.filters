@@ -19,19 +19,6 @@
       <Extensions>
       </Extensions>
     </Filter>
-    <Filter Include="Source\Hect\Entity">
-      <UniqueIdentifier>{5d093005-925d-44ba-8c9b-24d787d83e15}</UniqueIdentifier>
-      <Extensions>
-      </Extensions>
-    </Filter>
-    <Filter Include="Source\Hect\Entity\Components">
-      <UniqueIdentifier>{1cc3b6d0-a00f-4934-b13e-34f3fa1233a7}</UniqueIdentifier>
-      <Extensions>cpp;h;inl</Extensions>
-    </Filter>
-    <Filter Include="Source\Hect\Entity\Systems">
-      <UniqueIdentifier>{dc945a01-43e3-4dc2-9344-675a519ec12a}</UniqueIdentifier>
-      <Extensions>cpp;h;inl</Extensions>
-    </Filter>
     <Filter Include="Source\Hect\Graphics">
       <UniqueIdentifier>{5158d07c-5b8a-4a0c-8051-a9c6f1499976}</UniqueIdentifier>
       <Extensions>
@@ -72,6 +59,26 @@
     </Filter>
     <Filter Include="Source\Hect\Reflection">
       <UniqueIdentifier>{faf25e69-c179-4656-80d1-3c05a4134188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hect\Logic">
+      <UniqueIdentifier>{5d093005-925d-44ba-8c9b-24d787d83e15}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source\Hect\Graphics\Components">
+      <UniqueIdentifier>{98b3f869-1ef0-46d2-97eb-03a284bd9aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hect\Graphics\Systems">
+      <UniqueIdentifier>{36c385a5-f637-4945-9ae9-bb56dc332566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hect\Physics">
+      <UniqueIdentifier>{f8a98ba0-bfdc-45cd-aee7-45e82aefac76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hect\Physics\Components">
+      <UniqueIdentifier>{315aff6b-a996-44fe-b9dc-04228c5a6804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hect\Physics\Systems">
+      <UniqueIdentifier>{0ec1b3ca-5125-4f31-81a5-b8b7f2386dec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -131,15 +138,6 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\Core\Uncopyable.h">
       <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Component.h">
-      <Filter>Source\Hect\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Scene.h">
-      <Filter>Source\Hect\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\System.h">
-      <Filter>Source\Hect\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\FrameBuffer.h">
       <Filter>Source\Hect\Graphics</Filter>
@@ -360,41 +358,50 @@
     <ClInclude Include="Source\Hect\Reflection\Enum.h">
       <Filter>Source\Hect\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\ComponentPool.h">
-      <Filter>Source\Hect\Entity</Filter>
+    <ClInclude Include="Source\Hect\Logic\Component.h">
+      <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Systems\CameraSystem.h">
-      <Filter>Source\Hect\Entity\Systems</Filter>
+    <ClInclude Include="Source\Hect\Logic\ComponentBase.h">
+      <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Systems\RenderSystem.h">
-      <Filter>Source\Hect\Entity\Systems</Filter>
+    <ClInclude Include="Source\Hect\Logic\ComponentPool.h">
+      <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\AmbientLight.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClInclude Include="Source\Hect\Logic\Entity.h">
+      <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\Camera.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClInclude Include="Source\Hect\Logic\Scene.h">
+      <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\DirectionalLight.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClInclude Include="Source\Hect\Logic\System.h">
+      <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\Geometry.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClInclude Include="Source\Hect\Graphics\Components\AmbientLight.h">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\Transform.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClInclude Include="Source\Hect\Graphics\Components\Camera.h">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Systems\PhysicsSystem.h">
-      <Filter>Source\Hect\Entity\Systems</Filter>
+    <ClInclude Include="Source\Hect\Graphics\Components\DirectionalLight.h">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Components\RigidBody.h">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClInclude Include="Source\Hect\Graphics\Components\Geometry.h">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\Entity.h">
-      <Filter>Source\Hect\Entity</Filter>
+    <ClInclude Include="Source\Hect\Graphics\Components\Transform.h">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Entity\ComponentBase.h">
-      <Filter>Source\Hect\Entity</Filter>
+    <ClInclude Include="Source\Hect\Graphics\Systems\CameraSystem.h">
+      <Filter>Source\Hect\Graphics\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\Systems\RenderSystem.h">
+      <Filter>Source\Hect\Graphics\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h">
+      <Filter>Source\Hect\Physics\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h">
+      <Filter>Source\Hect\Physics\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -427,12 +434,6 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp">
       <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Scene.cpp">
-      <Filter>Source\Hect\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\System.cpp">
-      <Filter>Source\Hect\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\FrameBuffer.cpp">
       <Filter>Source\Hect\Graphics</Filter>
@@ -656,38 +657,44 @@
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp">
       <Filter>Source\Hect\Reflection</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Systems\CameraSystem.cpp">
-      <Filter>Source\Hect\Entity\Systems</Filter>
+    <ClCompile Include="Source\Hect\Logic\ComponentPool.cpp">
+      <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Systems\RenderSystem.cpp">
-      <Filter>Source\Hect\Entity\Systems</Filter>
+    <ClCompile Include="Source\Hect\Logic\Entity.cpp">
+      <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\AmbientLight.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClCompile Include="Source\Hect\Logic\Scene.cpp">
+      <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\Camera.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClCompile Include="Source\Hect\Logic\System.cpp">
+      <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\DirectionalLight.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClCompile Include="Source\Hect\Graphics\Components\AmbientLight.cpp">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\Geometry.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\Transform.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\ComponentPool.cpp">
-      <Filter>Source\Hect\Entity</Filter>
+    <ClCompile Include="Source\Hect\Graphics\Components\Geometry.cpp">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Systems\PhysicsSystem.cpp">
-      <Filter>Source\Hect\Entity\Systems</Filter>
+    <ClCompile Include="Source\Hect\Graphics\Components\Transform.cpp">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Components\RigidBody.cpp">
-      <Filter>Source\Hect\Entity\Components</Filter>
+    <ClCompile Include="Source\Hect\Graphics\Systems\CameraSystem.cpp">
+      <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Entity\Entity.cpp">
-      <Filter>Source\Hect\Entity</Filter>
+    <ClCompile Include="Source\Hect\Graphics\Systems\RenderSystem.cpp">
+      <Filter>Source\Hect\Graphics\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp">
+      <Filter>Source\Hect\Physics\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp">
+      <Filter>Source\Hect\Physics\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -708,12 +715,6 @@
     </None>
     <None Include="Source\Hect\Core\IdPool.inl">
       <Filter>Source\Hect\Core</Filter>
-    </None>
-    <None Include="Source\Hect\Entity\Component.inl">
-      <Filter>Source\Hect\Entity</Filter>
-    </None>
-    <None Include="Source\Hect\Entity\Scene.inl">
-      <Filter>Source\Hect\Entity</Filter>
     </None>
     <None Include="Source\Hect\Math\Matrix4.inl">
       <Filter>Source\Hect\Math</Filter>
@@ -736,11 +737,17 @@
     <None Include="Source\Hect\Reflection\Enum.inl">
       <Filter>Source\Hect\Reflection</Filter>
     </None>
-    <None Include="Source\Hect\Entity\ComponentPool.inl">
-      <Filter>Source\Hect\Entity</Filter>
+    <None Include="Source\Hect\Logic\Component.inl">
+      <Filter>Source\Hect\Logic</Filter>
     </None>
-    <None Include="Source\Hect\Entity\Entity.inl">
-      <Filter>Source\Hect\Entity</Filter>
+    <None Include="Source\Hect\Logic\ComponentPool.inl">
+      <Filter>Source\Hect\Logic</Filter>
+    </None>
+    <None Include="Source\Hect\Logic\Entity.inl">
+      <Filter>Source\Hect\Logic</Filter>
+    </None>
+    <None Include="Source\Hect\Logic\Scene.inl">
+      <Filter>Source\Hect\Logic</Filter>
     </None>
   </ItemGroup>
 </Project>

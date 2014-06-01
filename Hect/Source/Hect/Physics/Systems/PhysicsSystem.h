@@ -24,34 +24,62 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Entity/System.h"
-#include "Hect/Entity/Components/Camera.h"
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/Core/Listener.h"
+#include "Hect/Logic/ComponentPool.h"
+#include "Hect/Logic/System.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/Renderer.h"
+
+// Forward declare Bullet classes
+class btCollisionConfiguration;
+class btCollisionDispatcher;
+class btBroadphaseInterface;
+class btConstraintSolver;
+class btDynamicsWorld;
+class btTriangleMesh;
 
 namespace hect
 {
 
 ///
-/// Provides basic rendering.
-class HECT_API RenderSystem :
-    public System
+/// Simulates physical interactions of physical bodies.
+class HECT_API PhysicsSystem :
+    public System,
+    public Listener<ComponentPoolEvent>,
+    public Uncopyable
 {
 public:
-    RenderSystem(Scene& scene, Renderer& renderer);
+    PhysicsSystem(Scene& scene);
+    ~PhysicsSystem();
+
+    void update(Real timeStep, unsigned maxSubStepCount);
+
+    void updateTransforms();
 
     ///
-    /// Renders all visible entities.
-    ///
-    /// \param camera The camera to render from.
-    /// \param target The target to render to.
-    virtual void renderAll(Camera& camera, RenderTarget& target);
+    /// Returns the gravity.
+    const Vector3& gravity() const;
 
-protected:
-    void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
+    ///
+    /// Sets the gravity.
+    ///
+    /// \param gravity The new gravity.
+    void setGravity(const Vector3& gravity);
+
+    void receiveEvent(const ComponentPoolEvent& event);
 
 private:
-    Renderer* _renderer;
+    btTriangleMesh* _toBulletMesh(Mesh* mesh);
+
+    std::shared_ptr<btCollisionConfiguration> _configuration;
+    std::shared_ptr<btCollisionDispatcher> _dispatcher;
+    std::shared_ptr<btBroadphaseInterface> _broadphase;
+    std::shared_ptr<btConstraintSolver> _solver;
+    std::shared_ptr<btDynamicsWorld> _world;
+
+    std::map<Mesh*, std::shared_ptr<btTriangleMesh>> _bulletMeshes;
+
+    Vector3 _gravity;
 };
 
 }

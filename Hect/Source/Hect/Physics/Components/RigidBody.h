@@ -24,53 +24,82 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Entity/Component.h"
-#include "Hect/Graphics/Material.h"
+#include "Hect/Logic/Component.h"
 #include "Hect/Graphics/Mesh.h"
+
+// Forward declare Bullet classes
+class btRigidBody;
+class btMotionState;
+class btCollisionShape;
 
 namespace hect
 {
 
 ///
-/// A geometry component.
-class HECT_API Geometry :
-    public Component<Geometry>
+/// A simulated physical body.
+class HECT_API RigidBody :
+    public Component<RigidBody>
 {
+    friend class PhysicsSystem;
 public:
+    RigidBody();
 
     ///
-    /// Adds a surface.
-    ///
-    /// \param mesh The mesh.
-    /// \param material The material.
-    void addSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
+    /// Returns the mass.
+    Real mass() const;
 
     ///
-    /// Returns the number of surfaces.
-    size_t surfaceCount() const;
+    /// Sets the mass.
+    ///
+    /// \param mass The new mass.
+    void setMass(Real mass);
 
     ///
-    /// Returns the meshes.
-    AssetHandle<Mesh>::Array& meshes();
+    /// Returns the linear velocity.
+    const Vector3& linearVelocity() const;
 
     ///
-    /// Returns the meshes.
-    const AssetHandle<Mesh>::Array& meshes() const;
+    /// Sets the linear velocity.
+    ///
+    /// \param linearVelocity The new linear velocity.
+    void setLinearVelocity(const Vector3& linearVelocity);
 
     ///
-    /// Returns the materials
-    AssetHandle<Material>::Array& materials();
+    /// Returns the angular velocity.
+    const Vector3& angularVelocity() const;
 
     ///
-    /// Returns the materials
-    const AssetHandle<Material>::Array& materials() const;
+    /// Sets the angular velocity.
+    ///
+    /// \param angularVelocity The new angular velocity.
+    void setAngularVelocity(const Vector3& angularVelocity);
+
+    ///
+    /// Returns the mesh.
+    AssetHandle<Mesh>& mesh();
+
+    ///
+    /// Returns the mesh.
+    const AssetHandle<Mesh>& mesh() const;
+
+    ///
+    /// Sets the mesh.
+    ///
+    /// \param mesh The new mesh.
+    void setMesh(const AssetHandle<Mesh>& mesh);
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    AssetHandle<Mesh>::Array _meshes;
-    AssetHandle<Material>::Array _materials;
+    Real _mass;
+    mutable Vector3 _linearVelocity;
+    mutable Vector3 _angularVelocity;
+    AssetHandle<Mesh> _mesh;
+
+    std::shared_ptr<btRigidBody> _rigidBody;
+    std::shared_ptr<btMotionState> _motionState;
+    std::shared_ptr<btCollisionShape> _collisionShape;
 };
 
 }

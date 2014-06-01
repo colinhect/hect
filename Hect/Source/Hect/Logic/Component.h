@@ -25,8 +25,8 @@
 
 #include <typeindex>
 
-#include "Hect/Entity/ComponentBase.h"
-#include "Hect/Entity/Entity.h"
+#include "Hect/Logic/ComponentBase.h"
+#include "Hect/Logic/Entity.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect

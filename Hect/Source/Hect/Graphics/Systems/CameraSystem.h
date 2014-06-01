@@ -24,35 +24,34 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Entity/Component.h"
-#include "Hect/Math/Vector3.h"
+#include "Hect/Logic/System.h"
+#include "Hect/Graphics/Components/Camera.h"
 
 namespace hect
 {
 
 ///
-/// An ambient light component
-class HECT_API AmbientLight :
-    public Component<AmbientLight>
+/// Provides access to the active camera in the scene.
+class HECT_API CameraSystem :
+    public System
 {
 public:
-    AmbientLight();
+    CameraSystem(Scene& scene);
 
     ///
-    /// Returns the color
-    const Vector3& color() const;
+    /// Returns whether there is an active camera in the scene.
+    bool hasCamera() const;
 
     ///
-    /// Sets the color.
+    /// Returns the active camera in the scene.
     ///
-    /// \param color The new color.
-    void setColor(const Vector3& color);
+    /// \warning Always call hasCamera() before calling this function to
+    /// avoid undefined behavior.
+    Camera& camera();
 
-    void encode(ObjectEncoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
-private:
-    Vector3 _color;
+    ///
+    /// Updates all cameras to follow their transforms.
+    void update();
 };
 
 }

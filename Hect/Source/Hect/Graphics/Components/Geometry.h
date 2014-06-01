@@ -24,34 +24,53 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Entity/System.h"
-#include "Hect/Entity/Components/Camera.h"
+#include "Hect/Logic/Component.h"
+#include "Hect/Graphics/Material.h"
+#include "Hect/Graphics/Mesh.h"
 
 namespace hect
 {
 
 ///
-/// Provides access to the active camera in the scene.
-class HECT_API CameraSystem :
-    public System
+/// A geometry component.
+class HECT_API Geometry :
+    public Component<Geometry>
 {
 public:
-    CameraSystem(Scene& scene);
 
     ///
-    /// Returns whether there is an active camera in the scene.
-    bool hasCamera() const;
+    /// Adds a surface.
+    ///
+    /// \param mesh The mesh.
+    /// \param material The material.
+    void addSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
 
     ///
-    /// Returns the active camera in the scene.
-    ///
-    /// \warning Always call hasCamera() before calling this function to
-    /// avoid undefined behavior.
-    Camera& camera();
+    /// Returns the number of surfaces.
+    size_t surfaceCount() const;
 
     ///
-    /// Updates all cameras to follow their transforms.
-    void update();
+    /// Returns the meshes.
+    AssetHandle<Mesh>::Array& meshes();
+
+    ///
+    /// Returns the meshes.
+    const AssetHandle<Mesh>::Array& meshes() const;
+
+    ///
+    /// Returns the materials
+    AssetHandle<Material>::Array& materials();
+
+    ///
+    /// Returns the materials
+    const AssetHandle<Material>::Array& materials() const;
+
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+
+private:
+    AssetHandle<Mesh>::Array _meshes;
+    AssetHandle<Material>::Array _materials;
 };
 
 }

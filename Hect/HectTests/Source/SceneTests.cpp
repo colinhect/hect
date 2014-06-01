@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Entity/Scene.h>
+#include <Hect/Logic/Scene.h>
 using namespace hect;
 
 #include <catch.hpp>

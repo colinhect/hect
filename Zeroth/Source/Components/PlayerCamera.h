@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Entity/Component.h>
+#include <Hect/Logic/Component.h>
 
 class PlayerCamera :
     public hect::Component<PlayerCamera>

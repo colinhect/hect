@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <Hect/Entity/Scene.h>
-#include <Hect/Entity/System.h>
+#include <Hect/Logic/Scene.h>
+#include <Hect/Logic/System.h>
 #include <Hect/Input/InputSystem.h>
 
 #include "Components/PlayerCamera.h"

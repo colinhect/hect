@@ -24,82 +24,35 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Entity/Component.h"
-#include "Hect/Graphics/Mesh.h"
-
-// Forward declare Bullet classes
-class btRigidBody;
-class btMotionState;
-class btCollisionShape;
+#include "Hect/Logic/Component.h"
+#include "Hect/Math/Vector3.h"
 
 namespace hect
 {
 
 ///
-/// A simulated physical body.
-class HECT_API RigidBody :
-    public Component<RigidBody>
+/// An ambient light component
+class HECT_API AmbientLight :
+    public Component<AmbientLight>
 {
-    friend class PhysicsSystem;
 public:
-    RigidBody();
+    AmbientLight();
 
     ///
-    /// Returns the mass.
-    Real mass() const;
+    /// Returns the color
+    const Vector3& color() const;
 
     ///
-    /// Sets the mass.
+    /// Sets the color.
     ///
-    /// \param mass The new mass.
-    void setMass(Real mass);
-
-    ///
-    /// Returns the linear velocity.
-    const Vector3& linearVelocity() const;
-
-    ///
-    /// Sets the linear velocity.
-    ///
-    /// \param linearVelocity The new linear velocity.
-    void setLinearVelocity(const Vector3& linearVelocity);
-
-    ///
-    /// Returns the angular velocity.
-    const Vector3& angularVelocity() const;
-
-    ///
-    /// Sets the angular velocity.
-    ///
-    /// \param angularVelocity The new angular velocity.
-    void setAngularVelocity(const Vector3& angularVelocity);
-
-    ///
-    /// Returns the mesh.
-    AssetHandle<Mesh>& mesh();
-
-    ///
-    /// Returns the mesh.
-    const AssetHandle<Mesh>& mesh() const;
-
-    ///
-    /// Sets the mesh.
-    ///
-    /// \param mesh The new mesh.
-    void setMesh(const AssetHandle<Mesh>& mesh);
+    /// \param color The new color.
+    void setColor(const Vector3& color);
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    Real _mass;
-    mutable Vector3 _linearVelocity;
-    mutable Vector3 _angularVelocity;
-    AssetHandle<Mesh> _mesh;
-
-    std::shared_ptr<btRigidBody> _rigidBody;
-    std::shared_ptr<btMotionState> _motionState;
-    std::shared_ptr<btCollisionShape> _collisionShape;
+    Vector3 _color;
 };
 
 }
