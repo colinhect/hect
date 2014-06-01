@@ -25,7 +25,7 @@ namespace hect
 {
 
 template <typename T>
-typename ComponentPool<T>::Iterator Entity::addComponent(const T& component)
+typename ComponentPool<T>::Iterator Entity::addComponent(T component)
 {
     _ensureExists();
     return _scene->components<T>().add(_id, component);

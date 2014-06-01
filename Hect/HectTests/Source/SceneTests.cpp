@@ -77,18 +77,24 @@ TEST_CASE("Scene_CreateAndDestroyEntities")
     // Create a
     Entity a = scene.createEntity();
     REQUIRE(a);
+    REQUIRE(scene.entityCount() == 0);
+
+    a.activate();
     REQUIRE(scene.entityCount() == 1);
 
     // Create b
     Entity b = scene.createEntity();
     REQUIRE(a);
     REQUIRE(b);
+    b.activate();
     REQUIRE(scene.entityCount() == 2);
 
     // Create c
     Entity c = scene.createEntity();
     REQUIRE(a);
     REQUIRE(b);
+    REQUIRE(c);
+    c.activate();
     REQUIRE(c);
     REQUIRE(scene.entityCount() == 3);
 
@@ -125,11 +131,13 @@ TEST_CASE("Scene_AddRemoveComponents")
 
     Entity a = scene.createEntity();
     a.addComponent(Name("a"));
+    a.activate();
 
     SECTION("With more than one entity")
     {
         Entity b = scene.createEntity();
         b.addComponent(Name("b"));
+        b.activate();
         
         auto name = b.component<Name>();
         REQUIRE(name);
@@ -165,11 +173,12 @@ TEST_CASE("Scene_CloneEntity")
     REQUIRE(scene.entityCount() == 0);
 
     Entity a = scene.createEntity();
+    a.addComponent(Name("a"));
+    a.activate();
     REQUIRE(scene.entityCount() == 1);
 
-    a.addComponent(Name("a"));
-
     Entity b = a.clone();
+    b.activate();
     REQUIRE(scene.entityCount() == 2);
 
     Name* nameA = &*a.component<Name>();
@@ -204,9 +213,14 @@ TEST_CASE("Scene_IterateComponents")
 
     Entity a = scene.createEntity();
     a.addComponent(Name("a"));
+    a.activate();
 
     Entity b = scene.createEntity();
     b.addComponent(Name("b"));
+
+    Entity c = scene.createEntity();
+    c.addComponent(Name("c"));
+    c.activate();
 
     std::vector<std::string> foundNames;
     for (Name& name : scene.components<Name>())
@@ -216,7 +230,7 @@ TEST_CASE("Scene_IterateComponents")
 
     REQUIRE(foundNames.size() == 2);
     REQUIRE(foundNames[0] == "a");
-    REQUIRE(foundNames[1] == "b");
+    REQUIRE(foundNames[1] == "c");
 }
 
 TEST_CASE("Scene_IterateComponentsConst")
@@ -226,9 +240,14 @@ TEST_CASE("Scene_IterateComponentsConst")
 
     Entity a = scene.createEntity();
     a.addComponent(Name("a"));
+    a.activate();
 
     Entity b = scene.createEntity();
     b.addComponent(Name("b"));
+
+    Entity c = scene.createEntity();
+    c.addComponent(Name("c"));
+    c.activate();
 
     std::vector<std::string> foundNames;
     const Scene& sceneConst = scene;
@@ -239,7 +258,7 @@ TEST_CASE("Scene_IterateComponentsConst")
 
     REQUIRE(foundNames.size() == 2);
     REQUIRE(foundNames[0] == "a");
-    REQUIRE(foundNames[1] == "b");
+    REQUIRE(foundNames[1] == "c");
 }
 
 TEST_CASE("Scene_ComponentPoolListeners")
@@ -252,9 +271,13 @@ TEST_CASE("Scene_ComponentPoolListeners")
 
     Entity a = scene.createEntity();
     a.addComponent(Name("a"));
+    REQUIRE(listener.receivedEvents.size() == 0);
+    a.activate();
 
     Entity b = scene.createEntity();
     b.addComponent(Name("b"));
+    REQUIRE(listener.receivedEvents.size() == 1);
+    b.activate();
 
     REQUIRE(listener.receivedEvents.size() == 2);
     REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Add);

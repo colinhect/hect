@@ -35,7 +35,8 @@
 using namespace hect;
 
 EntityData::EntityData() :
-    exists(false)
+    exists(false),
+    activated(false)
 {
 }
 
@@ -59,10 +60,24 @@ Entity Scene::createEntity()
     {
         _entityData.resize(std::max(_entityData.size() * 2, (size_t)8));
     }
-    _entityData[entityId].exists = true;
-    ++_entityCount;
+
+    EntityData& entityData = _entityData[entityId];
+    entityData.exists = true;
+    entityData.activated = false;
 
     return Entity(*this, entityId);
+}
+
+bool Scene::entityIsActivated(EntityId entityId) const
+{
+    bool entityActivated = false;
+    if (entityId < _entityData.size())
+    {
+        const EntityData& entityData = _entityData[entityId];
+        entityActivated = entityData.activated;
+    }
+
+    return entityActivated;
 }
 
 size_t Scene::entityCount() const
@@ -96,6 +111,8 @@ void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
                 entity.addComponentBase(*component);
             }
         }
+
+        entity.activate();
     }
 }
 
@@ -125,10 +142,45 @@ void Scene::_destroyEntity(EntityId entityId)
             }
             entityExisted = true;
             entityData.exists = false;
+            if (entityData.activated)
+            {
+                --_entityCount;
+                entityData.activated = false;
+            }
             _entityIdPool.destroy(entityId);
-            --_entityCount;
         }
     }
+}
+
+void Scene::_activateEntity(EntityId entityId)
+{
+    if (entityId >= _entityData.size())
+    {
+        throw Error("Entity does not exist");
+    }
+
+    EntityData& entityData = _entityData[entityId];
+    if (!entityData.exists)
+    {
+        throw Error("Entity does not exist");
+    }
+
+    if (entityData.activated)
+    {
+        throw Error("Entity is already activated");
+    }
+
+    for (auto& pair : _componentPools)
+    {
+        auto componentPool = pair.second;
+        if (componentPool->has(entityId))
+        {
+            componentPool->dispatcher().notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entityId));
+        }
+    }
+
+    entityData.activated = true;
+    ++_entityCount;
 }
 
 bool Scene::_entityExists(EntityId entityId) const

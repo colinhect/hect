@@ -107,6 +107,12 @@ public:
     /// \param sourceEntityId The id of the entity to copy the component from.
     /// \param destEntityId The id of the entity to copy the component to.
     virtual void clone(EntityId sourceEntityId, EntityId destEntityId) = 0;
+
+    ///
+    /// Returns whether an entity has a component in the pool.
+    ///
+    /// \param entityId The id of the entity.
+    virtual bool has(EntityId entityId) const = 0;
 };
 
 class Scene;
@@ -125,6 +131,7 @@ public:
     {
         friend class ComponentPool<T>;
     public:
+        Iterator();
 
         ///
         /// Returns whether the iterator refers to a valid component.
@@ -171,6 +178,7 @@ public:
     {
         friend class ComponentPool<T>;
     public:
+        ConstIterator();
 
         ///
         /// Returns whether the iterator refers to a valid component.
@@ -237,7 +245,7 @@ public:
     /// \param component The component to add.
     ///
     /// \returns An iterator to the newly added component.
-    Iterator add(EntityId entityId, const T& component);
+    Iterator add(EntityId entityId, T component);
 
     ///
     /// Removes a component from an entity.

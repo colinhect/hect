@@ -25,6 +25,13 @@ namespace hect
 {
 
 template <typename T>
+ComponentPool<T>::Iterator::Iterator() :
+    _components(nullptr),
+    _index((size_t)-1)
+{
+}
+
+template <typename T>
 bool ComponentPool<T>::Iterator::isValid() const
 {
     return _components
@@ -51,12 +58,20 @@ T* ComponentPool<T>::Iterator::operator->() const
 template <typename T>
 typename ComponentPool<T>::Iterator& ComponentPool<T>::Iterator::operator++()
 {
-    // Move to the next component
     size_t size = _components->size();
+    Entity entity;
     do
     {
         ++_index;
-    } while (_index < size && !(*_components)[_index].entity().exists());
+        if (_index < size)
+        {
+            entity = (*_components)[_index].entity();
+        }
+        else
+        {
+            break;
+        }
+    } while (!entity.exists() || !entity.isActivated());
 
     return *this;
 }
@@ -84,15 +99,31 @@ ComponentPool<T>::Iterator::Iterator(std::vector<T>* components, size_t index) :
     _components(components),
     _index(index)
 {
-    if (_components)
+    if (_components && _index < _components->size())
     {
         // Move to the first component
         size_t size = _components->size();
-        while (_index < size && !(*_components)[_index].entity().exists())
+        Entity entity = (*_components)[_index].entity();
+        while (_index < size && (!entity.exists() || !entity.isActivated()))
         {
             ++_index;
+            if (_index < size)
+            {
+                entity = (*_components)[_index].entity();
+            }
+            else
+            {
+                break;
+            }
         }
     }
+}
+
+template <typename T>
+ComponentPool<T>::ConstIterator::ConstIterator() :
+    _components(nullptr),
+    _index((size_t)-1)
+{
 }
 
 template <typename T>
@@ -122,12 +153,20 @@ const T* ComponentPool<T>::ConstIterator::operator->() const
 template <typename T>
 typename ComponentPool<T>::ConstIterator& ComponentPool<T>::ConstIterator::operator++()
 {
-    // Move to the next component
     size_t size = _components->size();
+    Entity entity;
     do
     {
         ++_index;
-    } while (_index < size && !(*_components)[_index].entity().exists());
+        if (_index < size)
+        {
+            entity = (*_components)[_index].entity();
+        }
+        else
+        {
+            break;
+        }
+    } while (!entity.exists() || !entity.isActivated());
 
     return *this;
 }
@@ -155,13 +194,22 @@ ComponentPool<T>::ConstIterator::ConstIterator(const std::vector<T>* components,
     _components(components),
     _index(index)
 {
-    if (_components)
+    if (_components && _index < _components->size())
     {
         // Move to the first component
         size_t size = _components->size();
-        while (_index < size && !(*_components)[_index].entity().exists())
+        Entity entity = (*_components)[_index].entity();
+        while (_index < size && (!entity.exists() || !entity.isActivated()))
         {
             ++_index;
+            if (_index < size)
+            {
+                entity = (*_components)[_index].entity();
+            }
+            else
+            {
+                break;
+            }
         }
     }
 }
@@ -185,7 +233,7 @@ void ComponentPool<T>::add(EntityId entityId, const ComponentBase& component)
 }
 
 template <typename T>
-typename ComponentPool<T>::Iterator ComponentPool<T>::add(EntityId entityId, const T& component)
+typename ComponentPool<T>::Iterator ComponentPool<T>::add(EntityId entityId, T component)
 {
     // Expand the entity to component vector if needed
     while (entityId >= _entityIdToComponentId.size())
@@ -219,9 +267,15 @@ typename ComponentPool<T>::Iterator ComponentPool<T>::add(EntityId entityId, con
     addedComponent._entity = Entity(*_scene, entityId);
 
     // Dispatch the add event
-    _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entityId));
+    if (_scene->entityIsActivated(entityId))
+    {
+        _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entityId));
+    }
 
-    return Iterator(&_components, componentId);
+    Iterator iterator;
+    iterator._components = &_components;
+    iterator._index = componentId;
+    return iterator;
 }
 
 template <typename T>
@@ -233,9 +287,12 @@ bool ComponentPool<T>::remove(EntityId entityId)
         ComponentId& componentId = _entityIdToComponentId[entityId];
         if (componentId != (ComponentId)-1)
         {
-            // Dispatch the add event
-            _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
-            
+            // Dispatch the remove event
+            if (_scene->entityIsActivated(entityId))
+            {
+                _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
+            }
+
             _componentIdPool.destroy(componentId);
 
             hadComponent = true;
@@ -281,7 +338,10 @@ typename ComponentPool<T>::Iterator ComponentPool<T>::get(EntityId entityId)
         ComponentId& componentId = _entityIdToComponentId[entityId];
         if (componentId != (ComponentId)-1)
         {
-            return Iterator(&_components, componentId);
+            Iterator iterator;
+            iterator._components = &_components;
+            iterator._index = componentId;
+            return iterator;
         }
     }
 

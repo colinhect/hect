@@ -38,7 +38,7 @@ public:
     void addComponentBase(const ComponentBase& component);
 
     template <typename T>
-    typename ComponentPool<T>::Iterator addComponent(const T& component);
+    typename ComponentPool<T>::Iterator addComponent(T component);
 
     template <typename T>
     bool removeComponent();
@@ -48,6 +48,9 @@ public:
 
     Entity clone() const;
     void destroy();
+    void activate();
+
+    bool isActivated() const;
 
     bool exists() const;
 

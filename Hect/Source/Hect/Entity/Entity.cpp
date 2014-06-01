@@ -64,6 +64,22 @@ void Entity::destroy()
     _scene->_destroyEntity(_id);
 }
 
+void Entity::activate()
+{
+    _ensureExists();
+    _scene->_activateEntity(_id);
+}
+
+bool Entity::isActivated() const
+{
+    if (_scene)
+    {
+        return _scene->entityIsActivated(_id);
+    }
+
+    return false;
+}
+
 bool Entity::exists() const
 {
     if (_scene)

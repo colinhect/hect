@@ -132,11 +132,13 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
                 transform->setPosition(playerEntity.component<Transform>()->position());
             }
             
-            RigidBody rigidBody;
-            rigidBody.setMass(1.0f);
-            rigidBody.setMesh(geometry->meshes()[0]);
-            rigidBody.setLinearVelocity(playerCamera->front() * 15.0f);
-            cloneEntity.addComponent(rigidBody);
+            auto rigidBody = cloneEntity.component<RigidBody>();
+            if (rigidBody)
+            {
+                rigidBody->setLinearVelocity(playerCamera->front() * 15.0f);
+            }
+
+            cloneEntity.activate();
         }
     }
 }

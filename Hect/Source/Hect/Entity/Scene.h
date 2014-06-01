@@ -40,6 +40,7 @@ struct HECT_API EntityData
     EntityData();
 
     bool exists;
+    bool activated;
 };
 
 ///
@@ -56,6 +57,8 @@ public:
     Scene();
 
     Entity createEntity();
+
+    bool entityIsActivated(EntityId entityId) const;
 
     size_t entityCount() const;
 
@@ -83,6 +86,8 @@ private:
     EntityId _cloneEntity(EntityId entityId);
 
     void _destroyEntity(EntityId entityId);
+
+    void _activateEntity(EntityId entityId);
 
     bool _entityExists(EntityId entityId) const;
 
