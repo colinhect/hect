@@ -2,8 +2,7 @@
     "components" :
     [
         {
-            "type" : "Transform",
-            "position" : [ 0, 0, -10 ]
+            "type" : "Transform"
         },
         {
             "type" : "Geometry",
@@ -14,6 +13,11 @@
                   "material" : "Cube.material"
                }
             ]
+        },
+        {
+            "type" : "RigidBody",
+            "mass" : 1.0,
+            "mesh" : "Cube.mesh"
         }
     ]
 }

@@ -90,7 +90,7 @@ public:
     ///
     /// \param entityId The id of the entity.
     /// \param component The component to add.
-    virtual void add(EntityId entityId, const ComponentBase& component) = 0;
+    virtual void addBase(EntityId entityId, const ComponentBase& component) = 0;
 
     ///
     /// Removes a component from an entity.
@@ -113,6 +113,8 @@ public:
     ///
     /// \param entityId The id of the entity.
     virtual bool has(EntityId entityId) const = 0;
+
+    virtual ComponentBase& getBase(EntityId entityId) = 0;
 };
 
 class Scene;
@@ -233,7 +235,7 @@ public:
     ///
     /// \param entityId The id of the entity.
     /// \param component The component to add.
-    void add(EntityId entityId, const ComponentBase& component);
+    void addBase(EntityId entityId, const ComponentBase& component);
 
     ///
     /// Adds a component to an entity.
@@ -268,6 +270,8 @@ public:
     ///
     /// \param entityId The id of the entity.
     bool has(EntityId entityId) const;
+
+    ComponentBase& getBase(EntityId entityId);
 
     ///
     /// Returns the component of the given entity.

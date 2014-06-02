@@ -47,7 +47,7 @@ void Entity::addComponentBase(const ComponentBase& component)
     auto it = _scene->_componentPools.find(typeIndex);
     if (it != _scene->_componentPools.end())
     {
-        it->second->add(_id, component);
+        it->second->addBase(_id, component);
     }
 }
 
@@ -107,7 +107,19 @@ EntityId Entity::id() const
     return _id;
 }
 
-bool Entity::operator == (const Entity& entity) const
+void Entity::encode(ObjectEncoder& encoder) const
+{
+    _ensureExists();
+    _scene->_encodeComponents(*this, encoder);
+}
+
+void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+{
+    _ensureExists();
+    _scene->_decodeComponents(*this, decoder, assetCache);
+}
+
+bool Entity::operator==(const Entity& entity) const
 {
     return _scene == entity._scene && _id == entity._id;
 }

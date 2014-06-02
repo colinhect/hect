@@ -63,6 +63,9 @@ private:
 
     hect::Scene _scene;
 
+    hect::Entity _player;
+    hect::Entity _cube;
+
     hect::CameraSystem _cameraSystem;
     hect::RenderSystem _renderSystem;
     hect::PhysicsSystem _physicsSystem;

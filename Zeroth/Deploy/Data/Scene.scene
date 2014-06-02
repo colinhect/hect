@@ -2,43 +2,15 @@
     "entities" :
     [
         {
-            "components" :
-            [
-                {
-                    "type" : "Transform"
-                },
-                {
-                    "type" : "Camera",
-                    "fieldOfView" : 80,
-                    "nearClip" : 0.01,
-                    "farClip" : 250000
-                },
-                {
-                    "type" : "PlayerCamera"
-                }
-            ]
+            "archetype" : "Player.entity"
         },
         {
+            "archetype" : "Cube.entity",
             "components" :
             [
                 {
                     "type" : "Transform",
                     "position" : [ 0, 0, -10 ]
-                },
-                {
-                    "type" : "Geometry",
-                    "surfaces" :
-                    [
-                       {
-                          "mesh" : "Cube.mesh",
-                          "material" : "Cube.material"
-                       }
-                    ]
-                },
-                {
-                    "type" : "RigidBody",
-                    "mass" : 1.0,
-                    "mesh" : "Cube.mesh"
                 }
             ]
         }

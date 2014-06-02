@@ -91,6 +91,9 @@ private:
 
     bool _entityExists(EntityId entityId) const;
 
+    void _encodeComponents(Entity entity, ObjectEncoder& encoder);
+    void _decodeComponents(Entity entity, ObjectDecoder& decoder, AssetCache& assetCache);
+
     ComponentBase* _createComponentByName(const std::string& componentName);
 
     IdPool<EntityId> _entityIdPool;
@@ -98,6 +101,7 @@ private:
     size_t _entityCount;
 
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
+    std::map<std::type_index, std::string> _componentTypeNames;
     std::map<std::string, std::function<ComponentBase*(void)>> _componentConstructors;
 };
 

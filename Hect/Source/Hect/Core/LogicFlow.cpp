@@ -46,7 +46,7 @@ void LogicFlow::removeAllLayers()
 {
     _layers.clear();
 }
-#include <Windows.h>
+
 bool LogicFlow::update()
 {
     _removeInactiveLayers();

@@ -227,7 +227,7 @@ Dispatcher<ComponentPoolEvent>& ComponentPool<T>::dispatcher()
 }
 
 template <typename T>
-void ComponentPool<T>::add(EntityId entityId, const ComponentBase& component)
+void ComponentPool<T>::addBase(EntityId entityId, const ComponentBase& component)
 {
     add(entityId, *(T*)&component);
 }
@@ -328,6 +328,17 @@ bool ComponentPool<T>::has(EntityId entityId) const
     }
 
     return entityHasComponent;
+}
+
+template <typename T>
+ComponentBase& ComponentPool<T>::getBase(EntityId entityId)
+{
+    auto component = get(entityId);
+    if (!component)
+    {
+        throw Error("Entity does not have a component in this pool");
+    }
+    return *component;
 }
 
 template <typename T>

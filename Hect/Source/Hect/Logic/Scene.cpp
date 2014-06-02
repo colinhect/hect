@@ -29,6 +29,7 @@
 #include "Hect/Graphics/Components/Geometry.h"
 #include "Hect/Graphics/Components/Transform.h"
 #include "Hect/Physics/Components/RigidBody.h"
+#include "Hect/IO/JsonDecoder.h"
 
 #include <algorithm>
 
@@ -87,7 +88,8 @@ size_t Scene::entityCount() const
 
 void Scene::encode(ObjectEncoder& encoder) const
 {
-    encoder;
+    ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
+    // 
 }
 
 void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
@@ -99,17 +101,17 @@ void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 
         ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
         {
-            ArrayDecoder componentsDecoder = entityDecoder.decodeArray("components");
-            while (componentsDecoder.hasMoreElements())
+            if (entityDecoder.hasMember("archetype"))
             {
-                ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
+                std::string archetype = entityDecoder.decodeString("archetype");
+                JsonValue& jsonValue = assetCache.get<JsonValue>(archetype);
 
-                std::string componentName = componentDecoder.decodeString("type");
-                std::unique_ptr<ComponentBase> component(_createComponentByName(componentName));
-                component->decode(componentDecoder, assetCache);
-
-                entity.addComponentBase(*component);
+                JsonDecoder jsonDecoder(jsonValue);
+                ObjectDecoder archetypeDecoder = jsonDecoder.decodeObject();
+                _decodeComponents(entity, archetypeDecoder, assetCache);
             }
+
+            _decodeComponents(entity, entityDecoder, assetCache);
         }
 
         entity.activate();
@@ -193,6 +195,43 @@ bool Scene::_entityExists(EntityId entityId) const
     }
 
     return entityExists;
+}
+
+void Scene::_encodeComponents(Entity entity, ObjectEncoder& encoder)
+{
+    ArrayEncoder componentsEncoder = encoder.encodeArray("components");
+
+    for (auto& pair : _componentPools)
+    {
+        auto componentPool = pair.second;
+        if (componentPool->has(entity.id()))
+        {
+            ComponentBase& component = componentPool->getBase(entity.id());
+            std::string typeName = _componentTypeNames[component.typeIndex()];
+
+            ObjectEncoder componentEncoder = componentsEncoder.encodeObject();
+            componentEncoder.encodeString("type", typeName);
+            component.encode(componentEncoder);
+        }
+    }
+}
+
+void Scene::_decodeComponents(Entity entity, ObjectDecoder& decoder, AssetCache& assetCache)
+{
+    if (decoder.hasMember("components"))
+    {
+        ArrayDecoder componentsDecoder = decoder.decodeArray("components");
+        while (componentsDecoder.hasMoreElements())
+        {
+            ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
+
+            std::string componentName = componentDecoder.decodeString("type");
+            std::unique_ptr<ComponentBase> component(_createComponentByName(componentName));
+            component->decode(componentDecoder, assetCache);
+
+            entity.addComponentBase(*component);
+        }
+    }
 }
 
 ComponentBase* Scene::_createComponentByName(const std::string& componentName)

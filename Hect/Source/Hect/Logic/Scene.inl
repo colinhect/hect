@@ -32,6 +32,9 @@ void Scene::registerComponent(const std::string& componentName)
     // Create a component pool for this type of component
     _componentPools[typeIndex] = std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>(this));
 
+    //
+    _componentTypeNames[typeIndex] = componentName;
+
     // Create a component constructor for this type of component
     _componentConstructors[componentName] = []()
     {

@@ -41,8 +41,21 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
 {
     _scene.registerComponent<PlayerCamera>("PlayerCamera");
 
-    JsonValue& sceneJsonValue = assetCache.get<JsonValue>("Scene.scene");
-    _scene.decodeFromJsonValue(sceneJsonValue, assetCache);
+    {
+        JsonValue& jsonValue = assetCache.get<JsonValue>("Player.entity");
+
+        _player = _scene.createEntity();
+        _player.decodeFromJsonValue(jsonValue, assetCache);
+        _player.activate();
+    }
+
+    {
+        JsonValue& jsonValue = assetCache.get<JsonValue>("Cube.entity");
+
+        _cube = _scene.createEntity();
+        _cube.decodeFromJsonValue(jsonValue, assetCache);
+        _cube.activate();
+    }
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
     keyboardDispatcher.addListener(*this);
@@ -118,27 +131,20 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
 
     if (event.key == Key::F)
     {
-        auto playerCamera = _scene.components<Camera>().begin();
-        auto geometry = _scene.components<Geometry>().begin();
-        if (playerCamera && geometry)
+        Entity cloneEntity = _cube.clone();
+
+        auto transform = cloneEntity.component<Transform>();
+        if (transform)
         {
-            Entity playerEntity = playerCamera->entity();
-            Entity sourceEntity = geometry->entity();
-            Entity cloneEntity = sourceEntity.clone();
-
-            auto transform = cloneEntity.component<Transform>();
-            if (transform)
-            {
-                transform->setPosition(playerEntity.component<Transform>()->position());
-            }
-            
-            auto rigidBody = cloneEntity.component<RigidBody>();
-            if (rigidBody)
-            {
-                rigidBody->setLinearVelocity(playerCamera->front() * 15.0f);
-            }
-
-            cloneEntity.activate();
+            transform->setPosition(_player.component<Transform>()->position());
         }
+            
+        auto rigidBody = cloneEntity.component<RigidBody>();
+        if (rigidBody)
+        {
+            rigidBody->setLinearVelocity(_player.component<Camera>()->front() * 15.0f);
+        }
+
+        cloneEntity.activate();
     }
 }

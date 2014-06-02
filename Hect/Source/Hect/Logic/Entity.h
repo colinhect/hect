@@ -24,11 +24,13 @@
 #pragma once
 
 #include "Hect/Logic/ComponentPool.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
 
-class HECT_API Entity
+class HECT_API Entity :
+    public Encodable
 {
     friend class Scene;
 public:
@@ -58,6 +60,9 @@ public:
     const Scene& scene() const;
 
     EntityId id() const;
+
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     bool operator==(const Entity& entity) const;
     bool operator!=(const Entity& entity) const;
