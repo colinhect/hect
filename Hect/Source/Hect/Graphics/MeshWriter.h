@@ -36,7 +36,7 @@ namespace hect
 ///
 /// Provides an interface for writing to a mesh without knowledge of the
 /// vertex layout.
-class HECT_API MeshWriter
+class MeshWriter
 {
 public:
 

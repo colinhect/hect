@@ -32,7 +32,7 @@ namespace hect
 
 ///
 /// An ordered layout of vertex attributes.
-class HECT_API VertexLayout :
+class VertexLayout :
     public Encodable
 {
 public:

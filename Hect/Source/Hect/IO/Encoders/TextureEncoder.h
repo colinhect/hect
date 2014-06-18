@@ -29,7 +29,7 @@
 namespace hect
 {
 
-class HECT_API TextureEncoder
+class TextureEncoder
 {
 public:
     static void encode(const Texture& texture, ObjectEncoder& encoder);

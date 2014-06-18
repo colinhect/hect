@@ -54,7 +54,7 @@ enum Enum
 
 ///
 /// A shader module.
-class HECT_API ShaderModule :
+class ShaderModule :
     public RendererObject
 {
 public:

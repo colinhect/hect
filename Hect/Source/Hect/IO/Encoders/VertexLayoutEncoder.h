@@ -29,7 +29,7 @@
 namespace hect
 {
 
-class HECT_API VertexLayoutEncoder
+class VertexLayoutEncoder
 {
 public:
     static void encode(const VertexLayout& vertexLayout, ObjectEncoder& encoder);

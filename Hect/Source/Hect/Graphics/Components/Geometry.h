@@ -33,7 +33,7 @@ namespace hect
 
 ///
 /// A geometry component.
-class HECT_API Geometry :
+class Geometry :
     public Component<Geometry>
 {
 public:

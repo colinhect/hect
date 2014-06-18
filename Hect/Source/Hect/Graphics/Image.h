@@ -88,7 +88,7 @@ enum Enum
 
 ///
 /// A 2-dimensional image.
-class HECT_API Image
+class Image
 {
     friend class ImagePngEncoder;
 public:

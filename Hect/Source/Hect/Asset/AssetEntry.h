@@ -33,7 +33,7 @@ class AssetCache;
 
 ///
 /// Base asset entry.
-class HECT_API AssetEntryBase
+class AssetEntryBase
 {
 public:
     virtual ~AssetEntryBase() { }

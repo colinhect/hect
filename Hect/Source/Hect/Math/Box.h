@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// A box.
-class HECT_API Box
+class Box
 {
 public:
 

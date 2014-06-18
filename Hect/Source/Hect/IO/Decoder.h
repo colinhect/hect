@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// Provides access for decoding an array.
-class HECT_API ArrayDecoder
+class ArrayDecoder
 {
     friend class Decoder;
     friend class JsonDecoder;
@@ -142,7 +142,7 @@ private:
 
 ///
 /// Provides access for decoding an object.
-class HECT_API ObjectDecoder
+class ObjectDecoder
 {
     friend class Decoder;
     friend class JsonDecoder;
@@ -291,7 +291,7 @@ private:
 
 ///
 /// Provides abstract access for decoding structured data.
-class HECT_API Decoder
+class Decoder
 {
     friend class ArrayDecoder;
     friend class ObjectDecoder;

@@ -50,7 +50,7 @@ public:
     /// \param asset The asset to load to.
     /// \param assetPath The path to the asset.
     /// \param assetCache The asset cache to load referenced assets using.
-    HECT_API static void load(T& asset, const Path& assetPath, AssetCache& assetCache);
+    static void load(T& asset, const Path& assetPath, AssetCache& assetCache);
 };
 
 }

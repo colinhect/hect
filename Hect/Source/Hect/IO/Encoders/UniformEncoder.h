@@ -29,7 +29,7 @@
 namespace hect
 {
 
-class HECT_API UniformEncoder
+class UniformEncoder
 {
 public:
     static void encode(const Uniform& uniform, ObjectEncoder& encoder);

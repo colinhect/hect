@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// A sphere.
-class HECT_API Sphere
+class Sphere
 {
 public:
 

@@ -13,3 +13,6 @@ Dependencies/*
 *.sdf
 *.suo
 *.sublime-workspace
+Hect/Ignore.txt
+Hect/Source/Hect/Reflection/RegisterTypes.cpp
+Hect/Source/Hect/Reflection/RegisterTypes.h

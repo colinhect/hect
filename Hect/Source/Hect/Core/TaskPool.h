@@ -45,7 +45,7 @@ typedef std::function<void()> TaskAction;
 
 ///
 /// A handle for an enqueued task.
-class HECT_API Task
+class Task
 {
     friend class TaskPool;
 public:
@@ -80,7 +80,7 @@ private:
 
 ///
 /// Provides the functionality for executing asynchronous tasks.
-class HECT_API TaskPool :
+class TaskPool :
     public Uncopyable
 {
 public:

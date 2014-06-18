@@ -33,7 +33,7 @@ namespace hect
 
 ///
 /// A duration of time.
-class HECT_API TimeSpan
+class TimeSpan
 {
 public:
 

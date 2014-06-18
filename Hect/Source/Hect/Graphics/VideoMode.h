@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// Describes the video mode a window uses.
-class HECT_API VideoMode :
+class VideoMode :
     public Encodable
 {
 public:

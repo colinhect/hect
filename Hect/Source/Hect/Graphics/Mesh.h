@@ -68,7 +68,7 @@ enum Enum : uint8_t
 
 ///
 /// A mesh of vertices and indices.
-class HECT_API Mesh :
+class Mesh :
     public RendererObject,
     public Encodable
 {

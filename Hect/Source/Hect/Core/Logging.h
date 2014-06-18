@@ -30,7 +30,7 @@
 namespace hect
 {
 
-HECT_API void log(const std::string& category, const std::string& message);
+void log(const std::string& category, const std::string& message);
 
 #ifdef HECT_DEBUG
 #ifndef HECT_NO_LOGGING

@@ -34,7 +34,7 @@ namespace hect
 
 ///
 /// Provides read access to raw data.
-class HECT_API MemoryReadStream :
+class MemoryReadStream :
     public ReadStream
 {
 public:

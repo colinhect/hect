@@ -29,7 +29,7 @@
 namespace hect
 {
 
-class HECT_API ShaderEncoder
+class ShaderEncoder
 {
 public:
     static void encode(const Shader& shader, ObjectEncoder& encoder);

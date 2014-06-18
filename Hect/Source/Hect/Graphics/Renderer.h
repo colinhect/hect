@@ -39,7 +39,7 @@ namespace hect
 ///
 /// A higher-level abstraction over a hardware-accelerated graphics API such as
 /// OpenGL or DirectX.
-class HECT_API Renderer :
+class Renderer :
     public Uncopyable
 {
 public:

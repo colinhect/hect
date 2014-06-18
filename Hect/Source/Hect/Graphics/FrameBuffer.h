@@ -34,7 +34,7 @@ class Renderer;
 
 ///
 /// A buffer on the GPU that can be rendered to.
-class HECT_API FrameBuffer :
+class FrameBuffer :
     public RenderTarget,
     public RendererObject
 {

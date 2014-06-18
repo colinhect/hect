@@ -29,7 +29,7 @@
 namespace hect
 {
 
-class HECT_API MeshEncoder
+class MeshEncoder
 {
 public:
     static void encode(const Mesh& mesh, ObjectEncoder& encoder);

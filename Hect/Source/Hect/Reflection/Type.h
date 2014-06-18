@@ -43,12 +43,8 @@ class Type
 public:
 
     ///
-    /// A function which registers a type.
-    typedef std::function<void()> RegisterFunction;
-
-    ///
     /// Returns the name.
-    HECT_API const std::string& name() const;
+    const std::string& name() const;
 
     ///
     /// Creates a type given its type name.
@@ -69,23 +65,12 @@ public:
     template <typename T>
     static const Type& of(const T& instance);
 
-    ///
-    /// Adds a type registration function.
-    ///
-    /// \param registerFunction The type registration function.
-    static HECT_API void addRegisterFunction(RegisterFunction registerFunction);
-
-    ///
-    /// Registers all types.
-    static HECT_API void registerTypes();
-
 private:
-    HECT_API Type(const std::string& name);
+    Type(const std::string& name);
 
     std::string _name;
 
-    static HECT_API std::vector<RegisterFunction> _registerFunctions;
-    static HECT_API std::map<std::type_index, std::shared_ptr<Type>> _types;
+    static std::map<std::type_index, std::shared_ptr<Type>> _types;
 };
 
 }

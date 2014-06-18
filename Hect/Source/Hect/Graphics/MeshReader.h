@@ -36,7 +36,7 @@ namespace hect
 ///
 /// Provides an interface for reading from a mesh without knowledge of the
 /// vertex layout.
-class HECT_API MeshReader
+class MeshReader
 {
 public:
 

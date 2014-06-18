@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// A plane in 3-dimensional space.
-class HECT_API Plane
+class Plane
 {
 public:
 

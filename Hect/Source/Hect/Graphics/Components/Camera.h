@@ -34,7 +34,7 @@ class Transform;
 
 ///
 /// A camera component.
-class HECT_API Camera :
+class Camera :
     public Component<Camera>
 {
 public:

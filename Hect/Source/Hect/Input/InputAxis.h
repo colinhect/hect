@@ -64,7 +64,7 @@ enum Enum
 
 ///
 /// An axis manipulated by an input device.
-class HECT_API InputAxis :
+class InputAxis :
     public Encodable
 {
 public:

@@ -29,7 +29,7 @@
 namespace hect
 {
 
-class HECT_API MaterialEncoder
+class MaterialEncoder
 {
 public:
     static void encode(const Material& material, ObjectEncoder& encoder);

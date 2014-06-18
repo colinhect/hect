@@ -41,7 +41,7 @@ class InputSystem;
 /// The window that the engine is rendering to.
 ///
 /// \note In most cases the window represents the native OS window.
-class HECT_API Window :
+class Window :
     public RenderTarget,
     public Uncopyable
 {

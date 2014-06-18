@@ -29,7 +29,7 @@
 namespace hect
 {
 
-class HECT_API InputAxisEncoder
+class InputAxisEncoder
 {
 public:
     static void encode(const InputAxis& inputAxis, ObjectEncoder& encoder);

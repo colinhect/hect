@@ -33,7 +33,7 @@ namespace hect
 
 ///
 /// Provides read access to a file.
-class HECT_API FileReadStream :
+class FileReadStream :
     public ReadStream,
     public Uncopyable
 {

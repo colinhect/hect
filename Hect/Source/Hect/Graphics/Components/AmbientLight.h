@@ -32,7 +32,7 @@ namespace hect
 
 ///
 /// An ambient light component
-class HECT_API AmbientLight :
+class AmbientLight :
     public Component<AmbientLight>
 {
 public:

@@ -34,7 +34,7 @@ namespace hect
 
 ///
 /// Provides access for decoding structured data from a binary stream.
-class HECT_API BinaryDecoder :
+class BinaryDecoder :
     public Decoder
 {
 public:

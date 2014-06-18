@@ -62,7 +62,7 @@ enum Enum
 
 ///
 /// An event triggered from a remote socket.
-class HECT_API SocketEvent
+class SocketEvent
 {
 public:
 
@@ -89,7 +89,7 @@ public:
 ///
 /// \note A socket can either listen for incoming connections or attempt
 /// to connect to a remote socket which is listening.
-class HECT_API Socket :
+class Socket :
     public Uncopyable
 {
 public:

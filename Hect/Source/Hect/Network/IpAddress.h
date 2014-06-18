@@ -33,7 +33,7 @@ namespace hect
 
 ///
 /// An Internet Protocol address.
-class HECT_API IpAddress
+class IpAddress
 {
 public:
 

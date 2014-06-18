@@ -104,7 +104,7 @@ enum Enum
 ///
 /// Describes a mode that the renderer is in which affects the resulting
 /// rendered pixels.
-class HECT_API RenderMode
+class RenderMode
 {
 public:
 

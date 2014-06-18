@@ -36,7 +36,7 @@ public:
 
     ///
     /// Constructs a container without a value.
-    HECT_API Any();
+    Any();
 
     ///
     /// Constructs a container with a value.
@@ -51,7 +51,7 @@ public:
     /// \note The held value in the container itself is copied.
     ///
     /// \param any The container to copy.
-    HECT_API Any(const Any& any);
+    Any(const Any& any);
 
     ///
     /// Constructs a container moved from another container.
@@ -59,11 +59,11 @@ public:
     /// \note The held value in the container itself is not copied.
     ///
     /// \param any The container to move.
-    HECT_API Any(Any&& any);
+    Any(Any&& any);
 
     ///
     /// Destructor.
-    HECT_API ~Any();
+    ~Any();
 
     ///
     /// Assigns a value to the container.
@@ -86,7 +86,7 @@ public:
     /// \param any The container to assign the value from.
     ///
     /// \returns A reference to the container.
-    HECT_API Any& operator=(const Any& any);
+    Any& operator=(const Any& any);
 
     ///
     /// Returns whether the container holds a value of a certain type.
@@ -95,7 +95,7 @@ public:
 
     ///
     /// Returns whether the container holds any value at all.
-    HECT_API bool hasValue() const;
+    bool hasValue() const;
 
     ///
     /// Returns the value the container holds as a specific type.

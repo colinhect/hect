@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// A utility for measuring time durations.
-class HECT_API Timer
+class Timer
 {
 public:
 

@@ -37,7 +37,7 @@ namespace hect
 
 ///
 /// A simulated physical body.
-class HECT_API RigidBody :
+class RigidBody :
     public Component<RigidBody>
 {
     friend class PhysicsSystem;

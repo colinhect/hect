@@ -34,7 +34,7 @@ namespace hect
 
 ///
 /// Provides basic rendering.
-class HECT_API RenderSystem :
+class RenderSystem :
     public System
 {
 public:

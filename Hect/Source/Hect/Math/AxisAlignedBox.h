@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// A box aligned with the global axes.
-class HECT_API AxisAlignedBox
+class AxisAlignedBox
 {
 public:
 

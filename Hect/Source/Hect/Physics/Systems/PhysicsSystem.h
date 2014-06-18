@@ -43,7 +43,7 @@ namespace hect
 
 ///
 /// Simulates physical interactions of physical bodies.
-class HECT_API PhysicsSystem :
+class PhysicsSystem :
     public System,
     public Listener<ComponentPoolEvent>,
     public Uncopyable

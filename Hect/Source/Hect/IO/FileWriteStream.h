@@ -33,7 +33,7 @@ namespace hect
 
 ///
 /// Provides write access to a file.
-class HECT_API FileWriteStream :
+class FileWriteStream :
     public WriteStream,
     public Uncopyable
 {

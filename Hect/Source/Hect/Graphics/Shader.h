@@ -34,7 +34,7 @@ namespace hect
 
 ///
 /// A GPU shader program.
-class HECT_API Shader :
+class Shader :
     public RendererObject,
     public Encodable
 {

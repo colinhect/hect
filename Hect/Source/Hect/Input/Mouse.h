@@ -96,7 +96,7 @@ enum Enum
 
 ///
 /// An event caused by the alteration of the mouse.
-class HECT_API MouseEvent
+class MouseEvent
 {
 public:
 
@@ -126,7 +126,7 @@ public:
 
 ///
 /// Provides access to the system mouse.
-class HECT_API Mouse
+class Mouse
 {
     friend class InputSystem;
 public:

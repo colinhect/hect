@@ -34,7 +34,7 @@ namespace hect
 
 ///
 /// An object which can be encoded and decoded.
-class HECT_API Encodable
+class Encodable
 {
 public:
 

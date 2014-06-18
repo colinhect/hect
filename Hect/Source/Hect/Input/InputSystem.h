@@ -36,7 +36,7 @@ namespace hect
 
 ///
 /// Provides access to input peripherals connected to the system.
-class HECT_API InputSystem :
+class InputSystem :
     public Listener<MouseEvent>
 {
     friend class Window;

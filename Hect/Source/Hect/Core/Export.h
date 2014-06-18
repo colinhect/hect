@@ -23,14 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#ifdef HECT_EXPORTS
-#define HECT_API __declspec(dllexport)
-#define HECT_STATIC extern "C" __declspec(dllexport)
-#else
-#define HECT_API __declspec(dllimport)
-#define HECT_STATIC extern "C" __declspec(dllimport)
-#endif
-
 #pragma warning (disable : 4251)
 #pragma warning (disable : 4275)
 #pragma warning (disable : 4505)

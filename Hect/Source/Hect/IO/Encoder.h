@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// Provides access for encoding an array.
-class HECT_API ArrayEncoder
+class ArrayEncoder
 {
     friend class Encoder;
     friend class JsonEncoder;
@@ -168,7 +168,7 @@ private:
     Encoder* _encoder;
 };
 
-class HECT_API ObjectEncoder
+class ObjectEncoder
 {
     friend class Encoder;
     friend class JsonEncoder;
@@ -327,7 +327,7 @@ private:
 
 ///
 /// Provides abstract access for encoding structured data.
-class HECT_API Encoder
+class Encoder
 {
     friend class ArrayEncoder;
     friend class ObjectEncoder;

@@ -32,7 +32,7 @@ namespace hect
 
 ///
 /// An error.
-class HECT_API Error :
+class Error :
     public std::runtime_error
 {
 public:

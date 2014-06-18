@@ -32,7 +32,7 @@ namespace hect
 
 ///
 /// Provides access to the active camera in the scene.
-class HECT_API CameraSystem :
+class CameraSystem :
     public System
 {
 public:

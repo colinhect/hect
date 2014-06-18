@@ -49,7 +49,7 @@ enum Enum
 
 ///
 /// A 2-dimensional texture.
-class HECT_API Texture :
+class Texture :
     public RendererObject,
     public Encodable
 {

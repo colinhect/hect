@@ -33,24 +33,9 @@ const std::string& Type::name() const
     return _name;
 }
 
-void Type::addRegisterFunction(RegisterFunction registerFunction)
-{
-    _registerFunctions.push_back(registerFunction);
-}
-
-void Type::registerTypes()
-{
-    for (const RegisterFunction& registerFunction : _registerFunctions)
-    {
-        registerFunction();
-    }
-    _registerFunctions.clear();
-}
-
 Type::Type(const std::string& name) :
     _name(name)
 {
 }
 
-std::vector<Type::RegisterFunction> Type::_registerFunctions;
 std::map<std::type_index, std::shared_ptr<Type>> Type::_types;

@@ -36,6 +36,6 @@ namespace hect
 /// \param fmt The format string.
 ///
 /// \returns The formated string.
-HECT_API std::string format(const char* fmt, ...);
+std::string format(const char* fmt, ...);
 
 }

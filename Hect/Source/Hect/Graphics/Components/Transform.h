@@ -35,7 +35,7 @@ namespace hect
 
 ///
 /// A combination of a position, scale, and rotation.
-class HECT_API Transform :
+class Transform :
     public Component<Transform>
 {
 public:

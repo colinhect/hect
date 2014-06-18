@@ -35,7 +35,7 @@
 namespace hect
 {
 
-struct HECT_API EntityData
+struct EntityData
 {
     EntityData();
 
@@ -45,7 +45,7 @@ struct HECT_API EntityData
 
 ///
 /// A scene of entities.
-class HECT_API Scene :
+class Scene :
     public Uncopyable,
     public Encodable
 {

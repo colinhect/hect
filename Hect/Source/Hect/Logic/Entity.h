@@ -29,7 +29,7 @@
 namespace hect
 {
 
-class HECT_API Entity :
+class Entity :
     public Encodable
 {
     friend class Scene;

@@ -34,7 +34,7 @@ namespace hect
 
 ///
 /// Provides write access to raw data.
-class HECT_API MemoryWriteStream :
+class MemoryWriteStream :
     public WriteStream
 {
 public:

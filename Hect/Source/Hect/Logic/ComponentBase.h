@@ -44,7 +44,7 @@ typedef uint32_t ComponentTypeId;
 
 ///
 /// Base entity component.
-class HECT_API ComponentBase :
+class ComponentBase :
     public Encodable
 {
 public:

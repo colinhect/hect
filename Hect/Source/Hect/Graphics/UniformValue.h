@@ -74,7 +74,7 @@ enum Enum : uint8_t
 /// A value for a uniform.
 ///
 /// \note A uniform's type cannot change.
-class HECT_API UniformValue :
+class UniformValue :
     public Encodable
 {
 public:

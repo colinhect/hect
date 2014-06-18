@@ -36,7 +36,7 @@ namespace hect
 
 ///
 /// An interface for writing streamed data.
-class HECT_API WriteStream
+class WriteStream
 {
 public:
 

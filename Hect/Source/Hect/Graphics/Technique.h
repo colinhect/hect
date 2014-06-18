@@ -33,7 +33,7 @@ namespace hect
 /// An implementation of a material.
 ///
 /// \note A technique is made up of multiple passes.
-class HECT_API Technique
+class Technique
 {
 public:
 

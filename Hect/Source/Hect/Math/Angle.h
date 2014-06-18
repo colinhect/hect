@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// An angle.
-class HECT_API Angle
+class Angle
 {
 public:
 

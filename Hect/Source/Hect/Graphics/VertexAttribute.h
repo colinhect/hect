@@ -141,7 +141,7 @@ enum Enum : uint8_t
 /// type describes the type of each component in the attribute.  The
 /// cardinality is number of components (of the attributes type) the
 /// attribute has.
-class HECT_API VertexAttribute
+class VertexAttribute
 {
     friend class VertexLayout;
 public:

@@ -52,7 +52,7 @@ enum Enum
 
 ///
 /// An event dispatched from a ComponentPool.
-class HECT_API ComponentPoolEvent
+class ComponentPoolEvent
 {
 public:
 
@@ -74,7 +74,7 @@ public:
 
 ///
 /// Abstract interface to a ComponentPool of any component type.
-class HECT_API ComponentPoolBase
+class ComponentPoolBase
 {
 public:
 

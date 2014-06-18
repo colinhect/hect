@@ -40,7 +40,7 @@ namespace hect
 ///
 /// \note Contains the render mode, textures, shader, and uniform values
 /// used when rendering geometry for this step in the technique.
-class HECT_API Pass
+class Pass
 {
 public:
 

@@ -37,7 +37,7 @@ namespace hect
 
 ///
 /// An interface for reading streamed data.
-class HECT_API ReadStream
+class ReadStream
 {
 public:
 

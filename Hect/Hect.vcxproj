@@ -125,6 +125,7 @@
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h" />
     <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h" />
     <ClInclude Include="Source\Hect\Reflection\Enum.h" />
+    <ClInclude Include="Source\Hect\Reflection\RegisterTypes.h" />
     <ClInclude Include="Source\Hect\Reflection\Type.h" />
   </ItemGroup>
   <ItemGroup>
@@ -223,8 +224,8 @@
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\RegisterTypes.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
-    <ClCompile Include="Source\Hect\Reflection\_Reflect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Asset\AssetCache.inl" />
@@ -274,26 +275,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -367,7 +368,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
+copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
+move $(TargetDir)Hect.lib $(TargetDir)HectStatic.lib
+lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)SDL2.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
@@ -406,7 +410,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
+copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
+move $(TargetDir)Hect.lib $(TargetDir)HectStatic.lib
+lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)SDL2.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
@@ -447,7 +454,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
+copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
+move $(TargetDir)Hect.lib $(TargetDir)HectStatic.lib
+lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)SDL2.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>
@@ -488,7 +498,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"</Command>
+      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
+copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
+move $(TargetDir)Hect.lib $(TargetDir)HectStatic.lib
+lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)SDL2.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>

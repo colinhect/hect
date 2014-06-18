@@ -86,7 +86,7 @@ enum Enum
 ///
 /// \note A uniform must either have a default value or a binding.  The type
 /// is determined by those.
-class HECT_API Uniform :
+class Uniform :
     public Encodable
 {
 public:

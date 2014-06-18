@@ -32,7 +32,7 @@ namespace hect
 
 ///
 /// The manner in which a surface is rendered.
-class HECT_API Material :
+class Material :
     public Encodable
 {
 public:

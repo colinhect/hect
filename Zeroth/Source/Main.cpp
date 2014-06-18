@@ -27,7 +27,7 @@
 #include <Hect/IO/FileSystem.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
-#include <Hect/Reflection/Type.h>
+#include <Hect/Reflection/RegisterTypes.h>
 
 #ifdef HECT_WINDOWS
 #ifdef HECT_DEBUG
@@ -44,7 +44,7 @@ int main(int argc, const char* argv[])
 
     try
     {
-        hect::Type::registerTypes();
+        hect::registerTypes();
 
         // Create file system
         hect::FileSystem fileSystem;
