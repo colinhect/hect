@@ -123,7 +123,7 @@ doxygen &amp;
 python Hect\Tools\Reflect\reflect.py "Hect\Doc\xml\*.xml" "Hect\Source\Hect\Reflection" hect</Command>
     </CustomBuildStep>
     <CustomBuildStep>
-      <Outputs>$(SolutionDir)Hect\Source\Hect\Reflection\_Reflect.cpp</Outputs>
+      <Outputs>$(SolutionDir)Hect\Source\Hect\Reflection\RegisterTypes.h;$(SolutionDir)Hect\Source\Hect\Reflection\RegisterTypes.cpp</Outputs>
       <Message>Generating reflection code...</Message>
     </CustomBuildStep>
   </ItemDefinitionGroup>
