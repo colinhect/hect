@@ -138,7 +138,7 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
         {
             transform->setPosition(_player.component<Transform>()->position());
         }
-            
+
         auto rigidBody = cloneEntity.component<RigidBody>();
         if (rigidBody)
         {

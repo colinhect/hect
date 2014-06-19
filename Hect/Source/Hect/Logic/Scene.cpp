@@ -89,7 +89,7 @@ size_t Scene::entityCount() const
 void Scene::encode(ObjectEncoder& encoder) const
 {
     ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
-    // 
+    //
 }
 
 void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)

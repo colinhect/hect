@@ -34,8 +34,8 @@ Entity::Entity() :
 }
 
 Entity::Entity(Scene& scene, EntityId id) :
-_scene(&scene),
-_id(id)
+    _scene(&scene),
+    _id(id)
 {
 }
 
@@ -93,7 +93,7 @@ bool Entity::exists() const
 Scene& Entity::scene()
 {
     _ensureExists();
-    return *_scene;    
+    return *_scene;
 }
 
 const Scene& Entity::scene() const
