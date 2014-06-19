@@ -28,6 +28,8 @@
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
 
+using namespace hect;
+
 #ifdef HECT_WINDOWS
 #ifdef HECT_DEBUG
 #include <vld.h>
@@ -44,53 +46,53 @@ int main(int argc, const char* argv[])
     try
     {
         // Create file system
-        hect::FileSystem fileSystem;
+        FileSystem fileSystem;
 
         // Add the working directory as a data source
-        hect::Path workingDirectory = fileSystem.workingDirectory();
+        Path workingDirectory = fileSystem.workingDirectory();
         fileSystem.addDataSource(workingDirectory);
 
         // Set the working directory as the write directory
         fileSystem.setWriteDirectory(workingDirectory);
 
         // Load the settings
-        hect::JsonValue settings;
+        JsonValue settings;
         {
-            hect::FileReadStream stream = fileSystem.openFileForRead("Settings.json");
+            FileReadStream stream = fileSystem.openFileForRead("Settings.json");
             settings.decodeFromJson(stream);
         }
 
         // Add the data sources listed in the settings
-        for (const hect::JsonValue& dataSource : settings["dataSources"])
+        for (const JsonValue& dataSource : settings["dataSources"])
         {
             fileSystem.addDataSource(dataSource.asString());
         }
 
         // Load video mode
-        hect::VideoMode videoMode;
+        VideoMode videoMode;
         videoMode.decodeFromJsonValue(settings["videoMode"]);
 
         // Create window/renderer
-        hect::Window window("Sample", videoMode);
-        hect::Renderer renderer(window);
+        Window window("Sample", videoMode);
+        Renderer renderer(window);
 
         // Load the input axes from the settings
-        hect::InputAxis::Array axes;
-        for (const hect::JsonValue& axisValue : settings["inputAxes"])
+        InputAxis::Array axes;
+        for (const JsonValue& axisValue : settings["inputAxes"])
         {
-            hect::InputAxis axis;
+            InputAxis axis;
             axis.decodeFromJsonValue(axisValue);
             axes.push_back(axis);
         }
 
         // Create the input system
-        hect::InputSystem inputSystem(axes);
+        InputSystem inputSystem(axes);
 
-        hect::AssetCache assetCache(fileSystem);
+        AssetCache assetCache(fileSystem);
 
         // Create the logic flow
         MainLogicLayer main(assetCache, inputSystem, window, renderer);
-        hect::LogicFlow logicFlow(hect::TimeSpan::fromSeconds((hect::Real)1 / (hect::Real)60));
+        LogicFlow logicFlow(TimeSpan::fromSeconds((Real)1 / (Real)60));
         logicFlow.addLayer(main);
 
         // Update until the flow is complete
@@ -102,9 +104,9 @@ int main(int argc, const char* argv[])
             }
         }
     }
-    catch (hect::Error& error)
+    catch (Error& error)
     {
-        hect::Window::showFatalError(error.what());
+        Window::showFatalError(error.what());
     }
 
     return 0;

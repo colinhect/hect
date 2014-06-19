@@ -48,6 +48,7 @@ class ComponentBase :
     public Encodable
 {
 public:
+    virtual ~ComponentBase() { }
 
     ///
     /// Returns the type index for the component's type.

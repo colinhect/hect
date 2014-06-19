@@ -21,41 +21,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect/Core/Configuration.h>
+using namespace hect;
 
-#include <typeindex>
+#ifdef HECT_WINDOWS
+#ifdef HECT_DEBUG
+#include <vld.h>
+#endif
+#endif
 
-#include "Hect/Logic/ComponentBase.h"
-#include "Hect/Logic/Entity.h"
-#include "Hect/IO/Encodable.h"
-
-namespace hect
-{
-
-template <typename T>
-class ComponentPool;
-
-///
-/// A component of an entity.
-template <typename T>
-class Component :
-    public ComponentBase
-{
-    friend class ComponentPool<T>;
-public:
-    Component();
-    virtual ~Component() { }
-
-    Entity entity() const;
-
-    ///
-    /// \copydoc ComponentBase::typeIndex()
-    std::type_index typeIndex() const;
-
-private:
-    Entity _entity;
-};
-
-}
-
-#include "Component.inl"
+#define CATCH_CONFIG_MAIN
+#include <catch.hpp>
