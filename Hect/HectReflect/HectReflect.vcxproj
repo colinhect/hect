@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1DDD379A-3E50-4988-8830-DF9B4D5DFC74}</ProjectGuid>
-    <RootNamespace>Reflect</RootNamespace>
+    <ProjectGuid>{8EA16E83-655D-49FE-B632-7EE597619380}</ProjectGuid>
+    <RootNamespace>HectReflect</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -67,27 +67,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <TargetName>
-    </TargetName>
-    <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <TargetName>
-    </TargetName>
-    <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <TargetName>
-    </TargetName>
-    <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
-    <TargetName>
-    </TargetName>
-    <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -99,13 +87,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <CustomBuildStep>
-      <Command>cd $(SolutionDir) &amp;
-doxygen &amp;
-python Hect\Tools\Reflect\reflect.py "Hect\Doc\xml\*.xml" "Hect\Source\Hect\Reflection" hect</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Outputs>$(SolutionDir)Hect\Source\Hect\Reflection\_Reflect.cpp</Outputs>
+      <Outputs>$(SolutionDir)Hect\Source\Hect\Generated\_hect_reflect.cpp</Outputs>
       <Message>Generating reflection code...</Message>
+      <Command>python $(SolutionDir)Hect\Tools\reflect.py "$(SolutionDir)Hect\HectDocs\Output\xml\*.xml" "$(SolutionDir)Hect\Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,13 +102,9 @@ python Hect\Tools\Reflect\reflect.py "Hect\Doc\xml\*.xml" "Hect\Source\Hect\Refl
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <CustomBuildStep>
-      <Command>cd $(SolutionDir) &amp;
-doxygen &amp;
-python Hect\Tools\Reflect\reflect.py "Hect\Doc\xml\*.xml" "Hect\Source\Hect\Reflection" hect</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Outputs>$(SolutionDir)Hect\Source\Hect\Reflection\RegisterTypes.h;$(SolutionDir)Hect\Source\Hect\Reflection\RegisterTypes.cpp</Outputs>
+      <Outputs>$(SolutionDir)Hect\Source\Hect\Generated\_hect_reflect.cpp</Outputs>
       <Message>Generating reflection code...</Message>
+      <Command>python $(SolutionDir)Hect\Tools\reflect.py "$(SolutionDir)Hect\HectDocs\Output\xml\*.xml" "$(SolutionDir)Hect\Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,13 +121,9 @@ python Hect\Tools\Reflect\reflect.py "Hect\Doc\xml\*.xml" "Hect\Source\Hect\Refl
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <CustomBuildStep>
-      <Command>cd $(SolutionDir) &amp;
-doxygen &amp;
-python Hect\Tools\Reflect\reflect.py "Hect\Doc\xml\*.xml" "Hect\Source\Hect\Reflection" hect</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Outputs>$(SolutionDir)Hect\Source\Hect\Reflection\_Reflect.cpp</Outputs>
+      <Outputs>$(SolutionDir)Hect\Source\Hect\Generated\_hect_reflect.cpp</Outputs>
       <Message>Generating reflection code...</Message>
+      <Command>python $(SolutionDir)Hect\Tools\reflect.py "$(SolutionDir)Hect\HectDocs\Output\xml\*.xml" "$(SolutionDir)Hect\Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -164,13 +140,9 @@ python Hect\Tools\Reflect\reflect.py "Hect\Doc\xml\*.xml" "Hect\Source\Hect\Refl
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <CustomBuildStep>
-      <Command>cd $(SolutionDir) &amp;
-doxygen &amp;
-python Hect\Tools\Reflect\reflect.py "Hect\Doc\xml\*.xml" "Hect\Source\Hect\Reflection" hect</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Outputs>$(SolutionDir)Hect\Source\Hect\Reflection\_Reflect.cpp</Outputs>
+      <Outputs>$(SolutionDir)Hect\Source\Hect\Generated\_hect_reflect.cpp</Outputs>
       <Message>Generating reflection code...</Message>
+      <Command>python $(SolutionDir)Hect\Tools\reflect.py "$(SolutionDir)Hect\HectDocs\Output\xml\*.xml" "$(SolutionDir)Hect\Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>

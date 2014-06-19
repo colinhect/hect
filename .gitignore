@@ -1,11 +1,13 @@
 Bin/*
 Win32/*
 x64/*
-Hect/Doc/*
+Hect/Ignore.txt
 Hect/Intermediate/*
-Hect/Source/Hect/Reflection/_*
+Hect/Source/Hect/Generated/*
+Hect/HectDocs/Output/*
+Hect/HectDocs/Intermediate/*
+Hect/HectReflect/Intermediate/*
 Hect/HectTests/Intermediate/*
-Hect/Tools/Reflect/Intermediate/*
 Zeroth/Intermediate/*
 Tests/UnitTests/Intermediate/*
 Dependencies/*
@@ -13,6 +15,3 @@ Dependencies/*
 *.sdf
 *.suo
 *.sublime-workspace
-Hect/Ignore.txt
-Hect/Source/Hect/Reflection/RegisterTypes.cpp
-Hect/Source/Hect/Reflection/RegisterTypes.h

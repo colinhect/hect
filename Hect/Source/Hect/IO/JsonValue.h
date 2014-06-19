@@ -35,7 +35,6 @@
 #include "Hect/Math/Vector4.h"
 #include "Hect/Math/Matrix4.h"
 #include "Hect/Math/Quaternion.h"
-#include "Hect/Reflection/Type.h"
 
 namespace hect
 {

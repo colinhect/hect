@@ -125,8 +125,6 @@
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h" />
     <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h" />
     <ClInclude Include="Source\Hect\Reflection\Enum.h" />
-    <ClInclude Include="Source\Hect\Reflection\RegisterTypes.h" />
-    <ClInclude Include="Source\Hect\Reflection\Type.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp" />
@@ -140,6 +138,7 @@
     <ClCompile Include="Source\Hect\Core\Timer.cpp" />
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp" />
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp" />
+    <ClCompile Include="Source\Hect\Generated\_hect_reflect.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\AmbientLight.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp" />
@@ -223,9 +222,6 @@
     <ClCompile Include="Source\Hect\Noise\Random.cpp" />
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp" />
-    <ClCompile Include="Source\Hect\Reflection\Enum.cpp" />
-    <ClCompile Include="Source\Hect\Reflection\RegisterTypes.cpp" />
-    <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Asset\AssetCache.inl" />
@@ -243,8 +239,6 @@
     <None Include="Source\Hect\Math\Vector2.inl" />
     <None Include="Source\Hect\Math\Vector3.inl" />
     <None Include="Source\Hect\Math\Vector4.inl" />
-    <None Include="Source\Hect\Reflection\Enum.inl" />
-    <None Include="Source\Hect\Reflection\Type.inl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dependencies\Bullet\Bullet.vcxproj">
@@ -264,9 +258,6 @@
     </ProjectReference>
     <ProjectReference Include="..\Dependencies\PhysFS\PhysFS.vcxproj">
       <Project>{8a40f4e7-7350-4693-8346-2b706cc061e2}</Project>
-    </ProjectReference>
-    <ProjectReference Include="Tools\Reflect\Reflect.vcxproj">
-      <Project>{1ddd379a-3e50-4988-8830-df9b4d5dfc74}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

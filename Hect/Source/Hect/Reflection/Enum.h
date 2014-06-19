@@ -24,11 +24,6 @@
 #pragma once
 
 #include <string>
-#include <map>
-#include <typeinfo>
-#include <typeindex>
-
-#include "Hect/Reflection/Type.h"
 
 namespace hect
 {
@@ -59,20 +54,6 @@ public:
     /// \returns The string representation of the enum value.
     template <typename T>
     static const std::string& toString(T value);
-
-    ///
-    /// Adds a string representation for an enum value.
-    ///
-    /// \param string The string representation.
-    /// \param value The enum value.
-    template <typename T>
-    static void add(const std::string& string, T value);
-
-private:
-    static std::map<std::type_index, std::map<std::string, int>> _stringToValue;
-    static std::map<std::type_index, std::map<int, std::string>> _valueToString;
 };
 
 }
-
-#include "Enum.inl"

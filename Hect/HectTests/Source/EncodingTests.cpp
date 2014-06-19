@@ -32,6 +32,7 @@
 using namespace hect;
 
 #include <catch.hpp>
+#include <functional>
 
 void testEncodeAndDecode(std::function<void(Encoder&)> encode, std::function<void(Decoder&)> decode)
 {

@@ -80,6 +80,9 @@
     <Filter Include="Source\Hect\Physics\Systems">
       <UniqueIdentifier>{0ec1b3ca-5125-4f31-81a5-b8b7f2386dec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Hect\Generated">
+      <UniqueIdentifier>{f7e2ebf6-e28d-465f-9c88-432fdf238f3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Hect\Asset\AssetCache.h">
@@ -352,9 +355,6 @@
     <ClInclude Include="Source\Hect\Core\Export.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Reflection\Type.h">
-      <Filter>Source\Hect\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Reflection\Enum.h">
       <Filter>Source\Hect\Reflection</Filter>
     </ClInclude>
@@ -402,9 +402,6 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h">
       <Filter>Source\Hect\Physics\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Reflection\RegisterTypes.h">
-      <Filter>Source\Hect\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -651,12 +648,6 @@
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Reflection\Type.cpp">
-      <Filter>Source\Hect\Reflection</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Reflection\Enum.cpp">
-      <Filter>Source\Hect\Reflection</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\ComponentPool.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
@@ -696,8 +687,8 @@
     <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp">
       <Filter>Source\Hect\Physics\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Reflection\RegisterTypes.cpp">
-      <Filter>Source\Hect\Reflection</Filter>
+    <ClCompile Include="Source\Hect\Generated\_hect_reflect.cpp">
+      <Filter>Source\Hect\Generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -733,12 +724,6 @@
     </None>
     <None Include="Source\Hect\Math\Vector4.inl">
       <Filter>Source\Hect\Math</Filter>
-    </None>
-    <None Include="Source\Hect\Reflection\Type.inl">
-      <Filter>Source\Hect\Reflection</Filter>
-    </None>
-    <None Include="Source\Hect\Reflection\Enum.inl">
-      <Filter>Source\Hect\Reflection</Filter>
     </None>
     <None Include="Source\Hect\Logic\Component.inl">
       <Filter>Source\Hect\Logic</Filter>
