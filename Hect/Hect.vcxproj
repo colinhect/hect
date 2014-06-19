@@ -27,7 +27,6 @@
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\Dispatcher.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
-    <ClInclude Include="Source\Hect\Core\Export.h" />
     <ClInclude Include="Source\Hect\Core\Format.h" />
     <ClInclude Include="Source\Hect\Core\IdPool.h" />
     <ClInclude Include="Source\Hect\Core\Listener.h" />

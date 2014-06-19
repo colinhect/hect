@@ -26,8 +26,6 @@
 #include <string>
 #include <iostream>
 
-#include "Hect/Core/Export.h"
-
 namespace hect
 {
 

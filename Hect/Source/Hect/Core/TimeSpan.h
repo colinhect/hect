@@ -25,7 +25,6 @@
 
 #include <cstdint>
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
 
 namespace hect

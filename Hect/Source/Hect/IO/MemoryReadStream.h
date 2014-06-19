@@ -26,7 +26,6 @@
 #include <vector>
 #include <cstdint>
 
-#include "Hect/Core/Export.h"
 #include "Hect/IO/ReadStream.h"
 
 namespace hect

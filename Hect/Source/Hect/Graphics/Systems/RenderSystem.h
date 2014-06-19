@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/Renderer.h"

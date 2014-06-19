@@ -25,7 +25,6 @@
 
 #include <stack>
 
-#include "Hect/Core/Export.h"
 #include "Hect/IO/Encoder.h"
 
 namespace hect

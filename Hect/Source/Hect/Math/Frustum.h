@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Math/AxisAlignedBox.h"
 #include "Hect/Math/Plane.h"
 #include "Hect/Math/Sphere.h"

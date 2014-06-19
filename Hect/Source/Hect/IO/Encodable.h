@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Asset/AssetCache.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/IO/Encoder.h"

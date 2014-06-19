@@ -25,8 +25,6 @@
 
 #include <stdexcept>
 
-#include "Hect/Core/Export.h"
-
 namespace hect
 {
 

@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/IO/MemoryReadStream.h"
 #include "Hect/IO/MemoryWriteStream.h"
 

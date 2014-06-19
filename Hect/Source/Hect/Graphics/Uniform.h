@@ -25,7 +25,6 @@
 
 #include <vector>
 
-#include "Hect/Core/Export.h"
 #include "Hect/Graphics/UniformValue.h"
 #include "Hect/IO/Encodable.h"
 

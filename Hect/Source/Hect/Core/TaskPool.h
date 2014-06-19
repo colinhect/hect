@@ -32,7 +32,6 @@
 #include <thread>
 #include <vector>
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Core/Error.h"
 

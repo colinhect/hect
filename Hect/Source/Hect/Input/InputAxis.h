@@ -25,7 +25,6 @@
 
 #include <vector>
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"

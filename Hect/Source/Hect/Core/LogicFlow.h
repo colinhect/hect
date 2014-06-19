@@ -25,7 +25,6 @@
 
 #include <vector>
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Core/Timer.h"
 #include "Hect/Core/TimeSpan.h"

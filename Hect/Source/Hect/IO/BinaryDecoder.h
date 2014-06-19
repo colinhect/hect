@@ -25,7 +25,6 @@
 
 #include <stack>
 
-#include "Hect/Core/Export.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/ReadStream.h"
 

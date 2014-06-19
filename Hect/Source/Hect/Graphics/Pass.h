@@ -25,7 +25,6 @@
 
 #include <map>
 
-#include "Hect/Core/Export.h"
 #include "Hect/Asset/AssetHandle.h"
 #include "Hect/Graphics/PassUniformValue.h"
 #include "Hect/Graphics/RenderMode.h"
