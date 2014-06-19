@@ -36,39 +36,41 @@
 #include <Hect/Graphics/Window.h>
 #include <Hect/Input/InputSystem.h>
 
+using namespace hect;
+
 #include "Components/PlayerCamera.h"
 #include "Systems/PlayerCameraSystem.h"
 
 class MainLogicLayer :
-    public hect::LogicLayer,
-    public hect::Listener<hect::KeyboardEvent>,
-    public hect::Uncopyable
+    public LogicLayer,
+    public Listener<KeyboardEvent>,
+    public Uncopyable
 {
 public:
-    MainLogicLayer(hect::AssetCache& assetCache, hect::InputSystem& inputSystem, hect::Window& window, hect::Renderer& renderer);
+    MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer);
     ~MainLogicLayer();
 
-    void fixedUpdate(hect::Real timeStep);
-    void frameUpdate(hect::Real delta);
+    void fixedUpdate(Real timeStep);
+    void frameUpdate(Real delta);
 
-    void receiveEvent(const hect::KeyboardEvent& event);
+    void receiveEvent(const KeyboardEvent& event);
 
 private:
-    hect::AssetCache* _assetCache;
-    hect::InputSystem* _input;
-    hect::Window* _window;
+    AssetCache* _assetCache;
+    InputSystem* _input;
+    Window* _window;
 
-    hect::TaskPool _taskPool;
-    hect::Task _physicsTask;
+    TaskPool _taskPool;
+    Task _physicsTask;
 
-    hect::Scene _scene;
+    Scene _scene;
 
-    hect::Entity _player;
-    hect::Entity _cube;
+    Entity _player;
+    Entity _cube;
 
-    hect::CameraSystem _cameraSystem;
-    hect::RenderSystem _renderSystem;
-    hect::PhysicsSystem _physicsSystem;
+    CameraSystem _cameraSystem;
+    RenderSystem _renderSystem;
+    PhysicsSystem _physicsSystem;
 
     PlayerCameraSystem _playerCameraSystem;
 };

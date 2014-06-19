@@ -27,7 +27,6 @@
 
 #include "Hect/Logic/ComponentBase.h"
 #include "Hect/Logic/Entity.h"
-#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -43,9 +42,9 @@ class Component :
 {
     friend class ComponentPool<T>;
 public:
-    Component();
-    virtual ~Component() { }
 
+    ///
+    /// Returns the entity that the component belongs to.
     Entity entity() const;
 
     ///

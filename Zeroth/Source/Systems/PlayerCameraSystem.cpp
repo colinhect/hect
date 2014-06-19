@@ -26,8 +26,6 @@
 #include <Hect/Graphics/Components/Camera.h>
 #include <Hect/Graphics/Components/Transform.h>
 
-using namespace hect;
-
 PlayerCameraSystem::PlayerCameraSystem(Scene& scene, InputSystem& inputSystem) :
     System(scene),
     _mouse(&inputSystem.mouse()),

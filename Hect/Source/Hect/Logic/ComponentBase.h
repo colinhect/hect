@@ -31,19 +31,19 @@ namespace hect
 {
 
 ///
-/// A numeric entity identifier.
+/// A numeric identifier for an entity.
 typedef uint32_t EntityId;
 
 ///
-/// A numeric component identifier.
+/// A numeric identifier for a component.
 typedef uint32_t ComponentId;
 
 ///
-/// A numeric component type identifier.
+/// A numeric identifier for a component type.
 typedef uint32_t ComponentTypeId;
 
 ///
-/// Base entity component.
+/// Abstract interface to a Component of any type.
 class ComponentBase :
     public Encodable
 {

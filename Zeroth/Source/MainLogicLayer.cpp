@@ -27,8 +27,6 @@
 #include <Hect/Graphics/Components/Transform.h>
 #include <Hect/Physics/Components/RigidBody.h>
 
-using namespace hect;
-
 MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem, Window& window, Renderer& renderer) :
     _assetCache(&assetCache),
     _input(&inputSystem),

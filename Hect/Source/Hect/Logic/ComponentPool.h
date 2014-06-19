@@ -62,11 +62,11 @@ public:
     /// Constructs a component pool event.
     ///
     /// \param type The event type.
-    /// \param entity The entity that the event pertains to.
+    /// \param entity The id of the entity that the event pertains to.
     ComponentPoolEvent(ComponentPoolEventType::Enum type, EntityId entityId);
 
     ///
-    /// The type of the event.
+    /// The event type.
     ComponentPoolEventType::Enum type;
 
     ///

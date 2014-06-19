@@ -25,7 +25,9 @@
 
 #include <Hect/Logic/Component.h>
 
+using namespace hect;
+
 class PlayerCamera :
-    public hect::Component<PlayerCamera>
+    public Component<PlayerCamera>
 {
 };

@@ -27,26 +27,28 @@
 #include <Hect/Logic/System.h>
 #include <Hect/Input/InputSystem.h>
 
+using namespace hect;
+
 #include "Components/PlayerCamera.h"
 
 class PlayerCameraSystem :
-    public hect::System
+    public System
 {
 public:
-    PlayerCameraSystem(hect::Scene& scene, hect::InputSystem& inputSystem);
+    PlayerCameraSystem(Scene& scene, InputSystem& inputSystem);
 
-    void update(hect::Real timeStep);
+    void update(Real timeStep);
 
 private:
-    hect::Mouse* _mouse;
+    Mouse* _mouse;
 
-    const hect::InputAxis* _viewX;
-    const hect::InputAxis* _viewY;
+    const InputAxis* _viewX;
+    const InputAxis* _viewY;
 
-    const hect::InputAxis* _moveX;
-    const hect::InputAxis* _moveY;
+    const InputAxis* _moveX;
+    const InputAxis* _moveY;
 
-    const hect::InputAxis* _roll;
+    const InputAxis* _roll;
 
-    hect::Real _speed;
+    Real _speed;
 };

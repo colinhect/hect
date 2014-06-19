@@ -25,11 +25,6 @@ namespace hect
 {
 
 template <typename T>
-Component<T>::Component()
-{
-}
-
-template <typename T>
 Entity Component<T>::entity() const
 {
     return _entity;
