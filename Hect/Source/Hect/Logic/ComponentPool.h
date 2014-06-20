@@ -242,14 +242,25 @@ public:
     ///
     /// Adds a component to an entity.
     ///
-    /// \remarks If the entity already has an entity of the given type then the
-    /// existing entity is overwritten.
-    ///
     /// \param entityId The id of the entity.
     /// \param component The component to add.
     ///
     /// \returns An iterator to the newly added component.
+    ///
+    /// \throws Error If the entity already has a component of the given type.
     Iterator add(EntityId entityId, T component);
+
+    ///
+    /// Replaces a component for an entity.
+    ///
+    /// \param entityId The id of the entity.
+    /// \param component The new component.
+    ///
+    /// \returns An iterator to the newly replaced component.
+    ///
+    /// \throws Error If the entity does not have a component of the given
+    /// type.
+    Iterator replace(EntityId entityId, T component);
 
     ///
     /// Removes a component from an entity.

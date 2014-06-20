@@ -66,14 +66,12 @@ void PhysicsSystem::updateTransforms()
     {
         Entity entity = rigidBody.entity();
 
-        auto transform = entity.component<Transform>();
-        if (transform)
+        if (entity.component<Transform>())
         {
             // Update the transform to what Bullet says it should be
-            Transform newTransform = convertFromBullet(rigidBody._rigidBody->getWorldTransform());
+            Transform transform = convertFromBullet(rigidBody._rigidBody->getWorldTransform());
 
-            transform->setPosition(newTransform.position());
-            transform->setRotation(newTransform.rotation());
+            entity.replaceComponent(transform);
         }
     }
 }

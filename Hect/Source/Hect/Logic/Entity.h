@@ -29,19 +29,42 @@
 namespace hect
 {
 
+///
+/// An dynamic object in a Scene.
 class Entity :
     public Encodable
 {
     friend class Scene;
 public:
+
     Entity();
     Entity(Scene& scene, EntityId id);
 
     void addComponentBase(const ComponentBase& component);
 
+    ///
+    /// Adds a component of a specific type to the entity.
+    ///
+    /// \param component The component to add.
+    ///
+    /// \throws Error If the entity already has a component of the given type.
     template <typename T>
     typename ComponentPool<T>::Iterator addComponent(T component);
 
+    ///
+    /// Replaces a component of a specific type for the entity.
+    ///
+    /// \param component The new component.
+    ///
+    /// \throws Error If the entity does not have a component of the given type.
+    template <typename T>
+    typename ComponentPool<T>::Iterator replaceComponent(T component);
+
+    ///
+    /// Removes a component of a specific type from the entity.
+    ///
+    /// \returns True if the entity had a component of the given type and was
+    /// removed; false otherwise.
     template <typename T>
     bool removeComponent();
 

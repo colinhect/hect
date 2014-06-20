@@ -251,8 +251,7 @@ typename ComponentPool<T>::Iterator ComponentPool<T>::add(EntityId entityId, T c
     }
     else
     {
-        // The entity already had a component so dispatch a remove event first
-        _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
+        throw Error("Entity already has a component of that type");
     }
 
     // Expand the components vector if needed
@@ -276,6 +275,38 @@ typename ComponentPool<T>::Iterator ComponentPool<T>::add(EntityId entityId, T c
     iterator._components = &_components;
     iterator._index = componentId;
     return iterator;
+}
+
+template <typename T>
+typename ComponentPool<T>::Iterator ComponentPool<T>::replace(EntityId entityId, T component)
+{
+    if (entityId < _entityIdToComponentId.size())
+    {
+        // Get the component id for the entity
+        ComponentId& componentId = _entityIdToComponentId[entityId];
+        if (componentId != (ComponentId)-1)
+        {
+            // The entity already had a component so dispatch a remove event first
+            _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
+            
+            // Assign the new component and get a reference to it
+            T& addedComponent = _components[componentId] = component;
+            addedComponent._entity = Entity(*_scene, entityId);
+
+            // Dispatch the add event
+            if (_scene->entityIsActivated(entityId))
+            {
+                _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entityId));
+            }
+
+            Iterator iterator;
+            iterator._components = &_components;
+            iterator._index = componentId;
+            return iterator;
+        }
+    }
+
+    throw Error("Entity does not have a component of that type");
 }
 
 template <typename T>

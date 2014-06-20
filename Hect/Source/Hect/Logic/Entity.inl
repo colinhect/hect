@@ -32,6 +32,13 @@ typename ComponentPool<T>::Iterator Entity::addComponent(T component)
 }
 
 template <typename T>
+typename ComponentPool<T>::Iterator Entity::replaceComponent(T component)
+{
+    _ensureExists();
+    return _scene->components<T>().replace(_id, component);
+}
+
+template <typename T>
 bool Entity::removeComponent()
 {
     _ensureExists();
