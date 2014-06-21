@@ -39,7 +39,9 @@ typedef MemoryWriteStream PacketWriteStream;
 
 ///
 /// A flag describing how a packet is transported.
-enum PacketFlag
+namespace PacketFlag
+{
+enum Enum
 {
     ///
     /// Packet must be received by the target peer and resend attempts
@@ -52,6 +54,7 @@ enum PacketFlag
     /// \warning Not supported for reliable packets.
     Unsequenced = 2
 };
+}
 
 ///
 /// A packet of data to be transported across a network connection.

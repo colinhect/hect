@@ -358,9 +358,6 @@
     <ClInclude Include="Source\Hect\Logic\Component.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Logic\ComponentBase.h">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Logic\ComponentPool.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>

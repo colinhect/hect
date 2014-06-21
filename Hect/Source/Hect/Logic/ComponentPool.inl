@@ -45,8 +45,9 @@ Entity& ComponentEvent<T>::entity() const
 }
 
 template <typename T>
-ComponentPool<T>::ComponentPool(Scene& scene) :
-    _scene(&scene)
+ComponentPool<T>::ComponentPool(Scene& scene, const std::string& componentTypeName) :
+    _scene(&scene),
+    _componentTypeName(componentTypeName)
 {
 }
 
@@ -151,7 +152,8 @@ typename Component<T>::ConstIter::Array ComponentPool<T>::find(typename Componen
 template <typename T>
 void ComponentPool<T>::_notifyEvent(ComponentEventType::Enum type, Entity& entity)
 {
-    _dispatcher.notifyEvent(ComponentEvent<T>(type, entity));
+    ComponentEvent<T> event(type, entity);
+    _dispatcher.notifyEvent(event);
 }
 
 template <typename T>
@@ -161,45 +163,54 @@ void ComponentPool<T>::_addBase(Entity& entity, const ComponentBase& component)
 }
 
 template <typename T>
+const ComponentBase& ComponentPool<T>::_getBase(const Entity& entity) const
+{
+    auto component = _get(entity);
+    assert(component);
+    return *component;
+}
+
+template <typename T>
 void ComponentPool<T>::_remove(Entity& entity)
 {
     EntityId entityId = entity.id();
-    if (entityId < _entityToComponent.size())
+
+    ComponentId id;
+    if (_entityIdToComponentId(entityId, id))
     {
-        // Get the component id for the entity
-        ComponentId& componentId = _entityToComponent[entityId];
-        if (componentId != (ComponentId)-1)
+        // If the entity is activated then dispatch the remove event
+        if (entity.isActivated())
         {
-            // If the entity is activated then dispatch the remove event
-            if (entity.isActivated())
-            {
-                _dispatcher.notifyEvent(ComponentEvent<T>(ComponentEventType::Remove, entity));
-            }
-
-            _idPool.destroy(componentId);
-
-            _components[componentId]._exitPool();
-            _componentToEntity[componentId] = (EntityId)-1;
-            componentId = (ComponentId)-1;
-
-            return;
+            _notifyEvent(ComponentEventType::Remove, entity);
         }
-    }
 
-    throw Error("Entity does not have a component of that type");
+        // Destory the component id to be re-used
+        _idPool.destroy(id);
+
+        // Remove the component from the pool
+        _components[id]._exitPool();
+
+        // Clear the mapping from entity tocomponent and component to
+        // entity
+        _componentToEntity[id] = (EntityId)-1;
+        _entityToComponent[entityId] = (ComponentId)-1;
+    }
+    else
+    {
+        throw Error(format("Entity does not have component of type '%s'", _componentTypeName.c_str()));
+    }
 }
 
 template <typename T>
 void ComponentPool<T>::_clone(const Entity& source, Entity& dest)
 {
     EntityId sourceEntityId = source.id();
-    if (sourceEntityId < _entityToComponent.size())
+
+    ComponentId id;
+    if (_entityIdToComponentId(sourceEntityId, id))
     {
-        ComponentId& componentId = _entityToComponent[sourceEntityId];
-        if (componentId != (ComponentId)-1)
-        {
-            _add(dest, _components[componentId]);
-        }
+        // Add the component of the source entity to the destination entity
+        _add(dest, _components[id]);
     }
 }
 
@@ -207,40 +218,10 @@ template <typename T>
 bool ComponentPool<T>::_has(const Entity& entity) const
 {
     EntityId entityId = entity.id();
-    if (entityId < _entityToComponent.size())
-    {
-        const ComponentId& componentId = _entityToComponent[entityId];
-        if (componentId != (ComponentId)-1)
-        {
-            return true;
-        }
-    }
 
-    return false;
+    ComponentId id;
+    return _entityIdToComponentId(entityId, id);
 }
-
-template <typename T>
-ComponentBase& ComponentPool<T>::_getBase(Entity& entity)
-{
-    auto component = _get(entity);
-    if (!component)
-    {
-        throw Error("Entity does not have a component in this pool");
-    }
-    return *component;
-}
-
-template <typename T>
-const ComponentBase& ComponentPool<T>::_getBase(const Entity& entity) const
-{
-    auto component = _get(entity);
-    if (!component)
-    {
-        throw Error("Entity does not have a component in this pool");
-    }
-    return *component;
-}
-
 
 template <typename T>
 typename Component<T>::Iter ComponentPool<T>::_add(Entity& entity, const T& component)
@@ -255,103 +236,112 @@ typename Component<T>::Iter ComponentPool<T>::_add(Entity& entity, const T& comp
     _expandVector(_entityToComponent, entityId, (ComponentId)-1);
 
     // Get the component id for the entity
-    ComponentId& componentId = _entityToComponent[entityId];
+    ComponentId id = _entityToComponent[entityId];
 
     // Ensure that the entity does not already have a component of this type
-    if (componentId != (ComponentId)-1)
+    if (id != (ComponentId)-1)
     {
-        throw Error("Entity already has a component of that type");
+        throw Error(format("Entity already has component of type '%s'", _componentTypeName.c_str()));
     }
 
-    // Create the new component ID
-    componentId = _idPool.create();
+    // Create the new component id
+    id = _idPool.create();
+    _entityToComponent[entityId] = id;
 
     // Expand the component vector if needed
-    _expandVector(_components, componentId);
+    _expandVector(_components, id);
 
     // Expand the component-to-entity vector if needed
-    _expandVector(_componentToEntity, componentId, (EntityId)-1);
+    _expandVector(_componentToEntity, id, (EntityId)-1);
 
     // Remember which entity this component belongs to
-    _componentToEntity[componentId] = entityId;
+    _componentToEntity[id] = entityId;
 
     // Assign the new component and get a reference to it
-    T& addedComponent = _components[componentId] = copiedComponent;
-    addedComponent._enterPool(*this, componentId);
+    T& addedComponent = _components[id] = copiedComponent;
+
+    // Include the component in the pool
+    addedComponent._enterPool(*this, id);
 
     // Dispatch the add event if the entity is activated
     if (entity.isActivated())
     {
-        _dispatcher.notifyEvent(ComponentEvent<T>(ComponentEventType::Add, entity));
+        _notifyEvent(ComponentEventType::Add, entity);
     }
 
-    return Component<T>::Iter(*this, componentId);
+    return Component<T>::Iter(*this, id);
 }
 
 template <typename T>
 typename Component<T>::Iter ComponentPool<T>::_replace(Entity& entity, const T& component)
 {
     EntityId entityId = entity.id();
-    if (entityId < _entityToComponent.size())
+
+    ComponentId id;
+    if (_entityIdToComponentId(entityId, id))
     {
-        // Get the component id for the entity
-        ComponentId& componentId = _entityToComponent[entityId];
-        if (componentId != (ComponentId)-1)
+        // If the entity is activated then dispatch the remove event
+        if (entity.isActivated())
         {
-            // If the entity is activated then dispatch the remove event
-            if (entity.isActivated())
-            {
-                _dispatcher.notifyEvent(ComponentEvent<T>(ComponentEventType::Remove, entity));
-            }
-
-            T& addedComponent = _components[componentId];
-            addedComponent._exitPool();
-            addedComponent = component;
-            addedComponent._enterPool(*this, componentId);
-
-            // If the entity is activated then dispatch the add event
-            if (entity.isActivated())
-            {
-                _dispatcher.notifyEvent(ComponentEvent<T>(ComponentEventType::Add, entity));
-            }
-
-            return Component<T>::Iter(*this, componentId);
+            _notifyEvent(ComponentEventType::Remove, entity);
         }
-    }
 
-    throw Error("Entity does not have a component of that type");
+        // Get the old component
+        T& addedComponent = _components[id];
+
+        // Remove the old component from the pool
+        addedComponent._exitPool();
+
+        // Replace the old component with the new component
+        addedComponent = component;
+
+        // Include the new component in the pool
+        addedComponent._enterPool(*this, id);
+
+        // If the entity is activated then dispatch the add event
+        if (entity.isActivated())
+        {
+            _notifyEvent(ComponentEventType::Add, entity);
+        }
+
+        return Component<T>::Iter(*this, id);
+    }
+    else
+    {
+        throw Error(format("Entity does not have component of type '%s'", _componentTypeName.c_str()));
+    }
 }
 
 template <typename T>
 typename Component<T>::Iter ComponentPool<T>::_get(Entity& entity)
 {
     EntityId entityId = entity.id();
-    if (entityId < _entityToComponent.size())
-    {
-        ComponentId componentId = _entityToComponent[entityId];
-        if (componentId != (ComponentId)-1)
-        {
-            return Component<T>::Iter(*this, componentId);
-        }
-    }
 
-    return end();
+    ComponentId id;
+    if (_entityIdToComponentId(entityId, id))
+    {
+        return Component<T>::Iter(*this, id);
+    }
+    else
+    {
+        return end();
+    }
 }
 
 template <typename T>
 typename Component<T>::ConstIter ComponentPool<T>::_get(const Entity& entity) const
 {
     EntityId entityId = entity.id();
-    if (entityId < _entityToComponent.size())
-    {
-        ComponentId componentId = _entityToComponent[entityId];
-        if (componentId != (ComponentId)-1)
-        {
-            return Component<T>::ConstIter(*this, componentId);
-        }
-    }
 
-    return end();
+    ComponentId id;
+    if (_entityIdToComponentId(entityId, id))
+    {
+        return Component<T>::ConstIter(*this, id);
+    }
+    else
+    {
+        return end();
+    }
 }
 
 template <typename T>
@@ -376,6 +366,13 @@ bool ComponentPool<T>::_componentHasEntity(ComponentId id) const
 template <typename T>
 Entity& ComponentPool<T>::_entityForComponent(ComponentId id)
 {
+    const Entity& entity = const_cast<const ComponentPool<T>*>(this)->_entityForComponent(id);
+    return const_cast<Entity&>(entity);
+}
+
+template <typename T>
+const Entity& ComponentPool<T>::_entityForComponent(ComponentId id) const
+{
     if (id < _componentToEntity.size())
     {
         EntityId entityId = _componentToEntity[id];
@@ -388,31 +385,10 @@ Entity& ComponentPool<T>::_entityForComponent(ComponentId id)
 }
 
 template <typename T>
-const Entity& ComponentPool<T>::_entityForComponent(ComponentId id) const
-{
-    if (id < _componentToEntity.size())
-    {
-        EntityId entityId = _componentToEntity[id];
-        if (entityId != (EntityId)-1)
-        {
-            return _scene->entityWithId(entityId);
-        }
-    }
-    throw Error("Component does not have an associated entity");
-}
-
-template <typename T>
 T& ComponentPool<T>::_componentWithId(ComponentId id)
 {
-    if (id < _components.size())
-    {
-        T& component = _components[id];
-        if (component._inPool())
-        {
-            return component;
-        }
-    }
-    throw Error("Invalid component");
+    const T& component = const_cast<const ComponentPool<T>*>(this)->_componentWithId(id);
+    return const_cast<T&>(component);
 }
 
 template <typename T>
@@ -420,13 +396,30 @@ const T& ComponentPool<T>::_componentWithId(ComponentId id) const
 {
     if (id < _components.size())
     {
-        T& component = _components[id];
+        const T& component = _components[id];
         if (component._inPool())
         {
             return component;
         }
     }
+    
     throw Error("Invalid component");
+}
+
+template <typename T>
+bool ComponentPool<T>::_entityIdToComponentId(EntityId entityId, ComponentId& id) const
+{
+    // If the entity id is within range for the pool
+    if (entityId < _entityToComponent.size())
+    {
+        id = _entityToComponent[entityId];
+    }
+    else
+    {
+        id = (ComponentId)-1;
+    }
+
+    return id != (ComponentId)-1;
 }
 
 template <typename T>

@@ -99,7 +99,6 @@
     <ClInclude Include="Source\Hect\IO\Encodable.h" />
     <ClInclude Include="Source\Hect\IO\WriteStream.h" />
     <ClInclude Include="Source\Hect\Logic\Component.h" />
-    <ClInclude Include="Source\Hect\Logic\ComponentBase.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentPool.h" />
     <ClInclude Include="Source\Hect\Logic\Entity.h" />
     <ClInclude Include="Source\Hect\Logic\EntityPool.h" />

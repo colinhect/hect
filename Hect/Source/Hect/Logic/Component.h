@@ -25,12 +25,33 @@
 
 #include <typeindex>
 
-#include "Hect/Logic/ComponentBase.h"
+#include "Hect/IO/Encodable.h"
 
 #pragma warning (disable : 4505)
 
 namespace hect
 {
+
+///
+/// A numeric identifier for an entity.
+typedef uint32_t EntityId;
+
+///
+/// A numeric identifier for a component.
+typedef uint32_t ComponentId;
+
+///
+/// A numeric identifier for a component type.
+typedef uint32_t ComponentTypeId;
+
+class ComponentBase :
+    public Encodable
+{
+public:
+    virtual ~ComponentBase() { }
+
+    virtual std::type_index typeIndex() const = 0;
+};
 
 class Entity;
 
@@ -110,13 +131,13 @@ public:
         Iter& operator++();
 
         ///
-        /// Returns whether the component is equivalent to another.
+        /// Returns whether the iterator is equivalent to another.
         ///
         /// \param other The other iterator.
         bool operator==(const Iter& other) const;
 
         ///
-        /// Returns whether the component is different from another.
+        /// Returns whether the iterator is different from another.
         ///
         /// \param other The other iterator.
         bool operator!=(const Iter& other) const;
@@ -173,13 +194,13 @@ public:
         ConstIter& operator++();
 
         ///
-        /// Returns whether the component is equivalent to another.
+        /// Returns whether the iterator is equivalent to another.
         ///
         /// \param other The other iterator.
         bool operator==(const ConstIter& other) const;
 
         ///
-        /// Returns whether the component is different from another.
+        /// Returns whether the iterator is different from another.
         ///
         /// \param other The other iterator.
         bool operator!=(const ConstIter& other) const;
@@ -222,7 +243,7 @@ public:
     ComponentId id() const;
 
     ///
-    /// \copydoc ComponentBase::typeIndex()
+    /// Returns the type index for the component's type.
     std::type_index typeIndex() const;
 
 private:
