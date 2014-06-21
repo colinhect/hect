@@ -23,81 +23,110 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/ComponentPool.h"
+#include "Hect/Logic/Component.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
 {
 
-///
-/// An dynamic object in a Scene.
+class EntityPool;
+
 class Entity :
     public Encodable
 {
-    friend class Scene;
+private:
+    class IterBase
+    {
+    public:
+        IterBase();
+        IterBase(EntityPool* pool, EntityId id);
+
+    protected:
+        void _nextValidEntity();
+        void _increment();
+        bool _isValid() const;
+        void _ensureValid() const;
+        bool _equals(const IterBase& other) const;
+
+        mutable EntityPool* _pool;
+        EntityId _id;
+    };
+
 public:
+    class Iter :
+        public IterBase
+    {
+    public:
+        Iter();
+        Iter(EntityPool* pool, EntityId id);
+
+        Entity& operator*() const;
+        Entity* operator->() const;
+        Iter& operator++();
+
+        bool operator==(const Iter& other) const;
+        bool operator!=(const Iter& other) const;
+
+        operator bool() const;
+    };
+
+    class ConstIter :
+        public IterBase
+    {
+    public:
+        ConstIter();
+        ConstIter(const EntityPool* pool, EntityId id);
+
+        const Entity& operator*() const;
+        const Entity* operator->() const;
+        ConstIter& operator++();
+
+        bool operator==(const ConstIter& other) const;
+        bool operator!=(const ConstIter& other) const;
+
+        operator bool() const;
+    };
+
+    class Handle { };
 
     Entity();
-    Entity(Scene& scene, EntityId id);
 
     void addComponentBase(const ComponentBase& component);
 
-    ///
-    /// Adds a component of a specific type to the entity.
-    ///
-    /// \param component The component to add.
-    ///
-    /// \throws Error If the entity already has a component of the given type.
     template <typename T>
-    typename ComponentPool<T>::Iterator addComponent(T component);
-
-    ///
-    /// Replaces a component of a specific type for the entity.
-    ///
-    /// \param component The new component.
-    ///
-    /// \throws Error If the entity does not have a component of the given type.
-    template <typename T>
-    typename ComponentPool<T>::Iterator replaceComponent(T component);
-
-    ///
-    /// Removes a component of a specific type from the entity.
-    ///
-    /// \returns True if the entity had a component of the given type and was
-    /// removed; false otherwise.
-    template <typename T>
-    bool removeComponent();
+    typename Component<T>::Iter addComponent(T component);
 
     template <typename T>
-    typename ComponentPool<T>::Iterator component();
+    typename Component<T>::Iter replaceComponent(T component);
 
-    Entity clone() const;
+    template <typename T>
+    void removeComponent();
+
+    template <typename T>
+    typename Component<T>::Iter component();
+
+    Entity::Iter clone() const;
     void destroy();
     void activate();
 
     bool isActivated() const;
 
-    bool exists() const;
+    void enterPool(EntityPool* pool, EntityId id);
+    void exitPool();
 
-    Scene& scene();
-    const Scene& scene() const;
+    bool inPool() const;
 
     EntityId id() const;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
-    bool operator==(const Entity& entity) const;
-    bool operator!=(const Entity& entity) const;
-
-    operator bool() const;
-
 private:
+    void _ensureInPool() const;
 
-    void _ensureExists() const;
-
-    Scene* _scene;
+    EntityPool* _pool;
     EntityId _id;
+    bool _activated;
 };
 
 }

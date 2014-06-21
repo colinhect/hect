@@ -29,7 +29,7 @@
 
 #include "Hect/Core/IdPool.h"
 #include "Hect/Core/Dispatcher.h"
-#include "Hect/Logic/ComponentBase.h"
+#include "Hect/Logic/Component.h"
 
 #pragma warning (disable : 4505)
 
@@ -84,238 +84,62 @@ public:
     /// Returns the dispatcher of component pool events.
     virtual Dispatcher<ComponentPoolEvent>& dispatcher() = 0;
 
-    ///
-    /// Adds a component to an entity.
-    ///
-    /// \remarks If the entity already has an entity of the given type then the
-    /// existing component is overwritten.
-    ///
-    /// \param entityId The id of the entity.
-    /// \param component The component to add.
-    virtual void addBase(EntityId entityId, const ComponentBase& component) = 0;
+    virtual void addBase(Entity& entity, const ComponentBase& component) = 0;
 
-    ///
-    /// Removes a component from an entity.
-    ///
-    /// \param entityId The id of the entity.
-    ///
-    /// \returns True if the component was removed from the entity; false if
-    /// entity did not have the component.
-    virtual bool remove(EntityId entityId) = 0;
+    virtual bool remove(Entity& entity) = 0;
+    virtual void clone(const Entity& source, Entity& dest) = 0;
 
-    ///
-    /// Clones the component from one entity to another.
-    ///
-    /// \param sourceEntityId The id of the entity to copy the component from.
-    /// \param destEntityId The id of the entity to copy the component to.
-    virtual void clone(EntityId sourceEntityId, EntityId destEntityId) = 0;
+    virtual bool has(const Entity& entity) const = 0;
 
-    ///
-    /// Returns whether an entity has a component in the pool.
-    ///
-    /// \param entityId The id of the entity.
-    virtual bool has(EntityId entityId) const = 0;
-
-    virtual ComponentBase& getBase(EntityId entityId) = 0;
+    virtual ComponentBase& getBase(Entity& entity) = 0;
 };
 
 class Scene;
 
-///
-/// Contains all of the components of a specific type in a scene.
 template <typename T>
 class ComponentPool :
     public ComponentPoolBase
 {
 public:
-
-    ///
-    /// A component iterator.
-    class Iterator
-    {
-        friend class ComponentPool<T>;
-    public:
-        Iterator();
-
-        ///
-        /// Returns whether the iterator refers to a valid component.
-        bool isValid() const;
-
-        ///
-        /// Dereferences the iterator.
-        T& operator*() const;
-
-        ///
-        /// Provides pointer-like access to the underlying component.
-        T* operator->() const;
-
-        ///
-        /// Moves to the next component.
-        Iterator& operator++();
-
-        ///
-        /// Returns whether the iterator refers to the same component as another
-        /// iterator.
-        ///
-        /// \param other The other iterator.
-        bool operator==(const Iterator& other) const;
-
-        ///
-        /// Returns whether the iterator refers to a different component than
-        /// another iterator.
-        ///
-        /// \param other The other iterator.
-        bool operator!=(const Iterator& other) const;
-
-        operator bool() const;
-
-    private:
-        Iterator(std::vector<T>* components, size_t index);
-
-        std::vector<T>* _components;
-        size_t _index;
-    };
-
-    ///
-    /// A constant component iterator.
-    class ConstIterator
-    {
-        friend class ComponentPool<T>;
-    public:
-        ConstIterator();
-
-        ///
-        /// Returns whether the iterator refers to a valid component.
-        bool isValid() const;
-
-        ///
-        /// Dereferences the iterator.
-        const T& operator*() const;
-
-        ///
-        /// Provides pointer-like access to the underlying component.
-        const T* operator->() const;
-
-        ///
-        /// Moves to the next component.
-        ConstIterator& operator++();
-
-        ///
-        /// Returns whether the iterator refers to the same component as another
-        /// iterator.
-        ///
-        /// \param other The other iterator.
-        bool operator==(const ConstIterator& other) const;
-
-        ///
-        /// Returns whether the iterator refers to a different component than
-        /// another iterator.
-        ///
-        /// \param other The other iterator.
-        bool operator!=(const ConstIterator& other) const;
-
-        operator bool() const;
-
-    private:
-        ConstIterator(const std::vector<T>* components, size_t index);
-
-        const std::vector<T>* _components;
-        size_t _index;
-    };
-
-    ComponentPool(Scene* scene);
+    ComponentPool(Scene& scene);
 
     ///
     /// Returns the dispatcher of component pool events.
     Dispatcher<ComponentPoolEvent>& dispatcher();
 
-    ///
-    /// Adds a component to an entity.
-    ///
-    /// \remarks If the entity already has an entity of the given type then the
-    /// existing entity is overwritten.
-    ///
-    /// \param entityId The id of the entity.
-    /// \param component The component to add.
-    void addBase(EntityId entityId, const ComponentBase& component);
+    Entity& entityForComponent(ComponentId id);
+    const Entity& entityForComponent(ComponentId id) const;
 
-    ///
-    /// Adds a component to an entity.
-    ///
-    /// \param entityId The id of the entity.
-    /// \param component The component to add.
-    ///
-    /// \returns An iterator to the newly added component.
-    ///
-    /// \throws Error If the entity already has a component of the given type.
-    Iterator add(EntityId entityId, T component);
+    void addBase(Entity& entity, const ComponentBase& component);
 
-    ///
-    /// Replaces a component for an entity.
-    ///
-    /// \param entityId The id of the entity.
-    /// \param component The new component.
-    ///
-    /// \returns An iterator to the newly replaced component.
-    ///
-    /// \throws Error If the entity does not have a component of the given
-    /// type.
-    Iterator replace(EntityId entityId, T component);
+    Component<T>::Iter add(Entity& entity, T component);
+    Component<T>::Iter replace(Entity& entity, T component);
+    void remove(Entity& entity);
 
-    ///
-    /// Removes a component from an entity.
-    ///
-    /// \param entityId The id of the entity.
-    ///
-    /// \returns True if the component was removed from the entity; false if
-    /// entity did not have the component.
-    bool remove(EntityId entityId);
+    void clone(const Entity& source, Entity& dest);
 
-    ///
-    /// Clones the component from one entity to another.
-    ///
-    /// \param sourceEntityId The id of the entity to copy the component from.
-    /// \param destEntityId The id of the entity to copy the component to.
-    void clone(EntityId sourceEntityId, EntityId destEntityId);
+    bool has(const Entity& entity) const;
 
-    ///
-    /// Returns whether an entity has a component in the pool.
-    ///
-    /// \param entityId The id of the entity.
-    bool has(EntityId entityId) const;
+    ComponentBase& getBase(Entity& entity);
 
-    ComponentBase& getBase(EntityId entityId);
+    Component<T>::Iter get(Entity& entity);
+    Component<T>::ConstIter get(const Entity& entity) const;
 
-    ///
-    /// Returns the component of the given entity.
-    ///
-    /// \param entityId The id of the entity.
-    ///
-    /// \throws Error If the entity does not have a component in the pool.
-    Iterator get(EntityId entityId);
-
-    ///
-    /// Returns an iterator to the first component in the pool.
-    Iterator begin();
-
-    ///
-    /// Returns an iterator to the first component in the pool.
-    ConstIterator begin() const;
-
-    ///
-    /// Returns an iterator to the end of the pool.
-    Iterator end();
-
-    ///
-    /// Returns an iterator to the end of the pool.
-    ConstIterator end() const;
+    Component<T>::Iter begin();
+    Component<T>::ConstIter begin() const;
+    Component<T>::Iter end();
+    Component<T>::ConstIter end() const;
 
 private:
+    template <typename U>
+    bool _expandVector(std::vector<U>& vector, size_t size, U value = U());
+
     Scene* _scene;
     Dispatcher<ComponentPoolEvent> _dispatcher;
-    IdPool<ComponentId> _componentIdPool;
+    IdPool<ComponentId> _idPool;
     std::vector<T> _components;
-    std::vector<ComponentId> _entityIdToComponentId;
+    std::vector<ComponentId> _entityToComponent;
+    std::vector<EntityId> _componentToEntity;
 };
 
 }

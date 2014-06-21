@@ -26,10 +26,11 @@
 #include <typeindex>
 
 #include "Hect/Logic/ComponentBase.h"
-#include "Hect/Logic/Entity.h"
 
 namespace hect
 {
+
+class Entity;
 
 template <typename T>
 class ComponentPool;
@@ -40,19 +41,83 @@ template <typename T>
 class Component :
     public ComponentBase
 {
-    friend class ComponentPool<T>;
-public:
+private:
+    class IterBase
+    {
+    public:
+        IterBase();
+        IterBase(ComponentPool<T>* pool, ComponentId id);
 
-    ///
-    /// Returns the entity that the component belongs to.
-    Entity entity() const;
+    protected:
+        void _nextValidComponent();
+        void _increment();
+        bool _isValid() const;
+        void _ensureValid() const;
+        bool _equals(const IterBase& other) const;
+
+        mutable ComponentPool<T>* _pool;
+        ComponentId _id;
+    };
+
+public:
+    class Iter :
+        public IterBase
+    {
+    public:
+        Iter();
+        Iter(ComponentPool<T>* pool, ComponentId id);
+
+        T& operator*() const;
+        T* operator->() const;
+        Iter& operator++();
+
+        bool operator==(const Iter& other) const;
+        bool operator!=(const Iter& other) const;
+
+        operator bool() const;
+    };
+
+    class ConstIter :
+        public IterBase
+    {
+    public:
+        ConstIter();
+        ConstIter(const ComponentPool<T>* pool, ComponentId id);
+
+        const T& operator*() const;
+        const T* operator->() const;
+        ConstIter& operator++();
+
+        bool operator==(const ConstIter& other) const;
+        bool operator!=(const ConstIter& other) const;
+
+        operator bool() const;
+    };
+
+    Component();
+
+    void enterPool(ComponentPool<T>* pool, ComponentId id);
+    void exitPool();
+
+    bool inPool() const;
+
+    ComponentPool<T>& pool();
+    const ComponentPool<T>& pool() const;
+
+    Entity& entity();
+    const Entity& entity() const;
+
+    ComponentId id() const;
 
     ///
     /// \copydoc ComponentBase::typeIndex()
     std::type_index typeIndex() const;
 
 private:
-    Entity _entity;
+    void _ensureInPool() const;
+
+    ComponentPool<T>* _pool;
+    ComponentId _id;
 };
 
 }

@@ -69,6 +69,7 @@ public:
     std::vector<ComponentPoolEvent> receivedEvents;
 };
 
+/*
 TEST_CASE("Scene_CreateAndDestroyEntities")
 {
     Scene scene;
@@ -299,3 +300,4 @@ TEST_CASE("Scene_ComponentPoolListeners")
     REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);
     REQUIRE(listener.receivedEvents[0].entityId == b.id());
 }
+*/

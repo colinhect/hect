@@ -25,198 +25,8 @@ namespace hect
 {
 
 template <typename T>
-ComponentPool<T>::Iterator::Iterator() :
-    _components(nullptr),
-    _index((size_t)-1)
-{
-}
-
-template <typename T>
-bool ComponentPool<T>::Iterator::isValid() const
-{
-    return _components
-        && _index < _components->size()
-        && (*_components)[_index].entity().exists();
-}
-
-template <typename T>
-T& ComponentPool<T>::Iterator::operator*() const
-{
-    if (!_components || _index >= _components->size())
-    {
-        throw Error("Cannot dereference an invalid component iterator");
-    }
-    return (*_components)[_index];
-}
-
-template <typename T>
-T* ComponentPool<T>::Iterator::operator->() const
-{
-    return &(**this);
-}
-
-template <typename T>
-typename ComponentPool<T>::Iterator& ComponentPool<T>::Iterator::operator++()
-{
-    size_t size = _components->size();
-    Entity entity;
-    do
-    {
-        ++_index;
-        if (_index < size)
-        {
-            entity = (*_components)[_index].entity();
-        }
-        else
-        {
-            break;
-        }
-    } while (!entity.exists() || !entity.isActivated());
-
-    return *this;
-}
-
-template <typename T>
-bool ComponentPool<T>::Iterator::operator==(const Iterator& other) const
-{
-    return _components == other._components && _index == other._index;
-}
-
-template <typename T>
-bool ComponentPool<T>::Iterator::operator!=(const Iterator& other) const
-{
-    return _components != other._components || _index != other._index;
-}
-
-template <typename T>
-ComponentPool<T>::Iterator::operator bool() const
-{
-    return isValid();
-}
-
-template <typename T>
-ComponentPool<T>::Iterator::Iterator(std::vector<T>* components, size_t index) :
-    _components(components),
-    _index(index)
-{
-    if (_components && _index < _components->size())
-    {
-        // Move to the first component
-        size_t size = _components->size();
-        Entity entity = (*_components)[_index].entity();
-        while (_index < size && (!entity.exists() || !entity.isActivated()))
-        {
-            ++_index;
-            if (_index < size)
-            {
-                entity = (*_components)[_index].entity();
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-}
-
-template <typename T>
-ComponentPool<T>::ConstIterator::ConstIterator() :
-    _components(nullptr),
-    _index((size_t)-1)
-{
-}
-
-template <typename T>
-bool ComponentPool<T>::ConstIterator::isValid() const
-{
-    return _components
-        && _index < _components->size()
-        && (*_components)[_index].entity().exists();
-}
-
-template <typename T>
-const T& ComponentPool<T>::ConstIterator::operator*() const
-{
-    if (!_components || _index >= _components->size())
-    {
-        throw Error("Cannot dereference an invalid component iterator");
-    }
-    return (*_components)[_index];
-}
-
-template <typename T>
-const T* ComponentPool<T>::ConstIterator::operator->() const
-{
-    return &(**this);
-}
-
-template <typename T>
-typename ComponentPool<T>::ConstIterator& ComponentPool<T>::ConstIterator::operator++()
-{
-    size_t size = _components->size();
-    Entity entity;
-    do
-    {
-        ++_index;
-        if (_index < size)
-        {
-            entity = (*_components)[_index].entity();
-        }
-        else
-        {
-            break;
-        }
-    } while (!entity.exists() || !entity.isActivated());
-
-    return *this;
-}
-
-template <typename T>
-bool ComponentPool<T>::ConstIterator::operator==(const ConstIterator& other) const
-{
-    return _components == other._components && _index == other._index;
-}
-
-template <typename T>
-bool ComponentPool<T>::ConstIterator::operator!=(const ConstIterator& other) const
-{
-    return _components != other._components || _index != other._index;
-}
-
-template <typename T>
-ComponentPool<T>::ConstIterator::operator bool() const
-{
-    return isValid();
-}
-
-template <typename T>
-ComponentPool<T>::ConstIterator::ConstIterator(const std::vector<T>* components, size_t index) :
-    _components(components),
-    _index(index)
-{
-    if (_components && _index < _components->size())
-    {
-        // Move to the first component
-        size_t size = _components->size();
-        Entity entity = (*_components)[_index].entity();
-        while (_index < size && (!entity.exists() || !entity.isActivated()))
-        {
-            ++_index;
-            if (_index < size)
-            {
-                entity = (*_components)[_index].entity();
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-}
-
-template <typename T>
-ComponentPool<T>::ComponentPool(Scene* scene) :
-    _scene(scene)
+ComponentPool<T>::ComponentPool(Scene& scene) :
+    _scene(&scene)
 {
 }
 
@@ -227,82 +37,107 @@ Dispatcher<ComponentPoolEvent>& ComponentPool<T>::dispatcher()
 }
 
 template <typename T>
-void ComponentPool<T>::addBase(EntityId entityId, const ComponentBase& component)
+Entity& ComponentPool<T>::entityForComponent(ComponentId id)
 {
-    add(entityId, *(T*)&component);
+    if (id < _componentToEntity.size())
+    {
+        EntityId entityId = _componentToEntity[id];
+        if (entityId != (EntityId)-1)
+        {
+            return _scene->entityFromId(entityId);
+        }
+    }
+    throw Error("Component does not have an associated entity");
 }
 
 template <typename T>
-typename ComponentPool<T>::Iterator ComponentPool<T>::add(EntityId entityId, T component)
+const Entity& ComponentPool<T>::entityForComponent(ComponentId id) const
 {
-    // Expand the entity to component vector if needed
-    while (entityId >= _entityIdToComponentId.size())
+    if (id < _componentToEntity.size())
     {
-        size_t size = _entityIdToComponentId.size();
-        _entityIdToComponentId.resize(std::max(size * 2, (size_t)8), (ComponentId)-1);
+        EntityId entityId = _componentToEntity[id];
+        if (entityId != (EntityId)-1)
+        {
+            return _scene->entityFromId(entityId);
+        }
     }
+    throw Error("Component does not have an associated entity");
+}
+
+template <typename T>
+void ComponentPool<T>::addBase(Entity& entity, const ComponentBase& component)
+{
+    add(entity, *(T*)&component);
+}
+
+template <typename T>
+typename Component<T>::Iter ComponentPool<T>::add(Entity& entity, T component)
+{
+    EntityId entityId = entity.id();
+
+    // Expand the entity-to-component vector if needed
+    _expandVector(_entityToComponent, entityId, (ComponentId)-1);
 
     // Get the component id for the entity
-    ComponentId& componentId = _entityIdToComponentId[entityId];
-    if (componentId == (ComponentId)-1)
-    {
-        // The entity did not have a component in the pool so create a new one
-        componentId = _componentIdPool.create();
-    }
-    else
+    ComponentId& componentId = _entityToComponent[entityId];
+    
+    // Ensure that the entity does not already have a component of this type
+    if (componentId != (ComponentId)-1)
     {
         throw Error("Entity already has a component of that type");
     }
 
-    // Expand the components vector if needed
-    while (componentId >= _components.size())
-    {
-        size_t size = _components.size();
-        _components.resize(std::max(size * 2, (size_t)8));
-    }
+    // Create the new component ID
+    componentId = _idPool.create();
+
+    // Expand the component vector if needed
+    _expandVector(_components, componentId);
+
+    // Expand the component-to-entity vector if needed
+    _expandVector(_componentToEntity, componentId, (EntityId)-1);
+
+    // Remember which entity this component belongs to
+    _componentToEntity[componentId] = entityId;
 
     // Assign the new component and get a reference to it
     T& addedComponent = _components[componentId] = component;
-    addedComponent._entity = Entity(*_scene, entityId);
+    addedComponent.enterPool(this, componentId);
 
-    // Dispatch the add event
-    if (_scene->entityIsActivated(entityId))
+    // Dispatch the add event if the entity is activated
+    if (entity.isActivated())
     {
         _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entityId));
     }
 
-    Iterator iterator;
-    iterator._components = &_components;
-    iterator._index = componentId;
-    return iterator;
+    return Component<T>::Iter(this, componentId);
 }
 
 template <typename T>
-typename ComponentPool<T>::Iterator ComponentPool<T>::replace(EntityId entityId, T component)
+typename Component<T>::Iter ComponentPool<T>::replace(Entity& entity, T component)
 {
-    if (entityId < _entityIdToComponentId.size())
+    EntityId entityId = entity.id();
+    if (entityId < _entityToComponent.size())
     {
         // Get the component id for the entity
-        ComponentId& componentId = _entityIdToComponentId[entityId];
+        ComponentId& componentId = _entityToComponent[entityId];
         if (componentId != (ComponentId)-1)
         {
-            // The entity already had a component so dispatch a remove event first
-            _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
+            // If the entity is activated then dispatch the remove event
+            if (entity.isActivated())
+            {
+                _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
+            }
             
             // Assign the new component and get a reference to it
             T& addedComponent = _components[componentId] = component;
-            addedComponent._entity = Entity(*_scene, entityId);
 
-            // Dispatch the add event
-            if (_scene->entityIsActivated(entityId))
+            // If the entity is activated then dispatch the add event
+            if (entity.isActivated())
             {
                 _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entityId));
             }
 
-            Iterator iterator;
-            iterator._components = &_components;
-            iterator._index = componentId;
-            return iterator;
+            return Component<T>::Iter(this, componentId);
         }
     }
 
@@ -310,61 +145,66 @@ typename ComponentPool<T>::Iterator ComponentPool<T>::replace(EntityId entityId,
 }
 
 template <typename T>
-bool ComponentPool<T>::remove(EntityId entityId)
+void ComponentPool<T>::remove(Entity& entity)
 {
-    bool hadComponent = false;
-    if (entityId < _entityIdToComponentId.size())
+    EntityId entityId = entity.id();
+    if (entityId < _entityToComponent.size())
     {
-        ComponentId& componentId = _entityIdToComponentId[entityId];
+        // Get the component id for the entity
+        ComponentId& componentId = _entityToComponent[entityId];
         if (componentId != (ComponentId)-1)
         {
-            // Dispatch the remove event
-            if (_scene->entityIsActivated(entityId))
+            // If the entity is activated then dispatch the remove event
+            if (entity.isActivated())
             {
                 _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
             }
 
-            _componentIdPool.destroy(componentId);
+            _idPool.destroy(componentId);
 
-            hadComponent = true;
-            _components[componentId]._entity = Entity();
+            _components[componentId].exitPool();
+            _componentToEntity[componentId] = (EntityId)-1;
             componentId = (ComponentId)-1;
         }
     }
 
-    return hadComponent;
+    throw Error("Entity does not have a component of that type");
 }
 
 template <typename T>
-void ComponentPool<T>::clone(EntityId sourceEntityId, EntityId destEntityId)
+void ComponentPool<T>::clone(const Entity& source, Entity& dest)
 {
-    if (sourceEntityId < _entityIdToComponentId.size())
+    EntityId sourceEntityId = source.id();
+    if (sourceEntityId < _entityToComponent.size())
     {
-        ComponentId& componentId = _entityIdToComponentId[sourceEntityId];
+        ComponentId& componentId = _entityToComponent[sourceEntityId];
         if (componentId != (ComponentId)-1)
         {
-            add(destEntityId, _components[componentId]);
+            add(dest, _components[componentId]);
         }
     }
 }
 
 template <typename T>
-bool ComponentPool<T>::has(EntityId entityId) const
+bool ComponentPool<T>::has(const Entity& entity) const
 {
-    bool entityHasComponent = false;
-    if (entityId < _entityIdToComponentId.size())
+    EntityId entityId = entity.id();
+    if (entityId < _entityToComponent.size())
     {
-        const ComponentId& componentId = _entityIdToComponentId[entityId];
-        entityHasComponent = componentId != (ComponentId)-1;
+        const ComponentId& componentId = _entityToComponent[entityId];
+        if (componentId != (ComponentId)-1)
+        {
+            return true;
+        }
     }
 
-    return entityHasComponent;
+    return false;
 }
 
 template <typename T>
-ComponentBase& ComponentPool<T>::getBase(EntityId entityId)
+ComponentBase& ComponentPool<T>::getBase(const Entity& entity)
 {
-    auto component = get(entityId);
+    auto component = get(entity);
     if (!component)
     {
         throw Error("Entity does not have a component in this pool");
@@ -373,45 +213,72 @@ ComponentBase& ComponentPool<T>::getBase(EntityId entityId)
 }
 
 template <typename T>
-typename ComponentPool<T>::Iterator ComponentPool<T>::get(EntityId entityId)
+typename Component<T>::Iter ComponentPool<T>::get(Entity& entity)
 {
-    if (entityId < _entityIdToComponentId.size())
+    EntityId entityId = entity.id();
+    if (entityId < _entityToComponent.size())
     {
-        ComponentId& componentId = _entityIdToComponentId[entityId];
+        ComponentId& componentId = _entityToComponent[entityId];
         if (componentId != (ComponentId)-1)
         {
-            Iterator iterator;
-            iterator._components = &_components;
-            iterator._index = componentId;
-            return iterator;
+            return Component<T>::Iter(this, componentId);
         }
     }
 
-    return Iterator(nullptr, 0);
+    return Component<T>::Iter(this, _components.size());
 }
 
 template <typename T>
-typename ComponentPool<T>::Iterator ComponentPool<T>::begin()
+typename Component<T>::ConstIter ComponentPool<T>::get(const Entity& entity) const
 {
-    return Iterator(&_components, 0);
+    EntityId entityId = entity.id();
+    if (entityId < _entityToComponent.size())
+    {
+        ComponentId& componentId = _entityToComponent[entityId];
+        if (componentId != (ComponentId)-1)
+        {
+            return Component<T>::ConstIter(this, componentId);
+        }
+    }
+
+    return Component<T>::ConstIter(this, _components.size());
 }
 
 template <typename T>
-typename ComponentPool<T>::ConstIterator ComponentPool<T>::begin() const
+typename Component<T>::Iter ComponentPool<T>::begin()
 {
-    return ConstIterator(&_components, 0);
+    return Component<T>::Iter(this, 0);
 }
 
 template <typename T>
-typename ComponentPool<T>::Iterator ComponentPool<T>::end()
+typename Component<T>::ConstIter ComponentPool<T>::begin() const
 {
-    return Iterator(&_components, _components.size());
+    return Component<T>::ConstIter(this, 0);
 }
 
 template <typename T>
-typename ComponentPool<T>::ConstIterator ComponentPool<T>::end() const
+typename Component<T>::Iter ComponentPool<T>::end()
 {
-    return ConstIterator(&_components, _components.size());
+    return Component<T>::Iter(this, _components.size());
+}
+
+template <typename T>
+typename Component<T>::ConstIter ComponentPool<T>::end() const
+{
+    return Component<T>::ConstIter(this, _components.size());
+}
+
+template <typename T, typename U>
+void ComponentPool<T>::_expandVector(std::vector<U>& vector, size_t size, U value)
+{
+    bool expanded = false;
+    while (size >= vector.size())
+    {
+        expanded = true;
+        size_t oldSize = vector.size();
+        vector.resize(std::max(oldSize * 2, (size_t)8));
+    }
+    return expanded;
 }
 
 }

@@ -27,41 +27,34 @@
 #include <typeinfo>
 #include <typeindex>
 
-#include "Hect/Core/IdPool.h"
 #include "Hect/IO/Encodable.h"
-#include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentPool.h"
-#include "Hect/Logic/Entity.h"
+#include "Hect/Logic/EntityPool.h"
 
 namespace hect
 {
 
-struct EntityData
-{
-    EntityData();
-
-    bool exists;
-    bool activated;
-};
-
-///
-/// A scene of entities.
 class Scene :
     public Uncopyable,
     public Encodable
 {
-    friend class Entity;
 public:
-
-    ///
-    /// Constructs an empty scene.
     Scene();
 
-    Entity createEntity();
+    Entity::Iter createEntity();
+    
+    Entity::Iter cloneEntity(const Entity& entity);
 
-    bool entityIsActivated(EntityId entityId) const;
+    void addEntityComponentBase(const Entity& entity, const ComponentBase& component);
 
-    size_t entityCount() const;
+    void destroyEntity(Entity& entity);
+    void activateEntity(Entity& entity);
+
+    void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
+    void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
+
+    EntityPool& entities();
+    const EntityPool& entities() const;
 
     ///
     /// Registers a component type.
@@ -70,36 +63,19 @@ public:
     template <typename T>
     void registerComponent(const std::string& componentName);
 
-    ///
-    /// Returns the component pool of a specific component type.
     template <typename T>
     ComponentPool<T>& components();
 
-    ///
-    /// Returns the component pool of a specific component type.
     template <typename T>
     const ComponentPool<T>& components() const;
-
+    
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    EntityId _cloneEntity(EntityId entityId);
-
-    void _destroyEntity(EntityId entityId);
-
-    void _activateEntity(EntityId entityId);
-
-    bool _entityExists(EntityId entityId) const;
-
-    void _encodeComponents(Entity entity, ObjectEncoder& encoder);
-    void _decodeComponents(Entity entity, ObjectDecoder& decoder, AssetCache& assetCache);
-
     ComponentBase* _createComponentByName(const std::string& componentName);
 
-    IdPool<EntityId> _entityIdPool;
-    std::vector<EntityData> _entityData;
-    size_t _entityCount;
+    EntityPool _entityPool;
 
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
     std::map<std::type_index, std::string> _componentTypeNames;

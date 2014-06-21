@@ -102,6 +102,7 @@
     <ClInclude Include="Source\Hect\Logic\ComponentBase.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentPool.h" />
     <ClInclude Include="Source\Hect\Logic\Entity.h" />
+    <ClInclude Include="Source\Hect\Logic\EntityPool.h" />
     <ClInclude Include="Source\Hect\Logic\Scene.h" />
     <ClInclude Include="Source\Hect\Logic\System.h" />
     <ClInclude Include="Source\Hect\Math\Angle.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
     <ClCompile Include="Source\Hect\Logic\ComponentPool.cpp" />
     <ClCompile Include="Source\Hect\Logic\Entity.cpp" />
+    <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
     <ClCompile Include="Source\Hect\Logic\Scene.cpp" />
     <ClCompile Include="Source\Hect\Logic\System.cpp" />
     <ClCompile Include="Source\Hect\Math\Angle.cpp" />

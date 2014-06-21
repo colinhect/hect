@@ -21,35 +21,46 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include <vector>
+
+#include "Hect/Core/IdPool.h"
+#include "Hect/Logic/Entity.h"
+
 namespace hect
 {
 
-template <typename T>
-typename Component<T>::Iter Entity::addComponent(T component)
-{
-    _ensureInPool();
-    return _pool->scene().components<T>().add(_id, component);
-}
+class Scene;
 
-template <typename T>
-typename Component<T>::Iter Entity::replaceComponent(T component)
+class EntityPool
 {
-    _ensureInPool();
-    return _pool->scene().components<T>().replace(_id, component);
-}
+public:
+    EntityPool(Scene& scene);
 
-template <typename T>
-void Entity::removeComponent()
-{
-    _ensureInPool();
-    _pool->scene().components<T>().remove(_id);
-}
+    Entity::Iter create();
+    void destroy(EntityId id);
 
-template <typename T>
-typename Component<T>::Iter Entity::component()
-{
-    _ensureInPool();
-    return _pool->scene().components<T>().get(_id);
-}
+    bool entityIsValid(EntityId id);
+
+    Entity& entityWithId(EntityId id);
+    const Entity& entityWithId(EntityId id) const;
+
+    Scene& scene();
+    const Scene& scene() const;
+
+    size_t maxId() const;
+
+    Entity::Iter begin();
+    Entity::ConstIter begin() const;
+    Entity::Iter end();
+    Entity::ConstIter end() const;
+
+private:
+
+    Scene* _scene;
+    IdPool<EntityId> _idPool;
+    std::vector<Entity> _entities;
+};
 
 }

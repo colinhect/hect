@@ -24,82 +24,195 @@
 #include "Entity.h"
 
 #include "Hect/Logic/Scene.h"
+#include "Hect/Logic/EntityPool.h"
 
 using namespace hect;
 
-Entity::Entity() :
-    _scene(nullptr),
+Entity::IterBase::IterBase() :
+    _pool(nullptr),
     _id((EntityId)-1)
 {
 }
 
-Entity::Entity(Scene& scene, EntityId id) :
-    _scene(&scene),
+Entity::IterBase::IterBase(EntityPool* pool, EntityId id) :
+    _pool(pool),
     _id(id)
+{
+    if (_pool && _id != (EntityId)-1)
+    {
+        _nextValidEntity();
+    }
+}
+
+void Entity::IterBase::_nextValidEntity()
+{
+    size_t maxEntityId = _pool->maxId();
+    while (_id < maxEntityId)
+    {
+        if (_isValid())
+        {
+            break;
+        }
+
+        ++_id;
+    }
+}
+
+void Entity::IterBase::_increment()
+{
+    ++_id;
+    _nextValidEntity();
+}
+
+bool Entity::IterBase::_isValid() const
+{
+    return _pool->entityIsValid(_id);
+}
+
+void Entity::IterBase::_ensureValid() const
+{
+    if (!_isValid())
+    {
+        throw Error("Invalid entity iterator");
+    }
+}
+
+bool Entity::IterBase::_equals(const IterBase& other) const
+{
+    return _pool == other._pool && _id == other._id;
+}
+
+Entity::Iter::Iter() :
+    IterBase()
+{
+}
+
+Entity::Iter::Iter(EntityPool* pool, EntityId id) :
+    IterBase(pool, id)
+{
+}
+
+Entity& Entity::Iter::operator*() const
+{
+    return _pool->entityWithId(_id);
+}
+
+Entity* Entity::Iter::operator->() const
+{
+    return &_pool->entityWithId(_id);
+}
+
+Entity::Iter& Entity::Iter::operator++()
+{
+    _increment();
+}
+
+bool Entity::Iter::operator==(const Iter& other) const
+{
+    return _equals(other);
+}
+
+bool Entity::Iter::operator!=(const Iter& other) const
+{
+    return !_equals(other);
+}
+
+Entity::Iter::operator bool() const
+{
+    return _isValid();
+}
+
+Entity::ConstIter::ConstIter() :
+    IterBase()
+{
+}
+
+Entity::ConstIter::ConstIter(const EntityPool* pool, EntityId id) :
+    IterBase(const_cast<EntityPool*>(pool), id)
+{
+}
+
+const Entity& Entity::ConstIter::operator*() const
+{
+    return _pool->entityWithId(_id);
+}
+
+const Entity* Entity::ConstIter::operator->() const
+{
+    return &_pool->entityWithId(_id);
+}
+
+Entity::ConstIter& Entity::ConstIter::operator++()
+{
+    _increment();
+}
+
+bool Entity::ConstIter::operator==(const ConstIter& other) const
+{
+    return _equals(other);
+}
+
+bool Entity::ConstIter::operator!=(const ConstIter& other) const
+{
+    return !_equals(other);
+}
+
+Entity::ConstIter::operator bool() const
+{
+    return _isValid();
+}
+
+Entity::Entity() :
+    _pool(nullptr),
+    _id((EntityId)-1),
+    _activated(false)
 {
 }
 
 void Entity::addComponentBase(const ComponentBase& component)
 {
-    _ensureExists();
-
-    std::type_index typeIndex = component.typeIndex();
-    auto it = _scene->_componentPools.find(typeIndex);
-    if (it != _scene->_componentPools.end())
-    {
-        it->second->addBase(_id, component);
-    }
+    _ensureInPool();
+    _pool->scene().addEntityComponentBase(*this, component);
 }
 
-Entity Entity::clone() const
+Entity::Iter Entity::clone() const
 {
-    _ensureExists();
-    EntityId clonedEntityId = _scene->_cloneEntity(_id);
-    return Entity(*_scene, clonedEntityId);
+    _ensureInPool();
+    return _pool->scene().cloneEntity(*this);
 }
 
 void Entity::destroy()
 {
-    _ensureExists();
-    _scene->_destroyEntity(_id);
+    _ensureInPool();
+    _pool->scene().destroyEntity(*this);
 }
 
 void Entity::activate()
 {
-    _ensureExists();
-    _scene->_activateEntity(_id);
+    _ensureInPool();
+    _pool->scene().activateEntity(*this);
 }
 
 bool Entity::isActivated() const
 {
-    if (_scene)
-    {
-        return _scene->entityIsActivated(_id);
-    }
-
-    return false;
+    return _activated;
 }
 
-bool Entity::exists() const
+void Entity::enterPool(EntityPool* pool, EntityId id)
 {
-    if (_scene)
-    {
-        return _scene->_entityExists(_id);
-    }
-
-    return false;
+    _pool = pool;
+    _id = id;
 }
 
-Scene& Entity::scene()
+void Entity::exitPool()
 {
-    _ensureExists();
-    return *_scene;
+    _pool = nullptr;
+    _id = (EntityId)-1;
 }
 
-const Scene& Entity::scene() const
+bool Entity::inPool() const
 {
-    _ensureExists();
-    return *_scene;
+    return _pool && _id != (EntityId)-1;
 }
 
 EntityId Entity::id() const
@@ -109,35 +222,20 @@ EntityId Entity::id() const
 
 void Entity::encode(ObjectEncoder& encoder) const
 {
-    _ensureExists();
-    _scene->_encodeComponents(*this, encoder);
+    _ensureInPool();
+    _pool->scene().encodeComponents(*this, encoder);
 }
 
 void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    _ensureExists();
-    _scene->_decodeComponents(*this, decoder, assetCache);
+    _ensureInPool();
+    _pool->scene().decodeComponents(*this, decoder, assetCache);
 }
 
-bool Entity::operator==(const Entity& entity) const
+void Entity::_ensureInPool() const
 {
-    return _scene == entity._scene && _id == entity._id;
-}
-
-bool Entity::operator!=(const Entity& entity) const
-{
-    return _scene != entity._scene || _id != entity._id;
-}
-
-Entity::operator bool() const
-{
-    return exists();
-}
-
-void Entity::_ensureExists() const
-{
-    if (!exists())
+    if (!inPool())
     {
-        throw Error("Entity does not exist");
+        throw Error("Invalid entity");
     }
 }

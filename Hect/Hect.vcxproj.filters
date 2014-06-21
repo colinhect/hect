@@ -400,6 +400,9 @@
     <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h">
       <Filter>Source\Hect\Physics\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\EntityPool.h">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -686,6 +689,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Generated\_hect_reflect.cpp">
       <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\EntityPool.cpp">
+      <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
