@@ -68,6 +68,8 @@ public:
 
     EntityPool& entities();
     const EntityPool& entities() const;
+
+    size_t entityCount() const;
     
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
@@ -75,6 +77,7 @@ public:
 private:
     ComponentBase* _createComponentByName(const std::string& componentName);
 
+    size_t _entityCount;
     EntityPool _entityPool;
 
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;

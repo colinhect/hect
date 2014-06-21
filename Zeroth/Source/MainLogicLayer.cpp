@@ -43,16 +43,16 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
         JsonValue& jsonValue = assetCache.get<JsonValue>("Player.entity");
 
         _player = _scene.createEntity();
-        _player.decodeFromJsonValue(jsonValue, assetCache);
-        _player.activate();
+        _player->decodeFromJsonValue(jsonValue, assetCache);
+        _player->activate();
     }
 
     {
         JsonValue& jsonValue = assetCache.get<JsonValue>("Cube.entity");
 
         _cube = _scene.createEntity();
-        _cube.decodeFromJsonValue(jsonValue, assetCache);
-        _cube.activate();
+        _cube->decodeFromJsonValue(jsonValue, assetCache);
+        _cube->activate();
     }
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
@@ -129,20 +129,20 @@ void MainLogicLayer::receiveEvent(const KeyboardEvent& event)
 
     if (event.key == Key::F)
     {
-        Entity cloneEntity = _cube.clone();
+        Entity::Iter cloneEntity = _cube->clone();
 
-        auto transform = cloneEntity.component<Transform>();
+        auto transform = cloneEntity->component<Transform>();
         if (transform)
         {
-            transform->setPosition(_player.component<Transform>()->position());
+            transform->setPosition(_player->component<Transform>()->position());
         }
 
-        auto rigidBody = cloneEntity.component<RigidBody>();
+        auto rigidBody = cloneEntity->component<RigidBody>();
         if (rigidBody)
         {
-            rigidBody->setLinearVelocity(_player.component<Camera>()->front() * 15.0f);
+            rigidBody->setLinearVelocity(_player->component<Camera>()->front() * 15.0f);
         }
 
-        cloneEntity.activate();
+        cloneEntity->activate();
     }
 }

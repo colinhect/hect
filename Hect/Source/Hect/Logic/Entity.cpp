@@ -38,10 +38,6 @@ Entity::IterBase::IterBase(EntityPool* pool, EntityId id) :
     _pool(pool),
     _id(id)
 {
-    if (_pool && _id != (EntityId)-1)
-    {
-        _nextValidEntity();
-    }
 }
 
 void Entity::IterBase::_nextValidEntity()
@@ -49,7 +45,7 @@ void Entity::IterBase::_nextValidEntity()
     size_t maxEntityId = _pool->maxId();
     while (_id < maxEntityId)
     {
-        if (_isValid())
+        if (_isValid() && _pool->entityWithId(_id).isActivated())
         {
             break;
         }

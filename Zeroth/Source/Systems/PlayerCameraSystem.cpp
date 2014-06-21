@@ -42,7 +42,7 @@ void PlayerCameraSystem::update(Real timeStep)
 {
     for (PlayerCamera& playerCamera : scene().components<PlayerCamera>())
     {
-        Entity entity = playerCamera.entity();
+        Entity& entity = playerCamera.entity();
 
         auto transform = entity.component<Transform>();
         if (transform)

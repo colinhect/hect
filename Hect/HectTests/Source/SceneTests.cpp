@@ -73,26 +73,176 @@ TEST_CASE("Scene_CreateAndDestroyEntities")
 {
     Scene scene;
 
-    // Create A
     Entity::Iter a = scene.createEntity("A");
     REQUIRE(a);
     REQUIRE(a->name() == "A");
     REQUIRE(a->id() == 0);
 
-    // Create B
     Entity::Iter b = scene.createEntity("B");
     REQUIRE(b);
     REQUIRE(b->name() == "B");
     REQUIRE(b->id() == 1);
 
-    // Destroy A
     a->destroy();
     REQUIRE(!a);
 
-    // Ensure B still exists
     REQUIRE(b);
     REQUIRE(b->name() == "B");
     REQUIRE(b->id() == 1);
+}
+
+TEST_CASE("Scene_DereferenceInvalidEntityIter")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.entities().end();
+    REQUIRE(!a);
+    REQUIRE_THROWS_AS(*a, Error);
+}
+
+TEST_CASE("Scene_DereferenceDestroyedEntityIter")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    REQUIRE(a);
+    a->destroy();
+    REQUIRE(!a);
+    REQUIRE_THROWS_AS(*a, Error);
+}
+
+TEST_CASE("Scene_CreateAndActivateEntities")
+{
+    Scene scene;
+
+    REQUIRE(scene.entityCount() == 0);
+
+    Entity::Iter a = scene.createEntity();
+    REQUIRE(scene.entityCount() == 0);
+
+    Entity::Iter b = scene.createEntity();
+    REQUIRE(scene.entityCount() == 0);
+
+    a->activate();
+    REQUIRE(scene.entityCount() == 1);
+
+    a->destroy();
+    REQUIRE(scene.entityCount() == 0);
+
+    b->destroy();
+    REQUIRE(scene.entityCount() == 0);
+}
+
+TEST_CASE("Scene_EntityIterationEmpty")
+{
+    Scene scene;
+
+    size_t count = 0;
+    for (const Entity& entity : scene.entities())
+    {
+        ++count;
+    }
+
+    REQUIRE(count == 0);
+}
+
+TEST_CASE("Scene_EntityIterationNoneActivated")
+{
+    Scene scene;
+
+    scene.createEntity();
+    scene.createEntity();
+    scene.createEntity();
+
+    size_t count = 0;
+    for (const Entity& entity : scene.entities())
+    {
+        ++count;
+    }
+
+    REQUIRE(count == 0);
+}
+
+TEST_CASE("Scene_EntityIterationSomeActivated")
+{
+    Scene scene;
+
+    scene.createEntity();
+    scene.createEntity()->activate();
+    scene.createEntity()->activate();
+    scene.createEntity();
+    scene.createEntity()->activate();
+    scene.createEntity();
+
+    std::vector<EntityId> ids;
+    for (const Entity& entity : scene.entities())
+    {
+        ids.push_back(entity.id());
+    }
+
+    REQUIRE(ids.size() == 3);
+    REQUIRE(ids[0] == 1);
+    REQUIRE(ids[1] == 2);
+    REQUIRE(ids[2] == 4);
+}
+
+TEST_CASE("Scene_EntityIterationFirstActivated")
+{
+    Scene scene;
+
+    scene.createEntity()->activate();
+    scene.createEntity();
+    scene.createEntity()->activate();
+    scene.createEntity();
+
+    std::vector<EntityId> ids;
+    for (const Entity& entity : scene.entities())
+    {
+        ids.push_back(entity.id());
+    }
+
+    REQUIRE(ids.size() == 2);
+    REQUIRE(ids[0] == 0);
+    REQUIRE(ids[1] == 2);
+}
+
+TEST_CASE("Scene_EntityIterationLastActivated")
+{
+    Scene scene;
+
+    scene.createEntity();
+    scene.createEntity()->activate();
+    scene.createEntity();
+    scene.createEntity()->activate();
+
+    std::vector<EntityId> ids;
+    for (const Entity& entity : scene.entities())
+    {
+        ids.push_back(entity.id());
+    }
+
+    REQUIRE(ids.size() == 2);
+    REQUIRE(ids[0] == 1);
+    REQUIRE(ids[1] == 3);
+}
+
+TEST_CASE("Scene_EntityIterationFirstAndLastActivated")
+{
+    Scene scene;
+
+    scene.createEntity()->activate();
+    scene.createEntity();
+    scene.createEntity()->activate();
+
+    std::vector<EntityId> ids;
+    for (const Entity& entity : scene.entities())
+    {
+        ids.push_back(entity.id());
+    }
+
+    REQUIRE(ids.size() == 2);
+    REQUIRE(ids[0] == 0);
+    REQUIRE(ids[1] == 2);
 }
 
 /*

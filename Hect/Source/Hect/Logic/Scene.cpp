@@ -36,6 +36,7 @@
 using namespace hect;
 
 Scene::Scene() :
+    _entityCount(0),
     _entityPool(*this)
 {
     // Register all built-in Hect components
@@ -83,6 +84,11 @@ void Scene::destroyEntity(Entity& entity)
         }
     }
 
+    if (entity.isActivated())
+    {
+        --_entityCount;
+    }
+
     _entityPool.destroy(entity.id());
 }
 
@@ -107,6 +113,7 @@ void Scene::activateEntity(Entity& entity)
         }
     }
 
+    ++_entityCount;
     entity._activated = true;
 }
 
@@ -202,6 +209,11 @@ EntityPool& Scene::entities()
 const EntityPool& Scene::entities() const
 {
     return _entityPool;
+}
+
+size_t Scene::entityCount() const
+{
+    return _entityCount;
 }
 
 ComponentBase* Scene::_createComponentByName(const std::string& componentName)

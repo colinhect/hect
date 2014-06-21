@@ -111,20 +111,34 @@ EntityId EntityPool::maxId() const
 
 Entity::Iter EntityPool::begin()
 {
-    return Entity::Iter(this, 0);
+    Entity::Iter iter(this, 0);
+
+    // Move to the first activated entity
+    if (!iter || !iter->isActivated())
+    {
+        ++iter;
+    }
+    return iter;
 }
 
 Entity::ConstIter EntityPool::begin() const
 {
-    return Entity::ConstIter(this, 0);
+    Entity::ConstIter iter(this, 0);
+
+    // Move to the first activated entity
+    if (!iter || !iter->isActivated())
+    {
+        ++iter;
+    }
+    return iter;
 }
 
 Entity::Iter EntityPool::end()
 {
-    return Entity::Iter(this, maxId());
+    return Entity::Iter(this, std::max(maxId(), (EntityId)1));
 }
 
 Entity::ConstIter EntityPool::end() const
 {
-    return Entity::ConstIter(this, maxId());
+    return Entity::ConstIter(this, std::max(maxId(), (EntityId)1));
 }

@@ -65,8 +65,8 @@ private:
 
     Scene _scene;
 
-    Entity _player;
-    Entity _cube;
+    Entity::Iter _player;
+    Entity::Iter _cube;
 
     CameraSystem _cameraSystem;
     RenderSystem _renderSystem;

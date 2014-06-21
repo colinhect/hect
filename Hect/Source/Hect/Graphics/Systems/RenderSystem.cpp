@@ -45,7 +45,7 @@ void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
     // Render geometery
     for (Geometry& geometry : scene().components<Geometry>())
     {
-        Entity entity = geometry.entity();
+        Entity& entity = geometry.entity();
         auto transform = entity.component<Transform>();
         if (transform)
         {

@@ -62,7 +62,7 @@ void CameraSystem::update()
 {
     for (Camera& camera : scene().components<Camera>())
     {
-        Entity entity = camera.entity();
+        Entity& entity = camera.entity();
         auto transform = entity.component<Transform>();
         if (transform)
         {

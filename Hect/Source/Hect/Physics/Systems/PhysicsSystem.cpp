@@ -64,7 +64,7 @@ void PhysicsSystem::updateTransforms()
     // For each rigid body component
     for (RigidBody& rigidBody : scene().components<RigidBody>())
     {
-        Entity entity = rigidBody.entity();
+        Entity& entity = rigidBody.entity();
 
         if (entity.component<Transform>())
         {
