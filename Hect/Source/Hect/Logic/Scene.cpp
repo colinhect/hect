@@ -50,7 +50,7 @@ Scene::Scene() :
 
 Entity::Iter Scene::createEntity(const std::string& name)
 {
-    Entity::Iter entity = _entityPool.create();
+    Entity::Iter entity = _entityPool._create();
     entity->setName(name);
     return entity;
 }
@@ -62,7 +62,8 @@ Entity::Iter Scene::cloneEntity(const Entity& entity, const std::string& name)
 
     for (auto& pair : _componentPools)
     {
-        pair.second->_clone(*sourceEntity, *clonedEntity);
+        ComponentPoolBase& componentPool = *pair.second;
+        componentPool._clone(*sourceEntity, *clonedEntity);
     }
 
     clonedEntity->setName(name);
@@ -90,7 +91,7 @@ void Scene::destroyEntity(Entity& entity)
         --_entityCount;
     }
 
-    _entityPool.destroy(entity.id());
+    _entityPool._destroy(entity.id());
 }
 
 void Scene::activateEntity(Entity& entity)

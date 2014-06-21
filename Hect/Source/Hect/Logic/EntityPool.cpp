@@ -32,83 +32,6 @@ EntityPool::EntityPool(Scene& scene) :
 {
 }
 
-Entity::Iter EntityPool::create()
-{
-    EntityId entityId = _idPool.create();
-
-    if (entityId >= _entities.size())
-    {
-        _entities.resize(std::max(_entities.size() * 2, (size_t)8));
-    }
-
-    _entities[entityId]._enterPool(*this, entityId);
-    return Entity::Iter(*this, entityId);
-}
-
-void EntityPool::destroy(EntityId id)
-{
-    if (!entityIsValid(id))
-    {
-        throw Error("Entity does not exist");
-    }
-
-    _idPool.destroy(id);
-    _entities[id]._exitPool();
-}
-
-bool EntityPool::entityIsValid(EntityId id)
-{
-    if (id < _entities.size())
-    {
-        if (_entities[id]._inPool())
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-Entity& EntityPool::entityWithId(EntityId id)
-{
-    if (id < _entities.size())
-    {
-        Entity& entity = _entities[id];
-        if (entity._inPool())
-        {
-            return entity;
-        }
-    }
-    throw Error("Invalid entity");
-}
-
-const Entity& EntityPool::entityWithId(EntityId id) const
-{
-    if (id < _entities.size())
-    {
-        const Entity& entity = _entities[id];
-        if (entity._inPool())
-        {
-            return entity;
-        }
-    }
-    throw Error("Invalid entity");
-}
-
-Scene& EntityPool::scene()
-{
-    return *_scene;
-}
-
-const Scene& EntityPool::scene() const
-{
-    return *_scene;
-}
-
-EntityId EntityPool::maxId() const
-{
-    return (EntityId)_entities.size();
-}
-
 Entity::Iter EntityPool::begin()
 {
     Entity::Iter iter(*this, 0);
@@ -135,10 +58,120 @@ Entity::ConstIter EntityPool::begin() const
 
 Entity::Iter EntityPool::end()
 {
-    return Entity::Iter(*this, std::max(maxId(), (EntityId)1));
+    return Entity::Iter(*this, std::max(_maxId(), (EntityId)1));
 }
 
 Entity::ConstIter EntityPool::end() const
 {
-    return Entity::ConstIter(*this, std::max(maxId(), (EntityId)1));
+    return Entity::ConstIter(*this, std::max(_maxId(), (EntityId)1));
+}
+
+Entity::Iter EntityPool::findFirst(EntityPool::Predicate predicate)
+{
+    for (auto iter = begin(); iter != end(); ++iter)
+    {
+        if (predicate(*iter))
+        {
+            return iter;
+        }
+    }
+    return end();
+}
+
+Entity::ConstIter EntityPool::findFirst(EntityPool::Predicate predicate) const
+{
+    for (auto iter = begin(); iter != end(); ++iter)
+    {
+        if (predicate(*iter))
+        {
+            return iter;
+        }
+    }
+    return end();
+}
+
+Entity::Iter::Array EntityPool::find(EntityPool::Predicate predicate)
+{
+    Entity::Iter::Array results;
+    for (auto iter = begin(); iter != end(); ++iter)
+    {
+        if (predicate(*iter))
+        {
+            results.push_back(iter);
+        }
+    }
+    return results;
+}
+
+Entity::ConstIter::Array EntityPool::find(EntityPool::Predicate predicate) const
+{
+    Entity::ConstIter::Array results;
+    for (auto iter = begin(); iter != end(); ++iter)
+    {
+        if (predicate(*iter))
+        {
+            results.push_back(iter);
+        }
+    }
+    return results;
+}
+
+Entity::Iter EntityPool::_create()
+{
+    EntityId entityId = _idPool.create();
+
+    if (entityId >= _entities.size())
+    {
+        _entities.resize(std::max(_entities.size() * 2, (size_t)8));
+    }
+
+    _entities[entityId]._enterPool(*this, entityId);
+    return Entity::Iter(*this, entityId);
+}
+
+void EntityPool::_destroy(EntityId id)
+{
+    if (!_entityIsValid(id))
+    {
+        throw Error("Entity does not exist");
+    }
+
+    _idPool.destroy(id);
+    _entities[id]._exitPool();
+}
+
+bool EntityPool::_entityIsValid(EntityId id)
+{
+    if (id < _entities.size())
+    {
+        if (_entities[id]._inPool())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+Entity& EntityPool::_entityWithId(EntityId id)
+{
+    const Entity& entity = const_cast<const EntityPool*>(this)->_entityWithId(id);
+    return const_cast<Entity&>(entity);
+}
+
+const Entity& EntityPool::_entityWithId(EntityId id) const
+{
+    if (id < _entities.size())
+    {
+        const Entity& entity = _entities[id];
+        if (entity._inPool())
+        {
+            return entity;
+        }
+    }
+    throw Error("Invalid entity");
+}
+
+EntityId EntityPool::_maxId() const
+{
+    return (EntityId)_entities.size();
 }

@@ -44,10 +44,10 @@ Entity::IterBase::IterBase(EntityPool& pool, EntityId id) :
 void Entity::IterBase::_increment()
 {
     ++_id;
-    size_t maxEntityId = _pool->maxId();
+    size_t maxEntityId = _pool->_maxId();
     while (_id < maxEntityId)
     {
-        if (_isValid() && _pool->entityWithId(_id).isActivated())
+        if (_isValid() && _pool->_entityWithId(_id).isActivated())
         {
             break;
         }
@@ -58,7 +58,7 @@ void Entity::IterBase::_increment()
 
 bool Entity::IterBase::_isValid() const
 {
-    return _pool->entityIsValid(_id);
+    return _pool->_entityIsValid(_id);
 }
 
 void Entity::IterBase::_ensureValid() const
@@ -86,12 +86,12 @@ Entity::Iter::Iter(EntityPool& pool, EntityId id) :
 
 Entity& Entity::Iter::operator*() const
 {
-    return _pool->entityWithId(_id);
+    return _pool->_entityWithId(_id);
 }
 
 Entity* Entity::Iter::operator->() const
 {
-    return &_pool->entityWithId(_id);
+    return &_pool->_entityWithId(_id);
 }
 
 Entity::Iter& Entity::Iter::operator++()
@@ -127,12 +127,12 @@ Entity::ConstIter::ConstIter(const EntityPool& pool, EntityId id) :
 
 const Entity& Entity::ConstIter::operator*() const
 {
-    return _pool->entityWithId(_id);
+    return _pool->_entityWithId(_id);
 }
 
 const Entity* Entity::ConstIter::operator->() const
 {
-    return &_pool->entityWithId(_id);
+    return &_pool->_entityWithId(_id);
 }
 
 Entity::ConstIter& Entity::ConstIter::operator++()
@@ -166,19 +166,19 @@ Entity::Entity() :
 Entity::Iter Entity::clone(const std::string& name) const
 {
     _ensureInPool();
-    return _pool->scene().cloneEntity(*this, name);
+    return _pool->_scene->cloneEntity(*this, name);
 }
 
 void Entity::destroy()
 {
     _ensureInPool();
-    _pool->scene().destroyEntity(*this);
+    _pool->_scene->destroyEntity(*this);
 }
 
 void Entity::activate()
 {
     _ensureInPool();
-    _pool->scene().activateEntity(*this);
+    _pool->_scene->activateEntity(*this);
 }
 
 bool Entity::isActivated() const
@@ -205,7 +205,7 @@ void Entity::encode(ObjectEncoder& encoder) const
 {
     _ensureInPool();
 
-    Scene& scene = _pool->scene();
+    Scene& scene = *_pool->_scene;
 
     if (!_name.empty())
     {
@@ -219,7 +219,7 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     _ensureInPool();
 
-    Scene& scene = _pool->scene();
+    Scene& scene = *_pool->_scene;
 
     if (decoder.hasMember("name"))
     {
@@ -245,7 +245,7 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 void Entity::_addComponentBase(const ComponentBase& component)
 {
     _ensureInPool();
-    _pool->scene().addEntityComponentBase(*this, component);
+    _pool->_scene->addEntityComponentBase(*this, component);
 }
 
 void Entity::_enterPool(EntityPool& pool, EntityId id)

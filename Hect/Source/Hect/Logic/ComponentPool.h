@@ -87,7 +87,7 @@ protected:
 };
 
 ///
-/// A pool of Component%s of a specific type within a Scene.
+/// A pool of components of a specific type within a Scene.
 template <typename T>
 class ComponentPool :
     public ComponentPoolBase
@@ -99,7 +99,7 @@ class ComponentPool :
 public:
 
     ///
-    /// A predicate for a Component.
+    /// A predicate for a component search or filter.
     typedef std::function<bool(const T&)> Predicate;
 
     ComponentPool(Scene& scene, const std::string& componentTypeName);

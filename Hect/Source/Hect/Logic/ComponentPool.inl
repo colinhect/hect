@@ -138,7 +138,7 @@ typename Component<T>::Iter::Array ComponentPool<T>::find(typename ComponentPool
 template <typename T>
 typename Component<T>::ConstIter::Array ComponentPool<T>::find(typename ComponentPool<T>::Predicate predicate) const
 {
-    Component<T>::Iter::Array results;
+    Component<T>::ConstIter::Array results;
     for (auto iter = begin(); iter != end(); ++iter)
     {
         if (predicate(*iter))
@@ -378,7 +378,7 @@ const Entity& ComponentPool<T>::_entityForComponent(ComponentId id) const
         EntityId entityId = _componentToEntity[id];
         if (entityId != (EntityId)-1)
         {
-            return _scene->entities().entityWithId(entityId);
+            return _scene->entities()._entityWithId(entityId);
         }
     }
     throw Error("Component does not have an associated entity");

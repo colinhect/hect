@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <functional>
 #include <vector>
 
 #include "Hect/Core/IdPool.h"
@@ -33,30 +34,83 @@ namespace hect
 
 class Scene;
 
+///
+/// A pool of entities within a Scene.
 class EntityPool
 {
+    friend class Scene;
+    friend class Entity;
+    template <typename T> friend class ComponentPool;
 public:
+
+    ///
+    /// A predicate for a entity search or filter.
+    typedef std::function<bool(const Entity&)> Predicate;
+
     EntityPool(Scene& scene);
 
-    Entity::Iter create();
-    void destroy(EntityId id);
-
-    bool entityIsValid(EntityId id);
-
-    Entity& entityWithId(EntityId id);
-    const Entity& entityWithId(EntityId id) const;
-
-    Scene& scene();
-    const Scene& scene() const;
-
-    EntityId maxId() const;
-
+    ///
+    /// Returns an iterator to the beginning of the pool.
     Entity::Iter begin();
+
+    ///
+    /// Returns an iterator to the beginning of the pool.
     Entity::ConstIter begin() const;
+
+    ///
+    /// Returns an iterator to the end of the pool.
     Entity::Iter end();
+
+    ///
+    /// Returns an iterator to the end of the pool.
     Entity::ConstIter end() const;
 
+    ///
+    /// Returns an iterator to the first entity matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::Iter findFirst(Predicate predicate);
+
+    ///
+    /// Returns an iterator to the first entity matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::ConstIter findFirst(Predicate predicate) const;
+
+    ///
+    /// Returns iterators to all entities matching the given predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An array of iterators to the matching entities.
+    Entity::Iter::Array find(Predicate predicate);
+
+    ///
+    /// Returns iterators to all entities matching the given predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An array of iterators to the matching entities.
+    Entity::ConstIter::Array find(Predicate predicate) const;
+
 private:
+    Entity::Iter _create();
+    void _destroy(EntityId id);
+
+    bool _entityIsValid(EntityId id);
+
+    Entity& _entityWithId(EntityId id);
+    const Entity& _entityWithId(EntityId id) const;
+    
+    EntityId _maxId() const;
 
     Scene* _scene;
     IdPool<EntityId> _idPool;

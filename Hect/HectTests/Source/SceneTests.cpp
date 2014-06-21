@@ -716,3 +716,113 @@ TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
 
     REQUIRE(iters.size() == 0);
 }
+
+TEST_CASE("Scene_EntityPoolFindFirstWithMatch")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity("NotMatch");
+    a->activate();
+
+    Entity::Iter b = scene.createEntity("Match");
+    b->activate();
+
+    Entity::Iter c = scene.createEntity("Match");
+    c->activate();
+
+    Entity::Iter d = scene.createEntity("NotMatch");
+    d->activate();
+
+    Entity::Iter iter = scene.entities().findFirst([](const Entity& entity)
+    {
+        return entity.name() == "Match";
+    });
+
+    REQUIRE(iter);
+    REQUIRE(iter->name() == "Match");
+    REQUIRE(&*iter == &*b);
+}
+
+TEST_CASE("Scene_EntityPoolFindFirstWithoutMatch")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity("NotMatch");
+    a->activate();
+
+    Entity::Iter b = scene.createEntity("NotMatch");
+    b->activate();
+
+    Entity::Iter c = scene.createEntity("NotMatch");
+    c->activate();
+
+    Entity::Iter d = scene.createEntity("NotMatch");
+    d->activate();
+
+    Entity::Iter iter = scene.entities().findFirst([](const Entity& entity)
+    {
+        return entity.name() == "Match";
+    });
+    
+    REQUIRE(!iter);
+}
+
+TEST_CASE("Scene_EntityPoolFindWithMatches")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity("NotMatch");
+    a->activate();
+
+    Entity::Iter b = scene.createEntity("Match");
+    b->activate();
+
+    Entity::Iter c = scene.createEntity("Match");
+    c->activate();
+
+    Entity::Iter d = scene.createEntity("NotMatch");
+    d->activate();
+
+    Entity::Iter::Array iters = scene.entities().find([](const Entity& entity)
+    {
+        return entity.name() == "Match";
+    });
+
+    REQUIRE(iters.size() == 2);
+
+    REQUIRE(iters[0]);
+    REQUIRE(iters[0]->name() == "Match");
+    REQUIRE(&*iters[0] == &*b);
+
+    REQUIRE(iters[1]);
+    REQUIRE(iters[1]->name() == "Match");
+    REQUIRE(&*iters[1] == &*c);
+}
+
+TEST_CASE("Scene_EntityPoolFindWithoutMatches")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity("NotMatch");
+    a->activate();
+
+    Entity::Iter b = scene.createEntity("NotMatch");
+    b->activate();
+
+    Entity::Iter c = scene.createEntity("NotMatch");
+    c->activate();
+
+    Entity::Iter d = scene.createEntity("NotMatch");
+    d->activate();
+
+    Entity::Iter::Array iters = scene.entities().find([](const Entity& entity)
+    {
+        return entity.name() == "Match";
+    });
+
+    REQUIRE(iters.size() == 0);
+}
