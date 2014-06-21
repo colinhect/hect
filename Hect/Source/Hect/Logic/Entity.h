@@ -29,18 +29,17 @@
 namespace hect
 {
 
-class EntityPool;
-
 class Entity :
     public Encodable
 {
     friend class Scene;
+    friend class EntityPool;
 private:
     class IterBase
     {
     public:
         IterBase();
-        IterBase(EntityPool* pool, EntityId id);
+        IterBase(EntityPool& pool, EntityId id);
 
     protected:
         void _increment();
@@ -58,7 +57,7 @@ public:
     {
     public:
         Iter();
-        Iter(EntityPool* pool, EntityId id);
+        Iter(EntityPool& pool, EntityId id);
 
         Entity& operator*() const;
         Entity* operator->() const;
@@ -75,7 +74,7 @@ public:
     {
     public:
         ConstIter();
-        ConstIter(const EntityPool* pool, EntityId id);
+        ConstIter(const EntityPool& pool, EntityId id);
 
         const Entity& operator*() const;
         const Entity* operator->() const;
@@ -94,10 +93,10 @@ public:
     void addComponentBase(const ComponentBase& component);
 
     template <typename T>
-    typename Component<T>::Iter addComponent(T component);
+    typename Component<T>::Iter addComponent(const T& component);
 
     template <typename T>
-    typename Component<T>::Iter replaceComponent(T component);
+    typename Component<T>::Iter replaceComponent(const T& component);
 
     template <typename T>
     void removeComponent();
@@ -111,11 +110,6 @@ public:
 
     bool isActivated() const;
 
-    void enterPool(EntityPool* pool, EntityId id);
-    void exitPool();
-
-    bool inPool() const;
-
     EntityId id() const;
 
     const std::string& name() const;
@@ -125,6 +119,9 @@ public:
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
+    void _enterPool(EntityPool& pool, EntityId id);
+    void _exitPool();
+    bool _inPool() const;
     void _ensureInPool() const;
 
     EntityPool* _pool;

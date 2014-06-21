@@ -87,10 +87,9 @@ void PhysicsSystem::setGravity(const Vector3& gravity)
     _world->setGravity(convertToBullet(gravity));
 }
 
-void PhysicsSystem::receiveEvent(const ComponentPoolEvent& event)
+void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
 {
-    EntityId entityId = event.entityId;
-    Entity& entity = scene().entities().entityWithId(entityId);
+    Entity& entity = event.entity();
 
     auto transform = entity.component<Transform>();
     if (transform)
@@ -98,7 +97,7 @@ void PhysicsSystem::receiveEvent(const ComponentPoolEvent& event)
         auto rigidBody = entity.component<RigidBody>();
         if (rigidBody)
         {
-            if (event.type == ComponentPoolEventType::Add)
+            if (event.type() == ComponentEventType::Add)
             {
                 Mesh& mesh = *rigidBody->mesh();
 
@@ -123,7 +122,7 @@ void PhysicsSystem::receiveEvent(const ComponentPoolEvent& event)
 
                 _world->addRigidBody(rigidBody->_rigidBody.get());
             }
-            else if (event.type == ComponentPoolEventType::Remove)
+            else if (event.type() == ComponentEventType::Remove)
             {
                 _world->removeRigidBody(rigidBody->_rigidBody.get());
             }

@@ -57,12 +57,12 @@ Entity::Iter Scene::createEntity(const std::string& name)
 
 Entity::Iter Scene::cloneEntity(const Entity& entity, const std::string& name)
 {
-    Entity::Iter sourceEntity = Entity::Iter(&_entityPool, entity.id());
+    Entity::Iter sourceEntity = Entity::Iter(_entityPool, entity.id());
     Entity::Iter clonedEntity = createEntity();
 
     for (auto& pair : _componentPools)
     {
-        pair.second->clone(*sourceEntity, *clonedEntity);
+        pair.second->_clone(*sourceEntity, *clonedEntity);
     }
 
     clonedEntity->setName(name);
@@ -71,7 +71,7 @@ Entity::Iter Scene::cloneEntity(const Entity& entity, const std::string& name)
 
 void Scene::destroyEntity(Entity& entity)
 {
-    if (!entity.inPool())
+    if (!entity._inPool())
     {
         throw Error("Invalid entity");
     }
@@ -79,9 +79,9 @@ void Scene::destroyEntity(Entity& entity)
     for (auto& pair : _componentPools)
     {
         ComponentPoolBase& componentPool = *pair.second;
-        if (componentPool.has(entity))
+        if (componentPool._has(entity))
         {
-            componentPool.remove(entity);
+            componentPool._remove(entity);
         }
     }
 
@@ -95,7 +95,7 @@ void Scene::destroyEntity(Entity& entity)
 
 void Scene::activateEntity(Entity& entity)
 {
-    if (!entity.inPool())
+    if (!entity._inPool())
     {
         throw Error("Invalid entity");
     }
@@ -108,9 +108,9 @@ void Scene::activateEntity(Entity& entity)
     for (auto& pair : _componentPools)
     {
         auto componentPool = pair.second;
-        if (componentPool->has(entity))
+        if (componentPool->_has(entity))
         {
-            componentPool->dispatcher().notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entity.id()));
+            componentPool->_notifyEvent(ComponentEventType::Add, entity);
         }
     }
 
@@ -122,7 +122,7 @@ void Scene::activateEntity(Entity& entity)
 
 void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& component)
 {
-    if (!entity.inPool())
+    if (!entity._inPool())
     {
         throw Error("Invalid entity");
     }
@@ -131,7 +131,7 @@ void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     auto it = _componentPools.find(typeIndex);
     if (it != _componentPools.end())
     {
-        it->second->addBase(entity, component);
+        it->second->_addBase(entity, component);
     }
 }
 
@@ -142,9 +142,9 @@ void Scene::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
     for (auto& pair : _componentPools)
     {
         auto componentPool = pair.second;
-        if (componentPool->has(entity))
+        if (componentPool->_has(entity))
         {
-            const ComponentBase& component = componentPool->getBase(entity);
+            const ComponentBase& component = componentPool->_getBase(entity);
             std::string typeName = _componentTypeNames[component.typeIndex()];
 
             ObjectEncoder componentEncoder = componentsEncoder.encodeObject();

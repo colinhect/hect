@@ -25,31 +25,31 @@ namespace hect
 {
 
 template <typename T>
-typename Component<T>::Iter Entity::addComponent(T component)
+typename Component<T>::Iter Entity::addComponent(const T& component)
 {
     _ensureInPool();
-    return _pool->scene().components<T>().add(*this, component);
+    return _pool->scene().components<T>()._add(*this, component);
 }
 
 template <typename T>
-typename Component<T>::Iter Entity::replaceComponent(T component)
+typename Component<T>::Iter Entity::replaceComponent(const T& component)
 {
     _ensureInPool();
-    return _pool->scene().components<T>().replace(*this, component);
+    return _pool->scene().components<T>()._replace(*this, component);
 }
 
 template <typename T>
 void Entity::removeComponent()
 {
     _ensureInPool();
-    _pool->scene().components<T>().remove(*this);
+    _pool->scene().components<T>()._remove(*this);
 }
 
 template <typename T>
 typename Component<T>::Iter Entity::component()
 {
     _ensureInPool();
-    return _pool->scene().components<T>().get(*this);
+    return _pool->scene().components<T>()._get(*this);
 }
 
 }

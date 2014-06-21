@@ -35,8 +35,8 @@ Entity::IterBase::IterBase() :
 {
 }
 
-Entity::IterBase::IterBase(EntityPool* pool, EntityId id) :
-    _pool(pool),
+Entity::IterBase::IterBase(EntityPool& pool, EntityId id) :
+    _pool(&pool),
     _id(id)
 {
 }
@@ -79,7 +79,7 @@ Entity::Iter::Iter() :
 {
 }
 
-Entity::Iter::Iter(EntityPool* pool, EntityId id) :
+Entity::Iter::Iter(EntityPool& pool, EntityId id) :
     IterBase(pool, id)
 {
 }
@@ -120,8 +120,8 @@ Entity::ConstIter::ConstIter() :
 {
 }
 
-Entity::ConstIter::ConstIter(const EntityPool* pool, EntityId id) :
-    IterBase(const_cast<EntityPool*>(pool), id)
+Entity::ConstIter::ConstIter(const EntityPool& pool, EntityId id) :
+    IterBase(*const_cast<EntityPool*>(&pool), id)
 {
 }
 
@@ -192,23 +192,6 @@ bool Entity::isActivated() const
     return _activated;
 }
 
-void Entity::enterPool(EntityPool* pool, EntityId id)
-{
-    _pool = pool;
-    _id = id;
-}
-
-void Entity::exitPool()
-{
-    _pool = nullptr;
-    _id = (EntityId)-1;
-}
-
-bool Entity::inPool() const
-{
-    return _pool && _id != (EntityId)-1;
-}
-
 EntityId Entity::id() const
 {
     return _id;
@@ -265,9 +248,26 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     }
 }
 
+void Entity::_enterPool(EntityPool& pool, EntityId id)
+{
+    _pool = &pool;
+    _id = id;
+}
+
+void Entity::_exitPool()
+{
+    _pool = nullptr;
+    _id = (EntityId)-1;
+}
+
+bool Entity::_inPool() const
+{
+    return _pool && _id != (EntityId)-1;
+}
+
 void Entity::_ensureInPool() const
 {
-    if (!inPool())
+    if (!_inPool())
     {
         throw Error("Invalid entity");
     }

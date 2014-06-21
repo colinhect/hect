@@ -648,9 +648,6 @@
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Logic\ComponentPool.cpp">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Entity.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>

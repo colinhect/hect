@@ -38,17 +38,18 @@ template <typename T>
 class ComponentPool;
 
 ///
-/// A component of an entity.
+/// A component of an Entity.
 template <typename T>
 class Component :
     public ComponentBase
 {
+    friend class ComponentPool<T>;
 private:
     class IterBase
     {
     public:
         IterBase();
-        IterBase(ComponentPool<T>* pool, ComponentId id);
+        IterBase(ComponentPool<T>& pool, ComponentId id);
 
     protected:
         void _increment();
@@ -61,53 +62,163 @@ private:
     };
 
 public:
+
+    ///
+    /// A component iterator.
     class Iter :
         public IterBase
     {
     public:
-        Iter();
-        Iter(ComponentPool<T>* pool, ComponentId id);
 
+        ///
+        /// An array of component iterators.
+        typedef std::vector<Iter> Array;
+
+        ///
+        /// Constructs an invalid component iterator.
+        Iter();
+
+        ///
+        /// Constructs a component iterator given the pool and the id of the
+        /// component.
+        ///
+        /// \param pool The component pool that the component belongs to.
+        /// \param id The id of the component.
+        Iter(ComponentPool<T>& pool, ComponentId id);
+
+        ///
+        /// Dereferences the iterator to a reference to the component.
+        ///
+        /// \returns A reference to the component.
+        ///
+        /// \throws Error If the iterator is invalid.
         T& operator*() const;
+
+        ///
+        /// Dereferences the iterator to a pointer to the component.
+        ///
+        /// \returns A reference to the component.
+        ///
+        /// \throws Error If the iterator is invalid.
         T* operator->() const;
+
+        ///
+        /// Moves to the next component with an activated entity in the
+        /// component pool.
+        ///
+        /// \returns A reference to the iterator.
         Iter& operator++();
 
+        ///
+        /// Returns whether the component is equivalent to another.
+        ///
+        /// \param other The other iterator.
         bool operator==(const Iter& other) const;
+
+        ///
+        /// Returns whether the component is different from another.
+        ///
+        /// \param other The other iterator.
         bool operator!=(const Iter& other) const;
 
+        ///
+        /// Returns whether the iterator is valid.
         operator bool() const;
     };
 
+    ///
+    /// A constant component iterator.
     class ConstIter :
         public IterBase
     {
     public:
-        ConstIter();
-        ConstIter(const ComponentPool<T>* pool, ComponentId id);
 
+        ///
+        /// An array of component iterators.
+        typedef std::vector<ConstIter> Array;
+
+        ///
+        /// Constructs an invalid component iterator.
+        ConstIter();
+
+        ///
+        /// Constructs a component iterator given the pool and the id of the
+        /// component.
+        ///
+        /// \param pool The component pool that the component belongs to.
+        /// \param id The id of the component.
+        ConstIter(const ComponentPool<T>& pool, ComponentId id);
+
+        ///
+        /// Dereferences the iterator to a reference to the component.
+        ///
+        /// \returns A reference to the component.
+        ///
+        /// \throws Error If the iterator is invalid.
         const T& operator*() const;
+
+        ///
+        /// Dereferences the iterator to a pointer to the component.
+        ///
+        /// \returns A reference to the component.
+        ///
+        /// \throws Error If the iterator is invalid.
         const T* operator->() const;
+
+        ///
+        /// Moves to the next component with an activated entity in the
+        /// component pool.
+        ///
+        /// \returns A reference to the iterator.
         ConstIter& operator++();
 
+        ///
+        /// Returns whether the component is equivalent to another.
+        ///
+        /// \param other The other iterator.
         bool operator==(const ConstIter& other) const;
+
+        ///
+        /// Returns whether the component is different from another.
+        ///
+        /// \param other The other iterator.
         bool operator!=(const ConstIter& other) const;
 
+        ///
+        /// Returns whether the iterator is valid.
         operator bool() const;
     };
 
     Component();
 
-    void enterPool(ComponentPool<T>* pool, ComponentId id);
-    void exitPool();
-
-    bool inPool() const;
-
+    ///
+    /// Returns the pool that the component is in.
+    ///
+    /// \throws Error If the component is not in a pool.
     ComponentPool<T>& pool();
+
+    ///
+    /// Returns the pool that the component is in.
+    ///
+    /// \throws Error If the component is not in a pool.
     const ComponentPool<T>& pool() const;
 
+    ///
+    /// Returns the entity of the component.
+    ///
+    /// \throws Error If the component is not in a pool or the component does
+    /// belong to an entity.
     Entity& entity();
+
+    ///
+    /// Returns the entity of the component.
+    ///
+    /// \throws Error If the component is not in a pool or the component does
+    /// belong to an entity.
     const Entity& entity() const;
 
+    ///
+    /// Returns the id of the component.
     ComponentId id() const;
 
     ///
@@ -115,6 +226,9 @@ public:
     std::type_index typeIndex() const;
 
 private:
+    void _enterPool(ComponentPool<T>& pool, ComponentId id);
+    void _exitPool();
+    bool _inPool() const;
     void _ensureInPool() const;
 
     ComponentPool<T>* _pool;

@@ -41,8 +41,8 @@ Entity::Iter EntityPool::create()
         _entities.resize(std::max(_entities.size() * 2, (size_t)8));
     }
 
-    _entities[entityId].enterPool(this, entityId);
-    return Entity::Iter(this, entityId);
+    _entities[entityId]._enterPool(*this, entityId);
+    return Entity::Iter(*this, entityId);
 }
 
 void EntityPool::destroy(EntityId id)
@@ -53,14 +53,14 @@ void EntityPool::destroy(EntityId id)
     }
 
     _idPool.destroy(id);
-    _entities[id].exitPool();
+    _entities[id]._exitPool();
 }
 
 bool EntityPool::entityIsValid(EntityId id)
 {
     if (id < _entities.size())
     {
-        if (_entities[id].inPool())
+        if (_entities[id]._inPool())
         {
             return true;
         }
@@ -73,7 +73,7 @@ Entity& EntityPool::entityWithId(EntityId id)
     if (id < _entities.size())
     {
         Entity& entity = _entities[id];
-        if (entity.inPool())
+        if (entity._inPool())
         {
             return entity;
         }
@@ -86,7 +86,7 @@ const Entity& EntityPool::entityWithId(EntityId id) const
     if (id < _entities.size())
     {
         const Entity& entity = _entities[id];
-        if (entity.inPool())
+        if (entity._inPool())
         {
             return entity;
         }
@@ -111,7 +111,7 @@ EntityId EntityPool::maxId() const
 
 Entity::Iter EntityPool::begin()
 {
-    Entity::Iter iter(this, 0);
+    Entity::Iter iter(*this, 0);
 
     // Move to the first activated entity
     if (!iter || !iter->isActivated())
@@ -123,7 +123,7 @@ Entity::Iter EntityPool::begin()
 
 Entity::ConstIter EntityPool::begin() const
 {
-    Entity::ConstIter iter(this, 0);
+    Entity::ConstIter iter(*this, 0);
 
     // Move to the first activated entity
     if (!iter || !iter->isActivated())
@@ -135,10 +135,10 @@ Entity::ConstIter EntityPool::begin() const
 
 Entity::Iter EntityPool::end()
 {
-    return Entity::Iter(this, std::max(maxId(), (EntityId)1));
+    return Entity::Iter(*this, std::max(maxId(), (EntityId)1));
 }
 
 Entity::ConstIter EntityPool::end() const
 {
-    return Entity::ConstIter(this, std::max(maxId(), (EntityId)1));
+    return Entity::ConstIter(*this, std::max(maxId(), (EntityId)1));
 }

@@ -58,15 +58,15 @@ public:
 };
 
 class ComponentPoolListener :
-    public Listener<ComponentPoolEvent>
+    public Listener<ComponentEvent<String>>
 {
 public:
-    void receiveEvent(const ComponentPoolEvent& event)
+    void receiveEvent(const ComponentEvent<String>& event)
     {
         receivedEvents.push_back(event);
     }
 
-    std::vector<ComponentPoolEvent> receivedEvents;
+    std::vector<ComponentEvent<String>> receivedEvents;
 };
 
 TEST_CASE("Scene_CreateAndDestroyEntities")
@@ -567,22 +567,152 @@ TEST_CASE("Scene_ComponentPoolListeners")
     b->activate();
 
     REQUIRE(listener.receivedEvents.size() == 2);
-    REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Add);
-    REQUIRE(listener.receivedEvents[0].entityId == a->id());
-    REQUIRE(listener.receivedEvents[1].type == ComponentPoolEventType::Add);
-    REQUIRE(listener.receivedEvents[1].entityId == b->id());
+    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType::Add);
+    REQUIRE(&listener.receivedEvents[0].entity() == &*a);
+    REQUIRE(listener.receivedEvents[1].type() == ComponentEventType::Add);
+    REQUIRE(&listener.receivedEvents[1].entity() == &*b);
     listener.receivedEvents.clear();
 
     a->destroy();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);
-    REQUIRE(listener.receivedEvents[0].entityId == 0);
+    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType::Remove);
+    REQUIRE(listener.receivedEvents[0].entity().id() == (EntityId)-1);
     listener.receivedEvents.clear();
     
     b->removeComponent<String>();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);
-    REQUIRE(listener.receivedEvents[0].entityId == b->id());
+    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType::Remove);
+    REQUIRE(&listener.receivedEvents[0].entity() == &*b);
+}
+
+TEST_CASE("Scene_ComponentPoolFindFirstWithMatch")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("NotMatch"));
+    a->activate();
+
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("Match"));
+    b->activate();
+
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("Match"));
+    c->activate();
+
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("NotMatch"));
+    d->activate();
+
+    ComponentPool<String>& strings = scene.components<String>();
+    Component<String>::Iter iter = strings.findFirst( [](const String& string)
+    {
+        return string.value == "Match";
+    });
+
+    REQUIRE(iter);
+    REQUIRE(iter->value == "Match");
+    REQUIRE(&*iter == &*b->component<String>());
+}
+
+TEST_CASE("Scene_ComponentPoolFindFirstWithoutMatch")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("NotMatch"));
+    a->activate();
+
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("NotMatch"));
+    b->activate();
+
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("NotMatch"));
+    c->activate();
+
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("NotMatch"));
+    d->activate();
+
+    ComponentPool<String>& strings = scene.components<String>();
+    Component<String>::Iter iter = strings.findFirst([](const String& string)
+    {
+        return string.value == "Match";
+    });
+
+    REQUIRE(!iter);
+}
+
+TEST_CASE("Scene_ComponentPoolFindWithMatches")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("NotMatch"));
+    a->activate();
+
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("Match"));
+    b->activate();
+
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("Match"));
+    c->activate();
+
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("NotMatch"));
+    d->activate();
+
+    ComponentPool<String>& strings = scene.components<String>();
+    Component<String>::Iter::Array iters = strings.find([](const String& string)
+    {
+        return string.value == "Match";
+    });
+
+    REQUIRE(iters.size() == 2);
+
+    REQUIRE(iters[0]);
+    REQUIRE(iters[0]->value == "Match");
+    REQUIRE(&*iters[0] == &*b->component<String>());
+
+    REQUIRE(iters[1]);
+    REQUIRE(iters[1]->value == "Match");
+    REQUIRE(&*iters[1] == &*c->component<String>());
+}
+
+TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("NotMatch"));
+    a->activate();
+
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("NotMatch"));
+    b->activate();
+
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("NotMatch"));
+    c->activate();
+
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("NotMatch"));
+    d->activate();
+
+    ComponentPool<String>& strings = scene.components<String>();
+    Component<String>::Iter::Array iters = strings.find([](const String& string)
+    {
+        return string.value == "Match";
+    });
+
+    REQUIRE(iters.size() == 0);
 }

@@ -28,6 +28,7 @@
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Graphics/Mesh.h"
+#include "Hect/Physics/Components/RigidBody.h"
 
 // Forward declare Bullet classes
 class btCollisionConfiguration;
@@ -44,7 +45,7 @@ namespace hect
 /// Simulates physical interactions of physical bodies.
 class PhysicsSystem :
     public System,
-    public Listener<ComponentPoolEvent>,
+    public Listener<ComponentEvent<RigidBody>>,
     public Uncopyable
 {
 public:
@@ -65,7 +66,7 @@ public:
     /// \param gravity The new gravity.
     void setGravity(const Vector3& gravity);
 
-    void receiveEvent(const ComponentPoolEvent& event);
+    void receiveEvent(const ComponentEvent<RigidBody>& event);
 
 private:
     btTriangleMesh* _toBulletMesh(Mesh* mesh);

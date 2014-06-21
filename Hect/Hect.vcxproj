@@ -205,7 +205,6 @@
     <ClCompile Include="Source\Hect\IO\ReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\Encodable.cpp" />
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
-    <ClCompile Include="Source\Hect\Logic\ComponentPool.cpp" />
     <ClCompile Include="Source\Hect\Logic\Entity.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
     <ClCompile Include="Source\Hect\Logic\Scene.cpp" />
