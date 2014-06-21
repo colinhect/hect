@@ -43,7 +43,6 @@ private:
         IterBase(EntityPool* pool, EntityId id);
 
     protected:
-        void _nextValidEntity();
         void _increment();
         bool _isValid() const;
         void _ensureValid() const;

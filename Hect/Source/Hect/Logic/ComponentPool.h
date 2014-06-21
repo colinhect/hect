@@ -31,8 +31,6 @@
 #include "Hect/Core/Dispatcher.h"
 #include "Hect/Logic/Component.h"
 
-#pragma warning (disable : 4505)
-
 namespace hect
 {
 

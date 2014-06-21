@@ -51,7 +51,6 @@ private:
         IterBase(ComponentPool<T>* pool, ComponentId id);
 
     protected:
-        void _nextValidComponent();
         void _increment();
         bool _isValid() const;
         void _ensureValid() const;

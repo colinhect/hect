@@ -39,8 +39,10 @@ Component<T>::IterBase::IterBase(ComponentPool<T>* pool, ComponentId id) :
 }
 
 template <typename T>
-void Component<T>::IterBase::_nextValidComponent()
+void Component<T>::IterBase::_increment()
 {
+    ++_id;
+
     size_t maxComponentId = _pool->maxId();
     while (_id < maxComponentId)
     {
@@ -55,13 +57,6 @@ void Component<T>::IterBase::_nextValidComponent()
 
         ++_id;
     }
-}
-
-template <typename T>
-void Component<T>::IterBase::_increment()
-{
-    ++_id;
-    _nextValidComponent();
 }
 
 template <typename T>

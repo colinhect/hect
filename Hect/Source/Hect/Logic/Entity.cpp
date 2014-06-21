@@ -41,8 +41,9 @@ Entity::IterBase::IterBase(EntityPool* pool, EntityId id) :
 {
 }
 
-void Entity::IterBase::_nextValidEntity()
+void Entity::IterBase::_increment()
 {
+    ++_id;
     size_t maxEntityId = _pool->maxId();
     while (_id < maxEntityId)
     {
@@ -53,12 +54,6 @@ void Entity::IterBase::_nextValidEntity()
 
         ++_id;
     }
-}
-
-void Entity::IterBase::_increment()
-{
-    ++_id;
-    _nextValidEntity();
 }
 
 bool Entity::IterBase::_isValid() const

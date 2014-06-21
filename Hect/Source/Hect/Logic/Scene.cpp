@@ -57,11 +57,12 @@ Entity::Iter Scene::createEntity(const std::string& name)
 
 Entity::Iter Scene::cloneEntity(const Entity& entity, const std::string& name)
 {
+    Entity::Iter sourceEntity = Entity::Iter(&_entityPool, entity.id());
     Entity::Iter clonedEntity = createEntity();
 
     for (auto& pair : _componentPools)
     {
-        pair.second->clone(entity, *clonedEntity);
+        pair.second->clone(*sourceEntity, *clonedEntity);
     }
 
     clonedEntity->setName(name);
