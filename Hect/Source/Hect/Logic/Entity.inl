@@ -28,28 +28,45 @@ template <typename T>
 typename Component<T>::Iter Entity::addComponent(const T& component)
 {
     _ensureInPool();
-    return _pool->scene().components<T>()._add(*this, component);
+    Scene& scene = _pool->scene();
+    ComponentPool<T>& componentPool = scene.components<T>();
+    return componentPool._add(*this, component);
 }
 
 template <typename T>
 typename Component<T>::Iter Entity::replaceComponent(const T& component)
 {
     _ensureInPool();
-    return _pool->scene().components<T>()._replace(*this, component);
+    Scene& scene = _pool->scene();
+    ComponentPool<T>& componentPool = scene.components<T>();
+    return componentPool._replace(*this, component);
 }
 
 template <typename T>
 void Entity::removeComponent()
 {
     _ensureInPool();
-    _pool->scene().components<T>()._remove(*this);
+    Scene& scene = _pool->scene();
+    ComponentPool<T>& componentPool = scene.components<T>();
+    componentPool._remove(*this);
 }
 
 template <typename T>
 typename Component<T>::Iter Entity::component()
 {
     _ensureInPool();
-    return _pool->scene().components<T>()._get(*this);
+    Scene& scene = _pool->scene();
+    ComponentPool<T>& componentPool = scene.components<T>();
+    return componentPool._get(*this);
+}
+
+template <typename T>
+typename Component<T>::ConstIter Entity::component() const
+{
+    _ensureInPool();
+    Scene& scene = _pool->scene();
+    ComponentPool<T>& componentPool = scene.components<T>();
+    return componentPool._get(*this);
 }
 
 }

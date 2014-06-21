@@ -163,12 +163,6 @@ Entity::Entity() :
 {
 }
 
-void Entity::addComponentBase(const ComponentBase& component)
-{
-    _ensureInPool();
-    _pool->scene().addEntityComponentBase(*this, component);
-}
-
 Entity::Iter Entity::clone(const std::string& name) const
 {
     _ensureInPool();
@@ -246,6 +240,12 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     {
         scene.decodeComponents(*this, decoder, assetCache);
     }
+}
+
+void Entity::_addComponentBase(const ComponentBase& component)
+{
+    _ensureInPool();
+    _pool->scene().addEntityComponentBase(*this, component);
 }
 
 void Entity::_enterPool(EntityPool& pool, EntityId id)

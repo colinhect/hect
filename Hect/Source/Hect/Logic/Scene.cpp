@@ -174,7 +174,7 @@ void Scene::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache&
             std::unique_ptr<ComponentBase> component(it->second());
             component->decode(componentDecoder, assetCache);
 
-            entity.addComponentBase(*component);
+            entity._addComponentBase(*component);
         }
     }
 }
