@@ -115,6 +115,8 @@ void Scene::activateEntity(Entity& entity)
 
     ++_entityCount;
     entity._activated = true;
+
+    LOG_TRACE(format("Activated entity '%s'", entity.name().c_str()));
 }
 
 void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& component)
@@ -161,7 +163,14 @@ void Scene::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache&
             ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
 
             std::string componentName = componentDecoder.decodeString("type");
-            std::unique_ptr<ComponentBase> component(_createComponentByName(componentName));
+
+            auto it = _componentConstructors.find(componentName);
+            if (it == _componentConstructors.end())
+            {
+                throw Error(format("Unregistered component type '%s'", componentName.c_str()));
+            }
+
+            std::unique_ptr<ComponentBase> component(it->second());
             component->decode(componentDecoder, assetCache);
 
             entity.addComponentBase(*component);
@@ -172,7 +181,11 @@ void Scene::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache&
 void Scene::encode(ObjectEncoder& encoder) const
 {
     ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
-    //
+    for (const Entity& entity : entities())
+    {
+        ObjectEncoder entityEncoder = entitiesEncoder.encodeObject();
+        entity.encode(entityEncoder);
+    }
 }
 
 void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
@@ -183,19 +196,7 @@ void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
         Entity::Iter entity = createEntity();
 
         ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
-        {
-            if (entityDecoder.hasMember("archetype"))
-            {
-                std::string archetype = entityDecoder.decodeString("archetype");
-                JsonValue& jsonValue = assetCache.get<JsonValue>(archetype);
-
-                JsonDecoder jsonDecoder(jsonValue);
-                ObjectDecoder archetypeDecoder = jsonDecoder.decodeObject();
-                decodeComponents(*entity, archetypeDecoder, assetCache);
-            }
-
-            decodeComponents(*entity, entityDecoder, assetCache);
-        }
+        entity->decode(decoder, assetCache);
 
         entity->activate();
     }
@@ -214,15 +215,4 @@ const EntityPool& Scene::entities() const
 size_t Scene::entityCount() const
 {
     return _entityCount;
-}
-
-ComponentBase* Scene::_createComponentByName(const std::string& componentName)
-{
-    auto it = _componentConstructors.find(componentName);
-    if (it == _componentConstructors.end())
-    {
-        throw Error(format("Unknown component type '%s'", componentName.c_str()));
-    }
-
-    return it->second();
 }

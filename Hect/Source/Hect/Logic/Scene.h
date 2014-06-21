@@ -75,8 +75,6 @@ public:
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    ComponentBase* _createComponentByName(const std::string& componentName);
-
     size_t _entityCount;
     EntityPool _entityPool;
 

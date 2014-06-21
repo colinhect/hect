@@ -26,15 +26,15 @@ using namespace hect;
 
 #include <catch.hpp>
 
-class Name :
-    public Component<Name>
+class String :
+    public Component<String>
 {
 public:
-    Name()
+    String()
     {
     }
 
-    Name(const std::string& value) :
+    String(const std::string& value) :
         value(value)
     {
     }
@@ -245,235 +245,344 @@ TEST_CASE("Scene_EntityIterationFirstAndLastActivated")
     REQUIRE(ids[1] == 2);
 }
 
-/*
-TEST_CASE("Scene_CreateAndDestroyEntities")
+TEST_CASE("Scene_CreateManyEntities")
 {
     Scene scene;
-    REQUIRE(scene.entityCount() == 0);
 
-    // Create a
-    Entity a = scene.createEntity();
-    REQUIRE(a);
-    REQUIRE(scene.entityCount() == 0);
-
-    a.activate();
-    REQUIRE(scene.entityCount() == 1);
-
-    // Create b
-    Entity b = scene.createEntity();
-    REQUIRE(a);
-    REQUIRE(b);
-    b.activate();
-    REQUIRE(scene.entityCount() == 2);
-
-    // Create c
-    Entity c = scene.createEntity();
-    REQUIRE(a);
-    REQUIRE(b);
-    REQUIRE(c);
-    c.activate();
-    REQUIRE(c);
-    REQUIRE(scene.entityCount() == 3);
-
-    // Destroy a
-    a.destroy();
-    REQUIRE_THROWS_AS(a.destroy(), Error);
-    REQUIRE(!a);
-    REQUIRE(b);
-    REQUIRE(c);
-    REQUIRE(scene.entityCount() == 2);
-
-    // Destroy b
-    b.destroy();
-    REQUIRE_THROWS_AS(b.destroy(), Error);
-    REQUIRE(!a);
-    REQUIRE(!b);
-    REQUIRE(c);
-    REQUIRE(scene.entityCount() == 1);
-
-    // Destroy c
-    c.destroy();
-    REQUIRE_THROWS_AS(c.destroy(), Error);
-    REQUIRE(!a);
-    REQUIRE(!b);
-    REQUIRE(!c);
-
-    REQUIRE(scene.entityCount() == 0);
-}
-
-TEST_CASE("Scene_AddRemoveComponents")
-{
-    Scene scene;
-    scene.registerComponent<Name>("Name");
-
-    Entity a = scene.createEntity();
-    a.addComponent(Name("a"));
-    a.activate();
-
-    SECTION("With more than one entity")
+    std::vector<Entity::Iter> entities;
+    for (EntityId id = 0; id < 64; ++id)
     {
-        Entity b = scene.createEntity();
-        b.addComponent(Name("b"));
-        b.activate();
-        
-        auto name = b.component<Name>();
-        REQUIRE(name);
-        REQUIRE(name->value == "b");
-        REQUIRE(name->entity() == b);
-
-        SECTION("Remove component")
         {
-            REQUIRE(b.removeComponent<Name>());
-            REQUIRE(!b.removeComponent<Name>());
-            REQUIRE(!b.component<Name>());
+            std::string name = format("Entity %d", id);
+            Entity::Iter entity = scene.createEntity(name);
+            entity->activate();
+            entities.push_back(entity);
+        }
+
+        {
+            EntityId id = 0;
+            for (const Entity::Iter& entity : entities)
+            {
+                std::string name = format("Entity %d", id);
+
+                REQUIRE(entity);
+                REQUIRE(entity->id() == id);
+                REQUIRE(entity->name() == name);
+
+                ++id;
+            }
         }
     }
-    
-    auto name = a.component<Name>();
-    REQUIRE(name);
-    REQUIRE(name->value == "a");
-    REQUIRE(name->entity() == a);
+}
 
-    SECTION("Remove component")
-    {
-        REQUIRE(a.removeComponent<Name>());
-        REQUIRE(!a.removeComponent<Name>());
-        REQUIRE(!a.component<Name>());
-    }
+TEST_CASE("Scene_AddAndRemoveComponent")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity("A");
+
+    Component<String>::Iter string = a->addComponent(String("Test"));
+    REQUIRE(string == a->component<String>());
+    REQUIRE(string);
+    REQUIRE(string->value == "Test");
+    REQUIRE(&string->entity() == &*a);
+
+    a->removeComponent<String>();
+    REQUIRE(!string);
+    REQUIRE(!a->component<String>());
+}
+
+TEST_CASE("Scene_ReplaceComponent")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity("A");
+
+    Component<String>::Iter string = a->addComponent(String("Test"));
+    Component<String>::Iter replacedString = a->replaceComponent(String("Replaced"));
+    REQUIRE(string == a->component<String>());
+    REQUIRE(replacedString == a->component<String>());
+    REQUIRE(string == replacedString);
+    REQUIRE(replacedString);
+    REQUIRE(replacedString->value == "Replaced");
+    REQUIRE(&string->entity() == &*a);
+}
+
+TEST_CASE("Scene_AddUnregisteredComponent")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    REQUIRE_THROWS_AS(a->addComponent(String("Test")), Error);
+}
+
+TEST_CASE("Scene_AddExistingComponent")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity("A");
+    REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
+}
+
+TEST_CASE("Scene_RemoveNonExistingComponent")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity("A");
+    a->addComponent(String("Test"));
+    REQUIRE_THROWS_AS(a->addComponent(String("Test")), Error);
+}
+
+TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
 }
 
 TEST_CASE("Scene_CloneEntity")
 {
     Scene scene;
-    scene.registerComponent<Name>("Name");
+    scene.registerComponent<String>("String");
 
-    REQUIRE(scene.entityCount() == 0);
+    Entity::Iter a = scene.createEntity("A");
+    Component<String>::Iter stringA = a->addComponent(String("Test"));
+    a->activate();
 
-    Entity a = scene.createEntity();
-    a.addComponent(Name("a"));
-    a.activate();
-    REQUIRE(scene.entityCount() == 1);
+    Entity::Iter b = a->clone("B");
+    Component<String>::Iter stringB = b->component<String>();
 
-    Entity b = a.clone();
-    b.activate();
-    REQUIRE(scene.entityCount() == 2);
-
-    Name* nameA = &*a.component<Name>();
-    Name* nameB = &*b.component<Name>();
-
-    REQUIRE(nameA != nameB);
-    REQUIRE(nameA->value == nameB->value);
-
-    REQUIRE(nameA->entity() == a);
-    REQUIRE(nameB->entity() == b);
+    REQUIRE(a->name() == "A");
+    REQUIRE(a->isActivated());
+    REQUIRE(b->name() == "B");
+    REQUIRE(!b->isActivated());
+    REQUIRE(&stringA->entity() == &*a);
+    REQUIRE(&stringB->entity() == &*b);
+    REQUIRE(&*stringA != &*stringB);
+    REQUIRE(stringA->id() != stringB->id());
 }
 
 TEST_CASE("Scene_Decode")
 {
     Scene scene;
-    scene.registerComponent<Name>("Name");
+    scene.registerComponent<String>("String");
 
     REQUIRE(scene.entityCount() == 0);
 
     JsonValue jsonValue;
-    jsonValue.decodeFromJson("{ \"entities\" : [ { \"components\" : [ { \"type\" : \"Name\", \"value\" : \"a\" } ] } ] }");
+    jsonValue.decodeFromJson("{ \"entities\" : [ { \"name\" : \"A\", \"components\" : [ { \"type\" : \"String\", \"value\" : \"Test\" } ] } ] }");
 
     scene.decodeFromJsonValue(jsonValue);
 
     REQUIRE(scene.entityCount() == 1);
+
+    Entity::Iter a = scene.entities().begin();
+    REQUIRE(a);
+    REQUIRE(a->name() == "A");
+    REQUIRE(a->component<String>()->value == "Test");
 }
 
-TEST_CASE("Scene_IterateComponents")
+TEST_CASE("Scene_Encode")
 {
-    Scene scene;
-    scene.registerComponent<Name>("Name");
+    JsonValue jsonValue;
 
-    Entity a = scene.createEntity();
-    a.addComponent(Name("a"));
-    a.activate();
-
-    Entity b = scene.createEntity();
-    b.addComponent(Name("b"));
-
-    Entity c = scene.createEntity();
-    c.addComponent(Name("c"));
-    c.activate();
-
-    std::vector<std::string> foundNames;
-    for (Name& name : scene.components<Name>())
     {
-        foundNames.push_back(name.value);
+        Scene scene;
+        scene.registerComponent<String>("String");
+
+        Entity::Iter a = scene.createEntity("A");
+        a->addComponent(String("Test"));
+        a->activate();
+
+        jsonValue = scene.encodeToJsonValue();
     }
 
-    REQUIRE(foundNames.size() == 2);
-    REQUIRE(foundNames[0] == "a");
-    REQUIRE(foundNames[1] == "c");
+    {
+        Scene scene;
+        scene.registerComponent<String>("String");
+        scene.decodeFromJsonValue(jsonValue);
+
+        REQUIRE(scene.entityCount() == 1);
+
+        Entity::Iter a = scene.entities().begin();
+        REQUIRE(a);
+        REQUIRE(a->name() == "A");
+        REQUIRE(a->component<String>()->value == "Test");
+    }
 }
 
-TEST_CASE("Scene_IterateComponentsConst")
+TEST_CASE("Scene_ComponentIterationEmpty")
 {
     Scene scene;
-    scene.registerComponent<Name>("Name");
+    scene.registerComponent<String>("String");
 
-    Entity a = scene.createEntity();
-    a.addComponent(Name("a"));
-    a.activate();
-
-    Entity b = scene.createEntity();
-    b.addComponent(Name("b"));
-
-    Entity c = scene.createEntity();
-    c.addComponent(Name("c"));
-    c.activate();
-
-    std::vector<std::string> foundNames;
-    const Scene& sceneConst = scene;
-    for (const Name& name : sceneConst.components<Name>())
+    size_t count = 0;
+    for (const String& string : scene.components<String>())
     {
-        foundNames.push_back(name.value);
+        ++count;
     }
 
-    REQUIRE(foundNames.size() == 2);
-    REQUIRE(foundNames[0] == "a");
-    REQUIRE(foundNames[1] == "c");
+    REQUIRE(count == 0);
+}
+
+TEST_CASE("Scene_ComponentIterationNoneActivated")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    scene.createEntity()->addComponent(String("Test"));
+
+    size_t count = 0;
+    for (const String& string : scene.components<String>())
+    {
+        ++count;
+    }
+
+    REQUIRE(count == 0);
+}
+
+
+TEST_CASE("Scene_ComponentIterationSomeActivated")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    String string("Test");
+
+    scene.createEntity();
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity();
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity();
+
+    std::vector<ComponentId> ids;
+    for (const String& string : scene.components<String>())
+    {
+        ids.push_back(string.id());
+    }
+
+    REQUIRE(ids.size() == 3);
+    REQUIRE(ids[0] == 0);
+    REQUIRE(ids[1] == 1);
+    REQUIRE(ids[2] == 2);
+}
+
+TEST_CASE("Scene_ComponentIterationFirstActivated")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    String string("Test");
+
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity();
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity();
+
+    std::vector<ComponentId> ids;
+    for (const String& string : scene.components<String>())
+    {
+        ids.push_back(string.id());
+    }
+
+    REQUIRE(ids.size() == 3);
+    REQUIRE(ids[0] == 0);
+    REQUIRE(ids[1] == 1);
+    REQUIRE(ids[2] == 2);
+}
+
+TEST_CASE("Scene_ComponentIterationLastActivated")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    String string("Test");
+
+    scene.createEntity();
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity();
+    scene.createEntity()->addComponent(string)->entity().activate();
+
+    std::vector<ComponentId> ids;
+    for (const String& string : scene.components<String>())
+    {
+        ids.push_back(string.id());
+    }
+
+    REQUIRE(ids.size() == 3);
+    REQUIRE(ids[0] == 0);
+    REQUIRE(ids[1] == 1);
+    REQUIRE(ids[2] == 2);
+}
+
+TEST_CASE("Scene_ComponentIterationFirstAndLastActivated")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    String string("Test");
+
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity()->addComponent(string)->entity().activate();
+    scene.createEntity();
+    scene.createEntity()->addComponent(string)->entity().activate();
+
+    std::vector<ComponentId> ids;
+    for (const String& string : scene.components<String>())
+    {
+        ids.push_back(string.id());
+    }
+
+    REQUIRE(ids.size() == 3);
+    REQUIRE(ids[0] == 0);
+    REQUIRE(ids[1] == 1);
+    REQUIRE(ids[2] == 2);
 }
 
 TEST_CASE("Scene_ComponentPoolListeners")
 {
     Scene scene;
-    scene.registerComponent<Name>("Name");
+    scene.registerComponent<String>("String");
 
     ComponentPoolListener listener;
-    scene.components<Name>().dispatcher().addListener(listener);
+    scene.components<String>().dispatcher().addListener(listener);
 
-    Entity a = scene.createEntity();
-    a.addComponent(Name("a"));
+    Entity::Iter a = scene.createEntity("A");
+    a->addComponent(String("A"));
     REQUIRE(listener.receivedEvents.size() == 0);
-    a.activate();
-
-    Entity b = scene.createEntity();
-    b.addComponent(Name("b"));
+    a->activate();
     REQUIRE(listener.receivedEvents.size() == 1);
-    b.activate();
+
+    Entity::Iter b = scene.createEntity("B");
+    b->addComponent(String("B"));
+    REQUIRE(listener.receivedEvents.size() == 1);
+    b->activate();
 
     REQUIRE(listener.receivedEvents.size() == 2);
     REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Add);
-    REQUIRE(listener.receivedEvents[0].entityId == a.id());
+    REQUIRE(listener.receivedEvents[0].entityId == a->id());
     REQUIRE(listener.receivedEvents[1].type == ComponentPoolEventType::Add);
-    REQUIRE(listener.receivedEvents[1].entityId == b.id());
+    REQUIRE(listener.receivedEvents[1].entityId == b->id());
     listener.receivedEvents.clear();
 
-    a.destroy();
+    a->destroy();
 
     REQUIRE(listener.receivedEvents.size() == 1);
     REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);
-    REQUIRE(listener.receivedEvents[0].entityId == a.id());
+    REQUIRE(listener.receivedEvents[0].entityId == 0);
     listener.receivedEvents.clear();
     
-    b.removeComponent<Name>();
+    b->removeComponent<String>();
 
     REQUIRE(listener.receivedEvents.size() == 1);
     REQUIRE(listener.receivedEvents[0].type == ComponentPoolEventType::Remove);
-    REQUIRE(listener.receivedEvents[0].entityId == b.id());
+    REQUIRE(listener.receivedEvents[0].entityId == b->id());
 }
-*/

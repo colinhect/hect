@@ -208,6 +208,8 @@ void ComponentPool<T>::remove(Entity& entity)
             _components[componentId].exitPool();
             _componentToEntity[componentId] = (EntityId)-1;
             componentId = (ComponentId)-1;
+
+            return;
         }
     }
 
@@ -307,25 +309,39 @@ ComponentId ComponentPool<T>::maxId() const
 template <typename T>
 typename Component<T>::Iter ComponentPool<T>::begin()
 {
-    return Component<T>::Iter(this, 0);
+    Component<T>::Iter iter(this, 0);
+
+    // Move to the first component with activated entity
+    if (!iter || !iter->entity().isActivated())
+    {
+        ++iter;
+    }
+    return iter;
 }
 
 template <typename T>
 typename Component<T>::ConstIter ComponentPool<T>::begin() const
 {
-    return Component<T>::ConstIter(this, 0);
+    Component<T>::ConstIter iter(this, 0);
+
+    // Move to the first component with activated entity
+    if (!iter || !iter->entity().isActivated())
+    {
+        ++iter;
+    }
+    return iter;
 }
 
 template <typename T>
 typename Component<T>::Iter ComponentPool<T>::end()
 {
-    return Component<T>::Iter(this, maxId());
+    return Component<T>::Iter(this, std::max(maxId(), (ComponentId)1));
 }
 
 template <typename T>
 typename Component<T>::ConstIter ComponentPool<T>::end() const
 {
-    return Component<T>::ConstIter(this, maxId());
+    return Component<T>::ConstIter(this, std::max(maxId(), (ComponentId)1));
 }
 
 template <typename T>

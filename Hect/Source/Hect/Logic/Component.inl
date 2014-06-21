@@ -36,10 +36,6 @@ Component<T>::IterBase::IterBase(ComponentPool<T>* pool, ComponentId id) :
     _pool(pool),
     _id(id)
 {
-    if (_pool && _id != (ComponentId)-1)
-    {
-        _nextValidComponent();
-    }
 }
 
 template <typename T>
@@ -50,7 +46,11 @@ void Component<T>::IterBase::_nextValidComponent()
     {
         if (_isValid())
         {
-            break;
+            const Entity& entity = _pool->entityForComponent(_id);
+            if (entity.isActivated())
+            {
+                break;
+            }
         }
 
         ++_id;
@@ -69,11 +69,7 @@ bool Component<T>::IterBase::_isValid() const
 {
     if (_pool->componentHasEntity(_id))
     {
-        const Entity& entity = _pool->entityForComponent(_id);
-        if (entity.isActivated())
-        {
-            return true;
-        }
+        return true;
     }
     return false;
 }
@@ -251,7 +247,10 @@ const Entity& Component<T>::entity() const
 }
 
 template <typename T>
-ComponentId Component<T>::id() const;
+ComponentId Component<T>::id() const
+{
+    return _id;
+}
 
 template <typename T>
 std::type_index Component<T>::typeIndex() const

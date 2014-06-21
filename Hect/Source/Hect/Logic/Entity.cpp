@@ -25,6 +25,7 @@
 
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/EntityPool.h"
+#include "Hect/IO/JsonDecoder.h"
 
 using namespace hect;
 
@@ -231,13 +232,42 @@ void Entity::setName(const std::string& name)
 void Entity::encode(ObjectEncoder& encoder) const
 {
     _ensureInPool();
-    _pool->scene().encodeComponents(*this, encoder);
+
+    Scene& scene = _pool->scene();
+
+    if (!_name.empty())
+    {
+        encoder.encodeString("name", _name);
+    }
+
+    scene.encodeComponents(*this, encoder);
 }
 
 void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     _ensureInPool();
-    _pool->scene().decodeComponents(*this, decoder, assetCache);
+
+    Scene& scene = _pool->scene();
+
+    if (decoder.hasMember("name"))
+    {
+        _name = decoder.decodeString("name");
+    }
+
+    if (decoder.hasMember("archetype"))
+    {
+        std::string archetype = decoder.decodeString("archetype");
+        JsonValue& jsonValue = assetCache.get<JsonValue>(archetype);
+
+        JsonDecoder jsonDecoder(jsonValue);
+        ObjectDecoder archetypeDecoder = jsonDecoder.decodeObject();
+        scene.decodeComponents(*this, archetypeDecoder, assetCache);
+    }
+
+    if (decoder.hasMember("components"))
+    {
+        scene.decodeComponents(*this, decoder, assetCache);
+    }
 }
 
 void Entity::_ensureInPool() const
