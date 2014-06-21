@@ -45,16 +45,8 @@ void Scene::registerComponent(const std::string& componentName)
 template <typename T>
 ComponentPool<T>& Scene::components()
 {
-    std::type_index typeIndex(typeid(T));
-    auto it = _componentPools.find(typeIndex);
-    if (it != _componentPools.end())
-    {
-        return *((ComponentPool<T>*)it->second.get());
-    }
-    else
-    {
-        throw Error("Unknown component type");
-    }
+    const ComponentPool<T>& componentPool = const_cast<const Scene*>(this)->components<T>();
+    return const_cast<ComponentPool<T>&>(componentPool);
 }
 
 template <typename T>

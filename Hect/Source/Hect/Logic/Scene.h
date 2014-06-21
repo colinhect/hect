@@ -34,24 +34,26 @@
 namespace hect
 {
 
+///
+/// A scene of entities.
 class Scene :
     public Uncopyable,
     public Encodable
 {
+    friend class Entity;
 public:
+
+    ///
+    /// Constructs an empty scene.
     Scene();
 
+    ///
+    /// Creates a new entity.
+    ///
+    /// \param name The name of the new entity.
+    ///
+    /// \returns An iterator to the new entity.
     Entity::Iter createEntity(const std::string& name = std::string());
-    
-    Entity::Iter cloneEntity(const Entity& entity, const std::string& name = std::string());
-
-    void destroyEntity(Entity& entity);
-    void activateEntity(Entity& entity);
-
-    void addEntityComponentBase(Entity& entity, const ComponentBase& component);
-
-    void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
-    void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
     /// Registers a component type.
@@ -60,21 +62,42 @@ public:
     template <typename T>
     void registerComponent(const std::string& componentName);
 
+    ///
+    /// Returns the pool of components of a specific type.
     template <typename T>
     ComponentPool<T>& components();
 
+    ///
+    /// Returns the pool of components of a specific type.
     template <typename T>
     const ComponentPool<T>& components() const;
 
+    ///
+    /// Returns the pool of entities.
     EntityPool& entities();
+
+    ///
+    /// Returns the pool of entities.
     const EntityPool& entities() const;
 
+    ///
+    /// Returns the number of active entities in the scene.
     size_t entityCount() const;
     
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
+    Entity::Iter _cloneEntity(const Entity& entity, const std::string& name = std::string());
+
+    void _destroyEntity(Entity& entity);
+    void _activateEntity(Entity& entity);
+
+    void _addEntityComponentBase(Entity& entity, const ComponentBase& component);
+
+    void _encodeComponents(const Entity& entity, ObjectEncoder& encoder);
+    void _decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
+
     size_t _entityCount;
     EntityPool _entityPool;
 

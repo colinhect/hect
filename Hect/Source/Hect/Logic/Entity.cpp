@@ -166,19 +166,19 @@ Entity::Entity() :
 Entity::Iter Entity::clone(const std::string& name) const
 {
     _ensureInPool();
-    return _pool->_scene->cloneEntity(*this, name);
+    return _pool->_scene->_cloneEntity(*this, name);
 }
 
 void Entity::destroy()
 {
     _ensureInPool();
-    _pool->_scene->destroyEntity(*this);
+    _pool->_scene->_destroyEntity(*this);
 }
 
 void Entity::activate()
 {
     _ensureInPool();
-    _pool->_scene->activateEntity(*this);
+    _pool->_scene->_activateEntity(*this);
 }
 
 bool Entity::isActivated() const
@@ -212,7 +212,7 @@ void Entity::encode(ObjectEncoder& encoder) const
         encoder.encodeString("name", _name);
     }
 
-    scene.encodeComponents(*this, encoder);
+    scene._encodeComponents(*this, encoder);
 }
 
 void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
@@ -233,19 +233,19 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 
         JsonDecoder jsonDecoder(jsonValue);
         ObjectDecoder archetypeDecoder = jsonDecoder.decodeObject();
-        scene.decodeComponents(*this, archetypeDecoder, assetCache);
+        scene._decodeComponents(*this, archetypeDecoder, assetCache);
     }
 
     if (decoder.hasMember("components"))
     {
-        scene.decodeComponents(*this, decoder, assetCache);
+        scene._decodeComponents(*this, decoder, assetCache);
     }
 }
 
 void Entity::_addComponentBase(const ComponentBase& component)
 {
     _ensureInPool();
-    _pool->_scene->addEntityComponentBase(*this, component);
+    _pool->_scene->_addEntityComponentBase(*this, component);
 }
 
 void Entity::_enterPool(EntityPool& pool, EntityId id)
