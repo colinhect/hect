@@ -105,6 +105,7 @@ Entity* Entity::Iter::operator->() const
 Entity::Iter& Entity::Iter::operator++()
 {
     _increment();
+    return *this;
 }
 
 bool Entity::Iter::operator==(const Iter& other) const
@@ -145,6 +146,7 @@ const Entity* Entity::ConstIter::operator->() const
 Entity::ConstIter& Entity::ConstIter::operator++()
 {
     _increment();
+    return *this;
 }
 
 bool Entity::ConstIter::operator==(const ConstIter& other) const
@@ -175,10 +177,10 @@ void Entity::addComponentBase(const ComponentBase& component)
     _pool->scene().addEntityComponentBase(*this, component);
 }
 
-Entity::Iter Entity::clone() const
+Entity::Iter Entity::clone(const std::string& name) const
 {
     _ensureInPool();
-    return _pool->scene().cloneEntity(*this);
+    return _pool->scene().cloneEntity(*this, name);
 }
 
 void Entity::destroy()
@@ -218,6 +220,16 @@ bool Entity::inPool() const
 EntityId Entity::id() const
 {
     return _id;
+}
+
+const std::string& Entity::name() const
+{
+    return _name;
+}
+
+void Entity::setName(const std::string& name)
+{
+    _name = name;
 }
 
 void Entity::encode(ObjectEncoder& encoder) const

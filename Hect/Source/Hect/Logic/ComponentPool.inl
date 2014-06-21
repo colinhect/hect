@@ -37,6 +37,19 @@ Dispatcher<ComponentPoolEvent>& ComponentPool<T>::dispatcher()
 }
 
 template <typename T>
+bool ComponentPool<T>::componentHasEntity(ComponentId id) const
+{
+    if (id < _componentToEntity.size())
+    {
+        if (_componentToEntity[id] != (EntityId)-1)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+template <typename T>
 Entity& ComponentPool<T>::entityForComponent(ComponentId id)
 {
     if (id < _componentToEntity.size())
@@ -44,7 +57,7 @@ Entity& ComponentPool<T>::entityForComponent(ComponentId id)
         EntityId entityId = _componentToEntity[id];
         if (entityId != (EntityId)-1)
         {
-            return _scene->entityFromId(entityId);
+            return _scene->entities().entityWithId(entityId);
         }
     }
     throw Error("Component does not have an associated entity");
@@ -58,10 +71,38 @@ const Entity& ComponentPool<T>::entityForComponent(ComponentId id) const
         EntityId entityId = _componentToEntity[id];
         if (entityId != (EntityId)-1)
         {
-            return _scene->entityFromId(entityId);
+            return _scene->entityWithId(entityId);
         }
     }
     throw Error("Component does not have an associated entity");
+}
+
+template <typename T>
+T& ComponentPool<T>::componentWithId(ComponentId id)
+{
+    if (id < _components.size())
+    {
+        T& component = _components[id];
+        if (component.inPool())
+        {
+            return component;
+        }
+    }
+    throw Error("Invalid component");
+}
+
+template <typename T>
+const T& ComponentPool<T>::componentWithId(ComponentId id) const
+{
+    if (id < _components.size())
+    {
+        T& component = _components[id];
+        if (component.inPool())
+        {
+            return component;
+        }
+    }
+    throw Error("Invalid component");
 }
 
 template <typename T>
@@ -127,9 +168,11 @@ typename Component<T>::Iter ComponentPool<T>::replace(Entity& entity, T componen
             {
                 _dispatcher.notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Remove, entityId));
             }
-            
-            // Assign the new component and get a reference to it
-            T& addedComponent = _components[componentId] = component;
+
+            T& addedComponent = _components[componentId];
+            addedComponent.exitPool();
+            addedComponent = component;
+            addedComponent.enterPool(this, componentId);
 
             // If the entity is activated then dispatch the add event
             if (entity.isActivated())
@@ -202,7 +245,18 @@ bool ComponentPool<T>::has(const Entity& entity) const
 }
 
 template <typename T>
-ComponentBase& ComponentPool<T>::getBase(const Entity& entity)
+ComponentBase& ComponentPool<T>::getBase(Entity& entity)
+{
+    auto component = get(entity);
+    if (!component)
+    {
+        throw Error("Entity does not have a component in this pool");
+    }
+    return *component;
+}
+
+template <typename T>
+const ComponentBase& ComponentPool<T>::getBase(const Entity& entity) const
 {
     auto component = get(entity);
     if (!component)
@@ -218,14 +272,14 @@ typename Component<T>::Iter ComponentPool<T>::get(Entity& entity)
     EntityId entityId = entity.id();
     if (entityId < _entityToComponent.size())
     {
-        ComponentId& componentId = _entityToComponent[entityId];
+        ComponentId componentId = _entityToComponent[entityId];
         if (componentId != (ComponentId)-1)
         {
             return Component<T>::Iter(this, componentId);
         }
     }
 
-    return Component<T>::Iter(this, _components.size());
+    return end();
 }
 
 template <typename T>
@@ -234,14 +288,20 @@ typename Component<T>::ConstIter ComponentPool<T>::get(const Entity& entity) con
     EntityId entityId = entity.id();
     if (entityId < _entityToComponent.size())
     {
-        ComponentId& componentId = _entityToComponent[entityId];
+        ComponentId componentId = _entityToComponent[entityId];
         if (componentId != (ComponentId)-1)
         {
             return Component<T>::ConstIter(this, componentId);
         }
     }
 
-    return Component<T>::ConstIter(this, _components.size());
+    return end();
+}
+
+template <typename T>
+ComponentId ComponentPool<T>::maxId() const
+{
+    return (ComponentId)_components.size();
 }
 
 template <typename T>
@@ -259,24 +319,25 @@ typename Component<T>::ConstIter ComponentPool<T>::begin() const
 template <typename T>
 typename Component<T>::Iter ComponentPool<T>::end()
 {
-    return Component<T>::Iter(this, _components.size());
+    return Component<T>::Iter(this, maxId());
 }
 
 template <typename T>
 typename Component<T>::ConstIter ComponentPool<T>::end() const
 {
-    return Component<T>::ConstIter(this, _components.size());
+    return Component<T>::ConstIter(this, maxId());
 }
 
-template <typename T, typename U>
-void ComponentPool<T>::_expandVector(std::vector<U>& vector, size_t size, U value)
+template <typename T>
+template <typename U>
+bool ComponentPool<T>::_expandVector(std::vector<U>& vector, size_t size, U value)
 {
     bool expanded = false;
     while (size >= vector.size())
     {
         expanded = true;
         size_t oldSize = vector.size();
-        vector.resize(std::max(oldSize * 2, (size_t)8));
+        vector.resize(std::max(oldSize * 2, (size_t)8), value);
     }
     return expanded;
 }

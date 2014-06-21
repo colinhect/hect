@@ -34,6 +34,7 @@ class EntityPool;
 class Entity :
     public Encodable
 {
+    friend class Scene;
 private:
     class IterBase
     {
@@ -105,7 +106,7 @@ public:
     template <typename T>
     typename Component<T>::Iter component();
 
-    Entity::Iter clone() const;
+    Entity::Iter clone(const std::string& name = std::string()) const;
     void destroy();
     void activate();
 
@@ -118,6 +119,9 @@ public:
 
     EntityId id() const;
 
+    const std::string& name() const;
+    void setName(const std::string& name);
+
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
@@ -126,6 +130,7 @@ private:
 
     EntityPool* _pool;
     EntityId _id;
+    std::string _name;
     bool _activated;
 };
 

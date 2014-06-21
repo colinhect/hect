@@ -69,6 +69,32 @@ public:
     std::vector<ComponentPoolEvent> receivedEvents;
 };
 
+TEST_CASE("Scene_CreateAndDestroyEntities")
+{
+    Scene scene;
+
+    // Create A
+    Entity::Iter a = scene.createEntity("A");
+    REQUIRE(a);
+    REQUIRE(a->name() == "A");
+    REQUIRE(a->id() == 0);
+
+    // Create B
+    Entity::Iter b = scene.createEntity("B");
+    REQUIRE(b);
+    REQUIRE(b->name() == "B");
+    REQUIRE(b->id() == 1);
+
+    // Destroy A
+    a->destroy();
+    REQUIRE(!a);
+
+    // Ensure B still exists
+    REQUIRE(b);
+    REQUIRE(b->name() == "B");
+    REQUIRE(b->id() == 1);
+}
+
 /*
 TEST_CASE("Scene_CreateAndDestroyEntities")
 {

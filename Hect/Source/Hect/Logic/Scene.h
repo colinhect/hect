@@ -41,20 +41,17 @@ class Scene :
 public:
     Scene();
 
-    Entity::Iter createEntity();
+    Entity::Iter createEntity(const std::string& name = std::string());
     
-    Entity::Iter cloneEntity(const Entity& entity);
-
-    void addEntityComponentBase(const Entity& entity, const ComponentBase& component);
+    Entity::Iter cloneEntity(const Entity& entity, const std::string& name = std::string());
 
     void destroyEntity(Entity& entity);
     void activateEntity(Entity& entity);
 
+    void addEntityComponentBase(Entity& entity, const ComponentBase& component);
+
     void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
-
-    EntityPool& entities();
-    const EntityPool& entities() const;
 
     ///
     /// Registers a component type.
@@ -68,6 +65,9 @@ public:
 
     template <typename T>
     const ComponentPool<T>& components() const;
+
+    EntityPool& entities();
+    const EntityPool& entities() const;
     
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);

@@ -28,28 +28,28 @@ template <typename T>
 typename Component<T>::Iter Entity::addComponent(T component)
 {
     _ensureInPool();
-    return _pool->scene().components<T>().add(_id, component);
+    return _pool->scene().components<T>().add(*this, component);
 }
 
 template <typename T>
 typename Component<T>::Iter Entity::replaceComponent(T component)
 {
     _ensureInPool();
-    return _pool->scene().components<T>().replace(_id, component);
+    return _pool->scene().components<T>().replace(*this, component);
 }
 
 template <typename T>
 void Entity::removeComponent()
 {
     _ensureInPool();
-    _pool->scene().components<T>().remove(_id);
+    _pool->scene().components<T>().remove(*this);
 }
 
 template <typename T>
 typename Component<T>::Iter Entity::component()
 {
     _ensureInPool();
-    return _pool->scene().components<T>().get(_id);
+    return _pool->scene().components<T>().get(*this);
 }
 
 }

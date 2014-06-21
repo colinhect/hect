@@ -86,12 +86,13 @@ public:
 
     virtual void addBase(Entity& entity, const ComponentBase& component) = 0;
 
-    virtual bool remove(Entity& entity) = 0;
+    virtual void remove(Entity& entity) = 0;
     virtual void clone(const Entity& source, Entity& dest) = 0;
 
     virtual bool has(const Entity& entity) const = 0;
 
     virtual ComponentBase& getBase(Entity& entity) = 0;
+    virtual const ComponentBase& getBase(const Entity& entity) const = 0;
 };
 
 class Scene;
@@ -107,13 +108,18 @@ public:
     /// Returns the dispatcher of component pool events.
     Dispatcher<ComponentPoolEvent>& dispatcher();
 
+    bool componentHasEntity(ComponentId id) const;
+
     Entity& entityForComponent(ComponentId id);
     const Entity& entityForComponent(ComponentId id) const;
 
+    T& componentWithId(ComponentId id);
+    const T& componentWithId(ComponentId id) const;
+
     void addBase(Entity& entity, const ComponentBase& component);
 
-    Component<T>::Iter add(Entity& entity, T component);
-    Component<T>::Iter replace(Entity& entity, T component);
+    typename Component<T>::Iter add(Entity& entity, T component);
+    typename Component<T>::Iter replace(Entity& entity, T component);
     void remove(Entity& entity);
 
     void clone(const Entity& source, Entity& dest);
@@ -121,14 +127,17 @@ public:
     bool has(const Entity& entity) const;
 
     ComponentBase& getBase(Entity& entity);
+    const ComponentBase& getBase(const Entity& entity) const;
 
-    Component<T>::Iter get(Entity& entity);
-    Component<T>::ConstIter get(const Entity& entity) const;
+    typename Component<T>::Iter get(Entity& entity);
+    typename Component<T>::ConstIter get(const Entity& entity) const;
 
-    Component<T>::Iter begin();
-    Component<T>::ConstIter begin() const;
-    Component<T>::Iter end();
-    Component<T>::ConstIter end() const;
+    ComponentId maxId() const;
+    
+    typename Component<T>::Iter begin();
+    typename Component<T>::ConstIter begin() const;
+    typename Component<T>::Iter end();
+    typename Component<T>::ConstIter end() const;
 
 private:
     template <typename U>

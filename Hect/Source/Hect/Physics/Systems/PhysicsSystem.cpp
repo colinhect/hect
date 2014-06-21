@@ -90,7 +90,7 @@ void PhysicsSystem::setGravity(const Vector3& gravity)
 void PhysicsSystem::receiveEvent(const ComponentPoolEvent& event)
 {
     EntityId entityId = event.entityId;
-    Entity entity(scene(), entityId);
+    Entity& entity = scene().entities().entityWithId(entityId);
 
     auto transform = entity.component<Transform>();
     if (transform)

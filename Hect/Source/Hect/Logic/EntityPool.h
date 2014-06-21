@@ -49,7 +49,7 @@ public:
     Scene& scene();
     const Scene& scene() const;
 
-    size_t maxId() const;
+    EntityId maxId() const;
 
     Entity::Iter begin();
     Entity::ConstIter begin() const;

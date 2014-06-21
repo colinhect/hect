@@ -42,6 +42,7 @@ Entity::Iter EntityPool::create()
     }
 
     _entities[entityId].enterPool(this, entityId);
+    return Entity::Iter(this, entityId);
 }
 
 void EntityPool::destroy(EntityId id)
@@ -103,9 +104,9 @@ const Scene& EntityPool::scene() const
     return *_scene;
 }
 
-size_t EntityPool::maxId() const
+EntityId EntityPool::maxId() const
 {
-    return _entities.size();
+    return (EntityId)_entities.size();
 }
 
 Entity::Iter EntityPool::begin()

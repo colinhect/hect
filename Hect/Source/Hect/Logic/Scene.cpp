@@ -35,14 +35,8 @@
 
 using namespace hect;
 
-EntityData::EntityData() :
-    exists(false),
-    activated(false)
-{
-}
-
 Scene::Scene() :
-    _entityCount(0)
+    _entityPool(*this)
 {
     // Register all built-in Hect components
     registerComponent<AmbientLight>("AmbientLight");
@@ -53,121 +47,53 @@ Scene::Scene() :
     registerComponent<RigidBody>("RigidBody");
 }
 
-Entity Scene::createEntity()
+Entity::Iter Scene::createEntity(const std::string& name)
 {
-    EntityId entityId = _entityIdPool.create();
-
-    while (entityId >= _entityData.size())
-    {
-        _entityData.resize(std::max(_entityData.size() * 2, (size_t)8));
-    }
-
-    EntityData& entityData = _entityData[entityId];
-    entityData.exists = true;
-    entityData.activated = false;
-
-    return Entity(*this, entityId);
+    Entity::Iter entity = _entityPool.create();
+    entity->setName(name);
+    return entity;
 }
 
-bool Scene::entityIsActivated(EntityId entityId) const
+Entity::Iter Scene::cloneEntity(const Entity& entity, const std::string& name)
 {
-    bool entityActivated = false;
-    if (entityId < _entityData.size())
-    {
-        const EntityData& entityData = _entityData[entityId];
-        entityActivated = entityData.activated;
-    }
-
-    return entityActivated;
-}
-
-size_t Scene::entityCount() const
-{
-    return _entityCount;
-}
-
-void Scene::encode(ObjectEncoder& encoder) const
-{
-    ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
-    //
-}
-
-void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
-    while (entitiesDecoder.hasMoreElements())
-    {
-        Entity entity = createEntity();
-
-        ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
-        {
-            if (entityDecoder.hasMember("archetype"))
-            {
-                std::string archetype = entityDecoder.decodeString("archetype");
-                JsonValue& jsonValue = assetCache.get<JsonValue>(archetype);
-
-                JsonDecoder jsonDecoder(jsonValue);
-                ObjectDecoder archetypeDecoder = jsonDecoder.decodeObject();
-                _decodeComponents(entity, archetypeDecoder, assetCache);
-            }
-
-            _decodeComponents(entity, entityDecoder, assetCache);
-        }
-
-        entity.activate();
-    }
-}
-
-EntityId Scene::_cloneEntity(EntityId entityId)
-{
-    EntityId clonedEntityId = createEntity().id();
+    Entity::Iter clonedEntity = createEntity();
 
     for (auto& pair : _componentPools)
     {
-        pair.second->clone(entityId, clonedEntityId);
+        pair.second->clone(entity, *clonedEntity);
     }
 
-    return clonedEntityId;
+    clonedEntity->setName(name);
+    return clonedEntity;
 }
 
-void Scene::_destroyEntity(EntityId entityId)
+void Scene::destroyEntity(Entity& entity)
 {
-    bool entityExisted = false;
-    if (entityId < _entityData.size())
+    if (!entity.inPool())
     {
-        EntityData& entityData = _entityData[entityId];
-        if (entityData.exists)
+        throw Error("Invalid entity");
+    }
+
+    for (auto& pair : _componentPools)
+    {
+        ComponentPoolBase& componentPool = *pair.second;
+        if (componentPool.has(entity))
         {
-            for (auto& pair : _componentPools)
-            {
-                pair.second->remove(entityId);
-            }
-            entityExisted = true;
-            entityData.exists = false;
-            if (entityData.activated)
-            {
-                --_entityCount;
-                entityData.activated = false;
-            }
-            _entityIdPool.destroy(entityId);
+            componentPool.remove(entity);
         }
     }
+
+    _entityPool.destroy(entity.id());
 }
 
-void Scene::_activateEntity(EntityId entityId)
+void Scene::activateEntity(Entity& entity)
 {
-    if (entityId >= _entityData.size())
+    if (!entity.inPool())
     {
-        throw Error("Entity does not exist");
+        throw Error("Invalid entity");
     }
 
-    EntityData& entityData = _entityData[entityId];
-    if (!entityData.exists)
-    {
-        throw Error("Entity does not exist");
-    }
-
-    if (entityData.activated)
+    if (entity.isActivated())
     {
         throw Error("Entity is already activated");
     }
@@ -175,38 +101,40 @@ void Scene::_activateEntity(EntityId entityId)
     for (auto& pair : _componentPools)
     {
         auto componentPool = pair.second;
-        if (componentPool->has(entityId))
+        if (componentPool->has(entity))
         {
-            componentPool->dispatcher().notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entityId));
+            componentPool->dispatcher().notifyEvent(ComponentPoolEvent(ComponentPoolEventType::Add, entity.id()));
         }
     }
 
-    entityData.activated = true;
-    ++_entityCount;
+    entity._activated = true;
 }
 
-bool Scene::_entityExists(EntityId entityId) const
+void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& component)
 {
-    bool entityExists = false;
-    if (entityId < _entityData.size())
+    if (!entity.inPool())
     {
-        const EntityData& entityData = _entityData[entityId];
-        entityExists = entityData.exists;
+        throw Error("Invalid entity");
     }
 
-    return entityExists;
+    std::type_index typeIndex = component.typeIndex();
+    auto it = _componentPools.find(typeIndex);
+    if (it != _componentPools.end())
+    {
+        it->second->addBase(entity, component);
+    }
 }
 
-void Scene::_encodeComponents(Entity entity, ObjectEncoder& encoder)
+void Scene::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
 {
     ArrayEncoder componentsEncoder = encoder.encodeArray("components");
 
     for (auto& pair : _componentPools)
     {
         auto componentPool = pair.second;
-        if (componentPool->has(entity.id()))
+        if (componentPool->has(entity))
         {
-            ComponentBase& component = componentPool->getBase(entity.id());
+            const ComponentBase& component = componentPool->getBase(entity);
             std::string typeName = _componentTypeNames[component.typeIndex()];
 
             ObjectEncoder componentEncoder = componentsEncoder.encodeObject();
@@ -216,7 +144,7 @@ void Scene::_encodeComponents(Entity entity, ObjectEncoder& encoder)
     }
 }
 
-void Scene::_decodeComponents(Entity entity, ObjectDecoder& decoder, AssetCache& assetCache)
+void Scene::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (decoder.hasMember("components"))
     {
@@ -232,6 +160,48 @@ void Scene::_decodeComponents(Entity entity, ObjectDecoder& decoder, AssetCache&
             entity.addComponentBase(*component);
         }
     }
+}
+
+void Scene::encode(ObjectEncoder& encoder) const
+{
+    ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
+    //
+}
+
+void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+{
+    ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
+    while (entitiesDecoder.hasMoreElements())
+    {
+        Entity::Iter entity = createEntity();
+
+        ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
+        {
+            if (entityDecoder.hasMember("archetype"))
+            {
+                std::string archetype = entityDecoder.decodeString("archetype");
+                JsonValue& jsonValue = assetCache.get<JsonValue>(archetype);
+
+                JsonDecoder jsonDecoder(jsonValue);
+                ObjectDecoder archetypeDecoder = jsonDecoder.decodeObject();
+                decodeComponents(*entity, archetypeDecoder, assetCache);
+            }
+
+            decodeComponents(*entity, entityDecoder, assetCache);
+        }
+
+        entity->activate();
+    }
+}
+
+EntityPool& Scene::entities()
+{
+    return _entityPool;
+}
+
+const EntityPool& Scene::entities() const
+{
+    return _entityPool;
 }
 
 ComponentBase* Scene::_createComponentByName(const std::string& componentName)

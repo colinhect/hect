@@ -27,6 +27,8 @@
 
 #include "Hect/Logic/ComponentBase.h"
 
+#pragma warning (disable : 4505)
+
 namespace hect
 {
 

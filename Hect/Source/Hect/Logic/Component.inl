@@ -69,7 +69,7 @@ bool Component<T>::IterBase::_isValid() const
 {
     if (_pool->componentHasEntity(_id))
     {
-        const Entity& entity = _pool->entityOfComponent(_id);
+        const Entity& entity = _pool->entityForComponent(_id);
         if (entity.isActivated())
         {
             return true;
@@ -109,20 +109,21 @@ template <typename T>
 T& Component<T>::Iter::operator*() const
 {
     _ensureValid();
-    return _pool->componentWithId(id);
+    return _pool->componentWithId(_id);
 }
 
 template <typename T>
 T* Component<T>::Iter::operator->() const
 {
     _ensureValid();
-    return &_pool->componentWithId(id);
+    return &_pool->componentWithId(_id);
 }
 
 template <typename T>
 typename Component<T>::Iter& Component<T>::Iter::operator++()
 {
     _increment();
+    return *this;
 }
 
 template <typename T>
@@ -159,20 +160,21 @@ template <typename T>
 const T& Component<T>::ConstIter::operator*() const
 {
     _ensureValid();
-    return _pool->componentWithId(id);
+    return _pool->componentWithId(_id);
 }
 
 template <typename T>
 const T* Component<T>::ConstIter::operator->() const
 {
     _ensureValid();
-    return &_pool->componentWithId(id);
+    return &_pool->componentWithId(_id);
 }
 
 template <typename T>
 typename Component<T>::ConstIter& Component<T>::ConstIter::operator++()
 {
     _increment();
+    return *this;
 }
 
 template <typename T>
@@ -217,7 +219,7 @@ void Component<T>::exitPool()
 template <typename T>
 bool Component<T>::inPool() const
 {
-    return _pool != null && _id != (ComponentId)-1;
+    return _pool && _id != (ComponentId)-1;
 }
 
 template <typename T>
