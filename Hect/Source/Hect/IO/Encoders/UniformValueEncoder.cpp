@@ -30,15 +30,7 @@ using namespace hect;
 void UniformValueEncoder::encode(const UniformValue& uniformValue, ObjectEncoder& encoder)
 {
     // Type
-    if (encoder.isBinaryStream())
-    {
-        WriteStream& stream = encoder.binaryStream();
-        stream.writeUnsignedByte((uint8_t)uniformValue.type());
-    }
-    else
-    {
-        encoder.encodeString("type", Enum::toString(uniformValue.type()));
-    }
+    encoder.encodeEnum("type", uniformValue.type());
 
     // Value
     switch (uniformValue.type())
@@ -67,14 +59,9 @@ void UniformValueEncoder::encode(const UniformValue& uniformValue, ObjectEncoder
 void UniformValueEncoder::decode(UniformValue& uniformValue, ObjectDecoder& decoder)
 {
     // Type
-    if (decoder.isBinaryStream())
+    if (decoder.hasMember("type"))
     {
-        ReadStream& stream = decoder.binaryStream();
-        uniformValue.setType((UniformType::Enum)stream.readUnsignedByte());
-    }
-    else if (decoder.hasMember("type"))
-    {
-        uniformValue.setType(Enum::fromString<UniformType::Enum>(decoder.decodeString("type")));
+        uniformValue.setType(decoder.decodeEnum<UniformType::Enum>("type"));
     }
     else
     {

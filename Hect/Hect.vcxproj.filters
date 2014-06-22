@@ -734,5 +734,11 @@
     <None Include="Source\Hect\Logic\Scene.inl">
       <Filter>Source\Hect\Logic</Filter>
     </None>
+    <None Include="Source\Hect\IO\Decoder.inl">
+      <Filter>Source\Hect\IO</Filter>
+    </None>
+    <None Include="Source\Hect\IO\Encoder.inl">
+      <Filter>Source\Hect\IO</Filter>
+    </None>
   </ItemGroup>
 </Project>

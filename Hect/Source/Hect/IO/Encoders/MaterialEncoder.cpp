@@ -99,7 +99,7 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
 
                     for (const RenderState::Enum& state : enabledStates)
                     {
-                        statesEncoder.encodeString(Enum::toString(state));
+                        statesEncoder.encodeEnum(state);
                     }
                 }
 
@@ -109,7 +109,7 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
 
                     for (const RenderState::Enum& state : disabledStates)
                     {
-                        statesEncoder.encodeString(Enum::toString(state));
+                        statesEncoder.encodeEnum(state);
                     }
                 }
 
@@ -117,8 +117,8 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 {
                     ArrayEncoder blendFactorsEncoder = passEncoder.encodeArray("blendFactors");
 
-                    blendFactorsEncoder.encodeString(Enum::toString(pass.renderMode().sourceBlendFactor()));
-                    blendFactorsEncoder.encodeString(Enum::toString(pass.renderMode().destBlendFactor()));
+                    blendFactorsEncoder.encodeEnum(pass.renderMode().sourceBlendFactor());
+                    blendFactorsEncoder.encodeEnum(pass.renderMode().destBlendFactor());
                 }
             }
         }
@@ -179,7 +179,8 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     ArrayDecoder statesDecoder = renderModeDecoder.decodeArray("enabledStates");
                     while (statesDecoder.hasMoreElements())
                     {
-                        renderMode.enableState(Enum::fromString<RenderState::Enum>(statesDecoder.decodeString()));
+                        
+                        renderMode.enableState(statesDecoder.decodeEnum<RenderState::Enum>());
                     }
                 }
 
@@ -189,7 +190,7 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     ArrayDecoder statesDecoder = renderModeDecoder.decodeArray("disabledStates");
                     while (statesDecoder.hasMoreElements())
                     {
-                        renderMode.disableState(Enum::fromString<RenderState::Enum>(statesDecoder.decodeString()));
+                        renderMode.disableState(statesDecoder.decodeEnum<RenderState::Enum>());
                     }
                 }
 
@@ -197,8 +198,8 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                 if (renderModeDecoder.hasMember("blendFactors"))
                 {
                     ArrayDecoder blendFactorsDecoder = renderModeDecoder.decodeArray("blendFactors");
-                    auto sourceFactor = Enum::fromString<BlendFactor::Enum>(blendFactorsDecoder.decodeString());
-                    auto destFactor = Enum::fromString<BlendFactor::Enum>(blendFactorsDecoder.decodeString());
+                    auto sourceFactor = blendFactorsDecoder.decodeEnum<BlendFactor::Enum>();
+                    auto destFactor = blendFactorsDecoder.decodeEnum<BlendFactor::Enum>();
                     renderMode.setBlendFactors(sourceFactor, destFactor);
                 }
             }

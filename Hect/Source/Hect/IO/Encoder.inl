@@ -21,47 +21,35 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "TextureEncoder.h"
-
-#include "Hect/Reflection/Enum.h"
-
-using namespace hect;
-
-void TextureEncoder::encode(const Texture& texture, ObjectEncoder& encoder)
+namespace hect
 {
-    texture;
-    encoder;
-    throw Error("Not implemented");
+
+template <typename T>
+void ArrayEncoder::encodeEnum(T value)
+{
+    if (isBinaryStream())
+    {
+        encodeUnsignedByte((uint8_t)value);
+    }
+    else
+    {
+        std::string string = Enum::toString<T>(value);
+        encodeString(string);
+    }
 }
 
-void TextureEncoder::decode(Texture& texture, ObjectDecoder& decoder, AssetCache& assetCache)
+template <typename T>
+void ObjectEncoder::encodeEnum(const char* name, T value)
 {
-    // Image
-    Path imagePath = decoder.decodeString("image");
-    AssetHandle<Image> image = assetCache.getHandle<Image>(imagePath);
-    texture.setImage(image);
-
-    // Min filter
-    if (decoder.hasMember("minFilter"))
+    if (isBinaryStream())
     {
-        texture.setMinFilter(decoder.decodeEnum<TextureFilter::Enum>("minFilter"));
+        encodeUnsignedByte(name, (uint8_t)value);
     }
-
-    // Mag filter
-    if (decoder.hasMember("magFilter"))
+    else
     {
-        texture.setMagFilter(decoder.decodeEnum<TextureFilter::Enum>("magFilter"));
+        std::string string = Enum::toString<T>(value);
+        encodeString(name, string);
     }
+}
 
-    // Wrapped
-    if (decoder.hasMember("wrapped"))
-    {
-        texture.setWrapped(decoder.decodeBool("wrapped"));
-    }
-
-    // Mipmapped
-    if (decoder.hasMember("mipmapped"))
-    {
-        texture.setMipmapped(decoder.decodeBool("mipmapped"));
-    }
 }

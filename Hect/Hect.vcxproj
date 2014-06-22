@@ -229,6 +229,8 @@
     <None Include="Source\Hect\Core\Any.inl" />
     <None Include="Source\Hect\Core\Dispatcher.inl" />
     <None Include="Source\Hect\Core\IdPool.inl" />
+    <None Include="Source\Hect\IO\Decoder.inl" />
+    <None Include="Source\Hect\IO\Encoder.inl" />
     <None Include="Source\Hect\Logic\Component.inl" />
     <None Include="Source\Hect\Logic\ComponentPool.inl" />
     <None Include="Source\Hect\Logic\Entity.inl" />

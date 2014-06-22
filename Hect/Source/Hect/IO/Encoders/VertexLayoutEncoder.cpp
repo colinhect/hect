@@ -34,18 +34,8 @@ void VertexLayoutEncoder::encode(const VertexLayout& vertexLayout, ObjectEncoder
     {
         ObjectEncoder attributeEncoder = attributesEncoder.encodeObject();
 
-        if (attributeEncoder.isBinaryStream())
-        {
-            WriteStream& stream = attributeEncoder.binaryStream();
-            stream.writeUnsignedByte((uint8_t)attribute.semantic());
-            stream.writeUnsignedByte((uint8_t)attribute.type());
-        }
-        else
-        {
-            attributeEncoder.encodeString("semantic", Enum::toString(attribute.semantic()));
-            attributeEncoder.encodeString("type", Enum::toString(attribute.type()));
-        }
-
+        attributeEncoder.encodeEnum("semantic", attribute.semantic());
+        attributeEncoder.encodeEnum("type", attribute.type());
         attributeEncoder.encodeUnsignedInt("cardinality", attribute.cardinality());
     }
 }
@@ -60,22 +50,12 @@ void VertexLayoutEncoder::decode(VertexLayout& vertexLayout, ObjectDecoder& deco
     {
         ObjectDecoder attributeDecoder = attributesDecoder.decodeObject();
 
+        unsigned cardinality;
         VertexAttributeSemantic::Enum semantic;
         VertexAttributeType::Enum type;
-        unsigned cardinality;
 
-        if (attributeDecoder.isBinaryStream())
-        {
-            ReadStream& stream = attributeDecoder.binaryStream();
-            semantic = (VertexAttributeSemantic::Enum)stream.readUnsignedByte();
-            type = (VertexAttributeType::Enum)stream.readUnsignedByte();
-        }
-        else
-        {
-            semantic = Enum::fromString<VertexAttributeSemantic::Enum>(attributeDecoder.decodeString("semantic"));
-            type = Enum::fromString<VertexAttributeType::Enum>(attributeDecoder.decodeString("type"));
-        }
-
+        semantic = attributeDecoder.decodeEnum<VertexAttributeSemantic::Enum>("semantic");
+        type = attributeDecoder.decodeEnum<VertexAttributeType::Enum>("semantic");
         cardinality = attributeDecoder.decodeUnsignedInt("cardinality");
 
         // Append the new attribute

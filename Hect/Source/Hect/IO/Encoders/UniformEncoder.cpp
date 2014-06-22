@@ -50,15 +50,7 @@ void UniformEncoder::encode(const Uniform& uniform, ObjectEncoder& encoder)
     // Binding
     else if (uniform.hasBinding())
     {
-        if (encoder.isBinaryStream())
-        {
-            WriteStream& stream = encoder.binaryStream();
-            stream.writeUnsignedByte((uint8_t)uniform.binding());
-        }
-        else
-        {
-            encoder.encodeString("binding", Enum::toString(uniform.binding()));
-        }
+        encoder.encodeEnum("binding", uniform.binding());
     }
     else
     {
@@ -103,15 +95,7 @@ void UniformEncoder::decode(Uniform& uniform, ObjectDecoder& decoder)
     // Binding
     else if (decoder.hasMember("binding"))
     {
-        if (decoder.isBinaryStream())
-        {
-            ReadStream& stream = decoder.binaryStream();
-            uniform.setBinding((UniformBinding::Enum)stream.readUnsignedByte());
-        }
-        else
-        {
-            uniform.setBinding(Enum::fromString<UniformBinding::Enum>(decoder.decodeString("binding")));
-        }
+        uniform.setBinding(decoder.decodeEnum<UniformBinding::Enum>("binding"));
     }
     else
     {

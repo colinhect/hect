@@ -160,6 +160,13 @@ public:
     /// \param value The vector to encode.
     void encodeVector4(const Vector4& value);
 
+    ///
+    /// Encodes an enum.
+    ///
+    /// \param value The enum to encode.
+    template <typename T>
+    void encodeEnum(T value);
+
 private:
     ArrayEncoder();
     ArrayEncoder(Encoder* encoder);
@@ -317,6 +324,14 @@ public:
     /// \param value The vector to encode.
     void encodeVector4(const char* name, const Vector4& value);
 
+    ///
+    /// Encodes an enum.
+    ///
+    /// \param name The name of the member to encode to.
+    /// \param value The enum to encode.
+    template <typename T>
+    void encodeEnum(const char* name, T value);
+
 private:
     ObjectEncoder();
     ObjectEncoder(Encoder* encoder);
@@ -398,3 +413,5 @@ protected:
 };
 
 }
+
+#include "Encoder.inl"

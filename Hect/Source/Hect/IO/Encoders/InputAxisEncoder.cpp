@@ -44,32 +44,32 @@ void InputAxisEncoder::decode(InputAxis& inputAxis, ObjectDecoder& decoder)
 
     if (decoder.hasMember("source"))
     {
-        std::string value = decoder.decodeString("source");
-        inputAxis.setSource(Enum::fromString<InputAxisSource::Enum>(value));
+        auto source = decoder.decodeEnum<InputAxisSource::Enum>("source");
+        inputAxis.setSource(source);
     }
 
     if (decoder.hasMember("positiveMouseButton"))
     {
-        std::string value = decoder.decodeString("positiveMouseButton");
-        inputAxis.setPositiveMouseButton(Enum::fromString<MouseButton::Enum>(value));
+        auto positiveMouseButton = decoder.decodeEnum<MouseButton::Enum>("positiveMouseButton");
+        inputAxis.setPositiveMouseButton(positiveMouseButton);
     }
 
     if (decoder.hasMember("negativeMouseButton"))
     {
-        std::string value = decoder.decodeString("negativeMouseButton");
-        inputAxis.setNegativeMouseButton(Enum::fromString<MouseButton::Enum>(value));
+        auto negativeMouseButton = decoder.decodeEnum<MouseButton::Enum>("negativeMouseButton");
+        inputAxis.setNegativeMouseButton(negativeMouseButton);
     }
 
     if (decoder.hasMember("positiveKey"))
     {
-        std::string value = decoder.decodeString("positiveKey");
-        inputAxis.setPositiveKey(Enum::fromString<Key::Enum>(value));
+        auto positiveKey = decoder.decodeEnum<Key::Enum>("positiveKey");
+        inputAxis.setPositiveKey(positiveKey);
     }
 
     if (decoder.hasMember("negativeKey"))
     {
-        std::string value = decoder.decodeString("negativeKey");
-        inputAxis.setNegativeKey(Enum::fromString<Key::Enum>(value));
+        auto negativeKey = decoder.decodeEnum<Key::Enum>("negativeKey");
+        inputAxis.setNegativeKey(negativeKey);
     }
 
     if (decoder.hasMember("acceleration"))

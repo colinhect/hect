@@ -39,26 +39,10 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
     }
 
     // Index type
-    if (encoder.isBinaryStream())
-    {
-        WriteStream& stream = encoder.binaryStream();
-        stream.writeUnsignedByte((uint8_t)mesh.indexType());
-    }
-    else
-    {
-        encoder.encodeString("indexType", Enum::toString(mesh.indexType()));
-    }
+    encoder.encodeEnum("indexType", mesh.indexType());
 
     // Primitive type
-    if (encoder.isBinaryStream())
-    {
-        WriteStream& stream = encoder.binaryStream();
-        stream.writeUnsignedByte((uint8_t)mesh.primitiveType());
-    }
-    else
-    {
-        encoder.encodeString("primitiveType", Enum::toString(mesh.primitiveType()));
-    }
+    encoder.encodeEnum("primitiveType", mesh.primitiveType());
 
     if (encoder.isBinaryStream())
     {
@@ -95,7 +79,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
                     ArrayEncoder attributeEncoder = attributesEncoder.encodeArray();
                     VertexAttributeSemantic::Enum semantic = attribute.semantic();
 
-                    attributeEncoder.encodeString(Enum::toString(semantic));
+                    attributeEncoder.encodeEnum(semantic);
 
                     unsigned cardinality = attribute.cardinality();
                     if (cardinality == 1)
@@ -154,30 +138,17 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
     }
 
     // Index type
-    if (decoder.isBinaryStream())
+    if (decoder.hasMember("indexType"))
     {
-        ReadStream& stream = decoder.binaryStream();
-        IndexType::Enum indexType = (IndexType::Enum)stream.readUnsignedByte();
-
-        mesh.setIndexType(indexType);
-    }
-    else if (decoder.hasMember("indexType"))
-    {
-        IndexType::Enum indexType = Enum::fromString<IndexType::Enum>(decoder.decodeString("indexType"));
+        IndexType::Enum indexType = decoder.decodeEnum<IndexType::Enum>("indexType");
 
         mesh.setIndexType(indexType);
     }
 
     // Primitive type
-    if (decoder.isBinaryStream())
+    if (decoder.hasMember("primitiveType"))
     {
-        ReadStream& stream = decoder.binaryStream();
-        PrimitiveType::Enum primitiveType = (PrimitiveType::Enum)stream.readUnsignedByte();
-        mesh.setPrimitiveType(primitiveType);
-    }
-    else if (decoder.hasMember("primitiveType"))
-    {
-        PrimitiveType::Enum primitiveType = Enum::fromString<PrimitiveType::Enum>(decoder.decodeString("primitiveType"));
+        PrimitiveType::Enum primitiveType = decoder.decodeEnum<PrimitiveType::Enum>("primitiveType");
         mesh.setPrimitiveType(primitiveType);
     }
 
@@ -229,7 +200,7 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
                 {
                     ArrayDecoder attributeDecoder = attributesDecoder.decodeArray();
 
-                    auto semantic = Enum::fromString<VertexAttributeSemantic::Enum>(attributeDecoder.decodeString());
+                    auto semantic = attributeDecoder.decodeEnum<VertexAttributeSemantic::Enum>();
 
                     if (vertexLayout.hasAttributeWithSemantic(semantic))
                     {

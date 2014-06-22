@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/IO/ReadStream.h"
+#include "Hect/Reflection/Enum.h"
 
 namespace hect
 {
@@ -35,7 +36,6 @@ class ArrayDecoder
     friend class Decoder;
     friend class JsonDecoder;
     friend class BinaryDecoder;
-
     friend class ObjectDecoder;
 public:
     ArrayDecoder(const ArrayDecoder& decoder);
@@ -132,6 +132,11 @@ public:
     /// Decodes a 4-dimensional vector.
     Vector4 decodeVector4();
 
+    ///
+    /// Decodes an enum.
+    template <typename T>
+    T decodeEnum();
+
 private:
     ArrayDecoder();
     ArrayDecoder(Decoder* decoder);
@@ -146,7 +151,6 @@ class ObjectDecoder
     friend class Decoder;
     friend class JsonDecoder;
     friend class BinaryDecoder;
-
     friend class ArrayDecoder;
 public:
     ObjectDecoder(const ObjectDecoder& decoder);
@@ -281,6 +285,13 @@ public:
     /// \param name The name of the member to decode.
     Vector4 decodeVector4(const char* name);
 
+    ///
+    /// Decodes an enum.
+    ///
+    /// \param name The name of the member to decode.
+    template <typename T>
+    T decodeEnum(const char* name);
+
 private:
     ObjectDecoder();
     ObjectDecoder(Decoder* decoder);
@@ -366,3 +377,5 @@ protected:
 };
 
 }
+
+#include "Decoder.inl"
