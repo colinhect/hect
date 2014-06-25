@@ -32,7 +32,8 @@ namespace hect
 ///
 /// A dynamic object in a Scene.
 class Entity :
-    public Encodable
+    public Encodable,
+    public Uncopyable
 {
     friend class Scene;
     friend class EntityPool;
@@ -61,6 +62,7 @@ public:
     class Iter :
         public IterBase
     {
+        friend class Entity;
     public:
 
         ///
@@ -71,12 +73,6 @@ public:
         /// Constructs an invalid entity iterator.
         Iter();
 
-        ///
-        /// Constructs an entity iterator given the pool and the id of the
-        /// entity.
-        ///
-        /// \param pool The entity pool that the entity belongs to.
-        /// \param id The id of the entity.
         Iter(EntityPool& pool, EntityId id);
 
         ///
@@ -123,6 +119,7 @@ public:
     class ConstIter :
         public IterBase
     {
+        friend class Entity;
     public:
 
         ///
@@ -133,12 +130,6 @@ public:
         /// Constructs an invalid entity iterator.
         ConstIter();
 
-        ///
-        /// Constructs an entity iterator given the pool and the id of the
-        /// entity.
-        ///
-        /// \param pool The entity pool that the entity belongs to.
-        /// \param id The id of the entity.
         ConstIter(const EntityPool& pool, EntityId id);
 
         ///
@@ -181,6 +172,166 @@ public:
     };
 
     class Handle { };
+
+    ///
+    /// An entity's child entities.
+    class Children
+    {
+    private:
+        class IterBase
+        {
+        public:
+            IterBase();
+            IterBase(EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end);
+            
+        protected:
+            void _increment();
+            bool _isValid() const;
+            void _ensureValid() const;
+            bool _equals(const IterBase& other) const;
+
+            EntityPool* _pool;
+            std::vector<EntityId>::iterator _it;
+            std::vector<EntityId>::iterator _end;
+        };
+    public:
+
+        ///
+        /// A entity child iterator.
+        class Iter :
+            public IterBase
+        {
+            friend class Entity;
+        public:
+
+            ///
+            /// An array of entity iterators.
+            typedef std::vector<Iter> Array;
+
+            ///
+            /// Constructs an invalid entity iterator.
+            Iter();
+
+            Iter(EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end);
+
+            ///
+            /// Dereferences the iterator to a reference to the entity.
+            ///
+            /// \returns A reference to the entity.
+            ///
+            /// \throws Error If the iterator is invalid.
+            Entity& operator*() const;
+
+            ///
+            /// Dereferences the iterator to a pointer to the entity.
+            ///
+            /// \returns A reference to the entity.
+            ///
+            /// \throws Error If the iterator is invalid.
+            Entity* operator->() const;
+
+            ///
+            /// Moves to the next activated entity in the entity pool.
+            ///
+            /// \returns A reference to the iterator.
+            Iter& operator++();
+
+            ///
+            /// Returns whether the iterator is equivalent to another.
+            ///
+            /// \param other The other iterator.
+            bool operator==(const Iter& other) const;
+
+            ///
+            /// Returns whether the iterator is different from another.
+            ///
+            /// \param other The other iterator.
+            bool operator!=(const Iter& other) const;
+
+            ///
+            /// Returns whether the iterator is valid.
+            operator bool() const;
+        };
+
+        ///
+        /// A constant entity child iterator.
+        class ConstIter :
+            public IterBase
+        {
+            friend class Entity;
+        public:
+
+            ///
+            /// An array of entity iterators.
+            typedef std::vector<ConstIter> Array;
+
+            ///
+            /// Constructs an invalid entity iterator.
+            ConstIter();
+
+            ConstIter(const EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end);
+
+            ///
+            /// Dereferences the iterator to a reference to the entity.
+            ///
+            /// \returns A reference to the entity.
+            ///
+            /// \throws Error If the iterator is invalid.
+            const Entity& operator*() const;
+
+            ///
+            /// Dereferences the iterator to a pointer to the entity.
+            ///
+            /// \returns A reference to the entity.
+            ///
+            /// \throws Error If the iterator is invalid.
+            const Entity* operator->() const;
+
+            ///
+            /// Moves to the next activated entity in the entity pool.
+            ///
+            /// \returns A reference to the iterator.
+            ConstIter& operator++();
+
+            ///
+            /// Returns whether the iterator is equivalent to another.
+            ///
+            /// \param other The other iterator.
+            bool operator==(const ConstIter& other) const;
+
+            ///
+            /// Returns whether the iterator is different from another.
+            ///
+            /// \param other The other iterator.
+            bool operator!=(const ConstIter& other) const;
+
+            ///
+            /// Returns whether the iterator is valid.
+            operator bool() const;
+        };
+
+        ///
+        /// Returns an iterator to the beginning of the children.
+        Iter begin();
+
+        ///
+        /// Returns an iterator to the beginning of the children.
+        ConstIter begin() const;
+
+        ///
+        /// Returns an iterator to the end of the children.
+        Iter end();
+
+        ///
+        /// Returns an iterator to the end of the children.
+        ConstIter end() const;
+
+    //private:
+        Children(Entity& entity);
+
+        Entity* _entity;
+        mutable std::vector<EntityId> _ids;
+    };
 
     ///
     /// Adds a component of a specific type to the entity.
@@ -250,13 +401,13 @@ public:
     Entity::Iter clone(const std::string& name = std::string()) const;
 
     ///
-    /// Destroys the entity.
+    /// Destroys the entity and all of its children.
     ///
     /// \throws Error If the entity is invalid.
     void destroy();
 
     ///
-    /// Activates the entity.
+    /// Activates the entity and all of its children.
     ///
     /// \throws Error If the entity is already activated or the entity is
     /// invalid.
@@ -280,6 +431,42 @@ public:
     /// \param name The new name of the entity.
     void setName(const std::string& name);
 
+    ///
+    /// Returns an iterator to the parent entity (invalid iterator if the
+    /// entity does not have a parent).
+    Entity::Iter parent();
+
+    ///
+    /// Returns an iterator to the parent entity (invalid iterator if the
+    /// entity does not have a parent).
+    Entity::ConstIter parent() const;
+
+    ///
+    /// Adds an entity as a child of the entity.
+    ///
+    /// \param entity The entity to add as a child.
+    ///
+    /// \throws Error If the entity is invalid, in another scene, in a
+    /// differing activation state, or is a child of another entity.
+    void addChild(Entity& entity);
+
+    ///
+    /// Removes a child entity from the entity.
+    ///
+    /// \param entity The child entity to remove.
+    ///
+    /// \throws Error If the entity is invalid, in another scene, or is not a
+    /// child of the entity.
+    void removeChild(Entity& entity);
+
+    ///
+    /// Returns the children of the entity.
+    Entity::Children& children();
+
+    ///
+    /// Returns the children of the entity.
+    const Entity::Children& children() const;
+
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
@@ -297,6 +484,8 @@ private:
 
     EntityPool* _pool;
     EntityId _id;
+    EntityId _parentId;
+    Children _children;
     std::string _name;
     bool _activated;
 };

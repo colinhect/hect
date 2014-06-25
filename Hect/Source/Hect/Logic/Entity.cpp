@@ -156,6 +156,152 @@ Entity::ConstIter::operator bool() const
     return _isValid();
 }
 
+Entity::Children::IterBase::IterBase() :
+    _pool(nullptr)
+{
+}
+
+Entity::Children::IterBase::IterBase(EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end) :
+    _pool(&pool),
+    _it(it),
+    _end(end)
+{
+}
+
+void Entity::Children::IterBase::_increment()
+{
+    ++_it;
+}
+
+bool Entity::Children::IterBase::_isValid() const
+{
+    return _it != _end;
+}
+
+void Entity::Children::IterBase::_ensureValid() const
+{
+    if (!_isValid())
+    {
+        throw Error("Invalid entity iterator");
+    }
+}
+
+bool Entity::Children::IterBase::_equals(const IterBase& other) const
+{
+    return _pool == other._pool && _it == other._it;
+}
+
+Entity::Children::Iter::Iter() :
+    IterBase()
+{
+}
+
+Entity::Children::Iter::Iter(EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end) :
+    IterBase(pool, it, end)
+{
+}
+
+Entity& Entity::Children::Iter::operator*() const
+{
+    _ensureValid();
+    return _pool->_entityWithId(*_it);
+}
+
+Entity* Entity::Children::Iter::operator->() const
+{
+    _ensureValid();
+    return &_pool->_entityWithId(*_it);
+}
+
+Entity::Children::Iter& Entity::Children::Iter::operator++()
+{
+    _increment();
+    return *this;
+}
+
+bool Entity::Children::Iter::operator==(const Iter& other) const
+{
+    return _equals(other);
+}
+
+bool Entity::Children::Iter::operator!=(const Iter& other) const
+{
+    return !_equals(other);
+}
+
+Entity::Children::Iter::operator bool() const
+{
+    return _isValid();
+}
+
+Entity::Children::ConstIter::ConstIter() :
+    IterBase()
+{
+}
+
+Entity::Children::ConstIter::ConstIter(const EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end) :
+    IterBase(*const_cast<EntityPool*>(&pool), it, end)
+{
+}
+
+const Entity& Entity::Children::ConstIter::operator*() const
+{
+    _ensureValid();
+    return _pool->_entityWithId(*_it);
+}
+
+const Entity* Entity::Children::ConstIter::operator->() const
+{
+    _ensureValid();
+    return &_pool->_entityWithId(*_it);
+}
+
+Entity::Children::ConstIter& Entity::Children::ConstIter::operator++()
+{
+    _increment();
+    return *this;
+}
+
+bool Entity::Children::ConstIter::operator==(const ConstIter& other) const
+{
+    return _equals(other);
+}
+
+bool Entity::Children::ConstIter::operator!=(const ConstIter& other) const
+{
+    return !_equals(other);
+}
+
+Entity::Children::ConstIter::operator bool() const
+{
+    return _isValid();
+}
+
+Entity::Children::Iter Entity::Children::begin()
+{
+    return Entity::Children::Iter(*_entity->_pool, _ids.begin(), _ids.end());
+}
+
+Entity::Children::ConstIter Entity::Children::begin() const
+{
+    return Entity::Children::ConstIter(*_entity->_pool, _ids.begin(), _ids.end());
+}
+
+Entity::Children::Iter Entity::Children::end()
+{
+    return Entity::Children::Iter(*_entity->_pool, _ids.end(), _ids.end());
+}
+
+Entity::Children::ConstIter Entity::Children::end() const
+{
+    return Entity::Children::ConstIter(*_entity->_pool, _ids.end(), _ids.end());
+}
+
+Entity::Children::Children(Entity& entity) :
+    _entity(&entity)
+{
+}
+
 Entity::Iter Entity::clone(const std::string& name) const
 {
     _ensureInPool();
@@ -176,7 +322,14 @@ void Entity::activate()
 
 bool Entity::isActivated() const
 {
-    return _activated;
+    if (_parentId == (EntityId)-1)
+    {
+        return _activated;
+    }
+    else
+    {
+        return parent()->isActivated();
+    }    
 }
 
 EntityId Entity::id() const
@@ -192,6 +345,79 @@ const std::string& Entity::name() const
 void Entity::setName(const std::string& name)
 {
     _name = name;
+}
+
+Entity::Iter Entity::parent()
+{
+    _ensureInPool();
+    if (_parentId != (EntityId)-1)
+    {
+        return Entity::Iter(*_pool, _parentId);
+    }
+    else
+    {
+        return _pool->end();
+    }
+}
+
+Entity::ConstIter Entity::parent() const
+{
+    _ensureInPool();
+    if (_parentId != (EntityId)-1)
+    {
+        return Entity::ConstIter(*_pool, _parentId);
+    }
+    else
+    {
+        return const_cast<const EntityPool*>(_pool)->end();
+    }
+}
+
+void Entity::addChild(Entity& entity)
+{
+    if (entity._parentId != (EntityId)-1)
+    {
+        throw Error("Cannot add a child entity which already has a parent");
+    }
+
+    if (entity._pool != _pool)
+    {
+        throw Error("Cannot add a child entity from another scene");
+    }
+
+    if (_activated && !entity._activated)
+    {
+        throw Error("Cannot add unactivated entity as child of activated entity");
+    }
+    
+    if (!_activated && entity._activated)
+    {
+        throw Error("Cannot add activated entity as child of unactivated entity");
+    }
+
+    entity._parentId = _id;
+    _children._ids.push_back(entity._id);
+}
+
+void Entity::removeChild(Entity& entity)
+{
+    if (entity._pool != _pool || entity._parentId != _id)
+    {
+        throw Error("Entity is not a child of this entity");
+    }
+
+    _children._ids.erase(std::remove(_children._ids.begin(), _children._ids.end(), entity._id), _children._ids.end());
+    entity._parentId = (EntityId)-1;
+}
+
+Entity::Children& Entity::children()
+{
+    return _children;
+}
+
+const Entity::Children& Entity::children() const
+{
+    return _children;
 }
 
 void Entity::encode(ObjectEncoder& encoder) const
@@ -238,27 +464,23 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 Entity::Entity() :
     _pool(nullptr),
     _id((EntityId)-1),
+    _parentId((EntityId)-1),
+    _children(*this),
     _activated(false)
-{
-}
-
-Entity::Entity(const Entity& entity) :
-    _pool(entity._pool),
-    _id(entity._id),
-    _name(entity._name),
-    _activated(entity._activated)
 {
 }
 
 Entity::Entity(Entity&& entity) :
     _pool(entity._pool),
     _id(entity._id),
+    _parentId((EntityId)-1),
+    _children(std::move(entity._children)),
     _name(std::move(entity._name)),
     _activated(entity._activated)
 {
     entity._pool = nullptr;
     entity._id = (EntityId)-1;
-    entity._name = std::string();
+    entity._parentId = (EntityId)-1;
     entity._activated = false;
 }
 

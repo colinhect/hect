@@ -116,6 +116,18 @@ void Scene::_destroyEntity(Entity& entity)
         throw Error("Invalid entity");
     }
 
+    // Destroy all children
+    std::vector<EntityId> childIds;
+    for (Entity& child : entity.children())
+    {
+        childIds.push_back(child._id);
+    }
+    for (EntityId childId : childIds)
+    {
+        _entityPool._entityWithId(childId).destroy();
+    }
+
+    // Remove all components
     for (auto& pair : _componentPools)
     {
         ComponentPoolBase& componentPool = *pair.second;
@@ -125,12 +137,19 @@ void Scene::_destroyEntity(Entity& entity)
         }
     }
 
-    if (entity.isActivated())
+    if (entity._activated)
     {
         --_entityCount;
     }
 
-    _entityPool._destroy(entity.id());
+    // If the entity had a parent then remove itself as a child
+    Entity::Iter parent = entity.parent();
+    if (parent)
+    {
+        parent->removeChild(entity);
+    }
+
+    _entityPool._destroy(entity._id);
 }
 
 void Scene::_activateEntity(Entity& entity)
@@ -140,7 +159,7 @@ void Scene::_activateEntity(Entity& entity)
         throw Error("Invalid entity");
     }
 
-    if (entity.isActivated())
+    if (entity._activated)
     {
         throw Error("Entity is already activated");
     }
@@ -157,7 +176,11 @@ void Scene::_activateEntity(Entity& entity)
     ++_entityCount;
     entity._activated = true;
 
-    LOG_TRACE(format("Activated entity '%s'", entity.name().c_str()));
+    // Activate all children
+    for (Entity& child : entity.children())
+    {
+        child.activate();
+    }
 }
 
 void Scene::_addEntityComponentBase(Entity& entity, const ComponentBase& component)

@@ -99,12 +99,6 @@ public:
         /// Constructs an invalid component iterator.
         Iter();
 
-        ///
-        /// Constructs a component iterator given the pool and the id of the
-        /// component.
-        ///
-        /// \param pool The component pool that the component belongs to.
-        /// \param id The id of the component.
         Iter(ComponentPool<T>& pool, ComponentId id);
 
         ///
@@ -162,12 +156,6 @@ public:
         /// Constructs an invalid component iterator.
         ConstIter();
 
-        ///
-        /// Constructs a component iterator given the pool and the id of the
-        /// component.
-        ///
-        /// \param pool The component pool that the component belongs to.
-        /// \param id The id of the component.
         ConstIter(const ComponentPool<T>& pool, ComponentId id);
 
         ///

@@ -826,3 +826,198 @@ TEST_CASE("Scene_EntityPoolFindWithoutMatches")
 
     REQUIRE(iters.size() == 0);
 }
+
+TEST_CASE("Scene_AddRemoveEntityChildren")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    a->activate();
+    REQUIRE(!a->parent());
+
+    Entity::Iter b = scene.createEntity("B");
+    b->activate();
+    REQUIRE(!b->parent());
+
+    Entity::Iter c = scene.createEntity("C");
+    c->activate();
+    REQUIRE(!c->parent());
+
+    a->addChild(*b);
+    REQUIRE(&*b->parent() == &*a);
+
+    a->removeChild(*b);
+    REQUIRE(!b->parent());
+}
+
+TEST_CASE("Scene_AddChildEntityAsChild")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    a->activate();
+
+    Entity::Iter b = scene.createEntity("B");
+    b->activate();
+
+    a->addChild(*b);
+
+    Entity::Iter c = scene.createEntity("C");
+    c->activate();
+
+    REQUIRE_THROWS_AS(c->addChild(*b), Error);
+}
+
+TEST_CASE("Scene_AddEntityChildActivationRestrictions")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    a->activate();
+
+    Entity::Iter b = scene.createEntity("B");
+
+    REQUIRE_THROWS_AS(a->addChild(*b), Error);
+
+    Entity::Iter c = scene.createEntity("C");
+    c->activate();
+
+    REQUIRE_THROWS_AS(c->addChild(*b), Error);
+}
+
+TEST_CASE("Scene_AddChildFromAnotherScene")
+{
+    Scene sceneA;
+
+    Entity::Iter a = sceneA.createEntity("A");
+    a->activate();
+
+    Scene sceneB;
+
+    Entity::Iter b = sceneB.createEntity("B");
+    b->activate();
+
+    REQUIRE_THROWS_AS(a->addChild(*b), Error);
+}
+
+TEST_CASE("Scene_ChildEntityActivation")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter d = scene.createEntity("D");
+
+    a->addChild(*b);
+    a->addChild(*c);
+    c->addChild(*d);
+
+    a->activate();
+
+    REQUIRE(a->isActivated());
+    REQUIRE(b->isActivated());
+    REQUIRE(c->isActivated());
+    REQUIRE(d->isActivated());
+}
+
+TEST_CASE("Scene_ChildEntityIterationEmpty")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+
+    size_t count = 0;
+    for (Entity& child : a->children())
+    {
+        ++count;
+    }
+    REQUIRE(count == 0);
+}
+
+TEST_CASE("Scene_ChildEntityIterationNonEmpty")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter d = scene.createEntity("D");
+
+    a->addChild(*b);
+    a->addChild(*c);
+    c->addChild(*d);
+
+    std::vector<EntityId> ids;
+    for (Entity& child : a->children())
+    {
+        ids.push_back(child.id());
+    }
+    REQUIRE(ids.size() == 2);
+    REQUIRE(ids[0] == 1);
+    REQUIRE(ids[1] == 2);
+    ids.clear();
+
+    a->removeChild(*b);
+
+    for (Entity& child : a->children())
+    {
+        ids.push_back(child.id());
+    }
+    REQUIRE(ids.size() == 1);
+    REQUIRE(ids[0] == 2);
+}
+
+TEST_CASE("Scene_DestroyEntityWithChildren")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter d = scene.createEntity("D");
+
+    a->addChild(*b);
+    a->addChild(*c);
+    c->addChild(*d);
+
+    a->activate();
+
+    REQUIRE(scene.entityCount() == 4);
+
+    a->destroy();
+    REQUIRE(!a);
+    REQUIRE(!b);
+    REQUIRE(!c);
+    REQUIRE(!d);
+
+    REQUIRE(scene.entityCount() == 0);
+}
+
+TEST_CASE("Scene_DestroyEntityWithParent")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter c = scene.createEntity("C");
+
+    a->addChild(*b);
+    a->addChild(*c);
+
+    a->activate();
+
+    REQUIRE(scene.entityCount() == 3);
+
+    b->destroy();
+
+    REQUIRE(scene.entityCount() == 2);
+
+    std::vector<EntityId> ids;
+    for (Entity& child : a->children())
+    {
+        ids.push_back(child.id());
+    }
+    REQUIRE(ids.size() == 1);
+    REQUIRE(ids[0] == 2);
+}
