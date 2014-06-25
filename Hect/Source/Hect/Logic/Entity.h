@@ -36,6 +36,7 @@ class Entity :
 {
     friend class Scene;
     friend class EntityPool;
+    friend class std::allocator<Entity>;
 private:
     class IterBase
     {
@@ -181,8 +182,6 @@ public:
 
     class Handle { };
 
-    Entity();
-
     ///
     /// Adds a component of a specific type to the entity.
     ///
@@ -285,6 +284,10 @@ public:
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
+    Entity();
+    Entity(const Entity& entity);
+    Entity(Entity&& entity);
+
     void _addComponentBase(const ComponentBase& component);
 
     void _enterPool(EntityPool& pool, EntityId id);

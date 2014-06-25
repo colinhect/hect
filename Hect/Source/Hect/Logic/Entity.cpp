@@ -156,13 +156,6 @@ Entity::ConstIter::operator bool() const
     return _isValid();
 }
 
-Entity::Entity() :
-    _pool(nullptr),
-    _id((EntityId)-1),
-    _activated(false)
-{
-}
-
 Entity::Iter Entity::clone(const std::string& name) const
 {
     _ensureInPool();
@@ -240,6 +233,33 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     {
         scene._decodeComponents(*this, decoder, assetCache);
     }
+}
+
+Entity::Entity() :
+    _pool(nullptr),
+    _id((EntityId)-1),
+    _activated(false)
+{
+}
+
+Entity::Entity(const Entity& entity) :
+    _pool(entity._pool),
+    _id(entity._id),
+    _name(entity._name),
+    _activated(entity._activated)
+{
+}
+
+Entity::Entity(Entity&& entity) :
+    _pool(entity._pool),
+    _id(entity._id),
+    _name(std::move(entity._name)),
+    _activated(entity._activated)
+{
+    entity._pool = nullptr;
+    entity._id = (EntityId)-1;
+    entity._name = std::string();
+    entity._activated = false;
 }
 
 void Entity::_addComponentBase(const ComponentBase& component)
