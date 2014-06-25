@@ -188,7 +188,7 @@ public:
         {
         public:
             IterBase();
-            IterBase(EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end);
+            IterBase(EntityPool& pool, EntityId parentId, size_t index);
             
         protected:
             void _increment();
@@ -197,8 +197,8 @@ public:
             bool _equals(const IterBase& other) const;
 
             EntityPool* _pool;
-            std::vector<EntityId>::iterator _it;
-            std::vector<EntityId>::iterator _end;
+            EntityId _parentId;
+            size_t _index;
         };
     public:
 
@@ -218,7 +218,7 @@ public:
             /// Constructs an invalid entity iterator.
             Iter();
 
-            Iter(EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end);
+            Iter(EntityPool& pool, EntityId parentId, size_t index);
 
             ///
             /// Dereferences the iterator to a reference to the entity.
@@ -275,7 +275,7 @@ public:
             /// Constructs an invalid entity iterator.
             ConstIter();
 
-            ConstIter(const EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end);
+            ConstIter(const EntityPool& pool, EntityId parentId, size_t index);
 
             ///
             /// Dereferences the iterator to a reference to the entity.
@@ -333,9 +333,10 @@ public:
         ConstIter end() const;
 
     //private:
-        Children(Entity& entity);
+        Children();
 
-        Entity* _entity;
+        EntityPool* _pool;
+        EntityId _id;
         mutable std::vector<EntityId> _ids;
     };
 

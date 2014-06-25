@@ -62,17 +62,17 @@ public:
     void scale(const Vector3& scale);
 
     ///
-    /// Applies a global rotation to the transform.
+    /// Applies a rotation to the transform.
     ///
     /// \param rotation The rotation to apply.
-    void rotateGlobal(const Quaternion& rotation);
+    void rotate(const Quaternion& rotation);
 
     ///
-    /// Applies a global rotation to the transform.
+    /// Applies a rotation to the transform.
     ///
     /// \param axis The axis to rotate about.
     /// \param angle The angle to rotate.
-    void rotateGlobal(const Vector3& axis, Angle angle);
+    void rotate(const Vector3& axis, Angle angle);
 
     ///
     /// Returns the position.
@@ -108,6 +108,9 @@ public:
     /// Transforms by another transform.
     void transformBy(const Transform& transform);
 
+    void updateGlobalTransform();
+    void updateGlobalTransform(const Transform& parentTransform);
+
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
@@ -122,8 +125,13 @@ private:
     uint8_t _dirtyBits;
 
     Vector3 _position;
+    Vector3 _globalPosition;
+
     Vector3 _scale;
+    Vector3 _globalScale;
+
     Quaternion _rotation;
+    Quaternion _globalRotation;
 };
 
 }

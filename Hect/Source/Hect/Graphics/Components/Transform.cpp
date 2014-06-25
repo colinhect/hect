@@ -27,7 +27,8 @@ using namespace hect;
 
 Transform::Transform() :
     _dirtyBits(0),
-    _scale(Vector3::one())
+    _scale(Vector3::one()),
+    _globalScale(Vector3::one())
 {
 }
 
@@ -37,17 +38,17 @@ void Transform::buildMatrix(Matrix4& matrix) const
 
     if (_dirtyBits & PositionBit)
     {
-        matrix.translate(_position);
+        matrix.translate(_globalPosition);
     }
 
     if (_dirtyBits & ScaleBit)
     {
-        matrix.scale(_scale);
+        matrix.scale(_globalScale);
     }
 
     if (_dirtyBits & RotationBit)
     {
-        matrix.rotate(_rotation);
+        matrix.rotate(_globalRotation);
     }
 }
 
@@ -63,16 +64,16 @@ void Transform::scale(const Vector3& scale)
     _dirtyBits |= ScaleBit;
 }
 
-void Transform::rotateGlobal(const Quaternion& rotation)
+void Transform::rotate(const Quaternion& rotation)
 {
     _rotation *= rotation;
     _rotation.normalize();
     _dirtyBits |= RotationBit;
 }
 
-void Transform::rotateGlobal(const Vector3& axis, Angle angle)
+void Transform::rotate(const Vector3& axis, Angle angle)
 {
-    rotateGlobal(Quaternion::fromAxisAngle(axis, angle));
+    rotate(Quaternion::fromAxisAngle(axis, angle));
 }
 
 const Vector3& Transform::position() const
@@ -114,6 +115,22 @@ void Transform::transformBy(const Transform& transform)
     _position += transform._position;
     _scale *= transform._scale;
     _rotation = transform._rotation * _rotation;
+    _dirtyBits = PositionBit | ScaleBit | RotationBit;
+}
+
+void Transform::updateGlobalTransform()
+{
+    _globalPosition = _position;
+    _globalScale = _scale;
+    _globalRotation = _rotation;
+}
+
+void Transform::updateGlobalTransform(const Transform& parentTransform)
+{
+    _globalPosition = parentTransform._globalRotation * _position;
+    _globalPosition += parentTransform._globalPosition;
+    _globalScale = parentTransform._globalScale * _scale;
+    _globalRotation = parentTransform._globalRotation * _rotation;
     _dirtyBits = PositionBit | ScaleBit | RotationBit;
 }
 

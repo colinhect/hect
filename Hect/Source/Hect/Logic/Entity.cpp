@@ -161,21 +161,24 @@ Entity::Children::IterBase::IterBase() :
 {
 }
 
-Entity::Children::IterBase::IterBase(EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end) :
+Entity::Children::IterBase::IterBase(EntityPool& pool, EntityId parentId, size_t index) :
     _pool(&pool),
-    _it(it),
-    _end(end)
+    _parentId(parentId),
+    _index(index)
 {
 }
 
 void Entity::Children::IterBase::_increment()
 {
-    ++_it;
+    if (_isValid())
+    {
+        ++_index;
+    }
 }
 
 bool Entity::Children::IterBase::_isValid() const
 {
-    return _it != _end;
+    return _index < _pool->_entityWithId(_parentId)._children._ids.size();
 }
 
 void Entity::Children::IterBase::_ensureValid() const
@@ -188,7 +191,7 @@ void Entity::Children::IterBase::_ensureValid() const
 
 bool Entity::Children::IterBase::_equals(const IterBase& other) const
 {
-    return _pool == other._pool && _it == other._it;
+    return _pool == other._pool && _parentId == other._parentId && _index == other._index;
 }
 
 Entity::Children::Iter::Iter() :
@@ -196,21 +199,25 @@ Entity::Children::Iter::Iter() :
 {
 }
 
-Entity::Children::Iter::Iter(EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end) :
-    IterBase(pool, it, end)
+Entity::Children::Iter::Iter(EntityPool& pool, EntityId parentId, size_t index) :
+    IterBase(pool, parentId, index)
 {
 }
 
 Entity& Entity::Children::Iter::operator*() const
 {
     _ensureValid();
-    return _pool->_entityWithId(*_it);
+    Entity& entity = _pool->_entityWithId(_parentId);
+    EntityId id = entity._children._ids[_index];
+    return _pool->_entityWithId(id);
 }
 
 Entity* Entity::Children::Iter::operator->() const
 {
     _ensureValid();
-    return &_pool->_entityWithId(*_it);
+    Entity& entity = _pool->_entityWithId(_parentId);
+    EntityId id = entity._children._ids[_index];
+    return &_pool->_entityWithId(id);
 }
 
 Entity::Children::Iter& Entity::Children::Iter::operator++()
@@ -239,21 +246,25 @@ Entity::Children::ConstIter::ConstIter() :
 {
 }
 
-Entity::Children::ConstIter::ConstIter(const EntityPool& pool, std::vector<EntityId>::iterator it, std::vector<EntityId>::iterator end) :
-    IterBase(*const_cast<EntityPool*>(&pool), it, end)
+Entity::Children::ConstIter::ConstIter(const EntityPool& pool, EntityId parentId, size_t index) :
+    IterBase(*const_cast<EntityPool*>(&pool), parentId, index)
 {
 }
 
 const Entity& Entity::Children::ConstIter::operator*() const
 {
     _ensureValid();
-    return _pool->_entityWithId(*_it);
+    const Entity& entity = _pool->_entityWithId(_parentId);
+    EntityId id = entity._children._ids[_index];
+    return _pool->_entityWithId(id);
 }
 
 const Entity* Entity::Children::ConstIter::operator->() const
 {
     _ensureValid();
-    return &_pool->_entityWithId(*_it);
+    const Entity& entity = _pool->_entityWithId(_parentId);
+    EntityId id = entity._children._ids[_index];
+    return &_pool->_entityWithId(id);
 }
 
 Entity::Children::ConstIter& Entity::Children::ConstIter::operator++()
@@ -279,26 +290,27 @@ Entity::Children::ConstIter::operator bool() const
 
 Entity::Children::Iter Entity::Children::begin()
 {
-    return Entity::Children::Iter(*_entity->_pool, _ids.begin(), _ids.end());
+    return Entity::Children::Iter(*_pool, _id, 0);
 }
 
 Entity::Children::ConstIter Entity::Children::begin() const
 {
-    return Entity::Children::ConstIter(*_entity->_pool, _ids.begin(), _ids.end());
+    return Entity::Children::ConstIter(*_pool, _id, 0);
 }
 
 Entity::Children::Iter Entity::Children::end()
 {
-    return Entity::Children::Iter(*_entity->_pool, _ids.end(), _ids.end());
+    return Entity::Children::Iter(*_pool, _id, _pool->_entityWithId(_id)._children._ids.size());
 }
 
 Entity::Children::ConstIter Entity::Children::end() const
 {
-    return Entity::Children::ConstIter(*_entity->_pool, _ids.end(), _ids.end());
+    return Entity::Children::ConstIter(*_pool, _id, _pool->_entityWithId(_id)._children._ids.size());
 }
 
-Entity::Children::Children(Entity& entity) :
-    _entity(&entity)
+Entity::Children::Children() :
+    _pool(nullptr),
+    _id((EntityId)-1)
 {
 }
 
@@ -676,7 +688,6 @@ Entity::Entity() :
     _pool(nullptr),
     _id((EntityId)-1),
     _parentId((EntityId)-1),
-    _children(*this),
     _activated(false)
 {
 }
@@ -684,7 +695,7 @@ Entity::Entity() :
 Entity::Entity(Entity&& entity) :
     _pool(entity._pool),
     _id(entity._id),
-    _parentId((EntityId)-1),
+    _parentId(entity._parentId),
     _children(std::move(entity._children)),
     _name(std::move(entity._name)),
     _activated(entity._activated)
@@ -705,12 +716,18 @@ void Entity::_enterPool(EntityPool& pool, EntityId id)
 {
     _pool = &pool;
     _id = id;
+
+    _children._pool = &pool;
+    _children._id = id;
 }
 
 void Entity::_exitPool()
 {
     _pool = nullptr;
     _id = (EntityId)-1;
+
+    _children._pool = nullptr;
+    _children._id = (EntityId)-1;
 }
 
 bool Entity::_inPool() const

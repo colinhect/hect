@@ -31,8 +31,9 @@ using namespace hect;
 
 #include "Hect/Internal/Bullet.h"
 
-PhysicsSystem::PhysicsSystem(Scene& scene) :
+PhysicsSystem::PhysicsSystem(Scene& scene, TaskPool& taskPool) :
     System(scene),
+    _taskPool(&taskPool),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -41,37 +42,46 @@ PhysicsSystem::PhysicsSystem(Scene& scene) :
 {
     setGravity(Vector3::zero());
 
-    // Register to component pool events for rigid bodies
+    // Register to component events for rigid bodies
     ComponentPool<RigidBody>& rigidBodyPool = scene.components<RigidBody>();
     rigidBodyPool.dispatcher().addListener(*this);
 }
 
 PhysicsSystem::~PhysicsSystem()
 {
-    // Unregister to component pool events for rigid bodies
+    _updateTask.wait();
+
+    // Unregister from component events for rigid bodies
     ComponentPool<RigidBody>& rigidBodyPool = scene().components<RigidBody>();
     rigidBodyPool.dispatcher().removeListener(*this);
 }
 
-void PhysicsSystem::update(Real timeStep, unsigned maxSubStepCount)
+void PhysicsSystem::asynchronousUpdate(Real timeStep, unsigned maxSubStepCount)
 {
+    // Wait until the last update (if any) completes
+    _updateTask.wait();
+
     // Update the dynamics world
-    _world->stepSimulation(timeStep, maxSubStepCount);
+    _updateTask = _taskPool->enqueue([this, timeStep, maxSubStepCount]()
+    {
+        _world->stepSimulation(timeStep, maxSubStepCount);
+    });
 }
 
 void PhysicsSystem::updateTransforms()
 {
+    // Wait until the last update (if any) completes
+    _updateTask.wait();
+
     // For each rigid body component
     for (RigidBody& rigidBody : scene().components<RigidBody>())
     {
         Entity& entity = rigidBody.entity();
-
-        if (entity.component<Transform>())
+        if (!entity.parent() && entity.component<Transform>())
         {
             // Update the transform to what Bullet says it should be
-            Transform transform = convertFromBullet(rigidBody._rigidBody->getWorldTransform());
-
-            entity.replaceComponent(transform);
+            btTransform& bulletTransform = rigidBody._rigidBody->getWorldTransform();
+            entity.replaceComponent(convertFromBullet(bulletTransform));
         }
     }
 }

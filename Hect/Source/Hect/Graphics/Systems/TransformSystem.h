@@ -23,31 +23,26 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Logic/System.h"
+#include "Hect/Graphics/Components/Transform.h"
+
 namespace hect
 {
 
-class Scene;
-
 ///
-/// A system affecting entities within a scene.
-class System
+/// Updates the transform hierarchies of the scene.
+class TransformSystem :
+    public System
 {
 public:
+    TransformSystem(Scene& scene);
 
     ///
-    /// Constructs the system given the scene.
-    System(Scene& scene);
-
-    ///
-    /// Gets the scene that the system affects.
-    Scene& scene();
-
-    ///
-    /// Gets the scene that the system affects.
-    const Scene& scene() const;
+    /// Updates the global transforms of all transforms.
+    void update();
 
 private:
-    Scene* _scene;
+    void _updateTransform(Entity& parent, Entity& child);
 };
 
 }

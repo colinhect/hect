@@ -34,7 +34,8 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
     _taskPool(4),
     _cameraSystem(_scene),
     _renderSystem(_scene, renderer),
-    _physicsSystem(_scene),
+    _transformSystem(_scene),
+    _physicsSystem(_scene, _taskPool),
     _playerCameraSystem(_scene, inputSystem)
 {
     _scene.registerComponent<PlayerCamera>("PlayerCamera");
@@ -52,7 +53,8 @@ MainLogicLayer::MainLogicLayer(AssetCache& assetCache, InputSystem& inputSystem,
 
         _cube = _scene.createEntity();
         _cube->decodeFromJsonValue(jsonValue, assetCache);
-        _cube->activate();
+
+        _cube->clone()->activate();
     }
 
     Dispatcher<KeyboardEvent>& keyboardDispatcher = _input->keyboard().dispatcher();
@@ -70,18 +72,11 @@ MainLogicLayer::~MainLogicLayer()
 
 void MainLogicLayer::fixedUpdate(Real timeStep)
 {
-    _physicsTask.wait();
-
     _cameraSystem.update();
     _physicsSystem.updateTransforms();
+    _transformSystem.update();
     _playerCameraSystem.update(timeStep);
-
-    _physicsTask = _taskPool.enqueue([this, timeStep]()
-    {
-        _physicsSystem.update(timeStep, 4);
-    }
-                                    );
-
+    _physicsSystem.asynchronousUpdate(timeStep, 4);
     _input->updateAxes(timeStep);
 }
 

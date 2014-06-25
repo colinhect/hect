@@ -31,6 +31,7 @@
 #include <Hect/Logic/Scene.h>
 #include <Hect/Graphics/Systems/CameraSystem.h>
 #include <Hect/Graphics/Systems/RenderSystem.h>
+#include <Hect/Graphics/Systems/TransformSystem.h>
 #include <Hect/Physics/Systems/PhysicsSystem.h>
 #include <Hect/Graphics/Renderer.h>
 #include <Hect/Graphics/Window.h>
@@ -61,7 +62,6 @@ private:
     Window* _window;
 
     TaskPool _taskPool;
-    Task _physicsTask;
 
     Scene _scene;
 
@@ -70,6 +70,7 @@ private:
 
     CameraSystem _cameraSystem;
     RenderSystem _renderSystem;
+    TransformSystem _transformSystem;
     PhysicsSystem _physicsSystem;
 
     PlayerCameraSystem _playerCameraSystem;

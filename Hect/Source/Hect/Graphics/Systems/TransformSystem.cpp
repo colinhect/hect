@@ -21,33 +21,47 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "TransformSystem.h"
 
-namespace hect
+#include "Hect/Logic/Scene.h"
+
+using namespace hect;
+
+TransformSystem::TransformSystem(Scene& scene) :
+    System(scene)
 {
+}
 
-class Scene;
-
-///
-/// A system affecting entities within a scene.
-class System
+void TransformSystem::update()
 {
-public:
+    for (Transform& transform : scene().components<Transform>())
+    {
+        Entity& entity = transform.entity();
+        if (!entity.parent())
+        {
+            transform.updateGlobalTransform();
+            for (Entity& child : entity.children())
+            {
+                _updateTransform(entity, child);
+            }
+        }
+    }
+}
 
-    ///
-    /// Constructs the system given the scene.
-    System(Scene& scene);
+void TransformSystem::_updateTransform(Entity& parent, Entity& child)
+{
+    auto parentTransform = parent.component<Transform>();
+    if (parentTransform)
+    {
+        auto childTransform = child.component<Transform>();
+        if (childTransform)
+        {
+            childTransform->updateGlobalTransform(*parentTransform);
 
-    ///
-    /// Gets the scene that the system affects.
-    Scene& scene();
-
-    ///
-    /// Gets the scene that the system affects.
-    const Scene& scene() const;
-
-private:
-    Scene* _scene;
-};
-
+            for (Entity& nextChild : child.children())
+            {
+                _updateTransform(child, nextChild);
+            }
+        }
+    }
 }

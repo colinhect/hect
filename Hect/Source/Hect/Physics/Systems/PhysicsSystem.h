@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Core/Listener.h"
+#include "Hect/Core/TaskPool.h"
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Graphics/Mesh.h"
@@ -49,10 +50,10 @@ class PhysicsSystem :
     public Uncopyable
 {
 public:
-    PhysicsSystem(Scene& scene);
+    PhysicsSystem(Scene& scene, TaskPool& taskPool);
     ~PhysicsSystem();
 
-    void update(Real timeStep, unsigned maxSubStepCount);
+    void asynchronousUpdate(Real timeStep, unsigned maxSubStepCount);
 
     void updateTransforms();
 
@@ -70,6 +71,9 @@ public:
 
 private:
     btTriangleMesh* _toBulletMesh(Mesh* mesh);
+
+    TaskPool* _taskPool;
+    Task _updateTask;
 
     std::shared_ptr<btCollisionConfiguration> _configuration;
     std::shared_ptr<btCollisionDispatcher> _dispatcher;

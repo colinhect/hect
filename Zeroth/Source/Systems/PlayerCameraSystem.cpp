@@ -60,9 +60,9 @@ void PlayerCameraSystem::update(Real timeStep)
 
                 if (_mouse->mode() == MouseMode::Relative)
                 {
-                    transform->rotateGlobal(up, _viewX->value() * rotateSpeed);
-                    transform->rotateGlobal(right, _viewY->value() * -rotateSpeed);
-                    transform->rotateGlobal(front, _roll->value() * -rollSpeed);
+                    transform->rotate(up, _viewX->value() * rotateSpeed);
+                    transform->rotate(right, _viewY->value() * -rotateSpeed);
+                    transform->rotate(front, _roll->value() * -rollSpeed);
                 }
 
                 transform->translate(right * _moveX->value() * moveSpeed);
