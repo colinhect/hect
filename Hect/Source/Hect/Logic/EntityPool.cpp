@@ -66,7 +66,7 @@ Entity::ConstIter EntityPool::end() const
     return Entity::ConstIter(*this, std::max(_maxId(), (EntityId)1));
 }
 
-Entity::Iter EntityPool::findFirst(EntityPool::Predicate predicate)
+Entity::Iter EntityPool::findFirst(Entity::Predicate predicate)
 {
     for (auto iter = begin(); iter != end(); ++iter)
     {
@@ -78,7 +78,7 @@ Entity::Iter EntityPool::findFirst(EntityPool::Predicate predicate)
     return end();
 }
 
-Entity::ConstIter EntityPool::findFirst(EntityPool::Predicate predicate) const
+Entity::ConstIter EntityPool::findFirst(Entity::Predicate predicate) const
 {
     for (auto iter = begin(); iter != end(); ++iter)
     {
@@ -90,7 +90,7 @@ Entity::ConstIter EntityPool::findFirst(EntityPool::Predicate predicate) const
     return end();
 }
 
-Entity::Iter::Array EntityPool::find(EntityPool::Predicate predicate)
+Entity::Iter::Array EntityPool::find(Entity::Predicate predicate)
 {
     Entity::Iter::Array results;
     for (auto iter = begin(); iter != end(); ++iter)
@@ -103,7 +103,7 @@ Entity::Iter::Array EntityPool::find(EntityPool::Predicate predicate)
     return results;
 }
 
-Entity::ConstIter::Array EntityPool::find(EntityPool::Predicate predicate) const
+Entity::ConstIter::Array EntityPool::find(Entity::Predicate predicate) const
 {
     Entity::ConstIter::Array results;
     for (auto iter = begin(); iter != end(); ++iter)

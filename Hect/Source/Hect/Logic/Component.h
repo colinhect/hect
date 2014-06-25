@@ -24,6 +24,7 @@
 #pragma once
 
 #include <typeindex>
+#include <functional>
 
 #include "Hect/IO/Encodable.h"
 
@@ -83,6 +84,10 @@ private:
     };
 
 public:
+
+    ///
+    /// A predicate for a component search or filter.
+    typedef std::function<bool(const T&)> Predicate;
 
     ///
     /// A component iterator.

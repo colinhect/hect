@@ -275,6 +275,247 @@ TEST_CASE("Scene_CreateManyEntities")
     }
 }
 
+
+TEST_CASE("Scene_AddRemoveEntityChildren")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    a->activate();
+    REQUIRE(!a->parent());
+
+    Entity::Iter b = scene.createEntity("B");
+    b->activate();
+    REQUIRE(!b->parent());
+
+    Entity::Iter c = scene.createEntity("C");
+    c->activate();
+    REQUIRE(!c->parent());
+
+    a->addChild(*b);
+    REQUIRE(&*b->parent() == &*a);
+
+    a->removeChild(*b);
+    REQUIRE(!b->parent());
+}
+
+TEST_CASE("Scene_AddChildEntityAsChild")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    a->activate();
+
+    Entity::Iter b = scene.createEntity("B");
+    b->activate();
+
+    a->addChild(*b);
+
+    Entity::Iter c = scene.createEntity("C");
+    c->activate();
+
+    REQUIRE_THROWS_AS(c->addChild(*b), Error);
+}
+
+TEST_CASE("Scene_AddEntityChildActivationRestrictions")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    a->activate();
+
+    Entity::Iter b = scene.createEntity("B");
+
+    REQUIRE_THROWS_AS(a->addChild(*b), Error);
+
+    Entity::Iter c = scene.createEntity("C");
+    c->activate();
+
+    REQUIRE_THROWS_AS(c->addChild(*b), Error);
+}
+
+TEST_CASE("Scene_AddChildFromAnotherScene")
+{
+    Scene sceneA;
+
+    Entity::Iter a = sceneA.createEntity("A");
+    a->activate();
+
+    Scene sceneB;
+
+    Entity::Iter b = sceneB.createEntity("B");
+    b->activate();
+
+    REQUIRE_THROWS_AS(a->addChild(*b), Error);
+}
+
+TEST_CASE("Scene_ChildEntityActivation")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter d = scene.createEntity("D");
+
+    a->addChild(*b);
+    a->addChild(*c);
+    c->addChild(*d);
+
+    a->activate();
+
+    REQUIRE(a->isActivated());
+    REQUIRE(b->isActivated());
+    REQUIRE(c->isActivated());
+    REQUIRE(d->isActivated());
+}
+
+TEST_CASE("Scene_ChildEntityIterationEmpty")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+
+    size_t count = 0;
+    for (Entity& child : a->children())
+    {
+        ++count;
+    }
+    REQUIRE(count == 0);
+}
+
+TEST_CASE("Scene_ChildEntityIterationNonEmpty")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter d = scene.createEntity("D");
+
+    a->addChild(*b);
+    a->addChild(*c);
+    c->addChild(*d);
+
+    std::vector<EntityId> ids;
+    for (Entity& child : a->children())
+    {
+        ids.push_back(child.id());
+    }
+    REQUIRE(ids.size() == 2);
+    REQUIRE(ids[0] == 1);
+    REQUIRE(ids[1] == 2);
+    ids.clear();
+
+    a->removeChild(*b);
+
+    for (Entity& child : a->children())
+    {
+        ids.push_back(child.id());
+    }
+    REQUIRE(ids.size() == 1);
+    REQUIRE(ids[0] == 2);
+}
+
+TEST_CASE("Scene_DestroyEntityWithChildren")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter d = scene.createEntity("D");
+
+    a->addChild(*b);
+    a->addChild(*c);
+    c->addChild(*d);
+
+    a->activate();
+
+    REQUIRE(scene.entityCount() == 4);
+
+    a->destroy();
+    REQUIRE(!a);
+    REQUIRE(!b);
+    REQUIRE(!c);
+    REQUIRE(!d);
+
+    REQUIRE(scene.entityCount() == 0);
+}
+
+TEST_CASE("Scene_DestroyEntityWithParent")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter c = scene.createEntity("C");
+
+    a->addChild(*b);
+    a->addChild(*c);
+
+    a->activate();
+
+    REQUIRE(scene.entityCount() == 3);
+
+    b->destroy();
+
+    REQUIRE(scene.entityCount() == 2);
+
+    std::vector<EntityId> ids;
+    for (Entity& child : a->children())
+    {
+        ids.push_back(child.id());
+    }
+    REQUIRE(ids.size() == 1);
+    REQUIRE(ids[0] == 2);
+}
+
+TEST_CASE("Scene_CloneEntity")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    Entity::Iter a = scene.createEntity("A");
+    Component<String>::Iter stringA = a->addComponent(String("Test"));
+    a->activate();
+
+    Entity::Iter b = a->clone("B");
+    Component<String>::Iter stringB = b->component<String>();
+
+    REQUIRE(a->name() == "A");
+    REQUIRE(a->isActivated());
+    REQUIRE(b->name() == "B");
+    REQUIRE(!b->isActivated());
+    REQUIRE(&stringA->entity() == &*a);
+    REQUIRE(&stringB->entity() == &*b);
+    REQUIRE(&*stringA != &*stringB);
+    REQUIRE(stringA->id() != stringB->id());
+}
+
+TEST_CASE("Scene_CloneEntityWithChildren")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter c = scene.createEntity("C");
+
+    a->addChild(*b);
+    a->addChild(*c);
+
+    Entity::Iter cloneA = a->clone();
+    Entity::Children::Iter childIter = cloneA->children().begin();
+    REQUIRE(childIter->name() == "B");
+    REQUIRE(&*childIter->parent() == &*cloneA);
+    REQUIRE(&*childIter != &*b);
+    REQUIRE(++childIter);
+    REQUIRE(childIter->name() == "C");
+    REQUIRE(&*childIter->parent() == &*cloneA);
+    REQUIRE(&*childIter != &*c);
+    REQUIRE(!++childIter);
+}
+
 TEST_CASE("Scene_AddAndRemoveComponent")
 {
     Scene scene;
@@ -345,28 +586,6 @@ TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
 }
 
-TEST_CASE("Scene_CloneEntity")
-{
-    Scene scene;
-    scene.registerComponent<String>("String");
-
-    Entity::Iter a = scene.createEntity("A");
-    Component<String>::Iter stringA = a->addComponent(String("Test"));
-    a->activate();
-
-    Entity::Iter b = a->clone("B");
-    Component<String>::Iter stringB = b->component<String>();
-
-    REQUIRE(a->name() == "A");
-    REQUIRE(a->isActivated());
-    REQUIRE(b->name() == "B");
-    REQUIRE(!b->isActivated());
-    REQUIRE(&stringA->entity() == &*a);
-    REQUIRE(&stringB->entity() == &*b);
-    REQUIRE(&*stringA != &*stringB);
-    REQUIRE(stringA->id() != stringB->id());
-}
-
 TEST_CASE("Scene_Decode")
 {
     Scene scene;
@@ -385,6 +604,29 @@ TEST_CASE("Scene_Decode")
     REQUIRE(a);
     REQUIRE(a->name() == "A");
     REQUIRE(a->component<String>()->value == "Test");
+}
+
+TEST_CASE("Scene_DecodeWithChildren")
+{
+    Scene scene;
+    scene.registerComponent<String>("String");
+
+    REQUIRE(scene.entityCount() == 0);
+
+    JsonValue jsonValue;
+    jsonValue.decodeFromJson("{ \"entities\" : [ { \"name\" : \"A\", \"children\" : [ { \"name\" : \"B\" } ] } ] }");
+
+    scene.decodeFromJsonValue(jsonValue);
+
+    REQUIRE(scene.entityCount() == 2);
+
+    Entity::Iter a = scene.entities().begin();
+    REQUIRE(a);
+    REQUIRE(a->name() == "A");
+
+    Entity::Children::Iter b = a->children().begin();
+    REQUIRE(b);
+    REQUIRE(b->name() == "B");
 }
 
 TEST_CASE("Scene_Encode")
@@ -413,6 +655,37 @@ TEST_CASE("Scene_Encode")
         REQUIRE(a);
         REQUIRE(a->name() == "A");
         REQUIRE(a->component<String>()->value == "Test");
+    }
+}
+
+TEST_CASE("Scene_EncodeWithChildren")
+{
+    JsonValue jsonValue;
+
+    {
+        Scene scene;
+
+        Entity::Iter a = scene.createEntity("A");
+        Entity::Iter b = scene.createEntity("B");
+        a->addChild(*b);
+        a->activate();
+
+        jsonValue = scene.encodeToJsonValue();
+    }
+
+    {
+        Scene scene;
+        scene.decodeFromJsonValue(jsonValue);
+
+        REQUIRE(scene.entityCount() == 2);
+
+        Entity::Iter a = scene.entities().begin();
+        REQUIRE(a);
+        REQUIRE(a->name() == "A");
+
+        Entity::Children::Iter b = a->children().begin();
+        REQUIRE(b);
+        REQUIRE(b->name() == "B");
     }
 }
 
@@ -827,197 +1100,251 @@ TEST_CASE("Scene_EntityPoolFindWithoutMatches")
     REQUIRE(iters.size() == 0);
 }
 
-TEST_CASE("Scene_AddRemoveEntityChildren")
+TEST_CASE("Scene_EntityFindFirstChild")
 {
     Scene scene;
 
     Entity::Iter a = scene.createEntity("A");
-    a->activate();
-    REQUIRE(!a->parent());
 
     Entity::Iter b = scene.createEntity("B");
-    b->activate();
-    REQUIRE(!b->parent());
-
-    Entity::Iter c = scene.createEntity("C");
-    c->activate();
-    REQUIRE(!c->parent());
-
-    a->addChild(*b);
-    REQUIRE(&*b->parent() == &*a);
-
-    a->removeChild(*b);
-    REQUIRE(!b->parent());
-}
-
-TEST_CASE("Scene_AddChildEntityAsChild")
-{
-    Scene scene;
-
-    Entity::Iter a = scene.createEntity("A");
-    a->activate();
-
-    Entity::Iter b = scene.createEntity("B");
-    b->activate();
-
     a->addChild(*b);
 
     Entity::Iter c = scene.createEntity("C");
-    c->activate();
-
-    REQUIRE_THROWS_AS(c->addChild(*b), Error);
-}
-
-TEST_CASE("Scene_AddEntityChildActivationRestrictions")
-{
-    Scene scene;
-
-    Entity::Iter a = scene.createEntity("A");
-    a->activate();
-
-    Entity::Iter b = scene.createEntity("B");
-
-    REQUIRE_THROWS_AS(a->addChild(*b), Error);
-
-    Entity::Iter c = scene.createEntity("C");
-    c->activate();
-
-    REQUIRE_THROWS_AS(c->addChild(*b), Error);
-}
-
-TEST_CASE("Scene_AddChildFromAnotherScene")
-{
-    Scene sceneA;
-
-    Entity::Iter a = sceneA.createEntity("A");
-    a->activate();
-
-    Scene sceneB;
-
-    Entity::Iter b = sceneB.createEntity("B");
-    b->activate();
-
-    REQUIRE_THROWS_AS(a->addChild(*b), Error);
-}
-
-TEST_CASE("Scene_ChildEntityActivation")
-{
-    Scene scene;
-
-    Entity::Iter a = scene.createEntity("A");
-    Entity::Iter b = scene.createEntity("B");
-    Entity::Iter c = scene.createEntity("C");
-    Entity::Iter d = scene.createEntity("D");
-
-    a->addChild(*b);
     a->addChild(*c);
+
+    Entity::Iter d = scene.createEntity("D");
     c->addChild(*d);
 
     a->activate();
 
-    REQUIRE(a->isActivated());
-    REQUIRE(b->isActivated());
-    REQUIRE(c->isActivated());
-    REQUIRE(d->isActivated());
-}
-
-TEST_CASE("Scene_ChildEntityIterationEmpty")
-{
-    Scene scene;
-
-    Entity::Iter a = scene.createEntity("A");
-
-    size_t count = 0;
-    for (Entity& child : a->children())
+    Entity::Iter iter = a->findFirstChild([](const Entity& entity)
     {
-        ++count;
-    }
-    REQUIRE(count == 0);
+        return entity.name() == "B";
+    });
+    REQUIRE(iter);
+    REQUIRE(iter == b);
+
+    iter = a->findFirstChild([](const Entity& entity)
+    {
+        return entity.name() == "C";
+    });
+    REQUIRE(iter);
+    REQUIRE(iter == c);
+
+    iter = a->findFirstChild([](const Entity& entity)
+    {
+        return entity.name() == "D";
+    });
+    REQUIRE(!iter);
 }
 
-TEST_CASE("Scene_ChildEntityIterationNonEmpty")
+TEST_CASE("Scene_EntityFindChildren")
 {
     Scene scene;
 
     Entity::Iter a = scene.createEntity("A");
+
     Entity::Iter b = scene.createEntity("B");
-    Entity::Iter c = scene.createEntity("C");
-    Entity::Iter d = scene.createEntity("D");
-
     a->addChild(*b);
-    a->addChild(*c);
-    c->addChild(*d);
 
-    std::vector<EntityId> ids;
-    for (Entity& child : a->children())
-    {
-        ids.push_back(child.id());
-    }
-    REQUIRE(ids.size() == 2);
-    REQUIRE(ids[0] == 1);
-    REQUIRE(ids[1] == 2);
-    ids.clear();
-
-    a->removeChild(*b);
-
-    for (Entity& child : a->children())
-    {
-        ids.push_back(child.id());
-    }
-    REQUIRE(ids.size() == 1);
-    REQUIRE(ids[0] == 2);
-}
-
-TEST_CASE("Scene_DestroyEntityWithChildren")
-{
-    Scene scene;
-
-    Entity::Iter a = scene.createEntity("A");
-    Entity::Iter b = scene.createEntity("B");
     Entity::Iter c = scene.createEntity("C");
-    Entity::Iter d = scene.createEntity("D");
-
-    a->addChild(*b);
     a->addChild(*c);
+
+    Entity::Iter d = scene.createEntity("D");
     c->addChild(*d);
 
     a->activate();
 
-    REQUIRE(scene.entityCount() == 4);
+    Entity::Iter::Array iters = a->findChildren([](const Entity& entity)
+    {
+        return entity.name() == "B" || entity.name() == "C";
+    });
+    REQUIRE(iters.size() == 2);
+    REQUIRE(iters[0] == b);
+    REQUIRE(iters[1] == c);
 
-    a->destroy();
-    REQUIRE(!a);
-    REQUIRE(!b);
-    REQUIRE(!c);
-    REQUIRE(!d);
+    iters = a->findChildren([](const Entity& entity)
+    {
+        return entity.name() == "C";
+    });
+    REQUIRE(iters.size() == 1);
+    REQUIRE(iters[0] == c);
 
-    REQUIRE(scene.entityCount() == 0);
+    iters = a->findChildren([](const Entity& entity)
+    {
+        return entity.name() == "D";
+    });
+    REQUIRE(iters.size() == 0);
 }
 
-TEST_CASE("Scene_DestroyEntityWithParent")
+TEST_CASE("Scene_EntityFindFirstDescendant")
 {
     Scene scene;
 
     Entity::Iter a = scene.createEntity("A");
-    Entity::Iter b = scene.createEntity("B");
-    Entity::Iter c = scene.createEntity("C");
 
+    Entity::Iter b = scene.createEntity("B");
     a->addChild(*b);
+
+    Entity::Iter c = scene.createEntity("C");
     a->addChild(*c);
+    
+    Entity::Iter d = scene.createEntity("D");
+    c->addChild(*d);
 
     a->activate();
 
-    REQUIRE(scene.entityCount() == 3);
-
-    b->destroy();
-
-    REQUIRE(scene.entityCount() == 2);
-
-    std::vector<EntityId> ids;
-    for (Entity& child : a->children())
+    Entity::Iter iter = a->findFirstDescendant([](const Entity& entity)
     {
-        ids.push_back(child.id());
-    }
-    REQUIRE(ids.size() == 1);
-    REQUIRE(ids[0] == 2);
+        return entity.name() == "B";
+    });
+    REQUIRE(iter);
+    REQUIRE(iter == b);
+
+    iter = a->findFirstDescendant([](const Entity& entity)
+    {
+        return entity.name() == "C";
+    });
+    REQUIRE(iter);
+    REQUIRE(iter == c);
+
+    iter = a->findFirstDescendant([](const Entity& entity)
+    {
+        return entity.name() == "D";
+    });
+    REQUIRE(iter);
+    REQUIRE(iter == d);
+
+    iter = a->findFirstDescendant([](const Entity& entity)
+    {
+        return entity.name() == "E";
+    });
+    REQUIRE(!iter);
+}
+
+TEST_CASE("Scene_EntityFindDescendants")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+
+    Entity::Iter b = scene.createEntity("B");
+    a->addChild(*b);
+
+    Entity::Iter c = scene.createEntity("C");
+    a->addChild(*c);
+
+    Entity::Iter d = scene.createEntity("D");
+    c->addChild(*d);
+
+    a->activate();
+
+    Entity::Iter::Array iters = a->findDescendants([](const Entity& entity)
+    {
+        return entity.name() == "B" || entity.name() == "C";
+    });
+    REQUIRE(iters.size() == 2);
+    REQUIRE(iters[0] == b);
+    REQUIRE(iters[1] == c);
+
+    iters = a->findDescendants([](const Entity& entity)
+    {
+        return entity.name() == "C";
+    });
+    REQUIRE(iters.size() == 1);
+    REQUIRE(iters[0] == c);
+
+    iters = a->findDescendants([](const Entity& entity)
+    {
+        return entity.name() == "D";
+    });
+    REQUIRE(iters.size() == 1);
+    REQUIRE(iters[0] == d);
+
+    iters = a->findDescendants([](const Entity& entity)
+    {
+        entity;
+        return true;
+    });
+    REQUIRE(iters.size() == 3);
+    REQUIRE(iters[0] == b);
+    REQUIRE(iters[1] == c);
+    REQUIRE(iters[2] == d);
+}
+
+TEST_CASE("Scene_EntityFindFirstAncestor")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+
+    Entity::Iter b = scene.createEntity("B");
+    a->addChild(*b);
+
+    Entity::Iter c = scene.createEntity("C");
+    a->addChild(*c);
+
+    Entity::Iter d = scene.createEntity("D");
+    c->addChild(*d);
+
+    a->activate();
+
+    Entity::Iter iter = d->findFirstAncestor([](const Entity& entity)
+    {
+        return entity.name() == "C";
+    });
+    REQUIRE(iter);
+    REQUIRE(iter == c);
+
+    iter = d->findFirstAncestor([](const Entity& entity)
+    {
+        return entity.name() == "A";
+    });
+    REQUIRE(iter);
+    REQUIRE(iter == a);
+
+    iter = d->findFirstAncestor([](const Entity& entity)
+    {
+        return entity.name() == "E";
+    });
+    REQUIRE(!iter);
+}
+
+TEST_CASE("Scene_EntityFindAncestors")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity("A");
+
+    Entity::Iter b = scene.createEntity("B");
+    a->addChild(*b);
+
+    Entity::Iter c = scene.createEntity("C");
+    a->addChild(*c);
+
+    Entity::Iter d = scene.createEntity("D");
+    c->addChild(*d);
+
+    a->activate();
+
+    Entity::Iter::Array iters = d->findAncestors([](const Entity& entity)
+    {
+        return entity.name() == "C" || entity.name() == "A";
+    });
+    REQUIRE(iters.size() == 2);
+    REQUIRE(iters[0] == c);
+    REQUIRE(iters[1] == a);
+
+    iters = d->findAncestors([](const Entity& entity)
+    {
+        return entity.name() == "A";
+    });
+    REQUIRE(iters.size() == 1);
+    REQUIRE(iters[0] == a);
+
+    iters = d->findAncestors([](const Entity& entity)
+    {
+        return entity.name() == "E";
+    });
+    REQUIRE(iters.size() == 0);
 }

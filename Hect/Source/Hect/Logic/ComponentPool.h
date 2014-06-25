@@ -24,7 +24,6 @@
 #pragma once
 
 #include <algorithm>
-#include <functional>
 #include <vector>
 
 #include "Hect/Core/IdPool.h"
@@ -97,11 +96,6 @@ class ComponentPool :
     friend class Component<T>;
     friend class Component<T>::IterBase;
 public:
-
-    ///
-    /// A predicate for a component search or filter.
-    typedef std::function<bool(const T&)> Predicate;
-
     ComponentPool(Scene& scene, const std::string& componentTypeName);
 
     ///
@@ -132,7 +126,7 @@ public:
     ///
     /// \returns An iterator to the first matching component; invalid if there
     /// was no matching component.
-    typename Component<T>::Iter findFirst(Predicate predicate);
+    typename Component<T>::Iter findFirst(typename Component<T>::Predicate predicate);
 
     ///
     /// Returns an iterator to the first component matching the given
@@ -142,7 +136,7 @@ public:
     ///
     /// \returns An iterator to the first matching component; invalid if there
     /// was no matching component.
-    typename Component<T>::ConstIter findFirst(Predicate predicate) const;
+    typename Component<T>::ConstIter findFirst(typename Component<T>::Predicate predicate) const;
 
     ///
     /// Returns iterators to all components matching the given predicate.
@@ -150,7 +144,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns An array of iterators to the matching components.
-    typename Component<T>::Iter::Array find(Predicate predicate);
+    typename Component<T>::Iter::Array find(typename Component<T>::Predicate predicate);
 
     ///
     /// Returns iterators to all components matching the given predicate.
@@ -158,7 +152,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns An array of iterators to the matching components.
-    typename Component<T>::ConstIter::Array find(Predicate predicate) const;
+    typename Component<T>::ConstIter::Array find(typename Component<T>::Predicate predicate) const;
 
 private:
     void _notifyEvent(ComponentEventType::Enum type, Entity& entity);

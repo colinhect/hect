@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <functional>
+
 #include "Hect/Logic/Component.h"
 #include "Hect/IO/Encodable.h"
 
@@ -56,6 +58,10 @@ private:
     };
 
 public:
+
+    ///
+    /// A predicate for a entity search or filter.
+    typedef std::function<bool(const Entity&)> Predicate;
 
     ///
     /// A entity iterator.
@@ -466,6 +472,118 @@ public:
     ///
     /// Returns the children of the entity.
     const Entity::Children& children() const;
+
+    ///
+    /// Returns an iterator to the first child entity matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::Iter findFirstChild(Predicate predicate);
+
+    ///
+    /// Returns an iterator to the first child entity matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::ConstIter findFirstChild(Predicate predicate) const;
+
+    ///
+    /// Returns an iterator to the first descendant entity matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::Iter findFirstDescendant(Predicate predicate);
+
+    ///
+    /// Returns an iterator to the first descendant entity matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::ConstIter findFirstDescendant(Predicate predicate) const;
+
+    ///
+    /// Returns an iterator to the first ancestor entity matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::Iter findFirstAncestor(Predicate predicate);
+
+    ///
+    /// Returns an iterator to the first ancestor entity matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::ConstIter findFirstAncestor(Predicate predicate) const;
+
+    ///
+    /// Returns iterators to all child entities matching the given predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An array of iterators to the matching entities.
+    Entity::Iter::Array findChildren(Predicate predicate);
+
+    ///
+    /// Returns iterators to all child entities matching the given predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An array of iterators to the matching entities.
+    Entity::ConstIter::Array findChildren(Predicate predicate) const;
+
+    ///
+    /// Returns iterators to all descendant entities matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An array of iterators to the matching entities.
+    Entity::Iter::Array findDescendants(Predicate predicate);
+
+    ///
+    /// Returns iterators to all descendant entities matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An array of iterators to the matching entities.
+    Entity::ConstIter::Array findDescendants(Predicate predicate) const;
+
+    ///
+    /// Returns iterators to all ancestor entities matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An array of iterators to the matching entities.
+    Entity::Iter::Array findAncestors(Predicate predicate);
+
+    ///
+    /// Returns iterators to all ancestor entities matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An array of iterators to the matching entities.
+    Entity::ConstIter::Array findAncestors(Predicate predicate) const;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);

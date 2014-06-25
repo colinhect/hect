@@ -420,6 +420,196 @@ const Entity::Children& Entity::children() const
     return _children;
 }
 
+Entity::Iter Entity::findFirstChild(Entity::Predicate predicate)
+{
+    for (const Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            return Entity::Iter(*_pool, child._id);
+        }
+    }
+    return _pool->end();
+}
+
+Entity::ConstIter Entity::findFirstChild(Entity::Predicate predicate) const
+{
+    for (const Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            return Entity::ConstIter(*_pool, child._id);
+        }
+    }
+    return static_cast<const EntityPool*>(_pool)->end();
+}
+
+Entity::Iter Entity::findFirstDescendant(Entity::Predicate predicate)
+{
+    for (Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            return Entity::Iter(*_pool, child._id);
+        }
+        else
+        {
+            Entity::Iter nextGeneration = child.findFirstDescendant(predicate);
+            if (nextGeneration)
+            {
+                return nextGeneration;
+            }
+        }
+    }
+    return _pool->end();
+}
+
+Entity::ConstIter Entity::findFirstDescendant(Entity::Predicate predicate) const
+{
+    for (const Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            return Entity::ConstIter(*_pool, child._id);
+        }
+        else
+        {
+            Entity::ConstIter nextGeneration = child.findFirstDescendant(predicate);
+            if (nextGeneration)
+            {
+                return nextGeneration;
+            }
+        }
+    }
+    return static_cast<const EntityPool*>(_pool)->end();
+}
+
+Entity::Iter Entity::findFirstAncestor(Entity::Predicate predicate)
+{
+    Entity::Iter parentIter = parent();
+    if (parentIter)
+    {
+        if (predicate(*parentIter))
+        {
+            return parentIter;
+        }
+        else
+        {
+            return parentIter->findFirstAncestor(predicate);
+        }
+    }
+    return _pool->end();
+}
+
+Entity::ConstIter Entity::findFirstAncestor(Entity::Predicate predicate) const
+{
+    Entity::ConstIter parentIter = parent();
+    if (parentIter)
+    {
+        if (predicate(*parentIter))
+        {
+            return parentIter;
+        }
+        else
+        {
+            return parentIter->findFirstAncestor(predicate);
+        }
+    }
+    return static_cast<const EntityPool*>(_pool)->end();
+}
+
+Entity::Iter::Array Entity::findChildren(Entity::Predicate predicate)
+{
+    Entity::Iter::Array results;
+    for (const Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            results.push_back(Entity::Iter(*_pool, child._id));
+        }
+    }
+    return results;
+}
+
+Entity::ConstIter::Array Entity::findChildren(Entity::Predicate predicate) const
+{
+    Entity::ConstIter::Array results;
+    for (const Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            results.push_back(Entity::ConstIter(*_pool, child._id));
+        }
+    }
+    return results;
+}
+
+Entity::Iter::Array Entity::findDescendants(Entity::Predicate predicate)
+{
+    Entity::Iter::Array results;
+    for (Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            results.push_back(Entity::Iter(*_pool, child._id));
+        }
+
+        for (Entity::Iter descendant : child.findDescendants(predicate))
+        {
+            results.push_back(descendant);
+        }
+    }
+    return results;
+}
+
+Entity::ConstIter::Array Entity::findDescendants(Entity::Predicate predicate) const
+{
+    Entity::ConstIter::Array results;
+    for (const Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            results.push_back(Entity::ConstIter(*_pool, child._id));
+        }
+
+        for (Entity::ConstIter descendant : child.findDescendants(predicate))
+        {
+            results.push_back(descendant);
+        }
+    }
+    return results;
+}
+
+Entity::Iter::Array Entity::findAncestors(Entity::Predicate predicate)
+{
+    Entity::Iter::Array results;
+    Entity::Iter iter = parent();
+    while (iter)
+    {
+        if (predicate(*iter))
+        {
+            results.push_back(iter);
+        }
+        iter = iter->parent();
+    }
+    return results;
+}
+
+Entity::ConstIter::Array Entity::findAncestors(Entity::Predicate predicate) const
+{
+    Entity::ConstIter::Array results;
+    Entity::ConstIter iter = parent();
+    while (iter)
+    {
+        if (predicate(*iter))
+        {
+            results.push_back(iter);
+        }
+        iter = iter->parent();
+    }
+    return results;
+}
+
 void Entity::encode(ObjectEncoder& encoder) const
 {
     _ensureInPool();
@@ -432,6 +622,13 @@ void Entity::encode(ObjectEncoder& encoder) const
     }
 
     scene._encodeComponents(*this, encoder);
+
+    ArrayEncoder childrenEncoder = encoder.encodeArray("children");
+    for (const Entity& child : _children)
+    {
+        ObjectEncoder childEncoder = childrenEncoder.encodeObject();
+        child.encode(childEncoder);
+    }
 }
 
 void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
@@ -458,6 +655,20 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     if (decoder.hasMember("components"))
     {
         scene._decodeComponents(*this, decoder, assetCache);
+    }
+
+    if (decoder.hasMember("children"))
+    {
+        ArrayDecoder childrenDecoder = decoder.decodeArray("children");
+        while (childrenDecoder.hasMoreElements())
+        {
+            Entity::Iter child = _pool->_scene->createEntity();
+
+            ObjectDecoder childDecoder = childrenDecoder.decodeObject();
+            child->decode(childDecoder, assetCache);
+
+            addChild(*child);
+        }
     }
 }
 

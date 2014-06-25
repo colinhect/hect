@@ -60,8 +60,12 @@ void Scene::encode(ObjectEncoder& encoder) const
     ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
     for (const Entity& entity : entities())
     {
-        ObjectEncoder entityEncoder = entitiesEncoder.encodeObject();
-        entity.encode(entityEncoder);
+        // Only encode the root entities (children are encoded recursively)
+        if (!entity.parent())
+        {
+            ObjectEncoder entityEncoder = entitiesEncoder.encodeObject();
+            entity.encode(entityEncoder);
+        }
     }
 }
 
@@ -105,7 +109,22 @@ Entity::Iter Scene::_cloneEntity(const Entity& entity, const std::string& name)
         componentPool._clone(*sourceEntity, *clonedEntity);
     }
 
-    clonedEntity->setName(name);
+    if (!name.empty())
+    {
+        clonedEntity->setName(name);
+    }
+    else
+    {
+        clonedEntity->setName(entity._name);
+    }
+
+    // Recursively clone all children
+    for (const Entity& child : entity.children())
+    {
+        Entity::Iter clonedChild = child.clone();
+        clonedEntity->addChild(*clonedChild);
+    }
+
     return clonedEntity;
 }
 

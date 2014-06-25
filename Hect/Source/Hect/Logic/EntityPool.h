@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <functional>
 #include <vector>
 
 #include "Hect/Core/IdPool.h"
@@ -42,11 +41,6 @@ class EntityPool
     friend class Entity;
     template <typename T> friend class ComponentPool;
 public:
-
-    ///
-    /// A predicate for a entity search or filter.
-    typedef std::function<bool(const Entity&)> Predicate;
-
     EntityPool(Scene& scene);
 
     ///
@@ -73,7 +67,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Iter findFirst(Predicate predicate);
+    Entity::Iter findFirst(Entity::Predicate predicate);
 
     ///
     /// Returns an iterator to the first entity matching the given
@@ -83,7 +77,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::ConstIter findFirst(Predicate predicate) const;
+    Entity::ConstIter findFirst(Entity::Predicate predicate) const;
 
     ///
     /// Returns iterators to all entities matching the given predicate.
@@ -91,7 +85,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns An array of iterators to the matching entities.
-    Entity::Iter::Array find(Predicate predicate);
+    Entity::Iter::Array find(Entity::Predicate predicate);
 
     ///
     /// Returns iterators to all entities matching the given predicate.
@@ -99,7 +93,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns An array of iterators to the matching entities.
-    Entity::ConstIter::Array find(Predicate predicate) const;
+    Entity::ConstIter::Array find(Entity::Predicate predicate) const;
 
 private:
     Entity::Iter _create();
