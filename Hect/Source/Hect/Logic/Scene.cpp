@@ -121,7 +121,6 @@ Entity::Iter Scene::_cloneEntity(const Entity& entity, const std::string& name)
     // Recursively clone all children
     for (const Entity& child : sourceEntity->children())
     {
-        Entity& child = *it;
         Entity::Iter clonedChild = child.clone();
         clonedEntity->addChild(*clonedChild);
     }
