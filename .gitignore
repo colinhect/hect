@@ -4,10 +4,10 @@ x64/*
 Ignore.txt
 Intermediate/*
 Source/Hect/Generated/*
-HectDocs/Output/*
-HectDocs/Intermediate/*
-HectReflect/Intermediate/*
-HectTests/Intermediate/*
+Docs/Output/*
+Docs/Intermediate/*
+Reflect/Intermediate/*
+Tests/Intermediate/*
 Zeroth/Intermediate/*
 Dependencies/*
 *.opensdf

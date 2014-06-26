@@ -33,11 +33,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Zeroth", "Zeroth", "{201932
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zeroth", "Zeroth\Zeroth.vcxproj", "{72CB48E3-C8C9-49A5-89BC-708142D363ED}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HectTests", "HectTests\HectTests.vcxproj", "{F04C007D-2602-4CDC-8396-40D206256003}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{F04C007D-2602-4CDC-8396-40D206256003}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HectDocs", "HectDocs\HectDocs.vcxproj", "{926F3FAA-1A31-495A-A320-55C505530865}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Docs", "Docs\Docs.vcxproj", "{926F3FAA-1A31-495A-A320-55C505530865}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HectReflect", "HectReflect\HectReflect.vcxproj", "{8EA16E83-655D-49FE-B632-7EE597619380}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Reflect", "Reflect\Reflect.vcxproj", "{8EA16E83-655D-49FE-B632-7EE597619380}"
 	ProjectSection(ProjectDependencies) = postProject
 		{926F3FAA-1A31-495A-A320-55C505530865} = {926F3FAA-1A31-495A-A320-55C505530865}
 	EndProjectSection

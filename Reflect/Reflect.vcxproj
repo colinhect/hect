@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{926F3FAA-1A31-495A-A320-55C505530865}</ProjectGuid>
-    <RootNamespace>HectDocs</RootNamespace>
+    <ProjectGuid>{8EA16E83-655D-49FE-B632-7EE597619380}</ProjectGuid>
+    <RootNamespace>Reflect</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -66,24 +66,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <CustomBuildAfterTargets>
-    </CustomBuildAfterTargets>
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <CustomBuildAfterTargets>
-    </CustomBuildAfterTargets>
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <CustomBuildAfterTargets>
-    </CustomBuildAfterTargets>
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <CustomBuildAfterTargets>
-    </CustomBuildAfterTargets>
     <IntDir>Intermediate\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Configuration)\$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -95,10 +91,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <CustomBuildStep>
-      <Command>cd $(ProjectDir)
-doxygen</Command>
-      <Message>Generating documentation...</Message>
-      <Outputs>$(ProjectDir)Output\html\index.html</Outputs>
+      <Outputs>$(SolutionDir)Source\Hect\Generated\_hect_reflect.cpp</Outputs>
+      <Message>Generating reflection code...</Message>
+      <Command>python $(SolutionDir)Tools\reflect.py "$(SolutionDir)Docs\Output\xml\*.xml" "$(SolutionDir)Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,10 +106,9 @@ doxygen</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <CustomBuildStep>
-      <Command>cd $(ProjectDir)
-doxygen</Command>
-      <Message>Generating documentation...</Message>
-      <Outputs>$(ProjectDir)Output\html\index.html</Outputs>
+      <Outputs>$(SolutionDir)Source\Hect\Generated\_hect_reflect.cpp</Outputs>
+      <Message>Generating reflection code...</Message>
+      <Command>python $(SolutionDir)Tools\reflect.py "$(SolutionDir)Docs\Output\xml\*.xml" "$(SolutionDir)Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -131,10 +125,9 @@ doxygen</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <CustomBuildStep>
-      <Command>cd $(ProjectDir)
-doxygen</Command>
-      <Message>Generating documentation...</Message>
-      <Outputs>$(ProjectDir)Output\html\index.html</Outputs>
+      <Outputs>$(SolutionDir)Source\Hect\Generated\_hect_reflect.cpp</Outputs>
+      <Message>Generating reflection code...</Message>
+      <Command>python $(SolutionDir)Tools\reflect.py "$(SolutionDir)Docs\Output\xml\*.xml" "$(SolutionDir)Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,10 +144,9 @@ doxygen</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <CustomBuildStep>
-      <Command>cd $(ProjectDir)
-doxygen</Command>
-      <Message>Generating documentation...</Message>
-      <Outputs>$(ProjectDir)Output\html\index.html</Outputs>
+      <Outputs>$(SolutionDir)Source\Hect\Generated\_hect_reflect.cpp</Outputs>
+      <Message>Generating reflection code...</Message>
+      <Command>python $(SolutionDir)Tools\reflect.py "$(SolutionDir)Docs\Output\xml\*.xml" "$(SolutionDir)Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
