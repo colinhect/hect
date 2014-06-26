@@ -684,14 +684,14 @@
     <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp">
       <Filter>Source\Hect\Physics\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Generated\_hect_reflect.cpp">
-      <Filter>Source\Hect\Generated</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Systems\TransformSystem.cpp">
       <Filter>Source\Hect\Graphics\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_reflect.cpp">
+      <Filter>Source\Hect\Generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
