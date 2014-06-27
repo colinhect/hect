@@ -178,7 +178,7 @@ void Entity::Children::IterBase::_increment()
 
 bool Entity::Children::IterBase::_isValid() const
 {
-    return _index < _pool->_entityWithId(_parentId)._children._ids.size();
+    return _index < _pool->_entityWithId(_parentId)._childIds.size();
 }
 
 void Entity::Children::IterBase::_ensureValid() const
@@ -208,7 +208,7 @@ Entity& Entity::Children::Iter::operator*() const
 {
     _ensureValid();
     Entity& entity = _pool->_entityWithId(_parentId);
-    EntityId id = entity._children._ids[_index];
+    EntityId id = entity._childIds[_index];
     return _pool->_entityWithId(id);
 }
 
@@ -216,7 +216,7 @@ Entity* Entity::Children::Iter::operator->() const
 {
     _ensureValid();
     Entity& entity = _pool->_entityWithId(_parentId);
-    EntityId id = entity._children._ids[_index];
+    EntityId id = entity._childIds[_index];
     return &_pool->_entityWithId(id);
 }
 
@@ -255,7 +255,7 @@ const Entity& Entity::Children::ConstIter::operator*() const
 {
     _ensureValid();
     const Entity& entity = _pool->_entityWithId(_parentId);
-    EntityId id = entity._children._ids[_index];
+    EntityId id = entity._childIds[_index];
     return _pool->_entityWithId(id);
 }
 
@@ -263,7 +263,7 @@ const Entity* Entity::Children::ConstIter::operator->() const
 {
     _ensureValid();
     const Entity& entity = _pool->_entityWithId(_parentId);
-    EntityId id = entity._children._ids[_index];
+    EntityId id = entity._childIds[_index];
     return &_pool->_entityWithId(id);
 }
 
@@ -288,30 +288,30 @@ Entity::Children::ConstIter::operator bool() const
     return _isValid();
 }
 
+#include <cstddef>
+
 Entity::Children::Iter Entity::Children::begin()
 {
-    return Entity::Children::Iter(*_pool, _id, 0);
+    Entity* entity = reinterpret_cast<Entity*>(this - offsetof(Entity, _children));
+    return Entity::Children::Iter(*entity->_pool, entity->_id, 0);
 }
 
 Entity::Children::ConstIter Entity::Children::begin() const
 {
-    return Entity::Children::ConstIter(*_pool, _id, 0);
+    const Entity* entity = reinterpret_cast<const Entity*>(this - offsetof(Entity, _children));
+    return Entity::Children::ConstIter(*entity->_pool, entity->_id, 0);
 }
 
 Entity::Children::Iter Entity::Children::end()
 {
-    return Entity::Children::Iter(*_pool, _id, _pool->_entityWithId(_id)._children._ids.size());
+    Entity* entity = reinterpret_cast<Entity*>(this - offsetof(Entity, _children));
+    return Entity::Children::Iter(*entity->_pool, entity->_id, entity->_childIds.size());
 }
 
 Entity::Children::ConstIter Entity::Children::end() const
 {
-    return Entity::Children::ConstIter(*_pool, _id, _pool->_entityWithId(_id)._children._ids.size());
-}
-
-Entity::Children::Children() :
-    _pool(nullptr),
-    _id((EntityId)-1)
-{
+    const Entity* entity = reinterpret_cast<const Entity*>(this - offsetof(Entity, _children));
+    return Entity::Children::ConstIter(*entity->_pool, entity->_id, entity->_childIds.size());
 }
 
 Entity::Iter Entity::clone(const std::string& name) const
@@ -408,7 +408,7 @@ void Entity::addChild(Entity& entity)
     }
 
     entity._parentId = _id;
-    _children._ids.push_back(entity._id);
+    _childIds.push_back(entity._id);
 }
 
 void Entity::removeChild(Entity& entity)
@@ -418,7 +418,7 @@ void Entity::removeChild(Entity& entity)
         throw Error("Entity is not a child of this entity");
     }
 
-    _children._ids.erase(std::remove(_children._ids.begin(), _children._ids.end(), entity._id), _children._ids.end());
+    _childIds.erase(std::remove(_childIds.begin(), _childIds.end(), entity._id), _childIds.end());
     entity._parentId = (EntityId)-1;
 }
 
@@ -696,7 +696,7 @@ Entity::Entity(Entity&& entity) :
     _pool(entity._pool),
     _id(entity._id),
     _parentId(entity._parentId),
-    _children(std::move(entity._children)),
+    _childIds(std::move(entity._childIds)),
     _name(std::move(entity._name)),
     _activated(entity._activated)
 {
@@ -716,18 +716,12 @@ void Entity::_enterPool(EntityPool& pool, EntityId id)
 {
     _pool = &pool;
     _id = id;
-
-    _children._pool = &pool;
-    _children._id = id;
 }
 
 void Entity::_exitPool()
 {
     _pool = nullptr;
     _id = (EntityId)-1;
-
-    _children._pool = nullptr;
-    _children._id = (EntityId)-1;
 }
 
 bool Entity::_inPool() const

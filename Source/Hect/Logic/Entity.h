@@ -331,13 +331,6 @@ public:
         ///
         /// Returns an iterator to the end of the children.
         ConstIter end() const;
-
-    //private:
-        Children();
-
-        EntityPool* _pool;
-        EntityId _id;
-        mutable std::vector<EntityId> _ids;
     };
 
     ///
@@ -601,10 +594,11 @@ private:
     bool _inPool() const;
     void _ensureInPool() const;
 
+    Children _children;
     EntityPool* _pool;
     EntityId _id;
     EntityId _parentId;
-    Children _children;
+    std::vector<EntityId> _childIds;
     std::string _name;
     bool _activated;
 };
