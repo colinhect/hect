@@ -2,6 +2,7 @@ Bin/*
 Ignore.txt
 Dependencies/*
 Intermediate/*
+Assets/Intermediate/*
 Source/Hect/Generated/*
 Docs/Output/*
 Docs/Intermediate/*
