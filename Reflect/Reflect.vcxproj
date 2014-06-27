@@ -86,14 +86,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <CustomBuildStep>
-      <Outputs>$(SolutionDir)Source\Hect\Generated\_hect_reflect.cpp</Outputs>
+      <Outputs>$(ProjectDir)..\Source\Hect\Generated\_hect_reflect.cpp</Outputs>
       <Message>Generating reflection code...</Message>
-      <Command>python $(SolutionDir)Tools\reflect.py "$(SolutionDir)Docs\Output\xml\*.xml" "$(SolutionDir)Source\Hect\Generated" hect</Command>
+      <Command>python $(ProjectDir)..\Tools\reflect.py "$(ProjectDir)..\Docs\Output\xml\*.xml" "$(ProjectDir)..\Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -101,14 +102,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <CustomBuildStep>
-      <Outputs>$(SolutionDir)Source\Hect\Generated\_hect_reflect.cpp</Outputs>
+      <Outputs>$(ProjectDir)..\Source\Hect\Generated\_hect_reflect.cpp</Outputs>
       <Message>Generating reflection code...</Message>
-      <Command>python $(SolutionDir)Tools\reflect.py "$(SolutionDir)Docs\Output\xml\*.xml" "$(SolutionDir)Source\Hect\Generated" hect</Command>
+      <Command>python $(ProjectDir)..\Tools\reflect.py "$(ProjectDir)..\Docs\Output\xml\*.xml" "$(ProjectDir)..\Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -118,6 +120,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -125,9 +128,9 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <CustomBuildStep>
-      <Outputs>$(SolutionDir)Source\Hect\Generated\_hect_reflect.cpp</Outputs>
+      <Outputs>$(ProjectDir)..\Source\Hect\Generated\_hect_reflect.cpp</Outputs>
       <Message>Generating reflection code...</Message>
-      <Command>python $(SolutionDir)Tools\reflect.py "$(SolutionDir)Docs\Output\xml\*.xml" "$(SolutionDir)Source\Hect\Generated" hect</Command>
+      <Command>python $(ProjectDir)..\Tools\reflect.py "$(ProjectDir)..\Docs\Output\xml\*.xml" "$(ProjectDir)..\Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,6 +140,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -144,9 +148,9 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <CustomBuildStep>
-      <Outputs>$(SolutionDir)Source\Hect\Generated\_hect_reflect.cpp</Outputs>
+      <Outputs>$(ProjectDir)..\Source\Hect\Generated\_hect_reflect.cpp</Outputs>
       <Message>Generating reflection code...</Message>
-      <Command>python $(SolutionDir)Tools\reflect.py "$(SolutionDir)Docs\Output\xml\*.xml" "$(SolutionDir)Source\Hect\Generated" hect</Command>
+      <Command>python $(ProjectDir)..\Tools\reflect.py "$(ProjectDir)..\Docs\Output\xml\*.xml" "$(ProjectDir)..\Source\Hect\Generated" hect</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>

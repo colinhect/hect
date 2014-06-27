@@ -8,8 +8,6 @@ Docs/Output/*
 Docs/Intermediate/*
 Reflect/Intermediate/*
 Tests/Intermediate/*
-Zeroth/Intermediate/*
 *.opensdf
 *.sdf
 *.suo
-*.sublime-workspace

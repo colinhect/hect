@@ -351,7 +351,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\;$(SolutionDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(ProjectDir)Dependencies\PhysFS\Source\;$(ProjectDir)Dependencies\Glew\Source\;$(ProjectDir)Dependencies\LodePng\Source\;$(ProjectDir)Dependencies\ENet\Source\;$(ProjectDir)Dependencies\Bullet\Source\;$(ProjectDir)Dependencies\JsonCpp\Source\;$(ProjectDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
@@ -364,8 +364,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
-copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
+      <Command>copy "$(ProjectDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
+copy "$(ProjectDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
 move $(TargetDir)Hect.lib $(TargetDir)HectStatic.lib
 lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)SDL2.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
     </CustomBuildStep>
@@ -393,7 +393,7 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\;$(SolutionDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(ProjectDir)Dependencies\PhysFS\Source\;$(ProjectDir)Dependencies\Glew\Source\;$(ProjectDir)Dependencies\LodePng\Source\;$(ProjectDir)Dependencies\ENet\Source\;$(ProjectDir)Dependencies\Bullet\Source\;$(ProjectDir)Dependencies\JsonCpp\Source\;$(ProjectDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
@@ -406,8 +406,8 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
-copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
+      <Command>copy "$(ProjectDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
+copy "$(ProjectDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
 move $(TargetDir)Hect.lib $(TargetDir)HectStatic.lib
 lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)SDL2.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
     </CustomBuildStep>
@@ -437,7 +437,7 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\;$(SolutionDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(ProjectDir)Dependencies\PhysFS\Source\;$(ProjectDir)Dependencies\Glew\Source\;$(ProjectDir)Dependencies\LodePng\Source\;$(ProjectDir)Dependencies\ENet\Source\;$(ProjectDir)Dependencies\Bullet\Source\;$(ProjectDir)Dependencies\JsonCpp\Source\;$(ProjectDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -450,8 +450,8 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
-copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
+      <Command>copy "$(ProjectDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
+copy "$(ProjectDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
 move $(TargetDir)Hect.lib $(TargetDir)HectStatic.lib
 lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)SDL2.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
     </CustomBuildStep>
@@ -481,7 +481,7 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(SolutionDir)Dependencies\PhysFS\Source\;$(SolutionDir)Dependencies\Glew\Source\;$(SolutionDir)Dependencies\LodePng\Source\;$(SolutionDir)Dependencies\ENet\Source\;$(SolutionDir)Dependencies\Bullet\Source\;$(SolutionDir)Dependencies\JsonCpp\Source\;$(SolutionDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\;$(ProjectDir)Dependencies\PhysFS\Source\;$(ProjectDir)Dependencies\Glew\Source\;$(ProjectDir)Dependencies\LodePng\Source\;$(ProjectDir)Dependencies\ENet\Source\;$(ProjectDir)Dependencies\Bullet\Source\;$(ProjectDir)Dependencies\JsonCpp\Source\;$(ProjectDir)Dependencies\SDL\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -494,8 +494,8 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib\$(PlatformShortName)\</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
-copy "$(SolutionDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
+      <Command>copy "$(ProjectDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.dll" "$(TargetDir)"
+copy "$(ProjectDir)Dependencies\SDL\Lib\$(PlatformShortName)\SDL2.lib" "$(TargetDir)"
 move $(TargetDir)Hect.lib $(TargetDir)HectStatic.lib
 lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib $(TargetDir)JsonCpp.lib $(TargetDir)Glew.lib $(TargetDir)SDL2.lib $(TargetDir)LodePng.lib $(TargetDir)ENet.lib $(TargetDir)Bullet.lib &gt; $(ProjectDir)Ignore.txt</Command>
     </CustomBuildStep>
