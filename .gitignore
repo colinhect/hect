@@ -1,6 +1,11 @@
 Bin/*
 Ignore.txt
-Dependencies/*
+Dependencies/Bullet/Intermediate/*
+Dependencies/ENet/Intermediate/*
+Dependencies/Glew/Intermediate/*
+Dependencies/JsonCpp/Intermediate/*
+Dependencies/LodePng/Intermediate/*
+Dependencies/PhysFS/Intermediate/*
 Intermediate/*
 Assets/Intermediate/*
 Source/Hect/Generated/*
