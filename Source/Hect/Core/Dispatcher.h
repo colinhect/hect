@@ -60,7 +60,7 @@ public:
     /// Notifies an event to all registered listeners.
     ///
     /// \param event The event.
-    void notifyEvent(const T& event);
+    void dispatchEvent(const T& event);
 
 private:
     std::vector<Listener<T>*> _listeners;

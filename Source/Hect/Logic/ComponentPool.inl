@@ -153,7 +153,7 @@ template <typename T>
 void ComponentPool<T>::_notifyEvent(ComponentEventType::Enum type, Entity& entity)
 {
     ComponentEvent<T> event(type, entity);
-    _dispatcher.notifyEvent(event);
+    _dispatcher.dispatchEvent(event);
 }
 
 template <typename T>

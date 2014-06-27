@@ -56,7 +56,7 @@ void Keyboard::_dispatchEvents()
 {
     for (const KeyboardEvent& event : _events)
     {
-        _dispatcher.notifyEvent(event);
+        _dispatcher.dispatchEvent(event);
     }
     _events.clear();
 }

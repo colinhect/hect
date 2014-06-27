@@ -66,13 +66,13 @@ TEST_CASE("Event_AddNotifyAndRemove")
     TestListener listener;
 
     dispatcher.addListener(listener);
-    dispatcher.notifyEvent(EventA::A);
+    dispatcher.dispatchEvent(EventA::A);
     REQUIRE(EventA::A == listener.lastEventA);
-    dispatcher.notifyEvent(EventA::B);
+    dispatcher.dispatchEvent(EventA::B);
     REQUIRE(EventA::B == listener.lastEventA);
 
     dispatcher.removeListener(listener);
-    dispatcher.notifyEvent(EventA::A);
+    dispatcher.dispatchEvent(EventA::A);
 
     REQUIRE(EventA::B == listener.lastEventA);
 }
@@ -87,13 +87,13 @@ TEST_CASE("Event_MultipleListenerTypes")
     dispatcherA.addListener(listener);
     dispatcherB.addListener(listener);
 
-    dispatcherA.notifyEvent(EventA::A);
+    dispatcherA.dispatchEvent(EventA::A);
     REQUIRE(EventA::A == listener.lastEventA);
 
-    dispatcherB.notifyEvent(EventB::A);
+    dispatcherB.dispatchEvent(EventB::A);
     REQUIRE(EventB::A == listener.lastEventB);
 
-    dispatcherB.notifyEvent(EventB::B);
+    dispatcherB.dispatchEvent(EventB::B);
     REQUIRE(EventB::B == listener.lastEventB);
 }
 
@@ -106,7 +106,7 @@ TEST_CASE("Event_AddRegisteredListener")
     dispatcher.addListener(listener);
     dispatcher.addListener(listener);
 
-    dispatcher.notifyEvent(EventA::A);
+    dispatcher.dispatchEvent(EventA::A);
     REQUIRE(EventA::A == listener.lastEventA);
 }
 

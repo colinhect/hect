@@ -45,7 +45,7 @@ void Dispatcher<T>::removeListener(Listener<T>& listener)
 }
 
 template <typename T>
-void Dispatcher<T>::notifyEvent(const T& event)
+void Dispatcher<T>::dispatchEvent(const T& event)
 {
     for (Listener<T>* listener : _listeners)
     {

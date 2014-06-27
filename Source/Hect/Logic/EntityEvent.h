@@ -21,59 +21,51 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Mouse.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Logic/Entity.h"
 
-MouseEvent::MouseEvent() :
-    type(MouseEventType::Movement),
-    button(MouseButton::Left)
+namespace hect
 {
-}
 
-bool Mouse::isButtonDown(MouseButton::Enum button) const
+///
+/// An entity-related event type.
+namespace EntityEventType
 {
-    return _buttonStates[(int)button];
-}
-
-const IntVector2& Mouse::cursorPosition() const
-{
-    return _cursorPosition;
-}
-
-void Mouse::setMode(MouseMode::Enum mode)
-{
-    _mode = mode;
-}
-
-MouseMode::Enum Mouse::mode() const
-{
-    return _mode;
-}
-
-Dispatcher<MouseEvent>& Mouse::dispatcher()
-{
-    return _dispatcher;
-}
-
-Mouse::Mouse() :
-    _mode(MouseMode::Cursor),
-    _buttonStates(16, false)
-{
-}
-
-void Mouse::_enqueueEvent(const MouseEvent& event)
-{
-    _cursorPosition = event.cursorPosition;
-    _events.push_back(event);
-}
-
-void Mouse::_dispatchEvents()
-{
-    for (const MouseEvent& event : _events)
+    enum Enum
     {
-        _dispatcher.dispatchEvent(event);
-    }
+        ///
+        /// An entity was created in the scene.
+        Create,
 
-    _events.clear();
+        ///
+        /// An entity was activated in the scene.
+        Activate,
+
+        ///
+        /// An entity was destroyed in the scene.
+        Destroy
+    };
+}
+
+///
+/// An entity-related event.
+class EntityEvent
+{
+public:
+    EntityEvent(EntityEventType::Enum type, Entity& entity);
+
+    ///
+    /// Returns the event type.
+    EntityEventType::Enum type() const;
+
+    ///
+    /// Returns a reference to the entity that the event is for.
+    Entity& entity() const;
+
+private:
+    EntityEventType::Enum _type;
+    mutable Entity* _entity;
+};
+
 }

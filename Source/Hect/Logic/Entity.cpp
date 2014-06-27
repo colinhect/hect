@@ -27,6 +27,8 @@
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/IO/JsonDecoder.h"
 
+#include <cstddef>
+
 using namespace hect;
 
 Entity::IterBase::IterBase() :
@@ -287,8 +289,6 @@ Entity::Children::ConstIter::operator bool() const
 {
     return _isValid();
 }
-
-#include <cstddef>
 
 Entity::Children::Iter Entity::Children::begin()
 {

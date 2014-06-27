@@ -52,6 +52,11 @@ Entity::Iter Scene::createEntity(const std::string& name)
 {
     Entity::Iter entity = _entityPool._create();
     entity->setName(name);
+
+    // Dispatch the entity create event
+    EntityEvent event(EntityEventType::Create, *entity);
+    _entityPool._dispatcher.dispatchEvent(event);
+
     return entity;
 }
 
@@ -135,6 +140,10 @@ void Scene::_destroyEntity(Entity& entity)
         throw Error("Invalid entity");
     }
 
+    // Dispatch the entity destroy event
+    EntityEvent event(EntityEventType::Destroy, entity);
+    _entityPool._dispatcher.dispatchEvent(event);
+
     // Destroy all children
     std::vector<EntityId> childIds;
     for (Entity& child : entity.children())
@@ -194,6 +203,10 @@ void Scene::_activateEntity(Entity& entity)
 
     ++_entityCount;
     entity._activated = true;
+
+    // Dispatch the entity activate event
+    EntityEvent event(EntityEventType::Activate, entity);
+    _entityPool._dispatcher.dispatchEvent(event);
 
     // Activate all children
     for (Entity& child : entity.children())

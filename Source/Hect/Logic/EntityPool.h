@@ -25,8 +25,10 @@
 
 #include <vector>
 
+#include "Hect/Core/Dispatcher.h"
 #include "Hect/Core/IdPool.h"
 #include "Hect/Logic/Entity.h"
+#include "Hect/Logic/EntityEvent.h"
 
 namespace hect
 {
@@ -42,6 +44,10 @@ class EntityPool
     template <typename T> friend class ComponentPool;
 public:
     EntityPool(Scene& scene);
+
+    ///
+    /// Returns the event dispatcher for the entities in the pool.
+    Dispatcher<EntityEvent>& dispatcher();
 
     ///
     /// Returns an iterator to the beginning of the pool.
@@ -107,6 +113,7 @@ private:
     EntityId _maxId() const;
 
     Scene* _scene;
+    Dispatcher<EntityEvent> _dispatcher;
     IdPool<EntityId> _idPool;
     std::vector<Entity> _entities;
 };

@@ -21,59 +21,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Mouse.h"
+#include "EntityEvent.h"
 
 using namespace hect;
 
-MouseEvent::MouseEvent() :
-    type(MouseEventType::Movement),
-    button(MouseButton::Left)
+EntityEvent::EntityEvent(EntityEventType::Enum type, Entity& entity) :
+    _type(type),
+    _entity(&entity)
 {
 }
 
-bool Mouse::isButtonDown(MouseButton::Enum button) const
+EntityEventType::Enum EntityEvent::type() const
 {
-    return _buttonStates[(int)button];
+    return _type;
 }
 
-const IntVector2& Mouse::cursorPosition() const
+Entity& EntityEvent::entity() const
 {
-    return _cursorPosition;
-}
-
-void Mouse::setMode(MouseMode::Enum mode)
-{
-    _mode = mode;
-}
-
-MouseMode::Enum Mouse::mode() const
-{
-    return _mode;
-}
-
-Dispatcher<MouseEvent>& Mouse::dispatcher()
-{
-    return _dispatcher;
-}
-
-Mouse::Mouse() :
-    _mode(MouseMode::Cursor),
-    _buttonStates(16, false)
-{
-}
-
-void Mouse::_enqueueEvent(const MouseEvent& event)
-{
-    _cursorPosition = event.cursorPosition;
-    _events.push_back(event);
-}
-
-void Mouse::_dispatchEvents()
-{
-    for (const MouseEvent& event : _events)
-    {
-        _dispatcher.dispatchEvent(event);
-    }
-
-    _events.clear();
+    assert(_entity);
+    return *_entity;
 }
