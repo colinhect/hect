@@ -182,7 +182,7 @@ private:
     const T& _componentWithId(ComponentId id) const;
 
     bool _entityIdToComponentId(EntityId entityId, ComponentId& id) const;
-    
+
     template <typename U>
     bool _expandVector(std::vector<U>& vector, size_t size, U value = U());
 

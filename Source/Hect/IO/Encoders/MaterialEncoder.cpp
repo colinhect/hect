@@ -179,7 +179,7 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     ArrayDecoder statesDecoder = renderModeDecoder.decodeArray("enabledStates");
                     while (statesDecoder.hasMoreElements())
                     {
-                        
+
                         renderMode.enableState(statesDecoder.decodeEnum<RenderState::Enum>());
                     }
                 }

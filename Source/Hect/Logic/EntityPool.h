@@ -109,7 +109,7 @@ private:
 
     Entity& _entityWithId(EntityId id);
     const Entity& _entityWithId(EntityId id) const;
-    
+
     EntityId _maxId() const;
 
     Scene* _scene;

@@ -47,7 +47,7 @@ namespace hect
 class PhysicsSystem :
     public System,
     public Listener<ComponentEvent<RigidBody>>,
-    public Uncopyable
+                                            public Uncopyable
 {
 public:
     PhysicsSystem(Scene& scene, TaskPool& taskPool);

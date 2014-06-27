@@ -189,7 +189,7 @@ public:
         public:
             IterBase();
             IterBase(EntityPool& pool, EntityId parentId, size_t index);
-            
+
         protected:
             void _increment();
             bool _isValid() const;

@@ -341,7 +341,7 @@ bool Entity::isActivated() const
     else
     {
         return parent()->isActivated();
-    }    
+    }
 }
 
 EntityId Entity::id() const
@@ -401,7 +401,7 @@ void Entity::addChild(Entity& entity)
     {
         throw Error("Cannot add unactivated entity as child of activated entity");
     }
-    
+
     if (!_activated && entity._activated)
     {
         throw Error("Cannot add activated entity as child of unactivated entity");

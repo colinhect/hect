@@ -83,7 +83,7 @@ public:
     ///
     /// Returns the number of active entities in the scene.
     size_t entityCount() const;
-    
+
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 

@@ -32,20 +32,20 @@ namespace hect
 /// An entity-related event type.
 namespace EntityEventType
 {
-    enum Enum
-    {
-        ///
-        /// An entity was created in the scene.
-        Create,
+enum Enum
+{
+    ///
+    /// An entity was created in the scene.
+    Create,
 
-        ///
-        /// An entity was activated in the scene.
-        Activate,
+    ///
+    /// An entity was activated in the scene.
+    Activate,
 
-        ///
-        /// An entity was destroyed in the scene.
-        Destroy
-    };
+    ///
+    /// An entity was destroyed in the scene.
+    Destroy
+};
 }
 
 ///
