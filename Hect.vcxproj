@@ -100,6 +100,7 @@
     <ClInclude Include="Source\Hect\IO\Encodable.h" />
     <ClInclude Include="Source\Hect\IO\WriteStream.h" />
     <ClInclude Include="Source\Hect\Logic\Component.h" />
+    <ClInclude Include="Source\Hect\Logic\ComponentEvent.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentPool.h" />
     <ClInclude Include="Source\Hect\Logic\Entity.h" />
     <ClInclude Include="Source\Hect\Logic\EntityEvent.h" />
@@ -236,6 +237,7 @@
     <None Include="Source\Hect\IO\Decoder.inl" />
     <None Include="Source\Hect\IO\Encoder.inl" />
     <None Include="Source\Hect\Logic\Component.inl" />
+    <None Include="Source\Hect\Logic\ComponentEvent.inl" />
     <None Include="Source\Hect\Logic\ComponentPool.inl" />
     <None Include="Source\Hect\Logic\Entity.inl" />
     <None Include="Source\Hect\Logic\Scene.inl" />

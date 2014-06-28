@@ -29,46 +29,10 @@
 #include "Hect/Core/IdPool.h"
 #include "Hect/Core/Dispatcher.h"
 #include "Hect/Logic/Component.h"
+#include "Hect/Logic/ComponentEvent.h"
 
 namespace hect
 {
-
-///
-/// A component-related event type.
-namespace ComponentEventType
-{
-enum Enum
-{
-    ///
-    /// A component was added.
-    Add,
-
-    ///
-    /// A component was removed.
-    Remove
-};
-}
-
-///
-/// A component-related event.
-template <typename T>
-class ComponentEvent
-{
-public:
-    ComponentEvent(ComponentEventType::Enum type, Entity& entity);
-
-    ///
-    /// Returns the event type.
-    ComponentEventType::Enum type() const;
-
-    ///
-    /// Returns a reference to the entity that the event is for.
-    Entity& entity() const;
-
-private:
-    ComponentEventType::Enum _type;
-    mutable Entity* _entity;
-};
 
 class ComponentPoolBase
 {

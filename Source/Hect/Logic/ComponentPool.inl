@@ -25,26 +25,6 @@ namespace hect
 {
 
 template <typename T>
-ComponentEvent<T>::ComponentEvent(ComponentEventType::Enum type, Entity& entity) :
-    _type(type),
-    _entity(&entity)
-{
-}
-
-template <typename T>
-ComponentEventType::Enum ComponentEvent<T>::type() const
-{
-    return _type;
-}
-
-template <typename T>
-Entity& ComponentEvent<T>::entity() const
-{
-    assert(_entity);
-    return *_entity;
-}
-
-template <typename T>
 ComponentPool<T>::ComponentPool(Scene& scene, const std::string& componentTypeName) :
     _scene(&scene),
     _componentTypeName(componentTypeName)
