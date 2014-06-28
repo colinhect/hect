@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/Entity.h"
-
 namespace hect
 {
 
@@ -47,6 +45,8 @@ enum Enum
     Destroy
 };
 }
+
+class Entity;
 
 ///
 /// An entity-related event.

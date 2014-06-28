@@ -1348,3 +1348,39 @@ TEST_CASE("Scene_EntityFindAncestors")
     });
     REQUIRE(iters.size() == 0);
 }
+
+TEST_CASE("Scene_CreateEntityHandle")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity();
+
+    Entity::Handle handle = a->createHandle();
+    REQUIRE(handle);
+    REQUIRE(&*handle == &*a);
+
+    a->destroy();
+
+    REQUIRE(!handle);
+    REQUIRE_THROWS_AS(*handle, Error);
+}
+
+TEST_CASE("Scene_CopyEntityHandle")
+{
+    Scene scene;
+
+    Entity::Iter a = scene.createEntity();
+
+    Entity::Handle handle = a->createHandle();
+    Entity::Handle handleCopy = handle;
+    REQUIRE(handle == handleCopy);
+    REQUIRE(&*handle == &*a);
+    REQUIRE(&*handleCopy == &*a);
+
+    a->destroy();
+
+    REQUIRE(!handle);
+    REQUIRE_THROWS_AS(*handle, Error);
+    REQUIRE(!handleCopy);
+    REQUIRE_THROWS_AS(*handleCopy, Error);
+}

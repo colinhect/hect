@@ -314,6 +314,95 @@ Entity::Children::ConstIter Entity::Children::end() const
     return Entity::Children::ConstIter(*entity->_pool, entity->_id, entity->_childIds.size());
 }
 
+Entity::Handle::Handle()
+{
+}
+
+Entity::Handle::Handle(const Entity::Handle& handle) :
+    _context(handle._context)
+{
+}
+
+Entity::Handle::Handle(Entity::Handle&& handle) :
+    _context(std::move(handle._context))
+{
+}
+
+const Entity& Entity::Handle::operator*() const
+{
+    _ensureValid();
+    return _context->pool->_entityWithId(_context->id);
+}
+
+const Entity* Entity::Handle::operator->() const
+{
+    _ensureValid();
+    return &_context->pool->_entityWithId(_context->id);
+}
+
+bool Entity::Handle::operator==(const Entity::Handle& other) const
+{
+    return _context == other._context;
+}
+
+bool Entity::Handle::operator!=(const Entity::Handle& other) const
+{
+    return _context != other._context;
+}
+
+Entity::Handle::operator bool() const
+{
+    return _isValid();
+}
+
+Entity::Handle::Handle(EntityPool& pool, EntityId id) :
+    _context(std::make_shared<Entity::Handle::Context>(pool, id))
+{
+}
+
+bool Entity::Handle::_isValid() const
+{
+    return _context && _context->valid;
+}
+
+void Entity::Handle::_ensureValid() const
+{
+    if (!_isValid())
+    {
+        throw Error("Invalid entity handle");
+    }
+}
+
+Entity::Handle::Context::Context(EntityPool& pool, EntityId id) :
+    pool(&pool),
+    id(id),
+    valid(true)
+{
+    pool.dispatcher().addListener(*this);
+}
+
+Entity::Handle::Context::~Context()
+{
+    pool->dispatcher().removeListener(*this);
+}
+
+void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
+{
+    if (valid && event.entity().id() == id)
+    {
+        if (event.type() == EntityEventType::Destroy)
+        {
+            valid = false;
+        }
+    }
+}
+
+Entity::Handle Entity::createHandle() const
+{
+    _ensureInPool();
+    return Entity::Handle(*_pool, _id);
+}
+
 Entity::Iter Entity::clone(const std::string& name) const
 {
     _ensureInPool();

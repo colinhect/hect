@@ -25,7 +25,9 @@
 
 #include <functional>
 
+#include "Hect/Core/Listener.h"
 #include "Hect/Logic/Component.h"
+#include "Hect/Logic/EntityEvent.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
@@ -176,8 +178,6 @@ public:
         /// Returns whether the iterator is valid.
         operator bool() const;
     };
-
-    class Handle { };
 
     ///
     /// An entity's child entities.
@@ -334,6 +334,84 @@ public:
     };
 
     ///
+    /// A weak reference to an entity.
+    class Handle
+    {
+        friend class Entity;
+    public:
+        
+        ///
+        /// Constructs an invalid handle.
+        Handle();
+
+        ///
+        /// Contructs a handle copied from another.
+        ///
+        /// \param handle The handle to copy.
+        Handle(const Handle& handle);
+
+        ///
+        /// Contructs a handle moved from another.
+        ///
+        /// \param handle The handle to move.
+        Handle(Handle&& handle);
+
+        ///
+        /// Dereferences the handle to a reference to the entity.
+        ///
+        /// \returns A reference to the entity.
+        ///
+        /// \throws Error If the handle is invalid.
+        const Entity& operator*() const;
+
+        ///
+        /// Dereferences the handle to a pointer to the entity.
+        ///
+        /// \returns A pointer to the entity.
+        ///
+        /// \throws Error If the handle is invalid.
+        const Entity* operator->() const;
+
+        ///
+        /// Returns whether the handle is equivalent to another.
+        ///
+        /// \param other The other iterator.
+        bool operator==(const Handle& other) const;
+
+        ///
+        /// Returns whether the handle is different from another.
+        ///
+        /// \param other The other iterator.
+        bool operator!=(const Handle& other) const;
+
+        ///
+        /// Returns whether the handle is valid.
+        operator bool() const;
+
+    private:
+        Handle(EntityPool& pool, EntityId id);
+
+        bool _isValid() const;
+        void _ensureValid() const;
+
+        class Context :
+            public Listener<EntityEvent>
+        {
+        public:
+            Context(EntityPool& pool, EntityId id);
+            ~Context();
+
+            void receiveEvent(const EntityEvent& event);
+
+            EntityPool* pool;
+            EntityId id;
+            bool valid;
+        };
+
+        std::shared_ptr<Context> _context;
+    };
+
+    ///
     /// Adds a component of a specific type to the entity.
     ///
     /// \param component The component to add to the entity.  A copy of this
@@ -389,6 +467,10 @@ public:
     /// \throws Error If the entity is invalid.
     template <typename T>
     typename Component<T>::ConstIter component() const;
+
+    ///
+    /// Creates a handle to the entity.
+    Entity::Handle createHandle() const;
 
     ///
     /// Clones the entity.

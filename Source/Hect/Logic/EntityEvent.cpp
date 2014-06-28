@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "EntityEvent.h"
 
+#include <cassert>
+
 using namespace hect;
 
 EntityEvent::EntityEvent(EntityEventType::Enum type, Entity& entity) :
