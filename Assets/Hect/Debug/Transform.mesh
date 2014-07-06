@@ -1,29 +1,29 @@
 {
     "vertexLayout" :
-	{
-		"attributes" :
-		[
-			{
-				"semantic" : "Position",
-				"type" : "Float",
-				"cardinality" : 3 
-			},
-			{ 
-				"semantic" : "Color",
-				"type" : "Float",
-				"cardinality" : 3
-			}
-		]
-	},
-	"indexType" : "UnsignedByte",
-	"primitiveType" : "Lines",
+    {
+        "attributes" :
+        [
+            {
+                "semantic" : "Position",
+                "type" : "Float",
+                "cardinality" : 3 
+            },
+            { 
+                "semantic" : "Color",
+                "type" : "Float",
+                "cardinality" : 3
+            }
+        ]
+    },
+    "indexType" : "UnsignedByte",
+    "primitiveType" : "Lines",
     "vertices" :
     [
         [
             [ "Position", [ 0, 0, 0 ] ],
             [ "Color", [ 0, 0, 1 ] ]
         ],
-		[
+        [
             [ "Position", [ 0, 0, 1 ] ],
             [ "Color", [ 0, 0, 1 ] ]
         ],
@@ -31,7 +31,7 @@
             [ "Position", [ 0, 0, 0 ] ],
             [ "Color", [ 0, 1, 0 ] ]
         ],
-		[
+        [
             [ "Position", [ 0, 1, 0 ] ],
             [ "Color", [ 0, 1, 0 ] ]
         ],
@@ -39,13 +39,13 @@
             [ "Position", [ 0, 0, 0 ]],
             [ "Color", [ 1, 0, 0 ] ]
         ],
-		[
+        [
             [ "Position", [ 1, 0, 0 ] ],
             [ "Color", [ 1, 0, 0 ] ]
         ]
     ],
     "indices" :
     [
-		0, 1, 2, 3, 4, 5
+        0, 1, 2, 3, 4, 5
     ]
 }

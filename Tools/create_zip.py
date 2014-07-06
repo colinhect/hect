@@ -3,8 +3,11 @@ import sys
 import zipfile
 
 output_file_name = sys.argv[1]
-prefix = sys.argv[2]
-source_dir = sys.argv[3]
+source_dir = sys.argv[2]
+if len(sys.argv) == 4:
+    prefix = sys.argv[3]
+else:
+    prefix = None
 
 try:
     os.remove(output_file_name)
@@ -19,7 +22,8 @@ for root, dir, files in os.walk(source_dir):
     for file in files:
         source = os.path.join(root, file)
         dest = os.path.relpath(source, source_dir)
-        dest = os.path.join(prefix, dest)
+        if not prefix is None:
+            dest = os.path.join(prefix, dest)
         print("Adding file '" + dest + "'...")
         zip.write(source, dest)
 

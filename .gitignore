@@ -7,7 +7,6 @@ Dependencies/JsonCpp/Intermediate/*
 Dependencies/LodePng/Intermediate/*
 Dependencies/PhysFS/Intermediate/*
 Intermediate/*
-Assets/Intermediate/*
 Source/Hect/Generated/*
 Docs/Output/*
 Docs/Intermediate/*

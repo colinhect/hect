@@ -1,19 +1,19 @@
 {
     "vertexLayout" :
-	{
-		"attributes" :
-		[
-			{
-				"semantic" : "Position",
-				"type" : "Float",
-				"cardinality" : 3 
-			},
-			{ 
-				"semantic" : "TextureCoords0",
-				"type" : "Float",
-				"cardinality" : 2
-			}
-		]
+    {
+        "attributes" :
+        [
+            {
+                "semantic" : "Position",
+                "type" : "Float",
+                "cardinality" : 3 
+            },
+            { 
+                "semantic" : "TextureCoords0",
+                "type" : "Float",
+                "cardinality" : 2
+            }
+        ]
     },
     "vertices" :
     [

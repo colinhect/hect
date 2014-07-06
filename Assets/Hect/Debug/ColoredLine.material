@@ -4,10 +4,10 @@
         [
             {
                 "shader" : "Hect/Debug/ColoredLine.shader",
-				"renderMode" :
-				{
-					"disabledStates" : [ "DepthTest" ]
-				}
+                "renderMode" :
+                {
+                    "disabledStates" : [ "DepthTest" ]
+                }
             }
         ]
     ]
