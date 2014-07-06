@@ -21,27 +21,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "DebugRenderSystem.h"
 
-#include <string>
+#include "Hect/Logic/Scene.h"
+#include "Hect/Graphics/MeshWriter.h"
+#include "Hect/Graphics/Components/Transform.h"
 
-#include "Hect/Core/Configuration.h"
+using namespace hect;
 
-namespace hect
+DebugRenderSystem::DebugRenderSystem(Scene& scene, Renderer& renderer, AssetCache& assetCache) :
+    RenderSystem(scene, renderer),
+    _renderer(&renderer)
 {
+    _coloredLineMaterial = assetCache.getHandle<Material>("Hect/Debug/ColoredLine.material");
+    _transformMesh = assetCache.getHandle<Mesh>("Hect/Debug/Transform.mesh");
+}
 
-void log(const std::string& category, const std::string& message);
+void DebugRenderSystem::renderAllLayers(Camera& camera, RenderTarget& target)
+{
+    camera;
 
-#if defined(HECT_DEBUG) && !defined(HECT_NO_LOGGING)
-#define LOG_TRACE(message) log("Trace", message)
-#define LOG_WARNING(message) log("Warning", message)
-#define LOG_DEBUG(message) log("Debug", message)
-#define LOG_INFO(message) log("Info", message)
-#else
-#define LOG_TRACE(message)
-#define LOG_WARNING(message)
-#define LOG_DEBUG(message)
-#define LOG_INFO(message)
-#endif
+    _renderer->beginFrame();
+    _renderer->bindTarget(target);
 
+    for (Transform& transform : scene().components<Transform>())
+    {
+        for (const Pass& pass : _coloredLineMaterial->techniques()[0].passes())
+        {
+            renderMeshPass(camera, target, pass, *_transformMesh, transform);
+        }
+    }
+
+    _renderer->endFrame();
 }

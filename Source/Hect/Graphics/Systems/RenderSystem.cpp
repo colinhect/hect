@@ -42,18 +42,30 @@ void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
     _renderer->bindTarget(target);
     _renderer->clear();
 
-    // Render geometery
-    for (Geometry& geometry : scene().components<Geometry>())
+    for (Entity& entity : scene().entities())
     {
-        Entity& entity = geometry.entity();
+        if (!entity.parent())
+        {
+            render(camera, target, entity);
+        }
+    }
+
+    _renderer->endFrame();
+}
+
+void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity)
+{
+    auto geometry = entity.component<Geometry>();
+    if (geometry)
+    {
         auto transform = entity.component<Transform>();
         if (transform)
         {
-            size_t surfaceCount = geometry.surfaceCount();
+            size_t surfaceCount = geometry->surfaceCount();
             for (size_t surfaceIndex = 0; surfaceIndex < surfaceCount; ++surfaceIndex)
             {
-                Mesh& mesh = *geometry.meshes()[surfaceIndex];
-                Material& material = *geometry.materials()[surfaceIndex];
+                Mesh& mesh = *geometry->meshes()[surfaceIndex];
+                Material& material = *geometry->materials()[surfaceIndex];
 
                 // Render the mesh for each pass
                 for (const Pass& pass : material.techniques()[0].passes())
@@ -61,10 +73,13 @@ void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
                     renderMeshPass(camera, target, pass, mesh, *transform);
                 }
             }
+
+            for (Entity& child : entity.children())
+            {
+                render(camera, target, child);
+            }
         }
     }
-
-    _renderer->endFrame();
 }
 
 void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform)

@@ -47,6 +47,7 @@ public:
     virtual void renderAll(Camera& camera, RenderTarget& target);
 
 protected:
+    void render(Camera& camera, RenderTarget& target, Entity& entity);
     void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
 
 private:

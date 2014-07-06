@@ -58,6 +58,7 @@
     <ClInclude Include="Source\Hect\Graphics\Shader.h" />
     <ClInclude Include="Source\Hect\Graphics\ShaderModule.h" />
     <ClInclude Include="Source\Hect\Graphics\Systems\CameraSystem.h" />
+    <ClInclude Include="Source\Hect\Graphics\Systems\DebugRenderSystem.h" />
     <ClInclude Include="Source\Hect\Graphics\Systems\RenderSystem.h" />
     <ClInclude Include="Source\Hect\Graphics\Systems\TransformSystem.h" />
     <ClInclude Include="Source\Hect\Graphics\Technique.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Source\Hect\Graphics\ShaderModule.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderModuleLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Systems\CameraSystem.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\Systems\DebugRenderSystem.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Systems\RenderSystem.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Systems\TransformSystem.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Technique.cpp" />

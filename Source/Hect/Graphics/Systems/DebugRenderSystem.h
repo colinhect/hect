@@ -23,25 +23,28 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
-
-#include "Hect/Core/Configuration.h"
+#include "Hect/Graphics/Components/Camera.h"
+#include "Hect/Graphics/Systems/RenderSystem.h"
+#include "Hect/Math/Vector3.h"
 
 namespace hect
 {
 
-void log(const std::string& category, const std::string& message);
+///
+/// Provides the functionality for rendering debug information.
+class DebugRenderSystem :
+    public RenderSystem
+{
+public:
+    DebugRenderSystem(Scene& scene, Renderer& renderer, AssetCache& assetCache);
 
-#if defined(HECT_DEBUG) && !defined(HECT_NO_LOGGING)
-#define LOG_TRACE(message) log("Trace", message)
-#define LOG_WARNING(message) log("Warning", message)
-#define LOG_DEBUG(message) log("Debug", message)
-#define LOG_INFO(message) log("Info", message)
-#else
-#define LOG_TRACE(message)
-#define LOG_WARNING(message)
-#define LOG_DEBUG(message)
-#define LOG_INFO(message)
-#endif
+    void renderAllLayers(Camera& camera, RenderTarget& target);
+
+private:
+    Renderer* _renderer;
+
+    AssetHandle<Material> _coloredLineMaterial;
+    AssetHandle<Mesh> _transformMesh;
+};
 
 }

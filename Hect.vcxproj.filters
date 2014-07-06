@@ -409,6 +409,9 @@
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\Systems\DebugRenderSystem.h">
+      <Filter>Source\Hect\Graphics\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -701,6 +704,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp">
       <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\Systems\DebugRenderSystem.cpp">
+      <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

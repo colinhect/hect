@@ -162,6 +162,20 @@
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="Hect\Debug\ColoredLine.frag" />
+    <None Include="Hect\Debug\ColoredLine.material" />
+    <None Include="Hect\Debug\ColoredLine.shader" />
+    <None Include="Hect\Debug\ColoredLine.vert" />
+    <None Include="Hect\Debug\Transform.mesh" />
+    <None Include="Hect\Hdr\Compositor.frag" />
+    <None Include="Hect\Hdr\Compositor.shader" />
+    <None Include="Hect\Hdr\Compositor.vert" />
+    <None Include="Hect\Hdr\Screen.mesh" />
+    <None Include="Hect\Shaders\Particle.frag" />
+    <None Include="Hect\Shaders\Particle.geom" />
+    <None Include="Hect\Shaders\Particle.shader" />
+    <None Include="Hect\Shaders\Particle.vert" />
+    <None Include="Hect\Shaders\Rotation.geom" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

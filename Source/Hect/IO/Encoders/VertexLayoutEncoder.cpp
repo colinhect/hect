@@ -55,7 +55,7 @@ void VertexLayoutEncoder::decode(VertexLayout& vertexLayout, ObjectDecoder& deco
         VertexAttributeType::Enum type;
 
         semantic = attributeDecoder.decodeEnum<VertexAttributeSemantic::Enum>("semantic");
-        type = attributeDecoder.decodeEnum<VertexAttributeType::Enum>("semantic");
+        type = attributeDecoder.decodeEnum<VertexAttributeType::Enum>("type");
         cardinality = attributeDecoder.decodeUnsignedInt("cardinality");
 
         // Append the new attribute
