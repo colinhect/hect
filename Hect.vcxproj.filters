@@ -397,9 +397,6 @@
     <ClInclude Include="Source\Hect\Logic\Components\Transform.h">
       <Filter>Source\Hect\Logic\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Logic\Systems\CameraSystem.h">
-      <Filter>Source\Hect\Logic\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Logic\Systems\DebugSystem.h">
       <Filter>Source\Hect\Logic\Systems</Filter>
     </ClInclude>
@@ -698,9 +695,6 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Components\Transform.cpp">
       <Filter>Source\Hect\Logic\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Logic\Systems\CameraSystem.cpp">
-      <Filter>Source\Hect\Logic\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Systems\DebugSystem.cpp">
       <Filter>Source\Hect\Logic\Systems</Filter>

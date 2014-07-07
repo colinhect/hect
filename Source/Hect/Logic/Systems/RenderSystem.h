@@ -38,6 +38,10 @@ class RenderSystem :
 {
 public:
     RenderSystem(Scene& scene, Renderer& renderer);
+    
+    ///
+    /// Returns the active camera in the scene.
+    Component<Camera>::Iter activeCamera();
 
     ///
     /// Renders all visible entities.

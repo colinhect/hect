@@ -36,12 +36,27 @@ RenderSystem::RenderSystem(Scene& scene, Renderer& renderer) :
 {
 }
 
-void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
+Component<Camera>::Iter RenderSystem::activeCamera()
 {
+    return scene().components<Camera>().begin();
+}
+
+void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
+{ 
+    // Update transform of active camera
+    Entity& entity = camera.entity();
+    auto transform = entity.component<Transform>();
+    if (transform)
+    {
+        camera.transformTo(*transform);
+    }
+
+    // Begin the frame and clear the target
     _renderer->beginFrame();
     _renderer->bindTarget(target);
     _renderer->clear();
 
+    // Render each entity in hierarchical order
     for (Entity& entity : scene().entities())
     {
         if (!entity.parent())
@@ -50,6 +65,7 @@ void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
         }
     }
 
+    // End the frame
     _renderer->endFrame();
 }
 
