@@ -27,44 +27,44 @@
 
 namespace hect
 {
+///
+/// A component-related event type.
+namespace ComponentEventType
+{
+enum Enum
+{
     ///
-    /// A component-related event type.
-    namespace ComponentEventType
-    {
-        enum Enum
-        {
-            ///
-            /// A component was added.
-            Add,
-
-            ///
-            /// A component was removed.
-            Remove
-        };
-    }
-
-    class Entity;
+    /// A component was added.
+    Add,
 
     ///
-    /// A component-related event.
-    template <typename T>
-    class ComponentEvent
-    {
-    public:
-        ComponentEvent(ComponentEventType::Enum type, Entity& entity);
+    /// A component was removed.
+    Remove
+};
+}
 
-        ///
-        /// Returns the event type.
-        ComponentEventType::Enum type() const;
+class Entity;
 
-        ///
-        /// Returns a reference to the entity that the event is for.
-        Entity& entity() const;
+///
+/// A component-related event.
+template <typename T>
+class ComponentEvent
+{
+public:
+    ComponentEvent(ComponentEventType::Enum type, Entity& entity);
 
-    private:
-        ComponentEventType::Enum _type;
-        mutable Entity* _entity;
-    };
+    ///
+    /// Returns the event type.
+    ComponentEventType::Enum type() const;
+
+    ///
+    /// Returns a reference to the entity that the event is for.
+    Entity& entity() const;
+
+private:
+    ComponentEventType::Enum _type;
+    mutable Entity* _entity;
+};
 
 }
 

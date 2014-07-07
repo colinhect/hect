@@ -339,7 +339,7 @@ public:
     {
         friend class Entity;
     public:
-        
+
         ///
         /// Constructs an invalid handle.
         Handle();
