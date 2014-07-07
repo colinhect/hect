@@ -403,10 +403,10 @@ Entity::Handle Entity::createHandle() const
     return Entity::Handle(*_pool, _id);
 }
 
-Entity::Iter Entity::clone(const std::string& name) const
+Entity::Iter Entity::clone() const
 {
     _ensureInPool();
-    return _pool->_scene->_cloneEntity(*this, name);
+    return _pool->_scene->_cloneEntity(*this);
 }
 
 void Entity::destroy()
@@ -436,16 +436,6 @@ bool Entity::isActivated() const
 EntityId Entity::id() const
 {
     return _id;
-}
-
-const std::string& Entity::name() const
-{
-    return _name;
-}
-
-void Entity::setName(const std::string& name)
-{
-    _name = name;
 }
 
 Entity::Iter Entity::parent()
@@ -717,11 +707,6 @@ void Entity::encode(ObjectEncoder& encoder) const
 
     Scene& scene = *_pool->_scene;
 
-    if (!_name.empty())
-    {
-        encoder.encodeString("name", _name);
-    }
-
     scene._encodeComponents(*this, encoder);
 
     ArrayEncoder childrenEncoder = encoder.encodeArray("children");
@@ -737,11 +722,6 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     _ensureInPool();
 
     Scene& scene = *_pool->_scene;
-
-    if (decoder.hasMember("name"))
-    {
-        _name = decoder.decodeString("name");
-    }
 
     if (decoder.hasMember("archetype"))
     {
@@ -786,7 +766,6 @@ Entity::Entity(Entity&& entity) :
     _id(entity._id),
     _parentId(entity._parentId),
     _childIds(std::move(entity._childIds)),
-    _name(std::move(entity._name)),
     _activated(entity._activated)
 {
     entity._pool = nullptr;

@@ -50,10 +50,8 @@ public:
     ///
     /// Creates a new entity.
     ///
-    /// \param name The name of the new entity.
-    ///
     /// \returns An iterator to the new entity.
-    Entity::Iter createEntity(const std::string& name = std::string());
+    Entity::Iter createEntity();
 
     ///
     /// Registers a component type.
@@ -88,7 +86,7 @@ public:
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    Entity::Iter _cloneEntity(const Entity& entity, const std::string& name = std::string());
+    Entity::Iter _cloneEntity(const Entity& entity);
 
     void _destroyEntity(Entity& entity);
     void _activateEntity(Entity& entity);

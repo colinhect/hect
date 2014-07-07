@@ -48,10 +48,9 @@ Scene::Scene() :
     registerComponent<RigidBody>("RigidBody");
 }
 
-Entity::Iter Scene::createEntity(const std::string& name)
+Entity::Iter Scene::createEntity()
 {
     Entity::Iter entity = _entityPool._create();
-    entity->setName(name);
 
     // Dispatch the entity create event
     EntityEvent event(EntityEventType::Create, *entity);
@@ -103,7 +102,7 @@ size_t Scene::entityCount() const
     return _entityCount;
 }
 
-Entity::Iter Scene::_cloneEntity(const Entity& entity, const std::string& name)
+Entity::Iter Scene::_cloneEntity(const Entity& entity)
 {
     Entity::Iter sourceEntity = Entity::Iter(_entityPool, entity.id());
     Entity::Iter clonedEntity = createEntity();
@@ -112,15 +111,6 @@ Entity::Iter Scene::_cloneEntity(const Entity& entity, const std::string& name)
     {
         ComponentPoolBase& componentPool = *pair.second;
         componentPool._clone(*sourceEntity, *clonedEntity);
-    }
-
-    if (!name.empty())
-    {
-        clonedEntity->setName(name);
-    }
-    else
-    {
-        clonedEntity->setName(sourceEntity->_name);
     }
 
     // Recursively clone all children

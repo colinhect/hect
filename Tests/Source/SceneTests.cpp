@@ -73,21 +73,18 @@ TEST_CASE("Scene_CreateAndDestroyEntities")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     REQUIRE(a);
-    REQUIRE(a->name() == "A");
     REQUIRE(a->id() == 0);
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
     REQUIRE(b);
-    REQUIRE(b->name() == "B");
     REQUIRE(b->id() == 1);
 
     a->destroy();
     REQUIRE(!a);
 
     REQUIRE(b);
-    REQUIRE(b->name() == "B");
     REQUIRE(b->id() == 1);
 }
 
@@ -104,7 +101,7 @@ TEST_CASE("Scene_DereferenceDestroyedEntityIter")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     REQUIRE(a);
     a->destroy();
     REQUIRE(!a);
@@ -253,8 +250,7 @@ TEST_CASE("Scene_CreateManyEntities")
     for (EntityId id = 0; id < 64; ++id)
     {
         {
-            std::string name = format("Entity %d", id);
-            Entity::Iter entity = scene.createEntity(name);
+            Entity::Iter entity = scene.createEntity();
             entity->activate();
             entities.push_back(entity);
         }
@@ -263,12 +259,8 @@ TEST_CASE("Scene_CreateManyEntities")
             EntityId id = 0;
             for (const Entity::Iter& entity : entities)
             {
-                std::string name = format("Entity %d", id);
-
                 REQUIRE(entity);
                 REQUIRE(entity->id() == id);
-                REQUIRE(entity->name() == name);
-
                 ++id;
             }
         }
@@ -280,15 +272,15 @@ TEST_CASE("Scene_AddRemoveEntityChildren")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     a->activate();
     REQUIRE(!a->parent());
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
     b->activate();
     REQUIRE(!b->parent());
 
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter c = scene.createEntity();
     c->activate();
     REQUIRE(!c->parent());
 
@@ -303,15 +295,15 @@ TEST_CASE("Scene_AddChildEntityAsChild")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     a->activate();
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
     b->activate();
 
     a->addChild(*b);
 
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter c = scene.createEntity();
     c->activate();
 
     REQUIRE_THROWS_AS(c->addChild(*b), Error);
@@ -321,14 +313,14 @@ TEST_CASE("Scene_AddEntityChildActivationRestrictions")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     a->activate();
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
 
     REQUIRE_THROWS_AS(a->addChild(*b), Error);
 
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter c = scene.createEntity();
     c->activate();
 
     REQUIRE_THROWS_AS(c->addChild(*b), Error);
@@ -338,12 +330,12 @@ TEST_CASE("Scene_AddChildFromAnotherScene")
 {
     Scene sceneA;
 
-    Entity::Iter a = sceneA.createEntity("A");
+    Entity::Iter a = sceneA.createEntity();
     a->activate();
 
     Scene sceneB;
 
-    Entity::Iter b = sceneB.createEntity("B");
+    Entity::Iter b = sceneB.createEntity();
     b->activate();
 
     REQUIRE_THROWS_AS(a->addChild(*b), Error);
@@ -353,10 +345,10 @@ TEST_CASE("Scene_ChildEntityActivation")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
-    Entity::Iter b = scene.createEntity("B");
-    Entity::Iter c = scene.createEntity("C");
-    Entity::Iter d = scene.createEntity("D");
+    Entity::Iter a = scene.createEntity();
+    Entity::Iter b = scene.createEntity();
+    Entity::Iter c = scene.createEntity();
+    Entity::Iter d = scene.createEntity();
 
     a->addChild(*b);
     a->addChild(*c);
@@ -374,7 +366,7 @@ TEST_CASE("Scene_ChildEntityIterationEmpty")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
 
     size_t count = 0;
     for (Entity& child : a->children())
@@ -388,10 +380,10 @@ TEST_CASE("Scene_ChildEntityIterationNonEmpty")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
-    Entity::Iter b = scene.createEntity("B");
-    Entity::Iter c = scene.createEntity("C");
-    Entity::Iter d = scene.createEntity("D");
+    Entity::Iter a = scene.createEntity();
+    Entity::Iter b = scene.createEntity();
+    Entity::Iter c = scene.createEntity();
+    Entity::Iter d = scene.createEntity();
 
     a->addChild(*b);
     a->addChild(*c);
@@ -421,10 +413,10 @@ TEST_CASE("Scene_DestroyEntityWithChildren")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
-    Entity::Iter b = scene.createEntity("B");
-    Entity::Iter c = scene.createEntity("C");
-    Entity::Iter d = scene.createEntity("D");
+    Entity::Iter a = scene.createEntity();
+    Entity::Iter b = scene.createEntity();
+    Entity::Iter c = scene.createEntity();
+    Entity::Iter d = scene.createEntity();
 
     a->addChild(*b);
     a->addChild(*c);
@@ -447,9 +439,9 @@ TEST_CASE("Scene_DestroyEntityWithParent")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
-    Entity::Iter b = scene.createEntity("B");
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter a = scene.createEntity();
+    Entity::Iter b = scene.createEntity();
+    Entity::Iter c = scene.createEntity();
 
     a->addChild(*b);
     a->addChild(*c);
@@ -476,16 +468,14 @@ TEST_CASE("Scene_CloneEntity")
     Scene scene;
     scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     Component<String>::Iter stringA = a->addComponent(String("Test"));
     a->activate();
 
-    Entity::Iter b = a->clone("B");
+    Entity::Iter b = a->clone();
     Component<String>::Iter stringB = b->component<String>();
 
-    REQUIRE(a->name() == "A");
     REQUIRE(a->isActivated());
-    REQUIRE(b->name() == "B");
     REQUIRE(!b->isActivated());
     REQUIRE(&stringA->entity() == &*a);
     REQUIRE(&stringB->entity() == &*b);
@@ -497,20 +487,18 @@ TEST_CASE("Scene_CloneEntityWithChildren")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
-    Entity::Iter b = scene.createEntity("B");
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter a = scene.createEntity();
+    Entity::Iter b = scene.createEntity();
+    Entity::Iter c = scene.createEntity();
 
     a->addChild(*b);
     a->addChild(*c);
 
     Entity::Iter cloneA = a->clone();
     Entity::Children::Iter childIter = cloneA->children().begin();
-    REQUIRE(childIter->name() == "B");
     REQUIRE(&*childIter->parent() == &*cloneA);
     REQUIRE(&*childIter != &*b);
     REQUIRE(++childIter);
-    REQUIRE(childIter->name() == "C");
     REQUIRE(&*childIter->parent() == &*cloneA);
     REQUIRE(&*childIter != &*c);
     REQUIRE(!++childIter);
@@ -521,7 +509,7 @@ TEST_CASE("Scene_AddAndRemoveComponent")
     Scene scene;
     scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
 
     Component<String>::Iter string = a->addComponent(String("Test"));
     REQUIRE(string == a->component<String>());
@@ -539,7 +527,7 @@ TEST_CASE("Scene_ReplaceComponent")
     Scene scene;
     scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
 
     Component<String>::Iter string = a->addComponent(String("Test"));
     Component<String>::Iter replacedString = a->replaceComponent(String("Replaced"));
@@ -555,7 +543,7 @@ TEST_CASE("Scene_AddUnregisteredComponent")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     REQUIRE_THROWS_AS(a->addComponent(String("Test")), Error);
 }
 
@@ -564,7 +552,7 @@ TEST_CASE("Scene_AddExistingComponent")
     Scene scene;
     scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
 }
 
@@ -573,7 +561,7 @@ TEST_CASE("Scene_RemoveNonExistingComponent")
     Scene scene;
     scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     a->addComponent(String("Test"));
     REQUIRE_THROWS_AS(a->addComponent(String("Test")), Error);
 }
@@ -582,7 +570,7 @@ TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
 {
     Scene scene;
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
 }
 
@@ -594,7 +582,7 @@ TEST_CASE("Scene_Decode")
     REQUIRE(scene.entityCount() == 0);
 
     JsonValue jsonValue;
-    jsonValue.decodeFromJson("{ \"entities\" : [ { \"name\" : \"A\", \"components\" : [ { \"type\" : \"String\", \"value\" : \"Test\" } ] } ] }");
+    jsonValue.decodeFromJson("{ \"entities\" : [ { \"components\" : [ { \"type\" : \"String\", \"value\" : \"Test\" } ] } ] }");
 
     scene.decodeFromJsonValue(jsonValue);
 
@@ -602,7 +590,6 @@ TEST_CASE("Scene_Decode")
 
     Entity::Iter a = scene.entities().begin();
     REQUIRE(a);
-    REQUIRE(a->name() == "A");
     REQUIRE(a->component<String>()->value == "Test");
 }
 
@@ -614,7 +601,7 @@ TEST_CASE("Scene_DecodeWithChildren")
     REQUIRE(scene.entityCount() == 0);
 
     JsonValue jsonValue;
-    jsonValue.decodeFromJson("{ \"entities\" : [ { \"name\" : \"A\", \"children\" : [ { \"name\" : \"B\" } ] } ] }");
+    jsonValue.decodeFromJson("{ \"entities\" : [ { \"children\" : [ { \"name\" : \"B\" } ] } ] }");
 
     scene.decodeFromJsonValue(jsonValue);
 
@@ -622,11 +609,9 @@ TEST_CASE("Scene_DecodeWithChildren")
 
     Entity::Iter a = scene.entities().begin();
     REQUIRE(a);
-    REQUIRE(a->name() == "A");
 
     Entity::Children::Iter b = a->children().begin();
     REQUIRE(b);
-    REQUIRE(b->name() == "B");
 }
 
 TEST_CASE("Scene_Encode")
@@ -637,7 +622,7 @@ TEST_CASE("Scene_Encode")
         Scene scene;
         scene.registerComponent<String>("String");
 
-        Entity::Iter a = scene.createEntity("A");
+        Entity::Iter a = scene.createEntity();
         a->addComponent(String("Test"));
         a->activate();
 
@@ -653,7 +638,6 @@ TEST_CASE("Scene_Encode")
 
         Entity::Iter a = scene.entities().begin();
         REQUIRE(a);
-        REQUIRE(a->name() == "A");
         REQUIRE(a->component<String>()->value == "Test");
     }
 }
@@ -665,8 +649,8 @@ TEST_CASE("Scene_EncodeWithChildren")
     {
         Scene scene;
 
-        Entity::Iter a = scene.createEntity("A");
-        Entity::Iter b = scene.createEntity("B");
+        Entity::Iter a = scene.createEntity();
+        Entity::Iter b = scene.createEntity();
         a->addChild(*b);
         a->activate();
 
@@ -681,11 +665,9 @@ TEST_CASE("Scene_EncodeWithChildren")
 
         Entity::Iter a = scene.entities().begin();
         REQUIRE(a);
-        REQUIRE(a->name() == "A");
 
         Entity::Children::Iter b = a->children().begin();
         REQUIRE(b);
-        REQUIRE(b->name() == "B");
     }
 }
 
@@ -828,13 +810,13 @@ TEST_CASE("Scene_ComponentPoolListeners")
     ComponentPoolListener listener;
     scene.components<String>().dispatcher().addListener(listener);
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
     a->addComponent(String("A"));
     REQUIRE(listener.receivedEvents.size() == 0);
     a->activate();
     REQUIRE(listener.receivedEvents.size() == 1);
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
     b->addComponent(String("B"));
     REQUIRE(listener.receivedEvents.size() == 1);
     b->activate();
@@ -995,25 +977,28 @@ TEST_CASE("Scene_EntityPoolFindFirstWithMatch")
     Scene scene;
     scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("NotMatch");
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("NotMatch"));
     a->activate();
 
-    Entity::Iter b = scene.createEntity("Match");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("Match"));
     b->activate();
 
-    Entity::Iter c = scene.createEntity("Match");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("Match"));
     c->activate();
 
-    Entity::Iter d = scene.createEntity("NotMatch");
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("NotMatch"));
     d->activate();
 
     Entity::Iter iter = scene.entities().findFirst([](const Entity& entity)
     {
-        return entity.name() == "Match";
+        return entity.component<String>()->value == "Match";
     });
 
     REQUIRE(iter);
-    REQUIRE(iter->name() == "Match");
     REQUIRE(&*iter == &*b);
 }
 
@@ -1022,21 +1007,25 @@ TEST_CASE("Scene_EntityPoolFindFirstWithoutMatch")
     Scene scene;
     scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("NotMatch");
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("NotMatch"));
     a->activate();
 
-    Entity::Iter b = scene.createEntity("NotMatch");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("NotMatch"));
     b->activate();
 
-    Entity::Iter c = scene.createEntity("NotMatch");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("NotMatch"));
     c->activate();
 
-    Entity::Iter d = scene.createEntity("NotMatch");
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("NotMatch"));
     d->activate();
 
     Entity::Iter iter = scene.entities().findFirst([](const Entity& entity)
     {
-        return entity.name() == "Match";
+        return entity.component<String>()->value == "Match";
     });
     
     REQUIRE(!iter);
@@ -1047,31 +1036,33 @@ TEST_CASE("Scene_EntityPoolFindWithMatches")
     Scene scene;
     scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("NotMatch");
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("NotMatch"));
     a->activate();
 
-    Entity::Iter b = scene.createEntity("Match");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("Match"));
     b->activate();
 
-    Entity::Iter c = scene.createEntity("Match");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("Match"));
     c->activate();
 
-    Entity::Iter d = scene.createEntity("NotMatch");
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("NotMatch"));
     d->activate();
 
     Entity::Iter::Array iters = scene.entities().find([](const Entity& entity)
     {
-        return entity.name() == "Match";
+        return entity.component<String>()->value == "Match";
     });
 
     REQUIRE(iters.size() == 2);
 
     REQUIRE(iters[0]);
-    REQUIRE(iters[0]->name() == "Match");
     REQUIRE(&*iters[0] == &*b);
 
     REQUIRE(iters[1]);
-    REQUIRE(iters[1]->name() == "Match");
     REQUIRE(&*iters[1] == &*c);
 }
 
@@ -1080,21 +1071,25 @@ TEST_CASE("Scene_EntityPoolFindWithoutMatches")
     Scene scene;
     scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("NotMatch");
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("NotMatch"));
     a->activate();
 
-    Entity::Iter b = scene.createEntity("NotMatch");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("NotMatch"));
     b->activate();
 
-    Entity::Iter c = scene.createEntity("NotMatch");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("NotMatch"));
     c->activate();
 
-    Entity::Iter d = scene.createEntity("NotMatch");
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("NotMatch"));
     d->activate();
 
     Entity::Iter::Array iters = scene.entities().find([](const Entity& entity)
     {
-        return entity.name() == "Match";
+        return entity.component<String>()->value == "Match";
     });
 
     REQUIRE(iters.size() == 0);
@@ -1103,37 +1098,41 @@ TEST_CASE("Scene_EntityPoolFindWithoutMatches")
 TEST_CASE("Scene_EntityFindFirstChild")
 {
     Scene scene;
+    scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("B"));
     a->addChild(*b);
 
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("C"));
     a->addChild(*c);
 
-    Entity::Iter d = scene.createEntity("D");
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("D"));
     c->addChild(*d);
 
     a->activate();
 
     Entity::Iter iter = a->findFirstChild([](const Entity& entity)
     {
-        return entity.name() == "B";
+        return entity.component<String>()->value == "B";
     });
     REQUIRE(iter);
     REQUIRE(iter == b);
 
     iter = a->findFirstChild([](const Entity& entity)
     {
-        return entity.name() == "C";
+        return entity.component<String>()->value == "C";
     });
     REQUIRE(iter);
     REQUIRE(iter == c);
 
     iter = a->findFirstChild([](const Entity& entity)
     {
-        return entity.name() == "D";
+        return entity.component<String>()->value == "D";
     });
     REQUIRE(!iter);
 }
@@ -1141,23 +1140,28 @@ TEST_CASE("Scene_EntityFindFirstChild")
 TEST_CASE("Scene_EntityFindChildren")
 {
     Scene scene;
+    scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("B"));
     a->addChild(*b);
 
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("C"));
     a->addChild(*c);
 
-    Entity::Iter d = scene.createEntity("D");
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("D"));
     c->addChild(*d);
 
     a->activate();
 
     Entity::Iter::Array iters = a->findChildren([](const Entity& entity)
     {
-        return entity.name() == "B" || entity.name() == "C";
+        return entity.component<String>()->value == "B" ||
+               entity.component<String>()->value == "C";
     });
     REQUIRE(iters.size() == 2);
     REQUIRE(iters[0] == b);
@@ -1165,14 +1169,14 @@ TEST_CASE("Scene_EntityFindChildren")
 
     iters = a->findChildren([](const Entity& entity)
     {
-        return entity.name() == "C";
+        return entity.component<String>()->value == "C";
     });
     REQUIRE(iters.size() == 1);
     REQUIRE(iters[0] == c);
 
     iters = a->findChildren([](const Entity& entity)
     {
-        return entity.name() == "D";
+        return entity.component<String>()->value == "D";
     });
     REQUIRE(iters.size() == 0);
 }
@@ -1180,44 +1184,48 @@ TEST_CASE("Scene_EntityFindChildren")
 TEST_CASE("Scene_EntityFindFirstDescendant")
 {
     Scene scene;
+    scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("B"));
     a->addChild(*b);
 
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("C"));
     a->addChild(*c);
-    
-    Entity::Iter d = scene.createEntity("D");
+
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("D"));
     c->addChild(*d);
 
     a->activate();
 
     Entity::Iter iter = a->findFirstDescendant([](const Entity& entity)
     {
-        return entity.name() == "B";
+        return entity.component<String>()->value == "B";
     });
     REQUIRE(iter);
     REQUIRE(iter == b);
 
     iter = a->findFirstDescendant([](const Entity& entity)
     {
-        return entity.name() == "C";
+        return entity.component<String>()->value == "C";
     });
     REQUIRE(iter);
     REQUIRE(iter == c);
 
     iter = a->findFirstDescendant([](const Entity& entity)
     {
-        return entity.name() == "D";
+        return entity.component<String>()->value == "D";
     });
     REQUIRE(iter);
     REQUIRE(iter == d);
 
     iter = a->findFirstDescendant([](const Entity& entity)
     {
-        return entity.name() == "E";
+        return entity.component<String>()->value == "E";
     });
     REQUIRE(!iter);
 }
@@ -1225,23 +1233,28 @@ TEST_CASE("Scene_EntityFindFirstDescendant")
 TEST_CASE("Scene_EntityFindDescendants")
 {
     Scene scene;
+    scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("B"));
     a->addChild(*b);
 
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("C"));
     a->addChild(*c);
 
-    Entity::Iter d = scene.createEntity("D");
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("D"));
     c->addChild(*d);
 
     a->activate();
 
     Entity::Iter::Array iters = a->findDescendants([](const Entity& entity)
     {
-        return entity.name() == "B" || entity.name() == "C";
+        return entity.component<String>()->value == "B" ||
+               entity.component<String>()->value == "C";
     });
     REQUIRE(iters.size() == 2);
     REQUIRE(iters[0] == b);
@@ -1249,14 +1262,14 @@ TEST_CASE("Scene_EntityFindDescendants")
 
     iters = a->findDescendants([](const Entity& entity)
     {
-        return entity.name() == "C";
+        return entity.component<String>()->value == "C";
     });
     REQUIRE(iters.size() == 1);
     REQUIRE(iters[0] == c);
 
     iters = a->findDescendants([](const Entity& entity)
     {
-        return entity.name() == "D";
+        return entity.component<String>()->value == "D";
     });
     REQUIRE(iters.size() == 1);
     REQUIRE(iters[0] == d);
@@ -1275,37 +1288,42 @@ TEST_CASE("Scene_EntityFindDescendants")
 TEST_CASE("Scene_EntityFindFirstAncestor")
 {
     Scene scene;
+    scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("A"));
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("B"));
     a->addChild(*b);
 
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("C"));
     a->addChild(*c);
 
-    Entity::Iter d = scene.createEntity("D");
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("D"));
     c->addChild(*d);
 
     a->activate();
 
     Entity::Iter iter = d->findFirstAncestor([](const Entity& entity)
     {
-        return entity.name() == "C";
+        return entity.component<String>()->value == "C";
     });
     REQUIRE(iter);
     REQUIRE(iter == c);
 
     iter = d->findFirstAncestor([](const Entity& entity)
     {
-        return entity.name() == "A";
+        return entity.component<String>()->value == "A";
     });
     REQUIRE(iter);
     REQUIRE(iter == a);
 
     iter = d->findFirstAncestor([](const Entity& entity)
     {
-        return entity.name() == "E";
+        return entity.component<String>()->value == "E";
     });
     REQUIRE(!iter);
 }
@@ -1313,23 +1331,29 @@ TEST_CASE("Scene_EntityFindFirstAncestor")
 TEST_CASE("Scene_EntityFindAncestors")
 {
     Scene scene;
+    scene.registerComponent<String>("String");
 
-    Entity::Iter a = scene.createEntity("A");
+    Entity::Iter a = scene.createEntity();
+    a->addComponent(String("A"));
 
-    Entity::Iter b = scene.createEntity("B");
+    Entity::Iter b = scene.createEntity();
+    b->addComponent(String("B"));
     a->addChild(*b);
 
-    Entity::Iter c = scene.createEntity("C");
+    Entity::Iter c = scene.createEntity();
+    c->addComponent(String("C"));
     a->addChild(*c);
 
-    Entity::Iter d = scene.createEntity("D");
+    Entity::Iter d = scene.createEntity();
+    d->addComponent(String("D"));
     c->addChild(*d);
 
     a->activate();
 
     Entity::Iter::Array iters = d->findAncestors([](const Entity& entity)
     {
-        return entity.name() == "C" || entity.name() == "A";
+        return entity.component<String>()->value == "C" ||
+               entity.component<String>()->value == "A";
     });
     REQUIRE(iters.size() == 2);
     REQUIRE(iters[0] == c);
@@ -1337,14 +1361,14 @@ TEST_CASE("Scene_EntityFindAncestors")
 
     iters = d->findAncestors([](const Entity& entity)
     {
-        return entity.name() == "A";
+        return entity.component<String>()->value == "A";
     });
     REQUIRE(iters.size() == 1);
     REQUIRE(iters[0] == a);
 
     iters = d->findAncestors([](const Entity& entity)
     {
-        return entity.name() == "E";
+        return entity.component<String>()->value == "E";
     });
     REQUIRE(iters.size() == 0);
 }
@@ -1352,6 +1376,7 @@ TEST_CASE("Scene_EntityFindAncestors")
 TEST_CASE("Scene_CreateEntityHandle")
 {
     Scene scene;
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 
@@ -1368,6 +1393,7 @@ TEST_CASE("Scene_CreateEntityHandle")
 TEST_CASE("Scene_CopyEntityHandle")
 {
     Scene scene;
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 

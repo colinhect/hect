@@ -475,12 +475,10 @@ public:
     ///
     /// Clones the entity.
     ///
-    /// \param name The name of the cloned entity.
-    ///
     /// \returns An iterator to the cloned entity.
     ///
     /// \throws Error If the entity is invalid.
-    Entity::Iter clone(const std::string& name = std::string()) const;
+    Entity::Iter clone() const;
 
     ///
     /// Destroys the entity and all of its children.
@@ -502,17 +500,7 @@ public:
     ///
     /// Returns the id of the entity.
     EntityId id() const;
-
-    ///
-    /// Returns the name of the entity.
-    const std::string& name() const;
-
-    ///
-    /// Sets the name of the entity.
-    ///
-    /// \param name The new name of the entity.
-    void setName(const std::string& name);
-
+    
     ///
     /// Returns an iterator to the parent entity (invalid iterator if the
     /// entity does not have a parent).
@@ -681,7 +669,6 @@ private:
     EntityId _id;
     EntityId _parentId;
     std::vector<EntityId> _childIds;
-    std::string _name;
     bool _activated;
 };
 
