@@ -23,51 +23,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-
-#include <cassert>
+#include "Hect/Debug/DebugRenderLayer.h"
 
 namespace hect
 {
-///
-/// A component-related event type.
-namespace ComponentEventType
-{
-enum Enum
-{
-    ///
-    /// A component was added.
-    Add,
 
     ///
-    /// A component was removed.
-    Remove
-};
-}
+    /// Renders the bounding boxes of each activated entity in the scene.
+    class BoundingBoxDebugRenderLayer :
+        public DebugRenderLayer
+    {
+    public:
+        BoundingBoxDebugRenderLayer(AssetCache& assetCache);
 
-class Entity;
+        void render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target);
 
-///
-/// A component-related event.
-template <typename T>
-class ComponentEvent
-{
-public:
-    ComponentEvent(ComponentEventType::Enum type, Entity& entity);
-
-    ///
-    /// Returns the event type.
-    ComponentEventType::Enum type() const;
-
-    ///
-    /// Returns a reference to the entity that the event is for.
-    Entity& entity() const;
-
-private:
-    ComponentEventType::Enum _type;
-    mutable Entity* _entity;
-};
+    private:
+        AssetHandle<Material> _coloredLineMaterial;
+        AssetHandle<Mesh> _boundingBoxMesh;
+    };
 
 }
-
-#include "ComponentEvent.inl"

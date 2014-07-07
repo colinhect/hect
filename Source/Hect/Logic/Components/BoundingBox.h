@@ -23,51 +23,40 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-
-#include <cassert>
+#include "Hect/Logic/Component.h"
+#include "Hect/Math/AxisAlignedBox.h"
+#include "Hect/Math/Vector3.h"
+#include "Hect/Math/Matrix4.h"
+#include "Hect/Math/Quaternion.h"
 
 namespace hect
 {
-///
-/// A component-related event type.
-namespace ComponentEventType
-{
-enum Enum
-{
-    ///
-    /// A component was added.
-    Add,
-
-    ///
-    /// A component was removed.
-    Remove
-};
-}
-
-class Entity;
 
 ///
-/// A component-related event.
-template <typename T>
-class ComponentEvent
+/// The bounds of an entity.
+class BoundingBox :
+    public Component<BoundingBox>
 {
 public:
-    ComponentEvent(ComponentEventType::Enum type, Entity& entity);
+    BoundingBox();
 
     ///
-    /// Returns the event type.
-    ComponentEventType::Enum type() const;
+    /// Returns the bounds as an axis aligned box.
+    AxisAlignedBox& axisAlignedBox();
 
     ///
-    /// Returns a reference to the entity that the event is for.
-    Entity& entity() const;
+    /// Returns the bounds as an axis aligned box.
+    const AxisAlignedBox& axisAlignedBox() const;
+
+    ///
+    /// Sets the bounds from an axis aligned box.
+    void setAxisAlignedBox(const AxisAlignedBox& box);
+
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    ComponentEventType::Enum _type;
-    mutable Entity* _entity;
+    AxisAlignedBox _axisAlignedBox;
 };
 
 }
-
-#include "ComponentEvent.inl"

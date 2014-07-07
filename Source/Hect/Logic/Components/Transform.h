@@ -79,6 +79,10 @@ public:
     const Vector3& position() const;
 
     ///
+    /// Returns the global position.
+    const Vector3& globalPosition() const;
+
+    ///
     /// Sets the position.
     ///
     /// \param position The new position.
@@ -89,6 +93,10 @@ public:
     const Vector3& scale() const;
 
     ///
+    /// Returns the global scale.
+    const Vector3& globalScale() const;
+
+    ///
     /// Sets the scale.
     ///
     /// \param scale The new scale.
@@ -97,6 +105,10 @@ public:
     ///
     /// Returns the rotation.
     const Quaternion& rotation() const;
+
+    ///
+    /// Returns the global rotation.
+    const Quaternion& globalRotation() const;
 
     ///
     /// Sets the rotation.

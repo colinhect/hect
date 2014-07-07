@@ -21,53 +21,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "BoundingBox.h"
 
-#include "Hect/Core/Dispatcher.h"
+using namespace hect;
 
-#include <cassert>
-
-namespace hect
+BoundingBox::BoundingBox()
 {
-///
-/// A component-related event type.
-namespace ComponentEventType
-{
-enum Enum
-{
-    ///
-    /// A component was added.
-    Add,
-
-    ///
-    /// A component was removed.
-    Remove
-};
 }
 
-class Entity;
-
-///
-/// A component-related event.
-template <typename T>
-class ComponentEvent
+AxisAlignedBox& BoundingBox::axisAlignedBox()
 {
-public:
-    ComponentEvent(ComponentEventType::Enum type, Entity& entity);
-
-    ///
-    /// Returns the event type.
-    ComponentEventType::Enum type() const;
-
-    ///
-    /// Returns a reference to the entity that the event is for.
-    Entity& entity() const;
-
-private:
-    ComponentEventType::Enum _type;
-    mutable Entity* _entity;
-};
-
+    return _axisAlignedBox;
 }
 
-#include "ComponentEvent.inl"
+const AxisAlignedBox& BoundingBox::axisAlignedBox() const
+{
+    return _axisAlignedBox;
+}
+
+void BoundingBox::setAxisAlignedBox(const AxisAlignedBox& box)
+{
+    _axisAlignedBox = box;
+}
+
+void BoundingBox::encode(ObjectEncoder& encoder) const
+{
+    encoder;
+}
+
+void BoundingBox::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+{
+    decoder;
+    assetCache;
+}

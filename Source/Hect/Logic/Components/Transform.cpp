@@ -81,6 +81,11 @@ const Vector3& Transform::position() const
     return _position;
 }
 
+const Vector3& Transform::globalPosition() const
+{
+    return _globalPosition;
+}
+
 void Transform::setPosition(const Vector3& position)
 {
     _position = position;
@@ -92,6 +97,11 @@ const Vector3& Transform::scale() const
     return _scale;
 }
 
+const Vector3& Transform::globalScale() const
+{
+    return _globalScale;
+}
+
 void Transform::setScale(const Vector3& scale)
 {
     _scale = scale;
@@ -101,6 +111,11 @@ void Transform::setScale(const Vector3& scale)
 const Quaternion& Transform::rotation() const
 {
     return _rotation;
+}
+
+const Quaternion& Transform::globalRotation() const
+{
+    return _globalRotation;
 }
 
 void Transform::setRotation(const Quaternion& rotation)

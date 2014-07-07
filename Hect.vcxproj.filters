@@ -409,6 +409,12 @@
     <ClInclude Include="Source\Hect\Logic\Systems\TransformSystem.h">
       <Filter>Source\Hect\Logic\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Components\BoundingBox.h">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.h">
+      <Filter>Source\Hect\Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
@@ -707,6 +713,12 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Systems\TransformSystem.cpp">
       <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Components\BoundingBox.cpp">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.cpp">
+      <Filter>Source\Hect\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -21,31 +21,45 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "BoundingBoxDebugRenderLayer.h"
 
-#include "Hect/Logic/System.h"
-#include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
 #include "Hect/Logic/Components/Transform.h"
 
-namespace hect
+using namespace hect;
+
+BoundingBoxDebugRenderLayer::BoundingBoxDebugRenderLayer(AssetCache& assetCache)
 {
+    _coloredLineMaterial = assetCache.getHandle<Material>("Hect/Debug/ColoredLine.material");
+    _boundingBoxMesh = assetCache.getHandle<Mesh>("Hect/Debug/BoundingBox.mesh");
+}
 
-///
-/// Updates the transform hierarchies of the scene.
-class TransformSystem :
-    public System
+void BoundingBoxDebugRenderLayer::render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target)
 {
-public:
-    TransformSystem(Scene& scene);
+    auto camera = renderSystem.activeCamera();
+    if (camera)
+    {
+        Renderer& renderer = renderSystem.renderer();
+        renderer.beginFrame();
+        renderer.bindTarget(target);
 
-    ///
-    /// Updates the global transforms of all transforms.
-    void update();
+        for (BoundingBox& boundingBox : scene.components<BoundingBox>())
+        {
+            const AxisAlignedBox& box = boundingBox.axisAlignedBox();
+            Vector3 minimum = box.minimum();
+            Vector3 maximum = box.maximum();
+            Vector3 scale = maximum - minimum;
+            Vector3 center = minimum + scale / 2;
 
-private:
-    void _updateTransform(Entity& parent, Entity& child);
-    void _resizeBoundingBox(Entity& entity, Transform& transform, BoundingBox& boundingBox);
-};
+            Transform transform;
+            transform.setPosition(center);
+            transform.setScale(scale);
+            transform.updateGlobalTransform();
 
+            renderSystem.renderMesh(*camera, target, *_coloredLineMaterial, *_boundingBoxMesh, transform);
+        }
+
+        renderer.endFrame();
+    }
 }

@@ -58,6 +58,12 @@ public:
     void expandToInclude(const AxisAlignedBox& box);
 
     ///
+    /// Translates the box's center.
+    ///
+    /// \param translation The translation to perform.
+    void translate(const Vector3& translation);
+
+    ///
     /// Returns the minimum point.
     const Vector3& minimum() const;
 

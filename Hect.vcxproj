@@ -38,6 +38,7 @@
     <ClInclude Include="Source\Hect\Core\Timer.h" />
     <ClInclude Include="Source\Hect\Core\TimeSpan.h" />
     <ClInclude Include="Source\Hect\Core\Uncopyable.h" />
+    <ClInclude Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.h" />
     <ClInclude Include="Source\Hect\Debug\DebugRenderLayer.h" />
     <ClInclude Include="Source\Hect\Debug\TransformDebugRenderLayer.h" />
     <ClInclude Include="Source\Hect\Graphics\FrameBuffer.h" />
@@ -97,6 +98,7 @@
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentPool.h" />
     <ClInclude Include="Source\Hect\Logic\Components\AmbientLight.h" />
+    <ClInclude Include="Source\Hect\Logic\Components\BoundingBox.h" />
     <ClInclude Include="Source\Hect\Logic\Components\Camera.h" />
     <ClInclude Include="Source\Hect\Logic\Components\DirectionalLight.h" />
     <ClInclude Include="Source\Hect\Logic\Components\Geometry.h" />
@@ -142,6 +144,7 @@
     <ClCompile Include="Source\Hect\Core\Timer.cpp" />
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp" />
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp" />
+    <ClCompile Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.cpp" />
     <ClCompile Include="Source\Hect\Debug\DebugRenderLayer.cpp" />
     <ClCompile Include="Source\Hect\Debug\TransformDebugRenderLayer.cpp" />
     <ClCompile Include="Source\Hect\Generated\_hect_reflect.cpp" />
@@ -205,6 +208,7 @@
     <ClCompile Include="Source\Hect\IO\Encodable.cpp" />
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
     <ClCompile Include="Source\Hect\Logic\Components\AmbientLight.cpp" />
+    <ClCompile Include="Source\Hect\Logic\Components\BoundingBox.cpp" />
     <ClCompile Include="Source\Hect\Logic\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Logic\Components\DirectionalLight.cpp" />
     <ClCompile Include="Source\Hect\Logic\Components\Geometry.cpp" />

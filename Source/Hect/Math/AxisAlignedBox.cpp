@@ -60,6 +60,12 @@ void AxisAlignedBox::expandToInclude(const AxisAlignedBox& box)
     _mergeMaximum(box._maximum);
 }
 
+void AxisAlignedBox::translate(const Vector3& translation)
+{
+    _minimum += translation;
+    _maximum += translation;
+}
+
 const Vector3& AxisAlignedBox::minimum() const
 {
     return _minimum;

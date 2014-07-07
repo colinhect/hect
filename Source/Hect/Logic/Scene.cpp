@@ -28,6 +28,7 @@
 #include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/Components/Geometry.h"
 #include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Components/BoundingBox.h"
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/IO/JsonDecoder.h"
 
@@ -45,6 +46,7 @@ Scene::Scene() :
     registerComponent<Camera>("Camera");
     registerComponent<Geometry>("Geometry");
     registerComponent<Transform>("Transform");
+    registerComponent<BoundingBox>("BoundingBox");
     registerComponent<RigidBody>("RigidBody");
 }
 
