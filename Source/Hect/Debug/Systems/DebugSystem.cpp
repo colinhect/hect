@@ -21,30 +21,43 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "DebugSystem.h"
 
-#include "Hect/Graphics/Components/Camera.h"
-#include "Hect/Graphics/Systems/RenderSystem.h"
-#include "Hect/Math/Vector3.h"
+using namespace hect;
 
-namespace hect
+DebugSystem::DebugSystem(Scene& scene) :
+    System(scene)
 {
+}
 
-///
-/// Provides the functionality for rendering debug information.
-class DebugRenderSystem :
-    public RenderSystem
+void DebugSystem::addRenderLayer(Key::Enum toggleKey, DebugRenderLayer* renderLayer)
 {
-public:
-    DebugRenderSystem(Scene& scene, Renderer& renderer, AssetCache& assetCache);
+    assert(renderLayer);
+    renderLayer->setToggleKey(toggleKey);
+    _renderLayers.push_back(std::shared_ptr<DebugRenderLayer>(renderLayer));
+}
 
-    void renderAllLayers(Camera& camera, RenderTarget& target);
+void DebugSystem::renderActivatedRenderLayers(RenderSystem& renderSystem, Camera& camera, RenderTarget& target)
+{
+    for (auto& renderLayer : _renderLayers)
+    {
+        if (renderLayer->isActivated())
+        {
+            renderLayer->render(scene(), renderSystem, camera, target);
+        }
+    }
+}
 
-private:
-    Renderer* _renderer;
-
-    AssetHandle<Material> _coloredLineMaterial;
-    AssetHandle<Mesh> _transformMesh;
-};
-
+void DebugSystem::receiveEvent(const KeyboardEvent& event)
+{
+    if (event.type == KeyboardEventType::KeyDown)
+    {
+        for (auto& renderLayer : _renderLayers)
+        {
+            if (renderLayer->toggleKey() == event.key)
+            {
+                renderLayer->toggleActivated();
+            }
+        }
+    }
 }

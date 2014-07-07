@@ -23,37 +23,42 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/System.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/Components/Camera.h"
+#include "Hect/Core/Listener.h"
+#include "Hect/Input/Keyboard.h"
+#include "Hect/Debug/DebugRenderLayer.h"
 
 namespace hect
 {
 
 ///
-/// Provides basic rendering.
-class RenderSystem :
-    public System
+/// Provides functionality useful for debugging.
+class DebugSystem :
+    public System,
+    public Listener<KeyboardEvent>
 {
 public:
-    RenderSystem(Scene& scene, Renderer& renderer);
+    DebugSystem(Scene& scene);
 
     ///
-    /// Renders all visible entities.
+    /// Adds a debug render layer to the system.
     ///
+    /// \param toggleKey The key which toggles the render layer.
+    /// \param renderLayer The debug render layer (the debug system takes
+    /// ownership of this pointer).
+    void addRenderLayer(Key::Enum toggleKey, DebugRenderLayer* renderLayer);
+
+    ///
+    /// Renders all activated debug render layers.
+    ///
+    /// \param renderSystem The render system to use.
     /// \param camera The camera to render from.
-    /// \param target The target to render to.
-    virtual void renderAll(Camera& camera, RenderTarget& target);
+    /// \param target The render target to render to.
+    void renderActivatedRenderLayers(RenderSystem& renderSystem, Camera& camera, RenderTarget& target);
 
-    void render(Camera& camera, RenderTarget& target, Entity& entity);
-    void renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform);
-    void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
-
-    Renderer& renderer();
+    void receiveEvent(const KeyboardEvent& event);
 
 private:
-    Renderer* _renderer;
+    std::vector<std::shared_ptr<DebugRenderLayer>> _renderLayers;
 };
 
 }

@@ -83,6 +83,12 @@
     <Filter Include="Source\Hect\Generated">
       <UniqueIdentifier>{f7e2ebf6-e28d-465f-9c88-432fdf238f3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Hect\Debug">
+      <UniqueIdentifier>{ac0b775d-5eba-4880-b4ac-df136be6b3d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hect\Debug\Systems">
+      <UniqueIdentifier>{34be9412-b5d5-4512-8262-10530f3b56f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Hect\Asset\AssetCache.h">
@@ -409,8 +415,14 @@
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Systems\DebugRenderSystem.h">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
+    <ClInclude Include="Source\Hect\Debug\Systems\DebugSystem.h">
+      <Filter>Source\Hect\Debug\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Debug\TransformDebugRenderLayer.h">
+      <Filter>Source\Hect\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Debug\DebugRenderLayer.h">
+      <Filter>Source\Hect\Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -705,8 +717,14 @@
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Systems\DebugRenderSystem.cpp">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
+    <ClCompile Include="Source\Hect\Debug\Systems\DebugSystem.cpp">
+      <Filter>Source\Hect\Debug\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Debug\TransformDebugRenderLayer.cpp">
+      <Filter>Source\Hect\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Debug\DebugRenderLayer.cpp">
+      <Filter>Source\Hect\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

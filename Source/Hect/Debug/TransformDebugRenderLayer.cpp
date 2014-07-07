@@ -21,39 +21,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "TransformDebugRenderLayer.h"
 
-#include "Hect/Logic/System.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/Components/Camera.h"
+#include "Hect/Logic/Scene.h"
+#include "Hect/Graphics/Components/Transform.h"
 
-namespace hect
+using namespace hect;
+
+TransformDebugRenderLayer::TransformDebugRenderLayer(AssetCache& assetCache)
 {
+    _coloredLineMaterial = assetCache.getHandle<Material>("Hect/Debug/ColoredLine.material");
+    _transformMesh = assetCache.getHandle<Mesh>("Hect/Debug/Transform.mesh");
+}
 
-///
-/// Provides basic rendering.
-class RenderSystem :
-    public System
+void TransformDebugRenderLayer::render(Scene& scene, RenderSystem& renderSystem, Camera& camera, RenderTarget& target)
 {
-public:
-    RenderSystem(Scene& scene, Renderer& renderer);
+    Renderer& renderer = renderSystem.renderer();
+    renderer.beginFrame();
+    renderer.bindTarget(target);
 
-    ///
-    /// Renders all visible entities.
-    ///
-    /// \param camera The camera to render from.
-    /// \param target The target to render to.
-    virtual void renderAll(Camera& camera, RenderTarget& target);
+    for (Transform& transform : scene.components<Transform>())
+    {
+        renderSystem.renderMesh(camera, target, *_coloredLineMaterial, *_transformMesh, transform);
+    }
 
-    void render(Camera& camera, RenderTarget& target, Entity& entity);
-    void renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform);
-    void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
-
-    Renderer& renderer();
-
-private:
-    Renderer* _renderer;
-};
-
+    renderer.endFrame();
 }

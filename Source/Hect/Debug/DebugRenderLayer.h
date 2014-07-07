@@ -23,37 +23,51 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/System.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/Renderer.h"
+#include "Hect/Input/Keyboard.h"
 #include "Hect/Graphics/Components/Camera.h"
+#include "Hect/Graphics/Systems/RenderSystem.h"
 
 namespace hect
 {
 
 ///
-/// Provides basic rendering.
-class RenderSystem :
-    public System
+/// Renders an aspect of debug information.
+class DebugRenderLayer
 {
 public:
-    RenderSystem(Scene& scene, Renderer& renderer);
+    DebugRenderLayer();
+    virtual ~DebugRenderLayer();
 
     ///
-    /// Renders all visible entities.
+    /// Returns whether the layer is activated.
+    bool isActivated() const;
+
     ///
+    /// Toggles whether the layer is activated.
+    void toggleActivated();
+
+    ///
+    /// Returns the key which toggles the layer.
+    Key::Enum toggleKey() const;
+
+    ///
+    /// Sets the key which toggles the layer.
+    ///
+    /// \param key The new key which layer the indicator.
+    void setToggleKey(Key::Enum key);
+
+    ///
+    /// Renders the debug render layer.
+    ///
+    /// \param scene The scene.
+    /// \param renderSystem The render system to use.
     /// \param camera The camera to render from.
-    /// \param target The target to render to.
-    virtual void renderAll(Camera& camera, RenderTarget& target);
-
-    void render(Camera& camera, RenderTarget& target, Entity& entity);
-    void renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform);
-    void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
-
-    Renderer& renderer();
+    /// \param target The render target to render to.
+    virtual void render(Scene& scene, RenderSystem& renderSystem, Camera& camera, RenderTarget& target) = 0;
 
 private:
-    Renderer* _renderer;
+    bool _activated;
+    Key::Enum _toggleKey;
 };
 
 }

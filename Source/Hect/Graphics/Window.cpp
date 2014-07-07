@@ -97,6 +97,31 @@ Key::Enum _convertKey(SDL_Keycode key)
     case SDLK_TAB:
         return Key::Tab;
 
+    case SDLK_F1:
+        return Key::F1;
+    case SDLK_F2:
+        return Key::F2;
+    case SDLK_F3:
+        return Key::F3;
+    case SDLK_F4:
+        return Key::F4;
+    case SDLK_F5:
+        return Key::F5;
+    case SDLK_F6:
+        return Key::F6;
+    case SDLK_F7:
+        return Key::F7;
+    case SDLK_F8:
+        return Key::F8;
+    case SDLK_F9:
+        return Key::F9;
+    case SDLK_F10:
+        return Key::F10;
+    case SDLK_F11:
+        return Key::F11;
+    case SDLK_F12:
+        return Key::F12;
+
     case SDLK_LCTRL:
         return Key::LeftCtrl;
     case SDLK_LSHIFT:

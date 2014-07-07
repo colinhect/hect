@@ -67,11 +67,7 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity)
                 Mesh& mesh = *geometry->meshes()[surfaceIndex];
                 Material& material = *geometry->materials()[surfaceIndex];
 
-                // Render the mesh for each pass
-                for (const Pass& pass : material.techniques()[0].passes())
-                {
-                    renderMeshPass(camera, target, pass, mesh, *transform);
-                }
+                renderMesh(camera, target, material, mesh, *transform);
             }
 
             for (Entity& child : entity.children())
@@ -79,6 +75,15 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity)
                 render(camera, target, child);
             }
         }
+    }
+}
+
+void RenderSystem::renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform)
+{
+    // Render the mesh for each pass
+    for (const Pass& pass : material.techniques()[0].passes())
+    {
+        renderMeshPass(camera, target, pass, mesh, transform);
     }
 }
 
@@ -135,4 +140,10 @@ void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& targ
     // Bind and draw the mesh
     _renderer->bindMesh(mesh);
     _renderer->draw();
+}
+
+Renderer& RenderSystem::renderer()
+{
+    assert(_renderer);
+    return *_renderer;
 }

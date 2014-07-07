@@ -21,36 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "DebugRenderSystem.h"
+#pragma once
 
-#include "Hect/Logic/Scene.h"
-#include "Hect/Graphics/MeshWriter.h"
-#include "Hect/Graphics/Components/Transform.h"
+#include "Hect/Debug/DebugRenderLayer.h"
 
-using namespace hect;
-
-DebugRenderSystem::DebugRenderSystem(Scene& scene, Renderer& renderer, AssetCache& assetCache) :
-    RenderSystem(scene, renderer),
-    _renderer(&renderer)
+namespace hect
 {
-    _coloredLineMaterial = assetCache.getHandle<Material>("Hect/Debug/ColoredLine.material");
-    _transformMesh = assetCache.getHandle<Mesh>("Hect/Debug/Transform.mesh");
-}
 
-void DebugRenderSystem::renderAllLayers(Camera& camera, RenderTarget& target)
+///
+/// Renders the transforms of each activated entity in the scene.
+class TransformDebugRenderLayer :
+    public DebugRenderLayer
 {
-    camera;
+public:
+    TransformDebugRenderLayer(AssetCache& assetCache);
 
-    _renderer->beginFrame();
-    _renderer->bindTarget(target);
+    void render(Scene& scene, RenderSystem& renderSystem, Camera& camera, RenderTarget& target);
 
-    for (Transform& transform : scene().components<Transform>())
-    {
-        for (const Pass& pass : _coloredLineMaterial->techniques()[0].passes())
-        {
-            renderMeshPass(camera, target, pass, *_transformMesh, transform);
-        }
-    }
+private:
+    AssetHandle<Material> _coloredLineMaterial;
+    AssetHandle<Mesh> _transformMesh;
+};
 
-    _renderer->endFrame();
 }

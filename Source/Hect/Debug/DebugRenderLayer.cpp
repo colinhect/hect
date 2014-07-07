@@ -21,39 +21,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "DebugRenderLayer.h"
 
-#include "Hect/Logic/System.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/Components/Camera.h"
+using namespace hect;
 
-namespace hect
+DebugRenderLayer::DebugRenderLayer() :
+    _activated(false),
+    _toggleKey(Key::Unknown)
 {
+}
 
-///
-/// Provides basic rendering.
-class RenderSystem :
-    public System
+DebugRenderLayer::~DebugRenderLayer()
 {
-public:
-    RenderSystem(Scene& scene, Renderer& renderer);
+}
 
-    ///
-    /// Renders all visible entities.
-    ///
-    /// \param camera The camera to render from.
-    /// \param target The target to render to.
-    virtual void renderAll(Camera& camera, RenderTarget& target);
+bool DebugRenderLayer::isActivated() const
+{
+    return _activated;
+}
 
-    void render(Camera& camera, RenderTarget& target, Entity& entity);
-    void renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform);
-    void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
+void DebugRenderLayer::toggleActivated()
+{
+    _activated = !_activated;
+}
 
-    Renderer& renderer();
+Key::Enum DebugRenderLayer::toggleKey() const
+{
+    return _toggleKey;
+}
 
-private:
-    Renderer* _renderer;
-};
-
+void DebugRenderLayer::setToggleKey(Key::Enum key)
+{
+    _toggleKey = key;
 }
