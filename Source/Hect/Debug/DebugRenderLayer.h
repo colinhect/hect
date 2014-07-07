@@ -61,9 +61,8 @@ public:
     ///
     /// \param scene The scene.
     /// \param renderSystem The render system to use.
-    /// \param camera The camera to render from.
     /// \param target The render target to render to.
-    virtual void render(Scene& scene, RenderSystem& renderSystem, Camera& camera, RenderTarget& target) = 0;
+    virtual void render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target) = 0;
 
 private:
     bool _activated;

@@ -34,16 +34,20 @@ TransformDebugRenderLayer::TransformDebugRenderLayer(AssetCache& assetCache)
     _transformMesh = assetCache.getHandle<Mesh>("Hect/Debug/Transform.mesh");
 }
 
-void TransformDebugRenderLayer::render(Scene& scene, RenderSystem& renderSystem, Camera& camera, RenderTarget& target)
+void TransformDebugRenderLayer::render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target)
 {
-    Renderer& renderer = renderSystem.renderer();
-    renderer.beginFrame();
-    renderer.bindTarget(target);
-
-    for (Transform& transform : scene.components<Transform>())
+    auto camera = renderSystem.activeCamera();
+    if (camera)
     {
-        renderSystem.renderMesh(camera, target, *_coloredLineMaterial, *_transformMesh, transform);
-    }
+        Renderer& renderer = renderSystem.renderer();
+        renderer.beginFrame();
+        renderer.bindTarget(target);
 
-    renderer.endFrame();
+        for (Transform& transform : scene.components<Transform>())
+        {
+            renderSystem.renderMesh(*camera, target, *_coloredLineMaterial, *_transformMesh, transform);
+        }
+
+        renderer.endFrame();
+    }
 }

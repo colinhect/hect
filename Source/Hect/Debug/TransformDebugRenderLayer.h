@@ -36,7 +36,7 @@ class TransformDebugRenderLayer :
 public:
     TransformDebugRenderLayer(AssetCache& assetCache);
 
-    void render(Scene& scene, RenderSystem& renderSystem, Camera& camera, RenderTarget& target);
+    void render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target);
 
 private:
     AssetHandle<Material> _coloredLineMaterial;

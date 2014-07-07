@@ -53,9 +53,8 @@ public:
     PhysicsSystem(Scene& scene, TaskPool& taskPool);
     ~PhysicsSystem();
 
-    void asynchronousUpdate(Real timeStep, unsigned maxSubStepCount);
-
-    void updateTransforms();
+    void beginAsynchronousUpdate(Real timeStep, unsigned maxSubStepCount);
+    void endAsynchronousUpdate();
 
     ///
     /// Returns the gravity.

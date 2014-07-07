@@ -37,13 +37,13 @@ void DebugSystem::addRenderLayer(Key::Enum toggleKey, DebugRenderLayer* renderLa
     _renderLayers.push_back(std::shared_ptr<DebugRenderLayer>(renderLayer));
 }
 
-void DebugSystem::renderActivatedRenderLayers(RenderSystem& renderSystem, Camera& camera, RenderTarget& target)
+void DebugSystem::renderActivatedRenderLayers(RenderSystem& renderSystem, RenderTarget& target)
 {
     for (auto& renderLayer : _renderLayers)
     {
         if (renderLayer->isActivated())
         {
-            renderLayer->render(scene(), renderSystem, camera, target);
+            renderLayer->render(scene(), renderSystem, target);
         }
     }
 }

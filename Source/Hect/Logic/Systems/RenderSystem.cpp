@@ -36,37 +36,49 @@ RenderSystem::RenderSystem(Scene& scene, Renderer& renderer) :
 {
 }
 
+void RenderSystem::updateActiveCamera()
+{
+    Component<Camera>::Iter camera = activeCamera();
+    if (camera)
+    {
+        Entity& entity = camera->entity();
+        auto transform = entity.component<Transform>();
+        if (transform)
+        {
+            camera->transformTo(*transform);
+        }
+    }    
+}
+
 Component<Camera>::Iter RenderSystem::activeCamera()
 {
     return scene().components<Camera>().begin();
 }
 
-void RenderSystem::renderAll(Camera& camera, RenderTarget& target)
+void RenderSystem::renderAll(RenderTarget& target)
 { 
-    // Update transform of active camera
-    Entity& entity = camera.entity();
-    auto transform = entity.component<Transform>();
-    if (transform)
+    Component<Camera>::Iter camera = activeCamera();
+    if (camera)
     {
-        camera.transformTo(*transform);
-    }
+        camera->setAspectRatio(target.aspectRatio());
 
-    // Begin the frame and clear the target
-    _renderer->beginFrame();
-    _renderer->bindTarget(target);
-    _renderer->clear();
+        // Begin the frame and clear the target
+        _renderer->beginFrame();
+        _renderer->bindTarget(target);
+        _renderer->clear();
 
-    // Render each entity in hierarchical order
-    for (Entity& entity : scene().entities())
-    {
-        if (!entity.parent())
+        // Render each entity in hierarchical order
+        for (Entity& entity : scene().entities())
         {
-            render(camera, target, entity);
+            if (!entity.parent())
+            {
+                render(*camera, target, entity);
+            }
         }
-    }
 
-    // End the frame
-    _renderer->endFrame();
+        // End the frame
+        _renderer->endFrame();
+    }
 }
 
 void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity)

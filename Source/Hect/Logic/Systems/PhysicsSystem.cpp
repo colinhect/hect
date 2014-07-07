@@ -56,7 +56,7 @@ PhysicsSystem::~PhysicsSystem()
     rigidBodyPool.dispatcher().removeListener(*this);
 }
 
-void PhysicsSystem::asynchronousUpdate(Real timeStep, unsigned maxSubStepCount)
+void PhysicsSystem::beginAsynchronousUpdate(Real timeStep, unsigned maxSubStepCount)
 {
     // Wait until the last update (if any) completes
     _updateTask.wait();
@@ -68,7 +68,7 @@ void PhysicsSystem::asynchronousUpdate(Real timeStep, unsigned maxSubStepCount)
     });
 }
 
-void PhysicsSystem::updateTransforms()
+void PhysicsSystem::endAsynchronousUpdate()
 {
     // Wait until the last update (if any) completes
     _updateTask.wait();
@@ -80,7 +80,8 @@ void PhysicsSystem::updateTransforms()
         if (!entity.parent() && entity.component<Transform>())
         {
             // Update the transform to what Bullet says it should be
-            btTransform& bulletTransform = rigidBody._rigidBody->getWorldTransform();
+            btTransform bulletTransform;
+            ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
             entity.replaceComponent(convertFromBullet(bulletTransform));
         }
     }

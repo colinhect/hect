@@ -39,6 +39,8 @@ class RenderSystem :
 public:
     RenderSystem(Scene& scene, Renderer& renderer);
     
+    void updateActiveCamera();
+
     ///
     /// Returns the active camera in the scene.
     Component<Camera>::Iter activeCamera();
@@ -46,9 +48,8 @@ public:
     ///
     /// Renders all visible entities.
     ///
-    /// \param camera The camera to render from.
     /// \param target The target to render to.
-    virtual void renderAll(Camera& camera, RenderTarget& target);
+    virtual void renderAll( RenderTarget& target);
 
     void render(Camera& camera, RenderTarget& target, Entity& entity);
     void renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform);

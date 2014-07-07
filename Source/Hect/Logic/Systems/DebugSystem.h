@@ -51,9 +51,8 @@ public:
     /// Renders all activated debug render layers.
     ///
     /// \param renderSystem The render system to use.
-    /// \param camera The camera to render from.
     /// \param target The render target to render to.
-    void renderActivatedRenderLayers(RenderSystem& renderSystem, Camera& camera, RenderTarget& target);
+    void renderActivatedRenderLayers(RenderSystem& renderSystem, RenderTarget& target);
 
     void receiveEvent(const KeyboardEvent& event);
 
