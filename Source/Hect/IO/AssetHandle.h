@@ -26,7 +26,7 @@
 #include <memory>
 #include <vector>
 
-#include "Hect/Asset/AssetEntry.h"
+#include "Hect/IO/AssetEntry.h"
 #include "Hect/IO/Path.h"
 
 namespace hect

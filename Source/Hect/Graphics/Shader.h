@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Asset/AssetHandle.h"
+#include "Hect/IO/AssetHandle.h"
 #include "Hect/Graphics/Uniform.h"
 #include "Hect/Graphics/ShaderModule.h"
 #include "Hect/IO/Encodable.h"

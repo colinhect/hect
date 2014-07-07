@@ -19,10 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Hect\Asset\AssetCache.h" />
-    <ClInclude Include="Source\Hect\Asset\AssetEntry.h" />
-    <ClInclude Include="Source\Hect\Asset\AssetHandle.h" />
-    <ClInclude Include="Source\Hect\Asset\AssetLoader.h" />
     <ClInclude Include="Source\Hect\Core\Any.h" />
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\Dispatcher.h" />
@@ -68,6 +64,10 @@
     <ClInclude Include="Source\Hect\Input\Keyboard.h" />
     <ClInclude Include="Source\Hect\Input\Mouse.h" />
     <ClInclude Include="Source\Hect\Internal\Bullet.h" />
+    <ClInclude Include="Source\Hect\IO\AssetCache.h" />
+    <ClInclude Include="Source\Hect\IO\AssetEntry.h" />
+    <ClInclude Include="Source\Hect\IO\AssetHandle.h" />
+    <ClInclude Include="Source\Hect\IO\AssetLoader.h" />
     <ClInclude Include="Source\Hect\IO\BinaryDecoder.h" />
     <ClInclude Include="Source\Hect\IO\BinaryEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Decoder.h" />
@@ -133,7 +133,6 @@
     <ClInclude Include="Source\Hect\Reflection\Enum.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Hect\Asset\AssetCache.cpp" />
     <ClCompile Include="Source\Hect\Core\Any.cpp" />
     <ClCompile Include="Source\Hect\Core\Error.cpp" />
     <ClCompile Include="Source\Hect\Core\Format.cpp" />
@@ -181,6 +180,7 @@
     <ClCompile Include="Source\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="Source\Hect\Input\Mouse.cpp" />
     <ClCompile Include="Source\Hect\Internal\Bullet.cpp" />
+    <ClCompile Include="Source\Hect\IO\AssetCache.cpp" />
     <ClCompile Include="Source\Hect\IO\BinaryDecoder.cpp" />
     <ClCompile Include="Source\Hect\IO\BinaryEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Decoder.cpp" />
@@ -236,12 +236,12 @@
     <ClCompile Include="Source\Hect\Noise\Random.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Hect\Asset\AssetCache.inl" />
-    <None Include="Source\Hect\Asset\AssetEntry.inl" />
-    <None Include="Source\Hect\Asset\AssetHandle.inl" />
     <None Include="Source\Hect\Core\Any.inl" />
     <None Include="Source\Hect\Core\Dispatcher.inl" />
     <None Include="Source\Hect\Core\IdPool.inl" />
+    <None Include="Source\Hect\IO\AssetCache.inl" />
+    <None Include="Source\Hect\IO\AssetEntry.inl" />
+    <None Include="Source\Hect\IO\AssetHandle.inl" />
     <None Include="Source\Hect\IO\Decoder.inl" />
     <None Include="Source\Hect\IO\Encoder.inl" />
     <None Include="Source\Hect\Logic\Component.inl" />

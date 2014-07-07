@@ -21,8 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/Asset/AssetCache.h"
-#include "Hect/Asset/AssetLoader.h"
+#include "Hect/IO/AssetCache.h"
+#include "Hect/IO/AssetLoader.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/IO/Path.h"
 #include "Hect/IO/FileReadStream.h"

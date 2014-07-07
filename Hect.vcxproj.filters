@@ -9,11 +9,6 @@
     <Filter Include="Source\Hect">
       <UniqueIdentifier>{fcd21b97-a0b4-458d-baeb-cc918d9879cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Hect\Asset">
-      <UniqueIdentifier>{cc1da510-315e-45f1-a062-366764e93848}</UniqueIdentifier>
-      <Extensions>
-      </Extensions>
-    </Filter>
     <Filter Include="Source\Hect\Core">
       <UniqueIdentifier>{e7d2f7a3-35c1-4933-9ee9-a6d822097cb2}</UniqueIdentifier>
       <Extensions>
@@ -79,18 +74,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Hect\Asset\AssetCache.h">
-      <Filter>Source\Hect\Asset</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Asset\AssetEntry.h">
-      <Filter>Source\Hect\Asset</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Asset\AssetHandle.h">
-      <Filter>Source\Hect\Asset</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Asset\AssetLoader.h">
-      <Filter>Source\Hect\Asset</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Core\Any.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
@@ -415,11 +398,20 @@
     <ClInclude Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.h">
       <Filter>Source\Hect\Debug</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\IO\AssetCache.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\AssetEntry.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\AssetHandle.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\AssetLoader.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Hect\Asset\AssetCache.cpp">
-      <Filter>Source\Hect\Asset</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
@@ -720,17 +712,11 @@
     <ClCompile Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.cpp">
       <Filter>Source\Hect\Debug</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Hect\IO\AssetCache.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Hect\Asset\AssetCache.inl">
-      <Filter>Source\Hect\Asset</Filter>
-    </None>
-    <None Include="Source\Hect\Asset\AssetEntry.inl">
-      <Filter>Source\Hect\Asset</Filter>
-    </None>
-    <None Include="Source\Hect\Asset\AssetHandle.inl">
-      <Filter>Source\Hect\Asset</Filter>
-    </None>
     <None Include="Source\Hect\Core\Any.inl">
       <Filter>Source\Hect\Core</Filter>
     </None>
@@ -775,6 +761,15 @@
     </None>
     <None Include="Source\Hect\Logic\ComponentEvent.inl">
       <Filter>Source\Hect\Logic</Filter>
+    </None>
+    <None Include="Source\Hect\IO\AssetCache.inl">
+      <Filter>Source\Hect\IO</Filter>
+    </None>
+    <None Include="Source\Hect\IO\AssetEntry.inl">
+      <Filter>Source\Hect\IO</Filter>
+    </None>
+    <None Include="Source\Hect\IO\AssetHandle.inl">
+      <Filter>Source\Hect\IO</Filter>
     </None>
   </ItemGroup>
 </Project>
