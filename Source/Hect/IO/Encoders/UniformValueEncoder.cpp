@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "UniformValueEncoder.h"
 
-#include "Hect/Reflection/Enum.h"
+#include "Hect/Core/Enum.h"
 
 using namespace hect;
 

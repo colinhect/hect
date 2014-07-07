@@ -23,76 +23,50 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-#include "Hect/Input/Key.h"
+#include <cstdint>
 
 namespace hect
 {
 
-
-
 ///
-/// A keyboard event type.
-namespace KeyboardEventType
+/// A type of a vertex attribute.
+namespace VertexAttributeType
 {
-enum Enum
+enum Enum : uint8_t
 {
-    ///
-    /// A key was pressed down.
-    KeyDown,
+	///
+	/// An 8-bit signed integer.
+	Byte,
 
-    ///
-    /// A key was released up.
-    KeyUp
+	///
+	/// An 8-bit unsigned integer.
+	UnsignedByte,
+
+	///
+	/// A 16-bit signed integer.
+	Short,
+
+	///
+	/// A 16-bit unsigned integer.
+	UnsignedShort,
+
+	///
+	/// A 32-bit signed integer.
+	Int,
+
+	///
+	/// A 32-bit unsigned integer.
+	UnsignedInt,
+
+	///
+	/// A 16-bit float.
+	/// \note Also known as "half".
+	Half,
+
+	///
+	/// A 32-bit float.
+	Float
 };
 }
 
-///
-/// An event triggered by pressing or releasing a key on the keyboard.
-class KeyboardEvent
-{
-public:
-
-    ///
-    /// Constructs a default event.
-    KeyboardEvent();
-
-    ///
-    /// The type of the event.
-    KeyboardEventType::Enum type;
-
-    ///
-    /// The key relating to the event.
-    Key::Enum key;
-};
-
-///
-/// Provides access to the system keyboard.
-class Keyboard
-{
-    friend class InputSystem;
-public:
-
-    ///
-    /// Returns whether the given key is down.
-    ///
-    /// \param key The key to check if it is down.
-    bool isKeyDown(Key::Enum key) const;
-
-    ///
-    /// Returns the dispatcher of keyboard events.
-    Dispatcher<KeyboardEvent>& dispatcher();
-
-private:
-    Keyboard();
-
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
-
-    Dispatcher<KeyboardEvent> _dispatcher;
-    std::vector<KeyboardEvent> _events;
-
-    std::vector<bool> _keyStates;
-};
-
-};
+}

@@ -29,45 +29,10 @@
 #include "Hect/Math/Vector4.h"
 #include "Hect/Math/Matrix4.h"
 #include "Hect/IO/Encodable.h"
+#include "Hect/Graphics/UniformType.h"
 
 namespace hect
 {
-
-///
-/// A uniform value type.
-namespace UniformType
-{
-enum Enum : uint8_t
-{
-    ///
-    /// An integer.
-    Int,
-
-    ///
-    /// A floating point number.
-    Float,
-
-    ///
-    /// A 2-dimensional vector.
-    Vector2,
-
-    ///
-    /// A 3-dimensional vector.
-    Vector3,
-
-    ///
-    /// A 4-dimensional vector.
-    Vector4,
-
-    ///
-    /// A 4 by 4 matrix.
-    Matrix4,
-
-    ///
-    /// A texture (the index of the texture).
-    Texture
-};
-}
 
 ///
 /// A value for a uniform.

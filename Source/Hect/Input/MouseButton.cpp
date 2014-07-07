@@ -21,78 +21,45 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "MouseButton.h"
+#include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
+#include "Hect/Core/Enum.h"
 
-#include "Hect/Core/Dispatcher.h"
-#include "Hect/Input/Key.h"
+using namespace hect;
 
-namespace hect
+template <>
+MouseButton::Enum Enum::fromString<MouseButton::Enum>(const std::string& string)
 {
-
-
-
-///
-/// A keyboard event type.
-namespace KeyboardEventType
-{
-enum Enum
-{
-    ///
-    /// A key was pressed down.
-    KeyDown,
-
-    ///
-    /// A key was released up.
-    KeyUp
-};
+	static std::map<std::string, MouseButton::Enum> _stringToValue;
+	if (_stringToValue.empty())
+	{
+		_stringToValue["Left"] = hect::MouseButton::Left;
+		_stringToValue["Right"] = hect::MouseButton::Right;
+		_stringToValue["Middle"] = hect::MouseButton::Middle;
+	}
+	auto it = _stringToValue.find(string);
+	if (it == _stringToValue.end())
+	{
+		throw Error(format("Invalid string '%s' for type 'MouseButton::Enum'", string.c_str()));
+	}
+	return it->second;
 }
 
-///
-/// An event triggered by pressing or releasing a key on the keyboard.
-class KeyboardEvent
+template <>
+const std::string& Enum::toString<MouseButton::Enum>(MouseButton::Enum value)
 {
-public:
-
-    ///
-    /// Constructs a default event.
-    KeyboardEvent();
-
-    ///
-    /// The type of the event.
-    KeyboardEventType::Enum type;
-
-    ///
-    /// The key relating to the event.
-    Key::Enum key;
-};
-
-///
-/// Provides access to the system keyboard.
-class Keyboard
-{
-    friend class InputSystem;
-public:
-
-    ///
-    /// Returns whether the given key is down.
-    ///
-    /// \param key The key to check if it is down.
-    bool isKeyDown(Key::Enum key) const;
-
-    ///
-    /// Returns the dispatcher of keyboard events.
-    Dispatcher<KeyboardEvent>& dispatcher();
-
-private:
-    Keyboard();
-
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
-
-    Dispatcher<KeyboardEvent> _dispatcher;
-    std::vector<KeyboardEvent> _events;
-
-    std::vector<bool> _keyStates;
-};
-
-};
+	static std::map<MouseButton::Enum, std::string> _valueToString;
+	if (_valueToString.empty())
+	{
+		_valueToString[hect::MouseButton::Left] = "Left";
+		_valueToString[hect::MouseButton::Right] = "Right";
+		_valueToString[hect::MouseButton::Middle] = "Middle";
+	}
+	auto it = _valueToString.find(value);
+	if (it == _valueToString.end())
+	{
+		throw Error("Invalid value for type 'MouseButton::Enum'");
+	}
+	return it->second;
+}

@@ -23,76 +23,23 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-#include "Hect/Input/Key.h"
-
 namespace hect
 {
 
-
-
 ///
-/// A keyboard event type.
-namespace KeyboardEventType
+/// The layout of the component(s) in a pixel.
+namespace PixelFormat
 {
 enum Enum
 {
-    ///
-    /// A key was pressed down.
-    KeyDown,
+	///
+	/// Red, green, and blue channels.
+	Rgb,
 
-    ///
-    /// A key was released up.
-    KeyUp
+	///
+	/// Red, green, blue, and alpha channels.
+	Rgba
 };
 }
 
-///
-/// An event triggered by pressing or releasing a key on the keyboard.
-class KeyboardEvent
-{
-public:
-
-    ///
-    /// Constructs a default event.
-    KeyboardEvent();
-
-    ///
-    /// The type of the event.
-    KeyboardEventType::Enum type;
-
-    ///
-    /// The key relating to the event.
-    Key::Enum key;
-};
-
-///
-/// Provides access to the system keyboard.
-class Keyboard
-{
-    friend class InputSystem;
-public:
-
-    ///
-    /// Returns whether the given key is down.
-    ///
-    /// \param key The key to check if it is down.
-    bool isKeyDown(Key::Enum key) const;
-
-    ///
-    /// Returns the dispatcher of keyboard events.
-    Dispatcher<KeyboardEvent>& dispatcher();
-
-private:
-    Keyboard();
-
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
-
-    Dispatcher<KeyboardEvent> _dispatcher;
-    std::vector<KeyboardEvent> _events;
-
-    std::vector<bool> _keyStates;
-};
-
-};
+}

@@ -24,7 +24,7 @@
 #include "UniformEncoder.h"
 
 #include "Hect/IO/Encoders/UniformValueEncoder.h"
-#include "Hect/Reflection/Enum.h"
+#include "Hect/Core/Enum.h"
 
 using namespace hect;
 

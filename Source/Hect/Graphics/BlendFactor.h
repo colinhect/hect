@@ -23,76 +23,56 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-#include "Hect/Input/Key.h"
-
 namespace hect
 {
 
-
-
 ///
-/// A keyboard event type.
-namespace KeyboardEventType
+/// A formula used to compute blending from either the source or
+/// destination.
+namespace BlendFactor
 {
 enum Enum
 {
-    ///
-    /// A key was pressed down.
-    KeyDown,
+	///
+	/// Blend forumla: 0 0 0 0
+	Zero,
 
-    ///
-    /// A key was released up.
-    KeyUp
+	///
+	/// Blend forumla: 1 1 1 1
+	One,
+
+	///
+	/// Blend forumla: R s0 k R G s0 k G B s0 k B A s0 k A
+	SourceColor,
+
+	///
+	/// Blend forumla: 1 1 1 1 - R s0 k R G s0 k G B s0 k B A s0 k A
+	OneMinusSourceColor,
+
+	///
+	/// Blend forumla: R d k R G d k G B d k B A d k A
+	DestColor,
+
+	///
+	/// Blend forumla: 1 1 1 1 - R d k R G d k G B d k B A d k A
+	OneMinusDestColor,
+
+	///
+	/// Blend forumla: A s0 k A A s0 k A A s0 k A A s0 k A
+	SourceAlpha,
+
+	///
+	/// Blend forumla: 1 1 1 1 - A s0 k A A s0 k A A s0 k A A s0 k A
+	OneMinusSourceAlpha,
+
+	///
+	/// Blend forumla: A d k A A d k A A d k A A d k A
+	DestAlpha,
+
+	///
+	/// Blend forumla: 1 1 1 1 - A d k A A d k A A d k A A d k A
+	OneMinusDestAlpha
 };
 }
 
-///
-/// An event triggered by pressing or releasing a key on the keyboard.
-class KeyboardEvent
-{
-public:
-
-    ///
-    /// Constructs a default event.
-    KeyboardEvent();
-
-    ///
-    /// The type of the event.
-    KeyboardEventType::Enum type;
-
-    ///
-    /// The key relating to the event.
-    Key::Enum key;
-};
-
-///
-/// Provides access to the system keyboard.
-class Keyboard
-{
-    friend class InputSystem;
-public:
-
-    ///
-    /// Returns whether the given key is down.
-    ///
-    /// \param key The key to check if it is down.
-    bool isKeyDown(Key::Enum key) const;
-
-    ///
-    /// Returns the dispatcher of keyboard events.
-    Dispatcher<KeyboardEvent>& dispatcher();
-
-private:
-    Keyboard();
-
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
-
-    Dispatcher<KeyboardEvent> _dispatcher;
-    std::vector<KeyboardEvent> _events;
-
-    std::vector<bool> _keyStates;
-};
-
-};
+}

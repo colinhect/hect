@@ -21,78 +21,43 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "ColorSpace.h"
+#include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
+#include "Hect/Core/Enum.h"
 
-#include "Hect/Core/Dispatcher.h"
-#include "Hect/Input/Key.h"
+using namespace hect;
 
-namespace hect
+template <>
+ColorSpace::Enum Enum::fromString<ColorSpace::Enum>(const std::string& string)
 {
-
-
-
-///
-/// A keyboard event type.
-namespace KeyboardEventType
-{
-enum Enum
-{
-    ///
-    /// A key was pressed down.
-    KeyDown,
-
-    ///
-    /// A key was released up.
-    KeyUp
-};
+	static std::map<std::string, ColorSpace::Enum> _stringToValue;
+	if (_stringToValue.empty())
+	{
+		_stringToValue["NonLinear"] = hect::ColorSpace::NonLinear;
+		_stringToValue["Linear"] = hect::ColorSpace::Linear;
+	}
+	auto it = _stringToValue.find(string);
+	if (it == _stringToValue.end())
+	{
+		throw Error(format("Invalid string '%s' for type 'ColorSpace::Enum'", string.c_str()));
+	}
+	return it->second;
 }
 
-///
-/// An event triggered by pressing or releasing a key on the keyboard.
-class KeyboardEvent
+template <>
+const std::string& Enum::toString<ColorSpace::Enum>(ColorSpace::Enum value)
 {
-public:
-
-    ///
-    /// Constructs a default event.
-    KeyboardEvent();
-
-    ///
-    /// The type of the event.
-    KeyboardEventType::Enum type;
-
-    ///
-    /// The key relating to the event.
-    Key::Enum key;
-};
-
-///
-/// Provides access to the system keyboard.
-class Keyboard
-{
-    friend class InputSystem;
-public:
-
-    ///
-    /// Returns whether the given key is down.
-    ///
-    /// \param key The key to check if it is down.
-    bool isKeyDown(Key::Enum key) const;
-
-    ///
-    /// Returns the dispatcher of keyboard events.
-    Dispatcher<KeyboardEvent>& dispatcher();
-
-private:
-    Keyboard();
-
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
-
-    Dispatcher<KeyboardEvent> _dispatcher;
-    std::vector<KeyboardEvent> _events;
-
-    std::vector<bool> _keyStates;
-};
-
-};
+	static std::map<ColorSpace::Enum, std::string> _valueToString;
+	if (_valueToString.empty())
+	{
+		_valueToString[hect::ColorSpace::NonLinear] = "NonLinear";
+		_valueToString[hect::ColorSpace::Linear] = "Linear";
+	}
+	auto it = _valueToString.find(value);
+	if (it == _valueToString.end())
+	{
+		throw Error("Invalid value for type 'ColorSpace::Enum'");
+	}
+	return it->second;
+}

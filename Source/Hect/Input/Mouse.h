@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Dispatcher.h"
 #include "Hect/Math/Vector2.h"
+#include "Hect/Input/MouseButton.h"
 
 namespace hect
 {
@@ -42,26 +43,6 @@ enum Enum
     ///
     /// The cursor is inactive and only relative movement is dispatched.
     Relative
-};
-}
-
-///
-/// A mouse button.
-namespace MouseButton
-{
-enum Enum
-{
-    ///
-    /// The left mouse button.
-    Left,
-
-    ///
-    /// The right mouse button.
-    Right,
-
-    ///
-    /// The middle mouse button.
-    Middle
 };
 }
 

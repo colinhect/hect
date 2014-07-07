@@ -23,76 +23,70 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-#include "Hect/Input/Key.h"
+#include <cstdint>
 
 namespace hect
 {
 
-
-
 ///
-/// A keyboard event type.
-namespace KeyboardEventType
+/// A semantic describing how a vertex attribute is used.
+namespace VertexAttributeSemantic
 {
-enum Enum
+enum Enum : uint8_t
 {
-    ///
-    /// A key was pressed down.
-    KeyDown,
 
-    ///
-    /// A key was released up.
-    KeyUp
+	///
+	/// The position of a vertex.
+	Position,
+
+	///
+	/// The normal of a vertex.
+	Normal,
+
+	///
+	/// The color of a vertex.
+	Color,
+
+	///
+	/// The tangent of a vertex.
+	Tangent,
+
+	///
+	/// The binormal of a vertex.
+	Binormal,
+
+	///
+	/// The first weight of a vertex.
+	Weight0,
+
+	///
+	/// The second weight of a vertex.
+	Weight1,
+
+	///
+	/// The third weight of a vertex.
+	Weight2,
+
+	///
+	/// The fourth weight of a vertex.
+	Weight3,
+
+	///
+	/// The texture coordinates of a vertex for the first texture.
+	TextureCoords0,
+
+	///
+	/// The texture coordinates of a vertex for the second texture.
+	TextureCoords1,
+
+	///
+	/// The texture coordinates of a vertex for the third texture.
+	TextureCoords2,
+
+	///
+	/// The texture coordinates of a vertex for the fourth texture.
+	TextureCoords3
 };
 }
 
-///
-/// An event triggered by pressing or releasing a key on the keyboard.
-class KeyboardEvent
-{
-public:
-
-    ///
-    /// Constructs a default event.
-    KeyboardEvent();
-
-    ///
-    /// The type of the event.
-    KeyboardEventType::Enum type;
-
-    ///
-    /// The key relating to the event.
-    Key::Enum key;
-};
-
-///
-/// Provides access to the system keyboard.
-class Keyboard
-{
-    friend class InputSystem;
-public:
-
-    ///
-    /// Returns whether the given key is down.
-    ///
-    /// \param key The key to check if it is down.
-    bool isKeyDown(Key::Enum key) const;
-
-    ///
-    /// Returns the dispatcher of keyboard events.
-    Dispatcher<KeyboardEvent>& dispatcher();
-
-private:
-    Keyboard();
-
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
-
-    Dispatcher<KeyboardEvent> _dispatcher;
-    std::vector<KeyboardEvent> _events;
-
-    std::vector<bool> _keyStates;
-};
-
-};
+}

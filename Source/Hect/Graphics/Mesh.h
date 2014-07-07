@@ -25,45 +25,13 @@
 
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/VertexLayout.h"
+#include "Hect/Graphics/PrimitiveType.h"
+#include "Hect/Graphics/IndexType.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Math/AxisAlignedBox.h"
 
 namespace hect
 {
-
-///
-/// How the primitives of a mesh are rendered.
-namespace PrimitiveType
-{
-enum Enum : uint8_t
-{
-    Triangles,
-    TriangleStrip,
-    Lines,
-    LineStrip,
-    Points
-};
-}
-
-///
-/// The type of each index in an index sequence.
-namespace IndexType
-{
-enum Enum : uint8_t
-{
-    ///
-    /// An 8-bit unsigned integer.
-    UnsignedByte,
-
-    ///
-    /// A 16-bit unsigned integer.
-    UnsignedShort,
-
-    ///
-    /// A 32-bit unsigned integer.
-    UnsignedInt
-};
-}
 
 ///
 /// A mesh of vertices and indices.

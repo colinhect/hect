@@ -23,76 +23,38 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-#include "Hect/Input/Key.h"
+#include <string>
+#include <map>
 
 namespace hect
 {
 
-
-
 ///
-/// A keyboard event type.
-namespace KeyboardEventType
+/// Provides reflection functionality for enums.
+class Enum
 {
-enum Enum
-{
-    ///
-    /// A key was pressed down.
-    KeyDown,
+public:
 
     ///
-    /// A key was released up.
-    KeyUp
+    /// Creates an enum value for a specific enum type from its string
+    /// representation.
+    ///
+    /// \param string The string representation of the enum value.
+    ///
+    /// \returns The enum value.
+    ///
+    /// \throws Error If the string does not represent a valid enum value.
+    template <typename T>
+    static T fromString(const std::string& string);
+
+    ///
+    /// Converts an enum value to its string representation.
+    ///
+    /// \param value The enum value.
+    ///
+    /// \returns The string representation of the enum value.
+    template <typename T>
+    static const std::string& toString(T value);
 };
+
 }
-
-///
-/// An event triggered by pressing or releasing a key on the keyboard.
-class KeyboardEvent
-{
-public:
-
-    ///
-    /// Constructs a default event.
-    KeyboardEvent();
-
-    ///
-    /// The type of the event.
-    KeyboardEventType::Enum type;
-
-    ///
-    /// The key relating to the event.
-    Key::Enum key;
-};
-
-///
-/// Provides access to the system keyboard.
-class Keyboard
-{
-    friend class InputSystem;
-public:
-
-    ///
-    /// Returns whether the given key is down.
-    ///
-    /// \param key The key to check if it is down.
-    bool isKeyDown(Key::Enum key) const;
-
-    ///
-    /// Returns the dispatcher of keyboard events.
-    Dispatcher<KeyboardEvent>& dispatcher();
-
-private:
-    Keyboard();
-
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
-
-    Dispatcher<KeyboardEvent> _dispatcher;
-    std::vector<KeyboardEvent> _events;
-
-    std::vector<bool> _keyStates;
-};
-
-};

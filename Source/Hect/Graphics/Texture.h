@@ -26,25 +26,11 @@
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/RendererObject.h"
+#include "Hect/Graphics/TextureFilter.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
 {
-
-///
-/// Describes how a texture pixel is rendered when magnified or minified.
-namespace TextureFilter
-{
-enum Enum
-{
-    ///
-    /// The nearest pixel is selected.
-    Nearest,
-
-    /// The pixel is interpolated linearly.
-    Linear
-};
-}
 
 ///
 /// A 2-dimensional texture.

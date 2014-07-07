@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/IO/ReadStream.h"
-#include "Hect/Reflection/Enum.h"
+#include "Hect/Core/Enum.h"
 
 namespace hect
 {

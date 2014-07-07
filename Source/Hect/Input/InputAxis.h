@@ -28,38 +28,11 @@
 #include "Hect/Core/Real.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
+#include "Hect/Input/InputAxisSource.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
 {
-
-///
-/// The source of an input axis.
-namespace InputAxisSource
-{
-enum Enum
-{
-    ///
-    /// A mouse movement along the x axis.
-    MouseMoveX,
-
-    ///
-    /// A mouse movement along the y axis.
-    MouseMoveY,
-
-    ///
-    /// A mouse button press.
-    MouseButton,
-
-    ///
-    /// A mouse scroll.
-    MouseScroll,
-
-    ///
-    /// A key press.
-    Key
-};
-}
 
 ///
 /// An axis manipulated by an input device.

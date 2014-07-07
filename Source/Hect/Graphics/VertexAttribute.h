@@ -26,110 +26,11 @@
 #include <cstdint>
 #include <vector>
 
+#include "Hect/Graphics/VertexAttributeSemantic.h"
+#include "Hect/Graphics/VertexAttributeType.h"
+
 namespace hect
 {
-
-///
-/// A semantic describing how a vertex attribute is used.
-namespace VertexAttributeSemantic
-{
-enum Enum : uint8_t
-{
-
-    ///
-    /// The position of a vertex.
-    Position,
-
-    ///
-    /// The normal of a vertex.
-    Normal,
-
-    ///
-    /// The color of a vertex.
-    Color,
-
-    ///
-    /// The tangent of a vertex.
-    Tangent,
-
-    ///
-    /// The binormal of a vertex.
-    Binormal,
-
-    ///
-    /// The first weight of a vertex.
-    Weight0,
-
-    ///
-    /// The second weight of a vertex.
-    Weight1,
-
-    ///
-    /// The third weight of a vertex.
-    Weight2,
-
-    ///
-    /// The fourth weight of a vertex.
-    Weight3,
-
-    ///
-    /// The texture coordinates of a vertex for the first texture.
-    TextureCoords0,
-
-    ///
-    /// The texture coordinates of a vertex for the second texture.
-    TextureCoords1,
-
-    ///
-    /// The texture coordinates of a vertex for the third texture.
-    TextureCoords2,
-
-    ///
-    /// The texture coordinates of a vertex for the fourth texture.
-    TextureCoords3
-};
-}
-
-///
-/// A type of a vertex attribute.
-namespace VertexAttributeType
-{
-enum Enum : uint8_t
-{
-    ///
-    /// An 8-bit signed integer.
-    Byte,
-
-    ///
-    /// An 8-bit unsigned integer.
-    UnsignedByte,
-
-    ///
-    /// A 16-bit signed integer.
-    Short,
-
-    ///
-    /// A 16-bit unsigned integer.
-    UnsignedShort,
-
-    ///
-    /// A 32-bit signed integer.
-    Int,
-
-    ///
-    /// A 32-bit unsigned integer.
-    UnsignedInt,
-
-    ///
-    /// A 16-bit float.
-    /// \note Also known as "half".
-    Half,
-
-    ///
-    /// A 32-bit float.
-    Float
-};
-}
 
 ///
 /// An attribute of a vertex (position, normal, etc).

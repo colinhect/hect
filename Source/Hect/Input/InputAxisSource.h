@@ -23,37 +23,35 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
-
 namespace hect
 {
 
 ///
-/// Provides reflection functionality for enums.
-class Enum
+/// The source of an input axis.
+namespace InputAxisSource
 {
-public:
+enum Enum
+{
+	///
+	/// A mouse movement along the x axis.
+	MouseMoveX,
 
-    ///
-    /// Creates an enum value for a specific enum type from its string
-    /// representation.
-    ///
-    /// \param string The string representation of the enum value.
-    ///
-    /// \returns The enum value.
-    ///
-    /// \throws Error If the string does not represent a valid enum value.
-    template <typename T>
-    static T fromString(const std::string& string);
+	///
+	/// A mouse movement along the y axis.
+	MouseMoveY,
 
-    ///
-    /// Converts an enum value to its string representation.
-    ///
-    /// \param value The enum value.
-    ///
-    /// \returns The string representation of the enum value.
-    template <typename T>
-    static const std::string& toString(T value);
+	///
+	/// A mouse button press.
+	MouseButton,
+
+	///
+	/// A mouse scroll.
+	MouseScroll,
+
+	///
+	/// A key press.
+	Key
 };
+}
 
 }

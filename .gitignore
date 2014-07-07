@@ -7,10 +7,8 @@ Dependencies/JsonCpp/Intermediate/*
 Dependencies/LodePng/Intermediate/*
 Dependencies/PhysFS/Intermediate/*
 Intermediate/*
-Source/Hect/Generated/*
 Docs/Output/*
 Docs/Intermediate/*
-Reflect/Intermediate/*
 Tests/Intermediate/*
 *.opensdf
 *.sdf

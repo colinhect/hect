@@ -23,76 +23,56 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-#include "Hect/Input/Key.h"
-
 namespace hect
 {
 
-
-
 ///
-/// A keyboard event type.
-namespace KeyboardEventType
+/// A binding from a shader uniform variable to a built-in value in the
+/// rendering pipeline.
+namespace UniformBinding
 {
 enum Enum
 {
-    ///
-    /// A key was pressed down.
-    KeyDown,
+	///
+	/// No binding.
+	None,
 
-    ///
-    /// A key was released up.
-    KeyUp
+	///
+	/// Bound to the size of the active render target.
+	RenderTargetSize,
+
+	///
+	/// Bound to the world-space position of the active camera.
+	CameraPosition,
+
+	///
+	/// Bound to the world-space up direction of the active camera.
+	CameraUp,
+
+	///
+	/// Bound to the view matrix.
+	ViewMatrix,
+
+	///
+	/// Bound to the projection matrix.
+	ProjectionMatrix,
+
+	///
+	/// Bound to the product of the view and projection matrices.
+	ViewProjectionMatrix,
+
+	///
+	/// Bound to the model matrix.
+	ModelMatrix,
+
+	///
+	/// Bound to the product of the model and the view matrix.
+	ModelViewMatrix,
+
+	///
+	/// Bound to the product of the model, view, and projection matrices.
+	ModelViewProjectionMatrix
 };
 }
 
-///
-/// An event triggered by pressing or releasing a key on the keyboard.
-class KeyboardEvent
-{
-public:
-
-    ///
-    /// Constructs a default event.
-    KeyboardEvent();
-
-    ///
-    /// The type of the event.
-    KeyboardEventType::Enum type;
-
-    ///
-    /// The key relating to the event.
-    Key::Enum key;
-};
-
-///
-/// Provides access to the system keyboard.
-class Keyboard
-{
-    friend class InputSystem;
-public:
-
-    ///
-    /// Returns whether the given key is down.
-    ///
-    /// \param key The key to check if it is down.
-    bool isKeyDown(Key::Enum key) const;
-
-    ///
-    /// Returns the dispatcher of keyboard events.
-    Dispatcher<KeyboardEvent>& dispatcher();
-
-private:
-    Keyboard();
-
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
-
-    Dispatcher<KeyboardEvent> _dispatcher;
-    std::vector<KeyboardEvent> _events;
-
-    std::vector<bool> _keyStates;
-};
-
-};
+}
