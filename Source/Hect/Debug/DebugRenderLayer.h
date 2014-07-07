@@ -24,8 +24,8 @@
 #pragma once
 
 #include "Hect/Input/Keyboard.h"
-#include "Hect/Graphics/Components/Camera.h"
-#include "Hect/Graphics/Systems/RenderSystem.h"
+#include "Hect/Logic/Components/Camera.h"
+#include "Hect/Logic/Systems/RenderSystem.h"
 
 namespace hect
 {

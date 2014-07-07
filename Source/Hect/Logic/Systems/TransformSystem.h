@@ -24,33 +24,25 @@
 #pragma once
 
 #include "Hect/Logic/System.h"
-#include "Hect/Graphics/Components/Camera.h"
+#include "Hect/Logic/Components/Transform.h"
 
 namespace hect
 {
 
 ///
-/// Provides access to the active camera in the scene.
-class CameraSystem :
+/// Updates the transform hierarchies of the scene.
+class TransformSystem :
     public System
 {
 public:
-    CameraSystem(Scene& scene);
+    TransformSystem(Scene& scene);
 
     ///
-    /// Returns whether there is an active camera in the scene.
-    bool hasCamera() const;
-
-    ///
-    /// Returns the active camera in the scene.
-    ///
-    /// \warning Always call hasCamera() before calling this function to
-    /// avoid undefined behavior.
-    Camera& camera();
-
-    ///
-    /// Updates all cameras to follow their transforms.
+    /// Updates the global transforms of all transforms.
     void update();
+
+private:
+    void _updateTransform(Entity& parent, Entity& child);
 };
 
 }

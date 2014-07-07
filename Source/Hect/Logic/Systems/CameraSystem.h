@@ -21,52 +21,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "CameraSystem.h"
+#pragma once
 
-#include "Hect/Logic/Scene.h"
-#include "Hect/Graphics/Components/Camera.h"
-#include "Hect/Graphics/Components/Transform.h"
+#include "Hect/Logic/System.h"
+#include "Hect/Logic/Components/Camera.h"
 
-using namespace hect;
-
-CameraSystem::CameraSystem(Scene& scene) :
-    System(scene)
+namespace hect
 {
-}
 
-bool CameraSystem::hasCamera() const
+///
+/// Provides access to the active camera in the scene.
+class CameraSystem :
+    public System
 {
-    bool foundCamera = false;
-    for (const Camera& camera : scene().components<Camera>())
-    {
-        camera;
-        foundCamera = true;
-    }
-    return foundCamera;
-}
+public:
+    CameraSystem(Scene& scene);
 
-Camera& CameraSystem::camera()
-{
-    Camera* foundCamera = nullptr;
-    for (Camera& camera : scene().components<Camera>())
-    {
-        if (!foundCamera)
-        {
-            foundCamera = &camera;
-        }
-    }
-    return *foundCamera;
-}
+    ///
+    /// Returns whether there is an active camera in the scene.
+    bool hasCamera() const;
 
-void CameraSystem::update()
-{
-    for (Camera& camera : scene().components<Camera>())
-    {
-        Entity& entity = camera.entity();
-        auto transform = entity.component<Transform>();
-        if (transform)
-        {
-            camera.transformTo(*transform);
-        }
-    }
+    ///
+    /// Returns the active camera in the scene.
+    ///
+    /// \warning Always call hasCamera() before calling this function to
+    /// avoid undefined behavior.
+    Camera& camera();
+
+    ///
+    /// Updates all cameras to follow their transforms.
+    void update();
+};
+
 }

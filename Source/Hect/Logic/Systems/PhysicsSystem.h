@@ -29,7 +29,7 @@
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Physics/Components/RigidBody.h"
+#include "Hect/Logic/Components/RigidBody.h"
 
 // Forward declare Bullet classes
 class btCollisionConfiguration;

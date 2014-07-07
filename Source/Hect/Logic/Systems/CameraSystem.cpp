@@ -21,28 +21,52 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "CameraSystem.h"
 
-#include "Hect/Logic/System.h"
-#include "Hect/Graphics/Components/Transform.h"
+#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/Components/Camera.h"
+#include "Hect/Logic/Components/Transform.h"
 
-namespace hect
+using namespace hect;
+
+CameraSystem::CameraSystem(Scene& scene) :
+    System(scene)
 {
+}
 
-///
-/// Updates the transform hierarchies of the scene.
-class TransformSystem :
-    public System
+bool CameraSystem::hasCamera() const
 {
-public:
-    TransformSystem(Scene& scene);
+    bool foundCamera = false;
+    for (const Camera& camera : scene().components<Camera>())
+    {
+        camera;
+        foundCamera = true;
+    }
+    return foundCamera;
+}
 
-    ///
-    /// Updates the global transforms of all transforms.
-    void update();
+Camera& CameraSystem::camera()
+{
+    Camera* foundCamera = nullptr;
+    for (Camera& camera : scene().components<Camera>())
+    {
+        if (!foundCamera)
+        {
+            foundCamera = &camera;
+        }
+    }
+    return *foundCamera;
+}
 
-private:
-    void _updateTransform(Entity& parent, Entity& child);
-};
-
+void CameraSystem::update()
+{
+    for (Camera& camera : scene().components<Camera>())
+    {
+        Entity& entity = camera.entity();
+        auto transform = entity.component<Transform>();
+        if (transform)
+        {
+            camera.transformTo(*transform);
+        }
+    }
 }

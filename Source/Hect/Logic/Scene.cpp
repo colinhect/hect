@@ -23,12 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Scene.h"
 
-#include "Hect/Graphics/Components/AmbientLight.h"
-#include "Hect/Graphics/Components/DirectionalLight.h"
-#include "Hect/Graphics/Components/Camera.h"
-#include "Hect/Graphics/Components/Geometry.h"
-#include "Hect/Graphics/Components/Transform.h"
-#include "Hect/Physics/Components/RigidBody.h"
+#include "Hect/Logic/Components/AmbientLight.h"
+#include "Hect/Logic/Components/DirectionalLight.h"
+#include "Hect/Logic/Components/Camera.h"
+#include "Hect/Logic/Components/Geometry.h"
+#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/IO/JsonDecoder.h"
 
 #include <algorithm>

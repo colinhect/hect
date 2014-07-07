@@ -65,29 +65,17 @@
       <Extensions>
       </Extensions>
     </Filter>
-    <Filter Include="Source\Hect\Graphics\Components">
-      <UniqueIdentifier>{98b3f869-1ef0-46d2-97eb-03a284bd9aed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Hect\Graphics\Systems">
-      <UniqueIdentifier>{36c385a5-f637-4945-9ae9-bb56dc332566}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Hect\Physics">
-      <UniqueIdentifier>{f8a98ba0-bfdc-45cd-aee7-45e82aefac76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Hect\Physics\Components">
-      <UniqueIdentifier>{315aff6b-a996-44fe-b9dc-04228c5a6804}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Hect\Physics\Systems">
-      <UniqueIdentifier>{0ec1b3ca-5125-4f31-81a5-b8b7f2386dec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Hect\Generated">
       <UniqueIdentifier>{f7e2ebf6-e28d-465f-9c88-432fdf238f3a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Hect\Debug">
       <UniqueIdentifier>{ac0b775d-5eba-4880-b4ac-df136be6b3d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Hect\Debug\Systems">
-      <UniqueIdentifier>{34be9412-b5d5-4512-8262-10530f3b56f3}</UniqueIdentifier>
+    <Filter Include="Source\Hect\Logic\Components">
+      <UniqueIdentifier>{f8138151-3641-4ce7-9a56-291c5828de9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hect\Logic\Systems">
+      <UniqueIdentifier>{a82148ea-31f1-451b-b1fd-e2e2c7ffea7a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -376,38 +364,8 @@
     <ClInclude Include="Source\Hect\Logic\System.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Components\AmbientLight.h">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Components\Camera.h">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Components\DirectionalLight.h">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Components\Geometry.h">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Components\Transform.h">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Systems\CameraSystem.h">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Systems\RenderSystem.h">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h">
-      <Filter>Source\Hect\Physics\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h">
-      <Filter>Source\Hect\Physics\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Logic\EntityPool.h">
       <Filter>Source\Hect\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Systems\TransformSystem.h">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Logic\EntityEvent.h">
       <Filter>Source\Hect\Logic</Filter>
@@ -415,14 +373,44 @@
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Debug\Systems\DebugSystem.h">
-      <Filter>Source\Hect\Debug\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Debug\TransformDebugRenderLayer.h">
       <Filter>Source\Hect\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Debug\DebugRenderLayer.h">
       <Filter>Source\Hect\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Components\AmbientLight.h">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Components\Camera.h">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Components\DirectionalLight.h">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Components\Geometry.h">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Components\RigidBody.h">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Components\Transform.h">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Systems\CameraSystem.h">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Systems\DebugSystem.h">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Systems\PhysicsSystem.h">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Systems\RenderSystem.h">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Systems\TransformSystem.h">
+      <Filter>Source\Hect\Logic\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -678,38 +666,8 @@
     <ClCompile Include="Source\Hect\Logic\System.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Components\AmbientLight.cpp">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Components\Geometry.cpp">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Components\Transform.cpp">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Systems\CameraSystem.cpp">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Systems\RenderSystem.cpp">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp">
-      <Filter>Source\Hect\Physics\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp">
-      <Filter>Source\Hect\Physics\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp">
       <Filter>Source\Hect\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Systems\TransformSystem.cpp">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Generated\_hect_reflect.cpp">
       <Filter>Source\Hect\Generated</Filter>
@@ -717,14 +675,44 @@
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Debug\Systems\DebugSystem.cpp">
-      <Filter>Source\Hect\Debug\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Debug\TransformDebugRenderLayer.cpp">
       <Filter>Source\Hect\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Debug\DebugRenderLayer.cpp">
       <Filter>Source\Hect\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Components\AmbientLight.cpp">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Components\Camera.cpp">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Components\DirectionalLight.cpp">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Components\Geometry.cpp">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Components\RigidBody.cpp">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Components\Transform.cpp">
+      <Filter>Source\Hect\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Systems\CameraSystem.cpp">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Systems\DebugSystem.cpp">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Systems\PhysicsSystem.cpp">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Systems\RenderSystem.cpp">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Systems\TransformSystem.cpp">
+      <Filter>Source\Hect\Logic\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -26,7 +26,7 @@
 #include "Hect/Logic/System.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/Components/Camera.h"
+#include "Hect/Logic/Components/Camera.h"
 
 namespace hect
 {
