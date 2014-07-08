@@ -32,11 +32,11 @@ namespace PrimitiveType
 {
 enum Enum
 {
-	Triangles,
-	TriangleStrip,
-	Lines,
-	LineStrip,
-	Points
+    Triangles,
+    TriangleStrip,
+    Lines,
+    LineStrip,
+    Points
 };
 }
 

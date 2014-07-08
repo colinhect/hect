@@ -32,17 +32,17 @@ namespace IndexType
 {
 enum Enum
 {
-	///
-	/// An 8-bit unsigned integer.
-	UnsignedByte,
+    ///
+    /// An 8-bit unsigned integer.
+    UnsignedByte,
 
-	///
-	/// A 16-bit unsigned integer.
-	UnsignedShort,
+    ///
+    /// A 16-bit unsigned integer.
+    UnsignedShort,
 
-	///
-	/// A 32-bit unsigned integer.
-	UnsignedInt
+    ///
+    /// A 32-bit unsigned integer.
+    UnsignedInt
 };
 }
 

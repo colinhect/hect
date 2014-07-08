@@ -32,17 +32,17 @@ namespace PixelType
 {
 enum Enum
 {
-	///
-	/// 16-bit floating point.
-	Half,
+    ///
+    /// 16-bit floating point.
+    Half,
 
-	///
-	/// 32-bit floating point.
-	Float,
+    ///
+    /// 32-bit floating point.
+    Float,
 
-	///
-	/// A byte.
-	Byte
+    ///
+    /// A byte.
+    Byte
 };
 }
 

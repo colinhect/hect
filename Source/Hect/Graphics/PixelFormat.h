@@ -32,13 +32,13 @@ namespace PixelFormat
 {
 enum Enum
 {
-	///
-	/// Red, green, and blue channels.
-	Rgb,
+    ///
+    /// Red, green, and blue channels.
+    Rgb,
 
-	///
-	/// Red, green, blue, and alpha channels.
-	Rgba
+    ///
+    /// Red, green, blue, and alpha channels.
+    Rgba
 };
 }
 

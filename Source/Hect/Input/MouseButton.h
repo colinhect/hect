@@ -32,17 +32,17 @@ namespace MouseButton
 {
 enum Enum
 {
-	///
-	/// The left mouse button.
-	Left,
+    ///
+    /// The left mouse button.
+    Left,
 
-	///
-	/// The right mouse button.
-	Right,
+    ///
+    /// The right mouse button.
+    Right,
 
-	///
-	/// The middle mouse button.
-	Middle
+    ///
+    /// The middle mouse button.
+    Middle
 };
 }
 

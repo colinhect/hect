@@ -28,19 +28,19 @@
 namespace hect
 {
 
-    ///
-    /// Renders the bounding boxes of each activated entity in the scene.
-    class BoundingBoxDebugRenderLayer :
-        public DebugRenderLayer
-    {
-    public:
-        BoundingBoxDebugRenderLayer(AssetCache& assetCache);
+///
+/// Renders the bounding boxes of each activated entity in the scene.
+class BoundingBoxDebugRenderLayer :
+    public DebugRenderLayer
+{
+public:
+    BoundingBoxDebugRenderLayer(AssetCache& assetCache);
 
-        void render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target);
+    void render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target);
 
-    private:
-        AssetHandle<Material> _coloredLineMaterial;
-        AssetHandle<Mesh> _boundingBoxMesh;
-    };
+private:
+    AssetHandle<Material> _coloredLineMaterial;
+    AssetHandle<Mesh> _boundingBoxMesh;
+};
 
 }

@@ -34,38 +34,38 @@ namespace VertexAttributeType
 {
 enum Enum : uint8_t
 {
-	///
-	/// An 8-bit signed integer.
-	Byte,
+    ///
+    /// An 8-bit signed integer.
+    Byte,
 
-	///
-	/// An 8-bit unsigned integer.
-	UnsignedByte,
+    ///
+    /// An 8-bit unsigned integer.
+    UnsignedByte,
 
-	///
-	/// A 16-bit signed integer.
-	Short,
+    ///
+    /// A 16-bit signed integer.
+    Short,
 
-	///
-	/// A 16-bit unsigned integer.
-	UnsignedShort,
+    ///
+    /// A 16-bit unsigned integer.
+    UnsignedShort,
 
-	///
-	/// A 32-bit signed integer.
-	Int,
+    ///
+    /// A 32-bit signed integer.
+    Int,
 
-	///
-	/// A 32-bit unsigned integer.
-	UnsignedInt,
+    ///
+    /// A 32-bit unsigned integer.
+    UnsignedInt,
 
-	///
-	/// A 16-bit float.
-	/// \note Also known as "half".
-	Half,
+    ///
+    /// A 16-bit float.
+    /// \note Also known as "half".
+    Half,
 
-	///
-	/// A 32-bit float.
-	Float
+    ///
+    /// A 32-bit float.
+    Float
 };
 }
 

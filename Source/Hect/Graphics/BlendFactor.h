@@ -33,45 +33,45 @@ namespace BlendFactor
 {
 enum Enum
 {
-	///
-	/// Blend forumla: 0 0 0 0
-	Zero,
+    ///
+    /// Blend forumla: 0 0 0 0
+    Zero,
 
-	///
-	/// Blend forumla: 1 1 1 1
-	One,
+    ///
+    /// Blend forumla: 1 1 1 1
+    One,
 
-	///
-	/// Blend forumla: R s0 k R G s0 k G B s0 k B A s0 k A
-	SourceColor,
+    ///
+    /// Blend forumla: R s0 k R G s0 k G B s0 k B A s0 k A
+    SourceColor,
 
-	///
-	/// Blend forumla: 1 1 1 1 - R s0 k R G s0 k G B s0 k B A s0 k A
-	OneMinusSourceColor,
+    ///
+    /// Blend forumla: 1 1 1 1 - R s0 k R G s0 k G B s0 k B A s0 k A
+    OneMinusSourceColor,
 
-	///
-	/// Blend forumla: R d k R G d k G B d k B A d k A
-	DestColor,
+    ///
+    /// Blend forumla: R d k R G d k G B d k B A d k A
+    DestColor,
 
-	///
-	/// Blend forumla: 1 1 1 1 - R d k R G d k G B d k B A d k A
-	OneMinusDestColor,
+    ///
+    /// Blend forumla: 1 1 1 1 - R d k R G d k G B d k B A d k A
+    OneMinusDestColor,
 
-	///
-	/// Blend forumla: A s0 k A A s0 k A A s0 k A A s0 k A
-	SourceAlpha,
+    ///
+    /// Blend forumla: A s0 k A A s0 k A A s0 k A A s0 k A
+    SourceAlpha,
 
-	///
-	/// Blend forumla: 1 1 1 1 - A s0 k A A s0 k A A s0 k A A s0 k A
-	OneMinusSourceAlpha,
+    ///
+    /// Blend forumla: 1 1 1 1 - A s0 k A A s0 k A A s0 k A A s0 k A
+    OneMinusSourceAlpha,
 
-	///
-	/// Blend forumla: A d k A A d k A A d k A A d k A
-	DestAlpha,
+    ///
+    /// Blend forumla: A d k A A d k A A d k A A d k A
+    DestAlpha,
 
-	///
-	/// Blend forumla: 1 1 1 1 - A d k A A d k A A d k A A d k A
-	OneMinusDestAlpha
+    ///
+    /// Blend forumla: 1 1 1 1 - A d k A A d k A A d k A A d k A
+    OneMinusDestAlpha
 };
 }
 

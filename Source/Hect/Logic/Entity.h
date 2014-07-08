@@ -500,7 +500,7 @@ public:
     ///
     /// Returns the id of the entity.
     EntityId id() const;
-    
+
     ///
     /// Returns an iterator to the parent entity (invalid iterator if the
     /// entity does not have a parent).

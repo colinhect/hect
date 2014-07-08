@@ -33,7 +33,7 @@ namespace hect
 
 ///
 /// Updates the bounding box hierarchies of the scene.
-    class BoundingBoxSystem :
+class BoundingBoxSystem :
     public System
 {
 public:

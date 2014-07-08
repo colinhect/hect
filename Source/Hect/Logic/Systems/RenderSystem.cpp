@@ -48,7 +48,7 @@ void RenderSystem::updateActiveCamera()
         {
             camera->transformTo(*transform);
         }
-    }    
+    }
 }
 
 Component<Camera>::Iter RenderSystem::activeCamera()
@@ -57,7 +57,7 @@ Component<Camera>::Iter RenderSystem::activeCamera()
 }
 
 void RenderSystem::renderAll(RenderTarget& target)
-{ 
+{
     Component<Camera>::Iter camera = activeCamera();
     if (camera)
     {

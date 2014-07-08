@@ -38,7 +38,7 @@ class RenderSystem :
 {
 public:
     RenderSystem(Scene& scene, Renderer& renderer);
-    
+
     void updateActiveCamera();
 
     ///

@@ -32,16 +32,16 @@ namespace ColorSpace
 {
 enum Enum
 {
-	///
-	/// Non-linear color space (sRGB).
-	///
-	/// \note Only an image with a pixel type of PixelType::Byte can
-	/// be non-linear.
-	NonLinear,
+    ///
+    /// Non-linear color space (sRGB).
+    ///
+    /// \note Only an image with a pixel type of PixelType::Byte can
+    /// be non-linear.
+    NonLinear,
 
-	///
-	/// Linear color space.
-	Linear
+    ///
+    /// Linear color space.
+    Linear
 };
 }
 

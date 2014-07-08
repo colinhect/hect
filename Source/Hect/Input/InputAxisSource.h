@@ -32,25 +32,25 @@ namespace InputAxisSource
 {
 enum Enum
 {
-	///
-	/// A mouse movement along the x axis.
-	MouseMoveX,
+    ///
+    /// A mouse movement along the x axis.
+    MouseMoveX,
 
-	///
-	/// A mouse movement along the y axis.
-	MouseMoveY,
+    ///
+    /// A mouse movement along the y axis.
+    MouseMoveY,
 
-	///
-	/// A mouse button press.
-	MouseButton,
+    ///
+    /// A mouse button press.
+    MouseButton,
 
-	///
-	/// A mouse scroll.
-	MouseScroll,
+    ///
+    /// A mouse scroll.
+    MouseScroll,
 
-	///
-	/// A key press.
-	Key
+    ///
+    /// A key press.
+    Key
 };
 }
 

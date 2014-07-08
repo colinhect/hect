@@ -32,21 +32,21 @@ namespace RenderState
 {
 enum Enum
 {
-	///
-	/// Blends source and destination pixels using a formula.
-	Blend = 1,
+    ///
+    /// Blends source and destination pixels using a formula.
+    Blend = 1,
 
-	///
-	/// Tests whether a pixel should be occluded based on the depth buffer.
-	DepthTest = 2,
+    ///
+    /// Tests whether a pixel should be occluded based on the depth buffer.
+    DepthTest = 2,
 
-	///
-	// Writes a pixel's depth to the depth buffer.
-	DepthWrite = 4,
+    ///
+    // Writes a pixel's depth to the depth buffer.
+    DepthWrite = 4,
 
-	///
-	/// Culls faces pointing away from the camera.
-	CullFace = 8
+    ///
+    /// Culls faces pointing away from the camera.
+    CullFace = 8
 };
 }
 

@@ -32,12 +32,12 @@ namespace TextureFilter
 {
 enum Enum
 {
-	///
-	/// The nearest pixel is selected.
-	Nearest,
+    ///
+    /// The nearest pixel is selected.
+    Nearest,
 
-	/// The pixel is interpolated linearly.
-	Linear
+    /// The pixel is interpolated linearly.
+    Linear
 };
 }
 

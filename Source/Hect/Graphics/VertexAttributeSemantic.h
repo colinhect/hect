@@ -35,57 +35,57 @@ namespace VertexAttributeSemantic
 enum Enum : uint8_t
 {
 
-	///
-	/// The position of a vertex.
-	Position,
+    ///
+    /// The position of a vertex.
+    Position,
 
-	///
-	/// The normal of a vertex.
-	Normal,
+    ///
+    /// The normal of a vertex.
+    Normal,
 
-	///
-	/// The color of a vertex.
-	Color,
+    ///
+    /// The color of a vertex.
+    Color,
 
-	///
-	/// The tangent of a vertex.
-	Tangent,
+    ///
+    /// The tangent of a vertex.
+    Tangent,
 
-	///
-	/// The binormal of a vertex.
-	Binormal,
+    ///
+    /// The binormal of a vertex.
+    Binormal,
 
-	///
-	/// The first weight of a vertex.
-	Weight0,
+    ///
+    /// The first weight of a vertex.
+    Weight0,
 
-	///
-	/// The second weight of a vertex.
-	Weight1,
+    ///
+    /// The second weight of a vertex.
+    Weight1,
 
-	///
-	/// The third weight of a vertex.
-	Weight2,
+    ///
+    /// The third weight of a vertex.
+    Weight2,
 
-	///
-	/// The fourth weight of a vertex.
-	Weight3,
+    ///
+    /// The fourth weight of a vertex.
+    Weight3,
 
-	///
-	/// The texture coordinates of a vertex for the first texture.
-	TextureCoords0,
+    ///
+    /// The texture coordinates of a vertex for the first texture.
+    TextureCoords0,
 
-	///
-	/// The texture coordinates of a vertex for the second texture.
-	TextureCoords1,
+    ///
+    /// The texture coordinates of a vertex for the second texture.
+    TextureCoords1,
 
-	///
-	/// The texture coordinates of a vertex for the third texture.
-	TextureCoords2,
+    ///
+    /// The texture coordinates of a vertex for the third texture.
+    TextureCoords2,
 
-	///
-	/// The texture coordinates of a vertex for the fourth texture.
-	TextureCoords3
+    ///
+    /// The texture coordinates of a vertex for the fourth texture.
+    TextureCoords3
 };
 }
 
