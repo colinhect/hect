@@ -26,6 +26,7 @@
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/Components/Geometry.h"
+#include "Hect/Logic/Components/BoundingBox.h"
 #include "Hect/Logic/Components/Transform.h"
 
 using namespace hect;
@@ -81,26 +82,67 @@ void RenderSystem::renderAll(RenderTarget& target)
     }
 }
 
-void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity)
+void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest)
 {
+    // If the entity has a geometry component
     auto geometry = entity.component<Geometry>();
     if (geometry)
     {
+        // If the entity has a transform component
         auto transform = entity.component<Transform>();
         if (transform)
         {
-            size_t surfaceCount = geometry->surfaceCount();
-            for (size_t surfaceIndex = 0; surfaceIndex < surfaceCount; ++surfaceIndex)
-            {
-                Mesh& mesh = *geometry->meshes()[surfaceIndex];
-                Material& material = *geometry->materials()[surfaceIndex];
+            // By default, assume that the entity is visible
+            bool visible = true;
 
-                renderMesh(camera, target, material, mesh, *transform);
+            // If we need to test this entity against the frustum
+            if (frustumTest)
+            {
+                // If the entity has a bounding box
+                auto boundingBox = entity.component<BoundingBox>();
+                if (boundingBox)
+                {
+                    AxisAlignedBox& axisAlignedBox = boundingBox->axisAlignedBox();
+                    const Frustum& frustum = camera.frustum();
+
+                    // Test the bounding box against the frustum
+                    FrustumTestResult::Enum result = frustum.testAxisAlignedBox(axisAlignedBox);
+                    if (result == FrustumTestResult::Inside)
+                    {
+                        // No need to test any children
+                        frustumTest = false;
+                    }
+                    else if (result == FrustumTestResult::Intersect)
+                    {
+                        // Need to test children
+                        frustumTest = false;
+                    }
+                    else
+                    {
+                        // The entity is outside of the frustum
+                        visible = false;
+                    }
+                }
             }
 
-            for (Entity& child : entity.children())
+            // If the entity is visible
+            if (visible)
             {
-                render(camera, target, child);
+                // Render the geometry
+                size_t surfaceCount = geometry->surfaceCount();
+                for (size_t surfaceIndex = 0; surfaceIndex < surfaceCount; ++surfaceIndex)
+                {
+                    Mesh& mesh = *geometry->meshes()[surfaceIndex];
+                    Material& material = *geometry->materials()[surfaceIndex];
+
+                    renderMesh(camera, target, material, mesh, *transform);
+                }
+
+                // Render all children
+                for (Entity& child : entity.children())
+                {
+                    render(camera, target, child, frustumTest);
+                }
             }
         }
     }
