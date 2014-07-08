@@ -57,4 +57,9 @@ public:
     static const std::string& toString(T value);
 };
 
+#define HECT_ENUM_VALUE(value)
+
+#define HECT_BEGIN_ENUM(type)
+#define HECT_END_ENUM(type)
+
 }

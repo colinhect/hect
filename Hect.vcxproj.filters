@@ -52,9 +52,6 @@
     <Filter Include="Source\Hect\IO\Encoders">
       <UniqueIdentifier>{772319fc-e0b7-4c8b-91ab-02bb7147edea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Hect\Reflection">
-      <UniqueIdentifier>{faf25e69-c179-4656-80d1-3c05a4134188}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Hect\Logic">
       <UniqueIdentifier>{5d093005-925d-44ba-8c9b-24d787d83e15}</UniqueIdentifier>
       <Extensions>
