@@ -33,9 +33,12 @@ namespace hect
 void log(const std::string& category, const std::string& message);
 
 #if defined(HECT_DEBUG) && !defined(HECT_NO_LOGGING)
-#define LOG_TRACE(message) log("Trace", message)
-#define LOG_WARNING(message) log("Warning", message)
-#define LOG_DEBUG(message) log("Debug", message)
+//#define LOG_TRACE(message) log("Trace", message)
+//#define LOG_WARNING(message) log("Warning", message)
+//#define LOG_DEBUG(message) log("Debug", message)
+#define LOG_TRACE(message)
+#define LOG_WARNING(message)
+#define LOG_DEBUG(message)
 #define LOG_INFO(message) log("Info", message)
 #else
 #define LOG_TRACE(message)

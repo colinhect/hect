@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Math/Vector3.h"
+#include "Hect/Math/Quaternion.h"
 
 namespace hect
 {
@@ -58,10 +59,22 @@ public:
     void expandToInclude(const AxisAlignedBox& box);
 
     ///
-    /// Translates the box's center.
+    /// Applies a translation to the box.
     ///
-    /// \param translation The translation to perform.
+    /// \param translation The translation to apply.
     void translate(const Vector3& translation);
+
+    ///
+    /// Applies a scale to the box.
+    ///
+    /// \param scale The scale to apply.
+    void scale(const Vector3& scale);
+
+    ///
+    /// Applies a rotation to the box.
+    ///
+    /// \param rotation The rotation to apply.
+    void rotate(const Quaternion& rotation);
 
     ///
     /// Returns the minimum point.

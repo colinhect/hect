@@ -60,7 +60,7 @@ Mesh::Mesh(const Mesh& mesh) :
     _vertexCount(mesh._vertexCount),
     _indexData(mesh._indexData),
     _indexCount(mesh._indexCount),
-    _boundingBox(mesh._boundingBox)
+    _axisAlignedBox(mesh._axisAlignedBox)
 {
 }
 
@@ -74,7 +74,7 @@ Mesh::Mesh(Mesh&& mesh) :
     _vertexCount(mesh._vertexCount),
     _indexData(std::move(mesh._indexData)),
     _indexCount(mesh._indexCount),
-    _boundingBox(mesh._boundingBox)
+    _axisAlignedBox(mesh._axisAlignedBox)
 {
 }
 
@@ -207,14 +207,14 @@ unsigned Mesh::indexSize() const
     return 0;
 }
 
-AxisAlignedBox& Mesh::boundingBox()
+AxisAlignedBox& Mesh::axisAlignedBox()
 {
-    return _boundingBox;
+    return _axisAlignedBox;
 }
 
-const AxisAlignedBox& Mesh::boundingBox() const
+const AxisAlignedBox& Mesh::axisAlignedBox() const
 {
-    return _boundingBox;
+    return _axisAlignedBox;
 }
 
 void Mesh::encode(ObjectEncoder& encoder) const
@@ -290,7 +290,7 @@ Mesh& Mesh::operator=(const Mesh& mesh)
     _vertexCount = mesh.vertexCount();
     _indexData = mesh.indexData();
     _indexCount = mesh.indexCount();
-    _boundingBox = mesh.boundingBox();
+    _axisAlignedBox = mesh.axisAlignedBox();
 
     return *this;
 }
@@ -312,7 +312,7 @@ Mesh& Mesh::operator=(Mesh&& mesh)
     _vertexCount = mesh.vertexCount();
     _indexData = std::move(mesh.indexData());
     _indexCount = mesh.indexCount();
-    _boundingBox = mesh.boundingBox();
+    _axisAlignedBox = mesh.axisAlignedBox();
 
     return *this;
 }

@@ -25,25 +25,26 @@
 
 #include "Hect/Logic/System.h"
 #include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Logic/Components/BoundingBox.h"
 #include "Hect/Logic/Components/Transform.h"
 
 namespace hect
 {
 
 ///
-/// Updates the transform hierarchies of the scene.
-class TransformSystem :
+/// Updates the bounding box hierarchies of the scene.
+    class BoundingBoxSystem :
     public System
 {
 public:
-    TransformSystem(Scene& scene);
+    BoundingBoxSystem(Scene& scene);
 
     ///
-    /// Updates the global transforms of all transforms.
+    /// Updates the all bounding boxes.
     void update();
 
 private:
-    void _updateTransform(Entity& parent, Entity& child);
+    void _resizeBoundingBox(Entity& entity, BoundingBox& boundingBox);
 };
 
 }

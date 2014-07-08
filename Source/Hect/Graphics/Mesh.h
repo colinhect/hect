@@ -172,12 +172,12 @@ public:
     unsigned indexSize() const;
 
     ///
-    /// Returns the bounding box.
-    AxisAlignedBox& boundingBox();
+    /// Returns an axis aligned box bounding the mesh.
+    AxisAlignedBox& axisAlignedBox();
 
     ///
-    /// Returns the bounding box.
-    const AxisAlignedBox& boundingBox() const;
+    /// Returns an axis aligned box bounding the mesh.
+    const AxisAlignedBox& axisAlignedBox() const;
 
     ///
     /// Encodes the mesh.
@@ -246,7 +246,7 @@ private:
     IndexData _indexData;
     size_t _indexCount;
 
-    AxisAlignedBox _boundingBox;
+    AxisAlignedBox _axisAlignedBox;
 };
 
 }

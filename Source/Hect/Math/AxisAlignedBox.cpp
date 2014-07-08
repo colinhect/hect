@@ -66,6 +66,39 @@ void AxisAlignedBox::translate(const Vector3& translation)
     _maximum += translation;
 }
 
+void AxisAlignedBox::scale(const Vector3& scale)
+{
+    _minimum *= scale;
+    _maximum *= scale;
+}
+
+void AxisAlignedBox::rotate(const Quaternion& rotation)
+{
+    Vector3 points[8] =
+    {
+        _minimum,
+        Vector3(_minimum.x, _minimum.y, _maximum.z),
+        Vector3(_minimum.x, _maximum.y, _minimum.z),
+        Vector3(_minimum.x, _maximum.y, _maximum.z),
+        Vector3(_maximum.x, _minimum.y, _minimum.z),
+        Vector3(_maximum.x, _minimum.y, _maximum.z),
+        Vector3(_maximum.x, _maximum.y, _minimum.z),
+        _maximum
+    };
+
+    for (size_t i = 0; i < 8; ++i)
+    {
+        points[i] = rotation * points[i];
+    }
+
+    *this = AxisAlignedBox();
+
+    for (size_t i = 0; i < 8; ++i)
+    {
+        expandToInclude(points[i]);
+    }
+}
+
 const Vector3& AxisAlignedBox::minimum() const
 {
     return _minimum;

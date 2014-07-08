@@ -449,6 +449,9 @@
     <ClInclude Include="Source\Hect\Core\Enum.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Systems\BoundingBoxSystem.h">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -795,6 +798,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\VertexAttributeType.cpp">
       <Filter>Source\Hect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Systems\BoundingBoxSystem.cpp">
+      <Filter>Source\Hect\Logic\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

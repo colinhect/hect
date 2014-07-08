@@ -84,7 +84,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic::Enum semantic, cons
     // If this data is a position then expand the bounding box to include it
     if (semantic == VertexAttributeSemantic::Position)
     {
-        _mesh->boundingBox().expandToInclude(value);
+        _mesh->axisAlignedBox().expandToInclude(value);
     }
 
     const VertexLayout& vertexLayout = _mesh->vertexLayout();

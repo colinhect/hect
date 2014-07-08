@@ -125,6 +125,7 @@
     <ClInclude Include="Source\Hect\Logic\EntityPool.h" />
     <ClInclude Include="Source\Hect\Logic\Scene.h" />
     <ClInclude Include="Source\Hect\Logic\System.h" />
+    <ClInclude Include="Source\Hect\Logic\Systems\BoundingBoxSystem.h" />
     <ClInclude Include="Source\Hect\Logic\Systems\DebugSystem.h" />
     <ClInclude Include="Source\Hect\Logic\Systems\PhysicsSystem.h" />
     <ClInclude Include="Source\Hect\Logic\Systems\RenderSystem.h" />
@@ -248,6 +249,7 @@
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
     <ClCompile Include="Source\Hect\Logic\Scene.cpp" />
     <ClCompile Include="Source\Hect\Logic\System.cpp" />
+    <ClCompile Include="Source\Hect\Logic\Systems\BoundingBoxSystem.cpp" />
     <ClCompile Include="Source\Hect\Logic\Systems\DebugSystem.cpp" />
     <ClCompile Include="Source\Hect\Logic\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Source\Hect\Logic\Systems\RenderSystem.cpp" />

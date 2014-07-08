@@ -41,11 +41,6 @@ void TransformSystem::update()
         if (!entity.parent())
         {
             transform.updateGlobalTransform();
-            auto boundingBox = entity.component<BoundingBox>();
-            if (boundingBox)
-            {
-                _resizeBoundingBox(entity, transform, *boundingBox);
-            }
 
             for (Entity& child : entity.children())
             {
@@ -64,11 +59,6 @@ void TransformSystem::_updateTransform(Entity& parent, Entity& child)
         if (childTransform)
         {
             childTransform->updateGlobalTransform(*parentTransform);
-            auto boundingBox = child.component<BoundingBox>();
-            if (boundingBox)
-            {
-                _resizeBoundingBox(child, *childTransform, *boundingBox);
-            }
 
             for (Entity& nextChild : child.children())
             {
@@ -76,23 +66,4 @@ void TransformSystem::_updateTransform(Entity& parent, Entity& child)
             }
         }
     }
-}
-
-void TransformSystem::_resizeBoundingBox(Entity& entity, Transform& transform, BoundingBox& boundingBox)
-{
-    AxisAlignedBox& box = boundingBox.axisAlignedBox();
-    box = AxisAlignedBox();
-
-    auto geometry = entity.component<Geometry>();
-    if (geometry)
-    {
-        size_t surfaceCount = geometry->surfaceCount();
-        for (size_t i = 0; i < surfaceCount; ++i)
-        {
-            Mesh& mesh = *geometry->meshes()[i];
-            box.expandToInclude(mesh.boundingBox());
-        }
-    }
-    
-    box.translate(transform.globalPosition());
 }
