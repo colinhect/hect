@@ -39,7 +39,7 @@ public:
     void render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target);
 
 private:
-    AssetHandle<Material> _coloredLineMaterial;
+    AssetHandle<Material> _transformMaterial;
     AssetHandle<Mesh> _transformMesh;
 };
 

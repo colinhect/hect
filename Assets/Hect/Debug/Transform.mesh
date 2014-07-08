@@ -1,4 +1,5 @@
 {
+    "primitiveType" : "Lines",
     "vertexLayout" :
     {
         "attributes" :
@@ -15,8 +16,6 @@
             }
         ]
     },
-    "indexType" : "UnsignedByte",
-    "primitiveType" : "Lines",
     "vertices" :
     [
         [

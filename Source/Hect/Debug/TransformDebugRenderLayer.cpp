@@ -30,7 +30,7 @@ using namespace hect;
 
 TransformDebugRenderLayer::TransformDebugRenderLayer(AssetCache& assetCache)
 {
-    _coloredLineMaterial = assetCache.getHandle<Material>("Hect/Debug/ColoredLine.material");
+    _transformMaterial = assetCache.getHandle<Material>("Hect/Debug/Transform.material");
     _transformMesh = assetCache.getHandle<Mesh>("Hect/Debug/Transform.mesh");
 }
 
@@ -45,7 +45,7 @@ void TransformDebugRenderLayer::render(Scene& scene, RenderSystem& renderSystem,
 
         for (Transform& transform : scene.components<Transform>())
         {
-            renderSystem.renderMesh(*camera, target, *_coloredLineMaterial, *_transformMesh, transform);
+            renderSystem.renderMesh(*camera, target, *_transformMaterial, *_transformMesh, transform);
         }
 
         renderer.endFrame();

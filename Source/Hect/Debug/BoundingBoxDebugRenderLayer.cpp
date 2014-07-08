@@ -31,7 +31,7 @@ using namespace hect;
 
 BoundingBoxDebugRenderLayer::BoundingBoxDebugRenderLayer(AssetCache& assetCache)
 {
-    _coloredLineMaterial = assetCache.getHandle<Material>("Hect/Debug/ColoredLine.material");
+    _boundingBoxMaterial = assetCache.getHandle<Material>("Hect/Debug/BoundingBox.material");
     _boundingBoxMesh = assetCache.getHandle<Mesh>("Hect/Debug/BoundingBox.mesh");
 }
 
@@ -57,7 +57,7 @@ void BoundingBoxDebugRenderLayer::render(Scene& scene, RenderSystem& renderSyste
             transform.setScale(scale);
             transform.updateGlobalTransform();
 
-            renderSystem.renderMesh(*camera, target, *_coloredLineMaterial, *_boundingBoxMesh, transform);
+            renderSystem.renderMesh(*camera, target, *_boundingBoxMaterial, *_boundingBoxMesh, transform);
         }
 
         renderer.endFrame();
