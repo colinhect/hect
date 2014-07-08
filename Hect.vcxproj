@@ -287,6 +287,9 @@
     <None Include="Source\Hect\Math\Vector4.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assets\HectAssets.vcxproj">
+      <Project>{b41e38a3-5ab9-4cdf-97c1-b1635b1aa35a}</Project>
+    </ProjectReference>
     <ProjectReference Include="Dependencies\Bullet\Bullet.vcxproj">
       <Project>{f8dc1d2d-edf4-4949-ba12-80f8a652dc89}</Project>
     </ProjectReference>

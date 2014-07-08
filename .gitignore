@@ -1,5 +1,6 @@
 Bin/*
 Ignore.txt
+Assets/Intermediate/*
 Dependencies/Bullet/Intermediate/*
 Dependencies/ENet/Intermediate/*
 Dependencies/Glew/Intermediate/*

@@ -19,9 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F04C007D-2602-4CDC-8396-40D206256003}</ProjectGuid>
-    <RootNamespace>Tests</RootNamespace>
-    <ProjectName>HectTests</ProjectName>
+    <ProjectGuid>{B41E38A3-5AB9-4CDF-97C1-B1635B1AA35A}</ProjectGuid>
+    <RootNamespace>HectAssets</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -87,26 +86,26 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Source\;$(ProjectDir)..\Dependencies\Catch\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>python $(ProjectDir)..\Tools\create_zip.py $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(ProjectDir)Hect Hect</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Source\;$(ProjectDir)..\Dependencies\Catch\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>python $(ProjectDir)..\Tools\create_zip.py $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(ProjectDir)Hect Hect</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -115,15 +114,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Source\;$(ProjectDir)..\Dependencies\Catch\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>python $(ProjectDir)..\Tools\create_zip.py $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(ProjectDir)Hect Hect</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -132,46 +131,33 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Source\;$(ProjectDir)..\Dependencies\Catch\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>python $(ProjectDir)..\Tools\create_zip.py $(SolutionDir)Bin\$(Configuration)\$(Platform)\Hect.data $(ProjectDir)Hect Hect</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hect.vcxproj">
-      <Project>{eafd1572-5569-4643-a694-7f8f8d66e3ae}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source\AngleTests.cpp" />
-    <ClCompile Include="Source\AnyTests.cpp" />
-    <ClCompile Include="Source\EncodingTests.cpp" />
-    <ClCompile Include="Source\EventTests.cpp" />
-    <ClCompile Include="Source\FileSystemTests.cpp" />
-    <ClCompile Include="Source\FormatTests.cpp" />
-    <ClCompile Include="Source\FrustumTests.cpp" />
-    <ClCompile Include="Source\JsonTests.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Matrix4Tests.cpp" />
-    <ClCompile Include="Source\MeshReaderTests.cpp" />
-    <ClCompile Include="Source\MeshTests.cpp" />
-    <ClCompile Include="Source\PathTests.cpp" />
-    <ClCompile Include="Source\PlaneTests.cpp" />
-    <ClCompile Include="Source\QuaternionTests.cpp" />
-    <ClCompile Include="Source\SceneTests.cpp" />
-    <ClCompile Include="Source\StreamTests.cpp" />
-    <ClCompile Include="Source\TaskPoolTests.cpp" />
-    <ClCompile Include="Source\TimeSpanTests.cpp" />
-    <ClCompile Include="Source\Vector2Tests.cpp" />
-    <ClCompile Include="Source\Vector3Tests.cpp" />
-    <ClCompile Include="Source\Vector4Tests.cpp" />
-    <ClCompile Include="Source\VertexAttributeTests.cpp" />
-    <ClCompile Include="Source\VertexLayoutTests.cpp" />
+    <None Include="Hect\Debug\BoundingBox.material" />
+    <None Include="Hect\Debug\BoundingBox.mesh" />
+    <None Include="Hect\Debug\ColoredLine.frag" />
+    <None Include="Hect\Debug\ColoredLine.shader" />
+    <None Include="Hect\Debug\ColoredLine.vert" />
+    <None Include="Hect\Debug\Transform.material" />
+    <None Include="Hect\Debug\Transform.mesh" />
+    <None Include="Hect\Hdr\Compositor.frag" />
+    <None Include="Hect\Hdr\Compositor.shader" />
+    <None Include="Hect\Hdr\Compositor.vert" />
+    <None Include="Hect\Hdr\Screen.mesh" />
+    <None Include="Hect\Shaders\Particle.frag" />
+    <None Include="Hect\Shaders\Particle.geom" />
+    <None Include="Hect\Shaders\Particle.shader" />
+    <None Include="Hect\Shaders\Particle.vert" />
+    <None Include="Hect\Shaders\Rotation.geom" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
