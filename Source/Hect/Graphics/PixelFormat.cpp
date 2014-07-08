@@ -22,42 +22,22 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "PixelFormat.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-PixelFormat::Enum Enum::fromString<PixelFormat::Enum>(const std::string& string)
-{
-	static std::map<std::string, PixelFormat::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Rgb"] = hect::PixelFormat::Rgb;
-		_stringToValue["Rgba"] = hect::PixelFormat::Rgba;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'PixelFormat::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE PixelFormat
 
-template <>
-const std::string& Enum::toString<PixelFormat::Enum>(PixelFormat::Enum value)
-{
-	static std::map<PixelFormat::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::PixelFormat::Rgb] = "Rgb";
-		_valueToString[hect::PixelFormat::Rgba] = "Rgba";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'PixelFormat::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Rgb) \
+    ENUM_VALUE(Rgba)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

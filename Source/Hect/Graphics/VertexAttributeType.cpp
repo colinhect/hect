@@ -22,54 +22,28 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "VertexAttributeType.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-VertexAttributeType::Enum Enum::fromString<VertexAttributeType::Enum>(const std::string& string)
-{
-	static std::map<std::string, VertexAttributeType::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Byte"] = hect::VertexAttributeType::Byte;
-		_stringToValue["UnsignedByte"] = hect::VertexAttributeType::UnsignedByte;
-		_stringToValue["Short"] = hect::VertexAttributeType::Short;
-		_stringToValue["UnsignedShort"] = hect::VertexAttributeType::UnsignedShort;
-		_stringToValue["Int"] = hect::VertexAttributeType::Int;
-		_stringToValue["UnsignedInt"] = hect::VertexAttributeType::UnsignedInt;
-		_stringToValue["Half"] = hect::VertexAttributeType::Half;
-		_stringToValue["Float"] = hect::VertexAttributeType::Float;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'VertexAttributeType::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE VertexAttributeType
 
-template <>
-const std::string& Enum::toString<VertexAttributeType::Enum>(VertexAttributeType::Enum value)
-{
-	static std::map<VertexAttributeType::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::VertexAttributeType::Byte] = "Byte";
-		_valueToString[hect::VertexAttributeType::UnsignedByte] = "UnsignedByte";
-		_valueToString[hect::VertexAttributeType::Short] = "Short";
-		_valueToString[hect::VertexAttributeType::UnsignedShort] = "UnsignedShort";
-		_valueToString[hect::VertexAttributeType::Int] = "Int";
-		_valueToString[hect::VertexAttributeType::UnsignedInt] = "UnsignedInt";
-		_valueToString[hect::VertexAttributeType::Half] = "Half";
-		_valueToString[hect::VertexAttributeType::Float] = "Float";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'VertexAttributeType::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Byte) \
+    ENUM_VALUE(UnsignedByte) \
+    ENUM_VALUE(Short) \
+    ENUM_VALUE(UnsignedShort) \
+    ENUM_VALUE(Int) \
+    ENUM_VALUE(UnsignedInt) \
+    ENUM_VALUE(Half) \
+    ENUM_VALUE(Float)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

@@ -22,42 +22,22 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "ColorSpace.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-ColorSpace::Enum Enum::fromString<ColorSpace::Enum>(const std::string& string)
-{
-	static std::map<std::string, ColorSpace::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["NonLinear"] = hect::ColorSpace::NonLinear;
-		_stringToValue["Linear"] = hect::ColorSpace::Linear;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'ColorSpace::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE ColorSpace
 
-template <>
-const std::string& Enum::toString<ColorSpace::Enum>(ColorSpace::Enum value)
-{
-	static std::map<ColorSpace::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::ColorSpace::NonLinear] = "NonLinear";
-		_valueToString[hect::ColorSpace::Linear] = "Linear";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'ColorSpace::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(NonLinear) \
+    ENUM_VALUE(Linear)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

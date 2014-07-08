@@ -22,52 +22,27 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "UniformType.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-UniformType::Enum Enum::fromString<UniformType::Enum>(const std::string& string)
-{
-	static std::map<std::string, UniformType::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Int"] = hect::UniformType::Int;
-		_stringToValue["Float"] = hect::UniformType::Float;
-		_stringToValue["Vector2"] = hect::UniformType::Vector2;
-		_stringToValue["Vector3"] = hect::UniformType::Vector3;
-		_stringToValue["Vector4"] = hect::UniformType::Vector4;
-		_stringToValue["Matrix4"] = hect::UniformType::Matrix4;
-		_stringToValue["Texture"] = hect::UniformType::Texture;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'UniformType::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE UniformType
 
-template <>
-const std::string& Enum::toString<UniformType::Enum>(UniformType::Enum value)
-{
-	static std::map<UniformType::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::UniformType::Int] = "Int";
-		_valueToString[hect::UniformType::Float] = "Float";
-		_valueToString[hect::UniformType::Vector2] = "Vector2";
-		_valueToString[hect::UniformType::Vector3] = "Vector3";
-		_valueToString[hect::UniformType::Vector4] = "Vector4";
-		_valueToString[hect::UniformType::Matrix4] = "Matrix4";
-		_valueToString[hect::UniformType::Texture] = "Texture";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'UniformType::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Int) \
+    ENUM_VALUE(Float) \
+    ENUM_VALUE(Vector2) \
+    ENUM_VALUE(Vector3) \
+    ENUM_VALUE(Vector4) \
+    ENUM_VALUE(Matrix4) \
+    ENUM_VALUE(Texture)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

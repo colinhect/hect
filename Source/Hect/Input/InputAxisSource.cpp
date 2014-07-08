@@ -22,48 +22,25 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputAxisSource.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-InputAxisSource::Enum Enum::fromString<InputAxisSource::Enum>(const std::string& string)
-{
-	static std::map<std::string, InputAxisSource::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["MouseMoveX"] = hect::InputAxisSource::MouseMoveX;
-		_stringToValue["MouseMoveY"] = hect::InputAxisSource::MouseMoveY;
-		_stringToValue["MouseButton"] = hect::InputAxisSource::MouseButton;
-		_stringToValue["MouseScroll"] = hect::InputAxisSource::MouseScroll;
-		_stringToValue["Key"] = hect::InputAxisSource::Key;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'InputAxisSource::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE InputAxisSource
 
-template <>
-const std::string& Enum::toString<InputAxisSource::Enum>(InputAxisSource::Enum value)
-{
-	static std::map<InputAxisSource::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::InputAxisSource::MouseMoveX] = "MouseMoveX";
-		_valueToString[hect::InputAxisSource::MouseMoveY] = "MouseMoveY";
-		_valueToString[hect::InputAxisSource::MouseButton] = "MouseButton";
-		_valueToString[hect::InputAxisSource::MouseScroll] = "MouseScroll";
-		_valueToString[hect::InputAxisSource::Key] = "Key";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'InputAxisSource::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(MouseMoveX) \
+    ENUM_VALUE(MouseMoveY) \
+    ENUM_VALUE(MouseButton) \
+    ENUM_VALUE(MouseScroll) \
+    ENUM_VALUE(Key)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

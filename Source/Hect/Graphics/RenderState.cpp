@@ -22,46 +22,24 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "RenderState.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-RenderState::Enum Enum::fromString<RenderState::Enum>(const std::string& string)
-{
-	static std::map<std::string, RenderState::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Blend"] = hect::RenderState::Blend;
-		_stringToValue["DepthTest"] = hect::RenderState::DepthTest;
-		_stringToValue["DepthWrite"] = hect::RenderState::DepthWrite;
-		_stringToValue["CullFace"] = hect::RenderState::CullFace;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'RenderState::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE RenderState
 
-template <>
-const std::string& Enum::toString<RenderState::Enum>(RenderState::Enum value)
-{
-	static std::map<RenderState::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::RenderState::Blend] = "Blend";
-		_valueToString[hect::RenderState::DepthTest] = "DepthTest";
-		_valueToString[hect::RenderState::DepthWrite] = "DepthWrite";
-		_valueToString[hect::RenderState::CullFace] = "CullFace";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'RenderState::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Blend) \
+    ENUM_VALUE(DepthTest) \
+    ENUM_VALUE(DepthWrite) \
+    ENUM_VALUE(CullFace)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

@@ -22,44 +22,23 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "MouseButton.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-MouseButton::Enum Enum::fromString<MouseButton::Enum>(const std::string& string)
-{
-	static std::map<std::string, MouseButton::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Left"] = hect::MouseButton::Left;
-		_stringToValue["Right"] = hect::MouseButton::Right;
-		_stringToValue["Middle"] = hect::MouseButton::Middle;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'MouseButton::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE MouseButton
 
-template <>
-const std::string& Enum::toString<MouseButton::Enum>(MouseButton::Enum value)
-{
-	static std::map<MouseButton::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::MouseButton::Left] = "Left";
-		_valueToString[hect::MouseButton::Right] = "Right";
-		_valueToString[hect::MouseButton::Middle] = "Middle";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'MouseButton::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Left) \
+    ENUM_VALUE(Right) \
+    ENUM_VALUE(Middle)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

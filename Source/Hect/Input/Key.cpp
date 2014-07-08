@@ -22,154 +22,78 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "Key.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-Key::Enum Enum::fromString<Key::Enum>(const std::string& string)
-{
-	static std::map<std::string, Key::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Unknown"] = hect::Key::Unknown;
-		_stringToValue["A"] = hect::Key::A;
-		_stringToValue["B"] = hect::Key::B;
-		_stringToValue["C"] = hect::Key::C;
-		_stringToValue["D"] = hect::Key::D;
-		_stringToValue["E"] = hect::Key::E;
-		_stringToValue["F"] = hect::Key::F;
-		_stringToValue["G"] = hect::Key::G;
-		_stringToValue["H"] = hect::Key::H;
-		_stringToValue["I"] = hect::Key::I;
-		_stringToValue["J"] = hect::Key::J;
-		_stringToValue["K"] = hect::Key::K;
-		_stringToValue["L"] = hect::Key::L;
-		_stringToValue["M"] = hect::Key::M;
-		_stringToValue["N"] = hect::Key::N;
-		_stringToValue["O"] = hect::Key::O;
-		_stringToValue["P"] = hect::Key::P;
-		_stringToValue["Q"] = hect::Key::Q;
-		_stringToValue["R"] = hect::Key::R;
-		_stringToValue["S"] = hect::Key::S;
-		_stringToValue["T"] = hect::Key::T;
-		_stringToValue["U"] = hect::Key::U;
-		_stringToValue["V"] = hect::Key::V;
-		_stringToValue["W"] = hect::Key::W;
-		_stringToValue["X"] = hect::Key::X;
-		_stringToValue["Y"] = hect::Key::Y;
-		_stringToValue["Z"] = hect::Key::Z;
-		_stringToValue["Num0"] = hect::Key::Num0;
-		_stringToValue["Num1"] = hect::Key::Num1;
-		_stringToValue["Num2"] = hect::Key::Num2;
-		_stringToValue["Num3"] = hect::Key::Num3;
-		_stringToValue["Num4"] = hect::Key::Num4;
-		_stringToValue["Num5"] = hect::Key::Num5;
-		_stringToValue["Num6"] = hect::Key::Num6;
-		_stringToValue["Num7"] = hect::Key::Num7;
-		_stringToValue["Num8"] = hect::Key::Num8;
-		_stringToValue["Num9"] = hect::Key::Num9;
-		_stringToValue["Esc"] = hect::Key::Esc;
-		_stringToValue["Space"] = hect::Key::Space;
-		_stringToValue["Enter"] = hect::Key::Enter;
-		_stringToValue["Backspace"] = hect::Key::Backspace;
-		_stringToValue["Tab"] = hect::Key::Tab;
-		_stringToValue["Tick"] = hect::Key::Tick;
-		_stringToValue["F1"] = hect::Key::F1;
-		_stringToValue["F2"] = hect::Key::F2;
-		_stringToValue["F3"] = hect::Key::F3;
-		_stringToValue["F4"] = hect::Key::F4;
-		_stringToValue["F5"] = hect::Key::F5;
-		_stringToValue["F6"] = hect::Key::F6;
-		_stringToValue["F7"] = hect::Key::F7;
-		_stringToValue["F8"] = hect::Key::F8;
-		_stringToValue["F9"] = hect::Key::F9;
-		_stringToValue["F10"] = hect::Key::F10;
-		_stringToValue["F11"] = hect::Key::F11;
-		_stringToValue["F12"] = hect::Key::F12;
-		_stringToValue["LeftCtrl"] = hect::Key::LeftCtrl;
-		_stringToValue["LeftShift"] = hect::Key::LeftShift;
-		_stringToValue["LeftAlt"] = hect::Key::LeftAlt;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'Key::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE Key
 
-template <>
-const std::string& Enum::toString<Key::Enum>(Key::Enum value)
-{
-	static std::map<Key::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::Key::Unknown] = "Unknown";
-		_valueToString[hect::Key::A] = "A";
-		_valueToString[hect::Key::B] = "B";
-		_valueToString[hect::Key::C] = "C";
-		_valueToString[hect::Key::D] = "D";
-		_valueToString[hect::Key::E] = "E";
-		_valueToString[hect::Key::F] = "F";
-		_valueToString[hect::Key::G] = "G";
-		_valueToString[hect::Key::H] = "H";
-		_valueToString[hect::Key::I] = "I";
-		_valueToString[hect::Key::J] = "J";
-		_valueToString[hect::Key::K] = "K";
-		_valueToString[hect::Key::L] = "L";
-		_valueToString[hect::Key::M] = "M";
-		_valueToString[hect::Key::N] = "N";
-		_valueToString[hect::Key::O] = "O";
-		_valueToString[hect::Key::P] = "P";
-		_valueToString[hect::Key::Q] = "Q";
-		_valueToString[hect::Key::R] = "R";
-		_valueToString[hect::Key::S] = "S";
-		_valueToString[hect::Key::T] = "T";
-		_valueToString[hect::Key::U] = "U";
-		_valueToString[hect::Key::V] = "V";
-		_valueToString[hect::Key::W] = "W";
-		_valueToString[hect::Key::X] = "X";
-		_valueToString[hect::Key::Y] = "Y";
-		_valueToString[hect::Key::Z] = "Z";
-		_valueToString[hect::Key::Num0] = "Num0";
-		_valueToString[hect::Key::Num1] = "Num1";
-		_valueToString[hect::Key::Num2] = "Num2";
-		_valueToString[hect::Key::Num3] = "Num3";
-		_valueToString[hect::Key::Num4] = "Num4";
-		_valueToString[hect::Key::Num5] = "Num5";
-		_valueToString[hect::Key::Num6] = "Num6";
-		_valueToString[hect::Key::Num7] = "Num7";
-		_valueToString[hect::Key::Num8] = "Num8";
-		_valueToString[hect::Key::Num9] = "Num9";
-		_valueToString[hect::Key::Esc] = "Esc";
-		_valueToString[hect::Key::Space] = "Space";
-		_valueToString[hect::Key::Enter] = "Enter";
-		_valueToString[hect::Key::Backspace] = "Backspace";
-		_valueToString[hect::Key::Tab] = "Tab";
-		_valueToString[hect::Key::Tick] = "Tick";
-		_valueToString[hect::Key::F1] = "F1";
-		_valueToString[hect::Key::F2] = "F2";
-		_valueToString[hect::Key::F3] = "F3";
-		_valueToString[hect::Key::F4] = "F4";
-		_valueToString[hect::Key::F5] = "F5";
-		_valueToString[hect::Key::F6] = "F6";
-		_valueToString[hect::Key::F7] = "F7";
-		_valueToString[hect::Key::F8] = "F8";
-		_valueToString[hect::Key::F9] = "F9";
-		_valueToString[hect::Key::F10] = "F10";
-		_valueToString[hect::Key::F11] = "F11";
-		_valueToString[hect::Key::F12] = "F12";
-		_valueToString[hect::Key::LeftCtrl] = "LeftCtrl";
-		_valueToString[hect::Key::LeftShift] = "LeftShift";
-		_valueToString[hect::Key::LeftAlt] = "LeftAlt";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'Key::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Unknown) \
+    ENUM_VALUE(A) \
+    ENUM_VALUE(B) \
+    ENUM_VALUE(C) \
+    ENUM_VALUE(D) \
+    ENUM_VALUE(E) \
+    ENUM_VALUE(F) \
+    ENUM_VALUE(G) \
+    ENUM_VALUE(H) \
+    ENUM_VALUE(I) \
+    ENUM_VALUE(J) \
+    ENUM_VALUE(K) \
+    ENUM_VALUE(L) \
+    ENUM_VALUE(M) \
+    ENUM_VALUE(N) \
+    ENUM_VALUE(O) \
+    ENUM_VALUE(P) \
+    ENUM_VALUE(Q) \
+    ENUM_VALUE(R) \
+    ENUM_VALUE(S) \
+    ENUM_VALUE(T) \
+    ENUM_VALUE(U) \
+    ENUM_VALUE(V) \
+    ENUM_VALUE(W) \
+    ENUM_VALUE(X) \
+    ENUM_VALUE(Y) \
+    ENUM_VALUE(Z) \
+    ENUM_VALUE(Num0) \
+    ENUM_VALUE(Num1) \
+    ENUM_VALUE(Num2) \
+    ENUM_VALUE(Num3) \
+    ENUM_VALUE(Num4) \
+    ENUM_VALUE(Num5) \
+    ENUM_VALUE(Num6) \
+    ENUM_VALUE(Num7) \
+    ENUM_VALUE(Num8) \
+    ENUM_VALUE(Num9) \
+    ENUM_VALUE(Esc) \
+    ENUM_VALUE(Space) \
+    ENUM_VALUE(Enter) \
+    ENUM_VALUE(Backspace) \
+    ENUM_VALUE(Tab) \
+    ENUM_VALUE(Tick) \
+    ENUM_VALUE(F1) \
+    ENUM_VALUE(F2) \
+    ENUM_VALUE(F3) \
+    ENUM_VALUE(F4) \
+    ENUM_VALUE(F5) \
+    ENUM_VALUE(F6) \
+    ENUM_VALUE(F7) \
+    ENUM_VALUE(F8) \
+    ENUM_VALUE(F9) \
+    ENUM_VALUE(F10) \
+    ENUM_VALUE(F11) \
+    ENUM_VALUE(F12) \
+    ENUM_VALUE(LeftCtrl) \
+    ENUM_VALUE(LeftShift) \
+    ENUM_VALUE(LeftAlt)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

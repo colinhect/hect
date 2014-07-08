@@ -22,58 +22,30 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "UniformBinding.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-UniformBinding::Enum Enum::fromString<UniformBinding::Enum>(const std::string& string)
-{
-	static std::map<std::string, UniformBinding::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["None"] = hect::UniformBinding::None;
-		_stringToValue["RenderTargetSize"] = hect::UniformBinding::RenderTargetSize;
-		_stringToValue["CameraPosition"] = hect::UniformBinding::CameraPosition;
-		_stringToValue["CameraUp"] = hect::UniformBinding::CameraUp;
-		_stringToValue["ViewMatrix"] = hect::UniformBinding::ViewMatrix;
-		_stringToValue["ProjectionMatrix"] = hect::UniformBinding::ProjectionMatrix;
-		_stringToValue["ViewProjectionMatrix"] = hect::UniformBinding::ViewProjectionMatrix;
-		_stringToValue["ModelMatrix"] = hect::UniformBinding::ModelMatrix;
-		_stringToValue["ModelViewMatrix"] = hect::UniformBinding::ModelViewMatrix;
-		_stringToValue["ModelViewProjectionMatrix"] = hect::UniformBinding::ModelViewProjectionMatrix;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'UniformBinding::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE UniformBinding
 
-template <>
-const std::string& Enum::toString<UniformBinding::Enum>(UniformBinding::Enum value)
-{
-	static std::map<UniformBinding::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::UniformBinding::None] = "None";
-		_valueToString[hect::UniformBinding::RenderTargetSize] = "RenderTargetSize";
-		_valueToString[hect::UniformBinding::CameraPosition] = "CameraPosition";
-		_valueToString[hect::UniformBinding::CameraUp] = "CameraUp";
-		_valueToString[hect::UniformBinding::ViewMatrix] = "ViewMatrix";
-		_valueToString[hect::UniformBinding::ProjectionMatrix] = "ProjectionMatrix";
-		_valueToString[hect::UniformBinding::ViewProjectionMatrix] = "ViewProjectionMatrix";
-		_valueToString[hect::UniformBinding::ModelMatrix] = "ModelMatrix";
-		_valueToString[hect::UniformBinding::ModelViewMatrix] = "ModelViewMatrix";
-		_valueToString[hect::UniformBinding::ModelViewProjectionMatrix] = "ModelViewProjectionMatrix";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'UniformBinding::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(None) \
+    ENUM_VALUE(RenderTargetSize) \
+    ENUM_VALUE(CameraPosition) \
+    ENUM_VALUE(CameraUp) \
+    ENUM_VALUE(ViewMatrix) \
+    ENUM_VALUE(ProjectionMatrix) \
+    ENUM_VALUE(ViewProjectionMatrix) \
+    ENUM_VALUE(ModelMatrix) \
+    ENUM_VALUE(ModelViewMatrix) \
+    ENUM_VALUE(ModelViewProjectionMatrix)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

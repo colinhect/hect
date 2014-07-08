@@ -22,48 +22,25 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "PrimitiveType.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-PrimitiveType::Enum Enum::fromString<PrimitiveType::Enum>(const std::string& string)
-{
-	static std::map<std::string, PrimitiveType::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Triangles"] = hect::PrimitiveType::Triangles;
-		_stringToValue["TriangleStrip"] = hect::PrimitiveType::TriangleStrip;
-		_stringToValue["Lines"] = hect::PrimitiveType::Lines;
-		_stringToValue["LineStrip"] = hect::PrimitiveType::LineStrip;
-		_stringToValue["Points"] = hect::PrimitiveType::Points;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'PrimitiveType::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE PrimitiveType
 
-template <>
-const std::string& Enum::toString<PrimitiveType::Enum>(PrimitiveType::Enum value)
-{
-	static std::map<PrimitiveType::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::PrimitiveType::Triangles] = "Triangles";
-		_valueToString[hect::PrimitiveType::TriangleStrip] = "TriangleStrip";
-		_valueToString[hect::PrimitiveType::Lines] = "Lines";
-		_valueToString[hect::PrimitiveType::LineStrip] = "LineStrip";
-		_valueToString[hect::PrimitiveType::Points] = "Points";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'PrimitiveType::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Triangles) \
+    ENUM_VALUE(TriangleStrip) \
+    ENUM_VALUE(Lines) \
+    ENUM_VALUE(LineStrip) \
+    ENUM_VALUE(Points)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

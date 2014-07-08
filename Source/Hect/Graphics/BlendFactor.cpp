@@ -22,58 +22,30 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "BlendFactor.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-BlendFactor::Enum Enum::fromString<BlendFactor::Enum>(const std::string& string)
-{
-	static std::map<std::string, BlendFactor::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Zero"] = hect::BlendFactor::Zero;
-		_stringToValue["One"] = hect::BlendFactor::One;
-		_stringToValue["SourceColor"] = hect::BlendFactor::SourceColor;
-		_stringToValue["OneMinusSourceColor"] = hect::BlendFactor::OneMinusSourceColor;
-		_stringToValue["DestColor"] = hect::BlendFactor::DestColor;
-		_stringToValue["OneMinusDestColor"] = hect::BlendFactor::OneMinusDestColor;
-		_stringToValue["SourceAlpha"] = hect::BlendFactor::SourceAlpha;
-		_stringToValue["OneMinusSourceAlpha"] = hect::BlendFactor::OneMinusSourceAlpha;
-		_stringToValue["DestAlpha"] = hect::BlendFactor::DestAlpha;
-		_stringToValue["OneMinusDestAlpha"] = hect::BlendFactor::OneMinusDestAlpha;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'BlendFactor::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE BlendFactor
 
-template <>
-const std::string& Enum::toString<BlendFactor::Enum>(BlendFactor::Enum value)
-{
-	static std::map<BlendFactor::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::BlendFactor::Zero] = "Zero";
-		_valueToString[hect::BlendFactor::One] = "One";
-		_valueToString[hect::BlendFactor::SourceColor] = "SourceColor";
-		_valueToString[hect::BlendFactor::OneMinusSourceColor] = "OneMinusSourceColor";
-		_valueToString[hect::BlendFactor::DestColor] = "DestColor";
-		_valueToString[hect::BlendFactor::OneMinusDestColor] = "OneMinusDestColor";
-		_valueToString[hect::BlendFactor::SourceAlpha] = "SourceAlpha";
-		_valueToString[hect::BlendFactor::OneMinusSourceAlpha] = "OneMinusSourceAlpha";
-		_valueToString[hect::BlendFactor::DestAlpha] = "DestAlpha";
-		_valueToString[hect::BlendFactor::OneMinusDestAlpha] = "OneMinusDestAlpha";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'BlendFactor::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Zero) \
+    ENUM_VALUE(One) \
+    ENUM_VALUE(SourceColor) \
+    ENUM_VALUE(OneMinusSourceColor) \
+    ENUM_VALUE(DestColor) \
+    ENUM_VALUE(OneMinusDestColor) \
+    ENUM_VALUE(SourceAlpha) \
+    ENUM_VALUE(OneMinusSourceAlpha) \
+    ENUM_VALUE(DestAlpha) \
+    ENUM_VALUE(OneMinusDestAlpha)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

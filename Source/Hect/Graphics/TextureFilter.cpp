@@ -22,42 +22,22 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "TextureFilter.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-TextureFilter::Enum Enum::fromString<TextureFilter::Enum>(const std::string& string)
-{
-	static std::map<std::string, TextureFilter::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Nearest"] = hect::TextureFilter::Nearest;
-		_stringToValue["Linear"] = hect::TextureFilter::Linear;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'TextureFilter::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE TextureFilter
 
-template <>
-const std::string& Enum::toString<TextureFilter::Enum>(TextureFilter::Enum value)
-{
-	static std::map<TextureFilter::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::TextureFilter::Nearest] = "Nearest";
-		_valueToString[hect::TextureFilter::Linear] = "Linear";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'TextureFilter::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Nearest) \
+    ENUM_VALUE(Linear)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

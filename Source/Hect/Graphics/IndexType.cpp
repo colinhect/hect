@@ -22,44 +22,23 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "IndexType.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-IndexType::Enum Enum::fromString<IndexType::Enum>(const std::string& string)
-{
-	static std::map<std::string, IndexType::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["UnsignedByte"] = hect::IndexType::UnsignedByte;
-		_stringToValue["UnsignedShort"] = hect::IndexType::UnsignedShort;
-		_stringToValue["UnsignedInt"] = hect::IndexType::UnsignedInt;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'IndexType::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE IndexType
 
-template <>
-const std::string& Enum::toString<IndexType::Enum>(IndexType::Enum value)
-{
-	static std::map<IndexType::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::IndexType::UnsignedByte] = "UnsignedByte";
-		_valueToString[hect::IndexType::UnsignedShort] = "UnsignedShort";
-		_valueToString[hect::IndexType::UnsignedInt] = "UnsignedInt";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'IndexType::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(UnsignedByte) \
+    ENUM_VALUE(UnsignedShort) \
+    ENUM_VALUE(UnsignedInt)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE

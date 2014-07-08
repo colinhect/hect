@@ -26,6 +26,9 @@
 #include <string>
 #include <map>
 
+#include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
+
 namespace hect
 {
 
@@ -57,9 +60,46 @@ public:
     static const std::string& toString(T value);
 };
 
-#define HECT_ENUM_VALUE(value)
+#define HECT_STRING(value) #value
 
-#define HECT_BEGIN_ENUM(type)
-#define HECT_END_ENUM(type)
+#define HECT_ENUM_TO_STRING(value) \
+    _valueToString[ENUM_TYPE::value] = #value;
+
+#define HECT_ENUM_DEFINE_TO_STRING(values) \
+    template <> \
+    const std::string& Enum::toString<ENUM_TYPE::Enum>(ENUM_TYPE::Enum value) \
+    { \
+        static std::map<ENUM_TYPE::Enum, std::string> _valueToString; \
+        if (_valueToString.empty()) \
+        { \
+            values \
+        } \
+        auto it = _valueToString.find(value); \
+        if (it == _valueToString.end()) \
+        { \
+            throw Error("Invalid enum value"); \
+        } \
+        return it->second; \
+    }
+
+#define HECT_ENUM_FROM_STRING(value) \
+    _stringToValue[#value] = ENUM_TYPE::value;
+
+#define HECT_ENUM_DEFINE_FROM_STRING(values) \
+    template <> \
+    ENUM_TYPE::Enum Enum::fromString<ENUM_TYPE::Enum>(const std::string& string) \
+    { \
+        static std::map<std::string, ENUM_TYPE::Enum> _stringToValue; \
+        if (_stringToValue.empty()) \
+        { \
+            values \
+        } \
+        auto it = _stringToValue.find(string); \
+        if (it == _stringToValue.end()) \
+        { \
+            throw Error(format("Invalid enum string '%s'", string.c_str())); \
+        } \
+        return it->second; \
+    }
 
 }

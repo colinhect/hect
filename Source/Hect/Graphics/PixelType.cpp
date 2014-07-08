@@ -22,44 +22,23 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "PixelType.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-template <>
-PixelType::Enum Enum::fromString<PixelType::Enum>(const std::string& string)
-{
-	static std::map<std::string, PixelType::Enum> _stringToValue;
-	if (_stringToValue.empty())
-	{
-		_stringToValue["Half"] = hect::PixelType::Half;
-		_stringToValue["Float"] = hect::PixelType::Float;
-		_stringToValue["Byte"] = hect::PixelType::Byte;
-	}
-	auto it = _stringToValue.find(string);
-	if (it == _stringToValue.end())
-	{
-		throw Error(format("Invalid string '%s' for type 'PixelType::Enum'", string.c_str()));
-	}
-	return it->second;
-}
+#define ENUM_TYPE PixelType
 
-template <>
-const std::string& Enum::toString<PixelType::Enum>(PixelType::Enum value)
-{
-	static std::map<PixelType::Enum, std::string> _valueToString;
-	if (_valueToString.empty())
-	{
-		_valueToString[hect::PixelType::Half] = "Half";
-		_valueToString[hect::PixelType::Float] = "Float";
-		_valueToString[hect::PixelType::Byte] = "Byte";
-	}
-	auto it = _valueToString.find(value);
-	if (it == _valueToString.end())
-	{
-		throw Error("Invalid value for type 'PixelType::Enum'");
-	}
-	return it->second;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Half) \
+    ENUM_VALUE(Float) \
+    ENUM_VALUE(Byte)
+
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
+
+#undef ENUM_TYPE
