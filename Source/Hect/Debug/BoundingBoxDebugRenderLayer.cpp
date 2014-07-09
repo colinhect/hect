@@ -31,8 +31,8 @@ using namespace hect;
 
 BoundingBoxDebugRenderLayer::BoundingBoxDebugRenderLayer(AssetCache& assetCache)
 {
-    _boundingBoxMaterial = assetCache.getHandle<Material>("Hect/Debug/BoundingBox.material");
-    _boundingBoxMesh = assetCache.getHandle<Mesh>("Hect/Debug/BoundingBox.mesh");
+    _boundingBoxMaterial = assetCache.getHandle<Material>("Debug/BoundingBox.material");
+    _boundingBoxMesh = assetCache.getHandle<Mesh>("Debug/BoundingBox.mesh");
 }
 
 void BoundingBoxDebugRenderLayer::render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target)

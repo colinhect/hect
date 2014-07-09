@@ -3,7 +3,7 @@
     [
         [
             {
-                "shader" : "Hect/Debug/ColoredLine.shader"
+                "shader" : "Debug/ColoredLine.shader"
             }
         ]
     ]

@@ -1,8 +1,8 @@
 {
     "modules" :
     [
-        "Hect/Debug/ColoredLine.frag",
-        "Hect/Debug/ColoredLine.vert"
+        "Debug/ColoredLine.frag",
+        "Debug/ColoredLine.vert"
     ],
     "uniforms" :
     [

@@ -1,8 +1,8 @@
 {
     "modules" :
     [
-        "Hect/Hdr/Compositor.frag",
-        "Hect/Hdr/Compositor.vert"
+        "Hdr/Compositor.frag",
+        "Hdr/Compositor.vert"
     ],
     "parameters" :
     {
