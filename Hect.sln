@@ -26,9 +26,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhysFS", "Dependencies\Phys
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{FB42392A-D068-4F70-85AA-03A4106BA9DF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HectTests", "Tests\HectTests.vcxproj", "{F04C007D-2602-4CDC-8396-40D206256003}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{F04C007D-2602-4CDC-8396-40D206256003}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HectDocs", "Docs\HectDocs.vcxproj", "{926F3FAA-1A31-495A-A320-55C505530865}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Docs", "Docs\Docs.vcxproj", "{926F3FAA-1A31-495A-A320-55C505530865}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

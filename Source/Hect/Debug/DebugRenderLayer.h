@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Input/Keyboard.h"
 #include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/Systems/RenderSystem.h"
 
@@ -47,16 +46,6 @@ public:
     void toggleActivated();
 
     ///
-    /// Returns the key which toggles the layer.
-    Key::Enum toggleKey() const;
-
-    ///
-    /// Sets the key which toggles the layer.
-    ///
-    /// \param key The new key which layer the indicator.
-    void setToggleKey(Key::Enum key);
-
-    ///
     /// Renders the debug render layer.
     ///
     /// \param scene The scene.
@@ -66,7 +55,6 @@ public:
 
 private:
     bool _activated;
-    Key::Enum _toggleKey;
 };
 
 }

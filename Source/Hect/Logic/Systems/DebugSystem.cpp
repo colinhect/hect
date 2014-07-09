@@ -30,16 +30,15 @@ DebugSystem::DebugSystem(Scene& scene) :
 {
 }
 
-void DebugSystem::addRenderLayer(Key::Enum toggleKey, DebugRenderLayer* renderLayer)
+void DebugSystem::addRenderLayer(Key::Enum toggleKey, DebugRenderLayer& renderLayer)
 {
-    assert(renderLayer);
-    renderLayer->setToggleKey(toggleKey);
-    _renderLayers.push_back(std::shared_ptr<DebugRenderLayer>(renderLayer));
+    _toggleKeys[toggleKey] = &renderLayer;
+    _renderLayers.push_back(&renderLayer);
 }
 
 void DebugSystem::renderActivatedRenderLayers(RenderSystem& renderSystem, RenderTarget& target)
 {
-    for (auto& renderLayer : _renderLayers)
+    for (DebugRenderLayer* renderLayer : _renderLayers)
     {
         if (renderLayer->isActivated())
         {
@@ -52,12 +51,10 @@ void DebugSystem::receiveEvent(const KeyboardEvent& event)
 {
     if (event.type == KeyboardEventType::KeyDown)
     {
-        for (auto& renderLayer : _renderLayers)
+        auto it = _toggleKeys.find(event.key);
+        if (it != _toggleKeys.end())
         {
-            if (renderLayer->toggleKey() == event.key)
-            {
-                renderLayer->toggleActivated();
-            }
+            it->second->toggleActivated();
         }
     }
 }

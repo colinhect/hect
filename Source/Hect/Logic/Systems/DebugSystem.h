@@ -27,6 +27,8 @@
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Debug/DebugRenderLayer.h"
 
+#include <map>
+
 namespace hect
 {
 
@@ -43,9 +45,8 @@ public:
     /// Adds a debug render layer to the system.
     ///
     /// \param toggleKey The key which toggles the render layer.
-    /// \param renderLayer The debug render layer (the debug system takes
-    /// ownership of this pointer).
-    void addRenderLayer(Key::Enum toggleKey, DebugRenderLayer* renderLayer);
+    /// \param renderLayer The debug render layer.
+    void addRenderLayer(Key::Enum toggleKey, DebugRenderLayer& renderLayer);
 
     ///
     /// Renders all activated debug render layers.
@@ -57,7 +58,8 @@ public:
     void receiveEvent(const KeyboardEvent& event);
 
 private:
-    std::vector<std::shared_ptr<DebugRenderLayer>> _renderLayers;
+    std::vector<DebugRenderLayer*> _renderLayers;
+    std::map<Key::Enum, DebugRenderLayer*> _toggleKeys;
 };
 
 }

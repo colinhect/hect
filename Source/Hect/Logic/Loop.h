@@ -24,17 +24,19 @@
 #pragma once
 
 #include "Hect/Core/Real.h"
+#include "Hect/Core/Timer.h"
+#include "Hect/Core/TimeSpan.h"
 
 namespace hect
 {
 
 ///
-/// A layer of logic within a flow.
-class LogicLayer
+/// A logic loop.
+class Loop
 {
 public:
-    LogicLayer();
-    virtual ~LogicLayer() { }
+    Loop(TimeSpan timeStep);
+    virtual ~Loop() { }
 
     ///
     /// Called once every time step.
@@ -51,17 +53,27 @@ public:
     virtual void frameUpdate(Real delta);
 
     ///
-    /// Returns whether the layer is active.
+    /// Returns whether the loop is active.
     bool isActive() const;
 
     ///
-    /// Sets whether the layer is active.
+    /// Sets whether the loop is active.
     ///
-    /// \param active True if the layer is active; false otherwise.
+    /// \param active True if the loop is active; false otherwise.
     void setActive(bool active);
 
+    ///
+    /// Ticks the loop.
+    ///
+    /// \returns True if the loop is still active; false otherwise.
+    bool tick();
+    
 private:
     bool _active;
+    Timer _timer;
+    TimeSpan _timeStep;
+    TimeSpan _accumulator;
+    TimeSpan _delta;
 };
 
 }

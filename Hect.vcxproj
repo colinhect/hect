@@ -28,8 +28,6 @@
     <ClInclude Include="Source\Hect\Core\IdPool.h" />
     <ClInclude Include="Source\Hect\Core\Listener.h" />
     <ClInclude Include="Source\Hect\Core\Logging.h" />
-    <ClInclude Include="Source\Hect\Core\LogicFlow.h" />
-    <ClInclude Include="Source\Hect\Core\LogicLayer.h" />
     <ClInclude Include="Source\Hect\Core\Real.h" />
     <ClInclude Include="Source\Hect\Core\TaskPool.h" />
     <ClInclude Include="Source\Hect\Core\Timer.h" />
@@ -123,6 +121,7 @@
     <ClInclude Include="Source\Hect\Logic\Entity.h" />
     <ClInclude Include="Source\Hect\Logic\EntityEvent.h" />
     <ClInclude Include="Source\Hect\Logic\EntityPool.h" />
+    <ClInclude Include="Source\Hect\Logic\Loop.h" />
     <ClInclude Include="Source\Hect\Logic\Scene.h" />
     <ClInclude Include="Source\Hect\Logic\System.h" />
     <ClInclude Include="Source\Hect\Logic\Systems\BoundingBoxSystem.h" />
@@ -153,8 +152,6 @@
     <ClCompile Include="Source\Hect\Core\Error.cpp" />
     <ClCompile Include="Source\Hect\Core\Format.cpp" />
     <ClCompile Include="Source\Hect\Core\Logging.cpp" />
-    <ClCompile Include="Source\Hect\Core\LogicFlow.cpp" />
-    <ClCompile Include="Source\Hect\Core\LogicLayer.cpp" />
     <ClCompile Include="Source\Hect\Core\TaskPool.cpp" />
     <ClCompile Include="Source\Hect\Core\Timer.cpp" />
     <ClCompile Include="Source\Hect\Core\TimeSpan.cpp" />
@@ -247,6 +244,7 @@
     <ClCompile Include="Source\Hect\Logic\Entity.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
+    <ClCompile Include="Source\Hect\Logic\Loop.cpp" />
     <ClCompile Include="Source\Hect\Logic\Scene.cpp" />
     <ClCompile Include="Source\Hect\Logic\System.cpp" />
     <ClCompile Include="Source\Hect\Logic\Systems\BoundingBoxSystem.cpp" />

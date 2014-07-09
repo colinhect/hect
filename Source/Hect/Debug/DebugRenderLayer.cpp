@@ -26,8 +26,7 @@
 using namespace hect;
 
 DebugRenderLayer::DebugRenderLayer() :
-    _activated(false),
-    _toggleKey(Key::Unknown)
+    _activated(false)
 {
 }
 
@@ -43,14 +42,4 @@ bool DebugRenderLayer::isActivated() const
 void DebugRenderLayer::toggleActivated()
 {
     _activated = !_activated;
-}
-
-Key::Enum DebugRenderLayer::toggleKey() const
-{
-    return _toggleKey;
-}
-
-void DebugRenderLayer::setToggleKey(Key::Enum key)
-{
-    _toggleKey = key;
 }

@@ -92,12 +92,6 @@
     <ClInclude Include="Source\Hect\Core\Logging.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\LogicFlow.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Core\LogicLayer.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Core\Real.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
@@ -452,6 +446,9 @@
     <ClInclude Include="Source\Hect\Logic\Systems\BoundingBoxSystem.h">
       <Filter>Source\Hect\Logic\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Loop.h">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -464,12 +461,6 @@
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Core\Logging.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Core\LogicFlow.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Core\LogicLayer.cpp">
       <Filter>Source\Hect\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Core\TaskPool.cpp">
@@ -801,6 +792,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Systems\BoundingBoxSystem.cpp">
       <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Loop.cpp">
+      <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

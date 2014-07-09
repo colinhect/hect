@@ -21,41 +21,38 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "LogicFlow.h"
-
-#include <algorithm>
+#include "Loop.h"
 
 using namespace hect;
 
-LogicFlow::LogicFlow(TimeSpan timeStep) :
+Loop::Loop(TimeSpan timeStep) :
+    _active(true),
     _timeStep(timeStep)
 {
 }
 
-void LogicFlow::addLayer(LogicLayer& layer)
+void Loop::fixedUpdate(Real timeStep)
 {
-    _layers.push_back(&layer);
+    timeStep;
 }
 
-void LogicFlow::removeLayer(LogicLayer& layer)
+void Loop::frameUpdate(Real delta)
 {
-    _layers.erase(std::remove(_layers.begin(), _layers.end(), &layer), _layers.end());
+    delta;
 }
 
-void LogicFlow::removeAllLayers()
+bool Loop::isActive() const
 {
-    _layers.clear();
+    return _active;
 }
 
-bool LogicFlow::update()
+void Loop::setActive(bool active)
 {
-    _removeInactiveLayers();
+    _active = active;
+}
 
-    if (_layers.size() == 0)
-    {
-        return false;
-    }
-
+bool Loop::tick()
+{
     TimeSpan deltaTime = _timer.elapsed();
     _timer.reset();
 
@@ -64,40 +61,13 @@ bool LogicFlow::update()
 
     while (_accumulator.microseconds() >= _timeStep.microseconds())
     {
-        // Update the layers
-        for (LogicLayer* layer : _layers)
-        {
-            layer->fixedUpdate(_timeStep.seconds());
-        }
+        fixedUpdate(_timeStep.seconds());
 
         _delta = TimeSpan();
         _accumulator -= _timeStep;
     }
 
-    // Render the layers
-    for (LogicLayer* layer : _layers)
-    {
-        layer->frameUpdate(_delta.seconds() / _timeStep.seconds());
-    }
+    frameUpdate(_delta.seconds() / _timeStep.seconds());
 
-    return true;
-}
-
-void LogicFlow::_removeInactiveLayers()
-{
-    // Build a list of inactive layers
-    std::vector<LogicLayer*> inactiveLayers;
-    for (LogicLayer* layer : _layers)
-    {
-        if (!layer->isActive())
-        {
-            inactiveLayers.push_back(layer);
-        }
-    }
-
-    // Remove all inactive layers
-    for (LogicLayer* layer : inactiveLayers)
-    {
-        removeLayer(*layer);
-    }
+    return _active;
 }
