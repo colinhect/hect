@@ -194,6 +194,22 @@ Component<T>::Component() :
 }
 
 template <typename T>
+Component<T>::Component(const Component<T>& component) :
+    _pool(nullptr),
+    _id((ComponentId)-1)
+{
+    component;
+}
+
+template <typename T>
+Component<T>::Component(Component<T>&& component) :
+    _pool(nullptr),
+    _id((ComponentId)-1)
+{
+    component;
+}
+
+template <typename T>
 ComponentPool<T>& Component<T>::pool()
 {
     _ensureInPool();
@@ -231,6 +247,28 @@ template <typename T>
 std::type_index Component<T>::typeIndex() const
 {
     return std::type_index(typeid(T));
+}
+
+template <typename T>
+Component<T>& Component<T>::operator=(const Component& component)
+{
+    component;
+
+    _pool = nullptr;
+    _id = (ComponentId)-1;
+
+    return *this;
+}
+
+template <typename T>
+Component<T>& Component<T>::operator=(Component&& component)
+{
+    component;
+
+    _pool = nullptr;
+    _id = (ComponentId)-1;
+
+    return *this;
 }
 
 template <typename T>

@@ -204,6 +204,8 @@ public:
     };
 
     Component();
+    Component(const Component& component);
+    Component(Component&& component);
 
     ///
     /// Returns the pool that the component is in.
@@ -238,6 +240,9 @@ public:
     ///
     /// Returns the type index for the component's type.
     std::type_index typeIndex() const;
+
+    Component<T>& operator=(const Component& component);
+    Component<T>& operator=(Component&& component);
 
 private:
     void _enterPool(ComponentPool<T>& pool, ComponentId id);

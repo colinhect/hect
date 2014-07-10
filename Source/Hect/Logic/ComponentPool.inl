@@ -229,7 +229,18 @@ typename Component<T>::Iter ComponentPool<T>::_add(Entity& entity, const T& comp
     _entityToComponent[entityId] = id;
 
     // Expand the component vector if needed
-    _expandVector(_components, id);
+    if (_expandVector(_components, id))
+    {
+        // The component vector was resize, so each valid component needs to be
+        // re-added to the pool
+        for (ComponentId id = 0; id < _components.size(); ++id)
+        {
+            if (_componentHasEntity(id))
+            {
+                _components[id]._enterPool(*this, id);
+            }
+        }
+    }
 
     // Expand the component-to-entity vector if needed
     _expandVector(_componentToEntity, id, (EntityId)-1);
