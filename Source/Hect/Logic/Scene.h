@@ -43,6 +43,8 @@ class Scene :
     friend class Entity;
 public:
 
+    typedef std::function<void(Scene&)> ComponentRegistration;
+
     ///
     /// Constructs an empty scene.
     Scene();
@@ -58,7 +60,10 @@ public:
     ///
     /// \param componentName The type name of the component.
     template <typename T>
-    void registerComponent(const std::string& componentName);
+    static void registerComponent(const std::string& componentName);
+
+    template <typename T>
+    void prepareComponentPool(const std::string& componentName);
 
     ///
     /// Returns the pool of components of a specific type.
@@ -100,8 +105,10 @@ private:
     EntityPool _entityPool;
 
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
-    std::map<std::type_index, std::string> _componentTypeNames;
-    std::map<std::string, std::function<ComponentBase*(void)>> _componentConstructors;
+
+    static std::map<std::type_index, std::string> _componentTypeNames;
+    static std::map<std::string, std::function<ComponentBase*(void)>> _componentConstructors;
+    static std::vector<ComponentRegistration> _componentRegistrations;
 };
 
 }

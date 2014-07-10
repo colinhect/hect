@@ -23,13 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Scene.h"
 
-#include "Hect/Logic/Components/AmbientLight.h"
-#include "Hect/Logic/Components/DirectionalLight.h"
-#include "Hect/Logic/Components/Camera.h"
-#include "Hect/Logic/Components/Geometry.h"
-#include "Hect/Logic/Components/Transform.h"
-#include "Hect/Logic/Components/BoundingBox.h"
-#include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/IO/JsonDecoder.h"
 
 #include <algorithm>
@@ -40,14 +33,11 @@ Scene::Scene() :
     _entityCount(0),
     _entityPool(*this)
 {
-    // Register all built-in Hect components
-    registerComponent<AmbientLight>("AmbientLight");
-    registerComponent<DirectionalLight>("DirectionalLight");
-    registerComponent<Camera>("Camera");
-    registerComponent<Geometry>("Geometry");
-    registerComponent<Transform>("Transform");
-    registerComponent<BoundingBox>("BoundingBox");
-    registerComponent<RigidBody>("RigidBody");
+    // Create a component pool all statically registered components
+    for (ComponentRegistration componentRegistration : _componentRegistrations)
+    {
+        componentRegistration(*this);
+    }
 }
 
 Entity::Iter Scene::createEntity()
@@ -265,3 +255,7 @@ void Scene::_decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache
         }
     }
 }
+
+std::map<std::type_index, std::string> Scene::_componentTypeNames;
+std::map<std::string, std::function<ComponentBase*(void)>> Scene::_componentConstructors;
+std::vector<Scene::ComponentRegistration> Scene::_componentRegistrations;
