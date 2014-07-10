@@ -64,52 +64,52 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 }
             }
 
-            // Render mode
+            // Render state
             {
-                ObjectEncoder renderModeEncoder = passEncoder.encodeObject("renderMode");
+                ObjectEncoder renderStateEncoder = passEncoder.encodeObject("renderState");
 
                 // Bulld a list of all states
                 size_t stateCount = 4;
-                RenderState::Enum states[] =
+                RenderStateFlag::Enum states[] =
                 {
-                    RenderState::Blend,
-                    RenderState::DepthTest,
-                    RenderState::DepthWrite,
-                    RenderState::CullFace
+                    RenderStateFlag::Blend,
+                    RenderStateFlag::DepthTest,
+                    RenderStateFlag::DepthWrite,
+                    RenderStateFlag::CullFace
                 };
 
                 // Build a list of enabled/disabled states
-                std::vector<RenderState::Enum> enabledStates;
-                std::vector<RenderState::Enum> disabledStates;
+                std::vector<RenderStateFlag::Enum> enabledFlags;
+                std::vector<RenderStateFlag::Enum> disabledFlags;
                 for (size_t i = 0; i < stateCount; ++i)
                 {
-                    if (pass.renderMode().isStateEnabled(states[i]))
+                    if (pass.renderState().isEnabled(states[i]))
                     {
-                        enabledStates.push_back(states[i]);
+                        enabledFlags.push_back(states[i]);
                     }
                     else
                     {
-                        disabledStates.push_back(states[i]);
+                        disabledFlags.push_back(states[i]);
                     }
                 }
 
                 // Enabled states
                 {
-                    ArrayEncoder statesEncoder = renderModeEncoder.encodeArray("enabledStates");
+                    ArrayEncoder statesEncoder = renderStateEncoder.encodeArray("enabledFlags");
 
-                    for (const RenderState::Enum& state : enabledStates)
+                    for (const RenderStateFlag::Enum& flag : enabledFlags)
                     {
-                        statesEncoder.encodeEnum(state);
+                        statesEncoder.encodeEnum(flag);
                     }
                 }
 
                 // Disabled states
                 {
-                    ArrayEncoder statesEncoder = renderModeEncoder.encodeArray("disabledStates");
+                    ArrayEncoder statesEncoder = renderStateEncoder.encodeArray("disabledFlags");
 
-                    for (const RenderState::Enum& state : disabledStates)
+                    for (const RenderStateFlag::Enum& flag : disabledFlags)
                     {
-                        statesEncoder.encodeEnum(state);
+                        statesEncoder.encodeEnum(flag);
                     }
                 }
 
@@ -117,8 +117,8 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 {
                     ArrayEncoder blendFactorsEncoder = passEncoder.encodeArray("blendFactors");
 
-                    blendFactorsEncoder.encodeEnum(pass.renderMode().sourceBlendFactor());
-                    blendFactorsEncoder.encodeEnum(pass.renderMode().destBlendFactor());
+                    blendFactorsEncoder.encodeEnum(pass.renderState().sourceBlendFactor());
+                    blendFactorsEncoder.encodeEnum(pass.renderState().destBlendFactor());
                 }
             }
         }
@@ -141,7 +141,7 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
         {
             ObjectDecoder passDecoder = passesDecoder.decodeObject();
 
-            RenderMode renderMode;
+            RenderState renderState;
             AssetHandle<Texture>::Array textures;
             AssetHandle<Shader> shader;
             PassUniformValue::Array uniformValues;
@@ -168,43 +168,43 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                 }
             }
 
-            // Render mode
-            if (passDecoder.hasMember("renderMode"))
+            // Render state
+            if (passDecoder.hasMember("renderState"))
             {
-                ObjectDecoder renderModeDecoder = passDecoder.decodeObject("renderMode");
+                ObjectDecoder renderStateDecoder = passDecoder.decodeObject("renderState");
 
                 // Enabled states
-                if (renderModeDecoder.hasMember("enabledStates"))
+                if (renderStateDecoder.hasMember("enabledFlags"))
                 {
-                    ArrayDecoder statesDecoder = renderModeDecoder.decodeArray("enabledStates");
+                    ArrayDecoder statesDecoder = renderStateDecoder.decodeArray("enabledFlags");
                     while (statesDecoder.hasMoreElements())
                     {
 
-                        renderMode.enableState(statesDecoder.decodeEnum<RenderState::Enum>());
+                        renderState.enable(statesDecoder.decodeEnum<RenderStateFlag::Enum>());
                     }
                 }
 
                 // Disabled states
-                if (renderModeDecoder.hasMember("disabledStates"))
+                if (renderStateDecoder.hasMember("disabledFlags"))
                 {
-                    ArrayDecoder statesDecoder = renderModeDecoder.decodeArray("disabledStates");
+                    ArrayDecoder statesDecoder = renderStateDecoder.decodeArray("disabledFlags");
                     while (statesDecoder.hasMoreElements())
                     {
-                        renderMode.disableState(statesDecoder.decodeEnum<RenderState::Enum>());
+                        renderState.disable(statesDecoder.decodeEnum<RenderStateFlag::Enum>());
                     }
                 }
 
                 // Blend factors
-                if (renderModeDecoder.hasMember("blendFactors"))
+                if (renderStateDecoder.hasMember("blendFactors"))
                 {
-                    ArrayDecoder blendFactorsDecoder = renderModeDecoder.decodeArray("blendFactors");
+                    ArrayDecoder blendFactorsDecoder = renderStateDecoder.decodeArray("blendFactors");
                     auto sourceFactor = blendFactorsDecoder.decodeEnum<BlendFactor::Enum>();
                     auto destFactor = blendFactorsDecoder.decodeEnum<BlendFactor::Enum>();
-                    renderMode.setBlendFactors(sourceFactor, destFactor);
+                    renderState.setBlendFactors(sourceFactor, destFactor);
                 }
             }
 
-            passes.push_back(Pass(renderMode, textures, shader, uniformValues));
+            passes.push_back(Pass(renderState, textures, shader, uniformValues));
         }
 
         material.addTechnique(passes);

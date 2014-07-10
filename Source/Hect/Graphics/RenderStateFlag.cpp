@@ -21,56 +21,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "RenderMode.h"
+#include "RenderStateFlag.h"
+#include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-RenderMode::RenderMode() :
-    _stateBits(RenderState::DepthTest | RenderState::CullFace),
-    _sourceFactor(BlendFactor::One),
-    _destFactor(BlendFactor::One)
-{
-}
+#define ENUM_TYPE RenderStateFlag
 
-void RenderMode::enableState(RenderState::Enum state)
-{
-    _stateBits |= state;
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(Blend) \
+    ENUM_VALUE(DepthTest) \
+    ENUM_VALUE(DepthWrite) \
+    ENUM_VALUE(CullFace)
 
-void RenderMode::disableState(RenderState::Enum state)
-{
-    _stateBits &= ~state;
-}
+#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
+HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
 
-bool RenderMode::isStateEnabled(RenderState::Enum state) const
-{
-    return (_stateBits & state) == state;
-}
+#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
+HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#undef ENUM_VALUE
 
-void RenderMode::setBlendFactors(BlendFactor::Enum sourceFactor, BlendFactor::Enum destFactor)
-{
-    _sourceFactor = sourceFactor;
-    _destFactor = destFactor;
-}
-
-BlendFactor::Enum RenderMode::sourceBlendFactor() const
-{
-    return _sourceFactor;
-}
-
-BlendFactor::Enum RenderMode::destBlendFactor() const
-{
-    return _destFactor;
-}
-
-bool RenderMode::operator==(const RenderMode& renderMode) const
-{
-    return _stateBits == renderMode._stateBits
-           && _sourceFactor == renderMode.sourceBlendFactor()
-           && _destFactor == renderMode.destBlendFactor();
-}
-
-bool RenderMode::operator!=(const RenderMode& renderMode) const
-{
-    return !(*this == renderMode);
-}
+#undef ENUM_TYPE

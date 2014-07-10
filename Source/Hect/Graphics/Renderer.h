@@ -67,10 +67,10 @@ public:
     void endFrame();
 
     ///
-    /// Binds a render mode.
+    /// Binds a render state.
     ///
-    /// \param mode The render mode to bind.
-    void bindMode(const RenderMode& mode);
+    /// \param state The render state to bind.
+    void bindState(const RenderState& state);
 
     ///
     /// Selects a render target to begin rendering to.

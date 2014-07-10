@@ -273,9 +273,9 @@ void Renderer::endFrame()
     }
 }
 
-void Renderer::bindMode(const RenderMode& mode)
+void Renderer::bindState(const RenderState& state)
 {
-    if (mode.isStateEnabled(RenderState::DepthTest))
+    if (state.isEnabled(RenderStateFlag::DepthTest))
     {
         GL_ASSERT( glEnable(GL_DEPTH_TEST); )
     }
@@ -284,7 +284,7 @@ void Renderer::bindMode(const RenderMode& mode)
         GL_ASSERT( glDisable(GL_DEPTH_TEST); )
     }
 
-    if (mode.isStateEnabled(RenderState::CullFace))
+    if (state.isEnabled(RenderStateFlag::CullFace))
     {
         GL_ASSERT( glEnable(GL_CULL_FACE); )
     }
@@ -293,12 +293,12 @@ void Renderer::bindMode(const RenderMode& mode)
         GL_ASSERT( glDisable(GL_CULL_FACE); )
     }
 
-    if (mode.isStateEnabled(RenderState::Blend))
+    if (state.isEnabled(RenderStateFlag::Blend))
     {
         GL_ASSERT( glEnable(GL_BLEND); )
 
-        GLuint sourceFactor = _blendFactorLookUp[(int)mode.sourceBlendFactor()];
-        GLuint destFactor = _blendFactorLookUp[(int)mode.destBlendFactor()];
+        GLuint sourceFactor = _blendFactorLookUp[(int)state.sourceBlendFactor()];
+        GLuint destFactor = _blendFactorLookUp[(int)state.destBlendFactor()];
 
         GL_ASSERT( glBlendFunc(sourceFactor, destFactor); )
     }

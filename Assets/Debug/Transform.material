@@ -4,9 +4,9 @@
         [
             {
                 "shader" : "Debug/ColoredLine.shader",
-                "renderMode" :
+                "renderState" :
                 {
-                    "disabledStates" : [ "DepthTest" ]
+                    "disabledFlags" : [ "DepthTest" ]
                 }
             }
         ]

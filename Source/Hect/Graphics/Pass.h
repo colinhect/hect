@@ -27,7 +27,7 @@
 
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/Graphics/PassUniformValue.h"
-#include "Hect/Graphics/RenderMode.h"
+#include "Hect/Graphics/RenderState.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
 
@@ -37,7 +37,7 @@ namespace hect
 ///
 /// A step in a material technique.
 ///
-/// \note Contains the render mode, textures, shader, and uniform values
+/// \note Contains the render state, textures, shader, and uniform values
 /// used when rendering geometry for this step in the technique.
 class Pass
 {
@@ -50,11 +50,11 @@ public:
     ///
     /// Constructs a pass.
     ///
-    /// \param renderMode The render mode that pass will bind.
+    /// \param renderState The render state that pass will bind.
     /// \param textures The textures that the pass will bind.
     /// \param shader The shader that the pass will bind.
     /// \param uniformValues The values for the uniforms in the shader.
-    Pass(const RenderMode& renderMode, const AssetHandle<Texture>::Array& textures, const AssetHandle<Shader>& shader, const PassUniformValue::Array& uniformValues);
+    Pass(const RenderState& renderState, const AssetHandle<Texture>::Array& textures, const AssetHandle<Shader>& shader, const PassUniformValue::Array& uniformValues);
 
     ///
     /// Prepares a renderer to begin using this pass.
@@ -63,12 +63,12 @@ public:
     void prepare(Renderer& renderer) const;
 
     ///
-    /// Returns the render mode.
-    RenderMode& renderMode();
+    /// Returns the render state.
+    RenderState& renderState();
 
     ///
-    /// Returns the render mode.
-    const RenderMode& renderMode() const;
+    /// Returns the render state.
+    const RenderState& renderState() const;
 
     ///
     /// Returns the textures.
@@ -100,7 +100,7 @@ private:
     // binding
     void _resolvePassUniformValues();
 
-    RenderMode _renderMode;
+    RenderState _renderState;
     AssetHandle<Texture>::Array _textures;
     AssetHandle<Shader> _shader;
 

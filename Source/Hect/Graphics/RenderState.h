@@ -23,31 +23,72 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Graphics/BlendFactor.h"
+#include "Hect/Graphics/RenderStateFlag.h"
+
 namespace hect
 {
 
 ///
-/// A state that can either be enabled or disabled in a mode.
-namespace RenderState
+/// Describes a state that the renderer is in which affects the resulting
+/// rendered pixels.
+class RenderState
 {
-enum Enum
-{
-    ///
-    /// Blends source and destination pixels using a formula.
-    Blend = 1,
+public:
 
     ///
-    /// Tests whether a pixel should be occluded based on the depth buffer.
-    DepthTest = 2,
+    /// Constructs a default render state.
+    RenderState();
 
     ///
-    // Writes a pixel's depth to the depth buffer.
-    DepthWrite = 4,
+    /// Enables a flag.
+    ///
+    /// \param flag The flag to enable.
+    void enable(RenderStateFlag::Enum flag);
 
     ///
-    /// Culls faces pointing away from the camera.
-    CullFace = 8
+    /// Disables a flag.
+    ///
+    /// \param flag The flag to disable.
+    void disable(RenderStateFlag::Enum flag);
+
+    ///
+    /// Returns whether a given flag is enabled.
+    ///
+    /// \param flag The flag.
+    bool isEnabled(RenderStateFlag::Enum flag) const;
+
+    ///
+    /// Sets the source and destination blend factors.
+    ///
+    /// \param sourceFactor The source factor.
+    /// \param destFactor The destination factor.
+    void setBlendFactors(BlendFactor::Enum sourceFactor, BlendFactor::Enum destFactor);
+
+    ///
+    /// Returns the source blend factor.
+    BlendFactor::Enum sourceBlendFactor() const;
+
+    ///
+    /// Returns the destination blend factor.
+    BlendFactor::Enum destBlendFactor() const;
+
+    ///
+    /// Returns whether the render state is equivalent to another.
+    ///
+    /// \param renderState The other render state.
+    bool operator==(const RenderState& renderState) const;
+
+    ///
+    /// Returns whether the render state is different from another.
+    ///
+    /// \param renderState The other render state.
+    bool operator!=(const RenderState& renderState) const;
+
+private:
+    int _flagBits;
+    BlendFactor::Enum _sourceFactor;
+    BlendFactor::Enum _destFactor;
 };
-}
 
 }

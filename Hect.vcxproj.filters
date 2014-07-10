@@ -144,9 +144,6 @@
     <ClInclude Include="Source\Hect\Graphics\RendererObject.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\RenderMode.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\RenderTarget.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -351,9 +348,6 @@
     <ClInclude Include="Source\Hect\IO\AssetLoader.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\RenderState.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\BlendFactor.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -474,6 +468,12 @@
     <ClInclude Include="Source\Hect\Physics\Bullet.h">
       <Filter>Source\Hect\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\RenderStateFlag.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\RenderState.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -525,9 +525,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\RendererObject.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\RenderMode.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\RenderTarget.cpp">
@@ -710,9 +707,6 @@
     <ClCompile Include="Source\Hect\IO\AssetCache.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\RenderState.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\BlendFactor.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
@@ -820,6 +814,12 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Physics\Bullet.cpp">
       <Filter>Source\Hect\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\RenderStateFlag.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\RenderState.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

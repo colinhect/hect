@@ -54,8 +54,8 @@
     <ClInclude Include="Source\Hect\Graphics\PrimitiveType.h" />
     <ClInclude Include="Source\Hect\Graphics\Renderer.h" />
     <ClInclude Include="Source\Hect\Graphics\RendererObject.h" />
-    <ClInclude Include="Source\Hect\Graphics\RenderMode.h" />
     <ClInclude Include="Source\Hect\Graphics\RenderState.h" />
+    <ClInclude Include="Source\Hect\Graphics\RenderStateFlag.h" />
     <ClInclude Include="Source\Hect\Graphics\RenderTarget.h" />
     <ClInclude Include="Source\Hect\Graphics\Shader.h" />
     <ClInclude Include="Source\Hect\Graphics\ShaderModule.h" />
@@ -181,8 +181,8 @@
     <ClCompile Include="Source\Hect\Graphics\PrimitiveType.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Renderer.cpp" />
     <ClCompile Include="Source\Hect\Graphics\RendererObject.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\RenderMode.cpp" />
     <ClCompile Include="Source\Hect\Graphics\RenderState.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\RenderStateFlag.cpp" />
     <ClCompile Include="Source\Hect\Graphics\RenderTarget.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Shader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderLoader.cpp" />

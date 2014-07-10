@@ -21,56 +21,33 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "RenderState.h"
+#pragma once
 
-using namespace hect;
-
-RenderState::RenderState() :
-    _flagBits(RenderStateFlag::DepthTest | RenderStateFlag::CullFace),
-    _sourceFactor(BlendFactor::One),
-    _destFactor(BlendFactor::One)
+namespace hect
 {
+
+///
+/// A flag that can either be enabled or disabled in a render state.
+namespace RenderStateFlag
+{
+enum Enum
+{
+    ///
+    /// Blends source and destination pixels using a formula.
+    Blend = 1,
+
+    ///
+    /// Tests whether a pixel should be occluded based on the depth buffer.
+    DepthTest = 2,
+
+    ///
+    // Writes a pixel's depth to the depth buffer.
+    DepthWrite = 4,
+
+    ///
+    /// Culls faces pointing away from the camera.
+    CullFace = 8
+};
 }
 
-void RenderState::enable(RenderStateFlag::Enum flag)
-{
-    _flagBits |= flag;
-}
-
-void RenderState::disable(RenderStateFlag::Enum flag)
-{
-    _flagBits &= ~flag;
-}
-
-bool RenderState::isEnabled(RenderStateFlag::Enum flag) const
-{
-    return (_flagBits & flag) == flag;
-}
-
-void RenderState::setBlendFactors(BlendFactor::Enum sourceFactor, BlendFactor::Enum destFactor)
-{
-    _sourceFactor = sourceFactor;
-    _destFactor = destFactor;
-}
-
-BlendFactor::Enum RenderState::sourceBlendFactor() const
-{
-    return _sourceFactor;
-}
-
-BlendFactor::Enum RenderState::destBlendFactor() const
-{
-    return _destFactor;
-}
-
-bool RenderState::operator==(const RenderState& renderState) const
-{
-    return _flagBits == renderState._flagBits
-           && _sourceFactor == renderState.sourceBlendFactor()
-           && _destFactor == renderState.destBlendFactor();
-}
-
-bool RenderState::operator!=(const RenderState& renderState) const
-{
-    return !(*this == renderState);
 }

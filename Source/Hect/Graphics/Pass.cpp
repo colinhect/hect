@@ -27,8 +27,8 @@
 
 using namespace hect;
 
-Pass::Pass(const RenderMode& renderMode, const AssetHandle<Texture>::Array& textures, const AssetHandle<Shader>& shader, const PassUniformValue::Array& uniformValues) :
-    _renderMode(renderMode),
+Pass::Pass(const RenderState& renderState, const AssetHandle<Texture>::Array& textures, const AssetHandle<Shader>& shader, const PassUniformValue::Array& uniformValues) :
+    _renderState(renderState),
     _textures(textures),
     _shader(shader),
     _uniformValues(uniformValues)
@@ -38,8 +38,8 @@ Pass::Pass(const RenderMode& renderMode, const AssetHandle<Texture>::Array& text
 
 void Pass::prepare(Renderer& renderer) const
 {
-    // Bind the render mode
-    renderer.bindMode(_renderMode);
+    // Bind the render state
+    renderer.bindState(_renderState);
 
     // Bind the textures in the pass
     unsigned textureIndex = 0;
@@ -61,14 +61,14 @@ void Pass::prepare(Renderer& renderer) const
     }
 }
 
-RenderMode& Pass::renderMode()
+RenderState& Pass::renderState()
 {
-    return _renderMode;
+    return _renderState;
 }
 
-const RenderMode& Pass::renderMode() const
+const RenderState& Pass::renderState() const
 {
-    return _renderMode;
+    return _renderState;
 }
 
 const AssetHandle<Texture>::Array& Pass::textures() const
@@ -88,8 +88,8 @@ const PassUniformValue::Array& Pass::uniformValues() const
 
 bool Pass::operator==(const Pass& pass) const
 {
-    // Render mode
-    if (_renderMode != pass.renderMode())
+    // Render state
+    if (_renderState != pass.renderState())
     {
         return false;
     }
