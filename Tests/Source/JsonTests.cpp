@@ -55,7 +55,7 @@ TEST_CASE("Json_String")
 
 TEST_CASE("Json_Array")
 {
-    JsonValue value(JsonValueType::Array);
+    JsonValue value(JsonValueType_Array);
     value.addElement(true);
     value.addElement(5.0);
     value.addElement("Testing");
@@ -85,7 +85,7 @@ TEST_CASE("Json_Array")
 
 TEST_CASE("Json_Object")
 {
-    JsonValue value(JsonValueType::Object);
+    JsonValue value(JsonValueType_Object);
     value.addMember("someBool", true);
     value.addMember("someNumber", 5.0);
     value.addMember("someString", "Testing");
@@ -136,7 +136,7 @@ TEST_CASE("Json_Vector4")
 
 TEST_CASE("Json_MemberNames")
 {
-    JsonValue value(JsonValueType::Object);
+    JsonValue value(JsonValueType_Object);
     value.addMember("someBool", true);
     value.addMember("someNumber", 5.0);
     value.addMember("someString", "Testing");
@@ -163,7 +163,7 @@ TEST_CASE("Json_OrFromNotNull")
 
 TEST_CASE("Json_Iterate")
 {
-    JsonValue value(JsonValueType::Array);
+    JsonValue value(JsonValueType_Array);
     for (int i = 0; i < 10; ++i)
     {
         value.addElement((double)i);

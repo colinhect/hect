@@ -31,8 +31,8 @@
 using namespace hect;
 
 Texture::Texture() :
-    _minFilter(TextureFilter::Linear),
-    _magFilter(TextureFilter::Linear),
+    _minFilter(TextureFilter_Linear),
+    _magFilter(TextureFilter_Linear),
     _mipmapped(true),
     _wrapped(false)
 {
@@ -41,15 +41,15 @@ Texture::Texture() :
 
 Texture::Texture(const std::string& name) :
     _name(name),
-    _minFilter(TextureFilter::Linear),
-    _magFilter(TextureFilter::Linear),
+    _minFilter(TextureFilter_Linear),
+    _magFilter(TextureFilter_Linear),
     _mipmapped(true),
     _wrapped(false)
 {
     setImage(new Image());
 }
 
-Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType::Enum pixelType, PixelFormat::Enum pixelFormat, TextureFilter::Enum minFilter, TextureFilter::Enum magFilter, bool mipmapped, bool wrapped) :
+Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
     _name(name),
     _image(new Image(width, height, pixelType, pixelFormat)),
     _width(width),
@@ -65,8 +65,8 @@ Texture::Texture(const std::string& name, unsigned width, unsigned height, Pixel
 
 Texture::Texture(const std::string& name, const AssetHandle<Image>& image) :
     _name(name),
-    _minFilter(TextureFilter::Linear),
-    _magFilter(TextureFilter::Linear),
+    _minFilter(TextureFilter_Linear),
+    _magFilter(TextureFilter_Linear),
     _mipmapped(true),
     _wrapped(false)
 {
@@ -140,12 +140,12 @@ void Texture::setImage(const AssetHandle<Image>& image)
     _pixelFormat = image->pixelFormat();
 }
 
-TextureFilter::Enum Texture::minFilter() const
+TextureFilter Texture::minFilter() const
 {
     return _minFilter;
 }
 
-void Texture::setMinFilter(TextureFilter::Enum filter)
+void Texture::setMinFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
@@ -155,12 +155,12 @@ void Texture::setMinFilter(TextureFilter::Enum filter)
     _minFilter = filter;
 }
 
-TextureFilter::Enum Texture::magFilter() const
+TextureFilter Texture::magFilter() const
 {
     return _magFilter;
 }
 
-void Texture::setMagFilter(TextureFilter::Enum filter)
+void Texture::setMagFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
@@ -210,12 +210,12 @@ unsigned Texture::height() const
     return _height;
 }
 
-PixelFormat::Enum Texture::pixelFormat() const
+PixelFormat Texture::pixelFormat() const
 {
     return _pixelFormat;
 }
 
-PixelType::Enum Texture::pixelType() const
+PixelType Texture::pixelType() const
 {
     return _pixelType;
 }
@@ -226,23 +226,23 @@ int Texture::bytesPerPixel() const
 
     switch (_pixelFormat)
     {
-    case PixelFormat::Rgb:
+    case PixelFormat_Rgb:
         componentCount = 3;
         break;
-    case PixelFormat::Rgba:
+    case PixelFormat_Rgba:
         componentCount = 4;
         break;
     }
 
     switch (_pixelType)
     {
-    case PixelType::Half:
+    case PixelType_Half:
         return componentCount * 2;
         break;
-    case PixelType::Float:
+    case PixelType_Float:
         return componentCount * 4;
         break;
-    case PixelType::Byte:
+    case PixelType_Byte:
         return componentCount * 1;
         break;
     }

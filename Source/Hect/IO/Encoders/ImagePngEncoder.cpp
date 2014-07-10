@@ -50,9 +50,9 @@ void ImagePngEncoder::decode(Image& image, ReadStream& stream)
 
     image._width = width;
     image._height = height;
-    image._pixelType = PixelType::Byte;
-    image._pixelFormat = PixelFormat::Rgba;
-    image._colorSpace = ColorSpace::NonLinear;
+    image._pixelType = PixelType_Byte;
+    image._pixelFormat = PixelFormat_Rgba;
+    image._colorSpace = ColorSpace_NonLinear;
 
     // Flip the image to OpenGL ordering
     image.flipVertical();
@@ -61,7 +61,7 @@ void ImagePngEncoder::decode(Image& image, ReadStream& stream)
 void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
 {
     // Verify pixel format and type.
-    if (image.pixelType() != PixelType::Byte || image.pixelFormat() != PixelFormat::Rgba)
+    if (image.pixelType() != PixelType_Byte || image.pixelFormat() != PixelFormat_Rgba)
     {
         throw Error("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
     }

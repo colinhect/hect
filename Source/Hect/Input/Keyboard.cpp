@@ -26,12 +26,12 @@
 using namespace hect;
 
 KeyboardEvent::KeyboardEvent() :
-    type(KeyboardEventType::KeyDown),
-    key(Key::Esc)
+    type(KeyboardEventType_KeyDown),
+    key(Key_Esc)
 {
 }
 
-bool Keyboard::isKeyDown(Key::Enum key) const
+bool Keyboard::isKeyDown(Key key) const
 {
     return _keyStates[(int)key];
 }
@@ -48,7 +48,7 @@ Keyboard::Keyboard() :
 
 void Keyboard::_enqueueEvent(const KeyboardEvent& event)
 {
-    _keyStates[(int)event.key] = event.type == KeyboardEventType::KeyDown;
+    _keyStates[(int)event.key] = event.type == KeyboardEventType_KeyDown;
     _events.push_back(event);
 }
 

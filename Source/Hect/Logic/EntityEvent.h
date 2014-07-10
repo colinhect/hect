@@ -28,23 +28,20 @@ namespace hect
 
 ///
 /// An entity-related event type.
-namespace EntityEventType
-{
-enum Enum
+enum EntityEventType
 {
     ///
     /// An entity was created in the scene.
-    Create,
+    EntityEventType_Create,
 
     ///
     /// An entity was activated in the scene.
-    Activate,
+    EntityEventType_Activate,
 
     ///
     /// An entity was destroyed in the scene.
-    Destroy
+    EntityEventType_Destroy
 };
-}
 
 class Entity;
 
@@ -53,18 +50,18 @@ class Entity;
 class EntityEvent
 {
 public:
-    EntityEvent(EntityEventType::Enum type, Entity& entity);
+    EntityEvent(EntityEventType type, Entity& entity);
 
     ///
     /// Returns the event type.
-    EntityEventType::Enum type() const;
+    EntityEventType type() const;
 
     ///
     /// Returns a reference to the entity that the event is for.
     Entity& entity() const;
 
 private:
-    EntityEventType::Enum _type;
+    EntityEventType _type;
     mutable Entity* _entity;
 };
 

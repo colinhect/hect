@@ -26,20 +26,16 @@
 
 using namespace hect;
 
-#define ENUM_TYPE RenderStateFlag
-
 #define ENUM_VALUES \
-    ENUM_VALUE(Blend) \
-    ENUM_VALUE(DepthTest) \
-    ENUM_VALUE(DepthWrite) \
-    ENUM_VALUE(CullFace)
+    ENUM_VALUE(RenderStateFlag, Blend) \
+    ENUM_VALUE(RenderStateFlag, DepthTest) \
+    ENUM_VALUE(RenderStateFlag, DepthWrite) \
+    ENUM_VALUE(RenderStateFlag, CullFace)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(RenderStateFlag, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(RenderStateFlag, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

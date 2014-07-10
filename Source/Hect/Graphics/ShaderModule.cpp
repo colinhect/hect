@@ -28,7 +28,7 @@
 using namespace hect;
 
 ShaderModule::ShaderModule() :
-    _type(ShaderModuleType::Vertex)
+    _type(ShaderModuleType_Vertex)
 {
 }
 
@@ -66,12 +66,12 @@ void ShaderModule::setName(const std::string& name)
     _name = name;
 }
 
-ShaderModuleType::Enum ShaderModule::type() const
+ShaderModuleType ShaderModule::type() const
 {
     return _type;
 }
 
-void ShaderModule::setType(ShaderModuleType::Enum type)
+void ShaderModule::setType(ShaderModuleType type)
 {
     if (isUploaded())
     {

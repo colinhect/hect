@@ -53,7 +53,7 @@ public:
     ///
     /// \param value The integer value.
     /// \param type The type.
-    UniformValue(int value, UniformType::Enum type);
+    UniformValue(int value, UniformType type);
 
     ///
     /// Constructs a real uniform value.
@@ -87,7 +87,7 @@ public:
 
     ///
     /// Returns the type.
-    UniformType::Enum type() const;
+    UniformType type() const;
 
     ///
     /// Sets the type.
@@ -95,7 +95,7 @@ public:
     /// \note The value is reset to the default value for the new type.
     ///
     /// \param type The new type.
-    void setType(UniformType::Enum type);
+    void setType(UniformType type);
 
     ///
     /// Returns the raw data.
@@ -204,7 +204,7 @@ public:
 
 private:
 
-    UniformType::Enum _type;
+    UniformType _type;
 
     Any _value;
 };

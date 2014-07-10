@@ -28,21 +28,18 @@ namespace hect
 
 ///
 /// The color space a pixel is in.
-namespace ColorSpace
-{
-enum Enum
+enum ColorSpace
 {
     ///
     /// Non-linear color space (sRGB).
     ///
-    /// \note Only an image with a pixel type of PixelType::Byte can
+    /// \note Only an image with a pixel type of PixelType_Byte can
     /// be non-linear.
-    NonLinear,
+    ColorSpace_NonLinear,
 
     ///
     /// Linear color space.
-    Linear
+    ColorSpace_Linear
 };
-}
 
 }

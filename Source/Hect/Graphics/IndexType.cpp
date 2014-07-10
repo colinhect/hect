@@ -27,19 +27,15 @@
 
 using namespace hect;
 
-#define ENUM_TYPE IndexType
-
 #define ENUM_VALUES \
-    ENUM_VALUE(UnsignedByte) \
-    ENUM_VALUE(UnsignedShort) \
-    ENUM_VALUE(UnsignedInt)
+    ENUM_VALUE(IndexType, UnsignedByte) \
+    ENUM_VALUE(IndexType, UnsignedShort) \
+    ENUM_VALUE(IndexType, UnsignedInt)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(IndexType, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(IndexType, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

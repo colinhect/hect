@@ -33,23 +33,20 @@ namespace hect
 
 ///
 /// The result of a frustum test.
-namespace FrustumTestResult
-{
-enum Enum
+enum FrustumTestResult
 {
     ///
     /// The tested geometry is outside of the frustum.
-    Outside,
+    FrustumTestResult_Outside,
 
     ///
     /// The tested geometry is completely inside of the frustum.
-    Inside,
+    FrustumTestResult_Inside,
 
     ///
     /// The tested geometry is partially inside of the frustum.
-    Intersect
+    FrustumTestResult_Intersect
 };
-}
 
 ///
 /// A pyramid with a near and far plane cutting the top and bottom.
@@ -89,7 +86,7 @@ public:
     /// \param box The box.
     ///
     /// \returns The test result.
-    FrustumTestResult::Enum testAxisAlignedBox(const AxisAlignedBox& box) const;
+    FrustumTestResult testAxisAlignedBox(const AxisAlignedBox& box) const;
 
     ///
     /// Returns whether a sphere at a certain positin is within the frustum.

@@ -25,7 +25,7 @@
 
 using namespace hect;
 
-VertexAttribute::VertexAttribute(VertexAttributeSemantic::Enum semantic, VertexAttributeType::Enum type, unsigned cardinality) :
+VertexAttribute::VertexAttribute(VertexAttributeSemantic semantic, VertexAttributeType type, unsigned cardinality) :
     _semantic(semantic),
     _type(type),
     _cardinality(cardinality),
@@ -33,12 +33,12 @@ VertexAttribute::VertexAttribute(VertexAttributeSemantic::Enum semantic, VertexA
 {
 }
 
-VertexAttributeSemantic::Enum VertexAttribute::semantic() const
+VertexAttributeSemantic VertexAttribute::semantic() const
 {
     return _semantic;
 }
 
-VertexAttributeType::Enum VertexAttribute::type() const
+VertexAttributeType VertexAttribute::type() const
 {
     return _type;
 }
@@ -52,18 +52,18 @@ unsigned VertexAttribute::size() const
 {
     switch (_type)
     {
-    case VertexAttributeType::Byte:
-    case VertexAttributeType::UnsignedByte:
+    case VertexAttributeType_Byte:
+    case VertexAttributeType_UnsignedByte:
         return 1 * _cardinality;
-    case VertexAttributeType::Short:
-    case VertexAttributeType::UnsignedShort:
+    case VertexAttributeType_Short:
+    case VertexAttributeType_UnsignedShort:
         return 2 * _cardinality;
-    case VertexAttributeType::Int:
-    case VertexAttributeType::UnsignedInt:
+    case VertexAttributeType_Int:
+    case VertexAttributeType_UnsignedInt:
         return 4 * _cardinality;
-    case VertexAttributeType::Half:
+    case VertexAttributeType_Half:
         return 2 * _cardinality;
-    case VertexAttributeType::Float:
+    case VertexAttributeType_Float:
         return 4 * _cardinality;
     }
 

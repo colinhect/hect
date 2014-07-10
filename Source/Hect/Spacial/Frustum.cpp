@@ -81,9 +81,9 @@ Frustum::Frustum(
     _planes[5] = Plane::fromPoints(farTopRight, farTopLeft, farBottomLeft); // Far
 }
 
-FrustumTestResult::Enum Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
+FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
 {
-    FrustumTestResult::Enum result = FrustumTestResult::Inside;
+    FrustumTestResult result = FrustumTestResult_Inside;
 
     if (!box.hasSize())
     {
@@ -123,11 +123,11 @@ FrustumTestResult::Enum Frustum::testAxisAlignedBox(const AxisAlignedBox& box) c
 
         if (distanceP < 0)
         {
-            return FrustumTestResult::Outside;
+            return FrustumTestResult_Outside;
         }
         else if (distanceN < 0)
         {
-            result = FrustumTestResult::Intersect;
+            result = FrustumTestResult_Intersect;
         }
     }
 

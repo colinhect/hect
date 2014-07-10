@@ -28,22 +28,19 @@ namespace hect
 
 ///
 /// The type of each component in a pixel.
-namespace PixelType
-{
-enum Enum
+enum PixelType
 {
     ///
     /// 16-bit floating point.
-    Half,
+    PixelType_Half,
 
     ///
     /// 32-bit floating point.
-    Float,
+    PixelType_Float,
 
     ///
     /// A byte.
-    Byte
+    PixelType_Byte
 };
-}
 
 }

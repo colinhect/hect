@@ -31,19 +31,16 @@ namespace hect
 
 ///
 /// A keyboard event type.
-namespace KeyboardEventType
-{
-enum Enum
+enum KeyboardEventType
 {
     ///
     /// A key was pressed down.
-    KeyDown,
+    KeyboardEventType_KeyDown,
 
     ///
     /// A key was released up.
-    KeyUp
+    KeyboardEventType_KeyUp
 };
-}
 
 ///
 /// An event triggered by pressing or releasing a key on the keyboard.
@@ -57,11 +54,11 @@ public:
 
     ///
     /// The type of the event.
-    KeyboardEventType::Enum type;
+    KeyboardEventType type;
 
     ///
     /// The key relating to the event.
-    Key::Enum key;
+    Key key;
 };
 
 ///
@@ -75,7 +72,7 @@ public:
     /// Returns whether the given key is down.
     ///
     /// \param key The key to check if it is down.
-    bool isKeyDown(Key::Enum key) const;
+    bool isKeyDown(Key key) const;
 
     ///
     /// Returns the dispatcher of keyboard events.

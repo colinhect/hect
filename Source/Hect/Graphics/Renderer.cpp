@@ -275,7 +275,7 @@ void Renderer::endFrame()
 
 void Renderer::bindState(const RenderState& state)
 {
-    if (state.isEnabled(RenderStateFlag::DepthTest))
+    if (state.isEnabled(RenderStateFlag_DepthTest))
     {
         GL_ASSERT( glEnable(GL_DEPTH_TEST); )
     }
@@ -284,7 +284,7 @@ void Renderer::bindState(const RenderState& state)
         GL_ASSERT( glDisable(GL_DEPTH_TEST); )
     }
 
-    if (state.isEnabled(RenderStateFlag::CullFace))
+    if (state.isEnabled(RenderStateFlag_CullFace))
     {
         GL_ASSERT( glEnable(GL_CULL_FACE); )
     }
@@ -293,7 +293,7 @@ void Renderer::bindState(const RenderState& state)
         GL_ASSERT( glDisable(GL_CULL_FACE); )
     }
 
-    if (state.isEnabled(RenderStateFlag::Blend))
+    if (state.isEnabled(RenderStateFlag_Blend))
     {
         GL_ASSERT( glEnable(GL_BLEND); )
 
@@ -542,23 +542,23 @@ void Renderer::setUniform(const Uniform& uniform, const UniformValue& value)
 
     switch (value.type())
     {
-    case UniformType::Int:
-    case UniformType::Texture:
+    case UniformType_Int:
+    case UniformType_Texture:
         GL_ASSERT( glUniform1i(location, *(GLint*)value.data()); )
         break;
-    case UniformType::Float:
+    case UniformType_Float:
         GL_ASSERT( glUniform1f(location, *(GLfloat*)value.data()); )
         break;
-    case UniformType::Vector2:
+    case UniformType_Vector2:
         GL_ASSERT( glUniform2fv(location, 1, (GLfloat*)value.data()); )
         break;
-    case UniformType::Vector3:
+    case UniformType_Vector3:
         GL_ASSERT( glUniform3fv(location, 1, (GLfloat*)value.data()); )
         break;
-    case UniformType::Vector4:
+    case UniformType_Vector4:
         GL_ASSERT( glUniform4fv(location, 1, (GLfloat*)value.data()); )
         break;
-    case UniformType::Matrix4:
+    case UniformType_Matrix4:
         GL_ASSERT( glUniformMatrix4fv(location, 1, false, (GLfloat*)value.data()); )
         break;
     }
@@ -809,7 +809,7 @@ void Renderer::uploadMesh(Mesh& mesh)
     {
         GL_ASSERT( glEnableVertexAttribArray(attributeIndex); )
 
-        if (attribute.type() == VertexAttributeType::Half || attribute.type() == VertexAttributeType::Float)
+        if (attribute.type() == VertexAttributeType_Half || attribute.type() == VertexAttributeType_Float)
         {
             GL_ASSERT(
                 glVertexAttribPointer(

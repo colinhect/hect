@@ -29,50 +29,47 @@ namespace hect
 ///
 /// A binding from a shader uniform variable to a built-in value in the
 /// rendering pipeline.
-namespace UniformBinding
-{
-enum Enum
+enum UniformBinding
 {
     ///
     /// No binding.
-    None,
+    UniformBinding_None,
 
     ///
     /// Bound to the size of the active render target.
-    RenderTargetSize,
+    UniformBinding_RenderTargetSize,
 
     ///
     /// Bound to the world-space position of the active camera.
-    CameraPosition,
+    UniformBinding_CameraPosition,
 
     ///
     /// Bound to the world-space up direction of the active camera.
-    CameraUp,
+    UniformBinding_CameraUp,
 
     ///
     /// Bound to the view matrix.
-    ViewMatrix,
+    UniformBinding_ViewMatrix,
 
     ///
     /// Bound to the projection matrix.
-    ProjectionMatrix,
+    UniformBinding_ProjectionMatrix,
 
     ///
     /// Bound to the product of the view and projection matrices.
-    ViewProjectionMatrix,
+    UniformBinding_ViewProjectionMatrix,
 
     ///
     /// Bound to the model matrix.
-    ModelMatrix,
+    UniformBinding_ModelMatrix,
 
     ///
     /// Bound to the product of the model and the view matrix.
-    ModelViewMatrix,
+    UniformBinding_ModelViewMatrix,
 
     ///
     /// Bound to the product of the model, view, and projection matrices.
-    ModelViewProjectionMatrix
+    UniformBinding_ModelViewProjectionMatrix
 };
-}
 
 }

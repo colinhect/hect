@@ -44,34 +44,34 @@ public:
     /// Enables a flag.
     ///
     /// \param flag The flag to enable.
-    void enable(RenderStateFlag::Enum flag);
+    void enable(RenderStateFlag flag);
 
     ///
     /// Disables a flag.
     ///
     /// \param flag The flag to disable.
-    void disable(RenderStateFlag::Enum flag);
+    void disable(RenderStateFlag flag);
 
     ///
     /// Returns whether a given flag is enabled.
     ///
     /// \param flag The flag.
-    bool isEnabled(RenderStateFlag::Enum flag) const;
+    bool isEnabled(RenderStateFlag flag) const;
 
     ///
     /// Sets the source and destination blend factors.
     ///
     /// \param sourceFactor The source factor.
     /// \param destFactor The destination factor.
-    void setBlendFactors(BlendFactor::Enum sourceFactor, BlendFactor::Enum destFactor);
+    void setBlendFactors(BlendFactor sourceFactor, BlendFactor destFactor);
 
     ///
     /// Returns the source blend factor.
-    BlendFactor::Enum sourceBlendFactor() const;
+    BlendFactor sourceBlendFactor() const;
 
     ///
     /// Returns the destination blend factor.
-    BlendFactor::Enum destBlendFactor() const;
+    BlendFactor destBlendFactor() const;
 
     ///
     /// Returns whether the render state is equivalent to another.
@@ -87,8 +87,8 @@ public:
 
 private:
     int _flagBits;
-    BlendFactor::Enum _sourceFactor;
-    BlendFactor::Enum _destFactor;
+    BlendFactor _sourceFactor;
+    BlendFactor _destFactor;
 };
 
 }

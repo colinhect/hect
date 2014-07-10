@@ -27,8 +27,8 @@
 
 enum EncodingMagicNumber : uint8_t
 {
-    BeginObject = 0xfa,
-    EndObject = 0xfb,
-    BeginArray = 0xfc,
-    EndArray = 0xfd
+    EncodingMagicNumber_BeginObject = 0xfa,
+    EncodingMagicNumber_EndObject = 0xfb,
+    EncodingMagicNumber_BeginArray = 0xfc,
+    EncodingMagicNumber_EndArray = 0xfd
 };

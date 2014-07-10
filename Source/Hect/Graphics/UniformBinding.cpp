@@ -26,26 +26,22 @@
 
 using namespace hect;
 
-#define ENUM_TYPE UniformBinding
-
 #define ENUM_VALUES \
-    ENUM_VALUE(None) \
-    ENUM_VALUE(RenderTargetSize) \
-    ENUM_VALUE(CameraPosition) \
-    ENUM_VALUE(CameraUp) \
-    ENUM_VALUE(ViewMatrix) \
-    ENUM_VALUE(ProjectionMatrix) \
-    ENUM_VALUE(ViewProjectionMatrix) \
-    ENUM_VALUE(ModelMatrix) \
-    ENUM_VALUE(ModelViewMatrix) \
-    ENUM_VALUE(ModelViewProjectionMatrix)
+    ENUM_VALUE(UniformBinding, None) \
+    ENUM_VALUE(UniformBinding, RenderTargetSize) \
+    ENUM_VALUE(UniformBinding, CameraPosition) \
+    ENUM_VALUE(UniformBinding, CameraUp) \
+    ENUM_VALUE(UniformBinding, ViewMatrix) \
+    ENUM_VALUE(UniformBinding, ProjectionMatrix) \
+    ENUM_VALUE(UniformBinding, ViewProjectionMatrix) \
+    ENUM_VALUE(UniformBinding, ModelMatrix) \
+    ENUM_VALUE(UniformBinding, ModelViewMatrix) \
+    ENUM_VALUE(UniformBinding, ModelViewProjectionMatrix)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(UniformBinding, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(UniformBinding, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

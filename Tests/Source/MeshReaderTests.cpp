@@ -30,8 +30,8 @@ using namespace hect;
 VertexLayout createVetexLayout()
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float, 3));
 
     return vertexLayout;
 }
@@ -40,8 +40,8 @@ TEST_CASE("MeshReader_EmptyMesh")
 {
     Mesh mesh("Test");
     mesh.setVertexLayout(createVetexLayout());
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UnsignedByte);
+    mesh.setPrimitiveType(PrimitiveType_Triangles);
+    mesh.setIndexType(IndexType_UnsignedByte);
 
     MeshReader meshReader(mesh);
 
@@ -53,20 +53,20 @@ TEST_CASE("MeshReader_ReadAttributeVector3")
 {
     Mesh mesh("Test");
     mesh.setVertexLayout(createVetexLayout());
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UnsignedByte);
+    mesh.setPrimitiveType(PrimitiveType_Triangles);
+    mesh.setIndexType(IndexType_UnsignedByte);
 
     {
         MeshWriter meshWriter(mesh);
         meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(1, 2, 3));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(4, 5, 6));
+        meshWriter.writeAttributeData(VertexAttributeSemantic_Position, Vector3(1, 2, 3));
+        meshWriter.writeAttributeData(VertexAttributeSemantic_Normal, Vector3(4, 5, 6));
         meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(7, 8, 9));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(10, 11, 12));
+        meshWriter.writeAttributeData(VertexAttributeSemantic_Position, Vector3(7, 8, 9));
+        meshWriter.writeAttributeData(VertexAttributeSemantic_Normal, Vector3(10, 11, 12));
         meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(13, 14, 15));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(16, 17, 18));
+        meshWriter.writeAttributeData(VertexAttributeSemantic_Position, Vector3(13, 14, 15));
+        meshWriter.writeAttributeData(VertexAttributeSemantic_Normal, Vector3(16, 17, 18));
     }
 
     Vector3 value;
@@ -74,36 +74,36 @@ TEST_CASE("MeshReader_ReadAttributeVector3")
 
     REQUIRE(meshReader.nextVertex());
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
+    value = meshReader.readAttributeVector3(VertexAttributeSemantic_Position);
     REQUIRE(value.x == 1);
     REQUIRE(value.y == 2);
     REQUIRE(value.z == 3);
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Normal);
+    value = meshReader.readAttributeVector3(VertexAttributeSemantic_Normal);
     REQUIRE(value.x == 4);
     REQUIRE(value.y == 5);
     REQUIRE(value.z == 6);
 
     REQUIRE(meshReader.nextVertex());
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
+    value = meshReader.readAttributeVector3(VertexAttributeSemantic_Position);
     REQUIRE(value.x == 7);
     REQUIRE(value.y == 8);
     REQUIRE(value.z == 9);
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Normal);
+    value = meshReader.readAttributeVector3(VertexAttributeSemantic_Normal);
     REQUIRE(value.x == 10);
     REQUIRE(value.y == 11);
     REQUIRE(value.z == 12);
 
     REQUIRE(meshReader.nextVertex());
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
+    value = meshReader.readAttributeVector3(VertexAttributeSemantic_Position);
     REQUIRE(value.x == 13);
     REQUIRE(value.y == 14);
     REQUIRE(value.z == 15);
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Normal);
+    value = meshReader.readAttributeVector3(VertexAttributeSemantic_Normal);
     REQUIRE(value.x == 16);
     REQUIRE(value.y == 17);
     REQUIRE(value.z == 18);
@@ -115,8 +115,8 @@ TEST_CASE("MeshReader_ReadIndexByte")
 {
     Mesh mesh("Test");
     mesh.setVertexLayout(createVetexLayout());
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UnsignedByte);
+    mesh.setPrimitiveType(PrimitiveType_Triangles);
+    mesh.setIndexType(IndexType_UnsignedByte);
 
     {
         MeshWriter meshWriter(mesh);

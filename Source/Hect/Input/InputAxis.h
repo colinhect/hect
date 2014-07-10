@@ -67,59 +67,59 @@ public:
 
     ///
     /// Returns the source.
-    InputAxisSource::Enum source() const;
+    InputAxisSource source() const;
 
     ///
     /// Sets the source.
     ///
     /// \param source The new source.
-    void setSource(InputAxisSource::Enum source);
+    void setSource(InputAxisSource source);
 
     ///
     /// Returns the mouse button which causes the axis to move in the positive
     /// direction.
-    MouseButton::Enum positiveMouseButton() const;
+    MouseButton positiveMouseButton() const;
 
     ///
     /// Sets the mouse button which causes the axis to move in the positive
     /// direction.
     ///
     /// \param button The new button.
-    void setPositiveMouseButton(MouseButton::Enum button);
+    void setPositiveMouseButton(MouseButton button);
 
     ///
     /// Returns the mouse button which causes the axis to move in the negative
     /// direction.
-    MouseButton::Enum negativeMouseButton() const;
+    MouseButton negativeMouseButton() const;
 
     ///
     /// Sets the mouse button which causes the axis to move in the negative
     /// direction.
     ///
     /// \param button The new button.
-    void setNegativeMouseButton(MouseButton::Enum button);
+    void setNegativeMouseButton(MouseButton button);
 
     ///
     /// Returns the key which causes the axis to move in the positive
     /// direction.
-    Key::Enum positiveKey() const;
+    Key positiveKey() const;
 
     ///
     /// Sets the key which causes the axis to move in the positive direction.
     ///
     /// \param key The new key.
-    void setPositiveKey(Key::Enum key);
+    void setPositiveKey(Key key);
 
     ///
     /// Returns the key which causes the axis to move in the negative
     /// direction.
-    Key::Enum negativeKey() const;
+    Key negativeKey() const;
 
     ///
     /// Sets the key which causes the axis to move in the negative direction.
     ///
     /// \param key The new key.
-    void setNegativeKey(Key::Enum key);
+    void setNegativeKey(Key key);
 
     ///
     /// Returns the current value.
@@ -166,13 +166,13 @@ public:
 
 private:
     std::string _name;
-    InputAxisSource::Enum _source;
+    InputAxisSource _source;
 
-    MouseButton::Enum _positiveMouseButton;
-    MouseButton::Enum _negativeMouseButton;
+    MouseButton _positiveMouseButton;
+    MouseButton _negativeMouseButton;
 
-    Key::Enum _positiveKey;
-    Key::Enum _negativeKey;
+    Key _positiveKey;
+    Key _negativeKey;
 
     Real _value;
     Real _acceleration;

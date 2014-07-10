@@ -60,16 +60,14 @@ public:
     static const std::string& toString(T value);
 };
 
-#define HECT_STRING(value) #value
+#define HECT_ENUM_TO_STRING(type, value) \
+    _valueToString[type##_##value] = #value;
 
-#define HECT_ENUM_TO_STRING(value) \
-    _valueToString[ENUM_TYPE::value] = #value;
-
-#define HECT_ENUM_DEFINE_TO_STRING(values) \
+#define HECT_ENUM_DEFINE_TO_STRING(type, values) \
     template <> \
-    const std::string& Enum::toString<ENUM_TYPE::Enum>(ENUM_TYPE::Enum value) \
+    const std::string& Enum::toString<type>(type value) \
     { \
-        static std::map<ENUM_TYPE::Enum, std::string> _valueToString; \
+        static std::map<type, std::string> _valueToString; \
         if (_valueToString.empty()) \
         { \
             values \
@@ -82,14 +80,14 @@ public:
         return it->second; \
     }
 
-#define HECT_ENUM_FROM_STRING(value) \
-    _stringToValue[#value] = ENUM_TYPE::value;
+#define HECT_ENUM_FROM_STRING(type, value) \
+    _stringToValue[#value] = type##_##value;
 
-#define HECT_ENUM_DEFINE_FROM_STRING(values) \
+#define HECT_ENUM_DEFINE_FROM_STRING(type, values) \
     template <> \
-    ENUM_TYPE::Enum Enum::fromString<ENUM_TYPE::Enum>(const std::string& string) \
+    type Enum::fromString<type>(const std::string& string) \
     { \
-        static std::map<std::string, ENUM_TYPE::Enum> _stringToValue; \
+        static std::map<std::string, type> _stringToValue; \
         if (_stringToValue.empty()) \
         { \
             values \

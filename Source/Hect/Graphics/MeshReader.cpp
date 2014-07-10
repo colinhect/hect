@@ -49,7 +49,7 @@ bool MeshReader::nextVertex()
     return _mesh->vertexCount() >= _vertexCount;
 }
 
-Real MeshReader::readAttributeReal(VertexAttributeSemantic::Enum semantic) const
+Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
@@ -65,7 +65,7 @@ Real MeshReader::readAttributeReal(VertexAttributeSemantic::Enum semantic) const
     return value;
 }
 
-Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic::Enum semantic) const
+Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
@@ -91,7 +91,7 @@ Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic::Enum semantic)
     return value;
 }
 
-Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic::Enum semantic) const
+Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
@@ -123,7 +123,7 @@ Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic::Enum semantic)
     return value;
 }
 
-Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic::Enum semantic) const
+Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
 {
     _checkVertexBoundary();
 
@@ -190,13 +190,13 @@ uint32_t MeshReader::readIndexInt() const
     uint32_t index = 0;
     switch (_mesh->indexType())
     {
-    case IndexType::UnsignedByte:
+    case IndexType_UnsignedByte:
         index = _indexStream.readUnsignedByte();
         break;
-    case IndexType::UnsignedShort:
+    case IndexType_UnsignedShort:
         index = _indexStream.readUnsignedShort();
         break;
-    case IndexType::UnsignedInt:
+    case IndexType_UnsignedInt:
         index = _indexStream.readUnsignedInt();
         break;
     }
@@ -238,34 +238,34 @@ float MeshReader::_readComponentValue(const VertexAttribute& attribute, unsigned
     float value = 0;
     switch (attribute.type())
     {
-    case VertexAttributeType::Byte:
+    case VertexAttributeType_Byte:
         _vertexStream.seek(offset + index * sizeof(int8_t));
         value = (float)_vertexStream.readByte();
         break;
-    case VertexAttributeType::UnsignedByte:
+    case VertexAttributeType_UnsignedByte:
         _vertexStream.seek(offset + index * sizeof(uint8_t));
         value = (float)_vertexStream.readUnsignedByte();
         break;
-    case VertexAttributeType::Short:
+    case VertexAttributeType_Short:
         _vertexStream.seek(offset + index * sizeof(int16_t));
         value = (float)_vertexStream.readShort();
         break;
-    case VertexAttributeType::UnsignedShort:
+    case VertexAttributeType_UnsignedShort:
         _vertexStream.seek(offset + index * sizeof(uint16_t));
         value = (float)_vertexStream.readUnsignedShort();
         break;
-    case VertexAttributeType::Int:
+    case VertexAttributeType_Int:
         _vertexStream.seek(offset + index * sizeof(int32_t));
         value = (float)_vertexStream.readInt();
         break;
-    case VertexAttributeType::UnsignedInt:
+    case VertexAttributeType_UnsignedInt:
         _vertexStream.seek(offset + index * sizeof(uint32_t));
         value = (float)_vertexStream.readUnsignedInt();
         break;
-    case VertexAttributeType::Half:
+    case VertexAttributeType_Half:
         throw Error("16-bit floats are not yet implemented");
         break;
-    case VertexAttributeType::Float:
+    case VertexAttributeType_Float:
         _vertexStream.seek(offset + index * sizeof(float));
         value = _vertexStream.readFloat();
         break;

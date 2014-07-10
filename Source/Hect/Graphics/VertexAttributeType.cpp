@@ -26,24 +26,20 @@
 
 using namespace hect;
 
-#define ENUM_TYPE VertexAttributeType
-
 #define ENUM_VALUES \
-    ENUM_VALUE(Byte) \
-    ENUM_VALUE(UnsignedByte) \
-    ENUM_VALUE(Short) \
-    ENUM_VALUE(UnsignedShort) \
-    ENUM_VALUE(Int) \
-    ENUM_VALUE(UnsignedInt) \
-    ENUM_VALUE(Half) \
-    ENUM_VALUE(Float)
+    ENUM_VALUE(VertexAttributeType, Byte) \
+    ENUM_VALUE(VertexAttributeType, UnsignedByte) \
+    ENUM_VALUE(VertexAttributeType, Short) \
+    ENUM_VALUE(VertexAttributeType, UnsignedShort) \
+    ENUM_VALUE(VertexAttributeType, Int) \
+    ENUM_VALUE(VertexAttributeType, UnsignedInt) \
+    ENUM_VALUE(VertexAttributeType, Half) \
+    ENUM_VALUE(VertexAttributeType, Float)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(VertexAttributeType, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(VertexAttributeType, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

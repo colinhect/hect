@@ -26,12 +26,12 @@
 using namespace hect;
 
 MouseEvent::MouseEvent() :
-    type(MouseEventType::Movement),
-    button(MouseButton::Left)
+    type(MouseEventType_Movement),
+    button(MouseButton_Left)
 {
 }
 
-bool Mouse::isButtonDown(MouseButton::Enum button) const
+bool Mouse::isButtonDown(MouseButton button) const
 {
     return _buttonStates[(int)button];
 }
@@ -41,12 +41,12 @@ const IntVector2& Mouse::cursorPosition() const
     return _cursorPosition;
 }
 
-void Mouse::setMode(MouseMode::Enum mode)
+void Mouse::setMode(MouseMode mode)
 {
     _mode = mode;
 }
 
-MouseMode::Enum Mouse::mode() const
+MouseMode Mouse::mode() const
 {
     return _mode;
 }
@@ -57,7 +57,7 @@ Dispatcher<MouseEvent>& Mouse::dispatcher()
 }
 
 Mouse::Mouse() :
-    _mode(MouseMode::Cursor),
+    _mode(MouseMode_Cursor),
     _buttonStates(16, false)
 {
 }

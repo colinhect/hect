@@ -38,7 +38,7 @@ class ComponentPoolBase
 {
     friend class Scene;
 protected:
-    virtual void _notifyEvent(ComponentEventType::Enum type, Entity& entity) = 0;
+    virtual void _notifyEvent(ComponentEventType type, Entity& entity) = 0;
 
     virtual void _addBase(Entity& entity, const ComponentBase& component) = 0;
     virtual const ComponentBase& _getBase(const Entity& entity) const = 0;
@@ -119,7 +119,7 @@ public:
     typename Component<T>::ConstIter::Array find(typename Component<T>::Predicate predicate) const;
 
 private:
-    void _notifyEvent(ComponentEventType::Enum type, Entity& entity);
+    void _notifyEvent(ComponentEventType type, Entity& entity);
 
     void _addBase(Entity& entity, const ComponentBase& component);
     const ComponentBase& _getBase(const Entity& entity) const;

@@ -77,7 +77,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
                 for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
                 {
                     ArrayEncoder attributeEncoder = attributesEncoder.encodeArray();
-                    VertexAttributeSemantic::Enum semantic = attribute.semantic();
+                    VertexAttributeSemantic semantic = attribute.semantic();
 
                     attributeEncoder.encodeEnum(semantic);
 
@@ -109,13 +109,13 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
             {
                 switch (mesh.indexType())
                 {
-                case IndexType::UnsignedByte:
+                case IndexType_UnsignedByte:
                     indicesEncoder.encodeUnsignedByte(reader.readIndexByte());
                     break;
-                case IndexType::UnsignedShort:
+                case IndexType_UnsignedShort:
                     indicesEncoder.encodeUnsignedShort(reader.readIndexShort());
                     break;
-                case IndexType::UnsignedInt:
+                case IndexType_UnsignedInt:
                     indicesEncoder.encodeUnsignedInt(reader.readIndexInt());
                     break;
                 }
@@ -140,7 +140,7 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
     // Index type
     if (decoder.hasMember("indexType"))
     {
-        IndexType::Enum indexType = decoder.decodeEnum<IndexType::Enum>("indexType");
+        IndexType indexType = decoder.decodeEnum<IndexType>("indexType");
 
         mesh.setIndexType(indexType);
     }
@@ -148,7 +148,7 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
     // Primitive type
     if (decoder.hasMember("primitiveType"))
     {
-        PrimitiveType::Enum primitiveType = decoder.decodeEnum<PrimitiveType::Enum>("primitiveType");
+        PrimitiveType primitiveType = decoder.decodeEnum<PrimitiveType>("primitiveType");
         mesh.setPrimitiveType(primitiveType);
     }
 
@@ -200,7 +200,7 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
                 {
                     ArrayDecoder attributeDecoder = attributesDecoder.decodeArray();
 
-                    auto semantic = attributeDecoder.decodeEnum<VertexAttributeSemantic::Enum>();
+                    auto semantic = attributeDecoder.decodeEnum<VertexAttributeSemantic>();
 
                     if (vertexLayout.hasAttributeWithSemantic(semantic))
                     {
@@ -236,13 +236,13 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
             {
                 switch (mesh.indexType())
                 {
-                case IndexType::UnsignedByte:
+                case IndexType_UnsignedByte:
                     meshWriter.addIndex(indicesDecoder.decodeUnsignedByte());
                     break;
-                case IndexType::UnsignedShort:
+                case IndexType_UnsignedShort:
                     meshWriter.addIndex(indicesDecoder.decodeUnsignedShort());
                     break;
-                case IndexType::UnsignedInt:
+                case IndexType_UnsignedInt:
                     meshWriter.addIndex(indicesDecoder.decodeUnsignedInt());
                     break;
                 }

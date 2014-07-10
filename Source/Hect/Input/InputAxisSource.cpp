@@ -26,21 +26,17 @@
 
 using namespace hect;
 
-#define ENUM_TYPE InputAxisSource
-
 #define ENUM_VALUES \
-    ENUM_VALUE(MouseMoveX) \
-    ENUM_VALUE(MouseMoveY) \
-    ENUM_VALUE(MouseButton) \
-    ENUM_VALUE(MouseScroll) \
-    ENUM_VALUE(Key)
+    ENUM_VALUE(InputAxisSource, MouseMoveX) \
+    ENUM_VALUE(InputAxisSource, MouseMoveY) \
+    ENUM_VALUE(InputAxisSource, MouseButton) \
+    ENUM_VALUE(InputAxisSource, MouseScroll) \
+    ENUM_VALUE(InputAxisSource, Key)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(InputAxisSource, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(InputAxisSource, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

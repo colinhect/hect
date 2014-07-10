@@ -32,24 +32,21 @@ namespace hect
 
 ///
 /// A shader module type.
-namespace ShaderModuleType
-{
-enum Enum
+enum ShaderModuleType
 {
 
     ///
     /// A vertex program module.
-    Vertex,
+    ShaderModuleType_Vertex,
 
     ///
     /// A pixel program module.
-    Pixel,
+    ShaderModuleType_Pixel,
 
     ///
     /// A geometry program module.
-    Geometry
+    ShaderModuleType_Geometry
 };
-}
 
 ///
 /// A shader module.
@@ -90,7 +87,7 @@ public:
 
     ///
     /// Returns the type.
-    ShaderModuleType::Enum type() const;
+    ShaderModuleType type() const;
 
     ///
     /// Sets the type.
@@ -103,7 +100,7 @@ public:
     /// a shader.
     ///
     /// \param type The new type.
-    void setType(ShaderModuleType::Enum type);
+    void setType(ShaderModuleType type);
 
     /// Returns the source.
     const std::string& source() const;
@@ -166,7 +163,7 @@ public:
 
 private:
     std::string _name;
-    ShaderModuleType::Enum _type;
+    ShaderModuleType _type;
     std::string _source;
 };
 

@@ -55,7 +55,7 @@ public:
     ///
     /// \param name The name.
     /// \param binding The binding.
-    Uniform(const std::string& name, UniformBinding::Enum binding);
+    Uniform(const std::string& name, UniformBinding binding);
 
     ///
     /// Constructs a uniform given its name and default value.
@@ -67,7 +67,7 @@ public:
 
     ///
     /// Returns the uniform type.
-    UniformType::Enum type() const;
+    UniformType type() const;
 
     ///
     /// Sets the uniform type.
@@ -75,11 +75,11 @@ public:
     /// \param type The new type.
     ///
     /// \throws Error If the uniform has a binding.
-    void setType(UniformType::Enum type);
+    void setType(UniformType type);
 
     ///
     /// Returns the uniform binding.
-    UniformBinding::Enum binding() const;
+    UniformBinding binding() const;
 
     ///
     /// Sets the uniform binding.
@@ -87,7 +87,7 @@ public:
     /// \note The uniform type is changed to reflect the new binding.
     ///
     /// \param binding The new binding.
-    void setBinding(UniformBinding::Enum binding);
+    void setBinding(UniformBinding binding);
 
     ///
     /// Returns whether the uniform has a binding.
@@ -157,9 +157,9 @@ public:
 private:
     std::string _name;
 
-    UniformType::Enum _type;
+    UniformType _type;
 
-    UniformBinding::Enum _binding;
+    UniformBinding _binding;
 
     bool _defaultValueSet;
     UniformValue _defaultValue;

@@ -46,7 +46,7 @@ WriteStream& BinaryEncoder::binaryStream()
 
 ArrayEncoder BinaryEncoder::encodeArray()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber::BeginArray);
+    _stream->writeUnsignedByte(EncodingMagicNumber_BeginArray);
 
     _countStack.push(0);
     _countPositionStack.push(_stream->position());
@@ -56,7 +56,7 @@ ArrayEncoder BinaryEncoder::encodeArray()
 
 ObjectEncoder BinaryEncoder::encodeObject()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber::BeginObject);
+    _stream->writeUnsignedByte(EncodingMagicNumber_BeginObject);
 
     _countStack.push(0);
     return ObjectEncoder(this);
@@ -64,7 +64,7 @@ ObjectEncoder BinaryEncoder::encodeObject()
 
 void BinaryEncoder::beginArray()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber::BeginArray);
+    _stream->writeUnsignedByte(EncodingMagicNumber_BeginArray);
 
     ++_countStack.top();
     _countStack.push(0);
@@ -74,7 +74,7 @@ void BinaryEncoder::beginArray()
 
 void BinaryEncoder::beginArray(const char* name)
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber::BeginArray);
+    _stream->writeUnsignedByte(EncodingMagicNumber_BeginArray);
 
     name;
     _countStack.push(0);
@@ -84,7 +84,7 @@ void BinaryEncoder::beginArray(const char* name)
 
 void BinaryEncoder::endArray()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber::EndArray);
+    _stream->writeUnsignedByte(EncodingMagicNumber_EndArray);
 
     size_t currentPosition = _stream->position();
     _stream->seek(_countPositionStack.top());
@@ -97,20 +97,20 @@ void BinaryEncoder::endArray()
 
 void BinaryEncoder::beginObject()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber::BeginObject);
+    _stream->writeUnsignedByte(EncodingMagicNumber_BeginObject);
 
     ++_countStack.top();
 }
 
 void BinaryEncoder::beginObject(const char* name)
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber::BeginObject);
+    _stream->writeUnsignedByte(EncodingMagicNumber_BeginObject);
     name;
 }
 
 void BinaryEncoder::endObject()
 {
-    _stream->writeByte(EncodingMagicNumber::EndObject);
+    _stream->writeByte(EncodingMagicNumber_EndObject);
 }
 
 void BinaryEncoder::encodeString(const std::string& value)

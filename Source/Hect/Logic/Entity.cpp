@@ -390,7 +390,7 @@ void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
 {
     if (valid && event.entity().id() == id)
     {
-        if (event.type() == EntityEventType::Destroy)
+        if (event.type() == EntityEventType_Destroy)
         {
             valid = false;
         }

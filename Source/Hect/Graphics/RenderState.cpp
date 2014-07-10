@@ -26,39 +26,39 @@
 using namespace hect;
 
 RenderState::RenderState() :
-    _flagBits(RenderStateFlag::DepthTest | RenderStateFlag::CullFace),
-    _sourceFactor(BlendFactor::One),
-    _destFactor(BlendFactor::One)
+    _flagBits(RenderStateFlag_DepthTest | RenderStateFlag_CullFace),
+    _sourceFactor(BlendFactor_One),
+    _destFactor(BlendFactor_One)
 {
 }
 
-void RenderState::enable(RenderStateFlag::Enum flag)
+void RenderState::enable(RenderStateFlag flag)
 {
     _flagBits |= flag;
 }
 
-void RenderState::disable(RenderStateFlag::Enum flag)
+void RenderState::disable(RenderStateFlag flag)
 {
     _flagBits &= ~flag;
 }
 
-bool RenderState::isEnabled(RenderStateFlag::Enum flag) const
+bool RenderState::isEnabled(RenderStateFlag flag) const
 {
     return (_flagBits & flag) == flag;
 }
 
-void RenderState::setBlendFactors(BlendFactor::Enum sourceFactor, BlendFactor::Enum destFactor)
+void RenderState::setBlendFactors(BlendFactor sourceFactor, BlendFactor destFactor)
 {
     _sourceFactor = sourceFactor;
     _destFactor = destFactor;
 }
 
-BlendFactor::Enum RenderState::sourceBlendFactor() const
+BlendFactor RenderState::sourceBlendFactor() const
 {
     return _sourceFactor;
 }
 
-BlendFactor::Enum RenderState::destBlendFactor() const
+BlendFactor RenderState::destBlendFactor() const
 {
     return _destFactor;
 }

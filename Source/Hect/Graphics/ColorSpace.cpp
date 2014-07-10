@@ -27,18 +27,14 @@
 
 using namespace hect;
 
-#define ENUM_TYPE ColorSpace
-
 #define ENUM_VALUES \
-    ENUM_VALUE(NonLinear) \
-    ENUM_VALUE(Linear)
+    ENUM_VALUE(ColorSpace, NonLinear) \
+    ENUM_VALUE(ColorSpace, Linear)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(ColorSpace, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(ColorSpace, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

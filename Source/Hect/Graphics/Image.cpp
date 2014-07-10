@@ -25,7 +25,7 @@
 
 using namespace hect;
 
-Image::Image(unsigned width, unsigned height, PixelType::Enum pixelType, PixelFormat::Enum pixelFormat, ColorSpace::Enum colorSpace) :
+Image::Image(unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, ColorSpace colorSpace) :
     _width(width),
     _height(height),
     _pixelType(pixelType),
@@ -79,17 +79,17 @@ unsigned Image::height() const
     return _height;
 }
 
-PixelFormat::Enum Image::pixelFormat() const
+PixelFormat Image::pixelFormat() const
 {
     return _pixelFormat;
 }
 
-PixelType::Enum Image::pixelType() const
+PixelType Image::pixelType() const
 {
     return _pixelType;
 }
 
-ColorSpace::Enum Image::colorSpace() const
+ColorSpace Image::colorSpace() const
 {
     return _colorSpace;
 }
@@ -100,23 +100,23 @@ int Image::bytesPerPixel() const
 
     switch (_pixelFormat)
     {
-    case PixelFormat::Rgb:
+    case PixelFormat_Rgb:
         componentCount = 3;
         break;
-    case PixelFormat::Rgba:
+    case PixelFormat_Rgba:
         componentCount = 4;
         break;
     }
 
     switch (_pixelType)
     {
-    case PixelType::Half:
+    case PixelType_Half:
         return componentCount * 2;
         break;
-    case PixelType::Float:
+    case PixelType_Float:
         return componentCount * 4;
         break;
-    case PixelType::Byte:
+    case PixelType_Byte:
         return componentCount * 1;
         break;
     }

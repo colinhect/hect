@@ -52,7 +52,7 @@ public:
     /// \param pixelType The pixel type.
     /// \param pixelFormat The pixel format.
     /// \param colorSpace The color space.
-    Image(unsigned width = 1, unsigned height = 1, PixelType::Enum pixelType = PixelType::Byte, PixelFormat::Enum pixelFormat = PixelFormat::Rgba, ColorSpace::Enum colorSpace = ColorSpace::Linear);
+    Image(unsigned width = 1, unsigned height = 1, PixelType pixelType = PixelType_Byte, PixelFormat pixelFormat = PixelFormat_Rgba, ColorSpace colorSpace = ColorSpace_Linear);
 
     ///
     /// Constructs an image moved from another.
@@ -82,15 +82,15 @@ public:
 
     ///
     /// Returns the pixel type.
-    PixelType::Enum pixelType() const;
+    PixelType pixelType() const;
 
     ///
     /// Returns the pixel format.
-    PixelFormat::Enum pixelFormat() const;
+    PixelFormat pixelFormat() const;
 
     ///
     /// Returns the color space.
-    ColorSpace::Enum colorSpace() const;
+    ColorSpace colorSpace() const;
 
     ///
     /// Returns the number of bytes in a pixel of this image.
@@ -100,10 +100,10 @@ private:
     unsigned _width;
     unsigned _height;
 
-    PixelType::Enum _pixelType;
-    PixelFormat::Enum _pixelFormat;
+    PixelType _pixelType;
+    PixelFormat _pixelFormat;
 
-    ColorSpace::Enum _colorSpace;
+    ColorSpace _colorSpace;
 
     RawPixelData _pixelData;
 };

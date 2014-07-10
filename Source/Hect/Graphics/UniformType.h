@@ -30,38 +30,35 @@ namespace hect
 
 ///
 /// A uniform value type.
-namespace UniformType
-{
-enum Enum : uint8_t
+enum UniformType : uint8_t
 {
     ///
     /// An integer.
-    Int,
+    UniformType_Int,
 
     ///
     /// A floating point number.
-    Float,
+    UniformType_Float,
 
     ///
     /// A 2-dimensional vector.
-    Vector2,
+    UniformType_Vector2,
 
     ///
     /// A 3-dimensional vector.
-    Vector3,
+    UniformType_Vector3,
 
     ///
     /// A 4-dimensional vector.
-    Vector4,
+    UniformType_Vector4,
 
     ///
     /// A 4 by 4 matrix.
-    Matrix4,
+    UniformType_Matrix4,
 
     ///
     /// A texture (the index of the texture).
-    Texture
+    UniformType_Texture
 };
-}
 
 }

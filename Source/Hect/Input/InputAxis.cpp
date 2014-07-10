@@ -30,11 +30,11 @@
 using namespace hect;
 
 InputAxis::InputAxis() :
-    _source(InputAxisSource::Key),
-    _positiveMouseButton(MouseButton::Left),
-    _negativeMouseButton(MouseButton::Right),
-    _positiveKey(Key::A),
-    _negativeKey(Key::B),
+    _source(InputAxisSource_Key),
+    _positiveMouseButton(MouseButton_Left),
+    _negativeMouseButton(MouseButton_Right),
+    _positiveKey(Key_A),
+    _negativeKey(Key_B),
     _value(0),
     _acceleration(1),
     _gravity(0)
@@ -43,11 +43,11 @@ InputAxis::InputAxis() :
 
 InputAxis::InputAxis(const std::string& name) :
     _name(name),
-    _source(InputAxisSource::Key),
-    _positiveMouseButton(MouseButton::Left),
-    _negativeMouseButton(MouseButton::Right),
-    _positiveKey(Key::A),
-    _negativeKey(Key::B),
+    _source(InputAxisSource_Key),
+    _positiveMouseButton(MouseButton_Left),
+    _negativeMouseButton(MouseButton_Right),
+    _positiveKey(Key_A),
+    _negativeKey(Key_B),
     _value(0),
     _acceleration(1),
     _gravity(0)
@@ -64,52 +64,52 @@ void InputAxis::setName(const std::string& name)
     _name = name;
 }
 
-InputAxisSource::Enum InputAxis::source() const
+InputAxisSource InputAxis::source() const
 {
     return _source;
 }
 
-void InputAxis::setSource(InputAxisSource::Enum source)
+void InputAxis::setSource(InputAxisSource source)
 {
     _source = source;
 }
 
-MouseButton::Enum InputAxis::positiveMouseButton() const
+MouseButton InputAxis::positiveMouseButton() const
 {
     return _positiveMouseButton;
 }
 
-void InputAxis::setPositiveMouseButton(MouseButton::Enum button)
+void InputAxis::setPositiveMouseButton(MouseButton button)
 {
     _positiveMouseButton = button;
 }
 
-MouseButton::Enum InputAxis::negativeMouseButton() const
+MouseButton InputAxis::negativeMouseButton() const
 {
     return _negativeMouseButton;
 }
 
-void InputAxis::setNegativeMouseButton(MouseButton::Enum button)
+void InputAxis::setNegativeMouseButton(MouseButton button)
 {
     _negativeMouseButton = button;
 }
 
-Key::Enum InputAxis::positiveKey() const
+Key InputAxis::positiveKey() const
 {
     return _positiveKey;
 }
 
-void InputAxis::setPositiveKey(Key::Enum key)
+void InputAxis::setPositiveKey(Key key)
 {
     _positiveKey = key;
 }
 
-Key::Enum InputAxis::negativeKey() const
+Key InputAxis::negativeKey() const
 {
     return _negativeKey;
 }
 
-void InputAxis::setNegativeKey(Key::Enum key)
+void InputAxis::setNegativeKey(Key key)
 {
     _negativeKey = key;
 }

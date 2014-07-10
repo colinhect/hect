@@ -34,59 +34,59 @@ const JsonValue JsonValue::_null;
 const JsonValue::Array JsonValue::_emptyArray;
 
 JsonValue::JsonValue() :
-    _type(JsonValueType::Null)
+    _type(JsonValueType_Null)
 {
 }
 
-JsonValue::JsonValue(JsonValueType::Enum type) :
+JsonValue::JsonValue(JsonValueType type) :
     _type(type)
 {
     switch (type)
     {
-    case JsonValueType::Bool:
+    case JsonValueType_Bool:
         _any = false;
         break;
-    case JsonValueType::Number:
+    case JsonValueType_Number:
         _any = 0.0;
         break;
-    case JsonValueType::String:
+    case JsonValueType_String:
         _any = std::string();
         break;
-    case JsonValueType::Array:
+    case JsonValueType_Array:
         _any = JsonValue::Array();
         break;
-    case JsonValueType::Object:
+    case JsonValueType_Object:
         _any = JsonValue::Object();
         break;
     }
 }
 
 JsonValue::JsonValue(bool value) :
-    _type(JsonValueType::Bool),
+    _type(JsonValueType_Bool),
     _any(value)
 {
 }
 
 JsonValue::JsonValue(int value) :
-    _type(JsonValueType::Number),
+    _type(JsonValueType_Number),
     _any((double)value)
 {
 }
 
 JsonValue::JsonValue(unsigned value) :
-    _type(JsonValueType::Number),
+    _type(JsonValueType_Number),
     _any((double)value)
 {
 }
 
 JsonValue::JsonValue(double value) :
-    _type(JsonValueType::Number),
+    _type(JsonValueType_Number),
     _any(value)
 {
 }
 
 JsonValue::JsonValue(const Vector2& value) :
-    _type(JsonValueType::Array),
+    _type(JsonValueType_Array),
     _any(JsonValue::Array())
 {
     JsonValue::Array& elements = _any.as<JsonValue::Array>();
@@ -95,7 +95,7 @@ JsonValue::JsonValue(const Vector2& value) :
 }
 
 JsonValue::JsonValue(const Vector3& value) :
-    _type(JsonValueType::Array),
+    _type(JsonValueType_Array),
     _any(JsonValue::Array())
 {
     JsonValue::Array& elements = _any.as<JsonValue::Array>();
@@ -105,7 +105,7 @@ JsonValue::JsonValue(const Vector3& value) :
 }
 
 JsonValue::JsonValue(const Vector4& value) :
-    _type(JsonValueType::Array),
+    _type(JsonValueType_Array),
     _any(JsonValue::Array())
 {
     JsonValue::Array& elements = _any.as<JsonValue::Array>();
@@ -116,7 +116,7 @@ JsonValue::JsonValue(const Vector4& value) :
 }
 
 JsonValue::JsonValue(const Matrix4& value) :
-    _type(JsonValueType::Array),
+    _type(JsonValueType_Array),
     _any(JsonValue::Array())
 {
     JsonValue::Array& elements = _any.as<JsonValue::Array>();
@@ -127,7 +127,7 @@ JsonValue::JsonValue(const Matrix4& value) :
 }
 
 JsonValue::JsonValue(const Quaternion& value) :
-    _type(JsonValueType::Array),
+    _type(JsonValueType_Array),
     _any(JsonValue::Array())
 {
     JsonValue::Array& elements = _any.as<JsonValue::Array>();
@@ -138,13 +138,13 @@ JsonValue::JsonValue(const Quaternion& value) :
 }
 
 JsonValue::JsonValue(const char* value) :
-    _type(JsonValueType::String),
+    _type(JsonValueType_String),
     _any(std::string(value))
 {
 }
 
 JsonValue::JsonValue(const std::string& value) :
-    _type(JsonValueType::String),
+    _type(JsonValueType_String),
     _any(value)
 {
 }
@@ -153,10 +153,10 @@ JsonValue::JsonValue(JsonValue&& jsonValue) :
     _type(jsonValue._type),
     _any(std::move(jsonValue._any))
 {
-    jsonValue._type = JsonValueType::Null;
+    jsonValue._type = JsonValueType_Null;
 }
 
-JsonValueType::Enum JsonValue::type() const
+JsonValueType JsonValue::type() const
 {
     return _type;
 }
@@ -175,32 +175,32 @@ const JsonValue& JsonValue::or(const JsonValue& jsonValue) const
 
 bool JsonValue::isNull() const
 {
-    return _type == JsonValueType::Null;
+    return _type == JsonValueType_Null;
 }
 
 bool JsonValue::isBool() const
 {
-    return _type == JsonValueType::Bool;
+    return _type == JsonValueType_Bool;
 }
 
 bool JsonValue::isNumber() const
 {
-    return _type == JsonValueType::Number;
+    return _type == JsonValueType_Number;
 }
 
 bool JsonValue::isString() const
 {
-    return _type == JsonValueType::String;
+    return _type == JsonValueType_String;
 }
 
 bool JsonValue::isArray() const
 {
-    return _type == JsonValueType::Array;
+    return _type == JsonValueType_Array;
 }
 
 bool JsonValue::isObject() const
 {
-    return _type == JsonValueType::Object;
+    return _type == JsonValueType_Object;
 }
 
 bool JsonValue::asBool() const
@@ -533,7 +533,7 @@ JsonValue toJsonValue(Json::Value& jsonValue)
     }
     else if (jsonValue.isArray())
     {
-        JsonValue value(JsonValueType::Array);
+        JsonValue value(JsonValueType_Array);
         for (Json::Value& element : jsonValue)
         {
             value.addElement(toJsonValue(element));
@@ -542,7 +542,7 @@ JsonValue toJsonValue(Json::Value& jsonValue)
     }
     else if (jsonValue.isObject())
     {
-        JsonValue value(JsonValueType::Object);
+        JsonValue value(JsonValueType_Object);
         for (std::string& name : jsonValue.getMemberNames())
         {
             value.addMember(name, toJsonValue(jsonValue[name]));

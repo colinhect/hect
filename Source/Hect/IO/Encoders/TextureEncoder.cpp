@@ -44,13 +44,13 @@ void TextureEncoder::decode(Texture& texture, ObjectDecoder& decoder, AssetCache
     // Min filter
     if (decoder.hasMember("minFilter"))
     {
-        texture.setMinFilter(decoder.decodeEnum<TextureFilter::Enum>("minFilter"));
+        texture.setMinFilter(decoder.decodeEnum<TextureFilter>("minFilter"));
     }
 
     // Mag filter
     if (decoder.hasMember("magFilter"))
     {
-        texture.setMagFilter(decoder.decodeEnum<TextureFilter::Enum>("magFilter"));
+        texture.setMagFilter(decoder.decodeEnum<TextureFilter>("magFilter"));
     }
 
     // Wrapped

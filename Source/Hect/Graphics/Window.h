@@ -82,7 +82,7 @@ public:
     void bind(Renderer* renderer);
 
 private:
-    MouseMode::Enum _mouseMode;
+    MouseMode _mouseMode;
     IntVector2 _lastCursorPosition;
 };
 

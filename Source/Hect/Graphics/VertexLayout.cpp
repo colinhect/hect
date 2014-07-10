@@ -31,10 +31,10 @@ using namespace hect;
 VertexLayout VertexLayout::createDefault()
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Tangent, VertexAttributeType::Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::TextureCoords0, VertexAttributeType::Float, 2));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Tangent, VertexAttributeType_Float, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_TextureCoords0, VertexAttributeType_Float, 2));
 
     return vertexLayout;
 }
@@ -56,7 +56,7 @@ void VertexLayout::clearAttributes()
     _computeAttributeOffsets();
 }
 
-bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic::Enum semantic) const
+bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic semantic) const
 {
     for (const VertexAttribute& attribute : _attributes)
     {
@@ -68,7 +68,7 @@ bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic::Enum semant
     return false;
 }
 
-const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemantic::Enum semantic) const
+const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemantic semantic) const
 {
     for (const VertexAttribute& attribute : _attributes)
     {

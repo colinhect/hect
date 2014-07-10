@@ -30,19 +30,19 @@ using namespace hect;
 void AssetLoader<ShaderModule>::load(ShaderModule& shaderModule, const Path& assetPath, AssetCache& assetCache)
 {
     // Determine the shader module type by the extension
-    ShaderModuleType::Enum type;
+    ShaderModuleType type;
     std::string extension = assetPath.extension();
     if (extension == "vert")
     {
-        type = ShaderModuleType::Vertex;
+        type = ShaderModuleType_Vertex;
     }
     else if (extension == "frag")
     {
-        type = ShaderModuleType::Pixel;
+        type = ShaderModuleType_Pixel;
     }
     else if (extension == "geom")
     {
-        type = ShaderModuleType::Geometry;
+        type = ShaderModuleType_Geometry;
     }
     else
     {

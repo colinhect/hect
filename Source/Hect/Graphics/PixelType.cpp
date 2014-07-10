@@ -26,19 +26,15 @@
 
 using namespace hect;
 
-#define ENUM_TYPE PixelType
-
 #define ENUM_VALUES \
-    ENUM_VALUE(Half) \
-    ENUM_VALUE(Float) \
-    ENUM_VALUE(Byte)
+    ENUM_VALUE(PixelType, Half) \
+    ENUM_VALUE(PixelType, Float) \
+    ENUM_VALUE(PixelType, Byte)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(PixelType, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(PixelType, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

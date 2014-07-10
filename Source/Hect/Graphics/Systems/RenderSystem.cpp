@@ -106,13 +106,13 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, 
                     const Frustum& frustum = camera.frustum();
 
                     // Test the bounding box against the frustum
-                    FrustumTestResult::Enum result = frustum.testAxisAlignedBox(axisAlignedBox);
-                    if (result == FrustumTestResult::Inside)
+                    FrustumTestResult result = frustum.testAxisAlignedBox(axisAlignedBox);
+                    if (result == FrustumTestResult_Inside)
                     {
                         // No need to test any children
                         frustumTest = false;
                     }
-                    else if (result == FrustumTestResult::Intersect)
+                    else if (result == FrustumTestResult_Intersect)
                     {
                         // Need to test children
                         frustumTest = false;
@@ -172,35 +172,35 @@ void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& targ
     {
         if (uniform.hasBinding())
         {
-            UniformBinding::Enum binding = uniform.binding();
+            UniformBinding binding = uniform.binding();
 
             switch (binding)
             {
-            case UniformBinding::RenderTargetSize:
+            case UniformBinding_RenderTargetSize:
                 _renderer->setUniform(uniform, Vector2((Real)target.width(), (Real)target.height()));
                 break;
-            case UniformBinding::CameraPosition:
+            case UniformBinding_CameraPosition:
                 _renderer->setUniform(uniform, camera.position());
                 break;
-            case UniformBinding::CameraUp:
+            case UniformBinding_CameraUp:
                 _renderer->setUniform(uniform, camera.up());
                 break;
-            case UniformBinding::ViewMatrix:
+            case UniformBinding_ViewMatrix:
                 _renderer->setUniform(uniform, camera.viewMatrix());
                 break;
-            case UniformBinding::ProjectionMatrix:
+            case UniformBinding_ProjectionMatrix:
                 _renderer->setUniform(uniform, camera.projectionMatrix());
                 break;
-            case UniformBinding::ViewProjectionMatrix:
+            case UniformBinding_ViewProjectionMatrix:
                 _renderer->setUniform(uniform, camera.projectionMatrix() * camera.viewMatrix());
                 break;
-            case UniformBinding::ModelMatrix:
+            case UniformBinding_ModelMatrix:
                 _renderer->setUniform(uniform, model);
                 break;
-            case UniformBinding::ModelViewMatrix:
+            case UniformBinding_ModelViewMatrix:
                 _renderer->setUniform(uniform, camera.viewMatrix() * model);
                 break;
-            case UniformBinding::ModelViewProjectionMatrix:
+            case UniformBinding_ModelViewProjectionMatrix:
                 _renderer->setUniform(uniform, camera.projectionMatrix() * (camera.viewMatrix() * model));
                 break;
             }

@@ -28,26 +28,23 @@ namespace hect
 
 ///
 /// A flag that can either be enabled or disabled in a render state.
-namespace RenderStateFlag
-{
-enum Enum
+enum RenderStateFlag
 {
     ///
     /// Blends source and destination pixels using a formula.
-    Blend = 1,
+    RenderStateFlag_Blend = 1,
 
     ///
     /// Tests whether a pixel should be occluded based on the depth buffer.
-    DepthTest = 2,
+    RenderStateFlag_DepthTest = 2,
 
     ///
     // Writes a pixel's depth to the depth buffer.
-    DepthWrite = 4,
+    RenderStateFlag_DepthWrite = 4,
 
     ///
     /// Culls faces pointing away from the camera.
-    CullFace = 8
+    RenderStateFlag_CullFace = 8
 };
-}
 
 }

@@ -44,31 +44,31 @@ void InputAxisEncoder::decode(InputAxis& inputAxis, ObjectDecoder& decoder)
 
     if (decoder.hasMember("source"))
     {
-        auto source = decoder.decodeEnum<InputAxisSource::Enum>("source");
+        auto source = decoder.decodeEnum<InputAxisSource>("source");
         inputAxis.setSource(source);
     }
 
     if (decoder.hasMember("positiveMouseButton"))
     {
-        auto positiveMouseButton = decoder.decodeEnum<MouseButton::Enum>("positiveMouseButton");
+        auto positiveMouseButton = decoder.decodeEnum<MouseButton>("positiveMouseButton");
         inputAxis.setPositiveMouseButton(positiveMouseButton);
     }
 
     if (decoder.hasMember("negativeMouseButton"))
     {
-        auto negativeMouseButton = decoder.decodeEnum<MouseButton::Enum>("negativeMouseButton");
+        auto negativeMouseButton = decoder.decodeEnum<MouseButton>("negativeMouseButton");
         inputAxis.setNegativeMouseButton(negativeMouseButton);
     }
 
     if (decoder.hasMember("positiveKey"))
     {
-        auto positiveKey = decoder.decodeEnum<Key::Enum>("positiveKey");
+        auto positiveKey = decoder.decodeEnum<Key>("positiveKey");
         inputAxis.setPositiveKey(positiveKey);
     }
 
     if (decoder.hasMember("negativeKey"))
     {
-        auto negativeKey = decoder.decodeEnum<Key::Enum>("negativeKey");
+        auto negativeKey = decoder.decodeEnum<Key>("negativeKey");
         inputAxis.setNegativeKey(negativeKey);
     }
 

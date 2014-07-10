@@ -28,30 +28,27 @@ namespace hect
 
 ///
 /// The source of an input axis.
-namespace InputAxisSource
-{
-enum Enum
+enum InputAxisSource
 {
     ///
     /// A mouse movement along the x axis.
-    MouseMoveX,
+    InputAxisSource_MouseMoveX,
 
     ///
     /// A mouse movement along the y axis.
-    MouseMoveY,
+    InputAxisSource_MouseMoveY,
 
     ///
     /// A mouse button press.
-    MouseButton,
+    InputAxisSource_MouseButton,
 
     ///
     /// A mouse scroll.
-    MouseScroll,
+    InputAxisSource_MouseScroll,
 
     ///
     /// A key press.
-    Key
+    InputAxisSource_Key
 };
-}
 
 }

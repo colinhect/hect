@@ -33,8 +33,8 @@ using namespace hect;
 
 Mesh::Mesh() :
     _vertexLayout(VertexLayout::createDefault()),
-    _primitiveType(PrimitiveType::Triangles),
-    _indexType(IndexType::UnsignedShort),
+    _primitiveType(PrimitiveType_Triangles),
+    _indexType(IndexType_UnsignedShort),
     _vertexCount(0),
     _indexCount(0)
 {
@@ -43,8 +43,8 @@ Mesh::Mesh() :
 Mesh::Mesh(const std::string& name) :
     _name(name),
     _vertexLayout(VertexLayout::createDefault()),
-    _primitiveType(PrimitiveType::Triangles),
-    _indexType(IndexType::UnsignedShort),
+    _primitiveType(PrimitiveType_Triangles),
+    _indexType(IndexType_UnsignedShort),
     _vertexCount(0),
     _indexCount(0)
 {
@@ -116,12 +116,12 @@ void Mesh::setVertexLayout(const VertexLayout& vertexLayout)
     _vertexLayout = vertexLayout;
 }
 
-PrimitiveType::Enum Mesh::primitiveType() const
+PrimitiveType Mesh::primitiveType() const
 {
     return _primitiveType;
 }
 
-void Mesh::setPrimitiveType(PrimitiveType::Enum primitiveType)
+void Mesh::setPrimitiveType(PrimitiveType primitiveType)
 {
     if (isUploaded())
     {
@@ -131,12 +131,12 @@ void Mesh::setPrimitiveType(PrimitiveType::Enum primitiveType)
     _primitiveType = primitiveType;
 }
 
-IndexType::Enum Mesh::indexType() const
+IndexType Mesh::indexType() const
 {
     return _indexType;
 }
 
-void Mesh::setIndexType(IndexType::Enum indexType)
+void Mesh::setIndexType(IndexType indexType)
 {
     if (isUploaded())
     {
@@ -197,11 +197,11 @@ unsigned Mesh::indexSize() const
 {
     switch (_indexType)
     {
-    case IndexType::UnsignedByte:
+    case IndexType_UnsignedByte:
         return 1;
-    case IndexType::UnsignedShort:
+    case IndexType_UnsignedShort:
         return 2;
-    case IndexType::UnsignedInt:
+    case IndexType_UnsignedInt:
         return 4;
     }
     return 0;

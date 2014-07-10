@@ -107,7 +107,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
         auto rigidBody = entity.component<RigidBody>();
         if (rigidBody)
         {
-            if (event.type() == ComponentEventType::Add)
+            if (event.type() == ComponentEventType_Add)
             {
                 Mesh& mesh = *rigidBody->mesh();
 
@@ -132,7 +132,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
 
                 _world->addRigidBody(rigidBody->_rigidBody.get());
             }
-            else if (event.type() == ComponentEventType::Remove)
+            else if (event.type() == ComponentEventType_Remove)
             {
                 _world->removeRigidBody(rigidBody->_rigidBody.get());
             }

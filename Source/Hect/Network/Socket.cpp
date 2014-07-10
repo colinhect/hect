@@ -33,7 +33,7 @@ using namespace hect;
 int _enetInitializationCounter = 0;
 
 SocketEvent::SocketEvent() :
-    type(SocketEventType::None)
+    type(SocketEventType_None)
 {
 }
 
@@ -117,7 +117,7 @@ void Socket::disconnectFromPeer(Peer peer)
 
     // Trigger the disconnect
     ENetPeer* enetPeer = (ENetPeer*)peer._enetPeer;
-    if (peer.state() == PeerState::Connected)
+    if (peer.state() == PeerState_Connected)
     {
         enet_peer_disconnect(enetPeer, 0);
     }
@@ -132,7 +132,7 @@ bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
     ENetEvent enetEvent;
     if (enet_host_service((ENetHost*)_enetHost, &enetEvent, (uint32_t)timeOut.milliseconds()) > 0)
     {
-        event.type = (SocketEventType::Enum)enetEvent.type;
+        event.type = (SocketEventType)enetEvent.type;
         event.peer._enetPeer = enetEvent.peer;
 
         if (enetEvent.type == ENET_EVENT_TYPE_RECEIVE)

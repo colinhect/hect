@@ -105,7 +105,7 @@ public:
 
     ///
     /// Returns the primitive type.
-    PrimitiveType::Enum primitiveType() const;
+    PrimitiveType primitiveType() const;
 
     ///
     /// Sets the primitive type.
@@ -114,11 +114,11 @@ public:
     ///
     /// \note If the mesh is uploaded to a renderer then it will be destroyed
     /// before the primitive type is set.
-    void setPrimitiveType(PrimitiveType::Enum primitiveType);
+    void setPrimitiveType(PrimitiveType primitiveType);
 
     ///
     /// Returns the index type.
-    IndexType::Enum indexType() const;
+    IndexType indexType() const;
 
     ///
     /// Sets the index type.
@@ -129,7 +129,7 @@ public:
     /// before the index type is set.
     ///
     /// \throws Error If the mesh already has index data.
-    void setIndexType(IndexType::Enum indexType);
+    void setIndexType(IndexType indexType);
 
     ///
     /// Returns the raw vertex data.
@@ -231,14 +231,14 @@ public:
     Mesh& operator=(Mesh&& mesh);
 
 private:
-    static IndexType::Enum _parseIndexType(const std::string& value);
-    static PrimitiveType::Enum _parsePrimitiveType(const std::string& value);
+    static IndexType _parseIndexType(const std::string& value);
+    static PrimitiveType _parsePrimitiveType(const std::string& value);
 
     std::string _name;
 
     VertexLayout _vertexLayout;
-    PrimitiveType::Enum _primitiveType;
-    IndexType::Enum _indexType;
+    PrimitiveType _primitiveType;
+    IndexType _indexType;
 
     VertexData _vertexData;
     size_t _vertexCount;

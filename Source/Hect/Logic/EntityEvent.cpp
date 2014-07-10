@@ -25,13 +25,13 @@
 
 using namespace hect;
 
-EntityEvent::EntityEvent(EntityEventType::Enum type, Entity& entity) :
+EntityEvent::EntityEvent(EntityEventType type, Entity& entity) :
     _type(type),
     _entity(&entity)
 {
 }
 
-EntityEventType::Enum EntityEvent::type() const
+EntityEventType EntityEvent::type() const
 {
     return _type;
 }

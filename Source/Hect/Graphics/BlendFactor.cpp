@@ -26,27 +26,22 @@
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
-
-#define ENUM_TYPE BlendFactor
-
 #define ENUM_VALUES \
-    ENUM_VALUE(Zero) \
-    ENUM_VALUE(One) \
-    ENUM_VALUE(SourceColor) \
-    ENUM_VALUE(OneMinusSourceColor) \
-    ENUM_VALUE(DestColor) \
-    ENUM_VALUE(OneMinusDestColor) \
-    ENUM_VALUE(SourceAlpha) \
-    ENUM_VALUE(OneMinusSourceAlpha) \
-    ENUM_VALUE(DestAlpha) \
-    ENUM_VALUE(OneMinusDestAlpha)
+    ENUM_VALUE(BlendFactor, Zero) \
+    ENUM_VALUE(BlendFactor, One) \
+    ENUM_VALUE(BlendFactor, SourceColor) \
+    ENUM_VALUE(BlendFactor, OneMinusSourceColor) \
+    ENUM_VALUE(BlendFactor, DestColor) \
+    ENUM_VALUE(BlendFactor, OneMinusDestColor) \
+    ENUM_VALUE(BlendFactor, SourceAlpha) \
+    ENUM_VALUE(BlendFactor, OneMinusSourceAlpha) \
+    ENUM_VALUE(BlendFactor, DestAlpha) \
+    ENUM_VALUE(BlendFactor, OneMinusDestAlpha)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(BlendFactor, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(BlendFactor, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

@@ -95,7 +95,7 @@ void UniformEncoder::decode(Uniform& uniform, ObjectDecoder& decoder)
     // Binding
     else if (decoder.hasMember("binding"))
     {
-        uniform.setBinding(decoder.decodeEnum<UniformBinding::Enum>("binding"));
+        uniform.setBinding(decoder.decodeEnum<UniformBinding>("binding"));
     }
     else
     {

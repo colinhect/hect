@@ -32,47 +32,41 @@ namespace hect
 
 ///
 /// The mode a mouse is in.
-namespace MouseMode
-{
-enum Enum
+enum MouseMode
 {
     ///
     /// The cursor is active.
-    Cursor,
+    MouseMode_Cursor,
 
     ///
     /// The cursor is inactive and only relative movement is dispatched.
-    Relative
+    MouseMode_Relative
 };
-}
 
 ///
 /// A mouse event type.
-namespace MouseEventType
-{
-enum Enum
+enum MouseEventType
 {
     ///
     /// The mouse was moved.
-    Movement,
+    MouseEventType_Movement,
 
     ///
     /// A mouse button was pressed down.
-    ButtonDown,
+    MouseEventType_ButtonDown,
 
     ///
     /// A mouse button was released up.
-    ButtonUp,
+    MouseEventType_ButtonUp,
 
     ///
     /// The scroll wheel was moved down.
-    ScrollDown,
+    MouseEventType_ScrollDown,
 
     ///
     /// The scroll wheel was moved up.
-    ScrollUp
+    MouseEventType_ScrollUp
 };
-}
 
 ///
 /// An event caused by the alteration of the mouse.
@@ -86,14 +80,14 @@ public:
 
     ///
     /// The type of the event.
-    MouseEventType::Enum type;
+    MouseEventType type;
 
     ///
     /// The mouse button related to the event.
     ///
     /// \note Only relevant for a MouseEvent::ButtonDown or
     /// MouseEvent::ButtonUp event.
-    MouseButton::Enum button;
+    MouseButton button;
 
     ///
     /// The coordinates of the cursor.
@@ -115,7 +109,7 @@ public:
     /// Returns whether the given button is down.
     ///
     /// \param button The button to check if it is down.
-    bool isButtonDown(MouseButton::Enum button) const;
+    bool isButtonDown(MouseButton button) const;
 
     ///
     /// Returns the position of the cursor in window space.
@@ -125,11 +119,11 @@ public:
     /// Sets the mode.
     ///
     /// \param mode The new mode.
-    void setMode(MouseMode::Enum mode);
+    void setMode(MouseMode mode);
 
     ///
     /// Returns the mode.
-    MouseMode::Enum mode() const;
+    MouseMode mode() const;
 
     ///
     /// Returns the dispatcher of mouse events.
@@ -144,7 +138,7 @@ private:
     Dispatcher<MouseEvent> _dispatcher;
     std::vector<MouseEvent> _events;
 
-    MouseMode::Enum _mode;
+    MouseMode _mode;
     IntVector2 _cursorPosition;
 
     std::vector<bool> _buttonStates;

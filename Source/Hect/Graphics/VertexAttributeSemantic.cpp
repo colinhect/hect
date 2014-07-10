@@ -26,29 +26,25 @@
 
 using namespace hect;
 
-#define ENUM_TYPE VertexAttributeSemantic
-
 #define ENUM_VALUES \
-    ENUM_VALUE(Position) \
-    ENUM_VALUE(Normal) \
-    ENUM_VALUE(Color) \
-    ENUM_VALUE(Tangent) \
-    ENUM_VALUE(Binormal) \
-    ENUM_VALUE(Weight0) \
-    ENUM_VALUE(Weight1) \
-    ENUM_VALUE(Weight2) \
-    ENUM_VALUE(Weight3) \
-    ENUM_VALUE(TextureCoords0) \
-    ENUM_VALUE(TextureCoords1) \
-    ENUM_VALUE(TextureCoords2) \
-    ENUM_VALUE(TextureCoords3)
+    ENUM_VALUE(VertexAttributeSemantic, Position) \
+    ENUM_VALUE(VertexAttributeSemantic, Normal) \
+    ENUM_VALUE(VertexAttributeSemantic, Color) \
+    ENUM_VALUE(VertexAttributeSemantic, Tangent) \
+    ENUM_VALUE(VertexAttributeSemantic, Binormal) \
+    ENUM_VALUE(VertexAttributeSemantic, Weight0) \
+    ENUM_VALUE(VertexAttributeSemantic, Weight1) \
+    ENUM_VALUE(VertexAttributeSemantic, Weight2) \
+    ENUM_VALUE(VertexAttributeSemantic, Weight3) \
+    ENUM_VALUE(VertexAttributeSemantic, TextureCoords0) \
+    ENUM_VALUE(VertexAttributeSemantic, TextureCoords1) \
+    ENUM_VALUE(VertexAttributeSemantic, TextureCoords2) \
+    ENUM_VALUE(VertexAttributeSemantic, TextureCoords3)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(VertexAttributeSemantic, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(VertexAttributeSemantic, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

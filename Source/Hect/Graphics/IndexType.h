@@ -28,22 +28,19 @@ namespace hect
 
 ///
 /// The type of each index in an index sequence.
-namespace IndexType
-{
-enum Enum
+enum IndexType
 {
     ///
     /// An 8-bit unsigned integer.
-    UnsignedByte,
+    IndexType_UnsignedByte,
 
     ///
     /// A 16-bit unsigned integer.
-    UnsignedShort,
+    IndexType_UnsignedShort,
 
     ///
     /// A 32-bit unsigned integer.
-    UnsignedInt
+    IndexType_UnsignedInt
 };
-}
 
 }

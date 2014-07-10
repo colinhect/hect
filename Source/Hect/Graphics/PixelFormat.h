@@ -28,18 +28,15 @@ namespace hect
 
 ///
 /// The layout of the component(s) in a pixel.
-namespace PixelFormat
-{
-enum Enum
+enum PixelFormat
 {
     ///
     /// Red, green, and blue channels.
-    Rgb,
+    PixelFormat_Rgb,
 
     ///
     /// Red, green, blue, and alpha channels.
-    Rgba
+    PixelFormat_Rgba
 };
-}
 
 }

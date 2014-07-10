@@ -28,16 +28,13 @@ namespace hect
 
 ///
 /// How the primitives of a mesh are rendered.
-namespace PrimitiveType
+enum PrimitiveType
 {
-enum Enum
-{
-    Triangles,
-    TriangleStrip,
-    Lines,
-    LineStrip,
-    Points
+    PrimitiveType_Triangles,
+    PrimitiveType_TriangleStrip,
+    PrimitiveType_Lines,
+    PrimitiveType_LineStrip,
+    PrimitiveType_Points
 };
-}
 
 }

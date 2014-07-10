@@ -35,20 +35,20 @@ void UniformValueEncoder::encode(const UniformValue& uniformValue, ObjectEncoder
     // Value
     switch (uniformValue.type())
     {
-    case UniformType::Int:
-    case UniformType::Texture:
+    case UniformType_Int:
+    case UniformType_Texture:
         encoder.encodeInt("value", uniformValue.asInt());
         break;
-    case UniformType::Float:
+    case UniformType_Float:
         encoder.encodeReal("value", uniformValue.asReal());
         break;
-    case UniformType::Vector2:
+    case UniformType_Vector2:
         encoder.encodeVector2("value", uniformValue.asVector2());
         break;
-    case UniformType::Vector3:
+    case UniformType_Vector3:
         encoder.encodeVector3("value", uniformValue.asVector3());
         break;
-    case UniformType::Vector4:
+    case UniformType_Vector4:
         encoder.encodeVector4("value", uniformValue.asVector4());
         break;
     default:
@@ -61,7 +61,7 @@ void UniformValueEncoder::decode(UniformValue& uniformValue, ObjectDecoder& deco
     // Type
     if (decoder.hasMember("type"))
     {
-        uniformValue.setType(decoder.decodeEnum<UniformType::Enum>("type"));
+        uniformValue.setType(decoder.decodeEnum<UniformType>("type"));
     }
     else
     {
@@ -73,20 +73,20 @@ void UniformValueEncoder::decode(UniformValue& uniformValue, ObjectDecoder& deco
     {
         switch (uniformValue.type())
         {
-        case UniformType::Int:
-        case UniformType::Texture:
+        case UniformType_Int:
+        case UniformType_Texture:
             uniformValue.setValue(decoder.decodeInt("value"));
             break;
-        case UniformType::Float:
+        case UniformType_Float:
             uniformValue.setValue(decoder.decodeReal("value"));
             break;
-        case UniformType::Vector2:
+        case UniformType_Vector2:
             uniformValue.setValue(decoder.decodeVector2("value"));
             break;
-        case UniformType::Vector3:
+        case UniformType_Vector3:
             uniformValue.setValue(decoder.decodeVector3("value"));
             break;
-        case UniformType::Vector4:
+        case UniformType_Vector4:
             uniformValue.setValue(decoder.decodeVector4("value"));
             break;
         default:

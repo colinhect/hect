@@ -79,7 +79,7 @@ void InputSystem::updateAxes(Real timeStep)
             axis.setValue(value - value * std::min<Real>(1, gravity * timeStep));
         }
 
-        if (axis.source() == InputAxisSource::Key)
+        if (axis.source() == InputAxisSource_Key)
         {
             if (_keyboard.isKeyDown(axis.positiveKey()))
             {
@@ -91,7 +91,7 @@ void InputSystem::updateAxes(Real timeStep)
                 axis.setValue(value - acceleration * timeStep);
             }
         }
-        else if (axis.source() == InputAxisSource::MouseButton)
+        else if (axis.source() == InputAxisSource_MouseButton)
         {
             if (_mouse.isButtonDown(axis.positiveMouseButton()))
             {
@@ -118,32 +118,32 @@ Keyboard& InputSystem::keyboard()
 
 void InputSystem::receiveEvent(const MouseEvent& event)
 {
-    if (event.type == MouseEventType::Movement)
+    if (event.type == MouseEventType_Movement)
     {
         Real movementX = (Real)event.cursorMovement.x;
         Real movementY = (Real)event.cursorMovement.y;
 
         for (InputAxis& axis : _axes)
         {
-            if (axis.source() == InputAxisSource::MouseMoveX)
+            if (axis.source() == InputAxisSource_MouseMoveX)
             {
                 axis.setValue(axis.value() + movementX * axis.acceleration());
             }
-            else if (axis.source() == InputAxisSource::MouseMoveY)
+            else if (axis.source() == InputAxisSource_MouseMoveY)
             {
                 axis.setValue(axis.value() + movementY * axis.acceleration());
             }
         }
     }
-    else if (event.type == MouseEventType::ScrollUp || event.type == MouseEventType::ScrollDown)
+    else if (event.type == MouseEventType_ScrollUp || event.type == MouseEventType_ScrollDown)
     {
-        Real movement = event.type == MouseEventType::ScrollUp
+        Real movement = event.type == MouseEventType_ScrollUp
                         ? (Real)1
                         : (Real)-1;
 
         for (InputAxis& axis : _axes)
         {
-            if (axis.source() == InputAxisSource::MouseScroll)
+            if (axis.source() == InputAxisSource_MouseScroll)
             {
                 axis.setValue(axis.value() + movement * axis.acceleration());
             }

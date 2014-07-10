@@ -30,7 +30,7 @@ DebugSystem::DebugSystem(Scene& scene) :
 {
 }
 
-void DebugSystem::addRenderLayer(Key::Enum toggleKey, DebugRenderLayer& renderLayer)
+void DebugSystem::addRenderLayer(Key toggleKey, DebugRenderLayer& renderLayer)
 {
     _toggleKeys[toggleKey] = &renderLayer;
     _renderLayers.push_back(&renderLayer);
@@ -49,7 +49,7 @@ void DebugSystem::renderActivatedRenderLayers(RenderSystem& renderSystem, Render
 
 void DebugSystem::receiveEvent(const KeyboardEvent& event)
 {
-    if (event.type == KeyboardEventType::KeyDown)
+    if (event.type == KeyboardEventType_KeyDown)
     {
         auto it = _toggleKeys.find(event.key);
         if (it != _toggleKeys.end())

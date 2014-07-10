@@ -57,7 +57,7 @@ public:
     ///
     /// \param semantic The semantic of the attribute to set the data for.
     /// \param value The value.
-    void writeAttributeData(VertexAttributeSemantic::Enum semantic, Real value);
+    void writeAttributeData(VertexAttributeSemantic semantic, Real value);
 
     ///
     /// Writes attribute data of the most recently added vertex for a given
@@ -65,7 +65,7 @@ public:
     ///
     /// \param semantic The semantic of the attribute to set the data for.
     /// \param value The value.
-    void writeAttributeData(VertexAttributeSemantic::Enum semantic, const Vector2& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, const Vector2& value);
 
     ///
     /// Writes attribute data of the most recently added vertex for a given
@@ -73,7 +73,7 @@ public:
     ///
     /// \param semantic The semantic of the attribute to set the data for.
     /// \param value The value.
-    void writeAttributeData(VertexAttributeSemantic::Enum semantic, const Vector3& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, const Vector3& value);
 
     ///
     /// Writes attribute data of the most recently added vertex for a given
@@ -81,7 +81,7 @@ public:
     ///
     /// \param semantic The semantic of the attribute to set the data for.
     /// \param value The value.
-    void writeAttributeData(VertexAttributeSemantic::Enum semantic, const Vector4& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, const Vector4& value);
 
     ///
     /// Adds an index to the mesh.

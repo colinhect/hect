@@ -26,18 +26,14 @@
 
 using namespace hect;
 
-#define ENUM_TYPE PixelFormat
-
 #define ENUM_VALUES \
-    ENUM_VALUE(Rgb) \
-    ENUM_VALUE(Rgba)
+    ENUM_VALUE(PixelFormat, Rgb) \
+    ENUM_VALUE(PixelFormat, Rgba)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(PixelFormat, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(PixelFormat, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

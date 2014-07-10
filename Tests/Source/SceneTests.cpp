@@ -799,23 +799,23 @@ TEST_CASE("Scene_ComponentPoolListeners")
     b->activate();
 
     REQUIRE(listener.receivedEvents.size() == 2);
-    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType::Add);
+    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType_Add);
     REQUIRE(&listener.receivedEvents[0].entity() == &*a);
-    REQUIRE(listener.receivedEvents[1].type() == ComponentEventType::Add);
+    REQUIRE(listener.receivedEvents[1].type() == ComponentEventType_Add);
     REQUIRE(&listener.receivedEvents[1].entity() == &*b);
     listener.receivedEvents.clear();
 
     a->destroy();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType::Remove);
+    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType_Remove);
     REQUIRE(listener.receivedEvents[0].entity().id() == (EntityId)-1);
     listener.receivedEvents.clear();
     
     b->removeComponent<String>();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType::Remove);
+    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType_Remove);
     REQUIRE(&listener.receivedEvents[0].entity() == &*b);
 }
 

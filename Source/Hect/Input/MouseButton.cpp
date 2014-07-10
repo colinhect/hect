@@ -26,19 +26,15 @@
 
 using namespace hect;
 
-#define ENUM_TYPE MouseButton
-
 #define ENUM_VALUES \
-    ENUM_VALUE(Left) \
-    ENUM_VALUE(Right) \
-    ENUM_VALUE(Middle)
+    ENUM_VALUE(MouseButton, Left) \
+    ENUM_VALUE(MouseButton, Right) \
+    ENUM_VALUE(MouseButton, Middle)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(MouseButton, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(MouseButton, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

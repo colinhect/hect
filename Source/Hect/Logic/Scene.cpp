@@ -45,7 +45,7 @@ Entity::Iter Scene::createEntity()
     Entity::Iter entity = _entityPool._create();
 
     // Dispatch the entity create event
-    EntityEvent event(EntityEventType::Create, *entity);
+    EntityEvent event(EntityEventType_Create, *entity);
     _entityPool._dispatcher.dispatchEvent(event);
 
     return entity;
@@ -123,7 +123,7 @@ void Scene::_destroyEntity(Entity& entity)
     }
 
     // Dispatch the entity destroy event
-    EntityEvent event(EntityEventType::Destroy, entity);
+    EntityEvent event(EntityEventType_Destroy, entity);
     _entityPool._dispatcher.dispatchEvent(event);
 
     // Destroy all children
@@ -179,7 +179,7 @@ void Scene::_activateEntity(Entity& entity)
         auto componentPool = pair.second;
         if (componentPool->_has(entity))
         {
-            componentPool->_notifyEvent(ComponentEventType::Add, entity);
+            componentPool->_notifyEvent(ComponentEventType_Add, entity);
         }
     }
 
@@ -187,7 +187,7 @@ void Scene::_activateEntity(Entity& entity)
     entity._activated = true;
 
     // Dispatch the entity activate event
-    EntityEvent event(EntityEventType::Activate, entity);
+    EntityEvent event(EntityEventType_Activate, entity);
     _entityPool._dispatcher.dispatchEvent(event);
 
     // Activate all children

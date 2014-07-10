@@ -28,17 +28,17 @@
 using namespace hect;
 
 Uniform::Uniform() :
-    _type(UniformType::Float),
-    _binding(UniformBinding::None),
+    _type(UniformType_Float),
+    _binding(UniformBinding_None),
     _defaultValueSet(true),
     _defaultValue((Real)0),
     _location(-1)
 {
 }
 
-Uniform::Uniform(const std::string& name, UniformBinding::Enum binding) :
+Uniform::Uniform(const std::string& name, UniformBinding binding) :
     _name(name),
-    _type(UniformType::Float),
+    _type(UniformType_Float),
     _binding(binding),
     _defaultValueSet(false),
     _location(-1)
@@ -49,19 +49,19 @@ Uniform::Uniform(const std::string& name, UniformBinding::Enum binding) :
 Uniform::Uniform(const std::string& name, const UniformValue& defaultValue) :
     _name(name),
     _type(defaultValue.type()),
-    _binding(UniformBinding::None),
+    _binding(UniformBinding_None),
     _defaultValueSet(true),
     _defaultValue(defaultValue),
     _location(-1)
 {
 }
 
-UniformType::Enum Uniform::type() const
+UniformType Uniform::type() const
 {
     return _type;
 }
 
-void Uniform::setType(UniformType::Enum type)
+void Uniform::setType(UniformType type)
 {
     if (hasBinding())
     {
@@ -71,35 +71,35 @@ void Uniform::setType(UniformType::Enum type)
     _type = type;
 }
 
-UniformBinding::Enum Uniform::binding() const
+UniformBinding Uniform::binding() const
 {
     return _binding;
 }
 
-void Uniform::setBinding(UniformBinding::Enum binding)
+void Uniform::setBinding(UniformBinding binding)
 {
     switch (binding)
     {
-    case UniformBinding::RenderTargetSize:
-        _type = UniformType::Vector2;
+    case UniformBinding_RenderTargetSize:
+        _type = UniformType_Vector2;
         break;
-    case UniformBinding::CameraPosition:
-    case UniformBinding::CameraUp:
-        _type = UniformType::Vector3;
+    case UniformBinding_CameraPosition:
+    case UniformBinding_CameraUp:
+        _type = UniformType_Vector3;
         break;
-    case UniformBinding::ViewMatrix:
-    case UniformBinding::ProjectionMatrix:
-    case UniformBinding::ViewProjectionMatrix:
-    case UniformBinding::ModelMatrix:
-    case UniformBinding::ModelViewMatrix:
-    case UniformBinding::ModelViewProjectionMatrix:
-        _type = UniformType::Matrix4;
+    case UniformBinding_ViewMatrix:
+    case UniformBinding_ProjectionMatrix:
+    case UniformBinding_ViewProjectionMatrix:
+    case UniformBinding_ModelMatrix:
+    case UniformBinding_ModelViewMatrix:
+    case UniformBinding_ModelViewProjectionMatrix:
+        _type = UniformType_Matrix4;
         break;
     }
 
     _binding = binding;
 
-    if (_binding != UniformBinding::None)
+    if (_binding != UniformBinding_None)
     {
         _defaultValueSet = false;
     }
@@ -107,7 +107,7 @@ void Uniform::setBinding(UniformBinding::Enum binding)
 
 bool Uniform::hasBinding() const
 {
-    return _binding != UniformBinding::None;
+    return _binding != UniformBinding_None;
 }
 
 const UniformValue& Uniform::defaultValue() const
@@ -118,7 +118,7 @@ const UniformValue& Uniform::defaultValue() const
 void Uniform::setDefaultValue(const UniformValue& defaultValue)
 {
     _defaultValueSet = true;
-    _binding = UniformBinding::None;
+    _binding = UniformBinding_None;
 
     _type = defaultValue.type();
     _defaultValue = defaultValue;

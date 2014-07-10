@@ -37,27 +37,24 @@ typedef uint16_t Port;
 
 ///
 /// An event type.
-namespace SocketEventType
-{
-enum Enum
+enum SocketEventType
 {
     ///
     /// No event occurred.
-    None = 0,
+    SocketEventType_None = 0,
 
     ///
     /// A connection to a peer has been established.
-    Connect,
+    SocketEventType_Connect,
 
     ///
     /// A connection to a peer has been lost.
-    Disconnect,
+    SocketEventType_Disconnect,
 
     ///
     /// A packet has been received from a peer.
-    Receive
+    SocketEventType_Receive
 };
-}
 
 ///
 /// An event triggered from a remote socket.
@@ -71,7 +68,7 @@ public:
 
     ///
     /// The event type.
-    SocketEventType::Enum type;
+    SocketEventType type;
 
     ///
     /// The remote socket triggering the event.

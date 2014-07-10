@@ -55,15 +55,15 @@ public:
     /// \param semantic The semantic.
     /// \param type The type.
     /// \param cardinality The cardinality.
-    VertexAttribute(VertexAttributeSemantic::Enum semantic, VertexAttributeType::Enum type, unsigned cardinality);
+    VertexAttribute(VertexAttributeSemantic semantic, VertexAttributeType type, unsigned cardinality);
 
     ///
     /// Returns the semantic.
-    VertexAttributeSemantic::Enum semantic() const;
+    VertexAttributeSemantic semantic() const;
 
     ///
     /// Returns the type of the vertex attribute.
-    VertexAttributeType::Enum type() const;
+    VertexAttributeType type() const;
 
     ///
     /// Returns the cardinality.
@@ -90,8 +90,8 @@ public:
     bool operator!=(const VertexAttribute& vertexAttribute) const;
 
 private:
-    VertexAttributeSemantic::Enum _semantic;
-    VertexAttributeType::Enum _type;
+    VertexAttributeSemantic _semantic;
+    VertexAttributeType _type;
     unsigned _cardinality;
     unsigned _offset;
 };

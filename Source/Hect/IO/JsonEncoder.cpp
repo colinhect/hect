@@ -42,7 +42,7 @@ ArrayEncoder JsonEncoder::encodeArray()
         throw Error("Current encoding object has not ended");
     }
 
-    _valueStack.push(JsonValue(JsonValueType::Array));
+    _valueStack.push(JsonValue(JsonValueType_Array));
     return ArrayEncoder(this);
 }
 
@@ -53,7 +53,7 @@ ObjectEncoder JsonEncoder::encodeObject()
         throw Error("Current encoding object has not ended");
     }
 
-    _valueStack.push(JsonValue(JsonValueType::Object));
+    _valueStack.push(JsonValue(JsonValueType_Object));
     return ObjectEncoder(this);
 }
 
@@ -65,14 +65,14 @@ JsonValue::Array& JsonEncoder::jsonValues()
 void JsonEncoder::beginArray()
 {
     assert(_valueStack.top().isArray());
-    _valueStack.push(JsonValue(JsonValueType::Array));
+    _valueStack.push(JsonValue(JsonValueType_Array));
 }
 
 void JsonEncoder::beginArray(const char* name)
 {
     assert(_valueStack.top().isObject());
     _nameStack.push(name);
-    _valueStack.push(JsonValue(JsonValueType::Array));
+    _valueStack.push(JsonValue(JsonValueType_Array));
 }
 
 void JsonEncoder::endArray()
@@ -83,14 +83,14 @@ void JsonEncoder::endArray()
 void JsonEncoder::beginObject()
 {
     assert(_valueStack.top().isArray());
-    _valueStack.push(JsonValue(JsonValueType::Object));
+    _valueStack.push(JsonValue(JsonValueType_Object));
 }
 
 void JsonEncoder::beginObject(const char* name)
 {
     assert(_valueStack.top().isObject());
     _nameStack.push(name);
-    _valueStack.push(JsonValue(JsonValueType::Object));
+    _valueStack.push(JsonValue(JsonValueType_Object));
 }
 
 void JsonEncoder::endObject()

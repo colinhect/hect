@@ -56,7 +56,7 @@ public:
     ///
     /// \throws Error If the first vertex has not been moved to or attempting
     /// to read past the last vertex.
-    Real readAttributeReal(VertexAttributeSemantic::Enum semantic) const;
+    Real readAttributeReal(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 2-dimensional
@@ -64,7 +64,7 @@ public:
     ///
     /// \throws Error If the first vertex has not been moved to or attempting
     /// to read past the last vertex.
-    Vector2 readAttributeVector2(VertexAttributeSemantic::Enum semantic) const;
+    Vector2 readAttributeVector2(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 3-dimensional
@@ -72,7 +72,7 @@ public:
     ///
     /// \throws Error If the first vertex has not been moved to or attempting
     /// to read past the last vertex.
-    Vector3 readAttributeVector3(VertexAttributeSemantic::Enum semantic) const;
+    Vector3 readAttributeVector3(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 4-dimensional
@@ -80,7 +80,7 @@ public:
     ///
     /// \throws Error If the first vertex has not been moved to or attempting
     /// to read past the last vertex.
-    Vector4 readAttributeVector4(VertexAttributeSemantic::Enum semantic) const;
+    Vector4 readAttributeVector4(VertexAttributeSemantic semantic) const;
 
     ///
     /// Moves to the next index in the mesh.

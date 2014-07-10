@@ -53,7 +53,7 @@ btTriangleMesh* convertToBullet(const Mesh& m)
     std::vector<btVector3> vertices;
     while (meshReader.nextVertex())
     {
-        Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
+        Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic_Position);
         vertices.push_back(convertToBullet(position));
     }
 

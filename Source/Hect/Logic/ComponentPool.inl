@@ -130,7 +130,7 @@ typename Component<T>::ConstIter::Array ComponentPool<T>::find(typename Componen
 }
 
 template <typename T>
-void ComponentPool<T>::_notifyEvent(ComponentEventType::Enum type, Entity& entity)
+void ComponentPool<T>::_notifyEvent(ComponentEventType type, Entity& entity)
 {
     ComponentEvent<T> event(type, entity);
     _dispatcher.dispatchEvent(event);
@@ -161,7 +161,7 @@ void ComponentPool<T>::_remove(Entity& entity)
         // If the entity is activated then dispatch the remove event
         if (entity.isActivated())
         {
-            _notifyEvent(ComponentEventType::Remove, entity);
+            _notifyEvent(ComponentEventType_Remove, entity);
         }
 
         // Destory the component id to be re-used
@@ -257,7 +257,7 @@ typename Component<T>::Iter ComponentPool<T>::_add(Entity& entity, const T& comp
     // Dispatch the add event if the entity is activated
     if (entity.isActivated())
     {
-        _notifyEvent(ComponentEventType::Add, entity);
+        _notifyEvent(ComponentEventType_Add, entity);
     }
 
     return Component<T>::Iter(*this, id);
@@ -274,7 +274,7 @@ typename Component<T>::Iter ComponentPool<T>::_replace(Entity& entity, const T& 
         // If the entity is activated then dispatch the remove event
         if (entity.isActivated())
         {
-            _notifyEvent(ComponentEventType::Remove, entity);
+            _notifyEvent(ComponentEventType_Remove, entity);
         }
 
         // Get the old component
@@ -292,7 +292,7 @@ typename Component<T>::Iter ComponentPool<T>::_replace(Entity& entity, const T& 
         // If the entity is activated then dispatch the add event
         if (entity.isActivated())
         {
-            _notifyEvent(ComponentEventType::Add, entity);
+            _notifyEvent(ComponentEventType_Add, entity);
         }
 
         return Component<T>::Iter(*this, id);

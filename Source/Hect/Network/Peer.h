@@ -30,51 +30,48 @@ namespace hect
 
 ///
 /// A state that a peer is in.
-namespace PeerState
-{
-enum Enum
+enum PeerState
 {
     ///
     /// Not connected.
-    Disconnected,
+    PeerState_Disconnected,
 
     ///
     /// Connection in progress.
-    Connecting,
+    PeerState_Connecting,
 
     ///
     /// Acknowledgement of connection receieved.
-    AcknowledgingConnect,
+    PeerState_AcknowledgingConnect,
 
     ///
     /// Connection pending.
-    ConnectionPending,
+    PeerState_ConnectionPending,
 
     ///
     /// Connection succeeded.
-    ConnectionSucceeded,
+    PeerState_ConnectionSucceeded,
 
     ///
     /// Connection fully established.
-    Connected,
+    PeerState_Connected,
 
     ///
     /// Disconnection will triggered.
-    DisconnectLater,
+    PeerState_DisconnectLater,
 
     ///
     /// Disconnection in progress.
-    Disconnecting,
+    PeerState_Disconnecting,
 
     ///
     /// Acknowledgement of disconnection receieved.
-    AcknowledgeDisconnect,
+    PeerState_AcknowledgeDisconnect,
 
     ///
     /// Unknown state.
-    Unknown
+    PeerState_Unknown
 };
-}
 
 ///
 /// A remote point of contact for remote communication over UDP.
@@ -105,7 +102,7 @@ public:
 
     ///
     /// Returns the current state of the peer.
-    PeerState::Enum state() const;
+    PeerState state() const;
 
     ///
     /// Returns whether the peer the is same as another.

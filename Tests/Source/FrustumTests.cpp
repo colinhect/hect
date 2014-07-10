@@ -39,7 +39,7 @@ TEST_CASE("Frustum_OutsideBehind")
 
     AxisAlignedBox box(Vector3(-1, -1, 10), Vector3(1, 1, 11));
 
-    REQUIRE(FrustumTestResult::Outside == frustum.testAxisAlignedBox(box));
+    REQUIRE(FrustumTestResult_Outside == frustum.testAxisAlignedBox(box));
 }
 
 TEST_CASE("Frustum_OutsideLeft")
@@ -55,7 +55,7 @@ TEST_CASE("Frustum_OutsideLeft")
 
     AxisAlignedBox box(Vector3(-100, -1, -11), Vector3(-101, 1, -10));
 
-    REQUIRE(FrustumTestResult::Outside == frustum.testAxisAlignedBox(box));
+    REQUIRE(FrustumTestResult_Outside == frustum.testAxisAlignedBox(box));
 }
 
 TEST_CASE("Frustum_Inside")
@@ -71,7 +71,7 @@ TEST_CASE("Frustum_Inside")
 
     AxisAlignedBox box(Vector3(-1, -1, -50), Vector3(1, 1, -51));
 
-    REQUIRE(FrustumTestResult::Inside == frustum.testAxisAlignedBox(box));
+    REQUIRE(FrustumTestResult_Inside == frustum.testAxisAlignedBox(box));
 }
 
 TEST_CASE("Frustum_Intersect")
@@ -87,5 +87,5 @@ TEST_CASE("Frustum_Intersect")
 
     AxisAlignedBox box(Vector3(-1, -1, -200), Vector3(1, 1, -51));
 
-    REQUIRE(FrustumTestResult::Intersect == frustum.testAxisAlignedBox(box));
+    REQUIRE(FrustumTestResult_Intersect == frustum.testAxisAlignedBox(box));
 }

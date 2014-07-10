@@ -28,22 +28,19 @@ namespace hect
 
 ///
 /// A mouse button.
-namespace MouseButton
-{
-enum Enum
+enum MouseButton
 {
     ///
     /// The left mouse button.
-    Left,
+    MouseButton_Left,
 
     ///
     /// The right mouse button.
-    Right,
+    MouseButton_Right,
 
     ///
     /// The middle mouse button.
-    Middle
+    MouseButton_Middle
 };
-}
 
 }

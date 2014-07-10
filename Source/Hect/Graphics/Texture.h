@@ -67,7 +67,7 @@ public:
     /// \param magFilter The Magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
     /// \param wrapped True if the texture is wrapped; false otherwise.
-    Texture(const std::string& name, unsigned width, unsigned height, PixelType::Enum pixelType, PixelFormat::Enum pixelFormat, TextureFilter::Enum minFilter, TextureFilter::Enum magFilter, bool mipmapped, bool wrapped);
+    Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped);
 
     ///
     /// Constructs a 2-dimensional texture given a source image.
@@ -116,7 +116,7 @@ public:
 
     ///
     /// Returns the minification filter.
-    TextureFilter::Enum minFilter() const;
+    TextureFilter minFilter() const;
 
     ///
     /// Sets the minification filter.
@@ -125,11 +125,11 @@ public:
     /// destroyed before the filter is set.
     ///
     /// \param filter The new minification filter.
-    void setMinFilter(TextureFilter::Enum filter);
+    void setMinFilter(TextureFilter filter);
 
     ///
     /// Returns the magnification filter.
-    TextureFilter::Enum magFilter() const;
+    TextureFilter magFilter() const;
 
     ///
     /// Sets the magnification filter.
@@ -138,7 +138,7 @@ public:
     /// destroyed before the filter is set.
     ///
     /// \param filter The new magnification filter.
-    void setMagFilter(TextureFilter::Enum filter);
+    void setMagFilter(TextureFilter filter);
 
     ///
     /// Returns whether the texture is mipmapped.
@@ -176,11 +176,11 @@ public:
 
     ///
     /// Returns the pixel type.
-    PixelType::Enum pixelType() const;
+    PixelType pixelType() const;
 
     ///
     /// Returns the pixel format.
-    PixelFormat::Enum pixelFormat() const;
+    PixelFormat pixelFormat() const;
 
     ///
     /// Returns the number of bytes in a pixel of this texture.
@@ -222,7 +222,7 @@ public:
     Texture& operator=(Texture&& texture);
 
 private:
-    static TextureFilter::Enum _parseTextureFilter(const std::string& value);
+    static TextureFilter _parseTextureFilter(const std::string& value);
 
     std::string _name;
 
@@ -232,11 +232,11 @@ private:
     unsigned _width;
     unsigned _height;
 
-    PixelType::Enum _pixelType;
-    PixelFormat::Enum _pixelFormat;
+    PixelType _pixelType;
+    PixelFormat _pixelFormat;
 
-    TextureFilter::Enum _minFilter;
-    TextureFilter::Enum _magFilter;
+    TextureFilter _minFilter;
+    TextureFilter _magFilter;
 
     bool _mipmapped;
     bool _wrapped;

@@ -43,36 +43,33 @@ class WriteStream;
 
 ///
 /// A JSON value type.
-namespace JsonValueType
-{
-enum Enum : uint8_t
+enum JsonValueType : uint8_t
 {
 
     ///
     /// The JSON value holds no data.
-    Null,
+    JsonValueType_Null,
 
     ///
     /// A bool value.
-    Bool,
+    JsonValueType_Bool,
 
     ///
     /// A floating point number.
-    Number,
+    JsonValueType_Number,
 
     ///
     /// A string.
-    String,
+    JsonValueType_String,
 
     ///
     /// An collection of other data values.
-    Array,
+    JsonValueType_Array,
 
     ///
     /// A collection of key/value pairs of data values.
-    Object
+    JsonValueType_Object
 };
-}
 
 ///
 /// A hierarchical structure of JSON data.
@@ -94,7 +91,7 @@ public:
 
     ///
     /// Constructs a JSON value of a certain type.
-    JsonValue(JsonValueType::Enum type);
+    JsonValue(JsonValueType type);
 
     ///
     /// Constructs a bool JSON value.
@@ -173,7 +170,7 @@ public:
 
     ///
     /// Returns the type.
-    JsonValueType::Enum type() const;
+    JsonValueType type() const;
 
     ///
     /// Returns this JSON value or another one if this JSON value is null.
@@ -337,7 +334,7 @@ public:
     void decodeFromJson(ReadStream& stream);
 
 private:
-    JsonValueType::Enum _type;
+    JsonValueType _type;
     Any _any;
 
     static const JsonValue _null;

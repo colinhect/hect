@@ -28,15 +28,15 @@
 using namespace hect;
 
 UniformValue::UniformValue() :
-    _type(UniformType::Float)
+    _type(UniformType_Float)
 {
     setDefaultValue();
 }
 
-UniformValue::UniformValue(int value, UniformType::Enum type) :
+UniformValue::UniformValue(int value, UniformType type) :
     _type(type)
 {
-    if (type != UniformType::Int && type != UniformType::Texture)
+    if (type != UniformType_Int && type != UniformType_Texture)
     {
         throw Error("Invalid uniform value type");
     }
@@ -45,41 +45,41 @@ UniformValue::UniformValue(int value, UniformType::Enum type) :
 }
 
 UniformValue::UniformValue(Real value) :
-    _type(UniformType::Float)
+    _type(UniformType_Float)
 {
     setValue(value);
 }
 
 UniformValue::UniformValue(const Vector2& value) :
-    _type(UniformType::Vector2)
+    _type(UniformType_Vector2)
 {
     setValue(value);
 }
 
 UniformValue::UniformValue(const Vector3& value) :
-    _type(UniformType::Vector3)
+    _type(UniformType_Vector3)
 {
     setValue(value);
 }
 
 UniformValue::UniformValue(const Vector4& value) :
-    _type(UniformType::Vector4)
+    _type(UniformType_Vector4)
 {
     setValue(value);
 }
 
 UniformValue::UniformValue(const Matrix4& value) :
-    _type(UniformType::Matrix4)
+    _type(UniformType_Matrix4)
 {
     setValue(value);
 }
 
-UniformType::Enum UniformValue::type() const
+UniformType UniformValue::type() const
 {
     return _type;
 }
 
-void UniformValue::setType(UniformType::Enum type)
+void UniformValue::setType(UniformType type)
 {
     _type = type;
     setDefaultValue();
@@ -89,23 +89,23 @@ const void* UniformValue::data() const
 {
     switch (_type)
     {
-    case UniformType::Int:
-    case UniformType::Texture:
+    case UniformType_Int:
+    case UniformType_Texture:
         return &_value.as<int>();
         break;
-    case UniformType::Float:
+    case UniformType_Float:
         return &_value.as<float>();
         break;
-    case UniformType::Vector2:
+    case UniformType_Vector2:
         return &_value.as<Vector2T<float>>();
         break;
-    case UniformType::Vector3:
+    case UniformType_Vector3:
         return &_value.as<Vector3T<float>>();
         break;
-    case UniformType::Vector4:
+    case UniformType_Vector4:
         return &_value.as<Vector4T<float>>();
         break;
-    case UniformType::Matrix4:
+    case UniformType_Matrix4:
         return &_value.as<Matrix4T<float>>();
         break;
     default:
@@ -117,23 +117,23 @@ void UniformValue::setDefaultValue()
 {
     switch (_type)
     {
-    case UniformType::Int:
-    case UniformType::Texture:
+    case UniformType_Int:
+    case UniformType_Texture:
         _value = (int)0;
         break;
-    case UniformType::Float:
+    case UniformType_Float:
         _value = 0.0f;
         break;
-    case UniformType::Vector2:
+    case UniformType_Vector2:
         _value = Vector2T<float>();
         break;
-    case UniformType::Vector3:
+    case UniformType_Vector3:
         _value = Vector3T<float>();
         break;
-    case UniformType::Vector4:
+    case UniformType_Vector4:
         _value = Vector4T<float>();
         break;
-    case UniformType::Matrix4:
+    case UniformType_Matrix4:
         _value = Matrix4T<float>();
         break;
     default:
@@ -143,7 +143,7 @@ void UniformValue::setDefaultValue()
 
 void UniformValue::setValue(int value)
 {
-    if (_type != UniformType::Int && _type != UniformType::Texture)
+    if (_type != UniformType_Int && _type != UniformType_Texture)
     {
         throw Error("Uniform value is not of type 'Int' or 'Texture'");
     }
@@ -153,7 +153,7 @@ void UniformValue::setValue(int value)
 
 void UniformValue::setValue(Real value)
 {
-    if (_type != UniformType::Float)
+    if (_type != UniformType_Float)
     {
         throw Error("Uniform value is not of type 'Float'");
     }
@@ -163,7 +163,7 @@ void UniformValue::setValue(Real value)
 
 void UniformValue::setValue(const Vector2& value)
 {
-    if (_type != UniformType::Vector2)
+    if (_type != UniformType_Vector2)
     {
         throw Error("Uniform value is not of type 'Vector2'");
     }
@@ -173,7 +173,7 @@ void UniformValue::setValue(const Vector2& value)
 
 void UniformValue::setValue(const Vector3& value)
 {
-    if (_type != UniformType::Vector3)
+    if (_type != UniformType_Vector3)
     {
         throw Error("Uniform value is not of type 'Vector3'");
     }
@@ -183,7 +183,7 @@ void UniformValue::setValue(const Vector3& value)
 
 void UniformValue::setValue(const Vector4& value)
 {
-    if (_type != UniformType::Vector4)
+    if (_type != UniformType_Vector4)
     {
         throw Error("Uniform value is not of type 'Vector4'");
     }
@@ -193,7 +193,7 @@ void UniformValue::setValue(const Vector4& value)
 
 void UniformValue::setValue(const Matrix4& value)
 {
-    if (_type != UniformType::Matrix4)
+    if (_type != UniformType_Matrix4)
     {
         throw Error("Uniform value is not of type 'Matrix4'");
     }
@@ -203,7 +203,7 @@ void UniformValue::setValue(const Matrix4& value)
 
 int UniformValue::asInt() const
 {
-    if (_type != UniformType::Int && _type != UniformType::Texture)
+    if (_type != UniformType_Int && _type != UniformType_Texture)
     {
         throw Error("Uniform value is not of type 'Int' or 'Texture'");
     }
@@ -213,7 +213,7 @@ int UniformValue::asInt() const
 
 Real UniformValue::asReal() const
 {
-    if (_type != UniformType::Float)
+    if (_type != UniformType_Float)
     {
         throw Error("Uniform value is not of type 'Float'");
     }
@@ -223,7 +223,7 @@ Real UniformValue::asReal() const
 
 Vector2 UniformValue::asVector2() const
 {
-    if (_type != UniformType::Vector2)
+    if (_type != UniformType_Vector2)
     {
         throw Error("Uniform value is not of type 'Vector2'");
     }
@@ -233,7 +233,7 @@ Vector2 UniformValue::asVector2() const
 
 Vector3 UniformValue::asVector3() const
 {
-    if (_type != UniformType::Vector3)
+    if (_type != UniformType_Vector3)
     {
         throw Error("Uniform value is not of type 'Vector3'");
     }
@@ -243,7 +243,7 @@ Vector3 UniformValue::asVector3() const
 
 Vector4 UniformValue::asVector4() const
 {
-    if (_type != UniformType::Vector4)
+    if (_type != UniformType_Vector4)
     {
         throw Error("Uniform value is not of type 'Vector4'");
     }
@@ -253,7 +253,7 @@ Vector4 UniformValue::asVector4() const
 
 Matrix4 UniformValue::asMatrix4() const
 {
-    if (_type != UniformType::Matrix4)
+    if (_type != UniformType_Matrix4)
     {
         throw Error("Uniform value is not of type 'Matrix4'");
     }
@@ -283,20 +283,20 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
     // Value
     switch (_type)
     {
-    case UniformType::Int:
-    case UniformType::Texture:
+    case UniformType_Int:
+    case UniformType_Texture:
         return asInt() == uniformValue.asInt();
         break;
-    case UniformType::Float:
+    case UniformType_Float:
         return asReal() == uniformValue.asReal();
         break;
-    case UniformType::Vector2:
+    case UniformType_Vector2:
         return asVector2() == uniformValue.asVector2();
         break;
-    case UniformType::Vector3:
+    case UniformType_Vector3:
         return asVector3() == uniformValue.asVector3();
         break;
-    case UniformType::Vector4:
+    case UniformType_Vector4:
         return asVector4() == uniformValue.asVector4();
         break;
     default:

@@ -36,101 +36,101 @@ using namespace hect;
 static SDL_Window* _sdlWindow = nullptr;
 static SDL_GLContext  _glContext = nullptr;
 
-Key::Enum _convertKey(SDL_Keycode key)
+Key _convertKey(SDL_Keycode key)
 {
     switch (key)
     {
     case SDLK_a:
-        return Key::A;
+        return Key_A;
     case SDLK_b:
-        return Key::B;
+        return Key_B;
     case SDLK_c:
-        return Key::C;
+        return Key_C;
     case SDLK_d:
-        return Key::D;
+        return Key_D;
     case SDLK_e:
-        return Key::E;
+        return Key_E;
     case SDLK_f:
-        return Key::F;
+        return Key_F;
     case SDLK_g:
-        return Key::G;
+        return Key_G;
     case SDLK_h:
-        return Key::H;
+        return Key_H;
     case SDLK_i:
-        return Key::I;
+        return Key_I;
     case SDLK_j:
-        return Key::J;
+        return Key_J;
     case SDLK_k:
-        return Key::K;
+        return Key_K;
     case SDLK_l:
-        return Key::L;
+        return Key_L;
     case SDLK_m:
-        return Key::M;
+        return Key_M;
     case SDLK_n:
-        return Key::N;
+        return Key_N;
     case SDLK_o:
-        return Key::O;
+        return Key_O;
     case SDLK_p:
-        return Key::P;
+        return Key_P;
     case SDLK_q:
-        return Key::Q;
+        return Key_Q;
     case SDLK_r:
-        return Key::R;
+        return Key_R;
     case SDLK_s:
-        return Key::S;
+        return Key_S;
     case SDLK_t:
-        return Key::T;
+        return Key_T;
     case SDLK_u:
-        return Key::U;
+        return Key_U;
     case SDLK_v:
-        return Key::V;
+        return Key_V;
     case SDLK_w:
-        return Key::W;
+        return Key_W;
     case SDLK_x:
-        return Key::X;
+        return Key_X;
     case SDLK_y:
-        return Key::Y;
+        return Key_Y;
     case SDLK_z:
-        return Key::Z;
+        return Key_Z;
     case SDLK_ESCAPE:
-        return Key::Esc;
+        return Key_Esc;
     case SDLK_TAB:
-        return Key::Tab;
+        return Key_Tab;
 
     case SDLK_F1:
-        return Key::F1;
+        return Key_F1;
     case SDLK_F2:
-        return Key::F2;
+        return Key_F2;
     case SDLK_F3:
-        return Key::F3;
+        return Key_F3;
     case SDLK_F4:
-        return Key::F4;
+        return Key_F4;
     case SDLK_F5:
-        return Key::F5;
+        return Key_F5;
     case SDLK_F6:
-        return Key::F6;
+        return Key_F6;
     case SDLK_F7:
-        return Key::F7;
+        return Key_F7;
     case SDLK_F8:
-        return Key::F8;
+        return Key_F8;
     case SDLK_F9:
-        return Key::F9;
+        return Key_F9;
     case SDLK_F10:
-        return Key::F10;
+        return Key_F10;
     case SDLK_F11:
-        return Key::F11;
+        return Key_F11;
     case SDLK_F12:
-        return Key::F12;
+        return Key_F12;
 
     case SDLK_LCTRL:
-        return Key::LeftCtrl;
+        return Key_LeftCtrl;
     case SDLK_LSHIFT:
-        return Key::LeftShift;
+        return Key_LeftShift;
     case SDLK_LALT:
-        return Key::LeftAlt;
+        return Key_LeftAlt;
 
     default:
-        return Key::Unknown;
+        return Key_Unknown;
     }
 }
 
@@ -147,7 +147,7 @@ void Window::showFatalError(const std::string& message)
 
 Window::Window(const std::string& title, const VideoMode& videoMode) :
     RenderTarget(videoMode.width(), videoMode.height()),
-    _mouseMode(MouseMode::Cursor)
+    _mouseMode(MouseMode_Cursor)
 {
     // Currently only a single window is supported
     if (_sdlWindow)
@@ -199,17 +199,17 @@ void Window::bind(Renderer* renderer)
 bool Window::pollEvents(InputSystem& inputSystem)
 {
     // Update the mouse mode if needed
-    MouseMode::Enum currentMouseMode = inputSystem.mouse().mode();
+    MouseMode currentMouseMode = inputSystem.mouse().mode();
     if (currentMouseMode != _mouseMode)
     {
         _mouseMode = currentMouseMode;
 
         switch (currentMouseMode)
         {
-        case MouseMode::Cursor:
+        case MouseMode_Cursor:
             SDL_SetRelativeMouseMode(SDL_FALSE);
             break;
-        case MouseMode::Relative:
+        case MouseMode_Relative:
             SDL_SetRelativeMouseMode(SDL_TRUE);
             break;
         }
@@ -229,7 +229,7 @@ bool Window::pollEvents(InputSystem& inputSystem)
         case SDL_KEYUP:
         {
             KeyboardEvent event;
-            event.type = e.type == SDL_KEYDOWN ? KeyboardEventType::KeyDown : KeyboardEventType::KeyUp;
+            event.type = e.type == SDL_KEYDOWN ? KeyboardEventType_KeyDown : KeyboardEventType_KeyUp;
             event.key = _convertKey(e.key.keysym.sym);
             inputSystem._enqueueEvent(event);
         }

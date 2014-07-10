@@ -29,50 +29,47 @@ namespace hect
 ///
 /// A formula used to compute blending from either the source or
 /// destination.
-namespace BlendFactor
-{
-enum Enum
+enum BlendFactor
 {
     ///
     /// Blend forumla: 0 0 0 0
-    Zero,
+    BlendFactor_Zero,
 
     ///
     /// Blend forumla: 1 1 1 1
-    One,
+    BlendFactor_One,
 
     ///
     /// Blend forumla: R s0 k R G s0 k G B s0 k B A s0 k A
-    SourceColor,
+    BlendFactor_SourceColor,
 
     ///
     /// Blend forumla: 1 1 1 1 - R s0 k R G s0 k G B s0 k B A s0 k A
-    OneMinusSourceColor,
+    BlendFactor_OneMinusSourceColor,
 
     ///
     /// Blend forumla: R d k R G d k G B d k B A d k A
-    DestColor,
+    BlendFactor_DestColor,
 
     ///
     /// Blend forumla: 1 1 1 1 - R d k R G d k G B d k B A d k A
-    OneMinusDestColor,
+    BlendFactor_OneMinusDestColor,
 
     ///
     /// Blend forumla: A s0 k A A s0 k A A s0 k A A s0 k A
-    SourceAlpha,
+    BlendFactor_SourceAlpha,
 
     ///
     /// Blend forumla: 1 1 1 1 - A s0 k A A s0 k A A s0 k A A s0 k A
-    OneMinusSourceAlpha,
+    BlendFactor_OneMinusSourceAlpha,
 
     ///
     /// Blend forumla: A d k A A d k A A d k A A d k A
-    DestAlpha,
+    BlendFactor_DestAlpha,
 
     ///
     /// Blend forumla: 1 1 1 1 - A d k A A d k A A d k A A d k A
-    OneMinusDestAlpha
+    BlendFactor_OneMinusDestAlpha
 };
-}
 
 }

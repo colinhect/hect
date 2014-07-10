@@ -30,43 +30,40 @@ namespace hect
 
 ///
 /// A type of a vertex attribute.
-namespace VertexAttributeType
-{
-enum Enum : uint8_t
+enum VertexAttributeType : uint8_t
 {
     ///
     /// An 8-bit signed integer.
-    Byte,
+    VertexAttributeType_Byte,
 
     ///
     /// An 8-bit unsigned integer.
-    UnsignedByte,
+    VertexAttributeType_UnsignedByte,
 
     ///
     /// A 16-bit signed integer.
-    Short,
+    VertexAttributeType_Short,
 
     ///
     /// A 16-bit unsigned integer.
-    UnsignedShort,
+    VertexAttributeType_UnsignedShort,
 
     ///
     /// A 32-bit signed integer.
-    Int,
+    VertexAttributeType_Int,
 
     ///
     /// A 32-bit unsigned integer.
-    UnsignedInt,
+    VertexAttributeType_UnsignedInt,
 
     ///
     /// A 16-bit float.
     /// \note Also known as "half".
-    Half,
+    VertexAttributeType_Half,
 
     ///
     /// A 32-bit float.
-    Float
+    VertexAttributeType_Float
 };
-}
 
 }

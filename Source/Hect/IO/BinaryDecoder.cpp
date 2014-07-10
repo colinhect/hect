@@ -47,7 +47,7 @@ ReadStream& BinaryDecoder::binaryStream()
 ArrayDecoder BinaryDecoder::decodeArray()
 {
     uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber::BeginArray)
+    if (magicNumber != EncodingMagicNumber_BeginArray)
     {
         throw Error("Expected beginning of array");
     }
@@ -61,7 +61,7 @@ ArrayDecoder BinaryDecoder::decodeArray()
 ObjectDecoder BinaryDecoder::decodeObject()
 {
     uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber::BeginObject)
+    if (magicNumber != EncodingMagicNumber_BeginObject)
     {
         throw Error("Expected beginning of object");
     }
@@ -72,7 +72,7 @@ ObjectDecoder BinaryDecoder::decodeObject()
 void BinaryDecoder::beginArray()
 {
     uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber::BeginArray)
+    if (magicNumber != EncodingMagicNumber_BeginArray)
     {
         throw Error("Expected beginning of array");
     }
@@ -86,7 +86,7 @@ void BinaryDecoder::beginArray()
 void BinaryDecoder::beginArray(const char* name)
 {
     uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber::BeginArray)
+    if (magicNumber != EncodingMagicNumber_BeginArray)
     {
         throw Error("Expected beginning of array");
     }
@@ -100,7 +100,7 @@ void BinaryDecoder::beginArray(const char* name)
 void BinaryDecoder::endArray()
 {
     uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber::EndArray)
+    if (magicNumber != EncodingMagicNumber_EndArray)
     {
         throw Error("Expected end of array");
     }
@@ -117,7 +117,7 @@ bool BinaryDecoder::hasMoreElements() const
 void BinaryDecoder::beginObject()
 {
     uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber::BeginObject)
+    if (magicNumber != EncodingMagicNumber_BeginObject)
     {
         throw Error("Expected beginning of object");
     }
@@ -128,7 +128,7 @@ void BinaryDecoder::beginObject()
 void BinaryDecoder::beginObject(const char* name)
 {
     uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber::BeginObject)
+    if (magicNumber != EncodingMagicNumber_BeginObject)
     {
         throw Error("Expected beginning of object");
     }
@@ -139,7 +139,7 @@ void BinaryDecoder::beginObject(const char* name)
 void BinaryDecoder::endObject()
 {
     uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber::EndObject)
+    if (magicNumber != EncodingMagicNumber_EndObject)
     {
         throw Error("Expected end of object");
     }

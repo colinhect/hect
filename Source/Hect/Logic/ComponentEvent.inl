@@ -25,14 +25,14 @@ namespace hect
 {
 
 template <typename T>
-ComponentEvent<T>::ComponentEvent(ComponentEventType::Enum type, Entity& entity) :
+ComponentEvent<T>::ComponentEvent(ComponentEventType type, Entity& entity) :
     _type(type),
     _entity(&entity)
 {
 }
 
 template <typename T>
-ComponentEventType::Enum ComponentEvent<T>::type() const
+ComponentEventType ComponentEvent<T>::type() const
 {
     return _type;
 }

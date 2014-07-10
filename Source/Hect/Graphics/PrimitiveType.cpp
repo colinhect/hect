@@ -26,21 +26,17 @@
 
 using namespace hect;
 
-#define ENUM_TYPE PrimitiveType
-
 #define ENUM_VALUES \
-    ENUM_VALUE(Triangles) \
-    ENUM_VALUE(TriangleStrip) \
-    ENUM_VALUE(Lines) \
-    ENUM_VALUE(LineStrip) \
-    ENUM_VALUE(Points)
+    ENUM_VALUE(PrimitiveType, Triangles) \
+    ENUM_VALUE(PrimitiveType, TriangleStrip) \
+    ENUM_VALUE(PrimitiveType, Lines) \
+    ENUM_VALUE(PrimitiveType, LineStrip) \
+    ENUM_VALUE(PrimitiveType, Points)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(PrimitiveType, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(PrimitiveType, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

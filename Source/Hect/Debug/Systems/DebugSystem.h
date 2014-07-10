@@ -46,7 +46,7 @@ public:
     ///
     /// \param toggleKey The key which toggles the render layer.
     /// \param renderLayer The debug render layer.
-    void addRenderLayer(Key::Enum toggleKey, DebugRenderLayer& renderLayer);
+    void addRenderLayer(Key toggleKey, DebugRenderLayer& renderLayer);
 
     ///
     /// Renders all activated debug render layers.
@@ -59,7 +59,7 @@ public:
 
 private:
     std::vector<DebugRenderLayer*> _renderLayers;
-    std::map<Key::Enum, DebugRenderLayer*> _toggleKeys;
+    std::map<Key, DebugRenderLayer*> _toggleKeys;
 };
 
 }

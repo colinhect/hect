@@ -26,18 +26,14 @@
 
 using namespace hect;
 
-#define ENUM_TYPE TextureFilter
-
 #define ENUM_VALUES \
-    ENUM_VALUE(Nearest) \
-    ENUM_VALUE(Linear)
+    ENUM_VALUE(TextureFilter, Nearest) \
+    ENUM_VALUE(TextureFilter, Linear)
 
-#define ENUM_VALUE(value) HECT_ENUM_TO_STRING(value)
-HECT_ENUM_DEFINE_TO_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(TextureFilter, ENUM_VALUES)
 #undef ENUM_VALUE
 
-#define ENUM_VALUE(value) HECT_ENUM_FROM_STRING(value)
-HECT_ENUM_DEFINE_FROM_STRING(ENUM_VALUES)
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(TextureFilter, ENUM_VALUES)
 #undef ENUM_VALUE
-
-#undef ENUM_TYPE

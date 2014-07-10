@@ -70,17 +70,17 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
 
                 // Bulld a list of all states
                 size_t stateCount = 4;
-                RenderStateFlag::Enum states[] =
+                RenderStateFlag states[] =
                 {
-                    RenderStateFlag::Blend,
-                    RenderStateFlag::DepthTest,
-                    RenderStateFlag::DepthWrite,
-                    RenderStateFlag::CullFace
+                    RenderStateFlag_Blend,
+                    RenderStateFlag_DepthTest,
+                    RenderStateFlag_DepthWrite,
+                    RenderStateFlag_CullFace
                 };
 
                 // Build a list of enabled/disabled states
-                std::vector<RenderStateFlag::Enum> enabledFlags;
-                std::vector<RenderStateFlag::Enum> disabledFlags;
+                std::vector<RenderStateFlag> enabledFlags;
+                std::vector<RenderStateFlag> disabledFlags;
                 for (size_t i = 0; i < stateCount; ++i)
                 {
                     if (pass.renderState().isEnabled(states[i]))
@@ -97,7 +97,7 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 {
                     ArrayEncoder statesEncoder = renderStateEncoder.encodeArray("enabledFlags");
 
-                    for (const RenderStateFlag::Enum& flag : enabledFlags)
+                    for (const RenderStateFlag& flag : enabledFlags)
                     {
                         statesEncoder.encodeEnum(flag);
                     }
@@ -107,7 +107,7 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
                 {
                     ArrayEncoder statesEncoder = renderStateEncoder.encodeArray("disabledFlags");
 
-                    for (const RenderStateFlag::Enum& flag : disabledFlags)
+                    for (const RenderStateFlag& flag : disabledFlags)
                     {
                         statesEncoder.encodeEnum(flag);
                     }
@@ -180,7 +180,7 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     while (statesDecoder.hasMoreElements())
                     {
 
-                        renderState.enable(statesDecoder.decodeEnum<RenderStateFlag::Enum>());
+                        renderState.enable(statesDecoder.decodeEnum<RenderStateFlag>());
                     }
                 }
 
@@ -190,7 +190,7 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     ArrayDecoder statesDecoder = renderStateDecoder.decodeArray("disabledFlags");
                     while (statesDecoder.hasMoreElements())
                     {
-                        renderState.disable(statesDecoder.decodeEnum<RenderStateFlag::Enum>());
+                        renderState.disable(statesDecoder.decodeEnum<RenderStateFlag>());
                     }
                 }
 
@@ -198,8 +198,8 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                 if (renderStateDecoder.hasMember("blendFactors"))
                 {
                     ArrayDecoder blendFactorsDecoder = renderStateDecoder.decodeArray("blendFactors");
-                    auto sourceFactor = blendFactorsDecoder.decodeEnum<BlendFactor::Enum>();
-                    auto destFactor = blendFactorsDecoder.decodeEnum<BlendFactor::Enum>();
+                    auto sourceFactor = blendFactorsDecoder.decodeEnum<BlendFactor>();
+                    auto destFactor = blendFactorsDecoder.decodeEnum<BlendFactor>();
                     renderState.setBlendFactors(sourceFactor, destFactor);
                 }
             }

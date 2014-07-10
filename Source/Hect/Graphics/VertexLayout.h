@@ -58,7 +58,7 @@ public:
     /// Returns whether the vertex layout has an attribute with the given semantic.
     ///
     /// \param semantic The semantic.
-    bool hasAttributeWithSemantic(VertexAttributeSemantic::Enum semantic) const;
+    bool hasAttributeWithSemantic(VertexAttributeSemantic semantic) const;
 
     ///
     /// Returns the attribute with the given semantic.
@@ -67,7 +67,7 @@ public:
     ///
     /// \throws Error If the vertex layout does not have an attribute with the
     /// given semantic
-    const VertexAttribute& attributeWithSemantic(VertexAttributeSemantic::Enum semantic) const;
+    const VertexAttribute& attributeWithSemantic(VertexAttributeSemantic semantic) const;
 
     /// Returns the attributes.
     const VertexAttribute::Array& attributes() const;
