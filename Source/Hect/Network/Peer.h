@@ -41,7 +41,7 @@ enum PeerState
     PeerState_Connecting,
 
     ///
-    /// Acknowledgement of connection receieved.
+    /// Acknowledgement of connection received.
     PeerState_AcknowledgingConnect,
 
     ///
@@ -65,7 +65,7 @@ enum PeerState
     PeerState_Disconnecting,
 
     ///
-    /// Acknowledgement of disconnection receieved.
+    /// Acknowledgement of disconnection received.
     PeerState_AcknowledgeDisconnect,
 
     ///
