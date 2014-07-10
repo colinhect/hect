@@ -26,10 +26,10 @@
 #include <algorithm>
 #include <vector>
 
-#include "Hect/Core/IdPool.h"
-#include "Hect/Core/Dispatcher.h"
+#include "Hect/Event/Dispatcher.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Logic/IdPool.h"
 
 namespace hect
 {

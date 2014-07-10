@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-#include "Hect/Math/Vector2.h"
+#include "Hect/Event/Dispatcher.h"
 #include "Hect/Input/MouseButton.h"
+#include "Hect/Math/Vector2.h"
 
 namespace hect
 {

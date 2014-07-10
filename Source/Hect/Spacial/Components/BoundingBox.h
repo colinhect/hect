@@ -23,43 +23,40 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Listener.h"
-#include "Hect/Input/Keyboard.h"
-#include "Hect/Debug/DebugRenderLayer.h"
-
-#include <map>
+#include "Hect/Logic/Component.h"
+#include "Hect/Math/Vector3.h"
+#include "Hect/Math/Matrix4.h"
+#include "Hect/Math/Quaternion.h"
+#include "Hect/Spacial/AxisAlignedBox.h"
 
 namespace hect
 {
 
 ///
-/// Provides functionality useful for debugging.
-class DebugSystem :
-    public System,
-    public Listener<KeyboardEvent>
+/// The bounds of an entity.
+class BoundingBox :
+    public Component<BoundingBox>
 {
 public:
-    DebugSystem(Scene& scene);
+    BoundingBox();
 
     ///
-    /// Adds a debug render layer to the system.
-    ///
-    /// \param toggleKey The key which toggles the render layer.
-    /// \param renderLayer The debug render layer.
-    void addRenderLayer(Key::Enum toggleKey, DebugRenderLayer& renderLayer);
+    /// Returns the bounds as an axis aligned box.
+    AxisAlignedBox& axisAlignedBox();
 
     ///
-    /// Renders all activated debug render layers.
-    ///
-    /// \param renderSystem The render system to use.
-    /// \param target The render target to render to.
-    void renderActivatedRenderLayers(RenderSystem& renderSystem, RenderTarget& target);
+    /// Returns the bounds as an axis aligned box.
+    const AxisAlignedBox& axisAlignedBox() const;
 
-    void receiveEvent(const KeyboardEvent& event);
+    ///
+    /// Sets the bounds from an axis aligned box.
+    void setAxisAlignedBox(const AxisAlignedBox& box);
+
+    void encode(ObjectEncoder& encoder) const;
+    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    std::vector<DebugRenderLayer*> _renderLayers;
-    std::map<Key::Enum, DebugRenderLayer*> _toggleKeys;
+    AxisAlignedBox _axisAlignedBox;
 };
 
 }

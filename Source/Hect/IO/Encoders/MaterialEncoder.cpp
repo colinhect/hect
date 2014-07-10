@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MaterialEncoder.h"
 
-#include "Hect/IO/Encoders/MaterialEncoder.h"
 #include "Hect/Core/Enum.h"
+#include "Hect/IO/Encoders/MaterialEncoder.h"
 
 using namespace hect;
 

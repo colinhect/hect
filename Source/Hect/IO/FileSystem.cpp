@@ -23,11 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "FileSystem.h"
 
+#include <physfs.h>
+
 #include "Hect/Core/Configuration.h"
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
-
-#include <physfs.h>
 
 #ifdef HECT_WINDOWS
 #include <Windows.h>

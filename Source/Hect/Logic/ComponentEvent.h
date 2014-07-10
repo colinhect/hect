@@ -23,9 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
-
-#include <cassert>
+#include "Hect/Event/Dispatcher.h"
 
 namespace hect
 {

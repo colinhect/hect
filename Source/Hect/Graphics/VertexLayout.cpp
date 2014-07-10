@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "VertexLayout.h"
 
-#include "Hect/IO/Encoders/VertexLayoutEncoder.h"
 #include "Hect/Core/Enum.h"
+#include "Hect/IO/Encoders/VertexLayoutEncoder.h"
 
 using namespace hect;
 

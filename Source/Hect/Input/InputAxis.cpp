@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputAxis.h"
 
-#include "Hect/IO/Encoders/InputAxisEncoder.h"
-
 #include <algorithm>
+
+#include "Hect/IO/Encoders/InputAxisEncoder.h"
 
 using namespace hect;
 

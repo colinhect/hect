@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Camera.h"
 
-#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Spacial/Components/Transform.h"
 
 using namespace hect;
 

@@ -23,28 +23,42 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/Components/Camera.h"
 #include "Hect/Logic/System.h"
-#include "Hect/Logic/ComponentEvent.h"
-#include "Hect/Logic/Components/BoundingBox.h"
-#include "Hect/Logic/Components/Transform.h"
 
 namespace hect
 {
 
 ///
-/// Updates the bounding box hierarchies of the scene.
-class BoundingBoxSystem :
+/// Provides basic rendering.
+class RenderSystem :
     public System
 {
 public:
-    BoundingBoxSystem(Scene& scene);
+    RenderSystem(Scene& scene, Renderer& renderer);
+
+    void updateActiveCamera();
 
     ///
-    /// Updates the all bounding boxes.
-    void update();
+    /// Returns the active camera in the scene.
+    Component<Camera>::Iter activeCamera();
+
+    ///
+    /// Renders all visible entities.
+    ///
+    /// \param target The target to render to.
+    virtual void renderAll( RenderTarget& target);
+
+    void render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest = true);
+    void renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform);
+    void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
+
+    Renderer& renderer();
 
 private:
-    void _resizeBoundingBox(Entity& entity, BoundingBox& boundingBox);
+    Renderer* _renderer;
 };
 
 }

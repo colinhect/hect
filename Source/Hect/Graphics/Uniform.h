@@ -25,14 +25,12 @@
 
 #include <vector>
 
-#include "Hect/Graphics/UniformValue.h"
 #include "Hect/Graphics/UniformBinding.h"
+#include "Hect/Graphics/UniformValue.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
 {
-
-
 
 ///
 /// A variable of a shader which serves as parameter.

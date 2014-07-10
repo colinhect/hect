@@ -40,7 +40,6 @@ ComponentEventType::Enum ComponentEvent<T>::type() const
 template <typename T>
 Entity& ComponentEvent<T>::entity() const
 {
-    assert(_entity);
     return *_entity;
 }
 

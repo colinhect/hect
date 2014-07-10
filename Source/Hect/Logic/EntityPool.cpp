@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "EntityPool.h"
 
-using namespace hect;
-
 #include <algorithm>
+
+using namespace hect;
 
 EntityPool::EntityPool(Scene& scene) :
     _scene(&scene)

@@ -25,7 +25,7 @@
 
 #include <map>
 
-#include "Hect/Core/Listener.h"
+#include "Hect/Event/Listener.h"
 #include "Hect/Input/InputAxis.h"
 #include "Hect/Input/Mouse.h"
 #include "Hect/Input/Keyboard.h"

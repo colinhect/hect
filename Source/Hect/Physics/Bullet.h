@@ -23,49 +23,32 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <vector>
+#include "Hect/Core/Configuration.h"
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/Math/Vector3.h"
+#include "Hect/Math/Quaternion.h"
+#include "Hect/Spacial/Components/Transform.h"
 
-#include "Hect/Core/Listener.h"
+#ifdef HECT_WINDOWS
+#pragma warning(push, 0)
+#endif
+
+#include <btBulletDynamicsCommon.h>
+
+#ifdef HECT_WINDOWS
+#pragma warning(pop)
+#endif
 
 namespace hect
 {
 
-///
-/// An event dispatcher which notifies registered listeners of specific events.
-template <typename T>
-class Dispatcher
-{
-public:
+btVector3 convertToBullet(const Vector3& v);
+btQuaternion convertToBullet(const Quaternion& q);
+btTransform convertToBullet(const Transform& t);
+btTriangleMesh* convertToBullet(const Mesh& m);
 
-    ///
-    /// Registers a listener to receive events notified from the dispatcher.
-    ///
-    /// \note If the listener is already registered to the dispatcher then
-    /// there is no effect.
-    ///
-    /// \param listener The listener to register.
-    void addListener(Listener<T>& listener);
-
-    ///
-    /// Unregisters a listener from receiving events notified from the
-    /// dispatcher.
-    ///
-    /// \note If the listener is not registered to the dispatcher then there is
-    /// no effect.
-    ///
-    /// \param listener The listener to unregister.
-    void removeListener(Listener<T>& listener);
-
-    ///
-    /// Notifies an event to all registered listeners.
-    ///
-    /// \param event The event.
-    void dispatchEvent(const T& event);
-
-private:
-    std::vector<Listener<T>*> _listeners;
-};
+Vector3 convertFromBullet(const btVector3& v);
+Quaternion convertFromBullet(const btQuaternion& q);
+Transform convertFromBullet(const btTransform& t);
 
 }
-
-#include "Dispatcher.inl"

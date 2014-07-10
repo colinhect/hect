@@ -24,8 +24,8 @@
 #include "BoundingBoxDebugRenderLayer.h"
 
 #include "Hect/Logic/Scene.h"
-#include "Hect/Logic/Components/BoundingBox.h"
-#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Spacial/Components/BoundingBox.h"
+#include "Hect/Spacial/Components/Transform.h"
 
 using namespace hect;
 

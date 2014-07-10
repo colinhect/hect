@@ -24,9 +24,9 @@
 #pragma once
 
 #include "Hect/IO/AssetHandle.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Graphics/Uniform.h"
 #include "Hect/Graphics/ShaderModule.h"
-#include "Hect/IO/Encodable.h"
 
 namespace hect
 {

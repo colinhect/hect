@@ -21,44 +21,49 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "TransformSystem.h"
 
-#include "Hect/Logic/System.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Logic/Components/Camera.h"
+#include "Hect/Graphics/Components/Geometry.h"
+#include "Hect/Logic/Scene.h"
 
-namespace hect
+using namespace hect;
+
+TransformSystem::TransformSystem(Scene& scene) :
+    System(scene)
 {
+}
 
-///
-/// Provides basic rendering.
-class RenderSystem :
-    public System
+void TransformSystem::update()
 {
-public:
-    RenderSystem(Scene& scene, Renderer& renderer);
+    for (Transform& transform : scene().components<Transform>())
+    {
+        Entity& entity = transform.entity();
+        if (!entity.parent())
+        {
+            transform.updateGlobalTransform();
 
-    void updateActiveCamera();
+            for (Entity& child : entity.children())
+            {
+                _updateTransform(entity, child);
+            }
+        }
+    }
+}
 
-    ///
-    /// Returns the active camera in the scene.
-    Component<Camera>::Iter activeCamera();
+void TransformSystem::_updateTransform(Entity& parent, Entity& child)
+{
+    auto parentTransform = parent.component<Transform>();
+    if (parentTransform)
+    {
+        auto childTransform = child.component<Transform>();
+        if (childTransform)
+        {
+            childTransform->updateGlobalTransform(*parentTransform);
 
-    ///
-    /// Renders all visible entities.
-    ///
-    /// \param target The target to render to.
-    virtual void renderAll( RenderTarget& target);
-
-    void render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest = true);
-    void renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform);
-    void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
-
-    Renderer& renderer();
-
-private:
-    Renderer* _renderer;
-};
-
+            for (Entity& nextChild : child.children())
+            {
+                _updateTransform(child, nextChild);
+            }
+        }
+    }
 }

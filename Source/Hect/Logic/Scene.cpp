@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Scene.h"
 
-#include "Hect/IO/JsonDecoder.h"
-
 #include <algorithm>
+
+#include "Hect/IO/JsonDecoder.h"
 
 using namespace hect;
 

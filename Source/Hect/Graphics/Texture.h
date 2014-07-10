@@ -24,10 +24,10 @@
 #pragma once
 
 #include "Hect/IO/AssetHandle.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/TextureFilter.h"
-#include "Hect/IO/Encodable.h"
 
 namespace hect
 {

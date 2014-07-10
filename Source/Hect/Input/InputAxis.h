@@ -26,9 +26,9 @@
 #include <vector>
 
 #include "Hect/Core/Real.h"
+#include "Hect/Input/InputAxisSource.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
-#include "Hect/Input/InputAxisSource.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect

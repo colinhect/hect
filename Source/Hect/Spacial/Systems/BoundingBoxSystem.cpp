@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "BoundingBoxSystem.h"
 
+#include "Hect/Graphics/Components/Geometry.h"
 #include "Hect/Logic/Scene.h"
-#include "Hect/Logic/Components/Geometry.h"
 
 using namespace hect;
 

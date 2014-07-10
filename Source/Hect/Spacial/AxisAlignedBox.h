@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Math/Vector3.h"
 #include "Hect/Math/Quaternion.h"
+#include "Hect/Math/Vector3.h"
 
 namespace hect
 {

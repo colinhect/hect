@@ -28,8 +28,8 @@
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/VideoMode.h"
-#include "Hect/Math/Vector2.h"
 #include "Hect/Input/Mouse.h"
+#include "Hect/Math/Vector2.h"
 
 namespace hect
 {

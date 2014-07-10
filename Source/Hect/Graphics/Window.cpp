@@ -26,8 +26,8 @@
 #include "Hect/Core/Configuration.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Input/InputSystem.h"
-#include "Hect/Input/Mouse.h"
 #include "Hect/Input/Keyboard.h"
+#include "Hect/Input/Mouse.h"
 
 using namespace hect;
 

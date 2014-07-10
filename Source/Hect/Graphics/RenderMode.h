@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/RenderState.h"
 #include "Hect/Graphics/BlendFactor.h"
+#include "Hect/Graphics/RenderState.h"
 
 namespace hect
 {

@@ -23,32 +23,28 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Configuration.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Math/Quaternion.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/Logic/Components/Transform.h"
-
-#ifdef HECT_WINDOWS
-#pragma warning(push, 0)
-#endif
-
-#include <btBulletDynamicsCommon.h>
-
-#ifdef HECT_WINDOWS
-#pragma warning(pop)
-#endif
+#include "Hect/Logic/System.h"
+#include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Spacial/Components/BoundingBox.h"
+#include "Hect/Spacial/Components/Transform.h"
 
 namespace hect
 {
 
-btVector3 convertToBullet(const Vector3& v);
-btQuaternion convertToBullet(const Quaternion& q);
-btTransform convertToBullet(const Transform& t);
-btTriangleMesh* convertToBullet(const Mesh& m);
+///
+/// Updates the bounding box hierarchies of the scene.
+class BoundingBoxSystem :
+    public System
+{
+public:
+    BoundingBoxSystem(Scene& scene);
 
-Vector3 convertFromBullet(const btVector3& v);
-Quaternion convertFromBullet(const btQuaternion& q);
-Transform convertFromBullet(const btTransform& t);
+    ///
+    /// Updates the all bounding boxes.
+    void update();
+
+private:
+    void _resizeBoundingBox(Entity& entity, BoundingBox& boundingBox);
+};
 
 }

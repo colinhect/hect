@@ -23,11 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Renderer.h"
 
+#include <GL/glew.h>
+
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
-
-#include <GL/glew.h>
 
 using namespace hect;
 

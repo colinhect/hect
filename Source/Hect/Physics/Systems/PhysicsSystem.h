@@ -23,13 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Core/Listener.h"
-#include "Hect/Core/TaskPool.h"
-#include "Hect/Logic/ComponentPool.h"
-#include "Hect/Logic/System.h"
+#include "Hect/Event/Listener.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Logic/Components/RigidBody.h"
+#include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Logic/System.h"
+#include "Hect/Physics/Components/RigidBody.h"
 
 // Forward declare Bullet classes
 class btCollisionConfiguration;

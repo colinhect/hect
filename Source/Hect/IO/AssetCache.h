@@ -27,8 +27,8 @@
 
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/AssetHandle.h"
-#include "Hect/IO/Path.h"
 #include "Hect/IO/FileSystem.h"
+#include "Hect/IO/Path.h"
 
 namespace hect
 {

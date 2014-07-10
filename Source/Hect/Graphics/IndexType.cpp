@@ -22,6 +22,7 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "IndexType.h"
+
 #include "Hect/Core/Enum.h"
 
 using namespace hect;

@@ -23,11 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Entity.h"
 
-#include "Hect/Logic/Scene.h"
-#include "Hect/Logic/EntityPool.h"
-#include "Hect/IO/JsonDecoder.h"
-
 #include <cstddef>
+
+#include "Hect/IO/JsonDecoder.h"
+#include "Hect/Logic/EntityPool.h"
+#include "Hect/Logic/Scene.h"
 
 using namespace hect;
 

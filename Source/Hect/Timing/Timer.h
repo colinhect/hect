@@ -21,49 +21,37 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "TransformSystem.h"
+#pragma once
 
-#include "Hect/Logic/Scene.h"
-#include "Hect/Logic/Components/Geometry.h"
+#include "Hect/Timing/TimeSpan.h"
 
-using namespace hect;
-
-TransformSystem::TransformSystem(Scene& scene) :
-    System(scene)
+namespace hect
 {
-}
 
-void TransformSystem::update()
+///
+/// A utility for measuring time durations.
+class Timer
 {
-    for (Transform& transform : scene().components<Transform>())
-    {
-        Entity& entity = transform.entity();
-        if (!entity.parent())
-        {
-            transform.updateGlobalTransform();
+public:
 
-            for (Entity& child : entity.children())
-            {
-                _updateTransform(entity, child);
-            }
-        }
-    }
-}
+    ///
+    /// Returns the total elapsed time since initialization.
+    static TimeSpan totalElapsed();
 
-void TransformSystem::_updateTransform(Entity& parent, Entity& child)
-{
-    auto parentTransform = parent.component<Transform>();
-    if (parentTransform)
-    {
-        auto childTransform = child.component<Transform>();
-        if (childTransform)
-        {
-            childTransform->updateGlobalTransform(*parentTransform);
+    ///
+    /// Constructs a timer and resets it.
+    Timer();
 
-            for (Entity& nextChild : child.children())
-            {
-                _updateTransform(child, nextChild);
-            }
-        }
-    }
+    ///
+    /// Resets the timer.
+    void reset();
+
+    ///
+    /// Returns the elapsed time since the last reset.
+    TimeSpan elapsed() const;
+
+private:
+    TimeSpan _start;
+};
+
 }

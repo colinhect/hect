@@ -23,35 +23,49 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/TimeSpan.h"
+#include <vector>
+
+#include "Hect/Event/Listener.h"
 
 namespace hect
 {
 
 ///
-/// A utility for measuring time durations.
-class Timer
+/// An event dispatcher which notifies registered listeners of specific events.
+template <typename T>
+class Dispatcher
 {
 public:
 
     ///
-    /// Returns the total elapsed time since initialization.
-    static TimeSpan totalElapsed();
+    /// Registers a listener to receive events notified from the dispatcher.
+    ///
+    /// \note If the listener is already registered to the dispatcher then
+    /// there is no effect.
+    ///
+    /// \param listener The listener to register.
+    void addListener(Listener<T>& listener);
 
     ///
-    /// Constructs a timer and resets it.
-    Timer();
+    /// Unregisters a listener from receiving events notified from the
+    /// dispatcher.
+    ///
+    /// \note If the listener is not registered to the dispatcher then there is
+    /// no effect.
+    ///
+    /// \param listener The listener to unregister.
+    void removeListener(Listener<T>& listener);
 
     ///
-    /// Resets the timer.
-    void reset();
-
+    /// Notifies an event to all registered listeners.
     ///
-    /// Returns the elapsed time since the last reset.
-    TimeSpan elapsed() const;
+    /// \param event The event.
+    void dispatchEvent(const T& event);
 
 private:
-    TimeSpan _start;
+    std::vector<Listener<T>*> _listeners;
 };
 
 }
+
+#include "Dispatcher.inl"

@@ -23,10 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "JsonValue.h"
 
+#include <json/json.h>
+
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
-
-#include <json/json.h>
 
 using namespace hect;
 

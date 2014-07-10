@@ -24,12 +24,11 @@
 #include "PhysicsSystem.h"
 
 #include "Hect/Logic/Scene.h"
-#include "Hect/Logic/Components/Transform.h"
-#include "Hect/Logic/Components/RigidBody.h"
+#include "Hect/Physics/Bullet.h"
+#include "Hect/Physics/Components/RigidBody.h"
+#include "Hect/Spacial/Components/Transform.h"
 
 using namespace hect;
-
-#include "Hect/Internal/Bullet.h"
 
 PhysicsSystem::PhysicsSystem(Scene& scene, TaskPool& taskPool) :
     System(scene),

@@ -24,12 +24,12 @@
 #pragma once
 
 #include "Hect/Core/Any.h"
+#include "Hect/Graphics/UniformType.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
 #include "Hect/Math/Matrix4.h"
-#include "Hect/IO/Encodable.h"
-#include "Hect/Graphics/UniformType.h"
 
 namespace hect
 {

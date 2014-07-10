@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "EntityEvent.h"
 
-#include <cassert>
-
 using namespace hect;
 
 EntityEvent::EntityEvent(EntityEventType::Enum type, Entity& entity) :
@@ -40,6 +38,5 @@ EntityEventType::Enum EntityEvent::type() const
 
 Entity& EntityEvent::entity() const
 {
-    assert(_entity);
     return *_entity;
 }

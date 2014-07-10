@@ -33,7 +33,7 @@ namespace hect
 {
 
 ///
-/// Provides reflection functionality for enums.
+/// Provides functionality for enums.
 class Enum
 {
 public:

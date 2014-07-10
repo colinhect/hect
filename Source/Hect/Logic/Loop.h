@@ -24,8 +24,8 @@
 #pragma once
 
 #include "Hect/Core/Real.h"
-#include "Hect/Core/Timer.h"
-#include "Hect/Core/TimeSpan.h"
+#include "Hect/Timing/Timer.h"
+#include "Hect/Timing/TimeSpan.h"
 
 namespace hect
 {
@@ -67,7 +67,7 @@ public:
     ///
     /// \returns True if the loop is still active; false otherwise.
     bool tick();
-    
+
 private:
     bool _active;
     Timer _timer;

@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "RigidBody.h"
 
-using namespace hect;
+#include "Hect/Physics/Bullet.h"
 
-#include "Hect/Internal/Bullet.h"
+using namespace hect;
 
 RigidBody::RigidBody() :
     _mass(0)

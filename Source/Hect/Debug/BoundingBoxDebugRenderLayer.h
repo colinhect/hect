@@ -29,7 +29,7 @@ namespace hect
 {
 
 ///
-/// Renders the bounding boxes of each activated entity in the scene.
+/// Renders the bounding boxes of all entities in the scene.
 class BoundingBoxDebugRenderLayer :
     public DebugRenderLayer
 {

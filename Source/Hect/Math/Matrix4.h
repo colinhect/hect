@@ -25,9 +25,9 @@
 
 #include "Hect/Core/Real.h"
 #include "Hect/Math/Angle.h"
+#include "Hect/Math/Quaternion.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
-#include "Hect/Math/Quaternion.h"
 
 namespace hect
 {

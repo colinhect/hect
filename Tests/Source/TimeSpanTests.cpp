@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Core/TimeSpan.h>
+#include <Hect/Timing/TimeSpan.h>
 using namespace hect;
 
 #include <catch.hpp>

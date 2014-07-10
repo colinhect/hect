@@ -28,7 +28,7 @@
 #include "Hect/Graphics/PrimitiveType.h"
 #include "Hect/Graphics/IndexType.h"
 #include "Hect/IO/Encodable.h"
-#include "Hect/Math/AxisAlignedBox.h"
+#include "Hect/Spacial/AxisAlignedBox.h"
 
 namespace hect
 {

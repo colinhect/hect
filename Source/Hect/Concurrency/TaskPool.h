@@ -32,8 +32,8 @@
 #include <thread>
 #include <vector>
 
-#include "Hect/Core/Uncopyable.h"
 #include "Hect/Core/Error.h"
+#include "Hect/Core/Uncopyable.h"
 
 namespace hect
 {

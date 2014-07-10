@@ -24,9 +24,9 @@
 #pragma once
 
 #include "Hect/IO/AssetCache.h"
-#include "Hect/IO/JsonValue.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/JsonValue.h"
 
 namespace hect
 {

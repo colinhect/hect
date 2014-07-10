@@ -26,10 +26,10 @@
 #include <string>
 #include <cstdint>
 
+#include "Hect/Math/Quaternion.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
-#include "Hect/Math/Quaternion.h"
 
 namespace hect
 {

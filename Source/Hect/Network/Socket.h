@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Core/TimeSpan.h"
+#include "Hect/Timing/TimeSpan.h"
 #include "Hect/Network/Packet.h"
 #include "Hect/Network/Peer.h"
 

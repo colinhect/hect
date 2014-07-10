@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Random.h"
 
-using namespace hect;
-
 #include <cassert>
+
+using namespace hect;
 
 Random::Random(unsigned seed) :
     _current(seed)

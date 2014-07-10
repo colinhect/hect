@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "FrameBuffer.h"
 
-#include "Hect/Graphics/Renderer.h"
-
 #include <algorithm>
+
+#include "Hect/Graphics/Renderer.h"
 
 using namespace hect;
 

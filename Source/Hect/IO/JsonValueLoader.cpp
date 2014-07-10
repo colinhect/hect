@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/AssetLoader.h"
+#include "Hect/IO/FileReadStream.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/IO/Path.h"
-#include "Hect/IO/FileReadStream.h"
 
 using namespace hect;
 

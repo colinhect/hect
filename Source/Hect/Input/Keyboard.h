@@ -23,13 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Dispatcher.h"
+#include "Hect/Event/Dispatcher.h"
 #include "Hect/Input/Key.h"
 
 namespace hect
 {
-
-
 
 ///
 /// A keyboard event type.

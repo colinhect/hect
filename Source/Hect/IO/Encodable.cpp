@@ -23,10 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Encodable.h"
 
-#include "Hect/IO/BinaryEncoder.h"
 #include "Hect/IO/BinaryDecoder.h"
-#include "Hect/IO/JsonEncoder.h"
+#include "Hect/IO/BinaryEncoder.h"
 #include "Hect/IO/JsonDecoder.h"
+#include "Hect/IO/JsonEncoder.h"
 
 using namespace hect;
 

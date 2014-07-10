@@ -25,10 +25,10 @@
 
 #include <functional>
 
-#include "Hect/Core/Listener.h"
+#include "Hect/Event/Listener.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/EntityEvent.h"
-#include "Hect/IO/Encodable.h"
 
 namespace hect
 {

@@ -23,12 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/PixelType.h"
-#include "Hect/Graphics/PixelFormat.h"
-#include "Hect/Graphics/ColorSpace.h"
-
 #include <cstdint>
 #include <vector>
+
+#include "Hect/Graphics/ColorSpace.h"
+#include "Hect/Graphics/PixelType.h"
+#include "Hect/Graphics/PixelFormat.h"
 
 namespace hect
 {

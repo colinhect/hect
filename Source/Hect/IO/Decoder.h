@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/IO/ReadStream.h"
 #include "Hect/Core/Enum.h"
+#include "Hect/IO/ReadStream.h"
 
 namespace hect
 {

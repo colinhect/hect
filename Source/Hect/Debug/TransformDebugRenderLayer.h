@@ -29,7 +29,7 @@ namespace hect
 {
 
 ///
-/// Renders the transforms of each activated entity in the scene.
+/// Renders the transforms of all entities in the scene.
 class TransformDebugRenderLayer :
     public DebugRenderLayer
 {
