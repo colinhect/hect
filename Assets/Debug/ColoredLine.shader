@@ -12,11 +12,8 @@
         },
         {
             "name" : "colorOverride",
-            "defaultValue" :
-            {
-                "type" : "Vector3",
-                "value" : [ 0.0, 0.0, 0.0 ]
-            }
+            "type" : "Vector3",
+            "value" : [ 0.0, 0.0, 0.0 ]
         }
     ]
 }

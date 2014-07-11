@@ -43,8 +43,7 @@ void UniformEncoder::encode(const Uniform& uniform, ObjectEncoder& encoder)
     // Default value
     if (uniform.hasDefaultValue())
     {
-        ObjectEncoder defaultValueEncoder = encoder.encodeObject("defaultValue");
-        uniform.defaultValue().encode(defaultValueEncoder);
+        uniform.defaultValue().encode(encoder);
     }
 
     // Binding
@@ -79,16 +78,14 @@ void UniformEncoder::decode(Uniform& uniform, ObjectDecoder& decoder)
     }
     else
     {
-        hasDefaultValue = decoder.hasMember("defaultValue");
+        hasDefaultValue = decoder.hasMember("type");
     }
 
     // Default value
     if (hasDefaultValue)
     {
-        ObjectDecoder defaultValueDecoder = decoder.decodeObject("defaultValue");
-
         UniformValue defaultValue;
-        UniformValueEncoder::decode(defaultValue, defaultValueDecoder);
+        UniformValueEncoder::decode(defaultValue, decoder);
         uniform.setDefaultValue(defaultValue);
     }
 

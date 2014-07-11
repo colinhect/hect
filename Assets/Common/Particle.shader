@@ -1,10 +1,10 @@
 {
     "modules" :
     [
-        "Shaders/Particle.vert",
-        "Shaders/Rotation.geom",
-        "Shaders/Particle.geom",
-        "Shaders/Particle.frag"
+        "Common/Particle.vert",
+        "Common/Rotation.geom",
+        "Common/Particle.geom",
+        "Common/Particle.frag"
     ],
     "parameters" :
     {
