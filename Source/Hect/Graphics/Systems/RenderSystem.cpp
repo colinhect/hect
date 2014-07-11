@@ -129,11 +129,10 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, 
             if (visible)
             {
                 // Render the geometry
-                size_t surfaceCount = geometry->surfaceCount();
-                for (size_t surfaceIndex = 0; surfaceIndex < surfaceCount; ++surfaceIndex)
+                for (const GeometrySurface& surface : geometry->surfaces())
                 {
-                    Mesh& mesh = *geometry->meshes()[surfaceIndex];
-                    Material& material = *geometry->materials()[surfaceIndex];
+                    Mesh& mesh = *surface.mesh();
+                    Material& material = *surface.material();
 
                     renderMesh(camera, target, material, mesh, *transform);
                 }

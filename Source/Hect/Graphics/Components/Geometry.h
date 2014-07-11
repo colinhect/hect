@@ -31,7 +31,44 @@ namespace hect
 {
 
 ///
-/// A geometry component.
+/// A single surface with a specific material in a geometry component.
+class GeometrySurface
+{
+public:
+
+    ///
+    /// An array of geometry surfaces.
+    typedef std::vector<GeometrySurface> Array;
+
+    GeometrySurface();
+
+    ///
+    /// Constructs the surface given the mesh and the material.
+    GeometrySurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
+
+    ///
+    /// Returns the mesh.
+    AssetHandle<Mesh>& mesh();
+
+    ///
+    /// Returns the mesh.
+    const AssetHandle<Mesh>& mesh() const;
+
+    ///
+    /// Returns the material.
+    AssetHandle<Material>& material();
+
+    ///
+    /// Returns the material.
+    const AssetHandle<Material>& material() const;
+
+private:
+    AssetHandle<Mesh> _mesh;
+    AssetHandle<Material> _material;
+};
+
+///
+/// A collection of surfaces which are rendered.
 class Geometry :
     public Component<Geometry>
 {
@@ -40,36 +77,22 @@ public:
     ///
     /// Adds a surface.
     ///
-    /// \param mesh The mesh.
-    /// \param material The material.
-    void addSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
+    /// \param surface The surface.
+    void addSurface(const GeometrySurface& surface);
 
     ///
-    /// Returns the number of surfaces.
-    size_t surfaceCount() const;
+    /// Returns the surfaces.
+    GeometrySurface::Array& surfaces();
 
     ///
-    /// Returns the meshes.
-    AssetHandle<Mesh>::Array& meshes();
-
-    ///
-    /// Returns the meshes.
-    const AssetHandle<Mesh>::Array& meshes() const;
-
-    ///
-    /// Returns the materials
-    AssetHandle<Material>::Array& materials();
-
-    ///
-    /// Returns the materials
-    const AssetHandle<Material>::Array& materials() const;
+    /// Returns the surfaces.
+    const GeometrySurface::Array& surfaces() const;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    AssetHandle<Mesh>::Array _meshes;
-    AssetHandle<Material>::Array _materials;
+    GeometrySurface::Array _surfaces;
 };
 
 }

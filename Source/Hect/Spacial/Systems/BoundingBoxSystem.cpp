@@ -55,10 +55,9 @@ void BoundingBoxSystem::_resizeBoundingBox(Entity& entity, BoundingBox& bounding
     auto geometry = entity.component<Geometry>();
     if (geometry)
     {
-        size_t surfaceCount = geometry->surfaceCount();
-        for (size_t i = 0; i < surfaceCount; ++i)
+        for (const GeometrySurface& surface : geometry->surfaces())
         {
-            Mesh& mesh = *geometry->meshes()[i];
+            Mesh& mesh = *surface.mesh();
             axisAlignedBox.expandToInclude(mesh.axisAlignedBox());
         }
     }

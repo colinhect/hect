@@ -203,9 +203,7 @@ public:
     bool operator!=(const UniformValue& uniformValue) const;
 
 private:
-
     UniformType _type;
-
     Any _value;
 };
 

@@ -25,47 +25,55 @@
 
 using namespace hect;
 
-void Geometry::addSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material)
+GeometrySurface::GeometrySurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material) :
+    _mesh(mesh),
+    _material(material)
 {
-    _meshes.push_back(mesh);
-    _materials.push_back(material);
 }
 
-size_t Geometry::surfaceCount() const
+AssetHandle<Mesh>& GeometrySurface::mesh()
 {
-    return _meshes.size();
+    return _mesh;
 }
 
-AssetHandle<Mesh>::Array& Geometry::meshes()
+const AssetHandle<Mesh>& GeometrySurface::mesh() const
 {
-    return _meshes;
+    return _mesh;
 }
 
-const AssetHandle<Mesh>::Array& Geometry::meshes() const
+AssetHandle<Material>& GeometrySurface::material()
 {
-    return _meshes;
+    return _material;
 }
 
-AssetHandle<Material>::Array& Geometry::materials()
+const AssetHandle<Material>& GeometrySurface::material() const
 {
-    return _materials;
+    return _material;
 }
 
-const AssetHandle<Material>::Array& Geometry::materials() const
+void Geometry::addSurface(const GeometrySurface& surface)
 {
-    return _materials;
+    _surfaces.push_back(surface);
+}
+
+GeometrySurface::Array& Geometry::surfaces()
+{
+    return _surfaces;
+}
+
+const GeometrySurface::Array& Geometry::surfaces() const
+{
+    return _surfaces;
 }
 
 void Geometry::encode(ObjectEncoder& encoder) const
 {
-    size_t surfaceCount = _meshes.size();
-
     ArrayEncoder surfacesEncoder = encoder.encodeArray("surfaces");
-    for (size_t i = 0; i < surfaceCount; ++i)
+    for (const GeometrySurface& surface : _surfaces)
     {
         ObjectEncoder surfaceEncoder = surfacesEncoder.encodeObject();
-        surfaceEncoder.encodeString("mesh", _meshes[i].path().toString());
-        surfaceEncoder.encodeString("material", _materials[i].path().toString());
+        surfaceEncoder.encodeString("mesh", surface.mesh().path().toString());
+        surfaceEncoder.encodeString("material", surface.material().path().toString());
     }
 }
 
@@ -85,7 +93,7 @@ void Geometry::decode(ObjectDecoder& decoder, AssetCache& assetCache)
                 AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
                 AssetHandle<Material> material = assetCache.getHandle<Material>(materialPath);
 
-                addSurface(mesh, material);
+                addSurface(GeometrySurface(mesh, material));
             }
         }
     }
