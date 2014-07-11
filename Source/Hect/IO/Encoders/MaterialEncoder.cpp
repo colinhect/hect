@@ -52,7 +52,13 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
 
             // Uniform values
             {
-                // Issue #26
+                ArrayEncoder uniformValuesEncoder = passEncoder.encodeArray("uniformValues");
+                for (const PassUniformValue& uniformValue : pass.uniformValues())
+                {
+                    ObjectEncoder uniformValueEncoder = uniformValuesEncoder.encodeObject();
+                    uniformValueEncoder.encodeString("name", uniformValue.name());
+                    uniformValue.value().encode(uniformValueEncoder);
+                }
             }
 
             // Textures
@@ -153,7 +159,26 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
             // Uniform values
             if (passDecoder.hasMember("uniformValues"))
             {
-                // Issue #26
+                ArrayDecoder uniformValuesDecoder = passDecoder.decodeArray("uniformValues");
+                while (uniformValuesDecoder.hasMoreElements())
+                {
+                    ObjectDecoder uniformValueDecoder = uniformValuesDecoder.decodeObject();
+
+                    std::string name;
+                    if (uniformValueDecoder.hasMember("name"))
+                    {
+                        name = uniformValueDecoder.decodeString("name");
+                    }
+                    else
+                    {
+                        throw Error("A uniform value must have a name");
+                    }
+
+                    UniformValue value;
+                    value.decode(uniformValueDecoder, assetCache);
+
+                    uniformValues.push_back(PassUniformValue(name, value));
+                }
             }
 
             // Textures

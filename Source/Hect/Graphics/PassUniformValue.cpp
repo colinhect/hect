@@ -25,15 +25,15 @@
 
 using namespace hect;
 
-PassUniformValue::PassUniformValue(const std::string& uniformName, const UniformValue& value) :
-    _uniformName(uniformName),
+PassUniformValue::PassUniformValue(const std::string& name, const UniformValue& value) :
+    _name(name),
     _value(value)
 {
 }
 
-const std::string& PassUniformValue::uniformName() const
+const std::string& PassUniformValue::name() const
 {
-    return _uniformName;
+    return _name;
 }
 
 const UniformValue& PassUniformValue::value() const
@@ -43,7 +43,7 @@ const UniformValue& PassUniformValue::value() const
 
 bool PassUniformValue::operator==(const PassUniformValue& passUniformValue) const
 {
-    return _uniformName == passUniformValue.uniformName()
+    return _name == passUniformValue.name()
            && _value == passUniformValue.value();
 }
 

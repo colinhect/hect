@@ -146,7 +146,7 @@ void Pass::_resolvePassUniformValues()
     // invalidated if the shader changes)
     for (const PassUniformValue& uniformValue : _uniformValues)
     {
-        const Uniform& uniform = _shader->uniformWithName(uniformValue.uniformName());
+        const Uniform& uniform = _shader->uniformWithName(uniformValue.name());
         _resolvedUniformValues[&uniform] = uniformValue.value();
     }
 }

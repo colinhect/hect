@@ -43,13 +43,13 @@ public:
     ///
     /// Constructs an pass uniform value given a name an a value.
     ///
-    /// \param uniformName The name of the uniform.
+    /// \param name The name of the uniform.
     /// \param value The default value.
-    PassUniformValue(const std::string& uniformName, const UniformValue& value);
+    PassUniformValue(const std::string& name, const UniformValue& value);
 
     ///
     /// Returns the name of the uniform.
-    const std::string& uniformName() const;
+    const std::string& name() const;
 
     ///
     /// Returns the value.
@@ -68,7 +68,7 @@ public:
     bool operator!=(const PassUniformValue& passUniformValue) const;
 
 private:
-    std::string _uniformName;
+    std::string _name;
     UniformValue _value;
 };
 

@@ -3,7 +3,15 @@
     [
         [
             {
-                "shader" : "Debug/ColoredLine.shader"
+                "shader" : "Debug/ColoredLine.shader",
+                "uniformValues" :
+                [
+                	{
+                		"name" : "colorOverride",
+                		"type" : "Vector3",
+                		"value" : [ 1.0, 1.0, 0.0 ]
+                	}
+                ]
             }
         ]
     ]
