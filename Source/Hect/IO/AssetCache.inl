@@ -40,8 +40,21 @@ AssetHandle<T> AssetCache::getHandle(const Path& path)
     auto it = _entries.find(path);
     if (it == _entries.end())
     {
+        Path assetPath = path;
+
+        // If there is a preferred directory set
+        if (!_preferredDirectoryPath.empty())
+        {
+            // If there is an asset relative to the preferred directory
+            if (_fileSystem->exists(_preferredDirectoryPath + path))
+            {
+                // Use that asset
+                assetPath = _preferredDirectoryPath + path;
+            }
+        }
+
         // First time this asset was requested so create a new entry
-        entry.reset(new AssetEntry<T>(*this, path));
+        entry.reset(new AssetEntry<T>(*this, assetPath));
 
         // Add the new entry to the entry map
         _entries[path] = entry;

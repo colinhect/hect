@@ -58,6 +58,14 @@ public:
     std::string extension() const;
 
     ///
+    /// Returns the path to the parent directory of the current path.
+    Path parentDirectory() const;
+
+    ///
+    /// Returns whether the path is empty.
+    bool empty() const;
+
+    ///
     /// Returns the concatenation of the path and another path.
     ///
     /// \param path The path to concatenate.

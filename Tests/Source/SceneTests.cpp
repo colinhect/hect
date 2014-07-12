@@ -71,7 +71,8 @@ public:
 
 TEST_CASE("Scene_CreateAndDestroyEntities")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     REQUIRE(a);
@@ -90,7 +91,8 @@ TEST_CASE("Scene_CreateAndDestroyEntities")
 
 TEST_CASE("Scene_DereferenceInvalidEntityIter")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.entities().end();
     REQUIRE(!a);
@@ -99,7 +101,8 @@ TEST_CASE("Scene_DereferenceInvalidEntityIter")
 
 TEST_CASE("Scene_DereferenceDestroyedEntityIter")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     REQUIRE(a);
@@ -110,7 +113,8 @@ TEST_CASE("Scene_DereferenceDestroyedEntityIter")
 
 TEST_CASE("Scene_CreateAndActivateEntities")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     REQUIRE(scene.entityCount() == 0);
 
@@ -132,7 +136,8 @@ TEST_CASE("Scene_CreateAndActivateEntities")
 
 TEST_CASE("Scene_EntityIterationEmpty")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     size_t count = 0;
     for (const Entity& entity : scene.entities())
@@ -145,7 +150,8 @@ TEST_CASE("Scene_EntityIterationEmpty")
 
 TEST_CASE("Scene_EntityIterationNoneActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     scene.createEntity();
     scene.createEntity();
@@ -162,7 +168,8 @@ TEST_CASE("Scene_EntityIterationNoneActivated")
 
 TEST_CASE("Scene_EntityIterationSomeActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     scene.createEntity();
     scene.createEntity()->activate();
@@ -185,7 +192,8 @@ TEST_CASE("Scene_EntityIterationSomeActivated")
 
 TEST_CASE("Scene_EntityIterationFirstActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     scene.createEntity()->activate();
     scene.createEntity();
@@ -205,7 +213,8 @@ TEST_CASE("Scene_EntityIterationFirstActivated")
 
 TEST_CASE("Scene_EntityIterationLastActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     scene.createEntity();
     scene.createEntity()->activate();
@@ -225,7 +234,8 @@ TEST_CASE("Scene_EntityIterationLastActivated")
 
 TEST_CASE("Scene_EntityIterationFirstAndLastActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     scene.createEntity()->activate();
     scene.createEntity();
@@ -244,7 +254,8 @@ TEST_CASE("Scene_EntityIterationFirstAndLastActivated")
 
 TEST_CASE("Scene_CreateManyEntities")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     std::vector<Entity::Iter> entities;
     for (EntityId id = 0; id < 64; ++id)
@@ -270,7 +281,8 @@ TEST_CASE("Scene_CreateManyEntities")
 
 TEST_CASE("Scene_AddRemoveEntityChildren")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->activate();
@@ -293,7 +305,8 @@ TEST_CASE("Scene_AddRemoveEntityChildren")
 
 TEST_CASE("Scene_AddChildEntityAsChild")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->activate();
@@ -311,7 +324,8 @@ TEST_CASE("Scene_AddChildEntityAsChild")
 
 TEST_CASE("Scene_AddEntityChildActivationRestrictions")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->activate();
@@ -328,12 +342,13 @@ TEST_CASE("Scene_AddEntityChildActivationRestrictions")
 
 TEST_CASE("Scene_AddChildFromAnotherScene")
 {
-    Scene sceneA;
+    AssetCache assetCache;
+    Scene sceneA(assetCache);
 
     Entity::Iter a = sceneA.createEntity();
     a->activate();
 
-    Scene sceneB;
+    Scene sceneB(assetCache);
 
     Entity::Iter b = sceneB.createEntity();
     b->activate();
@@ -343,7 +358,8 @@ TEST_CASE("Scene_AddChildFromAnotherScene")
 
 TEST_CASE("Scene_ChildEntityActivation")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     Entity::Iter b = scene.createEntity();
@@ -364,7 +380,8 @@ TEST_CASE("Scene_ChildEntityActivation")
 
 TEST_CASE("Scene_ChildEntityIterationEmpty")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
 
@@ -378,7 +395,8 @@ TEST_CASE("Scene_ChildEntityIterationEmpty")
 
 TEST_CASE("Scene_ChildEntityIterationNonEmpty")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     Entity::Iter b = scene.createEntity();
@@ -411,7 +429,8 @@ TEST_CASE("Scene_ChildEntityIterationNonEmpty")
 
 TEST_CASE("Scene_DestroyEntityWithChildren")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     Entity::Iter b = scene.createEntity();
@@ -438,7 +457,8 @@ TEST_CASE("Scene_DestroyEntityWithChildren")
 TEST_CASE("Scene_DestroyEntityWithParent")
 {
     Scene::registerComponent<String>("String");
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     Entity::Iter b = scene.createEntity();
@@ -466,7 +486,8 @@ TEST_CASE("Scene_DestroyEntityWithParent")
 
 TEST_CASE("Scene_CloneEntity")
 {
-    Scene scene;    
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     Component<String>::Iter stringA = a->addComponent(String("Test"));
@@ -485,7 +506,8 @@ TEST_CASE("Scene_CloneEntity")
 
 TEST_CASE("Scene_CloneEntityWithChildren")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     Entity::Iter b = scene.createEntity();
@@ -506,7 +528,8 @@ TEST_CASE("Scene_CloneEntityWithChildren")
 
 TEST_CASE("Scene_AddAndRemoveComponent")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
 
@@ -523,7 +546,8 @@ TEST_CASE("Scene_AddAndRemoveComponent")
 
 TEST_CASE("Scene_ReplaceComponent")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
 
@@ -539,7 +563,8 @@ TEST_CASE("Scene_ReplaceComponent")
 
 TEST_CASE("Scene_AddExistingComponent")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
@@ -547,7 +572,8 @@ TEST_CASE("Scene_AddExistingComponent")
 
 TEST_CASE("Scene_RemoveNonExistingComponent")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("Test"));
@@ -556,7 +582,8 @@ TEST_CASE("Scene_RemoveNonExistingComponent")
 
 TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
@@ -564,7 +591,8 @@ TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
 
 TEST_CASE("Scene_Decode")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     REQUIRE(scene.entityCount() == 0);
 
@@ -582,7 +610,8 @@ TEST_CASE("Scene_Decode")
 
 TEST_CASE("Scene_DecodeWithChildren")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     REQUIRE(scene.entityCount() == 0);
 
@@ -605,7 +634,8 @@ TEST_CASE("Scene_Encode")
     JsonValue jsonValue;
 
     {
-        Scene scene;
+        AssetCache assetCache;
+        Scene scene(assetCache);
 
         Entity::Iter a = scene.createEntity();
         a->addComponent(String("Test"));
@@ -615,7 +645,8 @@ TEST_CASE("Scene_Encode")
     }
 
     {
-        Scene scene;
+        AssetCache assetCache;
+        Scene scene(assetCache);
         scene.decodeFromJsonValue(jsonValue);
 
         REQUIRE(scene.entityCount() == 1);
@@ -631,7 +662,8 @@ TEST_CASE("Scene_EncodeWithChildren")
     JsonValue jsonValue;
 
     {
-        Scene scene;
+        AssetCache assetCache;
+        Scene scene(assetCache);
 
         Entity::Iter a = scene.createEntity();
         Entity::Iter b = scene.createEntity();
@@ -642,7 +674,8 @@ TEST_CASE("Scene_EncodeWithChildren")
     }
 
     {
-        Scene scene;
+        AssetCache assetCache;
+        Scene scene(assetCache);
         scene.decodeFromJsonValue(jsonValue);
 
         REQUIRE(scene.entityCount() == 2);
@@ -657,7 +690,8 @@ TEST_CASE("Scene_EncodeWithChildren")
 
 TEST_CASE("Scene_ComponentIterationEmpty")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     size_t count = 0;
     for (const String& string : scene.components<String>())
@@ -670,7 +704,8 @@ TEST_CASE("Scene_ComponentIterationEmpty")
 
 TEST_CASE("Scene_ComponentIterationNoneActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     scene.createEntity()->addComponent(String("Test"));
 
@@ -686,7 +721,8 @@ TEST_CASE("Scene_ComponentIterationNoneActivated")
 
 TEST_CASE("Scene_ComponentIterationSomeActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     String string("Test");
 
@@ -711,7 +747,8 @@ TEST_CASE("Scene_ComponentIterationSomeActivated")
 
 TEST_CASE("Scene_ComponentIterationFirstActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     String string("Test");
 
@@ -735,7 +772,8 @@ TEST_CASE("Scene_ComponentIterationFirstActivated")
 
 TEST_CASE("Scene_ComponentIterationLastActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     String string("Test");
 
@@ -759,7 +797,8 @@ TEST_CASE("Scene_ComponentIterationLastActivated")
 
 TEST_CASE("Scene_ComponentIterationFirstAndLastActivated")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     String string("Test");
 
@@ -782,7 +821,8 @@ TEST_CASE("Scene_ComponentIterationFirstAndLastActivated")
 
 TEST_CASE("Scene_ComponentPoolListeners")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     ComponentPoolListener listener;
     scene.components<String>().dispatcher().addListener(listener);
@@ -821,7 +861,8 @@ TEST_CASE("Scene_ComponentPoolListeners")
 
 TEST_CASE("Scene_ComponentPoolFindFirstWithMatch")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -852,7 +893,8 @@ TEST_CASE("Scene_ComponentPoolFindFirstWithMatch")
 
 TEST_CASE("Scene_ComponentPoolFindFirstWithoutMatch")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -881,7 +923,8 @@ TEST_CASE("Scene_ComponentPoolFindFirstWithoutMatch")
 
 TEST_CASE("Scene_ComponentPoolFindWithMatches")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -918,7 +961,8 @@ TEST_CASE("Scene_ComponentPoolFindWithMatches")
 
 TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -947,7 +991,8 @@ TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
 
 TEST_CASE("Scene_EntityPoolFindFirstWithMatch")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -976,7 +1021,8 @@ TEST_CASE("Scene_EntityPoolFindFirstWithMatch")
 
 TEST_CASE("Scene_EntityPoolFindFirstWithoutMatch")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -1004,7 +1050,8 @@ TEST_CASE("Scene_EntityPoolFindFirstWithoutMatch")
 
 TEST_CASE("Scene_EntityPoolFindWithMatches")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -1038,7 +1085,8 @@ TEST_CASE("Scene_EntityPoolFindWithMatches")
 
 TEST_CASE("Scene_EntityPoolFindWithoutMatches")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -1066,7 +1114,8 @@ TEST_CASE("Scene_EntityPoolFindWithoutMatches")
 
 TEST_CASE("Scene_EntityFindFirstChild")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
 
@@ -1107,7 +1156,8 @@ TEST_CASE("Scene_EntityFindFirstChild")
 
 TEST_CASE("Scene_EntityFindChildren")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
 
@@ -1150,7 +1200,8 @@ TEST_CASE("Scene_EntityFindChildren")
 
 TEST_CASE("Scene_EntityFindFirstDescendant")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
 
@@ -1198,7 +1249,8 @@ TEST_CASE("Scene_EntityFindFirstDescendant")
 
 TEST_CASE("Scene_EntityFindDescendants")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
 
@@ -1252,7 +1304,8 @@ TEST_CASE("Scene_EntityFindDescendants")
 
 TEST_CASE("Scene_EntityFindFirstAncestor")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("A"));
@@ -1294,7 +1347,8 @@ TEST_CASE("Scene_EntityFindFirstAncestor")
 
 TEST_CASE("Scene_EntityFindAncestors")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("A"));
@@ -1338,7 +1392,8 @@ TEST_CASE("Scene_EntityFindAncestors")
 
 TEST_CASE("Scene_CreateEntityHandle")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
 
@@ -1354,7 +1409,8 @@ TEST_CASE("Scene_CreateEntityHandle")
 
 TEST_CASE("Scene_CopyEntityHandle")
 {
-    Scene scene;
+    AssetCache assetCache;
+    Scene scene(assetCache);
 
     Entity::Iter a = scene.createEntity();
 

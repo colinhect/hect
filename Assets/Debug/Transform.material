@@ -3,7 +3,7 @@
     [
         [
             {
-                "shader" : "Debug/ColoredLine.shader",
+                "shader" : "ColoredLine.shader",
                 "renderState" :
                 {
                     "disabledFlags" : [ "DepthTest" ]

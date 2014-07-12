@@ -35,6 +35,16 @@ AssetCache::AssetCache(FileSystem& fileSystem) :
 {
 }
 
+void AssetCache::setPreferredDirectory(const Path& directoryPath)
+{
+    _preferredDirectoryPath = directoryPath;
+}
+
+void AssetCache::clearPreferredDirectory()
+{
+    _preferredDirectoryPath = Path();
+}
+
 void AssetCache::clear()
 {
     _entries.clear();

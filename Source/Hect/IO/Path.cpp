@@ -41,7 +41,6 @@ Path::Path(const std::string& path)
 
 std::string Path::extension() const
 {
-
     // Find the position of the first '.' starting from the right
     size_t i = _rawPath.size();
     for (; i > 0; --i)
@@ -60,6 +59,33 @@ std::string Path::extension() const
 
     // Return the extension
     return _rawPath.substr(i + 1, _rawPath.size() - i - 1);
+}
+
+Path Path::parentDirectory() const
+{
+    // Find the position of the first '/' starting from the right
+    size_t i = _rawPath.size();
+    for (; i > 0; --i)
+    {
+        if (_rawPath[i] == '/')
+        {
+            break;
+        }
+    }
+
+    // Never found a '/' so there is no parent directory
+    if (i == 0)
+    {
+        return Path();
+    }
+
+    // Return the parent directory
+    return _rawPath.substr(0, i);
+}
+
+bool Path::empty() const
+{
+    return _rawPath.empty();
 }
 
 Path Path::operator+(const Path& path) const

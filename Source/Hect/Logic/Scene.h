@@ -27,6 +27,7 @@
 #include <typeinfo>
 #include <typeindex>
 
+#include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/EntityPool.h"
@@ -47,13 +48,23 @@ public:
 
     ///
     /// Constructs an empty scene.
-    Scene();
+    ///
+    /// \param assetCache The asset cache for the scene to use.
+    Scene(AssetCache& assetCache);
 
     ///
     /// Creates a new entity.
     ///
     /// \returns An iterator to the new entity.
     Entity::Iter createEntity();
+
+    ///
+    /// Creates a new entity from an asset.
+    ///
+    /// \param entityPath The path to the entity asset.
+    ///
+    /// \returns An iterator to the new entity.
+    Entity::Iter createEntity(const Path& entityPath);
 
     ///
     /// Registers a component type.
@@ -100,6 +111,8 @@ private:
 
     void _encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void _decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
+
+    AssetCache* _assetCache;
 
     size_t _entityCount;
     EntityPool _entityPool;

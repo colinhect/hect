@@ -36,6 +36,10 @@ void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache
         jsonValue.decodeFromJson(stream);
     }
 
+    assetCache.setPreferredDirectory(assetPath.parentDirectory());
+
     shader.setName(assetPath.toString());
     shader.decodeFromJsonValue(jsonValue, assetCache);
+
+    assetCache.clearPreferredDirectory();
 }

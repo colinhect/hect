@@ -51,6 +51,17 @@ public:
     AssetCache(FileSystem& fileSystem);
 
     ///
+    /// Sets the directory that the asset cache should first check when loading
+    /// an asset.
+    ///
+    /// \param directoryPath The path to the new preferred directory.
+    void setPreferredDirectory(const Path& directoryPath);
+
+    ///
+    /// Clears the currently set preferred directory.
+    void clearPreferredDirectory();
+
+    ///
     /// Returns a reference to the asset at the given path.
     ///
     /// \param path The case-sensitive path to the asset.
@@ -82,6 +93,8 @@ public:
 
 private:
     FileSystem* _fileSystem;
+
+    Path _preferredDirectoryPath;
 
     std::map<Path, std::shared_ptr<AssetEntryBase>> _entries;
 };

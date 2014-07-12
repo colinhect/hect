@@ -29,7 +29,8 @@
 
 using namespace hect;
 
-Scene::Scene() :
+Scene::Scene(AssetCache& assetCache) :
+    _assetCache(&assetCache),
     _entityCount(0),
     _entityPool(*this)
 {
@@ -47,6 +48,20 @@ Entity::Iter Scene::createEntity()
     // Dispatch the entity create event
     EntityEvent event(EntityEventType_Create, *entity);
     _entityPool._dispatcher.dispatchEvent(event);
+
+    return entity;
+}
+
+Entity::Iter Scene::createEntity(const Path& entityPath)
+{
+    JsonValue& jsonValue = _assetCache->get<JsonValue>(entityPath);
+
+    _assetCache->setPreferredDirectory(entityPath.parentDirectory());
+
+    Entity::Iter entity = createEntity();
+    entity->decodeFromJsonValue(jsonValue, *_assetCache);
+
+    _assetCache->clearPreferredDirectory();
 
     return entity;
 }
