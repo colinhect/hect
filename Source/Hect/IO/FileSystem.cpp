@@ -126,6 +126,11 @@ bool FileSystem::exists(const Path& path) const
     return PHYSFS_exists(path.toString().c_str()) != 0;
 }
 
+TimeStamp FileSystem::lastModified(const Path& path)
+{
+    return PHYSFS_getLastModTime(path.toString().c_str());
+}
+
 Path FileSystem::_convertPath(const char* rawPath) const
 {
     std::string delimiter(PHYSFS_getDirSeparator());

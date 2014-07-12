@@ -474,6 +474,9 @@
     <ClInclude Include="Source\Hect\Graphics\RenderState.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Timing\TimeStamp.h">
+      <Filter>Source\Hect\Timing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">

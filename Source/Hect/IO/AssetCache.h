@@ -84,6 +84,11 @@ public:
     AssetHandle<T> getHandle(const Path& path);
 
     ///
+    /// Re-loads all assets whose file has been modified since it was last
+    /// loaded.
+    void refresh();
+
+    ///
     /// Clears all cached resources.
     void clear();
 

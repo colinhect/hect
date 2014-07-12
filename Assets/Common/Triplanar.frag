@@ -15,9 +15,9 @@ void main()
     blendWeights = max(blendWeights, 0);
     blendWeights /= blendWeights.x + blendWeights.y + blendWeights.z;
 
-    vec2 coordX = vertexPosition.yz;
-    vec2 coordY = vertexPosition.zx;
-    vec2 coordZ = vertexPosition.xy;
+    vec2 coordX = vertexPosition.yz * textureScale;
+    vec2 coordY = vertexPosition.zx * textureScale;
+    vec2 coordZ = vertexPosition.xy * textureScale;
 
     vec4 colorX = texture(albedoTexture, coordX);
     vec4 colorY = texture(albedoTexture, coordY);

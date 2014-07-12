@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/IO/Path.h"
+#include "Hect/Timing/TimeStamp.h"
 
 namespace hect
 {
@@ -36,6 +37,11 @@ class AssetEntryBase
 {
 public:
     virtual ~AssetEntryBase() { }
+
+    ///
+    /// Re-loads the asset if the asset file has been modified since it was
+    /// last loaded.
+    virtual void refresh() = 0;
 };
 
 ///
@@ -53,6 +59,8 @@ public:
     /// \param assetCache The asset cache.
     /// \param path The path to the asset.
     AssetEntry(AssetCache& assetCache, const Path& path);
+
+    void refresh();
 
     ///
     /// Returns a shared pointer to the asset.
@@ -72,6 +80,8 @@ private:
 
     bool _errorOccurred;
     std::string _errorMessage;
+
+    TimeStamp _lastModified;
 };
 
 }

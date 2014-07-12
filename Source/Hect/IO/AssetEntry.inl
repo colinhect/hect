@@ -32,8 +32,24 @@ template <typename T>
 AssetEntry<T>::AssetEntry(AssetCache& assetCache, const Path& path) :
     _assetCache(&assetCache),
     _path(path),
-    _errorOccurred(false)
+    _errorOccurred(false),
+    _lastModified(-1)
 {
+}
+
+template <typename T>
+void AssetEntry<T>::refresh()
+{
+    if (_asset)
+    {
+        TimeStamp lastModified = _assetCache->fileSystem().lastModified(_path);
+        if (lastModified > _lastModified)
+        {
+            _asset.reset();
+            _errorOccurred = false;
+            _errorMessage.clear();
+        }
+    }
 }
 
 template <typename T>
@@ -71,6 +87,9 @@ void AssetEntry<T>::_load()
     {
         LOG_INFO(format("Loading '%s'...", _path.toString().c_str()));
         AssetLoader<T>::load(*_asset, _path, *_assetCache);
+
+        // Remember when the file was last modified
+        _lastModified = _assetCache->fileSystem().lastModified(_path);
     }
     catch (Error& error)
     {

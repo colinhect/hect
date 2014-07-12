@@ -21,48 +21,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "AssetCache.h"
+#pragma once
 
-using namespace hect;
+#include <cstdint>
 
-AssetCache::AssetCache() :
-    _fileSystem(nullptr)
+namespace hect
 {
-}
 
-AssetCache::AssetCache(FileSystem& fileSystem) :
-    _fileSystem(&fileSystem)
-{
-}
+///
+/// A point in time represented as the number of seconds since the January 1st,
+/// 1970.
+typedef int64_t TimeStamp;
 
-void AssetCache::setPreferredDirectory(const Path& directoryPath)
-{
-    _preferredDirectoryPath = directoryPath;
-}
-
-void AssetCache::clearPreferredDirectory()
-{
-    _preferredDirectoryPath = Path();
-}
-
-void AssetCache::refresh()
-{
-    for (auto& pair : _entries)
-    {
-        pair.second->refresh();
-    }
-}
-
-void AssetCache::clear()
-{
-    _entries.clear();
-}
-
-FileSystem& AssetCache::fileSystem()
-{
-    if (!_fileSystem)
-    {
-        throw Error("Asset cache does not have a file system");
-    }
-    return *_fileSystem;
 }

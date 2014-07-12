@@ -27,6 +27,7 @@
 #include "Hect/IO/Path.h"
 #include "Hect/IO/FileReadStream.h"
 #include "Hect/IO/FileWriteStream.h"
+#include "Hect/Timing/TimeStamp.h"
 
 namespace hect
 {
@@ -123,6 +124,13 @@ public:
     ///
     /// \param path The path to check the existence of.
     bool exists(const Path& path) const;
+
+    ///
+    /// Returns the time the given file was last modified.
+    ///
+    /// \note If the last modified time cannot be determined then -1 is
+    /// returned.
+    TimeStamp lastModified(const Path& path);
 
 private:
     Path _convertPath(const char* rawPath) const;

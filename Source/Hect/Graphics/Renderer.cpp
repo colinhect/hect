@@ -449,16 +449,19 @@ void Renderer::uploadShader(Shader& shader)
     auto data = new ShaderData();
     data->id = GL_ASSERT( glCreateProgram(); )
 
-               // Attach each shader to the program
-               for (const AssetHandle<ShaderModule>& module : shader.modules())
+    // Attach each shader to the program
+    for (const AssetHandle<ShaderModule>& module : shader.modules())
     {
-        if (!module->isUploaded())
+        if (module)
         {
-            uploadShaderModule(*module);
-        }
+            if (!module->isUploaded())
+            {
+                uploadShaderModule(*module);
+            }
 
-        auto moduleData = (ShaderModuleData*)module->_data;
-        GL_ASSERT( glAttachShader(data->id, moduleData->id); )
+            auto moduleData = (ShaderModuleData*)module->_data;
+            GL_ASSERT(glAttachShader(data->id, moduleData->id);)
+        }
     }
 
     // Link program
@@ -514,11 +517,14 @@ void Renderer::destroyShader(Shader& shader)
 
     auto data = (ShaderData*)shader._data;
 
-    // Detach all attached shaders.
+    // Detach all attached shaders
     for (const AssetHandle<ShaderModule>& module : shader.modules())
     {
-        auto moduleData = (ShaderModuleData*)module->_data;
-        GL_ASSERT( glDetachShader(data->id, moduleData->id); )
+        if (module && module->isUploaded())
+        {
+            auto moduleData = (ShaderModuleData*)module->_data;
+            GL_ASSERT( glDetachShader(data->id, moduleData->id); )
+        }
     }
 
     GL_ASSERT( glDeleteProgram(data->id); )

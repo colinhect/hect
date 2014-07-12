@@ -146,6 +146,7 @@
     <ClInclude Include="Source\Hect\Spacial\Systems\TransformSystem.h" />
     <ClInclude Include="Source\Hect\Timing\Timer.h" />
     <ClInclude Include="Source\Hect\Timing\TimeSpan.h" />
+    <ClInclude Include="Source\Hect\Timing\TimeStamp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Concurrency\TaskPool.cpp" />
