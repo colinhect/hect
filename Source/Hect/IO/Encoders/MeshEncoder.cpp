@@ -30,8 +30,15 @@
 
 using namespace hect;
 
+uint64_t MeshEncoder::IdentifyNumber = 0x84629573;
+
 void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
 {
+    if (encoder.isBinaryStream())
+    {
+        encoder.encodeUnsignedLong("identifyNumber", IdentifyNumber);
+    }
+
     // Vertex layout
     {
         ObjectEncoder vertexLayoutEncoder = encoder.encodeObject("vertexLayout");
@@ -126,6 +133,15 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
 
 void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache)
 {
+    if (decoder.isBinaryStream())
+    {
+        uint64_t identifyNumber = decoder.decodeUnsignedLong("identifyNumber");
+        if (identifyNumber != IdentifyNumber)
+        {
+            throw Error("Binary data does not represent a mesh");
+        }
+    }
+
     // Vertex layout
     if (decoder.hasMember("vertexLayout"))
     {
@@ -178,6 +194,14 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
         // Set vertex/index data
         mesh.setVertexData(vertexData);
         mesh.setIndexData(indexData);
+
+        // Compute the bounding box based on the vertex positions
+        MeshReader meshReader(mesh);
+        while (meshReader.nextVertex())
+        {
+            Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic_Position);
+            mesh.axisAlignedBox().expandToInclude(position);
+        }
     }
     else
     {

@@ -24,18 +24,27 @@
 #include "Hect/IO/AssetLoader.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/JsonValue.h"
+#include "Hect/IO/Encoders/MeshEncoder.h"
 #include "Hect/Graphics/Mesh.h"
 
 using namespace hect;
 
 void AssetLoader<Mesh>::load(Mesh& mesh, const Path& assetPath, AssetCache& assetCache)
 {
-    JsonValue jsonValue;
-    {
-        FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-        jsonValue.decodeFromJson(stream);
-    }
-
     mesh.setName(assetPath.toString());
-    mesh.decodeFromJsonValue(jsonValue, assetCache);
+
+    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
+    uint64_t identifyNumber = stream.readUnsignedLong();
+    stream.seek(0);
+
+    if (identifyNumber == MeshEncoder::IdentifyNumber)
+    {
+        mesh.decodeFromBinary(stream);
+    }
+    else
+    {
+        JsonValue jsonValue;
+        jsonValue.decodeFromJson(stream);
+        mesh.decodeFromJsonValue(jsonValue, assetCache);
+    }
 }

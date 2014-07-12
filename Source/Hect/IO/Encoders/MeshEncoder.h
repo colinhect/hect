@@ -31,6 +31,8 @@ namespace hect
 class MeshEncoder
 {
 public:
+    static uint64_t IdentifyNumber;
+
     static void encode(const Mesh& mesh, ObjectEncoder& encoder);
     static void decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache);
 };

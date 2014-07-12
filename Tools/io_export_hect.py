@@ -15,8 +15,38 @@ bl_info = {
 
 import os
 import bpy
+import struct
 
 from bpy.props import StringProperty, EnumProperty, BoolProperty
+
+# VertexAttributeSemantic (Hect/Graphics/VertexAttributeSemantic.h)
+VertexAttributeSemantic_Position = 0
+VertexAttributeSemantic_Normal = 1
+VertexAttributeSemantic_Color = 2
+VertexAttributeSemantic_Tangent = 3
+VertexAttributeSemantic_Binormal = 4
+
+# VertexAttributeType (Hect/Graphics/VertexAttributeType.h)
+VertexAttributeType_Byte = 0
+VertexAttributeType_UnsignedByte = 1
+VertexAttributeType_Short = 2
+VertexAttributeType_UnsignedShort = 3
+VertexAttributeType_Int = 4
+VertexAttributeType_UnsignedIn = 5
+VertexAttributeType_Half = 6
+VertexAttributeType_Float = 7
+
+# IndexType (Hect/Graphics/IndexType.h)
+IndexType_UnsignedByte = 0
+IndexType_UnsignedShort = 1
+IndexType_UnsignedInt = 2
+
+# PrimitiveType (Hect/Graphics/PrimitiveType.h)
+PrimitiveType_Triangles = 0
+PrimitiveType_TriangleStrip = 1
+PrimitiveType_Lines = 2
+PrimitiveType_LineStrip = 3
+PrimitiveType_Points = 4
 
 def mesh_triangulate(me):
     import bmesh
@@ -36,38 +66,40 @@ def export_mesh(obj, path):
 
     mesh_triangulate(mesh)
 
-    out = open(path + "." + obj.name + ".mesh", 'w')
-    out.write("{\n")
+    out = open(path + "." + obj.name + ".mesh", 'wb')
 
-    out.write("    \"vertices\" :\n")
-    out.write("    [\n")
+    out.write(struct.pack("<Q", 0x84629573))
+    out.write(struct.pack("<I", 2))
+
+    out.write(struct.pack("<B", VertexAttributeSemantic_Position))
+    out.write(struct.pack("<B", VertexAttributeType_Float))
+    out.write(struct.pack("<I", 3))
+
+    out.write(struct.pack("<B", VertexAttributeSemantic_Normal))
+    out.write(struct.pack("<B", VertexAttributeType_Float))
+    out.write(struct.pack("<I", 3))
+
+    out.write(struct.pack("<B", IndexType_UnsignedShort))
+    out.write(struct.pack("<B", PrimitiveType_Triangles))
+
     vertex_count = len(mesh.vertices)
+    out.write(struct.pack("<I", vertex_count * 4 * 3 * 2))
     for i in range(vertex_count):
         co = mesh.vertices[i].co
+        for j in range(3):
+            out.write(struct.pack("<f", co[j]))
+
         normal = mesh.vertices[i].normal
+        for j in range(3):
+            out.write(struct.pack("<f", normal[j]))
 
-        out.write("        [\n");
-        out.write("            [ \"Position\", [ %f, %f, %f ] ],\n" % (co[0], co[2], -co[1]))
-        out.write("            [ \"Normal\", [ %f, %f, %f ] ]\n" % (normal[0], normal[2], -normal[1]))
-        if i != vertex_count - 1:
-            out.write("        ],\n");
-        else:
-            out.write("        ]\n");
-    out.write("    ],\n")
-
-    out.write("    \"indices\" :\n")
-    out.write("    [\n")
     polygon_count = len(mesh.polygons)
+    out.write(struct.pack("<I", polygon_count * 3 * 2))
     for i in range(polygon_count):
         indices = mesh.polygons[i].vertices
-        out.write("        %d, %d, %d" % (indices[0], indices[1], indices[2]))
-        if i != polygon_count - 1:
-            out.write(",\n");
-        else:
-            out.write("\n");
-    out.write("    ]\n")
+        for j in range(3):
+            out.write(struct.pack("<H", indices[j]))
 
-    out.write("}")
     out.close()
 
 class HectExporter(bpy.types.Operator):

@@ -25,7 +25,6 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
-#include "Hect/IO/EncodingMagicNumber.h"
 
 using namespace hect;
 
@@ -46,12 +45,6 @@ ReadStream& BinaryDecoder::binaryStream()
 
 ArrayDecoder BinaryDecoder::decodeArray()
 {
-    uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber_BeginArray)
-    {
-        throw Error("Expected beginning of array");
-    }
-
     _countStack.push(_stream->readUnsignedInt());
     _indexStack.push(0);
 
@@ -60,23 +53,11 @@ ArrayDecoder BinaryDecoder::decodeArray()
 
 ObjectDecoder BinaryDecoder::decodeObject()
 {
-    uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber_BeginObject)
-    {
-        throw Error("Expected beginning of object");
-    }
-
     return ObjectDecoder(this);
 }
 
 void BinaryDecoder::beginArray()
 {
-    uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber_BeginArray)
-    {
-        throw Error("Expected beginning of array");
-    }
-
     ++_indexStack.top();
 
     _countStack.push(_stream->readUnsignedInt());
@@ -85,12 +66,6 @@ void BinaryDecoder::beginArray()
 
 void BinaryDecoder::beginArray(const char* name)
 {
-    uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber_BeginArray)
-    {
-        throw Error("Expected beginning of array");
-    }
-
     name;
 
     _countStack.push(_stream->readUnsignedInt());
@@ -99,12 +74,6 @@ void BinaryDecoder::beginArray(const char* name)
 
 void BinaryDecoder::endArray()
 {
-    uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber_EndArray)
-    {
-        throw Error("Expected end of array");
-    }
-
     _indexStack.pop();
     _countStack.pop();
 }
@@ -116,33 +85,16 @@ bool BinaryDecoder::hasMoreElements() const
 
 void BinaryDecoder::beginObject()
 {
-    uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber_BeginObject)
-    {
-        throw Error("Expected beginning of object");
-    }
-
     ++_indexStack.top();
 }
 
 void BinaryDecoder::beginObject(const char* name)
 {
-    uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber_BeginObject)
-    {
-        throw Error("Expected beginning of object");
-    }
-
     name;
 }
 
 void BinaryDecoder::endObject()
 {
-    uint8_t magicNumber = _stream->readUnsignedByte();
-    if (magicNumber != EncodingMagicNumber_EndObject)
-    {
-        throw Error("Expected end of object");
-    }
 }
 
 bool BinaryDecoder::hasMember(const char* name) const

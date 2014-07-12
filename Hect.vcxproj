@@ -100,7 +100,6 @@
     <ClInclude Include="Source\Hect\IO\FileReadStream.h" />
     <ClInclude Include="Source\Hect\IO\FileSystem.h" />
     <ClInclude Include="Source\Hect\IO\FileWriteStream.h" />
-    <ClInclude Include="Source\Hect\IO\EncodingMagicNumber.h" />
     <ClInclude Include="Source\Hect\IO\JsonDecoder.h" />
     <ClInclude Include="Source\Hect\IO\JsonEncoder.h" />
     <ClInclude Include="Source\Hect\IO\JsonValue.h" />

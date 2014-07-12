@@ -25,7 +25,6 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
-#include "Hect/IO/EncodingMagicNumber.h"
 
 using namespace hect;
 
@@ -46,8 +45,6 @@ WriteStream& BinaryEncoder::binaryStream()
 
 ArrayEncoder BinaryEncoder::encodeArray()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber_BeginArray);
-
     _countStack.push(0);
     _countPositionStack.push(_stream->position());
     _stream->writeUnsignedInt(0);
@@ -56,16 +53,12 @@ ArrayEncoder BinaryEncoder::encodeArray()
 
 ObjectEncoder BinaryEncoder::encodeObject()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber_BeginObject);
-
     _countStack.push(0);
     return ObjectEncoder(this);
 }
 
 void BinaryEncoder::beginArray()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber_BeginArray);
-
     ++_countStack.top();
     _countStack.push(0);
     _countPositionStack.push(_stream->position());
@@ -74,8 +67,6 @@ void BinaryEncoder::beginArray()
 
 void BinaryEncoder::beginArray(const char* name)
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber_BeginArray);
-
     name;
     _countStack.push(0);
     _countPositionStack.push(_stream->position());
@@ -84,8 +75,6 @@ void BinaryEncoder::beginArray(const char* name)
 
 void BinaryEncoder::endArray()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber_EndArray);
-
     size_t currentPosition = _stream->position();
     _stream->seek(_countPositionStack.top());
     _stream->writeUnsignedInt(_countStack.top());
@@ -97,20 +86,16 @@ void BinaryEncoder::endArray()
 
 void BinaryEncoder::beginObject()
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber_BeginObject);
-
     ++_countStack.top();
 }
 
 void BinaryEncoder::beginObject(const char* name)
 {
-    _stream->writeUnsignedByte(EncodingMagicNumber_BeginObject);
     name;
 }
 
 void BinaryEncoder::endObject()
 {
-    _stream->writeByte(EncodingMagicNumber_EndObject);
 }
 
 void BinaryEncoder::encodeString(const std::string& value)

@@ -279,9 +279,6 @@
     <ClInclude Include="Source\Hect\IO\Encoders\TextureEncoder.h">
       <Filter>Source\Hect\IO\Encoders</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\IO\EncodingMagicNumber.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\IO\JsonValue.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
