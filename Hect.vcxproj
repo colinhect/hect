@@ -30,7 +30,7 @@
     <ClInclude Include="Source\Hect\Core\Uncopyable.h" />
     <ClInclude Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.h" />
     <ClInclude Include="Source\Hect\Debug\DebugRenderLayer.h" />
-    <ClInclude Include="Source\Hect\Debug\Systems\DebugSystem.h" />
+    <ClInclude Include="Source\Hect\Debug\Systems\DebugRenderSystem.h" />
     <ClInclude Include="Source\Hect\Debug\TransformDebugRenderLayer.h" />
     <ClInclude Include="Source\Hect\Event\Dispatcher.h" />
     <ClInclude Include="Source\Hect\Event\Listener.h" />
@@ -156,7 +156,7 @@
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp" />
     <ClCompile Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.cpp" />
     <ClCompile Include="Source\Hect\Debug\DebugRenderLayer.cpp" />
-    <ClCompile Include="Source\Hect\Debug\Systems\DebugSystem.cpp" />
+    <ClCompile Include="Source\Hect\Debug\Systems\DebugRenderSystem.cpp" />
     <ClCompile Include="Source\Hect\Debug\TransformDebugRenderLayer.cpp" />
     <ClCompile Include="Source\Hect\Graphics\BlendFactor.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ColorSpace.cpp" />

@@ -21,40 +21,41 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "DebugSystem.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Debug/DebugRenderLayer.h"
+#include "Hect/Event/Listener.h"
+#include "Hect/Graphics/Systems/RenderSystem.h"
+#include "Hect/Input/Keyboard.h"
 
-DebugSystem::DebugSystem(Scene& scene) :
-    System(scene)
+#include <map>
+
+namespace hect
 {
-}
 
-void DebugSystem::addRenderLayer(Key toggleKey, DebugRenderLayer& renderLayer)
+///
+/// Provides functionality useful for debugging.
+class DebugRenderSystem :
+    public RenderSystem,
+    public Listener<KeyboardEvent>
 {
-    _toggleKeys[toggleKey] = &renderLayer;
-    _renderLayers.push_back(&renderLayer);
-}
+public:
+    DebugRenderSystem(Scene& scene, Renderer& renderer);
 
-void DebugSystem::renderActivatedRenderLayers(RenderSystem& renderSystem, RenderTarget& target)
-{
-    for (DebugRenderLayer* renderLayer : _renderLayers)
-    {
-        if (renderLayer->isActivated())
-        {
-            renderLayer->render(scene(), renderSystem, target);
-        }
-    }
-}
+    ///
+    /// Adds a debug render layer to the system.
+    ///
+    /// \param toggleKey The key which toggles the render layer.
+    /// \param renderLayer The debug render layer.
+    void addRenderLayer(Key toggleKey, DebugRenderLayer& renderLayer);
 
-void DebugSystem::receiveEvent(const KeyboardEvent& event)
-{
-    if (event.type == KeyboardEventType_KeyDown)
-    {
-        auto it = _toggleKeys.find(event.key);
-        if (it != _toggleKeys.end())
-        {
-            it->second->toggleActivated();
-        }
-    }
+    void renderAll(RenderTarget& target);
+
+    void receiveEvent(const KeyboardEvent& event);
+
+private:
+    std::vector<DebugRenderLayer*> _renderLayers;
+    std::map<Key, DebugRenderLayer*> _toggleKeys;
+};
+
 }

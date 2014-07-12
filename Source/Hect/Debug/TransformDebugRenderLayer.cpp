@@ -30,8 +30,8 @@ using namespace hect;
 
 TransformDebugRenderLayer::TransformDebugRenderLayer(AssetCache& assetCache)
 {
-    _transformMaterial = assetCache.getHandle<Material>("Debug/Transform.material");
-    _transformMesh = assetCache.getHandle<Mesh>("Debug/Transform.mesh");
+    _transformMaterial = assetCache.getHandle<Material>("Hect/DebugRenderSystem/Transform.material");
+    _transformMesh = assetCache.getHandle<Mesh>("Hect/DebugRenderSystem/Transform.mesh");
 }
 
 void TransformDebugRenderLayer::render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target)

@@ -21,45 +21,40 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "DebugRenderSystem.h"
 
-#include "Hect/Debug/DebugRenderLayer.h"
-#include "Hect/Event/Listener.h"
-#include "Hect/Input/Keyboard.h"
+using namespace hect;
 
-#include <map>
-
-namespace hect
+DebugRenderSystem::DebugRenderSystem(Scene& scene, Renderer& renderer) :
+    RenderSystem(scene, renderer)
 {
+}
 
-///
-/// Provides functionality useful for debugging.
-class DebugSystem :
-    public System,
-    public Listener<KeyboardEvent>
+void DebugRenderSystem::addRenderLayer(Key toggleKey, DebugRenderLayer& renderLayer)
 {
-public:
-    DebugSystem(Scene& scene);
+    _toggleKeys[toggleKey] = &renderLayer;
+    _renderLayers.push_back(&renderLayer);
+}
 
-    ///
-    /// Adds a debug render layer to the system.
-    ///
-    /// \param toggleKey The key which toggles the render layer.
-    /// \param renderLayer The debug render layer.
-    void addRenderLayer(Key toggleKey, DebugRenderLayer& renderLayer);
+void DebugRenderSystem::renderAll(RenderTarget& target)
+{
+    for (DebugRenderLayer* renderLayer : _renderLayers)
+    {
+        if (renderLayer->isActivated())
+        {
+            renderLayer->render(scene(), *this, target);
+        }
+    }
+}
 
-    ///
-    /// Renders all activated debug render layers.
-    ///
-    /// \param renderSystem The render system to use.
-    /// \param target The render target to render to.
-    void renderActivatedRenderLayers(RenderSystem& renderSystem, RenderTarget& target);
-
-    void receiveEvent(const KeyboardEvent& event);
-
-private:
-    std::vector<DebugRenderLayer*> _renderLayers;
-    std::map<Key, DebugRenderLayer*> _toggleKeys;
-};
-
+void DebugRenderSystem::receiveEvent(const KeyboardEvent& event)
+{
+    if (event.type == KeyboardEventType_KeyDown)
+    {
+        auto it = _toggleKeys.find(event.key);
+        if (it != _toggleKeys.end())
+        {
+            it->second->toggleActivated();
+        }
+    }
 }

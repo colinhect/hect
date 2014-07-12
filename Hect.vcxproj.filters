@@ -435,9 +435,6 @@
     <ClInclude Include="Source\Hect\Graphics\Systems\RenderSystem.h">
       <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Debug\Systems\DebugSystem.h">
-      <Filter>Source\Hect\Debug\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h">
       <Filter>Source\Hect\Physics\Components</Filter>
     </ClInclude>
@@ -473,6 +470,9 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\Timing\TimeStamp.h">
       <Filter>Source\Hect\Timing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Debug\Systems\DebugRenderSystem.h">
+      <Filter>Source\Hect\Debug\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -794,9 +794,6 @@
     <ClCompile Include="Source\Hect\Graphics\Systems\RenderSystem.cpp">
       <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Debug\Systems\DebugSystem.cpp">
-      <Filter>Source\Hect\Debug\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp">
       <Filter>Source\Hect\Physics\Components</Filter>
     </ClCompile>
@@ -820,6 +817,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\RenderState.cpp">
       <Filter>Source\Hect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Debug\Systems\DebugRenderSystem.cpp">
+      <Filter>Source\Hect\Debug\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
