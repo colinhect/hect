@@ -30,21 +30,50 @@
 namespace hect
 {
 
-void log(const std::string& category, const std::string& message);
+enum LogLevel
+{
+    LogLevel_Info,
+    LogLevel_Debug,
+    LogLevel_Warning,
+    LogLevel_Error,
+    LogLevel_Trace,
+};
 
-#if defined(HECT_DEBUG) && !defined(HECT_NO_LOGGING)
-//#define LOG_TRACE(message) log("Trace", message)
-//#define LOG_WARNING(message) log("Warning", message)
-//#define LOG_DEBUG(message) log("Debug", message)
-#define LOG_TRACE(message)
-#define LOG_WARNING(message)
-#define LOG_DEBUG(message)
-#define LOG_INFO(message) log("Info", message)
+void log(LogLevel level, const std::string& message);
+
+// Info
+#if defined(HECT_ENABLE_LOG_INFO)
+#define HECT_INFO(message)      log(LogLevel_Info, message)
 #else
-#define LOG_TRACE(message)
-#define LOG_WARNING(message)
-#define LOG_DEBUG(message)
-#define LOG_INFO(message)
+#define HECT_INFO(message)
+#endif
+
+// Debug
+#if defined(HECT_ENABLE_LOG_DEBUG)
+#define HECT_DEBUG(message)     log(LogLevel_Debug, message)
+#else
+#define HECT_DEBUG(message)
+#endif
+
+// Warning
+#if defined(HECT_ENABLE_LOG_WARNING)
+#define HECT_WARNING(message)   log(LogLevel_Warning, message)
+#else
+#define HECT_WARNING(message)
+#endif
+
+// Error
+#if defined(HECT_ENABLE_LOG_ERROR)
+#define HECT_ERROR(message)     log(LogLevel_Error, message)
+#else
+#define HECT_ERROR(message)
+#endif
+
+// Trace
+#if defined(HECT_ENABLE_LOG_TRACE)
+#define HECT_TRACE(message)     log(LogLevel_Trace, message)
+#else
+#define HECT_TRACE(message)
 #endif
 
 }

@@ -25,7 +25,7 @@
 using namespace hect;
 
 #ifdef HECT_WINDOWS
-#ifdef HECT_DEBUG
+#ifdef HECT_DEBUG_BUILD
 #include <vld.h>
 #endif
 #endif

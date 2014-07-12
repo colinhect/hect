@@ -26,11 +26,17 @@
 #ifdef _MSC_VER
 #define HECT_WINDOWS
 #ifdef _DEBUG
-#define HECT_DEBUG
+#define HECT_DEBUG_BUILD
 #endif
 #endif
 
 #define HECT_DOUBLE_PRECISION
+
+#define HECT_ENABLE_LOG_INFO
+#define HECT_ENABLE_LOG_DEBUG
+#define HECT_ENABLE_LOG_WARNING
+#define HECT_ENABLE_LOG_ERROR
+#define HECT_ENABLE_LOG_TRACE
 
 ///
 /// The namespace containing all Hect API.

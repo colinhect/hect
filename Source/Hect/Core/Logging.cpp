@@ -27,23 +27,53 @@
 
 #ifdef HECT_WINDOWS
 #include <Windows.h>
+
+static HANDLE stdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
 #include <iostream>
 
+
 namespace hect
 {
 
-void log(const std::string& category, const std::string& message)
+void log(LogLevel level, const std::string& message)
 {
-    category;
+#ifdef HECT_WINDOWS
+
+#ifdef HECT_DEBUG_BUILD
+    OutputDebugString((message + "\n").c_str());
+#endif
+
+    // Set the color text color
+    switch (level)
+    {
+    case LogLevel_Info:
+        SetConsoleTextAttribute(stdOutHandle, 15);
+        std::cout << "I> ";
+        break;
+    case LogLevel_Debug:
+        SetConsoleTextAttribute(stdOutHandle, 7);
+        std::cout << "D> ";
+        break;
+    case LogLevel_Warning:
+        SetConsoleTextAttribute(stdOutHandle, 14);
+        std::cout << "W> ";
+        break;
+    case LogLevel_Error:
+        SetConsoleTextAttribute(stdOutHandle, 12);
+        std::cout << "E> ";
+        break;
+    case LogLevel_Trace:
+        SetConsoleTextAttribute(stdOutHandle, 8);
+        std::cout << "T> ";
+        break;
+    }
 
     std::cout << message << std::endl;
 
-#ifdef HECT_DEBUG
-#ifdef HECT_WINDOWS
-    OutputDebugString((message + "\n").c_str());
-#endif
+    // Reset the console text color
+    SetConsoleTextAttribute(stdOutHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 }
 

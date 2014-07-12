@@ -80,7 +80,6 @@ void Shader::addModule(const AssetHandle<ShaderModule>& module)
         // The shader will need to be re-uploaded for the change to take effect
         renderer().destroyShader(*this);
     }
-
     _modules.push_back(module);
 }
 

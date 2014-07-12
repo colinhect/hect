@@ -45,7 +45,10 @@ void AssetEntry<T>::refresh()
         TimeStamp lastModified = _assetCache->fileSystem().lastModified(_path);
         if (lastModified > _lastModified)
         {
-            _asset.reset();
+            T* asset = _asset.get();
+            delete asset;
+            _asset.release();
+
             _errorOccurred = false;
             _errorMessage.clear();
         }
@@ -53,7 +56,7 @@ void AssetEntry<T>::refresh()
 }
 
 template <typename T>
-std::shared_ptr<T> AssetEntry<T>::get()
+std::unique_ptr<T>& AssetEntry<T>::get()
 {
     // Load the asset if needed
     if (!_errorOccurred && !_asset)
@@ -79,13 +82,13 @@ const Path& AssetEntry<T>::path() const
 template <typename T>
 void AssetEntry<T>::_load()
 {
-    _asset = std::make_shared<T>();
+    _asset = std::make_unique<T>();
     _errorOccurred = false;
 
     // Load the asset and keep the error message
     try
     {
-        LOG_INFO(format("Loading '%s'...", _path.toString().c_str()));
+        HECT_INFO(format("Loading '%s'...", _path.toString().c_str()));
         AssetLoader<T>::load(*_asset, _path, *_assetCache);
 
         // Remember when the file was last modified

@@ -63,8 +63,8 @@ public:
     void refresh();
 
     ///
-    /// Returns a shared pointer to the asset.
-    std::shared_ptr<T> get();
+    /// Returns the unique pointer to the asset.
+    std::unique_ptr<T>& get();
 
     ///
     /// Returns the path of the asset.
@@ -76,7 +76,7 @@ private:
     AssetCache* _assetCache;
     Path _path;
 
-    std::shared_ptr<T> _asset;
+    std::unique_ptr<T> _asset;
 
     bool _errorOccurred;
     std::string _errorMessage;
