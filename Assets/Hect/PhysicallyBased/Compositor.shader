@@ -1,25 +1,25 @@
 {
     "modules" :
     [
-        "Hdr/Compositor.frag",
-        "Hdr/Compositor.vert"
+        "Compositor.frag",
+        "Screen.vert"
     ],
-    "parameters" :
-    {
-        "exposure" :
+    "uniforms" :
+    [
         {
+            "name" : "exposure",
             "type" : "Float",
-            "value" : 0.0015
+            "value" : 0.15
         },
-        "oneOverGamma" :
         {
+            "name" : "oneOverGamma",
             "type" : "Float",
             "value" : 0.4545
         },
-        "sourceTexture" :
         {
+            "name" : "accumulationBuffer",
             "type" : "Texture",
             "value" : 0
         }
-    }
+    ]
 }

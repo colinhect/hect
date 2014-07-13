@@ -64,13 +64,13 @@ AssetHandle<T>::operator bool() const
 template <typename T>
 T& AssetHandle<T>::operator*() const
 {
-    if (_entry)
-    {
-        return *_entry->get();
-    }
-    else if (_asset)
+    if (_asset)
     {
         return *_asset;
+    }
+    else if (_entry)
+    {
+        return *_entry->get();
     }
 
     throw Error("Asset handle does not have an entry or asset");

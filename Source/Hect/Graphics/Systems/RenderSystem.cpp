@@ -37,6 +37,10 @@ RenderSystem::RenderSystem(Scene& scene, Renderer& renderer) :
 {
 }
 
+RenderSystem::~RenderSystem()
+{
+}
+
 void RenderSystem::updateActiveCamera()
 {
     Component<Camera>::Iter camera = activeCamera();

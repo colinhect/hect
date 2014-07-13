@@ -1,13 +1,13 @@
 {
     "modules" :
     [
-        "Common/Triplanar.frag",
-        "Common/Triplanar.vert"
+        "Triplanar.frag",
+        "Triplanar.vert"
     ],
     "uniforms" :
     [
         {
-            "name" : "albedoTexture",
+            "name" : "diffuseTexture",
             "type" : "Texture",
             "value" : 0
         },
@@ -15,6 +15,10 @@
             "name" : "textureScale",
             "type" : "Vector2",
             "value" : [ 1, 1 ]
+        },
+        {
+            "name" : "modelView",
+            "binding" : "ModelViewMatrix"
         },
         {
             "name" : "modelViewProjection",

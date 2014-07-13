@@ -11,7 +11,11 @@
                 		"type" : "Vector3",
                 		"value" : [ 1.0, 1.0, 0.0 ]
                 	}
-                ]
+                ],
+                "renderState" :
+                {
+                    "disabledFlags" : [ "DepthTest" ]
+                }
             }
         ]
     ]

@@ -2,7 +2,8 @@
 
 uniform float exposure;
 uniform float oneOverGamma;
-uniform sampler2D sourceTexture;
+
+uniform sampler2D accumulationBuffer;
 
 in vec2 vertexTextureCoords;
 
@@ -20,7 +21,7 @@ vec3 expose(vec3 color, float exposure)
 
 void main()
 {
-    vec3 color = texture(sourceTexture, vertexTextureCoords).rgb;
+    vec3 color = texture(accumulationBuffer, vertexTextureCoords).rgb;
     color = expose(color, exposure);
     color = correctGamma(color, oneOverGamma);
     outputColor = vec4(color, 1.0);

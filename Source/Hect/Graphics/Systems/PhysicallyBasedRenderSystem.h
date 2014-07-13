@@ -21,33 +21,37 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "TransformDebugRenderLayer.h"
+#pragma once
 
-#include "Hect/Logic/Scene.h"
-#include "Hect/Spacial/Components/Transform.h"
+#include "Hect/Graphics/Systems/RenderSystem.h"
 
-using namespace hect;
-
-TransformDebugRenderLayer::TransformDebugRenderLayer(AssetCache& assetCache)
+namespace hect
 {
-    _transformMaterial = assetCache.getHandle<Material>("Hect/Debug/Transform.material");
-    _transformMesh = assetCache.getHandle<Mesh>("Hect/Debug/Transform.mesh");
-}
 
-void TransformDebugRenderLayer::render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target)
+class PhysicallyBasedRenderSystem :
+    public RenderSystem
 {
-    auto camera = renderSystem.activeCamera();
-    if (camera)
-    {
-        Renderer& renderer = renderSystem.renderer();
-        renderer.beginFrame();
-        renderer.bindTarget(target);
+public:
+    PhysicallyBasedRenderSystem(Scene& scene, Renderer& renderer, AssetCache& assetCache);
 
-        for (Transform& transform : scene.components<Transform>())
-        {
-            renderSystem.renderMesh(*camera, target, *_transformMaterial, *_transformMesh, transform);
-        }
+    void renderAll(RenderTarget& target);
 
-        renderer.endFrame();
-    }
+private:
+    void _initializeBuffers(unsigned width, unsigned height);
+
+    FrameBuffer _geometryBuffer;
+    FrameBuffer _accumulationBuffer;
+
+    AssetHandle<Shader> _compositorShader;
+    AssetHandle<Mesh> _screenMesh;
+
+    AssetHandle<Shader> _directionalLightShader;
+    const Uniform* _directionalLightColorUniform;
+    const Uniform* _directionalLightDirectionUniform;
+
+    RenderState _additiveLightState;
+
+    bool _buffersInitialized;
+};
+
 }

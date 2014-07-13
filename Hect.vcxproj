@@ -59,6 +59,7 @@
     <ClInclude Include="Source\Hect\Graphics\RenderTarget.h" />
     <ClInclude Include="Source\Hect\Graphics\Shader.h" />
     <ClInclude Include="Source\Hect\Graphics\ShaderModule.h" />
+    <ClInclude Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.h" />
     <ClInclude Include="Source\Hect\Graphics\Systems\RenderSystem.h" />
     <ClInclude Include="Source\Hect\Graphics\Technique.h" />
     <ClInclude Include="Source\Hect\Graphics\Texture.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Source\Hect\Graphics\ShaderLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderModule.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderModuleLoader.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Systems\RenderSystem.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Technique.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Texture.cpp" />

@@ -76,6 +76,7 @@ Texture::Texture(const std::string& name, const AssetHandle<Image>& image) :
 Texture::Texture(const Texture& texture) :
     RendererObject(texture),
     _name(texture._name),
+    _image(texture._image),
     _width(texture.width()),
     _height(texture.height()),
     _pixelType(texture.pixelType()),

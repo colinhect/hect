@@ -706,6 +706,7 @@ void Renderer::uploadTexture(Texture& texture)
         GL_ASSERT( glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE) );
     }
 
+
     Image& image = *texture._image;
 
     GL_ASSERT(
