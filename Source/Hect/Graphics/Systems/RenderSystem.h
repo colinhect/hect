@@ -53,8 +53,8 @@ public:
     virtual void renderAll( RenderTarget& target);
 
     void render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest = true);
-    void renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform);
-    void renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform);
+    void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
+    void renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform);
 
     Renderer& renderer();
 

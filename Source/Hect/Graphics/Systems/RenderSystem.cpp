@@ -151,16 +151,16 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, 
     }
 }
 
-void RenderSystem::renderMesh(const Camera& camera, const RenderTarget& target, const Material& material, Mesh& mesh, const Transform& transform)
+void RenderSystem::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
     // Render the mesh for each pass
-    for (const Pass& pass : material.techniques()[0].passes())
+    for (Pass& pass : material.techniques()[0].passes())
     {
         renderMeshPass(camera, target, pass, mesh, transform);
     }
 }
 
-void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& target, const Pass& pass, Mesh& mesh, const Transform& transform)
+void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform)
 {
     // Prepare the pass
     pass.prepare(*_renderer);

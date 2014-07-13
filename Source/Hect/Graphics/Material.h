@@ -64,6 +64,10 @@ public:
 
     ///
     /// Returns the techniques.
+    Technique::Array& techniques();
+
+    ///
+    /// Returns the techniques.
     const Technique::Array& techniques() const;
 
     ///

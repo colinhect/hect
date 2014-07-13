@@ -60,7 +60,7 @@ public:
     /// Prepares a renderer to begin using this pass.
     ///
     /// \param renderer The renderer to prepare.
-    void prepare(Renderer& renderer) const;
+    void prepare(Renderer& renderer);
 
     ///
     /// Returns the render state.
@@ -98,7 +98,7 @@ private:
 
     // Resolves which uniforms the uniform values apply to for fast
     // binding
-    void _resolvePassUniformValues();
+    void _resolvePassUniformValues(Shader& shader);
 
     RenderState _renderState;
     AssetHandle<Texture>::Array _textures;
@@ -106,6 +106,7 @@ private:
 
     PassUniformValue::Array _uniformValues;
     std::map<const Uniform*, UniformValue> _resolvedUniformValues;
+    Shader* _resolvedFromShader;
 };
 
 }

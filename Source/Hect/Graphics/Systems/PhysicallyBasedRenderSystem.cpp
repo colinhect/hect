@@ -37,12 +37,8 @@ PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(Scene& scene, Renderer&
     _additiveLightState.disable(RenderStateFlag_DepthTest);
 
     _compositorShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Compositor.shader");
-    _screenMesh = assetCache.getHandle<Mesh>("Hect/PhysicallyBased/Screen.mesh");
- 
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/DirectionalLight.shader");
-    _directionalLightColorUniform = &_directionalLightShader->uniformWithName("color");
-    _directionalLightDirectionUniform = &_directionalLightShader->uniformWithName("direction");
-    _directionalLightViewUniform = &_directionalLightShader->uniformWithName("view");
+    _screenMesh = assetCache.getHandle<Mesh>("Hect/PhysicallyBased/Screen.mesh");
 }
 
 void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
@@ -60,6 +56,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
 
     RenderSystem::renderAll(_geometryBuffer);
 
+    // End geometry buffer rendering
     renderer().endFrame();
 
     // Begin accumulation buffer rendering
@@ -67,26 +64,31 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     renderer().bindTarget(_accumulationBuffer);
     renderer().clear();
     renderer().bindState(_additiveLightState);
-
-
     renderer().bindTexture(_geometryBuffer.targets()[0], 0);
     renderer().bindTexture(_geometryBuffer.targets()[1], 1);
     renderer().bindTexture(_geometryBuffer.targets()[2], 2);
-
     renderer().bindMesh(*_screenMesh);
 
     // Render directional lights
     renderer().bindShader(*_directionalLightShader);
-    renderer().setUniform(*_directionalLightViewUniform, (Matrix4)activeCamera()->viewMatrix());
+
+    // Get the uniforms required for directional lights
+    const Uniform& colorUniform = _directionalLightShader->uniformWithName("color");
+    const Uniform& directionUniform = _directionalLightShader->uniformWithName("direction");
+
+    // Set the view uniform
+    const Uniform& viewUniform = _directionalLightShader->uniformWithName("view");
+    renderer().setUniform(viewUniform, (Matrix4)activeCamera()->viewMatrix());
+
+    // Render each directional light in the scene
     for (const DirectionalLight& light : scene().components<DirectionalLight>())
     {
-        Vector3 color = light.color();
-        Vector3 direction = light.direction();
-        renderer().setUniform(*_directionalLightColorUniform, color);
-        renderer().setUniform(*_directionalLightDirectionUniform, direction);
+        renderer().setUniform(colorUniform, light.color());
+        renderer().setUniform(directionUniform, light.direction());
         renderer().draw();
     }
 
+    // End accumulation buffer rendering
     renderer().endFrame();
 
     // Begin compositor rendering
@@ -117,10 +119,10 @@ void PhysicallyBasedRenderSystem::_initializeBuffers(unsigned width, unsigned he
 
     Texture::Array targets;
 
-    // Diffuse: R G B (Roughness)
+    // Diffuse: Red Green Blue Roughness
     targets.push_back(Texture("DiffuseBuffer", width, height, pixelType, pixelFormat, filter, filter, false, false));
 
-    // Specular: R G B A
+    // Specular: Red Green Blue ?
     targets.push_back(Texture("SpecularBuffer", width, height, pixelType, pixelFormat, filter, filter, false, false));
 
     // Normal: X Y Z Depth

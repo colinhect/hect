@@ -43,12 +43,8 @@ private:
     FrameBuffer _accumulationBuffer;
 
     AssetHandle<Shader> _compositorShader;
-    AssetHandle<Mesh> _screenMesh;
-
     AssetHandle<Shader> _directionalLightShader;
-    const Uniform* _directionalLightColorUniform;
-    const Uniform* _directionalLightDirectionUniform;
-    const Uniform* _directionalLightViewUniform;
+    AssetHandle<Mesh> _screenMesh;
 
     RenderState _additiveLightState;
 

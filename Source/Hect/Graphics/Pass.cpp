@@ -31,13 +31,19 @@ Pass::Pass(const RenderState& renderState, const AssetHandle<Texture>::Array& te
     _renderState(renderState),
     _textures(textures),
     _shader(shader),
-    _uniformValues(uniformValues)
+    _uniformValues(uniformValues),
+    _resolvedFromShader(nullptr)
 {
-    _resolvePassUniformValues();
 }
 
-void Pass::prepare(Renderer& renderer) const
+void Pass::prepare(Renderer& renderer)
 {
+    Shader& shader = *_shader;
+    if (_resolvedFromShader != &shader)
+    {
+        _resolvePassUniformValues(shader);
+    }
+
     // Bind the render state
     renderer.bindState(_renderState);
 
@@ -50,7 +56,7 @@ void Pass::prepare(Renderer& renderer) const
     }
 
     // Bind the shader
-    renderer.bindShader(*_shader);
+    renderer.bindShader(shader);
 
     // Set the uniform values
     for (auto& pair : _resolvedUniformValues)
@@ -140,13 +146,17 @@ bool Pass::operator!=(const Pass& pass) const
     return !(*this == pass);
 }
 
-void Pass::_resolvePassUniformValues()
+void Pass::_resolvePassUniformValues(Shader& shader)
 {
+    _resolvedUniformValues.clear();
+
     // Resolve the uniforms that the uniform values refer to (this would be
     // invalidated if the shader changes)
     for (const PassUniformValue& uniformValue : _uniformValues)
     {
-        const Uniform& uniform = _shader->uniformWithName(uniformValue.name());
+        const Uniform& uniform = shader.uniformWithName(uniformValue.name());
         _resolvedUniformValues[&uniform] = uniformValue.value();
     }
+
+    _resolvedFromShader = &shader;
 }
