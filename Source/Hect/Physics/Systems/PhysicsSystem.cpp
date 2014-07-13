@@ -110,8 +110,9 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
             if (event.type() == ComponentEventType_Add)
             {
                 Mesh& mesh = *rigidBody->mesh();
-
-                rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(_toBulletMesh(&mesh)));
+                mesh;
+                //rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(_toBulletMesh(&mesh)));
+                rigidBody->_collisionShape.reset(new btSphereShape(1.0));
 
                 btScalar mass = rigidBody->mass();
                 btVector3 localInertia(0, 0, 0);

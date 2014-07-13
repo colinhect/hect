@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PhysicallyBasedRenderSystem.h"
 
+#include "Hect/Graphics/Components/DirectionalLight.h"
+#include "Hect/Logic/Scene.h"
+
 using namespace hect;
 
 PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(Scene& scene, Renderer& renderer, AssetCache& assetCache) :
@@ -35,10 +38,11 @@ PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(Scene& scene, Renderer&
 
     _compositorShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Compositor.shader");
     _screenMesh = assetCache.getHandle<Mesh>("Hect/PhysicallyBased/Screen.mesh");
-
-    //_directionalLightShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/DirectionalLight.shader");
-    //_directionalLightColorUniform = &_directionalLightShader->uniformWithName("color");
-    //_directionalLightDirectionUniform = &_directionalLightShader->uniformWithName("direction");
+ 
+    _directionalLightShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/DirectionalLight.shader");
+    _directionalLightColorUniform = &_directionalLightShader->uniformWithName("color");
+    _directionalLightDirectionUniform = &_directionalLightShader->uniformWithName("direction");
+    _directionalLightViewUniform = &_directionalLightShader->uniformWithName("view");
 }
 
 void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
@@ -48,7 +52,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     {
         _initializeBuffers(target.width(), target.height());
     }
-    
+        
     // Begin geometry buffer rendering
     renderer().beginFrame();
     renderer().bindTarget(_geometryBuffer);
@@ -64,18 +68,24 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     renderer().clear();
     renderer().bindState(_additiveLightState);
 
-    /*
+
+    renderer().bindTexture(_geometryBuffer.targets()[0], 0);
+    renderer().bindTexture(_geometryBuffer.targets()[1], 1);
+    renderer().bindTexture(_geometryBuffer.targets()[2], 2);
+
+    renderer().bindMesh(*_screenMesh);
+
     // Render directional lights
     renderer().bindShader(*_directionalLightShader);
-    for (DirectionalLight* light : _directionalLightComponents)
+    renderer().setUniform(*_directionalLightViewUniform, (Matrix4)activeCamera()->viewMatrix());
+    for (const DirectionalLight& light : scene().components<DirectionalLight>())
     {
-        Vector3<float> color = light->color();
-        Vector3<float> direction = light->direction();
-        _renderer->setUniform(*_directionalLightColorUniform, color);
-        _renderer->setUniform(*_directionalLightDirectionUniform, direction);
-        _renderer->draw();
+        Vector3 color = light.color();
+        Vector3 direction = light.direction();
+        renderer().setUniform(*_directionalLightColorUniform, color);
+        renderer().setUniform(*_directionalLightDirectionUniform, direction);
+        renderer().draw();
     }
-    */
 
     renderer().endFrame();
 
@@ -88,7 +98,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     renderer().bindShader(*_compositorShader);
 
     // Bind the accumulation buffer
-    renderer().bindTexture(_geometryBuffer.targets()[0], 0);
+    renderer().bindTexture(_accumulationBuffer.targets()[0], 0);
 
     // Bind and draw the final image
     renderer().bindMesh(*_screenMesh);

@@ -32,7 +32,7 @@ VertexAttributeType_UnsignedByte = 1
 VertexAttributeType_Short = 2
 VertexAttributeType_UnsignedShort = 3
 VertexAttributeType_Int = 4
-VertexAttributeType_UnsignedIn = 5
+VertexAttributeType_UnsignedInt = 5
 VertexAttributeType_Half = 6
 VertexAttributeType_Float = 7
 
@@ -79,7 +79,7 @@ def export_mesh(obj, path):
     out.write(struct.pack("<B", VertexAttributeType_Float))
     out.write(struct.pack("<I", 3))
 
-    out.write(struct.pack("<B", IndexType_UnsignedShort))
+    out.write(struct.pack("<B", IndexType_UnsignedInt))
     out.write(struct.pack("<B", PrimitiveType_Triangles))
 
     vertex_count = len(mesh.vertices)
@@ -94,11 +94,11 @@ def export_mesh(obj, path):
             out.write(struct.pack("<f", normal[j]))
 
     polygon_count = len(mesh.polygons)
-    out.write(struct.pack("<I", polygon_count * 3 * 2))
+    out.write(struct.pack("<I", polygon_count * 3 * 4))
     for i in range(polygon_count):
         indices = mesh.polygons[i].vertices
         for j in range(3):
-            out.write(struct.pack("<H", indices[j]))
+            out.write(struct.pack("<I", indices[j]))
 
     out.close()
 

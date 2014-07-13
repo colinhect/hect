@@ -93,8 +93,4 @@ void UniformValueEncoder::decode(UniformValue& uniformValue, ObjectDecoder& deco
             throw Error("Unsupported uniform value type");
         }
     }
-    else
-    {
-        throw Error("No uniform value specified");
-    }
 }

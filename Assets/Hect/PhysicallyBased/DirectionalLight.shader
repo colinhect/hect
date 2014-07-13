@@ -18,7 +18,7 @@
         },
         {
             "name" : "view",
-            "type" : "Matrix4",
+            "type" : "Matrix4"
         },
         {
             "name" : "diffuseBuffer",

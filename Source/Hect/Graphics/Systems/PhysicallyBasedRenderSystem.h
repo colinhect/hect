@@ -48,6 +48,7 @@ private:
     AssetHandle<Shader> _directionalLightShader;
     const Uniform* _directionalLightColorUniform;
     const Uniform* _directionalLightDirectionUniform;
+    const Uniform* _directionalLightViewUniform;
 
     RenderState _additiveLightState;
 
