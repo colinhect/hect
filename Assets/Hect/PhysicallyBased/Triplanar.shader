@@ -17,6 +17,10 @@
             "value" : [ 1, 1 ]
         },
         {
+            "name" : "model",
+            "binding" : "ModelMatrix"
+        },
+        {
             "name" : "modelView",
             "binding" : "ModelViewMatrix"
         },

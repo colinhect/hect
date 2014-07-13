@@ -30,6 +30,7 @@ using namespace hect;
     ENUM_VALUE(UniformBinding, None) \
     ENUM_VALUE(UniformBinding, RenderTargetSize) \
     ENUM_VALUE(UniformBinding, CameraPosition) \
+    ENUM_VALUE(UniformBinding, CameraFront) \
     ENUM_VALUE(UniformBinding, CameraUp) \
     ENUM_VALUE(UniformBinding, ViewMatrix) \
     ENUM_VALUE(UniformBinding, ProjectionMatrix) \

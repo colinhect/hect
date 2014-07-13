@@ -17,6 +17,10 @@
             "value" : [ 1, 0, 0 ]
         },
         {
+            "name" : "cameraPosition",
+            "type" : "Vector3"
+        },
+        {
             "name" : "view",
             "type" : "Matrix4"
         },
@@ -26,14 +30,19 @@
             "value" : 0
         },
         {
-            "name" : "specularBuffer",
+            "name" : "materialBuffer",
             "type" : "Texture",
             "value" : 1
         },
         {
-            "name" : "normalBuffer",
+            "name" : "positionBuffer",
             "type" : "Texture",
             "value" : 2
+        },
+        {
+            "name" : "normalBuffer",
+            "type" : "Texture",
+            "value" : 3
         }
     ]
 }

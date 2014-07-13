@@ -67,6 +67,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     renderer().bindTexture(_geometryBuffer.targets()[0], 0);
     renderer().bindTexture(_geometryBuffer.targets()[1], 1);
     renderer().bindTexture(_geometryBuffer.targets()[2], 2);
+    renderer().bindTexture(_geometryBuffer.targets()[3], 3);
     renderer().bindMesh(*_screenMesh);
 
     // Render directional lights
@@ -78,7 +79,11 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
 
     // Set the view uniform
     const Uniform& viewUniform = _directionalLightShader->uniformWithName("view");
-    renderer().setUniform(viewUniform, (Matrix4)activeCamera()->viewMatrix());
+    renderer().setUniform(viewUniform, activeCamera()->viewMatrix());
+
+    // Set the camera position uniform
+    const Uniform& cameraPositionUniform = _directionalLightShader->uniformWithName("cameraPosition");
+    renderer().setUniform(cameraPositionUniform, activeCamera()->position());
 
     // Render each directional light in the scene
     for (const DirectionalLight& light : scene().components<DirectionalLight>())
@@ -113,23 +118,24 @@ void PhysicallyBasedRenderSystem::_initializeBuffers(unsigned width, unsigned he
 {
     _buffersInitialized = true;
 
-    PixelType pixelType = PixelType_Half;
-    PixelFormat pixelFormat = PixelFormat_Rgba;
     TextureFilter filter = TextureFilter_Nearest;
 
     Texture::Array targets;
 
-    // Diffuse: Red Green Blue Roughness
-    targets.push_back(Texture("DiffuseBuffer", width, height, pixelType, pixelFormat, filter, filter, false, false));
+    // Diffuse: Red Green Blue
+    targets.push_back(Texture("DiffuseBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
 
-    // Specular: Red Green Blue ?
-    targets.push_back(Texture("SpecularBuffer", width, height, pixelType, pixelFormat, filter, filter, false, false));
+    // Material: Roughness Metallic Specular
+    targets.push_back(Texture("MaterialBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
+
+    // Position: X Y Z
+    targets.push_back(Texture("PositionBuffer", width, height, PixelType_Float, PixelFormat_Rgb, filter, filter, false, false));
 
     // Normal: X Y Z Depth
-    targets.push_back(Texture("NormalBuffer", width, height, pixelType, pixelFormat, filter, filter, false, false));
+    targets.push_back(Texture("NormalBuffer", width, height, PixelType_Half, PixelFormat_Rgba, filter, filter, false, false));
     _geometryBuffer = FrameBuffer(targets);
 
     targets.clear();
-    targets.push_back(Texture("AccumulationBuffer", width, height, pixelType, PixelFormat_Rgb, filter, filter, false, false));
+    targets.push_back(Texture("AccumulationBuffer", width, height, PixelType_Float, PixelFormat_Rgb, filter, filter, false, false));
     _accumulationBuffer = FrameBuffer(targets);
 }

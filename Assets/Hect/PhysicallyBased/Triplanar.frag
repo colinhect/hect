@@ -4,11 +4,13 @@ uniform sampler2D diffuseTexture;
 uniform vec2 textureScale;
 
 in vec3 vertexPosition;
+in vec3 vertexWorldPosition;
 in vec3 vertexNormal;
 in vec3 vertexWorldNormal;
 
-out vec4 outputDiffuse;
-out vec4 outputSpecular;
+out vec3 outputDiffuse;
+out vec3 outputMaterial;
+out vec3 outputPosition;
 out vec4 outputNormal;
 
 void main()
@@ -22,12 +24,18 @@ void main()
     vec2 coordY = vertexPosition.zx * textureScale;
     vec2 coordZ = vertexPosition.xy * textureScale;
 
-    vec4 colorX = texture(diffuseTexture, coordX);
-    vec4 colorY = texture(diffuseTexture, coordY);
-    vec4 colorZ = texture(diffuseTexture, coordZ);
+    vec3 colorX = texture(diffuseTexture, coordX).rgb;
+    vec3 colorY = texture(diffuseTexture, coordY).rgb;
+    vec3 colorZ = texture(diffuseTexture, coordZ).rgb;
 
     outputDiffuse = colorX * blendWeights.x + colorY * blendWeights.y + colorZ * blendWeights.z;
-    outputSpecular = vec4(0.0);
+
+    float roughness = 0.6;  
+    float metallic = 1.0;   
+    float specular = 0.9;
+    outputMaterial = vec3(roughness, metallic, specular);
+
+    outputPosition = vertexWorldPosition;
 
     float depth = gl_FragCoord.z;
     outputNormal = vec4(vertexWorldNormal, depth);

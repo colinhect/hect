@@ -44,6 +44,10 @@ enum UniformBinding
     UniformBinding_CameraPosition,
 
     ///
+    /// Bound to the world-space front direction of the active camera.
+    UniformBinding_CameraFront,
+
+    ///
     /// Bound to the world-space up direction of the active camera.
     UniformBinding_CameraUp,
 

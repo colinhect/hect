@@ -185,6 +185,9 @@ void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& targ
             case UniformBinding_CameraPosition:
                 _renderer->setUniform(uniform, camera.position());
                 break;
+            case UniformBinding_CameraFront:
+                _renderer->setUniform(uniform, camera.front());
+                break;
             case UniformBinding_CameraUp:
                 _renderer->setUniform(uniform, camera.up());
                 break;
