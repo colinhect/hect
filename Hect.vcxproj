@@ -40,6 +40,7 @@
     <ClInclude Include="Source\Hect\Graphics\Components\Camera.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\DirectionalLight.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\Geometry.h" />
+    <ClInclude Include="Source\Hect\Graphics\Components\SkyBox.h" />
     <ClInclude Include="Source\Hect\Graphics\FrameBuffer.h" />
     <ClInclude Include="Source\Hect\Graphics\Image.h" />
     <ClInclude Include="Source\Hect\Graphics\IndexType.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Geometry.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\Components\SkyBox.cpp" />
     <ClCompile Include="Source\Hect\Graphics\FrameBuffer.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Image.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ImageLoader.cpp" />

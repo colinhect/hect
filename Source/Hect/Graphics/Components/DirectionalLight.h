@@ -29,7 +29,7 @@ namespace hect
 {
 
 ///
-/// A directional light component
+/// A directional light component.
 class DirectionalLight :
     public Component<DirectionalLight>
 {
@@ -47,7 +47,7 @@ public:
     void setDirection(const Vector3& direction);
 
     ///
-    /// Returns the color
+    /// Returns the color.
     const Vector3& color() const;
 
     ///

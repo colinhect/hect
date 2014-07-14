@@ -480,6 +480,9 @@
     <ClInclude Include="Source\Hect\Graphics\TextureType.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\Components\SkyBox.h">
+      <Filter>Source\Hect\Graphics\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -832,6 +835,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\TextureType.cpp">
       <Filter>Source\Hect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\Components\SkyBox.cpp">
+      <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -44,9 +44,11 @@ private:
 
     AssetHandle<Shader> _compositorShader;
     AssetHandle<Shader> _directionalLightShader;
-    AssetHandle<Mesh> _screenMesh;
+    
+    AssetHandle<Material> _skyBoxMaterial;
 
-    AssetHandle<Texture> _environmentMap;
+    AssetHandle<Mesh> _screenMesh;
+    AssetHandle<Mesh> _skyBoxMesh;
 
     RenderState _additiveLightState;
 

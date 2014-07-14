@@ -21,37 +21,38 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "SkyBox.h"
 
-#include "Hect/Logic/Component.h"
-#include "Hect/Math/Vector3.h"
+using namespace hect;
 
-namespace hect
+SkyBox::SkyBox()
 {
+}
 
-///
-/// An ambient light component.
-class AmbientLight :
-    public Component<AmbientLight>
+AssetHandle<Texture>& SkyBox::texture()
 {
-public:
-    AmbientLight();
+    return _texture;
+}
 
-    ///
-    /// Returns the color.
-    const Vector3& color() const;
+void SkyBox::setTexture(const AssetHandle<Texture>& texture)
+{
+    _texture = texture;
+}
 
-    ///
-    /// Sets the color.
-    ///
-    /// \param color The new color.
-    void setColor(const Vector3& color);
+void SkyBox::encode(ObjectEncoder& encoder) const
+{
+    encoder.encodeString("texture", _texture.path().toString());
+}
 
-    void encode(ObjectEncoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+void SkyBox::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+{
+    assetCache;
 
-private:
-    Vector3 _color;
-};
+    if (decoder.hasMember("texture"))
+    {
+        Path texturePath = decoder.decodeString("texture");
 
+        AssetHandle<Texture> texture = assetCache.getHandle<Texture>(texturePath);
+        setTexture(texture);
+    }
 }

@@ -1,0 +1,23 @@
+{
+    "techniques" :
+    [
+        [
+            {
+                "shader" : "SkyBox.shader",
+                "renderState" :
+                {
+                    "disabledFlags" :
+                    [
+                        "DepthTest",
+                        "DepthWrite",
+                        "CullFace"
+                    ]
+                },
+                "textures" :
+                [
+                    "Test/TropicalSunnyDay.texture"
+                ]
+            }
+        ]
+    ]
+}

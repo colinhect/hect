@@ -24,7 +24,9 @@
 #include "PhysicallyBasedRenderSystem.h"
 
 #include "Hect/Graphics/Components/DirectionalLight.h"
+#include "Hect/Graphics/Components/SkyBox.h"
 #include "Hect/Logic/Scene.h"
+#include "Hect/Spacial/Components/Transform.h"
 
 using namespace hect;
 
@@ -39,9 +41,11 @@ PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(Scene& scene, Renderer&
 
     _compositorShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Compositor.shader");
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/DirectionalLight.shader");
-    _screenMesh = assetCache.getHandle<Mesh>("Hect/PhysicallyBased/Screen.mesh");
 
-    _environmentMap = assetCache.getHandle<Texture>("Test/TropicalSunnyDay.texture");
+    _skyBoxMaterial = assetCache.getHandle<Material>("Hect/PhysicallyBased/SkyBox.material");
+
+    _screenMesh = assetCache.getHandle<Mesh>("Hect/PhysicallyBased/Screen.mesh");
+    _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/PhysicallyBased/SkyBox.mesh");
 }
 
 void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
@@ -51,13 +55,37 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     {
         _initializeBuffers(target.width(), target.height());
     }
-        
+
+    Camera& camera = *activeCamera();
+    camera.setAspectRatio(target.aspectRatio());
+
+    AssetHandle<Texture> environmentMap;
+
     // Begin geometry buffer rendering
     renderer().beginFrame();
     renderer().bindTarget(_geometryBuffer);
     renderer().clear();
 
-    RenderSystem::renderAll(_geometryBuffer);
+    auto skyBox = camera.entity().component<SkyBox>();
+    if (skyBox)
+    {
+        Transform transform;
+        transform.setPosition(camera.position());
+        transform.updateGlobalTransform();
+
+        environmentMap = skyBox->texture();
+
+        renderMesh(camera, _geometryBuffer, *_skyBoxMaterial, *_skyBoxMesh, transform);
+    }
+
+    // Render each entity in hierarchical order
+    for (Entity& entity : scene().entities())
+    {
+        if (!entity.parent())
+        {
+            render(camera, target, entity);
+        }
+    }
 
     // End geometry buffer rendering
     renderer().endFrame();
@@ -71,7 +99,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     renderer().bindTexture(_geometryBuffer.targets()[1], 1);
     renderer().bindTexture(_geometryBuffer.targets()[2], 2);
     renderer().bindTexture(_geometryBuffer.targets()[3], 3);
-    renderer().bindTexture(*_environmentMap, 4);
+    renderer().bindTexture(*environmentMap, 4);
     renderer().bindMesh(*_screenMesh);
 
     // Render directional lights
@@ -83,11 +111,11 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
 
     // Set the view uniform
     const Uniform& viewUniform = _directionalLightShader->uniformWithName("view");
-    renderer().setUniform(viewUniform, activeCamera()->viewMatrix());
+    renderer().setUniform(viewUniform, camera.viewMatrix());
 
     // Set the camera position uniform
     const Uniform& cameraPositionUniform = _directionalLightShader->uniformWithName("cameraPosition");
-    renderer().setUniform(cameraPositionUniform, activeCamera()->position());
+    renderer().setUniform(cameraPositionUniform, camera.position());
 
     // Render each directional light in the scene
     for (const DirectionalLight& light : scene().components<DirectionalLight>())
@@ -113,7 +141,8 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     renderer().bindShader(*_compositorShader);
 
     // Bind the accumulation buffer
-    renderer().bindTexture(_accumulationBuffer.targets()[0], 0);
+    renderer().bindTexture(_geometryBuffer.targets()[0], 0);
+    renderer().bindTexture(_accumulationBuffer.targets()[0], 1);
 
     // Bind and draw the final image
     renderer().bindMesh(*_screenMesh);

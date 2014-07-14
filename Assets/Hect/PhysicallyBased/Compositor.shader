@@ -9,7 +9,7 @@
         {
             "name" : "exposure",
             "type" : "Float",
-            "value" : 1.5
+            "value" : 4.5
         },
         {
             "name" : "oneOverGamma",
@@ -17,9 +17,14 @@
             "value" : 0.4545
         },
         {
-            "name" : "accumulationBuffer",
+            "name" : "diffuseBuffer",
             "type" : "Texture",
             "value" : 0
+        },
+        {
+            "name" : "accumulationBuffer",
+            "type" : "Texture",
+            "value" : 1
         }
     ]
 }

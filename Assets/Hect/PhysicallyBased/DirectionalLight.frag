@@ -110,7 +110,8 @@ void main()
         vec3 environmentColor = textureLod(environmentMap, reflectVector, mipIndex).rgb;
 
 
-        outputColor = vec4(light1 + envFresnel * environmentColor, depth);
+        float reflectivity = 1.0;
+        outputColor = vec4(light1 + envFresnel * environmentColor * reflectivity, depth);
     }
     else
     {
