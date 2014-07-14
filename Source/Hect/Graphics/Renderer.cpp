@@ -196,10 +196,17 @@ GLenum _shaderModuleTypeLookUp[3] =
     GL_GEOMETRY_SHADER // Geometry
 };
 
+GLenum _textureTypeLookUp[3] =
+{
+    GL_TEXTURE_2D,
+    GL_TEXTURE_3D,
+    GL_TEXTURE_CUBE_MAP
+};
+
 Renderer::Renderer(Window& window) :
-    _boundTarget(nullptr),
-    _boundShader(nullptr),
-    _boundMesh(nullptr)
+_boundTarget(nullptr),
+_boundShader(nullptr),
+_boundMesh(nullptr)
 {
     // This is a parameter only to ensure the window is created before the
     // renderer; I'm not sure if the renderer has any use for it
@@ -228,12 +235,15 @@ Renderer::Renderer(Window& window) :
 
     glGetError(); // Clear errors
 
-    GL_ASSERT( glClearColor(0, 0, 0, 1) );
+    GL_ASSERT(glClearColor(0, 0, 0, 0));
 
-    // Set up our point rendering profile
-    GL_ASSERT( glEnable(GL_PROGRAM_POINT_SIZE) );
-    GL_ASSERT( glEnable(GL_POINT_SPRITE) );
-    GL_ASSERT( glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT) );
+    // Set up the point rendering profile
+    GL_ASSERT(glEnable(GL_PROGRAM_POINT_SIZE));
+    GL_ASSERT(glEnable(GL_POINT_SPRITE));
+    GL_ASSERT(glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT));
+
+    // Set up the cube map rendering profile
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
     clear();
 }
@@ -253,14 +263,14 @@ void Renderer::endFrame()
     // Clear the bound shader and unbind
     if (_boundShader)
     {
-        GL_ASSERT( glUseProgram(0) );
+        GL_ASSERT(glUseProgram(0));
         _boundShader = nullptr;
     }
 
     // Clear the bound mesh and unbind
     if (_boundMesh)
     {
-        GL_ASSERT( glBindVertexArray(0) );
+        GL_ASSERT(glBindVertexArray(0));
         _boundMesh = nullptr;
     }
 
@@ -269,8 +279,8 @@ void Renderer::endFrame()
     {
         if (_boundTextures[i])
         {
-            GL_ASSERT( glActiveTexture(GL_TEXTURE0 + i) );
-            GL_ASSERT( glBindTexture(GL_TEXTURE_2D, 0) );
+            GL_ASSERT(glActiveTexture(GL_TEXTURE0 + i));
+            GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
             _boundTextures[i] = nullptr;
         }
     }
@@ -280,34 +290,34 @@ void Renderer::bindState(const RenderState& state)
 {
     if (state.isEnabled(RenderStateFlag_DepthTest))
     {
-        GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+        GL_ASSERT(glEnable(GL_DEPTH_TEST));
     }
     else
     {
-        GL_ASSERT( glDisable(GL_DEPTH_TEST) );
+        GL_ASSERT(glDisable(GL_DEPTH_TEST));
     }
 
     if (state.isEnabled(RenderStateFlag_CullFace))
     {
-        GL_ASSERT( glEnable(GL_CULL_FACE) );
+        GL_ASSERT(glEnable(GL_CULL_FACE));
     }
     else
     {
-        GL_ASSERT( glDisable(GL_CULL_FACE) );
+        GL_ASSERT(glDisable(GL_CULL_FACE));
     }
 
     if (state.isEnabled(RenderStateFlag_Blend))
     {
-        GL_ASSERT( glEnable(GL_BLEND) );
+        GL_ASSERT(glEnable(GL_BLEND));
 
         GLuint sourceFactor = _blendFactorLookUp[(int)state.sourceBlendFactor()];
         GLuint destFactor = _blendFactorLookUp[(int)state.destBlendFactor()];
 
-        GL_ASSERT( glBlendFunc(sourceFactor, destFactor) );
+        GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
     }
     else
     {
-        GL_ASSERT( glDisable(GL_BLEND) );
+        GL_ASSERT(glDisable(GL_BLEND));
     }
 }
 
@@ -325,8 +335,8 @@ void Renderer::bindWindow(Window& window)
     }
     _boundTarget = &window;
 
-    GL_ASSERT( glViewport(0, 0, window.width(), window.height()) );
-    GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, 0) );
+    GL_ASSERT(glViewport(0, 0, window.width(), window.height()));
+    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
 void Renderer::bindFrameBuffer(FrameBuffer& frameBuffer)
@@ -345,8 +355,8 @@ void Renderer::bindFrameBuffer(FrameBuffer& frameBuffer)
 
     auto data = (FrameBufferData*)frameBuffer._data;
 
-    GL_ASSERT( glViewport(0, 0, frameBuffer.width(), frameBuffer.height()) );
-    GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId) );
+    GL_ASSERT(glViewport(0, 0, frameBuffer.width(), frameBuffer.height()));
+    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
 }
 
 void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
@@ -357,15 +367,15 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     }
 
     auto data = new FrameBufferData();
-    GL_ASSERT( glGenFramebuffers(1, &data->frameBufferId) );
-    GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId) );
+    GL_ASSERT(glGenFramebuffers(1, &data->frameBufferId));
+    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
 
     if (frameBuffer.hasDepthComponent())
     {
-        GL_ASSERT( glGenRenderbuffers(1, &data->depthBufferId) );
-        GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, data->depthBufferId) );
-        GL_ASSERT( glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, frameBuffer.width(), frameBuffer.height()) );
-        GL_ASSERT( glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, data->depthBufferId) );
+        GL_ASSERT(glGenRenderbuffers(1, &data->depthBufferId));
+        GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, data->depthBufferId));
+        GL_ASSERT(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, frameBuffer.width(), frameBuffer.height()));
+        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, data->depthBufferId));
     }
 
     GLenum mrt[8];
@@ -376,7 +386,7 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
         uploadTexture(target);
 
         auto targetData = (TextureData*)target._data;
-        GL_ASSERT( glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + targetIndex, GL_TEXTURE_2D, targetData->id, 0) );
+        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + targetIndex, GL_TEXTURE_2D, targetData->id, 0));
 
         mrt[targetIndex++] = GL_COLOR_ATTACHMENT0 + targetIndex;
 
@@ -386,13 +396,13 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
         }
     }
 
-    GL_ASSERT( glDrawBuffers(targetIndex, mrt) );
+    GL_ASSERT(glDrawBuffers(targetIndex, mrt));
 
     frameBuffer._uploaded = true;
     frameBuffer._data = data;
     frameBuffer._renderer = this;
 
-    GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, 0) );
+    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
 void Renderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
@@ -404,8 +414,8 @@ void Renderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
 
     auto data = (FrameBufferData*)frameBuffer._data;
 
-    GL_ASSERT( glDeleteFramebuffers(1, &data->frameBufferId) );
-    GL_ASSERT( glDeleteRenderbuffers(1, &data->depthBufferId) );
+    GL_ASSERT(glDeleteFramebuffers(1, &data->frameBufferId));
+    GL_ASSERT(glDeleteRenderbuffers(1, &data->depthBufferId));
 
     delete data;
     frameBuffer._uploaded = false;
@@ -428,7 +438,7 @@ void Renderer::bindShader(Shader& shader)
     }
 
     auto data = (ShaderData*)shader._data;
-    GL_ASSERT( glUseProgram(data->id) );
+    GL_ASSERT(glUseProgram(data->id));
 
     // Pass the default values for each uniform
     for (const Uniform& uniform : shader.uniforms())
@@ -451,7 +461,7 @@ void Renderer::uploadShader(Shader& shader)
 
     // Create the shader.
     auto data = new ShaderData();
-    data->id = GL_ASSERT( glCreateProgram() );
+    data->id = GL_ASSERT(glCreateProgram());
 
     // Attach each shader to the program
     for (const AssetHandle<ShaderModule>& module : shader.modules())
@@ -462,23 +472,23 @@ void Renderer::uploadShader(Shader& shader)
         }
 
         auto moduleData = (ShaderModuleData*)module->_data;
-        GL_ASSERT( glAttachShader(data->id, moduleData->id) );
+        GL_ASSERT(glAttachShader(data->id, moduleData->id));
 
         // Remember which shaders this module is attached to
         moduleData->shaders.push_back(&shader);
     }
 
     // Link program
-    GL_ASSERT( glLinkProgram(data->id) );
+    GL_ASSERT(glLinkProgram(data->id));
 
     // Report errors
     int logLength = 0;
-    GL_ASSERT( glGetProgramiv(data->id, GL_INFO_LOG_LENGTH, &logLength) );
+    GL_ASSERT(glGetProgramiv(data->id, GL_INFO_LOG_LENGTH, &logLength));
     if (logLength > 1)
     {
         int charsWritten = 0;
         std::string infoLog(logLength, ' ');
-        GL_ASSERT( glGetProgramInfoLog(data->id, logLength, &charsWritten, &infoLog[0]) );
+        GL_ASSERT(glGetProgramInfoLog(data->id, logLength, &charsWritten, &infoLog[0]));
 
         if (infoLog.size() > 0)
         {
@@ -486,12 +496,12 @@ void Renderer::uploadShader(Shader& shader)
         }
     }
 
-    GL_ASSERT( glUseProgram(data->id) );
+    GL_ASSERT(glUseProgram(data->id));
 
     // Get the locations of each uniform
     for (Uniform& uniform : shader.uniforms())
     {
-        GL_ASSERT( int location = glGetUniformLocation(data->id, uniform.name().c_str()) );
+        GL_ASSERT(int location = glGetUniformLocation(data->id, uniform.name().c_str()));
 
         if (location != -1)
         {
@@ -503,7 +513,7 @@ void Renderer::uploadShader(Shader& shader)
         }
     }
 
-    GL_ASSERT( glUseProgram(0) );
+    GL_ASSERT(glUseProgram(0));
 
     shader._uploaded = true;
     shader._data = data;
@@ -532,7 +542,7 @@ void Renderer::destroyShader(Shader& shader)
         shaders.erase(std::remove(shaders.begin(), shaders.end(), &shader), shaders.end());
     }
 
-    GL_ASSERT( glDeleteProgram(data->id) );
+    GL_ASSERT(glDeleteProgram(data->id));
 
     delete data;
     shader._uploaded = false;
@@ -556,22 +566,22 @@ void Renderer::setUniform(const Uniform& uniform, const UniformValue& value)
     {
     case UniformType_Int:
     case UniformType_Texture:
-        GL_ASSERT( glUniform1i(location, *(GLint*)value.data()) );
+        GL_ASSERT(glUniform1i(location, *(GLint*)value.data()));
         break;
     case UniformType_Float:
-        GL_ASSERT( glUniform1f(location, *(GLfloat*)value.data()) );
+        GL_ASSERT(glUniform1f(location, *(GLfloat*)value.data()));
         break;
     case UniformType_Vector2:
-        GL_ASSERT( glUniform2fv(location, 1, (GLfloat*)value.data()) );
+        GL_ASSERT(glUniform2fv(location, 1, (GLfloat*)value.data()));
         break;
     case UniformType_Vector3:
-        GL_ASSERT( glUniform3fv(location, 1, (GLfloat*)value.data()) );
+        GL_ASSERT(glUniform3fv(location, 1, (GLfloat*)value.data()));
         break;
     case UniformType_Vector4:
-        GL_ASSERT( glUniform4fv(location, 1, (GLfloat*)value.data()) );
+        GL_ASSERT(glUniform4fv(location, 1, (GLfloat*)value.data()));
         break;
     case UniformType_Matrix4:
-        GL_ASSERT( glUniformMatrix4fv(location, 1, false, (GLfloat*)value.data()) );
+        GL_ASSERT(glUniformMatrix4fv(location, 1, false, (GLfloat*)value.data()));
         break;
     }
 }
@@ -587,21 +597,21 @@ void Renderer::uploadShaderModule(ShaderModule& module)
 
     // Create the shader
     auto data = new ShaderModuleData();
-    GL_ASSERT( data->id = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]) );
+    GL_ASSERT(data->id = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]));
 
     // Compile shader
     const GLchar* source = module.source().c_str();
-    GL_ASSERT( glShaderSource(data->id, 1, &source, nullptr) );
-    GL_ASSERT( glCompileShader(data->id) );
+    GL_ASSERT(glShaderSource(data->id, 1, &source, nullptr));
+    GL_ASSERT(glCompileShader(data->id));
 
     // Report errors
     int logLength = 0;
-    GL_ASSERT( glGetShaderiv(data->id, GL_INFO_LOG_LENGTH, &logLength) );
+    GL_ASSERT(glGetShaderiv(data->id, GL_INFO_LOG_LENGTH, &logLength));
     if (logLength > 1)
     {
         int charsWritten = 0;
         std::string infoLog(logLength, ' ');
-        GL_ASSERT( glGetShaderInfoLog(data->id, logLength, &charsWritten, &infoLog[0]) );
+        GL_ASSERT(glGetShaderInfoLog(data->id, logLength, &charsWritten, &infoLog[0]));
 
         if (infoLog.size() > 0)
         {
@@ -635,7 +645,7 @@ void Renderer::destroyShaderModule(ShaderModule& module)
         }
     }
 
-    GL_ASSERT( glDeleteShader(data->id) );
+    GL_ASSERT(glDeleteShader(data->id));
 
     delete data;
     module._uploaded = false;
@@ -661,8 +671,8 @@ void Renderer::bindTexture(Texture& texture, unsigned index)
 
     auto data = (TextureData*)texture._data;
 
-    GL_ASSERT( glActiveTexture(GL_TEXTURE0 + index) );
-    GL_ASSERT( glBindTexture(GL_TEXTURE_2D, data->id) );
+    GL_ASSERT(glActiveTexture(GL_TEXTURE0 + index));
+    GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->id));
 }
 
 void Renderer::uploadTexture(Texture& texture)
@@ -674,64 +684,77 @@ void Renderer::uploadTexture(Texture& texture)
 
     HECT_TRACE(format("Uploading texture '%s'...", texture.name().c_str()));
 
+    GLenum type = _textureTypeLookUp[texture.type()];
+
     auto data = new TextureData();
-    GL_ASSERT( glGenTextures(1, &data->id) );
-    GL_ASSERT( glBindTexture(GL_TEXTURE_2D, data->id) );
+    GL_ASSERT(glGenTextures(1, &data->id));
+    GL_ASSERT(glBindTexture(type, data->id));
     GL_ASSERT(
         glTexParameteri(
-        GL_TEXTURE_2D,
+        type,
         GL_TEXTURE_MIN_FILTER,
         texture.isMipmapped() ?
         _textureMipmapFilterLookUp[(int)texture.minFilter()] :
         _textureFilterLookUp[(int)texture.minFilter()]
         )
-    );
+        );
 
     GL_ASSERT(
         glTexParameteri(
-        GL_TEXTURE_2D,
+        type,
         GL_TEXTURE_MAG_FILTER,
         _textureFilterLookUp[(int)texture.magFilter()]
         )
-    );
+        );
 
     if (texture.isWrapped())
     {
-        GL_ASSERT( glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT) );
-        GL_ASSERT( glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT) );
+        GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_REPEAT));
     }
     else
     {
-        GL_ASSERT( glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE) );
-        GL_ASSERT( glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE) );
+        GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+        GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
     }
 
+    GLenum target = GL_TEXTURE_2D;
 
-    Image& image = *texture._image;
+    if (texture.type() == TextureType_CubeMap)
+    {
+        target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+    }
 
-    GL_ASSERT(
-        glTexImage2D(
-        GL_TEXTURE_2D,
-        0,
-        _internalImageFormatLookUp[(int)image.colorSpace()][(int)image.pixelFormat()][(int)image.pixelType()],
-        image.width(),
-        image.height(),
-        0,
-        _pixelFormatLookUp[(int)image.pixelFormat()],
-        _pixelTypeLookUp[(int)image.pixelType()],
-        &image.pixelData()[0]
-        )
-    );
+    for (AssetHandle<Image>& imageHandle : texture.images())
+    {
+        Image& image = *imageHandle;
 
-    // The texture no longer needs the source image
-    texture._image = AssetHandle<Image>();
+        GL_ASSERT(
+            glTexImage2D(
+            target,
+            0,
+            _internalImageFormatLookUp[(int)image.colorSpace()][(int)image.pixelFormat()][(int)image.pixelType()],
+            image.width(),
+            image.height(),
+            0,
+            _pixelFormatLookUp[(int)image.pixelFormat()],
+            _pixelTypeLookUp[(int)image.pixelType()],
+            &image.pixelData()[0]
+            )
+            );
+
+        if (texture.type() == TextureType_CubeMap)
+        {
+            ++target;
+        }
+    }
 
     if (texture.isMipmapped())
     {
-        GL_ASSERT( glGenerateMipmap(GL_TEXTURE_2D) );
+        GL_ASSERT(glGenerateMipmap(type));
     }
 
-    GL_ASSERT( glBindTexture(GL_TEXTURE_2D, 0) );
+    GL_ASSERT(glBindTexture(type, 0));
 
     texture._uploaded = true;
     texture._data = data;
@@ -748,7 +771,7 @@ void Renderer::destroyTexture(Texture& texture)
     HECT_TRACE(format("Destroying texture '%s'...", texture.name().c_str()));
 
     auto data = (TextureData*)texture._data;
-    GL_ASSERT( glDeleteTextures(1, &data->id) );
+    GL_ASSERT(glDeleteTextures(1, &data->id));
 
     delete data;
     texture._uploaded = false;
@@ -764,21 +787,21 @@ Image Renderer::downloadTextureImage(const Texture& texture)
 
     auto data = (TextureData*)texture._data;
 
-    GL_ASSERT( glBindTexture(GL_TEXTURE_2D, data->id) );
+    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->id));
 
     Image image(texture.width(), texture.height(), texture.pixelType(), texture.pixelFormat());
 
     GL_ASSERT(
         glGetTexImage(
-            GL_TEXTURE_2D,
-            0,
-            _pixelFormatLookUp[(int)texture.pixelFormat()],
-            _pixelTypeLookUp[(int)texture.pixelType()],
-            (GLvoid*)&image.pixelData()[0]
+        GL_TEXTURE_2D,
+        0,
+        _pixelFormatLookUp[(int)texture.pixelFormat()],
+        _pixelTypeLookUp[(int)texture.pixelType()],
+        (GLvoid*)&image.pixelData()[0]
         )
-    );
+        );
 
-    GL_ASSERT( glBindTexture(GL_TEXTURE_2D, 0) );
+    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
 
     return image;
 }
@@ -797,7 +820,7 @@ void Renderer::bindMesh(Mesh& mesh)
     }
 
     auto data = (MeshData*)(mesh._data);
-    GL_ASSERT( glBindVertexArray(data->vertexArrayId) );
+    GL_ASSERT(glBindVertexArray(data->vertexArrayId));
 }
 
 void Renderer::uploadMesh(Mesh& mesh)
@@ -812,71 +835,71 @@ void Renderer::uploadMesh(Mesh& mesh)
     auto data = new MeshData();
 
     // Generate and bind the vertex array
-    GL_ASSERT( glGenVertexArrays(1, &data->vertexArrayId) );
-    GL_ASSERT( glBindVertexArray(data->vertexArrayId) );
+    GL_ASSERT(glGenVertexArrays(1, &data->vertexArrayId));
+    GL_ASSERT(glBindVertexArray(data->vertexArrayId));
 
     // Generate vertex and index buffers
-    GL_ASSERT( glGenBuffers(2, &data->vertexBufferId) );
+    GL_ASSERT(glGenBuffers(2, &data->vertexBufferId));
 
     // Upload the vertex data
-    GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, data->vertexBufferId) );
+    GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, data->vertexBufferId));
     GL_ASSERT(
         glBufferData(
-            GL_ARRAY_BUFFER,
-            mesh.vertexLayout().vertexSize() * mesh.vertexCount(),
-            &mesh.vertexData()[0],
-            GL_STATIC_DRAW
+        GL_ARRAY_BUFFER,
+        mesh.vertexLayout().vertexSize() * mesh.vertexCount(),
+        &mesh.vertexData()[0],
+        GL_STATIC_DRAW
         )
-    );
+        );
 
     // Describe the vertex layout
     GLuint attributeIndex = 0;
     const VertexLayout& vertexLayout = mesh.vertexLayout();
     for (const VertexAttribute& attribute : vertexLayout.attributes())
     {
-        GL_ASSERT( glEnableVertexAttribArray(attributeIndex) );
+        GL_ASSERT(glEnableVertexAttribArray(attributeIndex));
 
         if (attribute.type() == VertexAttributeType_Half || attribute.type() == VertexAttributeType_Float)
         {
             GL_ASSERT(
                 glVertexAttribPointer(
-                    attributeIndex,
-                    attribute.cardinality(),
-                    _vertexAttributeTypeLookUp[(int)attribute.type()],
-                    GL_FALSE,
-                    vertexLayout.vertexSize(),
-                    (GLfloat*)attribute.offset()
+                attributeIndex,
+                attribute.cardinality(),
+                _vertexAttributeTypeLookUp[(int)attribute.type()],
+                GL_FALSE,
+                vertexLayout.vertexSize(),
+                (GLfloat*)attribute.offset()
                 )
-            );
+                );
         }
         else
         {
             GL_ASSERT(
                 glVertexAttribIPointer(
-                    attributeIndex,
-                    attribute.cardinality(),
-                    _vertexAttributeTypeLookUp[(int)attribute.type()],
-                    vertexLayout.vertexSize(),
-                    (GLfloat*)attribute.offset()
+                attributeIndex,
+                attribute.cardinality(),
+                _vertexAttributeTypeLookUp[(int)attribute.type()],
+                vertexLayout.vertexSize(),
+                (GLfloat*)attribute.offset()
                 )
-            );
+                );
         }
 
         ++attributeIndex;
     }
 
     // Upload the index data
-    GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, data->indexBufferId) );
+    GL_ASSERT(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, data->indexBufferId));
     GL_ASSERT(
         glBufferData(
-            GL_ELEMENT_ARRAY_BUFFER,
-            mesh.indexSize() * mesh.indexCount(),
-            &mesh.indexData()[0],
-            GL_STATIC_DRAW
+        GL_ELEMENT_ARRAY_BUFFER,
+        mesh.indexSize() * mesh.indexCount(),
+        &mesh.indexData()[0],
+        GL_STATIC_DRAW
         )
-    );
+        );
 
-    GL_ASSERT( glBindVertexArray(0) );
+    GL_ASSERT(glBindVertexArray(0));
 
     mesh._uploaded = true;
     mesh._data = data;
@@ -895,10 +918,10 @@ void Renderer::destroyMesh(Mesh& mesh)
     auto data = (MeshData*)mesh._data;
 
     // Delete vertex and index buffers
-    GL_ASSERT( glDeleteBuffers(2, &data->vertexBufferId) );
+    GL_ASSERT(glDeleteBuffers(2, &data->vertexBufferId));
 
     // Delete the vertex array object
-    GL_ASSERT( glDeleteVertexArrays(1, &data->vertexArrayId) );
+    GL_ASSERT(glDeleteVertexArrays(1, &data->vertexArrayId));
 
     delete data;
     mesh._uploaded = false;
@@ -914,17 +937,17 @@ void Renderer::draw()
 
     GL_ASSERT(
         glDrawElements(
-            _primitiveTypeLookUp[(int)_boundMesh->primitiveType()],
-            (GLsizei)_boundMesh->indexCount(),
-            _indexTypeLookUp[(int)_boundMesh->indexType()],
-            0
+        _primitiveTypeLookUp[(int)_boundMesh->primitiveType()],
+        (GLsizei)_boundMesh->indexCount(),
+        _indexTypeLookUp[(int)_boundMesh->indexType()],
+        0
         )
-    );
+        );
 }
 
 void Renderer::clear()
 {
-    GL_ASSERT( glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) );
+    GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
 const Renderer::Capabilities& Renderer::capabilities() const

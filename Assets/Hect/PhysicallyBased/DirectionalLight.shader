@@ -43,6 +43,11 @@
             "name" : "normalBuffer",
             "type" : "Texture",
             "value" : 3
+        },
+        {
+            "name" : "environmentMap",
+            "type" : "Texture",
+            "value" : 4
         }
     ]
 }

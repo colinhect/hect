@@ -35,10 +35,13 @@ PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(Scene& scene, Renderer&
     // Set up additive blending
     _additiveLightState.enable(RenderStateFlag_Blend);
     _additiveLightState.disable(RenderStateFlag_DepthTest);
+    _additiveLightState.disable(RenderStateFlag_DepthWrite);
 
     _compositorShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Compositor.shader");
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/DirectionalLight.shader");
     _screenMesh = assetCache.getHandle<Mesh>("Hect/PhysicallyBased/Screen.mesh");
+
+    _environmentMap = assetCache.getHandle<Texture>("Test/TropicalSunnyDay.texture");
 }
 
 void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
@@ -68,6 +71,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     renderer().bindTexture(_geometryBuffer.targets()[1], 1);
     renderer().bindTexture(_geometryBuffer.targets()[2], 2);
     renderer().bindTexture(_geometryBuffer.targets()[3], 3);
+    renderer().bindTexture(*_environmentMap, 4);
     renderer().bindMesh(*_screenMesh);
 
     // Render directional lights
@@ -100,6 +104,10 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     renderer().beginFrame();
     renderer().bindTarget(target);
     renderer().clear();
+
+    RenderState state;
+    state.disable(RenderStateFlag_DepthTest);
+    renderer().bindState(state);
 
     // Bind the compositor
     renderer().bindShader(*_compositorShader);
@@ -136,6 +144,6 @@ void PhysicallyBasedRenderSystem::_initializeBuffers(unsigned width, unsigned he
     _geometryBuffer = FrameBuffer(targets);
 
     targets.clear();
-    targets.push_back(Texture("AccumulationBuffer", width, height, PixelType_Float, PixelFormat_Rgb, filter, filter, false, false));
+    targets.push_back(Texture("AccumulationBuffer", width, height, PixelType_Float, PixelFormat_Rgba, filter, filter, false, false));
     _accumulationBuffer = FrameBuffer(targets);
 }

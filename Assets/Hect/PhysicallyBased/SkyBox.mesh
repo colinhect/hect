@@ -1,0 +1,46 @@
+{
+    "primitiveType" : "Triangles",
+    "vertexLayout" :
+    {
+        "attributes" :
+        [
+            {
+                "semantic" : "Position",
+                "type" : "Float",
+                "cardinality" : 3 
+            }
+        ]
+    },
+    "vertices" :
+    [
+        [
+            [ "Position", [ -1.0, -1.0, -1.0 ] ]
+        ],
+        [
+            [ "Position", [  1.0, -1.0, -1.0 ] ]
+        ],
+        [
+            [ "Position", [ -1.0,  1.0, -1.0 ] ]
+        ],
+        [
+            [ "Position", [  1.0,  1.0, -1.0 ] ]
+        ],
+        [
+            [ "Position", [ -1.0, -1.0,  1.0 ] ]
+        ],
+        [
+            [ "Position", [  1.0, -1.0,  1.0 ] ]
+        ],
+        [
+            [ "Position", [ -1.0,  1.0,  1.0 ] ]
+        ],
+        [
+            [ "Position", [  1.0,  1.0,  1.0 ] ]
+        ]
+    ],
+    "indices" :
+    [
+        0, 1, 2,
+        2, 3, 0
+    ]
+}

@@ -30,9 +30,9 @@ void main()
 
     outputDiffuse = colorX * blendWeights.x + colorY * blendWeights.y + colorZ * blendWeights.z;
 
-    float roughness = 0.6;  
-    float metallic = 1.0;   
-    float specular = 0.9;
+    float roughness = 1.0;  
+    float metallic = 1.0;
+    float specular = 0.0;
     outputMaterial = vec3(roughness, metallic, specular);
 
     outputPosition = vertexWorldPosition;

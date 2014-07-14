@@ -10,6 +10,7 @@ uniform sampler2D diffuseBuffer;
 uniform sampler2D materialBuffer;
 uniform sampler2D positionBuffer;
 uniform sampler2D normalBuffer;
+uniform samplerCube environmentMap;
 
 mat3 normalMatrix = mat3(
     view[0][0], view[0][1], view[0][2],
@@ -19,9 +20,7 @@ mat3 normalMatrix = mat3(
 
 in vec2 vertexTextureCoords;
 
-out vec3 outputColor;
-
-
+out vec4 outputColor;
 
 vec3 computeDiffuse(vec3 diffuse)
 {
@@ -98,14 +97,20 @@ void main()
         vec3 realDiffuse = diffuse - diffuse * metallic;
         vec3 realSpecular = mix(vec3(0.03), diffuse, metallic);
 
-        vec3 normal = normalSample.xyz;
+        vec3 normal = normalize(normalMatrix * normalSample.xyz);
         vec3 lightDir = -normalize(normalMatrix * direction);
         vec3 viewDir = normalize(normalMatrix * normalize(cameraPosition - positionSample.xyz));
 
         vec3 light1 = computeLight(realDiffuse, realSpecular, normal, roughness, lightDir, viewDir);
         vec3 envFresnel = computeSpecular_F_Rough(realSpecular, roughness * roughness, normal, viewDir);
 
-        outputColor = light1 + envFresnel * 0.5;
+        vec3 reflectVector = normalize(reflect(normalize(cameraPosition - positionSample.xyz), normalSample.xyz));
+
+        float mipIndex =  roughness * roughness * 8.0f;
+        vec3 environmentColor = textureLod(environmentMap, reflectVector, mipIndex).rgb;
+
+
+        outputColor = vec4(light1 + envFresnel * environmentColor, depth);
     }
     else
     {

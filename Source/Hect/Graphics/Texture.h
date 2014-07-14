@@ -28,6 +28,7 @@
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/TextureFilter.h"
+#include "Hect/Graphics/TextureType.h"
 
 namespace hect
 {
@@ -38,7 +39,6 @@ class Texture :
     public RendererObject,
     public Encodable
 {
-    friend class Renderer;
 public:
 
     ///
@@ -50,10 +50,11 @@ public:
     Texture();
 
     ///
-    /// Constructs a default 2-dimensional texture.
+    /// Constructs a default texture.
     ///
     /// \param name The name.
-    Texture(const std::string& name);
+    /// \param type The type.
+    Texture(const std::string& name, TextureType type);
 
     ///
     /// Constructs a 2-dimensional texture given its properties.
@@ -80,18 +81,6 @@ public:
     Texture(const std::string& name, const AssetHandle<Image>& image);
 
     ///
-    /// Constructs a texture copied from another.
-    ///
-    /// \param texture The texture to copy.
-    Texture(const Texture& texture);
-
-    ///
-    /// Constructs a texture moved from another.
-    ///
-    /// \param texture The texture to move.
-    Texture(Texture&& texture);
-
-    ///
     /// Destroys the texture on the GPU if it is uploaded.
     ~Texture();
 
@@ -106,13 +95,27 @@ public:
     void setName(const std::string& name);
 
     ///
-    /// Sets the image (may affect width/height of texture).
+    /// Returns the texture type.
+    TextureType type();
+
+    ///
+    /// Sets the texture type.
+    ///
+    /// \param type The new texture type.
+    void setType(TextureType type);
+
+    ///
+    /// Adds an image (may affect width/height of texture).
     ///
     /// \note If the texture is uploaded to a renderer then it will be
-    /// destroyed before the image is set.
+    /// destroyed before the image is added.
     ///
-    /// \param image The new image.
-    void setImage(const AssetHandle<Image>& image);
+    /// \param image The image.
+    void addImage(const AssetHandle<Image>& image);
+
+    ///
+    /// Returns a reference to the images of the texture.
+    AssetHandle<Image>::Array& images();
 
     ///
     /// Returns the minification filter.
@@ -199,35 +202,13 @@ public:
     /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
-    ///
-    /// Replaces the texture with a copy of another.
-    ///
-    /// \note If the texture was uploaded to a renderer then it will be
-    /// destroyed before assigned.
-    ///
-    /// \param texture The texture to copy.
-    ///
-    /// \returns A reference to the texture.
-    Texture& operator=(const Texture& texture);
-
-    ///
-    /// Replaces the texture by moving another.
-    ///
-    /// \note If the texture was uploaded to a renderer then it will be
-    /// destroyed before assigned.
-    ///
-    /// \param texture The texture to move.
-    ///
-    /// \returns A reference to the texture.
-    Texture& operator=(Texture&& texture);
-
 private:
     static TextureFilter _parseTextureFilter(const std::string& value);
 
     std::string _name;
+    TextureType _type;
 
-    // A texture will only have an image if it hasn't been uploaded yet
-    AssetHandle<Image> _image;
+    AssetHandle<Image>::Array _images;
 
     unsigned _width;
     unsigned _height;

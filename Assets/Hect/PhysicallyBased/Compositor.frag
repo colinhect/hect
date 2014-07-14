@@ -21,8 +21,10 @@ vec3 expose(vec3 color, float exposure)
 
 void main()
 {
-    vec3 color = texture(accumulationBuffer, vertexTextureCoords).rgb;
+	vec4 accumulationSample = texture(accumulationBuffer, vertexTextureCoords);
+    vec3 color = accumulationSample.rgb;
     color = expose(color, exposure);
     color = correctGamma(color, oneOverGamma);
     outputColor = vec4(color, 1.0);
+    gl_FragDepth = accumulationSample.a;
 }

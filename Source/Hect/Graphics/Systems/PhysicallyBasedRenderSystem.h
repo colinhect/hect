@@ -46,6 +46,8 @@ private:
     AssetHandle<Shader> _directionalLightShader;
     AssetHandle<Mesh> _screenMesh;
 
+    AssetHandle<Texture> _environmentMap;
+
     RenderState _additiveLightState;
 
     bool _buffersInitialized;

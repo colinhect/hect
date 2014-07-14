@@ -9,7 +9,7 @@
         {
             "name" : "exposure",
             "type" : "Float",
-            "value" : 0.15
+            "value" : 1.5
         },
         {
             "name" : "oneOverGamma",

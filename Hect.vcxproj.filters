@@ -477,6 +477,9 @@
     <ClInclude Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.h">
       <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\TextureType.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -826,6 +829,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.cpp">
       <Filter>Source\Hect\Graphics\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\TextureType.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

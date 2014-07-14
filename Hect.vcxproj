@@ -64,6 +64,7 @@
     <ClInclude Include="Source\Hect\Graphics\Technique.h" />
     <ClInclude Include="Source\Hect\Graphics\Texture.h" />
     <ClInclude Include="Source\Hect\Graphics\TextureFilter.h" />
+    <ClInclude Include="Source\Hect\Graphics\TextureType.h" />
     <ClInclude Include="Source\Hect\Graphics\Uniform.h" />
     <ClInclude Include="Source\Hect\Graphics\UniformBinding.h" />
     <ClInclude Include="Source\Hect\Graphics\UniformType.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="Source\Hect\Graphics\Texture.cpp" />
     <ClCompile Include="Source\Hect\Graphics\TextureFilter.cpp" />
     <ClCompile Include="Source\Hect\Graphics\TextureLoader.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\TextureType.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Uniform.cpp" />
     <ClCompile Include="Source\Hect\Graphics\UniformBinding.cpp" />
     <ClCompile Include="Source\Hect\Graphics\UniformType.cpp" />

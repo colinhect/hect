@@ -21,65 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "FrameBuffer.h"
+#pragma once
 
-#include <algorithm>
-
-#include "Hect/Graphics/Renderer.h"
-
-using namespace hect;
-
-FrameBuffer::FrameBuffer() :
-    _depthComponent(false)
+namespace hect
 {
-}
 
-FrameBuffer::FrameBuffer(const Texture::Array& targets, bool depthComponent) :
-    _depthComponent(depthComponent),
-    _targets(targets)
+///
+/// A type of texture.
+enum TextureType
 {
-    unsigned width = 0;
-    unsigned height = 0;
+    ///
+    /// A 2-dimensional texture.
+    TextureType_2D,
 
-    for (Texture& target : _targets)
-    {
-        if (target.type() != TextureType_2D)
-        {
-            throw Error("Only 2-dimensional textures can be in a frame buffer");
-        }
+    ///
+    /// A 3-dimensional texture.
+    TextureType_3D,
 
-        width = std::max(width, target.width());
-        height = std::max(height, target.height());
-    }
+    ///
+    /// A cube map texture.
+    TextureType_CubeMap
+};
 
-    setWidth(width);
-    setHeight(height);
-}
-
-FrameBuffer::~FrameBuffer()
-{
-    if (isUploaded())
-    {
-        renderer().destroyFrameBuffer(*this);
-    }
-}
-
-void FrameBuffer::bind(Renderer* renderer)
-{
-    renderer->bindFrameBuffer(*this);
-}
-
-Texture::Array& FrameBuffer::targets()
-{
-    return _targets;
-}
-
-const Texture::Array& FrameBuffer::targets() const
-{
-    return _targets;
-}
-
-bool FrameBuffer::hasDepthComponent() const
-{
-    return _depthComponent;
 }

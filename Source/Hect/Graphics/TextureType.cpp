@@ -21,61 +21,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "TextureEncoder.h"
+#include "TextureType.h"
 
 #include "Hect/Core/Enum.h"
 
 using namespace hect;
 
-void TextureEncoder::encode(const Texture& texture, ObjectEncoder& encoder)
-{
-    texture;
-    encoder;
-    throw Error("Not implemented");
-}
+#define ENUM_VALUES \
+    ENUM_VALUE(TextureType, 2D) \
+    ENUM_VALUE(TextureType, 3D) \
+    ENUM_VALUE(TextureType, CubeMap)
 
-void TextureEncoder::decode(Texture& texture, ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    // Type
-    if (decoder.hasMember("type"))
-    {
-        TextureType type = decoder.decodeEnum<TextureType>("type");
-        texture.setType(type);
-    }
+#define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)
+HECT_ENUM_DEFINE_TO_STRING(TextureType, ENUM_VALUES)
+#undef ENUM_VALUE
 
-    // Images
-    if (decoder.hasMember("images"))
-    {
-        ArrayDecoder imagesDecoder = decoder.decodeArray("images");
-        while (imagesDecoder.hasMoreElements())
-        {
-            Path imagePath = imagesDecoder.decodeString();
-            AssetHandle<Image> image = assetCache.getHandle<Image>(imagePath);
-            texture.addImage(image);
-        }
-    }
-
-    // Min filter
-    if (decoder.hasMember("minFilter"))
-    {
-        texture.setMinFilter(decoder.decodeEnum<TextureFilter>("minFilter"));
-    }
-
-    // Mag filter
-    if (decoder.hasMember("magFilter"))
-    {
-        texture.setMagFilter(decoder.decodeEnum<TextureFilter>("magFilter"));
-    }
-
-    // Wrapped
-    if (decoder.hasMember("wrapped"))
-    {
-        texture.setWrapped(decoder.decodeBool("wrapped"));
-    }
-
-    // Mipmapped
-    if (decoder.hasMember("mipmapped"))
-    {
-        texture.setMipmapped(decoder.decodeBool("mipmapped"));
-    }
-}
+#define ENUM_VALUE(type, value) HECT_ENUM_FROM_STRING(type, value)
+HECT_ENUM_DEFINE_FROM_STRING(TextureType, ENUM_VALUES)
+#undef ENUM_VALUE
