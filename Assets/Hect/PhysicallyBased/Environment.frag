@@ -1,7 +1,5 @@
 #version 330
 
-#define PI 3.1415926535897932384626433832795
-
 uniform vec3 cameraPosition;
 uniform mat4 view;
 uniform sampler2D diffuseBuffer;
@@ -20,9 +18,9 @@ in vec2 vertexTextureCoords;
 
 out vec4 outputColor;
 
-vec3 computeSpecular_F_Rough(vec3 specularColor, float a, vec3 h, vec3 v)
+vec3 fresnel(vec3 specularColor, float a, vec3 h, vec3 v)
 {
-    return (specularColor + (max(vec3(1.0 - a), specularColor) - specularColor) * pow((1 - clamp(dot(v, h), 0.0, 1.0)), 5));
+    return (specularColor + (max(vec3(1.0 - a), specularColor) - specularColor) * pow((1 - clamp(dot(v, h), 0.0, 1.0)), 5.0));
 }
 
 void main()
@@ -42,18 +40,17 @@ void main()
 
         vec3 realSpecular = mix(vec3(0.03), diffuse, metallic);
 
-        vec3 normal = normalize(normalMatrix * normalSample.xyz);
-        vec3 viewDir = normalize(normalMatrix * normalize(cameraPosition - positionSample.xyz));
-
-        vec3 envFresnel = computeSpecular_F_Rough(realSpecular, roughness * roughness, normal, viewDir);
+        vec3 n = normalize(normalMatrix * normalSample.xyz);
+        vec3 v = normalize(normalMatrix * normalize(cameraPosition - positionSample.xyz));
 
         vec3 reflectVector = normalize(reflect(normalize(cameraPosition - positionSample.xyz), normalSample.xyz));
 
         float mipIndex =  roughness * roughness * 16.0f;
 
         vec3 environmentColor = textureLod(environmentMap, reflectVector, mipIndex).rgb;
+        vec3 f = fresnel(realSpecular, roughness * roughness, n, v);
 
-        outputColor = vec4(envFresnel * environmentColor, depth);
+        outputColor = vec4(f * environmentColor, depth);
     }
     else
     {

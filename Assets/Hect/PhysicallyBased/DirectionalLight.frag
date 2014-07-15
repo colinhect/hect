@@ -21,56 +21,49 @@ in vec2 vertexTextureCoords;
 
 out vec4 outputColor;
 
-vec3 computeDiffuse(vec3 diffuse)
+float geometry(float a, float nDotV, float nDotL, float nDotH, float vDotH)
 {
-    return diffuse / PI;
+    float k = a * 0.5;
+    float gv = nDotV / (nDotV * (1.0 - k) + k);
+    float gl = nDotL / (nDotL * (1.0 - k) + k);
+
+    return gv * gl;
 }
 
-float computeSpecular_G(float a, float NdV, float NdL, float NdH, float VdH)
+float normalDistribution(float a, float nDotH)
 {
-    float k = a * 0.5f;
-    float GV = NdV / (NdV * (1 - k) + k);
-    float GL = NdL / (NdL * (1 - k) + k);
+    float a2 = a * a;
+    float d = (nDotH * nDotH) * (a2 - 1.0) + 1.0;
+    d *= d;
+    d *= PI;
 
-    return GV * GL;
+    return a2 / d;
 }
 
-float computeSpecular_D(float a, float NdH)
+vec3 fresnel(vec3 specularColor, float vDotH)
 {
-    float a2 = a*a;
-    float NdH2 = NdH * NdH;
-
-    float denominator = NdH2 * (a2 - 1.0) + 1.0;
-    denominator *= denominator;
-    denominator *= PI;
-
-    return a2 / denominator;
+    return (specularColor + (1.0 - specularColor) * pow((1.0 - clamp(vDotH, 0.0, 1.0)), 5.0));
 }
 
-vec3 computeSpecular_F(vec3 specularColor, vec3 h, vec3 v)
+vec3 computeSpecular(vec3 specularColor, vec3 h, vec3 v, vec3 l, float a, float nDotL, float nDotV, float nDotH, float vDotH, float lDotV)
 {
-    return (specularColor + (1.0f - specularColor) * pow((1.0f - clamp(dot(v, h), 0.0, 1.0)), 5));
+    return ((normalDistribution(a, nDotH) * geometry(a, nDotV, nDotL, nDotH, vDotH)) * fresnel(specularColor, vDotH) ) / (4.0 * nDotL * nDotV + 0.0001);
 }
 
-vec3 computeSpecular(vec3 specularColor, vec3 h, vec3 v, vec3 l, float a, float NdL, float NdV, float NdH, float VdH, float LdV)
+vec3 computeLight(vec3 diffuse, vec3 specular, vec3 n, float r, vec3 l, vec3 v)
 {
-    return ((computeSpecular_D(a, NdH) * computeSpecular_G(a, NdV, NdL, NdH, VdH)) * computeSpecular_F(specularColor, h, v) ) / (4.0 * NdL * NdV + 0.0001);
-}
+    float nDotL = clamp(dot(n, l), 0.0, 1.0);
+    float nDotV = clamp(dot(n, v), 0.0, 1.0);
+    vec3 h = normalize(l + v);
+    float nDotH = clamp(dot(n, h), 0.0, 1.0);
+    float vDotH = clamp(dot(v, h), 0.0, 1.0);
+    float lDotV = clamp(dot(l, v), 0.0, 1.0);
+    float a = max(0.001, r * r);
 
-vec3 computeLight(vec3 diffuse, vec3 specular, vec3 normal, float roughness, vec3 lightDir, vec3 viewDir)
-{
-    float NdL = clamp(dot(normal, lightDir), 0.0, 1.0);
-    float NdV = clamp(dot(normal, viewDir), 0.0, 1.0);
-    vec3 h = normalize(lightDir + viewDir);
-    float NdH = clamp(dot(normal, h), 0.0, 1.0);
-    float VdH = clamp(dot(viewDir, h), 0.0, 1.0);
-    float LdV = clamp(dot(lightDir, viewDir), 0.0, 1.0);
-    float a = max(0.001, roughness * roughness);
+    vec3 d = diffuse / PI;
+    vec3 s = clamp(computeSpecular(specular, h, v, l, a, nDotL, nDotV, nDotH, vDotH, lDotV), 0.0, 1.0);
 
-    vec3 d = computeDiffuse(diffuse);
-    vec3 s = clamp(computeSpecular(specular, h, viewDir, lightDir, a, NdL, NdV, NdH, VdH, LdV), 0.0, 1.0);
-
-    return color * NdL * (d * (1.0 - s) + s);
+    return color * nDotL * (d * (1.0 - s) + s);
 }
 
 void main()
@@ -91,13 +84,13 @@ void main()
         vec3 realDiffuse = diffuse - diffuse * metallic;
         vec3 realSpecular = mix(vec3(0.03), diffuse, metallic);
 
-        vec3 normal = normalize(normalMatrix * normalSample.xyz);
-        vec3 lightDir = -normalize(normalMatrix * direction);
-        vec3 viewDir = normalize(normalMatrix * normalize(cameraPosition - positionSample.xyz));
+        vec3 n = normalize(normalMatrix * normalSample.xyz);
+        vec3 l = -normalize(normalMatrix * direction);
+        vec3 v = normalize(normalMatrix * normalize(cameraPosition - positionSample.xyz));
 
-        vec3 light1 = computeLight(realDiffuse, realSpecular, normal, roughness, lightDir, viewDir);
+        vec3 light = computeLight(realDiffuse, realSpecular, n, roughness, l, v);
 
-        outputColor = vec4(light1, depth);
+        outputColor = vec4(light, depth);
     }
     else
     {

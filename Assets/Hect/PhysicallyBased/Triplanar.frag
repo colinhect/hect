@@ -57,7 +57,7 @@ void main()
                    bump3.xyz * blendWeights.z;  
 
     float depth = gl_FragCoord.z;
-    outputNormal = vec4(normalize(vertexWorldNormal + normalBump), depth);
+    outputNormal = vec4(normalize(vertexWorldNormal + normalBump * 0.5), depth);
 
     outputPosition = vertexWorldPosition;
 }
