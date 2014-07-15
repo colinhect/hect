@@ -25,7 +25,6 @@
 
 #include "Hect/Graphics/Texture.h"
 #include "Hect/Logic/Component.h"
-#include "Hect/Math/Vector3.h"
 
 namespace hect
 {

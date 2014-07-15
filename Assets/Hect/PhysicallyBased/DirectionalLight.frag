@@ -10,7 +10,6 @@ uniform sampler2D diffuseBuffer;
 uniform sampler2D materialBuffer;
 uniform sampler2D positionBuffer;
 uniform sampler2D normalBuffer;
-uniform samplerCube environmentMap;
 
 mat3 normalMatrix = mat3(
     view[0][0], view[0][1], view[0][2],
@@ -51,11 +50,6 @@ float computeSpecular_D(float a, float NdH)
 vec3 computeSpecular_F(vec3 specularColor, vec3 h, vec3 v)
 {
     return (specularColor + (1.0f - specularColor) * pow((1.0f - clamp(dot(v, h), 0.0, 1.0)), 5));
-}
-
-vec3 computeSpecular_F_Rough(vec3 specularColor, float a, vec3 h, vec3 v)
-{
-    return (specularColor + (max(vec3(1.0 - a), specularColor) - specularColor) * pow((1 - clamp(dot(v, h), 0.0, 1.0)), 5));
 }
 
 vec3 computeSpecular(vec3 specularColor, vec3 h, vec3 v, vec3 l, float a, float NdL, float NdV, float NdH, float VdH, float LdV)
@@ -102,16 +96,8 @@ void main()
         vec3 viewDir = normalize(normalMatrix * normalize(cameraPosition - positionSample.xyz));
 
         vec3 light1 = computeLight(realDiffuse, realSpecular, normal, roughness, lightDir, viewDir);
-        vec3 envFresnel = computeSpecular_F_Rough(realSpecular, roughness * roughness, normal, viewDir);
 
-        vec3 reflectVector = normalize(reflect(normalize(cameraPosition - positionSample.xyz), normalSample.xyz));
-
-        float mipIndex =  roughness * roughness * 8.0f;
-        vec3 environmentColor = textureLod(environmentMap, reflectVector, mipIndex).rgb;
-
-
-        float reflectivity = 1.0;
-        outputColor = vec4(light1 + envFresnel * environmentColor * reflectivity, depth);
+        outputColor = vec4(light1, depth);
     }
     else
     {

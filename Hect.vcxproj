@@ -36,10 +36,10 @@
     <ClInclude Include="Source\Hect\Event\Listener.h" />
     <ClInclude Include="Source\Hect\Graphics\BlendFactor.h" />
     <ClInclude Include="Source\Hect\Graphics\ColorSpace.h" />
-    <ClInclude Include="Source\Hect\Graphics\Components\AmbientLight.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\Camera.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\DirectionalLight.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\Geometry.h" />
+    <ClInclude Include="Source\Hect\Graphics\Components\LightProbe.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\SkyBox.h" />
     <ClInclude Include="Source\Hect\Graphics\FrameBuffer.h" />
     <ClInclude Include="Source\Hect\Graphics\Image.h" />
@@ -163,10 +163,10 @@
     <ClCompile Include="Source\Hect\Debug\TransformDebugRenderLayer.cpp" />
     <ClCompile Include="Source\Hect\Graphics\BlendFactor.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ColorSpace.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\Components\AmbientLight.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Geometry.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\Components\LightProbe.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\SkyBox.cpp" />
     <ClCompile Include="Source\Hect\Graphics\FrameBuffer.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Image.cpp" />

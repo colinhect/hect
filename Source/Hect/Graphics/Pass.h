@@ -48,39 +48,54 @@ public:
     typedef std::vector<Pass> Array;
 
     ///
-    /// Constructs a pass.
-    ///
-    /// \param renderState The render state that pass will bind.
-    /// \param textures The textures that the pass will bind.
-    /// \param shader The shader that the pass will bind.
-    /// \param uniformValues The values for the uniforms in the shader.
-    Pass(const RenderState& renderState, const AssetHandle<Texture>::Array& textures, const AssetHandle<Shader>& shader, const PassUniformValue::Array& uniformValues);
+    /// Constructs an empty pass.
+    Pass();
 
     ///
     /// Prepares a renderer to begin using this pass.
     ///
     /// \param renderer The renderer to prepare.
     void prepare(Renderer& renderer);
-
-    ///
-    /// Returns the render state.
-    RenderState& renderState();
-
+    
     ///
     /// Returns the render state.
     const RenderState& renderState() const;
+
+    ///
+    /// Sets the render state that the pass will bind.
+    ///
+    /// \param renderState The render state.
+    void setRenderState(const RenderState& renderState);
 
     ///
     /// Returns the textures.
     const AssetHandle<Texture>::Array& textures() const;
 
     ///
+    /// Sets the textures that the pass will bind.
+    ///
+    /// \param textures The array of textures.
+    void setTextures(const AssetHandle<Texture>::Array& textures);
+
+    ///
     /// Returns the shader.
     const AssetHandle<Shader>& shader() const;
 
     ///
+    /// Sets the shader that the pass will bind.
+    ///
+    /// \param shader The shader.
+    void setShader(const AssetHandle<Shader>& shader);
+
+    ///
     /// Returns the uniform values.
     const PassUniformValue::Array& uniformValues() const;
+
+    ///
+    /// Sets the values for the uniforms in the shader.
+    ///
+    /// \param uniformValues The uniform values.
+    void setUniformValues(const PassUniformValue::Array& uniformValues);
 
     ///
     /// Returns whether the pass is equivalent to another.

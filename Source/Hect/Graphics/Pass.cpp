@@ -27,11 +27,7 @@
 
 using namespace hect;
 
-Pass::Pass(const RenderState& renderState, const AssetHandle<Texture>::Array& textures, const AssetHandle<Shader>& shader, const PassUniformValue::Array& uniformValues) :
-    _renderState(renderState),
-    _textures(textures),
-    _shader(shader),
-    _uniformValues(uniformValues),
+Pass::Pass() :
     _resolvedFromShader(nullptr)
 {
 }
@@ -67,14 +63,14 @@ void Pass::prepare(Renderer& renderer)
     }
 }
 
-RenderState& Pass::renderState()
+const RenderState& Pass::renderState() const
 {
     return _renderState;
 }
 
-const RenderState& Pass::renderState() const
+void Pass::setRenderState(const RenderState& renderState)
 {
-    return _renderState;
+    _renderState = renderState;
 }
 
 const AssetHandle<Texture>::Array& Pass::textures() const
@@ -82,14 +78,29 @@ const AssetHandle<Texture>::Array& Pass::textures() const
     return _textures;
 }
 
+void Pass::setTextures(const AssetHandle<Texture>::Array& textures)
+{
+    _textures = textures;
+}
+
 const AssetHandle<Shader>& Pass::shader() const
 {
     return _shader;
 }
 
+void Pass::setShader(const AssetHandle<Shader>& shader)
+{
+    _shader = shader;
+}
+
 const PassUniformValue::Array& Pass::uniformValues() const
 {
     return _uniformValues;
+}
+
+void Pass::setUniformValues(const PassUniformValue::Array& uniformValues)
+{
+    _uniformValues = uniformValues;
 }
 
 bool Pass::operator==(const Pass& pass) const

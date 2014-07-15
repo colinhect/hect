@@ -43,15 +43,14 @@ private:
     FrameBuffer _accumulationBuffer;
 
     AssetHandle<Shader> _compositorShader;
+    AssetHandle<Shader> _environmentShader;
     AssetHandle<Shader> _directionalLightShader;
     
     AssetHandle<Material> _skyBoxMaterial;
 
     AssetHandle<Mesh> _screenMesh;
     AssetHandle<Mesh> _skyBoxMesh;
-
-    RenderState _additiveLightState;
-
+    
     bool _buffersInitialized;
 };
 

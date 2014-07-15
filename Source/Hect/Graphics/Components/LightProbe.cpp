@@ -21,36 +21,43 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "AmbientLight.h"
+#include "LightProbe.h"
 
 using namespace hect;
 
-AmbientLight::AmbientLight() :
-    _color(Vector3::one())
+LightProbe::LightProbe()
 {
 }
 
-const Vector3& AmbientLight::color() const
+AssetHandle<Texture>& LightProbe::texture()
 {
-    return _color;
+    return _texture;
 }
 
-void AmbientLight::setColor(const Vector3& color)
+void LightProbe::setTexture(const AssetHandle<Texture>& texture)
 {
-    _color = color;
+    if (texture->type() != TextureType_CubeMap)
+    {
+        throw Error("Light probe texture must be a cube map");
+    }
+
+    _texture = texture;
 }
 
-void AmbientLight::encode(ObjectEncoder& encoder) const
+void LightProbe::encode(ObjectEncoder& encoder) const
 {
-    encoder.encodeVector3("color", color());
+    encoder.encodeString("texture", _texture.path().toString());
 }
 
-void AmbientLight::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void LightProbe::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 
-    if (decoder.hasMember("color"))
+    if (decoder.hasMember("texture"))
     {
-        setColor(decoder.decodeVector3("color"));
+        Path texturePath = decoder.decodeString("texture");
+
+        AssetHandle<Texture> texture = assetCache.getHandle<Texture>(texturePath);
+        setTexture(texture);
     }
 }

@@ -12,11 +12,7 @@
                         "DepthWrite",
                         "CullFace"
                     ]
-                },
-                "textures" :
-                [
-                    "Test/TropicalSunnyDay.texture"
-                ]
+                }
             }
         ]
     ]

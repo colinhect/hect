@@ -1,21 +1,11 @@
 {
     "modules" :
     [
-        "DirectionalLight.frag",
+        "Environment.frag",
         "Screen.vert"
     ],
     "uniforms" :
     [
-        {
-            "name" : "color",
-            "type" : "Vector3",
-            "value" : [ 1, 1, 1 ]
-        },
-        {
-            "name" : "direction",
-            "type" : "Vector3",
-            "value" : [ 1, 0, 0 ]
-        },
         {
             "name" : "cameraPosition",
             "type" : "Vector3"
@@ -43,6 +33,11 @@
             "name" : "normalBuffer",
             "type" : "Texture",
             "value" : 3
+        },
+        {
+            "name" : "environmentMap",
+            "type" : "Texture",
+            "value" : 4
         }
     ]
 }

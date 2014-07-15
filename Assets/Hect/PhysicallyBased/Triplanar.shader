@@ -7,9 +7,19 @@
     "uniforms" :
     [
         {
-            "name" : "diffuseTexture",
+            "name" : "diffuseMap",
             "type" : "Texture",
             "value" : 0
+        },
+        {
+            "name" : "materialMap",
+            "type" : "Texture",
+            "value" : 1
+        },
+        {
+            "name" : "normalMap",
+            "type" : "Texture",
+            "value" : 2
         },
         {
             "name" : "textureScale",

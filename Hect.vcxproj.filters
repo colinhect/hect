@@ -420,9 +420,6 @@
     <ClInclude Include="Source\Hect\Spacial\Sphere.h">
       <Filter>Source\Hect\Spacial</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Components\AmbientLight.h">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Components\Camera.h">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
@@ -481,6 +478,9 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Components\SkyBox.h">
+      <Filter>Source\Hect\Graphics\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\Components\LightProbe.h">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -788,9 +788,6 @@
     <ClCompile Include="Source\Hect\Spacial\Sphere.cpp">
       <Filter>Source\Hect\Spacial</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Components\AmbientLight.cpp">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
@@ -837,6 +834,9 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Components\SkyBox.cpp">
+      <Filter>Source\Hect\Graphics\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\Components\LightProbe.cpp">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
   </ItemGroup>

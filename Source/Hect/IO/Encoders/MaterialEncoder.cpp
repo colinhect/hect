@@ -147,18 +147,21 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
         {
             ObjectDecoder passDecoder = passesDecoder.decodeObject();
 
-            RenderState renderState;
-            AssetHandle<Texture>::Array textures;
+            Pass pass;
+
             AssetHandle<Shader> shader;
-            PassUniformValue::Array uniformValues;
 
             // Shader
             Path path = passDecoder.decodeString("shader");
             shader = assetCache.getHandle<Shader>(path);
 
+            pass.setShader(shader);
+
             // Uniform values
             if (passDecoder.hasMember("uniformValues"))
             {
+                PassUniformValue::Array uniformValues;
+
                 ArrayDecoder uniformValuesDecoder = passDecoder.decodeArray("uniformValues");
                 while (uniformValuesDecoder.hasMoreElements())
                 {
@@ -179,11 +182,15 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
 
                     uniformValues.push_back(PassUniformValue(name, value));
                 }
+
+                pass.setUniformValues(uniformValues);
             }
 
             // Textures
             if (passDecoder.hasMember("textures"))
             {
+                AssetHandle<Texture>::Array textures;
+
                 ArrayDecoder texturesDecoder = passDecoder.decodeArray("textures");
                 while (texturesDecoder.hasMoreElements())
                 {
@@ -191,12 +198,16 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     AssetHandle<Texture> texture = assetCache.getHandle<Texture>(path);
                     textures.push_back(texture);
                 }
+
+                pass.setTextures(textures);
             }
 
             // Render state
             if (passDecoder.hasMember("renderState"))
             {
                 ObjectDecoder renderStateDecoder = passDecoder.decodeObject("renderState");
+
+                RenderState renderState;
 
                 // Enabled states
                 if (renderStateDecoder.hasMember("enabledFlags"))
@@ -227,9 +238,11 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     auto destFactor = blendFactorsDecoder.decodeEnum<BlendFactor>();
                     renderState.setBlendFactors(sourceFactor, destFactor);
                 }
+
+                pass.setRenderState(renderState);
             }
 
-            passes.push_back(Pass(renderState, textures, shader, uniformValues));
+            passes.push_back(pass);
         }
 
         material.addTechnique(passes);

@@ -23,35 +23,34 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Graphics/Texture.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Math/Vector3.h"
 
 namespace hect
 {
 
-///
-/// An ambient light component.
-class AmbientLight :
-    public Component<AmbientLight>
+class LightProbe :
+    public Component<LightProbe>
 {
 public:
-    AmbientLight();
+    LightProbe();
 
     ///
-    /// Returns the color.
-    const Vector3& color() const;
+    /// Returns the texture.
+    AssetHandle<Texture>& texture();
 
     ///
-    /// Sets the color.
+    /// Sets the texture.
     ///
-    /// \param color The new color.
-    void setColor(const Vector3& color);
+    /// \param texture The new texture.
+    void setTexture(const AssetHandle<Texture>& texture);
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    Vector3 _color;
+    AssetHandle<Texture> _texture;
 };
 
 }

@@ -36,6 +36,11 @@ AssetHandle<Texture>& SkyBox::texture()
 
 void SkyBox::setTexture(const AssetHandle<Texture>& texture)
 {
+    if (texture->type() != TextureType_CubeMap)
+    {
+        throw Error("Sky box texture must be a cube map");
+    }
+
     _texture = texture;
 }
 
