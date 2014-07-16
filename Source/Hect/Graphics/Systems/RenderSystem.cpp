@@ -165,12 +165,21 @@ void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& targ
     // Prepare the pass
     pass.prepare(*_renderer);
 
+    // Set uniforms with bindings
+    Shader& shader = *pass.shader();
+    setBoundUniforms(shader, camera, target, transform);    
+
+    // Bind and draw the mesh
+    _renderer->bindMesh(mesh);
+    _renderer->draw();
+}
+
+void RenderSystem::setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
+{
     // Buid the model matrix
     Matrix4 model;
     transform.buildMatrix(model);
 
-    // Set uniforms with bindings
-    Shader& shader = *pass.shader();
     for (const Uniform& uniform : shader.uniforms())
     {
         if (uniform.hasBinding())
@@ -212,10 +221,6 @@ void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& targ
             }
         }
     }
-
-    // Bind and draw the mesh
-    _renderer->bindMesh(mesh);
-    _renderer->draw();
 }
 
 Renderer& RenderSystem::renderer()

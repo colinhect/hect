@@ -19,7 +19,7 @@
         },
         {
             "name" : "cameraPosition",
-            "type" : "Vector3"
+            "binding" : "CameraPosition"
         },
         {
             "name" : "diffuseBuffer",

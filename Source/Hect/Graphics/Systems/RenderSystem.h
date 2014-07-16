@@ -56,6 +56,8 @@ public:
     void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
     void renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform);
 
+    void setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
+
     Renderer& renderer();
 
 private:

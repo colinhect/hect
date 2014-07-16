@@ -129,13 +129,12 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
         renderer().bindTexture(*lightProbe->texture(), 4);
         renderer().bindMesh(*_screenMesh);
 
+        Transform identity;
+
         // Render environment light
         {
             renderer().bindShader(*_environmentShader);
-            
-            // Set the camera position uniform
-            const Uniform& cameraPositionUniform = _environmentShader->uniformWithName("cameraPosition");
-            renderer().setUniform(cameraPositionUniform, camera->position());
+            setBoundUniforms(*_environmentShader, *camera, target, identity);
 
             renderer().draw();
         }
@@ -143,14 +142,11 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
         // Render directional lights
         {
             renderer().bindShader(*_directionalLightShader);
+            setBoundUniforms(*_directionalLightShader, *camera, target, identity);
 
             // Get the uniforms required for directional lights
             const Uniform& colorUniform = _directionalLightShader->uniformWithName("lightColor");
             const Uniform& directionUniform = _directionalLightShader->uniformWithName("lightDirection");
-
-            // Set the camera position uniform
-            const Uniform& cameraPositionUniform = _directionalLightShader->uniformWithName("cameraPosition");
-            renderer().setUniform(cameraPositionUniform, camera->position());
 
             // Render each directional light in the scene
             for (const DirectionalLight& light : scene().components<DirectionalLight>())
@@ -207,13 +203,13 @@ void PhysicallyBasedRenderSystem::_initializeBuffers(unsigned width, unsigned he
     targets.push_back(Texture("MaterialBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
 
     // Position: X Y Z
-    targets.push_back(Texture("PositionBuffer", width, height, PixelType_Float, PixelFormat_Rgb, filter, filter, false, false));
+    targets.push_back(Texture("PositionBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
 
     // Normal: X Y Z Depth
     targets.push_back(Texture("NormalBuffer", width, height, PixelType_Half, PixelFormat_Rgba, filter, filter, false, false));
     _geometryBuffer = FrameBuffer(targets);
 
     targets.clear();
-    targets.push_back(Texture("AccumulationBuffer", width, height, PixelType_Float, PixelFormat_Rgba, filter, filter, false, false));
+    targets.push_back(Texture("AccumulationBuffer", width, height, PixelType_Half, PixelFormat_Rgba, filter, filter, false, false));
     _accumulationBuffer = FrameBuffer(targets);
 }
