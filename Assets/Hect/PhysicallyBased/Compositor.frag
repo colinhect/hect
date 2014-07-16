@@ -1,4 +1,4 @@
-#version 330
+#version 410
 
 uniform float exposure;
 uniform float oneOverGamma;
@@ -8,30 +8,47 @@ uniform sampler2D accumulationBuffer;
 
 in vec2 vertexTextureCoords;
 
-out vec4 outputColor;
+out vec3 outputColor;
 
-vec3 correctGamma(vec3 color, float oneOverGamma)
+bool sampleAccumulationBuffer(
+    out vec3    light,
+    out float   depth)
+{
+    vec4 accumulationSample = texture(accumulationBuffer, vertexTextureCoords);
+    
+    depth = accumulationSample.a;
+    if (depth > 0.0)
+    {
+        light = accumulationSample.rgb;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+vec3 correctGamma(
+    in  vec3    color,
+    in  float   oneOverGamma)
 {
     return pow(color, vec3(oneOverGamma));
 }
 
-vec3 expose(vec3 color, float exposure)
+vec3 expose(
+    in  vec3    color,
+    in  float   exposure)
 {
     return vec3(1.0) - exp2(-exposure * color);
 }
 
 void main()
 {
-    vec4 accumulationSample = texture(accumulationBuffer, vertexTextureCoords);
-    
-    vec3 color = vec3(0.0);
+    vec3 color;
+    float depth;
 
-    float depth = accumulationSample.a;
-    if (depth > 0.0)
-    {
-        color = accumulationSample.rgb;
-    }
-    else
+    // If this pixel is not physically lit
+    if (!sampleAccumulationBuffer(color, depth))
     {
         color = texture(diffuseBuffer, vertexTextureCoords).rgb;
     }
@@ -39,6 +56,6 @@ void main()
     color = expose(color, exposure);
     color = correctGamma(color, oneOverGamma);
 
-    outputColor = vec4(color, 1.0);
-    gl_FragDepth = accumulationSample.a;
+    outputColor = color;
+    gl_FragDepth = depth;
 }

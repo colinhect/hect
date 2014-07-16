@@ -7,15 +7,11 @@
     "uniforms" :
     [
         {
-            "name" : "modelView",
-            "binding" : "ModelViewMatrix"
-        },
-        {
             "name" : "modelViewProjection",
             "binding" : "ModelViewProjectionMatrix"
         },
         {
-            "name" : "skyBoxCubeMap",
+            "name" : "skyBoxTexture",
             "type" : "Texture",
             "value" : 0
         }

@@ -245,6 +245,11 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
             passes.push_back(pass);
         }
 
-        material.addTechnique(passes);
+        Technique technique;
+        technique.setPasses(passes);
+
+        techniques.push_back(technique);
     }
+
+    material.setTechniques(techniques);
 }

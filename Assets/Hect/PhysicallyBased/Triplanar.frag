@@ -1,8 +1,8 @@
-#version 330
+#version 410
 
-uniform sampler2D diffuseMap;
-uniform sampler2D materialMap;
-uniform sampler2D normalMap;
+uniform sampler2D diffuseTexture;
+uniform sampler2D materialTexture;
+uniform sampler2D normalTexture;
 uniform vec2 textureScale;
 
 in vec3 vertexPosition;
@@ -26,9 +26,9 @@ void main()
     vec2 coordY = vertexPosition.zx * textureScale;
     vec2 coordZ = vertexPosition.xy * textureScale;
 
-    vec3 diffuseColorX = texture(diffuseMap, coordX).rgb;
-    vec3 diffuseColorY = texture(diffuseMap, coordY).rgb;
-    vec3 diffuseColorZ = texture(diffuseMap, coordZ).rgb;
+    vec3 diffuseColorX = texture(diffuseTexture, coordX).rgb;
+    vec3 diffuseColorY = texture(diffuseTexture, coordY).rgb;
+    vec3 diffuseColorZ = texture(diffuseTexture, coordZ).rgb;
 
     outputDiffuse =
         diffuseColorX * blendWeights.x +
@@ -36,18 +36,18 @@ void main()
         diffuseColorZ * blendWeights.z;
 
 
-    vec3 materialColorX = texture(materialMap, coordX).rgb;
-    vec3 materialColorY = texture(materialMap, coordY).rgb;
-    vec3 materialColorZ = texture(materialMap, coordZ).rgb;
+    vec3 materialColorX = texture(materialTexture, coordX).rgb;
+    vec3 materialColorY = texture(materialTexture, coordY).rgb;
+    vec3 materialColorZ = texture(materialTexture, coordZ).rgb;
 
     outputMaterial =
         materialColorX * blendWeights.x +
         materialColorY * blendWeights.y +
         materialColorZ * blendWeights.z;
 
-    vec2 bumpFetch1 = texture(normalMap, coordX).xy - 0.5;  
-    vec2 bumpFetch2 = texture(normalMap, coordY).xy - 0.5;  
-    vec2 bumpFetch3 = texture(normalMap, coordZ).xy - 0.5;  
+    vec2 bumpFetch1 = texture(normalTexture, coordX).xy - 0.5;  
+    vec2 bumpFetch2 = texture(normalTexture, coordY).xy - 0.5;  
+    vec2 bumpFetch3 = texture(normalTexture, coordZ).xy - 0.5;  
     vec3 bump1 = vec3(0.0, bumpFetch1.x, bumpFetch1.y);  
     vec3 bump2 = vec3(bumpFetch2.y, 0.0, bumpFetch2.x);  
     vec3 bump3 = vec3(bumpFetch3.x, bumpFetch3.y, 0.0);

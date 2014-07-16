@@ -1,6 +1,7 @@
 {
     "modules" :
     [
+        "GeometryBuffer.frag",
         "Environment.frag",
         "Screen.vert"
     ],
@@ -9,10 +10,6 @@
         {
             "name" : "cameraPosition",
             "type" : "Vector3"
-        },
-        {
-            "name" : "view",
-            "type" : "Matrix4"
         },
         {
             "name" : "diffuseBuffer",
@@ -35,7 +32,7 @@
             "value" : 3
         },
         {
-            "name" : "environmentMap",
+            "name" : "lightProbeTexture",
             "type" : "Texture",
             "value" : 4
         }

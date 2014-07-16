@@ -7,17 +7,17 @@
     "uniforms" :
     [
         {
-            "name" : "diffuseMap",
+            "name" : "diffuseTexture",
             "type" : "Texture",
             "value" : 0
         },
         {
-            "name" : "materialMap",
+            "name" : "materialTexture",
             "type" : "Texture",
             "value" : 1
         },
         {
-            "name" : "normalMap",
+            "name" : "normalTexture",
             "type" : "Texture",
             "value" : 2
         },
@@ -29,10 +29,6 @@
         {
             "name" : "model",
             "binding" : "ModelMatrix"
-        },
-        {
-            "name" : "modelView",
-            "binding" : "ModelViewMatrix"
         },
         {
             "name" : "modelViewProjection",

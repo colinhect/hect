@@ -1,56 +1,67 @@
-#version 330
+#version 410
 
 uniform vec3 cameraPosition;
-uniform mat4 view;
-uniform sampler2D diffuseBuffer;
-uniform sampler2D materialBuffer;
-uniform sampler2D positionBuffer;
-uniform sampler2D normalBuffer;
-uniform samplerCube environmentMap;
+uniform samplerCube lightProbeTexture;
 
-mat3 normalMatrix = mat3(
-    view[0][0], view[0][1], view[0][2],
-    view[1][0], view[1][1], view[1][2],
-    view[2][0], view[2][1], view[2][2]
-);
+bool sampleGeometryBuffer(
+    out vec3    diffuse,
+    out float   roughness,
+    out float   metallic,
+    out vec3    position,
+    out vec3    normal,
+    out float   depth);
 
-in vec2 vertexTextureCoords;
+void writeLightAccumulation(
+    in  vec3    accumulation,
+    in  float   depth);
 
-out vec4 outputColor;
-
-vec3 fresnel(vec3 specularColor, float a, vec3 h, vec3 v)
+vec3 computeRoughFresnel(
+    in  vec3    specularColor,
+    in  float   a,
+    in  vec3    h,
+    in  vec3    v)
 {
-    return (specularColor + (max(vec3(1.0 - a), specularColor) - specularColor) * pow((1 - clamp(dot(v, h), 0.0, 1.0)), 5.0));
+    // Schlick
+    return specularColor
+        + (max(vec3(1.0 - a), specularColor) - specularColor)
+        * pow((1 - clamp(dot(v, h), 0.0, 1.0)), 5.0);
 }
 
 void main()
 {
-    vec4 normalSample = texture(normalBuffer, vertexTextureCoords);
-    float depth = normalSample.w;
-    if (depth > 0.0)
+    vec3 diffuse;
+    float roughness;
+    float metallic;
+    vec3 position;
+    vec3 normal;
+    float depth;
+
+    // If this pixel is physically lit
+    if (sampleGeometryBuffer(diffuse, roughness, metallic, position, normal, depth))
     {
-        vec4 diffuseSample = texture(diffuseBuffer, vertexTextureCoords);
-        vec4 materialSample = texture(materialBuffer, vertexTextureCoords);
-        vec4 positionSample = texture(positionBuffer, vertexTextureCoords);
-
-        vec3 diffuse = diffuseSample.rgb;
-
-        float roughness = materialSample.r;
-        float metallic = materialSample.g;
-
+        // Compute real diffuse/specular colors
+        vec3 realDiffuse = diffuse - diffuse * metallic;
         vec3 realSpecular = mix(vec3(0.03), diffuse, metallic);
 
-        vec3 n = normalize(normalMatrix * normalSample.xyz);
-        vec3 v = normalize(normalMatrix * normalize(cameraPosition - positionSample.xyz));
+        // Compute the view direction
+        vec3 viewDirection = normalize(cameraPosition - position);
 
-        vec3 reflectVector = normalize(reflect(normalize(cameraPosition - positionSample.xyz), normalSample.xyz));
+        // Compute the mip map level based on the roughness
+        float mipMapLevel = roughness * 8.0 + 4.0;
+   
+        // Sample the reflectance from the light probe
+        vec3 reflectDirection = normalize(reflect(viewDirection, normal));
+        vec3 reflectance = textureLod(lightProbeTexture, reflectDirection, mipMapLevel).rgb;
 
-        float mipIndex =  roughness * roughness * 16.0f;
+        // Sample the ambience from the light probe
+        vec3 ambience = textureLod(lightProbeTexture, normal, 32.0).rgb;
 
-        vec3 environmentColor = textureLod(environmentMap, reflectVector, mipIndex).rgb;
-        vec3 f = fresnel(realSpecular, roughness * roughness, n, v);
+        // Compute the fresnel attenuated by the roughness
+        vec3 fresnel = computeRoughFresnel(realSpecular, roughness * roughness, normal, viewDirection);
 
-        outputColor = vec4(f * environmentColor, depth);
+        // Write the total light accumulation for the environment
+        vec3 light = fresnel * reflectance + realDiffuse * ambience;
+        writeLightAccumulation(light, depth);
     }
     else
     {

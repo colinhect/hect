@@ -1,6 +1,6 @@
-#version 330
+#version 410
 
-uniform samplerCube skyBoxCubeMap;
+uniform samplerCube skyBoxTexture;
 
 in vec3 vertexPosition;
 
@@ -11,7 +11,7 @@ out vec4 outputNormal;
 
 void main()
 {
-    vec3 color = texture(skyBoxCubeMap, -vertexPosition).rgb;
+    vec3 color = texture(skyBoxTexture, -vertexPosition).rgb;
     outputDiffuse = vec3(color);
     outputMaterial = vec3(0.0);
     outputPosition = vec3(0.0);

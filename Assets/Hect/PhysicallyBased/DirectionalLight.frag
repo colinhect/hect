@@ -1,37 +1,43 @@
-#version 330
+#version 410
 
 #define PI 3.1415926535897932384626433832795
 
-uniform vec3 color;
-uniform vec3 direction;
+uniform vec3 lightColor;
+uniform vec3 lightDirection;
 uniform vec3 cameraPosition;
-uniform mat4 view;
-uniform sampler2D diffuseBuffer;
-uniform sampler2D materialBuffer;
-uniform sampler2D positionBuffer;
-uniform sampler2D normalBuffer;
 
-mat3 normalMatrix = mat3(
-    view[0][0], view[0][1], view[0][2],
-    view[1][0], view[1][1], view[1][2],
-    view[2][0], view[2][1], view[2][2]
-);
+bool sampleGeometryBuffer(
+    out vec3    diffuse,
+    out float   roughness,
+    out float   metallic,
+    out vec3    position,
+    out vec3    normal,
+    out float   depth);
 
-in vec2 vertexTextureCoords;
+void writeLightAccumulation(
+    in  vec3    accumulation,
+    in  float   depth);
 
-out vec4 outputColor;
-
-float geometry(float a, float nDotV, float nDotL, float nDotH, float vDotH)
+float computeGeometry(
+    in  float   a,
+    in  float   nDotV,
+    in  float   nDotL,
+    in  float   nDotH,
+    in  float   vDotH)
 {
-    float k = a * 0.5;
+    // Smith schlick-GGX
+    float k = ((a + 1) * (a + 1)) / 8.0;
     float gv = nDotV / (nDotV * (1.0 - k) + k);
     float gl = nDotL / (nDotL * (1.0 - k) + k);
 
     return gv * gl;
 }
 
-float normalDistribution(float a, float nDotH)
+float computeNormalDistribution(
+    in  float   a,
+    in  float   nDotH)
 {
+    // GGX
     float a2 = a * a;
     float d = (nDotH * nDotH) * (a2 - 1.0) + 1.0;
     d *= d;
@@ -40,17 +46,41 @@ float normalDistribution(float a, float nDotH)
     return a2 / d;
 }
 
-vec3 fresnel(vec3 specularColor, float vDotH)
+vec3 computeFresnel(
+    in  vec3    specularColor,
+    in  float   vDotH)
 {
-    return (specularColor + (1.0 - specularColor) * pow((1.0 - clamp(vDotH, 0.0, 1.0)), 5.0));
+    // Schlick
+    return specularColor
+        + (1.0 - specularColor)
+        * pow((1.0 - clamp(vDotH, 0.0, 1.0)), 5.0);
 }
 
-vec3 computeSpecular(vec3 specularColor, vec3 h, vec3 v, vec3 l, float a, float nDotL, float nDotV, float nDotH, float vDotH, float lDotV)
+vec3 computeSpecular(
+    in  vec3    specularColor,
+    in  vec3    h,
+    in  vec3    v,
+    in  vec3    l,
+    in  float   a,
+    in  float   nDotL,
+    in  float   nDotV,
+    in  float   nDotH,
+    in  float   vDotH,
+    in  float   lDotV)
 {
-    return ((normalDistribution(a, nDotH) * geometry(a, nDotV, nDotL, nDotH, vDotH)) * fresnel(specularColor, vDotH) ) / (4.0 * nDotL * nDotV + 0.0001);
+    float normalDistribution = computeNormalDistribution(a, nDotH);
+    float geometry = computeGeometry(a, nDotV, nDotL, nDotH, vDotH);
+    vec3 fresnel = computeFresnel(specularColor, vDotH);
+    return (fresnel * normalDistribution * geometry) / (4.0 * nDotL * nDotV + 0.0001);
 }
 
-vec3 computeLight(vec3 diffuse, vec3 specular, vec3 n, float r, vec3 l, vec3 v)
+vec3 computeLight(
+    in  vec3    diffuse,
+    in  vec3    specular,
+    in  vec3    n,
+    in  float   r,
+    in  vec3    l,
+    in  vec3    v)
 {
     float nDotL = clamp(dot(n, l), 0.0, 1.0);
     float nDotV = clamp(dot(n, v), 0.0, 1.0);
@@ -63,34 +93,33 @@ vec3 computeLight(vec3 diffuse, vec3 specular, vec3 n, float r, vec3 l, vec3 v)
     vec3 d = diffuse / PI;
     vec3 s = clamp(computeSpecular(specular, h, v, l, a, nDotL, nDotV, nDotH, vDotH, lDotV), 0.0, 1.0);
 
-    return color * nDotL * (d * (1.0 - s) + s);
+    return lightColor * nDotL * (d * (1.0 - s) + s);
 }
 
 void main()
 {
-    vec4 normalSample = texture(normalBuffer, vertexTextureCoords);
-    float depth = normalSample.w;
-    if (depth > 0.0)
+    vec3 diffuse;
+    float roughness;
+    float metallic;
+    vec3 position;
+    vec3 normal;
+    float depth;
+
+    // If this pixel is physically lit
+    if (sampleGeometryBuffer(diffuse, roughness, metallic, position, normal, depth))
     {
-        vec4 diffuseSample = texture(diffuseBuffer, vertexTextureCoords);
-        vec4 materialSample = texture(materialBuffer, vertexTextureCoords);
-        vec4 positionSample = texture(positionBuffer, vertexTextureCoords);
-
-        vec3 diffuse = diffuseSample.rgb;
-
-        float roughness = materialSample.r;
-        float metallic = materialSample.g;
-
+        // Compute real diffuse/specular colors
         vec3 realDiffuse = diffuse - diffuse * metallic;
         vec3 realSpecular = mix(vec3(0.03), diffuse, metallic);
 
-        vec3 n = normalize(normalMatrix * normalSample.xyz);
-        vec3 l = -normalize(normalMatrix * direction);
-        vec3 v = normalize(normalMatrix * normalize(cameraPosition - positionSample.xyz));
+        // Compute the view direction
+        vec3 viewDirection = normalize(cameraPosition - position);
 
-        vec3 light = computeLight(realDiffuse, realSpecular, n, roughness, l, v);
+        // Compute the total light accumulation
+        vec3 light = computeLight(realDiffuse, realSpecular, normal, roughness, -lightDirection, viewDirection);
 
-        outputColor = vec4(light, depth);
+        // Write the total light accumulation for the light
+        writeLightAccumulation(light, depth);
     }
     else
     {

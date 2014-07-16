@@ -57,18 +57,18 @@ public:
     void setName(const std::string& name);
 
     ///
-    /// Adds a technique to the material.
-    ///
-    /// \param technique The technique to add.
-    void addTechnique(const Technique& technique);
-
-    ///
     /// Returns the techniques.
     Technique::Array& techniques();
 
     ///
     /// Returns the techniques.
     const Technique::Array& techniques() const;
+
+    ///
+    /// Sets the techniques that the material has.
+    ///
+    /// \param technique The technique to add.
+    void setTechniques(const Technique::Array& techniques);
 
     ///
     /// Encodes the mesh.

@@ -45,18 +45,18 @@ public:
     Technique();
 
     ///
-    /// Constructs a technique given its passes.
-    ///
-    /// \param passes The passes to include in the technique.
-    Technique(const Pass::Array& passes);
-
-    ///
     /// Returns the passes.
     Pass::Array& passes();
 
     ///
     /// Returns the passes.
     const Pass::Array& passes() const;
+
+    ///
+    /// Sets the passes.
+    ///
+    /// \param passes The passes to include in the technique.
+    void setPasses(const Pass::Array& passes);
 
     ///
     /// Returns whether the technique is equivalent to another.

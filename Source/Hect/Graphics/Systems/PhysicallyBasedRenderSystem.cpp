@@ -132,11 +132,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
         // Render environment light
         {
             renderer().bindShader(*_environmentShader);
-
-            // Set the view uniform
-            const Uniform& viewUniform = _environmentShader->uniformWithName("view");
-            renderer().setUniform(viewUniform, camera->viewMatrix());
-
+            
             // Set the camera position uniform
             const Uniform& cameraPositionUniform = _environmentShader->uniformWithName("cameraPosition");
             renderer().setUniform(cameraPositionUniform, camera->position());
@@ -149,12 +145,8 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
             renderer().bindShader(*_directionalLightShader);
 
             // Get the uniforms required for directional lights
-            const Uniform& colorUniform = _directionalLightShader->uniformWithName("color");
-            const Uniform& directionUniform = _directionalLightShader->uniformWithName("direction");
-
-            // Set the view uniform
-            const Uniform& viewUniform = _directionalLightShader->uniformWithName("view");
-            renderer().setUniform(viewUniform, camera->viewMatrix());
+            const Uniform& colorUniform = _directionalLightShader->uniformWithName("lightColor");
+            const Uniform& directionUniform = _directionalLightShader->uniformWithName("lightDirection");
 
             // Set the camera position uniform
             const Uniform& cameraPositionUniform = _directionalLightShader->uniformWithName("cameraPosition");

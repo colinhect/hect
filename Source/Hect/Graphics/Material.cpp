@@ -46,11 +46,6 @@ void Material::setName(const std::string& name)
     _name = name;
 }
 
-void Material::addTechnique(const Technique& technique)
-{
-    _techniques.push_back(technique);
-}
-
 Technique::Array& Material::techniques()
 {
     return _techniques;
@@ -59,6 +54,11 @@ Technique::Array& Material::techniques()
 const Technique::Array& Material::techniques() const
 {
     return _techniques;
+}
+
+void Material::setTechniques(const Technique::Array& techniques)
+{
+    _techniques = techniques;
 }
 
 void Material::encode(ObjectEncoder& encoder) const

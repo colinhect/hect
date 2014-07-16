@@ -1,28 +1,25 @@
 {
     "modules" :
     [
+        "GeometryBuffer.frag",
         "DirectionalLight.frag",
         "Screen.vert"
     ],
     "uniforms" :
     [
         {
-            "name" : "color",
+            "name" : "lightColor",
             "type" : "Vector3",
             "value" : [ 1, 1, 1 ]
         },
         {
-            "name" : "direction",
+            "name" : "lightDirection",
             "type" : "Vector3",
             "value" : [ 1, 0, 0 ]
         },
         {
             "name" : "cameraPosition",
             "type" : "Vector3"
-        },
-        {
-            "name" : "view",
-            "type" : "Matrix4"
         },
         {
             "name" : "diffuseBuffer",

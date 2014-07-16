@@ -29,11 +29,6 @@ Technique::Technique()
 {
 }
 
-Technique::Technique(const Pass::Array& passes) :
-    _passes(passes)
-{
-}
-
 Pass::Array& Technique::passes()
 {
     return _passes;
@@ -42,6 +37,11 @@ Pass::Array& Technique::passes()
 const Pass::Array& Technique::passes() const
 {
     return _passes;
+}
+
+void Technique::setPasses(const Pass::Array& passes)
+{
+    _passes = passes;
 }
 
 bool Technique::operator==(const Technique& technique) const
