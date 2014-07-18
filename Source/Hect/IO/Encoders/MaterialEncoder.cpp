@@ -139,7 +139,7 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
     ArrayDecoder techniquesDecoder = decoder.decodeArray("techniques");
     while (techniquesDecoder.hasMoreElements())
     {
-        Pass::Array passes;
+        Technique technique;
 
         // Passes
         ArrayDecoder passesDecoder = techniquesDecoder.decodeArray();
@@ -242,11 +242,8 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                 pass.setRenderState(renderState);
             }
 
-            passes.push_back(pass);
+            technique.addPass(pass);
         }
-
-        Technique technique;
-        technique.setPasses(passes);
 
         techniques.push_back(technique);
     }

@@ -46,12 +46,12 @@ void Material::setName(const std::string& name)
     _name = name;
 }
 
-Technique::Array& Material::techniques()
+CollectionAccessor<Technique> Material::techniques()
 {
     return _techniques;
 }
 
-const Technique::Array& Material::techniques() const
+const CollectionAccessor<Technique> Material::techniques() const
 {
     return _techniques;
 }

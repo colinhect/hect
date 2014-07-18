@@ -44,10 +44,6 @@ class Pass
 public:
 
     ///
-    /// An array of passes.
-    typedef std::vector<Pass> Array;
-
-    ///
     /// Constructs an empty pass.
     Pass();
 

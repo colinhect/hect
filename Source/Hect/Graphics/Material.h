@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/CollectionAccessor.h"
 #include "Hect/Graphics/Technique.h"
 #include "Hect/IO/Encodable.h"
 
@@ -58,11 +59,11 @@ public:
 
     ///
     /// Returns the techniques.
-    Technique::Array& techniques();
+    CollectionAccessor<Technique> techniques();
 
     ///
     /// Returns the techniques.
-    const Technique::Array& techniques() const;
+    const CollectionAccessor<Technique> techniques() const;
 
     ///
     /// Sets the techniques that the material has.

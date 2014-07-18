@@ -483,6 +483,9 @@
     <ClInclude Include="Source\Hect\Graphics\Components\LightProbe.h">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Core\CollectionAccessor.h">
+      <Filter>Source\Hect\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -894,6 +897,9 @@
     </None>
     <None Include="Source\Hect\Logic\IdPool.inl">
       <Filter>Source\Hect\Logic</Filter>
+    </None>
+    <None Include="Source\Hect\Core\CollectionAccessor.inl">
+      <Filter>Source\Hect\Core</Filter>
     </None>
   </ItemGroup>
 </Project>

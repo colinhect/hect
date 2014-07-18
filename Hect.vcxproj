@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Hect\Concurrency\TaskPool.h" />
     <ClInclude Include="Source\Hect\Core\Any.h" />
+    <ClInclude Include="Source\Hect\Core\CollectionAccessor.h" />
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\Enum.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
@@ -272,6 +273,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Core\Any.inl" />
+    <None Include="Source\Hect\Core\CollectionAccessor.inl" />
     <None Include="Source\Hect\Event\Dispatcher.inl" />
     <None Include="Source\Hect\IO\AssetCache.inl" />
     <None Include="Source\Hect\IO\AssetEntry.inl" />

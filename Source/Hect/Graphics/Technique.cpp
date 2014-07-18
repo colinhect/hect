@@ -29,19 +29,24 @@ Technique::Technique()
 {
 }
 
-Pass::Array& Technique::passes()
+CollectionAccessor<Pass> Technique::passes()
 {
     return _passes;
 }
 
-const Pass::Array& Technique::passes() const
+const CollectionAccessor<Pass> Technique::passes() const
 {
     return _passes;
 }
 
-void Technique::setPasses(const Pass::Array& passes)
+void Technique::addPass(const Pass& pass)
 {
-    _passes = passes;
+    _passes.push_back(pass);
+}
+
+void Technique::clearPasses()
+{
+    _passes.clear();
 }
 
 bool Technique::operator==(const Technique& technique) const

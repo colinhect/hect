@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/CollectionAccessor.h"
 #include "Hect/Graphics/Pass.h"
 
 namespace hect
@@ -46,17 +47,21 @@ public:
 
     ///
     /// Returns the passes.
-    Pass::Array& passes();
+    CollectionAccessor<Pass> passes();
 
     ///
     /// Returns the passes.
-    const Pass::Array& passes() const;
+    const CollectionAccessor<Pass> passes() const;
 
     ///
-    /// Sets the passes.
+    /// Adds a new pass to the technique.
     ///
-    /// \param passes The passes to include in the technique.
-    void setPasses(const Pass::Array& passes);
+    /// \param pass The new pass to add.
+    void addPass(const Pass& pass);
+
+    ///
+    /// Clears all passes from the technique.
+    void clearPasses();
 
     ///
     /// Returns whether the technique is equivalent to another.
@@ -71,7 +76,7 @@ public:
     bool operator!=(const Technique& technique) const;
 
 private:
-    Pass::Array _passes;
+    std::vector<Pass> _passes;
 };
 
 }
