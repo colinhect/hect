@@ -32,16 +32,8 @@ using namespace hect;
 
 Texture::Texture() :
     _type(TextureType_2D),
-    _minFilter(TextureFilter_Linear),
-    _magFilter(TextureFilter_Linear),
-    _mipmapped(true),
-    _wrapped(false)
-{
-}
-
-Texture::Texture(const std::string& name, TextureType type) :
-    _name(name),
-    _type(type),
+    _width(0),
+    _height(0),
     _minFilter(TextureFilter_Linear),
     _magFilter(TextureFilter_Linear),
     _mipmapped(true),
@@ -61,18 +53,25 @@ Texture::Texture(const std::string& name, unsigned width, unsigned height, Pixel
     _mipmapped(mipmapped),
     _wrapped(wrapped)
 {
-    addImage(new Image(width, height, pixelType, pixelFormat));
+    AssetHandle<Image> sourceImage(new Image());
+    sourceImage->setWidth(width);
+    sourceImage->setHeight(height);
+    sourceImage->setPixelType(pixelType);
+    sourceImage->setPixelFormat(pixelFormat);
+    addSourceImage(sourceImage);
 }
 
 Texture::Texture(const std::string& name, const AssetHandle<Image>& image) :
     _name(name),
     _type(TextureType_2D),
+    _width(0),
+    _height(0),
     _minFilter(TextureFilter_Linear),
     _magFilter(TextureFilter_Linear),
     _mipmapped(true),
     _wrapped(false)
 {
-    addImage(image);
+    addSourceImage(image);
 }
 
 Texture::~Texture()
@@ -107,24 +106,68 @@ void Texture::setType(TextureType type)
     }
 }
 
-void Texture::addImage(const AssetHandle<Image>& image)
+CollectionAccessor<AssetHandle<Image>> Texture::sourceImages()
 {
+    return _sourceImages;
+}
+
+void Texture::addSourceImage(const AssetHandle<Image>& image)
+{
+    if (_type == TextureType_2D)
+    {
+        if (!_sourceImages.empty())
+        {
+            throw Error("A 2-dimensional texture cannot have more than one source image");
+        }
+    }
+    else if (_type == TextureType_CubeMap)
+    {
+        if (_sourceImages.size() >= 6)
+        {
+            throw Error("A cube map texture cannot have more than six source images");
+        }
+    }
+
     if (isUploaded())
     {
         renderer().destroyTexture(*this);
     }
 
-    _images.push_back(image);
+    if (!_sourceImages.empty())
+    {
+        if (_width != image->width() || _height != image->height())
+        {
+            throw Error("The source image does not match the dimensions of the texture");
+        }
+        else if (_pixelType != image->pixelType())
+        {
+            throw Error("The source image pixel type does not match the pixel type of the texture");
+        }
+        else if (_pixelFormat != image->pixelFormat())
+        {
+            throw Error("The source image pixel format does not match the pixel format of the texture");
+        }
+    }
+    else
+    {
+        _width = image->width();
+        _height = image->height();
+        _pixelType = image->pixelType();
+        _pixelFormat = image->pixelFormat();
+    }
 
-    _width = image->width();
-    _height = image->height();
-    _pixelType = image->pixelType();
-    _pixelFormat = image->pixelFormat();
+    _sourceImages.push_back(image);
 }
 
-AssetHandle<Image>::Array& Texture::images()
+void Texture::clearSourceImages()
 {
-    return _images;
+
+    if (isUploaded())
+    {
+        renderer().destroyTexture(*this);
+    }
+
+    _sourceImages.clear();
 }
 
 TextureFilter Texture::minFilter() const

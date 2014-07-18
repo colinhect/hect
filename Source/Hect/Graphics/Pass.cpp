@@ -73,14 +73,19 @@ void Pass::setRenderState(const RenderState& renderState)
     _renderState = renderState;
 }
 
-const AssetHandle<Texture>::Array& Pass::textures() const
+const CollectionAccessor<AssetHandle<Texture>> Pass::textures() const
 {
     return _textures;
 }
 
-void Pass::setTextures(const AssetHandle<Texture>::Array& textures)
+void Pass::addTexture(const AssetHandle<Texture>& texture)
 {
-    _textures = textures;
+    _textures.push_back(texture);
+}
+
+void Pass::clearTextures()
+{
+    _textures.clear();
 }
 
 const AssetHandle<Shader>& Pass::shader() const
@@ -93,68 +98,14 @@ void Pass::setShader(const AssetHandle<Shader>& shader)
     _shader = shader;
 }
 
-const PassUniformValue::Array& Pass::uniformValues() const
+const CollectionAccessor<PassUniformValue> Pass::uniformValues() const
 {
     return _uniformValues;
 }
 
-void Pass::setUniformValues(const PassUniformValue::Array& uniformValues)
+void Pass::addUniformValue(const std::string& name, const UniformValue& uniformValue)
 {
-    _uniformValues = uniformValues;
-}
-
-bool Pass::operator==(const Pass& pass) const
-{
-    // Render state
-    if (_renderState != pass.renderState())
-    {
-        return false;
-    }
-
-    // Texture count
-    if (_textures.size() != pass.textures().size())
-    {
-        return false;
-    }
-
-    // Textures
-    size_t textureCount = _textures.size();
-    for (size_t i = 0; i < textureCount; ++i)
-    {
-        if (_textures[i] != pass.textures()[i])
-        {
-            return false;
-        }
-    }
-
-    // Shader
-    if (_shader != pass.shader())
-    {
-        return _shader;
-    }
-
-    // Uniform value count
-    if (_uniformValues.size() != pass.uniformValues().size())
-    {
-        return false;
-    }
-
-    // Textures
-    size_t uniformValueCount = _uniformValues.size();
-    for (size_t i = 0; i < uniformValueCount; ++i)
-    {
-        if (_uniformValues[i] != pass.uniformValues()[i])
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool Pass::operator!=(const Pass& pass) const
-{
-    return !(*this == pass);
+    _uniformValues.push_back(PassUniformValue(name, uniformValue));
 }
 
 void Pass::_resolvePassUniformValues(Shader& shader)

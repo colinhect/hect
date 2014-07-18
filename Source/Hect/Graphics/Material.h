@@ -66,10 +66,20 @@ public:
     const CollectionAccessor<Technique> techniques() const;
 
     ///
-    /// Sets the techniques that the material has.
+    /// Adds a technique.
     ///
     /// \param technique The technique to add.
-    void setTechniques(const Technique::Array& techniques);
+    void addTechnique(const Technique& technique);
+
+    ///
+    /// Removes all techniques.
+    void clearTechniques();
+
+    ///
+    /// Returns the prefered technique.
+    ///
+    /// \throws Error If the material does not have any techniques.
+    Technique& preferedTechnique();
 
     ///
     /// Encodes the mesh.
@@ -84,25 +94,9 @@ public:
     /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
-    ///
-    /// Returns whether the material is equivalent to another.
-    ///
-    /// \note Does not compare the name.
-    ///
-    /// \param material The other material.
-    bool operator==(const Material& material) const;
-
-    ///
-    /// Returns whether the material is different from another.
-    ///
-    /// \note Does not compare the name.
-    ///
-    /// \param material The other material.
-    bool operator!=(const Material& material) const;
-
 private:
     std::string _name;
-    Technique::Array _techniques;
+    std::vector<Technique> _techniques;
 };
 
 }

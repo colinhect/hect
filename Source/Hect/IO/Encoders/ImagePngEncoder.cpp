@@ -32,27 +32,28 @@ using namespace hect;
 
 void ImagePngEncoder::decode(Image& image, ReadStream& stream)
 {
-    image._pixelData.clear();
-
     // Read the encoded data
     size_t length = stream.length();
-    Image::RawPixelData encodedPixelData(length, 0);
+    Image::PixelData encodedPixelData(length, 0);
     stream.readBytes(&encodedPixelData[0], length);
+
+    Image::PixelData decodedPixelData;
 
     // Decode the PNG pixel data
     unsigned width = 0;
     unsigned height = 0;
-    unsigned error = lodepng::decode(image._pixelData, width, height, encodedPixelData);
+    unsigned error = lodepng::decode(decodedPixelData, width, height, encodedPixelData);
     if (error)
     {
         throw Error(format("Failed to decode PNG data: %s", lodepng_error_text(error)));
     }
 
-    image._width = width;
-    image._height = height;
-    image._pixelType = PixelType_Byte;
-    image._pixelFormat = PixelFormat_Rgba;
-    image._colorSpace = ColorSpace_NonLinear;
+    image.setWidth(width);
+    image.setHeight(height);
+    image.setPixelType(PixelType_Byte);
+    image.setPixelFormat(PixelFormat_Rgba);
+    image.setColorSpace(ColorSpace_NonLinear);
+    image.setPixelData(std::move(decodedPixelData));
 
     // Flip the image to OpenGL ordering
     image.flipVertical();
@@ -71,7 +72,7 @@ void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
     flippedImage.flipVertical();
 
     // Encode to PNG data
-    Image::RawPixelData encodedPixelData;
+    Image::PixelData encodedPixelData;
     unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), image.width(), image.height());
     if (error)
     {

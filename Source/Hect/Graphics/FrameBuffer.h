@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/CollectionAccessor.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture.h"
 
@@ -32,7 +33,7 @@ namespace hect
 class Renderer;
 
 ///
-/// A buffer on the GPU that can be rendered to.
+/// A multi-target buffer on the GPU that can be rendered to.
 class FrameBuffer :
     public RenderTarget,
     public RendererObject
@@ -44,37 +45,39 @@ public:
     FrameBuffer();
 
     ///
-    /// Constructs a frame buffer of a given size with an optional depth
-    /// component.
-    ///
-    /// \param targets The texture targets.
-    /// \param depthComponent True if the frame buffer will have a depth
-    /// component; false otherwise.
-    FrameBuffer(const Texture::Array& targets, bool depthComponent = true);
-
-    ///
     /// Destroys the frame buffer if it is uploaded.
     ~FrameBuffer();
 
-    ///
-    /// \copydoc RenderTarget::bind()
     void bind(Renderer* renderer);
 
     ///
-    /// Returns the targets.
-    Texture::Array& targets();
+    /// Returns the targets of the frame buffer.
+    CollectionAccessor<Texture> targets();
 
     ///
-    /// Returns the targets.
-    const Texture::Array& targets() const;
+    /// Returns the targets of the frame buffer.
+    const CollectionAccessor<Texture> targets() const;
+
+    ///
+    /// Adds a target to the frame buffer.
+    ///
+    /// \param target The target to add to the frame buffer.
+    void addTarget(const Texture& target);
 
     ///
     /// Returns whether the frame buffer has a depth component.
     bool hasDepthComponent() const;
 
+    ///
+    /// Sets whether the frame buffer has a depth component.
+    ///
+    /// \param depthComponent True if the frame buffer has a depth component;
+    /// false otherwise.
+    void setDepthComponent(bool depthComponent);
+
 private:
     bool _depthComponent;
-    Texture::Array _targets;
+    std::vector<Texture> _targets;
 };
 
 }

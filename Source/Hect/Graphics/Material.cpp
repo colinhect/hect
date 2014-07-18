@@ -56,9 +56,23 @@ const CollectionAccessor<Technique> Material::techniques() const
     return _techniques;
 }
 
-void Material::setTechniques(const Technique::Array& techniques)
+void Material::addTechnique(const Technique& technique)
 {
-    _techniques = techniques;
+    _techniques.push_back(technique);
+}
+
+void Material::clearTechniques()
+{
+    _techniques.clear();
+}
+
+Technique& Material::preferedTechnique()
+{
+    if (_techniques.empty())
+    {
+        throw Error("The material has no techniques");
+    }
+    return _techniques[0];
 }
 
 void Material::encode(ObjectEncoder& encoder) const
@@ -69,30 +83,4 @@ void Material::encode(ObjectEncoder& encoder) const
 void Material::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     MaterialEncoder::decode(*this, decoder, assetCache);
-}
-
-bool Material::operator==(const Material& material) const
-{
-    // Technique count
-    if (_techniques.size() != material.techniques().size())
-    {
-        return false;
-    }
-
-    // Techniques
-    size_t techniqueCount = _techniques.size();
-    for (size_t i = 0; i < techniqueCount; ++i)
-    {
-        if (_techniques[i] != material.techniques()[i])
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool Material::operator!=(const Material& material) const
-{
-    return !(*this == material);
 }

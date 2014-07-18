@@ -25,31 +25,19 @@
 
 using namespace hect;
 
-Image::Image(unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, ColorSpace colorSpace) :
-    _width(width),
-    _height(height),
-    _pixelType(pixelType),
-    _pixelFormat(pixelFormat),
-    _colorSpace(colorSpace)
-{
-    size_t totalSize = bytesPerPixel() * _width * _height;
-    _pixelData = RawPixelData(totalSize, 0);
-}
-
-Image::Image(Image&& image) :
-    _width(image._width),
-    _height(image._height),
-    _pixelType(image._pixelType),
-    _pixelFormat(image._pixelFormat),
-    _colorSpace(image._colorSpace),
-    _pixelData(std::move(image._pixelData))
+Image::Image() :
+    _width(0),
+    _height(0),
+    _pixelType(PixelType_Byte),
+    _pixelFormat(PixelFormat_Rgba),
+    _colorSpace(ColorSpace_Linear)
 {
 }
 
 void Image::flipVertical()
 {
     size_t bytesPerRow = bytesPerPixel() * _width;
-    RawPixelData newPixelData(_pixelData.size(), 0);
+    PixelData newPixelData(_pixelData.size(), 0);
     for (unsigned i = 0; i < _height; ++i)
     {
         size_t sourceRowOffset = bytesPerRow * i;
@@ -59,14 +47,24 @@ void Image::flipVertical()
     _pixelData = std::move(newPixelData);
 }
 
-Image::RawPixelData& Image::pixelData()
+bool Image::hasPixelData() const
+{
+    return !_pixelData.empty();
+}
+
+Image::PixelData& Image::pixelData()
 {
     return _pixelData;
 }
 
-const Image::RawPixelData& Image::pixelData() const
+const Image::PixelData& Image::pixelData() const
 {
     return _pixelData;
+}
+
+void Image::setPixelData(PixelData&& pixelData)
+{
+    _pixelData = pixelData;
 }
 
 unsigned Image::width() const
@@ -74,14 +72,19 @@ unsigned Image::width() const
     return _width;
 }
 
+void Image::setWidth(unsigned width)
+{
+    _width = width;
+}
+
 unsigned Image::height() const
 {
     return _height;
 }
 
-PixelFormat Image::pixelFormat() const
+void Image::setHeight(unsigned height)
 {
-    return _pixelFormat;
+    _height = height;
 }
 
 PixelType Image::pixelType() const
@@ -89,9 +92,29 @@ PixelType Image::pixelType() const
     return _pixelType;
 }
 
+void Image::setPixelType(PixelType pixelType)
+{
+    _pixelType = pixelType;
+}
+
+PixelFormat Image::pixelFormat() const
+{
+    return _pixelFormat;
+}
+
+void Image::setPixelFormat(PixelFormat pixelFormat)
+{
+    _pixelFormat = pixelFormat;
+}
+
 ColorSpace Image::colorSpace() const
 {
     return _colorSpace;
+}
+
+void Image::setColorSpace(ColorSpace colorSpace)
+{
+    _colorSpace = colorSpace;
 }
 
 int Image::bytesPerPixel() const

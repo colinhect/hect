@@ -199,7 +199,6 @@ GLenum _shaderModuleTypeLookUp[3] =
 GLenum _textureTypeLookUp[3] =
 {
     GL_TEXTURE_2D,
-    GL_TEXTURE_3D,
     GL_TEXTURE_CUBE_MAP
 };
 
@@ -725,7 +724,7 @@ void Renderer::uploadTexture(Texture& texture)
         target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
     }
 
-    for (AssetHandle<Image>& imageHandle : texture.images())
+    for (AssetHandle<Image>& imageHandle : texture.sourceImages())
     {
         Image& image = *imageHandle;
 
@@ -739,7 +738,7 @@ void Renderer::uploadTexture(Texture& texture)
             0,
             _pixelFormatLookUp[(int)image.pixelFormat()],
             _pixelTypeLookUp[(int)image.pixelType()],
-            &image.pixelData()[0]
+            image.hasPixelData() ? &image.pixelData()[0] : 0
             )
             );
 
@@ -789,7 +788,13 @@ Image Renderer::downloadTextureImage(const Texture& texture)
 
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->id));
 
-    Image image(texture.width(), texture.height(), texture.pixelType(), texture.pixelFormat());
+    Image image;
+    image.setWidth(texture.width());
+    image.setHeight(texture.height());
+    image.setPixelType(texture.pixelType());
+    image.setPixelFormat(texture.pixelFormat());
+
+    Image::PixelData pixelData(image.bytesPerPixel() * image.width() * image.height(), 0);
 
     GL_ASSERT(
         glGetTexImage(
@@ -797,9 +802,11 @@ Image Renderer::downloadTextureImage(const Texture& texture)
         0,
         _pixelFormatLookUp[(int)texture.pixelFormat()],
         _pixelTypeLookUp[(int)texture.pixelType()],
-        (GLvoid*)&image.pixelData()[0]
+        &pixelData[0]
         )
         );
+
+    image.setPixelData(std::move(pixelData));
 
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
 

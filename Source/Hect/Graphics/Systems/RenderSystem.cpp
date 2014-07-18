@@ -154,7 +154,7 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, 
 void RenderSystem::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
     // Render the mesh for each pass
-    for (Pass& pass : material.techniques()[0].passes())
+    for (Pass& pass : material.preferedTechnique().passes())
     {
         renderMeshPass(camera, target, pass, mesh, transform);
     }

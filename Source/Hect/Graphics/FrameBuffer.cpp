@@ -30,30 +30,8 @@
 using namespace hect;
 
 FrameBuffer::FrameBuffer() :
-    _depthComponent(false)
+    _depthComponent(true)
 {
-}
-
-FrameBuffer::FrameBuffer(const Texture::Array& targets, bool depthComponent) :
-    _depthComponent(depthComponent),
-    _targets(targets)
-{
-    unsigned width = 0;
-    unsigned height = 0;
-
-    for (Texture& target : _targets)
-    {
-        if (target.type() != TextureType_2D)
-        {
-            throw Error("Only 2-dimensional textures can be in a frame buffer");
-        }
-
-        width = std::max(width, target.width());
-        height = std::max(height, target.height());
-    }
-
-    setWidth(width);
-    setHeight(height);
 }
 
 FrameBuffer::~FrameBuffer()
@@ -69,17 +47,30 @@ void FrameBuffer::bind(Renderer* renderer)
     renderer->bindFrameBuffer(*this);
 }
 
-Texture::Array& FrameBuffer::targets()
+CollectionAccessor<Texture> FrameBuffer::targets()
 {
     return _targets;
 }
 
-const Texture::Array& FrameBuffer::targets() const
+const CollectionAccessor<Texture> FrameBuffer::targets() const
 {
     return _targets;
+}
+
+void FrameBuffer::addTarget(const Texture& target)
+{    
+    setWidth(std::max(width(), target.width()));
+    setHeight(std::max(height(), target.height()));
+
+    _targets.push_back(target);
 }
 
 bool FrameBuffer::hasDepthComponent() const
 {
     return _depthComponent;
+}
+
+void FrameBuffer::setDepthComponent(bool depthComponent)
+{
+    _depthComponent = depthComponent;
 }

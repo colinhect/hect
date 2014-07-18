@@ -35,10 +35,6 @@ enum TextureType
     TextureType_2D,
 
     ///
-    /// A 3-dimensional texture.
-    TextureType_3D,
-
-    ///
     /// A cube map texture.
     TextureType_CubeMap
 };

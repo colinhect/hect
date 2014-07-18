@@ -29,7 +29,6 @@ using namespace hect;
 
 #define ENUM_VALUES \
     ENUM_VALUE(TextureType, 2D) \
-    ENUM_VALUE(TextureType, 3D) \
     ENUM_VALUE(TextureType, CubeMap)
 
 #define ENUM_VALUE(type, value) HECT_ENUM_TO_STRING(type, value)

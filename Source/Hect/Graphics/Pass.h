@@ -25,6 +25,7 @@
 
 #include <map>
 
+#include "Hect/Core/CollectionAccessor.h"
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/Graphics/PassUniformValue.h"
 #include "Hect/Graphics/RenderState.h"
@@ -65,13 +66,17 @@ public:
 
     ///
     /// Returns the textures.
-    const AssetHandle<Texture>::Array& textures() const;
+    const CollectionAccessor<AssetHandle<Texture>> textures() const;
 
     ///
-    /// Sets the textures that the pass will bind.
+    /// Adds a texture.
     ///
-    /// \param textures The array of textures.
-    void setTextures(const AssetHandle<Texture>::Array& textures);
+    /// \param texture The texture to add.
+    void addTexture(const AssetHandle<Texture>& texture);
+
+    ///
+    /// Removes all textures.
+    void clearTextures();
 
     ///
     /// Returns the shader.
@@ -85,25 +90,14 @@ public:
 
     ///
     /// Returns the uniform values.
-    const PassUniformValue::Array& uniformValues() const;
+    const CollectionAccessor<PassUniformValue> uniformValues() const;
 
     ///
-    /// Sets the values for the uniforms in the shader.
+    /// Adds a uniform value.
     ///
-    /// \param uniformValues The uniform values.
-    void setUniformValues(const PassUniformValue::Array& uniformValues);
-
-    ///
-    /// Returns whether the pass is equivalent to another.
-    ///
-    /// \param pass The other pass.
-    bool operator==(const Pass& pass) const;
-
-    ///
-    /// Returns whether the pass is different from another.
-    ///
-    /// \param pass The other pass.
-    bool operator!=(const Pass& pass) const;
+    /// \param name The name of the uniform.
+    /// \param value The value.
+    void addUniformValue(const std::string& name, const UniformValue& uniformValue);
 
 private:
 
@@ -112,10 +106,10 @@ private:
     void _resolvePassUniformValues(Shader& shader);
 
     RenderState _renderState;
-    AssetHandle<Texture>::Array _textures;
+    std::vector<AssetHandle<Texture>> _textures;
     AssetHandle<Shader> _shader;
 
-    PassUniformValue::Array _uniformValues;
+    std::vector<PassUniformValue> _uniformValues;
     std::map<const Uniform*, UniformValue> _resolvedUniformValues;
     Shader* _resolvedFromShader;
 };

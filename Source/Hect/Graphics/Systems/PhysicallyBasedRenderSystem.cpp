@@ -77,13 +77,12 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
             transform.updateGlobalTransform();
 
             // Update the sky box material to use this sky box's texture
-            AssetHandle<Texture>::Array textures;
-            textures.push_back(skyBox->texture());
             for (Technique& technique : _skyBoxMaterial->techniques())
             {
                 for (Pass& pass : technique.passes())
                 {
-                    pass.setTextures(textures);
+                    pass.clearTextures();
+                    pass.addTexture(skyBox->texture());
                 }
             }
 
@@ -194,22 +193,20 @@ void PhysicallyBasedRenderSystem::_initializeBuffers(unsigned width, unsigned he
 
     TextureFilter filter = TextureFilter_Nearest;
 
-    Texture::Array targets;
+    _geometryBuffer = FrameBuffer();
 
     // Diffuse: Red Green Blue
-    targets.push_back(Texture("DiffuseBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
+    _geometryBuffer.addTarget(Texture("DiffuseBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
 
     // Material: Roughness Metallic ?
-    targets.push_back(Texture("MaterialBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
+    _geometryBuffer.addTarget(Texture("MaterialBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
 
     // Position: X Y Z
-    targets.push_back(Texture("PositionBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
+    _geometryBuffer.addTarget(Texture("PositionBuffer", width, height, PixelType_Float, PixelFormat_Rgb, filter, filter, false, false));
 
     // Normal: X Y Z Depth
-    targets.push_back(Texture("NormalBuffer", width, height, PixelType_Half, PixelFormat_Rgba, filter, filter, false, false));
-    _geometryBuffer = FrameBuffer(targets);
+    _geometryBuffer.addTarget(Texture("NormalBuffer", width, height, PixelType_Half, PixelFormat_Rgba, filter, filter, false, false));
 
-    targets.clear();
-    targets.push_back(Texture("AccumulationBuffer", width, height, PixelType_Half, PixelFormat_Rgba, filter, filter, false, false));
-    _accumulationBuffer = FrameBuffer(targets);
+    _accumulationBuffer = FrameBuffer();
+    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Half, PixelFormat_Rgba, filter, filter, false, false));
 }

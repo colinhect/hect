@@ -37,60 +37,88 @@ namespace hect
 /// A 2-dimensional image.
 class Image
 {
-    friend class ImagePngEncoder;
 public:
 
     ///
     /// Raw pixel data.
-    typedef std::vector<uint8_t> RawPixelData;
+    typedef std::vector<uint8_t> PixelData;
 
     ///
-    /// Constructs a solid black image.
-    ///
-    /// \param width The width.
-    /// \param height The height.
-    /// \param pixelType The pixel type.
-    /// \param pixelFormat The pixel format.
-    /// \param colorSpace The color space.
-    Image(unsigned width = 1, unsigned height = 1, PixelType pixelType = PixelType_Byte, PixelFormat pixelFormat = PixelFormat_Rgba, ColorSpace colorSpace = ColorSpace_Linear);
-
-    ///
-    /// Constructs an image moved from another.
-    ///
-    /// \param image The image to move.
-    Image(Image&& image);
+    /// Construct an empty image.
+    Image();
 
     ///
     /// Flips the image vertically.
     void flipVertical();
 
     ///
-    /// Returns the raw pixel data.
-    RawPixelData& pixelData();
+    /// Returns whether the image has pixel data.
+    bool hasPixelData() const;
 
     ///
-    /// Returns the raw pixel data.
-    const RawPixelData& pixelData() const;
+    /// Returns the pixel data.
+    PixelData& pixelData();
+
+    ///
+    /// Returns the pixel data.
+    const PixelData& pixelData() const;
+
+    ///
+    /// Sets the pixel data for the image.
+    ///
+    /// \param pixelData The raw pixel data to move into the image's pixel
+    /// data.
+    void setPixelData(PixelData&& pixelData);
 
     ///
     /// Returns the width.
     unsigned width() const;
 
     ///
+    /// Sets the width.
+    ///
+    /// \param width The new width.
+    void setWidth(unsigned width);
+
+    ///
     /// Returns the height.
     unsigned height() const;
+
+    ///
+    /// Sets the height.
+    ///
+    /// \param height The new height.
+    void setHeight(unsigned height);
 
     ///
     /// Returns the pixel type.
     PixelType pixelType() const;
 
     ///
+    /// Sets the pixel type.
+    ///
+    /// \param pixelType The new pixel type.
+    void setPixelType(PixelType pixelType);
+
+    ///
     /// Returns the pixel format.
     PixelFormat pixelFormat() const;
 
     ///
+    /// Sets the pixel format.
+    ///
+    /// \param pixelFormat The new pixel format.
+    void setPixelFormat(PixelFormat pixelFormat);
+
+    ///
     /// Returns the color space.
     ColorSpace colorSpace() const;
+
+    ///
+    /// Sets the color space.
+    ///
+    /// \param colorSpace The new color space.
+    void setColorSpace(ColorSpace colorSpace);
 
     ///
     /// Returns the number of bytes in a pixel of this image.
@@ -105,7 +133,7 @@ private:
 
     ColorSpace _colorSpace;
 
-    RawPixelData _pixelData;
+    PixelData _pixelData;
 };
 
 }

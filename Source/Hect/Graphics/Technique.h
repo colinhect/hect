@@ -38,10 +38,6 @@ class Technique
 public:
 
     ///
-    /// An array of techniques.
-    typedef std::vector<Technique> Array;
-
-    ///
     /// Constructs a technique without any passes.
     Technique();
 
@@ -54,26 +50,14 @@ public:
     const CollectionAccessor<Pass> passes() const;
 
     ///
-    /// Adds a new pass to the technique.
+    /// Adds a new pass.
     ///
     /// \param pass The new pass to add.
     void addPass(const Pass& pass);
 
     ///
-    /// Clears all passes from the technique.
+    /// Removes all passes.
     void clearPasses();
-
-    ///
-    /// Returns whether the technique is equivalent to another.
-    ///
-    /// \param technique The other technique.
-    bool operator==(const Technique& technique) const;
-
-    ///
-    /// Returns whether the technique is different from another.
-    ///
-    /// \param technique The other technique.
-    bool operator!=(const Technique& technique) const;
 
 private:
     std::vector<Pass> _passes;

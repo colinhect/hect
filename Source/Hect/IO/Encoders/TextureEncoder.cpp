@@ -51,7 +51,7 @@ void TextureEncoder::decode(Texture& texture, ObjectDecoder& decoder, AssetCache
         {
             Path imagePath = imagesDecoder.decodeString();
             AssetHandle<Image> image = assetCache.getHandle<Image>(imagePath);
-            texture.addImage(image);
+            texture.addSourceImage(image);
         }
     }
 

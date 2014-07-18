@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/CollectionAccessor.h"
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Graphics/Image.h"
@@ -34,7 +35,8 @@ namespace hect
 {
 
 ///
-/// A 2-dimensional texture.
+/// A texture with one or more source images which can be sampled by the
+/// renderer.
 class Texture :
     public RendererObject,
     public Encodable
@@ -42,22 +44,12 @@ class Texture :
 public:
 
     ///
-    /// An array of textures.
-    typedef std::vector<Texture> Array;
-
-    ///
-    /// Constructs a default 2-dimensional texture.
+    /// Constructs an empty 2-dimensional texture.
     Texture();
 
     ///
-    /// Constructs a default texture.
-    ///
-    /// \param name The name.
-    /// \param type The type.
-    Texture(const std::string& name, TextureType type);
-
-    ///
-    /// Constructs a 2-dimensional texture given its properties.
+    /// Constructs a 2-dimensional texture given its dimensions and other
+    /// properties.
     ///
     /// \param name The name.
     /// \param width The width.
@@ -65,16 +57,13 @@ public:
     /// \param pixelType The pixel type.
     /// \param pixelFormat The pixel format.
     /// \param minFilter The minification filter.
-    /// \param magFilter The Magnification filter.
+    /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
     /// \param wrapped True if the texture is wrapped; false otherwise.
     Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped);
 
     ///
     /// Constructs a 2-dimensional texture given a source image.
-    ///
-    /// \note Once the texture is uploaded it will no longer hold a
-    /// reference to the source image.
     ///
     /// \param name The name.
     /// \param image The source image.
@@ -105,17 +94,29 @@ public:
     void setType(TextureType type);
 
     ///
-    /// Adds an image (may affect width/height of texture).
-    ///
-    /// \note If the texture is uploaded to a renderer then it will be
-    /// destroyed before the image is added.
-    ///
-    /// \param image The image.
-    void addImage(const AssetHandle<Image>& image);
+    /// Returns the source images.
+    CollectionAccessor<AssetHandle<Image>> sourceImages();
 
     ///
-    /// Returns a reference to the images of the texture.
-    AssetHandle<Image>::Array& images();
+    /// Adds a source image to the texture (may affect width/height of
+    /// texture).
+    ///
+    /// \note If the texture is uploaded to a renderer then it will be
+    /// destroyed.
+    ///
+    /// \param image The source image to add.
+    ///
+    /// \throws Error If the maximum number of source images have been added
+    /// based on the texture type or the image does not match the width/height
+    /// of the texture.
+    void addSourceImage(const AssetHandle<Image>& image);
+
+    ///
+    /// Clears all source images that were added to the texture.
+    ///
+    /// \note If the texture is uploaded to a renderer then it will be
+    /// destroyed.
+    void clearSourceImages();
 
     ///
     /// Returns the minification filter.
@@ -203,12 +204,10 @@ public:
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    static TextureFilter _parseTextureFilter(const std::string& value);
-
     std::string _name;
     TextureType _type;
 
-    AssetHandle<Image>::Array _images;
+    std::vector<AssetHandle<Image>> _sourceImages;
 
     unsigned _width;
     unsigned _height;

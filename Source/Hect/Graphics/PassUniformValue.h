@@ -37,14 +37,10 @@ class PassUniformValue
 public:
 
     ///
-    /// An array of pass uniform values.
-    typedef std::vector<PassUniformValue> Array;
-
-    ///
     /// Constructs an pass uniform value given a name an a value.
     ///
     /// \param name The name of the uniform.
-    /// \param value The default value.
+    /// \param value The value.
     PassUniformValue(const std::string& name, const UniformValue& value);
 
     ///

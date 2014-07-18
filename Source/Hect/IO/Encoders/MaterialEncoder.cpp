@@ -133,8 +133,6 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
 
 void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    Technique::Array techniques;
-
     // Techniques
     ArrayDecoder techniquesDecoder = decoder.decodeArray("techniques");
     while (techniquesDecoder.hasMoreElements())
@@ -160,8 +158,6 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
             // Uniform values
             if (passDecoder.hasMember("uniformValues"))
             {
-                PassUniformValue::Array uniformValues;
-
                 ArrayDecoder uniformValuesDecoder = passDecoder.decodeArray("uniformValues");
                 while (uniformValuesDecoder.hasMoreElements())
                 {
@@ -180,26 +176,20 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
                     UniformValue value;
                     value.decode(uniformValueDecoder, assetCache);
 
-                    uniformValues.push_back(PassUniformValue(name, value));
+                    pass.addUniformValue(name, value);
                 }
-
-                pass.setUniformValues(uniformValues);
             }
 
             // Textures
             if (passDecoder.hasMember("textures"))
             {
-                AssetHandle<Texture>::Array textures;
-
                 ArrayDecoder texturesDecoder = passDecoder.decodeArray("textures");
                 while (texturesDecoder.hasMoreElements())
                 {
                     Path path = texturesDecoder.decodeString();
                     AssetHandle<Texture> texture = assetCache.getHandle<Texture>(path);
-                    textures.push_back(texture);
+                    pass.addTexture(texture);
                 }
-
-                pass.setTextures(textures);
             }
 
             // Render state
@@ -245,8 +235,6 @@ void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCa
             technique.addPass(pass);
         }
 
-        techniques.push_back(technique);
+        material.addTechnique(technique);
     }
-
-    material.setTechniques(techniques);
 }
