@@ -24,15 +24,9 @@
 #pragma once
 
 #include <atomic>
-#include <condition_variable>
 #include <functional>
-#include <mutex>
 #include <memory>
-#include <queue>
-#include <thread>
-#include <vector>
 
-#include "Hect/Concurrency/Task.h"
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Uncopyable.h"
 
@@ -40,48 +34,73 @@ namespace hect
 {
 
 ///
-/// Provides the functionality for executing asynchronous tasks.
-class TaskPool :
-    public Uncopyable
+/// A task performed potentially in parallel.
+class Task
+    : public Uncopyable
 {
+    friend class TaskPool;
 public:
 
     ///
-    /// Constructs a task pool with a specific number of worker threads.
-    ///
-    /// \param threadCount The number of worker threads.
-    TaskPool(size_t threadCount);
+    /// An action for a task to execute.
+    typedef std::function<void()> Action;
 
     ///
-    /// Waits until all running tasks complete (ignores any enqueued tasks
-    /// remaining).
-    ~TaskPool();
+    /// A handle for an enqueued task.
+    class Handle
+    {
+        friend class TaskPool;
+    public:
+
+        ///
+        /// Creates an invalid task handle.
+        Handle();
+
+        ///
+        /// Dereferences the handle to a reference to the associated task.
+        ///
+        /// \returns A reference to the associated task.
+        ///
+        /// \throws Error If the handle is invalid.
+        Task& operator*() const;
+
+        ///
+        /// Dereferences the handle to a pointer to the associated task.
+        ///
+        /// \returns A pointer to the associated task.
+        ///
+        /// \throws Error If the handle is invalid.
+        Task* operator->() const;
+
+        ///
+        /// Returns whether the handle is valid.
+        operator bool() const;
+
+    private:
+        Handle(const std::shared_ptr<Task>& task);
+
+        std::shared_ptr<Task> _task;
+    };
 
     ///
-    /// Enqueues a task to be executed asynchronously.
+    /// Waits until the task has completed.
     ///
-    /// \param action The action for the task to perform.
-    ///
-    /// \returns The handle to the queued task.
-    Task::Handle enqueue(Task::Action action);
+    /// \throws Error If an error occurred while executing the task's action.
+    void wait();
 
     ///
-    /// Returns whether there are no worker threads available.
-    bool noAvailableThreads() const;
+    /// Returns whether the task is done.
+    bool isDone() const;
 
 private:
-    void _initializeThreads(size_t threadCount);
-    void _threadLoop();
+    Task(Task::Action action);
 
-    std::deque<Task::Handle> _taskQueue;
+    void _execute();
 
-    std::vector<std::thread> _threads;
-
-    std::mutex _queueMutex;
-    std::condition_variable _condition;
-    bool _stop;
-
-    std::atomic<size_t> _availableThreadCount;
+    Task::Action _action;
+    std::atomic<bool> _done;
+    bool _errorOccurred;
+    Error _error;
 };
 
 }

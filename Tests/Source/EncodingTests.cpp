@@ -42,7 +42,7 @@ void testEncodeAndDecode(std::function<void(Encoder&)> encode, std::function<voi
         {
             JsonEncoder encoder;
             encode(encoder);
-            jsonValue = encoder.jsonValues()[0];
+            jsonValue = *encoder.jsonValues().begin();
         }
         {
             JsonDecoder decoder(jsonValue);

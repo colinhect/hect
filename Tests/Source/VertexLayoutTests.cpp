@@ -29,7 +29,7 @@ using namespace hect;
 TEST_CASE("VertexLayout_DefaultConstructor")
 {
     VertexLayout vertexLayout;
-    REQUIRE(vertexLayout.attributes().size() == 0u);
+    REQUIRE(vertexLayout.attributeCount() == 0u);
 }
 
 TEST_CASE("VertexLayout_addAttribute")
@@ -38,7 +38,7 @@ TEST_CASE("VertexLayout_addAttribute")
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
 
-    REQUIRE(vertexLayout.attributes().size() == 2u);
+    REQUIRE(vertexLayout.attributeCount() == 2u);
 }
 
 TEST_CASE("VertexLayout_AttributeIndexing")
@@ -47,8 +47,8 @@ TEST_CASE("VertexLayout_AttributeIndexing")
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
 
-    REQUIRE(VertexAttributeSemantic_Position == vertexLayout.attributes()[0].semantic());
-    REQUIRE(VertexAttributeSemantic_Normal == vertexLayout.attributes()[1].semantic());
+    REQUIRE(VertexAttributeSemantic_Position == (vertexLayout.attributes().begin() + 0)->semantic());
+    REQUIRE(VertexAttributeSemantic_Normal == (vertexLayout.attributes().begin() + 1)->semantic());
 }
 
 TEST_CASE("VertexLayout_AttributeOffsets")
@@ -57,8 +57,8 @@ TEST_CASE("VertexLayout_AttributeOffsets")
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
 
-    REQUIRE(vertexLayout.attributes()[0].offset() == 0u);
-    REQUIRE(vertexLayout.attributes()[1].offset() == vertexLayout.attributes()[0].size());
+    REQUIRE((vertexLayout.attributes().begin() + 0)->offset() == 0u);
+    REQUIRE((vertexLayout.attributes().begin() + 1)->offset() == (vertexLayout.attributes().begin() + 0)->size());
 }
 
 TEST_CASE("VertexLayout_AttributeWithSemantic")

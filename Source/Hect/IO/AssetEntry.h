@@ -23,8 +23,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Concurrency/TaskPool.h"
+#include "Hect/Core/Configuration.h"
 #include "Hect/IO/Path.h"
 #include "Hect/Timing/TimeStamp.h"
+
+// Issue #75
+#ifdef HECT_WINDOWS_BUILD
+#pragma warning(disable : 4505)
+#endif
 
 namespace hect
 {
@@ -71,10 +78,13 @@ public:
     const Path& path() const;
 
 private:
+    void _initiateLoad();
     void _load();
 
     AssetCache* _assetCache;
     Path _path;
+
+    Task::Handle _taskHandle;
 
     std::unique_ptr<T> _asset;
 

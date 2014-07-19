@@ -23,49 +23,71 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/IO/Encodable.h"
+#include "Hect/Logic/Component.h"
+#include "Hect/Graphics/Material.h"
+#include "Hect/Graphics/Mesh.h"
 
 namespace hect
 {
 
 ///
-/// Describes the video mode a window uses.
-class VideoMode :
-    public Encodable
+/// A single surface with a specific material in a model component.
+class ModelSurface
+{
+public:
+    ModelSurface();
+
+    ///
+    /// Constructs the surface given the mesh and the material.
+    ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
+
+    ///
+    /// Returns the mesh.
+    AssetHandle<Mesh>& mesh();
+
+    ///
+    /// Returns the mesh.
+    const AssetHandle<Mesh>& mesh() const;
+
+    ///
+    /// Returns the material.
+    AssetHandle<Material>& material();
+
+    ///
+    /// Returns the material.
+    const AssetHandle<Material>& material() const;
+
+private:
+    AssetHandle<Mesh> _mesh;
+    AssetHandle<Material> _material;
+};
+
+///
+/// A collection of surfaces which are rendered.
+class Model :
+    public Component<Model>
 {
 public:
 
     ///
-    /// Constructs a default video mode.
-    VideoMode();
+    /// Adds a surface.
+    ///
+    /// \param surface The surface.
+    void addSurface(const ModelSurface& surface);
 
     ///
-    /// Constructs a video mode.
-    ///
-    /// \param width The width.
-    /// \param height The height.
-    /// \param fullscreen True if a fullscreen mode should be used.
-    VideoMode(unsigned width, unsigned height, bool fullscreen);
+    /// Returns the surfaces.
+    Sequence<ModelSurface> surfaces();
 
     ///
-    /// Returns the width.
-    unsigned width() const;
-
-    ///
-    /// Returns the height.
-    unsigned height() const;
-
-    ///
-    /// Returns whether fullscreen is enabled.
-    bool isFullscreen() const;
+    /// Returns the surfaces.
+    ConstSequence<ModelSurface> surfaces() const;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    unsigned _width;
-    unsigned _height;
-    bool _fullscreen;
+    std::vector<ModelSurface> _surfaces;
 };
 
 }

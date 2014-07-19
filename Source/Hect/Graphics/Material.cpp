@@ -46,14 +46,14 @@ void Material::setName(const std::string& name)
     _name = name;
 }
 
-CollectionAccessor<Technique> Material::techniques()
+Sequence<Technique> Material::techniques()
 {
-    return _techniques;
+    return Sequence<Technique>(_techniques.begin(), _techniques.end());
 }
 
-const CollectionAccessor<Technique> Material::techniques() const
+ConstSequence<Technique> Material::techniques() const
 {
-    return _techniques;
+    return ConstSequence<Technique>(_techniques.begin(), _techniques.end());
 }
 
 void Material::addTechnique(const Technique& technique)

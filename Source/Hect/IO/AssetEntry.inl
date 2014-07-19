@@ -35,6 +35,7 @@ AssetEntry<T>::AssetEntry(AssetCache& assetCache, const Path& path) :
     _errorOccurred(false),
     _lastModified(-1)
 {
+    _initiateLoad();
 }
 
 template <typename T>
@@ -51,6 +52,8 @@ void AssetEntry<T>::refresh()
 
             _errorOccurred = false;
             _errorMessage.clear();
+
+            _initiateLoad();
         }
     }
 }
@@ -58,11 +61,10 @@ void AssetEntry<T>::refresh()
 template <typename T>
 std::unique_ptr<T>& AssetEntry<T>::get()
 {
-    // Load the asset if needed
-    if (!_errorOccurred && !_asset)
+    if (_taskHandle)
     {
-        _load();
-    }
+        _taskHandle->wait();
+    }    
 
     // Thow an error if the asset failed to load
     if (_errorOccurred)
@@ -77,6 +79,24 @@ template <typename T>
 const Path& AssetEntry<T>::path() const
 {
     return _path;
+}
+
+template <typename T>
+void AssetEntry<T>::_initiateLoad()
+{
+    TaskPool& taskPool = _assetCache->taskPool();
+    if (taskPool.noAvailableThreads())
+    {
+        _load();
+        _taskHandle = Task::Handle();
+    }
+    else
+    {
+        _taskHandle = _assetCache->taskPool().enqueue([this]()
+        {
+            _load();
+        });
+    }
 }
 
 template <typename T>

@@ -34,10 +34,10 @@ void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCa
     JsonValue jsonValue;
     jsonValue.decodeFromJson(stream);
 
-    assetCache.setPreferredDirectory(assetPath.parentDirectory());
+    assetCache.pushPreferredDirectory(assetPath.parentDirectory());
 
     texture.setName(assetPath.toString());
     texture.decodeFromJsonValue(jsonValue, assetCache);
 
-    assetCache.clearPreferredDirectory();
+    assetCache.popPreferredDirectory();
 }

@@ -35,6 +35,8 @@ T& AssetCache::get(const Path& path)
 template <typename T>
 AssetHandle<T> AssetCache::getHandle(const Path& path)
 {
+    std::lock_guard<std::recursive_mutex> lock(_mutex);
+
     std::shared_ptr<AssetEntry<T>> entry;
 
     auto it = _entries.find(path);
@@ -42,14 +44,16 @@ AssetHandle<T> AssetCache::getHandle(const Path& path)
     {
         Path assetPath = path;
 
+        std::stack<Path>& pathStack = _preferredDirectoryStack[std::this_thread::get_id()];
+
         // If there is a preferred directory set
-        if (!_preferredDirectoryPath.empty())
+        if (!pathStack.empty())
         {
             // If there is an asset relative to the preferred directory
-            if (_fileSystem->exists(_preferredDirectoryPath + path))
+            if (_fileSystem->exists(pathStack.top() + path))
             {
                 // Use that asset
-                assetPath = _preferredDirectoryPath + path;
+                assetPath = pathStack.top() + path;
             }
         }
 

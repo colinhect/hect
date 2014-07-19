@@ -44,13 +44,22 @@ class Scene :
     friend class Entity;
 public:
 
-    typedef std::function<void(Scene&)> ComponentRegistration;
+    ///
+    /// A function which registers a collection of components to a scene.
+    typedef void (*ComponentRegistration)(Scene& scene);
 
     ///
     /// Constructs an empty scene.
     ///
     /// \param assetCache The asset cache for the scene to use.
     Scene(AssetCache& assetCache);
+
+    ///
+    /// Constructs an empty scene.
+    ///
+    /// \param assetCache The asset cache for the scene to use.
+    /// \param componentRegisteration The component registration function.
+    Scene(AssetCache& assetCache, ComponentRegistration componentRegisteration);
 
     ///
     /// Creates a new entity.
@@ -71,10 +80,7 @@ public:
     ///
     /// \param componentName The type name of the component.
     template <typename T>
-    static void registerComponent(const std::string& componentName);
-
-    template <typename T>
-    void prepareComponentPool(const std::string& componentName);
+    void registerComponent(const std::string& componentName);
 
     ///
     /// Returns the pool of components of a specific type.
@@ -119,9 +125,8 @@ private:
 
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
 
-    static std::map<std::type_index, std::string> _componentTypeNames;
-    static std::map<std::string, std::function<ComponentBase*(void)>> _componentConstructors;
-    static std::vector<ComponentRegistration> _componentRegistrations;
+    std::map<std::type_index, std::string> _componentTypeNames;
+    std::map<std::string, std::function<ComponentBase*(void)>> _componentConstructors;
 };
 
 }

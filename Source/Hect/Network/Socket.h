@@ -26,7 +26,7 @@
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Timing/TimeSpan.h"
 #include "Hect/Network/Packet.h"
-#include "Hect/Network/Peer.h"
+#include "Hect/Network/PeerHandle.h"
 
 namespace hect
 {
@@ -72,7 +72,7 @@ public:
 
     ///
     /// The remote socket triggering the event.
-    Peer peer;
+    PeerHandle peer;
 
     ///
     /// The packet received (only for events with type
@@ -118,11 +118,11 @@ public:
     /// \note Although a peer is always returned successfully, the
     /// connection to that peer may or may not successfully establish.  If the
     /// connection succeeds then an event will be received and the peer's state
-    /// will change to Peer::Connected.
+    /// will change to PeerState_Connected.
     ///
     /// \param address The address of the remote socket.
     /// \param port The port the remote socket is listening on.
-    Peer connectToPeer(IpAddress address, Port port);
+    PeerHandle connectToPeer(IpAddress address, Port port);
 
     ///
     /// Triggers a disconnection handshake attempt with a remote socket.
@@ -131,7 +131,7 @@ public:
     /// happens.
     ///
     /// \param peer The peer.
-    void disconnectFromPeer(Peer peer);
+    void disconnectFromPeer(PeerHandle peer);
 
     ///
     /// Polls the next event triggered from a remote socket.
@@ -151,7 +151,7 @@ public:
     /// \param peer The peer to receive the packet.
     /// \param channel The channel to send the packet on.
     /// \param packet The packet to send.
-    void sendPacket(Peer peer, uint8_t channel, const Packet& packet);
+    void sendPacket(PeerHandle peer, uint8_t channel, const Packet& packet);
 
     ///
     /// Broadcasts a packet to all connected remote sockets.
@@ -169,7 +169,7 @@ public:
 
 private:
     void* _enetHost;
-    std::vector<Peer> _peers;
+    std::vector<PeerHandle> _peers;
 };
 
 }

@@ -73,9 +73,9 @@ void Pass::setRenderState(const RenderState& renderState)
     _renderState = renderState;
 }
 
-const CollectionAccessor<AssetHandle<Texture>> Pass::textures() const
+ConstSequence<AssetHandle<Texture>> Pass::textures() const
 {
-    return _textures;
+    return ConstSequence<AssetHandle<Texture>>(_textures.begin(), _textures.end());
 }
 
 void Pass::addTexture(const AssetHandle<Texture>& texture)
@@ -98,9 +98,9 @@ void Pass::setShader(const AssetHandle<Shader>& shader)
     _shader = shader;
 }
 
-const CollectionAccessor<PassUniformValue> Pass::uniformValues() const
+ConstSequence<PassUniformValue> Pass::uniformValues() const
 {
-    return _uniformValues;
+    return ConstSequence<PassUniformValue>(_uniformValues.begin(), _uniformValues.end());
 }
 
 void Pass::addUniformValue(const std::string& name, const UniformValue& uniformValue)

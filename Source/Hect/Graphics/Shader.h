@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Sequence.h"
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Graphics/Uniform.h"
@@ -86,7 +87,7 @@ public:
 
     ///
     /// Returns the modules.
-    const AssetHandle<ShaderModule>::Array& modules() const;
+    ConstSequence<AssetHandle<ShaderModule>> modules() const;
 
     ///
     /// Adds a uniform to the shader.
@@ -99,11 +100,11 @@ public:
 
     ///
     /// Returns the uniforms.
-    Uniform::Array& uniforms();
+    Sequence<Uniform> uniforms();
 
     ///
     /// Returns the uniforms.
-    const Uniform::Array& uniforms() const;
+    ConstSequence<Uniform> uniforms() const;
 
     ///
     /// Returns the uniform with the given name.
@@ -113,17 +114,7 @@ public:
     /// \throws Error If no uniform with the given name exists.
     const Uniform& uniformWithName(const std::string& name) const;
 
-    ///
-    /// Encodes the shader.
-    ///
-    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-
-    ///
-    /// Decodes the shader.
-    ///
-    /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
@@ -166,8 +157,8 @@ public:
 
 private:
     std::string _name;
-    AssetHandle<ShaderModule>::Array _modules;
-    Uniform::Array _uniforms;
+    std::vector<AssetHandle<ShaderModule>> _modules;
+    std::vector<Uniform> _uniforms;
 };
 
 }

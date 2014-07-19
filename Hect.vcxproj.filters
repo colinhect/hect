@@ -240,9 +240,6 @@
     <ClInclude Include="Source\Hect\Network\Packet.h">
       <Filter>Source\Hect\Network</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Network\Peer.h">
-      <Filter>Source\Hect\Network</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Network\Socket.h">
       <Filter>Source\Hect\Network</Filter>
     </ClInclude>
@@ -426,9 +423,6 @@
     <ClInclude Include="Source\Hect\Graphics\Components\DirectionalLight.h">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Components\Geometry.h">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Systems\RenderSystem.h">
       <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClInclude>
@@ -483,8 +477,17 @@
     <ClInclude Include="Source\Hect\Graphics\Components\LightProbe.h">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\CollectionAccessor.h">
+    <ClInclude Include="Source\Hect\Core\Sequence.h">
       <Filter>Source\Hect\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\Components\Model.h">
+      <Filter>Source\Hect\Graphics\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Network\PeerHandle.h">
+      <Filter>Source\Hect\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Concurrency\Task.h">
+      <Filter>Source\Hect\Concurrency</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -624,9 +627,6 @@
       <Filter>Source\Hect\Network</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Network\Packet.cpp">
-      <Filter>Source\Hect\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Network\Peer.cpp">
       <Filter>Source\Hect\Network</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Network\Socket.cpp">
@@ -797,9 +797,6 @@
     <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Components\Geometry.cpp">
-      <Filter>Source\Hect\Graphics\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Systems\RenderSystem.cpp">
       <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClCompile>
@@ -841,6 +838,15 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Components\LightProbe.cpp">
       <Filter>Source\Hect\Graphics\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\Components\Model.cpp">
+      <Filter>Source\Hect\Graphics\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Network\PeerHandle.cpp">
+      <Filter>Source\Hect\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Concurrency\Task.cpp">
+      <Filter>Source\Hect\Concurrency</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -898,7 +904,7 @@
     <None Include="Source\Hect\Logic\IdPool.inl">
       <Filter>Source\Hect\Logic</Filter>
     </None>
-    <None Include="Source\Hect\Core\CollectionAccessor.inl">
+    <None Include="Source\Hect\Core\Sequence.inl">
       <Filter>Source\Hect\Core</Filter>
     </None>
   </ItemGroup>

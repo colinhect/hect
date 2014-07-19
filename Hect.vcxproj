@@ -19,9 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Hect\Concurrency\Task.h" />
     <ClInclude Include="Source\Hect\Concurrency\TaskPool.h" />
     <ClInclude Include="Source\Hect\Core\Any.h" />
-    <ClInclude Include="Source\Hect\Core\CollectionAccessor.h" />
+    <ClInclude Include="Source\Hect\Core\Sequence.h" />
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\Enum.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
@@ -39,7 +40,7 @@
     <ClInclude Include="Source\Hect\Graphics\ColorSpace.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\Camera.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\DirectionalLight.h" />
-    <ClInclude Include="Source\Hect\Graphics\Components\Geometry.h" />
+    <ClInclude Include="Source\Hect\Graphics\Components\Model.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\LightProbe.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\SkyBox.h" />
     <ClInclude Include="Source\Hect\Graphics\FrameBuffer.h" />
@@ -132,7 +133,7 @@
     <ClInclude Include="Source\Hect\Math\Vector4.h" />
     <ClInclude Include="Source\Hect\Network\IpAddress.h" />
     <ClInclude Include="Source\Hect\Network\Packet.h" />
-    <ClInclude Include="Source\Hect\Network\Peer.h" />
+    <ClInclude Include="Source\Hect\Network\PeerHandle.h" />
     <ClInclude Include="Source\Hect\Network\Socket.h" />
     <ClInclude Include="Source\Hect\Noise\Random.h" />
     <ClInclude Include="Source\Hect\Physics\Bullet.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Source\Hect\Timing\TimeStamp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Hect\Concurrency\Task.cpp" />
     <ClCompile Include="Source\Hect\Concurrency\TaskPool.cpp" />
     <ClCompile Include="Source\Hect\Core\Any.cpp" />
     <ClCompile Include="Source\Hect\Core\Error.cpp" />
@@ -166,7 +168,7 @@
     <ClCompile Include="Source\Hect\Graphics\ColorSpace.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\Components\Geometry.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\Components\Model.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\LightProbe.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\SkyBox.cpp" />
     <ClCompile Include="Source\Hect\Graphics\FrameBuffer.cpp" />
@@ -253,7 +255,7 @@
     <ClCompile Include="Source\Hect\Math\Angle.cpp" />
     <ClCompile Include="Source\Hect\Network\IpAddress.cpp" />
     <ClCompile Include="Source\Hect\Network\Packet.cpp" />
-    <ClCompile Include="Source\Hect\Network\Peer.cpp" />
+    <ClCompile Include="Source\Hect\Network\PeerHandle.cpp" />
     <ClCompile Include="Source\Hect\Network\Socket.cpp" />
     <ClCompile Include="Source\Hect\Noise\Random.cpp" />
     <ClCompile Include="Source\Hect\Physics\Bullet.cpp" />
@@ -273,7 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Core\Any.inl" />
-    <None Include="Source\Hect\Core\CollectionAccessor.inl" />
+    <None Include="Source\Hect\Core\Sequence.inl" />
     <None Include="Source\Hect\Event\Dispatcher.inl" />
     <None Include="Source\Hect\IO\AssetCache.inl" />
     <None Include="Source\Hect\IO\AssetEntry.inl" />

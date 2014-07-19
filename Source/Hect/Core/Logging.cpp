@@ -23,23 +23,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Logging.h"
 
-#include "Hect/Core/Configuration.h"
-
-#ifdef HECT_WINDOWS
+#ifdef HECT_WINDOWS_BUILD
 #include <Windows.h>
 
 static HANDLE stdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
 #include <iostream>
+#include <mutex>
 
+#include "Hect/Core/Configuration.h"
 
 namespace hect
 {
 
+static std::mutex _logMutex;
+
 void log(LogLevel level, const std::string& message)
 {
-#ifdef HECT_WINDOWS
+    std::lock_guard<std::mutex> lock(_logMutex);
+
+#ifdef HECT_WINDOWS_BUILD
 
 #ifdef HECT_DEBUG_BUILD
     OutputDebugString((message + "\n").c_str());

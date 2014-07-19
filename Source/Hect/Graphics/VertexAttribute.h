@@ -24,7 +24,6 @@
 #pragma once
 
 #include <cstdint>
-#include <vector>
 
 #include "Hect/Graphics/VertexAttributeSemantic.h"
 #include "Hect/Graphics/VertexAttributeType.h"
@@ -44,10 +43,6 @@ class VertexAttribute
 {
     friend class VertexLayout;
 public:
-
-    ///
-    /// An array of vertex attributes.
-    typedef std::vector<VertexAttribute> Array;
 
     ///
     /// Constructs a vertex attribute.

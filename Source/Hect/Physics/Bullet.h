@@ -29,13 +29,13 @@
 #include "Hect/Math/Quaternion.h"
 #include "Hect/Spacial/Components/Transform.h"
 
-#ifdef HECT_WINDOWS
+#ifdef HECT_WINDOWS_BUILD
 #pragma warning(push, 0)
 #endif
 
 #include <btBulletDynamicsCommon.h>
 
-#ifdef HECT_WINDOWS
+#ifdef HECT_WINDOWS_BUILD
 #pragma warning(pop)
 #endif
 

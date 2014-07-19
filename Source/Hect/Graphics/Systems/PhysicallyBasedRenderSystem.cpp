@@ -32,7 +32,7 @@
 using namespace hect;
 
 PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(Scene& scene, Renderer& renderer, AssetCache& assetCache) :
-    RenderSystem(scene, renderer), 
+    RenderSystem(scene, renderer),
     _buffersInitialized(false)
 {
     _compositorShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Compositor.shader");
@@ -61,7 +61,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     }
     camera->setAspectRatio(target.aspectRatio());
 
-    // Geometry buffer rendering
+    // Model buffer rendering
     {
         renderer().beginFrame();
         renderer().bindTarget(_geometryBuffer);
@@ -121,11 +121,12 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
             throw Error("No light probe in scene");
         }
 
-        renderer().bindTexture(_geometryBuffer.targets()[0], 0);
-        renderer().bindTexture(_geometryBuffer.targets()[1], 1);
-        renderer().bindTexture(_geometryBuffer.targets()[2], 2);
-        renderer().bindTexture(_geometryBuffer.targets()[3], 3);
-        renderer().bindTexture(*lightProbe->texture(), 4);
+        unsigned int index = 0;
+        for (Texture& target : _geometryBuffer.targets())
+        {
+            renderer().bindTexture(target, index++);
+        }
+        renderer().bindTexture(*lightProbe->texture(), index++);
         renderer().bindMesh(*_screenMesh);
 
         Transform identity;
@@ -176,8 +177,8 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
 
         renderer().bindShader(*_compositorShader);
 
-        renderer().bindTexture(_geometryBuffer.targets()[0], 0);
-        renderer().bindTexture(_accumulationBuffer.targets()[0], 1);
+        renderer().bindTexture(*_geometryBuffer.targets().begin(), 0);
+        renderer().bindTexture(*_accumulationBuffer.targets().begin(), 1);
 
         // Bind and draw the composited image
         renderer().bindMesh(*_screenMesh);

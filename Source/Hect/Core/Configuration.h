@@ -24,7 +24,7 @@
 #pragma once
 
 #ifdef _MSC_VER
-#define HECT_WINDOWS
+#define HECT_WINDOWS_BUILD
 #ifdef _DEBUG
 #define HECT_DEBUG_BUILD
 #endif

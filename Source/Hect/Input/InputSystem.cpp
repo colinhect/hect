@@ -36,33 +36,31 @@ InputSystem::InputSystem()
     mouseDispatcher.addListener(*this);
 }
 
-InputSystem::InputSystem(const InputAxis::Array& axes) :
-    _axes(axes)
+void InputSystem::addAxis(const InputAxis& axis)
 {
-    for (InputAxis& axis : _axes)
+    // Make sure an axis with the name does not already exist
+    for (const InputAxis& existingAxis : _axes)
     {
-        // Make sure an axis with the name does not already exist
-        if (_mappedAxes.find(axis.name()) != _mappedAxes.end())
+        if (existingAxis.name() == axis.name())
         {
             throw Error(format("Multiple input axes with name '%s'", axis.name().c_str()));
         }
-
-        _mappedAxes[axis.name()] = &axis;
     }
 
-    Dispatcher<MouseEvent>& mouseDispatcher = _mouse.dispatcher();
-    mouseDispatcher.addListener(*this);
+    _axes.push_back(axis);
 }
 
 const InputAxis& InputSystem::axisWithName(const std::string& name) const
 {
-    auto it = _mappedAxes.find(name);
-    if (it == _mappedAxes.end())
+    for (const InputAxis& axis : _axes)
     {
-        throw Error(format("No input axis with name '%s'", name.c_str()));
+        if (axis.name() == name)
+        {
+            return axis;
+        }
     }
 
-    return *(*it).second;
+    throw Error(format("No input axis with name '%s'", name.c_str()));
 }
 
 void InputSystem::updateAxes(Real timeStep)

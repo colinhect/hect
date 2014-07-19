@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/VertexAttribute.h"
 #include "Hect/IO/Encodable.h"
 
@@ -69,27 +70,19 @@ public:
     /// given semantic
     const VertexAttribute& attributeWithSemantic(VertexAttributeSemantic semantic) const;
 
+    ///
     /// Returns the attributes.
-    const VertexAttribute::Array& attributes() const;
+    ConstSequence<VertexAttribute> attributes() const;
+
+    ///
+    /// Returns the number of attributes.
+    size_t attributeCount() const;
 
     ///
     /// Returns the total size in bytes of a vertex in this layout.
     unsigned vertexSize() const;
 
-    ///
-    /// Encodes the layout.
-    ///
-    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-
-    ///
-    /// Decodes the layout.
-    ///
-    /// \note Any pre-existing attributes the layout has will be removed before
-    /// decoding begins.
-    ///
-    /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
@@ -107,7 +100,7 @@ public:
 private:
     void _computeAttributeOffsets();
 
-    VertexAttribute::Array _attributes;
+    std::vector<VertexAttribute> _attributes;
     unsigned _vertexSize;
 };
 

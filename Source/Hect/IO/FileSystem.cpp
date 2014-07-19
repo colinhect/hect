@@ -29,7 +29,7 @@
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
 
-#ifdef HECT_WINDOWS
+#ifdef HECT_WINDOWS_BUILD
 #include <Windows.h>
 #endif
 
@@ -67,7 +67,7 @@ FileSystem::~FileSystem()
 
 Path FileSystem::workingDirectory() const
 {
-#ifdef HECT_WINDOWS
+#ifdef HECT_WINDOWS_BUILD
     char path[2048];
     GetCurrentDirectory(2048, path);
     return _convertPath(path);

@@ -456,7 +456,6 @@ TEST_CASE("Scene_DestroyEntityWithChildren")
 
 TEST_CASE("Scene_DestroyEntityWithParent")
 {
-    Scene::registerComponent<String>("String");
     AssetCache assetCache;
     Scene scene(assetCache);
 
@@ -488,6 +487,7 @@ TEST_CASE("Scene_CloneEntity")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     Component<String>::Iter stringA = a->addComponent(String("Test"));
@@ -508,6 +508,7 @@ TEST_CASE("Scene_CloneEntityWithChildren")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     Entity::Iter b = scene.createEntity();
@@ -526,10 +527,20 @@ TEST_CASE("Scene_CloneEntityWithChildren")
     REQUIRE(!++childIter);
 }
 
+TEST_CASE("Scene_AddUnregisteredComponent")
+{
+    AssetCache assetCache;
+    Scene scene(assetCache);
+
+    Entity::Iter a = scene.createEntity();
+    REQUIRE_THROWS_AS(a->addComponent(String("Test")), Error);
+}
+
 TEST_CASE("Scene_AddAndRemoveComponent")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 
@@ -548,6 +559,7 @@ TEST_CASE("Scene_ReplaceComponent")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 
@@ -565,6 +577,7 @@ TEST_CASE("Scene_AddExistingComponent")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
@@ -574,6 +587,7 @@ TEST_CASE("Scene_RemoveNonExistingComponent")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("Test"));
@@ -584,6 +598,7 @@ TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
@@ -593,6 +608,7 @@ TEST_CASE("Scene_Decode")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     REQUIRE(scene.entityCount() == 0);
 
@@ -612,6 +628,7 @@ TEST_CASE("Scene_DecodeWithChildren")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     REQUIRE(scene.entityCount() == 0);
 
@@ -636,6 +653,7 @@ TEST_CASE("Scene_Encode")
     {
         AssetCache assetCache;
         Scene scene(assetCache);
+        scene.registerComponent<String>("String");
 
         Entity::Iter a = scene.createEntity();
         a->addComponent(String("Test"));
@@ -647,6 +665,8 @@ TEST_CASE("Scene_Encode")
     {
         AssetCache assetCache;
         Scene scene(assetCache);
+        scene.registerComponent<String>("String");
+
         scene.decodeFromJsonValue(jsonValue);
 
         REQUIRE(scene.entityCount() == 1);
@@ -664,6 +684,7 @@ TEST_CASE("Scene_EncodeWithChildren")
     {
         AssetCache assetCache;
         Scene scene(assetCache);
+        scene.registerComponent<String>("String");
 
         Entity::Iter a = scene.createEntity();
         Entity::Iter b = scene.createEntity();
@@ -676,6 +697,8 @@ TEST_CASE("Scene_EncodeWithChildren")
     {
         AssetCache assetCache;
         Scene scene(assetCache);
+        scene.registerComponent<String>("String");
+
         scene.decodeFromJsonValue(jsonValue);
 
         REQUIRE(scene.entityCount() == 2);
@@ -692,6 +715,7 @@ TEST_CASE("Scene_ComponentIterationEmpty")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     size_t count = 0;
     for (const String& string : scene.components<String>())
@@ -706,6 +730,7 @@ TEST_CASE("Scene_ComponentIterationNoneActivated")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     scene.createEntity()->addComponent(String("Test"));
 
@@ -723,6 +748,7 @@ TEST_CASE("Scene_ComponentIterationSomeActivated")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     String string("Test");
 
@@ -749,6 +775,7 @@ TEST_CASE("Scene_ComponentIterationFirstActivated")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     String string("Test");
 
@@ -774,6 +801,7 @@ TEST_CASE("Scene_ComponentIterationLastActivated")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     String string("Test");
 
@@ -799,6 +827,7 @@ TEST_CASE("Scene_ComponentIterationFirstAndLastActivated")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     String string("Test");
 
@@ -823,6 +852,7 @@ TEST_CASE("Scene_ComponentPoolListeners")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     ComponentPoolListener listener;
     scene.components<String>().dispatcher().addListener(listener);
@@ -839,23 +869,23 @@ TEST_CASE("Scene_ComponentPoolListeners")
     b->activate();
 
     REQUIRE(listener.receivedEvents.size() == 2);
-    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType_Add);
+    REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Add);
     REQUIRE(&listener.receivedEvents[0].entity() == &*a);
-    REQUIRE(listener.receivedEvents[1].type() == ComponentEventType_Add);
+    REQUIRE(listener.receivedEvents[1].type == ComponentEventType_Add);
     REQUIRE(&listener.receivedEvents[1].entity() == &*b);
     listener.receivedEvents.clear();
 
     a->destroy();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType_Remove);
+    REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
     REQUIRE(listener.receivedEvents[0].entity().id() == (EntityId)-1);
     listener.receivedEvents.clear();
     
     b->removeComponent<String>();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type() == ComponentEventType_Remove);
+    REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
     REQUIRE(&listener.receivedEvents[0].entity() == &*b);
 }
 
@@ -863,6 +893,7 @@ TEST_CASE("Scene_ComponentPoolFindFirstWithMatch")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -895,6 +926,7 @@ TEST_CASE("Scene_ComponentPoolFindFirstWithoutMatch")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -925,6 +957,7 @@ TEST_CASE("Scene_ComponentPoolFindWithMatches")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -943,7 +976,7 @@ TEST_CASE("Scene_ComponentPoolFindWithMatches")
     d->activate();
 
     ComponentPool<String>& strings = scene.components<String>();
-    Component<String>::Iter::Array iters = strings.find([](const String& string)
+    Component<String>::Iter::Vector iters = strings.find([](const String& string)
     {
         return string.value == "Match";
     });
@@ -963,6 +996,7 @@ TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -981,7 +1015,7 @@ TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
     d->activate();
 
     ComponentPool<String>& strings = scene.components<String>();
-    Component<String>::Iter::Array iters = strings.find([](const String& string)
+    Component<String>::Iter::Vector iters = strings.find([](const String& string)
     {
         return string.value == "Match";
     });
@@ -993,6 +1027,7 @@ TEST_CASE("Scene_EntityPoolFindFirstWithMatch")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -1023,6 +1058,7 @@ TEST_CASE("Scene_EntityPoolFindFirstWithoutMatch")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -1052,6 +1088,7 @@ TEST_CASE("Scene_EntityPoolFindWithMatches")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -1069,7 +1106,7 @@ TEST_CASE("Scene_EntityPoolFindWithMatches")
     d->addComponent(String("NotMatch"));
     d->activate();
 
-    Entity::Iter::Array iters = scene.entities().find([](const Entity& entity)
+    Entity::Iter::Vector iters = scene.entities().find([](const Entity& entity)
     {
         return entity.component<String>()->value == "Match";
     });
@@ -1087,6 +1124,7 @@ TEST_CASE("Scene_EntityPoolFindWithoutMatches")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("NotMatch"));
@@ -1104,7 +1142,7 @@ TEST_CASE("Scene_EntityPoolFindWithoutMatches")
     d->addComponent(String("NotMatch"));
     d->activate();
 
-    Entity::Iter::Array iters = scene.entities().find([](const Entity& entity)
+    Entity::Iter::Vector iters = scene.entities().find([](const Entity& entity)
     {
         return entity.component<String>()->value == "Match";
     });
@@ -1116,6 +1154,7 @@ TEST_CASE("Scene_EntityFindFirstChild")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 
@@ -1158,6 +1197,7 @@ TEST_CASE("Scene_EntityFindChildren")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 
@@ -1175,7 +1215,7 @@ TEST_CASE("Scene_EntityFindChildren")
 
     a->activate();
 
-    Entity::Iter::Array iters = a->findChildren([](const Entity& entity)
+    Entity::Iter::Vector iters = a->findChildren([](const Entity& entity)
     {
         return entity.component<String>()->value == "B" ||
                entity.component<String>()->value == "C";
@@ -1202,6 +1242,7 @@ TEST_CASE("Scene_EntityFindFirstDescendant")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 
@@ -1251,6 +1292,7 @@ TEST_CASE("Scene_EntityFindDescendants")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 
@@ -1268,7 +1310,7 @@ TEST_CASE("Scene_EntityFindDescendants")
 
     a->activate();
 
-    Entity::Iter::Array iters = a->findDescendants([](const Entity& entity)
+    Entity::Iter::Vector iters = a->findDescendants([](const Entity& entity)
     {
         return entity.component<String>()->value == "B" ||
                entity.component<String>()->value == "C";
@@ -1306,6 +1348,7 @@ TEST_CASE("Scene_EntityFindFirstAncestor")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("A"));
@@ -1349,6 +1392,7 @@ TEST_CASE("Scene_EntityFindAncestors")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
     a->addComponent(String("A"));
@@ -1367,7 +1411,7 @@ TEST_CASE("Scene_EntityFindAncestors")
 
     a->activate();
 
-    Entity::Iter::Array iters = d->findAncestors([](const Entity& entity)
+    Entity::Iter::Vector iters = d->findAncestors([](const Entity& entity)
     {
         return entity.component<String>()->value == "C" ||
                entity.component<String>()->value == "A";
@@ -1394,6 +1438,7 @@ TEST_CASE("Scene_CreateEntityHandle")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 
@@ -1411,6 +1456,7 @@ TEST_CASE("Scene_CopyEntityHandle")
 {
     AssetCache assetCache;
     Scene scene(assetCache);
+    scene.registerComponent<String>("String");
 
     Entity::Iter a = scene.createEntity();
 

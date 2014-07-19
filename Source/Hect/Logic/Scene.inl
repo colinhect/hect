@@ -27,28 +27,16 @@ namespace hect
 template <typename T>
 void Scene::registerComponent(const std::string& componentName)
 {
-    ComponentRegistration componentRegistration = [=](Scene& scene)
-    {        
-        std::type_index typeIndex(typeid(T));
-
-        // Remember the type name for this type index
-        _componentTypeNames[typeIndex] = componentName;
-
-        // Create a component constructor for this type of component
-        _componentConstructors[componentName] = []()
-        {
-            return new T();
-        };
-
-        scene.prepareComponentPool<T>(componentName);
-    };
-    _componentRegistrations.push_back(componentRegistration);
-}
-
-template <typename T>
-void Scene::prepareComponentPool(const std::string& componentName)
-{
     std::type_index typeIndex(typeid(T));
+
+    // Remember the type name for this type index
+    _componentTypeNames[typeIndex] = componentName;
+
+    // Create a component constructor for this type of component
+    _componentConstructors[componentName] = []()
+    {
+        return new T();
+    };
 
     // Create a component pool for this type of component
     _componentPools[typeIndex] = std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>(*this, componentName));

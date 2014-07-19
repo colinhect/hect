@@ -21,18 +21,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Peer.h"
+#include "PeerHandle.h"
 
 using namespace hect;
 
 #include <enet/enet.h>
 
-Peer::Peer() :
+PeerHandle::PeerHandle() :
     _enetPeer(nullptr)
 {
 }
 
-Peer::Id Peer::id() const
+PeerId PeerHandle::id() const
 {
     if (!_enetPeer)
     {
@@ -42,7 +42,7 @@ Peer::Id Peer::id() const
     return ((ENetPeer*)_enetPeer)->incomingPeerID;
 }
 
-IpAddress Peer::address() const
+IpAddress PeerHandle::address() const
 {
     if (!_enetPeer)
     {
@@ -52,7 +52,7 @@ IpAddress Peer::address() const
     return IpAddress(((ENetPeer*)_enetPeer)->address.host);
 }
 
-PeerState Peer::state() const
+PeerState PeerHandle::state() const
 {
     if (!_enetPeer)
     {
@@ -62,7 +62,7 @@ PeerState Peer::state() const
     return (PeerState)((ENetPeer*)_enetPeer)->state;
 }
 
-bool Peer::operator==(const Peer& peer) const
+bool PeerHandle::operator==(const PeerHandle& peer) const
 {
     return _enetPeer == peer._enetPeer;
 }

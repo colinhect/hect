@@ -21,64 +21,45 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <cassert>
-
 namespace hect
 {
 
 template <typename T, typename Container>
-CollectionAccessor<T, Container>::CollectionAccessor(const Container& container) :
-    _container(const_cast<Container*>(&container))
+Sequence<T, Container>::Sequence(typename Container::iterator begin, typename Container::iterator end) :
+    _begin(begin),
+    _end(end)
 {
 }
 
 template <typename T, typename Container>
-typename Container::iterator CollectionAccessor<T, Container>::begin()
+typename Container::iterator Sequence<T, Container>::begin()
 {
-    assert(_container);
-    return _container->begin();
+    return _begin;
 }
 
 template <typename T, typename Container>
-typename Container::const_iterator CollectionAccessor<T, Container>::begin() const
+typename Container::iterator Sequence<T, Container>::end()
 {
-    assert(_container);
-    return _container->begin();
+    return _end;
 }
 
 template <typename T, typename Container>
-typename Container::iterator CollectionAccessor<T, Container>::end()
+ConstSequence<T, Container>::ConstSequence(typename Container::const_iterator begin, typename Container::const_iterator end) :
+    _begin(begin),
+    _end(end)
 {
-    assert(_container);
-    return _container->end();
 }
 
 template <typename T, typename Container>
-typename Container::const_iterator CollectionAccessor<T, Container>::end() const
+typename Container::const_iterator ConstSequence<T, Container>::begin()
 {
-    assert(_container);
-    return _container->end();
+    return _begin;
 }
 
 template <typename T, typename Container>
-size_t CollectionAccessor<T, Container>::size() const
+typename Container::const_iterator ConstSequence<T, Container>::end()
 {
-    assert(_container);
-    return _container->size();
-}
-
-template <typename T, typename Container>
-T& CollectionAccessor<T, Container>::operator[](typename Container::size_type index)
-{
-    assert(_container);
-    return (*_container)[index];
-}
-
-template <typename T, typename Container>
-const T& CollectionAccessor<T, Container>::operator[](typename Container::size_type index) const
-{
-    assert(_container);
-    return (*_container)[index];
+    return _end;
 }
 
 }

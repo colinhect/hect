@@ -24,7 +24,9 @@
 #pragma once
 
 #include <map>
+#include <stack>
 
+#include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/IO/FileSystem.h"
@@ -42,24 +44,27 @@ public:
 
     ///
     /// Constructs an empty asset cache without a file system.
-    AssetCache();
+    ///
+    /// \param threadCount The number of asset loading threads to allocate.
+    AssetCache(size_t threadCount = 8);
 
     ///
     /// Constructs an asset cache given a file system.
     ///
     /// \param fileSystem The file system.
-    AssetCache(FileSystem& fileSystem);
+    /// \param threadCount The number of asset loading threads to allocate.
+    AssetCache(FileSystem& fileSystem, size_t threadCount = 8);
 
     ///
     /// Sets the directory that the asset cache should first check when loading
     /// an asset.
     ///
     /// \param directoryPath The path to the new preferred directory.
-    void setPreferredDirectory(const Path& directoryPath);
+    void pushPreferredDirectory(const Path& directoryPath);
 
     ///
     /// Clears the currently set preferred directory.
-    void clearPreferredDirectory();
+    void popPreferredDirectory();
 
     ///
     /// Returns a reference to the asset at the given path.
@@ -93,14 +98,19 @@ public:
     void clear();
 
     ///
+    /// Returns the task pool.
+    TaskPool& taskPool();
+
+    ///
     /// Returns the file system.
     FileSystem& fileSystem();
 
 private:
+    TaskPool _taskPool;
     FileSystem* _fileSystem;
 
-    Path _preferredDirectoryPath;
-
+    std::recursive_mutex _mutex;
+    std::map<std::thread::id, std::stack<Path>> _preferredDirectoryStack;
     std::map<Path, std::shared_ptr<AssetEntryBase>> _entries;
 };
 

@@ -25,24 +25,32 @@
 
 using namespace hect;
 
-AssetCache::AssetCache() :
+AssetCache::AssetCache(size_t threadCount) :
+    _taskPool(threadCount),
     _fileSystem(nullptr)
 {
 }
 
-AssetCache::AssetCache(FileSystem& fileSystem) :
+AssetCache::AssetCache(FileSystem& fileSystem, size_t threadCount) :
+    _taskPool(threadCount),
     _fileSystem(&fileSystem)
 {
 }
 
-void AssetCache::setPreferredDirectory(const Path& directoryPath)
+void AssetCache::pushPreferredDirectory(const Path& directoryPath)
 {
-    _preferredDirectoryPath = directoryPath;
+    std::lock_guard<std::recursive_mutex> lock(_mutex);
+
+    std::stack<Path>& pathStack = _preferredDirectoryStack[std::this_thread::get_id()];
+    pathStack.push(directoryPath);
 }
 
-void AssetCache::clearPreferredDirectory()
+void AssetCache::popPreferredDirectory()
 {
-    _preferredDirectoryPath = Path();
+    std::lock_guard<std::recursive_mutex> lock(_mutex);
+
+    std::stack<Path>& pathStack = _preferredDirectoryStack[std::this_thread::get_id()];
+    pathStack.pop();
 }
 
 void AssetCache::refresh()
@@ -55,7 +63,13 @@ void AssetCache::refresh()
 
 void AssetCache::clear()
 {
+    std::lock_guard<std::recursive_mutex> lock(_mutex);
     _entries.clear();
+}
+
+TaskPool& AssetCache::taskPool()
+{
+    return _taskPool;
 }
 
 FileSystem& AssetCache::fileSystem()

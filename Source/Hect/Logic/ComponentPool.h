@@ -107,16 +107,16 @@ public:
     ///
     /// \param predicate The predicate to use in the search.
     ///
-    /// \returns An array of iterators to the matching components.
-    typename Component<T>::Iter::Array find(typename Component<T>::Predicate predicate);
+    /// \returns A vector of iterators to the matching components.
+    typename Component<T>::Iter::Vector find(typename Component<T>::Predicate predicate);
 
     ///
     /// Returns iterators to all components matching the given predicate.
     ///
     /// \param predicate The predicate to use in the search.
     ///
-    /// \returns An array of iterators to the matching components.
-    typename Component<T>::ConstIter::Array find(typename Component<T>::Predicate predicate) const;
+    /// \returns A vector of iterators to the matching components.
+    typename Component<T>::ConstIter::Vector find(typename Component<T>::Predicate predicate) const;
 
 private:
     void _notifyEvent(ComponentEventType type, Entity& entity);

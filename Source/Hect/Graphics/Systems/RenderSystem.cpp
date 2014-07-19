@@ -24,7 +24,7 @@
 #include "RenderSystem.h"
 
 #include "Hect/Graphics/Components/Camera.h"
-#include "Hect/Graphics/Components/Geometry.h"
+#include "Hect/Graphics/Components/Model.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Spacial/Components/BoundingBox.h"
 #include "Hect/Spacial/Components/Transform.h"
@@ -88,9 +88,9 @@ void RenderSystem::renderAll(RenderTarget& target)
 
 void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest)
 {
-    // If the entity has a geometry component
-    auto geometry = entity.component<Geometry>();
-    if (geometry)
+    // If the entity has a model component
+    auto model = entity.component<Model>();
+    if (model)
     {
         // If the entity has a transform component
         auto transform = entity.component<Transform>();
@@ -132,8 +132,8 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, 
             // If the entity is visible
             if (visible)
             {
-                // Render the geometry
-                for (const GeometrySurface& surface : geometry->surfaces())
+                // Render the model
+                for (const ModelSurface& surface : model->surfaces())
                 {
                     Mesh& mesh = *surface.mesh();
                     Material& material = *surface.material();
@@ -167,7 +167,7 @@ void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& targ
 
     // Set uniforms with bindings
     Shader& shader = *pass.shader();
-    setBoundUniforms(shader, camera, target, transform);    
+    setBoundUniforms(shader, camera, target, transform);
 
     // Bind and draw the mesh
     _renderer->bindMesh(mesh);

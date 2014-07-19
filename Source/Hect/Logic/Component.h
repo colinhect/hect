@@ -97,8 +97,8 @@ public:
     public:
 
         ///
-        /// An array of component iterators.
-        typedef std::vector<Iter> Array;
+        /// A vector of component iterators.
+        typedef std::vector<Iter> Vector;
 
         ///
         /// Constructs an invalid component iterator.
@@ -154,8 +154,8 @@ public:
     public:
 
         ///
-        /// An array of component iterators.
-        typedef std::vector<ConstIter> Array;
+        /// A vector of component iterators.
+        typedef std::vector<ConstIter> Vector;
 
         ///
         /// Constructs an invalid component iterator.

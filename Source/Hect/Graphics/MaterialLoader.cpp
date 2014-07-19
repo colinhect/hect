@@ -35,10 +35,10 @@ void AssetLoader<Material>::load(Material& material, const Path& assetPath, Asse
         jsonValue.decodeFromJson(stream);
     }
 
-    assetCache.setPreferredDirectory(assetPath.parentDirectory());
+    assetCache.pushPreferredDirectory(assetPath.parentDirectory());
 
     material.setName(assetPath.toString());
     material.decodeFromJsonValue(jsonValue, assetCache);
 
-    assetCache.clearPreferredDirectory();
+    assetCache.popPreferredDirectory();
 }

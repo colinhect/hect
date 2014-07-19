@@ -25,48 +25,9 @@
 
 using namespace hect;
 
-Task::Task()
-{
-}
-
-void Task::wait()
-{
-    if (!_data)
-    {
-        return;
-    }
-
-    Task::Data* data = _data.get();
-    while (!data->done)
-    {
-        std::this_thread::yield();
-    }
-
-    // Re-throw the error if one occurred
-    if (data->errorOccurred)
-    {
-        throw data->error;
-    }
-}
-
-bool Task::isDone() const
-{
-    if (!_data)
-    {
-        return true;
-    }
-
-    Task::Data* data = _data.get();
-    return data->done;
-}
-
-Task::Task(const std::shared_ptr<Data>& data) :
-    _data(data)
-{
-}
-
 TaskPool::TaskPool(size_t threadCount) :
-    _stop(false)
+    _stop(false),
+    _availableThreadCount(threadCount)
 {
     _initializeThreads(threadCount);
 }
@@ -87,45 +48,38 @@ TaskPool::~TaskPool()
     }
 }
 
-Task TaskPool::enqueue(TaskAction action)
+Task::Handle TaskPool::enqueue(Task::Action action)
 {
-    // Create the task data
-    auto data = std::make_shared<Task::Data>();
-    data->action = action;
-    data->done = false;
-    data->errorOccurred = false;
+    // Create the task
+    std::shared_ptr<Task> task(new Task(action));
 
     // Create the task
-    Task task(data);
+    Task::Handle handle(task);
 
     if (_threads.empty())
     {
-        // The task pool has no threads so execute the action synchronously
-        try
-        {
-            action();
-        }
-        catch (Error& error)
-        {
-            data->errorOccurred = true;
-            data->error = error;
-        }
-
-        data->done = true;
+        // The task pool has no threads so execute the task synchronously
+        task->_execute();
     }
     else
     {
         // Add this task to the queue
         {
             std::unique_lock<std::mutex> lock(_queueMutex);
-            _taskQueue.push_back(task);
+            _taskQueue.push_back(handle);
         }
 
         // Notify one of the threads that a new task is available
         _condition.notify_one();
     }
 
-    return task;
+    return handle;
+}
+
+bool TaskPool::noAvailableThreads() const
+{
+    size_t availableThreadCount = _availableThreadCount.load();
+    return availableThreadCount == 0;
 }
 
 void TaskPool::_initializeThreads(size_t threadCount)
@@ -143,7 +97,7 @@ void TaskPool::_threadLoop()
 {
     for (;;)
     {
-        Task task;
+        Task::Handle taskHandle;
 
         {
             std::unique_lock<std::mutex> lock(_queueMutex);
@@ -159,25 +113,17 @@ void TaskPool::_threadLoop()
             }
 
             // Get the next task
-            task = _taskQueue.front();
+            taskHandle = _taskQueue.front();
             _taskQueue.pop_front();
         }
 
         // Execute the task
-        Task::Data* data = task._data.get();
-        if (data)
+        _availableThreadCount.fetch_sub(1);
+        Task* task = taskHandle._task.get();
+        if (task)
         {
-            try
-            {
-                data->action();
-            }
-            catch (Error& error)
-            {
-                data->errorOccurred = true;
-                data->error = error;
-            }
-
-            data->done = true;
+            task->_execute();
         }
+        _availableThreadCount.fetch_add(1);
     }
 }

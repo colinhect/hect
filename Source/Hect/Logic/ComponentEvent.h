@@ -27,6 +27,7 @@
 
 namespace hect
 {
+
 ///
 /// A component-related event type.
 enum ComponentEventType
@@ -51,15 +52,14 @@ public:
     ComponentEvent(ComponentEventType type, Entity& entity);
 
     ///
-    /// Returns the event type.
-    ComponentEventType type() const;
+    /// The event type.
+    ComponentEventType type;
 
     ///
     /// Returns a reference to the entity that the event is for.
     Entity& entity() const;
 
 private:
-    ComponentEventType _type;
     mutable Entity* _entity;
 };
 

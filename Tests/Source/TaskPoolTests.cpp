@@ -51,12 +51,12 @@ void longTask()
     }
 }
 
-void testTasks(unsigned threadCount, unsigned taskCount, TaskAction action)
+void testTasks(unsigned threadCount, unsigned taskCount, Task::Action action)
 {
     TaskPool taskPool(threadCount);
 
     bool taskDone[maxTaskCount];
-    std::vector<Task> tasks;
+    std::vector<Task::Handle> tasks;
 
     for (unsigned i = 0; i < taskCount; ++i)
     {
@@ -69,36 +69,38 @@ void testTasks(unsigned threadCount, unsigned taskCount, TaskAction action)
     }
 
     unsigned i = 0;
-    for (auto& task : tasks)
+    for (auto& taskHandle : tasks)
     {
-        task.wait();
+        REQUIRE(taskHandle);
+        taskHandle->wait();
 
         REQUIRE(taskDone[i] == true);
-        REQUIRE(taskDone[i++] == task.isDone());
+        REQUIRE(taskDone[i++] == taskHandle->isDone());
     }
 }
 
-void testTasksWithErrors(unsigned threadCount, unsigned taskCount, TaskAction action)
+void testTasksWithErrors(unsigned threadCount, unsigned taskCount, Task::Action action)
 {
     TaskPool taskPool(threadCount);
 
-    std::vector<Task> tasks;
+    std::vector<Task::Handle> taskHandles;
 
     for (unsigned i = 0; i < taskCount; ++i)
     {
-        tasks.push_back(taskPool.enqueue([action]
+        taskHandles.push_back(taskPool.enqueue([action]
         {
             action();
             throw Error("Task error");
         }));
     }
 
-    for (auto& task : tasks)
+    for (auto& taskHandle : taskHandles)
     {
         bool errorThrown = false;
         try
         {
-            task.wait();
+            REQUIRE(taskHandle);
+            taskHandle->wait();
         }
         catch (Error&)
         {
@@ -151,4 +153,12 @@ TEST_CASE("TaskPool_ShortTasksWithErrors")
 TEST_CASE("TaskPool_LongTasksWithErrors")
 {
     TEST_TASKS_WITH_ERRORS(longTask);
+}
+
+TEST_CASE("TaskPool_DereferenceInvalidTaskHandle")
+{
+    Task::Handle taskHandle;
+    REQUIRE(!taskHandle);
+    REQUIRE_THROWS_AS(*taskHandle, Error);
+    REQUIRE_THROWS_AS(taskHandle->isDone(), Error);
 }

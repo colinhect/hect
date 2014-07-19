@@ -46,12 +46,12 @@ public:
     InputSystem();
 
     ///
-    /// Constructs an input system given axes.
+    /// Adds an axis.
     ///
-    /// \param axes The input axes to include in the system.
+    /// \param axis The axis to add.
     ///
-    /// \throws Error If there are multiple axes with the same name.
-    InputSystem(const InputAxis::Array& axes);
+    /// \throws Error If an axis already exists with the same name.
+    void addAxis(const InputAxis& axis);
 
     ///
     /// Returns the axis with the given name.
@@ -85,8 +85,7 @@ private:
     Mouse _mouse;
     Keyboard _keyboard;
 
-    InputAxis::Array _axes;
-    std::map<std::string, InputAxis*> _mappedAxes;
+    std::vector<InputAxis> _axes;
 };
 
 }

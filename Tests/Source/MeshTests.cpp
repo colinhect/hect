@@ -31,7 +31,7 @@ TEST_CASE("Mesh_DefaultConstructor")
     Mesh mesh;
 
     const VertexLayout& meshVertexLayout = mesh.vertexLayout();
-    REQUIRE(VertexAttributeSemantic_Position == meshVertexLayout.attributes()[0].semantic());
+    REQUIRE(VertexAttributeSemantic_Position == meshVertexLayout.attributes().begin()->semantic());
     REQUIRE(PrimitiveType_Triangles == mesh.primitiveType());
     REQUIRE(IndexType_UnsignedShort == mesh.indexType());
 }
@@ -48,10 +48,10 @@ TEST_CASE("Mesh_Constructor")
     mesh.setIndexType(IndexType_UnsignedByte);
 
     const VertexLayout& meshVertexLayout = mesh.vertexLayout();
-    REQUIRE(meshVertexLayout.attributes().size() == 2u);
-    REQUIRE(VertexAttributeSemantic_Position == meshVertexLayout.attributes()[0].semantic());
-    REQUIRE(VertexAttributeType_Float == meshVertexLayout.attributes()[0].type());
-    REQUIRE(meshVertexLayout.attributes()[0].cardinality() == 3u);
+    REQUIRE(meshVertexLayout.attributeCount() == 2u);
+    REQUIRE(VertexAttributeSemantic_Position == meshVertexLayout.attributes().begin()->semantic());
+    REQUIRE(VertexAttributeType_Float == meshVertexLayout.attributes().begin()->type());
+    REQUIRE(meshVertexLayout.attributes().begin()->cardinality() == 3u);
 
     REQUIRE(PrimitiveType_Triangles == mesh.primitiveType());
     REQUIRE(IndexType_UnsignedByte == mesh.indexType());

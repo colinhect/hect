@@ -26,14 +26,9 @@
 using namespace hect;
 
 EntityEvent::EntityEvent(EntityEventType type, Entity& entity) :
-    _type(type),
+    type(type),
     _entity(&entity)
 {
-}
-
-EntityEventType EntityEvent::type() const
-{
-    return _type;
 }
 
 Entity& EntityEvent::entity() const

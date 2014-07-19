@@ -90,16 +90,16 @@ public:
     ///
     /// \param predicate The predicate to use in the search.
     ///
-    /// \returns An array of iterators to the matching entities.
-    Entity::Iter::Array find(Entity::Predicate predicate);
+    /// \returns A vector of iterators to the matching entities.
+    Entity::Iter::Vector find(Entity::Predicate predicate);
 
     ///
     /// Returns iterators to all entities matching the given predicate.
     ///
     /// \param predicate The predicate to use in the search.
     ///
-    /// \returns An array of iterators to the matching entities.
-    Entity::ConstIter::Array find(Entity::Predicate predicate) const;
+    /// \returns A vector of iterators to the matching entities.
+    Entity::ConstIter::Vector find(Entity::Predicate predicate) const;
 
 private:
     Entity::Iter _create();

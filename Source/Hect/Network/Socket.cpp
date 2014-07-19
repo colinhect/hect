@@ -84,7 +84,7 @@ Socket::~Socket()
     }
 }
 
-Peer Socket::connectToPeer(IpAddress address, Port port)
+PeerHandle Socket::connectToPeer(IpAddress address, Port port)
 {
     ENetAddress enetAddress;
     enetAddress.host = (uint32_t)address;
@@ -96,7 +96,7 @@ Peer Socket::connectToPeer(IpAddress address, Port port)
         throw Error("Failed to create peer");
     }
 
-    Peer peer;
+    PeerHandle peer;
     peer._enetPeer = enetPeer;
 
     _peers.push_back(peer);
@@ -104,7 +104,7 @@ Peer Socket::connectToPeer(IpAddress address, Port port)
     return peer;
 }
 
-void Socket::disconnectFromPeer(Peer peer)
+void Socket::disconnectFromPeer(PeerHandle peer)
 {
     // Ensure the peer belongs to this socket
     if (std::find(_peers.begin(), _peers.end(), peer) == _peers.end())
@@ -149,7 +149,7 @@ bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
     return false;
 }
 
-void Socket::sendPacket(Peer peer, uint8_t channel, const Packet& packet)
+void Socket::sendPacket(PeerHandle peer, uint8_t channel, const Packet& packet)
 {
     const std::vector<uint8_t>& data = packet._data;
     ENetPacket* enetPacket = enet_packet_create(&data[0], data.size(), packet._flags);

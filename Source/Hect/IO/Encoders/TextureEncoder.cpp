@@ -46,11 +46,17 @@ void TextureEncoder::decode(Texture& texture, ObjectDecoder& decoder, AssetCache
     // Images
     if (decoder.hasMember("images"))
     {
+        std::vector<AssetHandle<Image>> images;
+
         ArrayDecoder imagesDecoder = decoder.decodeArray("images");
         while (imagesDecoder.hasMoreElements())
         {
             Path imagePath = imagesDecoder.decodeString();
-            AssetHandle<Image> image = assetCache.getHandle<Image>(imagePath);
+            images.push_back(assetCache.getHandle<Image>(imagePath));
+        }
+
+        for (AssetHandle<Image>& image : images)
+        {
             texture.addSourceImage(image);
         }
     }

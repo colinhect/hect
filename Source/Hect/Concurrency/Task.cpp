@@ -21,51 +21,83 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Task.h"
 
-#include "Hect/IO/Encodable.h"
+#include <thread>
 
-namespace hect
+using namespace hect;
+
+Task::Handle::Handle()
 {
+}
 
-///
-/// Describes the video mode a window uses.
-class VideoMode :
-    public Encodable
+Task::Handle::Handle(const std::shared_ptr<Task>& task) :
+    _task(task)
 {
-public:
+}
 
-    ///
-    /// Constructs a default video mode.
-    VideoMode();
+Task& Task::Handle::operator*() const
+{
+    if (!_task)
+    {
+        throw Error("Invalid task handle");
+    }
 
-    ///
-    /// Constructs a video mode.
-    ///
-    /// \param width The width.
-    /// \param height The height.
-    /// \param fullscreen True if a fullscreen mode should be used.
-    VideoMode(unsigned width, unsigned height, bool fullscreen);
+    return *_task;
+}
 
-    ///
-    /// Returns the width.
-    unsigned width() const;
+Task* Task::Handle::operator->() const
+{
+    if (!_task)
+    {
+        throw Error("Invalid task handle");
+    }
 
-    ///
-    /// Returns the height.
-    unsigned height() const;
+    return _task.get();
+}
 
-    ///
-    /// Returns whether fullscreen is enabled.
-    bool isFullscreen() const;
+Task::Handle::operator bool() const
+{
+    return _task.get() != nullptr;
+}
 
-    void encode(ObjectEncoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+void Task::wait()
+{
+    while (!_done)
+    {
+        std::this_thread::yield();
+    }
 
-private:
-    unsigned _width;
-    unsigned _height;
-    bool _fullscreen;
-};
+    // Re-throw the error if one occurred
+    if (_errorOccurred)
+    {
+        throw _error;
+    }
+}
 
+bool Task::isDone() const
+{
+    return _done;
+}
+
+Task::Task(Action action) :
+    _action(action),
+    _done(false),
+    _errorOccurred(false)
+{
+}
+
+void Task::_execute()
+{
+    try
+    {
+        _action();
+    }
+    catch (Error& error)
+    {
+        _errorOccurred = true;
+        _error = error;
+    }
+
+    _done = true;
 }

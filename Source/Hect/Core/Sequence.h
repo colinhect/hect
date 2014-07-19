@@ -23,76 +23,55 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/Component.h"
-#include "Hect/Graphics/Material.h"
-#include "Hect/Graphics/Mesh.h"
+#include <vector>
 
 namespace hect
 {
 
 ///
-/// A single surface with a specific material in a geometry component.
-class GeometrySurface
+/// A wrapper around an STL container providing iteration access without
+/// providing the ability to modify the container itself.
+template <typename T, typename Container = std::vector<T>>
+class Sequence
 {
 public:
+    Sequence(typename Container::iterator begin, typename Container::iterator end);
 
     ///
-    /// An array of geometry surfaces.
-    typedef std::vector<GeometrySurface> Array;
-
-    GeometrySurface();
+    /// Returns an iterator to the beginning of the sequence.
+    typename Container::iterator begin();
 
     ///
-    /// Constructs the surface given the mesh and the material.
-    GeometrySurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
-
-    ///
-    /// Returns the mesh.
-    AssetHandle<Mesh>& mesh();
-
-    ///
-    /// Returns the mesh.
-    const AssetHandle<Mesh>& mesh() const;
-
-    ///
-    /// Returns the material.
-    AssetHandle<Material>& material();
-
-    ///
-    /// Returns the material.
-    const AssetHandle<Material>& material() const;
+    /// Returns an iterator to the end of the sequence.
+    typename Container::iterator end();
 
 private:
-    AssetHandle<Mesh> _mesh;
-    AssetHandle<Material> _material;
+    typename Container::iterator _begin;
+    typename Container::iterator _end;
 };
 
 ///
-/// A collection of surfaces which are rendered.
-class Geometry :
-    public Component<Geometry>
+/// A wrapper around an STL container providing iteration access without
+/// providing the ability to modify the container itself.
+template <typename T, typename Container = std::vector<T>>
+class ConstSequence
 {
 public:
+    ConstSequence(typename Container::const_iterator begin, typename Container::const_iterator end);
 
     ///
-    /// Adds a surface.
-    ///
-    /// \param surface The surface.
-    void addSurface(const GeometrySurface& surface);
+    /// Returns an iterator to the beginning of the sequence.
+    typename Container::const_iterator begin();
 
     ///
-    /// Returns the surfaces.
-    GeometrySurface::Array& surfaces();
-
-    ///
-    /// Returns the surfaces.
-    const GeometrySurface::Array& surfaces() const;
-
-    void encode(ObjectEncoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    /// Returns an iterator to the end of the sequence.
+    typename Container::const_iterator end();
 
 private:
-    GeometrySurface::Array _surfaces;
+    typename Container::const_iterator _begin;
+    typename Container::const_iterator _end;
 };
 
 }
+
+#include "Sequence.inl"

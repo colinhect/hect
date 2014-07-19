@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/CollectionAccessor.h"
+#include "Hect/Core/Sequence.h"
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Graphics/Image.h"
@@ -95,7 +95,7 @@ public:
 
     ///
     /// Returns the source images.
-    CollectionAccessor<AssetHandle<Image>> sourceImages();
+    Sequence<AssetHandle<Image>> sourceImages();
 
     ///
     /// Adds a source image to the texture (may affect width/height of
@@ -190,17 +190,7 @@ public:
     /// Returns the number of bytes in a pixel of this texture.
     int bytesPerPixel() const;
 
-    ///
-    /// Encodes the texture.
-    ///
-    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-
-    ///
-    /// Decodes the texture.
-    ///
-    /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:

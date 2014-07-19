@@ -25,6 +25,7 @@
 
 #include <stack>
 
+#include "Hect/Core/Sequence.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/IO/Encoder.h"
 
@@ -45,7 +46,7 @@ public:
 
     ///
     /// Returns the encoded data values.
-    JsonValue::Array& jsonValues();
+    Sequence<JsonValue> jsonValues();
 
 private:
     void beginArray();

@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/CollectionAccessor.h"
+#include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/Pass.h"
 
 namespace hect
@@ -43,11 +43,11 @@ public:
 
     ///
     /// Returns the passes.
-    CollectionAccessor<Pass> passes();
+    Sequence<Pass> passes();
 
     ///
     /// Returns the passes.
-    const CollectionAccessor<Pass> passes() const;
+    ConstSequence<Pass> passes() const;
 
     ///
     /// Adds a new pass.

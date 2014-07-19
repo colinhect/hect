@@ -106,9 +106,9 @@ void Texture::setType(TextureType type)
     }
 }
 
-CollectionAccessor<AssetHandle<Image>> Texture::sourceImages()
+Sequence<AssetHandle<Image>> Texture::sourceImages()
 {
-    return _sourceImages;
+    return Sequence<AssetHandle<Image>>(_sourceImages.begin(), _sourceImages.end());
 }
 
 void Texture::addSourceImage(const AssetHandle<Image>& image)

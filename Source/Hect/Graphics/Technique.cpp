@@ -29,14 +29,14 @@ Technique::Technique()
 {
 }
 
-CollectionAccessor<Pass> Technique::passes()
+Sequence<Pass> Technique::passes()
 {
-    return _passes;
+    return Sequence<Pass>(_passes.begin(), _passes.end());
 }
 
-const CollectionAccessor<Pass> Technique::passes() const
+ConstSequence<Pass> Technique::passes() const
 {
-    return _passes;
+    return ConstSequence<Pass>(_passes.begin(), _passes.end());
 }
 
 void Technique::addPass(const Pass& pass)

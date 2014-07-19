@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "TransformSystem.h"
 
-#include "Hect/Graphics/Components/Geometry.h"
+#include "Hect/Graphics/Components/Model.h"
 #include "Hect/Logic/Scene.h"
 
 using namespace hect;

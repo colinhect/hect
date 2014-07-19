@@ -53,15 +53,14 @@ public:
     EntityEvent(EntityEventType type, Entity& entity);
 
     ///
-    /// Returns the event type.
-    EntityEventType type() const;
+    /// The event type.
+    EntityEventType type;
 
     ///
     /// Returns a reference to the entity that the event is for.
     Entity& entity() const;
 
 private:
-    EntityEventType _type;
     mutable Entity* _entity;
 };
 

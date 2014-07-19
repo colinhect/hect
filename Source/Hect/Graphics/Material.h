@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/CollectionAccessor.h"
+#include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/Technique.h"
 #include "Hect/IO/Encodable.h"
 
@@ -59,11 +59,11 @@ public:
 
     ///
     /// Returns the techniques.
-    CollectionAccessor<Technique> techniques();
+    Sequence<Technique> techniques();
 
     ///
     /// Returns the techniques.
-    const CollectionAccessor<Technique> techniques() const;
+    ConstSequence<Technique> techniques() const;
 
     ///
     /// Adds a technique.
@@ -81,17 +81,7 @@ public:
     /// \throws Error If the material does not have any techniques.
     Technique& preferedTechnique();
 
-    ///
-    /// Encodes the mesh.
-    ///
-    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-
-    ///
-    /// Decodes the mesh.
-    ///
-    /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:

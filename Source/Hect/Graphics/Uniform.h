@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <vector>
-
 #include "Hect/Graphics/UniformBinding.h"
 #include "Hect/Graphics/UniformValue.h"
 #include "Hect/IO/Encodable.h"
@@ -41,10 +39,6 @@ class Uniform :
     public Encodable
 {
 public:
-
-    ///
-    /// An array of uniforms.
-    typedef std::vector<Uniform> Array;
 
     ///
     /// Constructs an empty uniform.
@@ -129,17 +123,7 @@ public:
     /// \param location The compiled location.
     void setLocation(int location);
 
-    ///
-    /// Encodes the uniform.
-    ///
-    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-
-    ///
-    /// Decodes the uniform.
-    ///
-    /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///

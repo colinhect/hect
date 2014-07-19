@@ -25,7 +25,7 @@
 
 #include <map>
 
-#include "Hect/Core/CollectionAccessor.h"
+#include "Hect/Core/Sequence.h"
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/Graphics/PassUniformValue.h"
 #include "Hect/Graphics/RenderState.h"
@@ -53,7 +53,7 @@ public:
     ///
     /// \param renderer The renderer to prepare.
     void prepare(Renderer& renderer);
-    
+
     ///
     /// Returns the render state.
     const RenderState& renderState() const;
@@ -66,7 +66,7 @@ public:
 
     ///
     /// Returns the textures.
-    const CollectionAccessor<AssetHandle<Texture>> textures() const;
+    ConstSequence<AssetHandle<Texture>> textures() const;
 
     ///
     /// Adds a texture.
@@ -90,13 +90,13 @@ public:
 
     ///
     /// Returns the uniform values.
-    const CollectionAccessor<PassUniformValue> uniformValues() const;
+    ConstSequence<PassUniformValue> uniformValues() const;
 
     ///
     /// Adds a uniform value.
     ///
     /// \param name The name of the uniform.
-    /// \param value The value.
+    /// \param uniformValue The uniform value.
     void addUniformValue(const std::string& name, const UniformValue& uniformValue);
 
 private:

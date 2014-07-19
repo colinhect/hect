@@ -57,9 +57,9 @@ ObjectEncoder JsonEncoder::encodeObject()
     return ObjectEncoder(this);
 }
 
-JsonValue::Array& JsonEncoder::jsonValues()
+Sequence<JsonValue> JsonEncoder::jsonValues()
 {
-    return _completed;
+    return Sequence<JsonValue>(_completed.begin(), _completed.end());
 }
 
 void JsonEncoder::beginArray()

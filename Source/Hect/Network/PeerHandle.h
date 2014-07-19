@@ -73,28 +73,29 @@ enum PeerState
     PeerState_Unknown
 };
 
+
+///
+/// A locally unique id for a peer.
+typedef uint16_t PeerId;
+
 ///
 /// A remote point of contact for remote communication over UDP.
 ///
 /// \note Peers are lightweight handles.  Copying a peer will copy the
 /// the handle and they will both refer to the same peer.  Peers are created
 /// and destroyed from a socket and are provided in socket events.
-class Peer
+class PeerHandle
 {
     friend class Socket;
 public:
 
     ///
-    /// A locally unique id for a peer.
-    typedef uint16_t Id;
-
-    ///
     /// Constructs an invalid peer.
-    Peer();
+    PeerHandle();
 
     ///
     /// Returns the locally unique id of the peer.
-    Id id() const;
+    PeerId id() const;
 
     ///
     /// Returns the remote address of the peer.
@@ -108,7 +109,7 @@ public:
     /// Returns whether the peer the is same as another.
     ///
     /// \param peer The other peer.
-    bool operator==(const Peer& peer) const;
+    bool operator==(const PeerHandle& peer) const;
 
 private:
     void* _enetPeer;

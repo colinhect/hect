@@ -42,7 +42,7 @@ JsonValue Encodable::encodeToJsonValue() const
         ObjectEncoder objectEncoder = encoder.encodeObject();
         encode(objectEncoder);
     }
-    return encoder.jsonValues()[0];
+    return *encoder.jsonValues().begin();
 }
 
 void Encodable::encodeToBinary(WriteStream& stream) const

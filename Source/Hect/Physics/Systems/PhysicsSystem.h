@@ -72,7 +72,7 @@ private:
     btTriangleMesh* _toBulletMesh(Mesh* mesh);
 
     TaskPool* _taskPool;
-    Task _updateTask;
+    Task::Handle _updateTaskHandle;
 
     std::shared_ptr<btCollisionConfiguration> _configuration;
     std::shared_ptr<btCollisionDispatcher> _dispatcher;

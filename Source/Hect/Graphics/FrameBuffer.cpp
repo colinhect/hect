@@ -47,18 +47,18 @@ void FrameBuffer::bind(Renderer* renderer)
     renderer->bindFrameBuffer(*this);
 }
 
-CollectionAccessor<Texture> FrameBuffer::targets()
+Sequence<Texture> FrameBuffer::targets()
 {
-    return _targets;
+    return Sequence<Texture>(_targets.begin(), _targets.end());
 }
 
-const CollectionAccessor<Texture> FrameBuffer::targets() const
+ConstSequence<Texture> FrameBuffer::targets() const
 {
-    return _targets;
+    return ConstSequence<Texture>(_targets.begin(), _targets.end());
 }
 
 void FrameBuffer::addTarget(const Texture& target)
-{    
+{
     setWidth(std::max(width(), target.width()));
     setHeight(std::max(height(), target.height()));
 

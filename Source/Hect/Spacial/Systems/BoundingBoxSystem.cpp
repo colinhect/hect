@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "BoundingBoxSystem.h"
 
-#include "Hect/Graphics/Components/Geometry.h"
+#include "Hect/Graphics/Components/Model.h"
 #include "Hect/Logic/Scene.h"
 
 using namespace hect;
@@ -51,11 +51,11 @@ void BoundingBoxSystem::_resizeBoundingBox(Entity& entity, BoundingBox& bounding
     AxisAlignedBox& axisAlignedBox = boundingBox.axisAlignedBox();
     axisAlignedBox = AxisAlignedBox();
 
-    // Expand to fit all geometry that the component has
-    auto geometry = entity.component<Geometry>();
-    if (geometry)
+    // Expand to fit all model that the component has
+    auto model = entity.component<Model>();
+    if (model)
     {
-        for (const GeometrySurface& surface : geometry->surfaces())
+        for (const ModelSurface& surface : model->surfaces())
         {
             Mesh& mesh = *surface.mesh();
             axisAlignedBox.expandToInclude(mesh.axisAlignedBox());

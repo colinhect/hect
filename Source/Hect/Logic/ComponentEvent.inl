@@ -26,15 +26,9 @@ namespace hect
 
 template <typename T>
 ComponentEvent<T>::ComponentEvent(ComponentEventType type, Entity& entity) :
-    _type(type),
+    type(type),
     _entity(&entity)
 {
-}
-
-template <typename T>
-ComponentEventType ComponentEvent<T>::type() const
-{
-    return _type;
 }
 
 template <typename T>

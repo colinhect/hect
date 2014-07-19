@@ -159,7 +159,9 @@ Entity::ConstIter::operator bool() const
 }
 
 Entity::Children::IterBase::IterBase() :
-    _pool(nullptr)
+    _pool(nullptr),
+    _parentId((EntityId)-1),
+    _index(0)
 {
 }
 
@@ -390,7 +392,7 @@ void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
 {
     if (valid && event.entity().id() == id)
     {
-        if (event.type() == EntityEventType_Destroy)
+        if (event.type == EntityEventType_Destroy)
         {
             valid = false;
         }
@@ -401,6 +403,16 @@ Entity::Handle Entity::createHandle() const
 {
     _ensureInPool();
     return Entity::Handle(*_pool, _id);
+}
+
+Entity::Iter Entity::iter()
+{
+    return Entity::Iter(*_pool, _id);
+}
+
+Entity::ConstIter Entity::iter() const
+{
+    return Entity::ConstIter(*_pool, _id);
 }
 
 Entity::Iter Entity::clone() const
@@ -513,11 +525,11 @@ const Entity::Children& Entity::children() const
 
 Entity::Iter Entity::findFirstChild(Entity::Predicate predicate)
 {
-    for (const Entity& child : _children)
+    for (Entity& child : _children)
     {
         if (predicate(child))
         {
-            return Entity::Iter(*_pool, child._id);
+            return child.iter();
         }
     }
     return _pool->end();
@@ -529,7 +541,7 @@ Entity::ConstIter Entity::findFirstChild(Entity::Predicate predicate) const
     {
         if (predicate(child))
         {
-            return Entity::ConstIter(*_pool, child._id);
+            return child.iter();
         }
     }
     return static_cast<const EntityPool*>(_pool)->end();
@@ -541,7 +553,7 @@ Entity::Iter Entity::findFirstDescendant(Entity::Predicate predicate)
     {
         if (predicate(child))
         {
-            return Entity::Iter(*_pool, child._id);
+            return child.iter();
         }
         else
         {
@@ -609,40 +621,40 @@ Entity::ConstIter Entity::findFirstAncestor(Entity::Predicate predicate) const
     return static_cast<const EntityPool*>(_pool)->end();
 }
 
-Entity::Iter::Array Entity::findChildren(Entity::Predicate predicate)
+Entity::Iter::Vector Entity::findChildren(Entity::Predicate predicate)
 {
-    Entity::Iter::Array results;
-    for (const Entity& child : _children)
-    {
-        if (predicate(child))
-        {
-            results.push_back(Entity::Iter(*_pool, child._id));
-        }
-    }
-    return results;
-}
-
-Entity::ConstIter::Array Entity::findChildren(Entity::Predicate predicate) const
-{
-    Entity::ConstIter::Array results;
-    for (const Entity& child : _children)
-    {
-        if (predicate(child))
-        {
-            results.push_back(Entity::ConstIter(*_pool, child._id));
-        }
-    }
-    return results;
-}
-
-Entity::Iter::Array Entity::findDescendants(Entity::Predicate predicate)
-{
-    Entity::Iter::Array results;
+    Entity::Iter::Vector results;
     for (Entity& child : _children)
     {
         if (predicate(child))
         {
-            results.push_back(Entity::Iter(*_pool, child._id));
+            results.push_back(child.iter());
+        }
+    }
+    return results;
+}
+
+Entity::ConstIter::Vector Entity::findChildren(Entity::Predicate predicate) const
+{
+    Entity::ConstIter::Vector results;
+    for (const Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            results.push_back(child.iter());
+        }
+    }
+    return results;
+}
+
+Entity::Iter::Vector Entity::findDescendants(Entity::Predicate predicate)
+{
+    Entity::Iter::Vector results;
+    for (Entity& child : _children)
+    {
+        if (predicate(child))
+        {
+            results.push_back(child.iter());
         }
 
         for (Entity::Iter descendant : child.findDescendants(predicate))
@@ -653,9 +665,9 @@ Entity::Iter::Array Entity::findDescendants(Entity::Predicate predicate)
     return results;
 }
 
-Entity::ConstIter::Array Entity::findDescendants(Entity::Predicate predicate) const
+Entity::ConstIter::Vector Entity::findDescendants(Entity::Predicate predicate) const
 {
-    Entity::ConstIter::Array results;
+    Entity::ConstIter::Vector results;
     for (const Entity& child : _children)
     {
         if (predicate(child))
@@ -671,9 +683,9 @@ Entity::ConstIter::Array Entity::findDescendants(Entity::Predicate predicate) co
     return results;
 }
 
-Entity::Iter::Array Entity::findAncestors(Entity::Predicate predicate)
+Entity::Iter::Vector Entity::findAncestors(Entity::Predicate predicate)
 {
-    Entity::Iter::Array results;
+    Entity::Iter::Vector results;
     Entity::Iter iter = parent();
     while (iter)
     {
@@ -686,9 +698,9 @@ Entity::Iter::Array Entity::findAncestors(Entity::Predicate predicate)
     return results;
 }
 
-Entity::ConstIter::Array Entity::findAncestors(Entity::Predicate predicate) const
+Entity::ConstIter::Vector Entity::findAncestors(Entity::Predicate predicate) const
 {
-    Entity::ConstIter::Array results;
+    Entity::ConstIter::Vector results;
     Entity::ConstIter iter = parent();
     while (iter)
     {

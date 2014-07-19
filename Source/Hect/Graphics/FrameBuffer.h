@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/CollectionAccessor.h"
+#include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture.h"
 
@@ -52,11 +52,11 @@ public:
 
     ///
     /// Returns the targets of the frame buffer.
-    CollectionAccessor<Texture> targets();
+    Sequence<Texture> targets();
 
     ///
     /// Returns the targets of the frame buffer.
-    const CollectionAccessor<Texture> targets() const;
+    ConstSequence<Texture> targets() const;
 
     ///
     /// Adds a target to the frame buffer.

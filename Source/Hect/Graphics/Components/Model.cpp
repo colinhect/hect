@@ -21,55 +21,55 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Geometry.h"
+#include "Model.h"
 
 using namespace hect;
 
-GeometrySurface::GeometrySurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material) :
+ModelSurface::ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material) :
     _mesh(mesh),
     _material(material)
 {
 }
 
-AssetHandle<Mesh>& GeometrySurface::mesh()
+AssetHandle<Mesh>& ModelSurface::mesh()
 {
     return _mesh;
 }
 
-const AssetHandle<Mesh>& GeometrySurface::mesh() const
+const AssetHandle<Mesh>& ModelSurface::mesh() const
 {
     return _mesh;
 }
 
-AssetHandle<Material>& GeometrySurface::material()
+AssetHandle<Material>& ModelSurface::material()
 {
     return _material;
 }
 
-const AssetHandle<Material>& GeometrySurface::material() const
+const AssetHandle<Material>& ModelSurface::material() const
 {
     return _material;
 }
 
-void Geometry::addSurface(const GeometrySurface& surface)
+void Model::addSurface(const ModelSurface& surface)
 {
     _surfaces.push_back(surface);
 }
 
-GeometrySurface::Array& Geometry::surfaces()
+Sequence<ModelSurface> Model::surfaces()
 {
-    return _surfaces;
+    return Sequence<ModelSurface>(_surfaces.begin(), _surfaces.end());
 }
 
-const GeometrySurface::Array& Geometry::surfaces() const
+ConstSequence<ModelSurface> Model::surfaces() const
 {
-    return _surfaces;
+    return ConstSequence<ModelSurface>(_surfaces.begin(), _surfaces.end());
 }
 
-void Geometry::encode(ObjectEncoder& encoder) const
+void Model::encode(ObjectEncoder& encoder) const
 {
     ArrayEncoder surfacesEncoder = encoder.encodeArray("surfaces");
-    for (const GeometrySurface& surface : _surfaces)
+    for (const ModelSurface& surface : _surfaces)
     {
         ObjectEncoder surfaceEncoder = surfacesEncoder.encodeObject();
         surfaceEncoder.encodeString("mesh", surface.mesh().path().toString());
@@ -77,7 +77,7 @@ void Geometry::encode(ObjectEncoder& encoder) const
     }
 }
 
-void Geometry::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void Model::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (decoder.hasMember("surfaces"))
     {
@@ -93,7 +93,7 @@ void Geometry::decode(ObjectDecoder& decoder, AssetCache& assetCache)
                 AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
                 AssetHandle<Material> material = assetCache.getHandle<Material>(materialPath);
 
-                addSurface(GeometrySurface(mesh, material));
+                addSurface(ModelSurface(mesh, material));
             }
         }
     }

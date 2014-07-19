@@ -24,7 +24,7 @@
 #include <Hect/Core/Configuration.h>
 using namespace hect;
 
-#ifdef HECT_WINDOWS
+#ifdef HECT_WINDOWS_BUILD
 #ifdef HECT_DEBUG_BUILD
 #include <vld.h>
 #endif

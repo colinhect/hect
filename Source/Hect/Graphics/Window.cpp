@@ -134,13 +134,13 @@ Key _convertKey(SDL_Keycode key)
     }
 }
 
-#ifdef HECT_WINDOWS
+#ifdef HECT_WINDOWS_BUILD
 #include <Windows.h>
 #endif
 
 void Window::showFatalError(const std::string& message)
 {
-#ifdef HECT_WINDOWS
+#ifdef HECT_WINDOWS_BUILD
     MessageBoxA(NULL, message.c_str(), "Fatal Error", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 #endif
 }

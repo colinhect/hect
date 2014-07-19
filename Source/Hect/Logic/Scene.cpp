@@ -34,11 +34,14 @@ Scene::Scene(AssetCache& assetCache) :
     _entityCount(0),
     _entityPool(*this)
 {
-    // Create a component pool all statically registered components
-    for (ComponentRegistration componentRegistration : _componentRegistrations)
-    {
-        componentRegistration(*this);
-    }
+}
+
+Scene::Scene(AssetCache& assetCache, ComponentRegistration componentRegisteration) :
+    _assetCache(&assetCache),
+    _entityCount(0),
+    _entityPool(*this)
+{
+    componentRegisteration(*this);
 }
 
 Entity::Iter Scene::createEntity()
@@ -56,12 +59,12 @@ Entity::Iter Scene::createEntity(const Path& entityPath)
 {
     JsonValue& jsonValue = _assetCache->get<JsonValue>(entityPath);
 
-    _assetCache->setPreferredDirectory(entityPath.parentDirectory());
+    _assetCache->pushPreferredDirectory(entityPath.parentDirectory());
 
     Entity::Iter entity = createEntity();
     entity->decodeFromJsonValue(jsonValue, *_assetCache);
 
-    _assetCache->clearPreferredDirectory();
+    _assetCache->popPreferredDirectory();
 
     return entity;
 }
@@ -111,7 +114,7 @@ size_t Scene::entityCount() const
 
 Entity::Iter Scene::_cloneEntity(const Entity& entity)
 {
-    Entity::Iter sourceEntity = Entity::Iter(_entityPool, entity.id());
+    Entity::ConstIter sourceEntity = entity.iter();
     Entity::Iter clonedEntity = createEntity();
 
     for (auto& pair : _componentPools)
@@ -270,7 +273,3 @@ void Scene::_decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache
         }
     }
 }
-
-std::map<std::type_index, std::string> Scene::_componentTypeNames;
-std::map<std::string, std::function<ComponentBase*(void)>> Scene::_componentConstructors;
-std::vector<Scene::ComponentRegistration> Scene::_componentRegistrations;

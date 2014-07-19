@@ -30,6 +30,30 @@ using namespace hect;
 
 #include <lodepng.h>
 
+void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
+{
+    // Verify pixel format and type.
+    if (image.pixelType() != PixelType_Byte || image.pixelFormat() != PixelFormat_Rgba)
+    {
+        throw Error("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
+    }
+
+    // Flip the image from OpenGL ordering
+    Image flippedImage = image;
+    flippedImage.flipVertical();
+
+    // Encode to PNG data
+    Image::PixelData encodedPixelData;
+    unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), image.width(), image.height());
+    if (error)
+    {
+        throw Error(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
+    }
+
+    // Write the encoded data
+    stream.writeBytes(&encodedPixelData[0], encodedPixelData.size());
+}
+
 void ImagePngEncoder::decode(Image& image, ReadStream& stream)
 {
     // Read the encoded data
@@ -57,28 +81,4 @@ void ImagePngEncoder::decode(Image& image, ReadStream& stream)
 
     // Flip the image to OpenGL ordering
     image.flipVertical();
-}
-
-void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
-{
-    // Verify pixel format and type.
-    if (image.pixelType() != PixelType_Byte || image.pixelFormat() != PixelFormat_Rgba)
-    {
-        throw Error("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
-    }
-
-    // Flip the image from OpenGL ordering
-    Image flippedImage = image;
-    flippedImage.flipVertical();
-
-    // Encode to PNG data
-    Image::PixelData encodedPixelData;
-    unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), image.width(), image.height());
-    if (error)
-    {
-        throw Error(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
-    }
-
-    // Write the encoded data
-    stream.writeBytes(&encodedPixelData[0], encodedPixelData.size());
 }

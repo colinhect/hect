@@ -102,9 +102,9 @@ typename Component<T>::ConstIter ComponentPool<T>::findFirst(typename Component<
 }
 
 template <typename T>
-typename Component<T>::Iter::Array ComponentPool<T>::find(typename Component<T>::Predicate predicate)
+typename Component<T>::Iter::Vector ComponentPool<T>::find(typename Component<T>::Predicate predicate)
 {
-    Component<T>::Iter::Array results;
+    Component<T>::Iter::Vector results;
     for (auto iter = begin(); iter != end(); ++iter)
     {
         if (predicate(*iter))
@@ -116,9 +116,9 @@ typename Component<T>::Iter::Array ComponentPool<T>::find(typename Component<T>:
 }
 
 template <typename T>
-typename Component<T>::ConstIter::Array ComponentPool<T>::find(typename Component<T>::Predicate predicate) const
+typename Component<T>::ConstIter::Vector ComponentPool<T>::find(typename Component<T>::Predicate predicate) const
 {
-    Component<T>::ConstIter::Array results;
+    Component<T>::ConstIter::Vector results;
     for (auto iter = begin(); iter != end(); ++iter)
     {
         if (predicate(*iter))

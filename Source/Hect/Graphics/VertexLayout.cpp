@@ -80,9 +80,14 @@ const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemant
     throw Error(format("Vertex layout does not have an attribute with semantic '%s'", Enum::toString(semantic)));
 }
 
-const VertexAttribute::Array& VertexLayout::attributes() const
+ConstSequence<VertexAttribute> VertexLayout::attributes() const
 {
-    return _attributes;
+    return ConstSequence<VertexAttribute>(_attributes.begin(), _attributes.end());
+}
+
+size_t VertexLayout::attributeCount() const
+{
+    return _attributes.size();
 }
 
 unsigned VertexLayout::vertexSize() const

@@ -177,17 +177,7 @@ public:
     /// Returns the value as a 4 by 4 matrix.
     Matrix4 asMatrix4() const;
 
-    ///
-    /// Encodes the uniform value.
-    ///
-    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-
-    ///
-    /// Decodes the uniform value.
-    ///
-    /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///

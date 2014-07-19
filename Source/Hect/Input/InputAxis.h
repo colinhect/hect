@@ -42,10 +42,6 @@ class InputAxis :
 public:
 
     ///
-    /// An array of input axes.
-    typedef std::vector<InputAxis> Array;
-
-    ///
     /// Constructs an input axis.
     InputAxis();
 
@@ -151,17 +147,7 @@ public:
     /// \param gravity The new gravity.
     void setGravity(Real gravity);
 
-    ///
-    /// Encodes the input axis.
-    ///
-    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-
-    ///
-    /// Decodes the input axis.
-    ///
-    /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:

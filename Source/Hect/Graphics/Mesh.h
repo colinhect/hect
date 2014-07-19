@@ -179,17 +179,7 @@ public:
     /// Returns an axis aligned box bounding the mesh.
     const AxisAlignedBox& axisAlignedBox() const;
 
-    ///
-    /// Encodes the mesh.
-    ///
-    /// \param encoder The encoder to use.
     void encode(ObjectEncoder& encoder) const;
-
-    ///
-    /// Decodes the mesh.
-    ///
-    /// \param decoder The decoder to use.
-    /// \param assetCache The asset cache to get referenced assets from.
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///

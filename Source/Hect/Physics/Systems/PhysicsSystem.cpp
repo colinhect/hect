@@ -48,7 +48,10 @@ PhysicsSystem::PhysicsSystem(Scene& scene, TaskPool& taskPool) :
 
 PhysicsSystem::~PhysicsSystem()
 {
-    _updateTask.wait();
+    if (_updateTaskHandle)
+    {
+        _updateTaskHandle->wait();
+    }
 
     // Unregister from component events for rigid bodies
     ComponentPool<RigidBody>& rigidBodyPool = scene().components<RigidBody>();
@@ -58,10 +61,13 @@ PhysicsSystem::~PhysicsSystem()
 void PhysicsSystem::beginAsynchronousUpdate(Real timeStep, unsigned maxSubStepCount)
 {
     // Wait until the last update (if any) completes
-    _updateTask.wait();
+    if (_updateTaskHandle)
+    {
+        _updateTaskHandle->wait();
+    }
 
     // Update the dynamics world
-    _updateTask = _taskPool->enqueue([this, timeStep, maxSubStepCount]()
+    _updateTaskHandle = _taskPool->enqueue([this, timeStep, maxSubStepCount]()
     {
         _world->stepSimulation(timeStep, maxSubStepCount);
     });
@@ -70,7 +76,10 @@ void PhysicsSystem::beginAsynchronousUpdate(Real timeStep, unsigned maxSubStepCo
 void PhysicsSystem::endAsynchronousUpdate()
 {
     // Wait until the last update (if any) completes
-    _updateTask.wait();
+    if (_updateTaskHandle)
+    {
+        _updateTaskHandle->wait();
+    }
 
     // For each rigid body component
     for (RigidBody& rigidBody : scene().components<RigidBody>())
@@ -107,7 +116,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
         auto rigidBody = entity.component<RigidBody>();
         if (rigidBody)
         {
-            if (event.type() == ComponentEventType_Add)
+            if (event.type == ComponentEventType_Add)
             {
                 Mesh& mesh = *rigidBody->mesh();
                 mesh;
@@ -133,7 +142,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
 
                 _world->addRigidBody(rigidBody->_rigidBody.get());
             }
-            else if (event.type() == ComponentEventType_Remove)
+            else if (event.type == ComponentEventType_Remove)
             {
                 _world->removeRigidBody(rigidBody->_rigidBody.get());
             }

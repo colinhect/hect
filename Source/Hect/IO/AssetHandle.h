@@ -24,7 +24,6 @@
 #pragma once
 
 #include <memory>
-#include <vector>
 
 #include "Hect/IO/AssetEntry.h"
 #include "Hect/IO/Path.h"
@@ -42,10 +41,6 @@ template <typename T>
 class AssetHandle
 {
 public:
-
-    ///
-    /// An array of asset handles.
-    typedef std::vector<AssetHandle<T>> Array;
 
     ///
     /// Constructs an empty asset handle.

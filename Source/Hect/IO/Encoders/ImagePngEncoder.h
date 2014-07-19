@@ -35,24 +35,8 @@ namespace hect
 class ImagePngEncoder
 {
 public:
-
-    ///
-    /// Decodes an image from a stream of PNG data.
-    ///
-    /// \note The resulting image will be 32-bit RGBA.
-    ///
-    /// \param image The image to decode to (existing data is lost).
-    /// \param stream The stream containing the PNG data.
-    static void decode(Image& image, ReadStream& stream);
-
-    ///
-    /// Encodes an image as PNG data to a stream.
-    ///
-    /// \note The image must be 32-bit RGBA format.
-    ///
-    /// \param image The image to encode.
-    /// \param stream The stream to write the PNG data to.
     static void encode(const Image& image, WriteStream& stream);
+    static void decode(Image& image, ReadStream& stream);
 };
 
 }
