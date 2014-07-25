@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Hect/Core/Any.h"
-#include "Hect/Graphics/UniformType.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
@@ -33,6 +32,39 @@
 
 namespace hect
 {
+
+///
+/// A uniform value type.
+enum UniformType : uint8_t
+{
+    ///
+    /// An integer.
+    UniformType_Int,
+
+    ///
+    /// A floating point number.
+    UniformType_Float,
+
+    ///
+    /// A 2-dimensional vector.
+    UniformType_Vector2,
+
+    ///
+    /// A 3-dimensional vector.
+    UniformType_Vector3,
+
+    ///
+    /// A 4-dimensional vector.
+    UniformType_Vector4,
+
+    ///
+    /// A 4 by 4 matrix.
+    UniformType_Matrix4,
+
+    ///
+    /// A texture (the index of the texture).
+    UniformType_Texture
+};
 
 ///
 /// A value for a uniform.

@@ -26,12 +26,54 @@
 #include <cstdint>
 #include <vector>
 
-#include "Hect/Graphics/ColorSpace.h"
-#include "Hect/Graphics/PixelType.h"
-#include "Hect/Graphics/PixelFormat.h"
-
 namespace hect
 {
+
+///
+/// The color space a pixel is in.
+enum ColorSpace
+{
+    ///
+    /// Non-linear color space (sRGB).
+    ///
+    /// \note Only an image with a pixel type of PixelType_Byte can
+    /// be non-linear.
+    ColorSpace_NonLinear,
+
+    ///
+    /// Linear color space.
+    ColorSpace_Linear
+};
+
+///
+/// The type of each component in a pixel.
+enum PixelType
+{
+    ///
+    /// 16-bit floating point.
+    PixelType_Half,
+
+    ///
+    /// 32-bit floating point.
+    PixelType_Float,
+
+    ///
+    /// A byte.
+    PixelType_Byte
+};
+
+///
+/// The layout of the component(s) in a pixel.
+enum PixelFormat
+{
+    ///
+    /// Red, green, and blue channels.
+    PixelFormat_Rgb,
+
+    ///
+    /// Red, green, blue, and alpha channels.
+    PixelFormat_Rgba
+};
 
 ///
 /// A 2-dimensional image.

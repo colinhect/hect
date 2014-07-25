@@ -91,6 +91,9 @@
     <Filter Include="Source\Hect\Timing">
       <UniqueIdentifier>{b8989ef5-bf60-4598-9769-af82d7d30a93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Hect\Generated">
+      <UniqueIdentifier>{96da004b-1767-4720-8027-c8853b96da38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Hect\Core\Any.h">
@@ -342,48 +345,6 @@
     <ClInclude Include="Source\Hect\IO\AssetLoader.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\BlendFactor.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\PixelType.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\PixelFormat.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\ColorSpace.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\PrimitiveType.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\IndexType.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Input\InputAxisSource.h">
-      <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Input\Key.h">
-      <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Input\MouseButton.h">
-      <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\TextureFilter.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\UniformBinding.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\UniformType.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\VertexAttributeSemantic.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\VertexAttributeType.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Core\Enum.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
@@ -453,9 +414,6 @@
     <ClInclude Include="Source\Hect\Physics\Bullet.h">
       <Filter>Source\Hect\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\RenderStateFlag.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\RenderState.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -467,9 +425,6 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.h">
       <Filter>Source\Hect\Graphics\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\TextureType.h">
-      <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Components\SkyBox.h">
       <Filter>Source\Hect\Graphics\Components</Filter>
@@ -719,48 +674,6 @@
     <ClCompile Include="Source\Hect\IO\AssetCache.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\BlendFactor.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\PixelFormat.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\PixelType.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\ColorSpace.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\PrimitiveType.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\IndexType.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Input\InputAxisSource.cpp">
-      <Filter>Source\Hect\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Input\Key.cpp">
-      <Filter>Source\Hect\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Input\MouseButton.cpp">
-      <Filter>Source\Hect\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\TextureFilter.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\UniformBinding.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\UniformType.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\VertexAttributeSemantic.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\VertexAttributeType.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Loop.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
@@ -818,9 +731,6 @@
     <ClCompile Include="Source\Hect\Physics\Bullet.cpp">
       <Filter>Source\Hect\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\RenderStateFlag.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\RenderState.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
@@ -829,9 +739,6 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.cpp">
       <Filter>Source\Hect\Graphics\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\TextureType.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Components\SkyBox.cpp">
       <Filter>Source\Hect\Graphics\Components</Filter>
@@ -847,6 +754,90 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Concurrency\Task.cpp">
       <Filter>Source\Hect\Concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_BlendFactor.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_ColorSpace.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_ComponentEventType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_EntityEventType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_FrustumTestResult.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_IndexType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_InputAxisSource.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_JsonValueType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_Key.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_KeyboardEventType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_LogLevel.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_MouseButton.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_MouseEventType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_MouseMode.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_PacketFlag.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_PeerState.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_PixelFormat.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_PixelType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_PrimitiveType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_RenderStateFlag.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_ShaderModuleType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_SocketEventType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_TextureFilter.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_TextureType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_UniformBinding.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_UniformType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_VertexAttributeSemantic.cpp">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_hect_VertexAttributeType.cpp">
+      <Filter>Source\Hect\Generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

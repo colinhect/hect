@@ -25,11 +25,104 @@
 
 #include <cstdint>
 
-#include "Hect/Graphics/VertexAttributeSemantic.h"
-#include "Hect/Graphics/VertexAttributeType.h"
-
 namespace hect
 {
+
+///
+/// A semantic describing how a vertex attribute is used.
+enum VertexAttributeSemantic : uint8_t
+{
+
+    ///
+    /// The position of a vertex.
+    VertexAttributeSemantic_Position,
+
+    ///
+    /// The normal of a vertex.
+    VertexAttributeSemantic_Normal,
+
+    ///
+    /// The color of a vertex.
+    VertexAttributeSemantic_Color,
+
+    ///
+    /// The tangent of a vertex.
+    VertexAttributeSemantic_Tangent,
+
+    ///
+    /// The binormal of a vertex.
+    VertexAttributeSemantic_Binormal,
+
+    ///
+    /// The first weight of a vertex.
+    VertexAttributeSemantic_Weight0,
+
+    ///
+    /// The second weight of a vertex.
+    VertexAttributeSemantic_Weight1,
+
+    ///
+    /// The third weight of a vertex.
+    VertexAttributeSemantic_Weight2,
+
+    ///
+    /// The fourth weight of a vertex.
+    VertexAttributeSemantic_Weight3,
+
+    ///
+    /// The texture coordinates of a vertex for the first texture.
+    VertexAttributeSemantic_TextureCoords0,
+
+    ///
+    /// The texture coordinates of a vertex for the second texture.
+    VertexAttributeSemantic_TextureCoords1,
+
+    ///
+    /// The texture coordinates of a vertex for the third texture.
+    VertexAttributeSemantic_TextureCoords2,
+
+    ///
+    /// The texture coordinates of a vertex for the fourth texture.
+    VertexAttributeSemantic_TextureCoords3
+};
+
+///
+/// A type of a vertex attribute.
+enum VertexAttributeType : uint8_t
+{
+    ///
+    /// An 8-bit signed integer.
+    VertexAttributeType_Byte,
+
+    ///
+    /// An 8-bit unsigned integer.
+    VertexAttributeType_UnsignedByte,
+
+    ///
+    /// A 16-bit signed integer.
+    VertexAttributeType_Short,
+
+    ///
+    /// A 16-bit unsigned integer.
+    VertexAttributeType_UnsignedShort,
+
+    ///
+    /// A 32-bit signed integer.
+    VertexAttributeType_Int,
+
+    ///
+    /// A 32-bit unsigned integer.
+    VertexAttributeType_UnsignedInt,
+
+    ///
+    /// A 16-bit float.
+    /// \note Also known as "half".
+    VertexAttributeType_Half,
+
+    ///
+    /// A 32-bit float.
+    VertexAttributeType_Float
+};
 
 ///
 /// An attribute of a vertex (position, normal, etc).

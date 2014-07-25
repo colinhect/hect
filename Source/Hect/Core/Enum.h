@@ -60,44 +60,4 @@ public:
     static const std::string& toString(T value);
 };
 
-#define HECT_ENUM_TO_STRING(type, value) \
-    _valueToString[type##_##value] = #value;
-
-#define HECT_ENUM_DEFINE_TO_STRING(type, values) \
-    template <> \
-    const std::string& Enum::toString<type>(type value) \
-    { \
-        static std::map<type, std::string> _valueToString; \
-        if (_valueToString.empty()) \
-        { \
-            values \
-        } \
-        auto it = _valueToString.find(value); \
-        if (it == _valueToString.end()) \
-        { \
-            throw Error("Invalid enum value"); \
-        } \
-        return it->second; \
-    }
-
-#define HECT_ENUM_FROM_STRING(type, value) \
-    _stringToValue[#value] = type##_##value;
-
-#define HECT_ENUM_DEFINE_FROM_STRING(type, values) \
-    template <> \
-    type Enum::fromString<type>(const std::string& string) \
-    { \
-        static std::map<std::string, type> _stringToValue; \
-        if (_stringToValue.empty()) \
-        { \
-            values \
-        } \
-        auto it = _stringToValue.find(string); \
-        if (it == _stringToValue.end()) \
-        { \
-            throw Error(format("Invalid enum string '%s'", string.c_str())); \
-        } \
-        return it->second; \
-    }
-
 }

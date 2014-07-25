@@ -24,11 +24,27 @@
 #pragma once
 
 #include "Hect/Event/Dispatcher.h"
-#include "Hect/Input/MouseButton.h"
 #include "Hect/Math/Vector2.h"
 
 namespace hect
 {
+
+///
+/// A mouse button.
+enum MouseButton
+{
+    ///
+    /// The left mouse button.
+    MouseButton_Left,
+
+    ///
+    /// The right mouse button.
+    MouseButton_Right,
+
+    ///
+    /// The middle mouse button.
+    MouseButton_Middle
+};
 
 ///
 /// The mode a mouse is in.

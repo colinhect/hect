@@ -23,11 +23,76 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/BlendFactor.h"
-#include "Hect/Graphics/RenderStateFlag.h"
-
 namespace hect
 {
+
+///
+/// A formula used to compute blending from either the source or
+/// destination.
+enum BlendFactor
+{
+    ///
+    /// Blend forumla: 0 0 0 0
+    BlendFactor_Zero,
+
+    ///
+    /// Blend forumla: 1 1 1 1
+    BlendFactor_One,
+
+    ///
+    /// Blend forumla: R s0 k R G s0 k G B s0 k B A s0 k A
+    BlendFactor_SourceColor,
+
+    ///
+    /// Blend forumla: 1 1 1 1 - R s0 k R G s0 k G B s0 k B A s0 k A
+    BlendFactor_OneMinusSourceColor,
+
+    ///
+    /// Blend forumla: R d k R G d k G B d k B A d k A
+    BlendFactor_DestColor,
+
+    ///
+    /// Blend forumla: 1 1 1 1 - R d k R G d k G B d k B A d k A
+    BlendFactor_OneMinusDestColor,
+
+    ///
+    /// Blend forumla: A s0 k A A s0 k A A s0 k A A s0 k A
+    BlendFactor_SourceAlpha,
+
+    ///
+    /// Blend forumla: 1 1 1 1 - A s0 k A A s0 k A A s0 k A A s0 k A
+    BlendFactor_OneMinusSourceAlpha,
+
+    ///
+    /// Blend forumla: A d k A A d k A A d k A A d k A
+    BlendFactor_DestAlpha,
+
+    ///
+    /// Blend forumla: 1 1 1 1 - A d k A A d k A A d k A A d k A
+    BlendFactor_OneMinusDestAlpha
+};
+
+
+///
+/// A flag that can either be enabled or disabled in a render state.
+enum RenderStateFlag
+{
+    ///
+    /// Blends source and destination pixels using a formula.
+    RenderStateFlag_Blend = 1,
+
+    ///
+    /// Tests whether a pixel should be occluded based on the depth buffer.
+    RenderStateFlag_DepthTest = 2,
+
+    ///
+    // Writes a pixel's depth to the depth buffer.
+    RenderStateFlag_DepthWrite = 4,
+
+    ///
+    /// Culls faces pointing away from the camera.
+    RenderStateFlag_CullFace = 8
+};
 
 ///
 /// Describes a state that the renderer is in which affects the resulting

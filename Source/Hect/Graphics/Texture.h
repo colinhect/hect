@@ -28,11 +28,34 @@
 #include "Hect/IO/Encodable.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/RendererObject.h"
-#include "Hect/Graphics/TextureFilter.h"
-#include "Hect/Graphics/TextureType.h"
 
 namespace hect
 {
+
+///
+/// Describes how a texture pixel is rendered when magnified or minified.
+enum TextureFilter
+{
+    ///
+    /// The nearest pixel is selected.
+    TextureFilter_Nearest,
+
+    /// The pixel is interpolated linearly.
+    TextureFilter_Linear
+};
+
+///
+/// A type of texture.
+enum TextureType
+{
+    ///
+    /// A 2-dimensional texture.
+    TextureType_2D,
+
+    ///
+    /// A cube map texture.
+    TextureType_CubeMap
+};
 
 ///
 /// A texture with one or more source images which can be sampled by the

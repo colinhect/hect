@@ -23,12 +23,61 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/UniformBinding.h"
 #include "Hect/Graphics/UniformValue.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
 {
+
+///
+/// A binding from a shader uniform variable to a built-in value in the
+/// rendering pipeline.
+enum UniformBinding
+{
+    ///
+    /// No binding.
+    UniformBinding_None,
+
+    ///
+    /// Bound to the size of the active render target.
+    UniformBinding_RenderTargetSize,
+
+    ///
+    /// Bound to the world-space position of the active camera.
+    UniformBinding_CameraPosition,
+
+    ///
+    /// Bound to the world-space front direction of the active camera.
+    UniformBinding_CameraFront,
+
+    ///
+    /// Bound to the world-space up direction of the active camera.
+    UniformBinding_CameraUp,
+
+    ///
+    /// Bound to the view matrix.
+    UniformBinding_ViewMatrix,
+
+    ///
+    /// Bound to the projection matrix.
+    UniformBinding_ProjectionMatrix,
+
+    ///
+    /// Bound to the product of the view and projection matrices.
+    UniformBinding_ViewProjectionMatrix,
+
+    ///
+    /// Bound to the model matrix.
+    UniformBinding_ModelMatrix,
+
+    ///
+    /// Bound to the product of the model and the view matrix.
+    UniformBinding_ModelViewMatrix,
+
+    ///
+    /// Bound to the product of the model, view, and projection matrices.
+    UniformBinding_ModelViewProjectionMatrix
+};
 
 ///
 /// A variable of a shader which serves as parameter.

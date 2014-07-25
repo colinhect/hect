@@ -24,10 +24,73 @@
 #pragma once
 
 #include "Hect/Event/Dispatcher.h"
-#include "Hect/Input/Key.h"
 
 namespace hect
 {
+
+///
+/// A key on a keyboard.
+enum Key
+{
+    Key_Unknown,
+    Key_A,
+    Key_B,
+    Key_C,
+    Key_D,
+    Key_E,
+    Key_F,
+    Key_G,
+    Key_H,
+    Key_I,
+    Key_J,
+    Key_K,
+    Key_L,
+    Key_M,
+    Key_N,
+    Key_O,
+    Key_P,
+    Key_Q,
+    Key_R,
+    Key_S,
+    Key_T,
+    Key_U,
+    Key_V,
+    Key_W,
+    Key_X,
+    Key_Y,
+    Key_Z,
+    Key_Num0,
+    Key_Num1,
+    Key_Num2,
+    Key_Num3,
+    Key_Num4,
+    Key_Num5,
+    Key_Num6,
+    Key_Num7,
+    Key_Num8,
+    Key_Num9,
+    Key_Esc,
+    Key_Space,
+    Key_Enter,
+    Key_Backspace,
+    Key_Tab,
+    Key_Tick,
+    Key_F1,
+    Key_F2,
+    Key_F3,
+    Key_F4,
+    Key_F5,
+    Key_F6,
+    Key_F7,
+    Key_F8,
+    Key_F9,
+    Key_F10,
+    Key_F11,
+    Key_F12,
+    Key_LeftCtrl,
+    Key_LeftShift,
+    Key_LeftAlt,
+};
 
 ///
 /// A keyboard event type.
