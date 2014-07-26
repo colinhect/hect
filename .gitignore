@@ -10,6 +10,8 @@ Dependencies/PhysFS/Intermediate/*
 Intermediate/*
 Docs/Output/*
 Docs/Intermediate/*
+Reflect/Output/*
+Reflect/Intermediate/*
 Tests/Intermediate/*
 *.opensdf
 *.sdf
