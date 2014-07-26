@@ -24,7 +24,6 @@
     <ClInclude Include="Source\Hect\Core\Any.h" />
     <ClInclude Include="Source\Hect\Core\Sequence.h" />
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
-    <ClInclude Include="Source\Hect\Core\Enum.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
     <ClInclude Include="Source\Hect\Core\Format.h" />
     <ClInclude Include="Source\Hect\Core\Logging.h" />
@@ -123,6 +122,9 @@
     <ClInclude Include="Source\Hect\Physics\Bullet.h" />
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h" />
     <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h" />
+    <ClInclude Include="Source\Hect\Reflection\Enum.h" />
+    <ClInclude Include="Source\Hect\Reflection\EnumMetaData.h" />
+    <ClInclude Include="Source\Hect\Reflection\Type.h" />
     <ClInclude Include="Source\Hect\Spacial\AxisAlignedBox.h" />
     <ClInclude Include="Source\Hect\Spacial\Box.h" />
     <ClInclude Include="Source\Hect\Spacial\Components\BoundingBox.h" />
@@ -148,34 +150,7 @@
     <ClCompile Include="Source\Hect\Debug\DebugRenderLayer.cpp" />
     <ClCompile Include="Source\Hect\Debug\Systems\DebugRenderSystem.cpp" />
     <ClCompile Include="Source\Hect\Debug\TransformDebugRenderLayer.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_BlendFactor.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_ColorSpace.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_ComponentEventType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_EntityEventType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_FrustumTestResult.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_IndexType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_InputAxisSource.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_JsonValueType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_Key.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_KeyboardEventType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_LogLevel.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_MouseButton.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_MouseEventType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_MouseMode.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_PacketFlag.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_PeerState.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_PixelFormat.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_PixelType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_PrimitiveType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_RenderStateFlag.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_ShaderModuleType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_SocketEventType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_TextureFilter.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_TextureType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_UniformBinding.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_UniformType.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_VertexAttributeSemantic.cpp" />
-    <ClCompile Include="Source\Hect\Generated\_hect_VertexAttributeType.cpp" />
+    <ClCompile Include="Source\Hect\Generated\HectTypes.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Model.cpp" />
@@ -257,6 +232,8 @@
     <ClCompile Include="Source\Hect\Physics\Bullet.cpp" />
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\EnumMetaData.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
     <ClCompile Include="Source\Hect\Spacial\AxisAlignedBox.cpp" />
     <ClCompile Include="Source\Hect\Spacial\Box.cpp" />
     <ClCompile Include="Source\Hect\Spacial\Components\BoundingBox.cpp" />
@@ -289,6 +266,7 @@
     <None Include="Source\Hect\Math\Vector2.inl" />
     <None Include="Source\Hect\Math\Vector3.inl" />
     <None Include="Source\Hect\Math\Vector4.inl" />
+    <None Include="Source\Hect\Reflection\Type.inl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Dependencies\Bullet\Bullet.vcxproj">

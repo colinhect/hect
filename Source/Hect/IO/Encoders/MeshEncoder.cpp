@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MeshEncoder.h"
 
-#include "Hect/Core/Enum.h"
+#include "Hect/Reflection/Enum.h"
 #include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Graphics/MeshReader.h"
 #include "Hect/IO/Encoders/VertexLayoutEncoder.h"

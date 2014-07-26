@@ -23,41 +23,56 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
 #include <map>
+#include <typeindex>
 
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
+#include "Hect/Reflection/EnumMetaData.h"
 
 namespace hect
 {
 
-///
-/// Provides functionality for enums.
-class Enum
+enum Kind
+{
+    Kind_None,
+    Kind_Namespace,
+    Kind_Class,
+    Kind_Enum
+};
+
+class Type
 {
 public:
 
-    ///
-    /// Creates an enum value for a specific enum type from its string
-    /// representation.
-    ///
-    /// \param string The string representation of the enum value.
-    ///
-    /// \returns The enum value.
-    ///
-    /// \throws Error If the string does not represent a valid enum value.
     template <typename T>
-    static T fromString(const std::string& string);
+    static void registerTypes();
 
-    ///
-    /// Converts an enum value to its string representation.
-    ///
-    /// \param value The enum value.
-    ///
-    /// \returns The string representation of the enum value.
     template <typename T>
-    static const std::string& toString(T value);
+    static Type& create(Kind kind, const std::string& name);
+    
+    template <typename T>
+    static const Type& get();
+
+    template <typename T>
+    static const Type& of(T& value);
+
+    Type();
+    
+    Kind kind() const;
+    const std::string& name() const;
+    
+    EnumMetaData& enumMetaData();
+    const EnumMetaData& enumMetaData() const;
+
+private:
+    Type(Kind kind, const std::string& name);
+
+    Kind _kind;
+    std::string _name;
+    EnumMetaData _enumMetaData;
+
+    static std::map<std::type_index, Type> _registeredTypes;
 };
 
 }
+
+#include "Type.inl"
