@@ -37,7 +37,7 @@ class RenderSystem :
     public System
 {
 public:
-    RenderSystem(Scene& scene, Renderer& renderer);
+    RenderSystem(Scene& scene);
     virtual ~RenderSystem();
 
     void updateActiveCamera();
@@ -50,7 +50,7 @@ public:
     /// Renders all visible entities.
     ///
     /// \param target The target to render to.
-    virtual void renderAll( RenderTarget& target);
+    virtual void renderAll(RenderTarget& target);
 
     void render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest = true);
     void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);

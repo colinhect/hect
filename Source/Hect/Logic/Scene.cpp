@@ -29,15 +29,15 @@
 
 using namespace hect;
 
-Scene::Scene(AssetCache& assetCache) :
-    _assetCache(&assetCache),
+Scene::Scene() :
+    _engine(nullptr),
     _entityCount(0),
     _entityPool(*this)
 {
 }
 
-Scene::Scene(AssetCache& assetCache, ComponentRegistration componentRegisteration) :
-    _assetCache(&assetCache),
+Scene::Scene(Engine& engine, ComponentRegistration componentRegisteration) :
+    _engine(&engine),
     _entityCount(0),
     _entityPool(*this)
 {
@@ -55,16 +55,16 @@ Entity::Iter Scene::createEntity()
     return entity;
 }
 
-Entity::Iter Scene::createEntity(const Path& entityPath)
+Entity::Iter Scene::createEntity(const Path& entityPath, AssetCache& assetCache)
 {
-    JsonValue& jsonValue = _assetCache->get<JsonValue>(entityPath);
+    JsonValue& jsonValue = assetCache.get<JsonValue>(entityPath);
 
-    _assetCache->pushPreferredDirectory(entityPath.parentDirectory());
+    assetCache.pushPreferredDirectory(entityPath.parentDirectory());
 
     Entity::Iter entity = createEntity();
-    entity->decodeFromJsonValue(jsonValue, *_assetCache);
+    entity->decodeFromJsonValue(jsonValue, assetCache);
 
-    _assetCache->popPreferredDirectory();
+    assetCache.popPreferredDirectory();
 
     return entity;
 }
@@ -110,6 +110,36 @@ const EntityPool& Scene::entities() const
 size_t Scene::entityCount() const
 {
     return _entityCount;
+}
+
+FileSystem& Scene::fileSystem()
+{
+    assert(_engine);
+    return _engine->fileSystem();
+}
+
+InputSystem& Scene::inputSystem()
+{
+    assert(_engine);
+    return _engine->inputSystem();
+}
+
+Window& Scene::window()
+{
+    assert(_engine);
+    return _engine->window();
+}
+
+Renderer& Scene::renderer()
+{
+    assert(_engine);
+    return _engine->renderer();
+}
+
+AssetCache& Scene::assetCache()
+{
+    assert(_engine);
+    return _engine->assetCache();
 }
 
 Entity::Iter Scene::_cloneEntity(const Entity& entity)

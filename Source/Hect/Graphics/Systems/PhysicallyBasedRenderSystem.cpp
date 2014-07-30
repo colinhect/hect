@@ -31,10 +31,12 @@
 
 using namespace hect;
 
-PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(Scene& scene, Renderer& renderer, AssetCache& assetCache) :
-    RenderSystem(scene, renderer),
+PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(Scene& scene) :
+    RenderSystem(scene),
     _buffersInitialized(false)
 {
+    AssetCache& assetCache = scene.assetCache();
+
     _compositorShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Compositor.shader");
     _environmentShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Environment.shader");
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/DirectionalLight.shader");

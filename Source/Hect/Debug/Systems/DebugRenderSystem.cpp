@@ -23,11 +23,21 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DebugRenderSystem.h"
 
+#include "Hect/Logic/Scene.h"
+
 using namespace hect;
 
-DebugRenderSystem::DebugRenderSystem(Scene& scene, Renderer& renderer) :
-    RenderSystem(scene, renderer)
+DebugRenderSystem::DebugRenderSystem(Scene& scene) :
+    RenderSystem(scene)
 {
+    Keyboard& keyboard = scene.inputSystem().keyboard();
+    keyboard.dispatcher().addListener(*this);
+}
+
+DebugRenderSystem::~DebugRenderSystem()
+{
+    Keyboard& keyboard = scene().inputSystem().keyboard();
+    keyboard.dispatcher().removeListener(*this);
 }
 
 void DebugRenderSystem::addRenderLayer(Key toggleKey, DebugRenderLayer& renderLayer)

@@ -32,7 +32,7 @@ class PhysicallyBasedRenderSystem :
     public RenderSystem
 {
 public:
-    PhysicallyBasedRenderSystem(Scene& scene, Renderer& renderer, AssetCache& assetCache);
+    PhysicallyBasedRenderSystem(Scene& scene);
 
     void renderAll(RenderTarget& target);
 

@@ -40,7 +40,8 @@ class DebugRenderSystem :
     public Listener<KeyboardEvent>
 {
 public:
-    DebugRenderSystem(Scene& scene, Renderer& renderer);
+    DebugRenderSystem(Scene& scene);
+    ~DebugRenderSystem();
 
     ///
     /// Adds a debug render layer to the system.

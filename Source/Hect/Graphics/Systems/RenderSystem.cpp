@@ -31,9 +31,9 @@
 
 using namespace hect;
 
-RenderSystem::RenderSystem(Scene& scene, Renderer& renderer) :
+RenderSystem::RenderSystem(Scene& scene) :
     System(scene),
-    _renderer(&renderer)
+    _renderer(&scene.renderer())
 {
 }
 

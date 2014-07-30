@@ -27,7 +27,7 @@
 #include <typeinfo>
 #include <typeindex>
 
-#include "Hect/IO/AssetCache.h"
+#include "Hect/Core/Engine.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/EntityPool.h"
@@ -50,16 +50,14 @@ public:
 
     ///
     /// Constructs an empty scene.
-    ///
-    /// \param assetCache The asset cache for the scene to use.
-    Scene(AssetCache& assetCache);
+    Scene();
 
     ///
     /// Constructs an empty scene.
     ///
-    /// \param assetCache The asset cache for the scene to use.
+    /// \param engine The engine.
     /// \param componentRegisteration The component registration function.
-    Scene(AssetCache& assetCache, ComponentRegistration componentRegisteration);
+    Scene(Engine& engine, ComponentRegistration componentRegisteration);
 
     ///
     /// Creates a new entity.
@@ -71,9 +69,10 @@ public:
     /// Creates a new entity from an asset.
     ///
     /// \param entityPath The path to the entity asset.
+    /// \param assetCache The asset cache.
     ///
     /// \returns An iterator to the new entity.
-    Entity::Iter createEntity(const Path& entityPath);
+    Entity::Iter createEntity(const Path& entityPath, AssetCache& assetCache);
 
     ///
     /// Registers a component type.
@@ -104,6 +103,14 @@ public:
     /// Returns the number of active entities in the scene.
     size_t entityCount() const;
 
+    FileSystem& fileSystem();
+    InputSystem& inputSystem();
+
+    Window& window();
+    Renderer& renderer();
+
+    AssetCache& assetCache();
+
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
@@ -117,8 +124,8 @@ private:
 
     void _encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void _decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
-
-    AssetCache* _assetCache;
+    
+    Engine* _engine;
 
     size_t _entityCount;
     EntityPool _entityPool;
