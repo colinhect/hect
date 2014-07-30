@@ -22,6 +22,7 @@
     <ClInclude Include="Source\Hect\Concurrency\Task.h" />
     <ClInclude Include="Source\Hect\Concurrency\TaskPool.h" />
     <ClInclude Include="Source\Hect\Core\Any.h" />
+    <ClInclude Include="Source\Hect\Core\Engine.h" />
     <ClInclude Include="Source\Hect\Core\Sequence.h" />
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
@@ -123,7 +124,6 @@
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h" />
     <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h" />
     <ClInclude Include="Source\Hect\Reflection\Enum.h" />
-    <ClInclude Include="Source\Hect\Reflection\EnumMetaData.h" />
     <ClInclude Include="Source\Hect\Reflection\Type.h" />
     <ClInclude Include="Source\Hect\Spacial\AxisAlignedBox.h" />
     <ClInclude Include="Source\Hect\Spacial\Box.h" />
@@ -142,6 +142,7 @@
     <ClCompile Include="Source\Hect\Concurrency\Task.cpp" />
     <ClCompile Include="Source\Hect\Concurrency\TaskPool.cpp" />
     <ClCompile Include="Source\Hect\Core\Any.cpp" />
+    <ClCompile Include="Source\Hect\Core\Engine.cpp" />
     <ClCompile Include="Source\Hect\Core\Error.cpp" />
     <ClCompile Include="Source\Hect\Core\Format.cpp" />
     <ClCompile Include="Source\Hect\Core\Logging.cpp" />
@@ -232,7 +233,7 @@
     <ClCompile Include="Source\Hect\Physics\Bullet.cpp" />
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp" />
-    <ClCompile Include="Source\Hect\Reflection\EnumMetaData.cpp" />
+    <ClCompile Include="Source\Hect\Reflection\Enum.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
     <ClCompile Include="Source\Hect\Spacial\AxisAlignedBox.cpp" />
     <ClCompile Include="Source\Hect\Spacial\Box.cpp" />
@@ -266,6 +267,7 @@
     <None Include="Source\Hect\Math\Vector2.inl" />
     <None Include="Source\Hect\Math\Vector3.inl" />
     <None Include="Source\Hect\Math\Vector4.inl" />
+    <None Include="Source\Hect\Reflection\Enum.inl" />
     <None Include="Source\Hect\Reflection\Type.inl" />
   </ItemGroup>
   <ItemGroup>

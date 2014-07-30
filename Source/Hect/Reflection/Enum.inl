@@ -21,45 +21,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include <cstdint>
-#include <map>
-#include <vector>
-
-#include "Hect/Core/Sequence.h"
+#include "Hect/Reflection/Type.h"
 
 namespace hect
 {
 
-class EnumValue
+template <typename T>
+static T Enum::fromString(const std::string& string)
 {
-public:
-    typedef uint32_t Type;
+    const Enum& enumType = Type::get<T>().asEnum();
+    return static_cast<T>(enumType.fromString(string));
+}
 
-    EnumValue(EnumValue::Type value, const std::string& string);
-
-    EnumValue::Type value;
-    std::string string;
-};
-
-class EnumMetaData
+template <typename T>
+const std::string& Enum::toString(T value)
 {
-    friend class Type;
-public:
-
-    ConstSequence<EnumValue> values() const;
-
-    EnumValue::Type fromString(const std::string& string) const;
-    const std::string& toString(EnumValue::Type value) const;
-
-private:
-
-    void addValue(EnumValue::Type value, const std::string& string);
-    
-    std::vector<EnumValue> _values;
-    std::map<std::string, EnumValue::Type> _stringToValue;
-    std::map<EnumValue::Type, std::string> _valueToString;
-};
+    const Enum& enumType = Type::get<T>().asEnum();
+    return enumType.toString(static_cast<EnumValue::Type>(value));
+}
 
 }

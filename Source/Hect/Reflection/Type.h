@@ -26,49 +26,99 @@
 #include <map>
 #include <typeindex>
 
-#include "Hect/Reflection/EnumMetaData.h"
+#include "Hect/Reflection/Enum.h"
 
 namespace hect
 {
 
+///
+/// The kind of a reflected type.
 enum Kind
 {
+    ///
+    /// Not a type.
     Kind_None,
+
+    ///
+    /// A namespace.
     Kind_Namespace,
+
+    ///
+    /// A class or struct.
     Kind_Class,
+
+    ///
+    /// An enum.
     Kind_Enum
 };
 
+///
+/// A reflected type.
 class Type
 {
 public:
 
+    ///
+    /// Registers a type collection.
     template <typename T>
     static void registerTypes();
 
+    ///
+    /// Creates a reflected type.
+    ///
+    /// \param kind The kind of the type.
+    /// \param name The name of the type.
+    ///
+    /// \returns A reference to the newly created type.
+    ///
+    /// \throws Error If the type already exists.
     template <typename T>
     static Type& create(Kind kind, const std::string& name);
     
+    ///
+    /// Returns a reflected type.
+    ///
+    /// \throws Error If the type is not registered.
     template <typename T>
     static const Type& get();
 
+    ///
+    /// Returns the reflected type of a value.
+    ///
+    /// \param value The value to get the type of.
+    ///
+    /// \throws Error If the type is not registered.
     template <typename T>
     static const Type& of(T& value);
 
     Type();
     
+    ///
+    /// Returns the kind.
     Kind kind() const;
+
+    ///
+    /// Returns the name.
     const std::string& name() const;
     
-    EnumMetaData& enumMetaData();
-    const EnumMetaData& enumMetaData() const;
+    ///
+    /// Returns the type as an enum.
+    ///
+    /// \throws Error If the type is not an enum.
+    Enum& asEnum();
+
+    ///
+    /// Returns the type as an enum.
+    ///
+    /// \throws Error If the type is not an enum.
+    const Enum& asEnum() const;
 
 private:
     Type(Kind kind, const std::string& name);
 
     Kind _kind;
     std::string _name;
-    EnumMetaData _enumMetaData;
+    Enum _enum;
 
     static std::map<std::type_index, Type> _registeredTypes;
 };

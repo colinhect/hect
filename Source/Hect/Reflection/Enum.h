@@ -23,50 +23,114 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
+#include <cstdint>
 #include <map>
+#include <string>
+#include <vector>
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
-#include "Hect/Reflection/Type.h"
+#include "Hect/Core/Sequence.h"
 
 namespace hect
 {
 
 ///
-/// Provides functionality for enums.
+/// A reflected enum value.
+class EnumValue
+{
+public:
+
+    ///
+    /// The numeric type that enum values are defined as.
+    typedef uint32_t Type;
+
+    ///
+    /// Constructs an enum value given its numeric value and string value.
+    ///
+    /// \param numericValue The numeric value of the enum.
+    /// \param stringValue The string value of the enum.
+    EnumValue(EnumValue::Type numericValue, const std::string& stringValue);
+
+    ///
+    /// The numeric value of the enum.
+    EnumValue::Type numericValue;
+
+    ///
+    /// The string value of the enum.
+    std::string stringValue;
+};
+
+///
+/// A reflected enum.
 class Enum
 {
+    friend class Type;
 public:
 
     ///
     /// Creates an enum value for a specific enum type from its string
     /// representation.
     ///
-    /// \param string The string representation of the enum value.
+    /// \param stringValue The string representation of the enum value.
     ///
     /// \returns The enum value.
     ///
-    /// \throws Error If the string does not represent a valid enum value.
+    /// \throws Error If the string does not represent a valid enum value or
+    /// if the type is not an enum.
     template <typename T>
-    static T fromString(const std::string& string)
-    {
-        const EnumMetaData& metaData = Type::get<T>().enumMetaData();
-        return static_cast<T>(metaData.fromString(string));
-    }
+    static T fromString(const std::string& stringValue);
 
     ///
     /// Converts an enum value to its string representation.
     ///
-    /// \param value The enum value.
+    /// \param numericValue The numeric representation of the enum value.
     ///
     /// \returns The string representation of the enum value.
+    ///
+    /// \throws Error If the number does not represent a valid enum value or
+    /// if the type is not an enum.
     template <typename T>
-    static const std::string& toString(T value)
-    {
-        const EnumMetaData& metaData = Type::get<T>().enumMetaData();
-        return metaData.toString(static_cast<EnumValue::Type>(value));
-    }
+    static const std::string& toString(T numericValue);
+
+    ///
+    /// Creates an enum value for a specific enum type from its string
+    /// representation.
+    ///
+    /// \param stringValue The string representation of the enum value.
+    ///
+    /// \returns The enum value.
+    ///
+    /// \throws Error If the string does not represent a valid enum value.
+    EnumValue::Type fromString(const std::string& stringValue) const;
+    
+    ///
+    /// Converts an enum value to its string representation.
+    ///
+    /// \param numericValue The numeric representation of the enum value.
+    ///
+    /// \returns The string representation of the enum value.
+    ///
+    /// \throws Error If the number does not represent a valid enum value or
+    /// if the type is not an enum.
+    const std::string& toString(EnumValue::Type numericValue) const;
+
+    ///
+    /// Returns the values in the enum.
+    ConstSequence<EnumValue> values() const;
+
+private:
+    Enum();
+    Enum(const std::string& name);
+
+    void addValue(EnumValue::Type value, const std::string& string);
+
+    std::string _name;
+    std::vector<EnumValue> _values;
+    std::map<std::string, EnumValue::Type> _stringToNumeric;
+    std::map<EnumValue::Type, std::string> _numericToString;
 };
 
 }
+
+#include "Enum.inl"

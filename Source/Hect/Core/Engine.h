@@ -21,40 +21,44 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Type.h"
+#pragma once
 
-using namespace hect;    
+#include <memory>
 
-Type::Type() :
-    _kind(Kind_None)
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/Window.h"
+#include "Hect/Input/InputSystem.h"
+#include "Hect/IO/FileSystem.h"
+#include "Hect/IO/JsonValue.h"
+
+namespace hect
 {
-}
 
-Kind Type::kind() const
+class Engine :
+    public Uncopyable
 {
-    return _kind;
-}
+public:
+    Engine(const std::string& name, const Path& configFilePath);
+    ~Engine();
 
-const std::string& Type::name() const
-{
-    return _name;
-}
+    JsonValue& settings();
 
-Enum& Type::asEnum()
-{
-    return _enum;
-}
+    FileSystem& fileSystem();
+    InputSystem& inputSystem();
 
-const Enum& Type::asEnum() const
-{
-    return _enum;
-}
+    Window& window();
+    Renderer& renderer();
 
-Type::Type(Kind kind, const std::string& name) :
-    _kind(kind),
-    _name(name),
-    _enum(name)
-{
-}
+    AssetCache& assetCache();
 
-std::map<std::type_index, Type> Type::_registeredTypes;
+private:
+    JsonValue _settings;
+    FileSystem _fileSystem;
+    InputSystem _inputSystem;
+    std::unique_ptr<Window> _window;
+    std::unique_ptr<Renderer> _renderer;
+    std::unique_ptr<AssetCache> _assetCache;
+};
+
+}

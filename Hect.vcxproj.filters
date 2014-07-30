@@ -447,11 +447,11 @@
     <ClInclude Include="Source\Hect\Reflection\Type.h">
       <Filter>Source\Hect\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Reflection\EnumMetaData.h">
-      <Filter>Source\Hect\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Reflection\Enum.h">
       <Filter>Source\Hect\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Core\Engine.h">
+      <Filter>Source\Hect\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -764,14 +764,17 @@
     <ClCompile Include="Source\Hect\Concurrency\Task.cpp">
       <Filter>Source\Hect\Concurrency</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Reflection\EnumMetaData.cpp">
-      <Filter>Source\Hect\Reflection</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Reflection\Type.cpp">
       <Filter>Source\Hect\Reflection</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Generated\HectTypes.cpp">
       <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Reflection\Enum.cpp">
+      <Filter>Source\Hect\Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Core\Engine.cpp">
+      <Filter>Source\Hect\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -833,6 +836,9 @@
       <Filter>Source\Hect\Core</Filter>
     </None>
     <None Include="Source\Hect\Reflection\Type.inl">
+      <Filter>Source\Hect\Reflection</Filter>
+    </None>
+    <None Include="Source\Hect\Reflection\Enum.inl">
       <Filter>Source\Hect\Reflection</Filter>
     </None>
   </ItemGroup>

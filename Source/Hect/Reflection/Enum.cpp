@@ -21,47 +21,57 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "EnumMetaData.h"
+#include "Enum.h"
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
+#include "Hect/Reflection/Type.h"
 
 using namespace hect;
 
-EnumValue::EnumValue(EnumValue::Type value, const std::string& string) :
-    value(value),
-    string(string)
+EnumValue::EnumValue(EnumValue::Type numericValue, const std::string& stringValue) :
+    numericValue(numericValue),
+    stringValue(stringValue)
 {
 }
 
-ConstSequence<EnumValue> EnumMetaData::values() const
+EnumValue::Type Enum::fromString(const std::string& stringValue) const
+{
+    auto it = _stringToNumeric.find(stringValue);
+    if (it == _stringToNumeric.end())
+    {
+        throw Error(format("Invalid string value '%s' for enum '%s'", stringValue.c_str(), _name.c_str()));
+    }
+    return it->second;
+}
+
+const std::string& Enum::toString(EnumValue::Type numericValue) const
+{
+    auto it = _numericToString.find(numericValue);
+    if (it == _numericToString.end())
+    {
+        throw Error(format("Invalid numeric value '%i' for enum '%s'", numericValue, _name.c_str()));
+    }
+    return it->second;
+}
+
+ConstSequence<EnumValue> Enum::values() const
 {
     return ConstSequence<EnumValue>(_values.begin(), _values.end());
 }
 
-EnumValue::Type EnumMetaData::fromString(const std::string& string) const
+Enum::Enum()
 {
-    auto it = _stringToValue.find(string);
-    if (it == _stringToValue.end())
-    {
-       throw Error(format("Invalid enum value '%s'", string.c_str()));
-    }
-    return it->second;
 }
 
-const std::string& EnumMetaData::toString(EnumValue::Type value) const
+Enum::Enum(const std::string& name) :
+    _name(name)
 {
-    auto it = _valueToString.find(value);
-    if (it == _valueToString.end())
-    {
-       throw Error("Invalid enum value");
-    }
-    return it->second;
 }
 
-void EnumMetaData::addValue(EnumValue::Type value, const std::string& string)
+void Enum::addValue(EnumValue::Type numericValue, const std::string& stringValue)
 {
-    _values.push_back(EnumValue(value, string));    
-    _stringToValue[string] = value;
-    _valueToString[value] = string;
+    _values.push_back(EnumValue(numericValue, stringValue));
+    _stringToNumeric[stringValue] = numericValue;
+    _numericToString[numericValue] = stringValue;
 }
