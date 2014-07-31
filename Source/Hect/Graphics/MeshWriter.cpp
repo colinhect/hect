@@ -54,7 +54,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Real value
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
-        _setComponentValue(attribute, 0, (float)value);
+        setComponentValue(attribute, 0, (float)value);
     }
 }
 
@@ -69,12 +69,12 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 
         if (cardinality > 0)
         {
-            _setComponentValue(attribute, 0, (float)value.x);
+            setComponentValue(attribute, 0, (float)value.x);
         }
 
         if (cardinality > 1)
         {
-            _setComponentValue(attribute, 1, (float)value.y);
+            setComponentValue(attribute, 1, (float)value.y);
         }
     }
 }
@@ -96,17 +96,17 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 
         if (cardinality > 0)
         {
-            _setComponentValue(attribute, 0, (float)value.x);
+            setComponentValue(attribute, 0, (float)value.x);
         }
 
         if (cardinality > 1)
         {
-            _setComponentValue(attribute, 1, (float)value.y);
+            setComponentValue(attribute, 1, (float)value.y);
         }
 
         if (cardinality > 2)
         {
-            _setComponentValue(attribute, 2, (float)value.z);
+            setComponentValue(attribute, 2, (float)value.z);
         }
     }
 }
@@ -122,22 +122,22 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 
         if (cardinality > 0)
         {
-            _setComponentValue(attribute, 0, (float)value.x);
+            setComponentValue(attribute, 0, (float)value.x);
         }
 
         if (cardinality > 1)
         {
-            _setComponentValue(attribute, 1, (float)value.y);
+            setComponentValue(attribute, 1, (float)value.y);
         }
 
         if (cardinality > 2)
         {
-            _setComponentValue(attribute, 2, (float)value.z);
+            setComponentValue(attribute, 2, (float)value.z);
         }
 
         if (cardinality > 3)
         {
-            _setComponentValue(attribute, 3, (float)value.w);
+            setComponentValue(attribute, 3, (float)value.w);
         }
     }
 }
@@ -161,7 +161,7 @@ void MeshWriter::addIndex(uint64_t value)
     ++_mesh->_indexCount;
 }
 
-void MeshWriter::_setComponentValue(const VertexAttribute& attribute, unsigned index, float value)
+void MeshWriter::setComponentValue(const VertexAttribute& attribute, unsigned index, float value)
 {
     size_t position = _vertexStream.position();
     size_t offset = _vertexPosition + attribute.offset();

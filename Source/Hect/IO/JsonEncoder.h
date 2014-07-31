@@ -90,8 +90,8 @@ private:
     void encodeVector4(const Vector4& value);
     void encodeVector4(const char* name, const Vector4& value);
 
-    void _encode(const JsonValue& value);
-    void _encode(const char* name, const JsonValue& value);
+    void encode(const JsonValue& value);
+    void encode(const char* name, const JsonValue& value);
 
     std::stack<std::string> _nameStack;
     std::stack<JsonValue> _valueStack;

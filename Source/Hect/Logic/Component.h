@@ -74,10 +74,10 @@ private:
         IterBase(ComponentPool<T>& pool, ComponentId id);
 
     protected:
-        void _increment();
-        bool _isValid() const;
-        void _ensureValid() const;
-        bool _equals(const IterBase& other) const;
+        void increment();
+        bool isValid() const;
+        void ensureValid() const;
+        bool equals(const IterBase& other) const;
 
         mutable ComponentPool<T>* _pool;
         ComponentId _id;
@@ -245,10 +245,10 @@ public:
     Component<T>& operator=(Component&& component);
 
 private:
-    void _enterPool(ComponentPool<T>& pool, ComponentId id);
-    void _exitPool();
-    bool _inPool() const;
-    void _ensureInPool() const;
+    void enterPool(ComponentPool<T>& pool, ComponentId id);
+    void exitPool();
+    bool inPool() const;
+    void ensureInPool() const;
 
     ComponentPool<T>* _pool;
     ComponentId _id;

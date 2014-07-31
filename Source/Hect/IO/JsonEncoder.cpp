@@ -115,172 +115,172 @@ void JsonEncoder::endObject()
 
 void JsonEncoder::encodeString(const std::string& value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeString(const char* name, const std::string& value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeByte(int8_t value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeByte(const char* name, int8_t value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeUnsignedByte(uint8_t value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeUnsignedByte(const char* name, uint8_t value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeShort(int16_t value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeShort(const char* name, int16_t value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeUnsignedShort(uint16_t value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeUnsignedShort(const char* name, uint16_t value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeInt(int32_t value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeInt(const char* name, int32_t value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeUnsignedInt(uint32_t value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeUnsignedInt(const char* name, uint32_t value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeLong(int64_t value)
 {
-    _encode((double)value);
+    encode((double)value);
 }
 
 void JsonEncoder::encodeLong(const char* name, int64_t value)
 {
-    _encode(name, (double)value);
+    encode(name, (double)value);
 }
 
 void JsonEncoder::encodeUnsignedLong(uint64_t value)
 {
-    _encode((double)value);
+    encode((double)value);
 }
 
 void JsonEncoder::encodeUnsignedLong(const char* name, uint64_t value)
 {
-    _encode(name, (double)value);
+    encode(name, (double)value);
 }
 
 void JsonEncoder::encodeFloat(float value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeFloat(const char* name, float value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeDouble(double value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeDouble(const char* name, double value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeReal(Real value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeReal(const char* name, Real value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeBool(bool value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeBool(const char* name, bool value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeVector2(const Vector2& value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeVector2(const char* name, const Vector2& value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeVector3(const Vector3& value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeVector3(const char* name, const Vector3& value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
 void JsonEncoder::encodeVector4(const Vector4& value)
 {
-    _encode(value);
+    encode(value);
 }
 
 void JsonEncoder::encodeVector4(const char* name, const Vector4& value)
 {
-    _encode(name, value);
+    encode(name, value);
 }
 
-void JsonEncoder::_encode(const JsonValue& value)
+void JsonEncoder::encode(const JsonValue& value)
 {
     JsonValue& top = _valueStack.top();
     assert(top.isArray());
     top.addElement(value);
 }
 
-void JsonEncoder::_encode(const char* name, const JsonValue& value)
+void JsonEncoder::encode(const char* name, const JsonValue& value)
 {
     JsonValue& top = _valueStack.top();
     assert(top.isObject());

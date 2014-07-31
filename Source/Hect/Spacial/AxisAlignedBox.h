@@ -89,8 +89,8 @@ public:
     bool hasSize() const;
 
 private:
-    void _mergeMinimum(const Vector3& point);
-    void _mergeMaximum(const Vector3& point);
+    void mergeMinimum(const Vector3& point);
+    void mergeMaximum(const Vector3& point);
 
     enum Flags
     {

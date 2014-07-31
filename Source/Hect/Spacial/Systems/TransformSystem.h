@@ -43,7 +43,7 @@ public:
     void update();
 
 private:
-    void _updateTransform(Entity& parent, Entity& child);
+    void updateTransform(Entity& parent, Entity& child);
 };
 
 }

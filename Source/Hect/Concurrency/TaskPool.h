@@ -70,8 +70,8 @@ public:
     Task::Handle enqueue(Task::Action action);
     
 private:
-    void _initializeThreads(size_t threadCount);
-    void _threadLoop();
+    void initializeThreads(size_t threadCount);
+    void threadLoop();
 
     std::deque<Task::Handle> _taskQueue;
 

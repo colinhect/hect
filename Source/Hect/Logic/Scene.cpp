@@ -37,7 +37,7 @@ Scene::Scene() :
 
 Entity::Iter Scene::createEntity()
 {
-    Entity::Iter entity = _entityPool._create();
+    Entity::Iter entity = _entityPool.create();
 
     // Dispatch the entity create event
     EntityEvent event(EntityEventType_Create, *entity);
@@ -103,7 +103,7 @@ size_t Scene::entityCount() const
     return _entityCount;
 }
 
-Entity::Iter Scene::_cloneEntity(const Entity& entity)
+Entity::Iter Scene::cloneEntity(const Entity& entity)
 {
     Entity::ConstIter sourceEntity = entity.iter();
     Entity::Iter clonedEntity = createEntity();
@@ -111,7 +111,7 @@ Entity::Iter Scene::_cloneEntity(const Entity& entity)
     for (auto& pair : _componentPools)
     {
         ComponentPoolBase& componentPool = *pair.second;
-        componentPool._clone(*sourceEntity, *clonedEntity);
+        componentPool.clone(*sourceEntity, *clonedEntity);
     }
 
     // Recursively clone all children
@@ -124,9 +124,9 @@ Entity::Iter Scene::_cloneEntity(const Entity& entity)
     return clonedEntity;
 }
 
-void Scene::_destroyEntity(Entity& entity)
+void Scene::destroyEntity(Entity& entity)
 {
-    if (!entity._inPool())
+    if (!entity.inPool())
     {
         throw Error("Invalid entity");
     }
@@ -143,16 +143,16 @@ void Scene::_destroyEntity(Entity& entity)
     }
     for (EntityId childId : childIds)
     {
-        _entityPool._entityWithId(childId).destroy();
+        _entityPool.entityWithId(childId).destroy();
     }
 
     // Remove all components
     for (auto& pair : _componentPools)
     {
         ComponentPoolBase& componentPool = *pair.second;
-        if (componentPool._has(entity))
+        if (componentPool.has(entity))
         {
-            componentPool._remove(entity);
+            componentPool.remove(entity);
         }
     }
 
@@ -168,12 +168,12 @@ void Scene::_destroyEntity(Entity& entity)
         parent->removeChild(entity);
     }
 
-    _entityPool._destroy(entity._id);
+    _entityPool.destroy(entity._id);
 }
 
-void Scene::_activateEntity(Entity& entity)
+void Scene::activateEntity(Entity& entity)
 {
-    if (!entity._inPool())
+    if (!entity.inPool())
     {
         throw Error("Invalid entity");
     }
@@ -186,9 +186,9 @@ void Scene::_activateEntity(Entity& entity)
     for (auto& pair : _componentPools)
     {
         auto componentPool = pair.second;
-        if (componentPool->_has(entity))
+        if (componentPool->has(entity))
         {
-            componentPool->_notifyEvent(ComponentEventType_Add, entity);
+            componentPool->notifyEvent(ComponentEventType_Add, entity);
         }
     }
 
@@ -206,9 +206,9 @@ void Scene::_activateEntity(Entity& entity)
     }
 }
 
-void Scene::_addEntityComponentBase(Entity& entity, const ComponentBase& component)
+void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& component)
 {
-    if (!entity._inPool())
+    if (!entity.inPool())
     {
         throw Error("Invalid entity");
     }
@@ -217,20 +217,20 @@ void Scene::_addEntityComponentBase(Entity& entity, const ComponentBase& compone
     auto it = _componentPools.find(typeIndex);
     if (it != _componentPools.end())
     {
-        it->second->_addBase(entity, component);
+        it->second->addBase(entity, component);
     }
 }
 
-void Scene::_encodeComponents(const Entity& entity, ObjectEncoder& encoder)
+void Scene::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
 {
     ArrayEncoder componentsEncoder = encoder.encodeArray("components");
 
     for (auto& pair : _componentPools)
     {
         auto componentPool = pair.second;
-        if (componentPool->_has(entity))
+        if (componentPool->has(entity))
         {
-            const ComponentBase& component = componentPool->_getBase(entity);
+            const ComponentBase& component = componentPool->getBase(entity);
             std::string typeName = _componentTypeNames[component.typeIndex()];
 
             ObjectEncoder componentEncoder = componentsEncoder.encodeObject();
@@ -240,7 +240,7 @@ void Scene::_encodeComponents(const Entity& entity, ObjectEncoder& encoder)
     }
 }
 
-void Scene::_decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
+void Scene::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (decoder.hasMember("components"))
     {
@@ -260,7 +260,7 @@ void Scene::_decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache
             std::unique_ptr<ComponentBase> component(it->second());
             component->decode(componentDecoder, assetCache);
 
-            entity._addComponentBase(*component);
+            entity.addComponentBase(*component);
         }
     }
 }

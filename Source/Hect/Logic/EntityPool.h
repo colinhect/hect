@@ -102,15 +102,15 @@ public:
     Entity::ConstIter::Vector find(Entity::Predicate predicate) const;
 
 private:
-    Entity::Iter _create();
-    void _destroy(EntityId id);
+    Entity::Iter create();
+    void destroy(EntityId id);
 
-    bool _entityIsValid(EntityId id);
+    bool entityIsValid(EntityId id);
 
-    Entity& _entityWithId(EntityId id);
-    const Entity& _entityWithId(EntityId id) const;
+    Entity& entityWithId(EntityId id);
+    const Entity& entityWithId(EntityId id) const;
 
-    EntityId _maxId() const;
+    EntityId maxId() const;
 
     Scene* _scene;
     Dispatcher<EntityEvent> _dispatcher;

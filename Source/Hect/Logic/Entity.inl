@@ -27,41 +27,41 @@ namespace hect
 template <typename T, typename... Args>
 typename Component<T>::Iter Entity::addComponent(Args... args)
 {
-    _ensureInPool();
+    ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool._add(*this, T(args...));
+    return componentPool.add(*this, T(args...));
 }
 
 template <typename T, typename... Args>
 typename Component<T>::Iter Entity::replaceComponent(Args... args)
 {
-    _ensureInPool();
+    ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool._replace(*this, T(args...));
+    return componentPool.replace(*this, T(args...));
 }
 
 template <typename T>
 void Entity::removeComponent()
 {
-    _ensureInPool();
+    ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    componentPool._remove(*this);
+    componentPool.remove(*this);
 }
 
 template <typename T>
 typename Component<T>::Iter Entity::component()
 {
-    _ensureInPool();
+    ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool._get(*this);
+    return componentPool.get(*this);
 }
 
 template <typename T>
 typename Component<T>::ConstIter Entity::component() const
 {
-    _ensureInPool();
+    ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool._get(*this);
+    return componentPool.get(*this);
 }
 
 }

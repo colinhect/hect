@@ -78,9 +78,9 @@ public:
     void receiveEvent(const MouseEvent& event);
 
 private:
-    void _enqueueEvent(const MouseEvent& event);
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
+    void enqueueEvent(const MouseEvent& event);
+    void enqueueEvent(const KeyboardEvent& event);
+    void dispatchEvents();
 
     Mouse _mouse;
     Keyboard _keyboard;

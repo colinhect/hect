@@ -44,7 +44,7 @@ public:
     void update();
 
 private:
-    void _resizeBoundingBox(Entity& entity, BoundingBox& boundingBox);
+    void resizeBoundingBox(Entity& entity, BoundingBox& boundingBox);
 };
 
 }

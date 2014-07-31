@@ -50,10 +50,10 @@ private:
         IterBase(EntityPool& pool, EntityId id);
 
     protected:
-        void _increment();
-        bool _isValid() const;
-        void _ensureValid() const;
-        bool _equals(const IterBase& other) const;
+        void increment();
+        bool isValid() const;
+        void ensureValid() const;
+        bool equals(const IterBase& other) const;
 
         mutable EntityPool* _pool;
         EntityId _id;
@@ -191,10 +191,10 @@ public:
             IterBase(EntityPool& pool, EntityId parentId, size_t index);
 
         protected:
-            void _increment();
-            bool _isValid() const;
-            void _ensureValid() const;
-            bool _equals(const IterBase& other) const;
+            void increment();
+            bool isValid() const;
+            void ensureValid() const;
+            bool equals(const IterBase& other) const;
 
             EntityPool* _pool;
             EntityId _parentId;
@@ -387,8 +387,8 @@ public:
     private:
         Handle(EntityPool& pool, EntityId id);
 
-        bool _isValid() const;
-        void _ensureValid() const;
+        bool isValid() const;
+        void ensureValid() const;
 
         class Context :
             public Listener<EntityEvent>
@@ -652,12 +652,12 @@ private:
     Entity(const Entity& entity);
     Entity(Entity&& entity);
 
-    void _addComponentBase(const ComponentBase& component);
+    void addComponentBase(const ComponentBase& component);
 
-    void _enterPool(EntityPool& pool, EntityId id);
-    void _exitPool();
-    bool _inPool() const;
-    void _ensureInPool() const;
+    void enterPool(EntityPool& pool, EntityId id);
+    void exitPool();
+    bool inPool() const;
+    void ensureInPool() const;
 
     Children _children;
     EntityPool* _pool;

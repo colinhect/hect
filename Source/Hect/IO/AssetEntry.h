@@ -78,8 +78,8 @@ public:
     const Path& path() const;
 
 private:
-    void _initiateLoad();
-    void _load();
+    void initiateLoad();
+    void load();
 
     AssetCache* _assetCache;
     Path _path;

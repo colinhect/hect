@@ -101,15 +101,15 @@ public:
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    Entity::Iter _cloneEntity(const Entity& entity);
+    Entity::Iter cloneEntity(const Entity& entity);
 
-    void _destroyEntity(Entity& entity);
-    void _activateEntity(Entity& entity);
+    void destroyEntity(Entity& entity);
+    void activateEntity(Entity& entity);
 
-    void _addEntityComponentBase(Entity& entity, const ComponentBase& component);
+    void addEntityComponentBase(Entity& entity, const ComponentBase& component);
 
-    void _encodeComponents(const Entity& entity, ObjectEncoder& encoder);
-    void _decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
+    void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
+    void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
     
     size_t _entityCount;
     EntityPool _entityPool;

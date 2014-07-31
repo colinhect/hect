@@ -110,10 +110,10 @@ public:
     uint32_t readIndexInt() const;
 
 private:
-    void _checkVertexBoundary() const;
-    void _checkIndexBoundary() const;
+    void checkVertexBoundary() const;
+    void checkIndexBoundary() const;
 
-    float _readComponentValue(const VertexAttribute& attribute, unsigned index) const;
+    float readComponentValue(const VertexAttribute& attribute, unsigned index) const;
 
     const Mesh* _mesh;
 

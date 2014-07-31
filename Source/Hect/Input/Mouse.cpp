@@ -62,13 +62,13 @@ Mouse::Mouse() :
 {
 }
 
-void Mouse::_enqueueEvent(const MouseEvent& event)
+void Mouse::enqueueEvent(const MouseEvent& event)
 {
     _cursorPosition = event.cursorPosition;
     _events.push_back(event);
 }
 
-void Mouse::_dispatchEvents()
+void Mouse::dispatchEvents()
 {
     for (const MouseEvent& event : _events)
     {

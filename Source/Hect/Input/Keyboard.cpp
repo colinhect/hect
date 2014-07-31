@@ -46,13 +46,13 @@ Keyboard::Keyboard() :
 {
 }
 
-void Keyboard::_enqueueEvent(const KeyboardEvent& event)
+void Keyboard::enqueueEvent(const KeyboardEvent& event)
 {
     _keyStates[(int)event.key] = event.type == KeyboardEventType_KeyDown;
     _events.push_back(event);
 }
 
-void Keyboard::_dispatchEvents()
+void Keyboard::dispatchEvents()
 {
     for (const KeyboardEvent& event : _events)
     {

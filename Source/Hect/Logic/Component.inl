@@ -39,16 +39,16 @@ Component<T>::IterBase::IterBase(ComponentPool<T>& pool, ComponentId id) :
 }
 
 template <typename T>
-void Component<T>::IterBase::_increment()
+void Component<T>::IterBase::increment()
 {
     ++_id;
 
-    size_t maxId = _pool->_maxId();
+    size_t maxId = _pool->maxId();
     while (_id < maxId)
     {
-        if (_isValid())
+        if (isValid())
         {
-            const Entity& entity = _pool->_entityForComponent(_id);
+            const Entity& entity = _pool->entityForComponent(_id);
             if (entity.isActivated())
             {
                 break;
@@ -60,9 +60,9 @@ void Component<T>::IterBase::_increment()
 }
 
 template <typename T>
-bool Component<T>::IterBase::_isValid() const
+bool Component<T>::IterBase::isValid() const
 {
-    if (_pool->_componentHasEntity(_id))
+    if (_pool->componentHasEntity(_id))
     {
         return true;
     }
@@ -70,16 +70,16 @@ bool Component<T>::IterBase::_isValid() const
 }
 
 template <typename T>
-void Component<T>::IterBase::_ensureValid() const
+void Component<T>::IterBase::ensureValid() const
 {
-    if (!_isValid())
+    if (!isValid())
     {
         throw Error("Invalid component iterator");
     }
 }
 
 template <typename T>
-bool Component<T>::IterBase::_equals(const IterBase& other) const
+bool Component<T>::IterBase::equals(const IterBase& other) const
 {
     return _pool == other._pool && _id == other._id;
 }
@@ -99,40 +99,40 @@ Component<T>::Iter::Iter(ComponentPool<T>& pool, ComponentId id) :
 template <typename T>
 T& Component<T>::Iter::operator*() const
 {
-    _ensureValid();
-    return _pool->_componentWithId(_id);
+    ensureValid();
+    return _pool->componentWithId(_id);
 }
 
 template <typename T>
 T* Component<T>::Iter::operator->() const
 {
-    _ensureValid();
-    return &_pool->_componentWithId(_id);
+    ensureValid();
+    return &_pool->componentWithId(_id);
 }
 
 template <typename T>
 typename Component<T>::Iter& Component<T>::Iter::operator++()
 {
-    _increment();
+    increment();
     return *this;
 }
 
 template <typename T>
 bool Component<T>::Iter::operator==(const Iter& other) const
 {
-    return _equals(other);
+    return equals(other);
 }
 
 template <typename T>
 bool Component<T>::Iter::operator!=(const Iter& other) const
 {
-    return !_equals(other);
+    return !equals(other);
 }
 
 template <typename T>
 Component<T>::Iter::operator bool() const
 {
-    return _isValid();
+    return isValid();
 }
 
 template <typename T>
@@ -150,40 +150,40 @@ Component<T>::ConstIter::ConstIter(const ComponentPool<T>& pool, ComponentId id)
 template <typename T>
 const T& Component<T>::ConstIter::operator*() const
 {
-    _ensureValid();
-    return _pool->_componentWithId(_id);
+    ensureValid();
+    return _pool->componentWithId(_id);
 }
 
 template <typename T>
 const T* Component<T>::ConstIter::operator->() const
 {
-    _ensureValid();
-    return &_pool->_componentWithId(_id);
+    ensureValid();
+    return &_pool->componentWithId(_id);
 }
 
 template <typename T>
 typename Component<T>::ConstIter& Component<T>::ConstIter::operator++()
 {
-    _increment();
+    increment();
     return *this;
 }
 
 template <typename T>
 bool Component<T>::ConstIter::operator==(const ConstIter& other) const
 {
-    return _equals(other);
+    return equals(other);
 }
 
 template <typename T>
 bool Component<T>::ConstIter::operator!=(const ConstIter& other) const
 {
-    return !_equals(other);
+    return !equals(other);
 }
 
 template <typename T>
 Component<T>::ConstIter::operator bool() const
 {
-    return _isValid();
+    return isValid();
 }
 
 template <typename T>
@@ -212,29 +212,29 @@ Component<T>::Component(Component<T>&& component) :
 template <typename T>
 ComponentPool<T>& Component<T>::pool()
 {
-    _ensureInPool();
+    ensureInPool();
     return *_pool;
 }
 
 template <typename T>
 const ComponentPool<T>& Component<T>::pool() const
 {
-    _ensureInPool();
+    ensureInPool();
     return *_pool;
 }
 
 template <typename T>
 Entity& Component<T>::entity()
 {
-    _ensureInPool();
-    return _pool->_entityForComponent(_id);
+    ensureInPool();
+    return _pool->entityForComponent(_id);
 }
 
 template <typename T>
 const Entity& Component<T>::entity() const
 {
-    _ensureInPool();
-    return _pool->_entityForComponent(_id);
+    ensureInPool();
+    return _pool->entityForComponent(_id);
 }
 
 template <typename T>
@@ -272,29 +272,29 @@ Component<T>& Component<T>::operator=(Component&& component)
 }
 
 template <typename T>
-void Component<T>::_enterPool(ComponentPool<T>& pool, ComponentId id)
+void Component<T>::enterPool(ComponentPool<T>& pool, ComponentId id)
 {
     _pool = &pool;
     _id = id;
 }
 
 template <typename T>
-void Component<T>::_exitPool()
+void Component<T>::exitPool()
 {
     _pool = nullptr;
     _id = (ComponentId)-1;
 }
 
 template <typename T>
-bool Component<T>::_inPool() const
+bool Component<T>::inPool() const
 {
     return _pool && _id != (ComponentId)-1;
 }
 
 template <typename T>
-void Component<T>::_ensureInPool() const
+void Component<T>::ensureInPool() const
 {
-    if (!_inPool())
+    if (!inPool())
     {
         throw Error("Component is not in a pool");
     }

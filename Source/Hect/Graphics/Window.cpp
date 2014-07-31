@@ -231,7 +231,7 @@ bool Window::pollEvents(InputSystem& inputSystem)
             KeyboardEvent event;
             event.type = e.type == SDL_KEYDOWN ? KeyboardEventType_KeyDown : KeyboardEventType_KeyUp;
             event.key = _convertKey(e.key.keysym.sym);
-            inputSystem._enqueueEvent(event);
+            inputSystem.enqueueEvent(event);
         }
         break;
         case SDL_MOUSEMOTION:
@@ -250,13 +250,13 @@ bool Window::pollEvents(InputSystem& inputSystem)
             MouseEvent event;
             event.cursorMovement = IntVector2(movementX, -movementY);
             event.cursorPosition = IntVector2(positionX, positionY);
-            inputSystem._enqueueEvent(event);
+            inputSystem.enqueueEvent(event);
         }
         break;
         }
     }
 
-    inputSystem._dispatchEvents();
+    inputSystem.dispatchEvents();
 
     return active;
 }

@@ -103,7 +103,7 @@ private:
 
     // Resolves which uniforms the uniform values apply to for fast
     // binding
-    void _resolvePassUniformValues(Shader& shader);
+    void resolvePassUniformValues(Shader& shader);
 
     RenderState _renderState;
     std::vector<AssetHandle<Texture>> _textures;

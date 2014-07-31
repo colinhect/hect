@@ -149,18 +149,18 @@ void InputSystem::receiveEvent(const MouseEvent& event)
     }
 }
 
-void InputSystem::_enqueueEvent(const MouseEvent& event)
+void InputSystem::enqueueEvent(const MouseEvent& event)
 {
-    _mouse._enqueueEvent(event);
+    _mouse.enqueueEvent(event);
 }
 
-void InputSystem::_enqueueEvent(const KeyboardEvent& event)
+void InputSystem::enqueueEvent(const KeyboardEvent& event)
 {
-    _keyboard._enqueueEvent(event);
+    _keyboard.enqueueEvent(event);
 }
 
-void InputSystem::_dispatchEvents()
+void InputSystem::dispatchEvents()
 {
-    _mouse._dispatchEvents();
-    _keyboard._dispatchEvents();
+    _mouse.dispatchEvents();
+    _keyboard.dispatchEvents();
 }

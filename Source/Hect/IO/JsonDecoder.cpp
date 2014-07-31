@@ -69,7 +69,7 @@ ObjectDecoder JsonDecoder::decodeObject()
 
 void JsonDecoder::beginArray()
 {
-    JsonValue value = _decode();
+    JsonValue value = decode();
     if (value.isArray())
     {
         _indexStack.push(0);
@@ -118,7 +118,7 @@ void JsonDecoder::beginObject()
     JsonValue& top = _valueStack.top();
     assert(top.isArray());
 
-    JsonValue value = _decode();
+    JsonValue value = decode();
     if (value.isObject())
     {
         _valueStack.push(value);
@@ -161,172 +161,172 @@ bool JsonDecoder::hasMember(const char* name) const
 
 std::string JsonDecoder::decodeString()
 {
-    return _decode().asString();
+    return decode().asString();
 }
 
 std::string JsonDecoder::decodeString(const char* name)
 {
-    return _decode(name).asString();
+    return decode(name).asString();
 }
 
 int8_t JsonDecoder::decodeByte()
 {
-    return (int8_t)_decode().asDouble();
+    return (int8_t)decode().asDouble();
 }
 
 int8_t JsonDecoder::decodeByte(const char* name)
 {
-    return (int8_t)_decode(name).asDouble();
+    return (int8_t)decode(name).asDouble();
 }
 
 uint8_t JsonDecoder::decodeUnsignedByte()
 {
-    return (uint8_t)_decode().asDouble();
+    return (uint8_t)decode().asDouble();
 }
 
 uint8_t JsonDecoder::decodeUnsignedByte(const char* name)
 {
-    return (uint8_t)_decode(name).asDouble();
+    return (uint8_t)decode(name).asDouble();
 }
 
 int16_t JsonDecoder::decodeShort()
 {
-    return (int16_t)_decode().asDouble();
+    return (int16_t)decode().asDouble();
 }
 
 int16_t JsonDecoder::decodeShort(const char* name)
 {
-    return (int16_t)_decode(name).asDouble();
+    return (int16_t)decode(name).asDouble();
 }
 
 uint16_t JsonDecoder::decodeUnsignedShort()
 {
-    return (uint16_t)_decode().asDouble();
+    return (uint16_t)decode().asDouble();
 }
 
 uint16_t JsonDecoder::decodeUnsignedShort(const char* name)
 {
-    return (uint16_t)_decode(name).asDouble();
+    return (uint16_t)decode(name).asDouble();
 }
 
 int32_t JsonDecoder::decodeInt()
 {
-    return (int32_t)_decode().asDouble();
+    return (int32_t)decode().asDouble();
 }
 
 int32_t JsonDecoder::decodeInt(const char* name)
 {
-    return (int32_t)_decode(name).asDouble();
+    return (int32_t)decode(name).asDouble();
 }
 
 uint32_t JsonDecoder::decodeUnsignedInt()
 {
-    return (uint32_t)_decode().asDouble();
+    return (uint32_t)decode().asDouble();
 }
 
 uint32_t JsonDecoder::decodeUnsignedInt(const char* name)
 {
-    return (uint32_t)_decode(name).asDouble();
+    return (uint32_t)decode(name).asDouble();
 }
 
 int64_t JsonDecoder::decodeLong()
 {
-    return (int64_t)_decode().asDouble();
+    return (int64_t)decode().asDouble();
 }
 
 int64_t JsonDecoder::decodeLong(const char* name)
 {
-    return (int64_t)_decode(name).asDouble();
+    return (int64_t)decode(name).asDouble();
 }
 
 uint64_t JsonDecoder::decodeUnsignedLong()
 {
-    return (uint64_t)_decode().asDouble();
+    return (uint64_t)decode().asDouble();
 }
 
 uint64_t JsonDecoder::decodeUnsignedLong(const char* name)
 {
-    return (uint64_t)_decode(name).asDouble();
+    return (uint64_t)decode(name).asDouble();
 }
 
 float JsonDecoder::decodeFloat()
 {
-    return (float)_decode().asDouble();
+    return (float)decode().asDouble();
 }
 
 float JsonDecoder::decodeFloat(const char* name)
 {
-    return (float)_decode(name).asDouble();
+    return (float)decode(name).asDouble();
 }
 
 double JsonDecoder::decodeDouble()
 {
-    return _decode().asDouble();
+    return decode().asDouble();
 }
 
 double JsonDecoder::decodeDouble(const char* name)
 {
-    return _decode(name).asDouble();
+    return decode(name).asDouble();
 }
 
 Real JsonDecoder::decodeReal()
 {
-    return (Real)_decode().asDouble();
+    return (Real)decode().asDouble();
 }
 
 Real JsonDecoder::decodeReal(const char* name)
 {
-    return (Real)_decode(name).asDouble();
+    return (Real)decode(name).asDouble();
 }
 
 bool JsonDecoder::decodeBool()
 {
-    return _decode().asBool();
+    return decode().asBool();
 }
 
 bool JsonDecoder::decodeBool(const char* name)
 {
-    return _decode(name).asBool();
+    return decode(name).asBool();
 }
 
 Vector2 JsonDecoder::decodeVector2()
 {
-    return _decode().asVector2();
+    return decode().asVector2();
 }
 
 Vector2 JsonDecoder::decodeVector2(const char* name)
 {
-    return _decode(name).asVector2();
+    return decode(name).asVector2();
 }
 
 Vector3 JsonDecoder::decodeVector3()
 {
-    return _decode().asVector3();
+    return decode().asVector3();
 }
 
 Vector3 JsonDecoder::decodeVector3(const char* name)
 {
-    return _decode(name).asVector3();
+    return decode(name).asVector3();
 }
 
 Vector4 JsonDecoder::decodeVector4()
 {
-    return _decode().asVector4();
+    return decode().asVector4();
 }
 
 Vector4 JsonDecoder::decodeVector4(const char* name)
 {
-    return _decode(name).asVector4();
+    return decode(name).asVector4();
 }
 
-const JsonValue& JsonDecoder::_decode()
+const JsonValue& JsonDecoder::decode()
 {
     JsonValue& top = _valueStack.top();
     assert(top.isArray());
     return top[_indexStack.top()++];
 }
 
-const JsonValue& JsonDecoder::_decode(const char* name)
+const JsonValue& JsonDecoder::decode(const char* name)
 {
     JsonValue& top = _valueStack.top();
     assert(top.isObject());

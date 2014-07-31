@@ -95,7 +95,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
             {
                 Mesh& mesh = *rigidBody->mesh();
                 mesh;
-                //rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(_toBulletMesh(&mesh)));
+                //rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
                 rigidBody->_collisionShape.reset(new btSphereShape(1.0));
 
                 btScalar mass = rigidBody->mass();
@@ -125,7 +125,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
     }
 }
 
-btTriangleMesh* PhysicsSystem::_toBulletMesh(Mesh* mesh)
+btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
 {
     auto it = _bulletMeshes.find(mesh);
     if (it != _bulletMeshes.end())

@@ -38,15 +38,15 @@ class ComponentPoolBase
 {
     friend class Scene;
 protected:
-    virtual void _notifyEvent(ComponentEventType type, Entity& entity) = 0;
+    virtual void notifyEvent(ComponentEventType type, Entity& entity) = 0;
 
-    virtual void _addBase(Entity& entity, const ComponentBase& component) = 0;
-    virtual const ComponentBase& _getBase(const Entity& entity) const = 0;
+    virtual void addBase(Entity& entity, const ComponentBase& component) = 0;
+    virtual const ComponentBase& getBase(const Entity& entity) const = 0;
 
-    virtual void _remove(Entity& entity) = 0;
-    virtual void _clone(const Entity& source, Entity& dest) = 0;
+    virtual void remove(Entity& entity) = 0;
+    virtual void clone(const Entity& source, Entity& dest) = 0;
 
-    virtual bool _has(const Entity& entity) const = 0;
+    virtual bool has(const Entity& entity) const = 0;
 };
 
 ///
@@ -119,36 +119,36 @@ public:
     typename Component<T>::ConstIter::Vector find(typename Component<T>::Predicate predicate) const;
 
 private:
-    void _notifyEvent(ComponentEventType type, Entity& entity);
+    void notifyEvent(ComponentEventType type, Entity& entity);
 
-    void _addBase(Entity& entity, const ComponentBase& component);
-    const ComponentBase& _getBase(const Entity& entity) const;
+    void addBase(Entity& entity, const ComponentBase& component);
+    const ComponentBase& getBase(const Entity& entity) const;
 
-    void _remove(Entity& entity);
-    void _clone(const Entity& source, Entity& dest);
+    void remove(Entity& entity);
+    void clone(const Entity& source, Entity& dest);
 
-    bool _has(const Entity& entity) const;
+    bool has(const Entity& entity) const;
 
-    typename Component<T>::Iter _add(Entity& entity, const T& component);
-    typename Component<T>::Iter _replace(Entity& entity, const T& component);
+    typename Component<T>::Iter add(Entity& entity, const T& component);
+    typename Component<T>::Iter replace(Entity& entity, const T& component);
 
-    typename Component<T>::Iter _get(Entity& entity);
-    typename Component<T>::ConstIter _get(const Entity& entity) const;
+    typename Component<T>::Iter get(Entity& entity);
+    typename Component<T>::ConstIter get(const Entity& entity) const;
 
-    ComponentId _maxId() const;
+    ComponentId maxId() const;
 
-    bool _componentHasEntity(ComponentId id) const;
+    bool componentHasEntity(ComponentId id) const;
 
-    Entity& _entityForComponent(ComponentId id);
-    const Entity& _entityForComponent(ComponentId id) const;
+    Entity& entityForComponent(ComponentId id);
+    const Entity& entityForComponent(ComponentId id) const;
 
-    T& _componentWithId(ComponentId id);
-    const T& _componentWithId(ComponentId id) const;
+    T& componentWithId(ComponentId id);
+    const T& componentWithId(ComponentId id) const;
 
-    bool _entityIdToComponentId(EntityId entityId, ComponentId& id) const;
+    bool entityIdToComponentId(EntityId entityId, ComponentId& id) const;
 
     template <typename U>
-    bool _expandVector(std::vector<U>& vector, size_t size, U value = U());
+    bool expandVector(std::vector<U>& vector, size_t size, U value = U());
 
     Scene* _scene;
     std::string _componentTypeName;

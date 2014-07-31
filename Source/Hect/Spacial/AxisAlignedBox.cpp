@@ -40,8 +40,8 @@ AxisAlignedBox::AxisAlignedBox(const Vector3& minimum, const Vector3& maximum) :
 
 void AxisAlignedBox::expandToInclude(const Vector3& point)
 {
-    _mergeMinimum(point);
-    _mergeMaximum(point);
+    mergeMinimum(point);
+    mergeMaximum(point);
 }
 
 void AxisAlignedBox::expandToInclude(const AxisAlignedBox& box)
@@ -56,8 +56,8 @@ void AxisAlignedBox::expandToInclude(const AxisAlignedBox& box)
         return;
     }
 
-    _mergeMinimum(box._minimum);
-    _mergeMaximum(box._maximum);
+    mergeMinimum(box._minimum);
+    mergeMaximum(box._maximum);
 }
 
 void AxisAlignedBox::translate(const Vector3& translation)
@@ -114,7 +114,7 @@ bool AxisAlignedBox::hasSize() const
     return _flags != 0;
 }
 
-void AxisAlignedBox::_mergeMinimum(const Vector3& point)
+void AxisAlignedBox::mergeMinimum(const Vector3& point)
 {
     if (!(_flags & MinX) || point.x < _minimum.x)
     {
@@ -135,7 +135,7 @@ void AxisAlignedBox::_mergeMinimum(const Vector3& point)
     }
 }
 
-void AxisAlignedBox::_mergeMaximum(const Vector3& point)
+void AxisAlignedBox::mergeMaximum(const Vector3& point)
 {
     if (!(_flags & MaxX) || point.x > _maximum.x)
     {

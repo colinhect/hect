@@ -98,7 +98,7 @@ public:
     bool operator!=(const VertexLayout& vertexLayout) const;
 
 private:
-    void _computeAttributeOffsets();
+    void computeAttributeOffsets();
 
     std::vector<VertexAttribute> _attributes;
     unsigned _vertexSize;

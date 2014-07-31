@@ -35,7 +35,7 @@ AssetEntry<T>::AssetEntry(AssetCache& assetCache, const Path& path) :
     _errorOccurred(false),
     _lastModified(-1)
 {
-    _initiateLoad();
+    initiateLoad();
 }
 
 template <typename T>
@@ -53,7 +53,7 @@ void AssetEntry<T>::refresh()
             _errorOccurred = false;
             _errorMessage.clear();
 
-            _initiateLoad();
+            initiateLoad();
         }
     }
 }
@@ -82,18 +82,18 @@ const Path& AssetEntry<T>::path() const
 }
 
 template <typename T>
-void AssetEntry<T>::_initiateLoad()
+void AssetEntry<T>::initiateLoad()
 {
     TaskPool& taskPool = _assetCache->taskPool();
     _taskHandle = taskPool.enqueue([this]
         {
-            _load();
+            load();
         }
     );
 }
 
 template <typename T>
-void AssetEntry<T>::_load()
+void AssetEntry<T>::load()
 {
     _asset = std::make_unique<T>();
     _errorOccurred = false;

@@ -37,7 +37,7 @@ TaskPool::TaskPool(size_t threadCount) :
     _adaptive(false),
     _availableThreadCount(0)
 {
-    _initializeThreads(threadCount);
+    initializeThreads(threadCount);
 }
 
 TaskPool::~TaskPool()
@@ -67,7 +67,7 @@ Task::Handle TaskPool::enqueue(Task::Action action)
     if (_threads.empty() && !_adaptive)
     {
         // The task pool has no threads so execute the task synchronously
-        task->_execute();
+        task->execute();
     }
     else
     {
@@ -79,7 +79,7 @@ Task::Handle TaskPool::enqueue(Task::Action action)
             // then initialize another thread
             if (_adaptive && _availableThreadCount.load() == 0)
             {
-                _initializeThreads(1);
+                initializeThreads(1);
             }
 
             _taskQueue.push_back(handle);
@@ -92,19 +92,19 @@ Task::Handle TaskPool::enqueue(Task::Action action)
     return handle;
 }
 
-void TaskPool::_initializeThreads(size_t threadCount)
+void TaskPool::initializeThreads(size_t threadCount)
 {
     for (unsigned i = 0; i < threadCount; ++i)
     {
         _threads.push_back(std::thread([this]
             {
-                _threadLoop();
+                threadLoop();
             }
         ));
     }
 }
 
-void TaskPool::_threadLoop()
+void TaskPool::threadLoop()
 {
     ++_availableThreadCount;
     for (;;)
@@ -135,7 +135,7 @@ void TaskPool::_threadLoop()
         Task* task = taskHandle._task.get();
         if (task)
         {
-            task->_execute();
+            task->execute();
         }
         ++_availableThreadCount;
     }

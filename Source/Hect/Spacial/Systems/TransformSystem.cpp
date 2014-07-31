@@ -44,13 +44,13 @@ void TransformSystem::update()
 
             for (Entity& child : entity.children())
             {
-                _updateTransform(entity, child);
+                updateTransform(entity, child);
             }
         }
     }
 }
 
-void TransformSystem::_updateTransform(Entity& parent, Entity& child)
+void TransformSystem::updateTransform(Entity& parent, Entity& child)
 {
     auto parentTransform = parent.component<Transform>();
     if (parentTransform)
@@ -62,7 +62,7 @@ void TransformSystem::_updateTransform(Entity& parent, Entity& child)
 
             for (Entity& nextChild : child.children())
             {
-                _updateTransform(child, nextChild);
+                updateTransform(child, nextChild);
             }
         }
     }

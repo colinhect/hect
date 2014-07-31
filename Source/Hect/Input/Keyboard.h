@@ -144,8 +144,8 @@ public:
 private:
     Keyboard();
 
-    void _enqueueEvent(const KeyboardEvent& event);
-    void _dispatchEvents();
+    void enqueueEvent(const KeyboardEvent& event);
+    void dispatchEvents();
 
     Dispatcher<KeyboardEvent> _dispatcher;
     std::vector<KeyboardEvent> _events;

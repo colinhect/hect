@@ -37,7 +37,7 @@ public:
     void renderAll(RenderTarget& target);
 
 private:
-    void _initializeBuffers(unsigned width, unsigned height);
+    void initializeBuffers(unsigned width, unsigned height);
 
     FrameBuffer _geometryBuffer;
     FrameBuffer _accumulationBuffer;

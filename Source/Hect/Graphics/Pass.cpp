@@ -37,7 +37,7 @@ void Pass::prepare(Renderer& renderer)
     Shader& shader = *_shader;
     if (_resolvedFromShader != &shader)
     {
-        _resolvePassUniformValues(shader);
+        resolvePassUniformValues(shader);
     }
 
     // Bind the render state
@@ -108,7 +108,7 @@ void Pass::addUniformValue(const std::string& name, const UniformValue& uniformV
     _uniformValues.push_back(PassUniformValue(name, uniformValue));
 }
 
-void Pass::_resolvePassUniformValues(Shader& shader)
+void Pass::resolvePassUniformValues(Shader& shader)
 {
     _resolvedUniformValues.clear();
 

@@ -50,7 +50,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     // Initialize buffers if needed
     if (!_buffersInitialized)
     {
-        _initializeBuffers(target.width(), target.height());
+        initializeBuffers(target.width(), target.height());
     }
 
     // Get the camera
@@ -188,7 +188,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     }
 }
 
-void PhysicallyBasedRenderSystem::_initializeBuffers(unsigned width, unsigned height)
+void PhysicallyBasedRenderSystem::initializeBuffers(unsigned width, unsigned height)
 {
     _buffersInitialized = true;
 

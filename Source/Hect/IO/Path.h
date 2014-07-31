@@ -86,7 +86,7 @@ public:
     bool operator<(const Path& path) const;
 
 private:
-    void _setRawPath(const char* rawPath);
+    void setRawPath(const char* rawPath);
 
     std::string _rawPath;
 };

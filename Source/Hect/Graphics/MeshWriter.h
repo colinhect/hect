@@ -88,7 +88,7 @@ public:
     void addIndex(uint64_t value);
 
 private:
-    void _setComponentValue(const VertexAttribute& attribute, unsigned index, float value);
+    void setComponentValue(const VertexAttribute& attribute, unsigned index, float value);
 
     Mesh* _mesh;
     size_t _vertexPosition;

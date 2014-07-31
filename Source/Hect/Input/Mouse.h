@@ -148,8 +148,8 @@ public:
 private:
     Mouse();
 
-    void _enqueueEvent(const MouseEvent& event);
-    void _dispatchEvents();
+    void enqueueEvent(const MouseEvent& event);
+    void dispatchEvents();
 
     Dispatcher<MouseEvent> _dispatcher;
     std::vector<MouseEvent> _events;

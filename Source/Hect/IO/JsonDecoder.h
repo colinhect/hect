@@ -96,8 +96,8 @@ private:
     Vector4 decodeVector4();
     Vector4 decodeVector4(const char* name);
 
-    const JsonValue& _decode();
-    const JsonValue& _decode(const char* name);
+    const JsonValue& decode();
+    const JsonValue& decode(const char* name);
 
     std::stack<size_t> _indexStack;
     std::stack<JsonValue> _valueStack;

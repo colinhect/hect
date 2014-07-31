@@ -95,7 +95,7 @@ public:
 private:
     Task(Task::Action action);
 
-    void _execute();
+    void execute();
 
     Task::Action _action;
     std::atomic<bool> _done;

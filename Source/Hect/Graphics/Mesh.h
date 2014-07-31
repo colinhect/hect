@@ -247,9 +247,6 @@ public:
     Mesh& operator=(Mesh&& mesh);
 
 private:
-    static IndexType _parseIndexType(const std::string& value);
-    static PrimitiveType _parsePrimitiveType(const std::string& value);
-
     std::string _name;
 
     VertexLayout _vertexLayout;

@@ -47,13 +47,13 @@ VertexLayout::VertexLayout() :
 void VertexLayout::addAttribute(const VertexAttribute& attribute)
 {
     _attributes.push_back(attribute);
-    _computeAttributeOffsets();
+    computeAttributeOffsets();
 }
 
 void VertexLayout::clearAttributes()
 {
     _attributes.clear();
-    _computeAttributeOffsets();
+    computeAttributeOffsets();
 }
 
 bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic semantic) const
@@ -138,7 +138,7 @@ bool VertexLayout::operator!=(const VertexLayout& vertexLayout) const
     return !(*this == vertexLayout);
 }
 
-void VertexLayout::_computeAttributeOffsets()
+void VertexLayout::computeAttributeOffsets()
 {
     _vertexSize = 0;
     for (VertexAttribute& attribute : _attributes)

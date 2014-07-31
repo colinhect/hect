@@ -133,7 +133,7 @@ public:
     TimeStamp lastModified(const Path& path);
 
 private:
-    Path _convertPath(const char* rawPath) const;
+    Path convertPath(const char* rawPath) const;
 };
 
 }

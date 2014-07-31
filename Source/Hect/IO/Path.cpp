@@ -31,12 +31,12 @@ Path::Path() { }
 
 Path::Path(const char* path)
 {
-    _setRawPath(path);
+    setRawPath(path);
 }
 
 Path::Path(const std::string& path)
 {
-    _setRawPath(path.c_str());
+    setRawPath(path.c_str());
 }
 
 std::string Path::extension() const
@@ -132,7 +132,7 @@ bool Path::operator<(const Path& path) const
     return _rawPath < path._rawPath;
 }
 
-void Path::_setRawPath(const char* rawPath)
+void Path::setRawPath(const char* rawPath)
 {
     _rawPath = std::string(rawPath);
     std::string delimiter(" /");

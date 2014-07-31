@@ -40,12 +40,12 @@ void BoundingBoxSystem::update()
         Entity& entity = boundingBox.entity();
         if (!entity.parent())
         {
-            _resizeBoundingBox(entity, boundingBox);
+            resizeBoundingBox(entity, boundingBox);
         }
     }
 }
 
-void BoundingBoxSystem::_resizeBoundingBox(Entity& entity, BoundingBox& boundingBox)
+void BoundingBoxSystem::resizeBoundingBox(Entity& entity, BoundingBox& boundingBox)
 {
     // Start with an empty box
     AxisAlignedBox& axisAlignedBox = boundingBox.axisAlignedBox();
@@ -77,7 +77,7 @@ void BoundingBoxSystem::_resizeBoundingBox(Entity& entity, BoundingBox& bounding
         auto childBoundingBox = child.component<BoundingBox>();
         if (childBoundingBox)
         {
-            _resizeBoundingBox(child, *childBoundingBox);
+            resizeBoundingBox(child, *childBoundingBox);
 
             // Expand the bounding box to include this child
             axisAlignedBox.expandToInclude(childBoundingBox->axisAlignedBox());

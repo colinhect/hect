@@ -70,13 +70,13 @@ Path FileSystem::workingDirectory() const
 #ifdef HECT_WINDOWS_BUILD
     char path[2048];
     GetCurrentDirectory(2048, path);
-    return _convertPath(path);
+    return convertPath(path);
 #endif
 }
 
 Path FileSystem::userDirectory() const
 {
-    return _convertPath(PHYSFS_getUserDir());
+    return convertPath(PHYSFS_getUserDir());
 }
 
 void FileSystem::setWriteDirectory(const Path& path)
@@ -131,7 +131,7 @@ TimeStamp FileSystem::lastModified(const Path& path)
     return PHYSFS_getLastModTime(path.toString().c_str());
 }
 
-Path FileSystem::_convertPath(const char* rawPath) const
+Path FileSystem::convertPath(const char* rawPath) const
 {
     std::string delimiter(PHYSFS_getDirSeparator());
     std::string string(rawPath);

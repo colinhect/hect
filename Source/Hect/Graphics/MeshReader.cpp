@@ -51,7 +51,7 @@ bool MeshReader::nextVertex()
 
 Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
 {
-    _checkVertexBoundary();
+    checkVertexBoundary();
 
     float value = 0;
 
@@ -59,7 +59,7 @@ Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
-        value = _readComponentValue(attribute, 0);
+        value = readComponentValue(attribute, 0);
     }
 
     return value;
@@ -67,7 +67,7 @@ Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
 
 Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
 {
-    _checkVertexBoundary();
+    checkVertexBoundary();
 
     Vector2 value;
 
@@ -79,12 +79,12 @@ Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
         unsigned cardinality = attribute.cardinality();
         if (cardinality > 0)
         {
-            value.x = _readComponentValue(attribute, 0);
+            value.x = readComponentValue(attribute, 0);
         }
 
         if (cardinality > 1)
         {
-            value.y = _readComponentValue(attribute, 1);
+            value.y = readComponentValue(attribute, 1);
         }
     }
 
@@ -93,7 +93,7 @@ Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
 
 Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
 {
-    _checkVertexBoundary();
+    checkVertexBoundary();
 
     Vector3 value;
 
@@ -106,17 +106,17 @@ Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
 
         if (cardinality > 0)
         {
-            value.x = _readComponentValue(attribute, 0);
+            value.x = readComponentValue(attribute, 0);
         }
 
         if (cardinality > 1)
         {
-            value.y = _readComponentValue(attribute, 1);
+            value.y = readComponentValue(attribute, 1);
         }
 
         if (cardinality > 2)
         {
-            value.z = _readComponentValue(attribute, 2);
+            value.z = readComponentValue(attribute, 2);
         }
     }
 
@@ -125,7 +125,7 @@ Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
 
 Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
 {
-    _checkVertexBoundary();
+    checkVertexBoundary();
 
     Vector4 value;
 
@@ -138,22 +138,22 @@ Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
 
         if (cardinality > 0)
         {
-            value.x = _readComponentValue(attribute, 0);
+            value.x = readComponentValue(attribute, 0);
         }
 
         if (cardinality > 1)
         {
-            value.y = _readComponentValue(attribute, 1);
+            value.y = readComponentValue(attribute, 1);
         }
 
         if (cardinality > 2)
         {
-            value.z = _readComponentValue(attribute, 2);
+            value.z = readComponentValue(attribute, 2);
         }
 
         if (cardinality > 3)
         {
-            value.w = _readComponentValue(attribute, 3);
+            value.w = readComponentValue(attribute, 3);
         }
     }
 
@@ -183,7 +183,7 @@ uint16_t MeshReader::readIndexShort() const
 
 uint32_t MeshReader::readIndexInt() const
 {
-    _checkIndexBoundary();
+    checkIndexBoundary();
     _indexStream.seek(_indexPosition);
 
     // Read the index data based on the type
@@ -204,7 +204,7 @@ uint32_t MeshReader::readIndexInt() const
     return index;
 }
 
-void MeshReader::_checkVertexBoundary() const
+void MeshReader::checkVertexBoundary() const
 {
     if (_vertexCount == 0)
     {
@@ -216,7 +216,7 @@ void MeshReader::_checkVertexBoundary() const
     }
 }
 
-void MeshReader::_checkIndexBoundary() const
+void MeshReader::checkIndexBoundary() const
 {
     if (_indexCount == 0)
     {
@@ -228,7 +228,7 @@ void MeshReader::_checkIndexBoundary() const
     }
 }
 
-float MeshReader::_readComponentValue(const VertexAttribute& attribute, unsigned index) const
+float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned index) const
 {
     _vertexStream.seek(_vertexPosition);
 
