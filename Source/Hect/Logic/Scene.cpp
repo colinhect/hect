@@ -249,7 +249,7 @@ void Scene::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache&
         {
             ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
 
-            std::string componentName = componentDecoder.decodeString("type");
+            std::string componentName = componentDecoder.decodeString("type"); 
 
             auto it = _componentConstructors.find(componentName);
             if (it == _componentConstructors.end())
@@ -260,7 +260,7 @@ void Scene::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache&
             std::unique_ptr<ComponentBase> component(it->second());
             component->decode(componentDecoder, assetCache);
 
-            entity.addComponentBase(*component);
+            addEntityComponentBase(entity, *component);
         }
     }
 }

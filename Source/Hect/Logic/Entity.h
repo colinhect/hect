@@ -408,7 +408,7 @@ public:
     };
 
     ///
-    /// Adds a component of a specific type to the entity.
+    /// Adds a new component of a specific type to the entity.
     ///
     /// \returns An iterator to the added component.
     ///
@@ -651,8 +651,6 @@ private:
     Entity();
     Entity(const Entity& entity);
     Entity(Entity&& entity);
-
-    void addComponentBase(const ComponentBase& component);
 
     void enterPool(EntityPool& pool, EntityId id);
     void exitPool();

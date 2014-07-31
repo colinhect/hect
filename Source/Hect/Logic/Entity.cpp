@@ -735,14 +735,17 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 
     Scene& scene = *_pool->_scene;
 
-    if (decoder.hasMember("archetype"))
+    if (!decoder.isBinaryStream())
     {
-        std::string archetype = decoder.decodeString("archetype");
-        JsonValue& jsonValue = assetCache.get<JsonValue>(archetype);
+        if (decoder.hasMember("archetype"))
+        {
+            std::string archetype = decoder.decodeString("archetype");
+            JsonValue& jsonValue = assetCache.get<JsonValue>(archetype);
 
-        JsonDecoder jsonDecoder(jsonValue);
-        ObjectDecoder archetypeDecoder = jsonDecoder.decodeObject();
-        scene.decodeComponents(*this, archetypeDecoder, assetCache);
+            JsonDecoder jsonDecoder(jsonValue);
+            ObjectDecoder archetypeDecoder = jsonDecoder.decodeObject();
+            scene.decodeComponents(*this, archetypeDecoder, assetCache);
+        }
     }
 
     if (decoder.hasMember("components"))
@@ -784,12 +787,6 @@ Entity::Entity(Entity&& entity) :
     entity._id = (EntityId)-1;
     entity._parentId = (EntityId)-1;
     entity._activated = false;
-}
-
-void Entity::addComponentBase(const ComponentBase& component)
-{
-    ensureInPool();
-    _pool->_scene->addEntityComponentBase(*this, component);
 }
 
 void Entity::enterPool(EntityPool& pool, EntityId id)

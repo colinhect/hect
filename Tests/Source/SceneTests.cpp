@@ -22,6 +22,8 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Logic/Scene.h>
+#include <Hect/IO/MemoryWriteStream.h>
+#include <Hect/IO/MemoryReadStream.h>
 using namespace hect;
 
 #include <catch.hpp>
@@ -68,6 +70,56 @@ public:
 
     std::vector<ComponentEvent<String>> receivedEvents;
 };
+
+void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::function<void(Scene& scene)> verifyScene)
+{
+    // Json
+    {
+        JsonValue jsonValue;
+
+        {
+            Scene scene;
+            scene.registerComponent<String>();
+
+            createScene(scene);
+
+            jsonValue = scene.encodeToJsonValue();
+        }
+
+        {
+            Scene scene;
+            scene.registerComponent<String>();
+
+            scene.decodeFromJsonValue(jsonValue);
+
+            verifyScene(scene);
+        }
+    }
+
+    // Binary
+    {
+        std::vector<uint8_t> data;
+
+        {
+            Scene scene;
+            scene.registerComponent<String>();
+            createScene(scene);
+
+            MemoryWriteStream writeStream(data);
+            scene.encodeToBinary(writeStream);
+        }
+
+        {
+            Scene scene;
+            scene.registerComponent<String>();
+
+            MemoryReadStream readStream(data);
+            scene.decodeFromBinary(readStream);
+
+            verifyScene(scene);
+        }
+    }
+}
 
 TEST_CASE("Scene_CreateAndDestroyEntities")
 {
@@ -576,97 +628,33 @@ TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
 }
 
-TEST_CASE("Scene_Decode")
+TEST_CASE("Scene_EncodeDecodeSimple")
 {
-    Scene scene;
-    scene.registerComponent<String>();
-
-    REQUIRE(scene.entityCount() == 0);
-
-    JsonValue jsonValue;
-    jsonValue.decodeFromJson("{ \"entities\" : [ { \"components\" : [ { \"type\" : \"String\", \"value\" : \"Test\" } ] } ] }");
-
-    scene.decodeFromJsonValue(jsonValue);
-
-    REQUIRE(scene.entityCount() == 1);
-
-    Entity::Iter a = scene.entities().begin();
-    REQUIRE(a);
-    REQUIRE(a->component<String>()->value == "Test");
-}
-
-TEST_CASE("Scene_DecodeWithChildren")
-{
-    Scene scene;
-    scene.registerComponent<String>();
-
-    REQUIRE(scene.entityCount() == 0);
-
-    JsonValue jsonValue;
-    jsonValue.decodeFromJson("{ \"entities\" : [ { \"children\" : [ { \"name\" : \"B\" } ] } ] }");
-
-    scene.decodeFromJsonValue(jsonValue);
-
-    REQUIRE(scene.entityCount() == 2);
-
-    Entity::Iter a = scene.entities().begin();
-    REQUIRE(a);
-
-    Entity::Children::Iter b = a->children().begin();
-    REQUIRE(b);
-}
-
-TEST_CASE("Scene_Encode")
-{
-    JsonValue jsonValue;
-
+    testEncodeDecode([](Scene& scene)
     {
-        Scene scene;
-        scene.registerComponent<String>();
-
         Entity::Iter a = scene.createEntity();
         a->addComponent<String>("Test");
         a->activate();
-
-        jsonValue = scene.encodeToJsonValue();
-    }
-
+    }, [](Scene& scene)
     {
-        Scene scene;
-        scene.registerComponent<String>();
-
-        scene.decodeFromJsonValue(jsonValue);
-
         REQUIRE(scene.entityCount() == 1);
 
         Entity::Iter a = scene.entities().begin();
         REQUIRE(a);
         REQUIRE(a->component<String>()->value == "Test");
-    }
+    });
 }
 
-TEST_CASE("Scene_EncodeWithChildren")
+TEST_CASE("Scene_EncodeDecodeWithChildren")
 {
-    JsonValue jsonValue;
-
+    testEncodeDecode([](Scene& scene)
     {
-        Scene scene;
-        scene.registerComponent<String>();
-
         Entity::Iter a = scene.createEntity();
         Entity::Iter b = scene.createEntity();
         a->addChild(*b);
         a->activate();
-
-        jsonValue = scene.encodeToJsonValue();
-    }
-
+    }, [](Scene& scene)
     {
-        Scene scene;
-        scene.registerComponent<String>();
-
-        scene.decodeFromJsonValue(jsonValue);
-
         REQUIRE(scene.entityCount() == 2);
 
         Entity::Iter a = scene.entities().begin();
@@ -674,7 +662,7 @@ TEST_CASE("Scene_EncodeWithChildren")
 
         Entity::Children::Iter b = a->children().begin();
         REQUIRE(b);
-    }
+    });
 }
 
 TEST_CASE("Scene_ComponentIterationEmpty")

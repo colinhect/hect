@@ -49,9 +49,19 @@ public:
     /// Constructs an empty scene.
     Scene();
 
+    ///
+    /// Adds a new system of a specific type to the scene.
+    ///
+    /// \returns A reference to the added system.
+    ///
+    /// \throws Error If the scene already has a system of the type.
     template <typename T, typename... Args>
     T& addSystem(Args&... args);
 
+    ///
+    /// Returns the system of a specific type.
+    ///
+    /// \throws Error If the scene does not have a system of the type.
     template <typename T>
     T& system();
 
@@ -113,7 +123,7 @@ private:
     
     size_t _entityCount;
     EntityPool _entityPool;
-
+    
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
 
     std::map<std::type_index, std::string> _componentTypeNames;
