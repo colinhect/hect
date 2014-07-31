@@ -25,14 +25,12 @@
 
 using namespace hect;
 
-AssetCache::AssetCache(size_t threadCount) :
-    _taskPool(threadCount),
+AssetCache::AssetCache() :
     _fileSystem(nullptr)
 {
 }
 
-AssetCache::AssetCache(FileSystem& fileSystem, size_t threadCount) :
-    _taskPool(threadCount),
+AssetCache::AssetCache(FileSystem& fileSystem) :
     _fileSystem(&fileSystem)
 {
 }

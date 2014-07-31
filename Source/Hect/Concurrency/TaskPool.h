@@ -45,6 +45,10 @@ class TaskPool :
     public Uncopyable
 {
 public:
+    
+    ///
+    /// Constructs a task pool which spawns new threads as they are needed.
+    TaskPool();
 
     ///
     /// Constructs a task pool with a specific number of worker threads.
@@ -64,22 +68,21 @@ public:
     ///
     /// \returns The handle to the queued task.
     Task::Handle enqueue(Task::Action action);
-
-    ///
-    /// Returns whether there are no worker threads available.
-    bool noAvailableThreads() const;
-
+    
 private:
     void _initializeThreads(size_t threadCount);
     void _threadLoop();
 
     std::deque<Task::Handle> _taskQueue;
 
+    std::mutex _threadsMutex;
     std::vector<std::thread> _threads;
 
     std::mutex _queueMutex;
     std::condition_variable _condition;
     bool _stop;
+
+    bool _adaptive;
 
     std::atomic<size_t> _availableThreadCount;
 };

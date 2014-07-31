@@ -66,8 +66,7 @@ Engine::Engine(const std::string& name, const Path& configFilePath)
         _inputSystem.addAxis(axis);
     }
 
-    size_t threadCount = _settings["assetCache"]["threadCount"].or(8).asUnsigned();
-    _assetCache.reset(new AssetCache(_fileSystem, threadCount));
+    _assetCache.reset(new AssetCache(_fileSystem));
 }
 
 Engine::~Engine()

@@ -28,7 +28,7 @@ template <>
 void hect::Type::registerTypes<HectTypes>()
 {
     {
-        hect::Type& type = hect::Type::create<hect::LogLevel>(hect::Kind_Enum, "hect::LogLevel");
+        hect::Type& type = hect::Type::create<LogLevel>(hect::Kind_Enum, "LogLevel");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(LogLevel_Info, "Info");
         enumType.addValue(LogLevel_Debug, "Debug");
@@ -37,26 +37,26 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(LogLevel_Trace, "Trace");
     }
     {
-        hect::Type& type = hect::Type::create<hect::ColorSpace>(hect::Kind_Enum, "hect::ColorSpace");
+        hect::Type& type = hect::Type::create<ColorSpace>(hect::Kind_Enum, "ColorSpace");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(ColorSpace_NonLinear, "NonLinear");
         enumType.addValue(ColorSpace_Linear, "Linear");
     }
     {
-        hect::Type& type = hect::Type::create<hect::PixelType>(hect::Kind_Enum, "hect::PixelType");
+        hect::Type& type = hect::Type::create<PixelType>(hect::Kind_Enum, "PixelType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(PixelType_Half, "Half");
         enumType.addValue(PixelType_Float, "Float");
         enumType.addValue(PixelType_Byte, "Byte");
     }
     {
-        hect::Type& type = hect::Type::create<hect::PixelFormat>(hect::Kind_Enum, "hect::PixelFormat");
+        hect::Type& type = hect::Type::create<PixelFormat>(hect::Kind_Enum, "PixelFormat");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(PixelFormat_Rgb, "Rgb");
         enumType.addValue(PixelFormat_Rgba, "Rgba");
     }
     {
-        hect::Type& type = hect::Type::create<hect::PrimitiveType>(hect::Kind_Enum, "hect::PrimitiveType");
+        hect::Type& type = hect::Type::create<PrimitiveType>(hect::Kind_Enum, "PrimitiveType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(PrimitiveType_Triangles, "Triangles");
         enumType.addValue(PrimitiveType_TriangleStrip, "TriangleStrip");
@@ -65,14 +65,14 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(PrimitiveType_Points, "Points");
     }
     {
-        hect::Type& type = hect::Type::create<hect::IndexType>(hect::Kind_Enum, "hect::IndexType");
+        hect::Type& type = hect::Type::create<IndexType>(hect::Kind_Enum, "IndexType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(IndexType_UnsignedByte, "UnsignedByte");
         enumType.addValue(IndexType_UnsignedShort, "UnsignedShort");
         enumType.addValue(IndexType_UnsignedInt, "UnsignedInt");
     }
     {
-        hect::Type& type = hect::Type::create<hect::BlendFactor>(hect::Kind_Enum, "hect::BlendFactor");
+        hect::Type& type = hect::Type::create<BlendFactor>(hect::Kind_Enum, "BlendFactor");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(BlendFactor_Zero, "Zero");
         enumType.addValue(BlendFactor_One, "One");
@@ -86,7 +86,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(BlendFactor_OneMinusDestAlpha, "OneMinusDestAlpha");
     }
     {
-        hect::Type& type = hect::Type::create<hect::RenderStateFlag>(hect::Kind_Enum, "hect::RenderStateFlag");
+        hect::Type& type = hect::Type::create<RenderStateFlag>(hect::Kind_Enum, "RenderStateFlag");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(RenderStateFlag_Blend, "Blend");
         enumType.addValue(RenderStateFlag_DepthTest, "DepthTest");
@@ -94,26 +94,26 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(RenderStateFlag_CullFace, "CullFace");
     }
     {
-        hect::Type& type = hect::Type::create<hect::ShaderModuleType>(hect::Kind_Enum, "hect::ShaderModuleType");
+        hect::Type& type = hect::Type::create<ShaderModuleType>(hect::Kind_Enum, "ShaderModuleType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(ShaderModuleType_Vertex, "Vertex");
         enumType.addValue(ShaderModuleType_Pixel, "Pixel");
         enumType.addValue(ShaderModuleType_Geometry, "Geometry");
     }
     {
-        hect::Type& type = hect::Type::create<hect::TextureFilter>(hect::Kind_Enum, "hect::TextureFilter");
+        hect::Type& type = hect::Type::create<TextureFilter>(hect::Kind_Enum, "TextureFilter");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(TextureFilter_Nearest, "Nearest");
         enumType.addValue(TextureFilter_Linear, "Linear");
     }
     {
-        hect::Type& type = hect::Type::create<hect::TextureType>(hect::Kind_Enum, "hect::TextureType");
+        hect::Type& type = hect::Type::create<TextureType>(hect::Kind_Enum, "TextureType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(TextureType_2D, "2D");
         enumType.addValue(TextureType_CubeMap, "CubeMap");
     }
     {
-        hect::Type& type = hect::Type::create<hect::UniformBinding>(hect::Kind_Enum, "hect::UniformBinding");
+        hect::Type& type = hect::Type::create<UniformBinding>(hect::Kind_Enum, "UniformBinding");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(UniformBinding_None, "None");
         enumType.addValue(UniformBinding_RenderTargetSize, "RenderTargetSize");
@@ -128,7 +128,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(UniformBinding_ModelViewProjectionMatrix, "ModelViewProjectionMatrix");
     }
     {
-        hect::Type& type = hect::Type::create<hect::UniformType>(hect::Kind_Enum, "hect::UniformType");
+        hect::Type& type = hect::Type::create<UniformType>(hect::Kind_Enum, "UniformType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(UniformType_Int, "Int");
         enumType.addValue(UniformType_Float, "Float");
@@ -139,7 +139,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(UniformType_Texture, "Texture");
     }
     {
-        hect::Type& type = hect::Type::create<hect::VertexAttributeSemantic>(hect::Kind_Enum, "hect::VertexAttributeSemantic");
+        hect::Type& type = hect::Type::create<VertexAttributeSemantic>(hect::Kind_Enum, "VertexAttributeSemantic");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(VertexAttributeSemantic_Position, "Position");
         enumType.addValue(VertexAttributeSemantic_Normal, "Normal");
@@ -156,7 +156,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(VertexAttributeSemantic_TextureCoords3, "TextureCoords3");
     }
     {
-        hect::Type& type = hect::Type::create<hect::VertexAttributeType>(hect::Kind_Enum, "hect::VertexAttributeType");
+        hect::Type& type = hect::Type::create<VertexAttributeType>(hect::Kind_Enum, "VertexAttributeType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(VertexAttributeType_Byte, "Byte");
         enumType.addValue(VertexAttributeType_UnsignedByte, "UnsignedByte");
@@ -168,7 +168,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(VertexAttributeType_Float, "Float");
     }
     {
-        hect::Type& type = hect::Type::create<hect::InputAxisSource>(hect::Kind_Enum, "hect::InputAxisSource");
+        hect::Type& type = hect::Type::create<InputAxisSource>(hect::Kind_Enum, "InputAxisSource");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(InputAxisSource_MouseMoveX, "MouseMoveX");
         enumType.addValue(InputAxisSource_MouseMoveY, "MouseMoveY");
@@ -177,7 +177,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(InputAxisSource_Key, "Key");
     }
     {
-        hect::Type& type = hect::Type::create<hect::Key>(hect::Kind_Enum, "hect::Key");
+        hect::Type& type = hect::Type::create<Key>(hect::Kind_Enum, "Key");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(Key_Unknown, "Unknown");
         enumType.addValue(Key_A, "A");
@@ -239,26 +239,26 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(Key_LeftAlt, "LeftAlt");
     }
     {
-        hect::Type& type = hect::Type::create<hect::KeyboardEventType>(hect::Kind_Enum, "hect::KeyboardEventType");
+        hect::Type& type = hect::Type::create<KeyboardEventType>(hect::Kind_Enum, "KeyboardEventType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(KeyboardEventType_KeyDown, "KeyDown");
         enumType.addValue(KeyboardEventType_KeyUp, "KeyUp");
     }
     {
-        hect::Type& type = hect::Type::create<hect::MouseButton>(hect::Kind_Enum, "hect::MouseButton");
+        hect::Type& type = hect::Type::create<MouseButton>(hect::Kind_Enum, "MouseButton");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(MouseButton_Left, "Left");
         enumType.addValue(MouseButton_Right, "Right");
         enumType.addValue(MouseButton_Middle, "Middle");
     }
     {
-        hect::Type& type = hect::Type::create<hect::MouseMode>(hect::Kind_Enum, "hect::MouseMode");
+        hect::Type& type = hect::Type::create<MouseMode>(hect::Kind_Enum, "MouseMode");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(MouseMode_Cursor, "Cursor");
         enumType.addValue(MouseMode_Relative, "Relative");
     }
     {
-        hect::Type& type = hect::Type::create<hect::MouseEventType>(hect::Kind_Enum, "hect::MouseEventType");
+        hect::Type& type = hect::Type::create<MouseEventType>(hect::Kind_Enum, "MouseEventType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(MouseEventType_Movement, "Movement");
         enumType.addValue(MouseEventType_ButtonDown, "ButtonDown");
@@ -267,7 +267,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(MouseEventType_ScrollUp, "ScrollUp");
     }
     {
-        hect::Type& type = hect::Type::create<hect::JsonValueType>(hect::Kind_Enum, "hect::JsonValueType");
+        hect::Type& type = hect::Type::create<JsonValueType>(hect::Kind_Enum, "JsonValueType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(JsonValueType_Null, "Null");
         enumType.addValue(JsonValueType_Bool, "Bool");
@@ -277,26 +277,26 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(JsonValueType_Object, "Object");
     }
     {
-        hect::Type& type = hect::Type::create<hect::ComponentEventType>(hect::Kind_Enum, "hect::ComponentEventType");
+        hect::Type& type = hect::Type::create<ComponentEventType>(hect::Kind_Enum, "ComponentEventType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(ComponentEventType_Add, "Add");
         enumType.addValue(ComponentEventType_Remove, "Remove");
     }
     {
-        hect::Type& type = hect::Type::create<hect::EntityEventType>(hect::Kind_Enum, "hect::EntityEventType");
+        hect::Type& type = hect::Type::create<EntityEventType>(hect::Kind_Enum, "EntityEventType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(EntityEventType_Create, "Create");
         enumType.addValue(EntityEventType_Activate, "Activate");
         enumType.addValue(EntityEventType_Destroy, "Destroy");
     }
     {
-        hect::Type& type = hect::Type::create<hect::PacketFlag>(hect::Kind_Enum, "hect::PacketFlag");
+        hect::Type& type = hect::Type::create<PacketFlag>(hect::Kind_Enum, "PacketFlag");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(PacketFlag_Reliable, "Reliable");
         enumType.addValue(PacketFlag_Unsequenced, "Unsequenced");
     }
     {
-        hect::Type& type = hect::Type::create<hect::PeerState>(hect::Kind_Enum, "hect::PeerState");
+        hect::Type& type = hect::Type::create<PeerState>(hect::Kind_Enum, "PeerState");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(PeerState_Disconnected, "Disconnected");
         enumType.addValue(PeerState_Connecting, "Connecting");
@@ -310,7 +310,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(PeerState_Unknown, "Unknown");
     }
     {
-        hect::Type& type = hect::Type::create<hect::SocketEventType>(hect::Kind_Enum, "hect::SocketEventType");
+        hect::Type& type = hect::Type::create<SocketEventType>(hect::Kind_Enum, "SocketEventType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(SocketEventType_None, "None");
         enumType.addValue(SocketEventType_Connect, "Connect");
@@ -318,7 +318,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(SocketEventType_Receive, "Receive");
     }
     {
-        hect::Type& type = hect::Type::create<hect::Kind>(hect::Kind_Enum, "hect::Kind");
+        hect::Type& type = hect::Type::create<Kind>(hect::Kind_Enum, "Kind");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(Kind_None, "None");
         enumType.addValue(Kind_Namespace, "Namespace");
@@ -326,7 +326,7 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(Kind_Enum, "Enum");
     }
     {
-        hect::Type& type = hect::Type::create<hect::FrustumTestResult>(hect::Kind_Enum, "hect::FrustumTestResult");
+        hect::Type& type = hect::Type::create<FrustumTestResult>(hect::Kind_Enum, "FrustumTestResult");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(FrustumTestResult_Outside, "Outside");
         enumType.addValue(FrustumTestResult_Inside, "Inside");

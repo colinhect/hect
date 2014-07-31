@@ -57,4 +57,32 @@ Type::Type(Kind kind, const std::string& name) :
 {
 }
 
+const Type& Type::fromTypeInfo(const std::type_info& typeInfo)
+{
+    std::type_index typeIndex(typeInfo);
+
+    auto it = _registeredTypes.find(typeIndex);
+    if (it != _registeredTypes.end())
+    {
+        return it->second;
+    }
+
+    // If no type was found then create a placeholder which has just the name
+    // of the type
+    else
+    {
+        std::string typeName = typeInfo.name();
+
+        // Strip all characters before the unscoped type name
+        size_t i = typeName.size() - 1;
+        while (i > 0 && (typeName[i] != ':' && typeName[i] != ' '))
+        {
+            --i;
+        }
+
+        // Create the placeholder type
+        return _registeredTypes[typeIndex] = Type(Kind_None, std::string(&typeName[i + 1]));
+    }
+}
+
 std::map<std::type_index, Type> Type::_registeredTypes;

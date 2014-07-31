@@ -36,7 +36,7 @@ def process_xml(root):
                     header = memberdef.find("location")
                     if not header is None:
                         header = header.attrib["file"]
-                    enum_type = EnumType(header, id, namespace + "::" + name)
+                    enum_type = EnumType(header, id, name)
                     for enumvalue in memberdef.iter("enumvalue"):
                         enum_type.values.append(enumvalue.find("name").text)                            
                     types.append(enum_type)

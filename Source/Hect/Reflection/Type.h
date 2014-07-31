@@ -116,6 +116,8 @@ public:
 private:
     Type(Kind kind, const std::string& name);
 
+    static const Type& fromTypeInfo(const std::type_info& typeInfo);
+
     Kind _kind;
     std::string _name;
     Enum _enum;

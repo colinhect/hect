@@ -27,35 +27,13 @@ namespace hect
 template <typename T>
 const Type& Type::of(T& value)
 {
-    std::type_index typeIndex(typeid(value));
-
-    auto it = _registeredTypes.find(typeIndex);
-    if (it != _registeredTypes.end())
-    {
-        return it->second;
-    }
+    return fromTypeInfo(typeid(value));
 }
 
 template <typename T>
 const Type& Type::get()
 {
-    std::type_index typeIndex(typeid(T));
-
-    auto it = _registeredTypes.find(typeIndex);
-    if (it != _registeredTypes.end())
-    {
-        return it->second;
-    }
-    else
-    {
-        std::string typeName = typeid(T).name();
-        size_t i = typeName.size() - 1;
-        while (i > 0 && (typeName[i] != ':' && typeName[i] != ' '))
-        {
-            --i;
-        }
-        return create<T>(Kind_None, std::string(&typeName[i + 1]));
-    }
+    return fromTypeInfo(typeid(T));
 }
 
 template <typename T>

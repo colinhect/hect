@@ -44,16 +44,13 @@ public:
 
     ///
     /// Constructs an empty asset cache without a file system.
-    ///
-    /// \param threadCount The number of asset loading threads to allocate.
-    AssetCache(size_t threadCount = 8);
+    AssetCache();
 
     ///
     /// Constructs an asset cache given a file system.
     ///
     /// \param fileSystem The file system.
-    /// \param threadCount The number of asset loading threads to allocate.
-    AssetCache(FileSystem& fileSystem, size_t threadCount = 8);
+    AssetCache(FileSystem& fileSystem);
 
     ///
     /// Sets the directory that the asset cache should first check when loading
@@ -106,12 +103,13 @@ public:
     FileSystem& fileSystem();
 
 private:
-    TaskPool _taskPool;
     FileSystem* _fileSystem;
 
     std::recursive_mutex _mutex;
     std::map<std::thread::id, std::stack<Path>> _preferredDirectoryStack;
     std::map<Path, std::shared_ptr<AssetEntryBase>> _entries;
+
+    TaskPool _taskPool;
 };
 
 }

@@ -85,18 +85,11 @@ template <typename T>
 void AssetEntry<T>::_initiateLoad()
 {
     TaskPool& taskPool = _assetCache->taskPool();
-    if (taskPool.noAvailableThreads())
-    {
-        _load();
-        _taskHandle = Task::Handle();
-    }
-    else
-    {
-        _taskHandle = _assetCache->taskPool().enqueue([this]()
+    _taskHandle = taskPool.enqueue([this]
         {
             _load();
-        });
-    }
+        }
+    );
 }
 
 template <typename T>

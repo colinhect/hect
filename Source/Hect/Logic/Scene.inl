@@ -31,7 +31,8 @@ T& Scene::addSystem(Args&... args)
     
     if (_systems.find(typeIndex) != _systems.end())
     {
-        throw Error("System of this type is already in the scene");
+        std::string typeName = Type::get<T>().name();
+        throw Error(format("System of type '%s' has already been added", typeName.c_str()));
     }
 
     _systems[typeIndex] = std::shared_ptr<System>(new T(*this, args...));
@@ -46,7 +47,8 @@ T& Scene::system()
     auto it = _systems.find(typeIndex);
     if (it == _systems.end())
     {
-        throw Error("Unknown system type");
+        std::string typeName = Type::get<T>().name();
+        throw Error(format("Unknown system type '%s'", typeName.c_str()));
     }
 
     return (T&)*it->second;
@@ -95,7 +97,8 @@ const ComponentPool<T>& Scene::components() const
     }
     else
     {
-        throw Error("Unknown component type");
+        std::string typeName = Type::get<T>().name();
+        throw Error(format("Unknown component type '%s'", typeName.c_str()));
     }
 }
 

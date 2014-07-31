@@ -25,9 +25,17 @@
 
 using namespace hect;
 
+TaskPool::TaskPool() :
+    _stop(false),
+    _adaptive(true),
+    _availableThreadCount(0)
+{
+}
+
 TaskPool::TaskPool(size_t threadCount) :
     _stop(false),
-    _availableThreadCount(threadCount)
+    _adaptive(false),
+    _availableThreadCount(0)
 {
     _initializeThreads(threadCount);
 }
@@ -56,7 +64,7 @@ Task::Handle TaskPool::enqueue(Task::Action action)
     // Create the task
     Task::Handle handle(task);
 
-    if (_threads.empty())
+    if (_threads.empty() && !_adaptive)
     {
         // The task pool has no threads so execute the task synchronously
         task->_execute();
@@ -66,6 +74,14 @@ Task::Handle TaskPool::enqueue(Task::Action action)
         // Add this task to the queue
         {
             std::unique_lock<std::mutex> lock(_queueMutex);
+
+            // If this task pool is adaptive and there are no threads available,
+            // then initialize another thread
+            if (_adaptive && _availableThreadCount.load() == 0)
+            {
+                _initializeThreads(1);
+            }
+
             _taskQueue.push_back(handle);
         }
 
@@ -76,25 +92,21 @@ Task::Handle TaskPool::enqueue(Task::Action action)
     return handle;
 }
 
-bool TaskPool::noAvailableThreads() const
-{
-    size_t availableThreadCount = _availableThreadCount.load();
-    return availableThreadCount == 0;
-}
-
 void TaskPool::_initializeThreads(size_t threadCount)
 {
     for (unsigned i = 0; i < threadCount; ++i)
     {
         _threads.push_back(std::thread([this]
-        {
-            _threadLoop();
-        }));
+            {
+                _threadLoop();
+            }
+        ));
     }
 }
 
 void TaskPool::_threadLoop()
 {
+    ++_availableThreadCount;
     for (;;)
     {
         Task::Handle taskHandle;
@@ -109,21 +121,22 @@ void TaskPool::_threadLoop()
 
             if (_stop)
             {
+                --_availableThreadCount;
                 return;
             }
 
-            // Get the next task
+            // Get the next tasks
             taskHandle = _taskQueue.front();
             _taskQueue.pop_front();
         }
 
         // Execute the task
-        _availableThreadCount.fetch_sub(1);
+        --_availableThreadCount;
         Task* task = taskHandle._task.get();
         if (task)
         {
             task->_execute();
         }
-        _availableThreadCount.fetch_add(1);
+        ++_availableThreadCount;
     }
 }
