@@ -103,7 +103,7 @@ public:
     ///
     /// \throws Error If the string does not represent a valid enum value.
     EnumValue::Type fromString(const std::string& stringValue) const;
-    
+
     ///
     /// Converts an enum value to its string representation.
     ///

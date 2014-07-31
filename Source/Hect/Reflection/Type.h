@@ -74,7 +74,7 @@ public:
     /// \throws Error If the type already exists.
     template <typename T>
     static Type& create(Kind kind, const std::string& name);
-    
+
     ///
     /// Returns a reflected type.
     ///
@@ -92,7 +92,7 @@ public:
     static const Type& of(T& value);
 
     Type();
-    
+
     ///
     /// Returns the kind.
     Kind kind() const;
@@ -100,7 +100,7 @@ public:
     ///
     /// Returns the name.
     const std::string& name() const;
-    
+
     ///
     /// Returns the type as an enum.
     ///

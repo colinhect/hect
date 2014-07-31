@@ -60,7 +60,7 @@ private:
 
     std::vector<DebugRenderLayer*> _renderLayers;
     std::map<Key, DebugRenderLayer*> _toggleKeys;
-    
+
     TransformDebugRenderLayer _transformDebugRenderLayer;
     BoundingBoxDebugRenderLayer _boundingBoxDebugRenderLayer;
 };

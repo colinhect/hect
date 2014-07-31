@@ -120,10 +120,10 @@ private:
 
     void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
-    
+
     size_t _entityCount;
     EntityPool _entityPool;
-    
+
     std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
 
     std::map<std::type_index, std::string> _componentTypeNames;

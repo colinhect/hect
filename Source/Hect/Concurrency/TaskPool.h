@@ -45,7 +45,7 @@ class TaskPool :
     public Uncopyable
 {
 public:
-    
+
     ///
     /// Constructs a task pool which spawns new threads as they are needed.
     TaskPool();
@@ -68,7 +68,7 @@ public:
     ///
     /// \returns The handle to the queued task.
     Task::Handle enqueue(Task::Action action);
-    
+
 private:
     void initializeThreads(size_t threadCount);
     void threadLoop();

@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Type.h"
 
-using namespace hect;    
+using namespace hect;
 
 Type::Type() :
     _kind(Kind_None)

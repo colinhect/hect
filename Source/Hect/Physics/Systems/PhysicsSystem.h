@@ -69,7 +69,7 @@ public:
 
 private:
     btTriangleMesh* toBulletMesh(Mesh* mesh);
-    
+
     std::shared_ptr<btCollisionConfiguration> _configuration;
     std::shared_ptr<btCollisionDispatcher> _dispatcher;
     std::shared_ptr<btBroadphaseInterface> _broadphase;

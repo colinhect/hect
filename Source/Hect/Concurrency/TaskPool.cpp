@@ -97,10 +97,10 @@ void TaskPool::initializeThreads(size_t threadCount)
     for (unsigned i = 0; i < threadCount; ++i)
     {
         _threads.push_back(std::thread([this]
-            {
-                threadLoop();
-            }
-        ));
+        {
+            threadLoop();
+        }
+                                      ));
     }
 }
 
