@@ -24,20 +24,20 @@
 namespace hect
 {
 
-template <typename T>
-typename Component<T>::Iter Entity::addComponent(const T& component)
+template <typename T, typename... Args>
+typename Component<T>::Iter Entity::addComponent(Args... args)
 {
     _ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool._add(*this, component);
+    return componentPool._add(*this, T(args...));
 }
 
-template <typename T>
-typename Component<T>::Iter Entity::replaceComponent(const T& component)
+template <typename T, typename... Args>
+typename Component<T>::Iter Entity::replaceComponent(Args... args)
 {
     _ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool._replace(*this, component);
+    return componentPool._replace(*this, T(args...));
 }
 
 template <typename T>

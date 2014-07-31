@@ -34,10 +34,6 @@ const Type& Type::of(T& value)
     {
         return it->second;
     }
-    else
-    {
-        throw Error("Unknown type");
-    }
 }
 
 template <typename T>
@@ -52,7 +48,13 @@ const Type& Type::get()
     }
     else
     {
-        throw Error("Unknown type");
+        std::string typeName = typeid(T).name();
+        size_t i = typeName.size() - 1;
+        while (i > 0 && (typeName[i] != ':' && typeName[i] != ' '))
+        {
+            --i;
+        }
+        return create<T>(Kind_None, std::string(&typeName[i + 1]));
     }
 }
 

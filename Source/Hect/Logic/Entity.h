@@ -410,31 +410,22 @@ public:
     ///
     /// Adds a component of a specific type to the entity.
     ///
-    /// \param component The component to add to the entity.  A copy of this
-    /// will be added to the entity so the original reference will not refer
-    /// to the same component added to the entity.
-    ///
     /// \returns An iterator to the added component.
     ///
     /// \throws Error If the entity already has a component of the type or if
     /// the entity is invalid.
-    template <typename T>
-    typename Component<T>::Iter addComponent(const T& component);
+    template <typename T, typename... Args>
+    typename Component<T>::Iter addComponent(Args... args);
 
     ///
     /// Replaces an existing component that the entity has.
-    ///
-    /// \param component The component to replace the existing component with.
-    /// A copy of this will be replaced for the existing component so the
-    /// original reference will not refer to the same component replace for the
-    /// entity.
     ///
     /// \returns An iterator to the added component.
     ///
     /// \throws Error If the entity does not have a component of the type or if
     /// the entity is invalid.
-    template <typename T>
-    typename Component<T>::Iter replaceComponent(const T& component);
+    template <typename T, typename... Args>
+    typename Component<T>::Iter replaceComponent(Args... args);
 
     ///
     /// Removes the component of a specific type from the entity.

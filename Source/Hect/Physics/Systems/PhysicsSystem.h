@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Event/Listener.h"
 #include "Hect/Graphics/Mesh.h"
@@ -45,16 +44,16 @@ namespace hect
 ///
 /// Simulates physical interactions of physical bodies.
 class PhysicsSystem :
+    public Uncopyable,
     public System,
-    public Listener<ComponentEvent<RigidBody>>,
-                                            public Uncopyable
+    public Listener<ComponentEvent<RigidBody>>
 {
 public:
-    PhysicsSystem(Scene& scene, TaskPool& taskPool);
+    PhysicsSystem(Scene& scene);
     ~PhysicsSystem();
 
-    void beginAsynchronousUpdate(Real timeStep, unsigned maxSubStepCount);
-    void endAsynchronousUpdate();
+    void updateTransforms();
+    void simulate(Real timeStep, unsigned maxSubStepCount);
 
     ///
     /// Returns the gravity.
@@ -70,10 +69,7 @@ public:
 
 private:
     btTriangleMesh* _toBulletMesh(Mesh* mesh);
-
-    TaskPool* _taskPool;
-    Task::Handle _updateTaskHandle;
-
+    
     std::shared_ptr<btCollisionConfiguration> _configuration;
     std::shared_ptr<btCollisionDispatcher> _dispatcher;
     std::shared_ptr<btBroadphaseInterface> _broadphase;

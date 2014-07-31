@@ -24,10 +24,45 @@
 namespace hect
 {
 
-template <typename T>
-void Scene::registerComponent(const std::string& componentName)
+template <typename T, typename... Args>
+T& Scene::addSystem(Args&... args)
 {
     std::type_index typeIndex(typeid(T));
+    
+    if (_systems.find(typeIndex) != _systems.end())
+    {
+        throw Error("System of this type is already in the scene");
+    }
+
+    _systems[typeIndex] = std::shared_ptr<System>(new T(*this, args...));
+    return (T&)*_systems[typeIndex];
+}
+
+template <typename T>
+T& Scene::system()
+{
+    std::type_index typeIndex(typeid(T));
+
+    auto it = _systems.find(typeIndex);
+    if (it == _systems.end())
+    {
+        throw Error("Unknown system type");
+    }
+
+    return (T&)*it->second;
+}
+
+template <typename T>
+void Scene::registerComponent()
+{
+    std::type_index typeIndex(typeid(T));
+
+    std::string componentName = Type::get<T>().name();
+
+    if (_componentTypeNames.find(typeIndex) != _componentTypeNames.end())
+    {
+        throw Error(format("Component type '%s' is already registered", componentName.c_str()));
+    }
 
     // Remember the type name for this type index
     _componentTypeNames[typeIndex] = componentName;

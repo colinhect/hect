@@ -30,9 +30,8 @@
 
 using namespace hect;
 
-PhysicsSystem::PhysicsSystem(Scene& scene, TaskPool& taskPool) :
+PhysicsSystem::PhysicsSystem(Scene& scene) :
     System(scene),
-    _taskPool(&taskPool),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -41,46 +40,16 @@ PhysicsSystem::PhysicsSystem(Scene& scene, TaskPool& taskPool) :
 {
     setGravity(Vector3::zero());
 
-    // Register to component events for rigid bodies
-    ComponentPool<RigidBody>& rigidBodyPool = scene.components<RigidBody>();
-    rigidBodyPool.dispatcher().addListener(*this);
+    scene.components<RigidBody>().dispatcher().addListener(*this);
 }
 
 PhysicsSystem::~PhysicsSystem()
 {
-    if (_updateTaskHandle)
-    {
-        _updateTaskHandle->wait();
-    }
-
-    // Unregister from component events for rigid bodies
-    ComponentPool<RigidBody>& rigidBodyPool = scene().components<RigidBody>();
-    rigidBodyPool.dispatcher().removeListener(*this);
+    scene().components<RigidBody>().dispatcher().removeListener(*this);
 }
 
-void PhysicsSystem::beginAsynchronousUpdate(Real timeStep, unsigned maxSubStepCount)
+void PhysicsSystem::updateTransforms()
 {
-    // Wait until the last update (if any) completes
-    if (_updateTaskHandle)
-    {
-        _updateTaskHandle->wait();
-    }
-
-    // Update the dynamics world
-    _updateTaskHandle = _taskPool->enqueue([this, timeStep, maxSubStepCount]()
-    {
-        _world->stepSimulation(timeStep, maxSubStepCount);
-    });
-}
-
-void PhysicsSystem::endAsynchronousUpdate()
-{
-    // Wait until the last update (if any) completes
-    if (_updateTaskHandle)
-    {
-        _updateTaskHandle->wait();
-    }
-
     // For each rigid body component
     for (RigidBody& rigidBody : scene().components<RigidBody>())
     {
@@ -90,9 +59,15 @@ void PhysicsSystem::endAsynchronousUpdate()
             // Update the transform to what Bullet says it should be
             btTransform bulletTransform;
             ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
-            entity.replaceComponent(convertFromBullet(bulletTransform));
+            entity.replaceComponent<Transform>(convertFromBullet(bulletTransform));
         }
     }
+}
+
+void PhysicsSystem::simulate(Real timeStep, unsigned maxSubStepCount)
+{
+    // Update the dynamics world
+    _world->stepSimulation(timeStep, maxSubStepCount);
 }
 
 const Vector3& PhysicsSystem::gravity() const

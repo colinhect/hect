@@ -27,16 +27,23 @@
 
 using namespace hect;
 
-DebugRenderSystem::DebugRenderSystem(Scene& scene) :
-    RenderSystem(scene)
+DebugRenderSystem::DebugRenderSystem(Scene& scene, InputSystem& inputSystem, AssetCache& assetCache, Renderer& renderer) :
+    RenderSystem(scene, renderer),
+    _inputSystem(&inputSystem),
+    _transformDebugRenderLayer(assetCache),
+    _boundingBoxDebugRenderLayer(assetCache)
 {
-    Keyboard& keyboard = scene.inputSystem().keyboard();
+    Keyboard& keyboard = _inputSystem->keyboard();
     keyboard.dispatcher().addListener(*this);
+
+    // Add debug render layers
+    addRenderLayer(Key_F5, _transformDebugRenderLayer);
+    addRenderLayer(Key_F6, _boundingBoxDebugRenderLayer);
 }
 
 DebugRenderSystem::~DebugRenderSystem()
 {
-    Keyboard& keyboard = scene().inputSystem().keyboard();
+    Keyboard& keyboard = _inputSystem->keyboard();
     keyboard.dispatcher().removeListener(*this);
 }
 

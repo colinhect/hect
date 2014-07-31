@@ -31,6 +31,7 @@
 #include "Hect/IO/Encodable.h"
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/EntityPool.h"
+#include "Hect/Logic/System.h"
 
 namespace hect
 {
@@ -45,19 +46,14 @@ class Scene :
 public:
 
     ///
-    /// A function which registers a collection of components to a scene.
-    typedef void (*ComponentRegistration)(Scene& scene);
-
-    ///
     /// Constructs an empty scene.
     Scene();
 
-    ///
-    /// Constructs an empty scene.
-    ///
-    /// \param engine The engine.
-    /// \param componentRegisteration The component registration function.
-    Scene(Engine& engine, ComponentRegistration componentRegisteration);
+    template <typename T, typename... Args>
+    T& addSystem(Args&... args);
+
+    template <typename T>
+    T& system();
 
     ///
     /// Creates a new entity.
@@ -76,10 +72,8 @@ public:
 
     ///
     /// Registers a component type.
-    ///
-    /// \param componentName The type name of the component.
     template <typename T>
-    void registerComponent(const std::string& componentName);
+    void registerComponent();
 
     ///
     /// Returns the pool of components of a specific type.
@@ -103,14 +97,6 @@ public:
     /// Returns the number of active entities in the scene.
     size_t entityCount() const;
 
-    FileSystem& fileSystem();
-    InputSystem& inputSystem();
-
-    Window& window();
-    Renderer& renderer();
-
-    AssetCache& assetCache();
-
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
@@ -125,8 +111,6 @@ private:
     void _encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void _decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
     
-    Engine* _engine;
-
     size_t _entityCount;
     EntityPool _entityPool;
 
@@ -134,6 +118,8 @@ private:
 
     std::map<std::type_index, std::string> _componentTypeNames;
     std::map<std::string, std::function<ComponentBase*(void)>> _componentConstructors;
+
+    std::map<std::type_index, std::shared_ptr<System>> _systems;
 };
 
 }

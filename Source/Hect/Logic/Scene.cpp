@@ -30,18 +30,9 @@
 using namespace hect;
 
 Scene::Scene() :
-    _engine(nullptr),
     _entityCount(0),
     _entityPool(*this)
 {
-}
-
-Scene::Scene(Engine& engine, ComponentRegistration componentRegisteration) :
-    _engine(&engine),
-    _entityCount(0),
-    _entityPool(*this)
-{
-    componentRegisteration(*this);
 }
 
 Entity::Iter Scene::createEntity()
@@ -110,36 +101,6 @@ const EntityPool& Scene::entities() const
 size_t Scene::entityCount() const
 {
     return _entityCount;
-}
-
-FileSystem& Scene::fileSystem()
-{
-    assert(_engine);
-    return _engine->fileSystem();
-}
-
-InputSystem& Scene::inputSystem()
-{
-    assert(_engine);
-    return _engine->inputSystem();
-}
-
-Window& Scene::window()
-{
-    assert(_engine);
-    return _engine->window();
-}
-
-Renderer& Scene::renderer()
-{
-    assert(_engine);
-    return _engine->renderer();
-}
-
-AssetCache& Scene::assetCache()
-{
-    assert(_engine);
-    return _engine->assetCache();
 }
 
 Entity::Iter Scene::_cloneEntity(const Entity& entity)

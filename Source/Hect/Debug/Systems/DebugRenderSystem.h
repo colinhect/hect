@@ -23,12 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Debug/DebugRenderLayer.h"
+#include <map>
+
+#include "Hect/Debug/BoundingBoxDebugRenderLayer.h"
+#include "Hect/Debug/TransformDebugRenderLayer.h"
 #include "Hect/Event/Listener.h"
 #include "Hect/Graphics/Systems/RenderSystem.h"
 #include "Hect/Input/Keyboard.h"
-
-#include <map>
 
 namespace hect
 {
@@ -40,7 +41,7 @@ class DebugRenderSystem :
     public Listener<KeyboardEvent>
 {
 public:
-    DebugRenderSystem(Scene& scene);
+    DebugRenderSystem(Scene& scene, InputSystem& inputSystem, AssetCache& assetCache, Renderer& renderer);
     ~DebugRenderSystem();
 
     ///
@@ -55,8 +56,13 @@ public:
     void receiveEvent(const KeyboardEvent& event);
 
 private:
+    InputSystem* _inputSystem;
+
     std::vector<DebugRenderLayer*> _renderLayers;
     std::map<Key, DebugRenderLayer*> _toggleKeys;
+    
+    TransformDebugRenderLayer _transformDebugRenderLayer;
+    BoundingBoxDebugRenderLayer _boundingBoxDebugRenderLayer;
 };
 
 }

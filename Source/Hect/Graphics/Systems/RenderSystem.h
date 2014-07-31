@@ -37,7 +37,7 @@ class RenderSystem :
     public System
 {
 public:
-    RenderSystem(Scene& scene);
+    RenderSystem(Scene& scene, Renderer& renderer);
     virtual ~RenderSystem();
 
     void updateActiveCamera();
