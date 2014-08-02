@@ -48,6 +48,11 @@ PhysicsSystem::~PhysicsSystem()
     scene().components<RigidBody>().dispatcher().removeListener(*this);
 }
 
+void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition)
+{
+    rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
+}
+
 void PhysicsSystem::updateTransforms()
 {
     // For each rigid body component
@@ -95,8 +100,8 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
             {
                 Mesh& mesh = *rigidBody->mesh();
                 mesh;
-                //rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
-                rigidBody->_collisionShape.reset(new btSphereShape(1.0));
+                rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
+                //rigidBody->_collisionShape.reset(new btSphereShape(1.0));
 
                 btScalar mass = rigidBody->mass();
                 btVector3 localInertia(0, 0, 0);
@@ -114,6 +119,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
                 rigidBody->_rigidBody->setSleepingThresholds(0, 0);
                 rigidBody->_rigidBody->setLinearVelocity(linearVelocity);
                 rigidBody->_rigidBody->setAngularVelocity(angularVelocity);
+                rigidBody->_rigidBody->setAngularFactor(0.5);
 
                 _world->addRigidBody(rigidBody->_rigidBody.get());
             }

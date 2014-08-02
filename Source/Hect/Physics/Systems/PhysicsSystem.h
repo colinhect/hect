@@ -52,6 +52,8 @@ public:
     PhysicsSystem(Scene& scene);
     ~PhysicsSystem();
 
+    void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);
+
     void updateTransforms();
     void simulate(Real timeStep, unsigned maxSubStepCount);
 

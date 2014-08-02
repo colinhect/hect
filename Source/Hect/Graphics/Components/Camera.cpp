@@ -40,10 +40,10 @@ Camera::Camera() :
 
 void Camera::transformTo(const Transform& transform)
 {
-    const Vector3& position = transform.position();
-    const Quaternion& rotation = transform.rotation();
+    const Vector3& position = transform.globalPosition();
+    const Quaternion& rotation = transform.globalRotation();
 
-    _front = (rotation * -Vector3::unitZ()).normalized();
+    _front = (rotation * Vector3::unitZ()).normalized();
     _up = (rotation * Vector3::unitY()).normalized();
     _right = _front.cross(_up).normalized();
 

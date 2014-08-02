@@ -64,6 +64,7 @@ Mouse::Mouse() :
 
 void Mouse::enqueueEvent(const MouseEvent& event)
 {
+    _buttonStates[(int)event.button] = event.type == MouseEventType_ButtonDown;
     _cursorPosition = event.cursorPosition;
     _events.push_back(event);
 }

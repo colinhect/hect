@@ -84,9 +84,8 @@ void RigidBody::setAngularVelocity(const Vector3& angularVelocity)
     // Set the new value in the bullet rigid body as well
     if (_rigidBody)
     {
-        _rigidBody->setAngularFactor(convertToBullet(angularVelocity));
+        _rigidBody->setAngularVelocity(convertToBullet(angularVelocity));
     }
-
     _angularVelocity = angularVelocity;
 }
 

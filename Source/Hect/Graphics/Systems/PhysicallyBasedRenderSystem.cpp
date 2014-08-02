@@ -68,7 +68,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
         renderer().clear();
 
         // Render the sky box if there is one
-        auto skyBox = camera->entity().component<SkyBox>();
+        auto skyBox = scene().components<SkyBox>().begin();
         if (skyBox)
         {
             // Construct a transform at the camera's position
