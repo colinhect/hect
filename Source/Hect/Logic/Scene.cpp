@@ -25,8 +25,6 @@
 
 #include <algorithm>
 
-#include "Hect/IO/JsonDecoder.h"
-
 using namespace hect;
 
 Scene::Scene() :
@@ -35,27 +33,13 @@ Scene::Scene() :
 {
 }
 
-Entity::Iter Scene::createEntity()
+Entity::Iterator Scene::createEntity()
 {
-    Entity::Iter entity = _entityPool.create();
+    Entity::Iterator entity = _entityPool.create();
 
     // Dispatch the entity create event
     EntityEvent event(EntityEventType_Create, *entity);
     _entityPool._dispatcher.dispatchEvent(event);
-
-    return entity;
-}
-
-Entity::Iter Scene::createEntity(const Path& entityPath, AssetCache& assetCache)
-{
-    JsonValue& jsonValue = assetCache.get<JsonValue>(entityPath);
-
-    assetCache.pushPreferredDirectory(entityPath.parentDirectory());
-
-    Entity::Iter entity = createEntity();
-    entity->decodeFromJsonValue(jsonValue, assetCache);
-
-    assetCache.popPreferredDirectory();
 
     return entity;
 }
@@ -79,7 +63,7 @@ void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
     while (entitiesDecoder.hasMoreElements())
     {
-        Entity::Iter entity = createEntity();
+        Entity::Iterator entity = createEntity();
 
         ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
         entity->decode(decoder, assetCache);
@@ -103,10 +87,10 @@ size_t Scene::entityCount() const
     return _entityCount;
 }
 
-Entity::Iter Scene::cloneEntity(const Entity& entity)
+Entity::Iterator Scene::cloneEntity(const Entity& entity)
 {
-    Entity::ConstIter sourceEntity = entity.iter();
-    Entity::Iter clonedEntity = createEntity();
+    Entity::ConstIterator sourceEntity = entity.iterator();
+    Entity::Iterator clonedEntity = createEntity();
 
     for (auto& pair : _componentPools)
     {
@@ -117,7 +101,7 @@ Entity::Iter Scene::cloneEntity(const Entity& entity)
     // Recursively clone all children
     for (const Entity& child : sourceEntity->children())
     {
-        Entity::Iter clonedChild = child.clone();
+        Entity::Iterator clonedChild = child.clone();
         clonedEntity->addChild(*clonedChild);
     }
 
@@ -162,7 +146,7 @@ void Scene::destroyEntity(Entity& entity)
     }
 
     // If the entity had a parent then remove itself as a child
-    Entity::Iter parent = entity.parent();
+    Entity::Iterator parent = entity.parent();
     if (parent)
     {
         parent->removeChild(entity);

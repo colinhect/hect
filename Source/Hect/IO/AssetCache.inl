@@ -44,7 +44,7 @@ AssetHandle<T> AssetCache::getHandle(const Path& path)
     {
         Path assetPath = path;
 
-        std::stack<Path>& pathStack = _preferredDirectoryStack[std::this_thread::get_id()];
+        std::stack<Path>& pathStack = _selectedDirectoryStack[std::this_thread::get_id()];
 
         // If there is a preferred directory set
         if (!pathStack.empty())

@@ -34,10 +34,10 @@ void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCa
     JsonValue jsonValue;
     jsonValue.decodeFromJson(stream);
 
-    assetCache.pushPreferredDirectory(assetPath.parentDirectory());
+    // Select the asset's parent directory so that relative paths can be used
+    // when loading dependant assets
+    AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
 
     texture.setName(assetPath.toString());
     texture.decodeFromJsonValue(jsonValue, assetCache);
-
-    assetCache.popPreferredDirectory();
 }

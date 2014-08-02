@@ -43,7 +43,7 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::updateActiveCamera()
 {
-    Component<Camera>::Iter camera = activeCamera();
+    Component<Camera>::Iterator camera = activeCamera();
     if (camera)
     {
         Entity& entity = camera->entity();
@@ -55,14 +55,14 @@ void RenderSystem::updateActiveCamera()
     }
 }
 
-Component<Camera>::Iter RenderSystem::activeCamera()
+Component<Camera>::Iterator RenderSystem::activeCamera()
 {
     return scene().components<Camera>().begin();
 }
 
 void RenderSystem::renderAll(RenderTarget& target)
 {
-    Component<Camera>::Iter camera = activeCamera();
+    Component<Camera>::Iterator camera = activeCamera();
     if (camera)
     {
         camera->setAspectRatio(target.aspectRatio());

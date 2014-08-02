@@ -38,92 +38,92 @@ Dispatcher<ComponentEvent<T>>& ComponentPool<T>::dispatcher()
 }
 
 template <typename T>
-typename Component<T>::Iter ComponentPool<T>::begin()
+typename Component<T>::Iterator ComponentPool<T>::begin()
 {
-    Component<T>::Iter iter(*this, 0);
+    Component<T>::Iterator iterator(*this, 0);
 
     // Move to the first component with activated entity
-    if (!iter || !iter->entity().isActivated())
+    if (!iterator || !iterator->entity().isActivated())
     {
-        ++iter;
+        ++iterator;
     }
-    return iter;
+    return iterator;
 }
 
 template <typename T>
-typename Component<T>::ConstIter ComponentPool<T>::begin() const
+typename Component<T>::ConstIterator ComponentPool<T>::begin() const
 {
-    Component<T>::ConstIter iter(*this, 0);
+    Component<T>::ConstIterator iterator(*this, 0);
 
     // Move to the first component with activated entity
-    if (!iter || !iter->entity().isActivated())
+    if (!iterator || !iterator->entity().isActivated())
     {
-        ++iter;
+        ++iterator;
     }
-    return iter;
+    return iterator;
 }
 
 template <typename T>
-typename Component<T>::Iter ComponentPool<T>::end()
+typename Component<T>::Iterator ComponentPool<T>::end()
 {
-    return Component<T>::Iter(*this, std::max(maxId(), (ComponentId)1));
+    return Component<T>::Iterator(*this, std::max(maxId(), (ComponentId)1));
 }
 
 template <typename T>
-typename Component<T>::ConstIter ComponentPool<T>::end() const
+typename Component<T>::ConstIterator ComponentPool<T>::end() const
 {
-    return Component<T>::ConstIter(*this, std::max(maxId(), (ComponentId)1));
+    return Component<T>::ConstIterator(*this, std::max(maxId(), (ComponentId)1));
 }
 
 template <typename T>
-typename Component<T>::Iter ComponentPool<T>::findFirst(typename Component<T>::Predicate predicate)
+typename Component<T>::Iterator ComponentPool<T>::findFirst(typename Component<T>::Predicate predicate)
 {
-    for (auto iter = begin(); iter != end(); ++iter)
+    for (auto iterator = begin(); iterator != end(); ++iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            return iter;
+            return iterator;
         }
     }
     return end();
 }
 
 template <typename T>
-typename Component<T>::ConstIter ComponentPool<T>::findFirst(typename Component<T>::Predicate predicate) const
+typename Component<T>::ConstIterator ComponentPool<T>::findFirst(typename Component<T>::Predicate predicate) const
 {
-    for (auto iter = begin(); iter != end(); ++iter)
+    for (auto iterator = begin(); iterator != end(); ++iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            return iter;
+            return iterator;
         }
     }
     return end();
 }
 
 template <typename T>
-typename Component<T>::Iter::Vector ComponentPool<T>::find(typename Component<T>::Predicate predicate)
+typename Component<T>::Iterator::Vector ComponentPool<T>::find(typename Component<T>::Predicate predicate)
 {
-    Component<T>::Iter::Vector results;
-    for (auto iter = begin(); iter != end(); ++iter)
+    Component<T>::Iterator::Vector results;
+    for (auto iterator = begin(); iterator != end(); ++iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            results.push_back(iter);
+            results.push_back(iterator);
         }
     }
     return results;
 }
 
 template <typename T>
-typename Component<T>::ConstIter::Vector ComponentPool<T>::find(typename Component<T>::Predicate predicate) const
+typename Component<T>::ConstIterator::Vector ComponentPool<T>::find(typename Component<T>::Predicate predicate) const
 {
-    Component<T>::ConstIter::Vector results;
-    for (auto iter = begin(); iter != end(); ++iter)
+    Component<T>::ConstIterator::Vector results;
+    for (auto iterator = begin(); iterator != end(); ++iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            results.push_back(iter);
+            results.push_back(iterator);
         }
     }
     return results;
@@ -204,7 +204,7 @@ bool ComponentPool<T>::has(const Entity& entity) const
 }
 
 template <typename T>
-typename Component<T>::Iter ComponentPool<T>::add(Entity& entity, const T& component)
+typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& component)
 {
     EntityId entityId = entity.id();
 
@@ -260,11 +260,11 @@ typename Component<T>::Iter ComponentPool<T>::add(Entity& entity, const T& compo
         notifyEvent(ComponentEventType_Add, entity);
     }
 
-    return Component<T>::Iter(*this, id);
+    return Component<T>::Iterator(*this, id);
 }
 
 template <typename T>
-typename Component<T>::Iter ComponentPool<T>::replace(Entity& entity, const T& component)
+typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const T& component)
 {
     EntityId entityId = entity.id();
 
@@ -295,7 +295,7 @@ typename Component<T>::Iter ComponentPool<T>::replace(Entity& entity, const T& c
             notifyEvent(ComponentEventType_Add, entity);
         }
 
-        return Component<T>::Iter(*this, id);
+        return Component<T>::Iterator(*this, id);
     }
     else
     {
@@ -304,14 +304,14 @@ typename Component<T>::Iter ComponentPool<T>::replace(Entity& entity, const T& c
 }
 
 template <typename T>
-typename Component<T>::Iter ComponentPool<T>::get(Entity& entity)
+typename Component<T>::Iterator ComponentPool<T>::get(Entity& entity)
 {
     EntityId entityId = entity.id();
 
     ComponentId id;
     if (entityIdToComponentId(entityId, id))
     {
-        return Component<T>::Iter(*this, id);
+        return Component<T>::Iterator(*this, id);
     }
     else
     {
@@ -320,14 +320,14 @@ typename Component<T>::Iter ComponentPool<T>::get(Entity& entity)
 }
 
 template <typename T>
-typename Component<T>::ConstIter ComponentPool<T>::get(const Entity& entity) const
+typename Component<T>::ConstIterator ComponentPool<T>::get(const Entity& entity) const
 {
     EntityId entityId = entity.id();
 
     ComponentId id;
     if (entityIdToComponentId(entityId, id))
     {
-        return Component<T>::ConstIter(*this, id);
+        return Component<T>::ConstIterator(*this, id);
     }
     else
     {

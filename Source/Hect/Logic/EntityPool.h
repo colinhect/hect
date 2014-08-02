@@ -51,19 +51,19 @@ public:
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    Entity::Iter begin();
+    Entity::Iterator begin();
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    Entity::ConstIter begin() const;
+    Entity::ConstIterator begin() const;
 
     ///
     /// Returns an iterator to the end of the pool.
-    Entity::Iter end();
+    Entity::Iterator end();
 
     ///
     /// Returns an iterator to the end of the pool.
-    Entity::ConstIter end() const;
+    Entity::ConstIterator end() const;
 
     ///
     /// Returns an iterator to the first entity matching the given
@@ -73,7 +73,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Iter findFirst(Entity::Predicate predicate);
+    Entity::Iterator findFirst(Entity::Predicate predicate);
 
     ///
     /// Returns an iterator to the first entity matching the given
@@ -83,7 +83,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::ConstIter findFirst(Entity::Predicate predicate) const;
+    Entity::ConstIterator findFirst(Entity::Predicate predicate) const;
 
     ///
     /// Returns iterators to all entities matching the given predicate.
@@ -91,7 +91,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::Iter::Vector find(Entity::Predicate predicate);
+    Entity::Iterator::Vector find(Entity::Predicate predicate);
 
     ///
     /// Returns iterators to all entities matching the given predicate.
@@ -99,10 +99,10 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::ConstIter::Vector find(Entity::Predicate predicate) const;
+    Entity::ConstIterator::Vector find(Entity::Predicate predicate) const;
 
 private:
-    Entity::Iter create();
+    Entity::Iterator create();
     void destroy(EntityId id);
 
     bool entityIsValid(EntityId id);

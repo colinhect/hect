@@ -35,10 +35,10 @@ void AssetLoader<Material>::load(Material& material, const Path& assetPath, Asse
         jsonValue.decodeFromJson(stream);
     }
 
-    assetCache.pushPreferredDirectory(assetPath.parentDirectory());
+    // Select the asset's parent directory so that relative paths can be used
+    // when loading dependant assets
+    AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
 
     material.setName(assetPath.toString());
     material.decodeFromJsonValue(jsonValue, assetCache);
-
-    assetCache.popPreferredDirectory();
 }

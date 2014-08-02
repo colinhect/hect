@@ -36,10 +36,10 @@ void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache
         jsonValue.decodeFromJson(stream);
     }
 
-    assetCache.pushPreferredDirectory(assetPath.parentDirectory());
+    // Select the asset's parent directory so that relative paths can be used
+    // when loading dependant assets
+    AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
 
     shader.setName(assetPath.toString());
     shader.decodeFromJsonValue(jsonValue, assetCache);
-
-    assetCache.popPreferredDirectory();
 }

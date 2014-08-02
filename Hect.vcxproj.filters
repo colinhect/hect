@@ -453,6 +453,9 @@
     <ClInclude Include="Source\Hect\Core\Engine.h">
       <Filter>Source\Hect\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Data.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -775,6 +778,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Core\Engine.cpp">
       <Filter>Source\Hect\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\DataLoader.cpp">
+      <Filter>Source\Hect\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

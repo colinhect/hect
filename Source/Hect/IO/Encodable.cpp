@@ -27,6 +27,7 @@
 #include "Hect/IO/BinaryEncoder.h"
 #include "Hect/IO/JsonDecoder.h"
 #include "Hect/IO/JsonEncoder.h"
+#include "Hect/IO/MemoryReadStream.h"
 
 using namespace hect;
 
@@ -82,4 +83,31 @@ void Encodable::decodeFromBinary(ReadStream& stream, AssetCache& assetCache)
     BinaryDecoder decoder(stream);
     ObjectDecoder objectDecoder = decoder.decodeObject();
     decode(objectDecoder, assetCache);
+}
+
+void Encodable::decodeFromData(const Data& data)
+{
+    if (!data.jsonValue.isNull())
+    {
+        decodeFromJsonValue(data.jsonValue);
+    }
+    else if (!data.binaryData.empty())
+    {
+        MemoryReadStream stream(data.binaryData);
+        decodeFromBinary(stream);
+    }
+}
+
+void Encodable::decodeFromData(const Data& data, AssetCache& assetCache)
+{
+    if (!data.jsonValue.isNull())
+    {
+        AssetCache::SelectDirectoryScope scope(assetCache, data.assetPath.parentDirectory());
+        decodeFromJsonValue(data.jsonValue, assetCache);
+    }
+    else if (!data.binaryData.empty())
+    {
+        MemoryReadStream stream(data.binaryData);
+        decodeFromBinary(stream, assetCache);
+    }
 }

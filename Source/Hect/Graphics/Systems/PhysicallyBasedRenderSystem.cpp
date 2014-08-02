@@ -54,7 +54,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     }
 
     // Get the camera
-    Component<Camera>::Iter camera = activeCamera();
+    Component<Camera>::Iterator camera = activeCamera();
     if (!camera)
     {
         throw Error("No camera in scene");

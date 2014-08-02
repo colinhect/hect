@@ -25,25 +25,24 @@
 
 #include <cstddef>
 
-#include "Hect/IO/JsonDecoder.h"
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/Logic/Scene.h"
 
 using namespace hect;
 
-Entity::IterBase::IterBase() :
+Entity::IteratorBase::IteratorBase() :
     _pool(nullptr),
     _id((EntityId)-1)
 {
 }
 
-Entity::IterBase::IterBase(EntityPool& pool, EntityId id) :
+Entity::IteratorBase::IteratorBase(EntityPool& pool, EntityId id) :
     _pool(&pool),
     _id(id)
 {
 }
 
-void Entity::IterBase::increment()
+void Entity::IteratorBase::increment()
 {
     ++_id;
     size_t maxEntityId = _pool->maxId();
@@ -58,12 +57,12 @@ void Entity::IterBase::increment()
     }
 }
 
-bool Entity::IterBase::isValid() const
+bool Entity::IteratorBase::isValid() const
 {
     return _pool->entityIsValid(_id);
 }
 
-void Entity::IterBase::ensureValid() const
+void Entity::IteratorBase::ensureValid() const
 {
     if (!isValid())
     {
@@ -71,108 +70,108 @@ void Entity::IterBase::ensureValid() const
     }
 }
 
-bool Entity::IterBase::equals(const IterBase& other) const
+bool Entity::IteratorBase::equals(const IteratorBase& other) const
 {
     return _pool == other._pool && _id == other._id;
 }
 
-Entity::Iter::Iter() :
-    IterBase()
+Entity::Iterator::Iterator() :
+    IteratorBase()
 {
 }
 
-Entity::Iter::Iter(EntityPool& pool, EntityId id) :
-    IterBase(pool, id)
+Entity::Iterator::Iterator(EntityPool& pool, EntityId id) :
+    IteratorBase(pool, id)
 {
 }
 
-Entity& Entity::Iter::operator*() const
+Entity& Entity::Iterator::operator*() const
 {
     return _pool->entityWithId(_id);
 }
 
-Entity* Entity::Iter::operator->() const
+Entity* Entity::Iterator::operator->() const
 {
     return &_pool->entityWithId(_id);
 }
 
-Entity::Iter& Entity::Iter::operator++()
+Entity::Iterator& Entity::Iterator::operator++()
 {
     increment();
     return *this;
 }
 
-bool Entity::Iter::operator==(const Iter& other) const
+bool Entity::Iterator::operator==(const Iterator& other) const
 {
     return equals(other);
 }
 
-bool Entity::Iter::operator!=(const Iter& other) const
+bool Entity::Iterator::operator!=(const Iterator& other) const
 {
     return !equals(other);
 }
 
-Entity::Iter::operator bool() const
+Entity::Iterator::operator bool() const
 {
     return isValid();
 }
 
-Entity::ConstIter::ConstIter() :
-    IterBase()
+Entity::ConstIterator::ConstIterator() :
+    IteratorBase()
 {
 }
 
-Entity::ConstIter::ConstIter(const EntityPool& pool, EntityId id) :
-    IterBase(*const_cast<EntityPool*>(&pool), id)
+Entity::ConstIterator::ConstIterator(const EntityPool& pool, EntityId id) :
+    IteratorBase(*const_cast<EntityPool*>(&pool), id)
 {
 }
 
-const Entity& Entity::ConstIter::operator*() const
+const Entity& Entity::ConstIterator::operator*() const
 {
     return _pool->entityWithId(_id);
 }
 
-const Entity* Entity::ConstIter::operator->() const
+const Entity* Entity::ConstIterator::operator->() const
 {
     return &_pool->entityWithId(_id);
 }
 
-Entity::ConstIter& Entity::ConstIter::operator++()
+Entity::ConstIterator& Entity::ConstIterator::operator++()
 {
     increment();
     return *this;
 }
 
-bool Entity::ConstIter::operator==(const ConstIter& other) const
+bool Entity::ConstIterator::operator==(const ConstIterator& other) const
 {
     return equals(other);
 }
 
-bool Entity::ConstIter::operator!=(const ConstIter& other) const
+bool Entity::ConstIterator::operator!=(const ConstIterator& other) const
 {
     return !equals(other);
 }
 
-Entity::ConstIter::operator bool() const
+Entity::ConstIterator::operator bool() const
 {
     return isValid();
 }
 
-Entity::Children::IterBase::IterBase() :
+Entity::Children::IteratorBase::IteratorBase() :
     _pool(nullptr),
     _parentId((EntityId)-1),
     _index(0)
 {
 }
 
-Entity::Children::IterBase::IterBase(EntityPool& pool, EntityId parentId, size_t index) :
+Entity::Children::IteratorBase::IteratorBase(EntityPool& pool, EntityId parentId, size_t index) :
     _pool(&pool),
     _parentId(parentId),
     _index(index)
 {
 }
 
-void Entity::Children::IterBase::increment()
+void Entity::Children::IteratorBase::increment()
 {
     if (isValid())
     {
@@ -180,12 +179,12 @@ void Entity::Children::IterBase::increment()
     }
 }
 
-bool Entity::Children::IterBase::isValid() const
+bool Entity::Children::IteratorBase::isValid() const
 {
     return _index < _pool->entityWithId(_parentId)._childIds.size();
 }
 
-void Entity::Children::IterBase::ensureValid() const
+void Entity::Children::IteratorBase::ensureValid() const
 {
     if (!isValid())
     {
@@ -193,22 +192,22 @@ void Entity::Children::IterBase::ensureValid() const
     }
 }
 
-bool Entity::Children::IterBase::equals(const IterBase& other) const
+bool Entity::Children::IteratorBase::equals(const IteratorBase& other) const
 {
     return _pool == other._pool && _parentId == other._parentId && _index == other._index;
 }
 
-Entity::Children::Iter::Iter() :
-    IterBase()
+Entity::Children::Iterator::Iterator() :
+    IteratorBase()
 {
 }
 
-Entity::Children::Iter::Iter(EntityPool& pool, EntityId parentId, size_t index) :
-    IterBase(pool, parentId, index)
+Entity::Children::Iterator::Iterator(EntityPool& pool, EntityId parentId, size_t index) :
+    IteratorBase(pool, parentId, index)
 {
 }
 
-Entity& Entity::Children::Iter::operator*() const
+Entity& Entity::Children::Iterator::operator*() const
 {
     ensureValid();
     Entity& entity = _pool->entityWithId(_parentId);
@@ -216,7 +215,7 @@ Entity& Entity::Children::Iter::operator*() const
     return _pool->entityWithId(id);
 }
 
-Entity* Entity::Children::Iter::operator->() const
+Entity* Entity::Children::Iterator::operator->() const
 {
     ensureValid();
     Entity& entity = _pool->entityWithId(_parentId);
@@ -224,38 +223,38 @@ Entity* Entity::Children::Iter::operator->() const
     return &_pool->entityWithId(id);
 }
 
-Entity::Children::Iter& Entity::Children::Iter::operator++()
+Entity::Children::Iterator& Entity::Children::Iterator::operator++()
 {
     increment();
     return *this;
 }
 
-bool Entity::Children::Iter::operator==(const Iter& other) const
+bool Entity::Children::Iterator::operator==(const Iterator& other) const
 {
     return equals(other);
 }
 
-bool Entity::Children::Iter::operator!=(const Iter& other) const
+bool Entity::Children::Iterator::operator!=(const Iterator& other) const
 {
     return !equals(other);
 }
 
-Entity::Children::Iter::operator bool() const
+Entity::Children::Iterator::operator bool() const
 {
     return isValid();
 }
 
-Entity::Children::ConstIter::ConstIter() :
-    IterBase()
+Entity::Children::ConstIterator::ConstIterator() :
+    IteratorBase()
 {
 }
 
-Entity::Children::ConstIter::ConstIter(const EntityPool& pool, EntityId parentId, size_t index) :
-    IterBase(*const_cast<EntityPool*>(&pool), parentId, index)
+Entity::Children::ConstIterator::ConstIterator(const EntityPool& pool, EntityId parentId, size_t index) :
+    IteratorBase(*const_cast<EntityPool*>(&pool), parentId, index)
 {
 }
 
-const Entity& Entity::Children::ConstIter::operator*() const
+const Entity& Entity::Children::ConstIterator::operator*() const
 {
     ensureValid();
     const Entity& entity = _pool->entityWithId(_parentId);
@@ -263,7 +262,7 @@ const Entity& Entity::Children::ConstIter::operator*() const
     return _pool->entityWithId(id);
 }
 
-const Entity* Entity::Children::ConstIter::operator->() const
+const Entity* Entity::Children::ConstIterator::operator->() const
 {
     ensureValid();
     const Entity& entity = _pool->entityWithId(_parentId);
@@ -271,49 +270,49 @@ const Entity* Entity::Children::ConstIter::operator->() const
     return &_pool->entityWithId(id);
 }
 
-Entity::Children::ConstIter& Entity::Children::ConstIter::operator++()
+Entity::Children::ConstIterator& Entity::Children::ConstIterator::operator++()
 {
     increment();
     return *this;
 }
 
-bool Entity::Children::ConstIter::operator==(const ConstIter& other) const
+bool Entity::Children::ConstIterator::operator==(const ConstIterator& other) const
 {
     return equals(other);
 }
 
-bool Entity::Children::ConstIter::operator!=(const ConstIter& other) const
+bool Entity::Children::ConstIterator::operator!=(const ConstIterator& other) const
 {
     return !equals(other);
 }
 
-Entity::Children::ConstIter::operator bool() const
+Entity::Children::ConstIterator::operator bool() const
 {
     return isValid();
 }
 
-Entity::Children::Iter Entity::Children::begin()
+Entity::Children::Iterator Entity::Children::begin()
 {
     Entity* entity = reinterpret_cast<Entity*>(this - offsetof(Entity, _children));
-    return Entity::Children::Iter(*entity->_pool, entity->_id, 0);
+    return Entity::Children::Iterator(*entity->_pool, entity->_id, 0);
 }
 
-Entity::Children::ConstIter Entity::Children::begin() const
+Entity::Children::ConstIterator Entity::Children::begin() const
 {
     const Entity* entity = reinterpret_cast<const Entity*>(this - offsetof(Entity, _children));
-    return Entity::Children::ConstIter(*entity->_pool, entity->_id, 0);
+    return Entity::Children::ConstIterator(*entity->_pool, entity->_id, 0);
 }
 
-Entity::Children::Iter Entity::Children::end()
+Entity::Children::Iterator Entity::Children::end()
 {
     Entity* entity = reinterpret_cast<Entity*>(this - offsetof(Entity, _children));
-    return Entity::Children::Iter(*entity->_pool, entity->_id, entity->_childIds.size());
+    return Entity::Children::Iterator(*entity->_pool, entity->_id, entity->_childIds.size());
 }
 
-Entity::Children::ConstIter Entity::Children::end() const
+Entity::Children::ConstIterator Entity::Children::end() const
 {
     const Entity* entity = reinterpret_cast<const Entity*>(this - offsetof(Entity, _children));
-    return Entity::Children::ConstIter(*entity->_pool, entity->_id, entity->_childIds.size());
+    return Entity::Children::ConstIterator(*entity->_pool, entity->_id, entity->_childIds.size());
 }
 
 Entity::Handle::Handle()
@@ -330,10 +329,22 @@ Entity::Handle::Handle(Entity::Handle&& handle) :
 {
 }
 
+Entity& Entity::Handle::operator*()
+{
+    ensureValid();
+    return _context->pool->entityWithId(_context->id);
+}
+
 const Entity& Entity::Handle::operator*() const
 {
     ensureValid();
     return _context->pool->entityWithId(_context->id);
+}
+
+Entity* Entity::Handle::operator->()
+{
+    ensureValid();
+    return &_context->pool->entityWithId(_context->id);
 }
 
 const Entity* Entity::Handle::operator->() const
@@ -401,21 +412,24 @@ void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
 
 Entity::Handle Entity::createHandle() const
 {
-    ensureInPool();
+    if (!inPool())
+    {
+        return Entity::Handle();
+    }
     return Entity::Handle(*_pool, _id);
 }
 
-Entity::Iter Entity::iter()
+Entity::Iterator Entity::iterator()
 {
-    return Entity::Iter(*_pool, _id);
+    return Entity::Iterator(*_pool, _id);
 }
 
-Entity::ConstIter Entity::iter() const
+Entity::ConstIterator Entity::iterator() const
 {
-    return Entity::ConstIter(*_pool, _id);
+    return Entity::ConstIterator(*_pool, _id);
 }
 
-Entity::Iter Entity::clone() const
+Entity::Iterator Entity::clone() const
 {
     ensureInPool();
     return _pool->_scene->cloneEntity(*this);
@@ -450,12 +464,12 @@ EntityId Entity::id() const
     return _id;
 }
 
-Entity::Iter Entity::parent()
+Entity::Iterator Entity::parent()
 {
     ensureInPool();
     if (_parentId != (EntityId)-1)
     {
-        return Entity::Iter(*_pool, _parentId);
+        return Entity::Iterator(*_pool, _parentId);
     }
     else
     {
@@ -463,12 +477,12 @@ Entity::Iter Entity::parent()
     }
 }
 
-Entity::ConstIter Entity::parent() const
+Entity::ConstIterator Entity::parent() const
 {
     ensureInPool();
     if (_parentId != (EntityId)-1)
     {
-        return Entity::ConstIter(*_pool, _parentId);
+        return Entity::ConstIterator(*_pool, _parentId);
     }
     else
     {
@@ -523,41 +537,41 @@ const Entity::Children& Entity::children() const
     return _children;
 }
 
-Entity::Iter Entity::findFirstChild(Entity::Predicate predicate)
+Entity::Iterator Entity::findFirstChild(Entity::Predicate predicate)
 {
     for (Entity& child : _children)
     {
         if (predicate(child))
         {
-            return child.iter();
+            return child.iterator();
         }
     }
     return _pool->end();
 }
 
-Entity::ConstIter Entity::findFirstChild(Entity::Predicate predicate) const
+Entity::ConstIterator Entity::findFirstChild(Entity::Predicate predicate) const
 {
     for (const Entity& child : _children)
     {
         if (predicate(child))
         {
-            return child.iter();
+            return child.iterator();
         }
     }
     return static_cast<const EntityPool*>(_pool)->end();
 }
 
-Entity::Iter Entity::findFirstDescendant(Entity::Predicate predicate)
+Entity::Iterator Entity::findFirstDescendant(Entity::Predicate predicate)
 {
     for (Entity& child : _children)
     {
         if (predicate(child))
         {
-            return child.iter();
+            return child.iterator();
         }
         else
         {
-            Entity::Iter nextGeneration = child.findFirstDescendant(predicate);
+            Entity::Iterator nextGeneration = child.findFirstDescendant(predicate);
             if (nextGeneration)
             {
                 return nextGeneration;
@@ -567,17 +581,17 @@ Entity::Iter Entity::findFirstDescendant(Entity::Predicate predicate)
     return _pool->end();
 }
 
-Entity::ConstIter Entity::findFirstDescendant(Entity::Predicate predicate) const
+Entity::ConstIterator Entity::findFirstDescendant(Entity::Predicate predicate) const
 {
     for (const Entity& child : _children)
     {
         if (predicate(child))
         {
-            return Entity::ConstIter(*_pool, child._id);
+            return Entity::ConstIterator(*_pool, child._id);
         }
         else
         {
-            Entity::ConstIter nextGeneration = child.findFirstDescendant(predicate);
+            Entity::ConstIterator nextGeneration = child.findFirstDescendant(predicate);
             if (nextGeneration)
             {
                 return nextGeneration;
@@ -587,9 +601,9 @@ Entity::ConstIter Entity::findFirstDescendant(Entity::Predicate predicate) const
     return static_cast<const EntityPool*>(_pool)->end();
 }
 
-Entity::Iter Entity::findFirstAncestor(Entity::Predicate predicate)
+Entity::Iterator Entity::findFirstAncestor(Entity::Predicate predicate)
 {
-    Entity::Iter parentIter = parent();
+    Entity::Iterator parentIter = parent();
     if (parentIter)
     {
         if (predicate(*parentIter))
@@ -604,9 +618,9 @@ Entity::Iter Entity::findFirstAncestor(Entity::Predicate predicate)
     return _pool->end();
 }
 
-Entity::ConstIter Entity::findFirstAncestor(Entity::Predicate predicate) const
+Entity::ConstIterator Entity::findFirstAncestor(Entity::Predicate predicate) const
 {
-    Entity::ConstIter parentIter = parent();
+    Entity::ConstIterator parentIter = parent();
     if (parentIter)
     {
         if (predicate(*parentIter))
@@ -621,43 +635,43 @@ Entity::ConstIter Entity::findFirstAncestor(Entity::Predicate predicate) const
     return static_cast<const EntityPool*>(_pool)->end();
 }
 
-Entity::Iter::Vector Entity::findChildren(Entity::Predicate predicate)
+Entity::Iterator::Vector Entity::findChildren(Entity::Predicate predicate)
 {
-    Entity::Iter::Vector results;
+    Entity::Iterator::Vector results;
     for (Entity& child : _children)
     {
         if (predicate(child))
         {
-            results.push_back(child.iter());
+            results.push_back(child.iterator());
         }
     }
     return results;
 }
 
-Entity::ConstIter::Vector Entity::findChildren(Entity::Predicate predicate) const
+Entity::ConstIterator::Vector Entity::findChildren(Entity::Predicate predicate) const
 {
-    Entity::ConstIter::Vector results;
+    Entity::ConstIterator::Vector results;
     for (const Entity& child : _children)
     {
         if (predicate(child))
         {
-            results.push_back(child.iter());
+            results.push_back(child.iterator());
         }
     }
     return results;
 }
 
-Entity::Iter::Vector Entity::findDescendants(Entity::Predicate predicate)
+Entity::Iterator::Vector Entity::findDescendants(Entity::Predicate predicate)
 {
-    Entity::Iter::Vector results;
+    Entity::Iterator::Vector results;
     for (Entity& child : _children)
     {
         if (predicate(child))
         {
-            results.push_back(child.iter());
+            results.push_back(child.iterator());
         }
 
-        for (Entity::Iter descendant : child.findDescendants(predicate))
+        for (Entity::Iterator descendant : child.findDescendants(predicate))
         {
             results.push_back(descendant);
         }
@@ -665,17 +679,17 @@ Entity::Iter::Vector Entity::findDescendants(Entity::Predicate predicate)
     return results;
 }
 
-Entity::ConstIter::Vector Entity::findDescendants(Entity::Predicate predicate) const
+Entity::ConstIterator::Vector Entity::findDescendants(Entity::Predicate predicate) const
 {
-    Entity::ConstIter::Vector results;
+    Entity::ConstIterator::Vector results;
     for (const Entity& child : _children)
     {
         if (predicate(child))
         {
-            results.push_back(Entity::ConstIter(*_pool, child._id));
+            results.push_back(Entity::ConstIterator(*_pool, child._id));
         }
 
-        for (Entity::ConstIter descendant : child.findDescendants(predicate))
+        for (Entity::ConstIterator descendant : child.findDescendants(predicate))
         {
             results.push_back(descendant);
         }
@@ -683,32 +697,32 @@ Entity::ConstIter::Vector Entity::findDescendants(Entity::Predicate predicate) c
     return results;
 }
 
-Entity::Iter::Vector Entity::findAncestors(Entity::Predicate predicate)
+Entity::Iterator::Vector Entity::findAncestors(Entity::Predicate predicate)
 {
-    Entity::Iter::Vector results;
-    Entity::Iter iter = parent();
-    while (iter)
+    Entity::Iterator::Vector results;
+    Entity::Iterator iterator = parent();
+    while (iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            results.push_back(iter);
+            results.push_back(iterator);
         }
-        iter = iter->parent();
+        iterator = iterator->parent();
     }
     return results;
 }
 
-Entity::ConstIter::Vector Entity::findAncestors(Entity::Predicate predicate) const
+Entity::ConstIterator::Vector Entity::findAncestors(Entity::Predicate predicate) const
 {
-    Entity::ConstIter::Vector results;
-    Entity::ConstIter iter = parent();
-    while (iter)
+    Entity::ConstIterator::Vector results;
+    Entity::ConstIterator iterator = parent();
+    while (iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            results.push_back(iter);
+            results.push_back(iterator);
         }
-        iter = iter->parent();
+        iterator = iterator->parent();
     }
     return results;
 }
@@ -739,12 +753,10 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     {
         if (decoder.hasMember("archetype"))
         {
-            std::string archetype = decoder.decodeString("archetype");
-            JsonValue& jsonValue = assetCache.get<JsonValue>(archetype);
+            Path archetypePath = decoder.decodeString("archetype");
+            AssetHandle<Data> archetypeData = assetCache.getHandle<Data>(archetypePath);
 
-            JsonDecoder jsonDecoder(jsonValue);
-            ObjectDecoder archetypeDecoder = jsonDecoder.decodeObject();
-            scene.decodeComponents(*this, archetypeDecoder, assetCache);
+            decodeFromData(*archetypeData, assetCache);
         }
     }
 
@@ -758,7 +770,7 @@ void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
         ArrayDecoder childrenDecoder = decoder.decodeArray("children");
         while (childrenDecoder.hasMoreElements())
         {
-            Entity::Iter child = _pool->_scene->createEntity();
+            Entity::Iterator child = _pool->_scene->createEntity();
 
             ObjectDecoder childDecoder = childrenDecoder.decodeObject();
             child->decode(childDecoder, assetCache);

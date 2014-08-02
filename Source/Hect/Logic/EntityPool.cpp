@@ -37,91 +37,91 @@ Dispatcher<EntityEvent>& EntityPool::dispatcher()
     return _dispatcher;
 }
 
-Entity::Iter EntityPool::begin()
+Entity::Iterator EntityPool::begin()
 {
-    Entity::Iter iter(*this, 0);
+    Entity::Iterator iterator(*this, 0);
 
     // Move to the first activated entity
-    if (!iter || !iter->isActivated())
+    if (!iterator || !iterator->isActivated())
     {
-        ++iter;
+        ++iterator;
     }
-    return iter;
+    return iterator;
 }
 
-Entity::ConstIter EntityPool::begin() const
+Entity::ConstIterator EntityPool::begin() const
 {
-    Entity::ConstIter iter(*this, 0);
+    Entity::ConstIterator iterator(*this, 0);
 
     // Move to the first activated entity
-    if (!iter || !iter->isActivated())
+    if (!iterator || !iterator->isActivated())
     {
-        ++iter;
+        ++iterator;
     }
-    return iter;
+    return iterator;
 }
 
-Entity::Iter EntityPool::end()
+Entity::Iterator EntityPool::end()
 {
-    return Entity::Iter(*this, std::max(maxId(), (EntityId)1));
+    return Entity::Iterator(*this, std::max(maxId(), (EntityId)1));
 }
 
-Entity::ConstIter EntityPool::end() const
+Entity::ConstIterator EntityPool::end() const
 {
-    return Entity::ConstIter(*this, std::max(maxId(), (EntityId)1));
+    return Entity::ConstIterator(*this, std::max(maxId(), (EntityId)1));
 }
 
-Entity::Iter EntityPool::findFirst(Entity::Predicate predicate)
+Entity::Iterator EntityPool::findFirst(Entity::Predicate predicate)
 {
-    for (auto iter = begin(); iter != end(); ++iter)
+    for (auto iterator = begin(); iterator != end(); ++iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            return iter;
+            return iterator;
         }
     }
     return end();
 }
 
-Entity::ConstIter EntityPool::findFirst(Entity::Predicate predicate) const
+Entity::ConstIterator EntityPool::findFirst(Entity::Predicate predicate) const
 {
-    for (auto iter = begin(); iter != end(); ++iter)
+    for (auto iterator = begin(); iterator != end(); ++iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            return iter;
+            return iterator;
         }
     }
     return end();
 }
 
-Entity::Iter::Vector EntityPool::find(Entity::Predicate predicate)
+Entity::Iterator::Vector EntityPool::find(Entity::Predicate predicate)
 {
-    Entity::Iter::Vector results;
-    for (auto iter = begin(); iter != end(); ++iter)
+    Entity::Iterator::Vector results;
+    for (auto iterator = begin(); iterator != end(); ++iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            results.push_back(iter);
+            results.push_back(iterator);
         }
     }
     return results;
 }
 
-Entity::ConstIter::Vector EntityPool::find(Entity::Predicate predicate) const
+Entity::ConstIterator::Vector EntityPool::find(Entity::Predicate predicate) const
 {
-    Entity::ConstIter::Vector results;
-    for (auto iter = begin(); iter != end(); ++iter)
+    Entity::ConstIterator::Vector results;
+    for (auto iterator = begin(); iterator != end(); ++iterator)
     {
-        if (predicate(*iter))
+        if (predicate(*iterator))
         {
-            results.push_back(iter);
+            results.push_back(iterator);
         }
     }
     return results;
 }
 
-Entity::Iter EntityPool::create()
+Entity::Iterator EntityPool::create()
 {
     EntityId entityId = _idPool.create();
 
@@ -131,7 +131,7 @@ Entity::Iter EntityPool::create()
     }
 
     _entities[entityId].enterPool(*this, entityId);
-    return Entity::Iter(*this, entityId);
+    return Entity::Iterator(*this, entityId);
 }
 
 void EntityPool::destroy(EntityId id)

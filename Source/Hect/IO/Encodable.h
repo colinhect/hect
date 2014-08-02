@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/IO/AssetCache.h"
+#include "Hect/IO/Data.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/JsonValue.h"
@@ -76,17 +77,30 @@ public:
     void decodeFromJsonValue(const JsonValue& jsonValue, AssetCache& assetCache);
 
     ///
-    /// Decodes the object from binary a stream
+    /// Decodes the object from binary a stream.
     ///
     /// \param stream The stream.
     void decodeFromBinary(ReadStream& stream);
 
     ///
-    /// Decodes the object from binary a stream
+    /// Decodes the object from binary a stream.
     ///
     /// \param stream The stream.
     /// \param assetCache The asset cache to get referenced assets from.
     void decodeFromBinary(ReadStream& stream, AssetCache& assetCache);
+
+    ///
+    /// Decodes the object from data.
+    ///
+    /// \param data The data.
+    void decodeFromData(const Data& data);
+
+    ///
+    /// Decodes the object from data.
+    ///
+    /// \param data The data.
+    /// \param assetCache The asset cache to get referenced assets from.
+    void decodeFromData(const Data& data, AssetCache& assetCache);
 };
 
 }

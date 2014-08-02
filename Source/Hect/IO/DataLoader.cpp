@@ -21,71 +21,28 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "AssetCache.h"
+#include "Hect/IO/AssetLoader.h"
+#include "Hect/IO/AssetCache.h"
+#include "Hect/IO/Data.h"
+#include "Hect/IO/JsonValue.h"
 
 using namespace hect;
 
-AssetCache::SelectDirectoryScope::SelectDirectoryScope(AssetCache& assetCache, const Path& directoryPath) :
-    _assetCache(&assetCache)
+void AssetLoader<Data>::load(Data& data, const Path& assetPath, AssetCache& assetCache)
 {
-    _assetCache->selectDirectory(directoryPath);
-}
-
-AssetCache::SelectDirectoryScope::~SelectDirectoryScope()
-{
-    _assetCache->restoreDirectory();
-}
-
-AssetCache::AssetCache() :
-    _fileSystem(nullptr)
-{
-}
-
-AssetCache::AssetCache(FileSystem& fileSystem) :
-    _fileSystem(&fileSystem)
-{
-}
-
-void AssetCache::refresh()
-{
-    for (auto& pair : _entries)
+    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
+    if (stream.readUnsignedByte() == '{')
     {
-        pair.second->refresh();
+        stream.seek(0);
+        data.assetPath = assetPath;
+        data.jsonValue.decodeFromJson(stream);
     }
-}
-
-void AssetCache::clear()
-{
-    std::lock_guard<std::recursive_mutex> lock(_mutex);
-    _entries.clear();
-}
-
-TaskPool& AssetCache::taskPool()
-{
-    return _taskPool;
-}
-
-FileSystem& AssetCache::fileSystem()
-{
-    if (!_fileSystem)
+    else
     {
-        throw Error("Asset cache does not have a file system");
+        stream.seek(0);
+        while (!stream.endOfStream())
+        {
+            data.binaryData.push_back(stream.readUnsignedByte());
+        }
     }
-    return *_fileSystem;
-}
-
-void AssetCache::selectDirectory(const Path& directoryPath)
-{
-    std::lock_guard<std::recursive_mutex> lock(_mutex);
-
-    std::stack<Path>& pathStack = _selectedDirectoryStack[std::this_thread::get_id()];
-    pathStack.push(directoryPath);
-}
-
-void AssetCache::restoreDirectory()
-{
-    std::lock_guard<std::recursive_mutex> lock(_mutex);
-
-    std::stack<Path>& pathStack = _selectedDirectoryStack[std::this_thread::get_id()];
-    pathStack.pop();
 }

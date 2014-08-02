@@ -27,7 +27,6 @@
 #include <typeinfo>
 #include <typeindex>
 
-#include "Hect/Core/Engine.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/EntityPool.h"
@@ -69,16 +68,7 @@ public:
     /// Creates a new entity.
     ///
     /// \returns An iterator to the new entity.
-    Entity::Iter createEntity();
-
-    ///
-    /// Creates a new entity from an asset.
-    ///
-    /// \param entityPath The path to the entity asset.
-    /// \param assetCache The asset cache.
-    ///
-    /// \returns An iterator to the new entity.
-    Entity::Iter createEntity(const Path& entityPath, AssetCache& assetCache);
+    Entity::Iterator createEntity();
 
     ///
     /// Registers a component type.
@@ -111,7 +101,7 @@ public:
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    Entity::Iter cloneEntity(const Entity& entity);
+    Entity::Iterator cloneEntity(const Entity& entity);
 
     void destroyEntity(Entity& entity);
     void activateEntity(Entity& entity);

@@ -29,6 +29,7 @@
 #include "Hect/Debug/TransformDebugRenderLayer.h"
 #include "Hect/Event/Listener.h"
 #include "Hect/Graphics/Systems/RenderSystem.h"
+#include "Hect/Input/InputSystem.h"
 #include "Hect/Input/Keyboard.h"
 
 namespace hect

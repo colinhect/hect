@@ -43,17 +43,17 @@ class Entity :
     friend class EntityPool;
     friend class std::allocator<Entity>;
 private:
-    class IterBase
+    class IteratorBase
     {
     public:
-        IterBase();
-        IterBase(EntityPool& pool, EntityId id);
+        IteratorBase();
+        IteratorBase(EntityPool& pool, EntityId id);
 
     protected:
         void increment();
         bool isValid() const;
         void ensureValid() const;
-        bool equals(const IterBase& other) const;
+        bool equals(const IteratorBase& other) const;
 
         mutable EntityPool* _pool;
         EntityId _id;
@@ -67,21 +67,21 @@ public:
 
     ///
     /// A entity iterator.
-    class Iter :
-        public IterBase
+    class Iterator :
+        public IteratorBase
     {
         friend class Entity;
     public:
 
         ///
         /// A vector of entity iterators.
-        typedef std::vector<Iter> Vector;
+        typedef std::vector<Iterator> Vector;
 
         ///
         /// Constructs an invalid entity iterator.
-        Iter();
+        Iterator();
 
-        Iter(EntityPool& pool, EntityId id);
+        Iterator(EntityPool& pool, EntityId id);
 
         ///
         /// Dereferences the iterator to a reference to the entity.
@@ -103,19 +103,19 @@ public:
         /// Moves to the next activated entity in the entity pool.
         ///
         /// \returns A reference to the iterator.
-        Iter& operator++();
+        Iterator& operator++();
 
         ///
         /// Returns whether the iterator is equivalent to another.
         ///
         /// \param other The other iterator.
-        bool operator==(const Iter& other) const;
+        bool operator==(const Iterator& other) const;
 
         ///
         /// Returns whether the iterator is different from another.
         ///
         /// \param other The other iterator.
-        bool operator!=(const Iter& other) const;
+        bool operator!=(const Iterator& other) const;
 
         ///
         /// Returns whether the iterator is valid.
@@ -124,21 +124,21 @@ public:
 
     ///
     /// A constant entity iterator.
-    class ConstIter :
-        public IterBase
+    class ConstIterator :
+        public IteratorBase
     {
         friend class Entity;
     public:
 
         ///
         /// A vector of entity iterators.
-        typedef std::vector<ConstIter> Vector;
+        typedef std::vector<ConstIterator> Vector;
 
         ///
         /// Constructs an invalid entity iterator.
-        ConstIter();
+        ConstIterator();
 
-        ConstIter(const EntityPool& pool, EntityId id);
+        ConstIterator(const EntityPool& pool, EntityId id);
 
         ///
         /// Dereferences the iterator to a reference to the entity.
@@ -160,19 +160,19 @@ public:
         /// Moves to the next activated entity in the entity pool.
         ///
         /// \returns A reference to the iterator.
-        ConstIter& operator++();
+        ConstIterator& operator++();
 
         ///
         /// Returns whether the iterator is equivalent to another.
         ///
         /// \param other The other iterator.
-        bool operator==(const ConstIter& other) const;
+        bool operator==(const ConstIterator& other) const;
 
         ///
         /// Returns whether the iterator is different from another.
         ///
         /// \param other The other iterator.
-        bool operator!=(const ConstIter& other) const;
+        bool operator!=(const ConstIterator& other) const;
 
         ///
         /// Returns whether the iterator is valid.
@@ -183,42 +183,42 @@ public:
     /// An entity's child entities.
     class Children
     {
-    private:
-        class IterBase
+        class IteratorBase
         {
         public:
-            IterBase();
-            IterBase(EntityPool& pool, EntityId parentId, size_t index);
+            IteratorBase();
+            IteratorBase(EntityPool& pool, EntityId parentId, size_t index);
 
         protected:
             void increment();
             bool isValid() const;
             void ensureValid() const;
-            bool equals(const IterBase& other) const;
+            bool equals(const IteratorBase& other) const;
 
             EntityPool* _pool;
             EntityId _parentId;
             size_t _index;
         };
+
     public:
 
         ///
         /// A entity child iterator.
-        class Iter :
-            public IterBase
+        class Iterator :
+            public IteratorBase
         {
             friend class Entity;
         public:
 
             ///
             /// A vector of entity iterators.
-            typedef std::vector<Iter> Vector;
+            typedef std::vector<Iterator> Vector;
 
             ///
             /// Constructs an invalid entity iterator.
-            Iter();
+            Iterator();
 
-            Iter(EntityPool& pool, EntityId parentId, size_t index);
+            Iterator(EntityPool& pool, EntityId parentId, size_t index);
 
             ///
             /// Dereferences the iterator to a reference to the entity.
@@ -240,19 +240,19 @@ public:
             /// Moves to the next activated entity in the entity pool.
             ///
             /// \returns A reference to the iterator.
-            Iter& operator++();
+            Iterator& operator++();
 
             ///
             /// Returns whether the iterator is equivalent to another.
             ///
             /// \param other The other iterator.
-            bool operator==(const Iter& other) const;
+            bool operator==(const Iterator& other) const;
 
             ///
             /// Returns whether the iterator is different from another.
             ///
             /// \param other The other iterator.
-            bool operator!=(const Iter& other) const;
+            bool operator!=(const Iterator& other) const;
 
             ///
             /// Returns whether the iterator is valid.
@@ -261,17 +261,17 @@ public:
 
         ///
         /// A constant entity child iterator.
-        class ConstIter :
-            public IterBase
+        class ConstIterator :
+            public IteratorBase
         {
             friend class Entity;
         public:
 
             ///
             /// Constructs an invalid entity iterator.
-            ConstIter();
+            ConstIterator();
 
-            ConstIter(const EntityPool& pool, EntityId parentId, size_t index);
+            ConstIterator(const EntityPool& pool, EntityId parentId, size_t index);
 
             ///
             /// Dereferences the iterator to a reference to the entity.
@@ -293,19 +293,19 @@ public:
             /// Moves to the next activated entity in the entity pool.
             ///
             /// \returns A reference to the iterator.
-            ConstIter& operator++();
+            ConstIterator& operator++();
 
             ///
             /// Returns whether the iterator is equivalent to another.
             ///
             /// \param other The other iterator.
-            bool operator==(const ConstIter& other) const;
+            bool operator==(const ConstIterator& other) const;
 
             ///
             /// Returns whether the iterator is different from another.
             ///
             /// \param other The other iterator.
-            bool operator!=(const ConstIter& other) const;
+            bool operator!=(const ConstIterator& other) const;
 
             ///
             /// Returns whether the iterator is valid.
@@ -314,19 +314,19 @@ public:
 
         ///
         /// Returns an iterator to the beginning of the children.
-        Iter begin();
+        Iterator begin();
 
         ///
         /// Returns an iterator to the beginning of the children.
-        ConstIter begin() const;
+        ConstIterator begin() const;
 
         ///
         /// Returns an iterator to the end of the children.
-        Iter end();
+        Iterator end();
 
         ///
         /// Returns an iterator to the end of the children.
-        ConstIter end() const;
+        ConstIterator end() const;
     };
 
     ///
@@ -358,7 +358,23 @@ public:
         /// \returns A reference to the entity.
         ///
         /// \throws Error If the handle is invalid.
+        Entity& operator*();
+
+        ///
+        /// Dereferences the handle to a reference to the entity.
+        ///
+        /// \returns A reference to the entity.
+        ///
+        /// \throws Error If the handle is invalid.
         const Entity& operator*() const;
+
+        ///
+        /// Dereferences the handle to a pointer to the entity.
+        ///
+        /// \returns A pointer to the entity.
+        ///
+        /// \throws Error If the handle is invalid.
+        Entity* operator->();
 
         ///
         /// Dereferences the handle to a pointer to the entity.
@@ -415,7 +431,7 @@ public:
     /// \throws Error If the entity already has a component of the type or if
     /// the entity is invalid.
     template <typename T, typename... Args>
-    typename Component<T>::Iter addComponent(Args... args);
+    typename Component<T>::Iterator addComponent(Args... args);
 
     ///
     /// Replaces an existing component that the entity has.
@@ -425,7 +441,7 @@ public:
     /// \throws Error If the entity does not have a component of the type or if
     /// the entity is invalid.
     template <typename T, typename... Args>
-    typename Component<T>::Iter replaceComponent(Args... args);
+    typename Component<T>::Iterator replaceComponent(Args... args);
 
     ///
     /// Removes the component of a specific type from the entity.
@@ -443,7 +459,7 @@ public:
     ///
     /// \throws Error If the entity is invalid.
     template <typename T>
-    typename Component<T>::Iter component();
+    typename Component<T>::Iterator component();
 
     ///
     /// Returns an iterator to the component of a specific type for the entity.
@@ -453,7 +469,7 @@ public:
     ///
     /// \throws Error If the entity is invalid.
     template <typename T>
-    typename Component<T>::ConstIter component() const;
+    typename Component<T>::ConstIterator component() const;
 
     ///
     /// Creates a handle to the entity.
@@ -461,11 +477,11 @@ public:
 
     ///
     /// Creates an entity iterator for the entity.
-    Entity::Iter iter();
+    Entity::Iterator iterator();
 
     ///
     /// Creates a constant entity iterator for the entity.
-    Entity::ConstIter iter() const;
+    Entity::ConstIterator iterator() const;
 
     ///
     /// Clones the entity.
@@ -473,7 +489,7 @@ public:
     /// \returns An iterator to the cloned entity.
     ///
     /// \throws Error If the entity is invalid.
-    Entity::Iter clone() const;
+    Entity::Iterator clone() const;
 
     ///
     /// Destroys the entity and all of its children.
@@ -499,12 +515,12 @@ public:
     ///
     /// Returns an iterator to the parent entity (invalid iterator if the
     /// entity does not have a parent).
-    Entity::Iter parent();
+    Entity::Iterator parent();
 
     ///
     /// Returns an iterator to the parent entity (invalid iterator if the
     /// entity does not have a parent).
-    Entity::ConstIter parent() const;
+    Entity::ConstIterator parent() const;
 
     ///
     /// Adds an entity as a child of the entity.
@@ -540,7 +556,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Iter findFirstChild(Predicate predicate);
+    Entity::Iterator findFirstChild(Predicate predicate);
 
     ///
     /// Returns an iterator to the first child entity matching the given
@@ -550,7 +566,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::ConstIter findFirstChild(Predicate predicate) const;
+    Entity::ConstIterator findFirstChild(Predicate predicate) const;
 
     ///
     /// Returns an iterator to the first descendant entity matching the given
@@ -560,7 +576,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Iter findFirstDescendant(Predicate predicate);
+    Entity::Iterator findFirstDescendant(Predicate predicate);
 
     ///
     /// Returns an iterator to the first descendant entity matching the given
@@ -570,7 +586,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::ConstIter findFirstDescendant(Predicate predicate) const;
+    Entity::ConstIterator findFirstDescendant(Predicate predicate) const;
 
     ///
     /// Returns an iterator to the first ancestor entity matching the given
@@ -580,7 +596,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Iter findFirstAncestor(Predicate predicate);
+    Entity::Iterator findFirstAncestor(Predicate predicate);
 
     ///
     /// Returns an iterator to the first ancestor entity matching the given
@@ -590,7 +606,7 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::ConstIter findFirstAncestor(Predicate predicate) const;
+    Entity::ConstIterator findFirstAncestor(Predicate predicate) const;
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
@@ -598,7 +614,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::Iter::Vector findChildren(Predicate predicate);
+    Entity::Iterator::Vector findChildren(Predicate predicate);
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
@@ -606,7 +622,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::ConstIter::Vector findChildren(Predicate predicate) const;
+    Entity::ConstIterator::Vector findChildren(Predicate predicate) const;
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -615,7 +631,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::Iter::Vector findDescendants(Predicate predicate);
+    Entity::Iterator::Vector findDescendants(Predicate predicate);
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -624,7 +640,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::ConstIter::Vector findDescendants(Predicate predicate) const;
+    Entity::ConstIterator::Vector findDescendants(Predicate predicate) const;
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -633,7 +649,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::Iter::Vector findAncestors(Predicate predicate);
+    Entity::Iterator::Vector findAncestors(Predicate predicate);
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -642,7 +658,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::ConstIter::Vector findAncestors(Predicate predicate) const;
+    Entity::ConstIterator::Vector findAncestors(Predicate predicate) const;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);

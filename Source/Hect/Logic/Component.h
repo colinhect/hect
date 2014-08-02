@@ -67,17 +67,17 @@ class Component :
 {
     friend class ComponentPool<T>;
 private:
-    class IterBase
+    class IteratorBase
     {
     public:
-        IterBase();
-        IterBase(ComponentPool<T>& pool, ComponentId id);
+        IteratorBase();
+        IteratorBase(ComponentPool<T>& pool, ComponentId id);
 
     protected:
         void increment();
         bool isValid() const;
         void ensureValid() const;
-        bool equals(const IterBase& other) const;
+        bool equals(const IteratorBase& other) const;
 
         mutable ComponentPool<T>* _pool;
         ComponentId _id;
@@ -91,20 +91,20 @@ public:
 
     ///
     /// A component iterator.
-    class Iter :
-        public IterBase
+    class Iterator :
+        public IteratorBase
     {
     public:
 
         ///
         /// A vector of component iterators.
-        typedef std::vector<Iter> Vector;
+        typedef std::vector<Iterator> Vector;
 
         ///
         /// Constructs an invalid component iterator.
-        Iter();
+        Iterator();
 
-        Iter(ComponentPool<T>& pool, ComponentId id);
+        Iterator(ComponentPool<T>& pool, ComponentId id);
 
         ///
         /// Dereferences the iterator to a reference to the component.
@@ -127,19 +127,19 @@ public:
         /// component pool.
         ///
         /// \returns A reference to the iterator.
-        Iter& operator++();
+        Iterator& operator++();
 
         ///
         /// Returns whether the iterator is equivalent to another.
         ///
         /// \param other The other iterator.
-        bool operator==(const Iter& other) const;
+        bool operator==(const Iterator& other) const;
 
         ///
         /// Returns whether the iterator is different from another.
         ///
         /// \param other The other iterator.
-        bool operator!=(const Iter& other) const;
+        bool operator!=(const Iterator& other) const;
 
         ///
         /// Returns whether the iterator is valid.
@@ -148,20 +148,20 @@ public:
 
     ///
     /// A constant component iterator.
-    class ConstIter :
-        public IterBase
+    class ConstIterator :
+        public IteratorBase
     {
     public:
 
         ///
         /// A vector of component iterators.
-        typedef std::vector<ConstIter> Vector;
+        typedef std::vector<ConstIterator> Vector;
 
         ///
         /// Constructs an invalid component iterator.
-        ConstIter();
+        ConstIterator();
 
-        ConstIter(const ComponentPool<T>& pool, ComponentId id);
+        ConstIterator(const ComponentPool<T>& pool, ComponentId id);
 
         ///
         /// Dereferences the iterator to a reference to the component.
@@ -184,19 +184,19 @@ public:
         /// component pool.
         ///
         /// \returns A reference to the iterator.
-        ConstIter& operator++();
+        ConstIterator& operator++();
 
         ///
         /// Returns whether the iterator is equivalent to another.
         ///
         /// \param other The other iterator.
-        bool operator==(const ConstIter& other) const;
+        bool operator==(const ConstIterator& other) const;
 
         ///
         /// Returns whether the iterator is different from another.
         ///
         /// \param other The other iterator.
-        bool operator!=(const ConstIter& other) const;
+        bool operator!=(const ConstIterator& other) const;
 
         ///
         /// Returns whether the iterator is valid.

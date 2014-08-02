@@ -58,7 +58,7 @@ class ComponentPool :
     friend class Scene;
     friend class Entity;
     friend class Component<T>;
-    friend class Component<T>::IterBase;
+    friend class Component<T>::IteratorBase;
 public:
     ComponentPool(Scene& scene, const std::string& componentTypeName);
 
@@ -68,19 +68,19 @@ public:
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    typename Component<T>::Iter begin();
+    typename Component<T>::Iterator begin();
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    typename Component<T>::ConstIter begin() const;
+    typename Component<T>::ConstIterator begin() const;
 
     ///
     /// Returns an iterator to the end of the pool.
-    typename Component<T>::Iter end();
+    typename Component<T>::Iterator end();
 
     ///
     /// Returns an iterator to the end of the pool.
-    typename Component<T>::ConstIter end() const;
+    typename Component<T>::ConstIterator end() const;
 
     ///
     /// Returns an iterator to the first component matching the given
@@ -90,7 +90,7 @@ public:
     ///
     /// \returns An iterator to the first matching component; invalid if there
     /// was no matching component.
-    typename Component<T>::Iter findFirst(typename Component<T>::Predicate predicate);
+    typename Component<T>::Iterator findFirst(typename Component<T>::Predicate predicate);
 
     ///
     /// Returns an iterator to the first component matching the given
@@ -100,7 +100,7 @@ public:
     ///
     /// \returns An iterator to the first matching component; invalid if there
     /// was no matching component.
-    typename Component<T>::ConstIter findFirst(typename Component<T>::Predicate predicate) const;
+    typename Component<T>::ConstIterator findFirst(typename Component<T>::Predicate predicate) const;
 
     ///
     /// Returns iterators to all components matching the given predicate.
@@ -108,7 +108,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching components.
-    typename Component<T>::Iter::Vector find(typename Component<T>::Predicate predicate);
+    typename Component<T>::Iterator::Vector find(typename Component<T>::Predicate predicate);
 
     ///
     /// Returns iterators to all components matching the given predicate.
@@ -116,7 +116,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching components.
-    typename Component<T>::ConstIter::Vector find(typename Component<T>::Predicate predicate) const;
+    typename Component<T>::ConstIterator::Vector find(typename Component<T>::Predicate predicate) const;
 
 private:
     void notifyEvent(ComponentEventType type, Entity& entity);
@@ -129,11 +129,11 @@ private:
 
     bool has(const Entity& entity) const;
 
-    typename Component<T>::Iter add(Entity& entity, const T& component);
-    typename Component<T>::Iter replace(Entity& entity, const T& component);
+    typename Component<T>::Iterator add(Entity& entity, const T& component);
+    typename Component<T>::Iterator replace(Entity& entity, const T& component);
 
-    typename Component<T>::Iter get(Entity& entity);
-    typename Component<T>::ConstIter get(const Entity& entity) const;
+    typename Component<T>::Iterator get(Entity& entity);
+    typename Component<T>::ConstIterator get(const Entity& entity) const;
 
     ComponentId maxId() const;
 

@@ -43,6 +43,27 @@ class AssetCache :
 public:
 
     ///
+    /// Selects a directory for the asset cache to first check for assets for
+    /// the duration of its lifetime.
+    class SelectDirectoryScope :
+        public Uncopyable
+    {
+    public:
+
+        ///
+        /// Constructs thescope given the asset cache it affects along with
+        /// path to the directory to select.
+        ///
+        /// \param assetCache The asset cache to select the directory for.
+        /// \param directoryPath The path to the directory to select.
+        SelectDirectoryScope(AssetCache& assetCache, const Path& directoryPath);
+
+        ~SelectDirectoryScope();
+
+        AssetCache* _assetCache;
+    };
+
+    ///
     /// Constructs an empty asset cache without a file system.
     AssetCache();
 
@@ -51,17 +72,6 @@ public:
     ///
     /// \param fileSystem The file system.
     AssetCache(FileSystem& fileSystem);
-
-    ///
-    /// Sets the directory that the asset cache should first check when loading
-    /// an asset.
-    ///
-    /// \param directoryPath The path to the new preferred directory.
-    void pushPreferredDirectory(const Path& directoryPath);
-
-    ///
-    /// Clears the currently set preferred directory.
-    void popPreferredDirectory();
 
     ///
     /// Returns a reference to the asset at the given path.
@@ -100,13 +110,18 @@ public:
 
     ///
     /// Returns the file system.
+    ///
+    /// \throws Error If the asset cache does not have a file system.
     FileSystem& fileSystem();
 
 private:
+    void selectDirectory(const Path& directoryPath);
+    void restoreDirectory();
+
     FileSystem* _fileSystem;
 
     std::recursive_mutex _mutex;
-    std::map<std::thread::id, std::stack<Path>> _preferredDirectoryStack;
+    std::map<std::thread::id, std::stack<Path>> _selectedDirectoryStack;
     std::map<Path, std::shared_ptr<AssetEntryBase>> _entries;
 
     TaskPool _taskPool;

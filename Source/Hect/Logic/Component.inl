@@ -25,21 +25,21 @@ namespace hect
 {
     
 template <typename T>
-Component<T>::IterBase::IterBase() :
+Component<T>::IteratorBase::IteratorBase() :
     _pool(nullptr),
     _id((ComponentId)-1)
 {
 }
 
 template <typename T>
-Component<T>::IterBase::IterBase(ComponentPool<T>& pool, ComponentId id) :
+Component<T>::IteratorBase::IteratorBase(ComponentPool<T>& pool, ComponentId id) :
     _pool(&pool),
     _id(id)
 {
 }
 
 template <typename T>
-void Component<T>::IterBase::increment()
+void Component<T>::IteratorBase::increment()
 {
     ++_id;
 
@@ -60,7 +60,7 @@ void Component<T>::IterBase::increment()
 }
 
 template <typename T>
-bool Component<T>::IterBase::isValid() const
+bool Component<T>::IteratorBase::isValid() const
 {
     if (_pool->componentHasEntity(_id))
     {
@@ -70,7 +70,7 @@ bool Component<T>::IterBase::isValid() const
 }
 
 template <typename T>
-void Component<T>::IterBase::ensureValid() const
+void Component<T>::IteratorBase::ensureValid() const
 {
     if (!isValid())
     {
@@ -79,109 +79,109 @@ void Component<T>::IterBase::ensureValid() const
 }
 
 template <typename T>
-bool Component<T>::IterBase::equals(const IterBase& other) const
+bool Component<T>::IteratorBase::equals(const IteratorBase& other) const
 {
     return _pool == other._pool && _id == other._id;
 }
 
 template <typename T>
-Component<T>::Iter::Iter() :
-    IterBase()
+Component<T>::Iterator::Iterator() :
+    IteratorBase()
 {
 }
 
 template <typename T>
-Component<T>::Iter::Iter(ComponentPool<T>& pool, ComponentId id) :
-    IterBase(pool, id)
+Component<T>::Iterator::Iterator(ComponentPool<T>& pool, ComponentId id) :
+    IteratorBase(pool, id)
 {
 }
 
 template <typename T>
-T& Component<T>::Iter::operator*() const
+T& Component<T>::Iterator::operator*() const
 {
     ensureValid();
     return _pool->componentWithId(_id);
 }
 
 template <typename T>
-T* Component<T>::Iter::operator->() const
+T* Component<T>::Iterator::operator->() const
 {
     ensureValid();
     return &_pool->componentWithId(_id);
 }
 
 template <typename T>
-typename Component<T>::Iter& Component<T>::Iter::operator++()
+typename Component<T>::Iterator& Component<T>::Iterator::operator++()
 {
     increment();
     return *this;
 }
 
 template <typename T>
-bool Component<T>::Iter::operator==(const Iter& other) const
+bool Component<T>::Iterator::operator==(const Iterator& other) const
 {
     return equals(other);
 }
 
 template <typename T>
-bool Component<T>::Iter::operator!=(const Iter& other) const
+bool Component<T>::Iterator::operator!=(const Iterator& other) const
 {
     return !equals(other);
 }
 
 template <typename T>
-Component<T>::Iter::operator bool() const
+Component<T>::Iterator::operator bool() const
 {
     return isValid();
 }
 
 template <typename T>
-Component<T>::ConstIter::ConstIter() :
-    IterBase()
+Component<T>::ConstIterator::ConstIterator() :
+    IteratorBase()
 {
 }
 
 template <typename T>
-Component<T>::ConstIter::ConstIter(const ComponentPool<T>& pool, ComponentId id) :
-    IterBase(*const_cast<ComponentPool<T>*>(&pool), id)
+Component<T>::ConstIterator::ConstIterator(const ComponentPool<T>& pool, ComponentId id) :
+    IteratorBase(*const_cast<ComponentPool<T>*>(&pool), id)
 {
 }
 
 template <typename T>
-const T& Component<T>::ConstIter::operator*() const
+const T& Component<T>::ConstIterator::operator*() const
 {
     ensureValid();
     return _pool->componentWithId(_id);
 }
 
 template <typename T>
-const T* Component<T>::ConstIter::operator->() const
+const T* Component<T>::ConstIterator::operator->() const
 {
     ensureValid();
     return &_pool->componentWithId(_id);
 }
 
 template <typename T>
-typename Component<T>::ConstIter& Component<T>::ConstIter::operator++()
+typename Component<T>::ConstIterator& Component<T>::ConstIterator::operator++()
 {
     increment();
     return *this;
 }
 
 template <typename T>
-bool Component<T>::ConstIter::operator==(const ConstIter& other) const
+bool Component<T>::ConstIterator::operator==(const ConstIterator& other) const
 {
     return equals(other);
 }
 
 template <typename T>
-bool Component<T>::ConstIter::operator!=(const ConstIter& other) const
+bool Component<T>::ConstIterator::operator!=(const ConstIterator& other) const
 {
     return !equals(other);
 }
 
 template <typename T>
-Component<T>::ConstIter::operator bool() const
+Component<T>::ConstIterator::operator bool() const
 {
     return isValid();
 }

@@ -21,47 +21,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include <cstdint>
+#include <vector>
+
+#include "Hect/IO/JsonValue.h"
+#include "Hect/IO/Path.h"
+
 namespace hect
 {
 
-template <typename T, typename... Args>
-typename Component<T>::Iterator Entity::addComponent(Args... args)
+struct Data
 {
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool.add(*this, T(args...));
-}
-
-template <typename T, typename... Args>
-typename Component<T>::Iterator Entity::replaceComponent(Args... args)
-{
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool.replace(*this, T(args...));
-}
-
-template <typename T>
-void Entity::removeComponent()
-{
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    componentPool.remove(*this);
-}
-
-template <typename T>
-typename Component<T>::Iterator Entity::component()
-{
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool.get(*this);
-}
-
-template <typename T>
-typename Component<T>::ConstIterator Entity::component() const
-{
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
-    return componentPool.get(*this);
-}
+    Path assetPath;
+    JsonValue jsonValue;
+    std::vector<uint8_t> binaryData;
+};
 
 }

@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Type.h"
 
+#include "Hect/Core/Configuration.h"
+
 using namespace hect;
 
 Type::Type() :
@@ -73,6 +75,7 @@ const Type& Type::fromTypeInfo(const std::type_info& typeInfo)
     {
         std::string typeName = typeInfo.name();
 
+#ifdef HECT_WINDOWS_BUILD
         // Strip all characters before the unscoped type name
         size_t i = typeName.size() - 1;
         while (i > 0 && (typeName[i] != ':' && typeName[i] != ' '))
@@ -80,8 +83,11 @@ const Type& Type::fromTypeInfo(const std::type_info& typeInfo)
             --i;
         }
 
+        typeName = std::string(&typeName[i + 1]);
+#endif
+
         // Create the placeholder type
-        return _registeredTypes[typeIndex] = Type(Kind_None, std::string(&typeName[i + 1]));
+        return _registeredTypes[typeIndex] = Type(Kind_None, typeName);
     }
 }
 
