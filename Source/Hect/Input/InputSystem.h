@@ -30,6 +30,12 @@
 #include "Hect/Input/Joystick.h"
 #include "Hect/Input/Mouse.h"
 #include "Hect/Input/Keyboard.h"
+#include "Hect/Timing/TimeSpan.h"
+
+struct _SDL_Joystick;
+typedef struct _SDL_Joystick SDL_Joystick;
+struct _SDL_Haptic;
+typedef struct _SDL_Haptic SDL_Haptic;
 
 namespace hect
 {
@@ -37,16 +43,18 @@ namespace hect
 ///
 /// Provides access to input peripherals connected to the system.
 class InputSystem :
-    public Listener<JoystickEvent>,
     public Listener<MouseEvent>,
     public Uncopyable
 {
+    friend class Joystick;
     friend class Window;
 public:
 
     ///
     /// Constructs an input system without any axes.
     InputSystem();
+
+    ~InputSystem();
 
     ///
     /// Adds an axis.
@@ -63,6 +71,12 @@ public:
     ///
     /// \throws Error If no axis with the name exists.
     const InputAxis& axisWithName(const std::string& name) const;
+
+    ///
+    /// Returns whether there is an axis with the given name.
+    ///
+    /// \param name The name of the axis.
+    bool hasAxisWithName(const std::string& name) const;
 
     ///
     /// Updates all input axes in the system.
@@ -90,7 +104,6 @@ public:
     /// \throws Error If no joystick of the given index is connected.
     Joystick& joystick(size_t joystickIndex);
 
-    void receiveEvent(const JoystickEvent& event);
     void receiveEvent(const MouseEvent& event);
 
 private:
@@ -99,9 +112,13 @@ private:
     void enqueueEvent(const KeyboardEvent& event);
     void dispatchEvents();
 
+    void hapticRumble(Joystick& joystick, Real strength, TimeSpan duration);
+
     Mouse _mouse;
     Keyboard _keyboard;
     std::vector<Joystick> _joysticks;
+    std::vector<SDL_Joystick*> _sdlJoysticks;
+    std::map<SDL_Joystick*, SDL_Haptic*> _sdlHaptics;
 
     std::vector<InputAxis> _axes;
 };

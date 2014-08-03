@@ -55,8 +55,8 @@ public:
 private:
     JsonValue _settings;
     FileSystem _fileSystem;
-    InputSystem _inputSystem;
     std::unique_ptr<Window> _window;
+    InputSystem _inputSystem;
     std::unique_ptr<Renderer> _renderer;
     std::unique_ptr<AssetCache> _assetCache;
 };

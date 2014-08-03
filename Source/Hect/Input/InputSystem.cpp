@@ -37,7 +37,7 @@ InputSystem::InputSystem()
     mouseDispatcher.addListener(*this);
 
     // Initialize SDL for joystick input
-    if (SDL_Init(SDL_INIT_JOYSTICK) != 0)
+    if (SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
     {
         throw Error(format("Failed to initialize SDL for joystick input: %s", SDL_GetError()));
     }
@@ -47,15 +47,47 @@ InputSystem::InputSystem()
         SDL_Joystick* joystick = SDL_JoystickOpen(i);
         if (joystick)
         {
+            _sdlJoysticks.push_back(joystick);
+
             std::string name = SDL_JoystickName(joystick);
             size_t buttonCount = SDL_JoystickNumButtons(joystick);
             size_t axisCount = SDL_JoystickNumAxes(joystick);
-            
+
+            SDL_Haptic* haptic = SDL_HapticOpenFromJoystick(joystick);
+            if (haptic)
+            {
+                if (SDL_HapticRumbleInit(haptic) == 0)
+                {
+                    _sdlHaptics[joystick] = haptic;
+                }
+                else
+                {
+                    SDL_HapticClose(haptic);
+                }
+            }
+                        
             HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
 
-            _joysticks.push_back(Joystick(name, buttonCount, axisCount));
+            _joysticks.push_back(Joystick(*this, i, name, buttonCount, axisCount));
         }
     }
+}
+
+InputSystem::~InputSystem()
+{
+    // Close all haptic devices
+    for (auto& pair : _sdlHaptics)
+    {
+        SDL_HapticClose(pair.second);
+    }
+    _sdlHaptics.clear();
+
+    // Close all joysticks
+    for (SDL_Joystick* joystick : _sdlJoysticks)
+    {
+        SDL_JoystickClose(joystick);
+    }
+    _sdlJoysticks.clear();
 }
 
 void InputSystem::addAxis(const InputAxis& axis)
@@ -83,6 +115,19 @@ const InputAxis& InputSystem::axisWithName(const std::string& name) const
     }
 
     throw Error(format("No input axis with name '%s'", name.c_str()));
+}
+
+bool InputSystem::hasAxisWithName(const std::string& name) const
+{
+    for (const InputAxis& axis : _axes)
+    {
+        if (axis.name() == name)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void InputSystem::updateAxes(Real timeStep)
@@ -180,11 +225,6 @@ Joystick& InputSystem::joystick(size_t joystickIndex)
     }
 }
 
-void InputSystem::receiveEvent(const JoystickEvent& event)
-{
-    event;
-}
-
 void InputSystem::receiveEvent(const MouseEvent& event)
 {
     if (event.type == MouseEventType_Movement)
@@ -239,4 +279,13 @@ void InputSystem::dispatchEvents()
 {
     _mouse.dispatchEvents();
     _keyboard.dispatchEvents();
+}
+
+void InputSystem::hapticRumble(Joystick& joystick, Real strength, TimeSpan duration)
+{
+    auto it = _sdlHaptics.find(_sdlJoysticks[joystick._index]);
+    if (it != _sdlHaptics.end())
+    {
+        SDL_HapticRumblePlay(it->second, (float)strength, (uint32_t)duration.milliseconds());
+    }
 }

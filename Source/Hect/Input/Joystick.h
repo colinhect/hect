@@ -25,9 +25,12 @@
 
 #include "Hect/Core/Real.h"
 #include "Hect/Event/Dispatcher.h"
+#include "Hect/Timing/TimeSpan.h"
 
 namespace hect
 {
+
+class InputSystem;
 
 ///
 /// A joystick event type.
@@ -115,18 +118,24 @@ public:
     /// \throws Error If the joystick does not have the given axis.
     Real axisValue(size_t axisIndex) const;
 
+    void hapticRumble(Real strength, TimeSpan duration);
+
     ///
     /// Returns the dispatcher of joystick events.
     Dispatcher<JoystickEvent>& dispatcher();
 
 private:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
+    Joystick(InputSystem& inputSystem, size_t index, const std::string& name, size_t buttonCount, size_t axisCount);
 
     void enqueueEvent(const JoystickEvent& event);
     void dispatchEvents();
 
+    InputSystem* _inputSystem;
+
     Dispatcher<JoystickEvent> _dispatcher;
     std::vector<JoystickEvent> _events;
+
+    size_t _index;
 
     std::string _name;
 
