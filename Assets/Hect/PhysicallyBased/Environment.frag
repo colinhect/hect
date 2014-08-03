@@ -54,7 +54,7 @@ void main()
         vec3 reflectance = textureLod(lightProbeTexture, reflectDirection, mipMapLevel).rgb;
 
         // Sample the ambience from the light probe
-        vec3 ambience = textureLod(lightProbeTexture, normal, 32.0).rgb;
+        vec3 ambience = textureLod(lightProbeTexture, normal, 32.0).rgb * 0.5;
 
         // Compute the fresnel attenuated by the roughness
         vec3 fresnel = computeRoughFresnel(realSpecular, roughness * roughness, normal, viewDirection);
