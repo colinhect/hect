@@ -64,7 +64,14 @@ Mouse::Mouse() :
 
 void Mouse::enqueueEvent(const MouseEvent& event)
 {
-    _buttonStates[(int)event.button] = event.type == MouseEventType_ButtonDown;
+    if (event.type == MouseEventType_ButtonDown)
+    {
+        _buttonStates[(int)event.button] = true;
+    }
+    else if (event.type == MouseEventType_ButtonUp)
+    {
+        _buttonStates[(int)event.button] = false;
+    }
     _cursorPosition = event.cursorPosition;
     _events.push_back(event);
 }

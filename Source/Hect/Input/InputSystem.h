@@ -27,6 +27,7 @@
 
 #include "Hect/Event/Listener.h"
 #include "Hect/Input/InputAxis.h"
+#include "Hect/Input/Joystick.h"
 #include "Hect/Input/Mouse.h"
 #include "Hect/Input/Keyboard.h"
 
@@ -36,7 +37,9 @@ namespace hect
 ///
 /// Provides access to input peripherals connected to the system.
 class InputSystem :
-    public Listener<MouseEvent>
+    public Listener<JoystickEvent>,
+    public Listener<MouseEvent>,
+    public Uncopyable
 {
     friend class Window;
 public:
@@ -75,15 +78,30 @@ public:
     /// Returns the keyboard connected to the system.
     Keyboard& keyboard();
 
+    ///
+    /// Returns the number of joysticks connected to the system.
+    size_t joystickCount() const;
+
+    ///
+    /// Returns the joystick connected to the system of the given index.
+    ///
+    /// \param joystickIndex The index of the joystick to get.
+    ///
+    /// \throws Error If no joystick of the given index is connected.
+    Joystick& joystick(size_t joystickIndex);
+
+    void receiveEvent(const JoystickEvent& event);
     void receiveEvent(const MouseEvent& event);
 
 private:
+    void enqueueEvent(const JoystickEvent& event);
     void enqueueEvent(const MouseEvent& event);
     void enqueueEvent(const KeyboardEvent& event);
     void dispatchEvents();
 
     Mouse _mouse;
     Keyboard _keyboard;
+    std::vector<Joystick> _joysticks;
 
     std::vector<InputAxis> _axes;
 };

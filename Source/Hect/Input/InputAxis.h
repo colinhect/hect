@@ -55,7 +55,15 @@ enum InputAxisSource
 
     ///
     /// A key press.
-    InputAxisSource_Key
+    InputAxisSource_Key,
+
+    ///
+    /// A joystick axis.
+    InputAxisSource_JoystickAxis,
+
+    ///
+    /// A joystick button.
+    InputAxisSource_JoystickButton
 };
 
 ///
@@ -98,11 +106,15 @@ public:
     ///
     /// Returns the mouse button which causes the axis to move in the positive
     /// direction.
+    ///
+    /// \note Only relevant for when the source is InputAxisSource_MouseButton.
     MouseButton positiveMouseButton() const;
 
     ///
     /// Sets the mouse button which causes the axis to move in the positive
     /// direction.
+    ///
+    /// \note Only relevant for when the source is InputAxisSource_MouseButton.
     ///
     /// \param button The new button.
     void setPositiveMouseButton(MouseButton button);
@@ -110,11 +122,15 @@ public:
     ///
     /// Returns the mouse button which causes the axis to move in the negative
     /// direction.
+    ///
+    /// \note Only relevant for when the source is InputAxisSource_MouseButton.
     MouseButton negativeMouseButton() const;
 
     ///
     /// Sets the mouse button which causes the axis to move in the negative
     /// direction.
+    ///
+    /// \note Only relevant for when the source is InputAxisSource_MouseButton.
     ///
     /// \param button The new button.
     void setNegativeMouseButton(MouseButton button);
@@ -122,10 +138,14 @@ public:
     ///
     /// Returns the key which causes the axis to move in the positive
     /// direction.
+    ///
+    /// \note Only relevant for when the source is InputAxisSource_Key.
     Key positiveKey() const;
 
     ///
     /// Sets the key which causes the axis to move in the positive direction.
+    ///
+    /// \note Only relevant for when the source is InputAxisSource_Key.
     ///
     /// \param key The new key.
     void setPositiveKey(Key key);
@@ -133,13 +153,121 @@ public:
     ///
     /// Returns the key which causes the axis to move in the negative
     /// direction.
+    ///
+    /// \note Only relevant for when the source is InputAxisSource_Key.
     Key negativeKey() const;
 
     ///
     /// Sets the key which causes the axis to move in the negative direction.
     ///
+    /// \note Only relevant for when the source is InputAxisSource_Key.
+    ///
     /// \param key The new key.
     void setNegativeKey(Key key);
+
+    ///
+    /// Returns the index of the joystick controlling the axis.
+    ///
+    /// \note Only relevant for when the source is InputAxisSource_JoystickAxis
+    /// or InputAxisSource_JoystickButton.
+    size_t joystickIndex() const;
+
+    ///
+    /// Sets the index of the joystick controlling the axis.
+    ///
+    /// \note Only relevant for when the source is InputAxisSource_JoystickAxis
+    /// or InputAxisSource_JoystickButton.
+    ///
+    /// \param index The index of the joystick.
+    void setJoystickIndex(size_t index);
+
+    ///
+    /// Returns the index of the joystick axis controlling the axis.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickAxis.
+    size_t joystickAxisIndex() const;
+
+    ///
+    /// Sets the index of the joystick axis controlling the axis.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickAxis.
+    ///
+    /// \param index The index of the joystick axis.
+    void setJoystickAxisIndex(size_t index);
+
+    ///
+    /// Returns the dead zone of the joystick axis controlling the axis.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickAxis.
+    Real joystickAxisDeadZone() const;
+
+    ///
+    /// Sets the dead zone of the joystick axis controlling the axis.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickAxis.
+    ///
+    /// \param deadZone The dead zone.
+    void setJoystickAxisDeadZone(Real deadZone);
+
+    ///
+    /// Returns whether the joystick axis controlling the axis should be
+    /// inverted.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickAxis.
+    bool joystickAxisInverted() const;
+
+    ///
+    /// Sets whether the joystick axis controlling the axis should be
+    /// inverted.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickAxis.
+    ///
+    /// \param invert True if the axis is inverted; false otherwise.
+    void setJoystickAxisInverted(bool invert);
+
+    ///
+    /// Returns the index of the joystick button which causes the axis to move
+    /// in the positive direction.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickButton.
+    size_t positiveJoystickButtonIndex() const;
+
+    ///
+    ///
+    /// Sets the index of the joystick button which causes the axis to move in
+    /// the positive direction.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickButton.
+    ///
+    /// \param index The index of the joystick button.
+    void setPositiveJoystickButtonIndex(size_t index);
+
+    ///
+    /// Returns the index of the joystick button which causes the axis to move
+    /// in the negative direction.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickButton.
+    size_t negativeJoystickButtonIndex() const;
+
+    ///
+    ///
+    /// Sets the index of the joystick button which causes the axis to move in
+    /// the negative direction.
+    ///
+    /// \note Only relevant for when the source is
+    /// InputAxisSource_JoystickButton.
+    ///
+    /// \param index The index of the joystick button.
+    void setNegativeJoystickButtonIndex(size_t index);
 
     ///
     /// Returns the current value.
@@ -183,6 +311,13 @@ private:
 
     Key _positiveKey;
     Key _negativeKey;
+
+    size_t _joystickIndex;
+    size_t _joystickAxisIndex;
+    Real _joystickAxisDeadZone;
+    bool _joystickAxisInverted;
+    size_t _positiveJoystickButtonIndex;
+    size_t _negativeJoystickButtonIndex;
 
     Real _value;
     Real _acceleration;

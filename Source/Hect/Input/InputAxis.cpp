@@ -35,6 +35,12 @@ InputAxis::InputAxis() :
     _negativeMouseButton(MouseButton_Right),
     _positiveKey(Key_A),
     _negativeKey(Key_B),
+    _joystickIndex(0),
+    _joystickAxisIndex(0),
+    _joystickAxisDeadZone(0),
+    _joystickAxisInverted(false),
+    _positiveJoystickButtonIndex(0),
+    _negativeJoystickButtonIndex(0),
     _value(0),
     _acceleration(1),
     _gravity(0)
@@ -48,6 +54,12 @@ InputAxis::InputAxis(const std::string& name) :
     _negativeMouseButton(MouseButton_Right),
     _positiveKey(Key_A),
     _negativeKey(Key_B),
+    _joystickIndex(0),
+    _joystickAxisIndex(0),
+    _joystickAxisDeadZone(0),
+    _joystickAxisInverted(false),
+    _positiveJoystickButtonIndex(0),
+    _negativeJoystickButtonIndex(0),
     _value(0),
     _acceleration(1),
     _gravity(0)
@@ -112,6 +124,66 @@ Key InputAxis::negativeKey() const
 void InputAxis::setNegativeKey(Key key)
 {
     _negativeKey = key;
+}
+
+size_t InputAxis::joystickIndex() const
+{
+    return _joystickIndex;
+}
+
+void InputAxis::setJoystickIndex(size_t index)
+{
+    _joystickIndex = index;
+}
+
+size_t InputAxis::joystickAxisIndex() const
+{
+    return _joystickAxisIndex;
+}
+
+void InputAxis::setJoystickAxisIndex(size_t index)
+{
+    _joystickAxisIndex = index;
+}
+
+Real InputAxis::joystickAxisDeadZone() const
+{
+    return _joystickAxisDeadZone;
+}
+
+void InputAxis::setJoystickAxisDeadZone(Real deadZone)
+{
+    _joystickAxisDeadZone = deadZone;
+}
+
+bool InputAxis::joystickAxisInverted() const
+{
+    return _joystickAxisInverted;
+}
+
+void InputAxis::setJoystickAxisInverted(bool invert)
+{
+    _joystickAxisInverted = invert;
+}
+
+size_t InputAxis::positiveJoystickButtonIndex() const
+{
+    return _positiveJoystickButtonIndex;
+}
+
+void InputAxis::setPositiveJoystickButtonIndex(size_t index)
+{
+    _positiveJoystickButtonIndex = index;
+}
+
+size_t InputAxis::negativeJoystickButtonIndex() const
+{
+    return _negativeJoystickButtonIndex;
+}
+
+void InputAxis::setNegativeJoystickButtonIndex(size_t index)
+{
+    _negativeJoystickButtonIndex = index;
 }
 
 Real InputAxis::value() const

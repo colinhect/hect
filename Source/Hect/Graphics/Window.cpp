@@ -23,15 +23,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Window.h"
 
+#include <SDL.h>
+
 #include "Hect/Core/Configuration.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Input/InputSystem.h"
+#include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
 
 using namespace hect;
-
-#include <SDL.h>
 
 static SDL_Window* _sdlWindow = nullptr;
 static SDL_GLContext  _glContext = nullptr;
@@ -158,7 +159,7 @@ Window::Window(const std::string& title, const VideoMode& videoMode) :
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
-        throw Error(format("Failed to initialize SDL: %s", SDL_GetError()));
+        throw Error(format("Failed to initialize SDL for video: %s", SDL_GetError()));
     }
 
     // Create the window flags
@@ -233,7 +234,7 @@ bool Window::pollEvents(InputSystem& inputSystem)
             event.key = _convertKey(e.key.keysym.sym);
             inputSystem.enqueueEvent(event);
         }
-        break;
+            break;
         case SDL_MOUSEMOTION:
         {
             // Get relative cursor movement
@@ -248,11 +249,34 @@ bool Window::pollEvents(InputSystem& inputSystem)
 
             // Enqueue the event
             MouseEvent event;
+            event.type = MouseEventType_Movement;
             event.cursorMovement = IntVector2(movementX, -movementY);
             event.cursorPosition = IntVector2(positionX, positionY);
             inputSystem.enqueueEvent(event);
         }
-        break;
+            break;
+        case SDL_JOYAXISMOTION:
+        {
+            // Enqueue the event
+            JoystickEvent event;
+            event.type = JoystickEventType_AxisMotion;
+            event.joystickIndex = e.jaxis.which;
+            event.axisIndex = e.jaxis.axis;
+            event.axisValue = std::max<Real>((Real)e.jaxis.value / (Real)32767, -1.0);
+            inputSystem.enqueueEvent(event);
+        }
+            break;
+        case SDL_JOYBUTTONDOWN:
+        case SDL_JOYBUTTONUP:
+        {
+            // Enqueue the event
+            JoystickEvent event;
+            event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType_ButtonDown : JoystickEventType_ButtonUp;
+            event.joystickIndex = e.jbutton.which;
+            event.buttonIndex = e.jbutton.button;
+            inputSystem.enqueueEvent(event);
+        }
+            break;
         }
     }
 

@@ -72,6 +72,36 @@ void InputAxisEncoder::decode(InputAxis& inputAxis, ObjectDecoder& decoder)
         inputAxis.setNegativeKey(negativeKey);
     }
 
+    if (decoder.hasMember("joystickIndex"))
+    {
+        inputAxis.setJoystickIndex(decoder.decodeUnsignedInt("joystickIndex"));
+    }
+
+    if (decoder.hasMember("joystickAxisIndex"))
+    {
+        inputAxis.setJoystickAxisIndex(decoder.decodeUnsignedInt("joystickAxisIndex"));
+    }
+
+    if (decoder.hasMember("joystickAxisDeadZone"))
+    {
+        inputAxis.setJoystickAxisDeadZone(decoder.decodeReal("joystickAxisDeadZone"));
+    }
+
+    if (decoder.hasMember("joystickAxisInverted"))
+    {
+        inputAxis.setJoystickAxisInverted(decoder.decodeBool("joystickAxisInverted"));
+    }
+
+    if (decoder.hasMember("positiveJoystickButtonIndex"))
+    {
+        inputAxis.setPositiveJoystickButtonIndex(decoder.decodeUnsignedInt("positiveJoystickButtonIndex"));
+    }
+
+    if (decoder.hasMember("negativeJoystickButtonIndex"))
+    {
+        inputAxis.setNegativeJoystickButtonIndex(decoder.decodeUnsignedInt("negativeJoystickButtonIndex"));
+    }
+
     if (decoder.hasMember("acceleration"))
     {
         inputAxis.setAcceleration(decoder.decodeReal("acceleration"));

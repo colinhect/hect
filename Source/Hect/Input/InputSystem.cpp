@@ -23,10 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputSystem.h"
 
+#include <SDL.h>
+#include <algorithm>
+
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
-
-#include <algorithm>
 
 using namespace hect;
 
@@ -34,6 +35,27 @@ InputSystem::InputSystem()
 {
     Dispatcher<MouseEvent>& mouseDispatcher = _mouse.dispatcher();
     mouseDispatcher.addListener(*this);
+
+    // Initialize SDL for joystick input
+    if (SDL_Init(SDL_INIT_JOYSTICK) != 0)
+    {
+        throw Error(format("Failed to initialize SDL for joystick input: %s", SDL_GetError()));
+    }
+
+    for (int i = 0; i < SDL_NumJoysticks(); i++)
+    {
+        SDL_Joystick* joystick = SDL_JoystickOpen(i);
+        if (joystick)
+        {
+            std::string name = SDL_JoystickName(joystick);
+            size_t buttonCount = SDL_JoystickNumButtons(joystick);
+            size_t axisCount = SDL_JoystickNumAxes(joystick);
+            
+            HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
+
+            _joysticks.push_back(Joystick(name, buttonCount, axisCount));
+        }
+    }
 }
 
 void InputSystem::addAxis(const InputAxis& axis)
@@ -101,6 +123,33 @@ void InputSystem::updateAxes(Real timeStep)
                 axis.setValue(value - acceleration * timeStep);
             }
         }
+        else if (axis.source() == InputAxisSource_JoystickButton)
+        {
+            Joystick& sourceJoystick = joystick(axis.joystickIndex());
+            if (sourceJoystick.isButtonDown(axis.positiveJoystickButtonIndex()))
+            {
+                axis.setValue(value + acceleration * timeStep);
+            }
+
+            if (sourceJoystick.isButtonDown(axis.negativeJoystickButtonIndex()))
+            {
+                axis.setValue(value - acceleration * timeStep);
+            }
+        }
+        else if (axis.source() == InputAxisSource_JoystickAxis)
+        {
+            Joystick& sourceJoystick = joystick(axis.joystickIndex());
+            Real value = sourceJoystick.axisValue(axis.joystickAxisIndex());
+            if (std::abs(value) < axis.joystickAxisDeadZone())
+            {
+                value = 0;
+            }
+            if (axis.joystickAxisInverted())
+            {
+                value = -value;
+            }
+            axis.setValue(value);
+        }
     }
 }
 
@@ -112,6 +161,28 @@ Mouse& InputSystem::mouse()
 Keyboard& InputSystem::keyboard()
 {
     return _keyboard;
+}
+
+size_t InputSystem::joystickCount() const
+{
+    return _joysticks.size();
+}
+
+Joystick& InputSystem::joystick(size_t joystickIndex)
+{
+    if (joystickIndex < _joysticks.size())
+    {
+        return _joysticks[joystickIndex];
+    }
+    else
+    {
+        throw Error(format("System does not have joystick of index %i", joystickIndex));
+    }
+}
+
+void InputSystem::receiveEvent(const JoystickEvent& event)
+{
+    event;
 }
 
 void InputSystem::receiveEvent(const MouseEvent& event)
@@ -147,6 +218,11 @@ void InputSystem::receiveEvent(const MouseEvent& event)
             }
         }
     }
+}
+
+void InputSystem::enqueueEvent(const JoystickEvent& event)
+{
+    joystick(event.joystickIndex).enqueueEvent(event);
 }
 
 void InputSystem::enqueueEvent(const MouseEvent& event)

@@ -12,6 +12,7 @@
 #include "..\Graphics\VertexAttribute.h"
 #include "..\IO\JsonValue.h"
 #include "..\Input\InputAxis.h"
+#include "..\Input\Joystick.h"
 #include "..\Input\Keyboard.h"
 #include "..\Input\Mouse.h"
 #include "..\Logic\ComponentEvent.h"
@@ -175,6 +176,15 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(InputAxisSource_MouseButton, "MouseButton");
         enumType.addValue(InputAxisSource_MouseScroll, "MouseScroll");
         enumType.addValue(InputAxisSource_Key, "Key");
+        enumType.addValue(InputAxisSource_JoystickAxis, "JoystickAxis");
+        enumType.addValue(InputAxisSource_JoystickButton, "JoystickButton");
+    }
+    {
+        hect::Type& type = hect::Type::create<JoystickEventType>(hect::Kind_Enum, "JoystickEventType");
+        hect::Enum& enumType = type.asEnum();
+        enumType.addValue(JoystickEventType_AxisMotion, "AxisMotion");
+        enumType.addValue(JoystickEventType_ButtonDown, "ButtonDown");
+        enumType.addValue(JoystickEventType_ButtonUp, "ButtonUp");
     }
     {
         hect::Type& type = hect::Type::create<Key>(hect::Kind_Enum, "Key");
