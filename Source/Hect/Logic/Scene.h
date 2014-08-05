@@ -31,9 +31,12 @@
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/Logic/System.h"
+#include "Hect/Timing/TimeSpan.h"
 
 namespace hect
 {
+
+class RenderTarget;
 
 ///
 /// A scene of entities.
@@ -46,7 +49,10 @@ public:
 
     ///
     /// Constructs an empty scene.
-    Scene();
+    Scene(TimeSpan timeStep = TimeSpan::fromSeconds((Real)0.01666666666));
+
+    virtual void update(Real timeStep);
+    virtual void render(Real delta, RenderTarget& target);
 
     ///
     /// Adds a new system of a specific type to the scene.
@@ -86,6 +92,10 @@ public:
     const ComponentPool<T>& components() const;
 
     ///
+    /// Returns the duration of time between updates.
+    TimeSpan timeStep() const;
+
+    ///
     /// Returns the pool of entities.
     EntityPool& entities();
 
@@ -111,6 +121,7 @@ private:
     void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
 
+    TimeSpan _timeStep;
     size_t _entityCount;
     EntityPool _entityPool;
 

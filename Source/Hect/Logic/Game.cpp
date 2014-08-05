@@ -21,17 +21,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Application.h"
+#include "Game.h"
 
 #include <SDL.h>
+
+#include "Hect/Logic/Scene.h"
+#include "Hect/Timing/Timer.h"
 
 using namespace hect;
 
 class HectTypes;
 
-Application::Application(const std::string& name, const Path& settingsFilePath)
+Game::Game(const std::string& name, const Path& settingsFilePath)
 {
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
     {
         throw Error(format("Failed to initialize SDL: %s", SDL_GetError()));
     }
@@ -81,7 +84,7 @@ Application::Application(const std::string& name, const Path& settingsFilePath)
     }
 }
 
-Application::~Application()
+Game::~Game()
 {
     _renderer.reset();
     _window.reset();
@@ -89,25 +92,53 @@ Application::~Application()
     SDL_Quit();
 }
 
-Input& Application::input()
+void Game::playScene(Scene& scene)
+{
+    TimeSpan accumulator, delta;
+
+    Timer timer;
+
+    while (_window->pollEvents(*_input))
+    {
+        TimeSpan deltaTime = timer.elapsed();
+        timer.reset();
+
+        accumulator += deltaTime;
+        delta += deltaTime;
+
+        while (accumulator.microseconds() >= scene.timeStep().microseconds())
+        {
+            _input->updateAxes(scene.timeStep().seconds());
+            scene.update(scene.timeStep().seconds());
+
+            delta = TimeSpan();
+            accumulator -= scene.timeStep();
+        }
+
+        scene.render(delta.seconds() / scene.timeStep().seconds(), *_window);
+        _window->swapBuffers();
+    }
+}
+
+Input& Game::input()
 {
     assert(_input);
     return *_input;
 }
 
-Renderer& Application::renderer()
+Renderer& Game::renderer()
 {
     assert(_renderer);
     return *_renderer;
 }
 
-Storage& Application::storage()
+Storage& Game::storage()
 {
     assert(_renderer);
     return *_storage;
 }
 
-Window& Application::window()
+Window& Game::window()
 {
     assert(_window);
     return *_window;

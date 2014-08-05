@@ -23,57 +23,42 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Real.h"
-#include "Hect/Timing/Timer.h"
-#include "Hect/Timing/TimeSpan.h"
+#include <memory>
+
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/Window.h"
+#include "Hect/Input/Input.h"
+#include "Hect/IO/Storage.h"
+#include "Hect/IO/JsonValue.h"
 
 namespace hect
 {
 
-///
-/// A logic loop.
-class Loop
+class Scene;
+
+class Game :
+    public Uncopyable
 {
 public:
-    Loop(TimeSpan timeStep);
-    virtual ~Loop() { }
+    Game(const std::string& name, const Path& settingsFilePath);
+    virtual ~Game();
 
-    ///
-    /// Called once every time step.
-    ///
-    /// \param timeStep The duration of time between each fixed update (in
-    /// seconds).
-    virtual void fixedUpdate(Real timeStep);
+    virtual void execute() = 0;
 
-    ///
-    /// Called once every frame.
-    ///
-    /// \param delta The delta between the last fixed update and the next
-    /// fixed update.
-    virtual void frameUpdate(Real delta);
+    void playScene(Scene& scene);
 
-    ///
-    /// Returns whether the loop is active.
-    bool isActive() const;
-
-    ///
-    /// Sets whether the loop is active.
-    ///
-    /// \param active True if the loop is active; false otherwise.
-    void setActive(bool active);
-
-    ///
-    /// Ticks the loop.
-    ///
-    /// \returns True if the loop is still active; false otherwise.
-    bool tick();
+    Input& input();
+    Renderer& renderer();
+    Storage& storage();
+    Window& window();
 
 private:
-    bool _active;
-    Timer _timer;
-    TimeSpan _timeStep;
-    TimeSpan _accumulator;
-    TimeSpan _delta;
+    JsonValue _settings;
+    std::unique_ptr<Input> _input;
+    std::unique_ptr<Renderer> _renderer;
+    std::unique_ptr<Storage> _storage;
+    std::unique_ptr<Window> _window;
 };
 
 }

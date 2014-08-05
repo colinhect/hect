@@ -164,7 +164,7 @@ void Input::updateAxes(Real timeStep)
         }
         else if (axis.source() == InputAxisSource_JoystickButton)
         {
-            size_t joystickIndex = axis.joystickAxisIndex();
+            size_t joystickIndex = axis.joystickIndex();
             if (joystickIndex < joystickCount())
             {
                 Joystick& sourceJoystick = joystick(joystickIndex);
@@ -181,7 +181,7 @@ void Input::updateAxes(Real timeStep)
         }
         else if (axis.source() == InputAxisSource_JoystickAxis)
         {
-            size_t joystickIndex = axis.joystickAxisIndex();
+            size_t joystickIndex = axis.joystickIndex();
             if (joystickIndex < joystickCount())
             {
                 Joystick& sourceJoystick = joystick(joystickIndex);

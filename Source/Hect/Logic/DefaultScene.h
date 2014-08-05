@@ -23,38 +23,29 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <memory>
-
-#include "Hect/Core/Uncopyable.h"
+#include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/Window.h"
+#include "Hect/IO/AssetCache.h"
 #include "Hect/Input/Input.h"
-#include "Hect/IO/Storage.h"
-#include "Hect/IO/JsonValue.h"
+#include "Hect/Logic/Scene.h"
 
 namespace hect
 {
 
-class Application :
-    public Uncopyable
+class DefaultScene :
+    public Scene
 {
 public:
-    Application(const std::string& name, const Path& settingsFilePath);
-    virtual ~Application();
+    DefaultScene(Input& input, Renderer& renderer, AssetCache& assetCache);
 
-    virtual void execute() = 0;
+    virtual void systemUpdate(Real timeStep) = 0;
 
-    Input& input();
-    Renderer& renderer();
-    Storage& storage();
-    Window& window();
+    void update(Real timeStep);
+    void render(Real delta, RenderTarget& target);
 
 private:
-    JsonValue _settings;
-    std::unique_ptr<Input> _input;
-    std::unique_ptr<Renderer> _renderer;
-    std::unique_ptr<Storage> _storage;
-    std::unique_ptr<Window> _window;
+    TaskPool _taskPool;
+    Task::Handle _physicsTaskHandle;
 };
 
 }

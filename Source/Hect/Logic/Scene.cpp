@@ -25,12 +25,26 @@
 
 #include <algorithm>
 
+#include "Hect/Graphics/RenderTarget.h"
+
 using namespace hect;
 
-Scene::Scene() :
+Scene::Scene(TimeSpan timeStep) :
+    _timeStep(timeStep),
     _entityCount(0),
     _entityPool(*this)
 {
+}
+
+void Scene::update(Real timeStep)
+{
+    timeStep;
+}
+
+void Scene::render(Real delta, RenderTarget& target)
+{
+    delta;
+    target;
 }
 
 Entity::Iterator Scene::createEntity()
@@ -42,6 +56,26 @@ Entity::Iterator Scene::createEntity()
     _entityPool._dispatcher.dispatchEvent(event);
 
     return entity;
+}
+
+TimeSpan Scene::timeStep() const
+{
+    return _timeStep;
+}
+
+EntityPool& Scene::entities()
+{
+    return _entityPool;
+}
+
+const EntityPool& Scene::entities() const
+{
+    return _entityPool;
+}
+
+size_t Scene::entityCount() const
+{
+    return _entityCount;
 }
 
 void Scene::encode(ObjectEncoder& encoder) const
@@ -70,21 +104,6 @@ void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 
         entity->activate();
     }
-}
-
-EntityPool& Scene::entities()
-{
-    return _entityPool;
-}
-
-const EntityPool& Scene::entities() const
-{
-    return _entityPool;
-}
-
-size_t Scene::entityCount() const
-{
-    return _entityCount;
 }
 
 Entity::Iterator Scene::cloneEntity(const Entity& entity)

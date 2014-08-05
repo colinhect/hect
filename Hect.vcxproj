@@ -22,7 +22,6 @@
     <ClInclude Include="Source\Hect\Concurrency\Task.h" />
     <ClInclude Include="Source\Hect\Concurrency\TaskPool.h" />
     <ClInclude Include="Source\Hect\Core\Any.h" />
-    <ClInclude Include="Source\Hect\Core\Application.h" />
     <ClInclude Include="Source\Hect\Core\Sequence.h" />
     <ClInclude Include="Source\Hect\Core\Configuration.h" />
     <ClInclude Include="Source\Hect\Core\Error.h" />
@@ -103,11 +102,12 @@
     <ClInclude Include="Source\Hect\Logic\Component.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentPool.h" />
+    <ClInclude Include="Source\Hect\Logic\DefaultScene.h" />
     <ClInclude Include="Source\Hect\Logic\Entity.h" />
     <ClInclude Include="Source\Hect\Logic\EntityEvent.h" />
     <ClInclude Include="Source\Hect\Logic\EntityPool.h" />
+    <ClInclude Include="Source\Hect\Logic\Game.h" />
     <ClInclude Include="Source\Hect\Logic\IdPool.h" />
-    <ClInclude Include="Source\Hect\Logic\Loop.h" />
     <ClInclude Include="Source\Hect\Logic\Scene.h" />
     <ClInclude Include="Source\Hect\Logic\System.h" />
     <ClInclude Include="Source\Hect\Math\Angle.h" />
@@ -144,7 +144,6 @@
     <ClCompile Include="Source\Hect\Concurrency\Task.cpp" />
     <ClCompile Include="Source\Hect\Concurrency\TaskPool.cpp" />
     <ClCompile Include="Source\Hect\Core\Any.cpp" />
-    <ClCompile Include="Source\Hect\Core\Application.cpp" />
     <ClCompile Include="Source\Hect\Core\Error.cpp" />
     <ClCompile Include="Source\Hect\Core\Format.cpp" />
     <ClCompile Include="Source\Hect\Core\Logging.cpp" />
@@ -222,10 +221,11 @@
     <ClCompile Include="Source\Hect\IO\ReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\Encodable.cpp" />
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
+    <ClCompile Include="Source\Hect\Logic\DefaultScene.cpp" />
     <ClCompile Include="Source\Hect\Logic\Entity.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
-    <ClCompile Include="Source\Hect\Logic\Loop.cpp" />
+    <ClCompile Include="Source\Hect\Logic\Game.cpp" />
     <ClCompile Include="Source\Hect\Logic\Scene.cpp" />
     <ClCompile Include="Source\Hect\Logic\System.cpp" />
     <ClCompile Include="Source\Hect\Math\Angle.cpp" />

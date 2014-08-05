@@ -342,9 +342,6 @@
     <ClInclude Include="Source\Hect\IO\AssetLoader.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Logic\Loop.h">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Spacial\Components\BoundingBox.h">
       <Filter>Source\Hect\Spacial\Components</Filter>
     </ClInclude>
@@ -450,14 +447,17 @@
     <ClInclude Include="Source\Hect\Input\Joystick.h">
       <Filter>Source\Hect\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\Application.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Input\Input.h">
       <Filter>Source\Hect\Input</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\IO\Storage.h">
       <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\DefaultScene.h">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Game.h">
+      <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -683,9 +683,6 @@
     <ClCompile Include="Source\Hect\IO\AssetCache.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Logic\Loop.cpp">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Spacial\Components\BoundingBox.cpp">
       <Filter>Source\Hect\Spacial\Components</Filter>
     </ClCompile>
@@ -779,14 +776,17 @@
     <ClCompile Include="Source\Hect\Input\Joystick.cpp">
       <Filter>Source\Hect\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Core\Application.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Input\Input.cpp">
       <Filter>Source\Hect\Input</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\Storage.cpp">
       <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\DefaultScene.cpp">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Game.cpp">
+      <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
