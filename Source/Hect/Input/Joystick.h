@@ -30,7 +30,7 @@
 namespace hect
 {
 
-class InputSystem;
+class Input;
 
 ///
 /// A joystick event type.
@@ -91,7 +91,7 @@ public:
 /// Provides access to a joystick.
 class Joystick
 {
-    friend class InputSystem;
+    friend class Input;
 public:
 
     ///
@@ -125,12 +125,12 @@ public:
     Dispatcher<JoystickEvent>& dispatcher();
 
 private:
-    Joystick(InputSystem& inputSystem, size_t index, const std::string& name, size_t buttonCount, size_t axisCount);
+    Joystick(Input& input, size_t index, const std::string& name, size_t buttonCount, size_t axisCount);
 
     void enqueueEvent(const JoystickEvent& event);
     void dispatchEvents();
 
-    InputSystem* _inputSystem;
+    Input* _input;
 
     Dispatcher<JoystickEvent> _dispatcher;
     std::vector<JoystickEvent> _events;

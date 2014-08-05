@@ -34,10 +34,10 @@
 namespace hect
 {
 
-class InputSystem;
+class Input;
 
 ///
-/// The window that the engine is rendering to.
+/// The window that the application is rendering to.
 ///
 /// \note In most cases the window represents the native OS window.
 class Window :
@@ -66,20 +66,15 @@ public:
     ///
     /// Polls events from the window and redirects them to an input system.
     ///
-    /// \param inputSystem The input system to redirect the window input events
+    /// \param input The input system to redirect the window input events
     /// to.
     ///
     /// \returns True if the window has not received a close event; false
     /// otherwise.
-    bool pollEvents(InputSystem& inputSystem);
+    bool pollEvents(Input& input);
 
-    ///
-    /// Swaps the back buffer.
-    void swapBuffers();
-
-    ///
-    /// \copydoc RenderTarget::bind()
     void bind(Renderer* renderer);
+    void swapBuffers();
 
 private:
     MouseMode _mouseMode;

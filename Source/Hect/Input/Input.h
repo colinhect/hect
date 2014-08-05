@@ -42,7 +42,7 @@ namespace hect
 
 ///
 /// Provides access to input peripherals connected to the system.
-class InputSystem :
+class Input :
     public Listener<MouseEvent>,
     public Uncopyable
 {
@@ -52,9 +52,9 @@ public:
 
     ///
     /// Constructs an input system without any axes.
-    InputSystem();
+    Input();
 
-    ~InputSystem();
+    ~Input();
 
     ///
     /// Adds an axis.
@@ -70,13 +70,13 @@ public:
     /// \param name The name of the axis.
     ///
     /// \throws Error If no axis with the name exists.
-    const InputAxis& axisWithName(const std::string& name) const;
+    const InputAxis& axis(const std::string& name) const;
 
     ///
     /// Returns whether there is an axis with the given name.
     ///
     /// \param name The name of the axis.
-    bool hasAxisWithName(const std::string& name) const;
+    bool axisExists(const std::string& name) const;
 
     ///
     /// Updates all input axes in the system.

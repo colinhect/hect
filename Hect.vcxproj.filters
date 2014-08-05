@@ -186,9 +186,6 @@
     <ClInclude Include="Source\Hect\Input\InputAxis.h">
       <Filter>Source\Hect\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Input\InputSystem.h">
-      <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Input\Keyboard.h">
       <Filter>Source\Hect\Input</Filter>
     </ClInclude>
@@ -196,9 +193,6 @@
       <Filter>Source\Hect\Input</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\IO\FileReadStream.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\FileSystem.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\IO\FileWriteStream.h">
@@ -450,14 +444,20 @@
     <ClInclude Include="Source\Hect\Reflection\Enum.h">
       <Filter>Source\Hect\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Core\Engine.h">
-      <Filter>Source\Hect\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\IO\Data.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Input\Joystick.h">
       <Filter>Source\Hect\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Core\Application.h">
+      <Filter>Source\Hect\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Input\Input.h">
+      <Filter>Source\Hect\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Storage.h">
+      <Filter>Source\Hect\IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -557,9 +557,6 @@
     <ClCompile Include="Source\Hect\Input\InputAxis.cpp">
       <Filter>Source\Hect\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Input\InputSystem.cpp">
-      <Filter>Source\Hect\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Input\Keyboard.cpp">
       <Filter>Source\Hect\Input</Filter>
     </ClCompile>
@@ -567,9 +564,6 @@
       <Filter>Source\Hect\Input</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\FileReadStream.cpp">
-      <Filter>Source\Hect\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\FileSystem.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\FileWriteStream.cpp">
@@ -779,14 +773,20 @@
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp">
       <Filter>Source\Hect\Reflection</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Core\Engine.cpp">
-      <Filter>Source\Hect\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\IO\DataLoader.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Input\Joystick.cpp">
       <Filter>Source\Hect\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Core\Application.cpp">
+      <Filter>Source\Hect\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Input\Input.cpp">
+      <Filter>Source\Hect\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\Storage.cpp">
+      <Filter>Source\Hect\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

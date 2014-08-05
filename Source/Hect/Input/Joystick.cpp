@@ -25,7 +25,7 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
-#include "Hect/Input/InputSystem.h"
+#include "Hect/Input/Input.h"
 
 using namespace hect;
 
@@ -74,7 +74,7 @@ Real Joystick::axisValue(size_t axisIndex) const
 
 void Joystick::hapticRumble(Real strength, TimeSpan duration)
 {
-    _inputSystem->hapticRumble(*this, strength, duration);
+    _input->hapticRumble(*this, strength, duration);
 }
 
 Dispatcher<JoystickEvent>& Joystick::dispatcher()
@@ -82,8 +82,8 @@ Dispatcher<JoystickEvent>& Joystick::dispatcher()
     return _dispatcher;
 }
 
-Joystick::Joystick(InputSystem& inputSystem, size_t index, const std::string& name, size_t buttonCount, size_t axisCount) :
-    _inputSystem(&inputSystem),
+Joystick::Joystick(Input& input, size_t index, const std::string& name, size_t buttonCount, size_t axisCount) :
+    _input(&input),
     _index(index),
     _name(name),
     _buttonStates(buttonCount, false),

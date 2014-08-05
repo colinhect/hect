@@ -27,7 +27,7 @@
 
 #include "Hect/Core/Configuration.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Input/InputSystem.h"
+#include "Hect/Input/Input.h"
 #include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
@@ -156,12 +156,6 @@ Window::Window(const std::string& title, const VideoMode& videoMode) :
         throw Error("Mutliple windows are not supported");
     }
 
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
-        throw Error(format("Failed to initialize SDL for video: %s", SDL_GetError()));
-    }
-
     // Create the window flags
     uint32_t flags = SDL_WINDOW_OPENGL;
     if (videoMode.isFullscreen())
@@ -187,20 +181,12 @@ Window::~Window()
 
     // Destroy the window
     SDL_DestroyWindow(_sdlWindow);
-
-    // Quit SDL
-    SDL_Quit();
 }
 
-void Window::bind(Renderer* renderer)
-{
-    renderer->bindWindow(*this);
-}
-
-bool Window::pollEvents(InputSystem& inputSystem)
+bool Window::pollEvents(Input& input)
 {
     // Update the mouse mode if needed
-    MouseMode currentMouseMode = inputSystem.mouse().mode();
+    MouseMode currentMouseMode = input.mouse().mode();
     if (currentMouseMode != _mouseMode)
     {
         _mouseMode = currentMouseMode;
@@ -232,9 +218,9 @@ bool Window::pollEvents(InputSystem& inputSystem)
             KeyboardEvent event;
             event.type = e.type == SDL_KEYDOWN ? KeyboardEventType_KeyDown : KeyboardEventType_KeyUp;
             event.key = _convertKey(e.key.keysym.sym);
-            inputSystem.enqueueEvent(event);
+            input.enqueueEvent(event);
         }
-            break;
+        break;
         case SDL_MOUSEMOTION:
         {
             // Get relative cursor movement
@@ -252,9 +238,9 @@ bool Window::pollEvents(InputSystem& inputSystem)
             event.type = MouseEventType_Movement;
             event.cursorMovement = IntVector2(movementX, -movementY);
             event.cursorPosition = IntVector2(positionX, positionY);
-            inputSystem.enqueueEvent(event);
+            input.enqueueEvent(event);
         }
-            break;
+        break;
         case SDL_JOYAXISMOTION:
         {
             // Enqueue the event
@@ -263,9 +249,9 @@ bool Window::pollEvents(InputSystem& inputSystem)
             event.joystickIndex = e.jaxis.which;
             event.axisIndex = e.jaxis.axis;
             event.axisValue = std::max<Real>((Real)e.jaxis.value / (Real)32767, -1.0);
-            inputSystem.enqueueEvent(event);
+            input.enqueueEvent(event);
         }
-            break;
+        break;
         case SDL_JOYBUTTONDOWN:
         case SDL_JOYBUTTONUP:
         {
@@ -274,15 +260,20 @@ bool Window::pollEvents(InputSystem& inputSystem)
             event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType_ButtonDown : JoystickEventType_ButtonUp;
             event.joystickIndex = e.jbutton.which;
             event.buttonIndex = e.jbutton.button;
-            inputSystem.enqueueEvent(event);
+            input.enqueueEvent(event);
         }
-            break;
+        break;
         }
     }
 
-    inputSystem.dispatchEvents();
+    input.dispatchEvents();
 
     return active;
+}
+
+void Window::bind(Renderer* renderer)
+{
+    renderer->bindWindow(*this);
 }
 
 void Window::swapBuffers()

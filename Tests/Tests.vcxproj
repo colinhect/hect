@@ -152,7 +152,7 @@
     <ClCompile Include="Source\AnyTests.cpp" />
     <ClCompile Include="Source\EncodingTests.cpp" />
     <ClCompile Include="Source\EventTests.cpp" />
-    <ClCompile Include="Source\FileSystemTests.cpp" />
+    <ClCompile Include="Source\StorageTests.cpp" />
     <ClCompile Include="Source\FormatTests.cpp" />
     <ClCompile Include="Source\FrustumTests.cpp" />
     <ClCompile Include="Source\JsonTests.cpp" />

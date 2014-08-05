@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "RenderTarget.h"
 
+#include "Hect/Core/Error.h"
+
 using namespace hect;
 
 RenderTarget::RenderTarget() :
@@ -35,6 +37,11 @@ RenderTarget::RenderTarget(unsigned width, unsigned height) :
     _width(width),
     _height(height)
 {
+}
+
+void RenderTarget::swapBuffers()
+{
+    throw Error("Render target does not have a back buffer");
 }
 
 unsigned RenderTarget::width() const

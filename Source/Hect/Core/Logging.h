@@ -43,35 +43,35 @@ void log(LogLevel level, const std::string& message);
 
 // Info
 #if defined(HECT_ENABLE_LOG_INFO)
-#define HECT_INFO(message)      log(LogLevel_Info, message)
+#define HECT_INFO(message)      log(hect::LogLevel_Info, message)
 #else
 #define HECT_INFO(message)
 #endif
 
 // Debug
 #if defined(HECT_ENABLE_LOG_DEBUG)
-#define HECT_DEBUG(message)     log(LogLevel_Debug, message)
+#define HECT_DEBUG(message)     log(hect::LogLevel_Debug, message)
 #else
 #define HECT_DEBUG(message)
 #endif
 
 // Warning
 #if defined(HECT_ENABLE_LOG_WARNING)
-#define HECT_WARNING(message)   log(LogLevel_Warning, message)
+#define HECT_WARNING(message)   log(hect::LogLevel_Warning, message)
 #else
 #define HECT_WARNING(message)
 #endif
 
 // Error
 #if defined(HECT_ENABLE_LOG_ERROR)
-#define HECT_ERROR(message)     log(LogLevel_Error, message)
+#define HECT_ERROR(message)     log(hect::LogLevel_Error, message)
 #else
 #define HECT_ERROR(message)
 #endif
 
 // Trace
 #if defined(HECT_ENABLE_LOG_TRACE)
-#define HECT_TRACE(message)     log(LogLevel_Trace, message)
+#define HECT_TRACE(message)     log(hect::LogLevel_Trace, message)
 #else
 #define HECT_TRACE(message)
 #endif

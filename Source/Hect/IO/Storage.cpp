@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "FileSystem.h"
+#include "Storage.h"
 
 #include <physfs.h>
 
@@ -35,19 +35,19 @@
 
 namespace hect
 {
-FileSystem* _fileSystem = nullptr;
+Storage* _storage = nullptr;
 }
 
 using namespace hect;
 
-FileSystem::FileSystem()
+Storage::Storage()
 {
     // Prevent multiple instances
-    if (_fileSystem)
+    if (_storage)
     {
         throw Error("Attempt to instantiate multiple file system instances");
     }
-    _fileSystem = this;
+    _storage = this;
 
     if (!PHYSFS_init(nullptr))
     {
@@ -55,17 +55,17 @@ FileSystem::FileSystem()
     }
 }
 
-FileSystem::~FileSystem()
+Storage::~Storage()
 {
     if (!PHYSFS_deinit())
     {
         throw Error(format("Failed to shutdown file system: %s", PHYSFS_getLastError()));
     }
 
-    _fileSystem = nullptr;
+    _storage = nullptr;
 }
 
-Path FileSystem::workingDirectory() const
+Path Storage::workingDirectory() const
 {
 #ifdef HECT_WINDOWS_BUILD
     char path[2048];
@@ -74,12 +74,12 @@ Path FileSystem::workingDirectory() const
 #endif
 }
 
-Path FileSystem::userDirectory() const
+Path Storage::userDirectory() const
 {
     return convertPath(PHYSFS_getUserDir());
 }
 
-void FileSystem::setWriteDirectory(const Path& path)
+void Storage::setWriteDirectory(const Path& path)
 {
     if (!PHYSFS_setWriteDir(path.toString().c_str()))
     {
@@ -87,7 +87,7 @@ void FileSystem::setWriteDirectory(const Path& path)
     }
 }
 
-void FileSystem::addDataSource(const Path& path)
+void Storage::addDataSource(const Path& path)
 {
     if (!PHYSFS_mount(path.toString().c_str(), NULL, 0))
     {
@@ -95,17 +95,17 @@ void FileSystem::addDataSource(const Path& path)
     }
 }
 
-FileReadStream FileSystem::openFileForRead(const Path& path) const
+FileReadStream Storage::openFileForRead(const Path& path) const
 {
     return FileReadStream(path);
 }
 
-FileWriteStream FileSystem::openFileForWrite(const Path& path)
+FileWriteStream Storage::openFileForWrite(const Path& path)
 {
     return FileWriteStream(path);
 }
 
-void FileSystem::createDirectory(const Path& path)
+void Storage::createDirectory(const Path& path)
 {
     if (!PHYSFS_mkdir(path.toString().c_str()))
     {
@@ -113,7 +113,7 @@ void FileSystem::createDirectory(const Path& path)
     }
 }
 
-void FileSystem::remove(const Path& path)
+void Storage::remove(const Path& path)
 {
     if (!PHYSFS_delete(path.toString().c_str()))
     {
@@ -121,17 +121,17 @@ void FileSystem::remove(const Path& path)
     }
 }
 
-bool FileSystem::exists(const Path& path) const
+bool Storage::exists(const Path& path) const
 {
     return PHYSFS_exists(path.toString().c_str()) != 0;
 }
 
-TimeStamp FileSystem::lastModified(const Path& path)
+TimeStamp Storage::lastModified(const Path& path)
 {
     return PHYSFS_getLastModTime(path.toString().c_str());
 }
 
-Path FileSystem::convertPath(const char* rawPath) const
+Path Storage::convertPath(const char* rawPath) const
 {
     std::string delimiter(PHYSFS_getDirSeparator());
     std::string string(rawPath);

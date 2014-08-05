@@ -54,6 +54,12 @@ public:
     virtual void bind(Renderer* renderer) = 0;
 
     ///
+    /// Swaps the back buffer.
+    ///
+    /// \throws Error If the render target does not have a back buffer.
+    virtual void swapBuffers();
+
+    ///
     /// Returns the width.
     unsigned width() const;
 

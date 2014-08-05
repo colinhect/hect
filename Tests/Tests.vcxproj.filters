@@ -33,9 +33,6 @@
     <ClCompile Include="Source\EventTests.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\FileSystemTests.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\FormatTests.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -76,6 +73,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StorageTests.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

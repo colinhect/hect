@@ -28,37 +28,33 @@
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/Window.h"
-#include "Hect/Input/InputSystem.h"
-#include "Hect/IO/FileSystem.h"
+#include "Hect/Input/Input.h"
+#include "Hect/IO/Storage.h"
 #include "Hect/IO/JsonValue.h"
 
 namespace hect
 {
 
-class Engine :
+class Application :
     public Uncopyable
 {
 public:
-    Engine(const std::string& name, const Path& configFilePath);
-    ~Engine();
+    Application(const std::string& name, const Path& settingsFilePath);
+    virtual ~Application();
 
-    JsonValue& settings();
+    virtual void execute() = 0;
 
-    FileSystem& fileSystem();
-    InputSystem& inputSystem();
-
-    Window& window();
+    Input& input();
     Renderer& renderer();
-
-    AssetCache& assetCache();
+    Storage& storage();
+    Window& window();
 
 private:
     JsonValue _settings;
-    FileSystem _fileSystem;
-    std::unique_ptr<Window> _window;
-    InputSystem _inputSystem;
+    std::unique_ptr<Input> _input;
     std::unique_ptr<Renderer> _renderer;
-    std::unique_ptr<AssetCache> _assetCache;
+    std::unique_ptr<Storage> _storage;
+    std::unique_ptr<Window> _window;
 };
 
 }

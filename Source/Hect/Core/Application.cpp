@@ -21,33 +21,46 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Engine.h"
+#include "Application.h"
+
+#include <SDL.h>
 
 using namespace hect;
 
 class HectTypes;
 
-Engine::Engine(const std::string& name, const Path& configFilePath)
+Application::Application(const std::string& name, const Path& settingsFilePath)
 {
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    {
+        throw Error(format("Failed to initialize SDL: %s", SDL_GetError()));
+    }
+
+    SDL_version version;
+    SDL_GetVersion(&version);
+    HECT_INFO(format("SDL version %d.%d.%d", version.major, version.minor, version.patch));
+
     Type::registerTypes<HectTypes>();
 
+    _storage.reset(new Storage());
+
     // Add the working directory as a data source
-    Path workingDirectory = _fileSystem.workingDirectory();
-    _fileSystem.addDataSource(workingDirectory);
+    Path workingDirectory = _storage->workingDirectory();
+    _storage->addDataSource(workingDirectory);
 
     // Set the working directory as the write directory
-    _fileSystem.setWriteDirectory(workingDirectory);
+    _storage->setWriteDirectory(workingDirectory);
 
     // Load the settings
     {
-        FileReadStream stream = _fileSystem.openFileForRead(configFilePath);
+        FileReadStream stream = _storage->openFileForRead(settingsFilePath);
         _settings.decodeFromJson(stream);
     }
 
     // Add the data sources listed in the settings
     for (const JsonValue& dataSource : _settings["dataSources"])
     {
-        _fileSystem.addDataSource(dataSource.asString());
+        _storage->addDataSource(dataSource.asString());
     }
 
     // Load video mode
@@ -59,49 +72,43 @@ Engine::Engine(const std::string& name, const Path& configFilePath)
     _renderer.reset(new Renderer(*_window));
 
     // Load the input axes from the settings
+    _input.reset(new Input());
     for (const JsonValue& axisValue : _settings["inputAxes"])
     {
         InputAxis axis;
         axis.decodeFromJsonValue(axisValue);
-        _inputSystem.addAxis(axis);
+        _input->addAxis(axis);
     }
-
-    _assetCache.reset(new AssetCache(_fileSystem));
 }
 
-Engine::~Engine()
+Application::~Application()
 {
+    _renderer.reset();
+    _window.reset();
+    _input.reset();
+    SDL_Quit();
 }
 
-JsonValue& Engine::settings()
+Input& Application::input()
 {
-    return _settings;
+    assert(_input);
+    return *_input;
 }
 
-FileSystem& Engine::fileSystem()
-{
-    return _fileSystem;
-}
-
-InputSystem& Engine::inputSystem()
-{
-    return _inputSystem;
-}
-
-Window& Engine::window()
-{
-    assert(_window);
-    return *_window;
-}
-
-Renderer& Engine::renderer()
+Renderer& Application::renderer()
 {
     assert(_renderer);
     return *_renderer;
 }
 
-AssetCache& Engine::assetCache()
+Storage& Application::storage()
 {
+    assert(_renderer);
+    return *_storage;
+}
 
-    return *_assetCache;
+Window& Application::window()
+{
+    assert(_window);
+    return *_window;
 }

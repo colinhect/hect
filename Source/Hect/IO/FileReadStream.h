@@ -36,7 +36,7 @@ class FileReadStream :
     public ReadStream,
     public Uncopyable
 {
-    friend class FileSystem;
+    friend class Storage;
 public:
 
     ///

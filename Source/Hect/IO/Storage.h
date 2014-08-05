@@ -36,20 +36,12 @@ namespace hect
 /// Provides read and write access to files.
 ///
 /// \warning Only one can be instantiated at a time.
-class FileSystem :
+class Storage :
     public Uncopyable
 {
 public:
-
-    ///
-    /// Constructs the file system.
-    ///
-    /// \throws Error If an instance is already instantiated.
-    FileSystem();
-
-    ///
-    /// Closes any open file handles.
-    ~FileSystem();
+    Storage();
+    ~Storage();
 
     ///
     /// Returns the full path to the working directory of the executable.

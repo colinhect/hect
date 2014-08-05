@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "InputSystem.h"
+#include "Input.h"
 
 #include <SDL.h>
 #include <algorithm>
@@ -31,16 +31,10 @@
 
 using namespace hect;
 
-InputSystem::InputSystem()
+Input::Input()
 {
     Dispatcher<MouseEvent>& mouseDispatcher = _mouse.dispatcher();
     mouseDispatcher.addListener(*this);
-
-    // Initialize SDL for joystick input
-    if (SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
-    {
-        throw Error(format("Failed to initialize SDL for joystick input: %s", SDL_GetError()));
-    }
 
     for (int i = 0; i < SDL_NumJoysticks(); i++)
     {
@@ -65,7 +59,7 @@ InputSystem::InputSystem()
                     SDL_HapticClose(haptic);
                 }
             }
-                        
+
             HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
 
             _joysticks.push_back(Joystick(*this, i, name, buttonCount, axisCount));
@@ -73,7 +67,7 @@ InputSystem::InputSystem()
     }
 }
 
-InputSystem::~InputSystem()
+Input::~Input()
 {
     // Close all haptic devices
     for (auto& pair : _sdlHaptics)
@@ -90,7 +84,7 @@ InputSystem::~InputSystem()
     _sdlJoysticks.clear();
 }
 
-void InputSystem::addAxis(const InputAxis& axis)
+void Input::addAxis(const InputAxis& axis)
 {
     // Make sure an axis with the name does not already exist
     for (const InputAxis& existingAxis : _axes)
@@ -104,7 +98,7 @@ void InputSystem::addAxis(const InputAxis& axis)
     _axes.push_back(axis);
 }
 
-const InputAxis& InputSystem::axisWithName(const std::string& name) const
+const InputAxis& Input::axis(const std::string& name) const
 {
     for (const InputAxis& axis : _axes)
     {
@@ -117,7 +111,7 @@ const InputAxis& InputSystem::axisWithName(const std::string& name) const
     throw Error(format("No input axis with name '%s'", name.c_str()));
 }
 
-bool InputSystem::hasAxisWithName(const std::string& name) const
+bool Input::axisExists(const std::string& name) const
 {
     for (const InputAxis& axis : _axes)
     {
@@ -130,7 +124,7 @@ bool InputSystem::hasAxisWithName(const std::string& name) const
     return false;
 }
 
-void InputSystem::updateAxes(Real timeStep)
+void Input::updateAxes(Real timeStep)
 {
     for (InputAxis& axis : _axes)
     {
@@ -170,50 +164,58 @@ void InputSystem::updateAxes(Real timeStep)
         }
         else if (axis.source() == InputAxisSource_JoystickButton)
         {
-            Joystick& sourceJoystick = joystick(axis.joystickIndex());
-            if (sourceJoystick.isButtonDown(axis.positiveJoystickButtonIndex()))
+            size_t joystickIndex = axis.joystickAxisIndex();
+            if (joystickIndex < joystickCount())
             {
-                axis.setValue(value + acceleration * timeStep);
-            }
+                Joystick& sourceJoystick = joystick(joystickIndex);
+                if (sourceJoystick.isButtonDown(axis.positiveJoystickButtonIndex()))
+                {
+                    axis.setValue(value + acceleration * timeStep);
+                }
 
-            if (sourceJoystick.isButtonDown(axis.negativeJoystickButtonIndex()))
-            {
-                axis.setValue(value - acceleration * timeStep);
+                if (sourceJoystick.isButtonDown(axis.negativeJoystickButtonIndex()))
+                {
+                    axis.setValue(value - acceleration * timeStep);
+                }
             }
         }
         else if (axis.source() == InputAxisSource_JoystickAxis)
         {
-            Joystick& sourceJoystick = joystick(axis.joystickIndex());
-            Real value = sourceJoystick.axisValue(axis.joystickAxisIndex());
-            if (std::abs(value) < axis.joystickAxisDeadZone())
+            size_t joystickIndex = axis.joystickAxisIndex();
+            if (joystickIndex < joystickCount())
             {
-                value = 0;
+                Joystick& sourceJoystick = joystick(joystickIndex);
+                Real value = sourceJoystick.axisValue(axis.joystickAxisIndex());
+                if (std::abs(value) < axis.joystickAxisDeadZone())
+                {
+                    value = 0;
+                }
+                if (axis.joystickAxisInverted())
+                {
+                    value = -value;
+                }
+                axis.setValue(value);
             }
-            if (axis.joystickAxisInverted())
-            {
-                value = -value;
-            }
-            axis.setValue(value);
         }
     }
 }
 
-Mouse& InputSystem::mouse()
+Mouse& Input::mouse()
 {
     return _mouse;
 }
 
-Keyboard& InputSystem::keyboard()
+Keyboard& Input::keyboard()
 {
     return _keyboard;
 }
 
-size_t InputSystem::joystickCount() const
+size_t Input::joystickCount() const
 {
     return _joysticks.size();
 }
 
-Joystick& InputSystem::joystick(size_t joystickIndex)
+Joystick& Input::joystick(size_t joystickIndex)
 {
     if (joystickIndex < _joysticks.size())
     {
@@ -225,7 +227,7 @@ Joystick& InputSystem::joystick(size_t joystickIndex)
     }
 }
 
-void InputSystem::receiveEvent(const MouseEvent& event)
+void Input::receiveEvent(const MouseEvent& event)
 {
     if (event.type == MouseEventType_Movement)
     {
@@ -260,28 +262,28 @@ void InputSystem::receiveEvent(const MouseEvent& event)
     }
 }
 
-void InputSystem::enqueueEvent(const JoystickEvent& event)
+void Input::enqueueEvent(const JoystickEvent& event)
 {
     joystick(event.joystickIndex).enqueueEvent(event);
 }
 
-void InputSystem::enqueueEvent(const MouseEvent& event)
+void Input::enqueueEvent(const MouseEvent& event)
 {
     _mouse.enqueueEvent(event);
 }
 
-void InputSystem::enqueueEvent(const KeyboardEvent& event)
+void Input::enqueueEvent(const KeyboardEvent& event)
 {
     _keyboard.enqueueEvent(event);
 }
 
-void InputSystem::dispatchEvents()
+void Input::dispatchEvents()
 {
     _mouse.dispatchEvents();
     _keyboard.dispatchEvents();
 }
 
-void InputSystem::hapticRumble(Joystick& joystick, Real strength, TimeSpan duration)
+void Input::hapticRumble(Joystick& joystick, Real strength, TimeSpan duration)
 {
     auto it = _sdlHaptics.find(_sdlJoysticks[joystick._index]);
     if (it != _sdlHaptics.end())
