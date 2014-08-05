@@ -65,10 +65,11 @@
     <ClInclude Include="Source\Hect\Graphics\VideoMode.h" />
     <ClInclude Include="Source\Hect\Graphics\Window.h" />
     <ClInclude Include="Source\Hect\Input\InputAxis.h" />
-    <ClInclude Include="Source\Hect\Input\Input.h" />
+    <ClInclude Include="Source\Hect\Input\InputDevices.h" />
     <ClInclude Include="Source\Hect\Input\Joystick.h" />
     <ClInclude Include="Source\Hect\Input\Keyboard.h" />
     <ClInclude Include="Source\Hect\Input\Mouse.h" />
+    <ClInclude Include="Source\Hect\Input\Systems\InputSystem.h" />
     <ClInclude Include="Source\Hect\IO\AssetCache.h" />
     <ClInclude Include="Source\Hect\IO\AssetEntry.h" />
     <ClInclude Include="Source\Hect\IO\AssetHandle.h" />
@@ -88,7 +89,7 @@
     <ClInclude Include="Source\Hect\IO\Encoders\UniformValueEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.h" />
     <ClInclude Include="Source\Hect\IO\FileReadStream.h" />
-    <ClInclude Include="Source\Hect\IO\Storage.h" />
+    <ClInclude Include="Source\Hect\IO\FileSystem.h" />
     <ClInclude Include="Source\Hect\IO\FileWriteStream.h" />
     <ClInclude Include="Source\Hect\IO\JsonDecoder.h" />
     <ClInclude Include="Source\Hect\IO\JsonEncoder.h" />
@@ -189,10 +190,11 @@
     <ClCompile Include="Source\Hect\Graphics\VideoMode.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Window.cpp" />
     <ClCompile Include="Source\Hect\Input\InputAxis.cpp" />
-    <ClCompile Include="Source\Hect\Input\Input.cpp" />
+    <ClCompile Include="Source\Hect\Input\InputDevices.cpp" />
     <ClCompile Include="Source\Hect\Input\Joystick.cpp" />
     <ClCompile Include="Source\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="Source\Hect\Input\Mouse.cpp" />
+    <ClCompile Include="Source\Hect\Input\Systems\InputSystem.cpp" />
     <ClCompile Include="Source\Hect\IO\AssetCache.cpp" />
     <ClCompile Include="Source\Hect\IO\BinaryDecoder.cpp" />
     <ClCompile Include="Source\Hect\IO\BinaryEncoder.cpp" />
@@ -209,7 +211,7 @@
     <ClCompile Include="Source\Hect\IO\Encoders\UniformValueEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\FileReadStream.cpp" />
-    <ClCompile Include="Source\Hect\IO\Storage.cpp" />
+    <ClCompile Include="Source\Hect\IO\FileSystem.cpp" />
     <ClCompile Include="Source\Hect\IO\FileWriteStream.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonDecoder.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonEncoder.cpp" />

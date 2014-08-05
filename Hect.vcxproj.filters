@@ -97,6 +97,9 @@
     <Filter Include="Source\Hect\Reflection">
       <UniqueIdentifier>{7bf1d2b2-692c-4edd-89ad-4ce7fcceb332}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Hect\Input\Systems">
+      <UniqueIdentifier>{08177c58-de8a-4d6e-9d60-5e9f99f48514}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Hect\Core\Any.h">
@@ -447,17 +450,20 @@
     <ClInclude Include="Source\Hect\Input\Joystick.h">
       <Filter>Source\Hect\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Input\Input.h">
-      <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Storage.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Logic\DefaultScene.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Logic\Game.h">
       <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Input\InputDevices.h">
+      <Filter>Source\Hect\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Input\Systems\InputSystem.h">
+      <Filter>Source\Hect\Input\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\FileSystem.h">
+      <Filter>Source\Hect\IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -776,17 +782,20 @@
     <ClCompile Include="Source\Hect\Input\Joystick.cpp">
       <Filter>Source\Hect\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Input\Input.cpp">
-      <Filter>Source\Hect\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Storage.cpp">
-      <Filter>Source\Hect\IO</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\DefaultScene.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Game.cpp">
       <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Input\InputDevices.cpp">
+      <Filter>Source\Hect\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Input\Systems\InputSystem.cpp">
+      <Filter>Source\Hect\Input\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\FileSystem.cpp">
+      <Filter>Source\Hect\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

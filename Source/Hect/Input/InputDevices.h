@@ -41,48 +41,17 @@ namespace hect
 {
 
 ///
-/// Provides access to input peripherals connected to the system.
-class Input :
-    public Listener<MouseEvent>,
+/// Provides access to input devices peripherals connected to the system.
+class InputDevices :
     public Uncopyable
 {
     friend class Joystick;
     friend class Window;
 public:
 
-    ///
-    /// Constructs an input system without any axes.
-    Input();
+    InputDevices();
 
-    ~Input();
-
-    ///
-    /// Adds an axis.
-    ///
-    /// \param axis The axis to add.
-    ///
-    /// \throws Error If an axis already exists with the same name.
-    void addAxis(const InputAxis& axis);
-
-    ///
-    /// Returns the axis with the given name.
-    ///
-    /// \param name The name of the axis.
-    ///
-    /// \throws Error If no axis with the name exists.
-    const InputAxis& axis(const std::string& name) const;
-
-    ///
-    /// Returns whether there is an axis with the given name.
-    ///
-    /// \param name The name of the axis.
-    bool axisExists(const std::string& name) const;
-
-    ///
-    /// Updates all input axes in the system.
-    ///
-    /// \param timeStep The duration of time between each update (in seconds).
-    void updateAxes(Real timeStep);
+    ~InputDevices();
 
     ///
     /// Returns the mouse connected to the system.
@@ -104,8 +73,6 @@ public:
     /// \throws Error If no joystick of the given index is connected.
     Joystick& joystick(size_t joystickIndex);
 
-    void receiveEvent(const MouseEvent& event);
-
 private:
     void enqueueEvent(const JoystickEvent& event);
     void enqueueEvent(const MouseEvent& event);
@@ -119,8 +86,6 @@ private:
     std::vector<Joystick> _joysticks;
     std::vector<SDL_Joystick*> _sdlJoysticks;
     std::map<SDL_Joystick*, SDL_Haptic*> _sdlHaptics;
-
-    std::vector<InputAxis> _axes;
 };
 
 }

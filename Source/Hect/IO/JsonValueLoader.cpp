@@ -31,6 +31,6 @@ using namespace hect;
 
 void AssetLoader<JsonValue>::load(JsonValue& jsonValue, const Path& assetPath, AssetCache& assetCache)
 {
-    FileReadStream stream = assetCache.storage().openFileForRead(assetPath);
+    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
     jsonValue.decodeFromJson(stream);
 }

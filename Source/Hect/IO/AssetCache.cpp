@@ -37,12 +37,12 @@ AssetCache::SelectDirectoryScope::~SelectDirectoryScope()
 }
 
 AssetCache::AssetCache() :
-    _storage(nullptr)
+    _fileSystem(nullptr)
 {
 }
 
-AssetCache::AssetCache(Storage& storage) :
-    _storage(&storage)
+AssetCache::AssetCache(FileSystem& fileSystem) :
+    _fileSystem(&fileSystem)
 {
 }
 
@@ -65,13 +65,13 @@ TaskPool& AssetCache::taskPool()
     return _taskPool;
 }
 
-Storage& AssetCache::storage()
+FileSystem& AssetCache::fileSystem()
 {
-    if (!_storage)
+    if (!_fileSystem)
     {
         throw Error("Asset cache does not have a file system");
     }
-    return *_storage;
+    return *_fileSystem;
 }
 
 void AssetCache::selectDirectory(const Path& directoryPath)

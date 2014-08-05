@@ -43,7 +43,7 @@ void AssetEntry<T>::refresh()
 {
     if (_asset)
     {
-        TimeStamp lastModified = _assetCache->storage().lastModified(_path);
+        TimeStamp lastModified = _assetCache->fileSystem().lastModified(_path);
         if (lastModified > _lastModified)
         {
             T* asset = _asset.get();
@@ -105,7 +105,7 @@ void AssetEntry<T>::load()
         AssetLoader<T>::load(*_asset, _path, *_assetCache);
 
         // Remember when the file was last modified
-        _lastModified = _assetCache->storage().lastModified(_path);
+        _lastModified = _assetCache->fileSystem().lastModified(_path);
     }
     catch (Error& error)
     {

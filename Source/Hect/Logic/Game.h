@@ -28,8 +28,8 @@
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/Window.h"
-#include "Hect/Input/Input.h"
-#include "Hect/IO/Storage.h"
+#include "Hect/Input/InputDevices.h"
+#include "Hect/IO/FileSystem.h"
 #include "Hect/IO/JsonValue.h"
 
 namespace hect
@@ -48,17 +48,20 @@ public:
 
     void playScene(Scene& scene);
 
-    Input& input();
+    FileSystem& fileSystem();
+    InputDevices& inputDevices();
+
     Renderer& renderer();
-    Storage& storage();
     Window& window();
 
+    const JsonValue& settings() const;
+
 private:
-    JsonValue _settings;
-    std::unique_ptr<Input> _input;
+    std::unique_ptr<FileSystem> _fileSystem;
+    std::unique_ptr<InputDevices> _inputDevices;
     std::unique_ptr<Renderer> _renderer;
-    std::unique_ptr<Storage> _storage;
     std::unique_ptr<Window> _window;
+    JsonValue _settings;
 };
 
 }

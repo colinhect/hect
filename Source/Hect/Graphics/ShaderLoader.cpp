@@ -32,7 +32,7 @@ void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache
 {
     JsonValue jsonValue;
     {
-        FileReadStream stream = assetCache.storage().openFileForRead(assetPath);
+        FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
         jsonValue.decodeFromJson(stream);
     }
 

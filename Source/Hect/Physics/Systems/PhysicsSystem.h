@@ -29,6 +29,7 @@
 #include "Hect/Logic/ComponentEvent.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Physics/Components/RigidBody.h"
+#include "Hect/Timing/TimeSpan.h"
 
 // Forward declare Bullet classes
 class btCollisionConfiguration;
@@ -44,7 +45,6 @@ namespace hect
 ///
 /// Simulates physical interactions of physical bodies.
 class PhysicsSystem :
-    public Uncopyable,
     public System,
     public Listener<ComponentEvent<RigidBody>>
 {
@@ -55,7 +55,7 @@ public:
     void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);
 
     void updateTransforms();
-    void simulate(Real timeStep, unsigned maxSubStepCount);
+    void simulate(TimeSpan timeStep);
 
     ///
     /// Returns the gravity.

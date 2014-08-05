@@ -34,7 +34,7 @@ namespace hect
 {
 
 ///
-/// The source of an input axis.
+/// The source of an input  axis.
 enum InputAxisSource
 {
     ///

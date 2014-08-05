@@ -34,7 +34,7 @@
 namespace hect
 {
 
-class Input;
+class InputDevices;
 
 ///
 /// The window that the application is rendering to.
@@ -64,14 +64,13 @@ public:
     ~Window();
 
     ///
-    /// Polls events from the window and redirects them to an input system.
+    /// Polls events from the window and redirects them to the input devices.
     ///
-    /// \param input The input system to redirect the window input events
-    /// to.
+    /// \param inputDevices The input devicesto redirect the window events to.
     ///
     /// \returns True if the window has not received a close event; false
     /// otherwise.
-    bool pollEvents(Input& input);
+    bool pollEvents(InputDevices& inputDevices);
 
     void bind(Renderer* renderer);
     void swapBuffers();

@@ -27,7 +27,7 @@
 
 #include "Hect/Core/Configuration.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Input/Input.h"
+#include "Hect/Input/InputDevices.h"
 #include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
@@ -183,10 +183,10 @@ Window::~Window()
     SDL_DestroyWindow(_sdlWindow);
 }
 
-bool Window::pollEvents(Input& input)
+bool Window::pollEvents(InputDevices& inputDevices)
 {
     // Update the mouse mode if needed
-    MouseMode currentMouseMode = input.mouse().mode();
+    MouseMode currentMouseMode = inputDevices.mouse().mode();
     if (currentMouseMode != _mouseMode)
     {
         _mouseMode = currentMouseMode;
@@ -218,7 +218,7 @@ bool Window::pollEvents(Input& input)
             KeyboardEvent event;
             event.type = e.type == SDL_KEYDOWN ? KeyboardEventType_KeyDown : KeyboardEventType_KeyUp;
             event.key = _convertKey(e.key.keysym.sym);
-            input.enqueueEvent(event);
+            inputDevices.enqueueEvent(event);
         }
         break;
         case SDL_MOUSEMOTION:
@@ -238,7 +238,7 @@ bool Window::pollEvents(Input& input)
             event.type = MouseEventType_Movement;
             event.cursorMovement = IntVector2(movementX, -movementY);
             event.cursorPosition = IntVector2(positionX, positionY);
-            input.enqueueEvent(event);
+            inputDevices.enqueueEvent(event);
         }
         break;
         case SDL_JOYAXISMOTION:
@@ -249,7 +249,7 @@ bool Window::pollEvents(Input& input)
             event.joystickIndex = e.jaxis.which;
             event.axisIndex = e.jaxis.axis;
             event.axisValue = std::max<Real>((Real)e.jaxis.value / (Real)32767, -1.0);
-            input.enqueueEvent(event);
+            inputDevices.enqueueEvent(event);
         }
         break;
         case SDL_JOYBUTTONDOWN:
@@ -260,13 +260,13 @@ bool Window::pollEvents(Input& input)
             event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType_ButtonDown : JoystickEventType_ButtonUp;
             event.joystickIndex = e.jbutton.which;
             event.buttonIndex = e.jbutton.button;
-            input.enqueueEvent(event);
+            inputDevices.enqueueEvent(event);
         }
         break;
         }
     }
 
-    input.dispatchEvents();
+    inputDevices.dispatchEvents();
 
     return active;
 }

@@ -69,10 +69,10 @@ void PhysicsSystem::updateTransforms()
     }
 }
 
-void PhysicsSystem::simulate(Real timeStep, unsigned maxSubStepCount)
+void PhysicsSystem::simulate(TimeSpan timeStep)
 {
     // Update the dynamics world
-    _world->stepSimulation(timeStep, maxSubStepCount);
+    _world->stepSimulation(timeStep.seconds(), 4);
 }
 
 const Vector3& PhysicsSystem::gravity() const

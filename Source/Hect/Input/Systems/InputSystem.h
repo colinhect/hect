@@ -23,34 +23,46 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Uncopyable.h"
+#include "Hect/Event/Listener.h"
+#include "Hect/Input/InputAxis.h"
+#include "Hect/Input/Joystick.h"
+#include "Hect/Input/Mouse.h"
+#include "Hect/Input/Keyboard.h"
+#include "Hect/Logic/System.h"
+#include "Hect/Timing/TimeSpan.h"
 
 namespace hect
 {
 
-class Scene;
-
-///
-/// A system affecting entities within a scene.
-class System :
-    public Uncopyable
+class InputSystem :
+    public System
 {
 public:
+    InputSystem(Scene& scene, InputDevices& inputDevices);
 
     ///
-    /// Constructs the system given the scene.
-    System(Scene& scene);
+    /// Adds an axis.
+    ///
+    /// \param axis The axis to add.
+    ///
+    /// \throws Error If an axis already exists with the same name.
+    void addAxis(const InputAxis& axis);
 
     ///
-    /// Gets the scene that the system affects.
-    Scene& scene();
+    /// Returns the value of the axis with the given name.
+    ///
+    /// \param name The name of the axis.
+    ///
+    /// \returns The value of the axis; 0 if the axis does not exist.
+    Real axisValue(const std::string& name) const;
 
     ///
-    /// Gets the scene that the system affects.
-    const Scene& scene() const;
+    /// Updates all input axes in the system.
+    void update();
 
 private:
-    Scene* _scene;
+    InputDevices* _inputDevices;
+    std::vector<InputAxis> _axes;
 };
 
 }

@@ -36,12 +36,12 @@ namespace hect
 /// Provides read and write access to files.
 ///
 /// \warning Only one can be instantiated at a time.
-class Storage :
+class FileSystem :
     public Uncopyable
 {
 public:
-    Storage();
-    ~Storage();
+    FileSystem();
+    ~FileSystem();
 
     ///
     /// Returns the full path to the working directory of the executable.

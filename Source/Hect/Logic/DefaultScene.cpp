@@ -30,6 +30,7 @@
 #include <Hect/Graphics/Components/Model.h>
 #include <Hect/Graphics/Components/SkyBox.h>
 #include <Hect/Graphics/Systems/PhysicallyBasedRenderSystem.h>
+#include <Hect/Input/Systems/InputSystem.h>
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Physics/Systems/PhysicsSystem.h>
 #include <Hect/Spacial/Components/BoundingBox.h>
@@ -39,49 +40,59 @@
 
 using namespace hect;
 
-DefaultScene::DefaultScene(Input& input, Renderer& renderer, hect::AssetCache& assetCache) :
+DefaultScene::DefaultScene(InputDevices& inputDevices, Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache) :
+    _renderTarget(&renderTarget),
     _taskPool(4)
 {
+    registerComponent<BoundingBox>();
     registerComponent<Camera>();
     registerComponent<DirectionalLight>();
     registerComponent<LightProbe>();
     registerComponent<Model>();
-    registerComponent<SkyBox>();
     registerComponent<RigidBody>();
+    registerComponent<SkyBox>();
     registerComponent<Transform>();
-    registerComponent<BoundingBox>();
 
-    addSystem<PhysicallyBasedRenderSystem>(assetCache, renderer);
-    addSystem<DebugRenderSystem>(input, assetCache, renderer);
-    addSystem<TransformSystem>();
     addSystem<BoundingBoxSystem>();
+    addSystem<DebugRenderSystem>(inputDevices, assetCache, renderer);
+    addSystem<InputSystem>(inputDevices);
+    addSystem<PhysicallyBasedRenderSystem>(assetCache, renderer);
     addSystem<PhysicsSystem>();
+    addSystem<TransformSystem>();
 }
 
-void DefaultScene::update(Real timeStep)
+void DefaultScene::preFixedUpdate()
 {
+    system<InputSystem>().update();
+
     if (_physicsTaskHandle)
     {
         _physicsTaskHandle->wait();
         system<PhysicsSystem>().updateTransforms();
     }
+
     system<TransformSystem>().update();
     system<BoundingBoxSystem>().update();
 
     system<PhysicallyBasedRenderSystem>().updateActiveCamera();
-
-    systemUpdate(timeStep);
-
-    _physicsTaskHandle = _taskPool.enqueue([this, timeStep]
-    {
-        system<PhysicsSystem>().simulate(timeStep, 4);
-    });    
 }
 
-void DefaultScene::render(Real delta, RenderTarget& target)
+void DefaultScene::fixedUpdate()
+{
+}
+
+void DefaultScene::postFixedUpdate()
+{
+    _physicsTaskHandle = _taskPool.enqueue([this]
+    {
+        system<PhysicsSystem>().simulate(timeStep());
+    });
+}
+
+void DefaultScene::frameUpdate(Real delta)
 {
     delta;
 
-    system<PhysicallyBasedRenderSystem>().renderAll(target);
-    system<DebugRenderSystem>().renderAll(target);
+    system<PhysicallyBasedRenderSystem>().renderAll(*_renderTarget);
+    system<DebugRenderSystem>().renderAll(*_renderTarget);
 }

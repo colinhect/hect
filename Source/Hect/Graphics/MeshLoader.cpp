@@ -33,7 +33,7 @@ void AssetLoader<Mesh>::load(Mesh& mesh, const Path& assetPath, AssetCache& asse
 {
     mesh.setName(assetPath.toString());
 
-    FileReadStream stream = assetCache.storage().openFileForRead(assetPath);
+    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
     uint64_t identifyNumber = stream.readUnsignedLong();
     stream.seek(0);
 

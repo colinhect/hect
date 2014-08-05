@@ -118,7 +118,7 @@ public:
 /// Provides access to the system mouse.
 class Mouse
 {
-    friend class Input;
+    friend class InputDevices;
 public:
 
     ///

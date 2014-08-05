@@ -31,12 +31,11 @@
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/Logic/System.h"
+#include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
 
 namespace hect
 {
-
-class RenderTarget;
 
 ///
 /// A scene of entities.
@@ -49,10 +48,31 @@ public:
 
     ///
     /// Constructs an empty scene.
+    ///
+    /// \param timeStep The time between each fixed update.
     Scene(TimeSpan timeStep = TimeSpan::fromSeconds((Real)0.01666666666));
 
-    virtual void update(Real timeStep);
-    virtual void render(Real delta, RenderTarget& target);
+    ///
+    /// Ticks the scene.
+    void tick();
+
+    ///
+    /// Performs the pre-fixed update.
+    virtual void preFixedUpdate();
+
+    ///
+    /// Performs the fixed update of the scene.
+    virtual void fixedUpdate();
+
+    ///
+    /// Performs the post-fixed update.
+    virtual void postFixedUpdate();
+
+    ///
+    /// Performs the frame update of the scene.
+    ///
+    /// \param delta The delta between the last fixed update and the next.
+    virtual void frameUpdate(Real delta);
 
     ///
     /// Adds a new system of a specific type to the scene.
@@ -121,7 +141,11 @@ private:
     void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
 
+    Timer _timer;
     TimeSpan _timeStep;
+    TimeSpan _accumulator;
+    TimeSpan _delta;
+
     size_t _entityCount;
     EntityPool _entityPool;
 

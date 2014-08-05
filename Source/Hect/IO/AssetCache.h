@@ -29,7 +29,7 @@
 #include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/AssetHandle.h"
-#include "Hect/IO/Storage.h"
+#include "Hect/IO/FileSystem.h"
 #include "Hect/IO/Path.h"
 
 namespace hect
@@ -70,8 +70,8 @@ public:
     ///
     /// Constructs an asset cache given a file system.
     ///
-    /// \param storage The file system.
-    AssetCache(Storage& storage);
+    /// \param fileSystem The file system.
+    AssetCache(FileSystem& fileSystem);
 
     ///
     /// Returns a reference to the asset at the given path.
@@ -112,13 +112,13 @@ public:
     /// Returns the file system.
     ///
     /// \throws Error If the asset cache does not have a file system.
-    Storage& storage();
+    FileSystem& fileSystem();
 
 private:
     void selectDirectory(const Path& directoryPath);
     void restoreDirectory();
 
-    Storage* _storage;
+    FileSystem* _fileSystem;
 
     std::recursive_mutex _mutex;
     std::map<std::thread::id, std::stack<Path>> _selectedDirectoryStack;

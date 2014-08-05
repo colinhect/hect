@@ -22,7 +22,7 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Error.h>
-#include <Hect/IO/Storage.h>
+#include <Hect/IO/FileSystem.h>
 #include <Hect/IO/MemoryReadStream.h>
 #include <Hect/IO/MemoryWriteStream.h>
 #include <Hect/Math/Constants.h>
@@ -49,25 +49,25 @@ void testWriteAndReadStream(std::function<void(WriteStream*)> write, std::functi
 
     // File streams
     {
-        Storage storage;
-        Path workingDirectory = storage.workingDirectory();
-        storage.addDataSource(workingDirectory);
-        storage.setWriteDirectory(workingDirectory);
+        FileSystem fileSystem;
+        Path workingDirectory = fileSystem.workingDirectory();
+        fileSystem.addDataSource(workingDirectory);
+        fileSystem.setWriteDirectory(workingDirectory);
 
         Path path("File");
 
-        REQUIRE(!storage.exists(path));
+        REQUIRE(!fileSystem.exists(path));
         {
-            FileWriteStream stream = storage.openFileForWrite(path);
+            FileWriteStream stream = fileSystem.openFileForWrite(path);
             write(&stream);
         }
-        REQUIRE(storage.exists(path));
+        REQUIRE(fileSystem.exists(path));
         {
-            FileReadStream stream = storage.openFileForRead(path);
+            FileReadStream stream = fileSystem.openFileForRead(path);
             read(&stream);
         }
-        storage.remove(path);
-        REQUIRE(!storage.exists(path));
+        fileSystem.remove(path);
+        REQUIRE(!fileSystem.exists(path));
     }
 }
 

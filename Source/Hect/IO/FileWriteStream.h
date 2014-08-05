@@ -36,7 +36,7 @@ class FileWriteStream :
     public WriteStream,
     public Uncopyable
 {
-    friend class Storage;
+    friend class FileSystem;
 public:
 
     ///

@@ -30,6 +30,6 @@ using namespace hect;
 
 void AssetLoader<Image>::load(Image& image, const Path& assetPath, AssetCache& assetCache)
 {
-    FileReadStream stream = assetCache.storage().openFileForRead(assetPath);
+    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
     ImagePngEncoder::decode(image, stream);
 }

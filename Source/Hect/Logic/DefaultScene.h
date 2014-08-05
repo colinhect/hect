@@ -25,8 +25,9 @@
 
 #include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/RenderTarget.h"
 #include "Hect/IO/AssetCache.h"
-#include "Hect/Input/Input.h"
+#include "Hect/Input/InputDevices.h"
 #include "Hect/Logic/Scene.h"
 
 namespace hect
@@ -36,14 +37,17 @@ class DefaultScene :
     public Scene
 {
 public:
-    DefaultScene(Input& input, Renderer& renderer, AssetCache& assetCache);
+    DefaultScene(InputDevices& inputDevices, Renderer& renderer, RenderTarget& target, AssetCache& assetCache);
+    
+    void preFixedUpdate();
+    virtual void fixedUpdate();
+    void postFixedUpdate();
 
-    virtual void systemUpdate(Real timeStep) = 0;
-
-    void update(Real timeStep);
-    void render(Real delta, RenderTarget& target);
+    void frameUpdate(Real delta);
 
 private:
+    RenderTarget* _renderTarget;
+
     TaskPool _taskPool;
     Task::Handle _physicsTaskHandle;
 };

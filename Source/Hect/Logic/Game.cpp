@@ -45,85 +45,64 @@ Game::Game(const std::string& name, const Path& settingsFilePath)
 
     Type::registerTypes<HectTypes>();
 
-    _storage.reset(new Storage());
+    _fileSystem.reset(new FileSystem());
 
     // Add the working directory as a data source
-    Path workingDirectory = _storage->workingDirectory();
-    _storage->addDataSource(workingDirectory);
+    Path workingDirectory = _fileSystem->workingDirectory();
+    _fileSystem->addDataSource(workingDirectory);
 
     // Set the working directory as the write directory
-    _storage->setWriteDirectory(workingDirectory);
+    _fileSystem->setWriteDirectory(workingDirectory);
 
     // Load the settings
     {
-        FileReadStream stream = _storage->openFileForRead(settingsFilePath);
+        FileReadStream stream = _fileSystem->openFileForRead(settingsFilePath);
         _settings.decodeFromJson(stream);
     }
 
     // Add the data sources listed in the settings
     for (const JsonValue& dataSource : _settings["dataSources"])
     {
-        _storage->addDataSource(dataSource.asString());
+        _fileSystem->addDataSource(dataSource.asString());
     }
 
     // Load video mode
     VideoMode videoMode;
     videoMode.decodeFromJsonValue(_settings["videoMode"]);
 
-    // Create window/renderer
+    // Create window/renderer/input devices
     _window.reset(new Window(name, videoMode));
     _renderer.reset(new Renderer(*_window));
-
-    // Load the input axes from the settings
-    _input.reset(new Input());
-    for (const JsonValue& axisValue : _settings["inputAxes"])
-    {
-        InputAxis axis;
-        axis.decodeFromJsonValue(axisValue);
-        _input->addAxis(axis);
-    }
+    _inputDevices.reset(new InputDevices());
 }
 
 Game::~Game()
 {
     _renderer.reset();
     _window.reset();
-    _input.reset();
+    _inputDevices.reset();
     SDL_Quit();
 }
 
 void Game::playScene(Scene& scene)
 {
-    TimeSpan accumulator, delta;
-
-    Timer timer;
-
-    while (_window->pollEvents(*_input))
+    while (_window->pollEvents(*_inputDevices))
     {
-        TimeSpan deltaTime = timer.elapsed();
-        timer.reset();
-
-        accumulator += deltaTime;
-        delta += deltaTime;
-
-        while (accumulator.microseconds() >= scene.timeStep().microseconds())
-        {
-            _input->updateAxes(scene.timeStep().seconds());
-            scene.update(scene.timeStep().seconds());
-
-            delta = TimeSpan();
-            accumulator -= scene.timeStep();
-        }
-
-        scene.render(delta.seconds() / scene.timeStep().seconds(), *_window);
+        scene.tick();
         _window->swapBuffers();
     }
 }
 
-Input& Game::input()
+FileSystem& Game::fileSystem()
 {
-    assert(_input);
-    return *_input;
+    assert(_renderer);
+    return *_fileSystem;
+}
+
+InputDevices& Game::inputDevices()
+{
+    assert(_inputDevices);
+    return *_inputDevices;
 }
 
 Renderer& Game::renderer()
@@ -131,15 +110,13 @@ Renderer& Game::renderer()
     assert(_renderer);
     return *_renderer;
 }
-
-Storage& Game::storage()
-{
-    assert(_renderer);
-    return *_storage;
-}
-
 Window& Game::window()
 {
     assert(_window);
     return *_window;
+}
+
+const JsonValue& Game::settings() const
+{
+    return _settings;
 }

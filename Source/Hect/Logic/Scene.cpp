@@ -25,8 +25,6 @@
 
 #include <algorithm>
 
-#include "Hect/Graphics/RenderTarget.h"
-
 using namespace hect;
 
 Scene::Scene(TimeSpan timeStep) :
@@ -36,15 +34,42 @@ Scene::Scene(TimeSpan timeStep) :
 {
 }
 
-void Scene::update(Real timeStep)
+void Scene::tick()
 {
-    timeStep;
+    TimeSpan deltaTime = _timer.elapsed();
+    _timer.reset();
+
+    _accumulator += deltaTime;
+    _delta += deltaTime;
+
+    while (_accumulator.microseconds() >= _timeStep.microseconds())
+    {
+        preFixedUpdate();
+        fixedUpdate();
+        postFixedUpdate();
+
+        _delta = TimeSpan();
+        _accumulator -= _timeStep;
+    }
+
+    frameUpdate(_delta.seconds() / _timeStep.seconds());
 }
 
-void Scene::render(Real delta, RenderTarget& target)
+void Scene::preFixedUpdate()
+{
+}
+
+void Scene::fixedUpdate()
+{
+}
+
+void Scene::postFixedUpdate()
+{
+}
+
+void Scene::frameUpdate(Real delta)
 {
     delta;
-    target;
 }
 
 Entity::Iterator Scene::createEntity()
