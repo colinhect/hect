@@ -32,8 +32,8 @@ void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache
 {
     JsonValue jsonValue;
     {
-        FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-        jsonValue.decodeFromJson(stream);
+        ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
+        jsonValue.decodeFromJson(*stream);
     }
 
     // Select the asset's parent directory so that relative paths can be used

@@ -22,10 +22,10 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Error.h>
-#include <Hect/IO/FileSystem.h>
 #include <Hect/IO/MemoryReadStream.h>
 #include <Hect/IO/MemoryWriteStream.h>
 #include <Hect/Math/Constants.h>
+#include "Hect/Platform/FileSystem.h"
 using namespace hect;
 
 #include <functional>
@@ -49,25 +49,28 @@ void testWriteAndReadStream(std::function<void(WriteStream*)> write, std::functi
 
     // File streams
     {
-        FileSystem fileSystem;
-        Path workingDirectory = fileSystem.workingDirectory();
-        fileSystem.addDataSource(workingDirectory);
-        fileSystem.setWriteDirectory(workingDirectory);
+        FileSystem::initialize();
+
+        Path workingDirectory = FileSystem::workingDirectory();
+        FileSystem::mount(workingDirectory);
+        FileSystem::setWriteDirectory(workingDirectory);
 
         Path path("File");
 
-        REQUIRE(!fileSystem.exists(path));
+        REQUIRE(!FileSystem::exists(path));
         {
-            FileWriteStream stream = fileSystem.openFileForWrite(path);
-            write(&stream);
+            WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
+            write(&*stream);
         }
-        REQUIRE(fileSystem.exists(path));
+        REQUIRE(FileSystem::exists(path));
         {
-            FileReadStream stream = fileSystem.openFileForRead(path);
-            read(&stream);
+            ReadStream::Pointer stream = FileSystem::openFileForRead(path);
+            read(&*stream);
         }
-        fileSystem.remove(path);
-        REQUIRE(!fileSystem.exists(path));
+        FileSystem::remove(path);
+        REQUIRE(!FileSystem::exists(path));
+
+        FileSystem::deinitialize();
     }
 }
 

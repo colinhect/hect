@@ -28,13 +28,10 @@
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/VideoMode.h"
-#include "Hect/Input/Mouse.h"
-#include "Hect/Math/Vector2.h"
+#include "Hect/Platform/Platform.h"
 
 namespace hect
 {
-
-class InputDevices;
 
 ///
 /// The window that the application is rendering to.
@@ -47,12 +44,6 @@ class Window :
 public:
 
     ///
-    /// Shows a fatal error.
-    ///
-    /// \param message The error message to show.
-    static void showFatalError(const std::string& message);
-
-    ///
     /// Constructs a window given a title and the settings.
     ///
     /// \param title The window title.
@@ -62,22 +53,12 @@ public:
     ///
     /// Closes the window.
     ~Window();
-
-    ///
-    /// Polls events from the window and redirects them to the input devices.
-    ///
-    /// \param inputDevices The input devicesto redirect the window events to.
-    ///
-    /// \returns True if the window has not received a close event; false
-    /// otherwise.
-    bool pollEvents(InputDevices& inputDevices);
-
+    
     void bind(Renderer* renderer);
     void swapBuffers();
 
 private:
-    MouseMode _mouseMode;
-    IntVector2 _lastCursorPosition;
+    WindowHandle _handle;
 };
 
 }

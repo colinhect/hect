@@ -36,13 +36,7 @@ AssetCache::SelectDirectoryScope::~SelectDirectoryScope()
     _assetCache->restoreDirectory();
 }
 
-AssetCache::AssetCache() :
-    _fileSystem(nullptr)
-{
-}
-
-AssetCache::AssetCache(FileSystem& fileSystem) :
-    _fileSystem(&fileSystem)
+AssetCache::AssetCache()
 {
 }
 
@@ -63,15 +57,6 @@ void AssetCache::clear()
 TaskPool& AssetCache::taskPool()
 {
     return _taskPool;
-}
-
-FileSystem& AssetCache::fileSystem()
-{
-    if (!_fileSystem)
-    {
-        throw Error("Asset cache does not have a file system");
-    }
-    return *_fileSystem;
 }
 
 void AssetCache::selectDirectory(const Path& directoryPath)

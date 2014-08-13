@@ -23,8 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
 #include <cstdint>
+#include <memory>
+#include <string>
 
 #include "Hect/Math/Quaternion.h"
 #include "Hect/Math/Vector2.h"
@@ -39,6 +40,10 @@ namespace hect
 class ReadStream
 {
 public:
+
+    ///
+    /// Reference-counted pointer to a read stream.
+    typedef std::shared_ptr<ReadStream> Pointer;
 
     ///
     /// Reads raw bytes from the stream.

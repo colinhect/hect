@@ -29,6 +29,8 @@ using namespace hect;
 
 void AssetLoader<ShaderModule>::load(ShaderModule& shaderModule, const Path& assetPath, AssetCache& assetCache)
 {
+    assetCache;
+
     // Determine the shader module type by the extension
     ShaderModuleType type;
     std::string extension = assetPath.extension();
@@ -50,8 +52,8 @@ void AssetLoader<ShaderModule>::load(ShaderModule& shaderModule, const Path& ass
     }
 
     // Read the source contents
-    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-    std::string source = stream.readAllToString();
+    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
+    std::string source = stream->readAllToString();
 
     // Create the shader module
     shaderModule.setName(assetPath.toString());

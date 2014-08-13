@@ -23,51 +23,41 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/IO/Path.h"
-#include "Hect/IO/ReadStream.h"
+#include "Hect/Core/Sequence.h"
+#include "Hect/Graphics/VideoMode.h"
+#include "Hect/Input/Joystick.h"
+#include "Hect/Input/Keyboard.h"
+#include "Hect/Input/Mouse.h"
 
 namespace hect
 {
 
-///
-/// Provides read access to a file.
-class FileReadStream :
-    public ReadStream,
-    public Uncopyable
+typedef size_t WindowHandle;
+
+class Platform
 {
-    friend class FileSystem;
 public:
+    static void initialize();
+    static void deinitialize();
 
-    ///
-    /// Closes the file stream.
-    ~FileReadStream();
+    static void showFatalError(const std::string& message);
 
-    ///
-    /// \copydoc ReadStream::readBytes()
-    void readBytes(uint8_t* bytes, size_t byteCount);
+    static WindowHandle createWindow(const std::string& title, const VideoMode& videoMode);
+    static void destroyWindow(WindowHandle handle);
+    static void swapBuffers(WindowHandle handle);
 
-    ///
-    /// \copydoc ReadStream::endOfStream()
-    bool endOfStream() const;
+    static bool handleEvents();
 
-    ///
-    /// \copydoc ReadStream::length()
-    size_t length() const;
+    static bool hasMouse();
+    static Mouse& mouse();
 
-    ///
-    /// \copydoc ReadStream::position()
-    size_t position() const;
+    static bool hasKeyboard();
+    static Keyboard& keyboard();
 
-    ///
-    /// \copydoc ReadStream::seek()
-    void seek(size_t position);
+    static Sequence<Joystick> joysticks();
 
 private:
-    FileReadStream(const Path& path);
-
-    Path _path;
-    void* _handle;
+    Platform() { }
 };
 
 }

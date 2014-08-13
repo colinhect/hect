@@ -38,7 +38,7 @@ class InputSystem :
     public System
 {
 public:
-    InputSystem(Scene& scene, InputDevices& inputDevices);
+    InputSystem(Scene& scene);
 
     ///
     /// Adds an axis.
@@ -61,7 +61,6 @@ public:
     void update();
 
 private:
-    InputDevices* _inputDevices;
     std::vector<InputAxis> _axes;
 };
 

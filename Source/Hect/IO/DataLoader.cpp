@@ -30,19 +30,21 @@ using namespace hect;
 
 void AssetLoader<Data>::load(Data& data, const Path& assetPath, AssetCache& assetCache)
 {
-    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-    if (stream.readUnsignedByte() == '{')
+    assetCache;
+
+    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
+    if (stream->readUnsignedByte() == '{')
     {
-        stream.seek(0);
+        stream->seek(0);
         data.assetPath = assetPath;
-        data.jsonValue.decodeFromJson(stream);
+        data.jsonValue.decodeFromJson(*stream);
     }
     else
     {
-        stream.seek(0);
-        while (!stream.endOfStream())
+        stream->seek(0);
+        while (!stream->endOfStream())
         {
-            data.binaryData.push_back(stream.readUnsignedByte());
+            data.binaryData.push_back(stream->readUnsignedByte());
         }
     }
 }

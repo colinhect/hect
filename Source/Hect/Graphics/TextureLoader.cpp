@@ -30,9 +30,9 @@ using namespace hect;
 
 void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCache& assetCache)
 {
-    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
+    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
     JsonValue jsonValue;
-    jsonValue.decodeFromJson(stream);
+    jsonValue.decodeFromJson(*stream);
 
     // Select the asset's parent directory so that relative paths can be used
     // when loading dependant assets

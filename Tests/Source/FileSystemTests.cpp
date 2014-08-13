@@ -22,95 +22,108 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Error.h>
-#include <Hect/IO/FileSystem.h>
+#include <Hect/Platform/FileSystem.h>
 using namespace hect;
 
 #include <catch.hpp>
 
 TEST_CASE("FileSystem_CreateAndRemoveDirectories")
 {
-    FileSystem fileSystem;
-    Path workingDirectory = fileSystem.workingDirectory();
-    fileSystem.addDataSource(workingDirectory);
-    fileSystem.setWriteDirectory(workingDirectory);
+    FileSystem::initialize();
+
+    Path workingDirectory = FileSystem::workingDirectory();
+    FileSystem::mount(workingDirectory);
+    FileSystem::setWriteDirectory(workingDirectory);
 
     Path path("Directory");
 
-    REQUIRE(!fileSystem.exists(path));
-    fileSystem.createDirectory(path);
-    REQUIRE(fileSystem.exists(path));
-    fileSystem.remove(path);
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(!FileSystem::exists(path));
+    FileSystem::createDirectory(path);
+    REQUIRE(FileSystem::exists(path));
+    FileSystem::remove(path);
+    REQUIRE(!FileSystem::exists(path));
+
+    FileSystem::deinitialize();
 }
 
 TEST_CASE("FileSystem_OpenNonExistingFileForWrite")
 {
-    FileSystem fileSystem;
-    Path workingDirectory = fileSystem.workingDirectory();
-    fileSystem.addDataSource(workingDirectory);
-    fileSystem.setWriteDirectory(workingDirectory);
+    FileSystem::initialize();
+
+    Path workingDirectory = FileSystem::workingDirectory();
+    FileSystem::mount(workingDirectory);
+    FileSystem::setWriteDirectory(workingDirectory);
 
     Path path("File.txt");
 
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(!FileSystem::exists(path));
     {
-        FileWriteStream stream = fileSystem.openFileForWrite(path);
+        WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
     }
-    REQUIRE(fileSystem.exists(path));
-    fileSystem.remove(path);
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(FileSystem::exists(path));
+    FileSystem::remove(path);
+    REQUIRE(!FileSystem::exists(path));
+
+    FileSystem::deinitialize();
 }
 
 TEST_CASE("FileSystem_OpenExistingFileForWrite")
 {
-    FileSystem fileSystem;
-    Path workingDirectory = fileSystem.workingDirectory();
-    fileSystem.addDataSource(workingDirectory);
-    fileSystem.setWriteDirectory(workingDirectory);
+    FileSystem::initialize();
+
+    Path workingDirectory = FileSystem::workingDirectory();
+    FileSystem::mount(workingDirectory);
+    FileSystem::setWriteDirectory(workingDirectory);
 
     Path path("File.txt");
 
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(!FileSystem::exists(path));
     {
-        FileWriteStream stream = fileSystem.openFileForWrite(path);
+        WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
     }
-    REQUIRE(fileSystem.exists(path));
+    REQUIRE(FileSystem::exists(path));
     {
-        FileWriteStream stream = fileSystem.openFileForWrite(path);
+        WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
     }
-    REQUIRE(fileSystem.exists(path));
-    fileSystem.remove(path);
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(FileSystem::exists(path));
+    FileSystem::remove(path);
+    REQUIRE(!FileSystem::exists(path));
+
+    FileSystem::deinitialize();
 }
 
 TEST_CASE("FileSystem_OpenExistingFileForRead")
 {
-    FileSystem fileSystem;
-    Path workingDirectory = fileSystem.workingDirectory();
-    fileSystem.addDataSource(workingDirectory);
-    fileSystem.setWriteDirectory(workingDirectory);
+    FileSystem::initialize();
+
+    Path workingDirectory = FileSystem::workingDirectory();
+    FileSystem::mount(workingDirectory);
+    FileSystem::setWriteDirectory(workingDirectory);
 
     Path path("File.txt");
 
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(!FileSystem::exists(path));
     {
-        FileWriteStream stream = fileSystem.openFileForWrite(path);
+        WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
     }
-    REQUIRE(fileSystem.exists(path));
+    REQUIRE(FileSystem::exists(path));
     {
-        FileReadStream stream = fileSystem.openFileForRead(path);
+        ReadStream::Pointer stream = FileSystem::openFileForRead(path);
     }
 
-    fileSystem.remove(path);
-    REQUIRE(!fileSystem.exists(path));
+    FileSystem::remove(path);
+    REQUIRE(!FileSystem::exists(path));
+
+    FileSystem::deinitialize();
 }
 
 TEST_CASE("FileSystem_OpenNonExistingFileForRead")
 {
-    FileSystem fileSystem;
-    Path workingDirectory = fileSystem.workingDirectory();
-    fileSystem.addDataSource(workingDirectory);
-    fileSystem.setWriteDirectory(workingDirectory);
+    FileSystem::initialize();
+
+    Path workingDirectory = FileSystem::workingDirectory();
+    FileSystem::mount(workingDirectory);
+    FileSystem::setWriteDirectory(workingDirectory);
 
     Path path("DoesNotExist.txt");
 
@@ -118,7 +131,7 @@ TEST_CASE("FileSystem_OpenNonExistingFileForRead")
 
     try
     {
-        FileReadStream stream = fileSystem.openFileForRead(path);
+        ReadStream::Pointer stream = FileSystem::openFileForRead(path);
     }
     catch (Error&)
     {
@@ -126,4 +139,6 @@ TEST_CASE("FileSystem_OpenNonExistingFileForRead")
     }
 
     REQUIRE(errorOccurred);
+
+    FileSystem::deinitialize();
 }

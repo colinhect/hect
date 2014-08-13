@@ -100,6 +100,9 @@
     <Filter Include="Source\Hect\Input\Systems">
       <UniqueIdentifier>{08177c58-de8a-4d6e-9d60-5e9f99f48514}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Hect\Platform">
+      <UniqueIdentifier>{71df736c-2e1d-44b1-b97f-06832d4114f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Hect\Core\Any.h">
@@ -194,12 +197,6 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\Input\Mouse.h">
       <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\FileReadStream.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\FileWriteStream.h">
-      <Filter>Source\Hect\IO</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\IO\MemoryReadStream.h">
       <Filter>Source\Hect\IO</Filter>
@@ -456,14 +453,14 @@
     <ClInclude Include="Source\Hect\Logic\Game.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Input\InputDevices.h">
-      <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Input\Systems\InputSystem.h">
       <Filter>Source\Hect\Input\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\IO\FileSystem.h">
-      <Filter>Source\Hect\IO</Filter>
+    <ClInclude Include="Source\Hect\Platform\Platform.h">
+      <Filter>Source\Hect\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Platform\FileSystem.h">
+      <Filter>Source\Hect\Platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -568,12 +565,6 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Input\Mouse.cpp">
       <Filter>Source\Hect\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\FileReadStream.cpp">
-      <Filter>Source\Hect\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\FileWriteStream.cpp">
-      <Filter>Source\Hect\IO</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\MemoryReadStream.cpp">
       <Filter>Source\Hect\IO</Filter>
@@ -788,14 +779,14 @@
     <ClCompile Include="Source\Hect\Logic\Game.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Input\InputDevices.cpp">
-      <Filter>Source\Hect\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Input\Systems\InputSystem.cpp">
       <Filter>Source\Hect\Input\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\IO\FileSystem.cpp">
-      <Filter>Source\Hect\IO</Filter>
+    <ClCompile Include="Source\Hect\Platform\PlatformSdl.cpp">
+      <Filter>Source\Hect\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Platform\FileSystemPhysFS.cpp">
+      <Filter>Source\Hect\Platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

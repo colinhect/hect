@@ -23,14 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputSystem.h"
 
-#include "Hect/Input/InputDevices.h"
 #include "Hect/Logic/Scene.h"
+#include "Hect/Platform/Platform.h"
 
 using namespace hect;
 
-InputSystem::InputSystem(Scene& scene, InputDevices& inputDevices) :
-    System(scene),
-    _inputDevices(&inputDevices)
+InputSystem::InputSystem(Scene& scene) :
+    System(scene)
 {
 }
 
@@ -41,7 +40,7 @@ void InputSystem::addAxis(const InputAxis& axis)
     {
         if (existingAxis.name() == axis.name())
         {
-            throw Error(format("Multiple inputDevices axes with name '%s'", axis.name().c_str()));
+            throw Error(format("Multiple input axes with name '%s'", axis.name().c_str()));
         }
     }
 
@@ -79,7 +78,7 @@ void InputSystem::update()
 
         if (axis.source() == InputAxisSource_Key)
         {
-            Keyboard& keyboard = _inputDevices->keyboard();
+            Keyboard& keyboard = Platform::keyboard();
             if (keyboard.isKeyDown(axis.positiveKey()))
             {
                 axis.setValue(value + acceleration * timeStepInSeconds);
@@ -92,7 +91,7 @@ void InputSystem::update()
         }
         else if (axis.source() == InputAxisSource_MouseButton)
         {
-            Mouse& mouse = _inputDevices->mouse();
+            Mouse& mouse = Platform::mouse();
             if (mouse.isButtonDown(axis.positiveMouseButton()))
             {
                 axis.setValue(value + acceleration * timeStepInSeconds);
@@ -103,12 +102,13 @@ void InputSystem::update()
                 axis.setValue(value - acceleration * timeStepInSeconds);
             }
         }
+        /*
         else if (axis.source() == InputAxisSource_JoystickButton)
         {
             size_t joystickIndex = axis.joystickIndex();
-            if (joystickIndex < _inputDevices->joystickCount())
+            if (joystickIndex < ->joystickCount())
             {
-                Joystick& sourceJoystick = _inputDevices->joystick(joystickIndex);
+                Joystick& sourceJoystick = ->joystick(joystickIndex);
                 if (sourceJoystick.isButtonDown(axis.positiveJoystickButtonIndex()))
                 {
                     axis.setValue(value + acceleration * timeStepInSeconds);
@@ -123,9 +123,9 @@ void InputSystem::update()
         else if (axis.source() == InputAxisSource_JoystickAxis)
         {
             size_t joystickIndex = axis.joystickIndex();
-            if (joystickIndex < _inputDevices->joystickCount())
+            if (joystickIndex < ->joystickCount())
             {
-                Joystick& sourceJoystick = _inputDevices->joystick(joystickIndex);
+                Joystick& sourceJoystick = ->joystick(joystickIndex);
                 Real value = sourceJoystick.axisValue(axis.joystickAxisIndex());
                 if (std::abs(value) < axis.joystickAxisDeadZone())
                 {
@@ -138,5 +138,6 @@ void InputSystem::update()
                 axis.setValue(value);
             }
         }
+        */
     }
 }

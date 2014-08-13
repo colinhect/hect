@@ -118,8 +118,8 @@ public:
 /// Provides access to the system mouse.
 class Mouse
 {
-    friend class InputDevices;
 public:
+    Mouse();
 
     ///
     /// Returns whether the given button is down.
@@ -145,12 +145,10 @@ public:
     /// Returns the dispatcher of mouse events.
     Dispatcher<MouseEvent>& dispatcher();
 
-private:
-    Mouse();
-
     void enqueueEvent(const MouseEvent& event);
     void dispatchEvents();
 
+private:
     Dispatcher<MouseEvent> _dispatcher;
     std::vector<MouseEvent> _events;
 

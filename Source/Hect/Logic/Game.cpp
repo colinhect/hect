@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Game.h"
 
-#include <SDL.h>
-
 #include "Hect/Logic/Scene.h"
+#include "Hect/Platform/FileSystem.h"
+#include "Hect/Platform/Platform.h"
 #include "Hect/Timing/Timer.h"
 
 using namespace hect;
@@ -34,36 +34,27 @@ class HectTypes;
 
 Game::Game(const std::string& name, const Path& settingsFilePath)
 {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
-    {
-        throw Error(format("Failed to initialize SDL: %s", SDL_GetError()));
-    }
-
-    SDL_version version;
-    SDL_GetVersion(&version);
-    HECT_INFO(format("SDL version %d.%d.%d", version.major, version.minor, version.patch));
+    Platform::initialize();
 
     Type::registerTypes<HectTypes>();
-
-    _fileSystem.reset(new FileSystem());
-
+    
     // Add the working directory as a data source
-    Path workingDirectory = _fileSystem->workingDirectory();
-    _fileSystem->addDataSource(workingDirectory);
+    Path workingDirectory = FileSystem::workingDirectory();
+    FileSystem::mount(workingDirectory);
 
     // Set the working directory as the write directory
-    _fileSystem->setWriteDirectory(workingDirectory);
+    FileSystem::setWriteDirectory(workingDirectory);
 
     // Load the settings
     {
-        FileReadStream stream = _fileSystem->openFileForRead(settingsFilePath);
-        _settings.decodeFromJson(stream);
+        ReadStream::Pointer stream = FileSystem::openFileForRead(settingsFilePath);
+        _settings.decodeFromJson(*stream);
     }
 
     // Add the data sources listed in the settings
     for (const JsonValue& dataSource : _settings["dataSources"])
     {
-        _fileSystem->addDataSource(dataSource.asString());
+        FileSystem::mount(dataSource.asString());
     }
 
     // Load video mode
@@ -73,36 +64,23 @@ Game::Game(const std::string& name, const Path& settingsFilePath)
     // Create window/renderer/input devices
     _window.reset(new Window(name, videoMode));
     _renderer.reset(new Renderer(*_window));
-    _inputDevices.reset(new InputDevices());
 }
 
 Game::~Game()
 {
     _renderer.reset();
     _window.reset();
-    _inputDevices.reset();
-    SDL_Quit();
+
+    Platform::deinitialize();
 }
 
 void Game::playScene(Scene& scene)
 {
-    while (_window->pollEvents(*_inputDevices))
+    while (Platform::handleEvents())
     {
         scene.tick();
         _window->swapBuffers();
     }
-}
-
-FileSystem& Game::fileSystem()
-{
-    assert(_renderer);
-    return *_fileSystem;
-}
-
-InputDevices& Game::inputDevices()
-{
-    assert(_inputDevices);
-    return *_inputDevices;
 }
 
 Renderer& Game::renderer()
@@ -110,6 +88,7 @@ Renderer& Game::renderer()
     assert(_renderer);
     return *_renderer;
 }
+
 Window& Game::window()
 {
     assert(_window);

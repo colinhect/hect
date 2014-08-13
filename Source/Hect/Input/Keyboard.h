@@ -128,8 +128,8 @@ public:
 /// Provides access to the system keyboard.
 class Keyboard
 {
-    friend class InputDevices;
 public:
+    Keyboard();
 
     ///
     /// Returns whether the given key is down.
@@ -141,12 +141,10 @@ public:
     /// Returns the dispatcher of keyboard events.
     Dispatcher<KeyboardEvent>& dispatcher();
 
-private:
-    Keyboard();
-
     void enqueueEvent(const KeyboardEvent& event);
     void dispatchEvents();
 
+private:
     Dispatcher<KeyboardEvent> _dispatcher;
     std::vector<KeyboardEvent> _events;
 

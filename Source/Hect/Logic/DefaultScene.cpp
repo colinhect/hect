@@ -40,7 +40,7 @@
 
 using namespace hect;
 
-DefaultScene::DefaultScene(InputDevices& inputDevices, Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache) :
+DefaultScene::DefaultScene(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache) :
     _renderTarget(&renderTarget),
     _taskPool(4)
 {
@@ -54,8 +54,8 @@ DefaultScene::DefaultScene(InputDevices& inputDevices, Renderer& renderer, Rende
     registerComponent<Transform>();
 
     addSystem<BoundingBoxSystem>();
-    addSystem<DebugRenderSystem>(inputDevices, assetCache, renderer);
-    addSystem<InputSystem>(inputDevices);
+    addSystem<DebugRenderSystem>(assetCache, renderer);
+    addSystem<InputSystem>();
     addSystem<PhysicallyBasedRenderSystem>(assetCache, renderer);
     addSystem<PhysicsSystem>();
     addSystem<TransformSystem>();

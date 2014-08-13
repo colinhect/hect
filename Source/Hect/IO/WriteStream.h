@@ -23,8 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
 #include <cstdint>
+#include <memory>
+#include <string>
 
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
@@ -38,6 +39,10 @@ namespace hect
 class WriteStream
 {
 public:
+
+    ///
+    /// Reference-counted pointer to a write stream.
+    typedef std::shared_ptr<WriteStream> Pointer;
 
     ///
     /// Writes raw bytes to the stream.

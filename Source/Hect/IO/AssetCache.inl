@@ -50,7 +50,7 @@ AssetHandle<T> AssetCache::getHandle(const Path& path)
         if (!pathStack.empty())
         {
             // If there is an asset relative to the preferred directory
-            if (_fileSystem->exists(pathStack.top() + path))
+            if (FileSystem::exists(pathStack.top() + path))
             {
                 // Use that asset
                 assetPath = pathStack.top() + path;

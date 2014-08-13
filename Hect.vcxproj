@@ -65,7 +65,6 @@
     <ClInclude Include="Source\Hect\Graphics\VideoMode.h" />
     <ClInclude Include="Source\Hect\Graphics\Window.h" />
     <ClInclude Include="Source\Hect\Input\InputAxis.h" />
-    <ClInclude Include="Source\Hect\Input\InputDevices.h" />
     <ClInclude Include="Source\Hect\Input\Joystick.h" />
     <ClInclude Include="Source\Hect\Input\Keyboard.h" />
     <ClInclude Include="Source\Hect\Input\Mouse.h" />
@@ -88,9 +87,6 @@
     <ClInclude Include="Source\Hect\IO\Encoders\UniformEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\UniformValueEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\FileReadStream.h" />
-    <ClInclude Include="Source\Hect\IO\FileSystem.h" />
-    <ClInclude Include="Source\Hect\IO\FileWriteStream.h" />
     <ClInclude Include="Source\Hect\IO\JsonDecoder.h" />
     <ClInclude Include="Source\Hect\IO\JsonEncoder.h" />
     <ClInclude Include="Source\Hect\IO\JsonValue.h" />
@@ -126,6 +122,8 @@
     <ClInclude Include="Source\Hect\Physics\Bullet.h" />
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h" />
     <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h" />
+    <ClInclude Include="Source\Hect\Platform\FileSystem.h" />
+    <ClInclude Include="Source\Hect\Platform\Platform.h" />
     <ClInclude Include="Source\Hect\Reflection\Enum.h" />
     <ClInclude Include="Source\Hect\Reflection\Type.h" />
     <ClInclude Include="Source\Hect\Spacial\AxisAlignedBox.h" />
@@ -190,7 +188,6 @@
     <ClCompile Include="Source\Hect\Graphics\VideoMode.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Window.cpp" />
     <ClCompile Include="Source\Hect\Input\InputAxis.cpp" />
-    <ClCompile Include="Source\Hect\Input\InputDevices.cpp" />
     <ClCompile Include="Source\Hect\Input\Joystick.cpp" />
     <ClCompile Include="Source\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="Source\Hect\Input\Mouse.cpp" />
@@ -210,9 +207,6 @@
     <ClCompile Include="Source\Hect\IO\Encoders\UniformEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\UniformValueEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\FileReadStream.cpp" />
-    <ClCompile Include="Source\Hect\IO\FileSystem.cpp" />
-    <ClCompile Include="Source\Hect\IO\FileWriteStream.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonDecoder.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonValue.cpp" />
@@ -239,6 +233,8 @@
     <ClCompile Include="Source\Hect\Physics\Bullet.cpp" />
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp" />
+    <ClCompile Include="Source\Hect\Platform\FileSystemPhysFS.cpp" />
+    <ClCompile Include="Source\Hect\Platform\PlatformSdl.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
     <ClCompile Include="Source\Hect\Spacial\AxisAlignedBox.cpp" />

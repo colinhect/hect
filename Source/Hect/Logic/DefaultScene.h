@@ -27,7 +27,6 @@
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/IO/AssetCache.h"
-#include "Hect/Input/InputDevices.h"
 #include "Hect/Logic/Scene.h"
 
 namespace hect
@@ -37,7 +36,7 @@ class DefaultScene :
     public Scene
 {
 public:
-    DefaultScene(InputDevices& inputDevices, Renderer& renderer, RenderTarget& target, AssetCache& assetCache);
+    DefaultScene(Renderer& renderer, RenderTarget& target, AssetCache& assetCache);
     
     void preFixedUpdate();
     virtual void fixedUpdate();

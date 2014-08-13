@@ -23,14 +23,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/AssetLoader.h"
-#include "Hect/IO/FileReadStream.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/IO/Path.h"
+#include "Hect/Platform/FileSystem.h"
 
 using namespace hect;
 
 void AssetLoader<JsonValue>::load(JsonValue& jsonValue, const Path& assetPath, AssetCache& assetCache)
 {
-    FileReadStream stream = assetCache.fileSystem().openFileForRead(assetPath);
-    jsonValue.decodeFromJson(stream);
+    assetCache;
+
+    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
+    jsonValue.decodeFromJson(*stream);
 }

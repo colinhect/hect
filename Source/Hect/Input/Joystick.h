@@ -30,8 +30,6 @@
 namespace hect
 {
 
-class InputDevices;
-
 ///
 /// A joystick event type.
 enum JoystickEventType
@@ -91,7 +89,7 @@ public:
 /// Provides access to a joystick.
 class Joystick
 {
-    friend class InputDevices;
+    friend class Platform;
 public:
 
     ///
@@ -118,24 +116,18 @@ public:
     /// \throws Error If the joystick does not have the given axis.
     Real axisValue(size_t axisIndex) const;
 
-    void hapticRumble(Real strength, TimeSpan duration);
-
     ///
     /// Returns the dispatcher of joystick events.
     Dispatcher<JoystickEvent>& dispatcher();
 
 private:
-    Joystick(InputDevices& inputDevices, size_t index, const std::string& name, size_t buttonCount, size_t axisCount);
+    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
 
     void enqueueEvent(const JoystickEvent& event);
     void dispatchEvents();
 
-    InputDevices* _inputDevices;
-
     Dispatcher<JoystickEvent> _dispatcher;
     std::vector<JoystickEvent> _events;
-
-    size_t _index;
 
     std::string _name;
 
