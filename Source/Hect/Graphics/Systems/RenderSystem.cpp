@@ -25,14 +25,14 @@
 
 #include "Hect/Graphics/Components/Camera.h"
 #include "Hect/Graphics/Components/Model.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 #include "Hect/Spacial/Components/BoundingBox.h"
 #include "Hect/Spacial/Components/Transform.h"
 
 using namespace hect;
 
-RenderSystem::RenderSystem(Scene& scene, Renderer& renderer) :
-    System(scene),
+RenderSystem::RenderSystem(World& world, Renderer& renderer) :
+    System(world),
     _renderer(&renderer)
 {
 }
@@ -57,7 +57,7 @@ void RenderSystem::updateActiveCamera()
 
 Component<Camera>::Iterator RenderSystem::activeCamera()
 {
-    return scene().components<Camera>().begin();
+    return world().components<Camera>().begin();
 }
 
 void RenderSystem::renderAll(RenderTarget& target)
@@ -73,7 +73,7 @@ void RenderSystem::renderAll(RenderTarget& target)
         _renderer->clear();
 
         // Render each entity in hierarchical order
-        for (Entity& entity : scene().entities())
+        for (Entity& entity : world().entities())
         {
             if (!entity.parent())
             {

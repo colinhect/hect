@@ -38,7 +38,7 @@ class InputSystem :
     public System
 {
 public:
-    InputSystem(Scene& scene);
+    InputSystem(World& world);
 
     ///
     /// Adds an axis.

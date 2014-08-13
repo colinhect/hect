@@ -29,14 +29,14 @@ namespace hect
 {
 
 ///
-/// Renders the bounding boxes of all entities in the scene.
+/// Renders the bounding boxes of all entities in the world.
 class BoundingBoxDebugRenderLayer :
     public DebugRenderLayer
 {
 public:
     BoundingBoxDebugRenderLayer(AssetCache& assetCache);
 
-    void render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target);
+    void render(World& world, RenderSystem& renderSystem, RenderTarget& target);
 
 private:
     AssetHandle<Material> _boundingBoxMaterial;

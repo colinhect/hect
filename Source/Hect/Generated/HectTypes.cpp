@@ -11,8 +11,8 @@
 #include "..\Graphics\UniformValue.h"
 #include "..\Graphics\VertexAttribute.h"
 #include "..\IO\JsonValue.h"
-#include "..\Input\InputAxis.h"
 #include "..\Input\Gamepad.h"
+#include "..\Input\InputAxis.h"
 #include "..\Input\Keyboard.h"
 #include "..\Input\Mouse.h"
 #include "..\Logic\ComponentEvent.h"
@@ -169,6 +169,13 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(VertexAttributeType_Float, "Float");
     }
     {
+        hect::Type& type = hect::Type::create<GamepadEventType>(hect::Kind_Enum, "GamepadEventType");
+        hect::Enum& enumType = type.asEnum();
+        enumType.addValue(GamepadEventType_AxisMotion, "AxisMotion");
+        enumType.addValue(GamepadEventType_ButtonDown, "ButtonDown");
+        enumType.addValue(GamepadEventType_ButtonUp, "ButtonUp");
+    }
+    {
         hect::Type& type = hect::Type::create<InputAxisSource>(hect::Kind_Enum, "InputAxisSource");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(InputAxisSource_MouseMoveX, "MouseMoveX");
@@ -178,13 +185,6 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(InputAxisSource_Key, "Key");
         enumType.addValue(InputAxisSource_GamepadAxis, "GamepadAxis");
         enumType.addValue(InputAxisSource_GamepadButton, "GamepadButton");
-    }
-    {
-        hect::Type& type = hect::Type::create<GamepadEventType>(hect::Kind_Enum, "GamepadEventType");
-        hect::Enum& enumType = type.asEnum();
-        enumType.addValue(GamepadEventType_AxisMotion, "AxisMotion");
-        enumType.addValue(GamepadEventType_ButtonDown, "ButtonDown");
-        enumType.addValue(GamepadEventType_ButtonUp, "ButtonUp");
     }
     {
         hect::Type& type = hect::Type::create<Key>(hect::Kind_Enum, "Key");

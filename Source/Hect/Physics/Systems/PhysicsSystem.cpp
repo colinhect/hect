@@ -23,15 +23,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PhysicsSystem.h"
 
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 #include "Hect/Physics/Bullet.h"
 #include "Hect/Physics/Components/RigidBody.h"
 #include "Hect/Spacial/Components/Transform.h"
 
 using namespace hect;
 
-PhysicsSystem::PhysicsSystem(Scene& scene) :
-    System(scene),
+PhysicsSystem::PhysicsSystem(World& world) :
+    System(world),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -40,12 +40,12 @@ PhysicsSystem::PhysicsSystem(Scene& scene) :
 {
     setGravity(Vector3::zero());
 
-    scene.components<RigidBody>().addListener(*this);
+    world.components<RigidBody>().addListener(*this);
 }
 
 PhysicsSystem::~PhysicsSystem()
 {
-    scene().components<RigidBody>().removeListener(*this);
+    world().components<RigidBody>().removeListener(*this);
 }
 
 void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition)
@@ -56,7 +56,7 @@ void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const
 void PhysicsSystem::updateTransforms()
 {
     // For each rigid body component
-    for (RigidBody& rigidBody : scene().components<RigidBody>())
+    for (RigidBody& rigidBody : world().components<RigidBody>())
     {
         Entity& entity = rigidBody.entity();
         if (!entity.parent() && entity.component<Transform>())

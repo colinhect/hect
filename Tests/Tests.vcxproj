@@ -163,7 +163,7 @@
     <ClCompile Include="Source\PathTests.cpp" />
     <ClCompile Include="Source\PlaneTests.cpp" />
     <ClCompile Include="Source\QuaternionTests.cpp" />
-    <ClCompile Include="Source\SceneTests.cpp" />
+    <ClCompile Include="Source\WorldTests.cpp" />
     <ClCompile Include="Source\StreamTests.cpp" />
     <ClCompile Include="Source\TaskPoolTests.cpp" />
     <ClCompile Include="Source\TimeSpanTests.cpp" />

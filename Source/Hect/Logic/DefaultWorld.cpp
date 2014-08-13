@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "DefaultScene.h"
+#include "DefaultWorld.h"
 
 #include <Hect/Debug/Systems/DebugRenderSystem.h>
 #include <Hect/Graphics/Components/Camera.h>
@@ -40,7 +40,7 @@
 
 using namespace hect;
 
-DefaultScene::DefaultScene(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache) :
+DefaultWorld::DefaultWorld(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache) :
     _renderTarget(&renderTarget),
     _taskPool(4)
 {
@@ -61,7 +61,7 @@ DefaultScene::DefaultScene(Renderer& renderer, RenderTarget& renderTarget, Asset
     addSystem<TransformSystem>();
 }
 
-void DefaultScene::preFixedUpdate()
+void DefaultWorld::preFixedUpdate()
 {
     system<InputSystem>().update();
 
@@ -77,11 +77,11 @@ void DefaultScene::preFixedUpdate()
     system<PhysicallyBasedRenderSystem>().updateActiveCamera();
 }
 
-void DefaultScene::fixedUpdate()
+void DefaultWorld::fixedUpdate()
 {
 }
 
-void DefaultScene::postFixedUpdate()
+void DefaultWorld::postFixedUpdate()
 {
     _physicsTaskHandle = _taskPool.enqueue([this]
     {
@@ -89,7 +89,7 @@ void DefaultScene::postFixedUpdate()
     });
 }
 
-void DefaultScene::frameUpdate(Real delta)
+void DefaultWorld::frameUpdate(Real delta)
 {
     delta;
 

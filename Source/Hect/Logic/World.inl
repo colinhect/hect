@@ -25,7 +25,7 @@ namespace hect
 {
 
 template <typename T, typename... Args>
-T& Scene::addSystem(Args&... args)
+T& World::addSystem(Args&... args)
 {
     std::type_index typeIndex(typeid(T));
     
@@ -40,7 +40,7 @@ T& Scene::addSystem(Args&... args)
 }
 
 template <typename T>
-T& Scene::system()
+T& World::system()
 {
     std::type_index typeIndex(typeid(T));
 
@@ -55,7 +55,7 @@ T& Scene::system()
 }
 
 template <typename T>
-void Scene::registerComponent()
+void World::registerComponent()
 {
     std::type_index typeIndex(typeid(T));
 
@@ -80,14 +80,14 @@ void Scene::registerComponent()
 }
 
 template <typename T>
-ComponentPool<T>& Scene::components()
+ComponentPool<T>& World::components()
 {
-    const ComponentPool<T>& componentPool = const_cast<const Scene*>(this)->components<T>();
+    const ComponentPool<T>& componentPool = const_cast<const World*>(this)->components<T>();
     return const_cast<ComponentPool<T>&>(componentPool);
 }
 
 template <typename T>
-const ComponentPool<T>& Scene::components() const
+const ComponentPool<T>& World::components() const
 {
     std::type_index typeIndex(typeid(T));
     auto it = _componentPools.find(typeIndex);

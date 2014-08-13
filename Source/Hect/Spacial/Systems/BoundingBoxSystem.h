@@ -32,12 +32,12 @@ namespace hect
 {
 
 ///
-/// Updates the bounding box hierarchies of the scene.
+/// Updates the bounding box hierarchies of the world.
 class BoundingBoxSystem :
     public System
 {
 public:
-    BoundingBoxSystem(Scene& scene);
+    BoundingBoxSystem(World& world);
 
     ///
     /// Updates the all bounding boxes.

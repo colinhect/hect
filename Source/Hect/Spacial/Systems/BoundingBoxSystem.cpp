@@ -24,18 +24,18 @@
 #include "BoundingBoxSystem.h"
 
 #include "Hect/Graphics/Components/Model.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 
 using namespace hect;
 
-BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
-    System(scene)
+BoundingBoxSystem::BoundingBoxSystem(World& world) :
+    System(world)
 {
 }
 
 void BoundingBoxSystem::update()
 {
-    for (BoundingBox& boundingBox : scene().components<BoundingBox>())
+    for (BoundingBox& boundingBox : world().components<BoundingBox>())
     {
         Entity& entity = boundingBox.entity();
         if (!entity.parent())

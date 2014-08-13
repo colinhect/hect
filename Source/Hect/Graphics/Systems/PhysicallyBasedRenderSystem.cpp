@@ -26,13 +26,13 @@
 #include "Hect/Graphics/Components/DirectionalLight.h"
 #include "Hect/Graphics/Components/LightProbe.h"
 #include "Hect/Graphics/Components/SkyBox.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 #include "Hect/Spacial/Components/Transform.h"
 
 using namespace hect;
 
-PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(Scene& scene, AssetCache& assetCache, Renderer& renderer) :
-    RenderSystem(scene, renderer),
+PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(World& world, AssetCache& assetCache, Renderer& renderer) :
+    RenderSystem(world, renderer),
     _buffersInitialized(false)
 {
     _compositorShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Compositor.shader");
@@ -57,7 +57,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
     Component<Camera>::Iterator camera = activeCamera();
     if (!camera)
     {
-        throw Error("No camera in scene");
+        throw Error("No camera in world");
     }
     camera->setAspectRatio(target.aspectRatio());
 
@@ -68,7 +68,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
         renderer().clear();
 
         // Render the sky box if there is one
-        auto skyBox = scene().components<SkyBox>().begin();
+        auto skyBox = world().components<SkyBox>().begin();
         if (skyBox)
         {
             // Construct a transform at the camera's position
@@ -91,7 +91,7 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
         }
 
         // Render each entity in hierarchical order
-        for (Entity& entity : scene().entities())
+        for (Entity& entity : world().entities())
         {
             if (!entity.parent())
             {
@@ -115,10 +115,10 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
         renderer().bindState(state);
 
         // Get the first light probe
-        auto lightProbe = scene().components<LightProbe>().begin();
+        auto lightProbe = world().components<LightProbe>().begin();
         if (!lightProbe)
         {
-            throw Error("No light probe in scene");
+            throw Error("No light probe in world");
         }
 
         unsigned int index = 0;
@@ -148,8 +148,8 @@ void PhysicallyBasedRenderSystem::renderAll(RenderTarget& target)
             const Uniform& colorUniform = _directionalLightShader->uniformWithName("lightColor");
             const Uniform& directionUniform = _directionalLightShader->uniformWithName("lightDirection");
 
-            // Render each directional light in the scene
-            for (const DirectionalLight& light : scene().components<DirectionalLight>())
+            // Render each directional light in the world
+            for (const DirectionalLight& light : world().components<DirectionalLight>())
             {
                 renderer().setUniform(colorUniform, light.color());
                 renderer().setUniform(directionUniform, light.direction());

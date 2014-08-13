@@ -31,12 +31,12 @@ namespace hect
 {
 
 ///
-/// Updates the transform hierarchies of the scene.
+/// Updates the transform hierarchies of the world.
 class TransformSystem :
     public System
 {
 public:
-    TransformSystem(Scene& scene);
+    TransformSystem(World& world);
 
     ///
     /// Updates the global transforms of all transforms.

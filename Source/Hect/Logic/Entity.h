@@ -34,12 +34,12 @@ namespace hect
 {
 
 ///
-/// A dynamic object in a Scene.
+/// A dynamic object in a World.
 class Entity :
     public Encodable,
     public Uncopyable
 {
-    friend class Scene;
+    friend class World;
     friend class EntityPool;
     friend class std::allocator<Entity>;
 private:
@@ -527,7 +527,7 @@ public:
     ///
     /// \param entity The entity to add as a child.
     ///
-    /// \throws Error If the entity is invalid, in another scene, in a
+    /// \throws Error If the entity is invalid, in another world, in a
     /// differing activation state, or is a child of another entity.
     void addChild(Entity& entity);
 
@@ -536,7 +536,7 @@ public:
     ///
     /// \param entity The child entity to remove.
     ///
-    /// \throws Error If the entity is invalid, in another scene, or is not a
+    /// \throws Error If the entity is invalid, in another world, or is not a
     /// child of the entity.
     void removeChild(Entity& entity);
 

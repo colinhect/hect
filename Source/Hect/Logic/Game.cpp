@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Game.h"
 
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 #include "Hect/Platform/FileSystem.h"
 #include "Hect/Platform/Platform.h"
 #include "Hect/Timing/Timer.h"
@@ -74,11 +74,11 @@ Game::~Game()
     Platform::deinitialize();
 }
 
-void Game::playScene(Scene& scene)
+void Game::playWorld(World& world)
 {
     while (Platform::handleEvents())
     {
-        scene.tick();
+        world.tick();
         _window->swapBuffers();
     }
 }

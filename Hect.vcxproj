@@ -99,13 +99,13 @@
     <ClInclude Include="Source\Hect\Logic\Component.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentPool.h" />
-    <ClInclude Include="Source\Hect\Logic\DefaultScene.h" />
+    <ClInclude Include="Source\Hect\Logic\DefaultWorld.h" />
     <ClInclude Include="Source\Hect\Logic\Entity.h" />
     <ClInclude Include="Source\Hect\Logic\EntityEvent.h" />
     <ClInclude Include="Source\Hect\Logic\EntityPool.h" />
     <ClInclude Include="Source\Hect\Logic\Game.h" />
     <ClInclude Include="Source\Hect\Logic\IdPool.h" />
-    <ClInclude Include="Source\Hect\Logic\Scene.h" />
+    <ClInclude Include="Source\Hect\Logic\World.h" />
     <ClInclude Include="Source\Hect\Logic\System.h" />
     <ClInclude Include="Source\Hect\Math\Angle.h" />
     <ClInclude Include="Source\Hect\Math\Constants.h" />
@@ -217,7 +217,7 @@
     <ClCompile Include="Source\Hect\IO\ReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\Encodable.cpp" />
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
-    <ClCompile Include="Source\Hect\Logic\DefaultScene.cpp" />
+    <ClCompile Include="Source\Hect\Logic\DefaultWorld.cpp" />
     <ClCompile Include="Source\Hect\Logic\Entity.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
@@ -263,7 +263,7 @@
     <None Include="Source\Hect\Logic\ComponentPool.inl" />
     <None Include="Source\Hect\Logic\Entity.inl" />
     <None Include="Source\Hect\Logic\IdPool.inl" />
-    <None Include="Source\Hect\Logic\Scene.inl" />
+    <None Include="Source\Hect\Logic\World.inl" />
     <None Include="Source\Hect\Math\Matrix4.inl" />
     <None Include="Source\Hect\Math\Quaternion.inl" />
     <None Include="Source\Hect\Math\Vector2.inl" />

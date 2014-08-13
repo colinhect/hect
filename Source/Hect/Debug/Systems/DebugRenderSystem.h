@@ -41,7 +41,7 @@ class DebugRenderSystem :
     public Listener<KeyboardEvent>
 {
 public:
-    DebugRenderSystem(Scene& scene, AssetCache& assetCache, Renderer& renderer);
+    DebugRenderSystem(World& world, AssetCache& assetCache, Renderer& renderer);
     ~DebugRenderSystem();
 
     ///

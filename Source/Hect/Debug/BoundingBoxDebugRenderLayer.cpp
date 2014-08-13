@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "BoundingBoxDebugRenderLayer.h"
 
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 #include "Hect/Spacial/Components/BoundingBox.h"
 #include "Hect/Spacial/Components/Transform.h"
 
@@ -35,7 +35,7 @@ BoundingBoxDebugRenderLayer::BoundingBoxDebugRenderLayer(AssetCache& assetCache)
     _boundingBoxMesh = assetCache.getHandle<Mesh>("Hect/Debug/BoundingBox.mesh");
 }
 
-void BoundingBoxDebugRenderLayer::render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target)
+void BoundingBoxDebugRenderLayer::render(World& world, RenderSystem& renderSystem, RenderTarget& target)
 {
     auto camera = renderSystem.activeCamera();
     if (camera)
@@ -44,7 +44,7 @@ void BoundingBoxDebugRenderLayer::render(Scene& scene, RenderSystem& renderSyste
         renderer.beginFrame();
         renderer.bindTarget(target);
 
-        for (BoundingBox& boundingBox : scene.components<BoundingBox>())
+        for (BoundingBox& boundingBox : world.components<BoundingBox>())
         {
             const AxisAlignedBox& box = boundingBox.axisAlignedBox();
             Vector3 minimum = box.minimum();

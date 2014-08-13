@@ -34,7 +34,7 @@
 namespace hect
 {
 
-class Scene;
+class World;
 
 class Game :
     public Uncopyable
@@ -45,7 +45,7 @@ public:
 
     virtual void execute() = 0;
 
-    void playScene(Scene& scene);
+    void playWorld(World& world);
 
     Renderer& renderer();
     Window& window();

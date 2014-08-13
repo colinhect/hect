@@ -38,8 +38,8 @@ namespace hect
 {
 
 ///
-/// A scene of entities.
-class Scene :
+/// A world of entities.
+class World :
     public Uncopyable,
     public Encodable
 {
@@ -47,13 +47,13 @@ class Scene :
 public:
 
     ///
-    /// Constructs an empty scene.
+    /// Constructs an empty world.
     ///
     /// \param timeStep The time between each fixed update.
-    Scene(TimeSpan timeStep = TimeSpan::fromSeconds((Real)0.01666666666));
+    World(TimeSpan timeStep = TimeSpan::fromSeconds((Real)0.01666666666));
 
     ///
-    /// Ticks the scene.
+    /// Ticks the world.
     void tick();
 
     ///
@@ -61,7 +61,7 @@ public:
     virtual void preFixedUpdate();
 
     ///
-    /// Performs the fixed update of the scene.
+    /// Performs the fixed update of the world.
     virtual void fixedUpdate();
 
     ///
@@ -69,24 +69,24 @@ public:
     virtual void postFixedUpdate();
 
     ///
-    /// Performs the frame update of the scene.
+    /// Performs the frame update of the world.
     ///
     /// \param delta The delta between the last fixed update and the next.
     virtual void frameUpdate(Real delta);
 
     ///
-    /// Adds a new system of a specific type to the scene.
+    /// Adds a new system of a specific type to the world.
     ///
     /// \returns A reference to the added system.
     ///
-    /// \throws Error If the scene already has a system of the type.
+    /// \throws Error If the world already has a system of the type.
     template <typename T, typename... Args>
     T& addSystem(Args&... args);
 
     ///
     /// Returns the system of a specific type.
     ///
-    /// \throws Error If the scene does not have a system of the type.
+    /// \throws Error If the world does not have a system of the type.
     template <typename T>
     T& system();
 
@@ -124,7 +124,7 @@ public:
     const EntityPool& entities() const;
 
     ///
-    /// Returns the number of active entities in the scene.
+    /// Returns the number of active entities in the world.
     size_t entityCount() const;
 
     void encode(ObjectEncoder& encoder) const;
@@ -159,4 +159,4 @@ private:
 
 }
 
-#include "Scene.inl"
+#include "World.inl"

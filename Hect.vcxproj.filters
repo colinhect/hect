@@ -306,9 +306,6 @@
     <ClInclude Include="Source\Hect\Logic\Entity.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Logic\Scene.h">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Logic\System.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
@@ -444,9 +441,6 @@
     <ClInclude Include="Source\Hect\IO\Data.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Logic\DefaultScene.h">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Logic\Game.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
@@ -461,6 +455,12 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\Input\Gamepad.h">
       <Filter>Source\Hect\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\World.h">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\DefaultWorld.h">
+      <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -770,9 +770,6 @@
     <ClCompile Include="Source\Hect\IO\DataLoader.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Logic\DefaultScene.cpp">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Game.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
@@ -787,6 +784,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Input\Gamepad.cpp">
       <Filter>Source\Hect\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\DefaultWorld.cpp">
+      <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -815,9 +815,6 @@
       <Filter>Source\Hect\Logic</Filter>
     </None>
     <None Include="Source\Hect\Logic\Entity.inl">
-      <Filter>Source\Hect\Logic</Filter>
-    </None>
-    <None Include="Source\Hect\Logic\Scene.inl">
       <Filter>Source\Hect\Logic</Filter>
     </None>
     <None Include="Source\Hect\IO\Decoder.inl">
@@ -852,6 +849,9 @@
     </None>
     <None Include="Source\Hect\Reflection\Enum.inl">
       <Filter>Source\Hect\Reflection</Filter>
+    </None>
+    <None Include="Source\Hect\Logic\World.inl">
+      <Filter>Source\Hect\Logic</Filter>
     </None>
   </ItemGroup>
 </Project>

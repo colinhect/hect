@@ -36,7 +36,7 @@ namespace hect
 
 class ComponentPoolBase
 {
-    friend class Scene;
+    friend class World;
 protected:
     virtual void dispatchEvent(ComponentEventType type, Entity& entity) = 0;
 
@@ -50,18 +50,18 @@ protected:
 };
 
 ///
-/// A pool of components of a specific type within a Scene.
+/// A pool of components of a specific type within a World.
 template <typename T>
 class ComponentPool :
     public ComponentPoolBase,
     public Dispatcher<ComponentEvent<T>>
 {
-    friend class Scene;
+    friend class World;
     friend class Entity;
     friend class Component<T>;
     friend class Component<T>::IteratorBase;
 public:
-    ComponentPool(Scene& scene, const std::string& componentTypeName);
+    ComponentPool(World& world, const std::string& componentTypeName);
 
     ///
     /// Returns an iterator to the beginning of the pool.
@@ -147,7 +147,7 @@ private:
     template <typename U>
     bool expandVector(std::vector<U>& vector, size_t size, U value = U());
 
-    Scene* _scene;
+    World* _world;
     std::string _componentTypeName;
     IdPool<ComponentId> _idPool;
     std::vector<T> _components;

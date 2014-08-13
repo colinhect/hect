@@ -29,14 +29,14 @@ namespace hect
 {
 
 ///
-/// Renders the transforms of all entities in the scene.
+/// Renders the transforms of all entities in the world.
 class TransformDebugRenderLayer :
     public DebugRenderLayer
 {
 public:
     TransformDebugRenderLayer(AssetCache& assetCache);
 
-    void render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target);
+    void render(World& world, RenderSystem& renderSystem, RenderTarget& target);
 
 private:
     AssetHandle<Material> _transformMaterial;

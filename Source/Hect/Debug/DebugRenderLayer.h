@@ -48,10 +48,10 @@ public:
     ///
     /// Renders the debug render layer.
     ///
-    /// \param scene The scene.
+    /// \param world The world.
     /// \param renderSystem The render system to use.
     /// \param target The render target to render to.
-    virtual void render(Scene& scene, RenderSystem& renderSystem, RenderTarget& target) = 0;
+    virtual void render(World& world, RenderSystem& renderSystem, RenderTarget& target) = 0;
 
 private:
     bool _activated;

@@ -49,7 +49,7 @@ class PhysicsSystem :
     public Listener<ComponentEvent<RigidBody>>
 {
 public:
-    PhysicsSystem(Scene& scene);
+    PhysicsSystem(World& world);
     ~PhysicsSystem();
 
     void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);

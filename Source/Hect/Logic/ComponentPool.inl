@@ -25,8 +25,8 @@ namespace hect
 {
 
 template <typename T>
-ComponentPool<T>::ComponentPool(Scene& scene, const std::string& componentTypeName) :
-    _scene(&scene),
+ComponentPool<T>::ComponentPool(World& world, const std::string& componentTypeName) :
+    _world(&world),
     _componentTypeName(componentTypeName)
 {
 }
@@ -363,7 +363,7 @@ const Entity& ComponentPool<T>::entityForComponent(ComponentId id) const
         EntityId entityId = _componentToEntity[id];
         if (entityId != (EntityId)-1)
         {
-            return _scene->entities().entityWithId(entityId);
+            return _world->entities().entityWithId(entityId);
         }
     }
     throw Error("Component does not have an associated entity");

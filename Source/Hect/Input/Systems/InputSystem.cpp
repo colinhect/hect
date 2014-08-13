@@ -23,13 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputSystem.h"
 
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 #include "Hect/Platform/Platform.h"
 
 using namespace hect;
 
-InputSystem::InputSystem(Scene& scene) :
-    System(scene)
+InputSystem::InputSystem(World& world) :
+    System(world)
 {
 }
 
@@ -62,7 +62,7 @@ Real InputSystem::axisValue(const std::string& name) const
 
 void InputSystem::update()
 {
-    Real timeStepInSeconds = scene().timeStep().seconds();
+    Real timeStepInSeconds = world().timeStep().seconds();
 
     for (InputAxis& axis : _axes)
     {

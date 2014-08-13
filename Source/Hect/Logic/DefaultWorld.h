@@ -27,16 +27,16 @@
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/IO/AssetCache.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 
 namespace hect
 {
 
-class DefaultScene :
-    public Scene
+class DefaultWorld :
+    public World
 {
 public:
-    DefaultScene(Renderer& renderer, RenderTarget& target, AssetCache& assetCache);
+    DefaultWorld(Renderer& renderer, RenderTarget& target, AssetCache& assetCache);
     
     void preFixedUpdate();
     virtual void fixedUpdate();

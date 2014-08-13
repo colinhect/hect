@@ -21,20 +21,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Scene.h"
+#include "World.h"
 
 #include <algorithm>
 
 using namespace hect;
 
-Scene::Scene(TimeSpan timeStep) :
+World::World(TimeSpan timeStep) :
     _timeStep(timeStep),
     _entityCount(0),
     _entityPool(*this)
 {
 }
 
-void Scene::tick()
+void World::tick()
 {
     TimeSpan deltaTime = _timer.elapsed();
     _timer.reset();
@@ -55,24 +55,24 @@ void Scene::tick()
     frameUpdate(_delta.seconds() / _timeStep.seconds());
 }
 
-void Scene::preFixedUpdate()
+void World::preFixedUpdate()
 {
 }
 
-void Scene::fixedUpdate()
+void World::fixedUpdate()
 {
 }
 
-void Scene::postFixedUpdate()
+void World::postFixedUpdate()
 {
 }
 
-void Scene::frameUpdate(Real delta)
+void World::frameUpdate(Real delta)
 {
     delta;
 }
 
-Entity::Iterator Scene::createEntity()
+Entity::Iterator World::createEntity()
 {
     Entity::Iterator entity = _entityPool.create();
 
@@ -83,27 +83,27 @@ Entity::Iterator Scene::createEntity()
     return entity;
 }
 
-TimeSpan Scene::timeStep() const
+TimeSpan World::timeStep() const
 {
     return _timeStep;
 }
 
-EntityPool& Scene::entities()
+EntityPool& World::entities()
 {
     return _entityPool;
 }
 
-const EntityPool& Scene::entities() const
+const EntityPool& World::entities() const
 {
     return _entityPool;
 }
 
-size_t Scene::entityCount() const
+size_t World::entityCount() const
 {
     return _entityCount;
 }
 
-void Scene::encode(ObjectEncoder& encoder) const
+void World::encode(ObjectEncoder& encoder) const
 {
     ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
     for (const Entity& entity : entities())
@@ -117,7 +117,7 @@ void Scene::encode(ObjectEncoder& encoder) const
     }
 }
 
-void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void World::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
     while (entitiesDecoder.hasMoreElements())
@@ -131,7 +131,7 @@ void Scene::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     }
 }
 
-Entity::Iterator Scene::cloneEntity(const Entity& entity)
+Entity::Iterator World::cloneEntity(const Entity& entity)
 {
     Entity::ConstIterator sourceEntity = entity.iterator();
     Entity::Iterator clonedEntity = createEntity();
@@ -152,7 +152,7 @@ Entity::Iterator Scene::cloneEntity(const Entity& entity)
     return clonedEntity;
 }
 
-void Scene::destroyEntity(Entity& entity)
+void World::destroyEntity(Entity& entity)
 {
     if (!entity.inPool())
     {
@@ -199,7 +199,7 @@ void Scene::destroyEntity(Entity& entity)
     _entityPool.destroy(entity._id);
 }
 
-void Scene::activateEntity(Entity& entity)
+void World::activateEntity(Entity& entity)
 {
     if (!entity.inPool())
     {
@@ -234,7 +234,7 @@ void Scene::activateEntity(Entity& entity)
     }
 }
 
-void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& component)
+void World::addEntityComponentBase(Entity& entity, const ComponentBase& component)
 {
     if (!entity.inPool())
     {
@@ -249,7 +249,7 @@ void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     }
 }
 
-void Scene::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
+void World::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
 {
     ArrayEncoder componentsEncoder = encoder.encodeArray("components");
 
@@ -268,7 +268,7 @@ void Scene::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
     }
 }
 
-void Scene::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
+void World::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (decoder.hasMember("components"))
     {

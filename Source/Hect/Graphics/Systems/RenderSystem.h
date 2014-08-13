@@ -37,13 +37,13 @@ class RenderSystem :
     public System
 {
 public:
-    RenderSystem(Scene& scene, Renderer& renderer);
+    RenderSystem(World& world, Renderer& renderer);
     virtual ~RenderSystem();
 
     void updateActiveCamera();
 
     ///
-    /// Returns the active camera in the scene.
+    /// Returns the active camera in the world.
     Component<Camera>::Iterator activeCamera();
 
     ///

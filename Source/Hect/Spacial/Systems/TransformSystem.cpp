@@ -24,18 +24,18 @@
 #include "TransformSystem.h"
 
 #include "Hect/Graphics/Components/Model.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 
 using namespace hect;
 
-TransformSystem::TransformSystem(Scene& scene) :
-    System(scene)
+TransformSystem::TransformSystem(World& world) :
+    System(world)
 {
 }
 
 void TransformSystem::update()
 {
-    for (Transform& transform : scene().components<Transform>())
+    for (Transform& transform : world().components<Transform>())
     {
         Entity& entity = transform.entity();
         if (!entity.parent())

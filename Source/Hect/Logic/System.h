@@ -28,29 +28,29 @@
 namespace hect
 {
 
-class Scene;
+class World;
 
 ///
-/// A system affecting entities within a scene.
+/// A system affecting entities within a world.
 class System :
     public Uncopyable
 {
 public:
 
     ///
-    /// Constructs the system given the scene.
-    System(Scene& scene);
+    /// Constructs the system given the world.
+    System(World& world);
 
     ///
-    /// Gets the scene that the system affects.
-    Scene& scene();
+    /// Gets the world that the system affects.
+    World& world();
 
     ///
-    /// Gets the scene that the system affects.
-    const Scene& scene() const;
+    /// Gets the world that the system affects.
+    const World& world() const;
 
 private:
-    Scene* _scene;
+    World* _world;
 };
 
 }

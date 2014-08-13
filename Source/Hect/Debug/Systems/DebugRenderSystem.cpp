@@ -23,13 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DebugRenderSystem.h"
 
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/World.h"
 #include "Hect/Platform/Platform.h"
 
 using namespace hect;
 
-DebugRenderSystem::DebugRenderSystem(Scene& scene, AssetCache& assetCache, Renderer& renderer) :
-    RenderSystem(scene, renderer),
+DebugRenderSystem::DebugRenderSystem(World& world, AssetCache& assetCache, Renderer& renderer) :
+    RenderSystem(world, renderer),
     _transformDebugRenderLayer(assetCache),
     _boundingBoxDebugRenderLayer(assetCache)
 {
@@ -57,7 +57,7 @@ void DebugRenderSystem::renderAll(RenderTarget& target)
     {
         if (renderLayer->isActivated())
         {
-            renderLayer->render(scene(), *this, target);
+            renderLayer->render(world(), *this, target);
         }
     }
 }
