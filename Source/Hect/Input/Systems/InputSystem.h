@@ -23,13 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Event/Listener.h"
+#include <map>
+
 #include "Hect/Input/InputAxis.h"
-#include "Hect/Input/Gamepad.h"
-#include "Hect/Input/Mouse.h"
-#include "Hect/Input/Keyboard.h"
 #include "Hect/Logic/System.h"
-#include "Hect/Timing/TimeSpan.h"
 
 namespace hect
 {
@@ -61,7 +58,7 @@ public:
     void update();
 
 private:
-    std::vector<InputAxis> _axes;
+    std::map<std::string, InputAxis> _axes;
 };
 
 }

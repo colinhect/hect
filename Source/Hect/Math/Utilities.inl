@@ -21,48 +21,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "InputSystem.h"
+#include <algorithm>
 
-#include "Hect/Logic/World.h"
-#include "Hect/Platform/Platform.h"
-
-using namespace hect;
-
-InputSystem::InputSystem(World& world) :
-    System(world)
+namespace hect
 {
+
+template <typename T>
+T clamp(T value, T minimum, T maximum)
+{
+    return std::max(minimum, std::min(maximum, value));
 }
 
-void InputSystem::addAxis(const InputAxis& axis)
+template <typename T>
+T interpolate(T a, T b, T delta)
 {
-    auto it = _axes.find(axis.name());
-    if (it != _axes.end())
-    {
-        throw Error(format("Multiple input axes with name '%s'", axis.name().c_str()));
-    }
-
-    _axes[axis.name()] = axis;
+    return (1 - delta) * a + delta * b;
 }
 
-Real InputSystem::axisValue(const std::string& name) const
-{
-    auto it = _axes.find(name);
-    if (it != _axes.end())
-    {
-        const InputAxis& axis = it->second;
-        return axis.value();
-    }
-    return 0;
-}
-
-void InputSystem::update()
-{
-    Real timeStepInSeconds = world().timeStep().seconds();
-
-    // Update each axis
-    for (auto& pair : _axes)
-    {
-        InputAxis& axis = pair.second;
-        axis.update(timeStepInSeconds);
-    }
 }

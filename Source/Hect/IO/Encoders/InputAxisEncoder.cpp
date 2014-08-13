@@ -31,10 +31,10 @@ void InputAxisEncoder::encode(const InputAxis& inputAxis, ObjectEncoder& encoder
 {
     inputAxis;
     encoder;
-    throw Error("Cannot encode an input axis");
+    throw Error("Not supported");
 }
 
-void InputAxisEncoder::decode(InputAxis& inputAxis, ObjectDecoder& decoder)
+void InputAxisEncoder::decode(InputAxis& inputAxis, ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (decoder.hasMember("name"))
     {
@@ -42,73 +42,17 @@ void InputAxisEncoder::decode(InputAxis& inputAxis, ObjectDecoder& decoder)
         inputAxis.setName(value);
     }
 
-    if (decoder.hasMember("source"))
+    if (decoder.hasMember("sources"))
     {
-        auto source = decoder.decodeEnum<InputAxisSource>("source");
-        inputAxis.setSource(source);
-    }
+        ArrayDecoder sourcesDecoder = decoder.decodeArray("sources");
+        while (sourcesDecoder.hasMoreElements())
+        {
+            ObjectDecoder sourceDecoder = sourcesDecoder.decodeObject();
 
-    if (decoder.hasMember("positiveMouseButton"))
-    {
-        auto positiveMouseButton = decoder.decodeEnum<MouseButton>("positiveMouseButton");
-        inputAxis.setPositiveMouseButton(positiveMouseButton);
-    }
+            InputAxisSource source;
+            source.decode(sourceDecoder, assetCache);
 
-    if (decoder.hasMember("negativeMouseButton"))
-    {
-        auto negativeMouseButton = decoder.decodeEnum<MouseButton>("negativeMouseButton");
-        inputAxis.setNegativeMouseButton(negativeMouseButton);
-    }
-
-    if (decoder.hasMember("positiveKey"))
-    {
-        auto positiveKey = decoder.decodeEnum<Key>("positiveKey");
-        inputAxis.setPositiveKey(positiveKey);
-    }
-
-    if (decoder.hasMember("negativeKey"))
-    {
-        auto negativeKey = decoder.decodeEnum<Key>("negativeKey");
-        inputAxis.setNegativeKey(negativeKey);
-    }
-
-    if (decoder.hasMember("gamepadIndex"))
-    {
-        inputAxis.setGamepadIndex(decoder.decodeUnsignedInt("gamepadIndex"));
-    }
-
-    if (decoder.hasMember("gamepadAxisIndex"))
-    {
-        inputAxis.setGamepadAxisIndex(decoder.decodeUnsignedInt("gamepadAxisIndex"));
-    }
-
-    if (decoder.hasMember("gamepadAxisDeadZone"))
-    {
-        inputAxis.setGamepadAxisDeadZone(decoder.decodeReal("gamepadAxisDeadZone"));
-    }
-
-    if (decoder.hasMember("gamepadAxisInverted"))
-    {
-        inputAxis.setGamepadAxisInverted(decoder.decodeBool("gamepadAxisInverted"));
-    }
-
-    if (decoder.hasMember("positiveGamepadButtonIndex"))
-    {
-        inputAxis.setPositiveGamepadButtonIndex(decoder.decodeUnsignedInt("positiveGamepadButtonIndex"));
-    }
-
-    if (decoder.hasMember("negativeGamepadButtonIndex"))
-    {
-        inputAxis.setNegativeGamepadButtonIndex(decoder.decodeUnsignedInt("negativeGamepadButtonIndex"));
-    }
-
-    if (decoder.hasMember("acceleration"))
-    {
-        inputAxis.setAcceleration(decoder.decodeReal("acceleration"));
-    }
-
-    if (decoder.hasMember("gravity"))
-    {
-        inputAxis.setGravity(decoder.decodeReal("gravity"));
+            inputAxis.addSource(source);
+        }
     }
 }

@@ -225,6 +225,15 @@ void Platform::initialize()
             HECT_INFO(format("Detected gamepad '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
 
             _gamepads.push_back(Gamepad(name, buttonCount, axisCount));
+            for (size_t i = 0; i < axisCount; ++i)
+            {
+                GamepadEvent event;
+                event.type = GamepadEventType_AxisMotion;
+                event.gamepadIndex = _gamepads.size() - 1;
+                event.axis = (GamepadAxis)i;
+                event.axisValue = std::max<Real>((Real)SDL_JoystickGetAxis(joystick, (int)i) / (Real)32767, -1.0);
+                _gamepads[event.gamepadIndex].enqueueEvent(event);
+            }
         }
     }
 }
@@ -319,7 +328,7 @@ bool Platform::handleEvents()
             GamepadEvent event;
             event.type = GamepadEventType_AxisMotion;
             event.gamepadIndex = e.jaxis.which;
-            event.axisIndex = e.jaxis.axis;
+            event.axis = (GamepadAxis)e.jaxis.axis;
             event.axisValue = std::max<Real>((Real)e.jaxis.value / (Real)32767, -1.0);
             _gamepads[event.gamepadIndex].enqueueEvent(event);
         }
@@ -331,7 +340,7 @@ bool Platform::handleEvents()
             GamepadEvent event;
             event.type = e.type == SDL_JOYBUTTONDOWN ? GamepadEventType_ButtonDown : GamepadEventType_ButtonUp;
             event.gamepadIndex = e.jbutton.which;
-            event.buttonIndex = e.jbutton.button;
+            event.button = (GamepadButton)e.jbutton.button;
             _gamepads[event.gamepadIndex].enqueueEvent(event);
         }
             break;

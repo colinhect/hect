@@ -66,6 +66,7 @@
     <ClInclude Include="Source\Hect\Graphics\Window.h" />
     <ClInclude Include="Source\Hect\Input\InputAxis.h" />
     <ClInclude Include="Source\Hect\Input\Gamepad.h" />
+    <ClInclude Include="Source\Hect\Input\InputAxisSource.h" />
     <ClInclude Include="Source\Hect\Input\Keyboard.h" />
     <ClInclude Include="Source\Hect\Input\Mouse.h" />
     <ClInclude Include="Source\Hect\Input\Systems\InputSystem.h" />
@@ -80,6 +81,7 @@
     <ClInclude Include="Source\Hect\IO\Encoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\ImagePngEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\InputAxisEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisSourceEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\MaterialEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\MeshEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\ShaderEncoder.h" />
@@ -111,6 +113,7 @@
     <ClInclude Include="Source\Hect\Math\Constants.h" />
     <ClInclude Include="Source\Hect\Math\Matrix4.h" />
     <ClInclude Include="Source\Hect\Math\Quaternion.h" />
+    <ClInclude Include="Source\Hect\Math\Utilities.h" />
     <ClInclude Include="Source\Hect\Math\Vector2.h" />
     <ClInclude Include="Source\Hect\Math\Vector3.h" />
     <ClInclude Include="Source\Hect\Math\Vector4.h" />
@@ -189,6 +192,7 @@
     <ClCompile Include="Source\Hect\Graphics\Window.cpp" />
     <ClCompile Include="Source\Hect\Input\InputAxis.cpp" />
     <ClCompile Include="Source\Hect\Input\Gamepad.cpp" />
+    <ClCompile Include="Source\Hect\Input\InputAxisSource.cpp" />
     <ClCompile Include="Source\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="Source\Hect\Input\Mouse.cpp" />
     <ClCompile Include="Source\Hect\Input\Systems\InputSystem.cpp" />
@@ -200,6 +204,7 @@
     <ClCompile Include="Source\Hect\IO\Encoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\ImagePngEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\InputAxisEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisSourceEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\MaterialEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\MeshEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\ShaderEncoder.cpp" />
@@ -266,6 +271,7 @@
     <None Include="Source\Hect\Logic\World.inl" />
     <None Include="Source\Hect\Math\Matrix4.inl" />
     <None Include="Source\Hect\Math\Quaternion.inl" />
+    <None Include="Source\Hect\Math\Utilities.inl" />
     <None Include="Source\Hect\Math\Vector2.inl" />
     <None Include="Source\Hect\Math\Vector3.inl" />
     <None Include="Source\Hect\Math\Vector4.inl" />

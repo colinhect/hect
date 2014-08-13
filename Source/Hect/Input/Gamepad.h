@@ -31,6 +31,80 @@ namespace hect
 {
 
 ///
+/// A gamepad button.
+enum GamepadButton
+{
+    GamepadButton_Button0,
+    GamepadButton_Button1,
+    GamepadButton_Button2,
+    GamepadButton_Button3,
+    GamepadButton_Button4,
+    GamepadButton_Button5,
+    GamepadButton_Button6,
+    GamepadButton_Button7,
+    GamepadButton_Button8,
+    GamepadButton_Button9,
+    GamepadButton_Button11,
+    GamepadButton_Button12,
+    GamepadButton_Button13,
+    GamepadButton_Button14,
+    GamepadButton_Button15,
+    GamepadButton_Button16,
+    GamepadButton_Button17,
+    GamepadButton_Button18,
+    GamepadButton_Button19,
+    GamepadButton_Button20,
+    GamepadButton_Button21,
+    GamepadButton_Button22,
+    GamepadButton_Button23,
+    GamepadButton_Button24,
+    GamepadButton_Button25,
+    GamepadButton_Button26,
+    GamepadButton_Button27,
+    GamepadButton_Button28,
+    GamepadButton_Button29,
+    GamepadButton_Button30,
+    GamepadButton_Button31
+};
+
+///
+/// A gamepad axis.
+enum GamepadAxis
+{
+    GamepadAxis_Axis0,
+    GamepadAxis_Axis1,
+    GamepadAxis_Axis2,
+    GamepadAxis_Axis3,
+    GamepadAxis_Axis4,
+    GamepadAxis_Axis5,
+    GamepadAxis_Axis6,
+    GamepadAxis_Axis7,
+    GamepadAxis_Axis8,
+    GamepadAxis_Axis9,
+    GamepadAxis_Axis11,
+    GamepadAxis_Axis12,
+    GamepadAxis_Axis13,
+    GamepadAxis_Axis14,
+    GamepadAxis_Axis15,
+    GamepadAxis_Axis16,
+    GamepadAxis_Axis17,
+    GamepadAxis_Axis18,
+    GamepadAxis_Axis19,
+    GamepadAxis_Axis20,
+    GamepadAxis_Axis21,
+    GamepadAxis_Axis22,
+    GamepadAxis_Axis23,
+    GamepadAxis_Axis24,
+    GamepadAxis_Axis25,
+    GamepadAxis_Axis26,
+    GamepadAxis_Axis27,
+    GamepadAxis_Axis28,
+    GamepadAxis_Axis29,
+    GamepadAxis_Axis30,
+    GamepadAxis_Axis31
+};
+
+///
 /// A gamepad event type.
 enum GamepadEventType
 {
@@ -66,17 +140,17 @@ public:
     size_t gamepadIndex;
 
     ///
-    /// The index of the gamepad button related to the event.
+    /// The gamepad button related to the event.
     ///
     /// \note Only relevant for a GamepadEventType_ButtonDown or
     /// GamepadEventType_ButtonUp event.
-    size_t buttonIndex;
+    GamepadButton button;
 
     ///
-    /// The index of the gamepad axis related to the event.
+    /// The gamepad axis related to the event.
     ///
     /// \note Only relevant for a GamepadEventType_AxisMotion event.
-    size_t axisIndex;
+    GamepadAxis axis;
 
     ///
     /// The value of the gamepad axis related to the event.
@@ -94,28 +168,20 @@ class Gamepad :
 public:
 
     ///
-    /// Returns the number of buttons on the gamepad.
-    size_t buttonCount() const;
-
-    ///
     /// Returns whether the given button is down.
     ///
-    /// \param buttonIndex The index of the button to get the state of.
+    /// \param button The button to get the state of.
     ///
     /// \throws Error If the gamepad does not have the given button.
-    bool isButtonDown(size_t buttonIndex) const;
-
-    ///
-    /// Returns the number of axes on the gamepad.
-    size_t axisCount() const;
+    bool isButtonDown(GamepadButton button) const;
 
     ///
     /// Returns the value of an axis of the gamepad.
     ///
-    /// \param axisIndex The index of the axis to get the value of.
+    /// \param axis The axis to get the value of.
     ///
     /// \throws Error If the gamepad does not have the given axis.
-    Real axisValue(size_t axisIndex) const;
+    Real axisValue(GamepadAxis axis) const;
 
 private:
     Gamepad(const std::string& name, size_t buttonCount, size_t axisCount);

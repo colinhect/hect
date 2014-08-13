@@ -27,7 +27,7 @@ using namespace hect;
 
 MouseEvent::MouseEvent() :
     type(MouseEventType_Movement),
-    button(MouseButton_Left)
+    button(MouseButton_Button0)
 {
 }
 

@@ -12,7 +12,7 @@
 #include "..\Graphics\VertexAttribute.h"
 #include "..\IO\JsonValue.h"
 #include "..\Input\Gamepad.h"
-#include "..\Input\InputAxis.h"
+#include "..\Input\InputAxisSource.h"
 #include "..\Input\Keyboard.h"
 #include "..\Input\Mouse.h"
 #include "..\Logic\ComponentEvent.h"
@@ -169,6 +169,76 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(VertexAttributeType_Float, "Float");
     }
     {
+        hect::Type& type = hect::Type::create<GamepadButton>(hect::Kind_Enum, "GamepadButton");
+        hect::Enum& enumType = type.asEnum();
+        enumType.addValue(GamepadButton_Button0, "Button0");
+        enumType.addValue(GamepadButton_Button1, "Button1");
+        enumType.addValue(GamepadButton_Button2, "Button2");
+        enumType.addValue(GamepadButton_Button3, "Button3");
+        enumType.addValue(GamepadButton_Button4, "Button4");
+        enumType.addValue(GamepadButton_Button5, "Button5");
+        enumType.addValue(GamepadButton_Button6, "Button6");
+        enumType.addValue(GamepadButton_Button7, "Button7");
+        enumType.addValue(GamepadButton_Button8, "Button8");
+        enumType.addValue(GamepadButton_Button9, "Button9");
+        enumType.addValue(GamepadButton_Button11, "Button11");
+        enumType.addValue(GamepadButton_Button12, "Button12");
+        enumType.addValue(GamepadButton_Button13, "Button13");
+        enumType.addValue(GamepadButton_Button14, "Button14");
+        enumType.addValue(GamepadButton_Button15, "Button15");
+        enumType.addValue(GamepadButton_Button16, "Button16");
+        enumType.addValue(GamepadButton_Button17, "Button17");
+        enumType.addValue(GamepadButton_Button18, "Button18");
+        enumType.addValue(GamepadButton_Button19, "Button19");
+        enumType.addValue(GamepadButton_Button20, "Button20");
+        enumType.addValue(GamepadButton_Button21, "Button21");
+        enumType.addValue(GamepadButton_Button22, "Button22");
+        enumType.addValue(GamepadButton_Button23, "Button23");
+        enumType.addValue(GamepadButton_Button24, "Button24");
+        enumType.addValue(GamepadButton_Button25, "Button25");
+        enumType.addValue(GamepadButton_Button26, "Button26");
+        enumType.addValue(GamepadButton_Button27, "Button27");
+        enumType.addValue(GamepadButton_Button28, "Button28");
+        enumType.addValue(GamepadButton_Button29, "Button29");
+        enumType.addValue(GamepadButton_Button30, "Button30");
+        enumType.addValue(GamepadButton_Button31, "Button31");
+    }
+    {
+        hect::Type& type = hect::Type::create<GamepadAxis>(hect::Kind_Enum, "GamepadAxis");
+        hect::Enum& enumType = type.asEnum();
+        enumType.addValue(GamepadAxis_Axis0, "Axis0");
+        enumType.addValue(GamepadAxis_Axis1, "Axis1");
+        enumType.addValue(GamepadAxis_Axis2, "Axis2");
+        enumType.addValue(GamepadAxis_Axis3, "Axis3");
+        enumType.addValue(GamepadAxis_Axis4, "Axis4");
+        enumType.addValue(GamepadAxis_Axis5, "Axis5");
+        enumType.addValue(GamepadAxis_Axis6, "Axis6");
+        enumType.addValue(GamepadAxis_Axis7, "Axis7");
+        enumType.addValue(GamepadAxis_Axis8, "Axis8");
+        enumType.addValue(GamepadAxis_Axis9, "Axis9");
+        enumType.addValue(GamepadAxis_Axis11, "Axis11");
+        enumType.addValue(GamepadAxis_Axis12, "Axis12");
+        enumType.addValue(GamepadAxis_Axis13, "Axis13");
+        enumType.addValue(GamepadAxis_Axis14, "Axis14");
+        enumType.addValue(GamepadAxis_Axis15, "Axis15");
+        enumType.addValue(GamepadAxis_Axis16, "Axis16");
+        enumType.addValue(GamepadAxis_Axis17, "Axis17");
+        enumType.addValue(GamepadAxis_Axis18, "Axis18");
+        enumType.addValue(GamepadAxis_Axis19, "Axis19");
+        enumType.addValue(GamepadAxis_Axis20, "Axis20");
+        enumType.addValue(GamepadAxis_Axis21, "Axis21");
+        enumType.addValue(GamepadAxis_Axis22, "Axis22");
+        enumType.addValue(GamepadAxis_Axis23, "Axis23");
+        enumType.addValue(GamepadAxis_Axis24, "Axis24");
+        enumType.addValue(GamepadAxis_Axis25, "Axis25");
+        enumType.addValue(GamepadAxis_Axis26, "Axis26");
+        enumType.addValue(GamepadAxis_Axis27, "Axis27");
+        enumType.addValue(GamepadAxis_Axis28, "Axis28");
+        enumType.addValue(GamepadAxis_Axis29, "Axis29");
+        enumType.addValue(GamepadAxis_Axis30, "Axis30");
+        enumType.addValue(GamepadAxis_Axis31, "Axis31");
+    }
+    {
         hect::Type& type = hect::Type::create<GamepadEventType>(hect::Kind_Enum, "GamepadEventType");
         hect::Enum& enumType = type.asEnum();
         enumType.addValue(GamepadEventType_AxisMotion, "AxisMotion");
@@ -176,15 +246,15 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(GamepadEventType_ButtonUp, "ButtonUp");
     }
     {
-        hect::Type& type = hect::Type::create<InputAxisSource>(hect::Kind_Enum, "InputAxisSource");
+        hect::Type& type = hect::Type::create<InputAxisSourceType>(hect::Kind_Enum, "InputAxisSourceType");
         hect::Enum& enumType = type.asEnum();
-        enumType.addValue(InputAxisSource_MouseMoveX, "MouseMoveX");
-        enumType.addValue(InputAxisSource_MouseMoveY, "MouseMoveY");
-        enumType.addValue(InputAxisSource_MouseButton, "MouseButton");
-        enumType.addValue(InputAxisSource_MouseScroll, "MouseScroll");
-        enumType.addValue(InputAxisSource_Key, "Key");
-        enumType.addValue(InputAxisSource_GamepadAxis, "GamepadAxis");
-        enumType.addValue(InputAxisSource_GamepadButton, "GamepadButton");
+        enumType.addValue(InputAxisSourceType_MouseMoveX, "MouseMoveX");
+        enumType.addValue(InputAxisSourceType_MouseMoveY, "MouseMoveY");
+        enumType.addValue(InputAxisSourceType_MouseButton, "MouseButton");
+        enumType.addValue(InputAxisSourceType_MouseScroll, "MouseScroll");
+        enumType.addValue(InputAxisSourceType_Key, "Key");
+        enumType.addValue(InputAxisSourceType_GamepadAxis, "GamepadAxis");
+        enumType.addValue(InputAxisSourceType_GamepadButton, "GamepadButton");
     }
     {
         hect::Type& type = hect::Type::create<Key>(hect::Kind_Enum, "Key");
@@ -257,9 +327,14 @@ void hect::Type::registerTypes<HectTypes>()
     {
         hect::Type& type = hect::Type::create<MouseButton>(hect::Kind_Enum, "MouseButton");
         hect::Enum& enumType = type.asEnum();
-        enumType.addValue(MouseButton_Left, "Left");
-        enumType.addValue(MouseButton_Right, "Right");
-        enumType.addValue(MouseButton_Middle, "Middle");
+        enumType.addValue(MouseButton_Button0, "Button0");
+        enumType.addValue(MouseButton_Button1, "Button1");
+        enumType.addValue(MouseButton_Button2, "Button2");
+        enumType.addValue(MouseButton_Button3, "Button3");
+        enumType.addValue(MouseButton_Button4, "Button4");
+        enumType.addValue(MouseButton_Button5, "Button5");
+        enumType.addValue(MouseButton_Button6, "Button6");
+        enumType.addValue(MouseButton_Button7, "Button7");
     }
     {
         hect::Type& type = hect::Type::create<MouseMode>(hect::Kind_Enum, "MouseMode");

@@ -25,46 +25,11 @@
 
 #include <vector>
 
-#include "Hect/Core/Real.h"
-#include "Hect/Input/Keyboard.h"
-#include "Hect/Input/Mouse.h"
+#include "Hect/Input/InputAxisSource.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
 {
-
-///
-/// The source of an input  axis.
-enum InputAxisSource
-{
-    ///
-    /// A mouse movement along the x axis.
-    InputAxisSource_MouseMoveX,
-
-    ///
-    /// A mouse movement along the y axis.
-    InputAxisSource_MouseMoveY,
-
-    ///
-    /// A mouse button press.
-    InputAxisSource_MouseButton,
-
-    ///
-    /// A mouse scroll.
-    InputAxisSource_MouseScroll,
-
-    ///
-    /// A key press.
-    InputAxisSource_Key,
-
-    ///
-    /// A gamepad axis.
-    InputAxisSource_GamepadAxis,
-
-    ///
-    /// A gamepad button.
-    InputAxisSource_GamepadButton
-};
 
 ///
 /// An axis manipulated by an input device.
@@ -93,235 +58,20 @@ public:
     /// \param name The new name.
     void setName(const std::string& name);
 
-    ///
-    /// Returns the source.
-    InputAxisSource source() const;
+    void addSource(const InputAxisSource& inputAxisSource);
 
-    ///
-    /// Sets the source.
-    ///
-    /// \param source The new source.
-    void setSource(InputAxisSource source);
+    void update(Real timeStepInSeconds);
 
-    ///
-    /// Returns the mouse button which causes the axis to move in the positive
-    /// direction.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_MouseButton.
-    MouseButton positiveMouseButton() const;
-
-    ///
-    /// Sets the mouse button which causes the axis to move in the positive
-    /// direction.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_MouseButton.
-    ///
-    /// \param button The new button.
-    void setPositiveMouseButton(MouseButton button);
-
-    ///
-    /// Returns the mouse button which causes the axis to move in the negative
-    /// direction.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_MouseButton.
-    MouseButton negativeMouseButton() const;
-
-    ///
-    /// Sets the mouse button which causes the axis to move in the negative
-    /// direction.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_MouseButton.
-    ///
-    /// \param button The new button.
-    void setNegativeMouseButton(MouseButton button);
-
-    ///
-    /// Returns the key which causes the axis to move in the positive
-    /// direction.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_Key.
-    Key positiveKey() const;
-
-    ///
-    /// Sets the key which causes the axis to move in the positive direction.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_Key.
-    ///
-    /// \param key The new key.
-    void setPositiveKey(Key key);
-
-    ///
-    /// Returns the key which causes the axis to move in the negative
-    /// direction.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_Key.
-    Key negativeKey() const;
-
-    ///
-    /// Sets the key which causes the axis to move in the negative direction.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_Key.
-    ///
-    /// \param key The new key.
-    void setNegativeKey(Key key);
-
-    ///
-    /// Returns the index of the gamepad controlling the axis.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_GamepadAxis
-    /// or InputAxisSource_GamepadButton.
-    size_t gamepadIndex() const;
-
-    ///
-    /// Sets the index of the gamepad controlling the axis.
-    ///
-    /// \note Only relevant for when the source is InputAxisSource_GamepadAxis
-    /// or InputAxisSource_GamepadButton.
-    ///
-    /// \param index The index of the gamepad.
-    void setGamepadIndex(size_t index);
-
-    ///
-    /// Returns the index of the gamepad axis controlling the axis.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadAxis.
-    size_t gamepadAxisIndex() const;
-
-    ///
-    /// Sets the index of the gamepad axis controlling the axis.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadAxis.
-    ///
-    /// \param index The index of the gamepad axis.
-    void setGamepadAxisIndex(size_t index);
-
-    ///
-    /// Returns the dead zone of the gamepad axis controlling the axis.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadAxis.
-    Real gamepadAxisDeadZone() const;
-
-    ///
-    /// Sets the dead zone of the gamepad axis controlling the axis.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadAxis.
-    ///
-    /// \param deadZone The dead zone.
-    void setGamepadAxisDeadZone(Real deadZone);
-
-    ///
-    /// Returns whether the gamepad axis controlling the axis should be
-    /// inverted.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadAxis.
-    bool gamepadAxisInverted() const;
-
-    ///
-    /// Sets whether the gamepad axis controlling the axis should be
-    /// inverted.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadAxis.
-    ///
-    /// \param invert True if the axis is inverted; false otherwise.
-    void setGamepadAxisInverted(bool invert);
-
-    ///
-    /// Returns the index of the gamepad button which causes the axis to move
-    /// in the positive direction.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadButton.
-    size_t positiveGamepadButtonIndex() const;
-
-    ///
-    ///
-    /// Sets the index of the gamepad button which causes the axis to move in
-    /// the positive direction.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadButton.
-    ///
-    /// \param index The index of the gamepad button.
-    void setPositiveGamepadButtonIndex(size_t index);
-
-    ///
-    /// Returns the index of the gamepad button which causes the axis to move
-    /// in the negative direction.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadButton.
-    size_t negativeGamepadButtonIndex() const;
-
-    ///
-    ///
-    /// Sets the index of the gamepad button which causes the axis to move in
-    /// the negative direction.
-    ///
-    /// \note Only relevant for when the source is
-    /// InputAxisSource_GamepadButton.
-    ///
-    /// \param index The index of the gamepad button.
-    void setNegativeGamepadButtonIndex(size_t index);
-
-    ///
-    /// Returns the current value.
     Real value() const;
-
-    ///
-    /// Sets the current value.
-    ///
-    /// \param value The new value.
-    void setValue(Real value);
-
-    ///
-    /// Returns the acceleration.
-    Real acceleration() const;
-
-    ///
-    /// Sets the acceleration.
-    ///
-    /// \param acceleration The new acceleration.
-    void setAcceleration(Real acceleration);
-
-    ///
-    /// Returns the gravity.
-    Real gravity() const;
-
-    ///
-    /// Sets the gravity.
-    ///
-    /// \param gravity The new gravity.
-    void setGravity(Real gravity);
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
     std::string _name;
-    InputAxisSource _source;
 
-    MouseButton _positiveMouseButton;
-    MouseButton _negativeMouseButton;
-
-    Key _positiveKey;
-    Key _negativeKey;
-
-    size_t _gamepadIndex;
-    size_t _gamepadAxisIndex;
-    Real _gamepadAxisDeadZone;
-    bool _gamepadAxisInverted;
-    size_t _positiveGamepadButtonIndex;
-    size_t _negativeGamepadButtonIndex;
-
+    std::vector<InputAxisSource> _sources;
     Real _value;
-    Real _acceleration;
-    Real _gravity;
 };
 
 }

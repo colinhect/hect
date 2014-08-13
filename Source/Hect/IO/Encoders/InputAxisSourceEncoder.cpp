@@ -21,76 +21,65 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Gamepad.h"
+#include "InputAxisSourceEncoder.h"
 
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Reflection/Enum.h"
 
 using namespace hect;
 
-GamepadEvent::GamepadEvent() :
-    type(GamepadEventType_AxisMotion),
-    gamepadIndex(0),
-    button(GamepadButton_Button0),
-    axis(GamepadAxis_Axis0),
-    axisValue(0)
+void InputAxisSourceEncoder::encode(const InputAxisSource& inputAxisSource, ObjectEncoder& encoder)
 {
+    inputAxisSource;
+    encoder;
+    throw Error("Not supported");
 }
 
-bool Gamepad::isButtonDown(GamepadButton button) const
+void InputAxisSourceEncoder::decode(InputAxisSource& inputAxisSource, ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    if (button < _buttonStates.size())
-    {
-        return _buttonStates[button];
-    }
-    else
-    {
-        throw Error(format("Gamepad does not have button '%s'", Enum::toString(button).c_str()));
-    }
-}
-Real Gamepad::axisValue(GamepadAxis axis) const
-{
-    if (axis < _axisStates.size())
-    {
-        return _axisStates[axis];
-    }
-    else
-    {
-        throw Error(format("Gamepad does not have axis '%s'", Enum::toString(axis).c_str()));
-    }
-}
+    assetCache;
 
-Gamepad::Gamepad(const std::string& name, size_t buttonCount, size_t axisCount) :
-    _name(name),
-    _buttonStates(buttonCount, false),
-    _axisStates(axisCount, 0)
-{
-}
-
-void Gamepad::enqueueEvent(const GamepadEvent& event)
-{
-    if (event.type == GamepadEventType_ButtonDown)
+    if (decoder.hasMember("type"))
     {
-        _buttonStates[event.button] = true;
-    }
-    else if (event.type == GamepadEventType_ButtonUp)
-    {
-        _buttonStates[event.button] = false;
-    }
-    else if (event.type == GamepadEventType_AxisMotion)
-    {
-        _axisStates[event.axis] = event.axisValue;
-    }
-    _events.push_back(event);
-}
-
-void Gamepad::dispatchEvents()
-{
-    for (const GamepadEvent& event : _events)
-    {
-        dispatchEvent(event);
+        inputAxisSource.type = decoder.decodeEnum<InputAxisSourceType>("type");
     }
 
-    _events.clear();
+    if (decoder.hasMember("mouseButton"))
+    {
+        inputAxisSource.mouseButton = decoder.decodeEnum<MouseButton>("mouseButton");
+    }
+
+    if (decoder.hasMember("key"))
+    {
+        inputAxisSource.key = decoder.decodeEnum<Key>("key");
+    }
+
+    if (decoder.hasMember("gamepadIndex"))
+    {
+        inputAxisSource.gamepadIndex = decoder.decodeUnsignedInt("gamepadIndex");
+    }
+
+    if (decoder.hasMember("gamepadAxis"))
+    {
+        inputAxisSource.gamepadAxis = decoder.decodeEnum<GamepadAxis>("gamepadAxis");
+    }
+
+    if (decoder.hasMember("gamepadAxisDeadZone"))
+    {
+        inputAxisSource.gamepadAxisDeadZone = decoder.decodeReal("gamepadAxisDeadZone");
+    }
+
+    if (decoder.hasMember("gamepadButton"))
+    {
+        inputAxisSource.gamepadButton = decoder.decodeEnum<GamepadButton>("gamepadButton");
+    }
+
+    if (decoder.hasMember("acceleration"))
+    {
+        inputAxisSource.acceleration = decoder.decodeReal("acceleration");
+    }
+    
+    if (decoder.hasMember("range"))
+    {
+        inputAxisSource.range = decoder.decodeVector2("range");
+    }
 }

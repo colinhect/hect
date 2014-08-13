@@ -59,7 +59,7 @@ public:
     /// Returns the item in the sequence at the given index.
     ///
     /// \param index The index of which item to access.
-    const T& operator[](size_t i) const;
+    const T& operator[](size_t index) const;
 
 private:
     typename Container::iterator _begin;
@@ -97,7 +97,7 @@ public:
     /// Returns the item in the sequence at the given index.
     ///
     /// \param index The index of which item to access.
-    const T& operator[](size_t i) const;
+    const T& operator[](size_t index) const;
 
 private:
     typename Container::const_iterator _begin;

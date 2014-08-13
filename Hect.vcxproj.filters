@@ -462,6 +462,15 @@
     <ClInclude Include="Source\Hect\Logic\DefaultWorld.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Input\InputAxisSource.h">
+      <Filter>Source\Hect\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisSourceEncoder.h">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Math\Utilities.h">
+      <Filter>Source\Hect\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -788,6 +797,12 @@
     <ClCompile Include="Source\Hect\Logic\DefaultWorld.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Hect\Input\InputAxisSource.cpp">
+      <Filter>Source\Hect\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisSourceEncoder.cpp">
+      <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Core\Any.inl">
@@ -852,6 +867,9 @@
     </None>
     <None Include="Source\Hect\Logic\World.inl">
       <Filter>Source\Hect\Logic</Filter>
+    </None>
+    <None Include="Source\Hect\Math\Utilities.inl">
+      <Filter>Source\Hect\Math</Filter>
     </None>
   </ItemGroup>
 </Project>

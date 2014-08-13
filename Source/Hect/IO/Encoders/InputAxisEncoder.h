@@ -32,7 +32,7 @@ class InputAxisEncoder
 {
 public:
     static void encode(const InputAxis& inputAxis, ObjectEncoder& encoder);
-    static void decode(InputAxis& inputAxis, ObjectDecoder& decoder);
+    static void decode(InputAxis& inputAxis, ObjectDecoder& decoder, AssetCache& assetCache);
 };
 
 }
