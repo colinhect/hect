@@ -57,8 +57,8 @@ public:
     /// Mounts a directory or archive.
     ///
     /// \note Any file with the same path as a file in a previously mounted
-    /// directory or archive will be overriden by the file in the most recently
-    /// mounted directory or archive.
+    /// directory or archive will be overriden by the file in the directory or
+    /// archive which was mounted first.
     ///
     /// \param path Path to the directory or archive to mount.
     static void mount(const Path& path);
