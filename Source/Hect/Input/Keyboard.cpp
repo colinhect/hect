@@ -36,11 +36,6 @@ bool Keyboard::isKeyDown(Key key) const
     return _keyStates[(int)key];
 }
 
-Dispatcher<KeyboardEvent>& Keyboard::dispatcher()
-{
-    return _dispatcher;
-}
-
 Keyboard::Keyboard() :
     _keyStates(256, false)
 {
@@ -56,7 +51,7 @@ void Keyboard::dispatchEvents()
 {
     for (const KeyboardEvent& event : _events)
     {
-        _dispatcher.dispatchEvent(event);
+        dispatchEvent(event);
     }
     _events.clear();
 }

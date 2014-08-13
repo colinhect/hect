@@ -25,7 +25,7 @@
 
 #include "Hect/Event/Listener.h"
 #include "Hect/Input/InputAxis.h"
-#include "Hect/Input/Joystick.h"
+#include "Hect/Input/Gamepad.h"
 #include "Hect/Input/Mouse.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Logic/System.h"

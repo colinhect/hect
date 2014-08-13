@@ -58,12 +58,12 @@ enum InputAxisSource
     InputAxisSource_Key,
 
     ///
-    /// A joystick axis.
-    InputAxisSource_JoystickAxis,
+    /// A gamepad axis.
+    InputAxisSource_GamepadAxis,
 
     ///
-    /// A joystick button.
-    InputAxisSource_JoystickButton
+    /// A gamepad button.
+    InputAxisSource_GamepadButton
 };
 
 ///
@@ -166,108 +166,108 @@ public:
     void setNegativeKey(Key key);
 
     ///
-    /// Returns the index of the joystick controlling the axis.
+    /// Returns the index of the gamepad controlling the axis.
     ///
-    /// \note Only relevant for when the source is InputAxisSource_JoystickAxis
-    /// or InputAxisSource_JoystickButton.
-    size_t joystickIndex() const;
+    /// \note Only relevant for when the source is InputAxisSource_GamepadAxis
+    /// or InputAxisSource_GamepadButton.
+    size_t gamepadIndex() const;
 
     ///
-    /// Sets the index of the joystick controlling the axis.
+    /// Sets the index of the gamepad controlling the axis.
     ///
-    /// \note Only relevant for when the source is InputAxisSource_JoystickAxis
-    /// or InputAxisSource_JoystickButton.
+    /// \note Only relevant for when the source is InputAxisSource_GamepadAxis
+    /// or InputAxisSource_GamepadButton.
     ///
-    /// \param index The index of the joystick.
-    void setJoystickIndex(size_t index);
+    /// \param index The index of the gamepad.
+    void setGamepadIndex(size_t index);
 
     ///
-    /// Returns the index of the joystick axis controlling the axis.
+    /// Returns the index of the gamepad axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickAxis.
-    size_t joystickAxisIndex() const;
+    /// InputAxisSource_GamepadAxis.
+    size_t gamepadAxisIndex() const;
 
     ///
-    /// Sets the index of the joystick axis controlling the axis.
+    /// Sets the index of the gamepad axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickAxis.
+    /// InputAxisSource_GamepadAxis.
     ///
-    /// \param index The index of the joystick axis.
-    void setJoystickAxisIndex(size_t index);
+    /// \param index The index of the gamepad axis.
+    void setGamepadAxisIndex(size_t index);
 
     ///
-    /// Returns the dead zone of the joystick axis controlling the axis.
+    /// Returns the dead zone of the gamepad axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickAxis.
-    Real joystickAxisDeadZone() const;
+    /// InputAxisSource_GamepadAxis.
+    Real gamepadAxisDeadZone() const;
 
     ///
-    /// Sets the dead zone of the joystick axis controlling the axis.
+    /// Sets the dead zone of the gamepad axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickAxis.
+    /// InputAxisSource_GamepadAxis.
     ///
     /// \param deadZone The dead zone.
-    void setJoystickAxisDeadZone(Real deadZone);
+    void setGamepadAxisDeadZone(Real deadZone);
 
     ///
-    /// Returns whether the joystick axis controlling the axis should be
+    /// Returns whether the gamepad axis controlling the axis should be
     /// inverted.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickAxis.
-    bool joystickAxisInverted() const;
+    /// InputAxisSource_GamepadAxis.
+    bool gamepadAxisInverted() const;
 
     ///
-    /// Sets whether the joystick axis controlling the axis should be
+    /// Sets whether the gamepad axis controlling the axis should be
     /// inverted.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickAxis.
+    /// InputAxisSource_GamepadAxis.
     ///
     /// \param invert True if the axis is inverted; false otherwise.
-    void setJoystickAxisInverted(bool invert);
+    void setGamepadAxisInverted(bool invert);
 
     ///
-    /// Returns the index of the joystick button which causes the axis to move
+    /// Returns the index of the gamepad button which causes the axis to move
     /// in the positive direction.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickButton.
-    size_t positiveJoystickButtonIndex() const;
+    /// InputAxisSource_GamepadButton.
+    size_t positiveGamepadButtonIndex() const;
 
     ///
     ///
-    /// Sets the index of the joystick button which causes the axis to move in
+    /// Sets the index of the gamepad button which causes the axis to move in
     /// the positive direction.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickButton.
+    /// InputAxisSource_GamepadButton.
     ///
-    /// \param index The index of the joystick button.
-    void setPositiveJoystickButtonIndex(size_t index);
+    /// \param index The index of the gamepad button.
+    void setPositiveGamepadButtonIndex(size_t index);
 
     ///
-    /// Returns the index of the joystick button which causes the axis to move
+    /// Returns the index of the gamepad button which causes the axis to move
     /// in the negative direction.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickButton.
-    size_t negativeJoystickButtonIndex() const;
+    /// InputAxisSource_GamepadButton.
+    size_t negativeGamepadButtonIndex() const;
 
     ///
     ///
-    /// Sets the index of the joystick button which causes the axis to move in
+    /// Sets the index of the gamepad button which causes the axis to move in
     /// the negative direction.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSource_JoystickButton.
+    /// InputAxisSource_GamepadButton.
     ///
-    /// \param index The index of the joystick button.
-    void setNegativeJoystickButtonIndex(size_t index);
+    /// \param index The index of the gamepad button.
+    void setNegativeGamepadButtonIndex(size_t index);
 
     ///
     /// Returns the current value.
@@ -312,12 +312,12 @@ private:
     Key _positiveKey;
     Key _negativeKey;
 
-    size_t _joystickIndex;
-    size_t _joystickAxisIndex;
-    Real _joystickAxisDeadZone;
-    bool _joystickAxisInverted;
-    size_t _positiveJoystickButtonIndex;
-    size_t _negativeJoystickButtonIndex;
+    size_t _gamepadIndex;
+    size_t _gamepadAxisIndex;
+    Real _gamepadAxisDeadZone;
+    bool _gamepadAxisInverted;
+    size_t _positiveGamepadButtonIndex;
+    size_t _negativeGamepadButtonIndex;
 
     Real _value;
     Real _acceleration;

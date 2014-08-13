@@ -28,22 +28,16 @@
 using namespace hect;
 
 Window::Window(const std::string& title, const VideoMode& videoMode) :
-    RenderTarget(videoMode.width(), videoMode.height()),
-    _handle(Platform::createWindow(title, videoMode))
+    RenderTarget(videoMode.width(), videoMode.height())
 {
+    title;
 }
 
 Window::~Window()
 {
-    Platform::destroyWindow(_handle);
 }
 
 void Window::bind(Renderer* renderer)
 {
     renderer->bindWindow(*this);
-}
-
-void Window::swapBuffers()
-{
-    Platform::swapBuffers(_handle);
 }

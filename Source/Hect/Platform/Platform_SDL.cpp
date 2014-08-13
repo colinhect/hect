@@ -43,10 +43,8 @@ namespace
 
 static Mouse _mouse;
 static Keyboard _keyboard;
-static std::vector<Joystick> _joysticks;
-static std::vector<SDL_Joystick*> _sdlJoysticks;
-static std::vector<SDL_Window*> _sdlWindows;
-static std::vector<SDL_GLContext> _sdlContexts;
+static std::vector<Gamepad> _gamepads;
+static std::vector<SDL_Joystick*> _openJoysticks;
 static MouseMode _mouseMode = MouseMode_Cursor;
 
 Key convertKey(SDL_Keycode key)
@@ -149,6 +147,57 @@ Key convertKey(SDL_Keycode key)
 
 }
 
+class SDLWindow :
+    public Window
+{
+public:
+
+    SDLWindow(const std::string& title, const VideoMode& videoMode) :
+        Window(title, videoMode),
+        _window(nullptr),
+        _context(nullptr)
+    {
+        // Create the window flags
+        uint32_t flags = SDL_WINDOW_OPENGL;
+        if (videoMode.isFullscreen())
+        {
+            flags |= SDL_WINDOW_FULLSCREEN;
+        }
+
+        // Create the window
+        _window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), SDL_WINDOW_OPENGL);
+        if (!_window)
+        {
+            throw Error(format("Failed to create SDL window: %s", SDL_GetError()));
+        }
+
+        // Create the OpenGL context
+        _context = SDL_GL_CreateContext(_window);
+    }
+
+    ~SDLWindow()
+    {
+        if (_context)
+        {
+            SDL_GL_DeleteContext(_context);
+        }
+
+        if (_window)
+        {
+            SDL_DestroyWindow(_window);
+        }
+    }
+
+    void swapBuffers()
+    {
+        SDL_GL_SwapWindow(_window);
+    }
+
+private:
+    SDL_Window* _window;
+    SDL_GLContext _context;
+};
+
 void Platform::initialize()
 {
     FileSystem::initialize();
@@ -167,27 +216,27 @@ void Platform::initialize()
         SDL_Joystick* joystick = SDL_JoystickOpen(i);
         if (joystick)
         {
-            _sdlJoysticks.push_back(joystick);
+            _openJoysticks.push_back(joystick);
 
             std::string name = SDL_JoystickName(joystick);
             size_t buttonCount = SDL_JoystickNumButtons(joystick);
             size_t axisCount = SDL_JoystickNumAxes(joystick);
 
-            HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
+            HECT_INFO(format("Detected gamepad '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
 
-            _joysticks.push_back(Joystick(name, buttonCount, axisCount));
+            _gamepads.push_back(Gamepad(name, buttonCount, axisCount));
         }
     }
 }
 
 void Platform::deinitialize()
 {
-    // Close all joysticks
-    for (SDL_Joystick* joystick : _sdlJoysticks)
+    // Close all gamepads
+    for (SDL_Joystick* joystick : _openJoysticks)
     {
         SDL_JoystickClose(joystick);
     }
-    _sdlJoysticks.clear();
+    _openJoysticks.clear();
 
     SDL_Quit();
 
@@ -201,63 +250,9 @@ void Platform::showFatalError(const std::string& message)
 #endif
 }
 
-WindowHandle Platform::createWindow(const std::string& title, const VideoMode& videoMode)
+Window::Pointer Platform::createWindow(const std::string& title, const VideoMode& videoMode)
 {
-    WindowHandle handle = _sdlWindows.size();
-
-    // Create the window flags
-    uint32_t flags = SDL_WINDOW_OPENGL;
-    if (videoMode.isFullscreen())
-    {
-        flags |= SDL_WINDOW_FULLSCREEN;
-    }
-
-    // Create the window
-    SDL_Window* window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), SDL_WINDOW_OPENGL);
-    if (!window)
-    {
-        throw Error(format("Failed to create SDL window: %s", SDL_GetError()));
-    }
-
-    // Create the OpenGL context
-    SDL_GLContext context = SDL_GL_CreateContext(window);
-
-    _sdlWindows.push_back(window);
-    _sdlContexts.push_back(context);
-
-    return handle;
-}
-
-void Platform::destroyWindow(WindowHandle handle)
-{
-    if (handle < _sdlWindows.size())
-    {
-        SDL_GLContext context = _sdlContexts[handle];
-        if (context)
-        {
-            SDL_GL_DeleteContext(context);
-            _sdlContexts[handle] = nullptr;
-        }
-
-        SDL_Window* window = _sdlWindows[handle];
-        if (window)
-        {
-            SDL_DestroyWindow(window);
-            _sdlWindows[handle] = nullptr;
-        }
-    }
-}
-
-void Platform::swapBuffers(WindowHandle handle)
-{
-    if (handle < _sdlWindows.size())
-    {
-        SDL_Window* window = _sdlWindows[handle];
-        if (window)
-        {
-            SDL_GL_SwapWindow(window);
-        }
-    }
+    return Window::Pointer(new SDLWindow(title, videoMode));
 }
 
 bool Platform::handleEvents()
@@ -321,23 +316,23 @@ bool Platform::handleEvents()
         case SDL_JOYAXISMOTION:
         {
             // Enqueue the event
-            JoystickEvent event;
-            event.type = JoystickEventType_AxisMotion;
-            event.joystickIndex = e.jaxis.which;
+            GamepadEvent event;
+            event.type = GamepadEventType_AxisMotion;
+            event.gamepadIndex = e.jaxis.which;
             event.axisIndex = e.jaxis.axis;
             event.axisValue = std::max<Real>((Real)e.jaxis.value / (Real)32767, -1.0);
-            _joysticks[event.joystickIndex].enqueueEvent(event);
+            _gamepads[event.gamepadIndex].enqueueEvent(event);
         }
             break;
         case SDL_JOYBUTTONDOWN:
         case SDL_JOYBUTTONUP:
         {
             // Enqueue the event
-            JoystickEvent event;
-            event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType_ButtonDown : JoystickEventType_ButtonUp;
-            event.joystickIndex = e.jbutton.which;
+            GamepadEvent event;
+            event.type = e.type == SDL_JOYBUTTONDOWN ? GamepadEventType_ButtonDown : GamepadEventType_ButtonUp;
+            event.gamepadIndex = e.jbutton.which;
             event.buttonIndex = e.jbutton.button;
-            _joysticks[event.joystickIndex].enqueueEvent(event);
+            _gamepads[event.gamepadIndex].enqueueEvent(event);
         }
             break;
         }
@@ -346,9 +341,9 @@ bool Platform::handleEvents()
     _mouse.dispatchEvents();
     _keyboard.dispatchEvents();
 
-    for (Joystick& joystick : _joysticks)
+    for (Gamepad& gamepad : _gamepads)
     {
-        joystick.dispatchEvents();
+        gamepad.dispatchEvents();
     }
 
     return active;
@@ -374,7 +369,7 @@ Keyboard& Platform::keyboard()
     return _keyboard;
 }
 
-Sequence<Joystick> Platform::joysticks()
+Sequence<Gamepad> Platform::gamepads()
 {
-    return Sequence<Joystick>(_joysticks.begin(), _joysticks.end());
+    return Sequence<Gamepad>(_gamepads.begin(), _gamepads.end());
 }

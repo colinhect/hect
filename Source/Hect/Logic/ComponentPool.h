@@ -38,7 +38,7 @@ class ComponentPoolBase
 {
     friend class Scene;
 protected:
-    virtual void notifyEvent(ComponentEventType type, Entity& entity) = 0;
+    virtual void dispatchEvent(ComponentEventType type, Entity& entity) = 0;
 
     virtual void addBase(Entity& entity, const ComponentBase& component) = 0;
     virtual const ComponentBase& getBase(const Entity& entity) const = 0;
@@ -53,7 +53,8 @@ protected:
 /// A pool of components of a specific type within a Scene.
 template <typename T>
 class ComponentPool :
-    public ComponentPoolBase
+    public ComponentPoolBase,
+    public Dispatcher<ComponentEvent<T>>
 {
     friend class Scene;
     friend class Entity;
@@ -61,10 +62,6 @@ class ComponentPool :
     friend class Component<T>::IteratorBase;
 public:
     ComponentPool(Scene& scene, const std::string& componentTypeName);
-
-    ///
-    /// Returns the event dispatcher for the components in the pool.
-    Dispatcher<ComponentEvent<T>>& dispatcher();
 
     ///
     /// Returns an iterator to the beginning of the pool.
@@ -119,7 +116,7 @@ public:
     typename Component<T>::ConstIterator::Vector find(typename Component<T>::Predicate predicate) const;
 
 private:
-    void notifyEvent(ComponentEventType type, Entity& entity);
+    void dispatchEvent(ComponentEventType type, Entity& entity);
 
     void addBase(Entity& entity, const ComponentBase& component);
     const ComponentBase& getBase(const Entity& entity) const;
@@ -152,7 +149,6 @@ private:
 
     Scene* _scene;
     std::string _componentTypeName;
-    Dispatcher<ComponentEvent<T>> _dispatcher;
     IdPool<ComponentId> _idPool;
     std::vector<T> _components;
     std::vector<ComponentId> _entityToComponent;

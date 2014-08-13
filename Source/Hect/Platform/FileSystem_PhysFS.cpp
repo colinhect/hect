@@ -36,6 +36,9 @@
 
 using namespace hect;
 
+namespace
+{
+
 Path convertPath(const char* rawPath)
 {
     std::string delimiter(PHYSFS_getDirSeparator());
@@ -51,12 +54,12 @@ Path convertPath(const char* rawPath)
     return Path(string);
 }
 
-class FileReadStream :
+class PhysFSReadStream :
     public ReadStream,
     public Uncopyable
 {
 public:
-    FileReadStream(const Path& path) :
+    PhysFSReadStream(const Path& path) :
         _path(path),
         _handle(nullptr)
     {
@@ -67,7 +70,7 @@ public:
         }
     }
 
-    ~FileReadStream()
+    ~PhysFSReadStream()
     {
         if (_handle)
         {
@@ -132,12 +135,12 @@ private:
     PHYSFS_File* _handle;
 };
 
-class FileWriteStream :
+class PhysFSWriteStream :
     public WriteStream,
     public Uncopyable
 {
 public:
-    FileWriteStream(const Path& path) :
+    PhysFSWriteStream(const Path& path) :
         _path(path),
         _handle(nullptr)
     {
@@ -148,7 +151,7 @@ public:
         }
     }
 
-    FileWriteStream::~FileWriteStream()
+    PhysFSWriteStream::~PhysFSWriteStream()
     {
         if (_handle)
         {
@@ -187,6 +190,8 @@ private:
     Path _path;
     PHYSFS_File* _handle;
 };
+
+}
 
 void FileSystem::initialize()
 {
@@ -230,18 +235,18 @@ void FileSystem::mount(const Path& path)
 {
     if (!PHYSFS_mount(path.toString().c_str(), NULL, 0))
     {
-        throw Error(format("Failed to add data source: %s", PHYSFS_getLastError()));
+        throw Error(format("Failed to mount path: %s", PHYSFS_getLastError()));
     }
 }
 
 ReadStream::Pointer FileSystem::openFileForRead(const Path& path)
 {
-    return ReadStream::Pointer(new FileReadStream(path));
+    return ReadStream::Pointer(new PhysFSReadStream(path));
 }
 
 WriteStream::Pointer FileSystem::openFileForWrite(const Path& path)
 {
-    return WriteStream::Pointer(new FileWriteStream(path));
+    return WriteStream::Pointer(new PhysFSWriteStream(path));
 }
 
 void FileSystem::createDirectory(const Path& path)

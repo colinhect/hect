@@ -72,34 +72,34 @@ void InputAxisEncoder::decode(InputAxis& inputAxis, ObjectDecoder& decoder)
         inputAxis.setNegativeKey(negativeKey);
     }
 
-    if (decoder.hasMember("joystickIndex"))
+    if (decoder.hasMember("gamepadIndex"))
     {
-        inputAxis.setJoystickIndex(decoder.decodeUnsignedInt("joystickIndex"));
+        inputAxis.setGamepadIndex(decoder.decodeUnsignedInt("gamepadIndex"));
     }
 
-    if (decoder.hasMember("joystickAxisIndex"))
+    if (decoder.hasMember("gamepadAxisIndex"))
     {
-        inputAxis.setJoystickAxisIndex(decoder.decodeUnsignedInt("joystickAxisIndex"));
+        inputAxis.setGamepadAxisIndex(decoder.decodeUnsignedInt("gamepadAxisIndex"));
     }
 
-    if (decoder.hasMember("joystickAxisDeadZone"))
+    if (decoder.hasMember("gamepadAxisDeadZone"))
     {
-        inputAxis.setJoystickAxisDeadZone(decoder.decodeReal("joystickAxisDeadZone"));
+        inputAxis.setGamepadAxisDeadZone(decoder.decodeReal("gamepadAxisDeadZone"));
     }
 
-    if (decoder.hasMember("joystickAxisInverted"))
+    if (decoder.hasMember("gamepadAxisInverted"))
     {
-        inputAxis.setJoystickAxisInverted(decoder.decodeBool("joystickAxisInverted"));
+        inputAxis.setGamepadAxisInverted(decoder.decodeBool("gamepadAxisInverted"));
     }
 
-    if (decoder.hasMember("positiveJoystickButtonIndex"))
+    if (decoder.hasMember("positiveGamepadButtonIndex"))
     {
-        inputAxis.setPositiveJoystickButtonIndex(decoder.decodeUnsignedInt("positiveJoystickButtonIndex"));
+        inputAxis.setPositiveGamepadButtonIndex(decoder.decodeUnsignedInt("positiveGamepadButtonIndex"));
     }
 
-    if (decoder.hasMember("negativeJoystickButtonIndex"))
+    if (decoder.hasMember("negativeGamepadButtonIndex"))
     {
-        inputAxis.setNegativeJoystickButtonIndex(decoder.decodeUnsignedInt("negativeJoystickButtonIndex"));
+        inputAxis.setNegativeGamepadButtonIndex(decoder.decodeUnsignedInt("negativeGamepadButtonIndex"));
     }
 
     if (decoder.hasMember("acceleration"))

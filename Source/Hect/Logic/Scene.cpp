@@ -78,7 +78,7 @@ Entity::Iterator Scene::createEntity()
 
     // Dispatch the entity create event
     EntityEvent event(EntityEventType_Create, *entity);
-    _entityPool._dispatcher.dispatchEvent(event);
+    _entityPool.dispatchEvent(event);
 
     return entity;
 }
@@ -161,7 +161,7 @@ void Scene::destroyEntity(Entity& entity)
 
     // Dispatch the entity destroy event
     EntityEvent event(EntityEventType_Destroy, entity);
-    _entityPool._dispatcher.dispatchEvent(event);
+    _entityPool.dispatchEvent(event);
 
     // Destroy all children
     std::vector<EntityId> childIds;
@@ -216,7 +216,7 @@ void Scene::activateEntity(Entity& entity)
         auto componentPool = pair.second;
         if (componentPool->has(entity))
         {
-            componentPool->notifyEvent(ComponentEventType_Add, entity);
+            componentPool->dispatchEvent(ComponentEventType_Add, entity);
         }
     }
 
@@ -225,7 +225,7 @@ void Scene::activateEntity(Entity& entity)
 
     // Dispatch the entity activate event
     EntityEvent event(EntityEventType_Activate, entity);
-    _entityPool._dispatcher.dispatchEvent(event);
+    _entityPool.dispatchEvent(event);
 
     // Activate all children
     for (Entity& child : entity.children())

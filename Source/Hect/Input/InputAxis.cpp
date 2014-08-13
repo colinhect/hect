@@ -35,12 +35,12 @@ InputAxis::InputAxis() :
     _negativeMouseButton(MouseButton_Right),
     _positiveKey(Key_A),
     _negativeKey(Key_B),
-    _joystickIndex(0),
-    _joystickAxisIndex(0),
-    _joystickAxisDeadZone(0),
-    _joystickAxisInverted(false),
-    _positiveJoystickButtonIndex(0),
-    _negativeJoystickButtonIndex(0),
+    _gamepadIndex(0),
+    _gamepadAxisIndex(0),
+    _gamepadAxisDeadZone(0),
+    _gamepadAxisInverted(false),
+    _positiveGamepadButtonIndex(0),
+    _negativeGamepadButtonIndex(0),
     _value(0),
     _acceleration(1),
     _gravity(0)
@@ -54,12 +54,12 @@ InputAxis::InputAxis(const std::string& name) :
     _negativeMouseButton(MouseButton_Right),
     _positiveKey(Key_A),
     _negativeKey(Key_B),
-    _joystickIndex(0),
-    _joystickAxisIndex(0),
-    _joystickAxisDeadZone(0),
-    _joystickAxisInverted(false),
-    _positiveJoystickButtonIndex(0),
-    _negativeJoystickButtonIndex(0),
+    _gamepadIndex(0),
+    _gamepadAxisIndex(0),
+    _gamepadAxisDeadZone(0),
+    _gamepadAxisInverted(false),
+    _positiveGamepadButtonIndex(0),
+    _negativeGamepadButtonIndex(0),
     _value(0),
     _acceleration(1),
     _gravity(0)
@@ -126,64 +126,64 @@ void InputAxis::setNegativeKey(Key key)
     _negativeKey = key;
 }
 
-size_t InputAxis::joystickIndex() const
+size_t InputAxis::gamepadIndex() const
 {
-    return _joystickIndex;
+    return _gamepadIndex;
 }
 
-void InputAxis::setJoystickIndex(size_t index)
+void InputAxis::setGamepadIndex(size_t index)
 {
-    _joystickIndex = index;
+    _gamepadIndex = index;
 }
 
-size_t InputAxis::joystickAxisIndex() const
+size_t InputAxis::gamepadAxisIndex() const
 {
-    return _joystickAxisIndex;
+    return _gamepadAxisIndex;
 }
 
-void InputAxis::setJoystickAxisIndex(size_t index)
+void InputAxis::setGamepadAxisIndex(size_t index)
 {
-    _joystickAxisIndex = index;
+    _gamepadAxisIndex = index;
 }
 
-Real InputAxis::joystickAxisDeadZone() const
+Real InputAxis::gamepadAxisDeadZone() const
 {
-    return _joystickAxisDeadZone;
+    return _gamepadAxisDeadZone;
 }
 
-void InputAxis::setJoystickAxisDeadZone(Real deadZone)
+void InputAxis::setGamepadAxisDeadZone(Real deadZone)
 {
-    _joystickAxisDeadZone = deadZone;
+    _gamepadAxisDeadZone = deadZone;
 }
 
-bool InputAxis::joystickAxisInverted() const
+bool InputAxis::gamepadAxisInverted() const
 {
-    return _joystickAxisInverted;
+    return _gamepadAxisInverted;
 }
 
-void InputAxis::setJoystickAxisInverted(bool invert)
+void InputAxis::setGamepadAxisInverted(bool invert)
 {
-    _joystickAxisInverted = invert;
+    _gamepadAxisInverted = invert;
 }
 
-size_t InputAxis::positiveJoystickButtonIndex() const
+size_t InputAxis::positiveGamepadButtonIndex() const
 {
-    return _positiveJoystickButtonIndex;
+    return _positiveGamepadButtonIndex;
 }
 
-void InputAxis::setPositiveJoystickButtonIndex(size_t index)
+void InputAxis::setPositiveGamepadButtonIndex(size_t index)
 {
-    _positiveJoystickButtonIndex = index;
+    _positiveGamepadButtonIndex = index;
 }
 
-size_t InputAxis::negativeJoystickButtonIndex() const
+size_t InputAxis::negativeGamepadButtonIndex() const
 {
-    return _negativeJoystickButtonIndex;
+    return _negativeGamepadButtonIndex;
 }
 
-void InputAxis::setNegativeJoystickButtonIndex(size_t index)
+void InputAxis::setNegativeGamepadButtonIndex(size_t index)
 {
-    _negativeJoystickButtonIndex = index;
+    _negativeGamepadButtonIndex = index;
 }
 
 Real InputAxis::value() const

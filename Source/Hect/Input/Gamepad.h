@@ -31,69 +31,70 @@ namespace hect
 {
 
 ///
-/// A joystick event type.
-enum JoystickEventType
+/// A gamepad event type.
+enum GamepadEventType
 {
     ///
-    /// A joystick axis was moved.
-    JoystickEventType_AxisMotion,
+    /// A gamepad axis was moved.
+    GamepadEventType_AxisMotion,
 
     ///
-    /// A joystick button was pressed down.
-    JoystickEventType_ButtonDown,
+    /// A gamepad button was pressed down.
+    GamepadEventType_ButtonDown,
 
     ///
-    /// A joystick button was released up.
-    JoystickEventType_ButtonUp
+    /// A gamepad button was released up.
+    GamepadEventType_ButtonUp
 };
 
 ///
-/// An event caused by the alteration of a joystick.
-class JoystickEvent
+/// An event caused by the alteration of a gamepad.
+class GamepadEvent
 {
 public:
 
     ///
     /// Constructs a default event.
-    JoystickEvent();
+    GamepadEvent();
 
     ///
     /// The type of the event.
-    JoystickEventType type;
+    GamepadEventType type;
 
     ///
-    /// The index of the joystick related to the event.
-    size_t joystickIndex;
+    /// The index of the gamepad related to the event.
+    size_t gamepadIndex;
 
     ///
-    /// The index of the joystick button related to the event.
+    /// The index of the gamepad button related to the event.
     ///
-    /// \note Only relevant for a JoystickEventType_ButtonDown or
-    /// JoystickEventType_ButtonUp event.
+    /// \note Only relevant for a GamepadEventType_ButtonDown or
+    /// GamepadEventType_ButtonUp event.
     size_t buttonIndex;
 
     ///
-    /// The index of the joystick axis related to the event.
+    /// The index of the gamepad axis related to the event.
     ///
-    /// \note Only relevant for a JoystickEventType_AxisMotion event.
+    /// \note Only relevant for a GamepadEventType_AxisMotion event.
     size_t axisIndex;
 
     ///
-    /// The value of the joystick axis related to the event.
+    /// The value of the gamepad axis related to the event.
     ///
-    /// \note Only relevant for a JoystickEventType_AxisMotion event.
+    /// \note Only relevant for a GamepadEventType_AxisMotion event.
     Real axisValue;
 };
 
 ///
-/// Provides access to a joystick.
-class Joystick
+/// Provides access to a gamepad.
+class Gamepad :
+    public Dispatcher<GamepadEvent>
 {
     friend class Platform;
 public:
 
     ///
-    /// Returns the number of buttons on the joystick.
+    /// Returns the number of buttons on the gamepad.
     size_t buttonCount() const;
 
     ///
@@ -101,33 +102,28 @@ public:
     ///
     /// \param buttonIndex The index of the button to get the state of.
     ///
-    /// \throws Error If the joystick does not have the given button.
+    /// \throws Error If the gamepad does not have the given button.
     bool isButtonDown(size_t buttonIndex) const;
 
     ///
-    /// Returns the number of axes on the joystick.
+    /// Returns the number of axes on the gamepad.
     size_t axisCount() const;
 
     ///
-    /// Returns the value of an axis of the joystick.
+    /// Returns the value of an axis of the gamepad.
     ///
     /// \param axisIndex The index of the axis to get the value of.
     ///
-    /// \throws Error If the joystick does not have the given axis.
+    /// \throws Error If the gamepad does not have the given axis.
     Real axisValue(size_t axisIndex) const;
 
-    ///
-    /// Returns the dispatcher of joystick events.
-    Dispatcher<JoystickEvent>& dispatcher();
-
 private:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
+    Gamepad(const std::string& name, size_t buttonCount, size_t axisCount);
 
-    void enqueueEvent(const JoystickEvent& event);
+    void enqueueEvent(const GamepadEvent& event);
     void dispatchEvents();
 
-    Dispatcher<JoystickEvent> _dispatcher;
-    std::vector<JoystickEvent> _events;
+    std::vector<GamepadEvent> _events;
 
     std::string _name;
 

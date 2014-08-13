@@ -116,7 +116,8 @@ public:
 
 ///
 /// Provides access to the system mouse.
-class Mouse
+class Mouse :
+    public Dispatcher<MouseEvent>
 {
 public:
     Mouse();
@@ -141,15 +142,10 @@ public:
     /// Returns the mode.
     MouseMode mode() const;
 
-    ///
-    /// Returns the dispatcher of mouse events.
-    Dispatcher<MouseEvent>& dispatcher();
-
     void enqueueEvent(const MouseEvent& event);
     void dispatchEvents();
 
 private:
-    Dispatcher<MouseEvent> _dispatcher;
     std::vector<MouseEvent> _events;
 
     MouseMode _mode;

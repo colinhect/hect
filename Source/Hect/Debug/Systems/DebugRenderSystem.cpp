@@ -24,6 +24,7 @@
 #include "DebugRenderSystem.h"
 
 #include "Hect/Logic/Scene.h"
+#include "Hect/Platform/Platform.h"
 
 using namespace hect;
 
@@ -32,8 +33,7 @@ DebugRenderSystem::DebugRenderSystem(Scene& scene, AssetCache& assetCache, Rende
     _transformDebugRenderLayer(assetCache),
     _boundingBoxDebugRenderLayer(assetCache)
 {
-    Keyboard& keyboard = Platform::keyboard();
-    keyboard.dispatcher().addListener(*this);
+    Platform::keyboard().addListener(*this);
 
     // Add debug render layers
     addRenderLayer(Key_F5, _transformDebugRenderLayer);
@@ -42,8 +42,7 @@ DebugRenderSystem::DebugRenderSystem(Scene& scene, AssetCache& assetCache, Rende
 
 DebugRenderSystem::~DebugRenderSystem()
 {
-    Keyboard& keyboard = Platform::keyboard();
-    keyboard.dispatcher().removeListener(*this);
+    Platform::keyboard().removeListener(*this);
 }
 
 void DebugRenderSystem::addRenderLayer(Key toggleKey, DebugRenderLayer& renderLayer)

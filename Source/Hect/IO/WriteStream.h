@@ -41,7 +41,7 @@ class WriteStream
 public:
 
     ///
-    /// Reference-counted pointer to a write stream.
+    /// A reference-counted pointer to a write stream.
     typedef std::shared_ptr<WriteStream> Pointer;
 
     ///

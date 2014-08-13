@@ -40,12 +40,12 @@ PhysicsSystem::PhysicsSystem(Scene& scene) :
 {
     setGravity(Vector3::zero());
 
-    scene.components<RigidBody>().dispatcher().addListener(*this);
+    scene.components<RigidBody>().addListener(*this);
 }
 
 PhysicsSystem::~PhysicsSystem()
 {
-    scene().components<RigidBody>().dispatcher().removeListener(*this);
+    scene().components<RigidBody>().removeListener(*this);
 }
 
 void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition)

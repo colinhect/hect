@@ -54,7 +54,7 @@ public:
 
 private:
     std::unique_ptr<Renderer> _renderer;
-    std::unique_ptr<Window> _window;
+    Window::Pointer _window;
     JsonValue _settings;
 };
 

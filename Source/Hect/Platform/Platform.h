@@ -24,15 +24,13 @@
 #pragma once
 
 #include "Hect/Core/Sequence.h"
-#include "Hect/Graphics/VideoMode.h"
-#include "Hect/Input/Joystick.h"
+#include "Hect/Graphics/Window.h"
+#include "Hect/Input/Gamepad.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
 
 namespace hect
 {
-
-typedef size_t WindowHandle;
 
 class Platform
 {
@@ -42,9 +40,7 @@ public:
 
     static void showFatalError(const std::string& message);
 
-    static WindowHandle createWindow(const std::string& title, const VideoMode& videoMode);
-    static void destroyWindow(WindowHandle handle);
-    static void swapBuffers(WindowHandle handle);
+    static Window::Pointer createWindow(const std::string& title, const VideoMode& videoMode);
 
     static bool handleEvents();
 
@@ -54,7 +50,7 @@ public:
     static bool hasKeyboard();
     static Keyboard& keyboard();
 
-    static Sequence<Joystick> joysticks();
+    static Sequence<Gamepad> gamepads();
 
 private:
     Platform() { }

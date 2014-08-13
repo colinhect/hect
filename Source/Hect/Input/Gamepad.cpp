@@ -21,28 +21,28 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Joystick.h"
+#include "Gamepad.h"
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
 
 using namespace hect;
 
-JoystickEvent::JoystickEvent() :
-    type(JoystickEventType_AxisMotion),
-    joystickIndex(0),
+GamepadEvent::GamepadEvent() :
+    type(GamepadEventType_AxisMotion),
+    gamepadIndex(0),
     buttonIndex(0),
     axisIndex(0),
     axisValue(0)
 {
 }
 
-size_t Joystick::buttonCount() const
+size_t Gamepad::buttonCount() const
 {
     return _buttonStates.size();
 }
 
-bool Joystick::isButtonDown(size_t buttonIndex) const
+bool Gamepad::isButtonDown(size_t buttonIndex) const
 {
     if (buttonIndex < _buttonStates.size())
     {
@@ -50,16 +50,16 @@ bool Joystick::isButtonDown(size_t buttonIndex) const
     }
     else
     {
-        throw Error(format("Joystick does not have button of index %i", buttonIndex));
+        throw Error(format("Gamepad does not have button of index %i", buttonIndex));
     }
 }
 
-size_t Joystick::axisCount() const
+size_t Gamepad::axisCount() const
 {
     return _axisStates.size();
 }
 
-Real Joystick::axisValue(size_t axisIndex) const
+Real Gamepad::axisValue(size_t axisIndex) const
 {
     if (axisIndex < _axisStates.size())
     {
@@ -67,44 +67,39 @@ Real Joystick::axisValue(size_t axisIndex) const
     }
     else
     {
-        throw Error(format("Joystick does not have axis of index %i", axisIndex));
+        throw Error(format("Gamepad does not have axis of index %i", axisIndex));
     }
 }
 
-Dispatcher<JoystickEvent>& Joystick::dispatcher()
-{
-    return _dispatcher;
-}
-
-Joystick::Joystick(const std::string& name, size_t buttonCount, size_t axisCount) :
+Gamepad::Gamepad(const std::string& name, size_t buttonCount, size_t axisCount) :
     _name(name),
     _buttonStates(buttonCount, false),
     _axisStates(axisCount, 0)
 {
 }
 
-void Joystick::enqueueEvent(const JoystickEvent& event)
+void Gamepad::enqueueEvent(const GamepadEvent& event)
 {
-    if (event.type == JoystickEventType_ButtonDown)
+    if (event.type == GamepadEventType_ButtonDown)
     {
         _buttonStates[event.buttonIndex] = true;
     }
-    else if (event.type == JoystickEventType_ButtonUp)
+    else if (event.type == GamepadEventType_ButtonUp)
     {
         _buttonStates[event.buttonIndex] = false;
     }
-    else if (event.type == JoystickEventType_AxisMotion)
+    else if (event.type == GamepadEventType_AxisMotion)
     {
         _axisStates[event.axisIndex] = event.axisValue;
     }
     _events.push_back(event);
 }
 
-void Joystick::dispatchEvents()
+void Gamepad::dispatchEvents()
 {
-    for (const JoystickEvent& event : _events)
+    for (const GamepadEvent& event : _events)
     {
-        _dispatcher.dispatchEvent(event);
+        dispatchEvent(event);
     }
 
     _events.clear();

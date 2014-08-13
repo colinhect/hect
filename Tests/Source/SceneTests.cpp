@@ -796,7 +796,7 @@ TEST_CASE("Scene_ComponentPoolListeners")
     scene.registerComponent<String>();
 
     ComponentPoolListener listener;
-    scene.components<String>().dispatcher().addListener(listener);
+    scene.components<String>().addListener(listener);
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<String>("A");

@@ -23,12 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/VideoMode.h"
-#include "Hect/Platform/Platform.h"
 
 namespace hect
 {
@@ -44,6 +44,10 @@ class Window :
 public:
 
     ///
+    /// A reference-counted pointer to a window.
+    typedef std::shared_ptr<Window> Pointer;
+
+    ///
     /// Constructs a window given a title and the settings.
     ///
     /// \param title The window title.
@@ -52,13 +56,10 @@ public:
 
     ///
     /// Closes the window.
-    ~Window();
+    virtual ~Window();
     
     void bind(Renderer* renderer);
-    void swapBuffers();
-
-private:
-    WindowHandle _handle;
+    virtual void swapBuffers() = 0;
 };
 
 }

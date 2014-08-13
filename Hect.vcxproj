@@ -65,7 +65,7 @@
     <ClInclude Include="Source\Hect\Graphics\VideoMode.h" />
     <ClInclude Include="Source\Hect\Graphics\Window.h" />
     <ClInclude Include="Source\Hect\Input\InputAxis.h" />
-    <ClInclude Include="Source\Hect\Input\Joystick.h" />
+    <ClInclude Include="Source\Hect\Input\Gamepad.h" />
     <ClInclude Include="Source\Hect\Input\Keyboard.h" />
     <ClInclude Include="Source\Hect\Input\Mouse.h" />
     <ClInclude Include="Source\Hect\Input\Systems\InputSystem.h" />
@@ -188,7 +188,7 @@
     <ClCompile Include="Source\Hect\Graphics\VideoMode.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Window.cpp" />
     <ClCompile Include="Source\Hect\Input\InputAxis.cpp" />
-    <ClCompile Include="Source\Hect\Input\Joystick.cpp" />
+    <ClCompile Include="Source\Hect\Input\Gamepad.cpp" />
     <ClCompile Include="Source\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="Source\Hect\Input\Mouse.cpp" />
     <ClCompile Include="Source\Hect\Input\Systems\InputSystem.cpp" />
@@ -233,8 +233,8 @@
     <ClCompile Include="Source\Hect\Physics\Bullet.cpp" />
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp" />
     <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp" />
-    <ClCompile Include="Source\Hect\Platform\FileSystemPhysFS.cpp" />
-    <ClCompile Include="Source\Hect\Platform\PlatformSdl.cpp" />
+    <ClCompile Include="Source\Hect\Platform\FileSystem_PhysFS.cpp" />
+    <ClCompile Include="Source\Hect\Platform\Platform_SDL.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
     <ClCompile Include="Source\Hect\Spacial\AxisAlignedBox.cpp" />

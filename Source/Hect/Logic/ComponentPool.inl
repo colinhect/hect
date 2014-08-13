@@ -32,12 +32,6 @@ ComponentPool<T>::ComponentPool(Scene& scene, const std::string& componentTypeNa
 }
 
 template <typename T>
-Dispatcher<ComponentEvent<T>>& ComponentPool<T>::dispatcher()
-{
-    return _dispatcher;
-}
-
-template <typename T>
 typename Component<T>::Iterator ComponentPool<T>::begin()
 {
     Component<T>::Iterator iterator(*this, 0);
@@ -130,10 +124,10 @@ typename Component<T>::ConstIterator::Vector ComponentPool<T>::find(typename Com
 }
 
 template <typename T>
-void ComponentPool<T>::notifyEvent(ComponentEventType type, Entity& entity)
+void ComponentPool<T>::dispatchEvent(ComponentEventType type, Entity& entity)
 {
     ComponentEvent<T> event(type, entity);
-    _dispatcher.dispatchEvent(event);
+    Dispatcher<ComponentEvent<T>>::dispatchEvent(event);
 }
 
 template <typename T>
@@ -161,7 +155,7 @@ void ComponentPool<T>::remove(Entity& entity)
         // If the entity is activated then dispatch the remove event
         if (entity.isActivated())
         {
-            notifyEvent(ComponentEventType_Remove, entity);
+            dispatchEvent(ComponentEventType_Remove, entity);
         }
 
         // Destory the component id to be re-used
@@ -257,7 +251,7 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     // Dispatch the add event if the entity is activated
     if (entity.isActivated())
     {
-        notifyEvent(ComponentEventType_Add, entity);
+        dispatchEvent(ComponentEventType_Add, entity);
     }
 
     return Component<T>::Iterator(*this, id);
@@ -274,7 +268,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
         // If the entity is activated then dispatch the remove event
         if (entity.isActivated())
         {
-            notifyEvent(ComponentEventType_Remove, entity);
+            dispatchEvent(ComponentEventType_Remove, entity);
         }
 
         // Get the old component
@@ -292,7 +286,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
         // If the entity is activated then dispatch the add event
         if (entity.isActivated())
         {
-            notifyEvent(ComponentEventType_Add, entity);
+            dispatchEvent(ComponentEventType_Add, entity);
         }
 
         return Component<T>::Iterator(*this, id);

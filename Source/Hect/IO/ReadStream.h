@@ -42,7 +42,7 @@ class ReadStream
 public:
 
     ///
-    /// Reference-counted pointer to a read stream.
+    /// A reference-counted pointer to a read stream.
     typedef std::shared_ptr<ReadStream> Pointer;
 
     ///

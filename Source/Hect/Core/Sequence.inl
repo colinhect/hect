@@ -32,15 +32,52 @@ Sequence<T, Container>::Sequence(typename Container::iterator begin, typename Co
 }
 
 template <typename T, typename Container>
-typename Container::iterator Sequence<T, Container>::begin()
+typename Container::iterator Sequence<T, Container>::begin() const
 {
     return _begin;
 }
 
 template <typename T, typename Container>
-typename Container::iterator Sequence<T, Container>::end()
+typename Container::iterator Sequence<T, Container>::end() const
 {
     return _end;
+}
+
+template <typename T, typename Container>
+size_t Sequence<T, Container>::size() const
+{
+    size_t count = 0;
+
+    auto it = begin();
+    while (it != end())
+    {
+        ++count;
+        ++it;
+    }
+
+    return count;
+}
+
+template <typename T, typename Container>
+T& Sequence<T, Container>::operator[](size_t index)
+{
+    auto it = begin();
+    for (size_t i = 0; i < index; ++i)
+    {
+        ++it;
+    }
+    return *it;
+}
+
+template <typename T, typename Container>
+const T& Sequence<T, Container>::operator[](size_t index) const
+{
+    auto it = begin();
+    for (size_t i = 0; i < index; ++i)
+    {
+        ++it;
+    }
+    return *it;
 }
 
 template <typename T, typename Container>
@@ -51,15 +88,52 @@ ConstSequence<T, Container>::ConstSequence(typename Container::const_iterator be
 }
 
 template <typename T, typename Container>
-typename Container::const_iterator ConstSequence<T, Container>::begin()
+typename Container::const_iterator ConstSequence<T, Container>::begin() const
 {
     return _begin;
 }
 
 template <typename T, typename Container>
-typename Container::const_iterator ConstSequence<T, Container>::end()
+typename Container::const_iterator ConstSequence<T, Container>::end() const
 {
     return _end;
+}
+
+template <typename T, typename Container>
+size_t ConstSequence<T, Container>::size() const
+{
+    size_t count = 0;
+
+    auto it = begin();
+    while (it != end())
+    {
+        ++count;
+        ++it;
+    }
+
+    return count;
+}
+
+template <typename T, typename Container>
+T& ConstSequence<T, Container>::operator[](size_t index)
+{
+    auto it = begin();
+    for (size_t i = 0; i < index; ++i)
+    {
+        ++it;
+    }
+    return *it;
+}
+
+template <typename T, typename Container>
+const T& ConstSequence<T, Container>::operator[](size_t index) const
+{
+    auto it = begin();
+    for (size_t i = 0; i < index; ++i)
+    {
+        ++it;
+    }
+    return *it;
 }
 
 }

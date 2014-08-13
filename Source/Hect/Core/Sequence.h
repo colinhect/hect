@@ -39,11 +39,27 @@ public:
 
     ///
     /// Returns an iterator to the beginning of the sequence.
-    typename Container::iterator begin();
+    typename Container::iterator begin() const;
 
     ///
     /// Returns an iterator to the end of the sequence.
-    typename Container::iterator end();
+    typename Container::iterator end() const;
+
+    ///
+    /// Returns the number of items in the sequence.
+    size_t size() const;
+
+    ///
+    /// Returns the item in the sequence at the given index.
+    ///
+    /// \param index The index of which item to access.
+    T& operator[](size_t index);
+
+    ///
+    /// Returns the item in the sequence at the given index.
+    ///
+    /// \param index The index of which item to access.
+    const T& operator[](size_t i) const;
 
 private:
     typename Container::iterator _begin;
@@ -61,11 +77,27 @@ public:
 
     ///
     /// Returns an iterator to the beginning of the sequence.
-    typename Container::const_iterator begin();
+    typename Container::const_iterator begin() const;
 
     ///
     /// Returns an iterator to the end of the sequence.
-    typename Container::const_iterator end();
+    typename Container::const_iterator end() const;
+
+    ///
+    /// Returns the number of items in the sequence.
+    size_t size() const;
+
+    ///
+    /// Returns the item in the sequence at the given index.
+    ///
+    /// \param index The index of which item to access.
+    T& operator[](size_t index);
+
+    ///
+    /// Returns the item in the sequence at the given index.
+    ///
+    /// \param index The index of which item to access.
+    const T& operator[](size_t i) const;
 
 private:
     typename Container::const_iterator _begin;

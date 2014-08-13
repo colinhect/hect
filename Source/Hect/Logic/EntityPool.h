@@ -37,17 +37,14 @@ class Scene;
 
 ///
 /// A pool of entities within a Scene.
-class EntityPool
+class EntityPool :
+    public Dispatcher<EntityEvent>
 {
     friend class Scene;
     friend class Entity;
     template <typename T> friend class ComponentPool;
 public:
     EntityPool(Scene& scene);
-
-    ///
-    /// Returns the event dispatcher for the entities in the pool.
-    Dispatcher<EntityEvent>& dispatcher();
 
     ///
     /// Returns an iterator to the beginning of the pool.
@@ -113,7 +110,6 @@ private:
     EntityId maxId() const;
 
     Scene* _scene;
-    Dispatcher<EntityEvent> _dispatcher;
     IdPool<EntityId> _idPool;
     std::vector<Entity> _entities;
 };

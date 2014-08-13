@@ -391,12 +391,12 @@ Entity::Handle::Context::Context(EntityPool& pool, EntityId id) :
     id(id),
     valid(true)
 {
-    pool.dispatcher().addListener(*this);
+    pool.addListener(*this);
 }
 
 Entity::Handle::Context::~Context()
 {
-    pool->dispatcher().removeListener(*this);
+    pool->removeListener(*this);
 }
 
 void Entity::Handle::Context::receiveEvent(const EntityEvent& event)

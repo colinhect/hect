@@ -32,11 +32,6 @@ EntityPool::EntityPool(Scene& scene) :
 {
 }
 
-Dispatcher<EntityEvent>& EntityPool::dispatcher()
-{
-    return _dispatcher;
-}
-
 Entity::Iterator EntityPool::begin()
 {
     Entity::Iterator iterator(*this, 0);

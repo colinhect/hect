@@ -102,42 +102,44 @@ void InputSystem::update()
                 axis.setValue(value - acceleration * timeStepInSeconds);
             }
         }
-        /*
-        else if (axis.source() == InputAxisSource_JoystickButton)
+        else if (axis.source() == InputAxisSource_GamepadButton)
         {
-            size_t joystickIndex = axis.joystickIndex();
-            if (joystickIndex < ->joystickCount())
+            Sequence<Gamepad> gamepads = Platform::gamepads();
+
+            size_t gamepadIndex = axis.gamepadIndex();
+            if (gamepadIndex < gamepads.size())
             {
-                Joystick& sourceJoystick = ->joystick(joystickIndex);
-                if (sourceJoystick.isButtonDown(axis.positiveJoystickButtonIndex()))
+                Gamepad& gamepad = gamepads[gamepadIndex];
+                if (gamepad.isButtonDown(axis.positiveGamepadButtonIndex()))
                 {
                     axis.setValue(value + acceleration * timeStepInSeconds);
                 }
 
-                if (sourceJoystick.isButtonDown(axis.negativeJoystickButtonIndex()))
+                if (gamepad.isButtonDown(axis.negativeGamepadButtonIndex()))
                 {
                     axis.setValue(value - acceleration * timeStepInSeconds);
                 }
             }
         }
-        else if (axis.source() == InputAxisSource_JoystickAxis)
+        else if (axis.source() == InputAxisSource_GamepadAxis)
         {
-            size_t joystickIndex = axis.joystickIndex();
-            if (joystickIndex < ->joystickCount())
+            Sequence<Gamepad> gamepads = Platform::gamepads();
+
+            size_t gamepadIndex = axis.gamepadIndex();
+            if (gamepadIndex < gamepads.size())
             {
-                Joystick& sourceJoystick = ->joystick(joystickIndex);
-                Real value = sourceJoystick.axisValue(axis.joystickAxisIndex());
-                if (std::abs(value) < axis.joystickAxisDeadZone())
+                Gamepad& gamepad = gamepads[gamepadIndex];
+                Real value = gamepad.axisValue(axis.gamepadAxisIndex());
+                if (std::abs(value) < axis.gamepadAxisDeadZone())
                 {
                     value = 0;
                 }
-                if (axis.joystickAxisInverted())
+                if (axis.gamepadAxisInverted())
                 {
                     value = -value;
                 }
                 axis.setValue(value);
             }
         }
-        */
     }
 }

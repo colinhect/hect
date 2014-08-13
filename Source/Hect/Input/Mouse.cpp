@@ -51,11 +51,6 @@ MouseMode Mouse::mode() const
     return _mode;
 }
 
-Dispatcher<MouseEvent>& Mouse::dispatcher()
-{
-    return _dispatcher;
-}
-
 Mouse::Mouse() :
     _mode(MouseMode_Cursor),
     _buttonStates(16, false)
@@ -80,7 +75,7 @@ void Mouse::dispatchEvents()
 {
     for (const MouseEvent& event : _events)
     {
-        _dispatcher.dispatchEvent(event);
+        dispatchEvent(event);
     }
 
     _events.clear();

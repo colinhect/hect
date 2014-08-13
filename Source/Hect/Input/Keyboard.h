@@ -126,7 +126,8 @@ public:
 
 ///
 /// Provides access to the system keyboard.
-class Keyboard
+class Keyboard :
+    public Dispatcher<KeyboardEvent>
 {
 public:
     Keyboard();
@@ -137,15 +138,10 @@ public:
     /// \param key The key to check if it is down.
     bool isKeyDown(Key key) const;
 
-    ///
-    /// Returns the dispatcher of keyboard events.
-    Dispatcher<KeyboardEvent>& dispatcher();
-
     void enqueueEvent(const KeyboardEvent& event);
     void dispatchEvents();
 
 private:
-    Dispatcher<KeyboardEvent> _dispatcher;
     std::vector<KeyboardEvent> _events;
 
     std::vector<bool> _keyStates;

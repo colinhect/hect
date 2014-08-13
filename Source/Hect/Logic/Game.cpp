@@ -38,7 +38,7 @@ Game::Game(const std::string& name, const Path& settingsFilePath)
 
     Type::registerTypes<HectTypes>();
     
-    // Add the working directory as a data source
+    // Mount the working directory
     Path workingDirectory = FileSystem::workingDirectory();
     FileSystem::mount(workingDirectory);
 
@@ -51,8 +51,8 @@ Game::Game(const std::string& name, const Path& settingsFilePath)
         _settings.decodeFromJson(*stream);
     }
 
-    // Add the data sources listed in the settings
-    for (const JsonValue& dataSource : _settings["dataSources"])
+    // Mount the paths listed in the settings
+    for (const JsonValue& dataSource : _settings["paths"])
     {
         FileSystem::mount(dataSource.asString());
     }
@@ -62,7 +62,7 @@ Game::Game(const std::string& name, const Path& settingsFilePath)
     videoMode.decodeFromJsonValue(_settings["videoMode"]);
 
     // Create window/renderer/input devices
-    _window.reset(new Window(name, videoMode));
+    _window = Platform::createWindow(name, videoMode);
     _renderer.reset(new Renderer(*_window));
 }
 
