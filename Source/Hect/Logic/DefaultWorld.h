@@ -38,7 +38,7 @@ class DefaultWorld :
     public World
 {
 public:
-    DefaultWorld(GameMode& gameMode);
+    DefaultWorld();
     
     void preFixedUpdate();
     virtual void fixedUpdate();
@@ -47,8 +47,6 @@ public:
     void frameUpdate(Real delta);
 
 private:
-    RenderTarget* _renderTarget;
-
     TaskPool _taskPool;
     Task::Handle _physicsTaskHandle;
 };

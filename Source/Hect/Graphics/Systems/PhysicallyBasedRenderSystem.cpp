@@ -27,14 +27,17 @@
 #include "Hect/Graphics/Components/LightProbe.h"
 #include "Hect/Graphics/Components/SkyBox.h"
 #include "Hect/Logic/World.h"
+#include "Hect/Runtime/Engine.h"
 #include "Hect/Spacial/Components/Transform.h"
 
 using namespace hect;
 
-PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(World& world, AssetCache& assetCache, Renderer& renderer) :
-    RenderSystem(world, renderer),
+PhysicallyBasedRenderSystem::PhysicallyBasedRenderSystem(World& world) :
+    RenderSystem(world, Engine::renderer()),
     _buffersInitialized(false)
 {
+    AssetCache& assetCache = Engine::assetCache();
+
     _compositorShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Compositor.shader");
     _environmentShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Environment.shader");
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/DirectionalLight.shader");

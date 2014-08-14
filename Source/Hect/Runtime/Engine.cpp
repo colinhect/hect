@@ -27,9 +27,19 @@
 
 using namespace hect;
 
+namespace
+{
+
+std::unique_ptr<AssetCache> _assetCache;
+std::unique_ptr<Renderer> _renderer;
+Window::Pointer _window;
+JsonValue _settings;
+
+}
+
 class HectTypes;
 
-Engine::Engine(int argc, const char* argv[])
+void Engine::initialize(int argc, const char* argv[])
 {
     argc;
     argv;
@@ -68,7 +78,7 @@ Engine::Engine(int argc, const char* argv[])
     _renderer.reset(new Renderer(*_window));
 }
 
-Engine::~Engine()
+void Engine::deinitialize()
 {
     _assetCache.reset();
     _renderer.reset();
@@ -100,7 +110,7 @@ AssetCache& Engine::assetCache()
     return *_assetCache;
 }
 
-const JsonValue& Engine::settings() const
+const JsonValue& Engine::settings()
 {
     return _settings;
 }

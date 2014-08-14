@@ -25,13 +25,14 @@
 
 #include "Hect/Logic/World.h"
 #include "Hect/Platform/Platform.h"
+#include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
-DebugRenderSystem::DebugRenderSystem(World& world, AssetCache& assetCache, Renderer& renderer) :
-    RenderSystem(world, renderer),
-    _transformDebugRenderLayer(assetCache),
-    _boundingBoxDebugRenderLayer(assetCache)
+DebugRenderSystem::DebugRenderSystem(World& world) :
+    RenderSystem(world, Engine::renderer()),
+    _transformDebugRenderLayer(Engine::assetCache()),
+    _boundingBoxDebugRenderLayer(Engine::assetCache())
 {
     Platform::keyboard().addListener(*this);
 

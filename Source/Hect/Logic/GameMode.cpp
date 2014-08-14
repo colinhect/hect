@@ -25,17 +25,10 @@
 
 using namespace hect;
 
-GameMode::GameMode(Engine& engine) :
-    _engine(&engine)
+GameMode::GameMode()
 {
 }
 
 GameMode::~GameMode()
 {
-}
-
-Engine& GameMode::engine()
-{
-    assert(_engine);
-    return *_engine;
 }

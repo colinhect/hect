@@ -33,27 +33,23 @@
 namespace hect
 {
 
-class Engine :
-    public Uncopyable
+class Engine
 {
 public:
-    Engine(int argc, const char* argv[]);
-    ~Engine();
+    static void initialize(int argc, const char* argv[]);
+    static void deinitialize();
 
-    bool handleEvents();
+    static bool handleEvents();
 
-    Renderer& renderer();
-    Window& window();
+    static Renderer& renderer();
+    static Window& window();
 
-    AssetCache& assetCache();
+    static AssetCache& assetCache();
 
-    const JsonValue& settings() const;
+    static const JsonValue& settings();
 
 private:
-    std::unique_ptr<Renderer> _renderer;
-    Window::Pointer _window;
-    std::unique_ptr<AssetCache> _assetCache;
-    JsonValue _settings;
+    Engine() { }
 };
 
 }

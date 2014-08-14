@@ -41,9 +41,8 @@
 
 using namespace hect;
 
-DefaultWorld::DefaultWorld(GameMode& gameMode) :
+DefaultWorld::DefaultWorld() :
     World(TimeSpan::fromSeconds((Real)0.01666666666)),
-    _renderTarget(&gameMode.engine().window()),
     _taskPool(4)
 {
     registerComponent<BoundingBox>();
@@ -56,9 +55,9 @@ DefaultWorld::DefaultWorld(GameMode& gameMode) :
     registerComponent<Transform>();
 
     addSystem<BoundingBoxSystem>();
-    addSystem<DebugRenderSystem>(gameMode.engine().assetCache(), gameMode.engine().renderer());
+    addSystem<DebugRenderSystem>();
     addSystem<InputSystem>();
-    addSystem<PhysicallyBasedRenderSystem>(gameMode.engine().assetCache(), gameMode.engine().renderer());
+    addSystem<PhysicallyBasedRenderSystem>();
     addSystem<PhysicsSystem>();
     addSystem<TransformSystem>();
 }
@@ -95,6 +94,8 @@ void DefaultWorld::frameUpdate(Real delta)
 {
     delta;
 
-    system<PhysicallyBasedRenderSystem>().renderAll(*_renderTarget);
-    system<DebugRenderSystem>().renderAll(*_renderTarget);
+    Window& window = Engine::window();
+
+    system<PhysicallyBasedRenderSystem>().renderAll(window);
+    system<DebugRenderSystem>().renderAll(window);
 }

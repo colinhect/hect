@@ -33,15 +33,10 @@ class GameMode :
     public Uncopyable
 {
 public:
-    GameMode(Engine& engine);
+    GameMode();
     virtual ~GameMode();
 
     virtual void execute() = 0;
-
-    Engine& engine();
-
-private:
-    Engine* _engine;
 };
 
 }
