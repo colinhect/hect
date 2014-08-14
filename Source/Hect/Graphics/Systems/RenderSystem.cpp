@@ -119,7 +119,7 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, 
                     else if (result == FrustumTestResult_Intersect)
                     {
                         // Need to test children
-                        frustumTest = false;
+                        frustumTest = true;
                     }
                     else
                     {
