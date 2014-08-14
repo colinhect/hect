@@ -21,23 +21,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Game.h"
+#include "Engine.h"
 
-#include "Hect/Logic/World.h"
-#include "Hect/Platform/FileSystem.h"
 #include "Hect/Platform/Platform.h"
-#include "Hect/Timing/Timer.h"
 
 using namespace hect;
 
 class HectTypes;
 
-Game::Game(const std::string& name, const Path& settingsFilePath)
+Engine::Engine(int argc, const char* argv[])
 {
+    argc;
+    argv;
+
     Platform::initialize();
 
     Type::registerTypes<HectTypes>();
-    
+
     // Mount the working directory
     Path workingDirectory = FileSystem::workingDirectory();
     FileSystem::mount(workingDirectory);
@@ -47,7 +47,7 @@ Game::Game(const std::string& name, const Path& settingsFilePath)
 
     // Load the settings
     {
-        ReadStream::Pointer stream = FileSystem::openFileForRead(settingsFilePath);
+        ReadStream::Pointer stream = FileSystem::openFileForRead("zeroth/Settings.json");
         _settings.decodeFromJson(*stream);
     }
 
@@ -57,45 +57,50 @@ Game::Game(const std::string& name, const Path& settingsFilePath)
         FileSystem::mount(dataSource.asString());
     }
 
+    _assetCache.reset(new AssetCache());
+
     // Load video mode
     VideoMode videoMode;
     videoMode.decodeFromJsonValue(_settings["videoMode"]);
 
     // Create window/renderer/input devices
-    _window = Platform::createWindow(name, videoMode);
+    _window = Platform::createWindow("Hect", videoMode);
     _renderer.reset(new Renderer(*_window));
 }
 
-Game::~Game()
+Engine::~Engine()
 {
+    _assetCache.reset();
     _renderer.reset();
     _window.reset();
 
     Platform::deinitialize();
 }
 
-void Game::playWorld(World& world)
+bool Engine::handleEvents()
 {
-    while (Platform::handleEvents())
-    {
-        world.tick();
-        _window->swapBuffers();
-    }
+    return Platform::handleEvents();
 }
 
-Renderer& Game::renderer()
+Renderer& Engine::renderer()
 {
     assert(_renderer);
     return *_renderer;
 }
 
-Window& Game::window()
+Window& Engine::window()
 {
     assert(_window);
     return *_window;
 }
 
-const JsonValue& Game::settings() const
+AssetCache& Engine::assetCache()
+{
+    assert(_assetCache);
+    return *_assetCache;
+}
+
+const JsonValue& Engine::settings() const
 {
     return _settings;
 }

@@ -21,16 +21,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "InputAxisSource.h"
+#include "InputAxisBinding.h"
 
-#include "Hect/IO/Encoders/InputAxisSourceEncoder.h"
+#include "Hect/IO/Encoders/InputAxisBindingEncoder.h"
 #include "Hect/Math/Utilities.h"
 #include "Hect/Platform/Platform.h"
 
 using namespace hect;
 
-InputAxisSource::InputAxisSource() :
-    type(InputAxisSourceType_Key),
+InputAxisBinding::InputAxisBinding() :
+    type(InputAxisBindingType_Key),
     mouseButton(MouseButton_Button0),
     key(Key_A),
     gamepadIndex(0),
@@ -43,11 +43,11 @@ InputAxisSource::InputAxisSource() :
 {
 }
 
-void InputAxisSource::update(Real timeStepInSeconds)
+void InputAxisBinding::update(Real timeStepInSeconds)
 {
     switch (type)
     {
-    case InputAxisSourceType_Key:
+    case InputAxisBindingType_Key:
     {
         if (Platform::keyboard().isKeyDown(key))
         {
@@ -59,7 +59,7 @@ void InputAxisSource::update(Real timeStepInSeconds)
         }
     }
         break;
-    case InputAxisSourceType_MouseButton:
+    case InputAxisBindingType_MouseButton:
     {
         if (Platform::mouse().isButtonDown(mouseButton))
         {
@@ -71,7 +71,7 @@ void InputAxisSource::update(Real timeStepInSeconds)
         }
     }
         break;
-    case InputAxisSourceType_GamepadButton:
+    case InputAxisBindingType_GamepadButton:
     {
         Sequence<Gamepad> gamepads = Platform::gamepads();
         if (gamepadIndex < gamepads.size())
@@ -88,7 +88,7 @@ void InputAxisSource::update(Real timeStepInSeconds)
         }
     }
         break;
-    case InputAxisSourceType_GamepadAxis:
+    case InputAxisBindingType_GamepadAxis:
     {
         Sequence<Gamepad> gamepads = Platform::gamepads();
         if (gamepadIndex < gamepads.size())
@@ -115,17 +115,17 @@ void InputAxisSource::update(Real timeStepInSeconds)
     }
 }
 
-Real InputAxisSource::value() const
+Real InputAxisBinding::value() const
 {
     return interpolate(range.x, range.y, _value);
 }
 
-void InputAxisSource::encode(ObjectEncoder& encoder) const
+void InputAxisBinding::encode(ObjectEncoder& encoder) const
 {
-    InputAxisSourceEncoder::encode(*this, encoder);
+    InputAxisBindingEncoder::encode(*this, encoder);
 }
 
-void InputAxisSource::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void InputAxisBinding::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
-    InputAxisSourceEncoder::decode(*this, decoder, assetCache);
+    InputAxisBindingEncoder::decode(*this, decoder, assetCache);
 }

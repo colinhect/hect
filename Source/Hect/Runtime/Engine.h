@@ -21,63 +21,39 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "InputAxis.h"
+#pragma once
 
-#include <algorithm>
+#include <memory>
 
-#include "Hect/IO/Encoders/InputAxisEncoder.h"
-#include "Hect/Math/Utilities.h"
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/Window.h"
+#include "Hect/IO/JsonValue.h"
 
-using namespace hect;
-
-InputAxis::InputAxis() :
-    _value(0)
+namespace hect
 {
-}
 
-InputAxis::InputAxis(const std::string& name) :
-    _name(name),
-    _value(0)
+class Engine :
+    public Uncopyable
 {
-}
+public:
+    Engine(int argc, const char* argv[]);
+    ~Engine();
 
-const std::string& InputAxis::name() const
-{
-    return _name;
-}
+    bool handleEvents();
 
-void InputAxis::setName(const std::string& name)
-{
-    _name = name;
-}
+    Renderer& renderer();
+    Window& window();
 
-void InputAxis::addBinding(const InputAxisBinding& binding)
-{
-    _bindings.push_back(binding);
-}
+    AssetCache& assetCache();
 
-void InputAxis::update(Real timeStepInSeconds)
-{
-    _value = 0;
-    for (InputAxisBinding& binding : _bindings)
-    {
-        binding.update(timeStepInSeconds);
-        _value += binding.value();
-    }
-    _value = clamp<Real>(_value, -1, 1);
-}
+    const JsonValue& settings() const;
 
-Real InputAxis::value() const
-{
-    return _value;
-}
+private:
+    std::unique_ptr<Renderer> _renderer;
+    Window::Pointer _window;
+    std::unique_ptr<AssetCache> _assetCache;
+    JsonValue _settings;
+};
 
-void InputAxis::encode(ObjectEncoder& encoder) const
-{
-    InputAxisEncoder::encode(*this, encoder);
-}
-
-void InputAxis::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    InputAxisEncoder::decode(*this, decoder, assetCache);
 }

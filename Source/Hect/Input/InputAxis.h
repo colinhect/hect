@@ -25,7 +25,7 @@
 
 #include <vector>
 
-#include "Hect/Input/InputAxisSource.h"
+#include "Hect/Input/InputAxisBinding.h"
 #include "Hect/IO/Encodable.h"
 
 namespace hect
@@ -58,7 +58,7 @@ public:
     /// \param name The new name.
     void setName(const std::string& name);
 
-    void addSource(const InputAxisSource& inputAxisSource);
+    void addBinding(const InputAxisBinding& binding);
 
     void update(Real timeStepInSeconds);
 
@@ -70,7 +70,7 @@ public:
 private:
     std::string _name;
 
-    std::vector<InputAxisSource> _sources;
+    std::vector<InputAxisBinding> _bindings;
     Real _value;
 };
 

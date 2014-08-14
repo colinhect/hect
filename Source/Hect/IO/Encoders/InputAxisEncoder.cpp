@@ -42,17 +42,17 @@ void InputAxisEncoder::decode(InputAxis& inputAxis, ObjectDecoder& decoder, Asse
         inputAxis.setName(value);
     }
 
-    if (decoder.hasMember("sources"))
+    if (decoder.hasMember("bindings"))
     {
-        ArrayDecoder sourcesDecoder = decoder.decodeArray("sources");
-        while (sourcesDecoder.hasMoreElements())
+        ArrayDecoder bindingsDecoder = decoder.decodeArray("bindings");
+        while (bindingsDecoder.hasMoreElements())
         {
-            ObjectDecoder sourceDecoder = sourcesDecoder.decodeObject();
+            ObjectDecoder bindingDecoder = bindingsDecoder.decodeObject();
 
-            InputAxisSource source;
-            source.decode(sourceDecoder, assetCache);
+            InputAxisBinding binding;
+            binding.decode(bindingDecoder, assetCache);
 
-            inputAxis.addSource(source);
+            inputAxis.addBinding(binding);
         }
     }
 }

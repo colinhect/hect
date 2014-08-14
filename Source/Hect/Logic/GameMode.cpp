@@ -21,63 +21,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "InputAxis.h"
-
-#include <algorithm>
-
-#include "Hect/IO/Encoders/InputAxisEncoder.h"
-#include "Hect/Math/Utilities.h"
+#include "GameMode.h"
 
 using namespace hect;
 
-InputAxis::InputAxis() :
-    _value(0)
+GameMode::GameMode(Engine& engine) :
+    _engine(&engine)
 {
 }
 
-InputAxis::InputAxis(const std::string& name) :
-    _name(name),
-    _value(0)
+GameMode::~GameMode()
 {
 }
 
-const std::string& InputAxis::name() const
+Engine& GameMode::engine()
 {
-    return _name;
-}
-
-void InputAxis::setName(const std::string& name)
-{
-    _name = name;
-}
-
-void InputAxis::addBinding(const InputAxisBinding& binding)
-{
-    _bindings.push_back(binding);
-}
-
-void InputAxis::update(Real timeStepInSeconds)
-{
-    _value = 0;
-    for (InputAxisBinding& binding : _bindings)
-    {
-        binding.update(timeStepInSeconds);
-        _value += binding.value();
-    }
-    _value = clamp<Real>(_value, -1, 1);
-}
-
-Real InputAxis::value() const
-{
-    return _value;
-}
-
-void InputAxis::encode(ObjectEncoder& encoder) const
-{
-    InputAxisEncoder::encode(*this, encoder);
-}
-
-void InputAxis::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    InputAxisEncoder::decode(*this, decoder, assetCache);
+    assert(_engine);
+    return *_engine;
 }

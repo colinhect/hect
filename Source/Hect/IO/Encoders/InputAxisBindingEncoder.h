@@ -23,16 +23,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Input/InputAxisSource.h"
+#include "Hect/Input/InputAxisBinding.h"
 
 namespace hect
 {
 
-class InputAxisSourceEncoder
+class InputAxisBindingEncoder
 {
 public:
-    static void encode(const InputAxisSource& inputAxisSource, ObjectEncoder& encoder);
-    static void decode(InputAxisSource& inputAxisSource, ObjectDecoder& decoder, AssetCache& assetCache);
+    static void encode(const InputAxisBinding& inputAxisSource, ObjectEncoder& encoder);
+    static void decode(InputAxisBinding& inputAxisSource, ObjectDecoder& decoder, AssetCache& assetCache);
 };
 
 }

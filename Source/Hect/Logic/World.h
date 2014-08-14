@@ -50,7 +50,7 @@ public:
     /// Constructs an empty world.
     ///
     /// \param timeStep The time between each fixed update.
-    World(TimeSpan timeStep = TimeSpan::fromSeconds((Real)0.01666666666));
+    World(TimeSpan timeStep);
 
     ///
     /// Ticks the world.

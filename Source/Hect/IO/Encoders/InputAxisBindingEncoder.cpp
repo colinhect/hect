@@ -21,26 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "InputAxisSourceEncoder.h"
+#include "InputAxisBindingEncoder.h"
 
 #include "Hect/Reflection/Enum.h"
 
 using namespace hect;
 
-void InputAxisSourceEncoder::encode(const InputAxisSource& inputAxisSource, ObjectEncoder& encoder)
+void InputAxisBindingEncoder::encode(const InputAxisBinding& inputAxisSource, ObjectEncoder& encoder)
 {
     inputAxisSource;
     encoder;
     throw Error("Not supported");
 }
 
-void InputAxisSourceEncoder::decode(InputAxisSource& inputAxisSource, ObjectDecoder& decoder, AssetCache& assetCache)
+void InputAxisBindingEncoder::decode(InputAxisBinding& inputAxisSource, ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 
     if (decoder.hasMember("type"))
     {
-        inputAxisSource.type = decoder.decodeEnum<InputAxisSourceType>("type");
+        inputAxisSource.type = decoder.decodeEnum<InputAxisBindingType>("type");
     }
 
     if (decoder.hasMember("mouseButton"))

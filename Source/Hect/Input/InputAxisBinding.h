@@ -34,47 +34,47 @@ namespace hect
 
 ///
 /// A type of input axis source.
-enum InputAxisSourceType
+enum InputAxisBindingType
 {
     ///
     /// A mouse movement along the x axis.
-    InputAxisSourceType_MouseMoveX,
+    InputAxisBindingType_MouseMoveX,
 
     ///
     /// A mouse movement along the y axis.
-    InputAxisSourceType_MouseMoveY,
+    InputAxisBindingType_MouseMoveY,
 
     ///
     /// A mouse button press.
-    InputAxisSourceType_MouseButton,
+    InputAxisBindingType_MouseButton,
 
     ///
     /// A mouse scroll.
-    InputAxisSourceType_MouseScroll,
+    InputAxisBindingType_MouseScroll,
 
     ///
     /// A key press.
-    InputAxisSourceType_Key,
+    InputAxisBindingType_Key,
 
     ///
     /// A gamepad axis.
-    InputAxisSourceType_GamepadAxis,
+    InputAxisBindingType_GamepadAxis,
 
     ///
     /// A gamepad button.
-    InputAxisSourceType_GamepadButton
+    InputAxisBindingType_GamepadButton
 };
 
 ///
-/// A source of an input axis.
-class InputAxisSource :
+/// A binding to an input axis.
+class InputAxisBinding :
     public Encodable
 {
 public:
 
     ///
     /// Constructs a default input axis source.
-    InputAxisSource();
+    InputAxisBinding();
 
     ///
     /// Updates the value.
@@ -92,47 +92,47 @@ public:
 
     ///
     /// The type.
-    InputAxisSourceType type;
+    InputAxisBindingType type;
 
     ///
     /// The mouse button controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSourceType_MouseButton.
+    /// InputAxisBindingType_MouseButton.
     MouseButton mouseButton;
 
     ///
     /// The key controlling the axis.
     ///
-    /// \note Only relevant for when the source is InputAxisSourceType_Key.
+    /// \note Only relevant for when the source is InputAxisBindingType_Key.
     Key key;
 
     ///
     /// The index of the gamepad controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSourceType_GamepadAxis or InputAxisSourceType_GamepadButton.
+    /// InputAxisBindingType_GamepadAxis or InputAxisBindingType_GamepadButton.
     size_t gamepadIndex;
 
     ///
     /// The gamepad axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSourceType_GamepadAxis.
+    /// InputAxisBindingType_GamepadAxis.
     GamepadAxis gamepadAxis;
 
     ///
     /// The dead zone of the gamepad axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSourceType_GamepadAxis.
+    /// InputAxisBindingType_GamepadAxis.
     Real gamepadAxisDeadZone;
 
     ///
     /// The gamepad button controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisSourceType_GamepadButton.
+    /// InputAxisBindingType_GamepadButton.
     GamepadButton gamepadButton;
 
     Real acceleration;

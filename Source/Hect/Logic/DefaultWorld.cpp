@@ -31,6 +31,7 @@
 #include <Hect/Graphics/Components/SkyBox.h>
 #include <Hect/Graphics/Systems/PhysicallyBasedRenderSystem.h>
 #include <Hect/Input/Systems/InputSystem.h>
+#include <Hect/Logic/GameMode.h>
 #include <Hect/Physics/Components/RigidBody.h>
 #include <Hect/Physics/Systems/PhysicsSystem.h>
 #include <Hect/Spacial/Components/BoundingBox.h>
@@ -40,8 +41,9 @@
 
 using namespace hect;
 
-DefaultWorld::DefaultWorld(Renderer& renderer, RenderTarget& renderTarget, AssetCache& assetCache) :
-    _renderTarget(&renderTarget),
+DefaultWorld::DefaultWorld(GameMode& gameMode) :
+    World(TimeSpan::fromSeconds((Real)0.01666666666)),
+    _renderTarget(&gameMode.engine().window()),
     _taskPool(4)
 {
     registerComponent<BoundingBox>();
@@ -54,9 +56,9 @@ DefaultWorld::DefaultWorld(Renderer& renderer, RenderTarget& renderTarget, Asset
     registerComponent<Transform>();
 
     addSystem<BoundingBoxSystem>();
-    addSystem<DebugRenderSystem>(assetCache, renderer);
+    addSystem<DebugRenderSystem>(gameMode.engine().assetCache(), gameMode.engine().renderer());
     addSystem<InputSystem>();
-    addSystem<PhysicallyBasedRenderSystem>(assetCache, renderer);
+    addSystem<PhysicallyBasedRenderSystem>(gameMode.engine().assetCache(), gameMode.engine().renderer());
     addSystem<PhysicsSystem>();
     addSystem<TransformSystem>();
 }

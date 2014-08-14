@@ -32,11 +32,13 @@
 namespace hect
 {
 
+class GameMode;
+
 class DefaultWorld :
     public World
 {
 public:
-    DefaultWorld(Renderer& renderer, RenderTarget& target, AssetCache& assetCache);
+    DefaultWorld(GameMode& gameMode);
     
     void preFixedUpdate();
     virtual void fixedUpdate();

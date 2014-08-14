@@ -66,7 +66,7 @@
     <ClInclude Include="Source\Hect\Graphics\Window.h" />
     <ClInclude Include="Source\Hect\Input\InputAxis.h" />
     <ClInclude Include="Source\Hect\Input\Gamepad.h" />
-    <ClInclude Include="Source\Hect\Input\InputAxisSource.h" />
+    <ClInclude Include="Source\Hect\Input\InputAxisBinding.h" />
     <ClInclude Include="Source\Hect\Input\Keyboard.h" />
     <ClInclude Include="Source\Hect\Input\Mouse.h" />
     <ClInclude Include="Source\Hect\Input\Systems\InputSystem.h" />
@@ -81,7 +81,7 @@
     <ClInclude Include="Source\Hect\IO\Encoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\ImagePngEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\InputAxisEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisSourceEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\MaterialEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\MeshEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\ShaderEncoder.h" />
@@ -105,7 +105,7 @@
     <ClInclude Include="Source\Hect\Logic\Entity.h" />
     <ClInclude Include="Source\Hect\Logic\EntityEvent.h" />
     <ClInclude Include="Source\Hect\Logic\EntityPool.h" />
-    <ClInclude Include="Source\Hect\Logic\Game.h" />
+    <ClInclude Include="Source\Hect\Logic\GameMode.h" />
     <ClInclude Include="Source\Hect\Logic\IdPool.h" />
     <ClInclude Include="Source\Hect\Logic\World.h" />
     <ClInclude Include="Source\Hect\Logic\System.h" />
@@ -129,6 +129,8 @@
     <ClInclude Include="Source\Hect\Platform\Platform.h" />
     <ClInclude Include="Source\Hect\Reflection\Enum.h" />
     <ClInclude Include="Source\Hect\Reflection\Type.h" />
+    <ClInclude Include="Source\Hect\Runtime\Engine.h" />
+    <ClInclude Include="Source\Hect\Runtime\EntryPoint.h" />
     <ClInclude Include="Source\Hect\Spacial\AxisAlignedBox.h" />
     <ClInclude Include="Source\Hect\Spacial\Box.h" />
     <ClInclude Include="Source\Hect\Spacial\Components\BoundingBox.h" />
@@ -192,7 +194,7 @@
     <ClCompile Include="Source\Hect\Graphics\Window.cpp" />
     <ClCompile Include="Source\Hect\Input\InputAxis.cpp" />
     <ClCompile Include="Source\Hect\Input\Gamepad.cpp" />
-    <ClCompile Include="Source\Hect\Input\InputAxisSource.cpp" />
+    <ClCompile Include="Source\Hect\Input\InputAxisBinding.cpp" />
     <ClCompile Include="Source\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="Source\Hect\Input\Mouse.cpp" />
     <ClCompile Include="Source\Hect\Input\Systems\InputSystem.cpp" />
@@ -204,7 +206,7 @@
     <ClCompile Include="Source\Hect\IO\Encoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\ImagePngEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\InputAxisEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisSourceEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\MaterialEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\MeshEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\ShaderEncoder.cpp" />
@@ -226,8 +228,8 @@
     <ClCompile Include="Source\Hect\Logic\Entity.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
-    <ClCompile Include="Source\Hect\Logic\Game.cpp" />
-    <ClCompile Include="Source\Hect\Logic\Scene.cpp" />
+    <ClCompile Include="Source\Hect\Logic\GameMode.cpp" />
+    <ClCompile Include="Source\Hect\Logic\World.cpp" />
     <ClCompile Include="Source\Hect\Logic\System.cpp" />
     <ClCompile Include="Source\Hect\Math\Angle.cpp" />
     <ClCompile Include="Source\Hect\Network\IpAddress.cpp" />
@@ -242,6 +244,7 @@
     <ClCompile Include="Source\Hect\Platform\Platform_SDL.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Type.cpp" />
+    <ClCompile Include="Source\Hect\Runtime\Engine.cpp" />
     <ClCompile Include="Source\Hect\Spacial\AxisAlignedBox.cpp" />
     <ClCompile Include="Source\Hect\Spacial\Box.cpp" />
     <ClCompile Include="Source\Hect\Spacial\Components\BoundingBox.cpp" />

@@ -12,7 +12,7 @@
 #include "..\Graphics\VertexAttribute.h"
 #include "..\IO\JsonValue.h"
 #include "..\Input\Gamepad.h"
-#include "..\Input\InputAxisSource.h"
+#include "..\Input\InputAxisBinding.h"
 #include "..\Input\Keyboard.h"
 #include "..\Input\Mouse.h"
 #include "..\Logic\ComponentEvent.h"
@@ -246,15 +246,15 @@ void hect::Type::registerTypes<HectTypes>()
         enumType.addValue(GamepadEventType_ButtonUp, "ButtonUp");
     }
     {
-        hect::Type& type = hect::Type::create<InputAxisSourceType>(hect::Kind_Enum, "InputAxisSourceType");
+        hect::Type& type = hect::Type::create<InputAxisBindingType>(hect::Kind_Enum, "InputAxisBindingType");
         hect::Enum& enumType = type.asEnum();
-        enumType.addValue(InputAxisSourceType_MouseMoveX, "MouseMoveX");
-        enumType.addValue(InputAxisSourceType_MouseMoveY, "MouseMoveY");
-        enumType.addValue(InputAxisSourceType_MouseButton, "MouseButton");
-        enumType.addValue(InputAxisSourceType_MouseScroll, "MouseScroll");
-        enumType.addValue(InputAxisSourceType_Key, "Key");
-        enumType.addValue(InputAxisSourceType_GamepadAxis, "GamepadAxis");
-        enumType.addValue(InputAxisSourceType_GamepadButton, "GamepadButton");
+        enumType.addValue(InputAxisBindingType_MouseMoveX, "MouseMoveX");
+        enumType.addValue(InputAxisBindingType_MouseMoveY, "MouseMoveY");
+        enumType.addValue(InputAxisBindingType_MouseButton, "MouseButton");
+        enumType.addValue(InputAxisBindingType_MouseScroll, "MouseScroll");
+        enumType.addValue(InputAxisBindingType_Key, "Key");
+        enumType.addValue(InputAxisBindingType_GamepadAxis, "GamepadAxis");
+        enumType.addValue(InputAxisBindingType_GamepadButton, "GamepadButton");
     }
     {
         hect::Type& type = hect::Type::create<Key>(hect::Kind_Enum, "Key");

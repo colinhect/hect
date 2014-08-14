@@ -103,6 +103,12 @@
     <Filter Include="Source\Hect\Platform">
       <UniqueIdentifier>{71df736c-2e1d-44b1-b97f-06832d4114f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Hect\Runtime">
+      <UniqueIdentifier>{ddc1342f-4cff-4f2a-baf2-40dd04a8ba66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Hect\Internal">
+      <UniqueIdentifier>{7e7b6cea-797f-4fb0-a942-f3d943b654fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Hect\Core\Any.h">
@@ -441,9 +447,6 @@
     <ClInclude Include="Source\Hect\IO\Data.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Logic\Game.h">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Input\Systems\InputSystem.h">
       <Filter>Source\Hect\Input\Systems</Filter>
     </ClInclude>
@@ -462,14 +465,23 @@
     <ClInclude Include="Source\Hect\Logic\DefaultWorld.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Input\InputAxisSource.h">
-      <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisSourceEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Math\Utilities.h">
       <Filter>Source\Hect\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Runtime\Engine.h">
+      <Filter>Source\Hect\Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Runtime\EntryPoint.h">
+      <Filter>Source\Hect\Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\GameMode.h">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Input\InputAxisBinding.h">
+      <Filter>Source\Hect\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.h">
+      <Filter>Source\Hect\IO\Encoders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -665,9 +677,6 @@
     <ClCompile Include="Source\Hect\Logic\Entity.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Logic\Scene.cpp">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\System.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
@@ -779,9 +788,6 @@
     <ClCompile Include="Source\Hect\IO\DataLoader.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Logic\Game.cpp">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Input\Systems\InputSystem.cpp">
       <Filter>Source\Hect\Input\Systems</Filter>
     </ClCompile>
@@ -797,10 +803,19 @@
     <ClCompile Include="Source\Hect\Logic\DefaultWorld.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Input\InputAxisSource.cpp">
+    <ClCompile Include="Source\Hect\Runtime\Engine.cpp">
+      <Filter>Source\Hect\Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\GameMode.cpp">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\World.cpp">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Input\InputAxisBinding.cpp">
       <Filter>Source\Hect\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisSourceEncoder.cpp">
+    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.cpp">
       <Filter>Source\Hect\IO\Encoders</Filter>
     </ClCompile>
   </ItemGroup>

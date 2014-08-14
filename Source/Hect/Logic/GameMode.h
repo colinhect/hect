@@ -23,39 +23,25 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <memory>
-
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/Window.h"
-#include "Hect/IO/JsonValue.h"
-#include "Hect/Platform/FileSystem.h"
+#include "Hect/Runtime/Engine.h"
 
 namespace hect
 {
 
-class World;
-
-class Game :
+class GameMode :
     public Uncopyable
 {
 public:
-    Game(const std::string& name, const Path& settingsFilePath);
-    virtual ~Game();
+    GameMode(Engine& engine);
+    virtual ~GameMode();
 
     virtual void execute() = 0;
 
-    void playWorld(World& world);
-
-    Renderer& renderer();
-    Window& window();
-
-    const JsonValue& settings() const;
+    Engine& engine();
 
 private:
-    std::unique_ptr<Renderer> _renderer;
-    Window::Pointer _window;
-    JsonValue _settings;
+    Engine* _engine;
 };
 
 }
