@@ -23,41 +23,40 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <memory>
+#include <functional>
+#include <map>
+#include <string>
 
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/RenderSystem.h"
-#include "Hect/Graphics/Window.h"
-#include "Hect/IO/JsonValue.h"
+#include "Hect/Logic/Component.h"
+#include "Hect/Logic/ComponentPool.h"
 
 namespace hect
 {
 
-class GameMode;
-
-class Engine
+class ComponentRegistry :
+    public Uncopyable
 {
 public:
-    Engine(int argc, const char* argv[]);
-    ~Engine();
+    static ComponentBase::Pointer createComponent(std::type_index typeIndex);
+    static ComponentBase::Pointer createComponent(const std::string& typeName);
 
-    int main();
+    static ComponentPoolBase::Pointer createPool(std::type_index typeIndex, World& world);
+    static ComponentPoolBase::Pointer createPool(const std::string& typeName, World& world);
 
-    Renderer& renderer();
-    RenderSystem& renderSystem();
-    Window& window();
-
-    AssetCache& assetCache();
-
-    const JsonValue& settings();
+    template <typename T>
+    static void registerType();
 
 private:
-    std::unique_ptr<Renderer> _renderer;
-    std::unique_ptr<RenderSystem> _renderSystem;
-    Window::Pointer _window;
-    std::unique_ptr<AssetCache> _assetCache;
-    JsonValue _settings;
+    static ComponentTypeId _nextTypeId;
+
+    static std::map<std::string, ComponentTypeId> _typeNameToId;
+    static std::map<std::type_index, ComponentTypeId> _typeIndexToId;
+
+    static std::map<ComponentTypeId, std::function<ComponentBase::Pointer(void)>> _componentConstructors;
+    static std::map<ComponentTypeId, std::function<ComponentPoolBase::Pointer(World&)>> _poolConstructors;
 };
 
 }
+
+#include "ComponentRegistry.inl"

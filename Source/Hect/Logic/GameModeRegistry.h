@@ -23,41 +23,30 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <memory>
+#include <functional>
+#include <map>
+#include <string>
 
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/RenderSystem.h"
-#include "Hect/Graphics/Window.h"
-#include "Hect/IO/JsonValue.h"
+#include "Hect/Logic/GameMode.h"
 
 namespace hect
 {
 
-class GameMode;
-
-class Engine
+class GameModeRegistry :
+    public Uncopyable
 {
 public:
-    Engine(int argc, const char* argv[]);
-    ~Engine();
 
-    int main();
+    static GameMode::Pointer createGameMode(const std::string& typeName, Engine& engine);
 
-    Renderer& renderer();
-    RenderSystem& renderSystem();
-    Window& window();
-
-    AssetCache& assetCache();
-
-    const JsonValue& settings();
+    template <typename T>
+    static void registerType();
 
 private:
-    std::unique_ptr<Renderer> _renderer;
-    std::unique_ptr<RenderSystem> _renderSystem;
-    Window::Pointer _window;
-    std::unique_ptr<AssetCache> _assetCache;
-    JsonValue _settings;
+    static std::map<std::string, std::function<GameMode::Pointer(Engine&)>> _constructors;
 };
 
 }
+
+#include "GameModeRegistry.inl"

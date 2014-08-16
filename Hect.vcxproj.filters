@@ -450,6 +450,12 @@
     <ClInclude Include="Source\Hect\Graphics\RenderSystem.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\GameModeRegistry.h">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\ComponentRegistry.h">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -767,6 +773,12 @@
     <ClCompile Include="Source\Hect\Graphics\RenderSystem.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\GameModeRegistry.cpp">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\ComponentRegistry.cpp">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Core\Any.inl">
@@ -835,8 +847,11 @@
     <None Include="Source\Hect\Math\Utilities.inl">
       <Filter>Source\Hect\Math</Filter>
     </None>
-    <None Include="Source\Hect\Runtime\Engine.inl">
-      <Filter>Source\Hect\Runtime</Filter>
+    <None Include="Source\Hect\Logic\GameModeRegistry.inl">
+      <Filter>Source\Hect\Logic</Filter>
+    </None>
+    <None Include="Source\Hect\Logic\ComponentRegistry.inl">
+      <Filter>Source\Hect\Logic</Filter>
     </None>
   </ItemGroup>
 </Project>

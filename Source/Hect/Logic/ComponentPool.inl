@@ -25,9 +25,8 @@ namespace hect
 {
 
 template <typename T>
-ComponentPool<T>::ComponentPool(World& world, const std::string& componentTypeName) :
-    _world(&world),
-    _componentTypeName(componentTypeName)
+ComponentPool<T>::ComponentPool(World& world) :
+    _world(&world)
 {
 }
 
@@ -171,7 +170,8 @@ void ComponentPool<T>::remove(Entity& entity)
     }
     else
     {
-        throw Error(format("Entity does not have component of type '%s'", _componentTypeName.c_str()));
+        const std::string& typeName = Type::get<T>().name();
+        throw Error(format("Entity does not have component of type '%s'", typeName.c_str()));
     }
 }
 
@@ -215,7 +215,8 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     // Ensure that the entity does not already have a component of this type
     if (id != (ComponentId)-1)
     {
-        throw Error(format("Entity already has component of type '%s'", _componentTypeName.c_str()));
+        const std::string& typeName = Type::get<T>().name();
+        throw Error(format("Entity already has component of type '%s'", typeName.c_str()));
     }
 
     // Create the new component id
@@ -293,7 +294,8 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
     }
     else
     {
-        throw Error(format("Entity does not have component of type '%s'", _componentTypeName.c_str()));
+        const std::string& typeName = Type::get<T>().name();
+        throw Error(format("Entity does not have component of type '%s'", typeName.c_str()));
     }
 }
 

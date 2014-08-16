@@ -27,6 +27,7 @@
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
 #include "Hect/Logic/GameMode.h"
+#include "Hect/Logic/GameModeRegistry.h"
 
 using namespace hect;
 
@@ -84,35 +85,32 @@ Engine::~Engine()
 
 int Engine::main()
 {
-    const std::string& gameModeName = _settings["defaultGameMode"].asString();
-    auto it = _gameModeConstructors.find(gameModeName);
-    if (it != _gameModeConstructors.end())
+    const std::string& gameModeTypeName = _settings["defaultGameMode"].asString();
+
+    GameMode::Pointer gameMode = GameModeRegistry::createGameMode(gameModeTypeName, *this);
+
+    Timer timer;
+    TimeSpan accumulator;
+    TimeSpan delta;
+
+    while (Platform::handleEvents())
     {
-        std::unique_ptr<GameMode> gameMode(it->second(*this));
+        TimeSpan deltaTime = timer.elapsed();
+        timer.reset();
 
-        Timer timer;
-        TimeSpan accumulator;
-        TimeSpan delta;
+        accumulator += deltaTime;
+        delta += deltaTime;
 
-        while (Platform::handleEvents())
+        while (accumulator.microseconds() >= gameMode->timeStep().microseconds())
         {
-            TimeSpan deltaTime = timer.elapsed();
-            timer.reset();
+            gameMode->tick();
 
-            accumulator += deltaTime;
-            delta += deltaTime;
-
-            while (accumulator.microseconds() >= gameMode->timeStep().microseconds())
-            {
-                gameMode->tick();
-
-                delta = TimeSpan();
-                accumulator -= gameMode->timeStep();
-            }
-
-            _renderSystem->renderAll(*_window);
-            _window->swapBuffers();
+            delta = TimeSpan();
+            accumulator -= gameMode->timeStep();
         }
+
+        _renderSystem->renderAll(*_window);
+        _window->swapBuffers();
     }
 
     return 0;

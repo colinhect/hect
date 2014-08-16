@@ -55,31 +55,6 @@ T& World::system()
 }
 
 template <typename T>
-void World::registerComponent()
-{
-    std::type_index typeIndex(typeid(T));
-
-    std::string componentName = Type::get<T>().name();
-
-    if (_componentTypeNames.find(typeIndex) != _componentTypeNames.end())
-    {
-        throw Error(format("Component type '%s' is already registered", componentName.c_str()));
-    }
-
-    // Remember the type name for this type index
-    _componentTypeNames[typeIndex] = componentName;
-
-    // Create a component constructor for this type of component
-    _componentConstructors[componentName] = []()
-    {
-        return new T();
-    };
-
-    // Create a component pool for this type of component
-    _componentPools[typeIndex] = std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>(*this, componentName));
-}
-
-template <typename T>
 ComponentPool<T>& World::components()
 {
     const ComponentPool<T>& componentPool = const_cast<const World*>(this)->components<T>();
@@ -90,16 +65,7 @@ template <typename T>
 const ComponentPool<T>& World::components() const
 {
     std::type_index typeIndex(typeid(T));
-    auto it = _componentPools.find(typeIndex);
-    if (it != _componentPools.end())
-    {
-        return *((ComponentPool<T>*)it->second.get());
-    }
-    else
-    {
-        std::string typeName = Type::get<T>().name();
-        throw Error(format("Unknown component type '%s'", typeName.c_str()));
-    }
+    return (ComponentPool<T>&)componentPoolFromTypeIndex(typeIndex);
 }
 
 }

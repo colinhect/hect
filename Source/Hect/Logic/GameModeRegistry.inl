@@ -21,43 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include <memory>
-
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/RenderSystem.h"
-#include "Hect/Graphics/Window.h"
-#include "Hect/IO/JsonValue.h"
+#include "Hect/Reflection/Type.h"
 
 namespace hect
 {
 
-class GameMode;
-
-class Engine
+template <typename T>
+void GameModeRegistry::registerType()
 {
-public:
-    Engine(int argc, const char* argv[]);
-    ~Engine();
+    std::type_index typeIndex(typeid(T));
 
-    int main();
+    std::string typeName = Type::get<T>().name();
 
-    Renderer& renderer();
-    RenderSystem& renderSystem();
-    Window& window();
+    if (_constructors.find(typeName) != _constructors.end())
+    {
+        throw Error(format("Game mode type '%s' is already registered", typeName.c_str()));
+    }
 
-    AssetCache& assetCache();
-
-    const JsonValue& settings();
-
-private:
-    std::unique_ptr<Renderer> _renderer;
-    std::unique_ptr<RenderSystem> _renderSystem;
-    Window::Pointer _window;
-    std::unique_ptr<AssetCache> _assetCache;
-    JsonValue _settings;
-};
+    _constructors[typeName] = [](Engine& engine)
+    {
+        return GameMode::Pointer(new T(engine));
+    };
+}
 
 }

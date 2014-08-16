@@ -198,11 +198,8 @@ void World::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     }
 
     std::type_index typeIndex = component.typeIndex();
-    auto it = _componentPools.find(typeIndex);
-    if (it != _componentPools.end())
-    {
-        it->second->addBase(entity, component);
-    }
+    ComponentPoolBase& componentPool = componentPoolFromTypeIndex(typeIndex);
+    componentPool.addBase(entity, component);
 }
 
 void World::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
@@ -215,7 +212,7 @@ void World::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
         if (componentPool->has(entity))
         {
             const ComponentBase& component = componentPool->getBase(entity);
-            std::string typeName = _componentTypeNames[component.typeIndex()];
+            std::string typeName = Type::of(component).name();
 
             ObjectEncoder componentEncoder = componentsEncoder.encodeObject();
             componentEncoder.encodeString("type", typeName);
@@ -233,18 +230,27 @@ void World::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache&
         {
             ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
 
-            std::string componentName = componentDecoder.decodeString("type");
+            std::string typeName = componentDecoder.decodeString("type");
 
-            auto it = _componentConstructors.find(componentName);
-            if (it == _componentConstructors.end())
-            {
-                throw Error(format("Unregistered component type '%s'", componentName.c_str()));
-            }
-
-            std::unique_ptr<ComponentBase> component(it->second());
+            ComponentBase::Pointer component = ComponentRegistry::createComponent(typeName);
             component->decode(componentDecoder, assetCache);
 
             addEntityComponentBase(entity, *component);
         }
+    }
+}
+
+ComponentPoolBase& World::componentPoolFromTypeIndex(std::type_index typeIndex) const
+{
+    auto it = _componentPools.find(typeIndex);
+    if (it != _componentPools.end())
+    {
+        return *it->second.get();
+    }
+    else
+    {
+        ComponentPoolBase::Pointer pool = ComponentRegistry::createPool(typeIndex, *const_cast<World*>(this));
+        _componentPools[typeIndex] = pool;
+        return *pool.get();
     }
 }

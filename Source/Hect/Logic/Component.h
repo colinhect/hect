@@ -49,6 +49,9 @@ class ComponentBase :
     public Encodable
 {
 public:
+
+    typedef std::shared_ptr<ComponentBase> Pointer;
+
     virtual ~ComponentBase() { }
 
     virtual std::type_index typeIndex() const = 0;

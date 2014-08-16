@@ -27,21 +27,31 @@ namespace hect
 {
 
 template <typename T>
-void Engine::registerGameMode()
+void ComponentRegistry::registerType()
 {
     std::type_index typeIndex(typeid(T));
 
-    std::string gameModeName = Type::get<T>().name();
+    std::string typeName = Type::get<T>().name();
 
-    if (_gameModeConstructors.find(gameModeName) != _gameModeConstructors.end())
+    if (_typeIndexToId.find(typeIndex) != _typeIndexToId.end())
     {
-        throw Error(format("Game mode type '%s' is already registered", gameModeName.c_str()));
+        throw Error(format("Component type '%s' is already registered", typeName.c_str()));
     }
 
-    _gameModeConstructors[gameModeName] = [this](Engine& engine)
+    _typeIndexToId[typeIndex] = _nextTypeId;
+    _typeNameToId[typeName] = _nextTypeId;
+
+    _componentConstructors[_nextTypeId] = []()
     {
-        return new T(engine);
+        return ComponentBase::Pointer(new T());
     };
+
+    _poolConstructors[_nextTypeId] = [](World& world)
+    {
+        return ComponentPoolBase::Pointer(new ComponentPool<T>(world));
+    };
+
+    ++_nextTypeId;
 }
 
 }

@@ -96,10 +96,12 @@
     <ClInclude Include="Source\Hect\Logic\Component.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentPool.h" />
+    <ClInclude Include="Source\Hect\Logic\ComponentRegistry.h" />
     <ClInclude Include="Source\Hect\Logic\Entity.h" />
     <ClInclude Include="Source\Hect\Logic\EntityEvent.h" />
     <ClInclude Include="Source\Hect\Logic\EntityPool.h" />
     <ClInclude Include="Source\Hect\Logic\GameMode.h" />
+    <ClInclude Include="Source\Hect\Logic\GameModeRegistry.h" />
     <ClInclude Include="Source\Hect\Logic\IdPool.h" />
     <ClInclude Include="Source\Hect\Logic\World.h" />
     <ClInclude Include="Source\Hect\Logic\System.h" />
@@ -212,10 +214,12 @@
     <ClCompile Include="Source\Hect\IO\ReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\Encodable.cpp" />
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
+    <ClCompile Include="Source\Hect\Logic\ComponentRegistry.cpp" />
     <ClCompile Include="Source\Hect\Logic\Entity.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
     <ClCompile Include="Source\Hect\Logic\GameMode.cpp" />
+    <ClCompile Include="Source\Hect\Logic\GameModeRegistry.cpp" />
     <ClCompile Include="Source\Hect\Logic\World.cpp" />
     <ClCompile Include="Source\Hect\Logic\System.cpp" />
     <ClCompile Include="Source\Hect\Math\Angle.cpp" />
@@ -256,7 +260,9 @@
     <None Include="Source\Hect\Logic\Component.inl" />
     <None Include="Source\Hect\Logic\ComponentEvent.inl" />
     <None Include="Source\Hect\Logic\ComponentPool.inl" />
+    <None Include="Source\Hect\Logic\ComponentRegistry.inl" />
     <None Include="Source\Hect\Logic\Entity.inl" />
+    <None Include="Source\Hect\Logic\GameModeRegistry.inl" />
     <None Include="Source\Hect\Logic\IdPool.inl" />
     <None Include="Source\Hect\Logic\World.inl" />
     <None Include="Source\Hect\Math\Matrix4.inl" />
@@ -267,7 +273,6 @@
     <None Include="Source\Hect\Math\Vector4.inl" />
     <None Include="Source\Hect\Reflection\Enum.inl" />
     <None Include="Source\Hect\Reflection\Type.inl" />
-    <None Include="Source\Hect\Runtime\Engine.inl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Dependencies\Bullet\Bullet.vcxproj">

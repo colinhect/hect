@@ -24,6 +24,7 @@
 #pragma once
 
 #include <algorithm>
+#include <memory>
 #include <vector>
 
 #include "Hect/Event/Dispatcher.h"
@@ -37,7 +38,11 @@ namespace hect
 class ComponentPoolBase
 {
     friend class World;
+public:
+    typedef std::shared_ptr<ComponentPoolBase> Pointer;
 protected:
+
+
     virtual void dispatchEvent(ComponentEventType type, Entity& entity) = 0;
 
     virtual void addBase(Entity& entity, const ComponentBase& component) = 0;
@@ -61,7 +66,7 @@ class ComponentPool :
     friend class Component<T>;
     friend class Component<T>::IteratorBase;
 public:
-    ComponentPool(World& world, const std::string& componentTypeName);
+    ComponentPool(World& world);
 
     ///
     /// Returns an iterator to the beginning of the pool.
@@ -148,7 +153,6 @@ private:
     bool expandVector(std::vector<U>& vector, size_t size, U value = U());
 
     World* _world;
-    std::string _componentTypeName;
     IdPool<ComponentId> _idPool;
     std::vector<T> _components;
     std::vector<ComponentId> _entityToComponent;

@@ -29,6 +29,7 @@
 
 #include "Hect/IO/Encodable.h"
 #include "Hect/Logic/ComponentPool.h"
+#include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Timing/Timer.h"
@@ -73,11 +74,6 @@ public:
     Entity::Iterator createEntity();
 
     ///
-    /// Registers a component type.
-    template <typename T>
-    void registerComponent();
-
-    ///
     /// Returns the pool of components of a specific type.
     template <typename T>
     ComponentPool<T>& components();
@@ -113,13 +109,12 @@ private:
     void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
 
+    ComponentPoolBase& componentPoolFromTypeIndex(std::type_index typeIndex) const;
+
     size_t _entityCount;
     EntityPool _entityPool;
 
-    std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
-
-    std::map<std::type_index, std::string> _componentTypeNames;
-    std::map<std::string, std::function<ComponentBase*(void)>> _componentConstructors;
+    mutable std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
 
     std::map<std::type_index, std::shared_ptr<System>> _systems;
 };

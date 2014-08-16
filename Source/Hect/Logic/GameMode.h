@@ -23,17 +23,25 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <memory>
+
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Timing/TimeSpan.h"
-#include "Hect/Runtime/Engine.h"
 
 namespace hect
 {
+
+class Engine;
 
 class GameMode :
     public Uncopyable
 {
 public:
+
+    ///
+    /// A reference-counted pointer to a game mode.
+    typedef std::shared_ptr<GameMode> Pointer;
+
     GameMode(Engine& engine, TimeSpan timeStep);
     virtual ~GameMode();
 

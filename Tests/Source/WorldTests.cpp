@@ -28,6 +28,8 @@ using namespace hect;
 
 #include <catch.hpp>
 
+/*
+
 class String :
     public Component<String>
 {
@@ -1398,3 +1400,5 @@ TEST_CASE("World_CopyEntityHandle")
     REQUIRE(!handleCopy);
     REQUIRE_THROWS_AS(*handleCopy, Error);
 }
+
+*/

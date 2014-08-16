@@ -21,43 +21,24 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "GameModeRegistry.h"
 
-#include <memory>
+#include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
 
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/RenderSystem.h"
-#include "Hect/Graphics/Window.h"
-#include "Hect/IO/JsonValue.h"
+using namespace hect;
 
-namespace hect
+GameMode::Pointer GameModeRegistry::createGameMode(const std::string& typeName, Engine& engine)
 {
+    // Find the constructor
+    auto it = _constructors.find(typeName);
+    if (it == _constructors.end())
+    {
+        throw Error(format("Unknown game mode type '%s'", typeName.c_str()));
+    }
 
-class GameMode;
-
-class Engine
-{
-public:
-    Engine(int argc, const char* argv[]);
-    ~Engine();
-
-    int main();
-
-    Renderer& renderer();
-    RenderSystem& renderSystem();
-    Window& window();
-
-    AssetCache& assetCache();
-
-    const JsonValue& settings();
-
-private:
-    std::unique_ptr<Renderer> _renderer;
-    std::unique_ptr<RenderSystem> _renderSystem;
-    Window::Pointer _window;
-    std::unique_ptr<AssetCache> _assetCache;
-    JsonValue _settings;
-};
-
+    // Create the game mode
+    return it->second(engine);
 }
+
+std::map<std::string, std::function<GameMode::Pointer(Engine&)>> GameModeRegistry::_constructors;
