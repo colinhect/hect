@@ -52,9 +52,6 @@
       <Extensions>
       </Extensions>
     </Filter>
-    <Filter Include="Source\Hect\Debug">
-      <UniqueIdentifier>{ac0b775d-5eba-4880-b4ac-df136be6b3d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Hect\Spacial">
       <UniqueIdentifier>{f0c4d6f4-7e6a-47bf-9b8b-27c4a5fb8ae7}</UniqueIdentifier>
     </Filter>
@@ -66,12 +63,6 @@
     </Filter>
     <Filter Include="Source\Hect\Graphics\Components">
       <UniqueIdentifier>{d6a02610-cdff-45a4-94de-58cb4b68cf7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Hect\Graphics\Systems">
-      <UniqueIdentifier>{cc313810-c3e1-44c7-b4a6-1151f76f79e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Hect\Debug\Systems">
-      <UniqueIdentifier>{2ceb1020-a5f1-4bec-ae1e-769c03490931}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Hect\Physics">
       <UniqueIdentifier>{4a6446d0-c33f-4973-b008-c6a467b52c35}</UniqueIdentifier>
@@ -105,9 +96,6 @@
     </Filter>
     <Filter Include="Source\Hect\Runtime">
       <UniqueIdentifier>{ddc1342f-4cff-4f2a-baf2-40dd04a8ba66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Hect\Internal">
-      <UniqueIdentifier>{7e7b6cea-797f-4fb0-a942-f3d943b654fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -324,15 +312,6 @@
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Debug\TransformDebugRenderLayer.h">
-      <Filter>Source\Hect\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Debug\DebugRenderLayer.h">
-      <Filter>Source\Hect\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.h">
-      <Filter>Source\Hect\Debug</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\IO\AssetCache.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
@@ -378,9 +357,6 @@
     <ClInclude Include="Source\Hect\Graphics\Components\DirectionalLight.h">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Systems\RenderSystem.h">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h">
       <Filter>Source\Hect\Physics\Components</Filter>
     </ClInclude>
@@ -413,12 +389,6 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\Timing\TimeStamp.h">
       <Filter>Source\Hect\Timing</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Debug\Systems\DebugRenderSystem.h">
-      <Filter>Source\Hect\Debug\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.h">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\Components\SkyBox.h">
       <Filter>Source\Hect\Graphics\Components</Filter>
@@ -462,16 +432,10 @@
     <ClInclude Include="Source\Hect\Logic\World.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Logic\DefaultWorld.h">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Math\Utilities.h">
       <Filter>Source\Hect\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Runtime\Engine.h">
-      <Filter>Source\Hect\Runtime</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Runtime\EntryPoint.h">
       <Filter>Source\Hect\Runtime</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Logic\GameMode.h">
@@ -482,6 +446,9 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.h">
       <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Graphics\RenderSystem.h">
+      <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -686,15 +653,6 @@
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Debug\TransformDebugRenderLayer.cpp">
-      <Filter>Source\Hect\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Debug\DebugRenderLayer.cpp">
-      <Filter>Source\Hect\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.cpp">
-      <Filter>Source\Hect\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\IO\AssetCache.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
@@ -731,9 +689,6 @@
     <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp">
       <Filter>Source\Hect\Graphics\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Systems\RenderSystem.cpp">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp">
       <Filter>Source\Hect\Physics\Components</Filter>
     </ClCompile>
@@ -754,12 +709,6 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\RenderState.cpp">
       <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Debug\Systems\DebugRenderSystem.cpp">
-      <Filter>Source\Hect\Debug\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.cpp">
-      <Filter>Source\Hect\Graphics\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\Components\SkyBox.cpp">
       <Filter>Source\Hect\Graphics\Components</Filter>
@@ -800,9 +749,6 @@
     <ClCompile Include="Source\Hect\Input\Gamepad.cpp">
       <Filter>Source\Hect\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Logic\DefaultWorld.cpp">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Runtime\Engine.cpp">
       <Filter>Source\Hect\Runtime</Filter>
     </ClCompile>
@@ -817,6 +763,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.cpp">
       <Filter>Source\Hect\IO\Encoders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Graphics\RenderSystem.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -885,6 +834,9 @@
     </None>
     <None Include="Source\Hect\Math\Utilities.inl">
       <Filter>Source\Hect\Math</Filter>
+    </None>
+    <None Include="Source\Hect\Runtime\Engine.inl">
+      <Filter>Source\Hect\Runtime</Filter>
     </None>
   </ItemGroup>
 </Project>

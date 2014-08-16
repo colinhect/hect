@@ -78,7 +78,7 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
         JsonValue jsonValue;
 
         {
-            World world(TimeSpan::fromSeconds(1));
+            World world;
             world.registerComponent<String>();
 
             createWorld(world);
@@ -87,7 +87,7 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
         }
 
         {
-            World world(TimeSpan::fromSeconds(1));
+            World world;
             world.registerComponent<String>();
 
             world.decodeFromJsonValue(jsonValue);
@@ -101,7 +101,7 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
         std::vector<uint8_t> data;
 
         {
-            World world(TimeSpan::fromSeconds(1));
+            World world;
             world.registerComponent<String>();
             createWorld(world);
 
@@ -110,7 +110,7 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
         }
 
         {
-            World world(TimeSpan::fromSeconds(1));
+            World world;
             world.registerComponent<String>();
 
             MemoryReadStream readStream(data);
@@ -123,7 +123,7 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
 
 TEST_CASE("World_CreateAndDestroyEntities")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     REQUIRE(a);
@@ -142,7 +142,7 @@ TEST_CASE("World_CreateAndDestroyEntities")
 
 TEST_CASE("World_DereferenceInvalidEntityIter")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.entities().end();
     REQUIRE(!a);
@@ -151,7 +151,7 @@ TEST_CASE("World_DereferenceInvalidEntityIter")
 
 TEST_CASE("World_DereferenceDestroyedEntityIter")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     REQUIRE(a);
@@ -162,7 +162,7 @@ TEST_CASE("World_DereferenceDestroyedEntityIter")
 
 TEST_CASE("World_CreateAndActivateEntities")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     REQUIRE(world.entityCount() == 0);
 
@@ -184,7 +184,7 @@ TEST_CASE("World_CreateAndActivateEntities")
 
 TEST_CASE("World_EntityIterationEmpty")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     size_t count = 0;
     for (const Entity& entity : world.entities())
@@ -197,7 +197,7 @@ TEST_CASE("World_EntityIterationEmpty")
 
 TEST_CASE("World_EntityIterationNoneActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     world.createEntity();
     world.createEntity();
@@ -214,7 +214,7 @@ TEST_CASE("World_EntityIterationNoneActivated")
 
 TEST_CASE("World_EntityIterationSomeActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     world.createEntity();
     world.createEntity()->activate();
@@ -237,7 +237,7 @@ TEST_CASE("World_EntityIterationSomeActivated")
 
 TEST_CASE("World_EntityIterationFirstActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     world.createEntity()->activate();
     world.createEntity();
@@ -257,7 +257,7 @@ TEST_CASE("World_EntityIterationFirstActivated")
 
 TEST_CASE("World_EntityIterationLastActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     world.createEntity();
     world.createEntity()->activate();
@@ -277,7 +277,7 @@ TEST_CASE("World_EntityIterationLastActivated")
 
 TEST_CASE("World_EntityIterationFirstAndLastActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     world.createEntity()->activate();
     world.createEntity();
@@ -296,7 +296,7 @@ TEST_CASE("World_EntityIterationFirstAndLastActivated")
 
 TEST_CASE("World_CreateManyEntities")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     std::vector<Entity::Iterator> entities;
     for (EntityId id = 0; id < 64; ++id)
@@ -322,7 +322,7 @@ TEST_CASE("World_CreateManyEntities")
 
 TEST_CASE("World_AddRemoveEntityChildren")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     a->activate();
@@ -345,7 +345,7 @@ TEST_CASE("World_AddRemoveEntityChildren")
 
 TEST_CASE("World_AddChildEntityAsChild")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     a->activate();
@@ -363,7 +363,7 @@ TEST_CASE("World_AddChildEntityAsChild")
 
 TEST_CASE("World_AddEntityChildActivationRestrictions")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     a->activate();
@@ -380,12 +380,12 @@ TEST_CASE("World_AddEntityChildActivationRestrictions")
 
 TEST_CASE("World_AddChildFromAnotherWorld")
 {
-    World worldA(TimeSpan::fromSeconds(1));
+    World worldA;
 
     Entity::Iterator a = worldA.createEntity();
     a->activate();
 
-    World worldB(TimeSpan::fromSeconds(1));
+    World worldB;
 
     Entity::Iterator b = worldB.createEntity();
     b->activate();
@@ -395,7 +395,7 @@ TEST_CASE("World_AddChildFromAnotherWorld")
 
 TEST_CASE("World_ChildEntityActivation")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     Entity::Iterator b = world.createEntity();
@@ -416,7 +416,7 @@ TEST_CASE("World_ChildEntityActivation")
 
 TEST_CASE("World_ChildEntityIterationEmpty")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
 
@@ -430,7 +430,7 @@ TEST_CASE("World_ChildEntityIterationEmpty")
 
 TEST_CASE("World_ChildEntityIterationNonEmpty")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     Entity::Iterator b = world.createEntity();
@@ -463,7 +463,7 @@ TEST_CASE("World_ChildEntityIterationNonEmpty")
 
 TEST_CASE("World_DestroyEntityWithChildren")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     Entity::Iterator b = world.createEntity();
@@ -489,7 +489,7 @@ TEST_CASE("World_DestroyEntityWithChildren")
 
 TEST_CASE("World_DestroyEntityWithParent")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     Entity::Iterator b = world.createEntity();
@@ -517,7 +517,7 @@ TEST_CASE("World_DestroyEntityWithParent")
 
 TEST_CASE("World_CloneEntity")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -537,7 +537,7 @@ TEST_CASE("World_CloneEntity")
 
 TEST_CASE("World_CloneEntityWithChildren")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -559,7 +559,7 @@ TEST_CASE("World_CloneEntityWithChildren")
 
 TEST_CASE("World_AddUnregisteredComponent")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
 
     Entity::Iterator a = world.createEntity();
     REQUIRE_THROWS_AS(a->addComponent<String>("Test"), Error);
@@ -567,7 +567,7 @@ TEST_CASE("World_AddUnregisteredComponent")
 
 TEST_CASE("World_AddAndRemoveComponent")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -585,7 +585,7 @@ TEST_CASE("World_AddAndRemoveComponent")
 
 TEST_CASE("World_ReplaceComponent")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -602,7 +602,7 @@ TEST_CASE("World_ReplaceComponent")
 
 TEST_CASE("World_AddExistingComponent")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -611,7 +611,7 @@ TEST_CASE("World_AddExistingComponent")
 
 TEST_CASE("World_RemoveNonExistingComponent")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -621,7 +621,7 @@ TEST_CASE("World_RemoveNonExistingComponent")
 
 TEST_CASE("World_RemoveNonExistingUnregisteredComponent")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -667,7 +667,7 @@ TEST_CASE("World_EncodeDecodeWithChildren")
 
 TEST_CASE("World_ComponentIterationEmpty")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     size_t count = 0;
@@ -681,7 +681,7 @@ TEST_CASE("World_ComponentIterationEmpty")
 
 TEST_CASE("World_ComponentIterationNoneActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     world.createEntity()->addComponent<String>("Test");
@@ -698,7 +698,7 @@ TEST_CASE("World_ComponentIterationNoneActivated")
 
 TEST_CASE("World_ComponentIterationSomeActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
     
     world.createEntity();
@@ -722,7 +722,7 @@ TEST_CASE("World_ComponentIterationSomeActivated")
 
 TEST_CASE("World_ComponentIterationFirstActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
     
     world.createEntity()->addComponent<String>("Test")->entity().activate();
@@ -745,7 +745,7 @@ TEST_CASE("World_ComponentIterationFirstActivated")
 
 TEST_CASE("World_ComponentIterationLastActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     world.createEntity();
@@ -768,7 +768,7 @@ TEST_CASE("World_ComponentIterationLastActivated")
 
 TEST_CASE("World_ComponentIterationFirstAndLastActivated")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     String string("Test");
@@ -792,7 +792,7 @@ TEST_CASE("World_ComponentIterationFirstAndLastActivated")
 
 TEST_CASE("World_ComponentPoolListeners")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     ComponentPoolListener listener;
@@ -832,7 +832,7 @@ TEST_CASE("World_ComponentPoolListeners")
 
 TEST_CASE("World_ComponentPoolFindFirstWithMatch")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -864,7 +864,7 @@ TEST_CASE("World_ComponentPoolFindFirstWithMatch")
 
 TEST_CASE("World_ComponentPoolFindFirstWithoutMatch")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -894,7 +894,7 @@ TEST_CASE("World_ComponentPoolFindFirstWithoutMatch")
 
 TEST_CASE("World_ComponentPoolFindWithMatches")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -932,7 +932,7 @@ TEST_CASE("World_ComponentPoolFindWithMatches")
 
 TEST_CASE("World_ComponentPoolFindWithoutMatches")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -962,7 +962,7 @@ TEST_CASE("World_ComponentPoolFindWithoutMatches")
 
 TEST_CASE("World_EntityPoolFindFirstWithMatch")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -992,7 +992,7 @@ TEST_CASE("World_EntityPoolFindFirstWithMatch")
 
 TEST_CASE("World_EntityPoolFindFirstWithoutMatch")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1021,7 +1021,7 @@ TEST_CASE("World_EntityPoolFindFirstWithoutMatch")
 
 TEST_CASE("World_EntityPoolFindWithMatches")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1056,7 +1056,7 @@ TEST_CASE("World_EntityPoolFindWithMatches")
 
 TEST_CASE("World_EntityPoolFindWithoutMatches")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1085,7 +1085,7 @@ TEST_CASE("World_EntityPoolFindWithoutMatches")
 
 TEST_CASE("World_EntityFindFirstChild")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1127,7 +1127,7 @@ TEST_CASE("World_EntityFindFirstChild")
 
 TEST_CASE("World_EntityFindChildren")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1171,7 +1171,7 @@ TEST_CASE("World_EntityFindChildren")
 
 TEST_CASE("World_EntityFindFirstDescendant")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1220,7 +1220,7 @@ TEST_CASE("World_EntityFindFirstDescendant")
 
 TEST_CASE("World_EntityFindDescendants")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1275,7 +1275,7 @@ TEST_CASE("World_EntityFindDescendants")
 
 TEST_CASE("World_EntityFindFirstAncestor")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1318,7 +1318,7 @@ TEST_CASE("World_EntityFindFirstAncestor")
 
 TEST_CASE("World_EntityFindAncestors")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1363,7 +1363,7 @@ TEST_CASE("World_EntityFindAncestors")
 
 TEST_CASE("World_CreateEntityHandle")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
@@ -1380,7 +1380,7 @@ TEST_CASE("World_CreateEntityHandle")
 
 TEST_CASE("World_CopyEntityHandle")
 {
-    World world(TimeSpan::fromSeconds(1));
+    World world;
     world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();

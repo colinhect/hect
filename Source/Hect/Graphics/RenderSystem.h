@@ -31,26 +31,15 @@
 namespace hect
 {
 
-///
-/// Provides basic rendering.
-class RenderSystem :
-    public System
+class RenderSystem
 {
 public:
-    RenderSystem(World& world, Renderer& renderer);
-    virtual ~RenderSystem();
+    RenderSystem(Renderer& renderer, AssetCache& assetCache);
 
-    void updateActiveCamera();
-
-    ///
-    /// Returns the active camera in the world.
-    Component<Camera>::Iterator activeCamera();
-
-    ///
-    /// Renders all visible entities.
-    ///
-    /// \param target The target to render to.
-    virtual void renderAll(RenderTarget& target);
+    void addWorld(World& world);
+    void removeWorld(World& world);
+    
+    void renderAll(RenderTarget& target);
 
     void render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest = true);
     void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
@@ -61,7 +50,25 @@ public:
     Renderer& renderer();
 
 private:
+    void initializeBuffers(unsigned width, unsigned height);
+
     Renderer* _renderer;
+
+    std::vector<World*> _worlds;
+
+    FrameBuffer _geometryBuffer;
+    FrameBuffer _accumulationBuffer;
+
+    AssetHandle<Shader> _compositorShader;
+    AssetHandle<Shader> _environmentShader;
+    AssetHandle<Shader> _directionalLightShader;
+
+    AssetHandle<Material> _skyBoxMaterial;
+
+    AssetHandle<Mesh> _screenMesh;
+    AssetHandle<Mesh> _skyBoxMesh;
+
+    bool _buffersInitialized;
 };
 
 }

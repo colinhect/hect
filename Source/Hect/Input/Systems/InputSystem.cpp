@@ -55,14 +55,12 @@ Real InputSystem::axisValue(const std::string& name) const
     return 0;
 }
 
-void InputSystem::update()
+void InputSystem::tick(Real timeStep)
 {
-    Real timeStepInSeconds = world().timeStep().seconds();
-
     // Update each axis
     for (auto& pair : _axes)
     {
         InputAxis& axis = pair.second;
-        axis.update(timeStepInSeconds);
+        axis.update(timeStep);
     }
 }

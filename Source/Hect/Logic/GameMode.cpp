@@ -23,12 +23,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "GameMode.h"
 
+#include <cassert>
+
 using namespace hect;
 
-GameMode::GameMode()
+GameMode::GameMode(Engine& engine, TimeSpan timeStep) :
+    _engine(&engine),
+    _timeStep(timeStep)
 {
 }
 
 GameMode::~GameMode()
 {
+}
+
+Engine& GameMode::engine()
+{
+    assert(_engine);
+    return *_engine;
+}
+
+TimeSpan GameMode::timeStep() const
+{
+    return _timeStep;
 }

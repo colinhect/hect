@@ -27,29 +27,44 @@
 
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/RenderSystem.h"
 #include "Hect/Graphics/Window.h"
 #include "Hect/IO/JsonValue.h"
 
 namespace hect
 {
 
+class GameMode;
+
 class Engine
 {
 public:
-    static void initialize(int argc, const char* argv[]);
-    static void deinitialize();
+    Engine(int argc, const char* argv[]);
+    ~Engine();
 
-    static bool handleEvents();
+    int main();
 
-    static Renderer& renderer();
-    static Window& window();
+    Renderer& renderer();
+    RenderSystem& renderSystem();
+    Window& window();
 
-    static AssetCache& assetCache();
+    AssetCache& assetCache();
 
-    static const JsonValue& settings();
+    const JsonValue& settings();
+
+    template <typename T>
+    void registerGameMode();
 
 private:
-    Engine() { }
+    std::unique_ptr<Renderer> _renderer;
+    std::unique_ptr<RenderSystem> _renderSystem;
+    Window::Pointer _window;
+    std::unique_ptr<AssetCache> _assetCache;
+    JsonValue _settings;
+
+    std::map<std::string, std::function<GameMode*(Engine&)>> _gameModeConstructors;
 };
 
 }
+
+#include "Engine.inl"

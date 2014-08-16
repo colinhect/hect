@@ -48,31 +48,7 @@ public:
 
     ///
     /// Constructs an empty world.
-    ///
-    /// \param timeStep The time between each fixed update.
-    World(TimeSpan timeStep);
-
-    ///
-    /// Ticks the world.
-    void tick();
-
-    ///
-    /// Performs the pre-fixed update.
-    virtual void preFixedUpdate();
-
-    ///
-    /// Performs the fixed update of the world.
-    virtual void fixedUpdate();
-
-    ///
-    /// Performs the post-fixed update.
-    virtual void postFixedUpdate();
-
-    ///
-    /// Performs the frame update of the world.
-    ///
-    /// \param delta The delta between the last fixed update and the next.
-    virtual void frameUpdate(Real delta);
+    World();
 
     ///
     /// Adds a new system of a specific type to the world.
@@ -112,10 +88,6 @@ public:
     const ComponentPool<T>& components() const;
 
     ///
-    /// Returns the duration of time between updates.
-    TimeSpan timeStep() const;
-
-    ///
     /// Returns the pool of entities.
     EntityPool& entities();
 
@@ -140,11 +112,6 @@ private:
 
     void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
-
-    Timer _timer;
-    TimeSpan _timeStep;
-    TimeSpan _accumulator;
-    TimeSpan _delta;
 
     size_t _entityCount;
     EntityPool _entityPool;

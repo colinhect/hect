@@ -21,34 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include "Hect/Concurrency/TaskPool.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/RenderTarget.h"
-#include "Hect/IO/AssetCache.h"
-#include "Hect/Logic/World.h"
+#include "Hect/Reflection/Type.h"
 
 namespace hect
 {
 
-class GameMode;
-
-class DefaultWorld :
-    public World
+template <typename T>
+void Engine::registerGameMode()
 {
-public:
-    DefaultWorld();
-    
-    void preFixedUpdate();
-    virtual void fixedUpdate();
-    void postFixedUpdate();
+    std::type_index typeIndex(typeid(T));
 
-    void frameUpdate(Real delta);
+    std::string gameModeName = Type::get<T>().name();
 
-private:
-    TaskPool _taskPool;
-    Task::Handle _physicsTaskHandle;
-};
+    if (_gameModeConstructors.find(gameModeName) != _gameModeConstructors.end())
+    {
+        throw Error(format("Game mode type '%s' is already registered", gameModeName.c_str()));
+    }
+
+    _gameModeConstructors[gameModeName] = [this](Engine& engine)
+    {
+        return new T(engine);
+    };
+}
 
 }

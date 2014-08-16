@@ -24,22 +24,15 @@
 #include "Engine.h"
 
 #include "Hect/Platform/Platform.h"
+#include "Hect/Timing/Timer.h"
+#include "Hect/Timing/TimeSpan.h"
+#include "Hect/Logic/GameMode.h"
 
 using namespace hect;
 
-namespace
-{
-
-std::unique_ptr<AssetCache> _assetCache;
-std::unique_ptr<Renderer> _renderer;
-Window::Pointer _window;
-JsonValue _settings;
-
-}
-
 class HectTypes;
 
-void Engine::initialize(int argc, const char* argv[])
+Engine::Engine(int argc, const char* argv[])
 {
     argc;
     argv;
@@ -76,10 +69,12 @@ void Engine::initialize(int argc, const char* argv[])
     // Create window/renderer/input devices
     _window = Platform::createWindow("Hect", videoMode);
     _renderer.reset(new Renderer(*_window));
+    _renderSystem.reset(new RenderSystem(*_renderer, *_assetCache));
 }
 
-void Engine::deinitialize()
+Engine::~Engine()
 {
+    _renderSystem.reset();
     _assetCache.reset();
     _renderer.reset();
     _window.reset();
@@ -87,15 +82,52 @@ void Engine::deinitialize()
     Platform::deinitialize();
 }
 
-bool Engine::handleEvents()
+int Engine::main()
 {
-    return Platform::handleEvents();
+    const std::string& gameModeName = _settings["defaultGameMode"].asString();
+    auto it = _gameModeConstructors.find(gameModeName);
+    if (it != _gameModeConstructors.end())
+    {
+        std::unique_ptr<GameMode> gameMode(it->second(*this));
+
+        Timer timer;
+        TimeSpan accumulator;
+        TimeSpan delta;
+
+        while (Platform::handleEvents())
+        {
+            TimeSpan deltaTime = timer.elapsed();
+            timer.reset();
+
+            accumulator += deltaTime;
+            delta += deltaTime;
+
+            while (accumulator.microseconds() >= gameMode->timeStep().microseconds())
+            {
+                gameMode->tick();
+
+                delta = TimeSpan();
+                accumulator -= gameMode->timeStep();
+            }
+
+            _renderSystem->renderAll(*_window);
+            _window->swapBuffers();
+        }
+    }
+
+    return 0;
 }
 
 Renderer& Engine::renderer()
 {
     assert(_renderer);
     return *_renderer;
+}
+
+RenderSystem& Engine::renderSystem()
+{
+    assert(_renderSystem);
+    return *_renderSystem;
 }
 
 Window& Engine::window()

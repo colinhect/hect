@@ -27,49 +27,10 @@
 
 using namespace hect;
 
-World::World(TimeSpan timeStep) :
-    _timeStep(timeStep),
+World::World() :
     _entityCount(0),
     _entityPool(*this)
 {
-}
-
-void World::tick()
-{
-    TimeSpan deltaTime = _timer.elapsed();
-    _timer.reset();
-
-    _accumulator += deltaTime;
-    _delta += deltaTime;
-
-    while (_accumulator.microseconds() >= _timeStep.microseconds())
-    {
-        preFixedUpdate();
-        fixedUpdate();
-        postFixedUpdate();
-
-        _delta = TimeSpan();
-        _accumulator -= _timeStep;
-    }
-
-    frameUpdate(_delta.seconds() / _timeStep.seconds());
-}
-
-void World::preFixedUpdate()
-{
-}
-
-void World::fixedUpdate()
-{
-}
-
-void World::postFixedUpdate()
-{
-}
-
-void World::frameUpdate(Real delta)
-{
-    delta;
 }
 
 Entity::Iterator World::createEntity()
@@ -81,11 +42,6 @@ Entity::Iterator World::createEntity()
     _entityPool.dispatchEvent(event);
 
     return entity;
-}
-
-TimeSpan World::timeStep() const
-{
-    return _timeStep;
 }
 
 EntityPool& World::entities()

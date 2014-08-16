@@ -29,10 +29,6 @@
     <ClInclude Include="Source\Hect\Core\Logging.h" />
     <ClInclude Include="Source\Hect\Core\Real.h" />
     <ClInclude Include="Source\Hect\Core\Uncopyable.h" />
-    <ClInclude Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.h" />
-    <ClInclude Include="Source\Hect\Debug\DebugRenderLayer.h" />
-    <ClInclude Include="Source\Hect\Debug\Systems\DebugRenderSystem.h" />
-    <ClInclude Include="Source\Hect\Debug\TransformDebugRenderLayer.h" />
     <ClInclude Include="Source\Hect\Event\Dispatcher.h" />
     <ClInclude Include="Source\Hect\Event\Listener.h" />
     <ClInclude Include="Source\Hect\Graphics\Components\Camera.h" />
@@ -51,11 +47,10 @@
     <ClInclude Include="Source\Hect\Graphics\Renderer.h" />
     <ClInclude Include="Source\Hect\Graphics\RendererObject.h" />
     <ClInclude Include="Source\Hect\Graphics\RenderState.h" />
+    <ClInclude Include="Source\Hect\Graphics\RenderSystem.h" />
     <ClInclude Include="Source\Hect\Graphics\RenderTarget.h" />
     <ClInclude Include="Source\Hect\Graphics\Shader.h" />
     <ClInclude Include="Source\Hect\Graphics\ShaderModule.h" />
-    <ClInclude Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.h" />
-    <ClInclude Include="Source\Hect\Graphics\Systems\RenderSystem.h" />
     <ClInclude Include="Source\Hect\Graphics\Technique.h" />
     <ClInclude Include="Source\Hect\Graphics\Texture.h" />
     <ClInclude Include="Source\Hect\Graphics\Uniform.h" />
@@ -101,7 +96,6 @@
     <ClInclude Include="Source\Hect\Logic\Component.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentPool.h" />
-    <ClInclude Include="Source\Hect\Logic\DefaultWorld.h" />
     <ClInclude Include="Source\Hect\Logic\Entity.h" />
     <ClInclude Include="Source\Hect\Logic\EntityEvent.h" />
     <ClInclude Include="Source\Hect\Logic\EntityPool.h" />
@@ -130,7 +124,6 @@
     <ClInclude Include="Source\Hect\Reflection\Enum.h" />
     <ClInclude Include="Source\Hect\Reflection\Type.h" />
     <ClInclude Include="Source\Hect\Runtime\Engine.h" />
-    <ClInclude Include="Source\Hect\Runtime\EntryPoint.h" />
     <ClInclude Include="Source\Hect\Spacial\AxisAlignedBox.h" />
     <ClInclude Include="Source\Hect\Spacial\Box.h" />
     <ClInclude Include="Source\Hect\Spacial\Components\BoundingBox.h" />
@@ -152,10 +145,6 @@
     <ClCompile Include="Source\Hect\Core\Format.cpp" />
     <ClCompile Include="Source\Hect\Core\Logging.cpp" />
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp" />
-    <ClCompile Include="Source\Hect\Debug\BoundingBoxDebugRenderLayer.cpp" />
-    <ClCompile Include="Source\Hect\Debug\DebugRenderLayer.cpp" />
-    <ClCompile Include="Source\Hect\Debug\Systems\DebugRenderSystem.cpp" />
-    <ClCompile Include="Source\Hect\Debug\TransformDebugRenderLayer.cpp" />
     <ClCompile Include="Source\Hect\Generated\HectTypes.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp" />
@@ -176,13 +165,12 @@
     <ClCompile Include="Source\Hect\Graphics\Renderer.cpp" />
     <ClCompile Include="Source\Hect\Graphics\RendererObject.cpp" />
     <ClCompile Include="Source\Hect\Graphics\RenderState.cpp" />
+    <ClCompile Include="Source\Hect\Graphics\RenderSystem.cpp" />
     <ClCompile Include="Source\Hect\Graphics\RenderTarget.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Shader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderLoader.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderModule.cpp" />
     <ClCompile Include="Source\Hect\Graphics\ShaderModuleLoader.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\Systems\PhysicallyBasedRenderSystem.cpp" />
-    <ClCompile Include="Source\Hect\Graphics\Systems\RenderSystem.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Technique.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Texture.cpp" />
     <ClCompile Include="Source\Hect\Graphics\TextureLoader.cpp" />
@@ -224,7 +212,6 @@
     <ClCompile Include="Source\Hect\IO\ReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\Encodable.cpp" />
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
-    <ClCompile Include="Source\Hect\Logic\DefaultWorld.cpp" />
     <ClCompile Include="Source\Hect\Logic\Entity.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityEvent.cpp" />
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
@@ -280,6 +267,7 @@
     <None Include="Source\Hect\Math\Vector4.inl" />
     <None Include="Source\Hect\Reflection\Enum.inl" />
     <None Include="Source\Hect\Reflection\Type.inl" />
+    <None Include="Source\Hect\Runtime\Engine.inl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Dependencies\Bullet\Bullet.vcxproj">

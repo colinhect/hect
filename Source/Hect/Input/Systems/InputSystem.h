@@ -55,7 +55,7 @@ public:
 
     ///
     /// Updates all input axes in the system.
-    void update();
+    void tick(Real timeStep);
 
 private:
     std::map<std::string, InputAxis> _axes;

@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Uncopyable.h"
+#include "Hect/Timing/TimeSpan.h"
 #include "Hect/Runtime/Engine.h"
 
 namespace hect
@@ -33,10 +34,18 @@ class GameMode :
     public Uncopyable
 {
 public:
-    GameMode();
+    GameMode(Engine& engine, TimeSpan timeStep);
     virtual ~GameMode();
 
-    virtual void execute() = 0;
+    virtual void tick() = 0;
+
+    Engine& engine();
+
+    TimeSpan timeStep() const;
+
+private:
+    Engine* _engine;
+    TimeSpan _timeStep;
 };
 
 }
