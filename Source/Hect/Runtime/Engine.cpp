@@ -26,6 +26,8 @@
 #include "Hect/Platform/Platform.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
+#include "Hect/Logic/Component.h"
+#include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/GameMode.h"
 #include "Hect/Logic/GameModeRegistry.h"
 
@@ -51,7 +53,7 @@ Engine::Engine(int argc, const char* argv[])
 
     // Load the settings
     {
-        ReadStream::Pointer stream = FileSystem::openFileForRead("zeroth/Settings.json");
+        ReadStream::SharedPointer stream = FileSystem::openFileForRead("zeroth/Settings.json");
         _settings.decodeFromJson(*stream);
     }
 
@@ -87,7 +89,7 @@ int Engine::main()
 {
     const std::string& gameModeTypeName = _settings["defaultGameMode"].asString();
 
-    GameMode::Pointer gameMode = GameModeRegistry::createGameMode(gameModeTypeName, *this);
+    GameMode::SharedPointer gameMode = GameModeRegistry::createGameMode(gameModeTypeName, *this);
 
     Timer timer;
     TimeSpan accumulator;

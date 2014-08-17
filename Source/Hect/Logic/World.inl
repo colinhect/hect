@@ -35,7 +35,7 @@ T& World::addSystem(Args&... args)
         throw Error(format("System of type '%s' has already been added", typeName.c_str()));
     }
 
-    _systems[typeIndex] = std::shared_ptr<System>(new T(*this, args...));
+    _systems[typeIndex] = System::SharedPointer(new T(*this, args...));
     return (T&)*_systems[typeIndex];
 }
 
@@ -57,15 +57,17 @@ T& World::system()
 template <typename T>
 ComponentPool<T>& World::components()
 {
-    const ComponentPool<T>& componentPool = const_cast<const World*>(this)->components<T>();
-    return const_cast<ComponentPool<T>&>(componentPool);
+    std::type_index typeIndex(typeid(T));
+    ComponentPoolBase& componentPool = componentPoolFromTypeIndex(typeIndex);
+    return (ComponentPool<T>&)componentPool;
 }
 
 template <typename T>
 const ComponentPool<T>& World::components() const
 {
     std::type_index typeIndex(typeid(T));
-    return (ComponentPool<T>&)componentPoolFromTypeIndex(typeIndex);
+    ComponentPoolBase& componentPool = componentPoolFromTypeIndex(typeIndex);
+    return (const ComponentPool<T>&)componentPool;
 }
 
 }

@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <memory>
+
 #include "Hect/Core/Uncopyable.h"
 
 namespace hect
@@ -36,6 +38,8 @@ class System :
     public Uncopyable
 {
 public:
+
+    typedef std::shared_ptr<System> SharedPointer;
 
     ///
     /// Constructs the system given the world.

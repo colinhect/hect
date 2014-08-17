@@ -114,9 +114,9 @@ private:
     size_t _entityCount;
     EntityPool _entityPool;
 
-    mutable std::map<std::type_index, std::shared_ptr<ComponentPoolBase>> _componentPools;
+    mutable std::map<std::type_index, ComponentPoolBase::SharedPointer> _componentPools;
 
-    std::map<std::type_index, std::shared_ptr<System>> _systems;
+    std::map<std::type_index, System::SharedPointer> _systems;
 };
 
 }

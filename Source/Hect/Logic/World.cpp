@@ -232,7 +232,7 @@ void World::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache&
 
             std::string typeName = componentDecoder.decodeString("type");
 
-            ComponentBase::Pointer component = ComponentRegistry::createComponent(typeName);
+            ComponentBase::SharedPointer component = ComponentRegistry::createComponent(typeName);
             component->decode(componentDecoder, assetCache);
 
             addEntityComponentBase(entity, *component);
@@ -249,7 +249,7 @@ ComponentPoolBase& World::componentPoolFromTypeIndex(std::type_index typeIndex) 
     }
     else
     {
-        ComponentPoolBase::Pointer pool = ComponentRegistry::createPool(typeIndex, *const_cast<World*>(this));
+        ComponentPoolBase::SharedPointer pool = ComponentRegistry::createComponentPool(typeIndex, *const_cast<World*>(this));
         _componentPools[typeIndex] = pool;
         return *pool.get();
     }

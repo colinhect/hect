@@ -38,13 +38,13 @@ class GameModeRegistry :
 {
 public:
 
-    static GameMode::Pointer createGameMode(const std::string& typeName, Engine& engine);
+    static GameMode::SharedPointer createGameMode(const std::string& typeName, Engine& engine);
 
     template <typename T>
     static void registerType();
 
 private:
-    static std::map<std::string, std::function<GameMode::Pointer(Engine&)>> _constructors;
+    static std::map<std::string, std::function<GameMode::SharedPointer(Engine&)>> _constructors;
 };
 
 }

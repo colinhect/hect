@@ -40,7 +40,7 @@ public:
 
     ///
     /// A reference-counted pointer to a game mode.
-    typedef std::shared_ptr<GameMode> Pointer;
+    typedef std::shared_ptr<GameMode> SharedPointer;
 
     GameMode(Engine& engine, TimeSpan timeStep);
     virtual ~GameMode();

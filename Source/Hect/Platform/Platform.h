@@ -40,7 +40,7 @@ public:
 
     static void showFatalError(const std::string& message);
 
-    static Window::Pointer createWindow(const std::string& title, const VideoMode& videoMode);
+    static Window::SharedPointer createWindow(const std::string& title, const VideoMode& videoMode);
 
     static bool handleEvents();
 

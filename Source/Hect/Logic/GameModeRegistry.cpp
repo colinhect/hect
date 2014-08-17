@@ -28,7 +28,7 @@
 
 using namespace hect;
 
-GameMode::Pointer GameModeRegistry::createGameMode(const std::string& typeName, Engine& engine)
+GameMode::SharedPointer GameModeRegistry::createGameMode(const std::string& typeName, Engine& engine)
 {
     // Find the constructor
     auto it = _constructors.find(typeName);
@@ -41,4 +41,4 @@ GameMode::Pointer GameModeRegistry::createGameMode(const std::string& typeName, 
     return it->second(engine);
 }
 
-std::map<std::string, std::function<GameMode::Pointer(Engine&)>> GameModeRegistry::_constructors;
+std::map<std::string, std::function<GameMode::SharedPointer(Engine&)>> GameModeRegistry::_constructors;

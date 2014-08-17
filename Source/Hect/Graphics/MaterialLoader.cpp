@@ -31,7 +31,7 @@ void AssetLoader<Material>::load(Material& material, const Path& assetPath, Asse
 {
     JsonValue jsonValue;
     {
-        ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
+        ReadStream::SharedPointer stream = FileSystem::openFileForRead(assetPath);
         jsonValue.decodeFromJson(*stream);
     }
 
