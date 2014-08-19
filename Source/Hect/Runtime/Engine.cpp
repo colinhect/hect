@@ -53,7 +53,7 @@ Engine::Engine(int argc, const char* argv[])
 
     // Load the settings
     {
-        ReadStream::SharedPointer stream = FileSystem::openFileForRead("zeroth/Settings.json");
+        ReadStream::Pointer stream = FileSystem::openFileForRead("zeroth/Settings.json");
         _settings.decodeFromJson(*stream);
     }
 
@@ -89,7 +89,7 @@ int Engine::main()
 {
     const std::string& gameModeTypeName = _settings["defaultGameMode"].asString();
 
-    GameMode::SharedPointer gameMode = GameModeRegistry::createGameMode(gameModeTypeName, *this);
+    GameMode::Pointer gameMode = GameModeRegistry::createGameMode(gameModeTypeName, *this);
 
     Timer timer;
     TimeSpan accumulator;

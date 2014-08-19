@@ -30,7 +30,7 @@ using namespace hect;
 
 void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCache& assetCache)
 {
-    ReadStream::SharedPointer stream = FileSystem::openFileForRead(assetPath);
+    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
     JsonValue jsonValue;
     jsonValue.decodeFromJson(*stream);
 

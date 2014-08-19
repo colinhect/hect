@@ -259,9 +259,9 @@ void Platform::showFatalError(const std::string& message)
 #endif
 }
 
-Window::SharedPointer Platform::createWindow(const std::string& title, const VideoMode& videoMode)
+Window::Pointer Platform::createWindow(const std::string& title, const VideoMode& videoMode)
 {
-    return Window::SharedPointer(new SDLWindow(title, videoMode));
+    return Window::Pointer(new SDLWindow(title, videoMode));
 }
 
 bool Platform::handleEvents()

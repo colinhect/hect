@@ -42,7 +42,7 @@ public:
 
     ///
     /// A reference-counted pointer to a write stream.
-    typedef std::shared_ptr<WriteStream> SharedPointer;
+    typedef std::shared_ptr<WriteStream> Pointer;
 
     ///
     /// Writes raw bytes to the stream.

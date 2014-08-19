@@ -32,7 +32,7 @@ void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache
 {
     JsonValue jsonValue;
     {
-        ReadStream::SharedPointer stream = FileSystem::openFileForRead(assetPath);
+        ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
         jsonValue.decodeFromJson(*stream);
     }
 

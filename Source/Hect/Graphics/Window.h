@@ -45,7 +45,7 @@ public:
 
     ///
     /// A reference-counted pointer to a window.
-    typedef std::shared_ptr<Window> SharedPointer;
+    typedef std::shared_ptr<Window> Pointer;
 
     ///
     /// Constructs a window given a title and the settings.

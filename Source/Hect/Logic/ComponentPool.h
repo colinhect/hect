@@ -40,7 +40,7 @@ class ComponentPoolBase
     friend class World;
 public:
 
-    typedef std::shared_ptr<ComponentPoolBase> SharedPointer;
+    typedef std::shared_ptr<ComponentPoolBase> Pointer;
 
 protected:
     virtual void dispatchEvent(ComponentEventType type, Entity& entity) = 0;

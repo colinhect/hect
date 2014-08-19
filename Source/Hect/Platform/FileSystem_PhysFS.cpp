@@ -239,14 +239,14 @@ void FileSystem::mount(const Path& path)
     }
 }
 
-ReadStream::SharedPointer FileSystem::openFileForRead(const Path& path)
+ReadStream::Pointer FileSystem::openFileForRead(const Path& path)
 {
-    return ReadStream::SharedPointer(new PhysFSReadStream(path));
+    return ReadStream::Pointer(new PhysFSReadStream(path));
 }
 
-WriteStream::SharedPointer FileSystem::openFileForWrite(const Path& path)
+WriteStream::Pointer FileSystem::openFileForWrite(const Path& path)
 {
-    return WriteStream::SharedPointer(new PhysFSWriteStream(path));
+    return WriteStream::Pointer(new PhysFSWriteStream(path));
 }
 
 void FileSystem::createDirectory(const Path& path)

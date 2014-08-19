@@ -31,6 +31,7 @@ World::World() :
     _entityCount(0),
     _entityPool(*this)
 {
+    _componentPools = ComponentRegistry::createComponentPools(*this);
 }
 
 Entity::Iterator World::createEntity()
@@ -198,7 +199,12 @@ void World::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     }
 
     std::type_index typeIndex = component.typeIndex();
-    ComponentPoolBase& componentPool = componentPoolFromTypeIndex(typeIndex);
+    auto it = _componentPools.find(typeIndex);
+    if (it == _componentPools.end())
+    {
+        throw Error("Type of base component is unregistered");
+    }
+    ComponentPoolBase& componentPool = *it->second;
     componentPool.addBase(entity, component);
 }
 
@@ -232,25 +238,10 @@ void World::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache&
 
             std::string typeName = componentDecoder.decodeString("type");
 
-            ComponentBase::SharedPointer component = ComponentRegistry::createComponent(typeName);
+            ComponentBase::Pointer component = ComponentRegistry::createComponent(typeName);
             component->decode(componentDecoder, assetCache);
 
             addEntityComponentBase(entity, *component);
         }
-    }
-}
-
-ComponentPoolBase& World::componentPoolFromTypeIndex(std::type_index typeIndex) const
-{
-    auto it = _componentPools.find(typeIndex);
-    if (it != _componentPools.end())
-    {
-        return *it->second.get();
-    }
-    else
-    {
-        ComponentPoolBase::SharedPointer pool = ComponentRegistry::createComponentPool(typeIndex, *const_cast<World*>(this));
-        _componentPools[typeIndex] = pool;
-        return *pool.get();
     }
 }

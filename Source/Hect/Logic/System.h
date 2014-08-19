@@ -39,7 +39,7 @@ class System :
 {
 public:
 
-    typedef std::shared_ptr<System> SharedPointer;
+    typedef std::shared_ptr<System> Pointer;
 
     ///
     /// Constructs the system given the world.

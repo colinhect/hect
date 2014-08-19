@@ -58,7 +58,7 @@ TEST_CASE("FileSystem_OpenNonExistingFileForWrite")
 
     REQUIRE(!FileSystem::exists(path));
     {
-        WriteStream::SharedPointer stream = FileSystem::openFileForWrite(path);
+        WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
     }
     REQUIRE(FileSystem::exists(path));
     FileSystem::remove(path);
@@ -79,11 +79,11 @@ TEST_CASE("FileSystem_OpenExistingFileForWrite")
 
     REQUIRE(!FileSystem::exists(path));
     {
-        WriteStream::SharedPointer stream = FileSystem::openFileForWrite(path);
+        WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
     }
     REQUIRE(FileSystem::exists(path));
     {
-        WriteStream::SharedPointer stream = FileSystem::openFileForWrite(path);
+        WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
     }
     REQUIRE(FileSystem::exists(path));
     FileSystem::remove(path);
@@ -104,11 +104,11 @@ TEST_CASE("FileSystem_OpenExistingFileForRead")
 
     REQUIRE(!FileSystem::exists(path));
     {
-        WriteStream::SharedPointer stream = FileSystem::openFileForWrite(path);
+        WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
     }
     REQUIRE(FileSystem::exists(path));
     {
-        ReadStream::SharedPointer stream = FileSystem::openFileForRead(path);
+        ReadStream::Pointer stream = FileSystem::openFileForRead(path);
     }
 
     FileSystem::remove(path);
@@ -131,7 +131,7 @@ TEST_CASE("FileSystem_OpenNonExistingFileForRead")
 
     try
     {
-        ReadStream::SharedPointer stream = FileSystem::openFileForRead(path);
+        ReadStream::Pointer stream = FileSystem::openFileForRead(path);
     }
     catch (Error&)
     {

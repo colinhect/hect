@@ -69,7 +69,7 @@ public:
     /// \param path The path to the file to open for reading.
     ///
     /// \returns A stream for the opened file.
-    static ReadStream::SharedPointer openFileForRead(const Path& path);
+    static ReadStream::Pointer openFileForRead(const Path& path);
 
     ///
     /// Opens a file for writing.
@@ -81,7 +81,7 @@ public:
     /// the write directory path.
     ///
     /// \returns A stream for the opened file.
-    static WriteStream::SharedPointer openFileForWrite(const Path& path);
+    static WriteStream::Pointer openFileForWrite(const Path& path);
 
     ///
     /// Creates a directory.

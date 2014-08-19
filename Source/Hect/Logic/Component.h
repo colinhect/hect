@@ -50,7 +50,7 @@ class ComponentBase :
 {
 public:
 
-    typedef std::shared_ptr<ComponentBase> SharedPointer;
+    typedef std::shared_ptr<ComponentBase> Pointer;
 
     virtual ~ComponentBase() { }
 

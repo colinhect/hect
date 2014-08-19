@@ -109,14 +109,12 @@ private:
     void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
 
-    ComponentPoolBase& componentPoolFromTypeIndex(std::type_index typeIndex) const;
-
     size_t _entityCount;
     EntityPool _entityPool;
 
-    mutable std::map<std::type_index, ComponentPoolBase::SharedPointer> _componentPools;
+    ComponentPools _componentPools;
 
-    std::map<std::type_index, System::SharedPointer> _systems;
+    std::map<std::type_index, System::Pointer> _systems;
 };
 
 }

@@ -43,7 +43,7 @@ public:
 
     ///
     /// A reference-counted pointer to a read stream.
-    typedef std::shared_ptr<ReadStream> SharedPointer;
+    typedef std::shared_ptr<ReadStream> Pointer;
 
     ///
     /// Reads raw bytes from the stream.

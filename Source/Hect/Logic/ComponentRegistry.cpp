@@ -28,7 +28,7 @@
 
 using namespace hect;
 
-ComponentBase::SharedPointer ComponentRegistry::createComponent(std::type_index typeIndex)
+ComponentBase::Pointer ComponentRegistry::createComponent(std::type_index typeIndex)
 {
     auto it = _typeIndexToId.find(typeIndex);
     if (it == _typeIndexToId.end())
@@ -39,7 +39,7 @@ ComponentBase::SharedPointer ComponentRegistry::createComponent(std::type_index 
     return _componentConstructors[it->second]();
 }
 
-ComponentBase::SharedPointer ComponentRegistry::createComponent(const std::string& typeName)
+ComponentBase::Pointer ComponentRegistry::createComponent(const std::string& typeName)
 {
     auto it = _typeNameToId.find(typeName);
     if (it == _typeNameToId.end())
@@ -50,7 +50,7 @@ ComponentBase::SharedPointer ComponentRegistry::createComponent(const std::strin
     return _componentConstructors[it->second]();
 }
 
-ComponentPoolBase::SharedPointer ComponentRegistry::createComponentPool(std::type_index typeIndex, World& world)
+ComponentPoolBase::Pointer ComponentRegistry::createComponentPool(std::type_index typeIndex, World& world)
 {
     auto it = _typeIndexToId.find(typeIndex);
     if (it == _typeIndexToId.end())
@@ -61,7 +61,7 @@ ComponentPoolBase::SharedPointer ComponentRegistry::createComponentPool(std::typ
     return _componentPoolConstructors[it->second](world);
 }
 
-ComponentPoolBase::SharedPointer ComponentRegistry::createComponentPool(const std::string& typeName, World& world)
+ComponentPoolBase::Pointer ComponentRegistry::createComponentPool(const std::string& typeName, World& world)
 {
     auto it = _typeNameToId.find(typeName);
     if (it == _typeNameToId.end())
@@ -70,6 +70,17 @@ ComponentPoolBase::SharedPointer ComponentRegistry::createComponentPool(const st
     }
 
     return _componentPoolConstructors[it->second](world);
+}
+
+ComponentPools ComponentRegistry::createComponentPools(World& world)
+{
+    ComponentPools componentPools;
+    for (auto& pair : _typeIndexToId)
+    {
+        std::type_index typeIndex = pair.first;
+        componentPools[typeIndex] = createComponentPool(typeIndex, world);
+    }
+    return componentPools;
 }
 
 ComponentTypeId ComponentRegistry::_nextTypeId = 0;

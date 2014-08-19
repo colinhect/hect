@@ -59,12 +59,12 @@ void testWriteAndReadStream(std::function<void(WriteStream&)> write, std::functi
 
         REQUIRE(!FileSystem::exists(path));
         {
-            WriteStream::SharedPointer stream = FileSystem::openFileForWrite(path);
+            WriteStream::Pointer stream = FileSystem::openFileForWrite(path);
             write(*stream);
         }
         REQUIRE(FileSystem::exists(path));
         {
-            ReadStream::SharedPointer stream = FileSystem::openFileForRead(path);
+            ReadStream::Pointer stream = FileSystem::openFileForRead(path);
             read(*stream);
         }
         FileSystem::remove(path);

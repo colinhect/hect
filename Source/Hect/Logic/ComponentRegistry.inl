@@ -43,12 +43,12 @@ void ComponentRegistry::registerType()
 
     _componentConstructors[_nextTypeId] = []()
     {
-        return ComponentBase::SharedPointer(new T());
+        return ComponentBase::Pointer(new T());
     };
 
     _componentPoolConstructors[_nextTypeId] = [](World& world)
     {
-        return ComponentPoolBase::SharedPointer(new ComponentPool<T>(world));
+        return ComponentPoolBase::Pointer(new ComponentPool<T>(world));
     };
 
     ++_nextTypeId;

@@ -33,6 +33,6 @@ void AssetLoader<JsonValue>::load(JsonValue& jsonValue, const Path& assetPath, A
 {
     assetCache;
 
-    ReadStream::SharedPointer stream = FileSystem::openFileForRead(assetPath);
+    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
     jsonValue.decodeFromJson(*stream);
 }

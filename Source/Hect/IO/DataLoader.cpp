@@ -32,7 +32,7 @@ void AssetLoader<Data>::load(Data& data, const Path& assetPath, AssetCache& asse
 {
     assetCache;
 
-    ReadStream::SharedPointer stream = FileSystem::openFileForRead(assetPath);
+    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
     if (stream->readUnsignedByte() == '{')
     {
         stream->seek(0);
