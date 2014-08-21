@@ -24,7 +24,11 @@
 #pragma once
 
 #include <memory>
+#include <typeindex>
+#include <vector>
 
+#include "Hect/Core/Real.h"
+#include "Hect/Core/Sequence.h"
 #include "Hect/Core/Uncopyable.h"
 
 namespace hect
@@ -45,6 +49,13 @@ public:
     /// Constructs the system given the world.
     System(World& world);
 
+    virtual void tick(Real timeStep) = 0;
+
+    template <typename T>
+    void tickAfter();
+
+    ConstSequence<std::type_index> tickDependencies() const;
+
     ///
     /// Gets the world that the system affects.
     World& world();
@@ -55,6 +66,10 @@ public:
 
 private:
     World* _world;
+
+    std::vector<std::type_index> _tickDependencies;
 };
 
 }
+
+#include "System.inl"

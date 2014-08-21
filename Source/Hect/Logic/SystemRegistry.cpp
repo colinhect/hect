@@ -21,44 +21,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "SystemRegistry.h"
 
-#include <map>
+#include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
 
-#include "Hect/Input/InputAxis.h"
-#include "Hect/Logic/System.h"
+using namespace hect;
 
-namespace hect
+SystemMap SystemRegistry::createSystemMap(World& world)
 {
-
-class InputSystem :
-    public System
-{
-public:
-    InputSystem(World& world);
-
-    ///
-    /// Adds an axis.
-    ///
-    /// \param axis The axis to add.
-    ///
-    /// \throws Error If an axis already exists with the same name.
-    void addAxis(const InputAxis& axis);
-
-    ///
-    /// Returns the value of the axis with the given name.
-    ///
-    /// \param name The name of the axis.
-    ///
-    /// \returns The value of the axis; 0 if the axis does not exist.
-    Real axisValue(const std::string& name) const;
-
-    ///
-    /// Updates all input axes in the system.
-    void tick(Real timeStep) override;
-
-private:
-    std::map<std::string, InputAxis> _axes;
-};
-
+    SystemMap systemMap;
+    for (auto& pair : _constructors)
+    {
+        std::type_index typeIndex = pair.first;
+        std::function<System::Pointer(World&)> constructor = pair.second;
+        systemMap[typeIndex] = constructor(world);
+    }
+    return systemMap;
 }
+
+std::map<std::type_index, std::function<System::Pointer(World&)>> SystemRegistry::_constructors;

@@ -21,44 +21,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "PhysicsTransformSystem.h"
 
-#include <map>
+#include "Hect/Input/Systems/InputSystem.h"
+#include "Hect/Logic/World.h"
+#include "Hect/Physics/Bullet.h"
+#include "Hect/Physics/Components/RigidBody.h"
+#include "Hect/Spacial/Components/Transform.h"
 
-#include "Hect/Input/InputAxis.h"
-#include "Hect/Logic/System.h"
+using namespace hect;
 
-namespace hect
+PhysicsTransformSystem::PhysicsTransformSystem(World& world) :
+    System(world)
 {
+    tickAfter<InputSystem>();
+}
 
-class InputSystem :
-    public System
+void PhysicsTransformSystem::tick(Real timeStep)
 {
-public:
-    InputSystem(World& world);
+    timeStep;
 
-    ///
-    /// Adds an axis.
-    ///
-    /// \param axis The axis to add.
-    ///
-    /// \throws Error If an axis already exists with the same name.
-    void addAxis(const InputAxis& axis);
-
-    ///
-    /// Returns the value of the axis with the given name.
-    ///
-    /// \param name The name of the axis.
-    ///
-    /// \returns The value of the axis; 0 if the axis does not exist.
-    Real axisValue(const std::string& name) const;
-
-    ///
-    /// Updates all input axes in the system.
-    void tick(Real timeStep) override;
-
-private:
-    std::map<std::string, InputAxis> _axes;
-};
-
+    // For each rigid body component
+    for (RigidBody& rigidBody : world().components<RigidBody>())
+    {
+        Entity& entity = rigidBody.entity();
+        if (!entity.parent() && entity.component<Transform>())
+        {
+            // Update the transform to what Bullet says it should be
+            btTransform bulletTransform;
+            ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
+            entity.replaceComponent<Transform>(convertFromBullet(bulletTransform));
+        }
+    }
 }

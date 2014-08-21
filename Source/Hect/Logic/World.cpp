@@ -24,6 +24,7 @@
 #include "World.h"
 
 #include <algorithm>
+#include <set>
 
 using namespace hect;
 
@@ -31,7 +32,18 @@ World::World() :
     _entityCount(0),
     _entityPool(*this)
 {
-    _componentPools = ComponentRegistry::createComponentPools(*this);
+    _componentPoolMap = ComponentRegistry::createComponentPoolMap(*this);
+    _systemMap = SystemRegistry::createSystemMap(*this);
+
+    // Figure out system tick order here
+}
+
+void World::tick(Real timeStep)
+{
+    for (System* system : _systemTickOrder)
+    {
+        system->tick(timeStep);
+    }
 }
 
 Entity::Iterator World::createEntity()
@@ -93,7 +105,7 @@ Entity::Iterator World::cloneEntity(const Entity& entity)
     Entity::ConstIterator sourceEntity = entity.iterator();
     Entity::Iterator clonedEntity = createEntity();
 
-    for (auto& pair : _componentPools)
+    for (auto& pair : _componentPoolMap)
     {
         ComponentPoolBase& componentPool = *pair.second;
         componentPool.clone(*sourceEntity, *clonedEntity);
@@ -132,7 +144,7 @@ void World::destroyEntity(Entity& entity)
     }
 
     // Remove all components
-    for (auto& pair : _componentPools)
+    for (auto& pair : _componentPoolMap)
     {
         ComponentPoolBase& componentPool = *pair.second;
         if (componentPool.has(entity))
@@ -168,7 +180,7 @@ void World::activateEntity(Entity& entity)
         throw Error("Entity is already activated");
     }
 
-    for (auto& pair : _componentPools)
+    for (auto& pair : _componentPoolMap)
     {
         auto componentPool = pair.second;
         if (componentPool->has(entity))
@@ -199,8 +211,8 @@ void World::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     }
 
     std::type_index typeIndex = component.typeIndex();
-    auto it = _componentPools.find(typeIndex);
-    if (it == _componentPools.end())
+    auto it = _componentPoolMap.find(typeIndex);
+    if (it == _componentPoolMap.end())
     {
         throw Error("Type of base component is unregistered");
     }
@@ -212,7 +224,7 @@ void World::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
 {
     ArrayEncoder componentsEncoder = encoder.encodeArray("components");
 
-    for (auto& pair : _componentPools)
+    for (auto& pair : _componentPoolMap)
     {
         auto componentPool = pair.second;
         if (componentPool->has(entity))

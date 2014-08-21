@@ -31,27 +31,25 @@ void ComponentRegistry::registerType()
 {
     std::type_index typeIndex(typeid(T));
 
-    std::string typeName = Type::get<T>().name();
-
-    if (_typeIndexToId.find(typeIndex) != _typeIndexToId.end())
+    if (_typeIndexToId.find(typeIndex) == _typeIndexToId.end())
     {
-        throw Error(format("Component type '%s' is already registered", typeName.c_str()));
+        std::string typeName = Type::get<T>().name();
+
+        _typeIndexToId[typeIndex] = _nextTypeId;
+        _typeNameToId[typeName] = _nextTypeId;
+
+        _componentConstructors[_nextTypeId] = []()
+        {
+            return ComponentBase::Pointer(new T());
+        };
+
+        _componentPoolConstructors[_nextTypeId] = [](World& world)
+        {
+            return ComponentPoolBase::Pointer(new ComponentPool<T>(world));
+        };
+
+        ++_nextTypeId;
     }
-
-    _typeIndexToId[typeIndex] = _nextTypeId;
-    _typeNameToId[typeName] = _nextTypeId;
-
-    _componentConstructors[_nextTypeId] = []()
-    {
-        return ComponentBase::Pointer(new T());
-    };
-
-    _componentPoolConstructors[_nextTypeId] = [](World& world)
-    {
-        return ComponentPoolBase::Pointer(new ComponentPool<T>(world));
-    };
-
-    ++_nextTypeId;
 }
 
 }

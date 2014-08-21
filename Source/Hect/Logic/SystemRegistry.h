@@ -23,64 +23,33 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/Event/Listener.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/Logic/ComponentEvent.h"
-#include "Hect/Logic/System.h"
-#include "Hect/Physics/Components/RigidBody.h"
-#include "Hect/Timing/TimeSpan.h"
+#include <functional>
+#include <map>
+#include <string>
+#include <typeindex>
 
-// Forward declare Bullet classes
-class btCollisionConfiguration;
-class btCollisionDispatcher;
-class btBroadphaseInterface;
-class btConstraintSolver;
-class btDynamicsWorld;
-class btTriangleMesh;
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/Logic/System.h"
 
 namespace hect
 {
 
-///
-/// Simulates physical interactions of physical bodies.
-class PhysicsSystem :
-    public System,
-    public Listener<ComponentEvent<RigidBody>>
+typedef std::map<std::type_index, System::Pointer> SystemMap;
+
+class SystemRegistry :
+    public Uncopyable
 {
 public:
-    PhysicsSystem(World& world);
-    ~PhysicsSystem();
 
-    void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);
+    static SystemMap createSystemMap(World& world);
 
-    void updateTransforms();
-    void simulate(TimeSpan timeStep);
-
-    ///
-    /// Returns the gravity.
-    const Vector3& gravity() const;
-
-    ///
-    /// Sets the gravity.
-    ///
-    /// \param gravity The new gravity.
-    void setGravity(const Vector3& gravity);
-
-    void receiveEvent(const ComponentEvent<RigidBody>& event);
+    template <typename T>
+    static void registerType();
 
 private:
-    btTriangleMesh* toBulletMesh(Mesh* mesh);
-
-    std::shared_ptr<btCollisionConfiguration> _configuration;
-    std::shared_ptr<btCollisionDispatcher> _dispatcher;
-    std::shared_ptr<btBroadphaseInterface> _broadphase;
-    std::shared_ptr<btConstraintSolver> _solver;
-    std::shared_ptr<btDynamicsWorld> _world;
-
-    std::map<Mesh*, std::shared_ptr<btTriangleMesh>> _bulletMeshes;
-
-    Vector3 _gravity;
+    static std::map<std::type_index, std::function<System::Pointer(World&)>> _constructors;
 };
 
 }
+
+#include "SystemRegistry.inl"

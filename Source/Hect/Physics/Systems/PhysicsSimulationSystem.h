@@ -23,26 +23,63 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/System.h"
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/Event/Listener.h"
+#include "Hect/Graphics/Mesh.h"
 #include "Hect/Logic/ComponentEvent.h"
-#include "Hect/Spacial/Components/BoundingBox.h"
-#include "Hect/Spacial/Components/Transform.h"
+#include "Hect/Logic/System.h"
+#include "Hect/Physics/Components/RigidBody.h"
+#include "Hect/Timing/TimeSpan.h"
+
+// Forward declare Bullet classes
+class btCollisionConfiguration;
+class btCollisionDispatcher;
+class btBroadphaseInterface;
+class btConstraintSolver;
+class btDynamicsWorld;
+class btTriangleMesh;
 
 namespace hect
 {
 
 ///
-/// Updates the bounding box hierarchies of the world.
-class BoundingBoxSystem :
-    public System
+/// Simulates physical interactions of physical bodies.
+class PhysicsSimulationSystem :
+    public System,
+    public Listener<ComponentEvent<RigidBody>>
 {
 public:
-    BoundingBoxSystem(World& world);
+    PhysicsSimulationSystem(World& world);
+    ~PhysicsSimulationSystem();
+
+    void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);
 
     void tick(Real timeStep) override;
 
+    ///
+    /// Returns the gravity.
+    const Vector3& gravity() const;
+
+    ///
+    /// Sets the gravity.
+    ///
+    /// \param gravity The new gravity.
+    void setGravity(const Vector3& gravity);
+
+    void receiveEvent(const ComponentEvent<RigidBody>& event);
+
 private:
-    void resizeBoundingBox(Entity& entity, BoundingBox& boundingBox);
+    btTriangleMesh* toBulletMesh(Mesh* mesh);
+
+    std::shared_ptr<btCollisionConfiguration> _configuration;
+    std::shared_ptr<btCollisionDispatcher> _dispatcher;
+    std::shared_ptr<btBroadphaseInterface> _broadphase;
+    std::shared_ptr<btConstraintSolver> _solver;
+    std::shared_ptr<btDynamicsWorld> _world;
+
+    std::map<Mesh*, std::shared_ptr<btTriangleMesh>> _bulletMeshes;
+
+    Vector3 _gravity;
 };
 
 }

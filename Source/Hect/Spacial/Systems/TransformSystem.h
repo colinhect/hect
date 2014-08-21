@@ -38,9 +38,7 @@ class TransformSystem :
 public:
     TransformSystem(World& world);
 
-    ///
-    /// Updates the global transforms of all transforms.
-    void update();
+    void tick(Real timeStep) override;
 
 private:
     void updateTransform(Entity& parent, Entity& child);

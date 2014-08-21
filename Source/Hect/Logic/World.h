@@ -32,6 +32,7 @@
 #include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/Logic/System.h"
+#include "Hect/Logic/SystemRegistry.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
 
@@ -51,19 +52,12 @@ public:
     /// Constructs an empty world.
     World();
 
-    ///
-    /// Adds a new system of a specific type to the world.
-    ///
-    /// \returns A reference to the added system.
-    ///
-    /// \throws Error If the world already has a system of the type.
-    template <typename T, typename... Args>
-    T& addSystem(Args&... args);
+    void tick(Real timeStep);
 
     ///
     /// Returns the system of a specific type.
     ///
-    /// \throws Error If the world does not have a system of the type.
+    /// \throws Error If the system type is unknown.
     template <typename T>
     T& system();
 
@@ -112,9 +106,10 @@ private:
     size_t _entityCount;
     EntityPool _entityPool;
 
-    ComponentPools _componentPools;
+    ComponentPoolMap _componentPoolMap;
+    SystemMap _systemMap;
 
-    std::map<std::type_index, System::Pointer> _systems;
+    std::vector<System*> _systemTickOrder;
 };
 
 }

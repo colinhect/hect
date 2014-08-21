@@ -24,28 +24,13 @@
 namespace hect
 {
 
-template <typename T, typename... Args>
-T& World::addSystem(Args&... args)
-{
-    std::type_index typeIndex(typeid(T));
-    
-    if (_systems.find(typeIndex) != _systems.end())
-    {
-        std::string typeName = Type::get<T>().name();
-        throw Error(format("System of type '%s' has already been added", typeName.c_str()));
-    }
-
-    _systems[typeIndex] = System::Pointer(new T(*this, args...));
-    return (T&)*_systems[typeIndex];
-}
-
 template <typename T>
 T& World::system()
 {
     std::type_index typeIndex(typeid(T));
 
-    auto it = _systems.find(typeIndex);
-    if (it == _systems.end())
+    auto it = _systemMap.find(typeIndex);
+    if (it == _systemMap.end())
     {
         std::string typeName = Type::get<T>().name();
         throw Error(format("Unknown system type '%s'", typeName.c_str()));
@@ -59,8 +44,8 @@ ComponentPool<T>& World::components()
 {
     std::type_index typeIndex(typeid(T));
 
-    auto it = _componentPools.find(typeIndex);
-    if (it == _componentPools.end())
+    auto it = _componentPoolMap.find(typeIndex);
+    if (it == _componentPoolMap.end())
     {
         std::string typeName = Type::get<T>().name();
         throw Error(format("Unknown component type '%s'", typeName.c_str()));

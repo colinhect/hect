@@ -103,6 +103,7 @@
     <ClInclude Include="Source\Hect\Logic\GameMode.h" />
     <ClInclude Include="Source\Hect\Logic\GameModeRegistry.h" />
     <ClInclude Include="Source\Hect\Logic\IdPool.h" />
+    <ClInclude Include="Source\Hect\Logic\SystemRegistry.h" />
     <ClInclude Include="Source\Hect\Logic\World.h" />
     <ClInclude Include="Source\Hect\Logic\System.h" />
     <ClInclude Include="Source\Hect\Math\Angle.h" />
@@ -120,7 +121,8 @@
     <ClInclude Include="Source\Hect\Noise\Random.h" />
     <ClInclude Include="Source\Hect\Physics\Bullet.h" />
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h" />
-    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h" />
+    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSimulationSystem.h" />
+    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsTransformSystem.h" />
     <ClInclude Include="Source\Hect\Platform\FileSystem.h" />
     <ClInclude Include="Source\Hect\Platform\Platform.h" />
     <ClInclude Include="Source\Hect\Reflection\Enum.h" />
@@ -220,6 +222,7 @@
     <ClCompile Include="Source\Hect\Logic\EntityPool.cpp" />
     <ClCompile Include="Source\Hect\Logic\GameMode.cpp" />
     <ClCompile Include="Source\Hect\Logic\GameModeRegistry.cpp" />
+    <ClCompile Include="Source\Hect\Logic\SystemRegistry.cpp" />
     <ClCompile Include="Source\Hect\Logic\World.cpp" />
     <ClCompile Include="Source\Hect\Logic\System.cpp" />
     <ClCompile Include="Source\Hect\Math\Angle.cpp" />
@@ -230,7 +233,8 @@
     <ClCompile Include="Source\Hect\Noise\Random.cpp" />
     <ClCompile Include="Source\Hect\Physics\Bullet.cpp" />
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp" />
-    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp" />
+    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSimulationSystem.cpp" />
+    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsTransformSystem.cpp" />
     <ClCompile Include="Source\Hect\Platform\FileSystem_PhysFS.cpp" />
     <ClCompile Include="Source\Hect\Platform\Platform_SDL.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp" />
@@ -264,6 +268,8 @@
     <None Include="Source\Hect\Logic\Entity.inl" />
     <None Include="Source\Hect\Logic\GameModeRegistry.inl" />
     <None Include="Source\Hect\Logic\IdPool.inl" />
+    <None Include="Source\Hect\Logic\System.inl" />
+    <None Include="Source\Hect\Logic\SystemRegistry.inl" />
     <None Include="Source\Hect\Logic\World.inl" />
     <None Include="Source\Hect\Math\Matrix4.inl" />
     <None Include="Source\Hect\Math\Quaternion.inl" />

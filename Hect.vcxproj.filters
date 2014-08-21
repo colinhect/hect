@@ -360,9 +360,6 @@
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h">
       <Filter>Source\Hect\Physics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h">
-      <Filter>Source\Hect\Physics\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\Event\Dispatcher.h">
       <Filter>Source\Hect\Event</Filter>
     </ClInclude>
@@ -455,6 +452,15 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\Logic\ComponentRegistry.h">
       <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\SystemRegistry.h">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsTransformSystem.h">
+      <Filter>Source\Hect\Physics\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSimulationSystem.h">
+      <Filter>Source\Hect\Physics\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -698,9 +704,6 @@
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp">
       <Filter>Source\Hect\Physics\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp">
-      <Filter>Source\Hect\Physics\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Concurrency\TaskPool.cpp">
       <Filter>Source\Hect\Concurrency</Filter>
     </ClCompile>
@@ -779,6 +782,15 @@
     <ClCompile Include="Source\Hect\Logic\ComponentRegistry.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\SystemRegistry.cpp">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsTransformSystem.cpp">
+      <Filter>Source\Hect\Physics\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSimulationSystem.cpp">
+      <Filter>Source\Hect\Physics\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Core\Any.inl">
@@ -851,6 +863,12 @@
       <Filter>Source\Hect\Logic</Filter>
     </None>
     <None Include="Source\Hect\Logic\ComponentRegistry.inl">
+      <Filter>Source\Hect\Logic</Filter>
+    </None>
+    <None Include="Source\Hect\Logic\SystemRegistry.inl">
+      <Filter>Source\Hect\Logic</Filter>
+    </None>
+    <None Include="Source\Hect\Logic\System.inl">
       <Filter>Source\Hect\Logic</Filter>
     </None>
   </ItemGroup>

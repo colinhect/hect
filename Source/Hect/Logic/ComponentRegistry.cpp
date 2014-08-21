@@ -72,15 +72,15 @@ ComponentPoolBase::Pointer ComponentRegistry::createComponentPool(const std::str
     return _componentPoolConstructors[it->second](world);
 }
 
-ComponentPools ComponentRegistry::createComponentPools(World& world)
+ComponentPoolMap ComponentRegistry::createComponentPoolMap(World& world)
 {
-    ComponentPools componentPools;
+    ComponentPoolMap componentPoolMap;
     for (auto& pair : _typeIndexToId)
     {
         std::type_index typeIndex = pair.first;
-        componentPools[typeIndex] = createComponentPool(typeIndex, world);
+        componentPoolMap[typeIndex] = createComponentPool(typeIndex, world);
     }
-    return componentPools;
+    return componentPoolMap;
 }
 
 ComponentTypeId ComponentRegistry::_nextTypeId = 0;

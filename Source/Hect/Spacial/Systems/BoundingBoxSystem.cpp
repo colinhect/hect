@@ -25,16 +25,20 @@
 
 #include "Hect/Graphics/Components/Model.h"
 #include "Hect/Logic/World.h"
+#include "Hect/Spacial/Systems/TransformSystem.h"
 
 using namespace hect;
 
 BoundingBoxSystem::BoundingBoxSystem(World& world) :
     System(world)
 {
+    tickAfter<TransformSystem>();
 }
 
-void BoundingBoxSystem::update()
+void BoundingBoxSystem::tick(Real timeStep)
 {
+    timeStep;
+
     for (BoundingBox& boundingBox : world().components<BoundingBox>())
     {
         Entity& entity = boundingBox.entity();

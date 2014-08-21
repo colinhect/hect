@@ -25,16 +25,20 @@
 
 #include "Hect/Graphics/Components/Model.h"
 #include "Hect/Logic/World.h"
+#include "Hect/Physics/Systems/PhysicsTransformSystem.h"
 
 using namespace hect;
 
 TransformSystem::TransformSystem(World& world) :
     System(world)
 {
+    tickAfter<PhysicsTransformSystem>();
 }
 
-void TransformSystem::update()
+void TransformSystem::tick(Real timeStep)
 {
+    timeStep;
+
     for (Transform& transform : world().components<Transform>())
     {
         Entity& entity = transform.entity();

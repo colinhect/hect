@@ -29,19 +29,14 @@ namespace hect
 template <typename T>
 void GameModeRegistry::registerType()
 {
-    std::type_index typeIndex(typeid(T));
-
     std::string typeName = Type::get<T>().name();
-
-    if (_constructors.find(typeName) != _constructors.end())
+    if (_constructors.find(typeName) == _constructors.end())
     {
-        throw Error(format("Game mode type '%s' is already registered", typeName.c_str()));
-    }
-
-    _constructors[typeName] = [](Engine& engine)
-    {
-        return GameMode::Pointer(new T(engine));
-    };
+        _constructors[typeName] = [](Engine& engine)
+        {
+            return GameMode::Pointer(new T(engine));
+        };
+    }    
 }
 
 }

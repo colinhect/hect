@@ -21,44 +21,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include <map>
-
-#include "Hect/Input/InputAxis.h"
-#include "Hect/Logic/System.h"
+#include "Hect/Reflection/Type.h"
 
 namespace hect
 {
 
-class InputSystem :
-    public System
+template <typename T>
+void SystemRegistry::registerType()
 {
-public:
-    InputSystem(World& world);
-
-    ///
-    /// Adds an axis.
-    ///
-    /// \param axis The axis to add.
-    ///
-    /// \throws Error If an axis already exists with the same name.
-    void addAxis(const InputAxis& axis);
-
-    ///
-    /// Returns the value of the axis with the given name.
-    ///
-    /// \param name The name of the axis.
-    ///
-    /// \returns The value of the axis; 0 if the axis does not exist.
-    Real axisValue(const std::string& name) const;
-
-    ///
-    /// Updates all input axes in the system.
-    void tick(Real timeStep) override;
-
-private:
-    std::map<std::string, InputAxis> _axes;
-};
+    std::type_index typeIndex(typeid(T));
+    if (_constructors.find(typeIndex) == _constructors.end())
+    {
+        _constructors[typeIndex] = [](World& world)
+        {
+            return System::Pointer(new T(world));
+        };
+    }
+}
 
 }
