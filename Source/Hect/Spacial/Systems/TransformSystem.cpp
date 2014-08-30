@@ -25,14 +25,14 @@
 
 #include "Hect/Graphics/Components/Model.h"
 #include "Hect/Logic/World.h"
-#include "Hect/Physics/Systems/PhysicsTransformSystem.h"
+#include "Hect/Physics/Systems/PhysicsSystem.h"
 
 using namespace hect;
 
 TransformSystem::TransformSystem(World& world) :
     System(world)
 {
-    tickAfter<PhysicsTransformSystem>();
+    tickAfter<PhysicsSystem>();
 }
 
 void TransformSystem::tick(Real timeStep)

@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Mouse.h"
 
+#include "Hect/Core/Error.h"
+
 using namespace hect;
 
 MouseEvent::MouseEvent() :
@@ -33,6 +35,11 @@ MouseEvent::MouseEvent() :
 
 bool Mouse::isButtonDown(MouseButton button) const
 {
+    if (button >= _buttonStates.size())
+    {
+        throw Error("Invalid mouse button");
+    }
+
     return _buttonStates[(int)button];
 }
 

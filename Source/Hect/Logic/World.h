@@ -24,8 +24,8 @@
 #pragma once
 
 #include <functional>
-#include <typeinfo>
 #include <typeindex>
+#include <typeinfo>
 
 #include "Hect/IO/Encodable.h"
 #include "Hect/Logic/ComponentPool.h"
@@ -40,7 +40,7 @@ namespace hect
 {
 
 ///
-/// A world of entities.
+/// A world of entities, components, and systems.
 class World :
     public Uncopyable,
     public Encodable
@@ -52,8 +52,6 @@ public:
     /// Constructs an empty world.
     World();
 
-    void tick(Real timeStep);
-
     ///
     /// Returns the system of a specific type.
     ///
@@ -62,20 +60,30 @@ public:
     T& system();
 
     ///
-    /// Creates a new entity.
-    ///
-    /// \returns An iterator to the new entity.
-    Entity::Iterator createEntity();
-
-    ///
     /// Returns the pool of components of a specific type.
+    ///
+    /// \throws Error If the component type is unknown.
     template <typename T>
     ComponentPool<T>& components();
 
     ///
     /// Returns the pool of components of a specific type.
+    ///
+    /// \throws Error If the component type is unknown.
     template <typename T>
     const ComponentPool<T>& components() const;
+
+    ///
+    /// Ticks all of the systems in the world.
+    ///
+    /// \param timeStep The duration of time for the tick to simulate.
+    void tick(TimeSpan timeStep);
+
+    ///
+    /// Creates a new entity.
+    ///
+    /// \returns An iterator to the new entity.
+    Entity::Iterator createEntity();
 
     ///
     /// Returns the pool of entities.
@@ -102,6 +110,8 @@ private:
 
     void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
     void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
+
+    void addSystemToTickOrder(System& system);
 
     size_t _entityCount;
     EntityPool _entityPool;

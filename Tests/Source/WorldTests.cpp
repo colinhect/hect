@@ -28,8 +28,6 @@ using namespace hect;
 
 #include <catch.hpp>
 
-/*
-
 class String :
     public Component<String>
 {
@@ -81,7 +79,6 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
 
         {
             World world;
-            world.registerComponent<String>();
 
             createWorld(world);
 
@@ -90,7 +87,6 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
 
         {
             World world;
-            world.registerComponent<String>();
 
             world.decodeFromJsonValue(jsonValue);
 
@@ -104,7 +100,6 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
 
         {
             World world;
-            world.registerComponent<String>();
             createWorld(world);
 
             MemoryWriteStream writeStream(data);
@@ -113,7 +108,6 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
 
         {
             World world;
-            world.registerComponent<String>();
 
             MemoryReadStream readStream(data);
             world.decodeFromBinary(readStream);
@@ -121,6 +115,11 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
             verifyWorld(world);
         }
     }
+}
+
+TEST_CASE("World_RegisterComponent")
+{
+    ComponentRegistry::registerType<String>();
 }
 
 TEST_CASE("World_CreateAndDestroyEntities")
@@ -520,7 +519,6 @@ TEST_CASE("World_DestroyEntityWithParent")
 TEST_CASE("World_CloneEntity")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     Component<String>::Iterator stringA = a->addComponent<String>("Test");
@@ -540,7 +538,6 @@ TEST_CASE("World_CloneEntity")
 TEST_CASE("World_CloneEntityWithChildren")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     Entity::Iterator b = world.createEntity();
@@ -559,18 +556,9 @@ TEST_CASE("World_CloneEntityWithChildren")
     REQUIRE(!++childIter);
 }
 
-TEST_CASE("World_AddUnregisteredComponent")
-{
-    World world;
-
-    Entity::Iterator a = world.createEntity();
-    REQUIRE_THROWS_AS(a->addComponent<String>("Test"), Error);
-}
-
 TEST_CASE("World_AddAndRemoveComponent")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
 
@@ -588,7 +576,6 @@ TEST_CASE("World_AddAndRemoveComponent")
 TEST_CASE("World_ReplaceComponent")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
 
@@ -605,7 +592,6 @@ TEST_CASE("World_ReplaceComponent")
 TEST_CASE("World_AddExistingComponent")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
@@ -614,7 +600,6 @@ TEST_CASE("World_AddExistingComponent")
 TEST_CASE("World_RemoveNonExistingComponent")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("Test");
@@ -624,7 +609,6 @@ TEST_CASE("World_RemoveNonExistingComponent")
 TEST_CASE("World_RemoveNonExistingUnregisteredComponent")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     REQUIRE_THROWS_AS(a->removeComponent<String>(), Error);
@@ -670,7 +654,6 @@ TEST_CASE("World_EncodeDecodeWithChildren")
 TEST_CASE("World_ComponentIterationEmpty")
 {
     World world;
-    world.registerComponent<String>();
 
     size_t count = 0;
     for (const String& string : world.components<String>())
@@ -684,7 +667,6 @@ TEST_CASE("World_ComponentIterationEmpty")
 TEST_CASE("World_ComponentIterationNoneActivated")
 {
     World world;
-    world.registerComponent<String>();
 
     world.createEntity()->addComponent<String>("Test");
 
@@ -701,7 +683,6 @@ TEST_CASE("World_ComponentIterationNoneActivated")
 TEST_CASE("World_ComponentIterationSomeActivated")
 {
     World world;
-    world.registerComponent<String>();
     
     world.createEntity();
     world.createEntity()->addComponent<String>("Test")->entity().activate();
@@ -725,7 +706,6 @@ TEST_CASE("World_ComponentIterationSomeActivated")
 TEST_CASE("World_ComponentIterationFirstActivated")
 {
     World world;
-    world.registerComponent<String>();
     
     world.createEntity()->addComponent<String>("Test")->entity().activate();
     world.createEntity()->addComponent<String>("Test")->entity().activate();
@@ -748,7 +728,6 @@ TEST_CASE("World_ComponentIterationFirstActivated")
 TEST_CASE("World_ComponentIterationLastActivated")
 {
     World world;
-    world.registerComponent<String>();
 
     world.createEntity();
     world.createEntity()->addComponent<String>("Test")->entity().activate();
@@ -771,7 +750,6 @@ TEST_CASE("World_ComponentIterationLastActivated")
 TEST_CASE("World_ComponentIterationFirstAndLastActivated")
 {
     World world;
-    world.registerComponent<String>();
 
     String string("Test");
 
@@ -795,7 +773,6 @@ TEST_CASE("World_ComponentIterationFirstAndLastActivated")
 TEST_CASE("World_ComponentPoolListeners")
 {
     World world;
-    world.registerComponent<String>();
 
     ComponentPoolListener listener;
     world.components<String>().addListener(listener);
@@ -835,7 +812,6 @@ TEST_CASE("World_ComponentPoolListeners")
 TEST_CASE("World_ComponentPoolFindFirstWithMatch")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("NotMatch");
@@ -867,7 +843,6 @@ TEST_CASE("World_ComponentPoolFindFirstWithMatch")
 TEST_CASE("World_ComponentPoolFindFirstWithoutMatch")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("NotMatch");
@@ -897,7 +872,6 @@ TEST_CASE("World_ComponentPoolFindFirstWithoutMatch")
 TEST_CASE("World_ComponentPoolFindWithMatches")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("NotMatch");
@@ -935,7 +909,6 @@ TEST_CASE("World_ComponentPoolFindWithMatches")
 TEST_CASE("World_ComponentPoolFindWithoutMatches")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("NotMatch");
@@ -965,7 +938,6 @@ TEST_CASE("World_ComponentPoolFindWithoutMatches")
 TEST_CASE("World_EntityPoolFindFirstWithMatch")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("NotMatch");
@@ -995,7 +967,6 @@ TEST_CASE("World_EntityPoolFindFirstWithMatch")
 TEST_CASE("World_EntityPoolFindFirstWithoutMatch")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("NotMatch");
@@ -1024,7 +995,6 @@ TEST_CASE("World_EntityPoolFindFirstWithoutMatch")
 TEST_CASE("World_EntityPoolFindWithMatches")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("NotMatch");
@@ -1059,7 +1029,6 @@ TEST_CASE("World_EntityPoolFindWithMatches")
 TEST_CASE("World_EntityPoolFindWithoutMatches")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("NotMatch");
@@ -1088,7 +1057,6 @@ TEST_CASE("World_EntityPoolFindWithoutMatches")
 TEST_CASE("World_EntityFindFirstChild")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
 
@@ -1130,7 +1098,6 @@ TEST_CASE("World_EntityFindFirstChild")
 TEST_CASE("World_EntityFindChildren")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
 
@@ -1174,7 +1141,6 @@ TEST_CASE("World_EntityFindChildren")
 TEST_CASE("World_EntityFindFirstDescendant")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
 
@@ -1223,7 +1189,6 @@ TEST_CASE("World_EntityFindFirstDescendant")
 TEST_CASE("World_EntityFindDescendants")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
 
@@ -1278,7 +1243,6 @@ TEST_CASE("World_EntityFindDescendants")
 TEST_CASE("World_EntityFindFirstAncestor")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("A");
@@ -1321,7 +1285,6 @@ TEST_CASE("World_EntityFindFirstAncestor")
 TEST_CASE("World_EntityFindAncestors")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
     a->addComponent<String>("A");
@@ -1366,7 +1329,6 @@ TEST_CASE("World_EntityFindAncestors")
 TEST_CASE("World_CreateEntityHandle")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
 
@@ -1383,7 +1345,6 @@ TEST_CASE("World_CreateEntityHandle")
 TEST_CASE("World_CopyEntityHandle")
 {
     World world;
-    world.registerComponent<String>();
 
     Entity::Iterator a = world.createEntity();
 
@@ -1400,5 +1361,3 @@ TEST_CASE("World_CopyEntityHandle")
     REQUIRE(!handleCopy);
     REQUIRE_THROWS_AS(*handleCopy, Error);
 }
-
-*/

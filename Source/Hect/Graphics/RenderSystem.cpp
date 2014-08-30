@@ -86,7 +86,7 @@ void RenderSystem::renderAll(RenderTarget& target)
             camera->transformTo(*transform);
         }
         camera->setAspectRatio(target.aspectRatio());
-        
+
         // Initialize buffers if needed
         if (!_buffersInitialized)
         {
@@ -98,7 +98,7 @@ void RenderSystem::renderAll(RenderTarget& target)
             renderer().beginFrame();
             renderer().bindTarget(_geometryBuffer);
             renderer().clear();
-            
+
             // Render the sky box if there is one
             auto skyBox = world.components<SkyBox>().begin();
             if (skyBox)

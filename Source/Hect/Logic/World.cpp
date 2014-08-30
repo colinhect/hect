@@ -24,7 +24,6 @@
 #include "World.h"
 
 #include <algorithm>
-#include <set>
 
 using namespace hect;
 
@@ -35,14 +34,19 @@ World::World() :
     _componentPoolMap = ComponentRegistry::createComponentPoolMap(*this);
     _systemMap = SystemRegistry::createSystemMap(*this);
 
-    // Figure out system tick order here
+    // Add all systems to the tick order
+    for (auto& pair : _systemMap)
+    {
+        addSystemToTickOrder(*pair.second);
+    }
 }
 
-void World::tick(Real timeStep)
+void World::tick(TimeSpan timeStep)
 {
+    Real timeStepInSeconds = timeStep.seconds();
     for (System* system : _systemTickOrder)
     {
-        system->tick(timeStep);
+        system->tick(timeStepInSeconds);
     }
 }
 
@@ -255,5 +259,21 @@ void World::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache&
 
             addEntityComponentBase(entity, *component);
         }
+    }
+}
+
+void World::addSystemToTickOrder(System& system)
+{
+    // If the system is not in the tick order
+    if (std::find(_systemTickOrder.begin(), _systemTickOrder.end(), &system) == _systemTickOrder.end())
+    {
+        // Add each system it depends on first
+        for (std::type_index typeIndex : system.tickDependencies())
+        {
+            addSystemToTickOrder(*_systemMap[typeIndex]);
+        }
+
+        // Add the system
+        _systemTickOrder.push_back(&system);
     }
 }

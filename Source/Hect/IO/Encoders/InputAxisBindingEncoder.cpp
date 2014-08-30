@@ -77,7 +77,7 @@ void InputAxisBindingEncoder::decode(InputAxisBinding& inputAxisSource, ObjectDe
     {
         inputAxisSource.acceleration = decoder.decodeReal("acceleration");
     }
-    
+
     if (decoder.hasMember("range"))
     {
         inputAxisSource.range = decoder.decodeVector2("range");

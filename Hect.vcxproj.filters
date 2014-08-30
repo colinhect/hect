@@ -456,10 +456,7 @@
     <ClInclude Include="Source\Hect\Logic\SystemRegistry.h">
       <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsTransformSystem.h">
-      <Filter>Source\Hect\Physics\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSimulationSystem.h">
+    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h">
       <Filter>Source\Hect\Physics\Systems</Filter>
     </ClInclude>
   </ItemGroup>
@@ -737,9 +734,6 @@
     <ClCompile Include="Source\Hect\Reflection\Type.cpp">
       <Filter>Source\Hect\Reflection</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Generated\HectTypes.cpp">
-      <Filter>Source\Hect\Generated</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp">
       <Filter>Source\Hect\Reflection</Filter>
     </ClCompile>
@@ -785,10 +779,10 @@
     <ClCompile Include="Source\Hect\Logic\SystemRegistry.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsTransformSystem.cpp">
-      <Filter>Source\Hect\Physics\Systems</Filter>
+    <ClCompile Include="Source\Hect\Generated\BuiltInTypes.cpp">
+      <Filter>Source\Hect\Generated</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSimulationSystem.cpp">
+    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp">
       <Filter>Source\Hect\Physics\Systems</Filter>
     </ClCompile>
   </ItemGroup>

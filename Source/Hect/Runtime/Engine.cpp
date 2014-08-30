@@ -33,7 +33,8 @@
 
 using namespace hect;
 
-class HectTypes;
+class BuiltInTypes;
+class CustomTypes;
 
 Engine::Engine(int argc, const char* argv[])
 {
@@ -42,7 +43,8 @@ Engine::Engine(int argc, const char* argv[])
 
     Platform::initialize();
 
-    Type::registerTypes<HectTypes>();
+    Type::registerTypes<BuiltInTypes>();
+    Type::registerTypes<CustomTypes>();
 
     // Mount the working directory
     Path workingDirectory = FileSystem::workingDirectory();

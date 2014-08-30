@@ -34,8 +34,6 @@
 namespace hect
 {
 
-class GameMode;
-
 class Engine
 {
 public:

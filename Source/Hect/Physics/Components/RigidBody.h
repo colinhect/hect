@@ -39,8 +39,7 @@ namespace hect
 class RigidBody :
     public Component<RigidBody>
 {
-    friend class PhysicsSimulationSystem;
-    friend class PhysicsTransformSystem;
+    friend class PhysicsSystem;
 public:
     RigidBody();
 

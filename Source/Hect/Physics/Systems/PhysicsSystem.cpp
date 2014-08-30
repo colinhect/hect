@@ -21,17 +21,17 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "PhysicsSimulationSystem.h"
+#include "PhysicsSystem.h"
 
 #include "Hect/Logic/World.h"
 #include "Hect/Physics/Bullet.h"
 #include "Hect/Physics/Components/RigidBody.h"
 #include "Hect/Spacial/Components/Transform.h"
-#include "Hect/Spacial/Systems/BoundingBoxSystem.h"
+#include "Hect/Input/Systems/InputSystem.h"
 
 using namespace hect;
 
-PhysicsSimulationSystem::PhysicsSimulationSystem(World& world) :
+PhysicsSystem::PhysicsSystem(World& world) :
     System(world),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
@@ -39,41 +39,54 @@ PhysicsSimulationSystem::PhysicsSimulationSystem(World& world) :
     _solver(new btSequentialImpulseConstraintSolver()),
     _world(new btDiscreteDynamicsWorld(_dispatcher.get(), _broadphase.get(), _solver.get(), _configuration.get()))
 {
-    tickAfter<BoundingBoxSystem>();
+    tickAfter<InputSystem>();
 
     world.components<RigidBody>().addListener(*this);
 
     setGravity(Vector3::zero());
 }
 
-PhysicsSimulationSystem::~PhysicsSimulationSystem()
+PhysicsSystem::~PhysicsSystem()
 {
     world().components<RigidBody>().removeListener(*this);
 }
 
-void PhysicsSimulationSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition)
+void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition)
 {
     rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
 }
 
-void PhysicsSimulationSystem::tick(Real timeStep)
+void PhysicsSystem::tick(Real timeStep)
 {
     // Update the dynamics world
     _world->stepSimulation(timeStep, 4);
+
+    // For each rigid body component
+    for (RigidBody& rigidBody : world().components<RigidBody>())
+    {
+        Entity& entity = rigidBody.entity();
+        if (!entity.parent() && entity.component<Transform>())
+        {
+            // Update the transform to what Bullet says it should be
+            btTransform bulletTransform;
+            ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
+            entity.replaceComponent<Transform>(convertFromBullet(bulletTransform));
+        }
+    }
 }
 
-const Vector3& PhysicsSimulationSystem::gravity() const
+const Vector3& PhysicsSystem::gravity() const
 {
     return _gravity;
 }
 
-void PhysicsSimulationSystem::setGravity(const Vector3& gravity)
+void PhysicsSystem::setGravity(const Vector3& gravity)
 {
     _gravity = gravity;
     _world->setGravity(convertToBullet(gravity));
 }
 
-void PhysicsSimulationSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
+void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
 {
     Entity& entity = event.entity();
 
@@ -118,7 +131,7 @@ void PhysicsSimulationSystem::receiveEvent(const ComponentEvent<RigidBody>& even
     }
 }
 
-btTriangleMesh* PhysicsSimulationSystem::toBulletMesh(Mesh* mesh)
+btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
 {
     auto it = _bulletMeshes.find(mesh);
     if (it != _bulletMeshes.end())

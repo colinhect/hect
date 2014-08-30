@@ -123,6 +123,8 @@ public:
     /// Returns whether the given button is down.
     ///
     /// \param button The button to check if it is down.
+    ///
+    /// \throws Error If the given mouse button is invalid.
     bool isButtonDown(MouseButton button) const;
 
     ///

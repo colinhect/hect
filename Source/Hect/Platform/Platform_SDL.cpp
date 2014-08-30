@@ -301,7 +301,7 @@ bool Platform::handleEvents()
             event.key = convertKey(e.key.keysym.sym);
             _keyboard.enqueueEvent(event);
         }
-            break;
+        break;
         case SDL_MOUSEMOTION:
         {
             // Get relative cursor movement
@@ -321,7 +321,7 @@ bool Platform::handleEvents()
             event.cursorPosition = IntVector2(positionX, positionY);
             _mouse.enqueueEvent(event);
         }
-            break;
+        break;
         case SDL_JOYAXISMOTION:
         {
             // Enqueue the event
@@ -332,7 +332,7 @@ bool Platform::handleEvents()
             event.axisValue = std::max<Real>((Real)e.jaxis.value / (Real)32767, -1.0);
             _gamepads[event.gamepadIndex].enqueueEvent(event);
         }
-            break;
+        break;
         case SDL_JOYBUTTONDOWN:
         case SDL_JOYBUTTONUP:
         {
@@ -343,7 +343,7 @@ bool Platform::handleEvents()
             event.button = (GamepadButton)e.jbutton.button;
             _gamepads[event.gamepadIndex].enqueueEvent(event);
         }
-            break;
+        break;
         }
     }
 

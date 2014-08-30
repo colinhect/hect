@@ -49,12 +49,23 @@ public:
     /// Constructs the system given the world.
     System(World& world);
 
-    virtual void tick(Real timeStep) = 0;
-
+    ///
+    /// Ensures that the system of a specific type is updated before this
+    /// system.
     template <typename T>
     void tickAfter();
 
+    ///
+    /// Returns the type indices of the systems which must tick before this
+    /// system.
     ConstSequence<std::type_index> tickDependencies() const;
+
+    ///
+    /// Performs a single tick of simulation for the system.
+    ///
+    /// \param timeStep The duration of time in seconds for the tick to
+    /// simulate.
+    virtual void tick(Real timeStep) = 0;
 
     ///
     /// Gets the world that the system affects.

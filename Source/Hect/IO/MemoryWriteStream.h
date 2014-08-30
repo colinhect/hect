@@ -44,16 +44,8 @@ public:
     /// \param data The data to write to.
     MemoryWriteStream(std::vector<uint8_t>& data);
 
-    ///
-    /// \copydoc WriteStream::writeBytes()
     void writeBytes(const uint8_t* bytes, size_t byteCount);
-
-    ///
-    /// \copydoc WriteStream::position()
     size_t position() const;
-
-    ///
-    /// \copydoc WriteStream::seek()
     void seek(size_t position);
 
 private:

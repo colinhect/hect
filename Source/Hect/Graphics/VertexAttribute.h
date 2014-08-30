@@ -116,7 +116,6 @@ enum VertexAttributeType : uint8_t
 
     ///
     /// A 16-bit float.
-    /// \note Also known as "half".
     VertexAttributeType_Half,
 
     ///
@@ -130,7 +129,7 @@ enum VertexAttributeType : uint8_t
 /// \note A vertex attribute is made up of a semantic, a type, and a
 /// cardinality.  The semantic describes how the attribute is used.  The
 /// type describes the type of each component in the attribute.  The
-/// cardinality is number of components (of the attributes type) the
+/// cardinality is number of components (of the attribute's type) the
 /// attribute has.
 class VertexAttribute
 {
@@ -150,7 +149,7 @@ public:
     VertexAttributeSemantic semantic() const;
 
     ///
-    /// Returns the type of the vertex attribute.
+    /// Returns the type.
     VertexAttributeType type() const;
 
     ///

@@ -38,7 +38,7 @@ public:
 
     void addWorld(World& world);
     void removeWorld(World& world);
-    
+
     void renderAll(RenderTarget& target);
 
     void render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest = true);

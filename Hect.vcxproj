@@ -121,8 +121,7 @@
     <ClInclude Include="Source\Hect\Noise\Random.h" />
     <ClInclude Include="Source\Hect\Physics\Bullet.h" />
     <ClInclude Include="Source\Hect\Physics\Components\RigidBody.h" />
-    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSimulationSystem.h" />
-    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsTransformSystem.h" />
+    <ClInclude Include="Source\Hect\Physics\Systems\PhysicsSystem.h" />
     <ClInclude Include="Source\Hect\Platform\FileSystem.h" />
     <ClInclude Include="Source\Hect\Platform\Platform.h" />
     <ClInclude Include="Source\Hect\Reflection\Enum.h" />
@@ -149,7 +148,7 @@
     <ClCompile Include="Source\Hect\Core\Format.cpp" />
     <ClCompile Include="Source\Hect\Core\Logging.cpp" />
     <ClCompile Include="Source\Hect\Core\Uncopyable.cpp" />
-    <ClCompile Include="Source\Hect\Generated\HectTypes.cpp" />
+    <ClCompile Include="Source\Hect\Generated\BuiltInTypes.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\DirectionalLight.cpp" />
     <ClCompile Include="Source\Hect\Graphics\Components\Model.cpp" />
@@ -233,8 +232,7 @@
     <ClCompile Include="Source\Hect\Noise\Random.cpp" />
     <ClCompile Include="Source\Hect\Physics\Bullet.cpp" />
     <ClCompile Include="Source\Hect\Physics\Components\RigidBody.cpp" />
-    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSimulationSystem.cpp" />
-    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsTransformSystem.cpp" />
+    <ClCompile Include="Source\Hect\Physics\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Source\Hect\Platform\FileSystem_PhysFS.cpp" />
     <ClCompile Include="Source\Hect\Platform\Platform_SDL.cpp" />
     <ClCompile Include="Source\Hect\Reflection\Enum.cpp" />
@@ -420,7 +418,7 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(ProjectDir)Tools\
-python reflect.py ..\Source\Hect\ ..\Source\Hect\Generated\ HectTypes</Command>
+python reflect.py ..\Source\Hect\ ..\Source\Hect\Generated\ BuiltInTypes</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -462,7 +460,7 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(ProjectDir)Tools\
-python reflect.py ..\Source\Hect\ ..\Source\Hect\Generated\ HectTypes</Command>
+python reflect.py ..\Source\Hect\ ..\Source\Hect\Generated\ BuiltInTypes</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -506,7 +504,7 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(ProjectDir)Tools\
-python reflect.py ..\Source\Hect\ ..\Source\Hect\Generated\ HectTypes</Command>
+python reflect.py ..\Source\Hect\ ..\Source\Hect\Generated\ BuiltInTypes</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -550,7 +548,7 @@ lib /OUT:$(TargetDir)Hect.lib $(TargetDir)HectStatic.lib $(TargetDir)PhysFS.lib 
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>cd $(ProjectDir)Tools\
-python reflect.py ..\Source\Hect\ ..\Source\Hect\Generated\ HectTypes</Command>
+python reflect.py ..\Source\Hect\ ..\Source\Hect\Generated\ BuiltInTypes</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

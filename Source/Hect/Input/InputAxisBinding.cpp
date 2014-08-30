@@ -58,7 +58,7 @@ void InputAxisBinding::update(Real timeStepInSeconds)
             _value -= acceleration * timeStepInSeconds;
         }
     }
-        break;
+    break;
     case InputAxisBindingType_MouseButton:
     {
         if (Platform::mouse().isButtonDown(mouseButton))
@@ -70,7 +70,7 @@ void InputAxisBinding::update(Real timeStepInSeconds)
             _value -= acceleration * timeStepInSeconds;
         }
     }
-        break;
+    break;
     case InputAxisBindingType_GamepadButton:
     {
         Sequence<Gamepad> gamepads = Platform::gamepads();
@@ -87,7 +87,7 @@ void InputAxisBinding::update(Real timeStepInSeconds)
             }
         }
     }
-        break;
+    break;
     case InputAxisBindingType_GamepadAxis:
     {
         Sequence<Gamepad> gamepads = Platform::gamepads();
@@ -104,7 +104,7 @@ void InputAxisBinding::update(Real timeStepInSeconds)
             _value = _value * 0.5 + 0.5;
         }
     }
-        break;
+    break;
     }
 
     _value = clamp<Real>(_value, 0, 1);
