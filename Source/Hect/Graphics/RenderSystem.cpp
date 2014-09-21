@@ -81,11 +81,22 @@ void RenderSystem::renderAll(RenderTarget& target)
     {
         Entity& entity = camera->entity();
         auto transform = entity.component<Transform>();
+        camera->aspectRatio = target.aspectRatio();
         if (transform)
         {
-            camera->transformTo(*transform);
+            // TODO: Move this to a "CameraSystem"
+            const Quaternion& rotation = transform->globalRotation;
+            camera->front = (rotation * Vector3::unitZ()).normalized();
+            camera->up = (rotation * Vector3::unitY()).normalized();
+            camera->right = camera->front.cross(camera->up).normalized();
+
+            camera->position = transform->globalPosition;
+
+            camera->viewMatrix = Matrix4::createView(camera->position, camera->front, camera->up);
+            camera->projectionMatrix = Matrix4::createPerspective(camera->fieldOfView, camera->aspectRatio, camera->nearClip, camera->farClip);
+
+            camera->frustum = Frustum(camera->position, camera->front, camera->up, camera->fieldOfView, camera->aspectRatio, camera->nearClip, camera->farClip);
         }
-        camera->setAspectRatio(target.aspectRatio());
 
         // Initialize buffers if needed
         if (!_buffersInitialized)
@@ -105,8 +116,7 @@ void RenderSystem::renderAll(RenderTarget& target)
             {
                 // Construct a transform at the camera's position
                 Transform transform;
-                transform.setPosition(camera->position());
-                transform.updateGlobalTransform();
+                transform.globalPosition = camera->position;
 
                 // Update the sky box material to use this sky box's texture
                 for (Technique& technique : _skyBoxMaterial->techniques())
@@ -114,7 +124,7 @@ void RenderSystem::renderAll(RenderTarget& target)
                     for (Pass& pass : technique.passes())
                     {
                         pass.clearTextures();
-                        pass.addTexture(skyBox->texture());
+                        pass.addTexture(skyBox->texture);
                     }
                 }
 
@@ -158,7 +168,7 @@ void RenderSystem::renderAll(RenderTarget& target)
             {
                 renderer().bindTexture(target, index++);
             }
-            renderer().bindTexture(*lightProbe->texture(), index++);
+            renderer().bindTexture(*lightProbe->texture, index++);
             renderer().bindMesh(*_screenMesh);
 
             Transform identity;
@@ -183,8 +193,8 @@ void RenderSystem::renderAll(RenderTarget& target)
                 // Render each directional light in the world
                 for (const DirectionalLight& light : world.components<DirectionalLight>())
                 {
-                    renderer().setUniform(colorUniform, light.color());
-                    renderer().setUniform(directionUniform, light.direction());
+                    renderer().setUniform(colorUniform, light.color);
+                    renderer().setUniform(directionUniform, light.direction);
                     renderer().draw();
                 }
             }
@@ -240,11 +250,8 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, 
                 auto boundingBox = entity.component<BoundingBox>();
                 if (boundingBox)
                 {
-                    AxisAlignedBox& axisAlignedBox = boundingBox->axisAlignedBox();
-                    const Frustum& frustum = camera.frustum();
-
                     // Test the bounding box against the frustum
-                    FrustumTestResult result = frustum.testAxisAlignedBox(axisAlignedBox);
+                    FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox->axisAlignedBox);
                     if (result == FrustumTestResult_Inside)
                     {
                         // No need to test any children
@@ -267,10 +274,10 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, 
             if (visible)
             {
                 // Render the model
-                for (const ModelSurface& surface : model->surfaces())
+                for (const ModelSurface& surface : model->surfaces)
                 {
-                    Mesh& mesh = *surface.mesh();
-                    Material& material = *surface.material();
+                    Mesh& mesh = *surface.mesh;
+                    Material& material = *surface.material;
 
                     renderMesh(camera, target, material, mesh, *transform);
                 }
@@ -312,8 +319,23 @@ void RenderSystem::setBoundUniforms(Shader& shader, const Camera& camera, const 
 {
     // Buid the model matrix
     Matrix4 model;
-    transform.buildMatrix(model);
 
+    if (transform.globalPosition != Vector3::zero())
+    {
+        model.translate(transform.globalPosition);
+    }
+
+    if (transform.globalScale != Vector3::zero())
+    {
+        model.scale(transform.globalScale);
+    }
+
+    // TODO: Implement quaternion equality
+    //if (transform.globalRotation != Quaternion())
+    //{
+        model.rotate(transform.globalRotation);
+    //}
+    
     for (const Uniform& uniform : shader.uniforms())
     {
         if (uniform.hasBinding())
@@ -326,31 +348,31 @@ void RenderSystem::setBoundUniforms(Shader& shader, const Camera& camera, const 
                 _renderer->setUniform(uniform, Vector2((Real)target.width(), (Real)target.height()));
                 break;
             case UniformBinding_CameraPosition:
-                _renderer->setUniform(uniform, camera.position());
+                _renderer->setUniform(uniform, camera.position);
                 break;
             case UniformBinding_CameraFront:
-                _renderer->setUniform(uniform, camera.front());
+                _renderer->setUniform(uniform, camera.front);
                 break;
             case UniformBinding_CameraUp:
-                _renderer->setUniform(uniform, camera.up());
+                _renderer->setUniform(uniform, camera.up);
                 break;
             case UniformBinding_ViewMatrix:
-                _renderer->setUniform(uniform, camera.viewMatrix());
+                _renderer->setUniform(uniform, camera.viewMatrix);
                 break;
             case UniformBinding_ProjectionMatrix:
-                _renderer->setUniform(uniform, camera.projectionMatrix());
+                _renderer->setUniform(uniform, camera.projectionMatrix);
                 break;
             case UniformBinding_ViewProjectionMatrix:
-                _renderer->setUniform(uniform, camera.projectionMatrix() * camera.viewMatrix());
+                _renderer->setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
                 break;
             case UniformBinding_ModelMatrix:
                 _renderer->setUniform(uniform, model);
                 break;
             case UniformBinding_ModelViewMatrix:
-                _renderer->setUniform(uniform, camera.viewMatrix() * model);
+                _renderer->setUniform(uniform, camera.viewMatrix * model);
                 break;
             case UniformBinding_ModelViewProjectionMatrix:
-                _renderer->setUniform(uniform, camera.projectionMatrix() * (camera.viewMatrix() * model));
+                _renderer->setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
                 break;
             }
         }

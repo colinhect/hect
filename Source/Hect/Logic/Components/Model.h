@@ -42,24 +42,12 @@ public:
     ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
 
     ///
-    /// Returns the mesh.
-    AssetHandle<Mesh>& mesh();
+    /// The mesh.
+    AssetHandle<Mesh> mesh;
 
     ///
-    /// Returns the mesh.
-    const AssetHandle<Mesh>& mesh() const;
-
-    ///
-    /// Returns the material.
-    AssetHandle<Material>& material();
-
-    ///
-    /// Returns the material.
-    const AssetHandle<Material>& material() const;
-
-private:
-    AssetHandle<Mesh> _mesh;
-    AssetHandle<Material> _material;
+    /// The material.
+    AssetHandle<Material> material;
 };
 
 ///
@@ -70,24 +58,11 @@ class Model :
 public:
 
     ///
-    /// Adds a surface.
-    ///
-    /// \param surface The surface.
-    void addSurface(const ModelSurface& surface);
-
-    ///
-    /// Returns the surfaces.
-    Sequence<ModelSurface> surfaces();
-
-    ///
-    /// Returns the surfaces.
-    ConstSequence<ModelSurface> surfaces() const;
+    /// The surfaces.
+    std::vector<ModelSurface> surfaces;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
-private:
-    std::vector<ModelSurface> _surfaces;
 };
 
 }

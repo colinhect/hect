@@ -28,116 +28,38 @@
 using namespace hect;
 
 RigidBody::RigidBody() :
-    _mass(0)
+    mass(0)
 {
-}
-
-Real RigidBody::mass() const
-{
-    return _mass;
-}
-
-void RigidBody::setMass(Real mass)
-{
-    if (_rigidBody)
-    {
-        throw Error("Cannot set mass after the rigid body is created");
-    }
-    _mass = mass;
-}
-
-const Vector3& RigidBody::linearVelocity() const
-{
-    // Update the current value from the Bullet rigid body
-    if (_rigidBody)
-    {
-        _linearVelocity = convertFromBullet(_rigidBody->getLinearVelocity());
-    }
-
-    return _linearVelocity;
-}
-
-void RigidBody::setLinearVelocity(const Vector3& linearVelocity)
-{
-    // Set the new value in the bullet rigid body as well
-    if (_rigidBody)
-    {
-        _rigidBody->setLinearVelocity(convertToBullet(linearVelocity));
-    }
-
-    _linearVelocity = linearVelocity;
-}
-
-const Vector3& RigidBody::angularVelocity() const
-{
-    // Update the current value from the Bullet rigid body
-    if (_rigidBody)
-    {
-        _angularVelocity = convertFromBullet(_rigidBody->getAngularVelocity());
-    }
-
-    return _angularVelocity;
-}
-
-void RigidBody::setAngularVelocity(const Vector3& angularVelocity)
-{
-    // Set the new value in the bullet rigid body as well
-    if (_rigidBody)
-    {
-        _rigidBody->setAngularVelocity(convertToBullet(angularVelocity));
-    }
-    _angularVelocity = angularVelocity;
-}
-
-AssetHandle<Mesh>& RigidBody::mesh()
-{
-    return _mesh;
-}
-
-const AssetHandle<Mesh>& RigidBody::mesh() const
-{
-    return _mesh;
-}
-
-void RigidBody::setMesh(const AssetHandle<Mesh>& mesh)
-{
-    if (_rigidBody)
-    {
-        throw Error("Cannot set mesh after the rigid body is created");
-    }
-    _mesh = mesh;
 }
 
 void RigidBody::encode(ObjectEncoder& encoder) const
 {
-    encoder.encodeReal("mass", _mass);
-    encoder.encodeVector3("linearVelocity", _linearVelocity);
-    encoder.encodeVector3("angularVelocity", _angularVelocity);
-    encoder.encodeString("mesh", _mesh.path().toString());
+    encoder.encodeReal("mass", mass);
+    encoder.encodeVector3("linearVelocity", linearVelocity);
+    encoder.encodeVector3("angularVelocity", angularVelocity);
+    encoder.encodeString("mesh", mesh.path().toString());
 }
 
 void RigidBody::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     if (decoder.hasMember("mass"))
     {
-        setMass(decoder.decodeReal("mass"));
+        mass = decoder.decodeReal("mass");
     }
 
     if (decoder.hasMember("linearVelocity"))
     {
-        setLinearVelocity(decoder.decodeVector3("linearVelocity"));
+        linearVelocity = decoder.decodeVector3("linearVelocity");
     }
 
     if (decoder.hasMember("angularVelocity"))
     {
-        setAngularVelocity(decoder.decodeVector3("angularVelocity"));
+        angularVelocity = decoder.decodeVector3("angularVelocity");
     }
 
     if (decoder.hasMember("mesh"))
     {
         Path meshPath = decoder.decodeString("mesh");
-        AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
-
-        setMesh(mesh);
+        mesh = assetCache.getHandle<Mesh>(meshPath);
     }
 }

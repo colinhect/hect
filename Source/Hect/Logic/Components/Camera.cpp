@@ -28,114 +28,22 @@
 using namespace hect;
 
 Camera::Camera() :
-    _fieldOfView(Angle::fromDegrees(90)),
-    _aspectRatio(1),
-    _nearClip((Real)0.1),
-    _farClip(1000),
-    _front(-Vector3::unitZ()),
-    _up(Vector3::unitY()),
-    _right(_front.cross(_up).normalized())
+    front(-Vector3::unitZ()),
+    up(Vector3::unitY()),
+    right(front.cross(up).normalized()),
+    fieldOfView(Angle::fromDegrees(90)),
+    aspectRatio(1),
+    nearClip((Real)0.1),
+    farClip(1000)
 {
-}
-
-void Camera::transformTo(const Transform& transform)
-{
-    const Vector3& position = transform.globalPosition();
-    const Quaternion& rotation = transform.globalRotation();
-
-    _front = (rotation * Vector3::unitZ()).normalized();
-    _up = (rotation * Vector3::unitY()).normalized();
-    _right = _front.cross(_up).normalized();
-
-    _position = position;
-
-    _viewMatrix = Matrix4::createView(position, _front, _up);
-    _projectionMatrix = Matrix4::createPerspective(_fieldOfView, _aspectRatio, _nearClip, _farClip);
-
-    _frustum = Frustum(position, _front, _up, _fieldOfView, _aspectRatio, _nearClip, _farClip);
-}
-
-const Vector3& Camera::front() const
-{
-    return _front;
-}
-
-const Vector3& Camera::up() const
-{
-    return _up;
-}
-
-const Vector3& Camera::right() const
-{
-    return _right;
-}
-
-const Vector3& Camera::position() const
-{
-    return _position;
-}
-
-const Matrix4& Camera::viewMatrix() const
-{
-    return _viewMatrix;
-}
-
-const Matrix4& Camera::projectionMatrix() const
-{
-    return _projectionMatrix;
-}
-
-Angle Camera::fieldOfView() const
-{
-    return _fieldOfView;
-}
-
-void Camera::setFieldOfView(Angle fieldOfView)
-{
-    _fieldOfView = fieldOfView;
-}
-
-Real Camera::aspectRatio() const
-{
-    return _aspectRatio;
-}
-
-void Camera::setAspectRatio(Real aspectRatio)
-{
-    _aspectRatio = aspectRatio;
-}
-
-Real Camera::nearClip() const
-{
-    return _nearClip;
-}
-
-void Camera::setNearClip(Real nearClip)
-{
-    _nearClip = nearClip;
-}
-
-Real Camera::farClip() const
-{
-    return _farClip;
-}
-
-void Camera::setFarClip(Real farClip)
-{
-    _farClip = farClip;
-}
-
-const Frustum& Camera::frustum() const
-{
-    return _frustum;
 }
 
 void Camera::encode(ObjectEncoder& encoder) const
 {
-    encoder.encodeReal("fieldOfView", fieldOfView().degrees());
-    encoder.encodeReal("aspectRatio", aspectRatio());
-    encoder.encodeReal("nearClip", nearClip());
-    encoder.encodeReal("farClip", farClip());
+    encoder.encodeReal("fieldOfView", fieldOfView.degrees());
+    encoder.encodeReal("aspectRatio", aspectRatio);
+    encoder.encodeReal("nearClip", nearClip);
+    encoder.encodeReal("farClip", farClip);
 }
 
 void Camera::decode(ObjectDecoder& decoder, AssetCache& assetCache)
@@ -145,21 +53,21 @@ void Camera::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     if (decoder.hasMember("fieldOfView"))
     {
         Real degrees = decoder.decodeReal("fieldOfView");
-        setFieldOfView(Angle::fromDegrees(degrees));
+        fieldOfView = Angle::fromDegrees(degrees);
     }
 
     if (decoder.hasMember("aspectRatio"))
     {
-        setAspectRatio(decoder.decodeReal("aspectRatio"));
+        aspectRatio = decoder.decodeReal("aspectRatio");
     }
 
     if (decoder.hasMember("nearClip"))
     {
-        setNearClip(decoder.decodeReal("nearClip"));
+        nearClip = decoder.decodeReal("nearClip");
     }
 
     if (decoder.hasMember("farClip"))
     {
-        setFarClip(decoder.decodeReal("farClip"));
+        farClip = decoder.decodeReal("farClip");
     }
 }

@@ -37,31 +37,15 @@ public:
     DirectionalLight();
 
     ///
-    /// Returns the world-space direction.
-    const Vector3& direction() const;
+    /// The world-space direction.
+    Vector3 direction;
 
     ///
-    /// Sets the world-space direction.
-    ///
-    /// \param direction The new world-space direction.
-    void setDirection(const Vector3& direction);
-
-    ///
-    /// Returns the color.
-    const Vector3& color() const;
-
-    ///
-    /// Sets the color.
-    ///
-    /// \param color The new color.
-    void setColor(const Vector3& color);
+    /// The color.
+    Vector3 color;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
-private:
-    Vector3 _direction;
-    Vector3 _color;
 };
 
 }

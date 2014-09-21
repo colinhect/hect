@@ -25,28 +25,9 @@
 
 using namespace hect;
 
-SkyBox::SkyBox()
-{
-}
-
-AssetHandle<Texture>& SkyBox::texture()
-{
-    return _texture;
-}
-
-void SkyBox::setTexture(const AssetHandle<Texture>& texture)
-{
-    if (texture->type() != TextureType_CubeMap)
-    {
-        throw Error("Sky box texture must be a cube map");
-    }
-
-    _texture = texture;
-}
-
 void SkyBox::encode(ObjectEncoder& encoder) const
 {
-    encoder.encodeString("texture", _texture.path().toString());
+    encoder.encodeString("texture", texture.path().toString());
 }
 
 void SkyBox::decode(ObjectDecoder& decoder, AssetCache& assetCache)
@@ -56,8 +37,6 @@ void SkyBox::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     if (decoder.hasMember("texture"))
     {
         Path texturePath = decoder.decodeString("texture");
-
-        AssetHandle<Texture> texture = assetCache.getHandle<Texture>(texturePath);
-        setTexture(texture);
+        texture = assetCache.getHandle<Texture>(texturePath);
     }
 }

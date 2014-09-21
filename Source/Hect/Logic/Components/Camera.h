@@ -40,99 +40,51 @@ public:
     Camera();
 
     ///
-    /// Transforms the camera to a transformation.
-    ///
-    /// \param transform The transformation to transform to.
-    void transformTo(const Transform& transform);
+    /// The front vector.
+    Vector3 front;
 
     ///
-    /// Returns the front vector.
-    const Vector3& front() const;
+    /// The up vector.
+    Vector3 up;
 
     ///
-    /// Returns the up vector.
-    const Vector3& up() const;
+    /// The right vector.
+    Vector3 right;
 
     ///
-    /// Returns the right vector.
-    const Vector3& right() const;
+    /// The position.
+    Vector3 position;
 
     ///
-    /// Returns the position.
-    const Vector3& position() const;
+    /// The view matrix.
+    Matrix4 viewMatrix;
 
     ///
-    /// Returns the view matrix.
-    const Matrix4& viewMatrix() const;
+    /// The projection matrix.
+    Matrix4 projectionMatrix;
 
     ///
-    /// Returns the projection matrix.
-    const Matrix4& projectionMatrix() const;
+    /// The horizontal field of view.
+    Angle fieldOfView;
 
     ///
-    /// Returns the horizontal field of view.
-    Angle fieldOfView() const;
+    /// The aspect ratio.
+    Real aspectRatio;
 
     ///
-    /// Sets the horizontal field of view.
-    ///
-    /// \param fieldOfView The new horizontal field of view.
-    void setFieldOfView(Angle fieldOfView);
+    /// The near clip distance.
+    Real nearClip;
 
     ///
-    /// Returns the aspect ratio.
-    Real aspectRatio() const;
+    /// The far clip distance.
+    Real farClip;
 
     ///
-    /// Sets the aspect ratio.
-    ///
-    /// \param aspectRatio The new aspect ratio.
-    void setAspectRatio(Real aspectRatio);
-
-    ///
-    /// Returns the near clip distance.
-    Real nearClip() const;
-
-    ///
-    /// Sets the near clip distance.
-    ///
-    /// \param nearClip The new near clip distance.
-    void setNearClip(Real nearClip);
-
-    ///
-    /// Returns the far clip distance.
-    Real farClip() const;
-
-    ///
-    /// Sets the far clip distance.
-    ///
-    /// \param farClip The new far clip distance.
-    void setFarClip(Real farClip);
-
-    ///
-    /// Returns the frustum.
-    const Frustum& frustum() const;
+    /// The frustum.
+    Frustum frustum;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
-private:
-    Angle _fieldOfView;
-
-    Real _aspectRatio;
-    Real _nearClip;
-    Real _farClip;
-
-    Vector3 _front;
-    Vector3 _up;
-    Vector3 _right;
-
-    Vector3 _position;
-
-    Matrix4 _viewMatrix;
-    Matrix4 _projectionMatrix;
-
-    Frustum _frustum;
 };
 
 }

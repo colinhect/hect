@@ -24,9 +24,7 @@
 #pragma once
 
 #include "Hect/Logic/Component.h"
-#include "Hect/Math/Angle.h"
 #include "Hect/Math/Vector3.h"
-#include "Hect/Math/Matrix4.h"
 #include "Hect/Math/Quaternion.h"
 
 namespace hect
@@ -44,106 +42,31 @@ public:
     Transform();
 
     ///
-    /// Builds a transformation matrix.
-    ///
-    /// \param matrix The matrix to assign the transformation matrix to.
-    void buildMatrix(Matrix4& matrix) const;
+    /// The local position.
+    Vector3 localPosition;
 
     ///
-    /// Applies a translation to the transform.
+    /// The global position.
+    Vector3 globalPosition;
+    
     ///
-    /// \param translation The translation to apply.
-    void translate(const Vector3& translation);
+    /// The local scale.
+    Vector3 localScale;
 
     ///
-    /// Applies a scale to the transform.
-    ///
-    /// \param scale The scale to apply.
-    void scale(const Vector3& scale);
+    /// The global scale.
+    Vector3 globalScale;
 
     ///
-    /// Applies a rotation to the transform.
-    ///
-    /// \param rotation The rotation to apply.
-    void rotate(const Quaternion& rotation);
+    /// The local rotation.
+    Quaternion localRotation;
 
     ///
-    /// Applies a rotation to the transform.
-    ///
-    /// \param axis The axis to rotate about.
-    /// \param angle The angle to rotate.
-    void rotate(const Vector3& axis, Angle angle);
-
-    ///
-    /// Returns the position.
-    const Vector3& position() const;
-
-    ///
-    /// Returns the global position.
-    const Vector3& globalPosition() const;
-
-    ///
-    /// Sets the position.
-    ///
-    /// \param position The new position.
-    void setPosition(const Vector3& position);
-
-    ///
-    /// Returns the scale.
-    const Vector3& scale() const;
-
-    ///
-    /// Returns the global scale.
-    const Vector3& globalScale() const;
-
-    ///
-    /// Sets the scale.
-    ///
-    /// \param scale The new scale.
-    void setScale(const Vector3& scale);
-
-    ///
-    /// Returns the rotation.
-    const Quaternion& rotation() const;
-
-    ///
-    /// Returns the global rotation.
-    const Quaternion& globalRotation() const;
-
-    ///
-    /// Sets the rotation.
-    ///
-    /// \param rotation The new rotation.
-    void setRotation(const Quaternion& rotation);
-
-    ///
-    /// Transforms by another transform.
-    void transformBy(const Transform& transform);
-
-    void updateGlobalTransform();
-    void updateGlobalTransform(const Transform& parentTransform);
+    /// The global rotation.
+    Quaternion globalRotation;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
-private:
-    enum DirtyBit
-    {
-        PositionBit = 1,
-        ScaleBit = 2,
-        RotationBit = 4
-    };
-
-    uint8_t _dirtyBits;
-
-    Vector3 _position;
-    Vector3 _globalPosition;
-
-    Vector3 _scale;
-    Vector3 _globalScale;
-
-    Quaternion _rotation;
-    Quaternion _globalRotation;
 };
 
 }

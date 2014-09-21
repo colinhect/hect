@@ -25,25 +25,6 @@
 
 using namespace hect;
 
-BoundingBox::BoundingBox()
-{
-}
-
-AxisAlignedBox& BoundingBox::axisAlignedBox()
-{
-    return _axisAlignedBox;
-}
-
-const AxisAlignedBox& BoundingBox::axisAlignedBox() const
-{
-    return _axisAlignedBox;
-}
-
-void BoundingBox::setAxisAlignedBox(const AxisAlignedBox& box)
-{
-    _axisAlignedBox = box;
-}
-
 void BoundingBox::encode(ObjectEncoder& encoder) const
 {
     encoder;

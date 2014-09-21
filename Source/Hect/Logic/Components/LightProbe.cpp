@@ -25,28 +25,9 @@
 
 using namespace hect;
 
-LightProbe::LightProbe()
-{
-}
-
-AssetHandle<Texture>& LightProbe::texture()
-{
-    return _texture;
-}
-
-void LightProbe::setTexture(const AssetHandle<Texture>& texture)
-{
-    if (texture->type() != TextureType_CubeMap)
-    {
-        throw Error("Light probe texture must be a cube map");
-    }
-
-    _texture = texture;
-}
-
 void LightProbe::encode(ObjectEncoder& encoder) const
 {
-    encoder.encodeString("texture", _texture.path().toString());
+    encoder.encodeString("texture", texture.path().toString());
 }
 
 void LightProbe::decode(ObjectDecoder& decoder, AssetCache& assetCache)
@@ -56,8 +37,6 @@ void LightProbe::decode(ObjectDecoder& decoder, AssetCache& assetCache)
     if (decoder.hasMember("texture"))
     {
         Path texturePath = decoder.decodeString("texture");
-
-        AssetHandle<Texture> texture = assetCache.getHandle<Texture>(texturePath);
-        setTexture(texture);
+        texture = assetCache.getHandle<Texture>(texturePath);
     }
 }

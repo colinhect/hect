@@ -44,58 +44,25 @@ public:
     RigidBody();
 
     ///
-    /// Returns the mass.
-    Real mass() const;
+    /// The mass.
+    Real mass;
 
     ///
-    /// Sets the mass.
-    ///
-    /// \param mass The new mass.
-    void setMass(Real mass);
+    /// The linear velocity.
+    Vector3 linearVelocity;
 
     ///
-    /// Returns the linear velocity.
-    const Vector3& linearVelocity() const;
+    /// The angular velocity.
+    Vector3 angularVelocity;
 
     ///
-    /// Sets the linear velocity.
-    ///
-    /// \param linearVelocity The new linear velocity.
-    void setLinearVelocity(const Vector3& linearVelocity);
-
-    ///
-    /// Returns the angular velocity.
-    const Vector3& angularVelocity() const;
-
-    ///
-    /// Sets the angular velocity.
-    ///
-    /// \param angularVelocity The new angular velocity.
-    void setAngularVelocity(const Vector3& angularVelocity);
-
-    ///
-    /// Returns the mesh.
-    AssetHandle<Mesh>& mesh();
-
-    ///
-    /// Returns the mesh.
-    const AssetHandle<Mesh>& mesh() const;
-
-    ///
-    /// Sets the mesh.
-    ///
-    /// \param mesh The new mesh.
-    void setMesh(const AssetHandle<Mesh>& mesh);
+    /// The collision mesh.
+    AssetHandle<Mesh> mesh;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
-    Real _mass;
-    mutable Vector3 _linearVelocity;
-    mutable Vector3 _angularVelocity;
-    AssetHandle<Mesh> _mesh;
-
     std::shared_ptr<btRigidBody> _rigidBody;
     std::shared_ptr<btMotionState> _motionState;
     std::shared_ptr<btCollisionShape> _collisionShape;

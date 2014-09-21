@@ -41,8 +41,8 @@ btQuaternion convertToBullet(const Quaternion& q)
 btTransform convertToBullet(const Transform& t)
 {
     btTransform transform;
-    transform.setOrigin(convertToBullet(t.position()));
-    transform.setRotation(convertToBullet(t.rotation()));
+    transform.setOrigin(convertToBullet(t.globalPosition));
+    transform.setRotation(convertToBullet(t.globalRotation));
     return transform;
 }
 
@@ -85,8 +85,8 @@ Quaternion convertFromBullet(const btQuaternion& q)
 Transform convertFromBullet(const btTransform& t)
 {
     Transform transform;
-    transform.setPosition(convertFromBullet(t.getOrigin()));
-    transform.setRotation(convertFromBullet(t.getRotation()));
+    transform.localPosition = convertFromBullet(t.getOrigin());
+    transform.localRotation = convertFromBullet(t.getRotation());
     return transform;
 }
 

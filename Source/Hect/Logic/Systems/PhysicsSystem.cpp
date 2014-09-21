@@ -28,6 +28,7 @@
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Logic/Components/Transform.h"
 #include "Hect/Logic/Systems/InputSystem.h"
+#include "Hect/Logic/Systems/TransformSystem.h"
 
 using namespace hect;
 
@@ -56,6 +57,18 @@ void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const
     rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
 }
 
+void PhysicsSystem::setLinearVelocity(RigidBody& rigidBody, const Vector3& linearVelocity)
+{
+    rigidBody.linearVelocity = linearVelocity;
+    rigidBody._rigidBody->setLinearVelocity(convertToBullet(linearVelocity));
+}
+
+void PhysicsSystem::setAngularVelocity(RigidBody& rigidBody, const Vector3& angularVelocity)
+{
+    rigidBody.angularVelocity = angularVelocity;
+    rigidBody._rigidBody->setAngularVelocity(convertToBullet(angularVelocity));
+}
+
 void PhysicsSystem::tick(Real timeStep)
 {
     // Update the dynamics world
@@ -72,6 +85,10 @@ void PhysicsSystem::tick(Real timeStep)
             ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
             entity.replaceComponent<Transform>(convertFromBullet(bulletTransform));
         }
+
+        // Update rigid body properties to what Bullet says it should be
+        rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
+        rigidBody.angularVelocity = convertFromBullet(rigidBody._rigidBody->getAngularVelocity());
     }
 }
 
@@ -90,6 +107,8 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
 {
     Entity& entity = event.entity();
 
+    TransformSystem& transformSystem = world().system<TransformSystem>();
+
     auto transform = entity.component<Transform>();
     if (transform)
     {
@@ -98,20 +117,20 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
         {
             if (event.type == ComponentEventType_Add)
             {
-                Mesh& mesh = *rigidBody->mesh();
-                mesh;
+                Mesh& mesh = *rigidBody->mesh;
                 rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
-                //rigidBody->_collisionShape.reset(new btSphereShape(1.0));
 
-                btScalar mass = rigidBody->mass();
+                btScalar mass = rigidBody->mass;
                 btVector3 localInertia(0, 0, 0);
                 if (mass != 0.0)
                 {
                     rigidBody->_collisionShape->calculateLocalInertia(mass, localInertia);
                 }
 
-                btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity());
-                btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity());
+                btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
+                btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
+
+                transformSystem.updateTransform(*transform);
 
                 rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
                 btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);

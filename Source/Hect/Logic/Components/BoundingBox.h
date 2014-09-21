@@ -38,25 +38,13 @@ class BoundingBox :
     public Component<BoundingBox>
 {
 public:
-    BoundingBox();
 
     ///
-    /// Returns the bounds as an axis aligned box.
-    AxisAlignedBox& axisAlignedBox();
-
-    ///
-    /// Returns the bounds as an axis aligned box.
-    const AxisAlignedBox& axisAlignedBox() const;
-
-    ///
-    /// Sets the bounds from an axis aligned box.
-    void setAxisAlignedBox(const AxisAlignedBox& box);
+    /// The bounds as an axis aligned box.
+    AxisAlignedBox axisAlignedBox;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
-private:
-    AxisAlignedBox _axisAlignedBox;
 };
 
 }

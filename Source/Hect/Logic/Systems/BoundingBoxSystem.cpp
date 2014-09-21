@@ -52,16 +52,16 @@ void BoundingBoxSystem::tick(Real timeStep)
 void BoundingBoxSystem::resizeBoundingBox(Entity& entity, BoundingBox& boundingBox)
 {
     // Start with an empty box
-    AxisAlignedBox& axisAlignedBox = boundingBox.axisAlignedBox();
+    AxisAlignedBox& axisAlignedBox = boundingBox.axisAlignedBox;
     axisAlignedBox = AxisAlignedBox();
 
     // Expand to fit all model that the component has
     auto model = entity.component<Model>();
     if (model)
     {
-        for (const ModelSurface& surface : model->surfaces())
+        for (const ModelSurface& surface : model->surfaces)
         {
-            Mesh& mesh = *surface.mesh();
+            Mesh& mesh = *surface.mesh;
             axisAlignedBox.expandToInclude(mesh.axisAlignedBox());
         }
     }
@@ -70,9 +70,9 @@ void BoundingBoxSystem::resizeBoundingBox(Entity& entity, BoundingBox& boundingB
     auto transform = entity.component<Transform>();
     if (transform)
     {
-        axisAlignedBox.scale(transform->globalScale());
-        axisAlignedBox.rotate(transform->globalRotation());
-        axisAlignedBox.translate(transform->globalPosition());
+        axisAlignedBox.scale(transform->globalScale);
+        axisAlignedBox.rotate(transform->globalRotation);
+        axisAlignedBox.translate(transform->globalPosition);
     }
 
     // Update the bounding boxes of all children
@@ -84,7 +84,7 @@ void BoundingBoxSystem::resizeBoundingBox(Entity& entity, BoundingBox& boundingB
             resizeBoundingBox(child, *childBoundingBox);
 
             // Expand the bounding box to include this child
-            axisAlignedBox.expandToInclude(childBoundingBox->axisAlignedBox());
+            axisAlignedBox.expandToInclude(childBoundingBox->axisAlignedBox);
         }
     }
 }

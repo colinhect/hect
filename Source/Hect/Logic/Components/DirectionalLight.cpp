@@ -26,35 +26,15 @@
 using namespace hect;
 
 DirectionalLight::DirectionalLight() :
-    _direction(Vector3::unitX()),
-    _color(Vector3::one())
+    direction(Vector3::unitX()),
+    color(Vector3::one())
 {
-}
-
-const Vector3& DirectionalLight::direction() const
-{
-    return _direction;
-}
-
-void DirectionalLight::setDirection(const Vector3& direction)
-{
-    _direction = direction.normalized();
-}
-
-const Vector3& DirectionalLight::color() const
-{
-    return _color;
-}
-
-void DirectionalLight::setColor(const Vector3& color)
-{
-    _color = color;
 }
 
 void DirectionalLight::encode(ObjectEncoder& encoder) const
 {
-    encoder.encodeVector3("direction", direction());
-    encoder.encodeVector3("color", color());
+    encoder.encodeVector3("direction", direction);
+    encoder.encodeVector3("color", color);
 }
 
 void DirectionalLight::decode(ObjectDecoder& decoder, AssetCache& assetCache)
@@ -63,11 +43,11 @@ void DirectionalLight::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 
     if (decoder.hasMember("direction"))
     {
-        setDirection(decoder.decodeVector3("direction"));
+        direction = decoder.decodeVector3("direction");
     }
 
     if (decoder.hasMember("color"))
     {
-        setColor(decoder.decodeVector3("color"));
+        color = decoder.decodeVector3("color");
     }
 }

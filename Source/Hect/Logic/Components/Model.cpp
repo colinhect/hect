@@ -26,54 +26,19 @@
 using namespace hect;
 
 ModelSurface::ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material) :
-    _mesh(mesh),
-    _material(material)
+    mesh(mesh),
+    material(material)
 {
-}
-
-AssetHandle<Mesh>& ModelSurface::mesh()
-{
-    return _mesh;
-}
-
-const AssetHandle<Mesh>& ModelSurface::mesh() const
-{
-    return _mesh;
-}
-
-AssetHandle<Material>& ModelSurface::material()
-{
-    return _material;
-}
-
-const AssetHandle<Material>& ModelSurface::material() const
-{
-    return _material;
-}
-
-void Model::addSurface(const ModelSurface& surface)
-{
-    _surfaces.push_back(surface);
-}
-
-Sequence<ModelSurface> Model::surfaces()
-{
-    return Sequence<ModelSurface>(_surfaces.begin(), _surfaces.end());
-}
-
-ConstSequence<ModelSurface> Model::surfaces() const
-{
-    return ConstSequence<ModelSurface>(_surfaces.begin(), _surfaces.end());
 }
 
 void Model::encode(ObjectEncoder& encoder) const
 {
     ArrayEncoder surfacesEncoder = encoder.encodeArray("surfaces");
-    for (const ModelSurface& surface : _surfaces)
+    for (const ModelSurface& surface : surfaces)
     {
         ObjectEncoder surfaceEncoder = surfacesEncoder.encodeObject();
-        surfaceEncoder.encodeString("mesh", surface.mesh().path().toString());
-        surfaceEncoder.encodeString("material", surface.material().path().toString());
+        surfaceEncoder.encodeString("mesh", surface.mesh.path().toString());
+        surfaceEncoder.encodeString("material", surface.material.path().toString());
     }
 }
 
@@ -93,7 +58,7 @@ void Model::decode(ObjectDecoder& decoder, AssetCache& assetCache)
                 AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
                 AssetHandle<Material> material = assetCache.getHandle<Material>(materialPath);
 
-                addSurface(ModelSurface(mesh, material));
+                surfaces.push_back(ModelSurface(mesh, material));
             }
         }
     }

@@ -35,23 +35,13 @@ class SkyBox :
     public Component<SkyBox>
 {
 public:
-    SkyBox();
 
     ///
-    /// Returns the texture.
-    AssetHandle<Texture>& texture();
-
-    ///
-    /// Sets the texture.
-    ///
-    /// \param texture The new texture.
-    void setTexture(const AssetHandle<Texture>& texture);
+    /// The texture.
+    AssetHandle<Texture> texture;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
-private:
-    AssetHandle<Texture> _texture;
 };
 
 }

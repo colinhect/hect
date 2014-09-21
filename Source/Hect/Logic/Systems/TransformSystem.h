@@ -40,6 +40,8 @@ public:
 
     void tick(Real timeStep) override;
 
+    void updateTransform(Transform& transform);
+
 private:
     void updateTransform(Entity& parent, Entity& child);
 };

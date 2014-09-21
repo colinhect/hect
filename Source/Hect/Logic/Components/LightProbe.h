@@ -25,7 +25,6 @@
 
 #include "Hect/Graphics/Texture.h"
 #include "Hect/Logic/Component.h"
-#include "Hect/Math/Vector3.h"
 
 namespace hect
 {
@@ -34,23 +33,13 @@ class LightProbe :
     public Component<LightProbe>
 {
 public:
-    LightProbe();
 
     ///
-    /// Returns the texture.
-    AssetHandle<Texture>& texture();
-
-    ///
-    /// Sets the texture.
-    ///
-    /// \param texture The new texture.
-    void setTexture(const AssetHandle<Texture>& texture);
+    /// The texture.
+    AssetHandle<Texture> texture;
 
     void encode(ObjectEncoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
-private:
-    AssetHandle<Texture> _texture;
 };
 
 }

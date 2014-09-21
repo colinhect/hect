@@ -44,13 +44,32 @@ void TransformSystem::tick(Real timeStep)
         Entity& entity = transform.entity();
         if (!entity.parent())
         {
-            transform.updateGlobalTransform();
+            transform.globalPosition = transform.localPosition;
+            transform.globalScale = transform.localScale;
+            transform.globalRotation = transform.localRotation;
 
             for (Entity& child : entity.children())
             {
                 updateTransform(entity, child);
             }
         }
+    }
+}
+
+void TransformSystem::updateTransform(Transform& transform)
+{
+    Entity& entity = transform.entity();
+
+    auto parent = entity.parent();
+    if (parent)
+    {
+        updateTransform(*parent, entity);
+    }
+    else
+    {
+        transform.globalPosition = transform.localPosition;
+        transform.globalScale = transform.localScale;
+        transform.globalRotation = transform.localRotation;
     }
 }
 
@@ -62,7 +81,10 @@ void TransformSystem::updateTransform(Entity& parent, Entity& child)
         auto childTransform = child.component<Transform>();
         if (childTransform)
         {
-            childTransform->updateGlobalTransform(*parentTransform);
+            childTransform->globalPosition = parentTransform->globalRotation * childTransform->localPosition;
+            childTransform->globalPosition += parentTransform->globalPosition;
+            childTransform->globalScale = parentTransform->globalScale * childTransform->localScale;
+            childTransform->globalRotation = parentTransform->globalRotation * childTransform->localRotation;
 
             for (Entity& nextChild : child.children())
             {

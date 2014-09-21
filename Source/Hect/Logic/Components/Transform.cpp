@@ -26,139 +26,21 @@
 using namespace hect;
 
 Transform::Transform() :
-    _dirtyBits(0),
-    _scale(Vector3::one()),
-    _globalScale(Vector3::one())
+    localScale(Vector3::one()),
+    globalScale(Vector3::one())
 {
-}
-
-void Transform::buildMatrix(Matrix4& matrix) const
-{
-    matrix = Matrix4();
-
-    if (_dirtyBits & PositionBit)
-    {
-        matrix.translate(_globalPosition);
-    }
-
-    if (_dirtyBits & ScaleBit)
-    {
-        matrix.scale(_globalScale);
-    }
-
-    if (_dirtyBits & RotationBit)
-    {
-        matrix.rotate(_globalRotation);
-    }
-}
-
-void Transform::translate(const Vector3& translation)
-{
-    _position += translation;
-    _dirtyBits |= PositionBit;
-}
-
-void Transform::scale(const Vector3& scale)
-{
-    _scale *= scale;
-    _dirtyBits |= ScaleBit;
-}
-
-void Transform::rotate(const Quaternion& rotation)
-{
-    _rotation *= rotation;
-    _rotation.normalize();
-    _dirtyBits |= RotationBit;
-}
-
-void Transform::rotate(const Vector3& axis, Angle angle)
-{
-    rotate(Quaternion::fromAxisAngle(axis, angle));
-}
-
-const Vector3& Transform::position() const
-{
-    return _position;
-}
-
-const Vector3& Transform::globalPosition() const
-{
-    return _globalPosition;
-}
-
-void Transform::setPosition(const Vector3& position)
-{
-    _position = position;
-    _dirtyBits |= PositionBit;
-}
-
-const Vector3& Transform::scale() const
-{
-    return _scale;
-}
-
-const Vector3& Transform::globalScale() const
-{
-    return _globalScale;
-}
-
-void Transform::setScale(const Vector3& scale)
-{
-    _scale = scale;
-    _dirtyBits |= ScaleBit;
-}
-
-const Quaternion& Transform::rotation() const
-{
-    return _rotation;
-}
-
-const Quaternion& Transform::globalRotation() const
-{
-    return _globalRotation;
-}
-
-void Transform::setRotation(const Quaternion& rotation)
-{
-    _rotation = rotation;
-    _dirtyBits |= RotationBit;
-}
-
-void Transform::transformBy(const Transform& transform)
-{
-    _position = transform._rotation * _position;
-    _position += transform._position;
-    _scale *= transform._scale;
-    _rotation = transform._rotation * _rotation;
-    _dirtyBits = PositionBit | ScaleBit | RotationBit;
-}
-
-void Transform::updateGlobalTransform()
-{
-    _globalPosition = _position;
-    _globalScale = _scale;
-    _globalRotation = _rotation;
-}
-
-void Transform::updateGlobalTransform(const Transform& parentTransform)
-{
-    _globalPosition = parentTransform._globalRotation * _position;
-    _globalPosition += parentTransform._globalPosition;
-    _globalScale = parentTransform._globalScale * _scale;
-    _globalRotation = parentTransform._globalRotation * _rotation;
-    _dirtyBits = PositionBit | ScaleBit | RotationBit;
 }
 
 void Transform::encode(ObjectEncoder& encoder) const
 {
     Vector3 axis;
     Angle angle;
-    _rotation.toAxisAngle(axis, angle);
+    localRotation.toAxisAngle(axis, angle);
 
-    encoder.encodeVector3("position", _position);
-    encoder.encodeVector3("scale", _scale);
+    encoder.encodeVector3("localPosition", localPosition);
+    encoder.encodeVector3("localScale", localScale);
 
-    ObjectEncoder rotationEncoder = encoder.encodeObject("rotation");
+    ObjectEncoder rotationEncoder = encoder.encodeObject("localRotation");
     rotationEncoder.encodeVector3("axis", axis);
     rotationEncoder.encodeReal("angle", angle.degrees());
 }
@@ -167,19 +49,19 @@ void Transform::decode(ObjectDecoder& decoder, AssetCache& assetCache)
 {
     assetCache;
 
-    if (decoder.hasMember("position"))
+    if (decoder.hasMember("localPosition"))
     {
-        setPosition(decoder.decodeVector3("position"));
+        localPosition = decoder.decodeVector3("localPosition");
     }
 
-    if (decoder.hasMember("scale"))
+    if (decoder.hasMember("localScale"))
     {
-        setScale(decoder.decodeVector3("scale"));
+        localScale = decoder.decodeVector3("localScale");
     }
 
-    if (decoder.hasMember("rotation"))
+    if (decoder.hasMember("localRotation"))
     {
-        ObjectDecoder rotationDecoder = decoder.decodeObject("rotation");
+        ObjectDecoder rotationDecoder = decoder.decodeObject("localRotation");
 
         Vector3 axis;
         Angle angle;
@@ -195,6 +77,6 @@ void Transform::decode(ObjectDecoder& decoder, AssetCache& assetCache)
             angle = Angle::fromDegrees(degrees);
         }
 
-        setRotation(Quaternion::fromAxisAngle(axis, angle));
+        localRotation = Quaternion::fromAxisAngle(axis, angle);
     }
 }
