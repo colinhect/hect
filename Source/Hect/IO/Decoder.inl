@@ -29,7 +29,7 @@ T ArrayDecoder::decodeEnum()
 {
     if (isBinaryStream())
     {
-        return (T)decodeUnsignedByte();
+        return (T)decodeUInt8();
     }
     else
     {
@@ -43,7 +43,7 @@ T ObjectDecoder::decodeEnum(const char* name)
 {
     if (isBinaryStream())
     {
-        return (T)decodeUnsignedByte(name);
+        return (T)decodeUInt8(name);
     }
     else
     {

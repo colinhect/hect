@@ -28,30 +28,30 @@ using namespace hect;
 
 TEST_CASE("VertexAttribute_ConstructorAndAccessors")
 {
-    VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3);
+    VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
 
     REQUIRE(VertexAttributeSemantic_Position == attribute.semantic());
-    REQUIRE(VertexAttributeType_Float == attribute.type());
+    REQUIRE(VertexAttributeType_Float32 == attribute.type());
     REQUIRE(attribute.cardinality() == 3u);
 }
 
 TEST_CASE("VertexAttribute_Size")
 {
-    VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Half, 3);
+    VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Float16, 3);
     REQUIRE(attribute.size() == 2u * 3u);
 
-    attribute = VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3);
+    attribute = VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
     REQUIRE(attribute.size() == 4u * 3u);
 
-    attribute = VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 2);
+    attribute = VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 2);
     REQUIRE(attribute.size() == 4u * 2u);
 }
 
 TEST_CASE("VertexAttribute_Equality")
 {
-    VertexAttribute a(VertexAttributeSemantic_Position, VertexAttributeType_Half, 3);
-    VertexAttribute b(VertexAttributeSemantic_Position, VertexAttributeType_Half, 3);
-    VertexAttribute c(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3);
+    VertexAttribute a(VertexAttributeSemantic_Position, VertexAttributeType_Float16, 3);
+    VertexAttribute b(VertexAttributeSemantic_Position, VertexAttributeType_Float16, 3);
+    VertexAttribute c(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
 
     REQUIRE(a == b);
     REQUIRE(a != c);

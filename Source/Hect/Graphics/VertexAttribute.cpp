@@ -52,18 +52,18 @@ unsigned VertexAttribute::size() const
 {
     switch (_type)
     {
-    case VertexAttributeType_Byte:
-    case VertexAttributeType_UnsignedByte:
+    case VertexAttributeType_Int8:
+    case VertexAttributeType_UInt8:
         return 1 * _cardinality;
-    case VertexAttributeType_Short:
-    case VertexAttributeType_UnsignedShort:
+    case VertexAttributeType_Int16:
+    case VertexAttributeType_UInt16:
         return 2 * _cardinality;
-    case VertexAttributeType_Int:
-    case VertexAttributeType_UnsignedInt:
+    case VertexAttributeType_Int32:
+    case VertexAttributeType_UInt32:
         return 4 * _cardinality;
-    case VertexAttributeType_Half:
+    case VertexAttributeType_Float16:
         return 2 * _cardinality;
-    case VertexAttributeType_Float:
+    case VertexAttributeType_Float32:
         return 4 * _cardinality;
     }
 

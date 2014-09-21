@@ -47,7 +47,7 @@ ArrayEncoder BinaryEncoder::encodeArray()
 {
     _countStack.push(0);
     _countPositionStack.push(_stream->position());
-    _stream->writeUnsignedInt(0);
+    _stream->writeUInt32(0);
     return ArrayEncoder(this);
 }
 
@@ -62,7 +62,7 @@ void BinaryEncoder::beginArray()
     ++_countStack.top();
     _countStack.push(0);
     _countPositionStack.push(_stream->position());
-    _stream->writeUnsignedInt(0);
+    _stream->writeUInt32(0);
 }
 
 void BinaryEncoder::beginArray(const char* name)
@@ -70,14 +70,14 @@ void BinaryEncoder::beginArray(const char* name)
     name;
     _countStack.push(0);
     _countPositionStack.push(_stream->position());
-    _stream->writeUnsignedInt(0);
+    _stream->writeUInt32(0);
 }
 
 void BinaryEncoder::endArray()
 {
     size_t currentPosition = _stream->position();
     _stream->seek(_countPositionStack.top());
-    _stream->writeUnsignedInt(_countStack.top());
+    _stream->writeUInt32(_countStack.top());
     _stream->seek(currentPosition);
 
     _countPositionStack.pop();
@@ -110,124 +110,124 @@ void BinaryEncoder::encodeString(const char* name, const std::string& value)
     _stream->writeString(value);
 }
 
-void BinaryEncoder::encodeByte(int8_t value)
+void BinaryEncoder::encodeInt8(int8_t value)
 {
     ++_countStack.top();
-    _stream->writeByte(value);
+    _stream->writeInt8(value);
 }
 
-void BinaryEncoder::encodeByte(const char* name, int8_t value)
+void BinaryEncoder::encodeInt8(const char* name, int8_t value)
 {
     name;
-    _stream->writeByte(value);
+    _stream->writeInt8(value);
 }
 
-void BinaryEncoder::encodeUnsignedByte(uint8_t value)
+void BinaryEncoder::encodeUInt8(uint8_t value)
 {
     ++_countStack.top();
-    _stream->writeUnsignedByte(value);
+    _stream->writeUInt8(value);
 }
 
-void BinaryEncoder::encodeUnsignedByte(const char* name, uint8_t value)
+void BinaryEncoder::encodeUInt8(const char* name, uint8_t value)
 {
     name;
-    _stream->writeUnsignedByte(value);
+    _stream->writeUInt8(value);
 }
 
-void BinaryEncoder::encodeShort(int16_t value)
+void BinaryEncoder::encodeInt16(int16_t value)
 {
     ++_countStack.top();
-    _stream->writeShort(value);
+    _stream->writeInt16(value);
 }
 
-void BinaryEncoder::encodeShort(const char* name, int16_t value)
+void BinaryEncoder::encodeInt16(const char* name, int16_t value)
 {
     name;
-    _stream->writeShort(value);
+    _stream->writeInt16(value);
 }
 
-void BinaryEncoder::encodeUnsignedShort(uint16_t value)
+void BinaryEncoder::encodeUInt16(uint16_t value)
 {
     ++_countStack.top();
-    _stream->writeUnsignedShort(value);
+    _stream->writeUInt16(value);
 }
 
-void BinaryEncoder::encodeUnsignedShort(const char* name, uint16_t value)
+void BinaryEncoder::encodeUInt16(const char* name, uint16_t value)
 {
     name;
-    _stream->writeUnsignedShort(value);
+    _stream->writeUInt16(value);
 }
 
-void BinaryEncoder::encodeInt(int32_t value)
+void BinaryEncoder::encodeInt32(int32_t value)
 {
     ++_countStack.top();
-    _stream->writeInt(value);
+    _stream->writeInt32(value);
 }
 
-void BinaryEncoder::encodeInt(const char* name, int32_t value)
+void BinaryEncoder::encodeInt32(const char* name, int32_t value)
 {
     name;
-    _stream->writeInt(value);
+    _stream->writeInt32(value);
 }
 
-void BinaryEncoder::encodeUnsignedInt(uint32_t value)
+void BinaryEncoder::encodeUInt32(uint32_t value)
 {
     ++_countStack.top();
-    _stream->writeUnsignedInt(value);
+    _stream->writeUInt32(value);
 }
 
-void BinaryEncoder::encodeUnsignedInt(const char* name, uint32_t value)
+void BinaryEncoder::encodeUInt32(const char* name, uint32_t value)
 {
     name;
-    _stream->writeUnsignedInt(value);
+    _stream->writeUInt32(value);
 }
 
-void BinaryEncoder::encodeLong(int64_t value)
+void BinaryEncoder::encodeInt64(int64_t value)
 {
     ++_countStack.top();
-    _stream->writeLong(value);
+    _stream->writeInt64(value);
 }
 
-void BinaryEncoder::encodeLong(const char* name, int64_t value)
+void BinaryEncoder::encodeInt64(const char* name, int64_t value)
 {
     name;
-    _stream->writeLong(value);
+    _stream->writeInt64(value);
 }
 
-void BinaryEncoder::encodeUnsignedLong(uint64_t value)
+void BinaryEncoder::encodeUInt64(uint64_t value)
 {
     ++_countStack.top();
-    _stream->writeUnsignedLong(value);
+    _stream->writeUInt64(value);
 }
 
-void BinaryEncoder::encodeUnsignedLong(const char* name, uint64_t value)
+void BinaryEncoder::encodeUInt64(const char* name, uint64_t value)
 {
     name;
-    _stream->writeUnsignedLong(value);
+    _stream->writeUInt64(value);
 }
 
-void BinaryEncoder::encodeFloat(float value)
+void BinaryEncoder::encodeFloat32(float value)
 {
     ++_countStack.top();
-    _stream->writeFloat(value);
+    _stream->writeFloat32(value);
 }
 
-void BinaryEncoder::encodeFloat(const char* name, float value)
+void BinaryEncoder::encodeFloat32(const char* name, float value)
 {
     name;
-    _stream->writeFloat(value);
+    _stream->writeFloat32(value);
 }
 
-void BinaryEncoder::encodeDouble(double value)
+void BinaryEncoder::encodeFloat64(double value)
 {
     ++_countStack.top();
-    _stream->writeDouble(value);
+    _stream->writeFloat64(value);
 }
 
-void BinaryEncoder::encodeDouble(const char* name, double value)
+void BinaryEncoder::encodeFloat64(const char* name, double value)
 {
     name;
-    _stream->writeDouble(value);
+    _stream->writeFloat64(value);
 }
 
 void BinaryEncoder::encodeReal(Real value)

@@ -45,7 +45,7 @@ ReadStream& BinaryDecoder::binaryStream()
 
 ArrayDecoder BinaryDecoder::decodeArray()
 {
-    _countStack.push(_stream->readUnsignedInt());
+    _countStack.push(_stream->readUInt32());
     _indexStack.push(0);
 
     return ArrayDecoder(this);
@@ -60,7 +60,7 @@ void BinaryDecoder::beginArray()
 {
     ++_indexStack.top();
 
-    _countStack.push(_stream->readUnsignedInt());
+    _countStack.push(_stream->readUInt32());
     _indexStack.push(0);
 }
 
@@ -68,7 +68,7 @@ void BinaryDecoder::beginArray(const char* name)
 {
     name;
 
-    _countStack.push(_stream->readUnsignedInt());
+    _countStack.push(_stream->readUInt32());
     _indexStack.push(0);
 }
 
@@ -115,124 +115,124 @@ std::string BinaryDecoder::decodeString(const char* name)
     return _stream->readString();
 }
 
-int8_t BinaryDecoder::decodeByte()
+int8_t BinaryDecoder::decodeInt8()
 {
     ++_indexStack.top();
-    return _stream->readByte();
+    return _stream->readInt8();
 }
 
-int8_t BinaryDecoder::decodeByte(const char* name)
+int8_t BinaryDecoder::decodeInt8(const char* name)
 {
     name;
-    return _stream->readByte();
+    return _stream->readInt8();
 }
 
-uint8_t BinaryDecoder::decodeUnsignedByte()
+uint8_t BinaryDecoder::decodeUInt8()
 {
     ++_indexStack.top();
-    return _stream->readUnsignedByte();
+    return _stream->readUInt8();
 }
 
-uint8_t BinaryDecoder::decodeUnsignedByte(const char* name)
+uint8_t BinaryDecoder::decodeUInt8(const char* name)
 {
     name;
-    return _stream->readUnsignedByte();
+    return _stream->readUInt8();
 }
 
-int16_t BinaryDecoder::decodeShort()
+int16_t BinaryDecoder::decodeInt16()
 {
     ++_indexStack.top();
-    return _stream->readShort();
+    return _stream->readInt16();
 }
 
-int16_t BinaryDecoder::decodeShort(const char* name)
+int16_t BinaryDecoder::decodeInt16(const char* name)
 {
     name;
-    return _stream->readShort();
+    return _stream->readInt16();
 }
 
-uint16_t BinaryDecoder::decodeUnsignedShort()
+uint16_t BinaryDecoder::decodeUInt16()
 {
     ++_indexStack.top();
-    return _stream->readUnsignedShort();
+    return _stream->readUInt16();
 }
 
-uint16_t BinaryDecoder::decodeUnsignedShort(const char* name)
+uint16_t BinaryDecoder::decodeUInt16(const char* name)
 {
     name;
-    return _stream->readUnsignedShort();
+    return _stream->readUInt16();
 }
 
-int32_t BinaryDecoder::decodeInt()
+int32_t BinaryDecoder::decodeInt32()
 {
     ++_indexStack.top();
-    return _stream->readInt();
+    return _stream->readInt32();
 }
 
-int32_t BinaryDecoder::decodeInt(const char* name)
+int32_t BinaryDecoder::decodeInt32(const char* name)
 {
     name;
-    return _stream->readInt();
+    return _stream->readInt32();
 }
 
-uint32_t BinaryDecoder::decodeUnsignedInt()
+uint32_t BinaryDecoder::decodeUInt32()
 {
     ++_indexStack.top();
-    return _stream->readUnsignedInt();
+    return _stream->readUInt32();
 }
 
-uint32_t BinaryDecoder::decodeUnsignedInt(const char* name)
+uint32_t BinaryDecoder::decodeUInt32(const char* name)
 {
     name;
-    return _stream->readUnsignedInt();
+    return _stream->readUInt32();
 }
 
-int64_t BinaryDecoder::decodeLong()
+int64_t BinaryDecoder::decodeInt64()
 {
     ++_indexStack.top();
-    return _stream->readLong();
+    return _stream->readInt64();
 }
 
-int64_t BinaryDecoder::decodeLong(const char* name)
+int64_t BinaryDecoder::decodeInt64(const char* name)
 {
     name;
-    return _stream->readLong();
+    return _stream->readInt64();
 }
 
-uint64_t BinaryDecoder::decodeUnsignedLong()
+uint64_t BinaryDecoder::decodeUInt64()
 {
     ++_indexStack.top();
-    return _stream->readUnsignedLong();
+    return _stream->readUInt64();
 }
 
-uint64_t BinaryDecoder::decodeUnsignedLong(const char* name)
+uint64_t BinaryDecoder::decodeUInt64(const char* name)
 {
     name;
-    return _stream->readUnsignedLong();
+    return _stream->readUInt64();
 }
 
-float BinaryDecoder::decodeFloat()
+float BinaryDecoder::decodeFloat32()
 {
     ++_indexStack.top();
-    return _stream->readFloat();
+    return _stream->readFloat32();
 }
 
-float BinaryDecoder::decodeFloat(const char* name)
+float BinaryDecoder::decodeFloat32(const char* name)
 {
     name;
-    return _stream->readFloat();
+    return _stream->readFloat32();
 }
 
-double BinaryDecoder::decodeDouble()
+double BinaryDecoder::decodeFloat64()
 {
     ++_indexStack.top();
-    return _stream->readDouble();
+    return _stream->readFloat64();
 }
 
-double BinaryDecoder::decodeDouble(const char* name)
+double BinaryDecoder::decodeFloat64(const char* name)
 {
     name;
-    return _stream->readDouble();
+    return _stream->readFloat64();
 }
 
 Real BinaryDecoder::decodeReal()

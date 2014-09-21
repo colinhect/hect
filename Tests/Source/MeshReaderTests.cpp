@@ -30,8 +30,8 @@ using namespace hect;
 VertexLayout createVetexLayout()
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float32, 3));
 
     return vertexLayout;
 }
@@ -41,7 +41,7 @@ TEST_CASE("MeshReader_EmptyMesh")
     Mesh mesh("Test");
     mesh.setVertexLayout(createVetexLayout());
     mesh.setPrimitiveType(PrimitiveType_Triangles);
-    mesh.setIndexType(IndexType_UnsignedByte);
+    mesh.setIndexType(IndexType_UInt8);
 
     MeshReader meshReader(mesh);
 
@@ -54,7 +54,7 @@ TEST_CASE("MeshReader_ReadAttributeVector3")
     Mesh mesh("Test");
     mesh.setVertexLayout(createVetexLayout());
     mesh.setPrimitiveType(PrimitiveType_Triangles);
-    mesh.setIndexType(IndexType_UnsignedByte);
+    mesh.setIndexType(IndexType_UInt8);
 
     {
         MeshWriter meshWriter(mesh);
@@ -111,12 +111,12 @@ TEST_CASE("MeshReader_ReadAttributeVector3")
     REQUIRE(!meshReader.nextVertex());
 }
 
-TEST_CASE("MeshReader_ReadIndexByte")
+TEST_CASE("MeshReader_ReadIndexInt8")
 {
     Mesh mesh("Test");
     mesh.setVertexLayout(createVetexLayout());
     mesh.setPrimitiveType(PrimitiveType_Triangles);
-    mesh.setIndexType(IndexType_UnsignedByte);
+    mesh.setIndexType(IndexType_UInt8);
 
     {
         MeshWriter meshWriter(mesh);
@@ -129,13 +129,13 @@ TEST_CASE("MeshReader_ReadIndexByte")
     MeshReader meshReader(mesh);
 
     REQUIRE(meshReader.nextIndex());
-    REQUIRE(meshReader.readIndexByte() == 0);
+    REQUIRE(meshReader.readIndexUInt8() == 0);
 
     REQUIRE(meshReader.nextIndex());
-    REQUIRE(meshReader.readIndexByte() == 1);
+    REQUIRE(meshReader.readIndexUInt8() == 1);
 
     REQUIRE(meshReader.nextIndex());
-    REQUIRE(meshReader.readIndexByte() == 2);
+    REQUIRE(meshReader.readIndexUInt8() == 2);
 
     REQUIRE(!meshReader.nextIndex());
 }

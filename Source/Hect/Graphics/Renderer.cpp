@@ -89,21 +89,21 @@ void _checkGLError()
 
 GLenum _vertexAttributeTypeLookUp[8] =
 {
-    GL_BYTE, // Byte
-    GL_UNSIGNED_BYTE, // UnsignedByte
-    GL_SHORT, // Short
-    GL_UNSIGNED_SHORT, // UnsignedShort
-    GL_INT, // Int
-    GL_UNSIGNED_INT, // UnsignedInt
-    GL_HALF_FLOAT, // Half
-    GL_FLOAT // Float
+    GL_BYTE, // Int8
+    GL_UNSIGNED_BYTE, // UInt8
+    GL_SHORT, // Int16
+    GL_UNSIGNED_SHORT, // UInt16
+    GL_INT, // Int32
+    GL_UNSIGNED_INT, // UInt32
+    GL_HALF_FLOAT, // Float16
+    GL_FLOAT // Float32
 };
 
 GLenum _indexTypeLookUp[3] =
 {
-    GL_UNSIGNED_BYTE, // UnsignedByte
-    GL_UNSIGNED_SHORT, // UnsignedShort
-    GL_UNSIGNED_INT // UnsignedInt
+    GL_UNSIGNED_BYTE, // UInt8
+    GL_UNSIGNED_SHORT, // UInt16
+    GL_UNSIGNED_INT // UInt32
 };
 
 GLenum _primitiveTypeLookUp[5] =
@@ -143,9 +143,9 @@ GLenum _textureMipmapFilterLookUp[2] =
 
 GLenum _pixelTypeLookUp[3] =
 {
-    GL_HALF_FLOAT, // Half
-    GL_FLOAT, // Float
-    GL_UNSIGNED_BYTE // Byte
+    GL_HALF_FLOAT, // Float16
+    GL_FLOAT, // Float32
+    GL_UNSIGNED_BYTE // UInt8
 };
 
 GLenum _pixelFormatLookUp[2] =
@@ -160,15 +160,15 @@ GLenum _internalImageFormatLookUp[2][2][3] =
     {
         // Rgb
         {
-            GL_RGB16F, // Half
-            GL_RGB32F, // Float
-            GL_SRGB8 // Byte
+            GL_RGB16F, // Float16
+            GL_RGB32F, // Float32
+            GL_SRGB8 // UInt8
         },
         // Rgba
         {
-            GL_RGBA16F, // Half
-            GL_RGBA32F, // Float
-            GL_SRGB8_ALPHA8 // Byte
+            GL_RGBA16F, // Float16
+            GL_RGBA32F, // Float32
+            GL_SRGB8_ALPHA8 // UInt8
         }
     },
 
@@ -176,15 +176,15 @@ GLenum _internalImageFormatLookUp[2][2][3] =
     {
         // Rgb
         {
-            GL_RGB16F, // Half
-            GL_RGB32F, // Float
-            GL_RGB8 // Byte
+            GL_RGB16F, // Float16
+            GL_RGB32F, // Float32
+            GL_RGB8 // UInt8
         },
         // Rgba
         {
-            GL_RGBA16F, // Half
-            GL_RGBA32F, // Float
-            GL_RGBA8 // Byte
+            GL_RGBA16F, // Float16
+            GL_RGBA32F, // Float32
+            GL_RGBA8 // UInt8
         }
     }
 };
@@ -866,7 +866,7 @@ void Renderer::uploadMesh(Mesh& mesh)
     {
         GL_ASSERT(glEnableVertexAttribArray(attributeIndex));
 
-        if (attribute.type() == VertexAttributeType_Half || attribute.type() == VertexAttributeType_Float)
+        if (attribute.type() == VertexAttributeType_Float16 || attribute.type() == VertexAttributeType_Float32)
         {
             GL_ASSERT(
                 glVertexAttribPointer(

@@ -372,17 +372,17 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
     _geometryBuffer = FrameBuffer();
 
     // Diffuse: Red Green Blue
-    _geometryBuffer.addTarget(Texture("DiffuseBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
+    _geometryBuffer.addTarget(Texture("DiffuseBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
 
     // Material: Roughness Metallic ?
-    _geometryBuffer.addTarget(Texture("MaterialBuffer", width, height, PixelType_Half, PixelFormat_Rgb, filter, filter, false, false));
+    _geometryBuffer.addTarget(Texture("MaterialBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
 
     // Position: X Y Z
-    _geometryBuffer.addTarget(Texture("PositionBuffer", width, height, PixelType_Float, PixelFormat_Rgb, filter, filter, false, false));
+    _geometryBuffer.addTarget(Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, filter, filter, false, false));
 
     // Normal: X Y Z Depth
-    _geometryBuffer.addTarget(Texture("NormalBuffer", width, height, PixelType_Half, PixelFormat_Rgba, filter, filter, false, false));
+    _geometryBuffer.addTarget(Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
 
     _accumulationBuffer = FrameBuffer();
-    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Half, PixelFormat_Rgba, filter, filter, false, false));
+    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
 }

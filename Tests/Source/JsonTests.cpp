@@ -43,7 +43,7 @@ TEST_CASE("Json_Number")
 {
     JsonValue value(5.0);
     REQUIRE(value.isNumber());
-    REQUIRE(value.asDouble() == 5.0);
+    REQUIRE(value.asReal() == 5.0);
 }
 
 TEST_CASE("Json_String")
@@ -73,7 +73,7 @@ TEST_CASE("Json_Array")
         else if (i == 1)
         {
             REQUIRE(value[i].isNumber());
-            REQUIRE(value[i].asDouble() == 5.0);
+            REQUIRE(value[i].asReal() == 5.0);
         }
         else if (i == 2)
         {
@@ -96,7 +96,7 @@ TEST_CASE("Json_Object")
     REQUIRE(value["someBool"].isBool());
     REQUIRE(value["someBool"].asBool());
     REQUIRE(value["someNumber"].isNumber());
-    REQUIRE(value["someNumber"].asDouble() == 5.0);
+    REQUIRE(value["someNumber"].asReal() == 5.0);
     REQUIRE(value["someString"].isString());
     REQUIRE(value["someString"].asString() == "Testing");
 }
@@ -176,7 +176,7 @@ TEST_CASE("Json_Iterate")
     for (const JsonValue& element : value)
     {
         REQUIRE(element.isNumber());
-        REQUIRE(element.asDouble() == i++);
+        REQUIRE(element.asReal() == i++);
     }
 }
 

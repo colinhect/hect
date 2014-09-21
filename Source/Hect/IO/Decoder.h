@@ -74,43 +74,43 @@ public:
 
     ///
     /// Decodes a signed 8-bit integer.
-    int8_t decodeByte();
+    int8_t decodeInt8();
 
     ///
     /// Decodes an unsigned 16-bit integer.
-    uint8_t decodeUnsignedByte();
+    uint8_t decodeUInt8();
 
     ///
     /// Decodes a signed 16-bit integer.
-    int16_t decodeShort();
+    int16_t decodeInt16();
 
     ///
     /// Decodes an unsigned 16-bit integer.
-    uint16_t decodeUnsignedShort();
+    uint16_t decodeUInt16();
 
     ///
     /// Decodes a signed 32-bit integer.
-    int32_t decodeInt();
+    int32_t decodeInt32();
 
     ///
     /// Decodes an unsigned 32-bit integer.
-    uint32_t decodeUnsignedInt();
+    uint32_t decodeUInt32();
 
     ///
     /// Decodes a signed 64-bit integer.
-    int64_t decodeLong();
+    int64_t decodeInt64();
 
     ///
     /// Decodes an unsigned 64-bit integer.
-    uint64_t decodeUnsignedLong();
+    uint64_t decodeUInt64();
 
     ///
     /// Decodes a 32-bit float.
-    float decodeFloat();
+    float decodeFloat32();
 
     ///
     /// Decodes a 64-bit float.
-    double decodeDouble();
+    double decodeFloat64();
 
     ///
     /// Decodes a real number.
@@ -199,61 +199,61 @@ public:
     /// Decodes a signed 8-bit integer.
     ///
     /// \param name The name of the member to decode.
-    int8_t decodeByte(const char* name);
+    int8_t decodeInt8(const char* name);
 
     ///
     /// Decodes an unsigned 16-bit integer.
     ///
     /// \param name The name of the member to decode.
-    uint8_t decodeUnsignedByte(const char* name);
+    uint8_t decodeUInt8(const char* name);
 
     ///
     /// Decodes a signed 16-bit integer.
     ///
     /// \param name The name of the member to decode.
-    int16_t decodeShort(const char* name);
+    int16_t decodeInt16(const char* name);
 
     ///
     /// Decodes an unsigned 16-bit integer.
     ///
     /// \param name The name of the member to decode.
-    uint16_t decodeUnsignedShort(const char* name);
+    uint16_t decodeUInt16(const char* name);
 
     ///
     /// Decodes a signed 32-bit integer.
     ///
     /// \param name The name of the member to decode.
-    int32_t decodeInt(const char* name);
+    int32_t decodeInt32(const char* name);
 
     ///
     /// Decodes an unsigned 32-bit integer.
     ///
     /// \param name The name of the member to decode.
-    uint32_t decodeUnsignedInt(const char* name);
+    uint32_t decodeUInt32(const char* name);
 
     ///
     /// Decodes a signed 64-bit integer.
     ///
     /// \param name The name of the member to decode.
-    int64_t decodeLong(const char* name);
+    int64_t decodeInt64(const char* name);
 
     ///
     /// Decodes an unsigned 64-bit integer.
     ///
     /// \param name The name of the member to decode.
-    uint64_t decodeUnsignedLong(const char* name);
+    uint64_t decodeUInt64(const char* name);
 
     ///
     /// Decodes a 32-bit float.
     ///
     /// \param name The name of the member to decode.
-    float decodeFloat(const char* name);
+    float decodeFloat32(const char* name);
 
     ///
     /// Decodes a 64-bit float.
     ///
     /// \param name The name of the member to decode.
-    double decodeDouble(const char* name);
+    double decodeFloat64(const char* name);
 
     ///
     /// Decodes a real number.
@@ -344,26 +344,26 @@ protected:
 
     virtual std::string decodeString() = 0;
     virtual std::string decodeString(const char* name) = 0;
-    virtual int8_t decodeByte() = 0;
-    virtual int8_t decodeByte(const char* name) = 0;
-    virtual uint8_t decodeUnsignedByte() = 0;
-    virtual uint8_t decodeUnsignedByte(const char* name) = 0;
-    virtual int16_t decodeShort() = 0;
-    virtual int16_t decodeShort(const char* name) = 0;
-    virtual uint16_t decodeUnsignedShort() = 0;
-    virtual uint16_t decodeUnsignedShort(const char* name) = 0;
-    virtual int32_t decodeInt() = 0;
-    virtual int32_t decodeInt(const char* name) = 0;
-    virtual uint32_t decodeUnsignedInt() = 0;
-    virtual uint32_t decodeUnsignedInt(const char* name) = 0;
-    virtual int64_t decodeLong() = 0;
-    virtual int64_t decodeLong(const char* name) = 0;
-    virtual uint64_t decodeUnsignedLong() = 0;
-    virtual uint64_t decodeUnsignedLong(const char* name) = 0;
-    virtual float decodeFloat() = 0;
-    virtual float decodeFloat(const char* name) = 0;
-    virtual double decodeDouble() = 0;
-    virtual double decodeDouble(const char* name) = 0;
+    virtual int8_t decodeInt8() = 0;
+    virtual int8_t decodeInt8(const char* name) = 0;
+    virtual uint8_t decodeUInt8() = 0;
+    virtual uint8_t decodeUInt8(const char* name) = 0;
+    virtual int16_t decodeInt16() = 0;
+    virtual int16_t decodeInt16(const char* name) = 0;
+    virtual uint16_t decodeUInt16() = 0;
+    virtual uint16_t decodeUInt16(const char* name) = 0;
+    virtual int32_t decodeInt32() = 0;
+    virtual int32_t decodeInt32(const char* name) = 0;
+    virtual uint32_t decodeUInt32() = 0;
+    virtual uint32_t decodeUInt32(const char* name) = 0;
+    virtual int64_t decodeInt64() = 0;
+    virtual int64_t decodeInt64(const char* name) = 0;
+    virtual uint64_t decodeUInt64() = 0;
+    virtual uint64_t decodeUInt64(const char* name) = 0;
+    virtual float decodeFloat32() = 0;
+    virtual float decodeFloat32(const char* name) = 0;
+    virtual double decodeFloat64() = 0;
+    virtual double decodeFloat64(const char* name) = 0;
     virtual Real decodeReal() = 0;
     virtual Real decodeReal(const char* name) = 0;
     virtual bool decodeBool() = 0;

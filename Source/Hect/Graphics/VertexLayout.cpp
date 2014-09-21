@@ -31,10 +31,10 @@ using namespace hect;
 VertexLayout VertexLayout::createDefault()
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Tangent, VertexAttributeType_Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_TextureCoords0, VertexAttributeType_Float, 2));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Tangent, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_TextureCoords0, VertexAttributeType_Float32, 2));
 
     return vertexLayout;
 }

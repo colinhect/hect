@@ -93,21 +93,21 @@ public:
     ///
     /// \throws Error If the first index has not been moved to or attempting to
     /// read past the last index.
-    uint8_t readIndexByte() const;
+    uint8_t readIndexUInt8() const;
 
     ///
     /// Reads the current index as an unsigned short.
     ///
     /// \throws Error If the first index has not been moved to or attempting to
     /// read past the last index.
-    uint16_t readIndexShort() const;
+    uint16_t readIndexUInt16() const;
 
     ///
     /// Reads the current index as an unsigned int.
     ///
     /// \throws Error If the first index has not been moved to or attempting to
     /// read past the last index.
-    uint32_t readIndexInt() const;
+    uint32_t readIndexUInt32() const;
 
 private:
     void checkVertexBoundary() const;

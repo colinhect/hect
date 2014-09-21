@@ -29,7 +29,7 @@ void ArrayEncoder::encodeEnum(T value)
 {
     if (isBinaryStream())
     {
-        encodeUnsignedByte((uint8_t)value);
+        encodeUInt8((uint8_t)value);
     }
     else
     {
@@ -43,7 +43,7 @@ void ObjectEncoder::encodeEnum(const char* name, T value)
 {
     if (isBinaryStream())
     {
-        encodeUnsignedByte(name, (uint8_t)value);
+        encodeUInt8(name, (uint8_t)value);
     }
     else
     {

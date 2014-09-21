@@ -266,13 +266,13 @@ int Texture::bytesPerPixel() const
 
     switch (_pixelType)
     {
-    case PixelType_Half:
+    case PixelType_Float16:
         return componentCount * 2;
         break;
-    case PixelType_Float:
+    case PixelType_Float32:
         return componentCount * 4;
         break;
-    case PixelType_Byte:
+    case PixelType_UInt8:
         return componentCount * 1;
         break;
     }

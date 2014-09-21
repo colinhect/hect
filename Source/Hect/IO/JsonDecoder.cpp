@@ -169,114 +169,114 @@ std::string JsonDecoder::decodeString(const char* name)
     return decode(name).asString();
 }
 
-int8_t JsonDecoder::decodeByte()
+int8_t JsonDecoder::decodeInt8()
 {
-    return (int8_t)decode().asDouble();
+    return (int8_t)decode().asReal();
 }
 
-int8_t JsonDecoder::decodeByte(const char* name)
+int8_t JsonDecoder::decodeInt8(const char* name)
 {
-    return (int8_t)decode(name).asDouble();
+    return (int8_t)decode(name).asReal();
 }
 
-uint8_t JsonDecoder::decodeUnsignedByte()
+uint8_t JsonDecoder::decodeUInt8()
 {
-    return (uint8_t)decode().asDouble();
+    return (uint8_t)decode().asReal();
 }
 
-uint8_t JsonDecoder::decodeUnsignedByte(const char* name)
+uint8_t JsonDecoder::decodeUInt8(const char* name)
 {
-    return (uint8_t)decode(name).asDouble();
+    return (uint8_t)decode(name).asReal();
 }
 
-int16_t JsonDecoder::decodeShort()
+int16_t JsonDecoder::decodeInt16()
 {
-    return (int16_t)decode().asDouble();
+    return (int16_t)decode().asReal();
 }
 
-int16_t JsonDecoder::decodeShort(const char* name)
+int16_t JsonDecoder::decodeInt16(const char* name)
 {
-    return (int16_t)decode(name).asDouble();
+    return (int16_t)decode(name).asReal();
 }
 
-uint16_t JsonDecoder::decodeUnsignedShort()
+uint16_t JsonDecoder::decodeUInt16()
 {
-    return (uint16_t)decode().asDouble();
+    return (uint16_t)decode().asReal();
 }
 
-uint16_t JsonDecoder::decodeUnsignedShort(const char* name)
+uint16_t JsonDecoder::decodeUInt16(const char* name)
 {
-    return (uint16_t)decode(name).asDouble();
+    return (uint16_t)decode(name).asReal();
 }
 
-int32_t JsonDecoder::decodeInt()
+int32_t JsonDecoder::decodeInt32()
 {
-    return (int32_t)decode().asDouble();
+    return (int32_t)decode().asReal();
 }
 
-int32_t JsonDecoder::decodeInt(const char* name)
+int32_t JsonDecoder::decodeInt32(const char* name)
 {
-    return (int32_t)decode(name).asDouble();
+    return (int32_t)decode(name).asReal();
 }
 
-uint32_t JsonDecoder::decodeUnsignedInt()
+uint32_t JsonDecoder::decodeUInt32()
 {
-    return (uint32_t)decode().asDouble();
+    return (uint32_t)decode().asReal();
 }
 
-uint32_t JsonDecoder::decodeUnsignedInt(const char* name)
+uint32_t JsonDecoder::decodeUInt32(const char* name)
 {
-    return (uint32_t)decode(name).asDouble();
+    return (uint32_t)decode(name).asReal();
 }
 
-int64_t JsonDecoder::decodeLong()
+int64_t JsonDecoder::decodeInt64()
 {
-    return (int64_t)decode().asDouble();
+    return (int64_t)decode().asReal();
 }
 
-int64_t JsonDecoder::decodeLong(const char* name)
+int64_t JsonDecoder::decodeInt64(const char* name)
 {
-    return (int64_t)decode(name).asDouble();
+    return (int64_t)decode(name).asReal();
 }
 
-uint64_t JsonDecoder::decodeUnsignedLong()
+uint64_t JsonDecoder::decodeUInt64()
 {
-    return (uint64_t)decode().asDouble();
+    return (uint64_t)decode().asReal();
 }
 
-uint64_t JsonDecoder::decodeUnsignedLong(const char* name)
+uint64_t JsonDecoder::decodeUInt64(const char* name)
 {
-    return (uint64_t)decode(name).asDouble();
+    return (uint64_t)decode(name).asReal();
 }
 
-float JsonDecoder::decodeFloat()
+float JsonDecoder::decodeFloat32()
 {
-    return (float)decode().asDouble();
+    return (float)decode().asReal();
 }
 
-float JsonDecoder::decodeFloat(const char* name)
+float JsonDecoder::decodeFloat32(const char* name)
 {
-    return (float)decode(name).asDouble();
+    return (float)decode(name).asReal();
 }
 
-double JsonDecoder::decodeDouble()
+double JsonDecoder::decodeFloat64()
 {
-    return decode().asDouble();
+    return decode().asReal();
 }
 
-double JsonDecoder::decodeDouble(const char* name)
+double JsonDecoder::decodeFloat64(const char* name)
 {
-    return decode(name).asDouble();
+    return decode(name).asReal();
 }
 
 Real JsonDecoder::decodeReal()
 {
-    return (Real)decode().asDouble();
+    return (Real)decode().asReal();
 }
 
 Real JsonDecoder::decodeReal(const char* name)
 {
-    return (Real)decode(name).asDouble();
+    return (Real)decode(name).asReal();
 }
 
 bool JsonDecoder::decodeBool()

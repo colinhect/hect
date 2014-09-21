@@ -110,131 +110,131 @@ TEST_CASE("Stream_WriteAndReadString")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadByte")
+TEST_CASE("Stream_WriteAndReadInt8")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeByte(123);
+        stream.writeInt8(123);
     }, [](ReadStream& stream)
     {
-        int8_t value = stream.readByte();
+        int8_t value = stream.readInt8();
         REQUIRE(value == 123);
         REQUIRE(stream.endOfStream());
     });
 }
 
-TEST_CASE("Stream_WriteAndReadUnsignedByte")
+TEST_CASE("Stream_WriteAndReadUInt8")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeUnsignedByte(123);
+        stream.writeUInt8(123);
     }, [](ReadStream& stream)
     {
-        uint8_t value = stream.readUnsignedByte();
+        uint8_t value = stream.readUInt8();
         REQUIRE(value == 123);
         REQUIRE(stream.endOfStream());
     });
 }
 
-TEST_CASE("Stream_WriteAndReadShort")
+TEST_CASE("Stream_WriteAndReadInt16")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeShort(123);
+        stream.writeInt16(123);
     }, [](ReadStream& stream)
     {
-        int16_t value = stream.readShort();
+        int16_t value = stream.readInt16();
         REQUIRE(value == 123);
         REQUIRE(stream.endOfStream());
     });
 }
 
-TEST_CASE("Stream_WriteAndReadUnsignedShort")
+TEST_CASE("Stream_WriteAndReadUInt16")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeUnsignedShort(123);
+        stream.writeUInt16(123);
     }, [](ReadStream& stream)
     {
-        int16_t value = stream.readUnsignedShort();
+        int16_t value = stream.readUInt16();
         REQUIRE(value == 123);
         REQUIRE(stream.endOfStream());
     });
 }
 
-TEST_CASE("Stream_WriteAndReadInt")
+TEST_CASE("Stream_WriteAndReadInt32")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeInt(123);
+        stream.writeInt32(123);
     }, [](ReadStream& stream)
     {
-        int32_t value = stream.readInt();
+        int32_t value = stream.readInt32();
         REQUIRE(value == 123);
         REQUIRE(stream.endOfStream());
     });
 }
 
-TEST_CASE("Stream_WriteAndReadUnsignedInt")
+TEST_CASE("Stream_WriteAndReadUInt32")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeUnsignedInt(123);
+        stream.writeUInt32(123);
     }, [](ReadStream& stream)
     {
-        uint32_t value = stream.readUnsignedInt();
+        uint32_t value = stream.readUInt32();
         REQUIRE(value == 123u);
         REQUIRE(stream.endOfStream());
     });
 }
 
-TEST_CASE("Stream_WriteAndReadLong")
+TEST_CASE("Stream_WriteAndReadInt64")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeLong(123456789);
+        stream.writeInt64(123456789);
     }, [](ReadStream& stream)
     {
-        int64_t value = stream.readLong();
+        int64_t value = stream.readInt64();
         REQUIRE(value == 123456789);
         REQUIRE(stream.endOfStream());
     });
 }
 
-TEST_CASE("Stream_WriteAndReadUnsignedLong")
+TEST_CASE("Stream_WriteAndReadUInt64")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeUnsignedLong(123456789);
+        stream.writeUInt64(123456789);
     }, [](ReadStream& stream)
     {
-        uint64_t value = stream.readUnsignedLong();
+        uint64_t value = stream.readUInt64();
         REQUIRE(value == 123456789);
         REQUIRE(stream.endOfStream());
     });
 }
 
-TEST_CASE("Stream_WriteAndReadFloat")
+TEST_CASE("Stream_WriteAndReadFloat32")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeFloat((float)pi);
+        stream.writeFloat32((float)pi);
     }, [](ReadStream& stream)
     {
-        float value = stream.readFloat();
+        float value = stream.readFloat32();
         REQUIRE(std::abs(value - pi) < 0.01);
         REQUIRE(stream.endOfStream());
     });
 }
 
-TEST_CASE("Stream_WriteAndReadDouble")
+TEST_CASE("Stream_WriteAndReadFloat64")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        stream.writeDouble(pi);
+        stream.writeFloat64(pi);
     }, [](ReadStream& stream)
     {
-        double value = stream.readDouble();
+        double value = stream.readFloat64();
         REQUIRE(std::abs(value - pi) < 0.01);
         REQUIRE(stream.endOfStream());
     });
@@ -272,14 +272,14 @@ TEST_CASE("Stream_SeekOnWrite")
     testWriteAndReadStream([](WriteStream& stream)
     {
         size_t position = stream.position();
-        stream.writeUnsignedInt(3);
-        stream.writeUnsignedInt(2);
+        stream.writeUInt32(3);
+        stream.writeUInt32(2);
         stream.seek(position);
-        stream.writeUnsignedInt(1);
+        stream.writeUInt32(1);
     }, [](ReadStream& stream)
     {
-        REQUIRE(stream.readUnsignedInt() == 1u);
-        REQUIRE(stream.readUnsignedInt() == 2u);
+        REQUIRE(stream.readUInt32() == 1u);
+        REQUIRE(stream.readUInt32() == 2u);
         REQUIRE(stream.endOfStream());
     });
 }

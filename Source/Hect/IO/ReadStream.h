@@ -63,43 +63,43 @@ public:
 
     ///
     /// Reads a signed 8-bit integer.
-    int8_t readByte();
+    int8_t readInt8();
 
     ///
     /// Reads an unsigned 8-bit integer.
-    uint8_t readUnsignedByte();
+    uint8_t readUInt8();
 
     ///
     /// Reads a signed 16-bit integer.
-    int16_t readShort();
+    int16_t readInt16();
 
     ///
     /// Reads an unsigned 16-bit integer.
-    uint16_t readUnsignedShort();
+    uint16_t readUInt16();
 
     ///
     /// Reads a signed 32-bit integer.
-    int32_t readInt();
+    int32_t readInt32();
 
     ///
     /// Reads an unsigned 32-bit integer.
-    uint32_t readUnsignedInt();
+    uint32_t readUInt32();
 
     ///
     /// Reads a signed 64-bit integer.
-    int64_t readLong();
+    int64_t readInt64();
 
     ///
     /// Reads an unsigned 64-bit integer.
-    uint64_t readUnsignedLong();
+    uint64_t readUInt64();
 
     ///
     /// Reads a 32-bit float.
-    float readFloat();
+    float readFloat32();
 
     ///
     /// Reads a 64-bit float.
-    double readDouble();
+    double readFloat64();
 
     ///
     /// Reads a real number.

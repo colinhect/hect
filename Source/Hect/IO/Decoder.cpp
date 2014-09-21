@@ -83,64 +83,64 @@ std::string ArrayDecoder::decodeString()
     return _decoder->decodeString();
 }
 
-int8_t ArrayDecoder::decodeByte()
+int8_t ArrayDecoder::decodeInt8()
 {
     assert(_decoder);
-    return _decoder->decodeByte();
+    return _decoder->decodeInt8();
 }
 
-uint8_t ArrayDecoder::decodeUnsignedByte()
+uint8_t ArrayDecoder::decodeUInt8()
 {
     assert(_decoder);
-    return _decoder->decodeUnsignedByte();
+    return _decoder->decodeUInt8();
 }
 
-int16_t ArrayDecoder::decodeShort()
+int16_t ArrayDecoder::decodeInt16()
 {
     assert(_decoder);
-    return _decoder->decodeShort();
+    return _decoder->decodeInt16();
 }
 
-uint16_t ArrayDecoder::decodeUnsignedShort()
+uint16_t ArrayDecoder::decodeUInt16()
 {
     assert(_decoder);
-    return _decoder->decodeUnsignedShort();
+    return _decoder->decodeUInt16();
 }
 
-int32_t ArrayDecoder::decodeInt()
+int32_t ArrayDecoder::decodeInt32()
 {
     assert(_decoder);
-    return _decoder->decodeInt();
+    return _decoder->decodeInt32();
 }
 
-uint32_t ArrayDecoder::decodeUnsignedInt()
+uint32_t ArrayDecoder::decodeUInt32()
 {
     assert(_decoder);
-    return _decoder->decodeUnsignedInt();
+    return _decoder->decodeUInt32();
 }
 
-int64_t ArrayDecoder::decodeLong()
+int64_t ArrayDecoder::decodeInt64()
 {
     assert(_decoder);
-    return _decoder->decodeLong();
+    return _decoder->decodeInt64();
 }
 
-uint64_t ArrayDecoder::decodeUnsignedLong()
+uint64_t ArrayDecoder::decodeUInt64()
 {
     assert(_decoder);
-    return _decoder->decodeUnsignedLong();
+    return _decoder->decodeUInt64();
 }
 
-float ArrayDecoder::decodeFloat()
+float ArrayDecoder::decodeFloat32()
 {
     assert(_decoder);
-    return _decoder->decodeFloat();
+    return _decoder->decodeFloat32();
 }
 
-double ArrayDecoder::decodeDouble()
+double ArrayDecoder::decodeFloat64()
 {
     assert(_decoder);
-    return _decoder->decodeDouble();
+    return _decoder->decodeFloat64();
 }
 
 Real ArrayDecoder::decodeReal()
@@ -240,64 +240,64 @@ std::string ObjectDecoder::decodeString(const char* name)
     return _decoder->decodeString(name);
 }
 
-int8_t ObjectDecoder::decodeByte(const char* name)
+int8_t ObjectDecoder::decodeInt8(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeByte(name);
+    return _decoder->decodeInt8(name);
 }
 
-uint8_t ObjectDecoder::decodeUnsignedByte(const char* name)
+uint8_t ObjectDecoder::decodeUInt8(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeUnsignedByte(name);
+    return _decoder->decodeUInt8(name);
 }
 
-int16_t ObjectDecoder::decodeShort(const char* name)
+int16_t ObjectDecoder::decodeInt16(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeShort(name);
+    return _decoder->decodeInt16(name);
 }
 
-uint16_t ObjectDecoder::decodeUnsignedShort(const char* name)
+uint16_t ObjectDecoder::decodeUInt16(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeUnsignedShort(name);
+    return _decoder->decodeUInt16(name);
 }
 
-int32_t ObjectDecoder::decodeInt(const char* name)
+int32_t ObjectDecoder::decodeInt32(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeInt(name);
+    return _decoder->decodeInt32(name);
 }
 
-uint32_t ObjectDecoder::decodeUnsignedInt(const char* name)
+uint32_t ObjectDecoder::decodeUInt32(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeUnsignedInt(name);
+    return _decoder->decodeUInt32(name);
 }
 
-int64_t ObjectDecoder::decodeLong(const char* name)
+int64_t ObjectDecoder::decodeInt64(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeLong(name);
+    return _decoder->decodeInt64(name);
 }
 
-uint64_t ObjectDecoder::decodeUnsignedLong(const char* name)
+uint64_t ObjectDecoder::decodeUInt64(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeUnsignedLong(name);
+    return _decoder->decodeUInt64(name);
 }
 
-float ObjectDecoder::decodeFloat(const char* name)
+float ObjectDecoder::decodeFloat32(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeFloat(name);
+    return _decoder->decodeFloat32(name);
 }
 
-double ObjectDecoder::decodeDouble(const char* name)
+double ObjectDecoder::decodeFloat64(const char* name)
 {
     assert(_decoder);
-    return _decoder->decodeDouble(name);
+    return _decoder->decodeFloat64(name);
 }
 
 Real ObjectDecoder::decodeReal(const char* name)

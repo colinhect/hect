@@ -48,15 +48,15 @@ enum IndexType
 {
     ///
     /// An 8-bit unsigned integer.
-    IndexType_UnsignedByte,
+    IndexType_UInt8,
 
     ///
     /// A 16-bit unsigned integer.
-    IndexType_UnsignedShort,
+    IndexType_UInt16,
 
     ///
     /// A 32-bit unsigned integer.
-    IndexType_UnsignedInt
+    IndexType_UInt32
 };
 
 ///

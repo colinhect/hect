@@ -30,57 +30,57 @@ void WriteStream::writeString(const std::string& value, bool prependLength)
     size_t length = value.size();
     if (prependLength)
     {
-        writeUnsignedInt((uint32_t)length);
+        writeUInt32((uint32_t)length);
     }
     writeBytes((uint8_t*)&value[0], length);
 }
 
-void WriteStream::writeByte(int8_t value)
+void WriteStream::writeInt8(int8_t value)
 {
     writeBytes((const uint8_t*)&value, 1);
 }
 
-void WriteStream::writeUnsignedByte(uint8_t value)
+void WriteStream::writeUInt8(uint8_t value)
 {
     writeBytes((const uint8_t*)&value, 1);
 }
 
-void WriteStream::writeShort(int16_t value)
+void WriteStream::writeInt16(int16_t value)
 {
     writeBytes((const uint8_t*)&value, 2);
 }
 
-void WriteStream::writeUnsignedShort(uint16_t value)
+void WriteStream::writeUInt16(uint16_t value)
 {
     writeBytes((const uint8_t*)&value, 2);
 }
 
-void WriteStream::writeInt(int32_t value)
+void WriteStream::writeInt32(int32_t value)
 {
     writeBytes((const uint8_t*)&value, 4);
 }
 
-void WriteStream::writeUnsignedInt(uint32_t value)
+void WriteStream::writeUInt32(uint32_t value)
 {
     writeBytes((const uint8_t*)&value, 4);
 }
 
-void WriteStream::writeLong(int64_t value)
+void WriteStream::writeInt64(int64_t value)
 {
     writeBytes((const uint8_t*)&value, 8);
 }
 
-void WriteStream::writeUnsignedLong(uint64_t value)
+void WriteStream::writeUInt64(uint64_t value)
 {
     writeBytes((const uint8_t*)&value, 8);
 }
 
-void WriteStream::writeFloat(float value)
+void WriteStream::writeFloat32(float value)
 {
     writeBytes((const uint8_t*)&value, 4);
 }
 
-void WriteStream::writeDouble(double value)
+void WriteStream::writeFloat64(double value)
 {
     writeBytes((const uint8_t*)&value, 8);
 }
@@ -88,15 +88,15 @@ void WriteStream::writeDouble(double value)
 void WriteStream::writeReal(Real value)
 {
 #ifdef HECT_DOUBLE_PRECISION
-    return writeDouble(value);
+    return writeFloat64(value);
 #else
-    return writeFloat(value);
+    return writeFloat32(value);
 #endif
 }
 
 void WriteStream::writeBool(bool value)
 {
-    writeUnsignedByte(value ? 1 : 0);
+    writeUInt8(value ? 1 : 0);
 }
 
 void WriteStream::writeVector2(const Vector2& value)

@@ -36,7 +36,7 @@ void VertexLayoutEncoder::encode(const VertexLayout& vertexLayout, ObjectEncoder
 
         attributeEncoder.encodeEnum("semantic", attribute.semantic());
         attributeEncoder.encodeEnum("type", attribute.type());
-        attributeEncoder.encodeUnsignedInt("cardinality", attribute.cardinality());
+        attributeEncoder.encodeUInt32("cardinality", attribute.cardinality());
     }
 }
 
@@ -56,7 +56,7 @@ void VertexLayoutEncoder::decode(VertexLayout& vertexLayout, ObjectDecoder& deco
 
         semantic = attributeDecoder.decodeEnum<VertexAttributeSemantic>("semantic");
         type = attributeDecoder.decodeEnum<VertexAttributeType>("type");
-        cardinality = attributeDecoder.decodeUnsignedInt("cardinality");
+        cardinality = attributeDecoder.decodeUInt32("cardinality");
 
         // Append the new attribute
         VertexAttribute attribute(semantic, type, cardinality);

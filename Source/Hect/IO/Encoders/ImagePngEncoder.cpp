@@ -33,7 +33,7 @@ using namespace hect;
 void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
 {
     // Verify pixel format and type.
-    if (image.pixelType() != PixelType_Byte || image.pixelFormat() != PixelFormat_Rgba)
+    if (image.pixelType() != PixelType_UInt8 || image.pixelFormat() != PixelFormat_Rgba)
     {
         throw Error("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
     }
@@ -74,7 +74,7 @@ void ImagePngEncoder::decode(Image& image, ReadStream& stream)
 
     image.setWidth(width);
     image.setHeight(height);
-    image.setPixelType(PixelType_Byte);
+    image.setPixelType(PixelType_UInt8);
     image.setPixelFormat(PixelFormat_Rgba);
     image.setColorSpace(ColorSpace_NonLinear);
     image.setPixelData(std::move(decodedPixelData));

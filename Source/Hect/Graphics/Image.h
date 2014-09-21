@@ -36,7 +36,7 @@ enum ColorSpace
     ///
     /// Non-linear color space (sRGB).
     ///
-    /// \note Only an image with a pixel type of PixelType_Byte can
+    /// \note Only an image with a pixel type of PixelType_UInt8 can
     /// be non-linear.
     ColorSpace_NonLinear,
 
@@ -51,15 +51,15 @@ enum PixelType
 {
     ///
     /// 16-bit floating point.
-    PixelType_Half,
+    PixelType_Float16,
 
     ///
     /// 32-bit floating point.
-    PixelType_Float,
+    PixelType_Float32,
 
     ///
     /// A byte.
-    PixelType_Byte
+    PixelType_UInt8
 };
 
 ///

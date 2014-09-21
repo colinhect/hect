@@ -60,7 +60,7 @@ btTriangleMesh* convertToBullet(const Mesh& m)
     std::vector<size_t> indices;
     while (meshReader.nextIndex())
     {
-        indices.push_back(meshReader.readIndexInt());
+        indices.push_back(meshReader.readIndexUInt32());
     }
 
     btTriangleMesh* mesh = new btTriangleMesh();

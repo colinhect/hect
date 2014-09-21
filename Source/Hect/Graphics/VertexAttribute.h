@@ -92,35 +92,35 @@ enum VertexAttributeType : uint8_t
 {
     ///
     /// An 8-bit signed integer.
-    VertexAttributeType_Byte,
+    VertexAttributeType_Int8,
 
     ///
     /// An 8-bit unsigned integer.
-    VertexAttributeType_UnsignedByte,
+    VertexAttributeType_UInt8,
 
     ///
     /// A 16-bit signed integer.
-    VertexAttributeType_Short,
+    VertexAttributeType_Int16,
 
     ///
     /// A 16-bit unsigned integer.
-    VertexAttributeType_UnsignedShort,
+    VertexAttributeType_UInt16,
 
     ///
     /// A 32-bit signed integer.
-    VertexAttributeType_Int,
+    VertexAttributeType_Int32,
 
     ///
     /// A 32-bit unsigned integer.
-    VertexAttributeType_UnsignedInt,
+    VertexAttributeType_UInt32,
 
     ///
     /// A 16-bit float.
-    VertexAttributeType_Half,
+    VertexAttributeType_Float16,
 
     ///
     /// A 32-bit float.
-    VertexAttributeType_Float
+    VertexAttributeType_Float32
 };
 
 ///

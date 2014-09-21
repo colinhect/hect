@@ -37,7 +37,7 @@ void UniformValueEncoder::encode(const UniformValue& uniformValue, ObjectEncoder
     {
     case UniformType_Int:
     case UniformType_Texture:
-        encoder.encodeInt("value", uniformValue.asInt());
+        encoder.encodeInt32("value", uniformValue.asInt());
         break;
     case UniformType_Float:
         encoder.encodeReal("value", uniformValue.asReal());
@@ -75,7 +75,7 @@ void UniformValueEncoder::decode(UniformValue& uniformValue, ObjectDecoder& deco
         {
         case UniformType_Int:
         case UniformType_Texture:
-            uniformValue.setValue(decoder.decodeInt("value"));
+            uniformValue.setValue(decoder.decodeInt32("value"));
             break;
         case UniformType_Float:
             uniformValue.setValue(decoder.decodeReal("value"));

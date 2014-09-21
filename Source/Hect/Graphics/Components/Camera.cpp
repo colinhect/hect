@@ -132,10 +132,10 @@ const Frustum& Camera::frustum() const
 
 void Camera::encode(ObjectEncoder& encoder) const
 {
-    encoder.encodeDouble("fieldOfView", fieldOfView().degrees());
-    encoder.encodeDouble("aspectRatio", aspectRatio());
-    encoder.encodeDouble("nearClip", nearClip());
-    encoder.encodeDouble("farClip", farClip());
+    encoder.encodeReal("fieldOfView", fieldOfView().degrees());
+    encoder.encodeReal("aspectRatio", aspectRatio());
+    encoder.encodeReal("nearClip", nearClip());
+    encoder.encodeReal("farClip", farClip());
 }
 
 void Camera::decode(ObjectDecoder& decoder, AssetCache& assetCache)

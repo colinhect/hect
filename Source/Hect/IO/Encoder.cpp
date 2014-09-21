@@ -77,64 +77,64 @@ void ArrayEncoder::encodeString(const std::string& value)
     _encoder->encodeString(value);
 }
 
-void ArrayEncoder::encodeByte(int8_t value)
+void ArrayEncoder::encodeInt8(int8_t value)
 {
     assert(_encoder);
-    _encoder->encodeByte(value);
+    _encoder->encodeInt8(value);
 }
 
-void ArrayEncoder::encodeUnsignedByte(uint8_t value)
+void ArrayEncoder::encodeUInt8(uint8_t value)
 {
     assert(_encoder);
-    _encoder->encodeUnsignedByte(value);
+    _encoder->encodeUInt8(value);
 }
 
-void ArrayEncoder::encodeShort(int16_t value)
+void ArrayEncoder::encodeInt16(int16_t value)
 {
     assert(_encoder);
-    _encoder->encodeShort(value);
+    _encoder->encodeInt16(value);
 }
 
-void ArrayEncoder::encodeUnsignedShort(uint16_t value)
+void ArrayEncoder::encodeUInt16(uint16_t value)
 {
     assert(_encoder);
-    _encoder->encodeUnsignedShort(value);
+    _encoder->encodeUInt16(value);
 }
 
-void ArrayEncoder::encodeInt(int32_t value)
+void ArrayEncoder::encodeInt32(int32_t value)
 {
     assert(_encoder);
-    _encoder->encodeInt(value);
+    _encoder->encodeInt32(value);
 }
 
-void ArrayEncoder::encodeUnsignedInt(uint32_t value)
+void ArrayEncoder::encodeUInt32(uint32_t value)
 {
     assert(_encoder);
-    _encoder->encodeUnsignedInt(value);
+    _encoder->encodeUInt32(value);
 }
 
-void ArrayEncoder::encodeLong(int64_t value)
+void ArrayEncoder::encodeInt64(int64_t value)
 {
     assert(_encoder);
-    _encoder->encodeLong(value);
+    _encoder->encodeInt64(value);
 }
 
-void ArrayEncoder::encodeUnsignedLong(uint64_t value)
+void ArrayEncoder::encodeUInt64(uint64_t value)
 {
     assert(_encoder);
-    _encoder->encodeUnsignedLong(value);
+    _encoder->encodeUInt64(value);
 }
 
-void ArrayEncoder::encodeFloat(float value)
+void ArrayEncoder::encodeFloat32(float value)
 {
     assert(_encoder);
-    _encoder->encodeFloat(value);
+    _encoder->encodeFloat32(value);
 }
 
-void ArrayEncoder::encodeDouble(double value)
+void ArrayEncoder::encodeFloat64(double value)
 {
     assert(_encoder);
-    _encoder->encodeDouble(value);
+    _encoder->encodeFloat64(value);
 }
 
 void ArrayEncoder::encodeReal(Real value)
@@ -229,64 +229,64 @@ void ObjectEncoder::encodeString(const char* name, const std::string& value)
     _encoder->encodeString(name, value);
 }
 
-void ObjectEncoder::encodeByte(const char* name, int8_t value)
+void ObjectEncoder::encodeInt8(const char* name, int8_t value)
 {
     assert(_encoder);
-    _encoder->encodeByte(name, value);
+    _encoder->encodeInt8(name, value);
 }
 
-void ObjectEncoder::encodeUnsignedByte(const char* name, uint8_t value)
+void ObjectEncoder::encodeUInt8(const char* name, uint8_t value)
 {
     assert(_encoder);
-    _encoder->encodeUnsignedByte(name, value);
+    _encoder->encodeUInt8(name, value);
 }
 
-void ObjectEncoder::encodeShort(const char* name, int16_t value)
+void ObjectEncoder::encodeInt16(const char* name, int16_t value)
 {
     assert(_encoder);
-    _encoder->encodeShort(name, value);
+    _encoder->encodeInt16(name, value);
 }
 
-void ObjectEncoder::encodeUnsignedShort(const char* name, uint16_t value)
+void ObjectEncoder::encodeUInt16(const char* name, uint16_t value)
 {
     assert(_encoder);
-    _encoder->encodeUnsignedShort(name, value);
+    _encoder->encodeUInt16(name, value);
 }
 
-void ObjectEncoder::encodeInt(const char* name, int32_t value)
+void ObjectEncoder::encodeInt32(const char* name, int32_t value)
 {
     assert(_encoder);
-    _encoder->encodeInt(name, value);
+    _encoder->encodeInt32(name, value);
 }
 
-void ObjectEncoder::encodeUnsignedInt(const char* name, uint32_t value)
+void ObjectEncoder::encodeUInt32(const char* name, uint32_t value)
 {
     assert(_encoder);
-    _encoder->encodeUnsignedInt(name, value);
+    _encoder->encodeUInt32(name, value);
 }
 
-void ObjectEncoder::encodeLong(const char* name, int64_t value)
+void ObjectEncoder::encodeInt64(const char* name, int64_t value)
 {
     assert(_encoder);
-    _encoder->encodeLong(name, value);
+    _encoder->encodeInt64(name, value);
 }
 
-void ObjectEncoder::encodeUnsignedLong(const char* name, uint64_t value)
+void ObjectEncoder::encodeUInt64(const char* name, uint64_t value)
 {
     assert(_encoder);
-    _encoder->encodeUnsignedLong(name, value);
+    _encoder->encodeUInt64(name, value);
 }
 
-void ObjectEncoder::encodeFloat(const char* name, float value)
+void ObjectEncoder::encodeFloat32(const char* name, float value)
 {
     assert(_encoder);
-    _encoder->encodeFloat(name, value);
+    _encoder->encodeFloat32(name, value);
 }
 
-void ObjectEncoder::encodeDouble(const char* name, double value)
+void ObjectEncoder::encodeFloat64(const char* name, double value)
 {
     assert(_encoder);
-    _encoder->encodeDouble(name, value);
+    _encoder->encodeFloat64(name, value);
 }
 
 void ObjectEncoder::encodeReal(const char* name, Real value)

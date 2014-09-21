@@ -48,7 +48,7 @@ unsigned Random::next()
     return output;
 }
 
-int Random::nextInt(int min, int max)
+int Random::nextInt32(int min, int max)
 {
     assert(min < max);
 
@@ -58,7 +58,7 @@ int Random::nextInt(int min, int max)
     return min + n;
 }
 
-float Random::nextFloat(float min, float max)
+float Random::nextFloat32(float min, float max)
 {
     assert(min < max);
 
@@ -68,7 +68,7 @@ float Random::nextFloat(float min, float max)
     return min + n;
 }
 
-double Random::nextDouble(double min, double max)
+double Random::nextFloat64(double min, double max)
 {
     assert(min < max);
 

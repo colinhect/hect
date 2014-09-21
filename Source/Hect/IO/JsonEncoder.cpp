@@ -123,102 +123,102 @@ void JsonEncoder::encodeString(const char* name, const std::string& value)
     encode(name, value);
 }
 
-void JsonEncoder::encodeByte(int8_t value)
+void JsonEncoder::encodeInt8(int8_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeByte(const char* name, int8_t value)
+void JsonEncoder::encodeInt8(const char* name, int8_t value)
 {
     encode(name, value);
 }
 
-void JsonEncoder::encodeUnsignedByte(uint8_t value)
+void JsonEncoder::encodeUInt8(uint8_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeUnsignedByte(const char* name, uint8_t value)
+void JsonEncoder::encodeUInt8(const char* name, uint8_t value)
 {
     encode(name, value);
 }
 
-void JsonEncoder::encodeShort(int16_t value)
+void JsonEncoder::encodeInt16(int16_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeShort(const char* name, int16_t value)
+void JsonEncoder::encodeInt16(const char* name, int16_t value)
 {
     encode(name, value);
 }
 
-void JsonEncoder::encodeUnsignedShort(uint16_t value)
+void JsonEncoder::encodeUInt16(uint16_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeUnsignedShort(const char* name, uint16_t value)
+void JsonEncoder::encodeUInt16(const char* name, uint16_t value)
 {
     encode(name, value);
 }
 
-void JsonEncoder::encodeInt(int32_t value)
+void JsonEncoder::encodeInt32(int32_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeInt(const char* name, int32_t value)
+void JsonEncoder::encodeInt32(const char* name, int32_t value)
 {
     encode(name, value);
 }
 
-void JsonEncoder::encodeUnsignedInt(uint32_t value)
+void JsonEncoder::encodeUInt32(uint32_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeUnsignedInt(const char* name, uint32_t value)
+void JsonEncoder::encodeUInt32(const char* name, uint32_t value)
 {
     encode(name, value);
 }
 
-void JsonEncoder::encodeLong(int64_t value)
+void JsonEncoder::encodeInt64(int64_t value)
 {
     encode((double)value);
 }
 
-void JsonEncoder::encodeLong(const char* name, int64_t value)
+void JsonEncoder::encodeInt64(const char* name, int64_t value)
 {
     encode(name, (double)value);
 }
 
-void JsonEncoder::encodeUnsignedLong(uint64_t value)
+void JsonEncoder::encodeUInt64(uint64_t value)
 {
     encode((double)value);
 }
 
-void JsonEncoder::encodeUnsignedLong(const char* name, uint64_t value)
+void JsonEncoder::encodeUInt64(const char* name, uint64_t value)
 {
     encode(name, (double)value);
 }
 
-void JsonEncoder::encodeFloat(float value)
+void JsonEncoder::encodeFloat32(float value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeFloat(const char* name, float value)
+void JsonEncoder::encodeFloat32(const char* name, float value)
 {
     encode(name, value);
 }
 
-void JsonEncoder::encodeDouble(double value)
+void JsonEncoder::encodeFloat64(double value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeDouble(const char* name, double value)
+void JsonEncoder::encodeFloat64(const char* name, double value)
 {
     encode(name, value);
 }

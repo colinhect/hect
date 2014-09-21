@@ -34,7 +34,7 @@ using namespace hect;
 Mesh::Mesh() :
     _vertexLayout(VertexLayout::createDefault()),
     _primitiveType(PrimitiveType_Triangles),
-    _indexType(IndexType_UnsignedShort),
+    _indexType(IndexType_UInt16),
     _vertexCount(0),
     _indexCount(0)
 {
@@ -44,7 +44,7 @@ Mesh::Mesh(const std::string& name) :
     _name(name),
     _vertexLayout(VertexLayout::createDefault()),
     _primitiveType(PrimitiveType_Triangles),
-    _indexType(IndexType_UnsignedShort),
+    _indexType(IndexType_UInt16),
     _vertexCount(0),
     _indexCount(0)
 {
@@ -197,11 +197,11 @@ unsigned Mesh::indexSize() const
 {
     switch (_indexType)
     {
-    case IndexType_UnsignedByte:
+    case IndexType_UInt8:
         return 1;
-    case IndexType_UnsignedShort:
+    case IndexType_UInt16:
         return 2;
-    case IndexType_UnsignedInt:
+    case IndexType_UInt32:
         return 4;
     }
     return 0;

@@ -27,7 +27,7 @@ using namespace hect;
 
 std::string ReadStream::readString()
 {
-    size_t byteCount = readUnsignedInt();
+    size_t byteCount = readUInt32();
     std::string string(byteCount, ' ');
     readBytes((uint8_t*)&string[0], byteCount);
     return string;
@@ -41,70 +41,70 @@ std::string ReadStream::readAllToString()
     return string;
 }
 
-int8_t ReadStream::readByte()
+int8_t ReadStream::readInt8()
 {
     int8_t value = 0;
     readBytes((uint8_t*)&value, 1);
     return value;
 }
 
-uint8_t ReadStream::readUnsignedByte()
+uint8_t ReadStream::readUInt8()
 {
     uint8_t value = 0;
     readBytes((uint8_t*)&value, 1);
     return value;
 }
 
-int16_t ReadStream::readShort()
+int16_t ReadStream::readInt16()
 {
     int16_t value = 0;
     readBytes((uint8_t*)&value, 2);
     return value;
 }
 
-uint16_t ReadStream::readUnsignedShort()
+uint16_t ReadStream::readUInt16()
 {
     uint16_t value = 0;
     readBytes((uint8_t*)&value, 2);
     return value;
 }
 
-int32_t ReadStream::readInt()
+int32_t ReadStream::readInt32()
 {
     int32_t value = 0;
     readBytes((uint8_t*)&value, 4);
     return value;
 }
 
-uint32_t ReadStream::readUnsignedInt()
+uint32_t ReadStream::readUInt32()
 {
     uint32_t value = 0;
     readBytes((uint8_t*)&value, 4);
     return value;
 }
 
-int64_t ReadStream::readLong()
+int64_t ReadStream::readInt64()
 {
     int64_t value = 0;
     readBytes((uint8_t*)&value, 8);
     return value;
 }
 
-uint64_t ReadStream::readUnsignedLong()
+uint64_t ReadStream::readUInt64()
 {
     uint64_t value = 0;
     readBytes((uint8_t*)&value, 8);
     return value;
 }
 
-float ReadStream::readFloat()
+float ReadStream::readFloat32()
 {
     float value = 0;
     readBytes((uint8_t*)&value, 4);
     return value;
 }
 
-double ReadStream::readDouble()
+double ReadStream::readFloat64()
 {
     double value = 0;
     readBytes((uint8_t*)&value, 8);
@@ -114,15 +114,15 @@ double ReadStream::readDouble()
 Real ReadStream::readReal()
 {
 #ifdef HECT_DOUBLE_PRECISION
-    return readDouble();
+    return readFloat64();
 #else
-    return readFloat();
+    return readFloat32();
 #endif
 }
 
 bool ReadStream::readBool()
 {
-    return readUnsignedByte() != 0;
+    return readUInt8() != 0;
 }
 
 Vector2 ReadStream::readVector2()

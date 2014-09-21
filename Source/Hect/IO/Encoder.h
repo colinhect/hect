@@ -74,61 +74,61 @@ public:
     /// Encodes a signed 8-bit integer.
     ///
     /// \param value The value to encode.
-    void encodeByte(int8_t value);
+    void encodeInt8(int8_t value);
 
     ///
     /// Encodes an unsigned 8-bit integer.
     ///
     /// \param value The value to encode.
-    void encodeUnsignedByte(uint8_t value);
+    void encodeUInt8(uint8_t value);
 
     ///
     /// Encodes a signed 16-bit integer.
     ///
     /// \param value The value to encode.
-    void encodeShort(int16_t value);
+    void encodeInt16(int16_t value);
 
     ///
     /// Encodes an unsigned 16-bit integer.
     ///
     /// \param value The value to encode.
-    void encodeUnsignedShort(uint16_t value);
+    void encodeUInt16(uint16_t value);
 
     ///
     /// Encodes a signed 32-bit integer.
     ///
     /// \param value The value to encode.
-    void encodeInt(int32_t value);
+    void encodeInt32(int32_t value);
 
     ///
     /// Encodes an unsigned 32-bit integer.
     ///
     /// \param value The value to encode.
-    void encodeUnsignedInt(uint32_t value);
+    void encodeUInt32(uint32_t value);
 
     ///
     /// Encodes a signed 64-bit integer.
     ///
     /// \param value The value to encode.
-    void encodeLong(int64_t value);
+    void encodeInt64(int64_t value);
 
     ///
     /// Encodes an unsigned 64-bit integer.
     ///
     /// \param value The value to encode.
-    void encodeUnsignedLong(uint64_t value);
+    void encodeUInt64(uint64_t value);
 
     ///
     /// Encodes a 32-bit float.
     ///
     /// \param value The value to encode.
-    void encodeFloat(float value);
+    void encodeFloat32(float value);
 
     ///
     /// Encodes a 64-bit float
     ///
     /// \param value The value to encode.
-    void encodeDouble(double value);
+    void encodeFloat64(double value);
 
     ///
     /// Encodes a real number.
@@ -224,70 +224,70 @@ public:
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeByte(const char* name, int8_t value);
+    void encodeInt8(const char* name, int8_t value);
 
     ///
     /// Encodes an unsigned 8-bit integer.
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeUnsignedByte(const char* name, uint8_t value);
+    void encodeUInt8(const char* name, uint8_t value);
 
     ///
     /// Encodes a signed 16-bit integer.
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeShort(const char* name, int16_t value);
+    void encodeInt16(const char* name, int16_t value);
 
     ///
     /// Encodes an unsigned 16-bit integer.
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeUnsignedShort(const char* name, uint16_t value);
+    void encodeUInt16(const char* name, uint16_t value);
 
     ///
     /// Encodes a signed 32-bit integer.
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeInt(const char* name, int32_t value);
+    void encodeInt32(const char* name, int32_t value);
 
     ///
     /// Encodes an unsigned 32-bit integer.
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeUnsignedInt(const char* name, uint32_t value);
+    void encodeUInt32(const char* name, uint32_t value);
 
     ///
     /// Encodes a signed 64-bit integer.
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeLong(const char* name, int64_t value);
+    void encodeInt64(const char* name, int64_t value);
 
     ///
     /// Encodes an unsigned 64-bit integer.
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeUnsignedLong(const char* name, uint64_t value);
+    void encodeUInt64(const char* name, uint64_t value);
 
     ///
     /// Encodes a 32-bit float.
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeFloat(const char* name, float value);
+    void encodeFloat32(const char* name, float value);
 
     ///
     /// Encodes a 64-bit float
     ///
     /// \param name The name of the member to encode to.
     /// \param value The value to encode.
-    void encodeDouble(const char* name, double value);
+    void encodeFloat64(const char* name, double value);
 
     ///
     /// Encodes a real number.
@@ -380,26 +380,26 @@ protected:
 
     virtual void encodeString(const std::string& value) = 0;
     virtual void encodeString(const char* name, const std::string& value) = 0;
-    virtual void encodeByte(int8_t value) = 0;
-    virtual void encodeByte(const char* name, int8_t value) = 0;
-    virtual void encodeUnsignedByte(uint8_t value) = 0;
-    virtual void encodeUnsignedByte(const char* name, uint8_t value) = 0;
-    virtual void encodeShort(int16_t value) = 0;
-    virtual void encodeShort(const char* name, int16_t value) = 0;
-    virtual void encodeUnsignedShort(uint16_t value) = 0;
-    virtual void encodeUnsignedShort(const char* name, uint16_t value) = 0;
-    virtual void encodeInt(int32_t value) = 0;
-    virtual void encodeInt(const char* name, int32_t value) = 0;
-    virtual void encodeUnsignedInt(uint32_t value) = 0;
-    virtual void encodeUnsignedInt(const char* name, uint32_t value) = 0;
-    virtual void encodeLong(int64_t value) = 0;
-    virtual void encodeLong(const char* name, int64_t value) = 0;
-    virtual void encodeUnsignedLong(uint64_t value) = 0;
-    virtual void encodeUnsignedLong(const char* name, uint64_t value) = 0;
-    virtual void encodeFloat(float value) = 0;
-    virtual void encodeFloat(const char* name, float value) = 0;
-    virtual void encodeDouble(double value) = 0;
-    virtual void encodeDouble(const char* name, double value) = 0;
+    virtual void encodeInt8(int8_t value) = 0;
+    virtual void encodeInt8(const char* name, int8_t value) = 0;
+    virtual void encodeUInt8(uint8_t value) = 0;
+    virtual void encodeUInt8(const char* name, uint8_t value) = 0;
+    virtual void encodeInt16(int16_t value) = 0;
+    virtual void encodeInt16(const char* name, int16_t value) = 0;
+    virtual void encodeUInt16(uint16_t value) = 0;
+    virtual void encodeUInt16(const char* name, uint16_t value) = 0;
+    virtual void encodeInt32(int32_t value) = 0;
+    virtual void encodeInt32(const char* name, int32_t value) = 0;
+    virtual void encodeUInt32(uint32_t value) = 0;
+    virtual void encodeUInt32(const char* name, uint32_t value) = 0;
+    virtual void encodeInt64(int64_t value) = 0;
+    virtual void encodeInt64(const char* name, int64_t value) = 0;
+    virtual void encodeUInt64(uint64_t value) = 0;
+    virtual void encodeUInt64(const char* name, uint64_t value) = 0;
+    virtual void encodeFloat32(float value) = 0;
+    virtual void encodeFloat32(const char* name, float value) = 0;
+    virtual void encodeFloat64(double value) = 0;
+    virtual void encodeFloat64(const char* name, double value) = 0;
     virtual void encodeReal(Real value) = 0;
     virtual void encodeReal(const char* name, Real value) = 0;
     virtual void encodeBool(bool value) = 0;

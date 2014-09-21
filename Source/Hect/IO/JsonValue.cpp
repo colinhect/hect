@@ -227,19 +227,7 @@ int JsonValue::asInt() const
     }
 }
 
-unsigned JsonValue::asUnsigned() const
-{
-    if (isNumber())
-    {
-        return (unsigned)_any.as<double>();
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-double JsonValue::asDouble() const
+Real JsonValue::asReal() const
 {
     if (isNumber())
     {
@@ -249,11 +237,6 @@ double JsonValue::asDouble() const
     {
         return 0.0;
     }
-}
-
-Real JsonValue::asReal() const
-{
-    return (Real)asDouble();
 }
 
 Vector2 JsonValue::asVector2() const
@@ -561,7 +544,7 @@ Json::Value fromJsonValue(const JsonValue& jsonValue)
     }
     else if (jsonValue.isNumber())
     {
-        return Json::Value(jsonValue.asDouble());
+        return Json::Value(jsonValue.asReal());
     }
     else if (jsonValue.isString())
     {

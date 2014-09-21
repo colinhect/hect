@@ -55,7 +55,7 @@ void InputAxisBindingEncoder::decode(InputAxisBinding& inputAxisSource, ObjectDe
 
     if (decoder.hasMember("gamepadIndex"))
     {
-        inputAxisSource.gamepadIndex = decoder.decodeUnsignedInt("gamepadIndex");
+        inputAxisSource.gamepadIndex = decoder.decodeUInt32("gamepadIndex");
     }
 
     if (decoder.hasMember("gamepadAxis"))

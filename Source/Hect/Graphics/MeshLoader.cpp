@@ -34,7 +34,7 @@ void AssetLoader<Mesh>::load(Mesh& mesh, const Path& assetPath, AssetCache& asse
     mesh.setName(assetPath.toString());
 
     ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
-    uint64_t identifyNumber = stream->readUnsignedLong();
+    uint64_t identifyNumber = stream->readUInt64();
     stream->seek(0);
 
     if (identifyNumber == MeshEncoder::IdentifyNumber)

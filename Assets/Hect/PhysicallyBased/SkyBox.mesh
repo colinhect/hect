@@ -6,7 +6,7 @@
         [
             {
                 "semantic" : "Position",
-                "type" : "Float",
+                "type" : "Float32",
                 "cardinality" : 3 
             }
         ]

@@ -211,15 +211,6 @@ public:
     int asInt() const;
 
     ///
-    /// Returns the value as an unsigned int (zero if the JSON value is not a
-    /// number).
-    unsigned asUnsigned() const;
-
-    ///
-    /// Returns the value as a double (zero if the JSON value is not a number).
-    double asDouble() const;
-
-    ///
     /// Returns the value as a real (zero if the JSON value is not a number).
     Real asReal() const;
 

@@ -35,8 +35,8 @@ TEST_CASE("VertexLayout_DefaultConstructor")
 TEST_CASE("VertexLayout_addAttribute")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float16, 3));
 
     REQUIRE(vertexLayout.attributeCount() == 2u);
 }
@@ -44,8 +44,8 @@ TEST_CASE("VertexLayout_addAttribute")
 TEST_CASE("VertexLayout_AttributeIndexing")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float16, 3));
 
     REQUIRE(VertexAttributeSemantic_Position == (vertexLayout.attributes().begin() + 0)->semantic());
     REQUIRE(VertexAttributeSemantic_Normal == (vertexLayout.attributes().begin() + 1)->semantic());
@@ -54,8 +54,8 @@ TEST_CASE("VertexLayout_AttributeIndexing")
 TEST_CASE("VertexLayout_AttributeOffsets")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float16, 3));
 
     REQUIRE((vertexLayout.attributes().begin() + 0)->offset() == 0u);
     REQUIRE((vertexLayout.attributes().begin() + 1)->offset() == (vertexLayout.attributes().begin() + 0)->size());
@@ -64,8 +64,8 @@ TEST_CASE("VertexLayout_AttributeOffsets")
 TEST_CASE("VertexLayout_AttributeWithSemantic")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 4));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 4));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float16, 3));
 
     REQUIRE(vertexLayout.attributeWithSemantic(VertexAttributeSemantic_Position).cardinality() == 4u);
     REQUIRE(vertexLayout.attributeWithSemantic(VertexAttributeSemantic_Normal).cardinality() == 3u);
@@ -74,8 +74,8 @@ TEST_CASE("VertexLayout_AttributeWithSemantic")
 TEST_CASE("VertexLayout_HasAttributeWithSemantic")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 4));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 4));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float16, 3));
 
     REQUIRE(vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic_Position));
 }
@@ -83,8 +83,8 @@ TEST_CASE("VertexLayout_HasAttributeWithSemantic")
 TEST_CASE("VertexLayout_HasAttributeWithSemanticNegative")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float16, 3));
 
     REQUIRE(!vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic_Color));
 }
@@ -92,8 +92,8 @@ TEST_CASE("VertexLayout_HasAttributeWithSemanticNegative")
 TEST_CASE("VertexLayout_VertexSize")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Half, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float16, 3));
 
     REQUIRE(vertexLayout.vertexSize() == 4u * 3u + 2u * 3u);
 }

@@ -36,7 +36,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
 {
     if (encoder.isBinaryStream())
     {
-        encoder.encodeUnsignedLong("identifyNumber", IdentifyNumber);
+        encoder.encodeUInt64("identifyNumber", IdentifyNumber);
     }
 
     // Vertex layout
@@ -57,7 +57,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
 
         // Vertex data
         uint32_t vertexDataSize = (uint32_t)mesh.vertexData().size();
-        stream.writeUnsignedInt(vertexDataSize);
+        stream.writeUInt32(vertexDataSize);
         if (vertexDataSize > 0)
         {
             stream.writeBytes(&mesh.vertexData()[0], vertexDataSize);
@@ -65,7 +65,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
 
         // Index data
         uint32_t indexDataSize = (uint32_t)mesh.indexData().size();
-        stream.writeUnsignedInt(indexDataSize);
+        stream.writeUInt32(indexDataSize);
         if (indexDataSize > 0)
         {
             stream.writeBytes(&mesh.indexData()[0], indexDataSize);
@@ -116,14 +116,14 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
             {
                 switch (mesh.indexType())
                 {
-                case IndexType_UnsignedByte:
-                    indicesEncoder.encodeUnsignedByte(reader.readIndexByte());
+                case IndexType_UInt8:
+                    indicesEncoder.encodeUInt8(reader.readIndexUInt8());
                     break;
-                case IndexType_UnsignedShort:
-                    indicesEncoder.encodeUnsignedShort(reader.readIndexShort());
+                case IndexType_UInt16:
+                    indicesEncoder.encodeUInt16(reader.readIndexUInt16());
                     break;
-                case IndexType_UnsignedInt:
-                    indicesEncoder.encodeUnsignedInt(reader.readIndexInt());
+                case IndexType_UInt32:
+                    indicesEncoder.encodeUInt32(reader.readIndexUInt32());
                     break;
                 }
             }
@@ -135,7 +135,7 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
 {
     if (decoder.isBinaryStream())
     {
-        uint64_t identifyNumber = decoder.decodeUnsignedLong("identifyNumber");
+        uint64_t identifyNumber = decoder.decodeUInt64("identifyNumber");
         if (identifyNumber != IdentifyNumber)
         {
             throw Error("Binary data does not represent a mesh");
@@ -175,7 +175,7 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
 
         // Vertex data
         Mesh::VertexData vertexData;
-        uint32_t vertexDataSize = stream.readUnsignedInt();
+        uint32_t vertexDataSize = stream.readUInt32();
         vertexData = Mesh::VertexData(vertexDataSize);
         if (vertexDataSize > 0)
         {
@@ -184,7 +184,7 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
 
         // Index data
         Mesh::IndexData indexData;
-        uint32_t indexDataSize = stream.readUnsignedInt();
+        uint32_t indexDataSize = stream.readUInt32();
         indexData = Mesh::VertexData(indexDataSize);
         if (indexDataSize > 0)
         {
@@ -260,14 +260,14 @@ void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCa
             {
                 switch (mesh.indexType())
                 {
-                case IndexType_UnsignedByte:
-                    meshWriter.addIndex(indicesDecoder.decodeUnsignedByte());
+                case IndexType_UInt8:
+                    meshWriter.addIndex(indicesDecoder.decodeUInt8());
                     break;
-                case IndexType_UnsignedShort:
-                    meshWriter.addIndex(indicesDecoder.decodeUnsignedShort());
+                case IndexType_UInt16:
+                    meshWriter.addIndex(indicesDecoder.decodeUInt16());
                     break;
-                case IndexType_UnsignedInt:
-                    meshWriter.addIndex(indicesDecoder.decodeUnsignedInt());
+                case IndexType_UInt32:
+                    meshWriter.addIndex(indicesDecoder.decodeUInt32());
                     break;
                 }
             }

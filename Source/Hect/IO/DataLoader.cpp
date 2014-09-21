@@ -33,7 +33,7 @@ void AssetLoader<Data>::load(Data& data, const Path& assetPath, AssetCache& asse
     assetCache;
 
     ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
-    if (stream->readUnsignedByte() == '{')
+    if (stream->readUInt8() == '{')
     {
         stream->seek(0);
         data.assetPath = assetPath;
@@ -44,7 +44,7 @@ void AssetLoader<Data>::load(Data& data, const Path& assetPath, AssetCache& asse
         stream->seek(0);
         while (!stream->endOfStream())
         {
-            data.binaryData.push_back(stream->readUnsignedByte());
+            data.binaryData.push_back(stream->readUInt8());
         }
     }
 }
