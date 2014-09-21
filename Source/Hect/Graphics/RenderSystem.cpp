@@ -25,18 +25,18 @@
 
 #include <algorithm>
 
-#include "Hect/Graphics/Components/Camera.h"
-#include "Hect/Graphics/Components/Model.h"
+#include "Hect/Logic/Components/Camera.h"
+#include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/World.h"
-#include "Hect/Spacial/Components/BoundingBox.h"
-#include "Hect/Spacial/Components/Transform.h"
+#include "Hect/Logic/Components/BoundingBox.h"
+#include "Hect/Logic/Components/Transform.h"
 
-#include "Hect/Graphics/Components/DirectionalLight.h"
-#include "Hect/Graphics/Components/LightProbe.h"
-#include "Hect/Graphics/Components/SkyBox.h"
+#include "Hect/Logic/Components/DirectionalLight.h"
+#include "Hect/Logic/Components/LightProbe.h"
+#include "Hect/Logic/Components/SkyBox.h"
 #include "Hect/Logic/World.h"
 #include "Hect/Runtime/Engine.h"
-#include "Hect/Spacial/Components/Transform.h"
+#include "Hect/Logic/Components/Transform.h"
 
 using namespace hect;
 

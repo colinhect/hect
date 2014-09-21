@@ -28,7 +28,7 @@
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Logic/ComponentEvent.h"
 #include "Hect/Logic/System.h"
-#include "Hect/Physics/Components/RigidBody.h"
+#include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Timing/TimeSpan.h"
 
 // Forward declare Bullet classes

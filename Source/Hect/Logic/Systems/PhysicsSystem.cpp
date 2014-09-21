@@ -25,9 +25,9 @@
 
 #include "Hect/Logic/World.h"
 #include "Hect/Physics/Bullet.h"
-#include "Hect/Physics/Components/RigidBody.h"
-#include "Hect/Spacial/Components/Transform.h"
-#include "Hect/Input/Systems/InputSystem.h"
+#include "Hect/Logic/Components/RigidBody.h"
+#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Systems/InputSystem.h"
 
 using namespace hect;
 

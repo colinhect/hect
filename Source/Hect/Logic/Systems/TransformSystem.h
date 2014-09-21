@@ -21,53 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "TransformSystem.h"
+#pragma once
 
-#include "Hect/Graphics/Components/Model.h"
-#include "Hect/Logic/World.h"
-#include "Hect/Physics/Systems/PhysicsSystem.h"
+#include "Hect/Logic/System.h"
+#include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Logic/Components/Transform.h"
 
-using namespace hect;
-
-TransformSystem::TransformSystem(World& world) :
-    System(world)
+namespace hect
 {
-    tickAfter<PhysicsSystem>();
-}
 
-void TransformSystem::tick(Real timeStep)
+///
+/// Updates the transform hierarchies of the world.
+class TransformSystem :
+    public System
 {
-    timeStep;
+public:
+    TransformSystem(World& world);
 
-    for (Transform& transform : world().components<Transform>())
-    {
-        Entity& entity = transform.entity();
-        if (!entity.parent())
-        {
-            transform.updateGlobalTransform();
+    void tick(Real timeStep) override;
 
-            for (Entity& child : entity.children())
-            {
-                updateTransform(entity, child);
-            }
-        }
-    }
-}
+private:
+    void updateTransform(Entity& parent, Entity& child);
+};
 
-void TransformSystem::updateTransform(Entity& parent, Entity& child)
-{
-    auto parentTransform = parent.component<Transform>();
-    if (parentTransform)
-    {
-        auto childTransform = child.component<Transform>();
-        if (childTransform)
-        {
-            childTransform->updateGlobalTransform(*parentTransform);
-
-            for (Entity& nextChild : child.children())
-            {
-                updateTransform(child, nextChild);
-            }
-        }
-    }
 }

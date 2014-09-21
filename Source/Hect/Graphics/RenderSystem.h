@@ -25,7 +25,7 @@
 
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/Components/Camera.h"
+#include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/System.h"
 
 namespace hect
