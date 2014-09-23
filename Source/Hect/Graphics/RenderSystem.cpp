@@ -25,18 +25,16 @@
 
 #include <algorithm>
 
-#include "Hect/Logic/Components/Camera.h"
-#include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/World.h"
 #include "Hect/Logic/Components/BoundingBox.h"
-#include "Hect/Logic/Components/Transform.h"
-
+#include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/Components/DirectionalLight.h"
 #include "Hect/Logic/Components/LightProbe.h"
+#include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/SkyBox.h"
-#include "Hect/Logic/World.h"
-#include "Hect/Runtime/Engine.h"
 #include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Systems/CameraSystem.h"
+#include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
@@ -76,26 +74,15 @@ void RenderSystem::renderAll(RenderTarget& target)
 {
     World& world = *_worlds.front();
 
-    Component<Camera>::Iterator camera = world.components<Camera>().begin();
+    CameraSystem& cameraSystem = world.system<CameraSystem>();
+    Component<Camera>::Iterator camera = cameraSystem.activeCamera();
     if (camera)
     {
-        Entity& entity = camera->entity();
-        auto transform = entity.component<Transform>();
-        camera->aspectRatio = target.aspectRatio();
-        if (transform)
+        // Update the camera's aspect ratio if needed
+        if (camera->aspectRatio != target.aspectRatio())
         {
-            // TODO: Move this to a "CameraSystem"
-            const Quaternion& rotation = transform->globalRotation;
-            camera->front = (rotation * Vector3::unitZ()).normalized();
-            camera->up = (rotation * Vector3::unitY()).normalized();
-            camera->right = camera->front.cross(camera->up).normalized();
-
-            camera->position = transform->globalPosition;
-
-            camera->viewMatrix = Matrix4::createView(camera->position, camera->front, camera->up);
-            camera->projectionMatrix = Matrix4::createPerspective(camera->fieldOfView, camera->aspectRatio, camera->nearClip, camera->farClip);
-
-            camera->frustum = Frustum(camera->position, camera->front, camera->up, camera->fieldOfView, camera->aspectRatio, camera->nearClip, camera->farClip);
+            camera->aspectRatio = target.aspectRatio();
+            cameraSystem.updateCamera(*camera);
         }
 
         // Initialize buffers if needed

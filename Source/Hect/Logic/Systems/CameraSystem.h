@@ -24,25 +24,28 @@
 #pragma once
 
 #include "Hect/Logic/System.h"
-#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Components/Camera.h"
 
 namespace hect
 {
 
-///
-/// Updates the transform hierarchies of the world.
-class TransformSystem :
+class CameraSystem :
     public System
 {
 public:
-    TransformSystem(World& world);
+    CameraSystem(World& world);
 
-    void updateTransform(Transform& transform);
+    ///
+    /// Returns the active camera in the world.
+    Component<Camera>::Iterator activeCamera();
+
+    ///
+    /// Updates the view/projection matrices of a camera.
+    ///
+    /// \param camera The camera to update.
+    void updateCamera(Camera& camera);
 
     void tick(Real timeStep) override;
-
-private:
-    void updateTransform(Entity& parent, Entity& child);
 };
 
 }

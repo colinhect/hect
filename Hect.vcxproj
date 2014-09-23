@@ -107,6 +107,7 @@
     <ClInclude Include="Source\Hect\Logic\IdPool.h" />
     <ClInclude Include="Source\Hect\Logic\SystemRegistry.h" />
     <ClInclude Include="Source\Hect\Logic\Systems\BoundingBoxSystem.h" />
+    <ClInclude Include="Source\Hect\Logic\Systems\CameraSystem.h" />
     <ClInclude Include="Source\Hect\Logic\Systems\InputSystem.h" />
     <ClInclude Include="Source\Hect\Logic\Systems\PhysicsSystem.h" />
     <ClInclude Include="Source\Hect\Logic\Systems\TransformSystem.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="Source\Hect\Logic\GameModeRegistry.cpp" />
     <ClCompile Include="Source\Hect\Logic\SystemRegistry.cpp" />
     <ClCompile Include="Source\Hect\Logic\Systems\BoundingBoxSystem.cpp" />
+    <ClCompile Include="Source\Hect\Logic\Systems\CameraSystem.cpp" />
     <ClCompile Include="Source\Hect\Logic\Systems\InputSystem.cpp" />
     <ClCompile Include="Source\Hect\Logic\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="Source\Hect\Logic\Systems\TransformSystem.cpp" />

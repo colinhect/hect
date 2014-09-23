@@ -447,6 +447,9 @@
     <ClInclude Include="Source\Hect\Logic\Systems\TransformSystem.h">
       <Filter>Source\Hect\Logic\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Logic\Systems\CameraSystem.h">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -771,6 +774,9 @@
       <Filter>Source\Hect\Logic\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Systems\TransformSystem.cpp">
+      <Filter>Source\Hect\Logic\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Systems\CameraSystem.cpp">
       <Filter>Source\Hect\Logic\Systems</Filter>
     </ClCompile>
   </ItemGroup>
