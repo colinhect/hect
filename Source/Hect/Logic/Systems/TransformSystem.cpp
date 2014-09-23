@@ -35,6 +35,23 @@ TransformSystem::TransformSystem(World& world) :
     tickAfter<PhysicsSystem>();
 }
 
+void TransformSystem::updateTransform(Transform& transform)
+{
+    Entity& entity = transform.entity();
+
+    auto parent = entity.parent();
+    if (parent)
+    {
+        updateTransform(*parent, entity);
+    }
+    else
+    {
+        transform.globalPosition = transform.localPosition;
+        transform.globalScale = transform.localScale;
+        transform.globalRotation = transform.localRotation;
+    }
+}
+
 void TransformSystem::tick(Real timeStep)
 {
     timeStep;
@@ -53,23 +70,6 @@ void TransformSystem::tick(Real timeStep)
                 updateTransform(entity, child);
             }
         }
-    }
-}
-
-void TransformSystem::updateTransform(Transform& transform)
-{
-    Entity& entity = transform.entity();
-
-    auto parent = entity.parent();
-    if (parent)
-    {
-        updateTransform(*parent, entity);
-    }
-    else
-    {
-        transform.globalPosition = transform.localPosition;
-        transform.globalScale = transform.localScale;
-        transform.globalRotation = transform.localRotation;
     }
 }
 

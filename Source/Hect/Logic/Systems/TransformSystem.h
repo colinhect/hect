@@ -38,9 +38,9 @@ class TransformSystem :
 public:
     TransformSystem(World& world);
 
-    void tick(Real timeStep) override;
-
     void updateTransform(Transform& transform);
+
+    void tick(Real timeStep) override;
 
 private:
     void updateTransform(Entity& parent, Entity& child);

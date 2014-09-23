@@ -57,16 +57,10 @@ void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const
     rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
 }
 
-void PhysicsSystem::setLinearVelocity(RigidBody& rigidBody, const Vector3& linearVelocity)
+void PhysicsSystem::updateRigidBody(RigidBody& rigidBody)
 {
-    rigidBody.linearVelocity = linearVelocity;
-    rigidBody._rigidBody->setLinearVelocity(convertToBullet(linearVelocity));
-}
-
-void PhysicsSystem::setAngularVelocity(RigidBody& rigidBody, const Vector3& angularVelocity)
-{
-    rigidBody.angularVelocity = angularVelocity;
-    rigidBody._rigidBody->setAngularVelocity(convertToBullet(angularVelocity));
+    rigidBody._rigidBody->setLinearVelocity(convertToBullet(rigidBody.linearVelocity));
+    rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
 }
 
 void PhysicsSystem::tick(Real timeStep)

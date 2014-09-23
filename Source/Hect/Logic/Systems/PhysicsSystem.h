@@ -53,8 +53,8 @@ public:
     ~PhysicsSystem();
 
     void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);
-    void setLinearVelocity(RigidBody& rigidBody, const Vector3& linearVelocity);
-    void setAngularVelocity(RigidBody& rigidBody, const Vector3& angularVelocity);
+    
+    void updateRigidBody(RigidBody& rigidBody);
 
     void tick(Real timeStep) override;
 
