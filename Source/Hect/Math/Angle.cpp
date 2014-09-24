@@ -112,4 +112,9 @@ Angle& Angle::operator/=(Real value)
     return *this;
 }
 
+Encoder& operator<<(Encoder& encoder, Angle angle)
+{
+    return encoder << angle.degrees();
+}
+
 }

@@ -64,7 +64,7 @@ public:
 
     Real value() const;
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:

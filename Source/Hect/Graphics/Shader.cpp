@@ -122,7 +122,7 @@ const Uniform& Shader::uniformWithName(const std::string& name) const
     throw Error(format("Shader does not have uniform '%s'", name.c_str()));
 }
 
-void Shader::encode(ObjectEncoder& encoder) const
+void Shader::encode(Encoder& encoder) const
 {
     ShaderEncoder::encode(*this, encoder);
 }

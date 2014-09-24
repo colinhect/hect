@@ -76,18 +76,22 @@ size_t World::entityCount() const
     return _entityCount;
 }
 
-void World::encode(ObjectEncoder& encoder) const
+void World::encode(Encoder& encoder) const
 {
-    ArrayEncoder entitiesEncoder = encoder.encodeArray("entities");
+    encoder << beginArray("entities");
+
     for (const Entity& entity : entities())
     {
         // Only encode the root entities (children are encoded recursively)
         if (!entity.parent())
         {
-            ObjectEncoder entityEncoder = entitiesEncoder.encodeObject();
-            entity.encode(entityEncoder);
+            encoder << beginObject();
+            entity.encode(encoder);
+            encoder << endObject();
         }
     }
+
+    encoder << endArray();
 }
 
 void World::decode(ObjectDecoder& decoder, AssetCache& assetCache)
@@ -224,9 +228,9 @@ void World::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     componentPool.addBase(entity, component);
 }
 
-void World::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
+void World::encodeComponents(const Entity& entity, Encoder& encoder)
 {
-    ArrayEncoder componentsEncoder = encoder.encodeArray("components");
+    encoder << beginArray("components");
 
     for (auto& pair : _componentPoolMap)
     {
@@ -236,11 +240,16 @@ void World::encodeComponents(const Entity& entity, ObjectEncoder& encoder)
             const ComponentBase& component = componentPool->getBase(entity);
             std::string typeName = Type::of(component).name();
 
-            ObjectEncoder componentEncoder = componentsEncoder.encodeObject();
-            componentEncoder.encodeString("type", typeName);
-            component.encode(componentEncoder);
+            encoder << beginObject()
+                << member("type", typeName);
+
+            component.encode(encoder);
+
+            encoder << endObject();
         }
     }
+
+    encoder << endArray();
 }
 
 void World::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)

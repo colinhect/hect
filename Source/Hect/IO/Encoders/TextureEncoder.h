@@ -31,7 +31,7 @@ namespace hect
 class TextureEncoder
 {
 public:
-    static void encode(const Texture& texture, ObjectEncoder& encoder);
+    static void encode(const Texture& texture, Encoder& encoder);
     static void decode(Texture& texture, ObjectDecoder& decoder, AssetCache& assetCache);
 };
 

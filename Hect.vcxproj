@@ -78,6 +78,7 @@
     <ClInclude Include="Source\Hect\IO\Encoders\UniformEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\UniformValueEncoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.h" />
+    <ClInclude Include="Source\Hect\IO\EncodeOperations.h" />
     <ClInclude Include="Source\Hect\IO\JsonDecoder.h" />
     <ClInclude Include="Source\Hect\IO\JsonEncoder.h" />
     <ClInclude Include="Source\Hect\IO\JsonValue.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="Source\Hect\IO\Encoders\UniformEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\UniformValueEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.cpp" />
+    <ClCompile Include="Source\Hect\IO\EncodeOperations.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonDecoder.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonValue.cpp" />
@@ -261,6 +263,7 @@
     <None Include="Source\Hect\IO\AssetHandle.inl" />
     <None Include="Source\Hect\IO\Decoder.inl" />
     <None Include="Source\Hect\IO\Encoder.inl" />
+    <None Include="Source\Hect\IO\EncodeOperations.inl" />
     <None Include="Source\Hect\Logic\Component.inl" />
     <None Include="Source\Hect\Logic\ComponentEvent.inl" />
     <None Include="Source\Hect\Logic\ComponentPool.inl" />

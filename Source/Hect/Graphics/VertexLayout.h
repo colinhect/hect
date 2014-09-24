@@ -82,7 +82,7 @@ public:
     /// Returns the total size in bytes of a vertex in this layout.
     unsigned vertexSize() const;
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///

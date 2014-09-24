@@ -72,7 +72,7 @@ Real InputAxis::value() const
     return _value;
 }
 
-void InputAxis::encode(ObjectEncoder& encoder) const
+void InputAxis::encode(Encoder& encoder) const
 {
     InputAxisEncoder::encode(*this, encoder);
 }

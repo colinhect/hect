@@ -27,7 +27,7 @@
 
 using namespace hect;
 
-void TextureEncoder::encode(const Texture& texture, ObjectEncoder& encoder)
+void TextureEncoder::encode(const Texture& texture, Encoder& encoder)
 {
     texture;
     encoder;

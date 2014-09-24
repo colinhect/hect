@@ -38,12 +38,12 @@ Camera::Camera() :
 {
 }
 
-void Camera::encode(ObjectEncoder& encoder) const
+void Camera::encode(Encoder& encoder) const
 {
-    encoder.encodeReal("fieldOfView", fieldOfView.degrees());
-    encoder.encodeReal("aspectRatio", aspectRatio);
-    encoder.encodeReal("nearClip", nearClip);
-    encoder.encodeReal("farClip", farClip);
+    encoder << member("fieldOfView", fieldOfView)
+        << member("aspectRatio", aspectRatio)
+        << member("nearClip", nearClip)
+        << member("farClip", farClip);
 }
 
 void Camera::decode(ObjectDecoder& decoder, AssetCache& assetCache)

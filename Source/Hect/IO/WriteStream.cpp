@@ -98,24 +98,3 @@ void WriteStream::writeBool(bool value)
 {
     writeUInt8(value ? 1 : 0);
 }
-
-void WriteStream::writeVector2(const Vector2& value)
-{
-    writeReal(value.x);
-    writeReal(value.y);
-}
-
-void WriteStream::writeVector3(const Vector3& value)
-{
-    writeReal(value.x);
-    writeReal(value.y);
-    writeReal(value.z);
-}
-
-void WriteStream::writeVector4(const Vector4& value)
-{
-    writeReal(value.x);
-    writeReal(value.y);
-    writeReal(value.z);
-    writeReal(value.w);
-}

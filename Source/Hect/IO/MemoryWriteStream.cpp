@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MemoryWriteStream.h"
 
+#include <cassert>
+
 #include "Hect/Core/Error.h"
 
 using namespace hect;

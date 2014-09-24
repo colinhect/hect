@@ -261,7 +261,7 @@ Matrix4 UniformValue::asMatrix4() const
     return (Matrix4)_value.as<Matrix4T<float>>();
 }
 
-void UniformValue::encode(ObjectEncoder& encoder) const
+void UniformValue::encode(Encoder& encoder) const
 {
     UniformValueEncoder::encode(*this, encoder);
 }

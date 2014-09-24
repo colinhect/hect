@@ -25,6 +25,16 @@
 
 using namespace hect;
 
+JsonEncoder::JsonEncoder() :
+    _memberSelected(false)
+{
+}
+
+Sequence<JsonValue> JsonEncoder::jsonValues()
+{
+    return Sequence<JsonValue>(_completed.begin(), _completed.end());
+}
+
 bool JsonEncoder::isBinaryStream() const
 {
     return false;
@@ -35,65 +45,27 @@ WriteStream& JsonEncoder::binaryStream()
     throw Error("The encoder is not writing to a binary stream");
 }
 
-ArrayEncoder JsonEncoder::encodeArray()
+Encoder& JsonEncoder::beginArray()
 {
-    if (!_valueStack.empty())
-    {
-        throw Error("Current encoding object has not ended");
-    }
-
+    _memberSelected = false;
     _valueStack.push(JsonValue(JsonValueType_Array));
-    return ArrayEncoder(this);
+    return *this;
 }
 
-ObjectEncoder JsonEncoder::encodeObject()
-{
-    if (!_valueStack.empty())
-    {
-        throw Error("Current encoding object has not ended");
-    }
-
-    _valueStack.push(JsonValue(JsonValueType_Object));
-    return ObjectEncoder(this);
-}
-
-Sequence<JsonValue> JsonEncoder::jsonValues()
-{
-    return Sequence<JsonValue>(_completed.begin(), _completed.end());
-}
-
-void JsonEncoder::beginArray()
-{
-    assert(_valueStack.top().isArray());
-    _valueStack.push(JsonValue(JsonValueType_Array));
-}
-
-void JsonEncoder::beginArray(const char* name)
-{
-    assert(_valueStack.top().isObject());
-    _nameStack.push(name);
-    _valueStack.push(JsonValue(JsonValueType_Array));
-}
-
-void JsonEncoder::endArray()
+Encoder& JsonEncoder::endArray()
 {
     endObject();
+    return *this;
 }
 
-void JsonEncoder::beginObject()
+Encoder& JsonEncoder::beginObject()
 {
-    assert(_valueStack.top().isArray());
+    _memberSelected = false;
     _valueStack.push(JsonValue(JsonValueType_Object));
+    return *this;
 }
 
-void JsonEncoder::beginObject(const char* name)
-{
-    assert(_valueStack.top().isObject());
-    _nameStack.push(name);
-    _valueStack.push(JsonValue(JsonValueType_Object));
-}
-
-void JsonEncoder::endObject()
+Encoder& JsonEncoder::endObject()
 {
     JsonValue value = _valueStack.top();
     _valueStack.pop();
@@ -111,178 +83,109 @@ void JsonEncoder::endObject()
         _valueStack.top().addMember(_nameStack.top(), value);
         _nameStack.pop();
     }
+    return *this;
 }
 
-void JsonEncoder::encodeString(const std::string& value)
+Encoder& JsonEncoder::selectMember(const char* name)
+{
+    if (_valueStack.empty() || !_valueStack.top().isObject())
+    {
+        throw Error("Current encoding object cannot have named members");
+    }
+    _nameStack.push(name);
+    _memberSelected = true;
+    return *this;
+}
+
+Encoder& JsonEncoder::encodeString(const std::string& value)
 {
     encode(value);
+    return *this;
 }
 
-void JsonEncoder::encodeString(const char* name, const std::string& value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeInt8(int8_t value)
+Encoder& JsonEncoder::encodeInt8(int8_t value)
 {
     encode(value);
+    return *this;
 }
 
-void JsonEncoder::encodeInt8(const char* name, int8_t value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeUInt8(uint8_t value)
+Encoder& JsonEncoder::encodeUInt8(uint8_t value)
 {
     encode(value);
+    return *this;
 }
 
-void JsonEncoder::encodeUInt8(const char* name, uint8_t value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeInt16(int16_t value)
+Encoder& JsonEncoder::encodeInt16(int16_t value)
 {
     encode(value);
+    return *this;
 }
 
-void JsonEncoder::encodeInt16(const char* name, int16_t value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeUInt16(uint16_t value)
+Encoder& JsonEncoder::encodeUInt16(uint16_t value)
 {
     encode(value);
+    return *this;
 }
 
-void JsonEncoder::encodeUInt16(const char* name, uint16_t value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeInt32(int32_t value)
+Encoder& JsonEncoder::encodeInt32(int32_t value)
 {
     encode(value);
+    return *this;
 }
 
-void JsonEncoder::encodeInt32(const char* name, int32_t value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeUInt32(uint32_t value)
+Encoder& JsonEncoder::encodeUInt32(uint32_t value)
 {
     encode(value);
+    return *this;
 }
 
-void JsonEncoder::encodeUInt32(const char* name, uint32_t value)
+Encoder& JsonEncoder::encodeInt64(int64_t value)
 {
-    encode(name, value);
+    encode(static_cast<double>(value));
+    return *this;
 }
 
-void JsonEncoder::encodeInt64(int64_t value)
+Encoder& JsonEncoder::encodeUInt64(uint64_t value)
 {
-    encode((double)value);
+    encode(static_cast<double>(value));
+    return *this;
 }
 
-void JsonEncoder::encodeInt64(const char* name, int64_t value)
-{
-    encode(name, (double)value);
-}
-
-void JsonEncoder::encodeUInt64(uint64_t value)
-{
-    encode((double)value);
-}
-
-void JsonEncoder::encodeUInt64(const char* name, uint64_t value)
-{
-    encode(name, (double)value);
-}
-
-void JsonEncoder::encodeFloat32(float value)
+Encoder& JsonEncoder::encodeFloat32(float value)
 {
     encode(value);
+    return *this;
 }
 
-void JsonEncoder::encodeFloat32(const char* name, float value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeFloat64(double value)
+Encoder& JsonEncoder::encodeFloat64(double value)
 {
     encode(value);
+    return *this;
 }
 
-void JsonEncoder::encodeFloat64(const char* name, double value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeReal(Real value)
+Encoder& JsonEncoder::encodeBool(bool value)
 {
     encode(value);
-}
-
-void JsonEncoder::encodeReal(const char* name, Real value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeBool(bool value)
-{
-    encode(value);
-}
-
-void JsonEncoder::encodeBool(const char* name, bool value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeVector2(const Vector2& value)
-{
-    encode(value);
-}
-
-void JsonEncoder::encodeVector2(const char* name, const Vector2& value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeVector3(const Vector3& value)
-{
-    encode(value);
-}
-
-void JsonEncoder::encodeVector3(const char* name, const Vector3& value)
-{
-    encode(name, value);
-}
-
-void JsonEncoder::encodeVector4(const Vector4& value)
-{
-    encode(value);
-}
-
-void JsonEncoder::encodeVector4(const char* name, const Vector4& value)
-{
-    encode(name, value);
+    return *this;
 }
 
 void JsonEncoder::encode(const JsonValue& value)
 {
     JsonValue& top = _valueStack.top();
-    assert(top.isArray());
-    top.addElement(value);
-}
+    if (top.isArray())
+    {
+        top.addElement(value);
+    }
+    else if (top.isObject())
+    {
+        if (!_memberSelected)
+        {
+            throw Error("Cannot encode a value to an object without first selecting a member");
+        }
 
-void JsonEncoder::encode(const char* name, const JsonValue& value)
-{
-    JsonValue& top = _valueStack.top();
-    assert(top.isObject());
-    top.addMember(name, value);
+        top.addMember(_nameStack.top(), value);
+
+        _memberSelected = false;
+        _nameStack.pop();
+    }
 }

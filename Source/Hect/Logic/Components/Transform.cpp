@@ -31,18 +31,11 @@ Transform::Transform() :
 {
 }
 
-void Transform::encode(ObjectEncoder& encoder) const
+void Transform::encode(Encoder& encoder) const
 {
-    Vector3 axis;
-    Angle angle;
-    localRotation.toAxisAngle(axis, angle);
-
-    encoder.encodeVector3("localPosition", localPosition);
-    encoder.encodeVector3("localScale", localScale);
-
-    ObjectEncoder rotationEncoder = encoder.encodeObject("localRotation");
-    rotationEncoder.encodeVector3("axis", axis);
-    rotationEncoder.encodeReal("angle", angle.degrees());
+    encoder << member("localPosition", localPosition)
+        << member("localScale", localScale)
+        << member("localRotation", localRotation);
 }
 
 void Transform::decode(ObjectDecoder& decoder, AssetCache& assetCache)

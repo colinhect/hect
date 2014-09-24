@@ -248,4 +248,10 @@ bool Vector3T<T>::operator!=(const Vector3T& v) const
     return !(*this == v);
 }
 
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const Vector3T<T>& v)
+{
+    return encoder << beginArray() << v.x << v.y << v.z << endArray();
+}
+
 }

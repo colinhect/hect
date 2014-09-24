@@ -75,7 +75,7 @@ Technique& Material::preferedTechnique()
     return _techniques[0];
 }
 
-void Material::encode(ObjectEncoder& encoder) const
+void Material::encode(Encoder& encoder) const
 {
     MaterialEncoder::encode(*this, encoder);
 }

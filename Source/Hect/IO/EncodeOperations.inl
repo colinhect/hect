@@ -21,30 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include "Hect/Logic/Component.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Math/Matrix4.h"
-#include "Hect/Math/Quaternion.h"
-#include "Hect/Spacial/AxisAlignedBox.h"
-
 namespace hect
 {
 
-///
-/// The bounds of an entity.
-class BoundingBox :
-    public Component<BoundingBox>
+template <typename T>
+EncodeMember<T>::EncodeMember(const T& value) :
+    name(nullptr),
+    value(value)
 {
-public:
+}
 
-    ///
-    /// The bounds as an axis aligned box.
-    AxisAlignedBox axisAlignedBox;
+template <typename T>
+EncodeMember<T>::EncodeMember(const char* name, const T& value) :
+    name(name),
+    value(value)
+{
+}
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-};
+template <typename T>
+EncodeMember<T> member(const char* name, const T& value)
+{
+    return EncodeMember<T>(name, value);
+}
 
 }

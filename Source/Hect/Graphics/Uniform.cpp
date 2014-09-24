@@ -149,7 +149,7 @@ void Uniform::setLocation(int location)
     _location = location;
 }
 
-void Uniform::encode(ObjectEncoder& encoder) const
+void Uniform::encode(Encoder& encoder) const
 {
     UniformEncoder::encode(*this, encoder);
 }

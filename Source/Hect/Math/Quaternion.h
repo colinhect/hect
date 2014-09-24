@@ -193,6 +193,9 @@ public:
 
 typedef QuaternionT<Real> Quaternion;
 
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const QuaternionT<T>& q);
+
 }
 
 #include "Hect/Math/Matrix4.h"

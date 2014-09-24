@@ -42,7 +42,7 @@ public:
     /// Encodes the object.
     ///
     /// \param encoder The encoder to use.
-    virtual void encode(ObjectEncoder& encoder) const;
+    virtual void encode(Encoder& encoder) const;
 
     ///
     /// Encodes the object to a JSON value.

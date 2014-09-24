@@ -215,4 +215,13 @@ QuaternionT<T>::operator Vector4T<T>() const
     return Vector4T<T>(x, y, z, w);
 }
 
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const QuaternionT<T>& q)
+{
+    Vector3T<T> axis;
+    Angle angle;
+    q.toAxisAngle(axis, angle);
+    return encoder << member("axis", axis) << member("angle", angle);
+}
+
 }

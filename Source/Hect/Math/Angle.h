@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Real.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
@@ -131,5 +132,7 @@ public:
 private:
     Real _radians;
 };
+
+Encoder& operator<<(Encoder& encoder, Angle angle);
 
 }

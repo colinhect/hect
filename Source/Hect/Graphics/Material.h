@@ -81,7 +81,7 @@ public:
     /// \throws Error If the material does not have any techniques.
     Technique& preferedTechnique();
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:

@@ -70,8 +70,9 @@ TEST_CASE("Encoding_SingleObject")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
-        ObjectEncoder object = encoder.encodeObject();
-        object.encodeString("String", "Testing");
+        encoder << beginObject()
+            << member("String", std::string("Testing"))
+            << endObject();
     }, [](Decoder& decoder)
     {
         ObjectDecoder object = decoder.decodeObject();
@@ -85,10 +86,9 @@ TEST_CASE("Encoding_SingleArray")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
-        ArrayEncoder array = encoder.encodeArray();
-        array.encodeString("Zero");
-        array.encodeString("One");
-        array.encodeString("Two");
+        encoder << beginArray()
+            << std::string("Zero") << std::string("One") << std::string("Two")
+            << endArray();
     }, [](Decoder& decoder)
     {
         ArrayDecoder array = decoder.decodeArray();
@@ -109,11 +109,11 @@ TEST_CASE("Encoding_ArrayInObject")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
-        ObjectEncoder object = encoder.encodeObject();
-        ArrayEncoder array = object.encodeArray("Array");
-        array.encodeString("Zero");
-        array.encodeString("One");
-        array.encodeString("Two");
+        encoder << beginObject()
+            << beginArray("Array")
+            << std::string("Zero") << std::string("One") << std::string("Two")
+            << endArray()
+            << endObject();
     }, [](Decoder& decoder)
     {
         ObjectDecoder object = decoder.decodeObject();
@@ -138,15 +138,14 @@ TEST_CASE("Encoding_ArrayInArray")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
-        ArrayEncoder array = encoder.encodeArray();
-
+        encoder << beginArray();
         for (int i = 0; i < 3; ++i)
         {
-            ArrayEncoder nested = array.encodeArray();
-            nested.encodeString("Zero");
-            nested.encodeString("One");
-            nested.encodeString("Two");
+            encoder << beginArray()
+                << std::string("Zero") << std::string("One") << std::string("Two")
+                << endArray();
         }
+        encoder << endArray();
     }, [](Decoder& decoder)
     {
         ArrayDecoder array = decoder.decodeArray();
@@ -177,13 +176,14 @@ TEST_CASE("Encoding_ObjectInArray")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
-        ArrayEncoder array = encoder.encodeArray();
-
+        encoder << beginArray();
         for (int i = 0; i < 3; ++i)
         {
-            ObjectEncoder object = array.encodeObject();
-            object.encodeString("String", "Testing");
+            encoder << beginObject()
+                << member("String", std::string("Testing"))
+                << endObject();
         }
+        encoder << endArray();
     }, [](Decoder& decoder)
     {
         ArrayDecoder array = decoder.decodeArray();
@@ -207,24 +207,20 @@ TEST_CASE("Encoding_AllInArray")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
-        ArrayEncoder array = encoder.encodeArray();
-
-        array.encodeString("Test");
-        array.encodeInt8(12);
-        array.encodeUInt8(12);
-        array.encodeInt16(12);
-        array.encodeUInt16(12);
-        array.encodeInt32(12);
-        array.encodeUInt32(12);
-        array.encodeInt64(12);
-        array.encodeUInt64(12);
-        array.encodeFloat32(123.0f);
-        array.encodeFloat64(123.0);
-        array.encodeReal(123);
-        array.encodeBool(true);
-        array.encodeVector2(Vector2(1, 2));
-        array.encodeVector3(Vector3(1, 2, 3));
-        array.encodeVector4(Vector4(1, 2, 3, 4));
+        encoder << beginArray()
+            << std::string("Test")
+            << (int8_t)12
+            << (uint8_t)12
+            << (int16_t)12
+            << (uint16_t)12
+            << (int32_t)12
+            << (uint32_t)12
+            << (int64_t)12
+            << (uint64_t)12
+            << 123.0f
+            << 123.0
+            << true
+            << endArray();
     }, [](Decoder& decoder)
     {
         ArrayDecoder array = decoder.decodeArray();
@@ -251,24 +247,7 @@ TEST_CASE("Encoding_AllInArray")
         REQUIRE(array.hasMoreElements());
         REQUIRE(array.decodeFloat64() == 123.0);
         REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeReal() == 123);
-        REQUIRE(array.hasMoreElements());
         REQUIRE(array.decodeBool() == true);
-        REQUIRE(array.hasMoreElements());
-        Vector2 v2 = array.decodeVector2();
-        REQUIRE(v2.x == 1);
-        REQUIRE(v2.y == 2);
-        REQUIRE(array.hasMoreElements());
-        Vector3 v3 = array.decodeVector3();
-        REQUIRE(v3.x == 1);
-        REQUIRE(v3.y == 2);
-        REQUIRE(v3.z == 3);
-        REQUIRE(array.hasMoreElements());
-        Vector4 v4 = array.decodeVector4();
-        REQUIRE(v4.x == 1);
-        REQUIRE(v4.y == 2);
-        REQUIRE(v4.z == 3);
-        REQUIRE(v4.w == 4);
         REQUIRE(!array.hasMoreElements());
     });
 }
@@ -277,24 +256,20 @@ TEST_CASE("Encoding_AllInObject")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
-        ObjectEncoder object = encoder.encodeObject();
-
-        object.encodeString("String", "Test");
-        object.encodeInt8("Int8", 12);
-        object.encodeUInt8("UInt8", 12);
-        object.encodeInt16("Int16", 12);
-        object.encodeUInt16("UInt16", 12);
-        object.encodeInt32("Int32", 12);
-        object.encodeUInt32("UInt32", 12);
-        object.encodeInt64("Int64", 12);
-        object.encodeUInt64("UInt64", 12);
-        object.encodeFloat32("Float32", 123.0f);
-        object.encodeFloat64("Float64", 123.0);
-        object.encodeReal("Real", 123);
-        object.encodeBool("Bool", true);
-        object.encodeVector2("Vector2", Vector2(1, 2));
-        object.encodeVector3("Vector3", Vector3(1, 2, 3));
-        object.encodeVector4("Vector4", Vector4(1, 2, 3, 4));
+        encoder << beginObject()
+            << member("String", std::string("Test"))
+            << member("Int8", (int8_t)12)
+            << member("UInt8", (uint8_t)12)
+            << member("Int16", (int16_t)12)
+            << member("UInt16", (uint16_t)12)
+            << member("Int32", (int32_t)12)
+            << member("UInt32", (uint32_t)12)
+            << member("Int64", (int64_t)12)
+            << member("UInt64", (uint64_t)12)
+            << member("Float32", 123.0f)
+            << member("Float64", 123.0)
+            << member("Bool", true)
+            << endObject();
     }, [](Decoder& decoder)
     {
         ObjectDecoder object = decoder.decodeObject();
@@ -321,24 +296,7 @@ TEST_CASE("Encoding_AllInObject")
         REQUIRE(object.decodeFloat32("Float32") == 123.0f);
         REQUIRE(object.hasMember("Float64"));
         REQUIRE(object.decodeFloat64("Float64") == 123.0);
-        REQUIRE(object.hasMember("Real"));
-        REQUIRE(object.decodeReal("Real") == 123);
         REQUIRE(object.hasMember("Bool"));
         REQUIRE(object.decodeBool("Bool") == true);
-        REQUIRE(object.hasMember("Vector2"));
-        Vector2 v2 = object.decodeVector2("Vector2");
-        REQUIRE(v2.x == 1);
-        REQUIRE(v2.y == 2);
-        REQUIRE(object.hasMember("Vector3"));
-        Vector3 v3 = object.decodeVector3("Vector3");
-        REQUIRE(v3.x == 1);
-        REQUIRE(v3.y == 2);
-        REQUIRE(v3.z == 3);
-        REQUIRE(object.hasMember("Vector4"));
-        Vector4 v4 = object.decodeVector4("Vector4");
-        REQUIRE(v4.x == 1);
-        REQUIRE(v4.y == 2);
-        REQUIRE(v4.z == 3);
-        REQUIRE(v4.w == 4);
     });
 }

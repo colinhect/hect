@@ -25,7 +25,7 @@
 
 using namespace hect;
 
-void BoundingBox::encode(ObjectEncoder& encoder) const
+void BoundingBox::encode(Encoder& encoder) const
 {
     encoder;
 }

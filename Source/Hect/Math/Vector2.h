@@ -26,6 +26,7 @@
 #include <cmath>
 
 #include "Hect/Core/Real.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Math/Angle.h"
 
 namespace hect
@@ -235,6 +236,9 @@ typedef Vector2T<Real> Vector2;
 ///
 /// A 2-dimensional vector of integers.
 typedef Vector2T<int> IntVector2;
+
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const Vector2T<T>& v);
 
 }
 

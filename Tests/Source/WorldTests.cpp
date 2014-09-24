@@ -41,9 +41,10 @@ public:
     {
     }
 
-    void encode(ObjectEncoder& encoder) const
+    void encode(Encoder& encoder) const
     {
-        encoder.encodeString("value", value);
+        encoder.selectMember("value");
+        encoder.encodeString(value);
     }
 
     void decode(ObjectDecoder& decoder, AssetCache& assetCache)

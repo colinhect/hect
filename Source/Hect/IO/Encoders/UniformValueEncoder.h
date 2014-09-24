@@ -31,7 +31,7 @@ namespace hect
 class UniformValueEncoder
 {
 public:
-    static void encode(const UniformValue& uniformValue, ObjectEncoder& encoder);
+    static void encode(const UniformValue& uniformValue, Encoder& encoder);
     static void decode(UniformValue& uniformValue, ObjectDecoder& decoder);
 };
 

@@ -25,9 +25,12 @@
 
 using namespace hect;
 
-void LightProbe::encode(ObjectEncoder& encoder) const
+void LightProbe::encode(Encoder& encoder) const
 {
+    encoder;
+    /* TODO: Re-enable encoding
     encoder.encodeString("texture", texture.path().toString());
+    */
 }
 
 void LightProbe::decode(ObjectDecoder& decoder, AssetCache& assetCache)

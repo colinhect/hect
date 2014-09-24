@@ -26,6 +26,7 @@
 #include <cmath>
 
 #include "Hect/Core/Real.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Math/Angle.h"
 
 namespace hect
@@ -244,6 +245,9 @@ typedef Vector3T<Real> Vector3;
 ///
 /// A 3-dimensional vector of integers.
 typedef Vector3T<int> IntVector3;
+
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const Vector3T<T>& v);
 
 }
 

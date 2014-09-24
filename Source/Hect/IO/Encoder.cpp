@@ -23,308 +23,100 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Encoder.h"
 
-using namespace hect;
-
-ArrayEncoder::ArrayEncoder(const ArrayEncoder& encoder) :
-    _encoder(nullptr)
+namespace hect
 {
-    encoder;
-}
 
-ArrayEncoder::ArrayEncoder(ArrayEncoder&& encoder) :
-    _encoder(encoder._encoder)
+Encoder& operator<<(Encoder& encoder, const BeginArray& beginArray)
 {
-    encoder._encoder = nullptr;
-}
-
-ArrayEncoder::~ArrayEncoder()
-{
-    if (_encoder)
+    if (beginArray.name)
     {
-        _encoder->endArray();
+        encoder.selectMember(beginArray.name);
     }
+    return encoder.beginArray();
 }
 
-bool ArrayEncoder::isBinaryStream() const
+Encoder& operator<<(Encoder& encoder, const EndArray&)
 {
-    assert(_encoder);
-    return _encoder->isBinaryStream();
+    return encoder.endArray();
 }
 
-WriteStream& ArrayEncoder::binaryStream()
+Encoder& operator<<(Encoder& encoder, const BeginObject& beginObject)
 {
-    assert(_encoder);
-    return _encoder->binaryStream();
-}
-
-ArrayEncoder ArrayEncoder::encodeArray()
-{
-    assert(_encoder);
-    _encoder->beginArray();
-    return ArrayEncoder(_encoder);
-}
-
-ObjectEncoder ArrayEncoder::encodeObject()
-{
-    assert(_encoder);
-    _encoder->beginObject();
-    return ObjectEncoder(_encoder);
-}
-
-void ArrayEncoder::encodeString(const std::string& value)
-{
-    assert(_encoder);
-    _encoder->encodeString(value);
-}
-
-void ArrayEncoder::encodeInt8(int8_t value)
-{
-    assert(_encoder);
-    _encoder->encodeInt8(value);
-}
-
-void ArrayEncoder::encodeUInt8(uint8_t value)
-{
-    assert(_encoder);
-    _encoder->encodeUInt8(value);
-}
-
-void ArrayEncoder::encodeInt16(int16_t value)
-{
-    assert(_encoder);
-    _encoder->encodeInt16(value);
-}
-
-void ArrayEncoder::encodeUInt16(uint16_t value)
-{
-    assert(_encoder);
-    _encoder->encodeUInt16(value);
-}
-
-void ArrayEncoder::encodeInt32(int32_t value)
-{
-    assert(_encoder);
-    _encoder->encodeInt32(value);
-}
-
-void ArrayEncoder::encodeUInt32(uint32_t value)
-{
-    assert(_encoder);
-    _encoder->encodeUInt32(value);
-}
-
-void ArrayEncoder::encodeInt64(int64_t value)
-{
-    assert(_encoder);
-    _encoder->encodeInt64(value);
-}
-
-void ArrayEncoder::encodeUInt64(uint64_t value)
-{
-    assert(_encoder);
-    _encoder->encodeUInt64(value);
-}
-
-void ArrayEncoder::encodeFloat32(float value)
-{
-    assert(_encoder);
-    _encoder->encodeFloat32(value);
-}
-
-void ArrayEncoder::encodeFloat64(double value)
-{
-    assert(_encoder);
-    _encoder->encodeFloat64(value);
-}
-
-void ArrayEncoder::encodeReal(Real value)
-{
-    assert(_encoder);
-    _encoder->encodeReal(value);
-}
-
-void ArrayEncoder::encodeBool(bool value)
-{
-    assert(_encoder);
-    _encoder->encodeBool(value);
-}
-
-void ArrayEncoder::encodeVector2(const Vector2& value)
-{
-    assert(_encoder);
-    _encoder->encodeVector2(value);
-}
-
-void ArrayEncoder::encodeVector3(const Vector3& value)
-{
-    assert(_encoder);
-    _encoder->encodeVector3(value);
-}
-
-void ArrayEncoder::encodeVector4(const Vector4& value)
-{
-    assert(_encoder);
-    _encoder->encodeVector4(value);
-}
-
-ArrayEncoder::ArrayEncoder() :
-    _encoder(nullptr)
-{
-}
-
-ArrayEncoder::ArrayEncoder(Encoder* encoder) :
-    _encoder(encoder)
-{
-}
-
-ObjectEncoder::ObjectEncoder(const ObjectEncoder& encoder) :
-    _encoder(nullptr)
-{
-    encoder;
-}
-
-ObjectEncoder::ObjectEncoder(ObjectEncoder&& encoder) :
-    _encoder(encoder._encoder)
-{
-    encoder._encoder = nullptr;
-}
-
-ObjectEncoder::~ObjectEncoder()
-{
-    if (_encoder)
+    if (beginObject.name)
     {
-        _encoder->endObject();
+        encoder.selectMember(beginObject.name);
     }
+    return encoder.beginObject();
 }
 
-bool ObjectEncoder::isBinaryStream() const
+Encoder& operator<<(Encoder& encoder, const EndObject&)
 {
-    assert(_encoder);
-    return _encoder->isBinaryStream();
+    return encoder.endObject();
 }
 
-WriteStream& ObjectEncoder::binaryStream()
+Encoder& operator<<(Encoder& encoder, const char* value)
 {
-    assert(_encoder);
-    return _encoder->binaryStream();
+    return encoder.encodeString(value);
 }
 
-ArrayEncoder ObjectEncoder::encodeArray(const char* name)
+Encoder& operator<<(Encoder& encoder, const std::string& value)
 {
-    assert(_encoder);
-    _encoder->beginArray(name);
-    return ArrayEncoder(_encoder);
+    return encoder.encodeString(value);
 }
 
-ObjectEncoder ObjectEncoder::encodeObject(const char* name)
+Encoder& operator<<(Encoder& encoder, int8_t value)
 {
-    assert(_encoder);
-    _encoder->beginObject(name);
-    return ObjectEncoder(_encoder);
+    return encoder.encodeInt8(value);
 }
 
-void ObjectEncoder::encodeString(const char* name, const std::string& value)
+Encoder& operator<<(Encoder& encoder, uint8_t value)
 {
-    assert(_encoder);
-    _encoder->encodeString(name, value);
+    return encoder.encodeUInt8(value);
 }
 
-void ObjectEncoder::encodeInt8(const char* name, int8_t value)
+Encoder& operator<<(Encoder& encoder, int16_t value)
 {
-    assert(_encoder);
-    _encoder->encodeInt8(name, value);
+    return encoder.encodeInt16(value);
 }
 
-void ObjectEncoder::encodeUInt8(const char* name, uint8_t value)
+Encoder& operator<<(Encoder& encoder, uint16_t value)
 {
-    assert(_encoder);
-    _encoder->encodeUInt8(name, value);
+    return encoder.encodeUInt16(value);
 }
 
-void ObjectEncoder::encodeInt16(const char* name, int16_t value)
+Encoder& operator<<(Encoder& encoder, int32_t value)
 {
-    assert(_encoder);
-    _encoder->encodeInt16(name, value);
+    return encoder.encodeInt32(value);
 }
 
-void ObjectEncoder::encodeUInt16(const char* name, uint16_t value)
+Encoder& operator<<(Encoder& encoder, uint32_t value)
 {
-    assert(_encoder);
-    _encoder->encodeUInt16(name, value);
+    return encoder.encodeUInt32(value);
 }
 
-void ObjectEncoder::encodeInt32(const char* name, int32_t value)
+Encoder& operator<<(Encoder& encoder, int64_t value)
 {
-    assert(_encoder);
-    _encoder->encodeInt32(name, value);
+    return encoder.encodeInt64(value);
 }
 
-void ObjectEncoder::encodeUInt32(const char* name, uint32_t value)
+Encoder& operator<<(Encoder& encoder, uint64_t value)
 {
-    assert(_encoder);
-    _encoder->encodeUInt32(name, value);
+    return encoder.encodeUInt64(value);
 }
 
-void ObjectEncoder::encodeInt64(const char* name, int64_t value)
+Encoder& operator<<(Encoder& encoder, float value)
 {
-    assert(_encoder);
-    _encoder->encodeInt64(name, value);
+    return encoder.encodeFloat32(value);
 }
 
-void ObjectEncoder::encodeUInt64(const char* name, uint64_t value)
+Encoder& operator<<(Encoder& encoder, double value)
 {
-    assert(_encoder);
-    _encoder->encodeUInt64(name, value);
+    return encoder.encodeFloat64(value);
 }
 
-void ObjectEncoder::encodeFloat32(const char* name, float value)
+Encoder& operator<<(Encoder& encoder, bool value)
 {
-    assert(_encoder);
-    _encoder->encodeFloat32(name, value);
+    return encoder.encodeBool(value);
 }
 
-void ObjectEncoder::encodeFloat64(const char* name, double value)
-{
-    assert(_encoder);
-    _encoder->encodeFloat64(name, value);
-}
-
-void ObjectEncoder::encodeReal(const char* name, Real value)
-{
-    assert(_encoder);
-    _encoder->encodeReal(name, value);
-}
-
-void ObjectEncoder::encodeBool(const char* name, bool value)
-{
-    assert(_encoder);
-    _encoder->encodeBool(name, value);
-}
-
-void ObjectEncoder::encodeVector2(const char* name, const Vector2& value)
-{
-    assert(_encoder);
-    _encoder->encodeVector2(name, value);
-}
-
-void ObjectEncoder::encodeVector3(const char* name, const Vector3& value)
-{
-    assert(_encoder);
-    _encoder->encodeVector3(name, value);
-}
-
-void ObjectEncoder::encodeVector4(const char* name, const Vector4& value)
-{
-    assert(_encoder);
-    _encoder->encodeVector4(name, value);
-}
-
-ObjectEncoder::ObjectEncoder() :
-    _encoder(nullptr)
-{
-}
-
-ObjectEncoder::ObjectEncoder(Encoder* encoder) :
-    _encoder(encoder)
-{
 }

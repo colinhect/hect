@@ -450,6 +450,9 @@
     <ClInclude Include="Source\Hect\Logic\Systems\CameraSystem.h">
       <Filter>Source\Hect\Logic\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\IO\EncodeOperations.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -779,6 +782,9 @@
     <ClCompile Include="Source\Hect\Logic\Systems\CameraSystem.cpp">
       <Filter>Source\Hect\Logic\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Hect\IO\EncodeOperations.cpp">
+      <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Hect\Core\Any.inl">
@@ -858,6 +864,9 @@
     </None>
     <None Include="Source\Hect\Logic\System.inl">
       <Filter>Source\Hect\Logic</Filter>
+    </None>
+    <None Include="Source\Hect\IO\EncodeOperations.inl">
+      <Filter>Source\Hect\IO</Filter>
     </None>
   </ItemGroup>
 </Project>

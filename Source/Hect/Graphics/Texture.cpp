@@ -280,7 +280,7 @@ int Texture::bytesPerPixel() const
     return 0;
 }
 
-void Texture::encode(ObjectEncoder& encoder) const
+void Texture::encode(Encoder& encoder) const
 {
     TextureEncoder::encode(*this, encoder);
 }

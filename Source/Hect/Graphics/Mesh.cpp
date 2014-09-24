@@ -217,7 +217,7 @@ const AxisAlignedBox& Mesh::axisAlignedBox() const
     return _axisAlignedBox;
 }
 
-void Mesh::encode(ObjectEncoder& encoder) const
+void Mesh::encode(Encoder& encoder) const
 {
     MeshEncoder::encode(*this, encoder);
 }

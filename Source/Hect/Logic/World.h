@@ -97,7 +97,7 @@ public:
     /// Returns the number of active entities in the world.
     size_t entityCount() const;
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:
@@ -108,7 +108,7 @@ private:
 
     void addEntityComponentBase(Entity& entity, const ComponentBase& component);
 
-    void encodeComponents(const Entity& entity, ObjectEncoder& encoder);
+    void encodeComponents(const Entity& entity, Encoder& encoder);
     void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
 
     void addSystemToTickOrder(System& system);

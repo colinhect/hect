@@ -27,9 +27,7 @@
 #include <memory>
 #include <string>
 
-#include "Hect/Math/Vector2.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Math/Vector4.h"
+#include "Hect/Core/Real.h"
 
 namespace hect
 {
@@ -131,24 +129,6 @@ public:
     ///
     /// \param value The value to write.
     void writeBool(bool value);
-
-    ///
-    /// Writes a 2-dimensional vector.
-    ///
-    /// \param value The vector to write.
-    void writeVector2(const Vector2& value);
-
-    ///
-    /// Writes a 3-dimensional vector.
-    ///
-    /// \param value The vector to write.
-    void writeVector3(const Vector3& value);
-
-    ///
-    /// Writes a 4-dimensional vector.
-    ///
-    /// \param value The vector to write.
-    void writeVector4(const Vector4& value);
 
     ///
     /// Returns the current byte offset position in the stream.

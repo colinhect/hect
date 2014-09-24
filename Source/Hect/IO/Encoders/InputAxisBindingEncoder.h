@@ -31,7 +31,7 @@ namespace hect
 class InputAxisBindingEncoder
 {
 public:
-    static void encode(const InputAxisBinding& inputAxisSource, ObjectEncoder& encoder);
+    static void encode(const InputAxisBinding& inputAxisSource, Encoder& encoder);
     static void decode(InputAxisBinding& inputAxisSource, ObjectDecoder& decoder, AssetCache& assetCache);
 };
 

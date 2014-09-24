@@ -25,8 +25,9 @@
 
 using namespace hect;
 
-void ShaderEncoder::encode(const Shader& shader, ObjectEncoder& encoder)
+void ShaderEncoder::encode(const Shader& shader, Encoder& encoder)
 {
+    /* TODO: Re-enable encoding
     // Modules
     {
         ArrayEncoder modulesEncoder = encoder.encodeArray("modules");
@@ -41,10 +42,11 @@ void ShaderEncoder::encode(const Shader& shader, ObjectEncoder& encoder)
         ArrayEncoder uniformsEncoder = encoder.encodeArray("uniforms");
         for (const Uniform& uniform : shader.uniforms())
         {
-            ObjectEncoder uniformEncoder = uniformsEncoder.encodeObject();
+            Encoder uniformEncoder = uniformsEncoder.encodeObject();
             uniform.encode(uniformEncoder);
         }
     }
+    */
 }
 
 void ShaderEncoder::decode(Shader& shader, ObjectDecoder& decoder, AssetCache& assetCache)

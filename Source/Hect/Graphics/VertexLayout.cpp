@@ -95,7 +95,7 @@ unsigned VertexLayout::vertexSize() const
     return _vertexSize;
 }
 
-void VertexLayout::encode(ObjectEncoder& encoder) const
+void VertexLayout::encode(Encoder& encoder) const
 {
     VertexLayoutEncoder::encode(*this, encoder);
 }

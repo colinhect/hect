@@ -120,7 +120,7 @@ Real InputAxisBinding::value() const
     return interpolate(range.x, range.y, _value);
 }
 
-void InputAxisBinding::encode(ObjectEncoder& encoder) const
+void InputAxisBinding::encode(Encoder& encoder) const
 {
     InputAxisBindingEncoder::encode(*this, encoder);
 }

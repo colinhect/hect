@@ -660,7 +660,7 @@ public:
     /// \returns A vector of iterators to the matching entities.
     Entity::ConstIterator::Vector findAncestors(Predicate predicate) const;
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:

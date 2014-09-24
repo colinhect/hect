@@ -27,7 +27,7 @@
 
 using namespace hect;
 
-void InputAxisBindingEncoder::encode(const InputAxisBinding& inputAxisSource, ObjectEncoder& encoder)
+void InputAxisBindingEncoder::encode(const InputAxisBinding& inputAxisSource, Encoder& encoder)
 {
     inputAxisSource;
     encoder;

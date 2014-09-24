@@ -27,17 +27,19 @@
 
 using namespace hect;
 
-void VertexLayoutEncoder::encode(const VertexLayout& vertexLayout, ObjectEncoder& encoder)
+void VertexLayoutEncoder::encode(const VertexLayout& vertexLayout, Encoder& encoder)
 {
+    /* TODO: Re-enable encoding
     ArrayEncoder attributesEncoder = encoder.encodeArray("attributes");
     for (const VertexAttribute& attribute : vertexLayout.attributes())
     {
-        ObjectEncoder attributeEncoder = attributesEncoder.encodeObject();
+        Encoder attributeEncoder = attributesEncoder.encodeObject();
 
         attributeEncoder.encodeEnum("semantic", attribute.semantic());
         attributeEncoder.encodeEnum("type", attribute.type());
         attributeEncoder.encodeUInt32("cardinality", attribute.cardinality());
     }
+    */
 }
 
 void VertexLayoutEncoder::decode(VertexLayout& vertexLayout, ObjectDecoder& decoder)

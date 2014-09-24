@@ -727,20 +727,24 @@ Entity::ConstIterator::Vector Entity::findAncestors(Entity::Predicate predicate)
     return results;
 }
 
-void Entity::encode(ObjectEncoder& encoder) const
+void Entity::encode(Encoder& encoder) const
 {
     ensureInPool();
 
     World& world = *_pool->_world;
 
     world.encodeComponents(*this, encoder);
+    
+    encoder << beginArray("children");
 
-    ArrayEncoder childrenEncoder = encoder.encodeArray("children");
     for (const Entity& child : _children)
     {
-        ObjectEncoder childEncoder = childrenEncoder.encodeObject();
-        child.encode(childEncoder);
+        encoder << beginObject();
+        child.encode(encoder);
+        encoder << endObject();
     }
+
+    encoder << endArray();
 }
 
 void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)

@@ -21,30 +21,61 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "EncodeOperations.h"
 
-#include "Hect/Logic/Component.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Math/Matrix4.h"
-#include "Hect/Math/Quaternion.h"
-#include "Hect/Spacial/AxisAlignedBox.h"
+using namespace hect;
+
+BeginArray::BeginArray() :
+    name(nullptr)
+{
+}
+
+BeginArray::BeginArray(const char* name) :
+    name(name)
+{
+}
+
+BeginObject::BeginObject() :
+    name(nullptr)
+{
+}
+
+BeginObject::BeginObject(const char* name) :
+    name(name)
+{
+}
 
 namespace hect
 {
 
-///
-/// The bounds of an entity.
-class BoundingBox :
-    public Component<BoundingBox>
+BeginArray beginArray()
 {
-public:
+    return BeginArray();
+}
 
-    ///
-    /// The bounds as an axis aligned box.
-    AxisAlignedBox axisAlignedBox;
+BeginArray beginArray(const char* name)
+{
+    return BeginArray(name);
+}
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-};
+EndArray endArray()
+{
+    return EndArray();
+}
+
+BeginObject beginObject()
+{
+    return BeginObject();
+}
+
+BeginObject beginObject(const char* name)
+{
+    return BeginObject(name);
+}
+
+EndObject endObject()
+{
+    return EndObject();
+}
 
 }

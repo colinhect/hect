@@ -209,7 +209,7 @@ public:
     /// Returns the value as a 4 by 4 matrix.
     Matrix4 asMatrix4() const;
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///

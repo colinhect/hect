@@ -32,8 +32,9 @@ using namespace hect;
 
 uint64_t MeshEncoder::IdentifyNumber = 0x84629573;
 
-void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
+void MeshEncoder::encode(const Mesh& mesh, Encoder& encoder)
 {
+    /* TODO: Re-enable encoding
     if (encoder.isBinaryStream())
     {
         encoder.encodeUInt64("identifyNumber", IdentifyNumber);
@@ -41,7 +42,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
 
     // Vertex layout
     {
-        ObjectEncoder vertexLayoutEncoder = encoder.encodeObject("vertexLayout");
+        Encoder vertexLayoutEncoder = encoder.encodeObject("vertexLayout");
         mesh.vertexLayout().encode(vertexLayoutEncoder);
     }
 
@@ -129,6 +130,7 @@ void MeshEncoder::encode(const Mesh& mesh, ObjectEncoder& encoder)
             }
         }
     }
+    */
 }
 
 void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache)

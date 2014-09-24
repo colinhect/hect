@@ -28,22 +28,22 @@
 
 using namespace hect;
 
-void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
+void MaterialEncoder::encode(const Material& material, Encoder& encoder)
 {
     // Techniques
-    ArrayEncoder techniquesEncoder = encoder.encodeArray("techniques");
+    encoder << beginArray("techniques");
     for (const Technique& technique : material.techniques())
     {
         // Passes
-        ArrayEncoder passesEncoder = techniquesEncoder.encodeArray();
+        encoder << beginArray();
         for (const Pass& pass : technique.passes())
         {
-            ObjectEncoder passEncoder = passesEncoder.encodeObject();
+            encoder << beginObject();
 
             // Shader
             if (pass.shader())
             {
-                passEncoder.encodeString("shader", pass.shader().path().toString());
+                encoder << member("shader", pass.shader().path().toString());
             }
             else
             {
@@ -52,27 +52,31 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
 
             // Uniform values
             {
-                ArrayEncoder uniformValuesEncoder = passEncoder.encodeArray("uniformValues");
+                encoder << beginArray("uniformValues");
                 for (const PassUniformValue& uniformValue : pass.uniformValues())
                 {
-                    ObjectEncoder uniformValueEncoder = uniformValuesEncoder.encodeObject();
-                    uniformValueEncoder.encodeString("name", uniformValue.name());
-                    uniformValue.value().encode(uniformValueEncoder);
+                    encoder << beginObject() << member("name", uniformValue.name());
+
+                    uniformValue.value().encode(encoder);
+
+                    encoder << endObject();
                 }
+                encoder << endArray();
             }
 
             // Textures
             {
-                ArrayEncoder texturesEncoder = passEncoder.encodeArray("textures");
+                encoder << beginArray("textures");
                 for (const AssetHandle<Texture>& texture : pass.textures())
                 {
-                    texturesEncoder.encodeString(texture.path().toString());
+                    encoder << texture.path().toString();
                 }
+                encoder << endArray();
             }
 
             // Render state
             {
-                ObjectEncoder renderStateEncoder = passEncoder.encodeObject("renderState");
+                encoder << beginObject("renderState");
 
                 // Bulld a list of all states
                 size_t stateCount = 4;
@@ -101,34 +105,45 @@ void MaterialEncoder::encode(const Material& material, ObjectEncoder& encoder)
 
                 // Enabled states
                 {
-                    ArrayEncoder statesEncoder = renderStateEncoder.encodeArray("enabledFlags");
+                    encoder << beginArray("enabledFlags");
 
                     for (const RenderStateFlag& flag : enabledFlags)
                     {
-                        statesEncoder.encodeEnum(flag);
+                        encoder.encodeEnum(flag);
                     }
+
+                    encoder << endArray();
                 }
 
                 // Disabled states
                 {
-                    ArrayEncoder statesEncoder = renderStateEncoder.encodeArray("disabledFlags");
+                    encoder << beginArray("disabledFlags");
 
                     for (const RenderStateFlag& flag : disabledFlags)
                     {
-                        statesEncoder.encodeEnum(flag);
+                        encoder.encodeEnum(flag);
                     }
+
+                    encoder << endArray();
                 }
 
                 // Blend factors
                 {
-                    ArrayEncoder blendFactorsEncoder = passEncoder.encodeArray("blendFactors");
+                    encoder << beginArray("blendFactors");
 
-                    blendFactorsEncoder.encodeEnum(pass.renderState().sourceBlendFactor());
-                    blendFactorsEncoder.encodeEnum(pass.renderState().destBlendFactor());
+                    encoder.encodeEnum(pass.renderState().sourceBlendFactor());
+                    encoder.encodeEnum(pass.renderState().destBlendFactor());
+
+                    encoder << endArray();
                 }
+
+                encoder << endObject();
             }
+            encoder << endObject();
         }
+        encoder << endArray();
     }
+    encoder << endArray();
 }
 
 void MaterialEncoder::decode(Material& material, ObjectDecoder& decoder, AssetCache& assetCache)

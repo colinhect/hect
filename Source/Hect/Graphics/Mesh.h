@@ -205,7 +205,7 @@ public:
     /// Returns an axis aligned box bounding the mesh.
     const AxisAlignedBox& axisAlignedBox() const;
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///

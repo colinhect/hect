@@ -38,63 +38,44 @@ class JsonEncoder :
     public Encoder
 {
 public:
-    bool isBinaryStream() const;
-    WriteStream& binaryStream();
-
-    ArrayEncoder encodeArray();
-    ObjectEncoder encodeObject();
+    JsonEncoder();
 
     ///
     /// Returns the encoded data values.
     Sequence<JsonValue> jsonValues();
 
+    bool isBinaryStream() const;
+
+    WriteStream& binaryStream();
+
+    Encoder& beginArray();
+    Encoder& endArray();
+
+    Encoder& beginObject();
+    Encoder& endObject();
+
+    Encoder& selectMember(const char* name);
+
+    Encoder& encodeString(const std::string& value);
+    Encoder& encodeInt8(int8_t value);
+    Encoder& encodeUInt8(uint8_t value);
+    Encoder& encodeInt16(int16_t value);
+    Encoder& encodeUInt16(uint16_t value);
+    Encoder& encodeInt32(int32_t value);
+    Encoder& encodeUInt32(uint32_t value);
+    Encoder& encodeInt64(int64_t value);
+    Encoder& encodeUInt64(uint64_t value);
+    Encoder& encodeFloat32(float value);
+    Encoder& encodeFloat64(double value);
+    Encoder& encodeBool(bool value);
+
 private:
-    void beginArray();
-    void beginArray(const char* name);
-    void endArray();
-
-    void beginObject();
-    void beginObject(const char* name);
-    void endObject();
-
-    void encodeString(const std::string& value);
-    void encodeString(const char* name, const std::string& value);
-    void encodeInt8(int8_t value);
-    void encodeInt8(const char* name, int8_t value);
-    void encodeUInt8(uint8_t value);
-    void encodeUInt8(const char* name, uint8_t value);
-    void encodeInt16(int16_t value);
-    void encodeInt16(const char* name, int16_t value);
-    void encodeUInt16(uint16_t value);
-    void encodeUInt16(const char* name, uint16_t value);
-    void encodeInt32(int32_t value);
-    void encodeInt32(const char* name, int32_t value);
-    void encodeUInt32(uint32_t value);
-    void encodeUInt32(const char* name, uint32_t value);
-    void encodeInt64(int64_t value);
-    void encodeInt64(const char* name, int64_t value);
-    void encodeUInt64(uint64_t value);
-    void encodeUInt64(const char* name, uint64_t value);
-    void encodeFloat32(float value);
-    void encodeFloat32(const char* name, float value);
-    void encodeFloat64(double value);
-    void encodeFloat64(const char* name, double value);
-    void encodeReal(Real value);
-    void encodeReal(const char* name, Real value);
-    void encodeBool(bool value);
-    void encodeBool(const char* name, bool value);
-    void encodeVector2(const Vector2& value);
-    void encodeVector2(const char* name, const Vector2& value);
-    void encodeVector3(const Vector3& value);
-    void encodeVector3(const char* name, const Vector3& value);
-    void encodeVector4(const Vector4& value);
-    void encodeVector4(const char* name, const Vector4& value);
-
     void encode(const JsonValue& value);
-    void encode(const char* name, const JsonValue& value);
 
     std::stack<std::string> _nameStack;
     std::stack<JsonValue> _valueStack;
+
+    bool _memberSelected;
 
     JsonValue::Array _completed;
 };

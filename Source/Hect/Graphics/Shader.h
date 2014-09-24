@@ -114,7 +114,7 @@ public:
     /// \throws Error If no uniform with the given name exists.
     const Uniform& uniformWithName(const std::string& name) const;
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///

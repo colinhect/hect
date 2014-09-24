@@ -23,28 +23,61 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/Component.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Math/Matrix4.h"
-#include "Hect/Math/Quaternion.h"
-#include "Hect/Spacial/AxisAlignedBox.h"
+#include "Hect/Core/Uncopyable.h"
 
 namespace hect
 {
 
-///
-/// The bounds of an entity.
-class BoundingBox :
-    public Component<BoundingBox>
+struct BeginArray :
+    public Uncopyable
 {
-public:
+    BeginArray();
+    BeginArray(const char* name);
 
-    ///
-    /// The bounds as an axis aligned box.
-    AxisAlignedBox axisAlignedBox;
-
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    const char* name;
 };
 
+struct EndArray :
+    public Uncopyable
+{
+};
+
+struct BeginObject :
+    public Uncopyable
+{
+    BeginObject();
+    BeginObject(const char* name);
+
+    const char* name;
+};
+
+struct EndObject :
+    public Uncopyable
+{
+};
+
+template <typename T>
+struct EncodeMember :
+    public Uncopyable
+{
+    EncodeMember(const T& value);
+    EncodeMember(const char* name, const T& value);
+
+    const char* name;
+    const T& value;
+};
+
+BeginArray beginArray();
+BeginArray beginArray(const char* name);
+EndArray endArray();
+
+BeginObject beginObject();
+BeginObject beginObject(const char* name);
+EndObject endObject();
+
+template <typename T>
+EncodeMember<T> member(const char* name, const T& value);
+
 }
+
+#include "EncodeOperations.inl"

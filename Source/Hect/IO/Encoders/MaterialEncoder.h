@@ -31,7 +31,7 @@ namespace hect
 class MaterialEncoder
 {
 public:
-    static void encode(const Material& material, ObjectEncoder& encoder);
+    static void encode(const Material& material, Encoder& encoder);
     static void decode(Material& material, ObjectDecoder& decoder, AssetCache& assetCache);
 };
 

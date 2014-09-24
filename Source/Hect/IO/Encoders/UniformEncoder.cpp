@@ -28,8 +28,9 @@
 
 using namespace hect;
 
-void UniformEncoder::encode(const Uniform& uniform, ObjectEncoder& encoder)
+void UniformEncoder::encode(const Uniform& uniform, Encoder& encoder)
 {
+    /* TODO: Re-enable encoding
     // Name
     encoder.encodeString("name", uniform.name());
 
@@ -55,6 +56,7 @@ void UniformEncoder::encode(const Uniform& uniform, ObjectEncoder& encoder)
     {
         throw Error("The uniform does not have a default value or a binding");
     }
+    */
 }
 
 void UniformEncoder::decode(Uniform& uniform, ObjectDecoder& decoder)

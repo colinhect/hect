@@ -31,7 +31,7 @@ namespace hect
 class VertexLayoutEncoder
 {
 public:
-    static void encode(const VertexLayout& vertexLayout, ObjectEncoder& encoder);
+    static void encode(const VertexLayout& vertexLayout, Encoder& encoder);
     static void decode(VertexLayout& vertexLayout, ObjectDecoder& decoder);
 };
 

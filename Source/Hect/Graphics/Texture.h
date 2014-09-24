@@ -213,7 +213,7 @@ public:
     /// Returns the number of bytes in a pixel of this texture.
     int bytesPerPixel() const;
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
 private:

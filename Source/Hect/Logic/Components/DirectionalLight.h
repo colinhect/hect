@@ -44,7 +44,7 @@ public:
     /// The color.
     Vector3 color;
 
-    void encode(ObjectEncoder& encoder) const;
+    void encode(Encoder& encoder) const;
     void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 };
 

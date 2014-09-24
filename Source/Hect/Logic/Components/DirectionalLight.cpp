@@ -31,10 +31,13 @@ DirectionalLight::DirectionalLight() :
 {
 }
 
-void DirectionalLight::encode(ObjectEncoder& encoder) const
+void DirectionalLight::encode(Encoder& encoder) const
 {
+    encoder;
+    /* TODO: Re-enable encoding
     encoder.encodeVector3("direction", direction);
     encoder.encodeVector3("color", color);
+    */
 }
 
 void DirectionalLight::decode(ObjectDecoder& decoder, AssetCache& assetCache)

@@ -27,8 +27,9 @@
 
 using namespace hect;
 
-void UniformValueEncoder::encode(const UniformValue& uniformValue, ObjectEncoder& encoder)
+void UniformValueEncoder::encode(const UniformValue& uniformValue, Encoder& encoder)
 {
+    /* TODO: Re-enable encoding
     // Type
     encoder.encodeEnum("type", uniformValue.type());
 
@@ -54,6 +55,7 @@ void UniformValueEncoder::encode(const UniformValue& uniformValue, ObjectEncoder
     default:
         throw Error("Unsupported uniform value type");
     }
+    */
 }
 
 void UniformValueEncoder::decode(UniformValue& uniformValue, ObjectDecoder& decoder)

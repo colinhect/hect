@@ -31,7 +31,7 @@
 
 using namespace hect;
 
-void Encodable::encode(ObjectEncoder& encoder) const
+void Encodable::encode(Encoder& encoder) const
 {
     encoder;
 }
@@ -39,18 +39,18 @@ void Encodable::encode(ObjectEncoder& encoder) const
 JsonValue Encodable::encodeToJsonValue() const
 {
     JsonEncoder encoder;
-    {
-        ObjectEncoder objectEncoder = encoder.encodeObject();
-        encode(objectEncoder);
-    }
+    encoder.beginObject();
+    encode(encoder);
+    encoder.endObject();
     return *encoder.jsonValues().begin();
 }
 
 void Encodable::encodeToBinary(WriteStream& stream) const
 {
     BinaryEncoder encoder(stream);
-    ObjectEncoder objectEncode = encoder.encodeObject();
-    encode(objectEncode);
+    encoder.beginObject();
+    encode(encoder);
+    encoder.endObject();
 }
 
 void Encodable::decode(ObjectDecoder& decoder, AssetCache& assetCache)

@@ -54,11 +54,14 @@ bool VideoMode::isFullscreen() const
     return _fullscreen;
 }
 
-void VideoMode::encode(ObjectEncoder& encoder) const
+void VideoMode::encode(Encoder& encoder) const
 {
+    encoder;
+    /* TODO: Re-enable encoding
     encoder.encodeUInt32("width", _width);
     encoder.encodeUInt32("height", _height);
     encoder.encodeBool("fullscreen", _fullscreen);
+    */
 }
 
 void VideoMode::decode(ObjectDecoder& decoder, AssetCache& assetCache)

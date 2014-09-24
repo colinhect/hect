@@ -25,7 +25,7 @@ namespace hect
 {
 
 template <typename T>
-void ArrayEncoder::encodeEnum(T value)
+Encoder& Encoder::encodeEnum(T value)
 {
     if (isBinaryStream())
     {
@@ -36,20 +36,17 @@ void ArrayEncoder::encodeEnum(T value)
         std::string string = Enum::toString<T>(value);
         encodeString(string);
     }
+    return *this;
 }
 
 template <typename T>
-void ObjectEncoder::encodeEnum(const char* name, T value)
+Encoder& operator<<(Encoder& encoder, const EncodeMember<T>& encodeMember)
 {
-    if (isBinaryStream())
+    if (encodeMember.name)
     {
-        encodeUInt8(name, (uint8_t)value);
+        encoder.selectMember(encodeMember.name);
     }
-    else
-    {
-        std::string string = Enum::toString<T>(value);
-        encodeString(name, string);
-    }
+    return encoder << encodeMember.value;
 }
 
 }

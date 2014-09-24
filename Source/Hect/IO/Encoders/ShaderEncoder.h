@@ -31,7 +31,7 @@ namespace hect
 class ShaderEncoder
 {
 public:
-    static void encode(const Shader& shader, ObjectEncoder& encoder);
+    static void encode(const Shader& shader, Encoder& encoder);
     static void decode(Shader& shader, ObjectDecoder& decoder, AssetCache& assetCache);
 };
 
