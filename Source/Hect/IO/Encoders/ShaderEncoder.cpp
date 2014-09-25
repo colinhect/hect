@@ -27,26 +27,27 @@ using namespace hect;
 
 void ShaderEncoder::encode(const Shader& shader, Encoder& encoder)
 {
-    /* TODO: Re-enable encoding
     // Modules
     {
-        ArrayEncoder modulesEncoder = encoder.encodeArray("modules");
+        encoder << beginArray("modules");
         for (const AssetHandle<ShaderModule>& module : shader.modules())
         {
-            modulesEncoder.encodeString(module.path().toString());
+            encoder << encodeValue(module);
         }
+        encoder << endArray();
     }
 
     // Uniforms
     {
-        ArrayEncoder uniformsEncoder = encoder.encodeArray("uniforms");
+        encoder << beginArray("uniforms");
         for (const Uniform& uniform : shader.uniforms())
         {
-            Encoder uniformEncoder = uniformsEncoder.encodeObject();
-            uniform.encode(uniformEncoder);
+            encoder << beginObject("uniforms");
+            uniform.encode(encoder);
+            encoder << endObject();
         }
+        encoder << endArray();
     }
-    */
 }
 
 void ShaderEncoder::decode(Shader& shader, ObjectDecoder& decoder, AssetCache& assetCache)

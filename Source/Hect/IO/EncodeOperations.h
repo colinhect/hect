@@ -28,8 +28,7 @@
 namespace hect
 {
 
-struct BeginArray :
-    public Uncopyable
+struct BeginArray
 {
     BeginArray();
     BeginArray(const char* name);
@@ -37,13 +36,11 @@ struct BeginArray :
     const char* name;
 };
 
-struct EndArray :
-    public Uncopyable
+struct EndArray
 {
 };
 
-struct BeginObject :
-    public Uncopyable
+struct BeginObject
 {
     BeginObject();
     BeginObject(const char* name);
@@ -51,20 +48,30 @@ struct BeginObject :
     const char* name;
 };
 
-struct EndObject :
-    public Uncopyable
+struct EndObject
 {
 };
 
 template <typename T>
-struct EncodeMember :
+struct EncodeValue :
     public Uncopyable
 {
-    EncodeMember(const T& value);
-    EncodeMember(const char* name, const T& value);
+    EncodeValue(const T& value);
+    EncodeValue(const char* name, const T& value);
 
     const char* name;
     const T& value;
+};
+
+template <typename T>
+struct EncodeEnum :
+    public Uncopyable
+{
+    EncodeEnum(T value);
+    EncodeEnum(const char* name, T value);
+
+    const char* name;
+    T value;
 };
 
 BeginArray beginArray();
@@ -76,7 +83,16 @@ BeginObject beginObject(const char* name);
 EndObject endObject();
 
 template <typename T>
-EncodeMember<T> member(const char* name, const T& value);
+EncodeValue<T> encodeValue(const T& value);
+
+template <typename T>
+EncodeValue<T> encodeValue(const char* name, const T& value);
+
+template <typename T>
+EncodeEnum<T> encodeEnum(T value);
+
+template <typename T>
+EncodeEnum<T> encodeEnum(const char* name, T value);
 
 }
 

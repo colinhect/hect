@@ -33,17 +33,15 @@ ModelSurface::ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Mate
 
 void Model::encode(Encoder& encoder) const
 {
-    encoder;
-
-    /* TODO: Re-enable encoding
-    ArrayEncoder surfacesEncoder = encoder.encodeArray("surfaces");
+    encoder << beginArray("surfaces");
     for (const ModelSurface& surface : surfaces)
     {
-        Encoder surfaceEncoder = surfacesEncoder.encodeObject();
-        surfaceEncoder.encodeString("mesh", surface.mesh.path().toString());
-        surfaceEncoder.encodeString("material", surface.material.path().toString());
+        encoder << beginObject()
+            << encodeValue("mesh", surface.mesh)
+            << encodeValue("material", surface.material)
+            << endObject();
     }
-    */
+    encoder << endArray();
 }
 
 void Model::decode(ObjectDecoder& decoder, AssetCache& assetCache)

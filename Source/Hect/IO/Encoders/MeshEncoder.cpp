@@ -34,23 +34,23 @@ uint64_t MeshEncoder::IdentifyNumber = 0x84629573;
 
 void MeshEncoder::encode(const Mesh& mesh, Encoder& encoder)
 {
-    /* TODO: Re-enable encoding
     if (encoder.isBinaryStream())
     {
-        encoder.encodeUInt64("identifyNumber", IdentifyNumber);
+        encoder << encodeValue("identifyNumber", IdentifyNumber);
     }
 
     // Vertex layout
     {
-        Encoder vertexLayoutEncoder = encoder.encodeObject("vertexLayout");
-        mesh.vertexLayout().encode(vertexLayoutEncoder);
+        encoder << beginObject("vertexLayout");
+        mesh.vertexLayout().encode(encoder);
+        encoder << endObject();
     }
 
     // Index type
-    encoder.encodeEnum("indexType", mesh.indexType());
+    encoder << encodeEnum("indexType", mesh.indexType());
 
     // Primitive type
-    encoder.encodeEnum("primitiveType", mesh.primitiveType());
+    encoder << encodeEnum("primitiveType", mesh.primitiveType());
 
     if (encoder.isBinaryStream())
     {
@@ -78,59 +78,62 @@ void MeshEncoder::encode(const Mesh& mesh, Encoder& encoder)
 
         // Vertex data
         {
-            ArrayEncoder verticesEncoder = encoder.encodeArray("vertices");
+            encoder << beginArray("vertices");
             while (reader.nextVertex())
             {
-                ArrayEncoder attributesEncoder = verticesEncoder.encodeArray();
+                encoder << beginArray();
                 for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
                 {
-                    ArrayEncoder attributeEncoder = attributesEncoder.encodeArray();
+                    encoder << beginArray();
                     VertexAttributeSemantic semantic = attribute.semantic();
 
-                    attributeEncoder.encodeEnum(semantic);
+                    encoder << encodeEnum(semantic);
 
                     unsigned cardinality = attribute.cardinality();
                     if (cardinality == 1)
                     {
-                        attributeEncoder.encodeReal(reader.readAttributeReal(semantic));
+                        encoder << encodeValue(reader.readAttributeReal(semantic));
                     }
                     else if (cardinality == 2)
                     {
-                        attributeEncoder.encodeVector2(reader.readAttributeVector2(semantic));
+                        encoder << encodeValue(reader.readAttributeVector2(semantic));
                     }
                     else if (cardinality == 3)
                     {
-                        attributeEncoder.encodeVector3(reader.readAttributeVector3(semantic));
+                        encoder << encodeValue(reader.readAttributeVector3(semantic));
                     }
                     else if (cardinality == 4)
                     {
-                        attributeEncoder.encodeVector4(reader.readAttributeVector4(semantic));
+                        encoder << encodeValue(reader.readAttributeVector4(semantic));
                     }
+                    encoder << endArray();
                 }
+                encoder << endArray();
             }
+            encoder << endArray();
         }
 
         // Index data
         {
-            ArrayEncoder indicesEncoder = encoder.encodeArray("indices");
+            encoder << beginArray("indices");
             while (reader.nextIndex())
             {
                 switch (mesh.indexType())
                 {
                 case IndexType_UInt8:
-                    indicesEncoder.encodeUInt8(reader.readIndexUInt8());
+                    encoder << encodeValue(reader.readIndexUInt8());
                     break;
                 case IndexType_UInt16:
-                    indicesEncoder.encodeUInt16(reader.readIndexUInt16());
+                    encoder << encodeValue(reader.readIndexUInt16());
                     break;
                 case IndexType_UInt32:
-                    indicesEncoder.encodeUInt32(reader.readIndexUInt32());
+                    encoder << encodeValue(reader.readIndexUInt32());
                     break;
                 }
             }
+            encoder << endArray();
         }
     }
-    */
 }
 
 void MeshEncoder::decode(Mesh& mesh, ObjectDecoder& decoder, AssetCache& assetCache)

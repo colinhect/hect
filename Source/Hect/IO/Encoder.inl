@@ -40,13 +40,23 @@ Encoder& Encoder::encodeEnum(T value)
 }
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeMember<T>& encodeMember)
+Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encodeValue)
 {
-    if (encodeMember.name)
+    if (encodeValue.name)
     {
-        encoder.selectMember(encodeMember.name);
+        encoder.selectMember(encodeValue.name);
     }
-    return encoder << encodeMember.value;
+    return encoder << encodeValue.value;
+}
+
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encodeEnum)
+{
+    if (encodeEnum.name)
+    {
+        encoder.selectMember(encodeEnum.name);
+    }
+    return encoder.encodeEnum(encodeEnum.value);
 }
 
 }

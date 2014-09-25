@@ -34,14 +34,11 @@ RigidBody::RigidBody() :
 
 void RigidBody::encode(Encoder& encoder) const
 {
-    encoder;
-
-    /* TODO: Re-enable encoding
-    encoder.encodeReal("mass", mass);
-    encoder.encodeVector3("linearVelocity", linearVelocity);
-    encoder.encodeVector3("angularVelocity", angularVelocity);
-    encoder.encodeString("mesh", mesh.path().toString());
-    */
+    encoder << encodeValue("mass", mass)
+        << encodeValue("linearVelocity", linearVelocity)
+        << encodeValue("angularVelocity", angularVelocity)
+        << encodeValue("angularVelocity", angularVelocity)
+        << encodeValue("mesh", mesh);
 }
 
 void RigidBody::decode(ObjectDecoder& decoder, AssetCache& assetCache)

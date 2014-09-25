@@ -43,7 +43,7 @@ void MaterialEncoder::encode(const Material& material, Encoder& encoder)
             // Shader
             if (pass.shader())
             {
-                encoder << member("shader", pass.shader().path().toString());
+                encoder << encodeValue("shader", pass.shader());
             }
             else
             {
@@ -55,7 +55,7 @@ void MaterialEncoder::encode(const Material& material, Encoder& encoder)
                 encoder << beginArray("uniformValues");
                 for (const PassUniformValue& uniformValue : pass.uniformValues())
                 {
-                    encoder << beginObject() << member("name", uniformValue.name());
+                    encoder << beginObject() << encodeValue("name", uniformValue.name());
 
                     uniformValue.value().encode(encoder);
 
@@ -109,7 +109,7 @@ void MaterialEncoder::encode(const Material& material, Encoder& encoder)
 
                     for (const RenderStateFlag& flag : enabledFlags)
                     {
-                        encoder.encodeEnum(flag);
+                        encoder << encodeEnum(flag);
                     }
 
                     encoder << endArray();
@@ -121,7 +121,7 @@ void MaterialEncoder::encode(const Material& material, Encoder& encoder)
 
                     for (const RenderStateFlag& flag : disabledFlags)
                     {
-                        encoder.encodeEnum(flag);
+                        encoder << encodeEnum(flag);
                     }
 
                     encoder << endArray();
@@ -130,10 +130,8 @@ void MaterialEncoder::encode(const Material& material, Encoder& encoder)
                 // Blend factors
                 {
                     encoder << beginArray("blendFactors");
-
-                    encoder.encodeEnum(pass.renderState().sourceBlendFactor());
-                    encoder.encodeEnum(pass.renderState().destBlendFactor());
-
+                    encoder << encodeEnum(pass.renderState().sourceBlendFactor());
+                    encoder << encodeEnum(pass.renderState().destBlendFactor());
                     encoder << endArray();
                 }
 

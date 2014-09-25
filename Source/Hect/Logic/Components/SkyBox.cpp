@@ -27,11 +27,7 @@ using namespace hect;
 
 void SkyBox::encode(Encoder& encoder) const
 {
-    encoder;
-
-    /* TODO: Re-enable encoding
-    encoder.encodeString("texture", texture.path().toString());
-    */
+    encoder << encodeValue("texture", texture);
 }
 
 void SkyBox::decode(ObjectDecoder& decoder, AssetCache& assetCache)

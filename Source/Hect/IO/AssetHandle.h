@@ -26,6 +26,7 @@
 #include <memory>
 
 #include "Hect/IO/AssetEntry.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Path.h"
 
 namespace hect
@@ -96,6 +97,9 @@ private:
     std::shared_ptr<T> _asset;
     std::shared_ptr<AssetEntry<T>> _entry;
 };
+
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& assetHandle);
 
 }
 

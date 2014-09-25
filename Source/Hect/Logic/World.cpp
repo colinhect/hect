@@ -241,7 +241,7 @@ void World::encodeComponents(const Entity& entity, Encoder& encoder)
             std::string typeName = Type::of(component).name();
 
             encoder << beginObject()
-                << member("type", typeName);
+                << encodeValue("type", typeName);
 
             component.encode(encoder);
 

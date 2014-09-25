@@ -25,23 +25,55 @@ namespace hect
 {
 
 template <typename T>
-EncodeMember<T>::EncodeMember(const T& value) :
+EncodeValue<T>::EncodeValue(const T& value) :
     name(nullptr),
     value(value)
 {
 }
 
 template <typename T>
-EncodeMember<T>::EncodeMember(const char* name, const T& value) :
+EncodeValue<T>::EncodeValue(const char* name, const T& value) :
     name(name),
     value(value)
 {
 }
 
 template <typename T>
-EncodeMember<T> member(const char* name, const T& value)
+EncodeEnum<T>::EncodeEnum(T value) :
+    name(nullptr),
+    value(value)
 {
-    return EncodeMember<T>(name, value);
+}
+
+template <typename T>
+EncodeEnum<T>::EncodeEnum(const char* name, T value) :
+    name(name),
+    value(value)
+{
+}
+
+template <typename T>
+EncodeValue<T> encodeValue(const T& value)
+{
+    return EncodeValue<T>(value);
+}
+
+template <typename T>
+EncodeValue<T> encodeValue(const char* name, const T& value)
+{
+    return EncodeValue<T>(name, value);
+}
+
+template <typename T>
+EncodeEnum<T> encodeEnum(T value)
+{
+    return EncodeEnum<T>(value);
+}
+
+template <typename T>
+EncodeEnum<T> encodeEnum(const char* name, T value)
+{
+    return EncodeEnum<T>(name, value);
 }
 
 }

@@ -29,33 +29,31 @@ using namespace hect;
 
 void UniformValueEncoder::encode(const UniformValue& uniformValue, Encoder& encoder)
 {
-    /* TODO: Re-enable encoding
     // Type
-    encoder.encodeEnum("type", uniformValue.type());
+    encoder << encodeEnum("type", uniformValue.type());
 
     // Value
     switch (uniformValue.type())
     {
     case UniformType_Int:
     case UniformType_Texture:
-        encoder.encodeInt32("value", uniformValue.asInt());
+        encoder << encodeValue("value", uniformValue.asInt());
         break;
     case UniformType_Float:
-        encoder.encodeReal("value", uniformValue.asReal());
+        encoder << encodeValue("value", uniformValue.asReal());
         break;
     case UniformType_Vector2:
-        encoder.encodeVector2("value", uniformValue.asVector2());
+        encoder << encodeValue("value", uniformValue.asVector2());
         break;
     case UniformType_Vector3:
-        encoder.encodeVector3("value", uniformValue.asVector3());
+        encoder << encodeValue("value", uniformValue.asVector3());
         break;
     case UniformType_Vector4:
-        encoder.encodeVector4("value", uniformValue.asVector4());
+        encoder << encodeValue("value", uniformValue.asVector4());
         break;
     default:
         throw Error("Unsupported uniform value type");
     }
-    */
 }
 
 void UniformValueEncoder::decode(UniformValue& uniformValue, ObjectDecoder& decoder)

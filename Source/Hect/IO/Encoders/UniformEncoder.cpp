@@ -30,9 +30,8 @@ using namespace hect;
 
 void UniformEncoder::encode(const Uniform& uniform, Encoder& encoder)
 {
-    /* TODO: Re-enable encoding
     // Name
-    encoder.encodeString("name", uniform.name());
+    encoder << encodeValue("name", uniform.name());
 
     // We need an extra hint in binary
     if (encoder.isBinaryStream())
@@ -50,13 +49,12 @@ void UniformEncoder::encode(const Uniform& uniform, Encoder& encoder)
     // Binding
     else if (uniform.hasBinding())
     {
-        encoder.encodeEnum("binding", uniform.binding());
+        encoder << encodeEnum("binding", uniform.binding());
     }
     else
     {
         throw Error("The uniform does not have a default value or a binding");
     }
-    */
 }
 
 void UniformEncoder::decode(Uniform& uniform, ObjectDecoder& decoder)

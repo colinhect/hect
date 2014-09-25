@@ -102,4 +102,10 @@ bool AssetHandle<T>::operator!=(const AssetHandle<T>& handle) const
     return !(*this == handle);
 }
 
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& assetHandle)
+{
+    return encoder << assetHandle.path().toString();
+}
+
 }

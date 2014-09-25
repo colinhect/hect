@@ -29,17 +29,16 @@ using namespace hect;
 
 void VertexLayoutEncoder::encode(const VertexLayout& vertexLayout, Encoder& encoder)
 {
-    /* TODO: Re-enable encoding
-    ArrayEncoder attributesEncoder = encoder.encodeArray("attributes");
+    encoder << beginArray("attributes");
     for (const VertexAttribute& attribute : vertexLayout.attributes())
     {
-        Encoder attributeEncoder = attributesEncoder.encodeObject();
-
-        attributeEncoder.encodeEnum("semantic", attribute.semantic());
-        attributeEncoder.encodeEnum("type", attribute.type());
-        attributeEncoder.encodeUInt32("cardinality", attribute.cardinality());
+        encoder << beginObject()
+            << encodeEnum("semantic", attribute.semantic())
+            << encodeEnum("type", attribute.type())
+            << encodeValue("cardinality", attribute.cardinality())
+            << endObject();
     }
-    */
+    encoder << endArray();
 }
 
 void VertexLayoutEncoder::decode(VertexLayout& vertexLayout, ObjectDecoder& decoder)

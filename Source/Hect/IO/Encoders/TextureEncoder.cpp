@@ -31,7 +31,7 @@ void TextureEncoder::encode(const Texture& texture, Encoder& encoder)
 {
     texture;
     encoder;
-    throw Error("Not implemented");
+    throw Error("Not supported");
 }
 
 void TextureEncoder::decode(Texture& texture, ObjectDecoder& decoder, AssetCache& assetCache)

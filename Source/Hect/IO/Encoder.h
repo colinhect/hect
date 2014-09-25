@@ -89,7 +89,10 @@ Encoder& operator<<(Encoder& encoder, double value);
 Encoder& operator<<(Encoder& encoder, bool value);
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeMember<T>& encodeMember);
+Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encodeValue);
+
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encodeEnum);
 
 }
 
