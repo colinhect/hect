@@ -69,9 +69,15 @@ public:
     Encoder& encodeBool(bool value);
 
 private:
+    enum ValueType
+    {
+        ValueType_Array,
+        ValueType_Object
+    };
+
     std::stack<size_t> _countPositionStack;
     std::stack<unsigned> _countStack;
-    std::stack<bool> _isObjectStack;
+    std::stack<ValueType> _valueTypeStack;
 
     WriteStream* _stream;
 };

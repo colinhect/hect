@@ -30,7 +30,7 @@ namespace hect
 {
 
 ///
-/// An interface for encoding structured data to a persistent format.
+/// Provides access for encoding structured data to a persistent format.
 class Encoder
 {
 public:

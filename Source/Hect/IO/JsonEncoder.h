@@ -41,7 +41,7 @@ public:
     JsonEncoder();
 
     ///
-    /// Returns the encoded data values.
+    /// Returns the encoded JSON values.
     Sequence<JsonValue> jsonValues();
 
     bool isBinaryStream() const;

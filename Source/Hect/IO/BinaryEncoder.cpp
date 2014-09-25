@@ -45,11 +45,11 @@ WriteStream& BinaryEncoder::binaryStream()
 
 Encoder& BinaryEncoder::beginArray()
 {
-    if (!_isObjectStack.empty() && !_isObjectStack.top())
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
-    _isObjectStack.push(false);
+    _valueTypeStack.push(ValueType_Array);
     _countStack.push(0);
     _countPositionStack.push(_stream->position());
     _stream->writeUInt32(0);
@@ -65,23 +65,23 @@ Encoder& BinaryEncoder::endArray()
 
     _countPositionStack.pop();
     _countStack.pop();
-    _isObjectStack.pop();
+    _valueTypeStack.pop();
     return *this;
 }
 
 Encoder& BinaryEncoder::beginObject()
 {
-    if (!_isObjectStack.empty() && !_isObjectStack.top())
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
-    _isObjectStack.push(true);
+    _valueTypeStack.push(ValueType_Object);
     return *this;
 }
 
 Encoder& BinaryEncoder::endObject()
 {
-    _isObjectStack.pop();
+    _valueTypeStack.pop();
     return *this;
 }
 
@@ -93,7 +93,7 @@ Encoder& BinaryEncoder::selectMember(const char* name)
 
 Encoder& BinaryEncoder::encodeString(const std::string& value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -103,7 +103,7 @@ Encoder& BinaryEncoder::encodeString(const std::string& value)
 
 Encoder& BinaryEncoder::encodeInt8(int8_t value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -113,7 +113,7 @@ Encoder& BinaryEncoder::encodeInt8(int8_t value)
 
 Encoder& BinaryEncoder::encodeUInt8(uint8_t value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -123,7 +123,7 @@ Encoder& BinaryEncoder::encodeUInt8(uint8_t value)
 
 Encoder& BinaryEncoder::encodeInt16(int16_t value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -133,7 +133,7 @@ Encoder& BinaryEncoder::encodeInt16(int16_t value)
 
 Encoder& BinaryEncoder::encodeUInt16(uint16_t value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -143,7 +143,7 @@ Encoder& BinaryEncoder::encodeUInt16(uint16_t value)
 
 Encoder& BinaryEncoder::encodeInt32(int32_t value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -153,7 +153,7 @@ Encoder& BinaryEncoder::encodeInt32(int32_t value)
 
 Encoder& BinaryEncoder::encodeUInt32(uint32_t value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -163,7 +163,7 @@ Encoder& BinaryEncoder::encodeUInt32(uint32_t value)
 
 Encoder& BinaryEncoder::encodeInt64(int64_t value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -173,7 +173,7 @@ Encoder& BinaryEncoder::encodeInt64(int64_t value)
 
 Encoder& BinaryEncoder::encodeUInt64(uint64_t value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -183,7 +183,7 @@ Encoder& BinaryEncoder::encodeUInt64(uint64_t value)
 
 Encoder& BinaryEncoder::encodeFloat32(float value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -193,7 +193,7 @@ Encoder& BinaryEncoder::encodeFloat32(float value)
 
 Encoder& BinaryEncoder::encodeFloat64(double value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
@@ -203,7 +203,7 @@ Encoder& BinaryEncoder::encodeFloat64(double value)
 
 Encoder& BinaryEncoder::encodeBool(bool value)
 {
-    if (!_isObjectStack.top())
+    if (_valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }

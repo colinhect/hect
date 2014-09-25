@@ -43,8 +43,7 @@ public:
 
     void encode(Encoder& encoder) const
     {
-        encoder.selectMember("value");
-        encoder.encodeString(value);
+        encoder << encodeValue("value", value);
     }
 
     void decode(ObjectDecoder& decoder, AssetCache& assetCache)
