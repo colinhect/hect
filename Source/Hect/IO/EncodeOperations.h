@@ -64,7 +64,7 @@ struct EndObject
 /// An encode operation for encoding a value.
 template <typename T>
 struct EncodeValue :
-    public Uncopyable
+        public Uncopyable
 {
     EncodeValue(const T& value);
     EncodeValue(const char* name, const T& value);
@@ -77,7 +77,7 @@ struct EncodeValue :
 /// An encode operation for encoding an enum.
 template <typename T>
 struct EncodeEnum :
-    public Uncopyable
+        public Uncopyable
 {
     EncodeEnum(T value);
     EncodeEnum(const char* name, T value);

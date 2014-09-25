@@ -48,7 +48,7 @@ public:
     ///
     /// The global position.
     Vector3 globalPosition;
-    
+
     ///
     /// The local scale.
     Vector3 localScale;

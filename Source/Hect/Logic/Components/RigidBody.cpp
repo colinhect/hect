@@ -35,10 +35,10 @@ RigidBody::RigidBody() :
 void RigidBody::encode(Encoder& encoder) const
 {
     encoder << encodeValue("mass", mass)
-        << encodeValue("linearVelocity", linearVelocity)
-        << encodeValue("angularVelocity", angularVelocity)
-        << encodeValue("angularVelocity", angularVelocity)
-        << encodeValue("mesh", mesh);
+            << encodeValue("linearVelocity", linearVelocity)
+            << encodeValue("angularVelocity", angularVelocity)
+            << encodeValue("angularVelocity", angularVelocity)
+            << encodeValue("mesh", mesh);
 }
 
 void RigidBody::decode(ObjectDecoder& decoder, AssetCache& assetCache)

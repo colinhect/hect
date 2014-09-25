@@ -734,7 +734,7 @@ void Entity::encode(Encoder& encoder) const
     World& world = *_pool->_world;
 
     world.encodeComponents(*this, encoder);
-    
+
     encoder << beginArray("children");
 
     for (const Entity& child : _children)

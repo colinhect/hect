@@ -320,9 +320,9 @@ void RenderSystem::setBoundUniforms(Shader& shader, const Camera& camera, const 
     // TODO: Implement quaternion equality
     //if (transform.globalRotation != Quaternion())
     //{
-        model.rotate(transform.globalRotation);
+    model.rotate(transform.globalRotation);
     //}
-    
+
     for (const Uniform& uniform : shader.uniforms())
     {
         if (uniform.hasBinding())

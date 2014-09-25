@@ -33,10 +33,10 @@ void VertexLayoutEncoder::encode(const VertexLayout& vertexLayout, Encoder& enco
     for (const VertexAttribute& attribute : vertexLayout.attributes())
     {
         encoder << beginObject()
-            << encodeEnum("semantic", attribute.semantic())
-            << encodeEnum("type", attribute.type())
-            << encodeValue("cardinality", attribute.cardinality())
-            << endObject();
+                << encodeEnum("semantic", attribute.semantic())
+                << encodeEnum("type", attribute.type())
+                << encodeValue("cardinality", attribute.cardinality())
+                << endObject();
     }
     encoder << endArray();
 }

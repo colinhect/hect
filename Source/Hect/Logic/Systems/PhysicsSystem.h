@@ -53,7 +53,7 @@ public:
     ~PhysicsSystem();
 
     void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);
-    
+
     void updateRigidBody(RigidBody& rigidBody);
 
     void tick(Real timeStep) override;

@@ -34,8 +34,8 @@ Transform::Transform() :
 void Transform::encode(Encoder& encoder) const
 {
     encoder << encodeValue("localPosition", localPosition)
-        << encodeValue("localScale", localScale)
-        << encodeValue("localRotation", localRotation);
+            << encodeValue("localScale", localScale)
+            << encodeValue("localRotation", localRotation);
 }
 
 void Transform::decode(ObjectDecoder& decoder, AssetCache& assetCache)

@@ -57,8 +57,8 @@ bool VideoMode::isFullscreen() const
 void VideoMode::encode(Encoder& encoder) const
 {
     encoder << encodeValue("width", _width)
-        << encodeValue("height", _height)
-        << encodeValue("fullscreen", _fullscreen);
+            << encodeValue("height", _height)
+            << encodeValue("fullscreen", _fullscreen);
 }
 
 void VideoMode::decode(ObjectDecoder& decoder, AssetCache& assetCache)

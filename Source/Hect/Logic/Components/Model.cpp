@@ -37,9 +37,9 @@ void Model::encode(Encoder& encoder) const
     for (const ModelSurface& surface : surfaces)
     {
         encoder << beginObject()
-            << encodeValue("mesh", surface.mesh)
-            << encodeValue("material", surface.material)
-            << endObject();
+                << encodeValue("mesh", surface.mesh)
+                << encodeValue("material", surface.material)
+                << endObject();
     }
     encoder << endArray();
 }
