@@ -141,7 +141,8 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout)
 {
-    encoder << beginArray("attributes");
+    encoder << beginObject()
+        << beginArray("attributes");
     for (const VertexAttribute& attribute : vertexLayout.attributes())
     {
         encoder << beginObject()
@@ -150,7 +151,7 @@ Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout)
                 << encodeValue("cardinality", attribute.cardinality())
                 << endObject();
     }
-    return encoder << endArray();
+    return encoder << endArray() << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, VertexLayout& vertexLayout)

@@ -313,6 +313,8 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
 {
+    encoder << beginObject();
+
     if (encoder.isBinaryStream())
     {
         encoder << encodeValue("identifyNumber", Mesh::IdentifyNumber);

@@ -78,8 +78,7 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Material& material)
 {
-    // Techniques
-    encoder << beginArray("techniques");
+    encoder << beginObject() << beginArray("techniques");
     for (const Technique& technique : material.techniques())
     {
         // Passes
@@ -189,13 +188,12 @@ Encoder& operator<<(Encoder& encoder, const Material& material)
         encoder << endArray();
     }
 
-    return encoder << endArray();
+    return encoder << endArray() << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, Material& material)
 {
-    // Techniques
-    decoder >> beginArray("techniques");
+    decoder >> beginObject() >> beginArray("techniques");
     while (decoder.hasMoreElements())
     {
         Technique technique;
@@ -304,7 +302,7 @@ Decoder& operator>>(Decoder& decoder, Material& material)
 
         material.addTechnique(technique);
     }
-    return decoder >> endArray();
+    return decoder >> endArray() >> endObject();
 }
 
 }

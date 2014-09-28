@@ -202,6 +202,8 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Shader& shader)
 {
+    encoder << beginObject();
+
     // Modules
     {
         encoder << beginArray("modules");
@@ -223,11 +225,14 @@ Encoder& operator<<(Encoder& encoder, const Shader& shader)
         }
         encoder << endArray();
     }
-    return encoder;
+
+    return encoder << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, Shader& shader)
 {
+    decoder >> beginObject();
+
     // Modules
     if (decoder.selectMember("modules"))
     {
@@ -257,7 +262,8 @@ Decoder& operator>>(Decoder& decoder, Shader& shader)
         }
         decoder >> endArray();
     }
-    return decoder;
+
+    return decoder >> endObject();
 }
 
 }

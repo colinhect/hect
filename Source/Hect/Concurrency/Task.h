@@ -35,8 +35,8 @@ namespace hect
 
 ///
 /// A task performed potentially in parallel.
-class Task
-    : public Uncopyable
+class Task :
+    public Uncopyable
 {
     friend class TaskPool;
 public:

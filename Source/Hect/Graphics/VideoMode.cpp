@@ -59,16 +59,20 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const VideoMode& videoMode)
 {
-    return encoder << encodeValue("width", videoMode._width)
+    return encoder << beginObject()
+           << encodeValue("width", videoMode._width)
            << encodeValue("height", videoMode._height)
-           << encodeValue("fullscreen", videoMode._fullscreen);
+           << encodeValue("fullscreen", videoMode._fullscreen)
+           << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, VideoMode& videoMode)
 {
-    return decoder >> decodeValue("width", videoMode._width)
+    return decoder >> beginObject()
+           >> decodeValue("width", videoMode._width)
            >> decodeValue("height", videoMode._height)
-           >> decodeValue("fullscreen", videoMode._fullscreen);
+           >> decodeValue("fullscreen", videoMode._fullscreen)
+           >> endObject();
 }
 
 }

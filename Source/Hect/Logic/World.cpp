@@ -198,7 +198,7 @@ void World::addEntityComponentBase(Entity& entity, const ComponentBase& componen
 
 void World::encode(Encoder& encoder) const
 {
-    encoder << beginArray("entities");
+    encoder << beginObject() << beginArray("entities");
 
     for (const Entity& entity : entities())
     {
@@ -211,12 +211,12 @@ void World::encode(Encoder& encoder) const
         }
     }
 
-    encoder << endArray();
+    encoder << endArray() << endObject();
 }
 
 void World::decode(Decoder& decoder)
 {
-    decoder >> beginArray("entities");
+    decoder >> beginObject() >> beginArray("entities");
     while (decoder.hasMoreElements())
     {
         Entity::Iterator entity = createEntity();
@@ -227,7 +227,7 @@ void World::decode(Decoder& decoder)
 
         entity->activate();
     }
-    decoder >> endArray();
+    decoder >> endArray() >> endObject();
 }
 
 void World::encodeComponents(const Entity& entity, Encoder& encoder)

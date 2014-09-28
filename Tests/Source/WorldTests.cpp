@@ -82,9 +82,7 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
             createWorld(world);
 
             JsonEncoder encoder;
-            encoder << beginObject()
-                << encodeValue(world)
-                << endObject();
+            encoder << encodeValue(world);
             jsonValue = encoder.jsonValues()[0];
         }
 
@@ -92,9 +90,7 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
             World world;
 
             JsonDecoder decoder(jsonValue);
-            decoder >> beginObject()
-                >> world
-                >> endObject();
+            decoder >> decodeValue(world);
 
             verifyWorld(world);
         }
@@ -110,9 +106,7 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
 
             MemoryWriteStream writeStream(data);
             BinaryEncoder encoder(writeStream);
-            encoder << beginObject()
-                << encodeValue(world)
-                << endObject();
+            encoder << encodeValue(world);
         }
 
         {
@@ -120,9 +114,7 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
 
             MemoryReadStream readStream(data);
             BinaryDecoder decoder(readStream);
-            decoder >> beginObject()
-                >> decodeValue(world)
-                >> endObject();
+            decoder >> decodeValue(world);
 
             verifyWorld(world);
         }

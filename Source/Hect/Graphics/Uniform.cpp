@@ -192,6 +192,8 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Uniform& uniform)
 {
+    encoder << beginObject();
+
     // Name
     encoder << encodeValue("name", uniform.name());
 
@@ -218,11 +220,13 @@ Encoder& operator<<(Encoder& encoder, const Uniform& uniform)
         throw Error("The uniform does not have a default value or a binding");
     }
 
-    return encoder;
+    return encoder << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, Uniform& uniform)
 {
+    decoder >> beginObject();
+
     // Name
     if (decoder.selectMember("name"))
     {
@@ -267,7 +271,7 @@ Decoder& operator>>(Decoder& decoder, Uniform& uniform)
         throw Error("No default value or binding specified");
     }
 
-    return decoder;
+    return decoder >> endObject();
 }
 
 }
