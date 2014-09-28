@@ -263,4 +263,10 @@ Encoder& operator<<(Encoder& encoder, const Vector4T<T>& v)
     return encoder << beginArray() << v.x << v.y << v.z << v.w << endArray();
 }
 
+template <typename T>
+Decoder& operator>>(Decoder& decoder, Vector4T<T>& v)
+{
+    return decoder >> beginArray() >> v.x >> v.y >> v.z >> v.w >> endArray();
+}
+
 }

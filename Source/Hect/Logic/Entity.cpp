@@ -25,6 +25,8 @@
 
 #include <cstddef>
 
+#include "Hect/IO/AssetCache.h"
+#include "Hect/IO/JsonDecoder.h"
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/Logic/World.h"
 
@@ -727,63 +729,6 @@ Entity::ConstIterator::Vector Entity::findAncestors(Entity::Predicate predicate)
     return results;
 }
 
-void Entity::encode(Encoder& encoder) const
-{
-    ensureInPool();
-
-    World& world = *_pool->_world;
-
-    world.encodeComponents(*this, encoder);
-
-    encoder << beginArray("children");
-
-    for (const Entity& child : _children)
-    {
-        encoder << beginObject();
-        child.encode(encoder);
-        encoder << endObject();
-    }
-
-    encoder << endArray();
-}
-
-void Entity::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    ensureInPool();
-
-    World& world = *_pool->_world;
-
-    if (!decoder.isBinaryStream())
-    {
-        if (decoder.hasMember("archetype"))
-        {
-            Path archetypePath = decoder.decodeString("archetype");
-            AssetHandle<Data> archetypeData = assetCache.getHandle<Data>(archetypePath);
-
-            decodeFromData(*archetypeData, assetCache);
-        }
-    }
-
-    if (decoder.hasMember("components"))
-    {
-        world.decodeComponents(*this, decoder, assetCache);
-    }
-
-    if (decoder.hasMember("children"))
-    {
-        ArrayDecoder childrenDecoder = decoder.decodeArray("children");
-        while (childrenDecoder.hasMoreElements())
-        {
-            Entity::Iterator child = _pool->_world->createEntity();
-
-            ObjectDecoder childDecoder = childrenDecoder.decodeObject();
-            child->decode(childDecoder, assetCache);
-
-            addChild(*child);
-        }
-    }
-}
-
 Entity::Entity() :
     _pool(nullptr),
     _id((EntityId)-1),
@@ -828,4 +773,83 @@ void Entity::ensureInPool() const
     {
         throw Error("Invalid entity");
     }
+}
+
+void Entity::encode(Encoder& encoder) const
+{
+    ensureInPool();
+
+    World& world = *_pool->_world;
+
+    world.encodeComponents(*this, encoder);
+
+    encoder << beginArray("children");
+
+    for (const Entity& child : _children)
+    {
+        encoder << beginObject();
+        child.encode(encoder);
+        encoder << endObject();
+    }
+
+    encoder << endArray();
+}
+
+void Entity::decode(Decoder& decoder)
+{
+    ensureInPool();
+
+    World& world = *_pool->_world;
+
+    if (!decoder.isBinaryStream())
+    {
+        if (decoder.selectMember("archetype"))
+        {
+            AssetHandle<JsonValue> archetypeJsonValue;
+            decoder >> decodeValue(archetypeJsonValue);
+
+            AssetCache::SelectDirectoryScope scope(decoder.assetCache(), archetypeJsonValue.path().parentDirectory());
+
+            JsonDecoder jsonDecoder(*archetypeJsonValue, decoder.assetCache());
+            jsonDecoder >> decodeValue(*this);
+        }
+    }
+
+    if (decoder.selectMember("components"))
+    {
+        world.decodeComponents(*this, decoder);
+    }
+
+    if (decoder.selectMember("children"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            Entity::Iterator child = _pool->_world->createEntity();
+
+            decoder >> beginObject();
+            child->decode(decoder);
+            decoder >> endObject();
+
+            addChild(*child);
+        }
+        decoder >> endArray();
+    }
+}
+
+namespace hect
+{
+    
+Encoder& operator<<(Encoder& encoder, const Entity& entity)
+{
+    entity.encode(encoder);
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, Entity& entity)
+{
+    entity.decode(decoder);
+    return decoder;
+}
+
 }

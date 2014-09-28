@@ -27,11 +27,6 @@
 #include <memory>
 #include <string>
 
-#include "Hect/Math/Quaternion.h"
-#include "Hect/Math/Vector2.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Math/Vector4.h"
-
 namespace hect
 {
 
@@ -102,24 +97,8 @@ public:
     double readFloat64();
 
     ///
-    /// Reads a real number.
-    Real readReal();
-
-    ///
     /// Reads bool as an unsigned 8-bit integer.
     bool readBool();
-
-    ///
-    /// Reads a 2-dimensional vector.
-    Vector2 readVector2();
-
-    ///
-    /// Reads a 3-dimensional vector.
-    Vector3 readVector3();
-
-    ///
-    /// Reads a 4-dimensional vector.
-    Vector4 readVector4();
 
     ///
     /// Returns whether the end of the stream has been reached.

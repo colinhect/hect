@@ -62,7 +62,7 @@ public:
     std::vector<ModelSurface> surfaces;
 
     void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    void decode(Decoder& decoder);
 };
 
 }

@@ -30,8 +30,7 @@ void BoundingBox::encode(Encoder& encoder) const
     encoder;
 }
 
-void BoundingBox::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void BoundingBox::decode(Decoder& decoder)
 {
     decoder;
-    assetCache;
 }

@@ -25,15 +25,15 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/Technique.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
 namespace hect
 {
 
 ///
 /// The manner in which a surface is rendered.
-class Material :
-    public Encodable
+class Material
 {
 public:
 
@@ -81,8 +81,8 @@ public:
     /// \throws Error If the material does not have any techniques.
     Technique& preferedTechnique();
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    friend Encoder& operator<<(Encoder& encoder, const Material& material);
+    friend Decoder& operator>>(Decoder& decoder, Material& material);
 
 private:
     std::string _name;

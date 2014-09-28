@@ -44,7 +44,7 @@ public:
     AxisAlignedBox axisAlignedBox;
 
     void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    void decode(Decoder& decoder);
 };
 
 }

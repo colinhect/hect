@@ -228,34 +228,7 @@
     <ClInclude Include="Source\Hect\Noise\Random.h">
       <Filter>Source\Hect\Noise</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encodable.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\MeshEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Hect\IO\Encoders\ImagePngEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\ShaderEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\UniformEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\UniformValueEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\MaterialEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\TextureEncoder.h">
       <Filter>Source\Hect\IO\Encoders</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\IO\JsonValue.h">
@@ -395,9 +368,6 @@
     </ClInclude>
     <ClInclude Include="Source\Hect\Input\InputAxisBinding.h">
       <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.h">
-      <Filter>Source\Hect\IO\Encoders</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hect\Graphics\RenderSystem.h">
       <Filter>Source\Hect\Graphics</Filter>
@@ -587,34 +557,7 @@
     <ClCompile Include="Source\Hect\Noise\Random.cpp">
       <Filter>Source\Hect\Noise</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encodable.cpp">
-      <Filter>Source\Hect\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\MeshEncoder.cpp">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.cpp">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\IO\Encoders\ImagePngEncoder.cpp">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\ShaderEncoder.cpp">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\UniformEncoder.cpp">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\UniformValueEncoder.cpp">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\MaterialEncoder.cpp">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisEncoder.cpp">
-      <Filter>Source\Hect\IO\Encoders</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\TextureEncoder.cpp">
       <Filter>Source\Hect\IO\Encoders</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\JsonValue.cpp">
@@ -724,9 +667,6 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Input\InputAxisBinding.cpp">
       <Filter>Source\Hect\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.cpp">
-      <Filter>Source\Hect\IO\Encoders</Filter>
     </ClCompile>
     <ClCompile Include="Source\Hect\Graphics\RenderSystem.cpp">
       <Filter>Source\Hect\Graphics</Filter>

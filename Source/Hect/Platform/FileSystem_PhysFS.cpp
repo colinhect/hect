@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "FileSystem.h"
 
+#include <cassert>
 #include <physfs.h>
 
 #include "Hect/Core/Configuration.h"

@@ -35,6 +35,23 @@ Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encodeValue)
 }
 
 template <typename T>
+Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encodeVector)
+{
+    if (encodeVector.name)
+    {
+        encoder.selectMember(encodeVector.name);
+    }
+    encoder << beginArray();
+
+    for (const T& value : encodeVector.values)
+    {
+        encoder << encodeValue(value);
+    }
+
+    return encoder << endArray();
+}
+
+template <typename T>
 Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encodeEnum)
 {
     if (encodeEnum.name)

@@ -111,40 +111,7 @@ double ReadStream::readFloat64()
     return value;
 }
 
-Real ReadStream::readReal()
-{
-#ifdef HECT_DOUBLE_PRECISION
-    return readFloat64();
-#else
-    return readFloat32();
-#endif
-}
-
 bool ReadStream::readBool()
 {
     return readUInt8() != 0;
-}
-
-Vector2 ReadStream::readVector2()
-{
-    Real x = readReal();
-    Real y = readReal();
-    return Vector2(x, y);
-}
-
-Vector3 ReadStream::readVector3()
-{
-    Real x = readReal();
-    Real y = readReal();
-    Real z = readReal();
-    return Vector3(x, y, z);
-}
-
-Vector4 ReadStream::readVector4()
-{
-    Real x = readReal();
-    Real y = readReal();
-    Real z = readReal();
-    Real w = readReal();
-    return Vector4(x, y, z, w);
 }

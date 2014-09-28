@@ -27,7 +27,8 @@
 #include "Hect/Input/Gamepad.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
 namespace hect
 {
@@ -67,8 +68,7 @@ enum InputAxisBindingType
 
 ///
 /// A binding to an input axis.
-class InputAxisBinding :
-    public Encodable
+class InputAxisBinding
 {
 public:
 
@@ -86,9 +86,6 @@ public:
     ///
     /// Returns the value.
     Real value() const;
-
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
 
     ///
     /// The type.
@@ -138,6 +135,9 @@ public:
     Real acceleration;
 
     Vector2 range;
+
+    friend Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding);
+    friend Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding);
 
 private:
     Real _value;

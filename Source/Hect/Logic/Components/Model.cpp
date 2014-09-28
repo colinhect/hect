@@ -44,24 +44,23 @@ void Model::encode(Encoder& encoder) const
     encoder << endArray();
 }
 
-void Model::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void Model::decode(Decoder& decoder)
 {
-    if (decoder.hasMember("surfaces"))
+    if (decoder.selectMember("surfaces"))
     {
-        ArrayDecoder surfacesDecoder = decoder.decodeArray("surfaces");
-        while (surfacesDecoder.hasMoreElements())
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
         {
-            ObjectDecoder surfaceDecoder = surfacesDecoder.decodeObject();
-            if (surfaceDecoder.hasMember("mesh") && surfaceDecoder.hasMember("material"))
-            {
-                Path meshPath = surfaceDecoder.decodeString("mesh");
-                Path materialPath = surfaceDecoder.decodeString("material");
+            AssetHandle<Mesh> mesh;
+            AssetHandle<Material> material;
 
-                AssetHandle<Mesh> mesh = assetCache.getHandle<Mesh>(meshPath);
-                AssetHandle<Material> material = assetCache.getHandle<Material>(materialPath);
+            decoder >> beginObject()
+                    >> decodeValue("mesh", mesh)
+                    >> decodeValue("material", material)
+                    >> endObject();
 
-                surfaces.push_back(ModelSurface(mesh, material));
-            }
+            surfaces.push_back(ModelSurface(mesh, material));
         }
+        decoder >> endArray();
     }
 }

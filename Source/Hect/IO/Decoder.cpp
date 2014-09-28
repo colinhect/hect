@@ -23,319 +23,130 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Decoder.h"
 
-using namespace hect;
-
-ArrayDecoder::ArrayDecoder(const ArrayDecoder& decoder) :
-    _decoder(nullptr)
+namespace hect
 {
-    decoder;
+
+Decoder::Decoder() :
+    _assetCache(nullptr)
+{
 }
 
-ArrayDecoder::ArrayDecoder(ArrayDecoder&& decoder) :
-    _decoder(decoder._decoder)
+Decoder::Decoder(AssetCache& assetCache) :
+    _assetCache(&assetCache)
 {
-    decoder._decoder = nullptr;
 }
 
-ArrayDecoder::~ArrayDecoder()
+AssetCache& Decoder::assetCache()
 {
-    if (_decoder)
+    if (!_assetCache)
     {
-        _decoder->endArray();
+        throw Error("Decoder does not have a referenced asset cache");
     }
+    return *_assetCache;
 }
 
-bool ArrayDecoder::isBinaryStream() const
+Decoder& operator>>(Decoder& decoder, const BeginArray& beginArray)
 {
-    assert(_decoder);
-    return _decoder->isBinaryStream();
-}
-
-ReadStream& ArrayDecoder::binaryStream()
-{
-    assert(_decoder);
-    return _decoder->binaryStream();
-}
-
-bool ArrayDecoder::hasMoreElements() const
-{
-    assert(_decoder);
-    return _decoder->hasMoreElements();
-}
-
-ArrayDecoder ArrayDecoder::decodeArray()
-{
-    assert(_decoder);
-    _decoder->beginArray();
-    return ArrayDecoder(_decoder);
-}
-
-ObjectDecoder ArrayDecoder::decodeObject()
-{
-    assert(_decoder);
-    _decoder->beginObject();
-    return ObjectDecoder(_decoder);
-}
-
-std::string ArrayDecoder::decodeString()
-{
-    assert(_decoder);
-    return _decoder->decodeString();
-}
-
-int8_t ArrayDecoder::decodeInt8()
-{
-    assert(_decoder);
-    return _decoder->decodeInt8();
-}
-
-uint8_t ArrayDecoder::decodeUInt8()
-{
-    assert(_decoder);
-    return _decoder->decodeUInt8();
-}
-
-int16_t ArrayDecoder::decodeInt16()
-{
-    assert(_decoder);
-    return _decoder->decodeInt16();
-}
-
-uint16_t ArrayDecoder::decodeUInt16()
-{
-    assert(_decoder);
-    return _decoder->decodeUInt16();
-}
-
-int32_t ArrayDecoder::decodeInt32()
-{
-    assert(_decoder);
-    return _decoder->decodeInt32();
-}
-
-uint32_t ArrayDecoder::decodeUInt32()
-{
-    assert(_decoder);
-    return _decoder->decodeUInt32();
-}
-
-int64_t ArrayDecoder::decodeInt64()
-{
-    assert(_decoder);
-    return _decoder->decodeInt64();
-}
-
-uint64_t ArrayDecoder::decodeUInt64()
-{
-    assert(_decoder);
-    return _decoder->decodeUInt64();
-}
-
-float ArrayDecoder::decodeFloat32()
-{
-    assert(_decoder);
-    return _decoder->decodeFloat32();
-}
-
-double ArrayDecoder::decodeFloat64()
-{
-    assert(_decoder);
-    return _decoder->decodeFloat64();
-}
-
-Real ArrayDecoder::decodeReal()
-{
-    assert(_decoder);
-    return _decoder->decodeReal();
-}
-
-bool ArrayDecoder::decodeBool()
-{
-    assert(_decoder);
-    return _decoder->decodeBool();
-}
-
-Vector2 ArrayDecoder::decodeVector2()
-{
-    assert(_decoder);
-    return _decoder->decodeVector2();
-}
-
-Vector3 ArrayDecoder::decodeVector3()
-{
-    assert(_decoder);
-    return _decoder->decodeVector3();
-}
-
-Vector4 ArrayDecoder::decodeVector4()
-{
-    assert(_decoder);
-    return _decoder->decodeVector4();
-}
-
-ArrayDecoder::ArrayDecoder() :
-    _decoder(nullptr)
-{
-}
-
-ArrayDecoder::ArrayDecoder(Decoder* decoder) :
-    _decoder(decoder)
-{
-}
-
-ObjectDecoder::ObjectDecoder(const ObjectDecoder& decoder) :
-    _decoder(nullptr)
-{
-    decoder;
-}
-
-ObjectDecoder::ObjectDecoder(ObjectDecoder&& decoder) :
-    _decoder(decoder._decoder)
-{
-    decoder._decoder = nullptr;
-}
-
-ObjectDecoder::~ObjectDecoder()
-{
-    if (_decoder)
+    if (beginArray.name)
     {
-        _decoder->endObject();
+        decoder.selectMember(beginArray.name);
     }
+    decoder.beginArray();
+    return decoder;
 }
 
-bool ObjectDecoder::isBinaryStream() const
+Decoder& operator>>(Decoder& decoder, const EndArray&)
 {
-    assert(_decoder);
-    return _decoder->isBinaryStream();
+    decoder.endArray();
+    return decoder;
 }
 
-ReadStream& ObjectDecoder::binaryStream()
+Decoder& operator>>(Decoder& decoder, const BeginObject& beginObject)
 {
-    assert(_decoder);
-    return _decoder->binaryStream();
+    if (beginObject.name)
+    {
+        decoder.selectMember(beginObject.name);
+    }
+    decoder.beginObject();
+    return decoder;
 }
 
-bool ObjectDecoder::hasMember(const char* name) const
+Decoder& operator>>(Decoder& decoder, const EndObject&)
 {
-    return _decoder->hasMember(name);
+    decoder.endObject();
+    return decoder;
 }
 
-ArrayDecoder ObjectDecoder::decodeArray(const char* name)
+Decoder& operator>>(Decoder& decoder, std::string& value)
 {
-    assert(_decoder);
-    _decoder->beginArray(name);
-    return ArrayDecoder(_decoder);
+    value = decoder.decodeString();
+    return decoder;
 }
 
-ObjectDecoder ObjectDecoder::decodeObject(const char* name)
+Decoder& operator>>(Decoder& decoder, int8_t& value)
 {
-    assert(_decoder);
-    _decoder->beginObject(name);
-    return ObjectDecoder(_decoder);
+    value = decoder.decodeInt8();
+    return decoder;
 }
 
-std::string ObjectDecoder::decodeString(const char* name)
+Decoder& operator>>(Decoder& decoder, uint8_t& value)
 {
-    assert(_decoder);
-    return _decoder->decodeString(name);
+    value = decoder.decodeUInt8();
+    return decoder;
 }
 
-int8_t ObjectDecoder::decodeInt8(const char* name)
+Decoder& operator>>(Decoder& decoder, int16_t& value)
 {
-    assert(_decoder);
-    return _decoder->decodeInt8(name);
+    value = decoder.decodeInt16();
+    return decoder;
 }
 
-uint8_t ObjectDecoder::decodeUInt8(const char* name)
+Decoder& operator>>(Decoder& decoder, uint16_t& value)
 {
-    assert(_decoder);
-    return _decoder->decodeUInt8(name);
+    value = decoder.decodeUInt16();
+    return decoder;
 }
 
-int16_t ObjectDecoder::decodeInt16(const char* name)
+Decoder& operator>>(Decoder& decoder, int32_t& value)
 {
-    assert(_decoder);
-    return _decoder->decodeInt16(name);
+    value = decoder.decodeInt32();
+    return decoder;
 }
 
-uint16_t ObjectDecoder::decodeUInt16(const char* name)
+Decoder& operator>>(Decoder& decoder, uint32_t& value)
 {
-    assert(_decoder);
-    return _decoder->decodeUInt16(name);
+    value = decoder.decodeUInt32();
+    return decoder;
 }
 
-int32_t ObjectDecoder::decodeInt32(const char* name)
+Decoder& operator>>(Decoder& decoder, int64_t& value)
 {
-    assert(_decoder);
-    return _decoder->decodeInt32(name);
+    value = decoder.decodeInt64();
+    return decoder;
 }
 
-uint32_t ObjectDecoder::decodeUInt32(const char* name)
+Decoder& operator>>(Decoder& decoder, uint64_t& value)
 {
-    assert(_decoder);
-    return _decoder->decodeUInt32(name);
+    value = decoder.decodeUInt64();
+    return decoder;
 }
 
-int64_t ObjectDecoder::decodeInt64(const char* name)
+Decoder& operator>>(Decoder& decoder, float& value)
 {
-    assert(_decoder);
-    return _decoder->decodeInt64(name);
+    value = decoder.decodeFloat32();
+    return decoder;
 }
 
-uint64_t ObjectDecoder::decodeUInt64(const char* name)
+Decoder& operator>>(Decoder& decoder, double& value)
 {
-    assert(_decoder);
-    return _decoder->decodeUInt64(name);
+    value = decoder.decodeFloat64();
+    return decoder;
 }
 
-float ObjectDecoder::decodeFloat32(const char* name)
+Decoder& operator>>(Decoder& decoder, bool& value)
 {
-    assert(_decoder);
-    return _decoder->decodeFloat32(name);
+    value = decoder.decodeBool();
+    return decoder;
 }
 
-double ObjectDecoder::decodeFloat64(const char* name)
-{
-    assert(_decoder);
-    return _decoder->decodeFloat64(name);
-}
-
-Real ObjectDecoder::decodeReal(const char* name)
-{
-    assert(_decoder);
-    return _decoder->decodeReal(name);
-}
-
-bool ObjectDecoder::decodeBool(const char* name)
-{
-    assert(_decoder);
-    return _decoder->decodeBool(name);
-}
-
-Vector2 ObjectDecoder::decodeVector2(const char* name)
-{
-    assert(_decoder);
-    return _decoder->decodeVector2(name);
-}
-
-Vector3 ObjectDecoder::decodeVector3(const char* name)
-{
-    assert(_decoder);
-    return _decoder->decodeVector3(name);
-}
-
-Vector4 ObjectDecoder::decodeVector4(const char* name)
-{
-    assert(_decoder);
-    return _decoder->decodeVector4(name);
-}
-
-ObjectDecoder::ObjectDecoder() :
-    _decoder(nullptr)
-{
-}
-
-ObjectDecoder::ObjectDecoder(Decoder* decoder) :
-    _decoder(decoder)
-{
 }

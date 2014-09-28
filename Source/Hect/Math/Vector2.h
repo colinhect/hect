@@ -27,6 +27,7 @@
 
 #include "Hect/Core/Real.h"
 #include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 #include "Hect/Math/Angle.h"
 
 namespace hect
@@ -239,6 +240,9 @@ typedef Vector2T<int> IntVector2;
 
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const Vector2T<T>& v);
+
+template <typename T>
+Decoder& operator>>(Decoder& decoder, Vector2T<T>& v);
 
 }
 

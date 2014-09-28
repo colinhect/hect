@@ -37,17 +37,8 @@ void DirectionalLight::encode(Encoder& encoder) const
             << encodeValue("color", color);
 }
 
-void DirectionalLight::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void DirectionalLight::decode(Decoder& decoder)
 {
-    assetCache;
-
-    if (decoder.hasMember("direction"))
-    {
-        direction = decoder.decodeVector3("direction");
-    }
-
-    if (decoder.hasMember("color"))
-    {
-        color = decoder.decodeVector3("color");
-    }
+    decoder >> decodeValue("direction", direction)
+            >> decodeValue("color", color);
 }

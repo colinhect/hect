@@ -27,6 +27,7 @@
 
 #include "Hect/IO/AssetEntry.h"
 #include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 #include "Hect/IO/Path.h"
 
 namespace hect
@@ -100,6 +101,9 @@ private:
 
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& assetHandle);
+
+template <typename T>
+Decoder& operator>>(Decoder& decoder, AssetHandle<T>& assetHandle);
 
 }
 

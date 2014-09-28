@@ -26,6 +26,7 @@
 #include "Hect/Platform/Platform.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
+#include "Hect/IO/JsonDecoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/GameMode.h"
@@ -69,7 +70,11 @@ Engine::Engine(int argc, const char* argv[])
 
     // Load video mode
     VideoMode videoMode;
-    videoMode.decodeFromJsonValue(_settings["videoMode"]);
+
+    {
+        JsonDecoder decoder(_settings["videoMode"]);
+        decoder >> decodeValue(videoMode);
+    }
 
     // Create window/renderer/input devices
     _window = Platform::createWindow("Hect", videoMode);

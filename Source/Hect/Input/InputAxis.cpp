@@ -25,7 +25,6 @@
 
 #include <algorithm>
 
-#include "Hect/IO/Encoders/InputAxisEncoder.h"
 #include "Hect/Math/Utilities.h"
 
 using namespace hect;
@@ -72,12 +71,36 @@ Real InputAxis::value() const
     return _value;
 }
 
-void InputAxis::encode(Encoder& encoder) const
+namespace hect
 {
-    InputAxisEncoder::encode(*this, encoder);
+
+Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis)
+{
+    encoder << encodeValue("name", inputAxis._name);
+
+    encoder << beginArray("bindings");
+    for (const InputAxisBinding& binding : inputAxis._bindings)
+    {
+        encoder << beginObject()
+                << binding
+                << endObject();
+    }
+    return encoder << endArray();
 }
 
-void InputAxis::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis)
 {
-    InputAxisEncoder::decode(*this, decoder, assetCache);
+    decoder >> decodeValue("name", inputAxis._name);
+    decoder >> beginArray("bindings");
+    while (decoder.hasMoreElements())
+    {
+        InputAxisBinding binding;
+        decoder >> beginObject()
+                >> binding
+                >> endObject();
+        inputAxis._bindings.push_back(binding);
+    }
+    return decoder >> endArray();
+}
+
 }

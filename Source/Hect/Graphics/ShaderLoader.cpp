@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/IO/AssetLoader.h"
 #include "Hect/IO/AssetCache.h"
+#include "Hect/IO/JsonDecoder.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/Graphics/Shader.h"
 
@@ -41,5 +42,7 @@ void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache
     AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
 
     shader.setName(assetPath.toString());
-    shader.decodeFromJsonValue(jsonValue, assetCache);
+
+    JsonDecoder decoder(jsonValue, assetCache);
+    decoder >> decodeValue(shader);
 }

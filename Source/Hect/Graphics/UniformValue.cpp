@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "UniformValue.h"
 
-#include "Hect/IO/Encoders/UniformValueEncoder.h"
-
 using namespace hect;
 
 UniformValue::UniformValue() :
@@ -261,17 +259,6 @@ Matrix4 UniformValue::asMatrix4() const
     return (Matrix4)_value.as<Matrix4T<float>>();
 }
 
-void UniformValue::encode(Encoder& encoder) const
-{
-    UniformValueEncoder::encode(*this, encoder);
-}
-
-void UniformValue::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    assetCache;
-    UniformValueEncoder::decode(*this, decoder);
-}
-
 bool UniformValue::operator==(const UniformValue& uniformValue) const
 {
     // Type
@@ -307,4 +294,98 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
 bool UniformValue::operator!=(const UniformValue& uniformValue) const
 {
     return !(*this == uniformValue);
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const UniformValue& uniformValue)
+{
+    // Type
+    encoder << encodeEnum("type", uniformValue.type());
+
+    // Value
+    switch (uniformValue.type())
+    {
+    case UniformType_Int:
+    case UniformType_Texture:
+        encoder << encodeValue("value", uniformValue.asInt());
+        break;
+    case UniformType_Float:
+        encoder << encodeValue("value", uniformValue.asReal());
+        break;
+    case UniformType_Vector2:
+        encoder << encodeValue("value", uniformValue.asVector2());
+        break;
+    case UniformType_Vector3:
+        encoder << encodeValue("value", uniformValue.asVector3());
+        break;
+    case UniformType_Vector4:
+        encoder << encodeValue("value", uniformValue.asVector4());
+        break;
+    default:
+        throw Error("Unsupported uniform value type");
+    }
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue)
+{
+    // Type
+    if (decoder.selectMember("type"))
+    {
+        UniformType type;
+        decoder >> decodeEnum(type);
+        uniformValue.setType(type);
+    }
+    else
+    {
+        throw Error("No uniform type specified");
+    }
+
+    // Value
+    if (decoder.selectMember("value"))
+    {
+        switch (uniformValue.type())
+        {
+        case UniformType_Int:
+        case UniformType_Texture:
+            uniformValue.setValue(decoder.decodeInt32());
+            break;
+        case UniformType_Float:
+        {
+            Real value;
+            decoder >> decodeValue(value);
+            uniformValue.setValue(value);
+        }
+        break;
+        case UniformType_Vector2:
+        {
+            Vector2 value;
+            decoder >> decodeValue(value);
+            uniformValue.setValue(value);
+        }
+        break;
+        case UniformType_Vector3:
+        {
+            Vector3 value;
+            decoder >> decodeValue(value);
+            uniformValue.setValue(value);
+        }
+        break;
+        case UniformType_Vector4:
+        {
+            Vector4 value;
+            decoder >> decodeValue(value);
+            uniformValue.setValue(value);
+        }
+        break;
+        default:
+            throw Error("Unsupported uniform value type");
+        }
+    }
+
+    return decoder;
+}
+
 }

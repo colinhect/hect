@@ -38,38 +38,9 @@ void Transform::encode(Encoder& encoder) const
             << encodeValue("localRotation", localRotation);
 }
 
-void Transform::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void Transform::decode(Decoder& decoder)
 {
-    assetCache;
-
-    if (decoder.hasMember("localPosition"))
-    {
-        localPosition = decoder.decodeVector3("localPosition");
-    }
-
-    if (decoder.hasMember("localScale"))
-    {
-        localScale = decoder.decodeVector3("localScale");
-    }
-
-    if (decoder.hasMember("localRotation"))
-    {
-        ObjectDecoder rotationDecoder = decoder.decodeObject("localRotation");
-
-        Vector3 axis;
-        Angle angle;
-
-        if (rotationDecoder.hasMember("axis"))
-        {
-            axis = rotationDecoder.decodeVector3("axis");
-        }
-
-        if (rotationDecoder.hasMember("angle"))
-        {
-            Real degrees = rotationDecoder.decodeReal("angle");
-            angle = Angle::fromDegrees(degrees);
-        }
-
-        localRotation = Quaternion::fromAxisAngle(axis, angle);
-    }
+    decoder >> decodeValue("localPosition", localPosition)
+            >> decodeValue("localScale", localScale)
+            >> decodeValue("localRotation", localRotation);
 }

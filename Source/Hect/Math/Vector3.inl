@@ -254,4 +254,10 @@ Encoder& operator<<(Encoder& encoder, const Vector3T<T>& v)
     return encoder << beginArray() << v.x << v.y << v.z << endArray();
 }
 
+template <typename T>
+Decoder& operator>>(Decoder& decoder, Vector3T<T>& v)
+{
+    return decoder >> beginArray() >> v.x >> v.y >> v.z >> endArray();
+}
+
 }

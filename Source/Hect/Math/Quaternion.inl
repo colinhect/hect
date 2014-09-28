@@ -224,4 +224,14 @@ Encoder& operator<<(Encoder& encoder, const QuaternionT<T>& q)
     return encoder << encodeValue("axis", axis) << encodeValue("angle", angle);
 }
 
+template <typename T>
+Decoder& operator>>(Decoder& decoder, QuaternionT<T>& q)
+{
+    Vector3T<T> axis;
+    Angle angle;
+    decoder >> decodeValue("axis", axis) >> decodeValue("angle", angle);
+    q = QuaternionT<T>::fromAxisAngle(axis, angle);
+    return decoder;
+}
+
 }

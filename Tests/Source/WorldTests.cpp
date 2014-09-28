@@ -22,6 +22,10 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Logic/World.h>
+#include <Hect/IO/BinaryEncoder.h>
+#include <Hect/IO/BinaryDecoder.h>
+#include <Hect/IO/JsonEncoder.h>
+#include <Hect/IO/JsonDecoder.h>
 #include <Hect/IO/MemoryWriteStream.h>
 #include <Hect/IO/MemoryReadStream.h>
 using namespace hect;
@@ -46,14 +50,9 @@ public:
         encoder << encodeValue("value", value);
     }
 
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache)
+    void decode(Decoder& decoder)
     {
-        assetCache;
-
-        if (decoder.hasMember("value"))
-        {
-            value = decoder.decodeString("value");
-        }
+        decoder >> decodeValue("value", value);
     }
 
     std::string value;
@@ -82,13 +81,20 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
 
             createWorld(world);
 
-            jsonValue = world.encodeToJsonValue();
+            JsonEncoder encoder;
+            encoder << beginObject()
+                << encodeValue(world)
+                << endObject();
+            jsonValue = encoder.jsonValues()[0];
         }
 
         {
             World world;
 
-            world.decodeFromJsonValue(jsonValue);
+            JsonDecoder decoder(jsonValue);
+            decoder >> beginObject()
+                >> world
+                >> endObject();
 
             verifyWorld(world);
         }
@@ -103,14 +109,20 @@ void testEncodeDecode(std::function<void(World& world)> createWorld, std::functi
             createWorld(world);
 
             MemoryWriteStream writeStream(data);
-            world.encodeToBinary(writeStream);
+            BinaryEncoder encoder(writeStream);
+            encoder << beginObject()
+                << encodeValue(world)
+                << endObject();
         }
 
         {
             World world;
 
             MemoryReadStream readStream(data);
-            world.decodeFromBinary(readStream);
+            BinaryDecoder decoder(readStream);
+            decoder >> beginObject()
+                >> decodeValue(world)
+                >> endObject();
 
             verifyWorld(world);
         }

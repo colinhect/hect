@@ -26,7 +26,6 @@
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/IO/Encoders/ShaderEncoder.h"
 
 using namespace hect;
 
@@ -122,16 +121,6 @@ const Uniform& Shader::uniformWithName(const std::string& name) const
     throw Error(format("Shader does not have uniform '%s'", name.c_str()));
 }
 
-void Shader::encode(Encoder& encoder) const
-{
-    ShaderEncoder::encode(*this, encoder);
-}
-
-void Shader::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    ShaderEncoder::decode(*this, decoder, assetCache);
-}
-
 bool Shader::operator==(const Shader& shader) const
 {
     // Module count
@@ -206,4 +195,69 @@ Shader& Shader::operator=(Shader&& shader)
     _uniforms = std::move(shader._uniforms);
 
     return *this;
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const Shader& shader)
+{
+    // Modules
+    {
+        encoder << beginArray("modules");
+        for (const AssetHandle<ShaderModule>& module : shader.modules())
+        {
+            encoder << encodeValue(module);
+        }
+        encoder << endArray();
+    }
+
+    // Uniforms
+    {
+        encoder << beginArray("uniforms");
+        for (const Uniform& uniform : shader.uniforms())
+        {
+            encoder << beginObject("uniforms")
+                    << encodeValue(uniform)
+                    << endObject();
+        }
+        encoder << endArray();
+    }
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, Shader& shader)
+{
+    // Modules
+    if (decoder.selectMember("modules"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            AssetHandle<ShaderModule> module;
+            decoder >> decodeValue(module);
+            shader.addModule(module);
+        }
+        decoder >> endArray();
+    }
+
+    // Uniforms
+    if (decoder.selectMember("uniforms"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            Uniform uniform;
+
+            decoder >> beginObject()
+                    >> decodeValue(uniform)
+                    >> endObject();
+
+            shader.addUniform(uniform);
+        }
+        decoder >> endArray();
+    }
+    return decoder;
+}
+
 }

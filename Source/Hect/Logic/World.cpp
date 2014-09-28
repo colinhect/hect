@@ -76,38 +76,6 @@ size_t World::entityCount() const
     return _entityCount;
 }
 
-void World::encode(Encoder& encoder) const
-{
-    encoder << beginArray("entities");
-
-    for (const Entity& entity : entities())
-    {
-        // Only encode the root entities (children are encoded recursively)
-        if (!entity.parent())
-        {
-            encoder << beginObject();
-            entity.encode(encoder);
-            encoder << endObject();
-        }
-    }
-
-    encoder << endArray();
-}
-
-void World::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    ArrayDecoder entitiesDecoder = decoder.decodeArray("entities");
-    while (entitiesDecoder.hasMoreElements())
-    {
-        Entity::Iterator entity = createEntity();
-
-        ObjectDecoder entityDecoder = entitiesDecoder.decodeObject();
-        entity->decode(decoder, assetCache);
-
-        entity->activate();
-    }
-}
-
 Entity::Iterator World::cloneEntity(const Entity& entity)
 {
     Entity::ConstIterator sourceEntity = entity.iterator();
@@ -228,6 +196,40 @@ void World::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     componentPool.addBase(entity, component);
 }
 
+void World::encode(Encoder& encoder) const
+{
+    encoder << beginArray("entities");
+
+    for (const Entity& entity : entities())
+    {
+        // Only encode the root entities (children are encoded recursively)
+        if (!entity.parent())
+        {
+            encoder << beginObject()
+                << encodeValue(entity)
+                << endObject();
+        }
+    }
+
+    encoder << endArray();
+}
+
+void World::decode(Decoder& decoder)
+{
+    decoder >> beginArray("entities");
+    while (decoder.hasMoreElements())
+    {
+        Entity::Iterator entity = createEntity();
+
+        decoder >> beginObject()
+            >> decodeValue(*entity)
+            >> endObject();
+
+        entity->activate();
+    }
+    decoder >> endArray();
+}
+
 void World::encodeComponents(const Entity& entity, Encoder& encoder)
 {
     encoder << beginArray("components");
@@ -252,22 +254,26 @@ void World::encodeComponents(const Entity& entity, Encoder& encoder)
     encoder << endArray();
 }
 
-void World::decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache)
+void World::decodeComponents(Entity& entity, Decoder& decoder)
 {
-    if (decoder.hasMember("components"))
+    if (decoder.selectMember("components"))
     {
-        ArrayDecoder componentsDecoder = decoder.decodeArray("components");
-        while (componentsDecoder.hasMoreElements())
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
         {
-            ObjectDecoder componentDecoder = componentsDecoder.decodeObject();
+            decoder >> beginObject();
 
-            std::string typeName = componentDecoder.decodeString("type");
+            std::string typeName;
+            decoder >> decodeValue("type", typeName);
 
             ComponentBase::Pointer component = ComponentRegistry::createComponent(typeName);
-            component->decode(componentDecoder, assetCache);
+            component->decode(decoder);
 
             addEntityComponentBase(entity, *component);
+
+            decoder >> endObject();
         }
+        decoder >> endArray();
     }
 }
 
@@ -285,4 +291,21 @@ void World::addSystemToTickOrder(System& system)
         // Add the system
         _systemTickOrder.push_back(&system);
     }
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const World& world)
+{
+    world.encode(encoder);
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, World& world)
+{
+    world.decode(decoder);
+    return decoder;
+}
+
 }

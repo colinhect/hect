@@ -41,26 +41,11 @@ void RigidBody::encode(Encoder& encoder) const
             << encodeValue("mesh", mesh);
 }
 
-void RigidBody::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void RigidBody::decode(Decoder& decoder)
 {
-    if (decoder.hasMember("mass"))
-    {
-        mass = decoder.decodeReal("mass");
-    }
-
-    if (decoder.hasMember("linearVelocity"))
-    {
-        linearVelocity = decoder.decodeVector3("linearVelocity");
-    }
-
-    if (decoder.hasMember("angularVelocity"))
-    {
-        angularVelocity = decoder.decodeVector3("angularVelocity");
-    }
-
-    if (decoder.hasMember("mesh"))
-    {
-        Path meshPath = decoder.decodeString("mesh");
-        mesh = assetCache.getHandle<Mesh>(meshPath);
-    }
+    decoder >> decodeValue("mass", mass)
+            >> decodeValue("linearVelocity", linearVelocity)
+            >> decodeValue("angularVelocity", angularVelocity)
+            >> decodeValue("angularVelocity", angularVelocity)
+            >> decodeValue("mesh", mesh);
 }

@@ -26,7 +26,8 @@
 #include <typeindex>
 #include <functional>
 
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
 #pragma warning (disable : 4505)
 
@@ -45,14 +46,16 @@ typedef uint32_t ComponentId;
 /// A numeric identifier for a component type.
 typedef uint32_t ComponentTypeId;
 
-class ComponentBase :
-    public Encodable
+class ComponentBase
 {
 public:
 
     typedef std::shared_ptr<ComponentBase> Pointer;
 
     virtual ~ComponentBase() { }
+
+    virtual void encode(Encoder& encoder) const { encoder; }
+    virtual void decode(Decoder& decoder) { decoder; }
 
     virtual std::type_index typeIndex() const = 0;
 };

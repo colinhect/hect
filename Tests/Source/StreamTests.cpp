@@ -240,19 +240,6 @@ TEST_CASE("Stream_WriteAndReadFloat64")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadReal")
-{
-    testWriteAndReadStream([](WriteStream& stream)
-    {
-        stream.writeReal(pi);
-    }, [](ReadStream& stream)
-    {
-        Real value = stream.readReal();
-        REQUIRE(std::abs(value - pi) < 0.01);
-        REQUIRE(stream.endOfStream());
-    });
-}
-
 TEST_CASE("Stream_WriteAndReadBool")
 {
     testWriteAndReadStream([](WriteStream& stream)

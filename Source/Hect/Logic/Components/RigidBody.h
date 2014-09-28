@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Graphics/Mesh.h"
+#include "Hect/IO/AssetCache.h"
 #include "Hect/Logic/Component.h"
 
 // Forward declare Bullet classes
@@ -60,7 +61,7 @@ public:
     AssetHandle<Mesh> mesh;
 
     void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    void decode(Decoder& decoder);
 
 private:
     std::shared_ptr<btRigidBody> _rigidBody;

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/IO/AssetLoader.h"
 #include "Hect/IO/AssetCache.h"
+#include "Hect/IO/JsonDecoder.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/Graphics/Texture.h"
 
@@ -39,5 +40,7 @@ void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCa
     AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
 
     texture.setName(assetPath.toString());
-    texture.decodeFromJsonValue(jsonValue, assetCache);
+
+    JsonDecoder decoder(jsonValue, assetCache);
+    decoder >> decodeValue(texture);
 }

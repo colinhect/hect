@@ -69,15 +69,6 @@
     <ClInclude Include="Source\Hect\IO\Decoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoder.h" />
     <ClInclude Include="Source\Hect\IO\Encoders\ImagePngEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\MaterialEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\MeshEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\ShaderEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\TextureEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\UniformEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\UniformValueEncoder.h" />
-    <ClInclude Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.h" />
     <ClInclude Include="Source\Hect\IO\EncodeOperations.h" />
     <ClInclude Include="Source\Hect\IO\JsonDecoder.h" />
     <ClInclude Include="Source\Hect\IO\JsonEncoder.h" />
@@ -86,7 +77,6 @@
     <ClInclude Include="Source\Hect\IO\MemoryWriteStream.h" />
     <ClInclude Include="Source\Hect\IO\Path.h" />
     <ClInclude Include="Source\Hect\IO\ReadStream.h" />
-    <ClInclude Include="Source\Hect\IO\Encodable.h" />
     <ClInclude Include="Source\Hect\IO\WriteStream.h" />
     <ClInclude Include="Source\Hect\Logic\Component.h" />
     <ClInclude Include="Source\Hect\Logic\ComponentEvent.h" />
@@ -192,15 +182,6 @@
     <ClCompile Include="Source\Hect\IO\Decoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoder.cpp" />
     <ClCompile Include="Source\Hect\IO\Encoders\ImagePngEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\InputAxisBindingEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\MaterialEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\MeshEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\ShaderEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\TextureEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\UniformEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\UniformValueEncoder.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encoders\VertexLayoutEncoder.cpp" />
     <ClCompile Include="Source\Hect\IO\EncodeOperations.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonDecoder.cpp" />
     <ClCompile Include="Source\Hect\IO\JsonEncoder.cpp" />
@@ -210,7 +191,6 @@
     <ClCompile Include="Source\Hect\IO\MemoryWriteStream.cpp" />
     <ClCompile Include="Source\Hect\IO\Path.cpp" />
     <ClCompile Include="Source\Hect\IO\ReadStream.cpp" />
-    <ClCompile Include="Source\Hect\IO\Encodable.cpp" />
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
     <ClCompile Include="Source\Hect\Logic\ComponentRegistry.cpp" />
     <ClCompile Include="Source\Hect\Logic\Components\BoundingBox.cpp" />

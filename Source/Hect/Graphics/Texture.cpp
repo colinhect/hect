@@ -26,7 +26,6 @@
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Error.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/IO/Encoders/TextureEncoder.h"
 
 using namespace hect;
 
@@ -280,12 +279,35 @@ int Texture::bytesPerPixel() const
     return 0;
 }
 
-void Texture::encode(Encoder& encoder) const
+namespace hect
 {
-    TextureEncoder::encode(*this, encoder);
+
+Decoder& operator>>(Decoder& decoder, Texture& texture)
+{
+    // Type
+    if (decoder.selectMember("type"))
+    {
+        TextureType type;
+        decoder >> decodeEnum(type);
+        texture.setType(type);
+    }
+
+    // Images
+    if (decoder.selectMember("images"))
+    {
+        std::vector<AssetHandle<Image>> images;
+        decoder >> decodeVector(images);
+
+        for (AssetHandle<Image>& image : images)
+        {
+            texture.addSourceImage(image);
+        }
+    }
+
+    return decoder >> decodeEnum("minFilter", texture._minFilter)
+           >> decodeEnum("magFilter", texture._magFilter)
+           >> decodeValue("wrapped", texture._wrapped)
+           >> decodeValue("mipmapped", texture._mipmapped);
 }
 
-void Texture::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    TextureEncoder::decode(*this, decoder, assetCache);
 }

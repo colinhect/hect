@@ -196,6 +196,9 @@ typedef QuaternionT<Real> Quaternion;
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const QuaternionT<T>& q);
 
+template <typename T>
+Decoder& operator>>(Decoder& decoder, QuaternionT<T>& q);
+
 }
 
 #include "Hect/Math/Matrix4.h"

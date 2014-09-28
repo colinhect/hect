@@ -75,10 +75,13 @@ TEST_CASE("Encoding_SingleObject")
             << endObject();
     }, [](Decoder& decoder)
     {
-        ObjectDecoder object = decoder.decodeObject();
+        std::string string;
 
-        REQUIRE(object.hasMember("String"));
-        REQUIRE(object.decodeString("String") == "Testing");
+        decoder >> beginObject()
+            >> decodeValue("String", string)
+            >> endObject();
+
+        REQUIRE(string == "Testing");
     });
 }
 
@@ -93,13 +96,16 @@ TEST_CASE("Encoding_SingleArray")
             << endArray();
     }, [](Decoder& decoder)
     {
-        ArrayDecoder array = decoder.decodeArray();
-
         std::vector<std::string> strings;
-        while (array.hasMoreElements())
+
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
         {
-            strings.push_back(array.decodeString());
+            std::string string;
+            decoder >> decodeValue(string);
+            strings.push_back(string);
         }
+        decoder >> endArray();
 
         REQUIRE(strings[0] == "Zero");
         REQUIRE(strings[1] == "One");
@@ -120,17 +126,18 @@ TEST_CASE("Encoding_ArrayInObject")
             << endObject();
     }, [](Decoder& decoder)
     {
-        ObjectDecoder object = decoder.decodeObject();
-
-        REQUIRE(object.hasMember("Array"));
-
-        ArrayDecoder array = object.decodeArray("Array");
+        decoder >> beginObject()
+            >> beginArray("Array");
 
         std::vector<std::string> strings;
-        while (array.hasMoreElements())
+        while (decoder.hasMoreElements())
         {
-            strings.push_back(array.decodeString());
+            std::string string;
+            decoder >> decodeValue(string);
+            strings.push_back(string);
         }
+        decoder >> endArray()
+            >> endObject();
 
         REQUIRE(strings[0] == "Zero");
         REQUIRE(strings[1] == "One");
@@ -154,17 +161,19 @@ TEST_CASE("Encoding_ArrayInArray")
         encoder << endArray();
     }, [](Decoder& decoder)
     {
-        ArrayDecoder array = decoder.decodeArray();
+        decoder >> beginArray();
 
         int arrayCount = 0;
-        while (array.hasMoreElements())
+        while (decoder.hasMoreElements())
         {
-            ArrayDecoder nested = array.decodeArray();
+            decoder >> beginArray();
 
             std::vector<std::string> strings;
-            while (nested.hasMoreElements())
+            while (decoder.hasMoreElements())
             {
-                strings.push_back(nested.decodeString());
+                std::string string;
+                decoder >> decodeValue(string);
+                strings.push_back(string);
             }
 
             REQUIRE(strings[0] == "Zero");
@@ -172,7 +181,9 @@ TEST_CASE("Encoding_ArrayInArray")
             REQUIRE(strings[2] == "Two");
 
             ++arrayCount;
+            decoder >> endArray();
         }
+        decoder >> endArray();
 
         REQUIRE(arrayCount == 3);
     });
@@ -192,18 +203,23 @@ TEST_CASE("Encoding_ObjectInArray")
         encoder << endArray();
     }, [](Decoder& decoder)
     {
-        ArrayDecoder array = decoder.decodeArray();
+        decoder >> beginArray();
 
         int objectCount = 0;
-        while (array.hasMoreElements())
+        while (decoder.hasMoreElements())
         {
-            ObjectDecoder object = array.decodeObject();
+            std::string string;
 
-            REQUIRE(object.hasMember("String"));
-            REQUIRE(object.decodeString("String") == "Testing");
+            decoder >> beginObject()
+                >> decodeValue("String", string)
+                >> endObject();
+
+            REQUIRE(string== "Testing");
 
             ++objectCount;
         }
+
+        decoder >> endArray();
 
         REQUIRE(objectCount == 3);
     });
@@ -229,32 +245,32 @@ TEST_CASE("Encoding_AllInArray")
             << endArray();
     }, [](Decoder& decoder)
     {
-        ArrayDecoder array = decoder.decodeArray();
+        decoder >> beginArray();
 
-        REQUIRE(array.decodeString() == "Test");
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeInt8() == 12);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeUInt8() == 12u);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeInt16() == 12);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeUInt16() == 12u);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeInt32() == 12);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeUInt32() == 12u);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeInt64() == 12);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeUInt64() == 12u);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeFloat32() == 123.0f);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeFloat64() == 123.0);
-        REQUIRE(array.hasMoreElements());
-        REQUIRE(array.decodeBool() == true);
-        REQUIRE(!array.hasMoreElements());
+        REQUIRE(decoder.decodeString() == "Test");
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeInt8() == 12);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeUInt8() == 12u);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeInt16() == 12);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeUInt16() == 12u);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeInt32() == 12);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeUInt32() == 12u);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeInt64() == 12);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeUInt64() == 12u);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeFloat32() == 123.0f);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeFloat64() == 123.0);
+        REQUIRE(decoder.hasMoreElements());
+        REQUIRE(decoder.decodeBool() == true);
+        REQUIRE(!decoder.hasMoreElements());
     });
 }
 
@@ -278,31 +294,80 @@ TEST_CASE("Encoding_AllInObject")
             << endObject();
     }, [](Decoder& decoder)
     {
-        ObjectDecoder object = decoder.decodeObject();
+        decoder >> beginObject();
 
-        REQUIRE(object.hasMember("String"));
-        REQUIRE(object.decodeString("String") == "Test");
-        REQUIRE(object.hasMember("Int8"));
-        REQUIRE(object.decodeInt8("Int8") == 12);
-        REQUIRE(object.hasMember("UInt8"));
-        REQUIRE(object.decodeUInt8("UInt8") == 12u);
-        REQUIRE(object.hasMember("Int16"));
-        REQUIRE(object.decodeInt16("Int16") == 12);
-        REQUIRE(object.hasMember("UInt16"));
-        REQUIRE(object.decodeUInt16("UInt16") == 12u);
-        REQUIRE(object.hasMember("Int32"));
-        REQUIRE(object.decodeInt32("Int32") == 12);
-        REQUIRE(object.hasMember("UInt32"));
-        REQUIRE(object.decodeUInt32("UInt32") == 12u);
-        REQUIRE(object.hasMember("Int64"));
-        REQUIRE(object.decodeInt64("Int64") == 12);
-        REQUIRE(object.hasMember("UInt64"));
-        REQUIRE(object.decodeUInt64("UInt64") == 12u);
-        REQUIRE(object.hasMember("Float32"));
-        REQUIRE(object.decodeFloat32("Float32") == 123.0f);
-        REQUIRE(object.hasMember("Float64"));
-        REQUIRE(object.decodeFloat64("Float64") == 123.0);
-        REQUIRE(object.hasMember("Bool"));
-        REQUIRE(object.decodeBool("Bool") == true);
+        {
+            std::string value;
+            decoder >> decodeValue("String", value);
+            REQUIRE(value == "Test");
+        }
+
+        {
+            int8_t value;
+            decoder >> decodeValue("Int8", value);
+            REQUIRE(value == 12);
+        }
+
+        {
+            uint8_t value;
+            decoder >> decodeValue("UInt8", value);
+            REQUIRE(value == 12u);
+        }
+
+        {
+            int16_t value;
+            decoder >> decodeValue("Int16", value);
+            REQUIRE(value == 12);
+        }
+
+        {
+            uint16_t value;
+            decoder >> decodeValue("UInt16", value);
+            REQUIRE(value == 12u);
+        }
+
+        {
+            int32_t value;
+            decoder >> decodeValue("Int32", value);
+            REQUIRE(value == 12);
+        }
+
+        {
+            uint32_t value;
+            decoder >> decodeValue("UInt32", value);
+            REQUIRE(value == 12u);
+        }
+
+        {
+            int64_t value;
+            decoder >> decodeValue("Int64", value);
+            REQUIRE(value == 12);
+        }
+
+        {
+            uint64_t value;
+            decoder >> decodeValue("UInt64", value);
+            REQUIRE(value == 12u);
+        }
+
+        {
+            float value;
+            decoder >> decodeValue("Float32", value);
+            REQUIRE(value == 123.0f);
+        }
+
+        {
+            double value;
+            decoder >> decodeValue("Float64", value);
+            REQUIRE(value == 123.0);
+        }
+
+        {
+            bool value;
+            decoder >> decodeValue("Bool", value);
+            REQUIRE(value == true);
+        }
+
+        decoder >> endObject();
     });
 }

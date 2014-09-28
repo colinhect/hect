@@ -54,29 +54,21 @@ bool VideoMode::isFullscreen() const
     return _fullscreen;
 }
 
-void VideoMode::encode(Encoder& encoder) const
+namespace hect
 {
-    encoder << encodeValue("width", _width)
-            << encodeValue("height", _height)
-            << encodeValue("fullscreen", _fullscreen);
+
+Encoder& operator<<(Encoder& encoder, const VideoMode& videoMode)
+{
+    return encoder << encodeValue("width", videoMode._width)
+           << encodeValue("height", videoMode._height)
+           << encodeValue("fullscreen", videoMode._fullscreen);
 }
 
-void VideoMode::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+Decoder& operator>>(Decoder& decoder, VideoMode& videoMode)
 {
-    assetCache;
+    return decoder >> decodeValue("width", videoMode._width)
+           >> decodeValue("height", videoMode._height)
+           >> decodeValue("fullscreen", videoMode._fullscreen);
+}
 
-    if (decoder.hasMember("width"))
-    {
-        _width = decoder.decodeUInt32("width");
-    }
-
-    if (decoder.hasMember("height"))
-    {
-        _height = decoder.decodeUInt32("height");
-    }
-
-    if (decoder.hasMember("fullscreen"))
-    {
-        _fullscreen = decoder.decodeBool("fullscreen");
-    }
 }

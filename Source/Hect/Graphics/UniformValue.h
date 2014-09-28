@@ -24,7 +24,8 @@
 #pragma once
 
 #include "Hect/Core/Any.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -70,8 +71,7 @@ enum UniformType : uint8_t
 /// A value for a uniform.
 ///
 /// \note A uniform's type cannot change.
-class UniformValue :
-    public Encodable
+class UniformValue
 {
 public:
 
@@ -209,9 +209,6 @@ public:
     /// Returns the value as a 4 by 4 matrix.
     Matrix4 asMatrix4() const;
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
     ///
     /// Returns whether the uniform value is equivalent to another.
     ///
@@ -223,6 +220,9 @@ public:
     ///
     /// \param uniformValue The other uniform value.
     bool operator!=(const UniformValue& uniformValue) const;
+
+    friend Encoder& operator<<(Encoder& encoder, const UniformValue& uniformValue);
+    friend Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue);
 
 private:
     UniformType _type;

@@ -24,7 +24,6 @@
 #include "VertexLayout.h"
 
 #include "Hect/Reflection/Enum.h"
-#include "Hect/IO/Encoders/VertexLayoutEncoder.h"
 
 using namespace hect;
 
@@ -95,17 +94,6 @@ unsigned VertexLayout::vertexSize() const
     return _vertexSize;
 }
 
-void VertexLayout::encode(Encoder& encoder) const
-{
-    VertexLayoutEncoder::encode(*this, encoder);
-}
-
-void VertexLayout::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    assetCache;
-    VertexLayoutEncoder::decode(*this, decoder);
-}
-
 bool VertexLayout::operator==(const VertexLayout& vertexLayout) const
 {
     // Compare attribute count
@@ -146,4 +134,48 @@ void VertexLayout::computeAttributeOffsets()
         attribute._offset = _vertexSize;
         _vertexSize += attribute.size();
     }
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout)
+{
+    encoder << beginArray("attributes");
+    for (const VertexAttribute& attribute : vertexLayout.attributes())
+    {
+        encoder << beginObject()
+                << encodeEnum("semantic", attribute.semantic())
+                << encodeEnum("type", attribute.type())
+                << encodeValue("cardinality", attribute.cardinality())
+                << endObject();
+    }
+    return encoder << endArray();
+}
+
+Decoder& operator>>(Decoder& decoder, VertexLayout& vertexLayout)
+{
+    vertexLayout.clearAttributes();
+
+    // Attributes
+    decoder >> beginArray("attributes");
+    while (decoder.hasMoreElements())
+    {
+        VertexAttributeSemantic semantic;
+        VertexAttributeType type;
+        unsigned cardinality;
+
+        decoder >> beginObject()
+                >> decodeEnum("semantic", semantic)
+                >> decodeEnum("type", type)
+                >> decodeValue("cardinality", cardinality)
+                >> endObject();
+
+        // Append the new attribute
+        VertexAttribute attribute(semantic, type, cardinality);
+        vertexLayout.addAttribute(attribute);
+    }
+    return decoder >> endArray();
+}
+
 }

@@ -21,9 +21,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Logging.h"
 #include "Hect/Core/Format.h"
 #include "Hect/IO/AssetLoader.h"
+#include "Hect/Platform/FileSystem.h"
 
 namespace hect
 {

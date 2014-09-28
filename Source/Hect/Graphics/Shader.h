@@ -24,8 +24,9 @@
 #pragma once
 
 #include "Hect/Core/Sequence.h"
-#include "Hect/IO/AssetHandle.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/AssetCache.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 #include "Hect/Graphics/Uniform.h"
 #include "Hect/Graphics/ShaderModule.h"
 
@@ -35,8 +36,7 @@ namespace hect
 ///
 /// A GPU shader program.
 class Shader :
-    public RendererObject,
-    public Encodable
+    public RendererObject
 {
 public:
 
@@ -114,9 +114,6 @@ public:
     /// \throws Error If no uniform with the given name exists.
     const Uniform& uniformWithName(const std::string& name) const;
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
     ///
     /// Returns whether the shader is equivalent to another.
     ///
@@ -154,6 +151,9 @@ public:
     ///
     /// \returns A reference to the shader.
     Shader& operator=(Shader&& shader);
+
+    friend Encoder& operator<<(Encoder& encoder, const Shader& shader);
+    friend Decoder& operator>>(Decoder& decoder, Shader& shader);
 
 private:
     std::string _name;

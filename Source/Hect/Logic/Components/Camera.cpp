@@ -46,28 +46,10 @@ void Camera::encode(Encoder& encoder) const
             << encodeValue("farClip", farClip);
 }
 
-void Camera::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void Camera::decode(Decoder& decoder)
 {
-    assetCache;
-
-    if (decoder.hasMember("fieldOfView"))
-    {
-        Real degrees = decoder.decodeReal("fieldOfView");
-        fieldOfView = Angle::fromDegrees(degrees);
-    }
-
-    if (decoder.hasMember("aspectRatio"))
-    {
-        aspectRatio = decoder.decodeReal("aspectRatio");
-    }
-
-    if (decoder.hasMember("nearClip"))
-    {
-        nearClip = decoder.decodeReal("nearClip");
-    }
-
-    if (decoder.hasMember("farClip"))
-    {
-        farClip = decoder.decodeReal("farClip");
-    }
+    decoder >> decodeValue("fieldOfView", fieldOfView)
+            >> decodeValue("aspectRatio", aspectRatio)
+            >> decodeValue("nearClip", nearClip)
+            >> decodeValue("farClip", farClip);
 }

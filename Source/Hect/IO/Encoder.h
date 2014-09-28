@@ -47,97 +47,97 @@ public:
 
     ///
     /// Begins an array.
-    virtual Encoder& beginArray() = 0;
+    virtual void beginArray() = 0;
 
     ///
     /// Ends the current array.
-    virtual Encoder& endArray() = 0;
+    virtual void endArray() = 0;
 
     ///
     /// Begins an object.
-    virtual Encoder& beginObject() = 0;
+    virtual void beginObject() = 0;
 
     ///
     /// Ends the current object.
-    virtual Encoder& endObject() = 0;
+    virtual void endObject() = 0;
 
     ///
     /// Selects a member of the current object.
     ///
     /// \param name The name of the member to select.
-    virtual Encoder& selectMember(const char* name) = 0;
+    virtual void selectMember(const char* name) = 0;
 
     ///
     /// Encodes a string.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeString(const std::string& value) = 0;
+    virtual void encodeString(const std::string& value) = 0;
 
     ///
     /// Encodes an 8-bit integer.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeInt8(int8_t value) = 0;
+    virtual void encodeInt8(int8_t value) = 0;
 
     ///
     /// Encodes an 8-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeUInt8(uint8_t value) = 0;
+    virtual void encodeUInt8(uint8_t value) = 0;
 
     ///
     /// Encodes a 16-bit integer.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeInt16(int16_t value) = 0;
+    virtual void encodeInt16(int16_t value) = 0;
 
     ///
     /// Encodes a 16-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeUInt16(uint16_t value) = 0;
+    virtual void encodeUInt16(uint16_t value) = 0;
 
     ///
     /// Encodes a 32-bit integer.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeInt32(int32_t value) = 0;
+    virtual void encodeInt32(int32_t value) = 0;
 
     ///
     /// Encodes a 32-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeUInt32(uint32_t value) = 0;
+    virtual void encodeUInt32(uint32_t value) = 0;
 
     ///
     /// Encodes a 64-bit integer.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeInt64(int64_t value) = 0;
+    virtual void encodeInt64(int64_t value) = 0;
 
     ///
     /// Encodes a 64-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeUInt64(uint64_t value) = 0;
+    virtual void encodeUInt64(uint64_t value) = 0;
 
     ///
     /// Encodes a 32-bit float.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeFloat32(float value) = 0;
+    virtual void encodeFloat32(float value) = 0;
 
     ///
     /// Encodes a 64-bit float.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeFloat64(double value) = 0;
+    virtual void encodeFloat64(double value) = 0;
 
     ///
     /// Encodes a boolean.
     ///
     /// \param value The value to encode.
-    virtual Encoder& encodeBool(bool value) = 0;
+    virtual void encodeBool(bool value) = 0;
 };
 
 Encoder& operator<<(Encoder& encoder, const BeginArray& beginArray);
@@ -148,6 +148,9 @@ Encoder& operator<<(Encoder& encoder, const EndObject&);
 
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encodeValue);
+
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encodeVector);
 
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encodeEnum);

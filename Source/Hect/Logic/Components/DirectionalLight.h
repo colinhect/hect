@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Math/Vector3.h"
 #include "Hect/Logic/Component.h"
 
 namespace hect
@@ -45,7 +46,7 @@ public:
     Vector3 color;
 
     void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    void decode(Decoder& decoder);
 };
 
 }

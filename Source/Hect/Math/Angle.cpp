@@ -117,4 +117,13 @@ Encoder& operator<<(Encoder& encoder, Angle angle)
     return encoder << angle.degrees();
 }
 
+
+Decoder& operator>>(Decoder& decoder, Angle& angle)
+{
+    Real degrees;
+    decoder >> decodeValue(degrees);
+    angle = Angle::fromDegrees(degrees);
+    return decoder;
+}
+
 }

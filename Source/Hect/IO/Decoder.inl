@@ -25,31 +25,55 @@ namespace hect
 {
 
 template <typename T>
-T ArrayDecoder::decodeEnum()
+Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decodeValue)
 {
-    if (isBinaryStream())
+    if (!decodeValue.name || decoder.selectMember(decodeValue.name))
     {
-        return (T)decodeUInt8();
+        return decoder >> decodeValue.value;
     }
     else
     {
-        std::string string = decodeString();
-        return Enum::fromString<T>(string);
+        return decoder;
     }
 }
 
 template <typename T>
-T ObjectDecoder::decodeEnum(const char* name)
+Decoder& operator>>(Decoder& decoder, const DecodeVector<T>& decodeVector)
 {
-    if (isBinaryStream())
+    if (!decodeVector.name || decoder.selectMember(decodeVector.name))
     {
-        return (T)decodeUInt8(name);
+        decoder >> beginArray();
+
+        while (decoder.hasMoreElements())
+        {
+            decodeVector.values.push_back(T());
+            decoder >> decodeValue(decodeVector.values.back());
+        }
+
+        decoder >> endArray();
     }
-    else
+    return decoder;
+}
+
+template <typename T>
+Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decodeEnum)
+{
+    if (!decodeEnum.name || decoder.selectMember(decodeEnum.name))
     {
-        std::string string = decodeString(name);
-        return Enum::fromString<T>(string);
+        if (decoder.isBinaryStream())
+        {
+            uint8_t value;
+            decoder >> decodeValue(value);
+            decodeEnum.value = (T)value;
+        }
+        else
+        {
+            std::string string;
+            decoder >> decodeValue(string);
+            decodeEnum.value = Enum::fromString<T>(string);
+        }
     }
+    return decoder;
 }
 
 }

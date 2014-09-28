@@ -21,9 +21,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include "Hect/IO/AssetCache.h"
 #include "Hect/IO/AssetLoader.h"
 #include "Hect/IO/JsonValue.h"
+#include "Hect/IO/JsonDecoder.h"
 #include "Hect/Graphics/Material.h"
+#include "Hect/Platform/FileSystem.h"
 
 using namespace hect;
 
@@ -40,5 +43,7 @@ void AssetLoader<Material>::load(Material& material, const Path& assetPath, Asse
     AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
 
     material.setName(assetPath.toString());
-    material.decodeFromJsonValue(jsonValue, assetCache);
+
+    JsonDecoder decoder(jsonValue, assetCache);
+    decoder >> decodeValue(material);
 }

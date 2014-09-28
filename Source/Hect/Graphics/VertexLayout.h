@@ -25,15 +25,15 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/VertexAttribute.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
 namespace hect
 {
 
 ///
 /// An ordered layout of vertex attributes.
-class VertexLayout :
-    public Encodable
+class VertexLayout
 {
 public:
 
@@ -82,9 +82,6 @@ public:
     /// Returns the total size in bytes of a vertex in this layout.
     unsigned vertexSize() const;
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
     ///
     /// Returns whether the layout is equivalent to another.
     ///
@@ -96,6 +93,9 @@ public:
     ///
     /// \param vertexLayout The other layout.
     bool operator!=(const VertexLayout& vertexLayout) const;
+
+    friend Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout);
+    friend Decoder& operator>>(Decoder& decoder, VertexLayout& vertexLayout);
 
 private:
     void computeAttributeOffsets();

@@ -27,7 +27,8 @@
 #include <typeindex>
 #include <typeinfo>
 
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/EntityPool.h"
@@ -42,8 +43,7 @@ namespace hect
 ///
 /// A world of entities, components, and systems.
 class World :
-    public Uncopyable,
-    public Encodable
+    public Uncopyable
 {
     friend class Entity;
 public:
@@ -97,8 +97,8 @@ public:
     /// Returns the number of active entities in the world.
     size_t entityCount() const;
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    friend Encoder& operator<<(Encoder& encoder, const World& world);
+    friend Decoder& operator>>(Decoder& decoder, World& world);
 
 private:
     Entity::Iterator cloneEntity(const Entity& entity);
@@ -108,8 +108,11 @@ private:
 
     void addEntityComponentBase(Entity& entity, const ComponentBase& component);
 
+    void encode(Encoder& encoder) const;
+    void decode(Decoder& decoder);
+
     void encodeComponents(const Entity& entity, Encoder& encoder);
-    void decodeComponents(Entity& entity, ObjectDecoder& decoder, AssetCache& assetCache);
+    void decodeComponents(Entity& entity, Decoder& decoder);
 
     void addSystemToTickOrder(System& system);
 

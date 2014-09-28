@@ -45,27 +45,24 @@ WriteStream& JsonEncoder::binaryStream()
     throw Error("The encoder is not writing to a binary stream");
 }
 
-Encoder& JsonEncoder::beginArray()
+void JsonEncoder::beginArray()
 {
     _memberSelected = false;
     _valueStack.push(JsonValue(JsonValueType_Array));
-    return *this;
 }
 
-Encoder& JsonEncoder::endArray()
+void JsonEncoder::endArray()
 {
     endObject();
-    return *this;
 }
 
-Encoder& JsonEncoder::beginObject()
+void JsonEncoder::beginObject()
 {
     _memberSelected = false;
     _valueStack.push(JsonValue(JsonValueType_Object));
-    return *this;
 }
 
-Encoder& JsonEncoder::endObject()
+void JsonEncoder::endObject()
 {
     JsonValue value = _valueStack.top();
     _valueStack.pop();
@@ -83,10 +80,9 @@ Encoder& JsonEncoder::endObject()
         _valueStack.top().addMember(_nameStack.top(), value);
         _nameStack.pop();
     }
-    return *this;
 }
 
-Encoder& JsonEncoder::selectMember(const char* name)
+void JsonEncoder::selectMember(const char* name)
 {
     if (_valueStack.empty() || !_valueStack.top().isObject())
     {
@@ -94,79 +90,66 @@ Encoder& JsonEncoder::selectMember(const char* name)
     }
     _nameStack.push(name);
     _memberSelected = true;
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeString(const std::string& value)
+void JsonEncoder::encodeString(const std::string& value)
 {
     encode(value);
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeInt8(int8_t value)
+void JsonEncoder::encodeInt8(int8_t value)
 {
     encode(value);
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeUInt8(uint8_t value)
+void JsonEncoder::encodeUInt8(uint8_t value)
 {
     encode(value);
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeInt16(int16_t value)
+void JsonEncoder::encodeInt16(int16_t value)
 {
     encode(value);
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeUInt16(uint16_t value)
+void JsonEncoder::encodeUInt16(uint16_t value)
 {
     encode(value);
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeInt32(int32_t value)
+void JsonEncoder::encodeInt32(int32_t value)
 {
     encode(value);
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeUInt32(uint32_t value)
+void JsonEncoder::encodeUInt32(uint32_t value)
 {
     encode(value);
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeInt64(int64_t value)
+void JsonEncoder::encodeInt64(int64_t value)
 {
     encode(static_cast<double>(value));
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeUInt64(uint64_t value)
+void JsonEncoder::encodeUInt64(uint64_t value)
 {
     encode(static_cast<double>(value));
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeFloat32(float value)
+void JsonEncoder::encodeFloat32(float value)
 {
     encode(value);
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeFloat64(double value)
+void JsonEncoder::encodeFloat64(double value)
 {
     encode(value);
-    return *this;
 }
 
-Encoder& JsonEncoder::encodeBool(bool value)
+void JsonEncoder::encodeBool(bool value)
 {
     encode(value);
-    return *this;
 }
 
 void JsonEncoder::encode(const JsonValue& value)

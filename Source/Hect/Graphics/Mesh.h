@@ -25,7 +25,8 @@
 
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/VertexLayout.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 #include "Hect/Spacial/AxisAlignedBox.h"
 
 namespace hect
@@ -62,11 +63,12 @@ enum IndexType
 ///
 /// A mesh of vertices and indices.
 class Mesh :
-    public RendererObject,
-    public Encodable
+    public RendererObject
 {
     friend class MeshWriter;
 public:
+
+    static const uint64_t IdentifyNumber;
 
     ///
     /// Raw vertex data.
@@ -205,9 +207,6 @@ public:
     /// Returns an axis aligned box bounding the mesh.
     const AxisAlignedBox& axisAlignedBox() const;
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
     ///
     /// Returns whether the mesh is equivalent to another.
     ///
@@ -245,6 +244,9 @@ public:
     ///
     /// \returns A reference to the mesh.
     Mesh& operator=(Mesh&& mesh);
+
+    friend Encoder& operator<<(Encoder& encoder, const Mesh& mesh);
+    friend Decoder& operator>>(Decoder& decoder, Mesh& mesh);
 
 private:
     std::string _name;

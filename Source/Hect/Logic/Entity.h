@@ -26,7 +26,8 @@
 #include <functional>
 
 #include "Hect/Event/Listener.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/EntityEvent.h"
 
@@ -36,7 +37,6 @@ namespace hect
 ///
 /// A dynamic object in a World.
 class Entity :
-    public Encodable,
     public Uncopyable
 {
     friend class World;
@@ -660,8 +660,8 @@ public:
     /// \returns A vector of iterators to the matching entities.
     Entity::ConstIterator::Vector findAncestors(Predicate predicate) const;
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    friend Encoder& operator<<(Encoder& encoder, const Entity& entity);
+    friend Decoder& operator>>(Decoder& decoder, Entity& entity);
 
 private:
     Entity();
@@ -672,6 +672,9 @@ private:
     void exitPool();
     bool inPool() const;
     void ensureInPool() const;
+
+    void encode(Encoder& encoder) const;
+    void decode(Decoder& decoder);
 
     Children _children;
     EntityPool* _pool;

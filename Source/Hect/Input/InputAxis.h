@@ -26,15 +26,15 @@
 #include <vector>
 
 #include "Hect/Input/InputAxisBinding.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
 namespace hect
 {
 
 ///
 /// An axis manipulated by an input device.
-class InputAxis :
-    public Encodable
+class InputAxis
 {
 public:
 
@@ -64,8 +64,8 @@ public:
 
     Real value() const;
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    friend Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis);
+    friend Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis);
 
 private:
     std::string _name;

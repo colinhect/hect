@@ -33,6 +33,12 @@ BinaryDecoder::BinaryDecoder(ReadStream& stream) :
 {
 }
 
+BinaryDecoder::BinaryDecoder(ReadStream& stream, AssetCache& assetCache) :
+    Decoder(assetCache),
+    _stream(&stream)
+{
+}
+
 bool BinaryDecoder::isBinaryStream() const
 {
     return true;
@@ -43,31 +49,15 @@ ReadStream& BinaryDecoder::binaryStream()
     return *_stream;
 }
 
-ArrayDecoder BinaryDecoder::decodeArray()
-{
-    _countStack.push(_stream->readUInt32());
-    _indexStack.push(0);
-
-    return ArrayDecoder(this);
-}
-
-ObjectDecoder BinaryDecoder::decodeObject()
-{
-    return ObjectDecoder(this);
-}
 
 void BinaryDecoder::beginArray()
 {
-    ++_indexStack.top();
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
 
-    _countStack.push(_stream->readUInt32());
-    _indexStack.push(0);
-}
-
-void BinaryDecoder::beginArray(const char* name)
-{
-    name;
-
+    _valueTypeStack.push(ValueType_Array);
     _countStack.push(_stream->readUInt32());
     _indexStack.push(0);
 }
@@ -76,6 +66,7 @@ void BinaryDecoder::endArray()
 {
     _indexStack.pop();
     _countStack.pop();
+    _valueTypeStack.pop();
 }
 
 bool BinaryDecoder::hasMoreElements() const
@@ -85,19 +76,19 @@ bool BinaryDecoder::hasMoreElements() const
 
 void BinaryDecoder::beginObject()
 {
-    ++_indexStack.top();
-}
-
-void BinaryDecoder::beginObject(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
+    _valueTypeStack.push(ValueType_Object);
 }
 
 void BinaryDecoder::endObject()
 {
+    _valueTypeStack.pop();
 }
 
-bool BinaryDecoder::hasMember(const char* name) const
+bool BinaryDecoder::selectMember(const char* name)
 {
     name;
     return true; // Assume that all values are written
@@ -105,192 +96,108 @@ bool BinaryDecoder::hasMember(const char* name) const
 
 std::string BinaryDecoder::decodeString()
 {
-    ++_indexStack.top();
-    return _stream->readString();
-}
-
-std::string BinaryDecoder::decodeString(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readString();
 }
 
 int8_t BinaryDecoder::decodeInt8()
 {
-    ++_indexStack.top();
-    return _stream->readInt8();
-}
-
-int8_t BinaryDecoder::decodeInt8(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readInt8();
 }
 
 uint8_t BinaryDecoder::decodeUInt8()
 {
-    ++_indexStack.top();
-    return _stream->readUInt8();
-}
-
-uint8_t BinaryDecoder::decodeUInt8(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readUInt8();
 }
 
 int16_t BinaryDecoder::decodeInt16()
 {
-    ++_indexStack.top();
-    return _stream->readInt16();
-}
-
-int16_t BinaryDecoder::decodeInt16(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readInt16();
 }
 
 uint16_t BinaryDecoder::decodeUInt16()
 {
-    ++_indexStack.top();
-    return _stream->readUInt16();
-}
-
-uint16_t BinaryDecoder::decodeUInt16(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readUInt16();
 }
 
 int32_t BinaryDecoder::decodeInt32()
 {
-    ++_indexStack.top();
-    return _stream->readInt32();
-}
-
-int32_t BinaryDecoder::decodeInt32(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readInt32();
 }
 
 uint32_t BinaryDecoder::decodeUInt32()
 {
-    ++_indexStack.top();
-    return _stream->readUInt32();
-}
-
-uint32_t BinaryDecoder::decodeUInt32(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readUInt32();
 }
 
 int64_t BinaryDecoder::decodeInt64()
 {
-    ++_indexStack.top();
-    return _stream->readInt64();
-}
-
-int64_t BinaryDecoder::decodeInt64(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readInt64();
 }
 
 uint64_t BinaryDecoder::decodeUInt64()
 {
-    ++_indexStack.top();
-    return _stream->readUInt64();
-}
-
-uint64_t BinaryDecoder::decodeUInt64(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readUInt64();
 }
 
 float BinaryDecoder::decodeFloat32()
 {
-    ++_indexStack.top();
-    return _stream->readFloat32();
-}
-
-float BinaryDecoder::decodeFloat32(const char* name)
-{
-    name;
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readFloat32();
 }
 
 double BinaryDecoder::decodeFloat64()
 {
-    ++_indexStack.top();
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readFloat64();
-}
-
-double BinaryDecoder::decodeFloat64(const char* name)
-{
-    name;
-    return _stream->readFloat64();
-}
-
-Real BinaryDecoder::decodeReal()
-{
-    ++_indexStack.top();
-    return _stream->readReal();
-}
-
-Real BinaryDecoder::decodeReal(const char* name)
-{
-    name;
-    return _stream->readReal();
 }
 
 bool BinaryDecoder::decodeBool()
 {
-    ++_indexStack.top();
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    {
+        ++_indexStack.top();
+    }
     return _stream->readBool();
-}
-
-bool BinaryDecoder::decodeBool(const char* name)
-{
-    name;
-    return _stream->readBool();
-}
-
-Vector2 BinaryDecoder::decodeVector2()
-{
-    ++_indexStack.top();
-    return _stream->readVector2();
-}
-
-Vector2 BinaryDecoder::decodeVector2(const char* name)
-{
-    name;
-    return _stream->readVector2();
-}
-
-Vector3 BinaryDecoder::decodeVector3()
-{
-    ++_indexStack.top();
-    return _stream->readVector3();
-}
-
-Vector3 BinaryDecoder::decodeVector3(const char* name)
-{
-    name;
-    return _stream->readVector3();
-}
-
-Vector4 BinaryDecoder::decodeVector4()
-{
-    ++_indexStack.top();
-    return _stream->readVector4();
-}
-
-Vector4 BinaryDecoder::decodeVector4(const char* name)
-{
-    name;
-    return _stream->readVector4();
 }

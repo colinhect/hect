@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputAxisBinding.h"
 
-#include "Hect/IO/Encoders/InputAxisBindingEncoder.h"
 #include "Hect/Math/Utilities.h"
 #include "Hect/Platform/Platform.h"
 
@@ -120,12 +119,33 @@ Real InputAxisBinding::value() const
     return interpolate(range.x, range.y, _value);
 }
 
-void InputAxisBinding::encode(Encoder& encoder) const
+namespace hect
 {
-    InputAxisBindingEncoder::encode(*this, encoder);
+
+Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding)
+{
+    return encoder << encodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
+           << encodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
+           << encodeEnum<Key>("key", inputAxisBinding.key)
+           << encodeValue("gamepadIndex", inputAxisBinding.gamepadIndex)
+           << encodeEnum<GamepadAxis>("gamepadAxis", inputAxisBinding.gamepadAxis)
+           << encodeValue("gamepadAxisDeadZone", inputAxisBinding.gamepadAxisDeadZone)
+           << encodeEnum<GamepadButton>("gamepadButton", inputAxisBinding.gamepadButton)
+           << encodeValue("acceleration", inputAxisBinding.acceleration)
+           << encodeValue("range", inputAxisBinding.range);
 }
 
-void InputAxisBinding::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding)
 {
-    InputAxisBindingEncoder::decode(*this, decoder, assetCache);
+    return decoder >> decodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
+           >> decodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
+           >> decodeEnum<Key>("key", inputAxisBinding.key)
+           >> decodeValue("gamepadIndex", inputAxisBinding.gamepadIndex)
+           >> decodeEnum<GamepadAxis>("gamepadAxis", inputAxisBinding.gamepadAxis)
+           >> decodeValue("gamepadAxisDeadZone", inputAxisBinding.gamepadAxisDeadZone)
+           >> decodeEnum<GamepadButton>("gamepadButton", inputAxisBinding.gamepadButton)
+           >> decodeValue("acceleration", inputAxisBinding.acceleration)
+           >> decodeValue("range", inputAxisBinding.range);
+}
+
 }

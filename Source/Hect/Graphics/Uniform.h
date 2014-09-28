@@ -24,7 +24,8 @@
 #pragma once
 
 #include "Hect/Graphics/UniformValue.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
 namespace hect
 {
@@ -84,8 +85,7 @@ enum UniformBinding
 ///
 /// \note A uniform must either have a default value or a binding.  The type
 /// is determined by those.
-class Uniform :
-    public Encodable
+class Uniform
 {
 public:
 
@@ -172,9 +172,6 @@ public:
     /// \param location The compiled location.
     void setLocation(int location);
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
-
     ///
     /// Returns whether the uniform is equivalent to another.
     ///
@@ -186,6 +183,9 @@ public:
     ///
     /// \param uniform The other uniform.
     bool operator!=(const Uniform& uniform) const;
+
+    friend Encoder& operator<<(Encoder& encoder, const Uniform& uniform);
+    friend Decoder& operator>>(Decoder& decoder, Uniform& uniform);
 
 private:
     std::string _name;

@@ -30,13 +30,7 @@ void LightProbe::encode(Encoder& encoder) const
     encoder << encodeValue("texture", texture);
 }
 
-void LightProbe::decode(ObjectDecoder& decoder, AssetCache& assetCache)
+void LightProbe::decode(Decoder& decoder)
 {
-    assetCache;
-
-    if (decoder.hasMember("texture"))
-    {
-        Path texturePath = decoder.decodeString("texture");
-        texture = assetCache.getHandle<Texture>(texturePath);
-    }
+    decoder >> decodeValue("texture", texture);
 }

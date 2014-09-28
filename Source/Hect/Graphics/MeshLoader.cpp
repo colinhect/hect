@@ -23,8 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/IO/AssetLoader.h"
 #include "Hect/IO/AssetCache.h"
+#include "Hect/IO/BinaryDecoder.h"
+#include "Hect/IO/JsonDecoder.h"
 #include "Hect/IO/JsonValue.h"
-#include "Hect/IO/Encoders/MeshEncoder.h"
 #include "Hect/Graphics/Mesh.h"
 
 using namespace hect;
@@ -37,14 +38,17 @@ void AssetLoader<Mesh>::load(Mesh& mesh, const Path& assetPath, AssetCache& asse
     uint64_t identifyNumber = stream->readUInt64();
     stream->seek(0);
 
-    if (identifyNumber == MeshEncoder::IdentifyNumber)
+    if (identifyNumber == Mesh::IdentifyNumber)
     {
-        mesh.decodeFromBinary(*stream);
+        BinaryDecoder decoder(*stream, assetCache);
+        decoder >> decodeValue(mesh);
     }
     else
     {
         JsonValue jsonValue;
         jsonValue.decodeFromJson(*stream);
-        mesh.decodeFromJsonValue(jsonValue, assetCache);
+
+        JsonDecoder decoder(jsonValue, assetCache);
+        decoder >> decodeValue(mesh);
     }
 }

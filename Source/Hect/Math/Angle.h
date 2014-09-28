@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Real.h"
 #include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
 namespace hect
 {
@@ -134,5 +135,6 @@ private:
 };
 
 Encoder& operator<<(Encoder& encoder, Angle angle);
+Decoder& operator>>(Decoder& decoder, Angle& angle);
 
 }

@@ -48,26 +48,26 @@ public:
 
     WriteStream& binaryStream();
 
-    Encoder& beginArray();
-    Encoder& endArray();
+    void beginArray();
+    void endArray();
 
-    Encoder& beginObject();
-    Encoder& endObject();
+    void beginObject();
+    void endObject();
 
-    Encoder& selectMember(const char* name);
+    void selectMember(const char* name);
 
-    Encoder& encodeString(const std::string& value);
-    Encoder& encodeInt8(int8_t value);
-    Encoder& encodeUInt8(uint8_t value);
-    Encoder& encodeInt16(int16_t value);
-    Encoder& encodeUInt16(uint16_t value);
-    Encoder& encodeInt32(int32_t value);
-    Encoder& encodeUInt32(uint32_t value);
-    Encoder& encodeInt64(int64_t value);
-    Encoder& encodeUInt64(uint64_t value);
-    Encoder& encodeFloat32(float value);
-    Encoder& encodeFloat64(double value);
-    Encoder& encodeBool(bool value);
+    void encodeString(const std::string& value);
+    void encodeInt8(int8_t value);
+    void encodeUInt8(uint8_t value);
+    void encodeInt16(int16_t value);
+    void encodeUInt16(uint16_t value);
+    void encodeInt32(int32_t value);
+    void encodeUInt32(uint32_t value);
+    void encodeInt64(int64_t value);
+    void encodeUInt64(uint64_t value);
+    void encodeFloat32(float value);
+    void encodeFloat64(double value);
+    void encodeBool(bool value);
 
 private:
     void encode(const JsonValue& value);

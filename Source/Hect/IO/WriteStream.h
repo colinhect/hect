@@ -27,8 +27,6 @@
 #include <memory>
 #include <string>
 
-#include "Hect/Core/Real.h"
-
 namespace hect
 {
 
@@ -117,12 +115,6 @@ public:
     ///
     /// \param value The value to write.
     void writeFloat64(double value);
-
-    ///
-    /// Writes a real number.
-    ///
-    /// \param value The value to write.
-    void writeReal(Real value);
 
     ///
     /// Writes a bool as an unsigned 8-bit integer.

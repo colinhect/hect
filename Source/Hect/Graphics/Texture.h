@@ -25,7 +25,8 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/AssetHandle.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/RendererObject.h"
 
@@ -61,8 +62,7 @@ enum TextureType
 /// A texture with one or more source images which can be sampled by the
 /// renderer.
 class Texture :
-    public RendererObject,
-    public Encodable
+    public RendererObject
 {
 public:
 
@@ -213,8 +213,7 @@ public:
     /// Returns the number of bytes in a pixel of this texture.
     int bytesPerPixel() const;
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    friend Decoder& operator>>(Decoder& decoder, Texture& texture);
 
 private:
     std::string _name;

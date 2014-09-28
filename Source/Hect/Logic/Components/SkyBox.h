@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Graphics/Texture.h"
+#include "Hect/IO/AssetCache.h"
 #include "Hect/Logic/Component.h"
 
 namespace hect
@@ -41,7 +42,7 @@ public:
     AssetHandle<Texture> texture;
 
     void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    void decode(Decoder& decoder);
 };
 
 }

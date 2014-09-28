@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <vector>
+
 #include "Hect/Core/Uncopyable.h"
 
 namespace hect
@@ -73,6 +75,41 @@ struct EncodeValue :
     const T& value;
 };
 
+template <typename T>
+struct EncodeVector :
+        public Uncopyable
+{
+    EncodeVector(const std::vector<T>& values);
+    EncodeVector(const char* name, const std::vector<T>& values);
+
+    const char* name;
+    const std::vector<T>& values;
+};
+
+///
+/// An decode operation for encoding a value.
+template <typename T>
+struct DecodeValue :
+        public Uncopyable
+{
+    DecodeValue(T& value);
+    DecodeValue(const char* name, T& value);
+
+    const char* name;
+    mutable T& value;
+};
+
+template <typename T>
+struct DecodeVector :
+        public Uncopyable
+{
+    DecodeVector(std::vector<T>& values);
+    DecodeVector(const char* name, std::vector<T>& values);
+
+    const char* name;
+    mutable std::vector<T>& values;
+};
+
 ///
 /// An encode operation for encoding an enum.
 template <typename T>
@@ -84,6 +121,19 @@ struct EncodeEnum :
 
     const char* name;
     T value;
+};
+
+///
+/// An encode operation for encoding an enum.
+template <typename T>
+struct DecodeEnum :
+        public Uncopyable
+{
+    DecodeEnum(T& value);
+    DecodeEnum(const char* name, T& value);
+
+    const char* name;
+    mutable T& value;
 };
 
 ///
@@ -132,6 +182,24 @@ EncodeValue<T> encodeValue(const T& value);
 template <typename T>
 EncodeValue<T> encodeValue(const char* name, const T& value);
 
+template <typename T>
+EncodeVector<T> encodeVector(const std::vector<T>& values);
+
+template <typename T>
+EncodeVector<T> encodeVector(const char* name, const std::vector<T>& values);
+
+template <typename T>
+DecodeValue<T> decodeValue(T& value);
+
+template <typename T>
+DecodeValue<T> decodeValue(const char* name, T& value);
+
+template <typename T>
+DecodeVector<T> decodeVector(std::vector<T>& values);
+
+template <typename T>
+DecodeVector<T> decodeVector(const char* name, std::vector<T>& values);
+
 ///
 /// Returns an encode operation for encoding an enum value.
 ///
@@ -147,6 +215,12 @@ EncodeEnum<T> encodeEnum(T value);
 /// \param value The value to encode.
 template <typename T>
 EncodeEnum<T> encodeEnum(const char* name, T value);
+
+template <typename T>
+DecodeEnum<T> decodeEnum(T& value);
+
+template <typename T>
+DecodeEnum<T> decodeEnum(const char* name, T& value);
 
 }
 

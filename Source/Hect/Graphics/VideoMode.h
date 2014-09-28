@@ -23,15 +23,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/IO/Encodable.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
 namespace hect
 {
 
 ///
 /// Describes the video mode a window uses.
-class VideoMode :
-    public Encodable
+class VideoMode
 {
 public:
 
@@ -59,8 +59,8 @@ public:
     /// Returns whether fullscreen is enabled.
     bool isFullscreen() const;
 
-    void encode(Encoder& encoder) const;
-    void decode(ObjectDecoder& decoder, AssetCache& assetCache);
+    friend Encoder& operator<<(Encoder& encoder, const VideoMode& videoMode);
+    friend Decoder& operator>>(Decoder& decoder, VideoMode& videoMode);
 
 private:
     unsigned _width;

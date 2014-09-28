@@ -85,15 +85,6 @@ void WriteStream::writeFloat64(double value)
     writeBytes((const uint8_t*)&value, 8);
 }
 
-void WriteStream::writeReal(Real value)
-{
-#ifdef HECT_DOUBLE_PRECISION
-    return writeFloat64(value);
-#else
-    return writeFloat32(value);
-#endif
-}
-
 void WriteStream::writeBool(bool value)
 {
     writeUInt8(value ? 1 : 0);

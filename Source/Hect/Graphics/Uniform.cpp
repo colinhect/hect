@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Uniform.h"
 
-#include "Hect/IO/Encoders/UniformEncoder.h"
-
 using namespace hect;
 
 Uniform::Uniform() :
@@ -149,17 +147,6 @@ void Uniform::setLocation(int location)
     _location = location;
 }
 
-void Uniform::encode(Encoder& encoder) const
-{
-    UniformEncoder::encode(*this, encoder);
-}
-
-void Uniform::decode(ObjectDecoder& decoder, AssetCache& assetCache)
-{
-    assetCache;
-    UniformEncoder::decode(*this, decoder);
-}
-
 bool Uniform::operator==(const Uniform& uniform) const
 {
     // Name
@@ -198,4 +185,89 @@ bool Uniform::operator==(const Uniform& uniform) const
 bool Uniform::operator!=(const Uniform& uniform) const
 {
     return !(*this == uniform);
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const Uniform& uniform)
+{
+    // Name
+    encoder << encodeValue("name", uniform.name());
+
+    // We need an extra hint in binary
+    if (encoder.isBinaryStream())
+    {
+        WriteStream& stream = encoder.binaryStream();
+        stream.writeBool(uniform.hasDefaultValue());
+    }
+
+    // Default value
+    if (uniform.hasDefaultValue())
+    {
+        encoder << uniform.defaultValue();
+    }
+
+    // Binding
+    else if (uniform.hasBinding())
+    {
+        encoder << encodeEnum("binding", uniform.binding());
+    }
+    else
+    {
+        throw Error("The uniform does not have a default value or a binding");
+    }
+
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, Uniform& uniform)
+{
+    // Name
+    if (decoder.selectMember("name"))
+    {
+        std::string name;
+        decoder >> decodeValue(name);
+        uniform.setName(name);
+    }
+    else
+    {
+        throw Error("No uniform name specified");
+    }
+
+    // Detect if the uniform has a default value or a binding
+    bool hasDefaultValue;
+    if (decoder.isBinaryStream())
+    {
+        ReadStream& stream = decoder.binaryStream();
+        hasDefaultValue = stream.readBool();
+    }
+    else
+    {
+        hasDefaultValue = decoder.selectMember("type");
+    }
+
+    // Default value
+    if (hasDefaultValue)
+    {
+        UniformValue defaultValue;
+        decoder >> decodeValue(defaultValue);
+        uniform.setDefaultValue(defaultValue);
+    }
+
+    // Binding
+    else if (decoder.selectMember("binding"))
+    {
+        UniformBinding binding;
+        decoder >> decodeEnum(binding);
+        uniform.setBinding(binding);
+    }
+    else
+    {
+        throw Error("No default value or binding specified");
+    }
+
+    return decoder;
+}
+
 }
