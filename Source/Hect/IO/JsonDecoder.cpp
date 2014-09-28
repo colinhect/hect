@@ -113,6 +113,13 @@ bool JsonDecoder::selectMember(const char* name)
     }
 }
 
+std::vector<std::string> JsonDecoder::memberNames() const
+{
+    const JsonValue& top = _valueStack.top();
+    assert(top.isObject());
+    return top.memberNames();
+}
+
 std::string JsonDecoder::decodeString()
 {
     return decode().asString();

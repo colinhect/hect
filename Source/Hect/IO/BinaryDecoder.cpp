@@ -94,6 +94,11 @@ bool BinaryDecoder::selectMember(const char* name)
     return true; // Assume that all values are written
 }
 
+std::vector<std::string> BinaryDecoder::memberNames() const
+{
+    throw Error("Cannot enumerate member names from a binary object");
+}
+
 std::string BinaryDecoder::decodeString()
 {
     if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)

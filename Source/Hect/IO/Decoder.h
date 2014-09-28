@@ -61,6 +61,7 @@ public:
     virtual void endObject() = 0;
 
     virtual bool selectMember(const char* name) = 0;
+    virtual std::vector<std::string> memberNames() const = 0;
 
     virtual std::string decodeString() = 0;
     virtual int8_t decodeInt8() = 0;

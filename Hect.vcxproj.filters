@@ -683,9 +683,6 @@
     <ClCompile Include="Source\Hect\Generated\BuiltInTypes.cpp">
       <Filter>Source\Hect\Generated</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Logic\Components\BoundingBox.cpp">
-      <Filter>Source\Hect\Logic\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Components\Camera.cpp">
       <Filter>Source\Hect\Logic\Components</Filter>
     </ClCompile>
@@ -724,6 +721,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\IO\EncodeOperations.cpp">
       <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Logic\Component.cpp">
+      <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

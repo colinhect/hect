@@ -33,12 +33,16 @@ DirectionalLight::DirectionalLight() :
 
 void DirectionalLight::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("direction", direction)
-            << encodeValue("color", color);
+    encoder << beginObject()
+            << encodeValue("direction", direction)
+            << encodeValue("color", color)
+            << endObject();
 }
 
 void DirectionalLight::decode(Decoder& decoder)
 {
-    decoder >> decodeValue("direction", direction)
-            >> decodeValue("color", color);
+    decoder >> beginObject()
+            >> decodeValue("direction", direction)
+            >> decodeValue("color", color)
+            >> endObject();
 }

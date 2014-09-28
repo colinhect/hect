@@ -226,48 +226,86 @@ void World::decode(Decoder& decoder)
 
 void World::encodeComponents(const Entity& entity, Encoder& encoder)
 {
-    encoder << beginArray("components");
-
-    for (auto& pair : _componentPoolMap)
+    if (encoder.isBinaryStream())
     {
-        auto componentPool = pair.second;
-        if (componentPool->has(entity))
+        encoder << beginArray("components");
+
+        for (auto& pair : _componentPoolMap)
         {
-            const ComponentBase& component = componentPool->getBase(entity);
-            std::string typeName = Type::of(component).name();
+            auto componentPool = pair.second;
+            if (componentPool->has(entity))
+            {
+                const ComponentBase& component = componentPool->getBase(entity);
+                std::string typeName = Type::of(component).name();
 
-            encoder << beginObject()
-                    << encodeValue("type", typeName);
-
-            component.encode(encoder);
-
-            encoder << endObject();
+                encoder << encodeValue("type", typeName);
+                component.encode(encoder);
+            }
         }
-    }
 
-    encoder << endArray();
+        encoder << endArray();
+    }
+    else
+    {
+        encoder << beginObject("components");
+
+        for (auto& pair : _componentPoolMap)
+        {
+            auto componentPool = pair.second;
+            if (componentPool->has(entity))
+            {
+                const ComponentBase& component = componentPool->getBase(entity);
+                std::string typeName = Type::of(component).name();
+
+                encoder.selectMember(typeName.c_str());
+                component.encode(encoder);
+            }
+        }
+
+        encoder << endObject();
+    }
 }
 
 void World::decodeComponents(Entity& entity, Decoder& decoder)
 {
-    if (decoder.selectMember("components"))
+    if (decoder.isBinaryStream())
     {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
+        if (decoder.selectMember("components"))
+        {
+            decoder >> beginArray();
+            while (decoder.hasMoreElements())
+            {
+                std::string typeName;
+                decoder >> decodeValue("type", typeName);
+
+                decoder >> beginObject();
+
+                ComponentBase::Pointer component = ComponentRegistry::createComponent(typeName);
+                component->decode(decoder);
+
+                addEntityComponentBase(entity, *component);
+
+                decoder >> endObject();
+            }
+            decoder >> endArray();
+        }
+    }
+    else
+    {
+        if (decoder.selectMember("components"))
         {
             decoder >> beginObject();
+            for (const std::string& typeName : decoder.memberNames())
+            {
+                decoder.selectMember(typeName.c_str());
 
-            std::string typeName;
-            decoder >> decodeValue("type", typeName);
+                ComponentBase::Pointer component = ComponentRegistry::createComponent(typeName);
+                component->decode(decoder);
 
-            ComponentBase::Pointer component = ComponentRegistry::createComponent(typeName);
-            component->decode(decoder);
-
-            addEntityComponentBase(entity, *component);
-
+                addEntityComponentBase(entity, *component);
+            }
             decoder >> endObject();
         }
-        decoder >> endArray();
     }
 }
 

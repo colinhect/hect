@@ -52,10 +52,10 @@ public:
 
     typedef std::shared_ptr<ComponentBase> Pointer;
 
-    virtual ~ComponentBase() { }
+    virtual ~ComponentBase();
 
-    virtual void encode(Encoder& encoder) const { encoder; }
-    virtual void decode(Decoder& decoder) { decoder; }
+    virtual void encode(Encoder& encoder) const;
+    virtual void decode(Decoder& decoder);
 
     virtual std::type_index typeIndex() const = 0;
 };

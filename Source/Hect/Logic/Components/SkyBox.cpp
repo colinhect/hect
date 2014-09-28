@@ -27,10 +27,14 @@ using namespace hect;
 
 void SkyBox::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("texture", texture);
+    encoder << beginObject()
+            << encodeValue("texture", texture)
+            << endObject();
 }
 
 void SkyBox::decode(Decoder& decoder)
 {
-    decoder >> decodeValue("texture", texture);
+    decoder >> beginObject()
+            >> decodeValue("texture", texture)
+            >> endObject();
 }

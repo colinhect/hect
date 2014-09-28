@@ -47,12 +47,12 @@ public:
 
     void encode(Encoder& encoder) const
     {
-        encoder << encodeValue("value", value);
+        encoder << beginObject() << encodeValue("value", value) << endObject();
     }
 
     void decode(Decoder& decoder)
     {
-        decoder >> decodeValue("value", value);
+        decoder >> beginObject() >> decodeValue("value", value) >> endObject();
     }
 
     std::string value;

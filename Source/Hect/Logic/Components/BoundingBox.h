@@ -42,9 +42,6 @@ public:
     ///
     /// The bounds as an axis aligned box.
     AxisAlignedBox axisAlignedBox;
-
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
 };
 
 }

@@ -192,8 +192,8 @@
     <ClCompile Include="Source\Hect\IO\Path.cpp" />
     <ClCompile Include="Source\Hect\IO\ReadStream.cpp" />
     <ClCompile Include="Source\Hect\IO\WriteStream.cpp" />
+    <ClCompile Include="Source\Hect\Logic\Component.cpp" />
     <ClCompile Include="Source\Hect\Logic\ComponentRegistry.cpp" />
-    <ClCompile Include="Source\Hect\Logic\Components\BoundingBox.cpp" />
     <ClCompile Include="Source\Hect\Logic\Components\Camera.cpp" />
     <ClCompile Include="Source\Hect\Logic\Components\DirectionalLight.cpp" />
     <ClCompile Include="Source\Hect\Logic\Components\LightProbe.cpp" />

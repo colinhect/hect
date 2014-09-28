@@ -21,16 +21,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "BoundingBox.h"
+#include "Component.h"
 
 using namespace hect;
 
-void BoundingBox::encode(Encoder& encoder) const
+ComponentBase::~ComponentBase()
 {
-    encoder;
 }
 
-void BoundingBox::decode(Decoder& decoder)
+void ComponentBase::encode(Encoder& encoder) const
 {
-    decoder;
+    encoder << beginObject() << endObject();
+}
+
+void ComponentBase::decode(Decoder& decoder)
+{
+    decoder >> beginObject() >> endObject();
 }

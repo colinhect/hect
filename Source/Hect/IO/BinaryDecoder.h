@@ -58,6 +58,7 @@ public:
     void endObject();
 
     bool selectMember(const char* name);
+    std::vector<std::string> memberNames() const;
 
     std::string decodeString();
     int8_t decodeInt8();
