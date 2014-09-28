@@ -205,9 +205,7 @@ void World::encode(Encoder& encoder) const
         // Only encode the root entities (children are encoded recursively)
         if (!entity.parent())
         {
-            encoder << beginObject()
-                << encodeValue(entity)
-                << endObject();
+            encoder << encodeValue(entity);
         }
     }
 
@@ -220,11 +218,7 @@ void World::decode(Decoder& decoder)
     while (decoder.hasMoreElements())
     {
         Entity::Iterator entity = createEntity();
-
-        decoder >> beginObject()
-            >> decodeValue(*entity)
-            >> endObject();
-
+        decoder >> decodeValue(*entity);
         entity->activate();
     }
     decoder >> endArray() >> endObject();

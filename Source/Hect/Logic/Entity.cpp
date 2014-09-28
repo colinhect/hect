@@ -783,16 +783,14 @@ void Entity::encode(Encoder& encoder) const
 
     world.encodeComponents(*this, encoder);
 
-    encoder << beginArray("children");
+    encoder << beginObject() << beginArray("children");
 
     for (const Entity& child : _children)
     {
-        encoder << beginObject();
-        child.encode(encoder);
-        encoder << endObject();
+        encoder << encodeValue(child);
     }
 
-    encoder << endArray();
+    encoder << endArray() << endObject();
 }
 
 void Entity::decode(Decoder& decoder)
@@ -800,6 +798,8 @@ void Entity::decode(Decoder& decoder)
     ensureInPool();
 
     World& world = *_pool->_world;
+
+    decoder >> beginObject();
 
     if (!decoder.isBinaryStream())
     {
@@ -835,6 +835,8 @@ void Entity::decode(Decoder& decoder)
         }
         decoder >> endArray();
     }
+
+    decoder >> endObject();
 }
 
 namespace hect
