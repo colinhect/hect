@@ -142,7 +142,7 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout)
 {
     encoder << beginObject()
-        << beginArray("attributes");
+            << beginArray("attributes");
     for (const VertexAttribute& attribute : vertexLayout.attributes())
     {
         encoder << beginObject()

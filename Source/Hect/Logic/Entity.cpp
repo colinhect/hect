@@ -843,7 +843,7 @@ void Entity::decode(Decoder& decoder)
 
 namespace hect
 {
-    
+
 Encoder& operator<<(Encoder& encoder, const Entity& entity)
 {
     entity.encode(encoder);
