@@ -25,93 +25,151 @@
 
 using namespace hect;
 
-std::string ReadStream::readString()
+ReadStream::ReadStream()
 {
-    size_t byteCount = readUInt32();
-    std::string string(byteCount, ' ');
-    readBytes((uint8_t*)&string[0], byteCount);
-    return string;
+}
+
+ReadStream::ReadStream(ReadStream* implementation) :
+    _implementation(implementation)
+{
+}
+
+ReadStream::~ReadStream()
+{
+}
+
+void ReadStream::read(uint8_t* bytes, size_t byteCount)
+{
+    if (_implementation)
+    {
+        _implementation->read(bytes, byteCount);
+    }
 }
 
 std::string ReadStream::readAllToString()
 {
     size_t byteCount = length();
     std::string string(byteCount, ' ');
-    readBytes((uint8_t*)&string[0], byteCount);
+    read((uint8_t*)&string[0], byteCount);
     return string;
 }
 
-int8_t ReadStream::readInt8()
+bool ReadStream::endOfStream() const
 {
-    int8_t value = 0;
-    readBytes((uint8_t*)&value, 1);
-    return value;
+    bool endOfStream = true;
+    if (_implementation)
+    {
+        endOfStream = _implementation->endOfStream();
+    }
+    return endOfStream;
 }
 
-uint8_t ReadStream::readUInt8()
+size_t ReadStream::length() const
 {
-    uint8_t value = 0;
-    readBytes((uint8_t*)&value, 1);
-    return value;
+    size_t length = true;
+    if (_implementation)
+    {
+        length = _implementation->length();
+    }
+    return length;
 }
 
-int16_t ReadStream::readInt16()
+size_t ReadStream::position() const
 {
-    int16_t value = 0;
-    readBytes((uint8_t*)&value, 2);
-    return value;
+    size_t position = true;
+    if (_implementation)
+    {
+        position = _implementation->position();
+    }
+    return position;
 }
 
-uint16_t ReadStream::readUInt16()
+void ReadStream::seek(size_t position)
 {
-    uint16_t value = 0;
-    readBytes((uint8_t*)&value, 2);
-    return value;
+    if (_implementation)
+    {
+        _implementation->seek(position);
+    }
 }
 
-int32_t ReadStream::readInt32()
+namespace hect
 {
-    int32_t value = 0;
-    readBytes((uint8_t*)&value, 4);
-    return value;
+
+ReadStream& operator>>(ReadStream& stream, std::string& value)
+{
+    uint32_t byteCount;
+    stream >> byteCount;
+    value = std::string(byteCount, ' ');
+    stream.read((uint8_t*)&value[0], byteCount);
+    return stream;
 }
 
-uint32_t ReadStream::readUInt32()
+ReadStream& operator>>(ReadStream& stream, int8_t& value)
 {
-    uint32_t value = 0;
-    readBytes((uint8_t*)&value, 4);
-    return value;
+    stream.read((uint8_t*)&value, 1);
+    return stream;
 }
 
-int64_t ReadStream::readInt64()
+ReadStream& operator>>(ReadStream& stream, uint8_t& value)
 {
-    int64_t value = 0;
-    readBytes((uint8_t*)&value, 8);
-    return value;
+    stream.read((uint8_t*)&value, 1);
+    return stream;
 }
 
-uint64_t ReadStream::readUInt64()
+ReadStream& operator>>(ReadStream& stream, int16_t& value)
 {
-    uint64_t value = 0;
-    readBytes((uint8_t*)&value, 8);
-    return value;
+    stream.read((uint8_t*)&value, 2);
+    return stream;
 }
 
-float ReadStream::readFloat32()
+ReadStream& operator>>(ReadStream& stream, uint16_t& value)
 {
-    float value = 0;
-    readBytes((uint8_t*)&value, 4);
-    return value;
+    stream.read((uint8_t*)&value, 2);
+    return stream;
 }
 
-double ReadStream::readFloat64()
+ReadStream& operator>>(ReadStream& stream, int32_t& value)
 {
-    double value = 0;
-    readBytes((uint8_t*)&value, 8);
-    return value;
+    stream.read((uint8_t*)&value, 4);
+    return stream;
 }
 
-bool ReadStream::readBool()
+ReadStream& operator>>(ReadStream& stream, uint32_t& value)
 {
-    return readUInt8() != 0;
+    stream.read((uint8_t*)&value, 4);
+    return stream;
+}
+
+ReadStream& operator>>(ReadStream& stream, int64_t& value)
+{
+    stream.read((uint8_t*)&value, 8);
+    return stream;
+}
+
+ReadStream& operator>>(ReadStream& stream, uint64_t& value)
+{
+    stream.read((uint8_t*)&value, 8);
+    return stream;
+}
+
+ReadStream& operator>>(ReadStream& stream, float& value)
+{
+    stream.read((uint8_t*)&value, 4);
+    return stream;
+}
+
+ReadStream& operator>>(ReadStream& stream, double& value)
+{
+    stream.read((uint8_t*)&value, 8);
+    return stream;
+}
+
+ReadStream& operator>>(ReadStream& stream, bool& value)
+{
+    uint8_t byte;
+    stream.read(&byte, 1);
+    value = byte != 0;
+    return stream;
+}
+
 }

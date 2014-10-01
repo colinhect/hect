@@ -34,19 +34,20 @@ void AssetLoader<Mesh>::load(Mesh& mesh, const Path& assetPath, AssetCache& asse
 {
     mesh.setName(assetPath.toString());
 
-    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
-    uint64_t identifyNumber = stream->readUInt64();
-    stream->seek(0);
+    ReadStream stream = FileSystem::openFileForRead(assetPath);
+    uint64_t identifyNumber;
+    stream >> identifyNumber;
+    stream.seek(0);
 
     if (identifyNumber == Mesh::IdentifyNumber)
     {
-        BinaryDecoder decoder(*stream, assetCache);
+        BinaryDecoder decoder(stream, assetCache);
         decoder >> decodeValue(mesh);
     }
     else
     {
         JsonValue jsonValue;
-        jsonValue.decodeFromJson(*stream);
+        jsonValue.decodeFromJson(stream);
 
         JsonDecoder decoder(jsonValue, assetCache);
         decoder >> decodeValue(mesh);

@@ -51,7 +51,7 @@ void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
     }
 
     // Write the encoded data
-    stream.writeBytes(&encodedPixelData[0], encodedPixelData.size());
+    stream.write(&encodedPixelData[0], encodedPixelData.size());
 }
 
 void ImagePngEncoder::decode(Image& image, ReadStream& stream)
@@ -59,7 +59,7 @@ void ImagePngEncoder::decode(Image& image, ReadStream& stream)
     // Read the encoded data
     size_t length = stream.length();
     Image::PixelData encodedPixelData(length, 0);
-    stream.readBytes(&encodedPixelData[0], length);
+    stream.read(&encodedPixelData[0], length);
 
     Image::PixelData decodedPixelData;
 

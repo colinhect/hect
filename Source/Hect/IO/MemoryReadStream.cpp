@@ -35,7 +35,7 @@ MemoryReadStream::MemoryReadStream(const std::vector<uint8_t>& data) :
 {
 }
 
-void MemoryReadStream::readBytes(uint8_t* bytes, size_t byteCount)
+void MemoryReadStream::read(uint8_t* bytes, size_t byteCount)
 {
     assert(bytes);
 

@@ -76,7 +76,7 @@ private:
     };
 
     std::stack<size_t> _countPositionStack;
-    std::stack<unsigned> _countStack;
+    std::stack<uint32_t> _countStack;
     std::stack<ValueType> _valueTypeStack;
 
     WriteStream* _stream;

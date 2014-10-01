@@ -339,18 +339,18 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
 
         // Vertex data
         uint32_t vertexDataSize = (uint32_t)mesh.vertexData().size();
-        stream.writeUInt32(vertexDataSize);
+        stream << vertexDataSize;
         if (vertexDataSize > 0)
         {
-            stream.writeBytes(&mesh.vertexData()[0], vertexDataSize);
+            stream.write(&mesh.vertexData()[0], vertexDataSize);
         }
 
         // Index data
         uint32_t indexDataSize = (uint32_t)mesh.indexData().size();
-        stream.writeUInt32(indexDataSize);
+        stream << indexDataSize;
         if (indexDataSize > 0)
         {
-            stream.writeBytes(&mesh.indexData()[0], indexDataSize);
+            stream.write(&mesh.indexData()[0], indexDataSize);
         }
     }
     else
@@ -468,20 +468,22 @@ Decoder& operator>>(Decoder& decoder, Mesh& mesh)
 
         // Vertex data
         Mesh::VertexData vertexData;
-        uint32_t vertexDataSize = stream.readUInt32();
+        uint32_t vertexDataSize;
+        stream >> vertexDataSize;
         vertexData = Mesh::VertexData(vertexDataSize);
         if (vertexDataSize > 0)
         {
-            stream.readBytes(&vertexData[0], vertexDataSize);
+            stream.read(&vertexData[0], vertexDataSize);
         }
 
         // Index data
         Mesh::IndexData indexData;
-        uint32_t indexDataSize = stream.readUInt32();
+        uint32_t indexDataSize;
+        stream >> indexDataSize;
         indexData = Mesh::VertexData(indexDataSize);
         if (indexDataSize > 0)
         {
-            stream.readBytes(&indexData[0], indexDataSize);
+            stream.read(&indexData[0], indexDataSize);
         }
 
         // Set vertex/index data

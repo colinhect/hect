@@ -201,7 +201,7 @@ Encoder& operator<<(Encoder& encoder, const Uniform& uniform)
     if (encoder.isBinaryStream())
     {
         WriteStream& stream = encoder.binaryStream();
-        stream.writeBool(uniform.hasDefaultValue());
+        stream << uniform.hasDefaultValue();
     }
 
     // Default value
@@ -244,7 +244,7 @@ Decoder& operator>>(Decoder& decoder, Uniform& uniform)
     if (decoder.isBinaryStream())
     {
         ReadStream& stream = decoder.binaryStream();
-        hasDefaultValue = stream.readBool();
+        stream >> hasDefaultValue;
     }
     else
     {

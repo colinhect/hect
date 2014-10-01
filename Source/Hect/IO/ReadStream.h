@@ -35,89 +35,149 @@ namespace hect
 class ReadStream
 {
 public:
-
-    ///
-    /// A reference-counted pointer to a read stream.
-    typedef std::shared_ptr<ReadStream> Pointer;
+    ReadStream();
+    ReadStream(ReadStream* implementation);
+    virtual ~ReadStream();
 
     ///
     /// Reads raw bytes from the stream.
     ///
     /// \param bytes A pointer to the bytes to read to.
     /// \param byteCount The number of bytes to read.
-    virtual void readBytes(uint8_t* bytes, size_t byteCount) = 0;
-
-    ///
-    /// Reads a string with its length prepended as an unsigned 32-bit
-    /// integer.
-    std::string readString();
+    virtual void read(uint8_t* bytes, size_t byteCount);
 
     ///
     /// Reads entire contents of the remainder of the stream to a string.
     std::string readAllToString();
 
     ///
-    /// Reads a signed 8-bit integer.
-    int8_t readInt8();
-
-    ///
-    /// Reads an unsigned 8-bit integer.
-    uint8_t readUInt8();
-
-    ///
-    /// Reads a signed 16-bit integer.
-    int16_t readInt16();
-
-    ///
-    /// Reads an unsigned 16-bit integer.
-    uint16_t readUInt16();
-
-    ///
-    /// Reads a signed 32-bit integer.
-    int32_t readInt32();
-
-    ///
-    /// Reads an unsigned 32-bit integer.
-    uint32_t readUInt32();
-
-    ///
-    /// Reads a signed 64-bit integer.
-    int64_t readInt64();
-
-    ///
-    /// Reads an unsigned 64-bit integer.
-    uint64_t readUInt64();
-
-    ///
-    /// Reads a 32-bit float.
-    float readFloat32();
-
-    ///
-    /// Reads a 64-bit float.
-    double readFloat64();
-
-    ///
-    /// Reads bool as an unsigned 8-bit integer.
-    bool readBool();
-
-    ///
     /// Returns whether the end of the stream has been reached.
-    virtual bool endOfStream() const = 0;
+    virtual bool endOfStream() const;
 
     ///
     /// Returns the length of the stream in bytes.
-    virtual size_t length() const = 0;
+    virtual size_t length() const;
 
     ///
     /// Returns the current byte offset position in the stream.
-    virtual size_t position() const = 0;
+    virtual size_t position() const;
 
     ///
     /// Sets the current byte offset position in the stream.
     ///
     /// \param position The new position.
-    virtual void seek(size_t position) = 0;
+    virtual void seek(size_t position);
 
+private:
+    std::unique_ptr<ReadStream> _implementation;
 };
+
+///
+/// Reads a string with its length prepended as an unsigned 32-bit integer.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, std::string& value);
+
+///
+/// Reads a signed 8-bit integer.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, int8_t& value);
+
+///
+/// Reads an unsigned 8-bit integer.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, uint8_t& value);
+
+///
+/// Reads a signed 16-bit integer.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, int16_t& value);
+
+///
+/// Reads an unsigned 16-bit integer.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, uint16_t& value);
+
+///
+/// Reads a signed 32-bit integer.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, int32_t& value);
+
+///
+/// Reads an unsigned 32-bit integer.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, uint32_t& value);
+
+///
+/// Reads a signed 64-bit integer.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, int64_t& value);
+
+///
+/// Reads an unsigned 64-bit integer.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, uint64_t& value);
+
+///
+/// Reads a 32-bit floating point number.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, float& value);
+
+///
+/// Reads a 64-bit floating point number.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, double& value);
+
+///
+/// Reads a boolean as a single byte.
+///
+/// \param stream The stream to read the value from.
+/// \param value The value to read to.
+///
+/// \returns The stream.
+ReadStream& operator>>(ReadStream& stream, bool& value);
 
 }

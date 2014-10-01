@@ -44,7 +44,7 @@ public:
     /// \param data The data to read from.
     MemoryReadStream(const std::vector<uint8_t>& data);
 
-    void readBytes(uint8_t* bytes, size_t byteCount);
+    void read(uint8_t* bytes, size_t byteCount);
     bool endOfStream() const;
     size_t length() const;
     size_t position() const;

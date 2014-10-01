@@ -223,9 +223,9 @@ void World::encodeComponents(const Entity& entity, Encoder& encoder)
         WriteStream& stream = encoder.binaryStream();
 
         size_t componentCountPosition = stream.position();
-        stream.writeUInt8(0);
-
         uint8_t componentCount = 0;
+        stream << componentCount;
+
         for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
         {
             if (componentPool->has(entity))
@@ -233,14 +233,14 @@ void World::encodeComponents(const Entity& entity, Encoder& encoder)
                 ++componentCount;
 
                 const ComponentBase& component = componentPool->getBase(entity);
-                stream.writeUInt32((ComponentTypeId)component.typeId());
+                stream << component.typeId();
                 component.encode(encoder);
             }
         }
 
         size_t currentPosition = stream.position();
         stream.seek(componentCountPosition);
-        stream.writeUInt8(componentCount);
+        stream << componentCount;
         stream.seek(currentPosition);
     }
     else
@@ -268,10 +268,12 @@ void World::decodeComponents(Entity& entity, Decoder& decoder)
     if (decoder.isBinaryStream())
     {
         ReadStream& stream = decoder.binaryStream();
-        uint32_t componentCount = stream.readUInt8();
-        for (uint32_t i = 0; i < componentCount; ++i)
+        uint8_t componentCount;
+        stream >> componentCount;
+        for (uint8_t i = 0; i < componentCount; ++i)
         {
-            ComponentTypeId typeId = (ComponentTypeId)stream.readUInt32();
+            ComponentTypeId typeId;
+            stream >> typeId;
             ComponentBase::Pointer component = ComponentRegistry::create(typeId);
             component->decode(decoder);
             addEntityComponentBase(entity, *component);

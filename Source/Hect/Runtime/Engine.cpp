@@ -54,8 +54,8 @@ Engine::Engine(int argc, const char* argv[])
 
     // Load the settings
     {
-        ReadStream::Pointer stream = FileSystem::openFileForRead("zeroth/Settings.json");
-        _settings.decodeFromJson(*stream);
+        ReadStream stream = FileSystem::openFileForRead("zeroth/Settings.json");
+        _settings.decodeFromJson(stream);
     }
 
     // Mount the paths listed in the settings

@@ -25,67 +25,127 @@
 
 using namespace hect;
 
-void WriteStream::writeString(const std::string& value, bool prependLength)
+WriteStream::WriteStream()
+{
+}
+
+WriteStream::WriteStream(WriteStream* implementation) :
+    _implementation(implementation)
+{
+}
+
+WriteStream::~WriteStream()
+{
+}
+
+void WriteStream::write(const uint8_t* bytes, size_t byteCount)
+{
+    if (_implementation)
+    {
+        _implementation->write(bytes, byteCount);
+    }
+}
+
+size_t WriteStream::position() const
+{
+    size_t position = 0;
+    if (_implementation)
+    {
+        position = _implementation->position();
+    }
+    return position;
+}
+
+void WriteStream::seek(size_t position)
+{
+    if (_implementation)
+    {
+        _implementation->seek(position);
+    }
+}
+
+namespace hect
+{
+
+WriteStream& operator<<(WriteStream& stream, const char* value)
+{
+    size_t length = strlen(value);
+    stream << (uint32_t)length;
+    stream.write((uint8_t*)&value[0], length);
+    return stream;
+}
+
+WriteStream& operator<<(WriteStream& stream, const std::string& value)
 {
     size_t length = value.size();
-    if (prependLength)
-    {
-        writeUInt32((uint32_t)length);
-    }
-    writeBytes((uint8_t*)&value[0], length);
+    stream << (uint32_t)length;
+    stream.write((uint8_t*)&value[0], length);
+    return stream;
 }
 
-void WriteStream::writeInt8(int8_t value)
+WriteStream& operator<<(WriteStream& stream, int8_t value)
 {
-    writeBytes((const uint8_t*)&value, 1);
+    stream.write((const uint8_t*)&value, 1);
+    return stream;
 }
 
-void WriteStream::writeUInt8(uint8_t value)
+WriteStream& operator<<(WriteStream& stream, uint8_t value)
 {
-    writeBytes((const uint8_t*)&value, 1);
+    stream.write((const uint8_t*)&value, 1);
+    return stream;
 }
 
-void WriteStream::writeInt16(int16_t value)
+WriteStream& operator<<(WriteStream& stream, int16_t value)
 {
-    writeBytes((const uint8_t*)&value, 2);
+    stream.write((const uint8_t*)&value, 2);
+    return stream;
 }
 
-void WriteStream::writeUInt16(uint16_t value)
+WriteStream& operator<<(WriteStream& stream, uint16_t value)
 {
-    writeBytes((const uint8_t*)&value, 2);
+    stream.write((const uint8_t*)&value, 2);
+    return stream;
 }
 
-void WriteStream::writeInt32(int32_t value)
+WriteStream& operator<<(WriteStream& stream, int32_t value)
 {
-    writeBytes((const uint8_t*)&value, 4);
+    stream.write((const uint8_t*)&value, 4);
+    return stream;
 }
 
-void WriteStream::writeUInt32(uint32_t value)
+WriteStream& operator<<(WriteStream& stream, uint32_t value)
 {
-    writeBytes((const uint8_t*)&value, 4);
+    stream.write((const uint8_t*)&value, 4);
+    return stream;
 }
 
-void WriteStream::writeInt64(int64_t value)
+WriteStream& operator<<(WriteStream& stream, int64_t value)
 {
-    writeBytes((const uint8_t*)&value, 8);
+    stream.write((const uint8_t*)&value, 8);
+    return stream;
 }
 
-void WriteStream::writeUInt64(uint64_t value)
+WriteStream& operator<<(WriteStream& stream, uint64_t value)
 {
-    writeBytes((const uint8_t*)&value, 8);
+    stream.write((const uint8_t*)&value, 8);
+    return stream;
 }
 
-void WriteStream::writeFloat32(float value)
+WriteStream& operator<<(WriteStream& stream, float value)
 {
-    writeBytes((const uint8_t*)&value, 4);
+    stream.write((const uint8_t*)&value, 4);
+    return stream;
 }
 
-void WriteStream::writeFloat64(double value)
+WriteStream& operator<<(WriteStream& stream, double value)
 {
-    writeBytes((const uint8_t*)&value, 8);
+    stream.write((const uint8_t*)&value, 8);
+    return stream;
 }
 
-void WriteStream::writeBool(bool value)
+WriteStream& operator<<(WriteStream& stream, bool value)
 {
-    writeUInt8(value ? 1 : 0);
+    return stream << (uint8_t)(value ? 1 : 0);
+}
+
 }

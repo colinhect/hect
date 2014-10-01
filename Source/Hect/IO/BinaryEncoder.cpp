@@ -52,14 +52,14 @@ void BinaryEncoder::beginArray()
     _valueTypeStack.push(ValueType_Array);
     _countStack.push(0);
     _countPositionStack.push(_stream->position());
-    _stream->writeUInt32(0);
+    *_stream << static_cast<uint32_t>(0);
 }
 
 void BinaryEncoder::endArray()
 {
     size_t currentPosition = _stream->position();
     _stream->seek(_countPositionStack.top());
-    _stream->writeUInt32(_countStack.top());
+    *_stream << _countStack.top();
     _stream->seek(currentPosition);
 
     _countPositionStack.pop();
@@ -92,7 +92,7 @@ void BinaryEncoder::encodeString(const std::string& value)
     {
         ++_countStack.top();
     }
-    _stream->writeString(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeInt8(int8_t value)
@@ -101,7 +101,7 @@ void BinaryEncoder::encodeInt8(int8_t value)
     {
         ++_countStack.top();
     }
-    _stream->writeInt8(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeUInt8(uint8_t value)
@@ -110,7 +110,7 @@ void BinaryEncoder::encodeUInt8(uint8_t value)
     {
         ++_countStack.top();
     }
-    _stream->writeUInt8(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeInt16(int16_t value)
@@ -119,7 +119,7 @@ void BinaryEncoder::encodeInt16(int16_t value)
     {
         ++_countStack.top();
     }
-    _stream->writeInt16(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeUInt16(uint16_t value)
@@ -128,7 +128,7 @@ void BinaryEncoder::encodeUInt16(uint16_t value)
     {
         ++_countStack.top();
     }
-    _stream->writeUInt16(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeInt32(int32_t value)
@@ -137,7 +137,7 @@ void BinaryEncoder::encodeInt32(int32_t value)
     {
         ++_countStack.top();
     }
-    _stream->writeInt32(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeUInt32(uint32_t value)
@@ -146,7 +146,7 @@ void BinaryEncoder::encodeUInt32(uint32_t value)
     {
         ++_countStack.top();
     }
-    _stream->writeUInt32(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeInt64(int64_t value)
@@ -155,7 +155,7 @@ void BinaryEncoder::encodeInt64(int64_t value)
     {
         ++_countStack.top();
     }
-    _stream->writeInt64(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeUInt64(uint64_t value)
@@ -164,7 +164,7 @@ void BinaryEncoder::encodeUInt64(uint64_t value)
     {
         ++_countStack.top();
     }
-    _stream->writeUInt64(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeFloat32(float value)
@@ -173,7 +173,7 @@ void BinaryEncoder::encodeFloat32(float value)
     {
         ++_countStack.top();
     }
-    _stream->writeFloat32(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeFloat64(double value)
@@ -182,7 +182,7 @@ void BinaryEncoder::encodeFloat64(double value)
     {
         ++_countStack.top();
     }
-    _stream->writeFloat64(value);
+    *_stream << value;
 }
 
 void BinaryEncoder::encodeBool(bool value)
@@ -191,5 +191,5 @@ void BinaryEncoder::encodeBool(bool value)
     {
         ++_countStack.top();
     }
-    _stream->writeBool(value);
+    *_stream << value;
 }

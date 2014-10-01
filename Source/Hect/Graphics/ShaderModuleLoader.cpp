@@ -52,8 +52,8 @@ void AssetLoader<ShaderModule>::load(ShaderModule& shaderModule, const Path& ass
     }
 
     // Read the source contents
-    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
-    std::string source = stream->readAllToString();
+    ReadStream stream = FileSystem::openFileForRead(assetPath);
+    std::string source = stream.readAllToString();
 
     // Create the shader module
     shaderModule.setName(assetPath.toString());

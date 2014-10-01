@@ -82,7 +82,7 @@ public:
         }
     }
 
-    void readBytes(uint8_t* bytes, size_t byteCount)
+    void read(uint8_t* bytes, size_t byteCount)
     {
         assert(bytes);
 
@@ -163,7 +163,7 @@ public:
         }
     }
 
-    void writeBytes(const uint8_t* bytes, size_t byteCount)
+    void write(const uint8_t* bytes, size_t byteCount)
     {
         assert(bytes);
 
@@ -240,14 +240,14 @@ void FileSystem::mount(const Path& path)
     }
 }
 
-ReadStream::Pointer FileSystem::openFileForRead(const Path& path)
+ReadStream FileSystem::openFileForRead(const Path& path)
 {
-    return ReadStream::Pointer(new PhysFSReadStream(path));
+    return ReadStream(new PhysFSReadStream(path));
 }
 
-WriteStream::Pointer FileSystem::openFileForWrite(const Path& path)
+WriteStream FileSystem::openFileForWrite(const Path& path)
 {
-    return WriteStream::Pointer(new PhysFSWriteStream(path));
+    return WriteStream(new PhysFSWriteStream(path));
 }
 
 void FileSystem::createDirectory(const Path& path)

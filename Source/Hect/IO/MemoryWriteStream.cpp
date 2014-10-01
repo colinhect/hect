@@ -35,7 +35,7 @@ MemoryWriteStream::MemoryWriteStream(std::vector<uint8_t>& data) :
 {
 }
 
-void MemoryWriteStream::writeBytes(const uint8_t* bytes, size_t byteCount)
+void MemoryWriteStream::write(const uint8_t* bytes, size_t byteCount)
 {
     assert(bytes);
 

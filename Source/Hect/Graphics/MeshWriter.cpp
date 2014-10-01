@@ -42,7 +42,7 @@ size_t MeshWriter::addVertex()
     // Push back zeroed data for the added vertex
     for (unsigned i = 0; i < _mesh->vertexLayout().vertexSize(); ++i)
     {
-        _vertexStream.writeUInt8(0);
+        _vertexStream << static_cast<uint8_t>(0);
     }
 
     return _mesh->_vertexCount++;
@@ -148,13 +148,13 @@ void MeshWriter::addIndex(uint64_t value)
     switch (_mesh->indexType())
     {
     case IndexType_UInt8:
-        _indexStream.writeUInt8((uint8_t)value);
+        _indexStream << static_cast<uint8_t>(value);
         break;
     case IndexType_UInt16:
-        _indexStream.writeUInt16((uint16_t)value);
+        _indexStream << static_cast<uint16_t>(value);
         break;
     case IndexType_UInt32:
-        _indexStream.writeUInt32((uint32_t)value);
+        _indexStream << static_cast<uint32_t>(value);
         break;
     }
 
@@ -171,34 +171,34 @@ void MeshWriter::setComponentValue(const VertexAttribute& attribute, unsigned in
     {
     case VertexAttributeType_Int8:
         _vertexStream.seek(offset + index * sizeof(int8_t));
-        _vertexStream.writeInt8((int8_t)value);
+        _vertexStream << static_cast<int8_t>(value);
         break;
     case VertexAttributeType_UInt8:
         _vertexStream.seek(offset + index * sizeof(uint8_t));
-        _vertexStream.writeUInt8((uint8_t)value);
+        _vertexStream << static_cast<uint8_t>(value);
         break;
     case VertexAttributeType_Int16:
         _vertexStream.seek(offset + index * sizeof(int16_t));
-        _vertexStream.writeInt16((int16_t)value);
+        _vertexStream << static_cast<int16_t>(value);
         break;
     case VertexAttributeType_UInt16:
         _vertexStream.seek(offset + index * sizeof(uint16_t));
-        _vertexStream.writeUInt16((uint16_t)value);
+        _vertexStream << static_cast<uint16_t>(value);
         break;
     case VertexAttributeType_Int32:
         _vertexStream.seek(offset + index * sizeof(int32_t));
-        _vertexStream.writeInt32((int32_t)value);
+        _vertexStream << static_cast<int32_t>(value);
         break;
     case VertexAttributeType_UInt32:
         _vertexStream.seek(offset + index * sizeof(uint32_t));
-        _vertexStream.writeUInt32((uint32_t)value);
+        _vertexStream << static_cast<uint32_t>(value);
         break;
     case VertexAttributeType_Float16:
-        throw Error("16-bit floats are not yet implemented");
+        throw Error("16-bit floats are not implemented");
         break;
     case VertexAttributeType_Float32:
         _vertexStream.seek(offset + index * sizeof(float));
-        _vertexStream.writeFloat32(value);
+        _vertexStream << value;
         break;
     }
 

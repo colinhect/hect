@@ -35,103 +35,146 @@ namespace hect
 class WriteStream
 {
 public:
-
-    ///
-    /// A reference-counted pointer to a write stream.
-    typedef std::shared_ptr<WriteStream> Pointer;
+    WriteStream();
+    WriteStream(WriteStream* implementation);
+    virtual ~WriteStream();
 
     ///
     /// Writes raw bytes to the stream.
     ///
     /// \param bytes A pointer to the bytes to write.
     /// \param byteCount The number of bytes to write.
-    virtual void writeBytes(const uint8_t* bytes, size_t byteCount) = 0;
-
-    ///
-    /// Writes a string with its length prepended as an unsigned 32-bit
-    /// integer.
-    ///
-    /// \param value The string to write.
-    /// \param prependLength Whether or not to prepend the length of the
-    /// string.
-    void writeString(const std::string& value, bool prependLength = true);
-
-    ///
-    /// Writes a signed 8-bit integer.
-    ///
-    /// \param value The value to write.
-    void writeInt8(int8_t value);
-
-    ///
-    /// Writes an unsigned 8-bit integer.
-    ///
-    /// \param value The value to write.
-    void writeUInt8(uint8_t value);
-
-    ///
-    /// Writes a signed 16-bit integer.
-    ///
-    /// \param value The value to write.
-    void writeInt16(int16_t value);
-
-    ///
-    /// Writes an unsigned 16-bit integer.
-    ///
-    /// \param value The value to write.
-    void writeUInt16(uint16_t value);
-
-    ///
-    /// Writes a signed 32-bit integer.
-    ///
-    /// \param value The value to write.
-    void writeInt32(int32_t value);
-
-    ///
-    /// Writes an unsigned 32-bit integer.
-    ///
-    /// \param value The value to write.
-    void writeUInt32(uint32_t value);
-
-    ///
-    /// Writes a signed 64-bit integer.
-    ///
-    /// \param value The value to write.
-    void writeInt64(int64_t value);
-
-    ///
-    /// Writes an unsigned 64-bit integer.
-    ///
-    /// \param value The value to write.
-    void writeUInt64(uint64_t value);
-
-    ///
-    /// Writes a 32-bit float.
-    ///
-    /// \param value The value to write.
-    void writeFloat32(float value);
-
-    ///
-    /// Writes a 64-bit float
-    ///
-    /// \param value The value to write.
-    void writeFloat64(double value);
-
-    ///
-    /// Writes a bool as an unsigned 8-bit integer.
-    ///
-    /// \param value The value to write.
-    void writeBool(bool value);
+    virtual void write(const uint8_t* bytes, size_t byteCount);
 
     ///
     /// Returns the current byte offset position in the stream.
-    virtual size_t position() const = 0;
+    virtual size_t position() const;
 
     ///
     /// Sets the current byte offset position in the stream.
     ///
     /// \param position The new position.
-    virtual void seek(size_t position) = 0;
+    virtual void seek(size_t position);
 
+private:
+    std::unique_ptr<WriteStream> _implementation;
 };
+
+///
+/// Writes a string with its length prepended as an unsigned 32-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, const char* value);
+
+///
+/// Writes a string with its length prepended as an unsigned 32-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, const std::string& value);
+
+///
+/// Writes a signed 8-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, int8_t value);
+
+///
+/// Writes an unsigned 8-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, uint8_t value);
+
+///
+/// Writes a signed 16-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, int16_t value);
+
+///
+/// Writes an unsigned 16-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, uint16_t value);
+
+///
+/// Writes a signed 32-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, int32_t value);
+
+///
+/// Writes an unsigned 32-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, uint32_t value);
+
+///
+/// Writes a signed 64-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, int64_t value);
+
+///
+/// Writes an unsigned 64-bit integer.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, uint64_t value);
+
+///
+/// Writes a 32-bit floating point number.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, float value);
+
+///
+/// Writes a 64-bit floating point number.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, double value);
+
+///
+/// Writes a boolean as a single byte.
+///
+/// \param stream The stream to write the value to.
+/// \param value The value to write.
+///
+/// \returns The stream.
+WriteStream& operator<<(WriteStream& stream, bool value);
 
 }

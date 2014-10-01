@@ -191,13 +191,19 @@ uint32_t MeshReader::readIndexUInt32() const
     switch (_mesh->indexType())
     {
     case IndexType_UInt8:
-        index = _indexStream.readUInt8();
-        break;
+    {
+        uint8_t value;
+        _indexStream >> value;
+        index = value;
+    } break;
     case IndexType_UInt16:
-        index = _indexStream.readUInt16();
-        break;
+    {
+        uint16_t value;
+        _indexStream >> value;
+        index = value;
+    } break;
     case IndexType_UInt32:
-        index = _indexStream.readUInt32();
+        _indexStream >> index;
         break;
     }
 
@@ -239,35 +245,53 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
     switch (attribute.type())
     {
     case VertexAttributeType_Int8:
+    {
         _vertexStream.seek(offset + index * sizeof(int8_t));
-        value = (float)_vertexStream.readInt8();
-        break;
+        int8_t readValue;
+        _vertexStream >> readValue;
+        value = static_cast<float>(readValue);
+    } break;
     case VertexAttributeType_UInt8:
+    {
         _vertexStream.seek(offset + index * sizeof(uint8_t));
-        value = (float)_vertexStream.readUInt8();
-        break;
+        uint8_t readValue;
+        _vertexStream >> readValue;
+        value = static_cast<float>(readValue);
+    } break;
     case VertexAttributeType_Int16:
+    {
         _vertexStream.seek(offset + index * sizeof(int16_t));
-        value = (float)_vertexStream.readInt16();
-        break;
+        int16_t readValue;
+        _vertexStream >> readValue;
+        value = static_cast<float>(readValue);
+    } break;
     case VertexAttributeType_UInt16:
+    {
         _vertexStream.seek(offset + index * sizeof(uint16_t));
-        value = (float)_vertexStream.readUInt16();
-        break;
+        uint16_t readValue;
+        _vertexStream >> readValue;
+        value = static_cast<float>(readValue);
+    } break;
     case VertexAttributeType_Int32:
+    {
         _vertexStream.seek(offset + index * sizeof(int32_t));
-        value = (float)_vertexStream.readInt32();
-        break;
+        int32_t readValue;
+        _vertexStream >> readValue;
+        value = static_cast<float>(readValue);
+    } break;
     case VertexAttributeType_UInt32:
+    {
         _vertexStream.seek(offset + index * sizeof(uint32_t));
-        value = (float)_vertexStream.readUInt32();
-        break;
+        uint32_t readValue;
+        _vertexStream >> readValue;
+        value = static_cast<float>(readValue);
+    } break;
     case VertexAttributeType_Float16:
         throw Error("16-bit floats are not yet implemented");
         break;
     case VertexAttributeType_Float32:
         _vertexStream.seek(offset + index * sizeof(float));
-        value = _vertexStream.readFloat32();
+        _vertexStream >> value;
         break;
     }
 

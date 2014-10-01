@@ -57,8 +57,11 @@ void BinaryDecoder::beginArray()
         ++_indexStack.top();
     }
 
+    uint32_t count;
+    *_stream >> count;
+
     _valueTypeStack.push(ValueType_Array);
-    _countStack.push(_stream->readUInt32());
+    _countStack.push(count);
     _indexStack.push(0);
 }
 
@@ -105,7 +108,9 @@ std::string BinaryDecoder::decodeString()
     {
         ++_indexStack.top();
     }
-    return _stream->readString();
+    std::string value;
+    *_stream >> value;
+    return value;
 }
 
 int8_t BinaryDecoder::decodeInt8()
@@ -114,7 +119,9 @@ int8_t BinaryDecoder::decodeInt8()
     {
         ++_indexStack.top();
     }
-    return _stream->readInt8();
+    int8_t value;
+    *_stream >> value;
+    return value;
 }
 
 uint8_t BinaryDecoder::decodeUInt8()
@@ -123,7 +130,9 @@ uint8_t BinaryDecoder::decodeUInt8()
     {
         ++_indexStack.top();
     }
-    return _stream->readUInt8();
+    uint8_t value;
+    *_stream >> value;
+    return value;
 }
 
 int16_t BinaryDecoder::decodeInt16()
@@ -132,7 +141,9 @@ int16_t BinaryDecoder::decodeInt16()
     {
         ++_indexStack.top();
     }
-    return _stream->readInt16();
+    int16_t value;
+    *_stream >> value;
+    return value;
 }
 
 uint16_t BinaryDecoder::decodeUInt16()
@@ -141,7 +152,9 @@ uint16_t BinaryDecoder::decodeUInt16()
     {
         ++_indexStack.top();
     }
-    return _stream->readUInt16();
+    uint16_t value;
+    *_stream >> value;
+    return value;
 }
 
 int32_t BinaryDecoder::decodeInt32()
@@ -150,7 +163,9 @@ int32_t BinaryDecoder::decodeInt32()
     {
         ++_indexStack.top();
     }
-    return _stream->readInt32();
+    int32_t value;
+    *_stream >> value;
+    return value;
 }
 
 uint32_t BinaryDecoder::decodeUInt32()
@@ -159,7 +174,9 @@ uint32_t BinaryDecoder::decodeUInt32()
     {
         ++_indexStack.top();
     }
-    return _stream->readUInt32();
+    uint32_t value;
+    *_stream >> value;
+    return value;
 }
 
 int64_t BinaryDecoder::decodeInt64()
@@ -168,7 +185,9 @@ int64_t BinaryDecoder::decodeInt64()
     {
         ++_indexStack.top();
     }
-    return _stream->readInt64();
+    int64_t value;
+    *_stream >> value;
+    return value;
 }
 
 uint64_t BinaryDecoder::decodeUInt64()
@@ -177,7 +196,9 @@ uint64_t BinaryDecoder::decodeUInt64()
     {
         ++_indexStack.top();
     }
-    return _stream->readUInt64();
+    uint64_t value;
+    *_stream >> value;
+    return value;
 }
 
 float BinaryDecoder::decodeFloat32()
@@ -186,7 +207,9 @@ float BinaryDecoder::decodeFloat32()
     {
         ++_indexStack.top();
     }
-    return _stream->readFloat32();
+    float value;
+    *_stream >> value;
+    return value;
 }
 
 double BinaryDecoder::decodeFloat64()
@@ -195,7 +218,9 @@ double BinaryDecoder::decodeFloat64()
     {
         ++_indexStack.top();
     }
-    return _stream->readFloat64();
+    double value;
+    *_stream >> value;
+    return value;
 }
 
 bool BinaryDecoder::decodeBool()
@@ -204,5 +229,7 @@ bool BinaryDecoder::decodeBool()
     {
         ++_indexStack.top();
     }
-    return _stream->readBool();
+    bool value;
+    *_stream >> value;
+    return value;
 }

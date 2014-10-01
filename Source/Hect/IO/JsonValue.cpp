@@ -481,7 +481,8 @@ std::string JsonValue::encodeToJson() const
 
 void JsonValue::encodeToJson(WriteStream& stream) const
 {
-    stream.writeString(encodeToJson(), false);
+    std::string json = encodeToJson();
+    stream.write((const uint8_t*)json.c_str(), json.size());
 }
 
 void JsonValue::decodeFromJson(const std::string& json)

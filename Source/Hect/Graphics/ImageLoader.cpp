@@ -32,6 +32,6 @@ void AssetLoader<Image>::load(Image& image, const Path& assetPath, AssetCache& a
 {
     assetCache;
 
-    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
-    ImagePngEncoder::decode(image, *stream);
+    ReadStream stream = FileSystem::openFileForRead(assetPath);
+    ImagePngEncoder::decode(image, stream);
 }

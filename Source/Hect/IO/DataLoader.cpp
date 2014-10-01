@@ -32,19 +32,23 @@ void AssetLoader<Data>::load(Data& data, const Path& assetPath, AssetCache& asse
 {
     assetCache;
 
-    ReadStream::Pointer stream = FileSystem::openFileForRead(assetPath);
-    if (stream->readUInt8() == '{')
+    ReadStream stream = FileSystem::openFileForRead(assetPath);
+    uint8_t firstCharacter;
+    stream >> firstCharacter;
+    if (firstCharacter == '{')
     {
-        stream->seek(0);
+        stream.seek(0);
         data.assetPath = assetPath;
-        data.jsonValue.decodeFromJson(*stream);
+        data.jsonValue.decodeFromJson(stream);
     }
     else
     {
-        stream->seek(0);
-        while (!stream->endOfStream())
+        stream.seek(0);
+        while (!stream.endOfStream())
         {
-            data.binaryData.push_back(stream->readUInt8());
+            uint8_t byte;
+            stream >> byte;
+            data.binaryData.push_back(byte);
         }
     }
 }
