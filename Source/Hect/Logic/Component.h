@@ -57,7 +57,7 @@ public:
     virtual void encode(Encoder& encoder) const;
     virtual void decode(Decoder& decoder);
 
-    virtual std::type_index typeIndex() const = 0;
+    virtual ComponentTypeId typeId() const = 0;
 };
 
 class Entity;
@@ -244,8 +244,8 @@ public:
     ComponentId id() const;
 
     ///
-    /// Returns the type index for the component's type.
-    std::type_index typeIndex() const;
+    /// Returns the id for the component's type.
+    ComponentTypeId typeId() const;
 
     Component<T>& operator=(const Component& component);
     Component<T>& operator=(Component&& component);

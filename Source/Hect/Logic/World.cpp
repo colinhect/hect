@@ -31,13 +31,13 @@ World::World() :
     _entityCount(0),
     _entityPool(*this)
 {
-    _componentPoolMap = ComponentRegistry::createComponentPoolMap(*this);
-    _systemMap = SystemRegistry::createSystemMap(*this);
+    _componentPoolMap = ComponentRegistry::createMap(*this);
+    _systemMap = SystemRegistry::createMap(*this);
 
     // Add all systems to the tick order
-    for (auto& pair : _systemMap)
+    for (System::Pointer& system : _systemMap)
     {
-        addSystemToTickOrder(*pair.second);
+        addSystemToTickOrder(*system);
     }
 }
 
@@ -81,10 +81,9 @@ Entity::Iterator World::cloneEntity(const Entity& entity)
     Entity::ConstIterator sourceEntity = entity.iterator();
     Entity::Iterator clonedEntity = createEntity();
 
-    for (auto& pair : _componentPoolMap)
+    for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
     {
-        ComponentPoolBase& componentPool = *pair.second;
-        componentPool.clone(*sourceEntity, *clonedEntity);
+        componentPool->clone(*sourceEntity, *clonedEntity);
     }
 
     // Recursively clone all children
@@ -120,12 +119,11 @@ void World::destroyEntity(Entity& entity)
     }
 
     // Remove all components
-    for (auto& pair : _componentPoolMap)
+    for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
     {
-        ComponentPoolBase& componentPool = *pair.second;
-        if (componentPool.has(entity))
+        if (componentPool->has(entity))
         {
-            componentPool.remove(entity);
+            componentPool->remove(entity);
         }
     }
 
@@ -156,9 +154,8 @@ void World::activateEntity(Entity& entity)
         throw Error("Entity is already activated");
     }
 
-    for (auto& pair : _componentPoolMap)
+    for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
     {
-        auto componentPool = pair.second;
         if (componentPool->has(entity))
         {
             componentPool->dispatchEvent(ComponentEventType_Add, entity);
@@ -186,14 +183,9 @@ void World::addEntityComponentBase(Entity& entity, const ComponentBase& componen
         throw Error("Invalid entity");
     }
 
-    std::type_index typeIndex = component.typeIndex();
-    auto it = _componentPoolMap.find(typeIndex);
-    if (it == _componentPoolMap.end())
-    {
-        throw Error("Type of base component is unregistered");
-    }
-    ComponentPoolBase& componentPool = *it->second;
-    componentPool.addBase(entity, component);
+    ComponentTypeId typeId = component.typeId();
+    ComponentPoolBase::Pointer& componentPool = _componentPoolMap[typeId];
+    componentPool->addBase(entity, component);
 }
 
 void World::encode(Encoder& encoder) const
@@ -228,30 +220,35 @@ void World::encodeComponents(const Entity& entity, Encoder& encoder)
 {
     if (encoder.isBinaryStream())
     {
-        encoder << beginArray("components");
+        WriteStream& stream = encoder.binaryStream();
 
-        for (auto& pair : _componentPoolMap)
+        size_t componentCountPosition = stream.position();
+        stream.writeUInt8(0);
+
+        uint8_t componentCount = 0;
+        for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
         {
-            auto componentPool = pair.second;
             if (componentPool->has(entity))
             {
-                const ComponentBase& component = componentPool->getBase(entity);
-                std::string typeName = Type::of(component).name();
+                ++componentCount;
 
-                encoder << encodeValue("type", typeName);
+                const ComponentBase& component = componentPool->getBase(entity);
+                stream.writeUInt32((ComponentTypeId)component.typeId());
                 component.encode(encoder);
             }
         }
 
-        encoder << endArray();
+        size_t currentPosition = stream.position();
+        stream.seek(componentCountPosition);
+        stream.writeUInt8(componentCount);
+        stream.seek(currentPosition);
     }
     else
     {
         encoder << beginObject("components");
 
-        for (auto& pair : _componentPoolMap)
+        for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
         {
-            auto componentPool = pair.second;
             if (componentPool->has(entity))
             {
                 const ComponentBase& component = componentPool->getBase(entity);
@@ -270,24 +267,14 @@ void World::decodeComponents(Entity& entity, Decoder& decoder)
 {
     if (decoder.isBinaryStream())
     {
-        if (decoder.selectMember("components"))
+        ReadStream& stream = decoder.binaryStream();
+        uint32_t componentCount = stream.readUInt8();
+        for (uint32_t i = 0; i < componentCount; ++i)
         {
-            decoder >> beginArray();
-            while (decoder.hasMoreElements())
-            {
-                std::string typeName;
-                decoder >> decodeValue("type", typeName);
-
-                decoder >> beginObject();
-
-                ComponentBase::Pointer component = ComponentRegistry::createComponent(typeName);
-                component->decode(decoder);
-
-                addEntityComponentBase(entity, *component);
-
-                decoder >> endObject();
-            }
-            decoder >> endArray();
+            ComponentTypeId typeId = (ComponentTypeId)stream.readUInt32();
+            ComponentBase::Pointer component = ComponentRegistry::create(typeId);
+            component->decode(decoder);
+            addEntityComponentBase(entity, *component);
         }
     }
     else
@@ -299,7 +286,8 @@ void World::decodeComponents(Entity& entity, Decoder& decoder)
             {
                 decoder.selectMember(typeName.c_str());
 
-                ComponentBase::Pointer component = ComponentRegistry::createComponent(typeName);
+                ComponentTypeId typeId = ComponentRegistry::typeIdOf(typeName);
+                ComponentBase::Pointer component = ComponentRegistry::create(typeId);
                 component->decode(decoder);
 
                 addEntityComponentBase(entity, *component);
@@ -315,9 +303,9 @@ void World::addSystemToTickOrder(System& system)
     if (std::find(_systemTickOrder.begin(), _systemTickOrder.end(), &system) == _systemTickOrder.end())
     {
         // Add each system it depends on first
-        for (std::type_index typeIndex : system.tickDependencies())
+        for (SystemTypeId typeId : system.tickDependencies())
         {
-            addSystemToTickOrder(*_systemMap[typeIndex]);
+            addSystemToTickOrder(*_systemMap[typeId]);
         }
 
         // Add the system

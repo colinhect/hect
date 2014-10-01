@@ -27,7 +27,7 @@ namespace hect
 template <typename T>
 void System::tickAfter()
 {
-    _tickDependencies.push_back(std::type_index(typeid(T)));
+    _tickDependencies.push_back(SystemRegistry::typeIdOf<T>());
 }
 
 }

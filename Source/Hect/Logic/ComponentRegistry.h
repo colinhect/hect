@@ -34,34 +34,35 @@
 namespace hect
 {
 
-typedef std::map<std::type_index, ComponentPoolBase::Pointer> ComponentPoolMap;
+typedef std::vector<ComponentPoolBase::Pointer> ComponentPoolMap;
 
 class ComponentRegistry :
     public Uncopyable
 {
 public:
-    static ComponentBase::Pointer createComponent(std::type_index typeIndex);
-    static ComponentBase::Pointer createComponent(const std::string& typeName);
+    static ComponentBase::Pointer create(ComponentTypeId typeId);
+    static ComponentPoolBase::Pointer createPool(ComponentTypeId typeId, World& world);
 
-    static ComponentPoolBase::Pointer createComponentPool(std::type_index typeIndex, World& world);
-    static ComponentPoolBase::Pointer createComponentPool(const std::string& typeName, World& world);
+    static ComponentPoolMap createMap(World& world);
 
-    static ComponentPoolMap createComponentPoolMap(World& world);
+    static ComponentTypeId typeIdOf(std::type_index typeIndex);
+    static ComponentTypeId typeIdOf(const std::string& typeName);
 
     template <typename T>
     static void registerType();
 
-private:
-    static ComponentTypeId _nextTypeId;
+    template <typename T>
+    static ComponentTypeId typeIdOf();
 
+private:
     static std::map<std::string, ComponentTypeId> _typeNameToId;
     static std::map<std::type_index, ComponentTypeId> _typeIndexToId;
 
     typedef std::function<ComponentBase::Pointer(void)> ComponentConstructor;
     typedef std::function<ComponentPoolBase::Pointer(World&)> ComponentPoolConstructor;
 
-    static std::map<ComponentTypeId, ComponentConstructor> _componentConstructors;
-    static std::map<ComponentTypeId, ComponentPoolConstructor> _componentPoolConstructors;
+    static std::vector<ComponentConstructor> _componentConstructors;
+    static std::vector<ComponentPoolConstructor> _componentPoolConstructors;
 };
 
 }

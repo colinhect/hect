@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/System.h"
+#include "Hect/Logic/SystemRegistry.h"
 #include "Hect/Logic/ComponentEvent.h"
 #include "Hect/Logic/Components/BoundingBox.h"
 #include "Hect/Logic/Components/Transform.h"

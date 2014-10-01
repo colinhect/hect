@@ -34,20 +34,25 @@
 namespace hect
 {
 
-typedef std::map<std::type_index, System::Pointer> SystemMap;
+typedef std::vector<System::Pointer> SystemMap;
 
 class SystemRegistry :
     public Uncopyable
 {
 public:
+    static SystemMap createMap(World& world);
 
-    static SystemMap createSystemMap(World& world);
+    static SystemTypeId typeIdOf(std::type_index typeIndex);
 
     template <typename T>
     static void registerType();
 
+    template <typename T>
+    static SystemTypeId typeIdOf();
+
 private:
-    static std::map<std::type_index, std::function<System::Pointer(World&)>> _constructors;
+    static std::map<std::type_index, SystemTypeId> _typeIndexToId;
+    static std::vector<std::function<System::Pointer(World&)>> _constructors;
 };
 
 }

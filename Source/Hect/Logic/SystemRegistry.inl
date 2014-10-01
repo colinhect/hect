@@ -30,13 +30,30 @@ template <typename T>
 void SystemRegistry::registerType()
 {
     std::type_index typeIndex(typeid(T));
-    if (_constructors.find(typeIndex) == _constructors.end())
+
+    if (_typeIndexToId.find(typeIndex) == _typeIndexToId.end())
     {
-        _constructors[typeIndex] = [](World& world)
+        SystemTypeId typeId = (SystemTypeId)_constructors.size();
+
+        _constructors.push_back([](World& world)
         {
             return System::Pointer(new T(world));
-        };
+        });
+
+        _typeIndexToId[typeIndex] = typeId;
     }
+}
+
+template <typename T>
+SystemTypeId SystemRegistry::typeIdOf()
+{
+    static SystemTypeId id = (SystemTypeId)-1;
+    if (id == (SystemTypeId)-1)
+    {
+        std::type_index typeIndex(typeid(T));
+        id = typeIdOf(typeIndex);
+    }
+    return id;
 }
 
 }

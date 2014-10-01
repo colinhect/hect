@@ -35,21 +35,33 @@ void ComponentRegistry::registerType()
     {
         std::string typeName = Type::get<T>().name();
 
-        _typeIndexToId[typeIndex] = _nextTypeId;
-        _typeNameToId[typeName] = _nextTypeId;
+        ComponentTypeId typeId = (ComponentTypeId)_componentConstructors.size();
 
-        _componentConstructors[_nextTypeId] = []()
+        _componentConstructors.push_back([]()
         {
             return ComponentBase::Pointer(new T());
-        };
+        });
 
-        _componentPoolConstructors[_nextTypeId] = [](World& world)
+        _componentPoolConstructors.push_back([](World& world)
         {
             return ComponentPoolBase::Pointer(new ComponentPool<T>(world));
-        };
+        });
 
-        ++_nextTypeId;
+        _typeIndexToId[typeIndex] = typeId;
+        _typeNameToId[typeName] = typeId;
     }
+}
+
+template <typename T>
+ComponentTypeId ComponentRegistry::typeIdOf()
+{
+    static ComponentTypeId id = (ComponentTypeId)-1;
+    if (id == (ComponentTypeId)-1)
+    {
+        std::type_index typeIndex(typeid(T));
+        id = typeIdOf(typeIndex);
+    }
+    return id;
 }
 
 }

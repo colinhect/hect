@@ -26,7 +26,7 @@
 #include <map>
 
 #include "Hect/Input/InputAxis.h"
-#include "Hect/Logic/System.h"
+#include "Hect/Logic/SystemRegistry.h"
 
 namespace hect
 {

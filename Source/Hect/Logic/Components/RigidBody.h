@@ -25,7 +25,7 @@
 
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/IO/AssetCache.h"
-#include "Hect/Logic/Component.h"
+#include "Hect/Logic/ComponentRegistry.h"
 
 // Forward declare Bullet classes
 class btRigidBody;

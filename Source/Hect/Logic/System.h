@@ -37,6 +37,10 @@ namespace hect
 class World;
 
 ///
+/// A numeric identifier for a system type.
+typedef uint32_t SystemTypeId;
+
+///
 /// A system affecting entities within a world.
 class System :
     public Uncopyable
@@ -56,9 +60,9 @@ public:
     void tickAfter();
 
     ///
-    /// Returns the type indices of the systems which must tick before this
+    /// Returns the type ids of the systems which must tick before this
     /// system.
-    ConstSequence<std::type_index> tickDependencies() const;
+    ConstSequence<SystemTypeId> tickDependencies() const;
 
     ///
     /// Performs a single tick of simulation for the system.
@@ -78,7 +82,7 @@ public:
 private:
     World* _world;
 
-    std::vector<std::type_index> _tickDependencies;
+    std::vector<SystemTypeId> _tickDependencies;
 };
 
 }

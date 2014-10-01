@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/Component.h"
+#include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Quaternion.h"
 

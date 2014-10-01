@@ -32,20 +32,18 @@
 #include "Hect/Logic/GameMode.h"
 #include "Hect/Logic/GameModeRegistry.h"
 
-using namespace hect;
+#include "Hect/Generated/_reflect_hect.h"
 
-class BuiltInTypes;
-class CustomTypes;
+using namespace hect;
 
 Engine::Engine(int argc, const char* argv[])
 {
     argc;
     argv;
 
-    Platform::initialize();
+    hect::registerTypes();
 
-    Type::registerTypes<BuiltInTypes>();
-    Type::registerTypes<CustomTypes>();
+    Platform::initialize();
 
     // Mount the working directory
     Path workingDirectory = FileSystem::workingDirectory();
@@ -96,7 +94,7 @@ int Engine::main()
 {
     const std::string& gameModeTypeName = _settings["defaultGameMode"].asString();
 
-    GameMode::Pointer gameMode = GameModeRegistry::createGameMode(gameModeTypeName, *this);
+    GameMode::Pointer gameMode = GameModeRegistry::create(gameModeTypeName, *this);
 
     Timer timer;
     TimeSpan accumulator;

@@ -28,63 +28,48 @@
 
 using namespace hect;
 
-ComponentBase::Pointer ComponentRegistry::createComponent(std::type_index typeIndex)
+ComponentBase::Pointer ComponentRegistry::create(ComponentTypeId typeId)
 {
-    auto it = _typeIndexToId.find(typeIndex);
-    if (it == _typeIndexToId.end())
-    {
-        throw Error("Unregistered component type");
-    }
-
-    return _componentConstructors[it->second]();
+    return _componentConstructors[typeId]();
 }
 
-ComponentBase::Pointer ComponentRegistry::createComponent(const std::string& typeName)
+ComponentPoolBase::Pointer ComponentRegistry::createPool(ComponentTypeId typeId, World& world)
 {
-    auto it = _typeNameToId.find(typeName);
-    if (it == _typeNameToId.end())
-    {
-        throw Error(format("Unregistered component type '%s'", typeName.c_str()));
-    }
-
-    return _componentConstructors[it->second]();
+    return _componentPoolConstructors[typeId](world);
 }
 
-ComponentPoolBase::Pointer ComponentRegistry::createComponentPool(std::type_index typeIndex, World& world)
-{
-    auto it = _typeIndexToId.find(typeIndex);
-    if (it == _typeIndexToId.end())
-    {
-        throw Error("Unregistered component type");
-    }
-
-    return _componentPoolConstructors[it->second](world);
-}
-
-ComponentPoolBase::Pointer ComponentRegistry::createComponentPool(const std::string& typeName, World& world)
-{
-    auto it = _typeNameToId.find(typeName);
-    if (it == _typeNameToId.end())
-    {
-        throw Error(format("Unregistered component type '%s'", typeName.c_str()));
-    }
-
-    return _componentPoolConstructors[it->second](world);
-}
-
-ComponentPoolMap ComponentRegistry::createComponentPoolMap(World& world)
+ComponentPoolMap ComponentRegistry::createMap(World& world)
 {
     ComponentPoolMap componentPoolMap;
-    for (auto& pair : _typeIndexToId)
+    for (ComponentTypeId typeId = 0; typeId < _componentConstructors.size(); ++typeId)
     {
-        std::type_index typeIndex = pair.first;
-        componentPoolMap[typeIndex] = createComponentPool(typeIndex, world);
+        componentPoolMap.push_back(createPool(typeId, world));
     }
     return componentPoolMap;
 }
 
-ComponentTypeId ComponentRegistry::_nextTypeId = 0;
+ComponentTypeId ComponentRegistry::typeIdOf(std::type_index typeIndex)
+{
+    auto it = _typeIndexToId.find(typeIndex);
+    if (it == _typeIndexToId.end())
+    {
+        throw Error("Unregistered component type");
+    }
+    return it->second;
+}
+
+ComponentTypeId ComponentRegistry::typeIdOf(const std::string& typeName)
+{
+    auto it = _typeNameToId.find(typeName);
+    if (it == _typeNameToId.end())
+    {
+        throw Error(format("Unregistered component type '%s'", typeName.c_str()));
+    }
+
+    return it->second;
+}
+
 std::map<std::string, ComponentTypeId> ComponentRegistry::_typeNameToId;
 std::map<std::type_index, ComponentTypeId> ComponentRegistry::_typeIndexToId;
-std::map<ComponentTypeId, ComponentRegistry::ComponentConstructor> ComponentRegistry::_componentConstructors;
-std::map<ComponentTypeId, ComponentRegistry::ComponentPoolConstructor> ComponentRegistry::_componentPoolConstructors;
+std::vector<ComponentRegistry::ComponentConstructor> ComponentRegistry::_componentConstructors;
+std::vector<ComponentRegistry::ComponentPoolConstructor> ComponentRegistry::_componentPoolConstructors;

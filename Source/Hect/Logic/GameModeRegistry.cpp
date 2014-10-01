@@ -28,7 +28,7 @@
 
 using namespace hect;
 
-GameMode::Pointer GameModeRegistry::createGameMode(const std::string& typeName, Engine& engine)
+GameMode::Pointer GameModeRegistry::create(const std::string& typeName, Engine& engine)
 {
     // Find the constructor
     auto it = _constructors.find(typeName);

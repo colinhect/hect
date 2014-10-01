@@ -27,31 +27,15 @@ namespace hect
 template <typename T>
 T& World::system()
 {
-    std::type_index typeIndex(typeid(T));
-
-    auto it = _systemMap.find(typeIndex);
-    if (it == _systemMap.end())
-    {
-        std::string typeName = Type::get<T>().name();
-        throw Error(format("Unknown system type '%s'", typeName.c_str()));
-    }
-
-    return (T&)*it->second;
+    SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
+    return (T&)*_systemMap[typeId];
 }
 
 template <typename T>
 ComponentPool<T>& World::components()
 {
-    std::type_index typeIndex(typeid(T));
-
-    auto it = _componentPoolMap.find(typeIndex);
-    if (it == _componentPoolMap.end())
-    {
-        std::string typeName = Type::get<T>().name();
-        throw Error(format("Unknown component type '%s'", typeName.c_str()));
-    }
-
-    return (ComponentPool<T>&)*it->second;
+    ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
+    return (ComponentPool<T>&)*_componentPoolMap[typeId];
 }
 
 template <typename T>

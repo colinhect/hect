@@ -27,7 +27,7 @@
 #include "Hect/Event/Listener.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Logic/ComponentEvent.h"
-#include "Hect/Logic/System.h"
+#include "Hect/Logic/SystemRegistry.h"
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Timing/TimeSpan.h"
 

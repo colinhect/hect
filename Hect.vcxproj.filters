@@ -423,6 +423,9 @@
     <ClInclude Include="Source\Hect\IO\EncodeOperations.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Hect\Generated\_reflect_hect.h">
+      <Filter>Source\Hect\Generated</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Hect\Core\Any.cpp">
@@ -680,9 +683,6 @@
     <ClCompile Include="Source\Hect\Logic\SystemRegistry.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hect\Generated\BuiltInTypes.cpp">
-      <Filter>Source\Hect\Generated</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Components\Camera.cpp">
       <Filter>Source\Hect\Logic\Components</Filter>
     </ClCompile>
@@ -724,6 +724,9 @@
     </ClCompile>
     <ClCompile Include="Source\Hect\Logic\Component.cpp">
       <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hect\Generated\_reflect_hect.cpp">
+      <Filter>Source\Hect\Generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -254,6 +254,7 @@ void Platform::deinitialize()
 
 void Platform::showFatalError(const std::string& message)
 {
+    HECT_ERROR(message);
 #ifdef HECT_WINDOWS_BUILD
     MessageBoxA(NULL, message.c_str(), "Fatal Error", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 #endif

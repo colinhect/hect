@@ -115,6 +115,8 @@ public:
     /// if the type is not an enum.
     const std::string& toString(EnumValue::Type numericValue) const;
 
+    void addValue(EnumValue::Type value, const std::string& string);
+
     ///
     /// Returns the values in the enum.
     ConstSequence<EnumValue> values() const;
@@ -122,8 +124,6 @@ public:
 private:
     Enum();
     Enum(const std::string& name);
-
-    void addValue(EnumValue::Type value, const std::string& string);
 
     std::string _name;
     std::vector<EnumValue> _values;

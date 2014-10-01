@@ -38,7 +38,7 @@ class GameModeRegistry :
 {
 public:
 
-    static GameMode::Pointer createGameMode(const std::string& typeName, Engine& engine);
+    static GameMode::Pointer create(const std::string& typeName, Engine& engine);
 
     template <typename T>
     static void registerType();

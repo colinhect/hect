@@ -55,6 +55,13 @@ const std::string& Enum::toString(EnumValue::Type numericValue) const
     return it->second;
 }
 
+void Enum::addValue(EnumValue::Type numericValue, const std::string& stringValue)
+{
+    _values.push_back(EnumValue(numericValue, stringValue));
+    _stringToNumeric[stringValue] = numericValue;
+    _numericToString[numericValue] = stringValue;
+}
+
 ConstSequence<EnumValue> Enum::values() const
 {
     return ConstSequence<EnumValue>(_values.begin(), _values.end());
@@ -67,11 +74,4 @@ Enum::Enum()
 Enum::Enum(const std::string& name) :
     _name(name)
 {
-}
-
-void Enum::addValue(EnumValue::Type numericValue, const std::string& stringValue)
-{
-    _values.push_back(EnumValue(numericValue, stringValue));
-    _stringToNumeric[stringValue] = numericValue;
-    _numericToString[numericValue] = stringValue;
 }

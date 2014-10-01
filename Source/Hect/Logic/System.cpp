@@ -30,9 +30,9 @@ System::System(World& world) :
 {
 }
 
-ConstSequence<std::type_index> System::tickDependencies() const
+ConstSequence<SystemTypeId> System::tickDependencies() const
 {
-    return ConstSequence<std::type_index>(_tickDependencies.begin(), _tickDependencies.end());
+    return ConstSequence<SystemTypeId>(_tickDependencies.begin(), _tickDependencies.end());
 }
 
 World& System::world()

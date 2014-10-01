@@ -28,16 +28,25 @@
 
 using namespace hect;
 
-SystemMap SystemRegistry::createSystemMap(World& world)
+SystemMap SystemRegistry::createMap(World& world)
 {
     SystemMap systemMap;
-    for (auto& pair : _constructors)
+    for (auto& constructor : _constructors)
     {
-        std::type_index typeIndex = pair.first;
-        std::function<System::Pointer(World&)> constructor = pair.second;
-        systemMap[typeIndex] = constructor(world);
+        systemMap.push_back(constructor(world));
     }
     return systemMap;
 }
 
-std::map<std::type_index, std::function<System::Pointer(World&)>> SystemRegistry::_constructors;
+SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
+{
+    auto it = _typeIndexToId.find(typeIndex);
+    if (it == _typeIndexToId.end())
+    {
+        throw Error("Unregistered system type");
+    }
+    return it->second;
+}
+
+std::map<std::type_index, SystemTypeId> SystemRegistry::_typeIndexToId;
+std::vector<std::function<System::Pointer(World&)>> SystemRegistry::_constructors;

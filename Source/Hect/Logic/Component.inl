@@ -244,9 +244,9 @@ ComponentId Component<T>::id() const
 }
 
 template <typename T>
-std::type_index Component<T>::typeIndex() const
+ComponentTypeId Component<T>::typeId() const
 {
-    return std::type_index(typeid(T));
+    return ComponentRegistry::typeIdOf<T>();
 }
 
 template <typename T>

@@ -59,11 +59,6 @@ class Type
 public:
 
     ///
-    /// Registers a type collection.
-    template <typename T>
-    static void registerTypes();
-
-    ///
     /// Creates a reflected type.
     ///
     /// \param kind The kind of the type.
