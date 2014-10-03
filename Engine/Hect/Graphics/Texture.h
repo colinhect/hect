@@ -64,7 +64,12 @@ enum TextureType
 class Texture :
     public RendererObject
 {
+    typedef std::vector<AssetHandle<Image>> ImageContainer;
 public:
+
+    ///
+    /// A sequence of images.
+    typedef Sequence<AssetHandle<Image>, ImageContainer> ImageSequence;
 
     ///
     /// Constructs an empty 2-dimensional texture.
@@ -118,7 +123,7 @@ public:
 
     ///
     /// Returns the source images.
-    Sequence<AssetHandle<Image>> sourceImages();
+    ImageSequence sourceImages();
 
     ///
     /// Adds a source image to the texture (may affect width/height of
@@ -219,7 +224,7 @@ private:
     std::string _name;
     TextureType _type;
 
-    std::vector<AssetHandle<Image>> _sourceImages;
+    ImageContainer _sourceImages;
 
     unsigned _width;
     unsigned _height;

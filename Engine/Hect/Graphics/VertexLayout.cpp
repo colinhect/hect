@@ -79,9 +79,9 @@ const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemant
     throw Error(format("Vertex layout does not have an attribute with semantic '%s'", Enum::toString(semantic)));
 }
 
-ConstSequence<VertexAttribute> VertexLayout::attributes() const
+const VertexLayout::AttributeSequence VertexLayout::attributes() const
 {
-    return ConstSequence<VertexAttribute>(_attributes.begin(), _attributes.end());
+    return _attributes;
 }
 
 size_t VertexLayout::attributeCount() const

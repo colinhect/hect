@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <vector>
+#include "Hect/Core/Uncopyable.h"
 
 namespace hect
 {
@@ -31,56 +31,28 @@ namespace hect
 ///
 /// A wrapper around an STL container providing iteration access without
 /// providing the ability to modify the container itself.
-template <typename T, typename Container = std::vector<T>>
-class Sequence
+template <typename T, typename Container>
+class Sequence :
+    public Uncopyable
 {
 public:
-    Sequence(typename Container::iterator begin, typename Container::iterator end);
+    Sequence(typename const Container& container);
+    Sequence(Sequence&& sequence);
 
     ///
     /// Returns an iterator to the beginning of the sequence.
-    typename Container::iterator begin() const;
+    typename Container::iterator begin();
 
     ///
     /// Returns an iterator to the end of the sequence.
-    typename Container::iterator end() const;
+    typename Container::iterator end();
 
     ///
-    /// Returns the number of items in the sequence.
-    size_t size() const;
-
-    ///
-    /// Returns the item in the sequence at the given index.
-    ///
-    /// \param index The index of which item to access.
-    T& operator[](size_t index);
-
-    ///
-    /// Returns the item in the sequence at the given index.
-    ///
-    /// \param index The index of which item to access.
-    const T& operator[](size_t index) const;
-
-private:
-    typename Container::iterator _begin;
-    typename Container::iterator _end;
-};
-
-///
-/// A wrapper around an STL container providing iteration access without
-/// providing the ability to modify the container itself.
-template <typename T, typename Container = std::vector<T>>
-class ConstSequence
-{
-public:
-    ConstSequence(typename Container::const_iterator begin, typename Container::const_iterator end);
-
-    ///
-    /// Returns an iterator to the beginning of the sequence.
+    /// Returns a constant iterator to the beginning of the sequence.
     typename Container::const_iterator begin() const;
 
     ///
-    /// Returns an iterator to the end of the sequence.
+    /// Returns a constant iterator to the end of the sequence.
     typename Container::const_iterator end() const;
 
     ///
@@ -100,8 +72,7 @@ public:
     const T& operator[](size_t index) const;
 
 private:
-    typename Container::const_iterator _begin;
-    typename Container::const_iterator _end;
+    typename Container* _container;
 };
 
 }

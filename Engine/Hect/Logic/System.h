@@ -34,8 +34,6 @@
 namespace hect
 {
 
-class World;
-
 ///
 /// A numeric identifier for a system type.
 typedef uint32_t SystemTypeId;
@@ -45,6 +43,7 @@ typedef uint32_t SystemTypeId;
 class System :
     public Uncopyable
 {
+    friend class World;
 public:
 
     typedef std::shared_ptr<System> Pointer;
@@ -58,12 +57,7 @@ public:
     /// system.
     template <typename T>
     void tickAfter();
-
-    ///
-    /// Returns the type ids of the systems which must tick before this
-    /// system.
-    ConstSequence<SystemTypeId> tickDependencies() const;
-
+    
     ///
     /// Performs a single tick of simulation for the system.
     ///

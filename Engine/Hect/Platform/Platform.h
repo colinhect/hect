@@ -34,7 +34,13 @@ namespace hect
 
 class Platform
 {
+    typedef std::vector<Gamepad> GamepadContainer;
 public:
+
+    ///
+    /// A sequence of gamepads.
+    typedef Sequence<Gamepad, GamepadContainer> GamepadSequence;
+
     static void initialize();
     static void deinitialize();
 
@@ -50,7 +56,7 @@ public:
     static bool hasKeyboard();
     static Keyboard& keyboard();
 
-    static Sequence<Gamepad> gamepads();
+    static GamepadSequence gamepads();
 
 private:
     Platform() { }

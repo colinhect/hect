@@ -30,9 +30,9 @@ JsonEncoder::JsonEncoder() :
 {
 }
 
-Sequence<JsonValue> JsonEncoder::jsonValues()
+JsonEncoder::ValueSequence JsonEncoder::jsonValues()
 {
-    return Sequence<JsonValue>(_completed.begin(), _completed.end());
+    return _completed;
 }
 
 bool JsonEncoder::isBinaryStream() const

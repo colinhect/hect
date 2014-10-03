@@ -305,7 +305,7 @@ void World::addSystemToTickOrder(System& system)
     if (std::find(_systemTickOrder.begin(), _systemTickOrder.end(), &system) == _systemTickOrder.end())
     {
         // Add each system it depends on first
-        for (SystemTypeId typeId : system.tickDependencies())
+        for (SystemTypeId typeId : system._tickDependencies)
         {
             addSystemToTickOrder(*_systemMap[typeId]);
         }

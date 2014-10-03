@@ -25,18 +25,14 @@
 
 using namespace hect;
 
-Technique::Technique()
+Technique::PassSequence Technique::passes()
 {
+    return _passes;
 }
 
-Sequence<Pass> Technique::passes()
+const Technique::PassSequence Technique::passes() const
 {
-    return Sequence<Pass>(_passes.begin(), _passes.end());
-}
-
-ConstSequence<Pass> Technique::passes() const
-{
-    return ConstSequence<Pass>(_passes.begin(), _passes.end());
+    return _passes;
 }
 
 void Technique::addPass(const Pass& pass)

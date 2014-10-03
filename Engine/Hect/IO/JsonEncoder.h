@@ -37,12 +37,18 @@ namespace hect
 class JsonEncoder :
     public Encoder
 {
+    typedef std::vector<JsonValue> ValueContainer;
 public:
+
+    ///
+    /// A sequence of JSON values.
+    typedef Sequence<JsonValue, ValueContainer> ValueSequence;
+
     JsonEncoder();
 
     ///
     /// Returns the encoded JSON values.
-    Sequence<JsonValue> jsonValues();
+    ValueSequence jsonValues();
 
     bool isBinaryStream() const;
 
@@ -77,7 +83,7 @@ private:
 
     bool _memberSelected;
 
-    JsonValue::Array _completed;
+    ValueContainer _completed;
 };
 
 }

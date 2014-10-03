@@ -35,7 +35,12 @@ namespace hect
 /// An ordered layout of vertex attributes.
 class VertexLayout
 {
+    typedef std::vector<VertexAttribute> AttributeContainer;
 public:
+
+    ///
+    /// A sequence of attributes.
+    typedef Sequence<VertexAttribute, AttributeContainer> AttributeSequence;
 
     ///
     /// Creates the default vertex layout.
@@ -72,7 +77,7 @@ public:
 
     ///
     /// Returns the attributes.
-    ConstSequence<VertexAttribute> attributes() const;
+    const AttributeSequence attributes() const;
 
     ///
     /// Returns the number of attributes.
@@ -100,7 +105,7 @@ public:
 private:
     void computeAttributeOffsets();
 
-    std::vector<VertexAttribute> _attributes;
+    AttributeContainer _attributes;
     unsigned _vertexSize;
 };
 

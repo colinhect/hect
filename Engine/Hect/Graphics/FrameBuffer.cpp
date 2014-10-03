@@ -47,14 +47,14 @@ void FrameBuffer::bind(Renderer* renderer)
     renderer->bindFrameBuffer(*this);
 }
 
-Sequence<Texture> FrameBuffer::targets()
+FrameBuffer::TextureSequence FrameBuffer::targets()
 {
-    return Sequence<Texture>(_targets.begin(), _targets.end());
+    return _targets;
 }
 
-ConstSequence<Texture> FrameBuffer::targets() const
+const FrameBuffer::TextureSequence FrameBuffer::targets() const
 {
-    return ConstSequence<Texture>(_targets.begin(), _targets.end());
+    return _targets;
 }
 
 void FrameBuffer::addTarget(const Texture& target)

@@ -62,9 +62,9 @@ void Enum::addValue(EnumValue::Type numericValue, const std::string& stringValue
     _numericToString[numericValue] = stringValue;
 }
 
-ConstSequence<EnumValue> Enum::values() const
+const Enum::ValueSequence Enum::values() const
 {
-    return ConstSequence<EnumValue>(_values.begin(), _values.end());
+    return _values;
 }
 
 Enum::Enum()

@@ -35,7 +35,12 @@ namespace hect
 /// The manner in which a surface is rendered.
 class Material
 {
+    typedef std::vector<Technique> TechniqueContainer;
 public:
+
+    ///
+    /// A sequence of techniques.
+    typedef Sequence<Technique, TechniqueContainer> TechniqueSequence;
 
     ///
     /// Constructs a material without any techniques.
@@ -59,11 +64,11 @@ public:
 
     ///
     /// Returns the techniques.
-    Sequence<Technique> techniques();
+    TechniqueSequence techniques();
 
     ///
     /// Returns the techniques.
-    ConstSequence<Technique> techniques() const;
+    const TechniqueSequence techniques() const;
 
     ///
     /// Adds a technique.
@@ -86,7 +91,7 @@ public:
 
 private:
     std::string _name;
-    std::vector<Technique> _techniques;
+    TechniqueContainer _techniques;
 };
 
 }

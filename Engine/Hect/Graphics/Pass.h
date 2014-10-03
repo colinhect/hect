@@ -42,7 +42,17 @@ namespace hect
 /// used when rendering geometry for this step in the technique.
 class Pass
 {
+    typedef std::vector<AssetHandle<Texture>> TextureContainer;
+    typedef std::vector<PassUniformValue> UniformValueContainer;
 public:
+
+    ///
+    /// A sequence of textures.
+    typedef Sequence<AssetHandle<Texture>, TextureContainer> TextureSequence;
+
+    ///
+    /// A sequence of pass uniform values.
+    typedef Sequence<PassUniformValue, UniformValueContainer> UniformValueSequence;
 
     ///
     /// Constructs an empty pass.
@@ -66,7 +76,7 @@ public:
 
     ///
     /// Returns the textures.
-    ConstSequence<AssetHandle<Texture>> textures() const;
+    const TextureSequence textures() const;
 
     ///
     /// Adds a texture.
@@ -90,7 +100,7 @@ public:
 
     ///
     /// Returns the uniform values.
-    ConstSequence<PassUniformValue> uniformValues() const;
+    const UniformValueSequence uniformValues() const;
 
     ///
     /// Adds a uniform value.
@@ -106,10 +116,10 @@ private:
     void resolvePassUniformValues(Shader& shader);
 
     RenderState _renderState;
-    std::vector<AssetHandle<Texture>> _textures;
+    TextureContainer _textures;
     AssetHandle<Shader> _shader;
 
-    std::vector<PassUniformValue> _uniformValues;
+    UniformValueContainer _uniformValues;
     std::map<const Uniform*, UniformValue> _resolvedUniformValues;
     Shader* _resolvedFromShader;
 };

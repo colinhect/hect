@@ -66,7 +66,12 @@ public:
 class Enum
 {
     friend class Type;
+    typedef std::vector<EnumValue> ValueContainer;
 public:
+
+    ///
+    /// A sequence of enum values.
+    typedef Sequence<EnumValue, ValueContainer> ValueSequence;
 
     ///
     /// Creates an enum value for a specific enum type from its string
@@ -119,14 +124,14 @@ public:
 
     ///
     /// Returns the values in the enum.
-    ConstSequence<EnumValue> values() const;
+    const ValueSequence values() const;
 
 private:
     Enum();
     Enum(const std::string& name);
 
     std::string _name;
-    std::vector<EnumValue> _values;
+    ValueContainer _values;
     std::map<std::string, EnumValue::Type> _stringToNumeric;
     std::map<EnumValue::Type, std::string> _numericToString;
 };

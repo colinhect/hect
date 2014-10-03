@@ -379,7 +379,7 @@ Keyboard& Platform::keyboard()
     return _keyboard;
 }
 
-Sequence<Gamepad> Platform::gamepads()
+Platform::GamepadSequence Platform::gamepads()
 {
-    return Sequence<Gamepad>(_gamepads.begin(), _gamepads.end());
+    return _gamepads;
 }

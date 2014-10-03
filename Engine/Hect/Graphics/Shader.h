@@ -38,7 +38,17 @@ namespace hect
 class Shader :
     public RendererObject
 {
+    typedef std::vector<AssetHandle<ShaderModule>> ModuleContainer;
+    typedef std::vector<Uniform> UniformContainer;
 public:
+
+    ///
+    /// A sequence of shader modules.
+    typedef Sequence<AssetHandle<ShaderModule>, ModuleContainer> ModuleSequence;
+
+    ///
+    /// A sequence of uniforms.
+    typedef Sequence<Uniform, UniformContainer> UniformSequence;
 
     ///
     /// Constructs a shader without any modules or uniforms.
@@ -87,7 +97,7 @@ public:
 
     ///
     /// Returns the modules.
-    ConstSequence<AssetHandle<ShaderModule>> modules() const;
+    const ModuleSequence modules() const;
 
     ///
     /// Adds a uniform to the shader.
@@ -100,11 +110,11 @@ public:
 
     ///
     /// Returns the uniforms.
-    Sequence<Uniform> uniforms();
+    UniformSequence uniforms();
 
     ///
     /// Returns the uniforms.
-    ConstSequence<Uniform> uniforms() const;
+    const UniformSequence uniforms() const;
 
     ///
     /// Returns the uniform with the given name.
@@ -157,8 +167,8 @@ public:
 
 private:
     std::string _name;
-    std::vector<AssetHandle<ShaderModule>> _modules;
-    std::vector<Uniform> _uniforms;
+    ModuleContainer _modules;
+    UniformContainer _uniforms;
 };
 
 }

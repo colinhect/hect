@@ -30,11 +30,6 @@ System::System(World& world) :
 {
 }
 
-ConstSequence<SystemTypeId> System::tickDependencies() const
-{
-    return ConstSequence<SystemTypeId>(_tickDependencies.begin(), _tickDependencies.end());
-}
-
 World& System::world()
 {
     return *_world;

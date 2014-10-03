@@ -82,9 +82,9 @@ void Shader::addModule(const AssetHandle<ShaderModule>& module)
     _modules.push_back(module);
 }
 
-ConstSequence<AssetHandle<ShaderModule>> Shader::modules() const
+const Shader::ModuleSequence Shader::modules() const
 {
-    return ConstSequence<AssetHandle<ShaderModule>>(_modules.begin(), _modules.end());
+    return _modules;
 }
 
 void Shader::addUniform(const Uniform& uniform)
@@ -98,14 +98,14 @@ void Shader::addUniform(const Uniform& uniform)
     _uniforms.push_back(uniform);
 }
 
-Sequence<Uniform> Shader::uniforms()
+Shader::UniformSequence Shader::uniforms()
 {
-    return Sequence<Uniform>(_uniforms.begin(), _uniforms.end());
+    return _uniforms;
 }
 
-ConstSequence<Uniform> Shader::uniforms() const
+const Shader::UniformSequence Shader::uniforms() const
 {
-    return ConstSequence<Uniform>(_uniforms.begin(), _uniforms.end());
+    return _uniforms;
 }
 
 const Uniform& Shader::uniformWithName(const std::string& name) const

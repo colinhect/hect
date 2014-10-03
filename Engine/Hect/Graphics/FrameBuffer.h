@@ -38,7 +38,12 @@ class FrameBuffer :
     public RenderTarget,
     public RendererObject
 {
+    typedef std::vector<Texture> TextureContainer;
 public:
+
+    ///
+    /// A sequence of textures.
+    typedef Sequence<Texture, TextureContainer> TextureSequence;
 
     ///
     /// Constructs a frame buffer without any targets.
@@ -52,11 +57,11 @@ public:
 
     ///
     /// Returns the targets of the frame buffer.
-    Sequence<Texture> targets();
+    TextureSequence targets();
 
     ///
     /// Returns the targets of the frame buffer.
-    ConstSequence<Texture> targets() const;
+    const TextureSequence targets() const;
 
     ///
     /// Adds a target to the frame buffer.
@@ -77,7 +82,7 @@ public:
 
 private:
     bool _depthComponent;
-    std::vector<Texture> _targets;
+    TextureContainer _targets;
 };
 
 }

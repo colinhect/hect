@@ -72,7 +72,7 @@ void InputAxisBinding::update(Real timeStepInSeconds)
     break;
     case InputAxisBindingType_GamepadButton:
     {
-        Sequence<Gamepad> gamepads = Platform::gamepads();
+        auto gamepads = Platform::gamepads();
         if (gamepadIndex < gamepads.size())
         {
             Gamepad& gamepad = gamepads[gamepadIndex];
@@ -89,7 +89,7 @@ void InputAxisBinding::update(Real timeStepInSeconds)
     break;
     case InputAxisBindingType_GamepadAxis:
     {
-        Sequence<Gamepad> gamepads = Platform::gamepads();
+        auto gamepads = Platform::gamepads();
         if (gamepadIndex < gamepads.size())
         {
             Gamepad& gamepad = gamepads[gamepadIndex];

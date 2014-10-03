@@ -35,19 +35,20 @@ namespace hect
 /// \note A technique is made up of multiple passes.
 class Technique
 {
+    typedef std::vector<Pass> PassContainer;
 public:
 
     ///
-    /// Constructs a technique without any passes.
-    Technique();
+    /// A sequence of passes.
+    typedef Sequence<Pass, PassContainer> PassSequence;
 
     ///
     /// Returns the passes.
-    Sequence<Pass> passes();
+    PassSequence passes();
 
     ///
     /// Returns the passes.
-    ConstSequence<Pass> passes() const;
+    const PassSequence passes() const;
 
     ///
     /// Adds a new pass.
@@ -60,7 +61,7 @@ public:
     void clearPasses();
 
 private:
-    std::vector<Pass> _passes;
+    PassContainer _passes;
 };
 
 }

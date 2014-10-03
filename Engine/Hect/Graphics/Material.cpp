@@ -44,14 +44,14 @@ void Material::setName(const std::string& name)
     _name = name;
 }
 
-Sequence<Technique> Material::techniques()
+Material::TechniqueSequence Material::techniques()
 {
-    return Sequence<Technique>(_techniques.begin(), _techniques.end());
+    return _techniques;
 }
 
-ConstSequence<Technique> Material::techniques() const
+const Material::TechniqueSequence Material::techniques() const
 {
-    return ConstSequence<Technique>(_techniques.begin(), _techniques.end());
+    return _techniques;
 }
 
 void Material::addTechnique(const Technique& technique)
