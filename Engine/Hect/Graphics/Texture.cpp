@@ -249,34 +249,15 @@ PixelType Texture::pixelType() const
     return _pixelType;
 }
 
-int Texture::bytesPerPixel() const
+unsigned Texture::bytesPerPixel() const
 {
-    int componentCount = 0;
-
-    switch (_pixelFormat)
+    static const unsigned _bytesPerPixelLookUp[2][3] =
     {
-    case PixelFormat_Rgb:
-        componentCount = 3;
-        break;
-    case PixelFormat_Rgba:
-        componentCount = 4;
-        break;
-    }
+        { 3, 6, 12 },
+        { 4, 8, 16 }
+    };
 
-    switch (_pixelType)
-    {
-    case PixelType_Float16:
-        return componentCount * 2;
-        break;
-    case PixelType_Float32:
-        return componentCount * 4;
-        break;
-    case PixelType_UInt8:
-        return componentCount * 1;
-        break;
-    }
-
-    return 0;
+    return _bytesPerPixelLookUp[_pixelFormat][_pixelType];
 }
 
 namespace hect

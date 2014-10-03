@@ -36,7 +36,7 @@ enum ColorSpace
     ///
     /// Non-linear color space (sRGB).
     ///
-    /// \note Only an image with a pixel type of PixelType_UInt8 can
+    /// \note Only an image with a pixel type of PixelType_Byte can
     /// be non-linear.
     ColorSpace_NonLinear,
 
@@ -50,16 +50,16 @@ enum ColorSpace
 enum PixelType
 {
     ///
+    /// A byte.
+    PixelType_Byte,
+
+    ///
     /// 16-bit floating point.
     PixelType_Float16,
 
     ///
     /// 32-bit floating point.
-    PixelType_Float32,
-
-    ///
-    /// A byte.
-    PixelType_UInt8
+    PixelType_Float32
 };
 
 ///
@@ -84,10 +84,6 @@ public:
     ///
     /// Raw pixel data.
     typedef std::vector<uint8_t> PixelData;
-
-    ///
-    /// Construct an empty image.
-    Image();
 
     ///
     /// Flips the image vertically.
@@ -164,16 +160,16 @@ public:
 
     ///
     /// Returns the number of bytes in a pixel of this image.
-    int bytesPerPixel() const;
+    unsigned bytesPerPixel() const;
 
 private:
-    unsigned _width;
-    unsigned _height;
+    unsigned _width{ 0 };
+    unsigned _height{ 0 };
 
-    PixelType _pixelType;
-    PixelFormat _pixelFormat;
+    PixelType _pixelType{ PixelType_Byte };
+    PixelFormat _pixelFormat{ PixelFormat_Rgba };
 
-    ColorSpace _colorSpace;
+    ColorSpace _colorSpace{ ColorSpace_Linear };
 
     PixelData _pixelData;
 };

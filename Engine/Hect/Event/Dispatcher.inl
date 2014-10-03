@@ -47,7 +47,7 @@ void Dispatcher<T>::removeListener(Listener<T>& listener)
 template <typename T>
 void Dispatcher<T>::dispatchEvent(const T& event)
 {
-    for (Listener<T>* listener : _listeners)
+    for (auto& listener : _listeners)
     {
         listener->receiveEvent(event);
     }

@@ -33,6 +33,8 @@
 
 #ifdef HECT_WINDOWS_BUILD
 #include <Windows.h>
+#include <shlwapi.h>
+#include <shlobj.h>
 #endif
 
 using namespace hect;
@@ -222,6 +224,15 @@ Path FileSystem::workingDirectory()
 Path FileSystem::userDirectory()
 {
     return convertPath(PHYSFS_getUserDir());
+}
+
+Path FileSystem::applicationDataDirectory()
+{
+#ifdef HECT_WINDOWS_BUILD
+    TCHAR path[MAX_PATH];
+    assert(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, path)));
+    return convertPath(path);
+#endif
 }
 
 void FileSystem::setWriteDirectory(const Path& path)

@@ -25,8 +25,8 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/Technique.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
@@ -85,6 +85,9 @@ public:
     ///
     /// \throws Error If the material does not have any techniques.
     Technique& preferedTechnique();
+
+    bool operator==(const Material& material) const;
+    bool operator!=(const Material& material) const;
 
     friend Encoder& operator<<(Encoder& encoder, const Material& material);
     friend Decoder& operator>>(Decoder& decoder, Material& material);

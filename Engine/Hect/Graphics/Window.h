@@ -58,7 +58,7 @@ public:
     /// Closes the window.
     virtual ~Window();
 
-    void bind(Renderer* renderer);
+    void bind(Renderer& renderer);
     virtual void swapBuffers() = 0;
 };
 

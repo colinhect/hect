@@ -22,9 +22,10 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/IO/AssetLoader.h"
+
+#include "Hect/Graphics/Image.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Encoders/ImagePngEncoder.h"
-#include "Hect/Graphics/Image.h"
 
 using namespace hect;
 

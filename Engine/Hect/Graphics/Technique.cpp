@@ -44,3 +44,26 @@ void Technique::clearPasses()
 {
     _passes.clear();
 }
+
+bool Technique::operator==(const Technique& technique) const
+{
+    if (_passes.size() != technique._passes.size())
+    {
+        return false;
+    }
+
+    for (auto i = 0u; i < _passes.size(); ++i)
+    {
+        if (_passes[i] != technique._passes[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Technique::operator!=(const Technique& technique) const
+{
+    return !(*this == technique);
+}

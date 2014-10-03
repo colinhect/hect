@@ -143,9 +143,9 @@ GLenum _textureMipmapFilterLookUp[2] =
 
 GLenum _pixelTypeLookUp[3] =
 {
+    GL_UNSIGNED_BYTE, // Byte
     GL_HALF_FLOAT, // Float16
-    GL_FLOAT, // Float32
-    GL_UNSIGNED_BYTE // UInt8
+    GL_FLOAT // Float32
 };
 
 GLenum _pixelFormatLookUp[2] =
@@ -160,15 +160,15 @@ GLenum _internalImageFormatLookUp[2][2][3] =
     {
         // Rgb
         {
+            GL_SRGB8, // Byte
             GL_RGB16F, // Float16
-            GL_RGB32F, // Float32
-            GL_SRGB8 // UInt8
+            GL_RGB32F // Float32
         },
         // Rgba
         {
+            GL_SRGB8_ALPHA8, // Byte
             GL_RGBA16F, // Float16
-            GL_RGBA32F, // Float32
-            GL_SRGB8_ALPHA8 // UInt8
+            GL_RGBA32F // Float32
         }
     },
 
@@ -176,15 +176,15 @@ GLenum _internalImageFormatLookUp[2][2][3] =
     {
         // Rgb
         {
+            GL_RGB8, // Byte
             GL_RGB16F, // Float16
-            GL_RGB32F, // Float32
-            GL_RGB8 // UInt8
+            GL_RGB32F // Float32
         },
         // Rgba
         {
+            GL_RGBA8, // Byte
             GL_RGBA16F, // Float16
-            GL_RGBA32F, // Float32
-            GL_RGBA8 // UInt8
+            GL_RGBA32F // Float32
         }
     }
 };
@@ -322,7 +322,7 @@ void Renderer::bindState(const RenderState& state)
 
 void Renderer::bindTarget(RenderTarget& renderTarget)
 {
-    renderTarget.bind(this);
+    renderTarget.bind(*this);
 }
 
 void Renderer::bindWindow(Window& window)

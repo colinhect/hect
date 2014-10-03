@@ -60,6 +60,9 @@ public:
     /// Removes all passes.
     void clearPasses();
 
+    bool operator==(const Technique& technique) const;
+    bool operator!=(const Technique& technique) const;
+
 private:
     PassContainer _passes;
 };

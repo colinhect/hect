@@ -29,8 +29,7 @@
 
 using namespace hect;
 
-FrameBuffer::FrameBuffer() :
-    _depthComponent(true)
+FrameBuffer::FrameBuffer()
 {
 }
 
@@ -42,9 +41,9 @@ FrameBuffer::~FrameBuffer()
     }
 }
 
-void FrameBuffer::bind(Renderer* renderer)
+void FrameBuffer::bind(Renderer& renderer)
 {
-    renderer->bindFrameBuffer(*this);
+    renderer.bindFrameBuffer(*this);
 }
 
 FrameBuffer::TextureSequence FrameBuffer::targets()

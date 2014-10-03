@@ -36,7 +36,7 @@
 
 using namespace hect;
 
-Engine::Engine(int argc, const char* argv[])
+Engine::Engine(int argc, char* const argv[])
 {
     argc;
     argv;
@@ -45,8 +45,12 @@ Engine::Engine(int argc, const char* argv[])
 
     Platform::initialize();
 
+    // Mount the user directory
+    Path applicationDataDirectory{ FileSystem::applicationDataDirectory() };
+    FileSystem::mount(applicationDataDirectory + "Hect");
+
     // Mount the working directory
-    Path workingDirectory = FileSystem::workingDirectory();
+    Path workingDirectory{ FileSystem::workingDirectory() };
     FileSystem::mount(workingDirectory);
 
     // Set the working directory as the write directory
@@ -54,7 +58,7 @@ Engine::Engine(int argc, const char* argv[])
 
     // Load the settings
     {
-        ReadStream stream = FileSystem::openFileForRead("zeroth/Settings.json");
+        ReadStream stream = FileSystem::openFileForRead("Settings.json");
         _settings.decodeFromJson(stream);
     }
 
@@ -66,18 +70,22 @@ Engine::Engine(int argc, const char* argv[])
 
     _assetCache.reset(new AssetCache());
 
-    // Load video mode
-    VideoMode videoMode;
-
+    const JsonValue& videoModeValue = _settings["videoMode"];
+    if (!videoModeValue.isNull())
     {
-        JsonDecoder decoder(_settings["videoMode"]);
-        decoder >> decodeValue(videoMode);
-    }
+        // Load video mode
+        VideoMode videoMode;
 
-    // Create window/renderer/input devices
-    _window = Platform::createWindow("Hect", videoMode);
-    _renderer.reset(new Renderer(*_window));
-    _renderSystem.reset(new RenderSystem(*_renderer, *_assetCache));
+        {
+            JsonDecoder decoder(videoModeValue);
+            decoder >> decodeValue(videoMode);
+        }
+
+        // Create window/renderer/input devices
+        _window = Platform::createWindow("Hect", videoMode);
+        _renderer.reset(new Renderer(*_window));
+        _renderSystem.reset(new RenderSystem(*_renderer, *_assetCache));
+    }
 }
 
 Engine::~Engine()

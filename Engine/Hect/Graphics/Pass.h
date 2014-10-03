@@ -109,6 +109,9 @@ public:
     /// \param uniformValue The uniform value.
     void addUniformValue(const std::string& name, const UniformValue& uniformValue);
 
+    bool operator==(const Pass& pass) const;
+    bool operator!=(const Pass& pass) const;
+
 private:
 
     // Resolves which uniforms the uniform values apply to for fast

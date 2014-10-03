@@ -53,7 +53,7 @@ public:
     /// Destroys the frame buffer if it is uploaded.
     ~FrameBuffer();
 
-    void bind(Renderer* renderer);
+    void bind(Renderer& renderer);
 
     ///
     /// Returns the targets of the frame buffer.
@@ -81,7 +81,7 @@ public:
     void setDepthComponent(bool depthComponent);
 
 private:
-    bool _depthComponent;
+    bool _depthComponent{ true };
     TextureContainer _targets;
 };
 

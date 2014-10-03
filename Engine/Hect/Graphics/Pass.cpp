@@ -122,3 +122,13 @@ void Pass::resolvePassUniformValues(Shader& shader)
 
     _resolvedFromShader = &shader;
 }
+
+bool Pass::operator==(const Pass& pass) const
+{
+    return _shader == pass._shader;
+}
+
+bool Pass::operator!=(const Pass& pass) const
+{
+    return !(*this == pass);
+}

@@ -68,9 +68,32 @@ Technique& Material::preferedTechnique()
 {
     if (_techniques.empty())
     {
-        throw Error("The material has no techniques");
+        throw Error{ "The material has no techniques" };
     }
     return _techniques[0];
+}
+
+bool Material::operator==(const Material& material) const
+{
+    if (_techniques.size() != material._techniques.size())
+    {
+        return false;
+    }
+
+    for (auto i = 0u; i < _techniques.size(); ++i)
+    {
+        if (_techniques[i] != material._techniques[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Material::operator!=(const Material& material) const
+{
+    return !(*this == material);
 }
 
 namespace hect
@@ -288,6 +311,8 @@ Decoder& operator>>(Decoder& decoder, Material& material)
                             >> decodeEnum(destFactor);
 
                     renderState.setBlendFactors(sourceFactor, destFactor);
+
+                    decoder >> endArray();
                 }
 
                 decoder >> endObject();

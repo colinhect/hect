@@ -216,7 +216,7 @@ public:
 
     ///
     /// Returns the number of bytes in a pixel of this texture.
-    int bytesPerPixel() const;
+    unsigned bytesPerPixel() const;
 
     friend Decoder& operator>>(Decoder& decoder, Texture& texture);
 

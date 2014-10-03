@@ -25,15 +25,6 @@
 
 using namespace hect;
 
-Image::Image() :
-    _width(0),
-    _height(0),
-    _pixelType(PixelType_UInt8),
-    _pixelFormat(PixelFormat_Rgba),
-    _colorSpace(ColorSpace_Linear)
-{
-}
-
 void Image::flipVertical()
 {
     size_t bytesPerRow = bytesPerPixel() * _width;
@@ -117,32 +108,13 @@ void Image::setColorSpace(ColorSpace colorSpace)
     _colorSpace = colorSpace;
 }
 
-int Image::bytesPerPixel() const
+unsigned Image::bytesPerPixel() const
 {
-    int componentCount = 0;
-
-    switch (_pixelFormat)
+    static const unsigned _bytesPerPixelLookUp[2][3] =
     {
-    case PixelFormat_Rgb:
-        componentCount = 3;
-        break;
-    case PixelFormat_Rgba:
-        componentCount = 4;
-        break;
-    }
+        { 3, 6, 12 },
+        { 4, 8, 16 }
+    };
 
-    switch (_pixelType)
-    {
-    case PixelType_Float16:
-        return componentCount * 2;
-        break;
-    case PixelType_Float32:
-        return componentCount * 4;
-        break;
-    case PixelType_UInt8:
-        return componentCount * 1;
-        break;
-    }
-
-    return 0;
+    return _bytesPerPixelLookUp[_pixelFormat][_pixelType];
 }

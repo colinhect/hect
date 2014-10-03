@@ -34,37 +34,7 @@ using namespace hect;
 #include <catch.hpp>
 #include <functional>
 
-void testEncodeAndDecode(std::function<void(Encoder&)> encode, std::function<void(Decoder&)> decode)
-{
-    // JSON
-    {
-        JsonValue jsonValue;
-        {
-            JsonEncoder encoder;
-            encode(encoder);
-            jsonValue = *encoder.jsonValues().begin();
-        }
-        {
-            JsonDecoder decoder(jsonValue);
-            decode(decoder);
-        }
-    }
-
-    // Binary
-    {
-        std::vector<uint8_t> data;
-        {
-            MemoryWriteStream stream(data);
-            BinaryEncoder encoder(stream);
-            encode(encoder);
-        }
-        {
-            MemoryReadStream stream(data);
-            BinaryDecoder decoder(stream);
-            decode(decoder);
-        }
-    }
-}
+#include "Utilities.h"
 
 TEST_CASE("Encoding_SingleObject")
 {

@@ -37,7 +37,7 @@ Window::~Window()
 {
 }
 
-void Window::bind(Renderer* renderer)
+void Window::bind(Renderer& renderer)
 {
-    renderer->bindWindow(*this);
+    renderer.bindWindow(*this);
 }

@@ -37,7 +37,7 @@ namespace hect
 class Engine
 {
 public:
-    Engine(int argc, const char* argv[]);
+    Engine(int argc, char* const argv[]);
     ~Engine();
 
     int main();

@@ -48,6 +48,10 @@ public:
     static Path userDirectory();
 
     ///
+    /// Returns the full path to the application data directory.
+    static Path applicationDataDirectory();
+
+    ///
     /// Sets the directory where write access is allowed and directed to.
     ///
     /// \param path The path to the directory to direct write access.

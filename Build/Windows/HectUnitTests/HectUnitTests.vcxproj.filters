@@ -78,5 +78,13 @@
     <ClCompile Include="..\..\..\Tests\UnitTests\WorldTests.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Tests\UnitTests\Utilities.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Tests\UnitTests\Utilities.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

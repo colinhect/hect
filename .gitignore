@@ -8,6 +8,7 @@ Build/Windows/Dependencies/PhysFS/Intermediate/*
 Build/Windows/HectEngine/Ignore.txt
 Build/Windows/HectEngine/Intermediate/*
 Build/Windows/HectUnitTests/Intermediate/*
+Build/Windows/HectSystemTests/Intermediate/*
 Docs/*
 Engine/Hect/Generated/*
 *.opensdf
