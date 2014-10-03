@@ -41,7 +41,7 @@ std::string format(const char* fmt, ...)
 
     va_end(args);
 
-    return std::string(buffer);
+    return std::string{ buffer };
 }
 
 }

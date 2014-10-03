@@ -23,22 +23,43 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
-
 #include "Hect/Core/Configuration.h"
+
+#include <string>
 
 namespace hect
 {
 
+///
+/// The category of a log message.
 enum LogLevel
 {
+    ///
+    /// An informational message for the user.
     LogLevel_Info,
+
+    ///
+    /// An informational message for the developer.
     LogLevel_Debug,
+
+    ///
+    /// A warning message to the user.
     LogLevel_Warning,
+
+    ///
+    /// An error message to the user.
     LogLevel_Error,
+
+    ///
+    /// A verbose debug message for the developer.
     LogLevel_Trace,
 };
 
+///
+/// Logs a message.
+///
+/// \param level The level of the message.
+/// \param message The message.
 void log(LogLevel level, const std::string& message);
 
 // Info

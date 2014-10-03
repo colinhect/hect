@@ -25,17 +25,12 @@
 
 using namespace hect;
 
-TaskPool::TaskPool() :
-    _stop(false),
-    _adaptive(true),
-    _availableThreadCount(0)
+TaskPool::TaskPool()
 {
 }
 
 TaskPool::TaskPool(size_t threadCount) :
-    _stop(false),
-    _adaptive(false),
-    _availableThreadCount(0)
+    _adaptive{ false }
 {
     initializeThreads(threadCount);
 }
@@ -44,13 +39,13 @@ TaskPool::~TaskPool()
 {
     // Notify all threads that the pool is stopping
     {
-        std::unique_lock<std::mutex> lock(_queueMutex);
+        std::unique_lock<std::mutex> lock{ _queueMutex };
         _stop = true;
         _condition.notify_all();
     }
 
     // Join all of the threads
-    for (std::thread& thread : _threads)
+    for (auto& thread : _threads)
     {
         thread.join();
     }
@@ -59,10 +54,10 @@ TaskPool::~TaskPool()
 Task::Handle TaskPool::enqueue(Task::Action action)
 {
     // Create the task
-    std::shared_ptr<Task> task(new Task(action));
+    std::shared_ptr<Task> task{ new Task{ action } };
 
     // Create the task
-    Task::Handle handle(task);
+    Task::Handle handle{ task };
 
     if (_threads.empty() && !_adaptive)
     {
@@ -73,7 +68,7 @@ Task::Handle TaskPool::enqueue(Task::Action action)
     {
         // Add this task to the queue
         {
-            std::unique_lock<std::mutex> lock(_queueMutex);
+            std::unique_lock<std::mutex> lock{ _queueMutex };
 
             // If this task pool is adaptive and there are no threads available,
             // then initialize another thread
@@ -96,11 +91,10 @@ void TaskPool::initializeThreads(size_t threadCount)
 {
     for (unsigned i = 0; i < threadCount; ++i)
     {
-        _threads.push_back(std::thread([this]
-        {
-            threadLoop();
-        }
-                                      ));
+        _threads.push_back(std::thread{ [this]
+            {
+                threadLoop();
+            } });
     }
 }
 
@@ -112,7 +106,7 @@ void TaskPool::threadLoop()
         Task::Handle taskHandle;
 
         {
-            std::unique_lock<std::mutex> lock(_queueMutex);
+            std::unique_lock<std::mutex> lock{ _queueMutex };
 
             while (!_stop && _taskQueue.empty())
             {

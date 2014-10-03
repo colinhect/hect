@@ -27,7 +27,7 @@ namespace hect
 {
 
 ///
-/// An object that cannot be copied.
+/// An class that cannot be copied.
 class Uncopyable
 {
 protected:

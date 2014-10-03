@@ -39,5 +39,5 @@
 #define HECT_ENABLE_LOG_TRACE
 
 ///
-/// The namespace containing all Hect API.
+/// The namespace containing the Hect Engine API.
 namespace hect {}

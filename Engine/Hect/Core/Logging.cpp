@@ -32,8 +32,6 @@ static HANDLE stdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 #include <iostream>
 #include <mutex>
 
-#include "Hect/Core/Configuration.h"
-
 namespace hect
 {
 
@@ -41,7 +39,7 @@ static std::mutex _logMutex;
 
 void log(LogLevel level, const std::string& message)
 {
-    std::lock_guard<std::mutex> lock(_logMutex);
+    std::lock_guard<std::mutex> lock{ _logMutex };
 
 #ifdef HECT_WINDOWS_BUILD
 

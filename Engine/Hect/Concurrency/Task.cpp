@@ -32,7 +32,7 @@ Task::Handle::Handle()
 }
 
 Task::Handle::Handle(const std::shared_ptr<Task>& task) :
-    _task(task)
+    _task{ task }
 {
 }
 
@@ -40,7 +40,7 @@ Task& Task::Handle::operator*() const
 {
     if (!_task)
     {
-        throw Error("Invalid task handle");
+        throw Error{ "Invalid task handle" };
     }
 
     return *_task;
@@ -50,7 +50,7 @@ Task* Task::Handle::operator->() const
 {
     if (!_task)
     {
-        throw Error("Invalid task handle");
+        throw Error{ "Invalid task handle" };
     }
 
     return _task.get();
@@ -81,9 +81,7 @@ bool Task::isDone() const
 }
 
 Task::Task(Action action) :
-    _action(action),
-    _done(false),
-    _errorOccurred(false)
+    _action{ action }
 {
 }
 

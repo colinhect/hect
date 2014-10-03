@@ -26,41 +26,41 @@ using namespace hect;
 
 #include <catch.hpp>
 
-const unsigned maxThreadCount = 6;
-const unsigned maxTaskCount = 8;
+const auto maxThreadCount = 6u;
+const auto maxTaskCount = 8u;
 
 void emptyTask() { }
 
 void shortTask()
 {
-    volatile float total = 0.0f;
-    for (int i = 0; i < 1024; ++i)
+    volatile auto total = 0.0f;
+    for (auto i = 0; i < 1024; ++i)
     {
         total += i;
-        total *= 1.0f / (float)i;
+        total *= 1.0f / static_cast<float>(i);
     }
 }
 
 void longTask()
 {
-    volatile float total = 0.0f;
-    for (int i = 0; i < 4096 * 4; ++i)
+    volatile auto total = 0.0f;
+    for (auto i = 0; i < 4096 * 4; ++i)
     {
         total += i;
-        total *= 1.0f / (float)i;
+        total *= 1.0f / static_cast<float>(i);
     }
 }
 
 void testTasks(unsigned threadCount, unsigned taskCount, Task::Action action)
 {
-    TaskPool taskPool(threadCount);
+    TaskPool taskPool{ threadCount };
 
     bool taskDone[maxTaskCount];
     std::vector<Task::Handle> tasks;
 
-    for (unsigned i = 0; i < taskCount; ++i)
+    for (auto i = 0u; i < taskCount; ++i)
     {
-        bool* thisTaskDone = &taskDone[i];
+        auto thisTaskDone = &taskDone[i];
         tasks.push_back(taskPool.enqueue([action, thisTaskDone]
         {
             action();
@@ -68,7 +68,7 @@ void testTasks(unsigned threadCount, unsigned taskCount, Task::Action action)
         }));
     }
 
-    unsigned i = 0;
+    auto i = 0u;
     for (auto& taskHandle : tasks)
     {
         REQUIRE(taskHandle);
@@ -81,22 +81,22 @@ void testTasks(unsigned threadCount, unsigned taskCount, Task::Action action)
 
 void testTasksWithErrors(unsigned threadCount, unsigned taskCount, Task::Action action)
 {
-    TaskPool taskPool(threadCount);
+    TaskPool taskPool{ threadCount };
 
     std::vector<Task::Handle> taskHandles;
 
-    for (unsigned i = 0; i < taskCount; ++i)
+    for (auto i = 0u; i < taskCount; ++i)
     {
         taskHandles.push_back(taskPool.enqueue([action]
         {
             action();
-            throw Error("Task error");
+            throw Error{ "Task error" };
         }));
     }
 
     for (auto& taskHandle : taskHandles)
     {
-        bool errorThrown = false;
+        auto errorThrown = false;
         try
         {
             REQUIRE(taskHandle);
@@ -112,15 +112,15 @@ void testTasksWithErrors(unsigned threadCount, unsigned taskCount, Task::Action 
 }
 
 #define TEST_TASKS(action)\
-for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) {\
-    for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) {\
+for (auto threadCount = 0u; threadCount < maxThreadCount; ++threadCount) {\
+    for (auto taskCount = 1u; taskCount < maxTaskCount; ++taskCount) {\
         testTasks(threadCount, taskCount, action); \
     }\
 }
 
 #define TEST_TASKS_WITH_ERRORS(action)\
-for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) {\
-    for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) {\
+for (auto threadCount = 0u; threadCount < maxThreadCount; ++threadCount) {\
+    for (auto taskCount = 1u; taskCount < maxTaskCount; ++taskCount) {\
         testTasksWithErrors(threadCount, taskCount, action); \
     }\
 }

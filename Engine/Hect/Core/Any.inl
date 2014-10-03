@@ -28,7 +28,7 @@ namespace hect
 
 template <typename T>
 Any::Any(const T& value) :
-    _container(new ContainerValue<T>(value))
+    _container{ new ContainerValue<T>{ value } }
 {
 }
 
@@ -40,7 +40,7 @@ Any& Any::operator=(const T& value)
         delete _container;
     }
 
-    _container = new ContainerValue<T>(value);
+    _container = new ContainerValue<T>{ value };
 
     return *this;
 }
@@ -65,7 +65,7 @@ T& Any::as() const
 
     if (!containerValue)
     {
-        throw Error("Invalid type");
+        throw Error{ "Invalid type" };
     }
 
     return containerValue->held;
@@ -73,14 +73,14 @@ T& Any::as() const
 
 template <typename T>
 Any::ContainerValue<T>::ContainerValue(const T& value) :
-    held(value)
+    held{ value }
 {
 }
 
 template <typename T>
 Any::Container* Any::ContainerValue<T>::clone() const
 {
-    return new ContainerValue(held);
+    return new ContainerValue{ held };
 }
 
 }

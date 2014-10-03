@@ -59,8 +59,6 @@ public:
     /// \param any The container to move.
     Any(Any&& any);
 
-    ///
-    /// Destructor.
     ~Any();
 
     ///
@@ -124,7 +122,7 @@ private:
         ContainerValue& operator=(const ContainerValue&);
     };
 
-    Container* _container;
+    Container* _container{ nullptr };
 };
 
 }

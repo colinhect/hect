@@ -36,7 +36,13 @@ class Sequence :
     public Uncopyable
 {
 public:
+
+    ///
+    /// Constructs a sequence given the underlying container.
+    ///
+    /// \param container The underlying container.
     Sequence(typename const Container& container);
+
     Sequence(Sequence&& sequence);
 
     ///

@@ -25,8 +25,7 @@
 
 using namespace hect;
 
-Any::Any() :
-    _container(nullptr)
+Any::Any()
 {
 }
 
@@ -37,7 +36,7 @@ Any::Any(Any&& any) :
 }
 
 Any::Any(const Any& any) :
-    _container(any._container ? any._container->clone() : nullptr)
+    _container{ any._container ? any._container->clone() : nullptr }
 {
 }
 

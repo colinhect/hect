@@ -29,9 +29,17 @@ namespace hect
 {
 
 #ifdef HECT_DOUBLE_PRECISION
+
+///
+/// A 64-bit floating point number.
 typedef double Real;
+
 #else
+
+///
+/// A 32-bit floating point number.
 typedef float Real;
+
 #endif
 
 }

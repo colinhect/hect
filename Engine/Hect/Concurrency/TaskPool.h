@@ -26,8 +26,8 @@
 #include <atomic>
 #include <condition_variable>
 #include <functional>
-#include <mutex>
 #include <memory>
+#include <mutex>
 #include <queue>
 #include <thread>
 #include <vector>
@@ -80,11 +80,11 @@ private:
 
     std::mutex _queueMutex;
     std::condition_variable _condition;
-    bool _stop;
 
-    bool _adaptive;
+    bool _stop{ false };
+    bool _adaptive{ true };
 
-    std::atomic<size_t> _availableThreadCount;
+    std::atomic<size_t> _availableThreadCount{ 0 };
 };
 
 }

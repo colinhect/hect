@@ -98,8 +98,8 @@ private:
     void execute();
 
     Task::Action _action;
-    std::atomic<bool> _done;
-    bool _errorOccurred;
+    std::atomic<bool> _done{ false };
+    bool _errorOccurred{ false };
     Error _error;
 };
 
