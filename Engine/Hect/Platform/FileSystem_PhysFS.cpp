@@ -212,6 +212,11 @@ void FileSystem::deinitialize()
     }
 }
 
+Path FileSystem::baseDirectory()
+{
+    return convertPath(PHYSFS_getBaseDir());
+}
+
 Path FileSystem::workingDirectory()
 {
 #ifdef HECT_WINDOWS_BUILD

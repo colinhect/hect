@@ -32,6 +32,8 @@
 #include "Hect/Logic/GameMode.h"
 #include "Hect/Logic/GameModeRegistry.h"
 
+#include <tclap/CmdLine.h>
+
 #include "Hect/Generated/_reflect_hect.h"
 
 using namespace hect;
@@ -45,20 +47,40 @@ Engine::Engine(int argc, char* const argv[])
 
     Platform::initialize();
 
-    // Mount the user directory
-    Path applicationDataDirectory{ FileSystem::applicationDataDirectory() };
-    FileSystem::mount(applicationDataDirectory + "Hect");
+    Path settingsFilePath = "Settings.json";
+    try
+    {
+        TCLAP::CmdLine cmd{ "Hect Engine" };
+        TCLAP::ValueArg<std::string> settingsPathArg
+        {
+            "s", "settings",
+            "Path to the settings file",
+            false,
+            settingsFilePath.toString(),
+            "string"
+        };
 
-    // Mount the working directory
-    Path workingDirectory{ FileSystem::workingDirectory() };
-    FileSystem::mount(workingDirectory);
+        cmd.add(settingsPathArg);
+        cmd.parse(argc, argv);
+
+        settingsFilePath = settingsPathArg.getValue();
+    }
+    catch (TCLAP::ArgException& exception)
+    {
+        HECT_ERROR(exception.what());
+    }
+    
+    // Mount the base directory
+    auto baseDirectory = FileSystem::baseDirectory();
+    FileSystem::mount(baseDirectory);
 
     // Set the working directory as the write directory
+    auto workingDirectory = FileSystem::workingDirectory();
     FileSystem::setWriteDirectory(workingDirectory);
 
     // Load the settings
     {
-        ReadStream stream = FileSystem::openFileForRead("Settings.json");
+        ReadStream stream = FileSystem::openFileForRead(settingsFilePath);
         _settings.decodeFromJson(stream);
     }
 

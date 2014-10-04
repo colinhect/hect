@@ -370,7 +370,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Engine\;$(ProjectDir)..\..\..\Dependencies\PhysFS\;$(ProjectDir)..\..\..\Dependencies\Glew\;$(ProjectDir)..\..\..\Dependencies\LodePng\;$(ProjectDir)..\..\..\Dependencies\ENet\;$(ProjectDir)..\..\..\Dependencies\Bullet\;$(ProjectDir)..\..\..\Dependencies\JsonCpp\;$(ProjectDir)..\..\..\Dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Engine\;$(ProjectDir)..\..\..\Dependencies\PhysFS\;$(ProjectDir)..\..\..\Dependencies\Glew\;$(ProjectDir)..\..\..\Dependencies\LodePng\;$(ProjectDir)..\..\..\Dependencies\ENet\;$(ProjectDir)..\..\..\Dependencies\Bullet\;$(ProjectDir)..\..\..\Dependencies\JsonCpp\;$(ProjectDir)..\..\..\Dependencies\SDL\include\;$(ProjectDir)..\..\..\Dependencies\Tclap\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
@@ -412,7 +412,7 @@ python reflect.py ..\Engine\Hect\ ..\Engine\Hect\Generated\ hect</Command>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Engine\;$(ProjectDir)..\..\..\Dependencies\PhysFS\;$(ProjectDir)..\..\..\Dependencies\Glew\;$(ProjectDir)..\..\..\Dependencies\LodePng\;$(ProjectDir)..\..\..\Dependencies\ENet\;$(ProjectDir)..\..\..\Dependencies\Bullet\;$(ProjectDir)..\..\..\Dependencies\JsonCpp\;$(ProjectDir)..\..\..\Dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Engine\;$(ProjectDir)..\..\..\Dependencies\PhysFS\;$(ProjectDir)..\..\..\Dependencies\Glew\;$(ProjectDir)..\..\..\Dependencies\LodePng\;$(ProjectDir)..\..\..\Dependencies\ENet\;$(ProjectDir)..\..\..\Dependencies\Bullet\;$(ProjectDir)..\..\..\Dependencies\JsonCpp\;$(ProjectDir)..\..\..\Dependencies\SDL\include\;$(ProjectDir)..\..\..\Dependencies\Tclap\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
@@ -456,7 +456,7 @@ python reflect.py ..\Engine\Hect\ ..\Engine\Hect\Generated\ hect</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Engine\;$(ProjectDir)..\..\..\Dependencies\PhysFS\;$(ProjectDir)..\..\..\Dependencies\Glew\;$(ProjectDir)..\..\..\Dependencies\LodePng\;$(ProjectDir)..\..\..\Dependencies\ENet\;$(ProjectDir)..\..\..\Dependencies\Bullet\;$(ProjectDir)..\..\..\Dependencies\JsonCpp\;$(ProjectDir)..\..\..\Dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Engine\;$(ProjectDir)..\..\..\Dependencies\PhysFS\;$(ProjectDir)..\..\..\Dependencies\Glew\;$(ProjectDir)..\..\..\Dependencies\LodePng\;$(ProjectDir)..\..\..\Dependencies\ENet\;$(ProjectDir)..\..\..\Dependencies\Bullet\;$(ProjectDir)..\..\..\Dependencies\JsonCpp\;$(ProjectDir)..\..\..\Dependencies\SDL\include\;$(ProjectDir)..\..\..\Dependencies\Tclap\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -500,7 +500,7 @@ python reflect.py ..\Engine\Hect\ ..\Engine\Hect\Generated\ hect</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Engine\;$(ProjectDir)..\..\..\Dependencies\PhysFS\;$(ProjectDir)..\..\..\Dependencies\Glew\;$(ProjectDir)..\..\..\Dependencies\LodePng\;$(ProjectDir)..\..\..\Dependencies\ENet\;$(ProjectDir)..\..\..\Dependencies\Bullet\;$(ProjectDir)..\..\..\Dependencies\JsonCpp\;$(ProjectDir)..\..\..\Dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Engine\;$(ProjectDir)..\..\..\Dependencies\PhysFS\;$(ProjectDir)..\..\..\Dependencies\Glew\;$(ProjectDir)..\..\..\Dependencies\LodePng\;$(ProjectDir)..\..\..\Dependencies\ENet\;$(ProjectDir)..\..\..\Dependencies\Bullet\;$(ProjectDir)..\..\..\Dependencies\JsonCpp\;$(ProjectDir)..\..\..\Dependencies\SDL\include\;$(ProjectDir)..\..\..\Dependencies\Tclap\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HECT_EXPORTS;SFML_STATIC;BT_USE_DOUBLE_PRECISION;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>

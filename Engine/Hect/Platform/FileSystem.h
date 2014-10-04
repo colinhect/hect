@@ -40,6 +40,10 @@ public:
     static void deinitialize();
 
     ///
+    /// Returns the full path to the base directory of the executable.
+    static Path baseDirectory();
+
+    ///
     /// Returns the full path to the working directory of the executable.
     static Path workingDirectory();
 
