@@ -48,14 +48,16 @@ public:
 
     AssetCache& assetCache();
 
-    const JsonValue& settings();
+    const JsonValue& config();
 
 private:
+    JsonValue parseCommandLineArgument(int argc, char* const argv[]);
+
     std::unique_ptr<Renderer> _renderer;
     std::unique_ptr<RenderSystem> _renderSystem;
     Window::Pointer _window;
     std::unique_ptr<AssetCache> _assetCache;
-    JsonValue _settings;
+    JsonValue _config;
 };
 
 }

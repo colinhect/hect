@@ -43,56 +43,44 @@ Engine::Engine(int argc, char* const argv[])
     argc;
     argv;
 
-    hect::registerTypes();
+    // Register all of the Hect types
+    registerTypes();
 
     Platform::initialize();
 
-    Path settingsFilePath = "Settings.json";
-    try
-    {
-        TCLAP::CmdLine cmd{ "Hect Engine" };
-        TCLAP::ValueArg<std::string> settingsPathArg
-        {
-            "s", "settings",
-            "Path to the settings file",
-            false,
-            settingsFilePath.toString(),
-            "string"
-        };
-
-        cmd.add(settingsPathArg);
-        cmd.parse(argc, argv);
-
-        settingsFilePath = settingsPathArg.getValue();
-    }
-    catch (TCLAP::ArgException& exception)
-    {
-        HECT_ERROR(exception.what());
-    }
+    auto arguments = parseCommandLineArgument(argc, argv);
     
-    // Mount the base directory
+    // Mount the base and working directory
     auto baseDirectory = FileSystem::baseDirectory();
     FileSystem::mount(baseDirectory);
+    auto workingDirectory = FileSystem::workingDirectory();
+    FileSystem::mount(workingDirectory);
 
     // Set the working directory as the write directory
-    auto workingDirectory = FileSystem::workingDirectory();
     FileSystem::setWriteDirectory(workingDirectory);
 
-    // Load the settings
+    // Load the configs specified on the command-line
+    for (auto& config : arguments["configs"])
     {
-        ReadStream stream = FileSystem::openFileForRead(settingsFilePath);
-        _settings.decodeFromJson(stream);
+        ReadStream stream = FileSystem::openFileForRead(config.asString());
+        _config.decodeFromJson(stream);
     }
 
-    // Mount the paths listed in the settings
-    for (const JsonValue& dataSource : _settings["paths"])
+    // Mount the paths specified on the command-line
+    for (auto& path : arguments["paths"])
     {
-        FileSystem::mount(dataSource.asString());
+        FileSystem::mount(path.asString());
+    }
+
+    // Mount the paths specified in the config
+    for (auto& path : _config["paths"])
+    {
+        FileSystem::mount(path.asString());
     }
 
     _assetCache.reset(new AssetCache());
 
-    const JsonValue& videoModeValue = _settings["videoMode"];
+    const JsonValue& videoModeValue = _config["videoMode"];
     if (!videoModeValue.isNull())
     {
         // Load video mode
@@ -122,7 +110,7 @@ Engine::~Engine()
 
 int Engine::main()
 {
-    const std::string& gameModeTypeName = _settings["defaultGameMode"].asString();
+    const std::string& gameModeTypeName = _config["defaultGameMode"].asString();
 
     GameMode::Pointer gameMode = GameModeRegistry::create(gameModeTypeName, *this);
 
@@ -177,7 +165,55 @@ AssetCache& Engine::assetCache()
     return *_assetCache;
 }
 
-const JsonValue& Engine::settings()
+const JsonValue& Engine::config()
 {
-    return _settings;
+    return _config;
+}
+
+JsonValue Engine::parseCommandLineArgument(int argc, char* const argv[])
+{
+    JsonValue arguments{ JsonValueType_Object };
+    try
+    {
+        TCLAP::CmdLine cmd{ "Hect Engine" };
+        TCLAP::MultiArg<std::string> configsArg
+        {
+            "c", "config",
+            "A config file use",
+            false,
+            "string"
+        };
+
+        TCLAP::MultiArg<std::string> pathsArg
+        {
+            "p", "path",
+            "A path to include",
+            false,
+            "string"
+        };
+
+        cmd.add(configsArg);
+        cmd.add(pathsArg);
+        cmd.parse(argc, argv);
+
+        JsonValue configs{ JsonValueType_Array };
+        for (auto& config : configsArg.getValue())
+        {
+            configs.addElement(config);
+        }
+        arguments.addMember("configs", configs);
+
+        JsonValue paths{ JsonValueType_Array };
+        for (auto& path : pathsArg.getValue())
+        {
+            paths.addElement(path);
+        }
+        arguments.addMember("paths", paths);
+    }
+    catch (TCLAP::ArgException& exception)
+    {
+        HECT_ERROR(exception.what());
+    }
+
+    return arguments;
 }

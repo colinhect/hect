@@ -25,7 +25,7 @@ int main(int argc, char* const argv[])
     {
         hect::Engine engine{ argc, argv };
         ::engine = &engine;
-        return Catch::Session{}.run(argc, argv);
+        return Catch::Session{}.run(1, argv);
     }
     catch (hect::Error& error)
     {

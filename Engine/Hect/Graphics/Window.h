@@ -48,7 +48,7 @@ public:
     typedef std::shared_ptr<Window> Pointer;
 
     ///
-    /// Constructs a window given a title and the settings.
+    /// Constructs a window given a title and the video mode.
     ///
     /// \param title The window title.
     /// \param videoMode The video mode to use.

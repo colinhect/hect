@@ -27,9 +27,10 @@
 #include <physfs.h>
 
 #include "Hect/Core/Configuration.h"
-#include "Hect/Core/Uncopyable.h"
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
+#include "Hect/Core/Logging.h"
+#include "Hect/Core/Uncopyable.h"
 
 #ifdef HECT_WINDOWS_BUILD
 #include <Windows.h>
@@ -250,6 +251,8 @@ void FileSystem::setWriteDirectory(const Path& path)
 
 void FileSystem::mount(const Path& path)
 {
+    HECT_INFO(format("Mounting path '%s'...", path.toString().c_str()));
+
     if (!PHYSFS_mount(path.toString().c_str(), NULL, 0))
     {
         throw Error(format("Failed to mount path: %s", PHYSFS_getLastError()));
