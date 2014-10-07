@@ -42,14 +42,14 @@ RenderSystem::RenderSystem(Renderer& renderer, AssetCache& assetCache) :
     _renderer(&renderer),
     _buffersInitialized(false)
 {
-    _compositorShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Compositor.shader");
-    _environmentShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/Environment.shader");
-    _directionalLightShader = assetCache.getHandle<Shader>("Hect/PhysicallyBased/DirectionalLight.shader");
+    _compositorShader = assetCache.getHandle<Shader>("Hect/Compositor.shader");
+    _environmentShader = assetCache.getHandle<Shader>("Hect/Environment.shader");
+    _directionalLightShader = assetCache.getHandle<Shader>("Hect/DirectionalLight.shader");
 
-    _skyBoxMaterial = assetCache.getHandle<Material>("Hect/PhysicallyBased/SkyBox.material");
+    _skyBoxMaterial = assetCache.getHandle<Material>("Hect/SkyBox.material");
 
-    _screenMesh = assetCache.getHandle<Mesh>("Hect/PhysicallyBased/Screen.mesh");
-    _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/PhysicallyBased/SkyBox.mesh");
+    _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
+    _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 }
 
 void RenderSystem::addWorld(World& world)

@@ -64,10 +64,22 @@ Engine::Engine(int argc, char* const argv[])
     }
 
     // Load additional config files
+    std::vector<JsonValue> additionalConfigs;
     for (auto& configFilePath : _config["additional"])
     {
         ReadStream stream = FileSystem::openFileForRead(configFilePath.asString());
-        _config.decodeFromJson(stream);
+        JsonValue config;
+        config.decodeFromJson(stream);
+        additionalConfigs.push_back(std::move(config));
+    }
+
+    // Merge additional configs back to the main config
+    for (auto& additionalConfig : additionalConfigs)
+    {
+        for (auto& memberName : additionalConfig.memberNames())
+        {
+            _config.addMember(memberName, additionalConfig[memberName]);
+        }
     }
 
     // Mount the paths specified in the config
@@ -108,7 +120,7 @@ Engine::~Engine()
 
 int Engine::main()
 {
-    const std::string& gameModeTypeName = _config["defaultGameMode"].asString();
+    const std::string& gameModeTypeName = _config["gameMode"].asString();
 
     GameMode::Pointer gameMode = GameModeRegistry::create(gameModeTypeName, *this);
 

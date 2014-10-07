@@ -92,13 +92,8 @@
     </Link>
     <PreBuildEvent>
       <Command>mkdir "$(TargetDir)Hect"
-mkdir "$(TargetDir)Hect\Hect"
-mkdir "$(TargetDir)Hect\Test"
-
-xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect\Hect" /s /y /d /I
-xcopy "$(ProjectDir)..\..\..\Tests\Assets" "$(TargetDir)Hect\Test" /s /y /d /I
-
-copy "$(ProjectDir)..\..\..\Tests\SystemTests.config" "$(TargetDir)" /y</Command>
+xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,13 +107,8 @@ copy "$(ProjectDir)..\..\..\Tests\SystemTests.config" "$(TargetDir)" /y</Command
     </Link>
     <PreBuildEvent>
       <Command>mkdir "$(TargetDir)Hect"
-mkdir "$(TargetDir)Hect\Hect"
-mkdir "$(TargetDir)Hect\Test"
-
-xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect\Hect" /s /y /d /I
-xcopy "$(ProjectDir)..\..\..\Tests\Assets" "$(TargetDir)Hect\Test" /s /y /d /I
-
-copy "$(ProjectDir)..\..\..\Tests\SystemTests.config" "$(TargetDir)" /y</Command>
+xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,13 +126,8 @@ copy "$(ProjectDir)..\..\..\Tests\SystemTests.config" "$(TargetDir)" /y</Command
     </Link>
     <PreBuildEvent>
       <Command>mkdir "$(TargetDir)Hect"
-mkdir "$(TargetDir)Hect\Hect"
-mkdir "$(TargetDir)Hect\Test"
-
-xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect\Hect" /s /y /d /I
-xcopy "$(ProjectDir)..\..\..\Tests\Assets" "$(TargetDir)Hect\Test" /s /y /d /I
-
-copy "$(ProjectDir)..\..\..\Tests\SystemTests.config" "$(TargetDir)" /y</Command>
+xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,13 +145,8 @@ copy "$(ProjectDir)..\..\..\Tests\SystemTests.config" "$(TargetDir)" /y</Command
     </Link>
     <PreBuildEvent>
       <Command>mkdir "$(TargetDir)Hect"
-mkdir "$(TargetDir)Hect\Hect"
-mkdir "$(TargetDir)Hect\Test"
-
-xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect\Hect" /s /y /d /I
-xcopy "$(ProjectDir)..\..\..\Tests\Assets" "$(TargetDir)Hect\Test" /s /y /d /I
-
-copy "$(ProjectDir)..\..\..\Tests\SystemTests.config" "$(TargetDir)" /y</Command>
+xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

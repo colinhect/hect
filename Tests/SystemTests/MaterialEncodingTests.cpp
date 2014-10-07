@@ -31,5 +31,5 @@ using namespace hect;
 
 TEST_CASE("MaterialEncoding_Simple")
 {
-    testEncoding<Material>("Simple.material");
+    testEncoding<Material>("Hect/Test/Simple.material");
 }

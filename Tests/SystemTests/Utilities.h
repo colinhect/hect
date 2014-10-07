@@ -52,9 +52,6 @@ void testEncoding(const Path& assetPath)
             JsonEncoder encoder;
             encoder << asset;
             jsonValue = *encoder.jsonValues().begin();
-
-            std::string json = jsonValue.encodeToJson();
-            int i = 0;
         }
         {
             T decodedAsset;
@@ -78,7 +75,7 @@ void testEncoding(const Path& assetPath)
             T decodedAsset;
 
             MemoryReadStream stream(data);
-            BinaryDecoder decoder(tream, engine->assetCache());
+            BinaryDecoder decoder(stream, engine->assetCache());
             decoder >> decodedAsset;
 
             REQUIRE(asset == decodedAsset);
