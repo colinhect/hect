@@ -1,0 +1,12 @@
+{
+   "techniques" : [
+      [
+         {
+            "renderState" : {
+               "disabledFlags" : [ "DepthTest", "DepthWrite", "CullFace" ]
+            },
+            "shader" : "SkyBox.shader"
+         }
+      ]
+   ]
+}

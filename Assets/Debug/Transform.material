@@ -1,0 +1,12 @@
+{
+   "techniques" : [
+      [
+         {
+            "renderState" : {
+               "disabledFlags" : [ "DepthTest" ]
+            },
+            "shader" : "ColoredLine.shader"
+         }
+      ]
+   ]
+}

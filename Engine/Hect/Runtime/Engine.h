@@ -51,7 +51,12 @@ public:
     const JsonValue& config();
 
 private:
-    JsonValue parseCommandLineArgument(int argc, char* const argv[]);
+    struct CommandLineArguments
+    {
+        std::vector<std::string> configFilePaths;
+    };
+
+    CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 
     std::unique_ptr<Renderer> _renderer;
     std::unique_ptr<RenderSystem> _renderSystem;

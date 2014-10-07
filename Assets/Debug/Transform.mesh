@@ -1,0 +1,80 @@
+{
+   "indices" : [ 0, 1, 2, 3, 4, 5 ],
+   "primitiveType" : "Lines",
+   "vertexLayout" : {
+      "attributes" : [
+         {
+            "cardinality" : 3,
+            "semantic" : "Position",
+            "type" : "Float"
+         },
+         {
+            "cardinality" : 3,
+            "semantic" : "Color",
+            "type" : "Float"
+         }
+      ]
+   },
+   "vertices" : [
+      [
+         [
+            "Position",
+            [ 0, 0, 0 ]
+         ],
+         [
+            "Color",
+            [ 0, 0, 1 ]
+         ]
+      ],
+      [
+         [
+            "Position",
+            [ 0, 0, 1 ]
+         ],
+         [
+            "Color",
+            [ 0, 0, 1 ]
+         ]
+      ],
+      [
+         [
+            "Position",
+            [ 0, 0, 0 ]
+         ],
+         [
+            "Color",
+            [ 0, 1, 0 ]
+         ]
+      ],
+      [
+         [
+            "Position",
+            [ 0, 1, 0 ]
+         ],
+         [
+            "Color",
+            [ 0, 1, 0 ]
+         ]
+      ],
+      [
+         [
+            "Position",
+            [ 0, 0, 0 ]
+         ],
+         [
+            "Color",
+            [ 1, 0, 0 ]
+         ]
+      ],
+      [
+         [
+            "Position",
+            [ 1, 0, 0 ]
+         ],
+         [
+            "Color",
+            [ 1, 0, 0 ]
+         ]
+      ]
+   ]
+}

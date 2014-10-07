@@ -40,16 +40,13 @@ using namespace hect;
 
 Engine::Engine(int argc, char* const argv[])
 {
-    argc;
-    argv;
+    auto arguments = parseCommandLineArgument(argc, argv);
 
     // Register all of the Hect types
     registerTypes();
 
     Platform::initialize();
 
-    auto arguments = parseCommandLineArgument(argc, argv);
-    
     // Mount the base and working directory
     auto baseDirectory = FileSystem::baseDirectory();
     FileSystem::mount(baseDirectory);
@@ -60,18 +57,19 @@ Engine::Engine(int argc, char* const argv[])
     FileSystem::setWriteDirectory(workingDirectory);
 
     // Load the configs specified on the command-line
-    for (auto& config : arguments["configs"])
+    for (auto& configFilePath : arguments.configFilePaths)
     {
-        ReadStream stream = FileSystem::openFileForRead(config.asString());
+        ReadStream stream = FileSystem::openFileForRead(configFilePath);
         _config.decodeFromJson(stream);
     }
 
-    // Mount the paths specified on the command-line
-    for (auto& path : arguments["paths"])
+    // Load additional config files
+    for (auto& configFilePath : _config["additional"])
     {
-        FileSystem::mount(path.asString());
+        ReadStream stream = FileSystem::openFileForRead(configFilePath.asString());
+        _config.decodeFromJson(stream);
     }
-
+    
     // Mount the paths specified in the config
     for (auto& path : _config["paths"])
     {
@@ -170,47 +168,30 @@ const JsonValue& Engine::config()
     return _config;
 }
 
-JsonValue Engine::parseCommandLineArgument(int argc, char* const argv[])
+Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* const argv[])
 {
-    JsonValue arguments{ JsonValueType_Object };
+    CommandLineArguments arguments;
+
     try
     {
         TCLAP::CmdLine cmd{ "Hect Engine" };
         TCLAP::MultiArg<std::string> configsArg
         {
             "c", "config",
-            "A config file use",
+            "A config file load",
             false,
             "string"
         };
-
-        TCLAP::MultiArg<std::string> pathsArg
-        {
-            "p", "path",
-            "A path to include",
-            false,
-            "string"
-        };
-
+        
         cmd.add(configsArg);
-        cmd.add(pathsArg);
         cmd.parse(argc, argv);
 
-        JsonValue configs{ JsonValueType_Array };
         for (auto& config : configsArg.getValue())
         {
-            configs.addElement(config);
+            arguments.configFilePaths.push_back(config);
         }
-        arguments.addMember("configs", configs);
-
-        JsonValue paths{ JsonValueType_Array };
-        for (auto& path : pathsArg.getValue())
-        {
-            paths.addElement(path);
-        }
-        arguments.addMember("paths", paths);
     }
-    catch (TCLAP::ArgException& exception)
+    catch (std::exception& exception)
     {
         HECT_ERROR(exception.what());
     }

@@ -5,6 +5,7 @@ Build/Windows/Dependencies/Glew/Intermediate/*
 Build/Windows/Dependencies/JsonCpp/Intermediate/*
 Build/Windows/Dependencies/LodePng/Intermediate/*
 Build/Windows/Dependencies/PhysFS/Intermediate/*
+Build/Windows/HectAssets/Intermediate/*
 Build/Windows/HectEngine/Ignore.txt
 Build/Windows/HectEngine/Intermediate/*
 Build/Windows/HectUnitTests/Intermediate/*
