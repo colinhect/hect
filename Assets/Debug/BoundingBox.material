@@ -1,16 +1,20 @@
 {
-   "techniques" : [
-      [
-         {
-            "shader" : "ColoredLine.shader",
-            "uniformValues" : [
-               {
-                  "name" : "colorOverride",
-                  "type" : "Vector3",
-                  "value" : [ 1.0, 1.0, 0.0 ]
-               }
-            ]
-         }
-      ]
-   ]
+    "techniques": [
+        [
+            {
+                "uniformValues": [
+                    {
+                        "name": "colorOverride",
+                        "value": [
+                            1.0,
+                            1.0,
+                            0.0
+                        ],
+                        "type": "Vector3"
+                    }
+                ],
+                "shader": "ColoredLine.shader"
+            }
+        ]
+    ]
 }

@@ -1,34 +1,38 @@
 {
-   "modules" : [ "GeometryBuffer.frag", "Environment.frag", "Screen.vert" ],
-   "uniforms" : [
-      {
-         "binding" : "CameraPosition",
-         "name" : "cameraPosition"
-      },
-      {
-         "name" : "diffuseBuffer",
-         "type" : "Texture",
-         "value" : 0
-      },
-      {
-         "name" : "materialBuffer",
-         "type" : "Texture",
-         "value" : 1
-      },
-      {
-         "name" : "positionBuffer",
-         "type" : "Texture",
-         "value" : 2
-      },
-      {
-         "name" : "normalBuffer",
-         "type" : "Texture",
-         "value" : 3
-      },
-      {
-         "name" : "lightProbeTexture",
-         "type" : "Texture",
-         "value" : 4
-      }
-   ]
+    "modules": [
+        "GeometryBuffer.frag",
+        "Environment.frag",
+        "Screen.vert"
+    ],
+    "uniforms": [
+        {
+            "name": "cameraPosition",
+            "binding": "CameraPosition"
+        },
+        {
+            "name": "diffuseBuffer",
+            "value": 0,
+            "type": "Texture"
+        },
+        {
+            "name": "materialBuffer",
+            "value": 1,
+            "type": "Texture"
+        },
+        {
+            "name": "positionBuffer",
+            "value": 2,
+            "type": "Texture"
+        },
+        {
+            "name": "normalBuffer",
+            "value": 3,
+            "type": "Texture"
+        },
+        {
+            "name": "lightProbeTexture",
+            "value": 4,
+            "type": "Texture"
+        }
+    ]
 }

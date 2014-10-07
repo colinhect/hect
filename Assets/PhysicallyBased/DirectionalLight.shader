@@ -1,39 +1,51 @@
 {
-   "modules" : [ "GeometryBuffer.frag", "DirectionalLight.frag", "Screen.vert" ],
-   "uniforms" : [
-      {
-         "name" : "lightColor",
-         "type" : "Vector3",
-         "value" : [ 1, 1, 1 ]
-      },
-      {
-         "name" : "lightDirection",
-         "type" : "Vector3",
-         "value" : [ 1, 0, 0 ]
-      },
-      {
-         "binding" : "CameraPosition",
-         "name" : "cameraPosition"
-      },
-      {
-         "name" : "diffuseBuffer",
-         "type" : "Texture",
-         "value" : 0
-      },
-      {
-         "name" : "materialBuffer",
-         "type" : "Texture",
-         "value" : 1
-      },
-      {
-         "name" : "positionBuffer",
-         "type" : "Texture",
-         "value" : 2
-      },
-      {
-         "name" : "normalBuffer",
-         "type" : "Texture",
-         "value" : 3
-      }
-   ]
+    "modules": [
+        "GeometryBuffer.frag",
+        "DirectionalLight.frag",
+        "Screen.vert"
+    ],
+    "uniforms": [
+        {
+            "name": "lightColor",
+            "value": [
+                1,
+                1,
+                1
+            ],
+            "type": "Vector3"
+        },
+        {
+            "name": "lightDirection",
+            "value": [
+                1,
+                0,
+                0
+            ],
+            "type": "Vector3"
+        },
+        {
+            "name": "cameraPosition",
+            "binding": "CameraPosition"
+        },
+        {
+            "name": "diffuseBuffer",
+            "value": 0,
+            "type": "Texture"
+        },
+        {
+            "name": "materialBuffer",
+            "value": 1,
+            "type": "Texture"
+        },
+        {
+            "name": "positionBuffer",
+            "value": 2,
+            "type": "Texture"
+        },
+        {
+            "name": "normalBuffer",
+            "value": 3,
+            "type": "Texture"
+        }
+    ]
 }

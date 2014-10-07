@@ -1,14 +1,21 @@
 {
-   "modules" : [ "ColoredLine.frag", "ColoredLine.vert" ],
-   "uniforms" : [
-      {
-         "binding" : "ModelViewProjectionMatrix",
-         "name" : "modelViewProjection"
-      },
-      {
-         "name" : "colorOverride",
-         "type" : "Vector3",
-         "value" : [ 0.0, 0.0, 0.0 ]
-      }
-   ]
+    "modules": [
+        "ColoredLine.frag",
+        "ColoredLine.vert"
+    ],
+    "uniforms": [
+        {
+            "name": "modelViewProjection",
+            "binding": "ModelViewProjectionMatrix"
+        },
+        {
+            "name": "colorOverride",
+            "value": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "type": "Vector3"
+        }
+    ]
 }

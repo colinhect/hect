@@ -1,19 +1,17 @@
 {
-    "modules" :
-    [
+    "modules": [
         "SkyBox.frag",
         "SkyBox.vert"
     ],
-    "uniforms" :
-    [
+    "uniforms": [
         {
-            "name" : "modelViewProjection",
-            "binding" : "ModelViewProjectionMatrix"
+            "name": "modelViewProjection",
+            "binding": "ModelViewProjectionMatrix"
         },
         {
-            "name" : "skyBoxTexture",
-            "type" : "Texture",
-            "value" : 0
+            "name": "skyBoxTexture",
+            "value": 0,
+            "type": "Texture"
         }
     ]
 }

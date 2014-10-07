@@ -1,42 +1,56 @@
 {
-   "modules" : [
-      "Common/Particle.vert",
-      "Common/Rotation.geom",
-      "Common/Particle.geom",
-      "Common/Particle.frag"
-   ],
-   "parameters" : {
-      "cameraPosition" : {
-         "binding" : "CameraPosition"
-      },
-      "cameraUp" : {
-         "binding" : "CameraUp"
-      },
-      "color" : {
-         "type" : "Vector4",
-         "value" : [ 1, 1, 1, 1 ]
-      },
-      "colorMap" : {
-         "type" : "Texture",
-         "value" : 0
-      },
-      "fadeRange" : {
-         "type" : "Vector2",
-         "value" : [ 0, 1 ]
-      },
-      "intensityRange" : {
-         "type" : "Vector2",
-         "value" : [ 1, 1 ]
-      },
-      "model" : {
-         "binding" : "ModelMatrix"
-      },
-      "sizeRange" : {
-         "type" : "Vector2",
-         "value" : [ 1, 1 ]
-      },
-      "viewProjection" : {
-         "binding" : "ViewProjectionMatrix"
-      }
-   }
+    "modules": [
+        "Common/Particle.vert",
+        "Common/Rotation.geom",
+        "Common/Particle.geom",
+        "Common/Particle.frag"
+    ],
+    "parameters": {
+        "colorMap": {
+            "value": 0,
+            "type": "Texture"
+        },
+        "model": {
+            "binding": "ModelMatrix"
+        },
+        "cameraUp": {
+            "binding": "CameraUp"
+        },
+        "intensityRange": {
+            "value": [
+                1,
+                1
+            ],
+            "type": "Vector2"
+        },
+        "color": {
+            "value": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "type": "Vector4"
+        },
+        "cameraPosition": {
+            "binding": "CameraPosition"
+        },
+        "sizeRange": {
+            "value": [
+                1,
+                1
+            ],
+            "type": "Vector2"
+        },
+        "fadeRange": {
+            "value": [
+                0,
+                1
+            ],
+            "type": "Vector2"
+        },
+        "viewProjection": {
+            "binding": "ViewProjectionMatrix"
+        }
+    }
 }

@@ -1,12 +1,14 @@
 {
-   "techniques" : [
-      [
-         {
-            "renderState" : {
-               "disabledFlags" : [ "DepthTest" ]
-            },
-            "shader" : "ColoredLine.shader"
-         }
-      ]
-   ]
+    "techniques": [
+        [
+            {
+                "renderState": {
+                    "disabledFlags": [
+                        "DepthTest"
+                    ]
+                },
+                "shader": "ColoredLine.shader"
+            }
+        ]
+    ]
 }

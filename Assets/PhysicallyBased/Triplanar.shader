@@ -1,33 +1,39 @@
 {
-   "modules" : [ "Triplanar.frag", "Triplanar.vert" ],
-   "uniforms" : [
-      {
-         "name" : "diffuseTexture",
-         "type" : "Texture",
-         "value" : 0
-      },
-      {
-         "name" : "materialTexture",
-         "type" : "Texture",
-         "value" : 1
-      },
-      {
-         "name" : "normalTexture",
-         "type" : "Texture",
-         "value" : 2
-      },
-      {
-         "name" : "textureScale",
-         "type" : "Vector2",
-         "value" : [ 1, 1 ]
-      },
-      {
-         "binding" : "ModelMatrix",
-         "name" : "model"
-      },
-      {
-         "binding" : "ModelViewProjectionMatrix",
-         "name" : "modelViewProjection"
-      }
-   ]
+    "modules": [
+        "Triplanar.frag",
+        "Triplanar.vert"
+    ],
+    "uniforms": [
+        {
+            "name": "diffuseTexture",
+            "value": 0,
+            "type": "Texture"
+        },
+        {
+            "name": "materialTexture",
+            "value": 1,
+            "type": "Texture"
+        },
+        {
+            "name": "normalTexture",
+            "value": 2,
+            "type": "Texture"
+        },
+        {
+            "name": "textureScale",
+            "value": [
+                1,
+                1
+            ],
+            "type": "Vector2"
+        },
+        {
+            "name": "model",
+            "binding": "ModelMatrix"
+        },
+        {
+            "name": "modelViewProjection",
+            "binding": "ModelViewProjectionMatrix"
+        }
+    ]
 }
