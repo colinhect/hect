@@ -687,7 +687,7 @@ TEST_CASE("World_ComponentIterationNoneActivated")
 TEST_CASE("World_ComponentIterationSomeActivated")
 {
     World world;
-    
+
     world.createEntity();
     world.createEntity()->addComponent<String>("Test")->entity().activate();
     world.createEntity()->addComponent<String>("Test")->entity().activate();
@@ -710,7 +710,7 @@ TEST_CASE("World_ComponentIterationSomeActivated")
 TEST_CASE("World_ComponentIterationFirstActivated")
 {
     World world;
-    
+
     world.createEntity()->addComponent<String>("Test")->entity().activate();
     world.createEntity()->addComponent<String>("Test")->entity().activate();
     world.createEntity();
@@ -805,7 +805,7 @@ TEST_CASE("World_ComponentPoolListeners")
     REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
     REQUIRE(listener.receivedEvents[0].entity().id() == (EntityId)-1);
     listener.receivedEvents.clear();
-    
+
     b->removeComponent<String>();
 
     REQUIRE(listener.receivedEvents.size() == 1);
@@ -992,7 +992,7 @@ TEST_CASE("World_EntityPoolFindFirstWithoutMatch")
     {
         return entity.component<String>()->value == "Match";
     });
-    
+
     REQUIRE(!iterator);
 }
 

@@ -122,7 +122,7 @@ private:
         ContainerValue& operator=(const ContainerValue&);
     };
 
-    Container* _container{ nullptr };
+    Container* _container { nullptr };
 };
 
 }

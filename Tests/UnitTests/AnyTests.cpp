@@ -31,7 +31,7 @@ TEST_CASE("Any_HasValue")
     Any a;
     REQUIRE(!a.hasValue());
 
-    Any b{ 5 };
+    Any b(5);
     REQUIRE(b.hasValue());
 }
 
@@ -40,19 +40,19 @@ TEST_CASE("Any_IsType")
     Any a;
     REQUIRE(!a.isType<int>());
 
-    Any b{ 5 };
+    Any b(5);
     REQUIRE(b.isType<int>());
 }
 
 TEST_CASE("Any_As")
 {
-    Any a{ 5 };
+    Any a(5);
     REQUIRE(a.as<int>() == 5);
 }
 
 TEST_CASE("Any_AsError")
 {
-    Any a{ 5 };
+    Any a(5);
 
     bool errorThrown = false;
     try
@@ -69,8 +69,8 @@ TEST_CASE("Any_AsError")
 
 TEST_CASE("Any_Copy")
 {
-    Any a{ 5 };
-    Any b{ a };
+    Any a(5);
+    Any b(a);
 
     REQUIRE(a.as<int>() == 5);
     REQUIRE(b.as<int>() == 5);
@@ -78,9 +78,9 @@ TEST_CASE("Any_Copy")
 
 TEST_CASE("Any_Assign")
 {
-    Any a{ 5 };
+    Any a(5);
     REQUIRE(a.as<int>() == 5);
 
-    a = std::string{ "Testing" };
+    a = std::string { "Testing" };
     REQUIRE(a.as<std::string>() == "Testing");
 }

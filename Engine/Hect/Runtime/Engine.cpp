@@ -69,7 +69,7 @@ Engine::Engine(int argc, char* const argv[])
         ReadStream stream = FileSystem::openFileForRead(configFilePath.asString());
         _config.decodeFromJson(stream);
     }
-    
+
     // Mount the paths specified in the config
     for (auto& path : _config["paths"])
     {
@@ -174,15 +174,15 @@ Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* co
 
     try
     {
-        TCLAP::CmdLine cmd{ "Hect Engine" };
+        TCLAP::CmdLine cmd("Hect Engine");
         TCLAP::MultiArg<std::string> configsArg
-        {
+        (
             "c", "config",
             "A config file load",
             false,
             "string"
-        };
-        
+        );
+
         cmd.add(configsArg);
         cmd.parse(argc, argv);
 

@@ -163,13 +163,13 @@ public:
     unsigned bytesPerPixel() const;
 
 private:
-    unsigned _width{ 0 };
-    unsigned _height{ 0 };
+    unsigned _width { 0 };
+    unsigned _height { 0 };
 
-    PixelType _pixelType{ PixelType_Byte };
-    PixelFormat _pixelFormat{ PixelFormat_Rgba };
+    PixelType _pixelType { PixelType_Byte };
+    PixelFormat _pixelFormat { PixelFormat_Rgba };
 
-    ColorSpace _colorSpace{ ColorSpace_Linear };
+    ColorSpace _colorSpace { ColorSpace_Linear };
 
     PixelData _pixelData;
 };

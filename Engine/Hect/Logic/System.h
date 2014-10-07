@@ -57,7 +57,7 @@ public:
     /// system.
     template <typename T>
     void tickAfter();
-    
+
     ///
     /// Performs a single tick of simulation for the system.
     ///

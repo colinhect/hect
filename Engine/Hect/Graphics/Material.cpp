@@ -68,7 +68,7 @@ Technique& Material::preferedTechnique()
 {
     if (_techniques.empty())
     {
-        throw Error{ "The material has no techniques" };
+        throw Error("The material has no techniques");
     }
     return _techniques[0];
 }

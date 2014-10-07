@@ -59,7 +59,7 @@ void testEncoding(const Path& assetPath)
         {
             T decodedAsset;
 
-            JsonDecoder decoder{ jsonValue, engine->assetCache() };
+            JsonDecoder decoder(jsonValue, engine->assetCache());
             decoder >> decodedAsset;
 
             REQUIRE(asset == decodedAsset);
@@ -70,15 +70,15 @@ void testEncoding(const Path& assetPath)
     {
         std::vector<uint8_t> data;
         {
-            MemoryWriteStream stream{ data };
-            BinaryEncoder encoder{ stream };
+            MemoryWriteStream stream(data);
+            BinaryEncoder encoder(stream);
             encoder << asset;
         }
         {
             T decodedAsset;
 
-            MemoryReadStream stream{ data };
-            BinaryDecoder decoder{ stream, engine->assetCache() };
+            MemoryReadStream stream(data);
+            BinaryDecoder decoder(tream, engine->assetCache());
             decoder >> decodedAsset;
 
             REQUIRE(asset == decodedAsset);

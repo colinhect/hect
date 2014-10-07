@@ -81,10 +81,10 @@ private:
     std::mutex _queueMutex;
     std::condition_variable _condition;
 
-    bool _stop{ false };
-    bool _adaptive{ true };
+    bool _stop { false };
+    bool _adaptive { true };
 
-    std::atomic<size_t> _availableThreadCount{ 0 };
+    std::atomic<size_t> _availableThreadCount { 0 };
 };
 
 }

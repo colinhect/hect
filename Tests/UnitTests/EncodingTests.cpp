@@ -41,15 +41,15 @@ TEST_CASE("Encoding_SingleObject")
     testEncodeAndDecode([](Encoder& encoder)
     {
         encoder << beginObject()
-            << encodeValue("String", std::string("Testing"))
-            << endObject();
+                << encodeValue("String", std::string("Testing"))
+                << endObject();
     }, [](Decoder& decoder)
     {
         std::string string;
 
         decoder >> beginObject()
-            >> decodeValue("String", string)
-            >> endObject();
+                >> decodeValue("String", string)
+                >> endObject();
 
         REQUIRE(string == "Testing");
     });
@@ -60,10 +60,10 @@ TEST_CASE("Encoding_SingleArray")
     testEncodeAndDecode([](Encoder& encoder)
     {
         encoder << beginArray()
-            << encodeValue(std::string("Zero"))
-            << encodeValue(std::string("One"))
-            << encodeValue(std::string("Two"))
-            << endArray();
+                << encodeValue(std::string("Zero"))
+                << encodeValue(std::string("One"))
+                << encodeValue(std::string("Two"))
+                << endArray();
     }, [](Decoder& decoder)
     {
         std::vector<std::string> strings;
@@ -88,16 +88,16 @@ TEST_CASE("Encoding_ArrayInObject")
     testEncodeAndDecode([](Encoder& encoder)
     {
         encoder << beginObject()
-            << beginArray("Array")
-            << encodeValue(std::string("Zero"))
-            << encodeValue(std::string("One"))
-            << encodeValue(std::string("Two"))
-            << endArray()
-            << endObject();
+                << beginArray("Array")
+                << encodeValue(std::string("Zero"))
+                << encodeValue(std::string("One"))
+                << encodeValue(std::string("Two"))
+                << endArray()
+                << endObject();
     }, [](Decoder& decoder)
     {
         decoder >> beginObject()
-            >> beginArray("Array");
+                >> beginArray("Array");
 
         std::vector<std::string> strings;
         while (decoder.hasMoreElements())
@@ -107,7 +107,7 @@ TEST_CASE("Encoding_ArrayInObject")
             strings.push_back(string);
         }
         decoder >> endArray()
-            >> endObject();
+                >> endObject();
 
         REQUIRE(strings[0] == "Zero");
         REQUIRE(strings[1] == "One");
@@ -123,10 +123,10 @@ TEST_CASE("Encoding_ArrayInArray")
         for (int i = 0; i < 3; ++i)
         {
             encoder << beginArray()
-                << encodeValue(std::string("Zero"))
-                << encodeValue(std::string("One"))
-                << encodeValue(std::string("Two"))
-                << endArray();
+                    << encodeValue(std::string("Zero"))
+                    << encodeValue(std::string("One"))
+                    << encodeValue(std::string("Two"))
+                    << endArray();
         }
         encoder << endArray();
     }, [](Decoder& decoder)
@@ -167,8 +167,8 @@ TEST_CASE("Encoding_ObjectInArray")
         for (int i = 0; i < 3; ++i)
         {
             encoder << beginObject()
-                << encodeValue("String", std::string("Testing"))
-                << endObject();
+                    << encodeValue("String", std::string("Testing"))
+                    << endObject();
         }
         encoder << endArray();
     }, [](Decoder& decoder)
@@ -181,8 +181,8 @@ TEST_CASE("Encoding_ObjectInArray")
             std::string string;
 
             decoder >> beginObject()
-                >> decodeValue("String", string)
-                >> endObject();
+                    >> decodeValue("String", string)
+                    >> endObject();
 
             REQUIRE(string== "Testing");
 
@@ -200,19 +200,19 @@ TEST_CASE("Encoding_AllInArray")
     testEncodeAndDecode([](Encoder& encoder)
     {
         encoder << beginArray()
-            << encodeValue(std::string("Test"))
-            << encodeValue((int8_t)12)
-            << encodeValue((uint8_t)12)
-            << encodeValue((int16_t)12)
-            << encodeValue((uint16_t)12)
-            << encodeValue((int32_t)12)
-            << encodeValue((uint32_t)12)
-            << encodeValue((int64_t)12)
-            << encodeValue((uint64_t)12)
-            << encodeValue(123.0f)
-            << encodeValue(123.0)
-            << encodeValue(true)
-            << endArray();
+                << encodeValue(std::string("Test"))
+                << encodeValue((int8_t)12)
+                << encodeValue((uint8_t)12)
+                << encodeValue((int16_t)12)
+                << encodeValue((uint16_t)12)
+                << encodeValue((int32_t)12)
+                << encodeValue((uint32_t)12)
+                << encodeValue((int64_t)12)
+                << encodeValue((uint64_t)12)
+                << encodeValue(123.0f)
+                << encodeValue(123.0)
+                << encodeValue(true)
+                << endArray();
     }, [](Decoder& decoder)
     {
         decoder >> beginArray();
@@ -249,19 +249,19 @@ TEST_CASE("Encoding_AllInObject")
     testEncodeAndDecode([](Encoder& encoder)
     {
         encoder << beginObject()
-            << encodeValue("String", std::string("Test"))
-            << encodeValue("Int8", (int8_t)12)
-            << encodeValue("UInt8", (uint8_t)12)
-            << encodeValue("Int16", (int16_t)12)
-            << encodeValue("UInt16", (uint16_t)12)
-            << encodeValue("Int32", (int32_t)12)
-            << encodeValue("UInt32", (uint32_t)12)
-            << encodeValue("Int64", (int64_t)12)
-            << encodeValue("UInt64", (uint64_t)12)
-            << encodeValue("Float32", 123.0f)
-            << encodeValue("Float64", 123.0)
-            << encodeValue("Bool", true)
-            << endObject();
+                << encodeValue("String", std::string("Test"))
+                << encodeValue("Int8", (int8_t)12)
+                << encodeValue("UInt8", (uint8_t)12)
+                << encodeValue("Int16", (int16_t)12)
+                << encodeValue("UInt16", (uint16_t)12)
+                << encodeValue("Int32", (int32_t)12)
+                << encodeValue("UInt32", (uint32_t)12)
+                << encodeValue("Int64", (int64_t)12)
+                << encodeValue("UInt64", (uint64_t)12)
+                << encodeValue("Float32", 123.0f)
+                << encodeValue("Float64", 123.0)
+                << encodeValue("Bool", true)
+                << endObject();
     }, [](Decoder& decoder)
     {
         decoder >> beginObject();

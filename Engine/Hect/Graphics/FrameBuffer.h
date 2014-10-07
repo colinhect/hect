@@ -81,7 +81,7 @@ public:
     void setDepthComponent(bool depthComponent);
 
 private:
-    bool _depthComponent{ true };
+    bool _depthComponent { true };
     TextureContainer _targets;
 };
 

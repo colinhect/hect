@@ -53,7 +53,7 @@ void longTask()
 
 void testTasks(unsigned threadCount, unsigned taskCount, Task::Action action)
 {
-    TaskPool taskPool{ threadCount };
+    TaskPool taskPool(threadCount);
 
     bool taskDone[maxTaskCount];
     std::vector<Task::Handle> tasks;
@@ -81,7 +81,7 @@ void testTasks(unsigned threadCount, unsigned taskCount, Task::Action action)
 
 void testTasksWithErrors(unsigned threadCount, unsigned taskCount, Task::Action action)
 {
-    TaskPool taskPool{ threadCount };
+    TaskPool taskPool(threadCount);
 
     std::vector<Task::Handle> taskHandles;
 
@@ -90,7 +90,7 @@ void testTasksWithErrors(unsigned threadCount, unsigned taskCount, Task::Action 
         taskHandles.push_back(taskPool.enqueue([action]
         {
             action();
-            throw Error{ "Task error" };
+            throw Error("Task error");
         }));
     }
 
