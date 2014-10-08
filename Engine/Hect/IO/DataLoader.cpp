@@ -38,7 +38,6 @@ void AssetLoader<Data>::load(Data& data, const Path& assetPath, AssetCache& asse
     if (firstCharacter == '{')
     {
         stream.seek(0);
-        data.assetPath = assetPath;
         data.jsonValue.decodeFromJson(stream);
     }
     else

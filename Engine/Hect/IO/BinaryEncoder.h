@@ -43,30 +43,30 @@ public:
     /// \param stream The stream to encode to.
     BinaryEncoder(WriteStream& stream);
 
-    bool isBinaryStream() const;
+    bool isBinaryStream() const override;
 
-    WriteStream& binaryStream();
+    WriteStream& binaryStream() override;
 
-    void beginArray();
-    void endArray();
+    void beginArray() override;
+    void endArray() override;
 
-    void beginObject();
-    void endObject();
+    void beginObject() override;
+    void endObject() override;
 
-    void selectMember(const char* name);
+    void selectMember(const char* name) override;
 
-    void encodeString(const std::string& value);
-    void encodeInt8(int8_t value);
-    void encodeUInt8(uint8_t value);
-    void encodeInt16(int16_t value);
-    void encodeUInt16(uint16_t value);
-    void encodeInt32(int32_t value);
-    void encodeUInt32(uint32_t value);
-    void encodeInt64(int64_t value);
-    void encodeUInt64(uint64_t value);
-    void encodeFloat32(float value);
-    void encodeFloat64(double value);
-    void encodeBool(bool value);
+    void encodeString(const std::string& value) override;
+    void encodeInt8(int8_t value) override;
+    void encodeUInt8(uint8_t value) override;
+    void encodeInt16(int16_t value) override;
+    void encodeUInt16(uint16_t value) override;
+    void encodeInt32(int32_t value) override;
+    void encodeUInt32(uint32_t value) override;
+    void encodeInt64(int64_t value) override;
+    void encodeUInt64(uint64_t value) override;
+    void encodeFloat32(float value) override;
+    void encodeFloat64(double value) override;
+    void encodeBool(bool value) override;
 
 private:
     enum ValueType

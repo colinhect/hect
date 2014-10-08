@@ -426,6 +426,9 @@
     <ClInclude Include="..\..\..\Engine\Hect\Generated\_reflect_hect.h">
       <Filter>Source\Hect\Generated</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Engine\Hect\IO\AssetDecoder.h">
+      <Filter>Source\Hect\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Engine\Hect\Core\Any.cpp">
@@ -727,6 +730,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Generated\_reflect_hect.cpp">
       <Filter>Source\Hect\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Engine\Hect\IO\AssetDecoder.cpp">
+      <Filter>Source\Hect\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

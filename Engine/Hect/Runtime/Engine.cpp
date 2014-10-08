@@ -104,7 +104,13 @@ Engine::~Engine()
 
 int Engine::main()
 {
-    const std::string& gameModeTypeName = _config["gameMode"].asString();
+    const JsonValue& gameModeValue = _config["gameMode"];
+    if (gameModeValue.isNull())
+    {
+        throw Error("No game mode specified in config");
+    }
+
+    const std::string& gameModeTypeName = gameModeValue.asString();
 
     GameMode::Pointer gameMode = GameModeRegistry::create(gameModeTypeName, *this);
 

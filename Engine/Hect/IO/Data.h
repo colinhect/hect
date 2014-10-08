@@ -27,14 +27,12 @@
 #include <vector>
 
 #include "Hect/IO/JsonValue.h"
-#include "Hect/IO/Path.h"
 
 namespace hect
 {
 
 struct Data
 {
-    Path assetPath;
     JsonValue jsonValue;
     std::vector<uint8_t> binaryData;
 };

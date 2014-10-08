@@ -46,32 +46,32 @@ public:
 
     JsonDecoder(const JsonValue& jsonValue, AssetCache& assetCache);
 
-    bool isBinaryStream() const;
-    ReadStream& binaryStream();
+    bool isBinaryStream() const override;
+    ReadStream& binaryStream() override;
 
-    void beginArray();
-    void endArray();
+    void beginArray() override;
+    void endArray() override;
 
-    bool hasMoreElements() const;
+    bool hasMoreElements() const override;
 
-    void beginObject();
-    void endObject();
+    void beginObject() override;
+    void endObject() override;
 
-    bool selectMember(const char* name);
-    std::vector<std::string> memberNames() const;
+    bool selectMember(const char* name) override;
+    std::vector<std::string> memberNames() const override;
 
-    std::string decodeString();
-    int8_t decodeInt8();
-    uint8_t decodeUInt8();
-    int16_t decodeInt16();
-    uint16_t decodeUInt16();
-    int32_t decodeInt32();
-    uint32_t decodeUInt32();
-    int64_t decodeInt64();
-    uint64_t decodeUInt64();
-    float decodeFloat32();
-    double decodeFloat64();
-    bool decodeBool();
+    std::string decodeString() override;
+    int8_t decodeInt8() override;
+    uint8_t decodeUInt8() override;
+    int16_t decodeInt16() override;
+    uint16_t decodeUInt16() override;
+    int32_t decodeInt32() override;
+    uint32_t decodeUInt32() override;
+    int64_t decodeInt64() override;
+    uint64_t decodeUInt64() override;
+    float decodeFloat32() override;
+    double decodeFloat64() override;
+    bool decodeBool() override;
 
 private:
     const JsonValue& decode();

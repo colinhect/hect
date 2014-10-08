@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Reflection/Enum.h"
 #include "Hect/IO/EncodeOperations.h"
 #include "Hect/IO/ReadStream.h"
+#include "Hect/Reflection/Enum.h"
 
 namespace hect
 {
@@ -39,6 +39,7 @@ class Decoder
 public:
     Decoder();
     Decoder(AssetCache& assetCache);
+    virtual ~Decoder();
 
     AssetCache& assetCache();
 

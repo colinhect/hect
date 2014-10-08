@@ -51,7 +51,7 @@ public:
     public:
 
         ///
-        /// Constructs thescope given the asset cache it affects along with
+        /// Constructs the scope given the asset cache it affects along with
         /// path to the directory to select.
         ///
         /// \param assetCache The asset cache to select the directory for.
@@ -100,10 +100,19 @@ public:
     /// Returns the task pool.
     TaskPool& taskPool();
 
-private:
+    ///
+    /// Selects the given directory as the preferred directory for the current
+    /// thread.
+    ///
+    /// \param directoryPath The path to the directory to select.
     void selectDirectory(const Path& directoryPath);
+
+    ///
+    /// Restores the previously selected directory (if any) for the current
+    /// thread.
     void restoreDirectory();
 
+private:
     std::recursive_mutex _mutex;
     std::map<std::thread::id, std::stack<Path>> _selectedDirectoryStack;
     std::map<Path, std::shared_ptr<AssetEntryBase>> _entries;
