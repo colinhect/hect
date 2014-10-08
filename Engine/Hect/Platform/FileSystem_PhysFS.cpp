@@ -254,18 +254,18 @@ void FileSystem::mountArchive(const Path& path, const Path& mountPoint)
     const char* pathString = path.asString().c_str();
     const char* mountPointString = mountPoint.asString().c_str();
 
-    if (mountPoint.empty())
-    {
-        HECT_INFO(format("Mounting archive '%s'...", pathString));
-    }
-    else
-    {
-        HECT_INFO(format("Mounting archive '%s' to '%s'...", pathString, mountPointString));
-    }
-
     if (!PHYSFS_mount(pathString, mountPointString, 0))
     {
         throw Error(format("Failed to mount archive '%s': %s", pathString, PHYSFS_getLastError()));
+    }
+
+    if (mountPoint.empty())
+    {
+        HECT_INFO(format("Mounted archive '%s'", pathString));
+    }
+    else
+    {
+        HECT_INFO(format("Mounted archive '%s' to '%s'", pathString, mountPointString));
     }
 }
 

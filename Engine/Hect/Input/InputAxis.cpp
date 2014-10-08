@@ -90,7 +90,7 @@ Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis)
 
 Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis)
 {
-    decoder >> decodeValue("name", inputAxis._name);
+    decoder >> decodeValue("name", inputAxis._name, true);
     decoder >> beginArray("bindings");
     while (decoder.hasMoreElements())
     {

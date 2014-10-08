@@ -93,10 +93,11 @@ struct DecodeValue :
         public Uncopyable
 {
     DecodeValue(T& value);
-    DecodeValue(const char* name, T& value);
+    DecodeValue(const char* name, T& value, bool required);
 
     const char* name;
     mutable T& value;
+    const bool required;
 };
 
 template <typename T>
@@ -192,7 +193,7 @@ template <typename T>
 DecodeValue<T> decodeValue(T& value);
 
 template <typename T>
-DecodeValue<T> decodeValue(const char* name, T& value);
+DecodeValue<T> decodeValue(const char* name, T& value, bool required = false);
 
 template <typename T>
 DecodeVector<T> decodeVector(std::vector<T>& values);

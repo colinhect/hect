@@ -157,6 +157,7 @@
     <ClCompile Include="..\..\..\Tests\SystemTests\Main.cpp" />
     <ClCompile Include="..\..\..\Tests\SystemTests\MaterialEncodingTests.cpp" />
     <ClCompile Include="..\..\..\Tests\SystemTests\Utilities.cpp" />
+    <ClCompile Include="..\..\..\Tests\SystemTests\WorldTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HectEngine\HectEngine.vcxproj">

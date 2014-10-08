@@ -23,14 +23,32 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputSystem.h"
 
+#include "Hect/IO/JsonDecoder.h"
 #include "Hect/Logic/World.h"
 #include "Hect/Platform/Platform.h"
+#include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
 InputSystem::InputSystem(World& world) :
     System(world)
 {
+    for (const JsonValue& axisValue : world.engine().config()["inputAxes"])
+    {
+        InputAxis axis;
+
+        try
+        {
+            JsonDecoder decoder(axisValue);
+            decoder >> decodeValue(axis);
+        }
+        catch (Error& error)
+        {
+            throw Error(format("Invalid input axes: %s", error.what()));
+        }
+
+        addAxis(axis);
+    }
 }
 
 void InputSystem::addAxis(const InputAxis& axis)
@@ -41,7 +59,14 @@ void InputSystem::addAxis(const InputAxis& axis)
         throw Error(format("Multiple input axes with name '%s'", axis.name().c_str()));
     }
 
+    if (axis.name().empty())
+    {
+        throw Error("Input axis name cannot be empty");
+    }
+
     _axes[axis.name()] = axis;
+
+    HECT_INFO(format("Added input axis '%s'", axis.name().c_str()));
 }
 
 Real InputSystem::axisValue(const std::string& name) const

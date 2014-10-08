@@ -33,6 +33,10 @@ Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decodeValue)
     }
     else
     {
+        if (decodeValue.name && decodeValue.required)
+        {
+            throw Error(format("Missing required value '%s'", decodeValue.name));
+        }
         return decoder;
     }
 }

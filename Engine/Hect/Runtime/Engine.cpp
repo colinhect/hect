@@ -32,11 +32,11 @@
 #include "Hect/Logic/GameMode.h"
 #include "Hect/Logic/GameModeRegistry.h"
 
+#include "Hect/Generated/_reflect_hect.h"
+
 #include <fstream>
 #include <streambuf>
 #include <tclap/CmdLine.h>
-
-#include "Hect/Generated/_reflect_hect.h"
 
 using namespace hect;
 
@@ -54,32 +54,18 @@ Engine::Engine(int argc, char* const argv[])
     FileSystem::setWriteDirectory(baseDirectory);
 
     // Load the configs specified on the command-line
-    for (auto& configFilePath : arguments.configFilePaths)
+    if (!arguments.configFilePath.empty())
     {
-        _config = loadConfig(configFilePath);
-    }
-
-    // Load additional config files
-    std::vector<JsonValue> includedConfigs;
-    for (auto& configFilePath : _config["include"])
-    {
-        JsonValue config = loadConfig(configFilePath.asString());
-        includedConfigs.push_back(std::move(config));
-    }
-
-    // Merge additional configs back to the main config
-    for (auto& includedConfig : includedConfigs)
-    {
-        for (auto& memberName : includedConfig.memberNames())
-        {
-            _config.addMember(memberName, includedConfig[memberName]);
-        }
+        _config = loadConfig(arguments.configFilePath);
     }
 
     // Mount the archives specified in the config
     for (auto& archive : _config["archives"])
     {
-        FileSystem::mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
+        if (!archive["path"].isNull())
+        {
+            FileSystem::mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
+        }
     }
 
     _assetCache.reset(new AssetCache());
@@ -89,13 +75,17 @@ Engine::Engine(int argc, char* const argv[])
     {
         // Load video mode
         VideoMode videoMode;
-
+        try
         {
             JsonDecoder decoder(videoModeValue);
             decoder >> decodeValue(videoMode);
         }
+        catch (Error& error)
+        {
+            throw Error(format("Invalid video mode: %s", error.what()));
+        }
 
-        // Create window/renderer/input devices
+        // Create window and renderer
         _window = Platform::createWindow("Hect", videoMode);
         _renderer.reset(new Renderer(*_window));
         _renderSystem.reset(new RenderSystem(*_renderer, *_assetCache));
@@ -147,19 +137,28 @@ int Engine::main()
 
 Renderer& Engine::renderer()
 {
-    assert(_renderer);
+    if (!_renderer)
+    {
+        throw Error("No available renderer");
+    }
     return *_renderer;
 }
 
 RenderSystem& Engine::renderSystem()
 {
-    assert(_renderSystem);
+    if (!_renderSystem)
+    {
+        throw Error("No available render system");
+    }
     return *_renderSystem;
 }
 
 Window& Engine::window()
 {
-    assert(_window);
+    if (!_window)
+    {
+        throw Error("No available window");
+    }
     return *_window;
 }
 
@@ -185,9 +184,27 @@ JsonValue Engine::loadConfig(const Path& configFilePath)
             json.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
         }
 
-        JsonValue jsonValue;
-        jsonValue.decodeFromJson(json);
-        return jsonValue;
+        JsonValue config;
+        config.decodeFromJson(json);
+
+        // Load additional config files
+        std::vector<JsonValue> includedConfigs;
+        for (auto& configFilePath : config["include"])
+        {
+            JsonValue config = loadConfig(configFilePath.asString());
+            includedConfigs.push_back(std::move(config));
+        }
+
+        // Merge additional configs back to the main config
+        for (auto& includedConfig : includedConfigs)
+        {
+            for (auto& memberName : includedConfig.memberNames())
+            {
+                config.addMember(memberName, includedConfig[memberName]);
+            }
+        }
+
+        return config;
     }
     catch (std::exception& exception)
     {
@@ -211,28 +228,23 @@ Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* co
         argumentStrings.push_back(argv[i]);
     }
 
-
     try
     {
-        CommandLineArguments arguments;
-
         TCLAP::CmdLine cmd("Hect Engine");
-        TCLAP::MultiArg<std::string> configsArg
-        (
+        TCLAP::ValueArg<std::string> configArg
+        {
             "c", "config",
             "A config file load",
             false,
+            "",
             "string"
-        );
+        };
 
-        cmd.add(configsArg);
+        cmd.add(configArg);
         cmd.parse(argumentStrings);
 
-        for (auto& config : configsArg.getValue())
-        {
-            arguments.configFilePaths.push_back(config);
-        }
-
+        CommandLineArguments arguments;
+        arguments.configFilePath = configArg.getValue();
         return arguments;
     }
     catch (std::exception& exception)

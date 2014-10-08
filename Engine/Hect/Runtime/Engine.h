@@ -34,7 +34,8 @@
 namespace hect
 {
 
-class Engine
+class Engine :
+    public Uncopyable
 {
 public:
     Engine(int argc, char* const argv[]);
@@ -53,7 +54,7 @@ public:
 private:
     struct CommandLineArguments
     {
-        std::vector<std::string> configFilePaths;
+        std::string configFilePath;
     };
 
     JsonValue loadConfig(const Path& configFilePath);

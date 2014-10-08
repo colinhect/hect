@@ -164,7 +164,6 @@
     <ClCompile Include="..\..\..\Tests\UnitTests\PlaneTests.cpp" />
     <ClCompile Include="..\..\..\Tests\UnitTests\QuaternionTests.cpp" />
     <ClCompile Include="..\..\..\Tests\UnitTests\Utilities.cpp" />
-    <ClCompile Include="..\..\..\Tests\UnitTests\WorldTests.cpp" />
     <ClCompile Include="..\..\..\Tests\UnitTests\StreamTests.cpp" />
     <ClCompile Include="..\..\..\Tests\UnitTests\TaskPoolTests.cpp" />
     <ClCompile Include="..\..\..\Tests\UnitTests\TimeSpanTests.cpp" />

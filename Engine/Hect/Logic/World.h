@@ -40,6 +40,8 @@
 namespace hect
 {
 
+class Engine;
+
 ///
 /// A world of entities, components, and systems.
 class World :
@@ -50,7 +52,17 @@ public:
 
     ///
     /// Constructs an empty world.
-    World();
+    ///
+    /// \param engine The engine.
+    World(Engine& engine);
+
+    ///
+    /// Returns the engine.
+    Engine& engine();
+
+    ///
+    /// Returns the engine.
+    const Engine& engine() const;
 
     ///
     /// Returns the system of a specific type.
@@ -115,6 +127,8 @@ private:
     void decodeComponents(Entity& entity, Decoder& decoder);
 
     void addSystemToTickOrder(System& system);
+
+    Engine* _engine;
 
     size_t _entityCount;
     EntityPool _entityPool;

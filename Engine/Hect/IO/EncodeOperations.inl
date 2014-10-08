@@ -55,14 +55,16 @@ EncodeVector<T>::EncodeVector(const char* name, const std::vector<T>& values) :
 template <typename T>
 DecodeValue<T>::DecodeValue(T& value) :
     name(nullptr),
-    value(value)
+    value(value),
+    required(false)
 {
 }
 
 template <typename T>
-DecodeValue<T>::DecodeValue(const char* name, T& value) :
+DecodeValue<T>::DecodeValue(const char* name, T& value, bool required) :
     name(name),
-    value(value)
+    value(value),
+    required(required)
 {
 }
 
@@ -139,9 +141,9 @@ DecodeValue<T> decodeValue(T& value)
 }
 
 template <typename T>
-DecodeValue<T> decodeValue(const char* name, T& value)
+DecodeValue<T> decodeValue(const char* name, T& value, bool required)
 {
-    return DecodeValue<T>(name, value);
+    return DecodeValue<T>(name, value, required);
 }
 
 template <typename T>

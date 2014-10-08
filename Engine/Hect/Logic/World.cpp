@@ -27,7 +27,8 @@
 
 using namespace hect;
 
-World::World() :
+World::World(Engine& engine) :
+    _engine(&engine),
     _entityCount(0),
     _entityPool(*this)
 {
@@ -39,6 +40,18 @@ World::World() :
     {
         addSystemToTickOrder(*system);
     }
+}
+
+Engine& World::engine()
+{
+    assert(_engine);
+    return *_engine;
+}
+
+const Engine& World::engine() const
+{
+    assert(_engine);
+    return *_engine;
 }
 
 void World::tick(TimeSpan timeStep)
