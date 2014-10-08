@@ -71,7 +71,7 @@ std::unique_ptr<T>& AssetEntry<T>::get()
     // Thow an error if the asset failed to load
     if (_errorOccurred)
     {
-        throw Error(format("Failed to load asset '%s': %s", _path.toString().c_str(), _errorMessage.c_str()));
+        throw Error(format("Failed to load asset '%s': %s", _path.asString().c_str(), _errorMessage.c_str()));
     }
 
     return _asset;
@@ -103,7 +103,7 @@ void AssetEntry<T>::load()
     // Load the asset and keep the error message
     try
     {
-        HECT_INFO(format("Loading '%s'...", _path.toString().c_str()));
+        HECT_INFO(format("Loading '%s'...", _path.asString().c_str()));
         AssetLoader<T>::load(*_asset, _path, *_assetCache);
 
         // Remember when the file was last modified

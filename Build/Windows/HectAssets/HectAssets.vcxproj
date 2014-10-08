@@ -93,7 +93,8 @@
     <PreBuildEvent>
       <Command>mkdir "$(TargetDir)Hect"
 xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
-</Command>
+
+copy "$(ProjectDir)..\..\..\Config\HectSystemTests.config" "$(TargetDir)" /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -108,7 +109,8 @@ xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
     <PreBuildEvent>
       <Command>mkdir "$(TargetDir)Hect"
 xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
-</Command>
+
+copy "$(ProjectDir)..\..\..\Config\HectSystemTests.config" "$(TargetDir)" /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,7 +129,8 @@ xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
     <PreBuildEvent>
       <Command>mkdir "$(TargetDir)Hect"
 xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
-</Command>
+
+copy "$(ProjectDir)..\..\..\Config\HectSystemTests.config" "$(TargetDir)" /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -146,7 +149,8 @@ xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
     <PreBuildEvent>
       <Command>mkdir "$(TargetDir)Hect"
 xcopy "$(ProjectDir)..\..\..\Assets" "$(TargetDir)Hect" /s /y /d /I
-</Command>
+
+copy "$(ProjectDir)..\..\..\Config\HectSystemTests.config" "$(TargetDir)" /y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -56,6 +56,8 @@ private:
         std::vector<std::string> configFilePaths;
     };
 
+    JsonValue loadConfig(const Path& configFilePath);
+
     CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 
     std::unique_ptr<Renderer> _renderer;

@@ -79,7 +79,7 @@ public:
 
     ///
     /// Returns the raw path.
-    const std::string& toString() const;
+    const std::string& asString() const;
 
     ///
     /// Returns true if the path is less than the given path.

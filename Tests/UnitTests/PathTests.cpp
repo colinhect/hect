@@ -30,7 +30,7 @@ TEST_CASE("Path_DefaultConstructor")
 {
     Path path;
 
-    REQUIRE(path.toString() == "");
+    REQUIRE(path.asString() == "");
     REQUIRE(path.empty());
 }
 
@@ -38,7 +38,7 @@ TEST_CASE("Path_ConstructorWithOnePart")
 {
     Path path("Data");
 
-    REQUIRE(path.toString() == "Data");
+    REQUIRE(path.asString() == "Data");
     REQUIRE(!path.empty());
 }
 
@@ -46,28 +46,28 @@ TEST_CASE("Path_ConstructorWithMultipleParts")
 {
     Path path("Data/Internal/Fail.log");
 
-    REQUIRE(path.toString() == "Data/Internal/Fail.log");
+    REQUIRE(path.asString() == "Data/Internal/Fail.log");
 }
 
 TEST_CASE("Path_ConstructorWithLeadingSlash")
 {
     Path path("/Data/Internal/Fail.log");
 
-    REQUIRE(path.toString() == "Data/Internal/Fail.log");
+    REQUIRE(path.asString() == "Data/Internal/Fail.log");
 }
 
 TEST_CASE("Path_ConstructorWithTrailingSlash")
 {
     Path path("Data/Internal/");
 
-    REQUIRE(path.toString() == "Data/Internal");
+    REQUIRE(path.asString() == "Data/Internal");
 }
 
 TEST_CASE("Path_ConstructorWithLeadingAndTrailingSlash")
 {
     Path path("/Data/Internal/");
 
-    REQUIRE(path.toString() == "Data/Internal");
+    REQUIRE(path.asString() == "Data/Internal");
 }
 
 TEST_CASE("Path_Extension")
@@ -88,21 +88,21 @@ TEST_CASE("Path_Add")
 {
     Path path = Path("Data") + Path("Internal/Fail.log");
 
-    REQUIRE(path.toString() == "Data/Internal/Fail.log");
+    REQUIRE(path.asString() == "Data/Internal/Fail.log");
 }
 
 TEST_CASE("Path_AddWithEmptyFirst")
 {
     Path path = Path() + Path("Internal/Fail.log");
 
-    REQUIRE(path.toString() == "Internal/Fail.log");
+    REQUIRE(path.asString() == "Internal/Fail.log");
 }
 
 TEST_CASE("Path_AddWithEmptySecond")
 {
     Path path = Path("Data/Internal") + Path();
 
-    REQUIRE(path.toString() == "Data/Internal");
+    REQUIRE(path.asString() == "Data/Internal");
 }
 
 TEST_CASE("Path_AddEquals")
@@ -110,7 +110,7 @@ TEST_CASE("Path_AddEquals")
     Path path("Data");
     path += "Internal/Fail.log";
 
-    REQUIRE(path.toString() == "Data/Internal/Fail.log");
+    REQUIRE(path.asString() == "Data/Internal/Fail.log");
 }
 
 TEST_CASE("Path_AddEqualsFromEmpty")
@@ -119,7 +119,7 @@ TEST_CASE("Path_AddEqualsFromEmpty")
     path += "Data";
     path += "Internal/Fail.log";
 
-    REQUIRE(path.toString() == "Data/Internal/Fail.log");
+    REQUIRE(path.asString() == "Data/Internal/Fail.log");
 }
 
 TEST_CASE("Path_ParentDirectory")
@@ -127,15 +127,15 @@ TEST_CASE("Path_ParentDirectory")
     Path path("/Data/Internal/Fail.log");
 
     Path parentDirectory = path.parentDirectory();
-    REQUIRE(parentDirectory.toString() == "Data/Internal");
+    REQUIRE(parentDirectory.asString() == "Data/Internal");
     REQUIRE(!parentDirectory.empty());
 
     parentDirectory = parentDirectory.parentDirectory();
-    REQUIRE(parentDirectory.toString() == "Data");
+    REQUIRE(parentDirectory.asString() == "Data");
     REQUIRE(!parentDirectory.empty());
 
     parentDirectory = parentDirectory.parentDirectory();
-    REQUIRE(parentDirectory.toString() == "");
+    REQUIRE(parentDirectory.asString() == "");
     REQUIRE(parentDirectory.empty());
 }
 

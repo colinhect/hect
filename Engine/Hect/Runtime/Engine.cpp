@@ -32,6 +32,8 @@
 #include "Hect/Logic/GameMode.h"
 #include "Hect/Logic/GameModeRegistry.h"
 
+#include <fstream>
+#include <streambuf>
 #include <tclap/CmdLine.h>
 
 #include "Hect/Generated/_reflect_hect.h"
@@ -47,45 +49,37 @@ Engine::Engine(int argc, char* const argv[])
 
     Platform::initialize();
 
-    // Mount the base and working directory
+    // Set the base directory as the write directory
     auto baseDirectory = FileSystem::baseDirectory();
-    FileSystem::mount(baseDirectory);
-    auto workingDirectory = FileSystem::workingDirectory();
-    FileSystem::mount(workingDirectory);
-
-    // Set the working directory as the write directory
-    FileSystem::setWriteDirectory(workingDirectory);
+    FileSystem::setWriteDirectory(baseDirectory);
 
     // Load the configs specified on the command-line
     for (auto& configFilePath : arguments.configFilePaths)
     {
-        ReadStream stream = FileSystem::openFileForRead(configFilePath);
-        _config.decodeFromJson(stream);
+        _config = loadConfig(configFilePath);
     }
 
     // Load additional config files
-    std::vector<JsonValue> additionalConfigs;
-    for (auto& configFilePath : _config["additional"])
+    std::vector<JsonValue> includedConfigs;
+    for (auto& configFilePath : _config["include"])
     {
-        ReadStream stream = FileSystem::openFileForRead(configFilePath.asString());
-        JsonValue config;
-        config.decodeFromJson(stream);
-        additionalConfigs.push_back(std::move(config));
+        JsonValue config = loadConfig(configFilePath.asString());
+        includedConfigs.push_back(std::move(config));
     }
 
     // Merge additional configs back to the main config
-    for (auto& additionalConfig : additionalConfigs)
+    for (auto& includedConfig : includedConfigs)
     {
-        for (auto& memberName : additionalConfig.memberNames())
+        for (auto& memberName : includedConfig.memberNames())
         {
-            _config.addMember(memberName, additionalConfig[memberName]);
+            _config.addMember(memberName, includedConfig[memberName]);
         }
     }
 
-    // Mount the paths specified in the config
-    for (auto& path : _config["paths"])
+    // Mount the archives specified in the config
+    for (auto& archive : _config["archives"])
     {
-        FileSystem::mount(path.asString());
+        FileSystem::mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
     }
 
     _assetCache.reset(new AssetCache());
@@ -180,12 +174,48 @@ const JsonValue& Engine::config()
     return _config;
 }
 
+JsonValue Engine::loadConfig(const Path& configFilePath)
+{
+    try
+    {
+        // Read the file to a JSON string
+        std::string json;
+        {
+            std::ifstream stream(configFilePath.asString().c_str());
+            json.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
+        }
+
+        JsonValue jsonValue;
+        jsonValue.decodeFromJson(json);
+        return jsonValue;
+    }
+    catch (std::exception& exception)
+    {
+        throw Error(format("Failed to load config file '%s': %s", configFilePath.asString().c_str(), exception.what()));
+    }
+}
+
 Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* const argv[])
 {
-    CommandLineArguments arguments;
+    std::vector<std::string> argumentStrings{ argv[0] };
+
+    // If there is only one argument given then assume it is a config file path
+    if (argc == 2)
+    {
+        argumentStrings.push_back("--config");
+    }
+
+    // Add the remaining arguments
+    for (int i = 1; i < argc; ++i)
+    {
+        argumentStrings.push_back(argv[i]);
+    }
+
 
     try
     {
+        CommandLineArguments arguments;
+
         TCLAP::CmdLine cmd("Hect Engine");
         TCLAP::MultiArg<std::string> configsArg
         (
@@ -196,17 +226,17 @@ Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* co
         );
 
         cmd.add(configsArg);
-        cmd.parse(argc, argv);
+        cmd.parse(argumentStrings);
 
         for (auto& config : configsArg.getValue())
         {
             arguments.configFilePaths.push_back(config);
         }
+
+        return arguments;
     }
     catch (std::exception& exception)
     {
-        HECT_ERROR(exception.what());
+        throw Error(exception.what());
     }
-
-    return arguments;
 }

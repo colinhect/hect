@@ -122,7 +122,7 @@ Path& Path::operator+=(const Path& path)
     return *this;
 }
 
-const std::string& Path::toString() const
+const std::string& Path::asString() const
 {
     return _rawPath;
 }
@@ -153,7 +153,7 @@ namespace hect
 
 std::ostream& operator<<(std::ostream& os, const Path& path)
 {
-    return os << path.toString();
+    return os << path.asString();
 }
 
 }

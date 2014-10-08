@@ -105,7 +105,7 @@ bool AssetHandle<T>::operator!=(const AssetHandle<T>& handle) const
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& assetHandle)
 {
-    return encoder << assetHandle.path().toString();
+    return encoder << assetHandle.path().asString();
 }
 
 template <typename T>

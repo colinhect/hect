@@ -41,7 +41,7 @@ void AssetLoader<Shader>::load(Shader& shader, const Path& assetPath, AssetCache
     // when loading dependant assets
     AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
 
-    shader.setName(assetPath.toString());
+    shader.setName(assetPath.asString());
 
     JsonDecoder decoder(jsonValue, assetCache);
     decoder >> decodeValue(shader);

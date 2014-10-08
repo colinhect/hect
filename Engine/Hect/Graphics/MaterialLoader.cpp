@@ -42,7 +42,7 @@ void AssetLoader<Material>::load(Material& material, const Path& assetPath, Asse
     // when loading dependant assets
     AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
 
-    material.setName(assetPath.toString());
+    material.setName(assetPath.asString());
 
     JsonDecoder decoder(jsonValue, assetCache);
     decoder >> decodeValue(material);

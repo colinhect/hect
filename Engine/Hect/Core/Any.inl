@@ -65,7 +65,7 @@ T& Any::as() const
 
     if (!containerValue)
     {
-        throw Error{ "Invalid type" };
+        throw Error("Invalid type");
     }
 
     return containerValue->held;

@@ -32,7 +32,7 @@ using namespace hect;
 
 void AssetLoader<Mesh>::load(Mesh& mesh, const Path& assetPath, AssetCache& assetCache)
 {
-    mesh.setName(assetPath.toString());
+    mesh.setName(assetPath.asString());
 
     ReadStream stream = FileSystem::openFileForRead(assetPath);
     uint64_t identifyNumber;

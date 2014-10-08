@@ -56,7 +56,7 @@ void AssetLoader<ShaderModule>::load(ShaderModule& shaderModule, const Path& ass
     std::string source = stream.readAllToString();
 
     // Create the shader module
-    shaderModule.setName(assetPath.toString());
+    shaderModule.setName(assetPath.asString());
     shaderModule.setType(type);
     shaderModule.setSource(source);
 }

@@ -69,7 +69,8 @@ public:
     /// archive which was mounted first.
     ///
     /// \param path Path to the directory or archive to mount.
-    static void mount(const Path& path);
+    /// \param mountPoint The point to mount the path to.
+    static void mountArchive(const Path& path, const Path& mountPoint = Path());
 
     ///
     /// Opens a file for reading.

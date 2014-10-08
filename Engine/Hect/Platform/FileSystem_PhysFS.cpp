@@ -67,7 +67,7 @@ public:
         _path(path),
         _handle(nullptr)
     {
-        _handle = PHYSFS_openRead(path.toString().c_str());
+        _handle = PHYSFS_openRead(path.asString().c_str());
         if (!_handle)
         {
             throw Error(format("Failed to open file for reading: %s", PHYSFS_getLastError()));
@@ -148,7 +148,7 @@ public:
         _path(path),
         _handle(nullptr)
     {
-        _handle = PHYSFS_openWrite(path.toString().c_str());
+        _handle = PHYSFS_openWrite(path.asString().c_str());
         if (!_handle)
         {
             throw Error(format("Failed to open file for writing: %s", PHYSFS_getLastError()));
@@ -243,19 +243,29 @@ Path FileSystem::applicationDataDirectory()
 
 void FileSystem::setWriteDirectory(const Path& path)
 {
-    if (!PHYSFS_setWriteDir(path.toString().c_str()))
+    if (!PHYSFS_setWriteDir(path.asString().c_str()))
     {
         throw Error(format("Failed to set write directory: %s", PHYSFS_getLastError()));
     }
 }
 
-void FileSystem::mount(const Path& path)
+void FileSystem::mountArchive(const Path& path, const Path& mountPoint)
 {
-    HECT_INFO(format("Mounting path '%s'...", path.toString().c_str()));
+    const char* pathString = path.asString().c_str();
+    const char* mountPointString = mountPoint.asString().c_str();
 
-    if (!PHYSFS_mount(path.toString().c_str(), NULL, 0))
+    if (mountPoint.empty())
     {
-        throw Error(format("Failed to mount path: %s", PHYSFS_getLastError()));
+        HECT_INFO(format("Mounting archive '%s'...", pathString));
+    }
+    else
+    {
+        HECT_INFO(format("Mounting archive '%s' to '%s'...", pathString, mountPointString));
+    }
+
+    if (!PHYSFS_mount(pathString, mountPointString, 0))
+    {
+        throw Error(format("Failed to mount archive '%s': %s", pathString, PHYSFS_getLastError()));
     }
 }
 
@@ -271,7 +281,7 @@ WriteStream FileSystem::openFileForWrite(const Path& path)
 
 void FileSystem::createDirectory(const Path& path)
 {
-    if (!PHYSFS_mkdir(path.toString().c_str()))
+    if (!PHYSFS_mkdir(path.asString().c_str()))
     {
         throw Error(format("Failed to create directory: %s", PHYSFS_getLastError()));
     }
@@ -279,7 +289,7 @@ void FileSystem::createDirectory(const Path& path)
 
 void FileSystem::remove(const Path& path)
 {
-    if (!PHYSFS_delete(path.toString().c_str()))
+    if (!PHYSFS_delete(path.asString().c_str()))
     {
         throw Error(format("Failed to remove directory: %s", PHYSFS_getLastError()));
     }
@@ -287,10 +297,10 @@ void FileSystem::remove(const Path& path)
 
 bool FileSystem::exists(const Path& path)
 {
-    return PHYSFS_exists(path.toString().c_str()) != 0;
+    return PHYSFS_exists(path.asString().c_str()) != 0;
 }
 
 TimeStamp FileSystem::lastModified(const Path& path)
 {
-    return PHYSFS_getLastModTime(path.toString().c_str());
+    return PHYSFS_getLastModTime(path.asString().c_str());
 }

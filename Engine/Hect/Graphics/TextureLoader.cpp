@@ -39,7 +39,7 @@ void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCa
     // when loading dependant assets
     AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
 
-    texture.setName(assetPath.toString());
+    texture.setName(assetPath.asString());
 
     JsonDecoder decoder(jsonValue, assetCache);
     decoder >> decodeValue(texture);
