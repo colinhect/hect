@@ -60,8 +60,20 @@ public:
     /// Removes all passes.
     void clearPasses();
 
+    ///
+    /// Returns whether the technique is equivalent to another.
+    ///
+    /// \param technique The other technique.
     bool operator==(const Technique& technique) const;
+
+    ///
+    /// Returns whether the technique is different from another.
+    ///
+    /// \param technique The other technique.
     bool operator!=(const Technique& technique) const;
+
+    friend Encoder& operator<<(Encoder& encoder, const Technique& technique);
+    friend Decoder& operator>>(Decoder& decoder, Technique& technique);
 
 private:
     PassContainer _passes;

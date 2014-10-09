@@ -9,19 +9,11 @@
     <ClCompile Include="..\..\..\Tests\SystemTests\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Tests\SystemTests\MaterialEncodingTests.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Tests\SystemTests\Utilities.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Tests\SystemTests\WorldTests.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\Tests\SystemTests\Utilities.h">
+    <ClCompile Include="..\..\..\Tests\SystemTests\EncodingTests.cpp">
       <Filter>Source</Filter>
-    </ClInclude>
+    </ClCompile>
   </ItemGroup>
 </Project>

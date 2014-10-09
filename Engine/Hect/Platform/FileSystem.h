@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <vector>
+
 #include "Hect/IO/Path.h"
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
@@ -104,6 +106,13 @@ public:
     /// \param path The path to the directory to create relative to the
     /// write directory path.
     static void createDirectory(const Path& path);
+
+    ///
+    /// Returns the paths to all files in a given directory.
+    ///
+    /// \param path The path of the directory to return the paths of the files
+    /// it contains.
+    static std::vector<Path> filesInDirectory(const Path& path);
 
     ///
     /// Removes the file or directory at the given path.  If the path does

@@ -155,17 +155,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Tests\SystemTests\Main.cpp" />
-    <ClCompile Include="..\..\..\Tests\SystemTests\MaterialEncodingTests.cpp" />
-    <ClCompile Include="..\..\..\Tests\SystemTests\Utilities.cpp" />
+    <ClCompile Include="..\..\..\Tests\SystemTests\EncodingTests.cpp" />
     <ClCompile Include="..\..\..\Tests\SystemTests\WorldTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HectEngine\HectEngine.vcxproj">
       <Project>{eafd1572-5569-4643-a694-7f8f8d66e3ae}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\Tests\SystemTests\Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,9 @@
+{
+    "techniques": [
+        [
+            {
+                "shader": "Shader_01.shader"
+            }
+        ]
+    ]
+}

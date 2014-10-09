@@ -109,8 +109,20 @@ public:
     /// \param uniformValue The uniform value.
     void addUniformValue(const std::string& name, const UniformValue& uniformValue);
 
+    ///
+    /// Returns whether the pass is equivalent to another.
+    ///
+    /// \param pass The other pass.
     bool operator==(const Pass& pass) const;
+
+    ///
+    /// Returns whether the pass is different from another.
+    ///
+    /// \param pass The other pass.
     bool operator!=(const Pass& pass) const;
+
+    friend Encoder& operator<<(Encoder& encoder, const Pass& pass);
+    friend Decoder& operator>>(Decoder& decoder, Pass& pass);
 
 private:
 

@@ -1,0 +1,62 @@
+{
+    "techniques": [
+        [
+            {
+                "shader": "Shader_01.shader",
+                "uniformValues": [
+                    {
+                        "type": "Vector3",
+                        "name": "someVector",
+                        "value": [
+                            1.0,
+                            2.0,
+                            3.0
+                        ]
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "renderState": {
+                    "disabledFlags": [
+                        "DepthTest",
+                        "DepthWrite",
+                        "CullFace"
+                    ]
+                },
+                "shader": "Shader_02.shader"
+            }
+        ],
+        [
+            {
+                "uniformValues": [
+                    {
+                        "type": "Vector3",
+                        "name": "someVector",
+                        "value": [
+                            4.0,
+                            5.0,
+                            6.0
+                        ]
+                    },
+                    {
+                        "type": "Float",
+                        "name": "someFloat",
+                        "value": 123.0
+                    }
+                ],
+                "renderState": {
+                    "enabledFlags": [
+                        "DepthTest"
+                    ],
+                    "disabledFlags": [
+                        "DepthWrite",
+                        "CullFace"
+                    ]
+                },
+                "shader": "Shader_01.shader"
+            }
+        ]
+    ]
+}

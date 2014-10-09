@@ -287,6 +287,21 @@ void FileSystem::createDirectory(const Path& path)
     }
 }
 
+std::vector<Path> FileSystem::filesInDirectory(const Path& path)
+{
+    char** paths = PHYSFS_enumerateFiles(path.asString().c_str());
+
+    std::vector<Path> resultingPaths;
+    for (char** i = paths; *i != nullptr; ++i)
+    {
+        resultingPaths.push_back(path + *i);
+    }
+
+    PHYSFS_freeList(paths);
+
+    return resultingPaths;
+}
+
 void FileSystem::remove(const Path& path)
 {
     if (!PHYSFS_delete(path.asString().c_str()))

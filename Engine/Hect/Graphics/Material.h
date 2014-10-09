@@ -86,7 +86,20 @@ public:
     /// \throws Error If the material does not have any techniques.
     Technique& preferedTechnique();
 
+    ///
+    /// Returns whether the material is equivalent to another.
+    ///
+    /// \note Does not compare the name.
+    ///
+    /// \param material The other material.
     bool operator==(const Material& material) const;
+
+    ///
+    /// Returns whether the material is different from another.
+    ///
+    /// \note Does not compare the name.
+    ///
+    /// \param material The other material.
     bool operator!=(const Material& material) const;
 
     friend Encoder& operator<<(Encoder& encoder, const Material& material);

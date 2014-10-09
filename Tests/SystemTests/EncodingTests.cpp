@@ -21,21 +21,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/IO/Encoder.h>
-#include <Hect/IO/Decoder.h>
-#include <Hect/IO/JsonEncoder.h>
-#include <Hect/IO/JsonDecoder.h>
-#include <Hect/IO/BinaryEncoder.h>
+#include <Hect/Graphics/Material.h>
 #include <Hect/IO/BinaryDecoder.h>
-#include <Hect/IO/MemoryWriteStream.h>
+#include <Hect/IO/BinaryEncoder.h>
+#include <Hect/IO/JsonDecoder.h>
+#include <Hect/IO/JsonEncoder.h>
 #include <Hect/IO/MemoryReadStream.h>
+#include <Hect/IO/MemoryWriteStream.h>
 #include <Hect/Runtime/Engine.h>
+
 using namespace hect;
 
-#include <functional>
+#include <catch.hpp>
 
 extern Engine* engine;
 
+// Loads the asset at the given path and verifies that re-encoding and decoding
+// the asset results in equivalence for both binary and JSON encoding
 template <typename T>
 void testEncoding(const Path& assetPath)
 {
@@ -81,4 +83,29 @@ void testEncoding(const Path& assetPath)
             REQUIRE(asset == decodedAsset);
         }
     }
+}
+
+// Loads all files of a certain extension and verifies that re-encoding and
+// decoding the asset results in equivalence for both binary and JSON encoding
+template <typename T>
+void testEncodingForExtension(const std::string& extension)
+{
+    for (auto& filePath : FileSystem::filesInDirectory(""))
+    {
+        if (filePath.extension() == extension)
+        {
+            testEncoding<T>(filePath);
+        }
+    }
+
+}
+
+TEST_CASE("MaterialEncoding")
+{
+    testEncodingForExtension<Material>("material");
+}
+
+TEST_CASE("ShaderEncoding")
+{
+    testEncodingForExtension<Shader>("shader");
 }

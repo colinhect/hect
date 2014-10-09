@@ -67,3 +67,18 @@ bool Technique::operator!=(const Technique& technique) const
 {
     return !(*this == technique);
 }
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const Technique& technique)
+{
+    return encoder << encodeVector(technique._passes);
+}
+
+Decoder& operator>>(Decoder& decoder, Technique& technique)
+{
+    return decoder >> decodeVector(technique._passes);
+}
+
+}
