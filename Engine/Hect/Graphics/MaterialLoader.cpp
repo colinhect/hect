@@ -21,29 +21,17 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/IO/AssetCache.h"
 #include "Hect/IO/AssetLoader.h"
-#include "Hect/IO/JsonValue.h"
-#include "Hect/IO/JsonDecoder.h"
+#include "Hect/IO/AssetCache.h"
+#include "Hect/IO/AssetDecoder.h"
 #include "Hect/Graphics/Material.h"
-#include "Hect/Platform/FileSystem.h"
 
 using namespace hect;
 
 void AssetLoader<Material>::load(Material& material, const Path& assetPath, AssetCache& assetCache)
 {
-    JsonValue jsonValue;
-    {
-        ReadStream stream = FileSystem::openFileForRead(assetPath);
-        jsonValue.decodeFromJson(stream);
-    }
-
-    // Select the asset's parent directory so that relative paths can be used
-    // when loading dependant assets
-    AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
-
     material.setName(assetPath.asString());
 
-    JsonDecoder decoder(jsonValue, assetCache);
+    AssetDecoder decoder(assetCache, assetPath);
     decoder >> decodeValue(material);
 }

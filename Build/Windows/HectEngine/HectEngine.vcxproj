@@ -66,7 +66,6 @@
     <ClInclude Include="..\..\..\Engine\Hect\IO\AssetLoader.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\BinaryDecoder.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\BinaryEncoder.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\IO\Data.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\AssetDecoder.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\Decoder.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\Encoder.h" />
@@ -181,7 +180,6 @@
     <ClCompile Include="..\..\..\Engine\Hect\IO\BinaryDecoder.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\BinaryEncoder.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\AssetDecoder.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\IO\DataLoader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\Decoder.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\Encoder.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\Encoders\ImagePngEncoder.cpp" />

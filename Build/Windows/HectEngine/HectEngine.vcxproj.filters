@@ -342,9 +342,6 @@
     <ClInclude Include="..\..\..\Engine\Hect\Reflection\Enum.h">
       <Filter>Source\Hect\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\IO\Data.h">
-      <Filter>Source\Hect\IO</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Platform\Platform.h">
       <Filter>Source\Hect\Platform</Filter>
     </ClInclude>
@@ -649,9 +646,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Reflection\Enum.cpp">
       <Filter>Source\Hect\Reflection</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Engine\Hect\IO\DataLoader.cpp">
-      <Filter>Source\Hect\IO</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Platform\Platform_SDL.cpp">
       <Filter>Source\Hect\Platform</Filter>

@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Path.h"
 
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
+
 using namespace hect;
 
 const char pathDelimiter = '/';
@@ -150,6 +153,19 @@ void Path::setRawPath(const char* rawPath)
 
 namespace hect
 {
+
+Encoder& operator<<(Encoder& encoder, const Path& path)
+{
+    return encoder << encodeValue(path.asString());
+}
+
+Decoder& operator>>(Decoder& decoder, Path& path)
+{
+    std::string rawPath;
+    decoder >> decodeValue(rawPath);
+    path = Path(rawPath);
+    return decoder;
+}
 
 std::ostream& operator<<(std::ostream& os, const Path& path)
 {

@@ -24,7 +24,6 @@
 #include "AssetDecoder.h"
 
 #include "Hect/IO/AssetCache.h"
-#include "Hect/IO/Data.h"
 #include "Hect/IO/BinaryDecoder.h"
 #include "Hect/IO/JsonDecoder.h"
 
@@ -34,18 +33,29 @@ namespace hect
 AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
     Decoder(assetCache)
 {
-    Data& data = assetCache.get<Data>(path);
-    assetCache.selectDirectory(path.parentDirectory());
+    Path resolvedPath = assetCache.resolvePath(path);
 
-    if (!data.jsonValue.isNull())
+    ReadStream stream = FileSystem::openFileForRead(resolvedPath);
+    uint8_t firstCharacter;
+    stream >> firstCharacter;
+    if (firstCharacter == '{')
     {
-        _implementation = std::make_unique<JsonDecoder>(data.jsonValue, assetCache);
+        stream.seek(0);
+        _jsonValue.decodeFromJson(stream);
+        _implementation = std::make_unique<JsonDecoder>(_jsonValue, assetCache);
     }
     else
     {
-        _binaryReadStream = std::make_unique<MemoryReadStream>(data.binaryData);
-        _implementation = std::make_unique<BinaryDecoder>(*_binaryReadStream, assetCache);
+        stream.seek(0);
+        size_t length = stream.length();
+        _data.resize(length);
+        stream.read(&_data[0], length);
+
+        _stream = std::make_unique<MemoryReadStream>(_data);
+        _implementation = std::make_unique<BinaryDecoder>(*_stream, assetCache);
     }
+
+    assetCache.selectDirectory(path.parentDirectory());
 }
 
 AssetDecoder::~AssetDecoder()

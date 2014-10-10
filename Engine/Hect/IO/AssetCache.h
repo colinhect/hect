@@ -41,28 +41,6 @@ class AssetCache :
     public Uncopyable
 {
 public:
-
-    ///
-    /// Selects a directory for the asset cache to first check for assets for
-    /// the duration of its lifetime.
-    class SelectDirectoryScope :
-        public Uncopyable
-    {
-    public:
-
-        ///
-        /// Constructs the scope given the asset cache it affects along with
-        /// path to the directory to select.
-        ///
-        /// \param assetCache The asset cache to select the directory for.
-        /// \param directoryPath The path to the directory to select.
-        SelectDirectoryScope(AssetCache& assetCache, const Path& directoryPath);
-
-        ~SelectDirectoryScope();
-
-        AssetCache* _assetCache;
-    };
-
     AssetCache();
 
     ///
@@ -99,6 +77,13 @@ public:
     ///
     /// Returns the task pool.
     TaskPool& taskPool();
+
+    ///
+    /// Returns the full path to an asset given a partial path based on the
+    /// the selected directory.
+    ///
+    /// \param path The path to resolve.
+    Path resolvePath(const Path& path);
 
     ///
     /// Selects the given directory as the preferred directory for the current

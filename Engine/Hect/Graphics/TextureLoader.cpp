@@ -23,24 +23,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/IO/AssetLoader.h"
 #include "Hect/IO/AssetCache.h"
-#include "Hect/IO/JsonDecoder.h"
-#include "Hect/IO/JsonValue.h"
+#include "Hect/IO/AssetDecoder.h"
 #include "Hect/Graphics/Texture.h"
 
 using namespace hect;
 
 void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCache& assetCache)
 {
-    ReadStream stream = FileSystem::openFileForRead(assetPath);
-    JsonValue jsonValue;
-    jsonValue.decodeFromJson(stream);
-
-    // Select the asset's parent directory so that relative paths can be used
-    // when loading dependant assets
-    AssetCache::SelectDirectoryScope scope(assetCache, assetPath.parentDirectory());
-
     texture.setName(assetPath.asString());
 
-    JsonDecoder decoder(jsonValue, assetCache);
+    AssetDecoder decoder(assetCache, assetPath);
     decoder >> decodeValue(texture);
 }

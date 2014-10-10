@@ -91,6 +91,12 @@ private:
     std::string _rawPath;
 };
 
+class Encoder;
+class Decoder;
+
+Encoder& operator<<(Encoder& encoder, const Path& path);
+Decoder& operator>>(Decoder& decoder, Path& path);
+
 ///
 /// Outputs a path to a stream.
 ///

@@ -25,17 +25,6 @@
 
 using namespace hect;
 
-AssetCache::SelectDirectoryScope::SelectDirectoryScope(AssetCache& assetCache, const Path& directoryPath) :
-    _assetCache(&assetCache)
-{
-    _assetCache->selectDirectory(directoryPath);
-}
-
-AssetCache::SelectDirectoryScope::~SelectDirectoryScope()
-{
-    _assetCache->restoreDirectory();
-}
-
 AssetCache::AssetCache()
 {
 }
@@ -57,6 +46,28 @@ void AssetCache::clear()
 TaskPool& AssetCache::taskPool()
 {
     return _taskPool;
+}
+
+Path AssetCache::resolvePath(const Path& path)
+{
+    std::lock_guard<std::recursive_mutex> lock(_mutex);
+
+    Path resolvedPath = path;
+
+    const std::stack<Path>& pathStack = _selectedDirectoryStack[std::this_thread::get_id()];
+
+    // If there is a selected directory
+    if (!pathStack.empty())
+    {
+        // If there is an asset relative to the selected directory
+        if (FileSystem::exists(pathStack.top() + path))
+        {
+            // Use that asset
+            resolvedPath = pathStack.top() + path;
+        }
+    }
+
+    return resolvedPath;
 }
 
 void AssetCache::selectDirectory(const Path& directoryPath)

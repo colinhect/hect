@@ -26,7 +26,7 @@
 #include <cstddef>
 
 #include "Hect/IO/AssetCache.h"
-#include "Hect/IO/JsonDecoder.h"
+#include "Hect/IO/AssetDecoder.h"
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/Logic/World.h"
 
@@ -807,13 +807,11 @@ void Entity::decode(Decoder& decoder)
     {
         if (decoder.selectMember("archetype"))
         {
-            AssetHandle<JsonValue> archetypeJsonValue;
-            decoder >> decodeValue(archetypeJsonValue);
+            Path archetypePath;
+            decoder >> decodeValue(archetypePath);
 
-            AssetCache::SelectDirectoryScope scope(decoder.assetCache(), archetypeJsonValue.path().parentDirectory());
-
-            JsonDecoder jsonDecoder(*archetypeJsonValue, decoder.assetCache());
-            jsonDecoder >> decodeValue(*this);
+            AssetDecoder archetypeDecoder(decoder.assetCache(), archetypePath);
+            archetypeDecoder >> decodeValue(*this);
         }
     }
 

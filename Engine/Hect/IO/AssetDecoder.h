@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/JsonValue.h"
 #include "Hect/IO/MemoryReadStream.h"
 #include "Hect/IO/Path.h"
 
@@ -31,7 +32,8 @@ namespace hect
 {
 
 class AssetDecoder :
-    public Decoder
+    public Decoder,
+    public Uncopyable
 {
 public:
 
@@ -76,7 +78,10 @@ public:
 
 private:
     std::unique_ptr<Decoder> _implementation;
-    std::unique_ptr<MemoryReadStream> _binaryReadStream;
+
+    JsonValue _jsonValue;
+    std::vector<uint8_t> _data;
+    std::unique_ptr<MemoryReadStream> _stream;
 };
 
 }

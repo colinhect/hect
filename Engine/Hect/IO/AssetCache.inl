@@ -39,29 +39,16 @@ AssetHandle<T> AssetCache::getHandle(const Path& path)
 
     std::shared_ptr<AssetEntry<T>> entry;
 
-    auto it = _entries.find(path);
+    Path resolvedPath = resolvePath(path);
+
+    auto it = _entries.find(resolvedPath);
     if (it == _entries.end())
     {
-        Path assetPath = path;
-
-        std::stack<Path>& pathStack = _selectedDirectoryStack[std::this_thread::get_id()];
-
-        // If there is a preferred directory set
-        if (!pathStack.empty())
-        {
-            // If there is an asset relative to the preferred directory
-            if (FileSystem::exists(pathStack.top() + path))
-            {
-                // Use that asset
-                assetPath = pathStack.top() + path;
-            }
-        }
-
         // First time this asset was requested so create a new entry
-        entry.reset(new AssetEntry<T>(*this, assetPath));
+        entry.reset(new AssetEntry<T>(*this, resolvedPath));
 
         // Add the new entry to the entry map
-        _entries[path] = entry;
+        _entries[resolvedPath] = entry;
     }
     else
     {
@@ -72,7 +59,7 @@ AssetHandle<T> AssetCache::getHandle(const Path& path)
         // type
         if (!entry)
         {
-            throw Error(format("Asset '%s' is not of the expected type", path.asString().c_str()));
+            throw Error(format("Asset '%s' is not of the expected type", resolvedPath.asString().c_str()));
         }
     }
 
