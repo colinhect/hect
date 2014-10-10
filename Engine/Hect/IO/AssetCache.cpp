@@ -25,7 +25,8 @@
 
 using namespace hect;
 
-AssetCache::AssetCache()
+AssetCache::AssetCache(bool concurrent) :
+    _taskPool(0, concurrent)
 {
 }
 

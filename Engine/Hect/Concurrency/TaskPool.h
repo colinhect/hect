@@ -47,14 +47,11 @@ class TaskPool :
 public:
 
     ///
-    /// Constructs a task pool which spawns new threads as they are needed.
-    TaskPool();
-
-    ///
     /// Constructs a task pool with a specific number of worker threads.
     ///
     /// \param threadCount The number of worker threads.
-    TaskPool(size_t threadCount);
+    /// \param adaptive Whether to spawn additional worker threads if needed.
+    TaskPool(size_t threadCount, bool adaptive = false);
 
     ///
     /// Waits until all running tasks complete (ignores any enqueued tasks

@@ -41,7 +41,13 @@ class AssetCache :
     public Uncopyable
 {
 public:
-    AssetCache();
+
+    ///
+    /// Constructs an asset cache.
+    ///
+    /// \param concurrent Whether assets should be loaded on concurrent
+    /// threads.
+    AssetCache(bool concurrent);
 
     ///
     /// Returns a reference to the asset at the given path.

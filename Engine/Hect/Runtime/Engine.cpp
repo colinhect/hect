@@ -68,7 +68,8 @@ Engine::Engine(int argc, char* const argv[])
         }
     }
 
-    _assetCache.reset(new AssetCache());
+    bool concurrent = _config["assetCache"]["concurrent"].or(false).asBool();
+    _assetCache.reset(new AssetCache(concurrent));
 
     const JsonValue& videoModeValue = _config["videoMode"];
     if (!videoModeValue.isNull())

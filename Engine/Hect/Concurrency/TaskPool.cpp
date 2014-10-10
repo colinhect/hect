@@ -25,12 +25,8 @@
 
 using namespace hect;
 
-TaskPool::TaskPool()
-{
-}
-
-TaskPool::TaskPool(size_t threadCount) :
-    _adaptive(false)
+TaskPool::TaskPool(size_t threadCount, bool adaptive) :
+    _adaptive(adaptive)
 {
     initializeThreads(threadCount);
 }
