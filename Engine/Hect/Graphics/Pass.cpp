@@ -27,17 +27,19 @@
 
 using namespace hect;
 
-Pass::Pass() :
-    _resolvedFromShader(nullptr)
-{
-}
-
 void Pass::prepare(Renderer& renderer)
 {
+    if (!_shader)
+    {
+        throw Error("Pass does not have a shader");
+    }
+
+    // If the shader changed or the uniform value instances have not yet been
+    // resolved
     Shader& shader = *_shader;
     if (_resolvedFromShader != &shader)
     {
-        resolvePassUniformValues(shader);
+        resolveUniformValueInstances(shader);
     }
 
     // Bind the render state
@@ -63,31 +65,6 @@ void Pass::prepare(Renderer& renderer)
     }
 }
 
-const RenderState& Pass::renderState() const
-{
-    return _renderState;
-}
-
-void Pass::setRenderState(const RenderState& renderState)
-{
-    _renderState = renderState;
-}
-
-const Pass::TextureSequence Pass::textures() const
-{
-    return _textures;
-}
-
-void Pass::addTexture(const AssetHandle<Texture>& texture)
-{
-    _textures.push_back(texture);
-}
-
-void Pass::clearTextures()
-{
-    _textures.clear();
-}
-
 const AssetHandle<Shader>& Pass::shader() const
 {
     return _shader;
@@ -105,16 +82,41 @@ const Pass::UniformValueSequence Pass::uniformValues() const
 
 void Pass::addUniformValue(const std::string& name, const UniformValue& uniformValue)
 {
-    _uniformValues.push_back(PassUniformValue(name, uniformValue));
+    _uniformValues.push_back(UniformValueInstance(name, uniformValue));
 }
 
-void Pass::resolvePassUniformValues(Shader& shader)
+const Pass::TextureSequence Pass::textures() const
+{
+    return _textures;
+}
+
+void Pass::addTexture(const AssetHandle<Texture>& texture)
+{
+    _textures.push_back(texture);
+}
+
+void Pass::clearTextures()
+{
+    _textures.clear();
+}
+
+const RenderState& Pass::renderState() const
+{
+    return _renderState;
+}
+
+void Pass::setRenderState(const RenderState& renderState)
+{
+    _renderState = renderState;
+}
+
+void Pass::resolveUniformValueInstances(Shader& shader)
 {
     _resolvedUniformValues.clear();
 
     // Resolve the uniforms that the uniform values refer to (this would be
     // invalidated if the shader changes)
-    for (const PassUniformValue& uniformValue : _uniformValues)
+    for (const UniformValueInstance& uniformValue : _uniformValues)
     {
         const Uniform& uniform = shader.uniformWithName(uniformValue.name());
         _resolvedUniformValues[&uniform] = uniformValue.value();
@@ -174,206 +176,22 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Pass& pass)
 {
-    encoder << beginObject();
-
-    // Shader
-    if (pass.shader())
-    {
-        encoder << encodeValue("shader", pass.shader());
-    }
-    else
-    {
-        throw Error("Pass has no shader");
-    }
-
-    // Uniform values
-    {
-        encoder << beginArray("uniformValues");
-        for (const PassUniformValue& uniformValue : pass.uniformValues())
-        {
-            encoder << beginObject()
-                << encodeValue("name", uniformValue.name())
-                << encodeValue(uniformValue.value())
-                << endObject();
-        }
-        encoder << endArray();
-    }
-
-    // Textures
-    {
-        encoder << beginArray("textures");
-        for (const AssetHandle<Texture>& texture : pass.textures())
-        {
-            encoder << texture;
-        }
-        encoder << endArray();
-    }
-
-    // Render state
-    {
-        encoder << beginObject("renderState");
-
-        // Bulld a list of all states
-        size_t stateCount = 4;
-        RenderStateFlag states[] =
-        {
-            RenderStateFlag_Blend,
-            RenderStateFlag_DepthTest,
-            RenderStateFlag_DepthWrite,
-            RenderStateFlag_CullFace
-        };
-
-        // Build a list of enabled/disabled states
-        std::vector<RenderStateFlag> enabledFlags;
-        std::vector<RenderStateFlag> disabledFlags;
-        for (size_t i = 0; i < stateCount; ++i)
-        {
-            if (pass.renderState().isEnabled(states[i]))
-            {
-                enabledFlags.push_back(states[i]);
-            }
-            else
-            {
-                disabledFlags.push_back(states[i]);
-            }
-        }
-
-        // Enabled states
-        {
-            encoder << beginArray("enabledFlags");
-
-            for (const RenderStateFlag& flag : enabledFlags)
-            {
-                encoder << encodeEnum(flag);
-            }
-
-            encoder << endArray();
-        }
-
-        // Disabled states
-        {
-            encoder << beginArray("disabledFlags");
-
-            for (const RenderStateFlag& flag : disabledFlags)
-            {
-                encoder << encodeEnum(flag);
-            }
-
-            encoder << endArray();
-        }
-
-        // Blend factors
-        {
-            encoder << beginArray("blendFactors");
-            encoder << encodeEnum(pass.renderState().sourceBlendFactor());
-            encoder << encodeEnum(pass.renderState().destBlendFactor());
-            encoder << endArray();
-        }
-
-        encoder << endObject();
-    }
-    encoder << endObject();
-
-    return encoder;
+    return encoder << beginObject()
+        << encodeValue("shader", pass.shader())
+        << encodeVector("uniformValues", pass._uniformValues)
+        << encodeVector("textures", pass._textures)
+        << encodeValue("renderState", pass._renderState)
+        << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, Pass& pass)
 {
-    // Passes
-    decoder >> beginObject();
-
-    // Shader
-    AssetHandle<Shader> shader;
-    decoder >> decodeValue("shader", shader);
-    pass.setShader(shader);
-
-    // Uniform values
-    if (decoder.selectMember("uniformValues"))
-    {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
-        {
-            decoder >> beginObject();
-
-            std::string name;
-            decoder >> decodeValue("name", name);
-
-            UniformValue value;
-            decoder >> decodeValue(value);
-
-            pass.addUniformValue(name, value);
-
-            decoder >> endObject();
-        }
-        decoder >> endArray();
-    }
-
-    // Textures
-    if (decoder.selectMember("textures"))
-    {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
-        {
-            AssetHandle<Texture> texture;
-            decoder >> decodeValue(texture);
-            pass.addTexture(texture);
-        }
-        decoder >> endArray();
-    }
-
-    // Render state
-    if (decoder.selectMember("renderState"))
-    {
-        decoder >> beginObject();
-
-        RenderState renderState;
-
-        // Enabled states
-        if (decoder.selectMember("enabledFlags"))
-        {
-            decoder >> beginArray();
-            while (decoder.hasMoreElements())
-            {
-                RenderStateFlag flag;
-                decoder >> decodeEnum(flag);
-                renderState.enable(flag);
-            }
-            decoder >> endArray();
-        }
-
-        // Disabled states
-        if (decoder.selectMember("disabledFlags"))
-        {
-            decoder >> beginArray();
-            while (decoder.hasMoreElements())
-            {
-                RenderStateFlag flag;
-                decoder >> decodeEnum(flag);
-                renderState.disable(flag);
-            }
-            decoder >> endArray();
-        }
-
-        // Blend factors
-        if (decoder.selectMember("blendFactors"))
-        {
-            decoder >> beginArray();
-
-            BlendFactor sourceFactor, destFactor;
-            decoder >> decodeEnum(sourceFactor)
-                >> decodeEnum(destFactor);
-
-            renderState.setBlendFactors(sourceFactor, destFactor);
-
-            decoder >> endArray();
-        }
-
-        decoder >> endObject();
-
-        pass.setRenderState(renderState);
-    }
-    decoder >> endObject();
-    return decoder;
+    return decoder >> beginObject()
+        >> decodeValue("shader", pass._shader)
+        >> decodeVector("uniformValues", pass._uniformValues)
+        >> decodeVector("textures", pass._textures)
+        >> decodeValue("renderState", pass._renderState)
+        >> endObject();
 }
 
 }

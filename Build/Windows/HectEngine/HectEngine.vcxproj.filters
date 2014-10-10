@@ -129,9 +129,6 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Pass.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\PassUniformValue.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Renderer.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -426,6 +423,9 @@
     <ClInclude Include="..\..\..\Engine\Hect\IO\AssetDecoder.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Engine\Hect\Core\Any.cpp">
@@ -468,9 +468,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Pass.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\PassUniformValue.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Renderer.cpp">
@@ -727,6 +724,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\IO\AssetDecoder.cpp">
       <Filter>Source\Hect\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

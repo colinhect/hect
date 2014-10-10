@@ -22,6 +22,9 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Graphics/Material.h>
+#include <Hect/Graphics/Mesh.h>
+#include <Hect/Graphics/Shader.h>
+#include <Hect/Graphics/Texture.h>
 #include <Hect/IO/BinaryDecoder.h>
 #include <Hect/IO/BinaryEncoder.h>
 #include <Hect/IO/JsonDecoder.h>
@@ -105,7 +108,18 @@ TEST_CASE("MaterialEncoding")
     testEncodingForExtension<Material>("material");
 }
 
+TEST_CASE("MeshEncoding")
+{
+    testEncodingForExtension<Mesh>("mesh");
+}
+
 TEST_CASE("ShaderEncoding")
 {
     testEncodingForExtension<Shader>("shader");
 }
+
+TEST_CASE("TextureEncoding")
+{
+    testEncodingForExtension<Texture>("texture");
+}
+

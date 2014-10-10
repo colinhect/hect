@@ -2,7 +2,11 @@
     "techniques": [
         [
             {
-                "shader": "Shader_01.shader"
+                "shader": "Shader_01.shader",
+                "textures":
+                [
+                    "Texture_01.texture"
+                ]
             }
         ],
         [

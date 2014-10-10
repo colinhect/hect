@@ -25,6 +25,9 @@
 
 #include <cstdint>
 
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
+
 namespace hect
 {
 
@@ -137,6 +140,10 @@ class VertexAttribute
 public:
 
     ///
+    /// Constructs a default vertex attribute.
+    VertexAttribute();
+
+    ///
     /// Constructs a vertex attribute.
     ///
     /// \param semantic The semantic.
@@ -176,11 +183,14 @@ public:
     /// \param vertexAttribute The other attribute.
     bool operator!=(const VertexAttribute& vertexAttribute) const;
 
+    friend Encoder& operator<<(Encoder& encoder, const VertexAttribute& vertexAttribute);
+    friend Decoder& operator>>(Decoder& decoder, VertexAttribute& vertexAttribute);
+
 private:
-    VertexAttributeSemantic _semantic;
-    VertexAttributeType _type;
-    unsigned _cardinality;
-    unsigned _offset;
+    VertexAttributeSemantic _semantic{ VertexAttributeSemantic_Position };
+    VertexAttributeType _type{ VertexAttributeType_Float32 };
+    unsigned _cardinality{ 3 };
+    unsigned _offset{ 0 };
 };
 
 }

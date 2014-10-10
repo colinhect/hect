@@ -38,11 +38,6 @@ VertexLayout VertexLayout::createDefault()
     return vertexLayout;
 }
 
-VertexLayout::VertexLayout() :
-    _vertexSize(0)
-{
-}
-
 void VertexLayout::addAttribute(const VertexAttribute& attribute)
 {
     _attributes.push_back(attribute);
@@ -141,42 +136,22 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout)
 {
-    encoder << beginObject()
-            << beginArray("attributes");
-    for (const VertexAttribute& attribute : vertexLayout.attributes())
-    {
-        encoder << beginObject()
-                << encodeEnum("semantic", attribute.semantic())
-                << encodeEnum("type", attribute.type())
-                << encodeValue("cardinality", attribute.cardinality())
-                << endObject();
-    }
-    return encoder << endArray() << endObject();
+    return encoder << beginObject()
+        << encodeVector("attributes", vertexLayout._attributes)
+        << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, VertexLayout& vertexLayout)
 {
     vertexLayout.clearAttributes();
 
-    // Attributes
-    decoder >> beginArray("attributes");
-    while (decoder.hasMoreElements())
-    {
-        VertexAttributeSemantic semantic;
-        VertexAttributeType type;
-        unsigned cardinality;
+    decoder >> beginObject()
+        >> decodeVector("attributes", vertexLayout._attributes)
+        >> endObject();
 
-        decoder >> beginObject()
-                >> decodeEnum("semantic", semantic)
-                >> decodeEnum("type", type)
-                >> decodeValue("cardinality", cardinality)
-                >> endObject();
+    vertexLayout.computeAttributeOffsets();
 
-        // Append the new attribute
-        VertexAttribute attribute(semantic, type, cardinality);
-        vertexLayout.addAttribute(attribute);
-    }
-    return decoder >> endArray();
+    return decoder;
 }
 
 }

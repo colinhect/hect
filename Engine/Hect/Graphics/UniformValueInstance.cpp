@@ -21,33 +21,58 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "PassUniformValue.h"
+#include "UniformValueInstance.h"
 
 using namespace hect;
 
-PassUniformValue::PassUniformValue(const std::string& name, const UniformValue& value) :
+UniformValueInstance::UniformValueInstance()
+{
+}
+
+UniformValueInstance::UniformValueInstance(const std::string& name, const UniformValue& value) :
     _name(name),
     _value(value)
 {
 }
 
-const std::string& PassUniformValue::name() const
+const std::string& UniformValueInstance::name() const
 {
     return _name;
 }
 
-const UniformValue& PassUniformValue::value() const
+const UniformValue& UniformValueInstance::value() const
 {
     return _value;
 }
 
-bool PassUniformValue::operator==(const PassUniformValue& passUniformValue) const
+bool UniformValueInstance::operator==(const UniformValueInstance& uniformValueInstance) const
 {
-    return _name == passUniformValue.name()
-           && _value == passUniformValue.value();
+    return _name == uniformValueInstance.name()
+           && _value == uniformValueInstance.value();
 }
 
-bool PassUniformValue::operator!=(const PassUniformValue& passUniformValue) const
+bool UniformValueInstance::operator!=(const UniformValueInstance& uniformValueInstance) const
 {
-    return !(*this == passUniformValue);
+    return !(*this == uniformValueInstance);
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const UniformValueInstance& uniformValueInstance)
+{
+    return encoder << beginObject()
+        << encodeValue("name", uniformValueInstance._name)
+        << encodeValue(uniformValueInstance._value)
+        << endObject();
+}
+
+Decoder& operator>>(Decoder& decoder, UniformValueInstance& uniformValueInstance)
+{
+    return decoder >> beginObject()
+        >> decodeValue("name", uniformValueInstance._name)
+        >> decodeValue(uniformValueInstance._value)
+        >> endObject();
+}
+
 }

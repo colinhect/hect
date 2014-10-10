@@ -310,7 +310,7 @@ void Renderer::bindState(const RenderState& state)
         GL_ASSERT(glEnable(GL_BLEND));
 
         GLuint sourceFactor = _blendFactorLookUp[(int)state.sourceBlendFactor()];
-        GLuint destFactor = _blendFactorLookUp[(int)state.destBlendFactor()];
+        GLuint destFactor = _blendFactorLookUp[(int)state.destinationBlendFactor()];
 
         GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
     }

@@ -23,25 +23,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <vector>
-
 #include "Hect/Graphics/UniformValue.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
 
 ///
-/// A pass's value for a uniform.
-class PassUniformValue
+/// An instance of a specific value bound to a uniform by name.
+class UniformValueInstance
 {
 public:
+    UniformValueInstance();
 
     ///
-    /// Constructs an pass uniform value given a name an a value.
+    /// Constructs an uniform value instance given the name of that uniform
+    /// that the value is an instance for and the value itself.
     ///
-    /// \param name The name of the uniform.
+    /// \param name The name of the uniform to bind to.
     /// \param value The value.
-    PassUniformValue(const std::string& name, const UniformValue& value);
+    UniformValueInstance(const std::string& name, const UniformValue& value);
 
     ///
     /// Returns the name of the uniform.
@@ -52,16 +54,19 @@ public:
     const UniformValue& value() const;
 
     ///
-    /// Returns whether the pass uniform value is equivalent to another.
+    /// Returns whether the uniform value instance is equivalent to another.
     ///
-    /// \param passUniformValue The other pass uniform value.
-    bool operator==(const PassUniformValue& passUniformValue) const;
+    /// \param uniformValueInstance The other uniform value instance.
+    bool operator==(const UniformValueInstance& uniformValueInstance) const;
 
     ///
-    /// Returns whether the pass uniform value is different from another.
+    /// Returns whether the uniform value instance is different from another.
     ///
-    /// \param passUniformValue The other pass uniform value.
-    bool operator!=(const PassUniformValue& passUniformValue) const;
+    /// \param uniformValueInstance The other uniform value instance.
+    bool operator!=(const UniformValueInstance& uniformValueInstance) const;
+
+    friend Encoder& operator<<(Encoder& encoder, const UniformValueInstance& uniformValueInstance);
+    friend Decoder& operator>>(Decoder& decoder, UniformValueInstance& uniformValueInstance);
 
 private:
     std::string _name;

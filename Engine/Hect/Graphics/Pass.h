@@ -27,10 +27,10 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/AssetHandle.h"
-#include "Hect/Graphics/PassUniformValue.h"
 #include "Hect/Graphics/RenderState.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
+#include "Hect/Graphics/UniformValueInstance.h"
 
 namespace hect
 {
@@ -43,7 +43,7 @@ namespace hect
 class Pass
 {
     typedef std::vector<AssetHandle<Texture>> TextureContainer;
-    typedef std::vector<PassUniformValue> UniformValueContainer;
+    typedef std::vector<UniformValueInstance> UniformValueContainer;
 public:
 
     ///
@@ -52,41 +52,13 @@ public:
 
     ///
     /// A sequence of pass uniform values.
-    typedef Sequence<PassUniformValue, UniformValueContainer> UniformValueSequence;
-
-    ///
-    /// Constructs an empty pass.
-    Pass();
+    typedef Sequence<UniformValueInstance, UniformValueContainer> UniformValueSequence;
 
     ///
     /// Prepares a renderer to begin using this pass.
     ///
     /// \param renderer The renderer to prepare.
     void prepare(Renderer& renderer);
-
-    ///
-    /// Returns the render state.
-    const RenderState& renderState() const;
-
-    ///
-    /// Sets the render state that the pass will bind.
-    ///
-    /// \param renderState The render state.
-    void setRenderState(const RenderState& renderState);
-
-    ///
-    /// Returns the textures.
-    const TextureSequence textures() const;
-
-    ///
-    /// Adds a texture.
-    ///
-    /// \param texture The texture to add.
-    void addTexture(const AssetHandle<Texture>& texture);
-
-    ///
-    /// Removes all textures.
-    void clearTextures();
 
     ///
     /// Returns the shader.
@@ -110,6 +82,30 @@ public:
     void addUniformValue(const std::string& name, const UniformValue& uniformValue);
 
     ///
+    /// Returns the textures.
+    const TextureSequence textures() const;
+
+    ///
+    /// Adds a texture.
+    ///
+    /// \param texture The texture to add.
+    void addTexture(const AssetHandle<Texture>& texture);
+
+    ///
+    /// Removes all textures.
+    void clearTextures();
+
+    ///
+    /// Returns the render state.
+    const RenderState& renderState() const;
+
+    ///
+    /// Sets the render state that the pass will bind.
+    ///
+    /// \param renderState The render state.
+    void setRenderState(const RenderState& renderState);
+
+    ///
     /// Returns whether the pass is equivalent to another.
     ///
     /// \param pass The other pass.
@@ -126,17 +122,16 @@ public:
 
 private:
 
-    // Resolves which uniforms the uniform values apply to for fast
-    // binding
-    void resolvePassUniformValues(Shader& shader);
+    // Resolves which uniforms the uniform values apply to for fast binding
+    void resolveUniformValueInstances(Shader& shader);
 
-    RenderState _renderState;
-    TextureContainer _textures;
     AssetHandle<Shader> _shader;
-
     UniformValueContainer _uniformValues;
+    TextureContainer _textures;
+    RenderState _renderState;
+
     std::map<const Uniform*, UniformValue> _resolvedUniformValues;
-    Shader* _resolvedFromShader;
+    Shader* _resolvedFromShader{ nullptr };
 };
 
 }

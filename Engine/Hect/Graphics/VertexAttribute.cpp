@@ -25,11 +25,14 @@
 
 using namespace hect;
 
+VertexAttribute::VertexAttribute()
+{
+}
+
 VertexAttribute::VertexAttribute(VertexAttributeSemantic semantic, VertexAttributeType type, unsigned cardinality) :
     _semantic(semantic),
     _type(type),
-    _cardinality(cardinality),
-    _offset(0)
+    _cardinality(cardinality)
 {
 }
 
@@ -86,4 +89,27 @@ bool VertexAttribute::operator==(const VertexAttribute& vertexAttribute) const
 bool VertexAttribute::operator!=(const VertexAttribute& vertexAttribute) const
 {
     return !(*this == vertexAttribute);
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const VertexAttribute& vertexAttribute)
+{
+    return encoder << beginObject()
+        << encodeEnum("semantic", vertexAttribute._semantic)
+        << encodeEnum("type", vertexAttribute._type)
+        << encodeValue("cardinality", vertexAttribute._cardinality)
+        << endObject();
+}
+
+Decoder& operator>>(Decoder& decoder, VertexAttribute& vertexAttribute)
+{
+    return decoder >> beginObject()
+        >> decodeEnum("semantic", vertexAttribute._semantic)
+        >> decodeEnum("type", vertexAttribute._type)
+        >> decodeValue("cardinality", vertexAttribute._cardinality)
+        >> endObject();
+}
+
 }

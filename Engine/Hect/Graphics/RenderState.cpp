@@ -25,13 +25,6 @@
 
 using namespace hect;
 
-RenderState::RenderState() :
-    _flagBits(RenderStateFlag_DepthTest | RenderStateFlag_CullFace),
-    _sourceFactor(BlendFactor_One),
-    _destFactor(BlendFactor_One)
-{
-}
-
 void RenderState::enable(RenderStateFlag flag)
 {
     _flagBits |= flag;
@@ -47,10 +40,10 @@ bool RenderState::isEnabled(RenderStateFlag flag) const
     return (_flagBits & flag) == flag;
 }
 
-void RenderState::setBlendFactors(BlendFactor sourceFactor, BlendFactor destFactor)
+void RenderState::setBlendFactors(BlendFactor source, BlendFactor destination)
 {
-    _sourceFactor = sourceFactor;
-    _destFactor = destFactor;
+    _sourceFactor = source;
+    _destinationFactor = destination;
 }
 
 BlendFactor RenderState::sourceBlendFactor() const
@@ -58,19 +51,136 @@ BlendFactor RenderState::sourceBlendFactor() const
     return _sourceFactor;
 }
 
-BlendFactor RenderState::destBlendFactor() const
+BlendFactor RenderState::destinationBlendFactor() const
 {
-    return _destFactor;
+    return _destinationFactor;
 }
 
 bool RenderState::operator==(const RenderState& renderState) const
 {
     return _flagBits == renderState._flagBits
-           && _sourceFactor == renderState.sourceBlendFactor()
-           && _destFactor == renderState.destBlendFactor();
+        && _sourceFactor == renderState._sourceFactor
+        && _destinationFactor == renderState._destinationFactor;
 }
 
 bool RenderState::operator!=(const RenderState& renderState) const
 {
     return !(*this == renderState);
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const RenderState& renderState)
+{
+    encoder << beginObject();
+
+    if (encoder.isBinaryStream())
+    {
+        WriteStream& stream = encoder.binaryStream();
+        stream << renderState._flagBits;
+    }
+    else
+    {
+        // Bulld a list of all states
+        size_t stateCount = 4;
+        RenderStateFlag states[] =
+        {
+            RenderStateFlag_Blend,
+            RenderStateFlag_DepthTest,
+            RenderStateFlag_DepthWrite,
+            RenderStateFlag_CullFace
+        };
+
+        // Build a list of enabled/disabled states
+        std::vector<RenderStateFlag> enabledFlags;
+        std::vector<RenderStateFlag> disabledFlags;
+        for (size_t i = 0; i < stateCount; ++i)
+        {
+            if (renderState.isEnabled(states[i]))
+            {
+                enabledFlags.push_back(states[i]);
+            }
+            else
+            {
+                disabledFlags.push_back(states[i]);
+            }
+        }
+
+        // Enabled states
+        encoder << beginArray("enabledFlags");
+        for (const RenderStateFlag& flag : enabledFlags)
+        {
+            encoder << encodeEnum(flag);
+        }
+        encoder << endArray();
+
+        // Disabled states
+        encoder << beginArray("disabledFlags");
+        for (const RenderStateFlag& flag : disabledFlags)
+        {
+            encoder << encodeEnum(flag);
+        }
+        encoder << endArray();
+    }
+
+    // Blend factors
+    encoder << beginObject("blendFactors")
+        << encodeEnum("source", renderState._sourceFactor)
+        << encodeEnum("destination", renderState._destinationFactor)
+        << endObject();
+
+    encoder << endObject();
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, RenderState& renderState)
+{
+    decoder >> beginObject();
+
+    if (decoder.isBinaryStream())
+    {
+        ReadStream& stream = decoder.binaryStream();
+        stream >> renderState._flagBits;
+    }
+    else
+    {
+        // Enabled states
+        if (decoder.selectMember("enabledFlags"))
+        {
+            decoder >> beginArray();
+            while (decoder.hasMoreElements())
+            {
+                RenderStateFlag flag;
+                decoder >> decodeEnum(flag);
+                renderState.enable(flag);
+            }
+            decoder >> endArray();
+        }
+
+        // Disabled states
+        if (decoder.selectMember("disabledFlags"))
+        {
+            decoder >> beginArray();
+            while (decoder.hasMoreElements())
+            {
+                RenderStateFlag flag;
+                decoder >> decodeEnum(flag);
+                renderState.disable(flag);
+            }
+            decoder >> endArray();
+        }
+    }
+
+    // Blend factors
+    decoder >> beginObject("blendFactors")
+        >> decodeEnum("source", renderState._sourceFactor)
+        >> decodeEnum("destination", renderState._destinationFactor)
+        >> endObject();
+
+    decoder >> endObject();
+
+    return decoder;
+}
+
 }

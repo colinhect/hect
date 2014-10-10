@@ -319,19 +319,10 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
     {
         encoder << encodeValue("identifyNumber", Mesh::IdentifyNumber);
     }
-
-    // Vertex layout
-    {
-        encoder << beginObject("vertexLayout")
-                << encodeValue(mesh.vertexLayout())
-                << endObject();
-    }
-
-    // Index type
-    encoder << encodeEnum("indexType", mesh.indexType());
-
-    // Primitive type
-    encoder << encodeEnum("primitiveType", mesh.primitiveType());
+    
+    encoder << encodeValue("vertexLayout", mesh.vertexLayout())
+        << encodeEnum("indexType", mesh.indexType())
+        << encodeEnum("primitiveType", mesh.primitiveType());
 
     if (encoder.isBinaryStream())
     {
@@ -358,68 +349,57 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
         MeshReader reader(mesh);
 
         // Vertex data
+        encoder << beginArray("vertices");
+        while (reader.nextVertex())
         {
-            encoder << beginArray("vertices");
-            while (reader.nextVertex())
+            encoder << beginArray();
+            for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
             {
                 encoder << beginArray();
-                for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
+                VertexAttributeSemantic semantic = attribute.semantic();
+
+                encoder << encodeEnum(semantic);
+
+                unsigned cardinality = attribute.cardinality();
+                if (cardinality == 1)
                 {
-                    encoder << beginArray();
-                    VertexAttributeSemantic semantic = attribute.semantic();
-
-                    encoder << encodeEnum(semantic);
-
-                    unsigned cardinality = attribute.cardinality();
-                    if (cardinality == 1)
-                    {
-                        encoder << encodeValue(reader.readAttributeReal(semantic));
-                    }
-                    else if (cardinality == 2)
-                    {
-                        encoder << encodeValue(reader.readAttributeVector2(semantic));
-                    }
-                    else if (cardinality == 3)
-                    {
-                        encoder << encodeValue(reader.readAttributeVector3(semantic));
-                    }
-                    else if (cardinality == 4)
-                    {
-                        encoder << encodeValue(reader.readAttributeVector4(semantic));
-                    }
-                    encoder << endArray();
+                    encoder << encodeValue(reader.readAttributeReal(semantic));
+                }
+                else if (cardinality == 2)
+                {
+                    encoder << encodeValue(reader.readAttributeVector2(semantic));
+                }
+                else if (cardinality == 3)
+                {
+                    encoder << encodeValue(reader.readAttributeVector3(semantic));
+                }
+                else if (cardinality == 4)
+                {
+                    encoder << encodeValue(reader.readAttributeVector4(semantic));
                 }
                 encoder << endArray();
             }
             encoder << endArray();
         }
+        encoder << endArray();
 
         // Index data
+        encoder << beginArray("indices");
+        while (reader.nextIndex())
         {
-            encoder << beginArray("indices");
-            while (reader.nextIndex())
-            {
-                switch (mesh.indexType())
-                {
-                case IndexType_UInt8:
-                    encoder << encodeValue(reader.readIndexUInt8());
-                    break;
-                case IndexType_UInt16:
-                    encoder << encodeValue(reader.readIndexUInt16());
-                    break;
-                case IndexType_UInt32:
-                    encoder << encodeValue(reader.readIndexUInt32());
-                    break;
-                }
-            }
-            encoder << endArray();
+            encoder << encodeValue(reader.readIndexUInt32());
         }
+        encoder << endArray();
     }
+    encoder << endObject();
+
     return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Mesh& mesh)
 {
+    decoder >> beginObject();
+
     if (decoder.isBinaryStream())
     {
         uint64_t identifyNumber;
@@ -432,34 +412,19 @@ Decoder& operator>>(Decoder& decoder, Mesh& mesh)
     }
 
     // Vertex layout
-    if (decoder.selectMember("vertexLayout"))
-    {
-        decoder >> beginObject();
-
-        VertexLayout vertexLayout;
-        decoder >> decodeValue(vertexLayout);
-        mesh.setVertexLayout(vertexLayout);
-
-        decoder >> endObject();
-    }
+    VertexLayout vertexLayout = mesh._vertexLayout;
+    decoder >> decodeValue("vertexLayout", vertexLayout);
+    mesh.setVertexLayout(vertexLayout);
 
     // Index type
-    if (decoder.selectMember("indexType"))
-    {
-        IndexType indexType;
-        decoder >> decodeEnum(indexType);
-
-        mesh.setIndexType(indexType);
-    }
+    IndexType indexType = mesh._indexType;
+    decoder >> decodeEnum("indexType", indexType);
+    mesh.setIndexType(indexType);
 
     // Primitive type
-    if (decoder.selectMember("primitiveType"))
-    {
-        PrimitiveType primitiveType;
-        decoder >> decodeEnum(primitiveType);
-
-        mesh.setPrimitiveType(primitiveType);
-    }
+    PrimitiveType primitiveType = mesh._primitiveType;
+    decoder >> decodeEnum("primitiveType", primitiveType);
+    mesh.setPrimitiveType(primitiveType);
 
     // Vertex and index data
     if (decoder.isBinaryStream())
@@ -566,22 +531,12 @@ Decoder& operator>>(Decoder& decoder, Mesh& mesh)
             decoder >> beginArray();
             while (decoder.hasMoreElements())
             {
-                switch (mesh.indexType())
-                {
-                case IndexType_UInt8:
-                    meshWriter.addIndex(decoder.decodeUInt8());
-                    break;
-                case IndexType_UInt16:
-                    meshWriter.addIndex(decoder.decodeUInt16());
-                    break;
-                case IndexType_UInt32:
-                    meshWriter.addIndex(decoder.decodeUInt32());
-                    break;
-                }
+                meshWriter.addIndex(decoder.decodeUInt32());
             }
             decoder >> endArray();
         }
     }
+    decoder >> endObject();
 
     return decoder;
 }

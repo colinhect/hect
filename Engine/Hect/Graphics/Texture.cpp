@@ -29,20 +29,12 @@
 
 using namespace hect;
 
-Texture::Texture() :
-    _type(TextureType_2D),
-    _width(0),
-    _height(0),
-    _minFilter(TextureFilter_Linear),
-    _magFilter(TextureFilter_Linear),
-    _mipmapped(true),
-    _wrapped(false)
+Texture::Texture()
 {
 }
 
 Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
     _name(name),
-    _type(TextureType_2D),
     _width(width),
     _height(height),
     _pixelType(pixelType),
@@ -61,14 +53,7 @@ Texture::Texture(const std::string& name, unsigned width, unsigned height, Pixel
 }
 
 Texture::Texture(const std::string& name, const AssetHandle<Image>& image) :
-    _name(name),
-    _type(TextureType_2D),
-    _width(0),
-    _height(0),
-    _minFilter(TextureFilter_Linear),
-    _magFilter(TextureFilter_Linear),
-    _mipmapped(true),
-    _wrapped(false)
+    _name(name)
 {
     addSourceImage(image);
 }
@@ -260,11 +245,73 @@ unsigned Texture::bytesPerPixel() const
     return _bytesPerPixelLookUp[_pixelFormat][_pixelType];
 }
 
+bool Texture::operator==(const Texture& texture) const
+{
+    if (_type != texture._type)
+    {
+        return false;
+    }
+
+    if (_sourceImages.size() != texture._sourceImages.size())
+    {
+        return false;
+    }
+
+    for (size_t i = 0; i < _sourceImages.size(); ++i)
+    {
+        if (_sourceImages[i] != texture._sourceImages[i])
+        {
+            return false;
+        }
+    }
+
+    if (_width != texture._width && _height != texture._height)
+    {
+        return false;
+    }
+
+    if (_pixelType != texture._pixelType && _pixelFormat != texture._pixelFormat)
+    {
+        return false;
+    }
+
+    if (_minFilter != texture._minFilter && _magFilter != texture._magFilter)
+    {
+        return false;
+    }
+
+    if (_mipmapped != texture._mipmapped && _wrapped != texture._wrapped)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool Texture::operator!=(const Texture& texture) const
+{
+    return !(*this == texture);
+}
+
 namespace hect
 {
 
+Encoder& operator<<(Encoder& encoder, const Texture& texture)
+{
+    return encoder << beginObject()
+        << encodeEnum("type", texture._type)
+        << encodeVector("images", texture._sourceImages)
+        << encodeEnum("minFilter", texture._minFilter)
+        << encodeEnum("magFilter", texture._magFilter)
+        << encodeValue("wrapped", texture._wrapped)
+        << encodeValue("mipmapped", texture._mipmapped)
+        << endObject();
+}
+
 Decoder& operator>>(Decoder& decoder, Texture& texture)
 {
+    decoder >> beginObject();
+
     // Type
     if (decoder.selectMember("type"))
     {
@@ -285,10 +332,13 @@ Decoder& operator>>(Decoder& decoder, Texture& texture)
         }
     }
 
-    return decoder >> decodeEnum("minFilter", texture._minFilter)
-           >> decodeEnum("magFilter", texture._magFilter)
-           >> decodeValue("wrapped", texture._wrapped)
-           >> decodeValue("mipmapped", texture._mipmapped);
+    decoder >> decodeEnum("minFilter", texture._minFilter)
+        >> decodeEnum("magFilter", texture._magFilter)
+        >> decodeValue("wrapped", texture._wrapped)
+        >> decodeValue("mipmapped", texture._mipmapped)
+        >> endObject();
+
+    return decoder;
 }
 
 }

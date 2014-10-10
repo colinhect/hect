@@ -218,25 +218,42 @@ public:
     /// Returns the number of bytes in a pixel of this texture.
     unsigned bytesPerPixel() const;
 
+    ///
+    /// Returns whether the texture is equivalent to another.
+    ///
+    /// \note Does not compare the name.
+    ///
+    /// \param texture The other texture.
+    bool operator==(const Texture& texture) const;
+
+    ///
+    /// Returns whether the texture is different from another.
+    ///
+    /// \note Does not compare the name.
+    ///
+    /// \param texture The other texture.
+    bool operator!=(const Texture& texture) const;
+
+    friend Encoder& operator<<(Encoder& encoder, const Texture& texture);
     friend Decoder& operator>>(Decoder& decoder, Texture& texture);
 
 private:
     std::string _name;
-    TextureType _type;
+    TextureType _type{ TextureType_2D };
 
     ImageContainer _sourceImages;
 
-    unsigned _width;
-    unsigned _height;
+    unsigned _width{ 0 };
+    unsigned _height{ 0 };
 
-    PixelType _pixelType;
-    PixelFormat _pixelFormat;
+    PixelType _pixelType{ PixelType_Byte };
+    PixelFormat _pixelFormat{ PixelFormat_Rgba };
 
-    TextureFilter _minFilter;
-    TextureFilter _magFilter;
+    TextureFilter _minFilter{ TextureFilter_Linear };
+    TextureFilter _magFilter{ TextureFilter_Linear };
 
-    bool _mipmapped;
-    bool _wrapped;
+    bool _mipmapped{ true };
+    bool _wrapped{ false };
 };
 
 }

@@ -53,7 +53,12 @@
                     "disabledFlags": [
                         "DepthWrite",
                         "CullFace"
-                    ]
+                    ],
+                    "blendFactors":
+                    {
+                        "source": "One",
+                        "destination": "SourceAlpha"
+                    }
                 },
                 "shader": "Shader_01.shader"
             }

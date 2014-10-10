@@ -23,12 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
+
 namespace hect
 {
 
 ///
-/// A formula used to compute blending from either the source or
-/// destination.
+/// A formula used to compute blending from either the source or destination.
 enum BlendFactor
 {
     ///
@@ -72,7 +74,6 @@ enum BlendFactor
     BlendFactor_OneMinusDestAlpha
 };
 
-
 ///
 /// A flag that can either be enabled or disabled in a render state.
 enum RenderStateFlag
@@ -102,10 +103,6 @@ class RenderState
 public:
 
     ///
-    /// Constructs a default render state.
-    RenderState();
-
-    ///
     /// Enables a flag.
     ///
     /// \param flag The flag to enable.
@@ -126,9 +123,9 @@ public:
     ///
     /// Sets the source and destination blend factors.
     ///
-    /// \param sourceFactor The source factor.
-    /// \param destFactor The destination factor.
-    void setBlendFactors(BlendFactor sourceFactor, BlendFactor destFactor);
+    /// \param source The source factor.
+    /// \param destination The destination factor.
+    void setBlendFactors(BlendFactor source, BlendFactor destination);
 
     ///
     /// Returns the source blend factor.
@@ -136,7 +133,7 @@ public:
 
     ///
     /// Returns the destination blend factor.
-    BlendFactor destBlendFactor() const;
+    BlendFactor destinationBlendFactor() const;
 
     ///
     /// Returns whether the render state is equivalent to another.
@@ -150,10 +147,13 @@ public:
     /// \param renderState The other render state.
     bool operator!=(const RenderState& renderState) const;
 
+    friend Encoder& operator<<(Encoder& encoder, const RenderState& renderState);
+    friend Decoder& operator>>(Decoder& decoder, RenderState& renderState);
+
 private:
-    int _flagBits;
-    BlendFactor _sourceFactor;
-    BlendFactor _destFactor;
+    uint16_t _flagBits{ RenderStateFlag_DepthTest | RenderStateFlag_CullFace };
+    BlendFactor _sourceFactor{ BlendFactor_One };
+    BlendFactor _destinationFactor{ BlendFactor_One };
 };
 
 }

@@ -1,0 +1,7 @@
+{
+    "type": "2D",
+    "images": [
+        "Texture_01.png"
+    ],
+    "wrapped": true
+}

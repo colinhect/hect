@@ -47,10 +47,6 @@ public:
     static VertexLayout createDefault();
 
     ///
-    /// Constructs an empty vertex layout.
-    VertexLayout();
-
-    ///
     /// Appends an attribute to the end of the layout.
     ///
     /// \param attribute The new attribute to add.
@@ -106,7 +102,7 @@ private:
     void computeAttributeOffsets();
 
     AttributeContainer _attributes;
-    unsigned _vertexSize;
+    unsigned _vertexSize{ 0 };
 };
 
 }

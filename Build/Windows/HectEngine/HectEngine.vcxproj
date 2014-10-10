@@ -39,7 +39,7 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\MeshReader.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\MeshWriter.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Pass.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\PassUniformValue.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Renderer.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RendererObject.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderState.h" />
@@ -152,7 +152,7 @@
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\MeshReader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\MeshWriter.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Pass.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\PassUniformValue.cpp" />
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Renderer.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RendererObject.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderState.cpp" />
