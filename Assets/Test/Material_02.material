@@ -1,18 +1,21 @@
 {
     "techniques": [
-        [
-            {
-                "shader": "Shader_01.shader",
-                "textures":
-                [
-                    "Texture_01.texture"
-                ]
-            }
-        ],
-        [
-            {
-                "shader": "Shader_02.shader"
-            }
-        ]
+        {
+            "passes": [
+                {
+                    "shader": "Shader_01.shader",
+                    "textures": [
+                        "Texture_01.texture"
+                    ]
+                }
+            ]
+        },
+        {
+            "passes": [
+                {
+                    "shader": "Shader_02.shader"
+                }
+            ]
+        }
     ]
 }

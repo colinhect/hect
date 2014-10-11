@@ -1,16 +1,18 @@
 {
     "techniques": [
-        [
-            {
-                "renderState": {
-                    "disabledFlags": [
-                        "DepthTest",
-                        "DepthWrite",
-                        "CullFace"
-                    ]
-                },
-                "shader": "SkyBox.shader"
-            }
-        ]
+        {
+            "passes": [
+                {
+                    "renderState": {
+                        "disabledFlags": [
+                            "DepthTest",
+                            "DepthWrite",
+                            "CullFace"
+                        ]
+                    },
+                    "shader": "SkyBox.shader"
+                }
+            ]
+        }
     ]
 }
