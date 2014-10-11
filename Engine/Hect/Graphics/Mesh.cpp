@@ -30,8 +30,6 @@
 
 using namespace hect;
 
-const uint64_t Mesh::IdentifyNumber = 0x84629573;
-
 Mesh::Mesh() :
     _vertexLayout(VertexLayout::createDefault()),
     _primitiveType(PrimitiveType_Triangles),
@@ -314,11 +312,6 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
 {
     encoder << beginObject();
-
-    if (encoder.isBinaryStream())
-    {
-        encoder << encodeValue("identifyNumber", Mesh::IdentifyNumber);
-    }
     
     encoder << encodeValue("vertexLayout", mesh.vertexLayout())
         << encodeEnum("indexType", mesh.indexType())
@@ -399,18 +392,7 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
 Decoder& operator>>(Decoder& decoder, Mesh& mesh)
 {
     decoder >> beginObject();
-
-    if (decoder.isBinaryStream())
-    {
-        uint64_t identifyNumber;
-        decoder >> decodeValue("identifyNumber", identifyNumber);
-
-        if (identifyNumber != Mesh::IdentifyNumber)
-        {
-            throw Error("Binary data does not represent a mesh");
-        }
-    }
-
+    
     // Vertex layout
     VertexLayout vertexLayout = mesh._vertexLayout;
     decoder >> decodeValue("vertexLayout", vertexLayout);

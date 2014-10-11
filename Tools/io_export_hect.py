@@ -68,7 +68,6 @@ def export_mesh(obj, path):
 
     out = open(path + "." + obj.name + ".mesh", 'wb')
 
-    out.write(struct.pack("<Q", 0x84629573))
     out.write(struct.pack("<I", 2))
 
     out.write(struct.pack("<B", VertexAttributeSemantic_Position))

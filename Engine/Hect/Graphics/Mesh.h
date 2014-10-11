@@ -68,8 +68,6 @@ class Mesh :
     friend class MeshWriter;
 public:
 
-    static const uint64_t IdentifyNumber;
-
     ///
     /// Raw vertex data.
     typedef std::vector<uint8_t> VertexData;
