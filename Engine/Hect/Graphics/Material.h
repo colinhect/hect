@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/Technique.h"
+#include "Hect/IO/Asset.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -33,7 +34,8 @@ namespace hect
 
 ///
 /// The manner in which a surface is rendered.
-class Material
+class Material :
+    public Asset
 {
     typedef std::vector<Technique> TechniqueContainer;
 public:
@@ -51,16 +53,6 @@ public:
     ///
     /// \param name The name of the material.
     Material(const std::string& name);
-
-    ///
-    /// Returns the name.
-    const std::string& name() const;
-
-    ///
-    /// Sets the name.
-    ///
-    /// \param name The new name.
-    void setName(const std::string& name);
 
     ///
     /// Returns the techniques.
@@ -106,7 +98,6 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Material& material);
 
 private:
-    std::string _name;
     TechniqueContainer _techniques;
 };
 

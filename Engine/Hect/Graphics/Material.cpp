@@ -30,18 +30,8 @@ Material::Material()
 }
 
 Material::Material(const std::string& name) :
-    _name(name)
+    Asset(name)
 {
-}
-
-const std::string& Material::name() const
-{
-    return _name;
-}
-
-void Material::setName(const std::string& name)
-{
-    _name = name;
 }
 
 Material::TechniqueSequence Material::techniques()

@@ -34,7 +34,7 @@ Texture::Texture()
 }
 
 Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
-    _name(name),
+    Asset(name),
     _width(width),
     _height(height),
     _pixelType(pixelType),
@@ -53,7 +53,7 @@ Texture::Texture(const std::string& name, unsigned width, unsigned height, Pixel
 }
 
 Texture::Texture(const std::string& name, const AssetHandle<Image>& image) :
-    _name(name)
+    Asset(name)
 {
     addSourceImage(image);
 }
@@ -64,16 +64,6 @@ Texture::~Texture()
     {
         renderer().destroyTexture(*this);
     }
-}
-
-const std::string& Texture::name() const
-{
-    return _name;
-}
-
-void Texture::setName(const std::string& name)
-{
-    _name = name;
 }
 
 TextureType Texture::type()

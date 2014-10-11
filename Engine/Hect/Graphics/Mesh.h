@@ -25,6 +25,7 @@
 
 #include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/VertexLayout.h"
+#include "Hect/IO/Asset.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/Spacial/AxisAlignedBox.h"
@@ -63,6 +64,7 @@ enum IndexType
 ///
 /// A mesh of vertices and indices.
 class Mesh :
+    public Asset,
     public RendererObject
 {
     friend class MeshWriter;
@@ -103,16 +105,6 @@ public:
     ///
     /// Destroys the shader if it is uploaded.
     ~Mesh();
-
-    ///
-    /// Returns the name.
-    const std::string& name() const;
-
-    ///
-    /// Sets the name.
-    ///
-    /// \param name The new name.
-    void setName(const std::string& name);
 
     ///
     /// Returns the vertex layout.
@@ -247,8 +239,6 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Mesh& mesh);
 
 private:
-    std::string _name;
-
     VertexLayout _vertexLayout;
     PrimitiveType _primitiveType;
     IndexType _indexType;

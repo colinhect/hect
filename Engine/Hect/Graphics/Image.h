@@ -26,6 +26,10 @@
 #include <cstdint>
 #include <vector>
 
+#include "Hect/IO/Asset.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
+
 namespace hect
 {
 
@@ -77,7 +81,8 @@ enum PixelFormat
 
 ///
 /// A 2-dimensional image.
-class Image
+class Image :
+    public Asset
 {
 public:
 
@@ -161,6 +166,9 @@ public:
     ///
     /// Returns the number of bytes in a pixel of this image.
     unsigned bytesPerPixel() const;
+
+    friend Encoder& operator<<(Encoder& encoder, const Image& image);
+    friend Decoder& operator>>(Decoder& decoder, Image& image);
 
 private:
     unsigned _width { 0 };

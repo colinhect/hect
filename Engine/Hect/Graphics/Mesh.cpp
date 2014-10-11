@@ -40,7 +40,7 @@ Mesh::Mesh() :
 }
 
 Mesh::Mesh(const std::string& name) :
-    _name(name),
+    Asset(name),
     _vertexLayout(VertexLayout::createDefault()),
     _primitiveType(PrimitiveType_Triangles),
     _indexType(IndexType_UInt16),
@@ -50,8 +50,8 @@ Mesh::Mesh(const std::string& name) :
 }
 
 Mesh::Mesh(const Mesh& mesh) :
+    Asset(mesh),
     RendererObject(mesh),
-    _name(mesh._name),
     _vertexLayout(mesh._vertexLayout),
     _primitiveType(mesh._primitiveType),
     _indexType(mesh._indexType),
@@ -64,8 +64,8 @@ Mesh::Mesh(const Mesh& mesh) :
 }
 
 Mesh::Mesh(Mesh&& mesh) :
+    Asset(mesh),
     RendererObject(mesh),
-    _name(std::move(mesh._name)),
     _vertexLayout(std::move(mesh._vertexLayout)),
     _primitiveType(mesh._primitiveType),
     _indexType(mesh._indexType),
@@ -83,16 +83,6 @@ Mesh::~Mesh()
     {
         renderer().destroyMesh(*this);
     }
-}
-
-const std::string& Mesh::name() const
-{
-    return _name;
-}
-
-void Mesh::setName(const std::string& name)
-{
-    _name = name;
 }
 
 const VertexLayout& Mesh::vertexLayout() const
@@ -269,9 +259,9 @@ Mesh& Mesh::operator=(const Mesh& mesh)
         renderer().destroyMesh(*this);
     }
 
+    Asset::operator=(mesh);
     RendererObject::operator=(mesh);
 
-    _name = mesh.name();
     _vertexLayout = mesh.vertexLayout();
     _primitiveType = mesh.primitiveType();
     _indexType = mesh.indexType();
@@ -291,9 +281,9 @@ Mesh& Mesh::operator=(Mesh&& mesh)
         renderer().destroyMesh(*this);
     }
 
+    Asset::operator=(mesh);
     RendererObject::operator=(mesh);
 
-    _name = std::move(mesh.name());
     _vertexLayout = std::move(mesh.vertexLayout());
     _primitiveType = mesh.primitiveType();
     _indexType = mesh.indexType();

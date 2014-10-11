@@ -24,7 +24,7 @@
 #include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Logging.h"
 #include "Hect/Core/Format.h"
-#include "Hect/IO/AssetLoader.h"
+#include "Hect/IO/AssetDecoder.h"
 #include "Hect/Platform/FileSystem.h"
 
 namespace hect
@@ -104,7 +104,11 @@ void AssetEntry<T>::load()
     try
     {
         HECT_INFO(format("Loading '%s'...", _path.asString().c_str()));
-        AssetLoader<T>::load(*_asset, _path, *_assetCache);
+
+        _asset->setName(_path.asString());
+
+        AssetDecoder decoder(*_assetCache, _path);
+        decoder >> decodeValue(*_asset);
 
         // Remember when the file was last modified
         _lastModified = FileSystem::lastModified(_path);

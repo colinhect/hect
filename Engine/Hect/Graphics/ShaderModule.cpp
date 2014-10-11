@@ -27,73 +27,25 @@
 
 using namespace hect;
 
-ShaderModule::ShaderModule() :
-    _type(ShaderModuleType_Vertex)
+ShaderModule::ShaderModule(ShaderModuleType type, const Path& sourcePath, const std::string& source) :
+    _type(type),
+    _sourcePath(sourcePath),
+    _source(source)
 {
 }
-
-ShaderModule::ShaderModule(const ShaderModule& shaderModule) :
-    RendererObject(shaderModule),
-    _name(shaderModule._name),
-    _type(shaderModule._type),
-    _source(shaderModule._source)
-{
-}
-
-ShaderModule::ShaderModule(ShaderModule&& shaderModule) :
-    RendererObject(shaderModule),
-    _name(std::move(shaderModule._name)),
-    _type(shaderModule._type),
-    _source(std::move(shaderModule._source))
-{
-}
-
-ShaderModule::~ShaderModule()
-{
-    if (isUploaded())
-    {
-        renderer().destroyShaderModule(*this);
-    }
-}
-
-const std::string& ShaderModule::name() const
-{
-    return _name;
-}
-
-void ShaderModule::setName(const std::string& name)
-{
-    _name = name;
-}
-
 ShaderModuleType ShaderModule::type() const
 {
     return _type;
 }
 
-void ShaderModule::setType(ShaderModuleType type)
+const Path& ShaderModule::sourcePath() const
 {
-    if (isUploaded())
-    {
-        renderer().destroyShaderModule(*this);
-    }
-
-    _type = type;
+    return _sourcePath;
 }
 
 const std::string& ShaderModule::source() const
 {
     return _source;
-}
-
-void ShaderModule::setSource(const std::string& source)
-{
-    if (isUploaded())
-    {
-        renderer().destroyShaderModule(*this);
-    }
-
-    _source = source;
 }
 
 bool ShaderModule::operator==(const ShaderModule& shaderModule) const
@@ -104,36 +56,4 @@ bool ShaderModule::operator==(const ShaderModule& shaderModule) const
 bool ShaderModule::operator!=(const ShaderModule& shaderModule) const
 {
     return !(*this == shaderModule);
-}
-
-ShaderModule& ShaderModule::operator=(const ShaderModule& shaderModule)
-{
-    if (isUploaded())
-    {
-        renderer().destroyShaderModule(*this);
-    }
-
-    RendererObject::operator=(shaderModule);
-
-    _name = shaderModule._name;
-    _type = shaderModule._type;
-    _source = shaderModule._source;
-
-    return *this;
-}
-
-ShaderModule& ShaderModule::operator=(ShaderModule&& shaderModule)
-{
-    if (isUploaded())
-    {
-        renderer().destroyShaderModule(*this);
-    }
-
-    RendererObject::operator=(shaderModule);
-
-    _name = std::move(shaderModule._name);
-    _type = shaderModule._type;
-    _source = std::move(shaderModule._source);
-
-    return *this;
 }

@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Image.h"
 
+#include "Hect/IO/Encoders/ImagePngEncoder.h"
+
 using namespace hect;
 
 void Image::flipVertical()
@@ -117,4 +119,23 @@ unsigned Image::bytesPerPixel() const
     };
 
     return _bytesPerPixelLookUp[_pixelFormat][_pixelType];
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const Image& image)
+{
+    WriteStream& stream = encoder.binaryStream();
+    ImagePngEncoder::encode(image, stream);
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, Image& image)
+{
+    ReadStream& stream = decoder.binaryStream();
+    ImagePngEncoder::decode(image, stream);
+    return decoder;
+}
+
 }

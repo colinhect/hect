@@ -1,7 +1,13 @@
 {
     "modules": [
-        "Triplanar.frag",
-        "Triplanar.vert"
+        {
+            "type": "Vertex",
+            "source": "Triplanar.glsl"
+        },
+        {
+            "type": "Fragment",
+            "source": "Triplanar.glsl"
+        }
     ],
     "uniforms": [
         {

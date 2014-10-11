@@ -24,9 +24,8 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
-#include "Hect/Graphics/RendererObject.h"
+#include "Hect/IO/Path.h"
 
 namespace hect
 {
@@ -41,8 +40,8 @@ enum ShaderModuleType
     ShaderModuleType_Vertex,
 
     ///
-    /// A pixel program module.
-    ShaderModuleType_Pixel,
+    /// A fragment program module.
+    ShaderModuleType_Fragment,
 
     ///
     /// A geometry program module.
@@ -51,75 +50,28 @@ enum ShaderModuleType
 
 ///
 /// A shader module.
-class ShaderModule :
-    public RendererObject
+class ShaderModule
 {
 public:
 
     ///
     /// Constructs an empty shader module.
-    ShaderModule();
-
-    ///
-    /// Constructs a shader module as a copy of another.
-    ///
-    /// \param shaderModule The shader module to copy.
-    ShaderModule(const ShaderModule& shaderModule);
-
-    ///
-    /// Constructs a shader module moved from another.
-    ///
-    /// \param shaderModule The shader module to move.
-    ShaderModule(ShaderModule&& shaderModule);
-
-    ///
-    /// Destroys the shader if it is uploaded.
-    ~ShaderModule();
-
-    ///
-    /// Returns the name.
-    const std::string& name() const;
-
-    ///
-    /// Sets the name.
-    ///
-    /// \param name The new name.
-    void setName(const std::string& name);
+    ShaderModule(ShaderModuleType type, const Path& sourcePath, const std::string& source);
 
     ///
     /// Returns the type.
     ShaderModuleType type() const;
 
     ///
-    /// Sets the type.
-    ///
-    /// \note If the shader module is uploaded to a renderer then it will be
-    /// destroyed before the type is set.
-    ///
-    /// \warning Setting the type of an uploaded shader module can cause
-    /// undefined behavior if the shader module is uploaded as a module of
-    /// a shader.
-    ///
-    /// \param type The new type.
-    void setType(ShaderModuleType type);
+    /// Returns the path to the source file.
+    const Path& sourcePath() const;
 
+    ///
     /// Returns the source.
     const std::string& source() const;
 
     ///
-    /// Sets the source.
-    ///
-    /// \warning Setting the source of an uploaded shader module can cause
-    /// undefined behavior if the shader module is uploaded as a module of
-    /// a shader.
-    ///
-    /// \param source The new source.
-    void setSource(const std::string& source);
-
-    ///
     /// Returns whether the shader module is equivalent to another.
-    ///
-    /// \note Does not compare the name.
     ///
     /// \param shaderModule The other shader module.
     bool operator==(const ShaderModule& shaderModule) const;
@@ -127,44 +79,12 @@ public:
     ///
     /// Returns whether the shader module is different from another.
     ///
-    /// \note Does not compare the name.
-    ///
     /// \param shaderModule The other shader module.
     bool operator!=(const ShaderModule& shaderModule) const;
 
-    ///
-    /// Replaces the shader module with a copy of another.
-    ///
-    /// \note If the shader module was uploaded to a renderer then it will be
-    /// destroyed before assigned.
-    ///
-    /// \warning Setting the source of an uploaded shader module can cause
-    /// undefined behavior if the shader module is uploaded as a module of
-    /// a shader.
-    ///
-    /// \param shaderModule The shader module to copy.
-    ///
-    /// \returns A reference to the shader module.
-    ShaderModule& operator=(const ShaderModule& shaderModule);
-
-    ///
-    /// Replaces the shader module by moving another.
-    ///
-    /// \note If the shader module was uploaded to a renderer then it will be
-    /// destroyed before assigned.
-    ///
-    /// \warning Setting the source of an uploaded shader module can cause
-    /// undefined behavior if the shader module is uploaded as a module of
-    /// a shader.
-    ///
-    /// \param shaderModule The shader module to move.
-    ///
-    /// \returns A reference to the shader module.
-    ShaderModule& operator=(ShaderModule&& shaderModule);
-
 private:
-    std::string _name;
     ShaderModuleType _type;
+    Path _sourcePath;
     std::string _source;
 };
 

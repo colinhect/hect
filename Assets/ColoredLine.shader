@@ -1,7 +1,13 @@
 {
     "modules": [
-        "ColoredLine.frag",
-        "ColoredLine.vert"
+        {
+            "type": "Vertex",
+            "source": "ColoredLine.glsl"
+        },
+        {
+            "type": "Fragment", 
+            "source": "ColoredLine.glsl"
+        }
     ],
     "uniforms": [
         {

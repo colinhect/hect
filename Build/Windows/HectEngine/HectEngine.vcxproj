@@ -60,10 +60,10 @@
     <ClInclude Include="..\..\..\Engine\Hect\Input\InputAxisBinding.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Input\Keyboard.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Input\Mouse.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\IO\Asset.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\AssetCache.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\AssetEntry.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\AssetHandle.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\IO\AssetLoader.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\BinaryDecoder.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\BinaryEncoder.h" />
     <ClInclude Include="..\..\..\Engine\Hect\IO\AssetDecoder.h" />
@@ -144,11 +144,8 @@
     <ClCompile Include="..\..\..\Engine\Hect\Generated\_reflect_hect.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\FrameBuffer.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Image.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\ImageLoader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Material.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\MaterialLoader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Mesh.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\MeshLoader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\MeshReader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\MeshWriter.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Pass.cpp" />
@@ -159,12 +156,9 @@
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderSystem.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderTarget.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Shader.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderLoader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderModule.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderModuleLoader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Technique.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Texture.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\TextureLoader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Uniform.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\UniformValue.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\VertexAttribute.cpp" />
@@ -176,6 +170,7 @@
     <ClCompile Include="..\..\..\Engine\Hect\Input\InputAxisBinding.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Input\Mouse.cpp" />
+    <ClCompile Include="..\..\..\Engine\Hect\IO\Asset.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\AssetCache.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\BinaryDecoder.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\BinaryEncoder.cpp" />
@@ -187,7 +182,6 @@
     <ClCompile Include="..\..\..\Engine\Hect\IO\JsonDecoder.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\JsonEncoder.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\JsonValue.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\IO\JsonValueLoader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\MemoryReadStream.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\MemoryWriteStream.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\IO\Path.cpp" />

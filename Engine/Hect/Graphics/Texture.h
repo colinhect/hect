@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Sequence.h"
+#include "Hect/IO/Asset.h"
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
@@ -62,6 +63,7 @@ enum TextureType
 /// A texture with one or more source images which can be sampled by the
 /// renderer.
 class Texture :
+    public Asset,
     public RendererObject
 {
     typedef std::vector<AssetHandle<Image>> ImageContainer;
@@ -100,16 +102,6 @@ public:
     ///
     /// Destroys the texture on the GPU if it is uploaded.
     ~Texture();
-
-    ///
-    /// Returns the name.
-    const std::string& name() const;
-
-    ///
-    /// Sets the name.
-    ///
-    /// \param name The new name.
-    void setName(const std::string& name);
 
     ///
     /// Returns the texture type.
@@ -238,7 +230,6 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Texture& texture);
 
 private:
-    std::string _name;
     TextureType _type{ TextureType_2D };
 
     ImageContainer _sourceImages;

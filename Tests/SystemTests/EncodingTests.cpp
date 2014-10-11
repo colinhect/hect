@@ -113,11 +113,6 @@ TEST_CASE("MeshEncoding")
     testEncodingForExtension<Mesh>("mesh");
 }
 
-TEST_CASE("ShaderEncoding")
-{
-    testEncodingForExtension<Shader>("shader");
-}
-
 TEST_CASE("TextureEncoding")
 {
     testEncodingForExtension<Texture>("texture");

@@ -21,35 +21,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Asset.h"
 
-#include "Hect/IO/Path.h"
+using namespace hect;
 
-namespace hect
+Asset::Asset()
 {
+}
 
-class AssetCache;
-
-///
-/// Provides the functionality for loading an asset of a certain type.
-///
-/// \note Each asset type implements the load() method for their type.  This
-/// is how asset types are hooked into the asset cache.
-template <typename T>
-class AssetLoader
+Asset::Asset(const std::string& name) :
+    _name(name)
 {
-public:
+}
 
-    ///
-    /// Loads the asset at the given path.
-    ///
-    /// \note May support multiple file formats.  The format of the asset is
-    /// automatically detected.
-    ///
-    /// \param asset The asset to load to.
-    /// \param assetPath The path to the asset.
-    /// \param assetCache The asset cache to load referenced assets using.
-    static void load(T& asset, const Path& assetPath, AssetCache& assetCache);
-};
+Asset::~Asset()
+{
+}
 
+const std::string& Asset::name() const
+{
+    return _name;
+}
+
+void Asset::setName(const std::string& name)
+{
+    _name = name;
 }

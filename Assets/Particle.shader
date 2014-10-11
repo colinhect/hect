@@ -1,9 +1,21 @@
 {
     "modules": [
-        "Common/Particle.vert",
-        "Common/Rotation.geom",
-        "Common/Particle.geom",
-        "Common/Particle.frag"
+        {
+            "type": "Vertex",
+            "source": "Particle.glsl"
+        },
+        {
+            "type": "Geometry",
+            "source": "Rotation.glsl"
+        },
+        {
+            "type": "Geometry",
+            "source": "Particle.glsl"
+        },
+        {
+            "type": "Fragment",
+            "source": "Particle.glsl"
+        }
     ],
     "parameters": {
         "colorMap": {

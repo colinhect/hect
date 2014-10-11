@@ -131,18 +131,6 @@ public:
     void setUniform(const Uniform& uniform, const UniformValue& value);
 
     ///
-    /// Uploads a shader module.
-    ///
-    /// \param module The shader module to upload.
-    void uploadShaderModule(ShaderModule& module);
-
-    ///
-    /// Destroys a shader module.
-    ///
-    /// \param module The shader module to destroy.
-    void destroyShaderModule(ShaderModule& module);
-
-    ///
     /// Binds a texture.
     ///
     /// \param texture The texture to bind.

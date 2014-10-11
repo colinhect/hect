@@ -21,17 +21,43 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/IO/AssetLoader.h"
-#include "Hect/IO/AssetCache.h"
-#include "Hect/IO/AssetDecoder.h"
-#include "Hect/Graphics/Texture.h"
+#pragma once
 
-using namespace hect;
+#include <string>
 
-void AssetLoader<Texture>::load(Texture& texture, const Path& assetPath, AssetCache& assetCache)
+namespace hect
 {
-    texture.setName(assetPath.asString());
 
-    AssetDecoder decoder(assetCache, assetPath);
-    decoder >> decodeValue(texture);
+///
+/// Inheriting from this allows for loading using an asset cache.
+class Asset
+{
+public:
+
+    ///
+    /// Constructs an asset without a name.
+    Asset();
+
+    ///
+    /// Constructs an asset with a name.
+    ///
+    /// \param name The name of the asset.
+    Asset(const std::string& name);
+
+    virtual ~Asset();
+
+    ///
+    /// Returns the name.
+    const std::string& name() const;
+
+    ///
+    /// Sets the name.
+    ///
+    /// \param name The new name.
+    void setName(const std::string& name);
+
+private:
+    std::string _name;
+};
+
 }

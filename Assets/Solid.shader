@@ -1,7 +1,13 @@
 {
     "modules": [
-        "Solid.frag",
-        "Solid.vert"
+        {
+            "type": "Vertex",
+            "source": "Solid.glsl"
+        },
+        {
+            "type": "Fragment",
+            "source": "Solid.glsl"
+        }
     ],
     "uniforms": [
         {

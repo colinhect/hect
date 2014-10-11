@@ -1,8 +1,17 @@
 {
     "modules": [
-        "GeometryBuffer.frag",
-        "Environment.frag",
-        "Screen.vert"
+        {
+            "type": "Vertex",
+            "source": "Screen.glsl"
+        },
+        {
+            "type": "Fragment",
+            "source": "GeometryBuffer.glsl"
+        },
+        {
+            "type": "Fragment",
+            "source": "Environment.glsl"
+        }
     ],
     "uniforms": [
         {

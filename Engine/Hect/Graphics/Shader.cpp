@@ -34,21 +34,21 @@ Shader::Shader()
 }
 
 Shader::Shader(const std::string& name) :
-    _name(name)
+    Asset(name)
 {
 }
 
 Shader::Shader(const Shader& shader) :
+    Asset(shader),
     RendererObject(shader),
-    _name(shader._name),
     _modules(shader._modules),
     _uniforms(shader._uniforms)
 {
 }
 
 Shader::Shader(Shader&& shader) :
+    Asset(shader),
     RendererObject(shader),
-    _name(std::move(shader._name)),
     _modules(std::move(shader._modules)),
     _uniforms(std::move(shader._uniforms))
 {
@@ -62,17 +62,7 @@ Shader::~Shader()
     }
 }
 
-const std::string& Shader::name() const
-{
-    return _name;
-}
-
-void Shader::setName(const std::string& name)
-{
-    _name = name;
-}
-
-void Shader::addModule(const AssetHandle<ShaderModule>& module)
+void Shader::addModule(const ShaderModule& module)
 {
     if (isUploaded())
     {
@@ -80,6 +70,11 @@ void Shader::addModule(const AssetHandle<ShaderModule>& module)
         renderer().destroyShader(*this);
     }
     _modules.push_back(module);
+}
+
+Shader::ModuleSequence Shader::modules()
+{
+    return _modules;
 }
 
 const Shader::ModuleSequence Shader::modules() const
@@ -171,9 +166,9 @@ Shader& Shader::operator=(const Shader& shader)
         renderer().destroyShader(*this);
     }
 
+    Asset::operator=(shader);
     RendererObject::operator=(shader);
 
-    _name = shader._name;
     _modules = shader._modules;
     _uniforms = shader._uniforms;
 
@@ -188,9 +183,9 @@ Shader& Shader::operator=(Shader&& shader)
         renderer().destroyShader(*this);
     }
 
+    Asset::operator=(shader);
     RendererObject::operator=(shader);
 
-    _name = std::move(shader._name);
     _modules = std::move(shader._modules);
     _uniforms = std::move(shader._uniforms);
 
@@ -199,35 +194,6 @@ Shader& Shader::operator=(Shader&& shader)
 
 namespace hect
 {
-
-Encoder& operator<<(Encoder& encoder, const Shader& shader)
-{
-    encoder << beginObject();
-
-    // Modules
-    {
-        encoder << beginArray("modules");
-        for (const AssetHandle<ShaderModule>& module : shader.modules())
-        {
-            encoder << encodeValue(module);
-        }
-        encoder << endArray();
-    }
-
-    // Uniforms
-    {
-        encoder << beginArray("uniforms");
-        for (const Uniform& uniform : shader.uniforms())
-        {
-            encoder << beginObject("uniforms")
-                    << encodeValue(uniform)
-                    << endObject();
-        }
-        encoder << endArray();
-    }
-
-    return encoder << endObject();
-}
 
 Decoder& operator>>(Decoder& decoder, Shader& shader)
 {
@@ -239,9 +205,20 @@ Decoder& operator>>(Decoder& decoder, Shader& shader)
         decoder >> beginArray();
         while (decoder.hasMoreElements())
         {
-            AssetHandle<ShaderModule> module;
-            decoder >> decodeValue(module);
-            shader.addModule(module);
+            ShaderModuleType type;
+            Path sourcePath;
+
+            decoder >> beginObject()
+                >> decodeEnum("type", type)
+                >> decodeValue("source", sourcePath)
+                >> endObject();
+
+            sourcePath = decoder.assetCache().resolvePath(sourcePath);
+
+            ReadStream stream = FileSystem::openFileForRead(sourcePath);
+            std::string source = stream.readAllToString();
+
+            shader.addModule(ShaderModule(type, sourcePath, source));
         }
         decoder >> endArray();
     }

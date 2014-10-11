@@ -1,7 +1,13 @@
 {
     "modules": [
-        "Compositor.frag",
-        "Screen.vert"
+        {
+            "type": "Vertex",
+            "source": "Screen.glsl"
+        },
+        {
+            "type": "Fragment",
+            "source": "Compositor.glsl"
+        }
     ],
     "uniforms": [
         {

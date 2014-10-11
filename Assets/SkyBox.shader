@@ -1,7 +1,13 @@
 {
     "modules": [
-        "SkyBox.frag",
-        "SkyBox.vert"
+        {
+            "type": "Vertex",
+            "source": "SkyBox.glsl"
+        },
+        {
+            "type": "Fragment",
+            "source": "SkyBox.glsl"
+        }
     ],
     "uniforms": [
         {

@@ -39,19 +39,12 @@ using namespace hect;
 #define GL_ASSERT(expression) expression
 #endif
 
-class ShaderModuleData :
-    public RendererObjectData
-{
-public:
-    std::vector<Shader*> shaders;
-    GLuint id;
-};
-
 class ShaderData :
     public RendererObjectData
 {
 public:
     GLuint id;
+    std::vector<GLuint> moduleIds;
 };
 
 class TextureData :
@@ -463,18 +456,48 @@ void Renderer::uploadShader(Shader& shader)
     data->id = GL_ASSERT(glCreateProgram());
 
     // Attach each shader to the program
-    for (const AssetHandle<ShaderModule>& module : shader.modules())
+    for (ShaderModule& module : shader.modules())
     {
-        if (!module->isUploaded())
+        GLuint moduleId;
+
+        // Create the shader
+        GL_ASSERT(moduleId = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]));
+
+        // Compile shader
+        std::string preprocessSource;
+        switch (module.type())
         {
-            uploadShaderModule(*module);
+        case ShaderModuleType_Vertex:
+            preprocessSource = "#define VERTEX\n" + module.source();
+            break;
+        case ShaderModuleType_Fragment:
+            preprocessSource = "#define FRAGMENT\n" + module.source();
+            break;
+        case ShaderModuleType_Geometry:
+            preprocessSource = "#define GEOMETRY\n" + module.source();
+            break;
+        }
+        const GLchar* source = preprocessSource.c_str();
+        GL_ASSERT(glShaderSource(moduleId, 1, &source, nullptr));
+        GL_ASSERT(glCompileShader(moduleId));
+
+        // Report errors
+        int logLength = 0;
+        GL_ASSERT(glGetShaderiv(moduleId, GL_INFO_LOG_LENGTH, &logLength));
+        if (logLength > 1)
+        {
+            int charsWritten = 0;
+            std::string infoLog(logLength, ' ');
+            GL_ASSERT(glGetShaderInfoLog(moduleId, logLength, &charsWritten, &infoLog[0]));
+
+            if (infoLog.size() > 0)
+            {
+                throw Error(format("Failed to compile shader module '%s': %s", module.sourcePath().asString().c_str(), infoLog.c_str()));
+            }
         }
 
-        auto moduleData = (ShaderModuleData*)module->_data;
-        GL_ASSERT(glAttachShader(data->id, moduleData->id));
-
-        // Remember which shaders this module is attached to
-        moduleData->shaders.push_back(&shader);
+        GL_ASSERT(glAttachShader(data->id, moduleId));
+        data->moduleIds.push_back(moduleId);
     }
 
     // Link program
@@ -530,17 +553,14 @@ void Renderer::destroyShader(Shader& shader)
 
     auto data = (ShaderData*)shader._data;
 
-    // Detach all attached shaders
-    for (const AssetHandle<ShaderModule>& module : shader.modules())
+    // Destroy all shaders in the program
+    for (GLuint moduleId : data->moduleIds)
     {
-        auto moduleData = (ShaderModuleData*)module->_data;
-        GL_ASSERT(glDetachShader(data->id, moduleData->id));
-
-        // This module is no longer attached to this shader
-        auto& shaders = moduleData->shaders;
-        shaders.erase(std::remove(shaders.begin(), shaders.end(), &shader), shaders.end());
+        GL_ASSERT(glDetachShader(data->id, moduleId));
+        GL_ASSERT(glDeleteShader(moduleId));
     }
 
+    // Delete the program
     GL_ASSERT(glDeleteProgram(data->id));
 
     delete data;
@@ -583,72 +603,6 @@ void Renderer::setUniform(const Uniform& uniform, const UniformValue& value)
         GL_ASSERT(glUniformMatrix4fv(location, 1, false, (GLfloat*)value.data()));
         break;
     }
-}
-
-void Renderer::uploadShaderModule(ShaderModule& module)
-{
-    if (module.isUploaded())
-    {
-        return;
-    }
-
-    HECT_TRACE(format("Uploading shader module '%s'...", module.name().c_str()));
-
-    // Create the shader
-    auto data = new ShaderModuleData();
-    GL_ASSERT(data->id = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]));
-
-    // Compile shader
-    const GLchar* source = module.source().c_str();
-    GL_ASSERT(glShaderSource(data->id, 1, &source, nullptr));
-    GL_ASSERT(glCompileShader(data->id));
-
-    // Report errors
-    int logLength = 0;
-    GL_ASSERT(glGetShaderiv(data->id, GL_INFO_LOG_LENGTH, &logLength));
-    if (logLength > 1)
-    {
-        int charsWritten = 0;
-        std::string infoLog(logLength, ' ');
-        GL_ASSERT(glGetShaderInfoLog(data->id, logLength, &charsWritten, &infoLog[0]));
-
-        if (infoLog.size() > 0)
-        {
-            throw Error(format("Failed to compile shader module '%s': %s", module.name().c_str(), infoLog.c_str()));
-        }
-    }
-
-    module._uploaded = true;
-    module._data = data;
-    module._renderer = this;
-}
-
-void Renderer::destroyShaderModule(ShaderModule& module)
-{
-    if (!module.isUploaded())
-    {
-        return;
-    }
-
-    HECT_TRACE(format("Destroying shader module '%s'...", module.name().c_str()));
-
-    auto data = (ShaderModuleData*)module._data;
-
-    // Destroy all shaders that this module is attached to
-    auto shaders = data->shaders;
-    for (Shader* shader : shaders)
-    {
-        if (shader->isUploaded())
-        {
-            destroyShader(*shader);
-        }
-    }
-
-    GL_ASSERT(glDeleteShader(data->id));
-
-    delete data;
-    module._uploaded = false;
-    module._data = nullptr;
 }
 
 void Renderer::bindTexture(Texture& texture, unsigned index)

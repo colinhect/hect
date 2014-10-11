@@ -24,10 +24,11 @@
 #pragma once
 
 #include "Hect/Core/Sequence.h"
+#include "Hect/IO/Asset.h"
 #include "Hect/IO/AssetCache.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/Graphics/Uniform.h"
+#include "Hect/Graphics/RendererObject.h"
 #include "Hect/Graphics/ShaderModule.h"
 
 namespace hect
@@ -36,15 +37,16 @@ namespace hect
 ///
 /// A GPU shader program.
 class Shader :
+    public Asset,
     public RendererObject
 {
-    typedef std::vector<AssetHandle<ShaderModule>> ModuleContainer;
+    typedef std::vector<ShaderModule> ModuleContainer;
     typedef std::vector<Uniform> UniformContainer;
 public:
 
     ///
     /// A sequence of shader modules.
-    typedef Sequence<AssetHandle<ShaderModule>, ModuleContainer> ModuleSequence;
+    typedef Sequence<ShaderModule, ModuleContainer> ModuleSequence;
 
     ///
     /// A sequence of uniforms.
@@ -77,23 +79,17 @@ public:
     ~Shader();
 
     ///
-    /// Returns the name.
-    const std::string& name() const;
-
-    ///
-    /// Sets the name.
-    ///
-    /// \param name The new name.
-    void setName(const std::string& name);
-
-    ///
     /// Adds a module to the shader.
     ///
     /// \note If the shader is uploaded to a renderer then it will be
     /// destroyed before the module is added.
     ///
     /// \param module The module to add.
-    void addModule(const AssetHandle<ShaderModule>& module);
+    void addModule(const ShaderModule& module);
+
+    ///
+    /// Returns the modules.
+    ModuleSequence modules();
 
     ///
     /// Returns the modules.
@@ -162,11 +158,9 @@ public:
     /// \returns A reference to the shader.
     Shader& operator=(Shader&& shader);
 
-    friend Encoder& operator<<(Encoder& encoder, const Shader& shader);
     friend Decoder& operator>>(Decoder& decoder, Shader& shader);
 
 private:
-    std::string _name;
     ModuleContainer _modules;
     UniformContainer _uniforms;
 };
