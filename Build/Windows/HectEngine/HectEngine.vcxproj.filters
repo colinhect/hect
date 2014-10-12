@@ -132,9 +132,6 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Renderer.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\RendererObject.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderTarget.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -426,6 +423,12 @@
     <ClInclude Include="..\..\..\Engine\Hect\IO\Asset.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\GpuObject.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\GpuData.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Engine\Hect\Core\Any.cpp">
@@ -462,9 +465,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Renderer.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\RendererObject.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderTarget.cpp">
@@ -792,6 +792,12 @@
     </None>
     <None Include="..\..\..\Engine\Hect\IO\EncodeOperations.inl">
       <Filter>Source\Hect\IO</Filter>
+    </None>
+    <None Include="..\..\..\Engine\Hect\Graphics\GpuData.inl">
+      <Filter>Source\Hect\Graphics</Filter>
+    </None>
+    <None Include="..\..\..\Engine\Hect\Graphics\GpuObject.inl">
+      <Filter>Source\Hect\Graphics</Filter>
     </None>
   </ItemGroup>
 </Project>

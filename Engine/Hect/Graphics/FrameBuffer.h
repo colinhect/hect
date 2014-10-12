@@ -36,7 +36,7 @@ class Renderer;
 /// A multi-target buffer on the GPU that can be rendered to.
 class FrameBuffer :
     public RenderTarget,
-    public RendererObject
+    public GpuObject<FrameBuffer>
 {
     typedef std::vector<Texture> TextureContainer;
 public:
@@ -45,15 +45,7 @@ public:
     /// A sequence of textures.
     typedef Sequence<Texture, TextureContainer> TextureSequence;
 
-    ///
-    /// Constructs a frame buffer without any targets.
-    FrameBuffer();
-
-    ///
-    /// Destroys the frame buffer if it is uploaded.
-    ~FrameBuffer();
-
-    void bind(Renderer& renderer);
+    void bind(Renderer& renderer) override;
 
     ///
     /// Returns the targets of the frame buffer.

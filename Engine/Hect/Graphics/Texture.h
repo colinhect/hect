@@ -29,7 +29,7 @@
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/Graphics/Image.h"
-#include "Hect/Graphics/RendererObject.h"
+#include "Hect/Graphics/GpuObject.h"
 
 namespace hect
 {
@@ -64,7 +64,7 @@ enum TextureType
 /// renderer.
 class Texture :
     public Asset,
-    public RendererObject
+    public GpuObject<Texture>
 {
     typedef std::vector<AssetHandle<Image>> ImageContainer;
 public:
@@ -98,10 +98,6 @@ public:
     /// \param name The name.
     /// \param image The source image.
     Texture(const std::string& name, const AssetHandle<Image>& image);
-
-    ///
-    /// Destroys the texture on the GPU if it is uploaded.
-    ~Texture();
 
     ///
     /// Returns the texture type.

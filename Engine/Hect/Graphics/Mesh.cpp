@@ -49,42 +49,6 @@ Mesh::Mesh(const std::string& name) :
 {
 }
 
-Mesh::Mesh(const Mesh& mesh) :
-    Asset(mesh),
-    RendererObject(mesh),
-    _vertexLayout(mesh._vertexLayout),
-    _primitiveType(mesh._primitiveType),
-    _indexType(mesh._indexType),
-    _vertexData(mesh._vertexData),
-    _vertexCount(mesh._vertexCount),
-    _indexData(mesh._indexData),
-    _indexCount(mesh._indexCount),
-    _axisAlignedBox(mesh._axisAlignedBox)
-{
-}
-
-Mesh::Mesh(Mesh&& mesh) :
-    Asset(mesh),
-    RendererObject(mesh),
-    _vertexLayout(std::move(mesh._vertexLayout)),
-    _primitiveType(mesh._primitiveType),
-    _indexType(mesh._indexType),
-    _vertexData(std::move(mesh._vertexData)),
-    _vertexCount(mesh._vertexCount),
-    _indexData(std::move(mesh._indexData)),
-    _indexCount(mesh._indexCount),
-    _axisAlignedBox(mesh._axisAlignedBox)
-{
-}
-
-Mesh::~Mesh()
-{
-    if (isUploaded())
-    {
-        renderer().destroyMesh(*this);
-    }
-}
-
 const VertexLayout& Mesh::vertexLayout() const
 {
     return _vertexLayout;
@@ -250,50 +214,6 @@ bool Mesh::operator==(const Mesh& mesh) const
 bool Mesh::operator!=(const Mesh& mesh) const
 {
     return !(*this == mesh);
-}
-
-Mesh& Mesh::operator=(const Mesh& mesh)
-{
-    if (isUploaded())
-    {
-        renderer().destroyMesh(*this);
-    }
-
-    Asset::operator=(mesh);
-    RendererObject::operator=(mesh);
-
-    _vertexLayout = mesh.vertexLayout();
-    _primitiveType = mesh.primitiveType();
-    _indexType = mesh.indexType();
-    _vertexData = mesh.vertexData();
-    _vertexCount = mesh.vertexCount();
-    _indexData = mesh.indexData();
-    _indexCount = mesh.indexCount();
-    _axisAlignedBox = mesh.axisAlignedBox();
-
-    return *this;
-}
-
-Mesh& Mesh::operator=(Mesh&& mesh)
-{
-    if (isUploaded())
-    {
-        renderer().destroyMesh(*this);
-    }
-
-    Asset::operator=(mesh);
-    RendererObject::operator=(mesh);
-
-    _vertexLayout = std::move(mesh.vertexLayout());
-    _primitiveType = mesh.primitiveType();
-    _indexType = mesh.indexType();
-    _vertexData = std::move(mesh.vertexData());
-    _vertexCount = mesh.vertexCount();
-    _indexData = std::move(mesh.indexData());
-    _indexCount = mesh.indexCount();
-    _axisAlignedBox = mesh.axisAlignedBox();
-
-    return *this;
 }
 
 namespace hect

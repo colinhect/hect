@@ -23,53 +23,42 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Graphics/GpuData.h"
+
 namespace hect
 {
 
-class Renderer;
-
-///
-/// Data which provides a handle to the API-specific data.
-struct RendererObjectData
-{
-    virtual ~RendererObjectData() { }
-};
-
 ///
 /// An object which can be uploaded to the GPU.
-///
-/// \warning Classes which inherit from RenderObject must implement a copy
-/// constructor, move constructor, destructor, assignment operator, and
-/// move assignment operator all which destroy the object from the renderer
-/// if needed.
-class RendererObject
+template <typename T>
+class GpuObject
 {
     friend class Renderer;
 public:
-    RendererObject();
-    RendererObject(const RendererObject& renderObject);
-    RendererObject(RendererObject&& renderObject);
-    virtual ~RendererObject();
+    virtual ~GpuObject();
 
     ///
     /// Returns whether the object is uploaded to the GPU.
     bool isUploaded() const;
 
-    RendererObject& operator=(const RendererObject& rendererObject);
-    RendererObject& operator=(RendererObject&& rendererObject);
-
-protected:
-
     ///
     /// Returns the renderer that the object is uploaded to.
     ///
     /// \throws Error If the object is not uploaded.
-    Renderer& renderer() const;
+    Renderer& renderer();
 
 private:
-    mutable bool _uploaded;
-    mutable RendererObjectData* _data;
-    mutable Renderer* _renderer;
+
+    template <typename U>
+    U* dataAs() const;
+
+    void setAsUploaded(Renderer& renderer, GpuData<T>* data);
+    void setAsDestroyed();
+
+    Renderer* _renderer{ nullptr };
+    GpuDataHandle<T> _handle;
 };
 
 }
+
+#include "GpuObject.inl"

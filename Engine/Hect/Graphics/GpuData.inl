@@ -21,43 +21,56 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "FrameBuffer.h"
-
-#include <algorithm>
-
-#include "Hect/Graphics/Renderer.h"
-
-using namespace hect;
-
-void FrameBuffer::bind(Renderer& renderer)
+namespace hect
 {
-    renderer.bindFrameBuffer(*this);
+
+template <typename T>
+GpuData<T>::GpuData(Renderer& renderer, T& object) :
+    renderer(&renderer),
+    object(&object)
+{
 }
 
-FrameBuffer::TextureSequence FrameBuffer::targets()
+template <typename T>
+GpuData<T>::~GpuData()
 {
-    return _targets;
 }
 
-const FrameBuffer::TextureSequence FrameBuffer::targets() const
+template <typename T>
+GpuDataHandle<T>::GpuDataHandle()
 {
-    return _targets;
 }
 
-void FrameBuffer::addTarget(const Texture& target)
+template <typename T>
+GpuDataHandle<T>::GpuDataHandle(GpuData<T>* data) :
+    data(data)
 {
-    setWidth(std::max(width(), target.width()));
-    setHeight(std::max(height(), target.height()));
-
-    _targets.push_back(target);
 }
 
-bool FrameBuffer::hasDepthComponent() const
+template <typename T>
+GpuDataHandle<T>::GpuDataHandle(const GpuDataHandle<T>& handle)
 {
-    return _depthComponent;
+    handle;
 }
 
-void FrameBuffer::setDepthComponent(bool depthComponent)
+template <typename T>
+GpuDataHandle<T>::GpuDataHandle(GpuDataHandle<T>&& handle) :
+    data(std::move(handle.data))
 {
-    _depthComponent = depthComponent;
+}
+
+template <typename T>
+GpuDataHandle<T>& GpuDataHandle<T>::operator=(const GpuDataHandle<T>& handle)
+{
+    handle;
+    return *this;
+}
+
+template <typename T>
+GpuDataHandle<T>& GpuDataHandle<T>::operator=(GpuDataHandle<T>&& handle)
+{
+    data = std::move(handle.data);
+    return *this;
+}
+
 }

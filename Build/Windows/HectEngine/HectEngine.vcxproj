@@ -33,6 +33,7 @@
     <ClInclude Include="..\..\..\Engine\Hect\Event\Listener.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Generated\_reflect_hect.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\FrameBuffer.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\GpuData.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Image.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Material.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Mesh.h" />
@@ -41,7 +42,7 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Pass.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Renderer.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\RendererObject.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\GpuObject.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderState.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderSystem.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderTarget.h" />
@@ -151,7 +152,6 @@
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Pass.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Renderer.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\RendererObject.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderState.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderSystem.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderTarget.cpp" />
@@ -233,6 +233,8 @@
     <None Include="..\..\..\Engine\Hect\Core\Any.inl" />
     <None Include="..\..\..\Engine\Hect\Core\Sequence.inl" />
     <None Include="..\..\..\Engine\Hect\Event\Dispatcher.inl" />
+    <None Include="..\..\..\Engine\Hect\Graphics\GpuData.inl" />
+    <None Include="..\..\..\Engine\Hect\Graphics\GpuObject.inl" />
     <None Include="..\..\..\Engine\Hect\IO\AssetCache.inl" />
     <None Include="..\..\..\Engine\Hect\IO\AssetEntry.inl" />
     <None Include="..\..\..\Engine\Hect\IO\AssetHandle.inl" />

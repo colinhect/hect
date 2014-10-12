@@ -28,7 +28,7 @@
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/Graphics/Uniform.h"
-#include "Hect/Graphics/RendererObject.h"
+#include "Hect/Graphics/GpuObject.h"
 #include "Hect/Graphics/ShaderModule.h"
 
 namespace hect
@@ -38,7 +38,7 @@ namespace hect
 /// A GPU shader program.
 class Shader :
     public Asset,
-    public RendererObject
+    public GpuObject<Shader>
 {
     typedef std::vector<ShaderModule> ModuleContainer;
     typedef std::vector<Uniform> UniformContainer;
@@ -61,22 +61,6 @@ public:
     ///
     /// \param name The name of the shader.
     Shader(const std::string& name);
-
-    ///
-    /// Constructs a shader as a copy of another.
-    ///
-    /// \param shader The shader to copy.
-    Shader(const Shader& shader);
-
-    ///
-    /// Constructs a shader moved from another.
-    ///
-    /// \param shader The shader to move.
-    Shader(Shader&& shader);
-
-    ///
-    /// Destroys the shader if it is uploaded.
-    ~Shader();
 
     ///
     /// Adds a module to the shader.
@@ -135,28 +119,6 @@ public:
     ///
     /// \param shader The other shader.
     bool operator!=(const Shader& shader) const;
-
-    ///
-    /// Replaces the shader with a copy of another.
-    ///
-    /// \note If the shader was uploaded to a renderer then it will be destroyed
-    /// before assigned.
-    ///
-    /// \param shader The shader to copy.
-    ///
-    /// \returns A reference to the shader.
-    Shader& operator=(const Shader& shader);
-
-    ///
-    /// Replaces the shader by moving another.
-    ///
-    /// \note If the shader was uploaded to a renderer then it will be destroyed
-    /// before assigned.
-    ///
-    /// \param shader The shader to move.
-    ///
-    /// \returns A reference to the shader.
-    Shader& operator=(Shader&& shader);
 
     friend Decoder& operator>>(Decoder& decoder, Shader& shader);
 

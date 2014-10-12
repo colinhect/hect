@@ -38,30 +38,6 @@ Shader::Shader(const std::string& name) :
 {
 }
 
-Shader::Shader(const Shader& shader) :
-    Asset(shader),
-    RendererObject(shader),
-    _modules(shader._modules),
-    _uniforms(shader._uniforms)
-{
-}
-
-Shader::Shader(Shader&& shader) :
-    Asset(shader),
-    RendererObject(shader),
-    _modules(std::move(shader._modules)),
-    _uniforms(std::move(shader._uniforms))
-{
-}
-
-Shader::~Shader()
-{
-    if (isUploaded())
-    {
-        renderer().destroyShader(*this);
-    }
-}
-
 void Shader::addModule(const ShaderModule& module)
 {
     if (isUploaded())
@@ -156,40 +132,6 @@ bool Shader::operator==(const Shader& shader) const
 bool Shader::operator!=(const Shader& shader) const
 {
     return !(*this == shader);
-}
-
-Shader& Shader::operator=(const Shader& shader)
-{
-    if (isUploaded())
-    {
-        // The shader will need to be re-uploaded for the change to take effect
-        renderer().destroyShader(*this);
-    }
-
-    Asset::operator=(shader);
-    RendererObject::operator=(shader);
-
-    _modules = shader._modules;
-    _uniforms = shader._uniforms;
-
-    return *this;
-}
-
-Shader& Shader::operator=(Shader&& shader)
-{
-    if (isUploaded())
-    {
-        // The shader will need to be re-uploaded for the change to take effect
-        renderer().destroyShader(*this);
-    }
-
-    Asset::operator=(shader);
-    RendererObject::operator=(shader);
-
-    _modules = std::move(shader._modules);
-    _uniforms = std::move(shader._uniforms);
-
-    return *this;
 }
 
 namespace hect

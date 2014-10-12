@@ -58,14 +58,6 @@ Texture::Texture(const std::string& name, const AssetHandle<Image>& image) :
     addSourceImage(image);
 }
 
-Texture::~Texture()
-{
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-}
-
 TextureType Texture::type()
 {
     return _type;

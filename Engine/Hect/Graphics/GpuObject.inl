@@ -21,43 +21,49 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "FrameBuffer.h"
-
-#include <algorithm>
-
-#include "Hect/Graphics/Renderer.h"
-
-using namespace hect;
-
-void FrameBuffer::bind(Renderer& renderer)
+namespace hect
 {
-    renderer.bindFrameBuffer(*this);
+
+template <typename T>
+GpuObject<T>::~GpuObject()
+{
 }
 
-FrameBuffer::TextureSequence FrameBuffer::targets()
+template <typename T>
+bool GpuObject<T>::isUploaded() const
 {
-    return _targets;
+    return _renderer != nullptr && _handle.data.get() != nullptr;
 }
 
-const FrameBuffer::TextureSequence FrameBuffer::targets() const
+template <typename T>
+Renderer& GpuObject<T>::renderer()
 {
-    return _targets;
+    if (!_renderer)
+    {
+        throw Error("Object is not uploaded to GPU");
+    }
+    return *_renderer;
 }
 
-void FrameBuffer::addTarget(const Texture& target)
+template <typename T>
+template <typename U>
+U* GpuObject<T>::dataAs() const
 {
-    setWidth(std::max(width(), target.width()));
-    setHeight(std::max(height(), target.height()));
-
-    _targets.push_back(target);
+    GpuData<T>* data = _handle.data.get();
+    return reinterpret_cast<U*>(data);
 }
 
-bool FrameBuffer::hasDepthComponent() const
+template <typename T>
+void GpuObject<T>::setAsUploaded(Renderer& renderer, GpuData<T>* data)
 {
-    return _depthComponent;
+    _renderer = &renderer;
+    _handle = GpuDataHandle<T>(data);
 }
 
-void FrameBuffer::setDepthComponent(bool depthComponent)
+template <typename T>
+void GpuObject<T>::setAsDestroyed()
 {
-    _depthComponent = depthComponent;
+    _renderer = nullptr;
+}
+
 }

@@ -40,32 +40,92 @@ using namespace hect;
 #endif
 
 class ShaderData :
-    public RendererObjectData
+    public GpuData<Shader>
 {
 public:
-    GLuint id;
-    std::vector<GLuint> moduleIds;
+    ShaderData(Renderer& renderer, Shader& object, GLuint programId, const std::vector<GLuint>& shaderIds) :
+        GpuData<Shader>(renderer, object),
+        programId(programId),
+        shaderIds(shaderIds)
+    {
+    }
+
+    ~ShaderData()
+    {
+        if (object && object->isUploaded())
+        {
+            renderer->destroyShader(*object);
+        }
+    }
+
+    GLuint programId;
+    std::vector<GLuint> shaderIds;
 };
 
 class TextureData :
-    public RendererObjectData
+    public GpuData<Texture>
 {
 public:
-    GLuint id;
+    TextureData(Renderer& renderer, Texture& object, GLuint textureId) :
+        GpuData<Texture>(renderer, object),
+        textureId(textureId)
+    {
+    }
+
+    ~TextureData()
+    {
+        if (object && object->isUploaded())
+        {
+            renderer->destroyTexture(*object);
+        }
+    }
+
+    GLuint textureId;
 };
 
 class FrameBufferData :
-    public RendererObjectData
+    public GpuData<FrameBuffer>
 {
 public:
+    FrameBufferData(Renderer& renderer, FrameBuffer& object, GLuint frameBufferId, GLuint depthBufferId) :
+        GpuData<FrameBuffer>(renderer, object),
+        frameBufferId(frameBufferId),
+        depthBufferId(depthBufferId)
+    {
+    }
+
+    ~FrameBufferData()
+    {
+        if (object && object->isUploaded())
+        {
+            renderer->destroyFrameBuffer(*object);
+        }
+    }
+
     GLuint frameBufferId;
     GLuint depthBufferId;
 };
 
 class MeshData :
-    public RendererObjectData
+    public GpuData<Mesh>
 {
 public:
+    MeshData(Renderer& renderer, Mesh& object, GLuint vertexArrayId, GLuint vertexBufferId, GLuint indexBufferId) :
+        GpuData<Mesh>(renderer, object),
+        vertexArrayId(vertexArrayId),
+        vertexBufferId(vertexBufferId),
+        indexBufferId(indexBufferId)
+    {
+    }
+
+    ~MeshData()
+    {
+        if (object && object->isUploaded())
+        {
+            renderer->destroyMesh(*object);
+        }
+    }
+
     GLuint vertexArrayId;
     GLuint vertexBufferId;
     GLuint indexBufferId;
@@ -185,7 +245,7 @@ GLenum _internalImageFormatLookUp[2][2][3] =
 GLenum _shaderModuleTypeLookUp[3] =
 {
     GL_VERTEX_SHADER, // Vertex
-    GL_FRAGMENT_SHADER, // Pixel
+    GL_FRAGMENT_SHADER, // Fragment
     GL_GEOMETRY_SHADER // Geometry
 };
 
@@ -345,7 +405,7 @@ void Renderer::bindFrameBuffer(FrameBuffer& frameBuffer)
         uploadFrameBuffer(frameBuffer);
     }
 
-    auto data = (FrameBufferData*)frameBuffer._data;
+    auto data = frameBuffer.dataAs<FrameBufferData>();
 
     GL_ASSERT(glViewport(0, 0, frameBuffer.width(), frameBuffer.height()));
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
@@ -358,16 +418,18 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
         return;
     }
 
-    auto data = new FrameBufferData();
-    GL_ASSERT(glGenFramebuffers(1, &data->frameBufferId));
-    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
+    GLuint frameBufferId = 0;
+    GLuint depthBufferId = 0;
+
+    GL_ASSERT(glGenFramebuffers(1, &frameBufferId));
+    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId));
 
     if (frameBuffer.hasDepthComponent())
     {
-        GL_ASSERT(glGenRenderbuffers(1, &data->depthBufferId));
-        GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, data->depthBufferId));
+        GL_ASSERT(glGenRenderbuffers(1, &depthBufferId));
+        GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId));
         GL_ASSERT(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, frameBuffer.width(), frameBuffer.height()));
-        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, data->depthBufferId));
+        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId));
     }
 
     GLenum mrt[8];
@@ -377,8 +439,8 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     {
         uploadTexture(target);
 
-        auto targetData = (TextureData*)target._data;
-        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + targetIndex, GL_TEXTURE_2D, targetData->id, 0));
+        auto targetData = target.dataAs<TextureData>();
+        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + targetIndex, GL_TEXTURE_2D, targetData->textureId, 0));
 
         mrt[targetIndex++] = GL_COLOR_ATTACHMENT0 + targetIndex;
 
@@ -390,9 +452,7 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 
     GL_ASSERT(glDrawBuffers(targetIndex, mrt));
 
-    frameBuffer._uploaded = true;
-    frameBuffer._data = data;
-    frameBuffer._renderer = this;
+    frameBuffer.setAsUploaded(*this, new FrameBufferData(*this, frameBuffer, frameBufferId, depthBufferId));
 
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
@@ -404,14 +464,12 @@ void Renderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
         return;
     }
 
-    auto data = (FrameBufferData*)frameBuffer._data;
+    auto data = frameBuffer.dataAs<FrameBufferData>();
 
     GL_ASSERT(glDeleteFramebuffers(1, &data->frameBufferId));
     GL_ASSERT(glDeleteRenderbuffers(1, &data->depthBufferId));
 
-    delete data;
-    frameBuffer._uploaded = false;
-    frameBuffer._data = nullptr;
+    frameBuffer.setAsDestroyed();
 }
 
 void Renderer::bindShader(Shader& shader)
@@ -429,8 +487,8 @@ void Renderer::bindShader(Shader& shader)
         uploadShader(shader);
     }
 
-    auto data = (ShaderData*)shader._data;
-    GL_ASSERT(glUseProgram(data->id));
+    auto data = shader.dataAs<ShaderData>();
+    GL_ASSERT(glUseProgram(data->programId));
 
     // Pass the default values for each uniform
     for (const Uniform& uniform : shader.uniforms())
@@ -452,16 +510,17 @@ void Renderer::uploadShader(Shader& shader)
     HECT_TRACE(format("Uploading shader '%s'...", shader.name().c_str()));
 
     // Create the shader.
-    auto data = new ShaderData();
-    data->id = GL_ASSERT(glCreateProgram());
+    GLuint programId = 0;
+    programId = GL_ASSERT(glCreateProgram());
 
     // Attach each shader to the program
+    std::vector<GLuint> shaderIds;
     for (ShaderModule& module : shader.modules())
     {
-        GLuint moduleId;
+        GLuint shaderId;
 
         // Create the shader
-        GL_ASSERT(moduleId = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]));
+        GL_ASSERT(shaderId = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]));
 
         // Compile shader
         std::string preprocessSource;
@@ -478,17 +537,17 @@ void Renderer::uploadShader(Shader& shader)
             break;
         }
         const GLchar* source = preprocessSource.c_str();
-        GL_ASSERT(glShaderSource(moduleId, 1, &source, nullptr));
-        GL_ASSERT(glCompileShader(moduleId));
+        GL_ASSERT(glShaderSource(shaderId, 1, &source, nullptr));
+        GL_ASSERT(glCompileShader(shaderId));
 
         // Report errors
         int logLength = 0;
-        GL_ASSERT(glGetShaderiv(moduleId, GL_INFO_LOG_LENGTH, &logLength));
+        GL_ASSERT(glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength));
         if (logLength > 1)
         {
             int charsWritten = 0;
             std::string infoLog(logLength, ' ');
-            GL_ASSERT(glGetShaderInfoLog(moduleId, logLength, &charsWritten, &infoLog[0]));
+            GL_ASSERT(glGetShaderInfoLog(shaderId, logLength, &charsWritten, &infoLog[0]));
 
             if (infoLog.size() > 0)
             {
@@ -496,21 +555,21 @@ void Renderer::uploadShader(Shader& shader)
             }
         }
 
-        GL_ASSERT(glAttachShader(data->id, moduleId));
-        data->moduleIds.push_back(moduleId);
+        GL_ASSERT(glAttachShader(programId, shaderId));
+        shaderIds.push_back(shaderId);
     }
 
     // Link program
-    GL_ASSERT(glLinkProgram(data->id));
+    GL_ASSERT(glLinkProgram(programId));
 
     // Report errors
     int logLength = 0;
-    GL_ASSERT(glGetProgramiv(data->id, GL_INFO_LOG_LENGTH, &logLength));
+    GL_ASSERT(glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength));
     if (logLength > 1)
     {
         int charsWritten = 0;
         std::string infoLog(logLength, ' ');
-        GL_ASSERT(glGetProgramInfoLog(data->id, logLength, &charsWritten, &infoLog[0]));
+        GL_ASSERT(glGetProgramInfoLog(programId, logLength, &charsWritten, &infoLog[0]));
 
         if (infoLog.size() > 0)
         {
@@ -518,12 +577,12 @@ void Renderer::uploadShader(Shader& shader)
         }
     }
 
-    GL_ASSERT(glUseProgram(data->id));
+    GL_ASSERT(glUseProgram(programId));
 
     // Get the locations of each uniform
     for (Uniform& uniform : shader.uniforms())
     {
-        GL_ASSERT(int location = glGetUniformLocation(data->id, uniform.name().c_str()));
+        GL_ASSERT(int location = glGetUniformLocation(programId, uniform.name().c_str()));
 
         if (location != -1)
         {
@@ -537,9 +596,7 @@ void Renderer::uploadShader(Shader& shader)
 
     GL_ASSERT(glUseProgram(0));
 
-    shader._uploaded = true;
-    shader._data = data;
-    shader._renderer = this;
+    shader.setAsUploaded(*this, new ShaderData(*this, shader, programId, shaderIds));
 }
 
 void Renderer::destroyShader(Shader& shader)
@@ -551,21 +608,19 @@ void Renderer::destroyShader(Shader& shader)
 
     HECT_TRACE(format("Destroying shader '%s'...", shader.name().c_str()));
 
-    auto data = (ShaderData*)shader._data;
+    auto data = shader.dataAs<ShaderData>();
 
     // Destroy all shaders in the program
-    for (GLuint moduleId : data->moduleIds)
+    for (GLuint shaderId : data->shaderIds)
     {
-        GL_ASSERT(glDetachShader(data->id, moduleId));
-        GL_ASSERT(glDeleteShader(moduleId));
+        GL_ASSERT(glDetachShader(data->programId, shaderId));
+        GL_ASSERT(glDeleteShader(shaderId));
     }
 
     // Delete the program
-    GL_ASSERT(glDeleteProgram(data->id));
+    GL_ASSERT(glDeleteProgram(data->programId));
 
-    delete data;
-    shader._uploaded = false;
-    shader._data = nullptr;
+    shader.setAsDestroyed();
 }
 
 void Renderer::setUniform(const Uniform& uniform, const UniformValue& value)
@@ -622,10 +677,10 @@ void Renderer::bindTexture(Texture& texture, unsigned index)
         uploadTexture(texture);
     }
 
-    auto data = (TextureData*)texture._data;
+    auto data = texture.dataAs<TextureData>();
 
     GL_ASSERT(glActiveTexture(GL_TEXTURE0 + index));
-    GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->id));
+    GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->textureId));
 }
 
 void Renderer::uploadTexture(Texture& texture)
@@ -639,9 +694,9 @@ void Renderer::uploadTexture(Texture& texture)
 
     GLenum type = _textureTypeLookUp[texture.type()];
 
-    auto data = new TextureData();
-    GL_ASSERT(glGenTextures(1, &data->id));
-    GL_ASSERT(glBindTexture(type, data->id));
+    GLuint textureId = 0;
+    GL_ASSERT(glGenTextures(1, &textureId));
+    GL_ASSERT(glBindTexture(type, textureId));
     GL_ASSERT(
         glTexParameteri(
             type,
@@ -709,9 +764,7 @@ void Renderer::uploadTexture(Texture& texture)
 
     GL_ASSERT(glBindTexture(type, 0));
 
-    texture._uploaded = true;
-    texture._data = data;
-    texture._renderer = this;
+    texture.setAsUploaded(*this, new TextureData(*this, texture, textureId));
 }
 
 void Renderer::destroyTexture(Texture& texture)
@@ -723,12 +776,10 @@ void Renderer::destroyTexture(Texture& texture)
 
     HECT_TRACE(format("Destroying texture '%s'...", texture.name().c_str()));
 
-    auto data = (TextureData*)texture._data;
-    GL_ASSERT(glDeleteTextures(1, &data->id));
+    auto data = texture.dataAs<TextureData>();
+    GL_ASSERT(glDeleteTextures(1, &data->textureId));
 
-    delete data;
-    texture._uploaded = false;
-    texture._data = nullptr;
+    texture.setAsDestroyed();
 }
 
 Image Renderer::downloadTextureImage(const Texture& texture)
@@ -738,9 +789,9 @@ Image Renderer::downloadTextureImage(const Texture& texture)
         throw Error("The texture is not uploaded");
     }
 
-    auto data = (TextureData*)texture._data;
+    auto data = texture.dataAs<TextureData>();
 
-    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->id));
+    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
 
     Image image;
     image.setWidth(texture.width());
@@ -780,7 +831,7 @@ void Renderer::bindMesh(Mesh& mesh)
         uploadMesh(mesh);
     }
 
-    auto data = (MeshData*)(mesh._data);
+    auto data = mesh.dataAs<MeshData>();
     GL_ASSERT(glBindVertexArray(data->vertexArrayId));
 }
 
@@ -793,17 +844,20 @@ void Renderer::uploadMesh(Mesh& mesh)
 
     HECT_TRACE(format("Uploading mesh '%s'...", mesh.name().c_str()));
 
-    auto data = new MeshData();
+    GLuint vertexArrayId = 0;
+    GLuint vertexBufferId = 0;
+    GLuint indexBufferId = 0;
 
     // Generate and bind the vertex array
-    GL_ASSERT(glGenVertexArrays(1, &data->vertexArrayId));
-    GL_ASSERT(glBindVertexArray(data->vertexArrayId));
+    GL_ASSERT(glGenVertexArrays(1, &vertexArrayId));
+    GL_ASSERT(glBindVertexArray(vertexArrayId));
 
     // Generate vertex and index buffers
-    GL_ASSERT(glGenBuffers(2, &data->vertexBufferId));
+    GL_ASSERT(glGenBuffers(1, &vertexBufferId));
+    GL_ASSERT(glGenBuffers(1, &indexBufferId));
 
     // Upload the vertex data
-    GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, data->vertexBufferId));
+    GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId));
     GL_ASSERT(
         glBufferData(
             GL_ARRAY_BUFFER,
@@ -850,7 +904,7 @@ void Renderer::uploadMesh(Mesh& mesh)
     }
 
     // Upload the index data
-    GL_ASSERT(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, data->indexBufferId));
+    GL_ASSERT(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId));
     GL_ASSERT(
         glBufferData(
             GL_ELEMENT_ARRAY_BUFFER,
@@ -862,9 +916,7 @@ void Renderer::uploadMesh(Mesh& mesh)
 
     GL_ASSERT(glBindVertexArray(0));
 
-    mesh._uploaded = true;
-    mesh._data = data;
-    mesh._renderer = this;
+    mesh.setAsUploaded(*this, new MeshData(*this, mesh, vertexArrayId, vertexBufferId, indexBufferId));
 }
 
 void Renderer::destroyMesh(Mesh& mesh)
@@ -876,7 +928,7 @@ void Renderer::destroyMesh(Mesh& mesh)
 
     HECT_TRACE(format("Destroying mesh '%s'...", mesh.name().c_str()));
 
-    auto data = (MeshData*)mesh._data;
+    auto data = mesh.dataAs<MeshData>();
 
     // Delete vertex and index buffers
     GL_ASSERT(glDeleteBuffers(2, &data->vertexBufferId));
@@ -884,9 +936,7 @@ void Renderer::destroyMesh(Mesh& mesh)
     // Delete the vertex array object
     GL_ASSERT(glDeleteVertexArrays(1, &data->vertexArrayId));
 
-    delete data;
-    mesh._uploaded = false;
-    mesh._data = nullptr;
+    mesh.setAsDestroyed();
 }
 
 void Renderer::draw()

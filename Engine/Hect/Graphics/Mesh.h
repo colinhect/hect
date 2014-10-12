@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/RendererObject.h"
+#include "Hect/Graphics/GpuObject.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/Encoder.h"
@@ -65,7 +65,7 @@ enum IndexType
 /// A mesh of vertices and indices.
 class Mesh :
     public Asset,
-    public RendererObject
+    public GpuObject<Mesh>
 {
     friend class MeshWriter;
 public:
@@ -89,22 +89,6 @@ public:
     ///
     /// \param name The name of the mesh.
     Mesh(const std::string& name);
-
-    ///
-    /// Constructs a mesh as a copy of another.
-    ///
-    /// \param mesh The mesh to copy.
-    Mesh(const Mesh& mesh);
-
-    ///
-    /// Constructs a mesh moved from another.
-    ///
-    /// \param mesh The mesh to move.
-    Mesh(Mesh&& mesh);
-
-    ///
-    /// Destroys the shader if it is uploaded.
-    ~Mesh();
 
     ///
     /// Returns the vertex layout.
@@ -212,28 +196,6 @@ public:
     ///
     /// \param mesh The other mesh.
     bool operator!=(const Mesh& mesh) const;
-
-    ///
-    /// Replaces the mesh with a copy of another.
-    ///
-    /// \note If the mesh was uploaded to a renderer then it will be destroyed
-    /// before assigned.
-    ///
-    /// \param mesh The mesh to copy.
-    ///
-    /// \returns A reference to the mesh.
-    Mesh& operator=(const Mesh& mesh);
-
-    ///
-    /// Replaces the mesh by moving another.
-    ///
-    /// \note If the mesh was uploaded to a renderer then it will be destroyed
-    /// before assigned.
-    ///
-    /// \param mesh The mesh to move.
-    ///
-    /// \returns A reference to the mesh.
-    Mesh& operator=(Mesh&& mesh);
 
     friend Encoder& operator<<(Encoder& encoder, const Mesh& mesh);
     friend Decoder& operator>>(Decoder& decoder, Mesh& mesh);
