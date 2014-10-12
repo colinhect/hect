@@ -131,7 +131,7 @@ private:
     RenderState _renderState;
 
     std::map<const Uniform*, UniformValue> _resolvedUniformValues;
-    Shader* _resolvedFromShader{ nullptr };
+    Shader* _resolvedFromShader { nullptr };
 };
 
 }

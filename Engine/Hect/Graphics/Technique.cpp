@@ -74,15 +74,15 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Technique& technique)
 {
     return encoder << beginObject()
-        << encodeVector("passes", technique._passes)
-        << endObject();
+           << encodeVector("passes", technique._passes)
+           << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, Technique& technique)
 {
     return decoder >> beginObject()
-        >> decodeVector("passes", technique._passes)
-        >> endObject();
+           >> decodeVector("passes", technique._passes)
+           >> endObject();
 }
 
 }

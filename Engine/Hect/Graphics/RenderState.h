@@ -151,9 +151,9 @@ public:
     friend Decoder& operator>>(Decoder& decoder, RenderState& renderState);
 
 private:
-    uint16_t _flagBits{ RenderStateFlag_DepthTest | RenderStateFlag_CullFace };
-    BlendFactor _sourceFactor{ BlendFactor_One };
-    BlendFactor _destinationFactor{ BlendFactor_One };
+    uint16_t _flagBits { RenderStateFlag_DepthTest | RenderStateFlag_CullFace };
+    BlendFactor _sourceFactor { BlendFactor_One };
+    BlendFactor _destinationFactor { BlendFactor_One };
 };
 
 }

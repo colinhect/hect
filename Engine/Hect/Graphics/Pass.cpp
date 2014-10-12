@@ -177,21 +177,21 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Pass& pass)
 {
     return encoder << beginObject()
-        << encodeValue("shader", pass.shader())
-        << encodeVector("uniformValues", pass._uniformValues)
-        << encodeVector("textures", pass._textures)
-        << encodeValue("renderState", pass._renderState)
-        << endObject();
+           << encodeValue("shader", pass.shader())
+           << encodeVector("uniformValues", pass._uniformValues)
+           << encodeVector("textures", pass._textures)
+           << encodeValue("renderState", pass._renderState)
+           << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, Pass& pass)
 {
     return decoder >> beginObject()
-        >> decodeValue("shader", pass._shader)
-        >> decodeVector("uniformValues", pass._uniformValues)
-        >> decodeVector("textures", pass._textures)
-        >> decodeValue("renderState", pass._renderState)
-        >> endObject();
+           >> decodeValue("shader", pass._shader)
+           >> decodeVector("uniformValues", pass._uniformValues)
+           >> decodeVector("textures", pass._textures)
+           >> decodeValue("renderState", pass._renderState)
+           >> endObject();
 }
 
 }

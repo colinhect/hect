@@ -221,7 +221,7 @@ JsonValue Engine::loadConfig(const Path& configFilePath)
 
 Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* const argv[])
 {
-    std::vector<std::string> argumentStrings{ argv[0] };
+    std::vector<std::string> argumentStrings { argv[0] };
 
     // If there is only one argument given then assume it is a config file path
     if (argc == 2)

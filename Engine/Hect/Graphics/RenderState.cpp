@@ -59,8 +59,8 @@ BlendFactor RenderState::destinationBlendFactor() const
 bool RenderState::operator==(const RenderState& renderState) const
 {
     return _flagBits == renderState._flagBits
-        && _sourceFactor == renderState._sourceFactor
-        && _destinationFactor == renderState._destinationFactor;
+           && _sourceFactor == renderState._sourceFactor
+           && _destinationFactor == renderState._destinationFactor;
 }
 
 bool RenderState::operator!=(const RenderState& renderState) const
@@ -126,9 +126,9 @@ Encoder& operator<<(Encoder& encoder, const RenderState& renderState)
 
     // Blend factors
     encoder << beginObject("blendFactors")
-        << encodeEnum("source", renderState._sourceFactor)
-        << encodeEnum("destination", renderState._destinationFactor)
-        << endObject();
+            << encodeEnum("source", renderState._sourceFactor)
+            << encodeEnum("destination", renderState._destinationFactor)
+            << endObject();
 
     encoder << endObject();
     return encoder;
@@ -174,9 +174,9 @@ Decoder& operator>>(Decoder& decoder, RenderState& renderState)
 
     // Blend factors
     decoder >> beginObject("blendFactors")
-        >> decodeEnum("source", renderState._sourceFactor)
-        >> decodeEnum("destination", renderState._destinationFactor)
-        >> endObject();
+            >> decodeEnum("source", renderState._sourceFactor)
+            >> decodeEnum("destination", renderState._destinationFactor)
+            >> endObject();
 
     decoder >> endObject();
 

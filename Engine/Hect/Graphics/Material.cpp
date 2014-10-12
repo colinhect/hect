@@ -92,15 +92,15 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Material& material)
 {
     return encoder << beginObject()
-        << encodeVector("techniques", material._techniques)
-        << endObject();
+           << encodeVector("techniques", material._techniques)
+           << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, Material& material)
 {
     return decoder >> beginObject()
-        >> decodeVector("techniques", material._techniques)
-        >> endObject();
+           >> decodeVector("techniques", material._techniques)
+           >> endObject();
 }
 
 }

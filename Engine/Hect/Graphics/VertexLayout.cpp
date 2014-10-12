@@ -137,8 +137,8 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout)
 {
     return encoder << beginObject()
-        << encodeVector("attributes", vertexLayout._attributes)
-        << endObject();
+           << encodeVector("attributes", vertexLayout._attributes)
+           << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, VertexLayout& vertexLayout)
@@ -146,8 +146,8 @@ Decoder& operator>>(Decoder& decoder, VertexLayout& vertexLayout)
     vertexLayout.clearAttributes();
 
     decoder >> beginObject()
-        >> decodeVector("attributes", vertexLayout._attributes)
-        >> endObject();
+            >> decodeVector("attributes", vertexLayout._attributes)
+            >> endObject();
 
     vertexLayout.computeAttributeOffsets();
 

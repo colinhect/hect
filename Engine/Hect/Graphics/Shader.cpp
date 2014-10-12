@@ -151,9 +151,9 @@ Decoder& operator>>(Decoder& decoder, Shader& shader)
             Path sourcePath;
 
             decoder >> beginObject()
-                >> decodeEnum("type", type)
-                >> decodeValue("source", sourcePath)
-                >> endObject();
+                    >> decodeEnum("type", type)
+                    >> decodeValue("source", sourcePath)
+                    >> endObject();
 
             sourcePath = decoder.assetCache().resolvePath(sourcePath);
 

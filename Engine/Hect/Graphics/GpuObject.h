@@ -55,7 +55,7 @@ private:
     void setAsUploaded(Renderer& renderer, GpuData<T>* data);
     void setAsDestroyed();
 
-    Renderer* _renderer{ nullptr };
+    Renderer* _renderer { nullptr };
     GpuDataHandle<T> _handle;
 };
 

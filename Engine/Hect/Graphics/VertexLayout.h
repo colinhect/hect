@@ -102,7 +102,7 @@ private:
     void computeAttributeOffsets();
 
     AttributeContainer _attributes;
-    unsigned _vertexSize{ 0 };
+    unsigned _vertexSize { 0 };
 };
 
 }

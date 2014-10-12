@@ -226,21 +226,21 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Texture& texture);
 
 private:
-    TextureType _type{ TextureType_2D };
+    TextureType _type { TextureType_2D };
 
     ImageContainer _sourceImages;
 
-    unsigned _width{ 0 };
-    unsigned _height{ 0 };
+    unsigned _width { 0 };
+    unsigned _height { 0 };
 
-    PixelType _pixelType{ PixelType_Byte };
-    PixelFormat _pixelFormat{ PixelFormat_Rgba };
+    PixelType _pixelType { PixelType_Byte };
+    PixelFormat _pixelFormat { PixelFormat_Rgba };
 
-    TextureFilter _minFilter{ TextureFilter_Linear };
-    TextureFilter _magFilter{ TextureFilter_Linear };
+    TextureFilter _minFilter { TextureFilter_Linear };
+    TextureFilter _magFilter { TextureFilter_Linear };
 
-    bool _mipmapped{ true };
-    bool _wrapped{ false };
+    bool _mipmapped { true };
+    bool _wrapped { false };
 };
 
 }

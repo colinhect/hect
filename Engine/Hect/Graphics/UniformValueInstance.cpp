@@ -62,17 +62,17 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const UniformValueInstance& uniformValueInstance)
 {
     return encoder << beginObject()
-        << encodeValue("name", uniformValueInstance._name)
-        << encodeValue(uniformValueInstance._value)
-        << endObject();
+           << encodeValue("name", uniformValueInstance._name)
+           << encodeValue(uniformValueInstance._value)
+           << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, UniformValueInstance& uniformValueInstance)
 {
     return decoder >> beginObject()
-        >> decodeValue("name", uniformValueInstance._name)
-        >> decodeValue(uniformValueInstance._value)
-        >> endObject();
+           >> decodeValue("name", uniformValueInstance._name)
+           >> decodeValue(uniformValueInstance._value)
+           >> endObject();
 }
 
 }

@@ -1124,7 +1124,7 @@ TEST_CASE("World_EntityFindChildren")
     Entity::Iterator::Vector iters = a->findChildren([](const Entity& entity)
     {
         return entity.component<String>()->value == "B" ||
-            entity.component<String>()->value == "C";
+               entity.component<String>()->value == "C";
     });
     REQUIRE(iters.size() == 2);
     REQUIRE(iters[0] == b);
@@ -1215,7 +1215,7 @@ TEST_CASE("World_EntityFindDescendants")
     Entity::Iterator::Vector iters = a->findDescendants([](const Entity& entity)
     {
         return entity.component<String>()->value == "B" ||
-            entity.component<String>()->value == "C";
+               entity.component<String>()->value == "C";
     });
     REQUIRE(iters.size() == 2);
     REQUIRE(iters[0] == b);
@@ -1312,7 +1312,7 @@ TEST_CASE("World_EntityFindAncestors")
     Entity::Iterator::Vector iters = d->findAncestors([](const Entity& entity)
     {
         return entity.component<String>()->value == "C" ||
-            entity.component<String>()->value == "A";
+               entity.component<String>()->value == "A";
     });
     REQUIRE(iters.size() == 2);
     REQUIRE(iters[0] == c);

@@ -97,19 +97,19 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const VertexAttribute& vertexAttribute)
 {
     return encoder << beginObject()
-        << encodeEnum("semantic", vertexAttribute._semantic)
-        << encodeEnum("type", vertexAttribute._type)
-        << encodeValue("cardinality", vertexAttribute._cardinality)
-        << endObject();
+           << encodeEnum("semantic", vertexAttribute._semantic)
+           << encodeEnum("type", vertexAttribute._type)
+           << encodeValue("cardinality", vertexAttribute._cardinality)
+           << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, VertexAttribute& vertexAttribute)
 {
     return decoder >> beginObject()
-        >> decodeEnum("semantic", vertexAttribute._semantic)
-        >> decodeEnum("type", vertexAttribute._type)
-        >> decodeValue("cardinality", vertexAttribute._cardinality)
-        >> endObject();
+           >> decodeEnum("semantic", vertexAttribute._semantic)
+           >> decodeEnum("type", vertexAttribute._type)
+           >> decodeValue("cardinality", vertexAttribute._cardinality)
+           >> endObject();
 }
 
 }

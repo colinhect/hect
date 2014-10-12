@@ -222,10 +222,10 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
 {
     encoder << beginObject();
-    
+
     encoder << encodeValue("vertexLayout", mesh.vertexLayout())
-        << encodeEnum("indexType", mesh.indexType())
-        << encodeEnum("primitiveType", mesh.primitiveType());
+            << encodeEnum("indexType", mesh.indexType())
+            << encodeEnum("primitiveType", mesh.primitiveType());
 
     if (encoder.isBinaryStream())
     {
@@ -302,7 +302,7 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
 Decoder& operator>>(Decoder& decoder, Mesh& mesh)
 {
     decoder >> beginObject();
-    
+
     // Vertex layout
     VertexLayout vertexLayout = mesh._vertexLayout;
     decoder >> decodeValue("vertexLayout", vertexLayout);
