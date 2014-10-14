@@ -25,6 +25,8 @@
 
 #include <string>
 
+#include "Hect/IO/AssetCache.h"
+
 namespace hect
 {
 

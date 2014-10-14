@@ -25,7 +25,7 @@
 
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Error.h"
-#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/GraphicsContext.h"
 
 using namespace hect;
 
@@ -96,7 +96,7 @@ void Texture::addSourceImage(const AssetHandle<Image>& image)
 
     if (isUploaded())
     {
-        renderer().destroyTexture(*this);
+        graphicsContext().destroyTexture(*this);
     }
 
     if (!_sourceImages.empty())
@@ -130,7 +130,7 @@ void Texture::clearSourceImages()
 
     if (isUploaded())
     {
-        renderer().destroyTexture(*this);
+        graphicsContext().destroyTexture(*this);
     }
 
     _sourceImages.clear();
@@ -145,7 +145,7 @@ void Texture::setMinFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
-        renderer().destroyTexture(*this);
+        graphicsContext().destroyTexture(*this);
     }
 
     _minFilter = filter;
@@ -160,7 +160,7 @@ void Texture::setMagFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
-        renderer().destroyTexture(*this);
+        graphicsContext().destroyTexture(*this);
     }
 
     _magFilter = filter;
@@ -175,7 +175,7 @@ void Texture::setMipmapped(bool mipmapped)
 {
     if (isUploaded())
     {
-        renderer().destroyTexture(*this);
+        graphicsContext().destroyTexture(*this);
     }
 
     _mipmapped = mipmapped;
@@ -190,7 +190,7 @@ void Texture::setWrapped(bool wrapped)
 {
     if (isUploaded())
     {
-        renderer().destroyTexture(*this);
+        graphicsContext().destroyTexture(*this);
     }
 
     _wrapped = wrapped;

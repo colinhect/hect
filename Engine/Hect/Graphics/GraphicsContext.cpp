@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Renderer.h"
+#include "GraphicsContext.h"
 
 #include <GL/glew.h>
 
@@ -30,6 +30,13 @@
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
+#include "Hect/Graphics/FrameBuffer.h"
+#include "Hect/Graphics/Material.h"
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/Graphics/RenderTarget.h"
+#include "Hect/Graphics/Shader.h"
+#include "Hect/Graphics/Texture.h"
+#include "Hect/Graphics/Window.h"
 
 using namespace hect;
 
@@ -40,11 +47,11 @@ using namespace hect;
 #endif
 
 class ShaderData :
-    public GpuData<Shader>
+    public GraphicsContext::Data<Shader>
 {
 public:
-    ShaderData(Renderer& renderer, Shader& object, GLuint programId, const std::vector<GLuint>& shaderIds) :
-        GpuData<Shader>(renderer, object),
+    ShaderData(GraphicsContext& graphicsContext, Shader& object, GLuint programId, const std::vector<GLuint>& shaderIds) :
+        GraphicsContext::Data<Shader>(graphicsContext, object),
         programId(programId),
         shaderIds(shaderIds)
     {
@@ -54,7 +61,7 @@ public:
     {
         if (object && object->isUploaded())
         {
-            renderer->destroyShader(*object);
+            graphicsContext->destroyShader(*object);
         }
     }
 
@@ -63,11 +70,11 @@ public:
 };
 
 class TextureData :
-    public GpuData<Texture>
+    public GraphicsContext::Data<Texture>
 {
 public:
-    TextureData(Renderer& renderer, Texture& object, GLuint textureId) :
-        GpuData<Texture>(renderer, object),
+    TextureData(GraphicsContext& graphicsContext, Texture& object, GLuint textureId) :
+        GraphicsContext::Data<Texture>(graphicsContext, object),
         textureId(textureId)
     {
     }
@@ -76,7 +83,7 @@ public:
     {
         if (object && object->isUploaded())
         {
-            renderer->destroyTexture(*object);
+            graphicsContext->destroyTexture(*object);
         }
     }
 
@@ -84,11 +91,11 @@ public:
 };
 
 class FrameBufferData :
-    public GpuData<FrameBuffer>
+    public GraphicsContext::Data<FrameBuffer>
 {
 public:
-    FrameBufferData(Renderer& renderer, FrameBuffer& object, GLuint frameBufferId, GLuint depthBufferId) :
-        GpuData<FrameBuffer>(renderer, object),
+    FrameBufferData(GraphicsContext& graphicsContext, FrameBuffer& object, GLuint frameBufferId, GLuint depthBufferId) :
+        GraphicsContext::Data<FrameBuffer>(graphicsContext, object),
         frameBufferId(frameBufferId),
         depthBufferId(depthBufferId)
     {
@@ -98,7 +105,7 @@ public:
     {
         if (object && object->isUploaded())
         {
-            renderer->destroyFrameBuffer(*object);
+            graphicsContext->destroyFrameBuffer(*object);
         }
     }
 
@@ -107,11 +114,11 @@ public:
 };
 
 class MeshData :
-    public GpuData<Mesh>
+    public GraphicsContext::Data<Mesh>
 {
 public:
-    MeshData(Renderer& renderer, Mesh& object, GLuint vertexArrayId, GLuint vertexBufferId, GLuint indexBufferId) :
-        GpuData<Mesh>(renderer, object),
+    MeshData(GraphicsContext& graphicsContext, Mesh& object, GLuint vertexArrayId, GLuint vertexBufferId, GLuint indexBufferId) :
+        GraphicsContext::Data<Mesh>(graphicsContext, object),
         vertexArrayId(vertexArrayId),
         vertexBufferId(vertexBufferId),
         indexBufferId(indexBufferId)
@@ -122,7 +129,7 @@ public:
     {
         if (object && object->isUploaded())
         {
-            renderer->destroyMesh(*object);
+            graphicsContext->destroyMesh(*object);
         }
     }
 
@@ -255,13 +262,13 @@ GLenum _textureTypeLookUp[3] =
     GL_TEXTURE_CUBE_MAP
 };
 
-Renderer::Renderer(Window& window) :
+GraphicsContext::GraphicsContext(Window& window) :
     _boundTarget(nullptr),
     _boundShader(nullptr),
     _boundMesh(nullptr)
 {
     // This is a parameter only to ensure the window is created before the
-    // renderer; I'm not sure if the renderer has any use for it
+    // GPU context; I'm not sure if the GPU context has any use for it
     window;
 
     glewExperimental = GL_TRUE;
@@ -300,11 +307,11 @@ Renderer::Renderer(Window& window) :
     clear();
 }
 
-void Renderer::beginFrame()
+void GraphicsContext::beginFrame()
 {
 }
 
-void Renderer::endFrame()
+void GraphicsContext::endFrame()
 {
     // Clear the bound target
     if (_boundTarget)
@@ -338,7 +345,7 @@ void Renderer::endFrame()
     }
 }
 
-void Renderer::bindState(const RenderState& state)
+void GraphicsContext::bindState(const RenderState& state)
 {
     if (state.isEnabled(RenderStateFlag_DepthTest))
     {
@@ -373,12 +380,12 @@ void Renderer::bindState(const RenderState& state)
     }
 }
 
-void Renderer::bindTarget(RenderTarget& renderTarget)
+void GraphicsContext::bindTarget(RenderTarget& renderTarget)
 {
     renderTarget.bind(*this);
 }
 
-void Renderer::bindWindow(Window& window)
+void GraphicsContext::bindWindow(Window& window)
 {
     // Avoid binding an already bound target
     if (&window == _boundTarget)
@@ -391,7 +398,7 @@ void Renderer::bindWindow(Window& window)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void Renderer::bindFrameBuffer(FrameBuffer& frameBuffer)
+void GraphicsContext::bindFrameBuffer(FrameBuffer& frameBuffer)
 {
     // Avoid binding an already bound target
     if (&frameBuffer == _boundTarget)
@@ -411,7 +418,7 @@ void Renderer::bindFrameBuffer(FrameBuffer& frameBuffer)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
 }
 
-void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
+void GraphicsContext::uploadFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (frameBuffer.isUploaded())
     {
@@ -457,7 +464,7 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void Renderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
+void GraphicsContext::destroyFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -472,7 +479,7 @@ void Renderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
     frameBuffer.setAsDestroyed();
 }
 
-void Renderer::bindShader(Shader& shader)
+void GraphicsContext::bindShader(Shader& shader)
 {
     // Avoid binding an already bound shader
     if (&shader == _boundShader && shader.isUploaded())
@@ -500,7 +507,7 @@ void Renderer::bindShader(Shader& shader)
     }
 }
 
-void Renderer::uploadShader(Shader& shader)
+void GraphicsContext::uploadShader(Shader& shader)
 {
     if (shader.isUploaded())
     {
@@ -599,7 +606,7 @@ void Renderer::uploadShader(Shader& shader)
     shader.setAsUploaded(*this, new ShaderData(*this, shader, programId, shaderIds));
 }
 
-void Renderer::destroyShader(Shader& shader)
+void GraphicsContext::destroyShader(Shader& shader)
 {
     if (!shader.isUploaded())
     {
@@ -623,7 +630,7 @@ void Renderer::destroyShader(Shader& shader)
     shader.setAsDestroyed();
 }
 
-void Renderer::setUniform(const Uniform& uniform, const UniformValue& value)
+void GraphicsContext::setUniform(const Uniform& uniform, const UniformValue& value)
 {
     if (!_boundShader)
     {
@@ -660,7 +667,7 @@ void Renderer::setUniform(const Uniform& uniform, const UniformValue& value)
     }
 }
 
-void Renderer::bindTexture(Texture& texture, unsigned index)
+void GraphicsContext::bindTexture(Texture& texture, unsigned index)
 {
     if (index >= _capabilities.maxTextureUnits)
     {
@@ -683,7 +690,7 @@ void Renderer::bindTexture(Texture& texture, unsigned index)
     GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->textureId));
 }
 
-void Renderer::uploadTexture(Texture& texture)
+void GraphicsContext::uploadTexture(Texture& texture)
 {
     if (texture.isUploaded())
     {
@@ -767,7 +774,7 @@ void Renderer::uploadTexture(Texture& texture)
     texture.setAsUploaded(*this, new TextureData(*this, texture, textureId));
 }
 
-void Renderer::destroyTexture(Texture& texture)
+void GraphicsContext::destroyTexture(Texture& texture)
 {
     if (!texture.isUploaded())
     {
@@ -782,7 +789,7 @@ void Renderer::destroyTexture(Texture& texture)
     texture.setAsDestroyed();
 }
 
-Image Renderer::downloadTextureImage(const Texture& texture)
+Image GraphicsContext::downloadTextureImage(const Texture& texture)
 {
     if (!texture.isUploaded())
     {
@@ -818,7 +825,7 @@ Image Renderer::downloadTextureImage(const Texture& texture)
     return image;
 }
 
-void Renderer::bindMesh(Mesh& mesh)
+void GraphicsContext::bindMesh(Mesh& mesh)
 {
     if (&mesh == _boundMesh)
     {
@@ -835,7 +842,7 @@ void Renderer::bindMesh(Mesh& mesh)
     GL_ASSERT(glBindVertexArray(data->vertexArrayId));
 }
 
-void Renderer::uploadMesh(Mesh& mesh)
+void GraphicsContext::uploadMesh(Mesh& mesh)
 {
     if (mesh.isUploaded())
     {
@@ -919,7 +926,7 @@ void Renderer::uploadMesh(Mesh& mesh)
     mesh.setAsUploaded(*this, new MeshData(*this, mesh, vertexArrayId, vertexBufferId, indexBufferId));
 }
 
-void Renderer::destroyMesh(Mesh& mesh)
+void GraphicsContext::destroyMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
     {
@@ -939,7 +946,7 @@ void Renderer::destroyMesh(Mesh& mesh)
     mesh.setAsDestroyed();
 }
 
-void Renderer::draw()
+void GraphicsContext::draw()
 {
     if (!_boundMesh)
     {
@@ -956,12 +963,12 @@ void Renderer::draw()
     );
 }
 
-void Renderer::clear()
+void GraphicsContext::clear()
 {
     GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
-const Renderer::Capabilities& Renderer::capabilities() const
+const GraphicsContext::Capabilities& GraphicsContext::capabilities() const
 {
     return _capabilities;
 }

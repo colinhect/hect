@@ -38,8 +38,8 @@
 
 using namespace hect;
 
-RenderSystem::RenderSystem(Renderer& renderer, AssetCache& assetCache) :
-    _renderer(&renderer),
+RenderSystem::RenderSystem(GraphicsContext& graphicsContext, AssetCache& assetCache) :
+    _graphicsContext(&graphicsContext),
     _buffersInitialized(false)
 {
     _compositorShader = assetCache.getHandle<Shader>("Hect/Compositor.shader");
@@ -93,9 +93,9 @@ void RenderSystem::renderAll(RenderTarget& target)
 
         // Model buffer rendering
         {
-            renderer().beginFrame();
-            renderer().bindTarget(_geometryBuffer);
-            renderer().clear();
+            graphicsContext().beginFrame();
+            graphicsContext().bindTarget(_geometryBuffer);
+            graphicsContext().clear();
 
             // Render the sky box if there is one
             auto skyBox = world.components<SkyBox>().begin();
@@ -128,20 +128,20 @@ void RenderSystem::renderAll(RenderTarget& target)
                 }
             }
 
-            renderer().endFrame();
+            graphicsContext().endFrame();
         }
 
         // Accumulation buffer rendering
         {
-            renderer().beginFrame();
-            renderer().bindTarget(_accumulationBuffer);
-            renderer().clear();
+            graphicsContext().beginFrame();
+            graphicsContext().bindTarget(_accumulationBuffer);
+            graphicsContext().clear();
 
             RenderState state;
             state.enable(RenderStateFlag_Blend);
             state.disable(RenderStateFlag_DepthTest);
             state.disable(RenderStateFlag_DepthWrite);
-            renderer().bindState(state);
+            graphicsContext().bindState(state);
 
             // Get the first light probe
             auto lightProbe = world.components<LightProbe>().begin();
@@ -153,24 +153,24 @@ void RenderSystem::renderAll(RenderTarget& target)
             unsigned int index = 0;
             for (Texture& target : _geometryBuffer.targets())
             {
-                renderer().bindTexture(target, index++);
+                graphicsContext().bindTexture(target, index++);
             }
-            renderer().bindTexture(*lightProbe->texture, index++);
-            renderer().bindMesh(*_screenMesh);
+            graphicsContext().bindTexture(*lightProbe->texture, index++);
+            graphicsContext().bindMesh(*_screenMesh);
 
             Transform identity;
 
             // Render environment light
             {
-                renderer().bindShader(*_environmentShader);
+                graphicsContext().bindShader(*_environmentShader);
                 setBoundUniforms(*_environmentShader, *camera, target, identity);
 
-                renderer().draw();
+                graphicsContext().draw();
             }
 
             // Render directional lights
             {
-                renderer().bindShader(*_directionalLightShader);
+                graphicsContext().bindShader(*_directionalLightShader);
                 setBoundUniforms(*_directionalLightShader, *camera, target, identity);
 
                 // Get the uniforms required for directional lights
@@ -180,9 +180,9 @@ void RenderSystem::renderAll(RenderTarget& target)
                 // Render each directional light in the world
                 for (const DirectionalLight& light : world.components<DirectionalLight>())
                 {
-                    renderer().setUniform(colorUniform, light.color);
-                    renderer().setUniform(directionUniform, light.direction);
-                    renderer().draw();
+                    graphicsContext().setUniform(colorUniform, light.color);
+                    graphicsContext().setUniform(directionUniform, light.direction);
+                    graphicsContext().draw();
                 }
             }
 
@@ -190,29 +190,29 @@ void RenderSystem::renderAll(RenderTarget& target)
             {
             }
 
-            renderer().endFrame();
+            graphicsContext().endFrame();
         }
 
         // Compositor rendering
         {
-            renderer().beginFrame();
-            renderer().bindTarget(target);
-            renderer().clear();
+            graphicsContext().beginFrame();
+            graphicsContext().bindTarget(target);
+            graphicsContext().clear();
 
             RenderState state;
             state.disable(RenderStateFlag_DepthTest);
-            renderer().bindState(state);
+            graphicsContext().bindState(state);
 
-            renderer().bindShader(*_compositorShader);
+            graphicsContext().bindShader(*_compositorShader);
 
-            renderer().bindTexture(*_geometryBuffer.targets().begin(), 0);
-            renderer().bindTexture(*_accumulationBuffer.targets().begin(), 1);
+            graphicsContext().bindTexture(*_geometryBuffer.targets().begin(), 0);
+            graphicsContext().bindTexture(*_accumulationBuffer.targets().begin(), 1);
 
             // Bind and draw the composited image
-            renderer().bindMesh(*_screenMesh);
-            renderer().draw();
+            graphicsContext().bindMesh(*_screenMesh);
+            graphicsContext().draw();
 
-            renderer().endFrame();
+            graphicsContext().endFrame();
         }
     }
 }
@@ -291,15 +291,15 @@ void RenderSystem::renderMesh(const Camera& camera, const RenderTarget& target, 
 void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform)
 {
     // Prepare the pass
-    pass.prepare(*_renderer);
+    pass.prepare(*_graphicsContext);
 
     // Set uniforms with bindings
     Shader& shader = *pass.shader();
     setBoundUniforms(shader, camera, target, transform);
 
     // Bind and draw the mesh
-    _renderer->bindMesh(mesh);
-    _renderer->draw();
+    _graphicsContext->bindMesh(mesh);
+    _graphicsContext->draw();
 }
 
 void RenderSystem::setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
@@ -332,44 +332,44 @@ void RenderSystem::setBoundUniforms(Shader& shader, const Camera& camera, const 
             switch (binding)
             {
             case UniformBinding_RenderTargetSize:
-                _renderer->setUniform(uniform, Vector2((Real)target.width(), (Real)target.height()));
+                _graphicsContext->setUniform(uniform, Vector2((Real)target.width(), (Real)target.height()));
                 break;
             case UniformBinding_CameraPosition:
-                _renderer->setUniform(uniform, camera.position);
+                _graphicsContext->setUniform(uniform, camera.position);
                 break;
             case UniformBinding_CameraFront:
-                _renderer->setUniform(uniform, camera.front);
+                _graphicsContext->setUniform(uniform, camera.front);
                 break;
             case UniformBinding_CameraUp:
-                _renderer->setUniform(uniform, camera.up);
+                _graphicsContext->setUniform(uniform, camera.up);
                 break;
             case UniformBinding_ViewMatrix:
-                _renderer->setUniform(uniform, camera.viewMatrix);
+                _graphicsContext->setUniform(uniform, camera.viewMatrix);
                 break;
             case UniformBinding_ProjectionMatrix:
-                _renderer->setUniform(uniform, camera.projectionMatrix);
+                _graphicsContext->setUniform(uniform, camera.projectionMatrix);
                 break;
             case UniformBinding_ViewProjectionMatrix:
-                _renderer->setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
+                _graphicsContext->setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
                 break;
             case UniformBinding_ModelMatrix:
-                _renderer->setUniform(uniform, model);
+                _graphicsContext->setUniform(uniform, model);
                 break;
             case UniformBinding_ModelViewMatrix:
-                _renderer->setUniform(uniform, camera.viewMatrix * model);
+                _graphicsContext->setUniform(uniform, camera.viewMatrix * model);
                 break;
             case UniformBinding_ModelViewProjectionMatrix:
-                _renderer->setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
+                _graphicsContext->setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
                 break;
             }
         }
     }
 }
 
-Renderer& RenderSystem::renderer()
+GraphicsContext& RenderSystem::graphicsContext()
 {
-    assert(_renderer);
-    return *_renderer;
+    assert(_graphicsContext);
+    return *_graphicsContext;
 }
 
 void RenderSystem::initializeBuffers(unsigned width, unsigned height)

@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShaderModule.h"
 
-#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/GraphicsContext.h"
 
 using namespace hect;
 

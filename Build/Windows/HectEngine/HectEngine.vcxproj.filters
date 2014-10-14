@@ -129,9 +129,6 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Pass.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\Renderer.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderTarget.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -423,10 +420,7 @@
     <ClInclude Include="..\..\..\Engine\Hect\IO\Asset.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\GpuObject.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\GpuData.h">
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\GraphicsContext.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -462,9 +456,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Pass.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\Renderer.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderTarget.cpp">
@@ -710,6 +701,9 @@
     <ClCompile Include="..\..\..\Engine\Hect\IO\Asset.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\GraphicsContext.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Engine\Hect\Core\Any.inl">
@@ -793,10 +787,7 @@
     <None Include="..\..\..\Engine\Hect\IO\EncodeOperations.inl">
       <Filter>Source\Hect\IO</Filter>
     </None>
-    <None Include="..\..\..\Engine\Hect\Graphics\GpuData.inl">
-      <Filter>Source\Hect\Graphics</Filter>
-    </None>
-    <None Include="..\..\..\Engine\Hect\Graphics\GpuObject.inl">
+    <None Include="..\..\..\Engine\Hect\Graphics\GraphicsContext.inl">
       <Filter>Source\Hect\Graphics</Filter>
     </None>
   </ItemGroup>

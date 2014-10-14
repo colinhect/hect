@@ -26,7 +26,7 @@
 #include "Hect/Core/Error.h"
 #include "Hect/Graphics/MeshReader.h"
 #include "Hect/Graphics/MeshWriter.h"
-#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/GraphicsContext.h"
 
 using namespace hect;
 
@@ -58,7 +58,7 @@ void Mesh::setVertexLayout(const VertexLayout& vertexLayout)
 {
     if (isUploaded())
     {
-        renderer().destroyMesh(*this);
+        graphicsContext().destroyMesh(*this);
     }
 
     if (_vertexData.size() != 0)
@@ -78,7 +78,7 @@ void Mesh::setPrimitiveType(PrimitiveType primitiveType)
 {
     if (isUploaded())
     {
-        renderer().destroyMesh(*this);
+        graphicsContext().destroyMesh(*this);
     }
 
     _primitiveType = primitiveType;
@@ -93,7 +93,7 @@ void Mesh::setIndexType(IndexType indexType)
 {
     if (isUploaded())
     {
-        renderer().destroyMesh(*this);
+        graphicsContext().destroyMesh(*this);
     }
 
     if (_indexData.size() != 0)
@@ -113,7 +113,7 @@ void Mesh::setVertexData(const VertexData& vertexData)
 {
     if (isUploaded())
     {
-        renderer().destroyMesh(*this);
+        graphicsContext().destroyMesh(*this);
     }
 
     _vertexData = vertexData;
@@ -134,7 +134,7 @@ void Mesh::setIndexData(const IndexData& indexData)
 {
     if (isUploaded())
     {
-        renderer().destroyMesh(*this);
+        graphicsContext().destroyMesh(*this);
     }
 
     _indexData = indexData;

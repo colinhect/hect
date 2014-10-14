@@ -86,10 +86,10 @@ Engine::Engine(int argc, char* const argv[])
             throw Error(format("Invalid video mode: %s", error.what()));
         }
 
-        // Create window and renderer
+        // Create window and graphics context
         _window = Platform::createWindow("Hect", videoMode);
-        _renderer.reset(new Renderer(*_window));
-        _renderSystem.reset(new RenderSystem(*_renderer, *_assetCache));
+        _graphicsContext.reset(new GraphicsContext(*_window));
+        _renderSystem.reset(new RenderSystem(*_graphicsContext, *_assetCache));
     }
 }
 
@@ -97,7 +97,7 @@ Engine::~Engine()
 {
     _renderSystem.reset();
     _assetCache.reset();
-    _renderer.reset();
+    _graphicsContext.reset();
     _window.reset();
 
     Platform::deinitialize();
@@ -142,13 +142,13 @@ int Engine::main()
     return 0;
 }
 
-Renderer& Engine::renderer()
+GraphicsContext& Engine::graphicsContext()
 {
-    if (!_renderer)
+    if (!_graphicsContext)
     {
-        throw Error("No available renderer");
+        throw Error("No available graphics context");
     }
-    return *_renderer;
+    return *_graphicsContext;
 }
 
 RenderSystem& Engine::renderSystem()

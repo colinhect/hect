@@ -30,13 +30,11 @@
 namespace hect
 {
 
-class Renderer;
-
 ///
 /// A multi-target buffer on the GPU that can be rendered to.
 class FrameBuffer :
     public RenderTarget,
-    public GpuObject<FrameBuffer>
+    public GraphicsContext::Object<FrameBuffer>
 {
     typedef std::vector<Texture> TextureContainer;
 public:
@@ -45,7 +43,7 @@ public:
     /// A sequence of textures.
     typedef Sequence<Texture, TextureContainer> TextureSequence;
 
-    void bind(Renderer& renderer) override;
+    void bind(GraphicsContext& graphicsContext) override;
 
     ///
     /// Returns the targets of the frame buffer.

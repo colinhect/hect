@@ -23,8 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Graphics/FrameBuffer.h"
+#include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/System.h"
 
@@ -34,7 +36,7 @@ namespace hect
 class RenderSystem
 {
 public:
-    RenderSystem(Renderer& renderer, AssetCache& assetCache);
+    RenderSystem(GraphicsContext& graphicsContext, AssetCache& assetCache);
 
     void addWorld(World& world);
     void removeWorld(World& world);
@@ -47,12 +49,12 @@ public:
 
     void setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
-    Renderer& renderer();
+    GraphicsContext& graphicsContext();
 
 private:
     void initializeBuffers(unsigned width, unsigned height);
 
-    Renderer* _renderer;
+    GraphicsContext* _graphicsContext;
 
     std::vector<World*> _worlds;
 

@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Window.h"
 
-#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/GraphicsContext.h"
 
 using namespace hect;
 
@@ -37,7 +37,7 @@ Window::~Window()
 {
 }
 
-void Window::bind(Renderer& renderer)
+void Window::bind(GraphicsContext& graphicsContext)
 {
-    renderer.bindWindow(*this);
+    graphicsContext.bindWindow(*this);
 }

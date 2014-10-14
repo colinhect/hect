@@ -55,10 +55,10 @@ public:
     typedef Sequence<UniformValueInstance, UniformValueContainer> UniformValueSequence;
 
     ///
-    /// Prepares a renderer to begin using this pass.
+    /// Prepares a graphics context to begin using this pass.
     ///
-    /// \param renderer The renderer to prepare.
-    void prepare(Renderer& renderer);
+    /// \param graphicsContext The graphics context to prepare.
+    void prepare(GraphicsContext& graphicsContext);
 
     ///
     /// Returns the shader.

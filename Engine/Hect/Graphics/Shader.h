@@ -28,7 +28,7 @@
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/Graphics/Uniform.h"
-#include "Hect/Graphics/GpuObject.h"
+#include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Graphics/ShaderModule.h"
 
 namespace hect
@@ -38,7 +38,7 @@ namespace hect
 /// A GPU shader program.
 class Shader :
     public Asset,
-    public GpuObject<Shader>
+    public GraphicsContext::Object<Shader>
 {
     typedef std::vector<ShaderModule> ModuleContainer;
     typedef std::vector<Uniform> UniformContainer;
@@ -65,7 +65,7 @@ public:
     ///
     /// Adds a module to the shader.
     ///
-    /// \note If the shader is uploaded to a renderer then it will be
+    /// \note If the shader is uploaded to a graphics context then it will be
     /// destroyed before the module is added.
     ///
     /// \param module The module to add.
@@ -82,7 +82,7 @@ public:
     ///
     /// Adds a uniform to the shader.
     ///
-    /// \note If the shader is uploaded to a renderer then it will be
+    /// \note If the shader is uploaded to a graphics context then it will be
     /// destroyed before the uniform is added.
     ///
     /// \param uniform The uniform to add.

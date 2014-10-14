@@ -15,5 +15,8 @@
     <ClCompile Include="..\..\..\Tests\SystemTests\EncodingTests.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicsContextTests.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -25,7 +25,7 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
-#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/GraphicsContext.h"
 
 using namespace hect;
 
@@ -43,7 +43,7 @@ void Shader::addModule(const ShaderModule& module)
     if (isUploaded())
     {
         // The shader will need to be re-uploaded for the change to take effect
-        renderer().destroyShader(*this);
+        graphicsContext().destroyShader(*this);
     }
     _modules.push_back(module);
 }
@@ -63,7 +63,7 @@ void Shader::addUniform(const Uniform& uniform)
     if (isUploaded())
     {
         // The shader will need to be re-uploaded for the change to take effect
-        renderer().destroyShader(*this);
+        graphicsContext().destroyShader(*this);
     }
 
     _uniforms.push_back(uniform);

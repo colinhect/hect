@@ -24,21 +24,25 @@
 #pragma once
 
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/FrameBuffer.h"
-#include "Hect/Graphics/Material.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/RenderTarget.h"
-#include "Hect/Graphics/Shader.h"
-#include "Hect/Graphics/Texture.h"
-#include "Hect/Graphics/Window.h"
+#include "Hect/Graphics/RenderState.h"
+#include "Hect/Graphics/Image.h"
 
 namespace hect
 {
 
+class FrameBuffer;
+class Mesh;
+class RenderTarget;
+class Shader;
+class Texture;
+class Uniform;
+class UniformValue;
+class Window;
+
 ///
 /// A higher-level abstraction over a hardware-accelerated graphics API such as
 /// OpenGL or DirectX.
-class Renderer :
+class GraphicsContext :
     public Uncopyable
 {
 public:
@@ -53,10 +57,123 @@ public:
     };
 
     ///
-    /// Constructs a renderer given the window its context belongs to.
+    /// Data which provides a handle to the API-specific data.
+    template <typename T>
+    class Data
+    {
+    public:
+
+        ///
+        /// Constructs the data given the graphics context and the object that the
+        /// data represents.
+        ///
+        /// \param graphicsContext The graphics context that the data is uploaded
+        /// to.
+        /// \param object The object that the data represents.
+        Data(GraphicsContext& graphicsContext, T& object);
+
+        virtual ~Data();
+
+        ///
+        /// Invalidates the GPU data.
+        void invalidate();
+
+    protected:
+        GraphicsContext* graphicsContext;
+        T* object;
+    };
+    
+    ///
+    /// A handle to API-specific data.
+    ///
+    /// \note Copying results in the data not being copied.  Moving results in the
+    /// data being moved.
+    template <typename T>
+    class DataHandle
+    {
+    public:
+
+        ///
+        /// Constructs a handle with no data.
+        DataHandle();
+
+        ///
+        /// Constructs a handle given the data.
+        ///
+        /// \param data The data.
+        DataHandle(Data<T>* data);
+
+        ///
+        /// Constructs a handle copied from another.
+        ///
+        /// \param handle The handle to copy.
+        DataHandle(const DataHandle<T>& handle);
+
+        ///
+        /// Constructs a handle moved from another.
+        ///
+        /// \param handle The handle to move.
+        DataHandle(DataHandle<T>&& handle);
+
+        ///
+        /// Sets the handle as a copy of another.
+        ///
+        /// \param handle The handle to copy.
+        DataHandle& operator=(const DataHandle<T>& handle);
+
+        ///
+        /// Sets the handle as being moved from another.
+        ///
+        /// \param handle The handle to move.
+        DataHandle& operator=(DataHandle<T>&& handle);
+
+        ///
+        /// Resets the handle to represent new data.
+        ///
+        /// \param data The new data the handle represents
+        void reset(Data<T>* data);
+
+        ///
+        /// The data that the handle represents.
+        std::unique_ptr<Data<T>> data;
+    };
+
+    ///
+    /// An object which can be uploaded to a graphics context.
+    template <typename T>
+    class Object
+    {
+        friend class GraphicsContext;
+    public:
+        virtual ~Object();
+
+        ///
+        /// Returns whether the object is uploaded to a graphics context.
+        bool isUploaded() const;
+
+        ///
+        /// Returns the graphics context that the object is uploaded to.
+        ///
+        /// \throws Error If the object is not uploaded.
+        GraphicsContext& graphicsContext();
+
+    private:
+
+        template <typename U>
+        U* dataAs() const;
+
+        void setAsUploaded(GraphicsContext& graphicsContext, Data<T>* data);
+        void setAsDestroyed();
+
+        GraphicsContext* _graphicsContext{ nullptr };
+        DataHandle<T> _handle;
+    };
+
+    ///
+    /// Constructs a graphics context given the window its context belongs to.
     ///
     /// \param window The window which has the context.
-    Renderer(Window& window);
+    GraphicsContext(Window& window);
 
     ///
     /// Begin a new frame.
@@ -204,3 +321,5 @@ private:
 };
 
 }
+
+#include "GraphicsContext.inl"

@@ -25,13 +25,13 @@
 
 #include <algorithm>
 
-#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/GraphicsContext.h"
 
 using namespace hect;
 
-void FrameBuffer::bind(Renderer& renderer)
+void FrameBuffer::bind(GraphicsContext& graphicsContext)
 {
-    renderer.bindFrameBuffer(*this);
+    graphicsContext.bindFrameBuffer(*this);
 }
 
 FrameBuffer::TextureSequence FrameBuffer::targets()
