@@ -52,7 +52,7 @@ private:
     void initializeBuffers(unsigned width, unsigned height);
 
     GraphicsContext* _graphicsContext;
-    
+
     FrameBuffer _geometryBuffer;
     FrameBuffer _accumulationBuffer;
 

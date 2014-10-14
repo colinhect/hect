@@ -82,7 +82,7 @@ public:
         GraphicsContext* graphicsContext;
         T* object;
     };
-    
+
     ///
     /// A handle to API-specific data.
     ///
@@ -165,7 +165,7 @@ public:
         void setAsUploaded(GraphicsContext& graphicsContext, Data<T>* data);
         void setAsDestroyed();
 
-        GraphicsContext* _graphicsContext{ nullptr };
+        GraphicsContext* _graphicsContext { nullptr };
         DataHandle<T> _handle;
     };
 
