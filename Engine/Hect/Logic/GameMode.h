@@ -32,6 +32,7 @@ namespace hect
 {
 
 class Engine;
+class RenderTarget;
 
 class GameMode :
     public Uncopyable
@@ -46,6 +47,7 @@ public:
     virtual ~GameMode();
 
     virtual void tick() = 0;
+    virtual void render(RenderTarget& target) = 0;
 
     Engine& engine();
 

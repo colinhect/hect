@@ -89,13 +89,13 @@ Engine::Engine(int argc, char* const argv[])
         // Create window and graphics context
         _window = Platform::createWindow("Hect", videoMode);
         _graphicsContext.reset(new GraphicsContext(*_window));
-        _renderSystem.reset(new RenderSystem(*_graphicsContext, *_assetCache));
+        _renderer.reset(new Renderer(*_graphicsContext, *_assetCache));
     }
 }
 
 Engine::~Engine()
 {
-    _renderSystem.reset();
+    _renderer.reset();
     _assetCache.reset();
     _graphicsContext.reset();
     _window.reset();
@@ -135,7 +135,7 @@ int Engine::main()
             accumulator -= gameMode->timeStep();
         }
 
-        _renderSystem->renderAll(*_window);
+        gameMode->render(*_window);
         _window->swapBuffers();
     }
 
@@ -151,13 +151,13 @@ GraphicsContext& Engine::graphicsContext()
     return *_graphicsContext;
 }
 
-RenderSystem& Engine::renderSystem()
+Renderer& Engine::renderer()
 {
-    if (!_renderSystem)
+    if (!_renderer)
     {
-        throw Error("No available render system");
+        throw Error("No available renderer");
     }
-    return *_renderSystem;
+    return *_renderer;
 }
 
 Window& Engine::window()

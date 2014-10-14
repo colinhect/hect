@@ -24,24 +24,21 @@
 #pragma once
 
 #include "Hect/Graphics/FrameBuffer.h"
+#include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/System.h"
 
 namespace hect
 {
 
-class RenderSystem
+class Renderer
 {
 public:
-    RenderSystem(GraphicsContext& graphicsContext, AssetCache& assetCache);
+    Renderer(GraphicsContext& graphicsContext, AssetCache& assetCache);
 
-    void addWorld(World& world);
-    void removeWorld(World& world);
-
-    void renderAll(RenderTarget& target);
+    void renderWorld(World& world, RenderTarget& target);
 
     void render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest = true);
     void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
@@ -55,9 +52,7 @@ private:
     void initializeBuffers(unsigned width, unsigned height);
 
     GraphicsContext* _graphicsContext;
-
-    std::vector<World*> _worlds;
-
+    
     FrameBuffer _geometryBuffer;
     FrameBuffer _accumulationBuffer;
 

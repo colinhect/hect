@@ -42,7 +42,7 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\GraphicsContext.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderState.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderSystem.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\Renderer.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderTarget.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Shader.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\ShaderModule.h" />
@@ -151,7 +151,7 @@
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\GraphicsContext.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderState.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderSystem.cpp" />
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\Renderer.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderTarget.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Shader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderModule.cpp" />

@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "RenderSystem.h"
+#include "Renderer.h"
 
 #include <algorithm>
 
@@ -38,7 +38,7 @@
 
 using namespace hect;
 
-RenderSystem::RenderSystem(GraphicsContext& graphicsContext, AssetCache& assetCache) :
+Renderer::Renderer(GraphicsContext& graphicsContext, AssetCache& assetCache) :
     _graphicsContext(&graphicsContext),
     _buffersInitialized(false)
 {
@@ -52,28 +52,8 @@ RenderSystem::RenderSystem(GraphicsContext& graphicsContext, AssetCache& assetCa
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 }
 
-void RenderSystem::addWorld(World& world)
+void Renderer::renderWorld(World& world, RenderTarget& target)
 {
-    auto it = std::find(_worlds.begin(), _worlds.end(), &world);
-    if (it == _worlds.end())
-    {
-        _worlds.push_back(&world);
-    }
-}
-
-void RenderSystem::removeWorld(World& world)
-{
-    auto it = std::find(_worlds.begin(), _worlds.end(), &world);
-    if (it != _worlds.end())
-    {
-        _worlds.erase(it);
-    }
-}
-
-void RenderSystem::renderAll(RenderTarget& target)
-{
-    World& world = *_worlds.front();
-
     CameraSystem& cameraSystem = world.system<CameraSystem>();
     Component<Camera>::Iterator camera = cameraSystem.activeCamera();
     if (camera)
@@ -217,7 +197,7 @@ void RenderSystem::renderAll(RenderTarget& target)
     }
 }
 
-void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest)
+void Renderer::render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest)
 {
     // If the entity has a model component
     auto model = entity.component<Model>();
@@ -279,7 +259,7 @@ void RenderSystem::render(Camera& camera, RenderTarget& target, Entity& entity, 
     }
 }
 
-void RenderSystem::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
+void Renderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
     // Render the mesh for each pass
     for (Pass& pass : material.preferedTechnique().passes())
@@ -288,7 +268,7 @@ void RenderSystem::renderMesh(const Camera& camera, const RenderTarget& target, 
     }
 }
 
-void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform)
+void Renderer::renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform)
 {
     // Prepare the pass
     pass.prepare(*_graphicsContext);
@@ -302,7 +282,7 @@ void RenderSystem::renderMeshPass(const Camera& camera, const RenderTarget& targ
     _graphicsContext->draw();
 }
 
-void RenderSystem::setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
+void Renderer::setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
 {
     // Buid the model matrix
     Matrix4 model;
@@ -366,13 +346,13 @@ void RenderSystem::setBoundUniforms(Shader& shader, const Camera& camera, const 
     }
 }
 
-GraphicsContext& RenderSystem::graphicsContext()
+GraphicsContext& Renderer::graphicsContext()
 {
     assert(_graphicsContext);
     return *_graphicsContext;
 }
 
-void RenderSystem::initializeBuffers(unsigned width, unsigned height)
+void Renderer::initializeBuffers(unsigned width, unsigned height)
 {
     _buffersInitialized = true;
 

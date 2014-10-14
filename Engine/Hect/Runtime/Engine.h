@@ -27,7 +27,7 @@
 
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/GraphicsContext.h"
-#include "Hect/Graphics/RenderSystem.h"
+#include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/Window.h"
 #include "Hect/IO/JsonValue.h"
 
@@ -44,7 +44,7 @@ public:
     int main();
 
     GraphicsContext& graphicsContext();
-    RenderSystem& renderSystem();
+    Renderer& renderer();
     Window& window();
 
     AssetCache& assetCache();
@@ -62,7 +62,7 @@ private:
     CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 
     std::unique_ptr<GraphicsContext> _graphicsContext;
-    std::unique_ptr<RenderSystem> _renderSystem;
+    std::unique_ptr<Renderer> _renderer;
     Window::Pointer _window;
     std::unique_ptr<AssetCache> _assetCache;
     JsonValue _config;
