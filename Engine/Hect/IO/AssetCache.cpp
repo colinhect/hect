@@ -30,6 +30,11 @@ AssetCache::AssetCache(bool concurrent) :
 {
 }
 
+AssetCache::~AssetCache()
+{
+    _taskPool.wait();
+}
+
 void AssetCache::refresh()
 {
     for (auto& pair : _entries)

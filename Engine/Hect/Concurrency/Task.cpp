@@ -96,6 +96,16 @@ void Task::execute()
         _errorOccurred = true;
         _error = error;
     }
+    catch (std::exception& exception)
+    {
+        _errorOccurred = true;
+        _error = Error(exception.what());
+    }
+    catch (...)
+    {
+        _errorOccurred = true;
+        _error = Error("Unknown error");
+    }
 
     _done = true;
 }

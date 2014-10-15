@@ -66,6 +66,10 @@ public:
     /// \returns The handle to the queued task.
     Task::Handle enqueue(Task::Action action);
 
+    ///
+    /// Waits until all enqueued tasks complete.
+    void wait();
+
 private:
     void initializeThreads(size_t threadCount);
     void threadLoop();

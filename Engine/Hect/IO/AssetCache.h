@@ -49,6 +49,8 @@ public:
     /// threads.
     AssetCache(bool concurrent);
 
+    ~AssetCache();
+
     ///
     /// Returns a reference to the asset at the given path.
     ///
@@ -104,11 +106,11 @@ public:
     void restoreDirectory();
 
 private:
+    TaskPool _taskPool;
+
     std::recursive_mutex _mutex;
     std::map<std::thread::id, std::stack<Path>> _selectedDirectoryStack;
     std::map<Path, std::shared_ptr<AssetEntryBase>> _entries;
-
-    TaskPool _taskPool;
 };
 
 }

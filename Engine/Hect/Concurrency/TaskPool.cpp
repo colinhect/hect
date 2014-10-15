@@ -83,15 +83,19 @@ Task::Handle TaskPool::enqueue(Task::Action action)
     return handle;
 }
 
+void TaskPool::wait()
+{
+    while (_availableThreadCount < _threads.size())
+    {
+        std::this_thread::yield();
+    }
+}
+
 void TaskPool::initializeThreads(size_t threadCount)
 {
     for (unsigned i = 0; i < threadCount; ++i)
     {
-        _threads.push_back(std::thread([this]
-        {
-            threadLoop();
-        }
-                                      ));
+        _threads.push_back(std::thread([this] { threadLoop(); }));
     }
 }
 
