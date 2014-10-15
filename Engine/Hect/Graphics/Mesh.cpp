@@ -31,21 +31,13 @@
 using namespace hect;
 
 Mesh::Mesh() :
-    _vertexLayout(VertexLayout::createDefault()),
-    _primitiveType(PrimitiveType_Triangles),
-    _indexType(IndexType_UInt16),
-    _vertexCount(0),
-    _indexCount(0)
+    _vertexLayout(VertexLayout::createDefault())
 {
 }
 
 Mesh::Mesh(const std::string& name) :
     Asset(name),
-    _vertexLayout(VertexLayout::createDefault()),
-    _primitiveType(PrimitiveType_Triangles),
-    _indexType(IndexType_UInt16),
-    _vertexCount(0),
-    _indexCount(0)
+    _vertexLayout(VertexLayout::createDefault())
 {
 }
 
@@ -56,14 +48,14 @@ const VertexLayout& Mesh::vertexLayout() const
 
 void Mesh::setVertexLayout(const VertexLayout& vertexLayout)
 {
-    if (isUploaded())
-    {
-        graphicsContext().destroyMesh(*this);
-    }
-
     if (_vertexData.size() != 0)
     {
         throw Error("Cannot change the vertex layout of a mesh with vertex data");
+    }
+
+    if (isUploaded())
+    {
+        graphicsContext().destroyMesh(*this);
     }
 
     _vertexLayout = vertexLayout;
@@ -91,14 +83,14 @@ IndexType Mesh::indexType() const
 
 void Mesh::setIndexType(IndexType indexType)
 {
-    if (isUploaded())
-    {
-        graphicsContext().destroyMesh(*this);
-    }
-
     if (_indexData.size() != 0)
     {
         throw Error("Cannot change the index type of a mesh with index data");
+    }
+
+    if (isUploaded())
+    {
+        graphicsContext().destroyMesh(*this);
     }
 
     _indexType = indexType;
@@ -221,9 +213,8 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
 {
-    encoder << beginObject();
-
-    encoder << encodeValue("vertexLayout", mesh.vertexLayout())
+    encoder << beginObject()
+            << encodeValue("vertexLayout", mesh.vertexLayout())
             << encodeEnum("indexType", mesh.indexType())
             << encodeEnum("primitiveType", mesh.primitiveType());
 
@@ -258,12 +249,12 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
             encoder << beginArray();
             for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
             {
-                encoder << beginArray();
                 VertexAttributeSemantic semantic = attribute.semantic();
 
-                encoder << encodeEnum(semantic);
+                encoder << beginArray()
+                        << encodeEnum(semantic);
 
-                unsigned cardinality = attribute.cardinality();
+                auto cardinality = attribute.cardinality();
                 if (cardinality == 1)
                 {
                     encoder << encodeValue(reader.readAttributeReal(semantic));
@@ -301,22 +292,13 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
 
 Decoder& operator>>(Decoder& decoder, Mesh& mesh)
 {
-    decoder >> beginObject();
+    // Clear any data the mesh already had
+    mesh = Mesh(mesh.name());
 
-    // Vertex layout
-    VertexLayout vertexLayout = mesh._vertexLayout;
-    decoder >> decodeValue("vertexLayout", vertexLayout);
-    mesh.setVertexLayout(vertexLayout);
-
-    // Index type
-    IndexType indexType = mesh._indexType;
-    decoder >> decodeEnum("indexType", indexType);
-    mesh.setIndexType(indexType);
-
-    // Primitive type
-    PrimitiveType primitiveType = mesh._primitiveType;
-    decoder >> decodeEnum("primitiveType", primitiveType);
-    mesh.setPrimitiveType(primitiveType);
+    decoder >> beginObject()
+            >> decodeValue("vertexLayout", mesh._vertexLayout)
+            >> decodeEnum("indexType", mesh._indexType)
+            >> decodeEnum("primitiveType", mesh._primitiveType);
 
     // Vertex and index data
     if (decoder.isBinaryStream())

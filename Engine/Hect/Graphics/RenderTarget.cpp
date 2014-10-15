@@ -27,9 +27,7 @@
 
 using namespace hect;
 
-RenderTarget::RenderTarget() :
-    _width(0),
-    _height(0)
+RenderTarget::RenderTarget()
 {
 }
 
@@ -56,7 +54,7 @@ unsigned RenderTarget::height() const
 
 float RenderTarget::aspectRatio() const
 {
-    return (float)_width / (float)_height;
+    return static_cast<float>(_width) / static_cast<float>(_height);
 }
 
 void RenderTarget::setWidth(unsigned width)

@@ -73,12 +73,6 @@ public:
     void clearTechniques();
 
     ///
-    /// Returns the prefered technique.
-    ///
-    /// \throws Error If the material does not have any techniques.
-    Technique& preferedTechnique();
-
-    ///
     /// Returns whether the material is equivalent to another.
     ///
     /// \note Does not compare the name.

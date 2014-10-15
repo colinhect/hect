@@ -30,9 +30,7 @@ namespace hect
 {
 
 ///
-/// An implementation of a material.
-///
-/// \note A technique is made up of multiple passes.
+/// A specific technique to achieve the effect of a material.
 class Technique
 {
     typedef std::vector<Pass> PassContainer;

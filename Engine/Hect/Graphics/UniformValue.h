@@ -24,8 +24,8 @@
 #pragma once
 
 #include "Hect/Core/Any.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -225,7 +225,7 @@ public:
     friend Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue);
 
 private:
-    UniformType _type;
+    UniformType _type { UniformType_Float };
     Any _value;
 };
 

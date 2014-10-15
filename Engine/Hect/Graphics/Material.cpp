@@ -54,15 +54,6 @@ void Material::clearTechniques()
     _techniques.clear();
 }
 
-Technique& Material::preferedTechnique()
-{
-    if (_techniques.empty())
-    {
-        throw Error("The material has no techniques");
-    }
-    return _techniques[0];
-}
-
 bool Material::operator==(const Material& material) const
 {
     if (_techniques.size() != material._techniques.size())

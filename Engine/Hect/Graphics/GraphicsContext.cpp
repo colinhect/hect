@@ -24,7 +24,6 @@
 #include "GraphicsContext.h"
 
 #include <GL/glew.h>
-
 #include <algorithm>
 
 #include "Hect/Core/Error.h"
@@ -46,6 +45,7 @@ using namespace hect;
 #define GL_ASSERT(expression) expression
 #endif
 
+// OpenGL-specific data for a shader program
 class ShaderData :
     public GraphicsContext::Data<Shader>
 {
@@ -59,6 +59,7 @@ public:
 
     ~ShaderData()
     {
+        // Destroy the shader if it is uploaded
         if (object && object->isUploaded())
         {
             graphicsContext->destroyShader(*object);
@@ -69,6 +70,7 @@ public:
     std::vector<GLuint> shaderIds;
 };
 
+// OpenGL-specific data for a texture
 class TextureData :
     public GraphicsContext::Data<Texture>
 {
@@ -81,6 +83,7 @@ public:
 
     ~TextureData()
     {
+        // Destroy the texture if it is uploaded
         if (object && object->isUploaded())
         {
             graphicsContext->destroyTexture(*object);
@@ -90,6 +93,7 @@ public:
     GLuint textureId;
 };
 
+// OpenGL-specific data for a frame buffer
 class FrameBufferData :
     public GraphicsContext::Data<FrameBuffer>
 {
@@ -103,6 +107,7 @@ public:
 
     ~FrameBufferData()
     {
+        // Destroy the frame buffer if it is uploaded
         if (object && object->isUploaded())
         {
             graphicsContext->destroyFrameBuffer(*object);
@@ -113,6 +118,7 @@ public:
     GLuint depthBufferId;
 };
 
+// OpenGL-specific data for a mesh
 class MeshData :
     public GraphicsContext::Data<Mesh>
 {
@@ -127,6 +133,7 @@ public:
 
     ~MeshData()
     {
+        // Destroy the mesh if it is uploaded
         if (object && object->isUploaded())
         {
             graphicsContext->destroyMesh(*object);
@@ -138,6 +145,7 @@ public:
     GLuint indexBufferId;
 };
 
+// Throws an error if an OpenGL error occurred
 void _checkGLError()
 {
     GLenum errorCode;
@@ -262,10 +270,7 @@ GLenum _textureTypeLookUp[3] =
     GL_TEXTURE_CUBE_MAP
 };
 
-GraphicsContext::GraphicsContext(Window& window) :
-    _boundTarget(nullptr),
-    _boundShader(nullptr),
-    _boundMesh(nullptr)
+GraphicsContext::GraphicsContext(Window& window)
 {
     // This is a parameter only to ensure the window is created before the
     // GPU context; I'm not sure if the GPU context has any use for it

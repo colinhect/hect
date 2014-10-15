@@ -25,8 +25,7 @@
 
 using namespace hect;
 
-UniformValue::UniformValue() :
-    _type(UniformType_Float)
+UniformValue::UniformValue()
 {
     setDefaultValue();
 }
@@ -117,7 +116,7 @@ void UniformValue::setDefaultValue()
     {
     case UniformType_Int:
     case UniformType_Texture:
-        _value = (int)0;
+        _value = static_cast<int>(0);
         break;
     case UniformType_Float:
         _value = 0.0f;
@@ -216,7 +215,7 @@ Real UniformValue::asReal() const
         throw Error("Uniform value is not of type 'Float'");
     }
 
-    return (Real)_value.as<float>();
+    return static_cast<Real>(_value.as<float>());
 }
 
 Vector2 UniformValue::asVector2() const
@@ -226,7 +225,7 @@ Vector2 UniformValue::asVector2() const
         throw Error("Uniform value is not of type 'Vector2'");
     }
 
-    return (Vector2)_value.as<Vector2T<float>>();
+    return static_cast<Vector2>(_value.as<Vector2T<float>>());
 }
 
 Vector3 UniformValue::asVector3() const
@@ -236,7 +235,7 @@ Vector3 UniformValue::asVector3() const
         throw Error("Uniform value is not of type 'Vector3'");
     }
 
-    return (Vector3)_value.as<Vector3T<float>>();
+    return static_cast<Vector3>(_value.as<Vector3T<float>>());
 }
 
 Vector4 UniformValue::asVector4() const
@@ -246,7 +245,7 @@ Vector4 UniformValue::asVector4() const
         throw Error("Uniform value is not of type 'Vector4'");
     }
 
-    return (Vector4)_value.as<Vector4T<float>>();
+    return static_cast<Vector4>(_value.as<Vector4T<float>>());
 }
 
 Matrix4 UniformValue::asMatrix4() const
@@ -256,7 +255,7 @@ Matrix4 UniformValue::asMatrix4() const
         throw Error("Uniform value is not of type 'Matrix4'");
     }
 
-    return (Matrix4)_value.as<Matrix4T<float>>();
+    return static_cast<Matrix4>(_value.as<Matrix4T<float>>());
 }
 
 bool UniformValue::operator==(const UniformValue& uniformValue) const

@@ -23,10 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <cstdint>
-
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {

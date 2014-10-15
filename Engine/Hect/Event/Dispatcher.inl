@@ -28,7 +28,11 @@ template <typename T>
 void Dispatcher<T>::addListener(Listener<T>& listener)
 {
     auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
-    if (it == _listeners.end())
+    if (it != _listeners.end())
+    {
+        throw Error("The listener is already registered to this dispatcher");
+    }
+    else
     {
         _listeners.push_back(&listener);
     }
@@ -38,7 +42,11 @@ template <typename T>
 void Dispatcher<T>::removeListener(Listener<T>& listener)
 {
     auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
-    if (it != _listeners.end())
+    if (it == _listeners.end())
+    {
+        throw Error("The listener is not registered to this dispatcher");
+    }
+    else
     {
         _listeners.erase(it);
     }

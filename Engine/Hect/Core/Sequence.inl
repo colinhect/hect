@@ -76,6 +76,12 @@ size_t Sequence<T, Container>::size() const
 }
 
 template <typename T, typename Container>
+bool Sequence<T, Container>::empty() const
+{
+    return size() == 0;
+}
+
+template <typename T, typename Container>
 T& Sequence<T, Container>::operator[](size_t index)
 {
     auto it = begin();

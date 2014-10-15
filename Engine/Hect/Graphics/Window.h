@@ -54,11 +54,10 @@ public:
     /// \param videoMode The video mode to use.
     Window(const std::string& title, const VideoMode& videoMode);
 
-    ///
-    /// Closes the window.
     virtual ~Window();
 
-    void bind(GraphicsContext& graphicsContext);
+    void bind(GraphicsContext& graphicsContext) override;
+
     virtual void swapBuffers() = 0;
 };
 

@@ -25,8 +25,8 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/VertexAttribute.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {

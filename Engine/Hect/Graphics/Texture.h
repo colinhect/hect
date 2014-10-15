@@ -25,9 +25,8 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/Asset.h"
-#include "Hect/IO/AssetHandle.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/GraphicsContext.h"
 

@@ -145,7 +145,7 @@ public:
     ///
     /// \param q The quaternion to multiply by.
     ///
-    /// \returns A reference to the vector.
+    /// \returns A reference to the quaternion.
     QuaternionT& operator*=(const QuaternionT& q);
 
     ///
@@ -160,6 +160,18 @@ public:
     ///
     /// \param i The index of which component to access.
     const T& operator[](size_t i) const;
+
+    ///
+    /// Returns whether the quaternion is equivalent to another.
+    ///
+    /// \param q The other quaternion.
+    bool operator==(const QuaternionT& q) const;
+
+    ///
+    /// Returns whether the quaternion is different from another.
+    ///
+    /// \param q The other quaternion.
+    bool operator!=(const QuaternionT& q) const;
 
     ///
     /// Converts to an equivalent quaternion with a different underlying

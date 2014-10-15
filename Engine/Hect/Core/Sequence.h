@@ -66,6 +66,10 @@ public:
     size_t size() const;
 
     ///
+    /// Returns whether the sequence has no items.
+    bool empty() const;
+
+    ///
     /// Returns the item in the sequence at the given index.
     ///
     /// \param index The index of which item to access.

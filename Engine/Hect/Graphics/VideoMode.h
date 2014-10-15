@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
@@ -44,7 +44,7 @@ public:
     ///
     /// \param width The width.
     /// \param height The height.
-    /// \param fullscreen True if a fullscreen mode should be used.
+    /// \param fullscreen True if a fullscreen mode is enabled.
     VideoMode(unsigned width, unsigned height, bool fullscreen);
 
     ///
@@ -63,9 +63,9 @@ public:
     friend Decoder& operator>>(Decoder& decoder, VideoMode& videoMode);
 
 private:
-    unsigned _width;
-    unsigned _height;
-    bool _fullscreen;
+    unsigned _width { 800 };
+    unsigned _height { 600 };
+    bool _fullscreen { false };
 };
 
 }

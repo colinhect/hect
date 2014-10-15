@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Sequence.h"
+#include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture.h"
 
@@ -46,15 +47,18 @@ public:
     void bind(GraphicsContext& graphicsContext) override;
 
     ///
-    /// Returns the targets of the frame buffer.
+    /// Returns the targets.
     TextureSequence targets();
 
     ///
-    /// Returns the targets of the frame buffer.
+    /// Returns the targets.
     const TextureSequence targets() const;
 
     ///
     /// Adds a target to the frame buffer.
+    ///
+    /// \note If the frame buffer is uploaded to a graphics context then it
+    /// will be destroyed before the target is added.
     ///
     /// \param target The target to add to the frame buffer.
     void addTarget(const Texture& target);
@@ -65,6 +69,9 @@ public:
 
     ///
     /// Sets whether the frame buffer has a depth component.
+    ///
+    /// \note If the frame buffer is uploaded to a graphics context then it
+    /// will be destroyed before the depth component changes.
     ///
     /// \param depthComponent True if the frame buffer has a depth component;
     /// false otherwise.

@@ -52,7 +52,7 @@ bool Technique::operator==(const Technique& technique) const
         return false;
     }
 
-    for (auto i = 0u; i < _passes.size(); ++i)
+    for (size_t i = 0; i < _passes.size(); ++i)
     {
         if (_passes[i] != technique._passes[i])
         {

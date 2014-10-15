@@ -25,7 +25,6 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
-#include "Hect/Graphics/GraphicsContext.h"
 
 using namespace hect;
 

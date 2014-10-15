@@ -46,6 +46,11 @@ const FrameBuffer::TextureSequence FrameBuffer::targets() const
 
 void FrameBuffer::addTarget(const Texture& target)
 {
+    if (isUploaded())
+    {
+        graphicsContext().destroyFrameBuffer(*this);
+    }
+
     setWidth(std::max(width(), target.width()));
     setHeight(std::max(height(), target.height()));
 
@@ -59,5 +64,9 @@ bool FrameBuffer::hasDepthComponent() const
 
 void FrameBuffer::setDepthComponent(bool depthComponent)
 {
+    if (isUploaded())
+    {
+        graphicsContext().destroyFrameBuffer(*this);
+    }
     _depthComponent = depthComponent;
 }

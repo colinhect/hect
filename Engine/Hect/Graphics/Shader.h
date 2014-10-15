@@ -25,17 +25,16 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/Asset.h"
-#include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Decoder.h"
-#include "Hect/Graphics/Uniform.h"
 #include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Graphics/ShaderModule.h"
+#include "Hect/Graphics/Uniform.h"
 
 namespace hect
 {
 
 ///
-/// A GPU shader program.
+/// A shader program executed on the GPU.
 class Shader :
     public Asset,
     public GraphicsContext::Object<Shader>

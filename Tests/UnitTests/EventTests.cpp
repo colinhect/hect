@@ -59,7 +59,7 @@ public:
     EventB lastEventB;
 };
 
-TEST_CASE("Event_AddNotifyAndRemove")
+TEST_CASE("Event_AddDispatchAndRemove")
 {
     Dispatcher<EventA> dispatcher;
 
@@ -104,7 +104,7 @@ TEST_CASE("Event_AddRegisteredListener")
     TestListener listener;
 
     dispatcher.addListener(listener);
-    dispatcher.addListener(listener);
+    REQUIRE_THROWS_AS(dispatcher.addListener(listener), Error);
 
     dispatcher.dispatchEvent(EventA::A);
     REQUIRE(EventA::A == listener.lastEventA);
@@ -115,5 +115,5 @@ TEST_CASE("Event_RemoveUnregisteredListener")
     Dispatcher<EventA> dispatcher;
 
     TestListener listener;
-    dispatcher.removeListener(listener);
+    REQUIRE_THROWS_AS(dispatcher.removeListener(listener), Error);
 }

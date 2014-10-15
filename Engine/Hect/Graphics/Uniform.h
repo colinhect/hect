@@ -24,8 +24,8 @@
 #pragma once
 
 #include "Hect/Graphics/UniformValue.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
@@ -190,14 +190,14 @@ public:
 private:
     std::string _name;
 
-    UniformType _type;
+    UniformType _type { UniformType_Float };
 
-    UniformBinding _binding;
+    UniformBinding _binding { UniformBinding_None };
 
-    bool _defaultValueSet;
+    bool _defaultValueSet { true };
     UniformValue _defaultValue;
 
-    int _location;
+    int _location { -1 };
 };
 
 }

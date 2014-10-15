@@ -23,17 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MeshReader.h"
 
-#include "Hect/Core/Error.h"
-
 using namespace hect;
 
 MeshReader::MeshReader(const Mesh& mesh) :
     _mesh(&mesh),
-    _vertexCount(0),
-    _vertexPosition(0),
     _vertexStream(mesh.vertexData()),
-    _indexCount(0),
-    _indexPosition(0),
     _indexStream(mesh.indexData())
 {
 }
@@ -295,7 +289,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
     }
     break;
     case VertexAttributeType_Float16:
-        throw Error("16-bit floats are not yet implemented");
+        throw Error("16-bit floats are not implemented");
         break;
     case VertexAttributeType_Float32:
         _vertexStream.seek(offset + index * sizeof(float));

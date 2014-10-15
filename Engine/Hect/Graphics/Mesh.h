@@ -26,8 +26,8 @@
 #include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/IO/Asset.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Spacial/AxisAlignedBox.h"
 
 namespace hect
@@ -202,14 +202,14 @@ public:
 
 private:
     VertexLayout _vertexLayout;
-    PrimitiveType _primitiveType;
-    IndexType _indexType;
+    PrimitiveType _primitiveType { PrimitiveType_Triangles };
+    IndexType _indexType { IndexType_UInt16 };
 
     VertexData _vertexData;
-    size_t _vertexCount;
+    size_t _vertexCount { 0 };
 
     IndexData _indexData;
-    size_t _indexCount;
+    size_t _indexCount { 0 };
 
     AxisAlignedBox _axisAlignedBox;
 };

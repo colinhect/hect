@@ -29,7 +29,6 @@ using namespace hect;
 
 MeshWriter::MeshWriter(Mesh& mesh) :
     _mesh(&mesh),
-    _vertexPosition(0),
     _vertexStream(mesh._vertexData),
     _indexStream(mesh._indexData)
 {
@@ -54,7 +53,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Real value
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
-        setComponentValue(attribute, 0, (float)value);
+        setComponentValue(attribute, 0, static_cast<float>(value));
     }
 }
 
@@ -69,12 +68,12 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 
         if (cardinality > 0)
         {
-            setComponentValue(attribute, 0, (float)value.x);
+            setComponentValue(attribute, 0, static_cast<float>(value.x));
         }
 
         if (cardinality > 1)
         {
-            setComponentValue(attribute, 1, (float)value.y);
+            setComponentValue(attribute, 1, static_cast<float>(value.y));
         }
     }
 }
@@ -96,17 +95,17 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 
         if (cardinality > 0)
         {
-            setComponentValue(attribute, 0, (float)value.x);
+            setComponentValue(attribute, 0, static_cast<float>(value.x));
         }
 
         if (cardinality > 1)
         {
-            setComponentValue(attribute, 1, (float)value.y);
+            setComponentValue(attribute, 1, static_cast<float>(value.y));
         }
 
         if (cardinality > 2)
         {
-            setComponentValue(attribute, 2, (float)value.z);
+            setComponentValue(attribute, 2, static_cast<float>(value.z));
         }
     }
 }
@@ -122,22 +121,22 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 
         if (cardinality > 0)
         {
-            setComponentValue(attribute, 0, (float)value.x);
+            setComponentValue(attribute, 0, static_cast<float>(value.x));
         }
 
         if (cardinality > 1)
         {
-            setComponentValue(attribute, 1, (float)value.y);
+            setComponentValue(attribute, 1, static_cast<float>(value.y));
         }
 
         if (cardinality > 2)
         {
-            setComponentValue(attribute, 2, (float)value.z);
+            setComponentValue(attribute, 2, static_cast<float>(value.z));
         }
 
         if (cardinality > 3)
         {
-            setComponentValue(attribute, 3, (float)value.w);
+            setComponentValue(attribute, 3, static_cast<float>(value.w));
         }
     }
 }

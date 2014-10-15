@@ -70,7 +70,7 @@ public:
     /// \param gravity The new gravity.
     void setGravity(const Vector3& gravity);
 
-    void receiveEvent(const ComponentEvent<RigidBody>& event);
+    void receiveEvent(const ComponentEvent<RigidBody>& event) override;
 
 private:
     btTriangleMesh* toBulletMesh(Mesh* mesh);

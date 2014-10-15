@@ -99,11 +99,11 @@ public:
     bool hasPixelData() const;
 
     ///
-    /// Returns the pixel data.
+    /// Returns the raw pixel data.
     PixelData& pixelData();
 
     ///
-    /// Returns the pixel data.
+    /// Returns the raw pixel data.
     const PixelData& pixelData() const;
 
     ///

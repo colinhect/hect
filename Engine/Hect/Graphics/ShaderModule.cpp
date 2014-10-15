@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShaderModule.h"
 
-#include "Hect/Graphics/GraphicsContext.h"
-
 using namespace hect;
 
 ShaderModule::ShaderModule(ShaderModuleType type, const Path& sourcePath, const std::string& source) :

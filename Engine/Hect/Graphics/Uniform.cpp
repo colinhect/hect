@@ -25,21 +25,14 @@
 
 using namespace hect;
 
-Uniform::Uniform() :
-    _type(UniformType_Float),
-    _binding(UniformBinding_None),
-    _defaultValueSet(true),
-    _defaultValue((Real)0),
-    _location(-1)
+Uniform::Uniform()
 {
 }
 
 Uniform::Uniform(const std::string& name, UniformBinding binding) :
     _name(name),
-    _type(UniformType_Float),
     _binding(binding),
-    _defaultValueSet(false),
-    _location(-1)
+    _defaultValueSet(false)
 {
     setBinding(binding);
 }
@@ -47,10 +40,8 @@ Uniform::Uniform(const std::string& name, UniformBinding binding) :
 Uniform::Uniform(const std::string& name, const UniformValue& defaultValue) :
     _name(name),
     _type(defaultValue.type()),
-    _binding(UniformBinding_None),
     _defaultValueSet(true),
-    _defaultValue(defaultValue),
-    _location(-1)
+    _defaultValue(defaultValue)
 {
 }
 

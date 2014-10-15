@@ -64,11 +64,11 @@ public:
     public:
 
         ///
-        /// Constructs the data given the graphics context and the object that the
-        /// data represents.
+        /// Constructs the data given the graphics context and the object that
+        /// the data represents.
         ///
-        /// \param graphicsContext The graphics context that the data is uploaded
-        /// to.
+        /// \param graphicsContext The graphics context that the data is
+        /// uploaded to.
         /// \param object The object that the data represents.
         Data(GraphicsContext& graphicsContext, T& object);
 
@@ -87,7 +87,8 @@ public:
     /// A handle to API-specific data.
     ///
     /// \note Copying results in the data not being copied.  Moving results in the
-    /// data being moved.
+    /// data being moved.  This is meant to allow uploaded graphics context
+    /// objects to be copied to not be attached to the same uploaded data.
     template <typename T>
     class DataHandle
     {
@@ -99,6 +100,8 @@ public:
 
         ///
         /// Constructs a handle given the data.
+        ///
+        /// \note The handle assumes ownership of the lifetime of the data.
         ///
         /// \param data The data.
         DataHandle(Data<T>* data);
@@ -270,7 +273,7 @@ public:
     void destroyTexture(Texture& texture);
 
     ///
-    /// Downloads the 2-dimensional of the given uploaded texture.
+    /// Downloads the 2-dimensional image of the given uploaded texture.
     ///
     /// \param texture The texture the download the image of.
     ///
@@ -314,9 +317,9 @@ private:
 
     Capabilities _capabilities;
 
-    RenderTarget* _boundTarget;
-    Shader* _boundShader;
-    Mesh* _boundMesh;
+    RenderTarget* _boundTarget { nullptr };
+    Shader* _boundShader { nullptr };
+    Mesh* _boundMesh { nullptr };
     std::vector<Texture*> _boundTextures;
 };
 

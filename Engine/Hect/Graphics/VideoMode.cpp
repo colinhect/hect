@@ -25,10 +25,7 @@
 
 using namespace hect;
 
-VideoMode::VideoMode() :
-    _width(800),
-    _height(600),
-    _fullscreen(false)
+VideoMode::VideoMode()
 {
 }
 

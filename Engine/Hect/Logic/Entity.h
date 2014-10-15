@@ -413,7 +413,7 @@ public:
             Context(EntityPool& pool, EntityId id);
             ~Context();
 
-            void receiveEvent(const EntityEvent& event);
+            void receiveEvent(const EntityEvent& event) override;
 
             EntityPool* pool;
             EntityId id;

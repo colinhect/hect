@@ -25,7 +25,6 @@
 
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Error.h"
-#include "Hect/Graphics/GraphicsContext.h"
 
 using namespace hect;
 
@@ -317,8 +316,9 @@ Decoder& operator>>(Decoder& decoder, Texture& texture)
     decoder >> decodeEnum("minFilter", texture._minFilter)
             >> decodeEnum("magFilter", texture._magFilter)
             >> decodeValue("wrapped", texture._wrapped)
-            >> decodeValue("mipmapped", texture._mipmapped)
-            >> endObject();
+            >> decodeValue("mipmapped", texture._mipmapped);
+
+    decoder >> endObject();
 
     return decoder;
 }

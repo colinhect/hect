@@ -33,12 +33,30 @@
 namespace hect
 {
 
+///
+/// Provides the functionality for high level rendering algorithms (physically-
+/// based shading, deferred shading, shadows, reflections, etc).
 class Renderer
 {
 public:
+
+    ///
+    /// Constructs a renderer given the graphics context and the asset cache.
+    ///
+    /// \param graphicsContext The graphics context to render using.
+    /// \param assetCache The asset cache to get needed assets from.
     Renderer(GraphicsContext& graphicsContext, AssetCache& assetCache);
 
+    ///
+    /// Renders a world in its current state to a given render target.
+    ///
+    /// \param world The world to render.
+    /// \param target The target to render to.
     void renderWorld(World& world, RenderTarget& target);
+
+private:
+    void initializeBuffers(unsigned width, unsigned height);
+    Technique& selectTechnique(Material& material) const;
 
     void render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest = true);
     void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
@@ -46,12 +64,7 @@ public:
 
     void setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
-    GraphicsContext& graphicsContext();
-
-private:
-    void initializeBuffers(unsigned width, unsigned height);
-
-    GraphicsContext* _graphicsContext;
+    GraphicsContext* _graphicsContext { nullptr };
 
     FrameBuffer _geometryBuffer;
     FrameBuffer _accumulationBuffer;
@@ -65,7 +78,7 @@ private:
     AssetHandle<Mesh> _screenMesh;
     AssetHandle<Mesh> _skyBoxMesh;
 
-    bool _buffersInitialized;
+    bool _buffersInitialized { false };
 };
 
 }

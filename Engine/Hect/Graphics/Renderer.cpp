@@ -73,9 +73,9 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
 
         // Model buffer rendering
         {
-            graphicsContext().beginFrame();
-            graphicsContext().bindTarget(_geometryBuffer);
-            graphicsContext().clear();
+            _graphicsContext->beginFrame();
+            _graphicsContext->bindTarget(_geometryBuffer);
+            _graphicsContext->clear();
 
             // Render the sky box if there is one
             auto skyBox = world.components<SkyBox>().begin();
@@ -108,20 +108,20 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
                 }
             }
 
-            graphicsContext().endFrame();
+            _graphicsContext->endFrame();
         }
 
         // Accumulation buffer rendering
         {
-            graphicsContext().beginFrame();
-            graphicsContext().bindTarget(_accumulationBuffer);
-            graphicsContext().clear();
+            _graphicsContext->beginFrame();
+            _graphicsContext->bindTarget(_accumulationBuffer);
+            _graphicsContext->clear();
 
             RenderState state;
             state.enable(RenderStateFlag_Blend);
             state.disable(RenderStateFlag_DepthTest);
             state.disable(RenderStateFlag_DepthWrite);
-            graphicsContext().bindState(state);
+            _graphicsContext->bindState(state);
 
             // Get the first light probe
             auto lightProbe = world.components<LightProbe>().begin();
@@ -133,24 +133,24 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
             unsigned int index = 0;
             for (Texture& target : _geometryBuffer.targets())
             {
-                graphicsContext().bindTexture(target, index++);
+                _graphicsContext->bindTexture(target, index++);
             }
-            graphicsContext().bindTexture(*lightProbe->texture, index++);
-            graphicsContext().bindMesh(*_screenMesh);
+            _graphicsContext->bindTexture(*lightProbe->texture, index++);
+            _graphicsContext->bindMesh(*_screenMesh);
 
             Transform identity;
 
             // Render environment light
             {
-                graphicsContext().bindShader(*_environmentShader);
+                _graphicsContext->bindShader(*_environmentShader);
                 setBoundUniforms(*_environmentShader, *camera, target, identity);
 
-                graphicsContext().draw();
+                _graphicsContext->draw();
             }
 
             // Render directional lights
             {
-                graphicsContext().bindShader(*_directionalLightShader);
+                _graphicsContext->bindShader(*_directionalLightShader);
                 setBoundUniforms(*_directionalLightShader, *camera, target, identity);
 
                 // Get the uniforms required for directional lights
@@ -160,9 +160,9 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
                 // Render each directional light in the world
                 for (const DirectionalLight& light : world.components<DirectionalLight>())
                 {
-                    graphicsContext().setUniform(colorUniform, light.color);
-                    graphicsContext().setUniform(directionUniform, light.direction);
-                    graphicsContext().draw();
+                    _graphicsContext->setUniform(colorUniform, light.color);
+                    _graphicsContext->setUniform(directionUniform, light.direction);
+                    _graphicsContext->draw();
                 }
             }
 
@@ -170,30 +170,67 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
             {
             }
 
-            graphicsContext().endFrame();
+            _graphicsContext->endFrame();
         }
 
         // Compositor rendering
         {
-            graphicsContext().beginFrame();
-            graphicsContext().bindTarget(target);
-            graphicsContext().clear();
+            _graphicsContext->beginFrame();
+            _graphicsContext->bindTarget(target);
+            _graphicsContext->clear();
 
             RenderState state;
             state.disable(RenderStateFlag_DepthTest);
-            graphicsContext().bindState(state);
+            _graphicsContext->bindState(state);
 
-            graphicsContext().bindShader(*_compositorShader);
+            _graphicsContext->bindShader(*_compositorShader);
 
-            graphicsContext().bindTexture(*_geometryBuffer.targets().begin(), 0);
-            graphicsContext().bindTexture(*_accumulationBuffer.targets().begin(), 1);
+            _graphicsContext->bindTexture(*_geometryBuffer.targets().begin(), 0);
+            _graphicsContext->bindTexture(*_accumulationBuffer.targets().begin(), 1);
 
             // Bind and draw the composited image
-            graphicsContext().bindMesh(*_screenMesh);
-            graphicsContext().draw();
+            _graphicsContext->bindMesh(*_screenMesh);
+            _graphicsContext->draw();
 
-            graphicsContext().endFrame();
+            _graphicsContext->endFrame();
         }
+    }
+}
+
+void Renderer::initializeBuffers(unsigned width, unsigned height)
+{
+    _buffersInitialized = true;
+
+    TextureFilter filter = TextureFilter_Nearest;
+
+    _geometryBuffer = FrameBuffer();
+
+    // Diffuse: Red Green Blue
+    _geometryBuffer.addTarget(Texture("DiffuseBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
+
+    // Material: Roughness Metallic ?
+    _geometryBuffer.addTarget(Texture("MaterialBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
+
+    // Position: X Y Z
+    _geometryBuffer.addTarget(Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, filter, filter, false, false));
+
+    // Normal: X Y Z Depth
+    _geometryBuffer.addTarget(Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
+
+    _accumulationBuffer = FrameBuffer();
+    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
+}
+
+Technique& Renderer::selectTechnique(Material& material) const
+{
+    auto techniques = material.techniques();
+    if (techniques.empty())
+    {
+        throw Error("The material has no techniques");
+    }
+    else
+    {
+        return techniques[0];
     }
 }
 
@@ -262,7 +299,7 @@ void Renderer::render(Camera& camera, RenderTarget& target, Entity& entity, bool
 void Renderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
     // Render the mesh for each pass
-    for (Pass& pass : material.preferedTechnique().passes())
+    for (Pass& pass : selectTechnique(material).passes())
     {
         renderMeshPass(camera, target, pass, mesh, transform);
     }
@@ -287,21 +324,23 @@ void Renderer::setBoundUniforms(Shader& shader, const Camera& camera, const Rend
     // Buid the model matrix
     Matrix4 model;
 
+    // Translate the matrix to the global position
     if (transform.globalPosition != Vector3::zero())
     {
         model.translate(transform.globalPosition);
     }
 
+    // Scale the matrix by the global scale
     if (transform.globalScale != Vector3::zero())
     {
         model.scale(transform.globalScale);
     }
 
-    // TODO: Implement quaternion equality
-    //if (transform.globalRotation != Quaternion())
-    //{
-    model.rotate(transform.globalRotation);
-    //}
+    // Rotate the matrix by the global rotation
+    if (transform.globalRotation != Quaternion())
+    {
+        model.rotate(transform.globalRotation);
+    }
 
     for (const Uniform& uniform : shader.uniforms())
     {
@@ -344,34 +383,4 @@ void Renderer::setBoundUniforms(Shader& shader, const Camera& camera, const Rend
             }
         }
     }
-}
-
-GraphicsContext& Renderer::graphicsContext()
-{
-    assert(_graphicsContext);
-    return *_graphicsContext;
-}
-
-void Renderer::initializeBuffers(unsigned width, unsigned height)
-{
-    _buffersInitialized = true;
-
-    TextureFilter filter = TextureFilter_Nearest;
-
-    _geometryBuffer = FrameBuffer();
-
-    // Diffuse: Red Green Blue
-    _geometryBuffer.addTarget(Texture("DiffuseBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
-
-    // Material: Roughness Metallic ?
-    _geometryBuffer.addTarget(Texture("MaterialBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
-
-    // Position: X Y Z
-    _geometryBuffer.addTarget(Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, filter, filter, false, false));
-
-    // Normal: X Y Z Depth
-    _geometryBuffer.addTarget(Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
-
-    _accumulationBuffer = FrameBuffer();
-    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
 }

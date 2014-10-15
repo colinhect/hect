@@ -86,8 +86,8 @@ protected:
     void setHeight(unsigned height);
 
 private:
-    unsigned _width;
-    unsigned _height;
+    unsigned _width { 0 };
+    unsigned _height { 0 };
 };
 
 }

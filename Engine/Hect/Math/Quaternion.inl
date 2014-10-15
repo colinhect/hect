@@ -210,6 +210,18 @@ const T& QuaternionT<T>::operator[](size_t i) const
 }
 
 template <typename T>
+bool QuaternionT<T>::operator==(const QuaternionT& q) const
+{
+    return x == q.x && y == q.y && z == q.z;
+}
+
+template <typename T>
+bool QuaternionT<T>::operator!=(const QuaternionT& q) const
+{
+    return !(*this == q);
+}
+
+template <typename T>
 QuaternionT<T>::operator Vector4T<T>() const
 {
     return Vector4T<T>(x, y, z, w);

@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Configuration.h"
-
 #include <string>
+
+#include "Hect/Core/Configuration.h"
 
 namespace hect
 {

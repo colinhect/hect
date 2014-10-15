@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Error.h"
 #include "Hect/Event/Listener.h"
 
 namespace hect
@@ -38,26 +39,23 @@ class Dispatcher
 public:
 
     ///
-    /// Registers a listener to receive events notified from the dispatcher.
-    ///
-    /// \note If the listener is already registered to the dispatcher then
-    /// there is no effect.
+    /// Registers a listener to receive events from the dispatcher.
     ///
     /// \param listener The listener to register.
+    ///
+    /// \throws Error If the listener is already registered to the dispatcher.
     void addListener(Listener<T>& listener);
 
     ///
-    /// Unregisters a listener from receiving events notified from the
-    /// dispatcher.
+    /// Un-registers a listener from receiving events from the dispatcher.
     ///
-    /// \note If the listener is not registered to the dispatcher then there is
-    /// no effect.
+    /// \param listener The listener to un-register.
     ///
-    /// \param listener The listener to unregister.
+    /// \throws Error If the listener is not registered to the dispatcher.
     void removeListener(Listener<T>& listener);
 
     ///
-    /// Notifies an event to all registered listeners.
+    /// Dispatches an event to all registered listeners.
     ///
     /// \param event The event.
     void dispatchEvent(const T& event);

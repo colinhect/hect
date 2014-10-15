@@ -90,8 +90,8 @@ public:
 private:
     void setComponentValue(const VertexAttribute& attribute, unsigned index, float value);
 
-    Mesh* _mesh;
-    size_t _vertexPosition;
+    Mesh* _mesh { nullptr };
+    size_t _vertexPosition { 0 };
     MemoryWriteStream _vertexStream;
     MemoryWriteStream _indexStream;
 };
