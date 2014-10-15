@@ -33,6 +33,8 @@ namespace hect
 
 ///
 /// Updates the bounding box hierarchies of the world.
+///
+/// \system
 class BoundingBoxSystem :
     public System
 {

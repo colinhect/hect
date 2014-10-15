@@ -31,6 +31,8 @@ namespace hect
 
 ///
 /// A directional light component.
+///
+/// \component
 class DirectionalLight :
     public Component<DirectionalLight>
 {

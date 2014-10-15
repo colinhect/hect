@@ -32,6 +32,8 @@ namespace hect
 
 ///
 /// A combination of a position, scale, and rotation.
+///
+/// \component
 class Transform :
     public Component<Transform>
 {

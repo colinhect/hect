@@ -52,6 +52,8 @@ public:
 
 ///
 /// A collection of surfaces which are rendered.
+///
+/// \component
 class Model :
     public Component<Model>
 {

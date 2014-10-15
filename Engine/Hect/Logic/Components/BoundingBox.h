@@ -33,7 +33,9 @@ namespace hect
 {
 
 ///
-/// The bounds of an entity.
+/// The spacial bounds of an entity.
+///
+/// \component
 class BoundingBox :
     public Component<BoundingBox>
 {

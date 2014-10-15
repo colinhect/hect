@@ -43,15 +43,10 @@ class Type:
         self.header = header
         self.id = id
         self.name = name
-        self.base_name = None
-        self.base_id = None
         
 class ClassType(Type):
     def __init__(self, header, id, name):
         Type.__init__(self, header, id, name)
-        self.inner_class_ids = []
-        self.is_derived_from = False
-        self.is_template = False
         self.is_component = False
         self.is_system = False
         self.is_gamemode = False
@@ -83,53 +78,33 @@ def process_xml(root):
                 id = compounddef.attrib["id"]
                 name = compounddef.find("compoundname").text
                 header = compounddef.find("location")
+                is_component = False
+                is_system = False
+                is_gamemode = False
+                descriptions = []
+                detaileddescription = compounddef.find("detaileddescription")
+                if not detaileddescription is None:
+                    descriptions.append(detaileddescription)
+                briefdescription = compounddef.find("briefdescription")
+                if not briefdescription is None:
+                    descriptions.append(briefdescription)
+                for description in descriptions:
+                    for para in description.findall("para"):
+                        if not para.text is None:
+                            if "[component]" in para.text:
+                                is_component = True
+                            elif "[system]" in para.text:
+                                is_system = True
+                            elif "[gamemode]" in para.text:
+                                is_gamemode = True
                 if not header is None:
                     header = header.attrib["file"]
                 class_type = ClassType(header, id, name)
-                for innerclass in compounddef.iter("innerclass"):
-                    class_type.inner_class_ids.append(innerclass.attrib["refid"])
-                class_type.is_template = not compounddef.find("templateparamlist") is None
-                class_type.is_derived_from = not compounddef.find("derivedcompoundref") is None
-                basecompoundref = compounddef.find("basecompoundref")
-                if basecompoundref is not None:
-                    class_type.base_name = basecompoundref.text
-                    if "refid" in basecompoundref.attrib:
-                        class_type.base_id = basecompoundref.attrib["refid"]                    
+                class_type.is_component = is_component
+                class_type.is_system = is_system
+                class_type.is_gamemode = is_gamemode                
                 types.append(class_type)
     return types
-    
-def find_by_name(types, name):
-    for type in types:
-        if type.name == name:
-            return type
-    return None
-    
-def find_by_id(types, id):
-    for type in types:
-        if type.id == id:
-            return type
-    return None
-    
-def has_base_of(types, type, bases):
-    base_type = None
-    base_name = None
-    if type.base_id is not None:
-        base_type = find_by_id(types, type.base_id)
-    elif type.base_name is not None:
-        base_type = find_by_name(types, type.base_name)
-            
-    if base_type is not None:
-        base_name = base_type.name
-    else:
-        base_name = type.base_name
-        
-    if base_name is not None:
-        for base in bases:
-            if base_name == base:
-                return True
-        if base_type is not None:
-            return has_base_of(types, base_type, bases)
-    return False
         
 if __name__ == "__main__":
     types = []
@@ -158,6 +133,9 @@ if __name__ == "__main__":
     with open("Doxyfile", "w") as doxyfile:
         for key, value in doxygen_config.items():
             doxyfile.write(key + " = " + value + "\n")
+        doxyfile.write("ALIASES += component=\"[component]\"\n")
+        doxyfile.write("ALIASES += system=\"[system]\"\n")
+        doxyfile.write("ALIASES += gamemode=\"[gamemode]\"\n")
     call("doxygen", shell=True)
     os.remove("Doxyfile")
     
@@ -209,19 +187,10 @@ if __name__ == "__main__":
                     f.write("        enumType.addValue(" + value + ", \""  + str_value + "\");\n");
                 f.write("    }\n")
         for type in types:
-            if isinstance(type, ClassType):
-                name_without_namespace = type.name.split("::", 1)[-1]
-                if has_base_of(types, type, [ "Component", "hect::Component", "Component< " + name_without_namespace + " >", "hect::Component< " + name_without_namespace + " >"]):
-                    type.is_component = True
-                elif has_base_of(types, type, [ "System", "hect::System" ]):
-                    type.is_system = True
-                elif has_base_of(types, type, [ "GameMode", "hect::GameMode" ]):
-                    type.is_gamemode = True
-        for type in types:
             if isinstance(type, ClassType) and type.is_component:
                 f.write("    hect::ComponentRegistry::registerType<" + type.name + ">();\n")
         for type in types:
-            if isinstance(type, ClassType) and type.is_system and not type.is_derived_from:
+            if isinstance(type, ClassType) and type.is_system:
                 f.write("    hect::SystemRegistry::registerType<" + type.name + ">();\n")
         for type in types:
             if isinstance(type, ClassType) and type.is_gamemode:

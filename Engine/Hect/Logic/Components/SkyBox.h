@@ -32,6 +32,8 @@ namespace hect
 
 ///
 /// A sky box component.
+///
+/// \component
 class SkyBox :
     public Component<SkyBox>
 {

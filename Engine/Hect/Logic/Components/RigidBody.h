@@ -37,6 +37,8 @@ namespace hect
 
 ///
 /// A simulated physical body.
+///
+/// \component
 class RigidBody :
     public Component<RigidBody>
 {

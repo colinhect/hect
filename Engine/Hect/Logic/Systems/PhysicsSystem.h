@@ -44,6 +44,8 @@ namespace hect
 
 ///
 /// Simulates physical interactions of physical bodies.
+///
+/// \system
 class PhysicsSystem :
     public System,
     public Listener<ComponentEvent<RigidBody>>

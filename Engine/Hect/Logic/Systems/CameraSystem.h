@@ -29,6 +29,7 @@
 namespace hect
 {
 
+/// \system
 class CameraSystem :
     public System
 {

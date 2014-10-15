@@ -30,6 +30,7 @@
 namespace hect
 {
 
+/// \component
 class LightProbe :
     public Component<LightProbe>
 {

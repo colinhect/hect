@@ -33,6 +33,8 @@ class Transform;
 
 ///
 /// A camera component.
+///
+/// \component
 class Camera :
     public Component<Camera>
 {

@@ -31,6 +31,7 @@
 namespace hect
 {
 
+/// \system
 class InputSystem :
     public System
 {

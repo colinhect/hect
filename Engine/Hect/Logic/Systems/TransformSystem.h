@@ -31,6 +31,8 @@ namespace hect
 
 ///
 /// Updates the transform hierarchies of the world.
+///
+/// \system
 class TransformSystem :
     public System
 {
