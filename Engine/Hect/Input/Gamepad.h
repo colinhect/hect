@@ -128,35 +128,31 @@ class GamepadEvent
 public:
 
     ///
-    /// Constructs a default event.
-    GamepadEvent();
-
-    ///
     /// The type of the event.
-    GamepadEventType type;
+    GamepadEventType type { GamepadEventType_AxisMotion };
 
     ///
     /// The index of the gamepad related to the event.
-    size_t gamepadIndex;
+    size_t gamepadIndex { 0 };
 
     ///
     /// The gamepad button related to the event.
     ///
     /// \note Only relevant for a GamepadEventType_ButtonDown or
     /// GamepadEventType_ButtonUp event.
-    GamepadButton button;
+    GamepadButton button { GamepadButton_Button0 };
 
     ///
     /// The gamepad axis related to the event.
     ///
     /// \note Only relevant for a GamepadEventType_AxisMotion event.
-    GamepadAxis axis;
+    GamepadAxis axis { GamepadAxis_Axis0 };
 
     ///
     /// The value of the gamepad axis related to the event.
     ///
     /// \note Only relevant for a GamepadEventType_AxisMotion event.
-    Real axisValue;
+    Real axisValue { 0 };
 };
 
 ///

@@ -41,8 +41,8 @@ using namespace hect;
 namespace
 {
 
-static Mouse _mouse;
-static Keyboard _keyboard;
+static std::unique_ptr<Mouse> _mouse;
+static std::unique_ptr<Keyboard> _keyboard;
 static std::vector<Gamepad> _gamepads;
 static std::vector<SDL_Joystick*> _openJoysticks;
 static MouseMode _mouseMode = MouseMode_Cursor;
@@ -236,6 +236,9 @@ void Platform::initialize()
             }
         }
     }
+
+    _mouse.reset(new Mouse());
+    _keyboard.reset(new Keyboard());
 }
 
 void Platform::deinitialize()
@@ -268,7 +271,7 @@ Window::Pointer Platform::createWindow(const std::string& title, const VideoMode
 bool Platform::handleEvents()
 {
     // Update the mouse mode if needed
-    MouseMode currentMouseMode = _mouse.mode();
+    MouseMode currentMouseMode = _mouse->mode();
     if (currentMouseMode != _mouseMode)
     {
         _mouseMode = currentMouseMode;
@@ -300,7 +303,7 @@ bool Platform::handleEvents()
             KeyboardEvent event;
             event.type = e.type == SDL_KEYDOWN ? KeyboardEventType_KeyDown : KeyboardEventType_KeyUp;
             event.key = convertKey(e.key.keysym.sym);
-            _keyboard.enqueueEvent(event);
+            _keyboard->enqueueEvent(event);
         }
         break;
         case SDL_MOUSEMOTION:
@@ -320,7 +323,7 @@ bool Platform::handleEvents()
             event.type = MouseEventType_Movement;
             event.cursorMovement = IntVector2(movementX, -movementY);
             event.cursorPosition = IntVector2(positionX, positionY);
-            _mouse.enqueueEvent(event);
+            _mouse->enqueueEvent(event);
         }
         break;
         case SDL_JOYAXISMOTION:
@@ -348,8 +351,8 @@ bool Platform::handleEvents()
         }
     }
 
-    _mouse.dispatchEvents();
-    _keyboard.dispatchEvents();
+    _mouse->dispatchEvents();
+    _keyboard->dispatchEvents();
 
     for (Gamepad& gamepad : _gamepads)
     {
@@ -366,7 +369,7 @@ bool Platform::hasMouse()
 
 Mouse& Platform::mouse()
 {
-    return _mouse;
+    return *_mouse;
 }
 
 bool Platform::hasKeyboard()
@@ -376,7 +379,7 @@ bool Platform::hasKeyboard()
 
 Keyboard& Platform::keyboard()
 {
-    return _keyboard;
+    return *_keyboard;
 }
 
 Platform::GamepadSequence Platform::gamepads()

@@ -28,20 +28,6 @@
 
 using namespace hect;
 
-InputAxisBinding::InputAxisBinding() :
-    type(InputAxisBindingType_Key),
-    mouseButton(MouseButton_Button0),
-    key(Key_A),
-    gamepadIndex(0),
-    gamepadAxis(GamepadAxis_Axis0),
-    gamepadAxisDeadZone(0),
-    gamepadButton(GamepadButton_Button0),
-    acceleration(1),
-    range(0, 0),
-    _value(0)
-{
-}
-
 void InputAxisBinding::update(Real timeStepInSeconds)
 {
     switch (type)
@@ -124,7 +110,8 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding)
 {
-    return encoder << encodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
+    return encoder << beginObject()
+           << encodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
            << encodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
            << encodeEnum<Key>("key", inputAxisBinding.key)
            << encodeValue("gamepadIndex", inputAxisBinding.gamepadIndex)
@@ -132,12 +119,14 @@ Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding)
            << encodeValue("gamepadAxisDeadZone", inputAxisBinding.gamepadAxisDeadZone)
            << encodeEnum<GamepadButton>("gamepadButton", inputAxisBinding.gamepadButton)
            << encodeValue("acceleration", inputAxisBinding.acceleration)
-           << encodeValue("range", inputAxisBinding.range);
+           << encodeValue("range", inputAxisBinding.range)
+           << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding)
 {
-    return decoder >> decodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
+    return decoder >> beginObject()
+           >> decodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
            >> decodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
            >> decodeEnum<Key>("key", inputAxisBinding.key)
            >> decodeValue("gamepadIndex", inputAxisBinding.gamepadIndex)
@@ -145,7 +134,8 @@ Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding)
            >> decodeValue("gamepadAxisDeadZone", inputAxisBinding.gamepadAxisDeadZone)
            >> decodeEnum<GamepadButton>("gamepadButton", inputAxisBinding.gamepadButton)
            >> decodeValue("acceleration", inputAxisBinding.acceleration)
-           >> decodeValue("range", inputAxisBinding.range);
+           >> decodeValue("range", inputAxisBinding.range)
+           >> endObject();
 }
 
 }

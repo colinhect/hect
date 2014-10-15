@@ -23,20 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Gamepad.h"
 
+#include <cassert>
+
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Reflection/Enum.h"
 
 using namespace hect;
-
-GamepadEvent::GamepadEvent() :
-    type(GamepadEventType_AxisMotion),
-    gamepadIndex(0),
-    button(GamepadButton_Button0),
-    axis(GamepadAxis_Axis0),
-    axisValue(0)
-{
-}
 
 bool Gamepad::isButtonDown(GamepadButton button) const
 {
@@ -72,14 +65,17 @@ void Gamepad::enqueueEvent(const GamepadEvent& event)
 {
     if (event.type == GamepadEventType_ButtonDown)
     {
+        assert(event.button <= _buttonStates.size());
         _buttonStates[event.button] = true;
     }
     else if (event.type == GamepadEventType_ButtonUp)
     {
+        assert(event.button <= _buttonStates.size());
         _buttonStates[event.button] = false;
     }
     else if (event.type == GamepadEventType_AxisMotion)
     {
+        assert(event.axis <= _axisStates.size());
         _axisStates[event.axis] = event.axisValue;
     }
     _events.push_back(event);
@@ -91,6 +87,5 @@ void Gamepad::dispatchEvents()
     {
         dispatchEvent(event);
     }
-
     _events.clear();
 }

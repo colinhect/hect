@@ -27,19 +27,9 @@
 
 using namespace hect;
 
-MouseEvent::MouseEvent() :
-    type(MouseEventType_Movement),
-    button(MouseButton_Button0)
-{
-}
-
 bool Mouse::isButtonDown(MouseButton button) const
 {
-    if (button >= _buttonStates.size())
-    {
-        throw Error("Invalid mouse button");
-    }
-
+    assert(button >= _buttonStates.size());
     return _buttonStates[(int)button];
 }
 
@@ -84,6 +74,5 @@ void Mouse::dispatchEvents()
     {
         dispatchEvent(event);
     }
-
     _events.clear();
 }

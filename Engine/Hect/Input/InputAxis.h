@@ -26,14 +26,14 @@
 #include <vector>
 
 #include "Hect/Input/InputAxisBinding.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
 
 ///
-/// An axis manipulated by an input device.
+/// An axis manipulated by bindings to input devices.
 class InputAxis
 {
 public:
@@ -43,7 +43,7 @@ public:
     InputAxis();
 
     ///
-    /// Constructs an input axis.
+    /// Constructs an input axis with a name.
     ///
     /// \param name The name of the axis (must be unique).
     InputAxis(const std::string& name);
@@ -58,10 +58,18 @@ public:
     /// \param name The new name.
     void setName(const std::string& name);
 
+    ///
+    /// Adds a binding to affect the input axis.
+    ///
+    /// \param binding The binding to add.
     void addBinding(const InputAxisBinding& binding);
 
+    ///
+    /// Updates the input axis based on the current state of its bindings.
     void update(Real timeStepInSeconds);
 
+    ///
+    /// Returns the current value of the axis.
     Real value() const;
 
     friend Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis);
@@ -71,7 +79,7 @@ private:
     std::string _name;
 
     std::vector<InputAxisBinding> _bindings;
-    Real _value;
+    Real _value { 0 };
 };
 
 }

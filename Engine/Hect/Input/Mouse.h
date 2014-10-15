@@ -88,19 +88,15 @@ class MouseEvent
 public:
 
     ///
-    /// Constructs a default event.
-    MouseEvent();
-
-    ///
     /// The type of the event.
-    MouseEventType type;
+    MouseEventType type { MouseEventType_Movement };
 
     ///
     /// The mouse button related to the event.
     ///
     /// \note Only relevant for a MouseEventType_ButtonDown or
     /// MouseEventType_ButtonUp event.
-    MouseButton button;
+    MouseButton button { MouseButton_Button0 };
 
     ///
     /// The coordinates of the cursor.
@@ -116,15 +112,13 @@ public:
 class Mouse :
     public Dispatcher<MouseEvent>
 {
+    friend class Platform;
 public:
-    Mouse();
 
     ///
     /// Returns whether the given button is down.
     ///
     /// \param button The button to check if it is down.
-    ///
-    /// \throws Error If the given mouse button is invalid.
     bool isButtonDown(MouseButton button) const;
 
     ///
@@ -141,10 +135,12 @@ public:
     /// Returns the mode.
     MouseMode mode() const;
 
+private:
+    Mouse();
+
     void enqueueEvent(const MouseEvent& event);
     void dispatchEvents();
 
-private:
     std::vector<MouseEvent> _events;
 
     MouseMode _mode;

@@ -27,8 +27,8 @@
 #include "Hect/Input/Gamepad.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
@@ -73,10 +73,6 @@ class InputAxisBinding
 public:
 
     ///
-    /// Constructs a default input axis source.
-    InputAxisBinding();
-
-    ///
     /// Updates the value.
     ///
     /// \param timeStepInSeconds The duration of time elapsed in seconds since
@@ -89,58 +85,62 @@ public:
 
     ///
     /// The type.
-    InputAxisBindingType type;
+    InputAxisBindingType type { InputAxisBindingType_Key };
 
     ///
     /// The mouse button controlling the axis.
     ///
     /// \note Only relevant for when the source is
     /// InputAxisBindingType_MouseButton.
-    MouseButton mouseButton;
+    MouseButton mouseButton { MouseButton_Button0 };
 
     ///
     /// The key controlling the axis.
     ///
     /// \note Only relevant for when the source is InputAxisBindingType_Key.
-    Key key;
+    Key key { Key_A };
 
     ///
     /// The index of the gamepad controlling the axis.
     ///
     /// \note Only relevant for when the source is
     /// InputAxisBindingType_GamepadAxis or InputAxisBindingType_GamepadButton.
-    size_t gamepadIndex;
+    size_t gamepadIndex { 0 };
 
     ///
     /// The gamepad axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
     /// InputAxisBindingType_GamepadAxis.
-    GamepadAxis gamepadAxis;
+    GamepadAxis gamepadAxis { GamepadAxis_Axis0 };
 
     ///
     /// The dead zone of the gamepad axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
     /// InputAxisBindingType_GamepadAxis.
-    Real gamepadAxisDeadZone;
+    Real gamepadAxisDeadZone { 0 };
 
     ///
     /// The gamepad button controlling the axis.
     ///
     /// \note Only relevant for when the source is
     /// InputAxisBindingType_GamepadButton.
-    GamepadButton gamepadButton;
+    GamepadButton gamepadButton { GamepadButton_Button0 };
 
-    Real acceleration;
+    ///
+    /// How fast a discrete source (such as key or mouse button) drives the axis.
+    Real acceleration { 1 };
 
-    Vector2 range;
+    ///
+    /// The range that the binding affects the input axis.
+    Vector2 range { 0, 0 };
 
     friend Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding);
     friend Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding);
 
 private:
-    Real _value;
+    Real _value { 0 };
 };
 
 }

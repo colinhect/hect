@@ -29,14 +29,12 @@
 
 using namespace hect;
 
-InputAxis::InputAxis() :
-    _value(0)
+InputAxis::InputAxis()
 {
 }
 
 InputAxis::InputAxis(const std::string& name) :
-    _name(name),
-    _value(0)
+    _name(name)
 {
 }
 
@@ -76,31 +74,18 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis)
 {
-    encoder << encodeValue("name", inputAxis._name);
-
-    encoder << beginArray("bindings");
-    for (const InputAxisBinding& binding : inputAxis._bindings)
-    {
-        encoder << beginObject()
-                << binding
-                << endObject();
-    }
-    return encoder << endArray();
+    return encoder << beginObject()
+           << encodeValue("name", inputAxis._name)
+           << encodeVector("bindings", inputAxis._bindings)
+           << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis)
 {
-    decoder >> decodeValue("name", inputAxis._name, true);
-    decoder >> beginArray("bindings");
-    while (decoder.hasMoreElements())
-    {
-        InputAxisBinding binding;
-        decoder >> beginObject()
-                >> binding
-                >> endObject();
-        inputAxis._bindings.push_back(binding);
-    }
-    return decoder >> endArray();
+    return decoder >> beginObject()
+           >> decodeValue("name", inputAxis._name, true)
+           >> decodeVector("bindings", inputAxis._bindings)
+           >> endObject();
 }
 
 }
