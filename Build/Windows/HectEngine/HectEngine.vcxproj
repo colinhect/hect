@@ -102,7 +102,7 @@
     <ClInclude Include="..\..\..\Engine\Hect\Logic\Systems\InputSystem.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Logic\Systems\PhysicsSystem.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Logic\Systems\TransformSystem.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\Logic\World.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\Logic\Scene.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Logic\System.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Math\Angle.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Math\Constants.h" />
@@ -205,7 +205,7 @@
     <ClCompile Include="..\..\..\Engine\Hect\Logic\Systems\InputSystem.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Logic\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Logic\Systems\TransformSystem.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Logic\World.cpp" />
+    <ClCompile Include="..\..\..\Engine\Hect\Logic\Scene.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Logic\System.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Math\Angle.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Network\IpAddress.cpp" />
@@ -247,7 +247,7 @@
     <None Include="..\..\..\Engine\Hect\Logic\IdPool.inl" />
     <None Include="..\..\..\Engine\Hect\Logic\System.inl" />
     <None Include="..\..\..\Engine\Hect\Logic\SystemRegistry.inl" />
-    <None Include="..\..\..\Engine\Hect\Logic\World.inl" />
+    <None Include="..\..\..\Engine\Hect\Logic\Scene.inl" />
     <None Include="..\..\..\Engine\Hect\Math\Matrix4.inl" />
     <None Include="..\..\..\Engine\Hect\Math\Quaternion.inl" />
     <None Include="..\..\..\Engine\Hect\Math\Utilities.inl" />

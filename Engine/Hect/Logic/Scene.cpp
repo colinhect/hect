@@ -21,13 +21,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "World.h"
+#include "Scene.h"
 
 #include <algorithm>
 
 using namespace hect;
 
-World::World(Engine& engine) :
+Scene::Scene(Engine& engine) :
     _engine(&engine),
     _entityCount(0),
     _entityPool(*this)
@@ -42,19 +42,19 @@ World::World(Engine& engine) :
     }
 }
 
-Engine& World::engine()
+Engine& Scene::engine()
 {
     assert(_engine);
     return *_engine;
 }
 
-const Engine& World::engine() const
+const Engine& Scene::engine() const
 {
     assert(_engine);
     return *_engine;
 }
 
-void World::tick(TimeSpan timeStep)
+void Scene::tick(TimeSpan timeStep)
 {
     Real timeStepInSeconds = timeStep.seconds();
     for (System* system : _systemTickOrder)
@@ -63,7 +63,7 @@ void World::tick(TimeSpan timeStep)
     }
 }
 
-Entity::Iterator World::createEntity()
+Entity::Iterator Scene::createEntity()
 {
     Entity::Iterator entity = _entityPool.create();
 
@@ -74,22 +74,22 @@ Entity::Iterator World::createEntity()
     return entity;
 }
 
-EntityPool& World::entities()
+EntityPool& Scene::entities()
 {
     return _entityPool;
 }
 
-const EntityPool& World::entities() const
+const EntityPool& Scene::entities() const
 {
     return _entityPool;
 }
 
-size_t World::entityCount() const
+size_t Scene::entityCount() const
 {
     return _entityCount;
 }
 
-Entity::Iterator World::cloneEntity(const Entity& entity)
+Entity::Iterator Scene::cloneEntity(const Entity& entity)
 {
     Entity::ConstIterator sourceEntity = entity.iterator();
     Entity::Iterator clonedEntity = createEntity();
@@ -109,7 +109,7 @@ Entity::Iterator World::cloneEntity(const Entity& entity)
     return clonedEntity;
 }
 
-void World::destroyEntity(Entity& entity)
+void Scene::destroyEntity(Entity& entity)
 {
     if (!entity.inPool())
     {
@@ -155,7 +155,7 @@ void World::destroyEntity(Entity& entity)
     _entityPool.destroy(entity._id);
 }
 
-void World::activateEntity(Entity& entity)
+void Scene::activateEntity(Entity& entity)
 {
     if (!entity.inPool())
     {
@@ -189,7 +189,7 @@ void World::activateEntity(Entity& entity)
     }
 }
 
-void World::addEntityComponentBase(Entity& entity, const ComponentBase& component)
+void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& component)
 {
     if (!entity.inPool())
     {
@@ -201,7 +201,7 @@ void World::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     componentPool->addBase(entity, component);
 }
 
-void World::encode(Encoder& encoder) const
+void Scene::encode(Encoder& encoder) const
 {
     encoder << beginObject() << beginArray("entities");
 
@@ -217,7 +217,7 @@ void World::encode(Encoder& encoder) const
     encoder << endArray() << endObject();
 }
 
-void World::decode(Decoder& decoder)
+void Scene::decode(Decoder& decoder)
 {
     decoder >> beginObject() >> beginArray("entities");
     while (decoder.hasMoreElements())
@@ -229,7 +229,7 @@ void World::decode(Decoder& decoder)
     decoder >> endArray() >> endObject();
 }
 
-void World::encodeComponents(const Entity& entity, Encoder& encoder)
+void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
 {
     if (encoder.isBinaryStream())
     {
@@ -276,7 +276,7 @@ void World::encodeComponents(const Entity& entity, Encoder& encoder)
     }
 }
 
-void World::decodeComponents(Entity& entity, Decoder& decoder)
+void Scene::decodeComponents(Entity& entity, Decoder& decoder)
 {
     if (decoder.isBinaryStream())
     {
@@ -312,7 +312,7 @@ void World::decodeComponents(Entity& entity, Decoder& decoder)
     }
 }
 
-void World::addSystemToTickOrder(System& system)
+void Scene::addSystemToTickOrder(System& system)
 {
     // If the system is not in the tick order
     if (std::find(_systemTickOrder.begin(), _systemTickOrder.end(), &system) == _systemTickOrder.end())
@@ -331,15 +331,15 @@ void World::addSystemToTickOrder(System& system)
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const World& world)
+Encoder& operator<<(Encoder& encoder, const Scene& scene)
 {
-    world.encode(encoder);
+    scene.encode(encoder);
     return encoder;
 }
 
-Decoder& operator>>(Decoder& decoder, World& world)
+Decoder& operator>>(Decoder& decoder, Scene& scene)
 {
-    world.decode(decoder);
+    scene.decode(decoder);
     return decoder;
 }
 

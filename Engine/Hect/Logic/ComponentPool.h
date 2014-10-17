@@ -37,7 +37,7 @@ namespace hect
 
 class ComponentPoolBase
 {
-    friend class World;
+    friend class Scene;
 public:
 
     typedef std::shared_ptr<ComponentPoolBase> Pointer;
@@ -55,18 +55,18 @@ protected:
 };
 
 ///
-/// A pool of components of a specific type within a World.
+/// A pool of components of a specific type within a Scene.
 template <typename T>
 class ComponentPool :
     public ComponentPoolBase,
     public Dispatcher<ComponentEvent<T>>
 {
-    friend class World;
+    friend class Scene;
     friend class Entity;
     friend class Component<T>;
     friend class Component<T>::IteratorBase;
 public:
-    ComponentPool(World& world);
+    ComponentPool(Scene& scene);
 
     ///
     /// Returns an iterator to the beginning of the pool.
@@ -152,7 +152,7 @@ private:
     template <typename U>
     bool expandVector(std::vector<U>& vector, size_t size, U value = U());
 
-    World* _world;
+    Scene* _scene;
     IdPool<ComponentId> _idPool;
     std::vector<T> _components;
     std::vector<ComponentId> _entityToComponent;

@@ -33,18 +33,18 @@
 namespace hect
 {
 
-class World;
+class Scene;
 
 ///
-/// A pool of entities within a World.
+/// A pool of entities within a Scene.
 class EntityPool :
     public Dispatcher<EntityEvent>
 {
-    friend class World;
+    friend class Scene;
     friend class Entity;
     template <typename T> friend class ComponentPool;
 public:
-    EntityPool(World& world);
+    EntityPool(Scene& scene);
 
     ///
     /// Returns an iterator to the beginning of the pool.
@@ -109,7 +109,7 @@ private:
 
     EntityId maxId() const;
 
-    World* _world;
+    Scene* _scene;
     IdPool<EntityId> _idPool;
     std::vector<Entity> _entities;
 };

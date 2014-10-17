@@ -41,9 +41,9 @@ class ComponentRegistry :
 {
 public:
     static ComponentBase::Pointer create(ComponentTypeId typeId);
-    static ComponentPoolBase::Pointer createPool(ComponentTypeId typeId, World& world);
+    static ComponentPoolBase::Pointer createPool(ComponentTypeId typeId, Scene& scene);
 
-    static ComponentPoolMap createMap(World& world);
+    static ComponentPoolMap createMap(Scene& scene);
 
     static ComponentTypeId typeIdOf(std::type_index typeIndex);
     static ComponentTypeId typeIdOf(const std::string& typeName);
@@ -59,7 +59,7 @@ private:
     static std::map<std::type_index, ComponentTypeId> _typeIndexToId;
 
     typedef std::function<ComponentBase::Pointer(void)> ComponentConstructor;
-    typedef std::function<ComponentPoolBase::Pointer(World&)> ComponentPoolConstructor;
+    typedef std::function<ComponentPoolBase::Pointer(Scene&)> ComponentPoolConstructor;
 
     static std::vector<ComponentConstructor> _componentConstructors;
     static std::vector<ComponentPoolConstructor> _componentPoolConstructors;

@@ -35,9 +35,9 @@ void SystemRegistry::registerType()
     {
         SystemTypeId typeId = (SystemTypeId)_constructors.size();
 
-        _constructors.push_back([](World& world)
+        _constructors.push_back([](Scene& scene)
         {
-            return System::Pointer(new T(world));
+            return System::Pointer(new T(scene));
         });
 
         _typeIndexToId[typeIndex] = typeId;

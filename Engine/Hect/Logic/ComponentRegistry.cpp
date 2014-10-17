@@ -33,17 +33,17 @@ ComponentBase::Pointer ComponentRegistry::create(ComponentTypeId typeId)
     return _componentConstructors[typeId]();
 }
 
-ComponentPoolBase::Pointer ComponentRegistry::createPool(ComponentTypeId typeId, World& world)
+ComponentPoolBase::Pointer ComponentRegistry::createPool(ComponentTypeId typeId, Scene& scene)
 {
-    return _componentPoolConstructors[typeId](world);
+    return _componentPoolConstructors[typeId](scene);
 }
 
-ComponentPoolMap ComponentRegistry::createMap(World& world)
+ComponentPoolMap ComponentRegistry::createMap(Scene& scene)
 {
     ComponentPoolMap componentPoolMap;
     for (ComponentTypeId typeId = 0; typeId < _componentConstructors.size(); ++typeId)
     {
-        componentPoolMap.push_back(createPool(typeId, world));
+        componentPoolMap.push_back(createPool(typeId, scene));
     }
     return componentPoolMap;
 }

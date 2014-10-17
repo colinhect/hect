@@ -34,10 +34,10 @@ class CameraSystem :
     public System
 {
 public:
-    CameraSystem(World& world);
+    CameraSystem(Scene& scene);
 
     ///
-    /// Returns the active camera in the world.
+    /// Returns the active camera in the scene.
     Component<Camera>::Iterator activeCamera();
 
     ///

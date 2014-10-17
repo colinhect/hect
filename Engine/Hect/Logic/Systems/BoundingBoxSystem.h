@@ -32,14 +32,14 @@ namespace hect
 {
 
 ///
-/// Updates the bounding box hierarchies of the world.
+/// Updates the bounding box hierarchies of the scene.
 ///
 /// \system
 class BoundingBoxSystem :
     public System
 {
 public:
-    BoundingBoxSystem(World& world);
+    BoundingBoxSystem(Scene& scene);
 
     void tick(Real timeStep) override;
 

@@ -31,15 +31,15 @@ namespace hect
 enum EntityEventType
 {
     ///
-    /// An entity was created in the world.
+    /// An entity was created in the scene.
     EntityEventType_Create,
 
     ///
-    /// An entity was activated in the world.
+    /// An entity was activated in the scene.
     EntityEventType_Activate,
 
     ///
-    /// An entity was destroyed in the world.
+    /// An entity was destroyed in the scene.
     EntityEventType_Destroy
 };
 

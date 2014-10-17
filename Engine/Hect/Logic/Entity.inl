@@ -28,7 +28,7 @@ template <typename T, typename... Args>
 typename Component<T>::Iterator Entity::addComponent(Args... args)
 {
     ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_world->components<T>();
+    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
     return componentPool.add(*this, T(args...));
 }
 
@@ -36,7 +36,7 @@ template <typename T, typename... Args>
 typename Component<T>::Iterator Entity::replaceComponent(Args... args)
 {
     ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_world->components<T>();
+    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
     return componentPool.replace(*this, T(args...));
 }
 
@@ -44,7 +44,7 @@ template <typename T>
 void Entity::removeComponent()
 {
     ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_world->components<T>();
+    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
     componentPool.remove(*this);
 }
 
@@ -52,7 +52,7 @@ template <typename T>
 typename Component<T>::Iterator Entity::component()
 {
     ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_world->components<T>();
+    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
     return componentPool.get(*this);
 }
 
@@ -60,7 +60,7 @@ template <typename T>
 typename Component<T>::ConstIterator Entity::component() const
 {
     ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_world->components<T>();
+    ComponentPool<T>& componentPool = _pool->_scene->components<T>();
     return componentPool.get(*this);
 }
 

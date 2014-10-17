@@ -39,18 +39,18 @@ namespace hect
 typedef uint32_t SystemTypeId;
 
 ///
-/// A system affecting entities within a world.
+/// A system affecting entities within a scene.
 class System :
     public Uncopyable
 {
-    friend class World;
+    friend class Scene;
 public:
 
     typedef std::shared_ptr<System> Pointer;
 
     ///
-    /// Constructs the system given the world.
-    System(World& world);
+    /// Constructs the system given the scene.
+    System(Scene& scene);
 
     ///
     /// Ensures that the system of a specific type is updated before this
@@ -66,15 +66,15 @@ public:
     virtual void tick(Real timeStep) = 0;
 
     ///
-    /// Gets the world that the system affects.
-    World& world();
+    /// Gets the scene that the system affects.
+    Scene& scene();
 
     ///
-    /// Gets the world that the system affects.
-    const World& world() const;
+    /// Gets the scene that the system affects.
+    const Scene& scene() const;
 
 private:
-    World* _world;
+    Scene* _scene;
 
     std::vector<SystemTypeId> _tickDependencies;
 };

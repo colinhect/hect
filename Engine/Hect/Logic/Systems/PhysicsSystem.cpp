@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PhysicsSystem.h"
 
-#include "Hect/Logic/World.h"
+#include "Hect/Logic/Scene.h"
 #include "Hect/Physics/Bullet.h"
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Logic/Components/Transform.h"
@@ -32,8 +32,8 @@
 
 using namespace hect;
 
-PhysicsSystem::PhysicsSystem(World& world) :
-    System(world),
+PhysicsSystem::PhysicsSystem(Scene& scene) :
+    System(scene),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -42,14 +42,14 @@ PhysicsSystem::PhysicsSystem(World& world) :
 {
     tickAfter<InputSystem>();
 
-    world.components<RigidBody>().addListener(*this);
+    scene.components<RigidBody>().addListener(*this);
 
     setGravity(Vector3::zero());
 }
 
 PhysicsSystem::~PhysicsSystem()
 {
-    world().components<RigidBody>().removeListener(*this);
+    scene().components<RigidBody>().removeListener(*this);
 }
 
 void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition)
@@ -65,11 +65,11 @@ void PhysicsSystem::updateRigidBody(RigidBody& rigidBody)
 
 void PhysicsSystem::tick(Real timeStep)
 {
-    // Update the dynamics world
+    // Update the dynamics scene
     _world->stepSimulation(timeStep, 4);
 
     // For each rigid body component
-    for (RigidBody& rigidBody : world().components<RigidBody>())
+    for (RigidBody& rigidBody : scene().components<RigidBody>())
     {
         Entity& entity = rigidBody.entity();
         if (!entity.parent() && entity.component<Transform>())
@@ -101,7 +101,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
 {
     Entity& entity = event.entity();
 
-    TransformSystem& transformSystem = world().system<TransformSystem>();
+    TransformSystem& transformSystem = scene().system<TransformSystem>();
 
     auto transform = entity.component<Transform>();
     if (transform)

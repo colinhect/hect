@@ -24,16 +24,16 @@
 #include "InputSystem.h"
 
 #include "Hect/IO/JsonDecoder.h"
-#include "Hect/Logic/World.h"
+#include "Hect/Logic/Scene.h"
 #include "Hect/Platform/Platform.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
-InputSystem::InputSystem(World& world) :
-    System(world)
+InputSystem::InputSystem(Scene& scene) :
+    System(scene)
 {
-    for (const JsonValue& axisValue : world.engine().config()["inputAxes"])
+    for (const JsonValue& axisValue : scene.engine().config()["inputAxes"])
     {
         InputAxis axis;
 

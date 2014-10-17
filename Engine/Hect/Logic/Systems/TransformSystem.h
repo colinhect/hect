@@ -30,14 +30,14 @@ namespace hect
 {
 
 ///
-/// Updates the transform hierarchies of the world.
+/// Updates the transform hierarchies of the scene.
 ///
 /// \system
 class TransformSystem :
     public System
 {
 public:
-    TransformSystem(World& world);
+    TransformSystem(Scene& scene);
 
     void updateTransform(Transform& transform);
 

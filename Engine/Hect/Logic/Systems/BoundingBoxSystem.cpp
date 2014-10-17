@@ -24,13 +24,13 @@
 #include "BoundingBoxSystem.h"
 
 #include "Hect/Logic/Components/Model.h"
-#include "Hect/Logic/World.h"
+#include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Systems/TransformSystem.h"
 
 using namespace hect;
 
-BoundingBoxSystem::BoundingBoxSystem(World& world) :
-    System(world)
+BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
+    System(scene)
 {
     tickAfter<TransformSystem>();
 }
@@ -39,7 +39,7 @@ void BoundingBoxSystem::tick(Real timeStep)
 {
     timeStep;
 
-    for (BoundingBox& boundingBox : world().components<BoundingBox>())
+    for (BoundingBox& boundingBox : scene().components<BoundingBox>())
     {
         Entity& entity = boundingBox.entity();
         if (!entity.parent())

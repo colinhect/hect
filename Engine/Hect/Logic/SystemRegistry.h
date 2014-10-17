@@ -40,7 +40,7 @@ class SystemRegistry :
     public Uncopyable
 {
 public:
-    static SystemMap createMap(World& world);
+    static SystemMap createMap(Scene& scene);
 
     static SystemTypeId typeIdOf(std::type_index typeIndex);
 
@@ -52,7 +52,7 @@ public:
 
 private:
     static std::map<std::type_index, SystemTypeId> _typeIndexToId;
-    static std::vector<std::function<System::Pointer(World&)>> _constructors;
+    static std::vector<std::function<System::Pointer(Scene&)>> _constructors;
 };
 
 }

@@ -23,20 +23,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "CameraSystem.h"
 
-#include "Hect/Logic/World.h"
+#include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Systems/TransformSystem.h"
 
 using namespace hect;
 
-CameraSystem::CameraSystem(World& world) :
-    System(world)
+CameraSystem::CameraSystem(Scene& scene) :
+    System(scene)
 {
     tickAfter<TransformSystem>();
 }
 
 Component<Camera>::Iterator CameraSystem::activeCamera()
 {
-    return world().components<Camera>().begin();
+    return scene().components<Camera>().begin();
 }
 
 void CameraSystem::updateCamera(Camera& camera)
@@ -62,7 +62,7 @@ void CameraSystem::tick(Real timeStep)
 {
     timeStep;
 
-    for (Camera& camera : world().components<Camera>())
+    for (Camera& camera : scene().components<Camera>())
     {
         updateCamera(camera);
     }

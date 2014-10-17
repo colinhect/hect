@@ -40,7 +40,7 @@ public:
     DirectionalLight();
 
     ///
-    /// The world-space direction.
+    /// The scene-space direction.
     Vector3 direction;
 
     ///

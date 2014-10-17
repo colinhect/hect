@@ -43,18 +43,18 @@ namespace hect
 class Engine;
 
 ///
-/// A world of entities, components, and systems.
-class World :
+/// A scene of entities, components, and systems.
+class Scene :
     public Uncopyable
 {
     friend class Entity;
 public:
 
     ///
-    /// Constructs an empty world.
+    /// Constructs an empty scene.
     ///
     /// \param engine The engine.
-    World(Engine& engine);
+    Scene(Engine& engine);
 
     ///
     /// Returns the engine.
@@ -86,7 +86,7 @@ public:
     const ComponentPool<T>& components() const;
 
     ///
-    /// Ticks all of the systems in the world.
+    /// Ticks all of the systems in the scene.
     ///
     /// \param timeStep The duration of time for the tick to simulate.
     void tick(TimeSpan timeStep);
@@ -106,11 +106,11 @@ public:
     const EntityPool& entities() const;
 
     ///
-    /// Returns the number of active entities in the world.
+    /// Returns the number of active entities in the scene.
     size_t entityCount() const;
 
-    friend Encoder& operator<<(Encoder& encoder, const World& world);
-    friend Decoder& operator>>(Decoder& decoder, World& world);
+    friend Encoder& operator<<(Encoder& encoder, const Scene& scene);
+    friend Decoder& operator>>(Decoder& decoder, Scene& scene);
 
 private:
     Entity::Iterator cloneEntity(const Entity& entity);
@@ -141,4 +141,4 @@ private:
 
 }
 
-#include "World.inl"
+#include "Scene.inl"

@@ -42,9 +42,9 @@ void ComponentRegistry::registerType()
             return ComponentBase::Pointer(new T());
         });
 
-        _componentPoolConstructors.push_back([](World& world)
+        _componentPoolConstructors.push_back([](Scene& scene)
         {
-            return ComponentPoolBase::Pointer(new ComponentPool<T>(world));
+            return ComponentPoolBase::Pointer(new ComponentPool<T>(scene));
         });
 
         _typeIndexToId[typeIndex] = typeId;

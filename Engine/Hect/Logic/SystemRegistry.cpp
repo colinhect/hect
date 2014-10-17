@@ -28,12 +28,12 @@
 
 using namespace hect;
 
-SystemMap SystemRegistry::createMap(World& world)
+SystemMap SystemRegistry::createMap(Scene& scene)
 {
     SystemMap systemMap;
     for (auto& constructor : _constructors)
     {
-        systemMap.push_back(constructor(world));
+        systemMap.push_back(constructor(scene));
     }
     return systemMap;
 }
@@ -49,4 +49,4 @@ SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
 }
 
 std::map<std::type_index, SystemTypeId> SystemRegistry::_typeIndexToId;
-std::vector<std::function<System::Pointer(World&)>> SystemRegistry::_constructors;
+std::vector<std::function<System::Pointer(Scene&)>> SystemRegistry::_constructors;

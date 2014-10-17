@@ -28,7 +28,7 @@
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/AssetDecoder.h"
 #include "Hect/Logic/EntityPool.h"
-#include "Hect/Logic/World.h"
+#include "Hect/Logic/Scene.h"
 
 using namespace hect;
 
@@ -434,19 +434,19 @@ Entity::ConstIterator Entity::iterator() const
 Entity::Iterator Entity::clone() const
 {
     ensureInPool();
-    return _pool->_world->cloneEntity(*this);
+    return _pool->_scene->cloneEntity(*this);
 }
 
 void Entity::destroy()
 {
     ensureInPool();
-    _pool->_world->destroyEntity(*this);
+    _pool->_scene->destroyEntity(*this);
 }
 
 void Entity::activate()
 {
     ensureInPool();
-    _pool->_world->activateEntity(*this);
+    _pool->_scene->activateEntity(*this);
 }
 
 bool Entity::isActivated() const
@@ -501,7 +501,7 @@ void Entity::addChild(Entity& entity)
 
     if (entity._pool != _pool)
     {
-        throw Error("Cannot add a child entity from another world");
+        throw Error("Cannot add a child entity from another scene");
     }
 
     if (_activated && !entity._activated)
@@ -779,11 +779,11 @@ void Entity::encode(Encoder& encoder) const
 {
     ensureInPool();
 
-    World& world = *_pool->_world;
+    Scene& scene = *_pool->_scene;
 
     encoder << beginObject();
 
-    world.encodeComponents(*this, encoder);
+    scene.encodeComponents(*this, encoder);
 
     encoder << beginArray("children");
 
@@ -799,25 +799,25 @@ void Entity::decode(Decoder& decoder)
 {
     ensureInPool();
 
-    World& world = *_pool->_world;
+    Scene& scene = *_pool->_scene;
 
     decoder >> beginObject();
 
     if (!decoder.isBinaryStream())
     {
-        if (decoder.selectMember("archetype"))
+        if (decoder.selectMember("base"))
         {
-            Path archetypePath;
-            decoder >> decodeValue(archetypePath);
+            Path basePath;
+            decoder >> decodeValue(basePath);
 
-            AssetDecoder archetypeDecoder(decoder.assetCache(), archetypePath);
-            archetypeDecoder >> decodeValue(*this);
+            AssetDecoder baseDecoder(decoder.assetCache(), basePath);
+            baseDecoder >> decodeValue(*this);
         }
     }
 
     if (decoder.selectMember("components"))
     {
-        world.decodeComponents(*this, decoder);
+        scene.decodeComponents(*this, decoder);
     }
 
     if (decoder.selectMember("children"))
@@ -825,7 +825,7 @@ void Entity::decode(Decoder& decoder)
         decoder >> beginArray();
         while (decoder.hasMoreElements())
         {
-            Entity::Iterator child = _pool->_world->createEntity();
+            Entity::Iterator child = _pool->_scene->createEntity();
 
             decoder >> beginObject();
             child->decode(decoder);

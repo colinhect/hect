@@ -25,23 +25,23 @@ namespace hect
 {
 
 template <typename T>
-T& World::system()
+T& Scene::system()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
     return (T&)*_systemMap[typeId];
 }
 
 template <typename T>
-ComponentPool<T>& World::components()
+ComponentPool<T>& Scene::components()
 {
     ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
     return (ComponentPool<T>&)*_componentPoolMap[typeId];
 }
 
 template <typename T>
-const ComponentPool<T>& World::components() const
+const ComponentPool<T>& Scene::components() const
 {
-    return const_cast<World*>(this)->components<T>();
+    return const_cast<Scene*>(this)->components<T>();
 }
 
 }

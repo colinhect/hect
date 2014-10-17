@@ -24,13 +24,13 @@
 #include "TransformSystem.h"
 
 #include "Hect/Logic/Components/Model.h"
-#include "Hect/Logic/World.h"
+#include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Systems/PhysicsSystem.h"
 
 using namespace hect;
 
-TransformSystem::TransformSystem(World& world) :
-    System(world)
+TransformSystem::TransformSystem(Scene& scene) :
+    System(scene)
 {
     tickAfter<PhysicsSystem>();
 }
@@ -56,7 +56,7 @@ void TransformSystem::tick(Real timeStep)
 {
     timeStep;
 
-    for (Transform& transform : world().components<Transform>())
+    for (Transform& transform : scene().components<Transform>())
     {
         Entity& entity = transform.entity();
         if (!entity.parent())

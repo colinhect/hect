@@ -25,17 +25,17 @@
 
 using namespace hect;
 
-System::System(World& world) :
-    _world(&world)
+System::System(Scene& scene) :
+    _scene(&scene)
 {
 }
 
-World& System::world()
+Scene& System::scene()
 {
-    return *_world;
+    return *_scene;
 }
 
-const World& System::world() const
+const Scene& System::scene() const
 {
-    return *_world;
+    return *_scene;
 }

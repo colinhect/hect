@@ -25,7 +25,7 @@
 
 #include <algorithm>
 
-#include "Hect/Logic/World.h"
+#include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
 #include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/Components/DirectionalLight.h"
@@ -52,9 +52,9 @@ Renderer::Renderer(GraphicsContext& graphicsContext, AssetCache& assetCache) :
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 }
 
-void Renderer::renderWorld(World& world, RenderTarget& target)
+void Renderer::renderScene(Scene& scene, RenderTarget& target)
 {
-    CameraSystem& cameraSystem = world.system<CameraSystem>();
+    CameraSystem& cameraSystem = scene.system<CameraSystem>();
     Component<Camera>::Iterator camera = cameraSystem.activeCamera();
     if (camera)
     {
@@ -78,7 +78,7 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
             _graphicsContext->clear();
 
             // Render the sky box if there is one
-            auto skyBox = world.components<SkyBox>().begin();
+            auto skyBox = scene.components<SkyBox>().begin();
             if (skyBox)
             {
                 // Construct a transform at the camera's position
@@ -100,7 +100,7 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
             }
 
             // Render each entity in hierarchical order
-            for (Entity& entity : world.entities())
+            for (Entity& entity : scene.entities())
             {
                 if (!entity.parent())
                 {
@@ -124,10 +124,10 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
             _graphicsContext->bindState(state);
 
             // Get the first light probe
-            auto lightProbe = world.components<LightProbe>().begin();
+            auto lightProbe = scene.components<LightProbe>().begin();
             if (!lightProbe)
             {
-                throw Error("No light probe in world");
+                throw Error("No light probe in scene");
             }
 
             unsigned int index = 0;
@@ -157,8 +157,8 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
                 const ShaderParameter& colorShaderParameter = _directionalLightShader->parameterWithName("lightColor");
                 const ShaderParameter& directionShaderParameter = _directionalLightShader->parameterWithName("lightDirection");
 
-                // Render each directional light in the world
-                for (const DirectionalLight& light : world.components<DirectionalLight>())
+                // Render each directional light in the scene
+                for (const DirectionalLight& light : scene.components<DirectionalLight>())
                 {
                     _graphicsContext->bindShaderParameter(colorShaderParameter, light.color);
                     _graphicsContext->bindShaderParameter(directionShaderParameter, light.direction);

@@ -48,11 +48,11 @@ public:
     Renderer(GraphicsContext& graphicsContext, AssetCache& assetCache);
 
     ///
-    /// Renders a world in its current state to a given render target.
+    /// Renders a scene in its current state to a given render target.
     ///
-    /// \param world The world to render.
+    /// \param scene The scene to render.
     /// \param target The target to render to.
-    void renderWorld(World& world, RenderTarget& target);
+    void renderScene(Scene& scene, RenderTarget& target);
 
 private:
     void initializeBuffers(unsigned width, unsigned height);

@@ -333,9 +333,6 @@
     <ClInclude Include="..\..\..\Engine\Hect\Input\Gamepad.h">
       <Filter>Source\Hect\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Logic\World.h">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Math\Utilities.h">
       <Filter>Source\Hect\Math</Filter>
     </ClInclude>
@@ -422,6 +419,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\ShaderParameter.h">
       <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Engine\Hect\Logic\Scene.h">
+      <Filter>Source\Hect\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -623,9 +623,6 @@
     <ClCompile Include="..\..\..\Engine\Hect\Logic\GameMode.cpp">
       <Filter>Source\Hect\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Engine\Hect\Logic\World.cpp">
-      <Filter>Source\Hect\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Input\InputAxisBinding.cpp">
       <Filter>Source\Hect\Input</Filter>
     </ClCompile>
@@ -704,6 +701,9 @@
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderParameter.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Engine\Hect\Logic\Scene.cpp">
+      <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Engine\Hect\Core\Any.inl">
@@ -766,9 +766,6 @@
     <None Include="..\..\..\Engine\Hect\Reflection\Enum.inl">
       <Filter>Source\Hect\Reflection</Filter>
     </None>
-    <None Include="..\..\..\Engine\Hect\Logic\World.inl">
-      <Filter>Source\Hect\Logic</Filter>
-    </None>
     <None Include="..\..\..\Engine\Hect\Math\Utilities.inl">
       <Filter>Source\Hect\Math</Filter>
     </None>
@@ -789,6 +786,9 @@
     </None>
     <None Include="..\..\..\Engine\Hect\Graphics\GraphicsContext.inl">
       <Filter>Source\Hect\Graphics</Filter>
+    </None>
+    <None Include="..\..\..\Engine\Hect\Logic\Scene.inl">
+      <Filter>Source\Hect\Logic</Filter>
     </None>
   </ItemGroup>
 </Project>
