@@ -80,17 +80,17 @@ private:
     void initiateLoad();
     void load();
 
-    AssetCache* _assetCache{ nullptr };
+    AssetCache* _assetCache { nullptr };
     Path _path;
 
     Task::Handle _taskHandle;
 
     std::unique_ptr<T> _asset;
 
-    bool _errorOccurred{ false };
+    bool _errorOccurred { false };
     std::string _errorMessage;
 
-    TimeStamp _lastModified{ -1 };
+    TimeStamp _lastModified { -1 };
 };
 
 }
