@@ -35,7 +35,19 @@ namespace hect
 class ImagePngEncoder
 {
 public:
+
+    ///
+    /// Encodes an image to PNG data.
+    ///
+    /// \param image The image to encode.
+    /// \param stream The stream to write the encoded data to.
     static void encode(const Image& image, WriteStream& stream);
+
+    ///
+    /// Decodes an image from PNG data.
+    ///
+    /// \param image The image to decode to.
+    /// \param stream The stream to decode the data from.
     static void decode(Image& image, ReadStream& stream);
 };
 

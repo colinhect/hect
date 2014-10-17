@@ -26,8 +26,8 @@
 #include <memory>
 
 #include "Hect/IO/AssetEntry.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Path.h"
 
 namespace hect
@@ -49,14 +49,14 @@ public:
     AssetHandle();
 
     ///
-    /// Constructs an asset handle given an asset.
+    /// Constructs an asset handle.
     ///
     /// \param asset The asset (the lifetime of the asset will be owned by
     /// the handle).
     AssetHandle(T* asset);
 
     ///
-    /// Constructs an asset handle given an asset entry.
+    /// Constructs an asset handle.
     ///
     /// \param entry The asset entry.
     AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry);
@@ -88,11 +88,15 @@ public:
 
     ///
     /// Returns whether the handle refers to the same asset as another handle.
-    bool operator==(const AssetHandle<T>& handle) const;
+    ///
+    /// \param assetHandle The other asset handle.
+    bool operator==(const AssetHandle<T>& assetHandle) const;
 
     ///
     /// Returns whether the handle refers to a different asset as another handle.
-    bool operator!=(const AssetHandle<T>& handle) const;
+    ///
+    /// \param assetHandle The other asset handle.
+    bool operator!=(const AssetHandle<T>& assetHandle) const;
 
 private:
     std::shared_ptr<T> _asset;

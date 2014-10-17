@@ -38,7 +38,10 @@ public:
     ModelSurface();
 
     ///
-    /// Constructs the surface given the mesh and the material.
+    /// Constructs a surface.
+    ///
+    /// \param mesh The mesh.
+    /// \param material The material.
     ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
 
     ///

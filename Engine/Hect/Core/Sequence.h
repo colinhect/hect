@@ -38,7 +38,7 @@ class Sequence :
 public:
 
     ///
-    /// Constructs a sequence given the underlying container.
+    /// Constructs a sequence.
     ///
     /// \param container The underlying container.
     Sequence(typename const Container& container);

@@ -40,7 +40,7 @@ class MeshReader
 public:
 
     ///
-    /// Constructs a mesh reader given a mesh to read from.
+    /// Constructs a mesh.
     ///
     /// \param mesh The mesh to read from.
     MeshReader(const Mesh& mesh);

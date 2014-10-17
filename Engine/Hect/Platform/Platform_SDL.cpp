@@ -43,7 +43,7 @@ namespace
 
 static std::unique_ptr<Mouse> _mouse;
 static std::unique_ptr<Keyboard> _keyboard;
-static std::vector<Gamepad> _gamepads;
+static std::vector<Joystick> _joysticks;
 static std::vector<SDL_Joystick*> _openJoysticks;
 static MouseMode _mouseMode = MouseMode_Cursor;
 
@@ -222,17 +222,17 @@ void Platform::initialize()
             size_t buttonCount = SDL_JoystickNumButtons(joystick);
             size_t axisCount = SDL_JoystickNumAxes(joystick);
 
-            HECT_INFO(format("Detected gamepad '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
+            HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
 
-            _gamepads.push_back(Gamepad(name, buttonCount, axisCount));
+            _joysticks.push_back(Joystick(name, buttonCount, axisCount));
             for (size_t i = 0; i < axisCount; ++i)
             {
-                GamepadEvent event;
-                event.type = GamepadEventType_AxisMotion;
-                event.gamepadIndex = _gamepads.size() - 1;
-                event.axis = (GamepadAxis)i;
+                JoystickEvent event;
+                event.type = JoystickEventType_AxisMotion;
+                event.joystickIndex = _joysticks.size() - 1;
+                event.axis = (JoystickAxis)i;
                 event.axisValue = std::max<Real>((Real)SDL_JoystickGetAxis(joystick, (int)i) / (Real)32767, -1.0);
-                _gamepads[event.gamepadIndex].enqueueEvent(event);
+                _joysticks[event.joystickIndex].enqueueEvent(event);
             }
         }
     }
@@ -243,7 +243,7 @@ void Platform::initialize()
 
 void Platform::deinitialize()
 {
-    // Close all gamepads
+    // Close all joysticks
     for (SDL_Joystick* joystick : _openJoysticks)
     {
         SDL_JoystickClose(joystick);
@@ -329,23 +329,23 @@ bool Platform::handleEvents()
         case SDL_JOYAXISMOTION:
         {
             // Enqueue the event
-            GamepadEvent event;
-            event.type = GamepadEventType_AxisMotion;
-            event.gamepadIndex = e.jaxis.which;
-            event.axis = (GamepadAxis)e.jaxis.axis;
+            JoystickEvent event;
+            event.type = JoystickEventType_AxisMotion;
+            event.joystickIndex = e.jaxis.which;
+            event.axis = (JoystickAxis)e.jaxis.axis;
             event.axisValue = std::max<Real>((Real)e.jaxis.value / (Real)32767, -1.0);
-            _gamepads[event.gamepadIndex].enqueueEvent(event);
+            _joysticks[event.joystickIndex].enqueueEvent(event);
         }
         break;
         case SDL_JOYBUTTONDOWN:
         case SDL_JOYBUTTONUP:
         {
             // Enqueue the event
-            GamepadEvent event;
-            event.type = e.type == SDL_JOYBUTTONDOWN ? GamepadEventType_ButtonDown : GamepadEventType_ButtonUp;
-            event.gamepadIndex = e.jbutton.which;
-            event.button = (GamepadButton)e.jbutton.button;
-            _gamepads[event.gamepadIndex].enqueueEvent(event);
+            JoystickEvent event;
+            event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType_ButtonDown : JoystickEventType_ButtonUp;
+            event.joystickIndex = e.jbutton.which;
+            event.button = (JoystickButton)e.jbutton.button;
+            _joysticks[event.joystickIndex].enqueueEvent(event);
         }
         break;
         }
@@ -354,9 +354,9 @@ bool Platform::handleEvents()
     _mouse->dispatchEvents();
     _keyboard->dispatchEvents();
 
-    for (Gamepad& gamepad : _gamepads)
+    for (Joystick& joystick : _joysticks)
     {
-        gamepad.dispatchEvents();
+        joystick.dispatchEvents();
     }
 
     return active;
@@ -382,7 +382,7 @@ Keyboard& Platform::keyboard()
     return *_keyboard;
 }
 
-Platform::GamepadSequence Platform::gamepads()
+Platform::JoystickSequence Platform::joysticks()
 {
-    return _gamepads;
+    return _joysticks;
 }

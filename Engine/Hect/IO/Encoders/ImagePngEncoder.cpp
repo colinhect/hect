@@ -23,12 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ImagePngEncoder.h"
 
+#include <lodepng.h>
+
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
 
 using namespace hect;
-
-#include <lodepng.h>
 
 void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
 {
@@ -50,13 +50,13 @@ void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
         throw Error(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
     }
 
-    // Write the encoded data
+    // Write the encoded data to the stream
     stream.write(&encodedPixelData[0], encodedPixelData.size());
 }
 
 void ImagePngEncoder::decode(Image& image, ReadStream& stream)
 {
-    // Read the encoded data
+    // Read all of the encoded data from the stream
     size_t length = stream.length();
     Image::PixelData encodedPixelData(length, 0);
     stream.read(&encodedPixelData[0], length);
@@ -72,11 +72,12 @@ void ImagePngEncoder::decode(Image& image, ReadStream& stream)
         throw Error(format("Failed to decode PNG data: %s", lodepng_error_text(error)));
     }
 
+    // Set various properties for the image
     image.setWidth(width);
     image.setHeight(height);
     image.setPixelType(PixelType_Byte);
     image.setPixelFormat(PixelFormat_Rgba);
-    image.setColorSpace(ColorSpace_NonLinear);
+    image.setColorSpace(ColorSpace_NonLinear); // Assume the image is sRGB
     image.setPixelData(std::move(decodedPixelData));
 
     // Flip the image to OpenGL ordering

@@ -38,7 +38,7 @@ class BinaryEncoder :
 public:
 
     ///
-    /// Constructs an encoder given the stream to encode to.
+    /// Constructs a binary encoder.
     ///
     /// \param stream The stream to encode to.
     BinaryEncoder(WriteStream& stream);

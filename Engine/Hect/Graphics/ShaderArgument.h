@@ -38,11 +38,10 @@ public:
     ShaderArgument();
 
     ///
-    /// Constructs shader argument given the name of that parameter that the
-    /// value is bound to and the value itself.
+    /// Constructs shader argument.
     ///
     /// \param name The name of the shader parameter to bind to.
-    /// \param value The value.
+    /// \param value The value to bind to the shader parameter.
     ShaderArgument(const std::string& name, const ShaderValue& value);
 
     ///

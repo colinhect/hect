@@ -34,9 +34,9 @@ class FrameBuffer;
 class Mesh;
 class RenderTarget;
 class Shader;
-class Texture;
 class ShaderParameter;
 class ShaderValue;
+class Texture;
 class Window;
 
 ///
@@ -64,8 +64,7 @@ public:
     public:
 
         ///
-        /// Constructs the data given the graphics context and the object that
-        /// the data represents.
+        /// Constructs graphics context data.
         ///
         /// \param graphicsContext The graphics context that the data is
         /// uploaded to.
@@ -99,7 +98,7 @@ public:
         DataHandle();
 
         ///
-        /// Constructs a handle given the data.
+        /// Constructs a handle with data.
         ///
         /// \note The handle assumes ownership of the lifetime of the data.
         ///
@@ -173,7 +172,7 @@ public:
     };
 
     ///
-    /// Constructs a graphics context given the window its context belongs to.
+    /// Constructs a graphics.
     ///
     /// \param window The window which has the context.
     GraphicsContext(Window& window);

@@ -90,18 +90,18 @@ class ShaderParameter
 public:
 
     ///
-    /// Constructs an empty shader parameter.
+    /// Constructs a shader parameter.
     ShaderParameter();
 
     ///
-    /// Constructs a shader parameter given its name and binding
+    /// Constructs a shader parameter.
     ///
     /// \param name The name.
     /// \param binding The binding.
     ShaderParameter(const std::string& name, ShaderParameterBinding binding);
 
     ///
-    /// Constructs a shader parameter given its name and default value.
+    /// Constructs a shader parameter.
     ///
     /// \param name The name.
     /// \param defaultValue The default value which will be set when the shader

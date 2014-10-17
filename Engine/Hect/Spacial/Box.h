@@ -35,7 +35,7 @@ class Box
 public:
 
     ///
-    /// Constructs the box given its scale.
+    /// Constructs a box.
     ///
     /// \param scale The scale in all three dimensions.
     Box(const Vector3& scale);

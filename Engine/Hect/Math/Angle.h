@@ -57,7 +57,7 @@ public:
     Angle();
 
     ///
-    /// Constructs an angle from a value in radians.
+    /// Constructs an angle.
     ///
     /// \param radians The angle in radians.
     Angle(Real radians);

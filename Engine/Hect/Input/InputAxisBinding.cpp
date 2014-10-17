@@ -56,13 +56,13 @@ void InputAxisBinding::update(Real timeStepInSeconds)
         }
     }
     break;
-    case InputAxisBindingType_GamepadButton:
+    case InputAxisBindingType_JoystickButton:
     {
-        auto gamepads = Platform::gamepads();
-        if (gamepadIndex < gamepads.size())
+        auto joysticks = Platform::joysticks();
+        if (joystickIndex < joysticks.size())
         {
-            Gamepad& gamepad = gamepads[gamepadIndex];
-            if (gamepad.isButtonDown(gamepadButton))
+            Joystick& joystick = joysticks[joystickIndex];
+            if (joystick.isButtonDown(joystickButton))
             {
                 _value += acceleration * timeStepInSeconds;
             }
@@ -73,14 +73,14 @@ void InputAxisBinding::update(Real timeStepInSeconds)
         }
     }
     break;
-    case InputAxisBindingType_GamepadAxis:
+    case InputAxisBindingType_JoystickAxis:
     {
-        auto gamepads = Platform::gamepads();
-        if (gamepadIndex < gamepads.size())
+        auto joysticks = Platform::joysticks();
+        if (joystickIndex < joysticks.size())
         {
-            Gamepad& gamepad = gamepads[gamepadIndex];
-            _value = gamepad.axisValue(gamepadAxis);
-            if (std::abs(_value) < gamepadAxisDeadZone)
+            Joystick& joystick = joysticks[joystickIndex];
+            _value = joystick.axisValue(joystickAxis);
+            if (std::abs(_value) < joystickAxisDeadZone)
             {
                 _value = 0;
             }
@@ -114,10 +114,10 @@ Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding)
            << encodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
            << encodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
            << encodeEnum<Key>("key", inputAxisBinding.key)
-           << encodeValue("gamepadIndex", inputAxisBinding.gamepadIndex)
-           << encodeEnum<GamepadAxis>("gamepadAxis", inputAxisBinding.gamepadAxis)
-           << encodeValue("gamepadAxisDeadZone", inputAxisBinding.gamepadAxisDeadZone)
-           << encodeEnum<GamepadButton>("gamepadButton", inputAxisBinding.gamepadButton)
+           << encodeValue("joystickIndex", inputAxisBinding.joystickIndex)
+           << encodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
+           << encodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
+           << encodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
            << encodeValue("acceleration", inputAxisBinding.acceleration)
            << encodeValue("range", inputAxisBinding.range)
            << endObject();
@@ -129,10 +129,10 @@ Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding)
            >> decodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
            >> decodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
            >> decodeEnum<Key>("key", inputAxisBinding.key)
-           >> decodeValue("gamepadIndex", inputAxisBinding.gamepadIndex)
-           >> decodeEnum<GamepadAxis>("gamepadAxis", inputAxisBinding.gamepadAxis)
-           >> decodeValue("gamepadAxisDeadZone", inputAxisBinding.gamepadAxisDeadZone)
-           >> decodeEnum<GamepadButton>("gamepadButton", inputAxisBinding.gamepadButton)
+           >> decodeValue("joystickIndex", inputAxisBinding.joystickIndex)
+           >> decodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
+           >> decodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
+           >> decodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
            >> decodeValue("acceleration", inputAxisBinding.acceleration)
            >> decodeValue("range", inputAxisBinding.range)
            >> endObject();

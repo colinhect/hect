@@ -115,9 +115,8 @@ enum VertexAttributeType : uint8_t
     /// A 32-bit unsigned integer.
     VertexAttributeType_UInt32,
 
-    ///
-    /// A 16-bit float.
-    VertexAttributeType_Float16,
+    // Reserved for Float16
+    VertexAttributeType_Reserved, 
 
     ///
     /// A 32-bit float.

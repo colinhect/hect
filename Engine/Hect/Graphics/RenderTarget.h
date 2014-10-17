@@ -35,11 +35,11 @@ class RenderTarget
 public:
 
     ///
-    /// Constructs a render target without width or height.
+    /// Constructs a render target.
     RenderTarget();
 
     ///
-    /// Constructs a render target given the width and height.
+    /// Constructs a render target.
     ///
     /// \param width The width.
     /// \param height The height.

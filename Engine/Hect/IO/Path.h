@@ -40,15 +40,17 @@ public:
     Path();
 
     ///
-    /// Constructs a path from a string.  Any leading or trailing slashes
-    /// are ignored.
+    /// Constructs a path from a string.
+    ///
+    /// \note Any leading or trailing slashes are ignored.
     ///
     /// \param path The path with each part delimited by a forward slash.
     Path(const char* path);
 
     ///
-    /// Constructs a path from a string.  Any leading or trailing slashes
-    /// are ignored.
+    /// Constructs a path from a string.
+    ///
+    /// \note Any leading or trailing slashes are ignored.
     ///
     /// \param path The path with each part delimited by a forward slash.
     Path(const std::string& path);

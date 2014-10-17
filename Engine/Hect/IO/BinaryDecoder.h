@@ -39,11 +39,16 @@ class BinaryDecoder :
 public:
 
     ///
-    /// Constructs a decoder given the stream to decode from.
+    /// Constructs a binary decoder.
     ///
     /// \param stream The stream to decode from.
     BinaryDecoder(ReadStream& stream);
 
+    ///
+    /// Constructs a binary decoder.
+    ///
+    /// \param stream The stream to decode from.
+    /// \param assetCache The asset cache to load further assets from.
     BinaryDecoder(ReadStream& stream, AssetCache& assetCache);
 
     bool isBinaryStream() const override;

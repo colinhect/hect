@@ -40,7 +40,7 @@ TEST_CASE("Mesh_Constructor")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Float16, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
 
     Mesh mesh("Test");
     mesh.setVertexLayout(vertexLayout);

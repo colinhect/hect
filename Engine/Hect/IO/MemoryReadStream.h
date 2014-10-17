@@ -39,16 +39,16 @@ class MemoryReadStream :
 public:
 
     ///
-    /// Constructs the stream given the data to read from.
+    /// Constructs a stream.
     ///
     /// \param data The data to read from.
     MemoryReadStream(const std::vector<uint8_t>& data);
 
-    void read(uint8_t* bytes, size_t byteCount);
-    bool endOfStream() const;
-    size_t length() const;
-    size_t position() const;
-    void seek(size_t position);
+    void read(uint8_t* bytes, size_t byteCount) override;
+    bool endOfStream() const override;
+    size_t length() const override;
+    size_t position() const override;
+    void seek(size_t position) override;
 
 private:
     const std::vector<uint8_t>* _data;

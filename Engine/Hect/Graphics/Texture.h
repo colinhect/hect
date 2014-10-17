@@ -76,8 +76,7 @@ public:
     Texture();
 
     ///
-    /// Constructs a 2-dimensional texture given its dimensions and other
-    /// properties.
+    /// Constructs a 2-dimensional texture.
     ///
     /// \param name The name.
     /// \param width The width.
@@ -91,7 +90,7 @@ public:
     Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped);
 
     ///
-    /// Constructs a 2-dimensional texture given a source image.
+    /// Constructs a 2-dimensional texture.
     ///
     /// \param name The name.
     /// \param image The source image.

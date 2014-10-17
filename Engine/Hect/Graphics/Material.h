@@ -45,11 +45,11 @@ public:
     typedef Sequence<Technique, TechniqueContainer> TechniqueSequence;
 
     ///
-    /// Constructs a material without any techniques.
+    /// Constructs a material.
     Material();
 
     ///
-    /// Constructs a material without any techniques.
+    /// Constructs a material.
     ///
     /// \param name The name of the material.
     Material(const std::string& name);

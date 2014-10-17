@@ -55,7 +55,7 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\VideoMode.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Window.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Input\InputAxis.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\Input\Gamepad.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\Input\Joystick.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Input\InputAxisBinding.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Input\Keyboard.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Input\Mouse.h" />
@@ -164,7 +164,7 @@
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\VideoMode.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Window.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Input\InputAxis.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Input\Gamepad.cpp" />
+    <ClCompile Include="..\..\..\Engine\Hect\Input\Joystick.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Input\InputAxisBinding.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Input\Keyboard.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Input\Mouse.cpp" />

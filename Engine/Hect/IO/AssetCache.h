@@ -36,7 +36,7 @@ namespace hect
 {
 
 ///
-/// Provides cached access to assets loaded from the file system.
+/// Provides cached access to assets from the file system.
 class AssetCache :
     public Uncopyable
 {
@@ -45,7 +45,7 @@ public:
     ///
     /// Constructs an asset cache.
     ///
-    /// \param concurrent Whether assets should be loaded on concurrent
+    /// \param concurrent Whether assets should be loaded in concurrent
     /// threads.
     AssetCache(bool concurrent);
 
@@ -74,8 +74,13 @@ public:
     AssetHandle<T> getHandle(const Path& path);
 
     ///
-    /// Re-loads all assets whose file has been modified since it was last
-    /// loaded.
+    /// Re-loads all assets of a specific type whose file has been modified
+    /// since it was loaded.
+    template <typename T>
+    void refresh();
+
+    ///
+    /// Re-loads all assets whose file has been modified since it was loaded.
     void refresh();
 
     ///

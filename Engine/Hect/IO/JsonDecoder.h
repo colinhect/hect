@@ -39,7 +39,7 @@ class JsonDecoder :
 public:
 
     ///
-    /// Constructs a decoder given the JSON value to decode.
+    /// Constructs a decoder.
     ///
     /// \param jsonValue The JSON value to decode.
     JsonDecoder(const JsonValue& jsonValue);

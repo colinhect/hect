@@ -519,8 +519,6 @@ void GraphicsContext::uploadShader(Shader& shader)
         return;
     }
 
-    HECT_TRACE(format("Uploading shader '%s'...", shader.name().c_str()));
-
     // Create the shader.
     GLuint programId = 0;
     programId = GL_ASSERT(glCreateProgram());
@@ -609,6 +607,8 @@ void GraphicsContext::uploadShader(Shader& shader)
     GL_ASSERT(glUseProgram(0));
 
     shader.setAsUploaded(*this, new ShaderData(*this, shader, programId, shaderIds));
+
+    HECT_TRACE(format("Uploaded shader '%s'", shader.name().c_str()));
 }
 
 void GraphicsContext::destroyShader(Shader& shader)
@@ -617,8 +617,6 @@ void GraphicsContext::destroyShader(Shader& shader)
     {
         return;
     }
-
-    HECT_TRACE(format("Destroying shader '%s'...", shader.name().c_str()));
 
     auto data = shader.dataAs<ShaderData>();
 
@@ -633,6 +631,8 @@ void GraphicsContext::destroyShader(Shader& shader)
     GL_ASSERT(glDeleteProgram(data->programId));
 
     shader.setAsDestroyed();
+
+    HECT_TRACE(format("Destroyed shader '%s'", shader.name().c_str()));
 }
 
 void GraphicsContext::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
@@ -701,8 +701,6 @@ void GraphicsContext::uploadTexture(Texture& texture)
     {
         return;
     }
-
-    HECT_TRACE(format("Uploading texture '%s'...", texture.name().c_str()));
 
     GLenum type = _textureTypeLookUp[texture.type()];
 
@@ -777,6 +775,8 @@ void GraphicsContext::uploadTexture(Texture& texture)
     GL_ASSERT(glBindTexture(type, 0));
 
     texture.setAsUploaded(*this, new TextureData(*this, texture, textureId));
+
+    HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
 
 void GraphicsContext::destroyTexture(Texture& texture)
@@ -786,12 +786,12 @@ void GraphicsContext::destroyTexture(Texture& texture)
         return;
     }
 
-    HECT_TRACE(format("Destroying texture '%s'...", texture.name().c_str()));
-
     auto data = texture.dataAs<TextureData>();
     GL_ASSERT(glDeleteTextures(1, &data->textureId));
 
     texture.setAsDestroyed();
+
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
 Image GraphicsContext::downloadTextureImage(const Texture& texture)
@@ -854,8 +854,6 @@ void GraphicsContext::uploadMesh(Mesh& mesh)
         return;
     }
 
-    HECT_TRACE(format("Uploading mesh '%s'...", mesh.name().c_str()));
-
     GLuint vertexArrayId = 0;
     GLuint vertexBufferId = 0;
     GLuint indexBufferId = 0;
@@ -886,7 +884,7 @@ void GraphicsContext::uploadMesh(Mesh& mesh)
     {
         GL_ASSERT(glEnableVertexAttribArray(attributeIndex));
 
-        if (attribute.type() == VertexAttributeType_Float16 || attribute.type() == VertexAttributeType_Float32)
+        if (attribute.type() == VertexAttributeType_Float32)
         {
             GL_ASSERT(
                 glVertexAttribPointer(
@@ -929,6 +927,8 @@ void GraphicsContext::uploadMesh(Mesh& mesh)
     GL_ASSERT(glBindVertexArray(0));
 
     mesh.setAsUploaded(*this, new MeshData(*this, mesh, vertexArrayId, vertexBufferId, indexBufferId));
+
+    HECT_TRACE(format("Uploaded mesh '%s'", mesh.name().c_str()));
 }
 
 void GraphicsContext::destroyMesh(Mesh& mesh)
@@ -937,8 +937,6 @@ void GraphicsContext::destroyMesh(Mesh& mesh)
     {
         return;
     }
-
-    HECT_TRACE(format("Destroying mesh '%s'...", mesh.name().c_str()));
 
     auto data = mesh.dataAs<MeshData>();
 
@@ -949,6 +947,8 @@ void GraphicsContext::destroyMesh(Mesh& mesh)
     GL_ASSERT(glDeleteVertexArrays(1, &data->vertexArrayId));
 
     mesh.setAsDestroyed();
+
+    HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().c_str()));
 }
 
 void GraphicsContext::draw()

@@ -31,6 +31,9 @@
 namespace hect
 {
 
+///
+/// Provides the functionality to decode an asset directly from an asset
+/// cache, automatically detecting if the data is binary or JSON.
 class AssetDecoder :
     public Decoder,
     public Uncopyable
@@ -38,7 +41,7 @@ class AssetDecoder :
 public:
 
     ///
-    /// Constructs a decoder given an asset cache and a path to the asset.
+    /// Constructs a decoder.
     ///
     /// \note The correct decoder implementation will be selected based on the
     /// data of the asset.

@@ -47,7 +47,7 @@ class TaskPool :
 public:
 
     ///
-    /// Constructs a task pool with a specific number of worker threads.
+    /// Constructs a task pool.
     ///
     /// \param threadCount The number of worker threads.
     /// \param adaptive Whether to spawn additional worker threads if needed.

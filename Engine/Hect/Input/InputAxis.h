@@ -43,7 +43,7 @@ public:
     InputAxis();
 
     ///
-    /// Constructs an input axis with a name.
+    /// Constructs an input axis.
     ///
     /// \param name The name of the axis (must be unique).
     InputAxis(const std::string& name);

@@ -49,7 +49,9 @@ public:
     typedef std::shared_ptr<System> Pointer;
 
     ///
-    /// Constructs the system given the scene.
+    /// Constructs a system.
+    ///
+    /// \param scene The scene that the system exists in.
     System(Scene& scene);
 
     ///

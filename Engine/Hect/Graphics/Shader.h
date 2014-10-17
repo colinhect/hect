@@ -52,11 +52,11 @@ public:
     typedef Sequence<ShaderParameter, ParameterContainer> ParameterSequence;
 
     ///
-    /// Constructs a shader without any modules or parameters.
+    /// Constructs a shader.
     Shader();
 
     ///
-    /// Constructs a shader without any modules or parameters.
+    /// Constructs a shader.
     ///
     /// \param name The name of the shader.
     Shader(const std::string& name);

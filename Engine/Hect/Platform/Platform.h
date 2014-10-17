@@ -25,7 +25,7 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/Window.h"
-#include "Hect/Input/Gamepad.h"
+#include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
 
@@ -34,12 +34,12 @@ namespace hect
 
 class Platform
 {
-    typedef std::vector<Gamepad> GamepadContainer;
+    typedef std::vector<Joystick> JoystickContainer;
 public:
 
     ///
-    /// A sequence of gamepads.
-    typedef Sequence<Gamepad, GamepadContainer> GamepadSequence;
+    /// A sequence of joysticks.
+    typedef Sequence<Joystick, JoystickContainer> JoystickSequence;
 
     static void initialize();
     static void deinitialize();
@@ -56,7 +56,7 @@ public:
     static bool hasKeyboard();
     static Keyboard& keyboard();
 
-    static GamepadSequence gamepads();
+    static JoystickSequence joysticks();
 
 private:
     Platform() { }

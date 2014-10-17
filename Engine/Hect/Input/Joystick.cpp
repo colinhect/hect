@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Gamepad.h"
+#include "Joystick.h"
 
 #include <cassert>
 
@@ -31,7 +31,7 @@
 
 using namespace hect;
 
-bool Gamepad::isButtonDown(GamepadButton button) const
+bool Joystick::isButtonDown(JoystickButton button) const
 {
     if (button < _buttonStates.size())
     {
@@ -39,10 +39,10 @@ bool Gamepad::isButtonDown(GamepadButton button) const
     }
     else
     {
-        throw Error(format("Gamepad does not have button '%s'", Enum::toString(button).c_str()));
+        throw Error(format("Joystick does not have button '%s'", Enum::toString(button).c_str()));
     }
 }
-Real Gamepad::axisValue(GamepadAxis axis) const
+Real Joystick::axisValue(JoystickAxis axis) const
 {
     if (axis < _axisStates.size())
     {
@@ -50,30 +50,30 @@ Real Gamepad::axisValue(GamepadAxis axis) const
     }
     else
     {
-        throw Error(format("Gamepad does not have axis '%s'", Enum::toString(axis).c_str()));
+        throw Error(format("Joystick does not have axis '%s'", Enum::toString(axis).c_str()));
     }
 }
 
-Gamepad::Gamepad(const std::string& name, size_t buttonCount, size_t axisCount) :
+Joystick::Joystick(const std::string& name, size_t buttonCount, size_t axisCount) :
     _name(name),
     _buttonStates(buttonCount, false),
     _axisStates(axisCount, 0)
 {
 }
 
-void Gamepad::enqueueEvent(const GamepadEvent& event)
+void Joystick::enqueueEvent(const JoystickEvent& event)
 {
-    if (event.type == GamepadEventType_ButtonDown)
+    if (event.type == JoystickEventType_ButtonDown)
     {
         assert(event.button <= _buttonStates.size());
         _buttonStates[event.button] = true;
     }
-    else if (event.type == GamepadEventType_ButtonUp)
+    else if (event.type == JoystickEventType_ButtonUp)
     {
         assert(event.button <= _buttonStates.size());
         _buttonStates[event.button] = false;
     }
-    else if (event.type == GamepadEventType_AxisMotion)
+    else if (event.type == JoystickEventType_AxisMotion)
     {
         assert(event.axis <= _axisStates.size());
         _axisStates[event.axis] = event.axisValue;
@@ -81,9 +81,9 @@ void Gamepad::enqueueEvent(const GamepadEvent& event)
     _events.push_back(event);
 }
 
-void Gamepad::dispatchEvents()
+void Joystick::dispatchEvents()
 {
-    for (const GamepadEvent& event : _events)
+    for (const JoystickEvent& event : _events)
     {
         dispatchEvent(event);
     }

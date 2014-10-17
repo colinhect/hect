@@ -40,7 +40,7 @@ class MeshWriter
 public:
 
     ///
-    /// Constructs a mesh writer given a mesh to build on.
+    /// Constructs a mesh writer.
     ///
     /// \param mesh The mesh to write to.
     MeshWriter(Mesh& mesh);

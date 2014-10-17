@@ -83,23 +83,23 @@ T* AssetHandle<T>::operator->() const
 }
 
 template <typename T>
-bool AssetHandle<T>::operator==(const AssetHandle<T>& handle) const
+bool AssetHandle<T>::operator==(const AssetHandle<T>& assetHandle) const
 {
     if (_entry)
     {
-        return _entry == handle._entry;
+        return _entry == assetHandle._entry;
     }
     else if (_asset)
     {
-        return _asset == handle._asset;
+        return _asset == assetHandle._asset;
     }
     return false;
 }
 
 template <typename T>
-bool AssetHandle<T>::operator!=(const AssetHandle<T>& handle) const
+bool AssetHandle<T>::operator!=(const AssetHandle<T>& assetHandle) const
 {
-    return !(*this == handle);
+    return !(*this == assetHandle);
 }
 
 template <typename T>

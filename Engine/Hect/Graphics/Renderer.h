@@ -41,7 +41,7 @@ class Renderer
 public:
 
     ///
-    /// Constructs a renderer given the graphics context and the asset cache.
+    /// Constructs a renderer.
     ///
     /// \param graphicsContext The graphics context to render using.
     /// \param assetCache The asset cache to get needed assets from.

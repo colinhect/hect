@@ -60,14 +60,13 @@ class AssetEntry :
 public:
 
     ///
-    /// Constructs an asset entry given the asset cache and the path to the
-    /// asset.
+    /// Constructs an asset entry.
     ///
     /// \param assetCache The asset cache.
     /// \param path The path to the asset.
     AssetEntry(AssetCache& assetCache, const Path& path);
 
-    void refresh();
+    void refresh() override;
 
     ///
     /// Returns the unique pointer to the asset.
@@ -81,17 +80,17 @@ private:
     void initiateLoad();
     void load();
 
-    AssetCache* _assetCache;
+    AssetCache* _assetCache{ nullptr };
     Path _path;
 
     Task::Handle _taskHandle;
 
     std::unique_ptr<T> _asset;
 
-    bool _errorOccurred;
+    bool _errorOccurred{ false };
     std::string _errorMessage;
 
-    TimeStamp _lastModified;
+    TimeStamp _lastModified{ -1 };
 };
 
 }

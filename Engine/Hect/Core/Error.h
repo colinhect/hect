@@ -40,7 +40,7 @@ public:
     Error();
 
     ///
-    /// Constructs an error with a message.
+    /// Constructs an error.
     ///
     /// \param message The error message.
     Error(const std::string& message);

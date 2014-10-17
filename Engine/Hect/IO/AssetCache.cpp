@@ -37,6 +37,8 @@ AssetCache::~AssetCache()
 
 void AssetCache::refresh()
 {
+    std::lock_guard<std::recursive_mutex> lock(_mutex);
+
     for (auto& pair : _entries)
     {
         pair.second->refresh();

@@ -37,7 +37,7 @@ TEST_CASE("VertexAttribute_ConstructorAndAccessors")
 
 TEST_CASE("VertexAttribute_Size")
 {
-    VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Float16, 3);
+    VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Int16, 3);
     REQUIRE(attribute.size() == 2u * 3u);
 
     attribute = VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
@@ -49,8 +49,8 @@ TEST_CASE("VertexAttribute_Size")
 
 TEST_CASE("VertexAttribute_Equality")
 {
-    VertexAttribute a(VertexAttributeSemantic_Position, VertexAttributeType_Float16, 3);
-    VertexAttribute b(VertexAttributeSemantic_Position, VertexAttributeType_Float16, 3);
+    VertexAttribute a(VertexAttributeSemantic_Position, VertexAttributeType_Int16, 3);
+    VertexAttribute b(VertexAttributeSemantic_Position, VertexAttributeType_Int16, 3);
     VertexAttribute c(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
 
     REQUIRE(a == b);

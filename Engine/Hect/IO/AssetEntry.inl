@@ -21,11 +21,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Logging.h"
 #include "Hect/Core/Format.h"
 #include "Hect/IO/AssetDecoder.h"
 #include "Hect/Platform/FileSystem.h"
+#include "Hect/Timing/Timer.h"
 
 namespace hect
 {
@@ -33,9 +33,7 @@ namespace hect
 template <typename T>
 AssetEntry<T>::AssetEntry(AssetCache& assetCache, const Path& path) :
     _assetCache(&assetCache),
-    _path(path),
-    _errorOccurred(false),
-    _lastModified(-1)
+    _path(path)
 {
     initiateLoad();
 }
@@ -103,17 +101,19 @@ void AssetEntry<T>::load()
     // Load the asset and keep the error message
     try
     {
-        HECT_INFO(format("Loading '%s'...", _path.asString().c_str()));
+        Timer timer;
 
         _asset->setName(_path.asString());
 
         AssetDecoder decoder(*_assetCache, _path);
         decoder >> decodeValue(*_asset);
 
+        HECT_INFO(format("Loaded '%s' in %ims", _path.asString().c_str(), timer.elapsed().milliseconds()));
+
         // Remember when the file was last modified
         _lastModified = FileSystem::lastModified(_path);
     }
-    catch (Error& error)
+    catch (std::exception& error)
     {
         // Save the error message
         _errorOccurred = true;

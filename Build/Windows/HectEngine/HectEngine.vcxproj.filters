@@ -330,9 +330,6 @@
     <ClInclude Include="..\..\..\Engine\Hect\Platform\FileSystem.h">
       <Filter>Source\Hect\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Input\Gamepad.h">
-      <Filter>Source\Hect\Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Math\Utilities.h">
       <Filter>Source\Hect\Math</Filter>
     </ClInclude>
@@ -422,6 +419,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Logic\Scene.h">
       <Filter>Source\Hect\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Engine\Hect\Input\Joystick.h">
+      <Filter>Source\Hect\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -614,9 +614,6 @@
     <ClCompile Include="..\..\..\Engine\Hect\Platform\FileSystem_PhysFS.cpp">
       <Filter>Source\Hect\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Engine\Hect\Input\Gamepad.cpp">
-      <Filter>Source\Hect\Input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Runtime\Engine.cpp">
       <Filter>Source\Hect\Runtime</Filter>
     </ClCompile>
@@ -703,6 +700,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Logic\Scene.cpp">
       <Filter>Source\Hect\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Engine\Hect\Input\Joystick.cpp">
+      <Filter>Source\Hect\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

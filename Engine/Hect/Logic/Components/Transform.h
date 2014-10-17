@@ -40,7 +40,7 @@ class Transform :
 public:
 
     ///
-    /// Constructs an identity transform component.
+    /// Constructs an identity transform.
     Transform();
 
     ///

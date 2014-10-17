@@ -39,14 +39,14 @@ class MemoryWriteStream :
 public:
 
     ///
-    /// Constructs the stream given the data to write to.
+    /// Constructs a stream.
     ///
     /// \param data The data to write to.
     MemoryWriteStream(std::vector<uint8_t>& data);
 
-    void write(const uint8_t* bytes, size_t byteCount);
-    size_t position() const;
-    void seek(size_t position);
+    void write(const uint8_t* bytes, size_t byteCount) override;
+    size_t position() const override;
+    void seek(size_t position) override;
 
 private:
     std::vector<uint8_t>* _data;

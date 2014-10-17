@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Real.h"
-#include "Hect/Input/Gamepad.h"
+#include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
 #include "Hect/IO/Decoder.h"
@@ -58,12 +58,12 @@ enum InputAxisBindingType
     InputAxisBindingType_Key,
 
     ///
-    /// A gamepad axis.
-    InputAxisBindingType_GamepadAxis,
+    /// A joystick axis.
+    InputAxisBindingType_JoystickAxis,
 
     ///
-    /// A gamepad button.
-    InputAxisBindingType_GamepadButton
+    /// A joystick button.
+    InputAxisBindingType_JoystickButton
 };
 
 ///
@@ -101,32 +101,32 @@ public:
     Key key { Key_A };
 
     ///
-    /// The index of the gamepad controlling the axis.
+    /// The index of the joystick controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisBindingType_GamepadAxis or InputAxisBindingType_GamepadButton.
-    size_t gamepadIndex { 0 };
+    /// InputAxisBindingType_JoystickAxis or InputAxisBindingType_JoystickButton.
+    size_t joystickIndex { 0 };
 
     ///
-    /// The gamepad axis controlling the axis.
+    /// The joystick axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisBindingType_GamepadAxis.
-    GamepadAxis gamepadAxis { GamepadAxis_Axis0 };
+    /// InputAxisBindingType_JoystickAxis.
+    JoystickAxis joystickAxis { JoystickAxis_Axis0 };
 
     ///
-    /// The dead zone of the gamepad axis controlling the axis.
+    /// The dead zone of the joystick axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisBindingType_GamepadAxis.
-    Real gamepadAxisDeadZone { 0 };
+    /// InputAxisBindingType_JoystickAxis.
+    Real joystickAxisDeadZone { 0 };
 
     ///
-    /// The gamepad button controlling the axis.
+    /// The joystick button controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisBindingType_GamepadButton.
-    GamepadButton gamepadButton { GamepadButton_Button0 };
+    /// InputAxisBindingType_JoystickButton.
+    JoystickButton joystickButton { JoystickButton_Button0 };
 
     ///
     /// How fast a discrete source (such as key or mouse button) drives the axis.

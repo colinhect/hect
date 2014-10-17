@@ -64,8 +64,6 @@ unsigned VertexAttribute::size() const
     case VertexAttributeType_Int32:
     case VertexAttributeType_UInt32:
         return 4 * _cardinality;
-    case VertexAttributeType_Float16:
-        return 2 * _cardinality;
     case VertexAttributeType_Float32:
         return 4 * _cardinality;
     }

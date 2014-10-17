@@ -192,9 +192,6 @@ void MeshWriter::setComponentValue(const VertexAttribute& attribute, unsigned in
         _vertexStream.seek(offset + index * sizeof(uint32_t));
         _vertexStream << static_cast<uint32_t>(value);
         break;
-    case VertexAttributeType_Float16:
-        throw Error("16-bit floats are not implemented");
-        break;
     case VertexAttributeType_Float32:
         _vertexStream.seek(offset + index * sizeof(float));
         _vertexStream << value;

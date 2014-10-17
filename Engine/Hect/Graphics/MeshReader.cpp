@@ -288,9 +288,6 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         value = static_cast<float>(readValue);
     }
     break;
-    case VertexAttributeType_Float16:
-        throw Error("16-bit floats are not implemented");
-        break;
     case VertexAttributeType_Float32:
         _vertexStream.seek(offset + index * sizeof(float));
         _vertexStream >> value;
