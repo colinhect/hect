@@ -3,7 +3,9 @@
         {
             "passes": [
                 {
-                    "shader": "Shader_01.shader",
+                    "shader": {
+                        "path": "Shader_01.shader"
+                    },
                     "textures": [
                         "Texture_01.texture"
                     ]
@@ -13,7 +15,9 @@
         {
             "passes": [
                 {
-                    "shader": "Shader_02.shader"
+                    "shader": {
+                        "path": "Shader_02.shader"
+                    }
                 }
             ]
         }

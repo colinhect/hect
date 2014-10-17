@@ -35,91 +35,91 @@ namespace hect
 {
 
 ///
-/// A uniform value type.
-enum UniformType : uint8_t
+/// A shader value type.
+enum ShaderValueType : uint8_t
 {
     ///
     /// An integer.
-    UniformType_Int,
+    ShaderValueType_Int,
 
     ///
     /// A floating point number.
-    UniformType_Float,
+    ShaderValueType_Float,
 
     ///
     /// A 2-dimensional vector.
-    UniformType_Vector2,
+    ShaderValueType_Vector2,
 
     ///
     /// A 3-dimensional vector.
-    UniformType_Vector3,
+    ShaderValueType_Vector3,
 
     ///
     /// A 4-dimensional vector.
-    UniformType_Vector4,
+    ShaderValueType_Vector4,
 
     ///
     /// A 4 by 4 matrix.
-    UniformType_Matrix4,
+    ShaderValueType_Matrix4,
 
     ///
     /// A texture (the index of the texture).
-    UniformType_Texture
+    ShaderValueType_Texture
 };
 
 ///
-/// A value for a uniform.
+/// A value for a shader parameter.
 ///
-/// \note A uniform's type cannot change.
-class UniformValue
+/// \note A shader value's type cannot change.
+class ShaderValue
 {
 public:
 
     ///
-    /// Constructs an empty uniform value.
-    UniformValue();
+    /// Constructs an empty shader value.
+    ShaderValue();
 
     ///
-    /// Constructs an integer based uniform value given its the integer value
+    /// Constructs an integer based shader value given its the integer value
     /// and its type.
     ///
     /// \param value The integer value.
     /// \param type The type.
-    UniformValue(int value, UniformType type);
+    ShaderValue(int value, ShaderValueType type);
 
     ///
-    /// Constructs a real uniform value.
+    /// Constructs a real shader value.
     ///
     /// \param value The value.
-    UniformValue(Real value);
+    ShaderValue(Real value);
 
     ///
-    /// Constructs a 2-dimensional vector uniform value.
+    /// Constructs a 2-dimensional vector shader value.
     ///
     /// \param value The value.
-    UniformValue(const Vector2& value);
+    ShaderValue(const Vector2& value);
 
     ///
-    /// Constructs a 3-dimensional vector uniform value.
+    /// Constructs a 3-dimensional vector shader value.
     ///
     /// \param value The value.
-    UniformValue(const Vector3& value);
+    ShaderValue(const Vector3& value);
 
     ///
-    /// Constructs a 4-dimensional vector uniform value.
+    /// Constructs a 4-dimensional vector shader value.
     ///
     /// \param value The value.
-    UniformValue(const Vector4& value);
+    ShaderValue(const Vector4& value);
 
     ///
-    /// Constructs a 4 by 4 matrix uniform value.
+    /// Constructs a 4 by 4 matrix shader value.
     ///
     /// \param value The value.
-    UniformValue(const hect::Matrix4& value);
+    ShaderValue(const hect::Matrix4& value);
 
     ///
     /// Returns the type.
-    UniformType type() const;
+    ShaderValueType type() const;
 
     ///
     /// Sets the type.
@@ -127,62 +127,62 @@ public:
     /// \note The value is reset to the default value for the new type.
     ///
     /// \param type The new type.
-    void setType(UniformType type);
+    void setType(ShaderValueType type);
 
     ///
     /// Returns the raw data.
     const void* data() const;
 
     ///
-    /// Sets the value to the default value for the uniform value's type.
+    /// Sets the value to the default value for the shader value's type.
     void setDefaultValue();
 
     ///
-    /// Sets the value of the uniform value as an integer.
+    /// Sets the value of the shader value as an integer.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not an integer or texture.
+    /// \throws Error If the shader value is not an integer or texture.
     void setValue(int value);
 
     ///
-    /// Sets the value of the uniform value as a real number.
+    /// Sets the value of the shader value as a real number.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a real.
+    /// \throws Error If the shader value is not a real.
     void setValue(Real value);
 
     ///
-    /// Sets the value of the uniform value as a 2-dimensional vector.
+    /// Sets the value of the shader value as a 2-dimensional vector.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a 2-dimensional vector.
+    /// \throws Error If the shader value is not a 2-dimensional vector.
     void setValue(const Vector2& value);
 
     ///
-    /// Sets the value of the uniform value as a 3-dimensional vector.
+    /// Sets the value of the shader value as a 3-dimensional vector.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a 3-dimensional vector.
+    /// \throws Error If the shader value is not a 3-dimensional vector.
     void setValue(const Vector3& value);
 
     ///
-    /// Sets the value of the uniform value as a 4-dimensional vector.
+    /// Sets the value of the shader value as a 4-dimensional vector.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a 4-dimensional vector.
+    /// \throws Error If the shader value is not a 4-dimensional vector.
     void setValue(const Vector4& value);
 
     ///
-    /// Sets the value of the uniform value as a 4 by 4 matrix.
+    /// Sets the value of the shader value as a 4 by 4 matrix.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a 4 by 4 matrix.
+    /// \throws Error If the shader value is not a 4 by 4 matrix.
     void setValue(const Matrix4& value);
 
     ///
@@ -210,22 +210,22 @@ public:
     Matrix4 asMatrix4() const;
 
     ///
-    /// Returns whether the uniform value is equivalent to another.
+    /// Returns whether the shader value is equivalent to another.
     ///
-    /// \param uniformValue The other uniform value.
-    bool operator==(const UniformValue& uniformValue) const;
+    /// \param shaderValue The other shader value.
+    bool operator==(const ShaderValue& shaderValue) const;
 
     ///
-    /// Returns whether the uniform value is different from another.
+    /// Returns whether the shader value is different from another.
     ///
-    /// \param uniformValue The other uniform value.
-    bool operator!=(const UniformValue& uniformValue) const;
+    /// \param shaderValue The other shader value.
+    bool operator!=(const ShaderValue& shaderValue) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const UniformValue& uniformValue);
-    friend Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue);
+    friend Encoder& operator<<(Encoder& encoder, const ShaderValue& shaderValue);
+    friend Decoder& operator>>(Decoder& decoder, ShaderValue& shaderValue);
 
 private:
-    UniformType _type { UniformType_Float };
+    ShaderValueType _type { ShaderValueType_Float };
     Any _value;
 };
 

@@ -3,14 +3,16 @@
         {
             "passes": [
                 {
+                    "shader": {
+                        "path": "SkyBox.shader"
+                    },
                     "renderState": {
                         "disabledFlags": [
                             "DepthTest",
                             "DepthWrite",
                             "CullFace"
                         ]
-                    },
-                    "shader": "SkyBox.shader"
+                    }
                 }
             ]
         }

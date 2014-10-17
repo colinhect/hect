@@ -34,12 +34,12 @@ void Pass::prepare(GraphicsContext& graphicsContext)
         throw Error("Pass does not have a shader");
     }
 
-    // If the shader changed or the uniform value instances have not yet been
+    // If the shader changed or the shader parameters have not yet been
     // resolved
     Shader& shader = *_shader;
     if (_resolvedFromShader != &shader)
     {
-        resolveUniformValueInstances(shader);
+        resolveShaderParameters(shader);
     }
 
     // Bind the render state
@@ -56,12 +56,12 @@ void Pass::prepare(GraphicsContext& graphicsContext)
     // Bind the shader
     graphicsContext.bindShader(shader);
 
-    // Set the uniform values
-    for (auto& pair : _resolvedUniformValues)
+    // Set the shader arguments values
+    for (auto& pair : _resolvedShaderParameters)
     {
-        const Uniform& uniform = *pair.first;
-        const UniformValue& value = pair.second;
-        graphicsContext.setUniform(uniform, value);
+        const ShaderParameter& parameter = *pair.first;
+        const ShaderValue& value = pair.second;
+        graphicsContext.bindShaderParameter(parameter, value);
     }
 }
 
@@ -75,14 +75,14 @@ void Pass::setShader(const AssetHandle<Shader>& shader)
     _shader = shader;
 }
 
-const Pass::UniformValueSequence Pass::uniformValues() const
+const Pass::ShaderArgumentSequence Pass::shaderArguments() const
 {
-    return _uniformValues;
+    return _shaderArguments;
 }
 
-void Pass::addUniformValue(const std::string& name, const UniformValue& uniformValue)
+void Pass::addShaderArgument(const ShaderArgument& shaderArgument)
 {
-    _uniformValues.push_back(UniformValueInstance(name, uniformValue));
+    _shaderArguments.push_back(shaderArgument);
 }
 
 const Pass::TextureSequence Pass::textures() const
@@ -110,16 +110,16 @@ void Pass::setRenderState(const RenderState& renderState)
     _renderState = renderState;
 }
 
-void Pass::resolveUniformValueInstances(Shader& shader)
+void Pass::resolveShaderParameters(Shader& shader)
 {
-    _resolvedUniformValues.clear();
+    _resolvedShaderParameters.clear();
 
-    // Resolve the uniforms that the uniform values refer to (this would be
+    // Resolve the parameters that the arguments refer to (this would be
     // invalidated if the shader changes)
-    for (const UniformValueInstance& uniformValue : _uniformValues)
+    for (const ShaderArgument& argument : _shaderArguments)
     {
-        const Uniform& uniform = shader.uniformWithName(uniformValue.name());
-        _resolvedUniformValues[&uniform] = uniformValue.value();
+        const ShaderParameter& parameter = shader.parameterWithName(argument.name());
+        _resolvedShaderParameters[&parameter] = argument.value();
     }
 
     _resolvedFromShader = &shader;
@@ -150,14 +150,14 @@ bool Pass::operator==(const Pass& pass) const
         return false;
     }
 
-    if (_uniformValues.size() != pass._uniformValues.size())
+    if (_shaderArguments.size() != pass._shaderArguments.size())
     {
         return false;
     }
 
-    for (size_t i = 0; i < _uniformValues.size(); ++i)
+    for (size_t i = 0; i < _shaderArguments.size(); ++i)
     {
-        if (_uniformValues[i] != pass._uniformValues[i])
+        if (_shaderArguments[i] != pass._shaderArguments[i])
         {
             return false;
         }
@@ -177,8 +177,10 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Pass& pass)
 {
     return encoder << beginObject()
-           << encodeValue("shader", pass.shader())
-           << encodeVector("uniformValues", pass._uniformValues)
+           << beginObject("shader")
+           << encodeValue("path", pass.shader())
+           << encodeVector("arguments", pass._shaderArguments)
+           << endObject()
            << encodeVector("textures", pass._textures)
            << encodeValue("renderState", pass._renderState)
            << endObject();
@@ -187,8 +189,10 @@ Encoder& operator<<(Encoder& encoder, const Pass& pass)
 Decoder& operator>>(Decoder& decoder, Pass& pass)
 {
     return decoder >> beginObject()
-           >> decodeValue("shader", pass._shader)
-           >> decodeVector("uniformValues", pass._uniformValues)
+           >> beginObject("shader")
+           >> decodeValue("path", pass._shader)
+           >> decodeVector("arguments", pass._shaderArguments)
+           >> endObject()
            >> decodeVector("textures", pass._textures)
            >> decodeValue("renderState", pass._renderState)
            >> endObject();

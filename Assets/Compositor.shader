@@ -2,14 +2,14 @@
     "modules": [
         {
             "type": "Vertex",
-            "source": "Screen.glsl"
+            "path": "Screen.glsl"
         },
         {
             "type": "Fragment",
-            "source": "Compositor.glsl"
+            "path": "Compositor.glsl"
         }
     ],
-    "uniforms": [
+    "parameters": [
         {
             "name": "exposure",
             "value": 1.0,

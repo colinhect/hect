@@ -502,12 +502,12 @@ void GraphicsContext::bindShader(Shader& shader)
     auto data = shader.dataAs<ShaderData>();
     GL_ASSERT(glUseProgram(data->programId));
 
-    // Pass the default values for each uniform
-    for (const Uniform& uniform : shader.uniforms())
+    // Pass the default values for each parameter
+    for (const ShaderParameter& parameter : shader.parameters())
     {
-        if (uniform.hasDefaultValue())
+        if (parameter.hasDefaultValue())
         {
-            setUniform(uniform, uniform.defaultValue());
+            bindShaderParameter(parameter, parameter.defaultValue());
         }
     }
 }
@@ -563,7 +563,7 @@ void GraphicsContext::uploadShader(Shader& shader)
 
             if (infoLog.size() > 0)
             {
-                throw Error(format("Failed to compile shader module '%s': %s", module.sourcePath().asString().c_str(), infoLog.c_str()));
+                throw Error(format("Failed to compile shader module '%s': %s", module.path().asString().c_str(), infoLog.c_str()));
             }
         }
 
@@ -591,18 +591,18 @@ void GraphicsContext::uploadShader(Shader& shader)
 
     GL_ASSERT(glUseProgram(programId));
 
-    // Get the locations of each uniform
-    for (Uniform& uniform : shader.uniforms())
+    // Get the parameter locations of each parameter
+    for (ShaderParameter& parameter : shader.parameters())
     {
-        GL_ASSERT(int location = glGetUniformLocation(programId, uniform.name().c_str()));
+        GL_ASSERT(int location = glGetUniformLocation(programId, parameter.name().c_str()));
 
         if (location != -1)
         {
-            uniform.setLocation(location);
+            parameter.setLocation(location);
         }
         else
         {
-            HECT_WARNING(format("Uniform '%s' is not referenced in shader '%s'", uniform.name().c_str(), shader.name().c_str()));
+            HECT_WARNING(format("Parameter '%s' is not referenced in shader '%s'", parameter.name().c_str(), shader.name().c_str()));
         }
     }
 
@@ -635,14 +635,14 @@ void GraphicsContext::destroyShader(Shader& shader)
     shader.setAsDestroyed();
 }
 
-void GraphicsContext::setUniform(const Uniform& uniform, const UniformValue& value)
+void GraphicsContext::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
 {
     if (!_boundShader)
     {
-        throw Error("Cannot set uniform with no shader bound");
+        throw Error("Cannot set shader argument with no shader bound");
     }
 
-    int location = uniform.location();
+    int location = parameter.location();
     if (location < 0)
     {
         return;
@@ -650,23 +650,23 @@ void GraphicsContext::setUniform(const Uniform& uniform, const UniformValue& val
 
     switch (value.type())
     {
-    case UniformType_Int:
-    case UniformType_Texture:
+    case ShaderValueType_Int:
+    case ShaderValueType_Texture:
         GL_ASSERT(glUniform1i(location, *(GLint*)value.data()));
         break;
-    case UniformType_Float:
+    case ShaderValueType_Float:
         GL_ASSERT(glUniform1f(location, *(GLfloat*)value.data()));
         break;
-    case UniformType_Vector2:
+    case ShaderValueType_Vector2:
         GL_ASSERT(glUniform2fv(location, 1, (GLfloat*)value.data()));
         break;
-    case UniformType_Vector3:
+    case ShaderValueType_Vector3:
         GL_ASSERT(glUniform3fv(location, 1, (GLfloat*)value.data()));
         break;
-    case UniformType_Vector4:
+    case ShaderValueType_Vector4:
         GL_ASSERT(glUniform4fv(location, 1, (GLfloat*)value.data()));
         break;
-    case UniformType_Matrix4:
+    case ShaderValueType_Matrix4:
         GL_ASSERT(glUniformMatrix4fv(location, 1, false, (GLfloat*)value.data()));
         break;
     }

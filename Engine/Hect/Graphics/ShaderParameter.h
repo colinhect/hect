@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/UniformValue.h"
+#include "Hect/Graphics/ShaderValue.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -31,125 +31,125 @@ namespace hect
 {
 
 ///
-/// A binding from a shader uniform variable to a built-in value in the
-/// rendering pipeline.
-enum UniformBinding
+/// A binding from a shader parameter to a built-in value in the rendering
+/// pipeline.
+enum ShaderParameterBinding
 {
     ///
     /// No binding.
-    UniformBinding_None,
+    ShaderParameterBinding_None,
 
     ///
     /// Bound to the size of the active render target.
-    UniformBinding_RenderTargetSize,
+    ShaderParameterBinding_RenderTargetSize,
 
     ///
     /// Bound to the world-space position of the active camera.
-    UniformBinding_CameraPosition,
+    ShaderParameterBinding_CameraPosition,
 
     ///
     /// Bound to the world-space front direction of the active camera.
-    UniformBinding_CameraFront,
+    ShaderParameterBinding_CameraFront,
 
     ///
     /// Bound to the world-space up direction of the active camera.
-    UniformBinding_CameraUp,
+    ShaderParameterBinding_CameraUp,
 
     ///
     /// Bound to the view matrix.
-    UniformBinding_ViewMatrix,
+    ShaderParameterBinding_ViewMatrix,
 
     ///
     /// Bound to the projection matrix.
-    UniformBinding_ProjectionMatrix,
+    ShaderParameterBinding_ProjectionMatrix,
 
     ///
     /// Bound to the product of the view and projection matrices.
-    UniformBinding_ViewProjectionMatrix,
+    ShaderParameterBinding_ViewProjectionMatrix,
 
     ///
     /// Bound to the model matrix.
-    UniformBinding_ModelMatrix,
+    ShaderParameterBinding_ModelMatrix,
 
     ///
     /// Bound to the product of the model and the view matrix.
-    UniformBinding_ModelViewMatrix,
+    ShaderParameterBinding_ModelViewMatrix,
 
     ///
     /// Bound to the product of the model, view, and projection matrices.
-    UniformBinding_ModelViewProjectionMatrix
+    ShaderParameterBinding_ModelViewProjectionMatrix
 };
 
 ///
-/// A variable of a shader which serves as parameter.
+/// A parameter of a shader.
 ///
-/// \note A uniform must either have a default value or a binding.  The type
-/// is determined by those.
-class Uniform
+/// \note A shader parameter must either have a default value or a binding.
+/// The type is determined by those.
+class ShaderParameter
 {
 public:
 
     ///
-    /// Constructs an empty uniform.
-    Uniform();
+    /// Constructs an empty shader parameter.
+    ShaderParameter();
 
     ///
-    /// Constructs a uniform given its name and binding
+    /// Constructs a shader parameter given its name and binding
     ///
     /// \param name The name.
     /// \param binding The binding.
-    Uniform(const std::string& name, UniformBinding binding);
+    ShaderParameter(const std::string& name, ShaderParameterBinding binding);
 
     ///
-    /// Constructs a uniform given its name and default value.
+    /// Constructs a shader parameter given its name and default value.
     ///
     /// \param name The name.
     /// \param defaultValue The default value which will be set when the shader
     /// is bound (see GraphicsContext::bindShader()).
-    Uniform(const std::string& name, const UniformValue& defaultValue);
+    ShaderParameter(const std::string& name, const ShaderValue& defaultValue);
 
     ///
-    /// Returns the uniform type.
-    UniformType type() const;
+    /// Returns the value type the parameter accepts.
+    ShaderValueType type() const;
 
     ///
-    /// Sets the uniform type.
+    /// Sets the value type the parameter accepts.
     ///
     /// \param type The new type.
     ///
-    /// \throws Error If the uniform has a binding.
-    void setType(UniformType type);
+    /// \throws Error If the parameter has a binding.
+    void setType(ShaderValueType type);
 
     ///
-    /// Returns the uniform binding.
-    UniformBinding binding() const;
+    /// Returns the binding.
+    ShaderParameterBinding binding() const;
 
     ///
-    /// Sets the uniform binding.
+    /// Sets the binding.
     ///
-    /// \note The uniform type is changed to reflect the new binding.
+    /// \note The value type is changed to reflect the new binding.
     ///
     /// \param binding The new binding.
-    void setBinding(UniformBinding binding);
+    void setBinding(ShaderParameterBinding binding);
 
     ///
-    /// Returns whether the uniform has a binding.
+    /// Returns whether the parameter has a binding.
     bool hasBinding() const;
 
     ///
     /// Returns the default value.
-    const UniformValue& defaultValue() const;
+    const ShaderValue& defaultValue() const;
 
     ///
     /// Sets the default value.
     ///
-    /// \note The uniform type is changed to reflect the new value.
+    /// \note The value type is changed to reflect the new value.
     ///
     /// \param defaultValue The new default value.
-    void setDefaultValue(const UniformValue& defaultValue);
+    void setDefaultValue(const ShaderValue& defaultValue);
 
     ///
-    /// Returns whether the uniform has a default value.
+    /// Returns whether the parameter has a default value.
     bool hasDefaultValue() const;
 
     ///
@@ -173,29 +173,29 @@ public:
     void setLocation(int location);
 
     ///
-    /// Returns whether the uniform is equivalent to another.
+    /// Returns whether the shader parameter is equivalent to another.
     ///
-    /// \param uniform The other uniform.
-    bool operator==(const Uniform& uniform) const;
+    /// \param shaderParameter The other shader parameter.
+    bool operator==(const ShaderParameter& shaderParameter) const;
 
     ///
-    /// Returns whether the uniform is different from another.
+    /// Returns whether the shdaer parameter is different from another.
     ///
-    /// \param uniform The other uniform.
-    bool operator!=(const Uniform& uniform) const;
+    /// \param shaderParameter The other shader parameter.
+    bool operator!=(const ShaderParameter& shaderParameter) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const Uniform& uniform);
-    friend Decoder& operator>>(Decoder& decoder, Uniform& uniform);
+    friend Encoder& operator<<(Encoder& encoder, const ShaderParameter& shaderParameter);
+    friend Decoder& operator>>(Decoder& decoder, ShaderParameter& shaderParameter);
 
 private:
     std::string _name;
 
-    UniformType _type { UniformType_Float };
+    ShaderValueType _type { ShaderValueType_Float };
 
-    UniformBinding _binding { UniformBinding_None };
+    ShaderParameterBinding _binding { ShaderParameterBinding_None };
 
     bool _defaultValueSet { true };
-    UniformValue _defaultValue;
+    ShaderValue _defaultValue;
 
     int _location { -1 };
 };

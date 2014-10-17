@@ -30,7 +30,7 @@
 #include "Hect/Graphics/RenderState.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
-#include "Hect/Graphics/UniformValueInstance.h"
+#include "Hect/Graphics/ShaderArgument.h"
 
 namespace hect
 {
@@ -38,12 +38,12 @@ namespace hect
 ///
 /// A step in a material technique.
 ///
-/// \note Contains the render state, textures, shader, and uniform values
+/// \note Contains the render state, textures, shader, and shader arguments
 /// used when rendering geometry for this step in the technique.
 class Pass
 {
     typedef std::vector<AssetHandle<Texture>> TextureContainer;
-    typedef std::vector<UniformValueInstance> UniformValueContainer;
+    typedef std::vector<ShaderArgument> ShaderArgumentContainer;
 public:
 
     ///
@@ -51,8 +51,8 @@ public:
     typedef Sequence<AssetHandle<Texture>, TextureContainer> TextureSequence;
 
     ///
-    /// A sequence of pass uniform values.
-    typedef Sequence<UniformValueInstance, UniformValueContainer> UniformValueSequence;
+    /// A sequence of shader arguments.
+    typedef Sequence<ShaderArgument, ShaderArgumentContainer> ShaderArgumentSequence;
 
     ///
     /// Prepares a graphics context to begin using this pass.
@@ -71,15 +71,14 @@ public:
     void setShader(const AssetHandle<Shader>& shader);
 
     ///
-    /// Returns the uniform values.
-    const UniformValueSequence uniformValues() const;
+    /// Returns the shader arguments.
+    const ShaderArgumentSequence shaderArguments() const;
 
     ///
-    /// Adds a uniform value.
+    /// Adds a shader argument value.
     ///
-    /// \param name The name of the uniform.
-    /// \param uniformValue The uniform value.
-    void addUniformValue(const std::string& name, const UniformValue& uniformValue);
+    /// \param shaderArgument The shader argument to add.
+    void addShaderArgument(const ShaderArgument& shaderArgument);
 
     ///
     /// Returns the textures.
@@ -122,15 +121,15 @@ public:
 
 private:
 
-    // Resolves which uniforms the uniform values apply to for fast binding
-    void resolveUniformValueInstances(Shader& shader);
+    // Resolves which shader parameters the arguments apply to for fast binding
+    void resolveShaderParameters(Shader& shader);
 
     AssetHandle<Shader> _shader;
-    UniformValueContainer _uniformValues;
+    ShaderArgumentContainer _shaderArguments;
     TextureContainer _textures;
     RenderState _renderState;
 
-    std::map<const Uniform*, UniformValue> _resolvedUniformValues;
+    std::map<const ShaderParameter*, ShaderValue> _resolvedShaderParameters;
     Shader* _resolvedFromShader { nullptr };
 };
 

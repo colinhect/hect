@@ -3,12 +3,14 @@
         {
             "passes": [
                 {
+                    "shader": {
+                        "path": "ColoredLine.shader"
+                    },
                     "renderState": {
                         "disabledFlags": [
                             "DepthTest"
                         ]
-                    },
-                    "shader": "ColoredLine.shader"
+                    }
                 }
             ]
         }

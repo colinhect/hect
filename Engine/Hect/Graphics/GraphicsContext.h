@@ -35,8 +35,8 @@ class Mesh;
 class RenderTarget;
 class Shader;
 class Texture;
-class Uniform;
-class UniformValue;
+class ShaderParameter;
+class ShaderValue;
 class Window;
 
 ///
@@ -244,11 +244,11 @@ public:
     void destroyShader(Shader& shader);
 
     ///
-    /// Sets the value of a uniform.
+    /// Binds a value to a shader parameter.
     ///
-    /// \param uniform The uniform.
+    /// \param parameter The parameter.
     /// \param value The new value.
-    void setUniform(const Uniform& uniform, const UniformValue& value);
+    void bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value);
 
     ///
     /// Binds a texture.

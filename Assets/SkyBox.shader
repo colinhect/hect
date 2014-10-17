@@ -2,14 +2,14 @@
     "modules": [
         {
             "type": "Vertex",
-            "source": "SkyBox.glsl"
+            "path": "SkyBox.glsl"
         },
         {
             "type": "Fragment",
-            "source": "SkyBox.glsl"
+            "path": "SkyBox.glsl"
         }
     ],
-    "uniforms": [
+    "parameters": [
         {
             "name": "modelViewProjection",
             "binding": "ModelViewProjectionMatrix"

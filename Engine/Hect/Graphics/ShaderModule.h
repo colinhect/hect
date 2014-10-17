@@ -55,8 +55,12 @@ class ShaderModule
 public:
 
     ///
-    /// Constructs an empty shader module.
-    ShaderModule(ShaderModuleType type, const Path& sourcePath, const std::string& source);
+    /// Constructs a shader module.
+    ///
+    /// \param type The module type.
+    /// \param path The path to the source file (for compile error reporting).
+    /// \param source The source code of the module.
+    ShaderModule(ShaderModuleType type, const Path& path, const std::string& source);
 
     ///
     /// Returns the type.
@@ -64,7 +68,7 @@ public:
 
     ///
     /// Returns the path to the source file.
-    const Path& sourcePath() const;
+    const Path& path() const;
 
     ///
     /// Returns the source.
@@ -84,7 +88,7 @@ public:
 
 private:
     ShaderModuleType _type;
-    Path _sourcePath;
+    Path _path;
     std::string _source;
 };
 

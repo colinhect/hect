@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/UniformValue.h"
+#include "Hect/Graphics/ShaderValue.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -31,46 +31,46 @@ namespace hect
 {
 
 ///
-/// An instance of a specific value bound to a uniform by name.
-class UniformValueInstance
+/// An instance of a specific value bound to a shader parameter by name.
+class ShaderArgument
 {
 public:
-    UniformValueInstance();
+    ShaderArgument();
 
     ///
-    /// Constructs an uniform value instance given the name of that uniform
-    /// that the value is an instance for and the value itself.
+    /// Constructs shader argument given the name of that parameter that the
+    /// value is bound to and the value itself.
     ///
-    /// \param name The name of the uniform to bind to.
+    /// \param name The name of the shader parameter to bind to.
     /// \param value The value.
-    UniformValueInstance(const std::string& name, const UniformValue& value);
+    ShaderArgument(const std::string& name, const ShaderValue& value);
 
     ///
-    /// Returns the name of the uniform.
+    /// Returns the name of the parameter.
     const std::string& name() const;
 
     ///
     /// Returns the value.
-    const UniformValue& value() const;
+    const ShaderValue& value() const;
 
     ///
-    /// Returns whether the uniform value instance is equivalent to another.
+    /// Returns whether the shader argument is equivalent to another.
     ///
-    /// \param uniformValueInstance The other uniform value instance.
-    bool operator==(const UniformValueInstance& uniformValueInstance) const;
+    /// \param shaderArgument The other shader argument.
+    bool operator==(const ShaderArgument& shaderArgument) const;
 
     ///
-    /// Returns whether the uniform value instance is different from another.
+    /// Returns whether the shader argument is different from another.
     ///
-    /// \param uniformValueInstance The other uniform value instance.
-    bool operator!=(const UniformValueInstance& uniformValueInstance) const;
+    /// \param shaderArgument The other shader argument.
+    bool operator!=(const ShaderArgument& shaderArgument) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const UniformValueInstance& uniformValueInstance);
-    friend Decoder& operator>>(Decoder& decoder, UniformValueInstance& uniformValueInstance);
+    friend Encoder& operator<<(Encoder& encoder, const ShaderArgument& shaderArgument);
+    friend Decoder& operator>>(Decoder& decoder, ShaderArgument& shaderArgument);
 
 private:
     std::string _name;
-    UniformValue _value;
+    ShaderValue _value;
 };
 
 }

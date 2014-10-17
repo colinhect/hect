@@ -2,14 +2,14 @@
     "modules": [
         {
             "type": "Vertex",
-            "source": "ColoredLine.glsl"
+            "path": "ColoredLine.glsl"
         },
         {
             "type": "Fragment", 
-            "source": "ColoredLine.glsl"
+            "path": "ColoredLine.glsl"
         }
     ],
-    "uniforms": [
+    "parameters": [
         {
             "name": "modelViewProjection",
             "binding": "ModelViewProjectionMatrix"

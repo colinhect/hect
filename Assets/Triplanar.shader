@@ -2,14 +2,14 @@
     "modules": [
         {
             "type": "Vertex",
-            "source": "Triplanar.glsl"
+            "path": "Triplanar.glsl"
         },
         {
             "type": "Fragment",
-            "source": "Triplanar.glsl"
+            "path": "Triplanar.glsl"
         }
     ],
-    "uniforms": [
+    "parameters": [
         {
             "name": "diffuseTexture",
             "value": 0,

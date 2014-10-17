@@ -144,12 +144,6 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Texture.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\Uniform.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\UniformValue.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\VertexAttribute.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
@@ -411,9 +405,6 @@
     <ClInclude Include="..\..\..\Engine\Hect\IO\AssetDecoder.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.h">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\IO\Asset.h">
       <Filter>Source\Hect\IO</Filter>
     </ClInclude>
@@ -421,6 +412,15 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Renderer.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\ShaderArgument.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\ShaderValue.h">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\ShaderParameter.h">
       <Filter>Source\Hect\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -471,12 +471,6 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Texture.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\Uniform.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\UniformValue.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\VertexAttribute.cpp">
@@ -692,9 +686,6 @@
     <ClCompile Include="..\..\..\Engine\Hect\IO\AssetDecoder.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.cpp">
-      <Filter>Source\Hect\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\IO\Asset.cpp">
       <Filter>Source\Hect\IO</Filter>
     </ClCompile>
@@ -702,6 +693,15 @@
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Renderer.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderArgument.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderValue.cpp">
+      <Filter>Source\Hect\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderParameter.cpp">
       <Filter>Source\Hect\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

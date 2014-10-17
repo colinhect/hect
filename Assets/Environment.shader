@@ -2,18 +2,18 @@
     "modules": [
         {
             "type": "Vertex",
-            "source": "Screen.glsl"
+            "path": "Screen.glsl"
         },
         {
             "type": "Fragment",
-            "source": "GeometryBuffer.glsl"
+            "path": "GeometryBuffer.glsl"
         },
         {
             "type": "Fragment",
-            "source": "Environment.glsl"
+            "path": "Environment.glsl"
         }
     ],
-    "uniforms": [
+    "parameters": [
         {
             "name": "cameraPosition",
             "binding": "CameraPosition"

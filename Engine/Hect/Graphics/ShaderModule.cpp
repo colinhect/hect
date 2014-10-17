@@ -25,20 +25,21 @@
 
 using namespace hect;
 
-ShaderModule::ShaderModule(ShaderModuleType type, const Path& sourcePath, const std::string& source) :
+ShaderModule::ShaderModule(ShaderModuleType type, const Path& path, const std::string& source) :
     _type(type),
-    _sourcePath(sourcePath),
+    _path(path),
     _source(source)
 {
 }
+
 ShaderModuleType ShaderModule::type() const
 {
     return _type;
 }
 
-const Path& ShaderModule::sourcePath() const
+const Path& ShaderModule::path() const
 {
-    return _sourcePath;
+    return _path;
 }
 
 const std::string& ShaderModule::source() const

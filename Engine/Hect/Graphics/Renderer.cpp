@@ -143,7 +143,7 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
             // Render environment light
             {
                 _graphicsContext->bindShader(*_environmentShader);
-                setBoundUniforms(*_environmentShader, *camera, target, identity);
+                setBoundShaderParameters(*_environmentShader, *camera, target, identity);
 
                 _graphicsContext->draw();
             }
@@ -151,17 +151,17 @@ void Renderer::renderWorld(World& world, RenderTarget& target)
             // Render directional lights
             {
                 _graphicsContext->bindShader(*_directionalLightShader);
-                setBoundUniforms(*_directionalLightShader, *camera, target, identity);
+                setBoundShaderParameters(*_directionalLightShader, *camera, target, identity);
 
-                // Get the uniforms required for directional lights
-                const Uniform& colorUniform = _directionalLightShader->uniformWithName("lightColor");
-                const Uniform& directionUniform = _directionalLightShader->uniformWithName("lightDirection");
+                // Get the parameters required for directional lights
+                const ShaderParameter& colorShaderParameter = _directionalLightShader->parameterWithName("lightColor");
+                const ShaderParameter& directionShaderParameter = _directionalLightShader->parameterWithName("lightDirection");
 
                 // Render each directional light in the world
                 for (const DirectionalLight& light : world.components<DirectionalLight>())
                 {
-                    _graphicsContext->setUniform(colorUniform, light.color);
-                    _graphicsContext->setUniform(directionUniform, light.direction);
+                    _graphicsContext->bindShaderParameter(colorShaderParameter, light.color);
+                    _graphicsContext->bindShaderParameter(directionShaderParameter, light.direction);
                     _graphicsContext->draw();
                 }
             }
@@ -310,16 +310,16 @@ void Renderer::renderMeshPass(const Camera& camera, const RenderTarget& target, 
     // Prepare the pass
     pass.prepare(*_graphicsContext);
 
-    // Set uniforms with bindings
+    // Set parameters with bindings
     Shader& shader = *pass.shader();
-    setBoundUniforms(shader, camera, target, transform);
+    setBoundShaderParameters(shader, camera, target, transform);
 
     // Bind and draw the mesh
     _graphicsContext->bindMesh(mesh);
     _graphicsContext->draw();
 }
 
-void Renderer::setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
+void Renderer::setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
 {
     // Buid the model matrix
     Matrix4 model;
@@ -342,43 +342,43 @@ void Renderer::setBoundUniforms(Shader& shader, const Camera& camera, const Rend
         model.rotate(transform.globalRotation);
     }
 
-    for (const Uniform& uniform : shader.uniforms())
+    for (const ShaderParameter& parameter : shader.parameters())
     {
-        if (uniform.hasBinding())
+        if (parameter.hasBinding())
         {
-            UniformBinding binding = uniform.binding();
+            ShaderParameterBinding binding = parameter.binding();
 
             switch (binding)
             {
-            case UniformBinding_RenderTargetSize:
-                _graphicsContext->setUniform(uniform, Vector2((Real)target.width(), (Real)target.height()));
+            case ShaderParameterBinding_RenderTargetSize:
+                _graphicsContext->bindShaderParameter(parameter, Vector2((Real)target.width(), (Real)target.height()));
                 break;
-            case UniformBinding_CameraPosition:
-                _graphicsContext->setUniform(uniform, camera.position);
+            case ShaderParameterBinding_CameraPosition:
+                _graphicsContext->bindShaderParameter(parameter, camera.position);
                 break;
-            case UniformBinding_CameraFront:
-                _graphicsContext->setUniform(uniform, camera.front);
+            case ShaderParameterBinding_CameraFront:
+                _graphicsContext->bindShaderParameter(parameter, camera.front);
                 break;
-            case UniformBinding_CameraUp:
-                _graphicsContext->setUniform(uniform, camera.up);
+            case ShaderParameterBinding_CameraUp:
+                _graphicsContext->bindShaderParameter(parameter, camera.up);
                 break;
-            case UniformBinding_ViewMatrix:
-                _graphicsContext->setUniform(uniform, camera.viewMatrix);
+            case ShaderParameterBinding_ViewMatrix:
+                _graphicsContext->bindShaderParameter(parameter, camera.viewMatrix);
                 break;
-            case UniformBinding_ProjectionMatrix:
-                _graphicsContext->setUniform(uniform, camera.projectionMatrix);
+            case ShaderParameterBinding_ProjectionMatrix:
+                _graphicsContext->bindShaderParameter(parameter, camera.projectionMatrix);
                 break;
-            case UniformBinding_ViewProjectionMatrix:
-                _graphicsContext->setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
+            case ShaderParameterBinding_ViewProjectionMatrix:
+                _graphicsContext->bindShaderParameter(parameter, camera.projectionMatrix * camera.viewMatrix);
                 break;
-            case UniformBinding_ModelMatrix:
-                _graphicsContext->setUniform(uniform, model);
+            case ShaderParameterBinding_ModelMatrix:
+                _graphicsContext->bindShaderParameter(parameter, model);
                 break;
-            case UniformBinding_ModelViewMatrix:
-                _graphicsContext->setUniform(uniform, camera.viewMatrix * model);
+            case ShaderParameterBinding_ModelViewMatrix:
+                _graphicsContext->bindShaderParameter(parameter, camera.viewMatrix * model);
                 break;
-            case UniformBinding_ModelViewProjectionMatrix:
-                _graphicsContext->setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
+            case ShaderParameterBinding_ModelViewProjectionMatrix:
+                _graphicsContext->bindShaderParameter(parameter, camera.projectionMatrix * (camera.viewMatrix * model));
                 break;
             }
         }

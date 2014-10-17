@@ -2,14 +2,14 @@
     "modules": [
         {
             "type": "Vertex",
-            "source": "Solid.glsl"
+            "path": "Solid.glsl"
         },
         {
             "type": "Fragment",
-            "source": "Solid.glsl"
+            "path": "Solid.glsl"
         }
     ],
-    "uniforms": [
+    "parameters": [
         {
             "name": "diffuse",
             "value": [

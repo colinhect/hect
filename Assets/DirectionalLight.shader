@@ -2,18 +2,18 @@
     "modules": [
         {
             "type": "Vertex",
-            "source": "Screen.glsl"
+            "path": "Screen.glsl"
         },
         {
             "type": "Fragment",
-            "source": "GeometryBuffer.glsl"
+            "path": "GeometryBuffer.glsl"
         },
         {
             "type": "Fragment",
-            "source": "DirectionalLight.glsl"
+            "path": "DirectionalLight.glsl"
         }
     ],
-    "uniforms": [
+    "parameters": [
         {
             "name": "lightColor",
             "value": [

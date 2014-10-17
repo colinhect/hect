@@ -39,7 +39,7 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\MeshReader.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\MeshWriter.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Pass.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\ShaderArgument.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\GraphicsContext.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\RenderState.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Renderer.h" />
@@ -48,8 +48,8 @@
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\ShaderModule.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Technique.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\Texture.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\Uniform.h" />
-    <ClInclude Include="..\..\..\Engine\Hect\Graphics\UniformValue.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\ShaderParameter.h" />
+    <ClInclude Include="..\..\..\Engine\Hect\Graphics\ShaderValue.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\VertexAttribute.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\VertexLayout.h" />
     <ClInclude Include="..\..\..\Engine\Hect\Graphics\VideoMode.h" />
@@ -148,7 +148,7 @@
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\MeshReader.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\MeshWriter.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Pass.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\UniformValueInstance.cpp" />
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderArgument.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\GraphicsContext.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\RenderState.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Renderer.cpp" />
@@ -157,8 +157,8 @@
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderModule.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Technique.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\Texture.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\Uniform.cpp" />
-    <ClCompile Include="..\..\..\Engine\Hect\Graphics\UniformValue.cpp" />
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderParameter.cpp" />
+    <ClCompile Include="..\..\..\Engine\Hect\Graphics\ShaderValue.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\VertexAttribute.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\VertexLayout.cpp" />
     <ClCompile Include="..\..\..\Engine\Hect\Graphics\VideoMode.cpp" />

@@ -21,57 +21,57 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "UniformValueInstance.h"
+#include "ShaderArgument.h"
 
 using namespace hect;
 
-UniformValueInstance::UniformValueInstance()
+ShaderArgument::ShaderArgument()
 {
 }
 
-UniformValueInstance::UniformValueInstance(const std::string& name, const UniformValue& value) :
+ShaderArgument::ShaderArgument(const std::string& name, const ShaderValue& value) :
     _name(name),
     _value(value)
 {
 }
 
-const std::string& UniformValueInstance::name() const
+const std::string& ShaderArgument::name() const
 {
     return _name;
 }
 
-const UniformValue& UniformValueInstance::value() const
+const ShaderValue& ShaderArgument::value() const
 {
     return _value;
 }
 
-bool UniformValueInstance::operator==(const UniformValueInstance& uniformValueInstance) const
+bool ShaderArgument::operator==(const ShaderArgument& shaderArgument) const
 {
-    return _name == uniformValueInstance.name()
-           && _value == uniformValueInstance.value();
+    return _name == shaderArgument.name()
+           && _value == shaderArgument.value();
 }
 
-bool UniformValueInstance::operator!=(const UniformValueInstance& uniformValueInstance) const
+bool ShaderArgument::operator!=(const ShaderArgument& shaderArgument) const
 {
-    return !(*this == uniformValueInstance);
+    return !(*this == shaderArgument);
 }
 
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const UniformValueInstance& uniformValueInstance)
+Encoder& operator<<(Encoder& encoder, const ShaderArgument& shaderArgument)
 {
     return encoder << beginObject()
-           << encodeValue("name", uniformValueInstance._name)
-           << encodeValue(uniformValueInstance._value)
+           << encodeValue("name", shaderArgument._name)
+           << encodeValue(shaderArgument._value)
            << endObject();
 }
 
-Decoder& operator>>(Decoder& decoder, UniformValueInstance& uniformValueInstance)
+Decoder& operator>>(Decoder& decoder, ShaderArgument& shaderArgument)
 {
     return decoder >> beginObject()
-           >> decodeValue("name", uniformValueInstance._name)
-           >> decodeValue(uniformValueInstance._value)
+           >> decodeValue("name", shaderArgument._name)
+           >> decodeValue(shaderArgument._value)
            >> endObject();
 }
 

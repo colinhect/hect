@@ -2,19 +2,19 @@
     "modules": [
         {
             "type": "Vertex",
-            "source": "Particle.glsl"
+            "path": "Particle.glsl"
         },
         {
             "type": "Geometry",
-            "source": "Rotation.glsl"
+            "path": "Rotation.glsl"
         },
         {
             "type": "Geometry",
-            "source": "Particle.glsl"
+            "path": "Particle.glsl"
         },
         {
             "type": "Fragment",
-            "source": "Particle.glsl"
+            "path": "Particle.glsl"
         }
     ],
     "parameters": {

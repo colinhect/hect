@@ -21,15 +21,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Uniform.h"
+#include "ShaderParameter.h"
 
 using namespace hect;
 
-Uniform::Uniform()
+ShaderParameter::ShaderParameter()
 {
 }
 
-Uniform::Uniform(const std::string& name, UniformBinding binding) :
+ShaderParameter::ShaderParameter(const std::string& name, ShaderParameterBinding binding) :
     _name(name),
     _binding(binding),
     _defaultValueSet(false)
@@ -37,7 +37,7 @@ Uniform::Uniform(const std::string& name, UniformBinding binding) :
     setBinding(binding);
 }
 
-Uniform::Uniform(const std::string& name, const UniformValue& defaultValue) :
+ShaderParameter::ShaderParameter(const std::string& name, const ShaderValue& defaultValue) :
     _name(name),
     _type(defaultValue.type()),
     _defaultValueSet(true),
@@ -45,127 +45,127 @@ Uniform::Uniform(const std::string& name, const UniformValue& defaultValue) :
 {
 }
 
-UniformType Uniform::type() const
+ShaderValueType ShaderParameter::type() const
 {
     return _type;
 }
 
-void Uniform::setType(UniformType type)
+void ShaderParameter::setType(ShaderValueType type)
 {
     if (hasBinding())
     {
-        throw Error("Cannot change the type of a uniform with a binding");
+        throw Error("Cannot change the type of a parameter with a binding");
     }
 
     _type = type;
 }
 
-UniformBinding Uniform::binding() const
+ShaderParameterBinding ShaderParameter::binding() const
 {
     return _binding;
 }
 
-void Uniform::setBinding(UniformBinding binding)
+void ShaderParameter::setBinding(ShaderParameterBinding binding)
 {
     switch (binding)
     {
-    case UniformBinding_RenderTargetSize:
-        _type = UniformType_Vector2;
+    case ShaderParameterBinding_RenderTargetSize:
+        _type = ShaderValueType_Vector2;
         break;
-    case UniformBinding_CameraPosition:
-    case UniformBinding_CameraUp:
-        _type = UniformType_Vector3;
+    case ShaderParameterBinding_CameraPosition:
+    case ShaderParameterBinding_CameraUp:
+        _type = ShaderValueType_Vector3;
         break;
-    case UniformBinding_ViewMatrix:
-    case UniformBinding_ProjectionMatrix:
-    case UniformBinding_ViewProjectionMatrix:
-    case UniformBinding_ModelMatrix:
-    case UniformBinding_ModelViewMatrix:
-    case UniformBinding_ModelViewProjectionMatrix:
-        _type = UniformType_Matrix4;
+    case ShaderParameterBinding_ViewMatrix:
+    case ShaderParameterBinding_ProjectionMatrix:
+    case ShaderParameterBinding_ViewProjectionMatrix:
+    case ShaderParameterBinding_ModelMatrix:
+    case ShaderParameterBinding_ModelViewMatrix:
+    case ShaderParameterBinding_ModelViewProjectionMatrix:
+        _type = ShaderValueType_Matrix4;
         break;
     }
 
     _binding = binding;
 
-    if (_binding != UniformBinding_None)
+    if (_binding != ShaderParameterBinding_None)
     {
         _defaultValueSet = false;
     }
 }
 
-bool Uniform::hasBinding() const
+bool ShaderParameter::hasBinding() const
 {
-    return _binding != UniformBinding_None;
+    return _binding != ShaderParameterBinding_None;
 }
 
-const UniformValue& Uniform::defaultValue() const
+const ShaderValue& ShaderParameter::defaultValue() const
 {
     return _defaultValue;
 }
 
-void Uniform::setDefaultValue(const UniformValue& defaultValue)
+void ShaderParameter::setDefaultValue(const ShaderValue& defaultValue)
 {
     _defaultValueSet = true;
-    _binding = UniformBinding_None;
+    _binding = ShaderParameterBinding_None;
 
     _type = defaultValue.type();
     _defaultValue = defaultValue;
 }
 
-bool Uniform::hasDefaultValue() const
+bool ShaderParameter::hasDefaultValue() const
 {
     return _defaultValueSet;
 }
 
-const std::string& Uniform::name() const
+const std::string& ShaderParameter::name() const
 {
     return _name;
 }
 
-void Uniform::setName(const std::string& name)
+void ShaderParameter::setName(const std::string& name)
 {
     _name = name;
 }
 
-int Uniform::location() const
+int ShaderParameter::location() const
 {
     return _location;
 }
 
-void Uniform::setLocation(int location)
+void ShaderParameter::setLocation(int location)
 {
     _location = location;
 }
 
-bool Uniform::operator==(const Uniform& uniform) const
+bool ShaderParameter::operator==(const ShaderParameter& shaderParameter) const
 {
     // Name
-    if (_name != uniform._name)
+    if (_name != shaderParameter._name)
     {
         return false;
     }
 
     // Type
-    if (_type != uniform._type)
+    if (_type != shaderParameter._type)
     {
         return false;
     }
 
     // Binding
-    if (_binding != uniform._binding)
+    if (_binding != shaderParameter._binding)
     {
         return false;
     }
 
     // Has default value
-    if (_defaultValueSet != uniform._defaultValueSet)
+    if (_defaultValueSet != shaderParameter._defaultValueSet)
     {
         return false;
     }
 
     // Default value
-    if (_defaultValue != uniform._defaultValue)
+    if (_defaultValue != shaderParameter._defaultValue)
     {
         return false;
     }
@@ -173,48 +173,48 @@ bool Uniform::operator==(const Uniform& uniform) const
     return true;
 }
 
-bool Uniform::operator!=(const Uniform& uniform) const
+bool ShaderParameter::operator!=(const ShaderParameter& shaderParameter) const
 {
-    return !(*this == uniform);
+    return !(*this == shaderParameter);
 }
 
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const Uniform& uniform)
+Encoder& operator<<(Encoder& encoder, const ShaderParameter& shaderParameter)
 {
     encoder << beginObject();
 
     // Name
-    encoder << encodeValue("name", uniform.name());
+    encoder << encodeValue("name", shaderParameter.name());
 
     // We need an extra hint in binary
     if (encoder.isBinaryStream())
     {
         WriteStream& stream = encoder.binaryStream();
-        stream << uniform.hasDefaultValue();
+        stream << shaderParameter.hasDefaultValue();
     }
 
     // Default value
-    if (uniform.hasDefaultValue())
+    if (shaderParameter.hasDefaultValue())
     {
-        encoder << uniform.defaultValue();
+        encoder << shaderParameter.defaultValue();
     }
 
     // Binding
-    else if (uniform.hasBinding())
+    else if (shaderParameter.hasBinding())
     {
-        encoder << encodeEnum("binding", uniform.binding());
+        encoder << encodeEnum("binding", shaderParameter.binding());
     }
     else
     {
-        throw Error("The uniform does not have a default value or a binding");
+        throw Error("The parameter does not have a default value or a binding");
     }
 
     return encoder << endObject();
 }
 
-Decoder& operator>>(Decoder& decoder, Uniform& uniform)
+Decoder& operator>>(Decoder& decoder, ShaderParameter& shaderParameter)
 {
     decoder >> beginObject();
 
@@ -223,14 +223,14 @@ Decoder& operator>>(Decoder& decoder, Uniform& uniform)
     {
         std::string name;
         decoder >> decodeValue(name);
-        uniform.setName(name);
+        shaderParameter.setName(name);
     }
     else
     {
-        throw Error("No uniform name specified");
+        throw Error("No parameter name specified");
     }
 
-    // Detect if the uniform has a default value or a binding
+    // Detect if the parameter has a default value or a binding
     bool hasDefaultValue;
     if (decoder.isBinaryStream())
     {
@@ -245,17 +245,17 @@ Decoder& operator>>(Decoder& decoder, Uniform& uniform)
     // Default value
     if (hasDefaultValue)
     {
-        UniformValue defaultValue;
+        ShaderValue defaultValue;
         decoder >> decodeValue(defaultValue);
-        uniform.setDefaultValue(defaultValue);
+        shaderParameter.setDefaultValue(defaultValue);
     }
 
     // Binding
     else if (decoder.selectMember("binding"))
     {
-        UniformBinding binding;
+        ShaderParameterBinding binding;
         decoder >> decodeEnum(binding);
-        uniform.setBinding(binding);
+        shaderParameter.setBinding(binding);
     }
     else
     {

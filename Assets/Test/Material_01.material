@@ -3,7 +3,9 @@
         {
             "passes": [
                 {
-                    "shader": "Shader_01.shader"
+                    "shader": {
+                        "path": "Shader_01.shader"
+                    }
                 }
             ]
         }

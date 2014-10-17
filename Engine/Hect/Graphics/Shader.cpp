@@ -41,7 +41,6 @@ void Shader::addModule(const ShaderModule& module)
 {
     if (isUploaded())
     {
-        // The shader will need to be re-uploaded for the change to take effect
         graphicsContext().destroyShader(*this);
     }
     _modules.push_back(module);
@@ -57,38 +56,36 @@ const Shader::ModuleSequence Shader::modules() const
     return _modules;
 }
 
-void Shader::addUniform(const Uniform& uniform)
+void Shader::addParameter(const ShaderParameter& parameter)
 {
     if (isUploaded())
     {
-        // The shader will need to be re-uploaded for the change to take effect
         graphicsContext().destroyShader(*this);
     }
-
-    _uniforms.push_back(uniform);
+    _parameters.push_back(parameter);
 }
 
-Shader::UniformSequence Shader::uniforms()
+Shader::ParameterSequence Shader::parameters()
 {
-    return _uniforms;
+    return _parameters;
 }
 
-const Shader::UniformSequence Shader::uniforms() const
+const Shader::ParameterSequence Shader::parameters() const
 {
-    return _uniforms;
+    return _parameters;
 }
 
-const Uniform& Shader::uniformWithName(const std::string& name) const
+const ShaderParameter& Shader::parameterWithName(const std::string& name) const
 {
-    for (const Uniform& uniform : _uniforms)
+    for (const ShaderParameter& parameter : _parameters)
     {
-        if (uniform.name() == name)
+        if (parameter.name() == name)
         {
-            return uniform;
+            return parameter;
         }
     }
 
-    throw Error(format("Shader does not have uniform '%s'", name.c_str()));
+    throw Error(format("Shader does not have parameter '%s'", name.c_str()));
 }
 
 bool Shader::operator==(const Shader& shader) const
@@ -109,17 +106,17 @@ bool Shader::operator==(const Shader& shader) const
         }
     }
 
-    // Uniform count
-    if (_uniforms.size() != shader._uniforms.size())
+    // Parameter count
+    if (_parameters.size() != shader._parameters.size())
     {
         return false;
     }
 
-    // Uniforms
-    size_t uniformCount = _uniforms.size();
-    for (size_t i = 0; i < uniformCount; ++i)
+    // Parameters
+    size_t parameterCount = _parameters.size();
+    for (size_t i = 0; i < parameterCount; ++i)
     {
-        if (_uniforms[i] != shader._uniforms[i])
+        if (_parameters[i] != shader._parameters[i])
         {
             return false;
         }
@@ -147,36 +144,36 @@ Decoder& operator>>(Decoder& decoder, Shader& shader)
         while (decoder.hasMoreElements())
         {
             ShaderModuleType type;
-            Path sourcePath;
+            Path path;
 
             decoder >> beginObject()
                     >> decodeEnum("type", type)
-                    >> decodeValue("source", sourcePath)
+                    >> decodeValue("path", path)
                     >> endObject();
 
-            sourcePath = decoder.assetCache().resolvePath(sourcePath);
+            path = decoder.assetCache().resolvePath(path);
 
-            ReadStream stream = FileSystem::openFileForRead(sourcePath);
+            ReadStream stream = FileSystem::openFileForRead(path);
             std::string source = stream.readAllToString();
 
-            shader.addModule(ShaderModule(type, sourcePath, source));
+            shader.addModule(ShaderModule(type, path, source));
         }
         decoder >> endArray();
     }
 
-    // Uniforms
-    if (decoder.selectMember("uniforms"))
+    // Parameters
+    if (decoder.selectMember("parameters"))
     {
         decoder >> beginArray();
         while (decoder.hasMoreElements())
         {
-            Uniform uniform;
+            ShaderParameter parameter;
 
             decoder >> beginObject()
-                    >> decodeValue(uniform)
+                    >> decodeValue(parameter)
                     >> endObject();
 
-            shader.addUniform(uniform);
+            shader.addParameter(parameter);
         }
         decoder >> endArray();
     }

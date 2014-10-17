@@ -28,7 +28,7 @@
 #include "Hect/IO/Decoder.h"
 #include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Graphics/ShaderModule.h"
-#include "Hect/Graphics/Uniform.h"
+#include "Hect/Graphics/ShaderParameter.h"
 
 namespace hect
 {
@@ -40,7 +40,7 @@ class Shader :
     public GraphicsContext::Object<Shader>
 {
     typedef std::vector<ShaderModule> ModuleContainer;
-    typedef std::vector<Uniform> UniformContainer;
+    typedef std::vector<ShaderParameter> ParameterContainer;
 public:
 
     ///
@@ -48,15 +48,15 @@ public:
     typedef Sequence<ShaderModule, ModuleContainer> ModuleSequence;
 
     ///
-    /// A sequence of uniforms.
-    typedef Sequence<Uniform, UniformContainer> UniformSequence;
+    /// A sequence of shader parameters.
+    typedef Sequence<ShaderParameter, ParameterContainer> ParameterSequence;
 
     ///
-    /// Constructs a shader without any modules or uniforms.
+    /// Constructs a shader without any modules or parameters.
     Shader();
 
     ///
-    /// Constructs a shader without any modules or uniforms.
+    /// Constructs a shader without any modules or parameters.
     ///
     /// \param name The name of the shader.
     Shader(const std::string& name);
@@ -79,29 +79,29 @@ public:
     const ModuleSequence modules() const;
 
     ///
-    /// Adds a uniform to the shader.
+    /// Adds a parameter to the shader.
     ///
     /// \note If the shader is uploaded to a graphics context then it will be
-    /// destroyed before the uniform is added.
+    /// destroyed before the parameter is added.
     ///
-    /// \param uniform The uniform to add.
-    void addUniform(const Uniform& uniform);
+    /// \param parameter The parameter to add.
+    void addParameter(const ShaderParameter& parameter);
 
     ///
-    /// Returns the uniforms.
-    UniformSequence uniforms();
+    /// Returns the parameters.
+    ParameterSequence parameters();
 
     ///
-    /// Returns the uniforms.
-    const UniformSequence uniforms() const;
+    /// Returns the parameters.
+    const ParameterSequence parameters() const;
 
     ///
-    /// Returns the uniform with the given name.
+    /// Returns the parameter with the given name.
     ///
-    /// \param name The name of the uniform.
+    /// \param name The name of the parameter.
     ///
-    /// \throws Error If no uniform with the given name exists.
-    const Uniform& uniformWithName(const std::string& name) const;
+    /// \throws Error If no parameter with the given name exists.
+    const ShaderParameter& parameterWithName(const std::string& name) const;
 
     ///
     /// Returns whether the shader is equivalent to another.
@@ -123,7 +123,7 @@ public:
 
 private:
     ModuleContainer _modules;
-    UniformContainer _uniforms;
+    ParameterContainer _parameters;
 };
 
 }
