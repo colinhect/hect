@@ -44,15 +44,15 @@ enum ShaderParameterBinding
     ShaderParameterBinding_RenderTargetSize,
 
     ///
-    /// Bound to the scene-space position of the active camera.
+    /// Bound to the world-space position of the active camera.
     ShaderParameterBinding_CameraPosition,
 
     ///
-    /// Bound to the scene-space front direction of the active camera.
+    /// Bound to the world-space front direction of the active camera.
     ShaderParameterBinding_CameraFront,
 
     ///
-    /// Bound to the scene-space up direction of the active camera.
+    /// Bound to the world-space up direction of the active camera.
     ShaderParameterBinding_CameraUp,
 
     ///
