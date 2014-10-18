@@ -33,6 +33,10 @@
 #pragma warning(push, 0)
 #endif
 
+#ifdef HECT_DOUBLE_PRECISION
+#define BT_USE_DOUBLE_PRECISION
+#endif
+
 #include <btBulletDynamicsCommon.h>
 
 #ifdef HECT_WINDOWS_BUILD
