@@ -1,0 +1,13 @@
+{
+    "techniques": [
+        {
+            "passes": [
+                {
+                    "shader": {
+                        "path": "Shader_01.shader"
+                    }
+                }
+            ]
+        }
+    ]
+}

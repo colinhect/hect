@@ -1,0 +1,25 @@
+{
+    "techniques": [
+        {
+            "passes": [
+                {
+                    "shader": {
+                        "path": "Shader_01.shader"
+                    },
+                    "textures": [
+                        "Texture_01.texture"
+                    ]
+                }
+            ]
+        },
+        {
+            "passes": [
+                {
+                    "shader": {
+                        "path": "Shader_02.shader"
+                    }
+                }
+            ]
+        }
+    ]
+}
