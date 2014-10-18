@@ -150,7 +150,7 @@ if(NOT ("$ENV{CFLAGS}" STREQUAL "")) # Hackish, but does the trick on Win32
 endif()
 
 if(MSVC)
-  option(FORCE_STATIC_VCRT "Force /MT for static VC runtimes" OFF)
+  set(FORCE_STATIC_VCRT OFF)
   if(FORCE_STATIC_VCRT)
     foreach(flag_var
         CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
@@ -244,10 +244,8 @@ set(VIDEO_COCOA ${APPLE})
 set(DIRECTX OFF)
 set(RENDER_D3D OFF)
 
-# TODO: We should (should we?) respect cmake's ${BUILD_SHARED_LIBS} flag here
-# The options below are for compatibility to configure's default behaviour.
-set(SDL_SHARED ON CACHE BOOL "Build a shared version of the library")
-set(SDL_STATIC ON CACHE BOOL "Build a static version of the library")
+set(SDL_SHARED ON)
+set(SDL_STATIC ON)
 
 # General source files
 file(GLOB SOURCE_FILES
@@ -780,8 +778,6 @@ if(UNIX AND NOT APPLE)
   endif()
 
 elseif(WINDOWS)
-  find_program(WINDRES windres)
-
   check_c_source_compiles("
     #include <windows.h>
     int main(int argc, char **argv) { }" HAVE_WIN32_CC)
