@@ -20,3 +20,13 @@ set_target_properties(HectSystemTests PROPERTIES
     LINKER_LANGUAGE CXX
     FOLDER "/Hect/Tests"
     )
+
+add_custom_command(TARGET HectSystemTests
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Hect/Tests/SystemTests/Assets ${HECT_OUTPUT_DIR}/HectSystemTests.data/
+    )
+
+add_custom_command(TARGET HectSystemTests
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Hect/Tests/SystemTests/Config ${HECT_OUTPUT_DIR}/
+    )

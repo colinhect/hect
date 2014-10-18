@@ -315,4 +315,9 @@ set_target_properties(Hect PROPERTIES
 add_custom_command(TARGET Hect
     PRE_BUILD
     COMMAND python ${PROJECT_SOURCE_DIR}/Hect/Tools/reflect.py ${PROJECT_SOURCE_DIR}/Hect/Source/Hect/ ${PROJECT_SOURCE_DIR}/Hect/Source/Hect/Generated/ hect
-)
+    )
+
+add_custom_command(TARGET Hect
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Hect/Assets ${HECT_OUTPUT_DIR}/Hect.data/
+    )

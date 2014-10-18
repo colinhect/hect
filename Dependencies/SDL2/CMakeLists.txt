@@ -241,7 +241,7 @@ foreach(_SUB ${SDL_X11_OPTIONS})
   dep_option(${_OPT}           "Enable ${_SUB} support" ON "VIDEO_X11" OFF)
 endforeach()
 set(VIDEO_COCOA ${APPLE})
-set(DIRECTX OFF)
+set(DIRECTX ON)
 set(RENDER_D3D OFF)
 
 set(SDL_SHARED ON)
@@ -567,6 +567,7 @@ foreach(_SUB ${SDL_SUBSYSTEMS})
     set(SDL_${_OPT}_DISABLED 1)
   endif()
 endforeach()
+
 if(SDL_JOYSTICK)
   file(GLOB JOYSTICK_SOURCES ${SDL2_SOURCE_DIR}/src/joystick/*.c)
   set(SOURCE_FILES ${SOURCE_FILES} ${JOYSTICK_SOURCES})
@@ -1231,37 +1232,37 @@ if(SDL_STATIC)
 endif()
 
 ##### Installation targets #####
-install(TARGETS ${_INSTALL_LIBS}
-  LIBRARY DESTINATION "lib${LIB_SUFFIX}"
-  ARCHIVE DESTINATION "lib${LIB_SUFFIX}")
+#install(TARGETS ${_INSTALL_LIBS}
+#  LIBRARY DESTINATION "lib${LIB_SUFFIX}"
+#  ARCHIVE DESTINATION "lib${LIB_SUFFIX}")
 
-file(GLOB INCLUDE_FILES ${SDL2_SOURCE_DIR}/include/*.h)
-file(GLOB BIN_INCLUDE_FILES ${SDL2_BINARY_DIR}/include/*.h)
-foreach(_FNAME ${BIN_INCLUDE_FILES})
-  get_filename_component(_INCNAME ${_FNAME} NAME)
-  list(REMOVE_ITEM INCLUDE_FILES ${SDL2_SOURCE_DIR}/include/${_INCNAME})
-endforeach()
-list(APPEND INCLUDE_FILES ${BIN_INCLUDE_FILES})
-install(FILES ${INCLUDE_FILES} DESTINATION include/SDL2)
+#file(GLOB INCLUDE_FILES ${SDL2_SOURCE_DIR}/include/*.h)
+#file(GLOB BIN_INCLUDE_FILES ${SDL2_BINARY_DIR}/include/*.h)
+#foreach(_FNAME ${BIN_INCLUDE_FILES})
+#  get_filename_component(_INCNAME ${_FNAME} NAME)
+#  list(REMOVE_ITEM INCLUDE_FILES ${SDL2_SOURCE_DIR}/include/${_INCNAME})
+#endforeach()
+#list(APPEND INCLUDE_FILES ${BIN_INCLUDE_FILES})
+#install(FILES ${INCLUDE_FILES} DESTINATION include/SDL2)
 
-if(NOT WINDOWS OR CYGWIN)
-  if(SDL_SHARED)
-    install(CODE "
-      execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-      \"libSDL2-2.0.so\" \"libSDL2.so\")")
-    install(FILES ${SDL2_BINARY_DIR}/libSDL2.so DESTINATION "lib${LIB_SUFFIX}")
-  endif()
-  if(FREEBSD)
-    # FreeBSD uses ${PREFIX}/libdata/pkgconfig
-    install(FILES ${SDL2_BINARY_DIR}/sdl2.pc DESTINATION "libdata/pkgconfig")
-  else(FREEBSD)
-    install(FILES ${SDL2_BINARY_DIR}/sdl2.pc
-      DESTINATION "lib${LIB_SUFFIX}/pkgconfig")
-  endif()
-  install(PROGRAMS ${SDL2_BINARY_DIR}/sdl2-config DESTINATION bin)
+#if(NOT WINDOWS OR CYGWIN)
+#  if(SDL_SHARED)
+#    install(CODE "
+#      execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+#      \"libSDL2-2.0.so\" \"libSDL2.so\")")
+#    install(FILES ${SDL2_BINARY_DIR}/libSDL2.so DESTINATION "lib${LIB_SUFFIX}")
+#  endif()
+#  if(FREEBSD)
+#    # FreeBSD uses ${PREFIX}/libdata/pkgconfig
+#    install(FILES ${SDL2_BINARY_DIR}/sdl2.pc DESTINATION "libdata/pkgconfig")
+#  else(FREEBSD)
+#    install(FILES ${SDL2_BINARY_DIR}/sdl2.pc
+#      DESTINATION "lib${LIB_SUFFIX}/pkgconfig")
+#  endif()
+#  install(PROGRAMS ${SDL2_BINARY_DIR}/sdl2-config DESTINATION bin)
   # TODO: what about the .spec file? Is it only needed for RPM creation?
-  install(FILES "${SDL2_SOURCE_DIR}/sdl2.m4" DESTINATION "share/aclocal")
-else()
-  install(TARGETS SDL2 RUNTIME DESTINATION bin)
-endif()
+#  install(FILES "${SDL2_SOURCE_DIR}/sdl2.m4" DESTINATION "share/aclocal")
+#else()
+#  install(TARGETS SDL2 RUNTIME DESTINATION bin)
+#endif()
 
