@@ -1228,7 +1228,7 @@ if(SDL_STATIC)
   # TODO: Win32 platforms keep the same suffix .lib for import and static
   # libraries - do we need to consider this?
   set(_INSTALL_LIBS "SDL2-static" ${_INSTALL_LIBS})
-  target_link_libraries(SDL2-static ${EXTRA_LIBS} ${EXTRA_LDFLAGS})
+  target_link_libraries(SDL2-static ${EXTRA_LDFLAGS})
 endif()
 
 ##### Installation targets #####
