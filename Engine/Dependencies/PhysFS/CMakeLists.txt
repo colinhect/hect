@@ -53,5 +53,5 @@ add_library(PhysFS STATIC
 set_target_properties(PhysFS PROPERTIES
     PROJECT_LABEL PhysFS
     FOLDER "/Engine/Dependencies"
-    LINKER_LANGUAGE CXX
+    LINKER_LANGUAGE C
     )

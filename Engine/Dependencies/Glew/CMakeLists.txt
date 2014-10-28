@@ -19,5 +19,5 @@ add_library(Glew STATIC
 set_target_properties(Glew PROPERTIES
     PROJECT_LABEL Glew
     FOLDER "/Engine/Dependencies"
-    LINKER_LANGUAGE CXX
+    LINKER_LANGUAGE C
     )

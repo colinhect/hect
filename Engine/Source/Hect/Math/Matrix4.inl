@@ -24,6 +24,8 @@
 #include <cassert>
 #include <cstring>
 
+#include "Hect/Math/Quaternion.h"
+
 namespace hect
 {
 

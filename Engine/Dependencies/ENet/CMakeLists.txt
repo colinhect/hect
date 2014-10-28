@@ -33,5 +33,5 @@ add_library(ENet STATIC
 set_target_properties(ENet PROPERTIES
     PROJECT_LABEL ENet
     FOLDER "/Engine/Dependencies"
-    LINKER_LANGUAGE CXX
+    LINKER_LANGUAGE C
     )

@@ -27,7 +27,7 @@ namespace hect
 {
 
 template <typename T>
-static T Enum::fromString(const std::string& string)
+T Enum::fromString(const std::string& string)
 {
     const Enum& enumType = Type::get<T>().asEnum();
     return static_cast<T>(enumType.fromString(string));

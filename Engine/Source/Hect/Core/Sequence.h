@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <cstddef>
+
 #include "Hect/Core/Uncopyable.h"
 
 namespace hect
@@ -41,7 +43,7 @@ public:
     /// Constructs a sequence.
     ///
     /// \param container The underlying container.
-    Sequence(typename const Container& container);
+    Sequence(const Container& container);
 
     Sequence(Sequence&& sequence);
 
@@ -82,7 +84,7 @@ public:
     const T& operator[](size_t index) const;
 
 private:
-    typename Container* _container;
+    Container* _container;
 };
 
 }

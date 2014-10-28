@@ -25,8 +25,8 @@ namespace hect
 {
 
 template <typename T, typename Container>
-Sequence<T, Container>::Sequence(typename const Container& container) :
-    _container(const_cast<typename Container*>(&container))
+Sequence<T, Container>::Sequence(const Container& container) :
+    _container(const_cast<Container*>(&container))
 {
 }
 

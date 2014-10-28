@@ -25,12 +25,14 @@
 
 #include "Hect/Core/Real.h"
 #include "Hect/Math/Angle.h"
-#include "Hect/Math/Quaternion.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
 
 namespace hect
 {
+
+template <typename T>
+class QuaternionT;
 
 ///
 /// A column-major 4 by 4 matrix.

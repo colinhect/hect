@@ -5,6 +5,10 @@ if(WIN32)
     add_definitions("/D_CRT_SECURE_NO_WARNINGS")
 endif()
 
+if(UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
+endif()
+
 include_directories(
     "${PROJECT_SOURCE_DIR}/Engine/Source"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet"
