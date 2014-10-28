@@ -32,7 +32,7 @@
 #include "Hect/Logic/GameMode.h"
 #include "Hect/Logic/GameModeRegistry.h"
 
-#include "Hect/Generated/_reflect_hect.h"
+#include "Hect/Generated/RegisterTypes.h"
 
 #include <fstream>
 #include <streambuf>

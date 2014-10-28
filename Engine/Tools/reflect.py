@@ -111,7 +111,7 @@ if __name__ == "__main__":
     
     print("Hect Reflect - " + str(sys.argv[1:]))
     
-    header_file_name = os.path.join(output_dir, "_reflect_" + types_namespace + ".h")  
+    header_file_name = os.path.join(output_dir, "RegisterTypes.h")  
     
     last_modified = 0
     for root, dirnames, filenames in os.walk(input_dir):
