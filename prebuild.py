@@ -14,5 +14,7 @@ os.chdir(build_path)
 # Invoke CMake
 if sys.platform.startswith("win"):
     subprocess.call("cmake ../ -G \"Visual Studio 12 Win64\"", shell=True)
+elif sys.platform.startswith("linux"):
+    subprocess.call("cmake ../ -G \"Unix Makefiles\"", shell=True)
 else:
     print("Platform '{0}' is not supported".format(sys.platform))
