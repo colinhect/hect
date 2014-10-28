@@ -1209,7 +1209,7 @@ if(SDL_STATIC)
     set_target_properties(SDL2-static PROPERTIES STATIC_LIBRARY_FLAGS "/NODEFAULTLIB")
     set_target_properties(SDL2-static PROPERTIES
       PROJECT_LABEL SDL2-static
-      FOLDER "/Dependencies")
+      FOLDER "/Engine/Dependencies")
   endif()
   # TODO: Win32 platforms keep the same suffix .lib for import and static
   # libraries - do we need to consider this?
@@ -1229,7 +1229,7 @@ if(SDL_SHARED)
       VERSION ${SDL_VERSION}
       SOVERSION ${LT_REVISION}
       PROJECT_LABEL SDL2
-      FOLDER "/Dependencies"
+      FOLDER "/Engine/Dependencies"
       OUTPUT_NAME "SDL2")
   endif()
  set(_INSTALL_LIBS "SDL2" ${_INSTALL_LIBS})

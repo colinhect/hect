@@ -2,7 +2,7 @@
 
 include_directories(
     "${PROJECT_SOURCE_DIR}/Engine/Source"
-    "${PROJECT_SOURCE_DIR}/Dependencies/Catch"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Catch"
     )
     
 file(GLOB unittests_files Source/*.cpp Source/*.h Source/*.inl)

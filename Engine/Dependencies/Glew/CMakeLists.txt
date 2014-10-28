@@ -6,7 +6,7 @@ if(WIN32)
 endif()
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Dependencies/Glew"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew"
     )
 
 add_library(Glew STATIC
@@ -18,6 +18,6 @@ add_library(Glew STATIC
     
 set_target_properties(Glew PROPERTIES
     PROJECT_LABEL Glew
-    FOLDER "/Dependencies"
+    FOLDER "/Engine/Dependencies"
     LINKER_LANGUAGE CXX
     )

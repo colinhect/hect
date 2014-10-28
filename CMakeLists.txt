@@ -16,18 +16,21 @@ endforeach()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-add_subdirectory("${PROJECT_SOURCE_DIR}/Dependencies/Bullet")
-add_subdirectory("${PROJECT_SOURCE_DIR}/Dependencies/ENet")
-add_subdirectory("${PROJECT_SOURCE_DIR}/Dependencies/Glew")
-add_subdirectory("${PROJECT_SOURCE_DIR}/Dependencies/JsonCpp")
-add_subdirectory("${PROJECT_SOURCE_DIR}/Dependencies/LodePng")
-add_subdirectory("${PROJECT_SOURCE_DIR}/Dependencies/PhysFS")
-add_subdirectory("${PROJECT_SOURCE_DIR}/Dependencies/SDL2")
+# Add Hect dependencies
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/ENet")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/JsonCpp")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/SDL2")
 
+# Add Hect components
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/UnitTests")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/SystemTests")
 
+# Add Hect projects
 macro(SUBDIRLIST result curdir)
   file(GLOB children RELATIVE ${curdir} ${curdir}/*)
   set(dirlist "")
@@ -38,9 +41,7 @@ macro(SUBDIRLIST result curdir)
   endforeach()
   set(${result} ${dirlist})
 endmacro()
-
 SUBDIRLIST(PROJECT_DIRS ${PROJECT_SOURCE_DIR}/Projects)
-
 foreach(PROJECT_DIR ${PROJECT_DIRS})
     add_subdirectory(${PROJECT_SOURCE_DIR}/Projects/${PROJECT_DIR})
 endforeach()

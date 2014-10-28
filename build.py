@@ -7,7 +7,7 @@ import prebuild
 config = "debug"
 
 # Validate config
-if len(sys.argv) > 0:
+if len(sys.argv) > 1:
     arg = sys.argv[1].lower()
     if arg == "debug" or arg == "release":
         config = arg

@@ -6,7 +6,7 @@ if(WIN32)
 endif()
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Dependencies/PhysFS"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS"
     )
 
 add_library(PhysFS STATIC
@@ -52,6 +52,6 @@ add_library(PhysFS STATIC
     
 set_target_properties(PhysFS PROPERTIES
     PROJECT_LABEL PhysFS
-    FOLDER "/Dependencies"
+    FOLDER "/Engine/Dependencies"
     LINKER_LANGUAGE CXX
     )

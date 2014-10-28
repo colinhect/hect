@@ -6,7 +6,7 @@ if(WIN32)
 endif()
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Dependencies/ENet"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/ENet"
     )
 
 add_library(ENet STATIC
@@ -32,6 +32,6 @@ add_library(ENet STATIC
     
 set_target_properties(ENet PROPERTIES
     PROJECT_LABEL ENet
-    FOLDER "/Dependencies"
+    FOLDER "/Engine/Dependencies"
     LINKER_LANGUAGE CXX
     )

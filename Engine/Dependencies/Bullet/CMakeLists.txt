@@ -11,7 +11,7 @@ add_definitions(
     )
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Dependencies/Bullet"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet"
     )
 
 add_library(Bullet STATIC
@@ -392,6 +392,6 @@ add_library(Bullet STATIC
     
 set_target_properties(Bullet PROPERTIES
     PROJECT_LABEL Bullet
-    FOLDER "/Dependencies"
+    FOLDER "/Engine/Dependencies"
     LINKER_LANGUAGE CXX
     )

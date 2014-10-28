@@ -6,7 +6,7 @@ if(WIN32)
 endif()
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Dependencies/JsonCpp"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/JsonCpp"
     )
 
 add_library(JsonCpp STATIC
@@ -30,6 +30,6 @@ add_library(JsonCpp STATIC
     
 set_target_properties(JsonCpp PROPERTIES
     PROJECT_LABEL JsonCpp
-    FOLDER "/Dependencies"
+    FOLDER "/Engine/Dependencies"
     LINKER_LANGUAGE CXX
     )

@@ -7,14 +7,14 @@ endif()
 
 include_directories(
     "${PROJECT_SOURCE_DIR}/Engine/Source"
-    "${PROJECT_SOURCE_DIR}/Dependencies/Bullet"
-    "${PROJECT_SOURCE_DIR}/Dependencies/ENet"
-    "${PROJECT_SOURCE_DIR}/Dependencies/Glew"
-    "${PROJECT_SOURCE_DIR}/Dependencies/JsonCpp"
-    "${PROJECT_SOURCE_DIR}/Dependencies/LodePng"
-    "${PROJECT_SOURCE_DIR}/Dependencies/PhysFS"
-    "${PROJECT_SOURCE_DIR}/Dependencies/SDL2/include"
-    "${PROJECT_SOURCE_DIR}/Dependencies/Tclap/include"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/ENet"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/JsonCpp"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/SDL2/include"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Tclap/include"
     )
     
 file(GLOB concurrency_files Source/Hect/Concurrency/*)

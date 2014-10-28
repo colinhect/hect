@@ -6,7 +6,7 @@ if(WIN32)
 endif()
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Dependencies/LodePng"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng"
     )
 
 add_library(LodePng STATIC
@@ -16,6 +16,6 @@ add_library(LodePng STATIC
     
 set_target_properties(LodePng PROPERTIES
     PROJECT_LABEL LodePng
-    FOLDER "/Dependencies"
+    FOLDER "/Engine/Dependencies"
     LINKER_LANGUAGE CXX
     )
