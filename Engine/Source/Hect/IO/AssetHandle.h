@@ -37,8 +37,9 @@ namespace hect
 /// A reference-counted handle for an asset.
 ///
 /// \note An asset handle may reference an asset which was loaded from the
-/// file system.  Alternatively, it may reference a manually created asset.
-/// A handle works much like a smart pointer.
+/// file system and is cached in an asset cache.  Alternatively, it may
+/// reference a manually created asset.  A handle works much like a smart
+/// pointer.
 template <typename T>
 class AssetHandle
 {

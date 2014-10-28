@@ -74,21 +74,26 @@ public:
     AssetHandle<T> getHandle(const Path& path);
 
     ///
-    /// Re-loads all assets of a specific type whose file has been modified
-    /// since it was loaded.
+    /// Re-loads any cached assets of a specific type.
+    ///
+    /// \param onlyModfied Whether to only re-load the assets whose asset
+    /// files have been modified since it was loaded.
     template <typename T>
-    void refresh();
+    void refresh(bool onlyModified);
 
     ///
-    /// Re-loads all assets whose file has been modified since it was loaded.
-    void refresh();
+    /// Re-loads any cached assets of all types.
+    ///
+    /// \param onlyModfied Whether to only re-load the assets whose asset
+    /// files have been modified since it was loaded.
+    void refresh(bool onlyModified);
 
     ///
-    /// Clears all cached resources.
+    /// Clears all cached assets.
     void clear();
 
     ///
-    /// Returns the task pool.
+    /// Returns the task pool used for asset loading.
     TaskPool& taskPool();
 
     ///

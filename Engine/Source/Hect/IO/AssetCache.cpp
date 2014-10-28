@@ -35,13 +35,14 @@ AssetCache::~AssetCache()
     _taskPool.wait();
 }
 
-void AssetCache::refresh()
+void AssetCache::refresh(bool onlyModified)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
+    bool force = !onlyModified;
     for (auto& pair : _entries)
     {
-        pair.second->refresh();
+        pair.second->refresh(force);
     }
 }
 

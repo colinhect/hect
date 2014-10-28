@@ -49,7 +49,6 @@ ReadStream& BinaryDecoder::binaryStream()
     return *_stream;
 }
 
-
 void BinaryDecoder::beginArray()
 {
     if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)

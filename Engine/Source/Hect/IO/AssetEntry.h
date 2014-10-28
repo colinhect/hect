@@ -48,7 +48,10 @@ public:
     ///
     /// Re-loads the asset if the asset file has been modified since it was
     /// last loaded.
-    virtual void refresh() = 0;
+    ///
+    /// \param force Whether to force the re-load even if the asset file has
+    /// not been modified.
+    virtual void refresh(bool force) = 0;
 };
 
 ///
@@ -66,7 +69,7 @@ public:
     /// \param path The path to the asset.
     AssetEntry(AssetCache& assetCache, const Path& path);
 
-    void refresh() override;
+    void refresh(bool force) override;
 
     ///
     /// Returns the unique pointer to the asset.

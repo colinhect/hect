@@ -67,16 +67,17 @@ AssetHandle<T> AssetCache::getHandle(const Path& path)
 }
 
 template <typename T>
-void refresh()
+void refresh(bool onlyModified)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
+    bool force = !onlyModified;
     for (auto& pair : _entries)
     {
         entry = std::dynamic_pointer_cast<AssetEntry<T>>(pair.second);
         if (entry)
         {
-            entry->refresh();
+            entry->refresh(force);
         }
     }
 }

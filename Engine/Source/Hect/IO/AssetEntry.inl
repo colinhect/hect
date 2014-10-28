@@ -39,12 +39,12 @@ AssetEntry<T>::AssetEntry(AssetCache& assetCache, const Path& path) :
 }
 
 template <typename T>
-void AssetEntry<T>::refresh()
+void AssetEntry<T>::refresh(bool force)
 {
     if (_asset)
     {
         TimeStamp lastModified = FileSystem::lastModified(_path);
-        if (lastModified > _lastModified)
+        if (force || lastModified > _lastModified)
         {
             T* asset = _asset.get();
             delete asset;
