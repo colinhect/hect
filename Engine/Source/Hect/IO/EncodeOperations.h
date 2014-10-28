@@ -65,8 +65,7 @@ struct EndObject
 ///
 /// An encode operation for encoding a value.
 template <typename T>
-struct EncodeValue :
-        public Uncopyable
+struct EncodeValue
 {
     EncodeValue(const T& value);
     EncodeValue(const char* name, const T& value);
@@ -76,8 +75,7 @@ struct EncodeValue :
 };
 
 template <typename T>
-struct EncodeVector :
-        public Uncopyable
+struct EncodeVector
 {
     EncodeVector(const std::vector<T>& values);
     EncodeVector(const char* name, const std::vector<T>& values);
@@ -89,8 +87,7 @@ struct EncodeVector :
 ///
 /// An decode operation for encoding a value.
 template <typename T>
-struct DecodeValue :
-        public Uncopyable
+struct DecodeValue
 {
     DecodeValue(T& value);
     DecodeValue(const char* name, T& value, bool required);
@@ -101,8 +98,7 @@ struct DecodeValue :
 };
 
 template <typename T>
-struct DecodeVector :
-        public Uncopyable
+struct DecodeVector
 {
     DecodeVector(std::vector<T>& values);
     DecodeVector(const char* name, std::vector<T>& values);
@@ -114,8 +110,7 @@ struct DecodeVector :
 ///
 /// An encode operation for encoding an enum.
 template <typename T>
-struct EncodeEnum :
-        public Uncopyable
+struct EncodeEnum
 {
     EncodeEnum(T value);
     EncodeEnum(const char* name, T value);
@@ -127,8 +122,7 @@ struct EncodeEnum :
 ///
 /// An encode operation for encoding an enum.
 template <typename T>
-struct DecodeEnum :
-        public Uncopyable
+struct DecodeEnum
 {
     DecodeEnum(T& value);
     DecodeEnum(const char* name, T& value);
