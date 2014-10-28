@@ -1,5 +1,12 @@
+# Engine
+
+# Disable useless Visual Studio 2013 warnings
+if(WIN32)
+    add_definitions("/D_CRT_SECURE_NO_WARNINGS")
+endif()
+
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Hect/Source"
+    "${PROJECT_SOURCE_DIR}/Engine/Source"
     "${PROJECT_SOURCE_DIR}/Dependencies/Bullet"
     "${PROJECT_SOURCE_DIR}/Dependencies/ENet"
     "${PROJECT_SOURCE_DIR}/Dependencies/Glew"
@@ -10,61 +17,61 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/Dependencies/Tclap/include"
     )
     
-FILE(GLOB concurrency_files Source/Hect/Concurrency/*)
+file(GLOB concurrency_files Source/Hect/Concurrency/*)
 source_group(Hect\\Concurrency FILES ${concurrency_files})
 
-FILE(GLOB core_files Source/Hect/Core/*)
+file(GLOB core_files Source/Hect/Core/*)
 source_group(Hect\\Core FILES ${core_files})
 
-FILE(GLOB event_files Source/Hect/Event/*)
+file(GLOB event_files Source/Hect/Event/*)
 source_group(Hect\\Event FILES ${event_files})
 
-FILE(GLOB graphics_files Source/Hect/Graphics/*)
+file(GLOB graphics_files Source/Hect/Graphics/*)
 source_group(Hect\\Graphics FILES ${graphics_files})
 
-FILE(GLOB input_files Source/Hect/Input/*)
+file(GLOB input_files Source/Hect/Input/*)
 source_group(Hect\\Input FILES ${input_files})
 
-FILE(GLOB io_files Source/Hect/IO/*)
+file(GLOB io_files Source/Hect/IO/*)
 source_group(Hect\\IO FILES ${io_files})
 
-FILE(GLOB encoders_files Source/Hect/IO/Encoders/*)
+file(GLOB encoders_files Source/Hect/IO/Encoders/*)
 source_group(Hect\\IO\\Encoders FILES ${encoders_files})
 
-FILE(GLOB logic_files Source/Hect/Logic/*)
+file(GLOB logic_files Source/Hect/Logic/*)
 source_group(Hect\\Logic FILES ${logic_files})
 
-FILE(GLOB components_files Source/Hect/Logic/Components/*)
+file(GLOB components_files Source/Hect/Logic/Components/*)
 source_group(Hect\\Logic\\Components FILES ${components_files})
 
-FILE(GLOB systems_files Source/Hect/Logic/Systems/*)
+file(GLOB systems_files Source/Hect/Logic/Systems/*)
 source_group(Hect\\Logic\\Systems FILES ${systems_files})
 
-FILE(GLOB math_files Source/Hect/Math/*)
+file(GLOB math_files Source/Hect/Math/*)
 source_group(Hect\\Math FILES ${math_files})
 
-FILE(GLOB network_files Source/Hect/Network/*)
+file(GLOB network_files Source/Hect/Network/*)
 source_group(Hect\\Network FILES ${network_files})
 
-FILE(GLOB noise_files Source/Hect/Noise/*)
+file(GLOB noise_files Source/Hect/Noise/*)
 source_group(Hect\\Noise FILES ${noise_files})
 
-FILE(GLOB physics_files Source/Hect/Physics/*)
+file(GLOB physics_files Source/Hect/Physics/*)
 source_group(Hect\\Physics FILES ${physics_files})
 
-FILE(GLOB platform_files Source/Hect/Platform/*)
+file(GLOB platform_files Source/Hect/Platform/*)
 source_group(Hect\\Platform FILES ${platform_files})
 
-FILE(GLOB reflection_files Source/Hect/Reflection/*)
+file(GLOB reflection_files Source/Hect/Reflection/*)
 source_group(Hect\\Reflection FILES ${reflection_files})
 
-FILE(GLOB runtime_files Source/Hect/Runtime/*)
+file(GLOB runtime_files Source/Hect/Runtime/*)
 source_group(Hect\\Runtime FILES ${runtime_files})
 
-FILE(GLOB spacial_files Source/Hect/Spacial/*)
+file(GLOB spacial_files Source/Hect/Spacial/*)
 source_group(Hect\\Spacial FILES ${spacial_files})
 
-FILE(GLOB timing_files Source/Hect/Timing/*)
+file(GLOB timing_files Source/Hect/Timing/*)
 source_group(Hect\\Timing FILES ${timing_files})
     
 add_library(Hect STATIC
@@ -304,20 +311,23 @@ add_library(Hect STATIC
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 
+add_dependencies(Hect SDL2)
 target_link_libraries(Hect Bullet ENet Glew JsonCpp LodePng PhysFS SDL2-static ${OPENGL_LIBRARIES})
     
 set_target_properties(Hect PROPERTIES
     PROJECT_LABEL Hect
     LINKER_LANGUAGE CXX
-    FOLDER "/Hect"
+    FOLDER "/Engine"
     )
 
+# Generate reflection code
 add_custom_command(TARGET Hect
     PRE_BUILD
-    COMMAND python ${PROJECT_SOURCE_DIR}/Hect/Tools/reflect.py ${PROJECT_SOURCE_DIR}/Hect/Source/Hect/ ${PROJECT_SOURCE_DIR}/Hect/Source/Hect/Generated/ hect
+    COMMAND python ${PROJECT_SOURCE_DIR}/Engine/Tools/reflect.py ${PROJECT_SOURCE_DIR}/Engine/Source/Hect/ ${PROJECT_SOURCE_DIR}/Engine/Source/Hect/Generated/ hect
     )
 
+# Copy assets
 add_custom_command(TARGET Hect
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Hect/Assets ${HECT_OUTPUT_DIR}/Hect.data/
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Engine/Assets ${OUTPUT_DIR}/Hect.data/
     )

@@ -1194,23 +1194,9 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_CFLAGS}")
 # add_library(SDL2main STATIC ${SDLMAIN_SOURCES})
 # set(_INSTALL_LIBS "SDL2main")
 
-if(SDL_SHARED)
-  add_library(SDL2 SHARED ${SOURCE_FILES})
-  if(UNIX)
-    set_target_properties(SDL2 PROPERTIES
-      VERSION ${LT_VERSION}
-      SOVERSION ${LT_REVISION}
-      OUTPUT_NAME "SDL2-${LT_RELEASE}")
-  else(UNIX)
-    set_target_properties(SDL2 PROPERTIES
-      VERSION ${SDL_VERSION}
-      SOVERSION ${LT_REVISION}
-      PROJECT_LABEL SDL2
-      FOLDER "/Dependencies"
-      OUTPUT_NAME "SDL2")
-  endif()
- set(_INSTALL_LIBS "SDL2" ${_INSTALL_LIBS})
- target_link_libraries(SDL2 ${EXTRA_LIBS} ${EXTRA_LDFLAGS})
+# Disable all warnings
+if(WIN32)
+    add_definitions("/W0")
 endif()
 
 if(SDL_STATIC)
@@ -1229,6 +1215,26 @@ if(SDL_STATIC)
   # libraries - do we need to consider this?
   set(_INSTALL_LIBS "SDL2-static" ${_INSTALL_LIBS})
   target_link_libraries(SDL2-static ${EXTRA_LDFLAGS})
+endif()
+
+if(SDL_SHARED)
+  add_library(SDL2 SHARED ${SOURCE_FILES})
+  if(UNIX)
+    set_target_properties(SDL2 PROPERTIES
+      VERSION ${LT_VERSION}
+      SOVERSION ${LT_REVISION}
+      OUTPUT_NAME "SDL2-${LT_RELEASE}")
+  else(UNIX)
+    set_target_properties(SDL2 PROPERTIES
+      VERSION ${SDL_VERSION}
+      SOVERSION ${LT_REVISION}
+      PROJECT_LABEL SDL2
+      FOLDER "/Dependencies"
+      OUTPUT_NAME "SDL2")
+  endif()
+ set(_INSTALL_LIBS "SDL2" ${_INSTALL_LIBS})
+ target_link_libraries(SDL2 ${EXTRA_LIBS} ${EXTRA_LDFLAGS})
+ add_dependencies(SDL2 SDL2-static)
 endif()
 
 ##### Installation targets #####

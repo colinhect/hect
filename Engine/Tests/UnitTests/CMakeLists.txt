@@ -1,9 +1,11 @@
+# Engine/Tests/UnitTests
+
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Hect/Source"
+    "${PROJECT_SOURCE_DIR}/Engine/Source"
     "${PROJECT_SOURCE_DIR}/Dependencies/Catch"
     )
     
-FILE(GLOB unittests_files Source/*.cpp Source/*.h Source/*.inl)
+file(GLOB unittests_files Source/*.cpp Source/*.h Source/*.inl)
 source_group(Source FILES ${unittests_files})
     
 add_executable(HectUnitTests
@@ -41,5 +43,5 @@ target_link_libraries(HectUnitTests Hect)
 set_target_properties(HectUnitTests PROPERTIES
     PROJECT_LABEL HectUnitTests
     LINKER_LANGUAGE CXX
-    FOLDER "/Hect/Tests"
+    FOLDER "/Engine/Tests"
     )

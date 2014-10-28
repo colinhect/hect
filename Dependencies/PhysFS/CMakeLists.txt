@@ -1,3 +1,10 @@
+# Dependencies/PhysFS
+
+# Disable all warnings
+if(WIN32)
+    add_definitions("/W0")
+endif()
+
 include_directories(
     "${PROJECT_SOURCE_DIR}/Dependencies/PhysFS"
     )

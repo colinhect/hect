@@ -22,7 +22,10 @@
 
 #include "btVector3.h"
 
-
+// Hect - Avoid Visual Studio LNK4221 warning
+void _btVector3_lnk4221()
+{
+}
 
 #if defined BT_USE_SIMD_VECTOR3
 

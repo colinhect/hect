@@ -15,3 +15,7 @@ subject to the following restrictions:
 
 #include "btBroadphaseProxy.h"
 
+// Hect - Avoid Visual Studio LNK4221 warning
+void _btBroadphaseProxy_lnk4221()
+{
+}

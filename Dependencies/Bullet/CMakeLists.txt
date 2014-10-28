@@ -1,3 +1,11 @@
+# Dependencies/Bullet
+
+# Disable all warnings
+if(WIN32)
+    add_definitions("/W0")
+endif()
+
+# Use 64-bit floats
 add_definitions(
     -DBT_USE_DOUBLE_PRECISION
     )
