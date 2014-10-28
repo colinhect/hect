@@ -96,7 +96,7 @@ struct DecodeValue :
     DecodeValue(const char* name, T& value, bool required);
 
     const char* name;
-    mutable T& value;
+    T& value;
     const bool required;
 };
 
@@ -108,7 +108,7 @@ struct DecodeVector :
     DecodeVector(const char* name, std::vector<T>& values);
 
     const char* name;
-    mutable std::vector<T>& values;
+    std::vector<T>& values;
 };
 
 ///
@@ -134,7 +134,7 @@ struct DecodeEnum :
     DecodeEnum(const char* name, T& value);
 
     const char* name;
-    mutable T& value;
+    T& value;
 };
 
 ///
