@@ -97,5 +97,3 @@ private:
 };
 
 }
-
-#include "AssetEntry.inl"

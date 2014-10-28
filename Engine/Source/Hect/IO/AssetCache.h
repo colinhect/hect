@@ -126,3 +126,5 @@ private:
 }
 
 #include "AssetCache.inl"
+#include "AssetHandle.inl"
+#include "AssetEntry.inl"

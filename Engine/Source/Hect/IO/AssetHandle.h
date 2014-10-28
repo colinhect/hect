@@ -111,5 +111,3 @@ template <typename T>
 Decoder& operator>>(Decoder& decoder, AssetHandle<T>& assetHandle);
 
 }
-
-#include "AssetHandle.inl"

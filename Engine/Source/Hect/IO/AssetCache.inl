@@ -67,7 +67,7 @@ AssetHandle<T> AssetCache::getHandle(const Path& path)
 }
 
 template <typename T>
-void refresh(bool onlyModified)
+void AssetCache::refresh(bool onlyModified)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
