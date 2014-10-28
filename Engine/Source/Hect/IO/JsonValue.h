@@ -176,7 +176,7 @@ public:
     /// Returns this JSON value or another one if this JSON value is null.
     ///
     /// \param jsonValue The JSON value to return if this one is null.
-    const JsonValue& or(const JsonValue& jsonValue) const;
+    const JsonValue& orDefault(const JsonValue& jsonValue) const;
 
     ///
     /// Returns whether the value is null.

@@ -161,7 +161,7 @@ JsonValueType JsonValue::type() const
     return _type;
 }
 
-const JsonValue& JsonValue::or(const JsonValue& jsonValue) const
+const JsonValue& JsonValue::orDefault(const JsonValue& jsonValue) const
 {
     if (isNull())
     {

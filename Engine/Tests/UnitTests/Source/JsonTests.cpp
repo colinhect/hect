@@ -149,16 +149,16 @@ TEST_CASE("Json_MemberNames")
     REQUIRE(std::find(memberNames.begin(), memberNames.end(), "someString") != memberNames.end());
 }
 
-TEST_CASE("Json_OrFromNull")
+TEST_CASE("Json_OrDefaultFromNull")
 {
     JsonValue value;
-    REQUIRE(value.or(true).asBool());
+    REQUIRE(value.orDefault(true).asBool());
 }
 
-TEST_CASE("Json_OrFromNotNull")
+TEST_CASE("Json_OrDefaultFromNotNull")
 {
     JsonValue value(true);
-    REQUIRE(value.or(false).asBool());
+    REQUIRE(value.orDefault(false).asBool());
 }
 
 TEST_CASE("Json_Iterate")
