@@ -74,7 +74,7 @@ void AssetCache::refresh(bool onlyModified)
     bool force = !onlyModified;
     for (auto& pair : _entries)
     {
-        entry = std::dynamic_pointer_cast<AssetEntry<T>>(pair.second);
+        AssetEntry<T>* entry = std::dynamic_pointer_cast<AssetEntry<T>>(pair.second);
         if (entry)
         {
             entry->refresh(force);
