@@ -69,7 +69,7 @@ public:
     virtual void seek(size_t position);
 
 private:
-    std::unique_ptr<ReadStream> _implementation;
+    std::shared_ptr<ReadStream> _implementation;
 };
 
 ///

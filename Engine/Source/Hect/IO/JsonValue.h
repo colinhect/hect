@@ -163,6 +163,12 @@ public:
     JsonValue(const std::string& value);
 
     ///
+    /// Constructs a JSON value copied from another.
+    ///
+    /// \param jsonValue The JSON value to copy.
+    JsonValue(const JsonValue& jsonValue);
+    
+    ///
     /// Constructs a JSON value moved from another.
     ///
     /// \param jsonValue The JSON value to move.

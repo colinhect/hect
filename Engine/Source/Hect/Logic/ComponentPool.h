@@ -35,6 +35,8 @@
 namespace hect
 {
 
+class Scene;
+
 class ComponentPoolBase
 {
     friend class Scene;

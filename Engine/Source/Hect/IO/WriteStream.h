@@ -57,7 +57,7 @@ public:
     virtual void seek(size_t position);
 
 private:
-    std::unique_ptr<WriteStream> _implementation;
+    std::shared_ptr<WriteStream> _implementation;
 };
 
 ///

@@ -34,6 +34,9 @@
 namespace hect
 {
 
+class Scene;
+class EntityPool;
+
 ///
 /// A dynamic object in a Scene.
 class Entity :

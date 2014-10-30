@@ -149,6 +149,12 @@ JsonValue::JsonValue(const std::string& value) :
 {
 }
 
+JsonValue::JsonValue(const JsonValue& jsonValue) :
+    _type(jsonValue._type),
+    _any(jsonValue._any)
+{
+}
+
 JsonValue::JsonValue(JsonValue&& jsonValue) :
     _type(jsonValue._type),
     _any(std::move(jsonValue._any))

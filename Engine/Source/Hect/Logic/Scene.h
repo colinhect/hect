@@ -146,4 +146,5 @@ private:
 #include "Entity.inl"
 #include "Component.inl"
 #include "ComponentPool.inl"
+#include "System.inl"
 #include "Scene.inl"

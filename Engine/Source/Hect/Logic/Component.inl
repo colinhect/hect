@@ -41,28 +41,28 @@ Component<T>::IteratorBase::IteratorBase(ComponentPool<T>& pool, ComponentId id)
 template <typename T>
 void Component<T>::IteratorBase::increment()
 {
-    ++_id;
+    ++this->_id;
 
-    size_t maxId = _pool->maxId();
-    while (_id < maxId)
+    size_t maxId = this->_pool->maxId();
+    while (this->_id < maxId)
     {
-        if (isValid())
+        if (this->isValid())
         {
-            const Entity& entity = _pool->entityForComponent(_id);
+            const Entity& entity = this->_pool->entityForComponent(this->_id);
             if (entity.isActivated())
             {
                 break;
             }
         }
 
-        ++_id;
+        ++this->_id;
     }
 }
 
 template <typename T>
 bool Component<T>::IteratorBase::isValid() const
 {
-    if (_pool->componentHasEntity(_id))
+    if (this->_pool->componentHasEntity(this->_id))
     {
         return true;
     }
@@ -72,7 +72,7 @@ bool Component<T>::IteratorBase::isValid() const
 template <typename T>
 void Component<T>::IteratorBase::ensureValid() const
 {
-    if (!isValid())
+    if (!this->isValid())
     {
         throw Error("Invalid component iterator");
     }
@@ -81,7 +81,7 @@ void Component<T>::IteratorBase::ensureValid() const
 template <typename T>
 bool Component<T>::IteratorBase::equals(const IteratorBase& other) const
 {
-    return _pool == other._pool && _id == other._id;
+    return this->_pool == other._pool && this->_id == other._id;
 }
 
 template <typename T>
@@ -99,40 +99,40 @@ Component<T>::Iterator::Iterator(ComponentPool<T>& pool, ComponentId id) :
 template <typename T>
 T& Component<T>::Iterator::operator*() const
 {
-    ensureValid();
-    return _pool->componentWithId(_id);
+    this->ensureValid();
+    return this->_pool->componentWithId(this->_id);
 }
 
 template <typename T>
 T* Component<T>::Iterator::operator->() const
 {
-    ensureValid();
-    return &_pool->componentWithId(_id);
+    this->ensureValid();
+    return &this->_pool->componentWithId(this->_id);
 }
 
 template <typename T>
 typename Component<T>::Iterator& Component<T>::Iterator::operator++()
 {
-    increment();
+    this->increment();
     return *this;
 }
 
 template <typename T>
 bool Component<T>::Iterator::operator==(const Iterator& other) const
 {
-    return equals(other);
+    return this->equals(other);
 }
 
 template <typename T>
 bool Component<T>::Iterator::operator!=(const Iterator& other) const
 {
-    return !equals(other);
+    return !this->equals(other);
 }
 
 template <typename T>
 Component<T>::Iterator::operator bool() const
 {
-    return isValid();
+    return this->isValid();
 }
 
 template <typename T>
@@ -150,40 +150,40 @@ Component<T>::ConstIterator::ConstIterator(const ComponentPool<T>& pool, Compone
 template <typename T>
 const T& Component<T>::ConstIterator::operator*() const
 {
-    ensureValid();
-    return _pool->componentWithId(_id);
+    this->ensureValid();
+    return this->_pool->componentWithId(this->_id);
 }
 
 template <typename T>
 const T* Component<T>::ConstIterator::operator->() const
 {
-    ensureValid();
-    return &_pool->componentWithId(_id);
+    this->ensureValid();
+    return &this->_pool->componentWithId(this->_id);
 }
 
 template <typename T>
 typename Component<T>::ConstIterator& Component<T>::ConstIterator::operator++()
 {
-    increment();
+    this->increment();
     return *this;
 }
 
 template <typename T>
 bool Component<T>::ConstIterator::operator==(const ConstIterator& other) const
 {
-    return equals(other);
+    return this->equals(other);
 }
 
 template <typename T>
 bool Component<T>::ConstIterator::operator!=(const ConstIterator& other) const
 {
-    return !equals(other);
+    return !this->equals(other);
 }
 
 template <typename T>
 Component<T>::ConstIterator::operator bool() const
 {
-    return isValid();
+    return this->isValid();
 }
 
 template <typename T>
@@ -212,35 +212,35 @@ Component<T>::Component(Component<T>&& component) :
 template <typename T>
 ComponentPool<T>& Component<T>::pool()
 {
-    ensureInPool();
-    return *_pool;
+    this->ensureInPool();
+    return *this->_pool;
 }
 
 template <typename T>
 const ComponentPool<T>& Component<T>::pool() const
 {
-    ensureInPool();
-    return *_pool;
+    this->ensureInPool();
+    return *this->_pool;
 }
 
 template <typename T>
 Entity& Component<T>::entity()
 {
-    ensureInPool();
-    return _pool->entityForComponent(_id);
+    this->ensureInPool();
+    return this->_pool->entityForComponent(this->_id);
 }
 
 template <typename T>
 const Entity& Component<T>::entity() const
 {
-    ensureInPool();
-    return _pool->entityForComponent(_id);
+    this->ensureInPool();
+    return this->_pool->entityForComponent(this->_id);
 }
 
 template <typename T>
 ComponentId Component<T>::id() const
 {
-    return _id;
+    return this->_id;
 }
 
 template <typename T>
@@ -254,8 +254,8 @@ Component<T>& Component<T>::operator=(const Component& component)
 {
     component;
 
-    _pool = nullptr;
-    _id = (ComponentId)-1;
+    this->_pool = nullptr;
+    this->_id = (ComponentId)-1;
 
     return *this;
 }
@@ -265,8 +265,8 @@ Component<T>& Component<T>::operator=(Component&& component)
 {
     component;
 
-    _pool = nullptr;
-    _id = (ComponentId)-1;
+    this->_pool = nullptr;
+    this->_id = (ComponentId)-1;
 
     return *this;
 }
@@ -274,27 +274,27 @@ Component<T>& Component<T>::operator=(Component&& component)
 template <typename T>
 void Component<T>::enterPool(ComponentPool<T>& pool, ComponentId id)
 {
-    _pool = &pool;
-    _id = id;
+    this->_pool = &pool;
+    this->_id = id;
 }
 
 template <typename T>
 void Component<T>::exitPool()
 {
-    _pool = nullptr;
-    _id = (ComponentId)-1;
+    this->_pool = nullptr;
+    this->_id = (ComponentId)-1;
 }
 
 template <typename T>
 bool Component<T>::inPool() const
 {
-    return _pool && _id != (ComponentId)-1;
+    return this->_pool && this->_id != (ComponentId)-1;
 }
 
 template <typename T>
 void Component<T>::ensureInPool() const
 {
-    if (!inPool())
+    if (!this->inPool())
     {
         throw Error("Component is not in a pool");
     }

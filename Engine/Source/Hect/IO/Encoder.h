@@ -25,6 +25,7 @@
 
 #include "Hect/IO/EncodeOperations.h"
 #include "Hect/IO/WriteStream.h"
+#include "Hect/Reflection/Enum.h"
 
 namespace hect
 {

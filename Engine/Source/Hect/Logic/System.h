@@ -34,6 +34,8 @@
 namespace hect
 {
 
+class Scene;
+
 ///
 /// A numeric identifier for a system type.
 typedef uint32_t SystemTypeId;
@@ -82,5 +84,3 @@ private:
 };
 
 }
-
-#include "System.inl"

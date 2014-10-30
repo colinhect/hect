@@ -35,7 +35,7 @@ ComponentPool<T>::ComponentPool(Scene& scene) :
 template <typename T>
 typename Component<T>::Iterator ComponentPool<T>::begin()
 {
-    Component<T>::Iterator iterator(*this, 0);
+    typename Component<T>::Iterator iterator(*this, 0);
 
     // Move to the first component with activated entity
     if (!iterator || !iterator->entity().isActivated())
@@ -48,7 +48,7 @@ typename Component<T>::Iterator ComponentPool<T>::begin()
 template <typename T>
 typename Component<T>::ConstIterator ComponentPool<T>::begin() const
 {
-    Component<T>::ConstIterator iterator(*this, 0);
+    typename Component<T>::ConstIterator iterator(*this, 0);
 
     // Move to the first component with activated entity
     if (!iterator || !iterator->entity().isActivated())
@@ -61,13 +61,13 @@ typename Component<T>::ConstIterator ComponentPool<T>::begin() const
 template <typename T>
 typename Component<T>::Iterator ComponentPool<T>::end()
 {
-    return Component<T>::Iterator(*this, std::max(maxId(), (ComponentId)1));
+    return typename Component<T>::Iterator(*this, std::max(maxId(), (ComponentId)1));
 }
 
 template <typename T>
 typename Component<T>::ConstIterator ComponentPool<T>::end() const
 {
-    return Component<T>::ConstIterator(*this, std::max(maxId(), (ComponentId)1));
+    return typename Component<T>::ConstIterator(*this, std::max(maxId(), (ComponentId)1));
 }
 
 template <typename T>
@@ -99,7 +99,7 @@ typename Component<T>::ConstIterator ComponentPool<T>::findFirst(typename Compon
 template <typename T>
 typename Component<T>::Iterator::Vector ComponentPool<T>::find(typename Component<T>::Predicate predicate)
 {
-    Component<T>::Iterator::Vector results;
+    typename Component<T>::Iterator::Vector results;
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
         if (predicate(*iterator))
@@ -113,7 +113,7 @@ typename Component<T>::Iterator::Vector ComponentPool<T>::find(typename Componen
 template <typename T>
 typename Component<T>::ConstIterator::Vector ComponentPool<T>::find(typename Component<T>::Predicate predicate) const
 {
-    Component<T>::ConstIterator::Vector results;
+    typename Component<T>::ConstIterator::Vector results;
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
         if (predicate(*iterator))
@@ -309,7 +309,7 @@ typename Component<T>::Iterator ComponentPool<T>::get(Entity& entity)
     ComponentId id;
     if (entityIdToComponentId(entityId, id))
     {
-        return Component<T>::Iterator(*this, id);
+        return typename Component<T>::Iterator(*this, id);
     }
     else
     {
@@ -325,7 +325,7 @@ typename Component<T>::ConstIterator ComponentPool<T>::get(const Entity& entity)
     ComponentId id;
     if (entityIdToComponentId(entityId, id))
     {
-        return Component<T>::ConstIterator(*this, id);
+        return typename Component<T>::ConstIterator(*this, id);
     }
     else
     {

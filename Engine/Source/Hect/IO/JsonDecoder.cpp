@@ -192,7 +192,7 @@ const JsonValue& JsonDecoder::decode()
         const JsonValue& result = top[_selectedMemberName];
         if (result.isNull())
         {
-            throw Error(format("No member value '%s'", _selectedMemberName));
+            throw Error(format("No member value '%s'", _selectedMemberName.c_str()));
         }
         _selectedMemberName = std::string();
         return result;
