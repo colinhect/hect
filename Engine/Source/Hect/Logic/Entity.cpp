@@ -412,6 +412,36 @@ void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
     }
 }
 
+Entity::Entity() :
+    _pool(nullptr),
+    _id((EntityId)-1),
+    _parentId((EntityId)-1),
+    _activated(false)
+{
+}
+
+Entity::Entity(const Entity& entity) :
+    _pool(entity._pool),
+    _id(entity._id),
+    _parentId(entity._parentId),
+    _childIds(entity._childIds),
+    _activated(entity._activated)
+{
+}
+
+Entity::Entity(Entity&& entity) :
+    _pool(entity._pool),
+    _id(entity._id),
+    _parentId(entity._parentId),
+    _childIds(std::move(entity._childIds)),
+    _activated(entity._activated)
+{
+    entity._pool = nullptr;
+    entity._id = (EntityId)-1;
+    entity._parentId = (EntityId)-1;
+    entity._activated = false;
+}
+
 Entity::Handle Entity::createHandle() const
 {
     if (!inPool())
@@ -727,27 +757,6 @@ Entity::ConstIterator::Vector Entity::findAncestors(Entity::Predicate predicate)
         iterator = iterator->parent();
     }
     return results;
-}
-
-Entity::Entity() :
-    _pool(nullptr),
-    _id((EntityId)-1),
-    _parentId((EntityId)-1),
-    _activated(false)
-{
-}
-
-Entity::Entity(Entity&& entity) :
-    _pool(entity._pool),
-    _id(entity._id),
-    _parentId(entity._parentId),
-    _childIds(std::move(entity._childIds)),
-    _activated(entity._activated)
-{
-    entity._pool = nullptr;
-    entity._id = (EntityId)-1;
-    entity._parentId = (EntityId)-1;
-    entity._activated = false;
 }
 
 void Entity::enterPool(EntityPool& pool, EntityId id)

@@ -44,7 +44,6 @@ class Entity :
 {
     friend class Scene;
     friend class EntityPool;
-    friend class std::allocator<Entity>;
 private:
     class IteratorBase
     {
@@ -426,6 +425,10 @@ public:
         std::shared_ptr<Context> _context;
     };
 
+    Entity();
+    Entity(const Entity& entity);
+    Entity(Entity&& entity);
+    
     ///
     /// Adds a new component of a specific type to the entity.
     ///
@@ -667,10 +670,6 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Entity& entity);
 
 private:
-    Entity();
-    Entity(const Entity& entity);
-    Entity(Entity&& entity);
-
     void enterPool(EntityPool& pool, EntityId id);
     void exitPool();
     bool inPool() const;

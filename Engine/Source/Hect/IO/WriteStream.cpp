@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "WriteStream.h"
 
+#include <cstring>
+
 using namespace hect;
 
 WriteStream::WriteStream()

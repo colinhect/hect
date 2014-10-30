@@ -24,6 +24,7 @@
 #include "MemoryWriteStream.h"
 
 #include <cassert>
+#include <cstring>
 
 #include "Hect/Core/Error.h"
 
