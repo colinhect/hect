@@ -666,6 +666,9 @@ public:
     /// \returns A vector of iterators to the matching entities.
     Entity::ConstIterator::Vector findAncestors(Predicate predicate) const;
 
+    Entity& operator=(const Entity& entity);
+    Entity& operator=(Entity&& entity);
+
     friend Encoder& operator<<(Encoder& encoder, const Entity& entity);
     friend Decoder& operator>>(Decoder& decoder, Entity& entity);
 

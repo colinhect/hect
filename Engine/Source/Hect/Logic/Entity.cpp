@@ -759,6 +759,26 @@ Entity::ConstIterator::Vector Entity::findAncestors(Entity::Predicate predicate)
     return results;
 }
 
+Entity& Entity::operator=(const Entity& entity)
+{
+    _pool = entity._pool;
+    _id = entity._id;
+    _parentId = entity._parentId;
+    _childIds = entity._childIds;
+    _activated = entity._activated;
+    return *this;
+}
+
+Entity& Entity::operator=(Entity&& entity)
+{
+    _pool = entity._pool;
+    _id = entity._id;
+    _parentId = entity._parentId;
+    _childIds = std::move(entity._childIds);
+    _activated = entity._activated;
+    return *this;
+}
+
 void Entity::enterPool(EntityPool& pool, EntityId id)
 {
     _pool = &pool;
