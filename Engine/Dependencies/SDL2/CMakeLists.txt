@@ -187,7 +187,7 @@ include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
 
 set(SDL_SUBSYSTEMS
     Atomic Audio Video Render Events Joystick Haptic Power Threads Timers
-    File CPUinfo Filesystem)
+    File Loadso CPUinfo Filesystem)
 foreach(_SUB ${SDL_SUBSYSTEMS})
   string(TOUPPER ${_SUB} _OPT)
   set(SDL_${_OPT} ON)
@@ -215,7 +215,7 @@ set(VIDEO_OPENGL ON)
 set(VIDEO_OPENGLES ON)
 set(PTHREADS ${UNIX_OR_MAC_SYS})
 set(PTHREADS_SEM OFF)
-set(SDL_DLOPEN ON)
+set(SDL_DLOPEN OFF)
 set(OSS OFF)
 set(ALSA OFF)
 set(ALSA_SHARED OFF)
@@ -282,7 +282,6 @@ set(HAVE_ASSERTIONS ${ASSERTIONS})
 
 # Compiler option evaluation
 if(USE_GCC OR USE_CLANG)
-  list(APPEND EXTRA_CFLAGS "-lz")
   if(DEPENDENCY_TRACKING)
     check_c_source_compiles("
         #if !defined(__GNUC__) || __GNUC__ < 3
@@ -1215,7 +1214,7 @@ if(SDL_STATIC)
   # TODO: Win32 platforms keep the same suffix .lib for import and static
   # libraries - do we need to consider this?
   set(_INSTALL_LIBS "SDL2-static" ${_INSTALL_LIBS})
-  target_link_libraries(SDL2-static ${EXTRA_LDFLAGS})
+  target_link_libraries(SDL2-static ${EXTRA_LDFLAGS} -lz -ldl -lpthread)
 endif()
 
 if(SDL_SHARED)

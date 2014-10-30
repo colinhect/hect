@@ -5,6 +5,10 @@ if(WIN32)
     add_definitions("/W0")
 endif()
 
+add_definitions(
+    -DPHYSFS_NO_CDROM_SUPPORT
+    )
+
 include_directories(
     "${PROJECT_SOURCE_DIR}"
     )
@@ -26,6 +30,12 @@ add_library(PhysFS STATIC
     "archivers/wad.c"
     "archivers/zip.c"
     "platform/windows.c"
+    "platform/unix.c"
+    "platform/posix.c"
+    "platform/pocketpc.c"
+    "platform/os2.c"
+    "platform/macosx.c"
+    "platform/beos.cpp"
     "zlib123/adler32.c"
     "zlib123/compress.c"
     "zlib123/crc32.c"
