@@ -1,4 +1,4 @@
-# Dependencies/Bullet
+project(Bullet CXX)
 
 # Disable all warnings
 if(WIN32)
@@ -11,7 +11,7 @@ add_definitions(
     )
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet"
+    "${PROJECT_SOURCE_DIR}"
     )
 
 add_library(Bullet STATIC

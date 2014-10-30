@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(Hect CXX)
 
+enable_language(C)
+
 set(HECT_MAJOR_VERSION 0)
 set(HECT_MINOR_VERSION 0)
 set(HECT_PATCH_VERSION 1)
@@ -16,6 +18,8 @@ endforeach()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine")
+
 # Add Hect dependencies
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/ENet")
@@ -25,8 +29,7 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/SDL2")
 
-# Add Hect components
-add_subdirectory("${PROJECT_SOURCE_DIR}/Engine")
+# Add Hect tests
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/UnitTests")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/SystemTests")
 

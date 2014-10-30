@@ -1,4 +1,4 @@
-# Dependencies/Glew
+project(Glew C)
 
 # Disable all warnings
 if(WIN32)
@@ -6,7 +6,7 @@ if(WIN32)
 endif()
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew"
+    "${PROJECT_SOURCE_DIR}"
     )
 
 add_library(Glew STATIC

@@ -1,4 +1,3 @@
-# Engine
 
 # Disable useless Visual Studio 2013 warnings
 if(WIN32)

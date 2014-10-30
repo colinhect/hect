@@ -1,4 +1,4 @@
-# Dependencies/PhysFS
+project(PhysFS C)
 
 # Disable all warnings
 if(WIN32)
@@ -6,7 +6,7 @@ if(WIN32)
 endif()
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS"
+    "${PROJECT_SOURCE_DIR}"
     )
 
 add_library(PhysFS STATIC

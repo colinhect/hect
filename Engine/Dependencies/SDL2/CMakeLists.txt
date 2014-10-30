@@ -187,7 +187,7 @@ include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
 
 set(SDL_SUBSYSTEMS
     Atomic Audio Video Render Events Joystick Haptic Power Threads Timers
-    File Loadso CPUinfo Filesystem)
+    File CPUinfo Filesystem)
 foreach(_SUB ${SDL_SUBSYSTEMS})
   string(TOUPPER ${_SUB} _OPT)
   set(SDL_${_OPT} ON)
@@ -282,6 +282,7 @@ set(HAVE_ASSERTIONS ${ASSERTIONS})
 
 # Compiler option evaluation
 if(USE_GCC OR USE_CLANG)
+  list(APPEND EXTRA_CFLAGS "-lz")
   if(DEPENDENCY_TRACKING)
     check_c_source_compiles("
         #if !defined(__GNUC__) || __GNUC__ < 3

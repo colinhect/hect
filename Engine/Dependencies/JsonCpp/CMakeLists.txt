@@ -1,4 +1,4 @@
-# Dependencies/JsonCpp
+project(JsonCpp CXX)
 
 # Disable all warnings
 if(WIN32)
@@ -6,7 +6,7 @@ if(WIN32)
 endif()
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/JsonCpp"
+    "${PROJECT_SOURCE_DIR}"
     )
 
 add_library(JsonCpp STATIC
