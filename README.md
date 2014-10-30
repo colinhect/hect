@@ -14,7 +14,7 @@ Build status: [![Build status](https://travis-ci.org/colinhect/hect.png)](https:
 * [Microsoft DirectX SDK](http://www.microsoft.com/en-us/download/details.aspx?id=6812)
 
 ### Linux
-* [GCC 4.9](https://gcc.gnu.org)
+* [GCC 4.8](https://gcc.gnu.org)
 * [Make](http://www.gnu.org/software/make)
 * OpenGL/GLU headers and libraries
 

@@ -36,12 +36,12 @@ Material::Material(const std::string& name) :
 
 Material::TechniqueSequence Material::techniques()
 {
-    return _techniques;
+    return TechniqueSequence(_techniques);
 }
 
 const Material::TechniqueSequence Material::techniques() const
 {
-    return _techniques;
+    return TechniqueSequence(_techniques);
 }
 
 void Material::addTechnique(const Technique& technique)

@@ -36,7 +36,7 @@
 #include <Windows.h>
 #include <shlwapi.h>
 #include <shlobj.h>
-#elif
+#else
 #include <unistd.h>
 #endif
 
@@ -226,9 +226,10 @@ Path FileSystem::workingDirectory()
     char path[2048];
     GetCurrentDirectory(2048, path);
     return convertPath(path);
-#elif
+#else
     char* rawPath = get_current_dir_name();
     Path path(rawPath);
+    path += "/";
     free(rawPath);
     return path;
 #endif

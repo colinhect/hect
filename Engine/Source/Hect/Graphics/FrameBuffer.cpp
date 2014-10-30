@@ -36,12 +36,12 @@ void FrameBuffer::bind(GraphicsContext& graphicsContext)
 
 FrameBuffer::TextureSequence FrameBuffer::targets()
 {
-    return _targets;
+    return TextureSequence(_targets);
 }
 
 const FrameBuffer::TextureSequence FrameBuffer::targets() const
 {
-    return _targets;
+    return TextureSequence(_targets);
 }
 
 void FrameBuffer::addTarget(const Texture& target)

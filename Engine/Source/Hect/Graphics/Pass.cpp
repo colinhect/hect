@@ -77,7 +77,7 @@ void Pass::setShader(const AssetHandle<Shader>& shader)
 
 const Pass::ShaderArgumentSequence Pass::shaderArguments() const
 {
-    return _shaderArguments;
+    return ShaderArgumentSequence(_shaderArguments);
 }
 
 void Pass::addShaderArgument(const ShaderArgument& shaderArgument)
@@ -87,7 +87,7 @@ void Pass::addShaderArgument(const ShaderArgument& shaderArgument)
 
 const Pass::TextureSequence Pass::textures() const
 {
-    return _textures;
+    return TextureSequence(_textures);
 }
 
 void Pass::addTexture(const AssetHandle<Texture>& texture)

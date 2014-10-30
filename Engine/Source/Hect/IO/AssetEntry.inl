@@ -95,7 +95,7 @@ void AssetEntry<T>::initiateLoad()
 template <typename T>
 void AssetEntry<T>::load()
 {
-    _asset = std::make_unique<T>();
+    _asset.reset(new T());
     _errorOccurred = false;
 
     // Load the asset and keep the error message

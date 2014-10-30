@@ -1,12 +1,11 @@
 language: cpp
 
-compiler:
- - clang
-
 before_install:
  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
  - sudo apt-get update -qq
- - sudo apt-get install -qq doxygen libasound2-dev freeglut3 freeglut3-dev libglu1-mesa libglu1-mesa-dev libgl1-mesa-glx libgl1-mesa-dev
+ - sudo apt-get install -qq g++-4.8 doxygen libasound2-dev freeglut3 freeglut3-dev libglu1-mesa libglu1-mesa-dev libgl1-mesa-glx libgl1-mesa-dev
+ - export CC=gcc-4.8
+ - export CXX=g++-4.8
 
 install:
   - python prebuild.py

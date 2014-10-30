@@ -48,12 +48,12 @@ void Shader::addModule(const ShaderModule& module)
 
 Shader::ModuleSequence Shader::modules()
 {
-    return _modules;
+    return ModuleSequence(_modules);
 }
 
 const Shader::ModuleSequence Shader::modules() const
 {
-    return _modules;
+    return ModuleSequence(_modules);
 }
 
 void Shader::addParameter(const ShaderParameter& parameter)
@@ -67,12 +67,12 @@ void Shader::addParameter(const ShaderParameter& parameter)
 
 Shader::ParameterSequence Shader::parameters()
 {
-    return _parameters;
+    return ParameterSequence(_parameters);
 }
 
 const Shader::ParameterSequence Shader::parameters() const
 {
-    return _parameters;
+    return ParameterSequence(_parameters);
 }
 
 const ShaderParameter& Shader::parameterWithName(const std::string& name) const

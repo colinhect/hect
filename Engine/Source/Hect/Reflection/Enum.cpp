@@ -64,7 +64,7 @@ void Enum::addValue(EnumValue::Type numericValue, const std::string& stringValue
 
 const Enum::ValueSequence Enum::values() const
 {
-    return _values;
+    return ValueSequence(_values);
 }
 
 Enum::Enum()

@@ -42,7 +42,7 @@ AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
     {
         stream.seek(0);
         _jsonValue.decodeFromJson(stream);
-        _implementation = std::make_unique<JsonDecoder>(_jsonValue, assetCache);
+        _implementation.reset(new JsonDecoder(_jsonValue, assetCache));
     }
     else
     {
@@ -51,8 +51,8 @@ AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
         _data.resize(length);
         stream.read(&_data[0], length);
 
-        _stream = std::make_unique<MemoryReadStream>(_data);
-        _implementation = std::make_unique<BinaryDecoder>(*_stream, assetCache);
+        _stream.reset(new MemoryReadStream(_data));
+        _implementation.reset(new BinaryDecoder(*_stream, assetCache));
     }
 
     assetCache.selectDirectory(path.parentDirectory());

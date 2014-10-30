@@ -76,7 +76,7 @@ const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemant
 
 const VertexLayout::AttributeSequence VertexLayout::attributes() const
 {
-    return _attributes;
+    return AttributeSequence(_attributes);
 }
 
 size_t VertexLayout::attributeCount() const
