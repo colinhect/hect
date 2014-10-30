@@ -452,6 +452,20 @@ const JsonValue& JsonValue::operator[](const std::string& name) const
     }
 }
 
+JsonValue& JsonValue::operator=(const JsonValue& jsonValue)
+{
+    _type = jsonValue._type;
+    _any = jsonValue._any;
+    return *this;
+}
+
+JsonValue& JsonValue::operator=(JsonValue&& jsonValue)
+{
+    _type = jsonValue._type;
+    _any = std::move(jsonValue._any);
+    return *this;
+}
+
 JsonValue::Array::const_iterator JsonValue::begin() const
 {
     if (isArray())

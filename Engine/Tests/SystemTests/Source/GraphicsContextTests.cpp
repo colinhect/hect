@@ -76,21 +76,24 @@ TEST_CASE("GraphicsContext_CopyUploadedObject")
     REQUIRE(!meshCopy.isUploaded());
 }
 
+// Visual Studio 2013 does not support default move constructors
+#ifndef _MSC_VER
+
 TEST_CASE("GraphicsContext_MoveUploadedObject")
 {
-    // Visual Studio 2013 does not support default move constructors
+    AssetCache& assetCache = engine->assetCache();
+    GraphicsContext& graphicsContext = engine->graphicsContext();
 
-    //AssetCache& assetCache = engine->assetCache();
-    //GraphicsContext& graphicsContext = engine->graphicsContext();
+    Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
+    graphicsContext.uploadMesh(mesh);
+    REQUIRE(mesh.isUploaded());
 
-    //Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
-    //graphicsContext.uploadMesh(mesh);
-    //REQUIRE(mesh.isUploaded());
+    Mesh meshMove(std::move(mesh));
+    REQUIRE(meshMove.isUploaded());
+    REQUIRE(!mesh.isUploaded());
 
-    //Mesh meshMove(std::move(mesh));
-    //REQUIRE(meshMove.isUploaded());
-    //REQUIRE(!mesh.isUploaded());
-
-    //graphicsContext.destroyMesh(meshMove);
-    //REQUIRE(!meshMove.isUploaded());
+    graphicsContext.destroyMesh(meshMove);
+    REQUIRE(!meshMove.isUploaded());
 }
+
+#endif

@@ -295,6 +295,18 @@ public:
     const JsonValue& operator[](const std::string& name) const;
 
     ///
+    /// Sets the JSON value as a copy of another.
+    ///
+    /// \param jsonValue The handle to copy.
+    JsonValue& operator=(const JsonValue& jsonValue);
+
+    ///
+    /// Sets the JSON value as being moved from another.
+    ///
+    /// \param jsonValue The handle to move.
+    JsonValue& operator=(JsonValue&& jsonValue);
+
+    ///
     /// Returns an iterator at the beginning of the elements.
     ///
     /// \note Only applies to data values that are arrays.
