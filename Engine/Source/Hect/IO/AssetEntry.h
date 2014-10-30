@@ -28,11 +28,6 @@
 #include "Hect/IO/Path.h"
 #include "Hect/Timing/TimeStamp.h"
 
-// Issue #75
-#ifdef HECT_WINDOWS_BUILD
-#pragma warning(disable : 4505)
-#endif
-
 namespace hect
 {
 
