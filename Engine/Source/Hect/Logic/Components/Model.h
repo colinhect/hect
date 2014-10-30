@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/ComponentRegistry.h"
+#include "Hect/Logic/Scene.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
 

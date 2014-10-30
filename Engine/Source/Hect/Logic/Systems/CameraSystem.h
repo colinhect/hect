@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/SystemRegistry.h"
+#include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Camera.h"
 
 namespace hect

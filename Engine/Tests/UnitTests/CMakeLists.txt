@@ -35,7 +35,6 @@ add_executable(HectUnitTests
     "Source/Vector4Tests.cpp"
     "Source/VertexAttributeTests.cpp"
     "Source/VertexLayoutTests.cpp"
-    "Source/WorldTests.cpp"
     )
     
 target_link_libraries(HectUnitTests Hect)

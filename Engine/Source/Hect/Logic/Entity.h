@@ -685,5 +685,3 @@ private:
 };
 
 }
-
-#include "Entity.inl"

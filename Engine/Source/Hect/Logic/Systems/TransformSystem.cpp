@@ -24,7 +24,6 @@
 #include "TransformSystem.h"
 
 #include "Hect/Logic/Components/Model.h"
-#include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Systems/PhysicsSystem.h"
 
 using namespace hect;

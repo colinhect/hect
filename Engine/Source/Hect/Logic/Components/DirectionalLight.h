@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/Math/Vector3.h"
-#include "Hect/Logic/ComponentRegistry.h"
+#include "Hect/Logic/Scene.h"
 
 namespace hect
 {

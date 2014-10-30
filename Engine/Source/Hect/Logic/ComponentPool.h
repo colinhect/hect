@@ -160,5 +160,3 @@ private:
 };
 
 }
-
-#include "ComponentPool.inl"

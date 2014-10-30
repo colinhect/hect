@@ -22,61 +22,61 @@ include_directories(
     )
     
 file(GLOB concurrency_files Source/Hect/Concurrency/*)
-source_group(Hect\\Concurrency FILES ${concurrency_files})
+source_group(Source\\Hect\\Concurrency FILES ${concurrency_files})
 
 file(GLOB core_files Source/Hect/Core/*)
-source_group(Hect\\Core FILES ${core_files})
+source_group(Source\\Hect\\Core FILES ${core_files})
 
 file(GLOB event_files Source/Hect/Event/*)
-source_group(Hect\\Event FILES ${event_files})
+source_group(Source\\Hect\\Event FILES ${event_files})
 
 file(GLOB graphics_files Source/Hect/Graphics/*)
-source_group(Hect\\Graphics FILES ${graphics_files})
+source_group(Source\\Hect\\Graphics FILES ${graphics_files})
 
 file(GLOB input_files Source/Hect/Input/*)
-source_group(Hect\\Input FILES ${input_files})
+source_group(Source\\Hect\\Input FILES ${input_files})
 
 file(GLOB io_files Source/Hect/IO/*)
-source_group(Hect\\IO FILES ${io_files})
+source_group(Source\\Hect\\IO FILES ${io_files})
 
 file(GLOB encoders_files Source/Hect/IO/Encoders/*)
-source_group(Hect\\IO\\Encoders FILES ${encoders_files})
+source_group(Source\\Hect\\IO\\Encoders FILES ${encoders_files})
 
 file(GLOB logic_files Source/Hect/Logic/*)
-source_group(Hect\\Logic FILES ${logic_files})
+source_group(Source\\Hect\\Logic FILES ${logic_files})
 
 file(GLOB components_files Source/Hect/Logic/Components/*)
-source_group(Hect\\Logic\\Components FILES ${components_files})
+source_group(Source\\Hect\\Logic\\Components FILES ${components_files})
 
 file(GLOB systems_files Source/Hect/Logic/Systems/*)
-source_group(Hect\\Logic\\Systems FILES ${systems_files})
+source_group(Source\\Hect\\Logic\\Systems FILES ${systems_files})
 
 file(GLOB math_files Source/Hect/Math/*)
-source_group(Hect\\Math FILES ${math_files})
+source_group(Source\\Hect\\Math FILES ${math_files})
 
 file(GLOB network_files Source/Hect/Network/*)
-source_group(Hect\\Network FILES ${network_files})
+source_group(Source\\Hect\\Network FILES ${network_files})
 
 file(GLOB noise_files Source/Hect/Noise/*)
-source_group(Hect\\Noise FILES ${noise_files})
+source_group(Source\\Hect\\Noise FILES ${noise_files})
 
 file(GLOB physics_files Source/Hect/Physics/*)
-source_group(Hect\\Physics FILES ${physics_files})
+source_group(Source\\Hect\\Physics FILES ${physics_files})
 
 file(GLOB platform_files Source/Hect/Platform/*)
-source_group(Hect\\Platform FILES ${platform_files})
+source_group(Source\\Hect\\Platform FILES ${platform_files})
 
 file(GLOB reflection_files Source/Hect/Reflection/*)
-source_group(Hect\\Reflection FILES ${reflection_files})
+source_group(Source\\Hect\\Reflection FILES ${reflection_files})
 
 file(GLOB runtime_files Source/Hect/Runtime/*)
-source_group(Hect\\Runtime FILES ${runtime_files})
+source_group(Source\\Hect\\Runtime FILES ${runtime_files})
 
 file(GLOB spacial_files Source/Hect/Spacial/*)
-source_group(Hect\\Spacial FILES ${spacial_files})
+source_group(Source\\Hect\\Spacial FILES ${spacial_files})
 
 file(GLOB timing_files Source/Hect/Timing/*)
-source_group(Hect\\Timing FILES ${timing_files})
+source_group(Source\\Hect\\Timing FILES ${timing_files})
     
 add_library(Hect STATIC
     "Source/Hect/Concurrency/Task.cpp"

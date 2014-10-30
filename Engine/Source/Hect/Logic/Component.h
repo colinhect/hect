@@ -261,5 +261,3 @@ private:
 };
 
 }
-
-#include "Component.inl"

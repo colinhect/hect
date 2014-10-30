@@ -24,7 +24,6 @@
 #include "InputSystem.h"
 
 #include "Hect/IO/JsonDecoder.h"
-#include "Hect/Logic/Scene.h"
 #include "Hect/Platform/Platform.h"
 #include "Hect/Runtime/Engine.h"
 

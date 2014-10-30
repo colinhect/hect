@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PhysicsSystem.h"
 
-#include "Hect/Logic/Scene.h"
 #include "Hect/Physics/Bullet.h"
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Logic/Components/Transform.h"

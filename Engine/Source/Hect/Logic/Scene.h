@@ -29,8 +29,10 @@
 
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/ComponentRegistry.h"
+#include "Hect/Logic/Entity.h"
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Logic/SystemRegistry.h"
@@ -141,4 +143,7 @@ private:
 
 }
 
+#include "Entity.inl"
+#include "Component.inl"
+#include "ComponentPool.inl"
 #include "Scene.inl"
