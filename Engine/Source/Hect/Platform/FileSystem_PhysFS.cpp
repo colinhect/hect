@@ -155,7 +155,7 @@ public:
         }
     }
 
-    PhysFSWriteStream::~PhysFSWriteStream()
+    ~PhysFSWriteStream()
     {
         if (_handle)
         {

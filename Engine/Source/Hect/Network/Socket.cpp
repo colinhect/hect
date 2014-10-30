@@ -23,12 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Socket.h"
 
+#include <algorithm>
+#include <cstring>
+#include <enet/enet.h>
+
 #include "Hect/Core/Error.h"
 
 using namespace hect;
-
-#include <algorithm>
-#include <enet/enet.h>
 
 int _enetInitializationCounter = 0;
 

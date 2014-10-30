@@ -13,7 +13,6 @@ output_dir = sys.argv[2]
 types_namespace = sys.argv[3]
 
 doxygen_config = {
-    "ALLOW_UNICODE_NAMES" : "NO",
     "DOXYFILE_ENCODING" : "UTF-8",
     "FILE_PATTERNS" : "*.h",
     "GENERATE_BUGLIST" : "NO",
@@ -111,6 +110,12 @@ if __name__ == "__main__":
     
     print("Hect Reflect - " + str(sys.argv[1:]))
     
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    if not os.path.exists(os.path.join(output_dir, "xml")):
+        os.makedirs(os.path.join(output_dir, "xml"))
+    
     header_file_name = os.path.join(output_dir, "RegisterTypes.h")  
     
     last_modified = 0
@@ -143,8 +148,8 @@ if __name__ == "__main__":
         if os.path.isfile(file_name):
             with open(file_name, "r") as in_file:
                 root = ET.fromstring(in_file.read())
-                types.extend(process_xml(root))
-    
+                types.extend(process_xml(root))    
+
     print("Generating Reflect code...")
     with open(header_file_name, "w") as f:
         f.write("#pragma once\n")

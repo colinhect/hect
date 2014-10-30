@@ -257,7 +257,7 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
         dispatchEvent(ComponentEventType_Add, entity);
     }
 
-    return Component<T>::Iterator(*this, id);
+    return typename Component<T>::Iterator(*this, id);
 }
 
 template <typename T>
@@ -292,7 +292,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
             dispatchEvent(ComponentEventType_Add, entity);
         }
 
-        return Component<T>::Iterator(*this, id);
+        return typename Component<T>::Iterator(*this, id);
     }
     else
     {
