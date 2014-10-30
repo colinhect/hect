@@ -31,9 +31,9 @@ TEST_CASE("FileSystem_CreateAndRemoveDirectories")
 {
     FileSystem::initialize();
 
-    Path workingDirectory = FileSystem::workingDirectory();
-    FileSystem::mountArchive(workingDirectory);
-    FileSystem::setWriteDirectory(workingDirectory);
+    Path baseDirectory = FileSystem::baseDirectory();
+    FileSystem::mountArchive(baseDirectory);
+    FileSystem::setWriteDirectory(baseDirectory);
 
     Path path("Directory");
 
@@ -50,9 +50,9 @@ TEST_CASE("FileSystem_OpenNonExistingFileForWrite")
 {
     FileSystem::initialize();
 
-    Path workingDirectory = FileSystem::workingDirectory();
-    FileSystem::mountArchive(workingDirectory);
-    FileSystem::setWriteDirectory(workingDirectory);
+    Path baseDirectory = FileSystem::baseDirectory();
+    FileSystem::mountArchive(baseDirectory);
+    FileSystem::setWriteDirectory(baseDirectory);
 
     Path path("File.txt");
 
@@ -71,9 +71,9 @@ TEST_CASE("FileSystem_OpenExistingFileForWrite")
 {
     FileSystem::initialize();
 
-    Path workingDirectory = FileSystem::workingDirectory();
-    FileSystem::mountArchive(workingDirectory);
-    FileSystem::setWriteDirectory(workingDirectory);
+    Path baseDirectory = FileSystem::baseDirectory();
+    FileSystem::mountArchive(baseDirectory);
+    FileSystem::setWriteDirectory(baseDirectory);
 
     Path path("File.txt");
 
@@ -96,9 +96,9 @@ TEST_CASE("FileSystem_OpenExistingFileForRead")
 {
     FileSystem::initialize();
 
-    Path workingDirectory = FileSystem::workingDirectory();
-    FileSystem::mountArchive(workingDirectory);
-    FileSystem::setWriteDirectory(workingDirectory);
+    Path baseDirectory = FileSystem::baseDirectory();
+    FileSystem::mountArchive(baseDirectory);
+    FileSystem::setWriteDirectory(baseDirectory);
 
     Path path("File.txt");
 
@@ -121,9 +121,9 @@ TEST_CASE("FileSystem_OpenNonExistingFileForRead")
 {
     FileSystem::initialize();
 
-    Path workingDirectory = FileSystem::workingDirectory();
-    FileSystem::mountArchive(workingDirectory);
-    FileSystem::setWriteDirectory(workingDirectory);
+    Path baseDirectory = FileSystem::baseDirectory();
+    FileSystem::mountArchive(baseDirectory);
+    FileSystem::setWriteDirectory(baseDirectory);
 
     Path path("DoesNotExist.txt");
 

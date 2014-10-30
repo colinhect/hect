@@ -51,9 +51,9 @@ void testWriteAndReadStream(std::function<void(WriteStream&)> write, std::functi
     {
         FileSystem::initialize();
 
-        Path workingDirectory = FileSystem::workingDirectory();
-        FileSystem::mountArchive(workingDirectory);
-        FileSystem::setWriteDirectory(workingDirectory);
+        Path baseDirectory = FileSystem::baseDirectory();
+        FileSystem::mountArchive(baseDirectory);
+        FileSystem::setWriteDirectory(baseDirectory);
 
         Path path("File");
 
