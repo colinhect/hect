@@ -310,6 +310,9 @@ add_library(Hect STATIC
     "Source/Hect/Timing/TimeSpan.h"
     "Source/Hect/Timing/TimeStamp.h"
     )
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Source/Hect/Generated)
+add_dependencies(Hect HectTypes)
     
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
@@ -321,12 +324,6 @@ set_target_properties(Hect PROPERTIES
     PROJECT_LABEL Hect
     LINKER_LANGUAGE CXX
     FOLDER "/Engine"
-    )
-
-# Generate reflection code
-add_custom_command(TARGET Hect
-    PRE_BUILD
-    COMMAND python ${PROJECT_SOURCE_DIR}/Engine/Tools/reflect.py ${PROJECT_SOURCE_DIR}/Engine/Source/Hect/ ${PROJECT_SOURCE_DIR}/Engine/Source/Hect/Generated/ hect
     )
 
 # Copy assets

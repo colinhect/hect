@@ -1,6 +1,6 @@
 Build/*
 Engine/Docs/*
-Engine/Source/Hect/Generated/*
+Engine/Source/Hect/Generated/*.h
 Projects/*
 
 *.pyc
