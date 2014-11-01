@@ -35,42 +35,14 @@ using namespace hect;
 void testWriteAndReadStream(std::function<void(WriteStream&)> write, std::function<void(ReadStream&)> read)
 {
     // Memory streams
+    std::vector<uint8_t> data;
     {
-        std::vector<uint8_t> data;
-        {
-            MemoryWriteStream stream(data);
-            write(stream);
-        }
-        {
-            MemoryReadStream stream(data);
-            read(stream);
-        }
+        MemoryWriteStream stream(data);
+        write(stream);
     }
-
-    // File streams
     {
-        FileSystem::initialize();
-
-        Path baseDirectory = FileSystem::baseDirectory();
-        FileSystem::mountArchive(baseDirectory);
-        FileSystem::setWriteDirectory(baseDirectory);
-
-        Path path("File");
-
-        REQUIRE(!FileSystem::exists(path));
-        {
-            WriteStream stream = FileSystem::openFileForWrite(path);
-            write(stream);
-        }
-        REQUIRE(FileSystem::exists(path));
-        {
-            ReadStream stream = FileSystem::openFileForRead(path);
-            read(stream);
-        }
-        FileSystem::remove(path);
-        REQUIRE(!FileSystem::exists(path));
-
-        FileSystem::deinitialize();
+        MemoryReadStream stream(data);
+        read(stream);
     }
 }
 

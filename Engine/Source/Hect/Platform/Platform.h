@@ -41,7 +41,7 @@ public:
     /// A sequence of joysticks.
     typedef Sequence<Joystick, JoystickContainer> JoystickSequence;
 
-    static void initialize();
+    static void initialize(int argc, char* const argv[]);
     static void deinitialize();
 
     static void showFatalError(const std::string& message);

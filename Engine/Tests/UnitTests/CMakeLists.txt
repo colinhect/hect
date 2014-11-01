@@ -17,7 +17,6 @@ add_executable(HectUnitTests
     "Source/AnyTests.cpp"
     "Source/EncodingTests.cpp"
     "Source/EventTests.cpp"
-    "Source/FileSystemTests.cpp"
     "Source/FormatTests.cpp"
     "Source/FrustumTests.cpp"
     "Source/JsonTests.cpp"

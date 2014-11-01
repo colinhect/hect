@@ -198,9 +198,9 @@ private:
     SDL_GLContext _context;
 };
 
-void Platform::initialize()
+void Platform::initialize(int argc, char* const argv[])
 {
-    FileSystem::initialize();
+    FileSystem::initialize(argc, argv);
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
     {

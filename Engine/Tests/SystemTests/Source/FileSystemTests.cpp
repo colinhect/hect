@@ -29,8 +29,6 @@ using namespace hect;
 
 TEST_CASE("FileSystem_CreateAndRemoveDirectories")
 {
-    FileSystem::initialize();
-
     Path baseDirectory = FileSystem::baseDirectory();
     FileSystem::mountArchive(baseDirectory);
     FileSystem::setWriteDirectory(baseDirectory);
@@ -42,14 +40,10 @@ TEST_CASE("FileSystem_CreateAndRemoveDirectories")
     REQUIRE(FileSystem::exists(path));
     FileSystem::remove(path);
     REQUIRE(!FileSystem::exists(path));
-
-    FileSystem::deinitialize();
 }
 
 TEST_CASE("FileSystem_OpenNonExistingFileForWrite")
 {
-    FileSystem::initialize();
-
     Path baseDirectory = FileSystem::baseDirectory();
     FileSystem::mountArchive(baseDirectory);
     FileSystem::setWriteDirectory(baseDirectory);
@@ -63,14 +57,10 @@ TEST_CASE("FileSystem_OpenNonExistingFileForWrite")
     REQUIRE(FileSystem::exists(path));
     FileSystem::remove(path);
     REQUIRE(!FileSystem::exists(path));
-
-    FileSystem::deinitialize();
 }
 
 TEST_CASE("FileSystem_OpenExistingFileForWrite")
 {
-    FileSystem::initialize();
-
     Path baseDirectory = FileSystem::baseDirectory();
     FileSystem::mountArchive(baseDirectory);
     FileSystem::setWriteDirectory(baseDirectory);
@@ -88,14 +78,10 @@ TEST_CASE("FileSystem_OpenExistingFileForWrite")
     REQUIRE(FileSystem::exists(path));
     FileSystem::remove(path);
     REQUIRE(!FileSystem::exists(path));
-
-    FileSystem::deinitialize();
 }
 
 TEST_CASE("FileSystem_OpenExistingFileForRead")
 {
-    FileSystem::initialize();
-
     Path baseDirectory = FileSystem::baseDirectory();
     FileSystem::mountArchive(baseDirectory);
     FileSystem::setWriteDirectory(baseDirectory);
@@ -113,14 +99,10 @@ TEST_CASE("FileSystem_OpenExistingFileForRead")
 
     FileSystem::remove(path);
     REQUIRE(!FileSystem::exists(path));
-
-    FileSystem::deinitialize();
 }
 
 TEST_CASE("FileSystem_OpenNonExistingFileForRead")
 {
-    FileSystem::initialize();
-
     Path baseDirectory = FileSystem::baseDirectory();
     FileSystem::mountArchive(baseDirectory);
     FileSystem::setWriteDirectory(baseDirectory);
@@ -139,6 +121,4 @@ TEST_CASE("FileSystem_OpenNonExistingFileForRead")
     }
 
     REQUIRE(errorOccurred);
-
-    FileSystem::deinitialize();
 }

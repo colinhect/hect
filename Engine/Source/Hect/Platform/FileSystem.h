@@ -38,7 +38,7 @@ namespace hect
 class FileSystem
 {
 public:
-    static void initialize();
+    static void initialize(int argc, char* const argv[]);
     static void deinitialize();
 
     ///

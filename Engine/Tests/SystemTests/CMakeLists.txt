@@ -14,6 +14,7 @@ source_group(Source FILES ${systemtests_files})
     
 add_executable(HectSystemTests
     "Source/EncodingTests.cpp"
+    "Source/FileSystemTests.cpp"
     "Source/GraphicsContextTests.cpp"
     "Source/Main.cpp"
     "Source/SceneTests.cpp"

@@ -199,9 +199,9 @@ private:
 
 }
 
-void FileSystem::initialize()
+void FileSystem::initialize(int argc, char* const argv[])
 {
-    if (!PHYSFS_init(nullptr))
+    if (!PHYSFS_init(argv[0]))
     {
         throw Error(format("Failed to initialize file system: %s", PHYSFS_getLastError()));
     }
@@ -229,7 +229,6 @@ Path FileSystem::workingDirectory()
 #else
     char* rawPath = get_current_dir_name();
     Path path(rawPath);
-    path += "/";
     free(rawPath);
     return path;
 #endif

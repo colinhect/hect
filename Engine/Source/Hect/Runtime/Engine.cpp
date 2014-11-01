@@ -47,7 +47,7 @@ Engine::Engine(int argc, char* const argv[])
     // Register all of the Hect types
     registerTypes();
 
-    Platform::initialize();
+    Platform::initialize(argc, argv);
 
     // Set the base directory as the write directory
     auto baseDirectory = FileSystem::baseDirectory();
