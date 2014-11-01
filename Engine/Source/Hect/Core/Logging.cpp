@@ -76,6 +76,29 @@ void log(LogLevel level, const std::string& message)
 
     // Reset the console text color
     SetConsoleTextAttribute(stdOutHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+#else
+ 
+    // Set the color text color
+    switch (level)
+    {
+    case LogLevel_Info:
+        std::cout << "I> ";
+        break;
+    case LogLevel_Debug:
+        std::cout << "D> ";
+        break;
+    case LogLevel_Warning:
+        std::cout << "W> ";
+        break;
+    case LogLevel_Error:
+        std::cout << "E> ";
+        break;
+    case LogLevel_Trace:
+        std::cout << "T> ";
+        break;
+    }
+
+    std::cout << message << std::endl;
 #endif
 }
 
