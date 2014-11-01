@@ -8,6 +8,7 @@ Build status: [![Build status](https://travis-ci.org/colinhect/hect.png)](https:
 ## Requirements
 * [CMake 2.8.x](http://www.cmake.org)
 * [Python 2.x or 3.x](https://www.python.org)
+* [Doxygen](https://www.doxygen.org)
 
 ### Windows
 * [Microsoft Visual Studio 2013 (Express or Professional)](http://www.visualstudio.com)
@@ -20,7 +21,6 @@ Build status: [![Build status](https://travis-ci.org/colinhect/hect.png)](https:
 
 ## Building
 
-### Platform Independent
 * Invoke `python build.py debug` or `python build.py release`
 * Resulting binaries and assets can be found in Build/Output
 

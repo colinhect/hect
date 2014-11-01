@@ -8,7 +8,8 @@ before_install:
  - export CXX=g++-4.8
 
 install:
-  - python prebuild.py
-  - cd Build
-  - make
-  - cd ..
+ - python build.py
+
+script:
+ - cd Build/Output
+ - ./HectUnitTests ~Stream* ~FileSystem*
