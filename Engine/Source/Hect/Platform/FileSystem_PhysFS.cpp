@@ -252,7 +252,7 @@ void FileSystem::setWriteDirectory(const Path& path)
 {
     if (!PHYSFS_setWriteDir(path.asString().c_str()))
     {
-        throw Error(format("Failed to set write directory: %s", PHYSFS_getLastError()));
+        throw Error(format("Failed to set write directory to '%s': %s", path.asString().c_str(), PHYSFS_getLastError()));
     }
 }
 

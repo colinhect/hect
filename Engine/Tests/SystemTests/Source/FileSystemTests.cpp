@@ -21,11 +21,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include <Hect/Core/Configuration.h>
 #include <Hect/Core/Error.h>
 #include <Hect/Platform/FileSystem.h>
 using namespace hect;
 
 #include <catch.hpp>
+
+// Issue #108
+#ifdef HECT_WINDOWS_BUILD
 
 TEST_CASE("FileSystem_CreateAndRemoveDirectories")
 {
@@ -122,3 +126,5 @@ TEST_CASE("FileSystem_OpenNonExistingFileForRead")
 
     REQUIRE(errorOccurred);
 }
+
+#endif

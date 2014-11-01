@@ -76,8 +76,8 @@ TEST_CASE("GraphicsContext_CopyUploadedObject")
     REQUIRE(!meshCopy.isUploaded());
 }
 
-// Visual Studio 2013 does not support default move constructors
-#ifndef _MSC_VER
+// Issue #109
+/*
 
 TEST_CASE("GraphicsContext_MoveUploadedObject")
 {
@@ -96,4 +96,4 @@ TEST_CASE("GraphicsContext_MoveUploadedObject")
     REQUIRE(!meshMove.isUploaded());
 }
 
-#endif
+*/

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Engine.h"
 
+#include "Hect/Core/Configuration.h"
 #include "Hect/Platform/Platform.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
@@ -49,9 +50,11 @@ Engine::Engine(int argc, char* const argv[])
 
     Platform::initialize(argc, argv);
 
+#ifdef HECT_WINDOWS_BUILD
     // Set the base directory as the write directory
     auto baseDirectory = FileSystem::baseDirectory();
     FileSystem::setWriteDirectory(baseDirectory);
+#endif
 
     // Load the configs specified on the command-line
     if (!arguments.configFilePath.empty())
