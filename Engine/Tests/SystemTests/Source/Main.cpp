@@ -5,7 +5,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
-#include <Hect/Platform/Platform.h>
+#include <Hect/Runtime/Platform.h>
 #include <Hect/Runtime/Engine.h>
 
 #ifdef HECT_WINDOWS_BUILD
@@ -29,7 +29,7 @@ int main(int argc, char* const argv[])
     }
     catch (hect::Error& error)
     {
-        hect::Platform::showFatalError(error.what());
+        HECT_ERROR(error.what());
     }
 
     return EXIT_SUCCESS;

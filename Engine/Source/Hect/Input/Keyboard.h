@@ -125,8 +125,8 @@ public:
 class Keyboard :
     public Dispatcher<KeyboardEvent>
 {
-    friend class Platform;
 public:
+    Keyboard();
 
     ///
     /// Returns whether the given key is down.
@@ -134,12 +134,10 @@ public:
     /// \param key The key to check if it is down.
     bool isKeyDown(Key key) const;
 
-private:
-    Keyboard();
-
     void enqueueEvent(const KeyboardEvent& event);
     void dispatchEvents();
 
+private:
     std::vector<KeyboardEvent> _events;
     std::vector<bool> _keyStates;
 };

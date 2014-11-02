@@ -112,8 +112,8 @@ public:
 class Mouse :
     public Dispatcher<MouseEvent>
 {
-    friend class Platform;
 public:
+    Mouse();
 
     ///
     /// Returns whether the given button is down.
@@ -135,12 +135,10 @@ public:
     /// Returns the mode.
     MouseMode mode() const;
 
-private:
-    Mouse();
-
     void enqueueEvent(const MouseEvent& event);
     void dispatchEvents();
 
+private:
     std::vector<MouseEvent> _events;
 
     MouseMode _mode;

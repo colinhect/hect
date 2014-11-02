@@ -46,6 +46,7 @@ class GraphicsContext :
     public Uncopyable
 {
 public:
+    virtual ~GraphicsContext() { }
 
     ///
     /// Contains the capabilities of the underlying hardware.
@@ -145,7 +146,7 @@ public:
     template <typename T>
     class Object
     {
-        friend class GraphicsContext;
+        friend class OpenGLGraphicsContext;
     public:
         virtual ~Object();
 
@@ -159,11 +160,10 @@ public:
         /// \throws Error If the object is not uploaded.
         GraphicsContext& graphicsContext();
 
-    private:
-
         template <typename U>
         U* dataAs() const;
 
+    private:
         void setAsUploaded(GraphicsContext& graphicsContext, Data<T>* data);
         void setAsDestroyed();
 
@@ -172,24 +172,18 @@ public:
     };
 
     ///
-    /// Constructs a graphics.
-    ///
-    /// \param window The window which has the context.
-    GraphicsContext(Window& window);
-
-    ///
     /// Begin a new frame.
-    void beginFrame();
+    virtual void beginFrame() = 0;
 
     ///
     /// End the current frame.
-    void endFrame();
+    virtual void endFrame() = 0;
 
     ///
     /// Binds a render state.
     ///
     /// \param state The render state to bind.
-    void bindState(const RenderState& state);
+    virtual void bindState(const RenderState& state) = 0;
 
     ///
     /// Selects a render target to begin rendering to.
@@ -198,56 +192,56 @@ public:
     /// bound target.
     ///
     /// \param renderTarget The render target to bind.
-    void bindTarget(RenderTarget& renderTarget);
+    virtual void bindTarget(RenderTarget& renderTarget) = 0;
 
     ///
     /// Selects a window as the active render target.
     ///
     /// \param window The window to bind.
-    void bindWindow(Window& window);
+    virtual void bindWindow(Window& window) = 0;
 
     ///
     /// Selects a frame buffer as the active render target.
     ///
     /// \param frameBuffer The frame buffer to bind.
-    void bindFrameBuffer(FrameBuffer& frameBuffer);
+    virtual void bindFrameBuffer(FrameBuffer& frameBuffer) = 0;
 
     ///
     /// Uploads a frame buffer.
     ///
     /// \param frameBuffer The frame buffer to upload.
-    void uploadFrameBuffer(FrameBuffer& frameBuffer);
+    virtual void uploadFrameBuffer(FrameBuffer& frameBuffer) = 0;
 
     ///
     /// Destroys a frame buffer.
     ///
     /// \param frameBuffer The frame buffer to destroy.
-    void destroyFrameBuffer(FrameBuffer& frameBuffer);
+    virtual void destroyFrameBuffer(FrameBuffer& frameBuffer) = 0;
 
     ///
     /// Binds a shader.
     ///
     /// \param shader The shader to bind.
-    void bindShader(Shader& shader);
+    virtual void bindShader(Shader& shader) = 0;
 
     ///
     /// Uploads a shader.
     ///
     /// \param shader The shader to upload.
-    void uploadShader(Shader& shader);
+    virtual void uploadShader(Shader& shader) = 0;
 
     ///
     /// Destroys a shader.
     ///
     /// \param shader The shader to destroy.
-    void destroyShader(Shader& shader);
+    virtual void destroyShader(Shader& shader) = 0;
 
     ///
     /// Binds a value to a shader parameter.
     ///
     /// \param parameter The parameter.
     /// \param value The new value.
-    void bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value);
+    virtual void bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value) = 0;
 
     ///
     /// Binds a texture.
@@ -257,19 +251,19 @@ public:
     ///
     /// \throws Error If the binding index lies outside of the hardware
     /// capabilities.
-    void bindTexture(Texture& texture, unsigned index);
+    virtual void bindTexture(Texture& texture, unsigned index) = 0;
 
     ///
     /// Uploads a texture.
     ///
     /// \param texture The texture to upload.
-    void uploadTexture(Texture& texture);
+    virtual void uploadTexture(Texture& texture) = 0;
 
     ///
     /// Destroys a texture.
     ///
     /// \param texture The texture to destroy.
-    void destroyTexture(Texture& texture);
+    virtual void destroyTexture(Texture& texture) = 0;
 
     ///
     /// Downloads the 2-dimensional image of the given uploaded texture.
@@ -279,47 +273,37 @@ public:
     /// \returns The downloaded image.
     ///
     /// \throws Error If the texture is not uploaded.
-    Image downloadTextureImage(const Texture& texture);
+    virtual Image downloadTextureImage(const Texture& texture) = 0;
 
     ///
     /// Binds a mesh.
     ///
     /// \param mesh The mesh to bind.
-    void bindMesh(Mesh& mesh);
+    virtual void bindMesh(Mesh& mesh) = 0;
 
     ///
     /// Uploads a mesh.
     ///
     /// \param mesh The mesh to upload.
-    void uploadMesh(Mesh& mesh);
+    virtual void uploadMesh(Mesh& mesh) = 0;
 
     ///
     /// Destroys a mesh.
     ///
     /// \param mesh The mesh to destroy.
-    void destroyMesh(Mesh& mesh);
+    virtual void destroyMesh(Mesh& mesh) = 0;
 
     ///
     /// Draws to the render target in the current state.
-    void draw();
+    virtual void draw() = 0;
 
     ///
     /// Clears the render target.
-    void clear();
+    virtual void clear() = 0;
 
     ///
     /// Returns the capabilities of the underlying hardware.
-    const Capabilities& capabilities() const;
-
-private:
-    void initialize();
-
-    Capabilities _capabilities;
-
-    RenderTarget* _boundTarget { nullptr };
-    Shader* _boundShader { nullptr };
-    Mesh* _boundMesh { nullptr };
-    std::vector<Texture*> _boundTextures;
+    virtual const Capabilities& capabilities() const = 0;
 };
 
 }

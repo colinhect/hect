@@ -35,7 +35,7 @@ AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
 {
     Path resolvedPath = assetCache.resolvePath(path);
 
-    ReadStream stream = FileSystem::openFileForRead(resolvedPath);
+    ReadStream stream = assetCache.fileSystem().openFileForRead(resolvedPath);
     uint8_t firstCharacter;
     stream >> firstCharacter;
     if (firstCharacter == '{')

@@ -23,64 +23,39 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <vector>
-
-#include "Hect/Input/InputAxisBinding.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
-#include "Hect/Runtime/Platform.h"
+#include "Hect/Core/Sequence.h"
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/Graphics/Window.h"
+#include "Hect/Input/Joystick.h"
+#include "Hect/Input/Keyboard.h"
+#include "Hect/Input/Mouse.h"
 
 namespace hect
 {
 
-///
-/// An axis manipulated by bindings to input devices.
-class InputAxis
+class Platform :
+    public Uncopyable
 {
 public:
+    typedef std::vector<Joystick> JoystickContainer;
 
     ///
-    /// Constructs an input axis.
-    InputAxis();
+    /// A sequence of joysticks.
+    typedef Sequence<Joystick, JoystickContainer> JoystickSequence;
 
-    ///
-    /// Constructs an input axis.
-    ///
-    /// \param name The name of the axis (must be unique).
-    InputAxis(const std::string& name);
+    virtual ~Platform() { }
 
-    ///
-    /// Returns the name.
-    const std::string& name() const;
+    virtual Window::Pointer createWindow(const std::string& title, const VideoMode& videoMode) = 0;
 
-    ///
-    /// Sets the name.
-    ///
-    /// \param name The new name.
-    void setName(const std::string& name);
+    virtual bool handleEvents() = 0;
 
-    ///
-    /// Adds a binding to affect the input axis.
-    ///
-    /// \param binding The binding to add.
-    void addBinding(const InputAxisBinding& binding);
+    virtual bool hasMouse() = 0;
+    virtual Mouse& mouse() = 0;
 
-    ///
-    /// Updates the input axis based on the current state of its bindings.
-    void update(Platform& platform, Real timeStepInSeconds);
+    virtual bool hasKeyboard() = 0;
+    virtual Keyboard& keyboard() = 0;
 
-    ///
-    /// Returns the current value of the axis.
-    Real value() const;
-
-    friend Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis);
-    friend Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis);
-
-private:
-    std::string _name;
-
-    std::vector<InputAxisBinding> _bindings;
-    Real _value { 0 };
+    virtual JoystickSequence joysticks() = 0;
 };
 
 }

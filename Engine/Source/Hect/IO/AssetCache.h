@@ -29,8 +29,8 @@
 #include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/AssetHandle.h"
+#include "Hect/IO/FileSystem.h"
 #include "Hect/IO/Path.h"
-#include "Hect/Platform/FileSystem.h"
 
 namespace hect
 {
@@ -45,11 +45,14 @@ public:
     ///
     /// Constructs an asset cache.
     ///
+    /// \param fileSystem The file system.
     /// \param concurrent Whether assets should be loaded in concurrent
     /// threads.
-    AssetCache(bool concurrent);
+    AssetCache(FileSystem& fileSystem, bool concurrent);
 
     ~AssetCache();
+
+    FileSystem& fileSystem();
 
     ///
     /// Returns a reference to the asset at the given path.
@@ -116,6 +119,7 @@ public:
     void restoreDirectory();
 
 private:
+    FileSystem* _fileSystem;
     TaskPool _taskPool;
 
     std::recursive_mutex _mutex;

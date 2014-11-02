@@ -58,9 +58,6 @@ source_group(Source\\Hect\\Noise FILES ${noise_files})
 file(GLOB physics_files Source/Hect/Physics/*)
 source_group(Source\\Hect\\Physics FILES ${physics_files})
 
-file(GLOB platform_files Source/Hect/Platform/*)
-source_group(Source\\Hect\\Platform FILES ${platform_files})
-
 file(GLOB reflection_files Source/Hect/Reflection/*)
 source_group(Source\\Hect\\Reflection FILES ${reflection_files})
 
@@ -98,7 +95,6 @@ add_library(Hect STATIC
     "Source/Hect/Event/Listener.h"
     "Source/Hect/Graphics/FrameBuffer.cpp"
     "Source/Hect/Graphics/FrameBuffer.h"
-    "Source/Hect/Graphics/GraphicsContext.cpp"
     "Source/Hect/Graphics/GraphicsContext.h"
     "Source/Hect/Graphics/GraphicsContext.inl"
     "Source/Hect/Graphics/Image.cpp"
@@ -111,6 +107,8 @@ add_library(Hect STATIC
     "Source/Hect/Graphics/MeshReader.h"
     "Source/Hect/Graphics/MeshWriter.cpp"
     "Source/Hect/Graphics/MeshWriter.h"
+    "Source/Hect/Graphics/OpenGLGraphicsContext.cpp"
+    "Source/Hect/Graphics/OpenGLGraphicsContext.h"
     "Source/Hect/Graphics/Pass.cpp"
     "Source/Hect/Graphics/Pass.h"
     "Source/Hect/Graphics/Renderer.cpp"
@@ -175,6 +173,8 @@ add_library(Hect STATIC
     "Source/Hect/IO/Encoder.cpp"
     "Source/Hect/IO/Encoder.h"
     "Source/Hect/IO/Encoder.inl"
+    "Source/Hect/IO/FileSystem.cpp"
+    "Source/Hect/IO/FileSystem"
     "Source/Hect/IO/JsonDecoder.cpp"
     "Source/Hect/IO/JsonDecoder.h"
     "Source/Hect/IO/JsonEncoder.cpp"
@@ -278,10 +278,6 @@ add_library(Hect STATIC
     "Source/Hect/Noise/Random.h"
     "Source/Hect/Physics/Bullet.cpp"
     "Source/Hect/Physics/Bullet.h"
-    "Source/Hect/Platform/FileSystem.h"
-    "Source/Hect/Platform/FileSystem_PhysFS.cpp"
-    "Source/Hect/Platform/Platform.h"
-    "Source/Hect/Platform/Platform_SDL.cpp"
     "Source/Hect/Reflection/Enum.cpp"
     "Source/Hect/Reflection/Enum.h"
     "Source/Hect/Reflection/Enum.inl"
@@ -290,6 +286,9 @@ add_library(Hect STATIC
     "Source/Hect/Reflection/Type.inl"
     "Source/Hect/Runtime/Engine.cpp"
     "Source/Hect/Runtime/Engine.h"
+    "Source/Hect/Runtime/SdlPlatform.cpp"
+    "Source/Hect/Runtime/Platform.h"
+    "Source/Hect/Runtime/SdlPlatform.h"
     "Source/Hect/Spacial/AxisAlignedBox.cpp"
     "Source/Hect/Spacial/AxisAlignedBox.h"
     "Source/Hect/Spacial/Box.cpp"

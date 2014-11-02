@@ -160,8 +160,8 @@ public:
 class Joystick :
     public Dispatcher<JoystickEvent>
 {
-    friend class Platform;
 public:
+    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
 
     ///
     /// Returns whether the given button is down.
@@ -179,12 +179,10 @@ public:
     /// \throws Error If the joystick does not have the given axis.
     Real axisValue(JoystickAxis axis) const;
 
-private:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
-
     void enqueueEvent(const JoystickEvent& event);
     void dispatchEvents();
 
+private:
     std::vector<JoystickEvent> _events;
 
     std::string _name;

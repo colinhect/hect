@@ -199,7 +199,7 @@ private:
 
 }
 
-void FileSystem::initialize(int argc, char* const argv[])
+FileSystem::FileSystem(int argc, char* const argv[])
 {
     if (!PHYSFS_init(argv[0]))
     {
@@ -207,7 +207,7 @@ void FileSystem::initialize(int argc, char* const argv[])
     }
 }
 
-void FileSystem::deinitialize()
+FileSystem::~FileSystem()
 {
     if (!PHYSFS_deinit())
     {

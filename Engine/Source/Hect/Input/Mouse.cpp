@@ -27,6 +27,12 @@
 
 using namespace hect;
 
+Mouse::Mouse() :
+_mode(MouseMode_Cursor),
+_buttonStates(16, false)
+{
+}
+
 bool Mouse::isButtonDown(MouseButton button) const
 {
     assert(button >= _buttonStates.size());
@@ -46,12 +52,6 @@ void Mouse::setMode(MouseMode mode)
 MouseMode Mouse::mode() const
 {
     return _mode;
-}
-
-Mouse::Mouse() :
-    _mode(MouseMode_Cursor),
-    _buttonStates(16, false)
-{
 }
 
 void Mouse::enqueueEvent(const MouseEvent& event)

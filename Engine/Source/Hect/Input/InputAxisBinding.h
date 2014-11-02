@@ -29,6 +29,7 @@
 #include "Hect/Input/Mouse.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
+#include "Hect/Runtime/Platform.h"
 
 namespace hect
 {
@@ -75,9 +76,10 @@ public:
     ///
     /// Updates the value.
     ///
+    /// \param platform The platform.
     /// \param timeStepInSeconds The duration of time elapsed in seconds since
     /// the last update.
-    void update(Real timeStepInSeconds);
+    void update(Platform& platform, Real timeStepInSeconds);
 
     ///
     /// Returns the value.

@@ -24,7 +24,7 @@
 #include "Engine.h"
 
 #include "Hect/Core/Configuration.h"
-#include "Hect/Platform/Platform.h"
+#include "Hect/Runtime/Platform.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
 #include "Hect/IO/JsonDecoder.h"
@@ -32,6 +32,14 @@
 #include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/GameMode.h"
 #include "Hect/Logic/GameModeRegistry.h"
+
+#ifdef HECT_PLATFORM_SDL
+#include "Hect/Runtime/SdlPlatform.h"
+#endif
+
+#ifdef HECT_RENDERER_OPENGL
+#include "Hect/Graphics/OpenGLGraphicsContext.h"
+#endif
 
 #include "Hect/Generated/RegisterTypes.h"
 
@@ -48,12 +56,18 @@ Engine::Engine(int argc, char* const argv[])
     // Register all of the Hect types
     registerTypes();
 
-    Platform::initialize(argc, argv);
+    _fileSystem.reset(new FileSystem(argc, argv));
+
+#ifdef HECT_PLATFORM_SDL
+    _platform.reset(new SdlPlatform(argc, argv));
+#else
+    _platform.reset(new DummyPlatform(argc, argv));
+#endif
 
 #ifdef HECT_WINDOWS_BUILD
     // Set the base directory as the write directory
-    auto baseDirectory = FileSystem::baseDirectory();
-    FileSystem::setWriteDirectory(baseDirectory);
+    auto baseDirectory = _fileSystem->baseDirectory();
+    _fileSystem->setWriteDirectory(baseDirectory);
 #endif
 
     // Load the configs specified on the command-line
@@ -67,12 +81,12 @@ Engine::Engine(int argc, char* const argv[])
     {
         if (!archive["path"].isNull())
         {
-            FileSystem::mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
+            _fileSystem->mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
         }
     }
 
     bool concurrent = _config["assetCache"]["concurrent"].orDefault(false).asBool();
-    _assetCache.reset(new AssetCache(concurrent));
+    _assetCache.reset(new AssetCache(*_fileSystem, concurrent));
 
     const JsonValue& videoModeValue = _config["videoMode"];
     if (!videoModeValue.isNull())
@@ -90,20 +104,16 @@ Engine::Engine(int argc, char* const argv[])
         }
 
         // Create window and graphics context
-        _window = Platform::createWindow("Hect", videoMode);
-        _graphicsContext.reset(new GraphicsContext(*_window));
+        _window = _platform->createWindow("Hect", videoMode);
+
+#ifdef HECT_RENDERER_OPENGL
+        _graphicsContext.reset(new OpenGLGraphicsContext(*_window));
+#else
+        _graphicsContext.reset(new DummyGraphicsContext(*_window));
+#endif
+
         _renderer.reset(new Renderer(*_graphicsContext, *_assetCache));
     }
-}
-
-Engine::~Engine()
-{
-    _renderer.reset();
-    _assetCache.reset();
-    _graphicsContext.reset();
-    _window.reset();
-
-    Platform::deinitialize();
 }
 
 int Engine::main()
@@ -122,7 +132,7 @@ int Engine::main()
     TimeSpan accumulator;
     TimeSpan delta;
 
-    while (Platform::handleEvents())
+    while (_platform->handleEvents())
     {
         TimeSpan deltaTime = timer.elapsed();
         timer.reset();
@@ -143,6 +153,24 @@ int Engine::main()
     }
 
     return 0;
+}
+
+FileSystem& Engine::fileSystem()
+{
+    if (!_fileSystem)
+    {
+        throw Error("No available file system");
+    }
+    return *_fileSystem;
+}
+
+Platform& Engine::platform()
+{
+    if (!_platform)
+    {
+        throw Error("No available platform");
+    }
+    return *_platform;
 }
 
 GraphicsContext& Engine::graphicsContext()

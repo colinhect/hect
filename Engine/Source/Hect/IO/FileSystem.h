@@ -38,30 +38,30 @@ namespace hect
 class FileSystem
 {
 public:
-    static void initialize(int argc, char* const argv[]);
-    static void deinitialize();
+    FileSystem(int argc, char* const argv[]);
+    ~FileSystem();
 
     ///
     /// Returns the full path to the base directory of the executable.
-    static Path baseDirectory();
+    Path baseDirectory();
 
     ///
     /// Returns the full path to the working directory of the executable.
-    static Path workingDirectory();
+    Path workingDirectory();
 
     ///
     /// Returns the full path to the user's home directory.
-    static Path userDirectory();
+    Path userDirectory();
 
     ///
     /// Returns the full path to the application data directory.
-    static Path applicationDataDirectory();
+    Path applicationDataDirectory();
 
     ///
     /// Sets the directory where write access is allowed and directed to.
     ///
     /// \param path The path to the directory to direct write access.
-    static void setWriteDirectory(const Path& path);
+    void setWriteDirectory(const Path& path);
 
     ///
     /// Mounts a directory or archive.
@@ -72,7 +72,7 @@ public:
     ///
     /// \param path Path to the directory or archive to mount.
     /// \param mountPoint The point to mount the path to.
-    static void mountArchive(const Path& path, const Path& mountPoint = Path());
+    void mountArchive(const Path& path, const Path& mountPoint = Path());
 
     ///
     /// Opens a file for reading.
@@ -80,7 +80,7 @@ public:
     /// \param path The path to the file to open for reading.
     ///
     /// \returns A stream for the opened file.
-    static ReadStream openFileForRead(const Path& path);
+    ReadStream openFileForRead(const Path& path);
 
     ///
     /// Opens a file for writing.
@@ -92,7 +92,7 @@ public:
     /// the write directory path.
     ///
     /// \returns A stream for the opened file.
-    static WriteStream openFileForWrite(const Path& path);
+    WriteStream openFileForWrite(const Path& path);
 
     ///
     /// Creates a directory.
@@ -105,14 +105,14 @@ public:
     ///
     /// \param path The path to the directory to create relative to the
     /// write directory path.
-    static void createDirectory(const Path& path);
+    void createDirectory(const Path& path);
 
     ///
     /// Returns the paths to all files in a given directory.
     ///
     /// \param path The path of the directory to return the paths of the files
     /// it contains.
-    static std::vector<Path> filesInDirectory(const Path& path);
+    std::vector<Path> filesInDirectory(const Path& path);
 
     ///
     /// Removes the file or directory at the given path.  If the path does
@@ -123,23 +123,20 @@ public:
     ///
     /// \param path The path to the file or directory to remove relative to
     /// the write directory path.
-    static void remove(const Path& path);
+    void remove(const Path& path);
 
     ///
     /// Returns whether there is a file or directory at the given path.
     ///
     /// \param path The path to check the existence of.
-    static bool exists(const Path& path);
+    bool exists(const Path& path);
 
     ///
     /// Returns the time the given file was last modified.
     ///
     /// \note If the last modified time cannot be determined then -1 is
     /// returned.
-    static TimeStamp lastModified(const Path& path);
-
-private:
-    FileSystem() { }
+    TimeStamp lastModified(const Path& path);
 };
 
 }

@@ -53,12 +53,12 @@ void InputAxis::addBinding(const InputAxisBinding& binding)
     _bindings.push_back(binding);
 }
 
-void InputAxis::update(Real timeStepInSeconds)
+void InputAxis::update(Platform& platform, Real timeStepInSeconds)
 {
     _value = 0;
     for (InputAxisBinding& binding : _bindings)
     {
-        binding.update(timeStepInSeconds);
+        binding.update(platform, timeStepInSeconds);
         _value += binding.value();
     }
     _value = clamp<Real>(_value, -1, 1);

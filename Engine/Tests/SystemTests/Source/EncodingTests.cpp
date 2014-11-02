@@ -93,14 +93,13 @@ void testEncoding(const Path& assetPath)
 template <typename T>
 void testEncodingForExtension(const std::string& extension)
 {
-    for (auto& filePath : FileSystem::filesInDirectory(""))
+    for (auto& filePath : engine->fileSystem().filesInDirectory(""))
     {
         if (filePath.extension() == extension)
         {
             testEncoding<T>(filePath);
         }
     }
-
 }
 
 TEST_CASE("MaterialEncoding")

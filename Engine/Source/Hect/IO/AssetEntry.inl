@@ -24,7 +24,7 @@
 #include "Hect/Core/Logging.h"
 #include "Hect/Core/Format.h"
 #include "Hect/IO/AssetDecoder.h"
-#include "Hect/Platform/FileSystem.h"
+#include "Hect/IO/FileSystem.h"
 #include "Hect/Timing/Timer.h"
 
 namespace hect
@@ -43,7 +43,7 @@ void AssetEntry<T>::refresh(bool force)
 {
     if (_asset)
     {
-        TimeStamp lastModified = FileSystem::lastModified(_path);
+        TimeStamp lastModified = _assetCache->fileSystem().lastModified(_path);
         if (force || lastModified > _lastModified)
         {
             T* asset = _asset.get();
@@ -111,7 +111,7 @@ void AssetEntry<T>::load()
         HECT_INFO(format("Loaded '%s' in %ims", _path.asString().c_str(), timer.elapsed().milliseconds()));
 
         // Remember when the file was last modified
-        _lastModified = FileSystem::lastModified(_path);
+        _lastModified = _assetCache->fileSystem().lastModified(_path);
     }
     catch (std::exception& error)
     {

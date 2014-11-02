@@ -31,6 +31,13 @@
 
 using namespace hect;
 
+Joystick::Joystick(const std::string& name, size_t buttonCount, size_t axisCount) :
+    _name(name),
+    _buttonStates(buttonCount, false),
+    _axisStates(axisCount, 0)
+{
+}
+
 bool Joystick::isButtonDown(JoystickButton button) const
 {
     if (button < _buttonStates.size())
@@ -52,13 +59,6 @@ Real Joystick::axisValue(JoystickAxis axis) const
     {
         throw Error(format("Joystick does not have axis '%s'", Enum::toString(axis).c_str()));
     }
-}
-
-Joystick::Joystick(const std::string& name, size_t buttonCount, size_t axisCount) :
-    _name(name),
-    _buttonStates(buttonCount, false),
-    _axisStates(axisCount, 0)
-{
 }
 
 void Joystick::enqueueEvent(const JoystickEvent& event)

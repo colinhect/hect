@@ -21,31 +21,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Platform.h"
+#include "SdlPlatform.h"
+
+#ifdef HECT_PLATFORM_SDL
 
 #include <algorithm>
-#include <SDL.h>
 
-#include "Hect/Core/Configuration.h"
-#include "Hect/Core/Error.h"
-#include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
-#include "Hect/Platform/FileSystem.h"
-
-#ifdef HECT_WINDOWS_BUILD
-#include <Windows.h>
-#endif
 
 using namespace hect;
 
 namespace
 {
-
-static std::unique_ptr<Mouse> _mouse;
-static std::unique_ptr<Keyboard> _keyboard;
-static std::vector<Joystick> _joysticks;
-static std::vector<SDL_Joystick*> _openJoysticks;
-static MouseMode _mouseMode = MouseMode_Cursor;
 
 Key convertKey(SDL_Keycode key)
 {
@@ -147,12 +134,12 @@ Key convertKey(SDL_Keycode key)
 
 }
 
-class SDLWindow :
+class SdlWindow :
     public Window
 {
 public:
 
-    SDLWindow(const std::string& title, const VideoMode& videoMode) :
+    SdlWindow(const std::string& title, const VideoMode& videoMode) :
         Window(title, videoMode),
         _window(nullptr),
         _context(nullptr)
@@ -175,7 +162,7 @@ public:
         _context = SDL_GL_CreateContext(_window);
     }
 
-    ~SDLWindow()
+    ~SdlWindow()
     {
         if (_context)
         {
@@ -198,10 +185,8 @@ private:
     SDL_GLContext _context;
 };
 
-void Platform::initialize(int argc, char* const argv[])
+SdlPlatform::SdlPlatform(int argc, char* const argv[])
 {
-    FileSystem::initialize(argc, argv);
-
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
     {
         throw Error(format("Failed to initialize SDL: %s", SDL_GetError()));
@@ -241,7 +226,7 @@ void Platform::initialize(int argc, char* const argv[])
     _keyboard.reset(new Keyboard());
 }
 
-void Platform::deinitialize()
+SdlPlatform::~SdlPlatform()
 {
     // Close all joysticks
     for (SDL_Joystick* joystick : _openJoysticks)
@@ -251,24 +236,14 @@ void Platform::deinitialize()
     _openJoysticks.clear();
 
     SDL_Quit();
-
-    FileSystem::deinitialize();
 }
 
-void Platform::showFatalError(const std::string& message)
+Window::Pointer SdlPlatform::createWindow(const std::string& title, const VideoMode& videoMode)
 {
-    HECT_ERROR(message);
-#ifdef HECT_WINDOWS_BUILD
-    MessageBoxA(NULL, message.c_str(), "Fatal Error", MB_OK | MB_ICONERROR | MB_TASKMODAL);
-#endif
+    return Window::Pointer(new SdlWindow(title, videoMode));
 }
 
-Window::Pointer Platform::createWindow(const std::string& title, const VideoMode& videoMode)
-{
-    return Window::Pointer(new SDLWindow(title, videoMode));
-}
-
-bool Platform::handleEvents()
+bool SdlPlatform::handleEvents()
 {
     // Update the mouse mode if needed
     MouseMode currentMouseMode = _mouse->mode();
@@ -305,7 +280,7 @@ bool Platform::handleEvents()
             event.key = convertKey(e.key.keysym.sym);
             _keyboard->enqueueEvent(event);
         }
-        break;
+            break;
         case SDL_MOUSEMOTION:
         {
             // Get relative cursor movement
@@ -325,7 +300,7 @@ bool Platform::handleEvents()
             event.cursorPosition = IntVector2(positionX, positionY);
             _mouse->enqueueEvent(event);
         }
-        break;
+            break;
         case SDL_JOYAXISMOTION:
         {
             // Enqueue the event
@@ -336,7 +311,7 @@ bool Platform::handleEvents()
             event.axisValue = std::max<Real>((Real)e.jaxis.value / (Real)32767, -1.0);
             _joysticks[event.joystickIndex].enqueueEvent(event);
         }
-        break;
+            break;
         case SDL_JOYBUTTONDOWN:
         case SDL_JOYBUTTONUP:
         {
@@ -347,7 +322,7 @@ bool Platform::handleEvents()
             event.button = (JoystickButton)e.jbutton.button;
             _joysticks[event.joystickIndex].enqueueEvent(event);
         }
-        break;
+            break;
         }
     }
 
@@ -362,27 +337,29 @@ bool Platform::handleEvents()
     return active;
 }
 
-bool Platform::hasMouse()
+bool SdlPlatform::hasMouse()
 {
     return true;
 }
 
-Mouse& Platform::mouse()
+Mouse& SdlPlatform::mouse()
 {
     return *_mouse;
 }
 
-bool Platform::hasKeyboard()
+bool SdlPlatform::hasKeyboard()
 {
     return true;
 }
 
-Keyboard& Platform::keyboard()
+Keyboard& SdlPlatform::keyboard()
 {
     return *_keyboard;
 }
 
-Platform::JoystickSequence Platform::joysticks()
+Platform::JoystickSequence SdlPlatform::joysticks()
 {
     return _joysticks;
 }
+
+#endif

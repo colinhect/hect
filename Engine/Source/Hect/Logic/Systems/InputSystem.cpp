@@ -24,7 +24,7 @@
 #include "InputSystem.h"
 
 #include "Hect/IO/JsonDecoder.h"
-#include "Hect/Platform/Platform.h"
+#include "Hect/Runtime/Platform.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -85,6 +85,6 @@ void InputSystem::tick(Real timeStep)
     for (auto& pair : _axes)
     {
         InputAxis& axis = pair.second;
-        axis.update(timeStep);
+        axis.update(scene().engine().platform(), timeStep);
     }
 }

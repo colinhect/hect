@@ -29,7 +29,9 @@
 #include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/Window.h"
+#include "Hect/IO/FileSystem.h"
 #include "Hect/IO/JsonValue.h"
+#include "Hect/Runtime/Platform.h"
 
 namespace hect
 {
@@ -39,10 +41,11 @@ class Engine :
 {
 public:
     Engine(int argc, char* const argv[]);
-    ~Engine();
 
     int main();
 
+    FileSystem& fileSystem();
+    Platform& platform();
     GraphicsContext& graphicsContext();
     Renderer& renderer();
     Window& window();
@@ -61,10 +64,12 @@ private:
 
     CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 
-    std::unique_ptr<GraphicsContext> _graphicsContext;
-    std::unique_ptr<Renderer> _renderer;
+    std::unique_ptr<FileSystem> _fileSystem;
+    std::unique_ptr<Platform> _platform;
     Window::Pointer _window;
+    std::unique_ptr<GraphicsContext> _graphicsContext;
     std::unique_ptr<AssetCache> _assetCache;
+    std::unique_ptr<Renderer> _renderer;
     JsonValue _config;
 };
 

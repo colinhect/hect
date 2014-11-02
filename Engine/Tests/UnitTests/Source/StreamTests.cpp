@@ -22,10 +22,10 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Error.h>
+#include <Hect/IO/FileSystem.h>
 #include <Hect/IO/MemoryReadStream.h>
 #include <Hect/IO/MemoryWriteStream.h>
 #include <Hect/Math/Constants.h>
-#include "Hect/Platform/FileSystem.h"
 using namespace hect;
 
 #include <functional>

@@ -24,17 +24,17 @@
 #include "InputAxisBinding.h"
 
 #include "Hect/Math/Utilities.h"
-#include "Hect/Platform/Platform.h"
+#include "Hect/Runtime/Platform.h"
 
 using namespace hect;
 
-void InputAxisBinding::update(Real timeStepInSeconds)
+void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
 {
     switch (type)
     {
     case InputAxisBindingType_Key:
     {
-        if (Platform::keyboard().isKeyDown(key))
+        if (platform.keyboard().isKeyDown(key))
         {
             _value += acceleration * timeStepInSeconds;
         }
@@ -46,7 +46,7 @@ void InputAxisBinding::update(Real timeStepInSeconds)
     break;
     case InputAxisBindingType_MouseButton:
     {
-        if (Platform::mouse().isButtonDown(mouseButton))
+        if (platform.mouse().isButtonDown(mouseButton))
         {
             _value += acceleration * timeStepInSeconds;
         }
@@ -58,7 +58,7 @@ void InputAxisBinding::update(Real timeStepInSeconds)
     break;
     case InputAxisBindingType_JoystickButton:
     {
-        auto joysticks = Platform::joysticks();
+        auto joysticks = platform.joysticks();
         if (joystickIndex < joysticks.size())
         {
             Joystick& joystick = joysticks[joystickIndex];
@@ -75,7 +75,7 @@ void InputAxisBinding::update(Real timeStepInSeconds)
     break;
     case InputAxisBindingType_JoystickAxis:
     {
-        auto joysticks = Platform::joysticks();
+        auto joysticks = platform.joysticks();
         if (joystickIndex < joysticks.size())
         {
             Joystick& joystick = joysticks[joystickIndex];

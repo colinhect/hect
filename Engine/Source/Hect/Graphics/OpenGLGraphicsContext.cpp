@@ -21,7 +21,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "GraphicsContext.h"
+#include "OpenGLGraphicsContext.h"
+
+#ifdef HECT_RENDERER_OPENGL
 
 #include <GL/glew.h>
 #include <algorithm>
@@ -270,7 +272,7 @@ GLenum _textureTypeLookUp[3] =
     GL_TEXTURE_CUBE_MAP
 };
 
-GraphicsContext::GraphicsContext(Window& window)
+OpenGLGraphicsContext::OpenGLGraphicsContext(Window& window)
 {
     // This is a parameter only to ensure the window is created before the
     // GPU context; I'm not sure if the GPU context has any use for it
@@ -312,11 +314,11 @@ GraphicsContext::GraphicsContext(Window& window)
     clear();
 }
 
-void GraphicsContext::beginFrame()
+void OpenGLGraphicsContext::beginFrame()
 {
 }
 
-void GraphicsContext::endFrame()
+void OpenGLGraphicsContext::endFrame()
 {
     // Clear the bound target
     if (_boundTarget)
@@ -350,7 +352,7 @@ void GraphicsContext::endFrame()
     }
 }
 
-void GraphicsContext::bindState(const RenderState& state)
+void OpenGLGraphicsContext::bindState(const RenderState& state)
 {
     if (state.isEnabled(RenderStateFlag_DepthTest))
     {
@@ -385,12 +387,12 @@ void GraphicsContext::bindState(const RenderState& state)
     }
 }
 
-void GraphicsContext::bindTarget(RenderTarget& renderTarget)
+void OpenGLGraphicsContext::bindTarget(RenderTarget& renderTarget)
 {
     renderTarget.bind(*this);
 }
 
-void GraphicsContext::bindWindow(Window& window)
+void OpenGLGraphicsContext::bindWindow(Window& window)
 {
     // Avoid binding an already bound target
     if (&window == _boundTarget)
@@ -403,7 +405,7 @@ void GraphicsContext::bindWindow(Window& window)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void GraphicsContext::bindFrameBuffer(FrameBuffer& frameBuffer)
+void OpenGLGraphicsContext::bindFrameBuffer(FrameBuffer& frameBuffer)
 {
     // Avoid binding an already bound target
     if (&frameBuffer == _boundTarget)
@@ -423,7 +425,7 @@ void GraphicsContext::bindFrameBuffer(FrameBuffer& frameBuffer)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
 }
 
-void GraphicsContext::uploadFrameBuffer(FrameBuffer& frameBuffer)
+void OpenGLGraphicsContext::uploadFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (frameBuffer.isUploaded())
     {
@@ -469,7 +471,7 @@ void GraphicsContext::uploadFrameBuffer(FrameBuffer& frameBuffer)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void GraphicsContext::destroyFrameBuffer(FrameBuffer& frameBuffer)
+void OpenGLGraphicsContext::destroyFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -484,7 +486,7 @@ void GraphicsContext::destroyFrameBuffer(FrameBuffer& frameBuffer)
     frameBuffer.setAsDestroyed();
 }
 
-void GraphicsContext::bindShader(Shader& shader)
+void OpenGLGraphicsContext::bindShader(Shader& shader)
 {
     // Avoid binding an already bound shader
     if (&shader == _boundShader && shader.isUploaded())
@@ -512,7 +514,7 @@ void GraphicsContext::bindShader(Shader& shader)
     }
 }
 
-void GraphicsContext::uploadShader(Shader& shader)
+void OpenGLGraphicsContext::uploadShader(Shader& shader)
 {
     if (shader.isUploaded())
     {
@@ -611,7 +613,7 @@ void GraphicsContext::uploadShader(Shader& shader)
     HECT_TRACE(format("Uploaded shader '%s'", shader.name().c_str()));
 }
 
-void GraphicsContext::destroyShader(Shader& shader)
+void OpenGLGraphicsContext::destroyShader(Shader& shader)
 {
     if (!shader.isUploaded())
     {
@@ -635,7 +637,7 @@ void GraphicsContext::destroyShader(Shader& shader)
     HECT_TRACE(format("Destroyed shader '%s'", shader.name().c_str()));
 }
 
-void GraphicsContext::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
+void OpenGLGraphicsContext::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
 {
     if (!_boundShader)
     {
@@ -672,7 +674,7 @@ void GraphicsContext::bindShaderParameter(const ShaderParameter& parameter, cons
     }
 }
 
-void GraphicsContext::bindTexture(Texture& texture, unsigned index)
+void OpenGLGraphicsContext::bindTexture(Texture& texture, unsigned index)
 {
     if (index >= _capabilities.maxTextureUnits)
     {
@@ -695,7 +697,7 @@ void GraphicsContext::bindTexture(Texture& texture, unsigned index)
     GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->textureId));
 }
 
-void GraphicsContext::uploadTexture(Texture& texture)
+void OpenGLGraphicsContext::uploadTexture(Texture& texture)
 {
     if (texture.isUploaded())
     {
@@ -709,21 +711,21 @@ void GraphicsContext::uploadTexture(Texture& texture)
     GL_ASSERT(glBindTexture(type, textureId));
     GL_ASSERT(
         glTexParameteri(
-            type,
-            GL_TEXTURE_MIN_FILTER,
-            texture.isMipmapped() ?
-            _textureMipmapFilterLookUp[(int)texture.minFilter()] :
-            _textureFilterLookUp[(int)texture.minFilter()]
+        type,
+        GL_TEXTURE_MIN_FILTER,
+        texture.isMipmapped() ?
+        _textureMipmapFilterLookUp[(int)texture.minFilter()] :
+        _textureFilterLookUp[(int)texture.minFilter()]
         )
-    );
+        );
 
     GL_ASSERT(
         glTexParameteri(
-            type,
-            GL_TEXTURE_MAG_FILTER,
-            _textureFilterLookUp[(int)texture.magFilter()]
+        type,
+        GL_TEXTURE_MAG_FILTER,
+        _textureFilterLookUp[(int)texture.magFilter()]
         )
-    );
+        );
 
     if (texture.isWrapped())
     {
@@ -749,17 +751,17 @@ void GraphicsContext::uploadTexture(Texture& texture)
 
         GL_ASSERT(
             glTexImage2D(
-                target,
-                0,
-                _internalImageFormatLookUp[(int)image.colorSpace()][(int)image.pixelFormat()][(int)image.pixelType()],
-                image.width(),
-                image.height(),
-                0,
-                _pixelFormatLookUp[(int)image.pixelFormat()],
-                _pixelTypeLookUp[(int)image.pixelType()],
-                image.hasPixelData() ? &image.pixelData()[0] : 0
+            target,
+            0,
+            _internalImageFormatLookUp[(int)image.colorSpace()][(int)image.pixelFormat()][(int)image.pixelType()],
+            image.width(),
+            image.height(),
+            0,
+            _pixelFormatLookUp[(int)image.pixelFormat()],
+            _pixelTypeLookUp[(int)image.pixelType()],
+            image.hasPixelData() ? &image.pixelData()[0] : 0
             )
-        );
+            );
 
         if (texture.type() == TextureType_CubeMap)
         {
@@ -779,7 +781,7 @@ void GraphicsContext::uploadTexture(Texture& texture)
     HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
 
-void GraphicsContext::destroyTexture(Texture& texture)
+void OpenGLGraphicsContext::destroyTexture(Texture& texture)
 {
     if (!texture.isUploaded())
     {
@@ -794,7 +796,7 @@ void GraphicsContext::destroyTexture(Texture& texture)
     HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
-Image GraphicsContext::downloadTextureImage(const Texture& texture)
+Image OpenGLGraphicsContext::downloadTextureImage(const Texture& texture)
 {
     if (!texture.isUploaded())
     {
@@ -815,13 +817,13 @@ Image GraphicsContext::downloadTextureImage(const Texture& texture)
 
     GL_ASSERT(
         glGetTexImage(
-            GL_TEXTURE_2D,
-            0,
-            _pixelFormatLookUp[(int)texture.pixelFormat()],
-            _pixelTypeLookUp[(int)texture.pixelType()],
-            &pixelData[0]
+        GL_TEXTURE_2D,
+        0,
+        _pixelFormatLookUp[(int)texture.pixelFormat()],
+        _pixelTypeLookUp[(int)texture.pixelType()],
+        &pixelData[0]
         )
-    );
+        );
 
     image.setPixelData(std::move(pixelData));
 
@@ -830,7 +832,7 @@ Image GraphicsContext::downloadTextureImage(const Texture& texture)
     return image;
 }
 
-void GraphicsContext::bindMesh(Mesh& mesh)
+void OpenGLGraphicsContext::bindMesh(Mesh& mesh)
 {
     if (&mesh == _boundMesh)
     {
@@ -847,7 +849,7 @@ void GraphicsContext::bindMesh(Mesh& mesh)
     GL_ASSERT(glBindVertexArray(data->vertexArrayId));
 }
 
-void GraphicsContext::uploadMesh(Mesh& mesh)
+void OpenGLGraphicsContext::uploadMesh(Mesh& mesh)
 {
     if (mesh.isUploaded())
     {
@@ -870,12 +872,12 @@ void GraphicsContext::uploadMesh(Mesh& mesh)
     GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId));
     GL_ASSERT(
         glBufferData(
-            GL_ARRAY_BUFFER,
-            mesh.vertexLayout().vertexSize() * mesh.vertexCount(),
-            &mesh.vertexData()[0],
-            GL_STATIC_DRAW
+        GL_ARRAY_BUFFER,
+        mesh.vertexLayout().vertexSize() * mesh.vertexCount(),
+        &mesh.vertexData()[0],
+        GL_STATIC_DRAW
         )
-    );
+        );
 
     // Describe the vertex layout
     GLuint attributeIndex = 0;
@@ -888,26 +890,26 @@ void GraphicsContext::uploadMesh(Mesh& mesh)
         {
             GL_ASSERT(
                 glVertexAttribPointer(
-                    attributeIndex,
-                    attribute.cardinality(),
-                    _vertexAttributeTypeLookUp[(int)attribute.type()],
-                    GL_FALSE,
-                    vertexLayout.vertexSize(),
-                    (GLfloat*)attribute.offset()
+                attributeIndex,
+                attribute.cardinality(),
+                _vertexAttributeTypeLookUp[(int)attribute.type()],
+                GL_FALSE,
+                vertexLayout.vertexSize(),
+                (GLfloat*)attribute.offset()
                 )
-            );
+                );
         }
         else
         {
             GL_ASSERT(
                 glVertexAttribIPointer(
-                    attributeIndex,
-                    attribute.cardinality(),
-                    _vertexAttributeTypeLookUp[(int)attribute.type()],
-                    vertexLayout.vertexSize(),
-                    (GLfloat*)attribute.offset()
+                attributeIndex,
+                attribute.cardinality(),
+                _vertexAttributeTypeLookUp[(int)attribute.type()],
+                vertexLayout.vertexSize(),
+                (GLfloat*)attribute.offset()
                 )
-            );
+                );
         }
 
         ++attributeIndex;
@@ -917,12 +919,12 @@ void GraphicsContext::uploadMesh(Mesh& mesh)
     GL_ASSERT(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId));
     GL_ASSERT(
         glBufferData(
-            GL_ELEMENT_ARRAY_BUFFER,
-            mesh.indexSize() * mesh.indexCount(),
-            &mesh.indexData()[0],
-            GL_STATIC_DRAW
+        GL_ELEMENT_ARRAY_BUFFER,
+        mesh.indexSize() * mesh.indexCount(),
+        &mesh.indexData()[0],
+        GL_STATIC_DRAW
         )
-    );
+        );
 
     GL_ASSERT(glBindVertexArray(0));
 
@@ -931,7 +933,7 @@ void GraphicsContext::uploadMesh(Mesh& mesh)
     HECT_TRACE(format("Uploaded mesh '%s'", mesh.name().c_str()));
 }
 
-void GraphicsContext::destroyMesh(Mesh& mesh)
+void OpenGLGraphicsContext::destroyMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
     {
@@ -951,7 +953,7 @@ void GraphicsContext::destroyMesh(Mesh& mesh)
     HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().c_str()));
 }
 
-void GraphicsContext::draw()
+void OpenGLGraphicsContext::draw()
 {
     if (!_boundMesh)
     {
@@ -960,20 +962,22 @@ void GraphicsContext::draw()
 
     GL_ASSERT(
         glDrawElements(
-            _primitiveTypeLookUp[(int)_boundMesh->primitiveType()],
-            (GLsizei)_boundMesh->indexCount(),
-            _indexTypeLookUp[(int)_boundMesh->indexType()],
-            0
+        _primitiveTypeLookUp[(int)_boundMesh->primitiveType()],
+        (GLsizei)_boundMesh->indexCount(),
+        _indexTypeLookUp[(int)_boundMesh->indexType()],
+        0
         )
-    );
+        );
 }
 
-void GraphicsContext::clear()
+void OpenGLGraphicsContext::clear()
 {
     GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
-const GraphicsContext::Capabilities& GraphicsContext::capabilities() const
+const OpenGLGraphicsContext::Capabilities& OpenGLGraphicsContext::capabilities() const
 {
     return _capabilities;
 }
+
+#endif

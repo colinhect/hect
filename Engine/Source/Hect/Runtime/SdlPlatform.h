@@ -23,43 +23,45 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Sequence.h"
-#include "Hect/Graphics/Window.h"
-#include "Hect/Input/Joystick.h"
-#include "Hect/Input/Keyboard.h"
-#include "Hect/Input/Mouse.h"
+#include "Hect/Core/Configuration.h"
+#include "Hect/Runtime/Platform.h"
+
+#ifdef HECT_PLATFORM_SDL
+
+#include <SDL.h>
 
 namespace hect
 {
 
-class Platform
+class SdlPlatform :
+    public Platform
 {
-    typedef std::vector<Joystick> JoystickContainer;
 public:
+    SdlPlatform(int argc, char* const argv[]);
+    ~SdlPlatform();
 
-    ///
-    /// A sequence of joysticks.
-    typedef Sequence<Joystick, JoystickContainer> JoystickSequence;
+    Window::Pointer createWindow(const std::string& title, const VideoMode& videoMode) override;
 
-    static void initialize(int argc, char* const argv[]);
-    static void deinitialize();
+    bool handleEvents() override;
 
-    static void showFatalError(const std::string& message);
+    bool hasMouse() override;
+    Mouse& mouse() override;
 
-    static Window::Pointer createWindow(const std::string& title, const VideoMode& videoMode);
+    bool hasKeyboard() override;
+    Keyboard& keyboard() override;
 
-    static bool handleEvents();
-
-    static bool hasMouse();
-    static Mouse& mouse();
-
-    static bool hasKeyboard();
-    static Keyboard& keyboard();
-
-    static JoystickSequence joysticks();
+    JoystickSequence joysticks() override;
 
 private:
-    Platform() { }
+    std::unique_ptr<Mouse> _mouse;
+    std::unique_ptr<Keyboard> _keyboard;
+    std::vector<Joystick> _joysticks;
+    std::vector<SDL_Joystick*> _openJoysticks;
+    MouseMode _mouseMode { MouseMode_Cursor };
 };
 
 }
+
+#undef main
+
+#endif

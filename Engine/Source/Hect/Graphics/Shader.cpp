@@ -153,7 +153,7 @@ Decoder& operator>>(Decoder& decoder, Shader& shader)
 
             path = decoder.assetCache().resolvePath(path);
 
-            ReadStream stream = FileSystem::openFileForRead(path);
+            ReadStream stream = decoder.assetCache().fileSystem().openFileForRead(path);
             std::string source = stream.readAllToString();
 
             shader.addModule(ShaderModule(type, path, source));
