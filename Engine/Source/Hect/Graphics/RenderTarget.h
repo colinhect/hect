@@ -26,7 +26,7 @@
 namespace hect
 {
 
-class GraphicsContext;
+class Renderer;
 
 ///
 /// A target that can be rendered to.
@@ -48,10 +48,10 @@ public:
     virtual ~RenderTarget() { }
 
     ///
-    /// Binds this target as the active target to the given graphics context.
+    /// Binds this target as the active target to the given renderer.
     ///
-    /// \param graphicsContext The graphics context to bind the target for.
-    virtual void bind(GraphicsContext& graphicsContext) = 0;
+    /// \param renderer The renderer to bind the target for.
+    virtual void bind(Renderer& renderer) = 0;
 
     ///
     /// Swaps the back buffer.

@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Sequence.h"
-#include "Hect/Graphics/GraphicsContext.h"
+#include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture.h"
 
@@ -35,7 +35,7 @@ namespace hect
 /// A multi-target buffer on the GPU that can be rendered to.
 class FrameBuffer :
     public RenderTarget,
-    public GraphicsContext::Object<FrameBuffer>
+    public Renderer::Object<FrameBuffer>
 {
     typedef std::vector<Texture> TextureContainer;
 public:
@@ -44,7 +44,7 @@ public:
     /// A sequence of textures.
     typedef Sequence<Texture, TextureContainer> TextureSequence;
 
-    void bind(GraphicsContext& graphicsContext) override;
+    void bind(Renderer& renderer) override;
 
     ///
     /// Returns the targets.
@@ -57,7 +57,7 @@ public:
     ///
     /// Adds a target to the frame buffer.
     ///
-    /// \note If the frame buffer is uploaded to a graphics context then it
+    /// \note If the frame buffer is uploaded to a renderer then it
     /// will be destroyed before the target is added.
     ///
     /// \param target The target to add to the frame buffer.
@@ -70,7 +70,7 @@ public:
     ///
     /// Sets whether the frame buffer has a depth component.
     ///
-    /// \note If the frame buffer is uploaded to a graphics context then it
+    /// \note If the frame buffer is uploaded to a renderer then it
     /// will be destroyed before the depth component changes.
     ///
     /// \param depthComponent True if the frame buffer has a depth component;

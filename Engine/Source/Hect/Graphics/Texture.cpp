@@ -95,7 +95,7 @@ void Texture::addSourceImage(const AssetHandle<Image>& image)
 
     if (isUploaded())
     {
-        graphicsContext().destroyTexture(*this);
+        renderer().destroyTexture(*this);
     }
 
     if (!_sourceImages.empty())
@@ -129,7 +129,7 @@ void Texture::clearSourceImages()
 
     if (isUploaded())
     {
-        graphicsContext().destroyTexture(*this);
+        renderer().destroyTexture(*this);
     }
 
     _sourceImages.clear();
@@ -144,7 +144,7 @@ void Texture::setMinFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
-        graphicsContext().destroyTexture(*this);
+        renderer().destroyTexture(*this);
     }
 
     _minFilter = filter;
@@ -159,7 +159,7 @@ void Texture::setMagFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
-        graphicsContext().destroyTexture(*this);
+        renderer().destroyTexture(*this);
     }
 
     _magFilter = filter;
@@ -174,7 +174,7 @@ void Texture::setMipmapped(bool mipmapped)
 {
     if (isUploaded())
     {
-        graphicsContext().destroyTexture(*this);
+        renderer().destroyTexture(*this);
     }
 
     _mipmapped = mipmapped;
@@ -189,7 +189,7 @@ void Texture::setWrapped(bool wrapped)
 {
     if (isUploaded())
     {
-        graphicsContext().destroyTexture(*this);
+        renderer().destroyTexture(*this);
     }
 
     _wrapped = wrapped;

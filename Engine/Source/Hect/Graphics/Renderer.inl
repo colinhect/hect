@@ -25,63 +25,63 @@ namespace hect
 {
 
 template <typename T>
-GraphicsContext::Data<T>::Data(GraphicsContext& graphicsContext, T& object) :
-    graphicsContext(&graphicsContext),
+Renderer::Data<T>::Data(Renderer& renderer, T& object) :
+    renderer(&renderer),
     object(&object)
 {
 }
 
 template <typename T>
-GraphicsContext::Data<T>::~Data()
+Renderer::Data<T>::~Data()
 {
 }
 
 template <typename T>
-void GraphicsContext::Data<T>::invalidate()
+void Renderer::Data<T>::invalidate()
 {
-    graphicsContext = nullptr;
+    renderer = nullptr;
     object = nullptr;
 }
 
 template <typename T>
-GraphicsContext::DataHandle<T>::DataHandle()
+Renderer::DataHandle<T>::DataHandle()
 {
 }
 
 template <typename T>
-GraphicsContext::DataHandle<T>::DataHandle(Data<T>* data) :
+Renderer::DataHandle<T>::DataHandle(Data<T>* data) :
     data(data)
 {
 }
 
 template <typename T>
-GraphicsContext::DataHandle<T>::DataHandle(const DataHandle<T>& handle)
+Renderer::DataHandle<T>::DataHandle(const DataHandle<T>& handle)
 {
     handle;
 }
 
 template <typename T>
-GraphicsContext::DataHandle<T>::DataHandle(DataHandle<T>&& handle) :
+Renderer::DataHandle<T>::DataHandle(DataHandle<T>&& handle) :
     data(std::move(handle.data))
 {
 }
 
 template <typename T>
-GraphicsContext::DataHandle<T>& GraphicsContext::DataHandle<T>::operator=(const DataHandle<T>& handle)
+Renderer::DataHandle<T>& Renderer::DataHandle<T>::operator=(const DataHandle<T>& handle)
 {
     handle;
     return *this;
 }
 
 template <typename T>
-GraphicsContext::DataHandle<T>& GraphicsContext::DataHandle<T>::operator=(DataHandle<T>&& handle)
+Renderer::DataHandle<T>& Renderer::DataHandle<T>::operator=(DataHandle<T>&& handle)
 {
     data = std::move(handle.data);
     return *this;
 }
 
 template <typename T>
-void GraphicsContext::DataHandle<T>::reset(Data<T>* data)
+void Renderer::DataHandle<T>::reset(Data<T>* data)
 {
     // Re-use the allocated data if possible
     if (this->data)
@@ -100,45 +100,45 @@ void GraphicsContext::DataHandle<T>::reset(Data<T>* data)
 }
 
 template <typename T>
-GraphicsContext::Object<T>::~Object()
+Renderer::Object<T>::~Object()
 {
 }
 
 template <typename T>
-bool GraphicsContext::Object<T>::isUploaded() const
+bool Renderer::Object<T>::isUploaded() const
 {
-    return _graphicsContext != nullptr && _handle.data.get() != nullptr;
+    return _renderer != nullptr && _handle.data.get() != nullptr;
 }
 
 template <typename T>
-GraphicsContext& GraphicsContext::Object<T>::graphicsContext()
+Renderer& Renderer::Object<T>::renderer()
 {
-    if (!_graphicsContext)
+    if (!_renderer)
     {
         throw Error("Object is not uploaded to GPU");
     }
-    return *_graphicsContext;
+    return *_renderer;
 }
 
 template <typename T>
 template <typename U>
-U* GraphicsContext::Object<T>::dataAs() const
+U* Renderer::Object<T>::dataAs() const
 {
     Data<T>* data = _handle.data.get();
     return reinterpret_cast<U*>(data);
 }
 
 template <typename T>
-void GraphicsContext::Object<T>::setAsUploaded(GraphicsContext& graphicsContext, Data<T>* data)
+void Renderer::Object<T>::setAsUploaded(Renderer& renderer, Data<T>* data)
 {
-    _graphicsContext = &graphicsContext;
+    _renderer = &renderer;
     _handle.reset(data);
 }
 
 template <typename T>
-void GraphicsContext::Object<T>::setAsDestroyed()
+void Renderer::Object<T>::setAsDestroyed()
 {
-    _graphicsContext = nullptr;
+    _renderer = nullptr;
 }
 
 }

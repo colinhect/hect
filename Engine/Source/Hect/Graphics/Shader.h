@@ -26,7 +26,7 @@
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/Decoder.h"
-#include "Hect/Graphics/GraphicsContext.h"
+#include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/ShaderModule.h"
 #include "Hect/Graphics/ShaderParameter.h"
 
@@ -37,7 +37,7 @@ namespace hect
 /// A shader program executed on the GPU.
 class Shader :
     public Asset,
-    public GraphicsContext::Object<Shader>
+    public Renderer::Object<Shader>
 {
     typedef std::vector<ShaderModule> ModuleContainer;
     typedef std::vector<ShaderParameter> ParameterContainer;
@@ -64,7 +64,7 @@ public:
     ///
     /// Adds a module to the shader.
     ///
-    /// \note If the shader is uploaded to a graphics context then it will be
+    /// \note If the shader is uploaded to a renderer then it will be
     /// destroyed before the module is added.
     ///
     /// \param module The module to add.
@@ -81,7 +81,7 @@ public:
     ///
     /// Adds a parameter to the shader.
     ///
-    /// \note If the shader is uploaded to a graphics context then it will be
+    /// \note If the shader is uploaded to a renderer then it will be
     /// destroyed before the parameter is added.
     ///
     /// \param parameter The parameter to add.

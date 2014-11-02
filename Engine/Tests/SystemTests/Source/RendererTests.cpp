@@ -29,48 +29,48 @@ using namespace hect;
 
 extern Engine* engine;
 
-TEST_CASE("GraphicsContext_UploadAndDestroyObject")
+TEST_CASE("Renderer_UploadAndDestroyObject")
 {
     AssetCache& assetCache = engine->assetCache();
-    GraphicsContext& graphicsContext = engine->graphicsContext();
+    Renderer& renderer = engine->renderer();
 
     Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
     REQUIRE(!mesh.isUploaded());
-    graphicsContext.uploadMesh(mesh);
+    renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
-    graphicsContext.destroyMesh(mesh);
+    renderer.destroyMesh(mesh);
     REQUIRE(!mesh.isUploaded());
 }
 
-TEST_CASE("GraphicsContext_ReuploadDestroyedObject")
+TEST_CASE("Renderer_ReuploadDestroyedObject")
 {
     AssetCache& assetCache = engine->assetCache();
-    GraphicsContext& graphicsContext = engine->graphicsContext();
+    Renderer& renderer = engine->renderer();
 
     Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
     REQUIRE(!mesh.isUploaded());
-    graphicsContext.uploadMesh(mesh);
+    renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
-    graphicsContext.destroyMesh(mesh);
+    renderer.destroyMesh(mesh);
     REQUIRE(!mesh.isUploaded());
-    graphicsContext.uploadMesh(mesh);
+    renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
 }
 
-TEST_CASE("GraphicsContext_CopyUploadedObject")
+TEST_CASE("Renderer_CopyUploadedObject")
 {
     AssetCache& assetCache = engine->assetCache();
-    GraphicsContext& graphicsContext = engine->graphicsContext();
+    Renderer& renderer = engine->renderer();
 
     Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
-    graphicsContext.uploadMesh(mesh);
+    renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
 
     Mesh meshCopy(mesh);
     REQUIRE(!meshCopy.isUploaded());
     REQUIRE(mesh.isUploaded());
 
-    graphicsContext.destroyMesh(mesh);
+    renderer.destroyMesh(mesh);
     REQUIRE(!mesh.isUploaded());
 
     REQUIRE(!meshCopy.isUploaded());
@@ -79,20 +79,20 @@ TEST_CASE("GraphicsContext_CopyUploadedObject")
 // Issue #109
 /*
 
-TEST_CASE("GraphicsContext_MoveUploadedObject")
+TEST_CASE("Renderer_MoveUploadedObject")
 {
     AssetCache& assetCache = engine->assetCache();
-    GraphicsContext& graphicsContext = engine->graphicsContext();
+    Renderer& renderer = engine->renderer();
 
     Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
-    graphicsContext.uploadMesh(mesh);
+    renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
 
     Mesh meshMove(std::move(mesh));
     REQUIRE(meshMove.isUploaded());
     REQUIRE(!mesh.isUploaded());
 
-    graphicsContext.destroyMesh(meshMove);
+    renderer.destroyMesh(meshMove);
     REQUIRE(!meshMove.isUploaded());
 }
 

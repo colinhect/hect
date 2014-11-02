@@ -28,7 +28,7 @@
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Graphics/Image.h"
-#include "Hect/Graphics/GraphicsContext.h"
+#include "Hect/Graphics/Renderer.h"
 
 namespace hect
 {
@@ -62,7 +62,7 @@ enum TextureType
 /// A texture with one or more source images that can be sampled.
 class Texture :
     public Asset,
-    public GraphicsContext::Object<Texture>
+    public Renderer::Object<Texture>
 {
     typedef std::vector<AssetHandle<Image>> ImageContainer;
 public:
@@ -114,7 +114,7 @@ public:
     /// Adds a source image to the texture (may affect width/height of
     /// texture).
     ///
-    /// \note If the texture is uploaded to a graphics context then it will be
+    /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed.
     ///
     /// \param image The source image to add.
@@ -127,7 +127,7 @@ public:
     ///
     /// Clears all source images that were added to the texture.
     ///
-    /// \note If the texture is uploaded to a graphics context then it will be
+    /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed.
     void clearSourceImages();
 
@@ -138,7 +138,7 @@ public:
     ///
     /// Sets the minification filter.
     ///
-    /// \note If the texture is uploaded to a graphics context then it will be
+    /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed before the filter is set.
     ///
     /// \param filter The new minification filter.
@@ -151,7 +151,7 @@ public:
     ///
     /// Sets the magnification filter.
     ///
-    /// \note If the texture is uploaded to a graphics context then it will be
+    /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed before the filter is set.
     ///
     /// \param filter The new magnification filter.
@@ -164,7 +164,7 @@ public:
     ///
     /// Sets whether the texture is mipmapped.
     ///
-    /// \note If the texture is uploaded to a graphics context then it will be
+    /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed before the mipmap value is set.
     ///
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
@@ -177,7 +177,7 @@ public:
     ///
     /// Sets whether the texture is wrapped.
     ///
-    /// \note If the texture is uploaded to a graphics context then it will be
+    /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed before the wrap value is set.
     ///
     /// \param wrapped True if the texture is wrapped; false otherwise.

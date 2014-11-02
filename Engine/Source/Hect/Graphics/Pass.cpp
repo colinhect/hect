@@ -23,11 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Pass.h"
 
-#include "Hect/Graphics/GraphicsContext.h"
+#include "Hect/Graphics/Renderer.h"
 
 using namespace hect;
 
-void Pass::prepare(GraphicsContext& graphicsContext)
+void Pass::prepare(Renderer& renderer)
 {
     if (!_shader)
     {
@@ -43,25 +43,25 @@ void Pass::prepare(GraphicsContext& graphicsContext)
     }
 
     // Bind the render state
-    graphicsContext.bindState(_renderState);
+    renderer.bindState(_renderState);
 
     // Bind the textures in the pass
     unsigned textureIndex = 0;
     for (const AssetHandle<Texture>& texture : _textures)
     {
-        graphicsContext.bindTexture(*texture, textureIndex);
+        renderer.bindTexture(*texture, textureIndex);
         ++textureIndex;
     }
 
     // Bind the shader
-    graphicsContext.bindShader(shader);
+    renderer.bindShader(shader);
 
     // Set the shader arguments values
     for (auto& pair : _resolvedShaderParameters)
     {
         const ShaderParameter& parameter = *pair.first;
         const ShaderValue& value = pair.second;
-        graphicsContext.bindShaderParameter(parameter, value);
+        renderer.bindShaderParameter(parameter, value);
     }
 }
 

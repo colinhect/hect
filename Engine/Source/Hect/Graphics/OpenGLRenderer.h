@@ -24,18 +24,18 @@
 #pragma once
 
 #include "Hect/Core/Configuration.h"
-#include "Hect/Graphics/GraphicsContext.h"
+#include "Hect/Graphics/Renderer.h"
 
 #ifdef HECT_RENDERER_OPENGL
 
 namespace hect
 {
 
-class OpenGLGraphicsContext :
-    public GraphicsContext
+class OpenGLRenderer :
+    public Renderer
 {
 public:
-    OpenGLGraphicsContext(Window& window);
+    OpenGLRenderer(Window& window);
 
     void beginFrame() override;
     void endFrame() override;

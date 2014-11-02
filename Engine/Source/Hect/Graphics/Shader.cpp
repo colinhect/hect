@@ -41,7 +41,7 @@ void Shader::addModule(const ShaderModule& module)
 {
     if (isUploaded())
     {
-        graphicsContext().destroyShader(*this);
+        renderer().destroyShader(*this);
     }
     _modules.push_back(module);
 }
@@ -60,7 +60,7 @@ void Shader::addParameter(const ShaderParameter& parameter)
 {
     if (isUploaded())
     {
-        graphicsContext().destroyShader(*this);
+        renderer().destroyShader(*this);
     }
     _parameters.push_back(parameter);
 }

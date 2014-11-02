@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/GraphicsContext.h"
+#include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/Decoder.h"
@@ -65,7 +65,7 @@ enum IndexType
 /// A mesh of vertices and indices.
 class Mesh :
     public Asset,
-    public GraphicsContext::Object<Mesh>
+    public Renderer::Object<Mesh>
 {
     friend class MeshWriter;
 public:
@@ -99,7 +99,7 @@ public:
     ///
     /// \param vertexLayout The new vertex layout.
     ///
-    /// \note If the mesh is uploaded to a graphics context then it will be
+    /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the primitive type is set.
     ///
     /// \throws Error If the mesh already has vertex data.
@@ -114,7 +114,7 @@ public:
     ///
     /// \param primitiveType The new primitive type.
     ///
-    /// \note If the mesh is uploaded to a graphics context then it will be
+    /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the primitive type is set.
     void setPrimitiveType(PrimitiveType primitiveType);
 
@@ -127,7 +127,7 @@ public:
     ///
     /// \param indexType The new index type.
     ///
-    /// \note If the mesh is uploaded to a graphics context then it will be
+    /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the index type is set.
     ///
     /// \throws Error If the mesh already has index data.
@@ -143,7 +143,7 @@ public:
     /// \param vertexData The vertex data to set.  Assumed to conform to the
     /// vertex layout.
     ///
-    /// \note If the mesh is uploaded to a graphics context then it will be
+    /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the vertex data is set.
     void setVertexData(const VertexData& vertexData);
 
@@ -161,7 +161,7 @@ public:
     /// \param indexData The index data to set.  Assumed to conform to the
     /// index type.
     ///
-    /// \note If the mesh is uploaded to a graphics context then it will be
+    /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the index data is set.
     void setIndexData(const IndexData& indexData);
 

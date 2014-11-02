@@ -38,7 +38,7 @@
 #endif
 
 #ifdef HECT_RENDERER_OPENGL
-#include "Hect/Graphics/OpenGLGraphicsContext.h"
+#include "Hect/Graphics/OpenGLRenderer.h"
 #endif
 
 #include "Hect/Generated/RegisterTypes.h"
@@ -103,16 +103,14 @@ Engine::Engine(int argc, char* const argv[])
             throw Error(format("Invalid video mode: %s", error.what()));
         }
 
-        // Create window and graphics context
+        // Create window and renderer
         _window = _platform->createWindow("Hect", videoMode);
 
 #ifdef HECT_RENDERER_OPENGL
-        _graphicsContext.reset(new OpenGLGraphicsContext(*_window));
+        _renderer.reset(new OpenGLRenderer(*_window));
 #else
-        _graphicsContext.reset(new DummyGraphicsContext(*_window));
+        _renderer.reset(new DummyGraphicsContext(*_window));
 #endif
-
-        _renderer.reset(new Renderer(*_graphicsContext, *_assetCache));
     }
 }
 
@@ -171,15 +169,6 @@ Platform& Engine::platform()
         throw Error("No available platform");
     }
     return *_platform;
-}
-
-GraphicsContext& Engine::graphicsContext()
-{
-    if (!_graphicsContext)
-    {
-        throw Error("No available graphics context");
-    }
-    return *_graphicsContext;
 }
 
 Renderer& Engine::renderer()

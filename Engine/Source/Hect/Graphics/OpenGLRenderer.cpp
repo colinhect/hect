@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "OpenGLGraphicsContext.h"
+#include "OpenGLRenderer.h"
 
 #ifdef HECT_RENDERER_OPENGL
 
@@ -49,11 +49,11 @@ using namespace hect;
 
 // OpenGL-specific data for a shader program
 class ShaderData :
-    public GraphicsContext::Data<Shader>
+    public Renderer::Data<Shader>
 {
 public:
-    ShaderData(GraphicsContext& graphicsContext, Shader& object, GLuint programId, const std::vector<GLuint>& shaderIds) :
-        GraphicsContext::Data<Shader>(graphicsContext, object),
+    ShaderData(Renderer& renderer, Shader& object, GLuint programId, const std::vector<GLuint>& shaderIds) :
+        Renderer::Data<Shader>(renderer, object),
         programId(programId),
         shaderIds(shaderIds)
     {
@@ -64,7 +64,7 @@ public:
         // Destroy the shader if it is uploaded
         if (object && object->isUploaded())
         {
-            graphicsContext->destroyShader(*object);
+            renderer->destroyShader(*object);
         }
     }
 
@@ -74,11 +74,11 @@ public:
 
 // OpenGL-specific data for a texture
 class TextureData :
-    public GraphicsContext::Data<Texture>
+    public Renderer::Data<Texture>
 {
 public:
-    TextureData(GraphicsContext& graphicsContext, Texture& object, GLuint textureId) :
-        GraphicsContext::Data<Texture>(graphicsContext, object),
+    TextureData(Renderer& renderer, Texture& object, GLuint textureId) :
+        Renderer::Data<Texture>(renderer, object),
         textureId(textureId)
     {
     }
@@ -88,7 +88,7 @@ public:
         // Destroy the texture if it is uploaded
         if (object && object->isUploaded())
         {
-            graphicsContext->destroyTexture(*object);
+            renderer->destroyTexture(*object);
         }
     }
 
@@ -97,11 +97,11 @@ public:
 
 // OpenGL-specific data for a frame buffer
 class FrameBufferData :
-    public GraphicsContext::Data<FrameBuffer>
+    public Renderer::Data<FrameBuffer>
 {
 public:
-    FrameBufferData(GraphicsContext& graphicsContext, FrameBuffer& object, GLuint frameBufferId, GLuint depthBufferId) :
-        GraphicsContext::Data<FrameBuffer>(graphicsContext, object),
+    FrameBufferData(Renderer& renderer, FrameBuffer& object, GLuint frameBufferId, GLuint depthBufferId) :
+        Renderer::Data<FrameBuffer>(renderer, object),
         frameBufferId(frameBufferId),
         depthBufferId(depthBufferId)
     {
@@ -112,7 +112,7 @@ public:
         // Destroy the frame buffer if it is uploaded
         if (object && object->isUploaded())
         {
-            graphicsContext->destroyFrameBuffer(*object);
+            renderer->destroyFrameBuffer(*object);
         }
     }
 
@@ -122,11 +122,11 @@ public:
 
 // OpenGL-specific data for a mesh
 class MeshData :
-    public GraphicsContext::Data<Mesh>
+    public Renderer::Data<Mesh>
 {
 public:
-    MeshData(GraphicsContext& graphicsContext, Mesh& object, GLuint vertexArrayId, GLuint vertexBufferId, GLuint indexBufferId) :
-        GraphicsContext::Data<Mesh>(graphicsContext, object),
+    MeshData(Renderer& renderer, Mesh& object, GLuint vertexArrayId, GLuint vertexBufferId, GLuint indexBufferId) :
+        Renderer::Data<Mesh>(renderer, object),
         vertexArrayId(vertexArrayId),
         vertexBufferId(vertexBufferId),
         indexBufferId(indexBufferId)
@@ -138,7 +138,7 @@ public:
         // Destroy the mesh if it is uploaded
         if (object && object->isUploaded())
         {
-            graphicsContext->destroyMesh(*object);
+            renderer->destroyMesh(*object);
         }
     }
 
@@ -272,7 +272,7 @@ GLenum _textureTypeLookUp[3] =
     GL_TEXTURE_CUBE_MAP
 };
 
-OpenGLGraphicsContext::OpenGLGraphicsContext(Window& window)
+OpenGLRenderer::OpenGLRenderer(Window& window)
 {
     // This is a parameter only to ensure the window is created before the
     // GPU context; I'm not sure if the GPU context has any use for it
@@ -314,11 +314,11 @@ OpenGLGraphicsContext::OpenGLGraphicsContext(Window& window)
     clear();
 }
 
-void OpenGLGraphicsContext::beginFrame()
+void OpenGLRenderer::beginFrame()
 {
 }
 
-void OpenGLGraphicsContext::endFrame()
+void OpenGLRenderer::endFrame()
 {
     // Clear the bound target
     if (_boundTarget)
@@ -352,7 +352,7 @@ void OpenGLGraphicsContext::endFrame()
     }
 }
 
-void OpenGLGraphicsContext::bindState(const RenderState& state)
+void OpenGLRenderer::bindState(const RenderState& state)
 {
     if (state.isEnabled(RenderStateFlag_DepthTest))
     {
@@ -387,12 +387,12 @@ void OpenGLGraphicsContext::bindState(const RenderState& state)
     }
 }
 
-void OpenGLGraphicsContext::bindTarget(RenderTarget& renderTarget)
+void OpenGLRenderer::bindTarget(RenderTarget& renderTarget)
 {
     renderTarget.bind(*this);
 }
 
-void OpenGLGraphicsContext::bindWindow(Window& window)
+void OpenGLRenderer::bindWindow(Window& window)
 {
     // Avoid binding an already bound target
     if (&window == _boundTarget)
@@ -405,7 +405,7 @@ void OpenGLGraphicsContext::bindWindow(Window& window)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void OpenGLGraphicsContext::bindFrameBuffer(FrameBuffer& frameBuffer)
+void OpenGLRenderer::bindFrameBuffer(FrameBuffer& frameBuffer)
 {
     // Avoid binding an already bound target
     if (&frameBuffer == _boundTarget)
@@ -425,7 +425,7 @@ void OpenGLGraphicsContext::bindFrameBuffer(FrameBuffer& frameBuffer)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
 }
 
-void OpenGLGraphicsContext::uploadFrameBuffer(FrameBuffer& frameBuffer)
+void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (frameBuffer.isUploaded())
     {
@@ -471,7 +471,7 @@ void OpenGLGraphicsContext::uploadFrameBuffer(FrameBuffer& frameBuffer)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void OpenGLGraphicsContext::destroyFrameBuffer(FrameBuffer& frameBuffer)
+void OpenGLRenderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -486,7 +486,7 @@ void OpenGLGraphicsContext::destroyFrameBuffer(FrameBuffer& frameBuffer)
     frameBuffer.setAsDestroyed();
 }
 
-void OpenGLGraphicsContext::bindShader(Shader& shader)
+void OpenGLRenderer::bindShader(Shader& shader)
 {
     // Avoid binding an already bound shader
     if (&shader == _boundShader && shader.isUploaded())
@@ -514,7 +514,7 @@ void OpenGLGraphicsContext::bindShader(Shader& shader)
     }
 }
 
-void OpenGLGraphicsContext::uploadShader(Shader& shader)
+void OpenGLRenderer::uploadShader(Shader& shader)
 {
     if (shader.isUploaded())
     {
@@ -613,7 +613,7 @@ void OpenGLGraphicsContext::uploadShader(Shader& shader)
     HECT_TRACE(format("Uploaded shader '%s'", shader.name().c_str()));
 }
 
-void OpenGLGraphicsContext::destroyShader(Shader& shader)
+void OpenGLRenderer::destroyShader(Shader& shader)
 {
     if (!shader.isUploaded())
     {
@@ -637,7 +637,7 @@ void OpenGLGraphicsContext::destroyShader(Shader& shader)
     HECT_TRACE(format("Destroyed shader '%s'", shader.name().c_str()));
 }
 
-void OpenGLGraphicsContext::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
+void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
 {
     if (!_boundShader)
     {
@@ -674,7 +674,7 @@ void OpenGLGraphicsContext::bindShaderParameter(const ShaderParameter& parameter
     }
 }
 
-void OpenGLGraphicsContext::bindTexture(Texture& texture, unsigned index)
+void OpenGLRenderer::bindTexture(Texture& texture, unsigned index)
 {
     if (index >= _capabilities.maxTextureUnits)
     {
@@ -697,7 +697,7 @@ void OpenGLGraphicsContext::bindTexture(Texture& texture, unsigned index)
     GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->textureId));
 }
 
-void OpenGLGraphicsContext::uploadTexture(Texture& texture)
+void OpenGLRenderer::uploadTexture(Texture& texture)
 {
     if (texture.isUploaded())
     {
@@ -781,7 +781,7 @@ void OpenGLGraphicsContext::uploadTexture(Texture& texture)
     HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
 
-void OpenGLGraphicsContext::destroyTexture(Texture& texture)
+void OpenGLRenderer::destroyTexture(Texture& texture)
 {
     if (!texture.isUploaded())
     {
@@ -796,7 +796,7 @@ void OpenGLGraphicsContext::destroyTexture(Texture& texture)
     HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
-Image OpenGLGraphicsContext::downloadTextureImage(const Texture& texture)
+Image OpenGLRenderer::downloadTextureImage(const Texture& texture)
 {
     if (!texture.isUploaded())
     {
@@ -832,7 +832,7 @@ Image OpenGLGraphicsContext::downloadTextureImage(const Texture& texture)
     return image;
 }
 
-void OpenGLGraphicsContext::bindMesh(Mesh& mesh)
+void OpenGLRenderer::bindMesh(Mesh& mesh)
 {
     if (&mesh == _boundMesh)
     {
@@ -849,7 +849,7 @@ void OpenGLGraphicsContext::bindMesh(Mesh& mesh)
     GL_ASSERT(glBindVertexArray(data->vertexArrayId));
 }
 
-void OpenGLGraphicsContext::uploadMesh(Mesh& mesh)
+void OpenGLRenderer::uploadMesh(Mesh& mesh)
 {
     if (mesh.isUploaded())
     {
@@ -933,7 +933,7 @@ void OpenGLGraphicsContext::uploadMesh(Mesh& mesh)
     HECT_TRACE(format("Uploaded mesh '%s'", mesh.name().c_str()));
 }
 
-void OpenGLGraphicsContext::destroyMesh(Mesh& mesh)
+void OpenGLRenderer::destroyMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
     {
@@ -953,7 +953,7 @@ void OpenGLGraphicsContext::destroyMesh(Mesh& mesh)
     HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().c_str()));
 }
 
-void OpenGLGraphicsContext::draw()
+void OpenGLRenderer::draw()
 {
     if (!_boundMesh)
     {
@@ -970,12 +970,12 @@ void OpenGLGraphicsContext::draw()
         );
 }
 
-void OpenGLGraphicsContext::clear()
+void OpenGLRenderer::clear()
 {
     GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
-const OpenGLGraphicsContext::Capabilities& OpenGLGraphicsContext::capabilities() const
+const OpenGLRenderer::Capabilities& OpenGLRenderer::capabilities() const
 {
     return _capabilities;
 }

@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Renderer.h"
+#include "SceneRenderer.h"
 
 #include <algorithm>
 
@@ -38,8 +38,8 @@
 
 using namespace hect;
 
-Renderer::Renderer(GraphicsContext& graphicsContext, AssetCache& assetCache) :
-    _graphicsContext(&graphicsContext),
+SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
+    _renderer(&renderer),
     _buffersInitialized(false)
 {
     _compositorShader = assetCache.getHandle<Shader>("Hect/Compositor.shader");
@@ -52,7 +52,7 @@ Renderer::Renderer(GraphicsContext& graphicsContext, AssetCache& assetCache) :
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 }
 
-void Renderer::renderScene(Scene& scene, RenderTarget& target)
+void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 {
     CameraSystem& cameraSystem = scene.system<CameraSystem>();
     Component<Camera>::Iterator camera = cameraSystem.activeCamera();
@@ -73,9 +73,9 @@ void Renderer::renderScene(Scene& scene, RenderTarget& target)
 
         // Model buffer rendering
         {
-            _graphicsContext->beginFrame();
-            _graphicsContext->bindTarget(_geometryBuffer);
-            _graphicsContext->clear();
+            _renderer->beginFrame();
+            _renderer->bindTarget(_geometryBuffer);
+            _renderer->clear();
 
             // Render the sky box if there is one
             auto skyBox = scene.components<SkyBox>().begin();
@@ -108,20 +108,20 @@ void Renderer::renderScene(Scene& scene, RenderTarget& target)
                 }
             }
 
-            _graphicsContext->endFrame();
+            _renderer->endFrame();
         }
 
         // Accumulation buffer rendering
         {
-            _graphicsContext->beginFrame();
-            _graphicsContext->bindTarget(_accumulationBuffer);
-            _graphicsContext->clear();
+            _renderer->beginFrame();
+            _renderer->bindTarget(_accumulationBuffer);
+            _renderer->clear();
 
             RenderState state;
             state.enable(RenderStateFlag_Blend);
             state.disable(RenderStateFlag_DepthTest);
             state.disable(RenderStateFlag_DepthWrite);
-            _graphicsContext->bindState(state);
+            _renderer->bindState(state);
 
             // Get the first light probe
             auto lightProbe = scene.components<LightProbe>().begin();
@@ -133,24 +133,24 @@ void Renderer::renderScene(Scene& scene, RenderTarget& target)
             unsigned int index = 0;
             for (Texture& target : _geometryBuffer.targets())
             {
-                _graphicsContext->bindTexture(target, index++);
+                _renderer->bindTexture(target, index++);
             }
-            _graphicsContext->bindTexture(*lightProbe->texture, index++);
-            _graphicsContext->bindMesh(*_screenMesh);
+            _renderer->bindTexture(*lightProbe->texture, index++);
+            _renderer->bindMesh(*_screenMesh);
 
             Transform identity;
 
             // Render environment light
             {
-                _graphicsContext->bindShader(*_environmentShader);
+                _renderer->bindShader(*_environmentShader);
                 setBoundShaderParameters(*_environmentShader, *camera, target, identity);
 
-                _graphicsContext->draw();
+                _renderer->draw();
             }
 
             // Render directional lights
             {
-                _graphicsContext->bindShader(*_directionalLightShader);
+                _renderer->bindShader(*_directionalLightShader);
                 setBoundShaderParameters(*_directionalLightShader, *camera, target, identity);
 
                 // Get the parameters required for directional lights
@@ -160,9 +160,9 @@ void Renderer::renderScene(Scene& scene, RenderTarget& target)
                 // Render each directional light in the scene
                 for (const DirectionalLight& light : scene.components<DirectionalLight>())
                 {
-                    _graphicsContext->bindShaderParameter(colorShaderParameter, light.color);
-                    _graphicsContext->bindShaderParameter(directionShaderParameter, light.direction);
-                    _graphicsContext->draw();
+                    _renderer->bindShaderParameter(colorShaderParameter, light.color);
+                    _renderer->bindShaderParameter(directionShaderParameter, light.direction);
+                    _renderer->draw();
                 }
             }
 
@@ -170,34 +170,34 @@ void Renderer::renderScene(Scene& scene, RenderTarget& target)
             {
             }
 
-            _graphicsContext->endFrame();
+            _renderer->endFrame();
         }
 
         // Compositor rendering
         {
-            _graphicsContext->beginFrame();
-            _graphicsContext->bindTarget(target);
-            _graphicsContext->clear();
+            _renderer->beginFrame();
+            _renderer->bindTarget(target);
+            _renderer->clear();
 
             RenderState state;
             state.disable(RenderStateFlag_DepthTest);
-            _graphicsContext->bindState(state);
+            _renderer->bindState(state);
 
-            _graphicsContext->bindShader(*_compositorShader);
+            _renderer->bindShader(*_compositorShader);
 
-            _graphicsContext->bindTexture(*_geometryBuffer.targets().begin(), 0);
-            _graphicsContext->bindTexture(*_accumulationBuffer.targets().begin(), 1);
+            _renderer->bindTexture(*_geometryBuffer.targets().begin(), 0);
+            _renderer->bindTexture(*_accumulationBuffer.targets().begin(), 1);
 
             // Bind and draw the composited image
-            _graphicsContext->bindMesh(*_screenMesh);
-            _graphicsContext->draw();
+            _renderer->bindMesh(*_screenMesh);
+            _renderer->draw();
 
-            _graphicsContext->endFrame();
+            _renderer->endFrame();
         }
     }
 }
 
-void Renderer::initializeBuffers(unsigned width, unsigned height)
+void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
 {
     _buffersInitialized = true;
 
@@ -221,7 +221,7 @@ void Renderer::initializeBuffers(unsigned width, unsigned height)
     _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
 }
 
-Technique& Renderer::selectTechnique(Material& material) const
+Technique& SceneRenderer::selectTechnique(Material& material) const
 {
     auto techniques = material.techniques();
     if (techniques.empty())
@@ -234,7 +234,7 @@ Technique& Renderer::selectTechnique(Material& material) const
     }
 }
 
-void Renderer::render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest)
+void SceneRenderer::render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest)
 {
     // If the entity has a model component
     auto model = entity.component<Model>();
@@ -296,7 +296,7 @@ void Renderer::render(Camera& camera, RenderTarget& target, Entity& entity, bool
     }
 }
 
-void Renderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
+void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
     // Render the mesh for each pass
     for (Pass& pass : selectTechnique(material).passes())
@@ -305,21 +305,21 @@ void Renderer::renderMesh(const Camera& camera, const RenderTarget& target, Mate
     }
 }
 
-void Renderer::renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform)
+void SceneRenderer::renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform)
 {
     // Prepare the pass
-    pass.prepare(*_graphicsContext);
+    pass.prepare(*_renderer);
 
     // Set parameters with bindings
     Shader& shader = *pass.shader();
     setBoundShaderParameters(shader, camera, target, transform);
 
     // Bind and draw the mesh
-    _graphicsContext->bindMesh(mesh);
-    _graphicsContext->draw();
+    _renderer->bindMesh(mesh);
+    _renderer->draw();
 }
 
-void Renderer::setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
+void SceneRenderer::setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
 {
     // Buid the model matrix
     Matrix4 model;
@@ -351,34 +351,34 @@ void Renderer::setBoundShaderParameters(Shader& shader, const Camera& camera, co
             switch (binding)
             {
             case ShaderParameterBinding_RenderTargetSize:
-                _graphicsContext->bindShaderParameter(parameter, Vector2((Real)target.width(), (Real)target.height()));
+                _renderer->bindShaderParameter(parameter, Vector2((Real)target.width(), (Real)target.height()));
                 break;
             case ShaderParameterBinding_CameraPosition:
-                _graphicsContext->bindShaderParameter(parameter, camera.position);
+                _renderer->bindShaderParameter(parameter, camera.position);
                 break;
             case ShaderParameterBinding_CameraFront:
-                _graphicsContext->bindShaderParameter(parameter, camera.front);
+                _renderer->bindShaderParameter(parameter, camera.front);
                 break;
             case ShaderParameterBinding_CameraUp:
-                _graphicsContext->bindShaderParameter(parameter, camera.up);
+                _renderer->bindShaderParameter(parameter, camera.up);
                 break;
             case ShaderParameterBinding_ViewMatrix:
-                _graphicsContext->bindShaderParameter(parameter, camera.viewMatrix);
+                _renderer->bindShaderParameter(parameter, camera.viewMatrix);
                 break;
             case ShaderParameterBinding_ProjectionMatrix:
-                _graphicsContext->bindShaderParameter(parameter, camera.projectionMatrix);
+                _renderer->bindShaderParameter(parameter, camera.projectionMatrix);
                 break;
             case ShaderParameterBinding_ViewProjectionMatrix:
-                _graphicsContext->bindShaderParameter(parameter, camera.projectionMatrix * camera.viewMatrix);
+                _renderer->bindShaderParameter(parameter, camera.projectionMatrix * camera.viewMatrix);
                 break;
             case ShaderParameterBinding_ModelMatrix:
-                _graphicsContext->bindShaderParameter(parameter, model);
+                _renderer->bindShaderParameter(parameter, model);
                 break;
             case ShaderParameterBinding_ModelViewMatrix:
-                _graphicsContext->bindShaderParameter(parameter, camera.viewMatrix * model);
+                _renderer->bindShaderParameter(parameter, camera.viewMatrix * model);
                 break;
             case ShaderParameterBinding_ModelViewProjectionMatrix:
-                _graphicsContext->bindShaderParameter(parameter, camera.projectionMatrix * (camera.viewMatrix * model));
+                _renderer->bindShaderParameter(parameter, camera.projectionMatrix * (camera.viewMatrix * model));
                 break;
             }
         }

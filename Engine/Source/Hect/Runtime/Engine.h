@@ -26,7 +26,6 @@
 #include <memory>
 
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/GraphicsContext.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/Window.h"
 #include "Hect/IO/FileSystem.h"
@@ -46,7 +45,6 @@ public:
 
     FileSystem& fileSystem();
     Platform& platform();
-    GraphicsContext& graphicsContext();
     Renderer& renderer();
     Window& window();
 
@@ -67,9 +65,8 @@ private:
     std::unique_ptr<FileSystem> _fileSystem;
     std::unique_ptr<Platform> _platform;
     Window::Pointer _window;
-    std::unique_ptr<GraphicsContext> _graphicsContext;
-    std::unique_ptr<AssetCache> _assetCache;
     std::unique_ptr<Renderer> _renderer;
+    std::unique_ptr<AssetCache> _assetCache;
     JsonValue _config;
 };
 

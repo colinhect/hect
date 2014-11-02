@@ -105,7 +105,7 @@ public:
     ///
     /// \param name The name.
     /// \param defaultValue The default value which will be set when the shader
-    /// is bound (see GraphicsContext::bindShader()).
+    /// is bound (see Renderer::bindShader()).
     ShaderParameter(const std::string& name, const ShaderValue& defaultValue);
 
     ///

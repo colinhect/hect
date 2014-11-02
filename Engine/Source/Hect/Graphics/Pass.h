@@ -55,10 +55,10 @@ public:
     typedef Sequence<ShaderArgument, ShaderArgumentContainer> ShaderArgumentSequence;
 
     ///
-    /// Prepares a graphics context to begin using this pass.
+    /// Prepares a renderer to begin using this pass.
     ///
-    /// \param graphicsContext The graphics context to prepare.
-    void prepare(GraphicsContext& graphicsContext);
+    /// \param renderer The renderer to prepare.
+    void prepare(Renderer& renderer);
 
     ///
     /// Returns the shader.

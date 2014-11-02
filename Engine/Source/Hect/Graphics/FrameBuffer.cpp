@@ -25,13 +25,13 @@
 
 #include <algorithm>
 
-#include "Hect/Graphics/GraphicsContext.h"
+#include "Hect/Graphics/Renderer.h"
 
 using namespace hect;
 
-void FrameBuffer::bind(GraphicsContext& graphicsContext)
+void FrameBuffer::bind(Renderer& renderer)
 {
-    graphicsContext.bindFrameBuffer(*this);
+    renderer.bindFrameBuffer(*this);
 }
 
 FrameBuffer::TextureSequence FrameBuffer::targets()
@@ -48,7 +48,7 @@ void FrameBuffer::addTarget(const Texture& target)
 {
     if (isUploaded())
     {
-        graphicsContext().destroyFrameBuffer(*this);
+        renderer().destroyFrameBuffer(*this);
     }
 
     setWidth(std::max(width(), target.width()));
@@ -66,7 +66,7 @@ void FrameBuffer::setDepthComponent(bool depthComponent)
 {
     if (isUploaded())
     {
-        graphicsContext().destroyFrameBuffer(*this);
+        renderer().destroyFrameBuffer(*this);
     }
     _depthComponent = depthComponent;
 }

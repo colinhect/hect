@@ -96,7 +96,7 @@ enum RenderStateFlag
 };
 
 ///
-/// Describes a state that the graphics context is in which affects the
+/// Describes a state that the renderer is in which affects the
 /// resulting rendered pixels.
 class RenderState
 {
