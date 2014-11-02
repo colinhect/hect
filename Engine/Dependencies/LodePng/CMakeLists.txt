@@ -1,8 +1,9 @@
 project(LodePng CXX)
 
-# Disable all warnings
 if(WIN32)
     add_definitions("/W0")
+elseif(UNIX)
+    add_definitions("-w")
 endif()
 
 include_directories(

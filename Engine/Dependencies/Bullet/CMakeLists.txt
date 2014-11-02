@@ -1,8 +1,9 @@
 project(Bullet CXX)
 
-# Disable all warnings
 if(WIN32)
     add_definitions("/W0")
+elseif(UNIX)
+    add_definitions("-w")
 endif()
 
 # Use 64-bit floats

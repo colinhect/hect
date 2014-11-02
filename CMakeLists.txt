@@ -18,6 +18,18 @@ endforeach()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Macros
+macro(subdirectory_list result curdir)
+    file(GLOB children RELATIVE ${curdir} ${curdir}/*)
+    set(dirlist "")
+    foreach(child ${children})
+        if(IS_DIRECTORY ${curdir}/${child})
+            list(APPEND dirlist ${child})
+        endif()
+    endforeach()
+    set(${result} ${dirlist})
+endmacro()
+
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine")
 
 # Add Hect dependencies
@@ -34,17 +46,7 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/UnitTests")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/SystemTests")
 
 # Add Hect projects
-macro(SUBDIRLIST result curdir)
-  file(GLOB children RELATIVE ${curdir} ${curdir}/*)
-  set(dirlist "")
-  foreach(child ${children})
-    if(IS_DIRECTORY ${curdir}/${child})
-        list(APPEND dirlist ${child})
-    endif()
-  endforeach()
-  set(${result} ${dirlist})
-endmacro()
-SUBDIRLIST(PROJECT_DIRS ${PROJECT_SOURCE_DIR}/Projects)
+subdirectory_list(PROJECT_DIRS ${PROJECT_SOURCE_DIR}/Projects)
 foreach(PROJECT_DIR ${PROJECT_DIRS})
     add_subdirectory(${PROJECT_SOURCE_DIR}/Projects/${PROJECT_DIR})
 endforeach()

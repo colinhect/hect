@@ -1,11 +1,7 @@
-
-# Disable useless Visual Studio 2013 warnings
 if(WIN32)
     add_definitions("/D_CRT_SECURE_NO_WARNINGS")
-endif()
-
-if(UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
+elseif(UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall")
 endif()
 
 include_directories(
@@ -313,13 +309,13 @@ add_library(Hect STATIC
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Source/Hect/Generated)
 add_dependencies(Hect HectTypes)
-    
+
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 
 add_dependencies(Hect SDL2)
 target_link_libraries(Hect Bullet ENet Glew JsonCpp LodePng PhysFS SDL2-static ${OPENGL_LIBRARIES})
-    
+
 set_target_properties(Hect PROPERTIES
     PROJECT_LABEL Hect
     LINKER_LANGUAGE CXX

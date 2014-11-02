@@ -32,5 +32,5 @@ int main(int argc, char* const argv[])
         hect::Platform::showFatalError(error.what());
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
