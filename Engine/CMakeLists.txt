@@ -12,7 +12,6 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/JsonCpp"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/SDL2/include"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Tclap/include"
     )
     
@@ -309,11 +308,22 @@ add_library(Hect STATIC
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Source/Hect/Generated)
 add_dependencies(Hect HectTypes)
 
+set(LINK_LIBRARIES Bullet ENet Glew JsonCpp LodePng PhysFS)
+
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
+list(APPEND LINK_LIBRARIES ${OPENGL_LIBRARIES})
 
-add_dependencies(Hect SDL2)
-target_link_libraries(Hect Bullet ENet Glew JsonCpp LodePng PhysFS SDL2-static ${OPENGL_LIBRARIES})
+include(FindPkgConfig)
+pkg_search_module(SDL2 required sdl2)
+include_directories(${SDL2_INCLUDE_DIRS})
+list(APPEND LINK_LIBRARIES ${SDL2_LIBRARIES})
+
+if(UNIX)
+    list(APPEND LINK_LIBRARIES pthread)
+endif()
+
+target_link_libraries(Hect Bullet ENet Glew JsonCpp LodePng PhysFS ${OPENGL_LIBRARIES} ${SDL2_LIBRARIES})
 
 set_target_properties(Hect PROPERTIES
     PROJECT_LABEL Hect

@@ -1,7 +1,7 @@
 project(HectSystemTests CXX)
 
 if(UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wl,--no-as-needed")
 endif()
 
 include_directories(

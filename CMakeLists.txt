@@ -39,7 +39,6 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/JsonCpp")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS")
-add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/SDL2")
 
 # Add Hect tests
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/UnitTests")
