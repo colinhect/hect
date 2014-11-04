@@ -83,7 +83,7 @@ void BinaryEncoder::endObject()
 
 void BinaryEncoder::selectMember(const char* name)
 {
-    name;
+    (void)name;
 }
 
 void BinaryEncoder::encodeString(const std::string& value)

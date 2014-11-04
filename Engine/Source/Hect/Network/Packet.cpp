@@ -41,7 +41,7 @@ PacketWriteStream Packet::writeStream()
 }
 
 Packet::Packet(const std::vector<uint8_t>& data) :
-    _data(data),
-    _flags(0)
+    _flags(0),
+    _data(data)
 {
 }

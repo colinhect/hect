@@ -53,7 +53,7 @@ void TransformSystem::updateTransform(Transform& transform)
 
 void TransformSystem::tick(Real timeStep)
 {
-    timeStep;
+    (void)timeStep;
 
     for (Transform& transform : scene().components<Transform>())
     {

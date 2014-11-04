@@ -57,7 +57,7 @@ Renderer::DataHandle<T>::DataHandle(Data<T>* data) :
 template <typename T>
 Renderer::DataHandle<T>::DataHandle(const DataHandle<T>& handle)
 {
-    handle;
+    (void)handle;
 }
 
 template <typename T>
@@ -69,7 +69,7 @@ Renderer::DataHandle<T>::DataHandle(DataHandle<T>&& handle) :
 template <typename T>
 Renderer::DataHandle<T>& Renderer::DataHandle<T>::operator=(const DataHandle<T>& handle)
 {
-    handle;
+    (void)handle;
     return *this;
 }
 

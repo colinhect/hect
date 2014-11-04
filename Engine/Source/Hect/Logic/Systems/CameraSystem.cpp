@@ -59,7 +59,7 @@ void CameraSystem::updateCamera(Camera& camera)
 
 void CameraSystem::tick(Real timeStep)
 {
-    timeStep;
+    (void)timeStep;
 
     for (Camera& camera : scene().components<Camera>())
     {

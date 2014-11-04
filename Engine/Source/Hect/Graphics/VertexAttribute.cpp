@@ -66,6 +66,8 @@ unsigned VertexAttribute::size() const
         return 4 * _cardinality;
     case VertexAttributeType_Float32:
         return 4 * _cardinality;
+    default:
+        break;
     }
 
     return 0;

@@ -196,6 +196,7 @@ TEST_CASE("Scene_EntityIterationEmpty")
     size_t count = 0;
     for (const Entity& entity : scene.entities())
     {
+        (void)entity;
         ++count;
     }
 
@@ -213,6 +214,7 @@ TEST_CASE("Scene_EntityIterationNoneActivated")
     size_t count = 0;
     for (const Entity& entity : scene.entities())
     {
+        (void)entity;
         ++count;
     }
 
@@ -430,6 +432,7 @@ TEST_CASE("Scene_ChildEntityIterationEmpty")
     size_t count = 0;
     for (Entity& child : a->children())
     {
+        (void)child;
         ++count;
     }
     REQUIRE(count == 0);
@@ -664,6 +667,7 @@ TEST_CASE("Scene_ComponentIterationEmpty")
     size_t count = 0;
     for (const String& string : scene.components<String>())
     {
+        (void)string;
         ++count;
     }
 
@@ -679,6 +683,7 @@ TEST_CASE("Scene_ComponentIterationNoneActivated")
     size_t count = 0;
     for (const String& string : scene.components<String>())
     {
+        (void)string;
         ++count;
     }
 
@@ -1237,7 +1242,7 @@ TEST_CASE("Scene_EntityFindDescendants")
 
     iters = a->findDescendants([](const Entity& entity)
     {
-        entity;
+        (void)entity;
         return true;
     });
     REQUIRE(iters.size() == 3);

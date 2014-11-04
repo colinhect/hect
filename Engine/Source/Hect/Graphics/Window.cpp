@@ -30,7 +30,7 @@ using namespace hect;
 Window::Window(const std::string& title, const VideoMode& videoMode) :
     RenderTarget(videoMode.width(), videoMode.height())
 {
-    title;
+    (void)title;
 }
 
 Window::~Window()

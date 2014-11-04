@@ -36,7 +36,7 @@ BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
 
 void BoundingBoxSystem::tick(Real timeStep)
 {
-    timeStep;
+    (void)timeStep;
 
     for (BoundingBox& boundingBox : scene().components<BoundingBox>())
     {

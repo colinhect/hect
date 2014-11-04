@@ -115,7 +115,7 @@ public:
 
 DummyRenderer::DummyRenderer(Window& window)
 {
-    window;
+    (void)window;
 }
 
 void DummyRenderer::beginFrame()
@@ -128,17 +128,17 @@ void DummyRenderer::endFrame()
 
 void DummyRenderer::bindState(const RenderState& state)
 {
-    state;
+    (void)state;
 }
 
 void DummyRenderer::bindTarget(RenderTarget& renderTarget)
 {
-    renderTarget;
+    (void)renderTarget;
 }
 
 void DummyRenderer::bindWindow(Window& window)
 {
-    window;
+    (void)window;
 }
 
 void DummyRenderer::bindFrameBuffer(FrameBuffer& frameBuffer)
@@ -199,14 +199,14 @@ void DummyRenderer::destroyShader(Shader& shader)
 
 void DummyRenderer::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
 {
-    parameter;
-    value;
+    (void)parameter;
+    (void)value;
 }
 
 void DummyRenderer::bindTexture(Texture& texture, unsigned index)
 {
-    texture;
-    index;
+    (void)texture;
+    (void)index;
 }
 
 void DummyRenderer::uploadTexture(Texture& texture)

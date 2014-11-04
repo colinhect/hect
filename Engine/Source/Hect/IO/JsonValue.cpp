@@ -58,6 +58,8 @@ JsonValue::JsonValue(JsonValueType type) :
     case JsonValueType_Object:
         _any = JsonValue::Object();
         break;
+    default:
+        break;
     }
 }
 

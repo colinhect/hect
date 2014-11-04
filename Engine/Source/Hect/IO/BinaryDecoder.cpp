@@ -92,7 +92,7 @@ void BinaryDecoder::endObject()
 
 bool BinaryDecoder::selectMember(const char* name)
 {
-    name;
+    (void)name;
     return true; // Assume that all values are written
 }
 

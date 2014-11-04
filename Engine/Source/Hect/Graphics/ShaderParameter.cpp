@@ -69,6 +69,8 @@ void ShaderParameter::setBinding(ShaderParameterBinding binding)
 {
     switch (binding)
     {
+    case ShaderParameterBinding_None:
+        break;
     case ShaderParameterBinding_RenderTargetSize:
         _type = ShaderValueType_Vector2;
         break;

@@ -350,6 +350,8 @@ void SceneRenderer::setBoundShaderParameters(Shader& shader, const Camera& camer
 
             switch (binding)
             {
+            case ShaderParameterBinding_None:
+                break;
             case ShaderParameterBinding_RenderTargetSize:
                 _renderer->bindShaderParameter(parameter, Vector2((Real)target.width(), (Real)target.height()));
                 break;

@@ -232,7 +232,6 @@ TEST_CASE("Vector4_DivideScalarEquals")
 
 TEST_CASE("Vector4_Cast")
 {
-    double x = 1.0f;
     Vector4 a(1.0, 2.0, 3.0, 4.0);
     Vector4T<float> b = a;
 

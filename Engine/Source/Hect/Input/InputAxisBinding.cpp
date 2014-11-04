@@ -43,7 +43,7 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
             _value -= acceleration * timeStepInSeconds;
         }
     }
-    break;
+        break;
     case InputAxisBindingType_MouseButton:
     {
         if (platform.mouse().isButtonDown(mouseButton))
@@ -55,7 +55,7 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
             _value -= acceleration * timeStepInSeconds;
         }
     }
-    break;
+        break;
     case InputAxisBindingType_JoystickButton:
     {
         auto joysticks = platform.joysticks();
@@ -72,7 +72,7 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
             }
         }
     }
-    break;
+        break;
     case InputAxisBindingType_JoystickAxis:
     {
         auto joysticks = platform.joysticks();
@@ -89,7 +89,9 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
             _value = _value * 0.5 + 0.5;
         }
     }
-    break;
+        break;
+    default:
+        break;
     }
 
     _value = clamp<Real>(_value, 0, 1);

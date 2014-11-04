@@ -185,7 +185,7 @@ TEST_CASE("Json_IterateOnNull")
     JsonValue value;
     for (const JsonValue& element : value)
     {
-        element;
+        (void)element;
         REQUIRE(false);
     }
 }
