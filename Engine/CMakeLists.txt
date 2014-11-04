@@ -310,20 +310,36 @@ add_dependencies(Hect HectTypes)
 
 set(LINK_LIBRARIES Bullet ENet Glew JsonCpp LodePng PhysFS)
 
+# Add OpenGL as dependency
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 list(APPEND LINK_LIBRARIES ${OPENGL_LIBRARIES})
 
-include(FindPkgConfig)
-pkg_search_module(SDL2 required sdl2)
-include_directories(${SDL2_INCLUDE_DIRS})
-list(APPEND LINK_LIBRARIES ${SDL2_LIBRARIES})
-
+# Add SDL as dependency
 if(UNIX)
-    list(APPEND LINK_LIBRARIES pthread)
+    include(FindPkgConfig)
+    pkg_search_module(SDL2 required sdl2)
+    include_directories(${SDL2_INCLUDE_DIRS})
+    list(APPEND LINK_LIBRARIES ${SDL2_LIBRARIES})
+elseif(WIN32)
+    set(SDL_DIR "${PROJECT_SOURCE_DIR}/Engine/Dependencies/SDL2-2.0.3")
+    include_directories("${SDL_DIR}/include/")
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        list(APPEND LINK_LIBRARIES "${SDL_DIR}/lib/x64/SDL2.lib")
+        add_custom_command(TARGET Hect
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy "${SDL_DIR}/lib/x64/SDL2.dll" ${OUTPUT_DIR}
+            )
+    else()
+        list(APPEND LINK_LIBRARIES "${SDL_DIR}/lib/x86/SDL2.lib")
+        add_custom_command(TARGET Hect
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy "${SDL_DIR}/lib/x86/SDL2.dll" ${OUTPUT_DIR}
+            )
+    endif()
 endif()
 
-target_link_libraries(Hect Bullet ENet Glew JsonCpp LodePng PhysFS ${OPENGL_LIBRARIES} ${SDL2_LIBRARIES})
+target_link_libraries(Hect ${LINK_LIBRARIES})
 
 set_target_properties(Hect PROPERTIES
     PROJECT_LABEL Hect

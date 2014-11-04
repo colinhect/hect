@@ -17,15 +17,5 @@ Build status: [![Build status](https://travis-ci.org/colinhect/hect.png)](https:
 ### Linux
 * [GCC 4.8](https://gcc.gnu.org)
 * [Make](http://www.gnu.org/software/make)
-* OpenGL/GLU headers and libraries
-
-## Building
-
-* Invoke `python build.py debug` or `python build.py release`
-* Resulting binaries and assets can be found in Build/Output
-
-### Visual Studio
-* Invoke `python prebuild.py` to generate the Visual Studio solution files using CMake
-* Open Build/Hect.sln using Visual Studio 2013
-* Build the solution
-* Resulting binaries and assets can be found in Build/Output
+* [SDL2](https://www.libsdl.org)
+* [OpenGL](https://www.opengl.org)
