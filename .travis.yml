@@ -12,7 +12,7 @@ before_install:
  - export CXX=g++-4.8
 
 install:
- - cmake -H./ -BBuild -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DHEADLESS=TRUE
+ - cmake -H./ -BBuild -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DHEADLESS=ON
  - cd Build
  - make
  - cd ..

@@ -23,16 +23,33 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Timer.h"
 
+#include "Hect/Core/Configuration.h"
+
+#ifdef HECT_PLATFORM_SDL
 #include <SDL.h>
+#else
+#include <chrono>
+#endif
 
 using namespace hect;
 
+#ifdef HECT_PLATFORM_SDL
 static const uint64_t _frequency = SDL_GetPerformanceFrequency();
+#else
+static std::chrono::high_resolution_clock::time_point _start = std::chrono::high_resolution_clock::now();
+#endif
 
 TimeSpan Timer::totalElapsed()
 {
+#ifdef HECT_PLATFORM_SDL
     uint64_t ticks = SDL_GetPerformanceCounter();
     return TimeSpan::fromMicroseconds(1000000 * ticks / _frequency);
+#else
+    static auto _start = std::chrono::high_resolution_clock::now();
+    auto now = std::chrono::high_resolution_clock::now();
+    auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(now - _start).count();
+    return TimeSpan::fromMicroseconds(microseconds);
+#endif
 }
 
 Timer::Timer()
