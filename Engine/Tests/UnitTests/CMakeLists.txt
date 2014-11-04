@@ -9,36 +9,8 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../../Dependencies/Catch"
     )
     
-file(GLOB unittests_files Source/*.cpp Source/*.h Source/*.inl)
-source_group(Source FILES ${unittests_files})
-    
-add_executable(HectUnitTests
-    "Source/AngleTests.cpp"
-    "Source/AnyTests.cpp"
-    "Source/EncodingTests.cpp"
-    "Source/EventTests.cpp"
-    "Source/FormatTests.cpp"
-    "Source/FrustumTests.cpp"
-    "Source/JsonTests.cpp"
-    "Source/Main.cpp"
-    "Source/MaterialTests.cpp"
-    "Source/Matrix4Tests.cpp"
-    "Source/MeshReaderTests.cpp"
-    "Source/MeshTests.cpp"
-    "Source/PathTests.cpp"
-    "Source/PlaneTests.cpp"
-    "Source/QuaternionTests.cpp"
-    "Source/StreamTests.cpp"
-    "Source/TaskPoolTests.cpp"
-    "Source/TimeSpanTests.cpp"
-    "Source/Utilities.cpp"
-    "Source/Utilities.h"
-    "Source/Vector2Tests.cpp"
-    "Source/Vector3Tests.cpp"
-    "Source/Vector4Tests.cpp"
-    "Source/VertexAttributeTests.cpp"
-    "Source/VertexLayoutTests.cpp"
-    )
+grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Source)
+add_executable(HectUnitTests ${SOURCE_FILES})
     
 target_link_libraries(HectUnitTests Hect)
     

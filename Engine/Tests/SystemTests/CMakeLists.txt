@@ -9,16 +9,8 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../../Dependencies/Catch"
     )
     
-file(GLOB systemtests_files Source/*.cpp Source/*.h Source/*.inl)
-source_group(Source FILES ${systemtests_files})
-    
-add_executable(HectSystemTests
-    "Source/EncodingTests.cpp"
-    "Source/FileSystemTests.cpp"
-    "Source/Main.cpp"
-    "Source/RendererTests.cpp"
-    "Source/SceneTests.cpp"
-    )
+grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Source)
+add_executable(HectSystemTests ${SOURCE_FILES})
     
 target_link_libraries(HectSystemTests Hect)
     
