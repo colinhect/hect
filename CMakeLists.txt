@@ -8,7 +8,7 @@ set(HECT_MINOR_VERSION 0)
 set(HECT_PATCH_VERSION 1)
 set(HECT_VERSION ${HECT_MAJOR_VERSION}.${HECT_MINOR_VERSION}.${HECT_PATCH_VERSION})
 
-set(HEADLESS FALSE CACHE BOOL "Whether Hect should be built without SDL and OpenGL (useful for testing or server builds)")
+option(HEADLESS "Whether Hect should be built without SDL and OpenGL (useful for testing or server builds)" OFF)
 set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/Output" CACHE PATH "Output directory for built files")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
 

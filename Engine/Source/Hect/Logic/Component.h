@@ -29,8 +29,6 @@
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
 
-#pragma warning (disable : 4505)
-
 namespace hect
 {
 
