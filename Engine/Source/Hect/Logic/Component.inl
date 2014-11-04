@@ -198,7 +198,7 @@ Component<T>::Component(const Component<T>& component) :
     _pool(nullptr),
     _id((ComponentId)-1)
 {
-    component;
+    (void)component;
 }
 
 template <typename T>
@@ -206,7 +206,7 @@ Component<T>::Component(Component<T>&& component) :
     _pool(nullptr),
     _id((ComponentId)-1)
 {
-    component;
+    (void)component;
 }
 
 template <typename T>
@@ -252,7 +252,7 @@ ComponentTypeId Component<T>::typeId() const
 template <typename T>
 Component<T>& Component<T>::operator=(const Component& component)
 {
-    component;
+    (void)component;
 
     this->_pool = nullptr;
     this->_id = (ComponentId)-1;
@@ -263,7 +263,7 @@ Component<T>& Component<T>::operator=(const Component& component)
 template <typename T>
 Component<T>& Component<T>::operator=(Component&& component)
 {
-    component;
+    (void)component;
 
     this->_pool = nullptr;
     this->_id = (ComponentId)-1;
