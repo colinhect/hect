@@ -61,6 +61,10 @@ if(NOT HEADLESS)
     endif()
 endif()
 
+if(UNIX)
+    list(APPEND LINK_LIBRARIES "pthread")
+endif()
+
 target_link_libraries(Hect ${LINK_LIBRARIES})
 
 set_target_properties(Hect PROPERTIES
