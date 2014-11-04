@@ -1,5 +1,6 @@
 Build/*
 Engine/Docs/*
+Engine/Source/Hect/Core/Configuration.h
 Engine/Source/Hect/Generated/*.h
 Projects/*
 
