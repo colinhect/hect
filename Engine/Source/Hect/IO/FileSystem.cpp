@@ -245,6 +245,8 @@ Path FileSystem::applicationDataDirectory()
     TCHAR path[MAX_PATH];
     assert(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, path)));
     return convertPath(path);
+#else
+    return Path();
 #endif
 }
 

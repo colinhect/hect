@@ -247,7 +247,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         _vertexStream >> readValue;
         value = static_cast<float>(readValue);
     }
-    break;
+        break;
     case VertexAttributeType_UInt8:
     {
         _vertexStream.seek(offset + index * sizeof(uint8_t));
@@ -255,7 +255,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         _vertexStream >> readValue;
         value = static_cast<float>(readValue);
     }
-    break;
+        break;
     case VertexAttributeType_Int16:
     {
         _vertexStream.seek(offset + index * sizeof(int16_t));
@@ -263,7 +263,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         _vertexStream >> readValue;
         value = static_cast<float>(readValue);
     }
-    break;
+        break;
     case VertexAttributeType_UInt16:
     {
         _vertexStream.seek(offset + index * sizeof(uint16_t));
@@ -271,7 +271,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         _vertexStream >> readValue;
         value = static_cast<float>(readValue);
     }
-    break;
+        break;
     case VertexAttributeType_Int32:
     {
         _vertexStream.seek(offset + index * sizeof(int32_t));
@@ -279,7 +279,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         _vertexStream >> readValue;
         value = static_cast<float>(readValue);
     }
-    break;
+        break;
     case VertexAttributeType_UInt32:
     {
         _vertexStream.seek(offset + index * sizeof(uint32_t));
@@ -287,7 +287,10 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         _vertexStream >> readValue;
         value = static_cast<float>(readValue);
     }
-    break;
+        break;
+    case VertexAttributeType_Reserved:
+        // Float 16
+        break;
     case VertexAttributeType_Float32:
         _vertexStream.seek(offset + index * sizeof(float));
         _vertexStream >> value;

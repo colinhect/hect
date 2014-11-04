@@ -333,8 +333,14 @@ inline __m128 operator * (const __m128 A, const __m128 B)
 	#define btAssign128(r0,r1,r2,r3) (float32x4_t){r0,r1,r2,r3}
 #else//BT_USE_NEON
 
+    #ifdef __GNUC__
+    #define VARIABLE_IS_NOT_USED __attribute__ ((unused))
+    #else
+    #define VARIABLE_IS_NOT_USED
+    #endif
+
 	#ifndef BT_INFINITY
-	static  int btInfinityMask = 0x7F800000;
+static  int VARIABLE_IS_NOT_USED btInfinityMask = 0x7F800000;
 	#define BT_INFINITY (*(float*)&btInfinityMask)
 	#endif
 #endif//BT_USE_NEON

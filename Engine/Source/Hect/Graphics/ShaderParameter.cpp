@@ -75,6 +75,7 @@ void ShaderParameter::setBinding(ShaderParameterBinding binding)
         _type = ShaderValueType_Vector2;
         break;
     case ShaderParameterBinding_CameraPosition:
+    case ShaderParameterBinding_CameraFront:
     case ShaderParameterBinding_CameraUp:
         _type = ShaderValueType_Vector3;
         break;
