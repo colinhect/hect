@@ -12,7 +12,6 @@ Build status: [![Build status](https://travis-ci.org/colinhect/hect.png)](https:
 
 ### Windows
 * [Microsoft Visual Studio 2013 (Express or Professional)](http://www.visualstudio.com)
-* [Microsoft DirectX SDK](http://www.microsoft.com/en-us/download/details.aspx?id=6812)
 
 ### Linux
 * [GCC 4.8](https://gcc.gnu.org)
