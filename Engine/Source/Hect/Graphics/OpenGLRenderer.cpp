@@ -47,6 +47,9 @@ using namespace hect;
 #define GL_ASSERT(expression) expression
 #endif
 
+namespace
+{
+
 // OpenGL-specific data for a shader program
 class ShaderData :
     public Renderer::Data<Shader>
@@ -271,6 +274,8 @@ GLenum _textureTypeLookUp[3] =
     GL_TEXTURE_2D,
     GL_TEXTURE_CUBE_MAP
 };
+
+}
 
 OpenGLRenderer::OpenGLRenderer(Window& window)
 {
@@ -975,7 +980,7 @@ void OpenGLRenderer::clear()
     GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
-const OpenGLRenderer::Capabilities& OpenGLRenderer::capabilities() const
+const Renderer::Capabilities& OpenGLRenderer::capabilities() const
 {
     return _capabilities;
 }

@@ -23,31 +23,34 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#ifdef _MSC_VER
-#define HECT_WINDOWS_BUILD
-#ifdef _DEBUG
-#define HECT_DEBUG_BUILD
-#endif
-#endif
+#include "Hect/Runtime/Platform.h"
 
-#define OFF 0
-#define ON 1
+namespace hect
+{
 
-#define HECT_HEADLESS OFF
+class DummyPlatform :
+    public Platform
+{
+public:
+    DummyPlatform();
 
-#if HECT_HEADLESS != ON
-#define HECT_PLATFORM_SDL
-#define HECT_RENDERER_OPENGL
-#endif
+    Window::Pointer createWindow(const std::string& title, const VideoMode& videoMode) override;
 
-#define HECT_DOUBLE_PRECISION
+    bool handleEvents() override;
 
-#define HECT_ENABLE_LOG_INFO
-#define HECT_ENABLE_LOG_DEBUG
-#define HECT_ENABLE_LOG_WARNING
-#define HECT_ENABLE_LOG_ERROR
-#define HECT_ENABLE_LOG_TRACE
+    bool hasMouse() override;
+    Mouse& mouse() override;
 
-///
-/// The namespace containing the Hect Engine API.
-namespace hect {}
+    bool hasKeyboard() override;
+    Keyboard& keyboard() override;
+
+    JoystickSequence joysticks() override;
+
+private:
+    std::unique_ptr<Mouse> _mouse;
+    std::unique_ptr<Keyboard> _keyboard;
+    std::vector<Joystick> _joysticks;
+    MouseMode _mouseMode { MouseMode_Cursor };
+};
+
+}

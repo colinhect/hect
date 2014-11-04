@@ -35,10 +35,14 @@
 
 #ifdef HECT_PLATFORM_SDL
 #include "Hect/Runtime/SdlPlatform.h"
+#else
+#include "Hect/Runtime/DummyPlatform.h"
 #endif
 
 #ifdef HECT_RENDERER_OPENGL
 #include "Hect/Graphics/OpenGLRenderer.h"
+#else
+#include "Hect/Graphics/DummyRenderer.h"
 #endif
 
 #include "Hect/Generated/RegisterTypes.h"
@@ -61,7 +65,7 @@ Engine::Engine(int argc, char* const argv[])
 #ifdef HECT_PLATFORM_SDL
     _platform.reset(new SdlPlatform(argc, argv));
 #else
-    _platform.reset(new DummyPlatform(argc, argv));
+    _platform.reset(new DummyPlatform());
 #endif
 
 #ifdef HECT_WINDOWS_BUILD
@@ -109,7 +113,7 @@ Engine::Engine(int argc, char* const argv[])
 #ifdef HECT_RENDERER_OPENGL
         _renderer.reset(new OpenGLRenderer(*_window));
 #else
-        _renderer.reset(new DummyGraphicsContext(*_window));
+        _renderer.reset(new DummyRenderer(*_window));
 #endif
     }
 }

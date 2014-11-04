@@ -146,6 +146,7 @@ public:
     template <typename T>
     class Object
     {
+        friend class DummyRenderer;
         friend class OpenGLRenderer;
     public:
         virtual ~Object();

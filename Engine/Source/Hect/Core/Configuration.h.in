@@ -33,7 +33,7 @@
 #define OFF 0
 #define ON 1
 
-#define HECT_HEADLESS OFF
+#define HECT_HEADLESS @HEADLESS@
 
 #if HECT_HEADLESS != ON
 #define HECT_PLATFORM_SDL

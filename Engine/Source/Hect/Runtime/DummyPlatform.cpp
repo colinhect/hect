@@ -21,33 +21,67 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "DummyPlatform.h"
 
-#ifdef _MSC_VER
-#define HECT_WINDOWS_BUILD
-#ifdef _DEBUG
-#define HECT_DEBUG_BUILD
-#endif
-#endif
+using namespace hect;
 
-#define OFF 0
-#define ON 1
+class DummyWindow :
+    public Window
+{
+public:
 
-#define HECT_HEADLESS OFF
+    DummyWindow(const std::string& title, const VideoMode& videoMode) :
+        Window(title, videoMode)
+    {
+    }
 
-#if HECT_HEADLESS != ON
-#define HECT_PLATFORM_SDL
-#define HECT_RENDERER_OPENGL
-#endif
+    void swapBuffers()
+    {
+    }
+};
 
-#define HECT_DOUBLE_PRECISION
+DummyPlatform::DummyPlatform()
+{
+    _mouse.reset(new Mouse());
+    _keyboard.reset(new Keyboard());
+}
 
-#define HECT_ENABLE_LOG_INFO
-#define HECT_ENABLE_LOG_DEBUG
-#define HECT_ENABLE_LOG_WARNING
-#define HECT_ENABLE_LOG_ERROR
-#define HECT_ENABLE_LOG_TRACE
+Window::Pointer DummyPlatform::createWindow(const std::string& title, const VideoMode& videoMode)
+{
+    return Window::Pointer(new DummyWindow(title, videoMode));
+}
 
-///
-/// The namespace containing the Hect Engine API.
-namespace hect {}
+bool DummyPlatform::handleEvents()
+{
+    bool active = true;
+
+    _mouse->dispatchEvents();
+    _keyboard->dispatchEvents();
+
+    return active;
+}
+
+bool DummyPlatform::hasMouse()
+{
+    return true;
+}
+
+Mouse& DummyPlatform::mouse()
+{
+    return *_mouse;
+}
+
+bool DummyPlatform::hasKeyboard()
+{
+    return true;
+}
+
+Keyboard& DummyPlatform::keyboard()
+{
+    return *_keyboard;
+}
+
+Platform::JoystickSequence DummyPlatform::joysticks()
+{
+    return _joysticks;
+}
