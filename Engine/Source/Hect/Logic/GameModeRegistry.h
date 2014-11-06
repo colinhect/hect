@@ -34,12 +34,25 @@
 namespace hect
 {
 
+///
+/// Provides the ability to dynamically create game modes based on type
+/// information.
 class GameModeRegistry
 {
 public:
 
+    ///
+    /// Creates a game mode of the specified type.
+    ///
+    /// \param typeName The type name of type of game mode to create.
+    /// \param engine The engine that the game mode is being created for.
+    ///
+    /// \throws Error If the specified type name does not correspond to a
+    /// registered game mode type.
     static std::unique_ptr<GameMode> create(const std::string& typeName, Engine& engine);
 
+    ///
+    /// Registers a game mode type.
     template <typename T>
     static void registerType();
 

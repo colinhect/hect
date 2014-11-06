@@ -2338,3 +2338,9 @@ GENERATE_LEGEND        = YES
 # This tag requires that the tag HAVE_DOT is set to YES.
 
 DOT_CLEANUP            = YES
+
+# Hect-specific aliases
+
+ALIASES += component="\note This class is a registered with the ComponentRegistry."
+ALIASES += system="\note This class is a registered with the SystemRegistry."
+ALIASES += gamemode="\note This class is a registered with the GameModeRegistry."

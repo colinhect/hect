@@ -79,7 +79,7 @@ public:
     ///
     /// Re-loads any cached assets of a specific type.
     ///
-    /// \param onlyModfied Whether to only re-load the assets whose asset
+    /// \param onlyModified Whether to only re-load the assets whose asset
     /// files have been modified since it was loaded.
     template <typename T>
     void refresh(bool onlyModified);
@@ -87,7 +87,7 @@ public:
     ///
     /// Re-loads any cached assets of all types.
     ///
-    /// \param onlyModfied Whether to only re-load the assets whose asset
+    /// \param onlyModified Whether to only re-load the assets whose asset
     /// files have been modified since it was loaded.
     void refresh(bool onlyModified);
 

@@ -49,11 +49,13 @@ public:
     /// while decoding.
     Decoder(AssetCache& assetCache);
 
-    virtual ~Decoder();
+    virtual ~Decoder() { }
 
     ///
     /// Returns the asset cache to use to get needed assets from while
     /// decoding.
+    ///
+    /// \throws Error If the decoder has no asset cache.
     AssetCache& assetCache();
 
     ///
@@ -110,7 +112,7 @@ public:
     ///
     /// Selects a specific member of the object.
     ///
-    /// \notes The following call to decode a value (included beginning an
+    /// \note The following call to decode a value (included beginning an
     /// array or object) will decode from the selected member of the object.
     ///
     /// \param name The name of the member to select.

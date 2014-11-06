@@ -36,22 +36,71 @@
 namespace hect
 {
 
+///
+/// A mapping from component id to component pool.
 typedef std::vector<std::shared_ptr<ComponentPoolBase>> ComponentPoolMap;
 
+///
+/// Provides the ability to dynamically create components and component pools
+/// based on type information.
 class ComponentRegistry
 {
 public:
+
+    ///
+    /// Creates a component of the specified type.
+    ///
+    /// \param typeId The type id representing the type of component to create.
+    ///
+    /// \throws Error If the specified type id does not correspond to a
+    /// registered component type.
     static std::shared_ptr<ComponentBase> create(ComponentTypeId typeId);
+
+    ///
+    /// Creates a component pool of the specified type.
+    ///
+    /// \param typeId The type id representing the type of component pool to
+    /// create.
+    /// \param scene The scene that the component pool is being created for.
+    ///
+    /// \throws Error If the specified type id does not correspond to a
+    /// registered component type.
     static std::shared_ptr<ComponentPoolBase> createPool(ComponentTypeId typeId, Scene& scene);
 
+    ///
+    /// Creates a component pool map containing a component pool for each of
+    /// the registered component types.
+    ///
+    /// \param scene The scene that the component pools are being created for.
     static ComponentPoolMap createPoolMap(Scene& scene);
 
+    ///
+    /// Returns the component type id for the given component type index.
+    ///
+    /// \param typeIndex The type index of the component type to get the id of.
+    ///
+    /// \throws Error If the specified type index does not correspond to a
+    /// registered component type.
     static ComponentTypeId typeIdOf(std::type_index typeIndex);
+
+    ///
+    /// Returns the component type id for the given component type name.
+    ///
+    /// \param typeName The type name of the component type to get the id of.
+    ///
+    /// \throws Error If the specified type name does not correspond to a
+    /// registered component type.
     static ComponentTypeId typeIdOf(const std::string& typeName);
 
+    ///
+    /// Registers a component type.
     template <typename T>
     static void registerType();
 
+    ///
+    /// Returns the component type id for the given component type.
+    ///
+    /// \throws Error If the specified type is not a registered component type.
     template <typename T>
     static ComponentTypeId typeIdOf();
 

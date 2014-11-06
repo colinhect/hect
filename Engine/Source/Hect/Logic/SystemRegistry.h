@@ -35,18 +35,42 @@
 namespace hect
 {
 
+///
+/// A mapping from system id to system.
 typedef std::vector<std::shared_ptr<System>> SystemMap;
 
+///
+/// Provides the ability to dynamically create systems based on type
+/// information.
 class SystemRegistry
 {
 public:
+
+    ///
+    /// Creates a system map containing a system for each of the registered
+    /// system types.
+    ///
+    /// \param scene The scene that the systems are being created for.
     static SystemMap createMap(Scene& scene);
 
+    ///
+    /// Returns the system type id for the given system type index.
+    ///
+    /// \param typeIndex The type index of the system type to get the id of.
+    ///
+    /// \throws Error If the specified type index does not correspond to a
+    /// registered system type.
     static SystemTypeId typeIdOf(std::type_index typeIndex);
 
+    ///
+    /// Registers a system type.
     template <typename T>
     static void registerType();
 
+    ///
+    /// Returns the system type id for the given system type.
+    ///
+    /// \throws Error If the specified type is not a registered system type.
     template <typename T>
     static SystemTypeId typeIdOf();
 

@@ -36,10 +36,6 @@ Decoder::Decoder(AssetCache& assetCache) :
 {
 }
 
-Decoder::~Decoder()
-{
-}
-
 AssetCache& Decoder::assetCache()
 {
     if (!_assetCache)
