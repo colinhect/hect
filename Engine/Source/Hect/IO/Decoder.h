@@ -45,8 +45,7 @@ public:
     ///
     /// Constructs a decoder.
     ///
-    /// \param assetCache The asset cache to use to get any needed assets from
-    /// while decoding.
+    /// \param assetCache The asset cache to load further assets from.
     Decoder(AssetCache& assetCache);
 
     virtual ~Decoder() { }
@@ -97,7 +96,7 @@ public:
     ///
     /// Begins an object.
     ///
-    /// \note The specific members of an object can be target using
+    /// \note The specific members of an object can be targeted using
     /// selectMember().
     ///
     /// \throws Error If the next value to decode is not an object.
@@ -128,21 +127,68 @@ public:
     /// \throws Error If an object was not started using beginObject().
     virtual std::vector<std::string> memberNames() const = 0;
 
+    ///
+    /// Decodes a string from the current object or array, returning the
+    /// decoded value.
     virtual std::string decodeString() = 0;
+
+    ///
+    /// Decodes an 8-bit signed integer from the current object or array,
+    /// returning the decoded value.
     virtual int8_t decodeInt8() = 0;
+
+    ///
+    /// Decodes an 8-bit unsigned integer from the current object or array,
+    /// returning the decoded value.
     virtual uint8_t decodeUInt8() = 0;
+
+    ///
+    /// Decodes a 16-bit signed integer from the current object or array,
+    /// returning the decoded value.
     virtual int16_t decodeInt16() = 0;
+
+    ///
+    /// Decodes a 16-bit unsigned integer from the current object or array,
+    /// returning the decoded value.
     virtual uint16_t decodeUInt16() = 0;
+
+    ///
+    /// Decodes a 32-bit signed integer from the current object or array,
+    /// returning the decoded value.
     virtual int32_t decodeInt32() = 0;
+
+    ///
+    /// Decodes a 32-bit unsigned integer from the current object or array,
+    /// returning the decoded value.
     virtual uint32_t decodeUInt32() = 0;
+
+    ///
+    /// Decodes a 64-bit signed integer from the current object or array,
+    /// returning the decoded value.
     virtual int64_t decodeInt64() = 0;
+
+    ///
+    /// Decodes a 64-bit unsigned integer from the current object or array,
+    /// returning the decoded value.
     virtual uint64_t decodeUInt64() = 0;
+
+    ///
+    /// Decodes a 32-bit floating point number from the current object or
+    /// array, returning the decoded value.
     virtual float decodeFloat32() = 0;
+
+    ///
+    /// Decodes a 64-bit floating point number from the current object or
+    /// array, returning the decoded value.
     virtual double decodeFloat64() = 0;
+
+    ///
+    /// Decodes a boolean from the current object or array, returning the
+    /// decoded value.
     virtual bool decodeBool() = 0;
 
 private:
-    AssetCache* _assetCache;
+    AssetCache* _assetCache { nullptr };
 };
 
 Decoder& operator>>(Decoder& decoder, const BeginArray& beginArray);

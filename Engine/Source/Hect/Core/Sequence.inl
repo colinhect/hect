@@ -26,7 +26,7 @@ namespace hect
 
 template <typename T, typename Container>
 Sequence<T, Container>::Sequence(const Container& container) :
-    _container(const_cast<Container*>(&container))
+    _container(const_cast<Container&>(container))
 {
 }
 
@@ -39,25 +39,25 @@ Sequence<T, Container>::Sequence(Sequence&& sequence) :
 template <typename T, typename Container>
 typename Container::iterator Sequence<T, Container>::begin()
 {
-    return _container->begin();
+    return _container.begin();
 }
 
 template <typename T, typename Container>
 typename Container::iterator Sequence<T, Container>::end()
 {
-    return _container->end();
+    return _container.end();
 }
 
 template <typename T, typename Container>
 typename Container::const_iterator Sequence<T, Container>::begin() const
 {
-    return _container->begin();
+    return _container.begin();
 }
 
 template <typename T, typename Container>
 typename Container::const_iterator Sequence<T, Container>::end() const
 {
-    return _container->end();
+    return _container.end();
 }
 
 template <typename T, typename Container>

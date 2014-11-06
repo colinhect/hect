@@ -26,7 +26,7 @@
 using namespace hect;
 
 MeshReader::MeshReader(const Mesh& mesh) :
-    _mesh(&mesh),
+    _mesh(mesh),
     _vertexStream(mesh.vertexData()),
     _indexStream(mesh.indexData())
 {
@@ -36,11 +36,11 @@ bool MeshReader::nextVertex()
 {
     if (_vertexCount != 0)
     {
-        _vertexPosition += _mesh->vertexLayout().vertexSize();
+        _vertexPosition += _mesh.vertexLayout().vertexSize();
     }
 
     ++_vertexCount;
-    return _mesh->vertexCount() >= _vertexCount;
+    return _mesh.vertexCount() >= _vertexCount;
 }
 
 Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
@@ -49,7 +49,7 @@ Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
 
     float value = 0;
 
-    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    const VertexLayout& vertexLayout = _mesh.vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
@@ -65,7 +65,7 @@ Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
 
     Vector2 value;
 
-    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    const VertexLayout& vertexLayout = _mesh.vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
@@ -91,7 +91,7 @@ Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
 
     Vector3 value;
 
-    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    const VertexLayout& vertexLayout = _mesh.vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
@@ -123,7 +123,7 @@ Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
 
     Vector4 value;
 
-    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    const VertexLayout& vertexLayout = _mesh.vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
@@ -158,21 +158,21 @@ bool MeshReader::nextIndex()
 {
     if (_indexCount != 0)
     {
-        _indexPosition += _mesh->indexSize();
+        _indexPosition += _mesh.indexSize();
     }
 
     ++_indexCount;
-    return _mesh->indexCount() >= _indexCount;
+    return _mesh.indexCount() >= _indexCount;
 }
 
 uint8_t MeshReader::readIndexUInt8() const
 {
-    return (uint8_t)readIndexUInt32();
+    return static_cast<uint8_t>(readIndexUInt32());
 }
 
 uint16_t MeshReader::readIndexUInt16() const
 {
-    return (uint16_t)readIndexUInt32();
+    return static_cast<uint16_t>(readIndexUInt32());
 }
 
 uint32_t MeshReader::readIndexUInt32() const
@@ -182,7 +182,7 @@ uint32_t MeshReader::readIndexUInt32() const
 
     // Read the index data based on the type
     uint32_t index = 0;
-    switch (_mesh->indexType())
+    switch (_mesh.indexType())
     {
     case IndexType_UInt8:
     {
@@ -212,7 +212,7 @@ void MeshReader::checkVertexBoundary() const
     {
         throw Error("Cannot read attribute before moving to the first vertex");
     }
-    else if (_vertexCount > _mesh->vertexCount())
+    else if (_vertexCount > _mesh.vertexCount())
     {
         throw Error("Cannot read past the last vertex");
     }
@@ -224,7 +224,7 @@ void MeshReader::checkIndexBoundary() const
     {
         throw Error("Cannot read index before moving to the first index");
     }
-    else if (_indexCount > _mesh->indexCount())
+    else if (_indexCount > _mesh.indexCount())
     {
         throw Error("Cannot read past the last index");
     }

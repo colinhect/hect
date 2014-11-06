@@ -53,18 +53,13 @@ public:
 
     bool isBinaryStream() const override;
     ReadStream& binaryStream() override;
-
     void beginArray() override;
     void endArray() override;
-
     bool hasMoreElements() const override;
-
     void beginObject() override;
     void endObject() override;
-
     bool selectMember(const char* name) override;
     std::vector<std::string> memberNames() const override;
-
     std::string decodeString() override;
     int8_t decodeInt8() override;
     uint8_t decodeUInt8() override;
@@ -85,10 +80,10 @@ private:
         ValueType_Object
     };
 
-    std::stack<unsigned> _indexStack;
-    std::stack<unsigned> _countStack;
+    std::stack<uint32_t> _indexStack;
+    std::stack<uint32_t> _countStack;
     std::stack<ValueType> _valueTypeStack;
-    ReadStream* _stream;
+    ReadStream& _stream;
 };
 
 }

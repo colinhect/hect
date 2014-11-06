@@ -115,10 +115,7 @@ private:
 
     float readComponentValue(const VertexAttribute& attribute, unsigned index) const;
 
-    const Mesh* _mesh
-    {
-        nullptr
-    };
+    const Mesh& _mesh;
 
     size_t _vertexCount { 0 };
     size_t _vertexPosition { 0 };

@@ -29,13 +29,13 @@
 using namespace hect;
 
 BinaryDecoder::BinaryDecoder(ReadStream& stream) :
-    _stream(&stream)
+    _stream(stream)
 {
 }
 
 BinaryDecoder::BinaryDecoder(ReadStream& stream, AssetCache& assetCache) :
     Decoder(assetCache),
-    _stream(&stream)
+    _stream(stream)
 {
 }
 
@@ -46,7 +46,7 @@ bool BinaryDecoder::isBinaryStream() const
 
 ReadStream& BinaryDecoder::binaryStream()
 {
-    return *_stream;
+    return _stream;
 }
 
 void BinaryDecoder::beginArray()
@@ -57,7 +57,7 @@ void BinaryDecoder::beginArray()
     }
 
     uint32_t count;
-    *_stream >> count;
+    _stream >> count;
 
     _valueTypeStack.push(ValueType_Array);
     _countStack.push(count);
@@ -108,7 +108,7 @@ std::string BinaryDecoder::decodeString()
         ++_indexStack.top();
     }
     std::string value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -119,7 +119,7 @@ int8_t BinaryDecoder::decodeInt8()
         ++_indexStack.top();
     }
     int8_t value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -130,7 +130,7 @@ uint8_t BinaryDecoder::decodeUInt8()
         ++_indexStack.top();
     }
     uint8_t value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -141,7 +141,7 @@ int16_t BinaryDecoder::decodeInt16()
         ++_indexStack.top();
     }
     int16_t value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -152,7 +152,7 @@ uint16_t BinaryDecoder::decodeUInt16()
         ++_indexStack.top();
     }
     uint16_t value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -163,7 +163,7 @@ int32_t BinaryDecoder::decodeInt32()
         ++_indexStack.top();
     }
     int32_t value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -174,7 +174,7 @@ uint32_t BinaryDecoder::decodeUInt32()
         ++_indexStack.top();
     }
     uint32_t value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -185,7 +185,7 @@ int64_t BinaryDecoder::decodeInt64()
         ++_indexStack.top();
     }
     int64_t value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -196,7 +196,7 @@ uint64_t BinaryDecoder::decodeUInt64()
         ++_indexStack.top();
     }
     uint64_t value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -207,7 +207,7 @@ float BinaryDecoder::decodeFloat32()
         ++_indexStack.top();
     }
     float value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -218,7 +218,7 @@ double BinaryDecoder::decodeFloat64()
         ++_indexStack.top();
     }
     double value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }
 
@@ -229,6 +229,6 @@ bool BinaryDecoder::decodeBool()
         ++_indexStack.top();
     }
     bool value;
-    *_stream >> value;
+    _stream >> value;
     return value;
 }

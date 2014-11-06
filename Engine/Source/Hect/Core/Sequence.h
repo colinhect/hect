@@ -84,7 +84,7 @@ public:
     const T& operator[](size_t index) const;
 
 private:
-    Container* _container;
+    Container& _container;
 };
 
 }

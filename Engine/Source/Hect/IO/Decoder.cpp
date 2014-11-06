@@ -26,8 +26,7 @@
 namespace hect
 {
 
-Decoder::Decoder() :
-    _assetCache(nullptr)
+Decoder::Decoder()
 {
 }
 
@@ -40,7 +39,7 @@ AssetCache& Decoder::assetCache()
 {
     if (!_assetCache)
     {
-        throw Error("Decoder does not have a referenced asset cache");
+        throw Error("Decoder does not have an asset cache");
     }
     return *_assetCache;
 }
