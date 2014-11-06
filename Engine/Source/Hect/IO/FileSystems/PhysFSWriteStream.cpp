@@ -21,49 +21,59 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "PhysFSWriteStream.h"
 
-#include "Hect/Core/Configuration.h"
-#include "Hect/Runtime/Platform.h"
+#include <cassert>
 
-#ifdef HECT_PLATFORM_SDL
+#include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
 
-// Forward declarations for SDL
-struct _SDL_Joystick;
-typedef struct _SDL_Joystick SDL_Joystick;
+using namespace hect;
 
-namespace hect
+PhysFSWriteStream::PhysFSWriteStream(const Path& path) :
+    _path(path)
 {
-
-class SdlPlatform :
-    public Platform
-{
-public:
-    SdlPlatform();
-    ~SdlPlatform();
-
-    std::unique_ptr<Window> createWindow(const std::string& title, const VideoMode& videoMode) override;
-
-    bool handleEvents() override;
-
-    bool hasMouse() override;
-    Mouse& mouse() override;
-
-    bool hasKeyboard() override;
-    Keyboard& keyboard() override;
-
-    JoystickSequence joysticks() override;
-
-private:
-    std::unique_ptr<Mouse> _mouse;
-    std::unique_ptr<Keyboard> _keyboard;
-    std::vector<Joystick> _joysticks;
-    std::vector<SDL_Joystick*> _openJoysticks;
-    MouseMode _mouseMode { MouseMode_Cursor };
-
-    static bool _initialized;
-};
-
+    _handle = PHYSFS_openWrite(path.asString().c_str());
+    if (!_handle)
+    {
+        throw Error(format("Failed to open file for writing: %s", PHYSFS_getLastError()));
+    }
 }
 
-#endif
+PhysFSWriteStream::~PhysFSWriteStream()
+{
+    if (_handle)
+    {
+        if (!PHYSFS_close(_handle))
+        {
+            throw Error(format("Failed to close file for writing: %s", PHYSFS_getLastError()));
+        }
+    }
+}
+
+void PhysFSWriteStream::write(const uint8_t* bytes, size_t byteCount)
+{
+    assert(_handle);
+    assert(bytes);
+
+    PHYSFS_sint64 result = PHYSFS_write(_handle, bytes, 1, static_cast<PHYSFS_uint32>(byteCount));
+    if (result != static_cast<PHYSFS_sint64>(byteCount))
+    {
+        throw Error(format("Failed to write to file: %s", PHYSFS_getLastError()));
+    }
+}
+
+size_t PhysFSWriteStream::position() const
+{
+    assert(_handle);
+    return static_cast<size_t>(PHYSFS_tell(_handle));
+}
+
+void PhysFSWriteStream::seek(size_t position)
+{
+    assert(_handle);
+    if (!PHYSFS_seek(_handle, position))
+    {
+        throw Error(format("Failed to seek in file: %s", PHYSFS_getLastError()));
+    }
+}

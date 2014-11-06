@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/Path.h"
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
@@ -35,33 +36,33 @@ namespace hect
 
 ///
 /// Provides read and write access to files.
-class FileSystem
+class FileSystem :
+    public Uncopyable
 {
 public:
-    FileSystem(int argc, char* const argv[]);
-    ~FileSystem();
+    virtual ~FileSystem() { }
 
     ///
     /// Returns the full path to the base directory of the executable.
-    Path baseDirectory();
+    virtual Path baseDirectory() = 0;
 
     ///
     /// Returns the full path to the working directory of the executable.
-    Path workingDirectory();
+    virtual Path workingDirectory() = 0;
 
     ///
     /// Returns the full path to the user's home directory.
-    Path userDirectory();
+    virtual Path userDirectory() = 0;
 
     ///
     /// Returns the full path to the application data directory.
-    Path applicationDataDirectory();
+    virtual Path applicationDataDirectory() = 0;
 
     ///
     /// Sets the directory where write access is allowed and directed to.
     ///
     /// \param path The path to the directory to direct write access.
-    void setWriteDirectory(const Path& path);
+    virtual void setWriteDirectory(const Path& path) = 0;
 
     ///
     /// Mounts a directory or archive.
@@ -72,7 +73,7 @@ public:
     ///
     /// \param path Path to the directory or archive to mount.
     /// \param mountPoint The point to mount the path to.
-    void mountArchive(const Path& path, const Path& mountPoint = Path());
+    virtual void mountArchive(const Path& path, const Path& mountPoint = Path()) = 0;
 
     ///
     /// Opens a file for reading.
@@ -80,7 +81,7 @@ public:
     /// \param path The path to the file to open for reading.
     ///
     /// \returns A stream for the opened file.
-    ReadStream openFileForRead(const Path& path);
+    virtual ReadStream openFileForRead(const Path& path) = 0;
 
     ///
     /// Opens a file for writing.
@@ -92,7 +93,7 @@ public:
     /// the write directory path.
     ///
     /// \returns A stream for the opened file.
-    WriteStream openFileForWrite(const Path& path);
+    virtual WriteStream openFileForWrite(const Path& path) = 0;
 
     ///
     /// Creates a directory.
@@ -105,14 +106,14 @@ public:
     ///
     /// \param path The path to the directory to create relative to the
     /// write directory path.
-    void createDirectory(const Path& path);
+    virtual void createDirectory(const Path& path) = 0;
 
     ///
     /// Returns the paths to all files in a given directory.
     ///
     /// \param path The path of the directory to return the paths of the files
     /// it contains.
-    std::vector<Path> filesInDirectory(const Path& path);
+    virtual std::vector<Path> filesInDirectory(const Path& path) = 0;
 
     ///
     /// Removes the file or directory at the given path.  If the path does
@@ -123,20 +124,20 @@ public:
     ///
     /// \param path The path to the file or directory to remove relative to
     /// the write directory path.
-    void remove(const Path& path);
+    virtual void remove(const Path& path) = 0;
 
     ///
     /// Returns whether there is a file or directory at the given path.
     ///
     /// \param path The path to check the existence of.
-    bool exists(const Path& path);
+    virtual bool exists(const Path& path) = 0;
 
     ///
     /// Returns the time the given file was last modified.
     ///
     /// \note If the last modified time cannot be determined then -1 is
     /// returned.
-    TimeStamp lastModified(const Path& path);
+    virtual TimeStamp lastModified(const Path& path) = 0;
 };
 
 }

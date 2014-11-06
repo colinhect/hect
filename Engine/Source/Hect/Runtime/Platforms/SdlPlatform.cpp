@@ -139,6 +139,8 @@ Key convertKey(SDL_Keycode key)
 
 SdlPlatform::SdlPlatform()
 {
+    assert(!_initialized);
+
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
     {
         throw Error(format("Failed to initialize SDL: %s", SDL_GetError()));
@@ -176,6 +178,8 @@ SdlPlatform::SdlPlatform()
 
     _mouse.reset(new Mouse());
     _keyboard.reset(new Keyboard());
+
+    _initialized = true;
 }
 
 SdlPlatform::~SdlPlatform()
@@ -313,5 +317,7 @@ Platform::JoystickSequence SdlPlatform::joysticks()
 {
     return _joysticks;
 }
+
+bool SdlPlatform::_initialized = false;
 
 #endif

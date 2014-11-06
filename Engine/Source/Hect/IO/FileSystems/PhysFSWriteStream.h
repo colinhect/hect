@@ -23,33 +23,30 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#ifdef _MSC_VER
-#define HECT_WINDOWS_BUILD
-#ifdef _DEBUG
-#define HECT_DEBUG_BUILD
-#endif
-#endif
+#include <physfs.h>
 
-#define OFF 0
-#define ON 1
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/IO/Path.h"
+#include "Hect/IO/WriteStream.h"
 
-#define HECT_HEADLESS @HEADLESS@
+namespace hect
+{
 
-#if HECT_HEADLESS != ON
-#define HECT_PLATFORM_SDL
-#define HECT_RENDERER_OPENGL
-#endif
+class PhysFSWriteStream :
+    public WriteStream,
+    public Uncopyable
+{
+public:
+    PhysFSWriteStream(const Path& path);
+    ~PhysFSWriteStream();
 
-#define HECT_FILESYSTEM_PHYSFS
+    void write(const uint8_t* bytes, size_t byteCount) override;
+    size_t position() const override;
+    void seek(size_t position) override;
 
-#define HECT_DOUBLE_PRECISION
+private:
+    Path _path;
+    PHYSFS_File* _handle { nullptr };
+};
 
-#define HECT_ENABLE_LOG_INFO
-#define HECT_ENABLE_LOG_DEBUG
-#define HECT_ENABLE_LOG_WARNING
-#define HECT_ENABLE_LOG_ERROR
-#define HECT_ENABLE_LOG_TRACE
-
-///
-/// The namespace containing the Hect Engine API.
-namespace hect {}
+}

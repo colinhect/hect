@@ -28,9 +28,12 @@
 #include "Hect/Core/Configuration.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/IO/FileSystem.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/Runtime/Window.h"
+
+#ifdef HECT_FILESYSTEM_PHYSFS
+#include "Hect/IO/FileSystems/PhysFSFileSystem.h"
+#endif
 
 #ifdef HECT_PLATFORM_SDL
 #include "Hect/Runtime/Platforms/SdlPlatform.h"
@@ -74,7 +77,9 @@ private:
 
     CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 
-    FileSystem _fileSystem;
+#ifdef HECT_FILESYSTEM_PHYSFS
+    PhysFSFileSystem _fileSystem;
+#endif
 
 #ifdef HECT_PLATFORM_SDL
     SdlPlatform _platform;

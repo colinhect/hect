@@ -23,33 +23,36 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#ifdef _MSC_VER
-#define HECT_WINDOWS_BUILD
-#ifdef _DEBUG
-#define HECT_DEBUG_BUILD
-#endif
-#endif
+#include "Hect/IO/FileSystem.h"
 
-#define OFF 0
-#define ON 1
+namespace hect
+{
 
-#define HECT_HEADLESS @HEADLESS@
+class PhysFSFileSystem :
+    public FileSystem
+{
+public:
+    PhysFSFileSystem(int argc, char* const argv[]);
+    ~PhysFSFileSystem();
 
-#if HECT_HEADLESS != ON
-#define HECT_PLATFORM_SDL
-#define HECT_RENDERER_OPENGL
-#endif
+    Path baseDirectory() override;
+    Path workingDirectory() override;
+    Path userDirectory() override;
+    Path applicationDataDirectory() override;
+    void setWriteDirectory(const Path& path) override;
+    void mountArchive(const Path& path, const Path& mountPoint = Path()) override;
+    ReadStream openFileForRead(const Path& path) override;
+    WriteStream openFileForWrite(const Path& path) override;
+    void createDirectory(const Path& path) override;
+    std::vector<Path> filesInDirectory(const Path& path) override;
+    void remove(const Path& path) override;
+    bool exists(const Path& path) override;
+    TimeStamp lastModified(const Path& path) override;
 
-#define HECT_FILESYSTEM_PHYSFS
+private:
+    Path convertPath(const char* rawPath);
 
-#define HECT_DOUBLE_PRECISION
+    static bool _initialized;
+};
 
-#define HECT_ENABLE_LOG_INFO
-#define HECT_ENABLE_LOG_DEBUG
-#define HECT_ENABLE_LOG_WARNING
-#define HECT_ENABLE_LOG_ERROR
-#define HECT_ENABLE_LOG_TRACE
-
-///
-/// The namespace containing the Hect Engine API.
-namespace hect {}
+}
