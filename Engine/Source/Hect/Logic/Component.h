@@ -240,7 +240,7 @@ public:
 
     ///
     /// Returns the id for the component's type.
-    ComponentTypeId typeId() const;
+    ComponentTypeId typeId() const override;
 
     Component<T>& operator=(const Component& component);
     Component<T>& operator=(Component&& component);

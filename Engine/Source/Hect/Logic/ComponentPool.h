@@ -119,15 +119,15 @@ public:
     typename Component<T>::ConstIterator::Vector find(typename Component<T>::Predicate predicate) const;
 
 private:
-    void dispatchEvent(ComponentEventType type, Entity& entity);
+    void dispatchEvent(ComponentEventType type, Entity& entity) override;
 
-    void addBase(Entity& entity, const ComponentBase& component);
-    const ComponentBase& getBase(const Entity& entity) const;
+    void addBase(Entity& entity, const ComponentBase& component) override;
+    const ComponentBase& getBase(const Entity& entity) const override;
 
-    void remove(Entity& entity);
-    void clone(const Entity& source, Entity& dest);
+    void remove(Entity& entity) override;
+    void clone(const Entity& source, Entity& dest) override;
 
-    bool has(const Entity& entity) const;
+    bool has(const Entity& entity) const override;
 
     typename Component<T>::Iterator add(Entity& entity, const T& component);
     typename Component<T>::Iterator replace(Entity& entity, const T& component);
