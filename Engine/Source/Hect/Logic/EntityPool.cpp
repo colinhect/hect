@@ -28,7 +28,7 @@
 using namespace hect;
 
 EntityPool::EntityPool(Scene& scene) :
-    _scene(&scene)
+    _scene(scene)
 {
 }
 

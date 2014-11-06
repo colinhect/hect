@@ -27,11 +27,11 @@ using namespace hect;
 
 EntityEvent::EntityEvent(EntityEventType type, Entity& entity) :
     type(type),
-    _entity(&entity)
+    _entity(entity)
 {
 }
 
 Entity& EntityEvent::entity() const
 {
-    return *_entity;
+    return _entity;
 }

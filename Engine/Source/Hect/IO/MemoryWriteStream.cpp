@@ -31,7 +31,7 @@
 using namespace hect;
 
 MemoryWriteStream::MemoryWriteStream(std::vector<uint8_t>& data) :
-    _data(&data),
+    _data(data),
     _position(data.size())
 {
 }
@@ -40,12 +40,12 @@ void MemoryWriteStream::write(const uint8_t* bytes, size_t byteCount)
 {
     assert(bytes);
 
-    while (_position + byteCount > _data->size())
+    while (_position + byteCount > _data.size())
     {
-        _data->push_back(0);
+        _data.push_back(0);
     }
 
-    std::memcpy(&(*_data)[_position], bytes, byteCount);
+    std::memcpy(&_data[_position], bytes, byteCount);
     _position += byteCount;
 }
 
@@ -56,7 +56,7 @@ size_t MemoryWriteStream::position() const
 
 void MemoryWriteStream::seek(size_t position)
 {
-    size_t length = _data->size();
+    size_t length = _data.size();
 
     if (position >= length + 1)
     {

@@ -31,7 +31,7 @@
 using namespace hect;
 
 MemoryReadStream::MemoryReadStream(const std::vector<uint8_t>& data) :
-    _data(&data),
+    _data(data),
     _position(0)
 {
 }
@@ -48,7 +48,7 @@ void MemoryReadStream::read(uint8_t* bytes, size_t byteCount)
         throw Error("Attempt to read past end of data");
     }
 
-    std::memcpy(bytes, &(*_data)[position], byteCount);
+    std::memcpy(bytes, &_data[position], byteCount);
     _position += byteCount;
 }
 
@@ -59,7 +59,7 @@ bool MemoryReadStream::endOfStream() const
 
 size_t MemoryReadStream::length() const
 {
-    return _data->size();
+    return _data.size();
 }
 
 size_t MemoryReadStream::position() const

@@ -51,7 +51,7 @@ public:
     void seek(size_t position) override;
 
 private:
-    const std::vector<uint8_t>* _data;
+    const std::vector<uint8_t>& _data;
     size_t _position;
 };
 

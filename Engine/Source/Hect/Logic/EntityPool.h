@@ -109,7 +109,7 @@ private:
 
     EntityId maxId() const;
 
-    Scene* _scene;
+    Scene& _scene;
     IdPool<EntityId> _idPool;
     std::vector<Entity> _entities;
 };

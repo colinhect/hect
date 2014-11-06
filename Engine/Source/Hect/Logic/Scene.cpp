@@ -28,7 +28,7 @@
 using namespace hect;
 
 Scene::Scene(Engine& engine) :
-    _engine(&engine),
+    _engine(engine),
     _entityCount(0),
     _entityPool(*this)
 {
@@ -44,14 +44,12 @@ Scene::Scene(Engine& engine) :
 
 Engine& Scene::engine()
 {
-    assert(_engine);
-    return *_engine;
+    return _engine;
 }
 
 const Engine& Scene::engine() const
 {
-    assert(_engine);
-    return *_engine;
+    return _engine;
 }
 
 void Scene::tick(TimeSpan timeStep)

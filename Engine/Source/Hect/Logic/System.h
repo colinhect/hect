@@ -76,7 +76,7 @@ public:
     const Scene& scene() const;
 
 private:
-    Scene* _scene;
+    Scene& _scene;
 
     std::vector<SystemTypeId> _tickDependencies;
 };

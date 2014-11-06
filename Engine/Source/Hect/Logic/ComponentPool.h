@@ -150,7 +150,7 @@ private:
     template <typename U>
     bool expandVector(std::vector<U>& vector, size_t size, U value = U());
 
-    Scene* _scene;
+    Scene& _scene;
     IdPool<ComponentId> _idPool;
     std::vector<T> _components;
     std::vector<ComponentId> _entityToComponent;

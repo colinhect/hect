@@ -119,7 +119,7 @@ public:
     void restoreDirectory();
 
 private:
-    FileSystem* _fileSystem;
+    FileSystem& _fileSystem;
     TaskPool _taskPool;
 
     std::recursive_mutex _mutex;

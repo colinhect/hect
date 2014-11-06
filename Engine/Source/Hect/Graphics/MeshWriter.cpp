@@ -28,7 +28,7 @@
 using namespace hect;
 
 MeshWriter::MeshWriter(Mesh& mesh) :
-    _mesh(&mesh),
+    _mesh(mesh),
     _vertexStream(mesh._vertexData),
     _indexStream(mesh._indexData)
 {
@@ -39,17 +39,17 @@ size_t MeshWriter::addVertex()
     _vertexPosition = _vertexStream.position();
 
     // Push back zeroed data for the added vertex
-    for (unsigned i = 0; i < _mesh->vertexLayout().vertexSize(); ++i)
+    for (unsigned i = 0; i < _mesh.vertexLayout().vertexSize(); ++i)
     {
         _vertexStream << static_cast<uint8_t>(0);
     }
 
-    return _mesh->_vertexCount++;
+    return _mesh._vertexCount++;
 }
 
 void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Real value)
 {
-    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    const VertexLayout& vertexLayout = _mesh.vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
@@ -59,7 +59,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Real value
 
 void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector2& value)
 {
-    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    const VertexLayout& vertexLayout = _mesh.vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
@@ -83,10 +83,10 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
     // If this data is a position then expand the bounding box to include it
     if (semantic == VertexAttributeSemantic_Position)
     {
-        _mesh->axisAlignedBox().expandToInclude(value);
+        _mesh.axisAlignedBox().expandToInclude(value);
     }
 
-    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    const VertexLayout& vertexLayout = _mesh.vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
@@ -112,7 +112,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 
 void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector4& value)
 {
-    const VertexLayout& vertexLayout = _mesh->vertexLayout();
+    const VertexLayout& vertexLayout = _mesh.vertexLayout();
     if (vertexLayout.hasAttributeWithSemantic(semantic))
     {
         const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
@@ -144,7 +144,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 void MeshWriter::addIndex(uint64_t value)
 {
     // Write the index data based on the type
-    switch (_mesh->indexType())
+    switch (_mesh.indexType())
     {
     case IndexType_UInt8:
         _indexStream << static_cast<uint8_t>(value);
@@ -157,7 +157,7 @@ void MeshWriter::addIndex(uint64_t value)
         break;
     }
 
-    ++_mesh->_indexCount;
+    ++_mesh._indexCount;
 }
 
 void MeshWriter::setComponentValue(const VertexAttribute& attribute, unsigned index, float value)

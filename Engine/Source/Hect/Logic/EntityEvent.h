@@ -61,7 +61,7 @@ public:
     Entity& entity() const;
 
 private:
-    mutable Entity* _entity;
+    Entity& _entity;
 };
 
 }

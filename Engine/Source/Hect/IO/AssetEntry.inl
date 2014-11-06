@@ -32,7 +32,7 @@ namespace hect
 
 template <typename T>
 AssetEntry<T>::AssetEntry(AssetCache& assetCache, const Path& path) :
-    _assetCache(&assetCache),
+    _assetCache(assetCache),
     _path(path)
 {
     initiateLoad();
@@ -43,7 +43,7 @@ void AssetEntry<T>::refresh(bool force)
 {
     if (_asset)
     {
-        TimeStamp lastModified = _assetCache->fileSystem().lastModified(_path);
+        TimeStamp lastModified = _assetCache.fileSystem().lastModified(_path);
         if (force || lastModified > _lastModified)
         {
             T* asset = _asset.get();
@@ -84,7 +84,7 @@ const Path& AssetEntry<T>::path() const
 template <typename T>
 void AssetEntry<T>::initiateLoad()
 {
-    TaskPool& taskPool = _assetCache->taskPool();
+    TaskPool& taskPool = _assetCache.taskPool();
     _taskHandle = taskPool.enqueue([this]
         {
             load();
@@ -105,13 +105,13 @@ void AssetEntry<T>::load()
 
         _asset->setName(_path.asString());
 
-        AssetDecoder decoder(*_assetCache, _path);
+        AssetDecoder decoder(_assetCache, _path);
         decoder >> decodeValue(*_asset);
 
         HECT_INFO(format("Loaded '%s' in %ims", _path.asString().c_str(), timer.elapsed().milliseconds()));
 
         // Remember when the file was last modified
-        _lastModified = _assetCache->fileSystem().lastModified(_path);
+        _lastModified = _assetCache.fileSystem().lastModified(_path);
     }
     catch (std::exception& error)
     {

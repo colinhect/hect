@@ -48,7 +48,7 @@ public:
     TimeSpan timeStep() const;
 
 private:
-    Engine* _engine;
+    Engine& _engine;
     TimeSpan _timeStep;
 };
 

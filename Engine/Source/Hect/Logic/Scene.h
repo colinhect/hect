@@ -130,7 +130,7 @@ private:
 
     void addSystemToTickOrder(System& system);
 
-    Engine* _engine;
+    Engine& _engine;
 
     size_t _entityCount;
     EntityPool _entityPool;

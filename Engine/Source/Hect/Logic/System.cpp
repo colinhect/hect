@@ -26,16 +26,16 @@
 using namespace hect;
 
 System::System(Scene& scene) :
-    _scene(&scene)
+    _scene(scene)
 {
 }
 
 Scene& System::scene()
 {
-    return *_scene;
+    return _scene;
 }
 
 const Scene& System::scene() const
 {
-    return *_scene;
+    return _scene;
 }

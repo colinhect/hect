@@ -464,19 +464,19 @@ Entity::ConstIterator Entity::iterator() const
 Entity::Iterator Entity::clone() const
 {
     ensureInPool();
-    return _pool->_scene->cloneEntity(*this);
+    return _pool->_scene.cloneEntity(*this);
 }
 
 void Entity::destroy()
 {
     ensureInPool();
-    _pool->_scene->destroyEntity(*this);
+    _pool->_scene.destroyEntity(*this);
 }
 
 void Entity::activate()
 {
     ensureInPool();
-    _pool->_scene->activateEntity(*this);
+    _pool->_scene.activateEntity(*this);
 }
 
 bool Entity::isActivated() const
@@ -808,7 +808,7 @@ void Entity::encode(Encoder& encoder) const
 {
     ensureInPool();
 
-    Scene& scene = *_pool->_scene;
+    Scene& scene = _pool->_scene;
 
     encoder << beginObject();
 
@@ -828,7 +828,7 @@ void Entity::decode(Decoder& decoder)
 {
     ensureInPool();
 
-    Scene& scene = *_pool->_scene;
+    Scene& scene = _pool->_scene;
 
     decoder >> beginObject();
 
@@ -854,7 +854,7 @@ void Entity::decode(Decoder& decoder)
         decoder >> beginArray();
         while (decoder.hasMoreElements())
         {
-            Entity::Iterator child = _pool->_scene->createEntity();
+            Entity::Iterator child = _pool->_scene.createEntity();
 
             decoder >> beginObject();
             child->decode(decoder);

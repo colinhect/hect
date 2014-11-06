@@ -79,7 +79,7 @@ private:
     std::stack<uint32_t> _countStack;
     std::stack<ValueType> _valueTypeStack;
 
-    WriteStream* _stream;
+    WriteStream& _stream;
 };
 
 }

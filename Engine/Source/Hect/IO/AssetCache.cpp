@@ -23,12 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "AssetCache.h"
 
-#include <cassert>
-
 using namespace hect;
 
 AssetCache::AssetCache(FileSystem& fileSystem, bool concurrent) :
-    _fileSystem(&fileSystem),
+    _fileSystem(fileSystem),
     _taskPool(0, concurrent)
 {
 }
@@ -40,8 +38,7 @@ AssetCache::~AssetCache()
 
 FileSystem& AssetCache::fileSystem()
 {
-    assert(_fileSystem);
-    return *_fileSystem;
+    return _fileSystem;
 }
 
 void AssetCache::refresh(bool onlyModified)
@@ -78,7 +75,7 @@ Path AssetCache::resolvePath(const Path& path)
     if (!pathStack.empty())
     {
         // If there is an asset relative to the selected directory
-        if (_fileSystem->exists(pathStack.top() + path))
+        if (_fileSystem.exists(pathStack.top() + path))
         {
             // Use that asset
             resolvedPath = pathStack.top() + path;

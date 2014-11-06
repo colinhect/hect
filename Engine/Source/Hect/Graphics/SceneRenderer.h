@@ -64,7 +64,7 @@ private:
 
     void setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
-    Renderer* _renderer { nullptr };
+    Renderer& _renderer;
 
     FrameBuffer _geometryBuffer;
     FrameBuffer _accumulationBuffer;

@@ -78,7 +78,7 @@ private:
     void initiateLoad();
     void load();
 
-    AssetCache* _assetCache { nullptr };
+    AssetCache& _assetCache { nullptr };
     Path _path;
 
     Task::Handle _taskHandle;

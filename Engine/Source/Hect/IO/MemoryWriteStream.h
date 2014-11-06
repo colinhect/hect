@@ -49,7 +49,7 @@ public:
     void seek(size_t position) override;
 
 private:
-    std::vector<uint8_t>* _data;
+    std::vector<uint8_t>& _data;
     size_t _position;
 };
 
