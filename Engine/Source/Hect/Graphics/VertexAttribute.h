@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// A semantic describing how a vertex attribute is used.
-enum VertexAttributeSemantic : uint8_t
+enum VertexAttributeSemantic
 {
 
     ///
@@ -89,7 +89,7 @@ enum VertexAttributeSemantic : uint8_t
 
 ///
 /// A type of a vertex attribute.
-enum VertexAttributeType : uint8_t
+enum VertexAttributeType
 {
     ///
     /// An 8-bit signed integer.

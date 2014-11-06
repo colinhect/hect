@@ -43,7 +43,7 @@ class WriteStream;
 
 ///
 /// A JSON value type.
-enum JsonValueType : uint8_t
+enum JsonValueType
 {
 
     ///

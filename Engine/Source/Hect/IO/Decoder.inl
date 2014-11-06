@@ -68,7 +68,7 @@ Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decodeEnum)
         {
             uint8_t value;
             decoder >> decodeValue(value);
-            decodeEnum.value = (T)value;
+            decodeEnum.value = static_cast<T>(value);
         }
         else
         {

@@ -36,7 +36,7 @@ namespace hect
 
 ///
 /// A shader value type.
-enum ShaderValueType : uint8_t
+enum ShaderValueType
 {
     ///
     /// An integer.

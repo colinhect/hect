@@ -48,24 +48,42 @@ public:
 
     ///
     /// Begins an array.
+    ///
+    /// \note Values encoded following this call will be encoded as elements
+    /// in the array.
     virtual void beginArray() = 0;
 
     ///
-    /// Ends the current array.
+    /// Ends an array.
+    ///
+    /// \note No more elements can be encoded to be the array after it is
+    /// ended.
+    ///
+    /// \throws Error If an array was not started using beginArray().
     virtual void endArray() = 0;
 
     ///
     /// Begins an object.
+    ///
+    /// \note The specific members of an object can be targeted using
+    /// selectMember().
     virtual void beginObject() = 0;
 
     ///
-    /// Ends the current object.
+    /// Ends an object.
+    ///
+    /// \throws Error If an object was not started using beginObject().
     virtual void endObject() = 0;
 
     ///
-    /// Selects a member of the current object.
+    /// Selects a specific member of the object.
+    ///
+    /// \note The following call to encode a value (included beginning an
+    /// array or object) will encode to the selected member of the object.
     ///
     /// \param name The name of the member to select.
+    ///
+    /// \throws Error If an object was not started using beginObject().
     virtual void selectMember(const char* name) = 0;
 
     ///
@@ -75,7 +93,7 @@ public:
     virtual void encodeString(const std::string& value) = 0;
 
     ///
-    /// Encodes an 8-bit integer.
+    /// Encodes an 8-bit signed integer.
     ///
     /// \param value The value to encode.
     virtual void encodeInt8(int8_t value) = 0;
@@ -87,7 +105,7 @@ public:
     virtual void encodeUInt8(uint8_t value) = 0;
 
     ///
-    /// Encodes a 16-bit integer.
+    /// Encodes a 16-bit signed integer.
     ///
     /// \param value The value to encode.
     virtual void encodeInt16(int16_t value) = 0;
@@ -99,7 +117,7 @@ public:
     virtual void encodeUInt16(uint16_t value) = 0;
 
     ///
-    /// Encodes a 32-bit integer.
+    /// Encodes a 32-bit signed integer.
     ///
     /// \param value The value to encode.
     virtual void encodeInt32(int32_t value) = 0;
@@ -111,7 +129,7 @@ public:
     virtual void encodeUInt32(uint32_t value) = 0;
 
     ///
-    /// Encodes a 64-bit integer.
+    /// Encodes a 64-bit signed integer.
     ///
     /// \param value The value to encode.
     virtual void encodeInt64(int64_t value) = 0;

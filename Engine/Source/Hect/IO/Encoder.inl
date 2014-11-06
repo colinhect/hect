@@ -61,7 +61,7 @@ Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encodeEnum)
 
     if (encoder.isBinaryStream())
     {
-        encoder << encodeValue((uint8_t)encodeEnum.value);
+        encoder << encodeValue(static_cast<uint8_t>(encodeEnum.value));
     }
     else
     {
