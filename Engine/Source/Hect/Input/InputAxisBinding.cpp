@@ -94,9 +94,9 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
         break;
     }
 
-    _value = clamp<Real>(_value, 0, 1);
+    _value = clamp(_value, Real(0), Real(1));
 
-    if (std::abs(_value) < (Real)0.001)
+    if (std::abs(_value) < Real(0.001))
     {
         _value = 0;
     }

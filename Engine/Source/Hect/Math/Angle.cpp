@@ -30,7 +30,7 @@ namespace hect
 
 Angle Angle::fromDegrees(Real degrees)
 {
-    return Angle((pi / (Real)180) * degrees);
+    return Angle((pi / Real(180)) * degrees);
 }
 
 Angle Angle::fromRadians(Real radians)
@@ -50,10 +50,10 @@ Angle::Angle(Real radians):
 
 Real Angle::degrees() const
 {
-    Real degrees = ((Real)180 / pi) * _radians;
-    if (degrees == (Real)360)
+    Real degrees = (Real(180) / pi) * _radians;
+    if (degrees == Real(360))
     {
-        degrees = (Real)0;
+        degrees = 0;
     }
     return degrees;
 }

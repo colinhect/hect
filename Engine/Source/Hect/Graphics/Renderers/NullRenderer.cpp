@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "DummyRenderer.h"
+#include "NullRenderer.h"
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
@@ -32,7 +32,7 @@
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
-#include "Hect/Graphics/Window.h"
+#include "Hect/Runtime/Window.h"
 
 using namespace hect;
 
@@ -113,35 +113,35 @@ public:
 
 }
 
-DummyRenderer::DummyRenderer(Window& window)
+void NullRenderer::initialize(Window& window)
 {
     (void)window;
 }
 
-void DummyRenderer::beginFrame()
+void NullRenderer::beginFrame()
 {
 }
 
-void DummyRenderer::endFrame()
+void NullRenderer::endFrame()
 {
 }
 
-void DummyRenderer::bindState(const RenderState& state)
+void NullRenderer::bindState(const RenderState& state)
 {
     (void)state;
 }
 
-void DummyRenderer::bindTarget(RenderTarget& renderTarget)
+void NullRenderer::bindTarget(RenderTarget& renderTarget)
 {
     (void)renderTarget;
 }
 
-void DummyRenderer::bindWindow(Window& window)
+void NullRenderer::bindWindow(Window& window)
 {
     (void)window;
 }
 
-void DummyRenderer::bindFrameBuffer(FrameBuffer& frameBuffer)
+void NullRenderer::bindFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -149,7 +149,7 @@ void DummyRenderer::bindFrameBuffer(FrameBuffer& frameBuffer)
     }
 }
 
-void DummyRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
+void NullRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (frameBuffer.isUploaded())
     {
@@ -159,7 +159,7 @@ void DummyRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     frameBuffer.setAsUploaded(*this, new FrameBufferData(*this, frameBuffer));
 }
 
-void DummyRenderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
+void NullRenderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -169,7 +169,7 @@ void DummyRenderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
     frameBuffer.setAsDestroyed();
 }
 
-void DummyRenderer::bindShader(Shader& shader)
+void NullRenderer::bindShader(Shader& shader)
 {
     if (!shader.isUploaded())
     {
@@ -177,7 +177,7 @@ void DummyRenderer::bindShader(Shader& shader)
     }
 }
 
-void DummyRenderer::uploadShader(Shader& shader)
+void NullRenderer::uploadShader(Shader& shader)
 {
     if (shader.isUploaded())
     {
@@ -187,7 +187,7 @@ void DummyRenderer::uploadShader(Shader& shader)
     shader.setAsUploaded(*this, new ShaderData(*this, shader));
 }
 
-void DummyRenderer::destroyShader(Shader& shader)
+void NullRenderer::destroyShader(Shader& shader)
 {
     if (!shader.isUploaded())
     {
@@ -197,19 +197,19 @@ void DummyRenderer::destroyShader(Shader& shader)
     shader.setAsDestroyed();
 }
 
-void DummyRenderer::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
+void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void DummyRenderer::bindTexture(Texture& texture, unsigned index)
+void NullRenderer::bindTexture(Texture& texture, unsigned index)
 {
     (void)texture;
     (void)index;
 }
 
-void DummyRenderer::uploadTexture(Texture& texture)
+void NullRenderer::uploadTexture(Texture& texture)
 {
     if (texture.isUploaded())
     {
@@ -219,7 +219,7 @@ void DummyRenderer::uploadTexture(Texture& texture)
     texture.setAsUploaded(*this, new TextureData(*this, texture));
 }
 
-void DummyRenderer::destroyTexture(Texture& texture)
+void NullRenderer::destroyTexture(Texture& texture)
 {
     if (!texture.isUploaded())
     {
@@ -229,12 +229,12 @@ void DummyRenderer::destroyTexture(Texture& texture)
     texture.setAsDestroyed();
 }
 
-Image DummyRenderer::downloadTextureImage(const Texture& texture)
+Image NullRenderer::downloadTextureImage(const Texture& texture)
 {
     return Image();
 }
 
-void DummyRenderer::bindMesh(Mesh& mesh)
+void NullRenderer::bindMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
     {
@@ -242,7 +242,7 @@ void DummyRenderer::bindMesh(Mesh& mesh)
     }
 }
 
-void DummyRenderer::uploadMesh(Mesh& mesh)
+void NullRenderer::uploadMesh(Mesh& mesh)
 {
     if (mesh.isUploaded())
     {
@@ -252,7 +252,7 @@ void DummyRenderer::uploadMesh(Mesh& mesh)
     mesh.setAsUploaded(*this, new MeshData(*this, mesh));
 }
 
-void DummyRenderer::destroyMesh(Mesh& mesh)
+void NullRenderer::destroyMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
     {
@@ -262,15 +262,15 @@ void DummyRenderer::destroyMesh(Mesh& mesh)
     mesh.setAsDestroyed();
 }
 
-void DummyRenderer::draw()
+void NullRenderer::draw()
 {
 }
 
-void DummyRenderer::clear()
+void NullRenderer::clear()
 {
 }
 
-const Renderer::Capabilities& DummyRenderer::capabilities() const
+const Renderer::Capabilities& NullRenderer::capabilities() const
 {
     return _capabilities;
 }

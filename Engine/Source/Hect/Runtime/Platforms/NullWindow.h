@@ -23,13 +23,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Real.h"
+#include "Hect/Runtime/Window.h"
 
 namespace hect
 {
 
-///
-/// An approximation of Pi.
-const Real pi = Real(3.14159265358979323846);
+class NullWindow :
+    public Window
+{
+public:
+    NullWindow(const std::string& title, const VideoMode& videoMode);
+
+    void swapBuffers() override;
+};
 
 }

@@ -25,19 +25,19 @@
 
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
 #include <typeindex>
+#include <vector>
 
-#include "Hect/Core/Uncopyable.h"
 #include "Hect/Logic/System.h"
 
 namespace hect
 {
 
-typedef std::vector<System::Pointer> SystemMap;
+typedef std::vector<std::shared_ptr<System>> SystemMap;
 
-class SystemRegistry :
-    public Uncopyable
+class SystemRegistry
 {
 public:
     static SystemMap createMap(Scene& scene);
@@ -51,8 +51,10 @@ public:
     static SystemTypeId typeIdOf();
 
 private:
+    SystemRegistry();
+
     static std::map<std::type_index, SystemTypeId> _typeIndexToId;
-    static std::vector<std::function<System::Pointer(Scene&)>> _constructors;
+    static std::vector<std::function<std::shared_ptr<System>(Scene&)>> _constructors;
 };
 
 }

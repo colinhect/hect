@@ -21,15 +21,54 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "NullPlatform.h"
 
-#include "Hect/Core/Real.h"
+#include "Hect/Runtime/Platforms/NullWindow.h"
 
-namespace hect
+using namespace hect;
+
+NullPlatform::NullPlatform()
 {
+    _mouse.reset(new Mouse());
+    _keyboard.reset(new Keyboard());
+}
 
-///
-/// An approximation of Pi.
-const Real pi = Real(3.14159265358979323846);
+std::unique_ptr<Window> NullPlatform::createWindow(const std::string& title, const VideoMode& videoMode)
+{
+    return std::unique_ptr<Window>(new NullWindow(title, videoMode));
+}
 
+bool NullPlatform::handleEvents()
+{
+    bool active = true;
+
+    _mouse->dispatchEvents();
+    _keyboard->dispatchEvents();
+
+    return active;
+}
+
+bool NullPlatform::hasMouse()
+{
+    return true;
+}
+
+Mouse& NullPlatform::mouse()
+{
+    return *_mouse;
+}
+
+bool NullPlatform::hasKeyboard()
+{
+    return true;
+}
+
+Keyboard& NullPlatform::keyboard()
+{
+    return *_keyboard;
+}
+
+Platform::JoystickSequence NullPlatform::joysticks()
+{
+    return _joysticks;
 }

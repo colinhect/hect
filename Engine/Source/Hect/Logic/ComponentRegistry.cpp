@@ -28,17 +28,17 @@
 
 using namespace hect;
 
-ComponentBase::Pointer ComponentRegistry::create(ComponentTypeId typeId)
+std::shared_ptr<ComponentBase> ComponentRegistry::create(ComponentTypeId typeId)
 {
     return _componentConstructors[typeId]();
 }
 
-ComponentPoolBase::Pointer ComponentRegistry::createPool(ComponentTypeId typeId, Scene& scene)
+std::shared_ptr<ComponentPoolBase> ComponentRegistry::createPool(ComponentTypeId typeId, Scene& scene)
 {
     return _componentPoolConstructors[typeId](scene);
 }
 
-ComponentPoolMap ComponentRegistry::createMap(Scene& scene)
+ComponentPoolMap ComponentRegistry::createPoolMap(Scene& scene)
 {
     ComponentPoolMap componentPoolMap;
     for (ComponentTypeId typeId = 0; typeId < _componentConstructors.size(); ++typeId)

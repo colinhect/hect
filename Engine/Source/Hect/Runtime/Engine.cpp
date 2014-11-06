@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Engine.h"
 
-#include "Hect/Core/Configuration.h"
 #include "Hect/Runtime/Platform.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
@@ -33,18 +32,6 @@
 #include "Hect/Logic/GameMode.h"
 #include "Hect/Logic/GameModeRegistry.h"
 
-#ifdef HECT_PLATFORM_SDL
-#include "Hect/Runtime/SdlPlatform.h"
-#else
-#include "Hect/Runtime/DummyPlatform.h"
-#endif
-
-#ifdef HECT_RENDERER_OPENGL
-#include "Hect/Graphics/OpenGLRenderer.h"
-#else
-#include "Hect/Graphics/DummyRenderer.h"
-#endif
-
 #include "Hect/Generated/RegisterTypes.h"
 
 #include <fstream>
@@ -53,25 +40,18 @@
 
 using namespace hect;
 
-Engine::Engine(int argc, char* const argv[])
+Engine::Engine(int argc, char* const argv[]) :
+    _fileSystem(argc, argv)
 {
     auto arguments = parseCommandLineArgument(argc, argv);
 
     // Register all of the Hect types
     registerTypes();
 
-    _fileSystem.reset(new FileSystem(argc, argv));
-
-#ifdef HECT_PLATFORM_SDL
-    _platform.reset(new SdlPlatform(argc, argv));
-#else
-    _platform.reset(new DummyPlatform());
-#endif
-
 #ifdef HECT_WINDOWS_BUILD
     // Set the base directory as the write directory
-    auto baseDirectory = _fileSystem->baseDirectory();
-    _fileSystem->setWriteDirectory(baseDirectory);
+    auto baseDirectory = _fileSystem.baseDirectory();
+    _fileSystem.setWriteDirectory(baseDirectory);
 #endif
 
     // Load the configs specified on the command-line
@@ -85,12 +65,13 @@ Engine::Engine(int argc, char* const argv[])
     {
         if (!archive["path"].isNull())
         {
-            _fileSystem->mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
+            _fileSystem.mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
         }
     }
 
+    // Create the asset cache
     bool concurrent = _config["assetCache"]["concurrent"].orDefault(false).asBool();
-    _assetCache.reset(new AssetCache(*_fileSystem, concurrent));
+    _assetCache.reset(new AssetCache(_fileSystem, concurrent));
 
     const JsonValue& videoModeValue = _config["videoMode"];
     if (!videoModeValue.isNull())
@@ -108,13 +89,8 @@ Engine::Engine(int argc, char* const argv[])
         }
 
         // Create window and renderer
-        _window = _platform->createWindow("Hect", videoMode);
-
-#ifdef HECT_RENDERER_OPENGL
-        _renderer.reset(new OpenGLRenderer(*_window));
-#else
-        _renderer.reset(new DummyRenderer(*_window));
-#endif
+        _window = _platform.createWindow("Hect", videoMode);
+        _renderer.initialize(*_window);
     }
 }
 
@@ -128,13 +104,13 @@ int Engine::main()
 
     const std::string& gameModeTypeName = gameModeValue.asString();
 
-    GameMode::Pointer gameMode = GameModeRegistry::create(gameModeTypeName, *this);
+    auto gameMode = GameModeRegistry::create(gameModeTypeName, *this);
 
     Timer timer;
     TimeSpan accumulator;
     TimeSpan delta;
 
-    while (_platform->handleEvents())
+    while (_platform.handleEvents())
     {
         TimeSpan deltaTime = timer.elapsed();
         timer.reset();
@@ -159,29 +135,17 @@ int Engine::main()
 
 FileSystem& Engine::fileSystem()
 {
-    if (!_fileSystem)
-    {
-        throw Error("No available file system");
-    }
-    return *_fileSystem;
+    return _fileSystem;
 }
 
 Platform& Engine::platform()
 {
-    if (!_platform)
-    {
-        throw Error("No available platform");
-    }
-    return *_platform;
+    return _platform;
 }
 
 Renderer& Engine::renderer()
 {
-    if (!_renderer)
-    {
-        throw Error("No available renderer");
-    }
-    return *_renderer;
+    return _renderer;
 }
 
 Window& Engine::window()

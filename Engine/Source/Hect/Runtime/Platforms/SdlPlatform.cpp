@@ -27,7 +27,10 @@
 
 #include <algorithm>
 
+#include <SDL.h>
+
 #include "Hect/Core/Logging.h"
+#include "Hect/Runtime/Platforms/SdlWindow.h"
 
 using namespace hect;
 
@@ -134,58 +137,7 @@ Key convertKey(SDL_Keycode key)
 
 }
 
-class SdlWindow :
-    public Window
-{
-public:
-
-    SdlWindow(const std::string& title, const VideoMode& videoMode) :
-        Window(title, videoMode),
-        _window(nullptr),
-        _context(nullptr)
-    {
-        // Create the window flags
-        uint32_t flags = SDL_WINDOW_OPENGL;
-        if (videoMode.isFullscreen())
-        {
-            flags |= SDL_WINDOW_FULLSCREEN;
-        }
-
-        // Create the window
-        _window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), SDL_WINDOW_OPENGL);
-        if (!_window)
-        {
-            throw Error(format("Failed to create SDL window: %s", SDL_GetError()));
-        }
-
-        // Create the OpenGL context
-        _context = SDL_GL_CreateContext(_window);
-    }
-
-    ~SdlWindow()
-    {
-        if (_context)
-        {
-            SDL_GL_DeleteContext(_context);
-        }
-
-        if (_window)
-        {
-            SDL_DestroyWindow(_window);
-        }
-    }
-
-    void swapBuffers()
-    {
-        SDL_GL_SwapWindow(_window);
-    }
-
-private:
-    SDL_Window* _window;
-    SDL_GLContext _context;
-};
-
-SdlPlatform::SdlPlatform(int argc, char* const argv[])
+SdlPlatform::SdlPlatform()
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
     {
@@ -215,8 +167,8 @@ SdlPlatform::SdlPlatform(int argc, char* const argv[])
                 JoystickEvent event;
                 event.type = JoystickEventType_AxisMotion;
                 event.joystickIndex = _joysticks.size() - 1;
-                event.axis = (JoystickAxis)i;
-                event.axisValue = std::max<Real>((Real)SDL_JoystickGetAxis(joystick, (int)i) / (Real)32767, -1.0);
+                event.axis = static_cast<JoystickAxis>(i);
+                event.axisValue = std::max(static_cast<Real>(SDL_JoystickGetAxis(joystick, (int)i)) / Real(32767.0), Real(-1.0));
                 _joysticks[event.joystickIndex].enqueueEvent(event);
             }
         }
@@ -238,9 +190,9 @@ SdlPlatform::~SdlPlatform()
     SDL_Quit();
 }
 
-Window::Pointer SdlPlatform::createWindow(const std::string& title, const VideoMode& videoMode)
+std::unique_ptr<Window> SdlPlatform::createWindow(const std::string& title, const VideoMode& videoMode)
 {
-    return Window::Pointer(new SdlWindow(title, videoMode));
+    return std::unique_ptr<Window>(new SdlWindow(title, videoMode));
 }
 
 bool SdlPlatform::handleEvents()
@@ -307,8 +259,8 @@ bool SdlPlatform::handleEvents()
             JoystickEvent event;
             event.type = JoystickEventType_AxisMotion;
             event.joystickIndex = e.jaxis.which;
-            event.axis = (JoystickAxis)e.jaxis.axis;
-            event.axisValue = std::max<Real>((Real)e.jaxis.value / (Real)32767, -1.0);
+            event.axis = static_cast<JoystickAxis>(e.jaxis.axis);
+            event.axisValue = std::max(static_cast<Real>(e.jaxis.value) / Real(32767.0), Real(-1.0));
             _joysticks[event.joystickIndex].enqueueEvent(event);
         }
             break;
@@ -319,7 +271,7 @@ bool SdlPlatform::handleEvents()
             JoystickEvent event;
             event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType_ButtonDown : JoystickEventType_ButtonUp;
             event.joystickIndex = e.jbutton.which;
-            event.button = (JoystickButton)e.jbutton.button;
+            event.button = static_cast<JoystickButton>(e.jbutton.button);
             _joysticks[event.joystickIndex].enqueueEvent(event);
         }
             break;

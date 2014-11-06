@@ -34,7 +34,7 @@ using namespace hect;
 
 Entity::IteratorBase::IteratorBase() :
     _pool(nullptr),
-    _id((EntityId)-1)
+    _id(EntityId(-1))
 {
 }
 
@@ -161,7 +161,7 @@ Entity::ConstIterator::operator bool() const
 
 Entity::Children::IteratorBase::IteratorBase() :
     _pool(nullptr),
-    _parentId((EntityId)-1),
+    _parentId(EntityId(-1)),
     _index(0)
 {
 }
@@ -414,8 +414,8 @@ void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
 
 Entity::Entity() :
     _pool(nullptr),
-    _id((EntityId)-1),
-    _parentId((EntityId)-1),
+    _id(EntityId(-1)),
+    _parentId(EntityId(-1)),
     _activated(false)
 {
 }
@@ -437,8 +437,8 @@ Entity::Entity(Entity&& entity) :
     _activated(entity._activated)
 {
     entity._pool = nullptr;
-    entity._id = (EntityId)-1;
-    entity._parentId = (EntityId)-1;
+    entity._id = EntityId(-1);
+    entity._parentId = EntityId(-1);
     entity._activated = false;
 }
 
@@ -481,7 +481,7 @@ void Entity::activate()
 
 bool Entity::isActivated() const
 {
-    if (_parentId == (EntityId)-1)
+    if (_parentId == EntityId(-1))
     {
         return _activated;
     }
@@ -499,7 +499,7 @@ EntityId Entity::id() const
 Entity::Iterator Entity::parent()
 {
     ensureInPool();
-    if (_parentId != (EntityId)-1)
+    if (_parentId != EntityId(-1))
     {
         return Entity::Iterator(*_pool, _parentId);
     }
@@ -512,7 +512,7 @@ Entity::Iterator Entity::parent()
 Entity::ConstIterator Entity::parent() const
 {
     ensureInPool();
-    if (_parentId != (EntityId)-1)
+    if (_parentId != EntityId(-1))
     {
         return Entity::ConstIterator(*_pool, _parentId);
     }
@@ -524,7 +524,7 @@ Entity::ConstIterator Entity::parent() const
 
 void Entity::addChild(Entity& entity)
 {
-    if (entity._parentId != (EntityId)-1)
+    if (entity._parentId != EntityId(-1))
     {
         throw Error("Cannot add a child entity which already has a parent");
     }
@@ -556,7 +556,7 @@ void Entity::removeChild(Entity& entity)
     }
 
     _childIds.erase(std::remove(_childIds.begin(), _childIds.end(), entity._id), _childIds.end());
-    entity._parentId = (EntityId)-1;
+    entity._parentId = EntityId(-1);
 }
 
 Entity::Children& Entity::children()
@@ -788,12 +788,12 @@ void Entity::enterPool(EntityPool& pool, EntityId id)
 void Entity::exitPool()
 {
     _pool = nullptr;
-    _id = (EntityId)-1;
+    _id = EntityId(-1);
 }
 
 bool Entity::inPool() const
 {
-    return _pool && _id != (EntityId)-1;
+    return _pool && _id != EntityId(-1);
 }
 
 void Entity::ensureInPool() const

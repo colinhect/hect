@@ -40,10 +40,6 @@ class Scene;
 class ComponentPoolBase
 {
     friend class Scene;
-public:
-
-    typedef std::shared_ptr<ComponentPoolBase> Pointer;
-
 protected:
     virtual void dispatchEvent(ComponentEventType type, Entity& entity) = 0;
 

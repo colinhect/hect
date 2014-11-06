@@ -25,12 +25,24 @@
 
 #include <memory>
 
+#include "Hect/Core/Configuration.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/Window.h"
 #include "Hect/IO/FileSystem.h"
 #include "Hect/IO/JsonValue.h"
-#include "Hect/Runtime/Platform.h"
+#include "Hect/Runtime/Window.h"
+
+#ifdef HECT_PLATFORM_SDL
+#include "Hect/Runtime/Platforms/SdlPlatform.h"
+#else
+#include "Hect/Runtime/Platforms/NullPlatform.h"
+#endif
+
+#ifdef HECT_RENDERER_OPENGL
+#include "Hect/Graphics/Renderers/OpenGLRenderer.h"
+#else
+#include "Hect/Graphics/Renderers/NullRenderer.h"
+#endif
 
 namespace hect
 {
@@ -62,10 +74,21 @@ private:
 
     CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 
-    std::unique_ptr<FileSystem> _fileSystem;
-    std::unique_ptr<Platform> _platform;
-    Window::Pointer _window;
-    std::unique_ptr<Renderer> _renderer;
+    FileSystem _fileSystem;
+
+#ifdef HECT_PLATFORM_SDL
+    SdlPlatform _platform;
+#else
+    NullPlatform _platform;
+#endif
+
+#ifdef HECT_RENDERER_OPENGL
+    OpenGLRenderer _renderer;
+#else
+    NullRenderer _renderer;
+#endif
+
+    std::unique_ptr<Window> _window;
     std::unique_ptr<AssetCache> _assetCache;
     JsonValue _config;
 };

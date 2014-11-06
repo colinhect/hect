@@ -21,44 +21,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Window.h"
 
-#include "Hect/Core/Configuration.h"
 #include "Hect/Graphics/Renderer.h"
 
-namespace hect
+using namespace hect;
+
+Window::Window(const std::string& title, const VideoMode& videoMode) :
+    RenderTarget(videoMode.width(), videoMode.height())
 {
+    (void)title;
+}
 
-class DummyRenderer :
-    public Renderer
+void Window::bind(Renderer& renderer)
 {
-public:
-    DummyRenderer(Window& window);
-
-    void beginFrame() override;
-    void endFrame() override;
-    void bindState(const RenderState& state) override;
-    void bindTarget(RenderTarget& renderTarget) override;
-    void bindWindow(Window& window) override;
-    void bindFrameBuffer(FrameBuffer& frameBuffer) override;
-    void uploadFrameBuffer(FrameBuffer& frameBuffer) override;
-    void destroyFrameBuffer(FrameBuffer& frameBuffer) override;
-    void bindShader(Shader& shader) override;
-    void uploadShader(Shader& shader) override;
-    void destroyShader(Shader& shader) override;
-    void bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value) override;
-    void bindTexture(Texture& texture, unsigned index) override;
-    void uploadTexture(Texture& texture) override;
-    void destroyTexture(Texture& texture) override;
-    Image downloadTextureImage(const Texture& texture) override;
-    void bindMesh(Mesh& mesh) override;
-    void uploadMesh(Mesh& mesh) override;
-    void destroyMesh(Mesh& mesh) override;
-    void draw() override;
-    void clear() override;
-    const Capabilities& capabilities() const override;
-
-    Capabilities _capabilities;
-};
-
+    renderer.bindWindow(*this);
 }

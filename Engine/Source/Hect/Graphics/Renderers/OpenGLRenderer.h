@@ -35,8 +35,7 @@ class OpenGLRenderer :
     public Renderer
 {
 public:
-    OpenGLRenderer(Window& window);
-
+    void initialize(Window& window) override;
     void beginFrame() override;
     void endFrame() override;
     void bindState(const RenderState& state) override;
@@ -59,9 +58,6 @@ public:
     void draw() override;
     void clear() override;
     const Capabilities& capabilities() const override;
-
-private:
-    void initialize();
 
     Capabilities _capabilities;
 

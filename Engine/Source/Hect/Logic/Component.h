@@ -47,9 +47,6 @@ typedef uint32_t ComponentTypeId;
 class ComponentBase
 {
 public:
-
-    typedef std::shared_ptr<ComponentBase> Pointer;
-
     virtual ~ComponentBase();
 
     virtual void encode(Encoder& encoder) const;

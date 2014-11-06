@@ -39,12 +39,12 @@ void ComponentRegistry::registerType()
 
         _componentConstructors.push_back([]()
         {
-            return ComponentBase::Pointer(new T());
+            return std::shared_ptr<ComponentBase>(new T());
         });
 
         _componentPoolConstructors.push_back([](Scene& scene)
         {
-            return ComponentPoolBase::Pointer(new ComponentPool<T>(scene));
+            return std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>(scene));
         });
 
         _typeIndexToId[typeIndex] = typeId;
@@ -55,8 +55,8 @@ void ComponentRegistry::registerType()
 template <typename T>
 ComponentTypeId ComponentRegistry::typeIdOf()
 {
-    static ComponentTypeId id = (ComponentTypeId)-1;
-    if (id == (ComponentTypeId)-1)
+    static ComponentTypeId id = ComponentTypeId(-1);
+    if (id == ComponentTypeId(-1))
     {
         std::type_index typeIndex(typeid(T));
         id = typeIdOf(typeIndex);

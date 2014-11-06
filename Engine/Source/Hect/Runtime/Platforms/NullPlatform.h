@@ -23,13 +23,33 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Real.h"
+#include "Hect/Runtime/Platform.h"
 
 namespace hect
 {
 
-///
-/// An approximation of Pi.
-const Real pi = Real(3.14159265358979323846);
+class NullPlatform :
+    public Platform
+{
+public:
+    NullPlatform();
+
+    std::unique_ptr<Window> createWindow(const std::string& title, const VideoMode& videoMode) override;
+
+    bool handleEvents() override;
+
+    bool hasMouse() override;
+    Mouse& mouse() override;
+
+    bool hasKeyboard() override;
+    Keyboard& keyboard() override;
+
+    JoystickSequence joysticks() override;
+
+private:
+    std::unique_ptr<Mouse> _mouse;
+    std::unique_ptr<Keyboard> _keyboard;
+    std::vector<Joystick> _joysticks;
+};
 
 }

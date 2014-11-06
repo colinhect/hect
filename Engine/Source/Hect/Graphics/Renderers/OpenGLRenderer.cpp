@@ -37,7 +37,7 @@
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
-#include "Hect/Graphics/Window.h"
+#include "Hect/Runtime/Window.h"
 
 using namespace hect;
 
@@ -277,11 +277,9 @@ GLenum _textureTypeLookUp[3] =
 
 }
 
-OpenGLRenderer::OpenGLRenderer(Window& window)
+void OpenGLRenderer::initialize(Window& window)
 {
-    // This is a parameter only to ensure the window is created before the
-    // GPU context; I'm not sure if the GPU context has any use for it
-    window;
+    (void)window;
 
     glewExperimental = GL_TRUE;
     GLenum error = glewInit();

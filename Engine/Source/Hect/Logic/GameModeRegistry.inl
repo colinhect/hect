@@ -34,7 +34,7 @@ void GameModeRegistry::registerType()
     {
         _constructors[typeName] = [](Engine& engine)
         {
-            return GameMode::Pointer(new T(engine));
+            return std::unique_ptr<GameMode>(new T(engine));
         };
     }    
 }

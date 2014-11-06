@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <memory>
+#include <cstdint>
 #include <typeindex>
 #include <vector>
 
@@ -47,8 +47,6 @@ class System :
 {
     friend class Scene;
 public:
-
-    typedef std::shared_ptr<System> Pointer;
 
     ///
     /// Constructs a system.

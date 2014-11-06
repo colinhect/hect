@@ -25,25 +25,26 @@
 
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
+#include <typeindex>
+#include <vector>
 
-#include "Hect/Core/Uncopyable.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentPool.h"
 
 namespace hect
 {
 
-typedef std::vector<ComponentPoolBase::Pointer> ComponentPoolMap;
+typedef std::vector<std::shared_ptr<ComponentPoolBase>> ComponentPoolMap;
 
-class ComponentRegistry :
-    public Uncopyable
+class ComponentRegistry
 {
 public:
-    static ComponentBase::Pointer create(ComponentTypeId typeId);
-    static ComponentPoolBase::Pointer createPool(ComponentTypeId typeId, Scene& scene);
+    static std::shared_ptr<ComponentBase> create(ComponentTypeId typeId);
+    static std::shared_ptr<ComponentPoolBase> createPool(ComponentTypeId typeId, Scene& scene);
 
-    static ComponentPoolMap createMap(Scene& scene);
+    static ComponentPoolMap createPoolMap(Scene& scene);
 
     static ComponentTypeId typeIdOf(std::type_index typeIndex);
     static ComponentTypeId typeIdOf(const std::string& typeName);
@@ -55,11 +56,13 @@ public:
     static ComponentTypeId typeIdOf();
 
 private:
+    ComponentRegistry();
+
     static std::map<std::string, ComponentTypeId> _typeNameToId;
     static std::map<std::type_index, ComponentTypeId> _typeIndexToId;
 
-    typedef std::function<ComponentBase::Pointer(void)> ComponentConstructor;
-    typedef std::function<ComponentPoolBase::Pointer(Scene&)> ComponentPoolConstructor;
+    typedef std::function<std::shared_ptr<ComponentBase>(void)> ComponentConstructor;
+    typedef std::function<std::shared_ptr<ComponentPoolBase>(Scene&)> ComponentPoolConstructor;
 
     static std::vector<ComponentConstructor> _componentConstructors;
     static std::vector<ComponentPoolConstructor> _componentPoolConstructors;

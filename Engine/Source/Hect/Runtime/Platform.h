@@ -23,12 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <memory>
+
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/Window.h"
 #include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
+#include "Hect/Runtime/Window.h"
 
 namespace hect
 {
@@ -45,7 +47,7 @@ public:
 
     virtual ~Platform() { }
 
-    virtual Window::Pointer createWindow(const std::string& title, const VideoMode& videoMode) = 0;
+    virtual std::unique_ptr<Window> createWindow(const std::string& title, const VideoMode& videoMode) = 0;
 
     virtual bool handleEvents() = 0;
 

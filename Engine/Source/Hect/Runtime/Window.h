@@ -23,12 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <memory>
 #include <string>
 
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/RenderTarget.h"
-#include "Hect/Graphics/VideoMode.h"
+#include "Hect/Runtime/VideoMode.h"
 
 namespace hect
 {
@@ -44,17 +43,13 @@ class Window :
 public:
 
     ///
-    /// A reference-counted pointer to a window.
-    typedef std::shared_ptr<Window> Pointer;
-
-    ///
     /// Constructs a window.
     ///
     /// \param title The window title.
     /// \param videoMode The video mode to use.
     Window(const std::string& title, const VideoMode& videoMode);
 
-    virtual ~Window();
+    virtual ~Window() { }
 
     void bind(Renderer& renderer) override;
 

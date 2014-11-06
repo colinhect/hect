@@ -49,4 +49,4 @@ SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
 }
 
 std::map<std::type_index, SystemTypeId> SystemRegistry::_typeIndexToId;
-std::vector<std::function<System::Pointer(Scene&)>> SystemRegistry::_constructors;
+std::vector<std::function<std::shared_ptr<System>(Scene&)>> SystemRegistry::_constructors;

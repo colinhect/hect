@@ -27,7 +27,7 @@ namespace hect
 template <typename T>
 Component<T>::IteratorBase::IteratorBase() :
     _pool(nullptr),
-    _id((ComponentId)-1)
+    _id(ComponentId(-1))
 {
 }
 
@@ -189,14 +189,14 @@ Component<T>::ConstIterator::operator bool() const
 template <typename T>
 Component<T>::Component() :
     _pool(nullptr),
-    _id((ComponentId)-1)
+    _id(ComponentId(-1))
 {
 }
 
 template <typename T>
 Component<T>::Component(const Component<T>& component) :
     _pool(nullptr),
-    _id((ComponentId)-1)
+    _id(ComponentId(-1))
 {
     (void)component;
 }
@@ -204,7 +204,7 @@ Component<T>::Component(const Component<T>& component) :
 template <typename T>
 Component<T>::Component(Component<T>&& component) :
     _pool(nullptr),
-    _id((ComponentId)-1)
+    _id(ComponentId(-1))
 {
     (void)component;
 }
@@ -255,7 +255,7 @@ Component<T>& Component<T>::operator=(const Component& component)
     (void)component;
 
     this->_pool = nullptr;
-    this->_id = (ComponentId)-1;
+    this->_id = ComponentId(-1);
 
     return *this;
 }
@@ -266,7 +266,7 @@ Component<T>& Component<T>::operator=(Component&& component)
     (void)component;
 
     this->_pool = nullptr;
-    this->_id = (ComponentId)-1;
+    this->_id = ComponentId(-1);
 
     return *this;
 }
@@ -282,13 +282,13 @@ template <typename T>
 void Component<T>::exitPool()
 {
     this->_pool = nullptr;
-    this->_id = (ComponentId)-1;
+    this->_id = ComponentId(-1);
 }
 
 template <typename T>
 bool Component<T>::inPool() const
 {
-    return this->_pool && this->_id != (ComponentId)-1;
+    return this->_pool && this->_id != ComponentId(-1);
 }
 
 template <typename T>

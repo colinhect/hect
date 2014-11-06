@@ -21,15 +21,51 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "SdlWindow.h"
 
-#include "Hect/Core/Real.h"
+#ifdef HECT_PLATFORM_SDL
 
-namespace hect
+#include <SDL.h>
+
+using namespace hect;
+
+SdlWindow::SdlWindow(const std::string& title, const VideoMode& videoMode) :
+    Window(title, videoMode)
 {
+    // Create the window flags
+    uint32_t flags = SDL_WINDOW_OPENGL;
+    if (videoMode.isFullscreen())
+    {
+        flags |= SDL_WINDOW_FULLSCREEN;
+    }
 
-///
-/// An approximation of Pi.
-const Real pi = Real(3.14159265358979323846);
+    // Create the window
+    _window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), SDL_WINDOW_OPENGL);
+    if (!_window)
+    {
+        throw Error(format("Failed to create SDL window: %s", SDL_GetError()));
+    }
 
+    // Create the OpenGL context
+    _context = SDL_GL_CreateContext(_window);
 }
+
+SdlWindow::~SdlWindow()
+{
+    if (_context)
+    {
+        SDL_GL_DeleteContext(_context);
+    }
+
+    if (_window)
+    {
+        SDL_DestroyWindow(_window);
+    }
+}
+
+void SdlWindow::swapBuffers()
+{
+    SDL_GL_SwapWindow(_window);
+}
+
+#endif

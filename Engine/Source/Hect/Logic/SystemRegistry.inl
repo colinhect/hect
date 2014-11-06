@@ -37,7 +37,7 @@ void SystemRegistry::registerType()
 
         _constructors.push_back([](Scene& scene)
         {
-            return System::Pointer(new T(scene));
+            return std::shared_ptr<System>(new T(scene));
         });
 
         _typeIndexToId[typeIndex] = typeId;

@@ -46,7 +46,6 @@ class Renderer :
     public Uncopyable
 {
 public:
-    virtual ~Renderer() { }
 
     ///
     /// Contains the capabilities of the underlying hardware.
@@ -146,7 +145,7 @@ public:
     template <typename T>
     class Object
     {
-        friend class DummyRenderer;
+        friend class NullRenderer;
         friend class OpenGLRenderer;
     public:
         virtual ~Object();
@@ -171,6 +170,14 @@ public:
         Renderer* _renderer { nullptr };
         DataHandle<T> _handle;
     };
+
+    virtual ~Renderer() { }
+
+    ///
+    /// Initialize the renderer.
+    ///
+    /// \param window The window that the rendere is used for.
+    virtual void initialize(Window& window) = 0;
 
     ///
     /// Begin a new frame.

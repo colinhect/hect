@@ -40,7 +40,7 @@ TEST_CASE("TimeSpan_FromMilliseconds")
 
 TEST_CASE("TimeSpan_FromSeconds")
 {
-    TimeSpan t = TimeSpan::fromSeconds((Real)0.001);
+    TimeSpan t = TimeSpan::fromSeconds(Real(0.001));
     REQUIRE(t.microseconds() == 1000);
 }
 

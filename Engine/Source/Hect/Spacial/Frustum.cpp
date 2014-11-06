@@ -40,7 +40,7 @@ Frustum::Frustum(
     Real farClip) :
     _position(position)
 {
-    Real tangent = (Real)std::tan(fieldOfView.radians() * (Real)0.5);
+    Real tangent = static_cast<Real>(std::tan(fieldOfView.radians() * Real(0.5)));
 
     Real nearHeight = nearClip * tangent;
     Real nearWidth = nearHeight * aspectRatio;

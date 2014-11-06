@@ -95,7 +95,7 @@ T Vector2T<T>::dot(const Vector2T& v) const
 template <typename T>
 Angle Vector2T<T>::angleFrom(const Vector2T& v) const
 {
-    Real radians = (Real)std::acos(dot(v));
+    Real radians = static_cast<Real>(std::acos(dot(v)));
     return Angle::fromRadians(radians);
 }
 

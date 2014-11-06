@@ -21,36 +21,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "NullWindow.h"
 
-#include "Hect/Runtime/Platform.h"
+using namespace hect;
 
-namespace hect
+NullWindow::NullWindow(const std::string& title, const VideoMode& videoMode) :
+    Window(title, videoMode)
 {
+}
 
-class DummyPlatform :
-    public Platform
+void NullWindow::swapBuffers()
 {
-public:
-    DummyPlatform();
-
-    Window::Pointer createWindow(const std::string& title, const VideoMode& videoMode) override;
-
-    bool handleEvents() override;
-
-    bool hasMouse() override;
-    Mouse& mouse() override;
-
-    bool hasKeyboard() override;
-    Keyboard& keyboard() override;
-
-    JoystickSequence joysticks() override;
-
-private:
-    std::unique_ptr<Mouse> _mouse;
-    std::unique_ptr<Keyboard> _keyboard;
-    std::vector<Joystick> _joysticks;
-    MouseMode _mouseMode { MouseMode_Cursor };
-};
-
 }

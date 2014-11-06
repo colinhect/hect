@@ -25,26 +25,28 @@
 
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
+#include <vector>
 
-#include "Hect/Core/Uncopyable.h"
 #include "Hect/Logic/GameMode.h"
 
 namespace hect
 {
 
-class GameModeRegistry :
-    public Uncopyable
+class GameModeRegistry
 {
 public:
 
-    static GameMode::Pointer create(const std::string& typeName, Engine& engine);
+    static std::unique_ptr<GameMode> create(const std::string& typeName, Engine& engine);
 
     template <typename T>
     static void registerType();
 
 private:
-    static std::map<std::string, std::function<GameMode::Pointer(Engine&)>> _constructors;
+    GameModeRegistry();
+
+    static std::map<std::string, std::function<std::unique_ptr<GameMode>(Engine&)>> _constructors;
 };
 
 }

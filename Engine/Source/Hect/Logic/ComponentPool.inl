@@ -167,8 +167,8 @@ void ComponentPool<T>::remove(Entity& entity)
 
         // Clear the mapping from entity tocomponent and component to
         // entity
-        _componentToEntity[id] = (EntityId)-1;
-        _entityToComponent[entityId] = (ComponentId)-1;
+        _componentToEntity[id] = EntityId(-1);
+        _entityToComponent[entityId] = ComponentId(-1);
     }
     else
     {
@@ -209,13 +209,13 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     T copiedComponent = component;
 
     // Expand the entity-to-component vector if needed
-    expandVector(_entityToComponent, entityId, (ComponentId)-1);
+    expandVector(_entityToComponent, entityId, ComponentId(-1));
 
     // Get the component id for the entity
     ComponentId id = _entityToComponent[entityId];
 
     // Ensure that the entity does not already have a component of this type
-    if (id != (ComponentId)-1)
+    if (id != ComponentId(-1))
     {
         const std::string& typeName = Type::get<T>().name();
         throw Error(format("Entity already has component of type '%s'", typeName.c_str()));
@@ -240,7 +240,7 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     }
 
     // Expand the component-to-entity vector if needed
-    expandVector(_componentToEntity, id, (EntityId)-1);
+    expandVector(_componentToEntity, id, EntityId(-1));
 
     // Remember which entity this component belongs to
     _componentToEntity[id] = entityId;
@@ -344,7 +344,7 @@ bool ComponentPool<T>::componentHasEntity(ComponentId id) const
 {
     if (id < _componentToEntity.size())
     {
-        if (_componentToEntity[id] != (EntityId)-1)
+        if (_componentToEntity[id] != EntityId(-1))
         {
             return true;
         }
@@ -365,7 +365,7 @@ const Entity& ComponentPool<T>::entityForComponent(ComponentId id) const
     if (id < _componentToEntity.size())
     {
         EntityId entityId = _componentToEntity[id];
-        if (entityId != (EntityId)-1)
+        if (entityId != EntityId(-1))
         {
             return _scene->entities().entityWithId(entityId);
         }
@@ -405,10 +405,10 @@ bool ComponentPool<T>::entityIdToComponentId(EntityId entityId, ComponentId& id)
     }
     else
     {
-        id = (ComponentId)-1;
+        id = ComponentId(-1);
     }
 
-    return id != (ComponentId)-1;
+    return id != ComponentId(-1);
 }
 
 template <typename T>

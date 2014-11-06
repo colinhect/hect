@@ -34,7 +34,7 @@ TEST_CASE("Frustum_OutsideBehind")
         Vector3(0, 1, 0),
         Angle::fromDegrees(90),
         1,
-        (Real)0.1,
+        Real(0.1),
         100);
 
     AxisAlignedBox box(Vector3(-1, -1, 10), Vector3(1, 1, 11));
@@ -50,7 +50,7 @@ TEST_CASE("Frustum_OutsideLeft")
         Vector3(0, 1, 0),
         Angle::fromDegrees(90),
         1,
-        (Real)0.1,
+        Real(0.1),
         100);
 
     AxisAlignedBox box(Vector3(-100, -1, -11), Vector3(-101, 1, -10));
@@ -66,7 +66,7 @@ TEST_CASE("Frustum_Inside")
         Vector3(0, 1, 0),
         Angle::fromDegrees(90),
         1,
-        (Real)0.1,
+        Real(0.1),
         100);
 
     AxisAlignedBox box(Vector3(-1, -1, -50), Vector3(1, 1, -51));
@@ -82,7 +82,7 @@ TEST_CASE("Frustum_Intersect")
         Vector3(0, 1, 0),
         Angle::fromDegrees(90),
         1,
-        (Real)0.1,
+        Real(0.1),
         100);
 
     AxisAlignedBox box(Vector3(-1, -1, -200), Vector3(1, 1, -51));

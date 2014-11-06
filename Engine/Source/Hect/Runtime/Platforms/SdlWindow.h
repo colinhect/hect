@@ -21,67 +21,34 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "DummyPlatform.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Configuration.h"
+#include "Hect/Runtime/Window.h"
 
-class DummyWindow :
+#ifdef HECT_PLATFORM_SDL
+
+// Forward declarations for SDL
+typedef struct SDL_Window SDL_Window;
+typedef void* SDL_GLContext;
+
+namespace hect
+{
+
+class SdlWindow :
     public Window
 {
 public:
+    SdlWindow(const std::string& title, const VideoMode& videoMode);
+    ~SdlWindow();
 
-    DummyWindow(const std::string& title, const VideoMode& videoMode) :
-        Window(title, videoMode)
-    {
-    }
+    void swapBuffers() override;
 
-    void swapBuffers()
-    {
-    }
+private:
+    SDL_Window* _window { nullptr };
+    SDL_GLContext _context { nullptr };
 };
 
-DummyPlatform::DummyPlatform()
-{
-    _mouse.reset(new Mouse());
-    _keyboard.reset(new Keyboard());
 }
 
-Window::Pointer DummyPlatform::createWindow(const std::string& title, const VideoMode& videoMode)
-{
-    return Window::Pointer(new DummyWindow(title, videoMode));
-}
-
-bool DummyPlatform::handleEvents()
-{
-    bool active = true;
-
-    _mouse->dispatchEvents();
-    _keyboard->dispatchEvents();
-
-    return active;
-}
-
-bool DummyPlatform::hasMouse()
-{
-    return true;
-}
-
-Mouse& DummyPlatform::mouse()
-{
-    return *_mouse;
-}
-
-bool DummyPlatform::hasKeyboard()
-{
-    return true;
-}
-
-Keyboard& DummyPlatform::keyboard()
-{
-    return *_keyboard;
-}
-
-Platform::JoystickSequence DummyPlatform::joysticks()
-{
-    return _joysticks;
-}
+#endif

@@ -32,11 +32,11 @@ Scene::Scene(Engine& engine) :
     _entityCount(0),
     _entityPool(*this)
 {
-    _componentPoolMap = ComponentRegistry::createMap(*this);
+    _componentPoolMap = ComponentRegistry::createPoolMap(*this);
     _systemMap = SystemRegistry::createMap(*this);
 
     // Add all systems to the tick order
-    for (System::Pointer& system : _systemMap)
+    for (auto& system : _systemMap)
     {
         addSystemToTickOrder(*system);
     }
@@ -94,7 +94,7 @@ Entity::Iterator Scene::cloneEntity(const Entity& entity)
     Entity::ConstIterator sourceEntity = entity.iterator();
     Entity::Iterator clonedEntity = createEntity();
 
-    for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
+    for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
     {
         componentPool->clone(*sourceEntity, *clonedEntity);
     }
@@ -132,7 +132,7 @@ void Scene::destroyEntity(Entity& entity)
     }
 
     // Remove all components
-    for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
+    for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
     {
         if (componentPool->has(entity))
         {
@@ -167,7 +167,7 @@ void Scene::activateEntity(Entity& entity)
         throw Error("Entity is already activated");
     }
 
-    for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
+    for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
     {
         if (componentPool->has(entity))
         {
@@ -197,7 +197,7 @@ void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     }
 
     ComponentTypeId typeId = component.typeId();
-    ComponentPoolBase::Pointer& componentPool = _componentPoolMap[typeId];
+    std::shared_ptr<ComponentPoolBase>& componentPool = _componentPoolMap[typeId];
     componentPool->addBase(entity, component);
 }
 
@@ -239,7 +239,7 @@ void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
         uint8_t componentCount = 0;
         stream << componentCount;
 
-        for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
+        for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
         {
             if (componentPool->has(entity))
             {
@@ -260,7 +260,7 @@ void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
     {
         encoder << beginObject("components");
 
-        for (ComponentPoolBase::Pointer& componentPool : _componentPoolMap)
+        for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
         {
             if (componentPool->has(entity))
             {
@@ -287,7 +287,7 @@ void Scene::decodeComponents(Entity& entity, Decoder& decoder)
         {
             ComponentTypeId typeId;
             stream >> typeId;
-            ComponentBase::Pointer component = ComponentRegistry::create(typeId);
+            std::shared_ptr<ComponentBase> component = ComponentRegistry::create(typeId);
             component->decode(decoder);
             addEntityComponentBase(entity, *component);
         }
@@ -302,7 +302,7 @@ void Scene::decodeComponents(Entity& entity, Decoder& decoder)
                 decoder.selectMember(typeName.c_str());
 
                 ComponentTypeId typeId = ComponentRegistry::typeIdOf(typeName);
-                ComponentBase::Pointer component = ComponentRegistry::create(typeId);
+                std::shared_ptr<ComponentBase> component = ComponentRegistry::create(typeId);
                 component->decode(decoder);
 
                 addEntityComponentBase(entity, *component);

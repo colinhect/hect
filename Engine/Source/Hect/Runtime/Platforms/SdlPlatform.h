@@ -28,7 +28,9 @@
 
 #ifdef HECT_PLATFORM_SDL
 
-#include <SDL.h>
+// Forward declarations for SDL
+struct _SDL_Joystick;
+typedef struct _SDL_Joystick SDL_Joystick;
 
 namespace hect
 {
@@ -37,10 +39,10 @@ class SdlPlatform :
     public Platform
 {
 public:
-    SdlPlatform(int argc, char* const argv[]);
+    SdlPlatform();
     ~SdlPlatform();
 
-    Window::Pointer createWindow(const std::string& title, const VideoMode& videoMode) override;
+    std::unique_ptr<Window> createWindow(const std::string& title, const VideoMode& videoMode) override;
 
     bool handleEvents() override;
 
@@ -61,7 +63,5 @@ private:
 };
 
 }
-
-#undef main
 
 #endif
