@@ -24,12 +24,13 @@
 #pragma once
 
 #include <map>
+#include <memory>
 #include <typeindex>
-
-#include "Hect/Reflection/Enum.h"
 
 namespace hect
 {
+
+class Enum;
 
 ///
 /// The kind of a reflected type.
@@ -115,7 +116,7 @@ private:
 
     Kind _kind;
     std::string _name;
-    Enum _enum;
+    std::shared_ptr<Enum> _enum;
 
     static std::map<std::type_index, Type> _registeredTypes;
 };

@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/Reflection/Enum.h"
+#include "Hect/Reflection/Type.h"
 
 namespace hect
 {
@@ -33,7 +33,7 @@ void SystemRegistry::registerType()
 
     if (_typeIndexToId.find(typeIndex) == _typeIndexToId.end())
     {
-        SystemTypeId typeId = (SystemTypeId)_constructors.size();
+        SystemTypeId typeId = static_cast<SystemTypeId>(_constructors.size());
 
         _constructors.push_back([](Scene& scene)
         {
@@ -47,8 +47,8 @@ void SystemRegistry::registerType()
 template <typename T>
 SystemTypeId SystemRegistry::typeIdOf()
 {
-    static SystemTypeId id = (SystemTypeId)-1;
-    if (id == (SystemTypeId)-1)
+    static SystemTypeId id = SystemTypeId(-1);
+    if (id == SystemTypeId(-1))
     {
         std::type_index typeIndex(typeid(T));
         id = typeIdOf(typeIndex);

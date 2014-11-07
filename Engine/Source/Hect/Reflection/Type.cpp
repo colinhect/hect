@@ -21,9 +21,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Enum.h"
+#include "Type.h"
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Reflection/Enum.h"
 
 using namespace hect;
 
@@ -44,18 +45,26 @@ const std::string& Type::name() const
 
 Enum& Type::asEnum()
 {
-    return _enum;
+    if (!_enum)
+    {
+        throw Error("Type is not an enum");
+    }
+    return *_enum;
 }
 
 const Enum& Type::asEnum() const
 {
-    return _enum;
+    if (!_enum)
+    {
+        throw Error("Type is not an enum");
+    }
+    return *_enum;
 }
 
 Type::Type(Kind kind, const std::string& name) :
     _kind(kind),
     _name(name),
-    _enum(name)
+    _enum(new Enum(name))
 {
 }
 
