@@ -53,7 +53,7 @@ TEST_CASE("Path_ConstructorWithLeadingSlash")
 {
     Path path("/Data/Internal/Fail.log");
 
-    REQUIRE(path.asString() == "Data/Internal/Fail.log");
+    REQUIRE(path.asString() == "/Data/Internal/Fail.log");
 }
 
 TEST_CASE("Path_ConstructorWithTrailingSlash")
@@ -67,7 +67,7 @@ TEST_CASE("Path_ConstructorWithLeadingAndTrailingSlash")
 {
     Path path("/Data/Internal/");
 
-    REQUIRE(path.asString() == "Data/Internal");
+    REQUIRE(path.asString() == "/Data/Internal");
 }
 
 TEST_CASE("Path_Extension")
@@ -127,11 +127,11 @@ TEST_CASE("Path_ParentDirectory")
     Path path("/Data/Internal/Fail.log");
 
     Path parentDirectory = path.parentDirectory();
-    REQUIRE(parentDirectory.asString() == "Data/Internal");
+    REQUIRE(parentDirectory.asString() == "/Data/Internal");
     REQUIRE(!parentDirectory.empty());
 
     parentDirectory = parentDirectory.parentDirectory();
-    REQUIRE(parentDirectory.asString() == "Data");
+    REQUIRE(parentDirectory.asString() == "/Data");
     REQUIRE(!parentDirectory.empty());
 
     parentDirectory = parentDirectory.parentDirectory();
@@ -146,5 +146,5 @@ TEST_CASE("Path_StreamOutput")
     std::stringstream ss;
     ss << path;
 
-    REQUIRE(ss.str() == "Data/Internal/Fail.log");
+    REQUIRE(ss.str() == "/Data/Internal/Fail.log");
 }

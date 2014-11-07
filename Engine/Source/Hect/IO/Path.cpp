@@ -70,7 +70,7 @@ Path Path::parentDirectory() const
     size_t i = _rawPath.size();
     for (; i > 0; --i)
     {
-        if (_rawPath[i] == '/')
+        if (_rawPath[i] == pathDelimiter)
         {
             break;
         }
@@ -98,9 +98,9 @@ Path Path::operator+(const Path& path) const
     // Only add if the right-hand side is not empty
     if (!path._rawPath.empty())
     {
-
-        // Don't add the delimiter if the left-hand side is empty
-        if (!result._rawPath.empty())
+        // Add a delimiter between the paths if the left-hand side is not
+        // empty and the right-hand side does not start with a delimeter
+        if (!result._rawPath.empty() && path._rawPath[0] != pathDelimiter)
         {
             result._rawPath += pathDelimiter;
         }
@@ -140,15 +140,9 @@ void Path::setRawPath(const char* rawPath)
     _rawPath = std::string(rawPath);
     std::string delimiter(" /");
 
-    // Trim leading/trailing delimiters
-    size_t begin = _rawPath.find_first_not_of(delimiter);
-    if (begin != std::string::npos)
-    {
-        size_t end = _rawPath.find_last_not_of(delimiter);
-        size_t range = end - begin + 1;
-
-        _rawPath = _rawPath.substr(begin, range);
-    }
+    // Trim trailing delimiter
+    size_t end = _rawPath.find_last_not_of(delimiter);
+    _rawPath = _rawPath.substr(0, end + 1);
 }
 
 namespace hect

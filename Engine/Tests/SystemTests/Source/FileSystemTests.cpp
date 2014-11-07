@@ -30,9 +30,6 @@ using namespace hect;
 
 extern Engine* engine;
 
-// Issue #108
-#ifdef HECT_WINDOWS_BUILD
-
 TEST_CASE("FileSystem_CreateAndRemoveDirectories")
 {
     FileSystem& fileSystem = engine->fileSystem();
@@ -138,5 +135,3 @@ TEST_CASE("FileSystem_OpenNonExistingFileForRead")
 
     REQUIRE(errorOccurred);
 }
-
-#endif
