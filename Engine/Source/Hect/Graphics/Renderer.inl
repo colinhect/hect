@@ -100,11 +100,6 @@ void Renderer::DataHandle<T>::reset(Data<T>* data)
 }
 
 template <typename T>
-Renderer::Object<T>::~Object()
-{
-}
-
-template <typename T>
 bool Renderer::Object<T>::isUploaded() const
 {
     return _renderer != nullptr && _handle.data.get() != nullptr;

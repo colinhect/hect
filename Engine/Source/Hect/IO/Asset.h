@@ -46,8 +46,6 @@ public:
     /// \param name The name of the asset.
     Asset(const std::string& name);
 
-    virtual ~Asset();
-
     ///
     /// Returns the name.
     const std::string& name() const;

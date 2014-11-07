@@ -34,10 +34,6 @@ Asset::Asset(const std::string& name) :
 {
 }
 
-Asset::~Asset()
-{
-}
-
 const std::string& Asset::name() const
 {
     return _name;

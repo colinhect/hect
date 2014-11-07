@@ -148,7 +148,6 @@ public:
         friend class NullRenderer;
         friend class OpenGLRenderer;
     public:
-        virtual ~Object();
 
         ///
         /// Returns whether the object is uploaded to a renderer.

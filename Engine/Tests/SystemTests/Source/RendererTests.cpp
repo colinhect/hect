@@ -76,9 +76,6 @@ TEST_CASE("Renderer_CopyUploadedObject")
     REQUIRE(!meshCopy.isUploaded());
 }
 
-// Issue #109
-/*
-
 TEST_CASE("Renderer_MoveUploadedObject")
 {
     AssetCache& assetCache = engine->assetCache();
@@ -96,4 +93,3 @@ TEST_CASE("Renderer_MoveUploadedObject")
     REQUIRE(!meshMove.isUploaded());
 }
 
-*/
