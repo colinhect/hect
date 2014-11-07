@@ -76,6 +76,9 @@ TEST_CASE("Renderer_CopyUploadedObject")
     REQUIRE(!meshCopy.isUploaded());
 }
 
+// Disabled due to Visual Studio 2013 compiler bug (issue #111)
+#ifndef HECT_WINDOWS_BUILD
+
 TEST_CASE("Renderer_MoveUploadedObject")
 {
     AssetCache& assetCache = engine->assetCache();
@@ -93,3 +96,4 @@ TEST_CASE("Renderer_MoveUploadedObject")
     REQUIRE(!meshMove.isUploaded());
 }
 
+#endif
