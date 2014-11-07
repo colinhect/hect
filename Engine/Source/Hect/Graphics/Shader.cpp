@@ -151,10 +151,11 @@ Decoder& operator>>(Decoder& decoder, Shader& shader)
                     >> decodeValue("path", path)
                     >> endObject();
 
-            path = decoder.assetCache().resolvePath(path);
+            AssetCache& assetCache = decoder.assetCache();
+            path = assetCache.resolvePath(path);
 
-            ReadStream stream = decoder.assetCache().fileSystem().openFileForRead(path);
-            std::string source = stream.readAllToString();
+            auto stream = assetCache.fileSystem().openFileForRead(path);
+            std::string source = stream->readAllToString();
 
             shader.addModule(ShaderModule(type, path, source));
         }

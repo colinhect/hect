@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include "Hect/Core/Uncopyable.h"
@@ -81,7 +82,7 @@ public:
     /// \param path The path to the file to open for reading.
     ///
     /// \returns A stream for the opened file.
-    virtual ReadStream openFileForRead(const Path& path) = 0;
+    virtual std::unique_ptr<ReadStream> openFileForRead(const Path& path) = 0;
 
     ///
     /// Opens a file for writing.
@@ -93,7 +94,7 @@ public:
     /// the write directory path.
     ///
     /// \returns A stream for the opened file.
-    virtual WriteStream openFileForWrite(const Path& path) = 0;
+    virtual std::unique_ptr<WriteStream> openFileForWrite(const Path& path) = 0;
 
     ///
     /// Creates a directory.

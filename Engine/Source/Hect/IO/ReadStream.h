@@ -24,7 +24,6 @@
 #pragma once
 
 #include <cstdint>
-#include <memory>
 #include <string>
 
 namespace hect
@@ -35,16 +34,14 @@ namespace hect
 class ReadStream
 {
 public:
-    ReadStream();
-    ReadStream(ReadStream* implementation);
-    virtual ~ReadStream();
+    virtual ~ReadStream() { }
 
     ///
     /// Reads raw bytes from the stream.
     ///
     /// \param bytes A pointer to the bytes to read to.
     /// \param byteCount The number of bytes to read.
-    virtual void read(uint8_t* bytes, size_t byteCount);
+    virtual void read(uint8_t* bytes, size_t byteCount) = 0;
 
     ///
     /// Reads entire contents of the remainder of the stream to a string.
@@ -52,24 +49,21 @@ public:
 
     ///
     /// Returns whether the end of the stream has been reached.
-    virtual bool endOfStream() const;
+    virtual bool endOfStream() const = 0;
 
     ///
     /// Returns the length of the stream in bytes.
-    virtual size_t length() const;
+    virtual size_t length() const = 0;
 
     ///
     /// Returns the current byte offset position in the stream.
-    virtual size_t position() const;
+    virtual size_t position() const = 0;
 
     ///
     /// Sets the current byte offset position in the stream.
     ///
     /// \param position The new position.
-    virtual void seek(size_t position);
-
-private:
-    std::shared_ptr<ReadStream> _implementation;
+    virtual void seek(size_t position) = 0;
 };
 
 ///

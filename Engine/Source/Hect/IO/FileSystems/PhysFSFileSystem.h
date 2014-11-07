@@ -41,8 +41,8 @@ public:
     Path applicationDataDirectory() override;
     void setWriteDirectory(const Path& path) override;
     void mountArchive(const Path& path, const Path& mountPoint = Path()) override;
-    ReadStream openFileForRead(const Path& path) override;
-    WriteStream openFileForWrite(const Path& path) override;
+    std::unique_ptr<ReadStream> openFileForRead(const Path& path) override;
+    std::unique_ptr<WriteStream> openFileForWrite(const Path& path) override;
     void createDirectory(const Path& path) override;
     std::vector<Path> filesInDirectory(const Path& path) override;
     void remove(const Path& path) override;

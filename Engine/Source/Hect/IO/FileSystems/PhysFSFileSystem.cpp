@@ -125,14 +125,14 @@ void PhysFSFileSystem::mountArchive(const Path& path, const Path& mountPoint)
     }
 }
 
-ReadStream PhysFSFileSystem::openFileForRead(const Path& path)
+std::unique_ptr<ReadStream> PhysFSFileSystem::openFileForRead(const Path& path)
 {
-    return ReadStream(new PhysFSReadStream(path));
+    return std::unique_ptr<ReadStream>(new PhysFSReadStream(path));
 }
 
-WriteStream PhysFSFileSystem::openFileForWrite(const Path& path)
+std::unique_ptr<WriteStream> PhysFSFileSystem::openFileForWrite(const Path& path)
 {
-    return WriteStream(new PhysFSWriteStream(path));
+    return std::unique_ptr<WriteStream>(new PhysFSWriteStream(path));
 }
 
 void PhysFSFileSystem::createDirectory(const Path& path)

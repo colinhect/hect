@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <memory>
+
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/JsonValue.h"
 #include "Hect/IO/MemoryReadStream.h"

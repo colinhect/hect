@@ -25,71 +25,12 @@
 
 using namespace hect;
 
-ReadStream::ReadStream()
-{
-}
-
-ReadStream::ReadStream(ReadStream* implementation) :
-    _implementation(implementation)
-{
-}
-
-ReadStream::~ReadStream()
-{
-}
-
-void ReadStream::read(uint8_t* bytes, size_t byteCount)
-{
-    if (_implementation)
-    {
-        _implementation->read(bytes, byteCount);
-    }
-}
-
 std::string ReadStream::readAllToString()
 {
     size_t byteCount = length();
     std::string string(byteCount, ' ');
     read((uint8_t*)&string[0], byteCount);
     return string;
-}
-
-bool ReadStream::endOfStream() const
-{
-    bool endOfStream = true;
-    if (_implementation)
-    {
-        endOfStream = _implementation->endOfStream();
-    }
-    return endOfStream;
-}
-
-size_t ReadStream::length() const
-{
-    size_t length = true;
-    if (_implementation)
-    {
-        length = _implementation->length();
-    }
-    return length;
-}
-
-size_t ReadStream::position() const
-{
-    size_t position = true;
-    if (_implementation)
-    {
-        position = _implementation->position();
-    }
-    return position;
-}
-
-void ReadStream::seek(size_t position)
-{
-    if (_implementation)
-    {
-        _implementation->seek(position);
-    }
 }
 
 namespace hect

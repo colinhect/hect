@@ -35,21 +35,21 @@ AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
 {
     Path resolvedPath = assetCache.resolvePath(path);
 
-    ReadStream stream = assetCache.fileSystem().openFileForRead(resolvedPath);
+    auto stream = assetCache.fileSystem().openFileForRead(resolvedPath);
     uint8_t firstCharacter;
-    stream >> firstCharacter;
+    *stream >> firstCharacter;
     if (firstCharacter == '{')
     {
-        stream.seek(0);
-        _jsonValue.decodeFromJson(stream);
+        stream->seek(0);
+        _jsonValue.decodeFromJson(*stream);
         _implementation.reset(new JsonDecoder(_jsonValue, assetCache));
     }
     else
     {
-        stream.seek(0);
-        size_t length = stream.length();
+        stream->seek(0);
+        size_t length = stream->length();
         _data.resize(length);
-        stream.read(&_data[0], length);
+        stream->read(&_data[0], length);
 
         _stream.reset(new MemoryReadStream(_data));
         _implementation.reset(new BinaryDecoder(*_stream, assetCache));

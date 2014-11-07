@@ -62,7 +62,7 @@ TEST_CASE("FileSystem_OpenNonExistingFileForWrite")
 
     REQUIRE(!fileSystem.exists(path));
     {
-        WriteStream stream = fileSystem.openFileForWrite(path);
+        auto stream = fileSystem.openFileForWrite(path);
     }
     REQUIRE(fileSystem.exists(path));
     fileSystem.remove(path);
@@ -81,11 +81,11 @@ TEST_CASE("FileSystem_OpenExistingFileForWrite")
 
     REQUIRE(!fileSystem.exists(path));
     {
-        WriteStream stream = fileSystem.openFileForWrite(path);
+        auto stream = fileSystem.openFileForWrite(path);
     }
     REQUIRE(fileSystem.exists(path));
     {
-        WriteStream stream = fileSystem.openFileForWrite(path);
+        auto stream = fileSystem.openFileForWrite(path);
     }
     REQUIRE(fileSystem.exists(path));
     fileSystem.remove(path);
@@ -104,11 +104,11 @@ TEST_CASE("FileSystem_OpenExistingFileForRead")
 
     REQUIRE(!fileSystem.exists(path));
     {
-        WriteStream stream = fileSystem.openFileForWrite(path);
+        auto stream = fileSystem.openFileForWrite(path);
     }
     REQUIRE(fileSystem.exists(path));
     {
-        ReadStream stream = fileSystem.openFileForRead(path);
+        auto stream = fileSystem.openFileForRead(path);
     }
 
     fileSystem.remove(path);
@@ -129,7 +129,7 @@ TEST_CASE("FileSystem_OpenNonExistingFileForRead")
 
     try
     {
-        ReadStream stream = fileSystem.openFileForRead(path);
+        auto stream = fileSystem.openFileForRead(path);
     }
     catch (Error&)
     {

@@ -24,7 +24,6 @@
 #pragma once
 
 #include <cstdint>
-#include <memory>
 #include <string>
 
 namespace hect
@@ -35,29 +34,24 @@ namespace hect
 class WriteStream
 {
 public:
-    WriteStream();
-    WriteStream(WriteStream* implementation);
-    virtual ~WriteStream();
+    virtual ~WriteStream() { }
 
     ///
     /// Writes raw bytes to the stream.
     ///
     /// \param bytes A pointer to the bytes to write.
     /// \param byteCount The number of bytes to write.
-    virtual void write(const uint8_t* bytes, size_t byteCount);
+    virtual void write(const uint8_t* bytes, size_t byteCount) = 0;
 
     ///
     /// Returns the current byte offset position in the stream.
-    virtual size_t position() const;
+    virtual size_t position() const = 0;
 
     ///
     /// Sets the current byte offset position in the stream.
     ///
     /// \param position The new position.
-    virtual void seek(size_t position);
-
-private:
-    std::shared_ptr<WriteStream> _implementation;
+    virtual void seek(size_t position) = 0;
 };
 
 ///

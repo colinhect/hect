@@ -27,45 +27,6 @@
 
 using namespace hect;
 
-WriteStream::WriteStream()
-{
-}
-
-WriteStream::WriteStream(WriteStream* implementation) :
-    _implementation(implementation)
-{
-}
-
-WriteStream::~WriteStream()
-{
-}
-
-void WriteStream::write(const uint8_t* bytes, size_t byteCount)
-{
-    if (_implementation)
-    {
-        _implementation->write(bytes, byteCount);
-    }
-}
-
-size_t WriteStream::position() const
-{
-    size_t position = 0;
-    if (_implementation)
-    {
-        position = _implementation->position();
-    }
-    return position;
-}
-
-void WriteStream::seek(size_t position)
-{
-    if (_implementation)
-    {
-        _implementation->seek(position);
-    }
-}
-
 namespace hect
 {
 

@@ -24,6 +24,7 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 
 #include "Hect/Event/Listener.h"
 #include "Hect/IO/Encoder.h"
