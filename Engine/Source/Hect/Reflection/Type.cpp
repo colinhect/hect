@@ -24,6 +24,7 @@
 #include "Type.h"
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Core/Error.h"
 #include "Hect/Reflection/Enum.h"
 
 using namespace hect;
