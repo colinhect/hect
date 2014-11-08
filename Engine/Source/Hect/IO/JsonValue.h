@@ -167,7 +167,7 @@ public:
     ///
     /// \param jsonValue The JSON value to copy.
     JsonValue(const JsonValue& jsonValue);
-    
+
     ///
     /// Constructs a JSON value moved from another.
     ///

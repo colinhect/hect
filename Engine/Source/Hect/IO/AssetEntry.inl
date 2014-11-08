@@ -64,7 +64,7 @@ std::unique_ptr<T>& AssetEntry<T>::get()
     if (_taskHandle)
     {
         _taskHandle->wait();
-    }    
+    }
 
     // Thow an error if the asset failed to load
     if (_errorOccurred)
@@ -86,10 +86,10 @@ void AssetEntry<T>::initiateLoad()
 {
     TaskPool& taskPool = _assetCache.taskPool();
     _taskHandle = taskPool.enqueue([this]
-        {
-            load();
-        }
-    );
+    {
+        load();
+    }
+                                  );
 }
 
 template <typename T>

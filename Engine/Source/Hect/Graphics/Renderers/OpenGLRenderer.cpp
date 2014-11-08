@@ -714,21 +714,21 @@ void OpenGLRenderer::uploadTexture(Texture& texture)
     GL_ASSERT(glBindTexture(type, textureId));
     GL_ASSERT(
         glTexParameteri(
-        type,
-        GL_TEXTURE_MIN_FILTER,
-        texture.isMipmapped() ?
-        _textureMipmapFilterLookUp[(int)texture.minFilter()] :
-        _textureFilterLookUp[(int)texture.minFilter()]
+            type,
+            GL_TEXTURE_MIN_FILTER,
+            texture.isMipmapped() ?
+            _textureMipmapFilterLookUp[(int)texture.minFilter()] :
+            _textureFilterLookUp[(int)texture.minFilter()]
         )
-        );
+    );
 
     GL_ASSERT(
         glTexParameteri(
-        type,
-        GL_TEXTURE_MAG_FILTER,
-        _textureFilterLookUp[(int)texture.magFilter()]
+            type,
+            GL_TEXTURE_MAG_FILTER,
+            _textureFilterLookUp[(int)texture.magFilter()]
         )
-        );
+    );
 
     if (texture.isWrapped())
     {
@@ -754,17 +754,17 @@ void OpenGLRenderer::uploadTexture(Texture& texture)
 
         GL_ASSERT(
             glTexImage2D(
-            target,
-            0,
-            _internalImageFormatLookUp[(int)image.colorSpace()][(int)image.pixelFormat()][(int)image.pixelType()],
-            image.width(),
-            image.height(),
-            0,
-            _pixelFormatLookUp[(int)image.pixelFormat()],
-            _pixelTypeLookUp[(int)image.pixelType()],
-            image.hasPixelData() ? &image.pixelData()[0] : 0
+                target,
+                0,
+                _internalImageFormatLookUp[(int)image.colorSpace()][(int)image.pixelFormat()][(int)image.pixelType()],
+                image.width(),
+                image.height(),
+                0,
+                _pixelFormatLookUp[(int)image.pixelFormat()],
+                _pixelTypeLookUp[(int)image.pixelType()],
+                image.hasPixelData() ? &image.pixelData()[0] : 0
             )
-            );
+        );
 
         if (texture.type() == TextureType_CubeMap)
         {
@@ -820,13 +820,13 @@ Image OpenGLRenderer::downloadTextureImage(const Texture& texture)
 
     GL_ASSERT(
         glGetTexImage(
-        GL_TEXTURE_2D,
-        0,
-        _pixelFormatLookUp[(int)texture.pixelFormat()],
-        _pixelTypeLookUp[(int)texture.pixelType()],
-        &pixelData[0]
+            GL_TEXTURE_2D,
+            0,
+            _pixelFormatLookUp[(int)texture.pixelFormat()],
+            _pixelTypeLookUp[(int)texture.pixelType()],
+            &pixelData[0]
         )
-        );
+    );
 
     image.setPixelData(std::move(pixelData));
 
@@ -875,12 +875,12 @@ void OpenGLRenderer::uploadMesh(Mesh& mesh)
     GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId));
     GL_ASSERT(
         glBufferData(
-        GL_ARRAY_BUFFER,
-        mesh.vertexLayout().vertexSize() * mesh.vertexCount(),
-        &mesh.vertexData()[0],
-        GL_STATIC_DRAW
+            GL_ARRAY_BUFFER,
+            mesh.vertexLayout().vertexSize() * mesh.vertexCount(),
+            &mesh.vertexData()[0],
+            GL_STATIC_DRAW
         )
-        );
+    );
 
     // Describe the vertex layout
     GLuint attributeIndex = 0;
@@ -893,26 +893,26 @@ void OpenGLRenderer::uploadMesh(Mesh& mesh)
         {
             GL_ASSERT(
                 glVertexAttribPointer(
-                attributeIndex,
-                attribute.cardinality(),
-                _vertexAttributeTypeLookUp[(int)attribute.type()],
-                GL_FALSE,
-                vertexLayout.vertexSize(),
-                (GLfloat*)attribute.offset()
+                    attributeIndex,
+                    attribute.cardinality(),
+                    _vertexAttributeTypeLookUp[(int)attribute.type()],
+                    GL_FALSE,
+                    vertexLayout.vertexSize(),
+                    (GLfloat*)attribute.offset()
                 )
-                );
+            );
         }
         else
         {
             GL_ASSERT(
                 glVertexAttribIPointer(
-                attributeIndex,
-                attribute.cardinality(),
-                _vertexAttributeTypeLookUp[(int)attribute.type()],
-                vertexLayout.vertexSize(),
-                (GLfloat*)attribute.offset()
+                    attributeIndex,
+                    attribute.cardinality(),
+                    _vertexAttributeTypeLookUp[(int)attribute.type()],
+                    vertexLayout.vertexSize(),
+                    (GLfloat*)attribute.offset()
                 )
-                );
+            );
         }
 
         ++attributeIndex;
@@ -922,12 +922,12 @@ void OpenGLRenderer::uploadMesh(Mesh& mesh)
     GL_ASSERT(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId));
     GL_ASSERT(
         glBufferData(
-        GL_ELEMENT_ARRAY_BUFFER,
-        mesh.indexSize() * mesh.indexCount(),
-        &mesh.indexData()[0],
-        GL_STATIC_DRAW
+            GL_ELEMENT_ARRAY_BUFFER,
+            mesh.indexSize() * mesh.indexCount(),
+            &mesh.indexData()[0],
+            GL_STATIC_DRAW
         )
-        );
+    );
 
     GL_ASSERT(glBindVertexArray(0));
 
@@ -965,12 +965,12 @@ void OpenGLRenderer::draw()
 
     GL_ASSERT(
         glDrawElements(
-        _primitiveTypeLookUp[(int)_boundMesh->primitiveType()],
-        (GLsizei)_boundMesh->indexCount(),
-        _indexTypeLookUp[(int)_boundMesh->indexType()],
-        0
+            _primitiveTypeLookUp[(int)_boundMesh->primitiveType()],
+            (GLsizei)_boundMesh->indexCount(),
+            _indexTypeLookUp[(int)_boundMesh->indexType()],
+            0
         )
-        );
+    );
 }
 
 void OpenGLRenderer::clear()

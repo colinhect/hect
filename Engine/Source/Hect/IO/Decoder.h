@@ -85,7 +85,7 @@ public:
     ///
     /// \throws Error If an array was not started using beginArray().
     virtual void endArray() = 0;
-    
+
     ///
     /// Returns whether there are more elements available to be decoded in the
     /// current array.

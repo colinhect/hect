@@ -77,7 +77,7 @@ void log(LogLevel level, const std::string& message)
     // Reset the console text color
     SetConsoleTextAttribute(stdOutHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #else
- 
+
     // Set the color text color
     switch (level)
     {

@@ -391,7 +391,7 @@ const T& ComponentPool<T>::componentWithId(ComponentId id) const
             return component;
         }
     }
-    
+
     throw Error("Invalid component");
 }
 

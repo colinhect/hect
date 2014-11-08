@@ -28,8 +28,8 @@
 using namespace hect;
 
 Mouse::Mouse() :
-_mode(MouseMode_Cursor),
-_buttonStates(16, false)
+    _mode(MouseMode_Cursor),
+    _buttonStates(16, false)
 {
 }
 

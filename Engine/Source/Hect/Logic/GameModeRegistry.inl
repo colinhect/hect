@@ -36,7 +36,7 @@ void GameModeRegistry::registerType()
         {
             return std::unique_ptr<GameMode>(new T(engine));
         };
-    }    
+    }
 }
 
 }

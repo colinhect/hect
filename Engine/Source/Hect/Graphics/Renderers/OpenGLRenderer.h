@@ -61,9 +61,9 @@ public:
 
     Capabilities _capabilities;
 
-    RenderTarget* _boundTarget{ nullptr };
-    Shader* _boundShader{ nullptr };
-    Mesh* _boundMesh{ nullptr };
+    RenderTarget* _boundTarget { nullptr };
+    Shader* _boundShader { nullptr };
+    Mesh* _boundMesh { nullptr };
     std::vector<Texture*> _boundTextures;
 };
 

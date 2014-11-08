@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 namespace hect
 {
-    
+
 template <typename T>
 Component<T>::IteratorBase::IteratorBase() :
     _pool(nullptr),

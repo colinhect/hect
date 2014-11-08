@@ -122,7 +122,7 @@ Entity::Iterator EntityPool::create()
 
     if (entityId >= _entities.size())
     {
-	Entity entity;
+        Entity entity;
         _entities.resize(std::max(_entities.size() * 2, (size_t)8), entity);
     }
 

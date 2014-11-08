@@ -429,7 +429,7 @@ public:
     Entity();
     Entity(const Entity& entity);
     Entity(Entity&& entity);
-    
+
     ///
     /// Adds a new component of a specific type to the entity.
     ///
