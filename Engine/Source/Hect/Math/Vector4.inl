@@ -22,6 +22,7 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <cassert>
+#include <cmath>
 
 namespace hect
 {
@@ -63,11 +64,7 @@ Vector4T<T> Vector4T<T>::unitW()
 }
 
 template <typename T>
-Vector4T<T>::Vector4T() :
-    x(0),
-    y(0),
-    z(0),
-    w(0)
+Vector4T<T>::Vector4T()
 {
 }
 
@@ -92,7 +89,7 @@ Vector4T<T>::Vector4T(T x, T y, T z, T w) :
 template <typename T>
 void Vector4T<T>::normalize()
 {
-    T inv = (T)1.0 / length();
+    T inv = T(1) / length();
     *this *= inv;
 }
 
@@ -120,7 +117,7 @@ Angle Vector4T<T>::angleFrom(const Vector4T& v) const
 template <typename T>
 T Vector4T<T>::length() const
 {
-    return (T)std::sqrt(lengthSquared());
+    return static_cast<T>(std::sqrt(lengthSquared()));
 }
 
 template <typename T>
@@ -235,14 +232,14 @@ template <typename T>
 T& Vector4T<T>::operator[](size_t i)
 {
     assert(i < 4);
-    return ((T*)this)[i];
+    return reinterpret_cast<T*>(this)[i];
 }
 
 template <typename T>
 const T& Vector4T<T>::operator[](size_t i) const
 {
     assert(i < 4);
-    return ((const T*)this)[i];
+    return reinterpret_cast<const T*>(this)[i];
 }
 
 template <typename T>
@@ -255,6 +252,13 @@ template <typename T>
 bool Vector4T<T>::operator!=(const Vector4T& v) const
 {
     return !(*this == v);
+}
+
+template <typename T>
+template <typename U>
+Vector4T<T>::operator Vector4T<U>() const
+{
+    return Vector4T<U>(static_cast<U>(x), static_cast<U>(y), static_cast<U>(z), static_cast<U>(w));
 }
 
 template <typename T>

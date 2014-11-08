@@ -22,6 +22,7 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <cassert>
+#include <cmath>
 
 namespace hect
 {
@@ -51,9 +52,7 @@ Vector2T<T> Vector2T<T>::unitY()
 }
 
 template <typename T>
-Vector2T<T>::Vector2T() :
-    x(0),
-    y(0)
+Vector2T<T>::Vector2T()
 {
 }
 
@@ -74,7 +73,7 @@ Vector2T<T>::Vector2T(T x, T y) :
 template <typename T>
 void Vector2T<T>::normalize()
 {
-    T inv = (T)1.0 / length();
+    T inv = T(1) / length();
     *this *= inv;
 }
 
@@ -102,7 +101,7 @@ Angle Vector2T<T>::angleFrom(const Vector2T& v) const
 template <typename T>
 T Vector2T<T>::length() const
 {
-    return (T)std::sqrt(lengthSquared());
+    return static_cast<T>(std::sqrt(lengthSquared()));
 }
 
 template <typename T>
@@ -205,14 +204,14 @@ template <typename T>
 T& Vector2T<T>::operator[](size_t i)
 {
     assert(i < 2);
-    return ((T*)this)[i];
+    return reinterpret_cast<T*>(this)[i];
 }
 
 template <typename T>
 const T& Vector2T<T>::operator[](size_t i) const
 {
     assert(i < 2);
-    return ((const T*)this)[i];
+    return reinterpret_cast<const T*>(this)[i];
 }
 
 template <typename T>
@@ -225,6 +224,13 @@ template <typename T>
 bool Vector2T<T>::operator!=(const Vector2T& v) const
 {
     return !(*this == v);
+}
+
+template <typename T>
+template <typename U>
+Vector2T<T>::operator Vector2T<U>() const
+{
+    return Vector2T<U>(static_cast<U>(x), static_cast<U>(y));
 }
 
 template <typename T>

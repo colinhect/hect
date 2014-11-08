@@ -131,7 +131,7 @@ public:
     Angle& operator/=(Real value);
 
 private:
-    Real _radians;
+    Real _radians { 0 };
 };
 
 Encoder& operator<<(Encoder& encoder, Angle angle);

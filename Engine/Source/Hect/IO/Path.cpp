@@ -28,9 +28,16 @@
 
 using namespace hect;
 
-const char pathDelimiter = '/';
+namespace
+{
 
-Path::Path() { }
+const char _pathDelimiter = '/';
+
+}
+
+Path::Path()
+{
+}
 
 Path::Path(const char* path)
 {
@@ -70,7 +77,7 @@ Path Path::parentDirectory() const
     size_t i = _rawPath.size();
     for (; i > 0; --i)
     {
-        if (_rawPath[i] == pathDelimiter)
+        if (_rawPath[i] == _pathDelimiter)
         {
             break;
         }
@@ -100,9 +107,9 @@ Path Path::operator+(const Path& path) const
     {
         // Add a delimiter between the paths if the left-hand side is not
         // empty and the right-hand side does not start with a delimeter
-        if (!result._rawPath.empty() && path._rawPath[0] != pathDelimiter)
+        if (!result._rawPath.empty() && path._rawPath[0] != _pathDelimiter)
         {
-            result._rawPath += pathDelimiter;
+            result._rawPath += _pathDelimiter;
         }
         result._rawPath.append(path._rawPath);
     }
@@ -118,7 +125,7 @@ Path& Path::operator+=(const Path& path)
         // Don't add the delimiter if this path is empty
         if (!_rawPath.empty())
         {
-            _rawPath += pathDelimiter;
+            _rawPath += _pathDelimiter;
         }
         _rawPath.append(path._rawPath);
     }
@@ -159,11 +166,6 @@ Decoder& operator>>(Decoder& decoder, Path& path)
     decoder >> decodeValue(rawPath);
     path = Path(rawPath);
     return decoder;
-}
-
-std::ostream& operator<<(std::ostream& os, const Path& path)
-{
-    return os << path.asString();
 }
 
 }

@@ -44,6 +44,8 @@ public:
     /// A sequence of JSON values.
     typedef Sequence<JsonValue, ValueContainer> ValueSequence;
 
+    ///
+    /// Constructs a JSON encoder.
     JsonEncoder();
 
     ///
@@ -51,17 +53,12 @@ public:
     ValueSequence jsonValues();
 
     bool isBinaryStream() const override;
-
     WriteStream& binaryStream() override;
-
     void beginArray() override;
     void endArray() override;
-
     void beginObject() override;
     void endObject() override;
-
     void selectMember(const char* name) override;
-
     void encodeString(const std::string& value) override;
     void encodeInt8(int8_t value) override;
     void encodeUInt8(uint8_t value) override;
@@ -81,7 +78,7 @@ private:
     std::stack<std::string> _nameStack;
     std::stack<JsonValue> _valueStack;
 
-    bool _memberSelected;
+    bool _memberSelected { false };
 
     ValueContainer _completed;
 };

@@ -138,13 +138,3 @@ TEST_CASE("Path_ParentDirectory")
     REQUIRE(parentDirectory.asString() == "");
     REQUIRE(parentDirectory.empty());
 }
-
-TEST_CASE("Path_StreamOutput")
-{
-    Path path("/Data/Internal/Fail.log");
-
-    std::stringstream ss;
-    ss << path;
-
-    REQUIRE(ss.str() == "/Data/Internal/Fail.log");
-}

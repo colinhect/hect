@@ -33,82 +33,82 @@ namespace hect
 WriteStream& operator<<(WriteStream& stream, const char* value)
 {
     size_t length = strlen(value);
-    stream << (uint32_t)length;
-    stream.write((uint8_t*)&value[0], length);
+    stream << static_cast<uint32_t>(length);
+    stream.write(reinterpret_cast<const uint8_t*>(&value[0]), length);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, const std::string& value)
 {
     size_t length = value.size();
-    stream << (uint32_t)length;
-    stream.write((uint8_t*)&value[0], length);
+    stream << static_cast<uint32_t>(length);
+    stream.write(reinterpret_cast<const uint8_t*>(&value[0]), length);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, int8_t value)
 {
-    stream.write((const uint8_t*)&value, 1);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 1);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, uint8_t value)
 {
-    stream.write((const uint8_t*)&value, 1);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 1);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, int16_t value)
 {
-    stream.write((const uint8_t*)&value, 2);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 2);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, uint16_t value)
 {
-    stream.write((const uint8_t*)&value, 2);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 2);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, int32_t value)
 {
-    stream.write((const uint8_t*)&value, 4);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 4);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, uint32_t value)
 {
-    stream.write((const uint8_t*)&value, 4);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 4);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, int64_t value)
 {
-    stream.write((const uint8_t*)&value, 8);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 8);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, uint64_t value)
 {
-    stream.write((const uint8_t*)&value, 8);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 8);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, float value)
 {
-    stream.write((const uint8_t*)&value, 4);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 4);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, double value)
 {
-    stream.write((const uint8_t*)&value, 8);
+    stream.write(reinterpret_cast<const uint8_t*>(&value), 8);
     return stream;
 }
 
 WriteStream& operator<<(WriteStream& stream, bool value)
 {
-    return stream << (uint8_t)(value ? 1 : 0);
+    return stream << static_cast<uint8_t>(value ? 1 : 0);
 }
 
 }

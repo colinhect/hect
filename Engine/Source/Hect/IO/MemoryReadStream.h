@@ -32,7 +32,7 @@ namespace hect
 {
 
 ///
-/// Provides read access to raw data.
+/// Provides read access to raw data in memory.
 class MemoryReadStream :
     public ReadStream
 {
@@ -52,7 +52,7 @@ public:
 
 private:
     const std::vector<uint8_t>& _data;
-    size_t _position;
+    size_t _position { 0 };
 };
 
 }

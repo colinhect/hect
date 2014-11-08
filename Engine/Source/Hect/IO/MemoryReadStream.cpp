@@ -31,8 +31,7 @@
 using namespace hect;
 
 MemoryReadStream::MemoryReadStream(const std::vector<uint8_t>& data) :
-    _data(data),
-    _position(0)
+    _data(data)
 {
 }
 

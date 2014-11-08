@@ -23,11 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <cmath>
-
 #include "Hect/Core/Real.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Math/Angle.h"
 
 namespace hect
@@ -221,26 +219,23 @@ public:
     ///
     /// Converts to an equivalent vector with a different underlying type.
     template <typename U>
-    operator Vector4T<U>() const
-    {
-        return Vector4T<U>((U)x, (U)y, (U)z, (U)w);
-    }
+    operator Vector4T<U>() const;
 
     ///
     /// The x component of the vector.
-    T x;
+    T x { 0 };
 
     ///
     /// The y component of the vector.
-    T y;
+    T y { 0 };
 
     ///
     /// The z component of the vector.
-    T z;
+    T z { 0 };
 
     ///
     /// The w component of the vector.
-    T w;
+    T w { 0 };
 };
 
 ///

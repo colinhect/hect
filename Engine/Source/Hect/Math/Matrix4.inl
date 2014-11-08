@@ -58,17 +58,17 @@ Matrix4T<T> Matrix4T<T>::fromRotation(const QuaternionT<T>& rotation)
     T w = rotation.w;
 
     Matrix4T m;
-    m[ 0] = (T)1.0 - (T)2.0 * y * y - (T)2.0 * z * z;
-    m[ 1] = (T)2.0 * x * y - (T)2.0 * w * z;
-    m[ 2] = (T)2.0 * x * z + (T)2.0 * w * y;
+    m[ 0] = T(1) - T(2) * y * y - T(2) * z * z;
+    m[ 1] = T(2) * x * y - T(2) * w * z;
+    m[ 2] = T(2) * x * z + T(2) * w * y;
 
-    m[ 4] = (T)2.0 * x * y + (T)2.0 * w * z;
-    m[ 5] = (T)1.0 - (T)2.0 * x * x - (T)2.0 * z * z;
-    m[ 6] = (T)2.0 * y * z - (T)2.0 * w * x;
+    m[ 4] = T(2) * x * y + T(2) * w * z;
+    m[ 5] = T(1) - T(2) * x * x - T(2) * z * z;
+    m[ 6] = T(2) * y * z - T(2) * w * x;
 
-    m[ 8] = (T)2.0 * x * z - (T)2.0 * w * y;
-    m[ 9] = (T)2.0 * y * z + (T)2.0 * w * x;
-    m[10] = (T)1.0 - (T)2.0 * x * x - (T)2.0 * y * y;
+    m[ 8] = T(2) * x * z - T(2) * w * y;
+    m[ 9] = T(2) * y * z + T(2) * w * x;
+    m[10] = T(1) - T(2) * x * x - T(2) * y * y;
     return m;
 }
 
@@ -100,13 +100,13 @@ Matrix4T<T> Matrix4T<T>::createPerspective(Angle fieldOfView, T aspectRatio, T n
 {
     Matrix4T m;
 
-    T h = (T)1.0 / std::tan(fieldOfView.radians() * (T)0.5);
+    T h = T(1) / std::tan(fieldOfView.radians() * T(0.5));
     m[ 0] = h / aspectRatio;
     m[ 5] = h;
     m[10] = (farClip + nearClip) / (nearClip - farClip);
-    m[11] = -(T)1.0;
-    m[14] = ((T)2.0 * nearClip * farClip) / (nearClip - farClip);
-    m[15] = (T)0.0;
+    m[11] = -T(1);
+    m[14] = (T(2) * nearClip * farClip) / (nearClip - farClip);
+    m[15] = T(0);
 
     return m;
 }
@@ -116,9 +116,9 @@ Matrix4T<T> Matrix4T<T>::createOrthogonal(T left, T right, T bottom, T top, T ne
 {
     Matrix4T m;
 
-    m[ 0] = (T)2.0 / (right - left);
-    m[ 5] = (T)2.0 / (top - bottom);
-    m[10] = (T)-2.0 / (farValue - nearValue);
+    m[ 0] = T(2) / (right - left);
+    m[ 5] = T(2) / (top - bottom);
+    m[10] = T(-2) / (farValue - nearValue);
     m[12] = -((right + left) / (right - left));
     m[13] = -((top + bottom) / (top - bottom));
     m[14] = -((farValue + nearValue) / (farValue - nearValue));
@@ -131,10 +131,10 @@ Matrix4T<T>::Matrix4T()
 {
     static const T identityValues[16] =
     {
-        (T)1.0, (T)0.0, (T)0.0, (T)0.0,
-        (T)0.0, (T)1.0, (T)0.0, (T)0.0,
-        (T)0.0, (T)0.0, (T)1.0, (T)0.0,
-        (T)0.0, (T)0.0, (T)0.0, (T)1.0
+        T(1), T(0), T(0), T(0),
+        T(0), T(1), T(0), T(0),
+        T(0), T(0), T(1), T(0),
+        T(0), T(0), T(0), T(1)
     };
 
     std::memcpy(_c, identityValues, sizeof(T) * 16);
@@ -165,7 +165,7 @@ void Matrix4T<T>::rotate(const QuaternionT<T>& rotation)
 template <typename T>
 Vector3T<T> Matrix4T<T>::operator*(const Vector3T<T>& v) const
 {
-    Vector4T<T> v4 = *this * Vector4T<T>(v.x, v.y, v.z, (T)0.0);
+    Vector4T<T> v4 = *this * Vector4T<T>(v.x, v.y, v.z, T(0));
     return Vector3T<T>(v4.x, v4.y, v4.z);
 }
 
@@ -219,6 +219,18 @@ template <typename T>
 const T& Matrix4T<T>::operator[](size_t i) const
 {
     return _c[i];
+}
+
+template <typename T>
+template <typename U>
+Matrix4T<T>::operator Matrix4T<U>() const
+{
+    Matrix4T<U> m;
+    for (size_t i = 0; i < 16; ++i)
+    {
+        m[i] = static_cast<U>(_c[i]);
+    }
+    return m;
 }
 
 }

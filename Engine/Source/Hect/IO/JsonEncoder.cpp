@@ -25,8 +25,7 @@
 
 using namespace hect;
 
-JsonEncoder::JsonEncoder() :
-    _memberSelected(false)
+JsonEncoder::JsonEncoder()
 {
 }
 

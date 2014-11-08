@@ -162,15 +162,7 @@ public:
     ///
     /// Converts to an equivalent matrix with a different underlying type.
     template <typename U>
-    operator Matrix4T<U>() const
-    {
-        Matrix4T<U> m;
-        for (size_t i = 0; i < 16; ++i)
-        {
-            m[i] = (U)_c[i];
-        }
-        return m;
-    }
+    operator Matrix4T<U>() const;
 
 private:
     T _c[16];

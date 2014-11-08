@@ -30,27 +30,23 @@ template <typename T>
 QuaternionT<T> QuaternionT<T>::fromAxisAngle(const Vector3T<T>& axis, Angle angle)
 {
     // Special case for identity quaternion
-    if (angle.degrees() == 0 || axis.lengthSquared() == (T)0)
+    if (angle.degrees() == 0 || axis.lengthSquared() == T(0))
     {
         return QuaternionT();
     }
     else
     {
-        T halfRadians = (T)angle.radians() / (T)2.0;
+        T halfRadians = static_cast<T>(angle.radians()) / T(2);
 
-        Vector3T<T> v = axis.normalized() * (T)std::sin(halfRadians);
-        T w = (T)std::cos(halfRadians);
+        Vector3T<T> v = axis.normalized() * static_cast<T>(std::sin(halfRadians));
+        T w = static_cast<T>(std::cos(halfRadians));
 
         return QuaternionT(v, w).normalized();
     }
 }
 
 template <typename T>
-QuaternionT<T>::QuaternionT() :
-    x(0),
-    y(0),
-    z(0),
-    w(1)
+QuaternionT<T>::QuaternionT()
 {
 }
 
@@ -84,7 +80,7 @@ QuaternionT<T>::QuaternionT(const Vector4T<T>& v) :
 template <typename T>
 void QuaternionT<T>::normalize()
 {
-    T inv = (T)1.0 / length();
+    T inv = T(1) / length();
     x *= inv;
     y *= inv;
     z *= inv;
@@ -126,7 +122,7 @@ QuaternionT<T> QuaternionT<T>::conjugate() const
 template <typename T>
 QuaternionT<T> QuaternionT<T>::inverse() const
 {
-    T inv = 1.0 / length();
+    T inv = T(1) / length();
     return QuaternionT(-(x * inv), -(y * inv), -(z * inv), w * inv);
 }
 
@@ -134,7 +130,7 @@ template <typename T>
 void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, Angle& angle) const
 {
     // Special case for identity quaternion
-    if (w == (T)0 || (x + y + z) == (T)0)
+    if (w == T(0) || (x + y + z) == T(0))
     {
         axis = Vector3T<T>::zero();
         angle = Angle::fromRadians(0);
@@ -199,14 +195,14 @@ template <typename T>
 T& QuaternionT<T>::operator[](size_t i)
 {
     assert(i < 4);
-    return ((T*)this)[i];
+    return reinterpret_cast<T*>(this)[i];
 }
 
 template <typename T>
 const T& QuaternionT<T>::operator[](size_t i) const
 {
     assert(i < 4);
-    return ((const T*)this)[i];
+    return reinterpret_cast<const T*>(this)[i];
 }
 
 template <typename T>
@@ -219,6 +215,13 @@ template <typename T>
 bool QuaternionT<T>::operator!=(const QuaternionT& q) const
 {
     return !(*this == q);
+}
+
+template <typename T>
+template <typename U>
+QuaternionT<T>::operator QuaternionT<U>() const
+{
+    return QuaternionT<U>(static_cast<U>(x), static_cast<U>(y), static_cast<U>(z), static_cast<U>(w));
 }
 
 template <typename T>
@@ -241,7 +244,7 @@ Decoder& operator>>(Decoder& decoder, QuaternionT<T>& q)
 {
     Vector3T<T> axis;
     Angle angle;
-    decoder >> decodeValue("axis", axis) >> decodeValue("angle", angle);
+    decoder >> decodeValue("axis", axis, true) >> decodeValue("angle", angle, true);
     q = QuaternionT<T>::fromAxisAngle(axis, angle);
     return decoder;
 }

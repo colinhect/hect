@@ -38,12 +38,11 @@ Angle Angle::fromRadians(Real radians)
     return Angle(radians);
 }
 
-Angle::Angle():
-    _radians(0)
+Angle::Angle()
 {
 }
 
-Angle::Angle(Real radians):
+Angle::Angle(Real radians) :
     _radians(radians)
 {
 }

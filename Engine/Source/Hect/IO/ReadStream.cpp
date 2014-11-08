@@ -29,7 +29,7 @@ std::string ReadStream::readAllToString()
 {
     size_t byteCount = length();
     std::string string(byteCount, ' ');
-    read((uint8_t*)&string[0], byteCount);
+    read(reinterpret_cast<uint8_t*>(&string[0]), byteCount);
     return string;
 }
 
@@ -41,67 +41,67 @@ ReadStream& operator>>(ReadStream& stream, std::string& value)
     uint32_t byteCount;
     stream >> byteCount;
     value = std::string(byteCount, ' ');
-    stream.read((uint8_t*)&value[0], byteCount);
+    stream.read(reinterpret_cast<uint8_t*>(&value[0]), byteCount);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, int8_t& value)
 {
-    stream.read((uint8_t*)&value, 1);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 1);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, uint8_t& value)
 {
-    stream.read((uint8_t*)&value, 1);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 1);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, int16_t& value)
 {
-    stream.read((uint8_t*)&value, 2);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 2);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, uint16_t& value)
 {
-    stream.read((uint8_t*)&value, 2);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 2);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, int32_t& value)
 {
-    stream.read((uint8_t*)&value, 4);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 4);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, uint32_t& value)
 {
-    stream.read((uint8_t*)&value, 4);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 4);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, int64_t& value)
 {
-    stream.read((uint8_t*)&value, 8);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 8);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, uint64_t& value)
 {
-    stream.read((uint8_t*)&value, 8);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 8);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, float& value)
 {
-    stream.read((uint8_t*)&value, 4);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 4);
     return stream;
 }
 
 ReadStream& operator>>(ReadStream& stream, double& value)
 {
-    stream.read((uint8_t*)&value, 8);
+    stream.read(reinterpret_cast<uint8_t*>(&value), 8);
     return stream;
 }
 

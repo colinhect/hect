@@ -42,7 +42,7 @@ public:
     ///
     /// Constructs a path from a string.
     ///
-    /// \note Any leading or trailing slashes are ignored.
+    /// \note Any trailing slashes are ignored.
     ///
     /// \param path The path with each part delimited by a forward slash.
     Path(const char* path);
@@ -50,7 +50,7 @@ public:
     ///
     /// Constructs a path from a string.
     ///
-    /// \note Any leading or trailing slashes are ignored.
+    /// \note Any trailing slashes are ignored.
     ///
     /// \param path The path with each part delimited by a forward slash.
     Path(const std::string& path);
@@ -98,12 +98,5 @@ class Decoder;
 
 Encoder& operator<<(Encoder& encoder, const Path& path);
 Decoder& operator>>(Decoder& decoder, Path& path);
-
-///
-/// Outputs a path to a stream.
-///
-/// \param os the output stream.
-/// \param path the path to output.
-std::ostream& operator<<(std::ostream& os, const Path& path);
 
 }

@@ -177,10 +177,7 @@ public:
     /// Converts to an equivalent quaternion with a different underlying
     /// type.
     template <typename U>
-    operator QuaternionT<U>() const
-    {
-        return QuaternionT<U>((U)x, (U)y, (U)z, (U)w);
-    }
+    operator QuaternionT<U>() const;
 
     ///
     /// Converts to a 4-dimensional vector.
@@ -188,19 +185,19 @@ public:
 
     ///
     /// The x component of the quaternion.
-    T x;
+    T x { 0 };
 
     ///
     /// The y component of the quaternion.
-    T y;
+    T y { 0 };
 
     ///
     /// The z component of the quaternion.
-    T z;
+    T z { 0 };
 
     ///
     /// The w component of the quaternion.
-    T w;
+    T w { 1 };
 };
 
 typedef QuaternionT<Real> Quaternion;
