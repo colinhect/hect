@@ -74,6 +74,8 @@ public:
     bool decodeBool() override;
 
 private:
+    void incrementIndex();
+
     enum ValueType
     {
         ValueType_Array,

@@ -25,8 +25,7 @@
 
 using namespace hect;
 
-BeginArray::BeginArray() :
-    name(nullptr)
+BeginArray::BeginArray()
 {
 }
 
@@ -35,8 +34,7 @@ BeginArray::BeginArray(const char* name) :
 {
 }
 
-BeginObject::BeginObject() :
-    name(nullptr)
+BeginObject::BeginObject()
 {
 }
 

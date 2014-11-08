@@ -25,195 +25,343 @@
 
 #include <vector>
 
-#include "Hect/Core/Uncopyable.h"
-
 namespace hect
 {
 
 ///
-/// An encode operation for beginning an array.
+/// An operation for beginning an array.
 struct BeginArray
 {
+    ///
+    /// Begins an unnamed array.
     BeginArray();
+
+    ///
+    /// Begins a named array.
+    ///
+    /// \param name The name of the array.
     BeginArray(const char* name);
 
-    const char* name;
+    const char* name
+    {
+        nullptr
+    };
 };
 
 ///
-/// An encode operation for ending an array.
+/// An operation for ending an array.
 struct EndArray
 {
 };
 
 ///
-/// An encode operation for beginning an object.
+/// An operation for beginning an object.
 struct BeginObject
 {
+
+    ///
+    /// Begins an unnamed object.
     BeginObject();
+
+    ///
+    /// Begins a named object.
+    ///
+    /// \param name The name of the object.
     BeginObject(const char* name);
 
-    const char* name;
+    const char* name
+    {
+        nullptr
+    };
 };
 
 ///
-/// An encode operation for ending an object.
+/// An operation for ending an object.
 struct EndObject
 {
 };
 
 ///
-/// An encode operation for encoding a value.
+/// An operation for encoding a value.
 template <typename T>
 struct EncodeValue
 {
+    ///
+    /// Encodes an unnamed value.
+    ///
+    /// \param value The value to encode.
     EncodeValue(const T& value);
+
+    ///
+    /// Encodes a named value.
+    ///
+    /// \param name The name of the value.
+    /// \param value The value to encode.
     EncodeValue(const char* name, const T& value);
 
-    const char* name;
+    const char* name
+    {
+        nullptr
+    };
     const T& value;
 };
 
+///
+/// An operation for encoding a vector as an array.
 template <typename T>
 struct EncodeVector
 {
+    ///
+    /// Encodes an unnamed array from a vector.
+    ///
+    /// \param values The values to encode.
     EncodeVector(const std::vector<T>& values);
+
+    ///
+    /// Encodes a named array from a vector.
+    ///
+    /// \param name The name of the array.
+    /// \param values The values to encode.
     EncodeVector(const char* name, const std::vector<T>& values);
 
-    const char* name;
+    const char* name
+    {
+        nullptr
+    };
     const std::vector<T>& values;
 };
 
 ///
-/// An decode operation for encoding a value.
-template <typename T>
-struct DecodeValue
-{
-    DecodeValue(T& value);
-    DecodeValue(const char* name, T& value, bool required);
-
-    const char* name;
-    T& value;
-    const bool required;
-};
-
-template <typename T>
-struct DecodeVector
-{
-    DecodeVector(std::vector<T>& values);
-    DecodeVector(const char* name, std::vector<T>& values);
-
-    const char* name;
-    std::vector<T>& values;
-};
-
-///
-/// An encode operation for encoding an enum.
+/// An operation for encoding an enum.
 template <typename T>
 struct EncodeEnum
 {
+    ///
+    /// Encodes an unnamed value from an enum.
+    ///
+    /// \param value The value to encode.
     EncodeEnum(T value);
+
+    ///
+    /// Encodes a named value from an enum.
+    ///
+    /// \param name The name of the value.
+    /// \param value The value to encode.
     EncodeEnum(const char* name, T value);
 
-    const char* name;
+    const char* name
+    {
+        nullptr
+    };
     T value;
 };
 
 ///
-/// An encode operation for encoding an enum.
+/// An operation for decoding a value.
+template <typename T>
+struct DecodeValue
+{
+    ///
+    /// Decodes an unnamed value.
+    ///
+    /// \param value The value to decode.
+    DecodeValue(T& value);
+
+    ///
+    /// Decodes a named value.
+    ///
+    /// \param name The name of the value.
+    /// \param value The value to decode.
+    /// \param required Whether the decode should fail if a value of the
+    /// specified name does not exist.
+    DecodeValue(const char* name, T& value, bool required);
+
+    const char* name
+    {
+        nullptr
+    };
+    T& value;
+    const bool required
+    {
+        false
+    };
+};
+
+///
+/// An operation for decoding an array as a vector.
+template <typename T>
+struct DecodeVector
+{
+    ///
+    /// Decodes an unnamed array to a vector.
+    ///
+    /// \param values The values to decode.
+    DecodeVector(std::vector<T>& values);
+
+    ///
+    /// Decodes a named array to a vector.
+    ///
+    /// \param name The name of the array.
+    /// \param values The values to decode.
+    DecodeVector(const char* name, std::vector<T>& values);
+
+    const char* name
+    {
+        nullptr
+    };
+    std::vector<T>& values;
+};
+
+///
+/// An operation for decoding an enum.
 template <typename T>
 struct DecodeEnum
 {
+    ///
+    /// Decodes an unnamed value to an enum.
+    ///
+    /// \param value The value to decode.
     DecodeEnum(T& value);
+
+    ///
+    /// Decodes a named value to an enum.
+    ///
+    /// \param name The name of the value.
+    /// \param value The value to decode.
     DecodeEnum(const char* name, T& value);
 
-    const char* name;
+    const char* name
+    {
+        nullptr
+    };
     T& value;
 };
 
 ///
-/// Returns an encode operation for beginning an array.
+/// Creates an operation for beginning an array.
 BeginArray beginArray();
 
 ///
-/// Returns an encode operation for beginning an array as a member of the
-/// current object.
+/// Creates an operation for beginning an array as a member of the current
+/// object.
 ///
 /// \param name The name of the member to begin the array for.
 BeginArray beginArray(const char* name);
 
 ///
-/// Returns an encode operation for ending the current array.
+/// Creates an operation for ending the current array.
 EndArray endArray();
 
 ///
-/// Returns an encode operation for beginning an object.
+/// Creates an operation for beginning an object.
 BeginObject beginObject();
 
 ///
-/// Returns an encode operation for beginning an object as a member of the
-/// current object.
+/// Creates an operation for beginning an object as a member of the current
+/// object.
 ///
 /// \param name The name of the member to begin the object for.
 BeginObject beginObject(const char* name);
 
 ///
-/// Returns an encode operation for ending the current object.
+/// Creates an operation for ending the current object.
 EndObject endObject();
 
 ///
-/// Returns an encode operation for encoding an arbitrary value.
+/// Creates an operation for encoding an arbitrary value.
 ///
 /// \param value The value to encode.
 template <typename T>
 EncodeValue<T> encodeValue(const T& value);
 
 ///
-/// Returns an encode operation for encoding an arbitrary value as a member of
-/// the current object.
+/// Creates an operation for encoding an arbitrary value as a member of the
+/// current object.
 ///
 /// \param name The name of the member to encode the value for.
 /// \param value The value to encode.
 template <typename T>
 EncodeValue<T> encodeValue(const char* name, const T& value);
 
+///
+/// Creates an operation for encoding a vector of values.
+///
+/// \param values The values to encode.
 template <typename T>
 EncodeVector<T> encodeVector(const std::vector<T>& values);
 
+///
+/// Creates an operation for encoding a vector of values as a member of the
+/// current object.
+///
+/// \param name The name of the member to encode the vector for.
+/// \param values The values to encode.
 template <typename T>
 EncodeVector<T> encodeVector(const char* name, const std::vector<T>& values);
 
-template <typename T>
-DecodeValue<T> decodeValue(T& value);
-
-template <typename T>
-DecodeValue<T> decodeValue(const char* name, T& value, bool required = false);
-
-template <typename T>
-DecodeVector<T> decodeVector(std::vector<T>& values);
-
-template <typename T>
-DecodeVector<T> decodeVector(const char* name, std::vector<T>& values);
-
 ///
-/// Returns an encode operation for encoding an enum value.
+/// Creates an operation for encoding an enum value.
 ///
 /// \param value The value to encode.
 template <typename T>
 EncodeEnum<T> encodeEnum(T value);
 
 ///
-/// Returns an encode operation for encoding an enum value as a member of
-/// the current object.
+/// Creates an operation for encoding an enum value as a member of the current
+/// object.
 ///
 /// \param name The name of the member to encode the value for.
 /// \param value The value to encode.
 template <typename T>
 EncodeEnum<T> encodeEnum(const char* name, T value);
 
+///
+/// Creates an operation for decoding an arbitrary value.
+///
+/// \param value The value to decode.
+template <typename T>
+DecodeValue<T> decodeValue(T& value);
+
+///
+/// Creates an operation for decoding an arbitrary value as a member of the
+/// current object.
+///
+/// \param name The name of the member to decode the value for.
+/// \param value The value to decode.
+/// \param required Whether the decode should fail if a value of the specified
+/// name does not exist.
+template <typename T>
+DecodeValue<T> decodeValue(const char* name, T& value, bool required = false);
+
+///
+/// Creates an operation for decoding a vector of values.
+///
+/// \param values The values to decode.
+template <typename T>
+DecodeVector<T> decodeVector(std::vector<T>& values);
+
+///
+/// Creates an operation for decoding a vector of values as a member of the
+/// current object.
+///
+/// \param name The name of the member to decode the vector for.
+/// \param values The values to decode.
+template <typename T>
+DecodeVector<T> decodeVector(const char* name, std::vector<T>& values);
+
+///
+/// Creates an operation for decoding an enum value.
+///
+/// \param value The value to decode.
 template <typename T>
 DecodeEnum<T> decodeEnum(T& value);
 
+///
+/// Creates an operation for decoding an enum value as a member of the current
+/// object.
+///
+/// \param name The name of the member to decode the value for.
+/// \param value The value to decode.
 template <typename T>
 DecodeEnum<T> decodeEnum(const char* name, T& value);
 

@@ -45,10 +45,7 @@ WriteStream& BinaryEncoder::binaryStream()
 
 void BinaryEncoder::beginArray()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _valueTypeStack.push(ValueType_Array);
     _countStack.push(0);
     _countPositionStack.push(_stream.position());
@@ -69,10 +66,7 @@ void BinaryEncoder::endArray()
 
 void BinaryEncoder::beginObject()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _valueTypeStack.push(ValueType_Object);
 }
 
@@ -88,108 +82,80 @@ void BinaryEncoder::selectMember(const char* name)
 
 void BinaryEncoder::encodeString(const std::string& value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeInt8(int8_t value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeUInt8(uint8_t value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeInt16(int16_t value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeUInt16(uint16_t value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeInt32(int32_t value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeUInt32(uint32_t value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeInt64(int64_t value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeUInt64(uint64_t value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeFloat32(float value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeFloat64(double value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
-    {
-        ++_countStack.top();
-    }
+    incrementCount();
     _stream << value;
 }
 
 void BinaryEncoder::encodeBool(bool value)
 {
-    if (_valueTypeStack.top() == ValueType_Array)
+    incrementCount();
+    _stream << value;
+}
+
+void BinaryEncoder::incrementCount()
+{
+    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
     {
         ++_countStack.top();
     }
-    _stream << value;
 }

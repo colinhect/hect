@@ -44,17 +44,12 @@ public:
     BinaryEncoder(WriteStream& stream);
 
     bool isBinaryStream() const override;
-
     WriteStream& binaryStream() override;
-
     void beginArray() override;
     void endArray() override;
-
     void beginObject() override;
     void endObject() override;
-
     void selectMember(const char* name) override;
-
     void encodeString(const std::string& value) override;
     void encodeInt8(int8_t value) override;
     void encodeUInt8(uint8_t value) override;
@@ -69,6 +64,8 @@ public:
     void encodeBool(bool value) override;
 
 private:
+    void incrementCount();
+
     enum ValueType
     {
         ValueType_Array,

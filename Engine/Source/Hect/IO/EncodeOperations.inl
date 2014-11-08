@@ -26,7 +26,6 @@ namespace hect
 
 template <typename T>
 EncodeValue<T>::EncodeValue(const T& value) :
-    name(nullptr),
     value(value)
 {
 }
@@ -40,7 +39,6 @@ EncodeValue<T>::EncodeValue(const char* name, const T& value) :
 
 template <typename T>
 EncodeVector<T>::EncodeVector(const std::vector<T>& values) :
-    name(nullptr),
     values(values)
 {
 }
@@ -53,10 +51,21 @@ EncodeVector<T>::EncodeVector(const char* name, const std::vector<T>& values) :
 }
 
 template <typename T>
+EncodeEnum<T>::EncodeEnum(T value) :
+    value(value)
+{
+}
+
+template <typename T>
+EncodeEnum<T>::EncodeEnum(const char* name, T value) :
+    name(name),
+    value(value)
+{
+}
+
+template <typename T>
 DecodeValue<T>::DecodeValue(T& value) :
-    name(nullptr),
-    value(value),
-    required(false)
+    value(value)
 {
 }
 
@@ -70,7 +79,6 @@ DecodeValue<T>::DecodeValue(const char* name, T& value, bool required) :
 
 template <typename T>
 DecodeVector<T>::DecodeVector(std::vector<T>& values) :
-    name(nullptr),
     values(values)
 {
 }
@@ -83,22 +91,7 @@ DecodeVector<T>::DecodeVector(const char* name, std::vector<T>& values) :
 }
 
 template <typename T>
-EncodeEnum<T>::EncodeEnum(T value) :
-    name(nullptr),
-    value(value)
-{
-}
-
-template <typename T>
-EncodeEnum<T>::EncodeEnum(const char* name, T value) :
-    name(name),
-    value(value)
-{
-}
-
-template <typename T>
 DecodeEnum<T>::DecodeEnum(T& value) :
-    name(nullptr),
     value(value)
 {
 }
@@ -135,6 +128,18 @@ EncodeVector<T> encodeVector(const char* name, const std::vector<T>& values)
 }
 
 template <typename T>
+EncodeEnum<T> encodeEnum(T value)
+{
+    return EncodeEnum<T>(value);
+}
+
+template <typename T>
+EncodeEnum<T> encodeEnum(const char* name, T value)
+{
+    return EncodeEnum<T>(name, value);
+}
+
+template <typename T>
 DecodeValue<T> decodeValue(T& value)
 {
     return DecodeValue<T>(value);
@@ -156,18 +161,6 @@ template <typename T>
 DecodeVector<T> decodeVector(const char* name, std::vector<T>& value)
 {
     return DecodeVector<T>(name, value);
-}
-
-template <typename T>
-EncodeEnum<T> encodeEnum(T value)
-{
-    return EncodeEnum<T>(value);
-}
-
-template <typename T>
-EncodeEnum<T> encodeEnum(const char* name, T value)
-{
-    return EncodeEnum<T>(name, value);
 }
 
 template <typename T>

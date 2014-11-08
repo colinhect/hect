@@ -51,10 +51,7 @@ ReadStream& BinaryDecoder::binaryStream()
 
 void BinaryDecoder::beginArray()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
 
     uint32_t count;
     _stream >> count;
@@ -78,10 +75,8 @@ bool BinaryDecoder::hasMoreElements() const
 
 void BinaryDecoder::beginObject()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     _valueTypeStack.push(ValueType_Object);
 }
 
@@ -93,20 +88,18 @@ void BinaryDecoder::endObject()
 bool BinaryDecoder::selectMember(const char* name)
 {
     (void)name;
-    return true; // Assume that all values are written
+    return true;
 }
 
 std::vector<std::string> BinaryDecoder::memberNames() const
 {
-    throw Error("Cannot enumerate member names from a binary object");
+    throw Error("Cannot enumerate member names from a binary data source");
 }
 
 std::string BinaryDecoder::decodeString()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     std::string value;
     _stream >> value;
     return value;
@@ -114,10 +107,8 @@ std::string BinaryDecoder::decodeString()
 
 int8_t BinaryDecoder::decodeInt8()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     int8_t value;
     _stream >> value;
     return value;
@@ -125,10 +116,8 @@ int8_t BinaryDecoder::decodeInt8()
 
 uint8_t BinaryDecoder::decodeUInt8()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     uint8_t value;
     _stream >> value;
     return value;
@@ -136,10 +125,8 @@ uint8_t BinaryDecoder::decodeUInt8()
 
 int16_t BinaryDecoder::decodeInt16()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     int16_t value;
     _stream >> value;
     return value;
@@ -147,10 +134,8 @@ int16_t BinaryDecoder::decodeInt16()
 
 uint16_t BinaryDecoder::decodeUInt16()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     uint16_t value;
     _stream >> value;
     return value;
@@ -158,10 +143,8 @@ uint16_t BinaryDecoder::decodeUInt16()
 
 int32_t BinaryDecoder::decodeInt32()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     int32_t value;
     _stream >> value;
     return value;
@@ -169,10 +152,8 @@ int32_t BinaryDecoder::decodeInt32()
 
 uint32_t BinaryDecoder::decodeUInt32()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     uint32_t value;
     _stream >> value;
     return value;
@@ -180,10 +161,8 @@ uint32_t BinaryDecoder::decodeUInt32()
 
 int64_t BinaryDecoder::decodeInt64()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     int64_t value;
     _stream >> value;
     return value;
@@ -191,10 +170,8 @@ int64_t BinaryDecoder::decodeInt64()
 
 uint64_t BinaryDecoder::decodeUInt64()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     uint64_t value;
     _stream >> value;
     return value;
@@ -202,10 +179,8 @@ uint64_t BinaryDecoder::decodeUInt64()
 
 float BinaryDecoder::decodeFloat32()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     float value;
     _stream >> value;
     return value;
@@ -213,10 +188,8 @@ float BinaryDecoder::decodeFloat32()
 
 double BinaryDecoder::decodeFloat64()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
-    {
-        ++_indexStack.top();
-    }
+    incrementIndex();
+
     double value;
     _stream >> value;
     return value;
@@ -224,11 +197,17 @@ double BinaryDecoder::decodeFloat64()
 
 bool BinaryDecoder::decodeBool()
 {
+    incrementIndex();
+
+    bool value;
+    _stream >> value;
+    return value;
+}
+
+void BinaryDecoder::incrementIndex()
+{
     if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
     {
         ++_indexStack.top();
     }
-    bool value;
-    _stream >> value;
-    return value;
 }
