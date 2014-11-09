@@ -122,7 +122,7 @@ public:
     ///
     /// \param address The address of the remote socket.
     /// \param port The port the remote socket is listening on.
-    PeerHandle connectToPeer(IpAddress address, Port port);
+    PeerHandle connectToPeer(IPAddress address, Port port);
 
     ///
     /// Triggers a disconnection handshake attempt with a remote socket.

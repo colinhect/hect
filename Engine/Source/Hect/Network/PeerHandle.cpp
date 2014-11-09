@@ -42,14 +42,14 @@ PeerId PeerHandle::id() const
     return ((ENetPeer*)_enetPeer)->incomingPeerID;
 }
 
-IpAddress PeerHandle::address() const
+IPAddress PeerHandle::address() const
 {
     if (!_enetPeer)
     {
-        return IpAddress(0);
+        return IPAddress(0);
     }
 
-    return IpAddress(((ENetPeer*)_enetPeer)->address.host);
+    return IPAddress(((ENetPeer*)_enetPeer)->address.host);
 }
 
 PeerState PeerHandle::state() const

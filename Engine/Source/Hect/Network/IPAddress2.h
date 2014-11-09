@@ -21,49 +21,46 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "IpAddress.h"
+#pragma once
 
-#include <enet/enet.h>
+#include <cstdint>
+#include <string>
 
-using namespace hect;
-
-IpAddress::IpAddress(const std::string& hostName) :
-    _address(0)
+namespace hect
 {
-    ENetAddress address = { 0 };
-    if (enet_address_set_host(&address, hostName.c_str()) == 0)
-    {
-        _address = address.host;
-    }
-}
 
-IpAddress::IpAddress(uint32_t address) :
-    _address(address)
+///
+/// An IPv4 address.
+class IPAddress
 {
-}
+public:
 
-bool IpAddress::isValid() const
-{
-    return _address != 0;
-}
+    ///
+    /// Constructs an IP address from a host name.
+    ///
+    /// \param hostName The name of the host.
+    IPAddress(const std::string& hostName);
 
-std::string IpAddress::toString() const
-{
-    ENetAddress address = { 0 };
-    address.host = _address;
+    ///
+    /// Constructs an IP address from a raw 32-bit value.
+    ///
+    /// \param address The 32-bit value of the address.
+    IPAddress(uint32_t address);
 
-    char hostName[128];
-    if (enet_address_get_host_ip(&address, hostName, sizeof(hostName)) == 0)
-    {
-        return hostName;
-    }
-    else
-    {
-        return "unknown";
-    }
-}
+    ///
+    /// Returns whether the address is a valid IP address.
+    bool isValid() const;
 
-IpAddress::operator uint32_t() const
-{
-    return _address;
+    ///
+    /// Returns a string representation of the address.
+    std::string toString() const;
+
+    ///
+    /// Casts the address to a 32-bit unsigned integer.
+    operator uint32_t() const;
+
+private:
+    uint32_t _address;
+};
+
 }

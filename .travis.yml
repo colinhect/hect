@@ -1,8 +1,8 @@
 language: cpp
 
 env:
-  - BUILD_TYPE=Debug
-  - BUILD_TYPE=Release
+ - BUILD_TYPE=Debug
+ - BUILD_TYPE=Release
 
 before_install:
  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test

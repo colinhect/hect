@@ -85,7 +85,7 @@ Socket::~Socket()
     }
 }
 
-PeerHandle Socket::connectToPeer(IpAddress address, Port port)
+PeerHandle Socket::connectToPeer(IPAddress address, Port port)
 {
     ENetAddress enetAddress;
     enetAddress.host = (uint32_t)address;

@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Network/IpAddress.h"
+#include "Hect/Network/IPAddress.h"
 
 namespace hect
 {
@@ -99,7 +99,7 @@ public:
 
     ///
     /// Returns the remote address of the peer.
-    IpAddress address() const;
+    IPAddress address() const;
 
     ///
     /// Returns the current state of the peer.
