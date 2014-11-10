@@ -27,8 +27,7 @@
 
 using namespace hect;
 
-IPAddress::IPAddress(const std::string& hostName) :
-    _address(0)
+IPAddress::IPAddress(const std::string& hostName)
 {
     ENetAddress address = { 0 };
     if (enet_address_set_host(&address, hostName.c_str()) == 0)
@@ -59,7 +58,7 @@ std::string IPAddress::toString() const
     }
     else
     {
-        return "unknown";
+        return "<unknown>";
     }
 }
 

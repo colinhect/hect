@@ -25,8 +25,11 @@
 
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Timing/TimeSpan.h"
-#include "Hect/Network/Packet.h"
-#include "Hect/Network/PeerHandle.h"
+#include "Hect/Network/UdpPacket.h"
+#include "Hect/Network/UdpPeer.h"
+
+// Forward declarations for ENet types
+typedef struct _ENetHost ENetHost;
 
 namespace hect
 {
@@ -36,48 +39,48 @@ namespace hect
 typedef uint16_t Port;
 
 ///
+/// A channel of a UDP socket.
+typedef uint8_t Channel;
+
+///
 /// An event type.
-enum SocketEventType
+enum UdpSocketEventType
 {
     ///
     /// No event occurred.
-    SocketEventType_None = 0,
+    UdpSocketEventType_None = 0,
 
     ///
     /// A connection to a peer has been established.
-    SocketEventType_Connect,
+    UdpSocketEventType_Connect,
 
     ///
     /// A connection to a peer has been lost.
-    SocketEventType_Disconnect,
+    UdpSocketEventType_Disconnect,
 
     ///
     /// A packet has been received from a peer.
-    SocketEventType_Receive
+    UdpSocketEventType_Receive
 };
 
 ///
 /// An event triggered from a remote socket.
-class SocketEvent
+class UdpSocketEvent
 {
 public:
 
     ///
-    /// Constructs a blank event.
-    SocketEvent();
-
-    ///
     /// The event type.
-    SocketEventType type;
+    UdpSocketEventType type { UdpSocketEventType_None };
 
     ///
     /// The remote socket triggering the event.
-    PeerHandle peer;
+    UdpPeer::Handle peer;
 
     ///
     /// The packet received (only for events with type
-    /// Socket::Event::Receive).
-    Packet packet;
+    /// UdpSocket::Event::Receive).
+    UdpPacket packet;
 };
 
 ///
@@ -85,7 +88,7 @@ public:
 ///
 /// \note A socket can either listen for incoming connections or attempt
 /// to connect to a remote socket which is listening.
-class Socket :
+class UdpSocket :
     public Uncopyable
 {
 public:
@@ -96,7 +99,7 @@ public:
     /// \param maxConnectionCount The maximum number of simultaneous outgoing
     /// connections the socket can create.
     /// \param channelCount The number of channels to use.
-    Socket(unsigned maxConnectionCount, uint8_t channelCount);
+    UdpSocket(unsigned maxConnectionCount, uint8_t channelCount);
 
     ///
     /// Constructs a socket which listens for incoming connections on a given
@@ -106,11 +109,11 @@ public:
     /// \param maxConnectionCount The maximum number of simultaneous incoming
     /// connections the socket can accept.
     /// \param channelCount The number of channels to use.
-    Socket(Port port, unsigned maxConnectionCount, uint8_t channelCount);
+    UdpSocket(Port port, unsigned maxConnectionCount, uint8_t channelCount);
 
     ///
     /// Destroys the socket.
-    ~Socket();
+    ~UdpSocket();
 
     ///
     /// Triggers a connection handshake attempt with a remote socket.
@@ -122,7 +125,7 @@ public:
     ///
     /// \param address The address of the remote socket.
     /// \param port The port the remote socket is listening on.
-    PeerHandle connectToPeer(IPAddress address, Port port);
+    UdpPeer::Handle connectToPeer(IPAddress address, Port port);
 
     ///
     /// Triggers a disconnection handshake attempt with a remote socket.
@@ -131,7 +134,9 @@ public:
     /// happens.
     ///
     /// \param peer The peer.
-    void disconnectFromPeer(PeerHandle peer);
+    ///
+    /// \throws Error If the specified peer does not belong to this socket.
+    void disconnectFromPeer(UdpPeer& peer);
 
     ///
     /// Polls the next event triggered from a remote socket.
@@ -140,7 +145,7 @@ public:
     /// \param timeOut The time span to wait for an event to occur.
     ///
     /// \returns True if an event was received; false otherwise.
-    bool pollEvent(SocketEvent& event, TimeSpan timeOut = TimeSpan::fromMilliseconds(0));
+    bool pollEvent(UdpSocketEvent& event, TimeSpan timeOut = TimeSpan::fromMilliseconds(0));
 
     ///
     /// Sends a packet to a remote socket.
@@ -151,7 +156,7 @@ public:
     /// \param peer The peer to receive the packet.
     /// \param channel The channel to send the packet on.
     /// \param packet The packet to send.
-    void sendPacket(PeerHandle peer, uint8_t channel, const Packet& packet);
+    void sendPacket(UdpPeer& peer, Channel channel, const UdpPacket& packet);
 
     ///
     /// Broadcasts a packet to all connected remote sockets.
@@ -161,15 +166,15 @@ public:
     ///
     /// \param channel The channel to send the packet on.
     /// \param packet The packet to send.
-    void broadcastPacket(uint8_t channel, const Packet& packet);
+    void broadcastPacket(Channel channel, const UdpPacket& packet);
 
     ///
     /// Force any enqueued packet transmissions to occur.
     void flush();
 
 private:
-    void* _enetHost;
-    std::vector<PeerHandle> _peers;
+    ENetHost* _enetHost { nullptr };
+    std::vector<std::shared_ptr<UdpPeer>> _peers;
 };
 
 }

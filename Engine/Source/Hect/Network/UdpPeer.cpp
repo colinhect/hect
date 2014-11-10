@@ -21,48 +21,89 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "PeerHandle.h"
-
-using namespace hect;
+#include "UdpPeer.h"
 
 #include <enet/enet.h>
 
-PeerHandle::PeerHandle() :
-    _enetPeer(nullptr)
+#include "Hect/Core/Error.h"
+
+using namespace hect;
+
+UdpPeer::Handle::Handle()
 {
 }
 
-PeerId PeerHandle::id() const
+UdpPeer& UdpPeer::Handle::operator*() const
+{
+    auto peer = _peer.lock();
+
+    if (!peer)
+    {
+        throw Error("Invalid peer handle");
+    }
+
+    return *peer;
+}
+
+UdpPeer* UdpPeer::Handle::operator->() const
+{
+    auto peer = _peer.lock();
+
+    if (!peer)
+    {
+        throw Error("Invalid peer handle");
+    }
+
+    return peer.get();
+}
+
+UdpPeer::Handle::operator bool() const
+{
+    auto peer = _peer.lock();
+    return peer.get() != nullptr;
+}
+
+UdpPeer::Handle::Handle(const std::weak_ptr<UdpPeer>& peer) :
+    _peer(peer)
+{
+}
+
+UdpPeerId UdpPeer::id() const
 {
     if (!_enetPeer)
     {
         return 0;
     }
 
-    return ((ENetPeer*)_enetPeer)->incomingPeerID;
+    return _enetPeer->incomingPeerID;
 }
 
-IPAddress PeerHandle::address() const
+IPAddress UdpPeer::address() const
 {
     if (!_enetPeer)
     {
         return IPAddress(0);
     }
 
-    return IPAddress(((ENetPeer*)_enetPeer)->address.host);
+    return IPAddress(_enetPeer->address.host);
 }
 
-PeerState PeerHandle::state() const
+UdpPeerState UdpPeer::state() const
 {
     if (!_enetPeer)
     {
-        return PeerState_Disconnected;
+        return UdpPeerState_Disconnected;
     }
 
-    return (PeerState)((ENetPeer*)_enetPeer)->state;
+    return static_cast<UdpPeerState>(_enetPeer->state);
 }
 
-bool PeerHandle::operator==(const PeerHandle& peer) const
+bool UdpPeer::operator==(const UdpPeer& peer) const
 {
     return _enetPeer == peer._enetPeer;
+}
+
+UdpPeer::UdpPeer(ENetPeer* enetPeer) :
+    _enetPeer(enetPeer)
+{
 }

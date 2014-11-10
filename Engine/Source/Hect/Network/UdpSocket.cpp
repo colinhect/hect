@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Socket.h"
+#include "UdpSocket.h"
 
 #include <algorithm>
 #include <cstring>
@@ -31,15 +31,14 @@
 
 using namespace hect;
 
-int _enetInitializationCounter = 0;
-
-SocketEvent::SocketEvent() :
-    type(SocketEventType_None)
+namespace
 {
+
+static int _enetInitializationCounter = 0;
+
 }
 
-Socket::Socket(unsigned maxConnectionCount, uint8_t channelCount) :
-    _enetHost(nullptr)
+UdpSocket::UdpSocket(unsigned maxConnectionCount, uint8_t channelCount)
 {
     if (_enetInitializationCounter == 0)
     {
@@ -57,7 +56,7 @@ Socket::Socket(unsigned maxConnectionCount, uint8_t channelCount) :
     }
 }
 
-Socket::Socket(Port port, unsigned maxConnectionCount, uint8_t channelCount) :
+UdpSocket::UdpSocket(Port port, unsigned maxConnectionCount, uint8_t channelCount) :
     _enetHost(nullptr)
 {
     ENetAddress address;
@@ -70,11 +69,11 @@ Socket::Socket(Port port, unsigned maxConnectionCount, uint8_t channelCount) :
     }
 }
 
-Socket::~Socket()
+UdpSocket::~UdpSocket()
 {
     if (_enetHost)
     {
-        enet_host_destroy((ENetHost*)_enetHost);
+        enet_host_destroy(_enetHost);
         _enetHost = nullptr;
     }
 
@@ -85,62 +84,68 @@ Socket::~Socket()
     }
 }
 
-PeerHandle Socket::connectToPeer(IPAddress address, Port port)
+UdpPeer::Handle UdpSocket::connectToPeer(IPAddress address, Port port)
 {
     ENetAddress enetAddress;
-    enetAddress.host = (uint32_t)address;
+    enetAddress.host = static_cast<uint32_t>(address);
     enetAddress.port = port;
 
-    ENetPeer* enetPeer = enet_host_connect((ENetHost*)_enetHost, &enetAddress, ((ENetHost*)_enetHost)->channelLimit, 0);
+    ENetPeer* enetPeer = enet_host_connect(_enetHost, &enetAddress, _enetHost->channelLimit, 0);
     if (!enetPeer)
     {
         throw Error("Failed to create peer");
     }
 
-    PeerHandle peer;
-    peer._enetPeer = enetPeer;
-
+    std::shared_ptr<UdpPeer> peer(new UdpPeer(enetPeer));
     _peers.push_back(peer);
 
-    return peer;
+    return UdpPeer::Handle(peer);
 }
 
-void Socket::disconnectFromPeer(PeerHandle peer)
+void UdpSocket::disconnectFromPeer(UdpPeer& peer)
 {
     // Ensure the peer belongs to this socket
-    if (std::find(_peers.begin(), _peers.end(), peer) == _peers.end())
+    auto it = _peers.begin();
+    while (it != _peers.end())
     {
-        return;
+        if (it->get() == &peer)
+        {
+            break;
+        }
+        ++it;
+    }
+    if (it == _peers.end())
+    {
+        throw Error("Peer does not belong to this socket");
     }
 
-    // Remove the peer
-    _peers.erase(std::remove(_peers.begin(), _peers.end(), peer), _peers.end());
+    // Remove the peer (invalidates any handles to the peer)
+    _peers.erase(it);
 
     // Trigger the disconnect
-    ENetPeer* enetPeer = (ENetPeer*)peer._enetPeer;
-    if (peer.state() == PeerState_Connected)
+    if (peer.state() == UdpPeerState_Connected)
     {
-        enet_peer_disconnect(enetPeer, 0);
+        enet_peer_disconnect(peer._enetPeer, 0);
     }
     else
     {
-        enet_peer_reset(enetPeer);
+        enet_peer_reset(peer._enetPeer);
     }
 }
 
-bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
+bool UdpSocket::pollEvent(UdpSocketEvent& event, TimeSpan timeOut)
 {
     ENetEvent enetEvent;
-    if (enet_host_service((ENetHost*)_enetHost, &enetEvent, (uint32_t)timeOut.milliseconds()) > 0)
+    if (enet_host_service(_enetHost, &enetEvent, static_cast<uint32_t>(timeOut.milliseconds())) > 0)
     {
-        event.type = (SocketEventType)enetEvent.type;
-        event.peer._enetPeer = enetEvent.peer;
+        event.type = static_cast<UdpSocketEventType>(enetEvent.type);
+        event.peer->_enetPeer = enetEvent.peer;
 
         if (enetEvent.type == ENET_EVENT_TYPE_RECEIVE)
         {
             std::vector<uint8_t> data(enetEvent.packet->dataLength, 0);
             std::memcpy(&data[0], enetEvent.packet->data, data.size());
-            event.packet = Packet(data);
+            event.packet = UdpPacket(data);
             enet_packet_destroy(enetEvent.packet);
         }
 
@@ -150,21 +155,21 @@ bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
     return false;
 }
 
-void Socket::sendPacket(PeerHandle peer, uint8_t channel, const Packet& packet)
+void UdpSocket::sendPacket(UdpPeer& peer, Channel channel, const UdpPacket& packet)
 {
     const std::vector<uint8_t>& data = packet._data;
     ENetPacket* enetPacket = enet_packet_create(&data[0], data.size(), packet._flags);
-    enet_peer_send((ENetPeer*)peer._enetPeer, channel, enetPacket);
+    enet_peer_send(peer._enetPeer, channel, enetPacket);
 }
 
-void Socket::broadcastPacket(uint8_t channel, const Packet& packet)
+void UdpSocket::broadcastPacket(Channel channel, const UdpPacket& packet)
 {
     const std::vector<uint8_t>& data = packet._data;
     ENetPacket* enetPacket = enet_packet_create(&data[0], data.size(), packet._flags);
-    enet_host_broadcast((ENetHost*)_enetHost, channel, enetPacket);
+    enet_host_broadcast(_enetHost, channel, enetPacket);
 }
 
-void Socket::flush()
+void UdpSocket::flush()
 {
-    enet_host_flush((ENetHost*)_enetHost);
+    enet_host_flush(_enetHost);
 }

@@ -60,7 +60,7 @@ public:
     operator uint32_t() const;
 
 private:
-    uint32_t _address;
+    uint32_t _address { 0 };
 };
 
 }

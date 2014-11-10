@@ -31,53 +31,53 @@ namespace hect
 
 ///
 /// Provides functionality to read from a packet.
-typedef MemoryReadStream PacketReadStream;
+typedef MemoryReadStream UdpPacketReadStream;
 
 ///
 /// Provides functionality to write to a packet.
-typedef MemoryWriteStream PacketWriteStream;
+typedef MemoryWriteStream UdpPacketWriteStream;
 
 ///
 /// A flag describing how a packet is transported.
-enum PacketFlag
+enum UdpPacketFlag
 {
     ///
     /// Packet must be received by the target peer and resend attempts
     /// should be made until the packet is delivered.
-    PacketFlag_Reliable = 1,
+    UdpPacketFlag_Reliable = 1,
 
     ///
     /// Packet will not be sequenced with other packets.
     ///
     /// \warning Not supported for reliable packets.
-    PacketFlag_Unsequenced = 2
+    UdpPacketFlag_Unsequenced = 2
 };
 
 ///
 /// A packet of data to be transported across a network connection.
-class Packet
+class UdpPacket
 {
-    friend class Socket;
+    friend class UdpSocket;
 public:
 
     ///
     /// Constructs a packet given its flags.
     ///
     /// \param flags The flags describing how the packet is transported.
-    Packet(uint8_t flags = 0);
+    UdpPacket(uint8_t flags = 0);
 
     ///
     /// Returns a read stream for the packet data.
-    PacketReadStream readStream() const;
+    UdpPacketReadStream readStream() const;
 
     ///
     /// Returns a write stream for the packet data.
-    PacketWriteStream writeStream();
+    UdpPacketWriteStream writeStream();
 
 private:
-    Packet(const std::vector<uint8_t>& data);
+    UdpPacket(const std::vector<uint8_t>& data);
 
-    uint8_t _flags;
+    uint8_t _flags { 0 };
     std::vector<uint8_t> _data;
 };
 

@@ -31,11 +31,6 @@ Task::Handle::Handle()
 {
 }
 
-Task::Handle::Handle(const std::shared_ptr<Task>& task) :
-    _task(task)
-{
-}
-
 Task& Task::Handle::operator*() const
 {
     if (!_task)
@@ -59,6 +54,11 @@ Task* Task::Handle::operator->() const
 Task::Handle::operator bool() const
 {
     return _task.get() != nullptr;
+}
+
+Task::Handle::Handle(const std::shared_ptr<Task>& task) :
+    _task(task)
+{
 }
 
 void Task::wait()

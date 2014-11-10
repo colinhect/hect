@@ -23,79 +23,115 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <memory>
+
+#include "Hect/Core/Uncopyable.h"
 #include "Hect/Network/IPAddress.h"
+
+// Forward declarations for ENet types
+typedef struct _ENetPeer ENetPeer;
 
 namespace hect
 {
 
 ///
 /// A state that a peer is in.
-enum PeerState
+enum UdpPeerState
 {
     ///
     /// Not connected.
-    PeerState_Disconnected,
+    UdpPeerState_Disconnected,
 
     ///
     /// Connection in progress.
-    PeerState_Connecting,
+    UdpPeerState_Connecting,
 
     ///
     /// Acknowledgement of connection received.
-    PeerState_AcknowledgingConnect,
+    UdpPeerState_AcknowledgingConnect,
 
     ///
     /// Connection pending.
-    PeerState_ConnectionPending,
+    UdpPeerState_ConnectionPending,
 
     ///
     /// Connection succeeded.
-    PeerState_ConnectionSucceeded,
+    UdpPeerState_ConnectionSucceeded,
 
     ///
     /// Connection fully established.
-    PeerState_Connected,
+    UdpPeerState_Connected,
 
     ///
     /// Disconnection will triggered.
-    PeerState_DisconnectLater,
+    UdpPeerState_DisconnectLater,
 
     ///
     /// Disconnection in progress.
-    PeerState_Disconnecting,
+    UdpPeerState_Disconnecting,
 
     ///
     /// Acknowledgement of disconnection received.
-    PeerState_AcknowledgeDisconnect,
+    UdpPeerState_AcknowledgeDisconnect,
 
     ///
     /// Unknown state.
-    PeerState_Unknown
+    UdpPeerState_Unknown
 };
 
 
 ///
 /// A locally unique id for a peer.
-typedef uint16_t PeerId;
+typedef uint16_t UdpPeerId;
 
 ///
 /// A remote point of contact for remote communication over UDP.
-///
-/// \note Peers are lightweight handles.  Copying a peer will copy the
-/// the handle and they will both refer to the same peer.  Peers are created
-/// and destroyed from a socket and are provided in socket events.
-class PeerHandle
+class UdpPeer :
+    public Uncopyable
 {
-    friend class Socket;
+    friend class UdpSocket;
 public:
 
     ///
-    /// Constructs an invalid peer.
-    PeerHandle();
+    /// A handle for a peer;
+    class Handle
+    {
+        friend class UdpSocket;
+    public:
+
+        ///
+        /// Creates an invalid peer handle.
+        Handle();
+
+        ///
+        /// Dereferences the handle to a reference to the associated peer.
+        ///
+        /// \returns A reference to the associated peer.
+        ///
+        /// \throws Error If the handle is invalid.
+        UdpPeer& operator*() const;
+
+        ///
+        /// Dereferences the handle to a pointer to the associated peer.
+        ///
+        /// \returns A pointer to the associated peer.
+        ///
+        /// \throws Error If the handle is invalid.
+        UdpPeer* operator->() const;
+
+        ///
+        /// Returns whether the handle is valid.
+        operator bool() const;
+
+    private:
+        Handle(const std::weak_ptr<UdpPeer>& peer);
+
+        std::weak_ptr<UdpPeer> _peer;
+    };
 
     ///
     /// Returns the locally unique id of the peer.
-    PeerId id() const;
+    UdpPeerId id() const;
 
     ///
     /// Returns the remote address of the peer.
@@ -103,16 +139,18 @@ public:
 
     ///
     /// Returns the current state of the peer.
-    PeerState state() const;
+    UdpPeerState state() const;
 
     ///
     /// Returns whether the peer the is same as another.
     ///
     /// \param peer The other peer.
-    bool operator==(const PeerHandle& peer) const;
+    bool operator==(const UdpPeer& peer) const;
 
 private:
-    void* _enetPeer;
+    UdpPeer(ENetPeer* enetPeer);
+
+    ENetPeer* _enetPeer{ nullptr };
 };
 
 }
