@@ -109,6 +109,26 @@ TimeSpan& TimeSpan::operator/=(Real value)
     return *this;
 }
 
+bool TimeSpan::operator<(const TimeSpan& t) const
+{
+    return _microseconds < t._microseconds;
+}
+
+bool TimeSpan::operator<=(const TimeSpan& t) const
+{
+    return _microseconds <= t._microseconds;
+}
+
+bool TimeSpan::operator>(const TimeSpan& t) const
+{
+    return _microseconds > t._microseconds;
+}
+
+bool TimeSpan::operator>=(const TimeSpan& t) const
+{
+    return _microseconds >= t._microseconds;
+}
+
 TimeSpan::TimeSpan(int64_t microseconds) :
     _microseconds(microseconds)
 {

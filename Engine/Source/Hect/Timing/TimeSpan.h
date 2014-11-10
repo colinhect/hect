@@ -130,6 +130,30 @@ public:
     /// \returns A reference to the time span.
     TimeSpan& operator/=(Real value);
 
+    ///
+    /// Returns whether the time span is less than another.
+    ///
+    /// \param t The time span to compare to.
+    bool operator<(const TimeSpan& t) const;
+
+    ///
+    /// Returns whether the time span is less than or equal to another.
+    ///
+    /// \param t The time span to compare to.
+    bool operator<=(const TimeSpan& t) const;
+
+    ///
+    /// Returns whether the time span is greater than another.
+    ///
+    /// \param t The time span to compare to.
+    bool operator>(const TimeSpan& t) const;
+
+    ///
+    /// Returns whether the time span is greater than or equal to another.
+    ///
+    /// \param t The time span to compare to.
+    bool operator>=(const TimeSpan& t) const;
+
 private:
     TimeSpan(int64_t microseconds);
 

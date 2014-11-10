@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <mutex>
+
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Timing/TimeSpan.h"
 #include "Hect/Network/UdpPacket.h"
@@ -96,20 +98,20 @@ public:
     ///
     /// Constructs a socket which does not listen for incoming connections.
     ///
-    /// \param maxConnectionCount The maximum number of simultaneous outgoing
+    /// \param peerCount The maximum number of simultaneous outgoing
     /// connections the socket can create.
     /// \param channelCount The number of channels to use.
-    UdpSocket(unsigned maxConnectionCount, uint8_t channelCount);
+    UdpSocket(unsigned peerCount, uint8_t channelCount);
 
     ///
     /// Constructs a socket which listens for incoming connections on a given
     /// port.
     ///
     /// \param port The port to listen on.
-    /// \param maxConnectionCount The maximum number of simultaneous incoming
+    /// \param peerCount The maximum number of simultaneous incoming
     /// connections the socket can accept.
     /// \param channelCount The number of channels to use.
-    UdpSocket(Port port, unsigned maxConnectionCount, uint8_t channelCount);
+    UdpSocket(Port port, unsigned peerCount, uint8_t channelCount);
 
     ///
     /// Destroys the socket.
@@ -173,6 +175,12 @@ public:
     void flush();
 
 private:
+    static void initializeENet();
+    static void deinitializeENet();
+
+    static int enetInitializationCounter;
+    static std::mutex enetInitializationMutex;
+
     ENetHost* _enetHost { nullptr };
     std::vector<std::shared_ptr<UdpPeer>> _peers;
 };

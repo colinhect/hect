@@ -113,3 +113,31 @@ TEST_CASE("TimeSpan_Negate")
     TimeSpan t = -TimeSpan::fromMicroseconds(10);
     REQUIRE(t.microseconds() == -10);
 }
+
+TEST_CASE("TimeSpan_LessThan")
+{
+    REQUIRE(TimeSpan::fromMicroseconds(10) < TimeSpan::fromMicroseconds(20));
+    REQUIRE_FALSE(TimeSpan::fromMicroseconds(10) < TimeSpan::fromMicroseconds(10));
+    REQUIRE_FALSE(TimeSpan::fromMicroseconds(10) < TimeSpan::fromMicroseconds(5));
+}
+
+TEST_CASE("TimeSpan_LessThanOrEqual")
+{
+    REQUIRE(TimeSpan::fromMicroseconds(10) <= TimeSpan::fromMicroseconds(20));
+    REQUIRE(TimeSpan::fromMicroseconds(10) <= TimeSpan::fromMicroseconds(10));
+    REQUIRE_FALSE(TimeSpan::fromMicroseconds(10) <= TimeSpan::fromMicroseconds(5));
+}
+
+TEST_CASE("TimeSpan_GreaterThan")
+{
+    REQUIRE(TimeSpan::fromMicroseconds(20) > TimeSpan::fromMicroseconds(10));
+    REQUIRE_FALSE(TimeSpan::fromMicroseconds(10) > TimeSpan::fromMicroseconds(10));
+    REQUIRE_FALSE(TimeSpan::fromMicroseconds(5) > TimeSpan::fromMicroseconds(10));
+}
+
+TEST_CASE("TimeSpan_GreaterThanOrEqual")
+{
+    REQUIRE(TimeSpan::fromMicroseconds(20) >= TimeSpan::fromMicroseconds(10));
+    REQUIRE(TimeSpan::fromMicroseconds(10) >= TimeSpan::fromMicroseconds(10));
+    REQUIRE_FALSE(TimeSpan::fromMicroseconds(5) >= TimeSpan::fromMicroseconds(10));
+}

@@ -63,6 +63,8 @@ endif()
 
 if(UNIX)
     list(APPEND LINK_LIBRARIES "pthread")
+elseif(WIN32)
+    list(APPEND LINK_LIBRARIES "ws2_32" "winmm")
 endif()
 
 target_link_libraries(Hect ${LINK_LIBRARIES})

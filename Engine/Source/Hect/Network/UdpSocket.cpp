@@ -28,41 +28,32 @@
 #include <enet/enet.h>
 
 #include "Hect/Core/Error.h"
+#include "Hect/Core/Format.h"
+#include "Hect/Core/Logging.h"
 
 using namespace hect;
 
-namespace
+UdpSocket::UdpSocket(unsigned peerCount, uint8_t channelCount)
 {
+    initializeENet();
 
-static int _enetInitializationCounter = 0;
-
-}
-
-UdpSocket::UdpSocket(unsigned maxConnectionCount, uint8_t channelCount)
-{
-    if (_enetInitializationCounter == 0)
-    {
-        ++_enetInitializationCounter;
-        if (enet_initialize() != 0)
-        {
-            throw Error("Failed to initialized ENet");
-        }
-    }
-
-    _enetHost = enet_host_create(nullptr, maxConnectionCount, channelCount, 0, 0);
+    _enetHost = enet_host_create(nullptr, peerCount, channelCount, 0, 0);
     if (!_enetHost)
     {
         throw Error("Failed to create socket");
     }
 }
 
-UdpSocket::UdpSocket(Port port, unsigned maxConnectionCount, uint8_t channelCount) :
-    _enetHost(nullptr)
+UdpSocket::UdpSocket(Port port, unsigned peerCount, uint8_t channelCount)
 {
+    initializeENet();
+
+    HECT_INFO(format("Listening for UDP connections on port %i", port));
+
     ENetAddress address;
     address.host = ENET_HOST_ANY;
     address.port = port;
-    _enetHost = enet_host_create(&address, maxConnectionCount, channelCount, 0, 0);
+    _enetHost = enet_host_create(&address, peerCount, channelCount, 0, 0);
     if (!_enetHost)
     {
         throw Error("Failed to create socket");
@@ -77,15 +68,13 @@ UdpSocket::~UdpSocket()
         _enetHost = nullptr;
     }
 
-    if (_enetInitializationCounter != 0)
-    {
-        --_enetInitializationCounter;
-        enet_deinitialize();
-    }
+    deinitializeENet();
 }
 
 UdpPeer::Handle UdpSocket::connectToPeer(IPAddress address, Port port)
 {
+    HECT_INFO(format("Connecting to UDP peer at address %s", address.toString().c_str()));
+
     ENetAddress enetAddress;
     enetAddress.host = static_cast<uint32_t>(address);
     enetAddress.port = port;
@@ -173,3 +162,39 @@ void UdpSocket::flush()
 {
     enet_host_flush(_enetHost);
 }
+
+void UdpSocket::initializeENet()
+{
+    std::lock_guard<std::mutex> lock(enetInitializationMutex);
+
+    if (enetInitializationCounter == 0)
+    {
+        ++enetInitializationCounter;
+        if (enet_initialize() != 0)
+        {
+            throw Error("Failed to initialized ENet");
+        }
+    }
+    else
+    {
+        ++enetInitializationCounter;
+    }
+}
+
+void UdpSocket::deinitializeENet()
+{
+    std::lock_guard<std::mutex> lock(enetInitializationMutex);
+
+    if (enetInitializationCounter != 0)
+    {
+        --enetInitializationCounter;
+        enet_deinitialize();
+    }
+    else
+    {
+        --enetInitializationCounter;
+    }
+}
+
+int UdpSocket::enetInitializationCounter = 0;
+std::mutex UdpSocket::enetInitializationMutex;
