@@ -13,8 +13,8 @@ include_directories(
 add_library(ENet STATIC
     "callbacks.c"
     "compress.c"
-    "enet_packet.c"
-    "enet_peer.c"
+    "packet.c"
+    "peer.c"
     "host.c"
     "list.c"
     "protocol.c"

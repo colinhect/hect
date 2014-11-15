@@ -21,6 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include <Hect/Core/Logging.h>
 #include <Hect/Network/Socket.h>
 #include <Hect/Reflection/Enum.h>
 #include <Hect/Timing/Timer.h>
@@ -54,6 +55,7 @@ TEST_CASE("Socket_ClientSocketConnect", "[Fails]")
             SocketEvent event;
             while (!socket.pollEvent(event))
             {
+                socket.flush();
             }
             std::cout << Enum::toString(event.type) << std::endl;
             while (!socket.pollEvent(event))

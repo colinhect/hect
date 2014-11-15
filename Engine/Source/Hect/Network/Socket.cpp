@@ -172,6 +172,10 @@ void Socket::initializeENet()
         {
             throw Error("Failed to initialized ENet");
         }
+
+        ENetVersion version = ENET_VERSION;
+        HECT_INFO("Initialized ENet");
+        HECT_INFO(format("ENet version %d.%d.%d", ENET_VERSION_GET_MAJOR(version), ENET_VERSION_GET_MINOR(version), ENET_VERSION_GET_PATCH(version)));
     }
     else
     {
@@ -187,6 +191,7 @@ void Socket::deinitializeENet()
     {
         --enetInitializationCounter;
         enet_deinitialize();
+        HECT_INFO("Deinitialized ENet");
     }
     else
     {
