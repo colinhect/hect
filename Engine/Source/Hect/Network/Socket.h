@@ -91,8 +91,9 @@ class Socket :
 {
 public:
 
-    static void serverTest();
-    static void clientTest();
+    ///
+    /// Constructs a socket.
+    Socket();
 
     ///
     /// Constructs a socket.
@@ -179,6 +180,9 @@ private:
     static int enetInitializationCounter;
     static std::mutex enetInitializationMutex;
 
+    unsigned _peerCount { 32 };
+    uint8_t _channelCount { 1 };
+    bool _listening { false };
     ENetHost* _enetHost { nullptr };
 };
 

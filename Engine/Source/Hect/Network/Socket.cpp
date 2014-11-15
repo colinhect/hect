@@ -33,15 +33,16 @@
 
 using namespace hect;
 
-Socket::Socket(unsigned peerCount, uint8_t channelCount)
+Socket::Socket()
 {
     initializeENet();
+}
 
-    _enetHost = enet_host_create(nullptr, peerCount, channelCount, 0, 0);
-    if (!_enetHost)
-    {
-        throw Error("Failed to create ENet host");
-    }
+Socket::Socket(unsigned peerCount, uint8_t channelCount) :
+    _peerCount(peerCount),
+    _channelCount(channelCount)
+{
+    initializeENet();
 }
 
 Socket::~Socket()
@@ -57,16 +58,21 @@ Socket::~Socket()
 
 void Socket::listenOnPort(Port port)
 {
-    size_t peerCount = _enetHost->peerCount;
-    size_t channelCount = _enetHost->channelLimit;
-
-    enet_host_destroy(_enetHost);
-    _enetHost = nullptr;
+    if (_listening)
+    {
+        throw Error("Socket is already listening on a port");
+    }
+    _listening = true;
+    
+    if (_enetHost)
+    {
+        throw Error("Socket has active connections and cannot listen on a port");
+    }
 
     ENetAddress address;
     address.host = ENET_HOST_ANY;
     address.port = port;
-    _enetHost = enet_host_create(&address, peerCount, channelCount, 0, 0);
+    _enetHost = enet_host_create(&address, _peerCount, _channelCount, 0, 0);
     if (!_enetHost)
     {
         throw Error("Failed to create ENet host");
@@ -77,6 +83,15 @@ void Socket::listenOnPort(Port port)
 
 Peer Socket::requestConnectTo(IPAddress address, Port port)
 {
+    if (!_enetHost)
+    {
+        _enetHost = enet_host_create(nullptr, _peerCount, _channelCount, 0, 0);
+        if (!_enetHost)
+        {
+            throw Error("Failed to create ENet host");
+        }
+    }
+
     ENetAddress enetAddress;
     enetAddress.host = static_cast<uint32_t>(address);
     enetAddress.port = port;
@@ -187,7 +202,7 @@ void Socket::deinitializeENet()
 {
     std::lock_guard<std::mutex> lock(enetInitializationMutex);
 
-    if (enetInitializationCounter != 0)
+    if (enetInitializationCounter == 1)
     {
         --enetInitializationCounter;
         enet_deinitialize();

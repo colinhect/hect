@@ -38,67 +38,67 @@ const unsigned _port = 1234;
 
 }
 
-TEST_CASE("Socket_ClientSocketConnect", "[Fails]")
+TEST_CASE("Socket_ClientSocketConnect")
 {
-    std::atomic_bool serverListening;
-    serverListening.store(false);
-
-    // Spin up a server thread
+    // Start a server thread
     std::thread serverThread(
         [&]()
         {
-            Socket socket(16, 4);
+            Socket socket;
             socket.listenOnPort(_port);
 
-            serverListening.store(true);
-
-            SocketEvent event;
-            while (!socket.pollEvent(event))
+            // Ininitely poll events until a client disconnects
+            while (true)
             {
-                socket.flush();
+                SocketEvent event;
+                if (socket.pollEvent(event))
+                {
+                    if (event.type == SocketEventType_Disconnect)
+                    {
+                        break;
+                    }
+                }
             }
-            std::cout << Enum::toString(event.type) << std::endl;
-            while (!socket.pollEvent(event))
-            {
-            }
-            std::cout << Enum::toString(event.type) << std::endl;
         }
     );
 
-    while (!serverListening)
-    {
-        std::this_thread::yield();
-    }
+    Socket socket;
+    SocketEvent event;
 
-    Socket socket(1, 4);
-
+    // Request connection to local host
     Peer peer = socket.requestConnectTo("localhost", _port);
     REQUIRE(peer.state() == PeerState_Connecting);
 
-    SocketEvent event;
-    if (socket.pollEvent(event, TimeSpan::fromSeconds(5)))
+    // Wait for connection event
+    bool connectEvent = false;
+    while (socket.pollEvent(event, TimeSpan::fromSeconds(1)))
     {
-        REQUIRE(event.type == SocketEventType_Connect);
-        REQUIRE(event.peer == peer);
+        if (event.type == SocketEventType_Connect)
+        {
+            connectEvent = true;
+            REQUIRE(event.peer == peer);
+        }
     }
-    else
-    {
-        FAIL("Did not receive connect event on client");
-    }
+    REQUIRE(connectEvent);
+
     REQUIRE(peer.state() == PeerState_Connected);
 
+    // Request disconnection from local host
     socket.requestDisconnectFrom(peer);
     REQUIRE(peer.state() == PeerState_Disconnecting);
 
-    if (socket.pollEvent(event, TimeSpan::fromSeconds(5)))
+    // Wait for disconnection event
+    bool disconnectEvent = false;
+    while (socket.pollEvent(event, TimeSpan::fromSeconds(1)))
     {
-        REQUIRE(event.type == SocketEventType_Disconnect);
-        REQUIRE(event.peer == peer);
+        if (event.type == SocketEventType_Disconnect)
+        {
+            disconnectEvent = true;
+            REQUIRE(event.peer == peer);
+        }
     }
-    else
-    {
-        FAIL("Did not receive disconnect event on client");
-    }
+    REQUIRE(disconnectEvent);
+
     REQUIRE(peer.state() == PeerState_Disconnected);
 
     serverThread.join();
