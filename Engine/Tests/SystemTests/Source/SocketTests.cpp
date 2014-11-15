@@ -39,27 +39,28 @@ const unsigned _port = 1234;
 
 TEST_CASE("Socket_ClientSocketConnect", "[Fails]")
 {
-    std::atomic<bool> serverListening = false;
+    std::atomic_bool serverListening;
+    serverListening.store(false);
 
     // Spin up a server thread
     std::thread serverThread(
         [&]()
-    {
-        Socket socket(16, 4);
-        socket.listenOnPort(_port);
-
-        serverListening = true;
-
-        SocketEvent event;
-        while (!socket.pollEvent(event))
         {
+            Socket socket(16, 4);
+            socket.listenOnPort(_port);
+
+            serverListening.store(true);
+
+            SocketEvent event;
+            while (!socket.pollEvent(event))
+            {
+            }
+            std::cout << Enum::toString(event.type) << std::endl;
+            while (!socket.pollEvent(event))
+            {
+            }
+            std::cout << Enum::toString(event.type) << std::endl;
         }
-        std::cout << Enum::toString(event.type) << std::endl;
-        while (!socket.pollEvent(event))
-        {
-        }
-        std::cout << Enum::toString(event.type) << std::endl;
-    }
     );
 
     while (!serverListening)

@@ -132,6 +132,8 @@ bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
         case SocketEventType_Disconnect:
             HECT_INFO(format("Disconnected from remote peer at address %s (peer ID = %d)", event.peer.address().toString().c_str(), event.peer.id()));
             break;
+        default:
+            break;
         }
 
         return true;
