@@ -21,26 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "UdpPacket.h"
+#include "Packet.h"
 
 using namespace hect;
 
-UdpPacket::UdpPacket(uint8_t flags) :
+Packet::Packet(uint8_t flags) :
     _flags(flags)
 {
 }
 
-UdpPacketReadStream UdpPacket::readStream() const
+UdpPacketReadStream Packet::readStream() const
 {
     return UdpPacketReadStream(_data);
 }
 
-UdpPacketWriteStream UdpPacket::writeStream()
+UdpPacketWriteStream Packet::writeStream()
 {
     return UdpPacketWriteStream(_data);
 }
 
-UdpPacket::UdpPacket(const std::vector<uint8_t>& data) :
+Packet::Packet(const std::vector<uint8_t>& data) :
     _data(data)
 {
 }

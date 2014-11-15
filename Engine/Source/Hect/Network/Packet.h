@@ -21,89 +21,64 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "UdpPeer.h"
+#pragma once
 
-#include <enet/enet.h>
+#include "Hect/IO/MemoryReadStream.h"
+#include "Hect/IO/MemoryWriteStream.h"
 
-#include "Hect/Core/Error.h"
-
-using namespace hect;
-
-UdpPeer::Handle::Handle()
+namespace hect
 {
-}
 
-UdpPeer& UdpPeer::Handle::operator*() const
+///
+/// Provides functionality to read from a packet.
+typedef MemoryReadStream UdpPacketReadStream;
+
+///
+/// Provides functionality to write to a packet.
+typedef MemoryWriteStream UdpPacketWriteStream;
+
+///
+/// A flag describing how a packet is transported.
+enum UdpPacketFlag
 {
-    auto peer = _peer.lock();
+    ///
+    /// Packet must be received by the target peer and resend attempts
+    /// should be made until the packet is delivered.
+    UdpPacketFlag_Reliable = 1,
 
-    if (!peer)
-    {
-        throw Error("Invalid peer handle");
-    }
+    ///
+    /// Packet will not be sequenced with other packets.
+    ///
+    /// \warning Not supported for reliable packets.
+    UdpPacketFlag_Unsequenced = 2
+};
 
-    return *peer;
-}
-
-UdpPeer* UdpPeer::Handle::operator->() const
+///
+/// A packet of data to be transported across a network connection.
+class Packet
 {
-    auto peer = _peer.lock();
+    friend class Socket;
+public:
 
-    if (!peer)
-    {
-        throw Error("Invalid peer handle");
-    }
+    ///
+    /// Constructs a packet given its flags.
+    ///
+    /// \param flags The flags describing how the packet is transported.
+    Packet(uint8_t flags = 0);
 
-    return peer.get();
-}
+    ///
+    /// Returns a read stream for the packet data.
+    UdpPacketReadStream readStream() const;
 
-UdpPeer::Handle::operator bool() const
-{
-    auto peer = _peer.lock();
-    return peer.get() != nullptr;
-}
+    ///
+    /// Returns a write stream for the packet data.
+    UdpPacketWriteStream writeStream();
 
-UdpPeer::Handle::Handle(const std::weak_ptr<UdpPeer>& peer) :
-    _peer(peer)
-{
-}
+private:
+    Packet(const std::vector<uint8_t>& data);
 
-UdpPeerId UdpPeer::id() const
-{
-    if (!_enetPeer)
-    {
-        return 0;
-    }
+    uint8_t _flags { 0 };
+    std::vector<uint8_t> _data;
+};
 
-    return _enetPeer->incomingPeerID;
-}
-
-IPAddress UdpPeer::address() const
-{
-    if (!_enetPeer)
-    {
-        return IPAddress(0);
-    }
-
-    return IPAddress(_enetPeer->address.host);
-}
-
-UdpPeerState UdpPeer::state() const
-{
-    if (!_enetPeer)
-    {
-        return UdpPeerState_Disconnected;
-    }
-
-    return static_cast<UdpPeerState>(_enetPeer->state);
-}
-
-bool UdpPeer::operator==(const UdpPeer& peer) const
-{
-    return _enetPeer == peer._enetPeer;
-}
-
-UdpPeer::UdpPeer(ENetPeer* enetPeer) :
-    _enetPeer(enetPeer)
-{
 }

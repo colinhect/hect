@@ -36,102 +36,68 @@ namespace hect
 
 ///
 /// A state that a peer is in.
-enum UdpPeerState
+enum PeerState
 {
     ///
     /// Not connected.
-    UdpPeerState_Disconnected,
+    PeerState_Disconnected,
 
     ///
     /// Connection in progress.
-    UdpPeerState_Connecting,
+    PeerState_Connecting,
 
     ///
     /// Acknowledgement of connection received.
-    UdpPeerState_AcknowledgingConnect,
+    PeerState_AcknowledgingConnect,
 
     ///
     /// Connection pending.
-    UdpPeerState_ConnectionPending,
+    PeerState_ConnectionPending,
 
     ///
     /// Connection succeeded.
-    UdpPeerState_ConnectionSucceeded,
+    PeerState_ConnectionSucceeded,
 
     ///
     /// Connection fully established.
-    UdpPeerState_Connected,
+    PeerState_Connected,
 
     ///
     /// Disconnection will triggered.
-    UdpPeerState_DisconnectLater,
+    PeerState_DisconnectLater,
 
     ///
     /// Disconnection in progress.
-    UdpPeerState_Disconnecting,
+    PeerState_Disconnecting,
 
     ///
     /// Acknowledgement of disconnection received.
-    UdpPeerState_AcknowledgeDisconnect,
+    PeerState_AcknowledgeDisconnect,
 
     ///
     /// Unknown state.
-    UdpPeerState_Unknown
+    PeerState_Unknown
 };
 
 
 ///
 /// A locally unique id for a peer.
-typedef uint16_t UdpPeerId;
+typedef uint16_t PeerId;
 
 ///
 /// A remote point of contact for remote communication over UDP.
-class UdpPeer :
-    public Uncopyable
+///
+/// \note A peer is a lightweight handle without any associated resources.
+/// A copied peer will refer to the same peer as it was copied from.
+class Peer
 {
-    friend class UdpSocket;
+    friend class Socket;
 public:
-
-    ///
-    /// A handle for a peer;
-    class Handle
-    {
-        friend class UdpSocket;
-    public:
-
-        ///
-        /// Creates an invalid peer handle.
-        Handle();
-
-        ///
-        /// Dereferences the handle to a reference to the associated peer.
-        ///
-        /// \returns A reference to the associated peer.
-        ///
-        /// \throws Error If the handle is invalid.
-        UdpPeer& operator*() const;
-
-        ///
-        /// Dereferences the handle to a pointer to the associated peer.
-        ///
-        /// \returns A pointer to the associated peer.
-        ///
-        /// \throws Error If the handle is invalid.
-        UdpPeer* operator->() const;
-
-        ///
-        /// Returns whether the handle is valid.
-        operator bool() const;
-
-    private:
-        Handle(const std::weak_ptr<UdpPeer>& peer);
-
-        std::weak_ptr<UdpPeer> _peer;
-    };
+    Peer();
 
     ///
     /// Returns the locally unique id of the peer.
-    UdpPeerId id() const;
+    PeerId id() const;
 
     ///
     /// Returns the remote address of the peer.
@@ -139,18 +105,18 @@ public:
 
     ///
     /// Returns the current state of the peer.
-    UdpPeerState state() const;
+    PeerState state() const;
 
     ///
     /// Returns whether the peer the is same as another.
     ///
     /// \param peer The other peer.
-    bool operator==(const UdpPeer& peer) const;
+    bool operator==(const Peer& peer) const;
 
 private:
-    UdpPeer(ENetPeer* enetPeer);
+    Peer(ENetPeer* enetPeer);
 
-    ENetPeer* _enetPeer{ nullptr };
+    ENetPeer* _enetPeer { nullptr };
 };
 
 }

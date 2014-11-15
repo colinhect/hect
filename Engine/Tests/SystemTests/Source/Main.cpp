@@ -23,9 +23,17 @@ int main(int argc, char* const argv[])
 {
     try
     {
-        hect::Engine engine(argc, argv);
+        // Use hardcoded command-line arguments for the engine to use
+        char* const engineArgv[] =
+        {
+            argv[0],
+            "HectSystemTests.config"
+        };
+
+        hect::Engine engine(2, engineArgv);
         ::engine = &engine;
-        return Catch::Session().run(1, argv);
+
+        return Catch::Session().run(argc, argv);
     }
     catch (hect::Error& error)
     {

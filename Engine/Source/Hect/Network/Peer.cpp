@@ -21,60 +21,54 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Peer.h"
 
-#include <cstdint>
-#include <string>
+#include <enet/enet.h>
 
-namespace hect
+#include "Hect/Core/Error.h"
+
+using namespace hect;
+
+Peer::Peer()
 {
+}
 
-///
-/// An Internet Protocol port.
-typedef uint16_t Port;
-
-///
-/// An IPv4 address.
-class IPAddress
+PeerId Peer::id() const
 {
-public:
+    if (!_enetPeer)
+    {
+        return 0;
+    }
 
-    ///
-    /// Constructs an invalid IP address.
-    IPAddress();
+    return _enetPeer->incomingPeerID;
+}
 
-    ///
-    /// Constructs an IP address from a host name.
-    ///
-    /// \param hostName The name of the host.
-    IPAddress(const char* hostName);
+IPAddress Peer::address() const
+{
+    if (!_enetPeer)
+    {
+        return IPAddress();
+    }
 
-    ///
-    /// Constructs an IP address from a host name.
-    ///
-    /// \param hostName The name of the host.
-    IPAddress(const std::string& hostName);
+    return IPAddress(_enetPeer->address.host);
+}
 
-    ///
-    /// Constructs an IP address from a raw 32-bit value.
-    ///
-    /// \param address The 32-bit value of the address.
-    IPAddress(uint32_t address);
+PeerState Peer::state() const
+{
+    if (!_enetPeer)
+    {
+        return PeerState_Disconnected;
+    }
 
-    ///
-    /// Returns whether the address is a valid IP address.
-    bool isValid() const;
+    return static_cast<PeerState>(_enetPeer->state);
+}
 
-    ///
-    /// Returns a string representation of the address.
-    std::string toString() const;
+bool Peer::operator==(const Peer& peer) const
+{
+    return _enetPeer == peer._enetPeer;
+}
 
-    ///
-    /// Casts the address to a 32-bit unsigned integer.
-    operator uint32_t() const;
-
-private:
-    uint32_t _address { 0 };
-};
-
+Peer::Peer(ENetPeer* enetPeer) :
+    _enetPeer(enetPeer)
+{
 }

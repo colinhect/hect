@@ -27,6 +27,19 @@
 
 using namespace hect;
 
+IPAddress::IPAddress()
+{
+}
+
+IPAddress::IPAddress(const char* hostName)
+{
+    ENetAddress address = { 0 };
+    if (enet_address_set_host(&address, hostName) == 0)
+    {
+        _address = address.host;
+    }
+}
+
 IPAddress::IPAddress(const std::string& hostName)
 {
     ENetAddress address = { 0 };
