@@ -40,12 +40,17 @@ const unsigned _port = 1234;
 
 TEST_CASE("Socket_ClientSocketConnect")
 {
+    std::atomic<bool> serverListening;
+    serverListening.store(false);
+
     // Start a server thread
     std::thread serverThread(
         [&]()
         {
             Socket socket;
             socket.listenOnPort(_port);
+
+            serverListening.store(true);
 
             // Ininitely poll events until a client disconnects
             while (true)
@@ -61,6 +66,12 @@ TEST_CASE("Socket_ClientSocketConnect")
             }
         }
     );
+
+    // Wait until the server is listening for clients
+    while (!serverListening)
+    {
+        std::this_thread::yield();
+    }
 
     Socket socket;
     SocketEvent event;
