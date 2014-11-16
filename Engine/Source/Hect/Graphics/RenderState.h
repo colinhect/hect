@@ -96,6 +96,10 @@ enum RenderStateFlag
 };
 
 ///
+/// A bit vector containing any number of render state flags.
+typedef uint16_t RenderStateFlags;
+
+///
 /// Describes a state that the renderer is in which affects the
 /// resulting rendered pixels.
 class RenderState
@@ -151,7 +155,7 @@ public:
     friend Decoder& operator>>(Decoder& decoder, RenderState& renderState);
 
 private:
-    uint16_t _flagBits { RenderStateFlag_DepthTest | RenderStateFlag_CullFace };
+    RenderStateFlags _flags { RenderStateFlag_DepthTest | RenderStateFlag_CullFace };
     BlendFactor _sourceFactor { BlendFactor_One };
     BlendFactor _destinationFactor { BlendFactor_One };
 };

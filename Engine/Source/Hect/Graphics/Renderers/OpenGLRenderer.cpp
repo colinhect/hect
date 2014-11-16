@@ -816,7 +816,7 @@ Image OpenGLRenderer::downloadTextureImage(const Texture& texture)
     image.setPixelType(texture.pixelType());
     image.setPixelFormat(texture.pixelFormat());
 
-    Image::PixelData pixelData(image.bytesPerPixel() * image.width() * image.height(), 0);
+    ByteVector pixelData(image.bytesPerPixel() * image.width() * image.height(), 0);
 
     GL_ASSERT(
         glGetTexImage(

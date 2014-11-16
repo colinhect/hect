@@ -68,6 +68,11 @@ bool Peer::operator==(const Peer& peer) const
     return _enetPeer == peer._enetPeer;
 }
 
+bool Peer::operator!=(const Peer& peer) const
+{
+    return _enetPeer != peer._enetPeer;
+}
+
 Peer::Peer(ENetPeer* enetPeer) :
     _enetPeer(enetPeer)
 {

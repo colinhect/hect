@@ -27,17 +27,17 @@ using namespace hect;
 
 void RenderState::enable(RenderStateFlag flag)
 {
-    _flagBits |= flag;
+    _flags |= flag;
 }
 
 void RenderState::disable(RenderStateFlag flag)
 {
-    _flagBits &= ~flag;
+    _flags &= ~flag;
 }
 
 bool RenderState::isEnabled(RenderStateFlag flag) const
 {
-    return (_flagBits & flag) == flag;
+    return (_flags & flag) == flag;
 }
 
 void RenderState::setBlendFactors(BlendFactor source, BlendFactor destination)
@@ -58,7 +58,7 @@ BlendFactor RenderState::destinationBlendFactor() const
 
 bool RenderState::operator==(const RenderState& renderState) const
 {
-    return _flagBits == renderState._flagBits
+    return _flags == renderState._flags
            && _sourceFactor == renderState._sourceFactor
            && _destinationFactor == renderState._destinationFactor;
 }
@@ -78,7 +78,7 @@ Encoder& operator<<(Encoder& encoder, const RenderState& renderState)
     if (encoder.isBinaryStream())
     {
         WriteStream& stream = encoder.binaryStream();
-        stream << renderState._flagBits;
+        stream << renderState._flags;
     }
     else
     {
@@ -141,7 +141,7 @@ Decoder& operator>>(Decoder& decoder, RenderState& renderState)
     if (decoder.isBinaryStream())
     {
         ReadStream& stream = decoder.binaryStream();
-        stream >> renderState._flagBits;
+        stream >> renderState._flags;
     }
     else
     {

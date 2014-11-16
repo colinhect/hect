@@ -30,7 +30,7 @@
 
 using namespace hect;
 
-MemoryReadStream::MemoryReadStream(const std::vector<uint8_t>& data) :
+MemoryReadStream::MemoryReadStream(const ByteVector& data) :
     _data(data)
 {
 }

@@ -26,6 +26,7 @@
 #include <vector>
 #include <cstdint>
 
+#include "Hect/IO/ByteVector.h"
 #include "Hect/IO/ReadStream.h"
 
 namespace hect
@@ -42,7 +43,7 @@ public:
     /// Constructs a stream.
     ///
     /// \param data The data to read from.
-    MemoryReadStream(const std::vector<uint8_t>& data);
+    MemoryReadStream(const ByteVector& data);
 
     void read(uint8_t* bytes, size_t byteCount) override;
     bool endOfStream() const override;
@@ -51,7 +52,7 @@ public:
     void seek(size_t position) override;
 
 private:
-    const std::vector<uint8_t>& _data;
+    const ByteVector& _data;
     size_t _position { 0 };
 };
 

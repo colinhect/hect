@@ -30,7 +30,7 @@ using namespace hect;
 void Image::flipVertical()
 {
     size_t bytesPerRow = bytesPerPixel() * _width;
-    PixelData newPixelData(_pixelData.size(), 0);
+    ByteVector newPixelData(_pixelData.size(), 0);
     for (unsigned i = 0; i < _height; ++i)
     {
         size_t sourceRowOffset = bytesPerRow * i;
@@ -45,17 +45,17 @@ bool Image::hasPixelData() const
     return !_pixelData.empty();
 }
 
-Image::PixelData& Image::pixelData()
+ByteVector& Image::pixelData()
 {
     return _pixelData;
 }
 
-const Image::PixelData& Image::pixelData() const
+const ByteVector& Image::pixelData() const
 {
     return _pixelData;
 }
 
-void Image::setPixelData(PixelData&& pixelData)
+void Image::setPixelData(ByteVector&& pixelData)
 {
     _pixelData = pixelData;
 }

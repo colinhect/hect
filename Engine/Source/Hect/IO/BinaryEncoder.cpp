@@ -25,11 +25,18 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
+#include "Hect/IO/MemoryWriteStream.h"
 
 using namespace hect;
 
 BinaryEncoder::BinaryEncoder(WriteStream& stream) :
     _stream(stream)
+{
+}
+
+BinaryEncoder::BinaryEncoder(ByteVector& data) :
+    _ownedStream(new MemoryWriteStream(data)),
+    _stream(*_ownedStream)
 {
 }
 

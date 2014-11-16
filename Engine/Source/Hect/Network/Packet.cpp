@@ -23,24 +23,42 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Packet.h"
 
+#include "Hect/IO/MemoryReadStream.h"
+#include "Hect/IO/MemoryWriteStream.h"
+
 using namespace hect;
 
-Packet::Packet(uint8_t flags) :
+Packet::Packet()
+{
+}
+
+Packet::Packet(PacketFlags flags) :
     _flags(flags)
 {
 }
 
-UdpPacketReadStream Packet::readStream() const
+Packet::Packet(const ByteVector& data, PacketFlags flags) :
+    _data(data),
+    _flags(flags)
 {
-    return UdpPacketReadStream(_data);
 }
 
-UdpPacketWriteStream Packet::writeStream()
+PacketFlags Packet::flags() const
 {
-    return UdpPacketWriteStream(_data);
+    return _flags;
 }
 
-Packet::Packet(const std::vector<uint8_t>& data) :
-    _data(data)
+bool Packet::hasFlag(PacketFlag flag) const
 {
+    return (_flags & flag) == flag;
+}
+
+ByteVector& Packet::data()
+{
+    return _data;
+}
+
+const ByteVector& Packet::data() const
+{
+    return _data;
 }

@@ -26,6 +26,7 @@
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/IO/Asset.h"
+#include "Hect/IO/ByteVector.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Spacial/AxisAlignedBox.h"
@@ -72,11 +73,11 @@ public:
 
     ///
     /// Raw vertex data.
-    typedef std::vector<uint8_t> VertexData;
+    typedef ByteVector VertexData;
 
     ///
     /// Raw index data.
-    typedef std::vector<uint8_t> IndexData;
+    typedef ByteVector IndexData;
 
     ///
     /// Constructs a mesh with the default vertex layout, primitive type,

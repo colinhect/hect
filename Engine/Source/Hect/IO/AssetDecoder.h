@@ -85,7 +85,7 @@ private:
     std::unique_ptr<Decoder> _implementation;
 
     JsonValue _jsonValue;
-    std::vector<uint8_t> _data;
+    ByteVector _data;
     std::unique_ptr<MemoryReadStream> _stream;
 };
 

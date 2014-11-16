@@ -25,23 +25,30 @@
 
 #include <stack>
 
+#include "Hect/IO/ByteVector.h"
 #include "Hect/IO/Encoder.h"
 
 namespace hect
 {
 
 ///
-/// Provides access for encoding structured data to a binary stream.
+/// Provides access for encoding structured data to binary data.
 class BinaryEncoder :
     public Encoder
 {
 public:
 
     ///
-    /// Constructs a binary encoder.
+    /// Constructs a binary encoder given a stream to write to.
     ///
     /// \param stream The stream to encode to.
     BinaryEncoder(WriteStream& stream);
+
+    ///
+    /// Constructs a binary encoder given data to append to.
+    ///
+    /// \param data The data to append the encoded data to.
+    BinaryEncoder(ByteVector& data);
 
     bool isBinaryStream() const override;
     WriteStream& binaryStream() override;
@@ -76,6 +83,7 @@ private:
     std::stack<uint32_t> _countStack;
     std::stack<ValueType> _valueTypeStack;
 
+    std::unique_ptr<WriteStream> _ownedStream;
     WriteStream& _stream;
 };
 

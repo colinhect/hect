@@ -23,62 +23,82 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/IO/MemoryReadStream.h"
-#include "Hect/IO/MemoryWriteStream.h"
+#include <memory>
+#include <vector>
+
+#include "Hect/IO/ByteVector.h"
 
 namespace hect
 {
 
 ///
-/// Provides functionality to read from a packet.
-typedef MemoryReadStream UdpPacketReadStream;
-
-///
-/// Provides functionality to write to a packet.
-typedef MemoryWriteStream UdpPacketWriteStream;
-
-///
 /// A flag describing how a packet is transported.
-enum UdpPacketFlag
+enum PacketFlag
 {
+    ///
+    /// Indicates no packet flags.
+    PacketFlag_None = 0,
+
     ///
     /// Packet must be received by the target peer and resend attempts
     /// should be made until the packet is delivered.
-    UdpPacketFlag_Reliable = 1,
+    PacketFlag_Reliable = 1,
 
     ///
     /// Packet will not be sequenced with other packets.
     ///
     /// \warning Not supported for reliable packets.
-    UdpPacketFlag_Unsequenced = 2
+    PacketFlag_Unsequenced = 2
 };
+
+///
+/// A bit vector containing any number of packet flags.
+typedef uint8_t PacketFlags;
 
 ///
 /// A packet of data to be transported across a network connection.
 class Packet
 {
-    friend class Socket;
 public:
+
+    ///
+    /// Constructs a packet with default flags and no data.
+    Packet();
 
     ///
     /// Constructs a packet given its flags.
     ///
     /// \param flags The flags describing how the packet is transported.
-    Packet(uint8_t flags = 0);
+    Packet(PacketFlags flags);
 
     ///
-    /// Returns a read stream for the packet data.
-    UdpPacketReadStream readStream() const;
+    /// Constructs a packet given its data and flags.
+    ///
+    /// \param data The data to transport.
+    /// \param flags The flags describing how the packet is transported.
+    Packet(const ByteVector& data, PacketFlags flags);
 
     ///
-    /// Returns a write stream for the packet data.
-    UdpPacketWriteStream writeStream();
+    /// Returns the packet flags.
+    PacketFlags flags() const;
+
+    ///
+    /// Returns whether the given packet flag is enabled.
+    ///
+    /// \param flag The flag.
+    bool hasFlag(PacketFlag flag) const;
+
+    ///
+    /// Returns the packet data.
+    ByteVector& data();
+
+    ///
+    /// Returns the packet data.
+    const ByteVector& data() const;
 
 private:
-    Packet(const std::vector<uint8_t>& data);
-
-    uint8_t _flags { 0 };
-    std::vector<uint8_t> _data;
+    PacketFlags _flags { 0 };
+    ByteVector _data;
 };
 
 }

@@ -27,6 +27,7 @@
 #include <vector>
 
 #include "Hect/IO/Asset.h"
+#include "Hect/IO/ByteVector.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -87,10 +88,6 @@ class Image :
 public:
 
     ///
-    /// Raw pixel data.
-    typedef std::vector<uint8_t> PixelData;
-
-    ///
     /// Flips the image vertically.
     void flipVertical();
 
@@ -100,18 +97,18 @@ public:
 
     ///
     /// Returns the raw pixel data.
-    PixelData& pixelData();
+    ByteVector& pixelData();
 
     ///
     /// Returns the raw pixel data.
-    const PixelData& pixelData() const;
+    const ByteVector& pixelData() const;
 
     ///
     /// Sets the pixel data for the image.
     ///
     /// \param pixelData The raw pixel data to move into the image's pixel
     /// data.
-    void setPixelData(PixelData&& pixelData);
+    void setPixelData(ByteVector&& pixelData);
 
     ///
     /// Returns the width.
@@ -179,7 +176,7 @@ private:
 
     ColorSpace _colorSpace { ColorSpace_Linear };
 
-    PixelData _pixelData;
+    ByteVector _pixelData;
 };
 
 }

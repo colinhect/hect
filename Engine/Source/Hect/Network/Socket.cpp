@@ -63,7 +63,7 @@ void Socket::listenOnPort(Port port)
         throw Error("Socket is already listening on a port");
     }
     _listening = true;
-    
+
     if (_enetHost)
     {
         throw Error("Socket has active connections and cannot listen on a port");
@@ -133,9 +133,9 @@ bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
 
         if (enetEvent.type == ENET_EVENT_TYPE_RECEIVE)
         {
-            std::vector<uint8_t> data(enetEvent.packet->dataLength, 0);
+            ByteVector data(enetEvent.packet->dataLength, 0);
             std::memcpy(&data[0], enetEvent.packet->data, data.size());
-            event.packet = Packet(data);
+            event.packet = Packet(data, PacketFlag_None);
             enet_packet_destroy(enetEvent.packet);
         }
 
@@ -159,15 +159,15 @@ bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
 
 void Socket::sendPacket(Peer peer, Channel channel, const Packet& packet)
 {
-    const std::vector<uint8_t>& data = packet._data;
-    ENetPacket* enetPacket = enet_packet_create(&data[0], data.size(), packet._flags);
+    const ByteVector& data = packet.data();
+    ENetPacket* enetPacket = enet_packet_create(&data[0], data.size(), packet.flags());
     enet_peer_send(peer._enetPeer, channel, enetPacket);
 }
 
 void Socket::broadcastPacket(Channel channel, const Packet& packet)
 {
-    const std::vector<uint8_t>& data = packet._data;
-    ENetPacket* enetPacket = enet_packet_create(&data[0], data.size(), packet._flags);
+    const ByteVector& data = packet.data();
+    ENetPacket* enetPacket = enet_packet_create(&data[0], data.size(), packet.flags());
     enet_host_broadcast(_enetHost, channel, enetPacket);
 }
 

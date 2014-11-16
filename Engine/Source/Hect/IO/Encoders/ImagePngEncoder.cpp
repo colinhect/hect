@@ -43,7 +43,7 @@ void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
     flippedImage.flipVertical();
 
     // Encode to PNG data
-    Image::PixelData encodedPixelData;
+    ByteVector encodedPixelData;
     unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), image.width(), image.height());
     if (error)
     {
@@ -58,10 +58,10 @@ void ImagePngEncoder::decode(Image& image, ReadStream& stream)
 {
     // Read all of the encoded data from the stream
     size_t length = stream.length();
-    Image::PixelData encodedPixelData(length, 0);
+    ByteVector encodedPixelData(length, 0);
     stream.read(&encodedPixelData[0], length);
 
-    Image::PixelData decodedPixelData;
+    ByteVector decodedPixelData;
 
     // Decode the PNG pixel data
     unsigned width = 0;

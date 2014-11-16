@@ -108,10 +108,16 @@ public:
     PeerState state() const;
 
     ///
-    /// Returns whether the peer the is same as another.
+    /// Returns whether the peer is the same as another.
     ///
     /// \param peer The other peer.
     bool operator==(const Peer& peer) const;
+
+    ///
+    /// Returns whether the peer is different from another.
+    ///
+    /// \param peer The other peer.
+    bool operator!=(const Peer& peer) const;
 
 private:
     Peer(ENetPeer* enetPeer);

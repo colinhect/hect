@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Error.h"
 #include "Hect/Core/Format.h"
+#include "Hect/IO/MemoryReadStream.h"
 
 using namespace hect;
 
@@ -36,6 +37,12 @@ BinaryDecoder::BinaryDecoder(ReadStream& stream) :
 BinaryDecoder::BinaryDecoder(ReadStream& stream, AssetCache& assetCache) :
     Decoder(assetCache),
     _stream(stream)
+{
+}
+
+BinaryDecoder::BinaryDecoder(const ByteVector& data) :
+    _ownedStream(new MemoryReadStream(data)),
+    _stream(*_ownedStream)
 {
 }
 

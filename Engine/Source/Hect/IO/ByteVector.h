@@ -23,35 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <vector>
 #include <cstdint>
-
-#include "Hect/IO/ByteVector.h"
-#include "Hect/IO/WriteStream.h"
+#include <vector>
 
 namespace hect
 {
 
 ///
-/// Provides write access to raw data.
-class MemoryWriteStream :
-    public WriteStream
-{
-public:
-
-    ///
-    /// Constructs a stream.
-    ///
-    /// \param data The data to write to.
-    MemoryWriteStream(ByteVector& data);
-
-    void write(const uint8_t* bytes, size_t byteCount) override;
-    size_t position() const override;
-    void seek(size_t position) override;
-
-private:
-    ByteVector& _data;
-    size_t _position;
-};
+/// A vector of bytes.
+typedef std::vector<uint8_t> ByteVector;
 
 }

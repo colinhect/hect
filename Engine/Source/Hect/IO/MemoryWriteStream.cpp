@@ -30,7 +30,7 @@
 
 using namespace hect;
 
-MemoryWriteStream::MemoryWriteStream(std::vector<uint8_t>& data) :
+MemoryWriteStream::MemoryWriteStream(ByteVector& data) :
     _data(data),
     _position(data.size())
 {

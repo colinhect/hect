@@ -25,6 +25,7 @@
 
 #include <stack>
 
+#include "Hect/IO/ByteVector.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/ReadStream.h"
 
@@ -39,17 +40,23 @@ class BinaryDecoder :
 public:
 
     ///
-    /// Constructs a binary decoder.
+    /// Constructs a binary decoder given a stream to decode from.
     ///
     /// \param stream The stream to decode from.
     BinaryDecoder(ReadStream& stream);
 
     ///
-    /// Constructs a binary decoder.
+    /// Constructs a binary decoder given a stream to decode from.
     ///
     /// \param stream The stream to decode from.
     /// \param assetCache The asset cache to load further assets from.
     BinaryDecoder(ReadStream& stream, AssetCache& assetCache);
+
+    ///
+    /// Constructs a binary decoder given data decode from.
+    ///
+    /// \param data The data to decode from.
+    BinaryDecoder(const ByteVector& data);
 
     bool isBinaryStream() const override;
     ReadStream& binaryStream() override;
@@ -85,6 +92,8 @@ private:
     std::stack<uint32_t> _indexStack;
     std::stack<uint32_t> _countStack;
     std::stack<ValueType> _valueTypeStack;
+
+    std::unique_ptr<ReadStream> _ownedStream;
     ReadStream& _stream;
 };
 
