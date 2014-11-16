@@ -154,15 +154,13 @@ bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
         }
 
         // Log connection/disconnection events
-        PeerId id = peer.id();
-        const char* address = peer.address().asString().c_str();
         switch (event.type)
         {
         case SocketEventType_Connect:
-            HECT_INFO(format("Connected to remote socket at address %s (peer id = %d)", address, id));
+            HECT_INFO(format("Connected to remote socket at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id()));
             break;
         case SocketEventType_Disconnect:
-            HECT_INFO(format("Disconnected from remote socket at address %s (peer id = %d)", address, id));
+            HECT_INFO(format("Disconnected from remote socket at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id()));
             break;
         default:
             break;
