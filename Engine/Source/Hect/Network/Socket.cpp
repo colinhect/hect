@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Socket.h"
 
-#include <algorithm>
 #include <cstring>
 #include <enet/enet.h>
 
@@ -38,7 +37,7 @@ Socket::Socket()
     initializeENet();
 }
 
-Socket::Socket(unsigned peerCount, uint8_t channelCount) :
+Socket::Socket(size_t peerCount, size_t channelCount) :
     _peerCount(peerCount),
     _channelCount(channelCount)
 {
@@ -47,6 +46,7 @@ Socket::Socket(unsigned peerCount, uint8_t channelCount) :
 
 Socket::~Socket()
 {
+    // Destroy the associated host if there is one
     if (_enetHost)
     {
         enet_host_destroy(_enetHost);
@@ -58,31 +58,37 @@ Socket::~Socket()
 
 void Socket::listenOnPort(Port port)
 {
+    // Ensure that the socket is not already listening
     if (_listening)
     {
         throw Error("Socket is already listening on a port");
     }
     _listening = true;
 
+    // Ensure that the socket has not attempted to connect to a remote socket
     if (_enetHost)
     {
         throw Error("Socket has active connections and cannot listen on a port");
     }
 
+    // Create the ENet address to listen from
     ENetAddress address;
     address.host = ENET_HOST_ANY;
     address.port = port;
+
+    // Create the ENet host
     _enetHost = enet_host_create(&address, _peerCount, _channelCount, 0, 0);
     if (!_enetHost)
     {
         throw Error("Failed to create ENet host");
     }
 
-    HECT_INFO(format("Listening for UDP connections on port %i", port));
+    HECT_INFO(format("Listening for connections on port %i", port));
 }
 
 Peer Socket::requestConnectTo(IPAddress address, Port port)
 {
+    // Create the ENet host (non-listening) if a host was not already created
     if (!_enetHost)
     {
         _enetHost = enet_host_create(nullptr, _peerCount, _channelCount, 0, 0);
@@ -92,18 +98,21 @@ Peer Socket::requestConnectTo(IPAddress address, Port port)
         }
     }
 
+    // Create the ENet address to connect to
     ENetAddress enetAddress;
     enetAddress.host = static_cast<uint32_t>(address);
     enetAddress.port = port;
 
+    // Perform the connection
     ENetPeer* enetPeer = enet_host_connect(_enetHost, &enetAddress, _enetHost->channelLimit, 0);
     if (!enetPeer)
     {
         throw Error("Failed to create ENet peer");
     }
 
-    HECT_INFO(format("Requested connection to UDP peer at address %s on port %d", address.toString().c_str(), port));
+    HECT_INFO(format("Requested connection to peer at address %s on port %d", address.asString().c_str(), port));
 
+    // Return the associated peer
     return Peer(enetPeer);
 }
 
@@ -113,7 +122,7 @@ void Socket::requestDisconnectFrom(Peer peer)
     if (peer.state() == PeerState_Connected)
     {
         enet_peer_disconnect(peer._enetPeer, 0);
-        HECT_INFO(format("Requested disconnection from UDP peer at address %s", peer.address().toString().c_str()));
+        HECT_INFO(format("Requested disconnection from peer at address %s", peer.address().asString().c_str()));
     }
     else
     {
@@ -123,14 +132,19 @@ void Socket::requestDisconnectFrom(Peer peer)
 
 bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
 {
+    // Poll for the ENet event
     ENetEvent enetEvent;
     if (enet_host_service(_enetHost, &enetEvent, static_cast<uint32_t>(timeOut.milliseconds())) > 0)
     {
+        Peer peer(enetEvent.peer);
+
+        // Create the event
         event = SocketEvent();
-
         event.type = static_cast<SocketEventType>(enetEvent.type);
-        event.peer = Peer(enetEvent.peer);
+        event.peer = peer;
 
+        // If it is a packet receive event then copy the packet data to the
+        // packet of the event
         if (enetEvent.type == ENET_EVENT_TYPE_RECEIVE)
         {
             ByteVector data(enetEvent.packet->dataLength, 0);
@@ -139,21 +153,26 @@ bool Socket::pollEvent(SocketEvent& event, TimeSpan timeOut)
             enet_packet_destroy(enetEvent.packet);
         }
 
+        // Log connection/disconnection events
+        PeerId id = peer.id();
+        const char* address = peer.address().asString().c_str();
         switch (event.type)
         {
         case SocketEventType_Connect:
-            HECT_INFO(format("Connected to remote peer at address %s (peer ID = %d)", event.peer.address().toString().c_str(), event.peer.id()));
+            HECT_INFO(format("Connected to remote socket at address %s (peer id = %d)", address, id));
             break;
         case SocketEventType_Disconnect:
-            HECT_INFO(format("Disconnected from remote peer at address %s (peer ID = %d)", event.peer.address().toString().c_str(), event.peer.id()));
+            HECT_INFO(format("Disconnected from remote socket at address %s (peer id = %d)", address, id));
             break;
         default:
             break;
         }
 
+        // An event was received
         return true;
     }
 
+    // An event was not received
     return false;
 }
 
@@ -180,20 +199,24 @@ void Socket::initializeENet()
 {
     std::lock_guard<std::mutex> lock(enetInitializationMutex);
 
+    // If this is the first call to initialize ENet
     if (enetInitializationCounter == 0)
     {
         ++enetInitializationCounter;
+
+        // Intialize ENet
         if (enet_initialize() != 0)
         {
             throw Error("Failed to initialized ENet");
         }
 
+        // Log the ENet version
         ENetVersion version = ENET_VERSION;
-        HECT_INFO("Initialized ENet");
         HECT_INFO(format("ENet version %d.%d.%d", ENET_VERSION_GET_MAJOR(version), ENET_VERSION_GET_MINOR(version), ENET_VERSION_GET_PATCH(version)));
     }
     else
     {
+        // Already initalized
         ++enetInitializationCounter;
     }
 }
@@ -206,7 +229,6 @@ void Socket::deinitializeENet()
     {
         --enetInitializationCounter;
         enet_deinitialize();
-        HECT_INFO("Deinitialized ENet");
     }
     else
     {

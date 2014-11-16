@@ -40,13 +40,9 @@ IPAddress::IPAddress(const char* hostName)
     }
 }
 
-IPAddress::IPAddress(const std::string& hostName)
+IPAddress::IPAddress(const std::string& hostName) :
+    IPAddress(hostName.c_str())
 {
-    ENetAddress address = { 0 };
-    if (enet_address_set_host(&address, hostName.c_str()) == 0)
-    {
-        _address = address.host;
-    }
 }
 
 IPAddress::IPAddress(uint32_t address) :
@@ -59,7 +55,7 @@ bool IPAddress::isValid() const
     return _address != 0;
 }
 
-std::string IPAddress::toString() const
+std::string IPAddress::asString() const
 {
     ENetAddress address = { 0 };
     address.host = _address;

@@ -47,7 +47,7 @@ static std::mutex _catchMutex;
 TEST_CASE("Socket_ListenAfterConnectRequest")
 {
     Socket socket;
-    Peer peer = socket.requestConnectTo(_host, _port);
+    socket.requestConnectTo(_host, _port);
     REQUIRE_THROWS_AS(socket.listenOnPort(_port), Error);
 }
 
@@ -262,8 +262,6 @@ TEST_CASE("Socket_ClientSendPacket")
 
     std::thread clientThread([&]
     {
-        bool packetReceived = false;
-
         while (!listening)
         {
             std::this_thread::yield();

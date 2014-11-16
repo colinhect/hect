@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Graphics/Mesh.h>
 #include <Hect/Runtime/Engine.h>
+
 using namespace hect;
 
 #include <catch.hpp>

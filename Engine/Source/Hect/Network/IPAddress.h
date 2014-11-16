@@ -67,7 +67,7 @@ public:
 
     ///
     /// Returns a string representation of the address.
-    std::string toString() const;
+    std::string asString() const;
 
     ///
     /// Casts the address to a 32-bit unsigned integer.

@@ -23,9 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <memory>
-
-#include "Hect/Core/Uncopyable.h"
 #include "Hect/Network/IPAddress.h"
 
 // Forward declarations for ENet types
@@ -35,7 +32,7 @@ namespace hect
 {
 
 ///
-/// A state that a peer is in.
+/// A state that a network peer is in.
 enum PeerState
 {
     ///
@@ -85,7 +82,7 @@ enum PeerState
 typedef uint16_t PeerId;
 
 ///
-/// A remote point of contact for remote communication over UDP.
+/// A handle to a remote socket.
 ///
 /// \note A peer is a lightweight handle without any associated resources.
 /// A copied peer will refer to the same peer as it was copied from.

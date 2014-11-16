@@ -37,11 +37,11 @@ namespace hect
 {
 
 ///
-/// A channel of a UDP socket.
+/// A channel of a network socket.
 typedef uint8_t Channel;
 
 ///
-/// A socket event type.
+/// A network socket event type.
 enum SocketEventType
 {
     ///
@@ -65,15 +65,16 @@ enum SocketEventType
 /// An event triggered from a remote socket.
 class SocketEvent
 {
-    friend class Socket;
 public:
+
     ///
     /// The event type.
     SocketEventType type { SocketEventType_None };
 
     ///
-    /// The packet received (only for events with type
-    /// Socket::Event::Receive).
+    /// The packet received.
+    ///
+    /// \note Only valid for events of type SocketEventType_Receive.
     Packet packet;
 
     ///
@@ -82,10 +83,7 @@ public:
 };
 
 ///
-/// A local point of contact for remote communication over UDP.
-///
-/// \note A socket can either listen for incoming connections or attempt
-/// to connect to a remote socket which is listening.
+/// A socket for communicating with network peers.
 class Socket :
     public Uncopyable
 {
@@ -100,8 +98,9 @@ public:
     ///
     /// \param peerCount The maximum number of simultaneous connections the
     /// socket can have.
-    /// \param channelCount The number of channels to use.
-    Socket(unsigned peerCount, uint8_t channelCount);
+    /// \param channelCount The number of channels to use; if 0 then the
+    /// maximum number of channels are used.
+    Socket(size_t peerCount, size_t channelCount);
 
     ///
     /// Destroys the socket.
@@ -126,15 +125,18 @@ public:
     ///
     /// \param address The address of the remote socket.
     /// \param port The port the remote socket is listening on.
+    ///
+    /// \returns A peer representing the remote socket the connection request
+    /// was sent to.
     Peer requestConnectTo(IPAddress address, Port port);
 
     ///
     /// Triggers a disconnection handshake attempt with a remote socket.
     ///
-    /// \note If a connection to the peer is not established then nothing
-    /// happens.
+    /// \note If the disconnection succeeds then an event will be received and
+    /// the peer's state will change to to PeerState_Disconnected.
     ///
-    /// \param peer The peer.
+    /// \param peer The peer representing the remove socket to disconnect from.
     ///
     /// \throws Error If the specified peer does not belong to this socket.
     void requestDisconnectFrom(Peer peer);
@@ -180,8 +182,8 @@ private:
     static int enetInitializationCounter;
     static std::mutex enetInitializationMutex;
 
-    unsigned _peerCount { 32 };
-    uint8_t _channelCount { 1 };
+    size_t _peerCount { 32 };
+    size_t _channelCount { 1 };
     bool _listening { false };
     ENetHost* _enetHost { nullptr };
 };

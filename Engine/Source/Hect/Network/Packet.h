@@ -79,6 +79,14 @@ public:
     Packet(const ByteVector& data, PacketFlags flags);
 
     ///
+    /// Returns the packet data.
+    ByteVector& data();
+
+    ///
+    /// Returns the packet data.
+    const ByteVector& data() const;
+
+    ///
     /// Returns the packet flags.
     PacketFlags flags() const;
 
@@ -88,17 +96,9 @@ public:
     /// \param flag The flag.
     bool hasFlag(PacketFlag flag) const;
 
-    ///
-    /// Returns the packet data.
-    ByteVector& data();
-
-    ///
-    /// Returns the packet data.
-    const ByteVector& data() const;
-
 private:
-    PacketFlags _flags { 0 };
     ByteVector _data;
+    PacketFlags _flags { 0 };
 };
 
 }

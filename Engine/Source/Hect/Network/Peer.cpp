@@ -35,32 +35,38 @@ Peer::Peer()
 
 PeerId Peer::id() const
 {
-    if (!_enetPeer)
+    PeerId id = PeerId(-1);
+
+    if (_enetPeer)
     {
-        return 0;
+        id = _enetPeer->incomingPeerID;
     }
 
-    return _enetPeer->incomingPeerID;
+    return id;
 }
 
 IPAddress Peer::address() const
 {
-    if (!_enetPeer)
+    IPAddress address;
+
+    if (_enetPeer)
     {
-        return IPAddress();
+        address = IPAddress(_enetPeer->address.host);
     }
 
-    return IPAddress(_enetPeer->address.host);
+    return address;
 }
 
 PeerState Peer::state() const
 {
-    if (!_enetPeer)
+    PeerState state = PeerState_Disconnected;
+
+    if (_enetPeer)
     {
-        return PeerState_Disconnected;
+        state = static_cast<PeerState>(_enetPeer->state);
     }
 
-    return static_cast<PeerState>(_enetPeer->state);
+    return state;
 }
 
 bool Peer::operator==(const Peer& peer) const

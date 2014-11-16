@@ -24,6 +24,7 @@
 #include <Hect/Core/Configuration.h>
 #include <Hect/Core/Error.h>
 #include <Hect/Runtime/Engine.h>
+
 using namespace hect;
 
 #include <catch.hpp>

@@ -23,9 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Packet.h"
 
-#include "Hect/IO/MemoryReadStream.h"
-#include "Hect/IO/MemoryWriteStream.h"
-
 using namespace hect;
 
 Packet::Packet()
@@ -33,6 +30,7 @@ Packet::Packet()
 }
 
 Packet::Packet(PacketFlags flags) :
+    _data(),
     _flags(flags)
 {
 }
@@ -43,16 +41,6 @@ Packet::Packet(const ByteVector& data, PacketFlags flags) :
 {
 }
 
-PacketFlags Packet::flags() const
-{
-    return _flags;
-}
-
-bool Packet::hasFlag(PacketFlag flag) const
-{
-    return (_flags & flag) == flag;
-}
-
 ByteVector& Packet::data()
 {
     return _data;
@@ -61,4 +49,14 @@ ByteVector& Packet::data()
 const ByteVector& Packet::data() const
 {
     return _data;
+}
+
+PacketFlags Packet::flags() const
+{
+    return _flags;
+}
+
+bool Packet::hasFlag(PacketFlag flag) const
+{
+    return (_flags & flag) == flag;
 }
