@@ -84,9 +84,10 @@ DecodeVector<T>::DecodeVector(std::vector<T>& values) :
 }
 
 template <typename T>
-DecodeVector<T>::DecodeVector(const char* name, std::vector<T>& values) :
+DecodeVector<T>::DecodeVector(const char* name, std::vector<T>& values, bool required) :
     name(name),
-    values(values)
+    values(values),
+    required(required)
 {
 }
 
@@ -97,9 +98,10 @@ DecodeEnum<T>::DecodeEnum(T& value) :
 }
 
 template <typename T>
-DecodeEnum<T>::DecodeEnum(const char* name, T& value) :
+DecodeEnum<T>::DecodeEnum(const char* name, T& value, bool required) :
     name(name),
-    value(value)
+    value(value),
+    required(required)
 {
 }
 
@@ -158,9 +160,9 @@ DecodeVector<T> decodeVector(std::vector<T>& value)
 }
 
 template <typename T>
-DecodeVector<T> decodeVector(const char* name, std::vector<T>& value)
+DecodeVector<T> decodeVector(const char* name, std::vector<T>& value, bool required)
 {
-    return DecodeVector<T>(name, value);
+    return DecodeVector<T>(name, value, required);
 }
 
 template <typename T>
@@ -170,9 +172,9 @@ DecodeEnum<T> decodeEnum(T& value)
 }
 
 template <typename T>
-DecodeEnum<T> decodeEnum(const char* name, T& value)
+DecodeEnum<T> decodeEnum(const char* name, T& value, bool required)
 {
-    return DecodeEnum<T>(name, value);
+    return DecodeEnum<T>(name, value, required);
 }
 
 }

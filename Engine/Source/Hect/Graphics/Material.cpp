@@ -90,7 +90,7 @@ Encoder& operator<<(Encoder& encoder, const Material& material)
 Decoder& operator>>(Decoder& decoder, Material& material)
 {
     return decoder >> beginObject()
-           >> decodeVector("techniques", material._techniques)
+           >> decodeVector("techniques", material._techniques, true)
            >> endObject();
 }
 

@@ -339,7 +339,7 @@ Decoder& operator>>(Decoder& decoder, ShaderValue& shaderValue)
     }
     else
     {
-        throw Error("No shader value type specified");
+        throw Error("Missing required value 'type'");
     }
 
     // Value

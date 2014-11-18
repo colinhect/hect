@@ -56,6 +56,13 @@ Decoder& operator>>(Decoder& decoder, const DecodeVector<T>& decodeVector)
 
         decoder >> endArray();
     }
+    else
+    {
+        if (decodeVector.name && decodeVector.required)
+        {
+            throw Error(format("Missing required value '%s'", decodeVector.name));
+        }
+    }
     return decoder;
 }
 
@@ -75,6 +82,13 @@ Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decodeEnum)
             std::string string;
             decoder >> decodeValue(string);
             decodeEnum.value = Enum::fromString<T>(string);
+        }
+    }
+    else
+    {
+        if (decodeEnum.name && decodeEnum.required)
+        {
+            throw Error(format("Missing required value '%s'", decodeEnum.name));
         }
     }
     return decoder;

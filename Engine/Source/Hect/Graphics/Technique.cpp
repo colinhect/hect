@@ -81,7 +81,7 @@ Encoder& operator<<(Encoder& encoder, const Technique& technique)
 Decoder& operator>>(Decoder& decoder, Technique& technique)
 {
     return decoder >> beginObject()
-           >> decodeVector("passes", technique._passes)
+           >> decodeVector("passes", technique._passes, true)
            >> endObject();
 }
 

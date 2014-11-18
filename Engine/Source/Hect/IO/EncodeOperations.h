@@ -202,14 +202,19 @@ struct DecodeVector
     /// Decodes a named array to a vector.
     ///
     /// \param name The name of the array.
-    /// \param values The values to decode.
-    DecodeVector(const char* name, std::vector<T>& values);
+    /// \param required Whether the decode should fail if a value of the
+    /// specified name does not exist.
+    DecodeVector(const char* name, std::vector<T>& values, bool required);
 
     const char* name
     {
         nullptr
     };
     std::vector<T>& values;
+    const bool required
+    {
+        false
+    };
 };
 
 ///
@@ -228,13 +233,19 @@ struct DecodeEnum
     ///
     /// \param name The name of the value.
     /// \param value The value to decode.
-    DecodeEnum(const char* name, T& value);
+    /// \param required Whether the decode should fail if a value of the
+    /// specified name does not exist.
+    DecodeEnum(const char* name, T& value, bool required);
 
     const char* name
     {
         nullptr
     };
     T& value;
+    const bool required
+    {
+        false
+    };
 };
 
 ///
@@ -346,8 +357,10 @@ DecodeVector<T> decodeVector(std::vector<T>& values);
 ///
 /// \param name The name of the member to decode the vector for.
 /// \param values The values to decode.
+/// \param required Whether the decode should fail if a value of the specified
+/// name does not exist.
 template <typename T>
-DecodeVector<T> decodeVector(const char* name, std::vector<T>& values);
+DecodeVector<T> decodeVector(const char* name, std::vector<T>& values, bool required = false);
 
 ///
 /// Creates an operation for decoding an enum value.
@@ -362,8 +375,10 @@ DecodeEnum<T> decodeEnum(T& value);
 ///
 /// \param name The name of the member to decode the value for.
 /// \param value The value to decode.
+/// \param required Whether the decode should fail if a value of the specified
+/// name does not exist.
 template <typename T>
-DecodeEnum<T> decodeEnum(const char* name, T& value);
+DecodeEnum<T> decodeEnum(const char* name, T& value, bool required = false);
 
 }
 

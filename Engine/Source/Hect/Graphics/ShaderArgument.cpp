@@ -70,7 +70,7 @@ Encoder& operator<<(Encoder& encoder, const ShaderArgument& shaderArgument)
 Decoder& operator>>(Decoder& decoder, ShaderArgument& shaderArgument)
 {
     return decoder >> beginObject()
-           >> decodeValue("name", shaderArgument._name)
+           >> decodeValue("name", shaderArgument._name, true)
            >> decodeValue(shaderArgument._value)
            >> endObject();
 }

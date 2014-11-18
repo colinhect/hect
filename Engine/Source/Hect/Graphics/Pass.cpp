@@ -190,7 +190,7 @@ Decoder& operator>>(Decoder& decoder, Pass& pass)
 {
     return decoder >> beginObject()
            >> beginObject("shader")
-           >> decodeValue("path", pass._shader)
+           >> decodeValue("path", pass._shader, true)
            >> decodeVector("arguments", pass._shaderArguments)
            >> endObject()
            >> decodeVector("textures", pass._textures)

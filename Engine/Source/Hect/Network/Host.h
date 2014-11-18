@@ -92,7 +92,7 @@ public:
 
     ///
     /// The event type.
-    PeerEventType type{ PeerEventType_None };
+    PeerEventType type { PeerEventType_None };
 
     ///
     /// The remote host triggering the event.

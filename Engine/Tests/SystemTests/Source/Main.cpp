@@ -27,7 +27,7 @@ int main(int argc, char* const argv[])
         char* const engineArgv[] =
         {
             argv[0],
-            "HectSystemTests.config"
+            static_cast<char*>("HectSystemTests.config")
         };
 
         hect::Engine engine(2, engineArgv);
