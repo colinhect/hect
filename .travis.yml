@@ -19,7 +19,7 @@ install:
 
 script:
  - cd Build/Output
- - ./HectUnitTests ~[Fails]
- - ./HectSystemTests ~[Fails]
- - valgrind ./HectUnitTests ~[Fails]
- - valgrind ./HectSystemTests ~[Fails]
+ - ./HectUnitTests
+ - ./HectSystemTests
+ - valgrind ./HectUnitTests
+ - valgrind ./HectSystemTests

@@ -32,7 +32,7 @@ namespace hect
 {
 
 ///
-/// A state that a network peer is in.
+/// A state that a peer is in.
 enum PeerState
 {
     ///
@@ -76,19 +76,18 @@ enum PeerState
     PeerState_Unknown
 };
 
-
 ///
 /// A locally unique id for a peer.
 typedef uint16_t PeerId;
 
 ///
-/// A handle to a remote socket.
+/// A handle to a remote host.
 ///
 /// \note A peer is a lightweight handle without any associated resources.
 /// A copied peer will refer to the same peer as it was copied from.
 class Peer
 {
-    friend class Socket;
+    friend class Host;
 public:
     Peer();
 

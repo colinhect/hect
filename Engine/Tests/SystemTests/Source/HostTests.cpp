@@ -24,15 +24,18 @@
 #include <Hect/Core/Error.h>
 #include <Hect/IO/BinaryDecoder.h>
 #include <Hect/IO/BinaryEncoder.h>
-#include <Hect/Network/Socket.h>
+#include <Hect/Network/Host.h>
 
 using namespace hect;
 
 #include <atomic>
 #include <catch.hpp>
+#include <mutex>
 #include <thread>
 
 static const char* _host = "localhost";
+static const size_t _maxPeerCount = 1;
+static const size_t _channelCount = 1;
 static const Port _port = 1234;
 static const TimeSpan _timeOut = TimeSpan::fromMilliseconds(100);
 
@@ -44,21 +47,7 @@ static std::mutex _catchMutex;
         REQUIRE(expr);\
     }
 
-TEST_CASE("Socket_ListenAfterConnectRequest")
-{
-    Socket socket;
-    socket.requestConnectTo(_host, _port);
-    REQUIRE_THROWS_AS(socket.listenOnPort(_port), Error);
-}
-
-TEST_CASE("Socket_ListenAgain")
-{
-    Socket socket;
-    socket.listenOnPort(_port);
-    REQUIRE_THROWS_AS(socket.listenOnPort(_port), Error);
-}
-
-TEST_CASE("Socket_ConnectDisconnect")
+TEST_CASE("Host_ConnectDisconnect")
 {
     std::atomic<bool> listening;
     listening.store(false);
@@ -68,21 +57,20 @@ TEST_CASE("Socket_ConnectDisconnect")
         bool connectEvent = false;
         bool disconnectEvent = false;
 
-        Socket socket;
-        socket.listenOnPort(_port);
+        Host host(_maxPeerCount, _channelCount, _port);
 
         listening.store(true);
 
         while (true)
         {
-            SocketEvent event;
-            if (socket.pollEvent(event))
+            PeerEvent event;
+            if (host.pollEvent(event))
             {
-                if (event.type == SocketEventType_Connect)
+                if (event.type == PeerEventType_Connect)
                 {
                     connectEvent = true;
                 }
-                else if (event.type == SocketEventType_Disconnect)
+                else if (event.type == PeerEventType_Disconnect)
                 {
                     disconnectEvent = true;
                     break;
@@ -104,15 +92,15 @@ TEST_CASE("Socket_ConnectDisconnect")
             std::this_thread::yield();
         }
 
-        Socket socket;
+        Host host(_maxPeerCount, _channelCount);
 
-        Peer peer = socket.requestConnectTo(_host, _port);
+        Peer peer = host.requestConnectTo(_host, _port);
         THREADSAFE_REQUIRE(peer.state() == PeerState_Connecting);
 
-        SocketEvent event;
-        while (socket.pollEvent(event, _timeOut))
+        PeerEvent event;
+        while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == SocketEventType_Connect)
+            if (event.type == PeerEventType_Connect)
             {
                 THREADSAFE_REQUIRE(event.peer == peer);
                 THREADSAFE_REQUIRE(peer.state() == PeerState_Connected);
@@ -121,12 +109,12 @@ TEST_CASE("Socket_ConnectDisconnect")
         }
         THREADSAFE_REQUIRE(connectEvent == true);
 
-        socket.requestDisconnectFrom(peer);
+        host.requestDisconnectFrom(peer);
         THREADSAFE_REQUIRE(peer.state() == PeerState_Disconnecting);
 
-        while (socket.pollEvent(event, _timeOut))
+        while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == SocketEventType_Disconnect)
+            if (event.type == PeerEventType_Disconnect)
             {
                 THREADSAFE_REQUIRE(event.peer == peer);
                 THREADSAFE_REQUIRE(peer.state() == PeerState_Disconnected);
@@ -140,35 +128,33 @@ TEST_CASE("Socket_ConnectDisconnect")
     serverThread.join();
 }
 
-TEST_CASE("Socket_ServerSendPacket")
+TEST_CASE("Host_ServerSendPacket")
 {
     std::atomic<bool> listening;
     listening.store(false);
 
     std::thread serverThread([&]
     {
-        Socket socket;
-        socket.listenOnPort(_port);
+        Host host(_maxPeerCount, _channelCount, _port);
 
         listening.store(true);
 
         while (true)
         {
-            SocketEvent event;
-            if (socket.pollEvent(event))
+            PeerEvent event;
+            if (host.pollEvent(event))
             {
-                if (event.type == SocketEventType_Connect)
+                if (event.type == PeerEventType_Connect)
                 {
-                    ByteVector data;
+                    ByteVector packetData;
 
-                    BinaryEncoder encoder(data);
+                    BinaryEncoder encoder(packetData);
                     encoder << encodeValue("Testing...");
 
-                    Packet packet(data, PacketFlag_Reliable);
-                    socket.sendPacket(event.peer, 0, packet);
-                    socket.flush();
+                    host.sendPacket(event.peer, 0, packetData);
+                    host.flush();
                 }
-                else if (event.type == SocketEventType_Disconnect)
+                else if (event.type == PeerEventType_Disconnect)
                 {
                     break;
                 }
@@ -185,20 +171,20 @@ TEST_CASE("Socket_ServerSendPacket")
             std::this_thread::yield();
         }
 
-        Socket socket;
+        Host host(_maxPeerCount, _channelCount);
 
-        Peer peer = socket.requestConnectTo(_host, _port);
+        Peer peer = host.requestConnectTo(_host, _port);
 
-        SocketEvent event;
-        while (socket.pollEvent(event, _timeOut))
+        PeerEvent event;
+        while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == SocketEventType_Receive)
+            if (event.type == PeerEventType_ReceivePacket)
             {
                 packetReceived = true;
 
                 std::string string;
 
-                BinaryDecoder decoder(event.packet.data());
+                BinaryDecoder decoder(event.packetData);
                 decoder >> decodeValue(string);
 
                 THREADSAFE_REQUIRE(string == "Testing...");
@@ -206,11 +192,11 @@ TEST_CASE("Socket_ServerSendPacket")
         }
         THREADSAFE_REQUIRE(packetReceived);
 
-        socket.requestDisconnectFrom(peer);
+        host.requestDisconnectFrom(peer);
 
-        while (socket.pollEvent(event, _timeOut))
+        while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == SocketEventType_Disconnect)
+            if (event.type == PeerEventType_Disconnect)
             {
                 break;
             }
@@ -221,36 +207,35 @@ TEST_CASE("Socket_ServerSendPacket")
     serverThread.join();
 }
 
-TEST_CASE("Socket_ClientSendPacket")
+TEST_CASE("Host_ClientSendPacket")
 {
     std::atomic<bool> listening;
     listening.store(false);
 
     std::thread serverThread([&]
     {
-        Socket socket;
-        socket.listenOnPort(_port);
+        Host host(_maxPeerCount, _channelCount, _port);
 
         listening.store(true);
 
         bool packetReceived = false;
         while (true)
         {
-            SocketEvent event;
-            if (socket.pollEvent(event))
+            PeerEvent event;
+            if (host.pollEvent(event))
             {
-                if (event.type == SocketEventType_Receive)
+                if (event.type == PeerEventType_ReceivePacket)
                 {
                     packetReceived = true;
 
                     std::string string;
 
-                    BinaryDecoder decoder(event.packet.data());
+                    BinaryDecoder decoder(event.packetData);
                     decoder >> decodeValue(string);
 
                     THREADSAFE_REQUIRE(string == "Testing...");
                 }
-                else if (event.type == SocketEventType_Disconnect)
+                else if (event.type == PeerEventType_Disconnect)
                 {
                     break;
                 }
@@ -267,31 +252,30 @@ TEST_CASE("Socket_ClientSendPacket")
             std::this_thread::yield();
         }
 
-        Socket socket;
+        Host host(_maxPeerCount, _channelCount);
 
-        Peer peer = socket.requestConnectTo(_host, _port);
+        Peer peer = host.requestConnectTo(_host, _port);
 
-        SocketEvent event;
-        while (socket.pollEvent(event, _timeOut))
+        PeerEvent event;
+        while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == SocketEventType_Connect)
+            if (event.type == PeerEventType_Connect)
             {
-                ByteVector data;
+                ByteVector packetData;
 
-                BinaryEncoder encoder(data);
+                BinaryEncoder encoder(packetData);
                 encoder << encodeValue("Testing...");
 
-                Packet packet(data, PacketFlag_Reliable);
-                socket.sendPacket(event.peer, 0, packet);
-                socket.flush();
+                host.sendPacket(event.peer, 0, packetData);
+                host.flush();
             }
         }
 
-        socket.requestDisconnectFrom(peer);
+        host.requestDisconnectFrom(peer);
 
-        while (socket.pollEvent(event, _timeOut))
+        while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == SocketEventType_Disconnect)
+            if (event.type == PeerEventType_Disconnect)
             {
                 break;
             }

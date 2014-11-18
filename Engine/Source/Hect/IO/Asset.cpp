@@ -25,7 +25,8 @@
 
 using namespace hect;
 
-Asset::Asset()
+Asset::Asset() :
+    _name("<unnamed>")
 {
 }
 
