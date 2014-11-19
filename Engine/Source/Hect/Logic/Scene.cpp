@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Scene.h"
 
+#include "Hect/IO/AssetDecoder.h"
+
 using namespace hect;
 
 Scene::Scene(Engine& engine) :
@@ -76,6 +78,36 @@ const EntityPool& Scene::entities() const
 size_t Scene::entityCount() const
 {
     return _entityCount;
+}
+
+System& Scene::addOrGetSystem(SystemTypeId typeId, bool& added)
+{
+    // If the system is already added then return it
+    if (typeId < _systems.size() && _systems[typeId])
+    {
+        added = false;
+        return *_systems[typeId];
+    }
+
+    // Otherwise, attempt to add the system
+    else
+    {
+        added = true;
+
+        // Resize the systems vector if needed
+        while (typeId >= _systems.size())
+        {
+            size_t oldSize = _systems.size();
+            _systems.resize(std::max(oldSize * 2, size_t(8)));
+        }
+
+        // Add the system
+        auto system = SystemRegistry::create(typeId, *this);
+        _systems[typeId] = system;
+        _systemTickOrder.push_back(system.get());
+
+        return *system;
+    }
 }
 
 Entity::Iterator Scene::cloneEntity(const Entity& entity)
@@ -192,8 +224,33 @@ void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& componen
 
 void Scene::encode(Encoder& encoder) const
 {
-    encoder << beginObject() << beginArray("entities");
+    encoder << beginObject();
+    
+    // Systems
+    encoder << beginArray("systems");
+    for (auto& system : _systemTickOrder)
+    {
+        encoder << beginObject();
 
+        std::string typeName = Type::of(*system).name();
+        if (encoder.isBinaryStream())
+        {
+            WriteStream& stream = encoder.binaryStream();
+            stream << SystemRegistry::typeIdOf(typeName);
+        }
+        else
+        {
+            encoder << encodeValue("type", typeName);
+        }
+
+        system->encode(encoder);
+
+        encoder << endObject();
+    }
+    encoder << endArray();
+    
+    // Entities
+    encoder << beginArray("entities");
     for (const Entity& entity : entities())
     {
         // Only encode the root entities (children are encoded recursively)
@@ -202,20 +259,72 @@ void Scene::encode(Encoder& encoder) const
             encoder << encodeValue(entity);
         }
     }
-
-    encoder << endArray() << endObject();
+    encoder << endArray();
+    
+    encoder << endObject();
 }
 
 void Scene::decode(Decoder& decoder)
 {
-    decoder >> beginObject() >> beginArray("entities");
-    while (decoder.hasMoreElements())
+    decoder >> beginObject();
+
+    // Base
+    if (!decoder.isBinaryStream())
     {
-        Entity::Iterator entity = createEntity();
-        decoder >> decodeValue(*entity);
-        entity->activate();
+        if (decoder.selectMember("base"))
+        {
+            Path basePath;
+            decoder >> decodeValue(basePath);
+
+            AssetDecoder baseDecoder(decoder.assetCache(), basePath);
+            baseDecoder >> beginObject() >> decodeValue(*this) >> endObject();
+        }
     }
-    decoder >> endArray() >> endObject();
+    
+    // Systems
+    if (decoder.selectMember("systems"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            decoder >> beginObject();
+
+            SystemTypeId typeId;
+            if (decoder.isBinaryStream())
+            {
+                ReadStream& stream = decoder.binaryStream();
+                stream >> typeId;
+            }
+            else
+            {
+                std::string typeName;
+                decoder >> decodeValue("type", typeName, true);
+                typeId = SystemRegistry::typeIdOf(typeName);
+            }
+
+            bool added;
+            System& system = addOrGetSystem(typeId, added);
+            system.decode(decoder);
+
+            decoder >> endObject();
+        }
+        decoder >> endArray();
+    }
+
+    // Entities
+    if (decoder.selectMember("entities"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            Entity::Iterator entity = createEntity();
+            decoder >> decodeValue(*entity);
+            entity->activate();
+        }
+        decoder >> endArray();
+    }
+    
+    decoder >> endObject();
 }
 
 void Scene::encodeComponents(const Entity& entity, Encoder& encoder)

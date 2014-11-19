@@ -39,3 +39,13 @@ const Scene& System::scene() const
 {
     return _scene;
 }
+
+void System::encode(Encoder& encoder) const
+{
+    (void)encoder;
+}
+
+void System::decode(Decoder& decoder)
+{
+    (void)decoder;
+}

@@ -71,6 +71,9 @@ public:
 
     void receiveEvent(const ComponentEvent<RigidBody>& event) override;
 
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
+
 private:
     btTriangleMesh* toBulletMesh(Mesh* mesh);
 

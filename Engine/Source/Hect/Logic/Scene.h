@@ -126,6 +126,8 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Scene& scene);
 
 private:
+    System& addOrGetSystem(SystemTypeId typeId, bool& added);
+
     Entity::Iterator cloneEntity(const Entity& entity);
 
     void destroyEntity(Entity& entity);

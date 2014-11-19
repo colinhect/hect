@@ -40,7 +40,7 @@ PhysicsSystem::PhysicsSystem(Scene& scene) :
 {
     scene.components<RigidBody>().addListener(*this);
 
-    setGravity(Vector3::zero());
+    setGravity(Vector3::unitY() * Real(-9.8));
 }
 
 PhysicsSystem::~PhysicsSystem()
@@ -138,6 +138,19 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
             }
         }
     }
+}
+
+void PhysicsSystem::encode(Encoder& encoder) const
+{
+    encoder << encodeValue("gravity", _gravity);
+}
+
+void PhysicsSystem::decode(Decoder& decoder)
+{
+    Vector3 gravity;
+    decoder >> decodeValue("gravity", gravity);
+
+    setGravity(gravity);
 }
 
 btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)

@@ -43,6 +43,16 @@ class SystemRegistry
 public:
 
     ///
+    /// Creates a system of the specified type.
+    ///
+    /// \param typeId The type id representing the type of system to create.
+    /// \param scene The scene that the system is being created for.
+    ///
+    /// \throws Error If the specified type id does not correspond to a
+    /// registered system type.
+    static std::shared_ptr<System> create(SystemTypeId typeId, Scene& scene);
+
+    ///
     /// Returns the system type id for the given system type index.
     ///
     /// \param typeIndex The type index of the system type to get the id of.
@@ -50,6 +60,15 @@ public:
     /// \throws Error If the specified type index does not correspond to a
     /// registered system type.
     static SystemTypeId typeIdOf(std::type_index typeIndex);
+
+    ///
+    /// Returns the system type id for the given system type name.
+    ///
+    /// \param typeName The type name of the system type to get the id of.
+    ///
+    /// \throws Error If the specified type name does not correspond to a
+    /// registered system type.
+    static SystemTypeId typeIdOf(const std::string& typeName);
 
     ///
     /// Registers a system type.
@@ -66,8 +85,12 @@ public:
 private:
     SystemRegistry();
 
+    static std::map<std::string, SystemTypeId> _typeNameToId;
     static std::map<std::type_index, SystemTypeId> _typeIndexToId;
-    static std::vector<std::function<std::shared_ptr<System>(Scene&)>> _constructors;
+
+    typedef std::function<std::shared_ptr<System>(Scene&)> SystemConstructor;
+
+    static std::vector<SystemConstructor> _constructors;
 };
 
 }

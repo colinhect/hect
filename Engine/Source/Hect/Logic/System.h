@@ -27,6 +27,8 @@
 
 #include "Hect/Core/Real.h"
 #include "Hect/Core/Uncopyable.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
@@ -65,6 +67,17 @@ public:
     ///
     /// Gets the scene that the system affects.
     const Scene& scene() const;
+
+    ///
+    /// Encodes the system.
+    ///
+    /// \param encoder The encoder to use.
+    virtual void encode(Encoder& encoder) const;
+
+    /// Decodes the system.
+    ///
+    /// \param decoder The decoder to use.
+    virtual void decode(Decoder& decoder);
 
 private:
     Scene& _scene;

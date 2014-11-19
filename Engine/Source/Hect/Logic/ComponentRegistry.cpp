@@ -53,7 +53,7 @@ ComponentTypeId ComponentRegistry::typeIdOf(std::type_index typeIndex)
     auto it = _typeIndexToId.find(typeIndex);
     if (it == _typeIndexToId.end())
     {
-        throw Error("Unregistered component type");
+        throw Error("Unknown component type");
     }
     return it->second;
 }
@@ -63,7 +63,7 @@ ComponentTypeId ComponentRegistry::typeIdOf(const std::string& typeName)
     auto it = _typeNameToId.find(typeName);
     if (it == _typeNameToId.end())
     {
-        throw Error(format("Unregistered component type '%s'", typeName.c_str()));
+        throw Error(format("Unknown component type '%s'", typeName.c_str()));
     }
 
     return it->second;

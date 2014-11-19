@@ -28,15 +28,32 @@
 
 using namespace hect;
 
+std::shared_ptr<System> SystemRegistry::create(SystemTypeId typeId, Scene& scene)
+{
+    return _constructors[typeId](scene);
+}
+
 SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
 {
     auto it = _typeIndexToId.find(typeIndex);
     if (it == _typeIndexToId.end())
     {
-        throw Error("Unregistered system type");
+        throw Error("Unknown system type");
     }
     return it->second;
 }
 
+SystemTypeId SystemRegistry::typeIdOf(const std::string& typeName)
+{
+    auto it = _typeNameToId.find(typeName);
+    if (it == _typeNameToId.end())
+    {
+        throw Error(format("Unknown system type '%s'", typeName.c_str()));
+    }
+
+    return it->second;
+}
+
+std::map<std::string, SystemTypeId> SystemRegistry::_typeNameToId;
 std::map<std::type_index, SystemTypeId> SystemRegistry::_typeIndexToId;
-std::vector<std::function<std::shared_ptr<System>(Scene&)>> SystemRegistry::_constructors;
+std::vector<SystemRegistry::SystemConstructor> SystemRegistry::_constructors;

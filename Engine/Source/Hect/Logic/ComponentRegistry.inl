@@ -35,7 +35,7 @@ void ComponentRegistry::registerType()
     {
         std::string typeName = Type::get<T>().name();
 
-        ComponentTypeId typeId = (ComponentTypeId)_componentConstructors.size();
+        ComponentTypeId typeId = static_cast<ComponentTypeId>(_componentConstructors.size());
 
         _componentConstructors.push_back([]()
         {

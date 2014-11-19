@@ -29,23 +29,13 @@ void Scene::addDiscreteSystem()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
 
-    // Make sure the scene doesn't already have a system of this type
-    if (typeId < _systems.size() && _systems[typeId])
+    bool added;
+    addOrGetSystem(typeId, added);
+
+    if (!added)
     {
         throw Error(format("Scene already has system of type '%s'", Type::get<T>().name().c_str()));
     }
-
-    // Resize the systems vector if needed
-    while (typeId >= _systems.size())
-    {
-        size_t oldSize = _systems.size();
-        _systems.resize(std::max(oldSize * 2, size_t(8)));
-    }
-
-    // Add the system
-    auto system = std::make_shared<T>(*this);
-    _systems[typeId] = system;
-    _systemTickOrder.push_back(system.get());
 }
 
 template <typename T>

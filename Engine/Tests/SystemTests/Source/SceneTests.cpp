@@ -65,7 +65,7 @@ class TestSystem :
     public System
 {
 public:
-    bool ticked{ false };
+    std::string value;
 
     TestSystem(Scene& scene) :
         System(scene)
@@ -74,7 +74,16 @@ public:
 
     void tick(Real timeStep) override
     {
-        ticked = true;
+    }
+
+    void encode(Encoder& encoder) const
+    {
+        encoder << encodeValue("value", value);
+    }
+
+    void decode(Decoder& decoder)
+    {
+        decoder >> decodeValue("value", value);
     }
 };
 
@@ -680,6 +689,18 @@ TEST_CASE("Scene_EncodeDecodeWithChildren")
 
         Entity::Children::Iterator b = a->children().begin();
         REQUIRE(b);
+    });
+}
+
+TEST_CASE("Scene_EncodeDecodeWithSystems")
+{
+    testEncodeDecode([](Scene& scene)
+    {
+        scene.addDiscreteSystem<TestSystem>();
+        scene.system<TestSystem>().value = "Test";
+    }, [](Scene& scene)
+    {
+        REQUIRE(scene.system<TestSystem>().value == "Test");
     });
 }
 
