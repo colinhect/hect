@@ -34,22 +34,18 @@ RigidBody::RigidBody() :
 
 void RigidBody::encode(Encoder& encoder) const
 {
-    encoder << beginObject()
-            << encodeValue("mass", mass)
+    encoder << encodeValue("mass", mass)
             << encodeValue("linearVelocity", linearVelocity)
             << encodeValue("angularVelocity", angularVelocity)
             << encodeValue("angularVelocity", angularVelocity)
-            << encodeValue("mesh", mesh)
-            << endObject();
+            << encodeValue("mesh", mesh);
 }
 
 void RigidBody::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("mass", mass)
+    decoder >> decodeValue("mass", mass)
             >> decodeValue("linearVelocity", linearVelocity)
             >> decodeValue("angularVelocity", angularVelocity)
             >> decodeValue("angularVelocity", angularVelocity)
-            >> decodeValue("mesh", mesh)
-            >> endObject();
+            >> decodeValue("mesh", mesh);
 }

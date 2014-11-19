@@ -33,18 +33,14 @@ Transform::Transform() :
 
 void Transform::encode(Encoder& encoder) const
 {
-    encoder << beginObject()
-            << encodeValue("localPosition", localPosition)
+    encoder << encodeValue("localPosition", localPosition)
             << encodeValue("localScale", localScale)
-            << encodeValue("localRotation", localRotation)
-            << endObject();
+            << encodeValue("localRotation", localRotation);
 }
 
 void Transform::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("localPosition", localPosition)
+    decoder >> decodeValue("localPosition", localPosition)
             >> decodeValue("localScale", localScale)
-            >> decodeValue("localRotation", localRotation)
-            >> endObject();
+            >> decodeValue("localRotation", localRotation);
 }

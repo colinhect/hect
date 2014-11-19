@@ -225,7 +225,7 @@ void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& componen
 void Scene::encode(Encoder& encoder) const
 {
     encoder << beginObject();
-    
+
     // Systems
     encoder << beginArray("systems");
     for (auto& system : _systemTickOrder)
@@ -248,7 +248,7 @@ void Scene::encode(Encoder& encoder) const
         encoder << endObject();
     }
     encoder << endArray();
-    
+
     // Entities
     encoder << beginArray("entities");
     for (const Entity& entity : entities())
@@ -260,7 +260,7 @@ void Scene::encode(Encoder& encoder) const
         }
     }
     encoder << endArray();
-    
+
     encoder << endObject();
 }
 
@@ -276,11 +276,18 @@ void Scene::decode(Decoder& decoder)
             Path basePath;
             decoder >> decodeValue(basePath);
 
-            AssetDecoder baseDecoder(decoder.assetCache(), basePath);
-            baseDecoder >> beginObject() >> decodeValue(*this) >> endObject();
+            try
+            {
+                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
+                baseDecoder >> beginObject() >> decodeValue(*this) >> endObject();
+            }
+            catch (Error& error)
+            {
+                throw Error(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), error.what()));
+            }
         }
     }
-    
+
     // Systems
     if (decoder.selectMember("systems"))
     {
@@ -323,7 +330,7 @@ void Scene::decode(Decoder& decoder)
         }
         decoder >> endArray();
     }
-    
+
     decoder >> endObject();
 }
 
@@ -356,21 +363,25 @@ void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
     }
     else
     {
-        encoder << beginObject("components");
+        encoder << beginArray("components");
 
         for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
         {
             if (componentPool->has(entity))
             {
+                encoder << beginObject();
+
                 const ComponentBase& component = componentPool->getBase(entity);
                 std::string typeName = Type::of(component).name();
 
-                encoder.selectMember(typeName.c_str());
+                encoder << encodeValue("type", typeName);
                 component.encode(encoder);
+
+                encoder << endObject();
             }
         }
 
-        encoder << endObject();
+        encoder << endArray();
     }
 }
 
@@ -394,18 +405,23 @@ void Scene::decodeComponents(Entity& entity, Decoder& decoder)
     {
         if (decoder.selectMember("components"))
         {
-            decoder >> beginObject();
-            for (const std::string& typeName : decoder.memberNames())
+            decoder >> beginArray();
+            while (decoder.hasMoreElements())
             {
-                decoder.selectMember(typeName.c_str());
+                decoder >> beginObject();
+
+                std::string typeName;
+                decoder >> decodeValue("type", typeName);
 
                 ComponentTypeId typeId = ComponentRegistry::typeIdOf(typeName);
                 std::shared_ptr<ComponentBase> component = ComponentRegistry::create(typeId);
                 component->decode(decoder);
 
                 addEntityComponentBase(entity, *component);
+
+                decoder >> endObject();
             }
-            decoder >> endObject();
+            decoder >> endArray();
         }
     }
 }

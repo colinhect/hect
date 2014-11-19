@@ -27,14 +27,10 @@ using namespace hect;
 
 void LightProbe::encode(Encoder& encoder) const
 {
-    encoder << beginObject()
-            << encodeValue("texture", texture)
-            << endObject();
+    encoder << encodeValue("texture", texture);
 }
 
 void LightProbe::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("texture", texture)
-            >> endObject();
+    decoder >> decodeValue("texture", texture);
 }

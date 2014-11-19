@@ -40,20 +40,16 @@ Camera::Camera() :
 
 void Camera::encode(Encoder& encoder) const
 {
-    encoder << beginObject()
-            << encodeValue("fieldOfView", fieldOfView)
+    encoder << encodeValue("fieldOfView", fieldOfView)
             << encodeValue("aspectRatio", aspectRatio)
             << encodeValue("nearClip", nearClip)
-            << encodeValue("farClip", farClip)
-            << endObject();
+            << encodeValue("farClip", farClip);
 }
 
 void Camera::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("fieldOfView", fieldOfView)
+    decoder >> decodeValue("fieldOfView", fieldOfView)
             >> decodeValue("aspectRatio", aspectRatio)
             >> decodeValue("nearClip", nearClip)
-            >> decodeValue("farClip", farClip)
-            >> endObject();
+            >> decodeValue("farClip", farClip);
 }

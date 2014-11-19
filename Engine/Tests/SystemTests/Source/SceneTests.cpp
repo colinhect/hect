@@ -52,12 +52,12 @@ public:
 
     void encode(Encoder& encoder) const
     {
-        encoder << beginObject() << encodeValue("value", value) << endObject();
+        encoder << encodeValue("value", value);
     }
 
     void decode(Decoder& decoder)
     {
-        decoder >> beginObject() >> decodeValue("value", value) >> endObject();
+        decoder >> decodeValue("value", value);
     }
 };
 

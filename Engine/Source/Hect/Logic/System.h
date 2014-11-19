@@ -69,12 +69,13 @@ public:
     const Scene& scene() const;
 
     ///
-    /// Encodes the system.
+    /// Encodes the system to an object.
     ///
     /// \param encoder The encoder to use.
     virtual void encode(Encoder& encoder) const;
 
-    /// Decodes the system.
+    ///
+    /// Decodes the system from an object
     ///
     /// \param decoder The decoder to use.
     virtual void decode(Decoder& decoder);

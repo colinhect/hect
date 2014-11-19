@@ -32,6 +32,7 @@ using namespace hect;
 
 PhysicsSystem::PhysicsSystem(Scene& scene) :
     System(scene),
+    gravity(Vector3::unitY() * Real(-9.8)),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -39,8 +40,6 @@ PhysicsSystem::PhysicsSystem(Scene& scene) :
     _world(new btDiscreteDynamicsWorld(_dispatcher.get(), _broadphase.get(), _solver.get(), _configuration.get()))
 {
     scene.components<RigidBody>().addListener(*this);
-
-    setGravity(Vector3::unitY() * Real(-9.8));
 }
 
 PhysicsSystem::~PhysicsSystem()
@@ -61,6 +60,13 @@ void PhysicsSystem::updateRigidBody(RigidBody& rigidBody)
 
 void PhysicsSystem::tick(Real timeStep)
 {
+    // Update gravity if needed
+    Vector3 bulletGravity = convertFromBullet(_world->getGravity());
+    if (gravity != bulletGravity)
+    {
+        _world->setGravity(convertToBullet(gravity));
+    }
+
     // Update the dynamics scene
     _world->stepSimulation(timeStep, 4);
 
@@ -80,17 +86,6 @@ void PhysicsSystem::tick(Real timeStep)
         rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
         rigidBody.angularVelocity = convertFromBullet(rigidBody._rigidBody->getAngularVelocity());
     }
-}
-
-const Vector3& PhysicsSystem::gravity() const
-{
-    return _gravity;
-}
-
-void PhysicsSystem::setGravity(const Vector3& gravity)
-{
-    _gravity = gravity;
-    _world->setGravity(convertToBullet(gravity));
 }
 
 void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
@@ -142,15 +137,12 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
 
 void PhysicsSystem::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("gravity", _gravity);
+    encoder << encodeValue("gravity", gravity);
 }
 
 void PhysicsSystem::decode(Decoder& decoder)
 {
-    Vector3 gravity;
     decoder >> decodeValue("gravity", gravity);
-
-    setGravity(gravity);
 }
 
 btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)

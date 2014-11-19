@@ -59,20 +59,16 @@ public:
 
     void tick(Real timeStep) override;
 
-    ///
-    /// Returns the gravity.
-    const Vector3& gravity() const;
-
-    ///
-    /// Sets the gravity.
-    ///
-    /// \param gravity The new gravity.
-    void setGravity(const Vector3& gravity);
-
     void receiveEvent(const ComponentEvent<RigidBody>& event) override;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
+
+    ///
+    /// The gravitational acceleration applied to all rigid bodies.
+    ///
+    /// \property
+    Vector3 gravity;
 
 private:
     btTriangleMesh* toBulletMesh(Mesh* mesh);
@@ -84,8 +80,6 @@ private:
     std::shared_ptr<btDynamicsWorld> _world;
 
     std::map<Mesh*, std::shared_ptr<btTriangleMesh>> _bulletMeshes;
-
-    Vector3 _gravity;
 };
 
 }

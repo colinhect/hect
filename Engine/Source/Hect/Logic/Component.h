@@ -49,7 +49,16 @@ class ComponentBase
 public:
     virtual ~ComponentBase();
 
+    ///
+    /// Encodes the component to an object.
+    ///
+    /// \param encoder The encoder to use.
     virtual void encode(Encoder& encoder) const;
+
+    ///
+    /// Decodes the component from an object.
+    ///
+    /// \param decoder The decoder to use.
     virtual void decode(Decoder& decoder);
 
     virtual ComponentTypeId typeId() const = 0;

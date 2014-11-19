@@ -33,8 +33,7 @@ ModelSurface::ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Mate
 
 void Model::encode(Encoder& encoder) const
 {
-    encoder << beginObject()
-            << beginArray("surfaces");
+    encoder << beginArray("surfaces");
     for (const ModelSurface& surface : surfaces)
     {
         encoder << beginObject()
@@ -42,13 +41,11 @@ void Model::encode(Encoder& encoder) const
                 << encodeValue("material", surface.material)
                 << endObject();
     }
-    encoder << endArray()
-            << endObject();
+    encoder << endArray();
 }
 
 void Model::decode(Decoder& decoder)
 {
-    decoder >> beginObject();
     if (decoder.selectMember("surfaces"))
     {
         decoder >> beginArray();
@@ -66,5 +63,4 @@ void Model::decode(Decoder& decoder)
         }
         decoder >> endArray();
     }
-    decoder >> endObject();
 }

@@ -839,8 +839,15 @@ void Entity::decode(Decoder& decoder)
             Path basePath;
             decoder >> decodeValue(basePath);
 
-            AssetDecoder baseDecoder(decoder.assetCache(), basePath);
-            baseDecoder >> decodeValue(*this);
+            try
+            {
+                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
+                baseDecoder >> decodeValue(*this);
+            }
+            catch (Error& error)
+            {
+                throw Error(format("Failed to load base entity '%s': %s", basePath.asString().c_str(), error.what()));
+            }
         }
     }
 
