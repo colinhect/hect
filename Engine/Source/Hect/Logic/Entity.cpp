@@ -481,14 +481,8 @@ void Entity::activate()
 
 bool Entity::isActivated() const
 {
-    if (_parentId == EntityId(-1))
-    {
-        return _activated;
-    }
-    else
-    {
-        return parent()->isActivated();
-    }
+    ensureInPool();
+    return _activated;
 }
 
 EntityId Entity::id() const
