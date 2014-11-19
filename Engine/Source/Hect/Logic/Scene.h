@@ -67,9 +67,20 @@ public:
     const Engine& engine() const;
 
     ///
+    /// Adds a system type to the scene that is updated discretely.
+    ///
+    /// \note The order in which systems are added dictates the order they tick
+    /// in.
+    ///
+    /// \throws Error If the system type is already added to the scene.
+    template <typename T>
+    void addDiscreteSystem();
+
+    ///
     /// Returns the system of a specific type.
     ///
-    /// \throws Error If the system type is unknown.
+    /// \throws Error If the scene does not have the system of the specified
+    /// type.
     template <typename T>
     T& system();
 
@@ -128,16 +139,14 @@ private:
     void encodeComponents(const Entity& entity, Encoder& encoder);
     void decodeComponents(Entity& entity, Decoder& decoder);
 
-    void addSystemToTickOrder(System& system);
-
     Engine& _engine;
 
     size_t _entityCount;
     EntityPool _entityPool;
 
     ComponentPoolMap _componentPoolMap;
-    SystemMap _systemMap;
 
+    std::vector<std::shared_ptr<System>> _systems;
     std::vector<System*> _systemTickOrder;
 };
 
@@ -146,5 +155,4 @@ private:
 #include "Entity.inl"
 #include "Component.inl"
 #include "ComponentPool.inl"
-#include "System.inl"
 #include "Scene.inl"

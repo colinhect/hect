@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Scene.h"
 
-#include <algorithm>
-
 using namespace hect;
 
 Scene::Scene(Engine& engine) :
@@ -33,13 +31,6 @@ Scene::Scene(Engine& engine) :
     _entityPool(*this)
 {
     _componentPoolMap = ComponentRegistry::createPoolMap(*this);
-    _systemMap = SystemRegistry::createMap(*this);
-
-    // Add all systems to the tick order
-    for (auto& system : _systemMap)
-    {
-        addSystemToTickOrder(*system);
-    }
 }
 
 Engine& Scene::engine()
@@ -55,7 +46,7 @@ const Engine& Scene::engine() const
 void Scene::tick(TimeSpan timeStep)
 {
     Real timeStepInSeconds = timeStep.seconds();
-    for (System* system : _systemTickOrder)
+    for (auto& system : _systemTickOrder)
     {
         system->tick(timeStepInSeconds);
     }
@@ -307,22 +298,6 @@ void Scene::decodeComponents(Entity& entity, Decoder& decoder)
             }
             decoder >> endObject();
         }
-    }
-}
-
-void Scene::addSystemToTickOrder(System& system)
-{
-    // If the system is not in the tick order
-    if (std::find(_systemTickOrder.begin(), _systemTickOrder.end(), &system) == _systemTickOrder.end())
-    {
-        // Add each system it depends on first
-        for (SystemTypeId typeId : system._tickDependencies)
-        {
-            addSystemToTickOrder(*_systemMap[typeId]);
-        }
-
-        // Add the system
-        _systemTickOrder.push_back(&system);
     }
 }
 

@@ -26,7 +26,6 @@
 #include "Hect/Physics/Bullet.h"
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Logic/Components/Transform.h"
-#include "Hect/Logic/Systems/InputSystem.h"
 #include "Hect/Logic/Systems/TransformSystem.h"
 
 using namespace hect;
@@ -39,8 +38,6 @@ PhysicsSystem::PhysicsSystem(Scene& scene) :
     _solver(new btSequentialImpulseConstraintSolver()),
     _world(new btDiscreteDynamicsWorld(_dispatcher.get(), _broadphase.get(), _solver.get(), _configuration.get()))
 {
-    tickAfter<InputSystem>();
-
     scene.components<RigidBody>().addListener(*this);
 
     setGravity(Vector3::zero());

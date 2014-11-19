@@ -24,11 +24,8 @@
 #pragma once
 
 #include <cstdint>
-#include <typeindex>
-#include <vector>
 
 #include "Hect/Core/Real.h"
-#include "Hect/Core/Sequence.h"
 #include "Hect/Core/Uncopyable.h"
 
 namespace hect
@@ -55,12 +52,6 @@ public:
     System(Scene& scene);
 
     ///
-    /// Ensures that the system of a specific type is updated before this
-    /// system.
-    template <typename T>
-    void tickAfter();
-
-    ///
     /// Performs a single tick of simulation for the system.
     ///
     /// \param timeStep The duration of time in seconds for the tick to
@@ -77,8 +68,6 @@ public:
 
 private:
     Scene& _scene;
-
-    std::vector<SystemTypeId> _tickDependencies;
 };
 
 }

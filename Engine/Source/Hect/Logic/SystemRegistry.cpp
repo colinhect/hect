@@ -28,16 +28,6 @@
 
 using namespace hect;
 
-SystemMap SystemRegistry::createMap(Scene& scene)
-{
-    SystemMap systemMap;
-    for (auto& constructor : _constructors)
-    {
-        systemMap.push_back(constructor(scene));
-    }
-    return systemMap;
-}
-
 SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
 {
     auto it = _typeIndexToId.find(typeIndex);

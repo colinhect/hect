@@ -24,14 +24,12 @@
 #include "BoundingBoxSystem.h"
 
 #include "Hect/Logic/Components/Model.h"
-#include "Hect/Logic/Systems/TransformSystem.h"
 
 using namespace hect;
 
 BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
     System(scene)
 {
-    tickAfter<TransformSystem>();
 }
 
 void BoundingBoxSystem::tick(Real timeStep)

@@ -23,14 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "CameraSystem.h"
 
-#include "Hect/Logic/Systems/TransformSystem.h"
+#include "Hect/Logic/Components/Transform.h"
 
 using namespace hect;
 
 CameraSystem::CameraSystem(Scene& scene) :
     System(scene)
 {
-    tickAfter<TransformSystem>();
 }
 
 Component<Camera>::Iterator CameraSystem::activeCamera()

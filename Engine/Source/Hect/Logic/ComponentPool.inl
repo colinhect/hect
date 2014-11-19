@@ -420,7 +420,7 @@ bool ComponentPool<T>::expandVector(std::vector<U>& vector, size_t size, U value
     {
         expanded = true;
         size_t oldSize = vector.size();
-        vector.resize(std::max(oldSize * 2, (size_t)8), value);
+        vector.resize(std::max(oldSize * 2, size_t(8)), value);
     }
     return expanded;
 }

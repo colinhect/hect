@@ -24,14 +24,12 @@
 #include "TransformSystem.h"
 
 #include "Hect/Logic/Components/Model.h"
-#include "Hect/Logic/Systems/PhysicsSystem.h"
 
 using namespace hect;
 
 TransformSystem::TransformSystem(Scene& scene) :
     System(scene)
 {
-    tickAfter<PhysicsSystem>();
 }
 
 void TransformSystem::updateTransform(Transform& transform)
