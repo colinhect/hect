@@ -173,7 +173,7 @@ private:
 
     std::vector<ComponentTypeId> _componentTypeIds;
     std::vector<std::shared_ptr<ComponentPoolBase>> _componentPools;
-    
+
     std::vector<SystemTypeId> _systemTypeIds;
     std::vector<std::shared_ptr<System>> _systems;
     std::vector<System*> _systemTickOrder;
