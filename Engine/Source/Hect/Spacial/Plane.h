@@ -69,7 +69,7 @@ public:
 private:
     Vector3 _position;
     Vector3 _normal;
-    Real _distance;
+    Real _distance { 0 };
 };
 
 }

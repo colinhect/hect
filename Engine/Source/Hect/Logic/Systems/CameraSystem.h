@@ -29,6 +29,8 @@
 namespace hect
 {
 
+///
+/// Updates and tracks the active camera(s).
 /// \system
 class CameraSystem :
     public System

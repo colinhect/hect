@@ -32,9 +32,7 @@
 
 using namespace hect;
 
-Entity::IteratorBase::IteratorBase() :
-    _pool(nullptr),
-    _id(EntityId(-1))
+Entity::IteratorBase::IteratorBase()
 {
 }
 
@@ -159,10 +157,7 @@ Entity::ConstIterator::operator bool() const
     return isValid();
 }
 
-Entity::Children::IteratorBase::IteratorBase() :
-    _pool(nullptr),
-    _parentId(EntityId(-1)),
-    _index(0)
+Entity::Children::IteratorBase::IteratorBase()
 {
 }
 
@@ -390,8 +385,7 @@ void Entity::Handle::ensureValid() const
 
 Entity::Handle::Context::Context(EntityPool& pool, EntityId id) :
     pool(&pool),
-    id(id),
-    valid(true)
+    id(id)
 {
     pool.addListener(*this);
 }
@@ -432,10 +426,7 @@ Entity::Entity(Entity&& entity) :
     _childIds(std::move(entity._childIds)),
     _activated(entity._activated)
 {
-    entity._pool = nullptr;
-    entity._id = EntityId(-1);
-    entity._parentId = EntityId(-1);
-    entity._activated = false;
+    entity = Entity();
 }
 
 Entity::Handle Entity::createHandle() const

@@ -71,7 +71,7 @@ public:
         /// \param object The object that the data represents.
         Data(Renderer& renderer, T& object);
 
-        virtual ~Data();
+        virtual ~Data() { }
 
         ///
         /// Invalidates the GPU data.

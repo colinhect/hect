@@ -39,6 +39,10 @@ class TransformSystem :
 public:
     TransformSystem(Scene& scene);
 
+    ///
+    /// Updates a transform and all child transforms.
+    ///
+    /// \param transform The transform to update.
     void updateTransform(Transform& transform);
 
     void tick(Real timeStep) override;

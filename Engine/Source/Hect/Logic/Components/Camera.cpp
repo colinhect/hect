@@ -23,20 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Camera.h"
 
-#include "Hect/Logic/Components/Transform.h"
-
 using namespace hect;
-
-Camera::Camera() :
-    front(-Vector3::unitZ()),
-    up(Vector3::unitY()),
-    right(front.cross(up).normalized()),
-    fieldOfView(Angle::fromDegrees(90)),
-    aspectRatio(1),
-    nearClip(Real(0.1)),
-    farClip(1000)
-{
-}
 
 void Camera::encode(Encoder& encoder) const
 {

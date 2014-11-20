@@ -102,7 +102,7 @@ private:
         MaxZ = 32
     };
 
-    int _flags;
+    int _flags { 0 };
 
     Vector3 _minimum;
     Vector3 _maximum;

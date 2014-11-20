@@ -114,7 +114,7 @@ private:
 
     static const Type& fromTypeInfo(const std::type_info& typeInfo);
 
-    Kind _kind;
+    Kind _kind { Kind_None };
     std::string _name;
     std::shared_ptr<Enum> _enum;
 

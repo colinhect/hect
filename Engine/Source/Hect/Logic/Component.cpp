@@ -25,10 +25,6 @@
 
 using namespace hect;
 
-ComponentBase::~ComponentBase()
-{
-}
-
 void ComponentBase::encode(Encoder& encoder) const
 {
     encoder << beginObject() << endObject();

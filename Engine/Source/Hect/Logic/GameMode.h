@@ -32,19 +32,38 @@ namespace hect
 class Engine;
 class RenderTarget;
 
+///
+/// The highest-level logic of a game.
 class GameMode :
     public Uncopyable
 {
 public:
 
+    ///
+    /// Constructs a game mode.
+    ///
+    /// \param engine The engine.
+    /// \param timeStep The amount of time between logic ticks.
     GameMode(Engine& engine, TimeSpan timeStep);
-    virtual ~GameMode();
 
+    virtual ~GameMode() { }
+
+    ///
+    /// Performs a single step of logic.
     virtual void tick() = 0;
+
+    ///
+    /// Renders the current state of the game to a target.
+    ///
+    /// \param target The target to render to.
     virtual void render(RenderTarget& target) = 0;
 
+    ///
+    /// Gets the engine.
     Engine& engine();
 
+    ///
+    /// Returns the amount of time between logic ticks.
     TimeSpan timeStep() const;
 
 private:

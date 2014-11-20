@@ -59,7 +59,9 @@ public:
 private:
     GameModeRegistry();
 
-    static std::map<std::string, std::function<std::unique_ptr<GameMode>(Engine&)>> _constructors;
+    typedef std::function<std::unique_ptr<GameMode>(Engine&)> GameModeConstructor;
+
+    static std::map<std::string, GameModeConstructor> _constructors;
 };
 
 }

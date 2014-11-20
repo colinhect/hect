@@ -157,7 +157,7 @@ public:
 private:
     TimeSpan(int64_t microseconds);
 
-    int64_t _microseconds;
+    int64_t _microseconds { 0 };
 };
 
 }

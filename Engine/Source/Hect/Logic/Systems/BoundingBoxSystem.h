@@ -25,7 +25,6 @@
 
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
-#include "Hect/Logic/Components/Transform.h"
 
 namespace hect
 {

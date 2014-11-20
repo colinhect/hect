@@ -29,8 +29,7 @@
 
 using namespace hect;
 
-Type::Type() :
-    _kind(Kind_None)
+Type::Type()
 {
 }
 

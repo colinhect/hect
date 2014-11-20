@@ -164,7 +164,7 @@ private:
 
     Engine& _engine;
 
-    size_t _entityCount;
+    size_t _entityCount { 0 };
     EntityPool _entityPool;
 
     std::vector<EntityId> _entitiesPendingCreation;

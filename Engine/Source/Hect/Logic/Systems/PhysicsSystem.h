@@ -53,8 +53,19 @@ public:
     PhysicsSystem(Scene& scene);
     ~PhysicsSystem();
 
+    ///
+    /// Applies a force to a rigid body.
+    ///
+    /// \param rigidBody The rigid body to apply the force to.
+    /// \param force The force to apply.
+    /// \param relativePosition The position relative to the rigid body to
+    /// apply the force from.
     void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);
 
+    ///
+    /// Updates the angular and linear velocities of the rigid body.
+    ///
+    /// \param rigidBody The rigid body to update.
     void updateRigidBody(RigidBody& rigidBody);
 
     void tick(Real timeStep) override;

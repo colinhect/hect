@@ -24,9 +24,6 @@
 #pragma once
 
 #include "Hect/Logic/Scene.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Math/Matrix4.h"
-#include "Hect/Math/Quaternion.h"
 #include "Hect/Spacial/AxisAlignedBox.h"
 
 namespace hect

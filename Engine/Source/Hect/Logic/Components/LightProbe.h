@@ -30,6 +30,9 @@
 namespace hect
 {
 
+///
+/// A point where ambient and reflective lighting can be pre-computed.
+///
 /// \component
 class LightProbe :
     public Component<LightProbe>

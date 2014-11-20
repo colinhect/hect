@@ -50,21 +50,50 @@
 namespace hect
 {
 
+///
+/// An instance of Hect Engine.
+///
+/// \warning Only one engine instance can be instantiated at a given time.
 class Engine :
     public Uncopyable
 {
 public:
+
+    ///
+    /// Constructs an engine.
+    ///
+    /// \param argc The number of command-line arguments passed to main().
+    /// \param argv The array of command-line arguments passed to main().
     Engine(int argc, char* const argv[]);
 
+    ///
+    /// Executes the engine to completion.
+    ///
+    /// \returns The process return code.
     int main();
 
+    ///
+    /// Returns the file system.
     FileSystem& fileSystem();
+
+    ///
+    /// Returns the platform.
     Platform& platform();
+
+    ///
+    /// Returns the renderer.
     Renderer& renderer();
+
+    ///
+    /// Returns the main window.
     Window& window();
 
+    ///
+    /// Returns the asset cache.
     AssetCache& assetCache();
 
+    ///
+    /// Returns the config data.
     const JsonValue& config();
 
 private:

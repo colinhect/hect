@@ -40,10 +40,6 @@ class Transform :
 public:
 
     ///
-    /// Constructs an identity transform.
-    Transform();
-
-    ///
     /// The local position.
     Vector3 localPosition;
 
@@ -53,11 +49,11 @@ public:
 
     ///
     /// The local scale.
-    Vector3 localScale;
+    Vector3 localScale { Vector3::one() };
 
     ///
     /// The global scale.
-    Vector3 globalScale;
+    Vector3 globalScale { Vector3::one() };
 
     ///
     /// The local rotation.

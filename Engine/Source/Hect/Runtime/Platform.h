@@ -35,6 +35,8 @@
 namespace hect
 {
 
+///
+/// Provides access to platform functionality and peripherals.
 class Platform :
     public Uncopyable
 {
@@ -47,16 +49,39 @@ public:
 
     virtual ~Platform() { }
 
+    ///
+    /// Creates a window in the operating system of the platform.
+    ///
+    /// \param title The title of the window.
+    /// \param videoMode The video mode of the window.
     virtual std::unique_ptr<Window> createWindow(const std::string& title, const VideoMode& videoMode) = 0;
 
+    ///
+    /// Handles and dispatches all platform events.
     virtual bool handleEvents() = 0;
 
+    ///
+    /// Returns whether the platform has a mouse connected.
     virtual bool hasMouse() = 0;
+
+    ///
+    /// Returns the mouse.
+    ///
+    /// \throws Error If the platform does not have a mouse connected.
     virtual Mouse& mouse() = 0;
 
+    ///
+    /// Returns whether the platform has a keyboard connected.
     virtual bool hasKeyboard() = 0;
+
+    ///
+    /// Returns the keyboard.
+    ///
+    /// \throws Error If the platform does not have a keyboard connected.
     virtual Keyboard& keyboard() = 0;
 
+    ///
+    /// Returns any joysticks connected to the platform.
     virtual JoystickSequence joysticks() = 0;
 };
 

@@ -27,8 +27,8 @@
 #include <memory>
 
 #include "Hect/Event/Listener.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/EntityEvent.h"
 
@@ -58,8 +58,8 @@ private:
         void ensureValid() const;
         bool equals(const IteratorBase& other) const;
 
-        mutable EntityPool* _pool;
-        EntityId _id;
+        mutable EntityPool* _pool { nullptr };
+        EntityId _id { EntityId(-1) };
     };
 
 public:
@@ -198,9 +198,9 @@ public:
             void ensureValid() const;
             bool equals(const IteratorBase& other) const;
 
-            EntityPool* _pool;
-            EntityId _parentId;
-            size_t _index;
+            EntityPool* _pool { nullptr };
+            EntityId _parentId { EntityId(-1) };
+            size_t _index { 0 };
         };
 
     public:
@@ -420,7 +420,7 @@ public:
 
             EntityPool* pool;
             EntityId id;
-            bool valid;
+            bool valid { true };
         };
 
         std::shared_ptr<Context> _context;

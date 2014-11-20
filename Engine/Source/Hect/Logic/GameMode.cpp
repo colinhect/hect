@@ -33,10 +33,6 @@ GameMode::GameMode(Engine& engine, TimeSpan timeStep) :
 {
 }
 
-GameMode::~GameMode()
-{
-}
-
 Engine& GameMode::engine()
 {
     return _engine;

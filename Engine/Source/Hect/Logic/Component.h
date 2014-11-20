@@ -47,7 +47,7 @@ typedef uint32_t ComponentTypeId;
 class ComponentBase
 {
 public:
-    virtual ~ComponentBase();
+    virtual ~ComponentBase() { }
 
     ///
     /// Encodes the component to an object.
@@ -89,8 +89,8 @@ private:
         void ensureValid() const;
         bool equals(const IteratorBase& other) const;
 
-        mutable ComponentPool<T>* _pool;
-        ComponentId _id;
+        mutable ComponentPool<T>* _pool { nullptr };
+        ComponentId _id { ComponentId(-1) };
     };
 
 public:
@@ -260,8 +260,8 @@ private:
     bool inPool() const;
     void ensureInPool() const;
 
-    ComponentPool<T>* _pool;
-    ComponentId _id;
+    ComponentPool<T>* _pool { nullptr };
+    ComponentId _id { ComponentId(-1) };
 };
 
 }

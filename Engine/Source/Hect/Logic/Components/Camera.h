@@ -39,19 +39,18 @@ class Camera :
     public Component<Camera>
 {
 public:
-    Camera();
 
     ///
     /// The front vector.
-    Vector3 front;
+    Vector3 front { -Vector3::unitZ() };
 
     ///
     /// The up vector.
-    Vector3 up;
+    Vector3 up { Vector3::unitY() };
 
     ///
     /// The right vector.
-    Vector3 right;
+    Vector3 right { Vector3::unitX() };
 
     ///
     /// The position.
@@ -67,19 +66,19 @@ public:
 
     ///
     /// The horizontal field of view.
-    Angle fieldOfView;
+    Angle fieldOfView { Angle::fromDegrees(90) };
 
     ///
     /// The aspect ratio.
-    Real aspectRatio;
+    Real aspectRatio { 1 };
 
     ///
     /// The near clip distance.
-    Real nearClip;
+    Real nearClip { Real(0.1) };
 
     ///
     /// The far clip distance.
-    Real farClip;
+    Real farClip { Real(10000) };
 
     ///
     /// The frustum.

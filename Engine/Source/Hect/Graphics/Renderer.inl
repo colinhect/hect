@@ -32,11 +32,6 @@ Renderer::Data<T>::Data(Renderer& renderer, T& object) :
 }
 
 template <typename T>
-Renderer::Data<T>::~Data()
-{
-}
-
-template <typename T>
 void Renderer::Data<T>::invalidate()
 {
     renderer = nullptr;

@@ -29,7 +29,7 @@ namespace hect
 {
 
 ///
-/// Maintains a pool of unique identifiers.
+/// Maintains a pool of unique numeric identifiers.
 template <typename T>
 class IdPool
 {

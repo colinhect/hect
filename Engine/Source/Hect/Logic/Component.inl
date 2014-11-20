@@ -25,9 +25,7 @@ namespace hect
 {
 
 template <typename T>
-Component<T>::IteratorBase::IteratorBase() :
-    _pool(nullptr),
-    _id(ComponentId(-1))
+Component<T>::IteratorBase::IteratorBase()
 {
 }
 
@@ -187,24 +185,18 @@ Component<T>::ConstIterator::operator bool() const
 }
 
 template <typename T>
-Component<T>::Component() :
-    _pool(nullptr),
-    _id(ComponentId(-1))
+Component<T>::Component()
 {
 }
 
 template <typename T>
-Component<T>::Component(const Component<T>& component) :
-    _pool(nullptr),
-    _id(ComponentId(-1))
+Component<T>::Component(const Component<T>& component)
 {
     (void)component;
 }
 
 template <typename T>
-Component<T>::Component(Component<T>&& component) :
-    _pool(nullptr),
-    _id(ComponentId(-1))
+Component<T>::Component(Component<T>&& component)
 {
     (void)component;
 }

@@ -44,11 +44,10 @@ class RigidBody :
 {
     friend class PhysicsSystem;
 public:
-    RigidBody();
 
     ///
     /// The mass.
-    Real mass;
+    Real mass { 0 };
 
     ///
     /// The linear velocity.

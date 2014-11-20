@@ -29,7 +29,6 @@ using namespace hect;
 
 Scene::Scene(Engine& engine) :
     _engine(engine),
-    _entityCount(0),
     _entityPool(*this)
 {
 }

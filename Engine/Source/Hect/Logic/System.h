@@ -53,6 +53,8 @@ public:
     /// \param scene The scene that the system exists in.
     System(Scene& scene);
 
+    virtual ~System() { }
+
     ///
     /// Performs a single tick of simulation for the system.
     ///

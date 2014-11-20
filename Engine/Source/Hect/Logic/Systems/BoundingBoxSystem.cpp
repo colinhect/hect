@@ -24,6 +24,7 @@
 #include "BoundingBoxSystem.h"
 
 #include "Hect/Logic/Components/Model.h"
+#include "Hect/Logic/Components/Transform.h"
 
 using namespace hect;
 

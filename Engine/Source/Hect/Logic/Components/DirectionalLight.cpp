@@ -25,12 +25,6 @@
 
 using namespace hect;
 
-DirectionalLight::DirectionalLight() :
-    direction(Vector3::unitX()),
-    color(Vector3::one())
-{
-}
-
 void DirectionalLight::encode(Encoder& encoder) const
 {
     encoder << encodeValue("direction", direction)

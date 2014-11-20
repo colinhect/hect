@@ -23,14 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "RigidBody.h"
 
-#include "Hect/Physics/Bullet.h"
-
 using namespace hect;
-
-RigidBody::RigidBody() :
-    mass(0)
-{
-}
 
 void RigidBody::encode(Encoder& encoder) const
 {

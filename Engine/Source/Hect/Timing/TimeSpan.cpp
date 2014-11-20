@@ -40,8 +40,7 @@ TimeSpan TimeSpan::fromSeconds(Real seconds)
     return TimeSpan((int64_t)(seconds * 1000 * 1000));
 }
 
-TimeSpan::TimeSpan() :
-    _microseconds(0)
+TimeSpan::TimeSpan()
 {
 }
 

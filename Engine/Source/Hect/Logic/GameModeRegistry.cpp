@@ -41,4 +41,4 @@ std::unique_ptr<GameMode> GameModeRegistry::create(const std::string& typeName, 
     return it->second(engine);
 }
 
-std::map<std::string, std::function<std::unique_ptr<GameMode>(Engine&)>> GameModeRegistry::_constructors;
+std::map<std::string, GameModeRegistry::GameModeConstructor> GameModeRegistry::_constructors;

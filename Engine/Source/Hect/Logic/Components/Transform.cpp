@@ -25,12 +25,6 @@
 
 using namespace hect;
 
-Transform::Transform() :
-    localScale(Vector3::one()),
-    globalScale(Vector3::one())
-{
-}
-
 void Transform::encode(Encoder& encoder) const
 {
     encoder << encodeValue("localPosition", localPosition)

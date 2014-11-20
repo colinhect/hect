@@ -31,6 +31,9 @@
 namespace hect
 {
 
+///
+/// Maps user input to input axes.
+///
 /// \system
 class InputSystem :
     public System
@@ -54,8 +57,6 @@ public:
     /// \returns The value of the axis; 0 if the axis does not exist.
     Real axisValue(const std::string& name) const;
 
-    ///
-    /// Updates all input axes in the system.
     void tick(Real timeStep) override;
 
 private:

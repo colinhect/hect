@@ -35,7 +35,7 @@ class Timer
 public:
 
     ///
-    /// Returns the total elapsed time since initialization.
+    /// Returns the total elapsed time since program initialization.
     static TimeSpan totalElapsed();
 
     ///
