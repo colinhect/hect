@@ -72,7 +72,7 @@ bool SystemRegistry::isRegisteredTypeId(SystemTypeId typeId)
     return typeId < _constructors.size();
 }
 
-std::map<SystemTypeId, std::string> SystemRegistry::_typeIdToName;;
+std::map<SystemTypeId, std::string> SystemRegistry::_typeIdToName;
 std::map<std::string, SystemTypeId> SystemRegistry::_typeNameToId;
 std::map<std::type_index, SystemTypeId> SystemRegistry::_typeIndexToId;
 std::vector<SystemRegistry::SystemConstructor> SystemRegistry::_constructors;

@@ -633,6 +633,7 @@ TEST_CASE("Scene_DestroyEntityWithParent")
 TEST_CASE("Scene_CloneEntity")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     Component<Test>::Iterator stringA = a->addComponent<Test>("Test");
@@ -675,6 +676,7 @@ TEST_CASE("Scene_CloneEntityWithChildren")
 TEST_CASE("Scene_AddAndRemoveComponent")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
 
@@ -692,6 +694,7 @@ TEST_CASE("Scene_AddAndRemoveComponent")
 TEST_CASE("Scene_ReplaceComponent")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
 
@@ -708,6 +711,7 @@ TEST_CASE("Scene_ReplaceComponent")
 TEST_CASE("Scene_AddExistingComponent")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     REQUIRE_THROWS_AS(a->removeComponent<Test>(), Error);
@@ -716,6 +720,7 @@ TEST_CASE("Scene_AddExistingComponent")
 TEST_CASE("Scene_RemoveNonExistingComponent")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("Test");
@@ -733,6 +738,7 @@ TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
 TEST_CASE("Scene_ComponentIterationEmpty")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     size_t count = 0;
     for (const Test& string : scene.components<Test>())
@@ -747,6 +753,7 @@ TEST_CASE("Scene_ComponentIterationEmpty")
 TEST_CASE("Scene_ComponentIterationNoneActivated")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     scene.createEntity()->addComponent<Test>("Test");
 
@@ -760,10 +767,10 @@ TEST_CASE("Scene_ComponentIterationNoneActivated")
     REQUIRE(count == 0);
 }
 
-
 TEST_CASE("Scene_ComponentIterationSomeActivated")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     scene.createEntity();
     scene.createEntity()->addComponent<Test>("Test")->entity().activate();
@@ -789,6 +796,7 @@ TEST_CASE("Scene_ComponentIterationSomeActivated")
 TEST_CASE("Scene_ComponentIterationFirstActivated")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     scene.createEntity()->addComponent<Test>("Test")->entity().activate();
     scene.createEntity()->addComponent<Test>("Test")->entity().activate();
@@ -813,6 +821,7 @@ TEST_CASE("Scene_ComponentIterationFirstActivated")
 TEST_CASE("Scene_ComponentIterationLastActivated")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     scene.createEntity();
     scene.createEntity()->addComponent<Test>("Test")->entity().activate();
@@ -837,6 +846,7 @@ TEST_CASE("Scene_ComponentIterationLastActivated")
 TEST_CASE("Scene_ComponentIterationFirstAndLastActivated")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Test string("Test");
 
@@ -862,6 +872,7 @@ TEST_CASE("Scene_ComponentIterationFirstAndLastActivated")
 TEST_CASE("Scene_ComponentAddEvent")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     TestComponentPoolListener listener;
     scene.components<Test>().addListener(listener);
@@ -882,6 +893,7 @@ TEST_CASE("Scene_ComponentAddEvent")
 TEST_CASE("Scene_ComponentRemoveEvent")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     TestComponentPoolListener listener;
 
@@ -910,6 +922,7 @@ TEST_CASE("Scene_ComponentRemoveEvent")
 TEST_CASE("Scene_ComponentPoolListeners")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     TestComponentPoolListener listener;
     scene.components<Test>().addListener(listener);
@@ -956,6 +969,7 @@ TEST_CASE("Scene_ComponentPoolListeners")
 TEST_CASE("Scene_ComponentPoolFindFirstWithMatch")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("NotMatch");
@@ -989,6 +1003,7 @@ TEST_CASE("Scene_ComponentPoolFindFirstWithMatch")
 TEST_CASE("Scene_ComponentPoolFindFirstWithoutMatch")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("NotMatch");
@@ -1020,6 +1035,7 @@ TEST_CASE("Scene_ComponentPoolFindFirstWithoutMatch")
 TEST_CASE("Scene_ComponentPoolFindWithMatches")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("NotMatch");
@@ -1059,6 +1075,7 @@ TEST_CASE("Scene_ComponentPoolFindWithMatches")
 TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("NotMatch");
@@ -1090,6 +1107,7 @@ TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
 TEST_CASE("Scene_EntityPoolFindFirstWithMatch")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("NotMatch");
@@ -1121,6 +1139,7 @@ TEST_CASE("Scene_EntityPoolFindFirstWithMatch")
 TEST_CASE("Scene_EntityPoolFindFirstWithoutMatch")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("NotMatch");
@@ -1151,6 +1170,7 @@ TEST_CASE("Scene_EntityPoolFindFirstWithoutMatch")
 TEST_CASE("Scene_EntityPoolFindWithMatches")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("NotMatch");
@@ -1187,6 +1207,7 @@ TEST_CASE("Scene_EntityPoolFindWithMatches")
 TEST_CASE("Scene_EntityPoolFindWithoutMatches")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("NotMatch");
@@ -1217,6 +1238,7 @@ TEST_CASE("Scene_EntityPoolFindWithoutMatches")
 TEST_CASE("Scene_EntityFindFirstChild")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
 
@@ -1260,6 +1282,7 @@ TEST_CASE("Scene_EntityFindFirstChild")
 TEST_CASE("Scene_EntityFindChildren")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
 
@@ -1305,6 +1328,7 @@ TEST_CASE("Scene_EntityFindChildren")
 TEST_CASE("Scene_EntityFindFirstDescendant")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
 
@@ -1355,6 +1379,7 @@ TEST_CASE("Scene_EntityFindFirstDescendant")
 TEST_CASE("Scene_EntityFindDescendants")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
 
@@ -1411,6 +1436,7 @@ TEST_CASE("Scene_EntityFindDescendants")
 TEST_CASE("Scene_EntityFindFirstAncestor")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("A");
@@ -1455,6 +1481,7 @@ TEST_CASE("Scene_EntityFindFirstAncestor")
 TEST_CASE("Scene_EntityFindAncestors")
 {
     Scene scene(*engine);
+    scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("A");
@@ -1569,6 +1596,8 @@ TEST_CASE("Scene_EncodeDecodeSimple")
 {
     testEncodeDecode([](Scene& scene)
     {
+        scene.addComponentType<Test>();
+
         Entity::Iterator a = scene.createEntity();
         a->addComponent<Test>("Test");
         a->activate();

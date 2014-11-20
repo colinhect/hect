@@ -32,7 +32,6 @@ Scene::Scene(Engine& engine) :
     _entityCount(0),
     _entityPool(*this)
 {
-    _componentPoolMap = ComponentRegistry::createPoolMap(*this);
 }
 
 Engine& Scene::engine()
@@ -115,7 +114,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     if (typeId < _systems.size() && _systems[typeId])
     {
         const std::string typeName = SystemRegistry::typeNameOf(typeId);
-        throw Error(format("Scene already has system of type '%s'", typeName.c_str()));
+        throw Error(format("Scene already supports system type '%s'", typeName.c_str()));
     }
 
     // Make sure the type id is a real type id
@@ -135,15 +134,69 @@ void Scene::addSystemType(SystemTypeId typeId)
     auto system = SystemRegistry::create(typeId, *this);
     _systems[typeId] = system;
     _systemTickOrder.push_back(system.get());
+    _systemTypeIds.push_back(typeId);
 }
 
 System& Scene::systemOfTypeId(SystemTypeId typeId)
 {
-    if (typeId >= _systems.size() || !_systems[typeId])
+    if (!SystemRegistry::isRegisteredTypeId(typeId))
     {
-        throw Error("Scene does not have system with type given type id");
+        throw Error("Unknown system type id");
     }
-    return *_systems[typeId];
+    else if (typeId >= _systems.size() || !_systems[typeId])
+    {
+        const std::string& typeName = SystemRegistry::typeNameOf(typeId);
+        throw Error(format("Scene does not support system type '%s'", typeName.c_str()));
+    }
+    else
+    {
+        return *_systems[typeId];
+    }
+}
+
+void Scene::addComponentType(ComponentTypeId typeId)
+{
+    // Make sure the component type isn't already added
+    if (typeId < _componentPools.size() && _componentPools[typeId])
+    {
+        const std::string typeName = ComponentRegistry::typeNameOf(typeId);
+        throw Error(format("Scene already supports component type '%s'", typeName.c_str()));
+    }
+
+    // Make sure the type id is a real type id
+    if (!ComponentRegistry::isRegisteredTypeId(typeId))
+    {
+        throw Error("Unknown component type id");
+    }
+
+    // Resize the component pool vector if needed
+    while (typeId >= _componentPools.size())
+    {
+        size_t oldSize = _componentPools.size();
+        _componentPools.resize(std::max(oldSize * 2, size_t(8)));
+    }
+
+    // Add the component pool
+    auto componentPool = ComponentRegistry::createPool(typeId, *this);
+    _componentPools[typeId] = componentPool;
+    _componentTypeIds.push_back(typeId);
+}
+
+ComponentPoolBase& Scene::componentPoolOfTypeId(ComponentTypeId typeId)
+{
+    if (!ComponentRegistry::isRegisteredTypeId(typeId))
+    {
+        throw Error("Unknown component type id");
+    }
+    else if (typeId >= _componentPools.size() || !_componentPools[typeId])
+    {
+        const std::string& typeName = ComponentRegistry::typeNameOf(typeId);
+        throw Error(format("Scene does not support component type '%s'", typeName.c_str()));
+    }
+    else
+    {
+        return *_componentPools[typeId];
+    }
 }
 
 Entity::Iterator Scene::cloneEntity(const Entity& entity)
@@ -151,9 +204,10 @@ Entity::Iterator Scene::cloneEntity(const Entity& entity)
     Entity::ConstIterator sourceEntity = entity.iterator();
     Entity::Iterator clonedEntity = createEntity();
 
-    for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
+    for (ComponentTypeId typeId : _componentTypeIds)
     {
-        componentPool->clone(*sourceEntity, *clonedEntity);
+        auto& componentPool = componentPoolOfTypeId(typeId);
+        componentPool.clone(*sourceEntity, *clonedEntity);
     }
 
     // Recursively clone all children
@@ -189,8 +243,9 @@ void Scene::destroyEntity(Entity& entity)
     }
 
     // Remove all components
-    for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
+    for (ComponentTypeId typeId : _componentTypeIds)
     {
+        auto& componentPool = _componentPools[typeId];
         if (componentPool->has(entity))
         {
             componentPool->remove(entity);
@@ -224,8 +279,9 @@ void Scene::activateEntity(Entity& entity)
         throw Error("Entity is already activated");
     }
 
-    for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
+    for (ComponentTypeId typeId : _componentTypeIds)
     {
+        auto& componentPool = _componentPools[typeId];
         if (componentPool->has(entity))
         {
             componentPool->dispatchEvent(ComponentEventType_Add, entity);
@@ -285,25 +341,41 @@ void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     }
 
     ComponentTypeId typeId = component.typeId();
-    std::shared_ptr<ComponentPoolBase>& componentPool = _componentPoolMap[typeId];
-    componentPool->addBase(entity, component);
+    auto& componentPool = componentPoolOfTypeId(typeId);
+    componentPool.addBase(entity, component);
 }
 
 void Scene::encode(Encoder& encoder) const
 {
     encoder << beginObject();
 
-    // System types
-    encoder << beginArray("systemTypes");
-    for (auto& system : _systemTickOrder)
+    // Component types
+    encoder << beginArray("componentTypes");
+    for (ComponentTypeId typeId : _componentTypeIds)
     {
-        std::string typeName = Type::of(*system).name();
         if (encoder.isBinaryStream())
         {
-            encoder << encodeValue(SystemRegistry::typeIdOf(typeName));
+            encoder << encodeValue(typeId);
         }
         else
         {
+            const std::string& typeName = ComponentRegistry::typeNameOf(typeId);
+            encoder << encodeValue(typeName);
+        }
+    }
+    encoder << endArray();
+
+    // System types
+    encoder << beginArray("systemTypes");
+    for (SystemTypeId typeId : _systemTypeIds)
+    {
+        if (encoder.isBinaryStream())
+        {
+            encoder << encodeValue(typeId);
+        }
+        else
+        {
+            const std::string& typeName = SystemRegistry::typeNameOf(typeId);
             encoder << encodeValue(typeName);
         }
     }
@@ -369,6 +441,29 @@ void Scene::decode(Decoder& decoder)
                 throw Error(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), error.what()));
             }
         }
+    }
+
+    // Component types
+    if (decoder.selectMember("componentTypes"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            ComponentTypeId typeId;
+            if (decoder.isBinaryStream())
+            {
+                decoder >> decodeValue(typeId);
+            }
+            else
+            {
+                std::string typeName;
+                decoder >> decodeValue(typeName);
+                typeId = ComponentRegistry::typeIdOf(typeName);
+            }
+
+            addComponentType(typeId);
+        }
+        decoder >> endArray();
     }
 
     // System types
@@ -449,8 +544,9 @@ void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
         uint8_t componentCount = 0;
         stream << componentCount;
 
-        for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
+        for (ComponentTypeId typeId : _componentTypeIds)
         {
+            auto& componentPool = _componentPools[typeId];
             if (componentPool->has(entity))
             {
                 ++componentCount;
@@ -470,8 +566,9 @@ void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
     {
         encoder << beginArray("components");
 
-        for (std::shared_ptr<ComponentPoolBase>& componentPool : _componentPoolMap)
+        for (ComponentTypeId typeId : _componentTypeIds)
         {
+            auto& componentPool = _componentPools[typeId];
             if (componentPool->has(entity))
             {
                 encoder << beginObject();

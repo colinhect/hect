@@ -67,12 +67,12 @@ public:
     const Engine& engine() const;
 
     ///
-    /// Adds a system type to the scene.
+    /// Adds support for a system type to the scene.
     ///
     /// \note The order in which systems are added dictates the order they tick
     /// in.
     ///
-    /// \throws Error If the system type is already added to the scene.
+    /// \throws Error If the system type is already supported by the scene.
     template <typename T>
     void addSystemType();
 
@@ -83,6 +83,13 @@ public:
     /// type.
     template <typename T>
     T& system();
+
+    ///
+    /// Adds support for a component type to the scene.
+    ///
+    /// \throws Error If the component type is already supported by the scene.
+    template <typename T>
+    void addComponentType();
 
     ///
     /// Returns the pool of components of a specific type.
@@ -136,6 +143,9 @@ private:
     void addSystemType(SystemTypeId typeId);
     System& systemOfTypeId(SystemTypeId typeId);
 
+    void addComponentType(ComponentTypeId typeId);
+    ComponentPoolBase& componentPoolOfTypeId(ComponentTypeId typeId);
+
     Entity::Iterator cloneEntity(const Entity& entity);
 
     void destroyEntity(Entity& entity);
@@ -161,8 +171,10 @@ private:
     std::vector<EntityId> _entitiesPendingActivation;
     std::vector<EntityId> _entitiesPendingDestruction;
 
-    ComponentPoolMap _componentPoolMap;
-
+    std::vector<ComponentTypeId> _componentTypeIds;
+    std::vector<std::shared_ptr<ComponentPoolBase>> _componentPools;
+    
+    std::vector<SystemTypeId> _systemTypeIds;
     std::vector<std::shared_ptr<System>> _systems;
     std::vector<System*> _systemTickOrder;
 };

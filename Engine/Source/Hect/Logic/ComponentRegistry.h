@@ -35,11 +35,6 @@
 
 namespace hect
 {
-
-///
-/// A mapping from component id to component pool.
-typedef std::vector<std::shared_ptr<ComponentPoolBase>> ComponentPoolMap;
-
 ///
 /// Provides the ability to dynamically create components and component pools
 /// based on type information.
@@ -68,13 +63,6 @@ public:
     static std::shared_ptr<ComponentPoolBase> createPool(ComponentTypeId typeId, Scene& scene);
 
     ///
-    /// Creates a component pool map containing a component pool for each of
-    /// the registered component types.
-    ///
-    /// \param scene The scene that the component pools are being created for.
-    static ComponentPoolMap createPoolMap(Scene& scene);
-
-    ///
     /// Returns the component type id for the given component type index.
     ///
     /// \param typeIndex The type index of the component type to get the id of.
@@ -93,6 +81,22 @@ public:
     static ComponentTypeId typeIdOf(const std::string& typeName);
 
     ///
+    /// Returns the type name of the component type of the specified type id.
+    ///
+    /// \param typeId The type id of the component type to get the type name of.
+    static const std::string& typeNameOf(ComponentTypeId typeId);
+
+    ///
+    /// Returns whether the specified type id is the type id of a registered
+    /// component type.
+    ///
+    /// \param typeId The type id to check.
+    ///
+    /// \returns True if the type id is a registered component type id; false
+    /// otherwise.
+    static bool isRegisteredTypeId(ComponentTypeId typeId);
+
+    ///
     /// Registers a component type.
     template <typename T>
     static void registerType();
@@ -107,6 +111,7 @@ public:
 private:
     ComponentRegistry();
 
+    static std::map<ComponentTypeId, std::string> _typeIdToName;
     static std::map<std::string, ComponentTypeId> _typeNameToId;
     static std::map<std::type_index, ComponentTypeId> _typeIndexToId;
 

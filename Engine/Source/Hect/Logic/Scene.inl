@@ -37,16 +37,27 @@ T& Scene::system()
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
     if (typeId >= _systems.size() || !_systems[typeId])
     {
-        throw Error(format("Scene does not have system of type '%s'", Type::get<T>().name().c_str()));
+        throw Error(format("Scene does not support system type '%s'", Type::get<T>().name().c_str()));
     }
     return (T&)*_systems[typeId];
+}
+
+template <typename T>
+void Scene::addComponentType()
+{
+    ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
+    addComponentType(typeId);
 }
 
 template <typename T>
 ComponentPool<T>& Scene::components()
 {
     ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
-    return (ComponentPool<T>&)*_componentPoolMap[typeId];
+    if (typeId >= _componentPools.size() || !_componentPools[typeId])
+    {
+        throw Error(format("Scene does not support component type '%s'", Type::get<T>().name().c_str()));
+    }
+    return (ComponentPool<T>&)*_componentPools[typeId];
 }
 
 template <typename T>

@@ -49,6 +49,7 @@ void ComponentRegistry::registerType()
 
         _typeIndexToId[typeIndex] = typeId;
         _typeNameToId[typeName] = typeId;
+        _typeIdToName[typeId] = typeName;
     }
 }
 
