@@ -71,6 +71,22 @@ public:
     static SystemTypeId typeIdOf(const std::string& typeName);
 
     ///
+    /// Returns the type name of the system type of the specified type id.
+    ///
+    /// \param typeId The type id of the system type to get the type name of.
+    static const std::string& typeNameOf(SystemTypeId typeId);
+
+    ///
+    /// Returns whether the specified type id is the type id of a registered
+    /// system type.
+    ///
+    /// \param typeId The type id to check.
+    ///
+    /// \returns True if the type id is a registered system type id; false
+    /// otherwise.
+    static bool isRegisteredTypeId(SystemTypeId typeId);
+
+    ///
     /// Registers a system type.
     template <typename T>
     static void registerType();
@@ -85,6 +101,7 @@ public:
 private:
     SystemRegistry();
 
+    static std::map<SystemTypeId, std::string> _typeIdToName;
     static std::map<std::string, SystemTypeId> _typeNameToId;
     static std::map<std::type_index, SystemTypeId> _typeIndexToId;
 

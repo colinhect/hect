@@ -133,7 +133,8 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Scene& scene);
 
 private:
-    System& addOrGetSystem(SystemTypeId typeId, bool& added);
+    void addSystemType(SystemTypeId typeId);
+    System& systemOfTypeId(SystemTypeId typeId);
 
     Entity::Iterator cloneEntity(const Entity& entity);
 

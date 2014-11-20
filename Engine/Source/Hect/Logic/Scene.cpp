@@ -109,34 +109,41 @@ size_t Scene::entityCount() const
     return _entityCount;
 }
 
-System& Scene::addOrGetSystem(SystemTypeId typeId, bool& added)
+void Scene::addSystemType(SystemTypeId typeId)
 {
-    // If the system is already added then return it
+    // Make sure the system isn't already added
     if (typeId < _systems.size() && _systems[typeId])
     {
-        added = false;
-        return *_systems[typeId];
+        const std::string typeName = SystemRegistry::typeNameOf(typeId);
+        throw Error(format("Scene already has system of type '%s'", typeName.c_str()));
     }
 
-    // Otherwise, attempt to add the system
-    else
+    // Make sure the type id is a real type id
+    if (!SystemRegistry::isRegisteredTypeId(typeId))
     {
-        added = true;
-
-        // Resize the systems vector if needed
-        while (typeId >= _systems.size())
-        {
-            size_t oldSize = _systems.size();
-            _systems.resize(std::max(oldSize * 2, size_t(8)));
-        }
-
-        // Add the system
-        auto system = SystemRegistry::create(typeId, *this);
-        _systems[typeId] = system;
-        _systemTickOrder.push_back(system.get());
-
-        return *system;
+        throw Error("Unknown system type id");
     }
+
+    // Resize the systems vector if needed
+    while (typeId >= _systems.size())
+    {
+        size_t oldSize = _systems.size();
+        _systems.resize(std::max(oldSize * 2, size_t(8)));
+    }
+
+    // Add the system
+    auto system = SystemRegistry::create(typeId, *this);
+    _systems[typeId] = system;
+    _systemTickOrder.push_back(system.get());
+}
+
+System& Scene::systemOfTypeId(SystemTypeId typeId)
+{
+    if (typeId >= _systems.size() || !_systems[typeId])
+    {
+        throw Error("Scene does not have system with type given type id");
+    }
+    return *_systems[typeId];
 }
 
 Entity::Iterator Scene::cloneEntity(const Entity& entity)
@@ -306,15 +313,16 @@ void Scene::encode(Encoder& encoder) const
     encoder << beginArray("systems");
     for (auto& system : _systemTickOrder)
     {
-        std::string typeName = Type::of(*system).name();
         encoder << beginObject();
 
         if (encoder.isBinaryStream())
         {
-            encoder << encodeValue(SystemRegistry::typeIdOf(typeName));
+            std::type_index typeIndex(typeid(*system));
+            encoder << encodeValue(SystemRegistry::typeIdOf(typeIndex));
         }
         else
         {
+            std::string typeName = Type::of(*system).name();
             encoder << encodeValue("type", typeName);
         }
 
@@ -381,8 +389,7 @@ void Scene::decode(Decoder& decoder)
                 typeId = SystemRegistry::typeIdOf(typeName);
             }
 
-            bool added;
-            addOrGetSystem(typeId, added);
+            addSystemType(typeId);
         }
         decoder >> endArray();
     }
@@ -408,8 +415,7 @@ void Scene::decode(Decoder& decoder)
                 typeId = SystemRegistry::typeIdOf(typeName);
             }
 
-            bool added;
-            System& system = addOrGetSystem(typeId, added);
+            System& system = systemOfTypeId(typeId);
             system.decode(decoder);
 
             decoder >> endObject();

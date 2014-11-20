@@ -30,6 +30,10 @@ using namespace hect;
 
 std::shared_ptr<System> SystemRegistry::create(SystemTypeId typeId, Scene& scene)
 {
+    if (!isRegisteredTypeId(typeId))
+    {
+        throw Error("Unknown system type id");
+    }
     return _constructors[typeId](scene);
 }
 
@@ -38,7 +42,7 @@ SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
     auto it = _typeIndexToId.find(typeIndex);
     if (it == _typeIndexToId.end())
     {
-        throw Error("Unknown system type");
+        throw Error("Unknown system type index");
     }
     return it->second;
 }
@@ -48,12 +52,27 @@ SystemTypeId SystemRegistry::typeIdOf(const std::string& typeName)
     auto it = _typeNameToId.find(typeName);
     if (it == _typeNameToId.end())
     {
-        throw Error(format("Unknown system type '%s'", typeName.c_str()));
+        throw Error(format("Unknown system type name '%s'", typeName.c_str()));
     }
-
     return it->second;
 }
 
+const std::string& SystemRegistry::typeNameOf(SystemTypeId typeId)
+{
+    auto it = _typeIdToName.find(typeId);
+    if (it == _typeIdToName.end())
+    {
+        throw Error("Unknown system type id");
+    }
+    return _typeIdToName[typeId];
+}
+
+bool SystemRegistry::isRegisteredTypeId(SystemTypeId typeId)
+{
+    return typeId < _constructors.size();
+}
+
+std::map<SystemTypeId, std::string> SystemRegistry::_typeIdToName;;
 std::map<std::string, SystemTypeId> SystemRegistry::_typeNameToId;
 std::map<std::type_index, SystemTypeId> SystemRegistry::_typeIndexToId;
 std::vector<SystemRegistry::SystemConstructor> SystemRegistry::_constructors;

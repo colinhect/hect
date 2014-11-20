@@ -28,14 +28,7 @@ template <typename T>
 void Scene::addSystemType()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
-
-    bool added;
-    addOrGetSystem(typeId, added);
-
-    if (!added)
-    {
-        throw Error(format("Scene already has system of type '%s'", Type::get<T>().name().c_str()));
-    }
+    addSystemType(typeId);
 }
 
 template <typename T>
