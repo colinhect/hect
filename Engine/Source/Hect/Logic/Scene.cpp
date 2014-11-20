@@ -286,12 +286,10 @@ void Scene::encode(Encoder& encoder) const
 {
     encoder << beginObject();
 
-    // Systems
-    encoder << beginArray("systems");
+    // System types
+    encoder << beginArray("systemTypes");
     for (auto& system : _systemTickOrder)
     {
-        encoder << beginObject();
-
         std::string typeName = Type::of(*system).name();
         if (encoder.isBinaryStream())
         {
@@ -300,11 +298,17 @@ void Scene::encode(Encoder& encoder) const
         }
         else
         {
-            encoder << encodeValue("type", typeName);
+            encoder << encodeValue(typeName);
         }
+    }
+    encoder << endArray();
 
+    // Systems
+    encoder << beginArray("systems");
+    for (auto& system : _systemTickOrder)
+    {
+        encoder << beginObject();
         system->encode(encoder);
-
         encoder << endObject();
     }
     encoder << endArray();
@@ -346,6 +350,31 @@ void Scene::decode(Decoder& decoder)
                 throw Error(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), error.what()));
             }
         }
+    }
+
+    // System types
+    if (decoder.selectMember("systemTypes"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            SystemTypeId typeId;
+            if (decoder.isBinaryStream())
+            {
+                ReadStream& stream = decoder.binaryStream();
+                stream >> typeId;
+            }
+            else
+            {
+                std::string typeName;
+                decoder >> decodeValue(typeName);
+                typeId = SystemRegistry::typeIdOf(typeName);
+            }
+
+            bool added;
+            addOrGetSystem(typeId, added);
+        }
+        decoder >> endArray();
     }
 
     // Systems
