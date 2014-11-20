@@ -66,8 +66,6 @@ public:
 
     ///
     /// The gravitational acceleration applied to all rigid bodies.
-    ///
-    /// \property
     Vector3 gravity;
 
 private:

@@ -67,14 +67,14 @@ public:
     const Engine& engine() const;
 
     ///
-    /// Adds a system type to the scene that is updated discretely.
+    /// Adds a system type to the scene.
     ///
     /// \note The order in which systems are added dictates the order they tick
     /// in.
     ///
     /// \throws Error If the system type is already added to the scene.
     template <typename T>
-    void addDiscreteSystem();
+    void addSystemType();
 
     ///
     /// Returns the system of a specific type.
@@ -97,6 +97,13 @@ public:
     /// \throws Error If the component type is unknown.
     template <typename T>
     const ComponentPool<T>& components() const;
+
+    ///
+    /// Creates entities pending creation, activates entities pending
+    /// activation, and destroys entities pending destruction.
+    ///
+    /// \note This is always called at the beginning of Scene::tick().
+    void refresh();
 
     ///
     /// Ticks all of the systems in the scene.
@@ -133,6 +140,9 @@ private:
     void destroyEntity(Entity& entity);
     void activateEntity(Entity& entity);
 
+    void pendEntityDestruction(Entity& entity);
+    void pendEntityActivation(Entity& entity);
+
     void addEntityComponentBase(Entity& entity, const ComponentBase& component);
 
     void encode(Encoder& encoder) const;
@@ -145,6 +155,10 @@ private:
 
     size_t _entityCount;
     EntityPool _entityPool;
+
+    std::vector<EntityId> _entitiesPendingCreation;
+    std::vector<EntityId> _entitiesPendingActivation;
+    std::vector<EntityId> _entitiesPendingDestruction;
 
     ComponentPoolMap _componentPoolMap;
 

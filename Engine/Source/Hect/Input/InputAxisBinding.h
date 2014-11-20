@@ -93,41 +93,42 @@ public:
     /// The mouse button controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisBindingType_MouseButton.
+    /// ::InputAxisBindingType_MouseButton.
     MouseButton mouseButton { MouseButton_Button0 };
 
     ///
     /// The key controlling the axis.
     ///
-    /// \note Only relevant for when the source is InputAxisBindingType_Key.
+    /// \note Only relevant for when the source is ::InputAxisBindingType_Key.
     Key key { Key_A };
 
     ///
     /// The index of the joystick controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisBindingType_JoystickAxis or InputAxisBindingType_JoystickButton.
+    /// ::InputAxisBindingType_JoystickAxis or
+    /// ::InputAxisBindingType_JoystickButton.
     size_t joystickIndex { 0 };
 
     ///
     /// The joystick axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisBindingType_JoystickAxis.
+    /// ::InputAxisBindingType_JoystickAxis.
     JoystickAxis joystickAxis { JoystickAxis_Axis0 };
 
     ///
     /// The dead zone of the joystick axis controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisBindingType_JoystickAxis.
+    /// ::InputAxisBindingType_JoystickAxis.
     Real joystickAxisDeadZone { 0 };
 
     ///
     /// The joystick button controlling the axis.
     ///
     /// \note Only relevant for when the source is
-    /// InputAxisBindingType_JoystickButton.
+    /// ::InputAxisBindingType_JoystickButton.
     JoystickButton joystickButton { JoystickButton_Button0 };
 
     ///

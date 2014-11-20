@@ -202,6 +202,7 @@ struct DecodeVector
     /// Decodes a named array to a vector.
     ///
     /// \param name The name of the array.
+    /// \param values The values to decode.
     /// \param required Whether the decode should fail if a value of the
     /// specified name does not exist.
     DecodeVector(const char* name, std::vector<T>& values, bool required);

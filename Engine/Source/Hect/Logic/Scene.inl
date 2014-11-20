@@ -25,7 +25,7 @@ namespace hect
 {
 
 template <typename T>
-void Scene::addDiscreteSystem()
+void Scene::addSystemType()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
 

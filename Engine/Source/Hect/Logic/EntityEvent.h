@@ -32,14 +32,23 @@ enum EntityEventType
 {
     ///
     /// An entity was created in the scene.
+    ///
+    /// This event type is triggered when an entity pending creation is
+    /// created during Scene::refresh().
     EntityEventType_Create,
 
     ///
     /// An entity was activated in the scene.
+    ///
+    /// This event type is triggered when an entity pending activation is
+    /// activated during Scene::refresh().
     EntityEventType_Activate,
 
     ///
     /// An entity was destroyed in the scene.
+    ///
+    /// This event type is triggered when an entity pending destruction is
+    /// destroyed during Scene::refresh().
     EntityEventType_Destroy
 };
 
@@ -58,6 +67,9 @@ public:
 
     ///
     /// Returns a reference to the entity that the event is for.
+    ///
+    /// \warning This reference is only guaranteed to be valid for the duration
+    /// of the call to Listener::receiveEvent() when the event is dispatched.
     Entity& entity() const;
 
 private:

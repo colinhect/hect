@@ -433,6 +433,9 @@ public:
     ///
     /// Adds a new component of a specific type to the entity.
     ///
+    /// \note If the entity is activated then this call will immediately
+    /// trigger a ::ComponentEventType_Add event.
+    ///
     /// \returns An iterator to the added component.
     ///
     /// \throws Error If the entity already has a component of the type or if
@@ -443,6 +446,10 @@ public:
     ///
     /// Replaces an existing component that the entity has.
     ///
+    /// \note If the entity is activated then this call will immediately
+    /// trigger a ::ComponentEventType_Add event and a
+    /// ::ComponentEventType_Remove event.
+    ///
     /// \returns An iterator to the added component.
     ///
     /// \throws Error If the entity does not have a component of the type or if
@@ -452,6 +459,9 @@ public:
 
     ///
     /// Removes the component of a specific type from the entity.
+    ///
+    /// \note If the entity is activated then this call will immediately
+    /// trigger a ::ComponentEventType_Remove event.
     ///
     /// \throws Error If the entity does not have a component of the type or if
     /// the entity is invalid.
@@ -499,21 +509,32 @@ public:
     Entity::Iterator clone() const;
 
     ///
-    /// Destroys the entity and all of its children.
+    /// Marks the entity and all of its children to be destroyed during the
+    /// next Scene::refresh().
     ///
-    /// \throws Error If the entity is invalid.
+    /// \throws Error If the entity is invalid or is already pending
+    /// destruction.
     void destroy();
 
     ///
-    /// Activates the entity and all of its children.
+    /// Marks the entity and all of its children to be activated during the
+    /// next Scene::refresh().
     ///
-    /// \throws Error If the entity is already activated or the entity is
-    /// invalid.
+    /// \throws Error If the entity is invalid, is already pending activated,
+    /// or is already activated.
     void activate();
 
     ///
     /// Returns whether the entity is activated.
     bool isActivated() const;
+
+    ///
+    /// Returns whether the entity is pending activation.
+    bool isPendingActivation() const;
+
+    ///
+    /// Returns whether the entity is pending destruction.
+    bool isPendingDestruction() const;
 
     ///
     /// Returns the id of the entity.
@@ -535,7 +556,8 @@ public:
     /// \param entity The entity to add as a child.
     ///
     /// \throws Error If the entity is invalid, in another scene, in a
-    /// differing activation state, or is a child of another entity.
+    /// differing activation state, is pending activation/destruction, or
+    /// is a child of another entity.
     void addChild(Entity& entity);
 
     ///
@@ -683,11 +705,13 @@ private:
     void decode(Decoder& decoder);
 
     Children _children;
-    EntityPool* _pool;
-    EntityId _id;
-    EntityId _parentId;
+    EntityPool* _pool { nullptr };
+    EntityId _id { EntityId(-1) };
+    EntityId _parentId { EntityId(-1) };
     std::vector<EntityId> _childIds;
-    bool _activated;
+    bool _activated { false };
+    bool _pendingActivation { false };
+    bool _pendingDestruction { false };
 };
 
 }

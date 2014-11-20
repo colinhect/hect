@@ -45,8 +45,39 @@ const Engine& Scene::engine() const
     return _engine;
 }
 
+void Scene::refresh()
+{
+    // Create all entities pending creation
+    for (EntityId entityId : _entitiesPendingCreation)
+    {
+        Entity& entity = _entityPool.entityWithId(entityId);
+        EntityEvent event(EntityEventType_Create, entity);
+        _entityPool.dispatchEvent(event);
+    }
+    _entitiesPendingCreation.clear();
+
+    // Activate all entities pending activation
+    for (EntityId entityId : _entitiesPendingActivation)
+    {
+        Entity& entity = _entityPool.entityWithId(entityId);
+        activateEntity(entity);
+    }
+    _entitiesPendingActivation.clear();
+
+    // Destroy all entities set pending destruction
+    for (EntityId entityId : _entitiesPendingDestruction)
+    {
+        Entity& entity = _entityPool.entityWithId(entityId);
+        destroyEntity(entity);
+    }
+    _entitiesPendingDestruction.clear();
+}
+
 void Scene::tick(TimeSpan timeStep)
 {
+    refresh();
+
+    // Tick all systems in order
     Real timeStepInSeconds = timeStep.seconds();
     for (auto& system : _systemTickOrder)
     {
@@ -58,9 +89,7 @@ Entity::Iterator Scene::createEntity()
 {
     Entity::Iterator entity = _entityPool.create();
 
-    // Dispatch the entity create event
-    EntityEvent event(EntityEventType_Create, *entity);
-    _entityPool.dispatchEvent(event);
+    _entitiesPendingCreation.push_back(entity->id());
 
     return entity;
 }
@@ -198,16 +227,47 @@ void Scene::activateEntity(Entity& entity)
 
     ++_entityCount;
     entity._activated = true;
+    entity._pendingActivation = false;
 
     // Dispatch the entity activate event
     EntityEvent event(EntityEventType_Activate, entity);
     _entityPool.dispatchEvent(event);
+}
 
-    // Activate all children
-    for (Entity& child : entity.children())
+void Scene::pendEntityDestruction(Entity& entity)
+{
+    if (!entity.inPool())
     {
-        child.activate();
+        throw Error("Invalid entity");
     }
+
+    if (entity._pendingDestruction)
+    {
+        throw Error("Entity is already pending destruction");
+    }
+
+    entity._pendingDestruction = true;
+    _entitiesPendingDestruction.push_back(entity._id);
+}
+
+void Scene::pendEntityActivation(Entity& entity)
+{
+    if (!entity.inPool())
+    {
+        throw Error("Invalid entity");
+    }
+
+    if (entity._pendingActivation)
+    {
+        throw Error("Entity is already pending activation");
+    }
+    else if (entity._activated)
+    {
+        throw Error("Entity is already activated");
+    }
+
+    entity._pendingActivation = true;
+    _entitiesPendingActivation.push_back(entity._id);
 }
 
 void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& component)

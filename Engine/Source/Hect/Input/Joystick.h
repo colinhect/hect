@@ -138,20 +138,20 @@ public:
     ///
     /// The joystick button related to the event.
     ///
-    /// \note Only relevant for a JoystickEventType_ButtonDown or
-    /// JoystickEventType_ButtonUp event.
+    /// \note Only relevant for a ::JoystickEventType_ButtonDown or
+    /// ::JoystickEventType_ButtonUp event.
     JoystickButton button { JoystickButton_Button0 };
 
     ///
     /// The joystick axis related to the event.
     ///
-    /// \note Only relevant for a JoystickEventType_AxisMotion event.
+    /// \note Only relevant for a ::JoystickEventType_AxisMotion event.
     JoystickAxis axis { JoystickAxis_Axis0 };
 
     ///
     /// The value of the joystick axis related to the event.
     ///
-    /// \note Only relevant for a JoystickEventType_AxisMotion event.
+    /// \note Only relevant for a ::JoystickEventType_AxisMotion event.
     Real axisValue { 0 };
 };
 

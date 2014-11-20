@@ -412,11 +412,7 @@ void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
     }
 }
 
-Entity::Entity() :
-    _pool(nullptr),
-    _id(EntityId(-1)),
-    _parentId(EntityId(-1)),
-    _activated(false)
+Entity::Entity()
 {
 }
 
@@ -470,19 +466,44 @@ Entity::Iterator Entity::clone() const
 void Entity::destroy()
 {
     ensureInPool();
-    _pool->_scene.destroyEntity(*this);
+
+    // Destroy all children first
+    for (Entity& child : _children)
+    {
+        child.destroy();
+    }
+
+    _pool->_scene.pendEntityDestruction(*this);
 }
 
 void Entity::activate()
 {
     ensureInPool();
-    _pool->_scene.activateEntity(*this);
+
+    // Activate all children first
+    for (Entity& child : _children)
+    {
+        child.activate();
+    }
+
+    _pool->_scene.pendEntityActivation(*this);
 }
 
 bool Entity::isActivated() const
 {
-    ensureInPool();
     return _activated;
+}
+
+bool Entity::isPendingActivation() const
+{
+    ensureInPool();
+    return _pendingActivation;
+}
+
+bool Entity::isPendingDestruction() const
+{
+    ensureInPool();
+    return _pendingDestruction;
 }
 
 EntityId Entity::id() const
@@ -526,6 +547,15 @@ void Entity::addChild(Entity& entity)
     if (entity._pool != _pool)
     {
         throw Error("Cannot add a child entity from another scene");
+    }
+
+    if (_pendingActivation)
+    {
+        throw Error("Cannot add a child entity to an entity pending activation");
+    }
+    else if (_pendingDestruction)
+    {
+        throw Error("Cannot add a child entity to an entity pending destruction");
     }
 
     if (_activated && !entity._activated)
@@ -783,6 +813,9 @@ void Entity::exitPool()
 {
     _pool = nullptr;
     _id = EntityId(-1);
+    _activated = false;
+    _pendingActivation = false;
+    _pendingDestruction = false;
 }
 
 bool Entity::inPool() const

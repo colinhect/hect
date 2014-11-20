@@ -33,11 +33,19 @@ namespace hect
 enum ComponentEventType
 {
     ///
-    /// A component was added.
+    /// A component was added to an entity.
+    ///
+    /// This event type is triggered when an entity pending activation is
+    /// activated during Scene::refresh().  It also may be triggered
+    /// immediately if an activated entity has a component added or replaced.
     ComponentEventType_Add,
 
     ///
-    /// A component was removed.
+    /// A component was removed from an entity.
+    ///
+    /// This event type is triggered when an entity pending destruction is
+    /// destroyed during Scene::refresh().  It also may be triggered
+    /// immediately if an activated entity has a component removed or replaced.
     ComponentEventType_Remove
 };
 
@@ -57,6 +65,9 @@ public:
 
     ///
     /// Returns a reference to the entity that the event is for.
+    ///
+    /// \warning This reference is only guaranteed to be valid for the duration
+    /// of the call to Listener::receiveEvent() when the event is dispatched.
     Entity& entity() const;
 
 private:
