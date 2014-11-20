@@ -293,8 +293,7 @@ void Scene::encode(Encoder& encoder) const
         std::string typeName = Type::of(*system).name();
         if (encoder.isBinaryStream())
         {
-            WriteStream& stream = encoder.binaryStream();
-            stream << SystemRegistry::typeIdOf(typeName);
+            encoder << encodeValue(SystemRegistry::typeIdOf(typeName));
         }
         else
         {
@@ -307,8 +306,20 @@ void Scene::encode(Encoder& encoder) const
     encoder << beginArray("systems");
     for (auto& system : _systemTickOrder)
     {
+        std::string typeName = Type::of(*system).name();
         encoder << beginObject();
+
+        if (encoder.isBinaryStream())
+        {
+            encoder << encodeValue(SystemRegistry::typeIdOf(typeName));
+        }
+        else
+        {
+            encoder << encodeValue("type", typeName);
+        }
+
         system->encode(encoder);
+
         encoder << endObject();
     }
     encoder << endArray();
@@ -361,8 +372,7 @@ void Scene::decode(Decoder& decoder)
             SystemTypeId typeId;
             if (decoder.isBinaryStream())
             {
-                ReadStream& stream = decoder.binaryStream();
-                stream >> typeId;
+                decoder >> decodeValue(typeId);
             }
             else
             {
