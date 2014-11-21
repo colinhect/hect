@@ -42,10 +42,14 @@ const Scene& System::scene() const
 
 void System::encode(Encoder& encoder) const
 {
-    (void)encoder;
+    // Default to the encoding registered with the reflected type
+    const Type& type = Type::of(*this);
+    type.encode(this, encoder);
 }
 
 void System::decode(Decoder& decoder)
 {
-    (void)decoder;
+    // Default to the decoding registered with the reflected type
+    const Type& type = Type::of(*this);
+    type.decode(this, decoder);
 }

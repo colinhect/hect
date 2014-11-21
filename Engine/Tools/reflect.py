@@ -43,6 +43,7 @@ class Type:
         self.id = id
         self.name = name
         self.is_template = False
+        self.properties = []
         
 class ClassType(Type):
     def __init__(self, header, id, name):
@@ -78,10 +79,11 @@ def process_xml(root):
                 id = compounddef.attrib["id"]
                 name = compounddef.find("compoundname").text
                 header = compounddef.find("location")
-                is_component = False
-                is_system = False
-                is_gamemode = False
-                is_template = False
+                if not header is None:
+                    header = header.attrib["file"]
+
+                class_type = ClassType(header, id, name)
+
                 descriptions = []
                 detaileddescription = compounddef.find("detaileddescription")
                 if not detaileddescription is None:
@@ -93,22 +95,34 @@ def process_xml(root):
                     for para in description.findall("para"):
                         if not para.text is None:
                             if "[component]" in para.text:
-                                is_component = True
+                                class_type.is_component = True
                             elif "[system]" in para.text:
-                                is_system = True
+                                class_type.is_system = True
                             elif "[gamemode]" in para.text:
-                                is_gamemode = True
-                if not header is None:
-                    header = header.attrib["file"]
+                                class_type.is_gamemode = True
+
                 templateparamlist = compounddef.find("templateparamlist")
                 if not templateparamlist is None:
-                    is_template = True;
-                class_type = ClassType(header, id, name)
-                class_type.is_component = is_component
-                class_type.is_system = is_system
-                class_type.is_gamemode = is_gamemode
-                class_type.is_template = is_template
+                    class_type.is_template = True;
+
+                for sectiondef in compounddef.iter("sectiondef"):
+                    for memberdef in sectiondef.iter("memberdef"):
+                        name = memberdef.find("name").text
+                        descriptions = []
+                        detaileddescription = memberdef.find("detaileddescription")
+                        if not detaileddescription is None:
+                            descriptions.append(detaileddescription)
+                        briefdescription = memberdef.find("briefdescription")
+                        if not briefdescription is None:
+                            descriptions.append(briefdescription)
+                        for description in descriptions:
+                            for para in description.findall("para"):
+                                if not para.text is None:
+                                    if "[property]" in para.text:
+                                        class_type.properties.append(name)
+
                 types.append(class_type)
+
     return types
 
 def sanitize_name(name):
@@ -153,6 +167,7 @@ if __name__ == "__main__":
         doxyfile.write("ALIASES += component=\"[component]\"\n")
         doxyfile.write("ALIASES += system=\"[system]\"\n")
         doxyfile.write("ALIASES += gamemode=\"[gamemode]\"\n")
+        doxyfile.write("ALIASES += property=\"[property]\"\n")
     call("doxygen", shell=True)
     os.remove("Doxyfile")
     
@@ -198,7 +213,24 @@ if __name__ == "__main__":
         f.write("\n    // Types\n")
         for type in types:
             if isinstance(type, ClassType) and not type.is_template and not "Iterator" in type.name:
-                f.write("    hect::Type::create<" + type.name + ">(hect::Kind_Class, \"" + sanitize_name(type.name) + "\");\n")
+                f.write("    {\n")
+                f.write("        hect::Type& type = hect::Type::create<" + type.name + ">(hect::Kind_Class, \"" + sanitize_name(type.name) + "\");\n")
+                if len(type.properties) > 0:
+                    f.write("        type.setEncodeFunction([](const void* value, Encoder& encoder)\n")
+                    f.write("        {\n")
+                    f.write("            const " + type.name + "& typedValue = *reinterpret_cast<const " + type.name + "*>(value);\n")
+                    for property in type.properties:
+                        f.write("            encoder << encodeValue(\"" + property + "\", typedValue." + property + ");\n")
+                    f.write("        });\n")
+                    f.write("        type.setDecodeFunction([](void* value, Decoder& decoder)\n")
+                    f.write("        {\n")
+                    f.write("            " + type.name + "& typedValue = *reinterpret_cast<" + type.name + "*>(value);\n")
+                    for property in type.properties:
+                        f.write("            decoder >> decodeValue(\"" + property + "\", typedValue." + property + ");\n")
+                    f.write("        });\n")
+                else:
+                    f.write("        (void)type;\n")
+                f.write("    }\n")
         f.write("\n    // Components\n")
         for type in types:
             if isinstance(type, ClassType) and type.is_component:

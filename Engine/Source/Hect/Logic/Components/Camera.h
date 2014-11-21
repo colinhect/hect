@@ -41,6 +41,30 @@ class Camera :
 public:
 
     ///
+    /// The horizontal field of view.
+    ///
+    /// \property
+    Angle fieldOfView{ Angle::fromDegrees(90) };
+
+    ///
+    /// The aspect ratio.
+    ///
+    /// \property
+    Real aspectRatio{ 1 };
+
+    ///
+    /// The near clip distance.
+    ///
+    /// \property
+    Real nearClip{ Real(0.1) };
+
+    ///
+    /// The far clip distance.
+    ///
+    /// \property
+    Real farClip{ Real(10000) };
+
+    ///
     /// The front vector.
     Vector3 front { -Vector3::unitZ() };
 
@@ -65,27 +89,8 @@ public:
     Matrix4 projectionMatrix;
 
     ///
-    /// The horizontal field of view.
-    Angle fieldOfView { Angle::fromDegrees(90) };
-
-    ///
-    /// The aspect ratio.
-    Real aspectRatio { 1 };
-
-    ///
-    /// The near clip distance.
-    Real nearClip { Real(0.1) };
-
-    ///
-    /// The far clip distance.
-    Real farClip { Real(10000) };
-
-    ///
     /// The frustum.
     Frustum frustum;
-
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
 };
 
 }

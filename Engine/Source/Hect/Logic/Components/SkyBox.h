@@ -41,10 +41,9 @@ public:
 
     ///
     /// The texture.
+    ///
+    /// \property
     AssetHandle<Texture> texture;
-
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
 };
 
 }

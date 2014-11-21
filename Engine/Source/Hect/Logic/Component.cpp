@@ -23,14 +23,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Component.h"
 
+#include "Hect/Reflection/Type.h"
+
 using namespace hect;
 
 void ComponentBase::encode(Encoder& encoder) const
 {
-    encoder << beginObject() << endObject();
+    // Default to the encoding registered with the reflected type
+    const Type& type = Type::of(*this);
+    type.encode(this, encoder);
 }
 
 void ComponentBase::decode(Decoder& decoder)
 {
-    decoder >> beginObject() >> endObject();
+    // Default to the decoding registered with the reflected type
+    const Type& type = Type::of(*this);
+    type.decode(this, decoder);
 }

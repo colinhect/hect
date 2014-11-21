@@ -41,6 +41,8 @@ public:
 
     ///
     /// The local position.
+    ///
+    /// \property
     Vector3 localPosition;
 
     ///
@@ -49,6 +51,8 @@ public:
 
     ///
     /// The local scale.
+    ///
+    /// \property
     Vector3 localScale { Vector3::one() };
 
     ///
@@ -57,14 +61,13 @@ public:
 
     ///
     /// The local rotation.
+    ///
+    /// \property
     Quaternion localRotation;
 
     ///
     /// The global rotation.
     Quaternion globalRotation;
-
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
 };
 
 }

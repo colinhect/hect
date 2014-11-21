@@ -47,22 +47,27 @@ public:
 
     ///
     /// The mass.
+    ///
+    /// \property
     Real mass { 0 };
 
     ///
     /// The linear velocity.
+    ///
+    /// \property
     Vector3 linearVelocity;
 
     ///
     /// The angular velocity.
+    ///
+    /// \property
     Vector3 angularVelocity;
 
     ///
     /// The collision mesh.
+    ///
+    /// \property
     AssetHandle<Mesh> mesh;
-
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
 
 private:
     std::shared_ptr<btRigidBody> _rigidBody;

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <typeindex>
@@ -30,6 +31,8 @@
 namespace hect
 {
 
+class Decoder;
+class Encoder;
 class Enum;
 
 ///
@@ -60,7 +63,15 @@ class Type
 public:
 
     ///
-    /// Creates a reflected type.
+    /// A function for encoding a reflected type.
+    typedef std::function<void(const void*, Encoder& encoder)> EncodeFunction;
+
+    ///
+    /// A function for decoding a reflected type.
+    typedef std::function<void(void*, Decoder& decoder)> DecodeFunction;
+
+    ///
+    /// Registers a reflected type.
     ///
     /// \param kind The kind of the type.
     /// \param name The name of the type.
@@ -109,6 +120,38 @@ public:
     /// \throws Error If the type is not an enum.
     const Enum& asEnum() const;
 
+    ///
+    /// Sets the function to use when encoding a value of this type.
+    ///
+    /// \param function The encode function.
+    void setEncodeFunction(EncodeFunction function);
+
+    ///
+    /// Encodes a value of this type using the registered encode function.
+    ///
+    /// \warning Behavior is undefined if the given value is not of the
+    /// associated type.
+    ///
+    /// \param value The value to encode
+    /// \param encoder The encoder.
+    void encode(const void* value, Encoder& encoder) const;
+
+    ///
+    /// Sets the function to use when decoding a value of this type.
+    ///
+    /// \param function The decode function.
+    void setDecodeFunction(DecodeFunction function);
+
+    ///
+    /// Decodes a value of this type using the registered decode function.
+    ///
+    /// \warning Behavior is undefined if the given value is not of the
+    /// associated type.
+    ///
+    /// \param value The value to decode
+    /// \param decoder The decoder.
+    void decode(void* value, Decoder& decoder) const;
+
 private:
     Type(Kind kind, const std::string& name);
 
@@ -117,6 +160,9 @@ private:
     Kind _kind { Kind_None };
     std::string _name;
     std::shared_ptr<Enum> _enum;
+
+    EncodeFunction _encodeFunction;
+    DecodeFunction _decodeFunction;
 
     static std::map<std::type_index, Type> _registeredTypes;
 };

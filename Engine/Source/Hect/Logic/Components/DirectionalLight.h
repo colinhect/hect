@@ -40,14 +40,15 @@ public:
 
     ///
     /// The world-space direction.
+    ///
+    /// \property
     Vector3 direction { Vector3::unitX() };
 
     ///
     /// The color.
+    ///
+    /// \property
     Vector3 color { Vector3::one() };
-
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
 };
 
 }

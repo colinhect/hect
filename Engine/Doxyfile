@@ -238,8 +238,7 @@ TAB_SIZE               = 4
 # "Side Effects:". You can put \n's in the value part of an alias to insert
 # newlines.
 
-ALIASES                = "property_setter{1}=\par Setter for property \a \1." \
-                         "property_getter{1}=\par Getter for property \a \1." \
+ALIASES                = "property=\note This member is a registered property." \
                          "component=\note This class is a registered with the ComponentRegistry." \
                          "system=\note This class is a registered with the SystemRegistry."
 

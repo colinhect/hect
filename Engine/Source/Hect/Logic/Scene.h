@@ -72,6 +72,8 @@ public:
     /// \note The order in which systems are added dictates the order they tick
     /// in.
     ///
+    /// \warning The type must be registered with SystemRegistry.
+    ///
     /// \throws Error If the system type is already supported by the scene.
     template <typename T>
     void addSystemType();
@@ -86,6 +88,8 @@ public:
 
     ///
     /// Adds support for a component type to the scene.
+    ///
+    /// \warning The type must be registered with ComponentRegistry.
     ///
     /// \throws Error If the component type is already supported by the scene.
     template <typename T>

@@ -44,6 +44,8 @@ typedef uint32_t ComponentId;
 /// A numeric identifier for a component type.
 typedef uint32_t ComponentTypeId;
 
+///
+/// Abstract base for components.
 class ComponentBase
 {
 public:

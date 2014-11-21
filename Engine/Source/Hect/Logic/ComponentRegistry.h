@@ -35,6 +35,7 @@
 
 namespace hect
 {
+
 ///
 /// Provides the ability to dynamically create components and component pools
 /// based on type information.
@@ -98,6 +99,8 @@ public:
 
     ///
     /// Registers a component type.
+    ///
+    /// \warning The type must be registered with Type.
     template <typename T>
     static void registerType();
 

@@ -135,16 +135,6 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
     }
 }
 
-void PhysicsSystem::encode(Encoder& encoder) const
-{
-    encoder << encodeValue("gravity", gravity);
-}
-
-void PhysicsSystem::decode(Decoder& decoder)
-{
-    decoder >> decodeValue("gravity", gravity);
-}
-
 btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
 {
     auto it = _bulletMeshes.find(mesh);

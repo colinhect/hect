@@ -25,6 +25,8 @@
 
 #include "Hect/Core/Configuration.h"
 #include "Hect/Core/Error.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Reflection/Enum.h"
 
 using namespace hect;
@@ -61,10 +63,32 @@ const Enum& Type::asEnum() const
     return *_enum;
 }
 
+void Type::setEncodeFunction(EncodeFunction function)
+{
+    _encodeFunction = function;
+}
+
+void Type::encode(const void* value, Encoder& encoder) const
+{
+    _encodeFunction(value, encoder);
+}
+
+void Type::setDecodeFunction(DecodeFunction function)
+{
+    _decodeFunction = function;
+}
+
+void Type::decode(void* value, Decoder& decoder) const
+{
+    _decodeFunction(value, decoder);
+}
+
 Type::Type(Kind kind, const std::string& name) :
     _kind(kind),
     _name(name),
-    _enum(new Enum(name))
+    _enum(new Enum(name)),
+    _encodeFunction([](const void*, Encoder&) { }),
+    _decodeFunction([](void*, Decoder&) { })
 {
 }
 

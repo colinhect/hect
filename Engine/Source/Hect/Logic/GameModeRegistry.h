@@ -53,6 +53,8 @@ public:
 
     ///
     /// Registers a game mode type.
+    ///
+    /// \warning The type must be registered with Type.
     template <typename T>
     static void registerType();
 

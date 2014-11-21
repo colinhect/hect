@@ -88,6 +88,8 @@ public:
 
     ///
     /// Registers a system type.
+    ///
+    /// \warning The type must be registered with Type.
     template <typename T>
     static void registerType();
 

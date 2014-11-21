@@ -72,11 +72,9 @@ public:
 
     void receiveEvent(const ComponentEvent<RigidBody>& event) override;
 
-    void encode(Encoder& encoder) const override;
-    void decode(Decoder& decoder) override;
-
     ///
     /// The gravitational acceleration applied to all rigid bodies.
+    /// \property
     Vector3 gravity;
 
 private:
