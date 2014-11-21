@@ -152,11 +152,13 @@ void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::functi
 
 TEST_CASE("Scene_RegisterComponent")
 {
+    Type::create<Test>(Kind_Class, "Test");
     ComponentRegistry::registerType<Test>();
 }
 
 TEST_CASE("Scene_RegisterSystem")
 {
+    Type::create<TestSystem>(Kind_Class, "TestSystem");
     SystemRegistry::registerType<TestSystem>();
 }
 

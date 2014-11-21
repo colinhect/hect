@@ -77,26 +77,9 @@ const Type& Type::fromTypeInfo(const std::type_info& typeInfo)
     {
         return it->second;
     }
-
-    // If no type was found then create a placeholder which has just the name
-    // of the type
     else
     {
-        std::string typeName = typeInfo.name();
-
-#ifdef HECT_WINDOWS_BUILD
-        // Strip all characters before the unscoped type name
-        size_t i = typeName.size() - 1;
-        while (i > 0 && (typeName[i] != ':' && typeName[i] != ' '))
-        {
-            --i;
-        }
-
-        typeName = std::string(&typeName[i + 1]);
-#endif
-
-        // Create the placeholder type
-        return _registeredTypes[typeIndex] = Type(Kind_None, typeName);
+        throw Error("Unknown type");
     }
 }
 

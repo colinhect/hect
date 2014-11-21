@@ -42,6 +42,7 @@ class Type:
         self.header = header
         self.id = id
         self.name = name
+        self.is_template = False
         
 class ClassType(Type):
     def __init__(self, header, id, name):
@@ -80,6 +81,7 @@ def process_xml(root):
                 is_component = False
                 is_system = False
                 is_gamemode = False
+                is_template = False
                 descriptions = []
                 detaileddescription = compounddef.find("detaileddescription")
                 if not detaileddescription is None:
@@ -98,12 +100,23 @@ def process_xml(root):
                                 is_gamemode = True
                 if not header is None:
                     header = header.attrib["file"]
+                templateparamlist = compounddef.find("templateparamlist")
+                if not templateparamlist is None:
+                    is_template = True;
                 class_type = ClassType(header, id, name)
                 class_type.is_component = is_component
                 class_type.is_system = is_system
-                class_type.is_gamemode = is_gamemode                
+                class_type.is_gamemode = is_gamemode
+                class_type.is_template = is_template
                 types.append(class_type)
     return types
+
+def sanitize_name(name):
+    sanitized = name.split("::", 1)
+    if len(sanitized) == 2:
+        return sanitized[1]
+    else:
+        return name
         
 if __name__ == "__main__":
     types = []
@@ -170,10 +183,11 @@ if __name__ == "__main__":
         f.write("{\n\n")
         f.write("void registerTypes()\n")
         f.write("{\n")
+        f.write("    // Enums\n")
         for type in types:
             if isinstance(type, EnumType):
                 f.write("    {\n")
-                f.write("        hect::Type& type = hect::Type::create<" + type.name + ">(hect::Kind_Enum, \"" + type.name + "\");\n")
+                f.write("        hect::Type& type = hect::Type::create<" + type.name + ">(hect::Kind_Enum, \"" + sanitize_name(type.name) + "\");\n")
                 f.write("        hect::Enum& enumType = type.asEnum();\n")
                 for value in type.values:
                     str_value = value
@@ -181,14 +195,24 @@ if __name__ == "__main__":
                         str_value = str_value.split("_", 1)[1]
                     f.write("        enumType.addValue(" + value + ", \""  + str_value + "\");\n");
                 f.write("    }\n")
+        f.write("\n    // Types\n")
+        for type in types:
+            if isinstance(type, ClassType) and not type.is_template and not "Iterator" in type.name:
+                f.write("    hect::Type::create<" + type.name + ">(hect::Kind_Class, \"" + sanitize_name(type.name) + "\");\n")
+        f.write("\n    // Components\n")
         for type in types:
             if isinstance(type, ClassType) and type.is_component:
+                print("Found component '" + type.name + "'")
                 f.write("    hect::ComponentRegistry::registerType<" + type.name + ">();\n")
+        f.write("\n    // Systems\n")
         for type in types:
             if isinstance(type, ClassType) and type.is_system:
+                print("Found system '" + type.name + "'")
                 f.write("    hect::SystemRegistry::registerType<" + type.name + ">();\n")
+        f.write("\n    // Game modes\n")
         for type in types:
             if isinstance(type, ClassType) and type.is_gamemode:
+                print("Found game mode '" + type.name + "'")
                 f.write("    hect::GameModeRegistry::registerType<" + type.name + ">();\n")
         f.write("}\n\n")
         f.write("}\n")

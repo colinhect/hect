@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Reflection/Type.h"
 
+#include "Hect/Core/Format.h"
+#include "Hect/Core/Logging.h"
+
 namespace hect
 {
 
@@ -44,6 +47,8 @@ void SystemRegistry::registerType()
         _typeIndexToId[typeIndex] = typeId;
         _typeNameToId[typeName] = typeId;
         _typeIdToName[typeId] = typeName;
+
+        HECT_DEBUG(format("Registered system type '%s'", typeName.c_str()));
     }
 }
 

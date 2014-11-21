@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Reflection/Type.h"
 
+#include "Hect/Core/Format.h"
+#include "Hect/Core/Logging.h"
+
 namespace hect
 {
 
@@ -36,6 +39,8 @@ void GameModeRegistry::registerType()
         {
             return std::unique_ptr<GameMode>(new T(engine));
         };
+
+        HECT_DEBUG(format("Registered game mode type '%s'", typeName.c_str()));
     }
 }
 
