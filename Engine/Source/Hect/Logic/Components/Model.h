@@ -51,6 +51,9 @@ public:
     ///
     /// The material.
     AssetHandle<Material> material;
+
+    friend Encoder& operator<<(Encoder& encoder, const ModelSurface& modelSurface);
+    friend Decoder& operator>>(Decoder& decoder, ModelSurface& modelSurface);
 };
 
 ///
@@ -64,10 +67,9 @@ public:
 
     ///
     /// The surfaces.
+    ///
+    /// \property
     std::vector<ModelSurface> surfaces;
-
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
 };
 
 }

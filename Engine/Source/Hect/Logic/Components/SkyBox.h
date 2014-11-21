@@ -42,7 +42,7 @@ public:
     ///
     /// The texture.
     ///
-    /// \property
+    /// \property{required}
     AssetHandle<Texture> texture;
 };
 

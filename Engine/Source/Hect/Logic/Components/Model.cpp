@@ -25,42 +25,33 @@
 
 using namespace hect;
 
+ModelSurface::ModelSurface()
+{
+}
+
 ModelSurface::ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material) :
     mesh(mesh),
     material(material)
 {
 }
 
-void Model::encode(Encoder& encoder) const
+namespace hect
 {
-    encoder << beginArray("surfaces");
-    for (const ModelSurface& surface : surfaces)
-    {
-        encoder << beginObject()
-                << encodeValue("mesh", surface.mesh)
-                << encodeValue("material", surface.material)
-                << endObject();
-    }
-    encoder << endArray();
+
+Encoder& operator<<(Encoder& encoder, const ModelSurface& modelSurface)
+{
+    return encoder << beginObject()
+                   << encodeValue("mesh", modelSurface.mesh)
+                   << encodeValue("material", modelSurface.material)
+                   << endObject();
 }
 
-void Model::decode(Decoder& decoder)
+Decoder& operator>>(Decoder& decoder, ModelSurface& modelSurface)
 {
-    if (decoder.selectMember("surfaces"))
-    {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
-        {
-            AssetHandle<Mesh> mesh;
-            AssetHandle<Material> material;
+    return decoder >> beginObject()
+                   >> decodeValue("mesh", modelSurface.mesh)
+                   >> decodeValue("material", modelSurface.material)
+                   >> endObject();
+}
 
-            decoder >> beginObject()
-                    >> decodeValue("mesh", mesh)
-                    >> decodeValue("material", material)
-                    >> endObject();
-
-            surfaces.push_back(ModelSurface(mesh, material));
-        }
-        decoder >> endArray();
-    }
 }

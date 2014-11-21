@@ -37,6 +37,12 @@ doxygen_config = {
 
 namespaces = []
 
+class Property:
+    def __init__(self, name):
+        self.name = name
+        self.is_required = False
+        self.is_vector = False
+
 class Type:
     def __init__(self, header, id, name):
         self.header = header
@@ -108,6 +114,7 @@ def process_xml(root):
                 for sectiondef in compounddef.iter("sectiondef"):
                     for memberdef in sectiondef.iter("memberdef"):
                         name = memberdef.find("name").text
+                        type = memberdef.find("type")
                         descriptions = []
                         detaileddescription = memberdef.find("detaileddescription")
                         if not detaileddescription is None:
@@ -115,11 +122,16 @@ def process_xml(root):
                         briefdescription = memberdef.find("briefdescription")
                         if not briefdescription is None:
                             descriptions.append(briefdescription)
+
                         for description in descriptions:
                             for para in description.findall("para"):
                                 if not para.text is None:
                                     if "[property]" in para.text:
-                                        class_type.properties.append(name)
+                                        property = Property(name)
+                                        if "required" in para.text:
+                                            property.is_required = True
+                                        property.is_vector = not type is None and not type.text is None and type.text.startswith("std::vector")
+                                        class_type.properties.append(property) 
 
                 types.append(class_type)
 
@@ -168,6 +180,10 @@ if __name__ == "__main__":
         doxyfile.write("ALIASES += system=\"[system]\"\n")
         doxyfile.write("ALIASES += gamemode=\"[gamemode]\"\n")
         doxyfile.write("ALIASES += property=\"[property]\"\n")
+        doxyfile.write("ALIASES += property{1}=\"[property]\\1\"\n")
+        doxyfile.write("ALIASES += property{2}=\"[property]\\1 \2\"\n")
+        doxyfile.write("ALIASES += property{3}=\"[property]\\1 \2 \3\"\n")
+        doxyfile.write("ALIASES += property{4}=\"[property]\\1 \2 \3 \4\"\n")
     call("doxygen", shell=True)
     os.remove("Doxyfile")
     
@@ -220,13 +236,19 @@ if __name__ == "__main__":
                     f.write("        {\n")
                     f.write("            const " + type.name + "& typedValue = *reinterpret_cast<const " + type.name + "*>(value);\n")
                     for property in type.properties:
-                        f.write("            encoder << encodeValue(\"" + property + "\", typedValue." + property + ");\n")
+                        if property.is_vector:
+                            f.write("            encoder << encodeVector(\"" + property.name + "\", typedValue." + property.name + ");\n")
+                        else:
+                            f.write("            encoder << encodeValue(\"" + property.name + "\", typedValue." + property.name + ");\n")
                     f.write("        });\n")
                     f.write("        type.setDecodeFunction([](void* value, Decoder& decoder)\n")
                     f.write("        {\n")
                     f.write("            " + type.name + "& typedValue = *reinterpret_cast<" + type.name + "*>(value);\n")
                     for property in type.properties:
-                        f.write("            decoder >> decodeValue(\"" + property + "\", typedValue." + property + ");\n")
+                        if property.is_vector:
+                            f.write("            decoder >> decodeVector(\"" + property.name + "\", typedValue." + property.name + ");\n")
+                        else:
+                            f.write("            decoder >> decodeValue(\"" + property.name + "\", typedValue." + property.name + ", " + str(property.is_required).lower() + ");\n")
                     f.write("        });\n")
                 else:
                     f.write("        (void)type;\n")

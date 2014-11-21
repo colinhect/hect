@@ -238,9 +238,14 @@ TAB_SIZE               = 4
 # "Side Effects:". You can put \n's in the value part of an alias to insert
 # newlines.
 
-ALIASES                = "property=\note This member is a registered property." \
-                         "component=\note This class is a registered with the ComponentRegistry." \
-                         "system=\note This class is a registered with the SystemRegistry."
+ALIASES                = "component=\note This class is a registered with the ComponentRegistry." \
+                         "system=\note This class is a registered with the SystemRegistry." \
+                         "gamemode=\note This class is a registered with the GameMode." \
+                         "property=\note This member is a registered property." \
+                         "property{1}=\note This member is a registered property." \
+                         "property{2}=\note This member is a registered property." \
+                         "property{3}=\note This member is a registered property." \
+                         "property{4}=\note This member is a registered property."
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
