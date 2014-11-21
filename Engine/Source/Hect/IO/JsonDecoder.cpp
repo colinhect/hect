@@ -64,8 +64,7 @@ void JsonDecoder::beginArray()
 
 void JsonDecoder::endArray()
 {
-    const JsonValue& top = _valueStack.top();
-    assert(top.isArray());
+    assert(_valueStack.top().isArray());
     _indexStack.pop();
     _valueStack.pop();
 }
@@ -92,8 +91,7 @@ void JsonDecoder::beginObject()
 
 void JsonDecoder::endObject()
 {
-    const JsonValue& top = _valueStack.top();
-    assert(top.isObject());
+    assert(_valueStack.top().isObject());
     _valueStack.pop();
 }
 
