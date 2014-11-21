@@ -44,25 +44,25 @@ public:
     /// The horizontal field of view.
     ///
     /// \property
-    Angle fieldOfView{ Angle::fromDegrees(90) };
+    Angle fieldOfView { Angle::fromDegrees(90) };
 
     ///
     /// The aspect ratio.
     ///
     /// \property
-    Real aspectRatio{ 1 };
+    Real aspectRatio { 1 };
 
     ///
     /// The near clip distance.
     ///
     /// \property
-    Real nearClip{ Real(0.1) };
+    Real nearClip { Real(0.1) };
 
     ///
     /// The far clip distance.
     ///
     /// \property
-    Real farClip{ Real(10000) };
+    Real farClip { Real(10000) };
 
     ///
     /// The front vector.

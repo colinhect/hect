@@ -88,7 +88,7 @@ Type::Type(Kind kind, const std::string& name) :
     _name(name),
     _enum(new Enum(name)),
     _encodeFunction([](const void*, Encoder&) { }),
-    _decodeFunction([](void*, Decoder&) { })
+_decodeFunction([](void*, Decoder&) { })
 {
 }
 
