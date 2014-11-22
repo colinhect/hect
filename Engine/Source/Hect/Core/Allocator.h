@@ -23,9 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <limits>
+
 namespace hect
 {
 
+///
+/// A simple implementation of the allocator concept for use in STL containers.
 template <typename T>
 class Allocator
 {
