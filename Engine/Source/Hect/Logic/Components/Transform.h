@@ -37,37 +37,65 @@ namespace hect
 class Transform :
     public Component<Transform>
 {
+    friend class TransformSystem;
 public:
 
     ///
     /// The local position.
     ///
     /// \property
-    Vector3 localPosition;
-
     ///
-    /// The global position.
-    Vector3 globalPosition;
+    /// \note In order for changes to this to affect the global position of
+    /// the transform, TransformSystem::markForUpdate() should be called.
+    Vector3 localPosition;
 
     ///
     /// The local scale.
     ///
     /// \property
-    Vector3 localScale { Vector3::one() };
-
     ///
-    /// The global scale.
-    Vector3 globalScale { Vector3::one() };
+    /// \note In order for changes to this to affect the global scale of
+    /// the transform, TransformSystem::markForUpdate() should be called.
+    Vector3 localScale{ Vector3::one() };
 
     ///
     /// The local rotation.
     ///
     /// \property
+    ///
+    /// \note In order for changes to this to affect the global rotation of
+    /// the transform, TransformSystem::markForUpdate() should be called.
     Quaternion localRotation;
 
     ///
+    /// The global position.
+    ///
+    /// \note The global position is calculated as a function of the local
+    /// position and the transform hierarchy.  This should not be directly
+    /// modified unless the local position and parent transforms are known
+    /// to be static.
+    Vector3 globalPosition;
+
+    ///
+    /// The global scale.
+    ///
+    /// \note The global scale is calculated as a function of the local
+    /// scale and the transform hierarchy.  This should not be directly
+    /// modified unless the local scale and parent transforms are known
+    /// to be static.
+    Vector3 globalScale { Vector3::one() };
+
+    ///
     /// The global rotation.
+    ///
+    /// \note The global rotation is calculated as a function of the local
+    /// rotation and the transform hierarchy.  This should not be directly
+    /// modified unless the local rotation and parent transforms are known
+    /// to be static.
     Quaternion globalRotation;
+
+private:
+    bool _markedForUpdate { false };
 };
 
 }

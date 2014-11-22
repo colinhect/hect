@@ -40,6 +40,11 @@ const Scene& System::scene() const
     return _scene;
 }
 
+void System::tick(Real timeStep)
+{
+    (void)timeStep;
+}
+
 void System::encode(Encoder& encoder) const
 {
     // Default to the encoding registered with the reflected type

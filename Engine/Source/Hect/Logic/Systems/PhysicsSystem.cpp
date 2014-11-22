@@ -42,11 +42,6 @@ PhysicsSystem::PhysicsSystem(Scene& scene) :
     scene.components<RigidBody>().addListener(*this);
 }
 
-PhysicsSystem::~PhysicsSystem()
-{
-    scene().components<RigidBody>().removeListener(*this);
-}
-
 void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition)
 {
     rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
@@ -70,16 +65,25 @@ void PhysicsSystem::tick(Real timeStep)
     // Update the dynamics scene
     _world->stepSimulation(timeStep, 4);
 
+    TransformSystem& transformSystem = scene().system<TransformSystem>();
+
     // For each rigid body component
     for (RigidBody& rigidBody : scene().components<RigidBody>())
     {
         Entity& entity = rigidBody.entity();
-        if (!entity.parent() && entity.component<Transform>())
+        auto transform = entity.component<Transform>();
+        if (!entity.parent() && transform)
         {
             // Update the transform to what Bullet says it should be
             btTransform bulletTransform;
             ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
-            entity.replaceComponent<Transform>(convertFromBullet(bulletTransform));
+
+            Transform newTransform = convertFromBullet(bulletTransform);
+            transform->localPosition = newTransform.localPosition;
+            transform->localScale = newTransform.localScale;
+            transform->localRotation = newTransform.localRotation;
+
+            transformSystem.markForUpdate(*transform);
         }
 
         // Update rigid body properties to what Bullet says it should be
@@ -115,7 +119,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
                 btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
                 btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
 
-                transformSystem.updateTransform(*transform);
+                transformSystem.forceUpdate(*transform);
 
                 rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
                 btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);

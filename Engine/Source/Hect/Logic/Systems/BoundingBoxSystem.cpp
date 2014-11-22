@@ -31,23 +31,39 @@ using namespace hect;
 BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
     System(scene)
 {
+    scene.components<BoundingBox>().addListener(*this);
+}
+
+void BoundingBoxSystem::markForUpdate(BoundingBox& boundingBox)
+{
+    if (!boundingBox._markedForUpdate)
+    {
+        boundingBox._markedForUpdate = true;
+        _markedForUpdate.push_back(boundingBox.id());
+    }
 }
 
 void BoundingBoxSystem::tick(Real timeStep)
 {
-    (void)timeStep;
-
-    for (BoundingBox& boundingBox : scene().components<BoundingBox>())
+    ComponentPool<BoundingBox>& boundingBoxPool = scene().components<BoundingBox>();
+    for (ComponentId id : _markedForUpdate)
     {
-        Entity& entity = boundingBox.entity();
-        if (!entity.parent())
-        {
-            resizeBoundingBox(entity, boundingBox);
-        }
+        BoundingBox& boundingBox = boundingBoxPool.withId(id);
+        forceUpdate(boundingBox.entity(), boundingBox);
+        boundingBox._markedForUpdate = false;
     }
+    _markedForUpdate.clear();
 }
 
-void BoundingBoxSystem::resizeBoundingBox(Entity& entity, BoundingBox& boundingBox)
+void BoundingBoxSystem::receiveEvent(const ComponentEvent<BoundingBox>& event)
+{
+    if (event.type == ComponentEventType_Add)
+    {
+        BoundingBox& boundingBox = *event.entity().component<BoundingBox>();
+        markForUpdate(boundingBox);
+    }
+}
+void BoundingBoxSystem::forceUpdate(Entity& entity, BoundingBox& boundingBox)
 {
     // Start with an empty box
     AxisAlignedBox& axisAlignedBox = boundingBox.axisAlignedBox;
@@ -79,7 +95,7 @@ void BoundingBoxSystem::resizeBoundingBox(Entity& entity, BoundingBox& boundingB
         auto childBoundingBox = child.component<BoundingBox>();
         if (childBoundingBox)
         {
-            resizeBoundingBox(child, *childBoundingBox);
+            forceUpdate(child, *childBoundingBox);
 
             // Expand the bounding box to include this child
             axisAlignedBox.expandToInclude(childBoundingBox->axisAlignedBox);

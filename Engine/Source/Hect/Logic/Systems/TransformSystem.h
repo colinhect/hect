@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Event/Listener.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Transform.h"
 
@@ -30,25 +31,40 @@ namespace hect
 {
 
 ///
-/// Updates the transform hierarchies of the scene.
+/// Manages the transform hierarchies of the scene.
 ///
 /// \system
 class TransformSystem :
-    public System
+    public System,
+    public Listener<ComponentEvent<Transform>>
 {
 public:
     TransformSystem(Scene& scene);
 
     ///
-    /// Updates a transform and all child transforms.
+    /// Forces the update of a transform and all child transforms.
     ///
     /// \param transform The transform to update.
-    void updateTransform(Transform& transform);
+    void forceUpdate(Transform& transform);
+
+    ///
+    /// Marks a transform to be updated on the next TransformSystem::tick().
+    ///
+    /// \note If the transform is already marked for update then no action
+    /// will be performed.
+    ///
+    /// \param transform The transform to mark for update.
+    void markForUpdate(Transform& transform);
 
     void tick(Real timeStep) override;
 
+    void receiveEvent(const ComponentEvent<Transform>& event) override;
+
 private:
-    void updateTransform(Entity& parent, Entity& child);
+    void updateHeierarchy(Entity& parent, Entity& child);
+    void postUpdate(Entity& entity);
+
+    std::vector<ComponentId> _markedForUpdate;
 };
 
 }

@@ -125,6 +125,28 @@ typename Component<T>::ConstIterator::Vector ComponentPool<T>::find(typename Com
 }
 
 template <typename T>
+T& ComponentPool<T>::withId(ComponentId id)
+{
+    const T& component = const_cast<const ComponentPool<T>*>(this)->withId(id);
+    return const_cast<T&>(component);
+}
+
+template <typename T>
+const T& ComponentPool<T>::withId(ComponentId id) const
+{
+    if (id < _components.size())
+    {
+        const T& component = _components[id];
+        if (component.inPool())
+        {
+            return component;
+        }
+    }
+
+    throw Error("Invalid component");
+}
+
+template <typename T>
 void ComponentPool<T>::dispatchEvent(ComponentEventType type, Entity& entity)
 {
     ComponentEvent<T> event(type, entity);
@@ -371,28 +393,6 @@ const Entity& ComponentPool<T>::entityForComponent(ComponentId id) const
         }
     }
     throw Error("Component does not have an associated entity");
-}
-
-template <typename T>
-T& ComponentPool<T>::componentWithId(ComponentId id)
-{
-    const T& component = const_cast<const ComponentPool<T>*>(this)->componentWithId(id);
-    return const_cast<T&>(component);
-}
-
-template <typename T>
-const T& ComponentPool<T>::componentWithId(ComponentId id) const
-{
-    if (id < _components.size())
-    {
-        const T& component = _components[id];
-        if (component.inPool())
-        {
-            return component;
-        }
-    }
-
-    throw Error("Invalid component");
 }
 
 template <typename T>

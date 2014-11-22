@@ -60,7 +60,7 @@ void Component<T>::IteratorBase::increment()
 template <typename T>
 bool Component<T>::IteratorBase::isValid() const
 {
-    if (this->_pool->componentHasEntity(this->_id))
+    if (this->_pool && this->_pool->componentHasEntity(this->_id))
     {
         return true;
     }
@@ -98,14 +98,14 @@ template <typename T>
 T& Component<T>::Iterator::operator*() const
 {
     this->ensureValid();
-    return this->_pool->componentWithId(this->_id);
+    return this->_pool->withId(this->_id);
 }
 
 template <typename T>
 T* Component<T>::Iterator::operator->() const
 {
     this->ensureValid();
-    return &this->_pool->componentWithId(this->_id);
+    return &this->_pool->withId(this->_id);
 }
 
 template <typename T>
@@ -149,14 +149,14 @@ template <typename T>
 const T& Component<T>::ConstIterator::operator*() const
 {
     this->ensureValid();
-    return this->_pool->componentWithId(this->_id);
+    return this->_pool->withId(this->_id);
 }
 
 template <typename T>
 const T* Component<T>::ConstIterator::operator->() const
 {
     this->ensureValid();
-    return &this->_pool->componentWithId(this->_id);
+    return &this->_pool->withId(this->_id);
 }
 
 template <typename T>

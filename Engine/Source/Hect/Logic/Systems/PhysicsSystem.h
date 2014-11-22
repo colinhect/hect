@@ -51,7 +51,6 @@ class PhysicsSystem :
 {
 public:
     PhysicsSystem(Scene& scene);
-    ~PhysicsSystem();
 
     ///
     /// Applies a force to a rigid body.

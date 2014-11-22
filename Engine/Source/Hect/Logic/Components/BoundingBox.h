@@ -36,11 +36,15 @@ namespace hect
 class BoundingBox :
     public Component<BoundingBox>
 {
+    friend class BoundingBoxSystem;
 public:
 
     ///
     /// The bounds as an axis aligned box.
     AxisAlignedBox axisAlignedBox;
+
+private:
+    bool _markedForUpdate { false };
 };
 
 }

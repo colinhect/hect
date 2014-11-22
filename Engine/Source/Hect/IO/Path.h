@@ -42,7 +42,7 @@ public:
     ///
     /// Constructs a path from a string.
     ///
-    /// \note Any trailing slashes are ignored.
+    /// \note %Any trailing slashes are ignored.
     ///
     /// \param path The path with each part delimited by a forward slash.
     Path(const char* path);
@@ -50,7 +50,7 @@ public:
     ///
     /// Constructs a path from a string.
     ///
-    /// \note Any trailing slashes are ignored.
+    /// \note %Any trailing slashes are ignored.
     ///
     /// \param path The path with each part delimited by a forward slash.
     Path(const std::string& path);

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Event/Listener.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
 
@@ -30,19 +31,34 @@ namespace hect
 {
 
 ///
-/// Updates the bounding box hierarchies of the scene.
+/// Manages the bounding box hierarchies of the scene.
 ///
 /// \system
 class BoundingBoxSystem :
-    public System
+    public System,
+    public Listener<ComponentEvent<BoundingBox>>
 {
 public:
     BoundingBoxSystem(Scene& scene);
 
+    ///
+    /// Marks a bounding box to be updated on the next
+    /// BoundingBoxSystem::tick().
+    ///
+    /// \note If the bounding box is already marked for update then no action
+    /// will be performed.
+    ///
+    /// \param boundingBox The bounding box to mark for update.
+    void markForUpdate(BoundingBox& boundingBox);
+
     void tick(Real timeStep) override;
 
+    void receiveEvent(const ComponentEvent<BoundingBox>& event) override;
+
 private:
-    void resizeBoundingBox(Entity& entity, BoundingBox& boundingBox);
+    void forceUpdate(Entity& entity, BoundingBox& boundingBox);
+
+    std::vector<ComponentId> _markedForUpdate;
 };
 
 }

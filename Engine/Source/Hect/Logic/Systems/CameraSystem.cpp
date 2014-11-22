@@ -30,11 +30,24 @@ using namespace hect;
 CameraSystem::CameraSystem(Scene& scene) :
     System(scene)
 {
+    scene.components<Camera>().addListener(*this);
 }
 
 Component<Camera>::Iterator CameraSystem::activeCamera()
 {
-    return scene().components<Camera>().begin();
+    Component<Camera>::Iterator camera;
+
+    if (_activeCameraEntity)
+    {
+        camera = _activeCameraEntity->component<Camera>();
+    }
+
+    return camera;
+}
+
+void CameraSystem::setActiveCamera(Camera& camera)
+{
+    _activeCameraEntity = camera.entity().createHandle();
 }
 
 void CameraSystem::updateCamera(Camera& camera)
@@ -63,5 +76,17 @@ void CameraSystem::tick(Real timeStep)
     for (Camera& camera : scene().components<Camera>())
     {
         updateCamera(camera);
+    }
+}
+
+void CameraSystem::receiveEvent(const ComponentEvent<Camera>& event)
+{
+    if (event.type == ComponentEventType_Add)
+    {
+        // If there is no active camera then use the most recently added camera
+        if (!_activeCameraEntity)
+        {
+            _activeCameraEntity = event.entity().createHandle();
+        }
     }
 }

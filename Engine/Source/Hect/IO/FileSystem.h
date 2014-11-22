@@ -68,7 +68,7 @@ public:
     ///
     /// Mounts a directory or archive.
     ///
-    /// \note Any file with the same path as a file in a previously mounted
+    /// \note %Any file with the same path as a file in a previously mounted
     /// directory or archive will be overriden by the file in the directory or
     /// archive which was mounted first.
     ///
@@ -99,7 +99,7 @@ public:
     ///
     /// Creates a directory.
     ///
-    /// \note Any missing parent directories are also created if they don't
+    /// \note %Any missing parent directories are also created if they don't
     /// exist.  If the directory already exists then nothing happens.
     ///
     /// \warning The write directory must first be set using the

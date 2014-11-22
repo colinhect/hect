@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Event/Listener.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Camera.h"
 
@@ -33,7 +34,8 @@ namespace hect
 /// Updates and tracks the active camera(s).
 /// \system
 class CameraSystem :
-    public System
+    public System,
+    public Listener<ComponentEvent<Camera>>
 {
 public:
     CameraSystem(Scene& scene);
@@ -43,12 +45,23 @@ public:
     Component<Camera>::Iterator activeCamera();
 
     ///
+    /// Sets the active camera in the scene.
+    ///
+    /// \param camera The new active camera.
+    void setActiveCamera(Camera& camera);
+
+    ///
     /// Updates the view/projection matrices of a camera.
     ///
     /// \param camera The camera to update.
     void updateCamera(Camera& camera);
 
     void tick(Real timeStep) override;
+
+    void receiveEvent(const ComponentEvent<Camera>& event) override;
+
+private:
+    Entity::Handle _activeCameraEntity;
 };
 
 }

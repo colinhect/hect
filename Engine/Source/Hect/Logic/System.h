@@ -60,7 +60,7 @@ public:
     ///
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    virtual void tick(Real timeStep) = 0;
+    virtual void tick(Real timeStep);
 
     ///
     /// Gets the scene that the system affects.

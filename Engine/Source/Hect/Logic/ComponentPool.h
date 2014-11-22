@@ -118,6 +118,22 @@ public:
     /// \returns A vector of iterators to the matching components.
     typename Component<T>::ConstIterator::Vector find(typename Component<T>::Predicate predicate) const;
 
+    ///
+    /// Returns the component with the given id.
+    ///
+    /// \param id The id of the component to get.
+    ///
+    /// \throw Error If no component with the given id exists in the pool.
+    T& withId(ComponentId id);
+
+    ///
+    /// Returns the component with the given id.
+    ///
+    /// \param id The id of the component to get.
+    ///
+    /// \throw Error If no component with the given id exists in the pool.
+    const T& withId(ComponentId id) const;
+
 private:
     void dispatchEvent(ComponentEventType type, Entity& entity) override;
 
@@ -141,9 +157,6 @@ private:
 
     Entity& entityForComponent(ComponentId id);
     const Entity& entityForComponent(ComponentId id) const;
-
-    T& componentWithId(ComponentId id);
-    const T& componentWithId(ComponentId id) const;
 
     bool entityIdToComponentId(EntityId entityId, ComponentId& id) const;
 

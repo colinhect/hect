@@ -23,54 +23,74 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "TransformSystem.h"
 
-#include "Hect/Logic/Components/Model.h"
+#include "Hect/Logic/Components/BoundingBox.h"
+#include "Hect/Logic/Systems/BoundingBoxSystem.h"
 
 using namespace hect;
 
 TransformSystem::TransformSystem(Scene& scene) :
     System(scene)
 {
+    scene.components<Transform>().addListener(*this);
 }
 
-void TransformSystem::updateTransform(Transform& transform)
+void TransformSystem::forceUpdate(Transform& transform)
 {
     Entity& entity = transform.entity();
-
     auto parent = entity.parent();
     if (parent)
     {
-        updateTransform(*parent, entity);
+        // Update the transform hierarchy starting at this entity's parent
+        updateHeierarchy(*parent, entity);
     }
     else
     {
+        // Local and global are the same if there is no parent
         transform.globalPosition = transform.localPosition;
         transform.globalScale = transform.localScale;
         transform.globalRotation = transform.localRotation;
+
+        postUpdate(transform.entity());
+
+        // Update the transform hierachy for all children
+        for (Entity& child : entity.children())
+        {
+            updateHeierarchy(entity, child);
+        }
+    }
+}
+
+void TransformSystem::markForUpdate(Transform& transform)
+{
+    if (!transform._markedForUpdate)
+    {
+        transform._markedForUpdate = true;
+        _markedForUpdate.push_back(transform.id());        
     }
 }
 
 void TransformSystem::tick(Real timeStep)
 {
-    (void)timeStep;
-
-    for (Transform& transform : scene().components<Transform>())
+    ComponentPool<Transform>& transformPool = scene().components<Transform>();
+    for (ComponentId id : _markedForUpdate)
     {
-        Entity& entity = transform.entity();
-        if (!entity.parent())
-        {
-            transform.globalPosition = transform.localPosition;
-            transform.globalScale = transform.localScale;
-            transform.globalRotation = transform.localRotation;
+        Transform& transform = transformPool.withId(id);
+        forceUpdate(transform);
+        transform._markedForUpdate = false;
+    }
+    _markedForUpdate.clear();
+}
 
-            for (Entity& child : entity.children())
-            {
-                updateTransform(entity, child);
-            }
-        }
+void TransformSystem::receiveEvent(const ComponentEvent<Transform>& event)
+{
+    if (event.type == ComponentEventType_Add)
+    {
+        Transform& transform = *event.entity().component<Transform>();
+        markForUpdate(transform);
     }
 }
 
-void TransformSystem::updateTransform(Entity& parent, Entity& child)
+void TransformSystem::updateHeierarchy(Entity& parent, Entity& child)
 {
     auto parentTransform = parent.component<Transform>();
     if (parentTransform)
@@ -83,10 +103,22 @@ void TransformSystem::updateTransform(Entity& parent, Entity& child)
             childTransform->globalScale = parentTransform->globalScale * childTransform->localScale;
             childTransform->globalRotation = parentTransform->globalRotation * childTransform->localRotation;
 
+            postUpdate(child);
+
             for (Entity& nextChild : child.children())
             {
-                updateTransform(child, nextChild);
+                updateHeierarchy(child, nextChild);
             }
         }
+    }
+}
+
+void TransformSystem::postUpdate(Entity& entity)
+{
+    auto boundingBox = entity.component<BoundingBox>();
+    if (boundingBox)
+    {
+        BoundingBoxSystem& boundingBoxSystem = scene().system<BoundingBoxSystem>();
+        boundingBoxSystem.markForUpdate(*boundingBox);
     }
 }
