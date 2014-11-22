@@ -56,7 +56,7 @@ public:
     ///
     /// \note In order for changes to this to affect the global scale of
     /// the transform, TransformSystem::markForUpdate() should be called.
-    Vector3 localScale{ Vector3::one() };
+    Vector3 localScale { Vector3::one() };
 
     ///
     /// The local rotation.

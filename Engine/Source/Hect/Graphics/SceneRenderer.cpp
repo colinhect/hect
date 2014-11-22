@@ -71,7 +71,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             initializeBuffers(target.width(), target.height());
         }
 
-        // Model buffer rendering
+        // Geometry buffer rendering
         {
             _renderer.beginFrame();
             _renderer.bindTarget(_geometryBuffer);

@@ -100,6 +100,16 @@ void Pass::clearTextures()
     _textures.clear();
 }
 
+RenderStage Pass::renderStage() const
+{
+    return _renderStage;
+}
+
+void Pass::setRenderStage(RenderStage renderStage)
+{
+    _renderStage = renderStage;
+}
+
 const RenderState& Pass::renderState() const
 {
     return _renderState;
@@ -127,6 +137,11 @@ void Pass::resolveShaderParameters(Shader& shader)
 
 bool Pass::operator==(const Pass& pass) const
 {
+    if (_renderStage != pass._renderStage)
+    {
+        return false;
+    }
+
     if (_renderState != pass._renderState)
     {
         return false;
@@ -182,20 +197,99 @@ Encoder& operator<<(Encoder& encoder, const Pass& pass)
            << encodeVector("arguments", pass._shaderArguments)
            << endObject()
            << encodeVector("textures", pass._textures)
+           << encodeEnum("renderStage", pass._renderStage)
            << encodeValue("renderState", pass._renderState)
            << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, Pass& pass)
 {
-    return decoder >> beginObject()
-           >> beginObject("shader")
-           >> decodeValue("path", pass._shader, true)
-           >> decodeVector("arguments", pass._shaderArguments)
-           >> endObject()
-           >> decodeVector("textures", pass._textures)
-           >> decodeValue("renderState", pass._renderState)
-           >> endObject();
+    decoder >> beginObject();
+
+    // Shader
+    if (!decoder.isBinaryStream())
+    {
+        if (decoder.selectMember("shader"))
+        {
+            decoder >> beginObject();
+            decoder >> decodeValue("path", pass._shader);
+
+            // Arguments
+            if (decoder.selectMember("arguments"))
+            {
+                decoder >> beginArray();
+                while (decoder.hasMoreElements())
+                {
+                    // Decode the argument
+                    ShaderArgument argument;
+                    decoder >> decodeValue(argument);
+
+                    // Attempt to replace an existing argument by name
+                    bool existed = false;
+                    for (ShaderArgument& existingArgument : pass._shaderArguments)
+                    {
+                        if (existingArgument.name() == argument.name())
+                        {
+                            pass._resolvedFromShader = nullptr;
+
+                            existingArgument = argument;
+                            existed = true;
+                            break;
+                        }
+                    }
+
+                    // Otherwise add it as a new argument
+                    if (!existed)
+                    {
+                        pass._shaderArguments.push_back(argument);
+                    }
+                }
+
+                decoder >> endArray();
+            }
+
+            decoder >> endObject();
+        }
+    }
+    else
+    {
+        decoder >> beginObject()
+                >> decodeValue("path", pass._shader)
+                >> decodeVector("arguments", pass._shaderArguments)
+                >> endObject();
+    }
+
+    // Textures
+    if (!decoder.isBinaryStream())
+    {
+        if (decoder.selectMember("textures"))
+        {
+            size_t i = 0;
+            decoder >> beginArray();
+            while (decoder.hasMoreElements())
+            {
+                // Add a new texture if needed
+                if (i >= pass._textures.size())
+                {
+                    pass._textures.push_back(AssetHandle<Texture>());
+                }
+
+                // Decode the texture
+                AssetHandle<Texture>& texture = pass._textures[i++];
+                decoder >> decodeValue(texture);
+            }
+            decoder >> endArray();
+        }
+    }
+    else
+    {
+        decoder >> decodeVector("textures", pass._textures);
+    }
+
+    decoder >> decodeEnum("renderStage", pass._renderStage)
+            >> decodeValue("renderState", pass._renderState);
+
+    return decoder >> endObject();
 }
 
 }

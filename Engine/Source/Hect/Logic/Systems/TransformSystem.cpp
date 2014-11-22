@@ -65,7 +65,7 @@ void TransformSystem::markForUpdate(Transform& transform)
     if (!transform._markedForUpdate)
     {
         transform._markedForUpdate = true;
-        _markedForUpdate.push_back(transform.id());        
+        _markedForUpdate.push_back(transform.id());
     }
 }
 

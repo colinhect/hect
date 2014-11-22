@@ -27,6 +27,7 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/AssetHandle.h"
+#include "Hect/Graphics/RenderStage.h"
 #include "Hect/Graphics/RenderState.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
@@ -95,6 +96,16 @@ public:
     void clearTextures();
 
     ///
+    /// Returns the stage when the pass is rendered.
+    RenderStage renderStage() const;
+
+    ///
+    /// Sets the stage when the pass is rendered.
+    ///
+    /// \param renderStage The new render stage.
+    void setRenderStage(RenderStage renderStage);
+
+    ///
     /// Returns the render state.
     const RenderState& renderState() const;
 
@@ -126,7 +137,10 @@ private:
 
     AssetHandle<Shader> _shader;
     ShaderArgumentContainer _shaderArguments;
+
     TextureContainer _textures;
+
+    RenderStage _renderStage { RenderStage_None };
     RenderState _renderState;
 
     std::map<const ShaderParameter*, ShaderValue> _resolvedShaderParameters;

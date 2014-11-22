@@ -80,9 +80,25 @@ Encoder& operator<<(Encoder& encoder, const Technique& technique)
 
 Decoder& operator>>(Decoder& decoder, Technique& technique)
 {
-    return decoder >> beginObject()
-           >> decodeVector("passes", technique._passes, true)
-           >> endObject();
+    decoder >> beginObject();
+
+    // Passes
+    size_t i = 0;
+    decoder >> beginArray("passes");
+    while (decoder.hasMoreElements())
+    {
+        // Add a new pass if needed
+        if (i >= technique._passes.size())
+        {
+            technique._passes.push_back(Pass());
+        }
+
+        Pass& pass = technique._passes[i++];
+        decoder >> decodeValue(pass);
+    }
+    decoder >> endArray();
+
+    return decoder >> endObject();
 }
 
 }

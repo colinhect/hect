@@ -89,9 +89,44 @@ Encoder& operator<<(Encoder& encoder, const Material& material)
 
 Decoder& operator>>(Decoder& decoder, Material& material)
 {
-    return decoder >> beginObject()
-           >> decodeVector("techniques", material._techniques, true)
-           >> endObject();
+    decoder >> beginObject();
+
+    if (!decoder.isBinaryStream())
+    {
+        // Base material
+        if (decoder.selectMember("base"))
+        {
+            Path basePath;
+            decoder >> decodeValue(basePath);
+
+            // Start from the base material
+            Material& baseMaterial = decoder.assetCache().get<Material>(basePath);
+            material = baseMaterial;
+        }
+
+        // Techniques
+        size_t i = 0;
+        decoder >> beginArray("techniques");
+        while (decoder.hasMoreElements())
+        {
+            // Add a new technique if needed
+            if (i >= material._techniques.size())
+            {
+                material._techniques.push_back(Technique());
+            }
+
+            // Decode the technique
+            Technique& technique = material._techniques[i++];
+            decoder >> decodeValue(technique);
+        }
+        decoder >> endArray();
+    }
+    else
+    {
+        decoder >> decodeVector("techniques", material._techniques);
+    }
+
+    return decoder >> endObject();
 }
 
 }
