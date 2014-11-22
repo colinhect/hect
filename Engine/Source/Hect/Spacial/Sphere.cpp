@@ -26,8 +26,7 @@
 namespace hect
 {
 
-Sphere::Sphere() :
-    _radius(1)
+Sphere::Sphere()
 {
 }
 

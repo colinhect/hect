@@ -30,7 +30,7 @@ namespace hect
 {
 
 ///
-/// A box aligned with the global axes.
+/// A box aligned with the global axes in world-space.
 class AxisAlignedBox
 {
 public:

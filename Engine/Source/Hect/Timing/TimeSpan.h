@@ -55,7 +55,7 @@ public:
     static TimeSpan fromSeconds(Real seconds);
 
     ///
-    /// Constructs a timespan of zero seconds.
+    /// Constructs a time span of zero seconds.
     TimeSpan();
 
     ///

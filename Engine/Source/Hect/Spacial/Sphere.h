@@ -55,7 +55,7 @@ public:
     void setRadius(Real radius);
 
 private:
-    Real _radius { 0 };
+    Real _radius { 1 };
 };
 
 }

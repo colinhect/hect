@@ -51,7 +51,7 @@ namespace hect
 {
 
 ///
-/// An instance of Hect Engine.
+/// An instance of Hect %Engine.
 ///
 /// \warning Only one engine instance can be instantiated at a given time.
 class Engine :
