@@ -26,6 +26,7 @@
 #include <functional>
 #include <memory>
 
+#include "Hect/Core/Allocator.h"
 #include "Hect/Event/Listener.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
@@ -45,6 +46,7 @@ class Entity :
 {
     friend class Scene;
     friend class EntityPool;
+    friend class Allocator<Entity>;
 private:
     class IteratorBase
     {
@@ -426,10 +428,6 @@ public:
         std::shared_ptr<Context> _context;
     };
 
-    Entity();
-    Entity(const Entity& entity);
-    Entity(Entity&& entity);
-
     ///
     /// Adds a new component of a specific type to the entity.
     ///
@@ -696,6 +694,10 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Entity& entity);
 
 private:
+    Entity();
+    Entity(const Entity& entity);
+    Entity(Entity&& entity);
+
     void enterPool(EntityPool& pool, EntityId id);
     void exitPool();
     bool inPool() const;

@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Allocator.h"
 #include "Hect/Event/Dispatcher.h"
 #include "Hect/Logic/IdPool.h"
 #include "Hect/Logic/Entity.h"
@@ -43,6 +44,7 @@ class EntityPool :
     friend class Scene;
     friend class Entity;
     template <typename T> friend class ComponentPool;
+    friend class Allocator<Entity>;
 public:
     EntityPool(Scene& scene);
 
@@ -111,7 +113,7 @@ private:
 
     Scene& _scene;
     IdPool<EntityId> _idPool;
-    std::vector<Entity> _entities;
+    std::vector<Entity, Allocator<Entity>> _entities;
 };
 
 }
