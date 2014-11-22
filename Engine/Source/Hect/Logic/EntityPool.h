@@ -23,9 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <vector>
+#include <memory>
 
-#include "Hect/Core/Allocator.h"
 #include "Hect/Event/Dispatcher.h"
 #include "Hect/Logic/IdPool.h"
 #include "Hect/Logic/Entity.h"
@@ -44,7 +43,6 @@ class EntityPool :
     friend class Scene;
     friend class Entity;
     template <typename T> friend class ComponentPool;
-    friend class Allocator<Entity>;
 public:
     EntityPool(Scene& scene);
 
@@ -110,10 +108,15 @@ private:
     const Entity& entityWithId(EntityId id) const;
 
     EntityId maxId() const;
+    void expand();
 
     Scene& _scene;
     IdPool<EntityId> _idPool;
-    std::vector<Entity, Allocator<Entity>> _entities;
+
+    // Avoiding use of std::vector because we need to keep the Entity
+    // constructors private
+    std::unique_ptr<Entity[]> _entities;
+    size_t _entityCount;
 };
 
 }

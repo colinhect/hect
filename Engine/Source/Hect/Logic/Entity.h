@@ -26,7 +26,6 @@
 #include <functional>
 #include <memory>
 
-#include "Hect/Core/Allocator.h"
 #include "Hect/Event/Listener.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
@@ -46,7 +45,6 @@ class Entity :
 {
     friend class Scene;
     friend class EntityPool;
-    friend class Allocator<Entity>;
 private:
     class IteratorBase
     {

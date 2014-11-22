@@ -28,8 +28,15 @@
 using namespace hect;
 
 EntityPool::EntityPool(Scene& scene) :
-    _scene(scene)
+    _scene(scene),
+    _entities(new Entity[64]),
+    _entityCount(64)
 {
+    // Initialize all of the entities
+    for (size_t i = 0; i < _entityCount; ++i)
+    {
+        _entities[i] = Entity();
+    }
 }
 
 Entity::Iterator EntityPool::begin()
@@ -120,10 +127,10 @@ Entity::Iterator EntityPool::create()
 {
     EntityId entityId = _idPool.create();
 
-    if (entityId >= _entities.size())
+    // Expand the pool if needed
+    if (entityId >= _entityCount)
     {
-        Entity entity;
-        _entities.resize(std::max(_entities.size() * 2, (size_t)8), entity);
+        expand();
     }
 
     _entities[entityId].enterPool(*this, entityId);
@@ -143,7 +150,7 @@ void EntityPool::destroy(EntityId id)
 
 bool EntityPool::entityIsValid(EntityId id)
 {
-    if (id < _entities.size())
+    if (id < _entityCount)
     {
         if (_entities[id].inPool())
         {
@@ -161,7 +168,7 @@ Entity& EntityPool::entityWithId(EntityId id)
 
 const Entity& EntityPool::entityWithId(EntityId id) const
 {
-    if (id < _entities.size())
+    if (id < _entityCount)
     {
         const Entity& entity = _entities[id];
         if (entity.inPool())
@@ -174,5 +181,28 @@ const Entity& EntityPool::entityWithId(EntityId id) const
 
 EntityId EntityPool::maxId() const
 {
-    return (EntityId)_entities.size();
+    return static_cast<EntityId>(_entityCount);
+}
+
+void EntityPool::expand()
+{
+    size_t newEntityCount = _entityCount * 2;
+    std::unique_ptr<Entity[]> newEntities(new Entity[newEntityCount]);
+
+    for (size_t i = 0; i < newEntityCount; ++i)
+    {
+        if (i < _entityCount)
+        {
+            // Move the existing entity
+            newEntities[i] = std::move(_entities[i]);
+        }
+        else
+        {
+            // Initialize new entity
+            newEntities[i] = Entity();
+        }
+    }
+
+    _entities.swap(newEntities);
+    _entityCount = newEntityCount;
 }

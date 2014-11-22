@@ -366,7 +366,7 @@ TEST_CASE("Scene_CreateManyEntities")
     Scene scene(*engine);
 
     std::vector<Entity::Iterator> entities;
-    for (EntityId id = 0; id < 64; ++id)
+    for (EntityId id = 0; id < 128; ++id)
     {
         {
             Entity::Iterator entity = scene.createEntity();

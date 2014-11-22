@@ -406,29 +406,6 @@ void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
     }
 }
 
-Entity::Entity()
-{
-}
-
-Entity::Entity(const Entity& entity) :
-    _pool(entity._pool),
-    _id(entity._id),
-    _parentId(entity._parentId),
-    _childIds(entity._childIds),
-    _activated(entity._activated)
-{
-}
-
-Entity::Entity(Entity&& entity) :
-    _pool(entity._pool),
-    _id(entity._id),
-    _parentId(entity._parentId),
-    _childIds(std::move(entity._childIds)),
-    _activated(entity._activated)
-{
-    entity = Entity();
-}
-
 Entity::Handle Entity::createHandle() const
 {
     if (!inPool())
@@ -792,6 +769,29 @@ Entity& Entity::operator=(Entity&& entity)
     _childIds = std::move(entity._childIds);
     _activated = entity._activated;
     return *this;
+}
+
+
+Entity::Entity()
+{
+}
+
+Entity::Entity(const Entity& entity) :
+    _pool(entity._pool),
+    _id(entity._id),
+    _parentId(entity._parentId),
+    _childIds(entity._childIds),
+    _activated(entity._activated)
+{
+}
+
+Entity::Entity(Entity&& entity) :
+    _pool(entity._pool),
+    _id(entity._id),
+    _parentId(entity._parentId),
+    _childIds(std::move(entity._childIds)),
+    _activated(entity._activated)
+{
 }
 
 void Entity::enterPool(EntityPool& pool, EntityId id)
