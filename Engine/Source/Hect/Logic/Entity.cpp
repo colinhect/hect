@@ -350,6 +350,18 @@ const Entity* Entity::Handle::operator->() const
     return &_context->pool->entityWithId(_context->id);
 }
 
+Entity::Handle& Entity::Handle::operator=(const Entity::Handle& handle)
+{
+    _context = handle._context;
+    return *this;
+}
+
+Entity::Handle& Entity::Handle::operator=(Entity::Handle&& handle)
+{
+    _context = std::move(handle._context);
+    return *this;
+}
+
 bool Entity::Handle::operator==(const Entity::Handle& other) const
 {
     return _context == other._context;

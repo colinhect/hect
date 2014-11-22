@@ -388,6 +388,18 @@ public:
         const Entity* operator->() const;
 
         ///
+        /// Sets the handle as a copy of another.
+        ///
+        /// \param handle The handle to copy.
+        Handle& operator=(const Handle& handle);
+
+        ///
+        /// Sets the handle as being moved from another.
+        ///
+        /// \param handle The handle to move.
+        Handle& operator=(Handle&& handle);
+
+        ///
         /// Returns whether the handle is equivalent to another.
         ///
         /// \param other The other iterator.
