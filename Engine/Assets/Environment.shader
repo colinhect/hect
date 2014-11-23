@@ -10,6 +10,10 @@
         },
         {
             "type": "Fragment",
+            "path": "RenderStages/PhysicalLightAccumulation.glsl"
+        },
+        {
+            "type": "Fragment",
             "path": "Environment.glsl"
         }
     ],
@@ -19,29 +23,29 @@
             "binding": "CameraPosition"
         },
         {
+            "type": "Texture",
             "name": "diffuseBuffer",
-            "value": 0,
-            "type": "Texture"
+            "value": 0
         },
         {
+            "type": "Texture",
             "name": "materialBuffer",
-            "value": 1,
-            "type": "Texture"
+            "value": 1
         },
         {
+            "type": "Texture",
             "name": "positionBuffer",
-            "value": 2,
-            "type": "Texture"
+            "value": 2
         },
         {
+            "type": "Texture",
             "name": "normalBuffer",
-            "value": 3,
-            "type": "Texture"
+            "value": 3
         },
         {
+            "type": "Texture",
             "name": "lightProbeTexture",
-            "value": 4,
-            "type": "Texture"
+            "value": 4
         }
     ]
 }

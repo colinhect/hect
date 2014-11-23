@@ -36,15 +36,15 @@ enum RenderStage
 
     ///
     /// The stage for rendering opaque geometry to the geometry buffer.
-    RenderStage_PhysicalOpaqueGeometry,
-
-    ///
-    /// The stage for rendering transparent geometry.
-    RenderStage_TransparentGeometry,
+    RenderStage_PhysicalGeometry,
 
     ///
     /// The stage for rendering lights to the light accumulation buffer.
-    RenderStage_PhysicalLightAccumulation
+    RenderStage_PhysicalLightAccumulation,
+
+    ///
+    /// The stage for rendering after all lighting has been computed
+    RenderStage_PostLightAccumulation
 };
 
 }

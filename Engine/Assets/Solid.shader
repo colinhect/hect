@@ -6,28 +6,28 @@
         },
         {
             "type": "Fragment",
+            "path": "RenderStages/PhysicalGeometry.glsl"
+        },
+        {
+            "type": "Fragment",
             "path": "Solid.glsl"
         }
     ],
     "parameters": [
         {
+            "type": "Vector3",
             "name": "diffuse",
-            "value": [
-                1,
-                1,
-                1
-            ],
-            "type": "Vector3"
+            "value": [ 1, 1, 1 ]
         },
         {
+            "type": "Float",
             "name": "roughness",
-            "value": 1.0,
-            "type": "Float"
+            "value": 1.0
         },
         {
+            "type": "Float",
             "name": "metallic",
-            "value": 1.0,
-            "type": "Float"
+            "value": 1.0
         },
         {
             "name": "model",

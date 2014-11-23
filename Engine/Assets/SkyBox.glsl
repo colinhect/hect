@@ -22,18 +22,18 @@ uniform samplerCube skyBoxTexture;
 
 in vec3 vertexPosition;
 
-out vec3 outputDiffuse;
-out vec3 outputMaterial;
-out vec3 outputPosition;
-out vec4 outputNormal;
+void writePhysicalGeometry(
+    in vec3 diffuse,
+    in float roughness,
+    in float metallic,
+    in vec3 worldNormal,
+    in vec3 worldPosition,
+    in float depth);
 
 void main()
 {
     vec3 color = texture(skyBoxTexture, -vertexPosition).rgb;
-    outputDiffuse = vec3(color);
-    outputMaterial = vec3(0.0);
-    outputPosition = vec3(0.0);
-    outputNormal = vec4(0.0);
+    writePhysicalGeometry(color, 0.0, 0.0, vec3(0.0), vec3(0.0), 0.0);
 }
 
 #endif

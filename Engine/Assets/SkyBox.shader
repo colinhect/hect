@@ -6,6 +6,10 @@
         },
         {
             "type": "Fragment",
+            "path": "RenderStages/PhysicalGeometry.glsl"
+        },
+        {
+            "type": "Fragment",
             "path": "SkyBox.glsl"
         }
     ],

@@ -11,7 +11,7 @@ bool sampleGeometryBuffer(
     out vec3    normal,
     out float   depth);
 
-void writeLightAccumulation(
+void writePhysicalLightAccumulation(
     in  vec3    accumulation,
     in  float   depth);
 
@@ -61,7 +61,7 @@ void main()
 
         // Write the total light accumulation for the environment
         vec3 light = fresnel * reflectance + realDiffuse * ambience;
-        writeLightAccumulation(light, depth);
+        writePhysicalLightAccumulation(light, depth);
     }
     else
     {

@@ -27,7 +27,7 @@
                             }
                         ]
                     },
-                    "renderStage": "PhysicalOpaqueGeometry"
+                    "renderStage": "PhysicalGeometry"
                 }
             ]
         }

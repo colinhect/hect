@@ -7,8 +7,6 @@ uniform sampler2D normalBuffer;
 
 in vec2 vertexTextureCoords;
 
-out vec4 outputColor;
-
 bool sampleGeometryBuffer(
     out vec3    diffuse,
     out float   roughness,
@@ -34,11 +32,4 @@ bool sampleGeometryBuffer(
     }
 
     return false;
-}
-
-void writeLightAccumulation(
-    in  vec3    accumulation,
-    in  float   depth)
-{
-    outputColor = vec4(accumulation, depth);
 }

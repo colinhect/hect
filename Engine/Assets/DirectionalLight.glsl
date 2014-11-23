@@ -14,7 +14,7 @@ bool sampleGeometryBuffer(
     out vec3    normal,
     out float   depth);
 
-void writeLightAccumulation(
+void writePhysicalLightAccumulation(
     in  vec3    accumulation,
     in  float   depth);
 
@@ -119,7 +119,7 @@ void main()
         vec3 light = computeLight(realDiffuse, realSpecular, normal, roughness, -lightDirection, viewDirection);
 
         // Write the total light accumulation for the light
-        writeLightAccumulation(light, depth);
+        writePhysicalLightAccumulation(light, depth);
     }
     else
     {

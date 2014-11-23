@@ -6,7 +6,7 @@
                     "shader": {
                         "path": "SkyBox.shader"
                     },
-                    "renderStage": "PhysicalOpaqueGeometry",
+                    "renderStage": "PostLightAccumulation",
                     "renderState": {
                         "disabledFlags": [
                             "DepthTest",
