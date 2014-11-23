@@ -62,7 +62,19 @@ public:
     /// The far clip distance.
     ///
     /// \property
-    Real farClip { Real(10000) };
+    Real farClip{ Real(10000) };
+
+    ///
+    /// The exposure.
+    ///
+    /// \property
+    Real exposure { Real(1) };
+
+    ///
+    /// The gamma.
+    ///
+    /// \property
+    Real gamma { Real(2.2) };
 
     ///
     /// The front vector.

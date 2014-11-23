@@ -71,6 +71,10 @@ void ShaderParameter::setBinding(ShaderParameterBinding binding)
     {
     case ShaderParameterBinding_None:
         break;
+    case ShaderParameterBinding_CameraExposure:
+    case ShaderParameterBinding_CameraOneOverGamma:
+        _type = ShaderValueType_Float;
+        break;
     case ShaderParameterBinding_RenderTargetSize:
         _type = ShaderValueType_Vector2;
         break;

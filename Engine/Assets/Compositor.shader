@@ -6,24 +6,26 @@
         },
         {
             "type": "Fragment",
+            "path": "Exposure.glsl"
+        },
+        {
+            "type": "Fragment",
             "path": "Compositor.glsl"
         }
     ],
     "parameters": [
         {
             "name": "exposure",
-            "value": 1.0,
-            "type": "Float"
+            "binding": "CameraExposure"
         },
         {
             "name": "oneOverGamma",
-            "value": 0.4545,
-            "type": "Float"
+            "binding": "CameraOneOverGamma"
         },
         {
+            "type": "Texture",
             "name": "accumulationBuffer",
-            "value": 0,
-            "type": "Texture"
+            "value": 0
         }
     ]
 }

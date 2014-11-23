@@ -56,6 +56,14 @@ enum ShaderParameterBinding
     ShaderParameterBinding_CameraUp,
 
     ///
+    /// Bound to the exposure of the active camera.
+    ShaderParameterBinding_CameraExposure,
+
+    ///
+    /// Bound to the one divided by the gamma of the active camera.
+    ShaderParameterBinding_CameraOneOverGamma,
+
+    ///
     /// Bound to the view matrix.
     ShaderParameterBinding_ViewMatrix,
 

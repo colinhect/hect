@@ -6,7 +6,7 @@
         },
         {
             "type": "Fragment",
-            "path": "RenderStages/PhysicalGeometry.glsl"
+            "path": "RenderStages/Geometry.glsl"
         },
         {
             "type": "Fragment",

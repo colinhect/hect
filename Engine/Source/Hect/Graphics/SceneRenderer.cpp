@@ -45,8 +45,7 @@ SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
     _compositorShader = assetCache.getHandle<Shader>("Hect/Compositor.shader");
     _environmentShader = assetCache.getHandle<Shader>("Hect/Environment.shader");
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/DirectionalLight.shader");
-
-    _skyBoxMaterial = assetCache.getHandle<Material>("Hect/SkyBox.material");
+    _skyBoxShader = assetCache.getHandle<Shader>("Hect/SkyBox.shader");
 
     _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
@@ -97,8 +96,8 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 
             RenderState state;
             state.enable(RenderStateFlag_Blend);
-            state.enable(RenderStateFlag_DepthWrite);
             state.disable(RenderStateFlag_DepthTest);
+            state.disable(RenderStateFlag_DepthWrite);
             _renderer.bindState(state);
 
             // Get the first light probe
@@ -148,28 +147,6 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             {
             }
 
-            // Render the sky box if there is one
-            auto skyBox = scene.components<SkyBox>().begin();
-            if (skyBox)
-            {
-                // Construct a transform at the camera's position
-                Transform transform;
-                transform.globalPosition = camera->position;
-
-                // Update the sky box material to use this sky box's texture
-                for (Technique& technique : _skyBoxMaterial->techniques())
-                {
-                    for (Pass& pass : technique.passes())
-                    {
-                        pass.clearTextures();
-                        pass.addTexture(skyBox->texture);
-                    }
-                }
-
-                // Render the sky box
-                renderMesh(*camera, _accumulationBuffer, *_skyBoxMaterial, *_skyBoxMesh, transform);
-            }
-
             _renderer.endFrame();
         }
 
@@ -179,11 +156,40 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             _renderer.bindTarget(target);
             _renderer.clear();
 
+            // Pre composite
+            {
+                // Render the sky box if there is one
+                auto skyBox = scene.components<SkyBox>().begin();
+                if (skyBox)
+                {
+                    RenderState state;
+                    state.disable(RenderStateFlag_CullFace);
+                    state.disable(RenderStateFlag_DepthTest);
+                    _renderer.bindState(state);
+
+                    // Construct a transform at the camera's position
+                    Transform transform;
+                    transform.globalPosition = camera->position;
+
+                    _renderer.bindTexture(*skyBox->texture, 0);
+
+                    _renderer.bindShader(*_skyBoxShader);
+                    setBoundShaderParameters(*_skyBoxShader, *camera, target, transform);
+
+                    // Bind and draw the skybox
+                    _renderer.bindMesh(*_skyBoxMesh);
+                    _renderer.draw();
+                }
+            }
+
             RenderState state;
             state.disable(RenderStateFlag_DepthTest);
             _renderer.bindState(state);
 
+            Transform transform;
+
             _renderer.bindShader(*_compositorShader);
+            setBoundShaderParameters(*_compositorShader, *camera, target, transform);
 
             _renderer.bindTexture(*_accumulationBuffer.targets().begin(), 0);
 
@@ -216,8 +222,12 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     // World Normal: X Y Z Depth
     _geometryBuffer.addTarget(Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
 
+    _renderer.uploadFrameBuffer(_geometryBuffer);
+
     _accumulationBuffer = FrameBuffer();
-    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
+    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
+
+    _renderer.uploadFrameBuffer(_accumulationBuffer);
 }
 
 Technique& SceneRenderer::selectTechnique(Material& material) const
@@ -362,6 +372,12 @@ void SceneRenderer::setBoundShaderParameters(Shader& shader, const Camera& camer
                 break;
             case ShaderParameterBinding_CameraUp:
                 _renderer.bindShaderParameter(parameter, camera.up);
+                break;
+            case ShaderParameterBinding_CameraExposure:
+                _renderer.bindShaderParameter(parameter, camera.exposure);
+                break;
+            case ShaderParameterBinding_CameraOneOverGamma:
+                _renderer.bindShaderParameter(parameter, Real(1) / camera.gamma);
                 break;
             case ShaderParameterBinding_ViewMatrix:
                 _renderer.bindShaderParameter(parameter, camera.viewMatrix);

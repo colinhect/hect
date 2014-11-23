@@ -35,17 +35,17 @@ uniform float metallic;
 in vec3 vertexWorldPosition;
 in vec3 vertexWorldNormal;
 
-void writePhysicalGeometry(
-    in vec3 diffuse,
-    in float roughness,
-    in float metallic,
-    in vec3 worldNormal,
-    in vec3 worldPosition,
-    in float depth);
+void writeGeometry(
+    in  vec3    diffuse,
+    in  float   roughness,
+    in  float   metallic,
+    in  vec3    worldNormal,
+    in  vec3    worldPosition,
+    in  float   depth);
 
 void main()
 {
-    writePhysicalGeometry(diffuse, roughness, metallic, vertexWorldNormal, vertexWorldPosition, gl_FragCoord.z);
+    writeGeometry(diffuse, roughness, metallic, vertexWorldNormal, vertexWorldPosition, gl_FragCoord.z);
 }
 
 #endif

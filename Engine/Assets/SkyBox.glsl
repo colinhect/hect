@@ -18,18 +18,31 @@ void main()
 
 #ifdef FRAGMENT
 
+uniform float exposure;
+uniform float oneOverGamma;
+
 uniform samplerCube skyBoxTexture;
 
 in vec3 vertexPosition;
 
-void writePostLightAccumulation(
+out vec3 outputColor;
+
+vec3 correctGamma(
     in  vec3    color,
-    in  float   depth);
+    in  float   oneOverGamma);
+
+vec3 expose(
+    in  vec3    color,
+    in  float   exposure);
 
 void main()
 {
     vec3 color = texture(skyBoxTexture, -vertexPosition).rgb;
-    writePostLightAccumulation(color, 1.0);
+
+    color = expose(color, exposure);
+    color = correctGamma(color, oneOverGamma);
+
+    outputColor = color;
 }
 
 #endif

@@ -9,32 +9,41 @@ in vec2 vertexTextureCoords;
 
 out vec3 outputColor;
 
-vec3 sampleAccumulationBuffer()
-{
-    vec4 accumulationSample = texture(accumulationBuffer, vertexTextureCoords);
-    return accumulationSample.rgb;
-}
-
 vec3 correctGamma(
     in  vec3    color,
-    in  float   oneOverGamma)
-{
-    return pow(color, vec3(oneOverGamma));
-}
+    in  float   oneOverGamma);
 
 vec3 expose(
     in  vec3    color,
-    in  float   exposure)
+    in  float   exposure);
+
+bool sampleAccumulationBuffer(
+    out vec3    color)
 {
-    return vec3(1.0) - exp2(-exposure * color);
+    vec4 accumulationSample = texture(accumulationBuffer, vertexTextureCoords);
+    color = accumulationSample.rgb;
+    if (accumulationSample.a > 0.0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void main()
 {
-    vec3 color = sampleAccumulationBuffer();
+    vec3 color;
+    if (sampleAccumulationBuffer(color))
+    {
+        color = expose(color, exposure);
+        color = correctGamma(color, oneOverGamma);
 
-    color = expose(color, exposure);
-    color = correctGamma(color, oneOverGamma);
-
-    outputColor = color;
+        outputColor = color;
+    }
+    else
+    {
+        discard;
+    }
 }

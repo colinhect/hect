@@ -11,9 +11,8 @@ bool sampleGeometryBuffer(
     out vec3    normal,
     out float   depth);
 
-void writePhysicalLightAccumulation(
-    in  vec3    accumulation,
-    in  float   depth);
+void writeLightAccumulation(
+    in  vec3    color);
 
 vec3 computeRoughFresnel(
     in  vec3    specularColor,
@@ -61,10 +60,10 @@ void main()
 
         // Write the total light accumulation for the environment
         vec3 light = fresnel * reflectance + realDiffuse * ambience;
-        writePhysicalLightAccumulation(light, depth);
+        writeLightAccumulation(light);
     }
     else
     {
-        writePhysicalLightAccumulation(vec3(0.0), 1.0);
+        discard;
     }
 }

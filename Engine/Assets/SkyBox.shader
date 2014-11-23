@@ -6,7 +6,7 @@
         },
         {
             "type": "Fragment",
-            "path": "RenderStages/PostLightAccumulation.glsl"
+            "path": "Exposure.glsl"
         },
         {
             "type": "Fragment",
@@ -15,13 +15,21 @@
     ],
     "parameters": [
         {
+            "name": "exposure",
+            "binding": "CameraExposure"
+        },
+        {
+            "name": "oneOverGamma",
+            "binding": "CameraOneOverGamma"
+        },
+        {
             "name": "modelViewProjection",
             "binding": "ModelViewProjectionMatrix"
         },
         {
+            "type": "Texture",
             "name": "skyBoxTexture",
-            "value": 0,
-            "type": "Texture"
+            "value": 0
         }
     ]
 }

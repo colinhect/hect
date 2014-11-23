@@ -10,7 +10,7 @@
         },
         {
             "type": "Fragment",
-            "path": "RenderStages/PhysicalLightAccumulation.glsl"
+            "path": "RenderStages/LightAccumulation.glsl"
         },
         {
             "type": "Fragment",
