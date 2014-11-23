@@ -23,6 +23,9 @@ include_directories(
 grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Engine/Source/Hect)
 add_library(Hect STATIC ${SOURCE_FILES})
 
+add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Assets)
+add_dependencies(Hect HectAssets)
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Source/Hect/Generated)
 add_dependencies(Hect HectTypes)
 
@@ -73,10 +76,4 @@ set_target_properties(Hect PROPERTIES
     PROJECT_LABEL Hect
     LINKER_LANGUAGE CXX
     FOLDER "/Engine"
-    )
-
-# Copy assets
-add_custom_command(TARGET Hect
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Engine/Assets ${OUTPUT_DIR}/Hect.data/
     )
