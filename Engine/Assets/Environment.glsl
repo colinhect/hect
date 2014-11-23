@@ -65,6 +65,6 @@ void main()
     }
     else
     {
-        discard;
+        writePhysicalLightAccumulation(vec3(0.0), 1.0);
     }
 }

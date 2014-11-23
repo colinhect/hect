@@ -9,8 +9,6 @@
                     "renderStage": "PostLightAccumulation",
                     "renderState": {
                         "disabledFlags": [
-                            "DepthTest",
-                            "DepthWrite",
                             "CullFace"
                         ]
                     }

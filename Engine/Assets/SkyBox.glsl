@@ -22,18 +22,14 @@ uniform samplerCube skyBoxTexture;
 
 in vec3 vertexPosition;
 
-void writePhysicalGeometry(
-    in vec3 diffuse,
-    in float roughness,
-    in float metallic,
-    in vec3 worldNormal,
-    in vec3 worldPosition,
-    in float depth);
+void writePostLightAccumulation(
+    in  vec3    color,
+    in  float   depth);
 
 void main()
 {
     vec3 color = texture(skyBoxTexture, -vertexPosition).rgb;
-    writePhysicalGeometry(color, 0.0, 0.0, vec3(0.0), vec3(0.0), 0.0);
+    writePostLightAccumulation(color, 1.0);
 }
 
 #endif

@@ -77,28 +77,6 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             _renderer.bindTarget(_geometryBuffer);
             _renderer.clear();
 
-            // Render the sky box if there is one
-            auto skyBox = scene.components<SkyBox>().begin();
-            if (skyBox)
-            {
-                // Construct a transform at the camera's position
-                Transform transform;
-                transform.globalPosition = camera->position;
-
-                // Update the sky box material to use this sky box's texture
-                for (Technique& technique : _skyBoxMaterial->techniques())
-                {
-                    for (Pass& pass : technique.passes())
-                    {
-                        pass.clearTextures();
-                        pass.addTexture(skyBox->texture);
-                    }
-                }
-
-                // Render the sky box
-                renderMesh(*camera, _geometryBuffer, *_skyBoxMaterial, *_skyBoxMesh, transform);
-            }
-
             // Render each entity in hierarchical order
             for (Entity& entity : scene.entities())
             {
@@ -119,8 +97,8 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 
             RenderState state;
             state.enable(RenderStateFlag_Blend);
+            state.enable(RenderStateFlag_DepthWrite);
             state.disable(RenderStateFlag_DepthTest);
-            state.disable(RenderStateFlag_DepthWrite);
             _renderer.bindState(state);
 
             // Get the first light probe
@@ -170,6 +148,28 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             {
             }
 
+            // Render the sky box if there is one
+            auto skyBox = scene.components<SkyBox>().begin();
+            if (skyBox)
+            {
+                // Construct a transform at the camera's position
+                Transform transform;
+                transform.globalPosition = camera->position;
+
+                // Update the sky box material to use this sky box's texture
+                for (Technique& technique : _skyBoxMaterial->techniques())
+                {
+                    for (Pass& pass : technique.passes())
+                    {
+                        pass.clearTextures();
+                        pass.addTexture(skyBox->texture);
+                    }
+                }
+
+                // Render the sky box
+                renderMesh(*camera, _accumulationBuffer, *_skyBoxMaterial, *_skyBoxMesh, transform);
+            }
+
             _renderer.endFrame();
         }
 
@@ -185,8 +185,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 
             _renderer.bindShader(*_compositorShader);
 
-            _renderer.bindTexture(*_geometryBuffer.targets().begin(), 0);
-            _renderer.bindTexture(*_accumulationBuffer.targets().begin(), 1);
+            _renderer.bindTexture(*_accumulationBuffer.targets().begin(), 0);
 
             // Bind and draw the composited image
             _renderer.bindMesh(*_screenMesh);
@@ -211,14 +210,14 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     // Material: Roughness Metallic ?
     _geometryBuffer.addTarget(Texture("MaterialBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
 
-    // Position: X Y Z
+    // World Position: X Y Z
     _geometryBuffer.addTarget(Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, filter, filter, false, false));
 
-    // Normal: X Y Z Depth
+    // World Normal: X Y Z Depth
     _geometryBuffer.addTarget(Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
 
     _accumulationBuffer = FrameBuffer();
-    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
+    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
 }
 
 Technique& SceneRenderer::selectTechnique(Material& material) const

@@ -17,4 +17,5 @@ void writePhysicalGeometry(
     outputMaterial = vec3(roughness, metallic, 0.0);
     outputNormal = vec4(normalize(worldNormal), depth);
     outputPosition = worldPosition;
+    gl_FragDepth = depth;
 }

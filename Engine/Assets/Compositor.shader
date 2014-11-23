@@ -21,13 +21,8 @@
             "type": "Float"
         },
         {
-            "name": "diffuseBuffer",
-            "value": 0,
-            "type": "Texture"
-        },
-        {
             "name": "accumulationBuffer",
-            "value": 1,
+            "value": 0,
             "type": "Texture"
         }
     ]
