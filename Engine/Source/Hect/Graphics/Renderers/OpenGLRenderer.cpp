@@ -103,10 +103,9 @@ class FrameBufferData :
     public Renderer::Data<FrameBuffer>
 {
 public:
-    FrameBufferData(Renderer& renderer, FrameBuffer& object, GLuint frameBufferId, GLuint depthBufferId) :
+    FrameBufferData(Renderer& renderer, FrameBuffer& object, GLuint frameBufferId) :
         Renderer::Data<FrameBuffer>(renderer, object),
-        frameBufferId(frameBufferId),
-        depthBufferId(depthBufferId)
+        frameBufferId(frameBufferId)
     {
     }
 
@@ -120,7 +119,29 @@ public:
     }
 
     GLuint frameBufferId;
-    GLuint depthBufferId;
+};
+
+// OpenGL-specific data for a render buffer
+class RenderBufferData :
+    public Renderer::Data<RenderBuffer>
+{
+public:
+    RenderBufferData(Renderer& renderer, RenderBuffer& object, GLuint renderBufferId) :
+        Renderer::Data<RenderBuffer>(renderer, object),
+        renderBufferId(renderBufferId)
+    {
+    }
+
+    ~RenderBufferData()
+    {
+        // Destroy the frame buffer if it is uploaded
+        if (object && object->isUploaded())
+        {
+            renderer->destroyRenderBuffer(*object);
+        }
+    }
+
+    GLuint renderBufferId;
 };
 
 // OpenGL-specific data for a mesh
@@ -273,6 +294,33 @@ GLenum _textureTypeLookUp[3] =
 {
     GL_TEXTURE_2D,
     GL_TEXTURE_CUBE_MAP
+};
+
+GLenum _renderBufferFormatLookUp[1] =
+{
+    GL_DEPTH_COMPONENT // DepthComponent
+};
+
+GLenum _frameBufferSlotLookUp[18] =
+{
+    GL_COLOR_ATTACHMENT0, // Color0
+    GL_COLOR_ATTACHMENT1, // Color1
+    GL_COLOR_ATTACHMENT2, // Color2
+    GL_COLOR_ATTACHMENT3, // Color3
+    GL_COLOR_ATTACHMENT4, // Color4
+    GL_COLOR_ATTACHMENT5, // Color5
+    GL_COLOR_ATTACHMENT6, // Color6
+    GL_COLOR_ATTACHMENT7, // Color7
+    GL_COLOR_ATTACHMENT8, // Color8
+    GL_COLOR_ATTACHMENT9, // Color9
+    GL_COLOR_ATTACHMENT10, // Color10
+    GL_COLOR_ATTACHMENT11, // Color11
+    GL_COLOR_ATTACHMENT12, // Color12
+    GL_COLOR_ATTACHMENT13, // Color13
+    GL_COLOR_ATTACHMENT14, // Color14
+    GL_COLOR_ATTACHMENT15, // Color15
+    GL_DEPTH_ATTACHMENT, // Depth
+    GL_STENCIL_ATTACHMENT // Stencil
 };
 
 }
@@ -436,30 +484,44 @@ void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     }
 
     GLuint frameBufferId = 0;
-    GLuint depthBufferId = 0;
 
     GL_ASSERT(glGenFramebuffers(1, &frameBufferId));
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId));
 
-    if (frameBuffer.hasDepthComponent())
+    // Attach all render buffers
+    for (FrameBuffer::RenderBufferAttachment& attachment : frameBuffer.renderBufferAttachments())
     {
-        GL_ASSERT(glGenRenderbuffers(1, &depthBufferId));
-        GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId));
-        GL_ASSERT(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, frameBuffer.width(), frameBuffer.height()));
-        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId));
+        RenderBuffer& renderBuffer = *attachment.renderBuffer;
+
+        // Upload the render buffer if needed
+        if (!renderBuffer.isUploaded())
+        {
+            uploadRenderBuffer(renderBuffer);
+        }
+
+        // Attach the render buffer to the frame buffer
+        auto renderBufferData = renderBuffer.dataAs<RenderBufferData>();
+        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, _frameBufferSlotLookUp[attachment.slot], GL_RENDERBUFFER, renderBufferData->renderBufferId));
     }
 
-    GLenum mrt[8];
+    GLenum mrt[16];
 
-    int targetIndex = 0;
-    for (Texture& target : frameBuffer.targets())
+    // Attach all textures
+    int textureIndex = 0;
+    for (FrameBuffer::TextureAttachment& attachment : frameBuffer.textureAttachments())
     {
-        uploadTexture(target);
+        Texture& texture = *attachment.texture;
 
-        auto targetData = target.dataAs<TextureData>();
-        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + targetIndex, GL_TEXTURE_2D, targetData->textureId, 0));
+        // Upload the texture if needed
+        if (!texture.isUploaded())
+        {
+            uploadTexture(texture);
+        }
 
-        mrt[targetIndex++] = GL_COLOR_ATTACHMENT0 + targetIndex;
+        auto targetData = texture.dataAs<TextureData>();
+        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, _frameBufferSlotLookUp[attachment.slot], GL_TEXTURE_2D, targetData->textureId, 0));
+
+        mrt[textureIndex++] = _frameBufferSlotLookUp[attachment.slot];
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
@@ -467,9 +529,9 @@ void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
         }
     }
 
-    GL_ASSERT(glDrawBuffers(targetIndex, mrt));
+    GL_ASSERT(glDrawBuffers(textureIndex, mrt));
 
-    frameBuffer.setAsUploaded(*this, new FrameBufferData(*this, frameBuffer, frameBufferId, depthBufferId));
+    frameBuffer.setAsUploaded(*this, new FrameBufferData(*this, frameBuffer, frameBufferId));
 
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
@@ -484,9 +546,40 @@ void OpenGLRenderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
     auto data = frameBuffer.dataAs<FrameBufferData>();
 
     GL_ASSERT(glDeleteFramebuffers(1, &data->frameBufferId));
-    GL_ASSERT(glDeleteRenderbuffers(1, &data->depthBufferId));
 
     frameBuffer.setAsDestroyed();
+}
+
+void OpenGLRenderer::uploadRenderBuffer(RenderBuffer& renderBuffer)
+{
+    if (renderBuffer.isUploaded())
+    {
+        return;
+    }
+
+    GLuint renderBufferId = 0;
+
+    GL_ASSERT(glGenRenderbuffers(1, &renderBufferId));
+    GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, renderBufferId));
+    GL_ASSERT(glRenderbufferStorage(GL_RENDERBUFFER, _renderBufferFormatLookUp[renderBuffer.format()], renderBuffer.width(), renderBuffer.height()));
+
+    renderBuffer.setAsUploaded(*this, new RenderBufferData(*this, renderBuffer, renderBufferId));
+
+    GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, 0));
+}
+
+void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
+{
+    if (!renderBuffer.isUploaded())
+    {
+        return;
+    }
+
+    auto data = renderBuffer.dataAs<RenderBufferData>();
+
+    GL_ASSERT(glDeleteRenderbuffers(1, &data->renderBufferId));
+
+    renderBuffer.setAsDestroyed();
 }
 
 void OpenGLRenderer::bindShader(Shader& shader)

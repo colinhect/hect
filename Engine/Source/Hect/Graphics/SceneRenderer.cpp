@@ -73,7 +73,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         // Geometry buffer rendering
         {
             _renderer.beginFrame();
-            _renderer.bindTarget(_geometryBuffer);
+            _renderer.bindTarget(_geometryFrameBuffer);
             _renderer.clear();
 
             // Render each entity in hierarchical order
@@ -91,7 +91,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         // Accumulation buffer rendering
         {
             _renderer.beginFrame();
-            _renderer.bindTarget(_accumulationBuffer);
+            _renderer.bindTarget(_accumulationFrameBuffer);
             _renderer.clear();
 
             RenderState state;
@@ -108,9 +108,9 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             }
 
             unsigned int index = 0;
-            for (Texture& target : _geometryBuffer.targets())
+            for (FrameBuffer::TextureAttachment& attachment : _geometryFrameBuffer.textureAttachments())
             {
-                _renderer.bindTexture(target, index++);
+                _renderer.bindTexture(*attachment.texture, index++);
             }
             _renderer.bindTexture(*lightProbe->texture, index++);
             _renderer.bindMesh(*_screenMesh);
@@ -191,7 +191,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             _renderer.bindShader(*_compositorShader);
             setBoundShaderParameters(*_compositorShader, *camera, target, transform);
 
-            _renderer.bindTexture(*_accumulationBuffer.targets().begin(), 0);
+            _renderer.bindTexture(*_accumulationFrameBuffer.textureAttachments().begin()->texture, 0);
 
             // Bind and draw the composited image
             _renderer.bindMesh(*_screenMesh);
@@ -206,28 +206,41 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
 {
     _buffersInitialized = true;
 
-    TextureFilter filter = TextureFilter_Nearest;
+    TextureFilter nearest = TextureFilter_Nearest;
 
-    _geometryBuffer = FrameBuffer();
+    // Depth buffer
+    _depthBuffer = RenderBuffer(RenderBufferFormat_DepthComponent, width, height);
 
-    // Diffuse: Red Green Blue
-    _geometryBuffer.addTarget(Texture("DiffuseBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
+    // Diffuse buffer: Red Green Blue
+    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
 
-    // Material: Roughness Metallic ?
-    _geometryBuffer.addTarget(Texture("MaterialBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, filter, filter, false, false));
+    // Material buffer: Roughness Metallic ?
+    _materialBuffer = Texture("MaterialBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
 
-    // World Position: X Y Z
-    _geometryBuffer.addTarget(Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, filter, filter, false, false));
+    // World position buffer: X Y Z
+    _positionlBuffer = Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
 
-    // World Normal: X Y Z Depth
-    _geometryBuffer.addTarget(Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
+    // World normal buffer: X Y Z Depth
+    _normalBuffer = Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
 
-    _renderer.uploadFrameBuffer(_geometryBuffer);
+    // Light accumulation buffer
+    _accumulationBuffer = Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
 
-    _accumulationBuffer = FrameBuffer();
-    _accumulationBuffer.addTarget(Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, filter, filter, false, false));
+    // Geometry frame buffer
+    _geometryFrameBuffer = FrameBuffer(width, height);
+    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color0, _diffuseBuffer);
+    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color1, _materialBuffer);
+    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color2, _positionlBuffer);
+    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color3, _normalBuffer);
+    _geometryFrameBuffer.attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
 
-    _renderer.uploadFrameBuffer(_accumulationBuffer);
+    // Light accumulation frame buffer
+    _accumulationFrameBuffer = FrameBuffer(width, height);
+    _accumulationFrameBuffer.attachTexture(FrameBufferSlot_Color0, _accumulationBuffer);
+    _accumulationFrameBuffer.attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
+
+    _renderer.uploadFrameBuffer(_geometryFrameBuffer);
+    _renderer.uploadFrameBuffer(_accumulationFrameBuffer);
 }
 
 Technique& SceneRenderer::selectTechnique(Material& material) const

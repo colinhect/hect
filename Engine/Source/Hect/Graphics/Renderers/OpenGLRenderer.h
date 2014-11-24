@@ -44,6 +44,8 @@ public:
     void bindFrameBuffer(FrameBuffer& frameBuffer) override;
     void uploadFrameBuffer(FrameBuffer& frameBuffer) override;
     void destroyFrameBuffer(FrameBuffer& frameBuffer) override;
+    void uploadRenderBuffer(RenderBuffer& renderBuffer) override;
+    void destroyRenderBuffer(RenderBuffer& renderBuffer) override;
     void bindShader(Shader& shader) override;
     void uploadShader(Shader& shader) override;
     void destroyShader(Shader& shader) override;

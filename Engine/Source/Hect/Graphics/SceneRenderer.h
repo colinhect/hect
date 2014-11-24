@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/FrameBuffer.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/Material.h"
@@ -66,8 +67,16 @@ private:
 
     Renderer& _renderer;
 
-    FrameBuffer _geometryBuffer;
-    FrameBuffer _accumulationBuffer;
+    RenderBuffer _depthBuffer;
+
+    Texture _diffuseBuffer;
+    Texture _materialBuffer;
+    Texture _positionlBuffer;
+    Texture _normalBuffer;
+    Texture _accumulationBuffer;
+
+    FrameBuffer _geometryFrameBuffer;
+    FrameBuffer _accumulationFrameBuffer;
 
     AssetHandle<Shader> _compositorShader;
     AssetHandle<Shader> _environmentShader;

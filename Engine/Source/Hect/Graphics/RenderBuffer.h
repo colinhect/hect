@@ -23,86 +23,55 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Logic/Scene.h"
-#include "Hect/Spacial/Frustum.h"
+#include "Hect/Graphics/Renderer.h"
 
 namespace hect
 {
 
-class Transform;
+///
+/// The format of a render buffer.
+enum RenderBufferFormat
+{
+    ///
+    /// A depth render buffer.
+    RenderBufferFormat_DepthComponent
+};
 
 ///
-/// A camera component.
-///
-/// \component
-class Camera :
-    public Component<Camera>
+/// A render buffer to be used with a frame buffer.
+class RenderBuffer :
+    public Renderer::Object<RenderBuffer>
 {
 public:
 
     ///
-    /// The horizontal field of view.
-    ///
-    /// \property
-    Angle fieldOfView { Angle::fromDegrees(90) };
+    /// Constructs a render buffer.
+    RenderBuffer();
 
     ///
-    /// The aspect ratio.
+    /// Constructs a render buffer.
     ///
-    /// \property
-    Real aspectRatio { 1 };
+    /// \param format The format.
+    /// \param width The width.
+    /// \param height The height.
+    RenderBuffer(RenderBufferFormat format, unsigned width, unsigned height);
 
     ///
-    /// The near clip distance.
-    ///
-    /// \property
-    Real nearClip { Real(0.1) };
+    /// Returns the format.
+    RenderBufferFormat format() const;
 
     ///
-    /// The far clip distance.
-    ///
-    /// \property
-    Real farClip { Real(10000) };
+    /// Returns the width.
+    unsigned width() const;
 
     ///
-    /// The exposure.
-    ///
-    /// \property
-    Real exposure { Real(1) };
+    /// Returns the height.
+    unsigned height() const;
 
-    ///
-    /// The gamma.
-    ///
-    /// \property
-    Real gamma { Real(2.2) };
-
-    ///
-    /// The front vector.
-    Vector3 front { -Vector3::unitZ() };
-
-    ///
-    /// The up vector.
-    Vector3 up { Vector3::unitY() };
-
-    ///
-    /// The right vector.
-    Vector3 right { Vector3::unitX() };
-
-    ///
-    /// The position.
-    Vector3 position;
-
-    ///
-    /// The view matrix.
-    Matrix4 viewMatrix;
-
-    ///
-    /// The projection matrix.
-    Matrix4 projectionMatrix;
-
-    ///
-    /// The frustum.
-    Frustum frustum;
+private:
+    RenderBufferFormat _format { RenderBufferFormat_DepthComponent };
+    unsigned _width { 0 };
+    unsigned _height { 0 };
 };
 
 }

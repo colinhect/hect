@@ -23,50 +23,88 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "FrameBuffer.h"
 
-#include <algorithm>
-
-#include "Hect/Graphics/Renderer.h"
-
 using namespace hect;
+
+FrameBuffer::FrameBuffer()
+{
+}
+
+FrameBuffer::FrameBuffer(unsigned width, unsigned height) :
+    RenderTarget(width, height)
+{
+}
 
 void FrameBuffer::bind(Renderer& renderer)
 {
     renderer.bindFrameBuffer(*this);
 }
 
-FrameBuffer::TextureSequence FrameBuffer::targets()
+void FrameBuffer::attachTexture(FrameBufferSlot slot, Texture& texture)
 {
-    return TextureSequence(_targets);
-}
+    ensureSlotEmpty(slot);
 
-const FrameBuffer::TextureSequence FrameBuffer::targets() const
-{
-    return TextureSequence(_targets);
-}
-
-void FrameBuffer::addTarget(const Texture& target)
-{
     if (isUploaded())
     {
         renderer().destroyFrameBuffer(*this);
     }
 
-    setWidth(std::max(width(), target.width()));
-    setHeight(std::max(height(), target.height()));
+    TextureAttachment attachment;
+    attachment.slot = slot;
+    attachment.texture = &texture;
 
-    _targets.push_back(target);
+    _textureAttachments.push_back(attachment);
 }
 
-bool FrameBuffer::hasDepthComponent() const
+FrameBuffer::TextureAttachmentSequence FrameBuffer::textureAttachments()
 {
-    return _depthComponent;
+    return _textureAttachments;
 }
 
-void FrameBuffer::setDepthComponent(bool depthComponent)
+void FrameBuffer::attachRenderBuffer(FrameBufferSlot slot, RenderBuffer& renderBuffer)
 {
+    ensureSlotEmpty(slot);
+
     if (isUploaded())
     {
         renderer().destroyFrameBuffer(*this);
     }
-    _depthComponent = depthComponent;
+
+    RenderBufferAttachment attachment;
+    attachment.slot = slot;
+    attachment.renderBuffer = &renderBuffer;
+
+    _renderBufferAttachments.push_back(attachment);
+}
+
+FrameBuffer::RenderBufferAttachmentSequence FrameBuffer::renderBufferAttachments()
+{
+    return _renderBufferAttachments;
+}
+
+void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
+{
+    bool empty = true;
+
+    // Check if any textures are attached to this slot
+    for (const TextureAttachment& attachment : _textureAttachments)
+    {
+        if (attachment.slot == slot)
+        {
+            empty = false;
+        }
+    }
+
+    // Check if any render buffers are attached to this slot
+    for (const RenderBufferAttachment& attachment : _renderBufferAttachments)
+    {
+        if (attachment.slot == slot)
+        {
+            empty = false;
+        }
+    }
+
+    if (!empty)
+    {
+        throw Error(format("Frame buffer slot '%s' is not empty", Enum::toString(slot).c_str()));
+    }
 }

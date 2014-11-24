@@ -83,11 +83,11 @@ enum RenderStateFlag
     RenderStateFlag_Blend = 1,
 
     ///
-    /// Tests whether a pixel should be occluded based on the depth buffer.
+    /// Tests whether a pixel should be occluded based on the render buffer.
     RenderStateFlag_DepthTest = 2,
 
     ///
-    // Writes a pixel's depth to the depth buffer.
+    // Writes a pixel's depth to the render buffer.
     RenderStateFlag_DepthWrite = 4,
 
     ///

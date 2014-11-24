@@ -30,6 +30,7 @@
 namespace hect
 {
 
+class RenderBuffer;
 class FrameBuffer;
 class Mesh;
 class RenderTarget;
@@ -224,6 +225,18 @@ public:
     ///
     /// \param frameBuffer The frame buffer to destroy.
     virtual void destroyFrameBuffer(FrameBuffer& frameBuffer) = 0;
+
+    ///
+    /// Uploads a render buffer.
+    ///
+    /// \param renderBuffer The render buffer to upload.
+    virtual void uploadRenderBuffer(RenderBuffer& renderBuffer) = 0;
+
+    ///
+    /// Destroys a render buffer.
+    ///
+    /// \param renderBuffer The render buffer to destroy.
+    virtual void destroyRenderBuffer(RenderBuffer& renderBuffer) = 0;
 
     ///
     /// Binds a shader.

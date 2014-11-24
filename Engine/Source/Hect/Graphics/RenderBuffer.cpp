@@ -21,88 +21,32 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "RenderBuffer.h"
 
-#include "Hect/Logic/Scene.h"
-#include "Hect/Spacial/Frustum.h"
+using namespace hect;
 
-namespace hect
+RenderBuffer::RenderBuffer()
 {
+}
 
-class Transform;
-
-///
-/// A camera component.
-///
-/// \component
-class Camera :
-    public Component<Camera>
+RenderBuffer::RenderBuffer(RenderBufferFormat format, unsigned width, unsigned height) :
+    _format(format),
+    _width(width),
+    _height(height)
 {
-public:
+}
 
-    ///
-    /// The horizontal field of view.
-    ///
-    /// \property
-    Angle fieldOfView { Angle::fromDegrees(90) };
+RenderBufferFormat RenderBuffer::format() const
+{
+    return _format;
+}
 
-    ///
-    /// The aspect ratio.
-    ///
-    /// \property
-    Real aspectRatio { 1 };
+unsigned RenderBuffer::width() const
+{
+    return _width;
+}
 
-    ///
-    /// The near clip distance.
-    ///
-    /// \property
-    Real nearClip { Real(0.1) };
-
-    ///
-    /// The far clip distance.
-    ///
-    /// \property
-    Real farClip { Real(10000) };
-
-    ///
-    /// The exposure.
-    ///
-    /// \property
-    Real exposure { Real(1) };
-
-    ///
-    /// The gamma.
-    ///
-    /// \property
-    Real gamma { Real(2.2) };
-
-    ///
-    /// The front vector.
-    Vector3 front { -Vector3::unitZ() };
-
-    ///
-    /// The up vector.
-    Vector3 up { Vector3::unitY() };
-
-    ///
-    /// The right vector.
-    Vector3 right { Vector3::unitX() };
-
-    ///
-    /// The position.
-    Vector3 position;
-
-    ///
-    /// The view matrix.
-    Matrix4 viewMatrix;
-
-    ///
-    /// The projection matrix.
-    Matrix4 projectionMatrix;
-
-    ///
-    /// The frustum.
-    Frustum frustum;
-};
-
+unsigned RenderBuffer::height() const
+{
+    return _height;
 }
