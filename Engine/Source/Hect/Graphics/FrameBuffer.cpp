@@ -43,6 +43,11 @@ void FrameBuffer::attachTexture(FrameBufferSlot slot, Texture& texture)
 {
     ensureSlotEmpty(slot);
 
+    if (texture.width() != width() || texture.height() != height())
+    {
+        throw Error("Cannot attach texture to a frame buffer of a different size");
+    }
+
     if (isUploaded())
     {
         renderer().destroyFrameBuffer(*this);
@@ -63,6 +68,11 @@ FrameBuffer::TextureAttachmentSequence FrameBuffer::textureAttachments()
 void FrameBuffer::attachRenderBuffer(FrameBufferSlot slot, RenderBuffer& renderBuffer)
 {
     ensureSlotEmpty(slot);
+
+    if (renderBuffer.width() != width() || renderBuffer.height() != height())
+    {
+        throw Error("Cannot attach render buffer to a frame buffer of a different size");
+    }
 
     if (isUploaded())
     {

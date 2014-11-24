@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/FrameBuffer.h"
+#include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"

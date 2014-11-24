@@ -178,7 +178,8 @@ public:
     /// \param slot The slot to attach the texture to.
     /// \param texture The texture to attach to the frame buffer.
     ///
-    /// \throws Error If something is already attached to the given slot.
+    /// \throws Error If something is already attached to the given slot or if
+    /// the texture is not the same size as the frame buffer.
     void attachTexture(FrameBufferSlot slot, Texture& texture);
 
     ///
@@ -194,7 +195,8 @@ public:
     /// \param slot The slot to attach the texture to.
     /// \param renderBuffer The render buffer to attach to the frame buffer.
     ///
-    /// \throws Error If something is already attached to the given slot.
+    /// \throws Error If something is already attached to the given slot or if
+    /// the render buffer is not the same size as the frame buffer.
     void attachRenderBuffer(FrameBufferSlot slot, RenderBuffer& renderBuffer);
 
     ///
