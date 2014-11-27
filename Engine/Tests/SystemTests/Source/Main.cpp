@@ -24,10 +24,11 @@ int main(int argc, char* const argv[])
     try
     {
         // Use hardcoded command-line arguments for the engine to use
+        char configPath[] = "HectSystemTests.config";
         char* const engineArgv[] =
         {
             argv[0],
-            "HectSystemTests.config"
+            configPath
         };
 
         hect::Engine engine(2, engineArgv);

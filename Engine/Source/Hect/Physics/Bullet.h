@@ -31,6 +31,9 @@
 
 #ifdef HECT_WINDOWS_BUILD
 #pragma warning(push, 0)
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wall"
 #endif
 
 #ifdef HECT_DOUBLE_PRECISION
@@ -41,6 +44,8 @@
 
 #ifdef HECT_WINDOWS_BUILD
 #pragma warning(pop)
+#else
+#pragma clang diagnostic pop
 #endif
 
 namespace hect
