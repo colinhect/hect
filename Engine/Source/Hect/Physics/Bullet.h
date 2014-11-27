@@ -33,7 +33,8 @@
 #pragma warning(push, 0)
 #else
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wall -Wextra"
+#pragma clang diagnostic ignored "-Wall"
+#pragma clang diagnostic ignored "-Wextra"
 #endif
 
 #ifdef HECT_DOUBLE_PRECISION
