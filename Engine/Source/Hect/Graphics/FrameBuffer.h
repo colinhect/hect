@@ -33,71 +33,71 @@ namespace hect
 {
 
 ///
-/// A slot for a frame buffer attachement.
+/// A slot for a frame buffer attachment.
 enum FrameBufferSlot
 {
     ///
-    /// The first color component.
+    /// The 1st color component.
     FrameBufferSlot_Color0,
 
     ///
-    /// The second color component.
+    /// The 2nd color component.
     FrameBufferSlot_Color1,
 
     ///
-    /// The third color component.
+    /// The 3rd color component.
     FrameBufferSlot_Color2,
 
     ///
-    /// The fourth color component.
+    /// The 4th color component.
     FrameBufferSlot_Color3,
 
     ///
-    /// The fifth color component.
+    /// The 5th color component.
     FrameBufferSlot_Color4,
 
     ///
-    /// The sixth color component.
+    /// The 6th color component.
     FrameBufferSlot_Color5,
 
     ///
-    /// The seventh color component.
+    /// The 7th color component.
     FrameBufferSlot_Color6,
 
     ///
-    /// The eighth color component.
+    /// The 8th color component.
     FrameBufferSlot_Color7,
 
     ///
-    /// The nineth color component.
+    /// The 9th color component.
     FrameBufferSlot_Color8,
 
     ///
-    /// The tenth color component.
+    /// The 10th color component.
     FrameBufferSlot_Color9,
 
     ///
-    /// The eleventh color component.
+    /// The 11th color component.
     FrameBufferSlot_Color10,
 
     ///
-    /// The twelfth color component.
+    /// The 12th color component.
     FrameBufferSlot_Color11,
 
     ///
-    /// The thirteenth color component.
+    /// The 13th color component.
     FrameBufferSlot_Color12,
 
     ///
-    /// The forteenth color component.
+    /// The 14th color component.
     FrameBufferSlot_Color13,
 
     ///
-    /// The fifteenth color component.
+    /// The 15th color component.
     FrameBufferSlot_Color14,
 
     ///
-    /// The sixteenth color component.
+    /// The 16th color component.
     FrameBufferSlot_Color15,
 
     ///
@@ -121,31 +121,66 @@ public:
     /// A texture attachment.
     struct TextureAttachment
     {
-        ///
-        /// The slot that the texture is attached to.
-        FrameBufferSlot slot { FrameBufferSlot_Color0 };
+    public:
 
         ///
-        /// A pointer to the attached texture.
-        Texture* texture { nullptr };
+        /// Constructs a texture attachment.
+        ///
+        /// \param slot The slot that the texture is attached to.
+        /// \param texture The attached texture.
+        TextureAttachment(FrameBufferSlot slot, Texture& texture);
+
+        ///
+        /// Returns the slot that the texture is attached to.
+        FrameBufferSlot slot() const;
+
+        ///
+        /// Returns the attached texture.
+        Texture& texture();
+
+        ///
+        /// Returns the attached texture.
+        const Texture& texture() const;
+
+    private:
+        FrameBufferSlot _slot;
+        Texture* _texture;
     };
 
     ///
     /// A render buffer attachment.
-    struct RenderBufferAttachment
+    class RenderBufferAttachment
     {
-        ///
-        /// The slot that the render buffer is attached to.
-        FrameBufferSlot slot { FrameBufferSlot_Color0 };
+    public:
 
         ///
-        /// A pointer to the attached render buffer.
-        RenderBuffer* renderBuffer { nullptr };
+        /// Constructs a render buffer attachment.
+        ///
+        /// \param slot The slot that the render buffer is attached to.
+        /// \param renderBuffer The attached render buffer.
+        RenderBufferAttachment(FrameBufferSlot slot, RenderBuffer& renderBuffer);
+
+        ///
+        /// Returns the slot that the render buffer is attached to.
+        FrameBufferSlot slot() const;
+
+        ///
+        /// Returns the attached render buffer.
+        RenderBuffer& renderBuffer();
+
+        ///
+        /// Returns the attached render buffer.
+        const RenderBuffer& renderBuffer() const;
+
+    private:
+        FrameBufferSlot _slot;
+        RenderBuffer* _renderBuffer;
     };
 
 private:
     typedef std::vector<TextureAttachment> TextureAttachmentContainer;
     typedef std::vector<RenderBufferAttachment> RenderBufferAttachmentContainer;
+
 public:
 
     ///

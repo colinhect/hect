@@ -491,7 +491,7 @@ void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     // Attach all render buffers
     for (FrameBuffer::RenderBufferAttachment& attachment : frameBuffer.renderBufferAttachments())
     {
-        RenderBuffer& renderBuffer = *attachment.renderBuffer;
+        RenderBuffer& renderBuffer = attachment.renderBuffer();
 
         // Upload the render buffer if needed
         if (!renderBuffer.isUploaded())
@@ -501,7 +501,7 @@ void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 
         // Attach the render buffer to the frame buffer
         auto renderBufferData = renderBuffer.dataAs<RenderBufferData>();
-        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, _frameBufferSlotLookUp[attachment.slot], GL_RENDERBUFFER, renderBufferData->renderBufferId));
+        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, _frameBufferSlotLookUp[attachment.slot()], GL_RENDERBUFFER, renderBufferData->renderBufferId));
     }
 
     GLenum mrt[16];
@@ -510,7 +510,7 @@ void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     int textureIndex = 0;
     for (FrameBuffer::TextureAttachment& attachment : frameBuffer.textureAttachments())
     {
-        Texture& texture = *attachment.texture;
+        Texture& texture = attachment.texture();
 
         // Upload the texture if needed
         if (!texture.isUploaded())
@@ -519,9 +519,9 @@ void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
         }
 
         auto targetData = texture.dataAs<TextureData>();
-        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, _frameBufferSlotLookUp[attachment.slot], GL_TEXTURE_2D, targetData->textureId, 0));
+        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, _frameBufferSlotLookUp[attachment.slot()], GL_TEXTURE_2D, targetData->textureId, 0));
 
-        mrt[textureIndex++] = _frameBufferSlotLookUp[attachment.slot];
+        mrt[textureIndex++] = _frameBufferSlotLookUp[attachment.slot()];
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {

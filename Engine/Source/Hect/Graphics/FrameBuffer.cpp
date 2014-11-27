@@ -25,6 +25,48 @@
 
 using namespace hect;
 
+FrameBuffer::TextureAttachment::TextureAttachment(FrameBufferSlot slot, Texture& texture) :
+    _slot(slot),
+    _texture(&texture)
+{
+}
+
+FrameBufferSlot FrameBuffer::TextureAttachment::slot() const
+{
+    return _slot;
+}
+
+Texture& FrameBuffer::TextureAttachment::texture()
+{
+    return *_texture;
+}
+
+const Texture& FrameBuffer::TextureAttachment::texture() const
+{
+    return *_texture;
+}
+
+FrameBuffer::RenderBufferAttachment::RenderBufferAttachment(FrameBufferSlot slot, RenderBuffer& renderBuffer) :
+    _slot(slot),
+    _renderBuffer(&renderBuffer)
+{
+}
+
+FrameBufferSlot FrameBuffer::RenderBufferAttachment::slot() const
+{
+    return _slot;
+}
+
+RenderBuffer& FrameBuffer::RenderBufferAttachment::renderBuffer()
+{
+    return *_renderBuffer;
+}
+
+const RenderBuffer& FrameBuffer::RenderBufferAttachment::renderBuffer() const
+{
+    return *_renderBuffer;
+}
+
 FrameBuffer::FrameBuffer()
 {
 }
@@ -53,11 +95,7 @@ void FrameBuffer::attachTexture(FrameBufferSlot slot, Texture& texture)
         renderer().destroyFrameBuffer(*this);
     }
 
-    TextureAttachment attachment;
-    attachment.slot = slot;
-    attachment.texture = &texture;
-
-    _textureAttachments.push_back(attachment);
+    _textureAttachments.push_back(TextureAttachment(slot, texture));
 }
 
 FrameBuffer::TextureAttachmentSequence FrameBuffer::textureAttachments()
@@ -79,11 +117,7 @@ void FrameBuffer::attachRenderBuffer(FrameBufferSlot slot, RenderBuffer& renderB
         renderer().destroyFrameBuffer(*this);
     }
 
-    RenderBufferAttachment attachment;
-    attachment.slot = slot;
-    attachment.renderBuffer = &renderBuffer;
-
-    _renderBufferAttachments.push_back(attachment);
+    _renderBufferAttachments.push_back(RenderBufferAttachment(slot, renderBuffer));
 }
 
 FrameBuffer::RenderBufferAttachmentSequence FrameBuffer::renderBufferAttachments()
@@ -98,7 +132,7 @@ void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
     // Check if any textures are attached to this slot
     for (const TextureAttachment& attachment : _textureAttachments)
     {
-        if (attachment.slot == slot)
+        if (attachment.slot() == slot)
         {
             empty = false;
         }
@@ -107,7 +141,7 @@ void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
     // Check if any render buffers are attached to this slot
     for (const RenderBufferAttachment& attachment : _renderBufferAttachments)
     {
-        if (attachment.slot == slot)
+        if (attachment.slot() == slot)
         {
             empty = false;
         }

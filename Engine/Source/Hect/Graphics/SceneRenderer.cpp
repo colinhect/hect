@@ -110,7 +110,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             unsigned int index = 0;
             for (FrameBuffer::TextureAttachment& attachment : _geometryFrameBuffer.textureAttachments())
             {
-                _renderer.bindTexture(*attachment.texture, index++);
+                _renderer.bindTexture(attachment.texture(), index++);
             }
             _renderer.bindTexture(*lightProbe->texture, index++);
             _renderer.bindMesh(*_screenMesh);
@@ -191,7 +191,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             _renderer.bindShader(*_compositorShader);
             setBoundShaderParameters(*_compositorShader, *camera, target, transform);
 
-            _renderer.bindTexture(*_accumulationFrameBuffer.textureAttachments().begin()->texture, 0);
+            _renderer.bindTexture(_accumulationFrameBuffer.textureAttachments().begin()->texture(), 0);
 
             // Bind and draw the composited image
             _renderer.bindMesh(*_screenMesh);
