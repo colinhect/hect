@@ -14,6 +14,7 @@ Build status: [![Build status](https://travis-ci.org/colinhect/hect.png)](https:
 * [Microsoft Visual Studio 2013 (Express or Professional)](http://www.visualstudio.com)
 
 ### Linux
+* [Clang 3.4](https://clang.llvm.org)
 * [GCC 4.8](https://gcc.gnu.org)
 * [Make](http://www.gnu.org/software/make)
 * [SDL2](https://www.libsdl.org)
