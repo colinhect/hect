@@ -33,7 +33,7 @@ IPAddress::IPAddress()
 
 IPAddress::IPAddress(const char* hostName)
 {
-    ENetAddress address = { 0 };
+    ENetAddress address = { 0, 0 };
     if (enet_address_set_host(&address, hostName) == 0)
     {
         _address = address.host;
@@ -57,7 +57,7 @@ bool IPAddress::isValid() const
 
 std::string IPAddress::asString() const
 {
-    ENetAddress address = { 0 };
+    ENetAddress address = { 0, 0 };
     address.host = _address;
 
     char hostName[128];

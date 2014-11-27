@@ -74,6 +74,7 @@ public:
 
     void tick(Real timeStep) override
     {
+        (void)timeStep;
     }
 
     void encode(Encoder& encoder) const

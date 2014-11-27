@@ -269,6 +269,8 @@ void NullRenderer::destroyTexture(Texture& texture)
 
 Image NullRenderer::downloadTextureImage(const Texture& texture)
 {
+    (void)texture;
+
     return Image();
 }
 

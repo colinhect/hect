@@ -71,6 +71,8 @@ void TransformSystem::markForUpdate(Transform& transform)
 
 void TransformSystem::tick(Real timeStep)
 {
+    (void)timeStep;
+
     ComponentPool<Transform>& transformPool = scene().components<Transform>();
     for (ComponentId id : _markedForUpdate)
     {

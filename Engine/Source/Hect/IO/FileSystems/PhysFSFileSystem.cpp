@@ -46,6 +46,8 @@ using namespace hect;
 
 PhysFSFileSystem::PhysFSFileSystem(int argc, char* const argv[])
 {
+    (void)argc;
+
     assert(!_initialized);
     if (!PHYSFS_init(argv[0]))
     {
