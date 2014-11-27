@@ -45,6 +45,8 @@ void BoundingBoxSystem::markForUpdate(BoundingBox& boundingBox)
 
 void BoundingBoxSystem::tick(Real timeStep)
 {
+    (void)timeStep;
+
     ComponentPool<BoundingBox>& boundingBoxPool = scene().components<BoundingBox>();
     for (ComponentId id : _markedForUpdate)
     {
