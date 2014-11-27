@@ -27,6 +27,7 @@
 #include <typeindex>
 #include <typeinfo>
 
+#include "Hect/IO/Asset.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/Logic/Component.h"
@@ -47,7 +48,8 @@ class Engine;
 ///
 /// A scene of entities, components, and systems.
 class Scene :
-    public Uncopyable
+    public Uncopyable,
+    public Asset
 {
     friend class Entity;
 public:

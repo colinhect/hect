@@ -62,7 +62,8 @@ public:
     ///
     /// \param assetCache The asset cache.
     /// \param path The path to the asset.
-    AssetEntry(AssetCache& assetCache, const Path& path);
+    /// \param constructor A function constructing a new instance of the asset.
+    AssetEntry(AssetCache& assetCache, const Path& path, std::function<T*()> constructor);
 
     void refresh(bool force) override;
 
@@ -78,8 +79,10 @@ private:
     void initiateLoad();
     void load();
 
-    AssetCache& _assetCache { nullptr };
+    AssetCache& _assetCache;
     Path _path;
+    
+    std::function<T*()> _constructor;
 
     Task::Handle _taskHandle;
 

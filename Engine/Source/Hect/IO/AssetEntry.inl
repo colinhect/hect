@@ -31,9 +31,10 @@ namespace hect
 {
 
 template <typename T>
-AssetEntry<T>::AssetEntry(AssetCache& assetCache, const Path& path) :
+AssetEntry<T>::AssetEntry(AssetCache& assetCache, const Path& path, std::function<T*()> constructor) :
     _assetCache(assetCache),
-    _path(path)
+    _path(path),
+    _constructor(constructor)
 {
     initiateLoad();
 }
@@ -88,14 +89,13 @@ void AssetEntry<T>::initiateLoad()
     _taskHandle = taskPool.enqueue([this]
     {
         load();
-    }
-                                  );
+    });
 }
 
 template <typename T>
 void AssetEntry<T>::load()
 {
-    _asset.reset(new T());
+    _asset.reset(_constructor());
     _errorOccurred = false;
 
     // Load the asset and keep the error message

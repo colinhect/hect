@@ -25,7 +25,7 @@ namespace hect
 {
 
 template <typename T, typename... Args>
-typename Component<T>::Iterator Entity::addComponent(Args... args)
+typename Component<T>::Iterator Entity::addComponent(Args&&... args)
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();
@@ -33,7 +33,7 @@ typename Component<T>::Iterator Entity::addComponent(Args... args)
 }
 
 template <typename T, typename... Args>
-typename Component<T>::Iterator Entity::replaceComponent(Args... args)
+typename Component<T>::Iterator Entity::replaceComponent(Args&&... args)
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();

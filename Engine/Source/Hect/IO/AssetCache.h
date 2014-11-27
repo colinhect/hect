@@ -58,11 +58,13 @@ public:
     /// Returns a reference to the asset at the given path.
     ///
     /// \param path The case-sensitive path to the asset.
+    /// \param args The arguments to pass to the asset's constructor if the
+    /// asset is loaded.
     ///
     /// \throws Error If the asset at the given path is of a different type or
     /// failed to load.
-    template <typename T>
-    T& get(const Path& path);
+    template <typename T, typename... Args>
+    T& get(const Path& path, Args&&... args);
 
     ///
     /// Returns a handle for the asset at the given path.
@@ -71,10 +73,12 @@ public:
     /// provides access to the asset itself.
     ///
     /// \param path The case-sensitive path to the asset.
+    /// \param args The arguments to pass to the asset's constructor if the
+    /// asset is loaded.
     ///
     /// \throws Error If the asset at the given path is of a different type.
-    template <typename T>
-    AssetHandle<T> getHandle(const Path& path);
+    template <typename T, typename... Args>
+    AssetHandle<T> getHandle(const Path& path, Args&&... args);
 
     ///
     /// Re-loads any cached assets of a specific type.

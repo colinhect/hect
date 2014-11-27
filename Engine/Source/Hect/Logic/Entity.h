@@ -444,12 +444,14 @@ public:
     /// \note If the entity is activated then this call will immediately
     /// trigger a ::ComponentEventType_Add event.
     ///
+    /// \param args The arguments to pass to the component's constructor.
+    ///
     /// \returns An iterator to the added component.
     ///
     /// \throws Error If the entity already has a component of the type or if
     /// the entity is invalid.
     template <typename T, typename... Args>
-    typename Component<T>::Iterator addComponent(Args... args);
+    typename Component<T>::Iterator addComponent(Args&&... args);
 
     ///
     /// Replaces an existing component that the entity has.
@@ -458,12 +460,14 @@ public:
     /// trigger a ::ComponentEventType_Add event and a
     /// ::ComponentEventType_Remove event.
     ///
+    /// \param args The arguments to pass to the component's constructor.
+    ///
     /// \returns An iterator to the added component.
     ///
     /// \throws Error If the entity does not have a component of the type or if
     /// the entity is invalid.
     template <typename T, typename... Args>
-    typename Component<T>::Iterator replaceComponent(Args... args);
+    typename Component<T>::Iterator replaceComponent(Args&&... args);
 
     ///
     /// Removes the component of a specific type from the entity.

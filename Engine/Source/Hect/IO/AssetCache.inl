@@ -26,14 +26,14 @@
 namespace hect
 {
 
-template <typename T>
-T& AssetCache::get(const Path& path)
+template <typename T, typename... Args>
+T& AssetCache::get(const Path& path, Args&&... args)
 {
-    return *getHandle<T>(path);
+    return *getHandle<T>(path, args...);
 }
 
-template <typename T>
-AssetHandle<T> AssetCache::getHandle(const Path& path)
+template <typename T, typename... Args>
+AssetHandle<T> AssetCache::getHandle(const Path& path, Args&&... args)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
@@ -45,7 +45,7 @@ AssetHandle<T> AssetCache::getHandle(const Path& path)
     if (it == _entries.end())
     {
         // First time this asset was requested so create a new entry
-        entry.reset(new AssetEntry<T>(*this, resolvedPath));
+        entry.reset(new AssetEntry<T>(*this, resolvedPath, [&]() { return new T(args...); }));
 
         // Add the new entry to the entry map
         _entries[resolvedPath] = entry;
