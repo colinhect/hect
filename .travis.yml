@@ -11,6 +11,8 @@ before_install:
  - export CC=gcc-4.8
  - export CXX=g++-4.8
 
+compiler: clang
+
 install:
  - cmake -H./ -BBuild -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DHEADLESS=ON
  - cd Build
