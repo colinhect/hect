@@ -35,17 +35,27 @@ uniform float metallic;
 in vec3 vertexWorldPosition;
 in vec3 vertexWorldNormal;
 
-void writeGeometry(
-    in  vec3    diffuse,
-    in  float   roughness,
-    in  float   metallic,
-    in  vec3    worldNormal,
-    in  vec3    worldPosition,
-    in  float   depth);
-
-void main()
+// Opaque geometry stage output parameters
+struct StageOutput
 {
-    writeGeometry(diffuse, roughness, metallic, vertexWorldNormal, vertexWorldPosition, gl_FragCoord.z);
+    vec3    diffuse;
+    float   roughness;
+    float   metallic;
+    vec3    normal;
+    vec3    position;
+    float   depth;
+};
+
+// Opaque geometry stage output
+void stage(
+    out StageOutput output)
+{
+    output.diffuse = diffuse;
+    output.roughness = roughness;
+    output.metallic = metallic;
+    output.normal = vertexWorldNormal;
+    output.position = vertexWorldPosition;
+    output.depth = gl_FragCoord.z;
 }
 
 #endif

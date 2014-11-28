@@ -26,7 +26,15 @@ vec3 computeRoughFresnel(
         * pow((1 - clamp(dot(v, h), 0.0, 1.0)), 5.0);
 }
 
-void main()
+// Light accumulation stage output parameters
+struct StageOutput
+{
+    vec3    color;
+};
+
+// Light accumulation stage output
+void stage(
+    out StageOutput output)
 {
     vec3 diffuse;
     float roughness;
@@ -58,9 +66,8 @@ void main()
         // Compute the fresnel attenuated by the roughness
         vec3 fresnel = computeRoughFresnel(realSpecular, roughness * roughness, normal, viewDirection);
 
-        // Write the total light accumulation for the environment
-        vec3 light = fresnel * reflectance + realDiffuse * ambience;
-        writeLightAccumulation(light);
+        // Output the total light accumulation for the environment
+        output.color = fresnel * reflectance + realDiffuse * ambience;
     }
     else
     {

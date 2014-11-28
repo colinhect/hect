@@ -97,7 +97,15 @@ vec3 computeLight(
     return lightColor * nDotL * (d * (1.0 - s) + s);
 }
 
-void main()
+// Light accumulation stage output parameters
+struct StageOutput
+{
+    vec3    color;
+};
+
+// Light accumulation stage output
+void stage(
+    out StageOutput output)
 {
     vec3 diffuse;
     float roughness;
@@ -116,11 +124,8 @@ void main()
         // Compute the view direction
         vec3 viewDirection = normalize(cameraPosition - position);
 
-        // Compute the total light accumulation
-        vec3 light = computeLight(realDiffuse, realSpecular, normal, roughness, -lightDirection, viewDirection);
-
-        // Write the total light accumulation for the light
-        writeLightAccumulation(light);
+        // Compute and output the total light accumulation
+        output.color = computeLight(realDiffuse, realSpecular, normal, roughness, -lightDirection, viewDirection);
     }
     else
     {

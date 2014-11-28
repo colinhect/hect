@@ -6,7 +6,7 @@
         },
         {
             "type": "Fragment",
-            "path": "RenderStages/Geometry.glsl"
+            "path": "RenderStages/OpaqueGeometry.glsl"
         },
         {
             "type": "Fragment",
