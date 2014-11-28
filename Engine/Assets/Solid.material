@@ -8,11 +8,7 @@
                         "arguments": [
                             {
                                 "name": "diffuse",
-                                "value": [
-                                    0.8,
-                                    0.8,
-                                    0.8
-                                ],
+                                "value": [ 0.8, 0.8, 0.8 ],
                                 "type": "Vector3"
                             },
                             {

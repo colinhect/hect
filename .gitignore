@@ -5,5 +5,7 @@ Engine/Source/Hect/Generated/*.h
 Engine/Source/Hect/Generated/xml/*
 Projects/*
 
+*.sublime-project
+*.sublime-workspace
 *.pyc
 *~
