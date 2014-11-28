@@ -23,12 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/IO/Encoder.h>
 #include <Hect/IO/Decoder.h>
-#include <Hect/IO/JsonEncoder.h>
-#include <Hect/IO/JsonDecoder.h>
-#include <Hect/IO/BinaryEncoder.h>
-#include <Hect/IO/BinaryDecoder.h>
-#include <Hect/IO/MemoryWriteStream.h>
-#include <Hect/IO/MemoryReadStream.h>
 using namespace hect;
 
 #include <catch.hpp>
@@ -36,7 +30,7 @@ using namespace hect;
 
 #include "Utilities.h"
 
-TEST_CASE("Encoding_SingleObject")
+TEST_CASE("Encode single object", "[Encoding]")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
@@ -55,7 +49,7 @@ TEST_CASE("Encoding_SingleObject")
     });
 }
 
-TEST_CASE("Encoding_SingleArray")
+TEST_CASE("Encode single array", "[Encoding]")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
@@ -83,7 +77,7 @@ TEST_CASE("Encoding_SingleArray")
     });
 }
 
-TEST_CASE("Encoding_ArrayInObject")
+TEST_CASE("Encode array in object", "[Encoding]")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
@@ -115,7 +109,7 @@ TEST_CASE("Encoding_ArrayInObject")
     });
 }
 
-TEST_CASE("Encoding_ArrayInArray")
+TEST_CASE("Encode array in array", "[Encoding]")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
@@ -159,7 +153,7 @@ TEST_CASE("Encoding_ArrayInArray")
     });
 }
 
-TEST_CASE("Encoding_ObjectInArray")
+TEST_CASE("Encode object in array", "[Encoding]")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
@@ -195,7 +189,7 @@ TEST_CASE("Encoding_ObjectInArray")
     });
 }
 
-TEST_CASE("Encoding_AllInArray")
+TEST_CASE("Encode everything in array", "[Encoding]")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {
@@ -244,7 +238,7 @@ TEST_CASE("Encoding_AllInArray")
     });
 }
 
-TEST_CASE("Encoding_AllInObject")
+TEST_CASE("Encode everything in object", "[Encoding]")
 {
     testEncodeAndDecode([](Encoder& encoder)
     {

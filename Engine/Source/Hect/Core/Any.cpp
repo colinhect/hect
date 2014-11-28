@@ -60,7 +60,25 @@ Any& Any::operator=(const Any& any)
     return *this;
 }
 
+Any& Any::operator=(Any&& any)
+{
+    if (_container)
+    {
+        delete _container;
+    }
+
+    _container = any._container;
+    any._container = nullptr;
+
+    return *this;
+}
+
 bool Any::hasValue() const
 {
     return _container != nullptr;
+}
+
+Any::operator bool() const
+{
+    return hasValue();
 }

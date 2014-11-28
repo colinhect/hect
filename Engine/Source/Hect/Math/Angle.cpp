@@ -116,7 +116,6 @@ Encoder& operator<<(Encoder& encoder, Angle angle)
     return encoder << angle.degrees();
 }
 
-
 Decoder& operator>>(Decoder& decoder, Angle& angle)
 {
     Real degrees;

@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Quaternion_DefaultConstructor")
+TEST_CASE("Construct a default quaternion", "[Quaternion]")
 {
     Quaternion a;
     REQUIRE(a.x == 0.0);
@@ -35,7 +35,7 @@ TEST_CASE("Quaternion_DefaultConstructor")
     REQUIRE(a.w == 1.0);
 }
 
-TEST_CASE("Quaternion_ComponentConstructor")
+TEST_CASE("Construct a quaternion given its components", "[Quaternion]")
 {
     Quaternion a(1.0, 2.0, 3.0, 4.0);
     REQUIRE(a.x == 1.0);
@@ -44,7 +44,7 @@ TEST_CASE("Quaternion_ComponentConstructor")
     REQUIRE(a.w == 4.0);
 }
 
-TEST_CASE("Quaternion_Vector3Constructor")
+TEST_CASE("Construct a quaternion from a 3-dimensional vector", "[Quaternion]")
 {
     Quaternion a(Vector3(1.0, 2.0, 3.0), 4.0);
     REQUIRE(a.x == 1.0);
@@ -53,7 +53,7 @@ TEST_CASE("Quaternion_Vector3Constructor")
     REQUIRE(a.w == 4.0);
 }
 
-TEST_CASE("Quaternion_Vector4Constructor")
+TEST_CASE("Construct a quaternion from a 4-dimensional vector", "[Quaternion]")
 {
     Quaternion a(Vector4(1.0, 2.0, 3.0, 4.0));
     REQUIRE(a.x == 1.0);
@@ -62,7 +62,7 @@ TEST_CASE("Quaternion_Vector4Constructor")
     REQUIRE(a.w == 4.0);
 }
 
-TEST_CASE("Quaternion_CopyConstructor")
+TEST_CASE("Copy a quaternion", "[Quaternion]")
 {
     Quaternion a(Quaternion(1.0, 2.0, 3.0, 4.0));
     REQUIRE(a.x == 1.0);
@@ -71,7 +71,7 @@ TEST_CASE("Quaternion_CopyConstructor")
     REQUIRE(a.w == 4.0);
 }
 
-TEST_CASE("Quaternion_AxisAngle")
+TEST_CASE("Construct a quaternion from an axis and an angle", "[Quaternion]")
 {
     Quaternion a = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
 
@@ -85,7 +85,7 @@ TEST_CASE("Quaternion_AxisAngle")
     REQUIRE(std::abs(angle.degrees() - 180.0) < 0.01);
 }
 
-TEST_CASE("Quaternion_Multiply")
+TEST_CASE("Multiply two quaternions", "[Quaternion]")
 {
     Vector3 axis;
     Angle angle;
@@ -113,7 +113,7 @@ TEST_CASE("Quaternion_Multiply")
     REQUIRE(angle.degrees() == 270);
 }
 
-TEST_CASE("Quaternion_MultiplyVector")
+TEST_CASE("Multply a quaternion and a vector", "[Quaternion]")
 {
     Quaternion r;
     Vector3 v;
@@ -131,7 +131,7 @@ TEST_CASE("Quaternion_MultiplyVector")
     REQUIRE(std::abs(v.z - 1.0) < 0.01);
 }
 
-TEST_CASE("Quaternion_MultiplyVectorByIdentity")
+TEST_CASE("Multiply a vector by an identity quaternion", "[Quaternion]")
 {
     Vector3 v;
 
@@ -151,7 +151,7 @@ TEST_CASE("Quaternion_MultiplyVectorByIdentity")
     REQUIRE(v.z == 1.0);
 }
 
-TEST_CASE("Quaternion_Cast")
+TEST_CASE("Cast a quaternion to another underlying type", "[Quaternion]")
 {
     Quaternion a(1.0, 2.0, 3.0, 4.0);
     QuaternionT<float> b = a;
@@ -162,7 +162,7 @@ TEST_CASE("Quaternion_Cast")
     REQUIRE(b.w == a.w);
 }
 
-TEST_CASE("Quaternion_Index")
+TEST_CASE("Index a quaternion", "[Quaternion]")
 {
     Quaternion a(1.0, 2.0, 3.0, 4.0);
 

@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Path_DefaultConstructor")
+TEST_CASE("Construct an empty path", "[Path]")
 {
     Path path;
 
@@ -34,7 +34,7 @@ TEST_CASE("Path_DefaultConstructor")
     REQUIRE(path.empty());
 }
 
-TEST_CASE("Path_ConstructorWithOnePart")
+TEST_CASE("Construct a path with single part", "[Path]")
 {
     Path path("Data");
 
@@ -42,70 +42,70 @@ TEST_CASE("Path_ConstructorWithOnePart")
     REQUIRE(!path.empty());
 }
 
-TEST_CASE("Path_ConstructorWithMultipleParts")
+TEST_CASE("Construct a path with multiple parts", "[Path]")
 {
     Path path("Data/Internal/Fail.log");
 
     REQUIRE(path.asString() == "Data/Internal/Fail.log");
 }
 
-TEST_CASE("Path_ConstructorWithLeadingSlash")
+TEST_CASE("Construct a path with leading slash", "[Path]")
 {
     Path path("/Data/Internal/Fail.log");
 
     REQUIRE(path.asString() == "/Data/Internal/Fail.log");
 }
 
-TEST_CASE("Path_ConstructorWithTrailingSlash")
+TEST_CASE("Construct a path with trailing slash", "[Path]")
 {
     Path path("Data/Internal/");
 
     REQUIRE(path.asString() == "Data/Internal");
 }
 
-TEST_CASE("Path_ConstructorWithLeadingAndTrailingSlash")
+TEST_CASE("Construct a path with trailing and leading slash", "[Path]")
 {
     Path path("/Data/Internal/");
 
     REQUIRE(path.asString() == "/Data/Internal");
 }
 
-TEST_CASE("Path_Extension")
+TEST_CASE("Get extension of a path with an extension", "[Path]")
 {
     Path path("Data/Internal/Fail.log");
 
     REQUIRE(path.extension() == "log");
 }
 
-TEST_CASE("Path_NoExtension")
+TEST_CASE("Get the extension of a path without an extension", "[Path]")
 {
     Path path("Data/Internal/Fail");
 
     REQUIRE(path.extension() == "");
 }
 
-TEST_CASE("Path_Add")
+TEST_CASE("Add two paths into a single path", "[Path]")
 {
     Path path = Path("Data") + Path("Internal/Fail.log");
 
     REQUIRE(path.asString() == "Data/Internal/Fail.log");
 }
 
-TEST_CASE("Path_AddWithEmptyFirst")
+TEST_CASE("Add an empty path with a non-empty path", "[Path]")
 {
     Path path = Path() + Path("Internal/Fail.log");
 
     REQUIRE(path.asString() == "Internal/Fail.log");
 }
 
-TEST_CASE("Path_AddWithEmptySecond")
+TEST_CASE("Add a path to an empty path", "[Path]")
 {
     Path path = Path("Data/Internal") + Path();
 
     REQUIRE(path.asString() == "Data/Internal");
 }
 
-TEST_CASE("Path_AddEquals")
+TEST_CASE("Append a path to an existing path", "[Path]")
 {
     Path path("Data");
     path += "Internal/Fail.log";
@@ -113,7 +113,7 @@ TEST_CASE("Path_AddEquals")
     REQUIRE(path.asString() == "Data/Internal/Fail.log");
 }
 
-TEST_CASE("Path_AddEqualsFromEmpty")
+TEST_CASE("Append paths to an empty path", "[Path]")
 {
     Path path;
     path += "Data";
@@ -122,7 +122,7 @@ TEST_CASE("Path_AddEqualsFromEmpty")
     REQUIRE(path.asString() == "Data/Internal/Fail.log");
 }
 
-TEST_CASE("Path_ParentDirectory")
+TEST_CASE("Get the parent directory of a non-empty path", "[Path]")
 {
     Path path("/Data/Internal/Fail.log");
 

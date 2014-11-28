@@ -85,6 +85,17 @@ public:
     Any& operator=(const Any& any);
 
     ///
+    /// Assigns a value moved from another container to the container.
+    ///
+    /// \note If the container already had a value then that value is
+    /// overwritten.
+    ///
+    /// \param any The container to move the value from.
+    ///
+    /// \returns A reference to the container.
+    Any& operator=(Any&& any);
+
+    ///
     /// Returns whether the container holds a value of a certain type.
     template <typename T>
     bool isType() const;
@@ -99,6 +110,10 @@ public:
     /// \throws Error If the container's value is not of the specific type.
     template <typename T>
     T& as() const;
+
+    ///
+    /// Returns whether the container holds any value at all.
+    operator bool() const;
 
 private:
     class Container

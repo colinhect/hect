@@ -26,61 +26,98 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Any_HasValue")
+TEST_CASE("Construct an empty any value", "[Any]")
 {
     Any a;
+
+    REQUIRE(!a);
     REQUIRE(!a.hasValue());
-
-    Any b(5);
-    REQUIRE(b.hasValue());
 }
 
-TEST_CASE("Any_IsType")
+TEST_CASE("Construct a non-empty any value", "[Any]")
+{
+    Any a(5);
+
+    REQUIRE(a);
+    REQUIRE(a.hasValue());
+}
+
+TEST_CASE("Detect type of an empty any value", "[Any]")
 {
     Any a;
+
     REQUIRE(!a.isType<int>());
-
-    Any b(5);
-    REQUIRE(b.isType<int>());
+    REQUIRE(!a.isType<double>());
 }
 
-TEST_CASE("Any_As")
+TEST_CASE("Detect type of a non-empty any value", "[Any]")
 {
     Any a(5);
+
+    REQUIRE(a.isType<int>());
+    REQUIRE(!a.isType<double>());
+}
+
+TEST_CASE("Cast any value to correct type", "[Any]")
+{
+    Any a(5);
+
+    REQUIRE(a);
     REQUIRE(a.as<int>() == 5);
 }
 
-TEST_CASE("Any_AsError")
+TEST_CASE("Cast any value to incorrect type", "[Any]")
 {
     Any a(5);
 
-    bool errorThrown = false;
-    try
-    {
-        a.as<double>();
-    }
-    catch (Error&)
-    {
-        errorThrown = true;
-    }
-
-    REQUIRE(errorThrown);
+    REQUIRE(a);
+    REQUIRE_THROWS_AS(a.as<double>(), Error);
 }
 
-TEST_CASE("Any_Copy")
+TEST_CASE("Copy an any value", "[Any]")
 {
     Any a(5);
+    REQUIRE(a);
+    REQUIRE(a.as<int>() == 5);
+
     Any b(a);
-
-    REQUIRE(a.as<int>() == 5);
+    REQUIRE(b);
     REQUIRE(b.as<int>() == 5);
 }
 
-TEST_CASE("Any_Assign")
+TEST_CASE("Assign any value to new type", "[Any]")
 {
     Any a(5);
+    REQUIRE(a);
     REQUIRE(a.as<int>() == 5);
 
-    a = std::string { "Testing" };
+    a = std::string("Testing");
+    REQUIRE(a);
     REQUIRE(a.as<std::string>() == "Testing");
+}
+
+TEST_CASE("Move an any value", "[Any]")
+{
+    Any a(5);
+    REQUIRE(a);
+    REQUIRE(a.as<int>() == 5);
+
+    Any b(std::move(a));
+    REQUIRE(!a);
+    REQUIRE(!a.hasValue());
+    REQUIRE(b.as<int>() == 5);
+}
+
+TEST_CASE("Assign any value moved from another any value", "[Any]")
+{
+    Any a(5);
+    REQUIRE(a);
+    REQUIRE(a.as<int>() == 5);
+
+    Any b;
+    b = std::move(a);
+    REQUIRE(!a);
+    REQUIRE(!a.hasValue());
+    REQUIRE(b);
+    REQUIRE(b.as<int>() == 5);
 }

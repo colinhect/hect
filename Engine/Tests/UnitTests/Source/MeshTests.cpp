@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Mesh_DefaultConstructor")
+TEST_CASE("Construct empty mesh", "[Mesh]")
 {
     Mesh mesh;
 
@@ -36,7 +36,7 @@ TEST_CASE("Mesh_DefaultConstructor")
     REQUIRE(IndexType_UInt16 == mesh.indexType());
 }
 
-TEST_CASE("Mesh_Constructor")
+TEST_CASE("Construct mesh with vertex layout, primitive type, and index type", "[Mesh]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
@@ -57,7 +57,7 @@ TEST_CASE("Mesh_Constructor")
     REQUIRE(IndexType_UInt8 == mesh.indexType());
 }
 
-TEST_CASE("Mesh_SetVertexData")
+TEST_CASE("Set the vertex data of a mesh", "[Mesh]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
@@ -81,7 +81,7 @@ TEST_CASE("Mesh_SetVertexData")
     REQUIRE(mesh.vertexCount() == 3u);
 }
 
-TEST_CASE("Mesh_GetVertexData")
+TEST_CASE("Get the vertex data of a mesh", "[Mesh]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
@@ -115,7 +115,7 @@ TEST_CASE("Mesh_GetVertexData")
     REQUIRE(vertexData[8] == 1.0f);
 }
 
-TEST_CASE("Mesh_SetIndexData")
+TEST_CASE("Set the index data of a mesh", "[Mesh]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
@@ -138,7 +138,7 @@ TEST_CASE("Mesh_SetIndexData")
     REQUIRE(mesh.indexCount() == 6u);
 }
 
-TEST_CASE("Mesh_GetIndexDataUInt8")
+TEST_CASE("Get the index data of a mesh", "[Mesh]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));

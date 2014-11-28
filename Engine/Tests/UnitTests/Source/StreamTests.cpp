@@ -46,7 +46,7 @@ void testWriteAndReadStream(std::function<void(WriteStream&)> write, std::functi
     }
 }
 
-TEST_CASE("Stream_WriteAndReadPastEndOfStream")
+TEST_CASE("Write and read passed the end of a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -69,7 +69,7 @@ TEST_CASE("Stream_WriteAndReadPastEndOfStream")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadString")
+TEST_CASE("Write and read a string to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -83,7 +83,7 @@ TEST_CASE("Stream_WriteAndReadString")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadInt8")
+TEST_CASE("Write and read a signed 8-bit integer to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -98,7 +98,7 @@ TEST_CASE("Stream_WriteAndReadInt8")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadUInt8")
+TEST_CASE("Write and read an unsigned 8-bit integer to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -113,7 +113,7 @@ TEST_CASE("Stream_WriteAndReadUInt8")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadInt16")
+TEST_CASE("Write and read a signed 16-bit integer to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -128,7 +128,7 @@ TEST_CASE("Stream_WriteAndReadInt16")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadUInt16")
+TEST_CASE("Write and read an unsigned 16-bit integer to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -143,7 +143,7 @@ TEST_CASE("Stream_WriteAndReadUInt16")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadInt32")
+TEST_CASE("Write and read a signed 32-bit integer to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -158,7 +158,7 @@ TEST_CASE("Stream_WriteAndReadInt32")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadUInt32")
+TEST_CASE("Write and read an unsigned 32-bit integer to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -173,7 +173,7 @@ TEST_CASE("Stream_WriteAndReadUInt32")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadInt64")
+TEST_CASE("Write and read a signed 64-bit integer to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -188,7 +188,7 @@ TEST_CASE("Stream_WriteAndReadInt64")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadUInt64")
+TEST_CASE("Write and read an unsigned 64-bit integer to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -203,7 +203,7 @@ TEST_CASE("Stream_WriteAndReadUInt64")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadFloat32")
+TEST_CASE("Write and read a 32-bit float to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -218,7 +218,7 @@ TEST_CASE("Stream_WriteAndReadFloat32")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadFloat64")
+TEST_CASE("Write and read a 64-bit float to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -233,7 +233,7 @@ TEST_CASE("Stream_WriteAndReadFloat64")
     });
 }
 
-TEST_CASE("Stream_WriteAndReadBool")
+TEST_CASE("Write and read a bool to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
@@ -249,7 +249,7 @@ TEST_CASE("Stream_WriteAndReadBool")
     });
 }
 
-TEST_CASE("Stream_SeekOnWrite")
+TEST_CASE("Seek on a write stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {

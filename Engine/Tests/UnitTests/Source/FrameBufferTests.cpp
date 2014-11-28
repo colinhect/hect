@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("FrameBuffer_ConstructWithoutSize")
+TEST_CASE("Construct a frame buffer without size", "[FrameBuffer]")
 {
     FrameBuffer frameBuffer;
 
@@ -34,7 +34,7 @@ TEST_CASE("FrameBuffer_ConstructWithoutSize")
     REQUIRE(frameBuffer.height() == 0);
 }
 
-TEST_CASE("FrameBuffer_ConstructWithSize")
+TEST_CASE("Construct frame buffer with size", "[FrameBuffer]")
 {
     FrameBuffer frameBuffer(512, 1024);
 
@@ -42,7 +42,7 @@ TEST_CASE("FrameBuffer_ConstructWithSize")
     REQUIRE(frameBuffer.height() == 1024);
 }
 
-TEST_CASE("FrameBuffer_AttachTextureOfSameSize")
+TEST_CASE("Attach a texture to a frame buffer of the same size", "[FrameBuffer]")
 {
     Texture texture("Test", 512, 1024, PixelType_Float32, PixelFormat_Rgb, TextureFilter_Nearest, TextureFilter_Nearest, false, false);
 
@@ -53,7 +53,7 @@ TEST_CASE("FrameBuffer_AttachTextureOfSameSize")
     REQUIRE(frameBuffer.textureAttachments().size() == 1);
 }
 
-TEST_CASE("FrameBuffer_AttachTextureOfDifferentSize")
+TEST_CASE("Attach a texture to a frame buffer of a different size", "[FrameBuffer]")
 {
     Texture texture("Test", 256, 1024, PixelType_Float32, PixelFormat_Rgb, TextureFilter_Nearest, TextureFilter_Nearest, false, false);
 
@@ -64,7 +64,7 @@ TEST_CASE("FrameBuffer_AttachTextureOfDifferentSize")
     REQUIRE(frameBuffer.textureAttachments().size() == 0);
 }
 
-TEST_CASE("FrameBuffer_AttachTextureToNonEmptySlot")
+TEST_CASE("Attach a texture to a non-empty slot of a frame buffer", "[FrameBuffer]")
 {
     Texture textureA("TestA", 512, 1024, PixelType_Float32, PixelFormat_Rgb, TextureFilter_Nearest, TextureFilter_Nearest, false, false);
     Texture textureB("TestB", 512, 1024, PixelType_Float32, PixelFormat_Rgb, TextureFilter_Nearest, TextureFilter_Nearest, false, false);
@@ -78,7 +78,7 @@ TEST_CASE("FrameBuffer_AttachTextureToNonEmptySlot")
     REQUIRE(frameBuffer.textureAttachments().size() == 1);
 }
 
-TEST_CASE("FrameBuffer_AttachRenderBufferOfSameSize")
+TEST_CASE("Attach a render buffer to a frame buffer of the same size", "[FrameBuffer]")
 {
     RenderBuffer renderBuffer(RenderBufferFormat_DepthComponent, 512, 1024);
 
@@ -89,7 +89,7 @@ TEST_CASE("FrameBuffer_AttachRenderBufferOfSameSize")
     REQUIRE(frameBuffer.renderBufferAttachments().size() == 1);
 }
 
-TEST_CASE("FrameBuffer_AttachRenderBufferOfDifferentSize")
+TEST_CASE("Attach a render buffer to a frame buffer of a different size", "[FrameBuffer]")
 {
     RenderBuffer renderBuffer(RenderBufferFormat_DepthComponent, 256, 1024);
 
@@ -100,7 +100,7 @@ TEST_CASE("FrameBuffer_AttachRenderBufferOfDifferentSize")
     REQUIRE(frameBuffer.renderBufferAttachments().size() == 0);
 }
 
-TEST_CASE("FrameBuffer_AttachRenderBufferToNonEmptySlot")
+TEST_CASE("Attach a render buffer to a non-empty slot of a frame buffer", "[FrameBuffer]")
 {
     RenderBuffer renderBufferA(RenderBufferFormat_DepthComponent, 512, 1024);
     RenderBuffer renderBufferB(RenderBufferFormat_DepthComponent, 512, 1024);

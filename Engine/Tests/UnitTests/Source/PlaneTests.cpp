@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Plane_FromPoints")
+TEST_CASE("Construct a plane from points", "[Plane]")
 {
     Plane p = Plane::fromPoints(Vector3(-1, 0, -1), Vector3(0, 0, 0), Vector3(1, 0, -1));
 

@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Matrix4_MultiplyVector")
+TEST_CASE("Multiply a 3-dimensional vector by a 4x4 matrix", "[Matrix]")
 {
     Quaternion r;
     Matrix4 m;
@@ -47,7 +47,7 @@ TEST_CASE("Matrix4_MultiplyVector")
     REQUIRE(std::abs(v.z - 1.0) < 0.01);
 }
 
-TEST_CASE("Matrix4_MultiplyVectorByIdentity")
+TEST_CASE("Multiply a 3-dimensional vector by the identity 4x4 matrix", "[Matrix]")
 {
     Vector3 v = Matrix4() * Vector3::unitX();
     REQUIRE(1.0 == v.x);
@@ -65,7 +65,7 @@ TEST_CASE("Matrix4_MultiplyVectorByIdentity")
     REQUIRE(1.0 == v.z);
 }
 
-TEST_CASE("Matrix4_Cast")
+TEST_CASE("Cast a 4x4 matrix from double to float", "[Matrix]")
 {
     Quaternion r = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
     Matrix4 a = Matrix4::fromRotation(r);

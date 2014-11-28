@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Frustum_OutsideBehind")
+TEST_CASE("Test an axis-aligned box behind a frustum", "[Frustum]")
 {
     Frustum frustum(
         Vector3(0, 0, 0),
@@ -42,7 +42,7 @@ TEST_CASE("Frustum_OutsideBehind")
     REQUIRE(FrustumTestResult_Outside == frustum.testAxisAlignedBox(box));
 }
 
-TEST_CASE("Frustum_OutsideLeft")
+TEST_CASE("Test an axis-aligned box on the outside-left of a frustum", "[Frustum]")
 {
     Frustum frustum(
         Vector3(0, 0, 0),
@@ -58,7 +58,7 @@ TEST_CASE("Frustum_OutsideLeft")
     REQUIRE(FrustumTestResult_Outside == frustum.testAxisAlignedBox(box));
 }
 
-TEST_CASE("Frustum_Inside")
+TEST_CASE("Test an axis-aligned box on the inside of a frustum", "[Frustum]")
 {
     Frustum frustum(
         Vector3(0, 0, 0),
@@ -74,7 +74,7 @@ TEST_CASE("Frustum_Inside")
     REQUIRE(FrustumTestResult_Inside == frustum.testAxisAlignedBox(box));
 }
 
-TEST_CASE("Frustum_Intersect")
+TEST_CASE("Test an axis-aligned box intersecting a frustum", "[Frustum]")
 {
     Frustum frustum(
         Vector3(0, 0, 0),

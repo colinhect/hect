@@ -36,7 +36,7 @@ VertexLayout createVetexLayout()
     return vertexLayout;
 }
 
-TEST_CASE("MeshReader_EmptyMesh")
+TEST_CASE("Read from an empty mesh", "[MeshReader]")
 {
     Mesh mesh("Test");
     mesh.setVertexLayout(createVetexLayout());
@@ -49,7 +49,7 @@ TEST_CASE("MeshReader_EmptyMesh")
     REQUIRE(!meshReader.nextIndex());
 }
 
-TEST_CASE("MeshReader_ReadAttributeVector3")
+TEST_CASE("Read 3-dimensional vector attributes from a mesh", "[MeshReader]")
 {
     Mesh mesh("Test");
     mesh.setVertexLayout(createVetexLayout());
@@ -111,7 +111,7 @@ TEST_CASE("MeshReader_ReadAttributeVector3")
     REQUIRE(!meshReader.nextVertex());
 }
 
-TEST_CASE("MeshReader_ReadIndexInt8")
+TEST_CASE("Read 8-bit indices from a mesh", "[MeshReader]")
 {
     Mesh mesh("Test");
     mesh.setVertexLayout(createVetexLayout());

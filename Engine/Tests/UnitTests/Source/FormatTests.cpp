@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Format_Format")
+TEST_CASE("Format string with integers", "[Format]")
 {
     REQUIRE(format("Testing %d, %d, %d...", 1, 2, 3) == "Testing 1, 2, 3...");
 }

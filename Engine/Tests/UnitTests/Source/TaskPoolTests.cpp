@@ -125,37 +125,37 @@ for (auto threadCount = 0u; threadCount < maxThreadCount; ++threadCount) {\
     }\
 }
 
-TEST_CASE("TaskPool_EmptyTasks")
+TEST_CASE("Execute empty tasks in a task pool", "[TaskPool]")
 {
     TEST_TASKS(emptyTask);
 }
 
-TEST_CASE("TaskPool_ShortTasks")
+TEST_CASE("Execute short tasks in a task pool", "[TaskPool]")
 {
     TEST_TASKS(shortTask);
 }
 
-TEST_CASE("TaskPool_LongTasks")
+TEST_CASE("Execute long tasks in a task pool", "[TaskPool]")
 {
     TEST_TASKS(longTask);
 }
 
-TEST_CASE("TaskPool_EmptyTasksWithErrors")
+TEST_CASE("Execute empty tasks with errors in a task pool", "[TaskPool]")
 {
     TEST_TASKS_WITH_ERRORS(emptyTask);
 }
 
-TEST_CASE("TaskPool_ShortTasksWithErrors")
+TEST_CASE("Execute short tasks with errors in a task pool", "[TaskPool]")
 {
     TEST_TASKS_WITH_ERRORS(shortTask);
 }
 
-TEST_CASE("TaskPool_LongTasksWithErrors")
+TEST_CASE("Execute long tasks with errors in a task pool", "[TaskPool]")
 {
     TEST_TASKS_WITH_ERRORS(longTask);
 }
 
-TEST_CASE("TaskPool_DereferenceInvalidTaskHandle")
+TEST_CASE("Dereference an invalid task handle", "[TaskPool]")
 {
     Task::Handle taskHandle;
     REQUIRE(!taskHandle);

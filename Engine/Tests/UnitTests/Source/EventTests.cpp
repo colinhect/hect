@@ -27,92 +27,92 @@ using namespace hect;
 
 #include <catch.hpp>
 
-enum class EventA
+enum class TestEventA
 {
     A = 1,
     B = 3
 };
 
-enum class EventB
+enum class TestEventB
 {
     A = 2,
     B = 4
 };
 
 class TestListener :
-    public Listener<EventA>,
-    public Listener<EventB>
+    public Listener<TestEventA>,
+    public Listener<TestEventB>
 {
 public:
 
-    void receiveEvent(const EventA& event)
+    void receiveEvent(const TestEventA& event)
     {
-        lastEventA = event;
+        lastTestEventA = event;
     }
 
-    void receiveEvent(const EventB& event)
+    void receiveEvent(const TestEventB& event)
     {
-        lastEventB = event;
+        lastTestEventB = event;
     }
 
-    EventA lastEventA;
-    EventB lastEventB;
+    TestEventA lastTestEventA;
+    TestEventB lastTestEventB;
 };
 
-TEST_CASE("Event_AddDispatchAndRemove")
+TEST_CASE("Add a listener, dispatch event, and remove listener", "[Event]")
 {
-    Dispatcher<EventA> dispatcher;
+    Dispatcher<TestEventA> dispatcher;
 
     TestListener listener;
 
     dispatcher.addListener(listener);
-    dispatcher.dispatchEvent(EventA::A);
-    REQUIRE(EventA::A == listener.lastEventA);
-    dispatcher.dispatchEvent(EventA::B);
-    REQUIRE(EventA::B == listener.lastEventA);
+    dispatcher.dispatchEvent(TestEventA::A);
+    REQUIRE(TestEventA::A == listener.lastTestEventA);
+    dispatcher.dispatchEvent(TestEventA::B);
+    REQUIRE(TestEventA::B == listener.lastTestEventA);
 
     dispatcher.removeListener(listener);
-    dispatcher.dispatchEvent(EventA::A);
+    dispatcher.dispatchEvent(TestEventA::A);
 
-    REQUIRE(EventA::B == listener.lastEventA);
+    REQUIRE(TestEventA::B == listener.lastTestEventA);
 }
 
-TEST_CASE("Event_MultipleListenerTypes")
+TEST_CASE("Add listener to multiple dispatcher types", "[Event]")
 {
-    Dispatcher<EventA> dispatcherA;
-    Dispatcher<EventB> dispatcherB;
+    Dispatcher<TestEventA> dispatcherA;
+    Dispatcher<TestEventB> dispatcherB;
 
     TestListener listener;
 
     dispatcherA.addListener(listener);
     dispatcherB.addListener(listener);
 
-    dispatcherA.dispatchEvent(EventA::A);
-    REQUIRE(EventA::A == listener.lastEventA);
+    dispatcherA.dispatchEvent(TestEventA::A);
+    REQUIRE(TestEventA::A == listener.lastTestEventA);
 
-    dispatcherB.dispatchEvent(EventB::A);
-    REQUIRE(EventB::A == listener.lastEventB);
+    dispatcherB.dispatchEvent(TestEventB::A);
+    REQUIRE(TestEventB::A == listener.lastTestEventB);
 
-    dispatcherB.dispatchEvent(EventB::B);
-    REQUIRE(EventB::B == listener.lastEventB);
+    dispatcherB.dispatchEvent(TestEventB::B);
+    REQUIRE(TestEventB::B == listener.lastTestEventB);
 }
 
-TEST_CASE("Event_AddRegisteredListener")
+TEST_CASE("Add a listener that is already added", "[Event]")
 {
-    Dispatcher<EventA> dispatcher;
+    Dispatcher<TestEventA> dispatcher;
 
     TestListener listener;
 
     dispatcher.addListener(listener);
     REQUIRE_THROWS_AS(dispatcher.addListener(listener), Error);
 
-    dispatcher.dispatchEvent(EventA::A);
-    REQUIRE(EventA::A == listener.lastEventA);
+    dispatcher.dispatchEvent(TestEventA::A);
+    REQUIRE(TestEventA::A == listener.lastTestEventA);
 }
 
-TEST_CASE("Event_RemoveUnregisteredListener")
+TEST_CASE("Remove a listener that is not added", "[Event]")
 {
-    Dispatcher<EventA> dispatcher;
+    Dispatcher<TestEventA> dispatcher;
 
     TestListener listener;
     REQUIRE_THROWS_AS(dispatcher.removeListener(listener), Error);
