@@ -45,7 +45,10 @@ AssetHandle<T> AssetCache::getHandle(const Path& path, Args&&... args)
     if (it == _entries.end())
     {
         // First time this asset was requested so create a new entry
-        entry.reset(new AssetEntry<T>(*this, resolvedPath, [&]() { return new T(args...); }));
+        entry.reset(new AssetEntry<T>(*this, resolvedPath, [&]()
+        {
+            return new T(args...);
+        }));
 
         // Add the new entry to the entry map
         _entries[resolvedPath] = entry;

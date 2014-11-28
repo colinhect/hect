@@ -81,7 +81,7 @@ private:
 
     AssetCache& _assetCache;
     Path _path;
-    
+
     std::function<T*()> _constructor;
 
     Task::Handle _taskHandle;
