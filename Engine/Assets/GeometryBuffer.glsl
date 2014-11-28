@@ -9,17 +9,20 @@ in vec2 vertexTextureCoords;
 
 bool sampleGeometryBuffer(
     out vec3    diffuse,
+    out float   lighting,
     out float   roughness,
     out float   metallic,
     out vec3    position,
     out vec3    normal,
     out float   depth)
 {
-    vec4 normalSample = texture(normalBuffer, vertexTextureCoords);
-    depth = normalSample.w;
-    if (depth > 0.0)
+    vec4 diffuseSample = texture(diffuseBuffer, vertexTextureCoords);
+    lighting = diffuseSample.a;
+    if (lighting > 0.0)
     {
+        vec4 normalSample = texture(normalBuffer, vertexTextureCoords);
         normal = normalSample.xyz;
+        depth = normalSample.w;
 
         diffuse = texture(diffuseBuffer, vertexTextureCoords).rgb;
         position = texture(positionBuffer, vertexTextureCoords).rgb;

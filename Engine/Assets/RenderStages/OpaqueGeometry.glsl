@@ -1,6 +1,6 @@
 #version 410
 
-out vec3 outputDiffuse;
+out vec4 outputDiffuse;
 out vec3 outputMaterial;
 out vec3 outputPosition;
 out vec4 outputNormal;
@@ -9,6 +9,7 @@ out vec4 outputNormal;
 struct StageOutput
 {
     vec3    diffuse;
+    float   lighting;
     float   roughness;
     float   metallic;
     vec3    normal;
@@ -22,10 +23,10 @@ void stage(
 
 void main()
 {
-    StageOutput output = StageOutput(vec3(0.0), 0.0, 0.0, vec3(0.0), vec3(0.0), 0.0);
+    StageOutput output = StageOutput(vec3(0.0), 0.0, 0.0, 0.0, vec3(0.0), vec3(0.0), 0.0);
     stage(output);
 
-    outputDiffuse = output.diffuse;
+    outputDiffuse = vec4(output.diffuse, output.lighting);
     outputMaterial = vec3(output.roughness, output.metallic, 0.0);
     outputNormal = vec4(normalize(output.normal), output.depth);
     outputPosition = output.position;

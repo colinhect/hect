@@ -8,6 +8,7 @@ uniform vec3 cameraPosition;
 
 bool sampleGeometryBuffer(
     out vec3    diffuse,
+    out float   lighting,
     out float   roughness,
     out float   metallic,
     out vec3    position,
@@ -108,6 +109,7 @@ void stage(
     out StageOutput output)
 {
     vec3 diffuse;
+    float lighting;
     float roughness;
     float metallic;
     vec3 position;
@@ -115,7 +117,7 @@ void stage(
     float depth;
 
     // If this pixel is physically lit
-    if (sampleGeometryBuffer(diffuse, roughness, metallic, position, normal, depth))
+    if (sampleGeometryBuffer(diffuse, lighting, roughness, metallic, position, normal, depth))
     {
         // Compute real diffuse/specular colors
         vec3 realDiffuse = diffuse - diffuse * metallic;

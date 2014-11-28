@@ -76,6 +76,29 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             _renderer.bindTarget(_geometryFrameBuffer);
             _renderer.clear();
 
+            // Render the sky box if there is one
+            auto skyBox = scene.components<SkyBox>().begin();
+            if (skyBox)
+            {
+                RenderState state;
+                state.disable(RenderStateFlag_CullFace);
+                state.disable(RenderStateFlag_DepthTest);
+                _renderer.bindState(state);
+
+                // Construct a transform at the camera's position
+                Transform transform;
+                transform.globalPosition = camera->position;
+
+                _renderer.bindTexture(*skyBox->texture, 0);
+
+                _renderer.bindShader(*_skyBoxShader);
+                setBoundShaderParameters(*_skyBoxShader, *camera, target, transform);
+
+                // Bind and draw the skybox
+                _renderer.bindMesh(*_skyBoxMesh);
+                _renderer.draw();
+            }
+
             // Render each entity in hierarchical order
             for (Entity& entity : scene.entities())
             {
@@ -156,32 +179,6 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             _renderer.bindTarget(target);
             _renderer.clear();
 
-            // Pre composite
-            {
-                // Render the sky box if there is one
-                auto skyBox = scene.components<SkyBox>().begin();
-                if (skyBox)
-                {
-                    RenderState state;
-                    state.disable(RenderStateFlag_CullFace);
-                    state.disable(RenderStateFlag_DepthTest);
-                    _renderer.bindState(state);
-
-                    // Construct a transform at the camera's position
-                    Transform transform;
-                    transform.globalPosition = camera->position;
-
-                    _renderer.bindTexture(*skyBox->texture, 0);
-
-                    _renderer.bindShader(*_skyBoxShader);
-                    setBoundShaderParameters(*_skyBoxShader, *camera, target, transform);
-
-                    // Bind and draw the skybox
-                    _renderer.bindMesh(*_skyBoxMesh);
-                    _renderer.draw();
-                }
-            }
-
             RenderState state;
             state.disable(RenderStateFlag_DepthTest);
             _renderer.bindState(state);
@@ -191,7 +188,8 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             _renderer.bindShader(*_compositorShader);
             setBoundShaderParameters(*_compositorShader, *camera, target, transform);
 
-            _renderer.bindTexture(_accumulationFrameBuffer.textureAttachments().begin()->texture(), 0);
+            _renderer.bindTexture(_geometryFrameBuffer.textureAttachments()[0].texture(), 0);
+            _renderer.bindTexture(_accumulationFrameBuffer.textureAttachments()[0].texture(), 1);
 
             // Bind and draw the composited image
             _renderer.bindMesh(*_screenMesh);
@@ -211,8 +209,8 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     // Depth buffer
     _depthBuffer = RenderBuffer(RenderBufferFormat_DepthComponent, width, height);
 
-    // Diffuse buffer: Red Green Blue
-    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
+    // Diffuse buffer: Red Green Blue Lighting
+    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
 
     // Material buffer: Roughness Metallic ?
     _materialBuffer = Texture("MaterialBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
@@ -224,7 +222,7 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     _normalBuffer = Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
 
     // Light accumulation buffer
-    _accumulationBuffer = Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
+    _accumulationBuffer = Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
 
     // Geometry frame buffer
     _geometryFrameBuffer = FrameBuffer(width, height);

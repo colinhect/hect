@@ -18,31 +18,30 @@ void main()
 
 #ifdef FRAGMENT
 
-uniform float exposure;
-uniform float oneOverGamma;
-
 uniform samplerCube skyBoxTexture;
 
 in vec3 vertexPosition;
 
 out vec3 outputColor;
 
-vec3 correctGamma(
-    in  vec3    color,
-    in  float   oneOverGamma);
-
-vec3 expose(
-    in  vec3    color,
-    in  float   exposure);
-
-void main()
+// Opaque geometry stage output parameters
+struct StageOutput
 {
-    vec3 color = texture(skyBoxTexture, -vertexPosition).rgb;
+    vec3    diffuse;
+    float   lighting;
+    float   roughness;
+    float   metallic;
+    vec3    normal;
+    vec3    position;
+    float   depth;
+};
 
-    color = expose(color, exposure);
-    color = correctGamma(color, oneOverGamma);
-
-    outputColor = color;
+// Opaque geometry stage output
+void stage(
+    out StageOutput output)
+{
+    output.diffuse = texture(skyBoxTexture, -vertexPosition).rgb;
+    output.lighting = 0.0;
 }
 
 #endif

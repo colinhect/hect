@@ -6,7 +6,7 @@
         },
         {
             "type": "Fragment",
-            "path": "Exposure.glsl"
+            "path": "RenderStages/OpaqueGeometry.glsl"
         },
         {
             "type": "Fragment",
@@ -14,14 +14,6 @@
         }
     ],
     "parameters": [
-        {
-            "name": "exposure",
-            "binding": "CameraExposure"
-        },
-        {
-            "name": "oneOverGamma",
-            "binding": "CameraOneOverGamma"
-        },
         {
             "name": "modelViewProjection",
             "binding": "ModelViewProjectionMatrix"

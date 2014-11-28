@@ -6,10 +6,6 @@
         },
         {
             "type": "Fragment",
-            "path": "Exposure.glsl"
-        },
-        {
-            "type": "Fragment",
             "path": "Compositor.glsl"
         }
     ],
@@ -24,8 +20,13 @@
         },
         {
             "type": "Texture",
-            "name": "accumulationBuffer",
+            "name": "diffuseBuffer",
             "value": 0
+        },
+        {
+            "type": "Texture",
+            "name": "accumulationBuffer",
+            "value": 1
         }
     ]
 }

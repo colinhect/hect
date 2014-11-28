@@ -39,6 +39,7 @@ in vec3 vertexWorldNormal;
 struct StageOutput
 {
     vec3    diffuse;
+    float   lighting;
     float   roughness;
     float   metallic;
     vec3    normal;
@@ -51,6 +52,7 @@ void stage(
     out StageOutput output)
 {
     output.diffuse = diffuse;
+    output.lighting = 1.0;
     output.roughness = roughness;
     output.metallic = metallic;
     output.normal = vertexWorldNormal;
