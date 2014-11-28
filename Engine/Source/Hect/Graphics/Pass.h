@@ -116,6 +116,16 @@ public:
     void setRenderState(const RenderState& renderState);
 
     ///
+    /// Returns the render priority.
+    int priority() const;
+
+    ///
+    /// Sets the render priority.
+    ///
+    /// \param priority The priority.
+    void setPriority(int priority);
+
+    ///
     /// Returns whether the pass is equivalent to another.
     ///
     /// \param pass The other pass.
@@ -142,6 +152,8 @@ private:
 
     RenderStage _renderStage { RenderStage_None };
     RenderState _renderState;
+
+    int _priority { 0 };
 
     std::map<const ShaderParameter*, ShaderValue> _resolvedShaderParameters;
     Shader* _resolvedFromShader { nullptr };

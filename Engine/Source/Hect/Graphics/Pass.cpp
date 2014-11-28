@@ -120,6 +120,16 @@ void Pass::setRenderState(const RenderState& renderState)
     _renderState = renderState;
 }
 
+int Pass::priority() const
+{
+    return _priority;
+}
+
+void Pass::setPriority(int priority)
+{
+    _priority = priority;
+}
+
 void Pass::resolveShaderParameters(Shader& shader)
 {
     _resolvedShaderParameters.clear();
@@ -143,6 +153,11 @@ bool Pass::operator==(const Pass& pass) const
     }
 
     if (_renderState != pass._renderState)
+    {
+        return false;
+    }
+
+    if (_priority != pass._priority)
     {
         return false;
     }
@@ -199,6 +214,7 @@ Encoder& operator<<(Encoder& encoder, const Pass& pass)
            << encodeVector("textures", pass._textures)
            << encodeEnum("renderStage", pass._renderStage)
            << encodeValue("renderState", pass._renderState)
+           << encodeValue("priority", pass._priority)
            << endObject();
 }
 
@@ -287,7 +303,8 @@ Decoder& operator>>(Decoder& decoder, Pass& pass)
     }
 
     decoder >> decodeEnum("renderStage", pass._renderStage)
-            >> decodeValue("renderState", pass._renderState);
+            >> decodeValue("renderState", pass._renderState)
+            >> decodeValue("priority", pass._priority);
 
     return decoder >> endObject();
 }
