@@ -26,28 +26,28 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Vector2_DefaultConstructor")
+TEST_CASE("Construct a default 2-dimensional vector", "[Vector2]")
 {
     Vector2 a;
     REQUIRE(a.x == 0.0);
     REQUIRE(a.y == 0.0);
 }
 
-TEST_CASE("Vector2_ScalarConstructor")
+TEST_CASE("Construct a 2-dimensional vector from a scalar", "[Vector2]")
 {
     Vector2 a(1.0);
     REQUIRE(a.x == 1.0);
     REQUIRE(a.y == 1.0);
 }
 
-TEST_CASE("Vector2_ComponentConstructor")
+TEST_CASE("Construct a 2-dimensional vector given its components", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);
     REQUIRE(a.x == 1.0);
     REQUIRE(a.y == 2.0);
 }
 
-TEST_CASE("Vector2_CopyConstructor")
+TEST_CASE("Copy a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);
     Vector2 b(a);
@@ -55,32 +55,32 @@ TEST_CASE("Vector2_CopyConstructor")
     REQUIRE(b.y == a.y);
 }
 
-TEST_CASE("Vector2_Length")
+TEST_CASE("Get the length of a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);
     REQUIRE(a.length() == std::sqrt(a.x * a.x + a.y * a.y));
 }
 
-TEST_CASE("Vector2_LengthSquared")
+TEST_CASE("Get the squared length of a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);
     REQUIRE(std::sqrt(a.lengthSquared()) == a.length());
 }
 
-TEST_CASE("Vector2_Normalize")
+TEST_CASE("Normalize a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);
     a.normalize();
     REQUIRE(std::abs(a.length() - 1.0) < 0.01);
 }
 
-TEST_CASE("Vector2_Normalized")
+TEST_CASE("Get a normalized copy of a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);
     REQUIRE(std::abs(a.normalized().length() - 1.0) < 0.01);
 }
 
-TEST_CASE("Vector2_AngleFrom")
+TEST_CASE("Compute the angle betwen two 2-dimensional vectors", "[Vector2]")
 {
     REQUIRE(Vector2::unitX().angleFrom(Vector2::unitX()).degrees() == 0.0);
     REQUIRE(std::abs(Vector2::unitX().angleFrom(-Vector2::unitX()).degrees() - 180.0) < 0.01);
@@ -92,14 +92,14 @@ TEST_CASE("Vector2_AngleFrom")
     REQUIRE(Vector2::unitY().angleFrom(Vector2::unitX()).degrees() == 90.0);
 }
 
-TEST_CASE("Vector2_Add")
+TEST_CASE("Compute the sum of two 2-dimensional vectors", "[Vector2]")
 {
     Vector2 a = Vector2(1.0, 2.0) + Vector2(2.0, 4.0);
     REQUIRE(a.x == 3.0);
     REQUIRE(a.y == 6.0);
 }
 
-TEST_CASE("Vector2_AddEquals")
+TEST_CASE("Add a 2-dimensional vector to a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a = Vector2(1.0, 2.0);
     a += Vector2(2.0, 4.0);
@@ -107,14 +107,14 @@ TEST_CASE("Vector2_AddEquals")
     REQUIRE(a.y == 6.0);
 }
 
-TEST_CASE("Vector2_Subtract")
+TEST_CASE("Compute the difference between two 2-dimensional vectors", "[Vector2]")
 {
     Vector2 a = Vector2(1.0, 2.0) - Vector2(2.0, 4.0);
     REQUIRE(a.x == -1.0);
     REQUIRE(a.y == -2.0);
 }
 
-TEST_CASE("Vector2_SubtractEquals")
+TEST_CASE("Subtract a 2-dimensional vector from a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a = Vector2(1.0, 2.0);
     a -= Vector2(2.0, 4.0);
@@ -122,14 +122,14 @@ TEST_CASE("Vector2_SubtractEquals")
     REQUIRE(a.y == -2.0);
 }
 
-TEST_CASE("Vector2_Multiply")
+TEST_CASE("Compute the product of two 2-dimensional vectors", "[Vector2]")
 {
     Vector2 a = Vector2(1.0, 2.0) * Vector2(2.0, 4.0);
     REQUIRE(a.x == 2.0);
     REQUIRE(a.y == 8.0);
 }
 
-TEST_CASE("Vector2_MultiplyEquals")
+TEST_CASE("Multiply a 2-dimensional by a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a = Vector2(1.0, 2.0);
     a *= Vector2(2.0, 4.0);
@@ -137,14 +137,14 @@ TEST_CASE("Vector2_MultiplyEquals")
     REQUIRE(a.y == 8.0);
 }
 
-TEST_CASE("Vector2_MultiplyScalar")
+TEST_CASE("Compute the product of a 2-dimensional vector and a scalar", "[Vector2]")
 {
     Vector2 a = Vector2(1.0, 2.0) * 4.0;
     REQUIRE(a.x == 4.0);
     REQUIRE(a.y == 8.0);
 }
 
-TEST_CASE("Vector2_MultiplyScalarEquals")
+TEST_CASE("Multiply a 2-dimensional vector by a scalar", "[Vector2]")
 {
     Vector2 a = Vector2(1.0, 2.0);
     a *= 4.0;
@@ -152,14 +152,14 @@ TEST_CASE("Vector2_MultiplyScalarEquals")
     REQUIRE(a.y == 8.0);
 }
 
-TEST_CASE("Vector2_Divide")
+TEST_CASE("Compute the quotient of two 2-dimensional vectors", "[Vector2]")
 {
     Vector2 a = Vector2(6.0, 8.0) / Vector2(2.0, 4.0);
     REQUIRE(a.x == 3.0);
     REQUIRE(a.y == 2.0);
 }
 
-TEST_CASE("Vector2_DivideEquals")
+TEST_CASE("Divide a 2-dimensional vector by a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a = Vector2(6.0, 8.0);
     a /= Vector2(2.0, 4.0);
@@ -167,14 +167,14 @@ TEST_CASE("Vector2_DivideEquals")
     REQUIRE(a.y == 2.0);
 }
 
-TEST_CASE("Vector2_DivideScalar")
+TEST_CASE("Compute the quotient of a 2-dimensional vector and a scalar", "[Vector2]")
 {
     Vector2 a = Vector2(6.0, 8.0) / 2.0;
     REQUIRE(a.x == 3.0);
     REQUIRE(a.y == 4.0);
 }
 
-TEST_CASE("Vector2_DivideScalarEquals")
+TEST_CASE("Divide a 2-dimensional vector by a scalar", "[Vector2]")
 {
     Vector2 a = Vector2(6.0, 8.0);
     a /= 2.0;
@@ -182,7 +182,7 @@ TEST_CASE("Vector2_DivideScalarEquals")
     REQUIRE(a.y == 4.0);
 }
 
-TEST_CASE("Vector2_Cast")
+TEST_CASE("Cast a 2-dimensional to a different underlying type", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);
     Vector2T<float> b = a;
@@ -191,7 +191,7 @@ TEST_CASE("Vector2_Cast")
     REQUIRE(b.y == a.y);
 }
 
-TEST_CASE("Vector2_Index")
+TEST_CASE("Index the components of a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);
 

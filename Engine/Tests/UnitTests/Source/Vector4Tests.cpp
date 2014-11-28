@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Vector4_DefaultConstructor")
+TEST_CASE("Construct a default 4-dimensional vector", "[Vector4]")
 {
     Vector4 a;
     REQUIRE(a.x == 0.0);
@@ -35,7 +35,7 @@ TEST_CASE("Vector4_DefaultConstructor")
     REQUIRE(a.w == 0.0);
 }
 
-TEST_CASE("Vector4_ScalarConstructor")
+TEST_CASE("Construct a 4-dimensional vector from a scalar", "[Vector4]")
 {
     Vector4 a(1.0);
     REQUIRE(a.x == 1.0);
@@ -44,7 +44,7 @@ TEST_CASE("Vector4_ScalarConstructor")
     REQUIRE(a.w == 1.0);
 }
 
-TEST_CASE("Vector4_ComponentConstructor")
+TEST_CASE("Construct a 4-dimensional vector given its components", "[Vector4]")
 {
     Vector4 a(1.0, 2.0, 3.0, 4.0);
     REQUIRE(a.x == 1.0);
@@ -53,7 +53,7 @@ TEST_CASE("Vector4_ComponentConstructor")
     REQUIRE(a.w == 4.0);
 }
 
-TEST_CASE("Vector4_CopyConstructor")
+TEST_CASE("Copy a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a(1.0, 2.0, 3.0, 4.0);
     Vector4 b(a);
@@ -63,32 +63,32 @@ TEST_CASE("Vector4_CopyConstructor")
     REQUIRE(b.w == a.w);
 }
 
-TEST_CASE("Vector4_Length")
+TEST_CASE("Get the length of a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a(1.0, 2.0, 3.0, 4.0);
     REQUIRE(a.length() == std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w));
 }
 
-TEST_CASE("Vector4_LengthSquared")
+TEST_CASE("Get the squared length of a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a(1.0, 2.0, 3.0, 4.0);
     REQUIRE(std::sqrt(a.lengthSquared()) == a.length());
 }
 
-TEST_CASE("Vector4_Normalize")
+TEST_CASE("Normalize a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a(1.0, 2.0, 3.0, 4.0);
     a.normalize();
     REQUIRE(std::abs(a.length() - 1.0) < 0.01);
 }
 
-TEST_CASE("Vector4_Normalized")
+TEST_CASE("Get a normalized copy of a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a(1.0, 2.0, 3.0, 4.0);
     REQUIRE(std::abs(a.normalized().length() - 1.0) < 0.01);
 }
 
-TEST_CASE("Vector4_AngleFrom")
+TEST_CASE("Compute the angle betwen two 4-dimensional vectors", "[Vector4]")
 {
     REQUIRE(Vector4::unitX().angleFrom(Vector4::unitX()).degrees() == 0.0);
     REQUIRE(Vector4::unitX().angleFrom(-Vector4::unitX()).degrees() == 180.0);
@@ -116,7 +116,7 @@ TEST_CASE("Vector4_AngleFrom")
     REQUIRE(Vector4::unitW().angleFrom(Vector4::unitZ()).degrees() == 90.0);
 }
 
-TEST_CASE("Vector4_Add")
+TEST_CASE("Compute the sum of two 4-dimensional vectors", "[Vector4]")
 {
     Vector4 a = Vector4(1.0, 2.0, 3.0, 4.0) + Vector4(2.0, 4.0, 6.0, 8.0);
     REQUIRE(a.x == 3.0);
@@ -125,7 +125,7 @@ TEST_CASE("Vector4_Add")
     REQUIRE(a.w == 12.0);
 }
 
-TEST_CASE("Vector4_AddEquals")
+TEST_CASE("Add a 4-dimensional vector to a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a = Vector4(1.0, 2.0, 3.0, 4.0);
     a += Vector4(2.0, 4.0, 6.0, 8.0);
@@ -135,7 +135,7 @@ TEST_CASE("Vector4_AddEquals")
     REQUIRE(a.w == 12.0);
 }
 
-TEST_CASE("Vector4_Subtract")
+TEST_CASE("Compute the difference between two 4-dimensional vectors", "[Vector4]")
 {
     Vector4 a = Vector4(1.0, 2.0, 3.0, 4.0) - Vector4(2.0, 4.0, 6.0, 8.0);
     REQUIRE(a.x == -1.0);
@@ -144,7 +144,7 @@ TEST_CASE("Vector4_Subtract")
     REQUIRE(a.w == -4.0);
 }
 
-TEST_CASE("Vector4_SubtractEquals")
+TEST_CASE("Subtract a 4-dimensional vector from a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a = Vector4(1.0, 2.0, 3.0, 4.0);
     a -= Vector4(2.0, 4.0, 6.0, 8.0);
@@ -154,7 +154,7 @@ TEST_CASE("Vector4_SubtractEquals")
     REQUIRE(a.w == -4.0);
 }
 
-TEST_CASE("Vector4_Multiply")
+TEST_CASE("Compute the product of two 4-dimensional vectors", "[Vector4]")
 {
     Vector4 a = Vector4(1.0, 2.0, 3.0, 4.0) * Vector4(2.0, 4.0, 6.0, 8.0);
     REQUIRE(a.x == 2.0);
@@ -163,7 +163,7 @@ TEST_CASE("Vector4_Multiply")
     REQUIRE(a.w == 32.0);
 }
 
-TEST_CASE("Vector4_MultiplyEquals")
+TEST_CASE("Multiply a 4-dimensional by a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a = Vector4(1.0, 2.0, 3.0, 4.0);
     a *= Vector4(2.0, 4.0, 6.0, 8.0);
@@ -173,7 +173,7 @@ TEST_CASE("Vector4_MultiplyEquals")
     REQUIRE(a.w == 32.0);
 }
 
-TEST_CASE("Vector4_MultiplyScalar")
+TEST_CASE("Compute the product of a 4-dimensional vector and a scalar", "[Vector4]")
 {
     Vector4 a = Vector4(1.0, 2.0, 3.0, 4.0) * 4.0;
     REQUIRE(a.x == 4.0);
@@ -182,7 +182,7 @@ TEST_CASE("Vector4_MultiplyScalar")
     REQUIRE(a.w == 16.0);
 }
 
-TEST_CASE("Vector4_MultiplyScalarEquals")
+TEST_CASE("Multiply a 4-dimensional vector by a scalar", "[Vector4]")
 {
     Vector4 a = Vector4(1.0, 2.0, 3.0, 4.0);
     a *= 4.0;
@@ -192,7 +192,7 @@ TEST_CASE("Vector4_MultiplyScalarEquals")
     REQUIRE(a.w == 16.0);
 }
 
-TEST_CASE("Vector4_Divide")
+TEST_CASE("Compute the quotient of two 4-dimensional vectors", "[Vector4]")
 {
     Vector4 a = Vector4(6.0, 8.0, 12.0, 16.0) / Vector4(2.0, 4.0, 4.0, 8.0);
     REQUIRE(a.x == 3.0);
@@ -201,7 +201,7 @@ TEST_CASE("Vector4_Divide")
     REQUIRE(a.w == 2.0);
 }
 
-TEST_CASE("Vector4_DivideEquals")
+TEST_CASE("Divide a 4-dimensional vector by a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a = Vector4(6.0, 8.0, 12.0, 16.0);
     a /= Vector4(2.0, 4.0, 4.0, 8.0);
@@ -211,7 +211,7 @@ TEST_CASE("Vector4_DivideEquals")
     REQUIRE(a.w == 2.0);
 }
 
-TEST_CASE("Vector4_DivideScalar")
+TEST_CASE("Compute the quotient of a 4-dimensional vector and a scalar", "[Vector4]")
 {
     Vector4 a = Vector4(6.0, 8.0, 16.0, 24.0) / 2.0;
     REQUIRE(a.x == 3.0);
@@ -220,7 +220,7 @@ TEST_CASE("Vector4_DivideScalar")
     REQUIRE(a.w == 12.0);
 }
 
-TEST_CASE("Vector4_DivideScalarEquals")
+TEST_CASE("Divide a 4-dimensional vector by a scalar", "[Vector4]")
 {
     Vector4 a = Vector4(6.0, 8.0, 16.0, 24.0);
     a /= 2.0;
@@ -230,7 +230,7 @@ TEST_CASE("Vector4_DivideScalarEquals")
     REQUIRE(a.w == 12.0);
 }
 
-TEST_CASE("Vector4_Cast")
+TEST_CASE("Cast a 4-dimensional to a different underlying type", "[Vector4]")
 {
     Vector4 a(1.0, 2.0, 3.0, 4.0);
     Vector4T<float> b = a;
@@ -241,7 +241,7 @@ TEST_CASE("Vector4_Cast")
     REQUIRE(b.w == a.w);
 }
 
-TEST_CASE("Vector4_Index")
+TEST_CASE("Index the components of a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a(1.0, 2.0, 3.0, 4.0);
 

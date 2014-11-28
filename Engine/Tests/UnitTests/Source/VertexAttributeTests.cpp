@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("VertexAttribute_ConstructorAndAccessors")
+TEST_CASE("Construct a vertex attribute", "[VertexAttribute]")
 {
     VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
 
@@ -35,7 +35,7 @@ TEST_CASE("VertexAttribute_ConstructorAndAccessors")
     REQUIRE(attribute.cardinality() == 3u);
 }
 
-TEST_CASE("VertexAttribute_Size")
+TEST_CASE("Compute the size of a vertex attribute", "[VertexAttribute]")
 {
     VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Int16, 3);
     REQUIRE(attribute.size() == 2u * 3u);
@@ -47,7 +47,7 @@ TEST_CASE("VertexAttribute_Size")
     REQUIRE(attribute.size() == 4u * 2u);
 }
 
-TEST_CASE("VertexAttribute_Equality")
+TEST_CASE("Compare two vertex attributes", "[VertexAttribute]")
 {
     VertexAttribute a(VertexAttributeSemantic_Position, VertexAttributeType_Int16, 3);
     VertexAttribute b(VertexAttributeSemantic_Position, VertexAttributeType_Int16, 3);

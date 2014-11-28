@@ -26,13 +26,13 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("VertexLayout_DefaultConstructor")
+TEST_CASE("Constrct an empty vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
     REQUIRE(vertexLayout.attributeCount() == 0u);
 }
 
-TEST_CASE("VertexLayout_addAttribute")
+TEST_CASE("Add attributes to a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
@@ -41,27 +41,27 @@ TEST_CASE("VertexLayout_addAttribute")
     REQUIRE(vertexLayout.attributeCount() == 2u);
 }
 
-TEST_CASE("VertexLayout_AttributeIndexing")
+TEST_CASE("Index attributes in a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
 
-    REQUIRE(VertexAttributeSemantic_Position == (vertexLayout.attributes().begin() + 0)->semantic());
-    REQUIRE(VertexAttributeSemantic_Normal == (vertexLayout.attributes().begin() + 1)->semantic());
+    REQUIRE(VertexAttributeSemantic_Position == vertexLayout.attributes()[0].semantic());
+    REQUIRE(VertexAttributeSemantic_Normal == vertexLayout.attributes()[1].semantic());
 }
 
-TEST_CASE("VertexLayout_AttributeOffsets")
+TEST_CASE("Get the offsets of the attributes in a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
 
-    REQUIRE((vertexLayout.attributes().begin() + 0)->offset() == 0u);
-    REQUIRE((vertexLayout.attributes().begin() + 1)->offset() == (vertexLayout.attributes().begin() + 0)->size());
+    REQUIRE(vertexLayout.attributes()[0].offset() == 0u);
+    REQUIRE(vertexLayout.attributes()[1].offset() == vertexLayout.attributes()[0].size());
 }
 
-TEST_CASE("VertexLayout_AttributeWithSemantic")
+TEST_CASE("Get the attribute of a specified semantic in a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 4));
@@ -71,7 +71,7 @@ TEST_CASE("VertexLayout_AttributeWithSemantic")
     REQUIRE(vertexLayout.attributeWithSemantic(VertexAttributeSemantic_Normal).cardinality() == 3u);
 }
 
-TEST_CASE("VertexLayout_HasAttributeWithSemantic")
+TEST_CASE("Check if a vertex layout has an attribute with a specified semantic", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 4));
@@ -80,7 +80,7 @@ TEST_CASE("VertexLayout_HasAttributeWithSemantic")
     REQUIRE(vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic_Position));
 }
 
-TEST_CASE("VertexLayout_HasAttributeWithSemanticNegative")
+TEST_CASE("Check if a vertex layout does not have an attribute with a specified semantic", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
@@ -89,7 +89,7 @@ TEST_CASE("VertexLayout_HasAttributeWithSemanticNegative")
     REQUIRE(!vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic_Color));
 }
 
-TEST_CASE("VertexLayout_VertexSize")
+TEST_CASE("Get the vertex size of a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));

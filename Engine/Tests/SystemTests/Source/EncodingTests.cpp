@@ -102,17 +102,17 @@ void testEncodingForExtension(const std::string& extension)
     }
 }
 
-TEST_CASE("MaterialEncoding")
+TEST_CASE("Decode and re-encode test materials", "[Encoding]")
 {
     testEncodingForExtension<Material>("material");
 }
 
-TEST_CASE("MeshEncoding")
+TEST_CASE("Decode and re-encode test meshes", "[Encoding]")
 {
     testEncodingForExtension<Mesh>("mesh");
 }
 
-TEST_CASE("TextureEncoding")
+TEST_CASE("Decode and re-encode test textures", "[Encoding]")
 {
     testEncodingForExtension<Texture>("texture");
 }

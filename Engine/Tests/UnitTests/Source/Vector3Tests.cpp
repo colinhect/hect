@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Vector3_DefaultConstructor")
+TEST_CASE("Construct a default 3-dimensional vector", "[Vector3]")
 {
     Vector3 a;
     REQUIRE(a.x == 0.0);
@@ -34,7 +34,7 @@ TEST_CASE("Vector3_DefaultConstructor")
     REQUIRE(a.z == 0.0);
 }
 
-TEST_CASE("Vector3_ScalarConstructor")
+TEST_CASE("Construct a 3-dimensional vector from a scalar", "[Vector3]")
 {
     Vector3 a(1.0);
     REQUIRE(a.x == 1.0);
@@ -42,7 +42,7 @@ TEST_CASE("Vector3_ScalarConstructor")
     REQUIRE(a.z == 1.0);
 }
 
-TEST_CASE("Vector3_ComponentConstructor")
+TEST_CASE("Construct a 3-dimensional vector given its components", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);
     REQUIRE(a.x == 1.0);
@@ -50,7 +50,7 @@ TEST_CASE("Vector3_ComponentConstructor")
     REQUIRE(a.z == 3.0);
 }
 
-TEST_CASE("Vector3_CopyConstructor")
+TEST_CASE("Copy a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);
     Vector3 b(a);
@@ -59,32 +59,32 @@ TEST_CASE("Vector3_CopyConstructor")
     REQUIRE(b.z == a.z);
 }
 
-TEST_CASE("Vector3_Length")
+TEST_CASE("Get the length of a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);
     REQUIRE(a.length() == std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z));
 }
 
-TEST_CASE("Vector3_LengthSquared")
+TEST_CASE("Get the squared length of a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);
     REQUIRE(std::sqrt(a.lengthSquared()) == a.length());
 }
 
-TEST_CASE("Vector3_Normalize")
+TEST_CASE("Normalize a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);
     a.normalize();
     REQUIRE(a.length() == 1.0);
 }
 
-TEST_CASE("Vector3_Normalized")
+TEST_CASE("Get a normalized copy of a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);
     REQUIRE(a.normalized().length() == 1.0);
 }
 
-TEST_CASE("Vector3_AngleFrom")
+TEST_CASE("Compute the angle betwen two 3-dimensional vectors", "[Vector3]")
 {
     REQUIRE(Vector3::unitX().angleFrom(Vector3::unitX()).degrees() == 0.0);
     REQUIRE(Vector3::unitX().angleFrom(-Vector3::unitX()).degrees() == 180.0);
@@ -103,7 +103,7 @@ TEST_CASE("Vector3_AngleFrom")
     REQUIRE(Vector3::unitZ().angleFrom(Vector3::unitY()).degrees() == 90.0);
 }
 
-TEST_CASE("Vector3_Cross")
+TEST_CASE("Compute the cross product of two 3-dimensional vectors", "[Vector3]")
 {
     Vector3 a = Vector3::unitX().cross(Vector3::unitY());
 
@@ -130,7 +130,7 @@ TEST_CASE("Vector3_Cross")
     REQUIRE(a.z == 0.0);
 }
 
-TEST_CASE("Vector3_Add")
+TEST_CASE("Compute the sum of two 3-dimensional vectors", "[Vector3]")
 {
     Vector3 a = Vector3(1.0, 2.0, 3.0) + Vector3(2.0, 4.0, 6.0);
     REQUIRE(a.x == 3.0);
@@ -138,7 +138,7 @@ TEST_CASE("Vector3_Add")
     REQUIRE(a.z == 9.0);
 }
 
-TEST_CASE("Vector3_AddEquals")
+TEST_CASE("Add a 3-dimensional vector to a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a = Vector3(1.0, 2.0, 3.0);
     a += Vector3(2.0, 4.0, 6.0);
@@ -147,7 +147,7 @@ TEST_CASE("Vector3_AddEquals")
     REQUIRE(a.z == 9.0);
 }
 
-TEST_CASE("Vector3_Subtract")
+TEST_CASE("Compute the difference between two 3-dimensional vectors", "[Vector3]")
 {
     Vector3 a = Vector3(1.0, 2.0, 3.0) - Vector3(2.0, 4.0, 6.0);
     REQUIRE(a.x == -1.0);
@@ -155,7 +155,7 @@ TEST_CASE("Vector3_Subtract")
     REQUIRE(a.z == -3.0);
 }
 
-TEST_CASE("Vector3_SubtractEquals")
+TEST_CASE("Subtract a 3-dimensional vector from a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a = Vector3(1.0, 2.0, 3.0);
     a -= Vector3(2.0, 4.0, 6.0);
@@ -164,7 +164,7 @@ TEST_CASE("Vector3_SubtractEquals")
     REQUIRE(a.z == -3.0);
 }
 
-TEST_CASE("Vector3_Multiply")
+TEST_CASE("Compute the product of two 3-dimensional vectors", "[Vector3]")
 {
     Vector3 a = Vector3(1.0, 2.0, 3.0) * Vector3(2.0, 4.0, 6.0);
     REQUIRE(a.x == 2.0);
@@ -172,7 +172,7 @@ TEST_CASE("Vector3_Multiply")
     REQUIRE(a.z == 18.0);
 }
 
-TEST_CASE("Vector3_MultiplyEquals")
+TEST_CASE("Multiply a 3-dimensional by a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a = Vector3(1.0, 2.0, 3.0);
     a *= Vector3(2.0, 4.0, 6.0);
@@ -181,7 +181,7 @@ TEST_CASE("Vector3_MultiplyEquals")
     REQUIRE(a.z == 18.0);
 }
 
-TEST_CASE("Vector3_MultiplyScalar")
+TEST_CASE("Compute the product of a 3-dimensional vector and a scalar", "[Vector3]")
 {
     Vector3 a = Vector3(1.0, 2.0, 3.0) * 4.0;
     REQUIRE(a.x == 4.0);
@@ -189,7 +189,7 @@ TEST_CASE("Vector3_MultiplyScalar")
     REQUIRE(a.z == 12.0);
 }
 
-TEST_CASE("Vector3_MultiplyScalarEquals")
+TEST_CASE("Multiply a 3-dimensional vector by a scalar", "[Vector3]")
 {
     Vector3 a = Vector3(1.0, 2.0, 3.0);
     a *= 4.0;
@@ -198,7 +198,7 @@ TEST_CASE("Vector3_MultiplyScalarEquals")
     REQUIRE(a.z == 12.0);
 }
 
-TEST_CASE("Vector3_Divide")
+TEST_CASE("Compute the quotient of two 3-dimensional vectors", "[Vector3]")
 {
     Vector3 a = Vector3(6.0, 8.0, 12.0) / Vector3(2.0, 4.0, 4.0);
     REQUIRE(a.x == 3.0);
@@ -206,7 +206,7 @@ TEST_CASE("Vector3_Divide")
     REQUIRE(a.z == 3.0);
 }
 
-TEST_CASE("Vector3_DivideEquals")
+TEST_CASE("Divide a 3-dimensional vector by a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a = Vector3(6.0, 8.0, 12.0);
     a /= Vector3(2.0, 4.0, 4.0);
@@ -215,7 +215,7 @@ TEST_CASE("Vector3_DivideEquals")
     REQUIRE(a.z == 3.0);
 }
 
-TEST_CASE("Vector3_DivideScalar")
+TEST_CASE("Compute the quotient of a 3-dimensional vector and a scalar", "[Vector3]")
 {
     Vector3 a = Vector3(6.0, 8.0, 16.0) / 2.0;
     REQUIRE(a.x == 3.0);
@@ -223,7 +223,7 @@ TEST_CASE("Vector3_DivideScalar")
     REQUIRE(a.z == 8.0);
 }
 
-TEST_CASE("Vector3_DivideScalarEquals")
+TEST_CASE("Divide a 3-dimensional vector by a scalar", "[Vector3]")
 {
     Vector3 a = Vector3(6.0, 8.0, 16.0);
     a /= 2.0;
@@ -232,7 +232,7 @@ TEST_CASE("Vector3_DivideScalarEquals")
     REQUIRE(a.z == 8.0);
 }
 
-TEST_CASE("Vector3_Cast")
+TEST_CASE("Cast a 3-dimensional to a different underlying type", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);
     Vector3T<float> b = a;
@@ -242,7 +242,7 @@ TEST_CASE("Vector3_Cast")
     REQUIRE(b.z == a.z);
 }
 
-TEST_CASE("Vector3_Index")
+TEST_CASE("Index the components of a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);
 

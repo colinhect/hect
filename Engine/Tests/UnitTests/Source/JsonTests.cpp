@@ -149,13 +149,13 @@ TEST_CASE("Get the member names of an object JSON value", "[Json]")
     REQUIRE(std::find(memberNames.begin(), memberNames.end(), "someString") != memberNames.end());
 }
 
-TEST_CASE("Call JsonValue::orDefault() on null JSON value", "[Json]")
+TEST_CASE("Null switch on a null JSON value", "[Json]")
 {
     JsonValue value;
     REQUIRE(value.orDefault(true).asBool());
 }
 
-TEST_CASE("Call JsonValue::orDefault() on non-null JSON value", "[Json]")
+TEST_CASE("Null switch on a non-null JSON value", "[Json]")
 {
     JsonValue value(true);
     REQUIRE(value.orDefault(false).asBool());
@@ -166,7 +166,7 @@ TEST_CASE("Iterate over array JSON value", "[Json]")
     JsonValue value(JsonValueType_Array);
     for (int i = 0; i < 10; ++i)
     {
-        value.addElement((double)i);
+        value.addElement(static_cast<double>(i));
     }
 
     REQUIRE(value.isArray());
