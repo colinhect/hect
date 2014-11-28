@@ -47,7 +47,7 @@ static std::mutex _catchMutex;
         REQUIRE(expr);\
     }
 
-TEST_CASE("Host_ConnectDisconnect")
+TEST_CASE("Connect and disconnect from local host", "[Host]")
 {
     std::atomic<bool> listening;
     listening.store(false);
@@ -128,7 +128,7 @@ TEST_CASE("Host_ConnectDisconnect")
     serverThread.join();
 }
 
-TEST_CASE("Host_ServerSendPacket")
+TEST_CASE("Send a packet from the server host", "[Host]")
 {
     std::atomic<bool> listening;
     listening.store(false);
@@ -207,7 +207,7 @@ TEST_CASE("Host_ServerSendPacket")
     serverThread.join();
 }
 
-TEST_CASE("Host_ClientSendPacket")
+TEST_CASE("Send a packet from the client host", "[Host]")
 {
     std::atomic<bool> listening;
     listening.store(false);

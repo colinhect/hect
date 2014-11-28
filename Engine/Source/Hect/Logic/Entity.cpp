@@ -59,7 +59,7 @@ void Entity::IteratorBase::increment()
 
 bool Entity::IteratorBase::isValid() const
 {
-    return _pool->entityIsValid(_id);
+    return _pool && _pool->entityIsValid(_id);
 }
 
 void Entity::IteratorBase::ensureValid() const
@@ -87,11 +87,13 @@ Entity::Iterator::Iterator(EntityPool& pool, EntityId id) :
 
 Entity& Entity::Iterator::operator*() const
 {
+    ensureValid();
     return _pool->entityWithId(_id);
 }
 
 Entity* Entity::Iterator::operator->() const
 {
+    ensureValid();
     return &_pool->entityWithId(_id);
 }
 
@@ -128,11 +130,13 @@ Entity::ConstIterator::ConstIterator(const EntityPool& pool, EntityId id) :
 
 const Entity& Entity::ConstIterator::operator*() const
 {
+    ensureValid();
     return _pool->entityWithId(_id);
 }
 
 const Entity* Entity::ConstIterator::operator->() const
 {
+    ensureValid();
     return &_pool->entityWithId(_id);
 }
 
@@ -178,7 +182,7 @@ void Entity::Children::IteratorBase::increment()
 
 bool Entity::Children::IteratorBase::isValid() const
 {
-    return _index < _pool->entityWithId(_parentId)._childIds.size();
+    return _pool && _index < _pool->entityWithId(_parentId)._childIds.size();
 }
 
 void Entity::Children::IteratorBase::ensureValid() const

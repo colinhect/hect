@@ -151,19 +151,19 @@ void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::functi
     }
 }
 
-TEST_CASE("Scene_RegisterComponent")
+TEST_CASE("Register a component type", "[Scene]")
 {
     Type::create<Test>(Kind_Class, "Test");
     ComponentRegistry::registerType<Test>();
 }
 
-TEST_CASE("Scene_RegisterSystem")
+TEST_CASE("Register a system type", "[Scene]")
 {
     Type::create<TestSystem>(Kind_Class, "TestSystem");
     SystemRegistry::registerType<TestSystem>();
 }
 
-TEST_CASE("Scene_CreateAndDestroyEntities")
+TEST_CASE("Create and destroy entities in a scene", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -187,28 +187,33 @@ TEST_CASE("Scene_CreateAndDestroyEntities")
     REQUIRE(b->id() == 1);
 }
 
-TEST_CASE("Scene_DereferenceInvalidEntityIterator")
+TEST_CASE("Dereference an invalid entity iterator", "[Scene]")
 {
     Scene scene(*engine);
 
-    Entity::Iterator a = scene.entities().end();
+    Entity::Iterator a;
     REQUIRE(!a);
     REQUIRE_THROWS_AS(*a, Error);
+
+    Entity::Iterator b = scene.entities().end();
+    REQUIRE(!b);
+    REQUIRE_THROWS_AS(*b, Error);
 }
 
-TEST_CASE("Scene_DereferenceDestroyedEntityIterator")
+TEST_CASE("Dereference an iterator to a destroyed entity", "[Scene]")
 {
     Scene scene(*engine);
 
     Entity::Iterator a = scene.createEntity();
     REQUIRE(a);
     a->destroy();
+    REQUIRE(a);
     scene.refresh();
     REQUIRE(!a);
     REQUIRE_THROWS_AS(*a, Error);
 }
 
-TEST_CASE("Scene_CreateAndActivateEntities")
+TEST_CASE("Create and activate entities in a scene", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -240,7 +245,7 @@ TEST_CASE("Scene_CreateAndActivateEntities")
     REQUIRE(scene.entityCount() == 0);
 }
 
-TEST_CASE("Scene_EntityIterationEmpty")
+TEST_CASE("Iterate over the entities in an empty scene", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -254,7 +259,7 @@ TEST_CASE("Scene_EntityIterationEmpty")
     REQUIRE(count == 0);
 }
 
-TEST_CASE("Scene_EntityIterationNoneActivated")
+TEST_CASE("Iterate over the entities in a non-empty scene when no entities are activated", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -272,7 +277,7 @@ TEST_CASE("Scene_EntityIterationNoneActivated")
     REQUIRE(count == 0);
 }
 
-TEST_CASE("Scene_EntityIterationSomeActivated")
+TEST_CASE("Iterate over the entities in a non-empty scene when some entities are activated", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -297,7 +302,7 @@ TEST_CASE("Scene_EntityIterationSomeActivated")
     REQUIRE(ids[2] == 4);
 }
 
-TEST_CASE("Scene_EntityIterationFirstActivated")
+TEST_CASE("Iterate over the entities in a non-empty scene when the first entity is activated", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -319,7 +324,7 @@ TEST_CASE("Scene_EntityIterationFirstActivated")
     REQUIRE(ids[1] == 2);
 }
 
-TEST_CASE("Scene_EntityIterationLastActivated")
+TEST_CASE("Iterate over the entities in a non-empty scene when the last entity is activated", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -341,7 +346,7 @@ TEST_CASE("Scene_EntityIterationLastActivated")
     REQUIRE(ids[1] == 3);
 }
 
-TEST_CASE("Scene_EntityIterationFirstAndLastActivated")
+TEST_CASE("Iterate over the entities in a non-empty scene when the first and last entities are activated", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -362,7 +367,7 @@ TEST_CASE("Scene_EntityIterationFirstAndLastActivated")
     REQUIRE(ids[1] == 2);
 }
 
-TEST_CASE("Scene_CreateManyEntities")
+TEST_CASE("Create and activate many entities in a scene", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -389,7 +394,7 @@ TEST_CASE("Scene_CreateManyEntities")
     }
 }
 
-TEST_CASE("Scene_AddRemoveEntityChildrenUnactivated")
+TEST_CASE("Add and remove children to an unactivated entity", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -410,7 +415,7 @@ TEST_CASE("Scene_AddRemoveEntityChildrenUnactivated")
     REQUIRE(!b->parent());
 }
 
-TEST_CASE("Scene_AddRemoveEntityChildrenActivated")
+TEST_CASE("Add and remove children to an activated entity", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -437,7 +442,7 @@ TEST_CASE("Scene_AddRemoveEntityChildrenActivated")
     REQUIRE(!b->parent());
 }
 
-TEST_CASE("Scene_AddChildEntityAsChild")
+TEST_CASE("Add a child entity as a child to another entity", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -450,7 +455,7 @@ TEST_CASE("Scene_AddChildEntityAsChild")
     REQUIRE_THROWS_AS(c->addChild(*b), Error);
 }
 
-TEST_CASE("Scene_AddChildToEntityPendingActivation")
+TEST_CASE("Add child to an entity pending activation", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -462,7 +467,7 @@ TEST_CASE("Scene_AddChildToEntityPendingActivation")
     REQUIRE_THROWS_AS(a->addChild(*b), Error);
 }
 
-TEST_CASE("Scene_AddUnactivatedChildToActivatedEntity")
+TEST_CASE("Add an unactivated child to an activated entity", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -475,7 +480,7 @@ TEST_CASE("Scene_AddUnactivatedChildToActivatedEntity")
     REQUIRE_THROWS_AS(a->addChild(*b), Error);
 }
 
-TEST_CASE("Scene_AddChildFromAnotherScene")
+TEST_CASE("Add a child to an entity in another scene", "[Scene]")
 {
     Scene sceneA(*engine);
 
@@ -488,7 +493,7 @@ TEST_CASE("Scene_AddChildFromAnotherScene")
     REQUIRE_THROWS_AS(a->addChild(*b), Error);
 }
 
-TEST_CASE("Scene_ChildEntityActivation")
+TEST_CASE("Activating an entity activates all of its children", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -516,7 +521,7 @@ TEST_CASE("Scene_ChildEntityActivation")
     REQUIRE(d->isActivated());
 }
 
-TEST_CASE("Scene_ChildEntityIterationEmpty")
+TEST_CASE("Iterating over the children of an entity without any children", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -531,7 +536,7 @@ TEST_CASE("Scene_ChildEntityIterationEmpty")
     REQUIRE(count == 0);
 }
 
-TEST_CASE("Scene_ChildEntityIterationNonEmpty")
+TEST_CASE("Iterating over the children of an entity with children", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -564,7 +569,7 @@ TEST_CASE("Scene_ChildEntityIterationNonEmpty")
     REQUIRE(ids[0] == 2);
 }
 
-TEST_CASE("Scene_DestroyEntityWithChildren")
+TEST_CASE("Destroy an entity with children", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -599,7 +604,7 @@ TEST_CASE("Scene_DestroyEntityWithChildren")
     REQUIRE(scene.entityCount() == 0);
 }
 
-TEST_CASE("Scene_DestroyEntityWithParent")
+TEST_CASE("Destroy an entity with a parent", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -633,7 +638,7 @@ TEST_CASE("Scene_DestroyEntityWithParent")
     REQUIRE(ids[0] == 2);
 }
 
-TEST_CASE("Scene_CloneEntity")
+TEST_CASE("Clone an entity", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -655,7 +660,7 @@ TEST_CASE("Scene_CloneEntity")
     REQUIRE(stringA->id() != stringB->id());
 }
 
-TEST_CASE("Scene_CloneEntityWithChildren")
+TEST_CASE("Clone an entity with children", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -676,7 +681,7 @@ TEST_CASE("Scene_CloneEntityWithChildren")
     REQUIRE(!++childIter);
 }
 
-TEST_CASE("Scene_AddAndRemoveComponent")
+TEST_CASE("Add and remove a component to and from an entity", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -694,7 +699,7 @@ TEST_CASE("Scene_AddAndRemoveComponent")
     REQUIRE(!a->component<Test>());
 }
 
-TEST_CASE("Scene_ReplaceComponent")
+TEST_CASE("Replace a component of an entity", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -711,7 +716,7 @@ TEST_CASE("Scene_ReplaceComponent")
     REQUIRE(&string->entity() == &*a);
 }
 
-TEST_CASE("Scene_AddExistingComponent")
+TEST_CASE("Remove a non-existing component from an entity", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -720,7 +725,7 @@ TEST_CASE("Scene_AddExistingComponent")
     REQUIRE_THROWS_AS(a->removeComponent<Test>(), Error);
 }
 
-TEST_CASE("Scene_RemoveNonExistingComponent")
+TEST_CASE("Add a component that already exists for an entity", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -730,7 +735,7 @@ TEST_CASE("Scene_RemoveNonExistingComponent")
     REQUIRE_THROWS_AS(a->addComponent<Test>("Test"), Error);
 }
 
-TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
+TEST_CASE("Remove a non-existing unregistered component from an entity", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -738,7 +743,7 @@ TEST_CASE("Scene_RemoveNonExistingUnregisteredComponent")
     REQUIRE_THROWS_AS(a->removeComponent<Test>(), Error);
 }
 
-TEST_CASE("Scene_ComponentIterationEmpty")
+TEST_CASE("Iterate over the components in a scene without any components", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -753,7 +758,7 @@ TEST_CASE("Scene_ComponentIterationEmpty")
     REQUIRE(count == 0);
 }
 
-TEST_CASE("Scene_ComponentIterationNoneActivated")
+TEST_CASE("Iterate over the components in a scene without any activated components", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -770,7 +775,7 @@ TEST_CASE("Scene_ComponentIterationNoneActivated")
     REQUIRE(count == 0);
 }
 
-TEST_CASE("Scene_ComponentIterationSomeActivated")
+TEST_CASE("Iterate over the components in a scene with some activated components", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -796,7 +801,7 @@ TEST_CASE("Scene_ComponentIterationSomeActivated")
     REQUIRE(ids[2] == 2);
 }
 
-TEST_CASE("Scene_ComponentIterationFirstActivated")
+TEST_CASE("Iterate over the components in a scene with the first component activated", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -821,7 +826,7 @@ TEST_CASE("Scene_ComponentIterationFirstActivated")
     REQUIRE(ids[2] == 2);
 }
 
-TEST_CASE("Scene_ComponentIterationLastActivated")
+TEST_CASE("Iterate over the components in a scene with the last component activated", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -846,7 +851,7 @@ TEST_CASE("Scene_ComponentIterationLastActivated")
     REQUIRE(ids[2] == 2);
 }
 
-TEST_CASE("Scene_ComponentIterationFirstAndLastActivated")
+TEST_CASE("Iterate over the components in a scene with the first and last components activated", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -872,7 +877,7 @@ TEST_CASE("Scene_ComponentIterationFirstAndLastActivated")
     REQUIRE(ids[2] == 2);
 }
 
-TEST_CASE("Scene_ComponentAddEvent")
+TEST_CASE("Dispatch of the component add event", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -893,7 +898,7 @@ TEST_CASE("Scene_ComponentAddEvent")
     REQUIRE(&listener.receivedEvents[0].entity() == &*a);
 }
 
-TEST_CASE("Scene_ComponentRemoveEvent")
+TEST_CASE("Dispatch of the component remove event", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -903,11 +908,11 @@ TEST_CASE("Scene_ComponentRemoveEvent")
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("A");
 
-    SECTION("ActivateEntity")
+    SECTION("For an activated entity")
     {
         a->activate();
 
-        SECTION("RefreshBefore")
+        SECTION("With the scene refreshed before")
         {
             scene.refresh();
         }
@@ -922,7 +927,7 @@ TEST_CASE("Scene_ComponentRemoveEvent")
     REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
 }
 
-TEST_CASE("Scene_ComponentPoolListeners")
+TEST_CASE("Component pool listeners", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -969,7 +974,7 @@ TEST_CASE("Scene_ComponentPoolListeners")
     REQUIRE(&listener.receivedEvents[0].entity() == &*b);
 }
 
-TEST_CASE("Scene_ComponentPoolFindFirstWithMatch")
+TEST_CASE("Find first component in a component pool with a match", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1003,7 +1008,7 @@ TEST_CASE("Scene_ComponentPoolFindFirstWithMatch")
     REQUIRE(&*iterator == &*b->component<Test>());
 }
 
-TEST_CASE("Scene_ComponentPoolFindFirstWithoutMatch")
+TEST_CASE("Find first component in a component pool without a match", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1035,7 +1040,7 @@ TEST_CASE("Scene_ComponentPoolFindFirstWithoutMatch")
     REQUIRE(!iterator);
 }
 
-TEST_CASE("Scene_ComponentPoolFindWithMatches")
+TEST_CASE("Find components in a component pool with matches", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1075,7 +1080,7 @@ TEST_CASE("Scene_ComponentPoolFindWithMatches")
     REQUIRE(&*iters[1] == &*c->component<Test>());
 }
 
-TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
+TEST_CASE("Find components in a component pool without matches", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1107,7 +1112,7 @@ TEST_CASE("Scene_ComponentPoolFindWithoutMatches")
     REQUIRE(iters.size() == 0);
 }
 
-TEST_CASE("Scene_EntityPoolFindFirstWithMatch")
+TEST_CASE("Find first entity in a entity pool with a match", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1139,7 +1144,7 @@ TEST_CASE("Scene_EntityPoolFindFirstWithMatch")
     REQUIRE(&*iterator == &*b);
 }
 
-TEST_CASE("Scene_EntityPoolFindFirstWithoutMatch")
+TEST_CASE("Find first entity in a entity pool without a match", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1170,7 +1175,7 @@ TEST_CASE("Scene_EntityPoolFindFirstWithoutMatch")
     REQUIRE(!iterator);
 }
 
-TEST_CASE("Scene_EntityPoolFindWithMatches")
+TEST_CASE("Find entities in a entity pool with matches", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1207,7 +1212,7 @@ TEST_CASE("Scene_EntityPoolFindWithMatches")
     REQUIRE(&*iters[1] == &*c);
 }
 
-TEST_CASE("Scene_EntityPoolFindWithoutMatches")
+TEST_CASE("Find entities in a entity pool without matches", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1238,7 +1243,7 @@ TEST_CASE("Scene_EntityPoolFindWithoutMatches")
     REQUIRE(iters.size() == 0);
 }
 
-TEST_CASE("Scene_EntityFindFirstChild")
+TEST_CASE("Find first child entity", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1282,7 +1287,7 @@ TEST_CASE("Scene_EntityFindFirstChild")
     REQUIRE(!iterator);
 }
 
-TEST_CASE("Scene_EntityFindChildren")
+TEST_CASE("Find children entity", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1328,7 +1333,7 @@ TEST_CASE("Scene_EntityFindChildren")
     REQUIRE(iters.size() == 0);
 }
 
-TEST_CASE("Scene_EntityFindFirstDescendant")
+TEST_CASE("Find first descendant entity", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1379,7 +1384,7 @@ TEST_CASE("Scene_EntityFindFirstDescendant")
     REQUIRE(!iterator);
 }
 
-TEST_CASE("Scene_EntityFindDescendants")
+TEST_CASE("Find descendant entities", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1436,7 +1441,7 @@ TEST_CASE("Scene_EntityFindDescendants")
     REQUIRE(iters[2] == d);
 }
 
-TEST_CASE("Scene_EntityFindFirstAncestor")
+TEST_CASE("Find first ancestor entity", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1481,7 +1486,7 @@ TEST_CASE("Scene_EntityFindFirstAncestor")
     REQUIRE(!iterator);
 }
 
-TEST_CASE("Scene_EntityFindAncestors")
+TEST_CASE("Find ancestor entities", "[Scene]")
 {
     Scene scene(*engine);
     scene.addComponentType<Test>();
@@ -1528,7 +1533,7 @@ TEST_CASE("Scene_EntityFindAncestors")
     REQUIRE(iters.size() == 0);
 }
 
-TEST_CASE("Scene_CreateEntityHandle")
+TEST_CASE("Create an entity handle", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -1546,7 +1551,7 @@ TEST_CASE("Scene_CreateEntityHandle")
     REQUIRE_THROWS_AS(*handle, Error);
 }
 
-TEST_CASE("Scene_CopyEntityHandle")
+TEST_CASE("Copy an entity handle", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -1568,7 +1573,7 @@ TEST_CASE("Scene_CopyEntityHandle")
     REQUIRE_THROWS_AS(*handleCopy, Error);
 }
 
-TEST_CASE("Scene_AddSystemTypeAndGet")
+TEST_CASE("Add a system type to a scene", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -1580,7 +1585,7 @@ TEST_CASE("Scene_AddSystemTypeAndGet")
     REQUIRE(&testSystemA == &testSystemB);
 }
 
-TEST_CASE("Scene_AddExistingSystemType")
+TEST_CASE("Add an existing system type to a scene", "[Scene]")
 {
     Scene scene(*engine);
 
@@ -1588,14 +1593,14 @@ TEST_CASE("Scene_AddExistingSystemType")
     REQUIRE_THROWS_AS(scene.addSystemType<TestSystem>(), Error);
 }
 
-TEST_CASE("Scene_GetNonExistingSystem")
+TEST_CASE("Get a non-existing system type", "[Scene]")
 {
     Scene scene(*engine);
 
     REQUIRE_THROWS_AS(scene.system<TestSystem>(), Error);
 }
 
-TEST_CASE("Scene_EncodeDecodeSimple")
+TEST_CASE("Encode and decode a simple scene", "[Scene]")
 {
     testEncodeDecode([](Scene& scene)
     {
@@ -1617,7 +1622,7 @@ TEST_CASE("Scene_EncodeDecodeSimple")
     });
 }
 
-TEST_CASE("Scene_EncodeDecodeWithChildren")
+TEST_CASE("Encode and decode a simple scene with children entities", "[Scene]")
 {
     testEncodeDecode([](Scene& scene)
     {
@@ -1639,7 +1644,7 @@ TEST_CASE("Scene_EncodeDecodeWithChildren")
     });
 }
 
-TEST_CASE("Scene_EncodeDecodeWithSystems")
+TEST_CASE("Encode and decode a simple scene with systems", "[Scene]")
 {
     testEncodeDecode([](Scene& scene)
     {

@@ -30,7 +30,7 @@ using namespace hect;
 
 extern Engine* engine;
 
-TEST_CASE("Renderer_UploadAndDestroyObject")
+TEST_CASE("Upload and destroy render object", "[Renderer]")
 {
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
@@ -43,7 +43,7 @@ TEST_CASE("Renderer_UploadAndDestroyObject")
     REQUIRE(!mesh.isUploaded());
 }
 
-TEST_CASE("Renderer_ReuploadDestroyedObject")
+TEST_CASE("Re-upload destroyed render object", "[Renderer]")
 {
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
@@ -58,7 +58,7 @@ TEST_CASE("Renderer_ReuploadDestroyedObject")
     REQUIRE(mesh.isUploaded());
 }
 
-TEST_CASE("Renderer_CopyUploadedObject")
+TEST_CASE("Copy uploaded render object", "[Renderer]")
 {
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
@@ -80,7 +80,7 @@ TEST_CASE("Renderer_CopyUploadedObject")
 // Disabled due to Visual Studio 2013 compiler bug (issue #111)
 #ifndef HECT_WINDOWS_BUILD
 
-TEST_CASE("Renderer_MoveUploadedObject")
+TEST_CASE("Move uploaded render object", "[Renderer]")
 {
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();

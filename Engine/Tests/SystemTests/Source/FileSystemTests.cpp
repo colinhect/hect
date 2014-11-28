@@ -31,7 +31,7 @@ using namespace hect;
 
 extern Engine* engine;
 
-TEST_CASE("FileSystem_CreateAndRemoveDirectories")
+TEST_CASE("Create and remove directories", "[FileSystem]")
 {
     FileSystem& fileSystem = engine->fileSystem();
 
@@ -48,7 +48,7 @@ TEST_CASE("FileSystem_CreateAndRemoveDirectories")
     REQUIRE(!fileSystem.exists(path));
 }
 
-TEST_CASE("FileSystem_OpenNonExistingFileForWrite")
+TEST_CASE("Open non-existing file for write", "[FileSystem]")
 {
     FileSystem& fileSystem = engine->fileSystem();
 
@@ -67,7 +67,7 @@ TEST_CASE("FileSystem_OpenNonExistingFileForWrite")
     REQUIRE(!fileSystem.exists(path));
 }
 
-TEST_CASE("FileSystem_OpenExistingFileForWrite")
+TEST_CASE("Open existing file for write", "[FileSystem]")
 {
     FileSystem& fileSystem = engine->fileSystem();
 
@@ -90,7 +90,7 @@ TEST_CASE("FileSystem_OpenExistingFileForWrite")
     REQUIRE(!fileSystem.exists(path));
 }
 
-TEST_CASE("FileSystem_OpenExistingFileForRead")
+TEST_CASE("Open existing file for read", "[FileSystem]")
 {
     FileSystem& fileSystem = engine->fileSystem();
 
@@ -113,7 +113,7 @@ TEST_CASE("FileSystem_OpenExistingFileForRead")
     REQUIRE(!fileSystem.exists(path));
 }
 
-TEST_CASE("FileSystem_OpenNonExistingFileForRead")
+TEST_CASE("Open non-existing file for read", "[FileSystem]")
 {
     FileSystem& fileSystem = engine->fileSystem();
 
@@ -123,16 +123,5 @@ TEST_CASE("FileSystem_OpenNonExistingFileForRead")
 
     Path path("DoesNotExist.txt");
 
-    bool errorOccurred = false;
-
-    try
-    {
-        auto stream = fileSystem.openFileForRead(path);
-    }
-    catch (Error&)
-    {
-        errorOccurred = true;
-    }
-
-    REQUIRE(errorOccurred);
+    REQUIRE_THROWS_AS(fileSystem.openFileForRead(path), Error);
 }
