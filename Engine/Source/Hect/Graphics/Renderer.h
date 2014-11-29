@@ -159,6 +159,8 @@ public:
         friend class OpenGLRenderer;
     public:
 
+        virtual ~Object() { }
+
         ///
         /// Returns the estimated number of GPU memory bytes required to
         /// uploaded this object to the renderer.
