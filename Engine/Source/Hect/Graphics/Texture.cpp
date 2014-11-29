@@ -226,6 +226,11 @@ unsigned Texture::bytesPerPixel() const
     return _bytesPerPixelLookUp[_pixelFormat][_pixelType];
 }
 
+size_t Texture::memoryUsage() const
+{
+    return _width * _height * bytesPerPixel();
+}
+
 bool Texture::operator==(const Texture& texture) const
 {
     if (_type != texture._type)

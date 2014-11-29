@@ -21,63 +21,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Renderer.h"
 
-#include "Hect/Graphics/Renderer.h"
+using namespace hect;
 
-namespace hect
+const Renderer::Capabilities& Renderer::capabilities() const
 {
+    return _capabilities;
+}
 
-///
-/// The format of a render buffer.
-enum RenderBufferFormat
+Renderer::Statistics& Renderer::statistics()
 {
-    ///
-    /// A depth render buffer.
-    RenderBufferFormat_DepthComponent
-};
+    return _statistics;
+}
 
-///
-/// A render buffer to be used with a frame buffer.
-class RenderBuffer :
-    public Renderer::Object<RenderBuffer>
+const Renderer::Statistics& Renderer::statistics() const
 {
-public:
-
-    ///
-    /// Constructs a render buffer.
-    RenderBuffer();
-
-    ///
-    /// Constructs a render buffer.
-    ///
-    /// \param format The format.
-    /// \param width The width.
-    /// \param height The height.
-    RenderBuffer(RenderBufferFormat format, unsigned width, unsigned height);
-
-    ///
-    /// Returns the format.
-    RenderBufferFormat format() const;
-
-    ///
-    /// Returns the width.
-    unsigned width() const;
-
-    ///
-    /// Returns the height.
-    unsigned height() const;
-
-    ///
-    /// Returns the number of bytes in a pixel of this render buffer.
-    unsigned bytesPerPixel() const;
-
-    size_t memoryUsage() const override;
-
-private:
-    RenderBufferFormat _format { RenderBufferFormat_DepthComponent };
-    unsigned _width { 0 };
-    unsigned _height { 0 };
-};
-
+    return _statistics;
 }

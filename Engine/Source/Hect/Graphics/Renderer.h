@@ -63,7 +63,7 @@ public:
     {
         ///
         /// The number of bytes allocated on the GPU.
-        size_t allocatedByteCount { 0 };
+        size_t memoryUsage { 0 };
     };
 
     ///
@@ -158,6 +158,13 @@ public:
         friend class NullRenderer;
         friend class OpenGLRenderer;
     public:
+
+        ///
+        /// Returns the estimated number of GPU memory bytes required to
+        /// uploaded this object to the renderer.
+        ///
+        /// \note The default implementation returns 0.
+        virtual size_t memoryUsage() const;
 
         ///
         /// Returns whether the object is uploaded to a renderer.
@@ -332,11 +339,19 @@ public:
 
     ///
     /// Returns the capabilities of the underlying hardware.
-    virtual const Capabilities& capabilities() const = 0;
+    const Capabilities& capabilities() const;
 
     ///
     /// Returns the statistics of the renderer's state.
-    virtual const Statistics& statistics() const = 0;
+    Statistics& statistics();
+
+    ///
+    /// Returns the statistics of the renderer's state.
+    const Statistics& statistics() const;
+
+protected:
+    Capabilities _capabilities;
+    Statistics _statistics;
 };
 
 }

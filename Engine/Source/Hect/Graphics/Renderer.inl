@@ -95,6 +95,12 @@ void Renderer::DataHandle<T>::reset(Data<T>* data)
 }
 
 template <typename T>
+size_t Renderer::Object<T>::memoryUsage() const
+{
+    return 0;
+}
+
+template <typename T>
 bool Renderer::Object<T>::isUploaded() const
 {
     return _renderer != nullptr && _handle.data.get() != nullptr;
@@ -123,11 +129,13 @@ void Renderer::Object<T>::setAsUploaded(Renderer& renderer, Data<T>* data)
 {
     _renderer = &renderer;
     _handle.reset(data);
+    _renderer->statistics().memoryUsage += memoryUsage();
 }
 
 template <typename T>
 void Renderer::Object<T>::setAsDestroyed()
 {
+    _renderer->statistics().memoryUsage -= memoryUsage();
     _renderer = nullptr;
 }
 

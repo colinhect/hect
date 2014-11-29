@@ -57,11 +57,6 @@ public:
     void destroyMesh(Mesh& mesh) override;
     void draw() override;
     void clear() override;
-    const Capabilities& capabilities() const override;
-    const Statistics& statistics() const override;
-
-    Capabilities _capabilities;
-    Statistics _statistics;
 };
 
 }

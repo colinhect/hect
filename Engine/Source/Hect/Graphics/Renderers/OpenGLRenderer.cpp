@@ -564,7 +564,6 @@ void OpenGLRenderer::uploadRenderBuffer(RenderBuffer& renderBuffer)
     GL_ASSERT(glRenderbufferStorage(GL_RENDERBUFFER, _renderBufferFormatLookUp[renderBuffer.format()], renderBuffer.width(), renderBuffer.height()));
 
     renderBuffer.setAsUploaded(*this, new RenderBufferData(*this, renderBuffer, renderBufferId));
-    _statistics.allocatedByteCount += renderBuffer.width() * renderBuffer.height() * renderBuffer.bytesPerPixel();
 
     GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 }
@@ -580,7 +579,6 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
 
     GL_ASSERT(glDeleteRenderbuffers(1, &data->renderBufferId));
 
-    _statistics.allocatedByteCount -= renderBuffer.width() * renderBuffer.height() * renderBuffer.bytesPerPixel();
     renderBuffer.setAsDestroyed();
 }
 
@@ -875,7 +873,6 @@ void OpenGLRenderer::uploadTexture(Texture& texture)
     GL_ASSERT(glBindTexture(type, 0));
 
     texture.setAsUploaded(*this, new TextureData(*this, texture, textureId));
-    _statistics.allocatedByteCount += texture.width() * texture.height() * texture.bytesPerPixel();
 
     HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
@@ -890,7 +887,6 @@ void OpenGLRenderer::destroyTexture(Texture& texture)
     auto data = texture.dataAs<TextureData>();
     GL_ASSERT(glDeleteTextures(1, &data->textureId));
 
-    _statistics.allocatedByteCount -= texture.width() * texture.height() * texture.bytesPerPixel();
     texture.setAsDestroyed();
 
     HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
@@ -1029,7 +1025,6 @@ void OpenGLRenderer::uploadMesh(Mesh& mesh)
     GL_ASSERT(glBindVertexArray(0));
 
     mesh.setAsUploaded(*this, new MeshData(*this, mesh, vertexArrayId, vertexBufferId, indexBufferId));
-    _statistics.allocatedByteCount += mesh.indexSize() * mesh.indexCount() + mesh.vertexLayout().vertexSize() * mesh.vertexCount();
 
     HECT_TRACE(format("Uploaded mesh '%s'", mesh.name().c_str()));
 }
@@ -1049,7 +1044,6 @@ void OpenGLRenderer::destroyMesh(Mesh& mesh)
     // Delete the vertex array object
     GL_ASSERT(glDeleteVertexArrays(1, &data->vertexArrayId));
 
-    _statistics.allocatedByteCount -= mesh.indexSize() * mesh.indexCount() + mesh.vertexLayout().vertexSize() * mesh.vertexCount();
     mesh.setAsDestroyed();
 
     HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().c_str()));
@@ -1075,16 +1069,6 @@ void OpenGLRenderer::draw()
 void OpenGLRenderer::clear()
 {
     GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-}
-
-const Renderer::Capabilities& OpenGLRenderer::capabilities() const
-{
-    return _capabilities;
-}
-
-const Renderer::Statistics& OpenGLRenderer::statistics() const
-{
-    return _statistics;
 }
 
 #endif

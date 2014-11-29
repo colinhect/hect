@@ -162,6 +162,11 @@ const AxisAlignedBox& Mesh::axisAlignedBox() const
     return _axisAlignedBox;
 }
 
+size_t Mesh::memoryUsage() const
+{
+    return indexSize() * _indexCount + _vertexLayout.vertexSize() * _vertexCount;
+}
+
 bool Mesh::operator==(const Mesh& mesh) const
 {
     // Compare vertex layout

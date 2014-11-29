@@ -62,3 +62,8 @@ unsigned RenderBuffer::bytesPerPixel() const
     }
     return byteCount;
 }
+
+size_t RenderBuffer::memoryUsage() const
+{
+    return _width * _height * bytesPerPixel();
+}
