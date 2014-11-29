@@ -50,6 +50,13 @@ SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
 
     _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
+
+    _backBufferRenderState.disable(RenderStateFlag_DepthTest);
+    _backBufferRenderState.disable(RenderStateFlag_DepthWrite);
+
+    _lightAccumulationRenderState.enable(RenderStateFlag_Blend);
+    _lightAccumulationRenderState.disable(RenderStateFlag_DepthTest);
+    _lightAccumulationRenderState.disable(RenderStateFlag_DepthWrite);
 }
 
 void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
@@ -108,12 +115,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.beginFrame();
         _renderer.bindTarget(backFrameBuffer());
         _renderer.clear();
-
-        RenderState state;
-        state.enable(RenderStateFlag_Blend);
-        state.disable(RenderStateFlag_DepthTest);
-        state.disable(RenderStateFlag_DepthWrite);
-        _renderer.bindState(state);
+        _renderer.bindState(_lightAccumulationRenderState);
 
         // Get the first light probe
         auto lightProbe = scene.components<LightProbe>().begin();
@@ -168,19 +170,13 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
     {
         _renderer.beginFrame();
         _renderer.bindTarget(backFrameBuffer());
-
-        RenderState state;
-        state.disable(RenderStateFlag_DepthTest);
-        state.disable(RenderStateFlag_DepthWrite);
-        _renderer.bindState(state);
-
+        _renderer.bindState(_backBufferRenderState);
         _renderer.bindShader(*_compositeShader);
         setBoundShaderParameters(*_compositeShader, *camera, target, _identityTransform);
 
         _renderer.bindTexture(_diffuseBuffer, 0);
         _renderer.bindTexture(lastBackBuffer(), 1);
 
-        // Bind and draw the composited image
         _renderer.bindMesh(*_screenMesh);
         _renderer.draw();
 
@@ -193,18 +189,12 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
     {
         _renderer.beginFrame();
         _renderer.bindTarget(target);
-
-        RenderState state;
-        state.disable(RenderStateFlag_DepthTest);
-        state.disable(RenderStateFlag_DepthWrite);
-        _renderer.bindState(state);
-
+        _renderer.bindState(_backBufferRenderState);
         _renderer.bindShader(*_exposeShader);
         setBoundShaderParameters(*_exposeShader, *camera, target, _identityTransform);
 
         _renderer.bindTexture(lastBackBuffer(), 0);
 
-        // Bind and draw the composited image
         _renderer.bindMesh(*_screenMesh);
         _renderer.draw();
 

@@ -104,6 +104,9 @@ private:
     AssetHandle<Mesh> _screenMesh;
     AssetHandle<Mesh> _skyBoxMesh;
 
+    RenderState _backBufferRenderState;
+    RenderState _lightAccumulationRenderState;
+
     Transform _identityTransform;
     Transform _cameraTransform;
 
