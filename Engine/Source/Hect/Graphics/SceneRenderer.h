@@ -31,7 +31,7 @@
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Logic/Components/Camera.h"
-#include "Hect/Logic/System.h"
+#include "Hect/Logic/Components/Transform.h"
 
 namespace hect
 {
@@ -93,6 +93,8 @@ private:
 
     AssetHandle<Mesh> _screenMesh;
     AssetHandle<Mesh> _skyBoxMesh;
+
+    Transform _identityTransform;
 
     bool _buffersInitialized { false };
     size_t _backBufferIndex { 0 };

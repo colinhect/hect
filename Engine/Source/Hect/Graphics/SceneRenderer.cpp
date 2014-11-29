@@ -27,12 +27,10 @@
 
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
-#include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/Components/DirectionalLight.h"
 #include "Hect/Logic/Components/LightProbe.h"
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/SkyBox.h"
-#include "Hect/Logic/Components/Transform.h"
 #include "Hect/Logic/Systems/CameraSystem.h"
 #include "Hect/Runtime/Engine.h"
 
@@ -56,175 +54,173 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 {
     CameraSystem& cameraSystem = scene.system<CameraSystem>();
     Component<Camera>::Iterator camera = cameraSystem.activeCamera();
-    if (camera)
+    if (!camera)
     {
-        // Update the camera's aspect ratio if needed
-        if (camera->aspectRatio != target.aspectRatio())
+        // Nothing to render
+        return;
+    }
+
+    // Update the camera's aspect ratio if needed
+    if (camera->aspectRatio != target.aspectRatio())
+    {
+        camera->aspectRatio = target.aspectRatio();
+        cameraSystem.updateCamera(*camera);
+    }
+
+    // Initialize buffers if needed
+    if (!_buffersInitialized)
+    {
+        initializeBuffers(target.width(), target.height());
+    }
+
+    // Geometry buffer rendering
+    {
+        _renderer.beginFrame();
+        _renderer.bindTarget(_geometryFrameBuffer);
+        _renderer.clear();
+
+        // Render the sky box if there is one
+        auto skyBox = scene.components<SkyBox>().begin();
+        if (skyBox)
         {
-            camera->aspectRatio = target.aspectRatio();
-            cameraSystem.updateCamera(*camera);
+            RenderState state;
+            state.disable(RenderStateFlag_CullFace);
+            state.disable(RenderStateFlag_DepthTest);
+            state.disable(RenderStateFlag_DepthWrite);
+            _renderer.bindState(state);
+
+            // Construct a transform at the camera's position
+            Transform transform;
+            transform.globalPosition = camera->position;
+
+            _renderer.bindTexture(*skyBox->texture, 0);
+
+            _renderer.bindShader(*_skyBoxShader);
+            setBoundShaderParameters(*_skyBoxShader, *camera, target, transform);
+
+            // Bind and draw the skybox
+            _renderer.bindMesh(*_skyBoxMesh);
+            _renderer.draw();
         }
 
-        // Initialize buffers if needed
-        if (!_buffersInitialized)
+        // Render each entity in hierarchical order
+        for (Entity& entity : scene.entities())
         {
-            initializeBuffers(target.width(), target.height());
-        }
-
-        // Geometry buffer rendering
-        {
-            _renderer.beginFrame();
-            _renderer.bindTarget(_geometryFrameBuffer);
-            _renderer.clear();
-
-            // Render the sky box if there is one
-            auto skyBox = scene.components<SkyBox>().begin();
-            if (skyBox)
+            if (!entity.parent())
             {
-                RenderState state;
-                state.disable(RenderStateFlag_CullFace);
-                state.disable(RenderStateFlag_DepthTest);
-                _renderer.bindState(state);
+                render(*camera, target, entity);
+            }
+        }
 
-                // Construct a transform at the camera's position
-                Transform transform;
-                transform.globalPosition = camera->position;
+        _renderer.endFrame();
+    }
 
-                _renderer.bindTexture(*skyBox->texture, 0);
+    // Light rendering
+    {
+        _renderer.beginFrame();
+        _renderer.bindTarget(backFrameBuffer());
+        _renderer.clear();
 
-                _renderer.bindShader(*_skyBoxShader);
-                setBoundShaderParameters(*_skyBoxShader, *camera, target, transform);
+        RenderState state;
+        state.enable(RenderStateFlag_Blend);
+        state.disable(RenderStateFlag_DepthTest);
+        state.disable(RenderStateFlag_DepthWrite);
+        _renderer.bindState(state);
 
-                // Bind and draw the skybox
-                _renderer.bindMesh(*_skyBoxMesh);
+        // Get the first light probe
+        auto lightProbe = scene.components<LightProbe>().begin();
+        if (!lightProbe)
+        {
+            throw Error("No light probe in scene");
+        }
+
+        _renderer.bindTexture(_diffuseBuffer, 0);
+        _renderer.bindTexture(_materialBuffer, 1);
+        _renderer.bindTexture(_positionBuffer, 2);
+        _renderer.bindTexture(_normalBuffer, 3);
+        _renderer.bindTexture(*lightProbe->texture, 4);
+        _renderer.bindMesh(*_screenMesh);
+
+        // Render environment light
+        {
+            _renderer.bindShader(*_environmentShader);
+            setBoundShaderParameters(*_environmentShader, *camera, target, _identityTransform);
+
+            _renderer.draw();
+        }
+
+        // Render directional lights
+        {
+            _renderer.bindShader(*_directionalLightShader);
+            setBoundShaderParameters(*_directionalLightShader, *camera, target, _identityTransform);
+
+            // Get the parameters required for directional lights
+            const ShaderParameter& colorShaderParameter = _directionalLightShader->parameterWithName("lightColor");
+            const ShaderParameter& directionShaderParameter = _directionalLightShader->parameterWithName("lightDirection");
+
+            // Render each directional light in the scene
+            for (const DirectionalLight& light : scene.components<DirectionalLight>())
+            {
+                _renderer.bindShaderParameter(colorShaderParameter, light.color);
+                _renderer.bindShaderParameter(directionShaderParameter, light.direction);
                 _renderer.draw();
             }
-
-            // Render each entity in hierarchical order
-            for (Entity& entity : scene.entities())
-            {
-                if (!entity.parent())
-                {
-                    render(*camera, target, entity);
-                }
-            }
-
-            _renderer.endFrame();
         }
 
-        // Accumulation buffer rendering
+        // Render point lights
         {
-            _renderer.beginFrame();
-            _renderer.bindTarget(backFrameBuffer());
-            _renderer.clear();
-
-            RenderState state;
-            state.enable(RenderStateFlag_Blend);
-            state.disable(RenderStateFlag_DepthTest);
-            state.disable(RenderStateFlag_DepthWrite);
-            _renderer.bindState(state);
-
-            // Get the first light probe
-            auto lightProbe = scene.components<LightProbe>().begin();
-            if (!lightProbe)
-            {
-                throw Error("No light probe in scene");
-            }
-
-            _renderer.bindTexture(_diffuseBuffer, 0);
-            _renderer.bindTexture(_materialBuffer, 1);
-            _renderer.bindTexture(_positionBuffer, 2);
-            _renderer.bindTexture(_normalBuffer, 3);
-            _renderer.bindTexture(*lightProbe->texture, 4);
-            _renderer.bindMesh(*_screenMesh);
-
-            Transform identity;
-
-            // Render environment light
-            {
-                _renderer.bindShader(*_environmentShader);
-                setBoundShaderParameters(*_environmentShader, *camera, target, identity);
-
-                _renderer.draw();
-            }
-
-            // Render directional lights
-            {
-                _renderer.bindShader(*_directionalLightShader);
-                setBoundShaderParameters(*_directionalLightShader, *camera, target, identity);
-
-                // Get the parameters required for directional lights
-                const ShaderParameter& colorShaderParameter = _directionalLightShader->parameterWithName("lightColor");
-                const ShaderParameter& directionShaderParameter = _directionalLightShader->parameterWithName("lightDirection");
-
-                // Render each directional light in the scene
-                for (const DirectionalLight& light : scene.components<DirectionalLight>())
-                {
-                    _renderer.bindShaderParameter(colorShaderParameter, light.color);
-                    _renderer.bindShaderParameter(directionShaderParameter, light.direction);
-                    _renderer.draw();
-                }
-            }
-
-            // Render point lights
-            {
-            }
-
-            _renderer.endFrame();
         }
 
-        swapBackBuffer();
+        _renderer.endFrame();
+    }
 
-        // Composite
-        {
-            _renderer.beginFrame();
-            _renderer.bindTarget(backFrameBuffer());
+    swapBackBuffer();
 
-            RenderState state;
-            state.disable(RenderStateFlag_DepthTest);
-            state.disable(RenderStateFlag_DepthWrite);
-            _renderer.bindState(state);
+    // Composite
+    {
+        _renderer.beginFrame();
+        _renderer.bindTarget(backFrameBuffer());
 
-            Transform transform;
+        RenderState state;
+        state.disable(RenderStateFlag_DepthTest);
+        state.disable(RenderStateFlag_DepthWrite);
+        _renderer.bindState(state);
 
-            _renderer.bindShader(*_compositeShader);
-            setBoundShaderParameters(*_compositeShader, *camera, target, transform);
+        _renderer.bindShader(*_compositeShader);
+        setBoundShaderParameters(*_compositeShader, *camera, target, _identityTransform);
 
-            _renderer.bindTexture(_diffuseBuffer, 0);
-            _renderer.bindTexture(lastBackBuffer(), 1);
+        _renderer.bindTexture(_diffuseBuffer, 0);
+        _renderer.bindTexture(lastBackBuffer(), 1);
 
-            // Bind and draw the composited image
-            _renderer.bindMesh(*_screenMesh);
-            _renderer.draw();
+        // Bind and draw the composited image
+        _renderer.bindMesh(*_screenMesh);
+        _renderer.draw();
 
-            _renderer.endFrame();
-        }
+        _renderer.endFrame();
+    }
 
-        swapBackBuffer();
+    swapBackBuffer();
 
-        // Expose
-        {
-            _renderer.beginFrame();
-            _renderer.bindTarget(target);
+    // Expose
+    {
+        _renderer.beginFrame();
+        _renderer.bindTarget(target);
 
-            RenderState state;
-            state.disable(RenderStateFlag_DepthTest);
-            state.disable(RenderStateFlag_DepthWrite);
-            _renderer.bindState(state);
+        RenderState state;
+        state.disable(RenderStateFlag_DepthTest);
+        state.disable(RenderStateFlag_DepthWrite);
+        _renderer.bindState(state);
 
-            Transform transform;
+        _renderer.bindShader(*_exposeShader);
+        setBoundShaderParameters(*_exposeShader, *camera, target, _identityTransform);
 
-            _renderer.bindShader(*_exposeShader);
-            setBoundShaderParameters(*_exposeShader, *camera, target, transform);
+        _renderer.bindTexture(lastBackBuffer(), 0);
 
-            _renderer.bindTexture(lastBackBuffer(), 0);
+        // Bind and draw the composited image
+        _renderer.bindMesh(*_screenMesh);
+        _renderer.draw();
 
-            // Bind and draw the composited image
-            _renderer.bindMesh(*_screenMesh);
-            _renderer.draw();
-
-            _renderer.endFrame();
-        }
+        _renderer.endFrame();
     }
 }
 
