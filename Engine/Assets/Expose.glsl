@@ -3,8 +3,7 @@
 uniform float exposure;
 uniform float oneOverGamma;
 
-uniform sampler2D diffuseBuffer;
-uniform sampler2D accumulationBuffer;
+uniform sampler2D backBuffer;
 
 in vec2 vertexTextureCoords;
 
@@ -26,20 +25,7 @@ vec3 expose(
 
 void main()
 {
-    vec3 color;
-    vec4 diffuseSample = texture(diffuseBuffer, vertexTextureCoords);
-
-    // If the pixel is lit
-    if (diffuseSample.a > 0.0)
-    {
-        // Output the light accumulation
-        color = texture(accumulationBuffer, vertexTextureCoords).rgb;
-    }
-    else
-    {
-        // Output the diffuse color
-        color = diffuseSample.rgb;
-    }
+    vec3 color = texture(backBuffer, vertexTextureCoords).rgb;
 
     // Color-correct and output the final pixel
     color = expose(color, exposure);

@@ -42,7 +42,8 @@ SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
     _renderer(renderer),
     _buffersInitialized(false)
 {
-    _compositorShader = assetCache.getHandle<Shader>("Hect/Compositor.shader");
+    _exposeShader = assetCache.getHandle<Shader>("Hect/Expose.shader");
+    _compositeShader = assetCache.getHandle<Shader>("Hect/Composite.shader");
     _environmentShader = assetCache.getHandle<Shader>("Hect/Environment.shader");
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/DirectionalLight.shader");
     _skyBoxShader = assetCache.getHandle<Shader>("Hect/SkyBox.shader");
@@ -114,7 +115,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         // Accumulation buffer rendering
         {
             _renderer.beginFrame();
-            _renderer.bindTarget(_backFrameBuffers[0]);
+            _renderer.bindTarget(backFrameBuffer());
             _renderer.clear();
 
             RenderState state;
@@ -172,23 +173,51 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             _renderer.endFrame();
         }
 
-        // Compositor rendering
+        swapBackBuffer();
+
+        // Composite
         {
             _renderer.beginFrame();
-            _renderer.bindTarget(target);
-            _renderer.clear();
+            _renderer.bindTarget(backFrameBuffer());
 
             RenderState state;
             state.disable(RenderStateFlag_DepthTest);
+            state.disable(RenderStateFlag_DepthWrite);
             _renderer.bindState(state);
 
             Transform transform;
 
-            _renderer.bindShader(*_compositorShader);
-            setBoundShaderParameters(*_compositorShader, *camera, target, transform);
+            _renderer.bindShader(*_compositeShader);
+            setBoundShaderParameters(*_compositeShader, *camera, target, transform);
 
             _renderer.bindTexture(_diffuseBuffer, 0);
-            _renderer.bindTexture(_backBuffers[0], 1);
+            _renderer.bindTexture(lastBackBuffer(), 1);
+
+            // Bind and draw the composited image
+            _renderer.bindMesh(*_screenMesh);
+            _renderer.draw();
+
+            _renderer.endFrame();
+        }
+
+        swapBackBuffer();
+
+        // Expose
+        {
+            _renderer.beginFrame();
+            _renderer.bindTarget(target);
+
+            RenderState state;
+            state.disable(RenderStateFlag_DepthTest);
+            state.disable(RenderStateFlag_DepthWrite);
+            _renderer.bindState(state);
+
+            Transform transform;
+
+            _renderer.bindShader(*_exposeShader);
+            setBoundShaderParameters(*_exposeShader, *camera, target, transform);
+
+            _renderer.bindTexture(lastBackBuffer(), 0);
 
             // Bind and draw the composited image
             _renderer.bindMesh(*_screenMesh);
@@ -423,4 +452,24 @@ void SceneRenderer::setBoundShaderParameters(Shader& shader, const Camera& camer
             }
         }
     }
+}
+
+void SceneRenderer::swapBackBuffer()
+{
+    _backBufferIndex = (_backBufferIndex + 1) % 2;
+}
+
+Texture& SceneRenderer::backBuffer()
+{
+    return _backBuffers[_backBufferIndex];
+}
+
+Texture& SceneRenderer::lastBackBuffer()
+{
+    return _backBuffers[(_backBufferIndex + 1) % 2];
+}
+
+FrameBuffer& SceneRenderer::backFrameBuffer()
+{
+    return _backFrameBuffers[_backBufferIndex];
 }

@@ -67,6 +67,11 @@ private:
 
     void setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
+    void swapBackBuffer();
+    Texture& backBuffer();
+    Texture& lastBackBuffer();
+    FrameBuffer& backFrameBuffer();
+
     Renderer& _renderer;
 
     RenderBuffer _depthBuffer;
@@ -80,7 +85,8 @@ private:
     FrameBuffer _geometryFrameBuffer;
     std::array<FrameBuffer, 2> _backFrameBuffers;
 
-    AssetHandle<Shader> _compositorShader;
+    AssetHandle<Shader> _exposeShader;
+    AssetHandle<Shader> _compositeShader;
     AssetHandle<Shader> _environmentShader;
     AssetHandle<Shader> _directionalLightShader;
     AssetHandle<Shader> _skyBoxShader;
@@ -89,6 +95,7 @@ private:
     AssetHandle<Mesh> _skyBoxMesh;
 
     bool _buffersInitialized { false };
+    size_t _backBufferIndex { 0 };
 };
 
 }
