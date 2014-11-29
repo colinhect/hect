@@ -114,7 +114,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         // Accumulation buffer rendering
         {
             _renderer.beginFrame();
-            _renderer.bindTarget(_accumulationFrameBuffer);
+            _renderer.bindTarget(_backFrameBuffers[0]);
             _renderer.clear();
 
             RenderState state;
@@ -130,12 +130,11 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
                 throw Error("No light probe in scene");
             }
 
-            unsigned int index = 0;
-            for (FrameBuffer::TextureAttachment& attachment : _geometryFrameBuffer.textureAttachments())
-            {
-                _renderer.bindTexture(attachment.texture(), index++);
-            }
-            _renderer.bindTexture(*lightProbe->texture, index++);
+            _renderer.bindTexture(_diffuseBuffer, 0);
+            _renderer.bindTexture(_materialBuffer, 1);
+            _renderer.bindTexture(_positionBuffer, 2);
+            _renderer.bindTexture(_normalBuffer, 3);
+            _renderer.bindTexture(*lightProbe->texture, 4);
             _renderer.bindMesh(*_screenMesh);
 
             Transform identity;
@@ -188,8 +187,8 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             _renderer.bindShader(*_compositorShader);
             setBoundShaderParameters(*_compositorShader, *camera, target, transform);
 
-            _renderer.bindTexture(_geometryFrameBuffer.textureAttachments()[0].texture(), 0);
-            _renderer.bindTexture(_accumulationFrameBuffer.textureAttachments()[0].texture(), 1);
+            _renderer.bindTexture(_diffuseBuffer, 0);
+            _renderer.bindTexture(_backBuffers[0], 1);
 
             // Bind and draw the composited image
             _renderer.bindMesh(*_screenMesh);
@@ -216,31 +215,37 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     _materialBuffer = Texture("MaterialBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
 
     // World position buffer: X Y Z
-    _positionlBuffer = Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
+    _positionBuffer = Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
 
     // World normal buffer: X Y Z Depth
     _normalBuffer = Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
 
-    // Light accumulation buffer
-    _accumulationBuffer = Texture("AccumulationBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
+    // Back buffers
+    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
+    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
 
     // Geometry frame buffer
     _geometryFrameBuffer = FrameBuffer(width, height);
     _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color0, _diffuseBuffer);
     _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color1, _materialBuffer);
-    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color2, _positionlBuffer);
+    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color2, _positionBuffer);
     _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color3, _normalBuffer);
     _geometryFrameBuffer.attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
 
-    // Light accumulation frame buffer
-    _accumulationFrameBuffer = FrameBuffer(width, height);
-    _accumulationFrameBuffer.attachTexture(FrameBufferSlot_Color0, _accumulationBuffer);
-    _accumulationFrameBuffer.attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
+    // Back frame buffers
+    _backFrameBuffers[0] = FrameBuffer(width, height);
+    _backFrameBuffers[0].attachTexture(FrameBufferSlot_Color0, _backBuffers[0]);
+    _backFrameBuffers[0].attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
+
+    _backFrameBuffers[1] = FrameBuffer(width, height);
+    _backFrameBuffers[1].attachTexture(FrameBufferSlot_Color0, _backBuffers[1]);
+    _backFrameBuffers[1].attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
 
     size_t memoryUsageBefore = _renderer.statistics().memoryUsage;
 
     _renderer.uploadFrameBuffer(_geometryFrameBuffer);
-    _renderer.uploadFrameBuffer(_accumulationFrameBuffer);
+    _renderer.uploadFrameBuffer(_backFrameBuffers[0]);
+    _renderer.uploadFrameBuffer(_backFrameBuffers[1]);
 
     // Log the memory usage for the buffers
     size_t memoryUsage = _renderer.statistics().memoryUsage - memoryUsageBefore;

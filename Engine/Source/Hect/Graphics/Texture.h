@@ -203,8 +203,6 @@ public:
     /// Returns the number of bytes in a pixel of this texture.
     unsigned bytesPerPixel() const;
 
-    size_t memoryUsage() const override;
-
     ///
     /// Returns whether the texture is equivalent to another.
     ///

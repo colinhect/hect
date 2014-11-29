@@ -159,15 +159,6 @@ public:
         friend class OpenGLRenderer;
     public:
 
-        virtual ~Object() { }
-
-        ///
-        /// Returns the estimated number of GPU memory bytes required to
-        /// uploaded this object to the renderer.
-        ///
-        /// \note The default implementation returns 0.
-        virtual size_t memoryUsage() const;
-
         ///
         /// Returns whether the object is uploaded to a renderer.
         bool isUploaded() const;
@@ -178,6 +169,8 @@ public:
         /// \throws Error If the object is not uploaded.
         Renderer& renderer();
 
+        ///
+        /// Returns the underlying data cast to the specified type.
         template <typename U>
         U* dataAs() const;
 
@@ -341,6 +334,10 @@ public:
 
     ///
     /// Returns the capabilities of the underlying hardware.
+    Capabilities& capabilities();
+
+    ///
+    /// Returns the capabilities of the underlying hardware.
     const Capabilities& capabilities() const;
 
     ///
@@ -351,7 +348,7 @@ public:
     /// Returns the statistics of the renderer's state.
     const Statistics& statistics() const;
 
-protected:
+private:
     Capabilities _capabilities;
     Statistics _statistics;
 };

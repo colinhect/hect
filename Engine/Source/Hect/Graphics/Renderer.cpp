@@ -25,6 +25,11 @@
 
 using namespace hect;
 
+Renderer::Capabilities& Renderer::capabilities()
+{
+    return _capabilities;
+}
+
 const Renderer::Capabilities& Renderer::capabilities() const
 {
     return _capabilities;

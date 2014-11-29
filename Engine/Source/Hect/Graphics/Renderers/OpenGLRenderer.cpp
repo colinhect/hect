@@ -344,9 +344,9 @@ void OpenGLRenderer::initialize(Window& window)
 
     GLint maxTextureUnits = 0;
     glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
-    _capabilities.maxTextureUnits = (unsigned)maxTextureUnits;
+    capabilities().maxTextureUnits = (unsigned)maxTextureUnits;
 
-    HECT_INFO(format("Max texture units: %d", _capabilities.maxTextureUnits));
+    HECT_INFO(format("Max texture units: %d", capabilities().maxTextureUnits));
 
     _boundTextures = std::vector<Texture*>(maxTextureUnits, nullptr);
 
@@ -564,6 +564,7 @@ void OpenGLRenderer::uploadRenderBuffer(RenderBuffer& renderBuffer)
     GL_ASSERT(glRenderbufferStorage(GL_RENDERBUFFER, _renderBufferFormatLookUp[renderBuffer.format()], renderBuffer.width(), renderBuffer.height()));
 
     renderBuffer.setAsUploaded(*this, new RenderBufferData(*this, renderBuffer, renderBufferId));
+    statistics().memoryUsage += renderBuffer.width() * renderBuffer.height() * renderBuffer.bytesPerPixel();
 
     GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 }
@@ -579,6 +580,7 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
 
     GL_ASSERT(glDeleteRenderbuffers(1, &data->renderBufferId));
 
+    statistics().memoryUsage += renderBuffer.width() * renderBuffer.height() * renderBuffer.bytesPerPixel();
     renderBuffer.setAsDestroyed();
 }
 
@@ -772,7 +774,7 @@ void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const
 
 void OpenGLRenderer::bindTexture(Texture& texture, unsigned index)
 {
-    if (index >= _capabilities.maxTextureUnits)
+    if (index >= capabilities().maxTextureUnits)
     {
         throw Error("Cannot bind a texture unit beyond hardware capabilities");
     }
@@ -873,6 +875,7 @@ void OpenGLRenderer::uploadTexture(Texture& texture)
     GL_ASSERT(glBindTexture(type, 0));
 
     texture.setAsUploaded(*this, new TextureData(*this, texture, textureId));
+    statistics().memoryUsage += texture.width() * texture.height() * texture.bytesPerPixel();
 
     HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
@@ -887,6 +890,7 @@ void OpenGLRenderer::destroyTexture(Texture& texture)
     auto data = texture.dataAs<TextureData>();
     GL_ASSERT(glDeleteTextures(1, &data->textureId));
 
+    statistics().memoryUsage -= texture.width() * texture.height() * texture.bytesPerPixel();
     texture.setAsDestroyed();
 
     HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));

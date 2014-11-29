@@ -72,8 +72,6 @@ public:
     /// Returns the number of bytes in a pixel of this render buffer.
     unsigned bytesPerPixel() const;
 
-    size_t memoryUsage() const override;
-
 private:
     RenderBufferFormat _format { RenderBufferFormat_DepthComponent };
     unsigned _width { 0 };

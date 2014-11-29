@@ -182,8 +182,6 @@ public:
     /// Returns an axis aligned box bounding the mesh.
     const AxisAlignedBox& axisAlignedBox() const;
 
-    size_t memoryUsage() const override;
-
     ///
     /// Returns whether the mesh is equivalent to another.
     ///
