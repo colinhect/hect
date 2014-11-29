@@ -314,3 +314,8 @@ const Renderer::Capabilities& NullRenderer::capabilities() const
 {
     return _capabilities;
 }
+
+const Renderer::Statistics& NullRenderer::statistics() const
+{
+    return _statistics;
+}

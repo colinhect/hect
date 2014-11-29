@@ -237,8 +237,16 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     _accumulationFrameBuffer.attachTexture(FrameBufferSlot_Color0, _accumulationBuffer);
     _accumulationFrameBuffer.attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
 
+    size_t allocatedByteCountBefore = _renderer.statistics().allocatedByteCount;
+
     _renderer.uploadFrameBuffer(_geometryFrameBuffer);
     _renderer.uploadFrameBuffer(_accumulationFrameBuffer);
+
+    // Log the memory usage for the buffers
+    size_t allocatedByteCountAfter = _renderer.statistics().allocatedByteCount;
+    size_t bufferByteCount = allocatedByteCountAfter - allocatedByteCountBefore;
+    Real bufferMegaByteCount = static_cast<Real>(bufferByteCount) / Real(1024 * 1024);
+    HECT_TRACE(format("Scene renderer GPU memory usage: %dMB", static_cast<int>(bufferMegaByteCount)));
 }
 
 Technique& SceneRenderer::selectTechnique(Material& material) const

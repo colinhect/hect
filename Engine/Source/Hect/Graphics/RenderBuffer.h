@@ -68,6 +68,10 @@ public:
     /// Returns the height.
     unsigned height() const;
 
+    ///
+    /// Returns the number of bytes in a pixel of this render buffer.
+    unsigned bytesPerPixel() const;
+
 private:
     RenderBufferFormat _format { RenderBufferFormat_DepthComponent };
     unsigned _width { 0 };

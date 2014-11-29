@@ -50,3 +50,15 @@ unsigned RenderBuffer::height() const
 {
     return _height;
 }
+
+unsigned RenderBuffer::bytesPerPixel() const
+{
+    unsigned byteCount = 0;
+    switch (_format)
+    {
+    case RenderBufferFormat_DepthComponent:
+        byteCount = 4;
+        break;
+    }
+    return byteCount;
+}

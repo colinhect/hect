@@ -54,7 +54,16 @@ public:
     {
         ///
         /// The maximum number of textures that can be bound.
-        unsigned maxTextureUnits;
+        unsigned maxTextureUnits { 0 };
+    };
+
+    ///
+    /// Contains the various statistics of the renderer's state.
+    struct Statistics
+    {
+        ///
+        /// The number of bytes allocated on the GPU.
+        size_t allocatedByteCount { 0 };
     };
 
     ///
@@ -324,6 +333,10 @@ public:
     ///
     /// Returns the capabilities of the underlying hardware.
     virtual const Capabilities& capabilities() const = 0;
+
+    ///
+    /// Returns the statistics of the renderer's state.
+    virtual const Statistics& statistics() const = 0;
 };
 
 }
