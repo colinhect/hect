@@ -7,16 +7,13 @@
                         "path": "ColoredLine.shader",
                         "arguments": [
                             {
+                                "type": "Vector3",
                                 "name": "colorOverride",
-                                "value": [
-                                    1.0,
-                                    1.0,
-                                    0.0
-                                ],
-                                "type": "Vector3"
+                                "value": [ 1.0, 1.0, 0.0 ]
                             }
                         ]
-                    }
+                    },
+                    "renderStage": "OpaqueGeometry"
                 }
             ]
         }

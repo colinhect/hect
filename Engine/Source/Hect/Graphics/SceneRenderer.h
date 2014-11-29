@@ -61,8 +61,8 @@ private:
     void initializeBuffers(unsigned width, unsigned height);
     Technique& selectTechnique(Material& material) const;
 
-    void render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest = true);
-    void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
+    void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
+
     void renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform);
 
     void setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
@@ -71,6 +71,15 @@ private:
     Texture& backBuffer();
     Texture& lastBackBuffer();
     FrameBuffer& backFrameBuffer();
+
+    struct RenderCall
+    {
+        Transform* transform { nullptr };
+        Mesh* mesh { nullptr };
+        Pass* pass { nullptr };
+
+        bool operator<(const RenderCall& other) const;
+    };
 
     Renderer& _renderer;
 
@@ -89,12 +98,16 @@ private:
     AssetHandle<Shader> _compositeShader;
     AssetHandle<Shader> _environmentShader;
     AssetHandle<Shader> _directionalLightShader;
-    AssetHandle<Shader> _skyBoxShader;
+
+    AssetHandle<Material> _skyBoxMaterial;
 
     AssetHandle<Mesh> _screenMesh;
     AssetHandle<Mesh> _skyBoxMesh;
 
     Transform _identityTransform;
+    Transform _cameraTransform;
+
+    std::vector<RenderCall> _renderCalls;
 
     bool _buffersInitialized { false };
     size_t _backBufferIndex { 0 };

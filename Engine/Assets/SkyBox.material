@@ -1,0 +1,18 @@
+{
+    "techniques": [
+        {
+            "passes": [
+                {
+                    "shader": {
+                        "path": "SkyBox.shader"
+                    },
+                    "renderState": {
+                        "disabledFlags": [ "CullFace", "DepthTest", "DepthWrite" ]
+                    },
+                    "renderStage": "OpaqueGeometry",
+                    "priority": 1000
+                }
+            ]
+        }
+    ]
+}

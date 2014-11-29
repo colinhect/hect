@@ -38,13 +38,15 @@ using namespace hect;
 
 SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
     _renderer(renderer),
+    _renderCalls(1024),
     _buffersInitialized(false)
 {
     _exposeShader = assetCache.getHandle<Shader>("Hect/Expose.shader");
     _compositeShader = assetCache.getHandle<Shader>("Hect/Composite.shader");
     _environmentShader = assetCache.getHandle<Shader>("Hect/Environment.shader");
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/DirectionalLight.shader");
-    _skyBoxShader = assetCache.getHandle<Shader>("Hect/SkyBox.shader");
+
+    _skyBoxMaterial = assetCache.getHandle<Material>("Hect/SkyBox.material");
 
     _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
@@ -60,6 +62,9 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         return;
     }
 
+    // Update the camer transform
+    _cameraTransform.globalPosition = camera->position;
+
     // Update the camera's aspect ratio if needed
     if (camera->aspectRatio != target.aspectRatio())
     {
@@ -73,43 +78,26 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         initializeBuffers(target.width(), target.height());
     }
 
+    // Build all render calls and sort by priority
+    _renderCalls.clear();
+    for (Entity& entity : scene.entities())
+    {
+        if (!entity.parent())
+        {
+            buildRenderCalls(*camera, entity);
+        }
+    }
+    std::sort(_renderCalls.begin(), _renderCalls.end());
+
     // Geometry buffer rendering
     {
         _renderer.beginFrame();
         _renderer.bindTarget(_geometryFrameBuffer);
         _renderer.clear();
 
-        // Render the sky box if there is one
-        auto skyBox = scene.components<SkyBox>().begin();
-        if (skyBox)
+        for (RenderCall& renderCall : _renderCalls)
         {
-            RenderState state;
-            state.disable(RenderStateFlag_CullFace);
-            state.disable(RenderStateFlag_DepthTest);
-            state.disable(RenderStateFlag_DepthWrite);
-            _renderer.bindState(state);
-
-            // Construct a transform at the camera's position
-            Transform transform;
-            transform.globalPosition = camera->position;
-
-            _renderer.bindTexture(*skyBox->texture, 0);
-
-            _renderer.bindShader(*_skyBoxShader);
-            setBoundShaderParameters(*_skyBoxShader, *camera, target, transform);
-
-            // Bind and draw the skybox
-            _renderer.bindMesh(*_skyBoxMesh);
-            _renderer.draw();
-        }
-
-        // Render each entity in hierarchical order
-        for (Entity& entity : scene.entities())
-        {
-            if (!entity.parent())
-            {
-                render(*camera, target, entity);
-            }
+            renderMeshPass(*camera, _geometryFrameBuffer, *renderCall.pass, *renderCall.mesh, *renderCall.transform);
         }
 
         _renderer.endFrame();
@@ -234,10 +222,10 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     _depthBuffer = RenderBuffer(RenderBufferFormat_DepthComponent, width, height);
 
     // Diffuse buffer: Red Green Blue Lighting
-    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
+    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelType_Float32, PixelFormat_Rgba, nearest, nearest, false, false);
 
     // Material buffer: Roughness Metallic ?
-    _materialBuffer = Texture("MaterialBuffer", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
+    _materialBuffer = Texture("MaterialBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
 
     // World position buffer: X Y Z
     _positionBuffer = Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
@@ -246,8 +234,8 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     _normalBuffer = Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
 
     // Back buffers
-    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
-    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelType_Float16, PixelFormat_Rgb, nearest, nearest, false, false);
+    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
+    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
 
     // Geometry frame buffer
     _geometryFrameBuffer = FrameBuffer(width, height);
@@ -291,7 +279,7 @@ Technique& SceneRenderer::selectTechnique(Material& material) const
     }
 }
 
-void SceneRenderer::render(Camera& camera, RenderTarget& target, Entity& entity, bool frustumTest)
+void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest)
 {
     // If the entity has a model component
     auto model = entity.component<Model>();
@@ -340,25 +328,42 @@ void SceneRenderer::render(Camera& camera, RenderTarget& target, Entity& entity,
                     Mesh& mesh = *surface.mesh;
                     Material& material = *surface.material;
 
-                    renderMesh(camera, target, material, mesh, *transform);
+                    Technique& technique = selectTechnique(material);
+                    for (Pass& pass : technique.passes())
+                    {
+                        RenderCall renderCall;
+                        renderCall.transform = &*transform;
+                        renderCall.mesh = &mesh;
+                        renderCall.pass = &pass;
+
+                        _renderCalls.push_back(renderCall);
+                    }
                 }
 
                 // Render all children
                 for (Entity& child : entity.children())
                 {
-                    render(camera, target, child, frustumTest);
+                    buildRenderCalls(camera, child, frustumTest);
                 }
             }
         }
     }
-}
-
-void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
-{
-    // Render the mesh for each pass
-    for (Pass& pass : selectTechnique(material).passes())
+    else
     {
-        renderMeshPass(camera, target, pass, mesh, transform);
+        auto skyBox = entity.component<SkyBox>();
+        if (skyBox)
+        {
+            Pass& skyBoxPass = selectTechnique(*_skyBoxMaterial).passes()[0];
+            skyBoxPass.clearTextures();
+            skyBoxPass.addTexture(skyBox->texture);
+
+            RenderCall renderCall;
+            renderCall.transform = &_cameraTransform;
+            renderCall.mesh = &*_skyBoxMesh;
+            renderCall.pass = &skyBoxPass;
+
+            _renderCalls.push_back(renderCall);
+        }
     }
 }
 
@@ -468,4 +473,11 @@ Texture& SceneRenderer::lastBackBuffer()
 FrameBuffer& SceneRenderer::backFrameBuffer()
 {
     return _backFrameBuffers[_backBufferIndex];
+}
+
+bool SceneRenderer::RenderCall::operator<(const RenderCall& other) const
+{
+    assert(pass);
+    assert(other.pass);
+    return pass->priority() > other.pass->priority();
 }
