@@ -60,11 +60,9 @@ public:
 private:
     void initializeBuffers(unsigned width, unsigned height);
     Technique& selectTechnique(Material& material) const;
-
     void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
-
+    void renderDebugGeometry(Scene& scene, const Camera& camera, const RenderTarget& target);
     void renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform);
-
     void setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
     void swapBackBuffer();
