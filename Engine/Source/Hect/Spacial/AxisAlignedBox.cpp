@@ -109,6 +109,11 @@ const Vector3& AxisAlignedBox::maximum() const
     return _maximum;
 }
 
+Vector3 AxisAlignedBox::center() const
+{
+    return _minimum + (_maximum - _minimum) * Real(0.5);
+}
+
 bool AxisAlignedBox::hasSize() const
 {
     return _flags != 0;

@@ -641,7 +641,10 @@ TEST_CASE("Destroy an entity with a parent", "[Scene]")
 TEST_CASE("Clone an entity", "[Scene]")
 {
     Scene scene(*engine);
+
+    REQUIRE(!scene.hasComponentType<Test>());
     scene.addComponentType<Test>();
+    REQUIRE(scene.hasComponentType<Test>());
 
     Entity::Iterator a = scene.createEntity();
     Component<Test>::Iterator stringA = a->addComponent<Test>("Test");
@@ -1577,7 +1580,9 @@ TEST_CASE("Add a system type to a scene", "[Scene]")
 {
     Scene scene(*engine);
 
+    REQUIRE(!scene.hasSystemType<TestSystem>());
     scene.addSystemType<TestSystem>();
+    REQUIRE(scene.hasSystemType<TestSystem>());
 
     TestSystem& testSystemA = scene.system<TestSystem>();
     TestSystem& testSystemB = scene.system<TestSystem>();

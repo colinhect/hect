@@ -11,7 +11,7 @@
             {
                 "semantic": "Position",
                 "cardinality": 3,
-                "type": "Float"
+                "type": "Float32"
             }
         ]
     },

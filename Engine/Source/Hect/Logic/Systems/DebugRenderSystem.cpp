@@ -21,24 +21,45 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Box.h"
+#include "DebugRenderSystem.h"
 
-namespace hect
-{
+using namespace hect;
 
-Box::Box() :
-    _scale(Vector3::one())
-{
-}
-
-Box::Box(const Vector3& scale) :
-    _scale(scale)
+DebugRenderSystem::DebugRenderSystem(Scene& scene) :
+    System(scene)
 {
 }
 
-const Vector3& Box::scale() const
+void DebugRenderSystem::clear()
 {
-    return _scale;
+    _boxes.clear();
 }
 
+bool DebugRenderSystem::isEnabled() const
+{
+    return _enabled;
+}
+
+void DebugRenderSystem::setEnabled(bool enabled)
+{
+    _enabled = enabled;
+}
+
+void DebugRenderSystem::renderBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
+{
+    if (_enabled)
+    {
+        DebugBox debugBox;
+        debugBox.box = box;
+        debugBox.color = color;
+        debugBox.position = position;
+        debugBox.rotation = rotation;
+
+        _boxes.push_back(debugBox);
+    }
+}
+
+const DebugRenderSystem::DebugBoxSequence DebugRenderSystem::boxes() const
+{
+    return _boxes;
 }

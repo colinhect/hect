@@ -25,6 +25,7 @@
 
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Systems/DebugRenderSystem.h"
 
 using namespace hect;
 
@@ -47,6 +48,7 @@ void BoundingBoxSystem::tick(Real timeStep)
 {
     (void)timeStep;
 
+    // Force update on all bounding boxes marked for update
     ComponentPool<BoundingBox>& boundingBoxPool = scene().components<BoundingBox>();
     for (ComponentId id : _markedForUpdate)
     {
@@ -55,6 +57,23 @@ void BoundingBoxSystem::tick(Real timeStep)
         boundingBox._markedForUpdate = false;
     }
     _markedForUpdate.clear();
+
+    // If the scene has a debug render system
+    if (scene().hasSystemType<DebugRenderSystem>())
+    {
+        // If the debug render system is enabled
+        DebugRenderSystem& debugRenderSystem = scene().system<DebugRenderSystem>();
+        if (debugRenderSystem.isEnabled())
+        {
+            // Add a debug box for each bounding box
+            for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
+            {
+                AxisAlignedBox axisAlignedBox = boundingBox.axisAlignedBox;
+                Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
+                debugRenderSystem.renderBox(box, Vector3(30, 0, 0), axisAlignedBox.center());
+            }
+        }
+    }
 }
 
 void BoundingBoxSystem::receiveEvent(const ComponentEvent<BoundingBox>& event)

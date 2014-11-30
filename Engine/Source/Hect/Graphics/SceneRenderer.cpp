@@ -32,6 +32,7 @@
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/SkyBox.h"
 #include "Hect/Logic/Systems/CameraSystem.h"
+#include "Hect/Logic/Systems/DebugRenderSystem.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -45,9 +46,11 @@ SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
     _compositeShader = assetCache.getHandle<Shader>("Hect/Composite.shader");
     _environmentShader = assetCache.getHandle<Shader>("Hect/Environment.shader");
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/DirectionalLight.shader");
+    _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
 
     _skyBoxMaterial = assetCache.getHandle<Material>("Hect/SkyBox.material");
 
+    _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");
     _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 
@@ -105,6 +108,37 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         for (RenderCall& renderCall : _renderCalls)
         {
             renderMeshPass(*camera, _geometryFrameBuffer, *renderCall.pass, *renderCall.mesh, *renderCall.transform);
+        }
+
+        if (scene.hasSystemType<DebugRenderSystem>())
+        {
+            DebugRenderSystem& debugRenderSystem = scene.system<DebugRenderSystem>();
+            if (debugRenderSystem.isEnabled())
+            {
+                RenderState renderState;
+                _renderer.bindState(renderState);
+
+                Shader& shader = *_coloredLineShader;
+                const ShaderParameter& colorOverride = shader.parameterWithName("colorOverride");
+
+                _renderer.bindShader(shader);
+                _renderer.bindMesh(*_boxMesh);
+
+                for (const DebugRenderSystem::DebugBox& box : debugRenderSystem.boxes())
+                {
+                    Transform transform;
+                    transform.globalPosition = box.position;
+                    transform.globalScale = box.box.scale();
+                    transform.globalRotation = box.rotation;
+
+                    setBoundShaderParameters(shader, *camera, target, transform);
+                    _renderer.bindShaderParameter(colorOverride, box.color);
+
+                    _renderer.draw();
+                }
+
+                debugRenderSystem.clear();
+            }
         }
 
         _renderer.endFrame();

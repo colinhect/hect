@@ -85,6 +85,10 @@ public:
     const Vector3& maximum() const;
 
     ///
+    /// Returns the center point.
+    Vector3 center() const;
+
+    ///
     /// Returns whether the box has a non-negligible size.
     bool hasSize() const;
 

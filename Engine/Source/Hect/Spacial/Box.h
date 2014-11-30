@@ -35,6 +35,10 @@ class Box
 public:
 
     ///
+    /// Constructs a box with a scale of one.
+    Box();
+
+    ///
     /// Constructs a box.
     ///
     /// \param scale The scale in all three dimensions.

@@ -21,24 +21,55 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Box.h"
+#pragma once
+
+#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Spacial/Box.h"
 
 namespace hect
 {
 
-Box::Box() :
-    _scale(Vector3::one())
+///
+/// Provides the functionality for rendering debug geometry.
+///
+/// \system
+class DebugRenderSystem :
+    public System
 {
-}
+public:
 
-Box::Box(const Vector3& scale) :
-    _scale(scale)
-{
-}
+    struct DebugBox
+    {
+        Box box;
+        Vector3 color;
+        Vector3 position;
+        Quaternion rotation;
+    };
 
-const Vector3& Box::scale() const
-{
-    return _scale;
-}
+private:
+    typedef std::vector<DebugBox> DebugBoxContainer;
+
+public:
+
+    ///
+    /// A sequence of debug boxes.
+    typedef Sequence<DebugBox, DebugBoxContainer> DebugBoxSequence;
+
+    DebugRenderSystem(Scene& scene);
+
+    void clear();
+
+    bool isEnabled() const;
+    void setEnabled(bool enabled);
+
+    void renderBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation = Quaternion());
+    
+    const DebugBoxSequence boxes() const;
+
+private:
+    bool _enabled { false };
+    DebugBoxContainer _boxes;
+};
 
 }

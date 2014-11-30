@@ -32,6 +32,13 @@ void Scene::addSystemType()
 }
 
 template <typename T>
+bool Scene::hasSystemType()
+{
+    SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
+    return typeId < _systems.size() && _systems[typeId];
+}
+
+template <typename T>
 T& Scene::system()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
@@ -47,6 +54,13 @@ void Scene::addComponentType()
 {
     ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
     addComponentType(typeId);
+}
+
+template <typename T>
+bool Scene::hasComponentType()
+{
+    ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
+    return typeId < _componentPools.size() && _componentPools[typeId];
 }
 
 template <typename T>

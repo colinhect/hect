@@ -81,6 +81,11 @@ public:
     void addSystemType();
 
     ///
+    /// Returns whether the scene supports the specified system type.
+    template <typename T>
+    bool hasSystemType();
+
+    ///
     /// Returns the system of a specific type.
     ///
     /// \throws Error If the scene does not have the system of the specified
@@ -96,6 +101,11 @@ public:
     /// \throws Error If the component type is already supported by the scene.
     template <typename T>
     void addComponentType();
+
+    ///
+    /// Returns whether the scene supports the specified component type.
+    template <typename T>
+    bool hasComponentType();
 
     ///
     /// Returns the pool of components of a specific type.

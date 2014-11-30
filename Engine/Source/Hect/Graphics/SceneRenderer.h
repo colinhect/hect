@@ -98,9 +98,11 @@ private:
     AssetHandle<Shader> _compositeShader;
     AssetHandle<Shader> _environmentShader;
     AssetHandle<Shader> _directionalLightShader;
+    AssetHandle<Shader> _coloredLineShader;
 
     AssetHandle<Material> _skyBoxMaterial;
 
+    AssetHandle<Mesh> _boxMesh;
     AssetHandle<Mesh> _screenMesh;
     AssetHandle<Mesh> _skyBoxMesh;
 
