@@ -110,7 +110,36 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             renderMeshPass(*camera, _geometryFrameBuffer, *renderCall.pass, *renderCall.mesh, *renderCall.transform);
         }
 
-        renderDebugGeometry(scene, *camera, _geometryFrameBuffer);
+        if (scene.hasSystemType<DebugRenderSystem>())
+        {
+            DebugRenderSystem& debugRenderSystem = scene.system<DebugRenderSystem>();
+            if (debugRenderSystem.isEnabled())
+            {
+                RenderState renderState;
+                _renderer.bindState(renderState);
+
+                Shader& shader = *_coloredLineShader;
+                const ShaderParameter& colorOverride = shader.parameterWithName("colorOverride");
+
+                _renderer.bindShader(shader);
+                _renderer.bindMesh(*_boxMesh);
+
+                for (const DebugRenderSystem::DebugBox& box : debugRenderSystem.boxes())
+                {
+                    Transform transform;
+                    transform.globalPosition = box.position;
+                    transform.globalScale = box.box.scale();
+                    transform.globalRotation = box.rotation;
+
+                    setBoundShaderParameters(shader, *camera, target, transform);
+                    _renderer.bindShaderParameter(colorOverride, box.color);
+
+                    _renderer.draw();
+                }
+
+                debugRenderSystem.clear();
+            }
+        }
 
         _renderer.endFrame();
     }
@@ -358,40 +387,6 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
             renderCall.pass = &skyBoxPass;
 
             _renderCalls.push_back(renderCall);
-        }
-    }
-}
-
-void SceneRenderer::renderDebugGeometry(Scene& scene, const Camera& camera, const RenderTarget& target)
-{
-    if (scene.hasSystemType<DebugRenderSystem>())
-    {
-        DebugRenderSystem& debugRenderSystem = scene.system<DebugRenderSystem>();
-        if (debugRenderSystem.isEnabled())
-        {
-            RenderState renderState;
-            _renderer.bindState(renderState);
-
-            Shader& shader = *_coloredLineShader;
-            const ShaderParameter& colorOverride = shader.parameterWithName("colorOverride");
-
-            _renderer.bindShader(shader);
-            _renderer.bindMesh(*_boxMesh);
-
-            for (const DebugRenderSystem::DebugBox& box : debugRenderSystem.boxes())
-            {
-                Transform transform;
-                transform.globalPosition = box.position;
-                transform.globalScale = box.box.scale();
-                transform.globalRotation = box.rotation;
-
-                setBoundShaderParameters(shader, camera, target, transform);
-                _renderer.bindShaderParameter(colorOverride, box.color);
-
-                _renderer.draw();
-            }
-
-            debugRenderSystem.clear();
         }
     }
 }

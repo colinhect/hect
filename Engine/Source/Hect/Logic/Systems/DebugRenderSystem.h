@@ -39,24 +39,11 @@ class DebugRenderSystem :
 {
 public:
 
-    ///
-    /// Debug geometry for a box.
     struct DebugBox
     {
-        ///
-        /// The box.
         Box box;
-
-        ///
-        /// The color.
         Vector3 color;
-
-        ///
-        /// The world-space position.
         Vector3 position;
-
-        ///
-        /// The world-space rotation.
         Quaternion rotation;
     };
 
@@ -71,31 +58,13 @@ public:
 
     DebugRenderSystem(Scene& scene);
 
-    ///
-    /// Clear all enqueued debug geometry.
     void clear();
 
-    ///
-    /// Returns whether the system is enabled.
     bool isEnabled() const;
-
-    ///
-    /// Sets whether the system is enabled.
-    ///
-    /// \param enabled True if the system is enabled; false otherwise.
     void setEnabled(bool enabled);
 
-    ///
-    /// Enqueues debug geometry for a box.
-    ///
-    /// \param box The box.
-    /// \param color The color.
-    /// \param position The position.
-    /// \param rotation The rotation.
     void renderBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation = Quaternion());
-
-    ///
-    /// Returns all of the enqueued box geometry.
+    
     const DebugBoxSequence boxes() const;
 
 private:
