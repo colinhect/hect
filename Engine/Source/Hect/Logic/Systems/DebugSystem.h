@@ -68,7 +68,7 @@ private:
     {
     public:
         DebugBox();
-        DebugBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation, const Pass& pass);
+        DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, const Pass& pass);
 
         Box box;
         Transform transform;

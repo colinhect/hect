@@ -43,7 +43,7 @@ void DebugSystem::drawBox(const Box& box, const Vector3& color, const Vector3& p
     pass.setShader(_coloredLineShader);
     pass.addShaderArgument(ShaderArgument("colorOverride", color));
 
-    _boxes.emplace_back(box, color, position, rotation, pass);
+    _boxes.emplace_back(box, position, rotation, pass);
 }
 
 void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)
@@ -63,7 +63,7 @@ DebugSystem::DebugBox::DebugBox()
 {
 }
 
-DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation, const Pass& pass) :
+DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, const Pass& pass) :
     box(box),
     pass(pass)
 {
