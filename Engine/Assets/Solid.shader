@@ -2,11 +2,15 @@
     "modules": [
         {
             "type": "Vertex",
-            "path": "Solid.Vertex.glsl"
+            "path": "Solid.glsl"
         },
         {
             "type": "Fragment",
-            "path": "Solid.Fragment.glsl"
+            "path": "RenderStages/OpaqueGeometry.glsl"
+        },
+        {
+            "type": "Fragment",
+            "path": "Solid.glsl"
         }
     ],
     "parameters": [

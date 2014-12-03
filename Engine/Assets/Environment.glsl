@@ -3,8 +3,6 @@
 uniform vec3 cameraPosition;
 uniform samplerCube lightProbeTexture;
 
-out vec3 outputColor;
-
 bool sampleGeometryBuffer(
     out vec3    diffuse,
     out float   lighting,
@@ -13,6 +11,9 @@ bool sampleGeometryBuffer(
     out vec3    position,
     out vec3    normal,
     out float   depth);
+
+void writeLightAccumulation(
+    in  vec3    color);
 
 vec3 computeRoughFresnel(
     in  vec3    specularColor,
@@ -26,7 +27,15 @@ vec3 computeRoughFresnel(
         * pow((1 - clamp(dot(v, h), 0.0, 1.0)), 5.0);
 }
 
-void main()
+// Light accumulation stage output parameters
+struct StageOutput
+{
+    vec3    color;
+};
+
+// Light accumulation stage output
+void stage(
+    out StageOutput output)
 {
     vec3 diffuse;
     float lighting;
@@ -60,7 +69,7 @@ void main()
         vec3 fresnel = computeRoughFresnel(realSpecular, roughness * roughness, normal, viewDirection);
 
         // Output the total light accumulation for the environment
-        outputColor = fresnel * reflectance + realDiffuse * ambience;
+        output.color = fresnel * reflectance + realDiffuse * ambience;
     }
     else
     {

@@ -6,8 +6,6 @@ uniform vec3 lightColor;
 uniform vec3 lightDirection;
 uniform vec3 cameraPosition;
 
-out vec3 outputColor;
-
 bool sampleGeometryBuffer(
     out vec3    diffuse,
     out float   lighting,
@@ -16,6 +14,11 @@ bool sampleGeometryBuffer(
     out vec3    position,
     out vec3    normal,
     out float   depth);
+
+void writeLightAccumulation(
+    in  vec3    color);
+
+void discardLightAccumulation();
 
 float computeGeometry(
     in  float   a,
@@ -95,7 +98,15 @@ vec3 computeLight(
     return lightColor * nDotL * (d * (1.0 - s) + s);
 }
 
-void main()
+// Light accumulation stage output parameters
+struct StageOutput
+{
+    vec3    color;
+};
+
+// Light accumulation stage output
+void stage(
+    out StageOutput output)
 {
     vec3 diffuse;
     float lighting;
@@ -116,7 +127,7 @@ void main()
         vec3 viewDirection = normalize(cameraPosition - position);
 
         // Compute and output the total light accumulation
-        outputColor = computeLight(realDiffuse, realSpecular, normal, roughness, -lightDirection, viewDirection);
+        output.color = computeLight(realDiffuse, realSpecular, normal, roughness, -lightDirection, viewDirection);
     }
     else
     {
