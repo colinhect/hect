@@ -2,15 +2,11 @@
     "modules": [
         {
             "type": "Vertex",
-            "path": "SkyBox.glsl"
+            "path": "SkyBox.Vertex.glsl"
         },
         {
             "type": "Fragment",
-            "path": "RenderStages/OpaqueGeometry.glsl"
-        },
-        {
-            "type": "Fragment",
-            "path": "SkyBox.glsl"
+            "path": "SkyBox.Fragment.glsl"
         }
     ],
     "parameters": [

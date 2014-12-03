@@ -10,10 +10,6 @@
         },
         {
             "type": "Fragment",
-            "path": "RenderStages/LightAccumulation.glsl"
-        },
-        {
-            "type": "Fragment",
             "path": "Environment.glsl"
         }
     ],

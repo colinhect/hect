@@ -633,20 +633,7 @@ void OpenGLRenderer::uploadShader(Shader& shader)
         GL_ASSERT(shaderId = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]));
 
         // Compile shader
-        std::string preprocessSource;
-        switch (module.type())
-        {
-        case ShaderModuleType_Vertex:
-            preprocessSource = "#define VERTEX\n" + module.source();
-            break;
-        case ShaderModuleType_Fragment:
-            preprocessSource = "#define FRAGMENT\n" + module.source();
-            break;
-        case ShaderModuleType_Geometry:
-            preprocessSource = "#define GEOMETRY\n" + module.source();
-            break;
-        }
-        const GLchar* source = preprocessSource.c_str();
+        const GLchar* source = module.source().c_str();
         GL_ASSERT(glShaderSource(shaderId, 1, &source, nullptr));
         GL_ASSERT(glCompileShader(shaderId));
 
