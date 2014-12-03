@@ -25,7 +25,7 @@
 
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/Transform.h"
-#include "Hect/Logic/Systems/DebugRenderSystem.h"
+#include "Hect/Logic/Systems/DebugSystem.h"
 
 using namespace hect;
 
@@ -59,18 +59,18 @@ void BoundingBoxSystem::tick(Real timeStep)
     _markedForUpdate.clear();
 
     // If the scene has a debug render system
-    if (scene().hasSystemType<DebugRenderSystem>())
+    if (scene().hasSystemType<DebugSystem>())
     {
         // If the debug render system is enabled
-        DebugRenderSystem& debugRenderSystem = scene().system<DebugRenderSystem>();
-        if (debugRenderSystem.isEnabled())
+        DebugSystem& debugSystem = scene().system<DebugSystem>();
+        if (debugSystem.isEnabled())
         {
             // Add a debug box for each bounding box
             for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
             {
                 AxisAlignedBox axisAlignedBox = boundingBox.axisAlignedBox;
                 Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
-                debugRenderSystem.renderBox(box, Vector3(30, 0, 0), axisAlignedBox.center());
+                debugSystem.renderBox(box, Vector3(30, 0, 0), axisAlignedBox.center());
             }
         }
     }

@@ -32,7 +32,7 @@
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/SkyBox.h"
 #include "Hect/Logic/Systems/CameraSystem.h"
-#include "Hect/Logic/Systems/DebugRenderSystem.h"
+#include "Hect/Logic/Systems/DebugSystem.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -364,10 +364,10 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
 
 void SceneRenderer::renderDebugGeometry(Scene& scene, const Camera& camera, const RenderTarget& target)
 {
-    if (scene.hasSystemType<DebugRenderSystem>())
+    if (scene.hasSystemType<DebugSystem>())
     {
-        DebugRenderSystem& debugRenderSystem = scene.system<DebugRenderSystem>();
-        if (debugRenderSystem.isEnabled())
+        DebugSystem& debugSystem = scene.system<DebugSystem>();
+        if (debugSystem.isEnabled())
         {
             RenderState renderState;
             _renderer.bindState(renderState);
@@ -378,7 +378,7 @@ void SceneRenderer::renderDebugGeometry(Scene& scene, const Camera& camera, cons
             _renderer.bindShader(shader);
             _renderer.bindMesh(*_boxMesh);
 
-            for (const DebugRenderSystem::DebugBox& box : debugRenderSystem.boxes())
+            for (const DebugSystem::DebugBox& box : debugSystem.boxes())
             {
                 Transform transform;
                 transform.globalPosition = box.position;
@@ -391,7 +391,7 @@ void SceneRenderer::renderDebugGeometry(Scene& scene, const Camera& camera, cons
                 _renderer.draw();
             }
 
-            debugRenderSystem.clear();
+            debugSystem.clear();
         }
     }
 }

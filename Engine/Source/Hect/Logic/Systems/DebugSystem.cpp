@@ -21,49 +21,45 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "DebugSystem.h"
 
-#include <vector>
+using namespace hect;
 
-#include "Hect/Core/Error.h"
-#include "Hect/Event/Listener.h"
-
-namespace hect
+DebugSystem::DebugSystem(Scene& scene) :
+    System(scene)
 {
-
-///
-/// An event dispatcher which notifies registered listeners of specific events.
-template <typename T>
-class Dispatcher
-{
-public:
-
-    ///
-    /// Registers a listener to receive events from the dispatcher.
-    ///
-    /// \param listener The listener to register.
-    ///
-    /// \throws Error If the listener is already registered to the dispatcher.
-    void addListener(Listener<T>& listener);
-
-    ///
-    /// Un-registers a listener from receiving events from the dispatcher.
-    ///
-    /// \param listener The listener to un-register.
-    ///
-    /// \throws Error If the listener is not registered to the dispatcher.
-    void removeListener(Listener<T>& listener);
-
-    ///
-    /// Dispatches an event to all registered listeners.
-    ///
-    /// \param event The event.
-    void dispatchEvent(const T& event);
-
-private:
-    std::vector<Listener<T>*> _listeners;
-};
-
 }
 
-#include "Dispatcher.inl"
+void DebugSystem::clear()
+{
+    _boxes.clear();
+}
+
+bool DebugSystem::isEnabled() const
+{
+    return _enabled;
+}
+
+void DebugSystem::setEnabled(bool enabled)
+{
+    _enabled = enabled;
+}
+
+void DebugSystem::renderBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
+{
+    if (_enabled)
+    {
+        DebugBox debugBox;
+        debugBox.box = box;
+        debugBox.color = color;
+        debugBox.position = position;
+        debugBox.rotation = rotation;
+
+        _boxes.push_back(debugBox);
+    }
+}
+
+const DebugSystem::DebugBoxSequence DebugSystem::boxes() const
+{
+    return _boxes;
+}

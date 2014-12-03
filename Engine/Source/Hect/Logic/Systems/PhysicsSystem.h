@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Event.h"
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Event/Listener.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/RigidBody.h"

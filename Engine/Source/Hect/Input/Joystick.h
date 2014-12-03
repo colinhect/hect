@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Event.h"
 #include "Hect/Core/Real.h"
-#include "Hect/Event/Dispatcher.h"
 #include "Hect/Timing/TimeSpan.h"
 
 namespace hect

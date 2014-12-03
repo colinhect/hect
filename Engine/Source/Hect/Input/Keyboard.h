@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Event/Dispatcher.h"
+#include "Hect/Core/Event.h"
 
 namespace hect
 {

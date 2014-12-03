@@ -22,9 +22,64 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <algorithm>
+#include <cassert>
 
 namespace hect
 {
+
+template <typename T>
+Listener<T>::~Listener()
+{
+    // Copy the vector so it will remain valid when items are removed from it
+    auto dispatchers = _dispatchers;
+
+    // Unregister the listener from all dispatchers
+    for (auto& dispatcher : dispatchers)
+    {
+        dispatcher->removeListener(*this);
+    }
+}
+
+template <typename T>
+void Listener<T>::addDispatcher(Dispatcher<T>& dispatcher)
+{
+    auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
+    if (it != _dispatchers.end())
+    {
+        throw Error("The listener is already registered to this dispatcher");
+    }
+    else
+    {
+        _dispatchers.push_back(&dispatcher);
+    }
+}
+
+template <typename T>
+void Listener<T>::removeDispatcher(Dispatcher<T>& dispatcher)
+{
+    auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
+    if (it == _dispatchers.end())
+    {
+        throw Error("The listener is not registered to this dispatcher");
+    }
+    else
+    {
+        _dispatchers.erase(it);
+    }
+}
+
+template <typename T>
+Dispatcher<T>::~Dispatcher()
+{
+    // Copy the vector so it will remain valid when items are removed from it
+    auto listeners = _listeners;
+
+    // Unregister all listeners from the dispatcher
+    for (auto& listener : listeners)
+    {
+        removeListener(*listener);
+    }
+}
 
 template <typename T>
 void Dispatcher<T>::addListener(Listener<T>& listener)
@@ -37,6 +92,7 @@ void Dispatcher<T>::addListener(Listener<T>& listener)
     else
     {
         _listeners.push_back(&listener);
+        listener.addDispatcher(*this);
     }
 }
 
@@ -51,6 +107,7 @@ void Dispatcher<T>::removeListener(Listener<T>& listener)
     else
     {
         _listeners.erase(it);
+        listener.removeDispatcher(*this);
     }
 }
 

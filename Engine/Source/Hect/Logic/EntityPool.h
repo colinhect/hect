@@ -25,7 +25,7 @@
 
 #include <memory>
 
-#include "Hect/Event/Dispatcher.h"
+#include "Hect/Core/Event.h"
 #include "Hect/Logic/IdPool.h"
 #include "Hect/Logic/Entity.h"
 #include "Hect/Logic/EntityEvent.h"

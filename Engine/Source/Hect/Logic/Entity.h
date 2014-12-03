@@ -26,7 +26,7 @@
 #include <functional>
 #include <memory>
 
-#include "Hect/Event/Listener.h"
+#include "Hect/Core/Event.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Logic/Component.h"

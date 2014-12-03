@@ -23,21 +23,79 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <vector>
+
+#include "Hect/Core/Error.h"
+
 namespace hect
 {
+
+template <typename T>
+class Dispatcher;
 
 ///
 /// An listener of specific events.
 template <typename T>
 class Listener
 {
+    friend class Dispatcher<T>;
 public:
+
+    ///
+    /// Unregister the listener from all dispatchers that the listener is
+    /// registered to.
+    virtual ~Listener();
 
     ///
     /// Notifies the listener of an event.
     ///
     /// \param event The event.
     virtual void receiveEvent(const T& event) = 0;
+
+private:
+    void addDispatcher(Dispatcher<T>& dispatcher);
+    void removeDispatcher(Dispatcher<T>& dispatcher);
+
+    std::vector<Dispatcher<T>*> _dispatchers;
+};
+
+///
+/// An event dispatcher which notifies registered listeners of specific events.
+template <typename T>
+class Dispatcher
+{
+public:
+
+    ///
+    /// Unregisters all listeners that are registered to the dispatcher.
+    virtual ~Dispatcher();
+
+    ///
+    /// Registers a listener to receive events from the dispatcher.
+    ///
+    /// \param listener The listener to register.
+    ///
+    /// \throws Error If the listener is already registered to the dispatcher.
+    void addListener(Listener<T>& listener);
+
+    ///
+    /// Un-registers a listener from receiving events from the dispatcher.
+    ///
+    /// \param listener The listener to un-register.
+    ///
+    /// \throws Error If the listener is not registered to the dispatcher.
+    void removeListener(Listener<T>& listener);
+
+    ///
+    /// Dispatches an event to all registered listeners.
+    ///
+    /// \param event The event.
+    void dispatchEvent(const T& event);
+
+private:
+    std::vector<Listener<T>*> _listeners;
 };
 
 }
+
+#include "Event.inl"

@@ -34,7 +34,7 @@ namespace hect
 /// Provides the functionality for rendering debug geometry.
 ///
 /// \system
-class DebugRenderSystem :
+class DebugSystem :
     public System
 {
 public:
@@ -69,7 +69,7 @@ public:
     /// A sequence of debug boxes.
     typedef Sequence<DebugBox, DebugBoxContainer> DebugBoxSequence;
 
-    DebugRenderSystem(Scene& scene);
+    DebugSystem(Scene& scene);
 
     ///
     /// Clear all enqueued debug geometry.

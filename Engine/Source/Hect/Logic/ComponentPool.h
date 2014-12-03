@@ -27,7 +27,7 @@
 #include <memory>
 #include <vector>
 
-#include "Hect/Event/Dispatcher.h"
+#include "Hect/Core/Event.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentEvent.h"
 #include "Hect/Logic/IdPool.h"

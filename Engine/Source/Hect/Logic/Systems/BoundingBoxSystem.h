@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Event/Listener.h"
+#include "Hect/Core/Event.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
 
