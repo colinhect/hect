@@ -81,6 +81,15 @@ public:
     void addSystemType();
 
     ///
+    /// Removes support for a system type to the scene.
+    ///
+    /// \warning The type must be registered with SystemRegistry.
+    ///
+    /// \throws Error If the system type is not supported by the scene.
+    template <typename T>
+    void removeSystemType();
+
+    ///
     /// Returns whether the scene supports the specified system type.
     template <typename T>
     bool hasSystemType();

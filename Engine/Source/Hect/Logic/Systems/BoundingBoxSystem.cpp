@@ -61,17 +61,14 @@ void BoundingBoxSystem::tick(Real timeStep)
     // If the scene has a debug render system
     if (scene().hasSystemType<DebugSystem>())
     {
-        // If the debug render system is enabled
         DebugSystem& debugSystem = scene().system<DebugSystem>();
-        if (debugSystem.isEnabled())
+
+        // Draw a debug box for each bounding box
+        for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
         {
-            // Add a debug box for each bounding box
-            for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
-            {
-                AxisAlignedBox axisAlignedBox = boundingBox.axisAlignedBox;
-                Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
-                debugSystem.renderBox(box, Vector3(30, 0, 0), axisAlignedBox.center());
-            }
+            AxisAlignedBox axisAlignedBox = boundingBox.axisAlignedBox;
+            Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
+            debugSystem.drawBox(box, Vector3(30, 0, 0), axisAlignedBox.center());
         }
     }
 }

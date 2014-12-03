@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Graphics/Pass.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Transform.h"
 #include "Hect/Spacial/Box.h"
@@ -30,77 +31,54 @@
 namespace hect
 {
 
+class SceneRenderer;
+
 ///
-/// Provides the functionality for rendering debug geometry.
+/// Provides debug functionality.
 ///
 /// \system
 class DebugSystem :
     public System
 {
 public:
-
-    ///
-    /// Debug geometry for a box.
-    struct DebugBox
-    {
-        ///
-        /// The box.
-        Box box;
-
-        ///
-        /// The color.
-        Vector3 color;
-
-        ///
-        /// The world-space position.
-        Vector3 position;
-
-        ///
-        /// The world-space rotation.
-        Quaternion rotation;
-    };
-
-private:
-    typedef std::vector<DebugBox> DebugBoxContainer;
-
-public:
-
-    ///
-    /// A sequence of debug boxes.
-    typedef Sequence<DebugBox, DebugBoxContainer> DebugBoxSequence;
-
     DebugSystem(Scene& scene);
+
+    ///
+    /// Enqueues a wire-frame box to be rendered on the next frame.
+    ///
+    /// \param box The box to draw.
+    /// \param color The color of the lines of the box.
+    /// \param position The world-space position of the box.
+    /// \param rotation The world-space rotation of the box.
+    void drawBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation = Quaternion());
+
+    ///
+    /// Adds all enqueued debug geometery to the a scene renderer.
+    ///
+    /// \param scenRenderer The scene renderer to render the debug geometry to.
+    void addRenderCalls(SceneRenderer& sceneRenderer);
 
     ///
     /// Clear all enqueued debug geometry.
     void clear();
 
-    ///
-    /// Returns whether the system is enabled.
-    bool isEnabled() const;
-
-    ///
-    /// Sets whether the system is enabled.
-    ///
-    /// \param enabled True if the system is enabled; false otherwise.
-    void setEnabled(bool enabled);
-
-    ///
-    /// Enqueues debug geometry for a box.
-    ///
-    /// \param box The box.
-    /// \param color The color.
-    /// \param position The position.
-    /// \param rotation The rotation.
-    void renderBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation = Quaternion());
-
-    ///
-    /// Returns all of the enqueued box geometry.
-    const DebugBoxSequence boxes() const;
-
 private:
-    bool _enabled { false };
-    DebugBoxContainer _boxes;
+
+    class DebugBox
+    {
+    public:
+        DebugBox();
+        DebugBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation, const Pass& pass);
+
+        Box box;
+        Transform transform;
+        Pass pass;
+    };
+
+    std::vector<DebugBox> _boxes;
+
+    AssetHandle<Shader> _coloredLineShader;
+    AssetHandle<Mesh> _boxMesh;
 };
 
 }

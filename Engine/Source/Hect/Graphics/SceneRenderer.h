@@ -57,11 +57,18 @@ public:
     /// \param target The target to render to.
     void renderScene(Scene& scene, RenderTarget& target);
 
+    ///
+    /// Enqueues a render call to be rendered on the upcoming frame.
+    ///
+    /// \param transform The world-space transform.
+    /// \param mesh The mesh to render.
+    /// \param pass The material pass to use.
+    void addRenderCall(Transform& transform, Mesh& mesh, Pass& pass);
+
 private:
     void initializeBuffers(unsigned width, unsigned height);
     Technique& selectTechnique(Material& material) const;
     void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
-    void renderDebugGeometry(Scene& scene, const Camera& camera, const RenderTarget& target);
     void renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform);
     void setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
@@ -70,8 +77,12 @@ private:
     Texture& lastBackBuffer();
     FrameBuffer& backFrameBuffer();
 
-    struct RenderCall
+    class RenderCall
     {
+    public:
+        RenderCall();
+        RenderCall(Transform& transform, Mesh& mesh, Pass& pass);
+
         Transform* transform { nullptr };
         Mesh* mesh { nullptr };
         Pass* pass { nullptr };
@@ -96,11 +107,9 @@ private:
     AssetHandle<Shader> _compositeShader;
     AssetHandle<Shader> _environmentShader;
     AssetHandle<Shader> _directionalLightShader;
-    AssetHandle<Shader> _coloredLineShader;
 
     AssetHandle<Material> _skyBoxMaterial;
 
-    AssetHandle<Mesh> _boxMesh;
     AssetHandle<Mesh> _screenMesh;
     AssetHandle<Mesh> _skyBoxMesh;
 

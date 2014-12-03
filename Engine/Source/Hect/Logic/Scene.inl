@@ -32,6 +32,22 @@ void Scene::addSystemType()
 }
 
 template <typename T>
+void Scene::removeSystemType()
+{
+    SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
+
+    // Attempt to get the system to ensure that it is supported
+    system<T>();
+
+    // Remove the system from the tick order
+    auto it = std::find(_systemTickOrder.begin(), _systemTickOrder.end(), _systems[typeId].get());
+    _systemTickOrder.erase(it);
+
+    // Remove the system
+    _systems[typeId].reset();
+}
+
+template <typename T>
 bool Scene::hasSystemType()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();

@@ -46,11 +46,9 @@ SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
     _compositeShader = assetCache.getHandle<Shader>("Hect/Composite.shader");
     _environmentShader = assetCache.getHandle<Shader>("Hect/Environment.shader");
     _directionalLightShader = assetCache.getHandle<Shader>("Hect/DirectionalLight.shader");
-    _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
 
     _skyBoxMaterial = assetCache.getHandle<Material>("Hect/SkyBox.material");
 
-    _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");
     _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 
@@ -97,6 +95,15 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             buildRenderCalls(*camera, entity);
         }
     }
+
+    // Add render calls for debug geometry
+    if (scene.hasSystemType<DebugSystem>())
+    {
+        DebugSystem& debugSystem = scene.system<DebugSystem>();
+        debugSystem.addRenderCalls(*this);
+    }
+
+    // Sort render calls by priority
     std::sort(_renderCalls.begin(), _renderCalls.end());
 
     // Geometry buffer rendering
@@ -110,9 +117,14 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             renderMeshPass(*camera, _geometryFrameBuffer, *renderCall.pass, *renderCall.mesh, *renderCall.transform);
         }
 
-        renderDebugGeometry(scene, *camera, _geometryFrameBuffer);
-
         _renderer.endFrame();
+    }
+
+    // Clear debug geometry now that it is rendered
+    if (scene.hasSystemType<DebugSystem>())
+    {
+        DebugSystem& debugSystem = scene.system<DebugSystem>();
+        debugSystem.clear();
     }
 
     // Light rendering
@@ -205,6 +217,11 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 
         _renderer.endFrame();
     }
+}
+
+void SceneRenderer::addRenderCall(Transform& transform, Mesh& mesh, Pass& pass)
+{
+    _renderCalls.emplace_back(transform, mesh, pass);
 }
 
 void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
@@ -326,12 +343,7 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
                     Technique& technique = selectTechnique(material);
                     for (Pass& pass : technique.passes())
                     {
-                        RenderCall renderCall;
-                        renderCall.transform = &*transform;
-                        renderCall.mesh = &mesh;
-                        renderCall.pass = &pass;
-
-                        _renderCalls.push_back(renderCall);
+                        addRenderCall(*transform, mesh, pass);
                     }
                 }
 
@@ -352,46 +364,7 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
             skyBoxPass.clearTextures();
             skyBoxPass.addTexture(skyBox->texture);
 
-            RenderCall renderCall;
-            renderCall.transform = &_cameraTransform;
-            renderCall.mesh = &*_skyBoxMesh;
-            renderCall.pass = &skyBoxPass;
-
-            _renderCalls.push_back(renderCall);
-        }
-    }
-}
-
-void SceneRenderer::renderDebugGeometry(Scene& scene, const Camera& camera, const RenderTarget& target)
-{
-    if (scene.hasSystemType<DebugSystem>())
-    {
-        DebugSystem& debugSystem = scene.system<DebugSystem>();
-        if (debugSystem.isEnabled())
-        {
-            RenderState renderState;
-            _renderer.bindState(renderState);
-
-            Shader& shader = *_coloredLineShader;
-            const ShaderParameter& colorOverride = shader.parameterWithName("colorOverride");
-
-            _renderer.bindShader(shader);
-            _renderer.bindMesh(*_boxMesh);
-
-            for (const DebugSystem::DebugBox& box : debugSystem.boxes())
-            {
-                Transform transform;
-                transform.globalPosition = box.position;
-                transform.globalScale = box.box.scale();
-                transform.globalRotation = box.rotation;
-
-                setBoundShaderParameters(shader, camera, target, transform);
-                _renderer.bindShaderParameter(colorOverride, box.color);
-
-                _renderer.draw();
-            }
-
-            debugSystem.clear();
+            addRenderCall(_cameraTransform, *_skyBoxMesh, skyBoxPass);
         }
     }
 }
@@ -506,7 +479,16 @@ FrameBuffer& SceneRenderer::backFrameBuffer()
 
 bool SceneRenderer::RenderCall::operator<(const RenderCall& other) const
 {
-    assert(pass);
-    assert(other.pass);
     return pass->priority() > other.pass->priority();
+}
+
+SceneRenderer::RenderCall::RenderCall()
+{
+}
+
+SceneRenderer::RenderCall::RenderCall(Transform& transform, Mesh& mesh, Pass& pass) :
+    transform(&transform),
+    mesh(&mesh),
+    pass(&pass)
+{
 }

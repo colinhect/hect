@@ -23,11 +23,35 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DebugSystem.h"
 
+#include "Hect/Graphics/SceneRenderer.h"
+#include "Hect/Runtime/Engine.h"
+
 using namespace hect;
 
 DebugSystem::DebugSystem(Scene& scene) :
     System(scene)
 {
+    AssetCache& assetCache = scene.engine().assetCache();
+
+    _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
+    _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");
+}
+
+void DebugSystem::drawBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
+{
+    Pass pass;
+    pass.setShader(_coloredLineShader);
+    pass.addShaderArgument(ShaderArgument("colorOverride", color));
+
+    _boxes.emplace_back(box, color, position, rotation, pass);
+}
+
+void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)
+{
+    for (auto& box : _boxes)
+    {
+        sceneRenderer.addRenderCall(box.transform, *_boxMesh, box.pass);
+    }
 }
 
 void DebugSystem::clear()
@@ -35,31 +59,15 @@ void DebugSystem::clear()
     _boxes.clear();
 }
 
-bool DebugSystem::isEnabled() const
+DebugSystem::DebugBox::DebugBox()
 {
-    return _enabled;
 }
 
-void DebugSystem::setEnabled(bool enabled)
+DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation, const Pass& pass) :
+    box(box),
+    pass(pass)
 {
-    _enabled = enabled;
-}
-
-void DebugSystem::renderBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
-{
-    if (_enabled)
-    {
-        DebugBox debugBox;
-        debugBox.box = box;
-        debugBox.color = color;
-        debugBox.position = position;
-        debugBox.rotation = rotation;
-
-        _boxes.push_back(debugBox);
-    }
-}
-
-const DebugSystem::DebugBoxSequence DebugSystem::boxes() const
-{
-    return _boxes;
+    transform.globalPosition = position;
+    transform.globalScale = box.scale();
+    transform.globalRotation = rotation;
 }

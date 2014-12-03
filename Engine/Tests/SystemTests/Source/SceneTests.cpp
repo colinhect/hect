@@ -1605,6 +1605,22 @@ TEST_CASE("Get a non-existing system type", "[Scene]")
     REQUIRE_THROWS_AS(scene.system<TestSystem>(), Error);
 }
 
+TEST_CASE("Remove an existing system type from a scene", "[Scene]")
+{
+    Scene scene(*engine);
+
+    scene.addSystemType<TestSystem>();
+    scene.removeSystemType<TestSystem>();
+    REQUIRE(!scene.hasSystemType<TestSystem>());
+}
+
+TEST_CASE("Remove a non-existing system type from a scene", "[Scene]")
+{
+    Scene scene(*engine);
+
+    REQUIRE_THROWS_AS(scene.removeSystemType<TestSystem>(), Error);
+}
+
 TEST_CASE("Encode and decode a simple scene", "[Scene]")
 {
     testEncodeDecode([](Scene& scene)
