@@ -42,10 +42,10 @@ in vec3 vertexWorldPosition;
 in vec3 vertexNormal;
 in vec3 vertexWorldNormal;
 
-out vec3 outputDiffuse;
-out vec3 outputMaterial;
-out vec3 outputPosition;
-out vec4 outputNormal;
+out vec3 diffuseBuffer;
+out vec3 materialBuffer;
+out vec3 positionBuffer;
+out vec4 normalBuffer;
 
 void main()
 {
@@ -62,7 +62,7 @@ void main()
     vec3 diffuseColorY = texture(diffuseTexture, coordY).rgb;
     vec3 diffuseColorZ = texture(diffuseTexture, coordZ).rgb;
 
-    outputDiffuse =
+    diffuseBuffer =
         diffuseColorX * blendWeights.x +
         diffuseColorY * blendWeights.y +
         diffuseColorZ * blendWeights.z;
@@ -72,7 +72,7 @@ void main()
     vec3 materialColorY = texture(materialTexture, coordY).rgb;
     vec3 materialColorZ = texture(materialTexture, coordZ).rgb;
 
-    outputMaterial =
+    materialBuffer =
         materialColorX * blendWeights.x +
         materialColorY * blendWeights.y +
         materialColorZ * blendWeights.z;
@@ -89,9 +89,9 @@ void main()
                    bump3.xyz * blendWeights.z;  
 
     float depth = gl_FragCoord.z;
-    outputNormal = vec4(normalize(vertexWorldNormal + normalBump * 0.5), depth);
+    normalBuffer = vec4(normalize(vertexWorldNormal + normalBump * 0.5), depth);
 
-    outputPosition = vertexWorldPosition;
+    positionBuffer = vertexWorldPosition;
 }
 
 #endif

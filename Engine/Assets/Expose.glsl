@@ -2,7 +2,6 @@
 
 uniform float exposure;
 uniform float oneOverGamma;
-
 uniform sampler2D backBuffer;
 
 in vec2 vertexTextureCoords;

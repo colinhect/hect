@@ -1,10 +1,10 @@
-#version 330
+#version 410
 
 in vec3 vertexColor;
 
-out vec4 outputColor;
+out vec4 color;
 
 void main()
 {
-    outputColor = vec4(vertexColor, 1.0);
+    color = vec4(vertexColor, 1.0);
 }

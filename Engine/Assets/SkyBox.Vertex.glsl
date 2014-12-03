@@ -1,8 +1,8 @@
 #version 410
 
-layout(location = 0) in vec3 position;
-
 uniform mat4 modelViewProjection;
+
+in vec3 position;
 
 out vec3 vertexPosition;
 

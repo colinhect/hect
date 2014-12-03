@@ -6,10 +6,6 @@
         },
         {
             "type": "Fragment",
-            "path": "GeometryBuffer.glsl"
-        },
-        {
-            "type": "Fragment",
             "path": "Environment.glsl"
         }
     ],

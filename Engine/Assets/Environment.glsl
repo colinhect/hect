@@ -2,17 +2,14 @@
 
 uniform vec3 cameraPosition;
 uniform samplerCube lightProbeTexture;
+uniform sampler2D diffuseBuffer;
+uniform sampler2D materialBuffer;
+uniform sampler2D positionBuffer;
+uniform sampler2D normalBuffer;
 
-out vec3 outputColor;
+in vec2 vertexTextureCoords;
 
-bool sampleGeometryBuffer(
-    out vec3    diffuse,
-    out float   lighting,
-    out float   roughness,
-    out float   metallic,
-    out vec3    position,
-    out vec3    normal,
-    out float   depth);
+out vec3 backBuffer;
 
 vec3 computeRoughFresnel(
     in  vec3    specularColor,
@@ -28,17 +25,18 @@ vec3 computeRoughFresnel(
 
 void main()
 {
-    vec3 diffuse;
-    float lighting;
-    float roughness;
-    float metallic;
-    vec3 position;
-    vec3 normal;
-    float depth;
-
     // If this pixel is physically lit
-    if (sampleGeometryBuffer(diffuse, lighting, roughness, metallic, position, normal, depth))
+    vec4 diffuseSample = texture(diffuseBuffer, vertexTextureCoords);
+    if (diffuseSample.a > 0.0)
     {
+        vec3 diffuse = diffuseSample.rgb;
+        vec3 position = texture(positionBuffer, vertexTextureCoords).rgb;
+        vec3 normal = texture(normalBuffer, vertexTextureCoords).rgb;
+
+        vec4 materialSample = texture(materialBuffer, vertexTextureCoords);
+        float roughness = materialSample.r;
+        float metallic = materialSample.g;
+        
         // Compute real diffuse/specular colors
         vec3 realDiffuse = diffuse - diffuse * metallic;
         vec3 realSpecular = mix(vec3(0.03), diffuse, metallic);
@@ -60,7 +58,7 @@ void main()
         vec3 fresnel = computeRoughFresnel(realSpecular, roughness * roughness, normal, viewDirection);
 
         // Output the total light accumulation for the environment
-        outputColor = fresnel * reflectance + realDiffuse * ambience;
+        backBuffer = fresnel * reflectance + realDiffuse * ambience;
     }
     else
     {

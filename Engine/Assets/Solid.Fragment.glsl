@@ -7,16 +7,15 @@ uniform float metallic;
 in vec3 vertexWorldPosition;
 in vec3 vertexWorldNormal;
 
-out vec4 outputDiffuse;
-out vec3 outputMaterial;
-out vec3 outputPosition;
-out vec4 outputNormal;
+out vec4 diffuseBuffer;
+out vec3 materialBuffer;
+out vec3 positionBuffer;
+out vec4 normalBuffer;
 
 void main()
 {
-    outputDiffuse = vec4(diffuse, 1.0);
-    outputMaterial = vec3(roughness, metallic, 0.0);
-    outputNormal = vec4(normalize(vertexWorldNormal), gl_FragCoord.z);
-    outputPosition = vertexWorldPosition;
-    gl_FragDepth = gl_FragCoord.z;
+    diffuseBuffer = vec4(diffuse, 1.0);
+    materialBuffer = vec3(roughness, metallic, 0.0);
+    normalBuffer = vec4(normalize(vertexWorldNormal), gl_FragCoord.z);
+    positionBuffer = vertexWorldPosition;
 }

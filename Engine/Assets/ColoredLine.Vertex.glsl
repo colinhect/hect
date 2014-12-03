@@ -1,10 +1,10 @@
-#version 330
-
-layout(location = 0) in vec3 position;
-layout(location = 1) in vec3 color;
+#version 410
 
 uniform mat4 modelViewProjection;
 uniform vec3 colorOverride;
+
+in vec3 position;
+in vec3 color;
 
 out vec3 vertexColor;
 

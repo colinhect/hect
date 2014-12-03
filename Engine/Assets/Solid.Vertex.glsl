@@ -1,10 +1,10 @@
 #version 410
 
-layout(location = 0) in vec3 position;
-layout(location = 1) in vec3 normal;
-
 uniform mat4 model;
 uniform mat4 modelViewProjection;
+
+in vec3 position;
+in vec3 normal;
 
 out vec3 vertexWorldPosition;
 out vec3 vertexWorldNormal;
