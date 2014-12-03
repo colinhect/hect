@@ -1,7 +1,5 @@
 #version 330
 
-#ifdef VERTEX
-
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 color;
 
@@ -26,18 +24,3 @@ void main()
     
     gl_Position = modelViewProjection * vec4(position, 1.0);
 }
-
-#endif
-
-#ifdef FRAGMENT
-
-in vec3 vertexColor;
-
-out vec4 outputColor;
-
-void main()
-{
-    outputColor = vec4(vertexColor, 1.0);
-}
-
-#endif

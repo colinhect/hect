@@ -2,11 +2,11 @@
     "modules": [
         {
             "type": "Vertex",
-            "path": "ColoredLine.glsl"
+            "path": "ColoredLine.Vertex.glsl"
         },
         {
             "type": "Fragment", 
-            "path": "ColoredLine.glsl"
+            "path": "ColoredLine.Fragment.glsl"
         }
     ],
     "parameters": [
