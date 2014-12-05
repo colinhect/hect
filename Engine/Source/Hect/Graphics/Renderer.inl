@@ -131,4 +131,28 @@ void Renderer::Object<T>::setAsDestroyed()
     _renderer = nullptr;
 }
 
+template <typename T>
+void Renderer::bindShaderParameter(const std::string& parameterName, const T& value)
+{
+    bindShaderParameter(resolveShaderParameter(parameterName), value);
+}
+
+template <typename T>
+void Renderer::bindShaderParameter(const char* parameterName, const T& value)
+{
+    bindShaderParameter(resolveShaderParameter(parameterName), value);
+}
+
+template <typename T>
+void Renderer::bindShaderParameter(const std::string& parameterName, T& value)
+{
+    bindShaderParameter(resolveShaderParameter(parameterName), value);
+}
+
+template <typename T>
+void Renderer::bindShaderParameter(const char* parameterName, T& value)
+{
+    bindShaderParameter(resolveShaderParameter(parameterName), value);
+}
+
 }

@@ -48,6 +48,13 @@ public:
     void uploadShader(Shader& shader) override;
     void destroyShader(Shader& shader) override;
     void bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value) override;
+    void bindShaderParameter(const ShaderParameter& parameter, int value) override;
+    void bindShaderParameter(const ShaderParameter& parameter, Real value) override;
+    void bindShaderParameter(const ShaderParameter& parameter, const Vector2& value) override;
+    void bindShaderParameter(const ShaderParameter& parameter, const Vector3& value) override;
+    void bindShaderParameter(const ShaderParameter& parameter, const Vector4& value) override;
+    void bindShaderParameter(const ShaderParameter& parameter, const Matrix4& value) override;
+    void bindShaderParameter(const ShaderParameter& parameter, Texture& texture) override;
     void bindTexture(Texture& texture, unsigned index) override;
     void uploadTexture(Texture& texture) override;
     void destroyTexture(Texture& texture) override;

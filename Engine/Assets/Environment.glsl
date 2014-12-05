@@ -1,11 +1,11 @@
 #version 410
 
 uniform vec3 cameraPosition;
-uniform samplerCube lightProbeTexture;
 uniform sampler2D diffuseBuffer;
 uniform sampler2D materialBuffer;
 uniform sampler2D positionBuffer;
 uniform sampler2D normalBuffer;
+uniform samplerCube lightProbeTexture;
 
 in vec2 vertexTextureCoords;
 

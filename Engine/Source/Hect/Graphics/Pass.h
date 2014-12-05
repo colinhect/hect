@@ -43,13 +43,8 @@ namespace hect
 /// used when rendering geometry for this step in the technique.
 class Pass
 {
-    typedef std::vector<AssetHandle<Texture>> TextureContainer;
     typedef std::vector<ShaderArgument> ShaderArgumentContainer;
 public:
-
-    ///
-    /// A sequence of textures.
-    typedef Sequence<AssetHandle<Texture>, TextureContainer> TextureSequence;
 
     ///
     /// A sequence of shader arguments.
@@ -82,18 +77,8 @@ public:
     void addShaderArgument(const ShaderArgument& shaderArgument);
 
     ///
-    /// Returns the textures.
-    const TextureSequence textures() const;
-
-    ///
-    /// Adds a texture.
-    ///
-    /// \param texture The texture to add.
-    void addTexture(const AssetHandle<Texture>& texture);
-
-    ///
-    /// Removes all textures.
-    void clearTextures();
+    /// Removes all shader arguments.
+    void clearShaderArguments();
 
     ///
     /// Returns the stage when the pass is rendered.
@@ -147,8 +132,6 @@ private:
 
     AssetHandle<Shader> _shader;
     ShaderArgumentContainer _shaderArguments;
-
-    TextureContainer _textures;
 
     RenderStage _renderStage { RenderStage_None };
     RenderState _renderState;

@@ -141,17 +141,17 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
             throw Error("No light probe in scene");
         }
 
-        _renderer.bindTexture(_diffuseBuffer, 0);
-        _renderer.bindTexture(_materialBuffer, 1);
-        _renderer.bindTexture(_positionBuffer, 2);
-        _renderer.bindTexture(_normalBuffer, 3);
-        _renderer.bindTexture(*lightProbe->texture, 4);
         _renderer.bindMesh(*_screenMesh);
 
         // Render environment light
         {
             _renderer.bindShader(*_environmentShader);
             setBoundShaderParameters(*_environmentShader, *camera, target, _identityTransform);
+            _renderer.bindShaderParameter("diffuseBuffer", _diffuseBuffer);
+            _renderer.bindShaderParameter("materialBuffer", _materialBuffer);
+            _renderer.bindShaderParameter("positionBuffer", _positionBuffer);
+            _renderer.bindShaderParameter("normalBuffer", _normalBuffer);
+            _renderer.bindShaderParameter("lightProbeTexture", *lightProbe->texture);
 
             _renderer.draw();
         }
@@ -160,16 +160,16 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         {
             _renderer.bindShader(*_directionalLightShader);
             setBoundShaderParameters(*_directionalLightShader, *camera, target, _identityTransform);
-
-            // Get the parameters required for directional lights
-            const ShaderParameter& colorShaderParameter = _directionalLightShader->parameterWithName("lightColor");
-            const ShaderParameter& directionShaderParameter = _directionalLightShader->parameterWithName("lightDirection");
+            _renderer.bindShaderParameter("diffuseBuffer", _diffuseBuffer);
+            _renderer.bindShaderParameter("materialBuffer", _materialBuffer);
+            _renderer.bindShaderParameter("positionBuffer", _positionBuffer);
+            _renderer.bindShaderParameter("normalBuffer", _normalBuffer);
 
             // Render each directional light in the scene
             for (const DirectionalLight& light : scene.components<DirectionalLight>())
             {
-                _renderer.bindShaderParameter(colorShaderParameter, light.color);
-                _renderer.bindShaderParameter(directionShaderParameter, light.direction);
+                _renderer.bindShaderParameter("lightColor", light.color);
+                _renderer.bindShaderParameter("lightDirection", light.direction);
                 _renderer.draw();
             }
         }
@@ -190,9 +190,8 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.bindState(_backBufferRenderState);
         _renderer.bindShader(*_compositeShader);
         setBoundShaderParameters(*_compositeShader, *camera, target, _identityTransform);
-
-        _renderer.bindTexture(_diffuseBuffer, 0);
-        _renderer.bindTexture(lastBackBuffer(), 1);
+        _renderer.bindShaderParameter("diffuseBuffer", _diffuseBuffer);
+        _renderer.bindShaderParameter("backBuffer", lastBackBuffer());
 
         _renderer.bindMesh(*_screenMesh);
         _renderer.draw();
@@ -209,8 +208,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.bindState(_backBufferRenderState);
         _renderer.bindShader(*_exposeShader);
         setBoundShaderParameters(*_exposeShader, *camera, target, _identityTransform);
-
-        _renderer.bindTexture(lastBackBuffer(), 0);
+        _renderer.bindShaderParameter("backBuffer", lastBackBuffer());
 
         _renderer.bindMesh(*_screenMesh);
         _renderer.draw();
@@ -361,8 +359,8 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
         if (skyBox)
         {
             Pass& skyBoxPass = selectTechnique(*_skyBoxMaterial).passes()[0];
-            skyBoxPass.clearTextures();
-            skyBoxPass.addTexture(skyBox->texture);
+            skyBoxPass.clearShaderArguments();
+            skyBoxPass.addShaderArgument(ShaderArgument("skyBoxTexture", skyBox->texture));
 
             addRenderCall(_cameraTransform, *_skyBoxMesh, skyBoxPass);
         }

@@ -20,8 +20,7 @@
         },
         {
             "type": "Texture",
-            "name": "backBuffer",
-            "value": 0
+            "name": "backBuffer"
         }
     ]
 }

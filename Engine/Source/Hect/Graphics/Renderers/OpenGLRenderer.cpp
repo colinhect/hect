@@ -372,23 +372,20 @@ void OpenGLRenderer::beginFrame()
 void OpenGLRenderer::endFrame()
 {
     // Clear the bound target
-    if (_boundTarget)
-    {
-        _boundTarget = nullptr;
-    }
+    setBoundTarget(nullptr);
 
     // Clear the bound shader and unbind
-    if (_boundShader)
+    if (boundShader())
     {
         GL_ASSERT(glUseProgram(0));
-        _boundShader = nullptr;
+        setBoundShader(nullptr);
     }
 
     // Clear the bound mesh and unbind
-    if (_boundMesh)
+    if (boundMesh())
     {
         GL_ASSERT(glBindVertexArray(0));
-        _boundMesh = nullptr;
+        setBoundMesh(nullptr);
     }
 
     // Clear all bound textures and unbind
@@ -446,11 +443,11 @@ void OpenGLRenderer::bindTarget(RenderTarget& renderTarget)
 void OpenGLRenderer::bindWindow(Window& window)
 {
     // Avoid binding an already bound target
-    if (&window == _boundTarget)
+    if (&window == boundTarget())
     {
         return;
     }
-    _boundTarget = &window;
+    setBoundTarget(&window);
 
     GL_ASSERT(glViewport(0, 0, window.width(), window.height()));
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
@@ -459,11 +456,11 @@ void OpenGLRenderer::bindWindow(Window& window)
 void OpenGLRenderer::bindFrameBuffer(FrameBuffer& frameBuffer)
 {
     // Avoid binding an already bound target
-    if (&frameBuffer == _boundTarget)
+    if (&frameBuffer == boundTarget())
     {
         return;
     }
-    _boundTarget = &frameBuffer;
+    setBoundTarget(&frameBuffer);
 
     if (!frameBuffer.isUploaded())
     {
@@ -587,11 +584,11 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
 void OpenGLRenderer::bindShader(Shader& shader)
 {
     // Avoid binding an already bound shader
-    if (&shader == _boundShader && shader.isUploaded())
+    if (&shader == boundShader() && shader.isUploaded())
     {
         return;
     }
-    _boundShader = &shader;
+    setBoundShader(&shader);
 
     // Upload the shader if needed
     if (!shader.isUploaded())
@@ -724,38 +721,181 @@ void OpenGLRenderer::destroyShader(Shader& shader)
 
 void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
 {
-    if (!_boundShader)
-    {
-        throw Error("Cannot set shader argument with no shader bound");
-    }
-
-    int location = parameter.location();
-    if (location < 0)
-    {
-        return;
-    }
-
     switch (value.type())
     {
     case ShaderValueType_Int:
-    case ShaderValueType_Texture:
-        GL_ASSERT(glUniform1i(location, *(GLint*)value.data()));
+        bindShaderParameter(parameter, value.asInt());
         break;
     case ShaderValueType_Float:
-        GL_ASSERT(glUniform1f(location, *(GLfloat*)value.data()));
+        bindShaderParameter(parameter, value.asReal());
         break;
     case ShaderValueType_Vector2:
-        GL_ASSERT(glUniform2fv(location, 1, (GLfloat*)value.data()));
+        bindShaderParameter(parameter, value.asVector2());
         break;
     case ShaderValueType_Vector3:
-        GL_ASSERT(glUniform3fv(location, 1, (GLfloat*)value.data()));
+        bindShaderParameter(parameter, value.asVector3());
         break;
     case ShaderValueType_Vector4:
-        GL_ASSERT(glUniform4fv(location, 1, (GLfloat*)value.data()));
+        bindShaderParameter(parameter, value.asVector4());
         break;
     case ShaderValueType_Matrix4:
-        GL_ASSERT(glUniformMatrix4fv(location, 1, false, (GLfloat*)value.data()));
+        bindShaderParameter(parameter, value.asMatrix4());
         break;
+    case ShaderValueType_Texture:
+    {
+        AssetHandle<Texture> texture = value.asTexture();
+        if (texture)
+        {
+            bindShaderParameter(parameter, *texture);
+        }
+    }
+    break;
+    }
+}
+
+void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, int value)
+{
+    if (!boundShader())
+    {
+        throw Error("No shader bound");
+    }
+
+    if (parameter.type() != ShaderValueType_Int)
+    {
+        throw Error("Invalid value for shader parameter");
+    }
+
+    int location = parameter.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, value));
+    }
+}
+
+void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, Real value)
+{
+    if (!boundShader())
+    {
+        throw Error("No shader bound");
+    }
+
+    if (parameter.type() != ShaderValueType_Float)
+    {
+        throw Error("Invalid value for shader parameter");
+    }
+
+    int location = parameter.location();
+    if (location >= 0)
+    {
+        GLfloat temp = GLfloat(value);
+        GL_ASSERT(glUniform1f(location, temp));
+    }
+}
+
+void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector2& value)
+{
+    if (!boundShader())
+    {
+        throw Error("No shader bound");
+    }
+
+    if (parameter.type() != ShaderValueType_Vector2)
+    {
+        throw Error("Invalid value for shader parameter");
+    }
+
+    int location = parameter.location();
+    if (location >= 0)
+    {
+        GLfloat temp[2] = { GLfloat(value[0]), GLfloat(value[1]) };
+        GL_ASSERT(glUniform2fv(location, 1, temp));
+    }
+}
+
+void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector3& value)
+{
+    if (!boundShader())
+    {
+        throw Error("No shader bound");
+    }
+
+    if (parameter.type() != ShaderValueType_Vector3)
+    {
+        throw Error("Invalid value for shader parameter");
+    }
+
+    int location = parameter.location();
+    if (location >= 0)
+    {
+        GLfloat temp[3] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]) };
+        GL_ASSERT(glUniform3fv(location, 1, temp));
+    }
+}
+
+void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector4& value)
+{
+    if (!boundShader())
+    {
+        throw Error("No shader bound");
+    }
+
+    if (parameter.type() != ShaderValueType_Vector4)
+    {
+        throw Error("Invalid value for shader parameter");
+    }
+
+    int location = parameter.location();
+    if (location >= 0)
+    {
+        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
+        GL_ASSERT(glUniform4fv(location, 1, temp));
+    }
+}
+
+void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const Matrix4& value)
+{
+    if (!boundShader())
+    {
+        throw Error("No shader bound");
+    }
+
+    if (parameter.type() != ShaderValueType_Matrix4)
+    {
+        throw Error("Invalid value for shader parameter");
+    }
+
+    int location = parameter.location();
+    if (location >= 0)
+    {
+        GLfloat temp[16] =
+        {
+            GLfloat(value[ 0]), GLfloat(value[ 1]), GLfloat(value[ 2]), GLfloat(value[ 3]),
+            GLfloat(value[ 4]), GLfloat(value[ 5]), GLfloat(value[ 6]), GLfloat(value[ 7]),
+            GLfloat(value[ 8]), GLfloat(value[ 9]), GLfloat(value[10]), GLfloat(value[11]),
+            GLfloat(value[12]), GLfloat(value[13]), GLfloat(value[14]), GLfloat(value[15])
+        };
+
+        GL_ASSERT(glUniformMatrix4fv(location, 1, false, temp));
+    }
+}
+
+void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, Texture& texture)
+{
+    if (!boundShader())
+    {
+        throw Error("No shader bound");
+    }
+
+    if (parameter.type() != ShaderValueType_Texture)
+    {
+        throw Error("Invalid value for shader parameter");
+    }
+
+    int location = parameter.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, parameter.textureIndex()));
+        bindTexture(texture, parameter.textureIndex());
     }
 }
 
@@ -921,11 +1061,11 @@ Image OpenGLRenderer::downloadTextureImage(const Texture& texture)
 
 void OpenGLRenderer::bindMesh(Mesh& mesh)
 {
-    if (&mesh == _boundMesh)
+    if (&mesh == boundMesh())
     {
         return;
     }
-    _boundMesh = &mesh;
+    setBoundMesh(&mesh);
 
     if (!mesh.isUploaded())
     {
@@ -1042,16 +1182,16 @@ void OpenGLRenderer::destroyMesh(Mesh& mesh)
 
 void OpenGLRenderer::draw()
 {
-    if (!_boundMesh)
+    if (!boundMesh())
     {
         throw Error("Cannot draw without a mesh bound");
     }
 
     GL_ASSERT(
         glDrawElements(
-            _primitiveTypeLookUp[(int)_boundMesh->primitiveType()],
-            (GLsizei)_boundMesh->indexCount(),
-            _indexTypeLookUp[(int)_boundMesh->indexType()],
+            _primitiveTypeLookUp[(int)boundMesh()->primitiveType()],
+            (GLsizei)boundMesh()->indexCount(),
+            _indexTypeLookUp[(int)boundMesh()->indexType()],
             0
         )
     );

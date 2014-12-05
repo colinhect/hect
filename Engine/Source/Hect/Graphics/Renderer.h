@@ -270,9 +270,142 @@ public:
     ///
     /// Binds a value to a shader parameter.
     ///
+    /// \note The parameter is expected to belong to the bound shader.
+    ///
     /// \param parameter The parameter.
     /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound or the specified value type differs
+    /// from the parameter type.
     virtual void bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value) = 0;
+
+    ///
+    /// Binds an int value to a shader parameter.
+    ///
+    /// \note The parameter is expected to belong to the bound shader.
+    ///
+    /// \param parameter The parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound or the specified value type differs
+    /// from the parameter type.
+    virtual void bindShaderParameter(const ShaderParameter& parameter, int value) = 0;
+
+    ///
+    /// Binds a real value to a shader parameter.
+    ///
+    /// \note The parameter is expected to belong to the bound shader.
+    ///
+    /// \param parameter The parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound or the specified value type differs
+    /// from the parameter type.
+    virtual void bindShaderParameter(const ShaderParameter& parameter, Real value) = 0;
+
+    ///
+    /// Binds a 2-dimensional vector value to a shader parameter.
+    ///
+    /// \note The parameter is expected to belong to the bound shader.
+    ///
+    /// \param parameter The parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound or the specified value type differs
+    /// from the parameter type.
+    virtual void bindShaderParameter(const ShaderParameter& parameter, const Vector2& value) = 0;
+
+    ///
+    /// Binds a 3-dimensional vector value to a shader parameter.
+    ///
+    /// \note The parameter is expected to belong to the bound shader.
+    ///
+    /// \param parameter The parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound or the specified value type differs
+    /// from the parameter type.
+    virtual void bindShaderParameter(const ShaderParameter& parameter, const Vector3& value) = 0;
+
+    ///
+    /// Binds a 4-dimensional vector value to a shader parameter.
+    ///
+    /// \note The parameter is expected to belong to the bound shader.
+    ///
+    /// \param parameter The parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound or the specified value type differs
+    /// from the parameter type.
+    virtual void bindShaderParameter(const ShaderParameter& parameter, const Vector4& value) = 0;
+
+    ///
+    /// Binds a 4 by 4 matrix value to a shader parameter.
+    ///
+    /// \note The parameter is expected to belong to the bound shader.
+    ///
+    /// \param parameter The parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound or the specified value type differs
+    /// from the parameter type.
+    virtual void bindShaderParameter(const ShaderParameter& parameter, const Matrix4& value) = 0;
+
+    ///
+    /// Binds a texture to a shader parameter.
+    ///
+    /// \note The parameter is expected to belong to the bound shader.
+    ///
+    /// \param parameter The parameter.
+    /// \param texture The texture.
+    ///
+    /// \throws Error If no shader is bound or the specified value type differs
+    /// from the parameter type.
+    virtual void bindShaderParameter(const ShaderParameter& parameter, Texture& texture) = 0;
+
+    ///
+    /// Binds a value to a shader parameter of the currently bound shader.
+    ///
+    /// \param parameterName The name of the parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound, no parameter of the given name,
+    /// exists, or the specified value type differs from the parameter type.
+    template <typename T>
+    void bindShaderParameter(const std::string& parameterName, const T& value);
+
+    ///
+    /// Binds a value to a shader parameter of the currently bound shader.
+    ///
+    /// \param parameterName The name of the parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound, no parameter of the given name,
+    /// exists, or the specified value type differs from the parameter type.
+    template <typename T>
+    void bindShaderParameter(const char* parameterName, const T& value);
+
+    ///
+    /// Binds a value to a shader parameter of the currently bound shader.
+    ///
+    /// \param parameterName The name of the parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound, no parameter of the given name,
+    /// exists, or the specified value type differs from the parameter type.
+    template <typename T>
+    void bindShaderParameter(const std::string& parameterName, T& value);
+
+    ///
+    /// Binds a value to a shader parameter of the currently bound shader.
+    ///
+    /// \param parameterName The name of the parameter.
+    /// \param value The new value.
+    ///
+    /// \throws Error If no shader is bound, no parameter of the given name,
+    /// exists, or the specified value type differs from the parameter type.
+    template <typename T>
+    void bindShaderParameter(const char* parameterName, T& value);
 
     ///
     /// Binds a texture.
@@ -348,9 +481,24 @@ public:
     /// Returns the statistics of the renderer's state.
     const Statistics& statistics() const;
 
+protected:
+    RenderTarget* boundTarget();
+    void setBoundTarget(RenderTarget* target);
+    Shader* boundShader();
+    void setBoundShader(Shader* shader);
+    Mesh* boundMesh();
+    void setBoundMesh(Mesh* mesh);
+
 private:
+    const ShaderParameter& resolveShaderParameter(const std::string& parameterName);
+    const ShaderParameter& resolveShaderParameter(const char* parameterName);
+
     Capabilities _capabilities;
     Statistics _statistics;
+
+    RenderTarget* _boundTarget { nullptr };
+    Shader* _boundShader { nullptr };
+    Mesh* _boundMesh { nullptr };
 };
 
 }

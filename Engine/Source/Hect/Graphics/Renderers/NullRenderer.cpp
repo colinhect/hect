@@ -241,6 +241,48 @@ void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const S
     (void)value;
 }
 
+void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, int value)
+{
+    (void)parameter;
+    (void)value;
+}
+
+void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, Real value)
+{
+    (void)parameter;
+    (void)value;
+}
+
+void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector2& value)
+{
+    (void)parameter;
+    (void)value;
+}
+
+void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector3& value)
+{
+    (void)parameter;
+    (void)value;
+}
+
+void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector4& value)
+{
+    (void)parameter;
+    (void)value;
+}
+
+void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const Matrix4& value)
+{
+    (void)parameter;
+    (void)value;
+}
+
+void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, Texture& texture)
+{
+    (void)parameter;
+    (void)texture;
+}
+
 void NullRenderer::bindTexture(Texture& texture, unsigned index)
 {
     (void)texture;

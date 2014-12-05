@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Any.h"
+#include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Math/Vector2.h"
@@ -33,6 +34,8 @@
 
 namespace hect
 {
+
+class Texture;
 
 ///
 /// A shader value type.
@@ -63,7 +66,7 @@ enum ShaderValueType
     ShaderValueType_Matrix4,
 
     ///
-    /// A texture (the index of the texture).
+    /// A texture.
     ShaderValueType_Texture
 };
 
@@ -80,12 +83,10 @@ public:
     ShaderValue();
 
     ///
-    /// Constructs an integer based shader value given its the integer value
-    /// and its type.
+    /// Constructs an integer shader value;
     ///
-    /// \param value The integer value.
-    /// \param type The type.
-    ShaderValue(int value, ShaderValueType type);
+    /// \param value The value.
+    ShaderValue(int value);
 
     ///
     /// Constructs a real shader value.
@@ -115,7 +116,13 @@ public:
     /// Constructs a 4 by 4 matrix shader value.
     ///
     /// \param value The value.
-    ShaderValue(const hect::Matrix4& value);
+    ShaderValue(const Matrix4& value);
+
+    ///
+    /// Constructs a texture shader value.
+    ///
+    /// \param value The texture.
+    ShaderValue(const AssetHandle<Texture>& value);
 
     ///
     /// Returns the type.
@@ -128,10 +135,6 @@ public:
     ///
     /// \param type The new type.
     void setType(ShaderValueType type);
-
-    ///
-    /// Returns the raw data.
-    const void* data() const;
 
     ///
     /// Sets the value to the default value for the shader value's type.
@@ -186,6 +189,14 @@ public:
     void setValue(const Matrix4& value);
 
     ///
+    /// Sets the value of the shader value as a texture.
+    ///
+    /// \param value The value.
+    ///
+    /// \throws Error If the shader value is not a texture.
+    void setValue(const AssetHandle<Texture>& value);
+
+    ///
     /// Returns the value as an integer.
     int asInt() const;
 
@@ -208,6 +219,10 @@ public:
     ///
     /// Returns the value as a 4 by 4 matrix.
     Matrix4 asMatrix4() const;
+
+    ///
+    /// Returns the value as a texture.
+    AssetHandle<Texture> asTexture() const;
 
     ///
     /// Returns whether the shader value is equivalent to another.

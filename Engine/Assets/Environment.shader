@@ -16,28 +16,23 @@
         },
         {
             "type": "Texture",
-            "name": "diffuseBuffer",
-            "value": 0
+            "name": "diffuseBuffer"
         },
         {
             "type": "Texture",
-            "name": "materialBuffer",
-            "value": 1
+            "name": "materialBuffer"
         },
         {
             "type": "Texture",
-            "name": "positionBuffer",
-            "value": 2
+            "name": "positionBuffer"
         },
         {
             "type": "Texture",
-            "name": "normalBuffer",
-            "value": 3
+            "name": "normalBuffer"
         },
         {
             "type": "Texture",
-            "name": "lightProbeTexture",
-            "value": 4
+            "name": "lightProbeTexture"
         }
     ]
 }

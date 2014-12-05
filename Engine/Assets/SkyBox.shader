@@ -16,8 +16,7 @@
         },
         {
             "type": "Texture",
-            "name": "skyBoxTexture",
-            "value": 0
+            "name": "skyBoxTexture"
         }
     ]
 }

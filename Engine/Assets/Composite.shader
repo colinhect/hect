@@ -12,13 +12,11 @@
     "parameters": [
         {
             "type": "Texture",
-            "name": "diffuseBuffer",
-            "value": 0
+            "name": "diffuseBuffer"
         },
         {
             "type": "Texture",
-            "name": "backBuffer",
-            "value": 1
+            "name": "backBuffer"
         }
     ]
 }

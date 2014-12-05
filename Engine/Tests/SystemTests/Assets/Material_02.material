@@ -5,10 +5,7 @@
                 {
                     "shader": {
                         "path": "Shader_01.shader"
-                    },
-                    "textures": [
-                        "Texture_01.texture"
-                    ]
+                    }
                 }
             ]
         },

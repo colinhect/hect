@@ -68,7 +68,7 @@ void Shader::addParameter(const ShaderParameter& parameter)
     {
         throw Error(format("Shader already has parameter with name '%s'", parameter.name().c_str()));
     }
-    
+
     unsigned textureIndex = nextTextureIndex();
 
     _parameterIndices[parameter.name()] = _parameters.size();

@@ -45,14 +45,6 @@ void Pass::prepare(Renderer& renderer)
     // Bind the render state
     renderer.bindState(_renderState);
 
-    // Bind the textures in the pass
-    unsigned textureIndex = 0;
-    for (const AssetHandle<Texture>& texture : _textures)
-    {
-        renderer.bindTexture(*texture, textureIndex);
-        ++textureIndex;
-    }
-
     // Bind the shader
     renderer.bindShader(shader);
 
@@ -85,19 +77,11 @@ void Pass::addShaderArgument(const ShaderArgument& shaderArgument)
     _shaderArguments.push_back(shaderArgument);
 }
 
-const Pass::TextureSequence Pass::textures() const
+void Pass::clearShaderArguments()
 {
-    return TextureSequence(_textures);
-}
-
-void Pass::addTexture(const AssetHandle<Texture>& texture)
-{
-    _textures.push_back(texture);
-}
-
-void Pass::clearTextures()
-{
-    _textures.clear();
+    _shaderArguments.clear();
+    _resolvedShaderParameters.clear();
+    _resolvedFromShader = nullptr;
 }
 
 RenderStage Pass::renderStage() const
@@ -162,19 +146,6 @@ bool Pass::operator==(const Pass& pass) const
         return false;
     }
 
-    if (_textures.size() != pass._textures.size())
-    {
-        return false;
-    }
-
-    for (size_t i = 0; i < _textures.size(); ++i)
-    {
-        if (_textures[i] != pass._textures[i])
-        {
-            return false;
-        }
-    }
-
     if (_shader != pass._shader)
     {
         return false;
@@ -211,7 +182,6 @@ Encoder& operator<<(Encoder& encoder, const Pass& pass)
            << encodeValue("path", pass.shader())
            << encodeVector("arguments", pass._shaderArguments)
            << endObject()
-           << encodeVector("textures", pass._textures)
            << encodeEnum("renderStage", pass._renderStage)
            << encodeValue("renderState", pass._renderState)
            << encodeValue("priority", pass._priority)
@@ -273,33 +243,6 @@ Decoder& operator>>(Decoder& decoder, Pass& pass)
                 >> decodeValue("path", pass._shader)
                 >> decodeVector("arguments", pass._shaderArguments)
                 >> endObject();
-    }
-
-    // Textures
-    if (!decoder.isBinaryStream())
-    {
-        if (decoder.selectMember("textures"))
-        {
-            size_t i = 0;
-            decoder >> beginArray();
-            while (decoder.hasMoreElements())
-            {
-                // Add a new texture if needed
-                if (i >= pass._textures.size())
-                {
-                    pass._textures.push_back(AssetHandle<Texture>());
-                }
-
-                // Decode the texture
-                AssetHandle<Texture>& texture = pass._textures[i++];
-                decoder >> decodeValue(texture);
-            }
-            decoder >> endArray();
-        }
-    }
-    else
-    {
-        decoder >> decodeVector("textures", pass._textures);
     }
 
     decoder >> decodeEnum("renderStage", pass._renderStage)

@@ -118,6 +118,12 @@ void ShaderParameter::setDefaultValue(const ShaderValue& defaultValue)
 
     _type = defaultValue.type();
     _defaultValue = defaultValue;
+
+    // If the default value is an empty texture then consider the default unset
+    if (_type == ShaderValueType_Texture && !defaultValue.asTexture())
+    {
+        _defaultValueSet = false;
+    }
 }
 
 bool ShaderParameter::hasDefaultValue() const

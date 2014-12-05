@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Renderer.h"
 
+#include "Hect/Graphics/Shader.h"
+
 using namespace hect;
 
 Renderer::Capabilities& Renderer::capabilities()
@@ -43,4 +45,54 @@ Renderer::Statistics& Renderer::statistics()
 const Renderer::Statistics& Renderer::statistics() const
 {
     return _statistics;
+}
+
+RenderTarget* Renderer::boundTarget()
+{
+    return _boundTarget;
+}
+
+void Renderer::setBoundTarget(RenderTarget* target)
+{
+    _boundTarget = target;
+}
+
+Shader* Renderer::boundShader()
+{
+    return _boundShader;
+}
+
+void Renderer::setBoundShader(Shader* shader)
+{
+    _boundShader = shader;
+}
+
+Mesh* Renderer::boundMesh()
+{
+    return _boundMesh;
+}
+
+void Renderer::setBoundMesh(Mesh* mesh)
+{
+    _boundMesh = mesh;
+}
+
+const ShaderParameter& Renderer::resolveShaderParameter(const std::string& parameterName)
+{
+    if (!boundShader())
+    {
+        throw Error("No shader bound");
+    }
+
+    return boundShader()->parameterWithName(parameterName);
+}
+
+const ShaderParameter& Renderer::resolveShaderParameter(const char* parameterName)
+{
+    if (!boundShader())
+    {
+        throw Error("No shader bound");
+    }
+
+    return boundShader()->parameterWithName(parameterName);
 }
