@@ -55,7 +55,7 @@ public:
     ///
     /// Adds all enqueued debug geometery to the a scene renderer.
     ///
-    /// \param scenRenderer The scene renderer to render the debug geometry to.
+    /// \param sceneRenderer The scene renderer to render the debug geometry to.
     void addRenderCalls(SceneRenderer& sceneRenderer);
 
     ///

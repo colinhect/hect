@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <hash_map>
+#include <map>
+#include <vector>
+
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/Decoder.h"
@@ -85,6 +89,8 @@ public:
     /// destroyed before the parameter is added.
     ///
     /// \param parameter The parameter to add.
+    ///
+    /// \throws Error if the shader already has a parameter of the same name.
     void addParameter(const ShaderParameter& parameter);
 
     ///
@@ -96,12 +102,16 @@ public:
     const ParameterSequence parameters() const;
 
     ///
-    /// Returns the parameter with the given name.
+    /// Returns the parameter with the specified name.
     ///
     /// \param name The name of the parameter.
     ///
-    /// \throws Error If no parameter with the given name exists.
+    /// \throws Error If no parameter with the specified name exists.
     const ShaderParameter& parameterWithName(const std::string& name) const;
+
+    ///
+    /// \copydoc Shader::parameterWithName()
+    const ShaderParameter& parameterWithName(const char* name) const;
 
     ///
     /// Returns whether the shader is equivalent to another.
@@ -124,6 +134,9 @@ public:
 private:
     ModuleContainer _modules;
     ParameterContainer _parameters;
+
+    std::map<std::string, size_t> _parameterIndices;
+    mutable std::hash_map<const char*, size_t> _parameterIndicesHashed;
 };
 
 }

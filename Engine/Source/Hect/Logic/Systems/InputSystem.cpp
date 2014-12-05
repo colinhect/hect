@@ -79,6 +79,36 @@ Real InputSystem::axisValue(const std::string& name) const
     return 0;
 }
 
+Real InputSystem::axisValue(const char* name) const
+{
+    if (_axesHashed.size() > 1024)
+    {
+        // This function is likely being used from dynamic memory locations,
+        // avoid indefinitely leaking by clearing the hashed values
+        _axesHashed.clear();
+    }
+
+    const InputAxis* axis = nullptr;
+    auto it = _axesHashed.find(name);
+    if (it != _axesHashed.end())
+    {
+        axis = it->second;
+    }
+    else
+    {
+        // The axis was not hashed for this specific string, so attempt
+        // to hash it if it exists
+        auto axisIt =_axes.find(name);
+        if (axisIt != _axes.end())
+        {
+            axis = &axisIt->second;
+            _axesHashed[name] = axis;
+        }
+    }
+
+    return axis ? axis->value() : 0;
+}
+
 void InputSystem::tick(Real timeStep)
 {
     // Update each axis

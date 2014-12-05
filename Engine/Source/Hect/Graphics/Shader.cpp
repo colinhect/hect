@@ -62,6 +62,14 @@ void Shader::addParameter(const ShaderParameter& parameter)
     {
         renderer().destroyShader(*this);
     }
+
+    auto it = _parameterIndices.find(parameter.name());
+    if (it != _parameterIndices.end())
+    {
+        throw Error(format("Shader already has parameter with name '%s'", parameter.name().c_str()));
+    }
+
+    _parameterIndices[parameter.name()] = _parameters.size();
     _parameters.push_back(parameter);
 }
 
@@ -77,15 +85,49 @@ const Shader::ParameterSequence Shader::parameters() const
 
 const ShaderParameter& Shader::parameterWithName(const std::string& name) const
 {
-    for (const ShaderParameter& parameter : _parameters)
+    auto it = _parameterIndices.find(name);
+    if (it == _parameterIndices.end())
     {
-        if (parameter.name() == name)
+        throw Error(format("Shader does not have parameter of name '%s'", name.c_str()));
+    }
+
+    return _parameters[it->second];
+}
+
+const ShaderParameter& Shader::parameterWithName(const char* name) const
+{
+    if (_parameterIndicesHashed.size() > 1024)
+    {
+        // This function is likely being used from dynamic memory locations,
+        // avoid indefinitely leaking by clearing the hashed values
+        _parameterIndicesHashed.clear();
+    }
+
+    const ShaderParameter* parameter = nullptr;
+    auto it = _parameterIndices.find(name);
+    if (it != _parameterIndices.end())
+    {
+        parameter = &_parameters[it->second];
+    }
+    else
+    {
+        // The parameter was not hashed for this specific string, so attempt
+        // to hash it if it exists
+        auto parameterIt = _parameterIndices.find(name);
+        if (parameterIt != _parameterIndices.end())
         {
-            return parameter;
+            _parameterIndicesHashed[name] = parameterIt->second;
         }
     }
 
-    throw Error(format("Shader does not have parameter '%s'", name.c_str()));
+    if (!parameter)
+    {
+        throw Error(format("Shader does not have parameter of name '%s'", name));
+    }
+    else
+    {
+        return *parameter;
+    }
 }
 
 bool Shader::operator==(const Shader& shader) const

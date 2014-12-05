@@ -21,52 +21,37 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect/Graphics/Shader.h>
+using namespace hect;
 
-#include <hash_map>
-#include <map>
+#include <catch.hpp>
 
-#include "Hect/Input/InputAxis.h"
-#include "Hect/Logic/Scene.h"
-
-namespace hect
+TEST_CASE("Add parameters to a shader and iterator over them", "[Shader]")
 {
+    Shader shader;
+    shader.addParameter(ShaderParameter("A", 0));
+    shader.addParameter(ShaderParameter("B", 0));
+    shader.addParameter(ShaderParameter("C", 0));
 
-///
-/// Maps user input to input axes.
-///
-/// \system
-class InputSystem :
-    public System
+    REQUIRE(shader.parameters()[0].name() == "A");
+    REQUIRE(shader.parameters()[1].name() == "B");
+    REQUIRE(shader.parameters()[2].name() == "C");
+}
+
+TEST_CASE("Get an existing shader parameter by name", "[Shader]")
 {
-public:
-    InputSystem(Scene& scene);
+    Shader shader;
+    shader.addParameter(ShaderParameter("A", 0));
 
-    ///
-    /// Adds an axis.
-    ///
-    /// \param axis The axis to add.
-    ///
-    /// \throws Error If an axis already exists with the same name.
-    void addAxis(const InputAxis& axis);
+    REQUIRE(shader.parameterWithName("A").name() == "A");
+    REQUIRE(shader.parameterWithName(std::string("A")).name() == "A");
+}
 
-    ///
-    /// Returns the value of the axis with the given name.
-    ///
-    /// \param name The name of the axis.
-    ///
-    /// \returns The value of the axis; 0 if the axis does not exist.
-    Real axisValue(const std::string& name) const;
+TEST_CASE("Get a non-existing shader parameter by name", "[Shader]")
+{
+    Shader shader;
+    shader.addParameter(ShaderParameter("A", 0));
 
-    ///
-    /// \copydoc InputSystem::axisValue()
-    Real axisValue(const char* name) const;
-
-    void tick(Real timeStep) override;
-
-private:
-    std::map<std::string, InputAxis> _axes;
-    mutable std::hash_map<const char*, const InputAxis*> _axesHashed;
-};
-
+    REQUIRE_THROWS_AS(shader.parameterWithName("B"), Error);
+    REQUIRE_THROWS_AS(shader.parameterWithName(std::string("B")), Error);
 }
