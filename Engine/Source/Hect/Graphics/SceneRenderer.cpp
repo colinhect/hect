@@ -146,12 +146,12 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         // Render environment light
         {
             _renderer.bindShader(*_environmentShader);
-            setBoundShaderParameters(*_environmentShader, *camera, target, _identityTransform);
             _renderer.bindShaderParameter("diffuseBuffer", _diffuseBuffer);
             _renderer.bindShaderParameter("materialBuffer", _materialBuffer);
             _renderer.bindShaderParameter("positionBuffer", _positionBuffer);
             _renderer.bindShaderParameter("normalBuffer", _normalBuffer);
             _renderer.bindShaderParameter("lightProbeTexture", *lightProbe->texture);
+            setBoundShaderParameters(*_environmentShader, *camera, target, _identityTransform);
 
             _renderer.draw();
         }
@@ -159,11 +159,11 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         // Render directional lights
         {
             _renderer.bindShader(*_directionalLightShader);
-            setBoundShaderParameters(*_directionalLightShader, *camera, target, _identityTransform);
             _renderer.bindShaderParameter("diffuseBuffer", _diffuseBuffer);
             _renderer.bindShaderParameter("materialBuffer", _materialBuffer);
             _renderer.bindShaderParameter("positionBuffer", _positionBuffer);
             _renderer.bindShaderParameter("normalBuffer", _normalBuffer);
+            setBoundShaderParameters(*_directionalLightShader, *camera, target, _identityTransform);
 
             // Render each directional light in the scene
             for (const DirectionalLight& light : scene.components<DirectionalLight>())
@@ -189,9 +189,9 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.bindTarget(backFrameBuffer());
         _renderer.bindState(_backBufferRenderState);
         _renderer.bindShader(*_compositeShader);
-        setBoundShaderParameters(*_compositeShader, *camera, target, _identityTransform);
         _renderer.bindShaderParameter("diffuseBuffer", _diffuseBuffer);
         _renderer.bindShaderParameter("backBuffer", lastBackBuffer());
+        setBoundShaderParameters(*_compositeShader, *camera, target, _identityTransform);
 
         _renderer.bindMesh(*_screenMesh);
         _renderer.draw();
@@ -207,8 +207,8 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.bindTarget(target);
         _renderer.bindState(_backBufferRenderState);
         _renderer.bindShader(*_exposeShader);
-        setBoundShaderParameters(*_exposeShader, *camera, target, _identityTransform);
         _renderer.bindShaderParameter("backBuffer", lastBackBuffer());
+        setBoundShaderParameters(*_exposeShader, *camera, target, _identityTransform);
 
         _renderer.bindMesh(*_screenMesh);
         _renderer.draw();

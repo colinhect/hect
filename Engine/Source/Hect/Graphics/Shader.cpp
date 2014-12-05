@@ -112,8 +112,8 @@ const ShaderParameter& Shader::parameterWithName(const char* name) const
     }
 
     const ShaderParameter* parameter = nullptr;
-    auto it = _parameterIndices.find(name);
-    if (it != _parameterIndices.end())
+    auto it = _parameterIndicesHashed.find(name);
+    if (it != _parameterIndicesHashed.end())
     {
         parameter = &_parameters[it->second];
     }
@@ -124,6 +124,7 @@ const ShaderParameter& Shader::parameterWithName(const char* name) const
         auto parameterIt = _parameterIndices.find(name);
         if (parameterIt != _parameterIndices.end())
         {
+            parameter = &_parameters[parameterIt->second];
             _parameterIndicesHashed[name] = parameterIt->second;
         }
     }
