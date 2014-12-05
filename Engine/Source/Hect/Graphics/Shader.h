@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <hash_map>
 #include <map>
+#include <unordered_map>
 #include <vector>
 
 #include "Hect/Core/Sequence.h"
@@ -132,11 +132,13 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Shader& shader);
 
 private:
+    unsigned nextTextureIndex() const;
+
     ModuleContainer _modules;
     ParameterContainer _parameters;
 
     std::map<std::string, size_t> _parameterIndices;
-    mutable std::hash_map<const char*, size_t> _parameterIndicesHashed;
+    mutable std::unordered_map<const char*, size_t> _parameterIndicesHashed;
 };
 
 }

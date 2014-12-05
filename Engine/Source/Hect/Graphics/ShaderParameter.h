@@ -181,6 +181,22 @@ public:
     void setLocation(int location);
 
     ///
+    /// Returns the associated texture index.
+    ///
+    /// \throws Error If the parameter is not of type
+    /// ::ShaderValueType_Texture.
+    unsigned textureIndex() const;
+
+    ///
+    /// Sets the associated texture index.
+    ///
+    /// \param textureIndex The texture index.
+    ///
+    /// \throws Error If the parameter is not of type
+    /// ::ShaderValueType_Texture.
+    void setTextureIndex(unsigned textureIndex);
+
+    ///
     /// Returns whether the shader parameter is equivalent to another.
     ///
     /// \param shaderParameter The other shader parameter.
@@ -206,6 +222,7 @@ private:
     ShaderValue _defaultValue;
 
     int _location { -1 };
+    unsigned _textureIndex;
 };
 
 }

@@ -68,9 +68,17 @@ void Shader::addParameter(const ShaderParameter& parameter)
     {
         throw Error(format("Shader already has parameter with name '%s'", parameter.name().c_str()));
     }
+    
+    unsigned textureIndex = nextTextureIndex();
 
     _parameterIndices[parameter.name()] = _parameters.size();
     _parameters.push_back(parameter);
+
+    // Set the parameter's texture index if needed
+    if (parameter.type() == ShaderValueType_Texture)
+    {
+        _parameters.back().setTextureIndex(textureIndex);
+    }
 }
 
 Shader::ParameterSequence Shader::parameters()
@@ -170,6 +178,23 @@ bool Shader::operator==(const Shader& shader) const
 bool Shader::operator!=(const Shader& shader) const
 {
     return !(*this == shader);
+}
+
+unsigned Shader::nextTextureIndex() const
+{
+    unsigned maxTextureIndex = 0;
+
+    bool firstTexture = true;
+    for (const ShaderParameter& parameter : _parameters)
+    {
+        if (parameter.type() == ShaderValueType_Texture)
+        {
+            maxTextureIndex = std::max(maxTextureIndex, parameter.textureIndex());
+            firstTexture = false;
+        }
+    }
+
+    return firstTexture ? 0 : (maxTextureIndex + 1);
 }
 
 namespace hect

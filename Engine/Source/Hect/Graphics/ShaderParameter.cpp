@@ -145,6 +145,26 @@ void ShaderParameter::setLocation(int location)
     _location = location;
 }
 
+unsigned ShaderParameter::textureIndex() const
+{
+    if (_type != ShaderValueType_Texture)
+    {
+        throw Error("Parameter is not a texture");
+    }
+
+    return _textureIndex;
+}
+
+void ShaderParameter::setTextureIndex(unsigned textureIndex)
+{
+    if (_type != ShaderValueType_Texture)
+    {
+        throw Error("Parameter is not a texture");
+    }
+
+    _textureIndex = textureIndex;
+}
+
 bool ShaderParameter::operator==(const ShaderParameter& shaderParameter) const
 {
     // Name

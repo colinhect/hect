@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <hash_map>
 #include <map>
+#include <unordered_map>
 
 #include "Hect/Input/InputAxis.h"
 #include "Hect/Logic/Scene.h"
@@ -66,7 +66,7 @@ public:
 
 private:
     std::map<std::string, InputAxis> _axes;
-    mutable std::hash_map<const char*, const InputAxis*> _axesHashed;
+    mutable std::unordered_map<const char*, const InputAxis*> _axesHashed;
 };
 
 }
