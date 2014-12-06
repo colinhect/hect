@@ -18,5 +18,8 @@
             "type": "Texture",
             "name": "backBuffer"
         }
-    ]
+    ],
+    "renderState": {
+        "disabledFlags": [ "CullFace", "DepthTest", "DepthWrite" ]
+    }
 }

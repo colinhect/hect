@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Renderer.h"
 
-#include "Hect/Graphics/Shader.h"
+#include "Hect/Graphics/Material.h"
 
 using namespace hect;
 
@@ -57,14 +57,14 @@ void Renderer::setBoundTarget(RenderTarget* target)
     _boundTarget = target;
 }
 
-Shader* Renderer::boundShader()
+Material* Renderer::boundMaterial()
 {
-    return _boundShader;
+    return _boundMaterial;
 }
 
-void Renderer::setBoundShader(Shader* shader)
+void Renderer::setBoundMaterial(Material* material)
 {
-    _boundShader = shader;
+    _boundMaterial = material;
 }
 
 Mesh* Renderer::boundMesh()
@@ -77,22 +77,22 @@ void Renderer::setBoundMesh(Mesh* mesh)
     _boundMesh = mesh;
 }
 
-const ShaderParameter& Renderer::resolveShaderParameter(const std::string& parameterName)
+const MaterialParameter& Renderer::resolveMaterialParameter(const std::string& parameterName)
 {
-    if (!boundShader())
+    if (!boundMaterial())
     {
-        throw Error("No shader bound");
+        throw Error("No material bound");
     }
 
-    return boundShader()->parameterWithName(parameterName);
+    return boundMaterial()->parameterWithName(parameterName);
 }
 
-const ShaderParameter& Renderer::resolveShaderParameter(const char* parameterName)
+const MaterialParameter& Renderer::resolveMaterialParameter(const char* parameterName)
 {
-    if (!boundShader())
+    if (!boundMaterial())
     {
-        throw Error("No shader bound");
+        throw Error("No material bound");
     }
 
-    return boundShader()->parameterWithName(parameterName);
+    return boundMaterial()->parameterWithName(parameterName);
 }

@@ -30,7 +30,6 @@
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/RenderTarget.h"
-#include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
 #include "Hect/Runtime/Window.h"
 
@@ -39,20 +38,20 @@ using namespace hect;
 namespace
 {
 
-class ShaderData :
-    public Renderer::Data<Shader>
+class MaterialData :
+    public Renderer::Data<Material>
 {
 public:
-    ShaderData(Renderer& renderer, Shader& object) :
-        Renderer::Data<Shader>(renderer, object)
+    MaterialData(Renderer& renderer, Material& object) :
+        Renderer::Data<Material>(renderer, object)
     {
     }
 
-    ~ShaderData()
+    ~MaterialData()
     {
         if (object && object->isUploaded())
         {
-            renderer->destroyShader(*object);
+            renderer->destroyMaterial(*object);
         }
     }
 };
@@ -207,77 +206,77 @@ void NullRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void NullRenderer::bindShader(Shader& shader)
+void NullRenderer::bindMaterial(Material& material)
 {
-    if (!shader.isUploaded())
+    if (!material.isUploaded())
     {
-        uploadShader(shader);
+        uploadMaterial(material);
     }
 }
 
-void NullRenderer::uploadShader(Shader& shader)
+void NullRenderer::uploadMaterial(Material& material)
 {
-    if (shader.isUploaded())
-    {
-        return;
-    }
-
-    shader.setAsUploaded(*this, new ShaderData(*this, shader));
-}
-
-void NullRenderer::destroyShader(Shader& shader)
-{
-    if (!shader.isUploaded())
+    if (material.isUploaded())
     {
         return;
     }
 
-    shader.setAsDestroyed();
+    material.setAsUploaded(*this, new MaterialData(*this, material));
 }
 
-void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
+void NullRenderer::destroyMaterial(Material& material)
+{
+    if (!material.isUploaded())
+    {
+        return;
+    }
+
+    material.setAsDestroyed();
+}
+
+void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, int value)
+void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, int value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, Real value)
+void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, Real value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector2& value)
+void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector2& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector3& value)
+void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector3& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector4& value)
+void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector4& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, const Matrix4& value)
+void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Matrix4& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindShaderParameter(const ShaderParameter& parameter, Texture& texture)
+void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, Texture& texture)
 {
     (void)parameter;
     (void)texture;

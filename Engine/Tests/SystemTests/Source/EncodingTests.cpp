@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Graphics/Material.h>
 #include <Hect/Graphics/Mesh.h>
-#include <Hect/Graphics/Shader.h>
 #include <Hect/Graphics/Texture.h>
 #include <Hect/IO/BinaryDecoder.h>
 #include <Hect/IO/BinaryEncoder.h>

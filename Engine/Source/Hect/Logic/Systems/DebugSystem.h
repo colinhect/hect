@@ -77,7 +77,7 @@ private:
 
     std::vector<DebugBox> _boxes;
 
-    AssetHandle<Shader> _coloredLineShader;
+    AssetHandle<Material> _coloredLineMaterial;
     AssetHandle<Mesh> _boxMesh;
 };
 

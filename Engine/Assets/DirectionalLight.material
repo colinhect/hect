@@ -40,5 +40,9 @@
             "type": "Texture",
             "name": "normalBuffer"
         }
-    ]
+    ],
+    "renderState": {
+        "enabledFlags": [ "Blend" ],
+        "disabledFlags": [ "DepthTest", "DepthWrite" ]
+    }
 }

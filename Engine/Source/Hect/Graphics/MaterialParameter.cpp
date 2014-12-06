@@ -21,15 +21,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ShaderParameter.h"
+#include "MaterialParameter.h"
 
 using namespace hect;
 
-ShaderParameter::ShaderParameter()
+MaterialParameter::MaterialParameter()
 {
 }
 
-ShaderParameter::ShaderParameter(const std::string& name, ShaderParameterBinding binding) :
+MaterialParameter::MaterialParameter(const std::string& name, MaterialParameterBinding binding) :
     _name(name),
     _binding(binding),
     _defaultValueSet(false)
@@ -37,7 +37,7 @@ ShaderParameter::ShaderParameter(const std::string& name, ShaderParameterBinding
     setBinding(binding);
 }
 
-ShaderParameter::ShaderParameter(const std::string& name, const ShaderValue& defaultValue) :
+MaterialParameter::MaterialParameter(const std::string& name, const MaterialValue& defaultValue) :
     _name(name),
     _type(defaultValue.type()),
     _defaultValueSet(true),
@@ -45,12 +45,12 @@ ShaderParameter::ShaderParameter(const std::string& name, const ShaderValue& def
 {
 }
 
-ShaderValueType ShaderParameter::type() const
+MaterialValueType MaterialParameter::type() const
 {
     return _type;
 }
 
-void ShaderParameter::setType(ShaderValueType type)
+void MaterialParameter::setType(MaterialValueType type)
 {
     if (hasBinding())
     {
@@ -60,100 +60,100 @@ void ShaderParameter::setType(ShaderValueType type)
     _type = type;
 }
 
-ShaderParameterBinding ShaderParameter::binding() const
+MaterialParameterBinding MaterialParameter::binding() const
 {
     return _binding;
 }
 
-void ShaderParameter::setBinding(ShaderParameterBinding binding)
+void MaterialParameter::setBinding(MaterialParameterBinding binding)
 {
     switch (binding)
     {
-    case ShaderParameterBinding_None:
+    case MaterialParameterBinding_None:
         break;
-    case ShaderParameterBinding_CameraExposure:
-    case ShaderParameterBinding_CameraOneOverGamma:
-        _type = ShaderValueType_Float;
+    case MaterialParameterBinding_CameraExposure:
+    case MaterialParameterBinding_CameraOneOverGamma:
+        _type = MaterialValueType_Float;
         break;
-    case ShaderParameterBinding_RenderTargetSize:
-        _type = ShaderValueType_Vector2;
+    case MaterialParameterBinding_RenderTargetSize:
+        _type = MaterialValueType_Vector2;
         break;
-    case ShaderParameterBinding_CameraPosition:
-    case ShaderParameterBinding_CameraFront:
-    case ShaderParameterBinding_CameraUp:
-        _type = ShaderValueType_Vector3;
+    case MaterialParameterBinding_CameraPosition:
+    case MaterialParameterBinding_CameraFront:
+    case MaterialParameterBinding_CameraUp:
+        _type = MaterialValueType_Vector3;
         break;
-    case ShaderParameterBinding_ViewMatrix:
-    case ShaderParameterBinding_ProjectionMatrix:
-    case ShaderParameterBinding_ViewProjectionMatrix:
-    case ShaderParameterBinding_ModelMatrix:
-    case ShaderParameterBinding_ModelViewMatrix:
-    case ShaderParameterBinding_ModelViewProjectionMatrix:
-        _type = ShaderValueType_Matrix4;
+    case MaterialParameterBinding_ViewMatrix:
+    case MaterialParameterBinding_ProjectionMatrix:
+    case MaterialParameterBinding_ViewProjectionMatrix:
+    case MaterialParameterBinding_ModelMatrix:
+    case MaterialParameterBinding_ModelViewMatrix:
+    case MaterialParameterBinding_ModelViewProjectionMatrix:
+        _type = MaterialValueType_Matrix4;
         break;
     }
 
     _binding = binding;
 
-    if (_binding != ShaderParameterBinding_None)
+    if (_binding != MaterialParameterBinding_None)
     {
         _defaultValueSet = false;
     }
 }
 
-bool ShaderParameter::hasBinding() const
+bool MaterialParameter::hasBinding() const
 {
-    return _binding != ShaderParameterBinding_None;
+    return _binding != MaterialParameterBinding_None;
 }
 
-const ShaderValue& ShaderParameter::defaultValue() const
+const MaterialValue& MaterialParameter::defaultValue() const
 {
     return _defaultValue;
 }
 
-void ShaderParameter::setDefaultValue(const ShaderValue& defaultValue)
+void MaterialParameter::setDefaultValue(const MaterialValue& defaultValue)
 {
     _defaultValueSet = true;
-    _binding = ShaderParameterBinding_None;
+    _binding = MaterialParameterBinding_None;
 
     _type = defaultValue.type();
     _defaultValue = defaultValue;
 
     // If the default value is an empty texture then consider the default unset
-    if (_type == ShaderValueType_Texture && !defaultValue.asTexture())
+    if (_type == MaterialValueType_Texture && !defaultValue.asTexture())
     {
         _defaultValueSet = false;
     }
 }
 
-bool ShaderParameter::hasDefaultValue() const
+bool MaterialParameter::hasDefaultValue() const
 {
     return _defaultValueSet;
 }
 
-const std::string& ShaderParameter::name() const
+const std::string& MaterialParameter::name() const
 {
     return _name;
 }
 
-void ShaderParameter::setName(const std::string& name)
+void MaterialParameter::setName(const std::string& name)
 {
     _name = name;
 }
 
-int ShaderParameter::location() const
+int MaterialParameter::location() const
 {
     return _location;
 }
 
-void ShaderParameter::setLocation(int location)
+void MaterialParameter::setLocation(int location)
 {
     _location = location;
 }
 
-unsigned ShaderParameter::textureIndex() const
+unsigned MaterialParameter::textureIndex() const
 {
-    if (_type != ShaderValueType_Texture)
+    if (_type != MaterialValueType_Texture)
     {
         throw Error("Parameter is not a texture");
     }
@@ -161,9 +161,9 @@ unsigned ShaderParameter::textureIndex() const
     return _textureIndex;
 }
 
-void ShaderParameter::setTextureIndex(unsigned textureIndex)
+void MaterialParameter::setTextureIndex(unsigned textureIndex)
 {
-    if (_type != ShaderValueType_Texture)
+    if (_type != MaterialValueType_Texture)
     {
         throw Error("Parameter is not a texture");
     }
@@ -171,34 +171,34 @@ void ShaderParameter::setTextureIndex(unsigned textureIndex)
     _textureIndex = textureIndex;
 }
 
-bool ShaderParameter::operator==(const ShaderParameter& shaderParameter) const
+bool MaterialParameter::operator==(const MaterialParameter& materialParameter) const
 {
     // Name
-    if (_name != shaderParameter._name)
+    if (_name != materialParameter._name)
     {
         return false;
     }
 
     // Type
-    if (_type != shaderParameter._type)
+    if (_type != materialParameter._type)
     {
         return false;
     }
 
     // Binding
-    if (_binding != shaderParameter._binding)
+    if (_binding != materialParameter._binding)
     {
         return false;
     }
 
     // Has default value
-    if (_defaultValueSet != shaderParameter._defaultValueSet)
+    if (_defaultValueSet != materialParameter._defaultValueSet)
     {
         return false;
     }
 
     // Default value
-    if (_defaultValue != shaderParameter._defaultValue)
+    if (_defaultValue != materialParameter._defaultValue)
     {
         return false;
     }
@@ -206,38 +206,38 @@ bool ShaderParameter::operator==(const ShaderParameter& shaderParameter) const
     return true;
 }
 
-bool ShaderParameter::operator!=(const ShaderParameter& shaderParameter) const
+bool MaterialParameter::operator!=(const MaterialParameter& materialParameter) const
 {
-    return !(*this == shaderParameter);
+    return !(*this == materialParameter);
 }
 
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const ShaderParameter& shaderParameter)
+Encoder& operator<<(Encoder& encoder, const MaterialParameter& materialParameter)
 {
     encoder << beginObject();
 
     // Name
-    encoder << encodeValue("name", shaderParameter.name());
+    encoder << encodeValue("name", materialParameter.name());
 
     // We need an extra hint in binary
     if (encoder.isBinaryStream())
     {
         WriteStream& stream = encoder.binaryStream();
-        stream << shaderParameter.hasDefaultValue();
+        stream << materialParameter.hasDefaultValue();
     }
 
     // Default value
-    if (shaderParameter.hasDefaultValue())
+    if (materialParameter.hasDefaultValue())
     {
-        encoder << shaderParameter.defaultValue();
+        encoder << materialParameter.defaultValue();
     }
 
     // Binding
-    else if (shaderParameter.hasBinding())
+    else if (materialParameter.hasBinding())
     {
-        encoder << encodeEnum("binding", shaderParameter.binding());
+        encoder << encodeEnum("binding", materialParameter.binding());
     }
     else
     {
@@ -247,7 +247,7 @@ Encoder& operator<<(Encoder& encoder, const ShaderParameter& shaderParameter)
     return encoder << endObject();
 }
 
-Decoder& operator>>(Decoder& decoder, ShaderParameter& shaderParameter)
+Decoder& operator>>(Decoder& decoder, MaterialParameter& materialParameter)
 {
     decoder >> beginObject();
 
@@ -256,7 +256,7 @@ Decoder& operator>>(Decoder& decoder, ShaderParameter& shaderParameter)
     {
         std::string name;
         decoder >> decodeValue(name);
-        shaderParameter.setName(name);
+        materialParameter.setName(name);
     }
     else
     {
@@ -278,17 +278,17 @@ Decoder& operator>>(Decoder& decoder, ShaderParameter& shaderParameter)
     // Default value
     if (hasDefaultValue)
     {
-        ShaderValue defaultValue;
+        MaterialValue defaultValue;
         decoder >> decodeValue(defaultValue);
-        shaderParameter.setDefaultValue(defaultValue);
+        materialParameter.setDefaultValue(defaultValue);
     }
 
     // Binding
     else if (decoder.selectMember("binding"))
     {
-        ShaderParameterBinding binding;
+        MaterialParameterBinding binding;
         decoder >> decodeEnum(binding);
-        shaderParameter.setBinding(binding);
+        materialParameter.setBinding(binding);
     }
     else
     {

@@ -35,7 +35,6 @@
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/RenderTarget.h"
-#include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
 #include "Hect/Runtime/Window.h"
 
@@ -51,23 +50,29 @@ namespace
 {
 
 // OpenGL-specific data for a shader program
-class ShaderData :
-    public Renderer::Data<Shader>
+class MaterialData :
+    public Renderer::Data<Material>
 {
 public:
-    ShaderData(Renderer& renderer, Shader& object, GLuint programId, const std::vector<GLuint>& shaderIds) :
-        Renderer::Data<Shader>(renderer, object),
+    MaterialData(Renderer& renderer, Material& object) :
+        Renderer::Data<Material>(renderer, object),
+        programId(GLuint(-1))
+    {
+    }
+
+    MaterialData(Renderer& renderer, Material& object, GLuint programId, const std::vector<GLuint>& shaderIds) :
+        Renderer::Data<Material>(renderer, object),
         programId(programId),
         shaderIds(shaderIds)
     {
     }
 
-    ~ShaderData()
+    ~MaterialData()
     {
         // Destroy the shader if it is uploaded
         if (object && object->isUploaded())
         {
-            renderer->destroyShader(*object);
+            renderer->destroyMaterial(*object);
         }
     }
 
@@ -375,10 +380,10 @@ void OpenGLRenderer::endFrame()
     setBoundTarget(nullptr);
 
     // Clear the bound shader and unbind
-    if (boundShader())
+    if (boundMaterial())
     {
         GL_ASSERT(glUseProgram(0));
-        setBoundShader(nullptr);
+        setBoundMaterial(nullptr);
     }
 
     // Clear the bound mesh and unbind
@@ -581,188 +586,216 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void OpenGLRenderer::bindShader(Shader& shader)
+void OpenGLRenderer::bindMaterial(Material& material)
 {
-    // Avoid binding an already bound shader
-    if (&shader == boundShader() && shader.isUploaded())
+    // Avoid binding an already bound material
+    if (&material == boundMaterial() && material.isUploaded())
     {
         return;
     }
-    setBoundShader(&shader);
 
-    // Upload the shader if needed
-    if (!shader.isUploaded())
+    // Upload the material if needed
+    if (!material.isUploaded())
     {
-        uploadShader(shader);
+        uploadMaterial(material);
     }
 
-    auto data = shader.dataAs<ShaderData>();
-    GL_ASSERT(glUseProgram(data->programId));
-
-    // Pass the default values for each parameter
-    for (const ShaderParameter& parameter : shader.parameters())
+    // Bind the base material if needed
+    if (material.base())
     {
-        if (parameter.hasDefaultValue())
+        bindMaterial(*material.base());
+        setBoundMaterial(&material);
+    }
+    else
+    {
+        auto data = material.dataAs<MaterialData>();
+        GL_ASSERT(glUseProgram(data->programId));
+
+        setBoundMaterial(&material);
+
+        // Pass the default values for each parameter
+        for (const MaterialParameter& parameter : material.parameters())
         {
-            bindShaderParameter(parameter, parameter.defaultValue());
+            if (parameter.hasDefaultValue())
+            {
+                bindMaterialParameter(parameter, parameter.defaultValue());
+            }
         }
+
+        bindState(material.renderState());
+    }
+
+    // Pass the values for each argument
+    for (const MaterialArgument& argument : material.arguments())
+    {
+        const MaterialParameter& parameter = material.parameterWithName(argument.name());
+        bindMaterialParameter(parameter, argument.value());
     }
 }
 
-void OpenGLRenderer::uploadShader(Shader& shader)
+void OpenGLRenderer::uploadMaterial(Material& material)
 {
-    if (shader.isUploaded())
+    if (material.isUploaded())
     {
         return;
     }
 
-    // Create the shader.
-    GLuint programId = 0;
-    programId = GL_ASSERT(glCreateProgram());
-
-    // Attach each shader to the program
-    std::vector<GLuint> shaderIds;
-    for (ShaderModule& module : shader.modules())
+    if (!material.base())
     {
-        GLuint shaderId;
+        // Create the shader.
+        GLuint programId = 0;
+        programId = GL_ASSERT(glCreateProgram());
 
-        // Create the shader
-        GL_ASSERT(shaderId = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]));
+        // Attach each shader to the program
+        std::vector<GLuint> shaderIds;
+        for (ShaderModule& module : material.modules())
+        {
+            GLuint shaderId;
 
-        // Compile shader
-        const GLchar* source = module.source().c_str();
-        GL_ASSERT(glShaderSource(shaderId, 1, &source, nullptr));
-        GL_ASSERT(glCompileShader(shaderId));
+            // Create the shader
+            GL_ASSERT(shaderId = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]));
+
+            // Compile shader
+            const GLchar* source = module.source().c_str();
+            GL_ASSERT(glShaderSource(shaderId, 1, &source, nullptr));
+            GL_ASSERT(glCompileShader(shaderId));
+
+            // Report errors
+            int logLength = 0;
+            GL_ASSERT(glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength));
+            if (logLength > 1)
+            {
+                int charsWritten = 0;
+                std::string infoLog(logLength, ' ');
+                GL_ASSERT(glGetShaderInfoLog(shaderId, logLength, &charsWritten, &infoLog[0]));
+
+                if (infoLog.size() > 0)
+                {
+                    throw Error(format("Failed to compile GLSL shader module '%s': %s", module.path().asString().c_str(), infoLog.c_str()));
+                }
+            }
+
+            GL_ASSERT(glAttachShader(programId, shaderId));
+            shaderIds.push_back(shaderId);
+        }
+
+        // Link program
+        GL_ASSERT(glLinkProgram(programId));
 
         // Report errors
         int logLength = 0;
-        GL_ASSERT(glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength));
+        GL_ASSERT(glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength));
         if (logLength > 1)
         {
             int charsWritten = 0;
             std::string infoLog(logLength, ' ');
-            GL_ASSERT(glGetShaderInfoLog(shaderId, logLength, &charsWritten, &infoLog[0]));
+            GL_ASSERT(glGetProgramInfoLog(programId, logLength, &charsWritten, &infoLog[0]));
 
             if (infoLog.size() > 0)
             {
-                throw Error(format("Failed to compile shader module '%s': %s", module.path().asString().c_str(), infoLog.c_str()));
+                throw Error(format("Failed to link GLSL shaders for material '%s': %s", material.name().c_str(), infoLog.c_str()));
             }
         }
 
-        GL_ASSERT(glAttachShader(programId, shaderId));
-        shaderIds.push_back(shaderId);
+        GL_ASSERT(glUseProgram(programId));
+
+        // Get the parameter locations of each parameter
+        for (MaterialParameter& parameter : material.parameters())
+        {
+            GL_ASSERT(int location = glGetUniformLocation(programId, parameter.name().c_str()));
+
+            if (location != -1)
+            {
+                parameter.setLocation(location);
+            }
+            else
+            {
+                HECT_WARNING(format("Parameter '%s' is not referenced in GLSL of material '%s'", parameter.name().c_str(), material.name().c_str()));
+            }
+        }
+
+        GL_ASSERT(glUseProgram(0));
+
+        material.setAsUploaded(*this, new MaterialData(*this, material, programId, shaderIds));
     }
-
-    // Link program
-    GL_ASSERT(glLinkProgram(programId));
-
-    // Report errors
-    int logLength = 0;
-    GL_ASSERT(glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength));
-    if (logLength > 1)
+    else
     {
-        int charsWritten = 0;
-        std::string infoLog(logLength, ' ');
-        GL_ASSERT(glGetProgramInfoLog(programId, logLength, &charsWritten, &infoLog[0]));
-
-        if (infoLog.size() > 0)
-        {
-            throw Error(format("Failed to link shader '%s': %s", shader.name().c_str(), infoLog.c_str()));
-        }
+        material.setAsUploaded(*this, new MaterialData(*this, material));
     }
 
-    GL_ASSERT(glUseProgram(programId));
-
-    // Get the parameter locations of each parameter
-    for (ShaderParameter& parameter : shader.parameters())
-    {
-        GL_ASSERT(int location = glGetUniformLocation(programId, parameter.name().c_str()));
-
-        if (location != -1)
-        {
-            parameter.setLocation(location);
-        }
-        else
-        {
-            HECT_WARNING(format("Parameter '%s' is not referenced in shader '%s'", parameter.name().c_str(), shader.name().c_str()));
-        }
-    }
-
-    GL_ASSERT(glUseProgram(0));
-
-    shader.setAsUploaded(*this, new ShaderData(*this, shader, programId, shaderIds));
-
-    HECT_TRACE(format("Uploaded shader '%s'", shader.name().c_str()));
+    HECT_TRACE(format("Uploaded material '%s'", material.name().c_str()));
 }
 
-void OpenGLRenderer::destroyShader(Shader& shader)
+void OpenGLRenderer::destroyMaterial(Material& material)
 {
-    if (!shader.isUploaded())
+    if (!material.isUploaded())
     {
         return;
     }
 
-    auto data = shader.dataAs<ShaderData>();
-
-    // Destroy all shaders in the program
-    for (GLuint shaderId : data->shaderIds)
+    auto data = material.dataAs<MaterialData>();
+    if (!material.base())
     {
-        GL_ASSERT(glDetachShader(data->programId, shaderId));
-        GL_ASSERT(glDeleteShader(shaderId));
+        // Destroy all shaders in the program
+        for (GLuint shaderId : data->shaderIds)
+        {
+            GL_ASSERT(glDetachShader(data->programId, shaderId));
+            GL_ASSERT(glDeleteShader(shaderId));
+        }
+
+        // Delete the program
+        GL_ASSERT(glDeleteProgram(data->programId));
     }
 
-    // Delete the program
-    GL_ASSERT(glDeleteProgram(data->programId));
+    material.setAsDestroyed();
 
-    shader.setAsDestroyed();
-
-    HECT_TRACE(format("Destroyed shader '%s'", shader.name().c_str()));
+    HECT_TRACE(format("Destroyed material '%s'", material.name().c_str()));
 }
 
-void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value)
+void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value)
 {
     switch (value.type())
     {
-    case ShaderValueType_Int:
-        bindShaderParameter(parameter, value.asInt());
+    case MaterialValueType_Int:
+        bindMaterialParameter(parameter, value.asInt());
         break;
-    case ShaderValueType_Float:
-        bindShaderParameter(parameter, value.asReal());
+    case MaterialValueType_Float:
+        bindMaterialParameter(parameter, value.asReal());
         break;
-    case ShaderValueType_Vector2:
-        bindShaderParameter(parameter, value.asVector2());
+    case MaterialValueType_Vector2:
+        bindMaterialParameter(parameter, value.asVector2());
         break;
-    case ShaderValueType_Vector3:
-        bindShaderParameter(parameter, value.asVector3());
+    case MaterialValueType_Vector3:
+        bindMaterialParameter(parameter, value.asVector3());
         break;
-    case ShaderValueType_Vector4:
-        bindShaderParameter(parameter, value.asVector4());
+    case MaterialValueType_Vector4:
+        bindMaterialParameter(parameter, value.asVector4());
         break;
-    case ShaderValueType_Matrix4:
-        bindShaderParameter(parameter, value.asMatrix4());
+    case MaterialValueType_Matrix4:
+        bindMaterialParameter(parameter, value.asMatrix4());
         break;
-    case ShaderValueType_Texture:
+    case MaterialValueType_Texture:
     {
         AssetHandle<Texture> texture = value.asTexture();
         if (texture)
         {
-            bindShaderParameter(parameter, *texture);
+            bindMaterialParameter(parameter, *texture);
         }
     }
     break;
     }
 }
 
-void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, int value)
+void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, int value)
 {
-    if (!boundShader())
+    if (!boundMaterial())
     {
-        throw Error("No shader bound");
+        throw Error("No material bound");
     }
 
-    if (parameter.type() != ShaderValueType_Int)
+    if (parameter.type() != MaterialValueType_Int)
     {
-        throw Error("Invalid value for shader parameter");
+        throw Error("Invalid value for material parameter");
     }
 
     int location = parameter.location();
@@ -772,16 +805,16 @@ void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, int v
     }
 }
 
-void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, Real value)
+void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, Real value)
 {
-    if (!boundShader())
+    if (!boundMaterial())
     {
-        throw Error("No shader bound");
+        throw Error("No material bound");
     }
 
-    if (parameter.type() != ShaderValueType_Float)
+    if (parameter.type() != MaterialValueType_Float)
     {
-        throw Error("Invalid value for shader parameter");
+        throw Error("Invalid value for material parameter");
     }
 
     int location = parameter.location();
@@ -792,16 +825,16 @@ void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, Real 
     }
 }
 
-void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector2& value)
+void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector2& value)
 {
-    if (!boundShader())
+    if (!boundMaterial())
     {
-        throw Error("No shader bound");
+        throw Error("No material bound");
     }
 
-    if (parameter.type() != ShaderValueType_Vector2)
+    if (parameter.type() != MaterialValueType_Vector2)
     {
-        throw Error("Invalid value for shader parameter");
+        throw Error("Invalid value for material parameter");
     }
 
     int location = parameter.location();
@@ -812,16 +845,16 @@ void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const
     }
 }
 
-void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector3& value)
+void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector3& value)
 {
-    if (!boundShader())
+    if (!boundMaterial())
     {
-        throw Error("No shader bound");
+        throw Error("No material bound");
     }
 
-    if (parameter.type() != ShaderValueType_Vector3)
+    if (parameter.type() != MaterialValueType_Vector3)
     {
-        throw Error("Invalid value for shader parameter");
+        throw Error("Invalid value for material parameter");
     }
 
     int location = parameter.location();
@@ -832,16 +865,16 @@ void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const
     }
 }
 
-void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const Vector4& value)
+void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector4& value)
 {
-    if (!boundShader())
+    if (!boundMaterial())
     {
-        throw Error("No shader bound");
+        throw Error("No material bound");
     }
 
-    if (parameter.type() != ShaderValueType_Vector4)
+    if (parameter.type() != MaterialValueType_Vector4)
     {
-        throw Error("Invalid value for shader parameter");
+        throw Error("Invalid value for material parameter");
     }
 
     int location = parameter.location();
@@ -852,16 +885,16 @@ void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const
     }
 }
 
-void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const Matrix4& value)
+void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Matrix4& value)
 {
-    if (!boundShader())
+    if (!boundMaterial())
     {
-        throw Error("No shader bound");
+        throw Error("No material bound");
     }
 
-    if (parameter.type() != ShaderValueType_Matrix4)
+    if (parameter.type() != MaterialValueType_Matrix4)
     {
-        throw Error("Invalid value for shader parameter");
+        throw Error("Invalid value for material parameter");
     }
 
     int location = parameter.location();
@@ -879,16 +912,16 @@ void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, const
     }
 }
 
-void OpenGLRenderer::bindShaderParameter(const ShaderParameter& parameter, Texture& texture)
+void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, Texture& texture)
 {
-    if (!boundShader())
+    if (!boundMaterial())
     {
-        throw Error("No shader bound");
+        throw Error("No material bound");
     }
 
-    if (parameter.type() != ShaderValueType_Texture)
+    if (parameter.type() != MaterialValueType_Texture)
     {
-        throw Error("Invalid value for shader parameter");
+        throw Error("Invalid value for material parameter");
     }
 
     int location = parameter.location();

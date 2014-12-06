@@ -34,5 +34,9 @@
             "type": "Texture",
             "name": "lightProbeTexture"
         }
-    ]
+    ],
+    "renderState": {
+        "enabledFlags": [ "Blend" ],
+        "disabledFlags": [ "DepthTest", "DepthWrite" ]
+    }
 }

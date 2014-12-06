@@ -33,15 +33,15 @@ DebugSystem::DebugSystem(Scene& scene) :
 {
     AssetCache& assetCache = scene.engine().assetCache();
 
-    _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
+    _coloredLineMaterial = assetCache.getHandle<Material>("Hect/ColoredLine.material");
     _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");
 }
 
 void DebugSystem::drawBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
 {
     Material material;
-    material.setShader(_coloredLineShader);
-    material.addShaderArgument(ShaderArgument("colorOverride", color));
+    material.setBase(_coloredLineMaterial);
+    material.addArgument(MaterialArgument("colorOverride", color));
 
     _boxes.emplace_back(box, position, rotation, material);
 }

@@ -21,57 +21,57 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ShaderArgument.h"
+#include "MaterialArgument.h"
 
 using namespace hect;
 
-ShaderArgument::ShaderArgument()
+MaterialArgument::MaterialArgument()
 {
 }
 
-ShaderArgument::ShaderArgument(const std::string& name, const ShaderValue& value) :
+MaterialArgument::MaterialArgument(const std::string& name, const MaterialValue& value) :
     _name(name),
     _value(value)
 {
 }
 
-const std::string& ShaderArgument::name() const
+const std::string& MaterialArgument::name() const
 {
     return _name;
 }
 
-const ShaderValue& ShaderArgument::value() const
+const MaterialValue& MaterialArgument::value() const
 {
     return _value;
 }
 
-bool ShaderArgument::operator==(const ShaderArgument& shaderArgument) const
+bool MaterialArgument::operator==(const MaterialArgument& materialArgument) const
 {
-    return _name == shaderArgument.name()
-           && _value == shaderArgument.value();
+    return _name == materialArgument.name()
+           && _value == materialArgument.value();
 }
 
-bool ShaderArgument::operator!=(const ShaderArgument& shaderArgument) const
+bool MaterialArgument::operator!=(const MaterialArgument& materialArgument) const
 {
-    return !(*this == shaderArgument);
+    return !(*this == materialArgument);
 }
 
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const ShaderArgument& shaderArgument)
+Encoder& operator<<(Encoder& encoder, const MaterialArgument& materialArgument)
 {
     return encoder << beginObject()
-           << encodeValue("name", shaderArgument._name)
-           << encodeValue(shaderArgument._value)
+           << encodeValue("name", materialArgument._name)
+           << encodeValue(materialArgument._value)
            << endObject();
 }
 
-Decoder& operator>>(Decoder& decoder, ShaderArgument& shaderArgument)
+Decoder& operator>>(Decoder& decoder, MaterialArgument& materialArgument)
 {
     return decoder >> beginObject()
-           >> decodeValue("name", shaderArgument._name, true)
-           >> decodeValue(shaderArgument._value)
+           >> decodeValue("name", materialArgument._name, true)
+           >> decodeValue(materialArgument._value)
            >> endObject();
 }
 

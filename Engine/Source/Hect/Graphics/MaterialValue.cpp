@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ShaderValue.h"
+#include "MaterialValue.h"
 
 #include "Hect/Graphics/Texture.h"
 #include "Hect/IO/AssetCache.h"
@@ -29,87 +29,87 @@
 
 using namespace hect;
 
-ShaderValue::ShaderValue()
+MaterialValue::MaterialValue()
 {
     setDefaultValue();
 }
 
-ShaderValue::ShaderValue(int value) :
-    _type(ShaderValueType_Int)
+MaterialValue::MaterialValue(int value) :
+    _type(MaterialValueType_Int)
 {
     setValue(value);
 }
 
-ShaderValue::ShaderValue(Real value) :
-    _type(ShaderValueType_Float)
+MaterialValue::MaterialValue(Real value) :
+    _type(MaterialValueType_Float)
 {
     setValue(value);
 }
 
-ShaderValue::ShaderValue(const Vector2& value) :
-    _type(ShaderValueType_Vector2)
+MaterialValue::MaterialValue(const Vector2& value) :
+    _type(MaterialValueType_Vector2)
 {
     setValue(value);
 }
 
-ShaderValue::ShaderValue(const Vector3& value) :
-    _type(ShaderValueType_Vector3)
+MaterialValue::MaterialValue(const Vector3& value) :
+    _type(MaterialValueType_Vector3)
 {
     setValue(value);
 }
 
-ShaderValue::ShaderValue(const Vector4& value) :
-    _type(ShaderValueType_Vector4)
+MaterialValue::MaterialValue(const Vector4& value) :
+    _type(MaterialValueType_Vector4)
 {
     setValue(value);
 }
 
-ShaderValue::ShaderValue(const Matrix4& value) :
-    _type(ShaderValueType_Matrix4)
+MaterialValue::MaterialValue(const Matrix4& value) :
+    _type(MaterialValueType_Matrix4)
 {
     setValue(value);
 }
 
-ShaderValue::ShaderValue(const AssetHandle<Texture>& value) :
-    _type(ShaderValueType_Texture)
+MaterialValue::MaterialValue(const AssetHandle<Texture>& value) :
+    _type(MaterialValueType_Texture)
 {
     setValue(value);
 }
 
-ShaderValueType ShaderValue::type() const
+MaterialValueType MaterialValue::type() const
 {
     return _type;
 }
 
-void ShaderValue::setType(ShaderValueType type)
+void MaterialValue::setType(MaterialValueType type)
 {
     _type = type;
     setDefaultValue();
 }
 
-void ShaderValue::setDefaultValue()
+void MaterialValue::setDefaultValue()
 {
     switch (_type)
     {
-    case ShaderValueType_Int:
+    case MaterialValueType_Int:
         _value = int(0);
         break;
-    case ShaderValueType_Float:
+    case MaterialValueType_Float:
         _value = Real(0);
         break;
-    case ShaderValueType_Vector2:
+    case MaterialValueType_Vector2:
         _value = Vector2();
         break;
-    case ShaderValueType_Vector3:
+    case MaterialValueType_Vector3:
         _value = Vector3();
         break;
-    case ShaderValueType_Vector4:
+    case MaterialValueType_Vector4:
         _value = Vector4();
         break;
-    case ShaderValueType_Matrix4:
+    case MaterialValueType_Matrix4:
         _value = Matrix4();
         break;
-    case ShaderValueType_Texture:
+    case MaterialValueType_Texture:
         _value = AssetHandle<Texture>();
         break;
     default:
@@ -117,9 +117,9 @@ void ShaderValue::setDefaultValue()
     }
 }
 
-void ShaderValue::setValue(int value)
+void MaterialValue::setValue(int value)
 {
-    if (_type != ShaderValueType_Int)
+    if (_type != MaterialValueType_Int)
     {
         throw Error("Shader value is not of type 'Int'");
     }
@@ -127,9 +127,9 @@ void ShaderValue::setValue(int value)
     _value = value;
 }
 
-void ShaderValue::setValue(Real value)
+void MaterialValue::setValue(Real value)
 {
-    if (_type != ShaderValueType_Float)
+    if (_type != MaterialValueType_Float)
     {
         throw Error("Shader value is not of type 'Float'");
     }
@@ -137,9 +137,9 @@ void ShaderValue::setValue(Real value)
     _value = value;
 }
 
-void ShaderValue::setValue(const Vector2& value)
+void MaterialValue::setValue(const Vector2& value)
 {
-    if (_type != ShaderValueType_Vector2)
+    if (_type != MaterialValueType_Vector2)
     {
         throw Error("Shader value is not of type 'Vector2'");
     }
@@ -147,9 +147,9 @@ void ShaderValue::setValue(const Vector2& value)
     _value = value;
 }
 
-void ShaderValue::setValue(const Vector3& value)
+void MaterialValue::setValue(const Vector3& value)
 {
-    if (_type != ShaderValueType_Vector3)
+    if (_type != MaterialValueType_Vector3)
     {
         throw Error("Shader value is not of type 'Vector3'");
     }
@@ -157,9 +157,9 @@ void ShaderValue::setValue(const Vector3& value)
     _value = value;
 }
 
-void ShaderValue::setValue(const Vector4& value)
+void MaterialValue::setValue(const Vector4& value)
 {
-    if (_type != ShaderValueType_Vector4)
+    if (_type != MaterialValueType_Vector4)
     {
         throw Error("Shader value is not of type 'Vector4'");
     }
@@ -167,9 +167,9 @@ void ShaderValue::setValue(const Vector4& value)
     _value = value;
 }
 
-void ShaderValue::setValue(const Matrix4& value)
+void MaterialValue::setValue(const Matrix4& value)
 {
-    if (_type != ShaderValueType_Matrix4)
+    if (_type != MaterialValueType_Matrix4)
     {
         throw Error("Shader value is not of type 'Matrix4'");
     }
@@ -177,9 +177,9 @@ void ShaderValue::setValue(const Matrix4& value)
     _value = value;
 }
 
-void ShaderValue::setValue(const AssetHandle<Texture>& value)
+void MaterialValue::setValue(const AssetHandle<Texture>& value)
 {
-    if (_type != ShaderValueType_Texture)
+    if (_type != MaterialValueType_Texture)
     {
         throw Error("Shader value is not of type 'Texture'");
     }
@@ -187,9 +187,9 @@ void ShaderValue::setValue(const AssetHandle<Texture>& value)
     _value = value;
 }
 
-int ShaderValue::asInt() const
+int MaterialValue::asInt() const
 {
-    if (_type != ShaderValueType_Int)
+    if (_type != MaterialValueType_Int)
     {
         throw Error("Shader value is not of type 'Int'");
     }
@@ -197,9 +197,9 @@ int ShaderValue::asInt() const
     return _value.as<int>();
 }
 
-Real ShaderValue::asReal() const
+Real MaterialValue::asReal() const
 {
-    if (_type != ShaderValueType_Float)
+    if (_type != MaterialValueType_Float)
     {
         throw Error("Shader value is not of type 'Float'");
     }
@@ -207,9 +207,9 @@ Real ShaderValue::asReal() const
     return _value.as<Real>();
 }
 
-Vector2 ShaderValue::asVector2() const
+Vector2 MaterialValue::asVector2() const
 {
-    if (_type != ShaderValueType_Vector2)
+    if (_type != MaterialValueType_Vector2)
     {
         throw Error("Shader value is not of type 'Vector2'");
     }
@@ -217,9 +217,9 @@ Vector2 ShaderValue::asVector2() const
     return _value.as<Vector2>();
 }
 
-Vector3 ShaderValue::asVector3() const
+Vector3 MaterialValue::asVector3() const
 {
-    if (_type != ShaderValueType_Vector3)
+    if (_type != MaterialValueType_Vector3)
     {
         throw Error("Shader value is not of type 'Vector3'");
     }
@@ -227,9 +227,9 @@ Vector3 ShaderValue::asVector3() const
     return _value.as<Vector3>();
 }
 
-Vector4 ShaderValue::asVector4() const
+Vector4 MaterialValue::asVector4() const
 {
-    if (_type != ShaderValueType_Vector4)
+    if (_type != MaterialValueType_Vector4)
     {
         throw Error("Shader value is not of type 'Vector4'");
     }
@@ -237,9 +237,9 @@ Vector4 ShaderValue::asVector4() const
     return _value.as<Vector4>();
 }
 
-Matrix4 ShaderValue::asMatrix4() const
+Matrix4 MaterialValue::asMatrix4() const
 {
-    if (_type != ShaderValueType_Matrix4)
+    if (_type != MaterialValueType_Matrix4)
     {
         throw Error("Shader value is not of type 'Matrix4'");
     }
@@ -247,9 +247,9 @@ Matrix4 ShaderValue::asMatrix4() const
     return _value.as<Matrix4>();
 }
 
-AssetHandle<Texture> ShaderValue::asTexture() const
+AssetHandle<Texture> MaterialValue::asTexture() const
 {
-    if (_type != ShaderValueType_Texture)
+    if (_type != MaterialValueType_Texture)
     {
         throw Error("Shader value is not of type 'Texture'");
     }
@@ -257,10 +257,10 @@ AssetHandle<Texture> ShaderValue::asTexture() const
     return _value.as<AssetHandle<Texture>>();
 }
 
-bool ShaderValue::operator==(const ShaderValue& shaderValue) const
+bool MaterialValue::operator==(const MaterialValue& materialValue) const
 {
     // Type
-    if (_type != shaderValue._type)
+    if (_type != materialValue._type)
     {
         return false;
     }
@@ -268,61 +268,61 @@ bool ShaderValue::operator==(const ShaderValue& shaderValue) const
     // Value
     switch (_type)
     {
-    case ShaderValueType_Int:
-        return asInt() == shaderValue.asInt();
+    case MaterialValueType_Int:
+        return asInt() == materialValue.asInt();
         break;
-    case ShaderValueType_Float:
-        return asReal() == shaderValue.asReal();
+    case MaterialValueType_Float:
+        return asReal() == materialValue.asReal();
         break;
-    case ShaderValueType_Vector2:
-        return asVector2() == shaderValue.asVector2();
+    case MaterialValueType_Vector2:
+        return asVector2() == materialValue.asVector2();
         break;
-    case ShaderValueType_Vector3:
-        return asVector3() == shaderValue.asVector3();
+    case MaterialValueType_Vector3:
+        return asVector3() == materialValue.asVector3();
         break;
-    case ShaderValueType_Vector4:
-        return asVector4() == shaderValue.asVector4();
+    case MaterialValueType_Vector4:
+        return asVector4() == materialValue.asVector4();
         break;
-    case ShaderValueType_Texture:
-        return asTexture() == shaderValue.asTexture();
+    case MaterialValueType_Texture:
+        return asTexture() == materialValue.asTexture();
     default:
         throw Error("Unsupported shader value type");
     }
 }
 
-bool ShaderValue::operator!=(const ShaderValue& shaderValue) const
+bool MaterialValue::operator!=(const MaterialValue& materialValue) const
 {
-    return !(*this == shaderValue);
+    return !(*this == materialValue);
 }
 
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const ShaderValue& shaderValue)
+Encoder& operator<<(Encoder& encoder, const MaterialValue& materialValue)
 {
     // Type
-    encoder << encodeEnum("type", shaderValue.type());
+    encoder << encodeEnum("type", materialValue.type());
 
     // Value
-    switch (shaderValue.type())
+    switch (materialValue.type())
     {
-    case ShaderValueType_Int:
-        encoder << encodeValue("value", shaderValue.asInt());
+    case MaterialValueType_Int:
+        encoder << encodeValue("value", materialValue.asInt());
         break;
-    case ShaderValueType_Float:
-        encoder << encodeValue("value", shaderValue.asReal());
+    case MaterialValueType_Float:
+        encoder << encodeValue("value", materialValue.asReal());
         break;
-    case ShaderValueType_Vector2:
-        encoder << encodeValue("value", shaderValue.asVector2());
+    case MaterialValueType_Vector2:
+        encoder << encodeValue("value", materialValue.asVector2());
         break;
-    case ShaderValueType_Vector3:
-        encoder << encodeValue("value", shaderValue.asVector3());
+    case MaterialValueType_Vector3:
+        encoder << encodeValue("value", materialValue.asVector3());
         break;
-    case ShaderValueType_Vector4:
-        encoder << encodeValue("value", shaderValue.asVector4());
+    case MaterialValueType_Vector4:
+        encoder << encodeValue("value", materialValue.asVector4());
         break;
-    case ShaderValueType_Texture:
-        encoder << encodeValue("value", shaderValue.asTexture());
+    case MaterialValueType_Texture:
+        encoder << encodeValue("value", materialValue.asTexture());
         break;
     default:
         throw Error("Unsupported shader value type");
@@ -330,14 +330,14 @@ Encoder& operator<<(Encoder& encoder, const ShaderValue& shaderValue)
     return encoder;
 }
 
-Decoder& operator>>(Decoder& decoder, ShaderValue& shaderValue)
+Decoder& operator>>(Decoder& decoder, MaterialValue& materialValue)
 {
     // Type
     if (decoder.selectMember("type"))
     {
-        ShaderValueType type;
+        MaterialValueType type;
         decoder >> decodeEnum(type);
-        shaderValue.setType(type);
+        materialValue.setType(type);
     }
     else
     {
@@ -347,40 +347,40 @@ Decoder& operator>>(Decoder& decoder, ShaderValue& shaderValue)
     // Value
     if (decoder.selectMember("value"))
     {
-        switch (shaderValue.type())
+        switch (materialValue.type())
         {
-        case ShaderValueType_Int:
-            shaderValue.setValue(decoder.decodeInt32());
+        case MaterialValueType_Int:
+            materialValue.setValue(decoder.decodeInt32());
             break;
-        case ShaderValueType_Float:
+        case MaterialValueType_Float:
         {
             Real value;
             decoder >> decodeValue(value);
-            shaderValue.setValue(value);
+            materialValue.setValue(value);
         }
         break;
-        case ShaderValueType_Vector2:
+        case MaterialValueType_Vector2:
         {
             Vector2 value;
             decoder >> decodeValue(value);
-            shaderValue.setValue(value);
+            materialValue.setValue(value);
         }
         break;
-        case ShaderValueType_Vector3:
+        case MaterialValueType_Vector3:
         {
             Vector3 value;
             decoder >> decodeValue(value);
-            shaderValue.setValue(value);
+            materialValue.setValue(value);
         }
         break;
-        case ShaderValueType_Vector4:
+        case MaterialValueType_Vector4:
         {
             Vector4 value;
             decoder >> decodeValue(value);
-            shaderValue.setValue(value);
+            materialValue.setValue(value);
         }
         break;
-        case ShaderValueType_Texture:
+        case MaterialValueType_Texture:
         {
             throw Error("Shader value type 'Texture' cannot have a specified value");
         }

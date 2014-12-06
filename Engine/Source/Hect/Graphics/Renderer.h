@@ -32,11 +32,11 @@ namespace hect
 
 class RenderBuffer;
 class FrameBuffer;
+class Material;
+class MaterialParameter;
+class MaterialValue;
 class Mesh;
 class RenderTarget;
-class Shader;
-class ShaderParameter;
-class ShaderValue;
 class Texture;
 class Window;
 
@@ -250,25 +250,25 @@ public:
     virtual void destroyRenderBuffer(RenderBuffer& renderBuffer) = 0;
 
     ///
-    /// Binds a shader.
+    /// Binds a material.
     ///
-    /// \param shader The shader to bind.
-    virtual void bindShader(Shader& shader) = 0;
+    /// \param material The material to bind.
+    virtual void bindMaterial(Material& material) = 0;
 
     ///
-    /// Uploads a shader.
+    /// Uploads a material.
     ///
-    /// \param shader The shader to upload.
-    virtual void uploadShader(Shader& shader) = 0;
+    /// \param material The material to upload.
+    virtual void uploadMaterial(Material& material) = 0;
 
     ///
-    /// Destroys a shader.
+    /// Destroys a material.
     ///
-    /// \param shader The shader to destroy.
-    virtual void destroyShader(Shader& shader) = 0;
+    /// \param material The material to destroy.
+    virtual void destroyMaterial(Material& material) = 0;
 
     ///
-    /// Binds a value to a shader parameter.
+    /// Binds a value to a material parameter.
     ///
     /// \note The parameter is expected to belong to the bound shader.
     ///
@@ -277,10 +277,10 @@ public:
     ///
     /// \throws Error If no shader is bound or the specified value type differs
     /// from the parameter type.
-    virtual void bindShaderParameter(const ShaderParameter& parameter, const ShaderValue& value) = 0;
+    virtual void bindMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value) = 0;
 
     ///
-    /// Binds an int value to a shader parameter.
+    /// Binds an int value to a material parameter.
     ///
     /// \note The parameter is expected to belong to the bound shader.
     ///
@@ -289,10 +289,10 @@ public:
     ///
     /// \throws Error If no shader is bound or the specified value type differs
     /// from the parameter type.
-    virtual void bindShaderParameter(const ShaderParameter& parameter, int value) = 0;
+    virtual void bindMaterialParameter(const MaterialParameter& parameter, int value) = 0;
 
     ///
-    /// Binds a real value to a shader parameter.
+    /// Binds a real value to a material parameter.
     ///
     /// \note The parameter is expected to belong to the bound shader.
     ///
@@ -301,10 +301,10 @@ public:
     ///
     /// \throws Error If no shader is bound or the specified value type differs
     /// from the parameter type.
-    virtual void bindShaderParameter(const ShaderParameter& parameter, Real value) = 0;
+    virtual void bindMaterialParameter(const MaterialParameter& parameter, Real value) = 0;
 
     ///
-    /// Binds a 2-dimensional vector value to a shader parameter.
+    /// Binds a 2-dimensional vector value to a material parameter.
     ///
     /// \note The parameter is expected to belong to the bound shader.
     ///
@@ -313,10 +313,10 @@ public:
     ///
     /// \throws Error If no shader is bound or the specified value type differs
     /// from the parameter type.
-    virtual void bindShaderParameter(const ShaderParameter& parameter, const Vector2& value) = 0;
+    virtual void bindMaterialParameter(const MaterialParameter& parameter, const Vector2& value) = 0;
 
     ///
-    /// Binds a 3-dimensional vector value to a shader parameter.
+    /// Binds a 3-dimensional vector value to a material parameter.
     ///
     /// \note The parameter is expected to belong to the bound shader.
     ///
@@ -325,10 +325,10 @@ public:
     ///
     /// \throws Error If no shader is bound or the specified value type differs
     /// from the parameter type.
-    virtual void bindShaderParameter(const ShaderParameter& parameter, const Vector3& value) = 0;
+    virtual void bindMaterialParameter(const MaterialParameter& parameter, const Vector3& value) = 0;
 
     ///
-    /// Binds a 4-dimensional vector value to a shader parameter.
+    /// Binds a 4-dimensional vector value to a material parameter.
     ///
     /// \note The parameter is expected to belong to the bound shader.
     ///
@@ -337,10 +337,10 @@ public:
     ///
     /// \throws Error If no shader is bound or the specified value type differs
     /// from the parameter type.
-    virtual void bindShaderParameter(const ShaderParameter& parameter, const Vector4& value) = 0;
+    virtual void bindMaterialParameter(const MaterialParameter& parameter, const Vector4& value) = 0;
 
     ///
-    /// Binds a 4 by 4 matrix value to a shader parameter.
+    /// Binds a 4 by 4 matrix value to a material parameter.
     ///
     /// \note The parameter is expected to belong to the bound shader.
     ///
@@ -349,10 +349,10 @@ public:
     ///
     /// \throws Error If no shader is bound or the specified value type differs
     /// from the parameter type.
-    virtual void bindShaderParameter(const ShaderParameter& parameter, const Matrix4& value) = 0;
+    virtual void bindMaterialParameter(const MaterialParameter& parameter, const Matrix4& value) = 0;
 
     ///
-    /// Binds a texture to a shader parameter.
+    /// Binds a texture to a material parameter.
     ///
     /// \note The parameter is expected to belong to the bound shader.
     ///
@@ -361,10 +361,10 @@ public:
     ///
     /// \throws Error If no shader is bound or the specified value type differs
     /// from the parameter type.
-    virtual void bindShaderParameter(const ShaderParameter& parameter, Texture& texture) = 0;
+    virtual void bindMaterialParameter(const MaterialParameter& parameter, Texture& texture) = 0;
 
     ///
-    /// Binds a value to a shader parameter of the currently bound shader.
+    /// Binds a value to a material parameter of the currently bound shader.
     ///
     /// \param parameterName The name of the parameter.
     /// \param value The new value.
@@ -372,10 +372,10 @@ public:
     /// \throws Error If no shader is bound, no parameter of the given name,
     /// exists, or the specified value type differs from the parameter type.
     template <typename T>
-    void bindShaderParameter(const std::string& parameterName, const T& value);
+    void bindMaterialParameter(const std::string& parameterName, const T& value);
 
     ///
-    /// Binds a value to a shader parameter of the currently bound shader.
+    /// Binds a value to a material parameter of the currently bound shader.
     ///
     /// \param parameterName The name of the parameter.
     /// \param value The new value.
@@ -383,10 +383,10 @@ public:
     /// \throws Error If no shader is bound, no parameter of the given name,
     /// exists, or the specified value type differs from the parameter type.
     template <typename T>
-    void bindShaderParameter(const char* parameterName, const T& value);
+    void bindMaterialParameter(const char* parameterName, const T& value);
 
     ///
-    /// Binds a value to a shader parameter of the currently bound shader.
+    /// Binds a value to a material parameter of the currently bound shader.
     ///
     /// \param parameterName The name of the parameter.
     /// \param value The new value.
@@ -394,10 +394,10 @@ public:
     /// \throws Error If no shader is bound, no parameter of the given name,
     /// exists, or the specified value type differs from the parameter type.
     template <typename T>
-    void bindShaderParameter(const std::string& parameterName, T& value);
+    void bindMaterialParameter(const std::string& parameterName, T& value);
 
     ///
-    /// Binds a value to a shader parameter of the currently bound shader.
+    /// Binds a value to a material parameter of the currently bound shader.
     ///
     /// \param parameterName The name of the parameter.
     /// \param value The new value.
@@ -405,7 +405,7 @@ public:
     /// \throws Error If no shader is bound, no parameter of the given name,
     /// exists, or the specified value type differs from the parameter type.
     template <typename T>
-    void bindShaderParameter(const char* parameterName, T& value);
+    void bindMaterialParameter(const char* parameterName, T& value);
 
     ///
     /// Binds a texture.
@@ -484,20 +484,20 @@ public:
 protected:
     RenderTarget* boundTarget();
     void setBoundTarget(RenderTarget* target);
-    Shader* boundShader();
-    void setBoundShader(Shader* shader);
+    Material* boundMaterial();
+    void setBoundMaterial(Material* material);
     Mesh* boundMesh();
     void setBoundMesh(Mesh* mesh);
 
 private:
-    const ShaderParameter& resolveShaderParameter(const std::string& parameterName);
-    const ShaderParameter& resolveShaderParameter(const char* parameterName);
+    const MaterialParameter& resolveMaterialParameter(const std::string& parameterName);
+    const MaterialParameter& resolveMaterialParameter(const char* parameterName);
 
     Capabilities _capabilities;
     Statistics _statistics;
 
     RenderTarget* _boundTarget { nullptr };
-    Shader* _boundShader { nullptr };
+    Material* _boundMaterial { nullptr };
     Mesh* _boundMesh { nullptr };
 };
 

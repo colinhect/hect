@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/ShaderValue.h"
+#include "Hect/Graphics/MaterialValue.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -31,94 +31,94 @@ namespace hect
 {
 
 ///
-/// A binding from a shader parameter to a built-in value in the rendering
+/// A binding from a material parameter to a built-in value in the rendering
 /// pipeline.
-enum ShaderParameterBinding
+enum MaterialParameterBinding
 {
     ///
     /// No binding.
-    ShaderParameterBinding_None,
+    MaterialParameterBinding_None,
 
     ///
     /// Bound to the size of the active render target.
-    ShaderParameterBinding_RenderTargetSize,
+    MaterialParameterBinding_RenderTargetSize,
 
     ///
     /// Bound to the world-space position of the active camera.
-    ShaderParameterBinding_CameraPosition,
+    MaterialParameterBinding_CameraPosition,
 
     ///
     /// Bound to the world-space front direction of the active camera.
-    ShaderParameterBinding_CameraFront,
+    MaterialParameterBinding_CameraFront,
 
     ///
     /// Bound to the world-space up direction of the active camera.
-    ShaderParameterBinding_CameraUp,
+    MaterialParameterBinding_CameraUp,
 
     ///
     /// Bound to the exposure of the active camera.
-    ShaderParameterBinding_CameraExposure,
+    MaterialParameterBinding_CameraExposure,
 
     ///
     /// Bound to the one divided by the gamma of the active camera.
-    ShaderParameterBinding_CameraOneOverGamma,
+    MaterialParameterBinding_CameraOneOverGamma,
 
     ///
     /// Bound to the view matrix.
-    ShaderParameterBinding_ViewMatrix,
+    MaterialParameterBinding_ViewMatrix,
 
     ///
     /// Bound to the projection matrix.
-    ShaderParameterBinding_ProjectionMatrix,
+    MaterialParameterBinding_ProjectionMatrix,
 
     ///
     /// Bound to the product of the view and projection matrices.
-    ShaderParameterBinding_ViewProjectionMatrix,
+    MaterialParameterBinding_ViewProjectionMatrix,
 
     ///
     /// Bound to the model matrix.
-    ShaderParameterBinding_ModelMatrix,
+    MaterialParameterBinding_ModelMatrix,
 
     ///
     /// Bound to the product of the model and the view matrix.
-    ShaderParameterBinding_ModelViewMatrix,
+    MaterialParameterBinding_ModelViewMatrix,
 
     ///
     /// Bound to the product of the model, view, and projection matrices.
-    ShaderParameterBinding_ModelViewProjectionMatrix
+    MaterialParameterBinding_ModelViewProjectionMatrix
 };
 
 ///
 /// A parameter of a shader.
 ///
-/// \note A shader parameter must either have a default value or a binding.
+/// \note A material parameter must either have a default value or a binding.
 /// The type is determined by those.
-class ShaderParameter
+class MaterialParameter
 {
 public:
 
     ///
-    /// Constructs a shader parameter.
-    ShaderParameter();
+    /// Constructs a material parameter.
+    MaterialParameter();
 
     ///
-    /// Constructs a shader parameter.
+    /// Constructs a material parameter.
     ///
     /// \param name The name.
     /// \param binding The binding.
-    ShaderParameter(const std::string& name, ShaderParameterBinding binding);
+    MaterialParameter(const std::string& name, MaterialParameterBinding binding);
 
     ///
-    /// Constructs a shader parameter.
+    /// Constructs a material parameter.
     ///
     /// \param name The name.
     /// \param defaultValue The default value which will be set when the shader
-    /// is bound (see Renderer::bindShader()).
-    ShaderParameter(const std::string& name, const ShaderValue& defaultValue);
+    /// is bound (see Renderer::bindMaterial()).
+    MaterialParameter(const std::string& name, const MaterialValue& defaultValue);
 
     ///
     /// Returns the value type the parameter accepts.
-    ShaderValueType type() const;
+    MaterialValueType type() const;
 
     ///
     /// Sets the value type the parameter accepts.
@@ -126,11 +126,11 @@ public:
     /// \param type The new type.
     ///
     /// \throws Error If the parameter has a binding.
-    void setType(ShaderValueType type);
+    void setType(MaterialValueType type);
 
     ///
     /// Returns the binding.
-    ShaderParameterBinding binding() const;
+    MaterialParameterBinding binding() const;
 
     ///
     /// Sets the binding.
@@ -138,7 +138,7 @@ public:
     /// \note The value type is changed to reflect the new binding.
     ///
     /// \param binding The new binding.
-    void setBinding(ShaderParameterBinding binding);
+    void setBinding(MaterialParameterBinding binding);
 
     ///
     /// Returns whether the parameter has a binding.
@@ -146,7 +146,7 @@ public:
 
     ///
     /// Returns the default value.
-    const ShaderValue& defaultValue() const;
+    const MaterialValue& defaultValue() const;
 
     ///
     /// Sets the default value.
@@ -154,7 +154,7 @@ public:
     /// \note The value type is changed to reflect the new value.
     ///
     /// \param defaultValue The new default value.
-    void setDefaultValue(const ShaderValue& defaultValue);
+    void setDefaultValue(const MaterialValue& defaultValue);
 
     ///
     /// Returns whether the parameter has a default value.
@@ -184,7 +184,7 @@ public:
     /// Returns the associated texture index.
     ///
     /// \throws Error If the parameter is not of type
-    /// ::ShaderValueType_Texture.
+    /// ::MaterialValueType_Texture.
     unsigned textureIndex() const;
 
     ///
@@ -193,33 +193,33 @@ public:
     /// \param textureIndex The texture index.
     ///
     /// \throws Error If the parameter is not of type
-    /// ::ShaderValueType_Texture.
+    /// ::MaterialValueType_Texture.
     void setTextureIndex(unsigned textureIndex);
 
     ///
-    /// Returns whether the shader parameter is equivalent to another.
+    /// Returns whether the material parameter is equivalent to another.
     ///
-    /// \param shaderParameter The other shader parameter.
-    bool operator==(const ShaderParameter& shaderParameter) const;
+    /// \param materialParameter The other material parameter.
+    bool operator==(const MaterialParameter& materialParameter) const;
 
     ///
     /// Returns whether the shdaer parameter is different from another.
     ///
-    /// \param shaderParameter The other shader parameter.
-    bool operator!=(const ShaderParameter& shaderParameter) const;
+    /// \param materialParameter The other material parameter.
+    bool operator!=(const MaterialParameter& materialParameter) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const ShaderParameter& shaderParameter);
-    friend Decoder& operator>>(Decoder& decoder, ShaderParameter& shaderParameter);
+    friend Encoder& operator<<(Encoder& encoder, const MaterialParameter& materialParameter);
+    friend Decoder& operator>>(Decoder& decoder, MaterialParameter& materialParameter);
 
 private:
     std::string _name;
 
-    ShaderValueType _type { ShaderValueType_Float };
+    MaterialValueType _type { MaterialValueType_Float };
 
-    ShaderParameterBinding _binding { ShaderParameterBinding_None };
+    MaterialParameterBinding _binding { MaterialParameterBinding_None };
 
     bool _defaultValueSet { true };
-    ShaderValue _defaultValue;
+    MaterialValue _defaultValue;
 
     int _location { -1 };
     unsigned _textureIndex;

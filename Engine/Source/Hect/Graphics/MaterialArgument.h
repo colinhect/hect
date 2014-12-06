@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/ShaderValue.h"
+#include "Hect/Graphics/MaterialValue.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -31,18 +31,18 @@ namespace hect
 {
 
 ///
-/// An instance of a specific value bound to a shader parameter by name.
-class ShaderArgument
+/// An instance of a specific value bound to a material parameter by name.
+class MaterialArgument
 {
 public:
-    ShaderArgument();
+    MaterialArgument();
 
     ///
     /// Constructs shader argument.
     ///
-    /// \param name The name of the shader parameter to bind to.
-    /// \param value The value to bind to the shader parameter.
-    ShaderArgument(const std::string& name, const ShaderValue& value);
+    /// \param name The name of the material parameter to bind to.
+    /// \param value The value to bind to the material parameter.
+    MaterialArgument(const std::string& name, const MaterialValue& value);
 
     ///
     /// Returns the name of the parameter.
@@ -50,26 +50,26 @@ public:
 
     ///
     /// Returns the value.
-    const ShaderValue& value() const;
+    const MaterialValue& value() const;
 
     ///
     /// Returns whether the shader argument is equivalent to another.
     ///
-    /// \param shaderArgument The other shader argument.
-    bool operator==(const ShaderArgument& shaderArgument) const;
+    /// \param materialArgument The other shader argument.
+    bool operator==(const MaterialArgument& materialArgument) const;
 
     ///
     /// Returns whether the shader argument is different from another.
     ///
-    /// \param shaderArgument The other shader argument.
-    bool operator!=(const ShaderArgument& shaderArgument) const;
+    /// \param materialArgument The other shader argument.
+    bool operator!=(const MaterialArgument& materialArgument) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const ShaderArgument& shaderArgument);
-    friend Decoder& operator>>(Decoder& decoder, ShaderArgument& shaderArgument);
+    friend Encoder& operator<<(Encoder& encoder, const MaterialArgument& materialArgument);
+    friend Decoder& operator>>(Decoder& decoder, MaterialArgument& materialArgument);
 
 private:
     std::string _name;
-    ShaderValue _value;
+    MaterialValue _value;
 };
 
 }

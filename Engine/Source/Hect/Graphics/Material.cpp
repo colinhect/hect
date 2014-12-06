@@ -34,62 +34,160 @@ Material::Material(const std::string& name) :
 {
 }
 
-
-void Material::prepare(Renderer& renderer)
+AssetHandle<Material> Material::base() const
 {
-    if (!_shader)
+    return _base;
+}
+
+void Material::setBase(const AssetHandle<Material>& base)
+{
+    _base = base;
+}
+
+void Material::addModule(const ShaderModule& module)
+{
+    if (isUploaded())
     {
-        throw Error("Material does not have a shader");
+        renderer().destroyMaterial(*this);
+    }
+    _modules.push_back(module);
+}
+
+Material::ModuleSequence Material::modules()
+{
+    return _modules;
+}
+
+const Material::ModuleSequence Material::modules() const
+{
+    return _modules;
+}
+
+void Material::addParameter(const MaterialParameter& parameter)
+{
+    if (_base)
+    {
+        throw Error("Cannot add parameter to a material with a base");
     }
 
-    // If the shader changed or the shader parameters have not yet been
-    // resolved
-    Shader& shader = *_shader;
-    if (_resolvedFromShader != &shader)
+    if (isUploaded())
     {
-        resolveShaderParameters(shader);
+        renderer().destroyMaterial(*this);
     }
 
-    // Bind the render state
-    renderer.bindState(_renderState);
-
-    // Bind the shader
-    renderer.bindShader(shader);
-
-    // Set the shader arguments values
-    for (auto& pair : _resolvedShaderParameters)
+    auto it = _parameterIndices.find(parameter.name());
+    if (it != _parameterIndices.end())
     {
-        const ShaderParameter& parameter = *pair.first;
-        const ShaderValue& value = pair.second;
-        renderer.bindShaderParameter(parameter, value);
+        throw Error(format("Material already has parameter with name '%s'", parameter.name().c_str()));
+    }
+
+    unsigned textureIndex = nextTextureIndex();
+
+    _parameterIndices[parameter.name()] = _parameters.size();
+    _parameters.push_back(parameter);
+
+    // Set the parameter's texture index if needed
+    if (parameter.type() == MaterialValueType_Texture)
+    {
+        _parameters.back().setTextureIndex(textureIndex);
     }
 }
 
-const AssetHandle<Shader>& Material::shader() const
+Material::ParameterSequence Material::parameters()
 {
-    return _shader;
+    if (_base)
+    {
+        return _base->parameters();
+    }
+    else
+    {
+        return _parameters;
+    }
 }
 
-void Material::setShader(const AssetHandle<Shader>& shader)
+const Material::ParameterSequence Material::parameters() const
 {
-    _shader = shader;
+    if (_base)
+    {
+        return _base->parameters();
+    }
+    else
+    {
+        return _parameters;
+    }
 }
 
-const Material::ShaderArgumentSequence Material::shaderArguments() const
+const MaterialParameter& Material::parameterWithName(const std::string& name) const
 {
-    return ShaderArgumentSequence(_shaderArguments);
+    if (_base)
+    {
+        return _base->parameterWithName(name);
+    }
+
+    auto it = _parameterIndices.find(name);
+    if (it == _parameterIndices.end())
+    {
+        throw Error(format("Material does not have parameter of name '%s'", name.c_str()));
+    }
+
+    return _parameters[it->second];
 }
 
-void Material::addShaderArgument(const ShaderArgument& shaderArgument)
+const MaterialParameter& Material::parameterWithName(const char* name) const
 {
-    _shaderArguments.push_back(shaderArgument);
+    if (_base)
+    {
+        return _base->parameterWithName(name);
+    }
+
+    if (_parameterIndicesHashed.size() > 1024)
+    {
+        // This function is likely being used from dynamic memory locations,
+        // avoid indefinitely leaking by clearing the hashed values
+        _parameterIndicesHashed.clear();
+    }
+
+    const MaterialParameter* parameter = nullptr;
+    auto it = _parameterIndicesHashed.find(name);
+    if (it != _parameterIndicesHashed.end())
+    {
+        parameter = &_parameters[it->second];
+    }
+    else
+    {
+        // The parameter was not hashed for this specific string, so attempt
+        // to hash it if it exists
+        auto parameterIt = _parameterIndices.find(name);
+        if (parameterIt != _parameterIndices.end())
+        {
+            parameter = &_parameters[parameterIt->second];
+            _parameterIndicesHashed[name] = parameterIt->second;
+        }
+    }
+
+    if (!parameter)
+    {
+        throw Error(format("Material does not have parameter of name '%s'", name));
+    }
+    else
+    {
+        return *parameter;
+    }
 }
 
-void Material::clearShaderArguments()
+const Material::ArgumentSequence Material::arguments() const
 {
-    _shaderArguments.clear();
-    _resolvedShaderParameters.clear();
-    _resolvedFromShader = nullptr;
+    return _arguments;
+}
+
+void Material::addArgument(const MaterialArgument& argument)
+{
+    _arguments.push_back(argument);
+}
+
+void Material::clearArguments()
+{
+    _arguments.clear();
 }
 
 RenderStage Material::renderStage() const
@@ -122,54 +220,77 @@ void Material::setPriority(int priority)
     _priority = priority;
 }
 
-void Material::resolveShaderParameters(Shader& shader)
-{
-    _resolvedShaderParameters.clear();
-
-    // Resolve the parameters that the arguments refer to (this would be
-    // invalidated if the shader changes)
-    for (const ShaderArgument& argument : _shaderArguments)
-    {
-        const ShaderParameter& parameter = shader.parameterWithName(argument.name());
-        _resolvedShaderParameters[&parameter] = argument.value();
-    }
-
-    _resolvedFromShader = &shader;
-}
-
 bool Material::operator==(const Material& material) const
 {
+    // Base
+    if (_base != material._base)
+    {
+        return false;
+    }
+
+    // Module count
+    if (_modules.size() != material._modules.size())
+    {
+        return false;
+    }
+
+    // Modules
+    size_t moduleCount = _modules.size();
+    for (size_t i = 0; i < moduleCount; ++i)
+    {
+        if (_modules[i] != material._modules[i])
+        {
+            return false;
+        }
+    }
+
+    // Parameter count
+    if (_parameters.size() != material._parameters.size())
+    {
+        return false;
+    }
+
+    // Parameters
+    size_t parameterCount = _parameters.size();
+    for (size_t i = 0; i < parameterCount; ++i)
+    {
+        if (_parameters[i] != material._parameters[i])
+        {
+            return false;
+        }
+    }
+
+    // Argument count
+    if (_arguments.size() != material._arguments.size())
+    {
+        return false;
+    }
+
+    // Arguments
+    for (size_t i = 0; i < _arguments.size(); ++i)
+    {
+        if (_arguments[i] != material._arguments[i])
+        {
+            return false;
+        }
+    }
+
+    // Render stage
     if (_renderStage != material._renderStage)
     {
         return false;
     }
 
+    // Render state
     if (_renderState != material._renderState)
     {
         return false;
     }
 
+    // Priority
     if (_priority != material._priority)
     {
         return false;
-    }
-
-    if (_shader != material._shader)
-    {
-        return false;
-    }
-
-    if (_shaderArguments.size() != material._shaderArguments.size())
-    {
-        return false;
-    }
-
-    for (size_t i = 0; i < _shaderArguments.size(); ++i)
-    {
-        if (_shaderArguments[i] != material._shaderArguments[i])
-        {
-            return false;
-        }
     }
 
     return true;
@@ -180,16 +301,31 @@ bool Material::operator!=(const Material& material) const
     return !(*this == material);
 }
 
+unsigned Material::nextTextureIndex() const
+{
+    unsigned maxTextureIndex = 0;
+
+    bool firstTexture = true;
+    for (const MaterialParameter& parameter : _parameters)
+    {
+        if (parameter.type() == MaterialValueType_Texture)
+        {
+            maxTextureIndex = std::max(maxTextureIndex, parameter.textureIndex());
+            firstTexture = false;
+        }
+    }
+
+    return firstTexture ? 0 : (maxTextureIndex + 1);
+}
+
 namespace hect
 {
 
 Encoder& operator<<(Encoder& encoder, const Material& material)
 {
     return encoder << beginObject()
-        << beginObject("shader")
-        << encodeValue("path", material._shader)
-        << encodeVector("arguments", material._shaderArguments)
-        << endObject()
+        << encodeVector("parameters", material._parameters)
+        << encodeVector("arguments", material._arguments)
         << encodeEnum("renderStage", material._renderStage)
         << encodeValue("renderState", material._renderState)
         << encodeValue("priority", material._priority)
@@ -208,64 +344,63 @@ Decoder& operator>>(Decoder& decoder, Material& material)
             Path basePath;
             decoder >> decodeValue(basePath);
 
-            // Start from the base material
-            Material& baseMaterial = decoder.assetCache().get<Material>(basePath);
-            material = baseMaterial;
+            // Load the base material
+            material._base = decoder.assetCache().getHandle<Material>(basePath);
         }
     }
 
-
-    // Shader
-    if (!decoder.isBinaryStream())
+    if (!material._base)
     {
-        if (decoder.selectMember("shader"))
+        // Modules
+        if (decoder.selectMember("modules"))
         {
-            decoder >> beginObject();
-            decoder >> decodeValue("path", material._shader);
-
-            // Arguments
-            if (decoder.selectMember("arguments"))
+            decoder >> beginArray();
+            while (decoder.hasMoreElements())
             {
-                decoder >> beginArray();
-                while (decoder.hasMoreElements())
-                {
-                    // Decode the argument
-                    ShaderArgument argument;
-                    decoder >> decodeValue(argument);
+                ShaderModuleType type;
+                Path path;
 
-                    // Attempt to replace an existing argument by name
-                    bool existed = false;
-                    for (ShaderArgument& existingArgument : material._shaderArguments)
-                    {
-                        if (existingArgument.name() == argument.name())
-                        {
-                            material._resolvedFromShader = nullptr;
+                decoder >> beginObject()
+                    >> decodeEnum("type", type)
+                    >> decodeValue("path", path)
+                    >> endObject();
 
-                            existingArgument = argument;
-                            existed = true;
-                            break;
-                        }
-                    }
+                AssetCache& assetCache = decoder.assetCache();
+                path = assetCache.resolvePath(path);
 
-                    // Otherwise add it as a new argument
-                    if (!existed)
-                    {
-                        material._shaderArguments.push_back(argument);
-                    }
-                }
+                auto stream = assetCache.fileSystem().openFileForRead(path);
+                std::string source = stream->readAllToString();
 
-                decoder >> endArray();
+                material._modules.push_back(ShaderModule(type, path, source));
             }
+            decoder >> endArray();
+        }
 
-            decoder >> endObject();
+        // Parameters
+        if (decoder.selectMember("parameters"))
+        {
+            decoder >> beginArray();
+            while (decoder.hasMoreElements())
+            {
+                MaterialParameter parameter;
+                decoder >> decodeValue(parameter);
+                material.addParameter(parameter);
+            }
+            decoder >> endArray();
         }
     }
-    else
+
+    // Arguments
+    if (decoder.selectMember("arguments"))
     {
-        decoder >> beginObject()
-            >> decodeValue("path", material._shader)
-            >> decodeVector("arguments", material._shaderArguments)
-            >> endObject();
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            MaterialArgument argument;
+            decoder >> decodeValue(argument);
+            material.addArgument(argument);
+        }
+        decoder >> endArray();
     }
 
     decoder >> decodeEnum("renderStage", material._renderStage)

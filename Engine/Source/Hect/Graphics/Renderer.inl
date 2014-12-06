@@ -132,27 +132,27 @@ void Renderer::Object<T>::setAsDestroyed()
 }
 
 template <typename T>
-void Renderer::bindShaderParameter(const std::string& parameterName, const T& value)
+void Renderer::bindMaterialParameter(const std::string& parameterName, const T& value)
 {
-    bindShaderParameter(resolveShaderParameter(parameterName), value);
+    bindMaterialParameter(resolveMaterialParameter(parameterName), value);
 }
 
 template <typename T>
-void Renderer::bindShaderParameter(const char* parameterName, const T& value)
+void Renderer::bindMaterialParameter(const char* parameterName, const T& value)
 {
-    bindShaderParameter(resolveShaderParameter(parameterName), value);
+    bindMaterialParameter(resolveMaterialParameter(parameterName), value);
 }
 
 template <typename T>
-void Renderer::bindShaderParameter(const std::string& parameterName, T& value)
+void Renderer::bindMaterialParameter(const std::string& parameterName, T& value)
 {
-    bindShaderParameter(resolveShaderParameter(parameterName), value);
+    bindMaterialParameter(resolveMaterialParameter(parameterName), value);
 }
 
 template <typename T>
-void Renderer::bindShaderParameter(const char* parameterName, T& value)
+void Renderer::bindMaterialParameter(const char* parameterName, T& value)
 {
-    bindShaderParameter(resolveShaderParameter(parameterName), value);
+    bindMaterialParameter(resolveMaterialParameter(parameterName), value);
 }
 
 }

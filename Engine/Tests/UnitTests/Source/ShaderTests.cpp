@@ -21,11 +21,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Graphics/Shader.h>
-using namespace hect;
+//#include <Hect/Graphics/Shader.h>
+//using namespace hect;
 
 #include <catch.hpp>
 
+/*
 TEST_CASE("Add parameters to a shader and iterator over them", "[Shader]")
 {
     Shader shader;
@@ -55,3 +56,4 @@ TEST_CASE("Get a non-existing shader parameter by name", "[Shader]")
     REQUIRE_THROWS_AS(shader.parameterWithName("B"), Error);
     REQUIRE_THROWS_AS(shader.parameterWithName(std::string("B")), Error);
 }
+*/

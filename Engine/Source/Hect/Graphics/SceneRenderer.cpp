@@ -42,22 +42,15 @@ SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
     _renderCalls(1024),
     _buffersInitialized(false)
 {
-    _exposeShader = assetCache.getHandle<Shader>("Hect/Expose.shader");
-    _compositeShader = assetCache.getHandle<Shader>("Hect/Composite.shader");
-    _environmentShader = assetCache.getHandle<Shader>("Hect/Environment.shader");
-    _directionalLightShader = assetCache.getHandle<Shader>("Hect/DirectionalLight.shader");
+    _exposeMaterial = assetCache.getHandle<Material>("Hect/Expose.material");
+    _compositeMaterial = assetCache.getHandle<Material>("Hect/Composite.material");
+    _environmentMaterial = assetCache.getHandle<Material>("Hect/Environment.material");
+    _directionalLightMaterial = assetCache.getHandle<Material>("Hect/DirectionalLight.material");
 
     _skyBoxMaterial = assetCache.getHandle<Material>("Hect/SkyBox.material");
 
     _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
-
-    _backBufferRenderState.disable(RenderStateFlag_DepthTest);
-    _backBufferRenderState.disable(RenderStateFlag_DepthWrite);
-
-    _lightAccumulationRenderState.enable(RenderStateFlag_Blend);
-    _lightAccumulationRenderState.disable(RenderStateFlag_DepthTest);
-    _lightAccumulationRenderState.disable(RenderStateFlag_DepthWrite);
 }
 
 void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
@@ -96,12 +89,14 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         }
     }
 
+    /*
     // Add render calls for debug geometry
     if (scene.hasSystemType<DebugSystem>())
     {
         DebugSystem& debugSystem = scene.system<DebugSystem>();
         debugSystem.addRenderCalls(*this);
     }
+    */
 
     // Sort render calls by priority
     std::sort(_renderCalls.begin(), _renderCalls.end());
@@ -120,19 +115,20 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.endFrame();
     }
 
+    /*
     // Clear debug geometry now that it is rendered
     if (scene.hasSystemType<DebugSystem>())
     {
         DebugSystem& debugSystem = scene.system<DebugSystem>();
         debugSystem.clear();
     }
-
+    */
+    
     // Light rendering
     {
         _renderer.beginFrame();
         _renderer.bindTarget(backFrameBuffer());
         _renderer.clear();
-        _renderer.bindState(_lightAccumulationRenderState);
 
         // Get the first light probe
         auto lightProbe = scene.components<LightProbe>().begin();
@@ -145,31 +141,31 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 
         // Render environment light
         {
-            _renderer.bindShader(*_environmentShader);
-            _renderer.bindShaderParameter("diffuseBuffer", _diffuseBuffer);
-            _renderer.bindShaderParameter("materialBuffer", _materialBuffer);
-            _renderer.bindShaderParameter("positionBuffer", _positionBuffer);
-            _renderer.bindShaderParameter("normalBuffer", _normalBuffer);
-            _renderer.bindShaderParameter("lightProbeTexture", *lightProbe->texture);
-            setBoundShaderParameters(*_environmentShader, *camera, target, _identityTransform);
+            _renderer.bindMaterial(*_environmentMaterial);
+            _renderer.bindMaterialParameter("diffuseBuffer", _diffuseBuffer);
+            _renderer.bindMaterialParameter("materialBuffer", _materialBuffer);
+            _renderer.bindMaterialParameter("positionBuffer", _positionBuffer);
+            _renderer.bindMaterialParameter("normalBuffer", _normalBuffer);
+            _renderer.bindMaterialParameter("lightProbeTexture", *lightProbe->texture);
+            setBoundMaterialParameters(*_environmentMaterial, *camera, target, _identityTransform);
 
             _renderer.draw();
         }
 
         // Render directional lights
         {
-            _renderer.bindShader(*_directionalLightShader);
-            _renderer.bindShaderParameter("diffuseBuffer", _diffuseBuffer);
-            _renderer.bindShaderParameter("materialBuffer", _materialBuffer);
-            _renderer.bindShaderParameter("positionBuffer", _positionBuffer);
-            _renderer.bindShaderParameter("normalBuffer", _normalBuffer);
-            setBoundShaderParameters(*_directionalLightShader, *camera, target, _identityTransform);
+            _renderer.bindMaterial(*_directionalLightMaterial);
+            _renderer.bindMaterialParameter("diffuseBuffer", _diffuseBuffer);
+            _renderer.bindMaterialParameter("materialBuffer", _materialBuffer);
+            _renderer.bindMaterialParameter("positionBuffer", _positionBuffer);
+            _renderer.bindMaterialParameter("normalBuffer", _normalBuffer);
+            setBoundMaterialParameters(*_directionalLightMaterial, *camera, target, _identityTransform);
 
             // Render each directional light in the scene
             for (const DirectionalLight& light : scene.components<DirectionalLight>())
             {
-                _renderer.bindShaderParameter("lightColor", light.color);
-                _renderer.bindShaderParameter("lightDirection", light.direction);
+                _renderer.bindMaterialParameter("lightColor", light.color);
+                _renderer.bindMaterialParameter("lightDirection", light.direction);
                 _renderer.draw();
             }
         }
@@ -187,11 +183,11 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
     {
         _renderer.beginFrame();
         _renderer.bindTarget(backFrameBuffer());
-        _renderer.bindState(_backBufferRenderState);
-        _renderer.bindShader(*_compositeShader);
-        _renderer.bindShaderParameter("diffuseBuffer", _diffuseBuffer);
-        _renderer.bindShaderParameter("backBuffer", lastBackBuffer());
-        setBoundShaderParameters(*_compositeShader, *camera, target, _identityTransform);
+        _renderer.clear();
+        _renderer.bindMaterial(*_compositeMaterial);
+        _renderer.bindMaterialParameter("diffuseBuffer", _diffuseBuffer);
+        _renderer.bindMaterialParameter("backBuffer", lastBackBuffer());
+        setBoundMaterialParameters(*_compositeMaterial, *camera, target, _identityTransform);
 
         _renderer.bindMesh(*_screenMesh);
         _renderer.draw();
@@ -205,10 +201,10 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
     {
         _renderer.beginFrame();
         _renderer.bindTarget(target);
-        _renderer.bindState(_backBufferRenderState);
-        _renderer.bindShader(*_exposeShader);
-        _renderer.bindShaderParameter("backBuffer", lastBackBuffer());
-        setBoundShaderParameters(*_exposeShader, *camera, target, _identityTransform);
+        _renderer.clear();
+        _renderer.bindMaterial(*_exposeMaterial);
+        _renderer.bindMaterialParameter("backBuffer", lastBackBuffer());
+        setBoundMaterialParameters(*_exposeMaterial, *camera, target, _identityTransform);
 
         _renderer.bindMesh(*_screenMesh);
         _renderer.draw();
@@ -341,8 +337,8 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
         auto skyBox = entity.component<SkyBox>();
         if (skyBox)
         {
-            _skyBoxMaterial->clearShaderArguments();
-            _skyBoxMaterial->addShaderArgument(ShaderArgument("skyBoxTexture", skyBox->texture));
+            _skyBoxMaterial->clearArguments();
+            _skyBoxMaterial->addArgument(MaterialArgument("skyBoxTexture", skyBox->texture));
 
             addRenderCall(_cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
         }
@@ -351,19 +347,16 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
 
 void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
-    // Prepare the material
-    material.prepare(_renderer);
-
-    // Set parameters with bindings
-    Shader& shader = *material.shader();
-    setBoundShaderParameters(shader, camera, target, transform);
+    // Bind the material
+    _renderer.bindMaterial(material);
+    setBoundMaterialParameters(material, camera, target, transform);
 
     // Bind and draw the mesh
     _renderer.bindMesh(mesh);
     _renderer.draw();
 }
 
-void SceneRenderer::setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
+void SceneRenderer::setBoundMaterialParameters(Material& material, const Camera& camera, const RenderTarget& target, const Transform& transform)
 {
     // Buid the model matrix
     Matrix4 model;
@@ -386,51 +379,51 @@ void SceneRenderer::setBoundShaderParameters(Shader& shader, const Camera& camer
         model.rotate(transform.globalRotation);
     }
 
-    for (const ShaderParameter& parameter : shader.parameters())
+    for (const MaterialParameter& parameter : material.parameters())
     {
         if (parameter.hasBinding())
         {
-            ShaderParameterBinding binding = parameter.binding();
+            MaterialParameterBinding binding = parameter.binding();
 
             switch (binding)
             {
-            case ShaderParameterBinding_None:
+            case MaterialParameterBinding_None:
                 break;
-            case ShaderParameterBinding_RenderTargetSize:
-                _renderer.bindShaderParameter(parameter, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
+            case MaterialParameterBinding_RenderTargetSize:
+                _renderer.bindMaterialParameter(parameter, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
                 break;
-            case ShaderParameterBinding_CameraPosition:
-                _renderer.bindShaderParameter(parameter, camera.position);
+            case MaterialParameterBinding_CameraPosition:
+                _renderer.bindMaterialParameter(parameter, camera.position);
                 break;
-            case ShaderParameterBinding_CameraFront:
-                _renderer.bindShaderParameter(parameter, camera.front);
+            case MaterialParameterBinding_CameraFront:
+                _renderer.bindMaterialParameter(parameter, camera.front);
                 break;
-            case ShaderParameterBinding_CameraUp:
-                _renderer.bindShaderParameter(parameter, camera.up);
+            case MaterialParameterBinding_CameraUp:
+                _renderer.bindMaterialParameter(parameter, camera.up);
                 break;
-            case ShaderParameterBinding_CameraExposure:
-                _renderer.bindShaderParameter(parameter, camera.exposure);
+            case MaterialParameterBinding_CameraExposure:
+                _renderer.bindMaterialParameter(parameter, camera.exposure);
                 break;
-            case ShaderParameterBinding_CameraOneOverGamma:
-                _renderer.bindShaderParameter(parameter, Real(1) / camera.gamma);
+            case MaterialParameterBinding_CameraOneOverGamma:
+                _renderer.bindMaterialParameter(parameter, Real(1) / camera.gamma);
                 break;
-            case ShaderParameterBinding_ViewMatrix:
-                _renderer.bindShaderParameter(parameter, camera.viewMatrix);
+            case MaterialParameterBinding_ViewMatrix:
+                _renderer.bindMaterialParameter(parameter, camera.viewMatrix);
                 break;
-            case ShaderParameterBinding_ProjectionMatrix:
-                _renderer.bindShaderParameter(parameter, camera.projectionMatrix);
+            case MaterialParameterBinding_ProjectionMatrix:
+                _renderer.bindMaterialParameter(parameter, camera.projectionMatrix);
                 break;
-            case ShaderParameterBinding_ViewProjectionMatrix:
-                _renderer.bindShaderParameter(parameter, camera.projectionMatrix * camera.viewMatrix);
+            case MaterialParameterBinding_ViewProjectionMatrix:
+                _renderer.bindMaterialParameter(parameter, camera.projectionMatrix * camera.viewMatrix);
                 break;
-            case ShaderParameterBinding_ModelMatrix:
-                _renderer.bindShaderParameter(parameter, model);
+            case MaterialParameterBinding_ModelMatrix:
+                _renderer.bindMaterialParameter(parameter, model);
                 break;
-            case ShaderParameterBinding_ModelViewMatrix:
-                _renderer.bindShaderParameter(parameter, camera.viewMatrix * model);
+            case MaterialParameterBinding_ModelViewMatrix:
+                _renderer.bindMaterialParameter(parameter, camera.viewMatrix * model);
                 break;
-            case ShaderParameterBinding_ModelViewProjectionMatrix:
-                _renderer.bindShaderParameter(parameter, camera.projectionMatrix * (camera.viewMatrix * model));
+            case MaterialParameterBinding_ModelViewProjectionMatrix:
+                _renderer.bindMaterialParameter(parameter, camera.projectionMatrix * (camera.viewMatrix * model));
                 break;
             }
         }

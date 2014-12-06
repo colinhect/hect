@@ -1,7 +1,0 @@
-{
-    "shader": {
-        "path": "Shader_01.shader"
-    },
-    "renderStage": "OpaqueGeometry",
-    "priority": 100
-}

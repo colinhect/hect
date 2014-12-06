@@ -39,94 +39,94 @@ class Texture;
 
 ///
 /// A shader value type.
-enum ShaderValueType
+enum MaterialValueType
 {
     ///
     /// An integer.
-    ShaderValueType_Int,
+    MaterialValueType_Int,
 
     ///
     /// A floating point number.
-    ShaderValueType_Float,
+    MaterialValueType_Float,
 
     ///
     /// A 2-dimensional vector.
-    ShaderValueType_Vector2,
+    MaterialValueType_Vector2,
 
     ///
     /// A 3-dimensional vector.
-    ShaderValueType_Vector3,
+    MaterialValueType_Vector3,
 
     ///
     /// A 4-dimensional vector.
-    ShaderValueType_Vector4,
+    MaterialValueType_Vector4,
 
     ///
     /// A 4 by 4 matrix.
-    ShaderValueType_Matrix4,
+    MaterialValueType_Matrix4,
 
     ///
     /// A texture.
-    ShaderValueType_Texture
+    MaterialValueType_Texture
 };
 
 ///
-/// A value for a shader parameter.
+/// A value for a material parameter.
 ///
 /// \note A shader value's type cannot change.
-class ShaderValue
+class MaterialValue
 {
 public:
 
     ///
     /// Constructs an empty shader value.
-    ShaderValue();
+    MaterialValue();
 
     ///
     /// Constructs an integer shader value;
     ///
     /// \param value The value.
-    ShaderValue(int value);
+    MaterialValue(int value);
 
     ///
     /// Constructs a real shader value.
     ///
     /// \param value The value.
-    ShaderValue(Real value);
+    MaterialValue(Real value);
 
     ///
     /// Constructs a 2-dimensional vector shader value.
     ///
     /// \param value The value.
-    ShaderValue(const Vector2& value);
+    MaterialValue(const Vector2& value);
 
     ///
     /// Constructs a 3-dimensional vector shader value.
     ///
     /// \param value The value.
-    ShaderValue(const Vector3& value);
+    MaterialValue(const Vector3& value);
 
     ///
     /// Constructs a 4-dimensional vector shader value.
     ///
     /// \param value The value.
-    ShaderValue(const Vector4& value);
+    MaterialValue(const Vector4& value);
 
     ///
     /// Constructs a 4 by 4 matrix shader value.
     ///
     /// \param value The value.
-    ShaderValue(const Matrix4& value);
+    MaterialValue(const Matrix4& value);
 
     ///
     /// Constructs a texture shader value.
     ///
     /// \param value The texture.
-    ShaderValue(const AssetHandle<Texture>& value);
+    MaterialValue(const AssetHandle<Texture>& value);
 
     ///
     /// Returns the type.
-    ShaderValueType type() const;
+    MaterialValueType type() const;
 
     ///
     /// Sets the type.
@@ -134,7 +134,7 @@ public:
     /// \note The value is reset to the default value for the new type.
     ///
     /// \param type The new type.
-    void setType(ShaderValueType type);
+    void setType(MaterialValueType type);
 
     ///
     /// Sets the value to the default value for the shader value's type.
@@ -227,20 +227,20 @@ public:
     ///
     /// Returns whether the shader value is equivalent to another.
     ///
-    /// \param shaderValue The other shader value.
-    bool operator==(const ShaderValue& shaderValue) const;
+    /// \param materialValue The other shader value.
+    bool operator==(const MaterialValue& materialValue) const;
 
     ///
     /// Returns whether the shader value is different from another.
     ///
-    /// \param shaderValue The other shader value.
-    bool operator!=(const ShaderValue& shaderValue) const;
+    /// \param materialValue The other shader value.
+    bool operator!=(const MaterialValue& materialValue) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const ShaderValue& shaderValue);
-    friend Decoder& operator>>(Decoder& decoder, ShaderValue& shaderValue);
+    friend Encoder& operator<<(Encoder& encoder, const MaterialValue& materialValue);
+    friend Decoder& operator>>(Decoder& decoder, MaterialValue& materialValue);
 
 private:
-    ShaderValueType _type { ShaderValueType_Float };
+    MaterialValueType _type { MaterialValueType_Float };
     Any _value;
 };
 
