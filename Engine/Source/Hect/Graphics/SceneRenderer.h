@@ -62,14 +62,13 @@ public:
     ///
     /// \param transform The world-space transform.
     /// \param mesh The mesh to render.
-    /// \param pass The material pass to use.
-    void addRenderCall(Transform& transform, Mesh& mesh, Pass& pass);
+    /// \param material The material to use.
+    void addRenderCall(Transform& transform, Mesh& mesh, Material& material);
 
 private:
     void initializeBuffers(unsigned width, unsigned height);
-    Technique& selectTechnique(Material& material) const;
     void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
-    void renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform);
+    void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
     void setBoundShaderParameters(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
     void swapBackBuffer();
@@ -81,11 +80,11 @@ private:
     {
     public:
         RenderCall();
-        RenderCall(Transform& transform, Mesh& mesh, Pass& pass);
+        RenderCall(Transform& transform, Mesh& mesh, Material& material);
 
         Transform* transform { nullptr };
         Mesh* mesh { nullptr };
-        Pass* pass { nullptr };
+        Material* material { nullptr };
 
         bool operator<(const RenderCall& other) const;
     };

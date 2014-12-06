@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/Pass.h"
+#include "Hect/Graphics/Material.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Transform.h"
 #include "Hect/Spacial/Box.h"
@@ -68,11 +68,11 @@ private:
     {
     public:
         DebugBox();
-        DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, const Pass& pass);
+        DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, const Material& material);
 
         Box box;
         Transform transform;
-        Pass pass;
+        Material material;
     };
 
     std::vector<DebugBox> _boxes;

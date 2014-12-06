@@ -1,15 +1,7 @@
 {
-    "techniques": [
-        {
-            "passes": [
-                {
-                    "shader": {
-                        "path": "Shader_01.shader"
-                    },
-                    "renderStage": "OpaqueGeometry",
-                    "priority": 100
-                }
-            ]
-        }
-    ]
+    "shader": {
+        "path": "Shader_01.shader"
+    },
+    "renderStage": "OpaqueGeometry",
+    "priority": 100
 }

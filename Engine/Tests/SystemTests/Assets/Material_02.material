@@ -1,22 +1,5 @@
 {
-    "techniques": [
-        {
-            "passes": [
-                {
-                    "shader": {
-                        "path": "Shader_01.shader"
-                    }
-                }
-            ]
-        },
-        {
-            "passes": [
-                {
-                    "shader": {
-                        "path": "Shader_02.shader"
-                    }
-                }
-            ]
-        }
-    ]
+    "shader": {
+        "path": "Shader_02.shader"
+    }
 }

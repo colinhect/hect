@@ -39,18 +39,18 @@ DebugSystem::DebugSystem(Scene& scene) :
 
 void DebugSystem::drawBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
 {
-    Pass pass;
-    pass.setShader(_coloredLineShader);
-    pass.addShaderArgument(ShaderArgument("colorOverride", color));
+    Material material;
+    material.setShader(_coloredLineShader);
+    material.addShaderArgument(ShaderArgument("colorOverride", color));
 
-    _boxes.emplace_back(box, position, rotation, pass);
+    _boxes.emplace_back(box, position, rotation, material);
 }
 
 void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)
 {
     for (auto& box : _boxes)
     {
-        sceneRenderer.addRenderCall(box.transform, *_boxMesh, box.pass);
+        sceneRenderer.addRenderCall(box.transform, *_boxMesh, box.material);
     }
 }
 
@@ -63,9 +63,9 @@ DebugSystem::DebugBox::DebugBox()
 {
 }
 
-DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, const Pass& pass) :
+DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, const Material& material) :
     box(box),
-    pass(pass)
+    material(material)
 {
     transform.globalPosition = position;
     transform.globalScale = box.scale();

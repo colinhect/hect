@@ -34,36 +34,139 @@ Material::Material(const std::string& name) :
 {
 }
 
-Material::TechniqueSequence Material::techniques()
+
+void Material::prepare(Renderer& renderer)
 {
-    return TechniqueSequence(_techniques);
+    if (!_shader)
+    {
+        throw Error("Material does not have a shader");
+    }
+
+    // If the shader changed or the shader parameters have not yet been
+    // resolved
+    Shader& shader = *_shader;
+    if (_resolvedFromShader != &shader)
+    {
+        resolveShaderParameters(shader);
+    }
+
+    // Bind the render state
+    renderer.bindState(_renderState);
+
+    // Bind the shader
+    renderer.bindShader(shader);
+
+    // Set the shader arguments values
+    for (auto& pair : _resolvedShaderParameters)
+    {
+        const ShaderParameter& parameter = *pair.first;
+        const ShaderValue& value = pair.second;
+        renderer.bindShaderParameter(parameter, value);
+    }
 }
 
-const Material::TechniqueSequence Material::techniques() const
+const AssetHandle<Shader>& Material::shader() const
 {
-    return TechniqueSequence(_techniques);
+    return _shader;
 }
 
-void Material::addTechnique(const Technique& technique)
+void Material::setShader(const AssetHandle<Shader>& shader)
 {
-    _techniques.push_back(technique);
+    _shader = shader;
 }
 
-void Material::clearTechniques()
+const Material::ShaderArgumentSequence Material::shaderArguments() const
 {
-    _techniques.clear();
+    return ShaderArgumentSequence(_shaderArguments);
+}
+
+void Material::addShaderArgument(const ShaderArgument& shaderArgument)
+{
+    _shaderArguments.push_back(shaderArgument);
+}
+
+void Material::clearShaderArguments()
+{
+    _shaderArguments.clear();
+    _resolvedShaderParameters.clear();
+    _resolvedFromShader = nullptr;
+}
+
+RenderStage Material::renderStage() const
+{
+    return _renderStage;
+}
+
+void Material::setRenderStage(RenderStage renderStage)
+{
+    _renderStage = renderStage;
+}
+
+const RenderState& Material::renderState() const
+{
+    return _renderState;
+}
+
+void Material::setRenderState(const RenderState& renderState)
+{
+    _renderState = renderState;
+}
+
+int Material::priority() const
+{
+    return _priority;
+}
+
+void Material::setPriority(int priority)
+{
+    _priority = priority;
+}
+
+void Material::resolveShaderParameters(Shader& shader)
+{
+    _resolvedShaderParameters.clear();
+
+    // Resolve the parameters that the arguments refer to (this would be
+    // invalidated if the shader changes)
+    for (const ShaderArgument& argument : _shaderArguments)
+    {
+        const ShaderParameter& parameter = shader.parameterWithName(argument.name());
+        _resolvedShaderParameters[&parameter] = argument.value();
+    }
+
+    _resolvedFromShader = &shader;
 }
 
 bool Material::operator==(const Material& material) const
 {
-    if (_techniques.size() != material._techniques.size())
+    if (_renderStage != material._renderStage)
     {
         return false;
     }
 
-    for (size_t i = 0; i < _techniques.size(); ++i)
+    if (_renderState != material._renderState)
     {
-        if (_techniques[i] != material._techniques[i])
+        return false;
+    }
+
+    if (_priority != material._priority)
+    {
+        return false;
+    }
+
+    if (_shader != material._shader)
+    {
+        return false;
+    }
+
+    if (_shaderArguments.size() != material._shaderArguments.size())
+    {
+        return false;
+    }
+
+    for (size_t i = 0; i < _shaderArguments.size(); ++i)
+    {
+        if (_shaderArguments[i] != material._shaderArguments[i])
         {
             return false;
         }
@@ -83,8 +186,14 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Material& material)
 {
     return encoder << beginObject()
-           << encodeVector("techniques", material._techniques)
-           << endObject();
+        << beginObject("shader")
+        << encodeValue("path", material._shader)
+        << encodeVector("arguments", material._shaderArguments)
+        << endObject()
+        << encodeEnum("renderStage", material._renderStage)
+        << encodeValue("renderState", material._renderState)
+        << encodeValue("priority", material._priority)
+        << endObject();
 }
 
 Decoder& operator>>(Decoder& decoder, Material& material)
@@ -103,28 +212,65 @@ Decoder& operator>>(Decoder& decoder, Material& material)
             Material& baseMaterial = decoder.assetCache().get<Material>(basePath);
             material = baseMaterial;
         }
+    }
 
-        // Techniques
-        size_t i = 0;
-        decoder >> beginArray("techniques");
-        while (decoder.hasMoreElements())
+
+    // Shader
+    if (!decoder.isBinaryStream())
+    {
+        if (decoder.selectMember("shader"))
         {
-            // Add a new technique if needed
-            if (i >= material._techniques.size())
+            decoder >> beginObject();
+            decoder >> decodeValue("path", material._shader);
+
+            // Arguments
+            if (decoder.selectMember("arguments"))
             {
-                material._techniques.push_back(Technique());
+                decoder >> beginArray();
+                while (decoder.hasMoreElements())
+                {
+                    // Decode the argument
+                    ShaderArgument argument;
+                    decoder >> decodeValue(argument);
+
+                    // Attempt to replace an existing argument by name
+                    bool existed = false;
+                    for (ShaderArgument& existingArgument : material._shaderArguments)
+                    {
+                        if (existingArgument.name() == argument.name())
+                        {
+                            material._resolvedFromShader = nullptr;
+
+                            existingArgument = argument;
+                            existed = true;
+                            break;
+                        }
+                    }
+
+                    // Otherwise add it as a new argument
+                    if (!existed)
+                    {
+                        material._shaderArguments.push_back(argument);
+                    }
+                }
+
+                decoder >> endArray();
             }
 
-            // Decode the technique
-            Technique& technique = material._techniques[i++];
-            decoder >> decodeValue(technique);
+            decoder >> endObject();
         }
-        decoder >> endArray();
     }
     else
     {
-        decoder >> decodeVector("techniques", material._techniques);
+        decoder >> beginObject()
+            >> decodeValue("path", material._shader)
+            >> decodeVector("arguments", material._shaderArguments)
+            >> endObject();
     }
+
+    decoder >> decodeEnum("renderStage", material._renderStage)
+        >> decodeValue("renderState", material._renderState)
+        >> decodeValue("priority", material._priority);
 
     return decoder >> endObject();
 }

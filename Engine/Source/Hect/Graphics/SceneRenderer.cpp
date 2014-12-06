@@ -114,7 +114,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 
         for (RenderCall& renderCall : _renderCalls)
         {
-            renderMeshPass(*camera, _geometryFrameBuffer, *renderCall.pass, *renderCall.mesh, *renderCall.transform);
+            renderMesh(*camera, _geometryFrameBuffer, *renderCall.material, *renderCall.mesh, *renderCall.transform);
         }
 
         _renderer.endFrame();
@@ -217,9 +217,9 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
     }
 }
 
-void SceneRenderer::addRenderCall(Transform& transform, Mesh& mesh, Pass& pass)
+void SceneRenderer::addRenderCall(Transform& transform, Mesh& mesh, Material& material)
 {
-    _renderCalls.emplace_back(transform, mesh, pass);
+    _renderCalls.emplace_back(transform, mesh, material);
 }
 
 void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
@@ -276,19 +276,6 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     HECT_TRACE(format("Scene renderer GPU memory usage: %dMB", static_cast<int>(memoryUsageInMegabytes)));
 }
 
-Technique& SceneRenderer::selectTechnique(Material& material) const
-{
-    auto techniques = material.techniques();
-    if (techniques.empty())
-    {
-        throw Error("The material has no techniques");
-    }
-    else
-    {
-        return techniques[0];
-    }
-}
-
 void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest)
 {
     // If the entity has a model component
@@ -338,11 +325,7 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
                     Mesh& mesh = *surface.mesh;
                     Material& material = *surface.material;
 
-                    Technique& technique = selectTechnique(material);
-                    for (Pass& pass : technique.passes())
-                    {
-                        addRenderCall(*transform, mesh, pass);
-                    }
+                    addRenderCall(*transform, mesh, material);
                 }
 
                 // Render all children
@@ -358,22 +341,21 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
         auto skyBox = entity.component<SkyBox>();
         if (skyBox)
         {
-            Pass& skyBoxPass = selectTechnique(*_skyBoxMaterial).passes()[0];
-            skyBoxPass.clearShaderArguments();
-            skyBoxPass.addShaderArgument(ShaderArgument("skyBoxTexture", skyBox->texture));
+            _skyBoxMaterial->clearShaderArguments();
+            _skyBoxMaterial->addShaderArgument(ShaderArgument("skyBoxTexture", skyBox->texture));
 
-            addRenderCall(_cameraTransform, *_skyBoxMesh, skyBoxPass);
+            addRenderCall(_cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
         }
     }
 }
 
-void SceneRenderer::renderMeshPass(const Camera& camera, const RenderTarget& target, Pass& pass, Mesh& mesh, const Transform& transform)
+void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
-    // Prepare the pass
-    pass.prepare(_renderer);
+    // Prepare the material
+    material.prepare(_renderer);
 
     // Set parameters with bindings
-    Shader& shader = *pass.shader();
+    Shader& shader = *material.shader();
     setBoundShaderParameters(shader, camera, target, transform);
 
     // Bind and draw the mesh
@@ -477,16 +459,16 @@ FrameBuffer& SceneRenderer::backFrameBuffer()
 
 bool SceneRenderer::RenderCall::operator<(const RenderCall& other) const
 {
-    return pass->priority() > other.pass->priority();
+    return material->priority() > other.material->priority();
 }
 
 SceneRenderer::RenderCall::RenderCall()
 {
 }
 
-SceneRenderer::RenderCall::RenderCall(Transform& transform, Mesh& mesh, Pass& pass) :
+SceneRenderer::RenderCall::RenderCall(Transform& transform, Mesh& mesh, Material& material) :
     transform(&transform),
     mesh(&mesh),
-    pass(&pass)
+    material(&material)
 {
 }

@@ -1,31 +1,23 @@
 {
-    "techniques": [
-        {
-            "passes": [
-                {
-                    "shader": {
-                        "path": "Solid.shader",
-                        "arguments": [
-                            {
-                                "name": "diffuse",
-                                "value": [ 0.8, 0.8, 0.8 ],
-                                "type": "Vector3"
-                            },
-                            {
-                                "name": "roughness",
-                                "value": 0.5,
-                                "type": "Float"
-                            },
-                            {
-                                "name": "metallic",
-                                "value": 0.0,
-                                "type": "Float"
-                            }
-                        ]
-                    },
-                    "renderStage": "OpaqueGeometry"
-                }
-            ]
-        }
-    ]
+    "renderStage": "OpaqueGeometry",
+    "shader": {
+        "path": "Solid.shader",
+        "arguments": [
+            {
+                "name": "diffuse",
+                "value": [ 0.8, 0.8, 0.8 ],
+                "type": "Vector3"
+            },
+            {
+                "name": "roughness",
+                "value": 0.5,
+                "type": "Float"
+            },
+            {
+                "name": "metallic",
+                "value": 0.0,
+                "type": "Float"
+            }
+        ]
+    }
 }
