@@ -41,26 +41,30 @@ AssetHandle<Material> Material::base() const
 
 void Material::setBase(const AssetHandle<Material>& base)
 {
+    if (isUploaded())
+    {
+        renderer().destroyMaterial(*this);
+    }
     _base = base;
 }
 
-void Material::addModule(const ShaderModule& module)
+void Material::addShaderModule(const ShaderModule& shaderModule)
 {
     if (isUploaded())
     {
         renderer().destroyMaterial(*this);
     }
-    _modules.push_back(module);
+    _shaderModules.push_back(shaderModule);
 }
 
-Material::ModuleSequence Material::modules()
+Material::ShaderModuleSequence Material::shaderModules()
 {
-    return _modules;
+    return _shaderModules;
 }
 
-const Material::ModuleSequence Material::modules() const
+const Material::ShaderModuleSequence Material::shaderModules() const
 {
-    return _modules;
+    return _shaderModules;
 }
 
 void Material::addParameter(const MaterialParameter& parameter)
@@ -228,17 +232,17 @@ bool Material::operator==(const Material& material) const
         return false;
     }
 
-    // Module count
-    if (_modules.size() != material._modules.size())
+    // Shader module count
+    if (_shaderModules.size() != material._shaderModules.size())
     {
         return false;
     }
 
-    // Modules
-    size_t moduleCount = _modules.size();
+    // Shader modules
+    size_t moduleCount = _shaderModules.size();
     for (size_t i = 0; i < moduleCount; ++i)
     {
-        if (_modules[i] != material._modules[i])
+        if (_shaderModules[i] != material._shaderModules[i])
         {
             return false;
         }
@@ -371,7 +375,7 @@ Decoder& operator>>(Decoder& decoder, Material& material)
                 auto stream = assetCache.fileSystem().openFileForRead(path);
                 std::string source = stream->readAllToString();
 
-                material._modules.push_back(ShaderModule(type, path, source));
+                material._shaderModules.push_back(ShaderModule(type, path, source));
             }
             decoder >> endArray();
         }

@@ -648,7 +648,7 @@ void OpenGLRenderer::uploadMaterial(Material& material)
 
         // Attach each shader to the program
         std::vector<GLuint> shaderIds;
-        for (ShaderModule& module : material.modules())
+        for (ShaderModule& module : material.shaderModules())
         {
             GLuint shaderId;
 

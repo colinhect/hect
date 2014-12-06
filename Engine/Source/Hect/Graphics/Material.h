@@ -38,7 +38,6 @@
 #include "Hect/Graphics/ShaderModule.h"
 #include "Hect/Graphics/Texture.h"
 
-
 namespace hect
 {
 
@@ -48,14 +47,14 @@ class Material :
     public Asset,
     public Renderer::Object<Material>
 {
-    typedef std::vector<ShaderModule> ModuleContainer;
+    typedef std::vector<ShaderModule> ShaderModuleContainer;
     typedef std::vector<MaterialParameter> ParameterContainer;
     typedef std::vector<MaterialArgument> ArgumentContainer;
 public:
 
     ///
-    /// A sequence of material modules.
-    typedef Sequence<ShaderModule, ModuleContainer> ModuleSequence;
+    /// A sequence of shader modules.
+    typedef Sequence<ShaderModule, ShaderModuleContainer> ShaderModuleSequence;
 
     ///
     /// A sequence of material parameters.
@@ -82,25 +81,28 @@ public:
     ///
     /// Sets the base material.
     ///
+    /// \note If the material is uploaded to a renderer then it will be
+    /// destroyed before the module is added.
+    ///
     /// \param base The base material.
     void setBase(const AssetHandle<Material>& base);
 
     ///
-    /// Adds a module to the material.
+    /// Adds a shader module to the material.
     ///
     /// \note If the material is uploaded to a renderer then it will be
     /// destroyed before the module is added.
     ///
     /// \param module The module to add.
-    void addModule(const ShaderModule& module);
+    void addShaderModule(const ShaderModule& shaderModule);
 
     ///
-    /// Returns the modules.
-    ModuleSequence modules();
+    /// Returns the shader modules.
+    ShaderModuleSequence shaderModules();
 
     ///
-    /// Returns the modules.
-    const ModuleSequence modules() const;
+    /// Returns the shader modules.
+    const ShaderModuleSequence shaderModules() const;
 
     ///
     /// Adds a parameter to the material.
@@ -208,7 +210,8 @@ private:
 
     int _priority{ 0 };
 
-    ModuleContainer _modules;
+    ShaderModuleContainer _shaderModules;
+
     ParameterContainer _parameters;
 
     std::map<std::string, size_t> _parameterIndices;

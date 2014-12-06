@@ -89,14 +89,12 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         }
     }
 
-    /*
     // Add render calls for debug geometry
     if (scene.hasSystemType<DebugSystem>())
     {
         DebugSystem& debugSystem = scene.system<DebugSystem>();
         debugSystem.addRenderCalls(*this);
     }
-    */
 
     // Sort render calls by priority
     std::sort(_renderCalls.begin(), _renderCalls.end());
@@ -115,14 +113,12 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.endFrame();
     }
 
-    /*
     // Clear debug geometry now that it is rendered
     if (scene.hasSystemType<DebugSystem>())
     {
         DebugSystem& debugSystem = scene.system<DebugSystem>();
         debugSystem.clear();
     }
-    */
     
     // Light rendering
     {
