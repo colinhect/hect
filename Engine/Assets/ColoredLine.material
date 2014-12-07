@@ -11,13 +11,12 @@
     ],
     "parameters": [
         {
-            "name": "modelViewProjection",
-            "binding": "ModelViewProjectionMatrix"
+            "binding": "ModelViewProjectionMatrix",
+            "name": "modelViewProjection"
         },
         {
             "type": "Vector3",
-            "name": "colorOverride",
-            "value": [ 0, 0, 0 ]
+            "name": "colorOverride"
         }
     ]
 }

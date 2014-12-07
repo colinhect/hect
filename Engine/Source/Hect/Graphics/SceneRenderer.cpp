@@ -119,7 +119,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         DebugSystem& debugSystem = scene.system<DebugSystem>();
         debugSystem.clear();
     }
-    
+
     // Light rendering
     {
         _renderer.beginFrame();
@@ -333,8 +333,7 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
         auto skyBox = entity.component<SkyBox>();
         if (skyBox)
         {
-            _skyBoxMaterial->clearArguments();
-            _skyBoxMaterial->addArgument(MaterialArgument("skyBoxTexture", skyBox->texture));
+            _skyBoxMaterial->setParameterValue("skyBoxTexture", skyBox->texture);
 
             addRenderCall(_cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
         }
@@ -377,51 +376,47 @@ void SceneRenderer::setBoundMaterialParameters(Material& material, const Camera&
 
     for (const MaterialParameter& parameter : material.parameters())
     {
-        if (parameter.hasBinding())
+        MaterialParameterBinding binding = parameter.binding();
+        switch (binding)
         {
-            MaterialParameterBinding binding = parameter.binding();
-
-            switch (binding)
-            {
-            case MaterialParameterBinding_None:
-                break;
-            case MaterialParameterBinding_RenderTargetSize:
-                _renderer.bindMaterialParameter(parameter, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
-                break;
-            case MaterialParameterBinding_CameraPosition:
-                _renderer.bindMaterialParameter(parameter, camera.position);
-                break;
-            case MaterialParameterBinding_CameraFront:
-                _renderer.bindMaterialParameter(parameter, camera.front);
-                break;
-            case MaterialParameterBinding_CameraUp:
-                _renderer.bindMaterialParameter(parameter, camera.up);
-                break;
-            case MaterialParameterBinding_CameraExposure:
-                _renderer.bindMaterialParameter(parameter, camera.exposure);
-                break;
-            case MaterialParameterBinding_CameraOneOverGamma:
-                _renderer.bindMaterialParameter(parameter, Real(1) / camera.gamma);
-                break;
-            case MaterialParameterBinding_ViewMatrix:
-                _renderer.bindMaterialParameter(parameter, camera.viewMatrix);
-                break;
-            case MaterialParameterBinding_ProjectionMatrix:
-                _renderer.bindMaterialParameter(parameter, camera.projectionMatrix);
-                break;
-            case MaterialParameterBinding_ViewProjectionMatrix:
-                _renderer.bindMaterialParameter(parameter, camera.projectionMatrix * camera.viewMatrix);
-                break;
-            case MaterialParameterBinding_ModelMatrix:
-                _renderer.bindMaterialParameter(parameter, model);
-                break;
-            case MaterialParameterBinding_ModelViewMatrix:
-                _renderer.bindMaterialParameter(parameter, camera.viewMatrix * model);
-                break;
-            case MaterialParameterBinding_ModelViewProjectionMatrix:
-                _renderer.bindMaterialParameter(parameter, camera.projectionMatrix * (camera.viewMatrix * model));
-                break;
-            }
+        case MaterialParameterBinding_None:
+            break;
+        case MaterialParameterBinding_RenderTargetSize:
+            _renderer.bindMaterialParameter(parameter, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
+            break;
+        case MaterialParameterBinding_CameraPosition:
+            _renderer.bindMaterialParameter(parameter, camera.position);
+            break;
+        case MaterialParameterBinding_CameraFront:
+            _renderer.bindMaterialParameter(parameter, camera.front);
+            break;
+        case MaterialParameterBinding_CameraUp:
+            _renderer.bindMaterialParameter(parameter, camera.up);
+            break;
+        case MaterialParameterBinding_CameraExposure:
+            _renderer.bindMaterialParameter(parameter, camera.exposure);
+            break;
+        case MaterialParameterBinding_CameraOneOverGamma:
+            _renderer.bindMaterialParameter(parameter, Real(1) / camera.gamma);
+            break;
+        case MaterialParameterBinding_ViewMatrix:
+            _renderer.bindMaterialParameter(parameter, camera.viewMatrix);
+            break;
+        case MaterialParameterBinding_ProjectionMatrix:
+            _renderer.bindMaterialParameter(parameter, camera.projectionMatrix);
+            break;
+        case MaterialParameterBinding_ViewProjectionMatrix:
+            _renderer.bindMaterialParameter(parameter, camera.projectionMatrix * camera.viewMatrix);
+            break;
+        case MaterialParameterBinding_ModelMatrix:
+            _renderer.bindMaterialParameter(parameter, model);
+            break;
+        case MaterialParameterBinding_ModelViewMatrix:
+            _renderer.bindMaterialParameter(parameter, camera.viewMatrix * model);
+            break;
+        case MaterialParameterBinding_ModelViewProjectionMatrix:
+            _renderer.bindMaterialParameter(parameter, camera.projectionMatrix * (camera.viewMatrix * model));
+            break;
         }
     }
 }

@@ -11,12 +11,12 @@
     ],
     "parameters": [
         {
-            "name": "exposure",
-            "binding": "CameraExposure"
+            "binding": "CameraExposure",
+            "name": "exposure"
         },
         {
-            "name": "oneOverGamma",
-            "binding": "CameraOneOverGamma"
+            "binding": "CameraOneOverGamma",
+            "name": "oneOverGamma"
         },
         {
             "type": "Texture",

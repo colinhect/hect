@@ -11,8 +11,8 @@
     ],
     "parameters": [
         {
-            "name": "cameraPosition",
-            "binding": "CameraPosition"
+            "binding": "CameraPosition",
+            "name": "cameraPosition"
         },
         {
             "type": "Texture",

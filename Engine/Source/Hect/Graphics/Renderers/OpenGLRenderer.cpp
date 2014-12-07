@@ -604,32 +604,22 @@ void OpenGLRenderer::bindMaterial(Material& material)
     if (material.base())
     {
         bindMaterial(*material.base());
-        setBoundMaterial(&material);
     }
     else
     {
         auto data = material.dataAs<MaterialData>();
         GL_ASSERT(glUseProgram(data->programId));
 
-        setBoundMaterial(&material);
-
-        // Pass the default values for each parameter
-        for (const MaterialParameter& parameter : material.parameters())
-        {
-            if (parameter.hasDefaultValue())
-            {
-                bindMaterialParameter(parameter, parameter.defaultValue());
-            }
-        }
-
         bindState(material.renderState());
     }
 
-    // Pass the values for each argument
-    for (const MaterialArgument& argument : material.arguments())
+    setBoundMaterial(&material);
+
+    // Bind the values for each parameter
+    for (const MaterialParameter& parameter : material.parameters())
     {
-        const MaterialParameter& parameter = material.parameterWithName(argument.name());
-        bindMaterialParameter(parameter, argument.value());
+        const MaterialValue& value = material.parameterValue(parameter);
+        bindMaterialParameter(parameter, value);
     }
 }
 
@@ -756,6 +746,8 @@ void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, c
 {
     switch (value.type())
     {
+    case MaterialValueType_Null:
+        break;
     case MaterialValueType_Int:
         bindMaterialParameter(parameter, value.asInt());
         break;

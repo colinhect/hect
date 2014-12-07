@@ -74,18 +74,22 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis)
 {
-    return encoder << beginObject()
-           << encodeValue("name", inputAxis._name)
-           << encodeVector("bindings", inputAxis._bindings)
-           << endObject();
+    encoder << beginObject()
+            << encodeValue("name", inputAxis._name)
+            << encodeVector("bindings", inputAxis._bindings)
+            << endObject();
+
+    return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis)
 {
-    return decoder >> beginObject()
-           >> decodeValue("name", inputAxis._name, true)
-           >> decodeVector("bindings", inputAxis._bindings)
-           >> endObject();
+    decoder >> beginObject()
+            >> decodeValue("name", inputAxis._name, true)
+            >> decodeVector("bindings", inputAxis._bindings)
+            >> endObject();
+
+    return decoder;
 }
 
 }

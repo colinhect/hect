@@ -157,7 +157,8 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Path& path)
 {
-    return encoder << encodeValue(path.asString());
+    encoder << encodeValue(path.asString());
+    return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Path& path)

@@ -112,32 +112,36 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding)
 {
-    return encoder << beginObject()
-           << encodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
-           << encodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
-           << encodeEnum<Key>("key", inputAxisBinding.key)
-           << encodeValue("joystickIndex", inputAxisBinding.joystickIndex)
-           << encodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
-           << encodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
-           << encodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
-           << encodeValue("acceleration", inputAxisBinding.acceleration)
-           << encodeValue("range", inputAxisBinding.range)
-           << endObject();
+    encoder << beginObject()
+            << encodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
+            << encodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
+            << encodeEnum<Key>("key", inputAxisBinding.key)
+            << encodeValue("joystickIndex", inputAxisBinding.joystickIndex)
+            << encodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
+            << encodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
+            << encodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
+            << encodeValue("acceleration", inputAxisBinding.acceleration)
+            << encodeValue("range", inputAxisBinding.range)
+            << endObject();
+
+    return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding)
 {
-    return decoder >> beginObject()
-           >> decodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
-           >> decodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
-           >> decodeEnum<Key>("key", inputAxisBinding.key)
-           >> decodeValue("joystickIndex", inputAxisBinding.joystickIndex)
-           >> decodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
-           >> decodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
-           >> decodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
-           >> decodeValue("acceleration", inputAxisBinding.acceleration)
-           >> decodeValue("range", inputAxisBinding.range)
-           >> endObject();
+    decoder >> beginObject()
+            >> decodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
+            >> decodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
+            >> decodeEnum<Key>("key", inputAxisBinding.key)
+            >> decodeValue("joystickIndex", inputAxisBinding.joystickIndex)
+            >> decodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
+            >> decodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
+            >> decodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
+            >> decodeValue("acceleration", inputAxisBinding.acceleration)
+            >> decodeValue("range", inputAxisBinding.range)
+            >> endObject();
+
+    return decoder;
 }
 
 }

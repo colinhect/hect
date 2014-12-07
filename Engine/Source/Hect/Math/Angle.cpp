@@ -113,7 +113,8 @@ Angle& Angle::operator/=(Real value)
 
 Encoder& operator<<(Encoder& encoder, Angle angle)
 {
-    return encoder << angle.degrees();
+    encoder << angle.degrees();
+    return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Angle& angle)

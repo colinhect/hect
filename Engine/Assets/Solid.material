@@ -13,26 +13,23 @@
     "parameters": [
         {
             "type": "Vector3",
-            "name": "diffuse",
-            "value": [ 0.8, 0.8, 0.8 ]
+            "name": "diffuse"
         },
         {
             "type": "Float",
-            "name": "roughness",
-            "value": 0.5
+            "name": "roughness"
         },
         {
             "type": "Float",
-            "name": "metallic",
-            "value": 0.0
+            "name": "metallic"
         },
         {
-            "name": "model",
-            "binding": "ModelMatrix"
+            "binding": "ModelMatrix",
+            "name": "model"
         },
         {
-            "name": "modelViewProjection",
-            "binding": "ModelViewProjectionMatrix"
+            "binding": "ModelViewProjectionMatrix",
+            "name": "modelViewProjection"
         }
     ]
 }

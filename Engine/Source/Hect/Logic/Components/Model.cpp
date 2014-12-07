@@ -40,18 +40,22 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const ModelSurface& modelSurface)
 {
-    return encoder << beginObject()
-           << encodeValue("mesh", modelSurface.mesh)
-           << encodeValue("material", modelSurface.material)
-           << endObject();
+    encoder << beginObject()
+            << encodeValue("mesh", modelSurface.mesh)
+            << encodeValue("material", modelSurface.material)
+            << endObject();
+
+    return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, ModelSurface& modelSurface)
 {
-    return decoder >> beginObject()
-           >> decodeValue("mesh", modelSurface.mesh)
-           >> decodeValue("material", modelSurface.material)
-           >> endObject();
+    decoder >> beginObject()
+            >> decodeValue("mesh", modelSurface.mesh)
+            >> decodeValue("material", modelSurface.material)
+            >> endObject();
+
+    return decoder;
 }
 
 }

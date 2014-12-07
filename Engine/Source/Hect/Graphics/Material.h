@@ -30,7 +30,6 @@
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
-#include "Hect/Graphics/MaterialArgument.h"
 #include "Hect/Graphics/MaterialParameter.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderStage.h"
@@ -49,7 +48,6 @@ class Material :
 {
     typedef std::vector<ShaderModule> ShaderModuleContainer;
     typedef std::vector<MaterialParameter> ParameterContainer;
-    typedef std::vector<MaterialArgument> ArgumentContainer;
 public:
 
     ///
@@ -59,10 +57,6 @@ public:
     ///
     /// A sequence of material parameters.
     typedef Sequence<MaterialParameter, ParameterContainer> ParameterSequence;
-
-    ///
-    /// A sequence of material arguments.
-    typedef Sequence<MaterialArgument, ArgumentContainer> ArgumentSequence;
 
     ///
     /// Constructs a material.
@@ -105,17 +99,6 @@ public:
     const ShaderModuleSequence shaderModules() const;
 
     ///
-    /// Adds a parameter to the material.
-    ///
-    /// \note If the material is uploaded to a renderer then it will be
-    /// destroyed before the parameter is added.
-    ///
-    /// \param parameter The parameter to add.
-    ///
-    /// \throws Error if the material already has a parameter of the same name.
-    void addParameter(const MaterialParameter& parameter);
-
-    ///
     /// Returns the parameters.
     ParameterSequence parameters();
 
@@ -135,19 +118,11 @@ public:
     /// \copydoc Material::parameterWithName()
     const MaterialParameter& parameterWithName(const char* name) const;
 
-    ///
-    /// Returns the material arguments.
-    const ArgumentSequence arguments() const;
+    void setParameterValue(const MaterialParameter& parameter, MaterialValue value);
+    void setParameterValue(const std::string& name, MaterialValue value);
+    void setParameterValue(const char* name, MaterialValue value);
 
-    ///
-    /// Adds a material argument value.
-    ///
-    /// \param materialArgument The material argument to add.
-    void addArgument(const MaterialArgument& argument);
-
-    ///
-    /// Removes all material arguments.
-    void clearArguments();
+    const MaterialValue& parameterValue(const MaterialParameter& parameter) const;
 
     ///
     /// Returns the stage when the material is rendered.
@@ -199,23 +174,23 @@ public:
     friend Decoder& operator>>(Decoder& decoder, Material& material);
 
 private:
+    void addParameter(const std::string& name, MaterialValueType type, MaterialParameterBinding binding);
     unsigned nextTextureIndex() const;
 
     AssetHandle<Material> _base;
 
-    ArgumentContainer _arguments;
-
-    RenderStage _renderStage{ RenderStage_None };
+    RenderStage _renderStage { RenderStage_None };
     RenderState _renderState;
 
-    int _priority{ 0 };
+    int _priority { 0 };
 
     ShaderModuleContainer _shaderModules;
 
     ParameterContainer _parameters;
-
     std::map<std::string, size_t> _parameterIndices;
     mutable std::unordered_map<const char*, size_t> _parameterIndicesHashed;
+
+    std::vector<MaterialValue> _parameterValues;
 };
 
 }

@@ -279,14 +279,16 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Texture& texture)
 {
-    return encoder << beginObject()
-           << encodeEnum("type", texture._type)
-           << encodeVector("images", texture._sourceImages)
-           << encodeEnum("minFilter", texture._minFilter)
-           << encodeEnum("magFilter", texture._magFilter)
-           << encodeValue("wrapped", texture._wrapped)
-           << encodeValue("mipmapped", texture._mipmapped)
-           << endObject();
+    encoder << beginObject()
+            << encodeEnum("type", texture._type)
+            << encodeVector("images", texture._sourceImages)
+            << encodeEnum("minFilter", texture._minFilter)
+            << encodeEnum("magFilter", texture._magFilter)
+            << encodeValue("wrapped", texture._wrapped)
+            << encodeValue("mipmapped", texture._mipmapped)
+            << endObject();
+
+    return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Texture& texture)

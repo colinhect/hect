@@ -236,7 +236,8 @@ Encoder& operator<<(Encoder& encoder, const QuaternionT<T>& q)
     Vector3T<T> axis;
     Angle angle;
     q.toAxisAngle(axis, angle);
-    return encoder << encodeValue("axis", axis) << encodeValue("angle", angle);
+    encoder << encodeValue("axis", axis) << encodeValue("angle", angle);
+    return encoder;
 }
 
 template <typename T>

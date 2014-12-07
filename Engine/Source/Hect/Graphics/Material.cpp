@@ -67,36 +67,6 @@ const Material::ShaderModuleSequence Material::shaderModules() const
     return _shaderModules;
 }
 
-void Material::addParameter(const MaterialParameter& parameter)
-{
-    if (_base)
-    {
-        throw Error("Cannot add parameter to a material with a base");
-    }
-
-    if (isUploaded())
-    {
-        renderer().destroyMaterial(*this);
-    }
-
-    auto it = _parameterIndices.find(parameter.name());
-    if (it != _parameterIndices.end())
-    {
-        throw Error(format("Material already has parameter with name '%s'", parameter.name().c_str()));
-    }
-
-    unsigned textureIndex = nextTextureIndex();
-
-    _parameterIndices[parameter.name()] = _parameters.size();
-    _parameters.push_back(parameter);
-
-    // Set the parameter's texture index if needed
-    if (parameter.type() == MaterialValueType_Texture)
-    {
-        _parameters.back().setTextureIndex(textureIndex);
-    }
-}
-
 Material::ParameterSequence Material::parameters()
 {
     if (_base)
@@ -179,19 +149,49 @@ const MaterialParameter& Material::parameterWithName(const char* name) const
     }
 }
 
-const Material::ArgumentSequence Material::arguments() const
+void Material::setParameterValue(const MaterialParameter& parameter, MaterialValue value)
 {
-    return _arguments;
+    size_t index = parameter._index;
+    if (index >= _parameterValues.size())
+    {
+        _parameterValues.resize(index + 1);
+    }
+    _parameterValues[index] = value;
 }
 
-void Material::addArgument(const MaterialArgument& argument)
+void Material::setParameterValue(const std::string& name, MaterialValue value)
 {
-    _arguments.push_back(argument);
+    const MaterialParameter& parameter = parameterWithName(name);
+    setParameterValue(parameter, value);
 }
 
-void Material::clearArguments()
+void Material::setParameterValue(const char* name, MaterialValue value)
 {
-    _arguments.clear();
+    const MaterialParameter& parameter = parameterWithName(name);
+    setParameterValue(parameter, value);
+}
+
+const MaterialValue& Material::parameterValue(const MaterialParameter& parameter) const
+{
+    size_t index = parameter._index;
+    if (index < _parameterValues.size())
+    {
+        const MaterialValue& value = _parameterValues[index];
+        if (value.type() == MaterialValueType_Null && _base)
+        {
+            return _base->parameterValue(parameter);
+        }
+        else
+        {
+            return value;
+        }
+    }
+    else if (_base)
+    {
+        return _base->parameterValue(parameter);
+    }
+
+    throw Error("No material parameter at the specified index");
 }
 
 RenderStage Material::renderStage() const
@@ -226,83 +226,38 @@ void Material::setPriority(int priority)
 
 bool Material::operator==(const Material& material) const
 {
-    // Base
-    if (_base != material._base)
-    {
-        return false;
-    }
-
-    // Shader module count
-    if (_shaderModules.size() != material._shaderModules.size())
-    {
-        return false;
-    }
-
-    // Shader modules
-    size_t moduleCount = _shaderModules.size();
-    for (size_t i = 0; i < moduleCount; ++i)
-    {
-        if (_shaderModules[i] != material._shaderModules[i])
-        {
-            return false;
-        }
-    }
-
-    // Parameter count
-    if (_parameters.size() != material._parameters.size())
-    {
-        return false;
-    }
-
-    // Parameters
-    size_t parameterCount = _parameters.size();
-    for (size_t i = 0; i < parameterCount; ++i)
-    {
-        if (_parameters[i] != material._parameters[i])
-        {
-            return false;
-        }
-    }
-
-    // Argument count
-    if (_arguments.size() != material._arguments.size())
-    {
-        return false;
-    }
-
-    // Arguments
-    for (size_t i = 0; i < _arguments.size(); ++i)
-    {
-        if (_arguments[i] != material._arguments[i])
-        {
-            return false;
-        }
-    }
-
-    // Render stage
-    if (_renderStage != material._renderStage)
-    {
-        return false;
-    }
-
-    // Render state
-    if (_renderState != material._renderState)
-    {
-        return false;
-    }
-
-    // Priority
-    if (_priority != material._priority)
-    {
-        return false;
-    }
-
-    return true;
+    return false;
 }
 
 bool Material::operator!=(const Material& material) const
 {
     return !(*this == material);
+}
+
+void Material::addParameter(const std::string& name, MaterialValueType type, MaterialParameterBinding binding)
+{
+    if (_base)
+    {
+        throw Error("Cannot add a parameter to a material with a base");
+    }
+
+    if (isUploaded())
+    {
+        renderer().destroyMaterial(*this);
+    }
+
+    auto it = _parameterIndices.find(name);
+    if (it != _parameterIndices.end())
+    {
+        throw Error(format("Material already has parameter with name '%s'", name.c_str()));
+    }
+
+    size_t index = _parameters.size();
+    unsigned textureIndex = nextTextureIndex();
+
+    _parameters.push_back(MaterialParameter(index, textureIndex, name, type, binding));
+    _parameterValues.push_back(MaterialValue());
+    _parameterIndices[name] = index;
 }
 
 unsigned Material::nextTextureIndex() const
@@ -327,13 +282,7 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Material& material)
 {
-    return encoder << beginObject()
-        << encodeVector("parameters", material._parameters)
-        << encodeVector("arguments", material._arguments)
-        << encodeEnum("renderStage", material._renderStage)
-        << encodeValue("renderState", material._renderState)
-        << encodeValue("priority", material._priority)
-        << endObject();
+    throw Error("Unsupported");
 }
 
 Decoder& operator>>(Decoder& decoder, Material& material)
@@ -365,9 +314,9 @@ Decoder& operator>>(Decoder& decoder, Material& material)
                 Path path;
 
                 decoder >> beginObject()
-                    >> decodeEnum("type", type)
-                    >> decodeValue("path", path)
-                    >> endObject();
+                        >> decodeEnum("type", type)
+                        >> decodeValue("path", path)
+                        >> endObject();
 
                 AssetCache& assetCache = decoder.assetCache();
                 path = assetCache.resolvePath(path);
@@ -386,9 +335,19 @@ Decoder& operator>>(Decoder& decoder, Material& material)
             decoder >> beginArray();
             while (decoder.hasMoreElements())
             {
-                MaterialParameter parameter;
-                decoder >> decodeValue(parameter);
-                material.addParameter(parameter);
+                decoder >> beginObject();
+
+                std::string name;
+                MaterialValueType type = MaterialValueType_Null;
+                MaterialParameterBinding binding = MaterialParameterBinding_None;
+
+                decoder >> decodeValue("name", name, true)
+                        >> decodeEnum("type", type, false)
+                        >> decodeEnum("binding", binding, false);
+
+                decoder >> endObject();
+
+                material.addParameter(name, type, binding);
             }
             decoder >> endArray();
         }
@@ -400,18 +359,29 @@ Decoder& operator>>(Decoder& decoder, Material& material)
         decoder >> beginArray();
         while (decoder.hasMoreElements())
         {
-            MaterialArgument argument;
-            decoder >> decodeValue(argument);
-            material.addArgument(argument);
+            decoder >> beginObject();
+
+            std::string name;
+            decoder >> decodeValue("name", name, true);
+
+            const MaterialParameter& parameter = material.parameterWithName(name);
+
+            MaterialValue value(parameter.type());
+            decoder >> decodeValue(value);
+            material.setParameterValue(parameter, value);
+
+            decoder >> endObject();
         }
         decoder >> endArray();
     }
 
     decoder >> decodeEnum("renderStage", material._renderStage)
-        >> decodeValue("renderState", material._renderState)
-        >> decodeValue("priority", material._priority);
+            >> decodeValue("renderState", material._renderState)
+            >> decodeValue("priority", material._priority);
 
-    return decoder >> endObject();
+    decoder >> endObject();
+
+    return decoder;
 }
 
 }

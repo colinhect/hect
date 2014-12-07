@@ -264,13 +264,15 @@ Vector4T<T>::operator Vector4T<U>() const
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const Vector4T<T>& v)
 {
-    return encoder << beginArray() << v.x << v.y << v.z << v.w << endArray();
+    encoder << beginArray() << v.x << v.y << v.z << v.w << endArray();
+    return encoder;
 }
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector4T<T>& v)
 {
-    return decoder >> beginArray() >> v.x >> v.y >> v.z >> v.w >> endArray();
+    decoder >> beginArray() >> v.x >> v.y >> v.z >> v.w >> endArray();
+    return decoder;
 }
 
 }

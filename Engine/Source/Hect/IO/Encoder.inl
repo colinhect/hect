@@ -31,7 +31,8 @@ Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encodeValue)
     {
         encoder.selectMember(encodeValue.name);
     }
-    return encoder << encodeValue.value;
+    encoder << encodeValue.value;
+    return encoder;
 }
 
 template <typename T>
@@ -48,7 +49,8 @@ Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encodeVector)
         encoder << encodeValue(value);
     }
 
-    return encoder << endArray();
+    encoder << endArray();
+    return encoder;
 }
 
 template <typename T>

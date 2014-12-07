@@ -256,13 +256,15 @@ Vector3T<T>::operator Vector3T<U>() const
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const Vector3T<T>& v)
 {
-    return encoder << beginArray() << v.x << v.y << v.z << endArray();
+    encoder << beginArray() << v.x << v.y << v.z << endArray();
+    return encoder;
 }
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector3T<T>& v)
 {
-    return decoder >> beginArray() >> v.x >> v.y >> v.z >> endArray();
+    decoder >> beginArray() >> v.x >> v.y >> v.z >> endArray();
+    return decoder;
 }
 
 }

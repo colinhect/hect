@@ -29,35 +29,9 @@ MaterialParameter::MaterialParameter()
 {
 }
 
-MaterialParameter::MaterialParameter(const std::string& name, MaterialParameterBinding binding) :
-    _name(name),
-    _binding(binding),
-    _defaultValueSet(false)
-{
-    setBinding(binding);
-}
-
-MaterialParameter::MaterialParameter(const std::string& name, const MaterialValue& defaultValue) :
-    _name(name),
-    _type(defaultValue.type()),
-    _defaultValueSet(true),
-    _defaultValue(defaultValue)
-{
-}
-
 MaterialValueType MaterialParameter::type() const
 {
     return _type;
-}
-
-void MaterialParameter::setType(MaterialValueType type)
-{
-    if (hasBinding())
-    {
-        throw Error("Cannot change the type of a parameter with a binding");
-    }
-
-    _type = type;
 }
 
 MaterialParameterBinding MaterialParameter::binding() const
@@ -65,9 +39,44 @@ MaterialParameterBinding MaterialParameter::binding() const
     return _binding;
 }
 
-void MaterialParameter::setBinding(MaterialParameterBinding binding)
+const std::string& MaterialParameter::name() const
 {
-    switch (binding)
+    return _name;
+}
+
+int MaterialParameter::location() const
+{
+    return _location;
+}
+
+void MaterialParameter::setLocation(int location)
+{
+    _location = location;
+}
+
+unsigned MaterialParameter::textureIndex() const
+{
+    if (_type != MaterialValueType_Texture)
+    {
+        throw Error("Parameter is not a texture");
+    }
+
+    return _textureIndex;
+}
+
+MaterialParameter::MaterialParameter(size_t index, unsigned textureIndex, const std::string& name, MaterialValueType type, MaterialParameterBinding binding) :
+    _name(name),
+    _index(index),
+    _textureIndex(textureIndex),
+    _type(type),
+    _binding(binding)
+{
+    resolveTypeFromBinding();
+}
+
+void MaterialParameter::resolveTypeFromBinding()
+{
+    switch (_binding)
     {
     case MaterialParameterBinding_None:
         break;
@@ -92,210 +101,4 @@ void MaterialParameter::setBinding(MaterialParameterBinding binding)
         _type = MaterialValueType_Matrix4;
         break;
     }
-
-    _binding = binding;
-
-    if (_binding != MaterialParameterBinding_None)
-    {
-        _defaultValueSet = false;
-    }
-}
-
-bool MaterialParameter::hasBinding() const
-{
-    return _binding != MaterialParameterBinding_None;
-}
-
-const MaterialValue& MaterialParameter::defaultValue() const
-{
-    return _defaultValue;
-}
-
-void MaterialParameter::setDefaultValue(const MaterialValue& defaultValue)
-{
-    _defaultValueSet = true;
-    _binding = MaterialParameterBinding_None;
-
-    _type = defaultValue.type();
-    _defaultValue = defaultValue;
-
-    // If the default value is an empty texture then consider the default unset
-    if (_type == MaterialValueType_Texture && !defaultValue.asTexture())
-    {
-        _defaultValueSet = false;
-    }
-}
-
-bool MaterialParameter::hasDefaultValue() const
-{
-    return _defaultValueSet;
-}
-
-const std::string& MaterialParameter::name() const
-{
-    return _name;
-}
-
-void MaterialParameter::setName(const std::string& name)
-{
-    _name = name;
-}
-
-int MaterialParameter::location() const
-{
-    return _location;
-}
-
-void MaterialParameter::setLocation(int location)
-{
-    _location = location;
-}
-
-unsigned MaterialParameter::textureIndex() const
-{
-    if (_type != MaterialValueType_Texture)
-    {
-        throw Error("Parameter is not a texture");
-    }
-
-    return _textureIndex;
-}
-
-void MaterialParameter::setTextureIndex(unsigned textureIndex)
-{
-    if (_type != MaterialValueType_Texture)
-    {
-        throw Error("Parameter is not a texture");
-    }
-
-    _textureIndex = textureIndex;
-}
-
-bool MaterialParameter::operator==(const MaterialParameter& materialParameter) const
-{
-    // Name
-    if (_name != materialParameter._name)
-    {
-        return false;
-    }
-
-    // Type
-    if (_type != materialParameter._type)
-    {
-        return false;
-    }
-
-    // Binding
-    if (_binding != materialParameter._binding)
-    {
-        return false;
-    }
-
-    // Has default value
-    if (_defaultValueSet != materialParameter._defaultValueSet)
-    {
-        return false;
-    }
-
-    // Default value
-    if (_defaultValue != materialParameter._defaultValue)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-bool MaterialParameter::operator!=(const MaterialParameter& materialParameter) const
-{
-    return !(*this == materialParameter);
-}
-
-namespace hect
-{
-
-Encoder& operator<<(Encoder& encoder, const MaterialParameter& materialParameter)
-{
-    encoder << beginObject();
-
-    // Name
-    encoder << encodeValue("name", materialParameter.name());
-
-    // We need an extra hint in binary
-    if (encoder.isBinaryStream())
-    {
-        WriteStream& stream = encoder.binaryStream();
-        stream << materialParameter.hasDefaultValue();
-    }
-
-    // Default value
-    if (materialParameter.hasDefaultValue())
-    {
-        encoder << materialParameter.defaultValue();
-    }
-
-    // Binding
-    else if (materialParameter.hasBinding())
-    {
-        encoder << encodeEnum("binding", materialParameter.binding());
-    }
-    else
-    {
-        throw Error("The parameter does not have a default value or a binding");
-    }
-
-    return encoder << endObject();
-}
-
-Decoder& operator>>(Decoder& decoder, MaterialParameter& materialParameter)
-{
-    decoder >> beginObject();
-
-    // Name
-    if (decoder.selectMember("name"))
-    {
-        std::string name;
-        decoder >> decodeValue(name);
-        materialParameter.setName(name);
-    }
-    else
-    {
-        throw Error("No parameter name specified");
-    }
-
-    // Detect if the parameter has a default value or a binding
-    bool hasDefaultValue;
-    if (decoder.isBinaryStream())
-    {
-        ReadStream& stream = decoder.binaryStream();
-        stream >> hasDefaultValue;
-    }
-    else
-    {
-        hasDefaultValue = decoder.selectMember("type");
-    }
-
-    // Default value
-    if (hasDefaultValue)
-    {
-        MaterialValue defaultValue;
-        decoder >> decodeValue(defaultValue);
-        materialParameter.setDefaultValue(defaultValue);
-    }
-
-    // Binding
-    else if (decoder.selectMember("binding"))
-    {
-        MaterialParameterBinding binding;
-        decoder >> decodeEnum(binding);
-        materialParameter.setBinding(binding);
-    }
-    else
-    {
-        throw Error("No default value or binding specified");
-    }
-
-    return decoder >> endObject();
-}
-
 }

@@ -12,13 +12,11 @@
     "parameters": [
         {
             "type": "Vector3",
-            "name": "lightColor",
-            "value": [ 1, 1, 1 ]
+            "name": "lightColor"
         },
         {
             "type": "Vector3",
-            "name": "lightDirection",
-            "value": [ 1, 0, 0 ]
+            "name": "lightDirection"
         },
         {
             "name": "cameraPosition",

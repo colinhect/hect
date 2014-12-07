@@ -24,8 +24,6 @@
 #pragma once
 
 #include "Hect/Graphics/MaterialValue.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
@@ -89,86 +87,26 @@ enum MaterialParameterBinding
 };
 
 ///
-/// A parameter of a shader.
+/// A parameter of a material.
 ///
-/// \note A material parameter must either have a default value or a binding.
-/// The type is determined by those.
+/// \note A material parameter must either have a binding or a type.
 class MaterialParameter
 {
+    friend class Material;
 public:
-
-    ///
-    /// Constructs a material parameter.
     MaterialParameter();
-
-    ///
-    /// Constructs a material parameter.
-    ///
-    /// \param name The name.
-    /// \param binding The binding.
-    MaterialParameter(const std::string& name, MaterialParameterBinding binding);
-
-    ///
-    /// Constructs a material parameter.
-    ///
-    /// \param name The name.
-    /// \param defaultValue The default value which will be set when the shader
-    /// is bound (see Renderer::bindMaterial()).
-    MaterialParameter(const std::string& name, const MaterialValue& defaultValue);
 
     ///
     /// Returns the value type the parameter accepts.
     MaterialValueType type() const;
 
     ///
-    /// Sets the value type the parameter accepts.
-    ///
-    /// \param type The new type.
-    ///
-    /// \throws Error If the parameter has a binding.
-    void setType(MaterialValueType type);
-
-    ///
     /// Returns the binding.
     MaterialParameterBinding binding() const;
 
     ///
-    /// Sets the binding.
-    ///
-    /// \note The value type is changed to reflect the new binding.
-    ///
-    /// \param binding The new binding.
-    void setBinding(MaterialParameterBinding binding);
-
-    ///
-    /// Returns whether the parameter has a binding.
-    bool hasBinding() const;
-
-    ///
-    /// Returns the default value.
-    const MaterialValue& defaultValue() const;
-
-    ///
-    /// Sets the default value.
-    ///
-    /// \note The value type is changed to reflect the new value.
-    ///
-    /// \param defaultValue The new default value.
-    void setDefaultValue(const MaterialValue& defaultValue);
-
-    ///
-    /// Returns whether the parameter has a default value.
-    bool hasDefaultValue() const;
-
-    ///
     /// Returns the name.
     const std::string& name() const;
-
-    ///
-    /// Sets the name.
-    ///
-    /// \param name The new name.
-    void setName(const std::string& name);
 
     ///
     /// Returns the compiled location.
@@ -187,42 +125,20 @@ public:
     /// ::MaterialValueType_Texture.
     unsigned textureIndex() const;
 
-    ///
-    /// Sets the associated texture index.
-    ///
-    /// \param textureIndex The texture index.
-    ///
-    /// \throws Error If the parameter is not of type
-    /// ::MaterialValueType_Texture.
-    void setTextureIndex(unsigned textureIndex);
-
-    ///
-    /// Returns whether the material parameter is equivalent to another.
-    ///
-    /// \param materialParameter The other material parameter.
-    bool operator==(const MaterialParameter& materialParameter) const;
-
-    ///
-    /// Returns whether the shdaer parameter is different from another.
-    ///
-    /// \param materialParameter The other material parameter.
-    bool operator!=(const MaterialParameter& materialParameter) const;
-
-    friend Encoder& operator<<(Encoder& encoder, const MaterialParameter& materialParameter);
-    friend Decoder& operator>>(Decoder& decoder, MaterialParameter& materialParameter);
-
 private:
+    MaterialParameter(size_t index, unsigned textureIndex, const std::string& name, MaterialValueType type, MaterialParameterBinding binding);
+
+    void resolveTypeFromBinding();
+
+    size_t _index { 0 };
+    unsigned _textureIndex;
+
     std::string _name;
 
     MaterialValueType _type { MaterialValueType_Float };
-
     MaterialParameterBinding _binding { MaterialParameterBinding_None };
 
-    bool _defaultValueSet { true };
-    MaterialValue _defaultValue;
-
     int _location { -1 };
-    unsigned _textureIndex;
 };
 
 }

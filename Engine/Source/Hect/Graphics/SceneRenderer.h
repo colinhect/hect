@@ -111,7 +111,7 @@ private:
 
     AssetHandle<Mesh> _screenMesh;
     AssetHandle<Mesh> _skyBoxMesh;
-    
+
     Transform _identityTransform;
     Transform _cameraTransform;
 

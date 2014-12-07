@@ -12,8 +12,8 @@
     ],
     "parameters": [
         {
-            "name": "modelViewProjection",
-            "binding": "ModelViewProjectionMatrix"
+            "binding": "ModelViewProjectionMatrix",
+            "name": "modelViewProjection"
         },
         {
             "type": "Texture",

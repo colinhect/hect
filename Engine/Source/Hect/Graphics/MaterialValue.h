@@ -38,9 +38,13 @@ namespace hect
 class Texture;
 
 ///
-/// A shader value type.
+/// A material value type.
 enum MaterialValueType
 {
+    ///
+    /// A null value.
+    MaterialValueType_Null,
+
     ///
     /// An integer.
     MaterialValueType_Int,
@@ -73,53 +77,59 @@ enum MaterialValueType
 ///
 /// A value for a material parameter.
 ///
-/// \note A shader value's type cannot change.
+/// \note A material value's type cannot change.
 class MaterialValue
 {
 public:
 
     ///
-    /// Constructs an empty shader value.
+    /// Constructs a null material value.
     MaterialValue();
 
     ///
-    /// Constructs an integer shader value;
+    /// Constructs a default material value.
+    ///
+    /// \param type The value type.
+    MaterialValue(MaterialValueType type);
+
+    ///
+    /// Constructs an integer material value;
     ///
     /// \param value The value.
     MaterialValue(int value);
 
     ///
-    /// Constructs a real shader value.
+    /// Constructs a real material value.
     ///
     /// \param value The value.
     MaterialValue(Real value);
 
     ///
-    /// Constructs a 2-dimensional vector shader value.
+    /// Constructs a 2-dimensional vector material value.
     ///
     /// \param value The value.
     MaterialValue(const Vector2& value);
 
     ///
-    /// Constructs a 3-dimensional vector shader value.
+    /// Constructs a 3-dimensional vector material value.
     ///
     /// \param value The value.
     MaterialValue(const Vector3& value);
 
     ///
-    /// Constructs a 4-dimensional vector shader value.
+    /// Constructs a 4-dimensional vector material value.
     ///
     /// \param value The value.
     MaterialValue(const Vector4& value);
 
     ///
-    /// Constructs a 4 by 4 matrix shader value.
+    /// Constructs a 4 by 4 matrix material value.
     ///
     /// \param value The value.
     MaterialValue(const Matrix4& value);
 
     ///
-    /// Constructs a texture shader value.
+    /// Constructs a texture material value.
     ///
     /// \param value The texture.
     MaterialValue(const AssetHandle<Texture>& value);
@@ -129,71 +139,63 @@ public:
     MaterialValueType type() const;
 
     ///
-    /// Sets the type.
-    ///
-    /// \note The value is reset to the default value for the new type.
-    ///
-    /// \param type The new type.
-    void setType(MaterialValueType type);
-
-    ///
-    /// Sets the value to the default value for the shader value's type.
+    /// Sets the value to the default value for the material value's type.
     void setDefaultValue();
 
     ///
-    /// Sets the value of the shader value as an integer.
+    /// Sets the value of the material value as an integer.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the shader value is not an integer or texture.
+    /// \throws Error If the material value is not an integer or texture.
     void setValue(int value);
 
     ///
-    /// Sets the value of the shader value as a real number.
+    /// Sets the value of the material value as a real number.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the shader value is not a real.
+    /// \throws Error If the material value is not a real.
     void setValue(Real value);
 
     ///
-    /// Sets the value of the shader value as a 2-dimensional vector.
+    /// Sets the value of the material value as a 2-dimensional vector.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the shader value is not a 2-dimensional vector.
+    /// \throws Error If the material value is not a 2-dimensional vector.
     void setValue(const Vector2& value);
 
     ///
-    /// Sets the value of the shader value as a 3-dimensional vector.
+    /// Sets the value of the material value as a 3-dimensional vector.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the shader value is not a 3-dimensional vector.
+    /// \throws Error If the material value is not a 3-dimensional vector.
     void setValue(const Vector3& value);
 
     ///
-    /// Sets the value of the shader value as a 4-dimensional vector.
+    /// Sets the value of the material value as a 4-dimensional vector.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the shader value is not a 4-dimensional vector.
+    /// \throws Error If the material value is not a 4-dimensional vector.
     void setValue(const Vector4& value);
 
     ///
-    /// Sets the value of the shader value as a 4 by 4 matrix.
+    /// Sets the value of the material value as a 4 by 4 matrix.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the shader value is not a 4 by 4 matrix.
+    /// \throws Error If the material value is not a 4 by 4 matrix.
     void setValue(const Matrix4& value);
 
     ///
-    /// Sets the value of the shader value as a texture.
+    /// Sets the value of the material value as a texture.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the shader value is not a texture.
+    /// \throws Error If the material value is not a texture.
     void setValue(const AssetHandle<Texture>& value);
 
     ///
@@ -225,22 +227,23 @@ public:
     AssetHandle<Texture> asTexture() const;
 
     ///
-    /// Returns whether the shader value is equivalent to another.
+    /// Returns whether the material value is equivalent to another.
     ///
-    /// \param materialValue The other shader value.
+    /// \param materialValue The other material value.
     bool operator==(const MaterialValue& materialValue) const;
 
     ///
-    /// Returns whether the shader value is different from another.
+    /// Returns whether the material value is different from another.
     ///
-    /// \param materialValue The other shader value.
+    /// \param materialValue The other material value.
     bool operator!=(const MaterialValue& materialValue) const;
 
     friend Encoder& operator<<(Encoder& encoder, const MaterialValue& materialValue);
     friend Decoder& operator>>(Decoder& decoder, MaterialValue& materialValue);
 
 private:
-    MaterialValueType _type { MaterialValueType_Float };
+
+    MaterialValueType _type { MaterialValueType_Null };
     Any _value;
 };
 

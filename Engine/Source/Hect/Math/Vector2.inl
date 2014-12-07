@@ -236,13 +236,15 @@ Vector2T<T>::operator Vector2T<U>() const
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const Vector2T<T>& v)
 {
-    return encoder << beginArray() << v.x << v.y << endArray();
+    encoder << beginArray() << v.x << v.y << endArray();
+    return encoder;
 }
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector2T<T>& v)
 {
-    return decoder >> beginArray() >> v.x >> v.y >> endArray();
+    decoder >> beginArray() >> v.x >> v.y >> endArray();
+    return decoder;
 }
 
 }
