@@ -48,6 +48,11 @@ void Material::setBase(const AssetHandle<Material>& base)
     _base = base;
 }
 
+MaterialType Material::type() const
+{
+    return _type;
+}
+
 void Material::addShaderModule(const ShaderModule& shaderModule)
 {
     if (isUploaded())
@@ -174,16 +179,6 @@ const MaterialValue& Material::parameterValue(const MaterialParameter& parameter
     }
 
     throw Error("No material parameter at the specified index");
-}
-
-RenderStage Material::renderStage() const
-{
-    return _renderStage;
-}
-
-void Material::setRenderStage(RenderStage renderStage)
-{
-    _renderStage = renderStage;
 }
 
 const RenderState& Material::renderState() const
@@ -336,6 +331,8 @@ Decoder& operator>>(Decoder& decoder, Material& material)
         }
     }
 
+    decoder >> decodeEnum("type", material._type);
+
     // Arguments
     if (decoder.selectMember("arguments"))
     {
@@ -358,8 +355,7 @@ Decoder& operator>>(Decoder& decoder, Material& material)
         decoder >> endArray();
     }
 
-    decoder >> decodeEnum("renderStage", material._renderStage)
-            >> decodeValue("renderState", material._renderState)
+    decoder >> decodeValue("renderState", material._renderState)
             >> decodeValue("priority", material._priority);
 
     decoder >> endObject();

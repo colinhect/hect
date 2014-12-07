@@ -33,13 +33,29 @@
 #include "Hect/IO/Encoder.h"
 #include "Hect/Graphics/MaterialParameter.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/RenderStage.h"
 #include "Hect/Graphics/RenderState.h"
 #include "Hect/Graphics/ShaderModule.h"
 #include "Hect/Graphics/Texture.h"
 
 namespace hect
 {
+
+///
+/// A stage within the rendering flow.
+enum MaterialType
+{
+    ///
+    /// No specific stage.
+    MaterialType_None,
+
+    ///
+    /// The stage for rendering opaque geometry to the geometry buffer.
+    MaterialType_OpaqueGeometry,
+
+    ///
+    /// The stage for rendering lights to the light accumulation buffer.
+    MaterialType_LightAccumulation,
+};
 
 ///
 /// The manner in which a surface is rendered.
@@ -83,6 +99,10 @@ public:
     void setBase(const AssetHandle<Material>& base);
 
     ///
+    /// Returns the material type.
+    MaterialType type() const;
+
+    ///
     /// Adds a shader module to the material.
     ///
     /// \note If the material is uploaded to a renderer then it will be
@@ -124,16 +144,6 @@ public:
     void setParameterValue(const char* parameterName, MaterialValue value);
 
     const MaterialValue& parameterValue(const MaterialParameter& parameter) const;
-
-    ///
-    /// Returns the stage when the material is rendered.
-    RenderStage renderStage() const;
-
-    ///
-    /// Sets the stage when the material is rendered.
-    ///
-    /// \param renderStage The new render stage.
-    void setRenderStage(RenderStage renderStage);
 
     ///
     /// Returns the render state.
@@ -180,7 +190,8 @@ private:
 
     AssetHandle<Material> _base;
 
-    RenderStage _renderStage { RenderStage_None };
+    MaterialType _type { MaterialType_None };
+
     RenderState _renderState;
 
     int _priority { 0 };

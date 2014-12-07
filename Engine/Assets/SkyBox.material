@@ -1,5 +1,5 @@
 {
-    "renderStage": "OpaqueGeometry",
+    "type": "OpaqueGeometry",
     "modules": [
         {
             "type": "Vertex",
