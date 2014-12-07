@@ -333,7 +333,7 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
         auto skyBox = entity.component<SkyBox>();
         if (skyBox)
         {
-            _skyBoxMaterial->setParameterValue("skyBoxTexture", skyBox->texture);
+            _skyBoxMaterial->setArgument("skyBoxTexture", skyBox->texture);
 
             addRenderCall(_cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
         }

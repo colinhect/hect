@@ -103,15 +103,6 @@ public:
     MaterialType type() const;
 
     ///
-    /// Adds a shader module to the material.
-    ///
-    /// \note If the material is uploaded to a renderer then it will be
-    /// destroyed before the module is added.
-    ///
-    /// \param shaderModule The module to add.
-    void addShaderModule(const ShaderModule& shaderModule);
-
-    ///
     /// Returns the shader modules.
     ShaderModuleSequence shaderModules();
 
@@ -139,11 +130,32 @@ public:
     /// \copydoc Material::parameterWithName()
     const MaterialParameter& parameterWithName(const char* name) const;
 
-    void setParameterValue(const MaterialParameter& parameter, MaterialValue value);
-    void setParameterValue(const std::string& parameterName, MaterialValue value);
-    void setParameterValue(const char* parameterName, MaterialValue value);
+    ///
+    /// Sets the argument for the specified argument.
+    ///
+    /// \param parameter The parameter to set the argument for.
+    /// \param value The value of the argument.
+    void setArgument(const MaterialParameter& parameter, MaterialValue value);
 
-    const MaterialValue& parameterValue(const MaterialParameter& parameter) const;
+    ///
+    /// Sets the argument for the specified argument.
+    ///
+    /// \param parameterName The name of the parameter to set the argument for.
+    /// \param value The value of the argument.
+    void setArgument(const std::string& parameterName, MaterialValue value);
+
+    ///
+    /// Sets the argument for the specified argument.
+    ///
+    /// \param parameterName The name of the parameter to set the argument for.
+    /// \param value The value of the argument.
+    void setArgument(const char* parameterName, MaterialValue value);
+
+    ///
+    /// Gets the argument value for the specified parameter.
+    ///
+    /// \param parameter The parameter to get the argument for.
+    const MaterialValue& argumentForParameter(const MaterialParameter& parameter) const;
 
     ///
     /// Returns the render state.

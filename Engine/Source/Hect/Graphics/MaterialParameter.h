@@ -131,7 +131,7 @@ private:
     void resolveTypeFromBinding();
 
     size_t _index { 0 };
-    unsigned _textureIndex;
+    unsigned _textureIndex { 0 };
 
     std::string _name;
 

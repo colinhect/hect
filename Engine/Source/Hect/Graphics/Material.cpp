@@ -53,15 +53,6 @@ MaterialType Material::type() const
     return _type;
 }
 
-void Material::addShaderModule(const ShaderModule& shaderModule)
-{
-    if (isUploaded())
-    {
-        renderer().destroyMaterial(*this);
-    }
-    _shaderModules.push_back(shaderModule);
-}
-
 Material::ShaderModuleSequence Material::shaderModules()
 {
     return _shaderModules;
@@ -136,7 +127,7 @@ const MaterialParameter& Material::parameterWithName(const char* name) const
     }
 }
 
-void Material::setParameterValue(const MaterialParameter& parameter, MaterialValue value)
+void Material::setArgument(const MaterialParameter& parameter, MaterialValue value)
 {
     size_t index = parameter._index;
     if (index >= _parameterValues.size())
@@ -146,19 +137,19 @@ void Material::setParameterValue(const MaterialParameter& parameter, MaterialVal
     _parameterValues[index] = value;
 }
 
-void Material::setParameterValue(const std::string& parameterName, MaterialValue value)
+void Material::setArgument(const std::string& parameterName, MaterialValue value)
 {
     const MaterialParameter& parameter = parameterWithName(parameterName);
-    setParameterValue(parameter, value);
+    setArgument(parameter, value);
 }
 
-void Material::setParameterValue(const char* parameterName, MaterialValue value)
+void Material::setArgument(const char* parameterName, MaterialValue value)
 {
     const MaterialParameter& parameter = parameterWithName(parameterName);
-    setParameterValue(parameter, value);
+    setArgument(parameter, value);
 }
 
-const MaterialValue& Material::parameterValue(const MaterialParameter& parameter) const
+const MaterialValue& Material::argumentForParameter(const MaterialParameter& parameter) const
 {
     size_t index = parameter._index;
     if (index < _parameterValues.size())
@@ -166,7 +157,7 @@ const MaterialValue& Material::parameterValue(const MaterialParameter& parameter
         const MaterialValue& value = _parameterValues[index];
         if (value.type() == MaterialValueType_Null && _base)
         {
-            return _base->parameterValue(parameter);
+            return _base->argumentForParameter(parameter);
         }
         else
         {
@@ -175,7 +166,7 @@ const MaterialValue& Material::parameterValue(const MaterialParameter& parameter
     }
     else if (_base)
     {
-        return _base->parameterValue(parameter);
+        return _base->argumentForParameter(parameter);
     }
 
     throw Error("No material parameter at the specified index");
@@ -266,6 +257,12 @@ Encoder& operator<<(Encoder& encoder, const Material& material)
 
 Decoder& operator>>(Decoder& decoder, Material& material)
 {
+    // Destroy the material if it is already uploaded
+    if (material.isUploaded())
+    {
+        material.renderer().destroyMaterial(material);
+    }
+
     decoder >> beginObject();
 
     if (!decoder.isBinaryStream())
@@ -349,7 +346,7 @@ Decoder& operator>>(Decoder& decoder, Material& material)
 
             MaterialValue value(parameter.type());
             decoder >> decodeValue(value);
-            material.setParameterValue(parameter, value);
+            material.setArgument(parameter, value);
 
             decoder >> endObject();
         }

@@ -65,9 +65,9 @@ unsigned MaterialParameter::textureIndex() const
 }
 
 MaterialParameter::MaterialParameter(size_t index, unsigned textureIndex, const std::string& name, MaterialValueType type, MaterialParameterBinding binding) :
-    _name(name),
     _index(index),
     _textureIndex(textureIndex),
+    _name(name),
     _type(type),
     _binding(binding)
 {

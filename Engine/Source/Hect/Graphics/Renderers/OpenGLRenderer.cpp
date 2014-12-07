@@ -618,7 +618,7 @@ void OpenGLRenderer::bindMaterial(Material& material)
     // Bind the values for each parameter
     for (const MaterialParameter& parameter : material.parameters())
     {
-        const MaterialValue& value = material.parameterValue(parameter);
+        const MaterialValue& value = material.argumentForParameter(parameter);
         bindMaterialParameter(parameter, value);
     }
 }
