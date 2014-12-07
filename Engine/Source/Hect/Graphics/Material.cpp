@@ -260,6 +260,7 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Material& material)
 {
+    (void)material;
     throw Error("Unsupported");
 }
 
