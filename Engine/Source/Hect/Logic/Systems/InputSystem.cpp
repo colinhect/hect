@@ -52,8 +52,8 @@ InputSystem::InputSystem(Scene& scene) :
 
 void InputSystem::addAxis(const InputAxis& axis)
 {
-    auto it = _axes.find(axis.name());
-    if (it != _axes.end())
+    auto it = _axisIndices.get(axis.name());
+    if (it)
     {
         throw Error(format("Multiple input axes with name '%s'", axis.name().c_str()));
     }
@@ -63,58 +63,39 @@ void InputSystem::addAxis(const InputAxis& axis)
         throw Error("Input axis name cannot be empty");
     }
 
-    _axes[axis.name()] = axis;
+    size_t index = _axes.size();
+    _axes.push_back(axis);
+    _axisIndices.set(axis.name(), index);
 
     HECT_INFO(format("Added input axis '%s'", axis.name().c_str()));
 }
 
 Real InputSystem::axisValue(const std::string& name) const
 {
-    auto it = _axes.find(name);
-    if (it != _axes.end())
+    auto it = _axisIndices.get(name);
+    if (!it)
     {
-        const InputAxis& axis = it->second;
-        return axis.value();
+        return _axes[*it].value();
     }
     return 0;
 }
 
 Real InputSystem::axisValue(const char* name) const
 {
-    if (_axesHashed.size() > 1024)
+    auto it = _axisIndices.get(name);
+    if (it)
     {
-        // This function is likely being used from dynamic memory locations,
-        // avoid indefinitely leaking by clearing the hashed values
-        _axesHashed.clear();
+        return _axes[*it].value();
     }
-
-    const InputAxis* axis = nullptr;
-    auto it = _axesHashed.find(name);
-    if (it != _axesHashed.end())
-    {
-        axis = it->second;
-    }
-    else
-    {
-        // The axis was not hashed for this specific string, so attempt
-        // to hash it if it exists
-        auto axisIt =_axes.find(name);
-        if (axisIt != _axes.end())
-        {
-            axis = &axisIt->second;
-            _axesHashed[name] = axis;
-        }
-    }
-
-    return axis ? axis->value() : 0;
+    return 0;
 }
 
 void InputSystem::tick(Real timeStep)
 {
     // Update each axis
-    for (auto& pair : _axes)
+    for (InputAxis& axis : _axes)
     {
-        InputAxis& axis = pair.second;
-        axis.update(scene().engine().platform(), timeStep);
+        Platform& platform = scene().engine().platform();
+        axis.update(platform, timeStep);
     }
 }

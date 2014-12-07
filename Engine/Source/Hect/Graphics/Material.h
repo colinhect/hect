@@ -27,6 +27,7 @@
 #include <unordered_map>
 
 #include "Hect/Core/Sequence.h"
+#include "Hect/Core/StringMap.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
@@ -87,7 +88,7 @@ public:
     /// \note If the material is uploaded to a renderer then it will be
     /// destroyed before the module is added.
     ///
-    /// \param module The module to add.
+    /// \param shaderModule The module to add.
     void addShaderModule(const ShaderModule& shaderModule);
 
     ///
@@ -119,8 +120,8 @@ public:
     const MaterialParameter& parameterWithName(const char* name) const;
 
     void setParameterValue(const MaterialParameter& parameter, MaterialValue value);
-    void setParameterValue(const std::string& name, MaterialValue value);
-    void setParameterValue(const char* name, MaterialValue value);
+    void setParameterValue(const std::string& parameterName, MaterialValue value);
+    void setParameterValue(const char* parameterName, MaterialValue value);
 
     const MaterialValue& parameterValue(const MaterialParameter& parameter) const;
 
@@ -187,9 +188,7 @@ private:
     ShaderModuleContainer _shaderModules;
 
     ParameterContainer _parameters;
-    std::map<std::string, size_t> _parameterIndices;
-    mutable std::unordered_map<const char*, size_t> _parameterIndicesHashed;
-
+    StringMap<size_t> _parameterIndices;
     std::vector<MaterialValue> _parameterValues;
 };
 

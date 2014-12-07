@@ -26,6 +26,7 @@
 #include <map>
 #include <unordered_map>
 
+#include "Hect/Core/StringMap.h"
 #include "Hect/Input/InputAxis.h"
 #include "Hect/Logic/Scene.h"
 
@@ -65,8 +66,8 @@ public:
     void tick(Real timeStep) override;
 
 private:
-    std::map<std::string, InputAxis> _axes;
-    mutable std::unordered_map<const char*, const InputAxis*> _axesHashed;
+    std::vector<InputAxis> _axes;
+    StringMap<size_t> _axisIndices;
 };
 
 }

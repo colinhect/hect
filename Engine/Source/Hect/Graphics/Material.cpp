@@ -97,14 +97,18 @@ const MaterialParameter& Material::parameterWithName(const std::string& name) co
     {
         return _base->parameterWithName(name);
     }
-
-    auto it = _parameterIndices.find(name);
-    if (it == _parameterIndices.end())
+    else
     {
-        throw Error(format("Material does not have parameter of name '%s'", name.c_str()));
+        auto it = _parameterIndices.get(name);
+        if (it)
+        {
+            return _parameters[*it];
+        }
+        else
+        {
+            throw Error(format("Material does not have parameter of name '%s'", name.c_str()));
+        }
     }
-
-    return _parameters[it->second];
 }
 
 const MaterialParameter& Material::parameterWithName(const char* name) const
@@ -113,39 +117,17 @@ const MaterialParameter& Material::parameterWithName(const char* name) const
     {
         return _base->parameterWithName(name);
     }
-
-    if (_parameterIndicesHashed.size() > 1024)
-    {
-        // This function is likely being used from dynamic memory locations,
-        // avoid indefinitely leaking by clearing the hashed values
-        _parameterIndicesHashed.clear();
-    }
-
-    const MaterialParameter* parameter = nullptr;
-    auto it = _parameterIndicesHashed.find(name);
-    if (it != _parameterIndicesHashed.end())
-    {
-        parameter = &_parameters[it->second];
-    }
     else
     {
-        // The parameter was not hashed for this specific string, so attempt
-        // to hash it if it exists
-        auto parameterIt = _parameterIndices.find(name);
-        if (parameterIt != _parameterIndices.end())
+        auto it = _parameterIndices.get(name);
+        if (it)
         {
-            parameter = &_parameters[parameterIt->second];
-            _parameterIndicesHashed[name] = parameterIt->second;
+            return _parameters[*it];
         }
-    }
-
-    if (!parameter)
-    {
-        throw Error(format("Material does not have parameter of name '%s'", name));
-    }
-    else
-    {
-        return *parameter;
+        else
+        {
+            throw Error(format("Material does not have parameter of name '%s'", name));
+        }
     }
 }
 
@@ -159,15 +141,15 @@ void Material::setParameterValue(const MaterialParameter& parameter, MaterialVal
     _parameterValues[index] = value;
 }
 
-void Material::setParameterValue(const std::string& name, MaterialValue value)
+void Material::setParameterValue(const std::string& parameterName, MaterialValue value)
 {
-    const MaterialParameter& parameter = parameterWithName(name);
+    const MaterialParameter& parameter = parameterWithName(parameterName);
     setParameterValue(parameter, value);
 }
 
-void Material::setParameterValue(const char* name, MaterialValue value)
+void Material::setParameterValue(const char* parameterName, MaterialValue value)
 {
-    const MaterialParameter& parameter = parameterWithName(name);
+    const MaterialParameter& parameter = parameterWithName(parameterName);
     setParameterValue(parameter, value);
 }
 
@@ -226,6 +208,7 @@ void Material::setPriority(int priority)
 
 bool Material::operator==(const Material& material) const
 {
+    (void)material;
     return false;
 }
 
@@ -246,8 +229,8 @@ void Material::addParameter(const std::string& name, MaterialValueType type, Mat
         renderer().destroyMaterial(*this);
     }
 
-    auto it = _parameterIndices.find(name);
-    if (it != _parameterIndices.end())
+    auto it = _parameterIndices.get(name);
+    if (it)
     {
         throw Error(format("Material already has parameter with name '%s'", name.c_str()));
     }
@@ -257,7 +240,7 @@ void Material::addParameter(const std::string& name, MaterialValueType type, Mat
 
     _parameters.push_back(MaterialParameter(index, textureIndex, name, type, binding));
     _parameterValues.push_back(MaterialValue());
-    _parameterIndices[name] = index;
+    _parameterIndices.set(name, index);
 }
 
 unsigned Material::nextTextureIndex() const
