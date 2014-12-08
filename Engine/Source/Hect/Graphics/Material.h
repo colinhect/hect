@@ -23,8 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <map>
-#include <unordered_map>
+#include <vector>
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/StringMap.h"

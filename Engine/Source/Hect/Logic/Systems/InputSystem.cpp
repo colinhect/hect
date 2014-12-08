@@ -32,7 +32,7 @@ using namespace hect;
 InputSystem::InputSystem(Scene& scene) :
     System(scene)
 {
-    for (const JsonValue& axisValue : scene.engine().config()["inputAxes"])
+    for (const JsonValue& axisValue : scene.engine().settings()["inputAxes"])
     {
         InputAxis axis;
 

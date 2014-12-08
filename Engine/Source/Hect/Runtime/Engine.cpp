@@ -54,14 +54,14 @@ Engine::Engine(int argc, char* const argv[]) :
     _fileSystem.setWriteDirectory(baseDirectory);
 #endif
 
-    // Load the configs specified on the command-line
-    if (!arguments.configFilePath.empty())
+    // Load the settings specified on the command-line
+    if (!arguments.settingsFilePath.empty())
     {
-        _config = loadConfig(arguments.configFilePath);
+        _settings = loadConfig(arguments.settingsFilePath);
     }
 
-    // Mount the archives specified in the config
-    for (auto& archive : _config["archives"])
+    // Mount the archives specified in the settings
+    for (auto& archive : _settings["archives"])
     {
         if (!archive["path"].isNull())
         {
@@ -70,10 +70,10 @@ Engine::Engine(int argc, char* const argv[]) :
     }
 
     // Create the asset cache
-    bool concurrent = _config["assetCache"]["concurrent"].orDefault(false).asBool();
+    bool concurrent = _settings["assetCache"]["concurrent"].orDefault(false).asBool();
     _assetCache.reset(new AssetCache(_fileSystem, concurrent));
 
-    const JsonValue& videoModeValue = _config["videoMode"];
+    const JsonValue& videoModeValue = _settings["videoMode"];
     if (!videoModeValue.isNull())
     {
         // Load video mode
@@ -96,10 +96,10 @@ Engine::Engine(int argc, char* const argv[]) :
 
 int Engine::main()
 {
-    const JsonValue& gameModeValue = _config["gameMode"];
+    const JsonValue& gameModeValue = _settings["gameMode"];
     if (gameModeValue.isNull())
     {
-        throw Error("No game mode specified in config");
+        throw Error("No game mode specified in settings");
     }
 
     const std::string& gameModeTypeName = gameModeValue.asString();
@@ -163,47 +163,47 @@ AssetCache& Engine::assetCache()
     return *_assetCache;
 }
 
-const JsonValue& Engine::config()
+const JsonValue& Engine::settings()
 {
-    return _config;
+    return _settings;
 }
 
-JsonValue Engine::loadConfig(const Path& configFilePath)
+JsonValue Engine::loadConfig(const Path& settingsFilePath)
 {
     try
     {
         // Read the file to a JSON string
         std::string json;
         {
-            std::ifstream stream(configFilePath.asString().c_str());
+            std::ifstream stream(settingsFilePath.asString().c_str());
             json.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
         }
 
-        JsonValue config;
-        config.decodeFromJson(json);
+        JsonValue settings;
+        settings.decodeFromJson(json);
 
-        // Load additional config files
+        // Load additional settings files
         std::vector<JsonValue> includedConfigs;
-        for (auto& configFilePath : config["include"])
+        for (auto& settingsFilePath : settings["include"])
         {
-            JsonValue config = loadConfig(configFilePath.asString());
-            includedConfigs.push_back(std::move(config));
+            JsonValue settings = loadConfig(settingsFilePath.asString());
+            includedConfigs.push_back(std::move(settings));
         }
 
-        // Merge additional configs back to the main config
+        // Merge additional settingss back to the main settings
         for (auto& includedConfig : includedConfigs)
         {
             for (auto& memberName : includedConfig.memberNames())
             {
-                config.addMember(memberName, includedConfig[memberName]);
+                settings.addMember(memberName, includedConfig[memberName]);
             }
         }
 
-        return config;
+        return settings;
     }
     catch (std::exception& exception)
     {
-        throw Error(format("Failed to load config file '%s': %s", configFilePath.asString().c_str(), exception.what()));
+        throw Error(format("Failed to load settings file '%s': %s", settingsFilePath.asString().c_str(), exception.what()));
     }
 }
 
@@ -211,10 +211,10 @@ Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* co
 {
     std::vector<std::string> argumentStrings { argv[0] };
 
-    // If there is only one argument given then assume it is a config file path
+    // If there is only one argument given then assume it is a settings file path
     if (argc == 2)
     {
-        argumentStrings.push_back("--config");
+        argumentStrings.push_back("--settings");
     }
 
     // Add the remaining arguments
@@ -226,20 +226,20 @@ Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* co
     try
     {
         TCLAP::CmdLine cmd("Hect Engine");
-        TCLAP::ValueArg<std::string> configArg
+        TCLAP::ValueArg<std::string> settingsArg
         {
-            "c", "config",
-            "A config file load",
+            "s", "settings",
+            "A settings file load",
             false,
             "",
             "string"
         };
 
-        cmd.add(configArg);
+        cmd.add(settingsArg);
         cmd.parse(argumentStrings);
 
         CommandLineArguments arguments;
-        arguments.configFilePath = configArg.getValue();
+        arguments.settingsFilePath = settingsArg.getValue();
         return arguments;
     }
     catch (std::exception& exception)

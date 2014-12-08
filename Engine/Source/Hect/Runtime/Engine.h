@@ -93,16 +93,16 @@ public:
     AssetCache& assetCache();
 
     ///
-    /// Returns the config data.
-    const JsonValue& config();
+    /// Returns the settings data.
+    const JsonValue& settings();
 
 private:
     struct CommandLineArguments
     {
-        std::string configFilePath;
+        std::string settingsFilePath;
     };
 
-    JsonValue loadConfig(const Path& configFilePath);
+    JsonValue loadConfig(const Path& settingsFilePath);
 
     CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 
@@ -124,7 +124,7 @@ private:
 
     std::unique_ptr<Window> _window;
     std::unique_ptr<AssetCache> _assetCache;
-    JsonValue _config;
+    JsonValue _settings;
 };
 
 }
