@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Renderer.h"
 
-#include "Hect/Graphics/Material.h"
-
 using namespace hect;
 
 Renderer::Capabilities& Renderer::capabilities()
@@ -45,54 +43,4 @@ Renderer::Statistics& Renderer::statistics()
 const Renderer::Statistics& Renderer::statistics() const
 {
     return _statistics;
-}
-
-RenderTarget* Renderer::boundTarget()
-{
-    return _boundTarget;
-}
-
-void Renderer::setBoundTarget(RenderTarget* target)
-{
-    _boundTarget = target;
-}
-
-Material* Renderer::boundMaterial()
-{
-    return _boundMaterial;
-}
-
-void Renderer::setBoundMaterial(Material* material)
-{
-    _boundMaterial = material;
-}
-
-Mesh* Renderer::boundMesh()
-{
-    return _boundMesh;
-}
-
-void Renderer::setBoundMesh(Mesh* mesh)
-{
-    _boundMesh = mesh;
-}
-
-const MaterialParameter& Renderer::resolveMaterialParameter(const std::string& parameterName)
-{
-    if (!boundMaterial())
-    {
-        throw Error("No material bound");
-    }
-
-    return boundMaterial()->parameterWithName(parameterName);
-}
-
-const MaterialParameter& Renderer::resolveMaterialParameter(const char* parameterName)
-{
-    if (!boundMaterial())
-    {
-        throw Error("No material bound");
-    }
-
-    return boundMaterial()->parameterWithName(parameterName);
 }

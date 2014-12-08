@@ -124,11 +124,11 @@ public:
     /// \param name The name of the parameter.
     ///
     /// \throws Error If no parameter with the specified name exists.
-    const MaterialParameter& parameterWithName(const std::string& name) const;
+    const MaterialParameter& parameter(const std::string& name) const;
 
     ///
-    /// \copydoc Material::parameterWithName()
-    const MaterialParameter& parameterWithName(const char* name) const;
+    /// \copydoc Material::parameter()
+    const MaterialParameter& parameter(const char* name) const;
 
     ///
     /// Sets the argument for the specified argument.

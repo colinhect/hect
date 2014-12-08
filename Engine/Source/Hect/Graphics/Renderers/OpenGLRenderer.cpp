@@ -353,8 +353,6 @@ void OpenGLRenderer::initialize(Window& window)
 
     HECT_INFO(format("Max texture units: %d", capabilities().maxTextureUnits));
 
-    _boundTextures = std::vector<Texture*>(maxTextureUnits, nullptr);
-
     glGetError(); // Clear errors
 
     GL_ASSERT(glClearColor(0, 0, 0, 0));
@@ -376,97 +374,33 @@ void OpenGLRenderer::beginFrame()
 
 void OpenGLRenderer::endFrame()
 {
-    // Clear the bound target
-    setBoundTarget(nullptr);
+    GL_ASSERT(glUseProgram(0));
+    GL_ASSERT(glBindVertexArray(0));
 
-    // Clear the bound shader and unbind
-    if (boundMaterial())
+    for (unsigned i = 0; i < capabilities().maxTextureUnits; ++i)
     {
-        GL_ASSERT(glUseProgram(0));
-        setBoundMaterial(nullptr);
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + i));
+        GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
     }
 
-    // Clear the bound mesh and unbind
-    if (boundMesh())
-    {
-        GL_ASSERT(glBindVertexArray(0));
-        setBoundMesh(nullptr);
-    }
-
-    // Clear all bound textures and unbind
-    for (unsigned i = 0; i < _boundTextures.size(); ++i)
-    {
-        if (_boundTextures[i])
-        {
-            GL_ASSERT(glActiveTexture(GL_TEXTURE0 + i));
-            GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
-            _boundTextures[i] = nullptr;
-        }
-    }
+    _primitiveType = PrimitiveType_Triangles;
+    _indexType = IndexType_UInt8;
+    _indexCount = 0;
 }
 
-void OpenGLRenderer::bindState(const RenderState& state)
-{
-    if (state.isEnabled(RenderStateFlag_DepthTest))
-    {
-        GL_ASSERT(glEnable(GL_DEPTH_TEST));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_DEPTH_TEST));
-    }
-
-    if (state.isEnabled(RenderStateFlag_CullFace))
-    {
-        GL_ASSERT(glEnable(GL_CULL_FACE));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_CULL_FACE));
-    }
-
-    if (state.isEnabled(RenderStateFlag_Blend))
-    {
-        GL_ASSERT(glEnable(GL_BLEND));
-
-        GLuint sourceFactor = _blendFactorLookUp[(int)state.sourceBlendFactor()];
-        GLuint destFactor = _blendFactorLookUp[(int)state.destinationBlendFactor()];
-
-        GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_BLEND));
-    }
-}
-
-void OpenGLRenderer::bindTarget(RenderTarget& renderTarget)
+void OpenGLRenderer::selectTarget(RenderTarget& renderTarget)
 {
     renderTarget.bind(*this);
 }
 
-void OpenGLRenderer::bindWindow(Window& window)
+void OpenGLRenderer::selectWindow(Window& window)
 {
-    // Avoid binding an already bound target
-    if (&window == boundTarget())
-    {
-        return;
-    }
-    setBoundTarget(&window);
-
     GL_ASSERT(glViewport(0, 0, window.width(), window.height()));
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void OpenGLRenderer::bindFrameBuffer(FrameBuffer& frameBuffer)
+void OpenGLRenderer::selectFrameBuffer(FrameBuffer& frameBuffer)
 {
-    // Avoid binding an already bound target
-    if (&frameBuffer == boundTarget())
-    {
-        return;
-    }
-    setBoundTarget(&frameBuffer);
-
     if (!frameBuffer.isUploaded())
     {
         uploadFrameBuffer(frameBuffer);
@@ -586,14 +520,8 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void OpenGLRenderer::bindMaterial(Material& material)
+void OpenGLRenderer::selectMaterial(Material& material)
 {
-    // Avoid binding an already bound material
-    if (&material == boundMaterial() && material.isUploaded())
-    {
-        return;
-    }
-
     // Upload the material if needed
     if (!material.isUploaded())
     {
@@ -603,23 +531,53 @@ void OpenGLRenderer::bindMaterial(Material& material)
     // Bind the base material if needed
     if (material.base())
     {
-        bindMaterial(*material.base());
+        selectMaterial(*material.base());
     }
     else
     {
         auto data = material.dataAs<MaterialData>();
         GL_ASSERT(glUseProgram(data->programId));
 
-        bindState(material.renderState());
-    }
+        const RenderState& state = material.renderState();
 
-    setBoundMaterial(&material);
+        if (state.isEnabled(RenderStateFlag_DepthTest))
+        {
+            GL_ASSERT(glEnable(GL_DEPTH_TEST));
+        }
+        else
+        {
+            GL_ASSERT(glDisable(GL_DEPTH_TEST));
+        }
+
+        if (state.isEnabled(RenderStateFlag_CullFace))
+        {
+            GL_ASSERT(glEnable(GL_CULL_FACE));
+        }
+        else
+        {
+            GL_ASSERT(glDisable(GL_CULL_FACE));
+        }
+
+        if (state.isEnabled(RenderStateFlag_Blend))
+        {
+            GL_ASSERT(glEnable(GL_BLEND));
+
+            GLuint sourceFactor = _blendFactorLookUp[(int)state.sourceBlendFactor()];
+            GLuint destFactor = _blendFactorLookUp[(int)state.destinationBlendFactor()];
+
+            GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
+        }
+        else
+        {
+            GL_ASSERT(glDisable(GL_BLEND));
+        }
+    }
 
     // Bind the values for each parameter
     for (const MaterialParameter& parameter : material.parameters())
     {
         const MaterialValue& value = material.argumentForParameter(parameter);
-        bindMaterialParameter(parameter, value);
+        setMaterialParameter(parameter, value);
     }
 }
 
@@ -742,49 +700,44 @@ void OpenGLRenderer::destroyMaterial(Material& material)
     HECT_TRACE(format("Destroyed material '%s'", material.name().c_str()));
 }
 
-void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value)
+void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value)
 {
     switch (value.type())
     {
     case MaterialValueType_Null:
         break;
     case MaterialValueType_Int:
-        bindMaterialParameter(parameter, value.asInt());
+        setMaterialParameter(parameter, value.asInt());
         break;
     case MaterialValueType_Float:
-        bindMaterialParameter(parameter, value.asReal());
+        setMaterialParameter(parameter, value.asReal());
         break;
     case MaterialValueType_Vector2:
-        bindMaterialParameter(parameter, value.asVector2());
+        setMaterialParameter(parameter, value.asVector2());
         break;
     case MaterialValueType_Vector3:
-        bindMaterialParameter(parameter, value.asVector3());
+        setMaterialParameter(parameter, value.asVector3());
         break;
     case MaterialValueType_Vector4:
-        bindMaterialParameter(parameter, value.asVector4());
+        setMaterialParameter(parameter, value.asVector4());
         break;
     case MaterialValueType_Matrix4:
-        bindMaterialParameter(parameter, value.asMatrix4());
+        setMaterialParameter(parameter, value.asMatrix4());
         break;
     case MaterialValueType_Texture:
     {
         AssetHandle<Texture> texture = value.asTexture();
         if (texture)
         {
-            bindMaterialParameter(parameter, *texture);
+            setMaterialParameter(parameter, *texture);
         }
     }
     break;
     }
 }
 
-void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, int value)
+void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, int value)
 {
-    if (!boundMaterial())
-    {
-        throw Error("No material bound");
-    }
-
     if (parameter.type() != MaterialValueType_Int)
     {
         throw Error("Invalid value for material parameter");
@@ -797,13 +750,8 @@ void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, i
     }
 }
 
-void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, Real value)
+void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, Real value)
 {
-    if (!boundMaterial())
-    {
-        throw Error("No material bound");
-    }
-
     if (parameter.type() != MaterialValueType_Float)
     {
         throw Error("Invalid value for material parameter");
@@ -817,13 +765,8 @@ void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, R
     }
 }
 
-void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector2& value)
+void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const Vector2& value)
 {
-    if (!boundMaterial())
-    {
-        throw Error("No material bound");
-    }
-
     if (parameter.type() != MaterialValueType_Vector2)
     {
         throw Error("Invalid value for material parameter");
@@ -837,13 +780,8 @@ void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, c
     }
 }
 
-void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector3& value)
+void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const Vector3& value)
 {
-    if (!boundMaterial())
-    {
-        throw Error("No material bound");
-    }
-
     if (parameter.type() != MaterialValueType_Vector3)
     {
         throw Error("Invalid value for material parameter");
@@ -857,13 +795,8 @@ void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, c
     }
 }
 
-void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector4& value)
+void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const Vector4& value)
 {
-    if (!boundMaterial())
-    {
-        throw Error("No material bound");
-    }
-
     if (parameter.type() != MaterialValueType_Vector4)
     {
         throw Error("Invalid value for material parameter");
@@ -877,13 +810,8 @@ void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, c
     }
 }
 
-void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Matrix4& value)
+void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const Matrix4& value)
 {
-    if (!boundMaterial())
-    {
-        throw Error("No material bound");
-    }
-
     if (parameter.type() != MaterialValueType_Matrix4)
     {
         throw Error("Invalid value for material parameter");
@@ -904,13 +832,8 @@ void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, c
     }
 }
 
-void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, Texture& texture)
+void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, Texture& texture)
 {
-    if (!boundMaterial())
-    {
-        throw Error("No material bound");
-    }
-
     if (parameter.type() != MaterialValueType_Texture)
     {
         throw Error("Invalid value for material parameter");
@@ -920,20 +843,15 @@ void OpenGLRenderer::bindMaterialParameter(const MaterialParameter& parameter, T
     if (location >= 0)
     {
         GL_ASSERT(glUniform1i(location, parameter.textureIndex()));
-        bindTexture(texture, parameter.textureIndex());
+        selectTexture(texture, parameter.textureIndex());
     }
 }
 
-void OpenGLRenderer::bindTexture(Texture& texture, unsigned index)
+void OpenGLRenderer::selectTexture(Texture& texture, unsigned index)
 {
     if (index >= capabilities().maxTextureUnits)
     {
         throw Error("Cannot bind a texture unit beyond hardware capabilities");
-    }
-
-    if (_boundTextures[index] == &texture)
-    {
-        return;
     }
 
     if (!texture.isUploaded())
@@ -1084,14 +1002,8 @@ Image OpenGLRenderer::downloadTextureImage(const Texture& texture)
     return image;
 }
 
-void OpenGLRenderer::bindMesh(Mesh& mesh)
+void OpenGLRenderer::selectMesh(Mesh& mesh)
 {
-    if (&mesh == boundMesh())
-    {
-        return;
-    }
-    setBoundMesh(&mesh);
-
     if (!mesh.isUploaded())
     {
         uploadMesh(mesh);
@@ -1099,6 +1011,10 @@ void OpenGLRenderer::bindMesh(Mesh& mesh)
 
     auto data = mesh.dataAs<MeshData>();
     GL_ASSERT(glBindVertexArray(data->vertexArrayId));
+
+    _primitiveType = mesh.primitiveType();
+    _indexType = mesh.indexType();
+    _indexCount = mesh.indexCount();
 }
 
 void OpenGLRenderer::uploadMesh(Mesh& mesh)
@@ -1207,16 +1123,11 @@ void OpenGLRenderer::destroyMesh(Mesh& mesh)
 
 void OpenGLRenderer::draw()
 {
-    if (!boundMesh())
-    {
-        throw Error("Cannot draw without a mesh bound");
-    }
-
     GL_ASSERT(
         glDrawElements(
-            _primitiveTypeLookUp[(int)boundMesh()->primitiveType()],
-            (GLsizei)boundMesh()->indexCount(),
-            _indexTypeLookUp[(int)boundMesh()->indexType()],
+            _primitiveTypeLookUp[static_cast<int>(_primitiveType)],
+            static_cast<GLsizei>(_indexCount),
+            _indexTypeLookUp[static_cast<int>(_indexType)],
             0
         )
     );

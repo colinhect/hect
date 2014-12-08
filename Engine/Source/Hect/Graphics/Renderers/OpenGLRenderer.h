@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/Renderer.h"
 
 #ifdef HECT_RENDERER_OPENGL
@@ -38,37 +39,38 @@ public:
     void initialize(Window& window) override;
     void beginFrame() override;
     void endFrame() override;
-    void bindState(const RenderState& state) override;
-    void bindTarget(RenderTarget& renderTarget) override;
-    void bindWindow(Window& window) override;
-    void bindFrameBuffer(FrameBuffer& frameBuffer) override;
+    void selectTarget(RenderTarget& renderTarget) override;
+    void selectWindow(Window& window) override;
+    void selectFrameBuffer(FrameBuffer& frameBuffer) override;
     void uploadFrameBuffer(FrameBuffer& frameBuffer) override;
     void destroyFrameBuffer(FrameBuffer& frameBuffer) override;
     void uploadRenderBuffer(RenderBuffer& renderBuffer) override;
     void destroyRenderBuffer(RenderBuffer& renderBuffer) override;
-    void bindMaterial(Material& material) override;
+    void selectMaterial(Material& material) override;
     void uploadMaterial(Material& material) override;
     void destroyMaterial(Material& material) override;
-    void bindMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value) override;
-    void bindMaterialParameter(const MaterialParameter& parameter, int value) override;
-    void bindMaterialParameter(const MaterialParameter& parameter, Real value) override;
-    void bindMaterialParameter(const MaterialParameter& parameter, const Vector2& value) override;
-    void bindMaterialParameter(const MaterialParameter& parameter, const Vector3& value) override;
-    void bindMaterialParameter(const MaterialParameter& parameter, const Vector4& value) override;
-    void bindMaterialParameter(const MaterialParameter& parameter, const Matrix4& value) override;
-    void bindMaterialParameter(const MaterialParameter& parameter, Texture& texture) override;
-    void bindTexture(Texture& texture, unsigned index) override;
+    void setMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value) override;
+    void setMaterialParameter(const MaterialParameter& parameter, int value) override;
+    void setMaterialParameter(const MaterialParameter& parameter, Real value) override;
+    void setMaterialParameter(const MaterialParameter& parameter, const Vector2& value) override;
+    void setMaterialParameter(const MaterialParameter& parameter, const Vector3& value) override;
+    void setMaterialParameter(const MaterialParameter& parameter, const Vector4& value) override;
+    void setMaterialParameter(const MaterialParameter& parameter, const Matrix4& value) override;
+    void setMaterialParameter(const MaterialParameter& parameter, Texture& texture) override;
+    void selectTexture(Texture& texture, unsigned index) override;
     void uploadTexture(Texture& texture) override;
     void destroyTexture(Texture& texture) override;
     Image downloadTextureImage(const Texture& texture) override;
-    void bindMesh(Mesh& mesh) override;
+    void selectMesh(Mesh& mesh) override;
     void uploadMesh(Mesh& mesh) override;
     void destroyMesh(Mesh& mesh) override;
     void draw() override;
     void clear() override;
 
 private:
-    std::vector<Texture*> _boundTextures;
+    PrimitiveType _primitiveType { PrimitiveType_Triangles };
+    IndexType _indexType { IndexType_UInt8 };
+    size_t _indexCount { 0 };
 };
 
 }

@@ -131,28 +131,4 @@ void Renderer::Object<T>::setAsDestroyed()
     _renderer = nullptr;
 }
 
-template <typename T>
-void Renderer::bindMaterialParameter(const std::string& parameterName, const T& value)
-{
-    bindMaterialParameter(resolveMaterialParameter(parameterName), value);
-}
-
-template <typename T>
-void Renderer::bindMaterialParameter(const char* parameterName, const T& value)
-{
-    bindMaterialParameter(resolveMaterialParameter(parameterName), value);
-}
-
-template <typename T>
-void Renderer::bindMaterialParameter(const std::string& parameterName, T& value)
-{
-    bindMaterialParameter(resolveMaterialParameter(parameterName), value);
-}
-
-template <typename T>
-void Renderer::bindMaterialParameter(const char* parameterName, T& value)
-{
-    bindMaterialParameter(resolveMaterialParameter(parameterName), value);
-}
-
 }

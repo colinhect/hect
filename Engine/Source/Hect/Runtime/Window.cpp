@@ -35,5 +35,5 @@ Window::Window(const std::string& title, const VideoMode& videoMode) :
 
 void Window::bind(Renderer& renderer)
 {
-    renderer.bindWindow(*this);
+    renderer.selectWindow(*this);
 }

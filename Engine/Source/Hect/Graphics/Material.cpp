@@ -87,11 +87,11 @@ const Material::ParameterSequence Material::parameters() const
     }
 }
 
-const MaterialParameter& Material::parameterWithName(const std::string& name) const
+const MaterialParameter& Material::parameter(const std::string& name) const
 {
     if (_base)
     {
-        return _base->parameterWithName(name);
+        return _base->parameter(name);
     }
     else
     {
@@ -107,11 +107,11 @@ const MaterialParameter& Material::parameterWithName(const std::string& name) co
     }
 }
 
-const MaterialParameter& Material::parameterWithName(const char* name) const
+const MaterialParameter& Material::parameter(const char* name) const
 {
     if (_base)
     {
-        return _base->parameterWithName(name);
+        return _base->parameter(name);
     }
     else
     {
@@ -139,13 +139,13 @@ void Material::setArgument(const MaterialParameter& parameter, MaterialValue val
 
 void Material::setArgument(const std::string& parameterName, MaterialValue value)
 {
-    const MaterialParameter& parameter = parameterWithName(parameterName);
+    const MaterialParameter& parameter = this->parameter(parameterName);
     setArgument(parameter, value);
 }
 
 void Material::setArgument(const char* parameterName, MaterialValue value)
 {
-    const MaterialParameter& parameter = parameterWithName(parameterName);
+    const MaterialParameter& parameter = this->parameter(parameterName);
     setArgument(parameter, value);
 }
 
@@ -343,7 +343,7 @@ Decoder& operator>>(Decoder& decoder, Material& material)
             std::string name;
             decoder >> decodeValue("name", name, true);
 
-            const MaterialParameter& parameter = material.parameterWithName(name);
+            const MaterialParameter& parameter = material.parameter(name);
 
             MaterialValue value(parameter.type());
             decoder >> decodeValue(value);

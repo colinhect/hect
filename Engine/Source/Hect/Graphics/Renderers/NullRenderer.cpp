@@ -143,22 +143,17 @@ void NullRenderer::endFrame()
 {
 }
 
-void NullRenderer::bindState(const RenderState& state)
-{
-    (void)state;
-}
-
-void NullRenderer::bindTarget(RenderTarget& renderTarget)
+void NullRenderer::selectTarget(RenderTarget& renderTarget)
 {
     (void)renderTarget;
 }
 
-void NullRenderer::bindWindow(Window& window)
+void NullRenderer::selectWindow(Window& window)
 {
     (void)window;
 }
 
-void NullRenderer::bindFrameBuffer(FrameBuffer& frameBuffer)
+void NullRenderer::selectFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -206,7 +201,7 @@ void NullRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void NullRenderer::bindMaterial(Material& material)
+void NullRenderer::selectMaterial(Material& material)
 {
     if (!material.isUploaded())
     {
@@ -234,55 +229,55 @@ void NullRenderer::destroyMaterial(Material& material)
     material.setAsDestroyed();
 }
 
-void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value)
+void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, int value)
+void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, int value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, Real value)
+void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, Real value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector2& value)
+void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, const Vector2& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector3& value)
+void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, const Vector3& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Vector4& value)
+void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, const Vector4& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, const Matrix4& value)
+void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, const Matrix4& value)
 {
     (void)parameter;
     (void)value;
 }
 
-void NullRenderer::bindMaterialParameter(const MaterialParameter& parameter, Texture& texture)
+void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, Texture& texture)
 {
     (void)parameter;
     (void)texture;
 }
 
-void NullRenderer::bindTexture(Texture& texture, unsigned index)
+void NullRenderer::selectTexture(Texture& texture, unsigned index)
 {
     (void)texture;
     (void)index;
@@ -315,7 +310,7 @@ Image NullRenderer::downloadTextureImage(const Texture& texture)
     return Image();
 }
 
-void NullRenderer::bindMesh(Mesh& mesh)
+void NullRenderer::selectMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
     {
