@@ -393,13 +393,13 @@ void OpenGLRenderer::selectTarget(RenderTarget& renderTarget)
     renderTarget.bind(*this);
 }
 
-void OpenGLRenderer::selectWindow(Window& window)
+void OpenGLRenderer::selectTarget(Window& window)
 {
     GL_ASSERT(glViewport(0, 0, window.width(), window.height()));
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void OpenGLRenderer::selectFrameBuffer(FrameBuffer& frameBuffer)
+void OpenGLRenderer::selectTarget(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {

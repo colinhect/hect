@@ -211,13 +211,13 @@ public:
     /// Selects a window as the active render target.
     ///
     /// \param window The window to bind.
-    virtual void selectWindow(Window& window) = 0;
+    virtual void selectTarget(Window& window) = 0;
 
     ///
     /// Selects a frame buffer as the active render target.
     ///
     /// \param frameBuffer The frame buffer to bind.
-    virtual void selectFrameBuffer(FrameBuffer& frameBuffer) = 0;
+    virtual void selectTarget(FrameBuffer& frameBuffer) = 0;
 
     ///
     /// Uploads a frame buffer.

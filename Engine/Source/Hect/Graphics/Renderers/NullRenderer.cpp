@@ -148,12 +148,12 @@ void NullRenderer::selectTarget(RenderTarget& renderTarget)
     (void)renderTarget;
 }
 
-void NullRenderer::selectWindow(Window& window)
+void NullRenderer::selectTarget(Window& window)
 {
     (void)window;
 }
 
-void NullRenderer::selectFrameBuffer(FrameBuffer& frameBuffer)
+void NullRenderer::selectTarget(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {

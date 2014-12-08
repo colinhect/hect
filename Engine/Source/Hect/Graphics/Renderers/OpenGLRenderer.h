@@ -40,8 +40,8 @@ public:
     void beginFrame() override;
     void endFrame() override;
     void selectTarget(RenderTarget& renderTarget) override;
-    void selectWindow(Window& window) override;
-    void selectFrameBuffer(FrameBuffer& frameBuffer) override;
+    void selectTarget(Window& window) override;
+    void selectTarget(FrameBuffer& frameBuffer) override;
     void uploadFrameBuffer(FrameBuffer& frameBuffer) override;
     void destroyFrameBuffer(FrameBuffer& frameBuffer) override;
     void uploadRenderBuffer(RenderBuffer& renderBuffer) override;
