@@ -162,7 +162,7 @@ public:
     const RenderState& renderState() const;
 
     ///
-    /// Sets the render state that the material will bind.
+    /// Sets the render state that the material will select.
     ///
     /// \param renderState The render state.
     void setRenderState(const RenderState& renderState);

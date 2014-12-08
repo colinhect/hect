@@ -33,7 +33,7 @@ Window::Window(const std::string& title, const VideoMode& videoMode) :
     (void)title;
 }
 
-void Window::bind(Renderer& renderer)
+void Window::select(Renderer& renderer)
 {
     renderer.selectTarget(*this);
 }

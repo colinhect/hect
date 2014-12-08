@@ -390,7 +390,7 @@ void OpenGLRenderer::endFrame()
 
 void OpenGLRenderer::selectTarget(RenderTarget& renderTarget)
 {
-    renderTarget.bind(*this);
+    renderTarget.select(*this);
 }
 
 void OpenGLRenderer::selectTarget(Window& window)
@@ -520,7 +520,7 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void OpenGLRenderer::selectMaterial(Material& material)
+void OpenGLRenderer::selectMaterial(Material& material, bool selectBase)
 {
     // Upload the material if needed
     if (!material.isUploaded())
@@ -528,10 +528,13 @@ void OpenGLRenderer::selectMaterial(Material& material)
         uploadMaterial(material);
     }
 
-    // Bind the base material if needed
+    // Select the base material if needed
     if (material.base())
     {
-        selectMaterial(*material.base());
+        if (selectBase)
+        {
+            selectMaterial(*material.base(), true);
+        }
     }
     else
     {
@@ -573,7 +576,7 @@ void OpenGLRenderer::selectMaterial(Material& material)
         }
     }
 
-    // Bind the values for each parameter
+    // Set the values for each parameter
     for (const MaterialParameter& parameter : material.parameters())
     {
         const MaterialValue& value = material.argumentForParameter(parameter);
@@ -832,7 +835,7 @@ void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, co
     }
 }
 
-void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, Texture& texture)
+void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, Texture& value)
 {
     if (parameter.type() != MaterialValueType_Texture)
     {
@@ -843,26 +846,8 @@ void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, Te
     if (location >= 0)
     {
         GL_ASSERT(glUniform1i(location, parameter.textureIndex()));
-        selectTexture(texture, parameter.textureIndex());
+        bindTexture(value, parameter.textureIndex());
     }
-}
-
-void OpenGLRenderer::selectTexture(Texture& texture, unsigned index)
-{
-    if (index >= capabilities().maxTextureUnits)
-    {
-        throw Error("Cannot bind a texture unit beyond hardware capabilities");
-    }
-
-    if (!texture.isUploaded())
-    {
-        uploadTexture(texture);
-    }
-
-    auto data = texture.dataAs<TextureData>();
-
-    GL_ASSERT(glActiveTexture(GL_TEXTURE0 + index));
-    GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->textureId));
 }
 
 void OpenGLRenderer::uploadTexture(Texture& texture)
@@ -1136,6 +1121,24 @@ void OpenGLRenderer::draw()
 void OpenGLRenderer::clear()
 {
     GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+}
+
+void OpenGLRenderer::bindTexture(Texture& texture, unsigned index)
+{
+    if (index >= capabilities().maxTextureUnits)
+    {
+        throw Error("Cannot select a texture unit beyond hardware capabilities");
+    }
+
+    if (!texture.isUploaded())
+    {
+        uploadTexture(texture);
+    }
+
+    auto data = texture.dataAs<TextureData>();
+
+    GL_ASSERT(glActiveTexture(GL_TEXTURE0 + index));
+    GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->textureId));
 }
 
 #endif

@@ -51,7 +51,7 @@ public:
 
     virtual ~Window() { }
 
-    void bind(Renderer& renderer) override;
+    void select(Renderer& renderer) override;
 
     virtual void swapBuffers() = 0;
 };

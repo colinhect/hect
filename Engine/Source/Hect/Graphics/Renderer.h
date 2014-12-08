@@ -24,18 +24,17 @@
 #pragma once
 
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/RenderState.h"
 #include "Hect/Graphics/Image.h"
 
 namespace hect
 {
 
-class RenderBuffer;
 class FrameBuffer;
 class Material;
 class MaterialParameter;
 class MaterialValue;
 class Mesh;
+class RenderBuffer;
 class RenderTarget;
 class Texture;
 class Window;
@@ -53,7 +52,7 @@ public:
     struct Capabilities
     {
         ///
-        /// The maximum number of textures that can be bound.
+        /// The maximum number of textures that can be selected.
         unsigned maxTextureUnits { 0 };
     };
 
@@ -187,40 +186,51 @@ public:
     ///
     /// Initialize the renderer.
     ///
-    /// \param window The window that the rendere is used for.
+    /// \param window The window that the renderer is used for.
     virtual void initialize(Window& window) = 0;
 
     ///
-    /// Begin a new frame.
+    /// Establishes the beginning of a frame.
+    ///
+    /// \note Any state changes (target, material, or mesh selections) are only
+    /// persistent within a frame.
     virtual void beginFrame() = 0;
 
     ///
-    /// End the current frame.
+    /// Establishes the ending of a frame.
     virtual void endFrame() = 0;
 
     ///
     /// Selects a render target to begin rendering to.
     ///
     /// \note All rendering occurring after this call will render to the
-    /// bound target.
+    /// selected target.
     ///
-    /// \param renderTarget The render target to bind.
+    /// \param renderTarget The render target to select.
     virtual void selectTarget(RenderTarget& renderTarget) = 0;
 
     ///
-    /// Selects a window as the active render target.
+    /// Selects a window to begin rendering to.
     ///
-    /// \param window The window to bind.
+    /// \note All rendering occurring after this call will render to the
+    /// selected target.
+    ///
+    /// \param window The window to select.
     virtual void selectTarget(Window& window) = 0;
 
     ///
-    /// Selects a frame buffer as the active render target.
+    /// Selects a frame buffer to begin rendering to.
     ///
-    /// \param frameBuffer The frame buffer to bind.
+    /// \note All rendering occurring after this call will render to the
+    /// selected target.
+    ///
+    /// \param frameBuffer The frame buffer to select.
     virtual void selectTarget(FrameBuffer& frameBuffer) = 0;
 
     ///
     /// Uploads a frame buffer.
+    ///
+    /// \note If the frame buffer is already uploaded then no action is taken.
     ///
     /// \param frameBuffer The frame buffer to upload.
     virtual void uploadFrameBuffer(FrameBuffer& frameBuffer) = 0;
@@ -234,6 +244,8 @@ public:
     ///
     /// Uploads a render buffer.
     ///
+    /// \note If the render buffer is already uploaded then no action is taken.
+    ///
     /// \param renderBuffer The render buffer to upload.
     virtual void uploadRenderBuffer(RenderBuffer& renderBuffer) = 0;
 
@@ -244,13 +256,17 @@ public:
     virtual void destroyRenderBuffer(RenderBuffer& renderBuffer) = 0;
 
     ///
-    /// Binds a material.
+    /// Selects the material affecting following draw calls.
     ///
-    /// \param material The material to bind.
-    virtual void selectMaterial(Material& material) = 0;
+    /// \param material The material to select.
+    /// \param selectBase Whether the base material (if any) should be selected
+    /// before selecting the specified material.
+    virtual void selectMaterial(Material& material, bool selectBase = true) = 0;
 
     ///
     /// Uploads a material.
+    ///
+    /// \note If the material is already uploaded then no action is taken.
     ///
     /// \param material The material to upload.
     virtual void uploadMaterial(Material& material) = 0;
@@ -262,113 +278,49 @@ public:
     virtual void destroyMaterial(Material& material) = 0;
 
     ///
-    /// Binds a value to a material parameter.
+    /// Sets the value for a parameter of the selected material.
     ///
-    /// \note The parameter is expected to belong to the bound shader.
+    /// \warning The parameter is expected to belong to the selected material.
     ///
-    /// \param parameter The parameter.
-    /// \param value The new value.
+    /// \param parameter The parameter to set the value for.
+    /// \param value The value for the parameter.
     ///
     /// \throws Error If the specified value type differs from the parameter
     /// type.
     virtual void setMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value) = 0;
 
     ///
-    /// Binds an int value to a material parameter.
-    ///
-    /// \note The parameter is expected to belong to the bound shader.
-    ///
-    /// \param parameter The parameter.
-    /// \param value The new value.
-    ///
-    /// \throws Error If the specified value type differs from the parameter
-    /// type.
+    /// \copydoc Renderer::setMaterialParameter()
     virtual void setMaterialParameter(const MaterialParameter& parameter, int value) = 0;
 
     ///
-    /// Binds a real value to a material parameter.
-    ///
-    /// \note The parameter is expected to belong to the bound shader.
-    ///
-    /// \param parameter The parameter.
-    /// \param value The new value.
-    ///
-    /// \throws Error If the specified value type differs from the parameter
-    /// type.
+    /// \copydoc Renderer::setMaterialParameter()
     virtual void setMaterialParameter(const MaterialParameter& parameter, Real value) = 0;
 
     ///
-    /// Binds a 2-dimensional vector value to a material parameter.
-    ///
-    /// \note The parameter is expected to belong to the bound shader.
-    ///
-    /// \param parameter The parameter.
-    /// \param value The new value.
-    ///
-    /// \throws Error If the specified value type differs from the parameter
-    /// type.
+    /// \copydoc Renderer::setMaterialParameter()
     virtual void setMaterialParameter(const MaterialParameter& parameter, const Vector2& value) = 0;
 
     ///
-    /// Binds a 3-dimensional vector value to a material parameter.
-    ///
-    /// \note The parameter is expected to belong to the bound shader.
-    ///
-    /// \param parameter The parameter.
-    /// \param value The new value.
-    ///
-    /// \throws Error If the specified value type differs from the parameter
-    /// type.
+    /// \copydoc Renderer::setMaterialParameter()
     virtual void setMaterialParameter(const MaterialParameter& parameter, const Vector3& value) = 0;
 
     ///
-    /// Binds a 4-dimensional vector value to a material parameter.
-    ///
-    /// \note The parameter is expected to belong to the bound shader.
-    ///
-    /// \param parameter The parameter.
-    /// \param value The new value.
-    ///
-    /// \throws Error If the specified value type differs from the parameter
-    /// type.
+    /// \copydoc Renderer::setMaterialParameter()
     virtual void setMaterialParameter(const MaterialParameter& parameter, const Vector4& value) = 0;
 
     ///
-    /// Binds a 4 by 4 matrix value to a material parameter.
-    ///
-    /// \note The parameter is expected to belong to the bound shader.
-    ///
-    /// \param parameter The parameter.
-    /// \param value The new value.
-    ///
-    /// \throws Error If the specified value type differs from the parameter
-    /// type.
+    /// \copydoc Renderer::setMaterialParameter()
     virtual void setMaterialParameter(const MaterialParameter& parameter, const Matrix4& value) = 0;
 
     ///
-    /// Binds a texture to a material parameter.
-    ///
-    /// \note The parameter is expected to belong to the bound shader.
-    ///
-    /// \param parameter The parameter.
-    /// \param texture The texture.
-    ///
-    /// \throws Error If the specified value type differs from the parameter
-    /// type.
-    virtual void setMaterialParameter(const MaterialParameter& parameter, Texture& texture) = 0;
-
-    ///
-    /// Binds a texture.
-    ///
-    /// \param texture The texture to bind.
-    /// \param index The texture index to bind to.
-    ///
-    /// \throws Error If the specified value type differs from the parameter
-    /// type.
-    virtual void selectTexture(Texture& texture, unsigned index) = 0;
+    /// \copydoc Renderer::setMaterialParameter()
+    virtual void setMaterialParameter(const MaterialParameter& parameter, Texture& value) = 0;
 
     ///
     /// Uploads a texture.
+    ///
+    /// \note If the texture is already uploaded then no action is taken.
     ///
     /// \param texture The texture to upload.
     virtual void uploadTexture(Texture& texture) = 0;
@@ -390,13 +342,15 @@ public:
     virtual Image downloadTextureImage(const Texture& texture) = 0;
 
     ///
-    /// Binds a mesh.
+    /// Selects the mesh affecting following draw calls.
     ///
-    /// \param mesh The mesh to bind.
+    /// \param mesh The mesh to select.
     virtual void selectMesh(Mesh& mesh) = 0;
 
     ///
     /// Uploads a mesh.
+    ///
+    /// \note If the mesh is already uploaded then no action is taken.
     ///
     /// \param mesh The mesh to upload.
     virtual void uploadMesh(Mesh& mesh) = 0;
@@ -408,7 +362,8 @@ public:
     virtual void destroyMesh(Mesh& mesh) = 0;
 
     ///
-    /// Draws to the render target in the current state.
+    /// Draw the selected mesh using the selected material to the selected
+    /// render target.
     virtual void draw() = 0;
 
     ///

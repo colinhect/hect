@@ -201,8 +201,10 @@ void NullRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void NullRenderer::selectMaterial(Material& material)
+void NullRenderer::selectMaterial(Material& material, bool selectBase)
 {
+    (void)selectBase;
+
     if (!material.isUploaded())
     {
         uploadMaterial(material);
@@ -271,16 +273,10 @@ void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, cons
     (void)value;
 }
 
-void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, Texture& texture)
+void NullRenderer::setMaterialParameter(const MaterialParameter& parameter, Texture& value)
 {
     (void)parameter;
-    (void)texture;
-}
-
-void NullRenderer::selectTexture(Texture& texture, unsigned index)
-{
-    (void)texture;
-    (void)index;
+    (void)value;
 }
 
 void NullRenderer::uploadTexture(Texture& texture)

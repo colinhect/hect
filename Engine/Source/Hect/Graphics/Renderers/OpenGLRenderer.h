@@ -46,7 +46,7 @@ public:
     void destroyFrameBuffer(FrameBuffer& frameBuffer) override;
     void uploadRenderBuffer(RenderBuffer& renderBuffer) override;
     void destroyRenderBuffer(RenderBuffer& renderBuffer) override;
-    void selectMaterial(Material& material) override;
+    void selectMaterial(Material& material, bool selectBase) override;
     void uploadMaterial(Material& material) override;
     void destroyMaterial(Material& material) override;
     void setMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value) override;
@@ -56,8 +56,7 @@ public:
     void setMaterialParameter(const MaterialParameter& parameter, const Vector3& value) override;
     void setMaterialParameter(const MaterialParameter& parameter, const Vector4& value) override;
     void setMaterialParameter(const MaterialParameter& parameter, const Matrix4& value) override;
-    void setMaterialParameter(const MaterialParameter& parameter, Texture& texture) override;
-    void selectTexture(Texture& texture, unsigned index) override;
+    void setMaterialParameter(const MaterialParameter& parameter, Texture& value) override;
     void uploadTexture(Texture& texture) override;
     void destroyTexture(Texture& texture) override;
     Image downloadTextureImage(const Texture& texture) override;
@@ -68,6 +67,8 @@ public:
     void clear() override;
 
 private:
+    void bindTexture(Texture& texture, unsigned index);
+
     PrimitiveType _primitiveType { PrimitiveType_Triangles };
     IndexType _indexType { IndexType_UInt8 };
     size_t _indexCount { 0 };

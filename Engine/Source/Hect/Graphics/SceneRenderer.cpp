@@ -342,11 +342,11 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
 
 void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
-    // Bind the material
+    // Select the material
     _renderer.selectMaterial(material);
     setBoundMaterialParameters(material, camera, target, transform);
 
-    // Bind and draw the mesh
+    // Select and draw the mesh
     _renderer.selectMesh(mesh);
     _renderer.draw();
 }

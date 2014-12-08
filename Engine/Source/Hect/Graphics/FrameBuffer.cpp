@@ -76,7 +76,7 @@ FrameBuffer::FrameBuffer(unsigned width, unsigned height) :
 {
 }
 
-void FrameBuffer::bind(Renderer& renderer)
+void FrameBuffer::select(Renderer& renderer)
 {
     renderer.selectTarget(*this);
 }
