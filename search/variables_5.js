@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['globalposition',['globalPosition',['../classhect_1_1_transform.html#ace6ada70956b1bfb2155ec68dfdb2c85',1,'hect::Transform']]],
-  ['globalrotation',['globalRotation',['../classhect_1_1_transform.html#adc814303a340b196686875eae74bdebc',1,'hect::Transform']]],
-  ['globalscale',['globalScale',['../classhect_1_1_transform.html#a034e9d70cbfe532bec1da4ee475114ff',1,'hect::Transform']]],
-  ['gravity',['gravity',['../classhect_1_1_physics_system.html#a586e8c0348e2cd97444a394776c79728',1,'hect::PhysicsSystem']]]
+  ['farclip',['farClip',['../classhect_1_1_camera.html#acfa06d5f2b4dfb1828a81b13dbf4b9e2',1,'hect::Camera']]],
+  ['fieldofview',['fieldOfView',['../classhect_1_1_camera.html#ae8dd3593b3c01eb8abc6c9d327c88d61',1,'hect::Camera']]],
+  ['front',['front',['../classhect_1_1_camera.html#ab38e96796c5c5bf373a2a3148e2d1f71',1,'hect::Camera']]],
+  ['frustum',['frustum',['../classhect_1_1_camera.html#a480384226f206acfb2b8bfaf6190284b',1,'hect::Camera']]]
 ];

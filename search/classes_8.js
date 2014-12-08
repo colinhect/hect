@@ -9,7 +9,8 @@ var searchData=
   ['inputaxisbinding',['InputAxisBinding',['../classhect_1_1_input_axis_binding.html',1,'hect']]],
   ['inputsystem',['InputSystem',['../classhect_1_1_input_system.html',1,'hect']]],
   ['ipaddress',['IPAddress',['../classhect_1_1_i_p_address.html',1,'hect']]],
-  ['iterator',['Iterator',['../classhect_1_1_entity_1_1_iterator.html',1,'hect::Entity']]],
   ['iterator',['Iterator',['../classhect_1_1_entity_1_1_children_1_1_iterator.html',1,'hect::Entity::Children']]],
-  ['iterator',['Iterator',['../classhect_1_1_component_1_1_iterator.html',1,'hect::Component']]]
+  ['iterator',['Iterator',['../classhect_1_1_component_1_1_iterator.html',1,'hect::Component']]],
+  ['iterator',['Iterator',['../classhect_1_1_entity_1_1_iterator.html',1,'hect::Entity']]],
+  ['iterator',['Iterator',['../classhect_1_1_string_map_1_1_iterator.html',1,'hect::StringMap']]]
 ];

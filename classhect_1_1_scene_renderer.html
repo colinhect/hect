@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -108,6 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad9639d83c2409536459bc0183281d2e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene_renderer.html#ad9639d83c2409536459bc0183281d2e7">renderScene</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene, <a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
 <tr class="memdesc:ad9639d83c2409536459bc0183281d2e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders a scene in its current state to a given render target.  <a href="#ad9639d83c2409536459bc0183281d2e7">More...</a><br /></td></tr>
 <tr class="separator:ad9639d83c2409536459bc0183281d2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06cfb9b6f14f952376d488ef84d39575"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene_renderer.html#a06cfb9b6f14f952376d488ef84d39575">addRenderCall</a> (<a class="el" href="classhect_1_1_transform.html">Transform</a> &amp;transform, <a class="el" href="classhect_1_1_mesh.html">Mesh</a> &amp;mesh, <a class="el" href="classhect_1_1_material.html">Material</a> &amp;material)</td></tr>
+<tr class="memdesc:a06cfb9b6f14f952376d488ef84d39575"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enqueues a render call to be rendered on the upcoming frame.  <a href="#a06cfb9b6f14f952376d488ef84d39575">More...</a><br /></td></tr>
+<tr class="separator:a06cfb9b6f14f952376d488ef84d39575"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides the functionality for high level rendering algorithms (physically- based shading, deferred shading, shadows, reflections, etc). </p>
@@ -148,6 +151,48 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a06cfb9b6f14f952376d488ef84d39575"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hect::SceneRenderer::addRenderCall </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_transform.html">Transform</a> &amp;&#160;</td>
+          <td class="paramname"><em>transform</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_mesh.html">Mesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>mesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_material.html">Material</a> &amp;&#160;</td>
+          <td class="paramname"><em>material</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enqueues a render call to be rendered on the upcoming frame. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transform</td><td>The world-space transform. </td></tr>
+    <tr><td class="paramname">mesh</td><td>The mesh to render. </td></tr>
+    <tr><td class="paramname">material</td><td>The material to use. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ad9639d83c2409536459bc0183281d2e7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +231,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:23 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

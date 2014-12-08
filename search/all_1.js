@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['base',['base',['../classhect_1_1_material.html#afdb19fd32a00d8a96cb424b3519be445',1,'hect::Material']]],
   ['basedirectory',['baseDirectory',['../classhect_1_1_file_system.html#ae886ff6c9296096e7b7e4d7abfffdf59',1,'hect::FileSystem']]],
   ['begin',['begin',['../classhect_1_1_sequence.html#afa3f5ead4663c084bd57eef373be429f',1,'hect::Sequence::begin()'],['../classhect_1_1_sequence.html#a4be6f0ce0be9cd6867cf5e86433e1b20',1,'hect::Sequence::begin() const '],['../classhect_1_1_json_value.html#af02f11af8baa8e7a418e4e0d5e157c11',1,'hect::JsonValue::begin()'],['../classhect_1_1_component_pool.html#affab6f00f21c437656bed2da104f20bc',1,'hect::ComponentPool::begin()'],['../classhect_1_1_component_pool.html#a1964604d712f21872a91a1f4625e9730',1,'hect::ComponentPool::begin() const '],['../classhect_1_1_entity_1_1_children.html#a84c4d60647445bc44934956ce0d8b90e',1,'hect::Entity::Children::begin()'],['../classhect_1_1_entity_1_1_children.html#a6b30c20c4b15f85f2772b1851ce2f920',1,'hect::Entity::Children::begin() const '],['../classhect_1_1_entity_pool.html#a471e0d7af3e9878b4ca8de1bb5db226c',1,'hect::EntityPool::begin()'],['../classhect_1_1_entity_pool.html#a738cf33b2166f1492b99a05c806d624a',1,'hect::EntityPool::begin() const ']]],
   ['beginarray',['BeginArray',['../structhect_1_1_begin_array.html',1,'hect']]],
@@ -12,16 +13,7 @@ var searchData=
   ['binaryencoder',['BinaryEncoder',['../classhect_1_1_binary_encoder.html',1,'hect']]],
   ['binaryencoder',['BinaryEncoder',['../classhect_1_1_binary_encoder.html#a5a15dcfe1108eb57902945179597b0c2',1,'hect::BinaryEncoder::BinaryEncoder(WriteStream &amp;stream)'],['../classhect_1_1_binary_encoder.html#a98af80fb7535c78eb4151423ec3ad0b7',1,'hect::BinaryEncoder::BinaryEncoder(ByteVector &amp;data)']]],
   ['binarystream',['binaryStream',['../classhect_1_1_asset_decoder.html#ae82a110c58d18627589ebae1dfcdd6b2',1,'hect::AssetDecoder::binaryStream()'],['../classhect_1_1_binary_decoder.html#a9ca30359362a9d66baa272518c1fb0a1',1,'hect::BinaryDecoder::binaryStream()'],['../classhect_1_1_binary_encoder.html#ae9ac289a38081ec3b8aa6acfa8d6d6ef',1,'hect::BinaryEncoder::binaryStream()'],['../classhect_1_1_decoder.html#a4f1dc2300d58be8af64db91fae86dd92',1,'hect::Decoder::binaryStream()'],['../classhect_1_1_encoder.html#a1070fde3242d3d9e474f646799d5293a',1,'hect::Encoder::binaryStream()'],['../classhect_1_1_json_decoder.html#aee8b5e6cd75adf1a1ab666a608ca3f8c',1,'hect::JsonDecoder::binaryStream()'],['../classhect_1_1_json_encoder.html#a1197e5e480af71f1a875d95e9187afde',1,'hect::JsonEncoder::binaryStream()']]],
-  ['bind',['bind',['../classhect_1_1_frame_buffer.html#a312a41383d421a3082f658a4e2b0a9d0',1,'hect::FrameBuffer::bind()'],['../classhect_1_1_render_target.html#a69aba78b0f34f600446b5b525cd47ab6',1,'hect::RenderTarget::bind()'],['../classhect_1_1_window.html#a56f98a2c3ac29ca76a06e3bfb6db7323',1,'hect::Window::bind()']]],
-  ['bindframebuffer',['bindFrameBuffer',['../classhect_1_1_renderer.html#a23e839e97fcb8e53bbb1612b7a15e9b2',1,'hect::Renderer']]],
-  ['binding',['binding',['../classhect_1_1_shader_parameter.html#a349ed2adfde03b9afb0a03befd8011a5',1,'hect::ShaderParameter']]],
-  ['bindmesh',['bindMesh',['../classhect_1_1_renderer.html#a640245241712fa46987ec2b22157dcda',1,'hect::Renderer']]],
-  ['bindshader',['bindShader',['../classhect_1_1_renderer.html#aa6941e122cde6d172819f6a98b6c55bc',1,'hect::Renderer']]],
-  ['bindshaderparameter',['bindShaderParameter',['../classhect_1_1_renderer.html#a3619931c6adda2893cfe126b680e5b84',1,'hect::Renderer']]],
-  ['bindstate',['bindState',['../classhect_1_1_renderer.html#a59bd094ae64e16dbfbeca4c08ebb61e7',1,'hect::Renderer']]],
-  ['bindtarget',['bindTarget',['../classhect_1_1_renderer.html#ad5044e59394f619e4fa134d7d97d9d96',1,'hect::Renderer']]],
-  ['bindtexture',['bindTexture',['../classhect_1_1_renderer.html#a93b58fe2c86fc91b4dd07aa56bcb4632',1,'hect::Renderer']]],
-  ['bindwindow',['bindWindow',['../classhect_1_1_renderer.html#ab8e9b0bc5e74004941e62966becd72d0',1,'hect::Renderer']]],
+  ['binding',['binding',['../classhect_1_1_material_parameter.html#a16c31fdca6d36fc059e96b3284fe8a4f',1,'hect::MaterialParameter']]],
   ['blendfactor',['BlendFactor',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697baf',1,'hect']]],
   ['blendfactor_5fdestalpha',['BlendFactor_DestAlpha',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafad5f2d0735353236cc4c939495af0dbf4',1,'hect']]],
   ['blendfactor_5fdestcolor',['BlendFactor_DestColor',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafad1d854ed2ff45cbf917b4c606879d603',1,'hect']]],
@@ -35,10 +27,10 @@ var searchData=
   ['blendfactor_5fzero',['BlendFactor_Zero',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa6c470f1e12ef36086fc48dbd6eeadbd5',1,'hect']]],
   ['boundingbox',['BoundingBox',['../classhect_1_1_bounding_box.html',1,'hect']]],
   ['boundingboxsystem',['BoundingBoxSystem',['../classhect_1_1_bounding_box_system.html',1,'hect']]],
+  ['box',['Box',['../classhect_1_1_box.html#a9633b7146544c95990d8d54fbbdb7d8c',1,'hect::Box::Box()'],['../classhect_1_1_box.html#a21599979c68bf543a1ef42e29c8d7a48',1,'hect::Box::Box(const Vector3 &amp;scale)']]],
   ['box',['Box',['../classhect_1_1_box.html',1,'hect']]],
-  ['box',['Box',['../classhect_1_1_box.html#a21599979c68bf543a1ef42e29c8d7a48',1,'hect::Box']]],
   ['broadcastpacket',['broadcastPacket',['../classhect_1_1_host.html#ae32b64c2e07b04f07e179959abeb7576',1,'hect::Host']]],
   ['button',['button',['../classhect_1_1_joystick_event.html#a3c6a5a0f268aa23a334f8f782b67512d',1,'hect::JoystickEvent::button()'],['../classhect_1_1_mouse_event.html#aad71f3daff70aea133f61b76bfcf9e33',1,'hect::MouseEvent::button()']]],
-  ['bytesperpixel',['bytesPerPixel',['../classhect_1_1_image.html#abb5941f9bea6aa0b452a523b335b232f',1,'hect::Image::bytesPerPixel()'],['../classhect_1_1_texture.html#aecc6d52860a7b507e040ae02b9c780d9',1,'hect::Texture::bytesPerPixel()']]],
+  ['bytesperpixel',['bytesPerPixel',['../classhect_1_1_image.html#abb5941f9bea6aa0b452a523b335b232f',1,'hect::Image::bytesPerPixel()'],['../classhect_1_1_render_buffer.html#adcc84a5417631915e88214423daf34ce',1,'hect::RenderBuffer::bytesPerPixel()'],['../classhect_1_1_texture.html#aecc6d52860a7b507e040ae02b9c780d9',1,'hect::Texture::bytesPerPixel()']]],
   ['bytevector',['ByteVector',['../namespacehect.html#a9f9cbccde9d4d04e53fa0276dbdaba04',1,'hect']]]
 ];

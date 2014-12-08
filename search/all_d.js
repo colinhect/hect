@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['name',['name',['../classhect_1_1_shader_argument.html#a918c92487c85af4e2237b7f6aac83f83',1,'hect::ShaderArgument::name()'],['../classhect_1_1_shader_parameter.html#a8c83d86543a22122e9b7feb90e2283dc',1,'hect::ShaderParameter::name()'],['../classhect_1_1_input_axis.html#ad8c0823f89b8245d0ba0649e5e220793',1,'hect::InputAxis::name()'],['../classhect_1_1_asset.html#a766366037505b957cc6ace69fad4dfe2',1,'hect::Asset::name()'],['../classhect_1_1_type.html#ad3b101b299210ea1072c0d81cf89e3ff',1,'hect::Type::name()']]],
+  ['name',['name',['../classhect_1_1_material_parameter.html#a032baa6f3b67e9f32328df256f56b481',1,'hect::MaterialParameter::name()'],['../classhect_1_1_input_axis.html#ad8c0823f89b8245d0ba0649e5e220793',1,'hect::InputAxis::name()'],['../classhect_1_1_asset.html#a766366037505b957cc6ace69fad4dfe2',1,'hect::Asset::name()'],['../classhect_1_1_type.html#ad3b101b299210ea1072c0d81cf89e3ff',1,'hect::Type::name()']]],
   ['nearclip',['nearClip',['../classhect_1_1_camera.html#a218c47dad63651499e994faef582211e',1,'hect::Camera']]],
   ['next',['next',['../classhect_1_1_random.html#a48d2a42a57ac4aec1fdc3e14446a2bb6',1,'hect::Random']]],
   ['nextfloat32',['nextFloat32',['../classhect_1_1_random.html#a6873f5aefbfebe76d6a33944e811eb75',1,'hect::Random']]],

@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -98,10 +98,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>An listener of specific events.  
  <a href="classhect_1_1_listener.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="_listener_8h_source.html">Listener.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_event_8h_source.html">Event.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a8d34aa40336f5a077fbfd5432172b639"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_listener.html#a8d34aa40336f5a077fbfd5432172b639">~Listener</a> ()</td></tr>
+<tr class="memdesc:a8d34aa40336f5a077fbfd5432172b639"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregister the listener from all dispatchers that the listener is registered to.  <a href="#a8d34aa40336f5a077fbfd5432172b639">More...</a><br /></td></tr>
+<tr class="separator:a8d34aa40336f5a077fbfd5432172b639"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac722cc3df9342d747d3168010aa4d88e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_listener.html#ac722cc3df9342d747d3168010aa4d88e">receiveEvent</a> (const T &amp;event)=0</td></tr>
 <tr class="memdesc:ac722cc3df9342d747d3168010aa4d88e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifies the listener of an event.  <a href="#ac722cc3df9342d747d3168010aa4d88e">More...</a><br /></td></tr>
 <tr class="separator:ac722cc3df9342d747d3168010aa4d88e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,7 +114,35 @@ Public Member Functions</h2></td></tr>
 class hect::Listener&lt; T &gt;</h3>
 
 <p>An listener of specific events. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a8d34aa40336f5a077fbfd5432172b639"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classhect_1_1_listener.html">hect::Listener</a>&lt; T &gt;::~<a class="el" href="classhect_1_1_listener.html">Listener</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unregister the listener from all dispatchers that the listener is registered to. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ac722cc3df9342d747d3168010aa4d88e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -144,14 +175,14 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_physics_system.html#a4486f328687235982d77fc0818f64a2a">hect::PhysicsSystem</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_physics_system.html#a4486f328687235982d77fc0818f64a2a">hect::PhysicsSystem</a>, <a class="el" href="classhect_1_1_camera_system.html#a13f31d83bd10fb26e775424b6a603b52">hect::CameraSystem</a>, <a class="el" href="classhect_1_1_transform_system.html#a16356c7b1c222c7abe796c268fedac75">hect::TransformSystem</a>, and <a class="el" href="classhect_1_1_bounding_box_system.html#a4340eb637a9b8c94fa60fc9c3e81f7aa">hect::BoundingBoxSystem</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:23 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -49,9 +49,10 @@ var searchData=
   ['enum',['Enum',['../classhect_1_1_enum.html',1,'hect']]],
   ['enumvalue',['EnumValue',['../classhect_1_1_enum_value.html#a719c3588862d40ef52b485343615f683',1,'hect::EnumValue']]],
   ['enumvalue',['EnumValue',['../classhect_1_1_enum_value.html',1,'hect']]],
-  ['error',['Error',['../classhect_1_1_error.html#a8ebc1a306b1773569530162243b14d6e',1,'hect::Error::Error()'],['../classhect_1_1_error.html#a224ad0958f66b54faeed778c54ad0ac7',1,'hect::Error::Error(const std::string &amp;message)']]],
   ['error',['Error',['../classhect_1_1_error.html',1,'hect']]],
+  ['error',['Error',['../classhect_1_1_error.html#a8ebc1a306b1773569530162243b14d6e',1,'hect::Error::Error()'],['../classhect_1_1_error.html#a224ad0958f66b54faeed778c54ad0ac7',1,'hect::Error::Error(const std::string &amp;message)']]],
   ['exists',['exists',['../classhect_1_1_file_system.html#ac835cf6f4def491b98d984df9bec2b20',1,'hect::FileSystem']]],
   ['expandtoinclude',['expandToInclude',['../classhect_1_1_axis_aligned_box.html#a9092f399fcfde353c3c3fc43bc8902db',1,'hect::AxisAlignedBox::expandToInclude(const Vector3 &amp;point)'],['../classhect_1_1_axis_aligned_box.html#a9a33a813fb59e9ddd0286b0d1906f84f',1,'hect::AxisAlignedBox::expandToInclude(const AxisAlignedBox &amp;box)']]],
+  ['exposure',['exposure',['../classhect_1_1_camera.html#a9d8aab648c606b8ce07ee09b4138457a',1,'hect::Camera']]],
   ['extension',['extension',['../classhect_1_1_path.html#af5eed29fca5a903771fd1c2c0cafa30e',1,'hect::Path']]]
 ];

@@ -64,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -115,20 +115,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classhect_1_1_bounding_box.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_bounding_box.html">BoundingBox</a> :</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_component.html">Component</a>&lt;BoundingBox&gt;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classhect_1_1_bounding_box.html#a1e46ac41f0cf0a8776906ed0afad89f6">   43</a></span>&#160;    <a class="code" href="classhect_1_1_axis_aligned_box.html">AxisAlignedBox</a> <a class="code" href="classhect_1_1_bounding_box.html#a1e46ac41f0cf0a8776906ed0afad89f6">axisAlignedBox</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classhect_1_1_bounding_box_system.html">BoundingBoxSystem</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classhect_1_1_bounding_box.html#a1e46ac41f0cf0a8776906ed0afad89f6">   44</a></span>&#160;    <a class="code" href="classhect_1_1_axis_aligned_box.html">AxisAlignedBox</a> <a class="code" href="classhect_1_1_bounding_box.html#a1e46ac41f0cf0a8776906ed0afad89f6">axisAlignedBox</a>;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> _markedForUpdate { <span class="keyword">false</span> };</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
 <div class="ttc" id="classhect_1_1_bounding_box_html"><div class="ttname"><a href="classhect_1_1_bounding_box.html">hect::BoundingBox</a></div><div class="ttdoc">The spacial bounds of an entity. </div><div class="ttdef"><b>Definition:</b> BoundingBox.h:36</div></div>
 <div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:77</div></div>
-<div class="ttc" id="classhect_1_1_axis_aligned_box_html"><div class="ttname"><a href="classhect_1_1_axis_aligned_box.html">hect::AxisAlignedBox</a></div><div class="ttdoc">A box aligned with the global axes. </div><div class="ttdef"><b>Definition:</b> AxisAlignedBox.h:34</div></div>
-<div class="ttc" id="classhect_1_1_bounding_box_html_a1e46ac41f0cf0a8776906ed0afad89f6"><div class="ttname"><a href="classhect_1_1_bounding_box.html#a1e46ac41f0cf0a8776906ed0afad89f6">hect::BoundingBox::axisAlignedBox</a></div><div class="ttdeci">AxisAlignedBox axisAlignedBox</div><div class="ttdoc">The bounds as an axis aligned box. </div><div class="ttdef"><b>Definition:</b> BoundingBox.h:43</div></div>
+<div class="ttc" id="classhect_1_1_bounding_box_system_html"><div class="ttname"><a href="classhect_1_1_bounding_box_system.html">hect::BoundingBoxSystem</a></div><div class="ttdoc">Manages the bounding box hierarchies of the scene. </div><div class="ttdef"><b>Definition:</b> BoundingBoxSystem.h:37</div></div>
+<div class="ttc" id="classhect_1_1_axis_aligned_box_html"><div class="ttname"><a href="classhect_1_1_axis_aligned_box.html">hect::AxisAlignedBox</a></div><div class="ttdoc">A box aligned with the global axes in world-space. </div><div class="ttdef"><b>Definition:</b> AxisAlignedBox.h:34</div></div>
+<div class="ttc" id="classhect_1_1_bounding_box_html_a1e46ac41f0cf0a8776906ed0afad89f6"><div class="ttname"><a href="classhect_1_1_bounding_box.html#a1e46ac41f0cf0a8776906ed0afad89f6">hect::BoundingBox::axisAlignedBox</a></div><div class="ttdeci">AxisAlignedBox axisAlignedBox</div><div class="ttdoc">The bounds as an axis aligned box. </div><div class="ttdef"><b>Definition:</b> BoundingBox.h:44</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

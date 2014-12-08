@@ -110,7 +110,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -123,26 +123,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
-<li>targets()
-: <a class="el" href="classhect_1_1_frame_buffer.html#a70e07e344d25e267bf678e642c9dd4a9">hect::FrameBuffer</a>
-</li>
 <li>taskPool()
 : <a class="el" href="classhect_1_1_asset_cache.html#a33ecd7f59618ebceca2f0dfbb8261615">hect::AssetCache</a>
 </li>
 <li>TaskPool()
 : <a class="el" href="classhect_1_1_task_pool.html#a6c3bd73259164c419e03b3650b90f078">hect::TaskPool</a>
 </li>
-<li>techniques()
-: <a class="el" href="classhect_1_1_material.html#a2a08f5fcdebea33a0f1d9ec5c73b176d">hect::Material</a>
-</li>
 <li>testAxisAlignedBox()
 : <a class="el" href="classhect_1_1_frustum.html#a35b1e79f6faee5d5d58888c03a65b7d3">hect::Frustum</a>
+</li>
+<li>texture()
+: <a class="el" href="structhect_1_1_frame_buffer_1_1_texture_attachment.html#a325fb1fde0a8ed0ad30680ce51b3af08">hect::FrameBuffer::TextureAttachment</a>
 </li>
 <li>Texture()
 : <a class="el" href="classhect_1_1_texture.html#a46750b73449b442d37b6e0d4d14ed495">hect::Texture</a>
 </li>
-<li>textures()
-: <a class="el" href="classhect_1_1_pass.html#a082216dc5241f31c4afa6d8896985ec8">hect::Pass</a>
+<li>TextureAttachment()
+: <a class="el" href="structhect_1_1_frame_buffer_1_1_texture_attachment.html#a47e753cf616268dba7e29b489a3895f2">hect::FrameBuffer::TextureAttachment</a>
+</li>
+<li>textureAttachments()
+: <a class="el" href="classhect_1_1_frame_buffer.html#a2fd5d837c90404973868aca91aaaef8e">hect::FrameBuffer</a>
+</li>
+<li>textureIndex()
+: <a class="el" href="classhect_1_1_material_parameter.html#a0a980a48b7652b8d497956f26027a6b9">hect::MaterialParameter</a>
 </li>
 <li>tick()
 : <a class="el" href="classhect_1_1_bounding_box_system.html#a9aa59e6f916a4fa1d6ba2291124fb39b">hect::BoundingBoxSystem</a>
@@ -151,7 +154,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classhect_1_1_input_system.html#a4663380aeb214d8366628fa5160df97c">hect::InputSystem</a>
 , <a class="el" href="classhect_1_1_physics_system.html#a1a388fb066b890a477c8c8ecaceb2356">hect::PhysicsSystem</a>
 , <a class="el" href="classhect_1_1_scene.html#ac9a16f18240d62a066459985bbbec60a">hect::Scene</a>
-, <a class="el" href="classhect_1_1_system.html#a38d114c3ec86930e181f89f2032c462d">hect::System</a>
+, <a class="el" href="classhect_1_1_system.html#ae8d1add3e5d6481de4a7246acef2eeb9">hect::System</a>
 , <a class="el" href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">hect::TransformSystem</a>
 </li>
 <li>Timer()
@@ -178,9 +181,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>type()
 : <a class="el" href="classhect_1_1_json_value.html#a2ee6587faab4b5645e511c3026de2a67">hect::JsonValue</a>
+, <a class="el" href="classhect_1_1_material.html#acca7d9b1aa35d08d2c0827a929cd179c">hect::Material</a>
+, <a class="el" href="classhect_1_1_material_parameter.html#ae33420629065bedf9f970313f0ad499b">hect::MaterialParameter</a>
+, <a class="el" href="classhect_1_1_material_value.html#a0a522b02eb2ca24fe099cfb30a588b11">hect::MaterialValue</a>
 , <a class="el" href="classhect_1_1_shader_module.html#ad9ef31138690b340120b217b28aefbc3">hect::ShaderModule</a>
-, <a class="el" href="classhect_1_1_shader_parameter.html#a84f47471d6d4fddfe32f7b024af2e8c0">hect::ShaderParameter</a>
-, <a class="el" href="classhect_1_1_shader_value.html#a60bc5a07ece83868b0bd593f43fefb13">hect::ShaderValue</a>
 , <a class="el" href="classhect_1_1_texture.html#a790f970da1d1cecb502d51f93fb67872">hect::Texture</a>
 , <a class="el" href="classhect_1_1_vertex_attribute.html#a49ddf1817a1d4f69ea15ef2220c2c259">hect::VertexAttribute</a>
 </li>
@@ -189,7 +193,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>typeIdOf()
 : <a class="el" href="classhect_1_1_component_registry.html#a994c3608b10881602579f7bd5e3c97c9">hect::ComponentRegistry</a>
-, <a class="el" href="classhect_1_1_system_registry.html#a1a872ab9a043737877a4f3b41fcc3e3e">hect::SystemRegistry</a>
+, <a class="el" href="classhect_1_1_system_registry.html#a2ae55b9cfa180498f01c1f568a2cb24b">hect::SystemRegistry</a>
 </li>
 <li>typeNameOf()
 : <a class="el" href="classhect_1_1_component_registry.html#a2f0c63aef371d2b646bc331190690153">hect::ComponentRegistry</a>
@@ -199,7 +203,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:23 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

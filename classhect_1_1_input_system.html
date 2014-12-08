@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -118,6 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab78e531c8ba6adc326ad586db2ec96df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#ab78e531c8ba6adc326ad586db2ec96df">axisValue</a> (const std::string &amp;name) const </td></tr>
 <tr class="memdesc:ab78e531c8ba6adc326ad586db2ec96df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the axis with the given name.  <a href="#ab78e531c8ba6adc326ad586db2ec96df">More...</a><br /></td></tr>
 <tr class="separator:ab78e531c8ba6adc326ad586db2ec96df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52992d2c8c4fca27ea30df96e93f74d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#a52992d2c8c4fca27ea30df96e93f74d8">axisValue</a> (const char *name) const </td></tr>
+<tr class="memdesc:a52992d2c8c4fca27ea30df96e93f74d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the axis with the given name.  <a href="#a52992d2c8c4fca27ea30df96e93f74d8">More...</a><br /></td></tr>
+<tr class="separator:a52992d2c8c4fca27ea30df96e93f74d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4663380aeb214d8366628fa5160df97c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#a4663380aeb214d8366628fa5160df97c">tick</a> (<a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) override</td></tr>
 <tr class="memdesc:a4663380aeb214d8366628fa5160df97c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#a4663380aeb214d8366628fa5160df97c">More...</a><br /></td></tr>
 <tr class="separator:a4663380aeb214d8366628fa5160df97c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,6 +202,31 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 
 </div>
 </div>
+<a class="anchor" id="a52992d2c8c4fca27ea30df96e93f74d8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> hect::InputSystem::axisValue </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the value of the axis with the given name. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the axis.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value of the axis; 0 if the axis does not exist. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a4663380aeb214d8366628fa5160df97c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -229,14 +257,14 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classhect_1_1_system.html#a38d114c3ec86930e181f89f2032c462d">hect::System</a>.</p>
+<p>Reimplemented from <a class="el" href="classhect_1_1_system.html#ae8d1add3e5d6481de4a7246acef2eeb9">hect::System</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

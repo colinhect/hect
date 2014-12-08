@@ -64,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -130,46 +130,48 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="classhect_1_1_asset_entry.html#adf4bf24ea5d03599c3277408624fa08b">AssetEntry</a>(<a class="code" href="classhect_1_1_asset_cache.html">AssetCache</a>&amp; assetCache, <span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; <a class="code" href="classhect_1_1_asset_entry.html#a66be4c30f3d061d1b4b65510032770b4">path</a>);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_asset_entry.html#ad7e9d8fd5f2f1528abb3e3259d254804">refresh</a>(<span class="keywordtype">bool</span> force) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    std::unique_ptr&lt;T&gt;&amp; <span class="keyword">get</span>();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; <a class="code" href="classhect_1_1_asset_entry.html#a66be4c30f3d061d1b4b65510032770b4">path</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> initiateLoad();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> load();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="classhect_1_1_asset_cache.html">AssetCache</a>&amp; _assetCache { <span class="keyword">nullptr</span> };</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="classhect_1_1_path.html">Path</a> _path;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="classhect_1_1_task_1_1_handle.html">Task::Handle</a> _taskHandle;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    std::unique_ptr&lt;T&gt; _asset;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">bool</span> _errorOccurred { <span class="keyword">false</span> };</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    std::string _errorMessage;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="classhect_1_1_asset_entry.html#af780ca46c2db1370280faaa1ac65a209">AssetEntry</a>(<a class="code" href="classhect_1_1_asset_cache.html">AssetCache</a>&amp; assetCache, <span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; <a class="code" href="classhect_1_1_asset_entry.html#a66be4c30f3d061d1b4b65510032770b4">path</a>, std::function&lt;T*()&gt; constructor);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_asset_entry.html#ad7e9d8fd5f2f1528abb3e3259d254804">refresh</a>(<span class="keywordtype">bool</span> force) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    std::unique_ptr&lt;T&gt;&amp; <span class="keyword">get</span>();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; <a class="code" href="classhect_1_1_asset_entry.html#a66be4c30f3d061d1b4b65510032770b4">path</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> initiateLoad();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> load();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="classhect_1_1_asset_cache.html">AssetCache</a>&amp; _assetCache;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="classhect_1_1_path.html">Path</a> _path;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    std::function&lt;T*()&gt; _constructor;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="classhect_1_1_task_1_1_handle.html">Task::Handle</a> _taskHandle;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    std::unique_ptr&lt;T&gt; _asset;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="namespacehect.html#a9b346f319d597a855457ad7ec9123afc">TimeStamp</a> _lastModified { -1 };</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">bool</span> _errorOccurred { <span class="keyword">false</span> };</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    std::string _errorMessage;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="namespacehect.html#a9b346f319d597a855457ad7ec9123afc">TimeStamp</a> _lastModified { -1 };</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;};</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
 <div class="ttc" id="namespacehect_html_a9b346f319d597a855457ad7ec9123afc"><div class="ttname"><a href="namespacehect.html#a9b346f319d597a855457ad7ec9123afc">hect::TimeStamp</a></div><div class="ttdeci">int64_t TimeStamp</div><div class="ttdoc">A point in time represented as the number of seconds since the January 1st,. </div><div class="ttdef"><b>Definition:</b> TimeStamp.h:34</div></div>
 <div class="ttc" id="classhect_1_1_asset_entry_base_html_a6130a9769c0363d38e1def06a76ca6ad"><div class="ttname"><a href="classhect_1_1_asset_entry_base.html#a6130a9769c0363d38e1def06a76ca6ad">hect::AssetEntryBase::refresh</a></div><div class="ttdeci">virtual void refresh(bool force)=0</div><div class="ttdoc">Re-loads the asset if the asset file has been modified since it was last loaded. </div></div>
 <div class="ttc" id="classhect_1_1_asset_entry_html_a66be4c30f3d061d1b4b65510032770b4"><div class="ttname"><a href="classhect_1_1_asset_entry.html#a66be4c30f3d061d1b4b65510032770b4">hect::AssetEntry::path</a></div><div class="ttdeci">const Path &amp; path() const </div><div class="ttdoc">Returns the path of the asset. </div></div>
 <div class="ttc" id="classhect_1_1_asset_entry_html"><div class="ttname"><a href="classhect_1_1_asset_entry.html">hect::AssetEntry</a></div><div class="ttdoc">Refers to the asset at a path. </div><div class="ttdef"><b>Definition:</b> AssetEntry.h:55</div></div>
 <div class="ttc" id="classhect_1_1_asset_entry_html_ad7e9d8fd5f2f1528abb3e3259d254804"><div class="ttname"><a href="classhect_1_1_asset_entry.html#ad7e9d8fd5f2f1528abb3e3259d254804">hect::AssetEntry::refresh</a></div><div class="ttdeci">void refresh(bool force) override</div><div class="ttdoc">Re-loads the asset if the asset file has been modified since it was last loaded. </div></div>
 <div class="ttc" id="classhect_1_1_path_html"><div class="ttname"><a href="classhect_1_1_path.html">hect::Path</a></div><div class="ttdoc">A path to a file or directory. </div><div class="ttdef"><b>Definition:</b> Path.h:34</div></div>
-<div class="ttc" id="classhect_1_1_asset_entry_html_adf4bf24ea5d03599c3277408624fa08b"><div class="ttname"><a href="classhect_1_1_asset_entry.html#adf4bf24ea5d03599c3277408624fa08b">hect::AssetEntry::AssetEntry</a></div><div class="ttdeci">AssetEntry(AssetCache &amp;assetCache, const Path &amp;path)</div><div class="ttdoc">Constructs an asset entry. </div></div>
 <div class="ttc" id="classhect_1_1_task_1_1_handle_html"><div class="ttname"><a href="classhect_1_1_task_1_1_handle.html">hect::Task::Handle</a></div><div class="ttdoc">A handle for an enqueued task. </div><div class="ttdef"><b>Definition:</b> Task.h:50</div></div>
 <div class="ttc" id="classhect_1_1_asset_cache_html"><div class="ttname"><a href="classhect_1_1_asset_cache.html">hect::AssetCache</a></div><div class="ttdoc">Provides cached access to assets from the file system. </div><div class="ttdef"><b>Definition:</b> AssetCache.h:40</div></div>
+<div class="ttc" id="classhect_1_1_asset_entry_html_af780ca46c2db1370280faaa1ac65a209"><div class="ttname"><a href="classhect_1_1_asset_entry.html#af780ca46c2db1370280faaa1ac65a209">hect::AssetEntry::AssetEntry</a></div><div class="ttdeci">AssetEntry(AssetCache &amp;assetCache, const Path &amp;path, std::function&lt; T *()&gt; constructor)</div><div class="ttdoc">Constructs an asset entry. </div></div>
 <div class="ttc" id="classhect_1_1_asset_entry_base_html"><div class="ttname"><a href="classhect_1_1_asset_entry_base.html">hect::AssetEntryBase</a></div><div class="ttdoc">Base asset entry. </div><div class="ttdef"><b>Definition:</b> AssetEntry.h:38</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

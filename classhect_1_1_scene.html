@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -106,6 +106,7 @@ Inheritance diagram for hect::Scene:</div>
   <img src="classhect_1_1_scene.png" usemap="#hect::Scene_map" alt=""/>
   <map id="hect::Scene_map" name="hect::Scene_map">
 <area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="0,0,109,24"/>
+<area href="classhect_1_1_asset.html" title="Inheriting from this allows for caching/loading using an asset cache. " alt="hect::Asset" shape="rect" coords="119,0,228,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -126,6 +127,15 @@ const <a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
 <tr class="memitem:a883e0562891462bc8938f10992a7f14e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#a883e0562891462bc8938f10992a7f14e">addSystemType</a> ()</td></tr>
 <tr class="memdesc:a883e0562891462bc8938f10992a7f14e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds support for a system type to the scene.  <a href="#a883e0562891462bc8938f10992a7f14e">More...</a><br /></td></tr>
 <tr class="separator:a883e0562891462bc8938f10992a7f14e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95cf471020fe5440c26242e44de41f6a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a95cf471020fe5440c26242e44de41f6a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#a95cf471020fe5440c26242e44de41f6a">removeSystemType</a> ()</td></tr>
+<tr class="memdesc:a95cf471020fe5440c26242e44de41f6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes support for a system type to the scene.  <a href="#a95cf471020fe5440c26242e44de41f6a">More...</a><br /></td></tr>
+<tr class="separator:a95cf471020fe5440c26242e44de41f6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a48a6f8e8238a206784491199487c27"><td class="memTemplParams" colspan="2"><a class="anchor" id="a3a48a6f8e8238a206784491199487c27"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3a48a6f8e8238a206784491199487c27"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#a3a48a6f8e8238a206784491199487c27">hasSystemType</a> ()</td></tr>
+<tr class="memdesc:a3a48a6f8e8238a206784491199487c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the scene supports the specified system type. <br /></td></tr>
+<tr class="separator:a3a48a6f8e8238a206784491199487c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67f44e77def86032b0d97d2c3d99c588"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a67f44e77def86032b0d97d2c3d99c588"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#a67f44e77def86032b0d97d2c3d99c588">system</a> ()</td></tr>
 <tr class="memdesc:a67f44e77def86032b0d97d2c3d99c588"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the system of a specific type.  <a href="#a67f44e77def86032b0d97d2c3d99c588">More...</a><br /></td></tr>
@@ -134,6 +144,11 @@ const <a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
 <tr class="memitem:a0b8f08bc70369e8809d9024b592f8b73"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#a0b8f08bc70369e8809d9024b592f8b73">addComponentType</a> ()</td></tr>
 <tr class="memdesc:a0b8f08bc70369e8809d9024b592f8b73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds support for a component type to the scene.  <a href="#a0b8f08bc70369e8809d9024b592f8b73">More...</a><br /></td></tr>
 <tr class="separator:a0b8f08bc70369e8809d9024b592f8b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a986ac0fa2e9a2ef1a205f03a1283db9d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a986ac0fa2e9a2ef1a205f03a1283db9d"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a986ac0fa2e9a2ef1a205f03a1283db9d"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#a986ac0fa2e9a2ef1a205f03a1283db9d">hasComponentType</a> ()</td></tr>
+<tr class="memdesc:a986ac0fa2e9a2ef1a205f03a1283db9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the scene supports the specified component type. <br /></td></tr>
+<tr class="separator:a986ac0fa2e9a2ef1a205f03a1283db9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47ebed2269741919a5b417169027e5ca"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a47ebed2269741919a5b417169027e5ca"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_component_pool.html">ComponentPool</a>&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#a47ebed2269741919a5b417169027e5ca">components</a> ()</td></tr>
 <tr class="memdesc:a47ebed2269741919a5b417169027e5ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pool of components of a specific type.  <a href="#a47ebed2269741919a5b417169027e5ca">More...</a><br /></td></tr>
@@ -163,6 +178,21 @@ const <a class="el" href="classhect_1_1_entity_pool.html">EntityPool</a> &amp;&#
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#aea361646032ab999667cb1b176638fc8">entityCount</a> () const </td></tr>
 <tr class="memdesc:aea361646032ab999667cb1b176638fc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of active entities in the scene. <br /></td></tr>
 <tr class="separator:aea361646032ab999667cb1b176638fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classhect_1_1_asset"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhect_1_1_asset')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhect_1_1_asset.html">hect::Asset</a></td></tr>
+<tr class="memitem:a64e6ccf9b16f0217e22273e497b5a59b inherit pub_methods_classhect_1_1_asset"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a64e6ccf9b16f0217e22273e497b5a59b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a64e6ccf9b16f0217e22273e497b5a59b">Asset</a> ()</td></tr>
+<tr class="memdesc:a64e6ccf9b16f0217e22273e497b5a59b inherit pub_methods_classhect_1_1_asset"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an asset without a name. <br /></td></tr>
+<tr class="separator:a64e6ccf9b16f0217e22273e497b5a59b inherit pub_methods_classhect_1_1_asset"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08fa10b62feabf06c32c598f77948c94 inherit pub_methods_classhect_1_1_asset"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a08fa10b62feabf06c32c598f77948c94">Asset</a> (const std::string &amp;<a class="el" href="classhect_1_1_asset.html#a766366037505b957cc6ace69fad4dfe2">name</a>)</td></tr>
+<tr class="memdesc:a08fa10b62feabf06c32c598f77948c94 inherit pub_methods_classhect_1_1_asset"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an asset with a name.  <a href="#a08fa10b62feabf06c32c598f77948c94">More...</a><br /></td></tr>
+<tr class="separator:a08fa10b62feabf06c32c598f77948c94 inherit pub_methods_classhect_1_1_asset"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a766366037505b957cc6ace69fad4dfe2 inherit pub_methods_classhect_1_1_asset"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a766366037505b957cc6ace69fad4dfe2"></a>
+const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a766366037505b957cc6ace69fad4dfe2">name</a> () const </td></tr>
+<tr class="memdesc:a766366037505b957cc6ace69fad4dfe2 inherit pub_methods_classhect_1_1_asset"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name. <br /></td></tr>
+<tr class="separator:a766366037505b957cc6ace69fad4dfe2 inherit pub_methods_classhect_1_1_asset"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97699607404c6a0c2c8d6ed3aeddb627 inherit pub_methods_classhect_1_1_asset"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a97699607404c6a0c2c8d6ed3aeddb627">setName</a> (const std::string &amp;<a class="el" href="classhect_1_1_asset.html#a766366037505b957cc6ace69fad4dfe2">name</a>)</td></tr>
+<tr class="memdesc:a97699607404c6a0c2c8d6ed3aeddb627 inherit pub_methods_classhect_1_1_asset"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the name.  <a href="#a97699607404c6a0c2c8d6ed3aeddb627">More...</a><br /></td></tr>
+<tr class="separator:a97699607404c6a0c2c8d6ed3aeddb627 inherit pub_methods_classhect_1_1_asset"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A scene of entities, components, and systems. </p>
@@ -331,6 +361,32 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a95cf471020fe5440c26242e44de41f6a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void hect::Scene::removeSystemType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes support for a system type to the scene. </p>
+<dl class="section warning"><dt>Warning</dt><dd>The type must be registered with <a class="el" href="classhect_1_1_system_registry.html" title="Provides the ability to dynamically create systems based on type information. ">SystemRegistry</a>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the system type is not supported by the scene. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a67f44e77def86032b0d97d2c3d99c588"></a>
 <div class="memitem">
 <div class="memproto">
@@ -383,7 +439,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:23 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

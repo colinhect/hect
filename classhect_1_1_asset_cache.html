@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -114,14 +114,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a896df1918c87fe537b02bb9a2ea167f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_cache.html#a896df1918c87fe537b02bb9a2ea167f5">AssetCache</a> (<a class="el" href="classhect_1_1_file_system.html">FileSystem</a> &amp;fileSystem, bool concurrent)</td></tr>
 <tr class="memdesc:a896df1918c87fe537b02bb9a2ea167f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an asset cache.  <a href="#a896df1918c87fe537b02bb9a2ea167f5">More...</a><br /></td></tr>
 <tr class="separator:a896df1918c87fe537b02bb9a2ea167f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56398e92f95108f6a49fadcffe516878"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a56398e92f95108f6a49fadcffe516878"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_cache.html#a56398e92f95108f6a49fadcffe516878">get</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
-<tr class="memdesc:a56398e92f95108f6a49fadcffe516878"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the asset at the given path.  <a href="#a56398e92f95108f6a49fadcffe516878">More...</a><br /></td></tr>
-<tr class="separator:a56398e92f95108f6a49fadcffe516878"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98ad602b89c5959b8bf4e93dc82fa412"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a98ad602b89c5959b8bf4e93dc82fa412"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_cache.html#a98ad602b89c5959b8bf4e93dc82fa412">getHandle</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
-<tr class="memdesc:a98ad602b89c5959b8bf4e93dc82fa412"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a handle for the asset at the given path.  <a href="#a98ad602b89c5959b8bf4e93dc82fa412">More...</a><br /></td></tr>
-<tr class="separator:a98ad602b89c5959b8bf4e93dc82fa412"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d4937dd1ecaeb1eed63cacff1fa2ebe"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:a3d4937dd1ecaeb1eed63cacff1fa2ebe"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_cache.html#a3d4937dd1ecaeb1eed63cacff1fa2ebe">get</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a3d4937dd1ecaeb1eed63cacff1fa2ebe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the asset at the given path.  <a href="#a3d4937dd1ecaeb1eed63cacff1fa2ebe">More...</a><br /></td></tr>
+<tr class="separator:a3d4937dd1ecaeb1eed63cacff1fa2ebe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5562d560609d705dd8fe6b9f0fd0ca96"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:a5562d560609d705dd8fe6b9f0fd0ca96"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_cache.html#a5562d560609d705dd8fe6b9f0fd0ca96">getHandle</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a5562d560609d705dd8fe6b9f0fd0ca96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a handle for the asset at the given path.  <a href="#a5562d560609d705dd8fe6b9f0fd0ca96">More...</a><br /></td></tr>
+<tr class="separator:a5562d560609d705dd8fe6b9f0fd0ca96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00c5bde27a6e5b55fe760a4d3a2201e8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a00c5bde27a6e5b55fe760a4d3a2201e8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_cache.html#a00c5bde27a6e5b55fe760a4d3a2201e8">refresh</a> (bool onlyModified)</td></tr>
 <tr class="memdesc:a00c5bde27a6e5b55fe760a4d3a2201e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Re-loads any cached assets of a specific type.  <a href="#a00c5bde27a6e5b55fe760a4d3a2201e8">More...</a><br /></td></tr>
@@ -186,18 +186,28 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a56398e92f95108f6a49fadcffe516878"></a>
+<a class="anchor" id="a3d4937dd1ecaeb1eed63cacff1fa2ebe"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename... Args&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">T&amp; hect::AssetCache::get </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -205,7 +215,8 @@ template&lt;typename T &gt; </div>
 <p>Returns a reference to the asset at the given path. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The case-sensitive path to the asset.</td></tr>
+    <tr><td class="paramname">path</td><td>The case-sensitive path to the asset. </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments to pass to the asset's constructor if the asset is loaded.</td></tr>
   </table>
   </dd>
 </dl>
@@ -218,18 +229,28 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a98ad602b89c5959b8bf4e93dc82fa412"></a>
+<a class="anchor" id="a5562d560609d705dd8fe6b9f0fd0ca96"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename... Args&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt;T&gt; hect::AssetCache::getHandle </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -238,7 +259,8 @@ template&lt;typename T &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>The asset is not necessarily loaded immediately. The handle provides access to the asset itself.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The case-sensitive path to the asset.</td></tr>
+    <tr><td class="paramname">path</td><td>The case-sensitive path to the asset. </td></tr>
+    <tr><td class="paramname">args</td><td>The arguments to pass to the asset's constructor if the asset is loaded.</td></tr>
   </table>
   </dd>
 </dl>
@@ -369,7 +391,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,9 +111,9 @@ Inheritance diagram for hect::AssetEntry&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adf4bf24ea5d03599c3277408624fa08b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_entry.html#adf4bf24ea5d03599c3277408624fa08b">AssetEntry</a> (<a class="el" href="classhect_1_1_asset_cache.html">AssetCache</a> &amp;assetCache, const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;<a class="el" href="classhect_1_1_asset_entry.html#a66be4c30f3d061d1b4b65510032770b4">path</a>)</td></tr>
-<tr class="memdesc:adf4bf24ea5d03599c3277408624fa08b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an asset entry.  <a href="#adf4bf24ea5d03599c3277408624fa08b">More...</a><br /></td></tr>
-<tr class="separator:adf4bf24ea5d03599c3277408624fa08b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af780ca46c2db1370280faaa1ac65a209"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_entry.html#af780ca46c2db1370280faaa1ac65a209">AssetEntry</a> (<a class="el" href="classhect_1_1_asset_cache.html">AssetCache</a> &amp;assetCache, const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;<a class="el" href="classhect_1_1_asset_entry.html#a66be4c30f3d061d1b4b65510032770b4">path</a>, std::function&lt; T *()&gt; constructor)</td></tr>
+<tr class="memdesc:af780ca46c2db1370280faaa1ac65a209"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an asset entry.  <a href="#af780ca46c2db1370280faaa1ac65a209">More...</a><br /></td></tr>
+<tr class="separator:af780ca46c2db1370280faaa1ac65a209"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7e9d8fd5f2f1528abb3e3259d254804"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_entry.html#ad7e9d8fd5f2f1528abb3e3259d254804">refresh</a> (bool force) override</td></tr>
 <tr class="memdesc:ad7e9d8fd5f2f1528abb3e3259d254804"><td class="mdescLeft">&#160;</td><td class="mdescRight">Re-loads the asset if the asset file has been modified since it was last loaded.  <a href="#ad7e9d8fd5f2f1528abb3e3259d254804">More...</a><br /></td></tr>
 <tr class="separator:ad7e9d8fd5f2f1528abb3e3259d254804"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,7 +132,7 @@ class hect::AssetEntry&lt; T &gt;</h3>
 
 <p>Refers to the asset at a path. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="adf4bf24ea5d03599c3277408624fa08b"></a>
+<a class="anchor" id="af780ca46c2db1370280faaa1ac65a209"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -148,7 +148,13 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
-          <td class="paramname"><em>path</em>&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::function&lt; T *()&gt;&#160;</td>
+          <td class="paramname"><em>constructor</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -163,6 +169,7 @@ template&lt;typename T &gt; </div>
   <table class="params">
     <tr><td class="paramname">assetCache</td><td>The asset cache. </td></tr>
     <tr><td class="paramname">path</td><td>The path to the asset. </td></tr>
+    <tr><td class="paramname">constructor</td><td>A function constructing a new instance of the asset. </td></tr>
   </table>
   </dd>
 </dl>
@@ -209,7 +216,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -124,53 +124,76 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer_1_1_object.html">Object</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An object which can be uploaded to a renderer.  <a href="classhect_1_1_renderer_1_1_object.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhect_1_1_renderer_1_1_statistics.html">Statistics</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the various statistics of the renderer's state.  <a href="structhect_1_1_renderer_1_1_statistics.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab06ea729549ea9ac74b8344ff66785c9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#ab06ea729549ea9ac74b8344ff66785c9">initialize</a> (<a class="el" href="classhect_1_1_window.html">Window</a> &amp;window)=0</td></tr>
 <tr class="memdesc:ab06ea729549ea9ac74b8344ff66785c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the renderer.  <a href="#ab06ea729549ea9ac74b8344ff66785c9">More...</a><br /></td></tr>
 <tr class="separator:ab06ea729549ea9ac74b8344ff66785c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc03e090cda596339fd4b74b44ce4a85"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc03e090cda596339fd4b74b44ce4a85"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#adc03e090cda596339fd4b74b44ce4a85">beginFrame</a> ()=0</td></tr>
-<tr class="memdesc:adc03e090cda596339fd4b74b44ce4a85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin a new frame. <br /></td></tr>
+<tr class="memitem:adc03e090cda596339fd4b74b44ce4a85"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#adc03e090cda596339fd4b74b44ce4a85">beginFrame</a> ()=0</td></tr>
+<tr class="memdesc:adc03e090cda596339fd4b74b44ce4a85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establishes the beginning of a frame.  <a href="#adc03e090cda596339fd4b74b44ce4a85">More...</a><br /></td></tr>
 <tr class="separator:adc03e090cda596339fd4b74b44ce4a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0207adc448e06a484f568822526b0e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab0207adc448e06a484f568822526b0e5"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#ab0207adc448e06a484f568822526b0e5">endFrame</a> ()=0</td></tr>
-<tr class="memdesc:ab0207adc448e06a484f568822526b0e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">End the current frame. <br /></td></tr>
+<tr class="memdesc:ab0207adc448e06a484f568822526b0e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Establishes the ending of a frame. <br /></td></tr>
 <tr class="separator:ab0207adc448e06a484f568822526b0e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59bd094ae64e16dbfbeca4c08ebb61e7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a59bd094ae64e16dbfbeca4c08ebb61e7">bindState</a> (const <a class="el" href="classhect_1_1_render_state.html">RenderState</a> &amp;state)=0</td></tr>
-<tr class="memdesc:a59bd094ae64e16dbfbeca4c08ebb61e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds a render state.  <a href="#a59bd094ae64e16dbfbeca4c08ebb61e7">More...</a><br /></td></tr>
-<tr class="separator:a59bd094ae64e16dbfbeca4c08ebb61e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5044e59394f619e4fa134d7d97d9d96"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#ad5044e59394f619e4fa134d7d97d9d96">bindTarget</a> (<a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;renderTarget)=0</td></tr>
-<tr class="memdesc:ad5044e59394f619e4fa134d7d97d9d96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects a render target to begin rendering to.  <a href="#ad5044e59394f619e4fa134d7d97d9d96">More...</a><br /></td></tr>
-<tr class="separator:ad5044e59394f619e4fa134d7d97d9d96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8e9b0bc5e74004941e62966becd72d0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#ab8e9b0bc5e74004941e62966becd72d0">bindWindow</a> (<a class="el" href="classhect_1_1_window.html">Window</a> &amp;window)=0</td></tr>
-<tr class="memdesc:ab8e9b0bc5e74004941e62966becd72d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects a window as the active render target.  <a href="#ab8e9b0bc5e74004941e62966becd72d0">More...</a><br /></td></tr>
-<tr class="separator:ab8e9b0bc5e74004941e62966becd72d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23e839e97fcb8e53bbb1612b7a15e9b2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a23e839e97fcb8e53bbb1612b7a15e9b2">bindFrameBuffer</a> (<a class="el" href="classhect_1_1_frame_buffer.html">FrameBuffer</a> &amp;frameBuffer)=0</td></tr>
-<tr class="memdesc:a23e839e97fcb8e53bbb1612b7a15e9b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects a frame buffer as the active render target.  <a href="#a23e839e97fcb8e53bbb1612b7a15e9b2">More...</a><br /></td></tr>
-<tr class="separator:a23e839e97fcb8e53bbb1612b7a15e9b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6c89fdb1315bbe7b75245339f9293ee"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#aa6c89fdb1315bbe7b75245339f9293ee">selectTarget</a> (<a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;renderTarget)=0</td></tr>
+<tr class="memdesc:aa6c89fdb1315bbe7b75245339f9293ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects a render target to begin rendering to.  <a href="#aa6c89fdb1315bbe7b75245339f9293ee">More...</a><br /></td></tr>
+<tr class="separator:aa6c89fdb1315bbe7b75245339f9293ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad69b20ce710cdc70d0240e98ee948464"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#ad69b20ce710cdc70d0240e98ee948464">selectTarget</a> (<a class="el" href="classhect_1_1_window.html">Window</a> &amp;window)=0</td></tr>
+<tr class="memdesc:ad69b20ce710cdc70d0240e98ee948464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects a window to begin rendering to.  <a href="#ad69b20ce710cdc70d0240e98ee948464">More...</a><br /></td></tr>
+<tr class="separator:ad69b20ce710cdc70d0240e98ee948464"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcc1a2446d7216a179643b2a57b67cd7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#abcc1a2446d7216a179643b2a57b67cd7">selectTarget</a> (<a class="el" href="classhect_1_1_frame_buffer.html">FrameBuffer</a> &amp;frameBuffer)=0</td></tr>
+<tr class="memdesc:abcc1a2446d7216a179643b2a57b67cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects a frame buffer to begin rendering to.  <a href="#abcc1a2446d7216a179643b2a57b67cd7">More...</a><br /></td></tr>
+<tr class="separator:abcc1a2446d7216a179643b2a57b67cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a32b8bb0a15b8b7f2ffea9158fef1cb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a7a32b8bb0a15b8b7f2ffea9158fef1cb">uploadFrameBuffer</a> (<a class="el" href="classhect_1_1_frame_buffer.html">FrameBuffer</a> &amp;frameBuffer)=0</td></tr>
 <tr class="memdesc:a7a32b8bb0a15b8b7f2ffea9158fef1cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a frame buffer.  <a href="#a7a32b8bb0a15b8b7f2ffea9158fef1cb">More...</a><br /></td></tr>
 <tr class="separator:a7a32b8bb0a15b8b7f2ffea9158fef1cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa155c0eab40cc25362137d6dfc8935ff"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#aa155c0eab40cc25362137d6dfc8935ff">destroyFrameBuffer</a> (<a class="el" href="classhect_1_1_frame_buffer.html">FrameBuffer</a> &amp;frameBuffer)=0</td></tr>
 <tr class="memdesc:aa155c0eab40cc25362137d6dfc8935ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a frame buffer.  <a href="#aa155c0eab40cc25362137d6dfc8935ff">More...</a><br /></td></tr>
 <tr class="separator:aa155c0eab40cc25362137d6dfc8935ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6941e122cde6d172819f6a98b6c55bc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#aa6941e122cde6d172819f6a98b6c55bc">bindShader</a> (<a class="el" href="classhect_1_1_shader.html">Shader</a> &amp;shader)=0</td></tr>
-<tr class="memdesc:aa6941e122cde6d172819f6a98b6c55bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds a shader.  <a href="#aa6941e122cde6d172819f6a98b6c55bc">More...</a><br /></td></tr>
-<tr class="separator:aa6941e122cde6d172819f6a98b6c55bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3a7b5ba2263ae03b7789d9e14369c91"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#ad3a7b5ba2263ae03b7789d9e14369c91">uploadShader</a> (<a class="el" href="classhect_1_1_shader.html">Shader</a> &amp;shader)=0</td></tr>
-<tr class="memdesc:ad3a7b5ba2263ae03b7789d9e14369c91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a shader.  <a href="#ad3a7b5ba2263ae03b7789d9e14369c91">More...</a><br /></td></tr>
-<tr class="separator:ad3a7b5ba2263ae03b7789d9e14369c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d77403891c69db8824cac4f066856da"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a6d77403891c69db8824cac4f066856da">destroyShader</a> (<a class="el" href="classhect_1_1_shader.html">Shader</a> &amp;shader)=0</td></tr>
-<tr class="memdesc:a6d77403891c69db8824cac4f066856da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a shader.  <a href="#a6d77403891c69db8824cac4f066856da">More...</a><br /></td></tr>
-<tr class="separator:a6d77403891c69db8824cac4f066856da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3619931c6adda2893cfe126b680e5b84"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a3619931c6adda2893cfe126b680e5b84">bindShaderParameter</a> (const <a class="el" href="classhect_1_1_shader_parameter.html">ShaderParameter</a> &amp;parameter, const <a class="el" href="classhect_1_1_shader_value.html">ShaderValue</a> &amp;value)=0</td></tr>
-<tr class="memdesc:a3619931c6adda2893cfe126b680e5b84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds a value to a shader parameter.  <a href="#a3619931c6adda2893cfe126b680e5b84">More...</a><br /></td></tr>
-<tr class="separator:a3619931c6adda2893cfe126b680e5b84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93b58fe2c86fc91b4dd07aa56bcb4632"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a93b58fe2c86fc91b4dd07aa56bcb4632">bindTexture</a> (<a class="el" href="classhect_1_1_texture.html">Texture</a> &amp;texture, unsigned index)=0</td></tr>
-<tr class="memdesc:a93b58fe2c86fc91b4dd07aa56bcb4632"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds a texture.  <a href="#a93b58fe2c86fc91b4dd07aa56bcb4632">More...</a><br /></td></tr>
-<tr class="separator:a93b58fe2c86fc91b4dd07aa56bcb4632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5406e27586e0e617de1db5cb23101891"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a5406e27586e0e617de1db5cb23101891">uploadRenderBuffer</a> (<a class="el" href="classhect_1_1_render_buffer.html">RenderBuffer</a> &amp;renderBuffer)=0</td></tr>
+<tr class="memdesc:a5406e27586e0e617de1db5cb23101891"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a render buffer.  <a href="#a5406e27586e0e617de1db5cb23101891">More...</a><br /></td></tr>
+<tr class="separator:a5406e27586e0e617de1db5cb23101891"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e8b42b29be4d82a2a66fecb4effab9d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a9e8b42b29be4d82a2a66fecb4effab9d">destroyRenderBuffer</a> (<a class="el" href="classhect_1_1_render_buffer.html">RenderBuffer</a> &amp;renderBuffer)=0</td></tr>
+<tr class="memdesc:a9e8b42b29be4d82a2a66fecb4effab9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a render buffer.  <a href="#a9e8b42b29be4d82a2a66fecb4effab9d">More...</a><br /></td></tr>
+<tr class="separator:a9e8b42b29be4d82a2a66fecb4effab9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79f8938aeaa9317d52ec650918208a84"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a79f8938aeaa9317d52ec650918208a84">selectMaterial</a> (<a class="el" href="classhect_1_1_material.html">Material</a> &amp;material, bool selectBase=true)=0</td></tr>
+<tr class="memdesc:a79f8938aeaa9317d52ec650918208a84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects the material affecting following draw calls.  <a href="#a79f8938aeaa9317d52ec650918208a84">More...</a><br /></td></tr>
+<tr class="separator:a79f8938aeaa9317d52ec650918208a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebdf0818b3bea879a4583a732e89fbde"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#aebdf0818b3bea879a4583a732e89fbde">uploadMaterial</a> (<a class="el" href="classhect_1_1_material.html">Material</a> &amp;material)=0</td></tr>
+<tr class="memdesc:aebdf0818b3bea879a4583a732e89fbde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a material.  <a href="#aebdf0818b3bea879a4583a732e89fbde">More...</a><br /></td></tr>
+<tr class="separator:aebdf0818b3bea879a4583a732e89fbde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b109838741f6fa38190e5b1546f4e2f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a7b109838741f6fa38190e5b1546f4e2f">destroyMaterial</a> (<a class="el" href="classhect_1_1_material.html">Material</a> &amp;material)=0</td></tr>
+<tr class="memdesc:a7b109838741f6fa38190e5b1546f4e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a material.  <a href="#a7b109838741f6fa38190e5b1546f4e2f">More...</a><br /></td></tr>
+<tr class="separator:a7b109838741f6fa38190e5b1546f4e2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6767eb8fbfb5ae1ac6dc175ddd60a7b6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a6767eb8fbfb5ae1ac6dc175ddd60a7b6">setMaterialParameter</a> (const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;parameter, const <a class="el" href="classhect_1_1_material_value.html">MaterialValue</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a6767eb8fbfb5ae1ac6dc175ddd60a7b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value for a parameter of the selected material.  <a href="#a6767eb8fbfb5ae1ac6dc175ddd60a7b6">More...</a><br /></td></tr>
+<tr class="separator:a6767eb8fbfb5ae1ac6dc175ddd60a7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a193329a053a42d77c117d774665cd7ba"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a193329a053a42d77c117d774665cd7ba">setMaterialParameter</a> (const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;parameter, int value)=0</td></tr>
+<tr class="memdesc:a193329a053a42d77c117d774665cd7ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value for a parameter of the selected material.  <a href="#a193329a053a42d77c117d774665cd7ba">More...</a><br /></td></tr>
+<tr class="separator:a193329a053a42d77c117d774665cd7ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4b081619673569a1284f25aee0a8c47"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#af4b081619673569a1284f25aee0a8c47">setMaterialParameter</a> (const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;parameter, <a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value)=0</td></tr>
+<tr class="memdesc:af4b081619673569a1284f25aee0a8c47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value for a parameter of the selected material.  <a href="#af4b081619673569a1284f25aee0a8c47">More...</a><br /></td></tr>
+<tr class="separator:af4b081619673569a1284f25aee0a8c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f43b19aad4cc18126d2d10a91b0fcbd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a9f43b19aad4cc18126d2d10a91b0fcbd">setMaterialParameter</a> (const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;parameter, const <a class="el" href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">Vector2</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a9f43b19aad4cc18126d2d10a91b0fcbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value for a parameter of the selected material.  <a href="#a9f43b19aad4cc18126d2d10a91b0fcbd">More...</a><br /></td></tr>
+<tr class="separator:a9f43b19aad4cc18126d2d10a91b0fcbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a563d75afd0a3cfd794df2c5243b213a7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a563d75afd0a3cfd794df2c5243b213a7">setMaterialParameter</a> (const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;parameter, const <a class="el" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a563d75afd0a3cfd794df2c5243b213a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value for a parameter of the selected material.  <a href="#a563d75afd0a3cfd794df2c5243b213a7">More...</a><br /></td></tr>
+<tr class="separator:a563d75afd0a3cfd794df2c5243b213a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49db82c87b4d2c40c3d4af3812917d8b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a49db82c87b4d2c40c3d4af3812917d8b">setMaterialParameter</a> (const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;parameter, const <a class="el" href="namespacehect.html#ae7c23929fffcd04cd70b60cb39c6c059">Vector4</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a49db82c87b4d2c40c3d4af3812917d8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value for a parameter of the selected material.  <a href="#a49db82c87b4d2c40c3d4af3812917d8b">More...</a><br /></td></tr>
+<tr class="separator:a49db82c87b4d2c40c3d4af3812917d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74f11f5816f396265da4c4a9f9414d8a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a74f11f5816f396265da4c4a9f9414d8a">setMaterialParameter</a> (const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;parameter, const <a class="el" href="classhect_1_1_matrix4_t.html">Matrix4</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a74f11f5816f396265da4c4a9f9414d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value for a parameter of the selected material.  <a href="#a74f11f5816f396265da4c4a9f9414d8a">More...</a><br /></td></tr>
+<tr class="separator:a74f11f5816f396265da4c4a9f9414d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ccfcfdbc1b7ed7b239cb113aa6dd78"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a79ccfcfdbc1b7ed7b239cb113aa6dd78">setMaterialParameter</a> (const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;parameter, <a class="el" href="classhect_1_1_texture.html">Texture</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a79ccfcfdbc1b7ed7b239cb113aa6dd78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value for a parameter of the selected material.  <a href="#a79ccfcfdbc1b7ed7b239cb113aa6dd78">More...</a><br /></td></tr>
+<tr class="separator:a79ccfcfdbc1b7ed7b239cb113aa6dd78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01b43fa08b2a983512c7474d40b4cd53"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a01b43fa08b2a983512c7474d40b4cd53">uploadTexture</a> (<a class="el" href="classhect_1_1_texture.html">Texture</a> &amp;texture)=0</td></tr>
 <tr class="memdesc:a01b43fa08b2a983512c7474d40b4cd53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a texture.  <a href="#a01b43fa08b2a983512c7474d40b4cd53">More...</a><br /></td></tr>
 <tr class="separator:a01b43fa08b2a983512c7474d40b4cd53"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,32 +203,43 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:aeab5b0d3d5fba25a62752e59948d66a9"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classhect_1_1_image.html">Image</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#aeab5b0d3d5fba25a62752e59948d66a9">downloadTextureImage</a> (const <a class="el" href="classhect_1_1_texture.html">Texture</a> &amp;texture)=0</td></tr>
 <tr class="memdesc:aeab5b0d3d5fba25a62752e59948d66a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads the 2-dimensional image of the given uploaded texture.  <a href="#aeab5b0d3d5fba25a62752e59948d66a9">More...</a><br /></td></tr>
 <tr class="separator:aeab5b0d3d5fba25a62752e59948d66a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a640245241712fa46987ec2b22157dcda"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a640245241712fa46987ec2b22157dcda">bindMesh</a> (<a class="el" href="classhect_1_1_mesh.html">Mesh</a> &amp;mesh)=0</td></tr>
-<tr class="memdesc:a640245241712fa46987ec2b22157dcda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binds a mesh.  <a href="#a640245241712fa46987ec2b22157dcda">More...</a><br /></td></tr>
-<tr class="separator:a640245241712fa46987ec2b22157dcda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f113841f7ef8577fcb65bcc90722131"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a3f113841f7ef8577fcb65bcc90722131">selectMesh</a> (<a class="el" href="classhect_1_1_mesh.html">Mesh</a> &amp;mesh)=0</td></tr>
+<tr class="memdesc:a3f113841f7ef8577fcb65bcc90722131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects the mesh affecting following draw calls.  <a href="#a3f113841f7ef8577fcb65bcc90722131">More...</a><br /></td></tr>
+<tr class="separator:a3f113841f7ef8577fcb65bcc90722131"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae30d5b4cf2802ea4aa7ac77b0227f51e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#ae30d5b4cf2802ea4aa7ac77b0227f51e">uploadMesh</a> (<a class="el" href="classhect_1_1_mesh.html">Mesh</a> &amp;mesh)=0</td></tr>
 <tr class="memdesc:ae30d5b4cf2802ea4aa7ac77b0227f51e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a mesh.  <a href="#ae30d5b4cf2802ea4aa7ac77b0227f51e">More...</a><br /></td></tr>
 <tr class="separator:ae30d5b4cf2802ea4aa7ac77b0227f51e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb63bc92295f22749f2540934e1e276c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#abb63bc92295f22749f2540934e1e276c">destroyMesh</a> (<a class="el" href="classhect_1_1_mesh.html">Mesh</a> &amp;mesh)=0</td></tr>
 <tr class="memdesc:abb63bc92295f22749f2540934e1e276c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a mesh.  <a href="#abb63bc92295f22749f2540934e1e276c">More...</a><br /></td></tr>
 <tr class="separator:abb63bc92295f22749f2540934e1e276c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1abe4c5f86acdd357d09829ecb8a7113"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1abe4c5f86acdd357d09829ecb8a7113"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a1abe4c5f86acdd357d09829ecb8a7113">draw</a> ()=0</td></tr>
-<tr class="memdesc:a1abe4c5f86acdd357d09829ecb8a7113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws to the render target in the current state. <br /></td></tr>
+<tr class="memitem:a1abe4c5f86acdd357d09829ecb8a7113"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a1abe4c5f86acdd357d09829ecb8a7113">draw</a> ()=0</td></tr>
+<tr class="memdesc:a1abe4c5f86acdd357d09829ecb8a7113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw the selected mesh using the selected material to the selected render target.  <a href="#a1abe4c5f86acdd357d09829ecb8a7113">More...</a><br /></td></tr>
 <tr class="separator:a1abe4c5f86acdd357d09829ecb8a7113"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88bb44b11445fd4e6244811194762e18"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88bb44b11445fd4e6244811194762e18"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a88bb44b11445fd4e6244811194762e18">clear</a> ()=0</td></tr>
 <tr class="memdesc:a88bb44b11445fd4e6244811194762e18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the render target. <br /></td></tr>
 <tr class="separator:a88bb44b11445fd4e6244811194762e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90f2252217ce620346900677bdad5ad0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90f2252217ce620346900677bdad5ad0"></a>
-virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html">Capabilities</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a90f2252217ce620346900677bdad5ad0">capabilities</a> () const =0</td></tr>
-<tr class="memdesc:a90f2252217ce620346900677bdad5ad0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the capabilities of the underlying hardware. <br /></td></tr>
-<tr class="separator:a90f2252217ce620346900677bdad5ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09459664a5dcfa4d9911d57e154717fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09459664a5dcfa4d9911d57e154717fd"></a>
+<a class="el" href="structhect_1_1_renderer_1_1_capabilities.html">Capabilities</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a09459664a5dcfa4d9911d57e154717fd">capabilities</a> ()</td></tr>
+<tr class="memdesc:a09459664a5dcfa4d9911d57e154717fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the capabilities of the underlying hardware. <br /></td></tr>
+<tr class="separator:a09459664a5dcfa4d9911d57e154717fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fb30c791ee7c4b22fd402419d603fa5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7fb30c791ee7c4b22fd402419d603fa5"></a>
+const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html">Capabilities</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a7fb30c791ee7c4b22fd402419d603fa5">capabilities</a> () const </td></tr>
+<tr class="memdesc:a7fb30c791ee7c4b22fd402419d603fa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the capabilities of the underlying hardware. <br /></td></tr>
+<tr class="separator:a7fb30c791ee7c4b22fd402419d603fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29876b7ac6af97944b8f7fe5b74aa998"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29876b7ac6af97944b8f7fe5b74aa998"></a>
+<a class="el" href="structhect_1_1_renderer_1_1_statistics.html">Statistics</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a29876b7ac6af97944b8f7fe5b74aa998">statistics</a> ()</td></tr>
+<tr class="memdesc:a29876b7ac6af97944b8f7fe5b74aa998"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the statistics of the renderer's state. <br /></td></tr>
+<tr class="separator:a29876b7ac6af97944b8f7fe5b74aa998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36e6aeeaf4c50786254e23674453ee08"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36e6aeeaf4c50786254e23674453ee08"></a>
+const <a class="el" href="structhect_1_1_renderer_1_1_statistics.html">Statistics</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_renderer.html#a36e6aeeaf4c50786254e23674453ee08">statistics</a> () const </td></tr>
+<tr class="memdesc:a36e6aeeaf4c50786254e23674453ee08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the statistics of the renderer's state. <br /></td></tr>
+<tr class="separator:a36e6aeeaf4c50786254e23674453ee08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A higher-level abstraction over a hardware-accelerated graphics API such as OpenGL or DirectX. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a23e839e97fcb8e53bbb1612b7a15e9b2"></a>
+<a class="anchor" id="adc03e090cda596339fd4b74b44ce4a85"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -213,10 +247,9 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void hect::Renderer::bindFrameBuffer </td>
+          <td class="memname">virtual void hect::Renderer::beginFrame </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_frame_buffer.html">FrameBuffer</a> &amp;&#160;</td>
-          <td class="paramname"><em>frameBuffer</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -227,266 +260,8 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 </table>
 </div><div class="memdoc">
 
-<p>Selects a frame buffer as the active render target. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">frameBuffer</td><td>The frame buffer to bind. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a640245241712fa46987ec2b22157dcda"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void hect::Renderer::bindMesh </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_mesh.html">Mesh</a> &amp;&#160;</td>
-          <td class="paramname"><em>mesh</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Binds a mesh. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mesh</td><td>The mesh to bind. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="aa6941e122cde6d172819f6a98b6c55bc"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void hect::Renderer::bindShader </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_shader.html">Shader</a> &amp;&#160;</td>
-          <td class="paramname"><em>shader</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Binds a shader. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">shader</td><td>The shader to bind. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a3619931c6adda2893cfe126b680e5b84"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void hect::Renderer::bindShaderParameter </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhect_1_1_shader_parameter.html">ShaderParameter</a> &amp;&#160;</td>
-          <td class="paramname"><em>parameter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classhect_1_1_shader_value.html">ShaderValue</a> &amp;&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Binds a value to a shader parameter. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parameter</td><td>The parameter. </td></tr>
-    <tr><td class="paramname">value</td><td>The new value. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a59bd094ae64e16dbfbeca4c08ebb61e7"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void hect::Renderer::bindState </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhect_1_1_render_state.html">RenderState</a> &amp;&#160;</td>
-          <td class="paramname"><em>state</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Binds a render state. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">state</td><td>The render state to bind. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="ad5044e59394f619e4fa134d7d97d9d96"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void hect::Renderer::bindTarget </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;&#160;</td>
-          <td class="paramname"><em>renderTarget</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Selects a render target to begin rendering to. </p>
-<dl class="section note"><dt>Note</dt><dd>All rendering occurring after this call will render to the bound target.</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">renderTarget</td><td>The render target to bind. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a93b58fe2c86fc91b4dd07aa56bcb4632"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void hect::Renderer::bindTexture </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_texture.html">Texture</a> &amp;&#160;</td>
-          <td class="paramname"><em>texture</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Binds a texture. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">texture</td><td>The texture to bind. </td></tr>
-    <tr><td class="paramname">index</td><td>The texture index to bind to.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the binding index lies outside of the hardware capabilities. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="ab8e9b0bc5e74004941e62966becd72d0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void hect::Renderer::bindWindow </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_window.html">Window</a> &amp;&#160;</td>
-          <td class="paramname"><em>window</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Selects a window as the active render target. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">window</td><td>The window to bind. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Establishes the beginning of a frame. </p>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="classhect_1_1_any.html" title="A container which can hold any type of value. ">Any</a> state changes (target, material, or mesh selections) are only persistent within a frame. </dd></dl>
 
 </div>
 </div>
@@ -516,6 +291,38 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frameBuffer</td><td>The frame buffer to destroy. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a7b109838741f6fa38190e5b1546f4e2f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::destroyMaterial </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_material.html">Material</a> &amp;&#160;</td>
+          <td class="paramname"><em>material</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destroys a material. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">material</td><td>The material to destroy. </td></tr>
   </table>
   </dd>
 </dl>
@@ -554,7 +361,7 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 
 </div>
 </div>
-<a class="anchor" id="a6d77403891c69db8824cac4f066856da"></a>
+<a class="anchor" id="a9e8b42b29be4d82a2a66fecb4effab9d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -562,10 +369,10 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void hect::Renderer::destroyShader </td>
+          <td class="memname">virtual void hect::Renderer::destroyRenderBuffer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_shader.html">Shader</a> &amp;&#160;</td>
-          <td class="paramname"><em>shader</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_render_buffer.html">RenderBuffer</a> &amp;&#160;</td>
+          <td class="paramname"><em>renderBuffer</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -576,10 +383,10 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 </table>
 </div><div class="memdoc">
 
-<p>Destroys a shader. </p>
+<p>Destroys a render buffer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">shader</td><td>The shader to destroy. </td></tr>
+    <tr><td class="paramname">renderBuffer</td><td>The render buffer to destroy. </td></tr>
   </table>
   </dd>
 </dl>
@@ -657,6 +464,31 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 
 </div>
 </div>
+<a class="anchor" id="a1abe4c5f86acdd357d09829ecb8a7113"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::draw </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Draw the selected mesh using the selected material to the selected render target. </p>
+
+</div>
+</div>
 <a class="anchor" id="ab06ea729549ea9ac74b8344ff66785c9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -682,7 +514,581 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 <p>Initialize the renderer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">window</td><td>The window that the rendere is used for. </td></tr>
+    <tr><td class="paramname">window</td><td>The window that the renderer is used for. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a79f8938aeaa9317d52ec650918208a84"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::selectMaterial </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_material.html">Material</a> &amp;&#160;</td>
+          <td class="paramname"><em>material</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>selectBase</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Selects the material affecting following draw calls. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">material</td><td>The material to select. </td></tr>
+    <tr><td class="paramname">selectBase</td><td>Whether the base material (if any) should be selected before selecting the specified material. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a3f113841f7ef8577fcb65bcc90722131"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::selectMesh </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_mesh.html">Mesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>mesh</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Selects the mesh affecting following draw calls. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mesh</td><td>The mesh to select. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aa6c89fdb1315bbe7b75245339f9293ee"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::selectTarget </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;&#160;</td>
+          <td class="paramname"><em>renderTarget</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Selects a render target to begin rendering to. </p>
+<dl class="section note"><dt>Note</dt><dd>All rendering occurring after this call will render to the selected target.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderTarget</td><td>The render target to select. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ad69b20ce710cdc70d0240e98ee948464"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::selectTarget </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_window.html">Window</a> &amp;&#160;</td>
+          <td class="paramname"><em>window</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Selects a window to begin rendering to. </p>
+<dl class="section note"><dt>Note</dt><dd>All rendering occurring after this call will render to the selected target.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">window</td><td>The window to select. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="abcc1a2446d7216a179643b2a57b67cd7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::selectTarget </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_frame_buffer.html">FrameBuffer</a> &amp;&#160;</td>
+          <td class="paramname"><em>frameBuffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Selects a frame buffer to begin rendering to. </p>
+<dl class="section note"><dt>Note</dt><dd>All rendering occurring after this call will render to the selected target.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frameBuffer</td><td>The frame buffer to select. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a6767eb8fbfb5ae1ac6dc175ddd60a7b6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::setMaterialParameter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_material_value.html">MaterialValue</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the value for a parameter of the selected material. </p>
+<dl class="section warning"><dt>Warning</dt><dd>The parameter is expected to belong to the selected material.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter</td><td>The parameter to set the value for. </td></tr>
+    <tr><td class="paramname">value</td><td>The value for the parameter.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified value type differs from the parameter type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a193329a053a42d77c117d774665cd7ba"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::setMaterialParameter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the value for a parameter of the selected material. </p>
+<dl class="section warning"><dt>Warning</dt><dd>The parameter is expected to belong to the selected material.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter</td><td>The parameter to set the value for. </td></tr>
+    <tr><td class="paramname">value</td><td>The value for the parameter.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified value type differs from the parameter type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="af4b081619673569a1284f25aee0a8c47"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::setMaterialParameter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the value for a parameter of the selected material. </p>
+<dl class="section warning"><dt>Warning</dt><dd>The parameter is expected to belong to the selected material.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter</td><td>The parameter to set the value for. </td></tr>
+    <tr><td class="paramname">value</td><td>The value for the parameter.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified value type differs from the parameter type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a9f43b19aad4cc18126d2d10a91b0fcbd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::setMaterialParameter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">Vector2</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the value for a parameter of the selected material. </p>
+<dl class="section warning"><dt>Warning</dt><dd>The parameter is expected to belong to the selected material.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter</td><td>The parameter to set the value for. </td></tr>
+    <tr><td class="paramname">value</td><td>The value for the parameter.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified value type differs from the parameter type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a563d75afd0a3cfd794df2c5243b213a7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::setMaterialParameter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the value for a parameter of the selected material. </p>
+<dl class="section warning"><dt>Warning</dt><dd>The parameter is expected to belong to the selected material.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter</td><td>The parameter to set the value for. </td></tr>
+    <tr><td class="paramname">value</td><td>The value for the parameter.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified value type differs from the parameter type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a49db82c87b4d2c40c3d4af3812917d8b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::setMaterialParameter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacehect.html#ae7c23929fffcd04cd70b60cb39c6c059">Vector4</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the value for a parameter of the selected material. </p>
+<dl class="section warning"><dt>Warning</dt><dd>The parameter is expected to belong to the selected material.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter</td><td>The parameter to set the value for. </td></tr>
+    <tr><td class="paramname">value</td><td>The value for the parameter.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified value type differs from the parameter type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a74f11f5816f396265da4c4a9f9414d8a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::setMaterialParameter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_matrix4_t.html">Matrix4</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the value for a parameter of the selected material. </p>
+<dl class="section warning"><dt>Warning</dt><dd>The parameter is expected to belong to the selected material.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter</td><td>The parameter to set the value for. </td></tr>
+    <tr><td class="paramname">value</td><td>The value for the parameter.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified value type differs from the parameter type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a79ccfcfdbc1b7ed7b239cb113aa6dd78"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::setMaterialParameter </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_material_parameter.html">MaterialParameter</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_texture.html">Texture</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the value for a parameter of the selected material. </p>
+<dl class="section warning"><dt>Warning</dt><dd>The parameter is expected to belong to the selected material.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameter</td><td>The parameter to set the value for. </td></tr>
+    <tr><td class="paramname">value</td><td>The value for the parameter.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified value type differs from the parameter type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -712,9 +1118,43 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 </div><div class="memdoc">
 
 <p>Uploads a frame buffer. </p>
+<dl class="section note"><dt>Note</dt><dd>If the frame buffer is already uploaded then no action is taken.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">frameBuffer</td><td>The frame buffer to upload. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aebdf0818b3bea879a4583a732e89fbde"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::Renderer::uploadMaterial </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_material.html">Material</a> &amp;&#160;</td>
+          <td class="paramname"><em>material</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Uploads a material. </p>
+<dl class="section note"><dt>Note</dt><dd>If the material is already uploaded then no action is taken.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">material</td><td>The material to upload. </td></tr>
   </table>
   </dd>
 </dl>
@@ -744,6 +1184,7 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 </div><div class="memdoc">
 
 <p>Uploads a mesh. </p>
+<dl class="section note"><dt>Note</dt><dd>If the mesh is already uploaded then no action is taken.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mesh</td><td>The mesh to upload. </td></tr>
@@ -753,7 +1194,7 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 
 </div>
 </div>
-<a class="anchor" id="ad3a7b5ba2263ae03b7789d9e14369c91"></a>
+<a class="anchor" id="a5406e27586e0e617de1db5cb23101891"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -761,10 +1202,10 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void hect::Renderer::uploadShader </td>
+          <td class="memname">virtual void hect::Renderer::uploadRenderBuffer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_shader.html">Shader</a> &amp;&#160;</td>
-          <td class="paramname"><em>shader</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_render_buffer.html">RenderBuffer</a> &amp;&#160;</td>
+          <td class="paramname"><em>renderBuffer</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -775,10 +1216,11 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 </table>
 </div><div class="memdoc">
 
-<p>Uploads a shader. </p>
+<p>Uploads a render buffer. </p>
+<dl class="section note"><dt>Note</dt><dd>If the render buffer is already uploaded then no action is taken.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">shader</td><td>The shader to upload. </td></tr>
+    <tr><td class="paramname">renderBuffer</td><td>The render buffer to upload. </td></tr>
   </table>
   </dd>
 </dl>
@@ -808,6 +1250,7 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 </div><div class="memdoc">
 
 <p>Uploads a texture. </p>
+<dl class="section note"><dt>Note</dt><dd>If the texture is already uploaded then no action is taken.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">texture</td><td>The texture to upload. </td></tr>
@@ -820,7 +1263,7 @@ virtual const <a class="el" href="structhect_1_1_renderer_1_1_capabilities.html"
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:23 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

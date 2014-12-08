@@ -64,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -106,40 +106,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Components/Transform.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classhect_1_1_transform_system.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_transform_system.html">TransformSystem</a> :</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_system.html">System</a></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classhect_1_1_transform_system.html">TransformSystem</a>(<a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; <a class="code" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_transform_system.html#a6d9985dd86e5ac9924886e324f6c835e">updateTransform</a>(<a class="code" href="classhect_1_1_transform.html">Transform</a>&amp; transform);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">tick</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Event.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Components/Transform.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classhect_1_1_transform_system.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_transform_system.html">TransformSystem</a> :</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_system.html">System</a>,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_listener.html">Listener</a>&lt;ComponentEvent&lt;Transform&gt;&gt;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classhect_1_1_transform_system.html">TransformSystem</a>(<a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; <a class="code" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_transform_system.html#a278fa86a5d1db54dee6b6b595535e9e8">forceUpdate</a>(<a class="code" href="classhect_1_1_transform.html">Transform</a>&amp; transform);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_transform_system.html#a6d9985dd86e5ac9924886e324f6c835e">updateTransform</a>(<a class="code" href="classhect_1_1_entity.html">Entity</a>&amp; parent, <a class="code" href="classhect_1_1_entity.html">Entity</a>&amp; child);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A scene of entities, components, and systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:49</div></div>
-<div class="ttc" id="classhect_1_1_transform_system_html"><div class="ttname"><a href="classhect_1_1_transform_system.html">hect::TransformSystem</a></div><div class="ttdoc">Updates the transform hierarchies of the scene. </div><div class="ttdef"><b>Definition:</b> TransformSystem.h:36</div></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_transform_system.html#aabdf25378139687cf390e51d2703b654">markForUpdate</a>(<a class="code" href="classhect_1_1_transform.html">Transform</a>&amp; transform);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">tick</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_transform_system.html#a16356c7b1c222c7abe796c268fedac75">receiveEvent</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_component_event.html">ComponentEvent&lt;Transform&gt;</a>&amp; event) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> updateHeierarchy(<a class="code" href="classhect_1_1_entity.html">Entity</a>&amp; parent, <a class="code" href="classhect_1_1_entity.html">Entity</a>&amp; child);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> postUpdate(<a class="code" href="classhect_1_1_entity.html">Entity</a>&amp; entity);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    std::vector&lt;ComponentId&gt; _markedForUpdate;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A scene of entities, components, and systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:50</div></div>
+<div class="ttc" id="classhect_1_1_transform_system_html_a278fa86a5d1db54dee6b6b595535e9e8"><div class="ttname"><a href="classhect_1_1_transform_system.html#a278fa86a5d1db54dee6b6b595535e9e8">hect::TransformSystem::forceUpdate</a></div><div class="ttdeci">void forceUpdate(Transform &amp;transform)</div><div class="ttdoc">Forces the update of a transform and all child transforms. </div></div>
+<div class="ttc" id="classhect_1_1_transform_system_html"><div class="ttname"><a href="classhect_1_1_transform_system.html">hect::TransformSystem</a></div><div class="ttdoc">Manages the transform hierarchies of the scene. </div><div class="ttdef"><b>Definition:</b> TransformSystem.h:37</div></div>
 <div class="ttc" id="classhect_1_1_system_html_a90c83603cd4d4ed463f77057c77aaaef"><div class="ttname"><a href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">hect::System::scene</a></div><div class="ttdeci">Scene &amp; scene()</div><div class="ttdoc">Gets the scene that the system affects. </div></div>
+<div class="ttc" id="classhect_1_1_component_event_html"><div class="ttname"><a href="classhect_1_1_component_event.html">hect::ComponentEvent</a></div><div class="ttdoc">A component-related event. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:57</div></div>
 <div class="ttc" id="classhect_1_1_entity_html"><div class="ttname"><a href="classhect_1_1_entity.html">hect::Entity</a></div><div class="ttdoc">A dynamic object in a Scene. </div><div class="ttdef"><b>Definition:</b> Entity.h:43</div></div>
 <div class="ttc" id="classhect_1_1_system_html"><div class="ttname"><a href="classhect_1_1_system.html">hect::System</a></div><div class="ttdoc">A system affecting entities within a scene. </div><div class="ttdef"><b>Definition:</b> System.h:44</div></div>
 <div class="ttc" id="classhect_1_1_transform_html"><div class="ttname"><a href="classhect_1_1_transform.html">hect::Transform</a></div><div class="ttdoc">A combination of a position, scale, and rotation. </div><div class="ttdef"><b>Definition:</b> Transform.h:37</div></div>
 <div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="classhect_1_1_transform_system_html_a6d9985dd86e5ac9924886e324f6c835e"><div class="ttname"><a href="classhect_1_1_transform_system.html#a6d9985dd86e5ac9924886e324f6c835e">hect::TransformSystem::updateTransform</a></div><div class="ttdeci">void updateTransform(Transform &amp;transform)</div><div class="ttdoc">Updates a transform and all child transforms. </div></div>
+<div class="ttc" id="classhect_1_1_listener_html"><div class="ttname"><a href="classhect_1_1_listener.html">hect::Listener</a></div><div class="ttdoc">An listener of specific events. </div><div class="ttdef"><b>Definition:</b> Event.h:39</div></div>
 <div class="ttc" id="classhect_1_1_transform_system_html_a52bc17fcb8bfc0926c767367ac52aa61"><div class="ttname"><a href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">hect::TransformSystem::tick</a></div><div class="ttdeci">void tick(Real timeStep) override</div><div class="ttdoc">Performs a single tick of simulation for the system. </div></div>
+<div class="ttc" id="classhect_1_1_transform_system_html_aabdf25378139687cf390e51d2703b654"><div class="ttname"><a href="classhect_1_1_transform_system.html#aabdf25378139687cf390e51d2703b654">hect::TransformSystem::markForUpdate</a></div><div class="ttdeci">void markForUpdate(Transform &amp;transform)</div><div class="ttdoc">Marks a transform to be updated on the next TransformSystem::tick(). </div></div>
+<div class="ttc" id="classhect_1_1_transform_system_html_a16356c7b1c222c7abe796c268fedac75"><div class="ttname"><a href="classhect_1_1_transform_system.html#a16356c7b1c222c7abe796c268fedac75">hect::TransformSystem::receiveEvent</a></div><div class="ttdeci">void receiveEvent(const ComponentEvent&lt; Transform &gt; &amp;event) override</div><div class="ttdoc">Notifies the listener of an event. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -112,7 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -146,7 +146,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_file_system.html#a5a15fbdceb27e193447cb8cb89164e44">hect::FileSystem</a>
 </li>
 <li>operator bool()
-: <a class="el" href="classhect_1_1_asset_handle.html#abd1db57a90074d612c781ff365d17b1b">hect::AssetHandle&lt; T &gt;</a>
+: <a class="el" href="classhect_1_1_any.html#aad5935bce454bf9378d72879b727998b">hect::Any</a>
+, <a class="el" href="classhect_1_1_asset_handle.html#abd1db57a90074d612c781ff365d17b1b">hect::AssetHandle&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_component_1_1_const_iterator.html#a2cbc1f9ece2a097bc6fb67f83e5d45a1">hect::Component&lt; T &gt;::ConstIterator</a>
 , <a class="el" href="classhect_1_1_component_1_1_iterator.html#af6bab789112eb5af67fc8f72048cc974">hect::Component&lt; T &gt;::Iterator</a>
 , <a class="el" href="classhect_1_1_entity_1_1_children_1_1_const_iterator.html#a4db5bda8103b035de2738bde70d83fee">hect::Entity::Children::ConstIterator</a>
@@ -154,6 +155,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classhect_1_1_entity_1_1_const_iterator.html#a1c40a0493749e2c27b3756403e5ab10c">hect::Entity::ConstIterator</a>
 , <a class="el" href="classhect_1_1_entity_1_1_handle.html#a2d551d7489a9d8d280870fd9615ae35d">hect::Entity::Handle</a>
 , <a class="el" href="classhect_1_1_entity_1_1_iterator.html#a5a554927bbe7d6ec8d9a19fa244b91b0">hect::Entity::Iterator</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_const_iterator.html#a12683c2a04b11ccd6562afe982fff670">hect::StringMap&lt; T &gt;::ConstIterator</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_iterator.html#af7a3e660a12b1b317d46ff402ee6f775">hect::StringMap&lt; T &gt;::Iterator</a>
 , <a class="el" href="classhect_1_1_task_1_1_handle.html#a93c3e5ec9a3744b7963771369be8810f">hect::Task::Handle</a>
 </li>
 <li>operator Matrix4T&lt; U &gt;()
@@ -187,17 +190,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classhect_1_1_entity_1_1_handle.html#ac9705da4a0b89eb0039677a2c0ea3614">hect::Entity::Handle</a>
 , <a class="el" href="classhect_1_1_entity_1_1_iterator.html#ac69571e5887df6b1547753f44953b219">hect::Entity::Iterator</a>
 , <a class="el" href="classhect_1_1_material.html#a46ffc9892a523bd8f2d46d51031b781e">hect::Material</a>
+, <a class="el" href="classhect_1_1_material_value.html#ae8ebb617f773be3cd23d18d2cea3c338">hect::MaterialValue</a>
 , <a class="el" href="classhect_1_1_mesh.html#aabd6a01ae3b7cb4fccc2f1691e983963">hect::Mesh</a>
-, <a class="el" href="classhect_1_1_pass.html#aa7f6b0c0b01017dc5f1f680362e208f9">hect::Pass</a>
 , <a class="el" href="classhect_1_1_peer.html#ad7b6d290e0b6fa9f78cc30dfc416bc44">hect::Peer</a>
 , <a class="el" href="classhect_1_1_quaternion_t.html#a45b9b53c5afa937bc3b1fe00bfa63e41">hect::QuaternionT&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_render_state.html#a807d115858d9d7f306190a23d498a6c2">hect::RenderState</a>
-, <a class="el" href="classhect_1_1_shader.html#af26f349f7a262a0c435ed8acb6e2e2c6">hect::Shader</a>
-, <a class="el" href="classhect_1_1_shader_argument.html#a3027bc488599f8d8f5dea2c758778634">hect::ShaderArgument</a>
 , <a class="el" href="classhect_1_1_shader_module.html#a40bd7df0f8a3fa0987544f64a4c65bd4">hect::ShaderModule</a>
-, <a class="el" href="classhect_1_1_shader_parameter.html#ad6dc58764b3f76b623afd7b44a524077">hect::ShaderParameter</a>
-, <a class="el" href="classhect_1_1_shader_value.html#a5ba3f2fd6487f366e5783f8546cc79b8">hect::ShaderValue</a>
-, <a class="el" href="classhect_1_1_technique.html#a7d08b90a2dbcec9f900c1c7275e74428">hect::Technique</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_const_iterator.html#ab8f6a788d63229fee1e266ef084887ea">hect::StringMap&lt; T &gt;::ConstIterator</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_iterator.html#a6efd377c2fabf9b0ccacd4497749a301">hect::StringMap&lt; T &gt;::Iterator</a>
 , <a class="el" href="classhect_1_1_texture.html#a156e01e6c6af35a75c147102e336177d">hect::Texture</a>
 , <a class="el" href="classhect_1_1_vector2_t.html#a2b4e75f64b559328294284bda2c87e54">hect::Vector2T&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_vector3_t.html#a1bf50338984d837b01deb363a056d574">hect::Vector3T&lt; T &gt;</a>
@@ -215,8 +215,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classhect_1_1_entity_1_1_const_iterator.html#abff5ddcf35d680d9e343969caff3cbf9">hect::Entity::ConstIterator</a>
 , <a class="el" href="classhect_1_1_entity_1_1_handle.html#a3ed51b400536774cc37160f505cdf8e4">hect::Entity::Handle</a>
 , <a class="el" href="classhect_1_1_entity_1_1_iterator.html#ad202ceaa1601867fbcc62038a3e3c8ed">hect::Entity::Iterator</a>
-, <a class="el" href="classhect_1_1_matrix4_t.html#a0979dc686c7cd7b3041d329e435a91fb">hect::Matrix4T&lt; T &gt;</a>
+, <a class="el" href="classhect_1_1_matrix4_t.html#a5b0fcbdb6e546b068338c939cd5ba8ec">hect::Matrix4T&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_quaternion_t.html#a7d084513610d0117d87547527b71d065">hect::QuaternionT&lt; T &gt;</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_const_iterator.html#a7e93fbf1c34205c95c374162948cfd64">hect::StringMap&lt; T &gt;::ConstIterator</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_iterator.html#aaeb43ed920ea70bd255751c7f4b6dd9c">hect::StringMap&lt; T &gt;::Iterator</a>
 , <a class="el" href="classhect_1_1_task_1_1_handle.html#a6b9593860db45d250a84c741119ebeef">hect::Task::Handle</a>
 , <a class="el" href="classhect_1_1_time_span.html#ad5f2f73097fb4edd93ddfc9d1b0ca784">hect::TimeSpan</a>
 , <a class="el" href="classhect_1_1_vector2_t.html#ae59234908588193adc8d004d052f1bab">hect::Vector2T&lt; T &gt;</a>
@@ -257,7 +259,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classhect_1_1_vector4_t.html#aec1acef881d2df1aefc5a42b7ed16e3f">hect::Vector4T&lt; T &gt;</a>
 </li>
 <li>operator-()
-: <a class="el" href="classhect_1_1_angle.html#a7f8ed872179238117f72bb3491c0b85c">hect::Angle</a>
+: <a class="el" href="classhect_1_1_angle.html#a3d36d4c6a000b32e5b7ab4e11ebeb9a9">hect::Angle</a>
 , <a class="el" href="classhect_1_1_quaternion_t.html#a81307a60a10335b85888fb0914945733">hect::QuaternionT&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_time_span.html#a0a7f96249c78d3c82ff1a45bc1b62996">hect::TimeSpan</a>
 , <a class="el" href="classhect_1_1_vector2_t.html#a96126aaed4b130a7f1772e178e5df6ec">hect::Vector2T&lt; T &gt;</a>
@@ -280,6 +282,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classhect_1_1_entity_1_1_const_iterator.html#ad92f59a38859628a701946afa407f94b">hect::Entity::ConstIterator</a>
 , <a class="el" href="classhect_1_1_entity_1_1_handle.html#a5b95878da9a0f9ea0555d679df5a05a9">hect::Entity::Handle</a>
 , <a class="el" href="classhect_1_1_entity_1_1_iterator.html#a295aa57ff900f7efc2d2e5597f1d47cc">hect::Entity::Iterator</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_const_iterator.html#ac32a12511bc25c9bbc06dc7aefcc2297">hect::StringMap&lt; T &gt;::ConstIterator</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_iterator.html#aabf98cdc331a9937248351899511888e">hect::StringMap&lt; T &gt;::Iterator</a>
 , <a class="el" href="classhect_1_1_task_1_1_handle.html#afba9a56da79abb6db05dda4b6de253e2">hect::Task::Handle</a>
 </li>
 <li>operator/()
@@ -294,7 +298,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classhect_1_1_time_span.html#aa0b0ca5f57063cfd137f89307ab150b9">hect::TimeSpan</a>
 , <a class="el" href="classhect_1_1_vector2_t.html#ab25178cb084891e547072db1fde35695">hect::Vector2T&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_vector3_t.html#aa9b6a8c2f183d0084c6cc6d9ee1ea46d">hect::Vector3T&lt; T &gt;</a>
-, <a class="el" href="classhect_1_1_vector4_t.html#aeae5d77d10639f585dd1d9d0d181464b">hect::Vector4T&lt; T &gt;</a>
+, <a class="el" href="classhect_1_1_vector4_t.html#a81c83b2f8afcc97e690c8fff3f3f5939">hect::Vector4T&lt; T &gt;</a>
 </li>
 <li>operator&lt;()
 : <a class="el" href="classhect_1_1_path.html#a7db80ba74301800ea973a6913c89867f">hect::Path</a>
@@ -304,9 +308,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_time_span.html#a7697ad48903947c140e2d14d31fb9728">hect::TimeSpan</a>
 </li>
 <li>operator=()
-: <a class="el" href="classhect_1_1_any.html#a8c8c8660b4787a7bac188b504059796d">hect::Any</a>
+: <a class="el" href="classhect_1_1_any.html#a8b9ce6b9d49b1cba0bb6bbcbb743335f">hect::Any</a>
+, <a class="el" href="classhect_1_1_entity_1_1_handle.html#ac203274e4ae549b20d49130d1c5d7f81">hect::Entity::Handle</a>
 , <a class="el" href="classhect_1_1_json_value.html#a4dd99e724bd2dec8d0553a35b87ed6f6">hect::JsonValue</a>
-, <a class="el" href="classhect_1_1_renderer_1_1_data_handle.html#a49a5591d04ac13b5847b180f714d25ae">hect::Renderer::DataHandle&lt; T &gt;</a>
+, <a class="el" href="classhect_1_1_renderer_1_1_data_handle.html#a8ba2bd8e154761a2ec4b8d6082006c20">hect::Renderer::DataHandle&lt; T &gt;</a>
 </li>
 <li>operator==()
 : <a class="el" href="classhect_1_1_asset_handle.html#a32a269eebd442a990a9494fe50e7b68b">hect::AssetHandle&lt; T &gt;</a>
@@ -318,17 +323,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classhect_1_1_entity_1_1_handle.html#a783d9997569a177879bc0d74c022247d">hect::Entity::Handle</a>
 , <a class="el" href="classhect_1_1_entity_1_1_iterator.html#a0aff6e7985a79373baff66bc364e2a9f">hect::Entity::Iterator</a>
 , <a class="el" href="classhect_1_1_material.html#ada35886db0e3071da5458e0cc6cb72b1">hect::Material</a>
+, <a class="el" href="classhect_1_1_material_value.html#a23f222e43c9822cd37c1953f8b3ce16a">hect::MaterialValue</a>
 , <a class="el" href="classhect_1_1_mesh.html#ad61f76234555c7df2353de5dde531e54">hect::Mesh</a>
-, <a class="el" href="classhect_1_1_pass.html#acc66a76a901de3fa7e48143269ecac23">hect::Pass</a>
 , <a class="el" href="classhect_1_1_peer.html#a48fa1bd752bd079fdcadbd638bf52550">hect::Peer</a>
 , <a class="el" href="classhect_1_1_quaternion_t.html#a616986265465d874968774d1c34b7928">hect::QuaternionT&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_render_state.html#a0586a4d4e2b8c119dcfd58bbea7ae821">hect::RenderState</a>
-, <a class="el" href="classhect_1_1_shader.html#a51f8e01ae5068b93242b3a308245cbc6">hect::Shader</a>
-, <a class="el" href="classhect_1_1_shader_argument.html#a90b26bb1b8a0f8ffe64b3c2fc2f0b104">hect::ShaderArgument</a>
 , <a class="el" href="classhect_1_1_shader_module.html#ab6e7d96c66a0898171d8a6bd78b24137">hect::ShaderModule</a>
-, <a class="el" href="classhect_1_1_shader_parameter.html#aa0aa434e045d8cb351b914cad3d9854c">hect::ShaderParameter</a>
-, <a class="el" href="classhect_1_1_shader_value.html#a666b53ddd9c129278450b1950465b189">hect::ShaderValue</a>
-, <a class="el" href="classhect_1_1_technique.html#ad6c57cce3b850c333a1cb0cba7f06566">hect::Technique</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_const_iterator.html#a4ffbed6044b75c7a0f5c7b5de297a9d7">hect::StringMap&lt; T &gt;::ConstIterator</a>
+, <a class="el" href="classhect_1_1_string_map_1_1_iterator.html#a7954089dd2ad12084c4221cc1582b38d">hect::StringMap&lt; T &gt;::Iterator</a>
 , <a class="el" href="classhect_1_1_texture.html#afe4e742e13bc19f11b6c55f79623abeb">hect::Texture</a>
 , <a class="el" href="classhect_1_1_vector2_t.html#a055f4986d4564fd238aa213903a69c3f">hect::Vector2T&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_vector3_t.html#af15d3c0350fd67bdf178925703de92ab">hect::Vector3T&lt; T &gt;</a>
@@ -343,10 +345,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_time_span.html#adbfbda0cec18afa5c0b2bbff3159e42a">hect::TimeSpan</a>
 </li>
 <li>operator[]()
-: <a class="el" href="classhect_1_1_json_value.html#a36e64bdad6492e0154bcacdde3a8bef1">hect::JsonValue</a>
-, <a class="el" href="classhect_1_1_matrix4_t.html#a097efc8094025254afbddc8b422d0e8a">hect::Matrix4T&lt; T &gt;</a>
+: <a class="el" href="classhect_1_1_json_value.html#a907d2a7f4a69443954236ae27a5f6679">hect::JsonValue</a>
+, <a class="el" href="classhect_1_1_matrix4_t.html#a58162d6651b6507c01b0b13f82a04bef">hect::Matrix4T&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_quaternion_t.html#a16362250e29f299936760452edf47fdf">hect::QuaternionT&lt; T &gt;</a>
-, <a class="el" href="classhect_1_1_sequence.html#ab2a56d5bb0db9cb9ed9a8dd71c62040b">hect::Sequence&lt; T, Container &gt;</a>
+, <a class="el" href="classhect_1_1_sequence.html#a48e3b2cbb6738c4d7f5da3c961eee2be">hect::Sequence&lt; T, Container &gt;</a>
 , <a class="el" href="classhect_1_1_vector2_t.html#a351296d580c275ab81acc57efb279035">hect::Vector2T&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_vector3_t.html#aa428c3f1cc45e316bde339b3c4305ba3">hect::Vector3T&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_vector4_t.html#a80f288cfd785f529e7902a9ef7515a91">hect::Vector4T&lt; T &gt;</a>
@@ -358,7 +360,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:23 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

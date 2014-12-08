@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -91,7 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classhect_1_1_system-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hect::System Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">hect::System Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -105,12 +105,13 @@ Inheritance diagram for hect::System:</div>
  <div class="center">
   <img src="classhect_1_1_system.png" usemap="#hect::System_map" alt=""/>
   <map id="hect::System_map" name="hect::System_map">
-<area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="332,0,488,24"/>
-<area href="classhect_1_1_bounding_box_system.html" title="Updates the bounding box hierarchies of the scene. " alt="hect::BoundingBoxSystem" shape="rect" coords="0,112,156,136"/>
+<area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="415,0,571,24"/>
+<area href="classhect_1_1_bounding_box_system.html" title="Manages the bounding box hierarchies of the scene. " alt="hect::BoundingBoxSystem" shape="rect" coords="0,112,156,136"/>
 <area href="classhect_1_1_camera_system.html" title="Updates and tracks the active camera(s). " alt="hect::CameraSystem" shape="rect" coords="166,112,322,136"/>
-<area href="classhect_1_1_input_system.html" title="Maps user input to input axes. " alt="hect::InputSystem" shape="rect" coords="332,112,488,136"/>
-<area href="classhect_1_1_physics_system.html" title="Simulates physical interactions of physical bodies. " alt="hect::PhysicsSystem" shape="rect" coords="498,112,654,136"/>
-<area href="classhect_1_1_transform_system.html" title="Updates the transform hierarchies of the scene. " alt="hect::TransformSystem" shape="rect" coords="664,112,820,136"/>
+<area href="classhect_1_1_debug_system.html" title="Provides debug functionality. " alt="hect::DebugSystem" shape="rect" coords="332,112,488,136"/>
+<area href="classhect_1_1_input_system.html" title="Maps user input to input axes. " alt="hect::InputSystem" shape="rect" coords="498,112,654,136"/>
+<area href="classhect_1_1_physics_system.html" title="Simulates physical interactions of physical bodies. " alt="hect::PhysicsSystem" shape="rect" coords="664,112,820,136"/>
+<area href="classhect_1_1_transform_system.html" title="Manages the transform hierarchies of the scene. " alt="hect::TransformSystem" shape="rect" coords="830,112,986,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -119,9 +120,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0d3ce47cb99646fc784e8dc29767c1be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a0d3ce47cb99646fc784e8dc29767c1be">System</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;<a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>)</td></tr>
 <tr class="memdesc:a0d3ce47cb99646fc784e8dc29767c1be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a system.  <a href="#a0d3ce47cb99646fc784e8dc29767c1be">More...</a><br /></td></tr>
 <tr class="separator:a0d3ce47cb99646fc784e8dc29767c1be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38d114c3ec86930e181f89f2032c462d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a38d114c3ec86930e181f89f2032c462d">tick</a> (<a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep)=0</td></tr>
-<tr class="memdesc:a38d114c3ec86930e181f89f2032c462d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#a38d114c3ec86930e181f89f2032c462d">More...</a><br /></td></tr>
-<tr class="separator:a38d114c3ec86930e181f89f2032c462d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8d1add3e5d6481de4a7246acef2eeb9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#ae8d1add3e5d6481de4a7246acef2eeb9">tick</a> (<a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep)</td></tr>
+<tr class="memdesc:ae8d1add3e5d6481de4a7246acef2eeb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#ae8d1add3e5d6481de4a7246acef2eeb9">More...</a><br /></td></tr>
+<tr class="separator:ae8d1add3e5d6481de4a7246acef2eeb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90c83603cd4d4ed463f77057c77aaaef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90c83603cd4d4ed463f77057c77aaaef"></a>
 <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a> ()</td></tr>
 <tr class="memdesc:a90c83603cd4d4ed463f77057c77aaaef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene that the system affects. <br /></td></tr>
@@ -229,7 +230,7 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 
 </div>
 </div>
-<a class="anchor" id="a38d114c3ec86930e181f89f2032c462d"></a>
+<a class="anchor" id="ae8d1add3e5d6481de4a7246acef2eeb9"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -246,7 +247,7 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -259,14 +260,14 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_physics_system.html#a1a388fb066b890a477c8c8ecaceb2356">hect::PhysicsSystem</a>, <a class="el" href="classhect_1_1_input_system.html#a4663380aeb214d8366628fa5160df97c">hect::InputSystem</a>, <a class="el" href="classhect_1_1_camera_system.html#a951bdad15892b60b2b47fbe0aceec9a9">hect::CameraSystem</a>, <a class="el" href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">hect::TransformSystem</a>, and <a class="el" href="classhect_1_1_bounding_box_system.html#a9aa59e6f916a4fa1d6ba2291124fb39b">hect::BoundingBoxSystem</a>.</p>
+<p>Reimplemented in <a class="el" href="classhect_1_1_physics_system.html#a1a388fb066b890a477c8c8ecaceb2356">hect::PhysicsSystem</a>, <a class="el" href="classhect_1_1_input_system.html#a4663380aeb214d8366628fa5160df97c">hect::InputSystem</a>, <a class="el" href="classhect_1_1_camera_system.html#a951bdad15892b60b2b47fbe0aceec9a9">hect::CameraSystem</a>, <a class="el" href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">hect::TransformSystem</a>, and <a class="el" href="classhect_1_1_bounding_box_system.html#a9aa59e6f916a4fa1d6ba2291124fb39b">hect::BoundingBoxSystem</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:23 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

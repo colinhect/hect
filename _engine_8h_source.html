@@ -64,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -152,15 +152,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="classhect_1_1_asset_cache.html">AssetCache</a>&amp; <a class="code" href="classhect_1_1_engine.html#a4096af0043572136947404f1bb1a7539">assetCache</a>();</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_json_value.html">JsonValue</a>&amp; <a class="code" href="classhect_1_1_engine.html#a85c044b4a8f23110bfb59b5105e0e4e0">config</a>();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_json_value.html">JsonValue</a>&amp; <a class="code" href="classhect_1_1_engine.html#af711fb5b882a0983bfc8a2553ea45018">settings</a>();</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">struct </span>CommandLineArguments</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        std::string configFilePath;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        std::string settingsFilePath;</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    };</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="classhect_1_1_json_value.html">JsonValue</a> loadConfig(<span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; configFilePath);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="classhect_1_1_json_value.html">JsonValue</a> loadConfig(<span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; settingsFilePath);</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    CommandLineArguments parseCommandLineArgument(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
@@ -182,13 +182,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    std::unique_ptr&lt;Window&gt; _window;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    std::unique_ptr&lt;AssetCache&gt; _assetCache;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <a class="code" href="classhect_1_1_json_value.html">JsonValue</a> _config;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <a class="code" href="classhect_1_1_json_value.html">JsonValue</a> _settings;</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;};</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
 <div class="ttc" id="classhect_1_1_engine_html_a81121040252ca11f90346879c3cf6187"><div class="ttname"><a href="classhect_1_1_engine.html#a81121040252ca11f90346879c3cf6187">hect::Engine::window</a></div><div class="ttdeci">Window &amp; window()</div><div class="ttdoc">Returns the main window. </div></div>
 <div class="ttc" id="classhect_1_1_engine_html"><div class="ttname"><a href="classhect_1_1_engine.html">hect::Engine</a></div><div class="ttdoc">An instance of Hect Engine. </div><div class="ttdef"><b>Definition:</b> Engine.h:57</div></div>
-<div class="ttc" id="classhect_1_1_engine_html_a85c044b4a8f23110bfb59b5105e0e4e0"><div class="ttname"><a href="classhect_1_1_engine.html#a85c044b4a8f23110bfb59b5105e0e4e0">hect::Engine::config</a></div><div class="ttdeci">const JsonValue &amp; config()</div><div class="ttdoc">Returns the config data. </div></div>
 <div class="ttc" id="classhect_1_1_window_html"><div class="ttname"><a href="classhect_1_1_window.html">hect::Window</a></div><div class="ttdoc">The window that the application is rendering to. </div><div class="ttdef"><b>Definition:</b> Window.h:39</div></div>
 <div class="ttc" id="classhect_1_1_platform_html"><div class="ttname"><a href="classhect_1_1_platform.html">hect::Platform</a></div><div class="ttdoc">Provides access to platform functionality and peripherals. </div><div class="ttdef"><b>Definition:</b> Platform.h:40</div></div>
 <div class="ttc" id="classhect_1_1_engine_html_a6c70f407082deab630a5d7a93cfb96f4"><div class="ttname"><a href="classhect_1_1_engine.html#a6c70f407082deab630a5d7a93cfb96f4">hect::Engine::Engine</a></div><div class="ttdeci">Engine(int argc, char *const argv[])</div><div class="ttdoc">Constructs an engine. </div></div>
@@ -201,12 +200,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classhect_1_1_asset_cache_html"><div class="ttname"><a href="classhect_1_1_asset_cache.html">hect::AssetCache</a></div><div class="ttdoc">Provides cached access to assets from the file system. </div><div class="ttdef"><b>Definition:</b> AssetCache.h:40</div></div>
 <div class="ttc" id="classhect_1_1_engine_html_a5d5bde58421d11f6cfed51c99783f6f2"><div class="ttname"><a href="classhect_1_1_engine.html#a5d5bde58421d11f6cfed51c99783f6f2">hect::Engine::main</a></div><div class="ttdeci">int main()</div><div class="ttdoc">Executes the engine to completion. </div></div>
 <div class="ttc" id="classhect_1_1_engine_html_a5dac95b2f9154c5e9740ba23fa4b0967"><div class="ttname"><a href="classhect_1_1_engine.html#a5dac95b2f9154c5e9740ba23fa4b0967">hect::Engine::renderer</a></div><div class="ttdeci">Renderer &amp; renderer()</div><div class="ttdoc">Returns the renderer. </div></div>
+<div class="ttc" id="classhect_1_1_engine_html_af711fb5b882a0983bfc8a2553ea45018"><div class="ttname"><a href="classhect_1_1_engine.html#af711fb5b882a0983bfc8a2553ea45018">hect::Engine::settings</a></div><div class="ttdeci">const JsonValue &amp; settings()</div><div class="ttdoc">Returns the settings data. </div></div>
 <div class="ttc" id="classhect_1_1_engine_html_a0f988e88970a694326f42c47288046f7"><div class="ttname"><a href="classhect_1_1_engine.html#a0f988e88970a694326f42c47288046f7">hect::Engine::platform</a></div><div class="ttdeci">Platform &amp; platform()</div><div class="ttdoc">Returns the platform. </div></div>
 <div class="ttc" id="classhect_1_1_file_system_html"><div class="ttname"><a href="classhect_1_1_file_system.html">hect::FileSystem</a></div><div class="ttdoc">Provides read and write access to files. </div><div class="ttdef"><b>Definition:</b> FileSystem.h:40</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 20 2014 22:56:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

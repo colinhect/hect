@@ -56,8 +56,9 @@ var searchData=
   ['isuploaded',['isUploaded',['../classhect_1_1_renderer_1_1_object.html#a07f97d6e403ae1b1eff8dee1742eaf8e',1,'hect::Renderer::Object']]],
   ['isvalid',['isValid',['../classhect_1_1_i_p_address.html#a53f21f9993989dcbebc4d3f49e3fd8f3',1,'hect::IPAddress']]],
   ['iswrapped',['isWrapped',['../classhect_1_1_texture.html#a608dfb0f017a8cbba314410ccaf18835',1,'hect::Texture']]],
-  ['iterator',['Iterator',['../classhect_1_1_entity_1_1_children_1_1_iterator.html',1,'hect::Entity::Children']]],
+  ['iterator',['iterator',['../classhect_1_1_entity.html#abb9b515d763e7e5a6e2f99b3dece881a',1,'hect::Entity::iterator()'],['../classhect_1_1_entity.html#ab441be79d69104a15537efac9fe77eda',1,'hect::Entity::iterator() const '],['../classhect_1_1_component_1_1_iterator.html#abc035ad20675f6b2eafa1de20620bb00',1,'hect::Component::Iterator::Iterator()'],['../classhect_1_1_entity_1_1_iterator.html#a9cb75ac95ede8dc2f82cf6530269e54f',1,'hect::Entity::Iterator::Iterator()'],['../classhect_1_1_entity_1_1_children_1_1_iterator.html#a91ed1f5bd7ab51ec095e5136ccaeadae',1,'hect::Entity::Children::Iterator::Iterator()']]],
   ['iterator',['Iterator',['../classhect_1_1_entity_1_1_iterator.html',1,'hect::Entity']]],
   ['iterator',['Iterator',['../classhect_1_1_component_1_1_iterator.html',1,'hect::Component']]],
-  ['iterator',['iterator',['../classhect_1_1_entity.html#abb9b515d763e7e5a6e2f99b3dece881a',1,'hect::Entity::iterator()'],['../classhect_1_1_entity.html#ab441be79d69104a15537efac9fe77eda',1,'hect::Entity::iterator() const '],['../classhect_1_1_component_1_1_iterator.html#abc035ad20675f6b2eafa1de20620bb00',1,'hect::Component::Iterator::Iterator()'],['../classhect_1_1_entity_1_1_iterator.html#a9cb75ac95ede8dc2f82cf6530269e54f',1,'hect::Entity::Iterator::Iterator()'],['../classhect_1_1_entity_1_1_children_1_1_iterator.html#a91ed1f5bd7ab51ec095e5136ccaeadae',1,'hect::Entity::Children::Iterator::Iterator()']]]
+  ['iterator',['Iterator',['../classhect_1_1_string_map_1_1_iterator.html',1,'hect::StringMap']]],
+  ['iterator',['Iterator',['../classhect_1_1_entity_1_1_children_1_1_iterator.html',1,'hect::Entity::Children']]]
 ];

@@ -26,6 +26,7 @@ var searchData=
   ['componentpool_3c_20transform_20_3e',['ComponentPool&lt; Transform &gt;',['../classhect_1_1_component_pool.html',1,'hect']]],
   ['componentregistry',['ComponentRegistry',['../classhect_1_1_component_registry.html',1,'hect']]],
   ['constiterator',['ConstIterator',['../classhect_1_1_entity_1_1_const_iterator.html',1,'hect::Entity']]],
+  ['constiterator',['ConstIterator',['../classhect_1_1_component_1_1_const_iterator.html',1,'hect::Component']]],
   ['constiterator',['ConstIterator',['../classhect_1_1_entity_1_1_children_1_1_const_iterator.html',1,'hect::Entity::Children']]],
-  ['constiterator',['ConstIterator',['../classhect_1_1_component_1_1_const_iterator.html',1,'hect::Component']]]
+  ['constiterator',['ConstIterator',['../classhect_1_1_string_map_1_1_const_iterator.html',1,'hect::StringMap']]]
 ];
