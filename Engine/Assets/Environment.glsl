@@ -5,7 +5,7 @@ uniform sampler2D diffuseBuffer;
 uniform sampler2D materialBuffer;
 uniform sampler2D positionBuffer;
 uniform sampler2D normalBuffer;
-uniform samplerCube lightProbeTexture;
+uniform samplerCube lightProbeCubeMap;
 
 in vec2 vertexTextureCoords;
 
@@ -49,10 +49,10 @@ void main()
    
         // Sample the reflectance from the light probe
         vec3 reflectDirection = normalize(reflect(viewDirection, normal));
-        vec3 reflectance = textureLod(lightProbeTexture, reflectDirection, mipMapLevel).rgb;
+        vec3 reflectance = textureLod(lightProbeCubeMap, reflectDirection, mipMapLevel).rgb;
 
         // Sample the ambience from the light probe
-        vec3 ambience = textureLod(lightProbeTexture, normal, 32.0).rgb * 0.5;
+        vec3 ambience = textureLod(lightProbeCubeMap, normal, 32.0).rgb * 0.5;
 
         // Compute the fresnel attenuated by the roughness
         vec3 fresnel = computeRoughFresnel(realSpecular, roughness * roughness, normal, viewDirection);

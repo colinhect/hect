@@ -16,8 +16,8 @@
             "name": "modelViewProjection"
         },
         {
-            "type": "Texture",
-            "name": "skyBoxTexture"
+            "binding": "SkyBoxCubeMap",
+            "name": "skyBoxCubeMap"
         }
     ],
     "renderState": {

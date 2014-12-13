@@ -11,31 +11,31 @@
     ],
     "parameters": [
         {
-            "type": "Vector3",
-            "name": "lightColor"
-        },
-        {
-            "type": "Vector3",
+            "binding": "PrimaryLightDirection",
             "name": "lightDirection"
         },
         {
-            "name": "cameraPosition",
-            "binding": "CameraPosition"
+            "binding": "PrimaryLightColor",
+            "name": "lightColor"
         },
         {
-            "type": "Texture",
+            "binding": "CameraPosition",
+            "name": "cameraPosition"
+        },
+        {
+            "binding": "DiffuseBuffer",
             "name": "diffuseBuffer"
         },
         {
-            "type": "Texture",
+            "binding": "MaterialBuffer",
             "name": "materialBuffer"
         },
         {
-            "type": "Texture",
+            "binding": "PositionBuffer",
             "name": "positionBuffer"
         },
         {
-            "type": "Texture",
+            "binding": "NormalBuffer",
             "name": "normalBuffer"
         }
     ],

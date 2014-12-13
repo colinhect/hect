@@ -90,6 +90,8 @@ void MaterialParameter::resolveTypeFromBinding()
     case MaterialParameterBinding_CameraPosition:
     case MaterialParameterBinding_CameraFront:
     case MaterialParameterBinding_CameraUp:
+    case MaterialParameterBinding_PrimaryLightDirection:
+    case MaterialParameterBinding_PrimaryLightColor:
         _type = MaterialValueType_Vector3;
         break;
     case MaterialParameterBinding_ViewMatrix:
@@ -99,6 +101,15 @@ void MaterialParameter::resolveTypeFromBinding()
     case MaterialParameterBinding_ModelViewMatrix:
     case MaterialParameterBinding_ModelViewProjectionMatrix:
         _type = MaterialValueType_Matrix4;
+        break;
+    case MaterialParameterBinding_LightProbeCubeMap:
+    case MaterialParameterBinding_SkyBoxCubeMap:
+    case MaterialParameterBinding_DiffuseBuffer:
+    case MaterialParameterBinding_MaterialBuffer:
+    case MaterialParameterBinding_PositionBuffer:
+    case MaterialParameterBinding_NormalBuffer:
+    case MaterialParameterBinding_BackBuffer:
+        _type = MaterialValueType_Texture;
         break;
     }
 }

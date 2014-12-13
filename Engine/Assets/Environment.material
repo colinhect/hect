@@ -15,24 +15,24 @@
             "name": "cameraPosition"
         },
         {
-            "type": "Texture",
+            "binding": "DiffuseBuffer",
             "name": "diffuseBuffer"
         },
         {
-            "type": "Texture",
+            "binding": "MaterialBuffer",
             "name": "materialBuffer"
         },
         {
-            "type": "Texture",
+            "binding": "PositionBuffer",
             "name": "positionBuffer"
         },
         {
-            "type": "Texture",
+            "binding": "NormalBuffer",
             "name": "normalBuffer"
         },
         {
-            "type": "Texture",
-            "name": "lightProbeTexture"
+            "binding": "LightProbeCubeMap",
+            "name": "lightProbeCubeMap"
         }
     ],
     "renderState": {

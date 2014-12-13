@@ -19,7 +19,7 @@
             "name": "oneOverGamma"
         },
         {
-            "type": "Texture",
+            "binding": "BackBuffer",
             "name": "backBuffer"
         }
     ]

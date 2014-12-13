@@ -11,11 +11,11 @@
     ],
     "parameters": [
         {
-            "type": "Texture",
+            "binding": "DiffuseBuffer",
             "name": "diffuseBuffer"
         },
         {
-            "type": "Texture",
+            "binding": "BackBuffer",
             "name": "backBuffer"
         }
     ],

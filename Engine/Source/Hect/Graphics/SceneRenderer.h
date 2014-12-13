@@ -106,7 +106,6 @@ private:
     AssetHandle<Material> _compositeMaterial;
     AssetHandle<Material> _environmentMaterial;
     AssetHandle<Material> _directionalLightMaterial;
-
     AssetHandle<Material> _skyBoxMaterial;
 
     AssetHandle<Mesh> _screenMesh;
@@ -114,6 +113,10 @@ private:
 
     Transform _identityTransform;
     Transform _cameraTransform;
+    Vector3 _primaryLightDirection;
+    Vector3 _primaryLightColor;
+    Texture* _lightProbeCubeMap { nullptr };
+    Texture* _skyBoxCubeMap { nullptr };
 
     std::vector<RenderCall> _renderCalls;
 

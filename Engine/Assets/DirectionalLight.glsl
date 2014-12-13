@@ -2,8 +2,8 @@
 
 #define PI 3.1415926535897932384626433832795
 
-uniform vec3 lightColor;
 uniform vec3 lightDirection;
+uniform vec3 lightColor;
 uniform vec3 cameraPosition;
 uniform sampler2D diffuseBuffer;
 uniform sampler2D materialBuffer;

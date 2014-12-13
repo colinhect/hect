@@ -62,6 +62,14 @@ enum MaterialParameterBinding
     MaterialParameterBinding_CameraOneOverGamma,
 
     ///
+    /// Bound to the direction of the primary light.
+    MaterialParameterBinding_PrimaryLightDirection,
+
+    ///
+    /// Bound to the color of the primary light.
+    MaterialParameterBinding_PrimaryLightColor,
+
+    ///
     /// Bound to the view matrix.
     MaterialParameterBinding_ViewMatrix,
 
@@ -83,7 +91,35 @@ enum MaterialParameterBinding
 
     ///
     /// Bound to the product of the model, view, and projection matrices.
-    MaterialParameterBinding_ModelViewProjectionMatrix
+    MaterialParameterBinding_ModelViewProjectionMatrix,
+
+    ///
+    /// Bound to the nearest light probe's ambient environment cube map.
+    MaterialParameterBinding_LightProbeCubeMap,
+
+    ///
+    /// Bound to the active sky box cube map.
+    MaterialParameterBinding_SkyBoxCubeMap,
+
+    ///
+    /// Bound to the diffuse component of the geometry frame buffer.
+    MaterialParameterBinding_DiffuseBuffer,
+
+    ///
+    /// Bound to the material component of the geometry frame buffer.
+    MaterialParameterBinding_MaterialBuffer,
+
+    ///
+    /// Bound to the position component of the geometry frame buffer.
+    MaterialParameterBinding_PositionBuffer,
+
+    ///
+    /// Bound to the normal component of the geometry frame buffer.
+    MaterialParameterBinding_NormalBuffer,
+
+    ///
+    /// Bound to the back buffer.
+    MaterialParameterBinding_BackBuffer
 };
 
 ///

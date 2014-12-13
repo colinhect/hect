@@ -76,6 +76,12 @@ void log(LogLevel level, const std::string& message)
 
     // Reset the console text color
     SetConsoleTextAttribute(stdOutHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
+    // Show a message box when logging an error
+    if (level == LogLevel_Error)
+    {
+        MessageBoxA(NULL, message.c_str(), "Error", MB_ICONHAND | MB_OK);
+    }
 #else
 
     // Set the color text color

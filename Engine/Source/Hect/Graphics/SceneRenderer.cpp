@@ -79,6 +79,28 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         initializeBuffers(target.width(), target.height());
     }
 
+    // Get the cube map of the active light probe
+    auto lightProbe = scene.components<LightProbe>().begin();
+    if (lightProbe)
+    {
+        _lightProbeCubeMap = &*lightProbe->texture;
+    }
+    else
+    {
+        _lightProbeCubeMap = nullptr;
+    }
+
+    // Get the cube map of the active sky box
+    auto skyBox = scene.components<SkyBox>().begin();
+    if (skyBox)
+    {
+        _skyBoxCubeMap = &*skyBox->texture;
+    }
+    else
+    {
+        _skyBoxCubeMap = nullptr;
+    }
+
     // Build all render calls and sort by priority
     _renderCalls.clear();
     for (Entity& entity : scene.entities())
@@ -126,23 +148,12 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.selectTarget(backFrameBuffer());
         _renderer.clear();
 
-        // Get the first light probe
-        auto lightProbe = scene.components<LightProbe>().begin();
-        if (!lightProbe)
-        {
-            throw Error("No light probe in scene");
-        }
-
         _renderer.selectMesh(*_screenMesh);
 
         // Render environment light
+        if (_lightProbeCubeMap)
         {
             _renderer.selectMaterial(*_environmentMaterial);
-            _renderer.setMaterialParameter(_environmentMaterial->parameter("diffuseBuffer"), _diffuseBuffer);
-            _renderer.setMaterialParameter(_environmentMaterial->parameter("materialBuffer"), _materialBuffer);
-            _renderer.setMaterialParameter(_environmentMaterial->parameter("positionBuffer"), _positionBuffer);
-            _renderer.setMaterialParameter(_environmentMaterial->parameter("normalBuffer"), _normalBuffer);
-            _renderer.setMaterialParameter(_environmentMaterial->parameter("lightProbeTexture"), *lightProbe->texture);
             setBoundMaterialParameters(*_environmentMaterial, *camera, target, _identityTransform);
 
             _renderer.draw();
@@ -151,17 +162,13 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         // Render directional lights
         {
             _renderer.selectMaterial(*_directionalLightMaterial);
-            _renderer.setMaterialParameter(_directionalLightMaterial->parameter("diffuseBuffer"), _diffuseBuffer);
-            _renderer.setMaterialParameter(_directionalLightMaterial->parameter("materialBuffer"), _materialBuffer);
-            _renderer.setMaterialParameter(_directionalLightMaterial->parameter("positionBuffer"), _positionBuffer);
-            _renderer.setMaterialParameter(_directionalLightMaterial->parameter("normalBuffer"), _normalBuffer);
-            setBoundMaterialParameters(*_directionalLightMaterial, *camera, target, _identityTransform);
 
             // Render each directional light in the scene
             for (const DirectionalLight& light : scene.components<DirectionalLight>())
             {
-                _renderer.setMaterialParameter(_directionalLightMaterial->parameter("lightColor"), light.color);
-                _renderer.setMaterialParameter(_directionalLightMaterial->parameter("lightDirection"), light.direction);
+                _primaryLightDirection = light.direction;
+                _primaryLightColor = light.color;
+                setBoundMaterialParameters(*_directionalLightMaterial, *camera, target, _identityTransform);
                 _renderer.draw();
             }
         }
@@ -181,8 +188,6 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.selectTarget(backFrameBuffer());
         _renderer.clear();
         _renderer.selectMaterial(*_compositeMaterial);
-        _renderer.setMaterialParameter(_compositeMaterial->parameter("diffuseBuffer"), _diffuseBuffer);
-        _renderer.setMaterialParameter(_compositeMaterial->parameter("backBuffer"), lastBackBuffer());
         setBoundMaterialParameters(*_compositeMaterial, *camera, target, _identityTransform);
 
         _renderer.selectMesh(*_screenMesh);
@@ -199,7 +204,6 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.selectTarget(target);
         _renderer.clear();
         _renderer.selectMaterial(*_exposeMaterial);
-        _renderer.setMaterialParameter(_exposeMaterial->parameter("backBuffer"), lastBackBuffer());
         setBoundMaterialParameters(*_exposeMaterial, *camera, target, _identityTransform);
 
         _renderer.selectMesh(*_screenMesh);
@@ -333,8 +337,6 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
         auto skyBox = entity.component<SkyBox>();
         if (skyBox)
         {
-            _skyBoxMaterial->setArgument("skyBoxTexture", skyBox->texture);
-
             addRenderCall(_cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
         }
     }
@@ -399,6 +401,12 @@ void SceneRenderer::setBoundMaterialParameters(Material& material, const Camera&
         case MaterialParameterBinding_CameraOneOverGamma:
             _renderer.setMaterialParameter(parameter, Real(1) / camera.gamma);
             break;
+        case MaterialParameterBinding_PrimaryLightDirection:
+            _renderer.setMaterialParameter(parameter, _primaryLightDirection);
+            break;
+        case MaterialParameterBinding_PrimaryLightColor:
+            _renderer.setMaterialParameter(parameter, _primaryLightColor);
+            break;
         case MaterialParameterBinding_ViewMatrix:
             _renderer.setMaterialParameter(parameter, camera.viewMatrix);
             break;
@@ -416,6 +424,29 @@ void SceneRenderer::setBoundMaterialParameters(Material& material, const Camera&
             break;
         case MaterialParameterBinding_ModelViewProjectionMatrix:
             _renderer.setMaterialParameter(parameter, camera.projectionMatrix * (camera.viewMatrix * model));
+            break;
+        case MaterialParameterBinding_LightProbeCubeMap:
+            assert(_lightProbeCubeMap);
+            _renderer.setMaterialParameter(parameter, *_lightProbeCubeMap);
+            break;
+        case MaterialParameterBinding_SkyBoxCubeMap:
+            assert(_skyBoxCubeMap);
+            _renderer.setMaterialParameter(parameter, *_skyBoxCubeMap);
+            break;
+        case MaterialParameterBinding_DiffuseBuffer:
+            _renderer.setMaterialParameter(parameter, _diffuseBuffer);
+            break;
+        case MaterialParameterBinding_MaterialBuffer:
+            _renderer.setMaterialParameter(parameter, _materialBuffer);
+            break;
+        case MaterialParameterBinding_PositionBuffer:
+            _renderer.setMaterialParameter(parameter, _positionBuffer);
+            break;
+        case MaterialParameterBinding_NormalBuffer:
+            _renderer.setMaterialParameter(parameter, _normalBuffer);
+            break;
+        case MaterialParameterBinding_BackBuffer:
+            _renderer.setMaterialParameter(parameter, lastBackBuffer());
             break;
         }
     }
