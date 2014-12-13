@@ -19,7 +19,7 @@
             "name": "backBuffer"
         }
     ],
-    "renderState": {
-        "disabledFlags": [ "CullFace", "DepthTest", "DepthWrite" ]
-    }
+    "cullBackFace": false,
+    "depthTest": false,
+    "depthWrite": false
 }

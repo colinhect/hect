@@ -540,40 +540,38 @@ void OpenGLRenderer::selectMaterial(Material& material, bool selectBase)
     {
         auto data = material.dataAs<MaterialData>();
         GL_ASSERT(glUseProgram(data->programId));
+    }
 
-        const RenderState& state = material.renderState();
+    if (material.depthTest())
+    {
+        GL_ASSERT(glEnable(GL_DEPTH_TEST));
+    }
+    else
+    {
+        GL_ASSERT(glDisable(GL_DEPTH_TEST));
+    }
 
-        if (state.isEnabled(RenderStateFlag_DepthTest))
-        {
-            GL_ASSERT(glEnable(GL_DEPTH_TEST));
-        }
-        else
-        {
-            GL_ASSERT(glDisable(GL_DEPTH_TEST));
-        }
+    if (material.cullBackFace())
+    {
+        GL_ASSERT(glEnable(GL_CULL_FACE));
+    }
+    else
+    {
+        GL_ASSERT(glDisable(GL_CULL_FACE));
+    }
 
-        if (state.isEnabled(RenderStateFlag_CullFace))
-        {
-            GL_ASSERT(glEnable(GL_CULL_FACE));
-        }
-        else
-        {
-            GL_ASSERT(glDisable(GL_CULL_FACE));
-        }
+    if (material.blend())
+    {
+        GL_ASSERT(glEnable(GL_BLEND));
 
-        if (state.isEnabled(RenderStateFlag_Blend))
-        {
-            GL_ASSERT(glEnable(GL_BLEND));
+        GLuint sourceFactor = _blendFactorLookUp[static_cast<int>(material.sourceBlendFactor())];
+        GLuint destFactor = _blendFactorLookUp[static_cast<int>(material.destinationBlendFactor())];
 
-            GLuint sourceFactor = _blendFactorLookUp[(int)state.sourceBlendFactor()];
-            GLuint destFactor = _blendFactorLookUp[(int)state.destinationBlendFactor()];
-
-            GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
-        }
-        else
-        {
-            GL_ASSERT(glDisable(GL_BLEND));
-        }
+        GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
+    }
+    else
+    {
+        GL_ASSERT(glDisable(GL_BLEND));
     }
 
     // Set the values for each parameter

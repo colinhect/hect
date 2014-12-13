@@ -30,31 +30,15 @@
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
+#include "Hect/Graphics/BlendFactor.h"
 #include "Hect/Graphics/MaterialParameter.h"
+#include "Hect/Graphics/MaterialType.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/RenderState.h"
 #include "Hect/Graphics/ShaderModule.h"
 #include "Hect/Graphics/Texture.h"
 
 namespace hect
 {
-
-///
-/// A stage within the rendering flow.
-enum MaterialType
-{
-    ///
-    /// No specific stage.
-    MaterialType_None,
-
-    ///
-    /// The stage for rendering opaque geometry to the geometry buffer.
-    MaterialType_OpaqueGeometry,
-
-    ///
-    /// The stage for rendering lights to the light accumulation buffer.
-    MaterialType_LightAccumulation,
-};
 
 ///
 /// The manner in which a surface is rendered.
@@ -102,12 +86,75 @@ public:
     MaterialType type() const;
 
     ///
-    /// Returns the shader modules.
-    ShaderModuleSequence shaderModules();
+    /// Sets the material type.
+    ///
+    /// \param type The new material type.
+    void setType(MaterialType type);
 
     ///
-    /// Returns the shader modules.
-    const ShaderModuleSequence shaderModules() const;
+    /// Returns whether blending is enabled.
+    bool blend() const;
+
+    ///
+    /// Sets whether blending is enabled.
+    ///
+    /// \param value True to enable blending; false to disable.
+    void setBlend(bool value);
+
+    ///
+    /// Sets the source and destination blend factors.
+    ///
+    /// \param source The source factor.
+    /// \param destination The destination factor.
+    void setBlendFactors(BlendFactor source, BlendFactor destination);
+
+    ///
+    /// Returns the source blend factor.
+    BlendFactor sourceBlendFactor() const;
+
+    ///
+    /// Returns the destination blend factor.
+    BlendFactor destinationBlendFactor() const;
+
+    ///
+    /// Returns whether depth testing is enabled.
+    bool depthTest() const;
+
+    ///
+    /// Sets whether depth testing is enabled.
+    ///
+    /// \param value True to enable depth testing; false to disable.
+    void setDepthTest(bool value);
+
+    ///
+    /// Returns whether depth writing is enabled.
+    bool depthWrite() const;
+
+    ///
+    /// Sets whether depth writing is enabled.
+    ///
+    /// \param value True to enable depth writing; false to disable.
+    void setDepthWrite(bool value);
+
+    ///
+    /// Returns whether back face culling is enabled.
+    bool cullBackFace() const;
+
+    ///
+    /// Sets whether back face culling is enabled.
+    ///
+    /// \param value True to enable back face culling; false to disable.
+    void setCullBackFace(bool value);
+
+    ///
+    /// Returns the render priority.
+    int priority() const;
+
+    ///
+    /// Sets the render priority.
+    ///
+    /// \param priority The priority.
+    void setPriority(int priority);
 
     ///
     /// Returns the parameters.
@@ -157,24 +204,12 @@ public:
     const MaterialValue& argumentForParameter(const MaterialParameter& parameter) const;
 
     ///
-    /// Returns the render state.
-    const RenderState& renderState() const;
+    /// Returns the shader modules.
+    ShaderModuleSequence shaderModules();
 
     ///
-    /// Sets the render state that the material will select.
-    ///
-    /// \param renderState The render state.
-    void setRenderState(const RenderState& renderState);
-
-    ///
-    /// Returns the render priority.
-    int priority() const;
-
-    ///
-    /// Sets the render priority.
-    ///
-    /// \param priority The priority.
-    void setPriority(int priority);
+    /// Returns the shader modules.
+    const ShaderModuleSequence shaderModules() const;
 
     ///
     /// Returns whether the material is equivalent to another.
@@ -199,13 +234,30 @@ private:
     void addParameter(const std::string& name, MaterialValueType type, MaterialParameterBinding binding);
     unsigned nextTextureIndex() const;
 
+    enum MaterialFlag
+    {
+        MaterialFlag_Blend = 1,
+        MaterialFlag_NoDepthTest = 2,
+        MaterialFlag_DepthWrite = 4,
+        MaterialFlag_NoCullBackFace = 8
+    };
+
+    typedef uint8_t MaterialFlags;
+
     AssetHandle<Material> _base;
 
     MaterialType _type { MaterialType_None };
+    bool _typeSet { false };
 
-    RenderState _renderState;
+    MaterialFlags _flags { 0 };
+    MaterialFlags _activeFlagsMask { 0 };
+
+    BlendFactor _sourceFactor { BlendFactor_One };
+    BlendFactor _destinationFactor { BlendFactor_One };
+    bool _blendFactorsSet { false };
 
     int _priority { 0 };
+    bool _prioritySet { false };
 
     ShaderModuleContainer _shaderModules;
 

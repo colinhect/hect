@@ -23,9 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
-
 namespace hect
 {
 
@@ -72,92 +69,6 @@ enum BlendFactor
     ///
     /// Blend forumla: 1 1 1 1 - A d k A A d k A A d k A A d k A
     BlendFactor_OneMinusDestAlpha
-};
-
-///
-/// A flag that can either be enabled or disabled in a render state.
-enum RenderStateFlag
-{
-    ///
-    /// Blends source and destination pixels using a formula.
-    RenderStateFlag_Blend = 1,
-
-    ///
-    /// Tests whether a pixel should be occluded based on the render buffer.
-    RenderStateFlag_DepthTest = 2,
-
-    ///
-    // Writes a pixel's depth to the render buffer.
-    RenderStateFlag_DepthWrite = 4,
-
-    ///
-    /// Culls faces pointing away from the camera.
-    RenderStateFlag_CullFace = 8
-};
-
-///
-/// A bit vector containing any number of render state flags.
-typedef uint16_t RenderStateFlags;
-
-///
-/// Describes a state that the renderer is in which affects the
-/// resulting rendered pixels.
-class RenderState
-{
-public:
-
-    ///
-    /// Enables a flag.
-    ///
-    /// \param flag The flag to enable.
-    void enable(RenderStateFlag flag);
-
-    ///
-    /// Disables a flag.
-    ///
-    /// \param flag The flag to disable.
-    void disable(RenderStateFlag flag);
-
-    ///
-    /// Returns whether a given flag is enabled.
-    ///
-    /// \param flag The flag.
-    bool isEnabled(RenderStateFlag flag) const;
-
-    ///
-    /// Sets the source and destination blend factors.
-    ///
-    /// \param source The source factor.
-    /// \param destination The destination factor.
-    void setBlendFactors(BlendFactor source, BlendFactor destination);
-
-    ///
-    /// Returns the source blend factor.
-    BlendFactor sourceBlendFactor() const;
-
-    ///
-    /// Returns the destination blend factor.
-    BlendFactor destinationBlendFactor() const;
-
-    ///
-    /// Returns whether the render state is equivalent to another.
-    ///
-    /// \param renderState The other render state.
-    bool operator==(const RenderState& renderState) const;
-
-    ///
-    /// Returns whether the render state is different from another.
-    ///
-    /// \param renderState The other render state.
-    bool operator!=(const RenderState& renderState) const;
-
-    friend Encoder& operator<<(Encoder& encoder, const RenderState& renderState);
-    friend Decoder& operator>>(Decoder& decoder, RenderState& renderState);
-
-private:
-    RenderStateFlags _flags { RenderStateFlag_DepthTest | RenderStateFlag_CullFace };
-    BlendFactor _sourceFactor { BlendFactor_One };
-    BlendFactor _destinationFactor { BlendFactor_One };
 };
 
 }

@@ -39,8 +39,11 @@
             "name": "normalBuffer"
         }
     ],
-    "renderState": {
-        "enabledFlags": [ "Blend" ],
-        "disabledFlags": [ "DepthTest", "DepthWrite" ]
+    "depthTest": false,
+    "depthWrite": false,
+    "blend": true,
+    "blendFactors": {
+        "source": "One",
+        "destination": "One"
     }
 }

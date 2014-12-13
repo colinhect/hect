@@ -23,65 +23,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Graphics/MaterialParameterBinding.h"
-#include "Hect/Graphics/MaterialValue.h"
-
 namespace hect
 {
 
 ///
-/// A parameter of a material.
-///
-/// \note A material parameter must either have a binding or a type.
-class MaterialParameter
+/// A stage within the rendering flow.
+enum MaterialType
 {
-    friend class Material;
-public:
-    MaterialParameter();
+    ///
+    /// No specific stage.
+    MaterialType_None,
 
     ///
-    /// Returns the value type the parameter accepts.
-    MaterialValueType type() const;
+    /// The stage for rendering opaque geometry to the geometry buffer.
+    MaterialType_OpaqueGeometry,
 
     ///
-    /// Returns the binding.
-    MaterialParameterBinding binding() const;
-
-    ///
-    /// Returns the name.
-    const std::string& name() const;
-
-    ///
-    /// Returns the compiled location.
-    int location() const;
-
-    ///
-    /// Sets the compiled location.
-    ///
-    /// \param location The compiled location.
-    void setLocation(int location);
-
-    ///
-    /// Returns the associated texture index.
-    ///
-    /// \throws Error If the parameter is not of type
-    /// ::MaterialValueType_Texture.
-    unsigned textureIndex() const;
-
-private:
-    MaterialParameter(size_t index, unsigned textureIndex, const std::string& name, MaterialValueType type, MaterialParameterBinding binding);
-
-    void resolveTypeFromBinding();
-
-    size_t _index { 0 };
-    unsigned _textureIndex { 0 };
-
-    std::string _name;
-
-    MaterialValueType _type { MaterialValueType_Float };
-    MaterialParameterBinding _binding { MaterialParameterBinding_None };
-
-    int _location { -1 };
+    /// The stage for rendering lights to the light accumulation buffer.
+    MaterialType_LightAccumulation,
 };
 
 }

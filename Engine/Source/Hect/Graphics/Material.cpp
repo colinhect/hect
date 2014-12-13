@@ -50,17 +50,169 @@ void Material::setBase(const AssetHandle<Material>& base)
 
 MaterialType Material::type() const
 {
-    return _type;
+    if (!_typeSet && _base)
+    {
+        return _base->type();
+    }
+    else
+    {
+        return _type;
+    }
 }
 
-Material::ShaderModuleSequence Material::shaderModules()
+void Material::setType(MaterialType type)
 {
-    return _shaderModules;
+    _typeSet = true;
+    _type = type;
 }
 
-const Material::ShaderModuleSequence Material::shaderModules() const
+bool Material::blend() const
 {
-    return _shaderModules;
+    if ((_activeFlagsMask & MaterialFlag_Blend) == 0 && _base)
+    {
+        return _base->blend();
+    }
+    else
+    {
+        return (_flags & MaterialFlag_Blend) == MaterialFlag_Blend;
+    }
+}
+
+void Material::setBlend(bool value)
+{
+    _activeFlagsMask |= MaterialFlag_Blend;
+    if (value)
+    {
+        _flags |= MaterialFlag_Blend;
+    }
+    else
+    {
+        _flags &= ~MaterialFlag_Blend;
+    }
+}
+
+void Material::setBlendFactors(BlendFactor source, BlendFactor destination)
+{
+    _blendFactorsSet = true;
+    _sourceFactor = source;
+    _destinationFactor = destination;
+}
+
+BlendFactor Material::sourceBlendFactor() const
+{
+    if (!_blendFactorsSet && _base)
+    {
+        return _base->sourceBlendFactor();
+    }
+    else
+    {
+        return _sourceFactor;
+    }
+}
+
+BlendFactor Material::destinationBlendFactor() const
+{
+    if (!_blendFactorsSet && _base)
+    {
+        return _base->destinationBlendFactor();
+    }
+    else
+    {
+        return _destinationFactor;
+    }
+}
+
+bool Material::depthTest() const
+{
+    if ((_activeFlagsMask & MaterialFlag_NoDepthTest) == 0 && _base)
+    {
+        return _base->depthTest();
+    }
+    else
+    {
+        return (_flags & MaterialFlag_NoDepthTest) != MaterialFlag_NoDepthTest;
+    }
+}
+
+void Material::setDepthTest(bool value)
+{
+    _activeFlagsMask |= MaterialFlag_NoDepthTest;
+    if (value)
+    {
+        _flags &= ~MaterialFlag_NoDepthTest;
+    }
+    else
+    {
+        _flags |= MaterialFlag_NoDepthTest;
+    }
+}
+
+bool Material::depthWrite() const
+{
+    if ((_activeFlagsMask & MaterialFlag_DepthWrite) == 0 && _base)
+    {
+        return _base->depthTest();
+    }
+    else
+    {
+        return (_flags & MaterialFlag_DepthWrite) == MaterialFlag_DepthWrite;
+    }
+}
+
+void Material::setDepthWrite(bool value)
+{
+    _activeFlagsMask |= MaterialFlag_DepthWrite;
+    if (value)
+    {
+        _flags |= MaterialFlag_DepthWrite;
+    }
+    else
+    {
+        _flags &= ~MaterialFlag_DepthWrite;
+    }
+}
+
+bool Material::cullBackFace() const
+{
+    if ((_activeFlagsMask & MaterialFlag_NoCullBackFace) == 0 && _base)
+    {
+        return _base->depthTest();
+    }
+    else
+    {
+        return (_flags & MaterialFlag_NoCullBackFace) != MaterialFlag_NoCullBackFace;
+    }
+}
+
+void Material::setCullBackFace(bool value)
+{
+    _activeFlagsMask |= MaterialFlag_NoCullBackFace;
+    if (value)
+    {
+        _flags &= ~MaterialFlag_NoCullBackFace;
+    }
+    else
+    {
+        _flags |= MaterialFlag_NoCullBackFace;
+    }
+}
+
+int Material::priority() const
+{
+    if (!_prioritySet && _base)
+    {
+        return _base->priority();
+    }
+    else
+    {
+        return _priority;
+    }
+}
+
+void Material::setPriority(int priority)
+{
+    _prioritySet = true;
+    _priority = priority;
 }
 
 Material::ParameterSequence Material::parameters()
@@ -172,24 +324,14 @@ const MaterialValue& Material::argumentForParameter(const MaterialParameter& par
     throw Error("No material parameter at the specified index");
 }
 
-const RenderState& Material::renderState() const
+Material::ShaderModuleSequence Material::shaderModules()
 {
-    return _renderState;
+    return _shaderModules;
 }
 
-void Material::setRenderState(const RenderState& renderState)
+const Material::ShaderModuleSequence Material::shaderModules() const
 {
-    _renderState = renderState;
-}
-
-int Material::priority() const
-{
-    return _priority;
-}
-
-void Material::setPriority(int priority)
-{
-    _priority = priority;
+    return _shaderModules;
 }
 
 bool Material::operator==(const Material& material) const
@@ -330,8 +472,6 @@ Decoder& operator>>(Decoder& decoder, Material& material)
         }
     }
 
-    decoder >> decodeEnum("type", material._type);
-
     // Arguments
     if (decoder.selectMember("arguments"))
     {
@@ -354,11 +494,86 @@ Decoder& operator>>(Decoder& decoder, Material& material)
         decoder >> endArray();
     }
 
-    decoder >> decodeValue("renderState", material._renderState)
-            >> decodeValue("priority", material._priority);
+    if (decoder.isBinaryStream())
+    {
+        decoder >> decodeEnum(material._type)
+                >> decodeValue(material._typeSet)
+                >> decodeValue(material._flags)
+                >> decodeValue(material._activeFlagsMask)
+                >> decodeEnum(material._sourceFactor)
+                >> decodeEnum(material._destinationFactor)
+                >> decodeValue(material._blendFactorsSet)
+                >> decodeValue(material._priority)
+                >> decodeValue(material._prioritySet);
+    }
+    else
+    {
+        // Type
+        if (decoder.selectMember("type"))
+        {
+            MaterialType type;
+            decoder >> decodeEnum(type);
+            material.setType(type);
+        }
+
+        // Blend enabled
+        if (decoder.selectMember("blend"))
+        {
+            bool value;
+            decoder >> decodeValue(value);
+            material.setBlend(value);
+        }
+
+        // Blend factors
+        if (decoder.selectMember("blendFactors"))
+        {
+            decoder >> beginObject();
+
+            BlendFactor source = BlendFactor_One;
+            BlendFactor destination = BlendFactor_One;
+
+            decoder >> decodeEnum("source", source)
+                    >> decodeEnum("destination", destination);
+
+            material.setBlendFactors(source, destination);
+
+            decoder >> endObject();
+        }
+
+        // Depth testing enabled
+        if (decoder.selectMember("depthTest"))
+        {
+            bool value;
+            decoder >> decodeValue(value);
+            material.setDepthTest(value);
+        }
+
+        // Depth writing enabled
+        if (decoder.selectMember("depthWrite"))
+        {
+            bool value;
+            decoder >> decodeValue(value);
+            material.setDepthWrite(value);
+        }
+
+        // Back face culling enabled
+        if (decoder.selectMember("cullBackFace"))
+        {
+            bool value;
+            decoder >> decodeValue(value);
+            material.setCullBackFace(value);
+        }
+
+        // Priority
+        if (decoder.selectMember("priority"))
+        {
+            int value;
+            decoder >> decodeValue(value);
+            material.setPriority(value);
+        }
+    }
 
     decoder >> endObject();
-
     return decoder;
 }
 
