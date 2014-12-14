@@ -1,6 +1,6 @@
 {
     "type": "OpaqueGeometry",
-    "modules": [
+    "shaderSources": [
         {
             "type": "Vertex",
             "path": "Solid.Vertex.glsl"

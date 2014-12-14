@@ -21,38 +21,38 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ShaderModule.h"
+#include "ShaderSource.h"
 
 using namespace hect;
 
-ShaderModule::ShaderModule(ShaderModuleType type, const Path& path, const std::string& source) :
+ShaderSource::ShaderSource(ShaderSourceType type, const Path& path, const std::string& source) :
     _type(type),
     _path(path),
     _source(source)
 {
 }
 
-ShaderModuleType ShaderModule::type() const
+ShaderSourceType ShaderSource::type() const
 {
     return _type;
 }
 
-const Path& ShaderModule::path() const
+const Path& ShaderSource::path() const
 {
     return _path;
 }
 
-const std::string& ShaderModule::source() const
+const std::string& ShaderSource::source() const
 {
     return _source;
 }
 
-bool ShaderModule::operator==(const ShaderModule& shaderModule) const
+bool ShaderSource::operator==(const ShaderSource& shaderSource) const
 {
-    return _type == shaderModule._type && _source == shaderModule._source;
+    return _type == shaderSource._type && _source == shaderSource._source;
 }
 
-bool ShaderModule::operator!=(const ShaderModule& shaderModule) const
+bool ShaderSource::operator!=(const ShaderSource& shaderSource) const
 {
-    return !(*this == shaderModule);
+    return !(*this == shaderSource);
 }

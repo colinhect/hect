@@ -34,7 +34,7 @@
 #include "Hect/Graphics/MaterialParameter.h"
 #include "Hect/Graphics/MaterialType.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/ShaderModule.h"
+#include "Hect/Graphics/ShaderSource.h"
 #include "Hect/Graphics/Texture.h"
 
 namespace hect
@@ -46,13 +46,13 @@ class Material :
     public Asset,
     public Renderer::Object<Material>
 {
-    typedef std::vector<ShaderModule> ShaderModuleContainer;
+    typedef std::vector<ShaderSource> ShaderSourceContainer;
     typedef std::vector<MaterialParameter> ParameterContainer;
 public:
 
     ///
-    /// A sequence of shader modules.
-    typedef Sequence<ShaderModule, ShaderModuleContainer> ShaderModuleSequence;
+    /// A sequence of shader sources.
+    typedef Sequence<ShaderSource, ShaderSourceContainer> ShaderSourceSequence;
 
     ///
     /// A sequence of material parameters.
@@ -76,7 +76,7 @@ public:
     /// Sets the base material.
     ///
     /// \note If the material is uploaded to a renderer then it will be
-    /// destroyed before the module is added.
+    /// destroyed before the base is set.
     ///
     /// \param base The base material.
     void setBase(const AssetHandle<Material>& base);
@@ -204,12 +204,12 @@ public:
     const MaterialValue& argumentForParameter(const MaterialParameter& parameter) const;
 
     ///
-    /// Returns the shader modules.
-    ShaderModuleSequence shaderModules();
+    /// Returns the shader sources.
+    ShaderSourceSequence shaderSources();
 
     ///
-    /// Returns the shader modules.
-    const ShaderModuleSequence shaderModules() const;
+    /// Returns the shader sources.
+    const ShaderSourceSequence shaderSources() const;
 
     ///
     /// Returns whether the material is equivalent to another.
@@ -259,7 +259,7 @@ private:
     int _priority { 0 };
     bool _prioritySet { false };
 
-    ShaderModuleContainer _shaderModules;
+    ShaderSourceContainer _shaderSources;
 
     ParameterContainer _parameters;
     StringMap<size_t> _parameterIndices;

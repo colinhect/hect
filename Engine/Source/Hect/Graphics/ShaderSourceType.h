@@ -23,73 +23,25 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
-
-#include "Hect/IO/Path.h"
-
 namespace hect
 {
 
 ///
-/// A shader module type.
-enum ShaderModuleType
+/// A shader source module type.
+enum ShaderSourceType
 {
 
     ///
-    /// A vertex program module.
-    ShaderModuleType_Vertex,
+    /// A vertex program source.
+    ShaderSourceType_Vertex,
 
     ///
-    /// A fragment program module.
-    ShaderModuleType_Fragment,
+    /// A fragment program source.
+    ShaderSourceType_Fragment,
 
     ///
-    /// A geometry program module.
-    ShaderModuleType_Geometry
-};
-
-///
-/// A shader module.
-class ShaderModule
-{
-public:
-
-    ///
-    /// Constructs a shader module.
-    ///
-    /// \param type The module type.
-    /// \param path The path to the source file (for compile error reporting).
-    /// \param source The source code of the module.
-    ShaderModule(ShaderModuleType type, const Path& path, const std::string& source);
-
-    ///
-    /// Returns the type.
-    ShaderModuleType type() const;
-
-    ///
-    /// Returns the path to the source file.
-    const Path& path() const;
-
-    ///
-    /// Returns the source.
-    const std::string& source() const;
-
-    ///
-    /// Returns whether the shader module is equivalent to another.
-    ///
-    /// \param shaderModule The other shader module.
-    bool operator==(const ShaderModule& shaderModule) const;
-
-    ///
-    /// Returns whether the shader module is different from another.
-    ///
-    /// \param shaderModule The other shader module.
-    bool operator!=(const ShaderModule& shaderModule) const;
-
-private:
-    ShaderModuleType _type;
-    Path _path;
-    std::string _source;
+    /// A geometry program source.
+    ShaderSourceType_Geometry
 };
 
 }

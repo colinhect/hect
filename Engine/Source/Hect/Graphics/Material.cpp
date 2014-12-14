@@ -324,14 +324,14 @@ const MaterialValue& Material::argumentForParameter(const MaterialParameter& par
     throw Error("No material parameter at the specified index");
 }
 
-Material::ShaderModuleSequence Material::shaderModules()
+Material::ShaderSourceSequence Material::shaderSources()
 {
-    return _shaderModules;
+    return _shaderSources;
 }
 
-const Material::ShaderModuleSequence Material::shaderModules() const
+const Material::ShaderSourceSequence Material::shaderSources() const
 {
-    return _shaderModules;
+    return _shaderSources;
 }
 
 bool Material::operator==(const Material& material) const
@@ -423,13 +423,13 @@ Decoder& operator>>(Decoder& decoder, Material& material)
 
     if (!material._base)
     {
-        // Modules
-        if (decoder.selectMember("modules"))
+        // Shader sources
+        if (decoder.selectMember("shaderSources"))
         {
             decoder >> beginArray();
             while (decoder.hasMoreElements())
             {
-                ShaderModuleType type;
+                ShaderSourceType type;
                 Path path;
 
                 decoder >> beginObject()
@@ -443,7 +443,7 @@ Decoder& operator>>(Decoder& decoder, Material& material)
                 auto stream = assetCache.fileSystem().openFileForRead(path);
                 std::string source = stream->readAllToString();
 
-                material._shaderModules.push_back(ShaderModule(type, path, source));
+                material._shaderSources.push_back(ShaderSource(type, path, source));
             }
             decoder >> endArray();
         }

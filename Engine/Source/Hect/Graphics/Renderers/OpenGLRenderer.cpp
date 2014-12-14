@@ -288,7 +288,7 @@ GLenum _internalImageFormatLookUp[2][2][3] =
     }
 };
 
-GLenum _shaderModuleTypeLookUp[3] =
+GLenum _shaderSourceTypeLookUp[3] =
 {
     GL_VERTEX_SHADER, // Vertex
     GL_FRAGMENT_SHADER, // Fragment
@@ -597,15 +597,15 @@ void OpenGLRenderer::uploadMaterial(Material& material)
 
         // Attach each shader to the program
         std::vector<GLuint> shaderIds;
-        for (ShaderModule& module : material.shaderModules())
+        for (ShaderSource& shaderSource : material.shaderSources())
         {
             GLuint shaderId;
 
             // Create the shader
-            GL_ASSERT(shaderId = glCreateShader(_shaderModuleTypeLookUp[(int)module.type()]));
+            GL_ASSERT(shaderId = glCreateShader(_shaderSourceTypeLookUp[static_cast<int>(shaderSource.type())]));
 
             // Compile shader
-            const GLchar* source = module.source().c_str();
+            const GLchar* source = shaderSource.source().c_str();
             GL_ASSERT(glShaderSource(shaderId, 1, &source, nullptr));
             GL_ASSERT(glCompileShader(shaderId));
 
@@ -620,7 +620,7 @@ void OpenGLRenderer::uploadMaterial(Material& material)
 
                 if (infoLog.size() > 0)
                 {
-                    throw Error(format("Failed to compile GLSL shader module '%s': %s", module.path().asString().c_str(), infoLog.c_str()));
+                    throw Error(format("Failed to compile GLSL shader source file '%s': %s", shaderSource.path().asString().c_str(), infoLog.c_str()));
                 }
             }
 
