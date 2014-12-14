@@ -41,7 +41,13 @@ namespace hect
 {
 
 ///
-/// The manner in which a surface is rendered.
+/// The manner in which a surface is rendered and how it is used within the
+/// render flow.
+///
+/// A material can inherit from a base material.  %Any properties or arguments
+/// set in the material will override that of the base material.  %Any
+/// properties or arguments left unchanged will default to that of the base
+/// material.
 class Material :
     public Asset,
     public Renderer::Object<Material>
@@ -69,11 +75,11 @@ public:
     Material(const std::string& name);
 
     ///
-    /// Returns the base material.
+    /// Returns the base material that this material inherits from.
     AssetHandle<Material> base() const;
 
     ///
-    /// Sets the base material.
+    /// Sets the base material that this material inherits from.
     ///
     /// \note If the material is uploaded to a renderer then it will be
     /// destroyed before the base is set.
@@ -241,6 +247,11 @@ private:
         MaterialFlag_DepthWrite = 4,
         MaterialFlag_NoCullBackFace = 8
     };
+
+    bool isFlagActive(MaterialFlag flag) const;
+    void setFlagActive(MaterialFlag flag);
+    bool flagValue(MaterialFlag flag) const;
+    void setFlagValue(MaterialFlag flag, bool value);
 
     typedef uint8_t MaterialFlags;
 

@@ -270,6 +270,9 @@ bool MaterialValue::operator==(const MaterialValue& materialValue) const
     // Value
     switch (_type)
     {
+    case MaterialValueType_Null:
+        return true;
+        break;
     case MaterialValueType_Int:
         return asInt() == materialValue.asInt();
         break;
@@ -288,7 +291,7 @@ bool MaterialValue::operator==(const MaterialValue& materialValue) const
     case MaterialValueType_Texture:
         return asTexture() == materialValue.asTexture();
     default:
-        throw Error("Unsupported shader value type");
+        throw Error("Unsupported material value type");
     }
 }
 

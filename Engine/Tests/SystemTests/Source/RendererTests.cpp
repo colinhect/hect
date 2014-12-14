@@ -35,7 +35,7 @@ TEST_CASE("Upload and destroy render object", "[Renderer]")
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
 
-    Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
+    Mesh mesh = assetCache.get<Mesh>("Hect/Box.mesh");
     REQUIRE(!mesh.isUploaded());
     renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
@@ -48,7 +48,7 @@ TEST_CASE("Re-upload destroyed render object", "[Renderer]")
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
 
-    Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
+    Mesh mesh = assetCache.get<Mesh>("Hect/Box.mesh");
     REQUIRE(!mesh.isUploaded());
     renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
@@ -63,7 +63,7 @@ TEST_CASE("Copy uploaded render object", "[Renderer]")
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
 
-    Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
+    Mesh mesh = assetCache.get<Mesh>("Hect/Box.mesh");
     renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
 
@@ -85,7 +85,7 @@ TEST_CASE("Move uploaded render object", "[Renderer]")
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
 
-    Mesh mesh = assetCache.get<Mesh>("Mesh_01.mesh");
+    Mesh mesh = assetCache.get<Mesh>("Hect/Box.mesh");
     renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
 

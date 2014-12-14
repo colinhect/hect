@@ -93,7 +93,7 @@ bool AssetHandle<T>::operator==(const AssetHandle<T>& assetHandle) const
     {
         return _asset == assetHandle._asset;
     }
-    return false;
+    return (_entry || _asset) == (assetHandle._entry || assetHandle._asset);
 }
 
 template <typename T>

@@ -64,6 +64,34 @@ unsigned MaterialParameter::textureIndex() const
     return _textureIndex;
 }
 
+bool MaterialParameter::operator==(const MaterialParameter& materialParameter) const
+{
+    // Compare name
+    if (_name != materialParameter._name)
+    {
+        return false;
+    }
+
+    // Compare type
+    if (_type != materialParameter._type)
+    {
+        return false;
+    }
+
+    // Compare binding
+    if (_binding != materialParameter._binding)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool MaterialParameter::operator!=(const MaterialParameter& materialParameter) const
+{
+    return !(*this == materialParameter);
+}
+
 MaterialParameter::MaterialParameter(size_t index, unsigned textureIndex, const std::string& name, MaterialValueType type, MaterialParameterBinding binding) :
     _index(index),
     _textureIndex(textureIndex),

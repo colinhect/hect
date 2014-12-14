@@ -29,7 +29,10 @@ std::string ReadStream::readAllToString()
 {
     size_t byteCount = length();
     std::string string(byteCount, ' ');
-    read(reinterpret_cast<uint8_t*>(&string[0]), byteCount);
+    if (byteCount > 0)
+    {
+        read(reinterpret_cast<uint8_t*>(&string[0]), byteCount);
+    }
     return string;
 }
 
@@ -41,7 +44,10 @@ ReadStream& operator>>(ReadStream& stream, std::string& value)
     uint32_t byteCount;
     stream >> byteCount;
     value = std::string(byteCount, ' ');
-    stream.read(reinterpret_cast<uint8_t*>(&value[0]), byteCount);
+    if (byteCount > 0)
+    {
+        stream.read(reinterpret_cast<uint8_t*>(&value[0]), byteCount);
+    }
     return stream;
 }
 

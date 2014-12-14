@@ -20,12 +20,6 @@ set_target_properties(HectSystemTests PROPERTIES
     FOLDER "/Engine/Tests"
     )
 
-# Copy assets
-add_custom_command(TARGET HectSystemTests
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/Assets ${OUTPUT_DIR}/HectSystemTests.data/
-    )
-
 # Copy settings
 add_custom_command(TARGET HectSystemTests
     POST_BUILD

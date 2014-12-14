@@ -92,7 +92,7 @@ void testEncoding(const Path& assetPath)
 template <typename T>
 void testEncodingForExtension(const std::string& extension)
 {
-    for (auto& filePath : engine->fileSystem().filesInDirectory(""))
+    for (auto& filePath : engine->fileSystem().filesInDirectory("Hect"))
     {
         if (filePath.extension() == extension)
         {
@@ -101,17 +101,17 @@ void testEncodingForExtension(const std::string& extension)
     }
 }
 
-TEST_CASE("Decode and re-encode test materials", "[Encoding]")
+TEST_CASE("Decode and re-encode all built-in Hect materials", "[Encoding]")
 {
     testEncodingForExtension<Material>("material");
 }
 
-TEST_CASE("Decode and re-encode test meshes", "[Encoding]")
+TEST_CASE("Decode and re-encode all built-in Hect meshes", "[Encoding]")
 {
     testEncodingForExtension<Mesh>("mesh");
 }
 
-TEST_CASE("Decode and re-encode test textures", "[Encoding]")
+TEST_CASE("Decode and re-encode built-in Hect textures", "[Encoding]")
 {
     testEncodingForExtension<Texture>("texture");
 }

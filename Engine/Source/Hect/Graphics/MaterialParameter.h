@@ -68,6 +68,18 @@ public:
     /// ::MaterialValueType_Texture.
     unsigned textureIndex() const;
 
+    ///
+    /// Returns whether the material parameter is equivalent to another.
+    ///
+    /// \param materialParameter The other material parameter.
+    bool operator==(const MaterialParameter& materialParameter) const;
+
+    ///
+    /// Returns whether the material parameter is different from another.
+    ///
+    /// \param materialParameter The other material parameter.
+    bool operator!=(const MaterialParameter& materialParameter) const;
+
 private:
     MaterialParameter(size_t index, unsigned textureIndex, const std::string& name, MaterialValueType type, MaterialParameterBinding binding);
 

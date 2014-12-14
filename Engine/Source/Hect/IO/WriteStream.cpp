@@ -34,7 +34,10 @@ WriteStream& operator<<(WriteStream& stream, const char* value)
 {
     size_t length = strlen(value);
     stream << static_cast<uint32_t>(length);
-    stream.write(reinterpret_cast<const uint8_t*>(&value[0]), length);
+    if (length > 0)
+    {
+        stream.write(reinterpret_cast<const uint8_t*>(&value[0]), length);
+    }
     return stream;
 }
 
@@ -42,7 +45,10 @@ WriteStream& operator<<(WriteStream& stream, const std::string& value)
 {
     size_t length = value.size();
     stream << static_cast<uint32_t>(length);
-    stream.write(reinterpret_cast<const uint8_t*>(&value[0]), length);
+    if (length > 0)
+    {
+        stream.write(reinterpret_cast<const uint8_t*>(&value[0]), length);
+    }
     return stream;
 }
 
