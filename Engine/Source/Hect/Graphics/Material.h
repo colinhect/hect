@@ -244,7 +244,7 @@ private:
     {
         MaterialFlag_Blend = 1,
         MaterialFlag_NoDepthTest = 2,
-        MaterialFlag_DepthWrite = 4,
+        MaterialFlag_NoDepthWrite = 4,
         MaterialFlag_NoCullBackFace = 8
     };
 

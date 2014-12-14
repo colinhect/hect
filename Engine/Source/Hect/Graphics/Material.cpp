@@ -133,19 +133,19 @@ void Material::setDepthTest(bool value)
 
 bool Material::depthWrite() const
 {
-    if (!isFlagActive(MaterialFlag_DepthWrite) && _base)
+    if (!isFlagActive(MaterialFlag_NoDepthWrite) && _base)
     {
         return _base->depthTest();
     }
     else
     {
-        return flagValue(MaterialFlag_DepthWrite);
+        return !flagValue(MaterialFlag_NoDepthWrite);
     }
 }
 
 void Material::setDepthWrite(bool value)
 {
-    setFlagValue(MaterialFlag_DepthWrite, value);
+    setFlagValue(MaterialFlag_NoDepthWrite, !value);
 }
 
 bool Material::cullBackFace() const
@@ -558,7 +558,7 @@ Encoder& operator<<(Encoder& encoder, const Material& material)
         }
 
         // Encode if depth writing is enabled
-        if (material.isFlagActive(Material::MaterialFlag_DepthWrite))
+        if (material.isFlagActive(Material::MaterialFlag_NoDepthWrite))
         {
             encoder << encodeValue("depthWrite", material.depthWrite());
         }

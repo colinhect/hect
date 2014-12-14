@@ -25,3 +25,84 @@
 using namespace hect;
 
 #include <catch.hpp>
+
+TEST_CASE("Construct a material without a name", "[Material]")
+{
+    Material material;
+
+    REQUIRE(material.name() == "<unnamed>");
+}
+
+TEST_CASE("Construct a material with a name", "[Material]")
+{
+    Material material("A");
+
+    REQUIRE(material.name() == "A");
+}
+
+TEST_CASE("Get and set the type of a material", "[Material]")
+{
+    Material material;
+
+    REQUIRE(material.type() == MaterialType_None);
+    material.setType(MaterialType_OpaqueGeometry);
+    REQUIRE(material.type() == MaterialType_OpaqueGeometry);
+}
+
+TEST_CASE("Get and set whether blending is enabled for a material", "[Material]")
+{
+    Material material;
+
+    REQUIRE(material.blend() == false);
+    material.setBlend(true);
+    REQUIRE(material.depthTest() == true);
+}
+
+TEST_CASE("Get and set the blend factors of a material", "[Material]")
+{
+    Material material;
+
+    REQUIRE(material.sourceBlendFactor() == BlendFactor_One);
+    REQUIRE(material.destinationBlendFactor() == BlendFactor_One);
+
+    material.setBlendFactors(BlendFactor_DestAlpha, BlendFactor_DestColor);
+
+    REQUIRE(material.sourceBlendFactor() == BlendFactor_DestAlpha);
+    REQUIRE(material.destinationBlendFactor() == BlendFactor_DestColor);
+}
+
+TEST_CASE("Get and set whether depth testing is enabled for a material", "[Material]")
+{
+    Material material;
+
+    REQUIRE(material.depthTest() == true);
+    material.setDepthTest(false);
+    REQUIRE(material.depthTest() == false);
+}
+
+TEST_CASE("Get and set whether depth writing is enabled for a material", "[Material]")
+{
+    Material material;
+
+    REQUIRE(material.depthWrite() == true);
+    material.setDepthWrite(false);
+    REQUIRE(material.depthWrite() == false);
+}
+
+TEST_CASE("Get and set whether back face culling is enabled for a material", "[Material]")
+{
+    Material material;
+
+    REQUIRE(material.cullBackFace() == true);
+    material.setCullBackFace(false);
+    REQUIRE(material.cullBackFace() == false);
+}
+
+TEST_CASE("Get and set the priority of a material", "[Material]")
+{
+    Material material;
+
+    REQUIRE(material.priority() == 0);
+    material.setPriority(100);
+    REQUIRE(material.priority() == 100);
+}
