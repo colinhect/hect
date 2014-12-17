@@ -1,26 +1,13 @@
-{
-    "shaderSources": [
-        {
-            "type": "Vertex",
-            "path": "Screen.glsl"
-        },
-        {
-            "type": "Fragment",
-            "path": "Expose.glsl"
-        }
-    ],
-    "parameters": [
-        {
-            "binding": "CameraExposure",
-            "name": "exposure"
-        },
-        {
-            "binding": "CameraOneOverGamma",
-            "name": "oneOverGamma"
-        },
-        {
-            "binding": "BackBuffer",
-            "name": "backBuffer"
-        }
-    ]
-}
+---
+shaderSources: 
+  - type: Vertex
+    path: Screen.glsl
+  - type: Fragment
+    path: Expose.glsl
+parameters: 
+  - binding: CameraExposure
+    name: exposure
+  - binding: CameraOneOverGamma
+    name: oneOverGamma
+  - binding: BackBuffer
+    name: backBuffer

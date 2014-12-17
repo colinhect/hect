@@ -1,22 +1,11 @@
-{
-    "shaderSources": [
-        {
-            "type": "Vertex",
-            "path": "ColoredLine.Vertex.glsl"
-        },
-        {
-            "type": "Fragment", 
-            "path": "ColoredLine.Fragment.glsl"
-        }
-    ],
-    "parameters": [
-        {
-            "binding": "ModelViewProjectionMatrix",
-            "name": "modelViewProjection"
-        },
-        {
-            "type": "Vector3",
-            "name": "colorOverride"
-        }
-    ]
-}
+---
+shaderSources: 
+  - type: Vertex
+    path: ColoredLine.Vertex.glsl
+  - type: Fragment
+    path: ColoredLine.Fragment.glsl
+parameters: 
+  - binding: ModelViewProjectionMatrix
+    name: modelViewProjection
+  - type: Vector3
+    name: colorOverride

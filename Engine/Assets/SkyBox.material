@@ -1,27 +1,16 @@
-{
-    "type": "OpaqueGeometry",
-    "shaderSources": [
-        {
-            "type": "Vertex",
-            "path": "SkyBox.Vertex.glsl"
-        },
-        {
-            "type": "Fragment",
-            "path": "SkyBox.Fragment.glsl"
-        }
-    ],
-    "parameters": [
-        {
-            "binding": "ModelViewProjectionMatrix",
-            "name": "modelViewProjection"
-        },
-        {
-            "binding": "SkyBoxCubeMap",
-            "name": "skyBoxCubeMap"
-        }
-    ],
-    "cullBackFace": false,
-    "depthTest": false,
-    "depthWrite": false,
-    "priority": 1000
-}
+---
+type: OpaqueGeometry
+shaderSources: 
+  - type: Vertex
+    path: SkyBox.Vertex.glsl
+  - type: Fragment
+    path: SkyBox.Fragment.glsl
+parameters: 
+  - binding: ModelViewProjectionMatrix
+    name: modelViewProjection
+  - binding: SkyBoxCubeMap
+    name: skyBoxCubeMap
+cullBackFace: false
+depthTest: false
+depthWrite: false
+priority: 1000

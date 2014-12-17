@@ -1,25 +1,14 @@
-{
-    "shaderSources": [
-        {
-            "type": "Vertex",
-            "path": "Screen.glsl"
-        },
-        {
-            "type": "Fragment",
-            "path": "Composite.glsl"
-        }
-    ],
-    "parameters": [
-        {
-            "binding": "DiffuseBuffer",
-            "name": "diffuseBuffer"
-        },
-        {
-            "binding": "BackBuffer",
-            "name": "backBuffer"
-        }
-    ],
-    "cullBackFace": false,
-    "depthTest": false,
-    "depthWrite": false
-}
+---
+shaderSources: 
+  - type: Vertex
+    path: Screen.glsl
+  - type: Fragment
+    path: Composite.glsl
+parameters: 
+  - binding: DiffuseBuffer
+    name: diffuseBuffer
+  - binding: BackBuffer
+    name: backBuffer
+cullBackFace: false
+depthTest: false
+depthWrite: false

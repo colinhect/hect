@@ -1,35 +1,18 @@
-{
-    "type": "OpaqueGeometry",
-    "shaderSources": [
-        {
-            "type": "Vertex",
-            "path": "Solid.Vertex.glsl"
-        },
-        {
-            "type": "Fragment",
-            "path": "Solid.Fragment.glsl"
-        }
-    ],
-    "parameters": [
-        {
-            "type": "Vector3",
-            "name": "diffuse"
-        },
-        {
-            "type": "Float",
-            "name": "roughness"
-        },
-        {
-            "type": "Float",
-            "name": "metallic"
-        },
-        {
-            "binding": "ModelMatrix",
-            "name": "model"
-        },
-        {
-            "binding": "ModelViewProjectionMatrix",
-            "name": "modelViewProjection"
-        }
-    ]
-}
+---
+type: OpaqueGeometry
+shaderSources: 
+  - type: Vertex
+    path: Solid.Vertex.glsl
+  - type: Fragment
+    path: Solid.Fragment.glsl
+parameters: 
+  - type: Vector3
+    name: diffuse
+  - type: Float
+    name: roughness
+  - type: Float
+    name: metallic
+  - binding: ModelMatrix
+    name: model
+  - binding: ModelViewProjectionMatrix
+    name: modelViewProjection

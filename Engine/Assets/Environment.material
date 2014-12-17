@@ -1,45 +1,25 @@
-{
-    "shaderSources": [
-        {
-            "type": "Vertex",
-            "path": "Screen.glsl"
-        },
-        {
-            "type": "Fragment",
-            "path": "Environment.glsl"
-        }
-    ],
-    "parameters": [
-        {
-            "binding": "CameraPosition",
-            "name": "cameraPosition"
-        },
-        {
-            "binding": "DiffuseBuffer",
-            "name": "diffuseBuffer"
-        },
-        {
-            "binding": "MaterialBuffer",
-            "name": "materialBuffer"
-        },
-        {
-            "binding": "PositionBuffer",
-            "name": "positionBuffer"
-        },
-        {
-            "binding": "NormalBuffer",
-            "name": "normalBuffer"
-        },
-        {
-            "binding": "LightProbeCubeMap",
-            "name": "lightProbeCubeMap"
-        }
-    ],
-    "depthTest": false,
-    "depthWrite": false,
-    "blend": true,
-    "blendFactors": {
-        "source": "One",
-        "destination": "One"
-    }
-}
+---
+shaderSources: 
+  - type: Vertex
+    path: Screen.glsl
+  - type: Fragment
+    path: Environment.glsl
+parameters: 
+  - binding: CameraPosition
+    name: cameraPosition
+  - binding: DiffuseBuffer
+    name: diffuseBuffer
+  - binding: MaterialBuffer
+    name: materialBuffer
+  - binding: PositionBuffer
+    name: positionBuffer
+  - binding: NormalBuffer
+    name: normalBuffer
+  - binding: LightProbeCubeMap
+    name: lightProbeCubeMap
+depthTest: false
+depthWrite: false
+blend: true
+blendFactors: 
+    source: One
+    destination: One
