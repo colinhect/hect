@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DataValue.h"
 
-#include <json/json.h>
-
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
 
@@ -492,19 +490,21 @@ DataValue::Array::const_iterator DataValue::end() const
     }
 }
 
-DataValue toDataValue(Json::Value& dataValue);
-Json::Value fromDataValue(const DataValue& dataValue);
+#include <json/json.h>
+
+DataValue fromJson(Json::Value& jsonValue);
+Json::Value toJson(const DataValue& dataValue);
 
 std::string DataValue::encodeToJson() const
 {
-    Json::Value dataValue = fromDataValue(*this);
-    return dataValue.toStyledString();
+    Json::Value jsonValue = toJson(*this);
+    return jsonValue.toStyledString();
 }
 
 void DataValue::encodeToJson(WriteStream& stream) const
 {
     std::string json = encodeToJson();
-    stream.write((const uint8_t*)json.c_str(), json.size());
+    stream.write(reinterpret_cast<const uint8_t*>(json.c_str()), json.size());
 }
 
 void DataValue::decodeFromJson(const std::string& json)
@@ -515,7 +515,7 @@ void DataValue::decodeFromJson(const std::string& json)
     {
         throw Error(reader.getFormattedErrorMessages());
     }
-    *this = toDataValue(root);
+    *this = fromJson(root);
 }
 
 void DataValue::decodeFromJson(ReadStream& stream)
@@ -523,35 +523,70 @@ void DataValue::decodeFromJson(ReadStream& stream)
     decodeFromJson(stream.readAllToString());
 }
 
-DataValue toDataValue(Json::Value& dataValue)
+#include <yaml-cpp/yaml.h>
+
+DataValue fromYaml(YAML::Node& node);
+YAML::Node toYaml(const DataValue& dataValue);
+
+std::string DataValue::encodeToYaml() const
 {
-    if (dataValue.isBool())
+    YAML::Node node = toYaml(*this);
+    return YAML::Dump(node);
+}
+
+void DataValue::encodeToYaml(WriteStream& stream) const
+{
+    std::string yaml = encodeToYaml();
+    stream.write(reinterpret_cast<const uint8_t*>(yaml.c_str()), yaml.size());
+}
+
+void DataValue::decodeFromYaml(const std::string& yaml)
+{
+    try
     {
-        return DataValue(dataValue.asBool());
+        YAML::Node node = YAML::Load(yaml);
+        *this = fromYaml(node);
     }
-    else if (dataValue.isNumeric())
+    catch (YAML::ParserException& ex)
     {
-        return DataValue(dataValue.asDouble());
+        throw Error(ex.what());
     }
-    else if (dataValue.isString())
+}
+
+void DataValue::decodeFromYaml(ReadStream& stream)
+{
+    decodeFromYaml(stream.readAllToString());
+}
+
+DataValue fromJson(Json::Value& jsonValue)
+{
+    if (jsonValue.isBool())
     {
-        return DataValue(dataValue.asString());
+        return DataValue(jsonValue.asBool());
     }
-    else if (dataValue.isArray())
+    else if (jsonValue.isNumeric())
+    {
+        return DataValue(jsonValue.asDouble());
+    }
+    else if (jsonValue.isString())
+    {
+        return DataValue(jsonValue.asString());
+    }
+    else if (jsonValue.isArray())
     {
         DataValue value(DataValueType_Array);
-        for (Json::Value& element : dataValue)
+        for (Json::Value& element : jsonValue)
         {
-            value.addElement(toDataValue(element));
+            value.addElement(fromJson(element));
         }
         return value;
     }
-    else if (dataValue.isObject())
+    else if (jsonValue.isObject())
     {
         DataValue value(DataValueType_Object);
-        for (std::string& name : dataValue.getMemberNames())
+        for (std::string& name : jsonValue.getMemberNames())
         {
-            value.addMember(name, toDataValue(dataValue[name]));
+            value.addMember(name, fromJson(jsonValue[name]));
         }
         return value;
     }
@@ -559,7 +594,7 @@ DataValue toDataValue(Json::Value& dataValue)
     return DataValue();
 }
 
-Json::Value fromDataValue(const DataValue& dataValue)
+Json::Value toJson(const DataValue& dataValue)
 {
     if (dataValue.isBool())
     {
@@ -578,7 +613,7 @@ Json::Value fromDataValue(const DataValue& dataValue)
         Json::Value value(Json::arrayValue);
         for (const DataValue& element : dataValue)
         {
-            value.append(fromDataValue(element));
+            value.append(toJson(element));
         }
         return value;
     }
@@ -587,10 +622,89 @@ Json::Value fromDataValue(const DataValue& dataValue)
         Json::Value value(Json::objectValue);
         for (const std::string& name : dataValue.memberNames())
         {
-            value[name] = fromDataValue(dataValue[name]);
+            value[name] = toJson(dataValue[name]);
         }
         return value;
     }
 
     return Json::Value();
+}
+
+bool isNumeric(const std::string& string)
+{
+    char* end;
+    strtod(string.c_str(), &end);
+    return !*end;
+}
+
+DataValue fromYaml(YAML::Node& node)
+{
+    if (node.IsScalar() && (node.Scalar() == "true" || node.Scalar() == "false"))
+    {
+        return DataValue(node.Scalar() == "true");
+    }
+    else if (node.IsScalar() && isNumeric(node.Scalar()))
+    {
+        return DataValue(node.as<double>());
+    }
+    else if (node.IsScalar())
+    {
+        return DataValue(node.Scalar());
+    }
+    else if (node.IsSequence())
+    {
+        DataValue value(DataValueType_Array);
+        for (size_t i = 0; i < node.size(); ++i)
+        {
+            value.addElement(fromYaml(node[i]));
+        }
+        return value;
+    }
+    else if (node.IsMap())
+    {
+        DataValue value(DataValueType_Object);
+        for (auto member : node)
+        {
+            value.addMember(member.first.Scalar(), fromYaml(member.second));
+        }
+        return value;
+    }
+
+    return DataValue();
+}
+
+YAML::Node toYaml(const DataValue& dataValue)
+{
+    if (dataValue.isBool())
+    {
+        return YAML::Node(dataValue.asBool());
+    }
+    else if (dataValue.isNumber())
+    {
+        return YAML::Node(dataValue.asReal());
+    }
+    else if (dataValue.isString())
+    {
+        return YAML::Node(dataValue.asString());
+    }
+    else if (dataValue.isArray())
+    {
+        YAML::Node node;
+        for (const DataValue& element : dataValue)
+        {
+            node.push_back(toYaml(element));
+        }
+        return node;
+    }
+    else if (dataValue.isObject())
+    {
+        YAML::Node node;
+        for (const std::string& name : dataValue.memberNames())
+        {
+            node[name] = toYaml(dataValue[name]);
+        }
+        return node;
+    }
+
+    return YAML::Node();
 }
