@@ -42,147 +42,147 @@ class ReadStream;
 class WriteStream;
 
 ///
-/// A JSON value type.
-enum JsonValueType
+/// A data value type.
+enum DataValueType
 {
 
     ///
-    /// The JSON value holds no data.
-    JsonValueType_Null,
+    /// The data value holds no data.
+    DataValueType_Null,
 
     ///
     /// A bool value.
-    JsonValueType_Bool,
+    DataValueType_Bool,
 
     ///
     /// A floating point number.
-    JsonValueType_Number,
+    DataValueType_Number,
 
     ///
     /// A string.
-    JsonValueType_String,
+    DataValueType_String,
 
     ///
     /// An collection of other data values.
-    JsonValueType_Array,
+    DataValueType_Array,
 
     ///
     /// A collection of key/value pairs of data values.
-    JsonValueType_Object
+    DataValueType_Object
 };
 
 ///
-/// A hierarchical structure of JSON data.
-class JsonValue
+/// A hierarchical structure of structured data.
+class DataValue
 {
 public:
 
     ///
     /// The underlying type used for an array.
-    typedef std::vector<JsonValue> Array;
+    typedef std::vector<DataValue> Array;
 
     ///
     /// The underlying type used for an object.
-    typedef std::map<std::string, JsonValue> Object;
+    typedef std::map<std::string, DataValue> Object;
 
     ///
-    /// Constructs a null JSON value.
-    JsonValue();
+    /// Constructs a null data value.
+    DataValue();
 
     ///
-    /// Constructs a JSON value of a certain type.
-    JsonValue(JsonValueType type);
+    /// Constructs a data value of a certain type.
+    DataValue(DataValueType type);
 
     ///
-    /// Constructs a bool JSON value.
+    /// Constructs a bool data value.
     ///
     /// \param value The bool value.
-    JsonValue(bool value);
+    DataValue(bool value);
 
     ///
-    /// Constructs a number JSON value.
+    /// Constructs a number data value.
     ///
     /// \param value The number value.
-    JsonValue(int value);
+    DataValue(int value);
 
     ///
-    /// Constructs a number JSON value.
+    /// Constructs a number data value.
     ///
     /// \param value The number value.
-    JsonValue(unsigned value);
+    DataValue(unsigned value);
 
     ///
-    /// Constructs a number JSON value.
+    /// Constructs a number data value.
     ///
     /// \param value The number value.
-    JsonValue(double value);
+    DataValue(double value);
 
     ///
-    /// Constructs a JSON value from a 2-dimensional vector as an array of
+    /// Constructs a data value from a 2-dimensional vector as an array of
     /// numbers.
     ///
     /// \param value The value.
-    JsonValue(const Vector2& value);
+    DataValue(const Vector2& value);
 
     ///
-    /// Constructs a JSON value from a 3-dimensional vector as an array of
+    /// Constructs a data value from a 3-dimensional vector as an array of
     /// numbers.
     ///
     /// \param value The value.
-    JsonValue(const Vector3& value);
+    DataValue(const Vector3& value);
 
     ///
-    /// Constructs a JSON value from a 4-dimensional vector as an array of
+    /// Constructs a data value from a 4-dimensional vector as an array of
     /// numbers.
     ///
     /// \param value The value.
-    JsonValue(const Vector4& value);
+    DataValue(const Vector4& value);
 
     ///
-    /// Constructs a JSON value from a 4 by 4 matrix as an array of numbers.
+    /// Constructs a data value from a 4 by 4 matrix as an array of numbers.
     ///
     /// \param value The value.
-    JsonValue(const Matrix4& value);
+    DataValue(const Matrix4& value);
 
     ///
-    /// Constructs a JSON value from a quaternion as an array of numbers.
+    /// Constructs a data value from a quaternion as an array of numbers.
     ///
     /// \param value The value.
-    JsonValue(const Quaternion& value);
+    DataValue(const Quaternion& value);
 
     ///
-    /// Constructs a string JSON value.
+    /// Constructs a string data value.
     ///
     /// \param value The string value.
-    JsonValue(const char* value);
+    DataValue(const char* value);
 
     ///
-    /// Constructs a string JSON value.
+    /// Constructs a string data value.
     ///
     /// \param value The string value.
-    JsonValue(const std::string& value);
+    DataValue(const std::string& value);
 
     ///
-    /// Constructs a JSON value copied from another.
+    /// Constructs a data value copied from another.
     ///
-    /// \param jsonValue The JSON value to copy.
-    JsonValue(const JsonValue& jsonValue);
+    /// \param dataValue The data value to copy.
+    DataValue(const DataValue& dataValue);
 
     ///
-    /// Constructs a JSON value moved from another.
+    /// Constructs a data value moved from another.
     ///
-    /// \param jsonValue The JSON value to move.
-    JsonValue(JsonValue&& jsonValue);
+    /// \param dataValue The data value to move.
+    DataValue(DataValue&& dataValue);
 
     ///
     /// Returns the type.
-    JsonValueType type() const;
+    DataValueType type() const;
 
     ///
-    /// Returns this JSON value or another one if this JSON value is null.
+    /// Returns this data value or another one if this data value is null.
     ///
-    /// \param jsonValue The JSON value to return if this one is null.
-    const JsonValue& orDefault(const JsonValue& jsonValue) const;
+    /// \param dataValue The data value to return if this one is null.
+    const DataValue& orDefault(const DataValue& dataValue) const;
 
     ///
     /// Returns whether the value is null.
@@ -209,15 +209,15 @@ public:
     bool isObject() const;
 
     ///
-    /// Returns the value as a bool (false if the JSON value is not a bool).
+    /// Returns the value as a bool (false if the data value is not a bool).
     bool asBool() const;
 
     ///
-    /// Returns the value as an int (zero if the JSON value is not a number).
+    /// Returns the value as an int (zero if the data value is not a number).
     int asInt() const;
 
     ///
-    /// Returns the value as a real (zero if the JSON value is not a number).
+    /// Returns the value as a real (zero if the data value is not a number).
     Real asReal() const;
 
     ///
@@ -246,7 +246,7 @@ public:
     Quaternion asQuaternion() const;
 
     ///
-    /// Returns the value as a string (empty string if the JSON value is not a
+    /// Returns the value as a string (empty string if the data value is not a
     /// string).
     const std::string& asString() const;
 
@@ -255,28 +255,28 @@ public:
     size_t size() const;
 
     ///
-    /// Returns the member names (empty if the JSON value is not an object).
+    /// Returns the member names (empty if the data value is not an object).
     std::vector<std::string> memberNames() const;
 
     ///
-    /// Adds a new member to the JSON value.
+    /// Adds a new member to the data value.
     ///
     /// \note If a member with the given name already exists then its value
     /// is overwritten with the new value.
     ///
     /// \param name The member name.
-    /// \param jsonValue The member value.
+    /// \param dataValue The member value.
     ///
-    /// \throws Error If the JSON value is not an object.
-    void addMember(const std::string& name, const JsonValue& jsonValue);
+    /// \throws Error If the data value is not an object.
+    void addMember(const std::string& name, const DataValue& dataValue);
 
     ///
-    /// Adds a new element to the JSON value.
+    /// Adds a new element to the data value.
     ///
-    /// \param jsonValue The element value.
+    /// \param dataValue The element value.
     ///
-    /// \throws Error If the JSON value is not an array.
-    void addElement(const JsonValue& jsonValue);
+    /// \throws Error If the data value is not an array.
+    void addElement(const DataValue& dataValue);
 
     ///
     /// Returns the element at the given index.
@@ -284,7 +284,7 @@ public:
     /// \note Only applies to data values that are arrays.
     ///
     /// \param index The index to access the element at.
-    const JsonValue& operator[](size_t index) const;
+    const DataValue& operator[](size_t index) const;
 
     ///
     /// Returns the member of the given name.
@@ -292,19 +292,19 @@ public:
     /// \note Only applies to data values that are objects.
     ///
     /// \param name The name of the member to access.
-    const JsonValue& operator[](const std::string& name) const;
+    const DataValue& operator[](const std::string& name) const;
 
     ///
-    /// Sets the JSON value as a copy of another.
+    /// Sets the data value as a copy of another.
     ///
-    /// \param jsonValue The handle to copy.
-    JsonValue& operator=(const JsonValue& jsonValue);
+    /// \param dataValue The handle to copy.
+    DataValue& operator=(const DataValue& dataValue);
 
     ///
-    /// Sets the JSON value as being moved from another.
+    /// Sets the data value as being moved from another.
     ///
-    /// \param jsonValue The handle to move.
-    JsonValue& operator=(JsonValue&& jsonValue);
+    /// \param dataValue The handle to move.
+    DataValue& operator=(DataValue&& dataValue);
 
     ///
     /// Returns an iterator at the beginning of the elements.
@@ -319,34 +319,34 @@ public:
     Array::const_iterator end() const;
 
     ///
-    /// Encodes the JSON value to JSON.
+    /// Encodes the data value to JSON.
     ///
     /// \returns The resulting JSON string.
     std::string encodeToJson() const;
 
     ///
-    /// Encodes the JSON value to JSON.
+    /// Encodes the data value to JSON.
     ///
     /// \param stream The stream to write the resulting JSON to.
     void encodeToJson(WriteStream& stream) const;
 
     ///
-    /// Decodes the JSON value from JSON.
+    /// Decodes the data value from JSON.
     ///
     /// \param json The JSON string.
     void decodeFromJson(const std::string& json);
 
     ///
-    /// Decodes the JSON value from JSON.
+    /// Decodes the data value from JSON.
     ///
     /// \param stream The stream to read the JSON from.
     void decodeFromJson(ReadStream& stream);
 
 private:
-    JsonValueType _type;
+    DataValueType _type;
     Any _any;
 
-    static const JsonValue _null;
+    static const DataValue _null;
     static const Array _emptyArray;
 };
 

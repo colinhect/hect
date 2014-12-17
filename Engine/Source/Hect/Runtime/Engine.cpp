@@ -26,7 +26,7 @@
 #include "Hect/Runtime/Platform.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
-#include "Hect/IO/JsonDecoder.h"
+#include "Hect/IO/DataValueDecoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/GameMode.h"
@@ -73,14 +73,14 @@ Engine::Engine(int argc, char* const argv[]) :
     bool concurrent = _settings["assetCache"]["concurrent"].orDefault(false).asBool();
     _assetCache.reset(new AssetCache(_fileSystem, concurrent));
 
-    const JsonValue& videoModeValue = _settings["videoMode"];
+    const DataValue& videoModeValue = _settings["videoMode"];
     if (!videoModeValue.isNull())
     {
         // Load video mode
         VideoMode videoMode;
         try
         {
-            JsonDecoder decoder(videoModeValue);
+            DataValueDecoder decoder(videoModeValue);
             decoder >> decodeValue(videoMode);
         }
         catch (Error& error)
@@ -96,7 +96,7 @@ Engine::Engine(int argc, char* const argv[]) :
 
 int Engine::main()
 {
-    const JsonValue& gameModeValue = _settings["gameMode"];
+    const DataValue& gameModeValue = _settings["gameMode"];
     if (gameModeValue.isNull())
     {
         throw Error("No game mode specified in settings");
@@ -163,12 +163,12 @@ AssetCache& Engine::assetCache()
     return *_assetCache;
 }
 
-const JsonValue& Engine::settings()
+const DataValue& Engine::settings()
 {
     return _settings;
 }
 
-JsonValue Engine::loadConfig(const Path& settingsFilePath)
+DataValue Engine::loadConfig(const Path& settingsFilePath)
 {
     try
     {
@@ -179,14 +179,14 @@ JsonValue Engine::loadConfig(const Path& settingsFilePath)
             json.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
         }
 
-        JsonValue settings;
+        DataValue settings;
         settings.decodeFromJson(json);
 
         // Load additional settings files
-        std::vector<JsonValue> includedConfigs;
+        std::vector<DataValue> includedConfigs;
         for (auto& settingsFilePath : settings["include"])
         {
-            JsonValue settings = loadConfig(settingsFilePath.asString());
+            DataValue settings = loadConfig(settingsFilePath.asString());
             includedConfigs.push_back(std::move(settings));
         }
 

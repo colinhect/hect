@@ -21,41 +21,41 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/IO/JsonValue.h>
+#include <Hect/IO/DataValue.h>
 using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Construct a null JSON value", "[Json]")
+TEST_CASE("Construct a null data value", "[DataValue]")
 {
-    JsonValue value;
+    DataValue value;
     REQUIRE(value.isNull());
 }
 
-TEST_CASE("Construct a boolean JSON value", "[Json]")
+TEST_CASE("Construct a boolean data value", "[DataValue]")
 {
-    JsonValue value(true);
+    DataValue value(true);
     REQUIRE(value.isBool());
     REQUIRE(value.asBool());
 }
 
-TEST_CASE("Construct a number JSON value", "[Json]")
+TEST_CASE("Construct a number data value", "[DataValue]")
 {
-    JsonValue value(5.0);
+    DataValue value(5.0);
     REQUIRE(value.isNumber());
     REQUIRE(value.asReal() == 5.0);
 }
 
-TEST_CASE("Construct a string JSON value", "[Json]")
+TEST_CASE("Construct a string data value", "[DataValue]")
 {
-    JsonValue value("Testing");
+    DataValue value("Testing");
     REQUIRE(value.isString());
     REQUIRE(value.asString() == "Testing");
 }
 
-TEST_CASE("Construct an array JSON value", "[Json]")
+TEST_CASE("Construct an array data value", "[DataValue]")
 {
-    JsonValue value(JsonValueType_Array);
+    DataValue value(DataValueType_Array);
     value.addElement(true);
     value.addElement(5.0);
     value.addElement("Testing");
@@ -83,9 +83,9 @@ TEST_CASE("Construct an array JSON value", "[Json]")
     }
 }
 
-TEST_CASE("Construct an object JSON value", "[Json]")
+TEST_CASE("Construct an object data value", "[DataValue]")
 {
-    JsonValue value(JsonValueType_Object);
+    DataValue value(DataValueType_Object);
     value.addMember("someBool", true);
     value.addMember("someNumber", 5.0);
     value.addMember("someString", "Testing");
@@ -101,9 +101,9 @@ TEST_CASE("Construct an object JSON value", "[Json]")
     REQUIRE(value["someString"].asString() == "Testing");
 }
 
-TEST_CASE("Construct a 2-dimensional vector JSON value", "[Json]")
+TEST_CASE("Construct a 2-dimensional vector data value", "[DataValue]")
 {
-    JsonValue value(Vector2(1, 2));
+    DataValue value(Vector2(1, 2));
     REQUIRE(value.isArray());
 
     Vector2 v = value.asVector2();
@@ -111,9 +111,9 @@ TEST_CASE("Construct a 2-dimensional vector JSON value", "[Json]")
     REQUIRE(v.y == 2);
 }
 
-TEST_CASE("Construct a 3-dimensional vector JSON value", "[Json]")
+TEST_CASE("Construct a 3-dimensional vector data value", "[DataValue]")
 {
-    JsonValue value(Vector3(1, 2, 3));
+    DataValue value(Vector3(1, 2, 3));
     REQUIRE(value.isArray());
 
     Vector3 v = value.asVector3();
@@ -122,9 +122,9 @@ TEST_CASE("Construct a 3-dimensional vector JSON value", "[Json]")
     REQUIRE(v.z == 3);
 }
 
-TEST_CASE("Construct a 4-dimensional vector JSON value", "[Json]")
+TEST_CASE("Construct a 4-dimensional vector data value", "[DataValue]")
 {
-    JsonValue value(Vector4(1, 2, 3, 4));
+    DataValue value(Vector4(1, 2, 3, 4));
     REQUIRE(value.isArray());
 
     Vector4 v = value.asVector4();
@@ -134,9 +134,9 @@ TEST_CASE("Construct a 4-dimensional vector JSON value", "[Json]")
     REQUIRE(v.w == 4);
 }
 
-TEST_CASE("Get the member names of an object JSON value", "[Json]")
+TEST_CASE("Get the member names of an object data value", "[DataValue]")
 {
-    JsonValue value(JsonValueType_Object);
+    DataValue value(DataValueType_Object);
     value.addMember("someBool", true);
     value.addMember("someNumber", 5.0);
     value.addMember("someString", "Testing");
@@ -149,21 +149,21 @@ TEST_CASE("Get the member names of an object JSON value", "[Json]")
     REQUIRE(std::find(memberNames.begin(), memberNames.end(), "someString") != memberNames.end());
 }
 
-TEST_CASE("Null switch on a null JSON value", "[Json]")
+TEST_CASE("Null switch on a null data value", "[DataValue]")
 {
-    JsonValue value;
+    DataValue value;
     REQUIRE(value.orDefault(true).asBool());
 }
 
-TEST_CASE("Null switch on a non-null JSON value", "[Json]")
+TEST_CASE("Null switch on a non-null data value", "[DataValue]")
 {
-    JsonValue value(true);
+    DataValue value(true);
     REQUIRE(value.orDefault(false).asBool());
 }
 
-TEST_CASE("Iterate over array JSON value", "[Json]")
+TEST_CASE("Iterate over array data value", "[DataValue]")
 {
-    JsonValue value(JsonValueType_Array);
+    DataValue value(DataValueType_Array);
     for (int i = 0; i < 10; ++i)
     {
         value.addElement(static_cast<double>(i));
@@ -173,33 +173,33 @@ TEST_CASE("Iterate over array JSON value", "[Json]")
     REQUIRE(value.size() == 10u);
 
     int i = 0;
-    for (const JsonValue& element : value)
+    for (const DataValue& element : value)
     {
         REQUIRE(element.isNumber());
         REQUIRE(element.asReal() == i++);
     }
 }
 
-TEST_CASE("Iterate over null JSON value", "[Json]")
+TEST_CASE("Iterate over null data value", "[DataValue]")
 {
-    JsonValue value;
-    for (const JsonValue& element : value)
+    DataValue value;
+    for (const DataValue& element : value)
     {
         (void)element;
         REQUIRE(false);
     }
 }
 
-TEST_CASE("Perform member and array accesses on null JSON value", "[Json]")
+TEST_CASE("Perform member and array accesses on null data value", "[DataValue]")
 {
-    JsonValue value;
+    DataValue value;
     REQUIRE(value["root"][10]["something"].isNull());
 }
 
-TEST_CASE("Decode JSON value from a JSON string", "[Json]")
+TEST_CASE("Decode data value from a JSON string", "[DataValue]")
 {
     std::string json = "{ \"someBool\" : true, \"someArray\" : [ 0, 1, 2 ] }";
-    JsonValue value;
+    DataValue value;
     value.decodeFromJson(json);
 
     REQUIRE(value.isObject());

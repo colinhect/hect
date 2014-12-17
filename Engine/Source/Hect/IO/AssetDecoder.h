@@ -26,7 +26,7 @@
 #include <memory>
 
 #include "Hect/IO/Decoder.h"
-#include "Hect/IO/JsonValue.h"
+#include "Hect/IO/DataValue.h"
 #include "Hect/IO/MemoryReadStream.h"
 #include "Hect/IO/Path.h"
 
@@ -35,7 +35,7 @@ namespace hect
 
 ///
 /// Provides the functionality to decode an asset directly from an asset
-/// cache, automatically detecting if the data is binary or JSON.
+/// cache, automatically detecting if the data is binary or text-based.
 class AssetDecoder :
     public Decoder,
     public Uncopyable
@@ -84,7 +84,7 @@ public:
 private:
     std::unique_ptr<Decoder> _implementation;
 
-    JsonValue _jsonValue;
+    DataValue _dataValue;
     ByteVector _data;
     std::unique_ptr<MemoryReadStream> _stream;
 };

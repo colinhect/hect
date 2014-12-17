@@ -25,7 +25,7 @@
 
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/BinaryDecoder.h"
-#include "Hect/IO/JsonDecoder.h"
+#include "Hect/IO/DataValueDecoder.h"
 
 namespace hect
 {
@@ -41,8 +41,8 @@ AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
     if (firstCharacter == '{')
     {
         stream->seek(0);
-        _jsonValue.decodeFromJson(*stream);
-        _implementation.reset(new JsonDecoder(_jsonValue, assetCache));
+        _dataValue.decodeFromJson(*stream);
+        _implementation.reset(new DataValueDecoder(_dataValue, assetCache));
     }
     else
     {

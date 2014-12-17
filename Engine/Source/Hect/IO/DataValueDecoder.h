@@ -25,62 +25,62 @@
 
 #include <stack>
 
-#include "Hect/Core/Sequence.h"
-#include "Hect/IO/JsonValue.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/DataValue.h"
+#include "Hect/IO/Decoder.h"
 
 namespace hect
 {
 
 ///
-/// Provides access for encoding structured data to a JSON value.
-class JsonEncoder :
-    public Encoder
+/// Provides access for decoding structured data from a data value.
+class DataValueDecoder :
+    public Decoder
 {
-    typedef std::vector<JsonValue> ValueContainer;
 public:
 
     ///
-    /// A sequence of JSON values.
-    typedef Sequence<JsonValue, ValueContainer> ValueSequence;
+    /// Constructs a data value decoder.
+    ///
+    /// \param dataValue The data value to decode.
+    DataValueDecoder(const DataValue& dataValue);
 
     ///
-    /// Constructs a JSON encoder.
-    JsonEncoder();
-
+    /// Constructs a data value decoder.
     ///
-    /// Returns the encoded JSON values.
-    ValueSequence jsonValues();
+    /// \param dataValue The data value to decode.
+    /// \param assetCache The asset cache to load further assets from.
+    DataValueDecoder(const DataValue& dataValue, AssetCache& assetCache);
 
     bool isBinaryStream() const override;
-    WriteStream& binaryStream() override;
+    ReadStream& binaryStream() override;
     void beginArray() override;
     void endArray() override;
+    bool hasMoreElements() const override;
     void beginObject() override;
     void endObject() override;
-    void selectMember(const char* name) override;
-    void encodeString(const std::string& value) override;
-    void encodeInt8(int8_t value) override;
-    void encodeUInt8(uint8_t value) override;
-    void encodeInt16(int16_t value) override;
-    void encodeUInt16(uint16_t value) override;
-    void encodeInt32(int32_t value) override;
-    void encodeUInt32(uint32_t value) override;
-    void encodeInt64(int64_t value) override;
-    void encodeUInt64(uint64_t value) override;
-    void encodeFloat32(float value) override;
-    void encodeFloat64(double value) override;
-    void encodeBool(bool value) override;
+    bool selectMember(const char* name) override;
+    std::vector<std::string> memberNames() const override;
+    std::string decodeString() override;
+    int8_t decodeInt8() override;
+    uint8_t decodeUInt8() override;
+    int16_t decodeInt16() override;
+    uint16_t decodeUInt16() override;
+    int32_t decodeInt32() override;
+    uint32_t decodeUInt32() override;
+    int64_t decodeInt64() override;
+    uint64_t decodeUInt64() override;
+    float decodeFloat32() override;
+    double decodeFloat64() override;
+    bool decodeBool() override;
 
 private:
-    void encode(const JsonValue& value);
+    const DataValue& decode();
 
     std::stack<std::string> _nameStack;
-    std::stack<JsonValue> _valueStack;
+    std::stack<size_t> _indexStack;
+    std::stack<DataValue> _valueStack;
 
-    bool _memberSelected { false };
-
-    ValueContainer _completed;
+    std::string _selectedMemberName;
 };
 
 }

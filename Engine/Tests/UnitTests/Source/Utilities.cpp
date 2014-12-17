@@ -27,14 +27,14 @@ void testEncodeAndDecode(std::function<void(Encoder&)> encode, std::function<voi
 {
     // JSON
     {
-        JsonValue jsonValue;
+        DataValue dataValue;
         {
-            JsonEncoder encoder;
+            DataValueEncoder encoder;
             encode(encoder);
-            jsonValue = *encoder.jsonValues().begin();
+            dataValue = *encoder.dataValues().begin();
         }
         {
-            JsonDecoder decoder(jsonValue);
+            DataValueDecoder decoder(dataValue);
             decode(decoder);
         }
     }

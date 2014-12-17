@@ -21,49 +21,49 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "JsonEncoder.h"
+#include "DataValueEncoder.h"
 
 using namespace hect;
 
-JsonEncoder::JsonEncoder()
+DataValueEncoder::DataValueEncoder()
 {
 }
 
-JsonEncoder::ValueSequence JsonEncoder::jsonValues()
+DataValueEncoder::ValueSequence DataValueEncoder::dataValues()
 {
     return _completed;
 }
 
-bool JsonEncoder::isBinaryStream() const
+bool DataValueEncoder::isBinaryStream() const
 {
     return false;
 }
 
-WriteStream& JsonEncoder::binaryStream()
+WriteStream& DataValueEncoder::binaryStream()
 {
     throw Error("The encoder is not writing to a binary stream");
 }
 
-void JsonEncoder::beginArray()
+void DataValueEncoder::beginArray()
 {
     _memberSelected = false;
-    _valueStack.push(JsonValue(JsonValueType_Array));
+    _valueStack.push(DataValue(DataValueType_Array));
 }
 
-void JsonEncoder::endArray()
+void DataValueEncoder::endArray()
 {
     endObject();
 }
 
-void JsonEncoder::beginObject()
+void DataValueEncoder::beginObject()
 {
     _memberSelected = false;
-    _valueStack.push(JsonValue(JsonValueType_Object));
+    _valueStack.push(DataValue(DataValueType_Object));
 }
 
-void JsonEncoder::endObject()
+void DataValueEncoder::endObject()
 {
-    JsonValue value = _valueStack.top();
+    DataValue value = _valueStack.top();
     _valueStack.pop();
 
     if (_valueStack.empty())
@@ -81,7 +81,7 @@ void JsonEncoder::endObject()
     }
 }
 
-void JsonEncoder::selectMember(const char* name)
+void DataValueEncoder::selectMember(const char* name)
 {
     if (_valueStack.empty() || !_valueStack.top().isObject())
     {
@@ -91,69 +91,69 @@ void JsonEncoder::selectMember(const char* name)
     _memberSelected = true;
 }
 
-void JsonEncoder::encodeString(const std::string& value)
+void DataValueEncoder::encodeString(const std::string& value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeInt8(int8_t value)
+void DataValueEncoder::encodeInt8(int8_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeUInt8(uint8_t value)
+void DataValueEncoder::encodeUInt8(uint8_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeInt16(int16_t value)
+void DataValueEncoder::encodeInt16(int16_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeUInt16(uint16_t value)
+void DataValueEncoder::encodeUInt16(uint16_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeInt32(int32_t value)
+void DataValueEncoder::encodeInt32(int32_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeUInt32(uint32_t value)
+void DataValueEncoder::encodeUInt32(uint32_t value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeInt64(int64_t value)
+void DataValueEncoder::encodeInt64(int64_t value)
 {
     encode(static_cast<double>(value));
 }
 
-void JsonEncoder::encodeUInt64(uint64_t value)
+void DataValueEncoder::encodeUInt64(uint64_t value)
 {
     encode(static_cast<double>(value));
 }
 
-void JsonEncoder::encodeFloat32(float value)
+void DataValueEncoder::encodeFloat32(float value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeFloat64(double value)
+void DataValueEncoder::encodeFloat64(double value)
 {
     encode(value);
 }
 
-void JsonEncoder::encodeBool(bool value)
+void DataValueEncoder::encodeBool(bool value)
 {
     encode(value);
 }
 
-void JsonEncoder::encode(const JsonValue& value)
+void DataValueEncoder::encode(const DataValue& value)
 {
-    JsonValue& top = _valueStack.top();
+    DataValue& top = _valueStack.top();
     if (top.isArray())
     {
         top.addElement(value);

@@ -21,36 +21,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "JsonDecoder.h"
+#include "DataValueDecoder.h"
 
 #include "Hect/Core/Format.h"
 
 using namespace hect;
 
-JsonDecoder::JsonDecoder(const JsonValue& jsonValue)
+DataValueDecoder::DataValueDecoder(const DataValue& dataValue)
 {
-    _valueStack.push(jsonValue);
+    _valueStack.push(dataValue);
 }
 
-JsonDecoder::JsonDecoder(const JsonValue& jsonValue, AssetCache& assetCache) :
+DataValueDecoder::DataValueDecoder(const DataValue& dataValue, AssetCache& assetCache) :
     Decoder(assetCache)
 {
-    _valueStack.push(jsonValue);
+    _valueStack.push(dataValue);
 }
 
-bool JsonDecoder::isBinaryStream() const
+bool DataValueDecoder::isBinaryStream() const
 {
     return false;
 }
 
-ReadStream& JsonDecoder::binaryStream()
+ReadStream& DataValueDecoder::binaryStream()
 {
     throw Error("The decoder is not reading from a binary stream");
 }
 
-void JsonDecoder::beginArray()
+void DataValueDecoder::beginArray()
 {
-    JsonValue value = decode();
+    DataValue value = decode();
     if (value.isArray())
     {
         _indexStack.push(0);
@@ -62,23 +62,23 @@ void JsonDecoder::beginArray()
     }
 }
 
-void JsonDecoder::endArray()
+void DataValueDecoder::endArray()
 {
     assert(_valueStack.top().isArray());
     _indexStack.pop();
     _valueStack.pop();
 }
 
-bool JsonDecoder::hasMoreElements() const
+bool DataValueDecoder::hasMoreElements() const
 {
-    const JsonValue& top = _valueStack.top();
+    const DataValue& top = _valueStack.top();
     assert(top.isArray());
     return _indexStack.top() < top.size();
 }
 
-void JsonDecoder::beginObject()
+void DataValueDecoder::beginObject()
 {
-    JsonValue value = decode();
+    DataValue value = decode();
     if (value.isObject())
     {
         _valueStack.push(value);
@@ -89,15 +89,15 @@ void JsonDecoder::beginObject()
     }
 }
 
-void JsonDecoder::endObject()
+void DataValueDecoder::endObject()
 {
     assert(_valueStack.top().isObject());
     _valueStack.pop();
 }
 
-bool JsonDecoder::selectMember(const char* name)
+bool DataValueDecoder::selectMember(const char* name)
 {
-    const JsonValue& top = _valueStack.top();
+    const DataValue& top = _valueStack.top();
     assert(top.isObject());
 
     if (!top[name].isNull())
@@ -111,83 +111,83 @@ bool JsonDecoder::selectMember(const char* name)
     }
 }
 
-std::vector<std::string> JsonDecoder::memberNames() const
+std::vector<std::string> DataValueDecoder::memberNames() const
 {
-    const JsonValue& top = _valueStack.top();
+    const DataValue& top = _valueStack.top();
     assert(top.isObject());
     return top.memberNames();
 }
 
-std::string JsonDecoder::decodeString()
+std::string DataValueDecoder::decodeString()
 {
     return decode().asString();
 }
 
-int8_t JsonDecoder::decodeInt8()
+int8_t DataValueDecoder::decodeInt8()
 {
     return (int8_t)decode().asReal();
 }
 
-uint8_t JsonDecoder::decodeUInt8()
+uint8_t DataValueDecoder::decodeUInt8()
 {
     return (uint8_t)decode().asReal();
 }
 
-int16_t JsonDecoder::decodeInt16()
+int16_t DataValueDecoder::decodeInt16()
 {
     return (int16_t)decode().asReal();
 }
 
-uint16_t JsonDecoder::decodeUInt16()
+uint16_t DataValueDecoder::decodeUInt16()
 {
     return (uint16_t)decode().asReal();
 }
 
-int32_t JsonDecoder::decodeInt32()
+int32_t DataValueDecoder::decodeInt32()
 {
     return (int32_t)decode().asReal();
 }
 
-uint32_t JsonDecoder::decodeUInt32()
+uint32_t DataValueDecoder::decodeUInt32()
 {
     return (uint32_t)decode().asReal();
 }
 
-int64_t JsonDecoder::decodeInt64()
+int64_t DataValueDecoder::decodeInt64()
 {
     return (int64_t)decode().asReal();
 }
 
-uint64_t JsonDecoder::decodeUInt64()
+uint64_t DataValueDecoder::decodeUInt64()
 {
     return (uint64_t)decode().asReal();
 }
 
-float JsonDecoder::decodeFloat32()
+float DataValueDecoder::decodeFloat32()
 {
     return (float)decode().asReal();
 }
 
-double JsonDecoder::decodeFloat64()
+double DataValueDecoder::decodeFloat64()
 {
     return decode().asReal();
 }
 
-bool JsonDecoder::decodeBool()
+bool DataValueDecoder::decodeBool()
 {
     return decode().asBool();
 }
 
-const JsonValue& JsonDecoder::decode()
+const DataValue& DataValueDecoder::decode()
 {
-    JsonValue& top = _valueStack.top();
+    DataValue& top = _valueStack.top();
     if (top.isArray() && !_indexStack.empty())
     {
         return top[_indexStack.top()++];
     }
     else if (top.isObject() && !_selectedMemberName.empty())
     {
-        const JsonValue& result = top[_selectedMemberName];
+        const DataValue& result = top[_selectedMemberName];
         if (result.isNull())
         {
             throw Error(format("No member value '%s'", _selectedMemberName.c_str()));

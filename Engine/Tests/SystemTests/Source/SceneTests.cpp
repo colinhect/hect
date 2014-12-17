@@ -24,8 +24,8 @@
 #include <Hect/Logic/Scene.h>
 #include <Hect/IO/BinaryDecoder.h>
 #include <Hect/IO/BinaryEncoder.h>
-#include <Hect/IO/JsonDecoder.h>
-#include <Hect/IO/JsonEncoder.h>
+#include <Hect/IO/DataValueDecoder.h>
+#include <Hect/IO/DataValueEncoder.h>
 #include <Hect/IO/MemoryReadStream.h>
 #include <Hect/IO/MemoryWriteStream.h>
 
@@ -104,22 +104,22 @@ void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::functi
 {
     // Json
     {
-        JsonValue jsonValue;
+        DataValue dataValue;
 
         {
             Scene scene(*engine);
 
             createScene(scene);
 
-            JsonEncoder encoder;
+            DataValueEncoder encoder;
             encoder << encodeValue(scene);
-            jsonValue = encoder.jsonValues()[0];
+            dataValue = encoder.dataValues()[0];
         }
 
         {
             Scene scene(*engine);
 
-            JsonDecoder decoder(jsonValue);
+            DataValueDecoder decoder(dataValue);
             decoder >> decodeValue(scene);
 
             verifyScene(scene);

@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/IO/Encoder.h>
 #include <Hect/IO/Decoder.h>
-#include <Hect/IO/JsonEncoder.h>
-#include <Hect/IO/JsonDecoder.h>
+#include <Hect/IO/DataValueEncoder.h>
+#include <Hect/IO/DataValueDecoder.h>
 #include <Hect/IO/BinaryEncoder.h>
 #include <Hect/IO/BinaryDecoder.h>
 #include <Hect/IO/MemoryWriteStream.h>

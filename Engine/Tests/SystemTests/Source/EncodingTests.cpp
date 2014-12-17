@@ -26,8 +26,8 @@
 #include <Hect/Graphics/Texture.h>
 #include <Hect/IO/BinaryDecoder.h>
 #include <Hect/IO/BinaryEncoder.h>
-#include <Hect/IO/JsonDecoder.h>
-#include <Hect/IO/JsonEncoder.h>
+#include <Hect/IO/DataValueDecoder.h>
+#include <Hect/IO/DataValueEncoder.h>
 #include <Hect/IO/MemoryReadStream.h>
 #include <Hect/IO/MemoryWriteStream.h>
 #include <Hect/Runtime/Engine.h>
@@ -39,7 +39,7 @@ using namespace hect;
 extern Engine* engine;
 
 // Loads the asset at the given path and verifies that re-encoding and decoding
-// the asset results in equivalence for both binary and JSON encoding
+// the asset results in equivalence for both binary and data encoding
 template <typename T>
 void testEncoding(const Path& assetPath)
 {
@@ -51,16 +51,16 @@ void testEncoding(const Path& assetPath)
 
     // JSON
     {
-        JsonValue jsonValue;
+        DataValue dataValue;
         {
-            JsonEncoder encoder;
+            DataValueEncoder encoder;
             encoder << asset;
-            jsonValue = *encoder.jsonValues().begin();
+            dataValue = *encoder.dataValues().begin();
         }
         {
             T decodedAsset;
 
-            JsonDecoder decoder(jsonValue, engine->assetCache());
+            DataValueDecoder decoder(dataValue, engine->assetCache());
             decoder >> decodedAsset;
 
             REQUIRE(asset == decodedAsset);
@@ -88,7 +88,7 @@ void testEncoding(const Path& assetPath)
 }
 
 // Loads all files of a certain extension and verifies that re-encoding and
-// decoding the asset results in equivalence for both binary and JSON encoding
+// decoding the asset results in equivalence for both binary and data encoding
 template <typename T>
 void testEncodingForExtension(const std::string& extension)
 {

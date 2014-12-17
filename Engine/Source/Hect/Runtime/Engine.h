@@ -28,7 +28,7 @@
 #include "Hect/Core/Configuration.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/IO/JsonValue.h"
+#include "Hect/IO/DataValue.h"
 #include "Hect/Runtime/Window.h"
 
 #ifdef HECT_FILESYSTEM_PHYSFS
@@ -94,7 +94,7 @@ public:
 
     ///
     /// Returns the settings data.
-    const JsonValue& settings();
+    const DataValue& settings();
 
 private:
     struct CommandLineArguments
@@ -102,7 +102,7 @@ private:
         std::string settingsFilePath;
     };
 
-    JsonValue loadConfig(const Path& settingsFilePath);
+    DataValue loadConfig(const Path& settingsFilePath);
 
     CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 
@@ -124,7 +124,7 @@ private:
 
     std::unique_ptr<Window> _window;
     std::unique_ptr<AssetCache> _assetCache;
-    JsonValue _settings;
+    DataValue _settings;
 };
 
 }

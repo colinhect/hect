@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputSystem.h"
 
-#include "Hect/IO/JsonDecoder.h"
+#include "Hect/IO/DataValueDecoder.h"
 #include "Hect/Runtime/Platform.h"
 #include "Hect/Runtime/Engine.h"
 
@@ -32,13 +32,13 @@ using namespace hect;
 InputSystem::InputSystem(Scene& scene) :
     System(scene)
 {
-    for (const JsonValue& axisValue : scene.engine().settings()["inputAxes"])
+    for (const DataValue& axisValue : scene.engine().settings()["inputAxes"])
     {
         InputAxis axis;
 
         try
         {
-            JsonDecoder decoder(axisValue);
+            DataValueDecoder decoder(axisValue);
             decoder >> decodeValue(axis);
         }
         catch (Error& error)
