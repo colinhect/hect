@@ -172,15 +172,15 @@ DataValue Engine::loadConfig(const Path& settingsFilePath)
 {
     try
     {
-        // Read the file to a JSON string
-        std::string json;
+        // Read the file to a YAML string
+        std::string yaml;
         {
             std::ifstream stream(settingsFilePath.asString().c_str());
-            json.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
+            yaml.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
         }
 
         DataValue settings;
-        settings.decodeFromJson(json);
+        settings.decodeFromYaml(yaml);
 
         // Load additional settings files
         std::vector<DataValue> includedConfigs;
