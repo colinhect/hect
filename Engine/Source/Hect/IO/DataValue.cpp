@@ -632,7 +632,7 @@ Json::Value toJson(const DataValue& dataValue)
 
 bool isNumeric(const std::string& string)
 {
-    char* end;
+    char* end = nullptr;
     strtod(string.c_str(), &end);
     return !*end;
 }

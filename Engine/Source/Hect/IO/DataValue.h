@@ -29,6 +29,7 @@
 #include <vector>
 
 #include "Hect/Core/Any.h"
+#include "Hect/IO/DataValueType.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -42,37 +43,7 @@ class ReadStream;
 class WriteStream;
 
 ///
-/// A data value type.
-enum DataValueType
-{
-
-    ///
-    /// The data value holds no data.
-    DataValueType_Null,
-
-    ///
-    /// A bool value.
-    DataValueType_Bool,
-
-    ///
-    /// A floating point number.
-    DataValueType_Number,
-
-    ///
-    /// A string.
-    DataValueType_String,
-
-    ///
-    /// An collection of other data values.
-    DataValueType_Array,
-
-    ///
-    /// A collection of key/value pairs of data values.
-    DataValueType_Object
-};
-
-///
-/// A hierarchical structure of structured data.
+/// A node in a hierarchical structure of data.
 class DataValue
 {
 public:
