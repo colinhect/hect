@@ -259,9 +259,7 @@ public:
     /// Selects the material affecting following draw calls.
     ///
     /// \param material The material to select.
-    /// \param selectBase Whether the base material (if any) should be selected
-    /// before selecting the specified material.
-    virtual void selectMaterial(Material& material, bool selectBase = true) = 0;
+    virtual void selectMaterial(Material& material) = 0;
 
     ///
     /// Uploads a material.

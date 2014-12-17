@@ -43,7 +43,7 @@ public:
     void destroyFrameBuffer(FrameBuffer& frameBuffer) override;
     void uploadRenderBuffer(RenderBuffer& renderBuffer) override;
     void destroyRenderBuffer(RenderBuffer& renderBuffer) override;
-    void selectMaterial(Material& material, bool selectBase) override;
+    void selectMaterial(Material& material) override;
     void uploadMaterial(Material& material) override;
     void destroyMaterial(Material& material) override;
     void setMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value) override;

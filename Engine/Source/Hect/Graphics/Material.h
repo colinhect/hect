@@ -43,11 +43,6 @@ namespace hect
 ///
 /// The manner in which a surface is rendered and how it is used within the
 /// render flow.
-///
-/// A material can inherit from a base material.  %Any properties or arguments
-/// set in the material will override that of the base material.  %Any
-/// properties or arguments left unchanged will default to that of the base
-/// material.
 class Material :
     public Asset,
     public Renderer::Object<Material>
@@ -73,19 +68,6 @@ public:
     ///
     /// \param name The name of the material.
     Material(const std::string& name);
-
-    ///
-    /// Returns the base material that this material inherits from.
-    AssetHandle<Material> base() const;
-
-    ///
-    /// Sets the base material that this material inherits from.
-    ///
-    /// \note If the material is uploaded to a renderer then it will be
-    /// destroyed before the base is set.
-    ///
-    /// \param base The base material.
-    void setBase(const AssetHandle<Material>& base);
 
     ///
     /// Returns the material type.
@@ -240,35 +222,17 @@ private:
     void addParameter(const std::string& name, MaterialValueType type, MaterialParameterBinding binding);
     unsigned nextTextureIndex() const;
 
-    enum MaterialFlag
-    {
-        MaterialFlag_Blend = 1,
-        MaterialFlag_NoDepthTest = 2,
-        MaterialFlag_NoDepthWrite = 4,
-        MaterialFlag_NoCullBackFace = 8
-    };
-
-    bool isFlagActive(MaterialFlag flag) const;
-    void setFlagActive(MaterialFlag flag);
-    bool flagValue(MaterialFlag flag) const;
-    void setFlagValue(MaterialFlag flag, bool value);
-
-    typedef uint8_t MaterialFlags;
-
-    AssetHandle<Material> _base;
-
     MaterialType _type { MaterialType_None };
-    bool _typeSet { false };
 
-    MaterialFlags _flags { 0 };
-    MaterialFlags _activeFlagsMask { 0 };
+    bool _blend { false };
+    bool _depthTest{ true };
+    bool _depthWrite{ true };
+    bool _cullBackFace{ true };
 
     BlendFactor _sourceFactor { BlendFactor_One };
     BlendFactor _destinationFactor { BlendFactor_One };
-    bool _blendFactorsSet { false };
 
     int _priority { 0 };
-    bool _prioritySet { false };
 
     ShaderSourceContainer _shaderSources;
 

@@ -201,10 +201,8 @@ void NullRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void NullRenderer::selectMaterial(Material& material, bool selectBase)
+void NullRenderer::selectMaterial(Material& material)
 {
-    (void)selectBase;
-
     if (!material.isUploaded())
     {
         uploadMaterial(material);

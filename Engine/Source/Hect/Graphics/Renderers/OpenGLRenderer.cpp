@@ -520,7 +520,7 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void OpenGLRenderer::selectMaterial(Material& material, bool selectBase)
+void OpenGLRenderer::selectMaterial(Material& material)
 {
     // Upload the material if needed
     if (!material.isUploaded())
@@ -528,18 +528,22 @@ void OpenGLRenderer::selectMaterial(Material& material, bool selectBase)
         uploadMaterial(material);
     }
 
-    // Select the base material if needed
-    if (material.base())
+    // Bind the shader
+    auto data = material.dataAs<MaterialData>();
+    GL_ASSERT(glUseProgram(data->programId));
+
+    if (material.blend())
     {
-        if (selectBase)
-        {
-            selectMaterial(*material.base(), true);
-        }
+        GL_ASSERT(glEnable(GL_BLEND));
+
+        GLuint sourceFactor = _blendFactorLookUp[static_cast<int>(material.sourceBlendFactor())];
+        GLuint destFactor = _blendFactorLookUp[static_cast<int>(material.destinationBlendFactor())];
+
+        GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
     }
     else
     {
-        auto data = material.dataAs<MaterialData>();
-        GL_ASSERT(glUseProgram(data->programId));
+        GL_ASSERT(glDisable(GL_BLEND));
     }
 
     if (material.depthTest())
@@ -560,20 +564,6 @@ void OpenGLRenderer::selectMaterial(Material& material, bool selectBase)
         GL_ASSERT(glDisable(GL_CULL_FACE));
     }
 
-    if (material.blend())
-    {
-        GL_ASSERT(glEnable(GL_BLEND));
-
-        GLuint sourceFactor = _blendFactorLookUp[static_cast<int>(material.sourceBlendFactor())];
-        GLuint destFactor = _blendFactorLookUp[static_cast<int>(material.destinationBlendFactor())];
-
-        GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_BLEND));
-    }
-
     // Set the values for each parameter
     for (const MaterialParameter& parameter : material.parameters())
     {
@@ -589,88 +579,81 @@ void OpenGLRenderer::uploadMaterial(Material& material)
         return;
     }
 
-    if (!material.base())
+    // Create the shader.
+    GLuint programId = 0;
+    programId = GL_ASSERT(glCreateProgram());
+
+    // Attach each shader to the program
+    std::vector<GLuint> shaderIds;
+    for (ShaderSource& shaderSource : material.shaderSources())
     {
-        // Create the shader.
-        GLuint programId = 0;
-        programId = GL_ASSERT(glCreateProgram());
+        GLuint shaderId;
 
-        // Attach each shader to the program
-        std::vector<GLuint> shaderIds;
-        for (ShaderSource& shaderSource : material.shaderSources())
-        {
-            GLuint shaderId;
+        // Create the shader
+        GL_ASSERT(shaderId = glCreateShader(_shaderSourceTypeLookUp[static_cast<int>(shaderSource.type())]));
 
-            // Create the shader
-            GL_ASSERT(shaderId = glCreateShader(_shaderSourceTypeLookUp[static_cast<int>(shaderSource.type())]));
-
-            // Compile shader
-            const GLchar* source = shaderSource.source().c_str();
-            GL_ASSERT(glShaderSource(shaderId, 1, &source, nullptr));
-            GL_ASSERT(glCompileShader(shaderId));
-
-            // Report errors
-            int logLength = 0;
-            GL_ASSERT(glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength));
-            if (logLength > 1)
-            {
-                int charsWritten = 0;
-                std::string infoLog(logLength, ' ');
-                GL_ASSERT(glGetShaderInfoLog(shaderId, logLength, &charsWritten, &infoLog[0]));
-
-                if (infoLog.size() > 0)
-                {
-                    throw Error(format("Failed to compile GLSL shader source file '%s': %s", shaderSource.path().asString().c_str(), infoLog.c_str()));
-                }
-            }
-
-            GL_ASSERT(glAttachShader(programId, shaderId));
-            shaderIds.push_back(shaderId);
-        }
-
-        // Link program
-        GL_ASSERT(glLinkProgram(programId));
+        // Compile shader
+        const GLchar* source = shaderSource.source().c_str();
+        GL_ASSERT(glShaderSource(shaderId, 1, &source, nullptr));
+        GL_ASSERT(glCompileShader(shaderId));
 
         // Report errors
         int logLength = 0;
-        GL_ASSERT(glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength));
+        GL_ASSERT(glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength));
         if (logLength > 1)
         {
             int charsWritten = 0;
             std::string infoLog(logLength, ' ');
-            GL_ASSERT(glGetProgramInfoLog(programId, logLength, &charsWritten, &infoLog[0]));
+            GL_ASSERT(glGetShaderInfoLog(shaderId, logLength, &charsWritten, &infoLog[0]));
 
             if (infoLog.size() > 0)
             {
-                throw Error(format("Failed to link GLSL shaders for material '%s': %s", material.name().c_str(), infoLog.c_str()));
+                throw Error(format("Failed to compile GLSL shader source file '%s': %s", shaderSource.path().asString().c_str(), infoLog.c_str()));
             }
         }
 
-        GL_ASSERT(glUseProgram(programId));
-
-        // Get the parameter locations of each parameter
-        for (MaterialParameter& parameter : material.parameters())
-        {
-            GL_ASSERT(int location = glGetUniformLocation(programId, parameter.name().c_str()));
-
-            if (location != -1)
-            {
-                parameter.setLocation(location);
-            }
-            else
-            {
-                HECT_WARNING(format("Parameter '%s' is not referenced in GLSL of material '%s'", parameter.name().c_str(), material.name().c_str()));
-            }
-        }
-
-        GL_ASSERT(glUseProgram(0));
-
-        material.setAsUploaded(*this, new MaterialData(*this, material, programId, shaderIds));
+        GL_ASSERT(glAttachShader(programId, shaderId));
+        shaderIds.push_back(shaderId);
     }
-    else
+
+    // Link program
+    GL_ASSERT(glLinkProgram(programId));
+
+    // Report errors
+    int logLength = 0;
+    GL_ASSERT(glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength));
+    if (logLength > 1)
     {
-        material.setAsUploaded(*this, new MaterialData(*this, material));
+        int charsWritten = 0;
+        std::string infoLog(logLength, ' ');
+        GL_ASSERT(glGetProgramInfoLog(programId, logLength, &charsWritten, &infoLog[0]));
+
+        if (infoLog.size() > 0)
+        {
+            throw Error(format("Failed to link GLSL shaders for material '%s': %s", material.name().c_str(), infoLog.c_str()));
+        }
     }
+
+    GL_ASSERT(glUseProgram(programId));
+
+    // Get the parameter locations of each parameter
+    for (MaterialParameter& parameter : material.parameters())
+    {
+        GL_ASSERT(int location = glGetUniformLocation(programId, parameter.name().c_str()));
+
+        if (location != -1)
+        {
+            parameter.setLocation(location);
+        }
+        else
+        {
+            HECT_WARNING(format("Parameter '%s' is not referenced in GLSL of material '%s'", parameter.name().c_str(), material.name().c_str()));
+        }
+    }
+
+    GL_ASSERT(glUseProgram(0));
+
+    material.setAsUploaded(*this, new MaterialData(*this, material, programId, shaderIds));
 
     HECT_TRACE(format("Uploaded material '%s'", material.name().c_str()));
 }
@@ -683,18 +666,16 @@ void OpenGLRenderer::destroyMaterial(Material& material)
     }
 
     auto data = material.dataAs<MaterialData>();
-    if (!material.base())
-    {
-        // Destroy all shaders in the program
-        for (GLuint shaderId : data->shaderIds)
-        {
-            GL_ASSERT(glDetachShader(data->programId, shaderId));
-            GL_ASSERT(glDeleteShader(shaderId));
-        }
 
-        // Delete the program
-        GL_ASSERT(glDeleteProgram(data->programId));
+    // Destroy all shaders in the program
+    for (GLuint shaderId : data->shaderIds)
+    {
+        GL_ASSERT(glDetachShader(data->programId, shaderId));
+        GL_ASSERT(glDeleteShader(shaderId));
     }
+
+    // Delete the program
+    GL_ASSERT(glDeleteProgram(data->programId));
 
     material.setAsDestroyed();
 

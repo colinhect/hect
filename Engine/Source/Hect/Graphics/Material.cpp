@@ -34,216 +34,115 @@ Material::Material(const std::string& name) :
 {
 }
 
-AssetHandle<Material> Material::base() const
-{
-    return _base;
-}
-
-void Material::setBase(const AssetHandle<Material>& base)
-{
-    if (isUploaded())
-    {
-        renderer().destroyMaterial(*this);
-    }
-    _base = base;
-}
-
 MaterialType Material::type() const
 {
-    if (!_typeSet && _base)
-    {
-        return _base->type();
-    }
-    else
-    {
-        return _type;
-    }
+    return _type;
 }
 
 void Material::setType(MaterialType type)
 {
-    _typeSet = true;
     _type = type;
 }
 
 bool Material::blend() const
 {
-    if (!isFlagActive(MaterialFlag_Blend) && _base)
-    {
-        return _base->blend();
-    }
-    else
-    {
-        return flagValue(MaterialFlag_Blend);
-    }
+    return _blend;
 }
 
 void Material::setBlend(bool value)
 {
-    setFlagValue(MaterialFlag_Blend, value);
+    _blend = value;
 }
 
 void Material::setBlendFactors(BlendFactor source, BlendFactor destination)
 {
-    _blendFactorsSet = true;
     _sourceFactor = source;
     _destinationFactor = destination;
 }
 
 BlendFactor Material::sourceBlendFactor() const
 {
-    if (!_blendFactorsSet && _base)
-    {
-        return _base->sourceBlendFactor();
-    }
-    else
-    {
-        return _sourceFactor;
-    }
+    return _sourceFactor;
 }
 
 BlendFactor Material::destinationBlendFactor() const
 {
-    if (!_blendFactorsSet && _base)
-    {
-        return _base->destinationBlendFactor();
-    }
-    else
-    {
-        return _destinationFactor;
-    }
+    return _destinationFactor;
 }
 
 bool Material::depthTest() const
 {
-    if (!isFlagActive(MaterialFlag_NoDepthTest) && _base)
-    {
-        return _base->depthTest();
-    }
-    else
-    {
-        return !flagValue(MaterialFlag_NoDepthTest);
-    }
+    return _depthTest;
 }
 
 void Material::setDepthTest(bool value)
 {
-    setFlagValue(MaterialFlag_NoDepthTest, !value);
+    _depthTest = value;
 }
 
 bool Material::depthWrite() const
 {
-    if (!isFlagActive(MaterialFlag_NoDepthWrite) && _base)
-    {
-        return _base->depthTest();
-    }
-    else
-    {
-        return !flagValue(MaterialFlag_NoDepthWrite);
-    }
+    return _depthWrite;
 }
 
 void Material::setDepthWrite(bool value)
 {
-    setFlagValue(MaterialFlag_NoDepthWrite, !value);
+    _depthWrite = value;
 }
 
 bool Material::cullBackFace() const
 {
-    if (!isFlagActive(MaterialFlag_NoCullBackFace) && _base)
-    {
-        return _base->depthTest();
-    }
-    else
-    {
-        return !flagValue(MaterialFlag_NoCullBackFace);
-    }
+    return _cullBackFace;
 }
 
 void Material::setCullBackFace(bool value)
 {
-    setFlagValue(MaterialFlag_NoCullBackFace, !value);
+    _cullBackFace = value;
 }
 
 int Material::priority() const
 {
-    if (!_prioritySet && _base)
-    {
-        return _base->priority();
-    }
-    else
-    {
-        return _priority;
-    }
+    return _priority;
 }
 
 void Material::setPriority(int priority)
 {
-    _prioritySet = true;
     _priority = priority;
 }
 
 Material::ParameterSequence Material::parameters()
 {
-    if (_base)
-    {
-        return _base->parameters();
-    }
-    else
-    {
-        return _parameters;
-    }
+    return _parameters;
 }
 
 const Material::ParameterSequence Material::parameters() const
 {
-    if (_base)
-    {
-        return _base->parameters();
-    }
-    else
-    {
-        return _parameters;
-    }
+    return _parameters;
 }
 
 const MaterialParameter& Material::parameter(const std::string& name) const
 {
-    if (_base)
+    auto it = _parameterIndices.get(name);
+    if (it)
     {
-        return _base->parameter(name);
+        return _parameters[*it];
     }
     else
     {
-        auto it = _parameterIndices.get(name);
-        if (it)
-        {
-            return _parameters[*it];
-        }
-        else
-        {
-            throw Error(format("Material does not have parameter of name '%s'", name.c_str()));
-        }
+        throw Error(format("Material does not have parameter of name '%s'", name.c_str()));
     }
 }
 
 const MaterialParameter& Material::parameter(const char* name) const
 {
-    if (_base)
+    auto it = _parameterIndices.get(name);
+    if (it)
     {
-        return _base->parameter(name);
+        return _parameters[*it];
     }
     else
     {
-        auto it = _parameterIndices.get(name);
-        if (it)
-        {
-            return _parameters[*it];
-        }
-        else
-        {
-            throw Error(format("Material does not have parameter of name '%s'", name));
-        }
+        throw Error(format("Material does not have parameter of name '%s'", name));
     }
 }
 
@@ -274,19 +173,7 @@ const MaterialValue& Material::argumentForParameter(const MaterialParameter& par
     size_t index = parameter._index;
     if (index < _parameterValues.size())
     {
-        const MaterialValue& value = _parameterValues[index];
-        if (value.type() == MaterialValueType_Null && _base)
-        {
-            return _base->argumentForParameter(parameter);
-        }
-        else
-        {
-            return value;
-        }
-    }
-    else if (_base)
-    {
-        return _base->argumentForParameter(parameter);
+        return _parameterValues[index];
     }
 
     throw Error("No material parameter at the specified index");
@@ -304,12 +191,6 @@ const Material::ShaderSourceSequence Material::shaderSources() const
 
 bool Material::operator==(const Material& material) const
 {
-    // Compare base material
-    if (_base != material._base)
-    {
-        return false;
-    }
-
     // Compare shader source count
     if (_shaderSources.size() != material._shaderSources.size())
     {
@@ -356,25 +237,37 @@ bool Material::operator==(const Material& material) const
     }
 
     // Compare type
-    if (_typeSet && _type != material._type)
+    if (_type != material._type)
     {
         return false;
     }
 
     // Compare blending factors
-    if (_blendFactorsSet && (_sourceFactor != material._sourceFactor || _destinationFactor != material._destinationFactor))
+    if (_sourceFactor != material._sourceFactor || _destinationFactor != material._destinationFactor)
     {
         return false;
     }
 
-    // Compare active flags
-    if (_activeFlagsMask != material._activeFlagsMask)
+    // Compare blending
+    if (_blend != material._blend)
     {
         return false;
     }
 
-    // Compare flags
-    if (_flags != material._flags)
+    // Compare depth testing
+    if (_depthTest != material._depthTest)
+    {
+        return false;
+    }
+
+    // Compare depth writing
+    if (_depthWrite != material._depthWrite)
+    {
+        return false;
+    }
+
+    // Compare back face culling
+    if (_cullBackFace != material._cullBackFace)
     {
         return false;
     }
@@ -389,11 +282,6 @@ bool Material::operator!=(const Material& material) const
 
 void Material::addParameter(const std::string& name, MaterialValueType type, MaterialParameterBinding binding)
 {
-    if (_base)
-    {
-        throw Error("Cannot add a parameter to a material with a base");
-    }
-
     if (isUploaded())
     {
         renderer().destroyMaterial(*this);
@@ -430,51 +318,12 @@ unsigned Material::nextTextureIndex() const
     return firstTexture ? 0 : (maxTextureIndex + 1);
 }
 
-bool Material::isFlagActive(MaterialFlag flag) const
-{
-    return (_activeFlagsMask & flag) == flag;
-}
-
-void Material::setFlagActive(MaterialFlag flag)
-{
-    _activeFlagsMask |= flag;
-}
-
-bool Material::flagValue(MaterialFlag flag) const
-{
-    return (_flags & flag) == flag;
-}
-
-void Material::setFlagValue(MaterialFlag flag, bool value)
-{
-    setFlagActive(flag);
-    if (value)
-    {
-        _flags |= flag;
-    }
-    else
-    {
-        _flags &= ~flag;
-    }
-}
-
 namespace hect
 {
 
 Encoder& operator<<(Encoder& encoder, const Material& material)
 {
     encoder << beginObject();
-
-    // Encode base material path
-    if (material._base || encoder.isBinaryStream())
-    {
-        Path basePath;
-        if (material._base)
-        {
-            basePath = material._base.path();
-        }
-        encoder << encodeValue("base", basePath);
-    }
 
     // Encode shader sources
     encoder << beginArray("shaderSources");
@@ -515,66 +364,17 @@ Encoder& operator<<(Encoder& encoder, const Material& material)
     }
     encoder << endArray();
 
-    if (encoder.isBinaryStream())
-    {
-        // Encode all properties
-        encoder << encodeEnum(material._type)
-                << encodeValue(material._typeSet)
-                << encodeValue(material._flags)
-                << encodeValue(material._activeFlagsMask)
-                << encodeEnum(material._sourceFactor)
-                << encodeEnum(material._destinationFactor)
-                << encodeValue(material._blendFactorsSet)
-                << encodeValue(material._priority)
-                << encodeValue(material._prioritySet);
-    }
-    else
-    {
-        // Encode type
-        if (material._typeSet)
-        {
-            encoder << encodeEnum("type", material._type);
-        }
-
-        // Encode if blending is enabled
-        if (material.isFlagActive(Material::MaterialFlag_Blend))
-        {
-            encoder << encodeValue("blend", material.blend());
-        }
-
-        // Encode source and destination blend factors
-        if (material._blendFactorsSet)
-        {
-            encoder << beginObject("blendFactors")
-                    << encodeEnum("source", material.sourceBlendFactor())
-                    << encodeEnum("destination", material.destinationBlendFactor())
-                    << endObject();
-        }
-
-        // Encode if depth testing is enabled
-        if (material.isFlagActive(Material::MaterialFlag_NoDepthTest))
-        {
-            encoder << encodeValue("depthTest", material.depthTest());
-        }
-
-        // Encode if depth writing is enabled
-        if (material.isFlagActive(Material::MaterialFlag_NoDepthWrite))
-        {
-            encoder << encodeValue("depthWrite", material.depthWrite());
-        }
-
-        // Encode if back face culling is enabled
-        if (material.isFlagActive(Material::MaterialFlag_NoCullBackFace))
-        {
-            encoder << encodeValue("cullBackFace", material.cullBackFace());
-        }
-
-        // Encode priority
-        if (material._prioritySet)
-        {
-            encoder << encodeValue("priority", material.priority());
-        }
-    }
+    // Encode all properties
+    encoder << encodeEnum("type", material._type)
+            << encodeValue("depthTest", material._depthTest)
+            << encodeValue("depthWrite", material._depthWrite)
+            << encodeValue("cullBackFace", material._cullBackFace)
+            << encodeValue("priority", material._priority)
+            << encodeValue("blend", material._blend)
+            << beginObject("blendFactors")
+            << encodeEnum("source", material.sourceBlendFactor())
+            << encodeEnum("destination", material.destinationBlendFactor())
+            << endObject();
 
     encoder << endObject();
     return encoder;
@@ -591,47 +391,44 @@ Decoder& operator>>(Decoder& decoder, Material& material)
     decoder >> beginObject();
 
     // Decode base material
-    if (decoder.selectMember("base"))
+    if (!decoder.isBinaryStream())
     {
-        Path basePath;
-        decoder >> decodeValue(basePath);
+        // Decode the path
+        Path path;
+        decoder >> decodeValue("base", path);
 
-        if (!basePath.empty())
+        if (!path.empty())
         {
-            // Load the base material
-            material._base = decoder.assetCache().getHandle<Material>(basePath);
+            material = decoder.assetCache().get<Material>(path);
         }
     }
 
-    if (!material._base)
+    // Decode shader sources
+    if (decoder.selectMember("shaderSources"))
     {
-        // Decode shader sources
-        if (decoder.selectMember("shaderSources"))
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
         {
-            decoder >> beginArray();
-            while (decoder.hasMoreElements())
-            {
-                // Decode the type and path of the shader source
-                ShaderSourceType type;
-                Path path;
-                decoder >> beginObject()
-                        >> decodeEnum("type", type, true)
-                        >> decodeValue("path", path, true)
-                        >> endObject();
+            // Decode the type and path of the shader source
+            ShaderSourceType type;
+            Path path;
+            decoder >> beginObject()
+                    >> decodeEnum("type", type, true)
+                    >> decodeValue("path", path, true)
+                    >> endObject();
 
-                // Resolve the path
-                AssetCache& assetCache = decoder.assetCache();
-                path = assetCache.resolvePath(path);
+            // Resolve the path
+            AssetCache& assetCache = decoder.assetCache();
+            path = assetCache.resolvePath(path);
 
-                // Load the shader source to a string
-                auto stream = assetCache.fileSystem().openFileForRead(path);
-                std::string source = stream->readAllToString();
+            // Load the shader source to a string
+            auto stream = assetCache.fileSystem().openFileForRead(path);
+            std::string source = stream->readAllToString();
 
-                // Add the shader source
-                material._shaderSources.push_back(ShaderSource(type, path, source));
-            }
-            decoder >> endArray();
+            // Add the shader source
+            material._shaderSources.push_back(ShaderSource(type, path, source));
         }
+        decoder >> endArray();
 
         // Decode parameters
         if (decoder.selectMember("parameters"))
@@ -685,86 +482,17 @@ Decoder& operator>>(Decoder& decoder, Material& material)
         decoder >> endArray();
     }
 
-    if (decoder.isBinaryStream())
-    {
-        // Decode all properties
-        decoder >> decodeEnum(material._type)
-                >> decodeValue(material._typeSet)
-                >> decodeValue(material._flags)
-                >> decodeValue(material._activeFlagsMask)
-                >> decodeEnum(material._sourceFactor)
-                >> decodeEnum(material._destinationFactor)
-                >> decodeValue(material._blendFactorsSet)
-                >> decodeValue(material._priority)
-                >> decodeValue(material._prioritySet);
-    }
-    else
-    {
-        // Decode type
-        if (decoder.selectMember("type"))
-        {
-            MaterialType type;
-            decoder >> decodeEnum(type);
-            material.setType(type);
-        }
-
-        // Decode if blending is enabled
-        if (decoder.selectMember("blend"))
-        {
-            bool value;
-            decoder >> decodeValue(value);
-            material.setBlend(value);
-        }
-
-        // Decode blend factors
-        if (decoder.selectMember("blendFactors"))
-        {
-            decoder >> beginObject();
-
-            // Decode source and destination blend factors
-            BlendFactor source = BlendFactor_One;
-            BlendFactor destination = BlendFactor_One;
-            decoder >> decodeEnum("source", source)
-                    >> decodeEnum("destination", destination);
-
-            // Set the blend factors
-            material.setBlendFactors(source, destination);
-
-            decoder >> endObject();
-        }
-
-        // Decode if depth testing enabled
-        if (decoder.selectMember("depthTest"))
-        {
-            bool value;
-            decoder >> decodeValue(value);
-            material.setDepthTest(value);
-        }
-
-        // Decode if depth writing enabled
-        if (decoder.selectMember("depthWrite"))
-        {
-            bool value;
-            decoder >> decodeValue(value);
-            material.setDepthWrite(value);
-        }
-
-        // Decode if back face culling enabled
-        if (decoder.selectMember("cullBackFace"))
-        {
-            bool value;
-            decoder >> decodeValue(value);
-            material.setCullBackFace(value);
-        }
-
-        // Decode the priority
-        if (decoder.selectMember("priority"))
-        {
-            int value;
-            decoder >> decodeValue(value);
-            material.setPriority(value);
-        }
-    }
+    // Decode all properties
+    decoder >> decodeEnum("type", material._type)
+            >> decodeValue("depthTest", material._depthTest)
+            >> decodeValue("depthWrite", material._depthWrite)
+            >> decodeValue("cullBackFace", material._cullBackFace)
+            >> decodeValue("priority", material._priority)
+            >> decodeValue("blend", material._blend)
+            >> beginObject("blendFactors")
+            >> decodeEnum("source", material._sourceFactor)
+            >> decodeEnum("destination", material._destinationFactor)
+            >> endObject();
 
     decoder >> endObject();
     return decoder;
