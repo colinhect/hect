@@ -1,11 +1,11 @@
 ---
 type: OpaqueGeometry
-shaderSources: 
+shaderSources:
   - type: Vertex
     path: SkyBox.Vertex.glsl
   - type: Fragment
     path: SkyBox.Fragment.glsl
-parameters: 
+parameters:
   - binding: ModelViewProjectionMatrix
     name: modelViewProjection
   - binding: SkyBoxCubeMap

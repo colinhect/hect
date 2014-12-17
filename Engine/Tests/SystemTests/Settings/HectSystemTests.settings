@@ -1,11 +1,11 @@
 ---
-videoMode: 
+videoMode:
     width: 1440
     height: 900
     bitsPerPixel: 32
     fullscreen: false
-archives: 
+archives:
   - path: Hect.data
     mountPoint: Hect
-assetCache: 
+assetCache:
     concurrent: true

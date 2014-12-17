@@ -1,11 +1,11 @@
 ---
 type: OpaqueGeometry
-shaderSources: 
+shaderSources:
   - type: Vertex
     path: Solid.Vertex.glsl
   - type: Fragment
     path: Solid.Fragment.glsl
-parameters: 
+parameters:
   - type: Vector3
     name: diffuse
   - type: Float

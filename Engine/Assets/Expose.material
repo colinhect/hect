@@ -1,10 +1,10 @@
 ---
-shaderSources: 
+shaderSources:
   - type: Vertex
     path: Screen.glsl
   - type: Fragment
     path: Expose.glsl
-parameters: 
+parameters:
   - binding: CameraExposure
     name: exposure
   - binding: CameraOneOverGamma

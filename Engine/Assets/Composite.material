@@ -1,10 +1,10 @@
 ---
-shaderSources: 
+shaderSources:
   - type: Vertex
     path: Screen.glsl
   - type: Fragment
     path: Composite.glsl
-parameters: 
+parameters:
   - binding: DiffuseBuffer
     name: diffuseBuffer
   - binding: BackBuffer

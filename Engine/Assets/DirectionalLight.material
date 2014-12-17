@@ -22,6 +22,6 @@ parameters:
 depthTest: false
 depthWrite: false
 blend: true
-blendFactors: 
+blendFactors:
     source: One
     destination: One
