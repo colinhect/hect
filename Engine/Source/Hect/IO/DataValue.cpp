@@ -656,7 +656,8 @@ DataValue fromYaml(YAML::Node& node)
         DataValue value(DataValueType_Array);
         for (size_t i = 0; i < node.size(); ++i)
         {
-            value.addElement(fromYaml(node[i]));
+            auto& itemNode = node[i];
+            value.addElement(fromYaml(itemNode));
         }
         return value;
     }

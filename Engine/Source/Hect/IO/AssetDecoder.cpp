@@ -36,17 +36,18 @@ AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
     Path resolvedPath = assetCache.resolvePath(path);
 
     auto stream = assetCache.fileSystem().openFileForRead(resolvedPath);
-    uint8_t firstCharacter;
-    *stream >> firstCharacter;
-    if (firstCharacter == '{')
+    if (isJson(*stream))
     {
-        stream->seek(0);
         _dataValue.decodeFromJson(*stream);
+        _implementation.reset(new DataValueDecoder(_dataValue, assetCache));
+    }
+    else if (isYaml(*stream))
+    {
+        _dataValue.decodeFromYaml(*stream);
         _implementation.reset(new DataValueDecoder(_dataValue, assetCache));
     }
     else
     {
-        stream->seek(0);
         size_t length = stream->length();
         _data.resize(length);
         stream->read(&_data[0], length);
@@ -187,6 +188,38 @@ bool AssetDecoder::decodeBool()
 {
     assert(_implementation);
     return _implementation->decodeBool();
+}
+
+bool AssetDecoder::isJson(ReadStream& stream)
+{
+    if (stream.length() >= 2)
+    {
+        uint8_t beginning;
+        stream >> beginning;
+        stream.seek(0);
+        if (beginning == '{')
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool AssetDecoder::isYaml(ReadStream& stream)
+{
+    if (stream.length() >= 3)
+    {
+        uint8_t beginning[3];
+        stream.read(&beginning[0], 3);
+        stream.seek(0);
+        if (beginning[0] == '-' && beginning[1] == '-' && beginning[2] == '-')
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 }
