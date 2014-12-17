@@ -225,9 +225,9 @@ private:
     MaterialType _type { MaterialType_None };
 
     bool _blend { false };
-    bool _depthTest{ true };
-    bool _depthWrite{ true };
-    bool _cullBackFace{ true };
+    bool _depthTest { true };
+    bool _depthWrite { true };
+    bool _cullBackFace { true };
 
     BlendFactor _sourceFactor { BlendFactor_One };
     BlendFactor _destinationFactor { BlendFactor_One };
