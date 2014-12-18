@@ -8,12 +8,6 @@
 #include <Hect/Runtime/Platform.h>
 #include <Hect/Runtime/Engine.h>
 
-#ifdef HECT_WINDOWS_BUILD
-#ifdef HECT_DEBUG_BUILD
-#include <vld.h>
-#endif
-#endif
-
 #define CATCH_CONFIG_RUNNER
 #include <catch.hpp>
 

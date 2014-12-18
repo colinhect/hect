@@ -30,7 +30,7 @@ The following sequence of shell commands demonstrate how to clone the Hect Engin
 
     git clone https://github.com/colinhect/hect.git
     cd hect
-    cmake -H./ -BBuild -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DHEADLESS=ON
+    cmake -H./ -BBuild -DCMAKE_BUILD_TYPE=Release
     cd Build
     make
 

@@ -21,14 +21,5 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Core/Configuration.h>
-using namespace hect;
-
-#ifdef HECT_WINDOWS_BUILD
-#ifdef HECT_DEBUG_BUILD
-#include <vld.h>
-#endif
-#endif
-
 #define CATCH_CONFIG_MAIN
 #include <catch.hpp>
