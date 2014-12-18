@@ -20,7 +20,7 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Tclap/include"
     )
 
-grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Engine/Source/Hect)
+grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Engine/Source)
 add_library(Hect STATIC ${SOURCE_FILES})
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Assets)
