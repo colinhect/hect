@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Renderer.h"
 
 namespace hect
@@ -39,7 +40,7 @@ enum RenderBufferFormat
 
 ///
 /// A render buffer to be used with a frame buffer.
-class RenderBuffer :
+class HECT_EXPORT RenderBuffer :
     public Renderer::Object<RenderBuffer>
 {
 public:

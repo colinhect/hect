@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Transform.h"
 
@@ -34,7 +35,7 @@ namespace hect
 /// Manages the transform hierarchies of the scene.
 ///
 /// \system
-class TransformSystem :
+class HECT_EXPORT TransformSystem :
     public System,
     public Listener<ComponentEvent<Transform>>
 {

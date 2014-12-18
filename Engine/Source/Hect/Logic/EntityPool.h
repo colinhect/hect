@@ -26,6 +26,7 @@
 #include <memory>
 
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/IdPool.h"
 #include "Hect/Logic/Entity.h"
 #include "Hect/Logic/EntityEvent.h"
@@ -37,7 +38,7 @@ class Scene;
 
 ///
 /// A pool of entities within a Scene.
-class EntityPool :
+class HECT_EXPORT EntityPool :
     public Dispatcher<EntityEvent>
 {
     friend class Scene;

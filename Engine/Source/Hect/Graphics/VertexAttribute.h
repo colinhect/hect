@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -131,7 +132,7 @@ enum VertexAttributeType
 /// type describes the type of each component in the attribute.  The
 /// cardinality is number of components (of the attribute's type) the
 /// attribute has.
-class VertexAttribute
+class HECT_EXPORT VertexAttribute
 {
     friend class VertexLayout;
 public:
@@ -180,8 +181,8 @@ public:
     /// \param vertexAttribute The other attribute.
     bool operator!=(const VertexAttribute& vertexAttribute) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const VertexAttribute& vertexAttribute);
-    friend Decoder& operator>>(Decoder& decoder, VertexAttribute& vertexAttribute);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const VertexAttribute& vertexAttribute);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, VertexAttribute& vertexAttribute);
 
 private:
     VertexAttributeSemantic _semantic { VertexAttributeSemantic_Position };

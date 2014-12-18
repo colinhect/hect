@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/GameMode.h"
 
 namespace hect
@@ -37,7 +38,7 @@ namespace hect
 ///
 /// Provides the ability to dynamically create game modes based on type
 /// information.
-class GameModeRegistry
+class HECT_EXPORT GameModeRegistry
 {
 public:
 

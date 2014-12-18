@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/ByteVector.h"
 #include "Hect/Network/Peer.h"
@@ -86,7 +87,7 @@ enum PeerEventType
 
 ///
 /// An event triggered from a peer.
-class PeerEvent
+class HECT_EXPORT PeerEvent
 {
 public:
 
@@ -107,7 +108,7 @@ public:
 
 ///
 /// A local host for communicating to peers.
-class Host :
+class HECT_EXPORT Host :
     public Uncopyable
 {
 public:

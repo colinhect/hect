@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Transform.h"
@@ -37,7 +38,7 @@ class SceneRenderer;
 /// Provides debug functionality.
 ///
 /// \system
-class DebugSystem :
+class HECT_EXPORT DebugSystem :
     public System
 {
 public:
@@ -64,7 +65,7 @@ public:
 
 private:
 
-    class DebugBox
+    class HECT_EXPORT DebugBox
     {
     public:
         DebugBox();

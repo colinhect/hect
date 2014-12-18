@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
@@ -56,7 +58,7 @@ class Entity;
 
 ///
 /// An entity-related event.
-class EntityEvent
+class HECT_EXPORT EntityEvent
 {
 public:
     EntityEvent(EntityEventType type, Entity& entity);

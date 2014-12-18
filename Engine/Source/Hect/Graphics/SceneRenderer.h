@@ -25,6 +25,7 @@
 
 #include <array>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/FrameBuffer.h"
 #include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/Renderer.h"
@@ -39,7 +40,7 @@ namespace hect
 ///
 /// Provides the functionality for high level rendering algorithms (physically-
 /// based shading, deferred shading, shadows, reflections, etc).
-class SceneRenderer
+class HECT_EXPORT SceneRenderer
 {
 public:
 
@@ -76,7 +77,7 @@ private:
     Texture& lastBackBuffer();
     FrameBuffer& backFrameBuffer();
 
-    class RenderCall
+    class HECT_EXPORT RenderCall
     {
     public:
         RenderCall();

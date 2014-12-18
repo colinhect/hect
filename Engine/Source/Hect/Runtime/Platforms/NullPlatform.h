@@ -23,12 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Runtime/Platform.h"
 
 namespace hect
 {
 
-class NullPlatform :
+class HECT_EXPORT NullPlatform :
     public Platform
 {
 public:

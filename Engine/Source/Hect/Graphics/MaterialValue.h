@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Any.h"
+#include "Hect/Core/Export.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
@@ -78,7 +79,7 @@ enum MaterialValueType
 /// A value for a material parameter.
 ///
 /// \note A material value's type cannot change.
-class MaterialValue
+class HECT_EXPORT MaterialValue
 {
 public:
 
@@ -238,8 +239,8 @@ public:
     /// \param materialValue The other material value.
     bool operator!=(const MaterialValue& materialValue) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const MaterialValue& materialValue);
-    friend Decoder& operator>>(Decoder& decoder, MaterialValue& materialValue);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const MaterialValue& materialValue);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, MaterialValue& materialValue);
 
 private:
 

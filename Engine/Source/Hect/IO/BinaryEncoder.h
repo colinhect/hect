@@ -25,6 +25,7 @@
 
 #include <stack>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/ByteVector.h"
 #include "Hect/IO/Encoder.h"
 
@@ -33,7 +34,7 @@ namespace hect
 
 ///
 /// Provides access for encoding structured data to binary data.
-class BinaryEncoder :
+class HECT_EXPORT BinaryEncoder :
     public Encoder
 {
 public:

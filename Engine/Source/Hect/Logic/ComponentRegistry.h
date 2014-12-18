@@ -30,6 +30,7 @@
 #include <typeindex>
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentPool.h"
 
@@ -39,7 +40,7 @@ namespace hect
 ///
 /// Provides the ability to dynamically create components and component pools
 /// based on type information.
-class ComponentRegistry
+class HECT_EXPORT ComponentRegistry
 {
 public:
 

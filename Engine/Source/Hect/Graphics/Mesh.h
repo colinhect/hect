@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/IO/Asset.h"
@@ -64,7 +65,7 @@ enum IndexType
 
 ///
 /// A mesh of vertices and indices.
-class Mesh :
+class HECT_EXPORT Mesh :
     public Asset,
     public Renderer::Object<Mesh>
 {
@@ -198,8 +199,8 @@ public:
     /// \param mesh The other mesh.
     bool operator!=(const Mesh& mesh) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const Mesh& mesh);
-    friend Decoder& operator>>(Decoder& decoder, Mesh& mesh);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Mesh& mesh);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Mesh& mesh);
 
 private:
     VertexLayout _vertexLayout;

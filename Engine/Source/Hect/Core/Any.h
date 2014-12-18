@@ -23,12 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
 ///
 /// A container which can hold any type of value.
-class Any
+class HECT_EXPORT Any
 {
 public:
 

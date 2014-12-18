@@ -23,12 +23,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
 ///
 /// Inheriting from this class makes object instances of the class uncopyable.
-class Uncopyable
+class HECT_EXPORT Uncopyable
 {
 protected:
     Uncopyable();

@@ -25,6 +25,7 @@
 
 #include <physfs.h>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/Path.h"
 #include "Hect/IO/ReadStream.h"
@@ -32,7 +33,7 @@
 namespace hect
 {
 
-class PhysFSReadStream :
+class HECT_EXPORT PhysFSReadStream :
     public ReadStream,
     public Uncopyable
 {

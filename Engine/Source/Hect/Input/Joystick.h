@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
 #include "Hect/Timing/TimeSpan.h"
 
@@ -123,7 +124,7 @@ enum JoystickEventType
 
 ///
 /// An event caused by the alteration of a joystick.
-class JoystickEvent
+class HECT_EXPORT JoystickEvent
 {
 public:
 
@@ -157,7 +158,7 @@ public:
 
 ///
 /// Provides access to a joystick.
-class Joystick :
+class HECT_EXPORT Joystick :
     public Dispatcher<JoystickEvent>
 {
 public:

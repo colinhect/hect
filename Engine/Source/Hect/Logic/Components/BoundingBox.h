@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Spacial/AxisAlignedBox.h"
 
@@ -33,7 +34,7 @@ namespace hect
 /// The spacial bounds of an entity.
 ///
 /// \component
-class BoundingBox :
+class HECT_EXPORT BoundingBox :
     public Component<BoundingBox>
 {
     friend class BoundingBoxSystem;

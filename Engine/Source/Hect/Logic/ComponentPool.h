@@ -28,6 +28,7 @@
 #include <vector>
 
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentEvent.h"
 #include "Hect/Logic/IdPool.h"
@@ -37,7 +38,7 @@ namespace hect
 
 class Scene;
 
-class ComponentPoolBase
+class HECT_EXPORT ComponentPoolBase
 {
     friend class Scene;
 protected:

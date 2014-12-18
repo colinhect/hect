@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Timing/TimeSpan.h"
 
@@ -34,7 +35,7 @@ class RenderTarget;
 
 ///
 /// The highest-level logic of a game.
-class GameMode :
+class HECT_EXPORT GameMode :
     public Uncopyable
 {
 public:

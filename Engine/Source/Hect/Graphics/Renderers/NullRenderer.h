@@ -24,12 +24,13 @@
 #pragma once
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Renderer.h"
 
 namespace hect
 {
 
-class NullRenderer :
+class HECT_EXPORT NullRenderer :
     public Renderer
 {
 public:

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/MaterialParameterBinding.h"
 #include "Hect/Graphics/MaterialValue.h"
 
@@ -33,7 +34,7 @@ namespace hect
 /// A parameter of a material.
 ///
 /// \note A material parameter must either have a binding or a type.
-class MaterialParameter
+class HECT_EXPORT MaterialParameter
 {
     friend class Material;
 public:

@@ -25,6 +25,7 @@
 
 #include <cstdint>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/Decoder.h"
@@ -41,7 +42,7 @@ typedef uint32_t SystemTypeId;
 
 ///
 /// A system affecting entities within a scene.
-class System :
+class HECT_EXPORT System :
     public Uncopyable
 {
     friend class Scene;

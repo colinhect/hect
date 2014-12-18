@@ -34,6 +34,7 @@
 
 #include "Hect/Concurrency/Task.h"
 #include "Hect/Core/Error.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 
 namespace hect
@@ -41,7 +42,7 @@ namespace hect
 
 ///
 /// Provides the functionality for executing asynchronous tasks.
-class TaskPool :
+class HECT_EXPORT TaskPool :
     public Uncopyable
 {
 public:

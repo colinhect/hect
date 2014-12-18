@@ -25,12 +25,16 @@
 
 #include <stdexcept>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
+class HECT_EXPORT std::runtime_error;
+
 ///
 /// An error.
-class Error :
+class HECT_EXPORT Error :
     public std::runtime_error
 {
 public:

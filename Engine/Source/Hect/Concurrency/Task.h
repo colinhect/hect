@@ -28,6 +28,7 @@
 #include <memory>
 
 #include "Hect/Core/Error.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 
 namespace hect
@@ -35,7 +36,7 @@ namespace hect
 
 ///
 /// A task performed potentially in parallel.
-class Task :
+class HECT_EXPORT Task :
     public Uncopyable
 {
     friend class TaskPool;
@@ -47,7 +48,7 @@ public:
 
     ///
     /// A handle for an enqueued task.
-    class Handle
+    class HECT_EXPORT Handle
     {
         friend class TaskPool;
     public:

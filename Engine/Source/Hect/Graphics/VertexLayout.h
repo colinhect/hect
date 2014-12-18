@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/Graphics/VertexAttribute.h"
 #include "Hect/IO/Decoder.h"
@@ -33,7 +34,7 @@ namespace hect
 
 ///
 /// An ordered layout of vertex attributes.
-class VertexLayout
+class HECT_EXPORT VertexLayout
 {
     typedef std::vector<VertexAttribute> AttributeContainer;
 public:
@@ -95,8 +96,8 @@ public:
     /// \param vertexLayout The other layout.
     bool operator!=(const VertexLayout& vertexLayout) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout);
-    friend Decoder& operator>>(Decoder& decoder, VertexLayout& vertexLayout);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, VertexLayout& vertexLayout);
 
 private:
     void computeAttributeOffsets();

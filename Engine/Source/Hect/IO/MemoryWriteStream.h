@@ -26,6 +26,7 @@
 #include <vector>
 #include <cstdint>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/ByteVector.h"
 #include "Hect/IO/WriteStream.h"
 
@@ -34,7 +35,7 @@ namespace hect
 
 ///
 /// Provides write access to raw data.
-class MemoryWriteStream :
+class HECT_EXPORT MemoryWriteStream :
     public WriteStream
 {
 public:

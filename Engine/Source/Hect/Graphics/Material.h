@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/StringMap.h"
 #include "Hect/IO/Asset.h"
@@ -43,7 +44,7 @@ namespace hect
 ///
 /// The manner in which a surface is rendered and how it is used within the
 /// render flow.
-class Material :
+class HECT_EXPORT Material :
     public Asset,
     public Renderer::Object<Material>
 {
@@ -215,8 +216,8 @@ public:
     /// \param material The other material.
     bool operator!=(const Material& material) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const Material& material);
-    friend Decoder& operator>>(Decoder& decoder, Material& material);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Material& material);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Material& material);
 
 private:
     void addParameter(const std::string& name, MaterialValueType type, MaterialParameterBinding binding);

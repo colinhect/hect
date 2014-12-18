@@ -26,6 +26,7 @@
 #include <memory>
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/Path.h"
 #include "Hect/IO/ReadStream.h"
@@ -37,7 +38,7 @@ namespace hect
 
 ///
 /// Provides read and write access to files.
-class FileSystem :
+class HECT_EXPORT FileSystem :
     public Uncopyable
 {
 public:

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/IO/MemoryWriteStream.h"
 #include "Hect/Math/Vector2.h"
@@ -35,7 +36,7 @@ namespace hect
 ///
 /// Provides an interface for writing to a mesh without knowledge of the
 /// vertex layout.
-class MeshWriter
+class HECT_EXPORT MeshWriter
 {
 public:
 

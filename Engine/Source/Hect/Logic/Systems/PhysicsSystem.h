@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Logic/Scene.h"
@@ -45,7 +46,7 @@ namespace hect
 /// Simulates physical interactions of physical bodies.
 ///
 /// \system
-class PhysicsSystem :
+class HECT_EXPORT PhysicsSystem :
     public System,
     public Listener<ComponentEvent<RigidBody>>
 {

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Network/IPAddress.h"
 
 // Forward declarations for ENet types
@@ -85,7 +86,7 @@ typedef uint16_t PeerId;
 ///
 /// \note A peer is a lightweight handle without any associated resources.
 /// A copied peer will refer to the same peer as it was copied from.
-class Peer
+class HECT_EXPORT Peer
 {
     friend class Host;
 public:

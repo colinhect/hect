@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/StringMap.h"
 #include "Hect/Input/InputAxis.h"
 #include "Hect/Logic/Scene.h"
@@ -36,7 +37,7 @@ namespace hect
 /// Maps user input to input axes.
 ///
 /// \system
-class InputSystem :
+class HECT_EXPORT InputSystem :
     public System
 {
 public:

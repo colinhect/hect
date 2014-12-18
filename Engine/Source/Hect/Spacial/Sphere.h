@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
 
 namespace hect
@@ -30,7 +31,7 @@ namespace hect
 
 ///
 /// A sphere.
-class Sphere
+class HECT_EXPORT Sphere
 {
 public:
 

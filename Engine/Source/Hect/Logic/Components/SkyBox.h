@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Texture.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/Logic/Scene.h"
@@ -34,7 +35,7 @@ namespace hect
 /// A sky box component.
 ///
 /// \component
-class SkyBox :
+class HECT_EXPORT SkyBox :
     public Component<SkyBox>
 {
 public:

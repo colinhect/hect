@@ -25,6 +25,7 @@
 
 #include <string>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/AssetCache.h"
 
 namespace hect
@@ -32,7 +33,7 @@ namespace hect
 
 ///
 /// Inheriting from this allows for caching/loading using an asset cache.
-class Asset
+class HECT_EXPORT Asset
 {
 public:
 

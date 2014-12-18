@@ -26,6 +26,7 @@
 #include <cstdint>
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/ByteVector.h"
 #include "Hect/IO/Decoder.h"
@@ -82,7 +83,7 @@ enum PixelFormat
 
 ///
 /// A 2-dimensional image.
-class Image :
+class HECT_EXPORT Image :
     public Asset
 {
 public:
@@ -164,8 +165,8 @@ public:
     /// Returns the number of bytes in a pixel of this image.
     unsigned bytesPerPixel() const;
 
-    friend Encoder& operator<<(Encoder& encoder, const Image& image);
-    friend Decoder& operator>>(Decoder& decoder, Image& image);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Image& image);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Image& image);
 
 private:
     unsigned _width { 0 };

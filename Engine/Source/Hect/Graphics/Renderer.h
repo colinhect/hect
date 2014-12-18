@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Image.h"
 
@@ -42,14 +43,14 @@ class Window;
 ///
 /// A higher-level abstraction over a hardware-accelerated graphics API such as
 /// OpenGL or DirectX.
-class Renderer :
+class HECT_EXPORT Renderer :
     public Uncopyable
 {
 public:
 
     ///
     /// Contains the capabilities of the underlying hardware.
-    struct Capabilities
+    struct HECT_EXPORT Capabilities
     {
         ///
         /// The maximum number of textures that can be selected.
@@ -58,7 +59,7 @@ public:
 
     ///
     /// Contains the various statistics of the renderer's state.
-    struct Statistics
+    struct HECT_EXPORT Statistics
     {
         ///
         /// The number of bytes allocated on the GPU.

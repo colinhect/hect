@@ -26,6 +26,7 @@
 #include <typeindex>
 #include <functional>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
 
@@ -46,7 +47,7 @@ typedef uint32_t ComponentTypeId;
 
 ///
 /// Abstract base for components.
-class ComponentBase
+class HECT_EXPORT ComponentBase
 {
 public:
     virtual ~ComponentBase() { }

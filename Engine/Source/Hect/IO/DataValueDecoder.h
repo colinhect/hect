@@ -25,6 +25,7 @@
 
 #include <stack>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/DataValue.h"
 #include "Hect/IO/Decoder.h"
 
@@ -33,7 +34,7 @@ namespace hect
 
 ///
 /// Provides access for decoding structured data from a data value.
-class DataValueDecoder :
+class HECT_EXPORT DataValueDecoder :
     public Decoder
 {
 public:

@@ -26,6 +26,7 @@
 #include <string>
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Core/Export.h"
 
 namespace hect
 {
@@ -60,7 +61,7 @@ enum LogLevel
 ///
 /// \param level The level of the message.
 /// \param message The message.
-void log(LogLevel level, const std::string& message);
+HECT_EXPORT void log(LogLevel level, const std::string& message);
 
 // Info
 #if defined(HECT_ENABLE_LOG_INFO)

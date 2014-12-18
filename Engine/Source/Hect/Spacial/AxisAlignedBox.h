@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Math/Quaternion.h"
 #include "Hect/Math/Vector3.h"
 
@@ -31,7 +32,7 @@ namespace hect
 
 ///
 /// A box aligned with the global axes in world-space.
-class AxisAlignedBox
+class HECT_EXPORT AxisAlignedBox
 {
 public:
 

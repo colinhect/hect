@@ -23,12 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/FileSystem.h"
 
 namespace hect
 {
 
-class PhysFSFileSystem :
+class HECT_EXPORT PhysFSFileSystem :
     public FileSystem
 {
 public:

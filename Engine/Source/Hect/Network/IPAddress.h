@@ -26,6 +26,8 @@
 #include <cstdint>
 #include <string>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
@@ -35,7 +37,7 @@ typedef uint16_t Port;
 
 ///
 /// An IPv4 address.
-class IPAddress
+class HECT_EXPORT IPAddress
 {
 public:
 

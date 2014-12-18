@@ -26,12 +26,14 @@
 #include <cstdint>
 #include <string>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
 ///
 /// An interface for writing streamed data.
-class WriteStream
+class HECT_EXPORT WriteStream
 {
 public:
     virtual ~WriteStream() { }
@@ -61,7 +63,7 @@ public:
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, const char* value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, const char* value);
 
 ///
 /// Writes a string with its length prepended as an unsigned 32-bit integer.
@@ -70,7 +72,7 @@ WriteStream& operator<<(WriteStream& stream, const char* value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, const std::string& value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, const std::string& value);
 
 ///
 /// Writes a signed 8-bit integer.
@@ -79,7 +81,7 @@ WriteStream& operator<<(WriteStream& stream, const std::string& value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, int8_t value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, int8_t value);
 
 ///
 /// Writes an unsigned 8-bit integer.
@@ -88,7 +90,7 @@ WriteStream& operator<<(WriteStream& stream, int8_t value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, uint8_t value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, uint8_t value);
 
 ///
 /// Writes a signed 16-bit integer.
@@ -97,7 +99,7 @@ WriteStream& operator<<(WriteStream& stream, uint8_t value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, int16_t value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, int16_t value);
 
 ///
 /// Writes an unsigned 16-bit integer.
@@ -106,7 +108,7 @@ WriteStream& operator<<(WriteStream& stream, int16_t value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, uint16_t value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, uint16_t value);
 
 ///
 /// Writes a signed 32-bit integer.
@@ -115,7 +117,7 @@ WriteStream& operator<<(WriteStream& stream, uint16_t value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, int32_t value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, int32_t value);
 
 ///
 /// Writes an unsigned 32-bit integer.
@@ -124,7 +126,7 @@ WriteStream& operator<<(WriteStream& stream, int32_t value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, uint32_t value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, uint32_t value);
 
 ///
 /// Writes a signed 64-bit integer.
@@ -133,7 +135,7 @@ WriteStream& operator<<(WriteStream& stream, uint32_t value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, int64_t value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, int64_t value);
 
 ///
 /// Writes an unsigned 64-bit integer.
@@ -142,7 +144,7 @@ WriteStream& operator<<(WriteStream& stream, int64_t value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, uint64_t value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, uint64_t value);
 
 ///
 /// Writes a 32-bit floating point number.
@@ -151,7 +153,7 @@ WriteStream& operator<<(WriteStream& stream, uint64_t value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, float value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, float value);
 
 ///
 /// Writes a 64-bit floating point number.
@@ -160,7 +162,7 @@ WriteStream& operator<<(WriteStream& stream, float value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, double value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, double value);
 
 ///
 /// Writes a boolean as a single byte.
@@ -169,6 +171,6 @@ WriteStream& operator<<(WriteStream& stream, double value);
 /// \param value The value to write.
 ///
 /// \returns The stream.
-WriteStream& operator<<(WriteStream& stream, bool value);
+HECT_EXPORT WriteStream& operator<<(WriteStream& stream, bool value);
 
 }

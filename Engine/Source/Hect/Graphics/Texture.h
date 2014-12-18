@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/Decoder.h"
@@ -60,7 +61,7 @@ enum TextureType
 
 ///
 /// A texture with one or more source images that can be sampled.
-class Texture :
+class HECT_EXPORT Texture :
     public Asset,
     public Renderer::Object<Texture>
 {
@@ -219,8 +220,8 @@ public:
     /// \param texture The other texture.
     bool operator!=(const Texture& texture) const;
 
-    friend Encoder& operator<<(Encoder& encoder, const Texture& texture);
-    friend Decoder& operator>>(Decoder& decoder, Texture& texture);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Texture& texture);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Texture& texture);
 
 private:
     TextureType _type { TextureType_2D };

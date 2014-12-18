@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Math/Vector2.h"
 
 namespace hect
@@ -83,7 +84,7 @@ enum MouseEventType
 
 ///
 /// An event caused by the alteration of the mouse.
-class MouseEvent
+class HECT_EXPORT MouseEvent
 {
 public:
 
@@ -109,7 +110,7 @@ public:
 
 ///
 /// Provides access to the system mouse.
-class Mouse :
+class HECT_EXPORT Mouse :
     public Dispatcher<MouseEvent>
 {
 public:

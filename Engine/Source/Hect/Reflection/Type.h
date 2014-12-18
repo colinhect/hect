@@ -28,6 +28,8 @@
 #include <memory>
 #include <typeindex>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
@@ -58,7 +60,7 @@ enum Kind
 
 ///
 /// A reflected type.
-class Type
+class HECT_EXPORT Type
 {
 public:
 

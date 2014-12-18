@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/EncodeOperations.h"
 #include "Hect/IO/ReadStream.h"
 #include "Hect/Reflection/Enum.h"
@@ -34,7 +35,7 @@ class AssetCache;
 
 ///
 /// Provides access for decoding structured data from a persistent format.
-class Decoder
+class HECT_EXPORT Decoder
 {
 public:
 
@@ -203,11 +204,11 @@ private:
     AssetCache* _assetCache { nullptr };
 };
 
-Decoder& operator>>(Decoder& decoder, const BeginArray& beginArray);
-Decoder& operator>>(Decoder& decoder, const EndArray&);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, const BeginArray& beginArray);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, const EndArray&);
 
-Decoder& operator>>(Decoder& decoder, const BeginObject& beginObject);
-Decoder& operator>>(Decoder& decoder, const EndObject&);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, const BeginObject& beginObject);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, const EndObject&);
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decodeValue);
@@ -215,18 +216,18 @@ Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decodeValue);
 template <typename T>
 Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decodeEnum);
 
-Decoder& operator>>(Decoder& decoder, std::string& value);
-Decoder& operator>>(Decoder& decoder, int8_t& value);
-Decoder& operator>>(Decoder& decoder, uint8_t& value);
-Decoder& operator>>(Decoder& decoder, int16_t& value);
-Decoder& operator>>(Decoder& decoder, uint16_t& value);
-Decoder& operator>>(Decoder& decoder, int32_t& value);
-Decoder& operator>>(Decoder& decoder, uint32_t& value);
-Decoder& operator>>(Decoder& decoder, int64_t& value);
-Decoder& operator>>(Decoder& decoder, uint64_t& value);
-Decoder& operator>>(Decoder& decoder, float& value);
-Decoder& operator>>(Decoder& decoder, double& value);
-Decoder& operator>>(Decoder& decoder, bool& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, std::string& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, int8_t& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, uint8_t& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, int16_t& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, uint16_t& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, int32_t& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, uint32_t& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, int64_t& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, uint64_t& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, float& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, double& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, bool& value);
 
 }
 

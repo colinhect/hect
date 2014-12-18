@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Runtime/Platform.h"
 
 #ifdef HECT_PLATFORM_SDL
@@ -35,7 +36,7 @@ typedef struct _SDL_Joystick SDL_Joystick;
 namespace hect
 {
 
-class SdlPlatform :
+class HECT_EXPORT SdlPlatform :
     public Platform
 {
 public:

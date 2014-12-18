@@ -26,6 +26,7 @@
 #include <memory>
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/IO/DataValue.h"
@@ -54,7 +55,7 @@ namespace hect
 /// An instance of Hect %Engine.
 ///
 /// \warning Only one engine instance can be instantiated at a given time.
-class Engine :
+class HECT_EXPORT Engine :
     public Uncopyable
 {
 public:
@@ -97,7 +98,7 @@ public:
     const DataValue& settings();
 
 private:
-    struct CommandLineArguments
+    struct HECT_EXPORT CommandLineArguments
     {
         std::string settingsFilePath;
     };

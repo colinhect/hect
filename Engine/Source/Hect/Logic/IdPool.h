@@ -25,6 +25,8 @@
 
 #include <deque>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 

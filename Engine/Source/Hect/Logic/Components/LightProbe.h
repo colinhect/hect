@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Texture.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/Logic/Scene.h"
@@ -34,7 +35,7 @@ namespace hect
 /// A point where ambient and reflective lighting can be pre-computed.
 ///
 /// \component
-class LightProbe :
+class HECT_EXPORT LightProbe :
     public Component<LightProbe>
 {
 public:

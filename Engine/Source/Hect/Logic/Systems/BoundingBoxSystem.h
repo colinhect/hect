@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
 
@@ -34,7 +35,7 @@ namespace hect
 /// Manages the bounding box hierarchies of the scene.
 ///
 /// \system
-class BoundingBoxSystem :
+class HECT_EXPORT BoundingBoxSystem :
     public System,
     public Listener<ComponentEvent<BoundingBox>>
 {

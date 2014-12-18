@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Input/InputAxisBinding.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
@@ -35,7 +36,7 @@ namespace hect
 
 ///
 /// An axis manipulated by bindings to input devices.
-class InputAxis
+class HECT_EXPORT InputAxis
 {
 public:
 
@@ -73,8 +74,8 @@ public:
     /// Returns the current value of the axis.
     Real value() const;
 
-    friend Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis);
-    friend Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis);
 
 private:
     std::string _name;

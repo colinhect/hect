@@ -29,6 +29,7 @@
 #include <vector>
 
 #include "Hect/Core/Any.h"
+#include "Hect/Core/Export.h"
 #include "Hect/IO/DataValueType.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
@@ -44,7 +45,7 @@ class WriteStream;
 
 ///
 /// A node in a hierarchical structure of data.
-class DataValue
+class HECT_EXPORT DataValue
 {
 public:
 

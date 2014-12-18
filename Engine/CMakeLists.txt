@@ -1,5 +1,5 @@
 if(WIN32)
-    add_definitions("/D_CRT_SECURE_NO_WARNINGS")
+    add_definitions("/D_CRT_SECURE_NO_WARNINGS /DHECT_EXPORTS")
 elseif(UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -Werror -pedantic")
 endif()
@@ -21,7 +21,7 @@ include_directories(
     )
 
 grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Engine/Source)
-add_library(Hect STATIC ${SOURCE_FILES})
+add_library(Hect SHARED ${SOURCE_FILES})
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Assets)
 add_dependencies(Hect HectAssets)

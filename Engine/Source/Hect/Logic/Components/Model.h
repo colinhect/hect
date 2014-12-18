@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
@@ -32,7 +33,7 @@ namespace hect
 
 ///
 /// A single surface with a specific material in a model component.
-class ModelSurface
+class HECT_EXPORT ModelSurface
 {
 public:
     ModelSurface();
@@ -52,15 +53,15 @@ public:
     /// The material.
     AssetHandle<Material> material;
 
-    friend Encoder& operator<<(Encoder& encoder, const ModelSurface& modelSurface);
-    friend Decoder& operator>>(Decoder& decoder, ModelSurface& modelSurface);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const ModelSurface& modelSurface);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, ModelSurface& modelSurface);
 };
 
 ///
 /// A collection of surfaces which are rendered.
 ///
 /// \component
-class Model :
+class HECT_EXPORT Model :
     public Component<Model>
 {
 public:

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/EncodeOperations.h"
 #include "Hect/IO/WriteStream.h"
 #include "Hect/Reflection/Enum.h"
@@ -32,7 +33,7 @@ namespace hect
 
 ///
 /// Provides access for encoding structured data to a persistent format.
-class Encoder
+class HECT_EXPORT Encoder
 {
 public:
 
@@ -159,11 +160,11 @@ public:
     virtual void encodeBool(bool value) = 0;
 };
 
-Encoder& operator<<(Encoder& encoder, const BeginArray& beginArray);
-Encoder& operator<<(Encoder& encoder, const EndArray&);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BeginArray& beginArray);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const EndArray&);
 
-Encoder& operator<<(Encoder& encoder, const BeginObject& beginObject);
-Encoder& operator<<(Encoder& encoder, const EndObject&);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BeginObject& beginObject);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const EndObject&);
 
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encodeValue);
@@ -174,19 +175,19 @@ Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encodeVector);
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encodeEnum);
 
-Encoder& operator<<(Encoder& encoder, const char* value);
-Encoder& operator<<(Encoder& encoder, const std::string& value);
-Encoder& operator<<(Encoder& encoder, int8_t value);
-Encoder& operator<<(Encoder& encoder, uint8_t value);
-Encoder& operator<<(Encoder& encoder, int16_t value);
-Encoder& operator<<(Encoder& encoder, uint16_t value);
-Encoder& operator<<(Encoder& encoder, int32_t value);
-Encoder& operator<<(Encoder& encoder, uint32_t value);
-Encoder& operator<<(Encoder& encoder, int64_t value);
-Encoder& operator<<(Encoder& encoder, uint64_t value);
-Encoder& operator<<(Encoder& encoder, float value);
-Encoder& operator<<(Encoder& encoder, double value);
-Encoder& operator<<(Encoder& encoder, bool value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const char* value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const std::string& value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, int8_t value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, uint8_t value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, int16_t value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, uint16_t value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, int32_t value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, uint32_t value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, int64_t value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, uint64_t value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, float value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, double value);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, bool value);
 
 }
 

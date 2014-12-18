@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
@@ -32,7 +33,7 @@ namespace hect
 
 ///
 /// An angle.
-class Angle
+class HECT_EXPORT Angle
 {
 public:
 

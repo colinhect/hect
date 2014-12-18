@@ -30,6 +30,7 @@
 #include <typeindex>
 #include <vector>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/System.h"
 
 namespace hect
@@ -38,7 +39,7 @@ namespace hect
 ///
 /// Provides the ability to dynamically create systems based on type
 /// information.
-class SystemRegistry
+class HECT_EXPORT SystemRegistry
 {
 public:
 

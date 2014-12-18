@@ -25,6 +25,7 @@
 
 #include <string>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Runtime/VideoMode.h"
@@ -36,7 +37,7 @@ namespace hect
 /// The window that the application is rendering to.
 ///
 /// \note In most cases the window represents the native OS window.
-class Window :
+class HECT_EXPORT Window :
     public RenderTarget,
     public Uncopyable
 {

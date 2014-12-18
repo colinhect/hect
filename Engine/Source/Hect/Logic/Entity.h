@@ -27,6 +27,7 @@
 #include <memory>
 
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Logic/Component.h"
@@ -40,13 +41,13 @@ class EntityPool;
 
 ///
 /// A dynamic object in a Scene.
-class Entity :
+class HECT_EXPORT Entity :
     public Uncopyable
 {
     friend class Scene;
     friend class EntityPool;
 private:
-    class IteratorBase
+    class HECT_EXPORT IteratorBase
     {
     public:
         IteratorBase();
@@ -70,7 +71,7 @@ public:
 
     ///
     /// A entity iterator.
-    class Iterator :
+    class HECT_EXPORT Iterator :
         public IteratorBase
     {
         friend class Entity;
@@ -127,7 +128,7 @@ public:
 
     ///
     /// A constant entity iterator.
-    class ConstIterator :
+    class HECT_EXPORT ConstIterator :
         public IteratorBase
     {
         friend class Entity;
@@ -184,9 +185,9 @@ public:
 
     ///
     /// An entity's child entities.
-    class Children
+    class HECT_EXPORT Children
     {
-        class IteratorBase
+        class HECT_EXPORT IteratorBase
         {
         public:
             IteratorBase();
@@ -207,7 +208,7 @@ public:
 
         ///
         /// A entity child iterator.
-        class Iterator :
+        class HECT_EXPORT Iterator :
             public IteratorBase
         {
             friend class Entity;
@@ -264,7 +265,7 @@ public:
 
         ///
         /// A constant entity child iterator.
-        class ConstIterator :
+        class HECT_EXPORT ConstIterator :
             public IteratorBase
         {
             friend class Entity;
@@ -334,7 +335,7 @@ public:
 
     ///
     /// A weak reference to an entity.
-    class Handle
+    class HECT_EXPORT Handle
     {
         friend class Entity;
     public:
@@ -704,8 +705,8 @@ public:
     Entity& operator=(const Entity& entity);
     Entity& operator=(Entity&& entity);
 
-    friend Encoder& operator<<(Encoder& encoder, const Entity& entity);
-    friend Decoder& operator>>(Decoder& decoder, Entity& entity);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Entity& entity);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Entity& entity);
 
 private:
     Entity();

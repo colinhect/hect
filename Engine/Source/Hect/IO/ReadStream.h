@@ -26,12 +26,14 @@
 #include <cstdint>
 #include <string>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
 ///
 /// An interface for reading streamed data.
-class ReadStream
+class HECT_EXPORT ReadStream
 {
 public:
     virtual ~ReadStream() { }
@@ -73,7 +75,7 @@ public:
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, std::string& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, std::string& value);
 
 ///
 /// Reads a signed 8-bit integer.
@@ -82,7 +84,7 @@ ReadStream& operator>>(ReadStream& stream, std::string& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, int8_t& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, int8_t& value);
 
 ///
 /// Reads an unsigned 8-bit integer.
@@ -91,7 +93,7 @@ ReadStream& operator>>(ReadStream& stream, int8_t& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, uint8_t& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, uint8_t& value);
 
 ///
 /// Reads a signed 16-bit integer.
@@ -100,7 +102,7 @@ ReadStream& operator>>(ReadStream& stream, uint8_t& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, int16_t& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, int16_t& value);
 
 ///
 /// Reads an unsigned 16-bit integer.
@@ -109,7 +111,7 @@ ReadStream& operator>>(ReadStream& stream, int16_t& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, uint16_t& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, uint16_t& value);
 
 ///
 /// Reads a signed 32-bit integer.
@@ -118,7 +120,7 @@ ReadStream& operator>>(ReadStream& stream, uint16_t& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, int32_t& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, int32_t& value);
 
 ///
 /// Reads an unsigned 32-bit integer.
@@ -127,7 +129,7 @@ ReadStream& operator>>(ReadStream& stream, int32_t& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, uint32_t& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, uint32_t& value);
 
 ///
 /// Reads a signed 64-bit integer.
@@ -136,7 +138,7 @@ ReadStream& operator>>(ReadStream& stream, uint32_t& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, int64_t& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, int64_t& value);
 
 ///
 /// Reads an unsigned 64-bit integer.
@@ -145,7 +147,7 @@ ReadStream& operator>>(ReadStream& stream, int64_t& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, uint64_t& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, uint64_t& value);
 
 ///
 /// Reads a 32-bit floating point number.
@@ -154,7 +156,7 @@ ReadStream& operator>>(ReadStream& stream, uint64_t& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, float& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, float& value);
 
 ///
 /// Reads a 64-bit floating point number.
@@ -163,7 +165,7 @@ ReadStream& operator>>(ReadStream& stream, float& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, double& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, double& value);
 
 ///
 /// Reads a boolean as a single byte.
@@ -172,6 +174,6 @@ ReadStream& operator>>(ReadStream& stream, double& value);
 /// \param value The value to read to.
 ///
 /// \returns The stream.
-ReadStream& operator>>(ReadStream& stream, bool& value);
+HECT_EXPORT ReadStream& operator>>(ReadStream& stream, bool& value);
 
 }

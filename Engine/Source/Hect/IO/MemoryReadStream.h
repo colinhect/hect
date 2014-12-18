@@ -26,6 +26,7 @@
 #include <vector>
 #include <cstdint>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/ByteVector.h"
 #include "Hect/IO/ReadStream.h"
 
@@ -34,7 +35,7 @@ namespace hect
 
 ///
 /// Provides read access to raw data in memory.
-class MemoryReadStream :
+class HECT_EXPORT MemoryReadStream :
     public ReadStream
 {
 public:

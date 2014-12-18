@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Sequence.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
@@ -111,7 +112,7 @@ enum FrameBufferSlot
 
 ///
 /// A multi-target buffer on the GPU that can be rendered to.
-class FrameBuffer :
+class HECT_EXPORT FrameBuffer :
     public RenderTarget,
     public Renderer::Object<FrameBuffer>
 {
@@ -119,7 +120,7 @@ public:
 
     ///
     /// A texture attachment.
-    struct TextureAttachment
+    struct HECT_EXPORT TextureAttachment
     {
     public:
 
@@ -149,7 +150,7 @@ public:
 
     ///
     /// A render buffer attachment.
-    class RenderBufferAttachment
+    class HECT_EXPORT RenderBufferAttachment
     {
     public:
 

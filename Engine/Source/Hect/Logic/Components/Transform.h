@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Quaternion.h"
@@ -34,7 +35,7 @@ namespace hect
 /// A combination of a position, scale, and rotation.
 ///
 /// \component
-class Transform :
+class HECT_EXPORT Transform :
     public Component<Transform>
 {
     friend class TransformSystem;

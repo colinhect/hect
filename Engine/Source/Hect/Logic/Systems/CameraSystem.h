@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Camera.h"
 
@@ -33,7 +34,7 @@ namespace hect
 ///
 /// Updates and tracks the active camera(s).
 /// \system
-class CameraSystem :
+class HECT_EXPORT CameraSystem :
     public System,
     public Listener<ComponentEvent<Camera>>
 {

@@ -26,12 +26,14 @@
 #include <string>
 #include <iostream>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
 ///
 /// A path to a file or directory.
-class Path
+class HECT_EXPORT Path
 {
 public:
 

@@ -25,6 +25,7 @@
 
 #include <string>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Path.h"
 #include "Hect/Graphics/ShaderSourceType.h"
 
@@ -33,7 +34,7 @@ namespace hect
 
 ///
 /// A shader source module.
-class ShaderSource
+class HECT_EXPORT ShaderSource
 {
 public:
 

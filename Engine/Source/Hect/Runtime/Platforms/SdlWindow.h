@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Runtime/Window.h"
 
 #ifdef HECT_PLATFORM_SDL
@@ -35,7 +36,7 @@ typedef void* SDL_GLContext;
 namespace hect
 {
 
-class SdlWindow :
+class HECT_EXPORT SdlWindow :
     public Window
 {
 public:

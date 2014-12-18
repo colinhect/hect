@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/Renderer.h"
 
@@ -32,7 +33,7 @@
 namespace hect
 {
 
-class OpenGLRenderer :
+class HECT_EXPORT OpenGLRenderer :
     public Renderer
 {
 public:

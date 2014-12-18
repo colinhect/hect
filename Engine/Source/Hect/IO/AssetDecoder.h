@@ -25,6 +25,7 @@
 
 #include <memory>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/DataValue.h"
 #include "Hect/IO/MemoryReadStream.h"
@@ -36,7 +37,7 @@ namespace hect
 ///
 /// Provides the functionality to decode an asset directly from an asset
 /// cache, automatically detecting if the data is binary or text-based.
-class AssetDecoder :
+class HECT_EXPORT AssetDecoder :
     public Decoder,
     public Uncopyable
 {

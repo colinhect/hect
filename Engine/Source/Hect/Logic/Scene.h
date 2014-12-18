@@ -27,6 +27,7 @@
 #include <typeindex>
 #include <typeinfo>
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
@@ -47,7 +48,7 @@ class Engine;
 
 ///
 /// A scene of entities, components, and systems.
-class Scene :
+class HECT_EXPORT Scene :
     public Uncopyable,
     public Asset
 {
@@ -161,8 +162,8 @@ public:
     /// Returns the number of active entities in the scene.
     size_t entityCount() const;
 
-    friend Encoder& operator<<(Encoder& encoder, const Scene& scene);
-    friend Decoder& operator>>(Decoder& decoder, Scene& scene);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Scene& scene);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Scene& scene);
 
 private:
     void addSystemType(SystemTypeId typeId);

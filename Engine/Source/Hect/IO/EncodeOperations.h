@@ -25,12 +25,14 @@
 
 #include <vector>
 
+#include "Hect/Core/Export.h"
+
 namespace hect
 {
 
 ///
 /// An operation for beginning an array.
-struct BeginArray
+struct HECT_EXPORT BeginArray
 {
     ///
     /// Begins an unnamed array.
@@ -50,13 +52,13 @@ struct BeginArray
 
 ///
 /// An operation for ending an array.
-struct EndArray
+struct HECT_EXPORT EndArray
 {
 };
 
 ///
 /// An operation for beginning an object.
-struct BeginObject
+struct HECT_EXPORT BeginObject
 {
 
     ///
@@ -77,7 +79,7 @@ struct BeginObject
 
 ///
 /// An operation for ending an object.
-struct EndObject
+struct HECT_EXPORT EndObject
 {
 };
 
@@ -251,33 +253,33 @@ struct DecodeEnum
 
 ///
 /// Creates an operation for beginning an array.
-BeginArray beginArray();
+HECT_EXPORT BeginArray beginArray();
 
 ///
 /// Creates an operation for beginning an array as a member of the current
 /// object.
 ///
 /// \param name The name of the member to begin the array for.
-BeginArray beginArray(const char* name);
+HECT_EXPORT BeginArray beginArray(const char* name);
 
 ///
 /// Creates an operation for ending the current array.
-EndArray endArray();
+HECT_EXPORT EndArray endArray();
 
 ///
 /// Creates an operation for beginning an object.
-BeginObject beginObject();
+HECT_EXPORT BeginObject beginObject();
 
 ///
 /// Creates an operation for beginning an object as a member of the current
 /// object.
 ///
 /// \param name The name of the member to begin the object for.
-BeginObject beginObject(const char* name);
+HECT_EXPORT BeginObject beginObject(const char* name);
 
 ///
 /// Creates an operation for ending the current object.
-EndObject endObject();
+HECT_EXPORT EndObject endObject();
 
 ///
 /// Creates an operation for encoding an arbitrary value.

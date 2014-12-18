@@ -27,6 +27,7 @@
 #include <stack>
 
 #include "Hect/Concurrency/TaskPool.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/AssetHandle.h"
 #include "Hect/IO/FileSystem.h"
@@ -37,7 +38,7 @@ namespace hect
 
 ///
 /// Provides cached access to assets from the file system.
-class AssetCache :
+class HECT_EXPORT AssetCache :
     public Uncopyable
 {
 public:

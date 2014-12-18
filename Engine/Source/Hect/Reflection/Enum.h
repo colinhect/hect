@@ -29,6 +29,7 @@
 #include <vector>
 
 #include "Hect/Core/Error.h"
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Sequence.h"
 
@@ -37,7 +38,7 @@ namespace hect
 
 ///
 /// A reflected enum value.
-class EnumValue
+class HECT_EXPORT EnumValue
 {
 public:
 
@@ -63,7 +64,7 @@ public:
 
 ///
 /// A reflected enum.
-class Enum
+class HECT_EXPORT Enum
 {
     friend class Type;
     typedef std::vector<EnumValue> ValueContainer;

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -31,7 +32,7 @@ namespace hect
 
 ///
 /// Describes the video mode a window uses.
-class VideoMode
+class HECT_EXPORT VideoMode
 {
 public:
 
@@ -59,8 +60,8 @@ public:
     /// Returns whether fullscreen is enabled.
     bool isFullscreen() const;
 
-    friend Encoder& operator<<(Encoder& encoder, const VideoMode& videoMode);
-    friend Decoder& operator>>(Decoder& decoder, VideoMode& videoMode);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const VideoMode& videoMode);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, VideoMode& videoMode);
 
 private:
     unsigned _width { 800 };

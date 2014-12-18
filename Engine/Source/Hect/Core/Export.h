@@ -23,19 +23,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
-#include "Hect/Runtime/Window.h"
+#include "Hect/Core/Configuration.h"
 
-namespace hect
-{
+#ifdef HECT_WINDOWS_BUILD
 
-class HECT_EXPORT NullWindow :
-    public Window
-{
-public:
-    NullWindow(const std::string& title, const VideoMode& videoMode);
+#ifdef HECT_EXPORTS
+#define HECT_EXPORT __declspec(dllexport)
+#else
+#define HECT_EXPORT __declspec(dllimport)
+#endif
 
-    void swapBuffers() override;
-};
+#pragma warning(disable: 4251)
 
-}
+#else
+#define HECT_EXPORT
+#endif

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/Logic/Scene.h"
@@ -39,7 +40,7 @@ namespace hect
 /// A simulated physical body.
 ///
 /// \component
-class RigidBody :
+class HECT_EXPORT RigidBody :
     public Component<RigidBody>
 {
     friend class PhysicsSystem;

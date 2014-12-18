@@ -25,6 +25,7 @@
 
 #include <memory>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Input/Joystick.h"
@@ -37,7 +38,7 @@ namespace hect
 
 ///
 /// Provides access to platform functionality and peripherals.
-class Platform :
+class HECT_EXPORT Platform :
     public Uncopyable
 {
 public:

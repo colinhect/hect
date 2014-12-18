@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
 #include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
@@ -69,7 +70,7 @@ enum InputAxisBindingType
 
 ///
 /// A binding to an input axis.
-class InputAxisBinding
+class HECT_EXPORT InputAxisBinding
 {
 public:
 
@@ -139,8 +140,8 @@ public:
     /// The range that the binding affects the input axis.
     Vector2 range { 0, 0 };
 
-    friend Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding);
-    friend Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding);
 
 private:
     Real _value { 0 };

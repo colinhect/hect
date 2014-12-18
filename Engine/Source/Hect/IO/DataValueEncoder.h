@@ -25,6 +25,7 @@
 
 #include <stack>
 
+#include "Hect/Core/Export.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/DataValue.h"
 #include "Hect/IO/Encoder.h"
@@ -34,7 +35,7 @@ namespace hect
 
 ///
 /// Provides access for encoding structured data to a data value.
-class DataValueEncoder :
+class HECT_EXPORT DataValueEncoder :
     public Encoder
 {
     typedef std::vector<DataValue> ValueContainer;
