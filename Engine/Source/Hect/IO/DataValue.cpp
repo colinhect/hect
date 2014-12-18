@@ -490,39 +490,6 @@ DataValue::Array::const_iterator DataValue::end() const
     }
 }
 
-#include <json/json.h>
-
-DataValue fromJson(Json::Value& jsonValue);
-Json::Value toJson(const DataValue& dataValue);
-
-std::string DataValue::encodeToJson() const
-{
-    Json::Value jsonValue = toJson(*this);
-    return jsonValue.toStyledString();
-}
-
-void DataValue::encodeToJson(WriteStream& stream) const
-{
-    std::string json = encodeToJson();
-    stream.write(reinterpret_cast<const uint8_t*>(json.c_str()), json.size());
-}
-
-void DataValue::decodeFromJson(const std::string& json)
-{
-    Json::Value root;
-    Json::Reader reader;
-    if (!reader.parse(json, root))
-    {
-        throw Error(reader.getFormattedErrorMessages());
-    }
-    *this = fromJson(root);
-}
-
-void DataValue::decodeFromJson(ReadStream& stream)
-{
-    decodeFromJson(stream.readAllToString());
-}
-
 #include <yaml-cpp/yaml.h>
 
 DataValue fromYaml(YAML::Node& node);
@@ -556,78 +523,6 @@ void DataValue::decodeFromYaml(const std::string& yaml)
 void DataValue::decodeFromYaml(ReadStream& stream)
 {
     decodeFromYaml(stream.readAllToString());
-}
-
-DataValue fromJson(Json::Value& jsonValue)
-{
-    if (jsonValue.isBool())
-    {
-        return DataValue(jsonValue.asBool());
-    }
-    else if (jsonValue.isNumeric())
-    {
-        return DataValue(jsonValue.asDouble());
-    }
-    else if (jsonValue.isString())
-    {
-        return DataValue(jsonValue.asString());
-    }
-    else if (jsonValue.isArray())
-    {
-        DataValue value(DataValueType_Array);
-        for (Json::Value& element : jsonValue)
-        {
-            value.addElement(fromJson(element));
-        }
-        return value;
-    }
-    else if (jsonValue.isObject())
-    {
-        DataValue value(DataValueType_Object);
-        for (std::string& name : jsonValue.getMemberNames())
-        {
-            value.addMember(name, fromJson(jsonValue[name]));
-        }
-        return value;
-    }
-
-    return DataValue();
-}
-
-Json::Value toJson(const DataValue& dataValue)
-{
-    if (dataValue.isBool())
-    {
-        return Json::Value(dataValue.asBool());
-    }
-    else if (dataValue.isNumber())
-    {
-        return Json::Value(dataValue.asReal());
-    }
-    else if (dataValue.isString())
-    {
-        return Json::Value(dataValue.asString());
-    }
-    else if (dataValue.isArray())
-    {
-        Json::Value value(Json::arrayValue);
-        for (const DataValue& element : dataValue)
-        {
-            value.append(toJson(element));
-        }
-        return value;
-    }
-    else if (dataValue.isObject())
-    {
-        Json::Value value(Json::objectValue);
-        for (const std::string& name : dataValue.memberNames())
-        {
-            value[name] = toJson(dataValue[name]);
-        }
-        return value;
-    }
-
-    return Json::Value();
 }
 
 bool isNumeric(const std::string& string)

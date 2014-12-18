@@ -288,31 +288,7 @@ public:
     ///
     /// \note Only applies to data values that are arrays.
     Array::const_iterator end() const;
-
-    ///
-    /// Encodes the data value to JSON.
-    ///
-    /// \returns The resulting JSON string.
-    std::string encodeToJson() const;
-
-    ///
-    /// Encodes the data value to JSON.
-    ///
-    /// \param stream The stream to write the resulting JSON to.
-    void encodeToJson(WriteStream& stream) const;
-
-    ///
-    /// Decodes the data value from JSON.
-    ///
-    /// \param json The JSON string.
-    void decodeFromJson(const std::string& json);
-
-    ///
-    /// Decodes the data value from JSON.
-    ///
-    /// \param stream The stream to read the JSON from.
-    void decodeFromJson(ReadStream& stream);
-
+    
     ///
     /// Encodes the data value to YAML.
     ///

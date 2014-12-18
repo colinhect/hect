@@ -196,23 +196,6 @@ TEST_CASE("Perform member and array accesses on null data value", "[DataValue]")
     REQUIRE(value["root"][10]["something"].isNull());
 }
 
-TEST_CASE("Decode data value from a JSON string", "[DataValue][Json]")
-{
-    std::string json = "{ \"someBool\" : true, \"someArray\" : [ 0, 1, 2 ] }";
-    DataValue value;
-    value.decodeFromJson(json);
-
-    REQUIRE(value.isObject());
-    REQUIRE(value.size() == 2u);
-    REQUIRE(value["someBool"].isBool());
-    REQUIRE(value["someBool"].asBool());
-    REQUIRE(value["someArray"].isArray());
-    REQUIRE(value["someArray"].size() == 3u);
-    REQUIRE(value["someArray"][0].asInt() == 0);
-    REQUIRE(value["someArray"][1].asInt() == 1);
-    REQUIRE(value["someArray"][2].asInt() == 2);
-}
-
 TEST_CASE("Decode data value from a YAML string", "[DataValue][Yaml]")
 {
     std::string yaml = "---\nsomeBool: true\nsomeNumber: 1.0\nsomeArray: [ 0, 1, 2 ]\nsomeString: Testing 1 2 3";

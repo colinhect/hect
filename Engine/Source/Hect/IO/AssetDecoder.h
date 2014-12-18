@@ -82,7 +82,6 @@ public:
     bool decodeBool() override;
 
 private:
-    bool isJson(ReadStream& stream);
     bool isYaml(ReadStream& stream);
 
     std::unique_ptr<Decoder> _implementation;

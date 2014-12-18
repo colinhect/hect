@@ -36,12 +36,7 @@ AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
     Path resolvedPath = assetCache.resolvePath(path);
 
     auto stream = assetCache.fileSystem().openFileForRead(resolvedPath);
-    if (isJson(*stream))
-    {
-        _dataValue.decodeFromJson(*stream);
-        _implementation.reset(new DataValueDecoder(_dataValue, assetCache));
-    }
-    else if (isYaml(*stream))
+    if (isYaml(*stream))
     {
         _dataValue.decodeFromYaml(*stream);
         _implementation.reset(new DataValueDecoder(_dataValue, assetCache));
@@ -188,22 +183,6 @@ bool AssetDecoder::decodeBool()
 {
     assert(_implementation);
     return _implementation->decodeBool();
-}
-
-bool AssetDecoder::isJson(ReadStream& stream)
-{
-    if (stream.length() >= 2)
-    {
-        uint8_t beginning;
-        stream >> beginning;
-        stream.seek(0);
-        if (beginning == '{')
-        {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 bool AssetDecoder::isYaml(ReadStream& stream)
