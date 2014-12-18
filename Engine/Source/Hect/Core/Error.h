@@ -25,12 +25,15 @@
 
 #include <stdexcept>
 
+#include "Hect/Core/Configuration.h"
 #include "Hect/Core/Export.h"
 
 namespace hect
 {
 
+#ifdef HECT_WINDOWS_BUILD
 class HECT_EXPORT std::runtime_error;
+#endif
 
 ///
 /// An error.
