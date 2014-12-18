@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DataValue.h"
 
+#define YAML_DECLARE_STATIC
+#include <yaml.h>
+
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
 
@@ -490,117 +493,130 @@ DataValue::Array::const_iterator DataValue::end() const
     }
 }
 
-#include <yaml-cpp/yaml.h>
-
-DataValue fromYaml(YAML::Node& node);
-YAML::Node toYaml(const DataValue& dataValue);
-
-std::string DataValue::encodeToYaml() const
+namespace hect
 {
-    YAML::Node node = toYaml(*this);
-    return YAML::Dump(node);
+
+// Converts a YAML node to a DataValue
+DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
+{
+    assert(document);
+    assert(node);
+
+    switch (node->type)
+    {
+    case YAML_SCALAR_NODE:
+    {
+        const char* value = reinterpret_cast<const char*>(node->data.scalar.value);
+        std::string string(value);
+
+        // Check if it is a bool
+        if (string == "true" || string == "false")
+        {
+            bool boolValue = string == "true";
+            return DataValue(boolValue);
+        }
+        else
+        {
+            // Attempt to parse a double from the value
+            char* end = nullptr;
+            double numberValue = std::strtod(string.c_str(), &end);
+            if (end && *end == '\0')
+            {
+                // It is a valid number
+                return DataValue(numberValue);
+            }
+            else
+            {
+                // Otherwise it is just a string
+                return DataValue(string);
+            }
+        }
+    }
+    case YAML_SEQUENCE_NODE:
+    {
+        DataValue dataValue(DataValueType_Array);
+
+        // For each item in the sequence
+        for (yaml_node_item_t* item = node->data.sequence.items.start;
+                item < node->data.sequence.items.top; item++)
+        {
+            // Convert the item to a DataValue
+            yaml_node_t* itemNode = yaml_document_get_node(document, *item);
+            DataValue element = fromYaml(document, itemNode);
+
+            // Add the element
+            dataValue.addElement(element);
+        }
+
+        return dataValue;
+    }
+    case YAML_MAPPING_NODE:
+    {
+        DataValue dataValue(DataValueType_Object);
+
+        // For each pair in the mapping
+        for (yaml_node_pair_t* pair = node->data.mapping.pairs.start;
+                pair < node->data.mapping.pairs.top; pair++)
+        {
+            // Get the name from the pair
+            yaml_node_t* keyNode = yaml_document_get_node(document, pair->key);
+            const char* name = reinterpret_cast<const char*>(keyNode->data.scalar.value);
+
+            // Convert the value node to a DataValue
+            yaml_node_t* valueNode = yaml_document_get_node(document, pair->value);
+            DataValue value = fromYaml(document, valueNode);
+
+            // Add the member
+            dataValue.addMember(name, value);
+        }
+
+        return dataValue;
+    }
+    default:
+        return DataValue();
+    }
 }
 
-void DataValue::encodeToYaml(WriteStream& stream) const
-{
-    std::string yaml = encodeToYaml();
-    stream.write(reinterpret_cast<const uint8_t*>(yaml.c_str()), yaml.size());
 }
 
 void DataValue::decodeFromYaml(const std::string& yaml)
 {
-    try
+    // Initialize the parser
+    yaml_parser_t parser;
+    yaml_parser_initialize(&parser);
+    yaml_parser_set_input_string(&parser, reinterpret_cast<const unsigned char*>(yaml.c_str()), yaml.size());
+
+    // Attempt to parse the document
+    yaml_document_t document;
+    std::string errorMessage;
+    if (!yaml_parser_load(&parser, &document))
     {
-        YAML::Node node = YAML::Load(yaml);
-        *this = fromYaml(node);
+        // Remember the error message
+        errorMessage = format("Invalid YAML: %s on line %i column %i", parser.problem, parser.problem_mark.line, parser.problem_mark.column);
     }
-    catch (YAML::ParserException& ex)
+
+    if (errorMessage.empty())
     {
-        throw Error(ex.what());
+        yaml_node_t* node = yaml_document_get_root_node(&document);
+        if (node)
+        {
+            // Convert all nodes recursively
+            *this = fromYaml(&document, node);
+        }
+    }
+
+    // Clean up document and parser
+    yaml_document_delete(&document);
+    yaml_parser_delete(&parser);
+
+    // Throw the error if there was one
+    if (!errorMessage.empty())
+    {
+        throw Error(errorMessage);
     }
 }
 
 void DataValue::decodeFromYaml(ReadStream& stream)
 {
     decodeFromYaml(stream.readAllToString());
-}
-
-bool isNumeric(const std::string& string)
-{
-    char* end = nullptr;
-    strtod(string.c_str(), &end);
-    return !*end;
-}
-
-DataValue fromYaml(YAML::Node& node)
-{
-    if (node.IsScalar() && (node.Scalar() == "true" || node.Scalar() == "false"))
-    {
-        return DataValue(node.Scalar() == "true");
-    }
-    else if (node.IsScalar() && isNumeric(node.Scalar()))
-    {
-        return DataValue(node.as<double>());
-    }
-    else if (node.IsScalar())
-    {
-        return DataValue(node.Scalar());
-    }
-    else if (node.IsSequence())
-    {
-        DataValue value(DataValueType_Array);
-        for (size_t i = 0; i < node.size(); ++i)
-        {
-            YAML::Node itemNode = node[i];
-            value.addElement(fromYaml(itemNode));
-        }
-        return value;
-    }
-    else if (node.IsMap())
-    {
-        DataValue value(DataValueType_Object);
-        for (auto member : node)
-        {
-            value.addMember(member.first.Scalar(), fromYaml(member.second));
-        }
-        return value;
-    }
-
-    return DataValue();
-}
-
-YAML::Node toYaml(const DataValue& dataValue)
-{
-    if (dataValue.isBool())
-    {
-        return YAML::Node(dataValue.asBool());
-    }
-    else if (dataValue.isNumber())
-    {
-        return YAML::Node(dataValue.asReal());
-    }
-    else if (dataValue.isString())
-    {
-        return YAML::Node(dataValue.asString());
-    }
-    else if (dataValue.isArray())
-    {
-        YAML::Node node;
-        for (const DataValue& element : dataValue)
-        {
-            node.push_back(toYaml(element));
-        }
-        return node;
-    }
-    else if (dataValue.isObject())
-    {
-        YAML::Node node;
-        for (const std::string& name : dataValue.memberNames())
-        {
-            node[name] = toYaml(dataValue[name]);
-        }
-        return node;
-    }
-
-    return YAML::Node();
 }

@@ -54,9 +54,9 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/Engine")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/ENet")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/LibYaml")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS")
-add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/YamlCpp")
 
 # Add Hect tests
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/UnitTests")

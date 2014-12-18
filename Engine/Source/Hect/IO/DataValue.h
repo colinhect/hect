@@ -288,29 +288,21 @@ public:
     ///
     /// \note Only applies to data values that are arrays.
     Array::const_iterator end() const;
-    
-    ///
-    /// Encodes the data value to YAML.
-    ///
-    /// \returns The resulting YAML string.
-    std::string encodeToYaml() const;
-
-    ///
-    /// Encodes the data value to YAML.
-    ///
-    /// \param stream The stream to write the resulting YAML to.
-    void encodeToYaml(WriteStream& stream) const;
 
     ///
     /// Decodes the data value from YAML.
     ///
     /// \param yaml The YAML string.
+    ///
+    /// \throw Error If invalid YAML is encountered.
     void decodeFromYaml(const std::string& yaml);
 
     ///
     /// Decodes the data value from YAML.
     ///
     /// \param stream The stream to read the YAML from.
+    ///
+    /// \throw Error If invalid YAML is encountered.
     void decodeFromYaml(ReadStream& stream);
 
 private:

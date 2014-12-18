@@ -12,13 +12,12 @@ configure_file(
 include_directories(
     "${PROJECT_SOURCE_DIR}/Engine/Source"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Boost/include"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/ENet"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LibYaml"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Tclap/include"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/YamlCpp"
     )
 
 grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Engine/Source/Hect)
@@ -30,7 +29,7 @@ add_dependencies(Hect HectAssets)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Source/Hect/Generated)
 add_dependencies(Hect HectTypes)
 
-set(LINK_LIBRARIES Bullet ENet Glew LodePng PhysFS YamlCpp)
+set(LINK_LIBRARIES Bullet ENet Glew LibYaml LodePng PhysFS)
 
 # Add OpenGL and SDL dependencies if not building headless
 if(NOT HEADLESS)
