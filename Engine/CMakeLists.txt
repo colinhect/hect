@@ -1,7 +1,7 @@
 if(WIN32)
     add_definitions("/D_CRT_SECURE_NO_WARNINGS /DHECT_EXPORTS")
 elseif(UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -Werror -pedantic")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++1y -Wall -Wextra -Werror -pedantic")
 endif()
 
 configure_file(
