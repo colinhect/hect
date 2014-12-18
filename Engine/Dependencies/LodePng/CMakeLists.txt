@@ -3,7 +3,7 @@ project(LodePng CXX)
 if(WIN32)
     add_definitions("/W0")
 elseif(UNIX)
-    add_definitions("-w")
+    add_definitions("-w -fPIC")
 endif()
 
 include_directories(

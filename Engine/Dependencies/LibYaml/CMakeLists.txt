@@ -3,7 +3,7 @@ project(LibYaml CXX)
 if(WIN32)
     add_definitions("/W0")
 elseif(UNIX)
-    add_definitions("-w")
+    add_definitions("-w -fPIC")
 endif()
 
 add_definitions (-DHAVE_CONFIG_H -DYAML_DECLARE_STATIC)
