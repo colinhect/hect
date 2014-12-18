@@ -519,7 +519,7 @@ DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
         {
             // Attempt to parse a double from the value
             char* end = nullptr;
-            double numberValue = std::strtod(string.c_str(), &end);
+            double numberValue = std::strtod(value, &end);
             if (end && *end == '\0')
             {
                 // It is a valid number
