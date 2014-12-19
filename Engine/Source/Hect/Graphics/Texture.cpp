@@ -126,12 +126,6 @@ void Texture::addSourceImage(const AssetHandle<Image>& image)
 
 void Texture::clearSourceImages()
 {
-
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
     _sourceImages.clear();
 }
 

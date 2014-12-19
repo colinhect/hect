@@ -895,6 +895,7 @@ void OpenGLRenderer::uploadTexture(Texture& texture)
             ++target;
         }
     }
+    texture.clearSourceImages();
 
     if (texture.isMipmapped())
     {

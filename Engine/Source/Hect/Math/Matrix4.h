@@ -23,8 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Core/Real.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Math/Angle.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -161,6 +162,18 @@ public:
     const T& operator[](size_t i) const;
 
     ///
+    /// Returns whether the matrix is equivalent to another.
+    ///
+    /// \param m The other matrix.
+    bool operator==(const Matrix4T& m) const;
+
+    ///
+    /// Returns whether the matrix is different from another.
+    ///
+    /// \param m The other matrix.
+    bool operator!=(const Matrix4T& m) const;
+
+    ///
     /// Converts to an equivalent matrix with a different underlying type.
     template <typename U>
     operator Matrix4T<U>() const;
@@ -170,6 +183,12 @@ private:
 };
 
 typedef Matrix4T<Real> Matrix4;
+
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const Matrix4T<T>& m);
+
+template <typename T>
+Decoder& operator>>(Decoder& decoder, Matrix4T<T>& m);
 
 }
 

@@ -127,9 +127,6 @@ public:
 
     ///
     /// Clears all source images that were added to the texture.
-    ///
-    /// \note If the texture is uploaded to a renderer then it will be
-    /// destroyed.
     void clearSourceImages();
 
     ///

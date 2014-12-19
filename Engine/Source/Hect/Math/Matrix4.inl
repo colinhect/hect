@@ -222,6 +222,34 @@ const T& Matrix4T<T>::operator[](size_t i) const
 }
 
 template <typename T>
+bool Matrix4T<T>::operator==(const Matrix4T& m) const
+{
+    for (size_t i = 0; i < 16; ++i)
+    {
+        if (_c[i] != m._c[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+template <typename T>
+bool Matrix4T<T>::operator!=(const Matrix4T& m) const
+{
+    for (size_t i = 0; i < 16; ++i)
+    {
+        if (_c[i] == m._c[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+template <typename T>
 template <typename U>
 Matrix4T<T>::operator Matrix4T<U>() const
 {
@@ -231,6 +259,30 @@ Matrix4T<T>::operator Matrix4T<U>() const
         m[i] = static_cast<U>(_c[i]);
     }
     return m;
+}
+
+template <typename T>
+Encoder& operator<<(Encoder& encoder, const Matrix4T<T>& m)
+{
+    encoder << beginArray();
+    for (size_t i = 0; i < 16; ++i)
+    {
+        encoder << m[i];
+    }
+    encoder << endArray();
+    return encoder;
+}
+
+template <typename T>
+Decoder& operator>>(Decoder& decoder, Matrix4T<T>& m)
+{
+    decoder >> beginArray();
+    for (size_t i = 0; i < 16; ++i)
+    {
+        decoder >> m[i];
+    }
+    decoder >> endArray();
+    return decoder;
 }
 
 }

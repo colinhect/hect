@@ -275,6 +275,8 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
         return asVector3() == uniformValue.asVector3();
     case UniformType_Vector4:
         return asVector4() == uniformValue.asVector4();
+    case UniformType_Matrix4:
+        return asMatrix4() == uniformValue.asMatrix4();
     case UniformType_Texture:
         return asTexture() == uniformValue.asTexture();
     }
@@ -312,6 +314,9 @@ Encoder& operator<<(Encoder& encoder, const UniformValue& uniformValue)
         break;
     case UniformType_Vector4:
         encoder << encodeValue("value", uniformValue.asVector4());
+        break;
+    case UniformType_Matrix4:
+        encoder << encodeValue("value", uniformValue.asMatrix4());
         break;
     case UniformType_Texture:
         encoder << encodeValue("value", uniformValue.asTexture());
@@ -363,6 +368,13 @@ Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue)
         case UniformType_Vector4:
         {
             Vector4 value;
+            decoder >> decodeValue(value);
+            uniformValue.setValue(value);
+        }
+        break;
+        case UniformType_Matrix4:
+        {
+            Matrix4 value;
             decoder >> decodeValue(value);
             uniformValue.setValue(value);
         }
