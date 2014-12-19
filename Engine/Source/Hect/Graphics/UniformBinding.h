@@ -27,97 +27,97 @@ namespace hect
 {
 
 ///
-/// A binding from a material parameter to a built-in value in the rendering
+/// A binding from a uniform to a built-in value in the rendering
 /// pipeline.
-enum MaterialParameterBinding
+enum UniformBinding
 {
     ///
     /// No binding.
-    MaterialParameterBinding_None,
+    UniformBinding_None,
 
     ///
     /// Bound to the size of the active render target.
-    MaterialParameterBinding_RenderTargetSize,
+    UniformBinding_RenderTargetSize,
 
     ///
     /// Bound to the world-space position of the active camera.
-    MaterialParameterBinding_CameraPosition,
+    UniformBinding_CameraPosition,
 
     ///
     /// Bound to the world-space front direction of the active camera.
-    MaterialParameterBinding_CameraFront,
+    UniformBinding_CameraFront,
 
     ///
     /// Bound to the world-space up direction of the active camera.
-    MaterialParameterBinding_CameraUp,
+    UniformBinding_CameraUp,
 
     ///
     /// Bound to the exposure of the active camera.
-    MaterialParameterBinding_CameraExposure,
+    UniformBinding_CameraExposure,
 
     ///
     /// Bound to the one divided by the gamma of the active camera.
-    MaterialParameterBinding_CameraOneOverGamma,
+    UniformBinding_CameraOneOverGamma,
 
     ///
     /// Bound to the direction of the primary light.
-    MaterialParameterBinding_PrimaryLightDirection,
+    UniformBinding_PrimaryLightDirection,
 
     ///
     /// Bound to the color of the primary light.
-    MaterialParameterBinding_PrimaryLightColor,
+    UniformBinding_PrimaryLightColor,
 
     ///
     /// Bound to the view matrix.
-    MaterialParameterBinding_ViewMatrix,
+    UniformBinding_ViewMatrix,
 
     ///
     /// Bound to the projection matrix.
-    MaterialParameterBinding_ProjectionMatrix,
+    UniformBinding_ProjectionMatrix,
 
     ///
     /// Bound to the product of the view and projection matrices.
-    MaterialParameterBinding_ViewProjectionMatrix,
+    UniformBinding_ViewProjectionMatrix,
 
     ///
     /// Bound to the model matrix.
-    MaterialParameterBinding_ModelMatrix,
+    UniformBinding_ModelMatrix,
 
     ///
     /// Bound to the product of the model and the view matrix.
-    MaterialParameterBinding_ModelViewMatrix,
+    UniformBinding_ModelViewMatrix,
 
     ///
     /// Bound to the product of the model, view, and projection matrices.
-    MaterialParameterBinding_ModelViewProjectionMatrix,
+    UniformBinding_ModelViewProjectionMatrix,
 
     ///
     /// Bound to the nearest light probe's ambient environment cube map.
-    MaterialParameterBinding_LightProbeCubeMap,
+    UniformBinding_LightProbeCubeMap,
 
     ///
     /// Bound to the active sky box cube map.
-    MaterialParameterBinding_SkyBoxCubeMap,
+    UniformBinding_SkyBoxCubeMap,
 
     ///
     /// Bound to the diffuse component of the geometry frame buffer.
-    MaterialParameterBinding_DiffuseBuffer,
+    UniformBinding_DiffuseBuffer,
 
     ///
     /// Bound to the material component of the geometry frame buffer.
-    MaterialParameterBinding_MaterialBuffer,
+    UniformBinding_MaterialBuffer,
 
     ///
     /// Bound to the position component of the geometry frame buffer.
-    MaterialParameterBinding_PositionBuffer,
+    UniformBinding_PositionBuffer,
 
     ///
     /// Bound to the normal component of the geometry frame buffer.
-    MaterialParameterBinding_NormalBuffer,
+    UniformBinding_NormalBuffer,
 
     ///
     /// Bound to the back buffer.
-    MaterialParameterBinding_BackBuffer
+    UniformBinding_BackBuffer
 };
 
 }

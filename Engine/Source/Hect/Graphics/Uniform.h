@@ -24,33 +24,56 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/MaterialParameterBinding.h"
-#include "Hect/Graphics/MaterialValue.h"
+#include "Hect/Graphics/UniformBinding.h"
+#include "Hect/Graphics/UniformValue.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
 
 ///
-/// A parameter of a material.
+/// A parameter of a shader.
 ///
-/// \note A material parameter must either have a binding or a type.
-class HECT_EXPORT MaterialParameter
+/// \note A uniform must either have a binding or a type.
+class HECT_EXPORT Uniform
 {
-    friend class Material;
 public:
-    MaterialParameter();
-
-    ///
-    /// Returns the value type the parameter accepts.
-    MaterialValueType type() const;
-
-    ///
-    /// Returns the binding.
-    MaterialParameterBinding binding() const;
 
     ///
     /// Returns the name.
     const std::string& name() const;
+
+    ///
+    /// Returns the type.
+    UniformType type() const;
+
+    ///
+    /// Returns the binding.
+    UniformBinding binding() const;
+
+    ///
+    /// Returns the value.
+    const UniformValue& value() const;
+
+    ///
+    /// Sets the value.
+    ///
+    /// \note Setting the value of a bound uniform will remove its binding.
+    /// Setting the value can potentially change the uniform's type.
+    ///
+    /// \param value The new value.
+    void setValue(const UniformValue& value);
+
+    ///
+    /// Returns the associated texture index.
+    size_t textureIndex() const;
+
+    ///
+    /// Sets the associated texture index.
+    ///
+    /// \param textureIndex The texture index.
+    void setTextureIndex(size_t textureIndex);
 
     ///
     /// Returns the compiled location.
@@ -63,37 +86,30 @@ public:
     void setLocation(int location);
 
     ///
-    /// Returns the associated texture index.
+    /// Returns whether the uniform is equivalent to another.
     ///
-    /// \throws Error If the parameter is not of type
-    /// ::MaterialValueType_Texture.
-    unsigned textureIndex() const;
+    /// \param uniform The other uniform.
+    bool operator==(const Uniform& uniform) const;
 
     ///
-    /// Returns whether the material parameter is equivalent to another.
+    /// Returns whether the uniform is different from another.
     ///
-    /// \param materialParameter The other material parameter.
-    bool operator==(const MaterialParameter& materialParameter) const;
+    /// \param uniform The other uniform.
+    bool operator!=(const Uniform& uniform) const;
 
-    ///
-    /// Returns whether the material parameter is different from another.
-    ///
-    /// \param materialParameter The other material parameter.
-    bool operator!=(const MaterialParameter& materialParameter) const;
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Uniform& uniform);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Uniform& uniform);
 
 private:
-    MaterialParameter(size_t index, unsigned textureIndex, const std::string& name, MaterialValueType type, MaterialParameterBinding binding);
-
-    void resolveTypeFromBinding();
-
-    size_t _index { 0 };
-    unsigned _textureIndex { 0 };
+    void resolveType();
 
     std::string _name;
 
-    MaterialValueType _type { MaterialValueType_Float };
-    MaterialParameterBinding _binding { MaterialParameterBinding_None };
+    UniformType _type { UniformType_Float };
+    UniformBinding _binding { UniformBinding_None };    
+    UniformValue _value;
 
+    size_t _textureIndex { 0 };
     int _location { -1 };
 };
 

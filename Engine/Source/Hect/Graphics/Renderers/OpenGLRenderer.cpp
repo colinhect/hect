@@ -32,9 +32,9 @@
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
 #include "Hect/Graphics/FrameBuffer.h"
-#include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/RenderTarget.h"
+#include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
 #include "Hect/Runtime/Window.h"
 
@@ -50,29 +50,23 @@ namespace
 {
 
 // OpenGL-specific data for a shader program
-class MaterialData :
-    public Renderer::Data<Material>
+class ShaderData :
+    public Renderer::Data<Shader>
 {
 public:
-    MaterialData(Renderer& renderer, Material& object) :
-        Renderer::Data<Material>(renderer, object),
-        programId(GLuint(-1))
-    {
-    }
-
-    MaterialData(Renderer& renderer, Material& object, GLuint programId, const std::vector<GLuint>& shaderIds) :
-        Renderer::Data<Material>(renderer, object),
+    ShaderData(Renderer& renderer, Shader& object, GLuint programId, const std::vector<GLuint>& shaderIds) :
+        Renderer::Data<Shader>(renderer, object),
         programId(programId),
         shaderIds(shaderIds)
     {
     }
 
-    ~MaterialData()
+    ~ShaderData()
     {
         // Destroy the shader if it is uploaded
         if (object && object->isUploaded())
         {
-            renderer->destroyMaterial(*object);
+            renderer->destroyShader(*object);
         }
     }
 
@@ -520,24 +514,25 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void OpenGLRenderer::selectMaterial(Material& material)
+void OpenGLRenderer::selectShader(Shader& shader)
 {
     // Upload the material if needed
-    if (!material.isUploaded())
+    if (!shader.isUploaded())
     {
-        uploadMaterial(material);
+        uploadShader(shader);
     }
 
     // Bind the shader
-    auto data = material.dataAs<MaterialData>();
+    auto data = shader.dataAs<ShaderData>();
     GL_ASSERT(glUseProgram(data->programId));
 
-    if (material.blend())
+    if (shader.blendMode() != BlendMode())
     {
         GL_ASSERT(glEnable(GL_BLEND));
 
-        GLuint sourceFactor = _blendFactorLookUp[static_cast<int>(material.sourceBlendFactor())];
-        GLuint destFactor = _blendFactorLookUp[static_cast<int>(material.destinationBlendFactor())];
+        const BlendMode& blendMode = shader.blendMode();
+        GLuint sourceFactor = _blendFactorLookUp[static_cast<int>(blendMode.sourceFactor())];
+        GLuint destFactor = _blendFactorLookUp[static_cast<int>(blendMode.destinationFactor())];
 
         GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
     }
@@ -546,7 +541,7 @@ void OpenGLRenderer::selectMaterial(Material& material)
         GL_ASSERT(glDisable(GL_BLEND));
     }
 
-    if (material.depthTest())
+    if (shader.isDepthTested())
     {
         GL_ASSERT(glEnable(GL_DEPTH_TEST));
     }
@@ -555,7 +550,7 @@ void OpenGLRenderer::selectMaterial(Material& material)
         GL_ASSERT(glDisable(GL_DEPTH_TEST));
     }
 
-    if (material.cullBackFace())
+    if (shader.isOneSided())
     {
         GL_ASSERT(glEnable(GL_CULL_FACE));
     }
@@ -564,17 +559,19 @@ void OpenGLRenderer::selectMaterial(Material& material)
         GL_ASSERT(glDisable(GL_CULL_FACE));
     }
 
-    // Set the values for each parameter
-    for (const MaterialParameter& parameter : material.parameters())
+    // Set the values for each unbound uniform
+    for (const Uniform& uniform : shader.uniforms())
     {
-        const MaterialValue& value = material.argumentForParameter(parameter);
-        setMaterialParameter(parameter, value);
+        if (uniform.binding() == UniformBinding_None)
+        {
+            setUniform(uniform, uniform.value());
+        }
     }
 }
 
-void OpenGLRenderer::uploadMaterial(Material& material)
+void OpenGLRenderer::uploadShader(Shader& shader)
 {
-    if (material.isUploaded())
+    if (shader.isUploaded())
     {
         return;
     }
@@ -585,15 +582,15 @@ void OpenGLRenderer::uploadMaterial(Material& material)
 
     // Attach each shader to the program
     std::vector<GLuint> shaderIds;
-    for (ShaderSource& shaderSource : material.shaderSources())
+    for (ShaderModule& module : shader.modules())
     {
         GLuint shaderId;
 
         // Create the shader
-        GL_ASSERT(shaderId = glCreateShader(_shaderSourceTypeLookUp[static_cast<int>(shaderSource.type())]));
+        GL_ASSERT(shaderId = glCreateShader(_shaderSourceTypeLookUp[static_cast<int>(module.type())]));
 
         // Compile shader
-        const GLchar* source = shaderSource.source().c_str();
+        const GLchar* source = module.source().c_str();
         GL_ASSERT(glShaderSource(shaderId, 1, &source, nullptr));
         GL_ASSERT(glCompileShader(shaderId));
 
@@ -608,7 +605,7 @@ void OpenGLRenderer::uploadMaterial(Material& material)
 
             if (infoLog.size() > 0)
             {
-                throw Error(format("Failed to compile GLSL shader source file '%s': %s", shaderSource.path().asString().c_str(), infoLog.c_str()));
+                throw Error(format("Failed to compile GLSL shader source file '%s': %s", module.path().asString().c_str(), infoLog.c_str()));
             }
         }
 
@@ -630,42 +627,42 @@ void OpenGLRenderer::uploadMaterial(Material& material)
 
         if (infoLog.size() > 0)
         {
-            throw Error(format("Failed to link GLSL shaders for material '%s': %s", material.name().c_str(), infoLog.c_str()));
+            throw Error(format("Failed to link GLSL shaders for shader '%s': %s", shader.name().c_str(), infoLog.c_str()));
         }
     }
 
     GL_ASSERT(glUseProgram(programId));
 
-    // Get the parameter locations of each parameter
-    for (MaterialParameter& parameter : material.parameters())
+    // Get the parameter locations of each uniform
+    for (Uniform& uniform : shader.uniforms())
     {
-        GL_ASSERT(int location = glGetUniformLocation(programId, parameter.name().c_str()));
+        GL_ASSERT(int location = glGetUniformLocation(programId, uniform.name().c_str()));
 
         if (location != -1)
         {
-            parameter.setLocation(location);
+            uniform.setLocation(location);
         }
         else
         {
-            HECT_WARNING(format("Parameter '%s' is not referenced in GLSL of material '%s'", parameter.name().c_str(), material.name().c_str()));
+            HECT_WARNING(format("Uniform '%s' is not referenced in shader '%s'", uniform.name().c_str(), shader.name().c_str()));
         }
     }
 
     GL_ASSERT(glUseProgram(0));
 
-    material.setAsUploaded(*this, new MaterialData(*this, material, programId, shaderIds));
+    shader.setAsUploaded(*this, new ShaderData(*this, shader, programId, shaderIds));
 
-    HECT_TRACE(format("Uploaded material '%s'", material.name().c_str()));
+    HECT_TRACE(format("Uploaded shader '%s'", shader.name().c_str()));
 }
 
-void OpenGLRenderer::destroyMaterial(Material& material)
+void OpenGLRenderer::destroyShader(Shader& shader)
 {
-    if (!material.isUploaded())
+    if (!shader.isUploaded())
     {
         return;
     }
 
-    auto data = material.dataAs<MaterialData>();
+    auto data = shader.dataAs<ShaderData>();
 
     // Destroy all shaders in the program
     for (GLuint shaderId : data->shaderIds)
@@ -677,69 +674,67 @@ void OpenGLRenderer::destroyMaterial(Material& material)
     // Delete the program
     GL_ASSERT(glDeleteProgram(data->programId));
 
-    material.setAsDestroyed();
+    shader.setAsDestroyed();
 
-    HECT_TRACE(format("Destroyed material '%s'", material.name().c_str()));
+    HECT_TRACE(format("Destroyed shader '%s'", shader.name().c_str()));
 }
 
-void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value)
+void OpenGLRenderer::setUniform(const Uniform& uniform, const UniformValue& value)
 {
     switch (value.type())
     {
-    case MaterialValueType_Null:
+    case UniformType_Int:
+        setUniform(uniform, value.asInt());
         break;
-    case MaterialValueType_Int:
-        setMaterialParameter(parameter, value.asInt());
+    case UniformType_Float:
+        setUniform(uniform, value.asReal());
         break;
-    case MaterialValueType_Float:
-        setMaterialParameter(parameter, value.asReal());
+    case UniformType_Vector2:
+        setUniform(uniform, value.asVector2());
         break;
-    case MaterialValueType_Vector2:
-        setMaterialParameter(parameter, value.asVector2());
+    case UniformType_Vector3:
+        setUniform(uniform, value.asVector3());
         break;
-    case MaterialValueType_Vector3:
-        setMaterialParameter(parameter, value.asVector3());
+    case UniformType_Vector4:
+        setUniform(uniform, value.asVector4());
         break;
-    case MaterialValueType_Vector4:
-        setMaterialParameter(parameter, value.asVector4());
+    case UniformType_Matrix4:
+        setUniform(uniform, value.asMatrix4());
         break;
-    case MaterialValueType_Matrix4:
-        setMaterialParameter(parameter, value.asMatrix4());
-        break;
-    case MaterialValueType_Texture:
+    case UniformType_Texture:
     {
         AssetHandle<Texture> texture = value.asTexture();
         if (texture)
         {
-            setMaterialParameter(parameter, *texture);
+            setUniform(uniform, *texture);
         }
     }
     break;
     }
 }
 
-void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, int value)
+void OpenGLRenderer::setUniform(const Uniform& uniform, int value)
 {
-    if (parameter.type() != MaterialValueType_Int)
+    if (uniform.type() != UniformType_Int)
     {
-        throw Error("Invalid value for material parameter");
+        throw Error("Invalid value for uniform");
     }
 
-    int location = parameter.location();
+    int location = uniform.location();
     if (location >= 0)
     {
         GL_ASSERT(glUniform1i(location, value));
     }
 }
 
-void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, Real value)
+void OpenGLRenderer::setUniform(const Uniform& uniform, Real value)
 {
-    if (parameter.type() != MaterialValueType_Float)
+    if (uniform.type() != UniformType_Float)
     {
-        throw Error("Invalid value for material parameter");
+        throw Error("Invalid value for uniform");
     }
 
-    int location = parameter.location();
+    int location = uniform.location();
     if (location >= 0)
     {
         GLfloat temp = GLfloat(value);
@@ -747,14 +742,14 @@ void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, Re
     }
 }
 
-void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const Vector2& value)
+void OpenGLRenderer::setUniform(const Uniform& uniform, const Vector2& value)
 {
-    if (parameter.type() != MaterialValueType_Vector2)
+    if (uniform.type() != UniformType_Vector2)
     {
-        throw Error("Invalid value for material parameter");
+        throw Error("Invalid value for uniform");
     }
 
-    int location = parameter.location();
+    int location = uniform.location();
     if (location >= 0)
     {
         GLfloat temp[2] = { GLfloat(value[0]), GLfloat(value[1]) };
@@ -762,14 +757,14 @@ void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, co
     }
 }
 
-void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const Vector3& value)
+void OpenGLRenderer::setUniform(const Uniform& uniform, const Vector3& value)
 {
-    if (parameter.type() != MaterialValueType_Vector3)
+    if (uniform.type() != UniformType_Vector3)
     {
-        throw Error("Invalid value for material parameter");
+        throw Error("Invalid value for uniform");
     }
 
-    int location = parameter.location();
+    int location = uniform.location();
     if (location >= 0)
     {
         GLfloat temp[3] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]) };
@@ -777,14 +772,14 @@ void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, co
     }
 }
 
-void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const Vector4& value)
+void OpenGLRenderer::setUniform(const Uniform& uniform, const Vector4& value)
 {
-    if (parameter.type() != MaterialValueType_Vector4)
+    if (uniform.type() != UniformType_Vector4)
     {
-        throw Error("Invalid value for material parameter");
+        throw Error("Invalid value for uniform");
     }
 
-    int location = parameter.location();
+    int location = uniform.location();
     if (location >= 0)
     {
         GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
@@ -792,14 +787,14 @@ void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, co
     }
 }
 
-void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, const Matrix4& value)
+void OpenGLRenderer::setUniform(const Uniform& uniform, const Matrix4& value)
 {
-    if (parameter.type() != MaterialValueType_Matrix4)
+    if (uniform.type() != UniformType_Matrix4)
     {
-        throw Error("Invalid value for material parameter");
+        throw Error("Invalid value for uniform");
     }
 
-    int location = parameter.location();
+    int location = uniform.location();
     if (location >= 0)
     {
         GLfloat temp[16] =
@@ -814,18 +809,18 @@ void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, co
     }
 }
 
-void OpenGLRenderer::setMaterialParameter(const MaterialParameter& parameter, Texture& value)
+void OpenGLRenderer::setUniform(const Uniform& uniform, Texture& value)
 {
-    if (parameter.type() != MaterialValueType_Texture)
+    if (uniform.type() != UniformType_Texture)
     {
-        throw Error("Invalid value for material parameter");
+        throw Error("Invalid value for uniform");
     }
 
-    int location = parameter.location();
+    int location = uniform.location();
     if (location >= 0)
     {
-        GL_ASSERT(glUniform1i(location, parameter.textureIndex()));
-        bindTexture(value, parameter.textureIndex());
+        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+        bindTexture(value, uniform.textureIndex());
     }
 }
 
@@ -1102,7 +1097,7 @@ void OpenGLRenderer::clear()
     GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
-void OpenGLRenderer::bindTexture(Texture& texture, unsigned index)
+void OpenGLRenderer::bindTexture(Texture& texture, size_t index)
 {
     if (index >= capabilities().maxTextureUnits)
     {
@@ -1116,7 +1111,7 @@ void OpenGLRenderer::bindTexture(Texture& texture, unsigned index)
 
     auto data = texture.dataAs<TextureData>();
 
-    GL_ASSERT(glActiveTexture(GL_TEXTURE0 + index));
+    GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
     GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->textureId));
 }
 

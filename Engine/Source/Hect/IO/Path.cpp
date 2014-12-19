@@ -142,6 +142,16 @@ bool Path::operator<(const Path& path) const
     return _rawPath < path._rawPath;
 }
 
+bool Path::operator==(const Path& path) const
+{
+    return _rawPath == path._rawPath;
+}
+
+bool Path::operator!=(const Path& path) const
+{
+    return _rawPath != path._rawPath;
+}
+
 void Path::setRawPath(const char* rawPath)
 {
     _rawPath = std::string(rawPath);

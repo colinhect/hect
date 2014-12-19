@@ -89,6 +89,18 @@ public:
     /// Returns true if the path is less than the given path.
     bool operator<(const Path& path) const;
 
+    ///
+    /// Returns whether the path is equivalent to another.
+    ///
+    /// \param path The other path.
+    bool operator==(const Path& path) const;
+
+    ///
+    /// Returns whether the path is different from another.
+    ///
+    /// \param path The other path.
+    bool operator!=(const Path& path) const;
+
 private:
     void setRawPath(const char* rawPath);
 

@@ -27,20 +27,36 @@ namespace hect
 {
 
 ///
-/// A stage within the rendering flow.
-enum MaterialType
+/// A uniform value type.
+enum UniformType
 {
     ///
-    /// No specific stage.
-    MaterialType_None,
+    /// An integer.
+    UniformType_Int,
 
     ///
-    /// The stage for rendering opaque geometry to the geometry buffer.
-    MaterialType_OpaqueGeometry,
+    /// A floating point number.
+    UniformType_Float,
 
     ///
-    /// The stage for rendering lights to the light accumulation buffer.
-    MaterialType_LightAccumulation,
+    /// A 2-dimensional vector.
+    UniformType_Vector2,
+
+    ///
+    /// A 3-dimensional vector.
+    UniformType_Vector3,
+
+    ///
+    /// A 4-dimensional vector.
+    UniformType_Vector4,
+
+    ///
+    /// A 4 by 4 matrix.
+    UniformType_Matrix4,
+
+    ///
+    /// A texture.
+    UniformType_Texture
 };
 
 }

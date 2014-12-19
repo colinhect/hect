@@ -23,57 +23,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
-
-#include "Hect/Core/Export.h"
-#include "Hect/IO/Path.h"
-#include "Hect/Graphics/ShaderSourceType.h"
-
 namespace hect
 {
 
 ///
-/// A shader source module.
-class HECT_EXPORT ShaderSource
+/// The function describing how the blend source affects the destination.
+enum BlendFunction
 {
-public:
+    ///
+    /// Add to the destination.
+    BlendFunction_Add,
 
     ///
-    /// Constructs a shader source module.
-    ///
-    /// \param type The source type.
-    /// \param path The path to the source file (for compile error reporting).
-    /// \param source The source code of the module.
-    ShaderSource(ShaderSourceType type, const Path& path, const std::string& source);
-
-    ///
-    /// Returns the type.
-    ShaderSourceType type() const;
-
-    ///
-    /// Returns the path to the source file.
-    const Path& path() const;
-
-    ///
-    /// Returns the source.
-    const std::string& source() const;
-
-    ///
-    /// Returns whether the shader source is equivalent to another.
-    ///
-    /// \param shaderSource The other shader source.
-    bool operator==(const ShaderSource& shaderSource) const;
-
-    ///
-    /// Returns whether the shader source is different from another.
-    ///
-    /// \param shaderSource The other shader source.
-    bool operator!=(const ShaderSource& shaderSource) const;
-
-private:
-    ShaderSourceType _type;
-    Path _path;
-    std::string _source;
+    /// Subtract from the destination.
+    BlendFunction_Subtract
 };
 
 }

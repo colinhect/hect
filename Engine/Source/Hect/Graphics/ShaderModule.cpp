@@ -21,52 +21,65 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Material.h"
+#include "ShaderModule.h"
+
+#include "Hect/IO/AssetCache.h"
 
 using namespace hect;
 
-const AssetHandle<Shader>& Material::shader() const
+ShaderModuleType ShaderModule::type() const
 {
-    return _shader;
+    return _type;
 }
 
-void Material::setShader(const AssetHandle<Shader>& shader)
+const Path& ShaderModule::path() const
 {
-    _shader = shader;
+    return _path;
 }
 
-bool Material::operator==(const Material& material) const
+const std::string& ShaderModule::source() const
 {
-    if (_shader != material._shader)
-    {
-        return false;
-    }
-
-    return true;
+    return _source;
 }
 
-bool Material::operator!=(const Material& material) const
+bool ShaderModule::operator==(const ShaderModule& shaderSource) const
 {
-    return !(*this == material);
+    return _type == shaderSource._type && _path == shaderSource._path;
+}
+
+bool ShaderModule::operator!=(const ShaderModule& shaderSource) const
+{
+    return !(*this == shaderSource);
 }
 
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const Material& material)
+Encoder& operator<<(Encoder& encoder, const ShaderModule& shaderModule)
 {
     encoder << beginObject()
-            << encodeValue("shader", material._shader)
+            << encodeEnum("type", shaderModule._type)
+            << encodeValue("path", shaderModule._path)
             << endObject();
 
     return encoder;
 }
 
-Decoder& operator>>(Decoder& decoder, Material& material)
+Decoder& operator>>(Decoder& decoder, ShaderModule& shaderModule)
 {
+    Path path;
     decoder >> beginObject()
-            >> decodeValue("shader", material._shader)
+            >> decodeEnum("type", shaderModule._type, true)
+            >> decodeValue("path", path, true)
             >> endObject();
+
+    // Resolve the path
+    AssetCache& assetCache = decoder.assetCache();
+    shaderModule._path = assetCache.resolvePath(path);
+
+    // Load the shader source
+    auto stream = assetCache.fileSystem().openFileForRead(shaderModule._path);
+    shaderModule._source = stream->readAllToString();
 
     return decoder;
 }

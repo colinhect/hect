@@ -21,38 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ShaderSource.h"
+#pragma once
 
-using namespace hect;
-
-ShaderSource::ShaderSource(ShaderSourceType type, const Path& path, const std::string& source) :
-    _type(type),
-    _path(path),
-    _source(source)
+namespace hect
 {
-}
 
-ShaderSourceType ShaderSource::type() const
+///
+/// A shader source module type.
+enum ShaderModuleType
 {
-    return _type;
-}
 
-const Path& ShaderSource::path() const
-{
-    return _path;
-}
+    ///
+    /// A vertex program source.
+    ShaderModuleType_Vertex,
 
-const std::string& ShaderSource::source() const
-{
-    return _source;
-}
+    ///
+    /// A fragment program source.
+    ShaderModuleType_Fragment,
 
-bool ShaderSource::operator==(const ShaderSource& shaderSource) const
-{
-    return _type == shaderSource._type && _source == shaderSource._source;
-}
+    ///
+    /// A geometry program source.
+    ShaderModuleType_Geometry
+};
 
-bool ShaderSource::operator!=(const ShaderSource& shaderSource) const
-{
-    return !(*this == shaderSource);
 }

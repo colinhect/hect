@@ -42,10 +42,10 @@ SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
     _renderCalls(1024),
     _buffersInitialized(false)
 {
-    _exposeMaterial = assetCache.getHandle<Material>("Hect/Expose.material");
-    _compositeMaterial = assetCache.getHandle<Material>("Hect/Composite.material");
-    _environmentMaterial = assetCache.getHandle<Material>("Hect/Environment.material");
-    _directionalLightMaterial = assetCache.getHandle<Material>("Hect/DirectionalLight.material");
+    _exposeShader = assetCache.getHandle<Shader>("Hect/Expose.shader");
+    _compositeShader = assetCache.getHandle<Shader>("Hect/Composite.shader");
+    _environmentShader = assetCache.getHandle<Shader>("Hect/Environment.shader");
+    _directionalLightShader = assetCache.getHandle<Shader>("Hect/DirectionalLight.shader");
 
     _skyBoxMaterial = assetCache.getHandle<Material>("Hect/SkyBox.material");
 
@@ -153,22 +153,22 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         // Render environment light
         if (_lightProbeCubeMap)
         {
-            _renderer.selectMaterial(*_environmentMaterial);
-            setBoundMaterialParameters(*_environmentMaterial, *camera, target, _identityTransform);
+            _renderer.selectShader(*_environmentShader);
+            setBoundUniforms(*_environmentShader, *camera, target, _identityTransform);
 
             _renderer.draw();
         }
 
         // Render directional lights
         {
-            _renderer.selectMaterial(*_directionalLightMaterial);
+            _renderer.selectShader(*_directionalLightShader);
 
             // Render each directional light in the scene
             for (const DirectionalLight& light : scene.components<DirectionalLight>())
             {
                 _primaryLightDirection = light.direction;
                 _primaryLightColor = light.color;
-                setBoundMaterialParameters(*_directionalLightMaterial, *camera, target, _identityTransform);
+                setBoundUniforms(*_directionalLightShader, *camera, target, _identityTransform);
                 _renderer.draw();
             }
         }
@@ -187,8 +187,8 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.beginFrame();
         _renderer.selectTarget(backFrameBuffer());
         _renderer.clear();
-        _renderer.selectMaterial(*_compositeMaterial);
-        setBoundMaterialParameters(*_compositeMaterial, *camera, target, _identityTransform);
+        _renderer.selectShader(*_compositeShader);
+        setBoundUniforms(*_compositeShader, *camera, target, _identityTransform);
 
         _renderer.selectMesh(*_screenMesh);
         _renderer.draw();
@@ -203,8 +203,8 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         _renderer.beginFrame();
         _renderer.selectTarget(target);
         _renderer.clear();
-        _renderer.selectMaterial(*_exposeMaterial);
-        setBoundMaterialParameters(*_exposeMaterial, *camera, target, _identityTransform);
+        _renderer.selectShader(*_exposeShader);
+        setBoundUniforms(*_exposeShader, *camera, target, _identityTransform);
 
         _renderer.selectMesh(*_screenMesh);
         _renderer.draw();
@@ -344,16 +344,18 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
 
 void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
-    // Select the material
-    _renderer.selectMaterial(material);
-    setBoundMaterialParameters(material, camera, target, transform);
+    Shader& shader = *material.shader();
+
+    // Select the shader
+    _renderer.selectShader(shader);
+    setBoundUniforms(shader, camera, target, transform);
 
     // Select and draw the mesh
     _renderer.selectMesh(mesh);
     _renderer.draw();
 }
 
-void SceneRenderer::setBoundMaterialParameters(Material& material, const Camera& camera, const RenderTarget& target, const Transform& transform)
+void SceneRenderer::setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
 {
     // Buid the model matrix
     Matrix4 model;
@@ -376,77 +378,77 @@ void SceneRenderer::setBoundMaterialParameters(Material& material, const Camera&
         model.rotate(transform.globalRotation);
     }
 
-    for (const MaterialParameter& parameter : material.parameters())
+    for (const Uniform& uniform : shader.uniforms())
     {
-        MaterialParameterBinding binding = parameter.binding();
+        UniformBinding binding = uniform.binding();
         switch (binding)
         {
-        case MaterialParameterBinding_None:
+        case UniformBinding_None:
             break;
-        case MaterialParameterBinding_RenderTargetSize:
-            _renderer.setMaterialParameter(parameter, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
+        case UniformBinding_RenderTargetSize:
+            _renderer.setUniform(uniform, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
             break;
-        case MaterialParameterBinding_CameraPosition:
-            _renderer.setMaterialParameter(parameter, camera.position);
+        case UniformBinding_CameraPosition:
+            _renderer.setUniform(uniform, camera.position);
             break;
-        case MaterialParameterBinding_CameraFront:
-            _renderer.setMaterialParameter(parameter, camera.front);
+        case UniformBinding_CameraFront:
+            _renderer.setUniform(uniform, camera.front);
             break;
-        case MaterialParameterBinding_CameraUp:
-            _renderer.setMaterialParameter(parameter, camera.up);
+        case UniformBinding_CameraUp:
+            _renderer.setUniform(uniform, camera.up);
             break;
-        case MaterialParameterBinding_CameraExposure:
-            _renderer.setMaterialParameter(parameter, camera.exposure);
+        case UniformBinding_CameraExposure:
+            _renderer.setUniform(uniform, camera.exposure);
             break;
-        case MaterialParameterBinding_CameraOneOverGamma:
-            _renderer.setMaterialParameter(parameter, Real(1) / camera.gamma);
+        case UniformBinding_CameraOneOverGamma:
+            _renderer.setUniform(uniform, Real(1) / camera.gamma);
             break;
-        case MaterialParameterBinding_PrimaryLightDirection:
-            _renderer.setMaterialParameter(parameter, _primaryLightDirection);
+        case UniformBinding_PrimaryLightDirection:
+            _renderer.setUniform(uniform, _primaryLightDirection);
             break;
-        case MaterialParameterBinding_PrimaryLightColor:
-            _renderer.setMaterialParameter(parameter, _primaryLightColor);
+        case UniformBinding_PrimaryLightColor:
+            _renderer.setUniform(uniform, _primaryLightColor);
             break;
-        case MaterialParameterBinding_ViewMatrix:
-            _renderer.setMaterialParameter(parameter, camera.viewMatrix);
+        case UniformBinding_ViewMatrix:
+            _renderer.setUniform(uniform, camera.viewMatrix);
             break;
-        case MaterialParameterBinding_ProjectionMatrix:
-            _renderer.setMaterialParameter(parameter, camera.projectionMatrix);
+        case UniformBinding_ProjectionMatrix:
+            _renderer.setUniform(uniform, camera.projectionMatrix);
             break;
-        case MaterialParameterBinding_ViewProjectionMatrix:
-            _renderer.setMaterialParameter(parameter, camera.projectionMatrix * camera.viewMatrix);
+        case UniformBinding_ViewProjectionMatrix:
+            _renderer.setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
             break;
-        case MaterialParameterBinding_ModelMatrix:
-            _renderer.setMaterialParameter(parameter, model);
+        case UniformBinding_ModelMatrix:
+            _renderer.setUniform(uniform, model);
             break;
-        case MaterialParameterBinding_ModelViewMatrix:
-            _renderer.setMaterialParameter(parameter, camera.viewMatrix * model);
+        case UniformBinding_ModelViewMatrix:
+            _renderer.setUniform(uniform, camera.viewMatrix * model);
             break;
-        case MaterialParameterBinding_ModelViewProjectionMatrix:
-            _renderer.setMaterialParameter(parameter, camera.projectionMatrix * (camera.viewMatrix * model));
+        case UniformBinding_ModelViewProjectionMatrix:
+            _renderer.setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
             break;
-        case MaterialParameterBinding_LightProbeCubeMap:
+        case UniformBinding_LightProbeCubeMap:
             assert(_lightProbeCubeMap);
-            _renderer.setMaterialParameter(parameter, *_lightProbeCubeMap);
+            _renderer.setUniform(uniform, *_lightProbeCubeMap);
             break;
-        case MaterialParameterBinding_SkyBoxCubeMap:
+        case UniformBinding_SkyBoxCubeMap:
             assert(_skyBoxCubeMap);
-            _renderer.setMaterialParameter(parameter, *_skyBoxCubeMap);
+            _renderer.setUniform(uniform, *_skyBoxCubeMap);
             break;
-        case MaterialParameterBinding_DiffuseBuffer:
-            _renderer.setMaterialParameter(parameter, _diffuseBuffer);
+        case UniformBinding_DiffuseBuffer:
+            _renderer.setUniform(uniform, _diffuseBuffer);
             break;
-        case MaterialParameterBinding_MaterialBuffer:
-            _renderer.setMaterialParameter(parameter, _materialBuffer);
+        case UniformBinding_MaterialBuffer:
+            _renderer.setUniform(uniform, _materialBuffer);
             break;
-        case MaterialParameterBinding_PositionBuffer:
-            _renderer.setMaterialParameter(parameter, _positionBuffer);
+        case UniformBinding_PositionBuffer:
+            _renderer.setUniform(uniform, _positionBuffer);
             break;
-        case MaterialParameterBinding_NormalBuffer:
-            _renderer.setMaterialParameter(parameter, _normalBuffer);
+        case UniformBinding_NormalBuffer:
+            _renderer.setUniform(uniform, _normalBuffer);
             break;
-        case MaterialParameterBinding_BackBuffer:
-            _renderer.setMaterialParameter(parameter, lastBackBuffer());
+        case UniformBinding_BackBuffer:
+            _renderer.setUniform(uniform, lastBackBuffer());
             break;
         }
     }
@@ -474,7 +476,7 @@ FrameBuffer& SceneRenderer::backFrameBuffer()
 
 bool SceneRenderer::RenderCall::operator<(const RenderCall& other) const
 {
-    return material->priority() > other.material->priority();
+    return material->shader()->priority() > other.material->shader()->priority();
 }
 
 SceneRenderer::RenderCall::RenderCall()

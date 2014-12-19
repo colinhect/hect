@@ -21,54 +21,56 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Material.h"
+#pragma once
 
-using namespace hect;
+#include <string>
 
-const AssetHandle<Shader>& Material::shader() const
-{
-    return _shader;
-}
-
-void Material::setShader(const AssetHandle<Shader>& shader)
-{
-    _shader = shader;
-}
-
-bool Material::operator==(const Material& material) const
-{
-    if (_shader != material._shader)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-bool Material::operator!=(const Material& material) const
-{
-    return !(*this == material);
-}
+#include "Hect/Core/Export.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Path.h"
+#include "Hect/Graphics/ShaderModuleType.h"
 
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const Material& material)
+///
+/// A shader module.
+class HECT_EXPORT ShaderModule
 {
-    encoder << beginObject()
-            << encodeValue("shader", material._shader)
-            << endObject();
+public:
 
-    return encoder;
-}
+    ///
+    /// Returns the type.
+    ShaderModuleType type() const;
 
-Decoder& operator>>(Decoder& decoder, Material& material)
-{
-    decoder >> beginObject()
-            >> decodeValue("shader", material._shader)
-            >> endObject();
+    ///
+    /// Returns the path to the source file.
+    const Path& path() const;
 
-    return decoder;
-}
+    ///
+    /// Returns the source code.
+    const std::string& source() const;
+
+    ///
+    /// Returns whether the shader module is equivalent to another.
+    ///
+    /// \param shaderModule The other shader module.
+    bool operator==(const ShaderModule& shaderModule) const;
+
+    ///
+    /// Returns whether the shader source is different from another.
+    ///
+    /// \param shaderModule The other shader module.
+    bool operator!=(const ShaderModule& shaderModule) const;
+
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const ShaderModule& shaderModule);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, ShaderModule& shaderModule);
+
+private:
+    ShaderModuleType _type { ShaderModuleType_Vertex };
+    Path _path;
+    std::string _source;
+};
 
 }

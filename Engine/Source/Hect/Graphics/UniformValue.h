@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Any.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/UniformType.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
@@ -39,164 +40,127 @@ namespace hect
 class Texture;
 
 ///
-/// A material value type.
-enum MaterialValueType
-{
-    ///
-    /// A null value.
-    MaterialValueType_Null,
-
-    ///
-    /// An integer.
-    MaterialValueType_Int,
-
-    ///
-    /// A floating point number.
-    MaterialValueType_Float,
-
-    ///
-    /// A 2-dimensional vector.
-    MaterialValueType_Vector2,
-
-    ///
-    /// A 3-dimensional vector.
-    MaterialValueType_Vector3,
-
-    ///
-    /// A 4-dimensional vector.
-    MaterialValueType_Vector4,
-
-    ///
-    /// A 4 by 4 matrix.
-    MaterialValueType_Matrix4,
-
-    ///
-    /// A texture.
-    MaterialValueType_Texture
-};
-
+/// A value for a uniform parameter.
 ///
-/// A value for a material parameter.
-///
-/// \note A material value's type cannot change.
-class HECT_EXPORT MaterialValue
+/// \note A uniform value's type cannot change.
+class HECT_EXPORT UniformValue
 {
 public:
 
     ///
-    /// Constructs a null material value.
-    MaterialValue();
+    /// Constructs a null uniform value.
+    UniformValue();
 
     ///
-    /// Constructs a default material value.
+    /// Constructs a default uniform value.
     ///
     /// \param type The value type.
-    MaterialValue(MaterialValueType type);
+    UniformValue(UniformType type);
 
     ///
-    /// Constructs an integer material value;
+    /// Constructs an integer uniform value;
     ///
     /// \param value The value.
-    MaterialValue(int value);
+    UniformValue(int value);
 
     ///
-    /// Constructs a real material value.
+    /// Constructs a real uniform value.
     ///
     /// \param value The value.
-    MaterialValue(Real value);
+    UniformValue(Real value);
 
     ///
-    /// Constructs a 2-dimensional vector material value.
+    /// Constructs a 2-dimensional vector uniform value.
     ///
     /// \param value The value.
-    MaterialValue(const Vector2& value);
+    UniformValue(const Vector2& value);
 
     ///
-    /// Constructs a 3-dimensional vector material value.
+    /// Constructs a 3-dimensional vector uniform value.
     ///
     /// \param value The value.
-    MaterialValue(const Vector3& value);
+    UniformValue(const Vector3& value);
 
     ///
-    /// Constructs a 4-dimensional vector material value.
+    /// Constructs a 4-dimensional vector uniform value.
     ///
     /// \param value The value.
-    MaterialValue(const Vector4& value);
+    UniformValue(const Vector4& value);
 
     ///
-    /// Constructs a 4 by 4 matrix material value.
+    /// Constructs a 4 by 4 matrix uniform value.
     ///
     /// \param value The value.
-    MaterialValue(const Matrix4& value);
+    UniformValue(const Matrix4& value);
 
     ///
-    /// Constructs a texture material value.
+    /// Constructs a texture uniform value.
     ///
     /// \param value The texture.
-    MaterialValue(const AssetHandle<Texture>& value);
+    UniformValue(const AssetHandle<Texture>& value);
 
     ///
     /// Returns the type.
-    MaterialValueType type() const;
+    UniformType type() const;
 
     ///
-    /// Sets the value to the default value for the material value's type.
+    /// Sets the value to the default value for the uniform value's type.
     void setDefaultValue();
 
     ///
-    /// Sets the value of the material value as an integer.
+    /// Sets the value of the uniform value as an integer.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the material value is not an integer or texture.
+    /// \throws Error If the uniform value is not an integer or texture.
     void setValue(int value);
 
     ///
-    /// Sets the value of the material value as a real number.
+    /// Sets the value of the uniform value as a real number.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the material value is not a real.
+    /// \throws Error If the uniform value is not a real.
     void setValue(Real value);
 
     ///
-    /// Sets the value of the material value as a 2-dimensional vector.
+    /// Sets the value of the uniform value as a 2-dimensional vector.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the material value is not a 2-dimensional vector.
+    /// \throws Error If the uniform value is not a 2-dimensional vector.
     void setValue(const Vector2& value);
 
     ///
-    /// Sets the value of the material value as a 3-dimensional vector.
+    /// Sets the value of the uniform value as a 3-dimensional vector.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the material value is not a 3-dimensional vector.
+    /// \throws Error If the uniform value is not a 3-dimensional vector.
     void setValue(const Vector3& value);
 
     ///
-    /// Sets the value of the material value as a 4-dimensional vector.
+    /// Sets the value of the uniform value as a 4-dimensional vector.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the material value is not a 4-dimensional vector.
+    /// \throws Error If the uniform value is not a 4-dimensional vector.
     void setValue(const Vector4& value);
 
     ///
-    /// Sets the value of the material value as a 4 by 4 matrix.
+    /// Sets the value of the uniform value as a 4 by 4 matrix.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the material value is not a 4 by 4 matrix.
+    /// \throws Error If the uniform value is not a 4 by 4 matrix.
     void setValue(const Matrix4& value);
 
     ///
-    /// Sets the value of the material value as a texture.
+    /// Sets the value of the uniform value as a texture.
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the material value is not a texture.
+    /// \throws Error If the uniform value is not a texture.
     void setValue(const AssetHandle<Texture>& value);
 
     ///
@@ -228,23 +192,22 @@ public:
     AssetHandle<Texture> asTexture() const;
 
     ///
-    /// Returns whether the material value is equivalent to another.
+    /// Returns whether the uniform value is equivalent to another.
     ///
-    /// \param materialValue The other material value.
-    bool operator==(const MaterialValue& materialValue) const;
+    /// \param uniformValue The other uniform value.
+    bool operator==(const UniformValue& uniformValue) const;
 
     ///
-    /// Returns whether the material value is different from another.
+    /// Returns whether the uniform value is different from another.
     ///
-    /// \param materialValue The other material value.
-    bool operator!=(const MaterialValue& materialValue) const;
+    /// \param uniformValue The other uniform value.
+    bool operator!=(const UniformValue& uniformValue) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const MaterialValue& materialValue);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, MaterialValue& materialValue);
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const UniformValue& uniformValue);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue);
 
 private:
-
-    MaterialValueType _type { MaterialValueType_Null };
+    UniformType _type { UniformType_Float };
     Any _value;
 };
 

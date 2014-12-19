@@ -23,25 +23,45 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Graphics/BlendFactor.h"
+#include "Hect/Graphics/BlendFunction.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
+
 namespace hect
 {
 
-///
-/// A shader source module type.
-enum ShaderSourceType
+class BlendMode
 {
+public:
+    BlendFunction function() const;
+    void setFunction(BlendFunction function);
+
+    BlendFactor sourceFactor() const;
+    void setSourceFactor(BlendFactor factor);
+
+    BlendFactor destinationFactor() const;
+    void setDestinationFactor(BlendFactor factor);
 
     ///
-    /// A vertex program source.
-    ShaderSourceType_Vertex,
+    /// Returns whether the blend mode is equivalent to another.
+    ///
+    /// \param shader The other blend mode.
+    bool operator==(const BlendMode& blendMode) const;
 
     ///
-    /// A fragment program source.
-    ShaderSourceType_Fragment,
-
+    /// Returns whether the blend mode is different from another.
     ///
-    /// A geometry program source.
-    ShaderSourceType_Geometry
+    /// \param shader The other blend mode.
+    bool operator!=(const BlendMode& blendMode) const;
+
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BlendMode& blendMode);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, BlendMode& blendMode);
+
+private:
+    BlendFunction _function { BlendFunction_Add };
+    BlendFactor _sourceFactor { BlendFactor_One };
+    BlendFactor _destinationFactor { BlendFactor_Zero };
 };
 
 }

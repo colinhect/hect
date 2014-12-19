@@ -47,17 +47,17 @@ public:
     void destroyFrameBuffer(FrameBuffer& frameBuffer) override;
     void uploadRenderBuffer(RenderBuffer& renderBuffer) override;
     void destroyRenderBuffer(RenderBuffer& renderBuffer) override;
-    void selectMaterial(Material& material) override;
-    void uploadMaterial(Material& material) override;
-    void destroyMaterial(Material& material) override;
-    void setMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value) override;
-    void setMaterialParameter(const MaterialParameter& parameter, int value) override;
-    void setMaterialParameter(const MaterialParameter& parameter, Real value) override;
-    void setMaterialParameter(const MaterialParameter& parameter, const Vector2& value) override;
-    void setMaterialParameter(const MaterialParameter& parameter, const Vector3& value) override;
-    void setMaterialParameter(const MaterialParameter& parameter, const Vector4& value) override;
-    void setMaterialParameter(const MaterialParameter& parameter, const Matrix4& value) override;
-    void setMaterialParameter(const MaterialParameter& parameter, Texture& value) override;
+    void selectShader(Shader& shader) override;
+    void uploadShader(Shader& shader) override;
+    void destroyShader(Shader& shader) override;
+    void setUniform(const Uniform& uniform, const UniformValue& value) override;
+    void setUniform(const Uniform& uniform, int value) override;
+    void setUniform(const Uniform& uniform, Real value) override;
+    void setUniform(const Uniform& uniform, const Vector2& value) override;
+    void setUniform(const Uniform& uniform, const Vector3& value) override;
+    void setUniform(const Uniform& uniform, const Vector4& value) override;
+    void setUniform(const Uniform& uniform, const Matrix4& value) override;
+    void setUniform(const Uniform& uniform, Texture& value) override;
     void uploadTexture(Texture& texture) override;
     void destroyTexture(Texture& texture) override;
     Image downloadTextureImage(const Texture& texture) override;
@@ -68,7 +68,7 @@ public:
     void clear() override;
 
 private:
-    void bindTexture(Texture& texture, unsigned index);
+    void bindTexture(Texture& texture, size_t index);
 
     PrimitiveType _primitiveType { PrimitiveType_Triangles };
     IndexType _indexType { IndexType_UInt8 };

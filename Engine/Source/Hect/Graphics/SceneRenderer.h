@@ -70,7 +70,7 @@ private:
     void initializeBuffers(unsigned width, unsigned height);
     void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
     void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
-    void setBoundMaterialParameters(Material& material, const Camera& camera, const RenderTarget& target, const Transform& transform);
+    void setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
     void swapBackBuffer();
     Texture& backBuffer();
@@ -103,10 +103,11 @@ private:
     FrameBuffer _geometryFrameBuffer;
     std::array<FrameBuffer, 2> _backFrameBuffers;
 
-    AssetHandle<Material> _exposeMaterial;
-    AssetHandle<Material> _compositeMaterial;
-    AssetHandle<Material> _environmentMaterial;
-    AssetHandle<Material> _directionalLightMaterial;
+    AssetHandle<Shader> _exposeShader;
+    AssetHandle<Shader> _compositeShader;
+    AssetHandle<Shader> _environmentShader;
+    AssetHandle<Shader> _directionalLightShader;
+
     AssetHandle<Material> _skyBoxMaterial;
 
     AssetHandle<Mesh> _screenMesh;

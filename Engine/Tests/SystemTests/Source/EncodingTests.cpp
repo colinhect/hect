@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Graphics/Material.h>
 #include <Hect/Graphics/Mesh.h>
+#include <Hect/Graphics/Shader.h>
 #include <Hect/Graphics/Texture.h>
 #include <Hect/IO/BinaryDecoder.h>
 #include <Hect/IO/BinaryEncoder.h>
@@ -101,17 +102,22 @@ void testEncodingForExtension(const std::string& extension)
     }
 }
 
-TEST_CASE("Decode and re-encode all built-in Hect materials", "[Encoding]")
+TEST_CASE("Decode and re-encode all built-in Hect materials", "[Encoding][Material]")
 {
     testEncodingForExtension<Material>("material");
 }
 
-TEST_CASE("Decode and re-encode all built-in Hect meshes", "[Encoding]")
+TEST_CASE("Decode and re-encode all built-in Hect meshes", "[Encoding][Mesh]")
 {
     testEncodingForExtension<Mesh>("mesh");
 }
 
-TEST_CASE("Decode and re-encode built-in Hect textures", "[Encoding]")
+TEST_CASE("Decode and re-encode all built-in Hect shaders", "[Encoding][Shader]")
+{
+    testEncodingForExtension<Shader>("shader");
+}
+
+TEST_CASE("Decode and re-encode built-in Hect textures", "[Encoding][Texture]")
 {
     testEncodingForExtension<Texture>("texture");
 }

@@ -21,51 +21,72 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Material.h"
+#include "BlendMode.h"
 
 using namespace hect;
 
-const AssetHandle<Shader>& Material::shader() const
+BlendFunction BlendMode::function() const
 {
-    return _shader;
+    return _function;
 }
 
-void Material::setShader(const AssetHandle<Shader>& shader)
+void BlendMode::setFunction(BlendFunction function)
 {
-    _shader = shader;
+    _function = function;
 }
 
-bool Material::operator==(const Material& material) const
+BlendFactor BlendMode::sourceFactor() const
 {
-    if (_shader != material._shader)
-    {
-        return false;
-    }
-
-    return true;
+    return _sourceFactor;
 }
 
-bool Material::operator!=(const Material& material) const
+void BlendMode::setSourceFactor(BlendFactor factor)
 {
-    return !(*this == material);
+    _sourceFactor = factor;
+}
+
+BlendFactor BlendMode::destinationFactor() const
+{
+    return _destinationFactor;
+}
+
+void BlendMode::setDestinationFactor(BlendFactor factor)
+{
+    _destinationFactor = factor;
+}
+
+bool BlendMode::operator==(const BlendMode& blendMode) const
+{
+    return _function == blendMode._function
+        && _sourceFactor == blendMode._sourceFactor
+        && _destinationFactor == blendMode._destinationFactor;
+}
+
+bool BlendMode::operator!=(const BlendMode& blendMode) const
+{
+    return !(*this == blendMode);
 }
 
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const Material& material)
+Encoder& operator<<(Encoder& encoder, const BlendMode& blendMode)
 {
     encoder << beginObject()
-            << encodeValue("shader", material._shader)
+            << encodeEnum("function", blendMode._function)
+            << encodeEnum("sourceFactor", blendMode._sourceFactor)
+            << encodeEnum("destinationFactor", blendMode._destinationFactor)
             << endObject();
 
     return encoder;
 }
 
-Decoder& operator>>(Decoder& decoder, Material& material)
+Decoder& operator>>(Decoder& decoder, BlendMode& blendMode)
 {
     decoder >> beginObject()
-            >> decodeValue("shader", material._shader)
+            >> decodeEnum("function", blendMode._function)
+            >> decodeEnum("sourceFactor", blendMode._sourceFactor)
+            >> decodeEnum("destinationFactor", blendMode._destinationFactor)
             >> endObject();
 
     return decoder;

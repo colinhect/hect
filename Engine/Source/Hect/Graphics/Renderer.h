@@ -31,12 +31,12 @@ namespace hect
 {
 
 class FrameBuffer;
-class Material;
-class MaterialParameter;
-class MaterialValue;
+class Uniform;
+class UniformValue;
 class Mesh;
 class RenderBuffer;
 class RenderTarget;
+class Shader;
 class Texture;
 class Window;
 
@@ -193,7 +193,7 @@ public:
     ///
     /// Establishes the beginning of a frame.
     ///
-    /// \note Any state changes (target, material, or mesh selections) are only
+    /// \note Any state changes (target, shader, or mesh selections) are only
     /// persistent within a frame.
     virtual void beginFrame() = 0;
 
@@ -257,64 +257,64 @@ public:
     virtual void destroyRenderBuffer(RenderBuffer& renderBuffer) = 0;
 
     ///
-    /// Selects the material affecting following draw calls.
+    /// Selects the shader affecting following draw calls.
     ///
-    /// \param material The material to select.
-    virtual void selectMaterial(Material& material) = 0;
+    /// \param shader The shader to select.
+    virtual void selectShader(Shader& shader) = 0;
 
     ///
-    /// Uploads a material.
+    /// Uploads a shader.
     ///
-    /// \note If the material is already uploaded then no action is taken.
+    /// \note If the shader is already uploaded then no action is taken.
     ///
-    /// \param material The material to upload.
-    virtual void uploadMaterial(Material& material) = 0;
+    /// \param shader The shader to upload.
+    virtual void uploadShader(Shader& shader) = 0;
 
     ///
-    /// Destroys a material.
+    /// Destroys a shader.
     ///
-    /// \param material The material to destroy.
-    virtual void destroyMaterial(Material& material) = 0;
+    /// \param shader The shader to destroy.
+    virtual void destroyShader(Shader& shader) = 0;
 
     ///
-    /// Sets the value for a parameter of the selected material.
+    /// Sets the value for a uniform of the selected shader.
     ///
-    /// \warning The parameter is expected to belong to the selected material.
+    /// \warning The uniform is expected to belong to the selected shader.
     ///
-    /// \param parameter The parameter to set the value for.
-    /// \param value The value for the parameter.
+    /// \param uniform The uniform to set the value for.
+    /// \param value The value.
     ///
-    /// \throws Error If the specified value type differs from the parameter
+    /// \throws Error If the specified value type differs from the uniform
     /// type.
-    virtual void setMaterialParameter(const MaterialParameter& parameter, const MaterialValue& value) = 0;
+    virtual void setUniform(const Uniform& uniform, const UniformValue& value) = 0;
 
     ///
-    /// \copydoc Renderer::setMaterialParameter()
-    virtual void setMaterialParameter(const MaterialParameter& parameter, int value) = 0;
+    /// \copydoc Renderer::setUniform()
+    virtual void setUniform(const Uniform& uniform, int value) = 0;
 
     ///
-    /// \copydoc Renderer::setMaterialParameter()
-    virtual void setMaterialParameter(const MaterialParameter& parameter, Real value) = 0;
+    /// \copydoc Renderer::setUniform()
+    virtual void setUniform(const Uniform& uniform, Real value) = 0;
 
     ///
-    /// \copydoc Renderer::setMaterialParameter()
-    virtual void setMaterialParameter(const MaterialParameter& parameter, const Vector2& value) = 0;
+    /// \copydoc Renderer::setUniform()
+    virtual void setUniform(const Uniform& uniform, const Vector2& value) = 0;
 
     ///
-    /// \copydoc Renderer::setMaterialParameter()
-    virtual void setMaterialParameter(const MaterialParameter& parameter, const Vector3& value) = 0;
+    /// \copydoc Renderer::setUniform()
+    virtual void setUniform(const Uniform& uniform, const Vector3& value) = 0;
 
     ///
-    /// \copydoc Renderer::setMaterialParameter()
-    virtual void setMaterialParameter(const MaterialParameter& parameter, const Vector4& value) = 0;
+    /// \copydoc Renderer::setUniform()
+    virtual void setUniform(const Uniform& uniform, const Vector4& value) = 0;
 
     ///
-    /// \copydoc Renderer::setMaterialParameter()
-    virtual void setMaterialParameter(const MaterialParameter& parameter, const Matrix4& value) = 0;
+    /// \copydoc Renderer::setUniform()
+    virtual void setUniform(const Uniform& uniform, const Matrix4& value) = 0;
 
     ///
-    /// \copydoc Renderer::setMaterialParameter()
-    virtual void setMaterialParameter(const MaterialParameter& parameter, Texture& value) = 0;
+    /// \copydoc Renderer::setUniform()
+    virtual void setUniform(const Uniform& uniform, Texture& value) = 0;
 
     ///
     /// Uploads a texture.
@@ -361,7 +361,7 @@ public:
     virtual void destroyMesh(Mesh& mesh) = 0;
 
     ///
-    /// Draw the selected mesh using the selected material to the selected
+    /// Draw the selected mesh using the selected shader to the selected
     /// render target.
     virtual void draw() = 0;
 
