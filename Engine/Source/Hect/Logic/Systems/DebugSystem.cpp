@@ -39,6 +39,7 @@ DebugSystem::DebugSystem(Scene& scene) :
 
 void DebugSystem::drawBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
 {
+    (void)color;
     _boxes.emplace_back(box, position, rotation, *_coloredLineMaterial);
 }
 

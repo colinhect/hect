@@ -10,4 +10,3 @@ uniforms:
   - name: backBuffer
     binding: BackBuffer
 depthTested: false
-oneSided: false
