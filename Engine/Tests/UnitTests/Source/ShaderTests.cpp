@@ -21,39 +21,72 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-//#include <Hect/Graphics/Shader.h>
-//using namespace hect;
+#include <Hect/Graphics/Shader.h>
+using namespace hect;
 
 #include <catch.hpp>
 
-/*
-TEST_CASE("Add parameters to a shader and iterator over them", "[Shader]")
+TEST_CASE("Add modules to a shader and iterator over them", "[Shader]")
 {
     Shader shader;
-    shader.addParameter(ShaderParameter("A", 0));
-    shader.addParameter(ShaderParameter("B", 0));
-    shader.addParameter(ShaderParameter("C", 0));
+    shader.addModule(ShaderModule(ShaderModuleType_Vertex, "A", "..."));
+    shader.addModule(ShaderModule(ShaderModuleType_Fragment, "B", "..."));
 
-    REQUIRE(shader.parameters()[0].name() == "A");
-    REQUIRE(shader.parameters()[1].name() == "B");
-    REQUIRE(shader.parameters()[2].name() == "C");
+    REQUIRE(shader.modules()[0].name() == "A");
+    REQUIRE(shader.modules()[1].name() == "B");
 }
 
-TEST_CASE("Get an existing shader parameter by name", "[Shader]")
+TEST_CASE("Add uniforms to a shader and iterator over them", "[Shader]")
 {
     Shader shader;
-    shader.addParameter(ShaderParameter("A", 0));
+    shader.addUniform(Uniform("A", UniformType_Float));
+    shader.addUniform(Uniform("B", UniformType_Vector2));
+    shader.addUniform(Uniform("C", UniformType_Vector3));
 
-    REQUIRE(shader.parameterWithName("A").name() == "A");
-    REQUIRE(shader.parameterWithName(std::string("A")).name() == "A");
+    REQUIRE(shader.uniforms()[0].name() == "A");
+    REQUIRE(shader.uniforms()[1].name() == "B");
+    REQUIRE(shader.uniforms()[2].name() == "C");
+}
+
+TEST_CASE("Get an existing unform from a shader by name", "[Shader]")
+{
+    Shader shader;
+    shader.addUniform(Uniform("A", UniformType_Float));
+
+    REQUIRE(shader.uniform("A").name() == "A");
+    REQUIRE(shader.uniform(std::string("A")).name() == "A");
 }
 
 TEST_CASE("Get a non-existing shader parameter by name", "[Shader]")
 {
     Shader shader;
-    shader.addParameter(ShaderParameter("A", 0));
+    shader.addUniform(Uniform("A", UniformType_Float));
 
-    REQUIRE_THROWS_AS(shader.parameterWithName("B"), Error);
-    REQUIRE_THROWS_AS(shader.parameterWithName(std::string("B")), Error);
+    REQUIRE_THROWS_AS(shader.uniform("B"), Error);
+    REQUIRE_THROWS_AS(shader.uniform(std::string("B")), Error);
 }
-*/
+
+TEST_CASE("Get and set whether a shader is depth tested", "[Shader]")
+{
+    Shader shader;
+    REQUIRE(shader.isDepthTested() == true);
+    shader.setDepthTested(false);
+    REQUIRE(shader.isDepthTested() == false);
+}
+
+TEST_CASE("Get and set the priority of a shader", "[Shader]")
+{
+    Shader shader;
+    REQUIRE(shader.priority() == 0);
+    shader.setPriority(1);
+    REQUIRE(shader.priority() == 1);
+}
+
+TEST_CASE("Get and set the blend mode of a shader", "[Shader]")
+{
+    Shader shader;
+    REQUIRE(shader.blendMode() == BlendMode());
+    BlendMode blendMode(BlendFunction_Subtract, BlendFactor_One, BlendFactor_One);
+    shader.setBlendMode(blendMode);
+    REQUIRE(shader.blendMode() == blendMode);
+}

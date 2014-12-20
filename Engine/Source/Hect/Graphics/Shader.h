@@ -152,7 +152,7 @@ public:
     /// Sets the blend mode that the shader uses.
     ///
     /// \param blendMode The blend mode.
-    void blendMode(const BlendMode& blendMode);
+    void setBlendMode(const BlendMode& blendMode);
 
     ///
     /// Returns whether the shader uses depth testing.

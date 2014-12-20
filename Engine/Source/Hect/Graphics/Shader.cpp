@@ -125,7 +125,7 @@ const BlendMode& Shader::blendMode() const
     return _blendMode;
 }
 
-void Shader::blendMode(const BlendMode& blendMode)
+void Shader::setBlendMode(const BlendMode& blendMode)
 {
     _blendMode = blendMode;
 }

@@ -25,6 +25,17 @@
 
 using namespace hect;
 
+BlendMode::BlendMode()
+{
+}
+
+BlendMode::BlendMode(BlendFunction function, BlendFactor sourceFactor, BlendFactor destinationFactor) :
+    _function(function),
+    _sourceFactor(sourceFactor),
+    _destinationFactor(destinationFactor)
+{
+}
+
 BlendFunction BlendMode::function() const
 {
     return _function;
@@ -58,8 +69,8 @@ void BlendMode::setDestinationFactor(BlendFactor factor)
 bool BlendMode::operator==(const BlendMode& blendMode) const
 {
     return _function == blendMode._function
-        && _sourceFactor == blendMode._sourceFactor
-        && _destinationFactor == blendMode._destinationFactor;
+           && _sourceFactor == blendMode._sourceFactor
+           && _destinationFactor == blendMode._destinationFactor;
 }
 
 bool BlendMode::operator!=(const BlendMode& blendMode) const

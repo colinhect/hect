@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Export.h"
 #include "Hect/Graphics/BlendFactor.h"
 #include "Hect/Graphics/BlendFunction.h"
 #include "Hect/IO/Decoder.h"
@@ -34,9 +35,21 @@ namespace hect
 ///
 /// Describes how rendered pixels combine with the pixels already rendered to
 /// target.
-class BlendMode
+class HECT_EXPORT BlendMode
 {
 public:
+
+    ///
+    /// Constructs a default blend mode.
+    BlendMode();
+
+    ///
+    /// Constructs a blend mode.
+    ///
+    /// \param function The blend function.
+    /// \param sourceFactor The source blend factor.
+    /// \param destinationFactor The source blend factor.
+    BlendMode(BlendFunction function, BlendFactor sourceFactor, BlendFactor destinationFactor);
 
     ///
     /// Returns the blend function.

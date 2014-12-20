@@ -56,8 +56,8 @@ const std::string& ShaderModule::source() const
 bool ShaderModule::operator==(const ShaderModule& shaderSource) const
 {
     return _type == shaderSource._type
-        && _name == shaderSource._name
-        && _source == shaderSource._source;
+           && _name == shaderSource._name
+           && _source == shaderSource._source;
 }
 
 bool ShaderModule::operator!=(const ShaderModule& shaderSource) const
