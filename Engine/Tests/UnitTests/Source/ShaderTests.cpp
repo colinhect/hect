@@ -48,7 +48,7 @@ TEST_CASE("Add uniforms to a shader and iterator over them", "[Shader]")
     REQUIRE(shader.uniforms()[2].name() == "C");
 }
 
-TEST_CASE("Get an existing unform from a shader by name", "[Shader]")
+TEST_CASE("Get an existing uniform from a shader by name", "[Shader]")
 {
     Shader shader;
     shader.addUniform(Uniform("A", UniformType_Float));
@@ -57,13 +57,38 @@ TEST_CASE("Get an existing unform from a shader by name", "[Shader]")
     REQUIRE(shader.uniform(std::string("A")).name() == "A");
 }
 
-TEST_CASE("Get a non-existing shader parameter by name", "[Shader]")
+TEST_CASE("Get a non-existing uniform from a shader by name", "[Shader]")
 {
     Shader shader;
     shader.addUniform(Uniform("A", UniformType_Float));
 
     REQUIRE_THROWS_AS(shader.uniform("B"), Error);
     REQUIRE_THROWS_AS(shader.uniform(std::string("B")), Error);
+}
+
+TEST_CASE("Get an existing uniform from a shader by index", "[Shader]")
+{
+    Shader shader;
+    UniformIndex index = shader.addUniform(Uniform("A", UniformType_Float));
+
+    REQUIRE(shader.uniform(index).name() == "A");
+}
+
+TEST_CASE("Get a non-existing uniform from a shader by index", "[Shader]")
+{
+    Shader shader;
+    UniformIndex index = shader.addUniform(Uniform("A", UniformType_Float));
+
+    REQUIRE_THROWS_AS(shader.uniform(1), Error);
+}
+
+TEST_CASE("Get and set the blend mode of a shader", "[Shader]")
+{
+    Shader shader;
+    REQUIRE(shader.blendMode() == BlendMode());
+    BlendMode blendMode(BlendFunction_Subtract, BlendFactor_One, BlendFactor_One);
+    shader.setBlendMode(blendMode);
+    REQUIRE(shader.blendMode() == blendMode);
 }
 
 TEST_CASE("Get and set whether a shader is depth tested", "[Shader]")
@@ -80,13 +105,4 @@ TEST_CASE("Get and set the priority of a shader", "[Shader]")
     REQUIRE(shader.priority() == 0);
     shader.setPriority(1);
     REQUIRE(shader.priority() == 1);
-}
-
-TEST_CASE("Get and set the blend mode of a shader", "[Shader]")
-{
-    Shader shader;
-    REQUIRE(shader.blendMode() == BlendMode());
-    BlendMode blendMode(BlendFunction_Subtract, BlendFactor_One, BlendFactor_One);
-    shader.setBlendMode(blendMode);
-    REQUIRE(shader.blendMode() == blendMode);
 }
