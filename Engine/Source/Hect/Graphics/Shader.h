@@ -67,11 +67,11 @@ public:
     typedef Sequence<Uniform, UniformContainer> UniformSequence;
 
     ///
-    /// Constructs an empty shader.
+    /// Constructs a blank shader.
     Shader();
 
     ///
-    /// Constructs an empty shader.
+    /// Constructs a blank shader.
     ///
     /// \param name The name of the shader.
     Shader(const std::string& name);

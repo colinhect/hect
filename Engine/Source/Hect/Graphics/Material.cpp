@@ -25,6 +25,15 @@
 
 using namespace hect;
 
+Material::Material()
+{
+}
+
+Material::Material(const std::string& name) :
+    Asset(name)
+{
+}
+
 const AssetHandle<Shader>& Material::shader() const
 {
     return _shader;
@@ -33,6 +42,16 @@ const AssetHandle<Shader>& Material::shader() const
 void Material::setShader(const AssetHandle<Shader>& shader)
 {
     _shader = shader;
+}
+
+CullMode Material::cullMode() const
+{
+    return _cullMode;
+}
+
+void Material::setCullMode(CullMode cullMode)
+{
+    _cullMode = cullMode;
 }
 
 bool Material::operator==(const Material& material) const

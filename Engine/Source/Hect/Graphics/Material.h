@@ -32,10 +32,22 @@
 namespace hect
 {
 
+///
+/// Describes how a surface is rendered within the render flow.
 class HECT_EXPORT Material :
     public Asset
 {
 public:
+
+    ///
+    /// Constructs a blank material.
+    Material();
+
+    ///
+    /// Constructs a blank shader.
+    ///
+    /// \param name The name of the material.
+    Material(const std::string& name);
 
     ///
     /// Returns the shader.
@@ -46,6 +58,16 @@ public:
     ///
     /// \param shader The shader.
     void setShader(const AssetHandle<Shader>& shader);
+
+    ///
+    /// Returns the cull mode used for surfaces using this material.
+    CullMode cullMode() const;
+
+    ///
+    /// Sets the cull mode used for surfaces using this material.
+    ///
+    /// \param cullMode The cull mode.
+    void setCullMode(CullMode cullMode);
 
     ///
     /// Returns whether the material is equivalent to another.
@@ -68,6 +90,7 @@ public:
 
 private:
     AssetHandle<Shader> _shader;
+    CullMode _cullMode { CullMode_CounterClockwise };
 };
 
 }
