@@ -62,7 +62,7 @@ enum TextureType
 ///
 /// A texture with one or more source images that can be sampled.
 class HECT_EXPORT Texture :
-    public Asset,
+    public Asset<Texture>,
     public Renderer::Object<Texture>
 {
     typedef std::vector<AssetHandle<Image>> ImageContainer;

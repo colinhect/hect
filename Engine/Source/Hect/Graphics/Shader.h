@@ -51,7 +51,7 @@ typedef size_t UniformIndex;
 /// shader's uniforms.  The output from a shader is the output to the selected
 /// render target.
 class HECT_EXPORT Shader :
-    public Asset,
+    public Asset<Shader>,
     public Renderer::Object<Shader>
 {
     typedef std::vector<ShaderModule> ModuleContainer;

@@ -35,7 +35,7 @@ namespace hect
 ///
 /// Describes how a surface is rendered within the render flow.
 class HECT_EXPORT Material :
-    public Asset
+    public Asset<Material>
 {
 public:
 

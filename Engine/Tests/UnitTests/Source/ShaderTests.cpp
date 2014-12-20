@@ -77,7 +77,7 @@ TEST_CASE("Get an existing uniform from a shader by index", "[Shader]")
 TEST_CASE("Get a non-existing uniform from a shader by index", "[Shader]")
 {
     Shader shader;
-    UniformIndex index = shader.addUniform(Uniform("A", UniformType_Float));
+    shader.addUniform(Uniform("A", UniformType_Float));
 
     REQUIRE_THROWS_AS(shader.uniform(1), Error);
 }

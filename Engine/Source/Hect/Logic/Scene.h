@@ -50,7 +50,7 @@ class Engine;
 /// A scene of entities, components, and systems.
 class HECT_EXPORT Scene :
     public Uncopyable,
-    public Asset
+    public Asset<Scene>
 {
     friend class Entity;
 public:

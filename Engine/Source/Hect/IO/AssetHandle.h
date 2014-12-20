@@ -52,9 +52,10 @@ public:
     ///
     /// Constructs an asset handle.
     ///
-    /// \param asset The asset (the lifetime of the asset will be owned by
-    /// the handle).
-    AssetHandle(T* asset);
+    /// \param asset A pointer to the asset.
+    /// \param owned Whether the lifetime of the asset should be owned by the
+    /// handle.
+    AssetHandle(T* asset, bool owned = true);
 
     ///
     /// Constructs an asset handle.
@@ -100,7 +101,8 @@ public:
     bool operator!=(const AssetHandle<T>& assetHandle) const;
 
 private:
-    std::shared_ptr<T> _asset;
+    std::shared_ptr<T> _owned;
+    T* _unowned { nullptr };
     std::shared_ptr<AssetEntry<T>> _entry;
 };
 

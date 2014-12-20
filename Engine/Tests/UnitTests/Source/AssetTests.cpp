@@ -21,52 +21,39 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <Hect/IO/Asset.h>
+using namespace hect;
 
-#include <string>
+#include <catch.hpp>
 
-#include "Hect/IO/AssetCache.h"
-
-namespace hect
+class TestAsset :
+    public Asset<TestAsset>
 {
+    friend Encoder& operator<<(Encoder& encoder, const TestAsset& asset)
+    {
+        (void)asset;
+        return encoder;
+    }
 
-///
-/// Inheriting from this allows for caching/loading using an asset cache.
-template <typename T>
-class Asset
-{
-public:
-
-    ///
-    /// Constructs an asset.
-    Asset();
-
-    ///
-    /// Constructs an asset.
-    ///
-    /// \param name The name of the asset.
-    Asset(const std::string& name);
-
-    ///
-    /// Returns the name.
-    const std::string& name() const;
-
-    ///
-    /// Sets the name.
-    ///
-    /// \param name The new name.
-    void setName(const std::string& name);
-
-    ///
-    /// Returns an unowned handle to the asset.
-    ///
-    /// \warning The lifetime of the asset must out-live the handle.
-    AssetHandle<T> createHandle();
-
-private:
-    std::string _name;
+    friend Decoder& operator>>(Decoder& decoder, TestAsset& asset)
+    {
+        (void)asset;
+        return decoder;
+    }
 };
 
+TEST_CASE("Get and set the name of an asset", "[Asset]")
+{
+    TestAsset asset;
+    asset.setName("A");
+    REQUIRE(asset.name() == "A");
 }
 
-#include "Asset.inl"
+TEST_CASE("Create an unowned handle to an asset", "[Asset]")
+{
+    TestAsset asset;
+
+    AssetHandle<TestAsset> handle = asset.createHandle();
+    REQUIRE(handle);
+    REQUIRE(&*handle == &asset);
+}

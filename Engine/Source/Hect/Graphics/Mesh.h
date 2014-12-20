@@ -66,7 +66,7 @@ enum IndexType
 ///
 /// A mesh of vertices and indices.
 class HECT_EXPORT Mesh :
-    public Asset,
+    public Asset<Mesh>,
     public Renderer::Object<Mesh>
 {
     friend class MeshWriter;

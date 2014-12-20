@@ -32,9 +32,16 @@ AssetHandle<T>::AssetHandle()
 }
 
 template <typename T>
-AssetHandle<T>::AssetHandle(T* asset) :
-    _asset(asset)
+AssetHandle<T>::AssetHandle(T* asset, bool owned)
 {
+    if (owned)
+    {
+        _owned.reset(asset);
+    }
+    else
+    {
+        _unowned = asset;
+    }
 }
 
 template <typename T>
@@ -58,22 +65,26 @@ const Path& AssetHandle<T>::path() const
 template <typename T>
 AssetHandle<T>::operator bool() const
 {
-    return _entry || _asset;
+    return _entry || _owned || _unowned;
 }
 
 template <typename T>
 T& AssetHandle<T>::operator*() const
 {
-    if (_asset)
-    {
-        return *_asset;
-    }
-    else if (_entry)
+    if (_entry)
     {
         return *_entry->get();
     }
+    else if (_owned)
+    {
+        return *_owned;
+    }
+    else if (_unowned)
+    {
+        return *_unowned;
+    }
 
-    throw Error("Asset handle does not have an entry or asset");
+    throw Error("Asset handle does not refer a valid asset");
 }
 
 template <typename T>
@@ -89,11 +100,15 @@ bool AssetHandle<T>::operator==(const AssetHandle<T>& assetHandle) const
     {
         return _entry == assetHandle._entry;
     }
-    else if (_asset)
+    else if (_owned)
     {
-        return _asset == assetHandle._asset;
+        return _owned == assetHandle._owned;
     }
-    return (_entry || _asset) == (assetHandle._entry || assetHandle._asset);
+    else if (_unowned)
+    {
+        return _unowned == assetHandle._unowned;
+    }
+    return (_entry || _owned || _unowned) == (assetHandle._entry || assetHandle._owned || assetHandle._unowned);
 }
 
 template <typename T>

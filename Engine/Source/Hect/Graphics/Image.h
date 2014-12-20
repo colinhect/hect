@@ -84,7 +84,7 @@ enum PixelFormat
 ///
 /// A 2-dimensional image.
 class HECT_EXPORT Image :
-    public Asset
+    public Asset<Image>
 {
 public:
 

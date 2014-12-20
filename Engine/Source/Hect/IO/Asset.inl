@@ -23,24 +23,37 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Asset.h"
 
-using namespace hect;
+namespace hect
+{
 
-Asset::Asset() :
+template <typename T>
+Asset<T>::Asset() :
     _name("<unnamed>")
 {
 }
 
-Asset::Asset(const std::string& name) :
+template <typename T>
+Asset<T>::Asset(const std::string& name) :
     _name(name)
 {
 }
 
-const std::string& Asset::name() const
+template <typename T>
+const std::string& Asset<T>::name() const
 {
     return _name;
 }
 
-void Asset::setName(const std::string& name)
+template <typename T>
+void Asset<T>::setName(const std::string& name)
 {
     _name = name;
+}
+
+template <typename T>
+AssetHandle<T> Asset<T>::createHandle()
+{
+    return AssetHandle<T>(reinterpret_cast<T*>(this), false);
+}
+
 }
