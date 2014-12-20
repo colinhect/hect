@@ -9,6 +9,5 @@ uniforms:
     binding: ModelViewProjectionMatrix
   - name: skyBoxCubeMap
     binding: SkyBoxCubeMap
-oneSided: false
 depthTested: false
 priority: 1000

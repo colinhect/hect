@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
+#include "Hect/Graphics/CullMode.h"
 #include "Hect/Graphics/Image.h"
 
 namespace hect
@@ -359,6 +360,12 @@ public:
     ///
     /// \param mesh The mesh to destroy.
     virtual void destroyMesh(Mesh& mesh) = 0;
+
+    ///
+    /// Sets which cull mode to use for subsequent draw calls.
+    ///
+    /// \param cullMode The cull mode.
+    virtual void setCullMode(CullMode cullMode) = 0;
 
     ///
     /// Draw the selected mesh using the selected shader to the selected

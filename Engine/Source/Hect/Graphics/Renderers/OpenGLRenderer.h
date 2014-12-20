@@ -64,6 +64,7 @@ public:
     void selectMesh(Mesh& mesh) override;
     void uploadMesh(Mesh& mesh) override;
     void destroyMesh(Mesh& mesh) override;
+    void setCullMode(CullMode cullMode) override;
     void draw() override;
     void clear() override;
 

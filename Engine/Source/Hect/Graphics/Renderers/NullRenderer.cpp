@@ -332,6 +332,11 @@ void NullRenderer::destroyMesh(Mesh& mesh)
     mesh.setAsDestroyed();
 }
 
+void NullRenderer::setCullMode(CullMode cullMode)
+{
+    (void)cullMode;
+}
+
 void NullRenderer::draw()
 {
 }

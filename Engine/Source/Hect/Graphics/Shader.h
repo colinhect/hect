@@ -56,10 +56,6 @@ public:
     typedef Sequence<Uniform, UniformContainer> UniformSequence;
 
     ///
-    /// Returns the shader modules.
-    ModuleSequence modules();
-
-    ///
     /// Returns the shader sources.
     const ModuleSequence modules() const;
 
@@ -71,7 +67,7 @@ public:
     ///
     /// \param name The name of the uniform.
     ///
-    /// \throws Error If no parameter with the specified name exists.
+    /// \throws Error If no uniform with the specified name exists.
     const Uniform& uniform(const std::string& name) const;
 
     ///
@@ -82,9 +78,6 @@ public:
 
     bool isDepthTested() const;
     void setDepthTested(bool depthTested);
-
-    bool isOneSided() const;
-    void setOneSided(bool oneSided);
 
     ///
     /// Returns the render priority.
@@ -124,7 +117,6 @@ private:
 
     BlendMode _blendMode;
     bool _depthTested { true };
-    bool _oneSided { true };
 
     int _priority { 0 };
 };

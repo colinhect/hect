@@ -40,7 +40,7 @@ namespace hect
 class Texture;
 
 ///
-/// A value for a uniform parameter.
+/// A value for a uniform.
 ///
 /// \note A uniform value's type cannot change.
 class HECT_EXPORT UniformValue

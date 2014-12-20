@@ -25,11 +25,6 @@
 
 using namespace hect;
 
-Shader::ModuleSequence Shader::modules()
-{
-    return _modules;
-}
-
 const Shader::ModuleSequence Shader::modules() const
 {
     return _modules;
@@ -78,16 +73,6 @@ bool Shader::isDepthTested() const
 void Shader::setDepthTested(bool depthTested)
 {
     _depthTested = depthTested;
-}
-
-bool Shader::isOneSided() const
-{
-    return _oneSided;
-}
-
-void Shader::setOneSided(bool oneSided)
-{
-    _oneSided = oneSided;
 }
 
 int Shader::priority() const
@@ -144,12 +129,6 @@ bool Shader::operator==(const Shader& shader) const
         return false;
     }
 
-    // One sided
-    if (_oneSided != shader._oneSided)
-    {
-        return false;
-    }
-
     // Priority
     if (_priority != shader._priority)
     {
@@ -188,7 +167,6 @@ Encoder& operator<<(Encoder& encoder, const Shader& shader)
             << encodeVector("modules", shader._modules)
             << encodeVector("uniforms", shader._uniforms)
             << encodeValue("depthTested", shader._depthTested)
-            << encodeValue("oneSided", shader._oneSided)
             << encodeValue("blendMode", shader._blendMode)
             << encodeValue("priority", shader._priority)
             << endObject();
@@ -202,7 +180,6 @@ Decoder& operator>>(Decoder& decoder, Shader& shader)
             >> decodeVector("modules", shader._modules, true)
             >> decodeVector("uniforms", shader._uniforms)
             >> decodeValue("depthTested", shader._depthTested)
-            >> decodeValue("oneSided", shader._oneSided)
             >> decodeValue("blendMode", shader._blendMode)
             >> decodeValue("priority", shader._priority)
             >> endObject();
@@ -213,5 +190,3 @@ Decoder& operator>>(Decoder& decoder, Shader& shader)
 }
 
 }
-
-    

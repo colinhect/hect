@@ -370,10 +370,6 @@ void OpenGLRenderer::initialize(Window& window)
 
 void OpenGLRenderer::beginFrame()
 {
-}
-
-void OpenGLRenderer::endFrame()
-{
     GL_ASSERT(glUseProgram(0));
     GL_ASSERT(glBindVertexArray(0));
 
@@ -386,6 +382,12 @@ void OpenGLRenderer::endFrame()
     _primitiveType = PrimitiveType_Triangles;
     _indexType = IndexType_UInt8;
     _indexCount = 0;
+
+    setCullMode(CullMode_CounterClockwise);
+}
+
+void OpenGLRenderer::endFrame()
+{
 }
 
 void OpenGLRenderer::selectTarget(RenderTarget& renderTarget)
@@ -522,7 +524,7 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
 
 void OpenGLRenderer::selectShader(Shader& shader)
 {
-    // Upload the material if needed
+    // Upload the shader if needed
     if (!shader.isUploaded())
     {
         uploadShader(shader);
@@ -552,6 +554,7 @@ void OpenGLRenderer::selectShader(Shader& shader)
         GL_ASSERT(glDisable(GL_BLEND));
     }
 
+    // Enable or disable depth testing
     if (shader.isDepthTested())
     {
         GL_ASSERT(glEnable(GL_DEPTH_TEST));
@@ -559,15 +562,6 @@ void OpenGLRenderer::selectShader(Shader& shader)
     else
     {
         GL_ASSERT(glDisable(GL_DEPTH_TEST));
-    }
-
-    if (shader.isOneSided())
-    {
-        GL_ASSERT(glEnable(GL_CULL_FACE));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_CULL_FACE));
     }
 
     // Set the values for each unbound uniform
@@ -593,7 +587,7 @@ void OpenGLRenderer::uploadShader(Shader& shader)
 
     // Attach each shader to the program
     std::vector<GLuint> shaderIds;
-    for (ShaderModule& module : shader.modules())
+    for (const ShaderModule& module : shader.modules())
     {
         GLuint shaderId;
 
@@ -644,7 +638,7 @@ void OpenGLRenderer::uploadShader(Shader& shader)
 
     GL_ASSERT(glUseProgram(programId));
 
-    // Get the parameter locations of each uniform
+    // Get the locations of each uniform
     for (Uniform& uniform : shader.uniforms())
     {
         GL_ASSERT(int location = glGetUniformLocation(programId, uniform.name().c_str()));
@@ -1090,6 +1084,24 @@ void OpenGLRenderer::destroyMesh(Mesh& mesh)
     mesh.setAsDestroyed();
 
     HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().c_str()));
+}
+
+void OpenGLRenderer::setCullMode(CullMode cullMode)
+{
+    switch (cullMode)
+    {
+    case CullMode_CounterClockwise:
+        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CCW);
+        break;
+    case CullMode_Clockwise:
+        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CW);
+        break;
+    case CullMode_None:
+        glDisable(GL_CULL_FACE);
+        break;
+    }
 }
 
 void OpenGLRenderer::draw()
