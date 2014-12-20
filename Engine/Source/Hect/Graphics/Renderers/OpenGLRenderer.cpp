@@ -208,18 +208,24 @@ GLenum _primitiveTypeLookUp[5] =
     GL_POINTS // Points
 };
 
+GLenum _blendFunctionLookUp[2] =
+{
+    GL_FUNC_ADD, // Add
+    GL_FUNC_SUBTRACT // Subtract
+};
+
 GLenum _blendFactorLookUp[10] =
 {
     GL_ZERO, // Zero
     GL_ONE, // One
     GL_SRC_COLOR, // SourceColor
     GL_ONE_MINUS_SRC_COLOR, // OneMinusSourceColor
-    GL_DST_COLOR, // DestColor
-    GL_ONE_MINUS_DST_COLOR, // OneMinusDestColor
+    GL_DST_COLOR, // DestinationColor
+    GL_ONE_MINUS_DST_COLOR, // OneMinusDestinationColor
     GL_SRC_ALPHA, // SourceAlpha
     GL_ONE_MINUS_SRC_ALPHA, // OneMinusSourceAlpha
-    GL_DST_ALPHA, // DestAlpha
-    GL_ONE_MINUS_DST_ALPHA // OneMinusDestAlpha
+    GL_DST_ALPHA, // DestinationAlpha
+    GL_ONE_MINUS_DST_ALPHA // OneMinusDestinationAlpha
 };
 
 GLenum _textureFilterLookUp[2] =
@@ -526,15 +532,20 @@ void OpenGLRenderer::selectShader(Shader& shader)
     auto data = shader.dataAs<ShaderData>();
     GL_ASSERT(glUseProgram(data->programId));
 
-    if (shader.blendMode() != BlendMode())
+    // If the blend mode is non-trivial
+    const BlendMode& blendMode = shader.blendMode();
+    if (blendMode != BlendMode())
     {
         GL_ASSERT(glEnable(GL_BLEND));
 
-        const BlendMode& blendMode = shader.blendMode();
-        GLuint sourceFactor = _blendFactorLookUp[static_cast<int>(blendMode.sourceFactor())];
-        GLuint destFactor = _blendFactorLookUp[static_cast<int>(blendMode.destinationFactor())];
+        // Set the blend function
+        GLenum function = _blendFunctionLookUp[static_cast<GLenum>(blendMode.function())];
+        GL_ASSERT(glBlendEquation(function));
 
-        GL_ASSERT(glBlendFunc(sourceFactor, destFactor));
+        // Set the blend factors
+        GLenum sourceFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.sourceFactor())];
+        GLenum destinationFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.destinationFactor())];
+        GL_ASSERT(glBlendFunc(sourceFactor, destinationFactor));
     }
     else
     {

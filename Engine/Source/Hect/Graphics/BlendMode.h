@@ -31,16 +31,45 @@
 namespace hect
 {
 
+///
+/// Describes how rendered pixels combine with the pixels already rendered to
+/// target.
 class BlendMode
 {
 public:
+
+    ///
+    /// Returns the blend function.
     BlendFunction function() const;
+
+    ///
+    /// Sets the blend function.
+    ///
+    /// \param function The blend function.
     void setFunction(BlendFunction function);
 
+    ///
+    /// Returns the blend factor specifying how rendered pixels contribute
+    /// to the final color.
     BlendFactor sourceFactor() const;
+
+    ///
+    /// Sets the blend factor specifying how rendered pixels contribute
+    /// to the final color.
+    ///
+    /// \param factor The blend factor.
     void setSourceFactor(BlendFactor factor);
 
+    ///
+    /// Returns the blend factor specifying how the pixels in the target
+    /// contribute to the final color.
     BlendFactor destinationFactor() const;
+
+    ///
+    /// Sets the blend factor specifying how the pixels in the target
+    /// contribute to the final color.
+    ///
+    /// \param factor The blend factor.
     void setDestinationFactor(BlendFactor factor);
 
     ///

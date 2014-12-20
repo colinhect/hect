@@ -27,15 +27,16 @@ namespace hect
 {
 
 ///
-/// The function describing how the blend source affects the destination.
+/// A function describing how the source pixel affects the destination pixel
+/// when blending.
 enum BlendFunction
 {
     ///
-    /// Add to the destination.
+    /// Add to the destination pixel.
     BlendFunction_Add,
 
     ///
-    /// Subtract from the destination.
+    /// Subtract from the destination pixel.
     BlendFunction_Subtract
 };
 

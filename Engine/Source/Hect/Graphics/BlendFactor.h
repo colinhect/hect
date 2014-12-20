@@ -27,48 +27,48 @@ namespace hect
 {
 
 ///
-/// A formula used to compute blending from either the source or destination.
+/// A factor applied to either the source or destination pixel when blending.
 enum BlendFactor
 {
     ///
-    /// Blend forumla: 0 0 0 0
+    /// (0, 0, 0, 0)
     BlendFactor_Zero,
 
     ///
-    /// Blend forumla: 1 1 1 1
+    /// (1, 1, 1, 1)
     BlendFactor_One,
 
     ///
-    /// Blend forumla: R s0 k R G s0 k G B s0 k B A s0 k A
+    /// (s.r, s.g, s.b, s.a)
     BlendFactor_SourceColor,
 
     ///
-    /// Blend forumla: 1 1 1 1 - R s0 k R G s0 k G B s0 k B A s0 k A
+    /// (1, 1, 1, 1) - (s.r, s.g, s.b, s.a)
     BlendFactor_OneMinusSourceColor,
 
     ///
-    /// Blend forumla: R d k R G d k G B d k B A d k A
-    BlendFactor_DestColor,
+    /// (d.r, d.g, d.b, d.a)
+    BlendFactor_DestinationColor,
 
     ///
-    /// Blend forumla: 1 1 1 1 - R d k R G d k G B d k B A d k A
-    BlendFactor_OneMinusDestColor,
+    /// (1, 1, 1, 1) - (d.r, d.g, d.b, d.a)
+    BlendFactor_OneMinusDestinationColor,
 
     ///
-    /// Blend forumla: A s0 k A A s0 k A A s0 k A A s0 k A
+    /// (s.a, s.a, s.a, s.a)
     BlendFactor_SourceAlpha,
 
     ///
-    /// Blend forumla: 1 1 1 1 - A s0 k A A s0 k A A s0 k A A s0 k A
+    /// (1, 1, 1, 1) - (s.a, s.a, s.a, s.a)
     BlendFactor_OneMinusSourceAlpha,
 
     ///
-    /// Blend forumla: A d k A A d k A A d k A A d k A
-    BlendFactor_DestAlpha,
+    /// (d.a, d.a, d.a, d.a)
+    BlendFactor_DestinationAlpha,
 
     ///
-    /// Blend forumla: 1 1 1 1 - A d k A A d k A A d k A A d k A
-    BlendFactor_OneMinusDestAlpha
+    /// (1, 1, 1, 1) - (d.a, d.a, d.a, d.a)
+    BlendFactor_OneMinusDestinationAlpha
 };
 
 }
