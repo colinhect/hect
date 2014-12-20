@@ -33,12 +33,45 @@ namespace hect
 {
 
 ///
+/// The location of a uniform within a natively compiled shader.
+typedef int UniformLocation;
+
+///
+/// The texture index a uniform corresponds to.
+typedef size_t TextureIndex;
+
+///
 /// A parameter of a shader.
 ///
 /// \note A uniform must either have a binding or a type.
 class HECT_EXPORT Uniform
 {
 public:
+
+    ///
+    /// Constructs a default uniform.
+    Uniform();
+
+    ///
+    /// Constructs a uniform of a specific type.
+    ///
+    /// \param name The name.
+    /// \param type The type.
+    Uniform(const std::string& name, UniformType type);
+
+    ///
+    /// Constructs a uniform bound to a built-in value.
+    ///
+    /// \param name The name.
+    /// \param binding The binding.
+    Uniform(const std::string& name, UniformBinding binding);
+
+    ///
+    /// Constructs a uniform with a default value.
+    ///
+    /// \param name The name.
+    /// \param value The default value.
+    Uniform(const std::string& name, const UniformValue& value);
 
     ///
     /// Returns the name.
@@ -67,23 +100,23 @@ public:
 
     ///
     /// Returns the associated texture index.
-    size_t textureIndex() const;
+    TextureIndex textureIndex() const;
 
     ///
     /// Sets the associated texture index.
     ///
     /// \param textureIndex The texture index.
-    void setTextureIndex(size_t textureIndex);
+    void setTextureIndex(TextureIndex textureIndex);
 
     ///
     /// Returns the compiled location.
-    int location() const;
+    UniformLocation location() const;
 
     ///
     /// Sets the compiled location.
     ///
     /// \param location The compiled location.
-    void setLocation(int location);
+    void setLocation(UniformLocation location);
 
     ///
     /// Returns whether the uniform is equivalent to another.
@@ -106,11 +139,11 @@ private:
     std::string _name;
 
     UniformType _type { UniformType_Float };
-    UniformBinding _binding { UniformBinding_None };    
+    UniformBinding _binding { UniformBinding_None };
     UniformValue _value;
 
-    size_t _textureIndex { 0 };
-    int _location { -1 };
+    TextureIndex _textureIndex { 0 };
+    UniformLocation _location { -1 };
 };
 
 }

@@ -38,11 +38,11 @@ class HECT_EXPORT Asset
 public:
 
     ///
-    /// Constructs an asset without a name.
+    /// Constructs an asset.
     Asset();
 
     ///
-    /// Constructs an asset with a name.
+    /// Constructs an asset.
     ///
     /// \param name The name of the asset.
     Asset(const std::string& name);

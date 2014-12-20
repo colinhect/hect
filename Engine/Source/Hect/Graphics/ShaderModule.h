@@ -28,7 +28,6 @@
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
-#include "Hect/IO/Path.h"
 #include "Hect/Graphics/ShaderModuleType.h"
 
 namespace hect
@@ -41,12 +40,24 @@ class HECT_EXPORT ShaderModule
 public:
 
     ///
+    /// Constructs an empty shader module.
+    ShaderModule();
+
+    ///
+    /// Constructs a shader module.
+    ///
+    /// \param type The module type.
+    /// \param name The name of the module.
+    /// \param source The source code of the module.
+    ShaderModule(ShaderModuleType type, const std::string& name, const std::string& source);
+
+    ///
     /// Returns the type.
     ShaderModuleType type() const;
 
     ///
-    /// Returns the path to the source file.
-    const Path& path() const;
+    /// Returns the name of the module.
+    const std::string& name() const;
 
     ///
     /// Returns the source code.
@@ -69,7 +80,7 @@ public:
 
 private:
     ShaderModuleType _type { ShaderModuleType_Vertex };
-    Path _path;
+    std::string _name;
     std::string _source;
 };
 

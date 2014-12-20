@@ -25,9 +25,45 @@
 
 using namespace hect;
 
+Shader::Shader()
+{
+}
+
+Shader::Shader(const std::string& name) :
+    Asset(name)
+{
+}
+
+void Shader::addModule(const ShaderModule& module)
+{
+    // Destroy the shader if it is uploaded so that any changes the added
+    // module contributes to the shader when it is compiled will take effect
+    if (isUploaded())
+    {
+        renderer().destroyShader(*this);
+    }
+
+    _modules.push_back(module);
+}
+
 const Shader::ModuleSequence Shader::modules() const
 {
     return _modules;
+}
+
+UniformIndex Shader::addUniform(const Uniform& uniform)
+{
+    // Destroy the shader if it is uploaded so that the uniforms location can
+    // be established when the shader is uploaded
+    if (isUploaded())
+    {
+        renderer().destroyShader(*this);
+    }
+
+    _uniforms.push_back(uniform);
+    resolveUniforms();
+
+    return _uniforms.size() - 1;
 }
 
 Shader::UniformSequence Shader::uniforms()
@@ -40,7 +76,21 @@ const Shader::UniformSequence Shader::uniforms() const
     return _uniforms;
 }
 
-const Uniform& Shader::uniform(const std::string& name) const
+Uniform& Shader::uniform(UniformIndex index)
+{
+    if (index >= _uniforms.size())
+    {
+        throw Error(format("Shader does not have a uniform at index %i", index));
+    }
+    return _uniforms[index];
+}
+
+const Uniform& Shader::uniform(UniformIndex index) const
+{
+    return const_cast<Shader*>(this)->uniform(index);
+}
+
+Uniform& Shader::uniform(const std::string& name)
 {
     auto it = _uniformIndices.get(name);
     if (!it)
@@ -50,7 +100,12 @@ const Uniform& Shader::uniform(const std::string& name) const
     return _uniforms[*it];
 }
 
-const Uniform& Shader::uniform(const char* name) const
+const Uniform& Shader::uniform(const std::string& name) const
+{
+    return const_cast<Shader*>(this)->uniform(name);
+}
+
+Uniform& Shader::uniform(const char* name)
 {
     auto it = _uniformIndices.get(name);
     if (!it)
@@ -60,9 +115,19 @@ const Uniform& Shader::uniform(const char* name) const
     return _uniforms[*it];
 }
 
+const Uniform& Shader::uniform(const char* name) const
+{
+    return const_cast<Shader*>(this)->uniform(name);
+}
+
 const BlendMode& Shader::blendMode() const
 {
     return _blendMode;
+}
+
+void Shader::blendMode(const BlendMode& blendMode)
+{
+    _blendMode = blendMode;
 }
 
 bool Shader::isDepthTested() const
@@ -146,7 +211,7 @@ bool Shader::operator!=(const Shader& shader) const
 void Shader::resolveUniforms()
 {
     size_t textureIndex = 0;
-    for (size_t i = 0; i < _uniforms.size(); ++i)
+    for (UniformIndex i = 0; i < _uniforms.size(); ++i)
     {
         Uniform& uniform = _uniforms[i];
         _uniformIndices.set(uniform.name(), i);

@@ -25,6 +25,31 @@
 
 using namespace hect;
 
+Uniform::Uniform() :
+    _name("<unnamed>")
+{
+}
+
+Uniform::Uniform(const std::string& name, UniformType type) :
+    _name(name),
+    _type(type)
+{
+}
+
+Uniform::Uniform(const std::string& name, UniformBinding binding) :
+    _name(name),
+    _binding(binding)
+{
+    resolveType();
+}
+
+Uniform::Uniform(const std::string& name, const UniformValue& value) :
+    _name(name),
+    _value(value)
+{
+    resolveType();
+}
+
 const std::string& Uniform::name() const
 {
     return _name;
@@ -52,28 +77,35 @@ void Uniform::setValue(const UniformValue& value)
     _value = value;
 }
 
-size_t Uniform::textureIndex() const
+TextureIndex Uniform::textureIndex() const
 {
     return _textureIndex;
 }
 
-void Uniform::setTextureIndex(size_t textureIndex)
+void Uniform::setTextureIndex(TextureIndex textureIndex)
 {
     _textureIndex = textureIndex;
 }
 
-int Uniform::location() const
+UniformLocation Uniform::location() const
 {
     return _location;
 }
 
-void Uniform::setLocation(int location)
+void Uniform::setLocation(UniformLocation location)
 {
     _location = location;
 }
 
 bool Uniform::operator==(const Uniform& uniform) const
 {
+
+    // Name
+    if (_name != uniform._name)
+    {
+        return false;
+    }
+
     // Type
     if (_type != uniform._type)
     {
@@ -82,12 +114,6 @@ bool Uniform::operator==(const Uniform& uniform) const
 
     // Binding
     if (_binding != uniform._binding)
-    {
-        return false;
-    }
-
-    // Name
-    if (_name != uniform._name)
     {
         return false;
     }

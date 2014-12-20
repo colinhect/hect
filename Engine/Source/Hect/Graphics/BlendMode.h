@@ -75,13 +75,13 @@ public:
     ///
     /// Returns whether the blend mode is equivalent to another.
     ///
-    /// \param shader The other blend mode.
+    /// \param blendMode The other blend mode.
     bool operator==(const BlendMode& blendMode) const;
 
     ///
     /// Returns whether the blend mode is different from another.
     ///
-    /// \param shader The other blend mode.
+    /// \param blendMode The other blend mode.
     bool operator!=(const BlendMode& blendMode) const;
 
     friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BlendMode& blendMode);

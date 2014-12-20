@@ -610,7 +610,7 @@ void OpenGLRenderer::uploadShader(Shader& shader)
 
             if (infoLog.size() > 0)
             {
-                throw Error(format("Failed to compile GLSL shader source file '%s': %s", module.path().asString().c_str(), infoLog.c_str()));
+                throw Error(format("Failed to compile GLSL shader source file '%s': %s", module.name().c_str(), infoLog.c_str()));
             }
         }
 

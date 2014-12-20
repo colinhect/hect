@@ -27,14 +27,25 @@
 
 using namespace hect;
 
+ShaderModule::ShaderModule()
+{
+}
+
+ShaderModule::ShaderModule(ShaderModuleType type, const std::string& name, const std::string& source) :
+    _type(type),
+    _name(name),
+    _source(source)
+{
+}
+
 ShaderModuleType ShaderModule::type() const
 {
     return _type;
 }
 
-const Path& ShaderModule::path() const
+const std::string& ShaderModule::name() const
 {
-    return _path;
+    return _name;
 }
 
 const std::string& ShaderModule::source() const
@@ -44,7 +55,9 @@ const std::string& ShaderModule::source() const
 
 bool ShaderModule::operator==(const ShaderModule& shaderSource) const
 {
-    return _type == shaderSource._type && _path == shaderSource._path;
+    return _type == shaderSource._type
+        && _name == shaderSource._name
+        && _source == shaderSource._source;
 }
 
 bool ShaderModule::operator!=(const ShaderModule& shaderSource) const
@@ -59,7 +72,7 @@ Encoder& operator<<(Encoder& encoder, const ShaderModule& shaderModule)
 {
     encoder << beginObject()
             << encodeEnum("type", shaderModule._type)
-            << encodeValue("path", shaderModule._path)
+            << encodeValue("path", shaderModule._name)
             << endObject();
 
     return encoder;
@@ -67,18 +80,17 @@ Encoder& operator<<(Encoder& encoder, const ShaderModule& shaderModule)
 
 Decoder& operator>>(Decoder& decoder, ShaderModule& shaderModule)
 {
-    Path path;
     decoder >> beginObject()
             >> decodeEnum("type", shaderModule._type, true)
-            >> decodeValue("path", path, true)
+            >> decodeValue("path", shaderModule._name, true)
             >> endObject();
 
     // Resolve the path
     AssetCache& assetCache = decoder.assetCache();
-    shaderModule._path = assetCache.resolvePath(path);
+    Path path = assetCache.resolvePath(shaderModule._name);
 
     // Load the shader source
-    auto stream = assetCache.fileSystem().openFileForRead(shaderModule._path);
+    auto stream = assetCache.fileSystem().openFileForRead(path);
     shaderModule._source = stream->readAllToString();
 
     return decoder;
