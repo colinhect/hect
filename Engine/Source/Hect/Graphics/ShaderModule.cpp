@@ -80,14 +80,16 @@ Encoder& operator<<(Encoder& encoder, const ShaderModule& shaderModule)
 
 Decoder& operator>>(Decoder& decoder, ShaderModule& shaderModule)
 {
+    Path path;
     decoder >> beginObject()
             >> decodeEnum("type", shaderModule._type, true)
-            >> decodeValue("path", shaderModule._name, true)
+            >> decodeValue("path", path, true)
             >> endObject();
 
     // Resolve the path
     AssetCache& assetCache = decoder.assetCache();
-    Path path = assetCache.resolvePath(shaderModule._name);
+    path = assetCache.resolvePath(path);
+    shaderModule._name = path.asString();
 
     // Load the shader source
     auto stream = assetCache.fileSystem().openFileForRead(path);
