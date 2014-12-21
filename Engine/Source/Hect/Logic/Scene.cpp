@@ -24,6 +24,7 @@
 #include "Scene.h"
 
 #include "Hect/IO/AssetDecoder.h"
+#include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
@@ -88,6 +89,16 @@ Entity::Iterator Scene::createEntity()
     Entity::Iterator entity = _entityPool.create();
 
     _entitiesPendingCreation.push_back(entity->id());
+
+    return entity;
+}
+
+Entity::Iterator Scene::createEntity(const Path& path)
+{
+    Entity::Iterator entity = createEntity();
+
+    AssetDecoder decoder(_engine.assetCache(), path);
+    decoder >> decodeValue(*entity);
 
     return entity;
 }

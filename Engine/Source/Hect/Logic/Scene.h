@@ -151,6 +151,16 @@ public:
     Entity::Iterator createEntity();
 
     ///
+    /// Creates a new entity decoded from a file.
+    ///
+    /// \param path The path to the entity.
+    ///
+    /// \returns An iterator to the new entity.
+    ///
+    /// \throws Error If the entity failed to decode.
+    Entity::Iterator createEntity(const Path& path);
+
+    ///
     /// Returns the pool of entities.
     EntityPool& entities();
 
