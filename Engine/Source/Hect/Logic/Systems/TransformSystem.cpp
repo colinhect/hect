@@ -31,10 +31,9 @@ using namespace hect;
 TransformSystem::TransformSystem(Scene& scene) :
     System(scene)
 {
-    scene.components<Transform>().addListener(*this);
 }
 
-void TransformSystem::forceUpdate(Transform& transform)
+void TransformSystem::update(Transform& transform)
 {
     Entity& entity = transform.entity();
     auto parent = entity.parent();
@@ -50,45 +49,31 @@ void TransformSystem::forceUpdate(Transform& transform)
         transform.globalScale = transform.localScale;
         transform.globalRotation = transform.localRotation;
 
-        postUpdate(transform.entity());
-
         // Update the transform hierachy for all children
         for (Entity& child : entity.children())
         {
             updateHeierarchy(entity, child);
         }
     }
-}
 
-void TransformSystem::markForUpdate(Transform& transform)
-{
-    if (!transform._markedForUpdate)
+    // Find the root entity
+    auto root = entity.findFirstAncestor([](const Entity& entity)
     {
-        transform._markedForUpdate = true;
-        _markedForUpdate.push_back(transform.id());
+        return !entity.parent();
+    });
+
+    // If no root was found then this entity is the root
+    if (!root)
+    {
+        root = entity.iterator();
     }
-}
 
-void TransformSystem::tick(Real timeStep)
-{
-    (void)timeStep;
-
-    ComponentPool<Transform>& transformPool = scene().components<Transform>();
-    for (ComponentId id : _markedForUpdate)
+    // Update the bounding box from the root
+    auto boundingBox = root->component<BoundingBox>();
+    if (boundingBox)
     {
-        Transform& transform = transformPool.withId(id);
-        forceUpdate(transform);
-        transform._markedForUpdate = false;
-    }
-    _markedForUpdate.clear();
-}
-
-void TransformSystem::receiveEvent(const ComponentEvent<Transform>& event)
-{
-    if (event.type == ComponentEventType_Add)
-    {
-        Transform& transform = *event.entity().component<Transform>();
-        markForUpdate(transform);
+        BoundingBoxSystem& boundingBoxSystem = scene().system<BoundingBoxSystem>();
+        boundingBoxSystem.update(*boundingBox);
     }
 }
 
@@ -105,22 +90,10 @@ void TransformSystem::updateHeierarchy(Entity& parent, Entity& child)
             childTransform->globalScale = parentTransform->globalScale * childTransform->localScale;
             childTransform->globalRotation = parentTransform->globalRotation * childTransform->localRotation;
 
-            postUpdate(child);
-
             for (Entity& nextChild : child.children())
             {
                 updateHeierarchy(child, nextChild);
             }
         }
-    }
-}
-
-void TransformSystem::postUpdate(Entity& entity)
-{
-    auto boundingBox = entity.component<BoundingBox>();
-    if (boundingBox)
-    {
-        BoundingBoxSystem& boundingBoxSystem = scene().system<BoundingBoxSystem>();
-        boundingBoxSystem.markForUpdate(*boundingBox);
     }
 }

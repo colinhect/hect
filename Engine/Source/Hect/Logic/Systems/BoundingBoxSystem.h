@@ -36,30 +36,18 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT BoundingBoxSystem :
-    public System,
-    public Listener<ComponentEvent<BoundingBox>>
+    public System
 {
 public:
     BoundingBoxSystem(Scene& scene);
 
     ///
-    /// Marks a bounding box to be updated on the next
-    /// BoundingBoxSystem::tick().
+    /// Forces the update of a bounding box and all child bounding boxes.
     ///
-    /// \note If the bounding box is already marked for update then no action
-    /// will be performed.
-    ///
-    /// \param boundingBox The bounding box to mark for update.
-    void markForUpdate(BoundingBox& boundingBox);
+    /// \param boundingBox The bounding box to update.
+    void update(BoundingBox& boundingBox);
 
     void tick(Real timeStep) override;
-
-    void receiveEvent(const ComponentEvent<BoundingBox>& event) override;
-
-private:
-    void forceUpdate(Entity& entity, BoundingBox& boundingBox);
-
-    std::vector<ComponentId> _markedForUpdate;
 };
 
 }

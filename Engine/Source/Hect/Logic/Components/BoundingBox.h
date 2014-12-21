@@ -37,15 +37,11 @@ namespace hect
 class HECT_EXPORT BoundingBox :
     public Component<BoundingBox>
 {
-    friend class BoundingBoxSystem;
 public:
 
     ///
     /// The bounds as an axis aligned box.
     AxisAlignedBox axisAlignedBox;
-
-private:
-    bool _markedForUpdate { false };
 };
 
 }

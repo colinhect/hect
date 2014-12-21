@@ -83,7 +83,7 @@ void PhysicsSystem::tick(Real timeStep)
             transform->localScale = newTransform.localScale;
             transform->localRotation = newTransform.localRotation;
 
-            transformSystem.markForUpdate(*transform);
+            transformSystem.update(*transform);
         }
 
         // Update rigid body properties to what Bullet says it should be
@@ -119,7 +119,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
                 btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
                 btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
 
-                transformSystem.forceUpdate(*transform);
+                transformSystem.update(*transform);
 
                 rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
                 btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);

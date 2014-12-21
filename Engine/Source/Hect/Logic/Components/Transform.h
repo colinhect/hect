@@ -38,7 +38,6 @@ namespace hect
 class HECT_EXPORT Transform :
     public Component<Transform>
 {
-    friend class TransformSystem;
 public:
 
     ///
@@ -47,7 +46,7 @@ public:
     /// \property
     ///
     /// \note In order for changes to this to affect the global position of
-    /// the transform, TransformSystem::markForUpdate() should be called.
+    /// the transform, TransformSystem::update() should be called.
     Vector3 localPosition;
 
     ///
@@ -56,7 +55,7 @@ public:
     /// \property
     ///
     /// \note In order for changes to this to affect the global scale of
-    /// the transform, TransformSystem::markForUpdate() should be called.
+    /// the transform, TransformSystem::update() should be called.
     Vector3 localScale { Vector3::one() };
 
     ///
@@ -65,7 +64,7 @@ public:
     /// \property
     ///
     /// \note In order for changes to this to affect the global rotation of
-    /// the transform, TransformSystem::markForUpdate() should be called.
+    /// the transform, TransformSystem::update() should be called.
     Quaternion localRotation;
 
     ///
@@ -94,9 +93,6 @@ public:
     /// modified unless the local rotation and parent transforms are known
     /// to be static.
     Quaternion globalRotation;
-
-private:
-    bool _markedForUpdate { false };
 };
 
 }

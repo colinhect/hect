@@ -32,57 +32,12 @@ using namespace hect;
 BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
     System(scene)
 {
-    scene.components<BoundingBox>().addListener(*this);
 }
 
-void BoundingBoxSystem::markForUpdate(BoundingBox& boundingBox)
+void BoundingBoxSystem::update(BoundingBox& boundingBox)
 {
-    if (!boundingBox._markedForUpdate)
-    {
-        boundingBox._markedForUpdate = true;
-        _markedForUpdate.push_back(boundingBox.id());
-    }
-}
+    Entity& entity = boundingBox.entity();
 
-void BoundingBoxSystem::tick(Real timeStep)
-{
-    (void)timeStep;
-
-    // Force update on all bounding boxes marked for update
-    ComponentPool<BoundingBox>& boundingBoxPool = scene().components<BoundingBox>();
-    for (ComponentId id : _markedForUpdate)
-    {
-        BoundingBox& boundingBox = boundingBoxPool.withId(id);
-        forceUpdate(boundingBox.entity(), boundingBox);
-        boundingBox._markedForUpdate = false;
-    }
-    _markedForUpdate.clear();
-
-    // If the scene has a debug render system
-    if (scene().hasSystemType<DebugSystem>())
-    {
-        DebugSystem& debugSystem = scene().system<DebugSystem>();
-
-        // Draw a debug box for each bounding box
-        for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
-        {
-            AxisAlignedBox axisAlignedBox = boundingBox.axisAlignedBox;
-            Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
-            debugSystem.drawBox(box, Vector3(30, 0, 0), axisAlignedBox.center());
-        }
-    }
-}
-
-void BoundingBoxSystem::receiveEvent(const ComponentEvent<BoundingBox>& event)
-{
-    if (event.type == ComponentEventType_Add)
-    {
-        BoundingBox& boundingBox = *event.entity().component<BoundingBox>();
-        markForUpdate(boundingBox);
-    }
-}
-void BoundingBoxSystem::forceUpdate(Entity& entity, BoundingBox& boundingBox)
-{
     // Start with an empty box
     AxisAlignedBox& axisAlignedBox = boundingBox.axisAlignedBox;
     axisAlignedBox = AxisAlignedBox();
@@ -113,10 +68,29 @@ void BoundingBoxSystem::forceUpdate(Entity& entity, BoundingBox& boundingBox)
         auto childBoundingBox = child.component<BoundingBox>();
         if (childBoundingBox)
         {
-            forceUpdate(child, *childBoundingBox);
+            update(*childBoundingBox);
 
             // Expand the bounding box to include this child
             axisAlignedBox.expandToInclude(childBoundingBox->axisAlignedBox);
+        }
+    }
+}
+
+void BoundingBoxSystem::tick(Real timeStep)
+{
+    (void)timeStep;
+    
+    // If the scene has a debug render system
+    if (scene().hasSystemType<DebugSystem>())
+    {
+        DebugSystem& debugSystem = scene().system<DebugSystem>();
+
+        // Draw a debug box for each bounding box
+        for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
+        {
+            AxisAlignedBox axisAlignedBox = boundingBox.axisAlignedBox;
+            Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
+            debugSystem.drawBox(box, Vector3(30, 0, 0), axisAlignedBox.center());
         }
     }
 }
