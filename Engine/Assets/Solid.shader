@@ -10,7 +10,7 @@ uniforms:
     value: [ 0.8, 0.8, 0.8 ]
   - name: roughness
     type: Float
-    value: 0.0
+    value: 0.4
   - name: metallic
     type: Float
     value: 1
