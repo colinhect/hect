@@ -109,7 +109,7 @@ public:
     /// \note Only relevant for when the source is
     /// ::InputAxisBindingType_JoystickAxis or
     /// ::InputAxisBindingType_JoystickButton.
-    size_t joystickIndex { 0 };
+    JoystickIndex joystickIndex { 0 };
 
     ///
     /// The joystick axis controlling the axis.
@@ -123,7 +123,14 @@ public:
     ///
     /// \note Only relevant for when the source is
     /// ::InputAxisBindingType_JoystickAxis.
-    Real joystickAxisDeadZone { 0 };
+    Vector2 joystickAxisDeadZone;
+
+    ///
+    /// The value used when the joystick axis falls in its dead zone.
+    ///
+    /// \note Only relevant for when the source is
+    /// ::InputAxisBindingType_JoystickAxis.
+    Real joystickAxisDeadValue { 0 };
 
     ///
     /// The joystick button controlling the axis.
@@ -133,8 +140,13 @@ public:
     JoystickButton joystickButton { JoystickButton_Button0 };
 
     ///
-    /// How fast a discrete source (such as key or mouse button) drives the axis.
+    /// How fast a discrete source (such as key or mouse button/movement)
+    /// drives the axis.
     Real acceleration { 1 };
+
+    ///
+    /// The value the binding is drawn to by gravity or lack of source input.
+    Real affinity { 0 };
 
     ///
     /// The range that the binding affects the input axis.

@@ -68,6 +68,18 @@ Keyboard& NullPlatform::keyboard()
     return *_keyboard;
 }
 
+bool NullPlatform::hasJoystick(JoystickIndex index)
+{
+    (void)index;
+    return false;
+}
+
+Joystick& NullPlatform::joystick(JoystickIndex index)
+{
+    (void)index;
+    throw Error("No joysticks connected");
+}
+
 Platform::JoystickSequence NullPlatform::joysticks()
 {
     return _joysticks;

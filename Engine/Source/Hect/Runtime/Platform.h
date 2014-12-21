@@ -82,6 +82,21 @@ public:
     virtual Keyboard& keyboard() = 0;
 
     ///
+    /// Returns whether the platform has a joystick connected at the given
+    /// index.
+    ///
+    /// \param index The index of the joystick.
+    virtual bool hasJoystick(JoystickIndex index) = 0;
+
+    ///
+    /// Returns the joystick connected at the specified index.
+    ///
+    /// \param index The index of the joystick.
+    ///
+    /// \throws Error If no joystick is connected at the given index.
+    virtual Joystick& joystick(JoystickIndex index) = 0;
+
+    ///
     /// Returns any joysticks connected to the platform.
     virtual JoystickSequence joysticks() = 0;
 };

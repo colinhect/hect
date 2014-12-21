@@ -41,6 +41,8 @@ public:
     Mouse& mouse() override;
     bool hasKeyboard() override;
     Keyboard& keyboard() override;
+    bool hasJoystick(JoystickIndex index) override;
+    Joystick& joystick(JoystickIndex index) override;
     JoystickSequence joysticks() override;
 
 private:

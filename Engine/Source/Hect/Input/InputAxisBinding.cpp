@@ -32,37 +32,62 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
 {
     switch (type)
     {
-    case InputAxisBindingType_Key:
+    case InputAxisBindingType_MouseMoveX:
     {
-        if (platform.keyboard().isKeyDown(key))
+        if (platform.hasMouse())
         {
-            _value += acceleration * timeStepInSeconds;
+            Mouse& mouse = platform.mouse();
+            Real delta = mouse.cursorMovement().x;
+            if (delta != 0)
+            {
+                _value += delta * acceleration * timeStepInSeconds;
+            }
+            else
+            {
+                _value = affinity;
+            }
         }
-        else
+    }
+    break;
+    case InputAxisBindingType_MouseMoveY:
+    {
+        if (platform.hasMouse())
         {
-            _value -= acceleration * timeStepInSeconds;
+            Mouse& mouse = platform.mouse();
+            Real delta = mouse.cursorMovement().y;
+            if (delta != 0)
+            {
+                _value += delta * acceleration * timeStepInSeconds;
+            }
+            else
+            {
+                _value = affinity;
+            }
         }
     }
     break;
     case InputAxisBindingType_MouseButton:
     {
-        if (platform.mouse().isButtonDown(mouseButton))
+        if (platform.hasMouse())
         {
-            _value += acceleration * timeStepInSeconds;
-        }
-        else
-        {
-            _value -= acceleration * timeStepInSeconds;
+            Mouse& mouse = platform.mouse();
+            if (mouse.isButtonDown(mouseButton))
+            {
+                _value += acceleration * timeStepInSeconds;
+            }
+            else
+            {
+                _value -= acceleration * timeStepInSeconds;
+            }
         }
     }
     break;
-    case InputAxisBindingType_JoystickButton:
+    case InputAxisBindingType_Key:
     {
-        auto joysticks = platform.joysticks();
-        if (joystickIndex < joysticks.size())
+        if (platform.hasKeyboard())
         {
-            Joystick& joystick = joysticks[joystickIndex];
-            if (joystick.isButtonDown(joystickButton))
+            Keyboard& keyboard = platform.keyboard();
+            if (keyboard.isKeyDown(key))
             {
                 _value += acceleration * timeStepInSeconds;
             }
@@ -75,18 +100,40 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
     break;
     case InputAxisBindingType_JoystickAxis:
     {
-        auto joysticks = platform.joysticks();
-        if (joystickIndex < joysticks.size())
+        if (platform.hasJoystick(joystickIndex))
         {
-            Joystick& joystick = joysticks[joystickIndex];
-            _value = joystick.axisValue(joystickAxis);
-            if (std::abs(_value) < joystickAxisDeadZone)
+            Joystick& joystick = platform.joystick(joystickIndex);
+            Real value = joystick.axisValue(joystickAxis);
+            Real min = std::min(joystickAxisDeadZone.x, joystickAxisDeadZone.y);
+            Real max = std::max(joystickAxisDeadZone.x, joystickAxisDeadZone.y);
+            if (value > min && value < max)
             {
-                _value = 0;
+                value = joystickAxisDeadValue;
             }
 
             // Scale the value to a range from 0 to 1
-            _value = _value * 0.5 + 0.5;
+            Real delta = value * 0.5 + 0.5;
+            _value = interpolate(range.x, range.y, delta);
+        }
+        else
+        {
+            _value = affinity;
+        }
+    }
+    break;
+    case InputAxisBindingType_JoystickButton:
+    {
+        if (platform.hasJoystick(joystickIndex))
+        {
+            Joystick& joystick = platform.joystick(joystickIndex);
+            if (joystick.isButtonDown(joystickButton))
+            {
+                _value += acceleration * timeStepInSeconds;
+            }
+            else
+            {
+                _value -= acceleration * timeStepInSeconds;
+            }
         }
     }
     break;
@@ -94,17 +141,14 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
         break;
     }
 
-    _value = clamp(_value, Real(0), Real(1));
-
-    if (std::abs(_value) < Real(0.001))
-    {
-        _value = 0;
-    }
+    Real min = std::min(range.x, range.y);
+    Real max = std::max(range.x, range.y);
+    _value = clamp(_value, min, max);
 }
 
 Real InputAxisBinding::value() const
 {
-    return interpolate(range.x, range.y, _value);
+    return _value;
 }
 
 namespace hect
@@ -119,9 +163,11 @@ Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding)
             << encodeValue("joystickIndex", inputAxisBinding.joystickIndex)
             << encodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
             << encodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
+            << encodeValue("joystickAxisDeadValue", inputAxisBinding.joystickAxisDeadValue)
             << encodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
             << encodeValue("acceleration", inputAxisBinding.acceleration)
             << encodeValue("range", inputAxisBinding.range)
+            << encodeValue("affinity", inputAxisBinding.affinity)
             << endObject();
 
     return encoder;
@@ -136,9 +182,11 @@ Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding)
             >> decodeValue("joystickIndex", inputAxisBinding.joystickIndex)
             >> decodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
             >> decodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
+            >> decodeValue("joystickAxisDeadValue", inputAxisBinding.joystickAxisDeadValue)
             >> decodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
             >> decodeValue("acceleration", inputAxisBinding.acceleration)
             >> decodeValue("range", inputAxisBinding.range)
+            >> decodeValue("affinity", inputAxisBinding.affinity)
             >> endObject();
 
     return decoder;

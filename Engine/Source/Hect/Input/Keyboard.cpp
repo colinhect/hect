@@ -30,7 +30,7 @@ using namespace hect;
 bool Keyboard::isKeyDown(Key key) const
 {
     assert(key < _keyStates.size());
-    return _keyStates[(int)key];
+    return _keyStates[static_cast<int>(key)];
 }
 
 Keyboard::Keyboard() :
@@ -41,7 +41,7 @@ Keyboard::Keyboard() :
 void Keyboard::enqueueEvent(const KeyboardEvent& event)
 {
     assert(event.key < _keyStates.size());
-    _keyStates[(int)event.key] = event.type == KeyboardEventType_KeyDown;
+    _keyStates[static_cast<int>(event.key)] = event.type == KeyboardEventType_KeyDown;
     _events.push_back(event);
 }
 

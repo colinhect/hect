@@ -36,7 +36,7 @@ Mouse::Mouse() :
 bool Mouse::isButtonDown(MouseButton button) const
 {
     assert(button >= _buttonStates.size());
-    return _buttonStates[(int)button];
+    return _buttonStates[static_cast<int>(button)];
 }
 
 const IntVector2& Mouse::cursorPosition() const
@@ -44,9 +44,14 @@ const IntVector2& Mouse::cursorPosition() const
     return _cursorPosition;
 }
 
-void Mouse::setMode(MouseMode mode)
+const IntVector2& Mouse::cursorMovement() const
 {
-    _mode = mode;
+    return _cursorMovement;
+}
+
+void Mouse::clearMovement()
+{
+    _cursorMovement = IntVector2();
 }
 
 MouseMode Mouse::mode() const
@@ -54,22 +59,40 @@ MouseMode Mouse::mode() const
     return _mode;
 }
 
+void Mouse::setMode(MouseMode mode)
+{
+    _mode = mode;
+}
+
 void Mouse::enqueueEvent(const MouseEvent& event)
 {
+    // Update the state of the buttons
     if (event.type == MouseEventType_ButtonDown)
     {
-        _buttonStates[(int)event.button] = true;
+        _buttonStates[static_cast<int>(event.button)] = true;
     }
     else if (event.type == MouseEventType_ButtonUp)
     {
-        _buttonStates[(int)event.button] = false;
+        _buttonStates[static_cast<int>(event.button)] = false;
     }
+
+    // Update the relative cursor movement
+    _cursorMovement = IntVector2();
+    if (event.type == MouseEventType_Movement)
+    {
+        _cursorMovement = event.cursorMovement;
+    }
+
+    // Update the absolute cursor position
     _cursorPosition = event.cursorPosition;
+
+    // Queue the event for dispatch
     _events.push_back(event);
 }
 
 void Mouse::dispatchEvents()
 {
+    // Dispatch all queued events to the listeners
     for (const MouseEvent& event : _events)
     {
         dispatchEvent(event);

@@ -32,6 +32,10 @@ namespace hect
 {
 
 ///
+/// An index to a joystick.
+typedef size_t JoystickIndex;
+
+///
 /// A joystick button.
 enum JoystickButton
 {
@@ -134,7 +138,7 @@ public:
 
     ///
     /// The index of the joystick related to the event.
-    size_t joystickIndex { 0 };
+    JoystickIndex index { 0 };
 
     ///
     /// The joystick button related to the event.

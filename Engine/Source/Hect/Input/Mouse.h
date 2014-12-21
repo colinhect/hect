@@ -127,14 +127,22 @@ public:
     const IntVector2& cursorPosition() const;
 
     ///
-    /// Sets the mode.
+    /// Returns the relative motion of the cursor.
+    const IntVector2& cursorMovement() const;
+
     ///
-    /// \param mode The new mode.
-    void setMode(MouseMode mode);
+    /// Clears the current relative motion of the cursor.
+    void clearMovement();
 
     ///
     /// Returns the mode.
     MouseMode mode() const;
+
+    ///
+    /// Sets the mode.
+    ///
+    /// \param mode The new mode.
+    void setMode(MouseMode mode);
 
     void enqueueEvent(const MouseEvent& event);
     void dispatchEvents();
@@ -144,6 +152,7 @@ private:
 
     MouseMode _mode;
     IntVector2 _cursorPosition;
+    IntVector2 _cursorMovement;
 
     std::vector<bool> _buttonStates;
 };

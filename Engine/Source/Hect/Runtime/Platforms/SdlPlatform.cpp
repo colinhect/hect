@@ -168,10 +168,10 @@ SdlPlatform::SdlPlatform()
             {
                 JoystickEvent event;
                 event.type = JoystickEventType_AxisMotion;
-                event.joystickIndex = _joysticks.size() - 1;
+                event.index = _joysticks.size() - 1;
                 event.axis = static_cast<JoystickAxis>(i);
                 event.axisValue = std::max(static_cast<Real>(SDL_JoystickGetAxis(joystick, (int)i)) / Real(32767.0), Real(-1.0));
-                _joysticks[event.joystickIndex].enqueueEvent(event);
+                _joysticks[event.index].enqueueEvent(event);
             }
         }
     }
@@ -201,6 +201,8 @@ std::unique_ptr<Window> SdlPlatform::createWindow(const std::string& title, cons
 
 bool SdlPlatform::handleEvents()
 {
+    _mouse->clearMovement();
+
     // Update the mouse mode if needed
     MouseMode currentMouseMode = _mouse->mode();
     if (currentMouseMode != _mouseMode)
@@ -262,10 +264,10 @@ bool SdlPlatform::handleEvents()
             // Enqueue the event
             JoystickEvent event;
             event.type = JoystickEventType_AxisMotion;
-            event.joystickIndex = e.jaxis.which;
+            event.index = e.jaxis.which;
             event.axis = static_cast<JoystickAxis>(e.jaxis.axis);
             event.axisValue = std::max(static_cast<Real>(e.jaxis.value) / Real(32767.0), Real(-1.0));
-            _joysticks[event.joystickIndex].enqueueEvent(event);
+            _joysticks[event.index].enqueueEvent(event);
         }
         break;
         case SDL_JOYBUTTONDOWN:
@@ -274,9 +276,9 @@ bool SdlPlatform::handleEvents()
             // Enqueue the event
             JoystickEvent event;
             event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType_ButtonDown : JoystickEventType_ButtonUp;
-            event.joystickIndex = e.jbutton.which;
+            event.index = e.jbutton.which;
             event.button = static_cast<JoystickButton>(e.jbutton.button);
-            _joysticks[event.joystickIndex].enqueueEvent(event);
+            _joysticks[event.index].enqueueEvent(event);
         }
         break;
         }
@@ -311,6 +313,20 @@ bool SdlPlatform::hasKeyboard()
 Keyboard& SdlPlatform::keyboard()
 {
     return *_keyboard;
+}
+
+bool SdlPlatform::hasJoystick(JoystickIndex index)
+{
+    return index < _joysticks.size();
+}
+
+Joystick& SdlPlatform::joystick(JoystickIndex index)
+{
+    if (!hasJoystick(index))
+    {
+        throw Error(format("No joystick connected at index %i", index));
+    }
+    return _joysticks[index];
 }
 
 Platform::JoystickSequence SdlPlatform::joysticks()

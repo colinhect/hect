@@ -65,7 +65,7 @@ public:
 
 private:
 
-    class HECT_EXPORT DebugBox
+    class DebugBox
     {
     public:
         DebugBox();

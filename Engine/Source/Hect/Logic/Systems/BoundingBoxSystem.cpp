@@ -79,8 +79,8 @@ void BoundingBoxSystem::update(BoundingBox& boundingBox)
 void BoundingBoxSystem::tick(Real timeStep)
 {
     (void)timeStep;
-    
-    // If the scene has a debug render system
+
+    // If the scene has a debug system
     if (scene().hasSystemType<DebugSystem>())
     {
         DebugSystem& debugSystem = scene().system<DebugSystem>();
@@ -90,7 +90,8 @@ void BoundingBoxSystem::tick(Real timeStep)
         {
             AxisAlignedBox axisAlignedBox = boundingBox.axisAlignedBox;
             Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
-            debugSystem.drawBox(box, Vector3(30, 0, 0), axisAlignedBox.center());
+            Vector3 color(30, 0, 0);
+            debugSystem.drawBox(box, color, axisAlignedBox.center());
         }
     }
 }

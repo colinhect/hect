@@ -49,6 +49,7 @@ bool Joystick::isButtonDown(JoystickButton button) const
         throw Error(format("Joystick does not have button '%s'", Enum::toString(button).c_str()));
     }
 }
+
 Real Joystick::axisValue(JoystickAxis axis) const
 {
     if (axis < _axisStates.size())
