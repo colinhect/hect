@@ -77,10 +77,9 @@ void Mouse::enqueueEvent(const MouseEvent& event)
     }
 
     // Update the relative cursor movement
-    _cursorMovement = IntVector2();
     if (event.type == MouseEventType_Movement)
     {
-        _cursorMovement = event.cursorMovement;
+        _cursorMovement += event.cursorMovement;
     }
 
     // Update the absolute cursor position

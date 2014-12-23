@@ -23,13 +23,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputAxisBinding.h"
 
+#include "Hect/Core/Format.h"
+#include "Hect/Core/Logging.h"
 #include "Hect/Math/Utilities.h"
 #include "Hect/Runtime/Platform.h"
 
 using namespace hect;
 
-void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
+void InputAxisBinding::update(Platform& platform, Real timeStep)
 {
+    // Apply gravity
+    modifyValue(_value < 0, gravity * timeStep);
+
     switch (type)
     {
     case InputAxisBindingType_MouseMoveX:
@@ -37,14 +42,9 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
         if (platform.hasMouse())
         {
             Mouse& mouse = platform.mouse();
-            Real delta = mouse.cursorMovement().x;
-            if (delta != 0)
+            if (mouse.mode() == MouseMode_Relative)
             {
-                _value += delta * acceleration * timeStepInSeconds;
-            }
-            else
-            {
-                _value = affinity;
+                modifyValue(false, mouse.cursorMovement().x * mouseSensitivity);
             }
         }
     }
@@ -54,14 +54,9 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
         if (platform.hasMouse())
         {
             Mouse& mouse = platform.mouse();
-            Real delta = mouse.cursorMovement().y;
-            if (delta != 0)
+            if (mouse.mode() == MouseMode_Relative)
             {
-                _value += delta * acceleration * timeStepInSeconds;
-            }
-            else
-            {
-                _value = affinity;
+                modifyValue(false, mouse.cursorMovement().y * mouseSensitivity);
             }
         }
     }
@@ -73,11 +68,7 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
             Mouse& mouse = platform.mouse();
             if (mouse.isButtonDown(mouseButton))
             {
-                _value += acceleration * timeStepInSeconds;
-            }
-            else
-            {
-                _value -= acceleration * timeStepInSeconds;
+                modifyValue(invert, acceleration * timeStep);
             }
         }
     }
@@ -89,11 +80,7 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
             Keyboard& keyboard = platform.keyboard();
             if (keyboard.isKeyDown(key))
             {
-                _value += acceleration * timeStepInSeconds;
-            }
-            else
-            {
-                _value -= acceleration * timeStepInSeconds;
+                modifyValue(invert, acceleration * timeStep);
             }
         }
     }
@@ -104,15 +91,18 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
         {
             Joystick& joystick = platform.joystick(joystickIndex);
             Real value = joystick.axisValue(joystickAxis);
-            Real min = std::min(joystickAxisDeadZone.x, joystickAxisDeadZone.y);
-            Real max = std::max(joystickAxisDeadZone.x, joystickAxisDeadZone.y);
-            if (value > min && value < max)
+            if (value > joystickAxisDeadZone.x && value < joystickAxisDeadZone.y)
             {
-                value = joystickAxisDeadValue;
+                value = affinity;
             }
 
             // Scale the value to a range from 0 to 1
             Real delta = value * 0.5 + 0.5;
+            if (invert)
+            {
+                delta = 1.0 - delta;
+            }
+
             _value = interpolate(range.x, range.y, delta);
         }
         else
@@ -128,11 +118,7 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
             Joystick& joystick = platform.joystick(joystickIndex);
             if (joystick.isButtonDown(joystickButton))
             {
-                _value += acceleration * timeStepInSeconds;
-            }
-            else
-            {
-                _value -= acceleration * timeStepInSeconds;
+                modifyValue(invert, acceleration * timeStep);
             }
         }
     }
@@ -141,14 +127,24 @@ void InputAxisBinding::update(Platform& platform, Real timeStepInSeconds)
         break;
     }
 
-    Real min = std::min(range.x, range.y);
-    Real max = std::max(range.x, range.y);
-    _value = clamp(_value, min, max);
+    _value = clamp(_value, range.x, range.y);
 }
 
 Real InputAxisBinding::value() const
 {
     return _value;
+}
+
+void InputAxisBinding::modifyValue(bool invert, Real delta)
+{
+    if (invert)
+    {
+        _value -= delta;
+    }
+    else
+    {
+        _value += delta;
+    }
 }
 
 namespace hect
@@ -159,15 +155,17 @@ Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding)
     encoder << beginObject()
             << encodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
             << encodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
+            << encodeValue("mouseSensitivity", inputAxisBinding.mouseSensitivity)
             << encodeEnum<Key>("key", inputAxisBinding.key)
             << encodeValue("joystickIndex", inputAxisBinding.joystickIndex)
             << encodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
             << encodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
-            << encodeValue("joystickAxisDeadValue", inputAxisBinding.joystickAxisDeadValue)
             << encodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
             << encodeValue("acceleration", inputAxisBinding.acceleration)
-            << encodeValue("range", inputAxisBinding.range)
+            << encodeValue("gravity", inputAxisBinding.gravity)
             << encodeValue("affinity", inputAxisBinding.affinity)
+            << encodeValue("range", inputAxisBinding.range)
+            << encodeValue("invert", inputAxisBinding.invert)
             << endObject();
 
     return encoder;
@@ -178,16 +176,30 @@ Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding)
     decoder >> beginObject()
             >> decodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
             >> decodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
+            >> decodeValue("mouseSensitivity", inputAxisBinding.mouseSensitivity)
             >> decodeEnum<Key>("key", inputAxisBinding.key)
             >> decodeValue("joystickIndex", inputAxisBinding.joystickIndex)
             >> decodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
             >> decodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
-            >> decodeValue("joystickAxisDeadValue", inputAxisBinding.joystickAxisDeadValue)
             >> decodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
             >> decodeValue("acceleration", inputAxisBinding.acceleration)
-            >> decodeValue("range", inputAxisBinding.range)
+            >> decodeValue("gravity", inputAxisBinding.gravity)
             >> decodeValue("affinity", inputAxisBinding.affinity)
+            >> decodeValue("range", inputAxisBinding.range)
+            >> decodeValue("invert", inputAxisBinding.invert)
             >> endObject();
+
+    // Make sure joystick dead zone is defined in the correct order
+    if (inputAxisBinding.joystickAxisDeadZone.x > inputAxisBinding.joystickAxisDeadZone.y)
+    {
+        std::swap(inputAxisBinding.joystickAxisDeadZone.x, inputAxisBinding.joystickAxisDeadZone.y);
+    }
+
+    // Make sure range is defined in the correct order
+    if (inputAxisBinding.range.x > inputAxisBinding.range.y)
+    {
+        std::swap(inputAxisBinding.range.x, inputAxisBinding.range.y);
+    }
 
     return decoder;
 }

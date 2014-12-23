@@ -78,9 +78,9 @@ public:
     /// Updates the value.
     ///
     /// \param platform The platform.
-    /// \param timeStepInSeconds The duration of time elapsed in seconds since
-    /// the last update.
-    void update(Platform& platform, Real timeStepInSeconds);
+    /// \param timeStep The duration of time elapsed in seconds since the last
+    /// update.
+    void update(Platform& platform, Real timeStep);
 
     ///
     /// Returns the value.
@@ -96,6 +96,8 @@ public:
     /// \note Only relevant for when the source is
     /// ::InputAxisBindingType_MouseButton.
     MouseButton mouseButton { MouseButton_Button0 };
+
+    Real mouseSensitivity { 0.01 };
 
     ///
     /// The key controlling the axis.
@@ -126,36 +128,34 @@ public:
     Vector2 joystickAxisDeadZone;
 
     ///
-    /// The value used when the joystick axis falls in its dead zone.
-    ///
-    /// \note Only relevant for when the source is
-    /// ::InputAxisBindingType_JoystickAxis.
-    Real joystickAxisDeadValue { 0 };
-
-    ///
     /// The joystick button controlling the axis.
     ///
     /// \note Only relevant for when the source is
     /// ::InputAxisBindingType_JoystickButton.
     JoystickButton joystickButton { JoystickButton_Button0 };
 
-    ///
-    /// How fast a discrete source (such as key or mouse button/movement)
-    /// drives the axis.
-    Real acceleration { 1 };
+    Real acceleration { 0 };
+    Real gravity { 0 };
 
     ///
-    /// The value the binding is drawn to by gravity or lack of source input.
+    /// The value the binding is falls back to due to lack of source input.
     Real affinity { 0 };
 
     ///
     /// The range that the binding affects the input axis.
-    Vector2 range { 0, 0 };
+    Vector2 range { -1, 1 };
+
+    ///
+    /// Whether the input binding is inverted.
+    bool invert { false };
 
     friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding);
     friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding);
 
 private:
+    void modifyValue(bool invert, Real delta);
+    void updateMouseMove(Platform& platform, int component);
+
     Real _value { 0 };
 };
 
