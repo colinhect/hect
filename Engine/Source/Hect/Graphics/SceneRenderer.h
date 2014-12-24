@@ -89,7 +89,7 @@ private:
 
         bool operator<(const RenderCall& other) const;
     };
-    
+
     RenderBuffer _depthBuffer;
 
     Texture _diffuseBuffer;

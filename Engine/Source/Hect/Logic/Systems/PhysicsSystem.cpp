@@ -32,7 +32,7 @@
 using namespace hect;
 
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
-System(scene, SystemTickStage_Precedent),
+    System(scene, SystemTickStage_Precedent),
     gravity(Vector3::unitY() * Real(-9.8)),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),

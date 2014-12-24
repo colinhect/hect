@@ -390,7 +390,7 @@ void Scene::encode(Encoder& encoder) const
         for (SystemTypeId typeId : tickStage)
         {
             System* system = _systems[typeId].get();
-            
+
             encoder << beginObject();
 
             if (encoder.isBinaryStream())
