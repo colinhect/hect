@@ -29,7 +29,7 @@
 using namespace hect;
 
 TransformSystem::TransformSystem(Scene& scene) :
-    System(scene)
+    System(scene, SystemTickStage_Subsequent)
 {
 }
 

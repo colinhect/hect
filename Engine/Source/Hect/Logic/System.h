@@ -30,6 +30,7 @@
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
+#include "Hect/Logic/SystemTickStage.h"
 
 namespace hect
 {
@@ -52,7 +53,8 @@ public:
     /// Constructs a system.
     ///
     /// \param scene The scene that the system exists in.
-    System(Scene& scene);
+    /// \param tickStage The stage to tick the system in.
+    System(Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
 
     virtual ~System() { }
 
@@ -72,6 +74,10 @@ public:
     const Scene& scene() const;
 
     ///
+    /// Returns the tick stage.
+    SystemTickStage tickStage() const;
+
+    ///
     /// Encodes the system to an object.
     ///
     /// \param encoder The encoder to use.
@@ -85,6 +91,7 @@ public:
 
 private:
     Scene& _scene;
+    SystemTickStage _tickStage { SystemTickStage_Normal };
 };
 
 }

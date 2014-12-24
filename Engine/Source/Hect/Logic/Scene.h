@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <array>
 #include <functional>
 #include <typeindex>
 #include <typeinfo>
@@ -141,8 +142,9 @@ public:
     ///
     /// Ticks all of the systems in the scene.
     ///
-    /// \param timeStep The duration of time for the tick to simulate.
-    void tick(TimeSpan timeStep);
+    /// \param timeStep The duration of time in seconds for the tick to
+    /// simulate.
+    void tick(Real timeStep);
 
     ///
     /// Creates a new entity.
@@ -212,7 +214,7 @@ private:
 
     std::vector<SystemTypeId> _systemTypeIds;
     std::vector<std::shared_ptr<System>> _systems;
-    std::vector<System*> _systemTickOrder;
+    std::array<std::vector<SystemTypeId>, 3> _tickStages;
 };
 
 }

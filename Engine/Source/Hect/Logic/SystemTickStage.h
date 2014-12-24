@@ -21,46 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "System.h"
+#pragma once
 
-using namespace hect;
-
-System::System(Scene& scene, SystemTickStage tickStage) :
-    _scene(scene),
-    _tickStage(tickStage)
+namespace hect
 {
-}
 
-Scene& System::scene()
+///
+/// The stage in which a System is ticked.
+enum SystemTickStage
 {
-    return _scene;
-}
+    ///
+    /// Tick before normal systems.
+    SystemTickStage_Precedent,
 
-const Scene& System::scene() const
-{
-    return _scene;
-}
+    ///
+    /// The normal stage.
+    SystemTickStage_Normal,
 
-void System::tick(Real timeStep)
-{
-    (void)timeStep;
-}
+    ///
+    /// Tick after normal systems.
+    SystemTickStage_Subsequent
+};
 
-SystemTickStage System::tickStage() const
-{
-    return _tickStage;
-}
-
-void System::encode(Encoder& encoder) const
-{
-    // Default to the encoding registered with the reflected type
-    const Type& type = Type::of(*this);
-    type.encode(this, encoder);
-}
-
-void System::decode(Decoder& decoder)
-{
-    // Default to the decoding registered with the reflected type
-    const Type& type = Type::of(*this);
-    type.decode(this, decoder);
 }

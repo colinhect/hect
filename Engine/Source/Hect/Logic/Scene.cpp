@@ -72,15 +72,17 @@ void Scene::refresh()
     _entitiesPendingDestruction.clear();
 }
 
-void Scene::tick(TimeSpan timeStep)
+void Scene::tick(Real timeStep)
 {
     refresh();
 
-    // Tick all systems in order
-    Real timeStepInSeconds = timeStep.seconds();
-    for (auto& system : _systemTickOrder)
+    // Tick all stages in order
+    for (std::vector<SystemTypeId>& tickStage : _tickStages)
     {
-        system->tick(timeStepInSeconds);
+        for (SystemTypeId typeId : tickStage)
+        {
+            _systems[typeId]->tick(timeStep);
+        }
     }
 }
 
@@ -143,7 +145,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     // Add the system
     auto system = SystemRegistry::create(typeId, *this);
     _systems[typeId] = system;
-    _systemTickOrder.push_back(system.get());
+    _tickStages[system->tickStage()].push_back(typeId);
     _systemTypeIds.push_back(typeId);
 }
 
@@ -393,24 +395,29 @@ void Scene::encode(Encoder& encoder) const
 
     // Systems
     encoder << beginArray("systems");
-    for (auto& system : _systemTickOrder)
+    for (const std::vector<SystemTypeId>& tickStage : _tickStages)
     {
-        encoder << beginObject();
-
-        if (encoder.isBinaryStream())
+        for (SystemTypeId typeId : tickStage)
         {
-            std::type_index typeIndex(typeid(*system));
-            encoder << encodeValue(SystemRegistry::typeIdOf(typeIndex));
-        }
-        else
-        {
-            std::string typeName = Type::of(*system).name();
-            encoder << encodeValue("type", typeName);
-        }
+            System* system = _systems[typeId].get();
+            
+            encoder << beginObject();
 
-        system->encode(encoder);
+            if (encoder.isBinaryStream())
+            {
+                std::type_index typeIndex(typeid(*system));
+                encoder << encodeValue(SystemRegistry::typeIdOf(typeIndex));
+            }
+            else
+            {
+                std::string typeName = Type::of(*system).name();
+                encoder << encodeValue("type", typeName);
+            }
 
-        encoder << endObject();
+            system->encode(encoder);
+
+            encoder << endObject();
+        }
     }
     encoder << endArray();
 

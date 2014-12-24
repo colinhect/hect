@@ -97,7 +97,7 @@ void InputAxisBinding::update(Platform& platform, Real timeStep)
             Real value = joystick.axisValue(joystickAxis);
 
             // If the value is outside of the dead zone
-            if (value < joystickAxisDeadZone.x && value > joystickAxisDeadZone.y)
+            if (value < joystickAxisDeadZone.x || value > joystickAxisDeadZone.y)
             {
                 // Scale the value to be a delta for the range
                 Real delta = value * Real(0.5) + Real(0.5);

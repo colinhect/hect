@@ -36,12 +36,14 @@ void Scene::removeSystemType()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
 
-    // Attempt to get the system to ensure that it is supported
+    // Ensure that the system is supported
     system<T>();
 
-    // Remove the system from the tick order
-    auto it = std::find(_systemTickOrder.begin(), _systemTickOrder.end(), _systems[typeId].get());
-    _systemTickOrder.erase(it);
+    // Remove the system from the tick stages
+    for (std::vector<SystemTypeId>& tickStage : _tickStages)
+    {
+        tickStage.erase(std::remove(tickStage.begin(), tickStage.end(), typeId), tickStage.end());
+    }
 
     // Remove the system
     _systems[typeId].reset();
