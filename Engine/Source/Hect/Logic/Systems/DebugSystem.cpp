@@ -53,6 +53,7 @@ void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)
 
 void DebugSystem::tick(Real timeStep)
 {
+    (void)timeStep;
     _boxes.clear();
 }
 
