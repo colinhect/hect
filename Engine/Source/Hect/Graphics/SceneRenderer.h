@@ -47,16 +47,16 @@ public:
     ///
     /// Constructs a scene renderer.
     ///
-    /// \param renderer The renderer to render using.
     /// \param assetCache The asset cache to get needed assets from.
-    SceneRenderer(Renderer& renderer, AssetCache& assetCache);
+    SceneRenderer(AssetCache& assetCache);
 
     ///
     /// Renders a scene in its current state to a given render target.
     ///
+    /// \param renderer The renderer to render using.
     /// \param scene The scene to render.
     /// \param target The target to render to.
-    void renderScene(Scene& scene, RenderTarget& target);
+    void renderScene(Renderer& renderer, Scene& scene, RenderTarget& target);
 
     ///
     /// Enqueues a render call to be rendered on the upcoming frame.
@@ -67,10 +67,10 @@ public:
     void addRenderCall(Transform& transform, Mesh& mesh, Material& material);
 
 private:
-    void initializeBuffers(unsigned width, unsigned height);
+    void initializeBuffers(Renderer& renderer, unsigned width, unsigned height);
     void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
-    void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
-    void setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
+    void renderMesh(Renderer& renderer, const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
+    void setBoundUniforms(Renderer& renderer, Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
     void swapBackBuffer();
     Texture& backBuffer();
@@ -89,9 +89,7 @@ private:
 
         bool operator<(const RenderCall& other) const;
     };
-
-    Renderer& _renderer;
-
+    
     RenderBuffer _depthBuffer;
 
     Texture _diffuseBuffer;

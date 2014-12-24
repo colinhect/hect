@@ -31,6 +31,7 @@ namespace hect
 {
 
 class Engine;
+class Renderer;
 class RenderTarget;
 
 ///
@@ -43,35 +44,31 @@ public:
     ///
     /// Constructs a game mode.
     ///
-    /// \param engine The engine.
     /// \param timeStep The amount of time between logic ticks.
-    GameMode(Engine& engine, TimeSpan timeStep);
+    GameMode(TimeSpan timeStep);
 
     virtual ~GameMode() { }
 
     ///
     /// Performs a single step of logic.
     ///
+    /// \param engine The engine.
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    virtual void tick(Real timeStep) = 0;
+    virtual void tick(Engine& engine, Real timeStep) = 0;
 
     ///
     /// Renders the current state of the game to a target.
     ///
+    /// \param renderer The renderer to render with.
     /// \param target The target to render to.
-    virtual void render(RenderTarget& target) = 0;
-
-    ///
-    /// Gets the engine.
-    Engine& engine();
+    virtual void render(Renderer& renderer, RenderTarget& target) = 0;
 
     ///
     /// Returns the amount of time between logic ticks.
     TimeSpan timeStep() const;
 
 private:
-    Engine& _engine;
     TimeSpan _timeStep;
 };
 

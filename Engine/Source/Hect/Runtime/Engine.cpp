@@ -122,13 +122,13 @@ int Engine::main()
 
         while (accumulator.microseconds() >= gameMode->timeStep().microseconds())
         {
-            gameMode->tick(timeStep);
+            gameMode->tick(*this, timeStep);
 
             delta = TimeSpan();
             accumulator -= gameMode->timeStep();
         }
 
-        gameMode->render(*_window);
+        gameMode->render(_renderer, *_window);
         _window->swapBuffers();
     }
 

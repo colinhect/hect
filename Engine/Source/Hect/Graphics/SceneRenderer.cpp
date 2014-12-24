@@ -37,8 +37,7 @@
 
 using namespace hect;
 
-SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
-    _renderer(renderer),
+SceneRenderer::SceneRenderer(AssetCache& assetCache) :
     _renderCalls(1024),
     _buffersInitialized(false)
 {
@@ -53,7 +52,7 @@ SceneRenderer::SceneRenderer(Renderer& renderer, AssetCache& assetCache) :
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 }
 
-void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
+void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& target)
 {
     CameraSystem& cameraSystem = scene.system<CameraSystem>();
     Component<Camera>::Iterator camera = cameraSystem.activeCamera();
@@ -76,7 +75,7 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
     // Initialize buffers if needed
     if (!_buffersInitialized)
     {
-        initializeBuffers(target.width(), target.height());
+        initializeBuffers(renderer, target.width(), target.height());
     }
 
     // Get the cube map of the active light probe
@@ -123,16 +122,16 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 
     // Geometry buffer rendering
     {
-        _renderer.beginFrame();
-        _renderer.selectTarget(_geometryFrameBuffer);
-        _renderer.clear();
+        renderer.beginFrame();
+        renderer.selectTarget(_geometryFrameBuffer);
+        renderer.clear();
 
         for (RenderCall& renderCall : _renderCalls)
         {
-            renderMesh(*camera, _geometryFrameBuffer, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            renderMesh(renderer, *camera, _geometryFrameBuffer, *renderCall.material, *renderCall.mesh, *renderCall.transform);
         }
 
-        _renderer.endFrame();
+        renderer.endFrame();
     }
 
     // Clear debug geometry now that it is rendered
@@ -144,32 +143,32 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
 
     // Light rendering
     {
-        _renderer.beginFrame();
-        _renderer.selectTarget(backFrameBuffer());
-        _renderer.clear();
+        renderer.beginFrame();
+        renderer.selectTarget(backFrameBuffer());
+        renderer.clear();
 
-        _renderer.selectMesh(*_screenMesh);
+        renderer.selectMesh(*_screenMesh);
 
         // Render environment light
         if (_lightProbeCubeMap)
         {
-            _renderer.selectShader(*_environmentShader);
-            setBoundUniforms(*_environmentShader, *camera, target, _identityTransform);
+            renderer.selectShader(*_environmentShader);
+            setBoundUniforms(renderer, *_environmentShader, *camera, target, _identityTransform);
 
-            _renderer.draw();
+            renderer.draw();
         }
 
         // Render directional lights
         {
-            _renderer.selectShader(*_directionalLightShader);
+            renderer.selectShader(*_directionalLightShader);
 
             // Render each directional light in the scene
             for (const DirectionalLight& light : scene.components<DirectionalLight>())
             {
                 _primaryLightDirection = light.direction;
                 _primaryLightColor = light.color;
-                setBoundUniforms(*_directionalLightShader, *camera, target, _identityTransform);
-                _renderer.draw();
+                setBoundUniforms(renderer, *_directionalLightShader, *camera, target, _identityTransform);
+                renderer.draw();
             }
         }
 
@@ -177,39 +176,39 @@ void SceneRenderer::renderScene(Scene& scene, RenderTarget& target)
         {
         }
 
-        _renderer.endFrame();
+        renderer.endFrame();
     }
 
     swapBackBuffer();
 
     // Composite
     {
-        _renderer.beginFrame();
-        _renderer.selectTarget(backFrameBuffer());
-        _renderer.clear();
-        _renderer.selectShader(*_compositeShader);
-        setBoundUniforms(*_compositeShader, *camera, target, _identityTransform);
+        renderer.beginFrame();
+        renderer.selectTarget(backFrameBuffer());
+        renderer.clear();
+        renderer.selectShader(*_compositeShader);
+        setBoundUniforms(renderer, *_compositeShader, *camera, target, _identityTransform);
 
-        _renderer.selectMesh(*_screenMesh);
-        _renderer.draw();
+        renderer.selectMesh(*_screenMesh);
+        renderer.draw();
 
-        _renderer.endFrame();
+        renderer.endFrame();
     }
 
     swapBackBuffer();
 
     // Expose
     {
-        _renderer.beginFrame();
-        _renderer.selectTarget(target);
-        _renderer.clear();
-        _renderer.selectShader(*_exposeShader);
-        setBoundUniforms(*_exposeShader, *camera, target, _identityTransform);
+        renderer.beginFrame();
+        renderer.selectTarget(target);
+        renderer.clear();
+        renderer.selectShader(*_exposeShader);
+        setBoundUniforms(renderer, *_exposeShader, *camera, target, _identityTransform);
 
-        _renderer.selectMesh(*_screenMesh);
-        _renderer.draw();
+        renderer.selectMesh(*_screenMesh);
+        renderer.draw();
 
-        _renderer.endFrame();
+        renderer.endFrame();
     }
 }
 
@@ -218,7 +217,7 @@ void SceneRenderer::addRenderCall(Transform& transform, Mesh& mesh, Material& ma
     _renderCalls.emplace_back(transform, mesh, material);
 }
 
-void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
+void SceneRenderer::initializeBuffers(Renderer& renderer, unsigned width, unsigned height)
 {
     _buffersInitialized = true;
 
@@ -260,14 +259,14 @@ void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
     _backFrameBuffers[1].attachTexture(FrameBufferSlot_Color0, _backBuffers[1]);
     _backFrameBuffers[1].attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
 
-    size_t memoryUsageBefore = _renderer.statistics().memoryUsage;
+    size_t memoryUsageBefore = renderer.statistics().memoryUsage;
 
-    _renderer.uploadFrameBuffer(_geometryFrameBuffer);
-    _renderer.uploadFrameBuffer(_backFrameBuffers[0]);
-    _renderer.uploadFrameBuffer(_backFrameBuffers[1]);
+    renderer.uploadFrameBuffer(_geometryFrameBuffer);
+    renderer.uploadFrameBuffer(_backFrameBuffers[0]);
+    renderer.uploadFrameBuffer(_backFrameBuffers[1]);
 
     // Log the memory usage for the buffers
-    size_t memoryUsage = _renderer.statistics().memoryUsage - memoryUsageBefore;
+    size_t memoryUsage = renderer.statistics().memoryUsage - memoryUsageBefore;
     Real memoryUsageInMegabytes = static_cast<Real>(memoryUsage) / Real(1024 * 1024);
     HECT_TRACE(format("Scene renderer GPU memory usage: %dMB", static_cast<int>(memoryUsageInMegabytes)));
 }
@@ -342,20 +341,20 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
     }
 }
 
-void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
+void SceneRenderer::renderMesh(Renderer& renderer, const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
     Shader& shader = *material.shader();
 
     // Select the shader
-    _renderer.selectShader(shader);
-    setBoundUniforms(shader, camera, target, transform);
+    renderer.selectShader(shader);
+    setBoundUniforms(renderer, shader, camera, target, transform);
 
     // Select and draw the mesh
-    _renderer.selectMesh(mesh);
-    _renderer.draw();
+    renderer.selectMesh(mesh);
+    renderer.draw();
 }
 
-void SceneRenderer::setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
+void SceneRenderer::setBoundUniforms(Renderer& renderer, Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
 {
     // Buid the model matrix
     Matrix4 model;
@@ -386,69 +385,69 @@ void SceneRenderer::setBoundUniforms(Shader& shader, const Camera& camera, const
         case UniformBinding_None:
             break;
         case UniformBinding_RenderTargetSize:
-            _renderer.setUniform(uniform, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
+            renderer.setUniform(uniform, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
             break;
         case UniformBinding_CameraPosition:
-            _renderer.setUniform(uniform, camera.position);
+            renderer.setUniform(uniform, camera.position);
             break;
         case UniformBinding_CameraFront:
-            _renderer.setUniform(uniform, camera.front);
+            renderer.setUniform(uniform, camera.front);
             break;
         case UniformBinding_CameraUp:
-            _renderer.setUniform(uniform, camera.up);
+            renderer.setUniform(uniform, camera.up);
             break;
         case UniformBinding_CameraExposure:
-            _renderer.setUniform(uniform, camera.exposure);
+            renderer.setUniform(uniform, camera.exposure);
             break;
         case UniformBinding_CameraOneOverGamma:
-            _renderer.setUniform(uniform, Real(1) / camera.gamma);
+            renderer.setUniform(uniform, Real(1) / camera.gamma);
             break;
         case UniformBinding_PrimaryLightDirection:
-            _renderer.setUniform(uniform, _primaryLightDirection);
+            renderer.setUniform(uniform, _primaryLightDirection);
             break;
         case UniformBinding_PrimaryLightColor:
-            _renderer.setUniform(uniform, _primaryLightColor);
+            renderer.setUniform(uniform, _primaryLightColor);
             break;
         case UniformBinding_ViewMatrix:
-            _renderer.setUniform(uniform, camera.viewMatrix);
+            renderer.setUniform(uniform, camera.viewMatrix);
             break;
         case UniformBinding_ProjectionMatrix:
-            _renderer.setUniform(uniform, camera.projectionMatrix);
+            renderer.setUniform(uniform, camera.projectionMatrix);
             break;
         case UniformBinding_ViewProjectionMatrix:
-            _renderer.setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
+            renderer.setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
             break;
         case UniformBinding_ModelMatrix:
-            _renderer.setUniform(uniform, model);
+            renderer.setUniform(uniform, model);
             break;
         case UniformBinding_ModelViewMatrix:
-            _renderer.setUniform(uniform, camera.viewMatrix * model);
+            renderer.setUniform(uniform, camera.viewMatrix * model);
             break;
         case UniformBinding_ModelViewProjectionMatrix:
-            _renderer.setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
+            renderer.setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
             break;
         case UniformBinding_LightProbeCubeMap:
             assert(_lightProbeCubeMap);
-            _renderer.setUniform(uniform, *_lightProbeCubeMap);
+            renderer.setUniform(uniform, *_lightProbeCubeMap);
             break;
         case UniformBinding_SkyBoxCubeMap:
             assert(_skyBoxCubeMap);
-            _renderer.setUniform(uniform, *_skyBoxCubeMap);
+            renderer.setUniform(uniform, *_skyBoxCubeMap);
             break;
         case UniformBinding_DiffuseBuffer:
-            _renderer.setUniform(uniform, _diffuseBuffer);
+            renderer.setUniform(uniform, _diffuseBuffer);
             break;
         case UniformBinding_MaterialBuffer:
-            _renderer.setUniform(uniform, _materialBuffer);
+            renderer.setUniform(uniform, _materialBuffer);
             break;
         case UniformBinding_PositionBuffer:
-            _renderer.setUniform(uniform, _positionBuffer);
+            renderer.setUniform(uniform, _positionBuffer);
             break;
         case UniformBinding_NormalBuffer:
-            _renderer.setUniform(uniform, _normalBuffer);
+            renderer.setUniform(uniform, _normalBuffer);
             break;
         case UniformBinding_BackBuffer:
-            _renderer.setUniform(uniform, lastBackBuffer());
+            renderer.setUniform(uniform, lastBackBuffer());
             break;
         }
     }

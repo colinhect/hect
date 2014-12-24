@@ -27,15 +27,9 @@
 
 using namespace hect;
 
-GameMode::GameMode(Engine& engine, TimeSpan timeStep) :
-    _engine(engine),
+GameMode::GameMode(TimeSpan timeStep) :
     _timeStep(timeStep)
 {
-}
-
-Engine& GameMode::engine()
-{
-    return _engine;
 }
 
 TimeSpan GameMode::timeStep() const
