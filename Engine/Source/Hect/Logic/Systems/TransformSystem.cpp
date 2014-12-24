@@ -71,6 +71,8 @@ void TransformSystem::forceUpdate(Transform& transform)
 
 void TransformSystem::tick(Real timeStep)
 {
+    (void)timeStep;
+
     // Update all transforms starting at the root entities
     for (Transform& transform : scene().components<Transform>())
     {
