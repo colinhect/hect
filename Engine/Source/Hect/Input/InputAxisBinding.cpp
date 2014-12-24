@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputAxisBinding.h"
 
-#include "Hect/Core/Format.h"
-#include "Hect/Core/Logging.h"
 #include "Hect/Math/Utilities.h"
 #include "Hect/Runtime/Platform.h"
 
@@ -32,32 +30,25 @@ using namespace hect;
 
 void InputAxisBinding::update(Platform& platform, Real timeStep)
 {
-    // Apply gravity
-    modifyValue(_value < 0, gravity * timeStep);
-
     switch (type)
     {
     case InputAxisBindingType_MouseMoveX:
     {
+        _value = deadValue;
         if (platform.hasMouse())
         {
             Mouse& mouse = platform.mouse();
-            if (mouse.mode() == MouseMode_Relative)
-            {
-                modifyValue(false, mouse.cursorMovement().x * mouseSensitivity);
-            }
+            modifyValue(mouse.cursorMovement().x * mouseSensitivity);
         }
     }
     break;
     case InputAxisBindingType_MouseMoveY:
     {
+        _value = deadValue;
         if (platform.hasMouse())
         {
             Mouse& mouse = platform.mouse();
-            if (mouse.mode() == MouseMode_Relative)
-            {
-                modifyValue(false, mouse.cursorMovement().y * mouseSensitivity);
-            }
+            modifyValue(mouse.cursorMovement().y * mouseSensitivity);
         }
     }
     break;
@@ -68,9 +59,17 @@ void InputAxisBinding::update(Platform& platform, Real timeStep)
             Mouse& mouse = platform.mouse();
             if (mouse.isButtonDown(mouseButton))
             {
-                modifyValue(invert, acceleration * timeStep);
+                modifyValue(acceleration * timeStep);
+            }
+            else
+            {
+                applyGravity(timeStep);
             }
         }
+    }
+    break;
+    case InputAxisBindingType_MouseScroll:
+    {
     }
     break;
     case InputAxisBindingType_Key:
@@ -80,34 +79,36 @@ void InputAxisBinding::update(Platform& platform, Real timeStep)
             Keyboard& keyboard = platform.keyboard();
             if (keyboard.isKeyDown(key))
             {
-                modifyValue(invert, acceleration * timeStep);
+                modifyValue(acceleration * timeStep);
+            }
+            else
+            {
+                applyGravity(timeStep);
             }
         }
     }
     break;
     case InputAxisBindingType_JoystickAxis:
     {
+        _value = deadValue;
         if (platform.hasJoystick(joystickIndex))
         {
             Joystick& joystick = platform.joystick(joystickIndex);
             Real value = joystick.axisValue(joystickAxis);
-            if (value > joystickAxisDeadZone.x && value < joystickAxisDeadZone.y)
-            {
-                value = affinity;
-            }
 
-            // Scale the value to a range from 0 to 1
-            Real delta = value * 0.5 + 0.5;
-            if (invert)
+            // If the value is outside of the dead zone
+            if (value < joystickAxisDeadZone.x && value > joystickAxisDeadZone.y)
             {
-                delta = 1.0 - delta;
-            }
+                // Scale the value to be a delta for the range
+                Real delta = value * Real(0.5) + Real(0.5);
+                if (invert)
+                {
+                    delta = 1.0 - delta;
+                }
 
-            _value = interpolate(range.x, range.y, delta);
-        }
-        else
-        {
-            _value = affinity;
+                // Interpolate between the range using the delta
+                _value = interpolate(range.x, range.y, delta);
+            }
         }
     }
     break;
@@ -118,15 +119,18 @@ void InputAxisBinding::update(Platform& platform, Real timeStep)
             Joystick& joystick = platform.joystick(joystickIndex);
             if (joystick.isButtonDown(joystickButton))
             {
-                modifyValue(invert, acceleration * timeStep);
+                modifyValue(acceleration * timeStep);
+            }
+            else
+            {
+                applyGravity(timeStep);
             }
         }
     }
     break;
-    default:
-        break;
     }
 
+    // Clamp within the effective range
     _value = clamp(_value, range.x, range.y);
 }
 
@@ -135,7 +139,28 @@ Real InputAxisBinding::value() const
     return _value;
 }
 
-void InputAxisBinding::modifyValue(bool invert, Real delta)
+void InputAxisBinding::applyGravity(Real timeStep)
+{
+    if (_value != 0)
+    {
+        Real delta = gravity * timeStep;
+        if (_value > 0)
+        {
+            _value -= delta;
+        }
+        else
+        {
+            _value += delta;
+        }
+
+        if (delta > std::abs(_value))
+        {
+            _value = 0;
+        }
+    }
+}
+
+void InputAxisBinding::modifyValue(Real delta)
 {
     if (invert)
     {
@@ -163,9 +188,9 @@ Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding)
             << encodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
             << encodeValue("acceleration", inputAxisBinding.acceleration)
             << encodeValue("gravity", inputAxisBinding.gravity)
-            << encodeValue("affinity", inputAxisBinding.affinity)
             << encodeValue("range", inputAxisBinding.range)
             << encodeValue("invert", inputAxisBinding.invert)
+            << encodeValue("deadValue", inputAxisBinding.deadValue)
             << endObject();
 
     return encoder;
@@ -184,9 +209,9 @@ Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding)
             >> decodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
             >> decodeValue("acceleration", inputAxisBinding.acceleration)
             >> decodeValue("gravity", inputAxisBinding.gravity)
-            >> decodeValue("affinity", inputAxisBinding.affinity)
             >> decodeValue("range", inputAxisBinding.range)
             >> decodeValue("invert", inputAxisBinding.invert)
+            >> decodeValue("deadValue", inputAxisBinding.deadValue)
             >> endObject();
 
     // Make sure joystick dead zone is defined in the correct order

@@ -30,13 +30,14 @@
 #include "Hect/Input/Mouse.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
-#include "Hect/Runtime/Platform.h"
 
 namespace hect
 {
 
+class Platform;
+
 ///
-/// A type of input axis source.
+/// An InputAxisBinding type.
 enum InputAxisBindingType
 {
     ///
@@ -69,13 +70,13 @@ enum InputAxisBindingType
 };
 
 ///
-/// A binding to an input axis.
+/// A binding of an input device to the value of an InputAxis.
 class HECT_EXPORT InputAxisBinding
 {
 public:
 
     ///
-    /// Updates the value.
+    /// Updates the contributing value of the binding.
     ///
     /// \param platform The platform.
     /// \param timeStep The duration of time elapsed in seconds since the last
@@ -83,7 +84,7 @@ public:
     void update(Platform& platform, Real timeStep);
 
     ///
-    /// Returns the value.
+    /// Returns the contributing value.
     Real value() const;
 
     ///
@@ -93,22 +94,27 @@ public:
     ///
     /// The mouse button controlling the axis.
     ///
-    /// \note Only relevant for when the source is
+    /// \note Only relevant when the type is
     /// ::InputAxisBindingType_MouseButton.
     MouseButton mouseButton { MouseButton_Button0 };
 
+    ///
+    /// How sensitively mouse motion affects the input axis.
+    ///
+    /// \note Only relevant when the type is
+    /// ::InputAxisBindingType_MouseMoveX or ::InputAxisBindingType_MouseMoveY.
     Real mouseSensitivity { 0.01 };
 
     ///
     /// The key controlling the axis.
     ///
-    /// \note Only relevant for when the source is ::InputAxisBindingType_Key.
+    /// \note Only relevant when the type is ::InputAxisBindingType_Key.
     Key key { Key_A };
 
     ///
     /// The index of the joystick controlling the axis.
     ///
-    /// \note Only relevant for when the source is
+    /// \note Only relevant when the type is
     /// ::InputAxisBindingType_JoystickAxis or
     /// ::InputAxisBindingType_JoystickButton.
     JoystickIndex joystickIndex { 0 };
@@ -116,30 +122,39 @@ public:
     ///
     /// The joystick axis controlling the axis.
     ///
-    /// \note Only relevant for when the source is
+    /// \note Only relevant when the type is
     /// ::InputAxisBindingType_JoystickAxis.
     JoystickAxis joystickAxis { JoystickAxis_Axis0 };
 
     ///
     /// The dead zone of the joystick axis controlling the axis.
     ///
-    /// \note Only relevant for when the source is
+    /// \note Only relevant when the type is
     /// ::InputAxisBindingType_JoystickAxis.
     Vector2 joystickAxisDeadZone;
 
     ///
     /// The joystick button controlling the axis.
     ///
-    /// \note Only relevant for when the source is
+    /// \note Only relevant when the type is
     /// ::InputAxisBindingType_JoystickButton.
     JoystickButton joystickButton { JoystickButton_Button0 };
 
+    ///
+    /// How quickly the axis is affected by discrete input events.
+    ///
+    /// \note Only relevant when the type is
+    /// ::InputAxisBindingType_MouseButton, ::InputAxisBindingType_MouseScroll,
+    /// ::InputAxisBindingType_Key, or ::InputAxisBindingType_JoystickButton.
     Real acceleration { 0 };
-    Real gravity { 0 };
 
     ///
-    /// The value the binding is falls back to due to lack of source input.
-    Real affinity { 0 };
+    /// How quickly the axis returns to zero.
+    ///
+    /// \note Only relevant when the type is
+    /// ::InputAxisBindingType_MouseButton, ::InputAxisBindingType_MouseScroll,
+    /// ::InputAxisBindingType_Key, or ::InputAxisBindingType_JoystickButton.
+    Real gravity { 0 };
 
     ///
     /// The range that the binding affects the input axis.
@@ -149,12 +164,16 @@ public:
     /// Whether the input binding is inverted.
     bool invert { false };
 
+    ///
+    /// The value the binding falls back to due to lack of source input.
+    Real deadValue { 0 };
+
     friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding);
     friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding);
 
 private:
-    void modifyValue(bool invert, Real delta);
-    void updateMouseMove(Platform& platform, int component);
+    void applyGravity(Real timeStep);
+    void modifyValue(Real delta);
 
     Real _value { 0 };
 };
