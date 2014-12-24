@@ -38,6 +38,8 @@ namespace hect
 
 class Scene;
 
+///
+/// Abstract base for ComponentPool.
 class HECT_EXPORT ComponentPoolBase
 {
     friend class Scene;
@@ -54,7 +56,7 @@ protected:
 };
 
 ///
-/// A pool of components of a specific type within a Scene.
+/// A pool of Component%s of a specific type within a Scene.
 template <typename T>
 class ComponentPool :
     public ComponentPoolBase,
@@ -84,7 +86,7 @@ public:
     typename Component<T>::ConstIterator end() const;
 
     ///
-    /// Returns an iterator to the first component matching the given
+    /// Returns an iterator to the first Component matching the given
     /// predicate.
     ///
     /// \param predicate The predicate to use in the search.
@@ -94,7 +96,7 @@ public:
     typename Component<T>::Iterator findFirst(typename Component<T>::Predicate predicate);
 
     ///
-    /// Returns an iterator to the first component matching the given
+    /// Returns an iterator to the first Component matching the given
     /// predicate.
     ///
     /// \param predicate The predicate to use in the search.
@@ -104,7 +106,7 @@ public:
     typename Component<T>::ConstIterator findFirst(typename Component<T>::Predicate predicate) const;
 
     ///
-    /// Returns iterators to all components matching the given predicate.
+    /// Returns iterators to all Component%s matching the given predicate.
     ///
     /// \param predicate The predicate to use in the search.
     ///
@@ -112,7 +114,7 @@ public:
     typename Component<T>::Iterator::Vector find(typename Component<T>::Predicate predicate);
 
     ///
-    /// Returns iterators to all components matching the given predicate.
+    /// Returns iterators to all Component%s matching the given predicate.
     ///
     /// \param predicate The predicate to use in the search.
     ///
@@ -120,7 +122,7 @@ public:
     typename Component<T>::ConstIterator::Vector find(typename Component<T>::Predicate predicate) const;
 
     ///
-    /// Returns the component with the given id.
+    /// Returns the Component with the given id.
     ///
     /// \param id The id of the component to get.
     ///
@@ -128,11 +130,7 @@ public:
     T& withId(ComponentId id);
 
     ///
-    /// Returns the component with the given id.
-    ///
-    /// \param id The id of the component to get.
-    ///
-    /// \throw Error If no component with the given id exists in the pool.
+    /// \copydoc ComponentPool::withId()
     const T& withId(ComponentId id) const;
 
 private:

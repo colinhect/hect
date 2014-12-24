@@ -35,7 +35,7 @@ namespace hect
 class AssetCache;
 
 ///
-/// Base asset entry.
+/// Abstract base for AssetEntry.
 class HECT_EXPORT AssetEntryBase
 {
 public:

@@ -34,19 +34,19 @@ namespace hect
 {
 
 ///
-/// A numeric identifier for an entity.
+/// A numeric identifier for an Entity.
 typedef uint32_t EntityId;
 
 ///
-/// A numeric identifier for a component.
+/// A numeric identifier for a Component.
 typedef uint32_t ComponentId;
 
 ///
-/// A numeric identifier for a component type.
+/// A numeric identifier for a Component type.
 typedef uint32_t ComponentTypeId;
 
 ///
-/// Abstract base for components.
+/// Abstract base for Component.
 class HECT_EXPORT ComponentBase
 {
 public:

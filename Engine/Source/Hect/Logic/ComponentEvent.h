@@ -30,11 +30,11 @@ namespace hect
 {
 
 ///
-/// A component-related event type.
+/// A type of ComponentEvent.
 enum ComponentEventType
 {
     ///
-    /// A component was added to an entity.
+    /// A Component was added to an Entity.
     ///
     /// This event type is triggered when an entity pending activation is
     /// activated during Scene::refresh().  It also may be triggered
@@ -42,7 +42,7 @@ enum ComponentEventType
     ComponentEventType_Add,
 
     ///
-    /// A component was removed from an entity.
+    /// A Component was removed from an Entity.
     ///
     /// This event type is triggered when an entity pending destruction is
     /// destroyed during Scene::refresh().  It also may be triggered
@@ -53,7 +53,7 @@ enum ComponentEventType
 class Entity;
 
 ///
-/// A component-related event.
+/// An event relating to a Component.
 template <typename T>
 class ComponentEvent
 {
@@ -65,7 +65,7 @@ public:
     ComponentEventType type;
 
     ///
-    /// Returns a reference to the entity that the event is for.
+    /// Returns a reference to the Entity that the event is for.
     ///
     /// \warning This reference is only guaranteed to be valid for the duration
     /// of the call to Listener::receiveEvent() when the event is dispatched.

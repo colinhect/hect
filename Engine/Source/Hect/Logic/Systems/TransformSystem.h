@@ -32,7 +32,7 @@ namespace hect
 {
 
 ///
-/// Manages the transform hierarchies of the scene.
+/// Manages the Transform hierarchies of a Scene.
 ///
 /// \system
 class HECT_EXPORT TransformSystem :

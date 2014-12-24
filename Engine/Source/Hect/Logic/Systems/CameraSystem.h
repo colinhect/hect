@@ -32,7 +32,8 @@ namespace hect
 {
 
 ///
-/// Updates and tracks the active camera(s).
+/// Updates and tracks the active Camera in a Scene.
+///
 /// \system
 class HECT_EXPORT CameraSystem :
     public System,

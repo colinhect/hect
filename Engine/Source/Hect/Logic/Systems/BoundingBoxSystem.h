@@ -32,7 +32,7 @@ namespace hect
 {
 
 ///
-/// Manages the bounding box hierarchies of the scene.
+/// Manages the BoundingBox hierarchies of a Scene.
 ///
 /// \system
 class HECT_EXPORT BoundingBoxSystem :
