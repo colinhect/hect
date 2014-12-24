@@ -23,6 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+///
+/// The namespace containing the Hect %Engine API.
+namespace hect {}
+
 #include "Hect/Concurrency/Task.h"
 #include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Any.h"

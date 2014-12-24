@@ -51,7 +51,7 @@ public:
 };
 
 ///
-/// Refers to the asset at a path.
+/// Refers to an Asset existing at a specific path in the FileSystem.
 template <typename T>
 class AssetEntry :
     public AssetEntryBase

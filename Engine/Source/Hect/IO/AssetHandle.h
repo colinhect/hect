@@ -34,7 +34,7 @@ namespace hect
 {
 
 ///
-/// A reference-counted handle for an asset.
+/// A reference-counted handle for an Asset.
 ///
 /// \note An asset handle may reference an asset which was loaded from the
 /// file system and is cached in an asset cache.  Alternatively, it may

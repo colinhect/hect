@@ -31,7 +31,7 @@ namespace hect
 {
 
 ///
-/// Inheriting from this allows for caching/loading using an asset cache.
+/// Inheriting from this allows for caching/loading using an AssetCache.
 template <typename T>
 class Asset
 {

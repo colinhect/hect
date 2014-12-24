@@ -35,8 +35,8 @@ namespace hect
 {
 
 ///
-/// Provides the functionality to decode an asset directly from an asset
-/// cache, automatically detecting if the data is binary or text-based.
+/// Provides the functionality to decode an Asset directly from an AssetCache,
+/// automatically detecting if the data is binary or text-based.
 class HECT_EXPORT AssetDecoder :
     public Decoder,
     public Uncopyable
