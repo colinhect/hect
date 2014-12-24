@@ -45,7 +45,9 @@ public:
     /// Forces the update of a transform and all child transforms.
     ///
     /// \param transform The transform to update.
-    void update(Transform& transform);
+    void forceUpdate(Transform& transform);
+
+    void tick(Real timeStep) override;
 
 private:
     void updateHeierarchy(Entity& parent, Entity& child);

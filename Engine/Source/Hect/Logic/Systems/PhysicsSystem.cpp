@@ -32,7 +32,7 @@
 using namespace hect;
 
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Precedent),
+    System(scene, SystemTickStage_Subsequent),
     gravity(Vector3::unitY() * Real(-9.8)),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
@@ -84,8 +84,6 @@ void PhysicsSystem::tick(Real timeStep)
             transform->localPosition = newTransform.localPosition;
             transform->localScale = newTransform.localScale;
             transform->localRotation = newTransform.localRotation;
-
-            transformSystem.update(*transform);
         }
 
         // Update rigid body properties to what Bullet says it should be
@@ -121,7 +119,7 @@ void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
                 btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
                 btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
 
-                transformSystem.update(*transform);
+                transformSystem.forceUpdate(*transform);
 
                 rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
                 btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);

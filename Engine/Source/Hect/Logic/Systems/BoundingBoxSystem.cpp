@@ -36,7 +36,7 @@ BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
     (void)engine;
 }
 
-void BoundingBoxSystem::update(BoundingBox& boundingBox)
+void BoundingBoxSystem::forceUpdate(BoundingBox& boundingBox)
 {
     Entity& entity = boundingBox.entity();
 
@@ -70,7 +70,7 @@ void BoundingBoxSystem::update(BoundingBox& boundingBox)
         auto childBoundingBox = child.component<BoundingBox>();
         if (childBoundingBox)
         {
-            update(*childBoundingBox);
+            forceUpdate(*childBoundingBox);
 
             // Expand the bounding box to include this child
             axisAlignedBox.expandToInclude(childBoundingBox->axisAlignedBox);
@@ -81,6 +81,16 @@ void BoundingBoxSystem::update(BoundingBox& boundingBox)
 void BoundingBoxSystem::tick(Real timeStep)
 {
     (void)timeStep;
+
+    // Update all bounding boxes starting at the root entities
+    for (BoundingBox& boundingBox : scene().components<BoundingBox>())
+    {
+        Entity& entity = boundingBox.entity();
+        if (!entity.parent())
+        {
+            forceUpdate(boundingBox);
+        }
+    }
 
     // If the scene has a debug system
     if (scene().hasSystemType<DebugSystem>())

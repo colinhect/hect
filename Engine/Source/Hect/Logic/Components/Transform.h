@@ -44,27 +44,18 @@ public:
     /// The local position.
     ///
     /// \property
-    ///
-    /// \note In order for changes to this to affect the global position of
-    /// the transform, TransformSystem::update() should be called.
     Vector3 localPosition;
 
     ///
     /// The local scale.
     ///
     /// \property
-    ///
-    /// \note In order for changes to this to affect the global scale of
-    /// the transform, TransformSystem::update() should be called.
     Vector3 localScale { Vector3::one() };
 
     ///
     /// The local rotation.
     ///
     /// \property
-    ///
-    /// \note In order for changes to this to affect the global rotation of
-    /// the transform, TransformSystem::update() should be called.
     Quaternion localRotation;
 
     ///

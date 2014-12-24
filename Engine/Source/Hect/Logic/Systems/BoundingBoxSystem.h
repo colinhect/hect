@@ -45,7 +45,7 @@ public:
     /// Forces the update of a bounding box and all child bounding boxes.
     ///
     /// \param boundingBox The bounding box to update.
-    void update(BoundingBox& boundingBox);
+    void forceUpdate(BoundingBox& boundingBox);
 
     void tick(Real timeStep) override;
 };

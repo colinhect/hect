@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "TransformSystem.h"
 
-#include "Hect/Logic/Components/BoundingBox.h"
-#include "Hect/Logic/Systems/BoundingBoxSystem.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -35,7 +33,7 @@ TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
     (void)engine;
 }
 
-void TransformSystem::update(Transform& transform)
+void TransformSystem::forceUpdate(Transform& transform)
 {
     Entity& entity = transform.entity();
     auto parent = entity.parent();
@@ -69,13 +67,18 @@ void TransformSystem::update(Transform& transform)
     {
         root = entity.iterator();
     }
+}
 
-    // Update the bounding box from the root
-    auto boundingBox = root->component<BoundingBox>();
-    if (boundingBox)
+void TransformSystem::tick(Real timeStep)
+{
+    // Update all transforms starting at the root entities
+    for (Transform& transform : scene().components<Transform>())
     {
-        BoundingBoxSystem& boundingBoxSystem = scene().system<BoundingBoxSystem>();
-        boundingBoxSystem.update(*boundingBox);
+        Entity& entity = transform.entity();
+        if (!entity.parent())
+        {
+            forceUpdate(transform);
+        }
     }
 }
 
