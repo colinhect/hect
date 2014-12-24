@@ -58,7 +58,8 @@ public:
     void clearAttributes();
 
     ///
-    /// Returns whether the vertex layout has an attribute with the given semantic.
+    /// Returns whether the vertex layout has an attribute with the given
+    /// semantic.
     ///
     /// \param semantic The semantic.
     bool hasAttributeWithSemantic(VertexAttributeSemantic semantic) const;
@@ -68,8 +69,8 @@ public:
     ///
     /// \param semantic The semantic to find the attribute for.
     ///
-    /// \throws Error If the vertex layout does not have an attribute with the
-    /// given semantic
+    /// \throws InvalidOperation If the vertex layout does not have an
+    /// attribute with the given semantic.
     const VertexAttribute& attributeWithSemantic(VertexAttributeSemantic semantic) const;
 
     ///

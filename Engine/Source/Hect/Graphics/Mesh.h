@@ -104,7 +104,7 @@ public:
     /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the primitive type is set.
     ///
-    /// \throws Error If the mesh already has vertex data.
+    /// \throws InvalidOperation If the mesh already has vertex data.
     void setVertexLayout(const VertexLayout& vertexLayout);
 
     ///
@@ -132,7 +132,7 @@ public:
     /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the index type is set.
     ///
-    /// \throws Error If the mesh already has index data.
+    /// \throws InvalidOperation If the mesh already has index data.
     void setIndexType(IndexType indexType);
 
     ///

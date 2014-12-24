@@ -28,7 +28,7 @@
 #include <string>
 #include <vector>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Sequence.h"
@@ -82,8 +82,8 @@ public:
     ///
     /// \returns The enum value.
     ///
-    /// \throws Error If the string does not represent a valid enum value or
-    /// if the type is not an enum.
+    /// \throws InvalidOperation If the string does not represent a valid enum
+    /// value or if the type is not an enum.
     template <typename T>
     static T fromString(const std::string& stringValue);
 
@@ -94,8 +94,8 @@ public:
     ///
     /// \returns The string representation of the enum value.
     ///
-    /// \throws Error If the number does not represent a valid enum value or
-    /// if the type is not an enum.
+    /// \throws InvalidOperation If the number does not represent a valid enum
+    /// value or if the type is not an enum.
     template <typename T>
     static const std::string& toString(T numericValue);
 
@@ -107,7 +107,8 @@ public:
     ///
     /// \returns The enum value.
     ///
-    /// \throws Error If the string does not represent a valid enum value.
+    /// \throws InvalidOperation If the string does not represent a valid enum
+    /// value.
     EnumValue::Type fromString(const std::string& stringValue) const;
 
     ///
@@ -117,8 +118,8 @@ public:
     ///
     /// \returns The string representation of the enum value.
     ///
-    /// \throws Error If the number does not represent a valid enum value or
-    /// if the type is not an enum.
+    /// \throws InvalidOperation If the number does not represent a valid enum
+    /// value or if the type is not an enum.
     const std::string& toString(EnumValue::Type numericValue) const;
 
     void addValue(EnumValue::Type value, const std::string& string);

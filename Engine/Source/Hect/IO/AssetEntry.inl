@@ -51,8 +51,8 @@ void AssetEntry<T>::refresh(bool force)
             delete asset;
             _asset.release();
 
-            _errorOccurred = false;
-            _errorMessage.clear();
+            _exceptionOccurred = false;
+            _exceptionMessage.clear();
 
             initiateLoad();
         }
@@ -67,10 +67,10 @@ std::unique_ptr<T>& AssetEntry<T>::get()
         _taskHandle->wait();
     }
 
-    // Thow an error if the asset failed to load
-    if (_errorOccurred)
+    // Thow an exception if the asset failed to load
+    if (_exceptionOccurred)
     {
-        throw Error(format("Failed to load asset '%s': %s", _path.asString().c_str(), _errorMessage.c_str()));
+        throw FatalError(format("Failed to load asset '%s': %s", _path.asString().c_str(), _exceptionMessage.c_str()));
     }
 
     return _asset;
@@ -96,7 +96,7 @@ template <typename T>
 void AssetEntry<T>::load()
 {
     _asset.reset(_constructor());
-    _errorOccurred = false;
+    _exceptionOccurred = false;
 
     // Load the asset and keep the error message
     try
@@ -116,8 +116,8 @@ void AssetEntry<T>::load()
     catch (std::exception& error)
     {
         // Save the error message
-        _errorOccurred = true;
-        _errorMessage = error.what();
+        _exceptionOccurred = true;
+        _exceptionMessage = error.what();
     }
 }
 

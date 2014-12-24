@@ -41,7 +41,7 @@ bool DataValueEncoder::isBinaryStream() const
 
 WriteStream& DataValueEncoder::binaryStream()
 {
-    throw Error("The encoder is not writing to a binary stream");
+    throw InvalidOperation("The encoder is not writing to a binary stream");
 }
 
 void DataValueEncoder::beginArray()
@@ -85,7 +85,7 @@ void DataValueEncoder::selectMember(const char* name)
 {
     if (_valueStack.empty() || !_valueStack.top().isObject())
     {
-        throw Error("Current encoding object cannot have named members");
+        throw InvalidOperation("Current encoding object cannot have named members");
     }
     _nameStack.push(name);
     _memberSelected = true;
@@ -162,7 +162,7 @@ void DataValueEncoder::encode(const DataValue& value)
     {
         if (!_memberSelected)
         {
-            throw Error("Cannot encode a value to an object without first selecting a member");
+            throw InvalidOperation("Cannot encode a value to an object without first selecting a member");
         }
 
         top.addMember(_nameStack.top(), value);

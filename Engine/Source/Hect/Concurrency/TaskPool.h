@@ -33,7 +33,7 @@
 #include <vector>
 
 #include "Hect/Concurrency/Task.h"
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 

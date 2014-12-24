@@ -103,7 +103,7 @@ TEST_CASE("Add a listener that is already added", "[Event]")
     TestListener listener;
 
     dispatcher.addListener(listener);
-    REQUIRE_THROWS_AS(dispatcher.addListener(listener), Error);
+    REQUIRE_THROWS_AS(dispatcher.addListener(listener), InvalidOperation);
 
     dispatcher.dispatchEvent(TestEventA::A);
     REQUIRE(TestEventA::A == listener.lastTestEventA);
@@ -114,5 +114,5 @@ TEST_CASE("Remove a listener that is not added", "[Event]")
     Dispatcher<TestEventA> dispatcher;
 
     TestListener listener;
-    REQUIRE_THROWS_AS(dispatcher.removeListener(listener), Error);
+    REQUIRE_THROWS_AS(dispatcher.removeListener(listener), InvalidOperation);
 }

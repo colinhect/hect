@@ -124,7 +124,7 @@ public:
         ///
         /// \returns A reference to the component.
         ///
-        /// \throws Error If the iterator is invalid.
+        /// \throws InvalidOperation If the iterator is invalid.
         T& operator*() const;
 
         ///
@@ -132,7 +132,7 @@ public:
         ///
         /// \returns A reference to the component.
         ///
-        /// \throws Error If the iterator is invalid.
+        /// \throws InvalidOperation If the iterator is invalid.
         T* operator->() const;
 
         ///
@@ -181,7 +181,7 @@ public:
         ///
         /// \returns A reference to the component.
         ///
-        /// \throws Error If the iterator is invalid.
+        /// \throws InvalidOperation If the iterator is invalid.
         const T& operator*() const;
 
         ///
@@ -189,7 +189,7 @@ public:
         ///
         /// \returns A reference to the component.
         ///
-        /// \throws Error If the iterator is invalid.
+        /// \throws InvalidOperation If the iterator is invalid.
         const T* operator->() const;
 
         ///
@@ -223,27 +223,27 @@ public:
     ///
     /// Returns the pool that the component is in.
     ///
-    /// \throws Error If the component is not in a pool.
+    /// \throws InvalidOperation If the component is not in a pool.
     ComponentPool<T>& pool();
 
     ///
     /// Returns the pool that the component is in.
     ///
-    /// \throws Error If the component is not in a pool.
+    /// \throws InvalidOperation If the component is not in a pool.
     const ComponentPool<T>& pool() const;
 
     ///
     /// Returns the entity of the component.
     ///
-    /// \throws Error If the component is not in a pool or the component does
-    /// belong to an entity.
+    /// \throws InvalidOperation If the component is not in a pool or the
+    /// component does belong to an entity.
     Entity& entity();
 
     ///
     /// Returns the entity of the component.
     ///
-    /// \throws Error If the component is not in a pool or the component does
-    /// belong to an entity.
+    /// \throws InvalidOperation If the component is not in a pool or the
+    /// component does belong to an entity.
     const Entity& entity() const;
 
     ///

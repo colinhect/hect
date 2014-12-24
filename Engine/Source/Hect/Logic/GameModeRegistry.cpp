@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "GameModeRegistry.h"
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 
 using namespace hect;
@@ -34,7 +34,7 @@ std::unique_ptr<GameMode> GameModeRegistry::create(const std::string& typeName, 
     auto it = _constructors.find(typeName);
     if (it == _constructors.end())
     {
-        throw Error(format("Unknown game mode type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Unknown game mode type '%s'", typeName.c_str()));
     }
 
     // Create the game mode

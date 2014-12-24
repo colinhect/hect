@@ -31,7 +31,7 @@ namespace hect {}
 #include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Any.h"
 #include "Hect/Core/Configuration.h"
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"

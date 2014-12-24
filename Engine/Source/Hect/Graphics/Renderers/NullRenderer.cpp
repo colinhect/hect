@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "NullRenderer.h"
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
 #include "Hect/Graphics/FrameBuffer.h"

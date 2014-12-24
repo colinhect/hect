@@ -42,9 +42,9 @@ InputSystem::InputSystem(Engine& engine, Scene& scene) :
             DataValueDecoder decoder(axisValue);
             decoder >> decodeValue(axis);
         }
-        catch (Error& error)
+        catch (Exception& exception)
         {
-            throw Error(format("Invalid input axes: %s", error.what()));
+            throw FatalError(format("Invalid input axes: %s", exception.what()));
         }
 
         addAxis(axis);
@@ -56,12 +56,12 @@ void InputSystem::addAxis(const InputAxis& axis)
     auto it = _axisIndices.get(axis.name());
     if (it)
     {
-        throw Error(format("Multiple input axes with name '%s'", axis.name().c_str()));
+        throw InvalidOperation(format("Input axis with name '%s' already exists", axis.name().c_str()));
     }
 
     if (axis.name().empty())
     {
-        throw Error("Input axis name cannot be empty");
+        throw InvalidOperation("Input axis name cannot be empty");
     }
 
     size_t index = _axes.size();

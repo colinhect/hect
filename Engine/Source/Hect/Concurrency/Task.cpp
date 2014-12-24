@@ -35,7 +35,7 @@ Task& Task::Handle::operator*() const
 {
     if (!_task)
     {
-        throw Error("Invalid task handle");
+        throw InvalidOperation("Invalid task handle");
     }
 
     return *_task;
@@ -45,7 +45,7 @@ Task* Task::Handle::operator->() const
 {
     if (!_task)
     {
-        throw Error("Invalid task handle");
+        throw InvalidOperation("Invalid task handle");
     }
 
     return _task.get();
@@ -68,10 +68,10 @@ void Task::wait()
         std::this_thread::yield();
     }
 
-    // Re-throw the error if one occurred
-    if (_errorOccurred)
+    // Re-throw the exception if one occurred
+    if (_exceptionOccurred)
     {
-        throw _error;
+        throw _exception;
     }
 }
 
@@ -91,20 +91,20 @@ void Task::execute()
     {
         _action();
     }
-    catch (Error& error)
+    catch (Exception& exception)
     {
-        _errorOccurred = true;
-        _error = error;
+        _exceptionOccurred = true;
+        _exception = exception;
     }
     catch (std::exception& exception)
     {
-        _errorOccurred = true;
-        _error = Error(exception.what());
+        _exceptionOccurred = true;
+        _exception = Exception(exception.what());
     }
     catch (...)
     {
-        _errorOccurred = true;
-        _error = Error("Unknown error");
+        _exceptionOccurred = true;
+        _exception = Exception("Unknown exception");
     }
 
     _done = true;

@@ -28,7 +28,7 @@
 #include <GL/glew.h>
 #include <algorithm>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
 #include "Hect/Graphics/FrameBuffer.h"
@@ -176,7 +176,7 @@ void _checkGLError()
     GLenum errorCode;
     if ((errorCode = glGetError()) != GL_NO_ERROR)
     {
-        throw Error(format("OpenGL error: %s", gluErrorString(errorCode)));
+        throw FatalError(format("OpenGL error: %s", gluErrorString(errorCode)));
     }
 }
 
@@ -339,7 +339,7 @@ void OpenGLRenderer::initialize(Window& window)
     if (error != GLEW_OK)
     {
         const char* errorString = reinterpret_cast<const char*>(glewGetErrorString(error));
-        throw Error(format("Failed to initialize OpenGL: %s", errorString));
+        throw FatalError(format("Failed to initialize OpenGL: %s", errorString));
     }
 
     HECT_INFO(format("OpenGL version %s", glGetString(GL_VERSION)));
@@ -463,7 +463,7 @@ void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
-            throw Error("Invalid frame buffer");
+            throw FatalError("Invalid frame buffer");
         }
     }
 
@@ -610,7 +610,7 @@ void OpenGLRenderer::uploadShader(Shader& shader)
 
             if (infoLog.size() > 0)
             {
-                throw Error(format("Failed to compile GLSL shader source file '%s': %s", module.name().c_str(), infoLog.c_str()));
+                throw FatalError(format("Failed to compile GLSL shader source file '%s': %s", module.name().c_str(), infoLog.c_str()));
             }
         }
 
@@ -632,7 +632,7 @@ void OpenGLRenderer::uploadShader(Shader& shader)
 
         if (infoLog.size() > 0)
         {
-            throw Error(format("Failed to link GLSL shaders for shader '%s': %s", shader.name().c_str(), infoLog.c_str()));
+            throw FatalError(format("Failed to link GLSL shaders for shader '%s': %s", shader.name().c_str(), infoLog.c_str()));
         }
     }
 
@@ -722,7 +722,7 @@ void OpenGLRenderer::setUniform(const Uniform& uniform, int value)
 {
     if (uniform.type() != UniformType_Int)
     {
-        throw Error("Invalid value for uniform");
+        throw InvalidOperation("Invalid value for uniform");
     }
 
     int location = uniform.location();
@@ -736,7 +736,7 @@ void OpenGLRenderer::setUniform(const Uniform& uniform, Real value)
 {
     if (uniform.type() != UniformType_Float)
     {
-        throw Error("Invalid value for uniform");
+        throw InvalidOperation("Invalid value for uniform");
     }
 
     int location = uniform.location();
@@ -751,7 +751,7 @@ void OpenGLRenderer::setUniform(const Uniform& uniform, const Vector2& value)
 {
     if (uniform.type() != UniformType_Vector2)
     {
-        throw Error("Invalid value for uniform");
+        throw InvalidOperation("Invalid value for uniform");
     }
 
     int location = uniform.location();
@@ -766,7 +766,7 @@ void OpenGLRenderer::setUniform(const Uniform& uniform, const Vector3& value)
 {
     if (uniform.type() != UniformType_Vector3)
     {
-        throw Error("Invalid value for uniform");
+        throw InvalidOperation("Invalid value for uniform");
     }
 
     int location = uniform.location();
@@ -781,7 +781,7 @@ void OpenGLRenderer::setUniform(const Uniform& uniform, const Vector4& value)
 {
     if (uniform.type() != UniformType_Vector4)
     {
-        throw Error("Invalid value for uniform");
+        throw InvalidOperation("Invalid value for uniform");
     }
 
     int location = uniform.location();
@@ -796,7 +796,7 @@ void OpenGLRenderer::setUniform(const Uniform& uniform, const Matrix4& value)
 {
     if (uniform.type() != UniformType_Matrix4)
     {
-        throw Error("Invalid value for uniform");
+        throw InvalidOperation("Invalid value for uniform");
     }
 
     int location = uniform.location();
@@ -818,7 +818,7 @@ void OpenGLRenderer::setUniform(const Uniform& uniform, Texture& value)
 {
     if (uniform.type() != UniformType_Texture)
     {
-        throw Error("Invalid value for uniform");
+        throw InvalidOperation("Invalid value for uniform");
     }
 
     int location = uniform.location();
@@ -935,7 +935,7 @@ Image OpenGLRenderer::downloadTextureImage(const Texture& texture)
 {
     if (!texture.isUploaded())
     {
-        throw Error("The texture is not uploaded");
+        throw InvalidOperation("The texture is not uploaded");
     }
 
     auto data = texture.dataAs<TextureData>();
@@ -1125,7 +1125,7 @@ void OpenGLRenderer::bindTexture(Texture& texture, size_t index)
 {
     if (index >= capabilities().maxTextureUnits)
     {
-        throw Error("Cannot select a texture unit beyond hardware capabilities");
+        throw InvalidOperation("Cannot select a texture unit beyond hardware capabilities");
     }
 
     if (!texture.isUploaded())

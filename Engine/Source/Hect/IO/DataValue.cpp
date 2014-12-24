@@ -401,7 +401,7 @@ void DataValue::addMember(const std::string& name, const DataValue& dataValue)
     }
     else
     {
-        throw Error("The data value is not an object");
+        throw InvalidOperation("The data value is not an object");
     }
 }
 
@@ -413,7 +413,7 @@ void DataValue::addElement(const DataValue& dataValue)
     }
     else
     {
-        throw Error("The data value is not an array");
+        throw InvalidOperation("The data value is not an array");
     }
 }
 
@@ -612,7 +612,7 @@ void DataValue::decodeFromYaml(const std::string& yaml)
     // Throw the error if there was one
     if (!errorMessage.empty())
     {
-        throw Error(errorMessage);
+        throw FatalError(errorMessage);
     }
 }
 

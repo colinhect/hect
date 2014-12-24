@@ -43,7 +43,7 @@ SdlWindow::SdlWindow(const std::string& title, const VideoMode& videoMode) :
     _window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), SDL_WINDOW_OPENGL);
     if (!_window)
     {
-        throw Error(format("Failed to create SDL window: %s", SDL_GetError()));
+        throw FatalError(format("Failed to create SDL window: %s", SDL_GetError()));
     }
 
     // Create the OpenGL context

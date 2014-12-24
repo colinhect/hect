@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Core/Error.h>
+#include <Hect/Core/Exception.h>
 #include <Hect/IO/FileSystem.h>
 #include <Hect/IO/MemoryReadStream.h>
 #include <Hect/IO/MemoryWriteStream.h>
@@ -60,7 +60,7 @@ TEST_CASE("Write and read passed the end of a stream", "[Stream]")
             uint8_t data[16];
             stream.read(data, 16);
         }
-        catch (Error&)
+        catch (Exception&)
         {
             errorOccurred = true;
         }

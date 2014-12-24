@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "BinaryDecoder.h"
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 #include "Hect/IO/MemoryReadStream.h"
 
@@ -100,7 +100,7 @@ bool BinaryDecoder::selectMember(const char* name)
 
 std::vector<std::string> BinaryDecoder::memberNames() const
 {
-    throw Error("Cannot enumerate member names from a binary data source");
+    throw InvalidOperation("Cannot enumerate member names from a binary data source");
 }
 
 std::string BinaryDecoder::decodeString()

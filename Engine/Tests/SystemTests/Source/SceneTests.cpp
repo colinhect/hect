@@ -195,11 +195,11 @@ TEST_CASE("Dereference an invalid entity iterator", "[Scene]")
 
     Entity::Iterator a;
     REQUIRE(!a);
-    REQUIRE_THROWS_AS(*a, Error);
+    REQUIRE_THROWS_AS(*a, InvalidOperation);
 
     Entity::Iterator b = scene.entities().end();
     REQUIRE(!b);
-    REQUIRE_THROWS_AS(*b, Error);
+    REQUIRE_THROWS_AS(*b, InvalidOperation);
 }
 
 TEST_CASE("Dereference an iterator to a destroyed entity", "[Scene]")
@@ -212,7 +212,7 @@ TEST_CASE("Dereference an iterator to a destroyed entity", "[Scene]")
     REQUIRE(a);
     scene.refresh();
     REQUIRE(!a);
-    REQUIRE_THROWS_AS(*a, Error);
+    REQUIRE_THROWS_AS(*a, InvalidOperation);
 }
 
 TEST_CASE("Create and activate entities in a scene", "[Scene]")
@@ -454,7 +454,7 @@ TEST_CASE("Add a child entity as a child to another entity", "[Scene]")
 
     Entity::Iterator c = scene.createEntity();
 
-    REQUIRE_THROWS_AS(c->addChild(*b), Error);
+    REQUIRE_THROWS_AS(c->addChild(*b), InvalidOperation);
 }
 
 TEST_CASE("Add child to an entity pending activation", "[Scene]")
@@ -466,7 +466,7 @@ TEST_CASE("Add child to an entity pending activation", "[Scene]")
 
     Entity::Iterator b = scene.createEntity();
 
-    REQUIRE_THROWS_AS(a->addChild(*b), Error);
+    REQUIRE_THROWS_AS(a->addChild(*b), InvalidOperation);
 }
 
 TEST_CASE("Add an unactivated child to an activated entity", "[Scene]")
@@ -479,7 +479,7 @@ TEST_CASE("Add an unactivated child to an activated entity", "[Scene]")
 
     Entity::Iterator b = scene.createEntity();
 
-    REQUIRE_THROWS_AS(a->addChild(*b), Error);
+    REQUIRE_THROWS_AS(a->addChild(*b), InvalidOperation);
 }
 
 TEST_CASE("Add a child to an entity in another scene", "[Scene]")
@@ -492,7 +492,7 @@ TEST_CASE("Add a child to an entity in another scene", "[Scene]")
 
     Entity::Iterator b = sceneB.createEntity();
 
-    REQUIRE_THROWS_AS(a->addChild(*b), Error);
+    REQUIRE_THROWS_AS(a->addChild(*b), InvalidOperation);
 }
 
 TEST_CASE("Activating an entity activates all of its children", "[Scene]")
@@ -727,7 +727,7 @@ TEST_CASE("Remove a non-existing component from an entity", "[Scene]")
     scene.addComponentType<Test>();
 
     Entity::Iterator a = scene.createEntity();
-    REQUIRE_THROWS_AS(a->removeComponent<Test>(), Error);
+    REQUIRE_THROWS_AS(a->removeComponent<Test>(), InvalidOperation);
 }
 
 TEST_CASE("Add a component that already exists for an entity", "[Scene]")
@@ -737,7 +737,7 @@ TEST_CASE("Add a component that already exists for an entity", "[Scene]")
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<Test>("Test");
-    REQUIRE_THROWS_AS(a->addComponent<Test>("Test"), Error);
+    REQUIRE_THROWS_AS(a->addComponent<Test>("Test"), InvalidOperation);
 }
 
 TEST_CASE("Remove a non-existing unregistered component from an entity", "[Scene]")
@@ -745,7 +745,7 @@ TEST_CASE("Remove a non-existing unregistered component from an entity", "[Scene
     Scene scene(*engine);
 
     Entity::Iterator a = scene.createEntity();
-    REQUIRE_THROWS_AS(a->removeComponent<Test>(), Error);
+    REQUIRE_THROWS_AS(a->removeComponent<Test>(), InvalidOperation);
 }
 
 TEST_CASE("Iterate over the components in a scene without any components", "[Scene]")
@@ -1553,7 +1553,7 @@ TEST_CASE("Create an entity handle", "[Scene]")
     scene.refresh();
 
     REQUIRE(!handle);
-    REQUIRE_THROWS_AS(*handle, Error);
+    REQUIRE_THROWS_AS(*handle, InvalidOperation);
 }
 
 TEST_CASE("Copy an entity handle", "[Scene]")
@@ -1573,9 +1573,9 @@ TEST_CASE("Copy an entity handle", "[Scene]")
     scene.refresh();
 
     REQUIRE(!handle);
-    REQUIRE_THROWS_AS(*handle, Error);
+    REQUIRE_THROWS_AS(*handle, InvalidOperation);
     REQUIRE(!handleCopy);
-    REQUIRE_THROWS_AS(*handleCopy, Error);
+    REQUIRE_THROWS_AS(*handleCopy, InvalidOperation);
 }
 
 TEST_CASE("Add a system type to a scene", "[Scene]")
@@ -1597,14 +1597,14 @@ TEST_CASE("Add an existing system type to a scene", "[Scene]")
     Scene scene(*engine);
 
     scene.addSystemType<TestSystem>();
-    REQUIRE_THROWS_AS(scene.addSystemType<TestSystem>(), Error);
+    REQUIRE_THROWS_AS(scene.addSystemType<TestSystem>(), InvalidOperation);
 }
 
 TEST_CASE("Get a non-existing system type", "[Scene]")
 {
     Scene scene(*engine);
 
-    REQUIRE_THROWS_AS(scene.system<TestSystem>(), Error);
+    REQUIRE_THROWS_AS(scene.system<TestSystem>(), InvalidOperation);
 }
 
 TEST_CASE("Remove an existing system type from a scene", "[Scene]")
@@ -1620,7 +1620,7 @@ TEST_CASE("Remove a non-existing system type from a scene", "[Scene]")
 {
     Scene scene(*engine);
 
-    REQUIRE_THROWS_AS(scene.removeSystemType<TestSystem>(), Error);
+    REQUIRE_THROWS_AS(scene.removeSystemType<TestSystem>(), InvalidOperation);
 }
 
 TEST_CASE("Encode and decode a simple scene", "[Scene]")

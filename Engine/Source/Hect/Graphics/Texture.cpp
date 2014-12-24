@@ -24,7 +24,7 @@
 #include "Texture.h"
 
 #include "Hect/Core/Format.h"
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 
 using namespace hect;
 
@@ -82,14 +82,14 @@ void Texture::addSourceImage(const AssetHandle<Image>& image)
     {
         if (!_sourceImages.empty())
         {
-            throw Error("A 2-dimensional texture cannot have more than one source image");
+            throw InvalidOperation("A 2-dimensional texture cannot have more than one source image");
         }
     }
     else if (_type == TextureType_CubeMap)
     {
         if (_sourceImages.size() >= 6)
         {
-            throw Error("A cube map texture cannot have more than six source images");
+            throw InvalidOperation("A cube map texture cannot have more than six source images");
         }
     }
 
@@ -102,15 +102,15 @@ void Texture::addSourceImage(const AssetHandle<Image>& image)
     {
         if (_width != image->width() || _height != image->height())
         {
-            throw Error("The source image does not match the dimensions of the texture");
+            throw InvalidOperation("The source image does not match the dimensions of the texture");
         }
         else if (_pixelType != image->pixelType())
         {
-            throw Error("The source image pixel type does not match the pixel type of the texture");
+            throw InvalidOperation("The source image pixel type does not match the pixel type of the texture");
         }
         else if (_pixelFormat != image->pixelFormat())
         {
-            throw Error("The source image pixel format does not match the pixel format of the texture");
+            throw InvalidOperation("The source image pixel format does not match the pixel format of the texture");
         }
     }
     else

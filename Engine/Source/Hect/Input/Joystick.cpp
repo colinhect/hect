@@ -25,7 +25,7 @@
 
 #include <cassert>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Reflection/Enum.h"
 
@@ -46,7 +46,7 @@ bool Joystick::isButtonDown(JoystickButton button) const
     }
     else
     {
-        throw Error(format("Joystick does not have button '%s'", Enum::toString(button).c_str()));
+        throw InvalidOperation(format("Joystick does not have button '%s'", Enum::toString(button).c_str()));
     }
 }
 
@@ -58,7 +58,7 @@ Real Joystick::axisValue(JoystickAxis axis) const
     }
     else
     {
-        throw Error(format("Joystick does not have axis '%s'", Enum::toString(axis).c_str()));
+        throw InvalidOperation(format("Joystick does not have axis '%s'", Enum::toString(axis).c_str()));
     }
 }
 

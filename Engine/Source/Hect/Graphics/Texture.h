@@ -120,9 +120,9 @@ public:
     ///
     /// \param image The source image to add.
     ///
-    /// \throws Error If the maximum number of source images have been added
-    /// based on the texture type or the image does not match the width/height
-    /// of the texture.
+    /// \throws InvalidOperation If the maximum number of source images have
+    /// been added based on the texture type or the image does not match the
+    /// width/height of the texture.
     void addSourceImage(const AssetHandle<Image>& image);
 
     ///

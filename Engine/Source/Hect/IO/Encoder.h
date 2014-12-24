@@ -44,7 +44,8 @@ public:
     ///
     /// Returns the raw binary stream.
     ///
-    /// \throws Error If the encoder is not writing to a binary stream.
+    /// \throws InvalidOperation If the encoder is not writing to a binary
+    /// stream.
     virtual WriteStream& binaryStream() = 0;
 
     ///
@@ -60,7 +61,8 @@ public:
     /// \note No more elements can be encoded to be the array after it is
     /// ended.
     ///
-    /// \throws Error If an array was not started using beginArray().
+    /// \throws InvalidOperation If an array was not started using
+    /// beginArray().
     virtual void endArray() = 0;
 
     ///
@@ -73,7 +75,8 @@ public:
     ///
     /// Ends an object.
     ///
-    /// \throws Error If an object was not started using beginObject().
+    /// \throws InvalidOperation If an object was not started using
+    /// beginObject().
     virtual void endObject() = 0;
 
     ///
@@ -84,7 +87,8 @@ public:
     ///
     /// \param name The name of the member to select.
     ///
-    /// \throws Error If an object was not started using beginObject().
+    /// \throws InvalidOperation If an object was not started using
+    /// beginObject().
     virtual void selectMember(const char* name) = 0;
 
     ///

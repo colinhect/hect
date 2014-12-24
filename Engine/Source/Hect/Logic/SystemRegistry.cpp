@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "SystemRegistry.h"
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 
 using namespace hect;
@@ -32,7 +32,7 @@ std::shared_ptr<System> SystemRegistry::create(SystemTypeId typeId, Engine& engi
 {
     if (!isRegisteredTypeId(typeId))
     {
-        throw Error("Unknown system type id");
+        throw InvalidOperation("Unknown system type id");
     }
     return _constructors[typeId](engine, scene);
 }
@@ -42,7 +42,7 @@ SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
     auto it = _typeIndexToId.find(typeIndex);
     if (it == _typeIndexToId.end())
     {
-        throw Error("Unknown system type index");
+        throw InvalidOperation("Unknown system type index");
     }
     return it->second;
 }
@@ -52,7 +52,7 @@ SystemTypeId SystemRegistry::typeIdOf(const std::string& typeName)
     auto it = _typeNameToId.find(typeName);
     if (it == _typeNameToId.end())
     {
-        throw Error(format("Unknown system type name '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Unknown system type name '%s'", typeName.c_str()));
     }
     return it->second;
 }
@@ -62,7 +62,7 @@ const std::string& SystemRegistry::typeNameOf(SystemTypeId typeId)
     auto it = _typeIdToName.find(typeId);
     if (it == _typeIdToName.end())
     {
-        throw Error("Unknown system type id");
+        throw InvalidOperation("Unknown system type id");
     }
     return _typeIdToName[typeId];
 }

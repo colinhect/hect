@@ -27,7 +27,7 @@
 #include <functional>
 #include <memory>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 
@@ -62,7 +62,7 @@ public:
         ///
         /// \returns A reference to the associated task.
         ///
-        /// \throws Error If the handle is invalid.
+        /// \throws InvalidOperation If the handle is invalid.
         Task& operator*() const;
 
         ///
@@ -70,7 +70,7 @@ public:
         ///
         /// \returns A pointer to the associated task.
         ///
-        /// \throws Error If the handle is invalid.
+        /// \throws InvalidOperation If the handle is invalid.
         Task* operator->() const;
 
         ///
@@ -86,7 +86,8 @@ public:
     ///
     /// Waits until the task has completed.
     ///
-    /// \throws Error If an error occurred while executing the task's action.
+    /// \throws Exception If an exception occurred while executing the
+    /// task's action.
     void wait();
 
     ///
@@ -100,8 +101,8 @@ private:
 
     Task::Action _action;
     std::atomic<bool> _done { false };
-    bool _errorOccurred { false };
-    Error _error;
+    bool _exceptionOccurred { false };
+    Exception _exception;
 };
 
 }

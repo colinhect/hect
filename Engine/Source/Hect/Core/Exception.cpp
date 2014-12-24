@@ -21,16 +21,46 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Error.h"
+#include "Exception.h"
 
 using namespace hect;
 
-Error::Error() :
+Exception::Exception() :
     std::runtime_error("")
 {
 }
 
-Error::Error(const std::string& message) :
+Exception::Exception(const std::string& message) :
     std::runtime_error(message)
+{
+}
+
+InvalidOperation::InvalidOperation() :
+    Exception("")
+{
+}
+
+InvalidOperation::InvalidOperation(const std::string& message) :
+    Exception(message)
+{
+}
+
+FatalError::FatalError() :
+    Exception("")
+{
+}
+
+FatalError::FatalError(const std::string& message) :
+    Exception(message)
+{
+}
+
+Error::Error() :
+    Exception("")
+{
+}
+
+Error::Error(const std::string& message) :
+    Exception(message)
 {
 }

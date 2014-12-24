@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Mesh.h"
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Graphics/MeshReader.h"
 #include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Graphics/Renderer.h"
@@ -50,7 +50,7 @@ void Mesh::setVertexLayout(const VertexLayout& vertexLayout)
 {
     if (_vertexData.size() != 0)
     {
-        throw Error("Cannot change the vertex layout of a mesh with vertex data");
+        throw InvalidOperation("Cannot change the vertex layout of a mesh with vertex data");
     }
 
     if (isUploaded())
@@ -85,7 +85,7 @@ void Mesh::setIndexType(IndexType indexType)
 {
     if (_indexData.size() != 0)
     {
-        throw Error("Cannot change the index type of a mesh with index data");
+        throw InvalidOperation("Cannot change the index type of a mesh with index data");
     }
 
     if (isUploaded())

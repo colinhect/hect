@@ -75,7 +75,8 @@ public:
     ///
     /// \warning The type must be registered with SystemRegistry.
     ///
-    /// \throws Error If the system type is already supported by the scene.
+    /// \throws InvalidOperation If the system type is already supported by the
+    /// scene.
     template <typename T>
     void addSystemType();
 
@@ -84,7 +85,8 @@ public:
     ///
     /// \warning The type must be registered with SystemRegistry.
     ///
-    /// \throws Error If the system type is not supported by the scene.
+    /// \throws InvalidOperation If the system type is not supported by the
+    /// scene.
     template <typename T>
     void removeSystemType();
 
@@ -96,8 +98,8 @@ public:
     ///
     /// Returns the System of a specific type.
     ///
-    /// \throws Error If the scene does not have the system of the specified
-    /// type.
+    /// \throws InvalidOperation If the scene does not have the system of the
+    /// specified type.
     template <typename T>
     T& system();
 
@@ -106,7 +108,8 @@ public:
     ///
     /// \warning The type must be registered with ComponentRegistry.
     ///
-    /// \throws Error If the component type is already supported by the scene.
+    /// \throws InvalidOperation If the component type is already supported by
+    /// the scene.
     template <typename T>
     void addComponentType();
 
@@ -118,14 +121,14 @@ public:
     ///
     /// Returns the pool of Component%s of a specific type.
     ///
-    /// \throws Error If the component type is unknown.
+    /// \throws InvalidOperation If the component type is unknown.
     template <typename T>
     ComponentPool<T>& components();
 
     ///
     /// Returns the pool of Component%s of a specific type.
     ///
-    /// \throws Error If the component type is unknown.
+    /// \throws InvalidOperation If the component type is unknown.
     template <typename T>
     const ComponentPool<T>& components() const;
 
@@ -156,7 +159,7 @@ public:
     ///
     /// \returns An iterator to the new entity.
     ///
-    /// \throws Error If the entity failed to decode.
+    /// \throws FatalError If the entity failed to decode.
     Entity::Iterator createEntity(const Path& path);
 
     ///

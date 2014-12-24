@@ -143,7 +143,7 @@ const T& ComponentPool<T>::withId(ComponentId id) const
         }
     }
 
-    throw Error("Invalid component");
+    throw InvalidOperation("Invalid component");
 }
 
 template <typename T>
@@ -195,7 +195,7 @@ void ComponentPool<T>::remove(Entity& entity)
     else
     {
         const std::string& typeName = Type::get<T>().name();
-        throw Error(format("Entity does not have component of type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.c_str()));
     }
 }
 
@@ -240,7 +240,7 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     if (id != ComponentId(-1))
     {
         const std::string& typeName = Type::get<T>().name();
-        throw Error(format("Entity already has component of type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Entity already has component of type '%s'", typeName.c_str()));
     }
 
     // Create the new component id
@@ -319,7 +319,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
     else
     {
         const std::string& typeName = Type::get<T>().name();
-        throw Error(format("Entity does not have component of type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.c_str()));
     }
 }
 
@@ -392,7 +392,7 @@ const Entity& ComponentPool<T>::entityForComponent(ComponentId id) const
             return _scene.entities().entityWithId(entityId);
         }
     }
-    throw Error("Component does not have an associated entity");
+    throw InvalidOperation("Component does not have an associated entity");
 }
 
 template <typename T>

@@ -167,7 +167,7 @@ public:
         ///
         /// Returns the renderer that the object is uploaded to.
         ///
-        /// \throws Error If the object is not uploaded.
+        /// \throws InvalidOperation If the object is not uploaded.
         Renderer& renderer();
 
         ///
@@ -285,8 +285,8 @@ public:
     /// \param uniform The uniform to set the value for.
     /// \param value The value.
     ///
-    /// \throws Error If the specified value type differs from the uniform
-    /// type.
+    /// \throws InvalidOperation If the specified value type differs from
+    /// the uniform type.
     virtual void setUniform(const Uniform& uniform, const UniformValue& value) = 0;
 
     ///
@@ -338,7 +338,7 @@ public:
     ///
     /// \returns The downloaded image.
     ///
-    /// \throws Error If the texture is not uploaded.
+    /// \throws InvalidOperation If the texture is not uploaded.
     virtual Image downloadTextureImage(const Texture& texture) = 0;
 
     ///

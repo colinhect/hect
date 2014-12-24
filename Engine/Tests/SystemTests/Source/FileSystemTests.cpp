@@ -22,7 +22,7 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Core/Configuration.h>
-#include <Hect/Core/Error.h>
+#include <Hect/Core/Exception.h>
 #include <Hect/Runtime/Engine.h>
 
 using namespace hect;
@@ -123,5 +123,5 @@ TEST_CASE("Open non-existing file for read", "[FileSystem]")
 
     Path path("DoesNotExist.txt");
 
-    REQUIRE_THROWS_AS(fileSystem.openFileForRead(path), Error);
+    REQUIRE_THROWS_AS(fileSystem.openFileForRead(path), FatalError);
 }

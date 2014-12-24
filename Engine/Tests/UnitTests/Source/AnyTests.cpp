@@ -71,7 +71,7 @@ TEST_CASE("Cast any value to incorrect type", "[Any]")
     Any a(5);
 
     REQUIRE(a);
-    REQUIRE_THROWS_AS(a.as<double>(), Error);
+    REQUIRE_THROWS_AS(a.as<double>(), InvalidOperation);
 }
 
 TEST_CASE("Copy an any value", "[Any]")

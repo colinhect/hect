@@ -149,7 +149,8 @@ public:
     ///
     /// \param peer The peer representing the remove host to disconnect from.
     ///
-    /// \throws Error If the specified peer does not belong to this host.
+    /// \throws InvalidOperation If the specified peer does not belong to this
+    /// host.
     void requestDisconnectFrom(Peer peer);
 
     ///

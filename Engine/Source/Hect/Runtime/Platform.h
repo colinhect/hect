@@ -68,7 +68,8 @@ public:
     ///
     /// Returns the mouse.
     ///
-    /// \throws Error If the platform does not have a mouse connected.
+    /// \throws InvalidOperation If the platform does not have a mouse
+    /// connected.
     virtual Mouse& mouse() = 0;
 
     ///
@@ -78,7 +79,8 @@ public:
     ///
     /// Returns the keyboard.
     ///
-    /// \throws Error If the platform does not have a keyboard connected.
+    /// \throws InvalidOperation If the platform does not have a keyboard
+    /// connected.
     virtual Keyboard& keyboard() = 0;
 
     ///
@@ -93,7 +95,8 @@ public:
     ///
     /// \param index The index of the joystick.
     ///
-    /// \throws Error If no joystick is connected at the given index.
+    /// \throws InvalidOperation If no joystick is connected at the given
+    // index.
     virtual Joystick& joystick(JoystickIndex index) = 0;
 
     ///

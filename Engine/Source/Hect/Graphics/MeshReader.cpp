@@ -210,11 +210,11 @@ void MeshReader::checkVertexBoundary() const
 {
     if (_vertexCount == 0)
     {
-        throw Error("Cannot read attribute before moving to the first vertex");
+        throw InvalidOperation("Cannot read attribute before moving to the first vertex");
     }
     else if (_vertexCount > _mesh.vertexCount())
     {
-        throw Error("Cannot read past the last vertex");
+        throw InvalidOperation("Cannot read past the last vertex");
     }
 }
 
@@ -222,11 +222,11 @@ void MeshReader::checkIndexBoundary() const
 {
     if (_indexCount == 0)
     {
-        throw Error("Cannot read index before moving to the first index");
+        throw InvalidOperation("Cannot read index before moving to the first index");
     }
     else if (_indexCount > _mesh.indexCount())
     {
-        throw Error("Cannot read past the last index");
+        throw InvalidOperation("Cannot read past the last index");
     }
 }
 

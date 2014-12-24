@@ -52,8 +52,8 @@ public:
     /// \param engine The engine.
     /// \param scene The scene that the system is being created for.
     ///
-    /// \throws Error If the specified type id does not correspond to a
-    /// registered system type.
+    /// \throws InvalidOperation If the specified type id does not correspond
+    /// to a registered system type.
     static std::shared_ptr<System> create(SystemTypeId typeId, Engine& engine, Scene& scene);
 
     ///
@@ -61,8 +61,8 @@ public:
     ///
     /// \param typeIndex The type index of the system type to get the id of.
     ///
-    /// \throws Error If the specified type index does not correspond to a
-    /// registered system type.
+    /// \throws InvalidOperation If the specified type index does not
+    /// correspond to a registered system type.
     static SystemTypeId typeIdOf(std::type_index typeIndex);
 
     ///
@@ -70,8 +70,8 @@ public:
     ///
     /// \param typeName The type name of the system type to get the id of.
     ///
-    /// \throws Error If the specified type name does not correspond to a
-    /// registered system type.
+    /// \throws InvalidOperation If the specified type name does not
+    /// correspond to a registered system type.
     static SystemTypeId typeIdOf(const std::string& typeName);
 
     ///
@@ -100,7 +100,8 @@ public:
     ///
     /// Returns the type id for the specified System type.
     ///
-    /// \throws Error If the specified type is not a registered system type.
+    /// \throws InvalidOperation If the specified type is not a registered
+    /// system type.
     template <typename T>
     static SystemTypeId typeIdOf();
 

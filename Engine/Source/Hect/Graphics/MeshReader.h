@@ -55,32 +55,32 @@ public:
     ///
     /// Reads an the attribute with the given semantic as a real.
     ///
-    /// \throws Error If the first vertex has not been moved to or attempting
-    /// to read past the last vertex.
+    /// \throws InvalidOperation If the first vertex has not been moved to or
+    /// attempting to read past the last vertex.
     Real readAttributeReal(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 2-dimensional
     /// vector.
     ///
-    /// \throws Error If the first vertex has not been moved to or attempting
-    /// to read past the last vertex.
+    /// \throws InvalidOperation If the first vertex has not been moved to or
+    /// attempting to read past the last vertex.
     Vector2 readAttributeVector2(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 3-dimensional
     /// vector.
     ///
-    /// \throws Error If the first vertex has not been moved to or attempting
-    /// to read past the last vertex.
+    /// \throws InvalidOperation If the first vertex has not been moved to or
+    /// attempting to read past the last vertex.
     Vector3 readAttributeVector3(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 4-dimensional
     /// vector.
     ///
-    /// \throws Error If the first vertex has not been moved to or attempting
-    /// to read past the last vertex.
+    /// \throws InvalidOperation If the first vertex has not been moved to or
+    /// attempting to read past the last vertex.
     Vector4 readAttributeVector4(VertexAttributeSemantic semantic) const;
 
     ///
@@ -92,22 +92,22 @@ public:
     ///
     /// Reads the current index as an unsigned byte.
     ///
-    /// \throws Error If the first index has not been moved to or attempting to
-    /// read past the last index.
+    /// \throws InvalidOperation If the first index has not been moved to or
+    /// attempting to read past the last index.
     uint8_t readIndexUInt8() const;
 
     ///
     /// Reads the current index as an unsigned short.
     ///
-    /// \throws Error If the first index has not been moved to or attempting to
-    /// read past the last index.
+    /// \throws InvalidOperation If the first index has not been moved to or
+    /// attempting to read past the last index.
     uint16_t readIndexUInt16() const;
 
     ///
     /// Reads the current index as an unsigned int.
     ///
-    /// \throws Error If the first index has not been moved to or attempting to
-    /// read past the last index.
+    /// \throws InvalidOperation If the first index has not been moved to or
+    /// attempting to read past the last index.
     uint32_t readIndexUInt32() const;
 
 private:

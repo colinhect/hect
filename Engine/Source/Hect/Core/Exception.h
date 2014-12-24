@@ -36,20 +36,65 @@ class HECT_EXPORT std::runtime_error;
 #endif
 
 ///
-/// An error.
-class HECT_EXPORT Error :
+/// A base exception.
+class HECT_EXPORT Exception :
     public std::runtime_error
 {
 public:
 
     ///
-    /// Constructs an error without a message.
-    Error();
+    /// Constructs the exception without a message.
+    Exception();
 
     ///
-    /// Constructs an error.
+    /// Constructs the exception with a message.
     ///
-    /// \param message The error message.
+    /// \param message The message.
+    Exception(const std::string& message);
+};
+
+///
+/// An invalid operation was attempted.
+class HECT_EXPORT InvalidOperation :
+    public Exception
+{
+public:
+
+    ///
+    /// Constructs the exception without a message.
+    InvalidOperation();
+
+    ///
+    /// Constructs the exception with a message.
+    ///
+    /// \param message The message.
+    InvalidOperation(const std::string& message);
+};
+
+///
+/// A fatal error was encountered.
+class HECT_EXPORT FatalError :
+    public Exception
+{
+public:
+
+    ///
+    /// Constructs the exception without a message.
+    FatalError();
+
+    ///
+    /// Constructs the exception with a message.
+    ///
+    /// \param message The message.
+    FatalError(const std::string& message);
+};
+
+// In the process of removing this
+class HECT_EXPORT Error :
+    public Exception
+{
+public:
+    Error();
     Error(const std::string& message);
 };
 

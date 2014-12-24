@@ -35,7 +35,7 @@ Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decodeValue)
     {
         if (decodeValue.name && decodeValue.required)
         {
-            throw Error(format("Missing required value '%s'", decodeValue.name));
+            throw FatalError(format("Missing required value '%s'", decodeValue.name));
         }
         return decoder;
     }
@@ -60,7 +60,7 @@ Decoder& operator>>(Decoder& decoder, const DecodeVector<T>& decodeVector)
     {
         if (decodeVector.name && decodeVector.required)
         {
-            throw Error(format("Missing required value '%s'", decodeVector.name));
+            throw FatalError(format("Missing required value '%s'", decodeVector.name));
         }
     }
     return decoder;
@@ -88,7 +88,7 @@ Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decodeEnum)
     {
         if (decodeEnum.name && decodeEnum.required)
         {
-            throw Error(format("Missing required value '%s'", decodeEnum.name));
+            throw FatalError(format("Missing required value '%s'", decodeEnum.name));
         }
     }
     return decoder;

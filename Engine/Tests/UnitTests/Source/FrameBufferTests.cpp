@@ -60,7 +60,7 @@ TEST_CASE("Attach a texture to a frame buffer of a different size", "[FrameBuffe
     FrameBuffer frameBuffer(512, 1024);
 
     REQUIRE(frameBuffer.textureAttachments().size() == 0);
-    REQUIRE_THROWS_AS(frameBuffer.attachTexture(FrameBufferSlot_Color0, texture), Error);
+    REQUIRE_THROWS_AS(frameBuffer.attachTexture(FrameBufferSlot_Color0, texture), InvalidOperation);
     REQUIRE(frameBuffer.textureAttachments().size() == 0);
 }
 
@@ -74,7 +74,7 @@ TEST_CASE("Attach a texture to a non-empty slot of a frame buffer", "[FrameBuffe
     REQUIRE(frameBuffer.textureAttachments().size() == 0);
     frameBuffer.attachTexture(FrameBufferSlot_Color0, textureA);
     REQUIRE(frameBuffer.textureAttachments().size() == 1);
-    REQUIRE_THROWS_AS(frameBuffer.attachTexture(FrameBufferSlot_Color0, textureB), Error);
+    REQUIRE_THROWS_AS(frameBuffer.attachTexture(FrameBufferSlot_Color0, textureB), InvalidOperation);
     REQUIRE(frameBuffer.textureAttachments().size() == 1);
 }
 
@@ -96,7 +96,7 @@ TEST_CASE("Attach a render buffer to a frame buffer of a different size", "[Fram
     FrameBuffer frameBuffer(512, 1024);
 
     REQUIRE(frameBuffer.renderBufferAttachments().size() == 0);
-    REQUIRE_THROWS_AS(frameBuffer.attachRenderBuffer(FrameBufferSlot_Color0, renderBuffer), Error);
+    REQUIRE_THROWS_AS(frameBuffer.attachRenderBuffer(FrameBufferSlot_Color0, renderBuffer), InvalidOperation);
     REQUIRE(frameBuffer.renderBufferAttachments().size() == 0);
 }
 
@@ -110,6 +110,6 @@ TEST_CASE("Attach a render buffer to a non-empty slot of a frame buffer", "[Fram
     REQUIRE(frameBuffer.renderBufferAttachments().size() == 0);
     frameBuffer.attachRenderBuffer(FrameBufferSlot_Color0, renderBufferA);
     REQUIRE(frameBuffer.renderBufferAttachments().size() == 1);
-    REQUIRE_THROWS_AS(frameBuffer.attachRenderBuffer(FrameBufferSlot_Color0, renderBufferB), Error);
+    REQUIRE_THROWS_AS(frameBuffer.attachRenderBuffer(FrameBufferSlot_Color0, renderBufferB), InvalidOperation);
     REQUIRE(frameBuffer.renderBufferAttachments().size() == 1);
 }

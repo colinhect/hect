@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 
 namespace hect
 {
@@ -84,7 +84,7 @@ T& AssetHandle<T>::operator*() const
         return *_unowned;
     }
 
-    throw Error("Asset handle does not refer a valid asset");
+    throw InvalidOperation("Asset handle does not refer a valid asset");
 }
 
 template <typename T>

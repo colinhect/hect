@@ -30,9 +30,9 @@ int main(int argc, char* const argv[])
 
         return Catch::Session().run(argc, argv);
     }
-    catch (hect::Error& error)
+    catch (hect::Exception& exception)
     {
-        HECT_ERROR(error.what());
+        HECT_ERROR(exception.what());
     }
 
     return EXIT_SUCCESS;

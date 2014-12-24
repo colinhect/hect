@@ -24,7 +24,7 @@
 #include "Type.h"
 
 #include "Hect/Core/Configuration.h"
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Reflection/Enum.h"
@@ -49,7 +49,7 @@ Enum& Type::asEnum()
 {
     if (!_enum)
     {
-        throw Error("Type is not an enum");
+        throw InvalidOperation("Type is not an enum");
     }
     return *_enum;
 }
@@ -58,7 +58,7 @@ const Enum& Type::asEnum() const
 {
     if (!_enum)
     {
-        throw Error("Type is not an enum");
+        throw InvalidOperation("Type is not an enum");
     }
     return *_enum;
 }
@@ -103,7 +103,7 @@ const Type& Type::fromTypeInfo(const std::type_info& typeInfo)
     }
     else
     {
-        throw Error("Unknown type");
+        throw InvalidOperation("Unknown type");
     }
 }
 

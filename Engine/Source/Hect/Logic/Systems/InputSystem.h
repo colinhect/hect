@@ -48,7 +48,7 @@ public:
     ///
     /// \param axis The axis to add.
     ///
-    /// \throws Error If an axis already exists with the same name.
+    /// \throws InvalidOperation If an axis already exists with the same name.
     void addAxis(const InputAxis& axis);
 
     ///

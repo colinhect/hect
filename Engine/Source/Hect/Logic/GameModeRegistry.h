@@ -48,8 +48,8 @@ public:
     /// \param typeName The type name of type of game mode to create.
     /// \param engine The engine that the game mode is being created for.
     ///
-    /// \throws Error If the specified type name does not correspond to a
-    /// registered game mode type.
+    /// \throws InvalidOperation If the specified type name does not correspond
+    /// to a registered game mode type.
     static std::unique_ptr<GameMode> create(const std::string& typeName, Engine& engine);
 
     ///

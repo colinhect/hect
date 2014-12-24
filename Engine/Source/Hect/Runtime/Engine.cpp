@@ -83,9 +83,9 @@ Engine::Engine(int argc, char* const argv[]) :
             DataValueDecoder decoder(videoModeValue);
             decoder >> decodeValue(videoMode);
         }
-        catch (Error& error)
+        catch (Exception& exception)
         {
-            throw Error(format("Invalid video mode: %s", error.what()));
+            throw FatalError(format("Invalid video mode: %s", exception.what()));
         }
 
         // Create window and renderer
@@ -99,7 +99,7 @@ int Engine::main()
     const DataValue& gameModeValue = _settings["gameMode"];
     if (gameModeValue.isNull())
     {
-        throw Error("No game mode specified in settings");
+        throw FatalError("No game mode specified in settings");
     }
 
     const std::string& gameModeTypeName = gameModeValue.asString();
@@ -154,7 +154,7 @@ Window& Engine::window()
 {
     if (!_window)
     {
-        throw Error("No available window");
+        throw InvalidOperation("No available window");
     }
     return *_window;
 }
@@ -205,7 +205,7 @@ DataValue Engine::loadConfig(const Path& settingsFilePath)
     }
     catch (std::exception& exception)
     {
-        throw Error(format("Failed to load settings file '%s': %s", settingsFilePath.asString().c_str(), exception.what()));
+        throw FatalError(format("Failed to load settings file '%s': %s", settingsFilePath.asString().c_str(), exception.what()));
     }
 }
 
@@ -246,6 +246,6 @@ Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* co
     }
     catch (std::exception& exception)
     {
-        throw Error(exception.what());
+        throw FatalError(exception.what());
     }
 }

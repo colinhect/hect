@@ -112,7 +112,8 @@ public:
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not an integer or texture.
+    /// \throws InvalidOperation If the uniform value is not an integer or
+    /// texture.
     void setValue(int value);
 
     ///
@@ -120,7 +121,7 @@ public:
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a real.
+    /// \throws InvalidOperation If the uniform value is not a real.
     void setValue(Real value);
 
     ///
@@ -128,7 +129,8 @@ public:
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a 2-dimensional vector.
+    /// \throws InvalidOperation If the uniform value is not a 2-dimensional
+    /// vector.
     void setValue(const Vector2& value);
 
     ///
@@ -136,7 +138,8 @@ public:
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a 3-dimensional vector.
+    /// \throws InvalidOperation If the uniform value is not a 3-dimensional
+    /// vector.
     void setValue(const Vector3& value);
 
     ///
@@ -144,7 +147,8 @@ public:
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a 4-dimensional vector.
+    /// \throws InvalidOperation If the uniform value is not a 4-dimensional
+    /// vector.
     void setValue(const Vector4& value);
 
     ///
@@ -152,7 +156,7 @@ public:
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a 4 by 4 matrix.
+    /// \throws InvalidOperation If the uniform value is not a 4 by 4 matrix.
     void setValue(const Matrix4& value);
 
     ///
@@ -160,7 +164,7 @@ public:
     ///
     /// \param value The value.
     ///
-    /// \throws Error If the uniform value is not a texture.
+    /// \throws InvalidOperation If the uniform value is not a texture.
     void setValue(const AssetHandle<Texture>& value);
 
     ///

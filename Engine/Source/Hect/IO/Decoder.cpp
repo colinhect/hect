@@ -39,7 +39,7 @@ AssetCache& Decoder::assetCache()
 {
     if (!_assetCache)
     {
-        throw Error("Decoder does not have an asset cache");
+        throw InvalidOperation("Decoder does not have an asset cache");
     }
     return *_assetCache;
 }

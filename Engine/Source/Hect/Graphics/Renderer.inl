@@ -105,7 +105,7 @@ Renderer& Renderer::Object<T>::renderer()
 {
     if (!_renderer)
     {
-        throw Error("Object is not uploaded to GPU");
+        throw InvalidOperation("Object is not uploaded to GPU");
     }
     return *_renderer;
 }

@@ -25,7 +25,7 @@
 
 #include <cassert>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 
 using namespace hect;
@@ -36,7 +36,7 @@ PhysFSWriteStream::PhysFSWriteStream(const Path& path) :
     _handle = PHYSFS_openWrite(path.asString().c_str());
     if (!_handle)
     {
-        throw Error(format("Failed to open file for writing: %s", PHYSFS_getLastError()));
+        throw FatalError(format("Failed to open file for writing: %s", PHYSFS_getLastError()));
     }
 }
 
@@ -46,7 +46,7 @@ PhysFSWriteStream::~PhysFSWriteStream()
     {
         if (!PHYSFS_close(_handle))
         {
-            throw Error(format("Failed to close file for writing: %s", PHYSFS_getLastError()));
+            throw FatalError(format("Failed to close file for writing: %s", PHYSFS_getLastError()));
         }
     }
 }
@@ -59,7 +59,7 @@ void PhysFSWriteStream::write(const uint8_t* bytes, size_t byteCount)
     PHYSFS_sint64 result = PHYSFS_write(_handle, bytes, 1, static_cast<PHYSFS_uint32>(byteCount));
     if (result != static_cast<PHYSFS_sint64>(byteCount))
     {
-        throw Error(format("Failed to write to file: %s", PHYSFS_getLastError()));
+        throw FatalError(format("Failed to write to file: %s", PHYSFS_getLastError()));
     }
 }
 
@@ -74,6 +74,6 @@ void PhysFSWriteStream::seek(size_t position)
     assert(_handle);
     if (!PHYSFS_seek(_handle, position))
     {
-        throw Error(format("Failed to seek in file: %s", PHYSFS_getLastError()));
+        throw FatalError(format("Failed to seek in file: %s", PHYSFS_getLastError()));
     }
 }

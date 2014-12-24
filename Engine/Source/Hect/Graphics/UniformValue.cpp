@@ -118,7 +118,7 @@ void UniformValue::setValue(int value)
 {
     if (_type != UniformType_Int)
     {
-        throw Error("Uniform value is not of type 'Int'");
+        throw InvalidOperation("Uniform value is not of type 'Int'");
     }
 
     _value = value;
@@ -128,7 +128,7 @@ void UniformValue::setValue(Real value)
 {
     if (_type != UniformType_Float)
     {
-        throw Error("Uniform value is not of type 'Float'");
+        throw InvalidOperation("Uniform value is not of type 'Float'");
     }
 
     _value = value;
@@ -138,7 +138,7 @@ void UniformValue::setValue(const Vector2& value)
 {
     if (_type != UniformType_Vector2)
     {
-        throw Error("Uniform value is not of type 'Vector2'");
+        throw InvalidOperation("Uniform value is not of type 'Vector2'");
     }
 
     _value = value;
@@ -148,7 +148,7 @@ void UniformValue::setValue(const Vector3& value)
 {
     if (_type != UniformType_Vector3)
     {
-        throw Error("Uniform value is not of type 'Vector3'");
+        throw InvalidOperation("Uniform value is not of type 'Vector3'");
     }
 
     _value = value;
@@ -158,7 +158,7 @@ void UniformValue::setValue(const Vector4& value)
 {
     if (_type != UniformType_Vector4)
     {
-        throw Error("Uniform value is not of type 'Vector4'");
+        throw InvalidOperation("Uniform value is not of type 'Vector4'");
     }
 
     _value = value;
@@ -168,7 +168,7 @@ void UniformValue::setValue(const Matrix4& value)
 {
     if (_type != UniformType_Matrix4)
     {
-        throw Error("Uniform value is not of type 'Matrix4'");
+        throw InvalidOperation("Uniform value is not of type 'Matrix4'");
     }
 
     _value = value;
@@ -178,7 +178,7 @@ void UniformValue::setValue(const AssetHandle<Texture>& value)
 {
     if (_type != UniformType_Texture)
     {
-        throw Error("Uniform value is not of type 'Texture'");
+        throw InvalidOperation("Uniform value is not of type 'Texture'");
     }
 
     _value = value;
@@ -188,7 +188,7 @@ int UniformValue::asInt() const
 {
     if (_type != UniformType_Int)
     {
-        throw Error("Uniform value is not of type 'Int'");
+        throw InvalidOperation("Uniform value is not of type 'Int'");
     }
 
     return _value.as<int>();
@@ -198,7 +198,7 @@ Real UniformValue::asReal() const
 {
     if (_type != UniformType_Float)
     {
-        throw Error("Uniform value is not of type 'Float'");
+        throw InvalidOperation("Uniform value is not of type 'Float'");
     }
 
     return _value.as<Real>();
@@ -208,7 +208,7 @@ Vector2 UniformValue::asVector2() const
 {
     if (_type != UniformType_Vector2)
     {
-        throw Error("Uniform value is not of type 'Vector2'");
+        throw InvalidOperation("Uniform value is not of type 'Vector2'");
     }
 
     return _value.as<Vector2>();
@@ -218,7 +218,7 @@ Vector3 UniformValue::asVector3() const
 {
     if (_type != UniformType_Vector3)
     {
-        throw Error("Uniform value is not of type 'Vector3'");
+        throw InvalidOperation("Uniform value is not of type 'Vector3'");
     }
 
     return _value.as<Vector3>();
@@ -228,7 +228,7 @@ Vector4 UniformValue::asVector4() const
 {
     if (_type != UniformType_Vector4)
     {
-        throw Error("Uniform value is not of type 'Vector4'");
+        throw InvalidOperation("Uniform value is not of type 'Vector4'");
     }
 
     return _value.as<Vector4>();
@@ -238,7 +238,7 @@ Matrix4 UniformValue::asMatrix4() const
 {
     if (_type != UniformType_Matrix4)
     {
-        throw Error("Uniform value is not of type 'Matrix4'");
+        throw InvalidOperation("Uniform value is not of type 'Matrix4'");
     }
 
     return _value.as<Matrix4>();
@@ -248,7 +248,7 @@ AssetHandle<Texture> UniformValue::asTexture() const
 {
     if (_type != UniformType_Texture)
     {
-        throw Error("Uniform value is not of type 'Texture'");
+        throw InvalidOperation("Uniform value is not of type 'Texture'");
     }
 
     return _value.as<AssetHandle<Texture>>();
@@ -387,7 +387,7 @@ Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue)
         }
         break;
         default:
-            throw Error(format("Unknown uniform type '%s'", Enum::toString(type).c_str()));
+            throw FatalError(format("Unknown uniform type '%s'", Enum::toString(type).c_str()));
         }
     }
     else

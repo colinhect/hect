@@ -26,7 +26,7 @@
 #include <cassert>
 #include <cstring>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 
 using namespace hect;
 
@@ -44,7 +44,7 @@ void MemoryReadStream::read(uint8_t* bytes, size_t byteCount)
 
     if (position + byteCount >= length + 1)
     {
-        throw Error("Attempt to read past end of data");
+        throw InvalidOperation("Attempt to read past end of data");
     }
 
     std::memcpy(bytes, &_data[position], byteCount);
@@ -72,7 +72,7 @@ void MemoryReadStream::seek(size_t position)
 
     if (position >= length + 1)
     {
-        throw Error("Attempt to seek past end of data");
+        throw InvalidOperation("Attempt to seek past end of data");
     }
 
     _position = position;

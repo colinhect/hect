@@ -26,7 +26,7 @@
 #include <cstring>
 #include <enet/enet.h>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
 
@@ -59,7 +59,7 @@ Host::Host(size_t maxPeerCount, size_t channelCount, Port port)
     // Verify that the host was successfully created
     if (!_enetHost)
     {
-        throw Error("Failed to create host");
+        throw FatalError("Failed to create host");
     }
 }
 
@@ -92,7 +92,7 @@ Peer Host::requestConnectTo(IPAddress address, Port port)
     ENetPeer* enetPeer = enet_host_connect(_enetHost, &enetAddress, _enetHost->channelLimit, 0);
     if (!enetPeer)
     {
-        throw Error("Failed to create peer");
+        throw FatalError("Failed to create peer");
     }
 
     HECT_INFO(format("Requested connection to remote host at address %s on port %d", address.asString().c_str(), port));
@@ -187,7 +187,7 @@ void Host::initializeENet()
         // Intialize ENet
         if (enet_initialize() != 0)
         {
-            throw Error("Failed to initialized ENet");
+            throw FatalError("Failed to initialized ENet");
         }
 
         // Log the ENet version

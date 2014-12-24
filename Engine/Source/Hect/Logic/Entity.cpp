@@ -66,7 +66,7 @@ void Entity::IteratorBase::ensureValid() const
 {
     if (!isValid())
     {
-        throw Error("Invalid entity iterator");
+        throw InvalidOperation("Invalid entity iterator");
     }
 }
 
@@ -189,7 +189,7 @@ void Entity::Children::IteratorBase::ensureValid() const
 {
     if (!isValid())
     {
-        throw Error("Invalid entity iterator");
+        throw InvalidOperation("Invalid entity iterator");
     }
 }
 
@@ -395,7 +395,7 @@ void Entity::Handle::ensureValid() const
 {
     if (!isValid())
     {
-        throw Error("Invalid entity handle");
+        throw InvalidOperation("Invalid entity handle");
     }
 }
 
@@ -525,31 +525,31 @@ void Entity::addChild(Entity& entity)
 {
     if (entity._parentId != EntityId(-1))
     {
-        throw Error("Cannot add a child entity which already has a parent");
+        throw InvalidOperation("Cannot add a child entity which already has a parent");
     }
 
     if (entity._pool != _pool)
     {
-        throw Error("Cannot add a child entity from another scene");
+        throw InvalidOperation("Cannot add a child entity from another scene");
     }
 
     if (_pendingActivation)
     {
-        throw Error("Cannot add a child entity to an entity pending activation");
+        throw InvalidOperation("Cannot add a child entity to an entity pending activation");
     }
     else if (_pendingDestruction)
     {
-        throw Error("Cannot add a child entity to an entity pending destruction");
+        throw InvalidOperation("Cannot add a child entity to an entity pending destruction");
     }
 
     if (_activated && !entity._activated)
     {
-        throw Error("Cannot add unactivated entity as child of activated entity");
+        throw InvalidOperation("Cannot add unactivated entity as child of activated entity");
     }
 
     if (!_activated && entity._activated)
     {
-        throw Error("Cannot add activated entity as child of unactivated entity");
+        throw InvalidOperation("Cannot add activated entity as child of unactivated entity");
     }
 
     entity._parentId = _id;
@@ -560,7 +560,7 @@ void Entity::removeChild(Entity& entity)
 {
     if (entity._pool != _pool || entity._parentId != _id)
     {
-        throw Error("Entity is not a child of this entity");
+        throw InvalidOperation("Entity is not a child of this entity");
     }
 
     _childIds.erase(std::remove(_childIds.begin(), _childIds.end(), entity._id), _childIds.end());
@@ -834,7 +834,7 @@ void Entity::ensureInPool() const
 {
     if (!inPool())
     {
-        throw Error("Invalid entity");
+        throw InvalidOperation("Invalid entity");
     }
 }
 
@@ -878,9 +878,9 @@ void Entity::decode(Decoder& decoder)
                 AssetDecoder baseDecoder(decoder.assetCache(), basePath);
                 baseDecoder >> decodeValue(*this);
             }
-            catch (Error& error)
+            catch (Exception& exception)
             {
-                throw Error(format("Failed to load base entity '%s': %s", basePath.asString().c_str(), error.what()));
+                throw FatalError(format("Failed to load base entity '%s': %s", basePath.asString().c_str(), exception.what()));
             }
         }
     }

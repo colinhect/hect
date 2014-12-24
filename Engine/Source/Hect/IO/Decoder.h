@@ -55,7 +55,7 @@ public:
     /// Returns the asset cache to use to get needed assets from while
     /// decoding.
     ///
-    /// \throws Error If the decoder has no asset cache.
+    /// \throws InvalidOperation If the decoder has no asset cache.
     AssetCache& assetCache();
 
     ///
@@ -65,7 +65,8 @@ public:
     ///
     /// Returns the raw binary stream.
     ///
-    /// \throws Error If the decoder is not reading from a binary stream.
+    /// \throws InvalidOperation If the decoder is not reading from a binary
+    /// stream.
     virtual ReadStream& binaryStream() = 0;
 
     ///
@@ -76,7 +77,7 @@ public:
     /// will result in an error being thrown.  Whether there are any more
     /// elements left in the array can be queried using hasMoreElements().
     ///
-    /// \throws Error If the next value to decode is not an array.
+    /// \throws InvalidOperation If the next value to decode is not an array.
     virtual void beginArray() = 0;
 
     ///
@@ -84,14 +85,16 @@ public:
     ///
     /// \note An array cannot be ended before all elements are decoded from it.
     ///
-    /// \throws Error If an array was not started using beginArray().
+    /// \throws InvalidOperation If an array was not started using
+    /// beginArray().
     virtual void endArray() = 0;
 
     ///
     /// Returns whether there are more elements available to be decoded in the
     /// current array.
     ///
-    /// \throws Error If an array was not started using beginArray().
+    /// \throws InvalidOperation If an array was not started using
+    /// beginArray().
     virtual bool hasMoreElements() const = 0;
 
     ///
@@ -100,13 +103,14 @@ public:
     /// \note The specific members of an object can be targeted using
     /// selectMember().
     ///
-    /// \throws Error If the next value to decode is not an object.
+    /// \throws InvalidOperation If the next value to decode is not an object.
     virtual void beginObject() = 0;
 
     ///
     /// Ends an object.
     ///
-    /// \throws Error If an object was not started using beginObject().
+    /// \throws InvalidOperation If an object was not started using
+    /// beginObject().
     virtual void endObject() = 0;
 
     ///
@@ -119,13 +123,15 @@ public:
     ///
     /// \returns True if the member exists and was selected; false otherwise.
     ///
-    /// \throws Error If an object was not started using beginObject().
+    /// \throws InvalidOperation If an object was not started using
+    /// beginObject().
     virtual bool selectMember(const char* name) = 0;
 
     ///
     /// Returns the names of the members of the object.
     ///
-    /// \throws Error If an object was not started using beginObject().
+    /// \throws InvalidOperation If an object was not started using
+    /// beginObject().
     virtual std::vector<std::string> memberNames() const = 0;
 
     ///

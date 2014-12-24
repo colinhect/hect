@@ -49,8 +49,8 @@ public:
     ///
     /// \param typeId The type id representing the type of component to create.
     ///
-    /// \throws Error If the specified type id does not correspond to a
-    /// registered component type.
+    /// \throws InvalidOperation If the specified type id does not correspond
+    /// to a registered component type.
     static std::shared_ptr<ComponentBase> create(ComponentTypeId typeId);
 
     ///
@@ -60,8 +60,8 @@ public:
     /// create.
     /// \param scene The scene that the component pool is being created for.
     ///
-    /// \throws Error If the specified type id does not correspond to a
-    /// registered component type.
+    /// \throws InvalidOperation If the specified type id does not correspond
+    /// to a registered component type.
     static std::shared_ptr<ComponentPoolBase> createPool(ComponentTypeId typeId, Scene& scene);
 
     ///
@@ -69,8 +69,8 @@ public:
     ///
     /// \param typeIndex The type index of the component type to get the id of.
     ///
-    /// \throws Error If the specified type index does not correspond to a
-    /// registered component type.
+    /// \throws InvalidOperation If the specified type index does not
+    /// correspond to a registered component type.
     static ComponentTypeId typeIdOf(std::type_index typeIndex);
 
     ///
@@ -78,8 +78,8 @@ public:
     ///
     /// \param typeName The type name of the component type to get the id of.
     ///
-    /// \throws Error If the specified type name does not correspond to a
-    /// registered component type.
+    /// \throws InvalidOperation If the specified type name does not correspond
+    /// to a registered component type.
     static ComponentTypeId typeIdOf(const std::string& typeName);
 
     ///
@@ -108,7 +108,8 @@ public:
     ///
     /// Returns the type id for the specified Component type.
     ///
-    /// \throws Error If the specified type is not a registered component type.
+    /// \throws InvalidOperation If the specified type is not a registered
+    /// component type.
     template <typename T>
     static ComponentTypeId typeIdOf();
 

@@ -173,7 +173,8 @@ public:
     ///
     /// \param button The button to get the state of.
     ///
-    /// \throws Error If the joystick does not have the given button.
+    /// \throws InvalidOperation If the joystick does not have the given
+    /// button.
     bool isButtonDown(JoystickButton button) const;
 
     ///
@@ -181,7 +182,7 @@ public:
     ///
     /// \param axis The axis to get the value of.
     ///
-    /// \throws Error If the joystick does not have the given axis.
+    /// \throws InvalidOperation If the joystick does not have the given axis.
     Real axisValue(JoystickAxis axis) const;
 
     void enqueueEvent(const JoystickEvent& event);

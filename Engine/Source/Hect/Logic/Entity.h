@@ -92,7 +92,7 @@ public:
         ///
         /// \returns A reference to the entity.
         ///
-        /// \throws Error If the iterator is invalid.
+        /// \throws InvalidOperation If the iterator is invalid.
         Entity& operator*() const;
 
         ///
@@ -100,7 +100,7 @@ public:
         ///
         /// \returns A reference to the entity.
         ///
-        /// \throws Error If the iterator is invalid.
+        /// \throws InvalidOperation If the iterator is invalid.
         Entity* operator->() const;
 
         ///
@@ -149,7 +149,7 @@ public:
         ///
         /// \returns A reference to the entity.
         ///
-        /// \throws Error If the iterator is invalid.
+        /// \throws InvalidOperation If the iterator is invalid.
         const Entity& operator*() const;
 
         ///
@@ -157,7 +157,7 @@ public:
         ///
         /// \returns A reference to the entity.
         ///
-        /// \throws Error If the iterator is invalid.
+        /// \throws InvalidOperation If the iterator is invalid.
         const Entity* operator->() const;
 
         ///
@@ -229,7 +229,7 @@ public:
             ///
             /// \returns A reference to the entity.
             ///
-            /// \throws Error If the iterator is invalid.
+            /// \throws InvalidOperation If the iterator is invalid.
             Entity& operator*() const;
 
             ///
@@ -237,7 +237,7 @@ public:
             ///
             /// \returns A reference to the entity.
             ///
-            /// \throws Error If the iterator is invalid.
+            /// \throws InvalidOperation If the iterator is invalid.
             Entity* operator->() const;
 
             ///
@@ -282,7 +282,7 @@ public:
             ///
             /// \returns A reference to the entity.
             ///
-            /// \throws Error If the iterator is invalid.
+            /// \throws InvalidOperation If the iterator is invalid.
             const Entity& operator*() const;
 
             ///
@@ -290,7 +290,7 @@ public:
             ///
             /// \returns A reference to the entity.
             ///
-            /// \throws Error If the iterator is invalid.
+            /// \throws InvalidOperation If the iterator is invalid.
             const Entity* operator->() const;
 
             ///
@@ -361,7 +361,7 @@ public:
         ///
         /// \returns A reference to the entity.
         ///
-        /// \throws Error If the handle is invalid.
+        /// \throws InvalidOperation If the handle is invalid.
         Entity& operator*();
 
         ///
@@ -369,7 +369,7 @@ public:
         ///
         /// \returns A reference to the entity.
         ///
-        /// \throws Error If the handle is invalid.
+        /// \throws InvalidOperation If the handle is invalid.
         const Entity& operator*() const;
 
         ///
@@ -377,7 +377,7 @@ public:
         ///
         /// \returns A pointer to the entity.
         ///
-        /// \throws Error If the handle is invalid.
+        /// \throws InvalidOperation If the handle is invalid.
         Entity* operator->();
 
         ///
@@ -385,7 +385,7 @@ public:
         ///
         /// \returns A pointer to the entity.
         ///
-        /// \throws Error If the handle is invalid.
+        /// \throws InvalidOperation If the handle is invalid.
         const Entity* operator->() const;
 
         ///
@@ -449,8 +449,8 @@ public:
     ///
     /// \returns An iterator to the added component.
     ///
-    /// \throws Error If the entity already has a component of the type or if
-    /// the entity is invalid.
+    /// \throws InvalidOperation If the entity already has a component of the
+    /// type or if the entity is invalid.
     template <typename T, typename... Args>
     typename Component<T>::Iterator addComponent(Args&&... args);
 
@@ -465,8 +465,8 @@ public:
     ///
     /// \returns An iterator to the added component.
     ///
-    /// \throws Error If the entity does not have a component of the type or if
-    /// the entity is invalid.
+    /// \throws InvalidOperation If the entity does not have a component of the
+    /// type or if the entity is invalid.
     template <typename T, typename... Args>
     typename Component<T>::Iterator replaceComponent(Args&&... args);
 
@@ -476,8 +476,8 @@ public:
     /// \note If the entity is activated then this call will immediately
     /// trigger a ::ComponentEventType_Remove event.
     ///
-    /// \throws Error If the entity does not have a component of the type or if
-    /// the entity is invalid.
+    /// \throws InvalidOperation If the entity does not have a component of the
+    /// type or if the entity is invalid.
     template <typename T>
     void removeComponent();
 
@@ -487,7 +487,7 @@ public:
     /// \note The returned iterator is invalid if the entity does not have a
     /// component of the type.
     ///
-    /// \throws Error If the entity is invalid.
+    /// \throws InvalidOperation If the entity is invalid.
     template <typename T>
     typename Component<T>::Iterator component();
 
@@ -497,7 +497,7 @@ public:
     /// \note The returned iterator is invalid if the entity does not have a
     /// component of the type.
     ///
-    /// \throws Error If the entity is invalid.
+    /// \throws InvalidOperation If the entity is invalid.
     template <typename T>
     typename Component<T>::ConstIterator component() const;
 
@@ -518,23 +518,23 @@ public:
     ///
     /// \returns An iterator to the cloned entity.
     ///
-    /// \throws Error If the entity is invalid.
+    /// \throws InvalidOperation If the entity is invalid.
     Entity::Iterator clone() const;
 
     ///
     /// Marks the entity and all of its children to be destroyed during the
     /// next Scene::refresh().
     ///
-    /// \throws Error If the entity is invalid or is already pending
-    /// destruction.
+    /// \throws InvalidOperation If the entity is invalid or is already
+    /// pending destruction.
     void destroy();
 
     ///
     /// Marks the entity and all of its children to be activated during the
     /// next Scene::refresh().
     ///
-    /// \throws Error If the entity is invalid, is already pending activated,
-    /// or is already activated.
+    /// \throws InvalidOperation If the entity is invalid, is already pending
+    /// activation, or is already activated.
     void activate();
 
     ///
@@ -568,9 +568,9 @@ public:
     ///
     /// \param entity The entity to add as a child.
     ///
-    /// \throws Error If the entity is invalid, in another scene, in a
-    /// differing activation state, is pending activation/destruction, or
-    /// is a child of another entity.
+    /// \throws InvalidOperation If the entity is invalid, in another scene,
+    /// in a differing activation state, is pending activation/destruction,
+    /// or is a child of another entity.
     void addChild(Entity& entity);
 
     ///
@@ -578,8 +578,8 @@ public:
     ///
     /// \param entity The child entity to remove.
     ///
-    /// \throws Error If the entity is invalid, in another scene, or is not a
-    /// child of the entity.
+    /// \throws InvalidOperation If the entity is invalid, in another scene, or
+    /// is not a child of the entity.
     void removeChild(Entity& entity);
 
     ///

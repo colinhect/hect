@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MeshWriter.h"
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 
 using namespace hect;
 

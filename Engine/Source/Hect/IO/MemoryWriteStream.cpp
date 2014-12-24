@@ -26,7 +26,7 @@
 #include <cassert>
 #include <cstring>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 
 using namespace hect;
 
@@ -60,7 +60,7 @@ void MemoryWriteStream::seek(size_t position)
 
     if (position >= length + 1)
     {
-        throw Error("Attempt to seek past end of data");
+        throw InvalidOperation("Attempt to seek past end of data");
     }
 
     _position = position;

@@ -141,7 +141,7 @@ void EntityPool::destroy(EntityId id)
 {
     if (!entityIsValid(id))
     {
-        throw Error("Entity does not exist");
+        throw InvalidOperation("Entity does not exist");
     }
 
     _idPool.destroy(id);
@@ -176,7 +176,7 @@ const Entity& EntityPool::entityWithId(EntityId id) const
             return entity;
         }
     }
-    throw Error("Invalid entity");
+    throw InvalidOperation("Invalid entity");
 }
 
 EntityId EntityPool::maxId() const

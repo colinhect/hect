@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "BinaryEncoder.h"
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 #include "Hect/IO/MemoryWriteStream.h"
 

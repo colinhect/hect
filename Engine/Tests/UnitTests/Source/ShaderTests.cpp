@@ -62,8 +62,8 @@ TEST_CASE("Get a non-existing uniform from a shader by name", "[Shader]")
     Shader shader;
     shader.addUniform(Uniform("A", UniformType_Float));
 
-    REQUIRE_THROWS_AS(shader.uniform("B"), Error);
-    REQUIRE_THROWS_AS(shader.uniform(std::string("B")), Error);
+    REQUIRE_THROWS_AS(shader.uniform("B"), InvalidOperation);
+    REQUIRE_THROWS_AS(shader.uniform(std::string("B")), InvalidOperation);
 }
 
 TEST_CASE("Get an existing uniform from a shader by index", "[Shader]")
@@ -79,7 +79,7 @@ TEST_CASE("Get a non-existing uniform from a shader by index", "[Shader]")
     Shader shader;
     shader.addUniform(Uniform("A", UniformType_Float));
 
-    REQUIRE_THROWS_AS(shader.uniform(1), Error);
+    REQUIRE_THROWS_AS(shader.uniform(1), InvalidOperation);
 }
 
 TEST_CASE("Get and set the blend mode of a shader", "[Shader]")

@@ -89,8 +89,8 @@ private:
 
     std::unique_ptr<T> _asset;
 
-    bool _errorOccurred { false };
-    std::string _errorMessage;
+    bool _exceptionOccurred { false };
+    std::string _exceptionMessage;
 
     TimeStamp _lastModified { -1 };
 };

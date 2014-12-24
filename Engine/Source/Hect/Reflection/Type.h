@@ -80,14 +80,14 @@ public:
     ///
     /// \returns A reference to the newly created type.
     ///
-    /// \throws Error If the type already exists.
+    /// \throws InvalidOperation If the type already exists.
     template <typename T>
     static Type& create(Kind kind, const std::string& name);
 
     ///
     /// Returns a reflected type.
     ///
-    /// \throws Error If the type is not registered.
+    /// \throws InvalidOperation If the type is not registered.
     template <typename T>
     static const Type& get();
 
@@ -96,7 +96,7 @@ public:
     ///
     /// \param value The value to get the type of.
     ///
-    /// \throws Error If the type is not registered.
+    /// \throws InvalidOperation If the type is not registered.
     template <typename T>
     static const Type& of(T& value);
 
@@ -113,13 +113,13 @@ public:
     ///
     /// Returns the type as an enum.
     ///
-    /// \throws Error If the type is not an enum.
+    /// \throws InvalidOperation If the type is not an enum.
     Enum& asEnum();
 
     ///
     /// Returns the type as an enum.
     ///
-    /// \throws Error If the type is not an enum.
+    /// \throws InvalidOperation If the type is not an enum.
     const Enum& asEnum() const;
 
     ///

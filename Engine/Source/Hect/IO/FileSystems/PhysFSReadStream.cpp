@@ -25,7 +25,7 @@
 
 #include <cassert>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 
 using namespace hect;
@@ -36,7 +36,7 @@ PhysFSReadStream::PhysFSReadStream(const Path& path) :
     _handle = PHYSFS_openRead(path.asString().c_str());
     if (!_handle)
     {
-        throw Error(format("Failed to open file for reading: %s", PHYSFS_getLastError()));
+        throw FatalError(format("Failed to open file for reading: %s", PHYSFS_getLastError()));
     }
 }
 
@@ -46,7 +46,7 @@ PhysFSReadStream::~PhysFSReadStream()
     {
         if (!PHYSFS_close(_handle))
         {
-            throw Error(format("Failed to close file for reading: %s", PHYSFS_getLastError()));
+            throw FatalError(format("Failed to close file for reading: %s", PHYSFS_getLastError()));
         }
     }
 }
@@ -61,13 +61,13 @@ void PhysFSReadStream::read(uint8_t* bytes, size_t byteCount)
 
     if (position + byteCount >= length + 1)
     {
-        throw Error("Attempt to read past end of file");
+        throw FatalError("Attempt to read past end of file");
     }
 
     PHYSFS_sint64 result = PHYSFS_read(_handle, bytes, 1, static_cast<PHYSFS_uint32>(byteCount));
     if (result != static_cast<PHYSFS_sint64>(byteCount))
     {
-        throw Error(format("Failed to read from file: %s", PHYSFS_getLastError()));
+        throw FatalError(format("Failed to read from file: %s", PHYSFS_getLastError()));
     }
 }
 
@@ -97,11 +97,11 @@ void PhysFSReadStream::seek(size_t position)
 
     if (position >= length + 1)
     {
-        throw Error("Attempt to seek past end of file");
+        throw FatalError("Attempt to seek past end of file");
     }
 
     if (!PHYSFS_seek(_handle, position))
     {
-        throw Error(format("Failed to seek in file: %s", PHYSFS_getLastError()));
+        throw FatalError(format("Failed to seek in file: %s", PHYSFS_getLastError()));
     }
 }

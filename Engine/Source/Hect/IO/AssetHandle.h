@@ -77,15 +77,15 @@ public:
     ///
     /// Returns a reference to the asset.
     ///
-    /// \throws Error If the handle does not refer to an asset or if the
-    /// referred asset failed to load.
+    /// \throws InvalidOperation If the handle does not refer to an asset.
+    /// \throws FatalError If the asset failed to load.
     T& operator*() const;
 
     ///
     /// Provides pointer-like access to the asset.
     ///
-    /// \throws Error If the handle does not refer to an asset or if the
-    /// referred asset failed to load.
+    /// \throws InvalidOperation If the handle does not refer to an asset.
+    /// \throws FatalError If the asset failed to load.
     T* operator->() const;
 
     ///

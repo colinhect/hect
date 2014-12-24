@@ -62,8 +62,9 @@ public:
     /// \param args The arguments to pass to the asset's constructor if the
     /// asset is loaded.
     ///
-    /// \throws Error If the asset at the given path is of a different type or
-    /// failed to load.
+    /// \throws InvalidOperation If the asset at the given path is of a
+    /// different type.
+    /// \throws FatalError If the asset failed to load.
     template <typename T, typename... Args>
     T& get(const Path& path, Args&&... args);
 
@@ -77,7 +78,8 @@ public:
     /// \param args The arguments to pass to the asset's constructor if the
     /// asset is loaded.
     ///
-    /// \throws Error If the asset at the given path is of a different type.
+    /// \throws InvalidOperation If the asset at the given path is of a
+    /// different type.
     template <typename T, typename... Args>
     AssetHandle<T> getHandle(const Path& path, Args&&... args);
 

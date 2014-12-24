@@ -143,7 +143,7 @@ SdlPlatform::SdlPlatform()
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
     {
-        throw Error(format("Failed to initialize SDL: %s", SDL_GetError()));
+        throw FatalError(format("Failed to initialize SDL: %s", SDL_GetError()));
     }
 
     SDL_version version;
@@ -324,7 +324,7 @@ Joystick& SdlPlatform::joystick(JoystickIndex index)
 {
     if (!hasJoystick(index))
     {
-        throw Error(format("No joystick connected at index %i", index));
+        throw FatalError(format("No joystick connected at index %i", index));
     }
     return _joysticks[index];
 }

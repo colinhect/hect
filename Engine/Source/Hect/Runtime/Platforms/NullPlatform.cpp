@@ -77,7 +77,7 @@ bool NullPlatform::hasJoystick(JoystickIndex index)
 Joystick& NullPlatform::joystick(JoystickIndex index)
 {
     (void)index;
-    throw Error("No joysticks connected");
+    throw InvalidOperation("No joysticks connected");
 }
 
 Platform::JoystickSequence NullPlatform::joysticks()

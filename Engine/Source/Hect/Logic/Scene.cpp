@@ -116,13 +116,13 @@ void Scene::addSystemType(SystemTypeId typeId)
     if (typeId < _systems.size() && _systems[typeId])
     {
         const std::string typeName = SystemRegistry::typeNameOf(typeId);
-        throw Error(format("Scene already supports system type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Scene already supports system type '%s'", typeName.c_str()));
     }
 
     // Make sure the type id is a real type id
     if (!SystemRegistry::isRegisteredTypeId(typeId))
     {
-        throw Error("Unknown system type id");
+        throw InvalidOperation("Unknown system type id");
     }
 
     // Resize the systems vector if needed
@@ -143,12 +143,12 @@ System& Scene::systemOfTypeId(SystemTypeId typeId)
 {
     if (!SystemRegistry::isRegisteredTypeId(typeId))
     {
-        throw Error("Unknown system type id");
+        throw InvalidOperation("Unknown system type id");
     }
     else if (typeId >= _systems.size() || !_systems[typeId])
     {
         const std::string& typeName = SystemRegistry::typeNameOf(typeId);
-        throw Error(format("Scene does not support system type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Scene does not support system type '%s'", typeName.c_str()));
     }
     else
     {
@@ -162,13 +162,13 @@ void Scene::addComponentType(ComponentTypeId typeId)
     if (typeId < _componentPools.size() && _componentPools[typeId])
     {
         const std::string typeName = ComponentRegistry::typeNameOf(typeId);
-        throw Error(format("Scene already supports component type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Scene already supports component type '%s'", typeName.c_str()));
     }
 
     // Make sure the type id is a real type id
     if (!ComponentRegistry::isRegisteredTypeId(typeId))
     {
-        throw Error("Unknown component type id");
+        throw InvalidOperation("Unknown component type id");
     }
 
     // Resize the component pool vector if needed
@@ -188,12 +188,12 @@ ComponentPoolBase& Scene::componentPoolOfTypeId(ComponentTypeId typeId)
 {
     if (!ComponentRegistry::isRegisteredTypeId(typeId))
     {
-        throw Error("Unknown component type id");
+        throw InvalidOperation("Unknown component type id");
     }
     else if (typeId >= _componentPools.size() || !_componentPools[typeId])
     {
         const std::string& typeName = ComponentRegistry::typeNameOf(typeId);
-        throw Error(format("Scene does not support component type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Scene does not support component type '%s'", typeName.c_str()));
     }
     else
     {
@@ -226,7 +226,7 @@ void Scene::destroyEntity(Entity& entity)
 {
     if (!entity.inPool())
     {
-        throw Error("Invalid entity");
+        throw InvalidOperation("Invalid entity");
     }
 
     // Dispatch the entity destroy event
@@ -273,12 +273,12 @@ void Scene::activateEntity(Entity& entity)
 {
     if (!entity.inPool())
     {
-        throw Error("Invalid entity");
+        throw InvalidOperation("Invalid entity");
     }
 
     if (entity._activated)
     {
-        throw Error("Entity is already activated");
+        throw InvalidOperation("Entity is already activated");
     }
 
     for (ComponentTypeId typeId : _componentTypeIds)
@@ -303,12 +303,12 @@ void Scene::pendEntityDestruction(Entity& entity)
 {
     if (!entity.inPool())
     {
-        throw Error("Invalid entity");
+        throw InvalidOperation("Invalid entity");
     }
 
     if (entity._pendingDestruction)
     {
-        throw Error("Entity is already pending destruction");
+        throw InvalidOperation("Entity is already pending destruction");
     }
 
     entity._pendingDestruction = true;
@@ -319,16 +319,16 @@ void Scene::pendEntityActivation(Entity& entity)
 {
     if (!entity.inPool())
     {
-        throw Error("Invalid entity");
+        throw InvalidOperation("Invalid entity");
     }
 
     if (entity._pendingActivation)
     {
-        throw Error("Entity is already pending activation");
+        throw InvalidOperation("Entity is already pending activation");
     }
     else if (entity._activated)
     {
-        throw Error("Entity is already activated");
+        throw InvalidOperation("Entity is already activated");
     }
 
     entity._pendingActivation = true;
@@ -339,7 +339,7 @@ void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& componen
 {
     if (!entity.inPool())
     {
-        throw Error("Invalid entity");
+        throw InvalidOperation("Invalid entity");
     }
 
     ComponentTypeId typeId = component.typeId();
@@ -443,9 +443,9 @@ void Scene::decode(Decoder& decoder)
                 AssetDecoder baseDecoder(decoder.assetCache(), basePath);
                 baseDecoder >> beginObject() >> decodeValue(*this) >> endObject();
             }
-            catch (Error& error)
+            catch (Exception& exception)
             {
-                throw Error(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), error.what()));
+                throw FatalError(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), exception.what()));
             }
         }
     }

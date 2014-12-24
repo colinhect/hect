@@ -72,7 +72,7 @@ void Component<T>::IteratorBase::ensureValid() const
 {
     if (!this->isValid())
     {
-        throw Error("Invalid component iterator");
+        throw InvalidOperation("Invalid component iterator");
     }
 }
 
@@ -288,7 +288,7 @@ void Component<T>::ensureInPool() const
 {
     if (!this->inPool())
     {
-        throw Error("Component is not in a pool");
+        throw InvalidOperation("Component is not in a pool");
     }
 }
 

@@ -126,7 +126,8 @@ public:
     ///
     /// \param id The id of the component to get.
     ///
-    /// \throw Error If no component with the given id exists in the pool.
+    /// \throws InvalidOperation If no component with the given id exists in
+    /// the pool.
     T& withId(ComponentId id);
 
     ///

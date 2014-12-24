@@ -79,7 +79,7 @@ void testTasks(unsigned threadCount, unsigned taskCount, Task::Action action)
     }
 }
 
-void testTasksWithErrors(unsigned threadCount, unsigned taskCount, Task::Action action)
+void testTasksWithExceptions(unsigned threadCount, unsigned taskCount, Task::Action action)
 {
     TaskPool taskPool(threadCount);
 
@@ -90,24 +90,24 @@ void testTasksWithErrors(unsigned threadCount, unsigned taskCount, Task::Action 
         taskHandles.push_back(taskPool.enqueue([action]
         {
             action();
-            throw Error("Task error");
+            throw Exception("Task exception");
         }));
     }
 
     for (auto& taskHandle : taskHandles)
     {
-        auto errorThrown = false;
+        auto exceptionThrown = false;
         try
         {
             REQUIRE(taskHandle);
             taskHandle->wait();
         }
-        catch (Error&)
+        catch (Exception&)
         {
-            errorThrown = true;
+            exceptionThrown = true;
         }
 
-        REQUIRE(errorThrown == true);
+        REQUIRE(exceptionThrown == true);
     }
 }
 
@@ -118,10 +118,10 @@ for (auto threadCount = 0u; threadCount < maxThreadCount; ++threadCount) {\
     }\
 }
 
-#define TEST_TASKS_WITH_ERRORS(action)\
+#define TEST_TASKS_WITH_EXCEPTIONS(action)\
 for (auto threadCount = 0u; threadCount < maxThreadCount; ++threadCount) {\
     for (auto taskCount = 1u; taskCount < maxTaskCount; ++taskCount) {\
-        testTasksWithErrors(threadCount, taskCount, action); \
+        testTasksWithExceptions(threadCount, taskCount, action); \
     }\
 }
 
@@ -142,23 +142,23 @@ TEST_CASE("Execute long tasks in a task pool", "[TaskPool]")
 
 TEST_CASE("Execute empty tasks with errors in a task pool", "[TaskPool]")
 {
-    TEST_TASKS_WITH_ERRORS(emptyTask);
+    TEST_TASKS_WITH_EXCEPTIONS(emptyTask);
 }
 
 TEST_CASE("Execute short tasks with errors in a task pool", "[TaskPool]")
 {
-    TEST_TASKS_WITH_ERRORS(shortTask);
+    TEST_TASKS_WITH_EXCEPTIONS(shortTask);
 }
 
 TEST_CASE("Execute long tasks with errors in a task pool", "[TaskPool]")
 {
-    TEST_TASKS_WITH_ERRORS(longTask);
+    TEST_TASKS_WITH_EXCEPTIONS(longTask);
 }
 
 TEST_CASE("Dereference an invalid task handle", "[TaskPool]")
 {
     Task::Handle taskHandle;
     REQUIRE(!taskHandle);
-    REQUIRE_THROWS_AS(*taskHandle, Error);
-    REQUIRE_THROWS_AS(taskHandle->isDone(), Error);
+    REQUIRE_THROWS_AS(*taskHandle, InvalidOperation);
+    REQUIRE_THROWS_AS(taskHandle->isDone(), InvalidOperation);
 }

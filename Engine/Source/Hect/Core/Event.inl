@@ -46,7 +46,7 @@ void Listener<T>::addDispatcher(Dispatcher<T>& dispatcher)
     auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
     if (it != _dispatchers.end())
     {
-        throw Error("The listener is already registered to this dispatcher");
+        throw InvalidOperation("The listener is already registered to this dispatcher");
     }
     else
     {
@@ -60,7 +60,7 @@ void Listener<T>::removeDispatcher(Dispatcher<T>& dispatcher)
     auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
     if (it == _dispatchers.end())
     {
-        throw Error("The listener is not registered to this dispatcher");
+        throw InvalidOperation("The listener is not registered to this dispatcher");
     }
     else
     {
@@ -87,7 +87,7 @@ void Dispatcher<T>::addListener(Listener<T>& listener)
     auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
     if (it != _listeners.end())
     {
-        throw Error("The listener is already registered to this dispatcher");
+        throw InvalidOperation("The listener is already registered to this dispatcher");
     }
     else
     {
@@ -102,7 +102,7 @@ void Dispatcher<T>::removeListener(Listener<T>& listener)
     auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
     if (it == _listeners.end())
     {
-        throw Error("The listener is not registered to this dispatcher");
+        throw InvalidOperation("The listener is not registered to this dispatcher");
     }
     else
     {

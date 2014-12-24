@@ -45,7 +45,7 @@ bool DataValueDecoder::isBinaryStream() const
 
 ReadStream& DataValueDecoder::binaryStream()
 {
-    throw Error("The decoder is not reading from a binary stream");
+    throw InvalidOperation("The decoder is not reading from a binary stream");
 }
 
 void DataValueDecoder::beginArray()
@@ -58,7 +58,7 @@ void DataValueDecoder::beginArray()
     }
     else
     {
-        throw Error("The next value is not an array");
+        throw InvalidOperation("The next value is not an array");
     }
 }
 
@@ -85,7 +85,7 @@ void DataValueDecoder::beginObject()
     }
     else
     {
-        throw Error("The next value is not an object");
+        throw InvalidOperation("The next value is not an object");
     }
 }
 
@@ -190,7 +190,7 @@ const DataValue& DataValueDecoder::decode()
         const DataValue& result = top[_selectedMemberName];
         if (result.isNull())
         {
-            throw Error(format("No member value '%s'", _selectedMemberName.c_str()));
+            throw FatalError(format("No member value '%s'", _selectedMemberName.c_str()));
         }
         _selectedMemberName = std::string();
         return result;

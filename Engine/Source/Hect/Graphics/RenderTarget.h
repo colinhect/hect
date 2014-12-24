@@ -58,7 +58,8 @@ public:
     ///
     /// Swaps the back buffer.
     ///
-    /// \throws Error If the render target does not have a back buffer.
+    /// \throws InvalidOperation If the render target does not have a back
+    /// buffer.
     virtual void swapBuffers();
 
     ///

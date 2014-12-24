@@ -239,7 +239,7 @@ public:
     /// \param name The member name.
     /// \param dataValue The member value.
     ///
-    /// \throws Error If the data value is not an object.
+    /// \throws InvalidOperation If the data value is not an object.
     void addMember(const std::string& name, const DataValue& dataValue);
 
     ///
@@ -247,7 +247,7 @@ public:
     ///
     /// \param dataValue The element value.
     ///
-    /// \throws Error If the data value is not an array.
+    /// \throws InvalidOperation If the data value is not an array.
     void addElement(const DataValue& dataValue);
 
     ///
@@ -295,7 +295,7 @@ public:
     ///
     /// \param yaml The YAML string.
     ///
-    /// \throw Error If invalid YAML is encountered.
+    /// \throw FatalError If invalid YAML is encountered.
     void decodeFromYaml(const std::string& yaml);
 
     ///
@@ -303,7 +303,7 @@ public:
     ///
     /// \param stream The stream to read the YAML from.
     ///
-    /// \throw Error If invalid YAML is encountered.
+    /// \throw FatalError If invalid YAML is encountered.
     void decodeFromYaml(ReadStream& stream);
 
 private:

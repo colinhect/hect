@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ComponentRegistry.h"
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 
 using namespace hect;
@@ -32,7 +32,7 @@ std::shared_ptr<ComponentBase> ComponentRegistry::create(ComponentTypeId typeId)
 {
     if (!isRegisteredTypeId(typeId))
     {
-        throw Error("Unknown component type id");
+        throw InvalidOperation("Unknown component type id");
     }
     return _componentConstructors[typeId]();
 }
@@ -41,7 +41,7 @@ std::shared_ptr<ComponentPoolBase> ComponentRegistry::createPool(ComponentTypeId
 {
     if (!isRegisteredTypeId(typeId))
     {
-        throw Error("Unknown component type id");
+        throw InvalidOperation("Unknown component type id");
     }
     return _componentPoolConstructors[typeId](scene);
 }
@@ -51,7 +51,7 @@ ComponentTypeId ComponentRegistry::typeIdOf(std::type_index typeIndex)
     auto it = _typeIndexToId.find(typeIndex);
     if (it == _typeIndexToId.end())
     {
-        throw Error("Unknown component type");
+        throw InvalidOperation("Unknown component type");
     }
     return it->second;
 }
@@ -61,7 +61,7 @@ ComponentTypeId ComponentRegistry::typeIdOf(const std::string& typeName)
     auto it = _typeNameToId.find(typeName);
     if (it == _typeNameToId.end())
     {
-        throw Error(format("Unknown component type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Unknown component type '%s'", typeName.c_str()));
     }
     return it->second;
 }
@@ -71,7 +71,7 @@ const std::string& ComponentRegistry::typeNameOf(ComponentTypeId typeId)
     auto it = _typeIdToName.find(typeId);
     if (it == _typeIdToName.end())
     {
-        throw Error("Unknown component type id");
+        throw InvalidOperation("Unknown component type id");
     }
     return _typeIdToName[typeId];
 }

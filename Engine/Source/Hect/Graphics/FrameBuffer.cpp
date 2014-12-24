@@ -87,7 +87,7 @@ void FrameBuffer::attachTexture(FrameBufferSlot slot, Texture& texture)
 
     if (texture.width() != width() || texture.height() != height())
     {
-        throw Error("Cannot attach texture to a frame buffer of a different size");
+        throw InvalidOperation("Cannot attach texture to a frame buffer of a different size");
     }
 
     if (isUploaded())
@@ -109,7 +109,7 @@ void FrameBuffer::attachRenderBuffer(FrameBufferSlot slot, RenderBuffer& renderB
 
     if (renderBuffer.width() != width() || renderBuffer.height() != height())
     {
-        throw Error("Cannot attach render buffer to a frame buffer of a different size");
+        throw InvalidOperation("Cannot attach render buffer to a frame buffer of a different size");
     }
 
     if (isUploaded())
@@ -149,6 +149,6 @@ void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
 
     if (!empty)
     {
-        throw Error(format("Frame buffer slot '%s' is not empty", Enum::toString(slot).c_str()));
+        throw InvalidOperation(format("Frame buffer slot '%s' is not empty", Enum::toString(slot).c_str()));
     }
 }

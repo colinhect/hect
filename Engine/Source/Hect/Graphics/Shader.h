@@ -113,7 +113,7 @@ public:
     ///
     /// \param index The index of the uniform.
     ///
-    /// \throws Error If no uniform exists at the specified index.
+    /// \throws InvalidOperation If no uniform exists at the specified index.
     Uniform& uniform(UniformIndex index);
 
     ///
@@ -125,7 +125,7 @@ public:
     ///
     /// \param name The name of the uniform.
     ///
-    /// \throws Error If no uniform with the specified name exists.
+    /// \throws InvalidOperation If no uniform with the specified name exists.
     Uniform& uniform(const std::string& name);
 
     ///
@@ -137,7 +137,7 @@ public:
     ///
     /// \param name The name of the uniform.
     ///
-    /// \throws Error If no uniform with the specified name exists.
+    /// \throws InvalidOperation If no uniform with the specified name exists.
     Uniform& uniform(const char* name);
 
     ///

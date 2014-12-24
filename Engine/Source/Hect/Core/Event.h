@@ -25,7 +25,7 @@
 
 #include <vector>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 
 namespace hect
 {
@@ -75,7 +75,8 @@ public:
     ///
     /// \param listener The listener to register.
     ///
-    /// \throws Error If the listener is already registered to the dispatcher.
+    /// \throws InvalidOperation If the listener is already registered to the
+    /// dispatcher.
     void addListener(Listener<T>& listener);
 
     ///
@@ -83,7 +84,8 @@ public:
     ///
     /// \param listener The listener to un-register.
     ///
-    /// \throws Error If the listener is not registered to the dispatcher.
+    /// \throws InvalidOperation If the listener is not registered to the
+    /// dispatcher.
     void removeListener(Listener<T>& listener);
 
     ///

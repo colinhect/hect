@@ -109,7 +109,8 @@ public:
     ///
     /// Returns the value the container holds as a specific type.
     ///
-    /// \throws Error If the container's value is not of the specific type.
+    /// \throws InvalidOperation If the container's value is not of the
+    /// specific type.
     template <typename T>
     T& as() const;
 

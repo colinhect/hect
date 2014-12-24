@@ -25,7 +25,7 @@
 
 #include <lodepng.h>
 
-#include "Hect/Core/Error.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 
 using namespace hect;
@@ -35,7 +35,7 @@ void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
     // Verify pixel format and type.
     if (image.pixelType() != PixelType_Byte || image.pixelFormat() != PixelFormat_Rgba)
     {
-        throw Error("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
+        throw InvalidOperation("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
     }
 
     // Flip the image from OpenGL ordering
@@ -47,7 +47,7 @@ void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
     unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), image.width(), image.height());
     if (error)
     {
-        throw Error(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
+        throw FatalError(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
     }
 
     // Write the encoded data to the stream
@@ -69,7 +69,7 @@ void ImagePngEncoder::decode(Image& image, ReadStream& stream)
     unsigned error = lodepng::decode(decodedPixelData, width, height, encodedPixelData);
     if (error)
     {
-        throw Error(format("Failed to decode PNG data: %s", lodepng_error_text(error)));
+        throw FatalError(format("Failed to decode PNG data: %s", lodepng_error_text(error)));
     }
 
     // Set various properties for the image
