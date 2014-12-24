@@ -67,8 +67,6 @@ void PhysicsSystem::tick(Real timeStep)
     // Update the dynamics scene
     _world->stepSimulation(timeStep, 4);
 
-    TransformSystem& transformSystem = scene().system<TransformSystem>();
-
     // For each rigid body component
     for (RigidBody& rigidBody : scene().components<RigidBody>())
     {
