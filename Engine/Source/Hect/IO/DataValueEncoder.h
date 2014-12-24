@@ -34,7 +34,7 @@ namespace hect
 {
 
 ///
-/// Provides access for encoding structured data to a data value.
+/// Provides access for encoding structured data to a DataValue.
 class HECT_EXPORT DataValueEncoder :
     public Encoder
 {
@@ -42,15 +42,15 @@ class HECT_EXPORT DataValueEncoder :
 public:
 
     ///
-    /// A sequence of data values.
+    /// A sequence of DataValue%s.
     typedef Sequence<DataValue, ValueContainer> ValueSequence;
 
     ///
-    /// Constructs a data value encoder.
+    /// Constructs a DataValue encoder.
     DataValueEncoder();
 
     ///
-    /// Returns the encoded data values.
+    /// Returns the encoded DataValue%s.
     ValueSequence dataValues();
 
     bool isBinaryStream() const override;

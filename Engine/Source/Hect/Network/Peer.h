@@ -33,7 +33,7 @@ namespace hect
 {
 
 ///
-/// A state that a peer is in.
+/// A state that a Peer is in.
 enum PeerState
 {
     ///
@@ -78,11 +78,11 @@ enum PeerState
 };
 
 ///
-/// A locally unique id for a peer.
+/// A locally unique numerical id for a Peer.
 typedef uint16_t PeerId;
 
 ///
-/// A handle to a remote host.
+/// A handle to a remote Host.
 ///
 /// \note A peer is a lightweight handle without any associated resources.
 /// A copied peer will refer to the same peer as it was copied from.

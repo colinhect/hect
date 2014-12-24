@@ -29,25 +29,25 @@ namespace hect
 {
 
 ///
-/// An entity-related event type.
+/// An EntityEvent type.
 enum EntityEventType
 {
     ///
-    /// An entity was created in the scene.
+    /// An Entity was created in the Scene.
     ///
     /// This event type is triggered when an entity pending creation is
     /// created during Scene::refresh().
     EntityEventType_Create,
 
     ///
-    /// An entity was activated in the scene.
+    /// An Entity was activated in the Scene.
     ///
     /// This event type is triggered when an entity pending activation is
     /// activated during Scene::refresh().
     EntityEventType_Activate,
 
     ///
-    /// An entity was destroyed in the scene.
+    /// An Entity was destroyed in the Scene.
     ///
     /// This event type is triggered when an entity pending destruction is
     /// destroyed during Scene::refresh().
@@ -57,7 +57,7 @@ enum EntityEventType
 class Entity;
 
 ///
-/// An entity-related event.
+/// An Entity related event.
 class HECT_EXPORT EntityEvent
 {
 public:
@@ -68,7 +68,7 @@ public:
     EntityEventType type;
 
     ///
-    /// Returns a reference to the entity that the event is for.
+    /// Returns a reference to the Entity that the event is for.
     ///
     /// \warning This reference is only guaranteed to be valid for the duration
     /// of the call to Listener::receiveEvent() when the event is dispatched.

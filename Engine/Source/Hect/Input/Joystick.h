@@ -32,11 +32,11 @@ namespace hect
 {
 
 ///
-/// An index to a joystick.
+/// An index to a Joystick.
 typedef size_t JoystickIndex;
 
 ///
-/// A joystick button.
+/// A Joystick button.
 enum JoystickButton
 {
     JoystickButton_Button0,
@@ -73,7 +73,7 @@ enum JoystickButton
 };
 
 ///
-/// A joystick axis.
+/// A Joystick axis.
 enum JoystickAxis
 {
     JoystickAxis_Axis0,
@@ -110,7 +110,7 @@ enum JoystickAxis
 };
 
 ///
-/// A joystick event type.
+/// A JoystickEvent type.
 enum JoystickEventType
 {
     ///
@@ -127,7 +127,7 @@ enum JoystickEventType
 };
 
 ///
-/// An event caused by the alteration of a joystick.
+/// An event caused by the alteration of a Joystick.
 class HECT_EXPORT JoystickEvent
 {
 public:

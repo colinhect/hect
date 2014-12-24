@@ -34,7 +34,7 @@ template <typename T>
 class Dispatcher;
 
 ///
-/// An listener of specific events.
+/// An listener of specific event.
 template <typename T>
 class Listener
 {
@@ -42,7 +42,7 @@ class Listener
 public:
 
     ///
-    /// Unregister the listener from all dispatchers that the listener is
+    /// Unregister the listener from all Dispatcher%s that the listener is
     /// registered to.
     virtual ~Listener();
 
@@ -60,18 +60,18 @@ private:
 };
 
 ///
-/// An event dispatcher which notifies registered listeners of specific events.
+/// Notifies registered Listener%s of specific events.
 template <typename T>
 class Dispatcher
 {
 public:
 
     ///
-    /// Unregisters all listeners that are registered to the dispatcher.
+    /// Unregisters all Listener%s that are registered to the dispatcher.
     virtual ~Dispatcher();
 
     ///
-    /// Registers a listener to receive events from the dispatcher.
+    /// Registers a Listener to receive events from the dispatcher.
     ///
     /// \param listener The listener to register.
     ///
@@ -79,7 +79,7 @@ public:
     void addListener(Listener<T>& listener);
 
     ///
-    /// Un-registers a listener from receiving events from the dispatcher.
+    /// Un-registers a Listener from receiving events from the dispatcher.
     ///
     /// \param listener The listener to un-register.
     ///
@@ -87,7 +87,7 @@ public:
     void removeListener(Listener<T>& listener);
 
     ///
-    /// Dispatches an event to all registered listeners.
+    /// Dispatches an event to all registered Listener%s.
     ///
     /// \param event The event.
     void dispatchEvent(const T& event);

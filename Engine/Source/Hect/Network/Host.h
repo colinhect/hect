@@ -37,11 +37,11 @@ namespace hect
 
 ///
 /// An integer representing a channel that packets can be sent over to or from
-/// a peer.
+/// a Peer.
 typedef uint8_t Channel;
 
 ///
-/// A flag describing how a packet is transported to a peer.
+/// A flag describing how a packet is transported to a Peer.
 enum PacketFlag
 {
     ///
@@ -61,11 +61,11 @@ enum PacketFlag
 };
 
 ///
-/// A bit vector containing any number of packet flags.
+/// A bit vector containing any number of PacketFlag%s.
 typedef uint8_t PacketFlags;
 
 ///
-/// A peer event type.
+/// A PeerEvent type.
 enum PeerEventType
 {
     ///
@@ -86,7 +86,7 @@ enum PeerEventType
 };
 
 ///
-/// An event triggered from a peer.
+/// An event triggered from a Peer.
 class HECT_EXPORT PeerEvent
 {
 public:
@@ -107,7 +107,7 @@ public:
 };
 
 ///
-/// A local host for communicating to peers.
+/// A local host for communicating to Peer%s.
 class HECT_EXPORT Host :
     public Uncopyable
 {
@@ -153,7 +153,7 @@ public:
     void requestDisconnectFrom(Peer peer);
 
     ///
-    /// Polls the next event triggered from a peer.
+    /// Polls the next event triggered from a Peer.
     ///
     /// \param event The event.
     /// \param timeOut The time span to wait for an event to occur.
@@ -162,7 +162,7 @@ public:
     bool pollEvent(PeerEvent& event, TimeSpan timeOut = TimeSpan::fromMilliseconds(0));
 
     ///
-    /// Sends a packet to a peer.
+    /// Sends a packet to a Peer.
     ///
     /// \note The packet is not sent instantaneously.  It will eventually
     /// occur during a call to pollEvent() or can be forced by calling flush().
@@ -174,7 +174,7 @@ public:
     void sendPacket(Peer peer, Channel channel, const ByteVector& packetData, PacketFlags packetFlags = PacketFlag_Reliable);
 
     ///
-    /// Broadcasts a packet to all connected peers.
+    /// Broadcasts a packet to all connected Peer%s.
     ///
     /// \note The packet is not sent instantaneously.  It will eventually
     /// occur during a call to pollEvent() or can be forced by calling flush().

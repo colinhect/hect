@@ -38,14 +38,14 @@ namespace hect
 {
 
 ///
-/// Provides the ability to dynamically create components and component pools
+/// Provides the ability to dynamically create Component%s and ComponentPool%s
 /// based on type information.
 class HECT_EXPORT ComponentRegistry
 {
 public:
 
     ///
-    /// Creates a component of the specified type.
+    /// Creates a Component of the specified type.
     ///
     /// \param typeId The type id representing the type of component to create.
     ///
@@ -54,7 +54,7 @@ public:
     static std::shared_ptr<ComponentBase> create(ComponentTypeId typeId);
 
     ///
-    /// Creates a component pool of the specified type.
+    /// Creates a ComponentPool of the specified type.
     ///
     /// \param typeId The type id representing the type of component pool to
     /// create.
@@ -65,7 +65,7 @@ public:
     static std::shared_ptr<ComponentPoolBase> createPool(ComponentTypeId typeId, Scene& scene);
 
     ///
-    /// Returns the component type id for the given component type index.
+    /// Returns the type id for the specified Component type index.
     ///
     /// \param typeIndex The type index of the component type to get the id of.
     ///
@@ -74,7 +74,7 @@ public:
     static ComponentTypeId typeIdOf(std::type_index typeIndex);
 
     ///
-    /// Returns the component type id for the given component type name.
+    /// Returns the type id with the specified Component type name.
     ///
     /// \param typeName The type name of the component type to get the id of.
     ///
@@ -83,14 +83,14 @@ public:
     static ComponentTypeId typeIdOf(const std::string& typeName);
 
     ///
-    /// Returns the type name of the component type of the specified type id.
+    /// Returns the Component type name with the specified type id.
     ///
     /// \param typeId The type id of the component type to get the type name of.
     static const std::string& typeNameOf(ComponentTypeId typeId);
 
     ///
-    /// Returns whether the specified type id is the type id of a registered
-    /// component type.
+    /// Returns whether the specified type id is registered with a
+    /// Component type.
     ///
     /// \param typeId The type id to check.
     ///
@@ -99,14 +99,14 @@ public:
     static bool isRegisteredTypeId(ComponentTypeId typeId);
 
     ///
-    /// Registers a component type.
+    /// Registers a Component type.
     ///
     /// \warning The type must be registered with Type.
     template <typename T>
     static void registerType();
 
     ///
-    /// Returns the component type id for the given component type.
+    /// Returns the type id for the specified Component type.
     ///
     /// \throws Error If the specified type is not a registered component type.
     template <typename T>

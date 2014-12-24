@@ -37,7 +37,7 @@ namespace hect
 class Scene;
 
 ///
-/// A pool of entities within a Scene.
+/// A pool of \link Entity Entities \endlink within a Scene.
 class HECT_EXPORT EntityPool :
     public Dispatcher<EntityEvent>
 {
@@ -64,7 +64,7 @@ public:
     Entity::ConstIterator end() const;
 
     ///
-    /// Returns an iterator to the first entity matching the given
+    /// Returns an iterator to the first Entity matching the given
     /// predicate.
     ///
     /// \param predicate The predicate to use in the search.
@@ -74,7 +74,7 @@ public:
     Entity::Iterator findFirst(Entity::Predicate predicate);
 
     ///
-    /// Returns an iterator to the first entity matching the given
+    /// Returns an iterator to the first Entity matching the given
     /// predicate.
     ///
     /// \param predicate The predicate to use in the search.
@@ -84,7 +84,8 @@ public:
     Entity::ConstIterator findFirst(Entity::Predicate predicate) const;
 
     ///
-    /// Returns iterators to all entities matching the given predicate.
+    /// Returns iterators to all \link Entity Entities \endlink matching the
+    /// given predicate.
     ///
     /// \param predicate The predicate to use in the search.
     ///
@@ -92,7 +93,8 @@ public:
     Entity::Iterator::Vector find(Entity::Predicate predicate);
 
     ///
-    /// Returns iterators to all entities matching the given predicate.
+    /// Returns iterators to all \link Entity Entities \endlink matching the
+    /// given predicate.
     ///
     /// \param predicate The predicate to use in the search.
     ///

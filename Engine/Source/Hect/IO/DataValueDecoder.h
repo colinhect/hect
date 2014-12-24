@@ -33,20 +33,20 @@ namespace hect
 {
 
 ///
-/// Provides access for decoding structured data from a data value.
+/// Provides access for decoding structured data from a DataValue.
 class HECT_EXPORT DataValueDecoder :
     public Decoder
 {
 public:
 
     ///
-    /// Constructs a data value decoder.
+    /// Constructs a DataValue decoder.
     ///
     /// \param dataValue The data value to decode.
     DataValueDecoder(const DataValue& dataValue);
 
     ///
-    /// Constructs a data value decoder.
+    /// Constructs a DataValue decoder.
     ///
     /// \param dataValue The data value to decode.
     /// \param assetCache The asset cache to load further assets from.

@@ -33,7 +33,7 @@ namespace hect
 class Transform;
 
 ///
-/// A camera component.
+/// A camera.
 ///
 /// \component
 class HECT_EXPORT Camera :

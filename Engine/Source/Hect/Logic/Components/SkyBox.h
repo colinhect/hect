@@ -32,7 +32,7 @@ namespace hect
 {
 
 ///
-/// A sky box component.
+/// A sky box.
 ///
 /// \component
 class HECT_EXPORT SkyBox :

@@ -31,7 +31,7 @@ namespace hect
 {
 
 ///
-/// A mouse button.
+/// A Mouse button.
 enum MouseButton
 {
     MouseButton_Button0,
@@ -45,7 +45,7 @@ enum MouseButton
 };
 
 ///
-/// The mode a mouse is in.
+/// The mode a Mouse is in.
 enum MouseMode
 {
     ///
@@ -58,7 +58,7 @@ enum MouseMode
 };
 
 ///
-/// A mouse event type.
+/// A MouseEvent type.
 enum MouseEventType
 {
     ///
@@ -83,7 +83,7 @@ enum MouseEventType
 };
 
 ///
-/// An event caused by the alteration of the mouse.
+/// An event caused by the alteration of the Mouse.
 class HECT_EXPORT MouseEvent
 {
 public:

@@ -66,11 +66,11 @@ private:
 public:
 
     ///
-    /// A predicate for a entity search or filter.
+    /// A predicate for a Entity search or filter.
     typedef std::function<bool(const Entity&)> Predicate;
 
     ///
-    /// A entity iterator.
+    /// A Entity iterator.
     class HECT_EXPORT Iterator :
         public IteratorBase
     {
@@ -127,7 +127,7 @@ public:
     };
 
     ///
-    /// A constant entity iterator.
+    /// A constant Entity iterator.
     class HECT_EXPORT ConstIterator :
         public IteratorBase
     {
@@ -184,7 +184,7 @@ public:
     };
 
     ///
-    /// An entity's child entities.
+    /// An Entity's child entities.
     class HECT_EXPORT Children
     {
         class HECT_EXPORT IteratorBase
@@ -207,7 +207,7 @@ public:
     public:
 
         ///
-        /// A entity child iterator.
+        /// A Entity child iterator.
         class HECT_EXPORT Iterator :
             public IteratorBase
         {
@@ -264,7 +264,7 @@ public:
         };
 
         ///
-        /// A constant entity child iterator.
+        /// A constant Entity child iterator.
         class HECT_EXPORT ConstIterator :
             public IteratorBase
         {
@@ -334,7 +334,7 @@ public:
     };
 
     ///
-    /// A weak reference to an entity.
+    /// A weak reference to an Entity.
     class HECT_EXPORT Handle
     {
         friend class Entity;
@@ -440,7 +440,7 @@ public:
     };
 
     ///
-    /// Adds a new component of a specific type to the entity.
+    /// Adds a new Component of a specific type to the Entity.
     ///
     /// \note If the entity is activated then this call will immediately
     /// trigger a ::ComponentEventType_Add event.
@@ -455,7 +455,7 @@ public:
     typename Component<T>::Iterator addComponent(Args&&... args);
 
     ///
-    /// Replaces an existing component that the entity has.
+    /// Replaces an existing Component that the Entity has.
     ///
     /// \note If the entity is activated then this call will immediately
     /// trigger a ::ComponentEventType_Add event and a
@@ -471,7 +471,7 @@ public:
     typename Component<T>::Iterator replaceComponent(Args&&... args);
 
     ///
-    /// Removes the component of a specific type from the entity.
+    /// Removes the Component of a specific type from the Entity.
     ///
     /// \note If the entity is activated then this call will immediately
     /// trigger a ::ComponentEventType_Remove event.
@@ -482,7 +482,7 @@ public:
     void removeComponent();
 
     ///
-    /// Returns an iterator to the component of a specific type for the entity.
+    /// Returns an iterator to the Component of a specific type for the Entity.
     ///
     /// \note The returned iterator is invalid if the entity does not have a
     /// component of the type.
@@ -492,7 +492,7 @@ public:
     typename Component<T>::Iterator component();
 
     ///
-    /// Returns an iterator to the component of a specific type for the entity.
+    /// Returns an iterator to the Component of a specific type for the Entity.
     ///
     /// \note The returned iterator is invalid if the entity does not have a
     /// component of the type.

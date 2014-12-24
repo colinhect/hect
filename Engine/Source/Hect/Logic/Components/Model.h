@@ -32,7 +32,7 @@ namespace hect
 {
 
 ///
-/// A Mesh surface with a specific Material in a Model component.
+/// A Mesh surface with a specific Material in a Model.
 class HECT_EXPORT ModelSurface
 {
 public:
@@ -58,7 +58,7 @@ public:
 };
 
 ///
-/// A collection of surfaces which are rendered.
+/// A collection of ModelSurfaces which are rendered.
 ///
 /// \component
 class HECT_EXPORT Model :

@@ -30,7 +30,7 @@ namespace hect
 {
 
 ///
-/// A key on a keyboard.
+/// A key on a Keyboard.
 enum Key
 {
     Key_Unknown,
@@ -94,7 +94,7 @@ enum Key
 };
 
 ///
-/// A keyboard event type.
+/// A KeyboardEvent type.
 enum KeyboardEventType
 {
     ///
@@ -107,7 +107,7 @@ enum KeyboardEventType
 };
 
 ///
-/// An event triggered by pressing or releasing a key on the keyboard.
+/// An event triggered by pressing or releasing a key on the Keyboard.
 class HECT_EXPORT KeyboardEvent
 {
 public:

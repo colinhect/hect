@@ -36,14 +36,14 @@ namespace hect
 {
 
 ///
-/// Provides the ability to dynamically create game modes based on type
+/// Provides the ability to dynamically create GameMode%s based on type
 /// information.
 class HECT_EXPORT GameModeRegistry
 {
 public:
 
     ///
-    /// Creates a game mode of the specified type.
+    /// Creates a GameMode of the specified type.
     ///
     /// \param typeName The type name of type of game mode to create.
     /// \param engine The engine that the game mode is being created for.

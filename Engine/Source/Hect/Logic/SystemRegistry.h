@@ -39,14 +39,14 @@ namespace hect
 class Engine;
 
 ///
-/// Provides the ability to dynamically create systems based on type
+/// Provides the ability to dynamically create System%s based on type
 /// information.
 class HECT_EXPORT SystemRegistry
 {
 public:
 
     ///
-    /// Creates a system of the specified type.
+    /// Creates a System of the specified type.
     ///
     /// \param typeId The type id representing the type of system to create.
     /// \param engine The engine.
@@ -57,7 +57,7 @@ public:
     static std::shared_ptr<System> create(SystemTypeId typeId, Engine& engine, Scene& scene);
 
     ///
-    /// Returns the system type id for the given system type index.
+    /// Returns the type id for the specified System type index.
     ///
     /// \param typeIndex The type index of the system type to get the id of.
     ///
@@ -66,7 +66,7 @@ public:
     static SystemTypeId typeIdOf(std::type_index typeIndex);
 
     ///
-    /// Returns the system type id for the given system type name.
+    /// Returns the type id with the specified System type name.
     ///
     /// \param typeName The type name of the system type to get the id of.
     ///
@@ -75,14 +75,14 @@ public:
     static SystemTypeId typeIdOf(const std::string& typeName);
 
     ///
-    /// Returns the type name of the system type of the specified type id.
+    /// Returns the System type name with the specified SystemTypeId.
     ///
     /// \param typeId The type id of the system type to get the type name of.
     static const std::string& typeNameOf(SystemTypeId typeId);
 
     ///
-    /// Returns whether the specified type id is the type id of a registered
-    /// system type.
+    /// Returns whether the specified type id is registered with a
+    /// System type.
     ///
     /// \param typeId The type id to check.
     ///
@@ -91,14 +91,14 @@ public:
     static bool isRegisteredTypeId(SystemTypeId typeId);
 
     ///
-    /// Registers a system type.
+    /// Registers a System type.
     ///
     /// \warning The type must be registered with Type.
     template <typename T>
     static void registerType();
 
     ///
-    /// Returns the system type id for the given system type.
+    /// Returns the type id for the specified System type.
     ///
     /// \throws Error If the specified type is not a registered system type.
     template <typename T>

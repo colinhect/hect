@@ -31,7 +31,7 @@ namespace hect
 {
 
 ///
-/// A directional light component.
+/// A directional light.
 ///
 /// \component
 class HECT_EXPORT DirectionalLight :

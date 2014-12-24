@@ -32,20 +32,20 @@ namespace hect
 {
 
 ///
-/// Provides functionality for encoding/decoding images from/to PNG data.
+/// Provides functionality for encoding/decoding Images from/to PNG data.
 class HECT_EXPORT ImagePngEncoder
 {
 public:
 
     ///
-    /// Encodes an image to PNG data.
+    /// Encodes an Image to PNG data.
     ///
     /// \param image The image to encode.
     /// \param stream The stream to write the encoded data to.
     static void encode(const Image& image, WriteStream& stream);
 
     ///
-    /// Decodes an image from PNG data.
+    /// Decodes an Image from PNG data.
     ///
     /// \param image The image to decode to.
     /// \param stream The stream to decode the data from.

@@ -48,7 +48,12 @@ namespace hect
 class Engine;
 
 ///
-/// A scene of entities, components, and systems.
+/// A dynamic collection of \link Entity Entities \endlink, Component%s, and
+/// System%s.
+///
+/// A scene is the fundumental piece of the games state and logic.  The
+/// object-specific game state is stored in entities and their components and
+/// higher-level game state is stored in the systems.
 class HECT_EXPORT Scene :
     public Uncopyable,
     public Asset<Scene>
@@ -63,7 +68,7 @@ public:
     Scene(Engine& engine);
 
     ///
-    /// Adds support for a system type to the scene.
+    /// Adds support for a System type to the scene.
     ///
     /// \note The order in which systems are added dictates the order they tick
     /// in.
@@ -75,7 +80,7 @@ public:
     void addSystemType();
 
     ///
-    /// Removes support for a system type to the scene.
+    /// Removes support for a System type to the scene.
     ///
     /// \warning The type must be registered with SystemRegistry.
     ///
@@ -84,12 +89,12 @@ public:
     void removeSystemType();
 
     ///
-    /// Returns whether the scene supports the specified system type.
+    /// Returns whether the scene supports the specified System type.
     template <typename T>
     bool hasSystemType();
 
     ///
-    /// Returns the system of a specific type.
+    /// Returns the System of a specific type.
     ///
     /// \throws Error If the scene does not have the system of the specified
     /// type.
@@ -97,7 +102,7 @@ public:
     T& system();
 
     ///
-    /// Adds support for a component type to the scene.
+    /// Adds support for a Component type to the scene.
     ///
     /// \warning The type must be registered with ComponentRegistry.
     ///
@@ -106,19 +111,19 @@ public:
     void addComponentType();
 
     ///
-    /// Returns whether the scene supports the specified component type.
+    /// Returns whether the scene supports the specified Component type.
     template <typename T>
     bool hasComponentType();
 
     ///
-    /// Returns the pool of components of a specific type.
+    /// Returns the pool of Component%s of a specific type.
     ///
     /// \throws Error If the component type is unknown.
     template <typename T>
     ComponentPool<T>& components();
 
     ///
-    /// Returns the pool of components of a specific type.
+    /// Returns the pool of Component%s of a specific type.
     ///
     /// \throws Error If the component type is unknown.
     template <typename T>
@@ -132,20 +137,20 @@ public:
     void refresh();
 
     ///
-    /// Ticks all of the systems in the scene.
+    /// Ticks all of the Systems in the scene.
     ///
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
     void tick(Real timeStep);
 
     ///
-    /// Creates a new entity.
+    /// Creates a new Entity.
     ///
     /// \returns An iterator to the new entity.
     Entity::Iterator createEntity();
 
     ///
-    /// Creates a new entity decoded from a file.
+    /// Creates a new Entity decoded from a file.
     ///
     /// \param path The path to the entity.
     ///
@@ -155,15 +160,16 @@ public:
     Entity::Iterator createEntity(const Path& path);
 
     ///
-    /// Returns the pool of entities.
+    /// Returns the pool of \link Entity Entities \endlink.
     EntityPool& entities();
 
     ///
-    /// Returns the pool of entities.
+    /// Returns the pool of \link Entity Entities \endlink.
     const EntityPool& entities() const;
 
     ///
-    /// Returns the number of active entities in the scene.
+    /// Returns the number of active \link Entity Entities \endlink in the
+    /// scene.
     size_t entityCount() const;
 
     friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Scene& scene);
