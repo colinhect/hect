@@ -59,9 +59,7 @@ public:
     /// \param sceneRenderer The scene renderer to render the debug geometry to.
     void addRenderCalls(SceneRenderer& sceneRenderer);
 
-    ///
-    /// Clear all enqueued debug geometry.
-    void clear();
+    void tick(Real timeStep) override;
 
 private:
 

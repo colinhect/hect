@@ -29,7 +29,7 @@
 using namespace hect;
 
 DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Subsequent)
+    System(scene, SystemTickStage_Precedent)
 {
     AssetCache& assetCache = engine.assetCache();
 
@@ -51,7 +51,7 @@ void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)
     }
 }
 
-void DebugSystem::clear()
+void DebugSystem::tick(Real timeStep)
 {
     _boxes.clear();
 }

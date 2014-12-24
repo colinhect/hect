@@ -134,13 +134,6 @@ void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& 
         renderer.endFrame();
     }
 
-    // Clear debug geometry now that it is rendered
-    if (scene.hasSystemType<DebugSystem>())
-    {
-        DebugSystem& debugSystem = scene.system<DebugSystem>();
-        debugSystem.clear();
-    }
-
     // Light rendering
     {
         renderer.beginFrame();
