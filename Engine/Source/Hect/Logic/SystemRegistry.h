@@ -47,11 +47,12 @@ public:
     /// Creates a system of the specified type.
     ///
     /// \param typeId The type id representing the type of system to create.
+    /// \param engine The engine.
     /// \param scene The scene that the system is being created for.
     ///
     /// \throws Error If the specified type id does not correspond to a
     /// registered system type.
-    static std::shared_ptr<System> create(SystemTypeId typeId, Scene& scene);
+    static std::shared_ptr<System> create(SystemTypeId typeId, Engine& engine, Scene& scene);
 
     ///
     /// Returns the system type id for the given system type index.
@@ -108,7 +109,7 @@ private:
     static std::map<std::string, SystemTypeId> _typeNameToId;
     static std::map<std::type_index, SystemTypeId> _typeIndexToId;
 
-    typedef std::function<std::shared_ptr<System>(Scene&)> SystemConstructor;
+    typedef std::function<std::shared_ptr<System>(Engine&, Scene&)> SystemConstructor;
 
     static std::vector<SystemConstructor> _constructors;
 };

@@ -39,7 +39,7 @@ class HECT_EXPORT TransformSystem :
     public System
 {
 public:
-    TransformSystem(Scene& scene);
+    TransformSystem(Engine& engine, Scene& scene);
 
     ///
     /// Forces the update of a transform and all child transforms.

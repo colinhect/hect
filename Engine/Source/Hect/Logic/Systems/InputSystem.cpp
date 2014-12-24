@@ -29,10 +29,11 @@
 
 using namespace hect;
 
-InputSystem::InputSystem(Scene& scene) :
-    System(scene, SystemTickStage_Precedent)
+InputSystem::InputSystem(Engine& engine, Scene& scene) :
+    System(scene, SystemTickStage_Precedent),
+    _platform(engine.platform())
 {
-    for (const DataValue& axisValue : scene.engine().settings()["inputAxes"])
+    for (const DataValue& axisValue : engine.settings()["inputAxes"])
     {
         InputAxis axis;
 
@@ -95,7 +96,6 @@ void InputSystem::tick(Real timeStep)
     // Update each axis
     for (InputAxis& axis : _axes)
     {
-        Platform& platform = scene().engine().platform();
-        axis.update(platform, timeStep);
+        axis.update(_platform, timeStep);
     }
 }

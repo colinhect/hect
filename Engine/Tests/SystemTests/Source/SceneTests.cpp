@@ -28,6 +28,7 @@
 #include <Hect/IO/DataValueEncoder.h>
 #include <Hect/IO/MemoryReadStream.h>
 #include <Hect/IO/MemoryWriteStream.h>
+#include <Hect/Runtime/Engine.h>
 
 using namespace hect;
 
@@ -67,9 +68,10 @@ class TestSystem :
 public:
     std::string value;
 
-    TestSystem(Scene& scene) :
+    TestSystem(Engine& engine, Scene& scene) :
         System(scene)
     {
+        (void)engine;
     }
 
     void tick(Real timeStep) override

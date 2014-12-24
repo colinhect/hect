@@ -39,7 +39,7 @@ class HECT_EXPORT BoundingBoxSystem :
     public System
 {
 public:
-    BoundingBoxSystem(Scene& scene);
+    BoundingBoxSystem(Engine& engine, Scene& scene);
 
     ///
     /// Forces the update of a bounding box and all child bounding boxes.

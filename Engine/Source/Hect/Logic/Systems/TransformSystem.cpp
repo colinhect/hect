@@ -25,12 +25,14 @@
 
 #include "Hect/Logic/Components/BoundingBox.h"
 #include "Hect/Logic/Systems/BoundingBoxSystem.h"
+#include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
-TransformSystem::TransformSystem(Scene& scene) :
+TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
     System(scene, SystemTickStage_Subsequent)
 {
+    (void)engine;
 }
 
 void TransformSystem::update(Transform& transform)

@@ -52,10 +52,9 @@ public:
     ///
     /// Performs a single step of logic.
     ///
-    /// \param engine The engine.
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    virtual void tick(Engine& engine, Real timeStep) = 0;
+    virtual void tick(Real timeStep) = 0;
 
     ///
     /// Renders the current state of the game to a target.

@@ -63,14 +63,6 @@ public:
     Scene(Engine& engine);
 
     ///
-    /// Returns the engine.
-    Engine& engine();
-
-    ///
-    /// Returns the engine.
-    const Engine& engine() const;
-
-    ///
     /// Adds support for a system type to the scene.
     ///
     /// \note The order in which systems are added dictates the order they tick

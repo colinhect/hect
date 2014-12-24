@@ -26,12 +26,14 @@
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/Transform.h"
 #include "Hect/Logic/Systems/DebugSystem.h"
+#include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
-BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
+BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
     System(scene, SystemTickStage_Subsequent)
 {
+    (void)engine;
 }
 
 void BoundingBoxSystem::update(BoundingBox& boundingBox)

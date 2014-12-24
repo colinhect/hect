@@ -27,10 +27,11 @@
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Logic/Components/Transform.h"
 #include "Hect/Logic/Systems/TransformSystem.h"
+#include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
-PhysicsSystem::PhysicsSystem(Scene& scene) :
+PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
 System(scene, SystemTickStage_Precedent),
     gravity(Vector3::unitY() * Real(-9.8)),
     _configuration(new btDefaultCollisionConfiguration()),
@@ -39,6 +40,7 @@ System(scene, SystemTickStage_Precedent),
     _solver(new btSequentialImpulseConstraintSolver()),
     _world(new btDiscreteDynamicsWorld(_dispatcher.get(), _broadphase.get(), _solver.get(), _configuration.get()))
 {
+    (void)engine;
     scene.components<RigidBody>().addListener(*this);
 }
 

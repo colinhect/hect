@@ -41,7 +41,7 @@ class HECT_EXPORT InputSystem :
     public System
 {
 public:
-    InputSystem(Scene& scene);
+    InputSystem(Engine& engine, Scene& scene);
 
     ///
     /// Adds an axis.
@@ -66,6 +66,7 @@ public:
     void tick(Real timeStep) override;
 
 private:
+    Platform& _platform;
     std::vector<InputAxis> _axes;
     StringMap<size_t> _axisIndices;
 };

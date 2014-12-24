@@ -35,7 +35,7 @@
 namespace hect
 {
 
-class Scene;
+class Engine;
 
 ///
 /// A numeric identifier for a system type.

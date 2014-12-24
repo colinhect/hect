@@ -34,16 +34,6 @@ Scene::Scene(Engine& engine) :
 {
 }
 
-Engine& Scene::engine()
-{
-    return _engine;
-}
-
-const Engine& Scene::engine() const
-{
-    return _engine;
-}
-
 void Scene::refresh()
 {
     // Create all entities pending creation
@@ -143,7 +133,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     }
 
     // Add the system
-    auto system = SystemRegistry::create(typeId, *this);
+    auto system = SystemRegistry::create(typeId, _engine, *this);
     _systems[typeId] = system;
     _tickStages[system->tickStage()].push_back(typeId);
     _systemTypeIds.push_back(typeId);

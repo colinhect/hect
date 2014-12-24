@@ -122,7 +122,7 @@ int Engine::main()
 
         while (accumulator.microseconds() >= gameMode->timeStep().microseconds())
         {
-            gameMode->tick(*this, timeStep);
+            gameMode->tick(timeStep);
 
             delta = TimeSpan();
             accumulator -= gameMode->timeStep();

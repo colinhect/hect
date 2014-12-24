@@ -51,7 +51,7 @@ class HECT_EXPORT PhysicsSystem :
     public Listener<ComponentEvent<RigidBody>>
 {
 public:
-    PhysicsSystem(Scene& scene);
+    PhysicsSystem(Engine& engine, Scene& scene);
 
     ///
     /// Applies a force to a rigid body.

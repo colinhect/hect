@@ -24,12 +24,14 @@
 #include "CameraSystem.h"
 
 #include "Hect/Logic/Components/Transform.h"
+#include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
-CameraSystem::CameraSystem(Scene& scene) :
+CameraSystem::CameraSystem(Engine& engine, Scene& scene) :
     System(scene, SystemTickStage_Subsequent)
 {
+    (void)engine;
     scene.components<Camera>().addListener(*this);
 }
 

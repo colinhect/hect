@@ -28,10 +28,10 @@
 
 using namespace hect;
 
-DebugSystem::DebugSystem(Scene& scene) :
+DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     System(scene, SystemTickStage_Subsequent)
 {
-    AssetCache& assetCache = scene.engine().assetCache();
+    AssetCache& assetCache = engine.assetCache();
 
     _coloredLineMaterial = assetCache.getHandle<Material>("Hect/ColoredLine.material");
     _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");

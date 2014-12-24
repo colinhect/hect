@@ -28,13 +28,13 @@
 
 using namespace hect;
 
-std::shared_ptr<System> SystemRegistry::create(SystemTypeId typeId, Scene& scene)
+std::shared_ptr<System> SystemRegistry::create(SystemTypeId typeId, Engine& engine, Scene& scene)
 {
     if (!isRegisteredTypeId(typeId))
     {
         throw Error("Unknown system type id");
     }
-    return _constructors[typeId](scene);
+    return _constructors[typeId](engine, scene);
 }
 
 SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
