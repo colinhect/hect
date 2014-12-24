@@ -36,6 +36,8 @@
 namespace hect
 {
 
+class Engine;
+
 ///
 /// Provides the ability to dynamically create systems based on type
 /// information.
