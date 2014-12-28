@@ -123,5 +123,5 @@ TEST_CASE("Open non-existing file for read", "[FileSystem]")
 
     Path path("DoesNotExist.txt");
 
-    REQUIRE_THROWS_AS(fileSystem.openFileForRead(path), FatalError);
+    REQUIRE_THROWS_AS(fileSystem.openFileForRead(path), IOError);
 }

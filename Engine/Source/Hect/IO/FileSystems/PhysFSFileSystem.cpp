@@ -51,7 +51,7 @@ PhysFSFileSystem::PhysFSFileSystem(int argc, char* const argv[])
     assert(!_initialized);
     if (!PHYSFS_init(argv[0]))
     {
-        throw FatalError(format("Failed to initialize file system: %s", PHYSFS_getLastError()));
+        throw FatalError(format("Failed to initialize PhysFS: %s", PHYSFS_getLastError()));
     }
     _initialized = true;
 }
@@ -60,7 +60,7 @@ PhysFSFileSystem::~PhysFSFileSystem()
 {
     if (!PHYSFS_deinit())
     {
-        throw FatalError(format("Failed to shutdown file system: %s", PHYSFS_getLastError()));
+        throw FatalError(format("Failed to shutdown PhysFS: %s", PHYSFS_getLastError()));
     }
 }
 
@@ -103,7 +103,7 @@ void PhysFSFileSystem::setWriteDirectory(const Path& path)
 {
     if (!PHYSFS_setWriteDir(path.asString().c_str()))
     {
-        throw FatalError(format("Failed to set write directory to '%s': %s", path.asString().c_str(), PHYSFS_getLastError()));
+        throw IOError(format("Failed to set write directory to '%s': %s", path.asString().c_str(), PHYSFS_getLastError()));
     }
 }
 
@@ -114,7 +114,7 @@ void PhysFSFileSystem::mountArchive(const Path& path, const Path& mountPoint)
 
     if (!PHYSFS_mount(pathString, mountPointString, 0))
     {
-        throw FatalError(format("Failed to mount archive '%s': %s", pathString, PHYSFS_getLastError()));
+        throw IOError(format("Failed to mount archive '%s': %s", pathString, PHYSFS_getLastError()));
     }
 
     if (mountPoint.empty())
@@ -141,7 +141,7 @@ void PhysFSFileSystem::createDirectory(const Path& path)
 {
     if (!PHYSFS_mkdir(path.asString().c_str()))
     {
-        throw FatalError(format("Failed to create directory: %s", PHYSFS_getLastError()));
+        throw IOError(format("Failed to create directory: %s", PHYSFS_getLastError()));
     }
 }
 
@@ -164,7 +164,7 @@ void PhysFSFileSystem::remove(const Path& path)
 {
     if (!PHYSFS_delete(path.asString().c_str()))
     {
-        throw FatalError(format("Failed to remove directory: %s", PHYSFS_getLastError()));
+        throw IOError(format("Failed to remove directory: %s", PHYSFS_getLastError()));
     }
 }
 

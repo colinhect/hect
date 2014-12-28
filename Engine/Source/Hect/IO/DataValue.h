@@ -295,7 +295,7 @@ public:
     ///
     /// \param yaml The YAML string.
     ///
-    /// \throw FatalError If invalid YAML is encountered.
+    /// \throw DecodeError If invalid YAML is encountered.
     void decodeFromYaml(const std::string& yaml);
 
     ///
@@ -303,7 +303,7 @@ public:
     ///
     /// \param stream The stream to read the YAML from.
     ///
-    /// \throw FatalError If invalid YAML is encountered.
+    /// \throw DecodeError If invalid YAML is encountered.
     void decodeFromYaml(ReadStream& stream);
 
 private:

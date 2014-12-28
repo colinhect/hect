@@ -27,6 +27,7 @@
 #include <string>
 
 #include "Hect/Core/Export.h"
+#include "Hect/IO/IOError.h"
 
 namespace hect
 {
@@ -43,6 +44,8 @@ public:
     ///
     /// \param bytes A pointer to the bytes to write.
     /// \param byteCount The number of bytes to write.
+    ///
+    /// \throws IOError If an error occurs during the write.
     virtual void write(const uint8_t* bytes, size_t byteCount) = 0;
 
     ///
@@ -53,6 +56,8 @@ public:
     /// Sets the current byte offset position in the stream.
     ///
     /// \param position The new position.
+    ///
+    /// \throws IOError If an error occurs during the seek.
     virtual void seek(size_t position) = 0;
 };
 

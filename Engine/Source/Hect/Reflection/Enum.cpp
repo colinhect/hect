@@ -40,7 +40,7 @@ EnumValue::Type Enum::fromString(const std::string& stringValue) const
     auto it = _stringToNumeric.find(stringValue);
     if (it == _stringToNumeric.end())
     {
-        throw InvalidOperation(format("Invalid string value '%s' for enum '%s'", stringValue.c_str(), _name.c_str()));
+        throw DecodeError(format("Invalid string value '%s' for enum '%s'", stringValue.c_str(), _name.c_str()));
     }
     return it->second;
 }
@@ -50,7 +50,7 @@ const std::string& Enum::toString(EnumValue::Type numericValue) const
     auto it = _numericToString.find(numericValue);
     if (it == _numericToString.end())
     {
-        throw InvalidOperation(format("Invalid numeric value '%i' for enum '%s'", numericValue, _name.c_str()));
+        throw EncodeError(format("Invalid numeric value '%i' for enum '%s'", numericValue, _name.c_str()));
     }
     return it->second;
 }

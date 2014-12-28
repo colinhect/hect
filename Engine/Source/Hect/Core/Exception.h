@@ -54,6 +54,22 @@ public:
 };
 
 ///
+/// An unrecoverable error was encountered.
+class HECT_EXPORT FatalError :
+    public Exception
+{
+public:
+
+    ///
+    /// \copydoc Exception::Exception()
+    FatalError();
+
+    ///
+    /// \copydoc Exception::Exception(const std::string&)
+    FatalError(const std::string& message);
+};
+
+///
 /// An invalid operation was attempted.
 class HECT_EXPORT InvalidOperation :
     public Exception
@@ -61,41 +77,12 @@ class HECT_EXPORT InvalidOperation :
 public:
 
     ///
-    /// Constructs the exception without a message.
+    /// \copydoc Exception::Exception()
     InvalidOperation();
 
     ///
-    /// Constructs the exception with a message.
-    ///
-    /// \param message The message.
+    /// \copydoc Exception::Exception(const std::string&)
     InvalidOperation(const std::string& message);
-};
-
-///
-/// A fatal error was encountered.
-class HECT_EXPORT FatalError :
-    public Exception
-{
-public:
-
-    ///
-    /// Constructs the exception without a message.
-    FatalError();
-
-    ///
-    /// Constructs the exception with a message.
-    ///
-    /// \param message The message.
-    FatalError(const std::string& message);
-};
-
-// In the process of removing this
-class HECT_EXPORT Error :
-    public Exception
-{
-public:
-    Error();
-    Error(const std::string& message);
 };
 
 }

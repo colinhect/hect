@@ -47,7 +47,7 @@ void ImagePngEncoder::encode(const Image& image, WriteStream& stream)
     unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), image.width(), image.height());
     if (error)
     {
-        throw FatalError(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
+        throw EncodeError(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
     }
 
     // Write the encoded data to the stream
@@ -69,7 +69,7 @@ void ImagePngEncoder::decode(Image& image, ReadStream& stream)
     unsigned error = lodepng::decode(decodedPixelData, width, height, encodedPixelData);
     if (error)
     {
-        throw FatalError(format("Failed to decode PNG data: %s", lodepng_error_text(error)));
+        throw DecodeError(format("Failed to decode PNG data: %s", lodepng_error_text(error)));
     }
 
     // Set various properties for the image

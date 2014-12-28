@@ -27,6 +27,7 @@
 #include <functional>
 #include <memory>
 
+#include "Hect/Concurrency/TaskError.h"
 #include "Hect/Core/Exception.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
@@ -86,8 +87,8 @@ public:
     ///
     /// Waits until the task has completed.
     ///
-    /// \throws Exception If an exception occurred while executing the
-    /// task's action.
+    /// \throws TaskError If an error occurred while executing the task's
+    /// action.
     void wait();
 
     ///
@@ -102,7 +103,7 @@ private:
     Task::Action _action;
     std::atomic<bool> _done { false };
     bool _exceptionOccurred { false };
-    Exception _exception;
+    std::string _exceptionMessage;
 };
 
 }

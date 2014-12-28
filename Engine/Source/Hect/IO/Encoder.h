@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/IO/EncodeError.h"
 #include "Hect/IO/EncodeOperations.h"
 #include "Hect/IO/WriteStream.h"
 #include "Hect/Reflection/Enum.h"

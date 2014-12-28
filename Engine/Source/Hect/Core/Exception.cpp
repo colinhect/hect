@@ -35,16 +35,6 @@ Exception::Exception(const std::string& message) :
 {
 }
 
-InvalidOperation::InvalidOperation() :
-    Exception("")
-{
-}
-
-InvalidOperation::InvalidOperation(const std::string& message) :
-    Exception(message)
-{
-}
-
 FatalError::FatalError() :
     Exception("")
 {
@@ -55,12 +45,12 @@ FatalError::FatalError(const std::string& message) :
 {
 }
 
-Error::Error() :
+InvalidOperation::InvalidOperation() :
     Exception("")
 {
 }
 
-Error::Error(const std::string& message) :
+InvalidOperation::InvalidOperation(const std::string& message) :
     Exception(message)
 {
 }

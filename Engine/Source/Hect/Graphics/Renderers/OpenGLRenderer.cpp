@@ -463,7 +463,7 @@ void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
-            throw FatalError("Invalid frame buffer");
+            throw InvalidOperation("Invalid frame buffer");
         }
     }
 
@@ -610,7 +610,7 @@ void OpenGLRenderer::uploadShader(Shader& shader)
 
             if (infoLog.size() > 0)
             {
-                throw FatalError(format("Failed to compile GLSL shader source file '%s': %s", module.name().c_str(), infoLog.c_str()));
+                throw InvalidOperation(format("Invalid shader: Failed to compile GLSL shader source file '%s': %s", module.name().c_str(), infoLog.c_str()));
             }
         }
 
@@ -632,7 +632,7 @@ void OpenGLRenderer::uploadShader(Shader& shader)
 
         if (infoLog.size() > 0)
         {
-            throw FatalError(format("Failed to link GLSL shaders for shader '%s': %s", shader.name().c_str(), infoLog.c_str()));
+            throw InvalidOperation(format("Invalid shader: Failed to link GLSL shaders for shader '%s': %s", shader.name().c_str(), infoLog.c_str()));
         }
     }
 

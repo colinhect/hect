@@ -83,9 +83,9 @@ Engine::Engine(int argc, char* const argv[]) :
             DataValueDecoder decoder(videoModeValue);
             decoder >> decodeValue(videoMode);
         }
-        catch (Exception& exception)
+        catch (const DecodeError& error)
         {
-            throw FatalError(format("Invalid video mode: %s", exception.what()));
+            HECT_ERROR(format("Invalid video mode: %s", error.what()));
         }
 
         // Create window and renderer
@@ -99,39 +99,40 @@ int Engine::main()
     const DataValue& gameModeValue = _settings["gameMode"];
     if (gameModeValue.isNull())
     {
-        throw FatalError("No game mode specified in settings");
+        HECT_ERROR("No game mode specified in settings");
     }
-
-    const std::string& gameModeTypeName = gameModeValue.asString();
-
-    auto gameMode = GameModeRegistry::create(gameModeTypeName, *this);
-
-    Timer timer;
-    TimeSpan accumulator;
-    TimeSpan delta;
-
-    Real timeStep = gameMode->timeStep().seconds();
-
-    while (_platform.handleEvents())
+    else
     {
-        TimeSpan deltaTime = timer.elapsed();
-        timer.reset();
+        const std::string& gameModeTypeName = gameModeValue.asString();
 
-        accumulator += deltaTime;
-        delta += deltaTime;
+        auto gameMode = GameModeRegistry::create(gameModeTypeName, *this);
 
-        while (accumulator.microseconds() >= gameMode->timeStep().microseconds())
+        Timer timer;
+        TimeSpan accumulator;
+        TimeSpan delta;
+
+        Real timeStep = gameMode->timeStep().seconds();
+
+        while (_platform.handleEvents())
         {
-            gameMode->tick(timeStep);
+            TimeSpan deltaTime = timer.elapsed();
+            timer.reset();
 
-            delta = TimeSpan();
-            accumulator -= gameMode->timeStep();
+            accumulator += deltaTime;
+            delta += deltaTime;
+
+            while (accumulator.microseconds() >= gameMode->timeStep().microseconds())
+            {
+                gameMode->tick(timeStep);
+
+                delta = TimeSpan();
+                accumulator -= gameMode->timeStep();
+            }
+
+            gameMode->render(_renderer, *_window);
+            _window->swapBuffers();
         }
-
-        gameMode->render(_renderer, *_window);
-        _window->swapBuffers();
     }
-
     return 0;
 }
 
@@ -203,7 +204,7 @@ DataValue Engine::loadConfig(const Path& settingsFilePath)
 
         return settings;
     }
-    catch (std::exception& exception)
+    catch (const std::exception& exception)
     {
         throw FatalError(format("Failed to load settings file '%s': %s", settingsFilePath.asString().c_str(), exception.what()));
     }
@@ -244,7 +245,7 @@ Engine::CommandLineArguments Engine::parseCommandLineArgument(int argc, char* co
         arguments.settingsFilePath = settingsArg.getValue();
         return arguments;
     }
-    catch (std::exception& exception)
+    catch (const std::exception& exception)
     {
         throw FatalError(exception.what());
     }

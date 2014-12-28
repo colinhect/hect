@@ -190,7 +190,7 @@ const DataValue& DataValueDecoder::decode()
         const DataValue& result = top[_selectedMemberName];
         if (result.isNull())
         {
-            throw FatalError(format("No member value '%s'", _selectedMemberName.c_str()));
+            throw DecodeError(format("No member value '%s'", _selectedMemberName.c_str()));
         }
         _selectedMemberName = std::string();
         return result;

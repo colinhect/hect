@@ -35,19 +35,19 @@ InputSystem::InputSystem(Engine& engine, Scene& scene) :
 {
     for (const DataValue& axisValue : engine.settings()["inputAxes"])
     {
-        InputAxis axis;
-
         try
         {
+            InputAxis axis;
+
             DataValueDecoder decoder(axisValue);
             decoder >> decodeValue(axis);
-        }
-        catch (Exception& exception)
-        {
-            throw FatalError(format("Invalid input axes: %s", exception.what()));
-        }
 
-        addAxis(axis);
+            addAxis(axis);
+        }
+        catch (const DecodeError& error)
+        {
+            HECT_ERROR(format("Invalid input axes: %s", error.what()));
+        }
     }
 }
 

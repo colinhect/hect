@@ -443,9 +443,9 @@ void Scene::decode(Decoder& decoder)
                 AssetDecoder baseDecoder(decoder.assetCache(), basePath);
                 baseDecoder >> beginObject() >> decodeValue(*this) >> endObject();
             }
-            catch (Exception& exception)
+            catch (const Exception& exception)
             {
-                throw FatalError(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), exception.what()));
+                throw DecodeError(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), exception.what()));
             }
         }
     }

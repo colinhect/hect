@@ -71,7 +71,7 @@ void Task::wait()
     // Re-throw the exception if one occurred
     if (_exceptionOccurred)
     {
-        throw _exception;
+        throw TaskError(_exceptionMessage);
     }
 }
 
@@ -91,20 +91,15 @@ void Task::execute()
     {
         _action();
     }
-    catch (Exception& exception)
+    catch (const std::exception& exception)
     {
         _exceptionOccurred = true;
-        _exception = exception;
-    }
-    catch (std::exception& exception)
-    {
-        _exceptionOccurred = true;
-        _exception = Exception(exception.what());
+        _exceptionMessage = exception.what();
     }
     catch (...)
     {
         _exceptionOccurred = true;
-        _exception = Exception("Unknown exception");
+        _exceptionMessage = "Unknown exception";
     }
 
     _done = true;

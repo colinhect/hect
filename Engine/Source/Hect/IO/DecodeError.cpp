@@ -21,59 +21,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "PhysFSWriteStream.h"
-
-#include <cassert>
-
-#include "Hect/Core/Exception.h"
-#include "Hect/Core/Format.h"
+#include "DecodeError.h"
 
 using namespace hect;
 
-PhysFSWriteStream::PhysFSWriteStream(const Path& path) :
-    _path(path)
+DecodeError::DecodeError() :
+    Exception("")
 {
-    _handle = PHYSFS_openWrite(path.asString().c_str());
-    if (!_handle)
-    {
-        throw IOError(format("Failed to open file for writing: %s", PHYSFS_getLastError()));
-    }
 }
 
-PhysFSWriteStream::~PhysFSWriteStream()
+DecodeError::DecodeError(const std::string& message) :
+    Exception(message)
 {
-    if (_handle)
-    {
-        if (!PHYSFS_close(_handle))
-        {
-            throw IOError(format("Failed to close file for writing: %s", PHYSFS_getLastError()));
-        }
-    }
-}
-
-void PhysFSWriteStream::write(const uint8_t* bytes, size_t byteCount)
-{
-    assert(_handle);
-    assert(bytes);
-
-    PHYSFS_sint64 result = PHYSFS_write(_handle, bytes, 1, static_cast<PHYSFS_uint32>(byteCount));
-    if (result != static_cast<PHYSFS_sint64>(byteCount))
-    {
-        throw IOError(format("Failed to write to file: %s", PHYSFS_getLastError()));
-    }
-}
-
-size_t PhysFSWriteStream::position() const
-{
-    assert(_handle);
-    return static_cast<size_t>(PHYSFS_tell(_handle));
-}
-
-void PhysFSWriteStream::seek(size_t position)
-{
-    assert(_handle);
-    if (!PHYSFS_seek(_handle, position))
-    {
-        throw IOError(format("Failed to seek in file: %s", PHYSFS_getLastError()));
-    }
 }

@@ -324,7 +324,7 @@ Joystick& SdlPlatform::joystick(JoystickIndex index)
 {
     if (!hasJoystick(index))
     {
-        throw FatalError(format("No joystick connected at index %i", index));
+        throw InvalidOperation(format("No joystick connected at index %i", index));
     }
     return _joysticks[index];
 }

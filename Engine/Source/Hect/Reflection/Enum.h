@@ -32,6 +32,8 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Sequence.h"
+#include "Hect/IO/DecodeError.h"
+#include "Hect/IO/EncodeError.h"
 
 namespace hect
 {
@@ -82,7 +84,7 @@ public:
     ///
     /// \returns The enum value.
     ///
-    /// \throws InvalidOperation If the string does not represent a valid enum
+    /// \throws DecodeError If the string does not represent a valid enum
     /// value or if the type is not an enum.
     template <typename T>
     static T fromString(const std::string& stringValue);
@@ -94,7 +96,7 @@ public:
     ///
     /// \returns The string representation of the enum value.
     ///
-    /// \throws InvalidOperation If the number does not represent a valid enum
+    /// \throws EncodeError If the number does not represent a valid enum
     /// value or if the type is not an enum.
     template <typename T>
     static const std::string& toString(T numericValue);
@@ -107,7 +109,7 @@ public:
     ///
     /// \returns The enum value.
     ///
-    /// \throws InvalidOperation If the string does not represent a valid enum
+    /// \throws DecodeError If the string does not represent a valid enum
     /// value.
     EnumValue::Type fromString(const std::string& stringValue) const;
 
@@ -118,7 +120,7 @@ public:
     ///
     /// \returns The string representation of the enum value.
     ///
-    /// \throws InvalidOperation If the number does not represent a valid enum
+    /// \throws EncodeError If the number does not represent a valid enum
     /// value or if the type is not an enum.
     const std::string& toString(EnumValue::Type numericValue) const;
 

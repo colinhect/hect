@@ -260,6 +260,8 @@ public:
     ///
     /// Selects the shader affecting following draw calls.
     ///
+    /// \note The shader will be uploaded if it was not already uploaded.
+    ///
     /// \param shader The shader to select.
     virtual void selectShader(Shader& shader) = 0;
 
@@ -269,6 +271,8 @@ public:
     /// \note If the shader is already uploaded then no action is taken.
     ///
     /// \param shader The shader to upload.
+    ///
+    /// \throws InvalidOperation If the shader is invalid.
     virtual void uploadShader(Shader& shader) = 0;
 
     ///
@@ -343,6 +347,8 @@ public:
 
     ///
     /// Selects the mesh affecting following draw calls.
+    ///
+    /// \note The mesh will be uploaded if it was not already uploaded.
     ///
     /// \param mesh The mesh to select.
     virtual void selectMesh(Mesh& mesh) = 0;

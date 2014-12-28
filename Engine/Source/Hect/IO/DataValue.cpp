@@ -612,7 +612,7 @@ void DataValue::decodeFromYaml(const std::string& yaml)
     // Throw the error if there was one
     if (!errorMessage.empty())
     {
-        throw FatalError(errorMessage);
+        throw DecodeError(errorMessage);
     }
 }
 

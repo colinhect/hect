@@ -387,7 +387,7 @@ Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue)
         }
         break;
         default:
-            throw FatalError(format("Unknown uniform type '%s'", Enum::toString(type).c_str()));
+            throw DecodeError(format("Unknown uniform type '%s'", Enum::toString(type).c_str()));
         }
     }
     else

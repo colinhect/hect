@@ -28,6 +28,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
+#include "Hect/IO/IOError.h"
 #include "Hect/IO/Path.h"
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
@@ -64,6 +65,8 @@ public:
     /// Sets the directory where write access is allowed and directed to.
     ///
     /// \param path The path to the directory to direct write access.
+    ///
+    /// \throws IOError If the write directory could not be set.
     virtual void setWriteDirectory(const Path& path) = 0;
 
     ///
@@ -75,6 +78,8 @@ public:
     ///
     /// \param path Path to the directory or archive to mount.
     /// \param mountPoint The point to mount the path to.
+    ///
+    /// \throws IOError If the archive could not be mounted.
     virtual void mountArchive(const Path& path, const Path& mountPoint = Path()) = 0;
 
     ///
@@ -83,6 +88,8 @@ public:
     /// \param path The path to the file to open for reading.
     ///
     /// \returns A stream for the opened file.
+    ///
+    /// \throws IOError If the file could not be opened.
     virtual std::unique_ptr<ReadStream> openFileForRead(const Path& path) = 0;
 
     ///
@@ -95,6 +102,8 @@ public:
     /// the write directory path.
     ///
     /// \returns A stream for the opened file.
+    ///
+    /// \throws IOError If the file could not be opened.
     virtual std::unique_ptr<WriteStream> openFileForWrite(const Path& path) = 0;
 
     ///
@@ -108,6 +117,8 @@ public:
     ///
     /// \param path The path to the directory to create relative to the
     /// write directory path.
+    ///
+    /// \throws IOError If the directory could not be created.
     virtual void createDirectory(const Path& path) = 0;
 
     ///
@@ -126,6 +137,8 @@ public:
     ///
     /// \param path The path to the file or directory to remove relative to
     /// the write directory path.
+    ///
+    /// \throws IOError If the file or directory could not be removed.
     virtual void remove(const Path& path) = 0;
 
     ///
