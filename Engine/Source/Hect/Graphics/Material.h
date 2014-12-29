@@ -37,14 +37,19 @@ namespace hect
 class HECT_EXPORT Material :
     public Asset<Material>
 {
+    typedef std::vector<UniformValue> UniformValueContainer;
 public:
+
+    ///
+    /// A sequence of uniform values.
+    typedef Sequence<UniformValue, UniformValueContainer> UniformValueSequence;
 
     ///
     /// Constructs a blank material.
     Material();
 
     ///
-    /// Constructs a blank shader.
+    /// Constructs a blank material.
     ///
     /// \param name The name of the material.
     Material(const std::string& name);
@@ -56,8 +61,35 @@ public:
     ///
     /// Sets the shader.
     ///
+    /// \note Uniform values of the material are cleared before the shader
+    /// changes.
+    ///
     /// \param shader The shader.
     void setShader(const AssetHandle<Shader>& shader);
+
+    ///
+    /// Returns the uniform values.
+    UniformValueSequence uniformValues();
+
+    ///
+    /// Returns the uniform values.
+    const UniformValueSequence uniformValues() const;
+
+    ///
+    /// Sets the value for the uniform of the material's shader of the
+    /// specified name.
+    ///
+    /// \param name The name of the uniform to set the value for.
+    /// \param value The uniform value.
+    ///
+    /// \throws InvalidOperation If no shader is set, the shader does not
+    /// have a uniform of the specified name, the value is of the wrong
+    /// type, or the uniform is bound.
+    void setUniformValue(const std::string& name, const UniformValue& value);
+
+    ///
+    /// Clears all set uniform values.
+    void clearUniformValues();
 
     ///
     /// Returns the cull mode used for surfaces using this material.
@@ -90,6 +122,7 @@ public:
 
 private:
     AssetHandle<Shader> _shader;
+    UniformValueContainer _uniformValues;
     CullMode _cullMode { CullMode_CounterClockwise };
 };
 

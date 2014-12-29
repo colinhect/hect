@@ -196,6 +196,10 @@ public:
     AssetHandle<Texture> asTexture() const;
 
     ///
+    /// Returns whether the value is not null.
+    operator bool() const;
+
+    ///
     /// Returns whether the uniform value is equivalent to another.
     ///
     /// \param uniformValue The other uniform value.

@@ -254,6 +254,11 @@ AssetHandle<Texture> UniformValue::asTexture() const
     return _value.as<AssetHandle<Texture>>();
 }
 
+UniformValue::operator bool() const
+{
+    return _value.hasValue();
+}
+
 bool UniformValue::operator==(const UniformValue& uniformValue) const
 {
     // Type

@@ -342,6 +342,18 @@ void SceneRenderer::renderMesh(Renderer& renderer, const Camera& camera, const R
     renderer.selectShader(shader);
     setBoundUniforms(renderer, shader, camera, target, transform);
 
+    // Set the uniform values of the material
+    UniformIndex index = 0;
+    for (const UniformValue& value : material.uniformValues())
+    {
+        if (value)
+        {
+            const Uniform& uniform = shader.uniform(index);
+            renderer.setUniform(uniform, value);
+        }
+        ++index;
+    }
+
     // Select and draw the mesh
     renderer.selectMesh(mesh);
     renderer.draw();

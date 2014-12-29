@@ -145,6 +145,14 @@ public:
     const Uniform& uniform(const char* name) const;
 
     ///
+    /// Returns the index of a uniform.
+    ///
+    /// \param uniform The uniform to get the index of.
+    ///
+    /// \throws InvalidOperation If the uniform does not belong to the shader.
+    UniformIndex uniformIndex(const Uniform& uniform) const;
+
+    ///
     /// Returns the blend mode that the shader uses.
     const BlendMode& blendMode() const;
 
