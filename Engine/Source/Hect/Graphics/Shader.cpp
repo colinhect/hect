@@ -34,6 +34,16 @@ Shader::Shader(const std::string& name) :
 {
 }
 
+ShaderSchema Shader::schema() const
+{
+    return _schema;
+}
+
+void Shader::setSchema(ShaderSchema schema)
+{
+    _schema = schema;
+}
+
 void Shader::addModule(const ShaderModule& module)
 {
     // Destroy the shader if it is uploaded so that any changes the added
@@ -231,6 +241,7 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Shader& shader)
 {
     encoder << beginObject()
+            << encodeEnum("schema", shader._schema)
             << encodeVector("modules", shader._modules)
             << encodeVector("uniforms", shader._uniforms)
             << encodeValue("depthTested", shader._depthTested)
@@ -244,6 +255,7 @@ Encoder& operator<<(Encoder& encoder, const Shader& shader)
 Decoder& operator>>(Decoder& decoder, Shader& shader)
 {
     decoder >> beginObject()
+            >> decodeEnum("schema", shader._schema)
             >> decodeVector("modules", shader._modules, true)
             >> decodeVector("uniforms", shader._uniforms)
             >> decodeValue("depthTested", shader._depthTested)

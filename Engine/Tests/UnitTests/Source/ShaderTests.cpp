@@ -82,6 +82,14 @@ TEST_CASE("Get a non-existing uniform from a shader by index", "[Shader]")
     REQUIRE_THROWS_AS(shader.uniform(1), InvalidOperation);
 }
 
+TEST_CASE("Get and set the schema of a shader", "[Shader]")
+{
+    Shader shader;
+    REQUIRE(shader.schema() == ShaderSchema_None);
+    shader.setSchema(ShaderSchema_OpaquePhysicalGeometry);
+    REQUIRE(shader.schema() == ShaderSchema_OpaquePhysicalGeometry);
+}
+
 TEST_CASE("Get and set the blend mode of a shader", "[Shader]")
 {
     Shader shader;

@@ -27,56 +27,23 @@ namespace hect
 {
 
 ///
-/// A factor applied to either the source or destination pixel when blending.
-enum BlendFactor
+/// Describes the inputs and outputs of a shader, allowing the renderer to
+/// execute the shader in the proper context within the render flow.
+enum ShaderSchema
 {
     ///
-    /// \code (0, 0, 0, 0) \endcode
-    BlendFactor_Zero,
+    /// No schema.
+    ShaderSchema_None,
 
     ///
-    /// \code (1, 1, 1, 1) \endcode
-    BlendFactor_One,
+    /// Physically lit opaque geometry.
+    /// Issue #154
+    ShaderSchema_OpaquePhysicalGeometry,
 
     ///
-    /// \code (s.r, s.g, s.b, s.a) \endcode where
-    /// \code s = source \endcode
-    BlendFactor_SourceColor,
-
-    ///
-    /// \code (1, 1, 1, 1) - (s.r, s.g, s.b, s.a) \endcode where
-    /// \code s = source \endcode
-    BlendFactor_OneMinusSourceColor,
-
-    ///
-    /// \code (d.r, d.g, d.b, d.a) \endcode where
-    /// \code d = destination \endcode
-    BlendFactor_DestinationColor,
-
-    ///
-    /// \code (1, 1, 1, 1) - (d.r, d.g, d.b, d.a) \endcode
-    /// \code d = destination \endcode
-    BlendFactor_OneMinusDestinationColor,
-
-    ///
-    /// \code (s.a, s.a, s.a, s.a) \endcode where
-    /// \code s = source \endcode
-    BlendFactor_SourceAlpha,
-
-    ///
-    /// \code (1, 1, 1, 1) - (s.a, s.a, s.a, s.a) \endcode where
-    /// \code s = source \endcode
-    BlendFactor_OneMinusSourceAlpha,
-
-    ///
-    /// \code (d.a, d.a, d.a, d.a) \endcode where
-    /// \code d = destination \endcode
-    BlendFactor_DestinationAlpha,
-
-    ///
-    /// \code (1, 1, 1, 1) - (d.a, d.a, d.a, d.a) \endcode where
-    /// \code d = destination \endcode
-    BlendFactor_OneMinusDestinationAlpha
+    /// Physically lit transparent geometry.
+    /// Issue #154
+    ShaderSchema_TransparentPhysicalGeometry
 };
 
 }

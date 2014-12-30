@@ -68,7 +68,7 @@ public:
     void setShader(const AssetHandle<Shader>& shader);
 
     ///
-    /// Returns the values for to the shader's uniforms.
+    /// Returns the values for the shader's uniforms.
     UniformValueSequence uniformValues();
 
     ///
