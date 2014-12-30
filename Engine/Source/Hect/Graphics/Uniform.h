@@ -145,8 +145,8 @@ private:
     UniformBinding _binding { UniformBinding_None };
     UniformValue _value;
 
-    UniformIndex _index { -1 };
-    TextureIndex _textureIndex { -1 };
+    UniformIndex _index { UniformIndex(-1) };
+    TextureIndex _textureIndex { TextureIndex(-1) };
     UniformLocation _location { -1 };
 };
 

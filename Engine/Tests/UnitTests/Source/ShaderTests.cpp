@@ -26,7 +26,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-TEST_CASE("Add modules to a shader and iterator over them", "[Shader]")
+TEST_CASE("Add modules to a shader and iterate over them", "[Shader]")
 {
     Shader shader;
     shader.addModule(ShaderModule(ShaderModuleType_Vertex, "A", "..."));
@@ -36,7 +36,7 @@ TEST_CASE("Add modules to a shader and iterator over them", "[Shader]")
     REQUIRE(shader.modules()[1].name() == "B");
 }
 
-TEST_CASE("Add uniforms to a shader and iterator over them", "[Shader]")
+TEST_CASE("Add uniforms to a shader and iterate over them", "[Shader]")
 {
     Shader shader;
     shader.addUniform(Uniform("A", UniformType_Float));

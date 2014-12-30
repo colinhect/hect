@@ -41,6 +41,7 @@ const AssetHandle<Shader>& Material::shader() const
 
 void Material::setShader(const AssetHandle<Shader>& shader)
 {
+    clearUniformValues();
     _shader = shader;
 }
 
@@ -65,11 +66,17 @@ void Material::setUniformValue(const std::string& name, const UniformValue& valu
     const Uniform& uniform = _shader->uniform(name);
     if (uniform.type() != value.type())
     {
-        throw InvalidOperation("Type does not match the uniform's type");
+        const char* uniformName = uniform.name().c_str();
+        const char* shaderName = _shader->name().c_str();
+        const char* expectedType = Enum::toString(uniform.type()).c_str();
+        const char* actualType = Enum::toString(value.type()).c_str();
+        throw InvalidOperation(format("Uniform '%s' in shader '%s' is of type '%s' and cannot be assigned a value of type '%s'", uniformName, shaderName, expectedType, actualType));
     }
     else if (uniform.binding() != UniformBinding_None)
     {
-        throw InvalidOperation("Cannot set the value of a bound uniform");
+        const char* uniformName = uniform.name().c_str();
+        const char* shaderName = _shader->name().c_str();
+        throw InvalidOperation(format("Uniform '%s' in shader '%s' is bound and cannot be assigned a value", uniformName, shaderName));
     }
 
     UniformIndex index = uniform.index();
@@ -101,16 +108,19 @@ void Material::setCullMode(CullMode cullMode)
 
 bool Material::operator==(const Material& material) const
 {
+    // Shader
     if (_shader != material._shader)
     {
         return false;
     }
 
+    // Uniform value count
     if (_uniformValues.size() != material._uniformValues.size())
     {
         return false;
     }
 
+    // Uniform values
     for (size_t i = 0; i < _uniformValues.size(); ++i)
     {
         if (_uniformValues[i] != material._uniformValues[i])
@@ -134,10 +144,10 @@ Encoder& operator<<(Encoder& encoder, const Material& material)
 {
     encoder << beginObject();
 
-    // Encode shader
+    // Shader
     encoder << encodeValue("shader", material._shader);
 
-    // Encode uniform values
+    // Uniform values
     encoder << beginArray("uniformValues");
     for (UniformIndex index = 0; index < material._uniformValues.size(); ++index)
     {
@@ -171,10 +181,30 @@ Decoder& operator>>(Decoder& decoder, Material& material)
 {
     decoder >> beginObject();
 
-    // Decode shader
+    // Base
+    if (!decoder.isBinaryStream())
+    {
+        if (decoder.selectMember("base"))
+        {
+            Path basePath;
+            decoder >> decodeValue(basePath);
+
+            try
+            {
+                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
+                baseDecoder >> decodeValue(material);
+            }
+            catch (const Exception& exception)
+            {
+                throw DecodeError(format("Failed to load base material '%s': %s", basePath.asString().c_str(), exception.what()));
+            }
+        }
+    }
+
+    // Shader
     decoder >> decodeValue("shader", material._shader);
 
-    // Decode uniform values
+    // Uniform values
     if (decoder.selectMember("uniformValues"))
     {
         decoder >> beginArray();

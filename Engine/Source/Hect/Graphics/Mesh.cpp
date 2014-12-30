@@ -164,25 +164,25 @@ const AxisAlignedBox& Mesh::axisAlignedBox() const
 
 bool Mesh::operator==(const Mesh& mesh) const
 {
-    // Compare vertex layout
+    // Vertex layout
     if (_vertexLayout != mesh._vertexLayout)
     {
         return false;
     }
 
-    // Compare primitive/index types
+    // Primitive/index types
     if (_primitiveType != mesh._primitiveType || _indexType != mesh._indexType)
     {
         return false;
     }
 
-    // Compare vertex/index counts
+    // Vertex/index counts
     if (_vertexCount != mesh._vertexCount || _indexCount != mesh._indexCount)
     {
         return false;
     }
 
-    // Compare vertex data
+    // Vertex data
     for (size_t i = 0; i < _vertexCount; ++i)
     {
         if (_vertexData[i] != mesh._vertexData[i])
@@ -191,7 +191,7 @@ bool Mesh::operator==(const Mesh& mesh) const
         }
     }
 
-    // Compare index data
+    // Index data
     for (size_t i = 0; i < _indexCount; ++i)
     {
         if (_indexData[i] != mesh._indexData[i])

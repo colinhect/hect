@@ -222,16 +222,19 @@ unsigned Texture::bytesPerPixel() const
 
 bool Texture::operator==(const Texture& texture) const
 {
+    // Type
     if (_type != texture._type)
     {
         return false;
     }
 
+    // Source image count
     if (_sourceImages.size() != texture._sourceImages.size())
     {
         return false;
     }
 
+    // Source images
     for (size_t i = 0; i < _sourceImages.size(); ++i)
     {
         if (_sourceImages[i] != texture._sourceImages[i])
@@ -240,21 +243,25 @@ bool Texture::operator==(const Texture& texture) const
         }
     }
 
+    // Dimensions
     if (_width != texture._width && _height != texture._height)
     {
         return false;
     }
 
+    // Pixel type/format
     if (_pixelType != texture._pixelType && _pixelFormat != texture._pixelFormat)
     {
         return false;
     }
 
+    // Min/mag filters
     if (_minFilter != texture._minFilter && _magFilter != texture._magFilter)
     {
         return false;
     }
 
+    // Mipmapped/wrapped flags
     if (_mipmapped != texture._mipmapped && _wrapped != texture._wrapped)
     {
         return false;

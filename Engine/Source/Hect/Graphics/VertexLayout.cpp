@@ -91,19 +91,13 @@ unsigned VertexLayout::vertexSize() const
 
 bool VertexLayout::operator==(const VertexLayout& vertexLayout) const
 {
-    // Compare attribute count
+    // Attribute count
     if (_attributes.size() != vertexLayout._attributes.size())
     {
         return false;
     }
 
-    // Compare vertex size
-    if (_vertexSize != vertexLayout._vertexSize)
-    {
-        return false;
-    }
-
-    // Compare each attribute
+    // Attributes
     size_t attributeCount = _attributes.size();
     for (size_t i = 0; i < attributeCount; ++i)
     {
@@ -111,6 +105,12 @@ bool VertexLayout::operator==(const VertexLayout& vertexLayout) const
         {
             return false;
         }
+    }
+
+    // Vertex size
+    if (_vertexSize != vertexLayout._vertexSize)
+    {
+        return false;
     }
 
     return true;

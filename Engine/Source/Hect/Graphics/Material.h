@@ -68,16 +68,15 @@ public:
     void setShader(const AssetHandle<Shader>& shader);
 
     ///
-    /// Returns the uniform values.
+    /// Returns the values for to the shader's uniforms.
     UniformValueSequence uniformValues();
 
     ///
-    /// Returns the uniform values.
+    /// \copydoc Material::uniformValues()
     const UniformValueSequence uniformValues() const;
 
     ///
-    /// Sets the value for the uniform of the material's shader of the
-    /// specified name.
+    /// Sets the value for the uniform of the shader of the specified name.
     ///
     /// \param name The name of the uniform to set the value for.
     /// \param value The uniform value.
