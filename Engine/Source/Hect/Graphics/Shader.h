@@ -40,10 +40,6 @@ namespace hect
 {
 
 ///
-/// The index of a uniform within a shader.
-typedef size_t UniformIndex;
-
-///
 /// A shader program.
 ///
 /// Shaders are programs executed directly on the GPU.  The input to a shader
@@ -143,14 +139,6 @@ public:
     ///
     /// \copydoc Shader::uniform(const char*)
     const Uniform& uniform(const char* name) const;
-
-    ///
-    /// Returns the index of a uniform.
-    ///
-    /// \param uniform The uniform to get the index of.
-    ///
-    /// \throws InvalidOperation If the uniform does not belong to the shader.
-    UniformIndex uniformIndex(const Uniform& uniform) const;
 
     ///
     /// Returns the blend mode that the shader uses.

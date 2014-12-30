@@ -72,7 +72,7 @@ void Material::setUniformValue(const std::string& name, const UniformValue& valu
         throw InvalidOperation("Cannot set the value of a bound uniform");
     }
 
-    UniformIndex index = _shader->uniformIndex(uniform);
+    UniformIndex index = uniform.index();
 
     // Resize the uniform value vector if needed
     if (index >= _uniformValues.size())

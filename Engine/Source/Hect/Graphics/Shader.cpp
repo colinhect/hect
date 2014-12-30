@@ -120,27 +120,6 @@ const Uniform& Shader::uniform(const char* name) const
     return const_cast<Shader*>(this)->uniform(name);
 }
 
-UniformIndex Shader::uniformIndex(const Uniform& uniform) const
-{
-    UniformIndex index;
-    for (index = 0; index < _uniforms.size(); ++index)
-    {
-        if (&_uniforms[index] == &uniform)
-        {
-            break;
-        }
-    }
-
-    if (index < _uniforms.size())
-    {
-        return index;
-    }
-    else
-    {
-        throw InvalidOperation("Uniform does not belong to the shader");
-    }
-}
-
 const BlendMode& Shader::blendMode() const
 {
     return _blendMode;
@@ -232,13 +211,15 @@ bool Shader::operator!=(const Shader& shader) const
 void Shader::resolveUniforms()
 {
     size_t textureIndex = 0;
-    for (UniformIndex i = 0; i < _uniforms.size(); ++i)
+    for (UniformIndex index = 0; index < _uniforms.size(); ++index)
     {
-        Uniform& uniform = _uniforms[i];
-        _uniformIndices.set(uniform.name(), i);
+        Uniform& uniform = _uniforms[index];
+        uniform._index = index;
+
+        _uniformIndices.set(uniform._name, index);
         if (uniform.type() == UniformType_Texture)
         {
-            uniform.setTextureIndex(textureIndex);
+            uniform._textureIndex = textureIndex;
             ++textureIndex;
         }
     }

@@ -33,6 +33,10 @@ namespace hect
 {
 
 ///
+/// The index of a uniform within a shader.
+typedef size_t UniformIndex;
+
+///
 /// The location of a uniform within a natively compiled shader.
 typedef int UniformLocation;
 
@@ -46,10 +50,11 @@ typedef size_t TextureIndex;
 /// \note A uniform must either have a binding or a type.
 class HECT_EXPORT Uniform
 {
+    friend class Shader;
 public:
 
     ///
-    /// Constructs a default uniform.
+    /// Constructs a blank uniform.
     Uniform();
 
     ///
@@ -99,14 +104,12 @@ public:
     void setValue(const UniformValue& value);
 
     ///
-    /// Returns the associated texture index.
-    TextureIndex textureIndex() const;
+    /// Returns the index of the uniform within its shader.
+    UniformIndex index() const;
 
     ///
-    /// Sets the associated texture index.
-    ///
-    /// \param textureIndex The texture index.
-    void setTextureIndex(TextureIndex textureIndex);
+    /// Returns the associated texture index.
+    TextureIndex textureIndex() const;
 
     ///
     /// Returns the compiled location.
@@ -142,7 +145,8 @@ private:
     UniformBinding _binding { UniformBinding_None };
     UniformValue _value;
 
-    TextureIndex _textureIndex { 0 };
+    UniformIndex _index { -1 };
+    TextureIndex _textureIndex { -1 };
     UniformLocation _location { -1 };
 };
 

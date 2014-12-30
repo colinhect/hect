@@ -77,14 +77,14 @@ void Uniform::setValue(const UniformValue& value)
     _value = value;
 }
 
+UniformIndex Uniform::index() const
+{
+    return _index;
+}
+
 TextureIndex Uniform::textureIndex() const
 {
     return _textureIndex;
-}
-
-void Uniform::setTextureIndex(TextureIndex textureIndex)
-{
-    _textureIndex = textureIndex;
 }
 
 UniformLocation Uniform::location() const
