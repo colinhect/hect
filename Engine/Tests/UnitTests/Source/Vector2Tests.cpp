@@ -24,6 +24,7 @@
 #include <Hect/Math/Vector2.h>
 using namespace hect;
 
+#include <unordered_map>
 #include <catch.hpp>
 
 TEST_CASE("Construct a default 2-dimensional vector", "[Vector2]")
@@ -197,4 +198,17 @@ TEST_CASE("Index the components of a 2-dimensional vector", "[Vector2]")
 
     REQUIRE(a[0] == 1.0);
     REQUIRE(a[1] == 2.0);
+}
+
+TEST_CASE("Hash a 2-dimensional vector", "[Vector2]")
+{
+    Vector2 a(1.0, 2.0);
+    Vector2 b(3.0, 4.0);
+
+    std::unordered_map<Vector2, int> map;
+    map[a] = 1;
+    map[b] = 2;
+
+    REQUIRE(map[a] == 1);
+    REQUIRE(map[b] == 2);
 }

@@ -9,4 +9,4 @@ uniforms:
     binding: ModelViewProjectionMatrix
   - name: colorOverride
     type: Vector3
-    value: [ 100, 0, 0 ]
+    value: [ 1, 1, 1 ]

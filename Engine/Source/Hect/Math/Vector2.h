@@ -241,4 +241,19 @@ Decoder& operator>>(Decoder& decoder, Vector2T<T>& v);
 
 }
 
+namespace std
+{
+
+// Define std::hash so it can be used in std::unordered_map or in std::set
+template <typename T>
+struct hash<hect::Vector2T<T>>
+{
+    typedef hect::Vector2T<T> argument_type;
+    typedef size_t result_type;
+
+    size_t operator()(hect::Vector2T<T> const& v) const;
+};
+
+}
+
 #include "Vector2.inl"

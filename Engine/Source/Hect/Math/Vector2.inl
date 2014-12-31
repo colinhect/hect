@@ -248,3 +248,14 @@ Decoder& operator>>(Decoder& decoder, Vector2T<T>& v)
 }
 
 }
+
+namespace std
+{
+
+template<typename T>
+size_t hash<hect::Vector2T<T>>::operator()(hect::Vector2T<T> const& v) const
+{
+    return static_cast<size_t>(v.x * 73856093) ^ static_cast<size_t>(v.y * 19349663);
+}
+
+}

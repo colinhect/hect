@@ -33,14 +33,16 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
 {
     AssetCache& assetCache = engine.assetCache();
 
-    _coloredLineMaterial = assetCache.getHandle<Material>("Hect/ColoredLine.material");
+    _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
     _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");
 }
 
 void DebugSystem::drawBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
 {
     (void)color;
-    _boxes.emplace_back(box, position, rotation, *_coloredLineMaterial);
+    Material temp;
+    temp.setShader(_coloredLineShader);
+    _boxes.emplace_back(box, position, rotation, temp);
 }
 
 void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)
