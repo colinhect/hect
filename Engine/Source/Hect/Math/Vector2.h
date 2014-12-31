@@ -246,7 +246,11 @@ namespace std
 
 // Define std::hash so it can be used in std::unordered_map or in std::set
 template <typename T>
+#ifdef _MSC_VER
 struct hash<hect::Vector2T<T>>
+#else
+class hash<hect::Vector2T<T>>
+#endif
 {
     typedef hect::Vector2T<T> argument_type;
     typedef size_t result_type;
