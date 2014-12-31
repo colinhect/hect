@@ -102,7 +102,7 @@ void BoundingBoxSystem::tick(Real timeStep)
         {
             AxisAlignedBox axisAlignedBox = boundingBox.axisAlignedBox;
             Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
-            Vector3 color(30, 0, 0);
+            Vector3 color(100, 0, 0);
             debugSystem.drawBox(box, color, axisAlignedBox.center());
         }
     }

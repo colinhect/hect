@@ -205,6 +205,12 @@ public:
     const T& operator[](size_t i) const;
 
     ///
+    /// Returns whether the vector is less than another.
+    ///
+    /// \param v The other vector.
+    bool operator<(const Vector3T& v) const;
+
+    ///
     /// Returns whether the vector is equivalent to another.
     ///
     /// \param v The other vector.

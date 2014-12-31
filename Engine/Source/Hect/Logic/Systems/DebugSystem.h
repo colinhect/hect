@@ -62,7 +62,6 @@ public:
     void tick(Real timeStep) override;
 
 private:
-
     class DebugBox
     {
     public:
@@ -75,6 +74,7 @@ private:
     };
 
     std::vector<DebugBox> _boxes;
+    std::map<Vector3, Material> _coloredMaterials;
 
     AssetHandle<Shader> _coloredLineShader;
     AssetHandle<Mesh> _boxMesh;

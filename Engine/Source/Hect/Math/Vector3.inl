@@ -235,6 +235,12 @@ const T& Vector3T<T>::operator[](size_t i) const
 }
 
 template <typename T>
+bool Vector3T<T>::operator<(const Vector3T& v) const
+{
+    return x < v.x && y < v.y && z < v.z;
+}
+
+template <typename T>
 bool Vector3T<T>::operator==(const Vector3T& v) const
 {
     return x == v.x && y == v.y && z == v.z;

@@ -200,6 +200,12 @@ public:
     const T& operator[](size_t i) const;
 
     ///
+    /// Returns whether the vector is less than another.
+    ///
+    /// \param v The other vector.
+    bool operator<(const Vector2T& v) const;
+
+    ///
     /// Returns whether the vector is equivalent to another.
     ///
     /// \param v The other vector.
@@ -238,25 +244,6 @@ Encoder& operator<<(Encoder& encoder, const Vector2T<T>& v);
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector2T<T>& v);
-
-}
-
-namespace std
-{
-
-// Define std::hash so it can be used in std::unordered_map or in std::set
-template <typename T>
-#ifdef _MSC_VER
-struct hash<hect::Vector2T<T>>
-#else
-class hash<hect::Vector2T<T>>
-#endif
-{
-    typedef hect::Vector2T<T> argument_type;
-    typedef size_t result_type;
-
-    size_t operator()(hect::Vector2T<T> const& v) const;
-};
 
 }
 

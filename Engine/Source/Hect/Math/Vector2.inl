@@ -215,6 +215,12 @@ const T& Vector2T<T>::operator[](size_t i) const
 }
 
 template <typename T>
+bool Vector2T<T>::operator<(const Vector2T& v) const
+{
+    return x < v.x && y < v.y;
+}
+
+template <typename T>
 bool Vector2T<T>::operator==(const Vector2T& v) const
 {
     return x == v.x && y == v.y;
@@ -245,17 +251,6 @@ Decoder& operator>>(Decoder& decoder, Vector2T<T>& v)
 {
     decoder >> beginArray() >> v.x >> v.y >> endArray();
     return decoder;
-}
-
-}
-
-namespace std
-{
-
-template<typename T>
-size_t hash<hect::Vector2T<T>>::operator()(hect::Vector2T<T> const& v) const
-{
-    return static_cast<size_t>(v.x * 73856093) ^ static_cast<size_t>(v.y * 19349663);
 }
 
 }

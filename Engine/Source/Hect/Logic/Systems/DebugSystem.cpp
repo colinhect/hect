@@ -40,9 +40,20 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
 void DebugSystem::drawBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
 {
     (void)color;
-    Material temp;
-    temp.setShader(_coloredLineShader);
-    _boxes.emplace_back(box, position, rotation, temp);
+
+    // Resolve the colored material to use
+    auto it = _coloredMaterials.find(color);
+    if (it == _coloredMaterials.end())
+    {
+        Material material;
+        material.setShader(_coloredLineShader);
+        material.setUniformValue("color", color);
+
+        _coloredMaterials[color] = material;
+        it = _coloredMaterials.find(color);
+    }
+
+    _boxes.emplace_back(box, position, rotation, it->second);
 }
 
 void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)

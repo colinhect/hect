@@ -7,6 +7,6 @@ modules:
 uniforms:
   - name: modelViewProjection
     binding: ModelViewProjectionMatrix
-  - name: colorOverride
+  - name: color
     type: Vector3
     value: [ 1, 1, 1 ]
