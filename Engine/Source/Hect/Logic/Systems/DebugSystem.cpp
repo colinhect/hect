@@ -35,32 +35,22 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
 
     _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
     _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");
+
+    addColoredMaterial(Vector3(100, 0, 0)); // Primary
+    addColoredMaterial(Vector3(0, 100, 0)); // Secondary
+    addColoredMaterial(Vector3(0, 0, 100)); // Tertiary
 }
 
-void DebugSystem::drawBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation)
+void DebugSystem::drawBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation)
 {
-    (void)color;
-
-    // Resolve the colored material to use
-    auto it = _coloredMaterials.find(color);
-    if (it == _coloredMaterials.end())
-    {
-        Material material;
-        material.setShader(_coloredLineShader);
-        material.setUniformValue("color", color);
-
-        _coloredMaterials[color] = material;
-        it = _coloredMaterials.find(color);
-    }
-
-    _boxes.emplace_back(box, position, rotation, it->second);
+    _boxes.emplace_back(box, position, rotation, color);
 }
 
 void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)
 {
     for (auto& box : _boxes)
     {
-        sceneRenderer.addRenderCall(box.transform, *_boxMesh, box.material);
+        sceneRenderer.addRenderCall(box.transform, *_boxMesh, _coloredMaterials[box.color]);
     }
 }
 
@@ -74,11 +64,21 @@ DebugSystem::DebugBox::DebugBox()
 {
 }
 
-DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, const Material& material) :
+DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, DebugColor color) :
     box(box),
-    material(material)
+    color(color)
 {
     transform.globalPosition = position;
     transform.globalScale = box.scale();
     transform.globalRotation = rotation;
+}
+
+void DebugSystem::addColoredMaterial(const Vector3& color)
+{
+    // Create a material for this color
+    Material material;
+    material.setShader(_coloredLineShader);
+    material.setUniformValue("color", color);
+
+    _coloredMaterials.push_back(material);
 }

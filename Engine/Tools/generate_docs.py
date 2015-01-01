@@ -8,3 +8,4 @@ if os.path.exists("Docs/html"):
     shutil.rmtree("Docs/html")
 
 call("doxygen", shell=True)
+input("Press Enter to terminate.")

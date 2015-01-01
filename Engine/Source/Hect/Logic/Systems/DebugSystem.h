@@ -35,6 +35,24 @@ namespace hect
 class SceneRenderer;
 
 ///
+/// A preset color for debug geometry.
+enum DebugColor
+{
+
+    ///
+    /// The primary debug color.
+    DebugColor_Primary,
+
+    ///
+    /// The secondary debug color.
+    DebugColor_Secondary,
+
+    ///
+    /// The tertiary debug color.
+    DebugColor_Tertiary
+};
+
+///
 /// Provides debug functionality.
 ///
 /// \system
@@ -47,34 +65,37 @@ public:
     ///
     /// Enqueues a wire-frame box to be rendered on the next frame.
     ///
-    /// \param box The box to draw.
     /// \param color The color of the lines of the box.
+    /// \param box The box to draw.
     /// \param position The world-space position of the box.
     /// \param rotation The world-space rotation of the box.
-    void drawBox(const Box& box, const Vector3& color, const Vector3& position, const Quaternion& rotation = Quaternion());
+    void drawBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation = Quaternion());
 
     ///
     /// Adds all enqueued debug geometery to the a scene renderer.
     ///
-    /// \param sceneRenderer The scene renderer to render the debug geometry to.
+    /// \param sceneRenderer The scene renderer to render the debug geometry
+    /// to.
     void addRenderCalls(SceneRenderer& sceneRenderer);
 
     void tick(Real timeStep) override;
 
 private:
+    void addColoredMaterial(const Vector3& color);
+
     class DebugBox
     {
     public:
         DebugBox();
-        DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, const Material& material);
+        DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, DebugColor color);
 
         Box box;
         Transform transform;
-        Material material;
+        DebugColor color { DebugColor_Primary };
     };
 
     std::vector<DebugBox> _boxes;
-    std::map<Vector3, Material> _coloredMaterials;
+    std::vector<Material> _coloredMaterials;
 
     AssetHandle<Shader> _coloredLineShader;
     AssetHandle<Mesh> _boxMesh;
