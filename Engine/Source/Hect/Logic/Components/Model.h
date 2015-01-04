@@ -58,7 +58,7 @@ public:
 };
 
 ///
-/// A collection of ModelSurfaces which are rendered.
+/// A collection of ModelSurface%s which are rendered.
 ///
 /// \component
 class HECT_EXPORT Model :

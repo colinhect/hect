@@ -53,10 +53,10 @@ public:
     void setActiveCamera(Camera& camera);
 
     ///
-    /// Updates the view/projection matrices of a camera.
+    /// Updates the vectors and matrices of a camera.
     ///
     /// \param camera The camera to update.
-    void updateCamera(Camera& camera);
+    void update(Camera& camera);
 
     void tick(Real timeStep) override;
 

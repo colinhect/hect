@@ -39,6 +39,9 @@ namespace hect
 ///
 /// A simulated physical body.
 ///
+/// If any changes are manually made to a rigid body, then the changes must be
+/// committed using PhysicsSystem::commit().
+///
 /// \component
 class HECT_EXPORT RigidBody :
     public Component<RigidBody>

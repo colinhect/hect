@@ -36,37 +36,14 @@ BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
     (void)engine;
 }
 
-void BoundingBoxSystem::forceUpdate(Entity& entity)
+void BoundingBoxSystem::update(BoundingBox& boundingBox)
 {
-    updateHeierarchy(*entity.root());
-}
-
-void BoundingBoxSystem::forceUpdate(BoundingBox& boundingBox)
-{
-    forceUpdate(boundingBox.entity());
-}
-
-void BoundingBoxSystem::markForUpdate(Entity& entity)
-{
-    _markedForUpdate.push_back(entity.root()->id());
-}
-
-void BoundingBoxSystem::markForUpdate(BoundingBox& boundingBox)
-{
-    markForUpdate(boundingBox.entity());
+    updateRecursively(*boundingBox.entity().root());
 }
 
 void BoundingBoxSystem::tick(Real timeStep)
 {
     (void)timeStep;
-
-    // Update all entities marked for update
-    for (EntityId id : _markedForUpdate)
-    {
-        Entity& entity = scene().entities().withId(id);
-        forceUpdate(entity);
-    }
-    _markedForUpdate.clear();
 
     // If the scene has a debug system
     if (scene().hasSystemType<DebugSystem>())
@@ -83,9 +60,9 @@ void BoundingBoxSystem::tick(Real timeStep)
     }
 }
 
-void BoundingBoxSystem::updateHeierarchy(Entity& entity)
+void BoundingBoxSystem::updateRecursively(Entity& entity)
 {
-    // Update the bounding box of this entity
+    // Compute the bounding box of this entity
     auto boundingBox = entity.component<BoundingBox>();
     if (boundingBox)
     {
@@ -104,7 +81,7 @@ void BoundingBoxSystem::updateHeierarchy(Entity& entity)
             }
         }
 
-        // Transform the bounding box by the entities global transform
+        // Transform the bounding box by the entity's global transform
         auto transform = entity.component<Transform>();
         if (transform)
         {
@@ -114,10 +91,10 @@ void BoundingBoxSystem::updateHeierarchy(Entity& entity)
         }
     }
 
-    // Update the bounding boxes of all children
+    // Recursively compute the bounding boxes of all children
     for (Entity& child : entity.children())
     {
-        updateHeierarchy(child);
+        updateRecursively(child);
 
         // If the child has a bounding box
         auto childBoundingBox = child.component<BoundingBox>();

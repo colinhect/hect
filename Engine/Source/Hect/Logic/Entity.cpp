@@ -422,6 +422,18 @@ void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
     }
 }
 
+Scene& Entity::scene()
+{
+    ensureInPool();
+    return _pool->_scene;
+}
+
+const Scene& Entity::scene() const
+{
+    ensureInPool();
+    return _pool->_scene;
+}
+
 Entity::Handle Entity::createHandle() const
 {
     if (!inPool())

@@ -502,6 +502,14 @@ public:
     typename Component<T>::ConstIterator component() const;
 
     ///
+    /// Returns the Scene that the Entity is in.
+    Scene& scene();
+
+    ///
+    /// \copydoc Entity::scene()
+    const Scene& scene() const;
+
+    ///
     /// Creates a handle to the entity.
     Entity::Handle createHandle() const;
 

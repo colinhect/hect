@@ -34,6 +34,10 @@ namespace hect
 ///
 /// A combination of a position, scale, and rotation.
 ///
+/// If any changes are manually made to a transform, then the changes must be
+/// committed using TransformSystem::commit() or immediately updated using
+/// TransformSystem::update().
+///
 /// \component
 class HECT_EXPORT Transform :
     public Component<Transform>
@@ -44,33 +48,24 @@ public:
     /// The local position.
     ///
     /// \property
-    ///
-    /// \note In order for changes to this to affect the global position of
-    /// the transform, TransformSystem::markForUpdate() should be called.
     Vector3 localPosition;
 
     ///
     /// The local scale.
     ///
     /// \property
-    ///
-    /// \note In order for changes to this to affect the global scale of
-    /// the transform, TransformSystem::markForUpdate() should be called.
     Vector3 localScale { Vector3::one() };
 
     ///
     /// The local rotation.
     ///
     /// \property
-    ///
-    /// \note In order for changes to this to affect the global rotation of
-    /// the transform, TransformSystem::markForUpdate() should be called.
     Quaternion localRotation;
 
     ///
     /// The global position.
     ///
-    /// \note The global position is calculated as a function of the local
+    /// \warning The global position is calculated as a function of the local
     /// position and the transform hierarchy.  This should not be directly
     /// modified unless the local position and parent transforms are known
     /// to be static.
@@ -79,7 +74,7 @@ public:
     ///
     /// The global scale.
     ///
-    /// \note The global scale is calculated as a function of the local
+    /// \warning The global scale is calculated as a function of the local
     /// scale and the transform hierarchy.  This should not be directly
     /// modified unless the local scale and parent transforms are known
     /// to be static.
@@ -88,7 +83,7 @@ public:
     ///
     /// The global rotation.
     ///
-    /// \note The global rotation is calculated as a function of the local
+    /// \warning The global rotation is calculated as a function of the local
     /// rotation and the transform hierarchy.  This should not be directly
     /// modified unless the local rotation and parent transforms are known
     /// to be static.

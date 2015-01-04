@@ -31,7 +31,7 @@ namespace hect
 {
 
 ///
-/// Spacial bounds.
+/// The spacial extents of an Entity based on its components.
 ///
 /// \component
 class HECT_EXPORT BoundingBox :

@@ -42,35 +42,24 @@ public:
     TransformSystem(Engine& engine, Scene& scene);
 
     ///
-    /// Forces the update of a transform and all child transforms.
+    /// Commits any changes made to a Transform to take effect.
     ///
-    /// \param entity The entity whose transform to update.
-    void forceUpdate(Entity& entity);
+    /// \param transform The transform to commit.
+    void commit(Transform& transform);
 
     ///
-    /// Forces the update of a transform and all child transforms.
+    /// Updates the global components of a Transform based on the transform
+    /// hierarchy.
     ///
     /// \param transform The transform to update.
-    void forceUpdate(Transform& transform);
-
-    ///
-    /// Marks a transform to be updated on the next tick.
-    ///
-    /// \param entity The entity whose transform to mark for update.
-    void markForUpdate(Entity& entity);
-
-    ///
-    /// Marks a transform to be updated on the next tick.
-    ///
-    /// \param transform The transform to mark for update.
-    void markForUpdate(Transform& transform);
+    void update(Transform& transform);
 
     void tick(Real timeStep) override;
 
 private:
-    void updateHeierarchy(Entity& parent, Entity& child);
+    void updateRecursively(Entity& parent, Entity& child);
 
-    std::vector<ComponentId> _markedForUpdate;
+    std::vector<ComponentId> _committed;
 };
 
 }

@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
@@ -38,39 +37,20 @@ namespace hect
 class HECT_EXPORT BoundingBoxSystem :
     public System
 {
+    friend class TransformSystem;
 public:
     BoundingBoxSystem(Engine& engine, Scene& scene);
 
     ///
-    /// Forces the update of a bounding box and all child bounding boxes.
-    ///
-    /// \param entity The entity whose bounding box to update.
-    void forceUpdate(Entity& entity);
-
-    ///
-    /// Forces the update of a bounding box and all child bounding boxes.
+    /// Updates the extents of a bounding box.
     ///
     /// \param boundingBox The bounding box to update.
-    void forceUpdate(BoundingBox& boundingBox);
-
-    ///
-    /// Marks a bounding box to be updated on the next tick.
-    ///
-    /// \param entity The entity whose bounding box to mark for update.
-    void markForUpdate(Entity& entity);
-
-    ///
-    /// Marks a bounding box to be updated on the next tick.
-    ///
-    /// \param boundingBox The bounding box to mark for update.
-    void markForUpdate(BoundingBox& boundingBox);
+    void update(BoundingBox& boundingBox);
 
     void tick(Real timeStep) override;
 
 private:
-    void updateHeierarchy(Entity& entity);
-
-    std::vector<EntityId> _markedForUpdate;
+    void updateRecursively(Entity& entity);
 };
 
 }

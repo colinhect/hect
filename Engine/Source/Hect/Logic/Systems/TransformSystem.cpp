@@ -34,23 +34,20 @@ TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
     (void)engine;
 }
 
-void TransformSystem::forceUpdate(Entity& entity)
+void TransformSystem::commit(Transform& transform)
 {
-    auto transform = entity.component<Transform>();
-    if (transform)
-    {
-        forceUpdate(*transform);
-    }
+    ComponentId id = transform.id();
+    _committed.push_back(id);
 }
 
-void TransformSystem::forceUpdate(Transform& transform)
+void TransformSystem::update(Transform& transform)
 {
     Entity& entity = transform.entity();
     auto parent = entity.parent();
     if (parent)
     {
         // Update the transform hierarchy starting at this entity's parent
-        updateHeierarchy(*parent, entity);
+        updateRecursively(*parent, entity);
     }
     else
     {
@@ -62,44 +59,29 @@ void TransformSystem::forceUpdate(Transform& transform)
         // Update the transform hierachy for all children
         for (Entity& child : entity.children())
         {
-            updateHeierarchy(entity, child);
+            updateRecursively(entity, child);
         }
     }
 
     // Force the bounding box to update
     BoundingBoxSystem& boundingBoxSystem = scene().system<BoundingBoxSystem>();
-    boundingBoxSystem.forceUpdate(entity);
-}
-
-void TransformSystem::markForUpdate(Entity& entity)
-{
-    auto transform = entity.component<Transform>();
-    if (transform)
-    {
-        markForUpdate(*transform);
-    }
-}
-
-void TransformSystem::markForUpdate(Transform& transform)
-{
-    ComponentId id = transform.id();
-    _markedForUpdate.push_back(id);
+    boundingBoxSystem.updateRecursively(entity);
 }
 
 void TransformSystem::tick(Real timeStep)
 {
     (void)timeStep;
 
-    // Update all transforms marked for update
-    for (ComponentId id : _markedForUpdate)
+    // Update all committed transforms
+    for (ComponentId id : _committed)
     {
         Transform& transform = scene().components<Transform>().withId(id);
-        forceUpdate(transform);
+        update(transform);
     }
-    _markedForUpdate.clear();
+    _committed.clear();
 }
 
-void TransformSystem::updateHeierarchy(Entity& parent, Entity& child)
+void TransformSystem::updateRecursively(Entity& parent, Entity& child)
 {
     // Get the parent transform
     auto parentTransform = parent.component<Transform>();
@@ -109,7 +91,7 @@ void TransformSystem::updateHeierarchy(Entity& parent, Entity& child)
         auto childTransform = child.component<Transform>();
         if (childTransform)
         {
-            // Compute global transform
+            // Compute global components of the transform
             childTransform->globalPosition = parentTransform->globalRotation * childTransform->localPosition;
             childTransform->globalPosition += parentTransform->globalPosition;
             childTransform->globalScale = parentTransform->globalScale * childTransform->localScale;
@@ -118,7 +100,7 @@ void TransformSystem::updateHeierarchy(Entity& parent, Entity& child)
             // Recursively update for all children
             for (Entity& nextChild : child.children())
             {
-                updateHeierarchy(child, nextChild);
+                updateRecursively(child, nextChild);
             }
         }
     }

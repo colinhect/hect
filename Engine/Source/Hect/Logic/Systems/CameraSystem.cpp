@@ -52,7 +52,7 @@ void CameraSystem::setActiveCamera(Camera& camera)
     _activeCameraEntity = camera.entity().createHandle();
 }
 
-void CameraSystem::updateCamera(Camera& camera)
+void CameraSystem::update(Camera& camera)
 {
     auto transform = camera.entity().component<Transform>();
     if (transform)
@@ -77,7 +77,7 @@ void CameraSystem::tick(Real timeStep)
 
     for (Camera& camera : scene().components<Camera>())
     {
-        updateCamera(camera);
+        update(camera);
     }
 }
 

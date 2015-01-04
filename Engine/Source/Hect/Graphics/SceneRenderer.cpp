@@ -69,7 +69,7 @@ void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& 
     if (camera->aspectRatio != target.aspectRatio())
     {
         camera->aspectRatio = target.aspectRatio();
-        cameraSystem.updateCamera(*camera);
+        cameraSystem.update(*camera);
     }
 
     // Initialize buffers if needed
