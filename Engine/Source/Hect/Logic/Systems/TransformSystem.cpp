@@ -88,6 +88,8 @@ void TransformSystem::markForUpdate(Transform& transform)
 
 void TransformSystem::tick(Real timeStep)
 {
+    (void)timeStep;
+
     // Update all transforms marked for update
     for (ComponentId id : _markedForUpdate)
     {
