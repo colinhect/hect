@@ -49,7 +49,7 @@ void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const
     rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
 }
 
-void PhysicsSystem::updateRigidBody(RigidBody& rigidBody)
+void PhysicsSystem::forceUpdate(RigidBody& rigidBody)
 {
     rigidBody._rigidBody->setLinearVelocity(convertToBullet(rigidBody.linearVelocity));
     rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
@@ -57,6 +57,8 @@ void PhysicsSystem::updateRigidBody(RigidBody& rigidBody)
 
 void PhysicsSystem::tick(Real timeStep)
 {
+    TransformSystem& transformSystem = scene().system<TransformSystem>();
+
     // Update gravity if needed
     Vector3 bulletGravity = convertFromBullet(_world->getGravity());
     if (gravity != bulletGravity)
@@ -82,6 +84,8 @@ void PhysicsSystem::tick(Real timeStep)
             transform->localPosition = newTransform.localPosition;
             transform->localScale = newTransform.localScale;
             transform->localRotation = newTransform.localRotation;
+
+            transformSystem.markForUpdate(*transform);
         }
 
         // Update rigid body properties to what Bullet says it should be
@@ -149,7 +153,7 @@ btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
     {
         // Create a Bullet mesh from the mesh and keep it to be looked up later
         btTriangleMesh* bulletMesh = convertToBullet(*mesh);
-        _bulletMeshes[mesh] = std::shared_ptr<btTriangleMesh>(bulletMesh);
+        _bulletMeshes[mesh] = std::unique_ptr<btTriangleMesh>(bulletMesh);
         return bulletMesh;
     }
 }

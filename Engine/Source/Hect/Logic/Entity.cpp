@@ -521,6 +521,30 @@ Entity::ConstIterator Entity::parent() const
     }
 }
 
+Entity::Iterator Entity::root()
+{
+    auto root = const_cast<const Entity*>(this)->root();
+    EntityId id = root->id();
+    return Entity::Iterator(*_pool, id);
+}
+
+Entity::ConstIterator Entity::root() const
+{
+    ensureInPool();
+
+    auto root = findFirstAncestor([](const Entity& entity)
+    {
+        return !entity.parent();
+    });
+
+    if (!root)
+    {
+        root = iterator();
+    }
+
+    return root;
+}
+
 void Entity::addChild(Entity& entity)
 {
     if (entity._parentId != EntityId(-1))

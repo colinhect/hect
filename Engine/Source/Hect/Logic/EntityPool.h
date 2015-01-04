@@ -101,6 +101,19 @@ public:
     /// \returns A vector of iterators to the matching entities.
     Entity::ConstIterator::Vector find(Entity::Predicate predicate) const;
 
+    ///
+    /// Returns the Entity with the given id.
+    ///
+    /// \param id The id of the entity to get.
+    ///
+    /// \throws InvalidOperation If no entity with the given id exists in
+    /// the pool.
+    Entity& withId(EntityId id);
+
+    ///
+    /// \copydoc EntityPool::withId()
+    const Entity& withId(EntityId id) const;
+
 private:
     Entity::Iterator create();
     void destroy(EntityId id);

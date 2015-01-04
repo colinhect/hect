@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "TransformSystem.h"
 
+#include "Hect/Logic/Systems/BoundingBoxSystem.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -31,6 +32,15 @@ TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
     System(scene, SystemTickStage_Subsequent)
 {
     (void)engine;
+}
+
+void TransformSystem::forceUpdate(Entity& entity)
+{
+    auto transform = entity.component<Transform>();
+    if (transform)
+    {
+        forceUpdate(*transform);
+    }
 }
 
 void TransformSystem::forceUpdate(Transform& transform)
@@ -56,47 +66,54 @@ void TransformSystem::forceUpdate(Transform& transform)
         }
     }
 
-    // Find the root entity
-    auto root = entity.findFirstAncestor([](const Entity& entity)
-    {
-        return !entity.parent();
-    });
+    // Force the bounding box to update
+    BoundingBoxSystem& boundingBoxSystem = scene().system<BoundingBoxSystem>();
+    boundingBoxSystem.forceUpdate(entity);
+}
 
-    // If no root was found then this entity is the root
-    if (!root)
+void TransformSystem::markForUpdate(Entity& entity)
+{
+    auto transform = entity.component<Transform>();
+    if (transform)
     {
-        root = entity.iterator();
+        markForUpdate(*transform);
     }
+}
+
+void TransformSystem::markForUpdate(Transform& transform)
+{
+    ComponentId id = transform.id();
+    _markedForUpdate.push_back(id);
 }
 
 void TransformSystem::tick(Real timeStep)
 {
-    (void)timeStep;
-
-    // Update all transforms starting at the root entities
-    for (Transform& transform : scene().components<Transform>())
+    // Update all transforms marked for update
+    for (ComponentId id : _markedForUpdate)
     {
-        Entity& entity = transform.entity();
-        if (!entity.parent())
-        {
-            forceUpdate(transform);
-        }
+        Transform& transform = scene().components<Transform>().withId(id);
+        forceUpdate(transform);
     }
+    _markedForUpdate.clear();
 }
 
 void TransformSystem::updateHeierarchy(Entity& parent, Entity& child)
 {
+    // Get the parent transform
     auto parentTransform = parent.component<Transform>();
     if (parentTransform)
     {
+        // Get the child transform
         auto childTransform = child.component<Transform>();
         if (childTransform)
         {
+            // Compute global transform
             childTransform->globalPosition = parentTransform->globalRotation * childTransform->localPosition;
             childTransform->globalPosition += parentTransform->globalPosition;
             childTransform->globalScale = parentTransform->globalScale * childTransform->localScale;
             childTransform->globalRotation = parentTransform->globalRotation * childTransform->localRotation;
 
+            // Recursively update for all children
             for (Entity& nextChild : child.children())
             {
                 updateHeierarchy(child, nextChild);

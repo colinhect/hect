@@ -44,13 +44,33 @@ public:
     ///
     /// Forces the update of a transform and all child transforms.
     ///
+    /// \param entity The entity whose transform to update.
+    void forceUpdate(Entity& entity);
+
+    ///
+    /// Forces the update of a transform and all child transforms.
+    ///
     /// \param transform The transform to update.
     void forceUpdate(Transform& transform);
+
+    ///
+    /// Marks a transform to be updated on the next tick.
+    ///
+    /// \param entity The entity whose transform to mark for update.
+    void markForUpdate(Entity& entity);
+
+    ///
+    /// Marks a transform to be updated on the next tick.
+    ///
+    /// \param transform The transform to mark for update.
+    void markForUpdate(Transform& transform);
 
     void tick(Real timeStep) override;
 
 private:
     void updateHeierarchy(Entity& parent, Entity& child);
+
+    std::vector<ComponentId> _markedForUpdate;
 };
 
 }

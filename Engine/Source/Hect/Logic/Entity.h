@@ -559,9 +559,16 @@ public:
     Entity::Iterator parent();
 
     ///
-    /// Returns an iterator to the parent entity (invalid iterator if the
-    /// entity does not have a parent).
+    /// \copydoc Entity::parent()
     Entity::ConstIterator parent() const;
+
+    ///
+    /// Returns an iterator to the root entity.
+    Entity::Iterator root();
+
+    ///
+    /// \copydoc Entity::root()
+    Entity::ConstIterator root() const;
 
     ///
     /// Adds an entity as a child of the entity.

@@ -123,6 +123,26 @@ Entity::ConstIterator::Vector EntityPool::find(Entity::Predicate predicate) cons
     return results;
 }
 
+Entity& EntityPool::withId(EntityId id)
+{
+    const Entity& entity = const_cast<const EntityPool*>(this)->withId(id);
+    return const_cast<Entity&>(entity);
+}
+
+const Entity& EntityPool::withId(EntityId id) const
+{
+    if (id < _entityCount)
+    {
+        const Entity& entity = _entities[id];
+        if (entity.inPool())
+        {
+            return entity;
+        }
+    }
+
+    throw InvalidOperation("Invalid entity");
+}
+
 Entity::Iterator EntityPool::create()
 {
     EntityId entityId = _idPool.create();

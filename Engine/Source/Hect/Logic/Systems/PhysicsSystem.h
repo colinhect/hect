@@ -63,10 +63,10 @@ public:
     void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);
 
     ///
-    /// Updates the angular and linear velocities of the rigid body.
+    /// Forces the angular and linear velocities of the rigid body to update.
     ///
     /// \param rigidBody The rigid body to update.
-    void updateRigidBody(RigidBody& rigidBody);
+    void forceUpdate(RigidBody& rigidBody);
 
     void tick(Real timeStep) override;
 
