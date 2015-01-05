@@ -236,6 +236,18 @@ int DataValue::asInt() const
     }
 }
 
+unsigned DataValue::asUnsigned() const
+{
+    if (isNumber())
+    {
+        return (unsigned)_any.as<double>();
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 Real DataValue::asReal() const
 {
     if (isNumber())

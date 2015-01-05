@@ -230,6 +230,20 @@ const Entity& Component<T>::entity() const
 }
 
 template <typename T>
+typename Component<T>::Iterator Component<T>::iterator()
+{
+    this->ensureInPool();
+    return typename Component<T>::Iterator(*this->_pool, this->_id);
+}
+
+template <typename T>
+typename Component<T>::ConstIterator Component<T>::iterator() const
+{
+    this->ensureInPool();
+    return typename Component<T>::ConstIterator(*this->_pool, this->_id);
+}
+
+template <typename T>
 ComponentId Component<T>::id() const
 {
     return this->_id;

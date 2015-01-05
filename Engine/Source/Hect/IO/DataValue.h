@@ -189,6 +189,10 @@ public:
     int asInt() const;
 
     ///
+    /// Returns the value as an unsigned int (zero if the data value is not a number).
+    unsigned asUnsigned() const;
+
+    ///
     /// Returns the value as a real (zero if the data value is not a number).
     Real asReal() const;
 

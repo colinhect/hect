@@ -25,6 +25,7 @@
 
 #include <memory>
 
+#include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Configuration.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
@@ -94,6 +95,10 @@ public:
     AssetCache& assetCache();
 
     ///
+    /// Returns the task pool.
+    TaskPool& taskPool();
+
+    ///
     /// Returns the settings data.
     const DataValue& settings();
 
@@ -125,6 +130,7 @@ private:
 
     std::unique_ptr<Window> _window;
     std::unique_ptr<AssetCache> _assetCache;
+    std::unique_ptr<TaskPool> _taskPool;
     DataValue _settings;
 };
 

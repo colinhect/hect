@@ -27,18 +27,19 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/FrameBuffer.h"
-#include "Hect/Graphics/RenderBuffer.h"
-#include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
+#include "Hect/Graphics/RenderBuffer.h"
+#include "Hect/Graphics/Renderer.h"
 #include "Hect/Logic/Components/Camera.h"
+#include "Hect/Logic/Components/DirectionalLight.h"
 #include "Hect/Logic/Components/Transform.h"
 
 namespace hect
 {
 
 ///
-/// Provides the functionality for high level rendering algorithms (physically-
+/// Provides the functionality for high-level rendering algorithms (physically-
 /// based shading, deferred shading, shadows, reflections, etc).
 class HECT_EXPORT SceneRenderer
 {
@@ -47,11 +48,12 @@ public:
     ///
     /// Constructs a scene renderer.
     ///
+    /// \param taskPool The task pool to perform concurrent tasks using.
     /// \param assetCache The asset cache to get needed assets from.
-    SceneRenderer(AssetCache& assetCache);
+    SceneRenderer(TaskPool& taskPool, AssetCache& assetCache);
 
     ///
-    /// Renders a scene in its current state to a given render target.
+    /// Renders a scene in its current state to a render target.
     ///
     /// \param renderer The renderer to render using.
     /// \param scene The scene to render.
@@ -67,6 +69,9 @@ public:
     void addRenderCall(Transform& transform, Mesh& mesh, Material& material);
 
 private:
+    void prepareFrame(Renderer& renderer, Camera& camera, Scene& scene, RenderTarget& target);
+    void renderFrame(Renderer& renderer, Camera& camera, RenderTarget& target);
+
     void initializeBuffers(Renderer& renderer, unsigned width, unsigned height);
     void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
     void renderMesh(Renderer& renderer, const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
@@ -77,7 +82,7 @@ private:
     Texture& lastBackBuffer();
     FrameBuffer& backFrameBuffer();
 
-    class HECT_EXPORT RenderCall
+    class RenderCall
     {
     public:
         RenderCall();
@@ -89,6 +94,27 @@ private:
 
         bool operator<(const RenderCall& other) const;
     };
+
+    // Data required to render a frame
+    class FrameData
+    {
+    public:
+        void clear();
+
+        std::vector<RenderCall> opaquePhysicalGeometry;
+        std::vector<RenderCall> transparentPhysicalGeometry;
+
+        std::vector<DirectionalLight::ConstIterator> directionalLights;
+
+        Transform cameraTransform;
+        Vector3 primaryLightDirection;
+        Vector3 primaryLightColor;
+        Texture* lightProbeCubeMap { nullptr };
+        Texture* skyBoxCubeMap { nullptr };
+        size_t backBufferIndex { 0 };
+    } _frameData;
+
+    TaskPool* _taskPool { nullptr };
 
     RenderBuffer _depthBuffer;
 
@@ -105,23 +131,13 @@ private:
     AssetHandle<Shader> _compositeShader;
     AssetHandle<Shader> _environmentShader;
     AssetHandle<Shader> _directionalLightShader;
-
     AssetHandle<Material> _skyBoxMaterial;
-
     AssetHandle<Mesh> _screenMesh;
     AssetHandle<Mesh> _skyBoxMesh;
 
     Transform _identityTransform;
-    Transform _cameraTransform;
-    Vector3 _primaryLightDirection;
-    Vector3 _primaryLightColor;
-    Texture* _lightProbeCubeMap { nullptr };
-    Texture* _skyBoxCubeMap { nullptr };
-
-    std::vector<RenderCall> _renderCalls;
 
     bool _buffersInitialized { false };
-    size_t _backBufferIndex { 0 };
 };
 
 }

@@ -69,6 +69,10 @@ Engine::Engine(int argc, char* const argv[]) :
         }
     }
 
+    // Create the task pool
+    size_t threadCount = _settings["taskPool"]["threadCount"].orDefault(2).asInt();
+    _taskPool.reset(new TaskPool(threadCount));
+
     // Create the asset cache
     bool concurrent = _settings["assetCache"]["concurrent"].orDefault(false).asBool();
     _assetCache.reset(new AssetCache(_fileSystem, concurrent));
@@ -158,6 +162,12 @@ Window& Engine::window()
         throw InvalidOperation("No available window");
     }
     return *_window;
+}
+
+TaskPool& Engine::taskPool()
+{
+    assert(_taskPool);
+    return *_taskPool;
 }
 
 AssetCache& Engine::assetCache()

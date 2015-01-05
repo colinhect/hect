@@ -247,6 +247,14 @@ public:
     const Entity& entity() const;
 
     ///
+    /// Creates a component iterator for the component.
+    typename Component<T>::Iterator iterator();
+
+    ///
+    /// Creates a constant component iterator for the component.
+    typename Component<T>::ConstIterator iterator() const;
+
+    ///
     /// Returns the id of the component.
     ComponentId id() const;
 

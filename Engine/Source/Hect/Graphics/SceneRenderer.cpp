@@ -27,7 +27,6 @@
 
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
-#include "Hect/Logic/Components/DirectionalLight.h"
 #include "Hect/Logic/Components/LightProbe.h"
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/SkyBox.h"
@@ -37,8 +36,8 @@
 
 using namespace hect;
 
-SceneRenderer::SceneRenderer(AssetCache& assetCache) :
-    _renderCalls(1024),
+SceneRenderer::SceneRenderer(TaskPool& taskPool, AssetCache& assetCache) :
+    _taskPool(&taskPool),
     _buffersInitialized(false)
 {
     _exposeShader = assetCache.getHandle<Shader>("Hect/Expose.shader");
@@ -56,20 +55,47 @@ void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& 
 {
     CameraSystem& cameraSystem = scene.system<CameraSystem>();
     Component<Camera>::Iterator camera = cameraSystem.activeCamera();
-    if (!camera)
+    if (camera)
     {
-        // Nothing to render
-        return;
+        prepareFrame(renderer, *camera, scene, target);
+        renderFrame(renderer, *camera, target);
     }
+}
+
+void SceneRenderer::addRenderCall(Transform& transform, Mesh& mesh, Material& material)
+{
+    const AssetHandle<Shader>& shader = material.shader();
+    if (shader)
+    {
+        switch (shader->schema())
+        {
+        case ShaderSchema_None:
+            break;
+        case ShaderSchema_OpaquePhysicalGeometry:
+            _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
+            break;
+        case ShaderSchema_TransparentPhysicalGeometry:
+            _frameData.transparentPhysicalGeometry.emplace_back(transform, mesh, material);
+            break;
+        }
+    }
+}
+
+void SceneRenderer::prepareFrame(Renderer& renderer, Camera& camera, Scene& scene, RenderTarget& target)
+{
+    // Clear the state from the last frame
+    _frameData.clear();
 
     // Update the camer transform
-    _cameraTransform.globalPosition = camera->position;
+    _frameData.cameraTransform.globalPosition = camera.position;
 
     // Update the camera's aspect ratio if needed
-    if (camera->aspectRatio != target.aspectRatio())
+    if (camera.aspectRatio != target.aspectRatio())
     {
-        camera->aspectRatio = target.aspectRatio();
-        cameraSystem.update(*camera);
+        camera.aspectRatio = target.aspectRatio();
+
+        CameraSystem& cameraSystem = scene.system<CameraSystem>();
+        cameraSystem.update(camera);
     }
 
     // Initialize buffers if needed
@@ -82,31 +108,22 @@ void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& 
     auto lightProbe = scene.components<LightProbe>().begin();
     if (lightProbe)
     {
-        _lightProbeCubeMap = &*lightProbe->texture;
-    }
-    else
-    {
-        _lightProbeCubeMap = nullptr;
+        _frameData.lightProbeCubeMap = &*lightProbe->texture;
     }
 
     // Get the cube map of the active sky box
     auto skyBox = scene.components<SkyBox>().begin();
     if (skyBox)
     {
-        _skyBoxCubeMap = &*skyBox->texture;
-    }
-    else
-    {
-        _skyBoxCubeMap = nullptr;
+        _frameData.skyBoxCubeMap = &*skyBox->texture;
     }
 
     // Build all render calls and sort by priority
-    _renderCalls.clear();
     for (Entity& entity : scene.entities())
     {
         if (!entity.parent())
         {
-            buildRenderCalls(*camera, entity);
+            buildRenderCalls(camera, entity);
         }
     }
 
@@ -117,18 +134,46 @@ void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& 
         debugSystem.addRenderCalls(*this);
     }
 
-    // Sort render calls by priority
-    std::sort(_renderCalls.begin(), _renderCalls.end());
+    // Add each directional light to the frame data
+    for (const DirectionalLight& light : scene.components<DirectionalLight>())
+    {
+        _frameData.directionalLights.push_back(light.iterator());
+    }
 
+    std::vector<Task::Handle> sortingTasks;
+
+    // Spin up a task to sort the opaque render calls
+    sortingTasks.push_back(_taskPool->enqueue([this]
+    {
+        std::vector<RenderCall>& renderCalls = _frameData.opaquePhysicalGeometry;
+        std::sort(renderCalls.begin(), renderCalls.end());
+    }));
+
+    // Spin up a task to sort the transparent render calls
+    sortingTasks.push_back(_taskPool->enqueue([this]
+    {
+        std::vector<RenderCall>& renderCalls = _frameData.transparentPhysicalGeometry;
+        std::sort(renderCalls.begin(), renderCalls.end());
+    }));
+
+    // Wait until all sorting tasks complete
+    for (Task::Handle& task : sortingTasks)
+    {
+        task->wait();
+    }
+}
+
+void SceneRenderer::renderFrame(Renderer& renderer, Camera& camera, RenderTarget& target)
+{
     // Geometry buffer rendering
     {
         renderer.beginFrame();
         renderer.selectTarget(_geometryFrameBuffer);
         renderer.clear();
 
-        for (RenderCall& renderCall : _renderCalls)
+        for (RenderCall& renderCall : _frameData.opaquePhysicalGeometry)
         {
-            renderMesh(renderer, *camera, _geometryFrameBuffer, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            renderMesh(renderer, camera, _geometryFrameBuffer, *renderCall.material, *renderCall.mesh, *renderCall.transform);
         }
 
         renderer.endFrame();
@@ -143,10 +188,10 @@ void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& 
         renderer.selectMesh(*_screenMesh);
 
         // Render environment light
-        if (_lightProbeCubeMap)
+        if (_frameData.lightProbeCubeMap)
         {
             renderer.selectShader(*_environmentShader);
-            setBoundUniforms(renderer, *_environmentShader, *camera, target, _identityTransform);
+            setBoundUniforms(renderer, *_environmentShader, camera, target, _identityTransform);
 
             renderer.draw();
         }
@@ -156,11 +201,11 @@ void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& 
             renderer.selectShader(*_directionalLightShader);
 
             // Render each directional light in the scene
-            for (const DirectionalLight& light : scene.components<DirectionalLight>())
+            for (DirectionalLight::ConstIterator light : _frameData.directionalLights)
             {
-                _primaryLightDirection = light.direction;
-                _primaryLightColor = light.color;
-                setBoundUniforms(renderer, *_directionalLightShader, *camera, target, _identityTransform);
+                _frameData.primaryLightDirection = light->direction;
+                _frameData.primaryLightColor = light->color;
+                setBoundUniforms(renderer, *_directionalLightShader, camera, target, _identityTransform);
                 renderer.draw();
             }
         }
@@ -180,7 +225,7 @@ void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& 
         renderer.selectTarget(backFrameBuffer());
         renderer.clear();
         renderer.selectShader(*_compositeShader);
-        setBoundUniforms(renderer, *_compositeShader, *camera, target, _identityTransform);
+        setBoundUniforms(renderer, *_compositeShader, camera, target, _identityTransform);
 
         renderer.selectMesh(*_screenMesh);
         renderer.draw();
@@ -196,18 +241,13 @@ void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& 
         renderer.selectTarget(target);
         renderer.clear();
         renderer.selectShader(*_exposeShader);
-        setBoundUniforms(renderer, *_exposeShader, *camera, target, _identityTransform);
+        setBoundUniforms(renderer, *_exposeShader, camera, target, _identityTransform);
 
         renderer.selectMesh(*_screenMesh);
         renderer.draw();
 
         renderer.endFrame();
     }
-}
-
-void SceneRenderer::addRenderCall(Transform& transform, Mesh& mesh, Material& material)
-{
-    _renderCalls.emplace_back(transform, mesh, material);
 }
 
 void SceneRenderer::initializeBuffers(Renderer& renderer, unsigned width, unsigned height)
@@ -252,16 +292,9 @@ void SceneRenderer::initializeBuffers(Renderer& renderer, unsigned width, unsign
     _backFrameBuffers[1].attachTexture(FrameBufferSlot_Color0, _backBuffers[1]);
     _backFrameBuffers[1].attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
 
-    size_t memoryUsageBefore = renderer.statistics().memoryUsage;
-
     renderer.uploadFrameBuffer(_geometryFrameBuffer);
     renderer.uploadFrameBuffer(_backFrameBuffers[0]);
     renderer.uploadFrameBuffer(_backFrameBuffers[1]);
-
-    // Log the memory usage for the buffers
-    size_t memoryUsage = renderer.statistics().memoryUsage - memoryUsageBefore;
-    Real memoryUsageInMegabytes = static_cast<Real>(memoryUsage) / Real(1024 * 1024);
-    HECT_TRACE(format("Scene renderer GPU memory usage: %dMB", static_cast<int>(memoryUsageInMegabytes)));
 }
 
 void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest)
@@ -329,7 +362,7 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
         auto skyBox = entity.component<SkyBox>();
         if (skyBox)
         {
-            addRenderCall(_cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
+            addRenderCall(_frameData.cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
         }
     }
 }
@@ -408,10 +441,10 @@ void SceneRenderer::setBoundUniforms(Renderer& renderer, Shader& shader, const C
             renderer.setUniform(uniform, Real(1) / camera.gamma);
             break;
         case UniformBinding_PrimaryLightDirection:
-            renderer.setUniform(uniform, _primaryLightDirection);
+            renderer.setUniform(uniform, _frameData.primaryLightDirection);
             break;
         case UniformBinding_PrimaryLightColor:
-            renderer.setUniform(uniform, _primaryLightColor);
+            renderer.setUniform(uniform, _frameData.primaryLightColor);
             break;
         case UniformBinding_ViewMatrix:
             renderer.setUniform(uniform, camera.viewMatrix);
@@ -432,12 +465,12 @@ void SceneRenderer::setBoundUniforms(Renderer& renderer, Shader& shader, const C
             renderer.setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
             break;
         case UniformBinding_LightProbeCubeMap:
-            assert(_lightProbeCubeMap);
-            renderer.setUniform(uniform, *_lightProbeCubeMap);
+            assert(_frameData.lightProbeCubeMap);
+            renderer.setUniform(uniform, *_frameData.lightProbeCubeMap);
             break;
         case UniformBinding_SkyBoxCubeMap:
-            assert(_skyBoxCubeMap);
-            renderer.setUniform(uniform, *_skyBoxCubeMap);
+            assert(_frameData.skyBoxCubeMap);
+            renderer.setUniform(uniform, *_frameData.skyBoxCubeMap);
             break;
         case UniformBinding_DiffuseBuffer:
             renderer.setUniform(uniform, _diffuseBuffer);
@@ -460,22 +493,22 @@ void SceneRenderer::setBoundUniforms(Renderer& renderer, Shader& shader, const C
 
 void SceneRenderer::swapBackBuffer()
 {
-    _backBufferIndex = (_backBufferIndex + 1) % 2;
+    _frameData.backBufferIndex = (_frameData.backBufferIndex + 1) % 2;
 }
 
 Texture& SceneRenderer::backBuffer()
 {
-    return _backBuffers[_backBufferIndex];
+    return _backBuffers[_frameData.backBufferIndex];
 }
 
 Texture& SceneRenderer::lastBackBuffer()
 {
-    return _backBuffers[(_backBufferIndex + 1) % 2];
+    return _backBuffers[(_frameData.backBufferIndex + 1) % 2];
 }
 
 FrameBuffer& SceneRenderer::backFrameBuffer()
 {
-    return _backFrameBuffers[_backBufferIndex];
+    return _backFrameBuffers[_frameData.backBufferIndex];
 }
 
 bool SceneRenderer::RenderCall::operator<(const RenderCall& other) const
@@ -492,4 +525,18 @@ SceneRenderer::RenderCall::RenderCall(Transform& transform, Mesh& mesh, Material
     mesh(&mesh),
     material(&material)
 {
+}
+
+void SceneRenderer::FrameData::clear()
+{
+    opaquePhysicalGeometry.clear();
+    transparentPhysicalGeometry.clear();
+    directionalLights.clear();
+
+    cameraTransform = Transform();
+    primaryLightDirection = Vector3();
+    primaryLightColor = Vector3();
+    lightProbeCubeMap =  nullptr;
+    skyBoxCubeMap = nullptr;
+    backBufferIndex = 0;
 }
