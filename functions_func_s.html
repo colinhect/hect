@@ -128,6 +128,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classhect_1_1_box.html#a3ca37cdfbdc8cb67040fa3491a71a53c">hect::Box</a>
 , <a class="el" href="classhect_1_1_matrix4_t.html#af9bdea19309dd022ba6e0d8b6641cac2">hect::Matrix4T&lt; T &gt;</a>
 </li>
+<li>scene()
+: <a class="el" href="classhect_1_1_entity.html#a2ee564d381b20742e194835f20ab8c2b">hect::Entity</a>
+</li>
 <li>Scene()
 : <a class="el" href="classhect_1_1_scene.html#a1dc4415fcfbbe78049b7cf98bb1b38f6">hect::Scene</a>
 </li>
@@ -135,7 +138,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">hect::System</a>
 </li>
 <li>SceneRenderer()
-: <a class="el" href="classhect_1_1_scene_renderer.html#ac454d84e38fd6c94dc580aea6fc6aa83">hect::SceneRenderer</a>
+: <a class="el" href="classhect_1_1_scene_renderer.html#a7fbec36a978ecf7b87115c0210bacd10">hect::SceneRenderer</a>
+</li>
+<li>schema()
+: <a class="el" href="classhect_1_1_shader.html#a14b32e860a4a34a4e8787e77ddaf7d30">hect::Shader</a>
 </li>
 <li>seconds()
 : <a class="el" href="classhect_1_1_time_span.html#ad9952c5f2de2e80373747735ed4b3f6a">hect::TimeSpan</a>
@@ -154,20 +160,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>selectDirectory()
 : <a class="el" href="classhect_1_1_asset_cache.html#a65b21860159576d243660470b056d93a">hect::AssetCache</a>
 </li>
-<li>selectMaterial()
-: <a class="el" href="classhect_1_1_renderer.html#a79f8938aeaa9317d52ec650918208a84">hect::Renderer</a>
-</li>
 <li>selectMember()
 : <a class="el" href="classhect_1_1_asset_decoder.html#a4c90cd88e1fdd0cf7cdded266f081917">hect::AssetDecoder</a>
 , <a class="el" href="classhect_1_1_binary_decoder.html#a407b66d6f0ddfc79972f110568f8723e">hect::BinaryDecoder</a>
 , <a class="el" href="classhect_1_1_binary_encoder.html#a9b117ca73836e318265816687bedd1e7">hect::BinaryEncoder</a>
+, <a class="el" href="classhect_1_1_data_value_decoder.html#ac7b557e7dad7628b3ac3185119661d75">hect::DataValueDecoder</a>
+, <a class="el" href="classhect_1_1_data_value_encoder.html#aa13d36c06412b938071205f3b510c701">hect::DataValueEncoder</a>
 , <a class="el" href="classhect_1_1_decoder.html#a8a1c0c22ed5bd1d2f93967a71e9866ae">hect::Decoder</a>
 , <a class="el" href="classhect_1_1_encoder.html#a4f710dd0119fdd061245b1f25da344a7">hect::Encoder</a>
-, <a class="el" href="classhect_1_1_json_decoder.html#a6ad6516c5ae41dc15621e3d7d07125de">hect::JsonDecoder</a>
-, <a class="el" href="classhect_1_1_json_encoder.html#a8538d03c5e499f39141cd2f167e4e684">hect::JsonEncoder</a>
 </li>
 <li>selectMesh()
 : <a class="el" href="classhect_1_1_renderer.html#a3f113841f7ef8577fcb65bcc90722131">hect::Renderer</a>
+</li>
+<li>selectShader()
+: <a class="el" href="classhect_1_1_renderer.html#a706503006818ce25cd9e1d0b8ec660f5">hect::Renderer</a>
 </li>
 <li>selectTarget()
 : <a class="el" href="classhect_1_1_renderer.html#aa6c89fdb1315bbe7b75245339f9293ee">hect::Renderer</a>
@@ -187,26 +193,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setActiveCamera()
 : <a class="el" href="classhect_1_1_camera_system.html#aef1b98dc862db57e0b0ea1be5741bc7d">hect::CameraSystem</a>
 </li>
-<li>setArgument()
-: <a class="el" href="classhect_1_1_material.html#a363694aa70b2a915a6497e22fc0097cb">hect::Material</a>
-</li>
-<li>setBase()
-: <a class="el" href="classhect_1_1_material.html#ae389bc8fc4411902208642a2f5dfdd33">hect::Material</a>
-</li>
-<li>setBlendFactors()
-: <a class="el" href="classhect_1_1_render_state.html#aad014334bcd4a6ba5ac6f71696a854b9">hect::RenderState</a>
+<li>setBlendMode()
+: <a class="el" href="classhect_1_1_shader.html#a6b89978d67ff628260b88f75642c7b2f">hect::Shader</a>
 </li>
 <li>setColorSpace()
 : <a class="el" href="classhect_1_1_image.html#a26ac7f2639e9afc7f69e090c8e587711">hect::Image</a>
+</li>
+<li>setCullMode()
+: <a class="el" href="classhect_1_1_material.html#a37af6e867f237447e392681532dc2dd9">hect::Material</a>
+, <a class="el" href="classhect_1_1_renderer.html#a3074aeb87fc8741ec638ff39e68f51b9">hect::Renderer</a>
 </li>
 <li>setDecodeFunction()
 : <a class="el" href="classhect_1_1_type.html#a9c4cc34b7787de23d1f84105baa03279">hect::Type</a>
 </li>
 <li>setDefaultValue()
-: <a class="el" href="classhect_1_1_material_value.html#a90f98cffeaaa0cb5a2beb03fe1b9b96c">hect::MaterialValue</a>
+: <a class="el" href="classhect_1_1_uniform_value.html#a84badb759f18f7aa2b2f97cb70fd49b4">hect::UniformValue</a>
+</li>
+<li>setDepthTested()
+: <a class="el" href="classhect_1_1_shader.html#a69cec7006ba26c2756393f4038052ba4">hect::Shader</a>
+</li>
+<li>setDestinationFactor()
+: <a class="el" href="classhect_1_1_blend_mode.html#a2b3af208ef65654c63fa12105eca68a2">hect::BlendMode</a>
 </li>
 <li>setEncodeFunction()
 : <a class="el" href="classhect_1_1_type.html#a65c517e12a46560d574be7ae03289e66">hect::Type</a>
+</li>
+<li>setFunction()
+: <a class="el" href="classhect_1_1_blend_mode.html#a2fa490123da5e65ed23ea0bb78e07d3e">hect::BlendMode</a>
 </li>
 <li>setHeight()
 : <a class="el" href="classhect_1_1_image.html#a03c9af16f6d84be6afba3a5d1f151efe">hect::Image</a>
@@ -219,13 +232,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_mesh.html#a6a2f2d72211dc42e6bfbdaaef5a64cbb">hect::Mesh</a>
 </li>
 <li>setLocation()
-: <a class="el" href="classhect_1_1_material_parameter.html#adbd48ca2557429950cdaeaf1753c83fd">hect::MaterialParameter</a>
+: <a class="el" href="classhect_1_1_uniform.html#a33ae94f30fda9e5f8c8f2d199843ded7">hect::Uniform</a>
 </li>
 <li>setMagFilter()
 : <a class="el" href="classhect_1_1_texture.html#a5697ac60c1948d8fa233b2f8ff3ca657">hect::Texture</a>
-</li>
-<li>setMaterialParameter()
-: <a class="el" href="classhect_1_1_renderer.html#a6767eb8fbfb5ae1ac6dc175ddd60a7b6">hect::Renderer</a>
 </li>
 <li>setMinFilter()
 : <a class="el" href="classhect_1_1_texture.html#a7c8cde3db4596d4c52ae1dd1def8014e">hect::Texture</a>
@@ -237,7 +247,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_mouse.html#ac5d74e8b883d61f99a0c4cc9728e16c5">hect::Mouse</a>
 </li>
 <li>setName()
-: <a class="el" href="classhect_1_1_asset.html#a97699607404c6a0c2c8d6ed3aeddb627">hect::Asset</a>
+: <a class="el" href="classhect_1_1_asset.html#a0f93317543a11cc6c4de865b7ea35873">hect::Asset&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_input_axis.html#a12064990f617c78114d0e23e2f21c347">hect::InputAxis</a>
 </li>
 <li>setPixelData()
@@ -253,22 +263,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_mesh.html#aad72dc44bf041057d0072a931db7a651">hect::Mesh</a>
 </li>
 <li>setPriority()
-: <a class="el" href="classhect_1_1_material.html#a4b1c71bdf3c7efd45bd0363cfba1485e">hect::Material</a>
+: <a class="el" href="classhect_1_1_shader.html#a68dcd1fd192642f740cb9982dcfd8340">hect::Shader</a>
 </li>
 <li>setRadius()
 : <a class="el" href="classhect_1_1_sphere.html#a8c69facd2cb392adb51920de276ce359">hect::Sphere</a>
 </li>
-<li>setRenderState()
-: <a class="el" href="classhect_1_1_material.html#a01e7da8f44b2784693e62701e8ef6140">hect::Material</a>
+<li>setSchema()
+: <a class="el" href="classhect_1_1_shader.html#a529130bdc68654347d6841b88897fc99">hect::Shader</a>
+</li>
+<li>setShader()
+: <a class="el" href="classhect_1_1_material.html#acc00ad5e5bf6e90f16d577501323f10b">hect::Material</a>
+</li>
+<li>setSourceFactor()
+: <a class="el" href="classhect_1_1_blend_mode.html#a88ef92ebbf5ccf90dc0c603b2caf70b0">hect::BlendMode</a>
 </li>
 <li>settings()
-: <a class="el" href="classhect_1_1_engine.html#af711fb5b882a0983bfc8a2553ea45018">hect::Engine</a>
+: <a class="el" href="classhect_1_1_engine.html#a291cc5126cfe248b169b448293c3319c">hect::Engine</a>
 </li>
 <li>setType()
 : <a class="el" href="classhect_1_1_texture.html#a538245190b1f70955e6d6c6a14ba65a3">hect::Texture</a>
 </li>
+<li>setUniform()
+: <a class="el" href="classhect_1_1_renderer.html#a310f7a15f590901c29f40d9289938682">hect::Renderer</a>
+</li>
+<li>setUniformValue()
+: <a class="el" href="classhect_1_1_material.html#ade54dd28576cf912ec9ea95a61dffc85">hect::Material</a>
+</li>
 <li>setValue()
-: <a class="el" href="classhect_1_1_material_value.html#a7aadd1c60ba74637588366fec0ca5dad">hect::MaterialValue</a>
+: <a class="el" href="classhect_1_1_uniform.html#a5017811b921f29ff5dba8485e8828fe6">hect::Uniform</a>
+, <a class="el" href="classhect_1_1_uniform_value.html#ac40a60686f6b38304aa54de5102b4bf4">hect::UniformValue</a>
 </li>
 <li>setVertexData()
 : <a class="el" href="classhect_1_1_mesh.html#ae4e4703ae33c8b24a9ad529a08d83c76">hect::Mesh</a>
@@ -286,14 +309,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setWriteDirectory()
 : <a class="el" href="classhect_1_1_file_system.html#a1bdc9ad140ffdfa77017727acbadf5fd">hect::FileSystem</a>
 </li>
-<li>ShaderModule()
-: <a class="el" href="classhect_1_1_shader_module.html#ab0028a8b41e3b95def77eae06f1f3a0f">hect::ShaderModule</a>
+<li>shader()
+: <a class="el" href="classhect_1_1_material.html#a877921c9ca6a4c59bf1a9cf3b9904fcc">hect::Material</a>
 </li>
-<li>shaderModules()
-: <a class="el" href="classhect_1_1_material.html#a783137737217836cf2e9ef66936c98ba">hect::Material</a>
+<li>Shader()
+: <a class="el" href="classhect_1_1_shader.html#a67575f84aaecbcc4d2e2b9ca7b280f74">hect::Shader</a>
+</li>
+<li>ShaderModule()
+: <a class="el" href="classhect_1_1_shader_module.html#acb62fdb37e0f58c9443374a16f76553b">hect::ShaderModule</a>
 </li>
 <li>size()
-: <a class="el" href="classhect_1_1_json_value.html#aa104e77827da4dd4c43c2c8647d698e8">hect::JsonValue</a>
+: <a class="el" href="classhect_1_1_data_value.html#acca9b0c542ad39c0b8388f76ce94dea2">hect::DataValue</a>
 , <a class="el" href="classhect_1_1_sequence.html#a3fa49b927dbc7c8bcfb50ba8bbdd7730">hect::Sequence&lt; T, Container &gt;</a>
 , <a class="el" href="classhect_1_1_string_map.html#a4c74180f8c5cfa028266e951f7736590">hect::StringMap&lt; T &gt;</a>
 , <a class="el" href="classhect_1_1_vertex_attribute.html#a6d70780d4d185f753013066cf36e1445">hect::VertexAttribute</a>
@@ -305,8 +331,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>source()
 : <a class="el" href="classhect_1_1_shader_module.html#a0b4b26c9703996406897b6714bdb3ffa">hect::ShaderModule</a>
 </li>
-<li>sourceBlendFactor()
-: <a class="el" href="classhect_1_1_render_state.html#a739e52db0cbe4485f08a30d4407163cf">hect::RenderState</a>
+<li>sourceFactor()
+: <a class="el" href="classhect_1_1_blend_mode.html#a3a45631a1e1b771c71738450390c97ce">hect::BlendMode</a>
 </li>
 <li>sourceImages()
 : <a class="el" href="classhect_1_1_texture.html#ad6df3bb1222a1f8397809b45aa7f15cc">hect::Texture</a>
@@ -328,13 +354,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_scene.html#a67f44e77def86032b0d97d2c3d99c588">hect::Scene</a>
 </li>
 <li>System()
-: <a class="el" href="classhect_1_1_system.html#a0d3ce47cb99646fc784e8dc29767c1be">hect::System</a>
+: <a class="el" href="classhect_1_1_system.html#a3e801d70e8869e871587e6914b15cf79">hect::System</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:22 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

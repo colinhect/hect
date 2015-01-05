@@ -141,6 +141,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:a4db6185329c64d2606e6872af4e70b0e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classhect_1_1_keyboard.html">Keyboard</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a4db6185329c64d2606e6872af4e70b0e">keyboard</a> ()=0</td></tr>
 <tr class="memdesc:a4db6185329c64d2606e6872af4e70b0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the keyboard.  <a href="#a4db6185329c64d2606e6872af4e70b0e">More...</a><br /></td></tr>
 <tr class="separator:a4db6185329c64d2606e6872af4e70b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f34178c69f0d1bdd7492913f9ddb30a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a3f34178c69f0d1bdd7492913f9ddb30a">hasJoystick</a> (<a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index)=0</td></tr>
+<tr class="memdesc:a3f34178c69f0d1bdd7492913f9ddb30a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the platform has a joystick connected at the given index.  <a href="#a3f34178c69f0d1bdd7492913f9ddb30a">More...</a><br /></td></tr>
+<tr class="separator:a3f34178c69f0d1bdd7492913f9ddb30a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a331f6621d7ee6a0b89ed19a0691cba74"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classhect_1_1_joystick.html">Joystick</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a331f6621d7ee6a0b89ed19a0691cba74">joystick</a> (<a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index)=0</td></tr>
+<tr class="memdesc:a331f6621d7ee6a0b89ed19a0691cba74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the joystick connected at the specified index.  <a href="#a331f6621d7ee6a0b89ed19a0691cba74">More...</a><br /></td></tr>
+<tr class="separator:a331f6621d7ee6a0b89ed19a0691cba74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1a779247aaf7d9aedc637f38659a908"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1a779247aaf7d9aedc637f38659a908"></a>
 virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">JoystickSequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#af1a779247aaf7d9aedc637f38659a908">joysticks</a> ()=0</td></tr>
 <tr class="memdesc:af1a779247aaf7d9aedc637f38659a908"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns any joysticks connected to the platform. <br /></td></tr>
@@ -192,6 +198,76 @@ virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9
 
 </div>
 </div>
+<a class="anchor" id="a3f34178c69f0d1bdd7492913f9ddb30a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool hect::Platform::hasJoystick </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a>&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns whether the platform has a joystick connected at the given index. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index of the joystick. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a331f6621d7ee6a0b89ed19a0691cba74"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classhect_1_1_joystick.html">Joystick</a>&amp; hect::Platform::joystick </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a>&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the joystick connected at the specified index. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index of the joystick.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If no joystick is connected at the given </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a4db6185329c64d2606e6872af4e70b0e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -216,7 +292,7 @@ virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9
 <p>Returns the keyboard. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the platform does not have a keyboard connected. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the platform does not have a keyboard connected. </td></tr>
   </table>
   </dd>
 </dl>
@@ -247,7 +323,7 @@ virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9
 <p>Returns the mouse. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the platform does not have a mouse connected. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the platform does not have a mouse connected. </td></tr>
   </table>
   </dd>
 </dl>
@@ -257,7 +333,7 @@ virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

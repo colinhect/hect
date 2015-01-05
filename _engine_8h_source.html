@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -108,105 +108,103 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Configuration.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Uncopyable.h&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderer.h&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/JsonValue.h&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Window.h&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef HECT_FILESYSTEM_PHYSFS</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/FileSystems/PhysFSFileSystem.h&quot;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#ifdef HECT_PLATFORM_SDL</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Platforms/SdlPlatform.h&quot;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Platforms/NullPlatform.h&quot;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#ifdef HECT_RENDERER_OPENGL</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderers/OpenGLRenderer.h&quot;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderers/NullRenderer.h&quot;</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classhect_1_1_engine.html">   57</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_engine.html">Engine</a> :</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="classhect_1_1_engine.html#a6c70f407082deab630a5d7a93cfb96f4">Engine</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classhect_1_1_engine.html#a5d5bde58421d11f6cfed51c99783f6f2">main</a>();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classhect_1_1_file_system.html">FileSystem</a>&amp; <a class="code" href="classhect_1_1_engine.html#a657d14aa74f9ccf6348fa893154c7b2e">fileSystem</a>();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="classhect_1_1_platform.html">Platform</a>&amp; <a class="code" href="classhect_1_1_engine.html#a0f988e88970a694326f42c47288046f7">platform</a>();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="classhect_1_1_renderer.html">Renderer</a>&amp; <a class="code" href="classhect_1_1_engine.html#a5dac95b2f9154c5e9740ba23fa4b0967">renderer</a>();</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="classhect_1_1_window.html">Window</a>&amp; <a class="code" href="classhect_1_1_engine.html#a81121040252ca11f90346879c3cf6187">window</a>();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="classhect_1_1_asset_cache.html">AssetCache</a>&amp; <a class="code" href="classhect_1_1_engine.html#a4096af0043572136947404f1bb1a7539">assetCache</a>();</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_json_value.html">JsonValue</a>&amp; <a class="code" href="classhect_1_1_engine.html#af711fb5b882a0983bfc8a2553ea45018">settings</a>();</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">struct </span>CommandLineArguments</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        std::string settingsFilePath;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    };</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Concurrency/TaskPool.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Configuration.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Uncopyable.h&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderer.h&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/DataValue.h&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Window.h&quot;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef HECT_FILESYSTEM_PHYSFS</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/FileSystems/PhysFSFileSystem.h&quot;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#ifdef HECT_PLATFORM_SDL</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Platforms/SdlPlatform.h&quot;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Platforms/NullPlatform.h&quot;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#ifdef HECT_RENDERER_OPENGL</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderers/OpenGLRenderer.h&quot;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderers/NullRenderer.h&quot;</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classhect_1_1_engine.html">   59</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_engine.html">Engine</a> :</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="classhect_1_1_engine.html">Engine</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">int</span> main();</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="classhect_1_1_file_system.html">FileSystem</a>&amp; fileSystem();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="classhect_1_1_platform.html">Platform</a>&amp; platform();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="classhect_1_1_renderer.html">Renderer</a>&amp; renderer();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="classhect_1_1_window.html">Window</a>&amp; window();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <a class="code" href="classhect_1_1_asset_cache.html">AssetCache</a>&amp; assetCache();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="classhect_1_1_task_pool.html">TaskPool</a>&amp; taskPool();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_data_value.html">DataValue</a>&amp; settings();</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="classhect_1_1_json_value.html">JsonValue</a> loadConfig(<span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; settingsFilePath);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    CommandLineArguments parseCommandLineArgument(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#ifdef HECT_FILESYSTEM_PHYSFS</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    PhysFSFileSystem _fileSystem;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">struct </span>HECT_EXPORT CommandLineArguments</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        std::string settingsFilePath;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    };</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <a class="code" href="classhect_1_1_data_value.html">DataValue</a> loadConfig(<span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; settingsFilePath);</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#ifdef HECT_PLATFORM_SDL</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    SdlPlatform _platform;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    NullPlatform _platform;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    CommandLineArguments parseCommandLineArgument(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#ifdef HECT_FILESYSTEM_PHYSFS</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    PhysFSFileSystem _fileSystem;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#ifdef HECT_RENDERER_OPENGL</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    OpenGLRenderer _renderer;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#ifdef HECT_PLATFORM_SDL</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    SdlPlatform _platform;</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    NullRenderer _renderer;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    NullPlatform _platform;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    std::unique_ptr&lt;Window&gt; _window;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    std::unique_ptr&lt;AssetCache&gt; _assetCache;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <a class="code" href="classhect_1_1_json_value.html">JsonValue</a> _settings;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;};</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_engine_html_a81121040252ca11f90346879c3cf6187"><div class="ttname"><a href="classhect_1_1_engine.html#a81121040252ca11f90346879c3cf6187">hect::Engine::window</a></div><div class="ttdeci">Window &amp; window()</div><div class="ttdoc">Returns the main window. </div></div>
-<div class="ttc" id="classhect_1_1_engine_html"><div class="ttname"><a href="classhect_1_1_engine.html">hect::Engine</a></div><div class="ttdoc">An instance of Hect Engine. </div><div class="ttdef"><b>Definition:</b> Engine.h:57</div></div>
-<div class="ttc" id="classhect_1_1_window_html"><div class="ttname"><a href="classhect_1_1_window.html">hect::Window</a></div><div class="ttdoc">The window that the application is rendering to. </div><div class="ttdef"><b>Definition:</b> Window.h:39</div></div>
-<div class="ttc" id="classhect_1_1_platform_html"><div class="ttname"><a href="classhect_1_1_platform.html">hect::Platform</a></div><div class="ttdoc">Provides access to platform functionality and peripherals. </div><div class="ttdef"><b>Definition:</b> Platform.h:40</div></div>
-<div class="ttc" id="classhect_1_1_engine_html_a6c70f407082deab630a5d7a93cfb96f4"><div class="ttname"><a href="classhect_1_1_engine.html#a6c70f407082deab630a5d7a93cfb96f4">hect::Engine::Engine</a></div><div class="ttdeci">Engine(int argc, char *const argv[])</div><div class="ttdoc">Constructs an engine. </div></div>
-<div class="ttc" id="classhect_1_1_renderer_html"><div class="ttname"><a href="classhect_1_1_renderer.html">hect::Renderer</a></div><div class="ttdoc">A higher-level abstraction over a hardware-accelerated graphics API such as OpenGL or DirectX...</div><div class="ttdef"><b>Definition:</b> Renderer.h:45</div></div>
-<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:31</div></div>
-<div class="ttc" id="classhect_1_1_engine_html_a4096af0043572136947404f1bb1a7539"><div class="ttname"><a href="classhect_1_1_engine.html#a4096af0043572136947404f1bb1a7539">hect::Engine::assetCache</a></div><div class="ttdeci">AssetCache &amp; assetCache()</div><div class="ttdoc">Returns the asset cache. </div></div>
-<div class="ttc" id="classhect_1_1_engine_html_a657d14aa74f9ccf6348fa893154c7b2e"><div class="ttname"><a href="classhect_1_1_engine.html#a657d14aa74f9ccf6348fa893154c7b2e">hect::Engine::fileSystem</a></div><div class="ttdeci">FileSystem &amp; fileSystem()</div><div class="ttdoc">Returns the file system. </div></div>
-<div class="ttc" id="classhect_1_1_json_value_html"><div class="ttname"><a href="classhect_1_1_json_value.html">hect::JsonValue</a></div><div class="ttdoc">A hierarchical structure of JSON data. </div><div class="ttdef"><b>Definition:</b> JsonValue.h:76</div></div>
-<div class="ttc" id="classhect_1_1_path_html"><div class="ttname"><a href="classhect_1_1_path.html">hect::Path</a></div><div class="ttdoc">A path to a file or directory. </div><div class="ttdef"><b>Definition:</b> Path.h:34</div></div>
-<div class="ttc" id="classhect_1_1_asset_cache_html"><div class="ttname"><a href="classhect_1_1_asset_cache.html">hect::AssetCache</a></div><div class="ttdoc">Provides cached access to assets from the file system. </div><div class="ttdef"><b>Definition:</b> AssetCache.h:40</div></div>
-<div class="ttc" id="classhect_1_1_engine_html_a5d5bde58421d11f6cfed51c99783f6f2"><div class="ttname"><a href="classhect_1_1_engine.html#a5d5bde58421d11f6cfed51c99783f6f2">hect::Engine::main</a></div><div class="ttdeci">int main()</div><div class="ttdoc">Executes the engine to completion. </div></div>
-<div class="ttc" id="classhect_1_1_engine_html_a5dac95b2f9154c5e9740ba23fa4b0967"><div class="ttname"><a href="classhect_1_1_engine.html#a5dac95b2f9154c5e9740ba23fa4b0967">hect::Engine::renderer</a></div><div class="ttdeci">Renderer &amp; renderer()</div><div class="ttdoc">Returns the renderer. </div></div>
-<div class="ttc" id="classhect_1_1_engine_html_af711fb5b882a0983bfc8a2553ea45018"><div class="ttname"><a href="classhect_1_1_engine.html#af711fb5b882a0983bfc8a2553ea45018">hect::Engine::settings</a></div><div class="ttdeci">const JsonValue &amp; settings()</div><div class="ttdoc">Returns the settings data. </div></div>
-<div class="ttc" id="classhect_1_1_engine_html_a0f988e88970a694326f42c47288046f7"><div class="ttname"><a href="classhect_1_1_engine.html#a0f988e88970a694326f42c47288046f7">hect::Engine::platform</a></div><div class="ttdeci">Platform &amp; platform()</div><div class="ttdoc">Returns the platform. </div></div>
-<div class="ttc" id="classhect_1_1_file_system_html"><div class="ttname"><a href="classhect_1_1_file_system.html">hect::FileSystem</a></div><div class="ttdoc">Provides read and write access to files. </div><div class="ttdef"><b>Definition:</b> FileSystem.h:40</div></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor">#ifdef HECT_RENDERER_OPENGL</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    OpenGLRenderer _renderer;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    NullRenderer _renderer;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    std::unique_ptr&lt;Window&gt; _window;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    std::unique_ptr&lt;AssetCache&gt; _assetCache;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    std::unique_ptr&lt;TaskPool&gt; _taskPool;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <a class="code" href="classhect_1_1_data_value.html">DataValue</a> _settings;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;};</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_engine_html"><div class="ttname"><a href="classhect_1_1_engine.html">hect::Engine</a></div><div class="ttdoc">An instance of Hect Engine. </div><div class="ttdef"><b>Definition:</b> Engine.h:59</div></div>
+<div class="ttc" id="classhect_1_1_window_html"><div class="ttname"><a href="classhect_1_1_window.html">hect::Window</a></div><div class="ttdoc">The window that the application is rendering to. </div><div class="ttdef"><b>Definition:</b> Window.h:40</div></div>
+<div class="ttc" id="classhect_1_1_platform_html"><div class="ttname"><a href="classhect_1_1_platform.html">hect::Platform</a></div><div class="ttdoc">Provides access to platform functionality and peripherals. </div><div class="ttdef"><b>Definition:</b> Platform.h:41</div></div>
+<div class="ttc" id="classhect_1_1_renderer_html"><div class="ttname"><a href="classhect_1_1_renderer.html">hect::Renderer</a></div><div class="ttdoc">A higher-level abstraction over a hardware-accelerated graphics API such as OpenGL or DirectX...</div><div class="ttdef"><b>Definition:</b> Renderer.h:47</div></div>
+<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:33</div></div>
+<div class="ttc" id="classhect_1_1_task_pool_html"><div class="ttname"><a href="classhect_1_1_task_pool.html">hect::TaskPool</a></div><div class="ttdoc">Provides the functionality for executing asynchronous tasks. </div><div class="ttdef"><b>Definition:</b> TaskPool.h:45</div></div>
+<div class="ttc" id="classhect_1_1_data_value_html"><div class="ttname"><a href="classhect_1_1_data_value.html">hect::DataValue</a></div><div class="ttdoc">A node in a hierarchical structure of data. </div><div class="ttdef"><b>Definition:</b> DataValue.h:48</div></div>
+<div class="ttc" id="classhect_1_1_path_html"><div class="ttname"><a href="classhect_1_1_path.html">hect::Path</a></div><div class="ttdoc">A path to a file or directory. </div><div class="ttdef"><b>Definition:</b> Path.h:36</div></div>
+<div class="ttc" id="classhect_1_1_asset_cache_html"><div class="ttname"><a href="classhect_1_1_asset_cache.html">hect::AssetCache</a></div><div class="ttdoc">Provides cached access to Assets from the FileSystem. </div><div class="ttdef"><b>Definition:</b> AssetCache.h:41</div></div>
+<div class="ttc" id="classhect_1_1_file_system_html"><div class="ttname"><a href="classhect_1_1_file_system.html">hect::FileSystem</a></div><div class="ttdoc">Provides read and write access to files. </div><div class="ttdef"><b>Definition:</b> FileSystem.h:42</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

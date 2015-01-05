@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -106,60 +106,57 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Mesh.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/MemoryWriteStream.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector2.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector3.h&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector4.h&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classhect_1_1_mesh_writer.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_mesh_writer.html">MeshWriter</a></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classhect_1_1_mesh_writer.html#af9bca5bfe08ba1602d81ef09c896a000">MeshWriter</a>(<a class="code" href="classhect_1_1_mesh.html">Mesh</a>&amp; mesh);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classhect_1_1_mesh_writer.html#a1bb485b478bd1b2804013bb9eabfe4b1">addVertex</a>();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_mesh_writer.html#ae3c31f6ee0f497c6098681650319f254">writeAttributeData</a>(<a class="code" href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">VertexAttributeSemantic</a> semantic, <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_mesh_writer.html#ae3c31f6ee0f497c6098681650319f254">writeAttributeData</a>(<a class="code" href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">VertexAttributeSemantic</a> semantic, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector2_t.html">Vector2</a>&amp; value);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_mesh_writer.html#ae3c31f6ee0f497c6098681650319f254">writeAttributeData</a>(<a class="code" href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">VertexAttributeSemantic</a> semantic, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; value);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_mesh_writer.html#ae3c31f6ee0f497c6098681650319f254">writeAttributeData</a>(<a class="code" href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">VertexAttributeSemantic</a> semantic, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector4_t.html">Vector4</a>&amp; value);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_mesh_writer.html#a2f178e4e169fbaa6acddc55c623d642a">addIndex</a>(uint64_t value);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> setComponentValue(<span class="keyword">const</span> <a class="code" href="classhect_1_1_vertex_attribute.html">VertexAttribute</a>&amp; attribute, <span class="keywordtype">unsigned</span> index, <span class="keywordtype">float</span> value);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="classhect_1_1_mesh.html">Mesh</a>&amp; _mesh;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">size_t</span> _vertexPosition { 0 };</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <a class="code" href="classhect_1_1_memory_write_stream.html">MemoryWriteStream</a> _vertexStream;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="classhect_1_1_memory_write_stream.html">MemoryWriteStream</a> _indexStream;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;};</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Mesh.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/MemoryWriteStream.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector2.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector3.h&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector4.h&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classhect_1_1_mesh_writer.html">   39</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_mesh_writer.html">MeshWriter</a></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classhect_1_1_mesh_writer.html">MeshWriter</a>(<a class="code" href="classhect_1_1_mesh.html">Mesh</a>&amp; mesh);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">size_t</span> addVertex();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> writeAttributeData(<a class="code" href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">VertexAttributeSemantic</a> semantic, <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> writeAttributeData(<a class="code" href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">VertexAttributeSemantic</a> semantic, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector2_t.html">Vector2</a>&amp; value);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span> writeAttributeData(<a class="code" href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">VertexAttributeSemantic</a> semantic, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; value);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span> writeAttributeData(<a class="code" href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">VertexAttributeSemantic</a> semantic, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector4_t.html">Vector4</a>&amp; value);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> addIndex(uint64_t value);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">void</span> setComponentValue(<span class="keyword">const</span> <a class="code" href="classhect_1_1_vertex_attribute.html">VertexAttribute</a>&amp; attribute, <span class="keywordtype">unsigned</span> index, <span class="keywordtype">float</span> value);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="classhect_1_1_mesh.html">Mesh</a>&amp; _mesh;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">size_t</span> _vertexPosition { 0 };</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="classhect_1_1_memory_write_stream.html">MemoryWriteStream</a> _vertexStream;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <a class="code" href="classhect_1_1_memory_write_stream.html">MemoryWriteStream</a> _indexStream;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;};</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
 <div class="ttc" id="classhect_1_1_vector2_t_html"><div class="ttname"><a href="classhect_1_1_vector2_t.html">hect::Vector2T&lt; Real &gt;</a></div></div>
 <div class="ttc" id="classhect_1_1_vector4_t_html"><div class="ttname"><a href="classhect_1_1_vector4_t.html">hect::Vector4T</a></div><div class="ttdoc">A 4-dimensional vector. </div><div class="ttdef"><b>Definition:</b> Vector4.h:37</div></div>
-<div class="ttc" id="classhect_1_1_mesh_html"><div class="ttname"><a href="classhect_1_1_mesh.html">hect::Mesh</a></div><div class="ttdoc">A mesh of vertices and indices. </div><div class="ttdef"><b>Definition:</b> Mesh.h:67</div></div>
-<div class="ttc" id="classhect_1_1_mesh_writer_html_ae3c31f6ee0f497c6098681650319f254"><div class="ttname"><a href="classhect_1_1_mesh_writer.html#ae3c31f6ee0f497c6098681650319f254">hect::MeshWriter::writeAttributeData</a></div><div class="ttdeci">void writeAttributeData(VertexAttributeSemantic semantic, Real value)</div><div class="ttdoc">Writes attribute data of the most recently added vertex for a given semantic. </div></div>
-<div class="ttc" id="classhect_1_1_mesh_writer_html"><div class="ttname"><a href="classhect_1_1_mesh_writer.html">hect::MeshWriter</a></div><div class="ttdoc">Provides an interface for writing to a mesh without knowledge of the vertex layout. </div><div class="ttdef"><b>Definition:</b> MeshWriter.h:38</div></div>
+<div class="ttc" id="classhect_1_1_mesh_html"><div class="ttname"><a href="classhect_1_1_mesh.html">hect::Mesh</a></div><div class="ttdoc">A mesh of vertices and indices. </div><div class="ttdef"><b>Definition:</b> Mesh.h:68</div></div>
+<div class="ttc" id="classhect_1_1_mesh_writer_html"><div class="ttname"><a href="classhect_1_1_mesh_writer.html">hect::MeshWriter</a></div><div class="ttdoc">Provides an interface for writing to a mesh without knowledge of the vertex layout. </div><div class="ttdef"><b>Definition:</b> MeshWriter.h:39</div></div>
 <div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="classhect_1_1_mesh_writer_html_af9bca5bfe08ba1602d81ef09c896a000"><div class="ttname"><a href="classhect_1_1_mesh_writer.html#af9bca5bfe08ba1602d81ef09c896a000">hect::MeshWriter::MeshWriter</a></div><div class="ttdeci">MeshWriter(Mesh &amp;mesh)</div><div class="ttdoc">Constructs a mesh writer. </div></div>
-<div class="ttc" id="namespacehect_html_adc5b2992f2c3a5aae32e10d40dd796cc"><div class="ttname"><a href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">hect::VertexAttributeSemantic</a></div><div class="ttdeci">VertexAttributeSemantic</div><div class="ttdoc">A semantic describing how a vertex attribute is used. </div><div class="ttdef"><b>Definition:</b> VertexAttribute.h:34</div></div>
-<div class="ttc" id="classhect_1_1_vertex_attribute_html"><div class="ttname"><a href="classhect_1_1_vertex_attribute.html">hect::VertexAttribute</a></div><div class="ttdoc">An attribute of a vertex (position, normal, etc). </div><div class="ttdef"><b>Definition:</b> VertexAttribute.h:134</div></div>
-<div class="ttc" id="classhect_1_1_memory_write_stream_html"><div class="ttname"><a href="classhect_1_1_memory_write_stream.html">hect::MemoryWriteStream</a></div><div class="ttdoc">Provides write access to raw data. </div><div class="ttdef"><b>Definition:</b> MemoryWriteStream.h:37</div></div>
-<div class="ttc" id="classhect_1_1_mesh_writer_html_a2f178e4e169fbaa6acddc55c623d642a"><div class="ttname"><a href="classhect_1_1_mesh_writer.html#a2f178e4e169fbaa6acddc55c623d642a">hect::MeshWriter::addIndex</a></div><div class="ttdeci">void addIndex(uint64_t value)</div><div class="ttdoc">Adds an index to the mesh. </div></div>
+<div class="ttc" id="namespacehect_html_adc5b2992f2c3a5aae32e10d40dd796cc"><div class="ttname"><a href="namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc">hect::VertexAttributeSemantic</a></div><div class="ttdeci">VertexAttributeSemantic</div><div class="ttdoc">A semantic describing how a vertex attribute is used. </div><div class="ttdef"><b>Definition:</b> VertexAttribute.h:35</div></div>
+<div class="ttc" id="classhect_1_1_vertex_attribute_html"><div class="ttname"><a href="classhect_1_1_vertex_attribute.html">hect::VertexAttribute</a></div><div class="ttdoc">An attribute of a vertex (position, normal, etc). </div><div class="ttdef"><b>Definition:</b> VertexAttribute.h:135</div></div>
+<div class="ttc" id="classhect_1_1_memory_write_stream_html"><div class="ttname"><a href="classhect_1_1_memory_write_stream.html">hect::MemoryWriteStream</a></div><div class="ttdoc">Provides write access to raw data. </div><div class="ttdef"><b>Definition:</b> MemoryWriteStream.h:38</div></div>
 <div class="ttc" id="classhect_1_1_vector3_t_html"><div class="ttname"><a href="classhect_1_1_vector3_t.html">hect::Vector3T&lt; Real &gt;</a></div></div>
-<div class="ttc" id="classhect_1_1_mesh_writer_html_a1bb485b478bd1b2804013bb9eabfe4b1"><div class="ttname"><a href="classhect_1_1_mesh_writer.html#a1bb485b478bd1b2804013bb9eabfe4b1">hect::MeshWriter::addVertex</a></div><div class="ttdeci">size_t addVertex()</div><div class="ttdoc">Adds a new vertex to the mesh. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

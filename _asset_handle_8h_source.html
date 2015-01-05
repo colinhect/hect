@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -123,49 +123,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html#a3e08c801ae36574e819ddfa1badc861f">AssetHandle</a>();</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html#a3e08c801ae36574e819ddfa1badc861f">AssetHandle</a>(T* asset);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html#a3e08c801ae36574e819ddfa1badc861f">AssetHandle</a>(<span class="keyword">const</span> std::shared_ptr&lt;<a class="code" href="classhect_1_1_asset_entry.html">AssetEntry&lt;T&gt;</a>&gt;&amp; entry);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; <a class="code" href="classhect_1_1_asset_handle.html#a9c55399e3afc809a789a452e11b7fdcd">path</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">operator</span> bool() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    T&amp; <a class="code" href="classhect_1_1_asset_handle.html#ab337614b8cb8ccb4ab54b5d9dbf0b413">operator*</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    T* <a class="code" href="classhect_1_1_asset_handle.html#a1655cde916841cb926bd60a33892f934">operator-&gt;</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_asset_handle.html#a32a269eebd442a990a9494fe50e7b68b">operator==</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;T&gt;</a>&amp; assetHandle) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_asset_handle.html#a5da15420c9d996bf793a8d181a1346e8">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;T&gt;</a>&amp; assetHandle) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    std::shared_ptr&lt;T&gt; _asset;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    std::shared_ptr&lt;AssetEntry&lt;T&gt;&gt; _entry;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; operator&lt;&lt;(Encoder&amp; encoder, const AssetHandle&lt;T&gt;&amp; assetHandle);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; operator&gt;&gt;(<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; decoder, <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;T&gt;</a>&amp; assetHandle);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html#a3e08c801ae36574e819ddfa1badc861f">AssetHandle</a>(T* asset, <span class="keywordtype">bool</span> owned = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html#a3e08c801ae36574e819ddfa1badc861f">AssetHandle</a>(<span class="keyword">const</span> std::shared_ptr&lt;<a class="code" href="classhect_1_1_asset_entry.html">AssetEntry&lt;T&gt;</a>&gt;&amp; entry);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; <a class="code" href="classhect_1_1_asset_handle.html#a9c55399e3afc809a789a452e11b7fdcd">path</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">operator</span> bool() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    T&amp; <a class="code" href="classhect_1_1_asset_handle.html#ab337614b8cb8ccb4ab54b5d9dbf0b413">operator*</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    T* <a class="code" href="classhect_1_1_asset_handle.html#a1655cde916841cb926bd60a33892f934">operator-&gt;</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_asset_handle.html#a32a269eebd442a990a9494fe50e7b68b">operator==</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;T&gt;</a>&amp; assetHandle) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_asset_handle.html#a5da15420c9d996bf793a8d181a1346e8">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;T&gt;</a>&amp; assetHandle) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    std::shared_ptr&lt;T&gt; _owned;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    T* _unowned { <span class="keyword">nullptr</span> };</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    std::shared_ptr&lt;AssetEntry&lt;T&gt;&gt; _entry;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;};</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; operator&lt;&lt;(Encoder&amp; encoder, const AssetHandle&lt;T&gt;&amp; assetHandle);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; operator&gt;&gt;(<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; decoder, <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;T&gt;</a>&amp; assetHandle);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
 <div class="ttc" id="classhect_1_1_asset_handle_html_a1655cde916841cb926bd60a33892f934"><div class="ttname"><a href="classhect_1_1_asset_handle.html#a1655cde916841cb926bd60a33892f934">hect::AssetHandle::operator-&gt;</a></div><div class="ttdeci">T * operator-&gt;() const </div><div class="ttdoc">Provides pointer-like access to the asset. </div></div>
-<div class="ttc" id="classhect_1_1_encoder_html"><div class="ttname"><a href="classhect_1_1_encoder.html">hect::Encoder</a></div><div class="ttdoc">Provides access for encoding structured data to a persistent format. </div><div class="ttdef"><b>Definition:</b> Encoder.h:35</div></div>
-<div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:37</div></div>
+<div class="ttc" id="classhect_1_1_encoder_html"><div class="ttname"><a href="classhect_1_1_encoder.html">hect::Encoder</a></div><div class="ttdoc">Provides access for encoding structured data to a persistent format. </div><div class="ttdef"><b>Definition:</b> Encoder.h:37</div></div>
+<div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:39</div></div>
 <div class="ttc" id="classhect_1_1_asset_handle_html_a9c55399e3afc809a789a452e11b7fdcd"><div class="ttname"><a href="classhect_1_1_asset_handle.html#a9c55399e3afc809a789a452e11b7fdcd">hect::AssetHandle::path</a></div><div class="ttdeci">const Path &amp; path() const </div><div class="ttdoc">Returns the path to the asset. </div></div>
-<div class="ttc" id="classhect_1_1_asset_entry_html"><div class="ttname"><a href="classhect_1_1_asset_entry.html">hect::AssetEntry</a></div><div class="ttdoc">Refers to the asset at a path. </div><div class="ttdef"><b>Definition:</b> AssetEntry.h:55</div></div>
-<div class="ttc" id="classhect_1_1_asset_handle_html"><div class="ttname"><a href="classhect_1_1_asset_handle.html">hect::AssetHandle</a></div><div class="ttdoc">A reference-counted handle for an asset. </div><div class="ttdef"><b>Definition:</b> AssetHandle.h:44</div></div>
+<div class="ttc" id="classhect_1_1_asset_entry_html"><div class="ttname"><a href="classhect_1_1_asset_entry.html">hect::AssetEntry</a></div><div class="ttdoc">Refers to an Asset existing at a specific path in the FileSystem. </div><div class="ttdef"><b>Definition:</b> AssetEntry.h:56</div></div>
+<div class="ttc" id="classhect_1_1_asset_handle_html"><div class="ttname"><a href="classhect_1_1_asset_handle.html">hect::AssetHandle</a></div><div class="ttdoc">A reference-counted handle for an Asset. </div><div class="ttdef"><b>Definition:</b> AssetHandle.h:44</div></div>
 <div class="ttc" id="classhect_1_1_asset_handle_html_a3e08c801ae36574e819ddfa1badc861f"><div class="ttname"><a href="classhect_1_1_asset_handle.html#a3e08c801ae36574e819ddfa1badc861f">hect::AssetHandle::AssetHandle</a></div><div class="ttdeci">AssetHandle()</div><div class="ttdoc">Constructs an empty asset handle. </div></div>
 <div class="ttc" id="classhect_1_1_asset_handle_html_a32a269eebd442a990a9494fe50e7b68b"><div class="ttname"><a href="classhect_1_1_asset_handle.html#a32a269eebd442a990a9494fe50e7b68b">hect::AssetHandle::operator==</a></div><div class="ttdeci">bool operator==(const AssetHandle&lt; T &gt; &amp;assetHandle) const </div><div class="ttdoc">Returns whether the handle refers to the same asset as another handle. </div></div>
 <div class="ttc" id="classhect_1_1_asset_handle_html_ab337614b8cb8ccb4ab54b5d9dbf0b413"><div class="ttname"><a href="classhect_1_1_asset_handle.html#ab337614b8cb8ccb4ab54b5d9dbf0b413">hect::AssetHandle::operator*</a></div><div class="ttdeci">T &amp; operator*() const </div><div class="ttdoc">Returns a reference to the asset. </div></div>
-<div class="ttc" id="classhect_1_1_path_html"><div class="ttname"><a href="classhect_1_1_path.html">hect::Path</a></div><div class="ttdoc">A path to a file or directory. </div><div class="ttdef"><b>Definition:</b> Path.h:34</div></div>
+<div class="ttc" id="classhect_1_1_path_html"><div class="ttname"><a href="classhect_1_1_path.html">hect::Path</a></div><div class="ttdoc">A path to a file or directory. </div><div class="ttdef"><b>Definition:</b> Path.h:36</div></div>
 <div class="ttc" id="classhect_1_1_asset_handle_html_a5da15420c9d996bf793a8d181a1346e8"><div class="ttname"><a href="classhect_1_1_asset_handle.html#a5da15420c9d996bf793a8d181a1346e8">hect::AssetHandle::operator!=</a></div><div class="ttdeci">bool operator!=(const AssetHandle&lt; T &gt; &amp;assetHandle) const </div><div class="ttdoc">Returns whether the handle refers to a different asset as another handle. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

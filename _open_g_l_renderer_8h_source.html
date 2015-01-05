@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -107,70 +107,73 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Configuration.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Mesh.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderer.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#ifdef HECT_RENDERER_OPENGL</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">class </span>OpenGLRenderer :</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">public</span> Renderer</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> initialize(Window&amp; window) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> beginFrame() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> endFrame() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> selectTarget(RenderTarget&amp; renderTarget) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> selectTarget(Window&amp; window) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> selectTarget(FrameBuffer&amp; frameBuffer) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> uploadFrameBuffer(FrameBuffer&amp; frameBuffer) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> destroyFrameBuffer(FrameBuffer&amp; frameBuffer) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> uploadRenderBuffer(RenderBuffer&amp; renderBuffer) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> destroyRenderBuffer(RenderBuffer&amp; renderBuffer) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> selectMaterial(Material&amp; material, <span class="keywordtype">bool</span> selectBase) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> uploadMaterial(Material&amp; material) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> destroyMaterial(Material&amp; material) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> setMaterialParameter(<span class="keyword">const</span> MaterialParameter&amp; parameter, <span class="keyword">const</span> MaterialValue&amp; value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> setMaterialParameter(<span class="keyword">const</span> MaterialParameter&amp; parameter, <span class="keywordtype">int</span> value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> setMaterialParameter(<span class="keyword">const</span> MaterialParameter&amp; parameter, <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> setMaterialParameter(<span class="keyword">const</span> MaterialParameter&amp; parameter, <span class="keyword">const</span> <a class="code" href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">Vector2</a>&amp; value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> setMaterialParameter(<span class="keyword">const</span> MaterialParameter&amp; parameter, <span class="keyword">const</span> <a class="code" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a>&amp; value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> setMaterialParameter(<span class="keyword">const</span> MaterialParameter&amp; parameter, <span class="keyword">const</span> <a class="code" href="namespacehect.html#ae7c23929fffcd04cd70b60cb39c6c059">Vector4</a>&amp; value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> setMaterialParameter(<span class="keyword">const</span> MaterialParameter&amp; parameter, <span class="keyword">const</span> Matrix4&amp; value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> setMaterialParameter(<span class="keyword">const</span> MaterialParameter&amp; parameter, Texture&amp; value) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> uploadTexture(Texture&amp; texture) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> destroyTexture(Texture&amp; texture) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    Image downloadTextureImage(<span class="keyword">const</span> Texture&amp; texture) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> selectMesh(Mesh&amp; mesh) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> uploadMesh(Mesh&amp; mesh) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> destroyMesh(Mesh&amp; mesh) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> draw() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> clear() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">void</span> bindTexture(Texture&amp; texture, <span class="keywordtype">unsigned</span> index);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="namespacehect.html#a215591da2bfec04dcff61075e2f6d439">PrimitiveType</a> _primitiveType { PrimitiveType_Triangles };</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="namespacehect.html#aa714481add0f1836c174e104190af7cd">IndexType</a> _indexType { <a class="code" href="namespacehect.html#aa714481add0f1836c174e104190af7cda60318f2811b548b0285d439c02c6c42b">IndexType_UInt8</a> };</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">size_t</span> _indexCount { 0 };</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Mesh.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderer.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#ifdef HECT_RENDERER_OPENGL</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">class </span>HECT_EXPORT OpenGLRenderer :</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">public</span> Renderer</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> initialize(Window&amp; window) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> beginFrame() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> endFrame() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> selectTarget(RenderTarget&amp; renderTarget) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> selectTarget(Window&amp; window) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> selectTarget(FrameBuffer&amp; frameBuffer) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> uploadFrameBuffer(FrameBuffer&amp; frameBuffer) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> destroyFrameBuffer(FrameBuffer&amp; frameBuffer) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> uploadRenderBuffer(RenderBuffer&amp; renderBuffer) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> destroyRenderBuffer(RenderBuffer&amp; renderBuffer) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> selectShader(Shader&amp; shader) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> uploadShader(Shader&amp; shader) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> destroyShader(Shader&amp; shader) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> setUniform(<span class="keyword">const</span> Uniform&amp; uniform, <span class="keyword">const</span> UniformValue&amp; value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> setUniform(<span class="keyword">const</span> Uniform&amp; uniform, <span class="keywordtype">int</span> value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> setUniform(<span class="keyword">const</span> Uniform&amp; uniform, <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> setUniform(<span class="keyword">const</span> Uniform&amp; uniform, <span class="keyword">const</span> <a class="code" href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">Vector2</a>&amp; value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> setUniform(<span class="keyword">const</span> Uniform&amp; uniform, <span class="keyword">const</span> <a class="code" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a>&amp; value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> setUniform(<span class="keyword">const</span> Uniform&amp; uniform, <span class="keyword">const</span> <a class="code" href="namespacehect.html#ae7c23929fffcd04cd70b60cb39c6c059">Vector4</a>&amp; value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> setUniform(<span class="keyword">const</span> Uniform&amp; uniform, <span class="keyword">const</span> Matrix4&amp; value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> setUniform(<span class="keyword">const</span> Uniform&amp; uniform, Texture&amp; value) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> uploadTexture(Texture&amp; texture) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> destroyTexture(Texture&amp; texture) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    Image downloadTextureImage(<span class="keyword">const</span> Texture&amp; texture) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> selectMesh(Mesh&amp; mesh) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> uploadMesh(Mesh&amp; mesh) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> destroyMesh(Mesh&amp; mesh) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> setCullMode(<a class="code" href="namespacehect.html#a07f97e784396e194a5eabcd5a328b35e">CullMode</a> cullMode) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> draw() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> clear() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> bindTexture(Texture&amp; texture, <span class="keywordtype">size_t</span> index);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="namespacehect.html#a215591da2bfec04dcff61075e2f6d439">PrimitiveType</a> _primitiveType { PrimitiveType_Triangles };</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="namespacehect.html#aa714481add0f1836c174e104190af7cd">IndexType</a> _indexType { <a class="code" href="namespacehect.html#aa714481add0f1836c174e104190af7cda60318f2811b548b0285d439c02c6c42b">IndexType_UInt8</a> };</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">size_t</span> _indexCount { 0 };</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;};</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="namespacehect_html_ae7c23929fffcd04cd70b60cb39c6c059"><div class="ttname"><a href="namespacehect.html#ae7c23929fffcd04cd70b60cb39c6c059">hect::Vector4</a></div><div class="ttdeci">Vector4T&lt; Real &gt; Vector4</div><div class="ttdoc">A 4-dimensional vector of real numbers. </div><div class="ttdef"><b>Definition:</b> Vector4.h:243</div></div>
-<div class="ttc" id="namespacehect_html_a4e950f119b12aff2884bc0d38c36dd19"><div class="ttname"><a href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">hect::Vector2</a></div><div class="ttdeci">Vector2T&lt; Real &gt; Vector2</div><div class="ttdoc">A 2-dimensional vector of real numbers. </div><div class="ttdef"><b>Definition:</b> Vector2.h:230</div></div>
-<div class="ttc" id="namespacehect_html_a215591da2bfec04dcff61075e2f6d439"><div class="ttname"><a href="namespacehect.html#a215591da2bfec04dcff61075e2f6d439">hect::PrimitiveType</a></div><div class="ttdeci">PrimitiveType</div><div class="ttdoc">How the primitives of a mesh are rendered. </div><div class="ttdef"><b>Definition:</b> Mesh.h:39</div></div>
-<div class="ttc" id="namespacehect_html_a41f52fe87f2c287d76f212d1683b148d"><div class="ttname"><a href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">hect::Vector3</a></div><div class="ttdeci">Vector3T&lt; Real &gt; Vector3</div><div class="ttdoc">A 3-dimensional vector of real numbers. </div><div class="ttdef"><b>Definition:</b> Vector3.h:239</div></div>
-<div class="ttc" id="namespacehect_html_aa714481add0f1836c174e104190af7cda60318f2811b548b0285d439c02c6c42b"><div class="ttname"><a href="namespacehect.html#aa714481add0f1836c174e104190af7cda60318f2811b548b0285d439c02c6c42b">hect::IndexType_UInt8</a></div><div class="ttdoc">An 8-bit unsigned integer. </div><div class="ttdef"><b>Definition:</b> Mesh.h:54</div></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="namespacehect_html_a07f97e784396e194a5eabcd5a328b35e"><div class="ttname"><a href="namespacehect.html#a07f97e784396e194a5eabcd5a328b35e">hect::CullMode</a></div><div class="ttdeci">CullMode</div><div class="ttdoc">Specifies the orientation of front-facing triangles. </div><div class="ttdef"><b>Definition:</b> CullMode.h:31</div></div>
+<div class="ttc" id="namespacehect_html_ae7c23929fffcd04cd70b60cb39c6c059"><div class="ttname"><a href="namespacehect.html#ae7c23929fffcd04cd70b60cb39c6c059">hect::Vector4</a></div><div class="ttdeci">Vector4T&lt; Real &gt; Vector4</div><div class="ttdoc">A 4-dimensional vector of real numbers. </div><div class="ttdef"><b>Definition:</b> Vector4.h:249</div></div>
+<div class="ttc" id="namespacehect_html_a4e950f119b12aff2884bc0d38c36dd19"><div class="ttname"><a href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">hect::Vector2</a></div><div class="ttdeci">Vector2T&lt; Real &gt; Vector2</div><div class="ttdoc">A 2-dimensional vector of real numbers. </div><div class="ttdef"><b>Definition:</b> Vector2.h:236</div></div>
+<div class="ttc" id="namespacehect_html_a215591da2bfec04dcff61075e2f6d439"><div class="ttname"><a href="namespacehect.html#a215591da2bfec04dcff61075e2f6d439">hect::PrimitiveType</a></div><div class="ttdeci">PrimitiveType</div><div class="ttdoc">How the primitives of a mesh are rendered. </div><div class="ttdef"><b>Definition:</b> Mesh.h:40</div></div>
+<div class="ttc" id="namespacehect_html_a41f52fe87f2c287d76f212d1683b148d"><div class="ttname"><a href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">hect::Vector3</a></div><div class="ttdeci">Vector3T&lt; Real &gt; Vector3</div><div class="ttdoc">A 3-dimensional vector of real numbers. </div><div class="ttdef"><b>Definition:</b> Vector3.h:245</div></div>
+<div class="ttc" id="namespacehect_html_aa714481add0f1836c174e104190af7cda60318f2811b548b0285d439c02c6c42b"><div class="ttname"><a href="namespacehect.html#aa714481add0f1836c174e104190af7cda60318f2811b548b0285d439c02c6c42b">hect::IndexType_UInt8</a></div><div class="ttdoc">An 8-bit unsigned integer. </div><div class="ttdef"><b>Definition:</b> Mesh.h:55</div></div>
 <div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="namespacehect_html_aa714481add0f1836c174e104190af7cd"><div class="ttname"><a href="namespacehect.html#aa714481add0f1836c174e104190af7cd">hect::IndexType</a></div><div class="ttdeci">IndexType</div><div class="ttdoc">The type of each index in an index sequence. </div><div class="ttdef"><b>Definition:</b> Mesh.h:50</div></div>
+<div class="ttc" id="namespacehect_html_aa714481add0f1836c174e104190af7cd"><div class="ttname"><a href="namespacehect.html#aa714481add0f1836c174e104190af7cd">hect::IndexType</a></div><div class="ttdeci">IndexType</div><div class="ttdoc">The type of each index in an index sequence. </div><div class="ttdef"><b>Definition:</b> Mesh.h:51</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

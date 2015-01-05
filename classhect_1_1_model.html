@@ -95,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>A collection of surfaces which are rendered.  
+<p>A collection of <a class="el" href="classhect_1_1_model_surface.html" title="A Mesh surface with a specific Material in a Model. ">ModelSurface</a>s which are rendered.  
  <a href="classhect_1_1_model.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_model_8h_source.html">Model.h</a>&gt;</code></p>
@@ -106,7 +106,7 @@ Inheritance diagram for hect::Model:</div>
   <img src="classhect_1_1_model.png" usemap="#hect::Model_map" alt=""/>
   <map id="hect::Model_map" name="hect::Model_map">
 <area href="classhect_1_1_component.html" alt="hect::Component&lt; Model &gt;" shape="rect" coords="0,56,164,80"/>
-<area href="classhect_1_1_component_base.html" title="Abstract base for components. " alt="hect::ComponentBase" shape="rect" coords="0,0,164,24"/>
+<area href="classhect_1_1_component_base.html" title="Abstract base for Component. " alt="hect::ComponentBase" shape="rect" coords="0,0,164,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -137,6 +137,14 @@ typedef std::function&lt; bool(const <br class="typebreak" />
 <tr class="memitem:a98245e9e925924b8c0788d2934c49f6b inherit pub_methods_classhect_1_1_component"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhect_1_1_entity.html">Entity</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#a98245e9e925924b8c0788d2934c49f6b">entity</a> () const</td></tr>
 <tr class="memdesc:a98245e9e925924b8c0788d2934c49f6b inherit pub_methods_classhect_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the entity of the component.  <a href="#a98245e9e925924b8c0788d2934c49f6b">More...</a><br /></td></tr>
 <tr class="separator:a98245e9e925924b8c0788d2934c49f6b inherit pub_methods_classhect_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4484f1f3407df1f26939da1f8a76c9a inherit pub_methods_classhect_1_1_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae4484f1f3407df1f26939da1f8a76c9a"></a>
+<a class="el" href="classhect_1_1_component.html">Component</a>&lt; <a class="el" href="classhect_1_1_model.html">Model</a> &gt;::Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#ae4484f1f3407df1f26939da1f8a76c9a">iterator</a> ()</td></tr>
+<tr class="memdesc:ae4484f1f3407df1f26939da1f8a76c9a inherit pub_methods_classhect_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a component iterator for the component. <br /></td></tr>
+<tr class="separator:ae4484f1f3407df1f26939da1f8a76c9a inherit pub_methods_classhect_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b00454a1777d751a354ecfe71072adf inherit pub_methods_classhect_1_1_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b00454a1777d751a354ecfe71072adf"></a>
+<a class="el" href="classhect_1_1_component.html">Component</a>&lt; <a class="el" href="classhect_1_1_model.html">Model</a> &gt;::ConstIterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#a9b00454a1777d751a354ecfe71072adf">iterator</a> () const</td></tr>
+<tr class="memdesc:a9b00454a1777d751a354ecfe71072adf inherit pub_methods_classhect_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a constant component iterator for the component. <br /></td></tr>
+<tr class="separator:a9b00454a1777d751a354ecfe71072adf inherit pub_methods_classhect_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18587ae5ec67b3d34d9371d3ae11f98f inherit pub_methods_classhect_1_1_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18587ae5ec67b3d34d9371d3ae11f98f"></a>
 <a class="el" href="namespacehect.html#a74474dc8aa2b27c1a3e54f09c21c9109">ComponentId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#a18587ae5ec67b3d34d9371d3ae11f98f">id</a> () const</td></tr>
 <tr class="memdesc:a18587ae5ec67b3d34d9371d3ae11f98f inherit pub_methods_classhect_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the id of the component. <br /></td></tr>
@@ -154,8 +162,8 @@ typedef std::function&lt; bool(const <br class="typebreak" />
 <tr class="separator:abbb282e83a7f87458b516edb26f58926 inherit pub_methods_classhect_1_1_component_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A collection of surfaces which are rendered. </p>
-<dl class="section note"><dt>Note</dt><dd>This class is a registered with the <a class="el" href="classhect_1_1_component_registry.html" title="Provides the ability to dynamically create components and component pools based on type information...">ComponentRegistry</a>. </dd></dl>
+<div class="textblock"><p>A collection of <a class="el" href="classhect_1_1_model_surface.html" title="A Mesh surface with a specific Material in a Model. ">ModelSurface</a>s which are rendered. </p>
+<dl class="section note"><dt>Note</dt><dd>This class is a registered with the <a class="el" href="classhect_1_1_component_registry.html" title="Provides the ability to dynamically create Components and ComponentPools based on type information...">ComponentRegistry</a>. </dd></dl>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a98b51e65230063464240807db282edd7"></a>
 <div class="memitem">
@@ -175,7 +183,7 @@ typedef std::function&lt; bool(const <br class="typebreak" />
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

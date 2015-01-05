@@ -105,9 +105,9 @@ Inheritance diagram for hect::Decoder:</div>
  <div class="center">
   <img src="classhect_1_1_decoder.png" usemap="#hect::Decoder_map" alt=""/>
   <map id="hect::Decoder_map" name="hect::Decoder_map">
-<area href="classhect_1_1_asset_decoder.html" title="Provides the functionality to decode an asset directly from an asset cache, automatically detecting i..." alt="hect::AssetDecoder" shape="rect" coords="0,56,128,80"/>
-<area href="classhect_1_1_binary_decoder.html" title="Provides access for decoding structured data from a binary stream. " alt="hect::BinaryDecoder" shape="rect" coords="138,56,266,80"/>
-<area href="classhect_1_1_json_decoder.html" title="Provides access for decoding structured data from a JSON value. " alt="hect::JsonDecoder" shape="rect" coords="276,56,404,80"/>
+<area href="classhect_1_1_asset_decoder.html" title="Provides the functionality to decode an Asset directly from an AssetCache, automatically detecting if..." alt="hect::AssetDecoder" shape="rect" coords="0,56,150,80"/>
+<area href="classhect_1_1_binary_decoder.html" title="Provides access for decoding structured data from a binary stream. " alt="hect::BinaryDecoder" shape="rect" coords="160,56,310,80"/>
+<area href="classhect_1_1_data_value_decoder.html" title="Provides access for decoding structured data from a DataValue. " alt="hect::DataValueDecoder" shape="rect" coords="320,56,470,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -232,7 +232,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Returns the asset cache to use to get needed assets from while decoding. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the decoder has no asset cache. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the decoder has no asset cache. </td></tr>
   </table>
   </dd>
 </dl>
@@ -264,12 +264,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section note"><dt>Note</dt><dd>Values decoded following this call will be decoded as elements from the array. Attempting to decode values past the end of the array will result in an error being thrown. Whether there are any more elements left in the array can be queried using <a class="el" href="classhect_1_1_decoder.html#aae2e9f180aebb5b5ba9b705f2d29be74" title="Returns whether there are more elements available to be decoded in the current array. ">hasMoreElements()</a>.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the next value to decode is not an array. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the next value to decode is not an array. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#ac58d94e17aca56408b203ce671c4cc9c">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#ae16f91194f5cd08b6f3d7589e8ab9f09">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#ac9f4c4d746b008e5bedd68cfc37ca3b9">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#ac58d94e17aca56408b203ce671c4cc9c">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#ae16f91194f5cd08b6f3d7589e8ab9f09">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a1a2629246d60337ed9d88827887a1c6c">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -298,12 +298,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section note"><dt>Note</dt><dd>The specific members of an object can be targeted using <a class="el" href="classhect_1_1_decoder.html#a8a1c0c22ed5bd1d2f93967a71e9866ae" title="Selects a specific member of the object. ">selectMember()</a>.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the next value to decode is not an object. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the next value to decode is not an object. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a8bcab74e7807fba2eed2d7edd2322388">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a2199498123cfa721139f64576dde02d8">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a8bcab74e7807fba2eed2d7edd2322388">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#ac33de28201e1d17f390357b27e81d766">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -331,12 +331,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Returns the raw binary stream. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the decoder is not reading from a binary stream. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the decoder is not reading from a binary stream. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a9ca30359362a9d66baa272518c1fb0a1">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#ae82a110c58d18627589ebae1dfcdd6b2">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#aee8b5e6cd75adf1a1ab666a608ca3f8c">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a9ca30359362a9d66baa272518c1fb0a1">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#ae82a110c58d18627589ebae1dfcdd6b2">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#aded120ff03f9c6956782790a2eaa80af">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -364,7 +364,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a boolean. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a04ccd8fbeb7706d681c157267a9533ed">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a34f85014c3bb2e201a7265c682a6320f">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a8f5183f5cfcc92f8c097eeb257b9e414">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a04ccd8fbeb7706d681c157267a9533ed">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a34f85014c3bb2e201a7265c682a6320f">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#aad217f14cd73fceab1cd77ca46214ab6">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -392,7 +392,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a 32-bit floating point number. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a9282a297db9f3eed37e804fa7d247337">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a66039482e85e4d1fe73f17c1e8323b66">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a6a33ff413d0a4cc490bd71b80ed6b680">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a9282a297db9f3eed37e804fa7d247337">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a66039482e85e4d1fe73f17c1e8323b66">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#ae00fd963de72ee9465d8b93ad3c9e5cb">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -420,7 +420,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a 64-bit floating point number. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#ada1c6b1a41c306fa7a953735d8b9269d">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a56b937fd1e8942b99c2c2aebbaf47f96">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a533c7e9b584d4a6cf1dc97bbc84726b9">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#ada1c6b1a41c306fa7a953735d8b9269d">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a56b937fd1e8942b99c2c2aebbaf47f96">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a818bfa0c56070554d0dde443b69fb4a9">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -448,7 +448,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a 16-bit signed integer. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a88e6d35d8067c86931bd71b7ea630ef1">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a2f4cbda355f2816bc8b90114aba43a58">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a4b86176118d7df8ae6211277b28d70fd">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a88e6d35d8067c86931bd71b7ea630ef1">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a2f4cbda355f2816bc8b90114aba43a58">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a2d83efafef4bebe3cdc97e049571ada0">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -476,7 +476,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a 32-bit signed integer. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#adab1b142a9cea784b7943eb71411f2f5">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a3547e887dbc6e5c187d28bac42eb353b">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a00541fc34c08ecb9e7839d6d1769c38b">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#adab1b142a9cea784b7943eb71411f2f5">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a3547e887dbc6e5c187d28bac42eb353b">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#ad9e9080daa8606e2eef01e92cdd5c59a">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -504,7 +504,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a 64-bit signed integer. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a7ddc49c6899bfce301a7b3da6b66fd24">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a94c9aa5fd70f2e68ec5f0ce6efcfe110">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a486c2870ce7a7edf5b3b51a4f6524cb6">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a7ddc49c6899bfce301a7b3da6b66fd24">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a94c9aa5fd70f2e68ec5f0ce6efcfe110">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a305e0539f9fd7f08b5e82ee1e66cb604">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -532,7 +532,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes an 8-bit signed integer. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a83a64ec999c4274cb500e1f9dd494343">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a71514da7fb0ef45219d0264e34082d14">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a787bd66f6272baa73b4a0ebea5d438fc">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a83a64ec999c4274cb500e1f9dd494343">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a71514da7fb0ef45219d0264e34082d14">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a091780153320dfb71415bb77767e122c">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -560,7 +560,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a string. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#acff2d4aec6922166801f4ab54bff3f1a">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a8faf5f38e7d77ad062744810178c5e77">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#ab4ad5f7204781f4914e9bcf8eb547573">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#acff2d4aec6922166801f4ab54bff3f1a">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a8faf5f38e7d77ad062744810178c5e77">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#abcca0ddb75d93cdcc793b716c698b533">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -588,7 +588,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a 16-bit unsigned integer. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a315084bbe0001401e86d05a23648c7f6">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a3566a08aa8fad7171c73ccd5b4d02b8a">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#ada687b19649e79612ffa08d7d2b4bf96">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a315084bbe0001401e86d05a23648c7f6">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a3566a08aa8fad7171c73ccd5b4d02b8a">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#aa43fab8fb153fe8f48fc7ba228f63198">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -616,7 +616,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a 32-bit unsigned integer. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#abde43d8ccbf270a26d2e131ae8f7f448">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#ad9ede9bfa824bed6dcf6edc807ffcb13">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#abcaeef1dfd235c6c79978000cae25e13">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#abde43d8ccbf270a26d2e131ae8f7f448">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#ad9ede9bfa824bed6dcf6edc807ffcb13">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a9a290b62aac41428d38c3d863be03975">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -644,7 +644,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes a 64-bit unsigned integer. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#aa7a90024d7b0b609e8691e250fb76c2e">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#ae9fb633d4afd11613ddbf5d246223218">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a08dcc43b60af410fe5ed429101eea5c5">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#aa7a90024d7b0b609e8691e250fb76c2e">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#ae9fb633d4afd11613ddbf5d246223218">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a68a5a0512a9261e111f61682507c50ea">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -672,7 +672,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Decodes an 8-bit unsigned integer. </p>
 <dl class="section return"><dt>Returns</dt><dd>The decoded value. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a94c75ba182186420ac520f711c556436">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#ae1dcf4ea660c06a2c7a12213aa2f6acf">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#ace5113806b58c605ee686acaad6231bc">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a94c75ba182186420ac520f711c556436">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#ae1dcf4ea660c06a2c7a12213aa2f6acf">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#ae7f8e4126d6345f1dbbd8b9bd0242aef">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -701,12 +701,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section note"><dt>Note</dt><dd>An array cannot be ended before all elements are decoded from it.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_decoder.html#a0ac46e693550f2a9d120d5515e04deff" title="Begins an array. ">beginArray()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_decoder.html#a0ac46e693550f2a9d120d5515e04deff" title="Begins an array. ">beginArray()</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a66f9bd7eae7eb403986471aa6334640b">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#a4897faea8a05ac32ca70642237d69131">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#aa8b3f5ee67bec97f1863939f70d947be">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a66f9bd7eae7eb403986471aa6334640b">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#a4897faea8a05ac32ca70642237d69131">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#aab65e91be7423a2963ca27864e5ac8d2">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -734,12 +734,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Ends an object. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_decoder.html#aa8a04ecf17f68680b6081718b1c94489" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_decoder.html#aa8a04ecf17f68680b6081718b1c94489" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a3a40a356bd58c95977bcecdf68b77522">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#a59602c6326103a44ffd7b81c4a5308ec">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a61ecf0613a70e89818d162b520f31004">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a3a40a356bd58c95977bcecdf68b77522">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#a59602c6326103a44ffd7b81c4a5308ec">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a68ff3a61b7696145061450fdf93f30f9">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -767,12 +767,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Returns whether there are more elements available to be decoded in the current array. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_decoder.html#a0ac46e693550f2a9d120d5515e04deff" title="Begins an array. ">beginArray()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_decoder.html#a0ac46e693550f2a9d120d5515e04deff" title="Begins an array. ">beginArray()</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a6d397e76842aa67d2d257412d5586c23">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#a1b88a60781d91c2309a25a1d51fe0b6d">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a6cae1bb8fe76ef4e4d6bfb00b1731bc0">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_binary_decoder.html#a6d397e76842aa67d2d257412d5586c23">hect::BinaryDecoder</a>, <a class="el" href="classhect_1_1_asset_decoder.html#a1b88a60781d91c2309a25a1d51fe0b6d">hect::AssetDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a89968293e7fd215616df473003b5ab5d">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -800,12 +800,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Returns the names of the members of the object. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_decoder.html#aa8a04ecf17f68680b6081718b1c94489" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_decoder.html#aa8a04ecf17f68680b6081718b1c94489" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a965818c50ac5411beaf70048371a9517">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#ab8d816b001e4dc3cf434401cbc82f779">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a68f44aa1be48d564904bfee33817530b">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a965818c50ac5411beaf70048371a9517">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#ab8d816b001e4dc3cf434401cbc82f779">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#a409ebbae430dff1fc718fa6551a6d3fc">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
@@ -842,19 +842,19 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section return"><dt>Returns</dt><dd>True if the member exists and was selected; false otherwise.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_decoder.html#aa8a04ecf17f68680b6081718b1c94489" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_decoder.html#aa8a04ecf17f68680b6081718b1c94489" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a4c90cd88e1fdd0cf7cdded266f081917">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a407b66d6f0ddfc79972f110568f8723e">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_json_decoder.html#a6ad6516c5ae41dc15621e3d7d07125de">hect::JsonDecoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_asset_decoder.html#a4c90cd88e1fdd0cf7cdded266f081917">hect::AssetDecoder</a>, <a class="el" href="classhect_1_1_binary_decoder.html#a407b66d6f0ddfc79972f110568f8723e">hect::BinaryDecoder</a>, and <a class="el" href="classhect_1_1_data_value_decoder.html#ac7b557e7dad7628b3ac3185119661d75">hect::DataValueDecoder</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

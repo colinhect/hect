@@ -95,41 +95,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Provides the ability to dynamically create systems based on type information.  
+<p>Provides the ability to dynamically create <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a>s based on type information.  
  <a href="classhect_1_1_system_registry.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_system_registry_8h_source.html">SystemRegistry.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a8c5c6e0d16935b1877365d081d890ea7"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classhect_1_1_system.html">System</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#a8c5c6e0d16935b1877365d081d890ea7">create</a> (<a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a> typeId, <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene)</td></tr>
-<tr class="memdesc:a8c5c6e0d16935b1877365d081d890ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a system of the specified type.  <a href="#a8c5c6e0d16935b1877365d081d890ea7">More...</a><br /></td></tr>
-<tr class="separator:a8c5c6e0d16935b1877365d081d890ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27fc3bfb043d1a18fc84b37b9010a775"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classhect_1_1_system.html">System</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#a27fc3bfb043d1a18fc84b37b9010a775">create</a> (<a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a> typeId, <a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene)</td></tr>
+<tr class="memdesc:a27fc3bfb043d1a18fc84b37b9010a775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> of the specified type.  <a href="#a27fc3bfb043d1a18fc84b37b9010a775">More...</a><br /></td></tr>
+<tr class="separator:a27fc3bfb043d1a18fc84b37b9010a775"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a872ab9a043737877a4f3b41fcc3e3e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#a1a872ab9a043737877a4f3b41fcc3e3e">typeIdOf</a> (std::type_index typeIndex)</td></tr>
-<tr class="memdesc:a1a872ab9a043737877a4f3b41fcc3e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the system type id for the given system type index.  <a href="#a1a872ab9a043737877a4f3b41fcc3e3e">More...</a><br /></td></tr>
+<tr class="memdesc:a1a872ab9a043737877a4f3b41fcc3e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type id for the specified <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type index.  <a href="#a1a872ab9a043737877a4f3b41fcc3e3e">More...</a><br /></td></tr>
 <tr class="separator:a1a872ab9a043737877a4f3b41fcc3e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51c496ba11c42b2d5cef2730d381c32f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#a51c496ba11c42b2d5cef2730d381c32f">typeIdOf</a> (const std::string &amp;typeName)</td></tr>
-<tr class="memdesc:a51c496ba11c42b2d5cef2730d381c32f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the system type id for the given system type name.  <a href="#a51c496ba11c42b2d5cef2730d381c32f">More...</a><br /></td></tr>
+<tr class="memdesc:a51c496ba11c42b2d5cef2730d381c32f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type id with the specified <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type name.  <a href="#a51c496ba11c42b2d5cef2730d381c32f">More...</a><br /></td></tr>
 <tr class="separator:a51c496ba11c42b2d5cef2730d381c32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab72d91abd0aeb3cb0e170b4c5f62995a"><td class="memItemLeft" align="right" valign="top">static const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#ab72d91abd0aeb3cb0e170b4c5f62995a">typeNameOf</a> (<a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a> typeId)</td></tr>
-<tr class="memdesc:ab72d91abd0aeb3cb0e170b4c5f62995a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type name of the system type of the specified type id.  <a href="#ab72d91abd0aeb3cb0e170b4c5f62995a">More...</a><br /></td></tr>
+<tr class="memdesc:ab72d91abd0aeb3cb0e170b4c5f62995a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type name with the specified SystemTypeId.  <a href="#ab72d91abd0aeb3cb0e170b4c5f62995a">More...</a><br /></td></tr>
 <tr class="separator:ab72d91abd0aeb3cb0e170b4c5f62995a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab85a417acdbfe4d4a2954bcc923dbe5d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#ab85a417acdbfe4d4a2954bcc923dbe5d">isRegisteredTypeId</a> (<a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a> typeId)</td></tr>
-<tr class="memdesc:ab85a417acdbfe4d4a2954bcc923dbe5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the specified type id is the type id of a registered system type.  <a href="#ab85a417acdbfe4d4a2954bcc923dbe5d">More...</a><br /></td></tr>
+<tr class="memdesc:ab85a417acdbfe4d4a2954bcc923dbe5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the specified type id is registered with a <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type.  <a href="#ab85a417acdbfe4d4a2954bcc923dbe5d">More...</a><br /></td></tr>
 <tr class="separator:ab85a417acdbfe4d4a2954bcc923dbe5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55531e0468020361fbe52d719498225c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a55531e0468020361fbe52d719498225c"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#a55531e0468020361fbe52d719498225c">registerType</a> ()</td></tr>
-<tr class="memdesc:a55531e0468020361fbe52d719498225c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a system type.  <a href="#a55531e0468020361fbe52d719498225c">More...</a><br /></td></tr>
+<tr class="memdesc:a55531e0468020361fbe52d719498225c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type.  <a href="#a55531e0468020361fbe52d719498225c">More...</a><br /></td></tr>
 <tr class="separator:a55531e0468020361fbe52d719498225c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ae55b9cfa180498f01c1f568a2cb24b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a2ae55b9cfa180498f01c1f568a2cb24b"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#a2ae55b9cfa180498f01c1f568a2cb24b">typeIdOf</a> ()</td></tr>
-<tr class="memdesc:a2ae55b9cfa180498f01c1f568a2cb24b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the system type id for the given system type.  <a href="#a2ae55b9cfa180498f01c1f568a2cb24b">More...</a><br /></td></tr>
+<tr class="memdesc:a2ae55b9cfa180498f01c1f568a2cb24b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type id for the specified <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type.  <a href="#a2ae55b9cfa180498f01c1f568a2cb24b">More...</a><br /></td></tr>
 <tr class="separator:a2ae55b9cfa180498f01c1f568a2cb24b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Provides the ability to dynamically create systems based on type information. </p>
+<div class="textblock"><p>Provides the ability to dynamically create <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a>s based on type information. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a8c5c6e0d16935b1877365d081d890ea7"></a>
+<a class="anchor" id="a27fc3bfb043d1a18fc84b37b9010a775"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -141,6 +141,12 @@ Static Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a>&#160;</td>
           <td class="paramname"><em>typeId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
+          <td class="paramname"><em>engine</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -161,17 +167,18 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a system of the specified type. </p>
+<p>Creates a <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> of the specified type. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeId</td><td>The type id representing the type of system to create. </td></tr>
+    <tr><td class="paramname">engine</td><td>The engine. </td></tr>
     <tr><td class="paramname">scene</td><td>The scene that the system is being created for.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified type id does not correspond to a registered system type. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified type id does not correspond to a registered system type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -200,7 +207,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns whether the specified type id is the type id of a registered system type. </p>
+<p>Returns whether the specified type id is registered with a <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeId</td><td>The type id to check.</td></tr>
@@ -234,7 +241,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Registers a system type. </p>
+<p>Registers a <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type. </p>
 <dl class="section warning"><dt>Warning</dt><dd>The type must be registered with <a class="el" href="classhect_1_1_type.html" title="A reflected type. ">Type</a>. </dd></dl>
 
 </div>
@@ -261,7 +268,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the system type id for the given system type index. </p>
+<p>Returns the type id for the specified <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type index. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeIndex</td><td>The type index of the system type to get the id of.</td></tr>
@@ -270,7 +277,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified type index does not correspond to a registered system type. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified type index does not correspond to a registered system type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -299,7 +306,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the system type id for the given system type name. </p>
+<p>Returns the type id with the specified <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type name. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeName</td><td>The type name of the system type to get the id of.</td></tr>
@@ -308,7 +315,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified type name does not correspond to a registered system type. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified type name does not correspond to a registered system type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -338,10 +345,10 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the system type id for the given system type. </p>
+<p>Returns the type id for the specified <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified type is not a registered system type. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified type is not a registered system type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -370,7 +377,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the type name of the system type of the specified type id. </p>
+<p>Returns the <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type name with the specified SystemTypeId. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeId</td><td>The type id of the system type to get the type name of. </td></tr>
@@ -383,7 +390,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

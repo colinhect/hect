@@ -1,29 +1,16 @@
 var searchData=
 [
   ['joystick',['Joystick',['../classhect_1_1_joystick.html',1,'hect']]],
+  ['joystick',['joystick',['../classhect_1_1_platform.html#a331f6621d7ee6a0b89ed19a0691cba74',1,'hect::Platform']]],
   ['joystickaxis',['joystickAxis',['../classhect_1_1_input_axis_binding.html#a485f266aa72c84cf313e70ab2f5259ff',1,'hect::InputAxisBinding::joystickAxis()'],['../namespacehect.html#a4677abb6d90728ad82625761a6fae042',1,'hect::JoystickAxis()']]],
-  ['joystickaxisdeadzone',['joystickAxisDeadZone',['../classhect_1_1_input_axis_binding.html#a47ffa1284fd0b06552a5dcc6e96225d0',1,'hect::InputAxisBinding']]],
+  ['joystickaxisdeadzone',['joystickAxisDeadZone',['../classhect_1_1_input_axis_binding.html#ab405134272304671540ae3665e9f1b52',1,'hect::InputAxisBinding']]],
   ['joystickbutton',['joystickButton',['../classhect_1_1_input_axis_binding.html#af0fafdcaaff3f5c9c6bd7b9143c43754',1,'hect::InputAxisBinding::joystickButton()'],['../namespacehect.html#aed949568939a63b77ea9d55ea61562df',1,'hect::JoystickButton()']]],
   ['joystickevent',['JoystickEvent',['../classhect_1_1_joystick_event.html',1,'hect']]],
   ['joystickeventtype',['JoystickEventType',['../namespacehect.html#acec166fbe4a11bacf3a16b0621086d10',1,'hect']]],
   ['joystickeventtype_5faxismotion',['JoystickEventType_AxisMotion',['../namespacehect.html#acec166fbe4a11bacf3a16b0621086d10a9fa2b006a565dc5e071bc202fd25234a',1,'hect']]],
   ['joystickeventtype_5fbuttondown',['JoystickEventType_ButtonDown',['../namespacehect.html#acec166fbe4a11bacf3a16b0621086d10a8e5c6f36263ad1b117aa227c9f4d7d6f',1,'hect']]],
   ['joystickeventtype_5fbuttonup',['JoystickEventType_ButtonUp',['../namespacehect.html#acec166fbe4a11bacf3a16b0621086d10a86bd63beac793072fb97715af40b3e30',1,'hect']]],
-  ['joystickindex',['joystickIndex',['../classhect_1_1_input_axis_binding.html#ae60de6736606d92b805a2600c7b4ea37',1,'hect::InputAxisBinding::joystickIndex()'],['../classhect_1_1_joystick_event.html#a4ebd2237f827bc4beb4917e70222e8b2',1,'hect::JoystickEvent::joystickIndex()']]],
+  ['joystickindex',['joystickIndex',['../classhect_1_1_input_axis_binding.html#a9fba76b87b73bc44b70d1b5a3cccf9c6',1,'hect::InputAxisBinding::joystickIndex()'],['../namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d',1,'hect::JoystickIndex()']]],
   ['joysticks',['joysticks',['../classhect_1_1_platform.html#af1a779247aaf7d9aedc637f38659a908',1,'hect::Platform']]],
-  ['joysticksequence',['JoystickSequence',['../classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b',1,'hect::Platform']]],
-  ['jsondecoder',['JsonDecoder',['../classhect_1_1_json_decoder.html',1,'hect']]],
-  ['jsondecoder',['JsonDecoder',['../classhect_1_1_json_decoder.html#acdff78edaaab72c28999460cb91cdce2',1,'hect::JsonDecoder::JsonDecoder(const JsonValue &amp;jsonValue)'],['../classhect_1_1_json_decoder.html#a5a7bbdfecefee3cec77968a94b97045a',1,'hect::JsonDecoder::JsonDecoder(const JsonValue &amp;jsonValue, AssetCache &amp;assetCache)']]],
-  ['jsonencoder',['JsonEncoder',['../classhect_1_1_json_encoder.html',1,'hect']]],
-  ['jsonencoder',['JsonEncoder',['../classhect_1_1_json_encoder.html#aebc34e25df25128e33957b857c594aa3',1,'hect::JsonEncoder']]],
-  ['jsonvalue',['JsonValue',['../classhect_1_1_json_value.html',1,'hect']]],
-  ['jsonvalue',['JsonValue',['../classhect_1_1_json_value.html#ab1ce25b24fe0d33550101174c9e98f5e',1,'hect::JsonValue::JsonValue()'],['../classhect_1_1_json_value.html#aa281293300166a775ebc2d24b2138217',1,'hect::JsonValue::JsonValue(JsonValueType type)'],['../classhect_1_1_json_value.html#a7904bfdbcf2ebca78b539aca25480acf',1,'hect::JsonValue::JsonValue(bool value)'],['../classhect_1_1_json_value.html#aa4216ebdc9c0a7da79c59d51eb0e01d7',1,'hect::JsonValue::JsonValue(int value)'],['../classhect_1_1_json_value.html#a6cbde9db5d0557b3a727c82599ecdc13',1,'hect::JsonValue::JsonValue(unsigned value)'],['../classhect_1_1_json_value.html#a1966ce4be2b05e6a56c124e5c5373ea7',1,'hect::JsonValue::JsonValue(double value)'],['../classhect_1_1_json_value.html#a05ae0908c3c64a11d0123808aa8d6589',1,'hect::JsonValue::JsonValue(const Vector2 &amp;value)'],['../classhect_1_1_json_value.html#a0cca4ed838adfedaef3572cd876423d5',1,'hect::JsonValue::JsonValue(const Vector3 &amp;value)'],['../classhect_1_1_json_value.html#a0e3601cbad77697757c62a294b03b901',1,'hect::JsonValue::JsonValue(const Vector4 &amp;value)'],['../classhect_1_1_json_value.html#a3675d8281b7f82ef1b315de1abcdcf1a',1,'hect::JsonValue::JsonValue(const Matrix4 &amp;value)'],['../classhect_1_1_json_value.html#ae5c221cd2b6aec0fc75e842fd70bfb07',1,'hect::JsonValue::JsonValue(const Quaternion &amp;value)'],['../classhect_1_1_json_value.html#a97623ab8d279a3abd26e095c09280e39',1,'hect::JsonValue::JsonValue(const char *value)'],['../classhect_1_1_json_value.html#ac4219018307dea58bc847329cdc2a6b4',1,'hect::JsonValue::JsonValue(const std::string &amp;value)'],['../classhect_1_1_json_value.html#a246281f24daa6c826ff8eb41163e9ee1',1,'hect::JsonValue::JsonValue(const JsonValue &amp;jsonValue)'],['../classhect_1_1_json_value.html#a384c4b2660965189e7378a4c966f58f5',1,'hect::JsonValue::JsonValue(JsonValue &amp;&amp;jsonValue)']]],
-  ['jsonvalues',['jsonValues',['../classhect_1_1_json_encoder.html#a19603d6505644eea8c1c09f3e9ae4cc3',1,'hect::JsonEncoder']]],
-  ['jsonvaluetype',['JsonValueType',['../namespacehect.html#add5c42ee412075f8cdec8e2304ae6196',1,'hect']]],
-  ['jsonvaluetype_5farray',['JsonValueType_Array',['../namespacehect.html#add5c42ee412075f8cdec8e2304ae6196a71860ecb120d646f7c5b280ca731a74b',1,'hect']]],
-  ['jsonvaluetype_5fbool',['JsonValueType_Bool',['../namespacehect.html#add5c42ee412075f8cdec8e2304ae6196a48464ba4b4de4c3b77f45e734e1412a8',1,'hect']]],
-  ['jsonvaluetype_5fnull',['JsonValueType_Null',['../namespacehect.html#add5c42ee412075f8cdec8e2304ae6196a70ae8b000d3d50c6faf8b47d2e8da299',1,'hect']]],
-  ['jsonvaluetype_5fnumber',['JsonValueType_Number',['../namespacehect.html#add5c42ee412075f8cdec8e2304ae6196a81a6ad10823ce7d43e60d85bf027cc8d',1,'hect']]],
-  ['jsonvaluetype_5fobject',['JsonValueType_Object',['../namespacehect.html#add5c42ee412075f8cdec8e2304ae6196a197f5bb1b807dcac19b11a60d60ef198',1,'hect']]],
-  ['jsonvaluetype_5fstring',['JsonValueType_String',['../namespacehect.html#add5c42ee412075f8cdec8e2304ae6196aed5f004f9911a4d31dec5a9202f96abc',1,'hect']]]
+  ['joysticksequence',['JoystickSequence',['../classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b',1,'hect::Platform']]]
 ];

@@ -187,7 +187,13 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 <dl class="section warning"><dt>Warning</dt><dd>The write directory must first be set using the <a class="el" href="classhect_1_1_file_system.html#a1bdc9ad140ffdfa77017727acbadf5fd" title="Sets the directory where write access is allowed and directed to. ">setWriteDirectory()</a> method.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The path to the directory to create relative to the write directory path. </td></tr>
+    <tr><td class="paramname">path</td><td>The path to the directory to create relative to the write directory path.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_i_o_error.html" title="A error was encountered during an IO operation. ">IOError</a></td><td>If the directory could not be created. </td></tr>
   </table>
   </dd>
 </dl>
@@ -322,7 +328,13 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td><a class="el" href="classhect_1_1_path.html" title="A path to a file or directory. ">Path</a> to the directory or archive to mount. </td></tr>
-    <tr><td class="paramname">mountPoint</td><td>The point to mount the path to. </td></tr>
+    <tr><td class="paramname">mountPoint</td><td>The point to mount the path to.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_i_o_error.html" title="A error was encountered during an IO operation. ">IOError</a></td><td>If the archive could not be mounted. </td></tr>
   </table>
   </dd>
 </dl>
@@ -358,7 +370,13 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A stream for the opened file. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A stream for the opened file.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_i_o_error.html" title="A error was encountered during an IO operation. ">IOError</a></td><td>If the file could not be opened. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -392,7 +410,13 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A stream for the opened file. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A stream for the opened file.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_i_o_error.html" title="A error was encountered during an IO operation. ">IOError</a></td><td>If the file could not be opened. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -423,7 +447,13 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 <dl class="section warning"><dt>Warning</dt><dd>The write directory mustfirst be set using the <a class="el" href="classhect_1_1_file_system.html#a1bdc9ad140ffdfa77017727acbadf5fd" title="Sets the directory where write access is allowed and directed to. ">setWriteDirectory()</a> method.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The path to the file or directory to remove relative to the write directory path. </td></tr>
+    <tr><td class="paramname">path</td><td>The path to the file or directory to remove relative to the write directory path.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_i_o_error.html" title="A error was encountered during an IO operation. ">IOError</a></td><td>If the file or directory could not be removed. </td></tr>
   </table>
   </dd>
 </dl>
@@ -455,7 +485,13 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 <p>Sets the directory where write access is allowed and directed to. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>The path to the directory to direct write access. </td></tr>
+    <tr><td class="paramname">path</td><td>The path to the directory to direct write access.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_i_o_error.html" title="A error was encountered during an IO operation. ">IOError</a></td><td>If the write directory could not be set. </td></tr>
   </table>
   </dd>
 </dl>
@@ -465,7 +501,7 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -95,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Provides the ability to dynamically create components and component pools based on type information.  
+<p>Provides the ability to dynamically create <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a>s and <a class="el" href="classhect_1_1_component_pool.html" title="A pool of Components of a specific type within a Scene. ">ComponentPool</a>s based on type information.  
  <a href="classhect_1_1_component_registry.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_component_registry_8h_source.html">ComponentRegistry.h</a>&gt;</code></p>
@@ -104,35 +104,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a8a17fde0c354892279199e821296ffdf"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr<br class="typebreak" />
 &lt; <a class="el" href="classhect_1_1_component_base.html">ComponentBase</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_registry.html#a8a17fde0c354892279199e821296ffdf">create</a> (<a class="el" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId)</td></tr>
-<tr class="memdesc:a8a17fde0c354892279199e821296ffdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a component of the specified type.  <a href="#a8a17fde0c354892279199e821296ffdf">More...</a><br /></td></tr>
+<tr class="memdesc:a8a17fde0c354892279199e821296ffdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> of the specified type.  <a href="#a8a17fde0c354892279199e821296ffdf">More...</a><br /></td></tr>
 <tr class="separator:a8a17fde0c354892279199e821296ffdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f308606718eda530d0c9f4d6f68fe12"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr<br class="typebreak" />
-&lt; ComponentPoolBase &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_registry.html#a8f308606718eda530d0c9f4d6f68fe12">createPool</a> (<a class="el" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId, <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene)</td></tr>
-<tr class="memdesc:a8f308606718eda530d0c9f4d6f68fe12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a component pool of the specified type.  <a href="#a8f308606718eda530d0c9f4d6f68fe12">More...</a><br /></td></tr>
+&lt; <a class="el" href="classhect_1_1_component_pool_base.html">ComponentPoolBase</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_registry.html#a8f308606718eda530d0c9f4d6f68fe12">createPool</a> (<a class="el" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId, <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene)</td></tr>
+<tr class="memdesc:a8f308606718eda530d0c9f4d6f68fe12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classhect_1_1_component_pool.html" title="A pool of Components of a specific type within a Scene. ">ComponentPool</a> of the specified type.  <a href="#a8f308606718eda530d0c9f4d6f68fe12">More...</a><br /></td></tr>
 <tr class="separator:a8f308606718eda530d0c9f4d6f68fe12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a994c3608b10881602579f7bd5e3c97c9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_registry.html#a994c3608b10881602579f7bd5e3c97c9">typeIdOf</a> (std::type_index typeIndex)</td></tr>
-<tr class="memdesc:a994c3608b10881602579f7bd5e3c97c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the component type id for the given component type index.  <a href="#a994c3608b10881602579f7bd5e3c97c9">More...</a><br /></td></tr>
+<tr class="memdesc:a994c3608b10881602579f7bd5e3c97c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type id for the specified <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type index.  <a href="#a994c3608b10881602579f7bd5e3c97c9">More...</a><br /></td></tr>
 <tr class="separator:a994c3608b10881602579f7bd5e3c97c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b7ba9938a9b625029f0a9f06d19621d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_registry.html#a2b7ba9938a9b625029f0a9f06d19621d">typeIdOf</a> (const std::string &amp;typeName)</td></tr>
-<tr class="memdesc:a2b7ba9938a9b625029f0a9f06d19621d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the component type id for the given component type name.  <a href="#a2b7ba9938a9b625029f0a9f06d19621d">More...</a><br /></td></tr>
+<tr class="memdesc:a2b7ba9938a9b625029f0a9f06d19621d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type id with the specified <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type name.  <a href="#a2b7ba9938a9b625029f0a9f06d19621d">More...</a><br /></td></tr>
 <tr class="separator:a2b7ba9938a9b625029f0a9f06d19621d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f0c63aef371d2b646bc331190690153"><td class="memItemLeft" align="right" valign="top">static const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_registry.html#a2f0c63aef371d2b646bc331190690153">typeNameOf</a> (<a class="el" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId)</td></tr>
-<tr class="memdesc:a2f0c63aef371d2b646bc331190690153"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type name of the component type of the specified type id.  <a href="#a2f0c63aef371d2b646bc331190690153">More...</a><br /></td></tr>
+<tr class="memdesc:a2f0c63aef371d2b646bc331190690153"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type name with the specified type id.  <a href="#a2f0c63aef371d2b646bc331190690153">More...</a><br /></td></tr>
 <tr class="separator:a2f0c63aef371d2b646bc331190690153"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca310eaac4049b1ee97b725cc72ae64c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_registry.html#aca310eaac4049b1ee97b725cc72ae64c">isRegisteredTypeId</a> (<a class="el" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId)</td></tr>
-<tr class="memdesc:aca310eaac4049b1ee97b725cc72ae64c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the specified type id is the type id of a registered component type.  <a href="#aca310eaac4049b1ee97b725cc72ae64c">More...</a><br /></td></tr>
+<tr class="memdesc:aca310eaac4049b1ee97b725cc72ae64c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the specified type id is registered with a <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type.  <a href="#aca310eaac4049b1ee97b725cc72ae64c">More...</a><br /></td></tr>
 <tr class="separator:aca310eaac4049b1ee97b725cc72ae64c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a941873c67d023618c4a070774db05d63"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a941873c67d023618c4a070774db05d63"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_registry.html#a941873c67d023618c4a070774db05d63">registerType</a> ()</td></tr>
-<tr class="memdesc:a941873c67d023618c4a070774db05d63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a component type.  <a href="#a941873c67d023618c4a070774db05d63">More...</a><br /></td></tr>
+<tr class="memdesc:a941873c67d023618c4a070774db05d63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type.  <a href="#a941873c67d023618c4a070774db05d63">More...</a><br /></td></tr>
 <tr class="separator:a941873c67d023618c4a070774db05d63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae2339a442e011d50fb62e380892d76c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aae2339a442e011d50fb62e380892d76c"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_registry.html#aae2339a442e011d50fb62e380892d76c">typeIdOf</a> ()</td></tr>
-<tr class="memdesc:aae2339a442e011d50fb62e380892d76c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the component type id for the given component type.  <a href="#aae2339a442e011d50fb62e380892d76c">More...</a><br /></td></tr>
+<tr class="memdesc:aae2339a442e011d50fb62e380892d76c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type id for the specified <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type.  <a href="#aae2339a442e011d50fb62e380892d76c">More...</a><br /></td></tr>
 <tr class="separator:aae2339a442e011d50fb62e380892d76c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Provides the ability to dynamically create components and component pools based on type information. </p>
+<div class="textblock"><p>Provides the ability to dynamically create <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a>s and <a class="el" href="classhect_1_1_component_pool.html" title="A pool of Components of a specific type within a Scene. ">ComponentPool</a>s based on type information. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a8a17fde0c354892279199e821296ffdf"></a>
 <div class="memitem">
@@ -156,7 +156,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a component of the specified type. </p>
+<p>Creates a <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> of the specified type. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeId</td><td>The type id representing the type of component to create.</td></tr>
@@ -165,7 +165,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified type id does not correspond to a registered component type. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified type id does not correspond to a registered component type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -180,7 +180,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::shared_ptr&lt;ComponentPoolBase&gt; hect::ComponentRegistry::createPool </td>
+          <td class="memname">static std::shared_ptr&lt;<a class="el" href="classhect_1_1_component_pool_base.html">ComponentPoolBase</a>&gt; hect::ComponentRegistry::createPool </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a>&#160;</td>
           <td class="paramname"><em>typeId</em>, </td>
@@ -204,7 +204,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a component pool of the specified type. </p>
+<p>Creates a <a class="el" href="classhect_1_1_component_pool.html" title="A pool of Components of a specific type within a Scene. ">ComponentPool</a> of the specified type. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeId</td><td>The type id representing the type of component pool to create. </td></tr>
@@ -214,7 +214,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified type id does not correspond to a registered component type. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified type id does not correspond to a registered component type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -243,7 +243,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns whether the specified type id is the type id of a registered component type. </p>
+<p>Returns whether the specified type id is registered with a <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeId</td><td>The type id to check.</td></tr>
@@ -277,7 +277,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Registers a component type. </p>
+<p>Registers a <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type. </p>
 <dl class="section warning"><dt>Warning</dt><dd>The type must be registered with <a class="el" href="classhect_1_1_type.html" title="A reflected type. ">Type</a>. </dd></dl>
 
 </div>
@@ -304,7 +304,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the component type id for the given component type index. </p>
+<p>Returns the type id for the specified <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type index. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeIndex</td><td>The type index of the component type to get the id of.</td></tr>
@@ -313,7 +313,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified type index does not correspond to a registered component type. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified type index does not correspond to a registered component type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -342,7 +342,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the component type id for the given component type name. </p>
+<p>Returns the type id with the specified <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type name. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeName</td><td>The type name of the component type to get the id of.</td></tr>
@@ -351,7 +351,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified type name does not correspond to a registered component type. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified type name does not correspond to a registered component type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -381,10 +381,10 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the component type id for the given component type. </p>
+<p>Returns the type id for the specified <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified type is not a registered component type. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified type is not a registered component type. </td></tr>
   </table>
   </dd>
 </dl>
@@ -413,7 +413,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the type name of the component type of the specified type id. </p>
+<p>Returns the <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> type name with the specified type id. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">typeId</td><td>The type id of the component type to get the type name of. </td></tr>
@@ -426,7 +426,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

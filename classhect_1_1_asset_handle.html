@@ -95,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>A reference-counted handle for an asset.  
+<p>A reference-counted handle for an <a class="el" href="classhect_1_1_asset.html" title="Inheriting from this allows for caching/loading using an AssetCache. ">Asset</a>.  
  <a href="classhect_1_1_asset_handle.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_asset_handle_8h_source.html">AssetHandle.h</a>&gt;</code></p>
@@ -106,9 +106,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_handle.html#a3e08c801ae36574e819ddfa1badc861f">AssetHandle</a> ()</td></tr>
 <tr class="memdesc:a3e08c801ae36574e819ddfa1badc861f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty asset handle. <br /></td></tr>
 <tr class="separator:a3e08c801ae36574e819ddfa1badc861f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e0ed3df1f325d0953e6229b75762c7e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_handle.html#a6e0ed3df1f325d0953e6229b75762c7e">AssetHandle</a> (T *asset)</td></tr>
-<tr class="memdesc:a6e0ed3df1f325d0953e6229b75762c7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an asset handle.  <a href="#a6e0ed3df1f325d0953e6229b75762c7e">More...</a><br /></td></tr>
-<tr class="separator:a6e0ed3df1f325d0953e6229b75762c7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b7ebed9e173e5d2441526e2521b5a0a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_handle.html#a2b7ebed9e173e5d2441526e2521b5a0a">AssetHandle</a> (T *asset, bool owned=true)</td></tr>
+<tr class="memdesc:a2b7ebed9e173e5d2441526e2521b5a0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an asset handle.  <a href="#a2b7ebed9e173e5d2441526e2521b5a0a">More...</a><br /></td></tr>
+<tr class="separator:a2b7ebed9e173e5d2441526e2521b5a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3909b0e1f510deef631d5806d9c679f8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset_handle.html#a3909b0e1f510deef631d5806d9c679f8">AssetHandle</a> (const std::shared_ptr&lt; <a class="el" href="classhect_1_1_asset_entry.html">AssetEntry</a>&lt; T &gt;&gt; &amp;entry)</td></tr>
 <tr class="memdesc:a3909b0e1f510deef631d5806d9c679f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an asset handle.  <a href="#a3909b0e1f510deef631d5806d9c679f8">More...</a><br /></td></tr>
 <tr class="separator:a3909b0e1f510deef631d5806d9c679f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,10 +136,10 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 class hect::AssetHandle&lt; T &gt;</h3>
 
-<p>A reference-counted handle for an asset. </p>
+<p>A reference-counted handle for an <a class="el" href="classhect_1_1_asset.html" title="Inheriting from this allows for caching/loading using an AssetCache. ">Asset</a>. </p>
 <dl class="section note"><dt>Note</dt><dd>An asset handle may reference an asset which was loaded from the file system and is cached in an asset cache. Alternatively, it may reference a manually created asset. A handle works much like a smart pointer. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a6e0ed3df1f325d0953e6229b75762c7e"></a>
+<a class="anchor" id="a2b7ebed9e173e5d2441526e2521b5a0a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -149,8 +149,18 @@ template&lt;typename T&gt; </div>
           <td class="memname"><a class="el" href="classhect_1_1_asset_handle.html">hect::AssetHandle</a>&lt; T &gt;::<a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a> </td>
           <td>(</td>
           <td class="paramtype">T *&#160;</td>
-          <td class="paramname"><em>asset</em></td><td>)</td>
+          <td class="paramname"><em>asset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>owned</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -158,7 +168,8 @@ template&lt;typename T&gt; </div>
 <p>Constructs an asset handle. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">asset</td><td>The asset (the lifetime of the asset will be owned by the handle). </td></tr>
+    <tr><td class="paramname">asset</td><td>A pointer to the asset. </td></tr>
+    <tr><td class="paramname">owned</td><td>Whether the lifetime of the asset should be owned by the handle. </td></tr>
   </table>
   </dd>
 </dl>
@@ -236,7 +247,8 @@ template&lt;typename T&gt; </div>
 <p>Returns a reference to the asset. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the handle does not refer to an asset or if the referred asset failed to load. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the handle does not refer to an asset. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_fatal_error.html" title="An unrecoverable error was encountered. ">FatalError</a></td><td>If the asset failed to load. </td></tr>
   </table>
   </dd>
 </dl>
@@ -261,7 +273,8 @@ template&lt;typename T&gt; </div>
 <p>Provides pointer-like access to the asset. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the handle does not refer to an asset or if the referred asset failed to load. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the handle does not refer to an asset. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_fatal_error.html" title="An unrecoverable error was encountered. ">FatalError</a></td><td>If the asset failed to load. </td></tr>
   </table>
   </dd>
 </dl>
@@ -317,7 +330,7 @@ template&lt;typename T&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

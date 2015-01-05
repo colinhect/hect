@@ -95,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>A local host for communicating to peers.  
+<p>A local host for communicating to <a class="el" href="classhect_1_1_peer.html" title="A handle to a remote Host. ">Peer</a>s.  
  <a href="classhect_1_1_host.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_host_8h_source.html">Host.h</a>&gt;</code></p>
@@ -121,13 +121,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa89b4c1a4b9ac6aa68f12b80901699ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers a disconnection handshake attempt with a remote host.  <a href="#aa89b4c1a4b9ac6aa68f12b80901699ed">More...</a><br /></td></tr>
 <tr class="separator:aa89b4c1a4b9ac6aa68f12b80901699ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29a1088417da004a4e48c4681a8f3495"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_host.html#a29a1088417da004a4e48c4681a8f3495">pollEvent</a> (<a class="el" href="classhect_1_1_peer_event.html">PeerEvent</a> &amp;event, <a class="el" href="classhect_1_1_time_span.html">TimeSpan</a> timeOut=<a class="el" href="classhect_1_1_time_span.html#a6effed4b16b263fc58a806c04094679d">TimeSpan::fromMilliseconds</a>(0))</td></tr>
-<tr class="memdesc:a29a1088417da004a4e48c4681a8f3495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Polls the next event triggered from a peer.  <a href="#a29a1088417da004a4e48c4681a8f3495">More...</a><br /></td></tr>
+<tr class="memdesc:a29a1088417da004a4e48c4681a8f3495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Polls the next event triggered from a <a class="el" href="classhect_1_1_peer.html" title="A handle to a remote Host. ">Peer</a>.  <a href="#a29a1088417da004a4e48c4681a8f3495">More...</a><br /></td></tr>
 <tr class="separator:a29a1088417da004a4e48c4681a8f3495"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afee630175bed40447352b74ff1a05b43"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_host.html#afee630175bed40447352b74ff1a05b43">sendPacket</a> (<a class="el" href="classhect_1_1_peer.html">Peer</a> peer, <a class="el" href="namespacehect.html#a932c9fbdfa8fb37a0f5fc3efdf60d7ae">Channel</a> channel, const <a class="el" href="namespacehect.html#a9f9cbccde9d4d04e53fa0276dbdaba04">ByteVector</a> &amp;packetData, <a class="el" href="namespacehect.html#abcb1ac34a4bd5511802577c6427a0594">PacketFlags</a> packetFlags=<a class="el" href="namespacehect.html#aefa708411a93621c5c961bbc40be12b1a8c7e2d360dd58db10802c6cc1e4a7090">PacketFlag_Reliable</a>)</td></tr>
-<tr class="memdesc:afee630175bed40447352b74ff1a05b43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a packet to a peer.  <a href="#afee630175bed40447352b74ff1a05b43">More...</a><br /></td></tr>
+<tr class="memdesc:afee630175bed40447352b74ff1a05b43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a packet to a <a class="el" href="classhect_1_1_peer.html" title="A handle to a remote Host. ">Peer</a>.  <a href="#afee630175bed40447352b74ff1a05b43">More...</a><br /></td></tr>
 <tr class="separator:afee630175bed40447352b74ff1a05b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae32b64c2e07b04f07e179959abeb7576"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_host.html#ae32b64c2e07b04f07e179959abeb7576">broadcastPacket</a> (<a class="el" href="namespacehect.html#a932c9fbdfa8fb37a0f5fc3efdf60d7ae">Channel</a> channel, const <a class="el" href="namespacehect.html#a9f9cbccde9d4d04e53fa0276dbdaba04">ByteVector</a> &amp;packetData, <a class="el" href="namespacehect.html#abcb1ac34a4bd5511802577c6427a0594">PacketFlags</a> packetFlags=<a class="el" href="namespacehect.html#aefa708411a93621c5c961bbc40be12b1a8c7e2d360dd58db10802c6cc1e4a7090">PacketFlag_Reliable</a>)</td></tr>
-<tr class="memdesc:ae32b64c2e07b04f07e179959abeb7576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Broadcasts a packet to all connected peers.  <a href="#ae32b64c2e07b04f07e179959abeb7576">More...</a><br /></td></tr>
+<tr class="memdesc:ae32b64c2e07b04f07e179959abeb7576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Broadcasts a packet to all connected <a class="el" href="classhect_1_1_peer.html" title="A handle to a remote Host. ">Peer</a>s.  <a href="#ae32b64c2e07b04f07e179959abeb7576">More...</a><br /></td></tr>
 <tr class="separator:ae32b64c2e07b04f07e179959abeb7576"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b0455ea7b9795a4b80fe63d4d3f3f39"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b0455ea7b9795a4b80fe63d4d3f3f39"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_host.html#a7b0455ea7b9795a4b80fe63d4d3f3f39">flush</a> ()</td></tr>
@@ -135,7 +135,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:a7b0455ea7b9795a4b80fe63d4d3f3f39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A local host for communicating to peers. </p>
+<div class="textblock"><p>A local host for communicating to <a class="el" href="classhect_1_1_peer.html" title="A handle to a remote Host. ">Peer</a>s. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a19476860137cb2f9090faf1ea51d104b"></a>
 <div class="memitem">
@@ -210,8 +210,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
       </table>
 </div><div class="memdoc">
 
-<p>Broadcasts a packet to all connected peers. </p>
-<dl class="section note"><dt>Note</dt><dd>The packet is not sent instantaneously. It will eventually occur during a call to <a class="el" href="classhect_1_1_host.html#a29a1088417da004a4e48c4681a8f3495" title="Polls the next event triggered from a peer. ">pollEvent()</a> or can be forced by calling <a class="el" href="classhect_1_1_host.html#a7b0455ea7b9795a4b80fe63d4d3f3f39" title="Force any enqueued packet transmissions to occur. ">flush()</a>.</dd></dl>
+<p>Broadcasts a packet to all connected <a class="el" href="classhect_1_1_peer.html" title="A handle to a remote Host. ">Peer</a>s. </p>
+<dl class="section note"><dt>Note</dt><dd>The packet is not sent instantaneously. It will eventually occur during a call to <a class="el" href="classhect_1_1_host.html#a29a1088417da004a4e48c4681a8f3495" title="Polls the next event triggered from a Peer. ">pollEvent()</a> or can be forced by calling <a class="el" href="classhect_1_1_host.html#a7b0455ea7b9795a4b80fe63d4d3f3f39" title="Force any enqueued packet transmissions to occur. ">flush()</a>.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">channel</td><td>The channel to send the packet on. </td></tr>
@@ -247,7 +247,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
       </table>
 </div><div class="memdoc">
 
-<p>Polls the next event triggered from a peer. </p>
+<p>Polls the next event triggered from a <a class="el" href="classhect_1_1_peer.html" title="A handle to a remote Host. ">Peer</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">event</td><td>The event. </td></tr>
@@ -320,7 +320,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the specified peer does not belong to this host. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the specified peer does not belong to this host. </td></tr>
   </table>
   </dd>
 </dl>
@@ -363,8 +363,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
       </table>
 </div><div class="memdoc">
 
-<p>Sends a packet to a peer. </p>
-<dl class="section note"><dt>Note</dt><dd>The packet is not sent instantaneously. It will eventually occur during a call to <a class="el" href="classhect_1_1_host.html#a29a1088417da004a4e48c4681a8f3495" title="Polls the next event triggered from a peer. ">pollEvent()</a> or can be forced by calling <a class="el" href="classhect_1_1_host.html#a7b0455ea7b9795a4b80fe63d4d3f3f39" title="Force any enqueued packet transmissions to occur. ">flush()</a>.</dd></dl>
+<p>Sends a packet to a <a class="el" href="classhect_1_1_peer.html" title="A handle to a remote Host. ">Peer</a>. </p>
+<dl class="section note"><dt>Note</dt><dd>The packet is not sent instantaneously. It will eventually occur during a call to <a class="el" href="classhect_1_1_host.html#a29a1088417da004a4e48c4681a8f3495" title="Polls the next event triggered from a Peer. ">pollEvent()</a> or can be forced by calling <a class="el" href="classhect_1_1_host.html#a7b0455ea7b9795a4b80fe63d4d3f3f39" title="Force any enqueued packet transmissions to occur. ">flush()</a>.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">peer</td><td>The peer to send the packet to. </td></tr>
@@ -380,7 +380,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

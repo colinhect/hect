@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -106,34 +106,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Spacial/AxisAlignedBox.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classhect_1_1_bounding_box.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_bounding_box.html">BoundingBox</a> :</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_component.html">Component</a>&lt;BoundingBox&gt;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classhect_1_1_bounding_box_system.html">BoundingBoxSystem</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Spacial/AxisAlignedBox.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classhect_1_1_bounding_box.html">   37</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_bounding_box.html">BoundingBox</a> :</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_component.html">Component</a>&lt;BoundingBox&gt;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
 <div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classhect_1_1_bounding_box.html#a1e46ac41f0cf0a8776906ed0afad89f6">   44</a></span>&#160;    <a class="code" href="classhect_1_1_axis_aligned_box.html">AxisAlignedBox</a> <a class="code" href="classhect_1_1_bounding_box.html#a1e46ac41f0cf0a8776906ed0afad89f6">axisAlignedBox</a>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> _markedForUpdate { <span class="keyword">false</span> };</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_bounding_box_html"><div class="ttname"><a href="classhect_1_1_bounding_box.html">hect::BoundingBox</a></div><div class="ttdoc">The spacial bounds of an entity. </div><div class="ttdef"><b>Definition:</b> BoundingBox.h:36</div></div>
-<div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:77</div></div>
-<div class="ttc" id="classhect_1_1_bounding_box_system_html"><div class="ttname"><a href="classhect_1_1_bounding_box_system.html">hect::BoundingBoxSystem</a></div><div class="ttdoc">Manages the bounding box hierarchies of the scene. </div><div class="ttdef"><b>Definition:</b> BoundingBoxSystem.h:37</div></div>
-<div class="ttc" id="classhect_1_1_axis_aligned_box_html"><div class="ttname"><a href="classhect_1_1_axis_aligned_box.html">hect::AxisAlignedBox</a></div><div class="ttdoc">A box aligned with the global axes in world-space. </div><div class="ttdef"><b>Definition:</b> AxisAlignedBox.h:34</div></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_bounding_box_html"><div class="ttname"><a href="classhect_1_1_bounding_box.html">hect::BoundingBox</a></div><div class="ttdoc">The spacial extents of an Entity based on its components. </div><div class="ttdef"><b>Definition:</b> BoundingBox.h:37</div></div>
+<div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:78</div></div>
+<div class="ttc" id="classhect_1_1_axis_aligned_box_html"><div class="ttname"><a href="classhect_1_1_axis_aligned_box.html">hect::AxisAlignedBox</a></div><div class="ttdoc">A box aligned with the global axes in world-space. </div><div class="ttdef"><b>Definition:</b> AxisAlignedBox.h:35</div></div>
 <div class="ttc" id="classhect_1_1_bounding_box_html_a1e46ac41f0cf0a8776906ed0afad89f6"><div class="ttname"><a href="classhect_1_1_bounding_box.html#a1e46ac41f0cf0a8776906ed0afad89f6">hect::BoundingBox::axisAlignedBox</a></div><div class="ttdeci">AxisAlignedBox axisAlignedBox</div><div class="ttdoc">The bounds as an axis aligned box. </div><div class="ttdef"><b>Definition:</b> BoundingBox.h:44</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

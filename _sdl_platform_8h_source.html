@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -107,51 +107,55 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Configuration.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Platform.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#ifdef HECT_PLATFORM_SDL</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// Forward declarations for SDL</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">struct </span>_SDL_Joystick;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>_SDL_Joystick SDL_Joystick;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">class </span>SdlPlatform :</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">public</span> Platform</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    SdlPlatform();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ~SdlPlatform();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    std::unique_ptr&lt;Window&gt; createWindow(<span class="keyword">const</span> std::string&amp; title, <span class="keyword">const</span> VideoMode&amp; videoMode) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">bool</span> handleEvents() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> hasMouse() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    Mouse&amp; mouse() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span> hasKeyboard() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    Keyboard&amp; keyboard() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    JoystickSequence joysticks() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    std::unique_ptr&lt;Mouse&gt; _mouse;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    std::unique_ptr&lt;Keyboard&gt; _keyboard;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::vector&lt;Joystick&gt; _joysticks;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::vector&lt;SDL_Joystick*&gt; _openJoysticks;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="namespacehect.html#a473b208031498364ed2cb0909060eb65">MouseMode</a> _mouseMode { <a class="code" href="namespacehect.html#a473b208031498364ed2cb0909060eb65a8b45f77ed55a30e3b5b8e59f6ce02d0f">MouseMode_Cursor</a> };</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> _initialized;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Platform.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#ifdef HECT_PLATFORM_SDL</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">// Forward declarations for SDL</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">struct </span>_SDL_Joystick;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>_SDL_Joystick SDL_Joystick;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">class </span>HECT_EXPORT SdlPlatform :</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">public</span> Platform</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    SdlPlatform();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ~SdlPlatform();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::unique_ptr&lt;Window&gt; createWindow(<span class="keyword">const</span> std::string&amp; title, <span class="keyword">const</span> VideoMode&amp; videoMode) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> handleEvents() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">bool</span> hasMouse() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    Mouse&amp; mouse() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span> hasKeyboard() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    Keyboard&amp; keyboard() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">bool</span> hasJoystick(<a class="code" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    Joystick&amp; joystick(<a class="code" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    JoystickSequence joysticks() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::unique_ptr&lt;Mouse&gt; _mouse;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    std::unique_ptr&lt;Keyboard&gt; _keyboard;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    std::vector&lt;Joystick&gt; _joysticks;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::vector&lt;SDL_Joystick*&gt; _openJoysticks;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="namespacehect.html#a473b208031498364ed2cb0909060eb65">MouseMode</a> _mouseMode { <a class="code" href="namespacehect.html#a473b208031498364ed2cb0909060eb65a8b45f77ed55a30e3b5b8e59f6ce02d0f">MouseMode_Cursor</a> };</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="namespacehect_html_a473b208031498364ed2cb0909060eb65a8b45f77ed55a30e3b5b8e59f6ce02d0f"><div class="ttname"><a href="namespacehect.html#a473b208031498364ed2cb0909060eb65a8b45f77ed55a30e3b5b8e59f6ce02d0f">hect::MouseMode_Cursor</a></div><div class="ttdoc">The cursor is active. </div><div class="ttdef"><b>Definition:</b> Mouse.h:52</div></div>
-<div class="ttc" id="namespacehect_html_a473b208031498364ed2cb0909060eb65"><div class="ttname"><a href="namespacehect.html#a473b208031498364ed2cb0909060eb65">hect::MouseMode</a></div><div class="ttdeci">MouseMode</div><div class="ttdoc">The mode a mouse is in. </div><div class="ttdef"><b>Definition:</b> Mouse.h:48</div></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> _initialized;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="namespacehect_html_aa610d2ba2b0b8a43042a3b7196fa376d"><div class="ttname"><a href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">hect::JoystickIndex</a></div><div class="ttdeci">size_t JoystickIndex</div><div class="ttdoc">An index to a Joystick. </div><div class="ttdef"><b>Definition:</b> Joystick.h:36</div></div>
+<div class="ttc" id="namespacehect_html_a473b208031498364ed2cb0909060eb65a8b45f77ed55a30e3b5b8e59f6ce02d0f"><div class="ttname"><a href="namespacehect.html#a473b208031498364ed2cb0909060eb65a8b45f77ed55a30e3b5b8e59f6ce02d0f">hect::MouseMode_Cursor</a></div><div class="ttdoc">The cursor is active. </div><div class="ttdef"><b>Definition:</b> Mouse.h:53</div></div>
+<div class="ttc" id="namespacehect_html_a473b208031498364ed2cb0909060eb65"><div class="ttname"><a href="namespacehect.html#a473b208031498364ed2cb0909060eb65">hect::MouseMode</a></div><div class="ttdeci">MouseMode</div><div class="ttdoc">The mode a Mouse is in. </div><div class="ttdef"><b>Definition:</b> Mouse.h:49</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -106,47 +106,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Decoder.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Encoder.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classhect_1_1_video_mode.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_video_mode.html">VideoMode</a></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classhect_1_1_video_mode.html#a6d3d9ffc70c94dc701660618422726a9">VideoMode</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classhect_1_1_video_mode.html#a6d3d9ffc70c94dc701660618422726a9">VideoMode</a>(<span class="keywordtype">unsigned</span> <a class="code" href="classhect_1_1_video_mode.html#a60f2246e99feb62ece211d4d3aa9e9a8">width</a>, <span class="keywordtype">unsigned</span> <a class="code" href="classhect_1_1_video_mode.html#a841101e1024637ee8ab2ec1f17957873">height</a>, <span class="keywordtype">bool</span> fullscreen);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">unsigned</span> <a class="code" href="classhect_1_1_video_mode.html#a60f2246e99feb62ece211d4d3aa9e9a8">width</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">unsigned</span> <a class="code" href="classhect_1_1_video_mode.html#a841101e1024637ee8ab2ec1f17957873">height</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_video_mode.html#ac66ff9b6cbc7370c9716e6a8f7838cd9">isFullscreen</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">friend</span> <a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; encoder, <span class="keyword">const</span> <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>&amp; videoMode);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">friend</span> <a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; operator&gt;&gt;(<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; decoder, <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>&amp; videoMode);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">unsigned</span> _width { 800 };</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">unsigned</span> _height { 600 };</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">bool</span> _fullscreen { <span class="keyword">false</span> };</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_video_mode_html_ac66ff9b6cbc7370c9716e6a8f7838cd9"><div class="ttname"><a href="classhect_1_1_video_mode.html#ac66ff9b6cbc7370c9716e6a8f7838cd9">hect::VideoMode::isFullscreen</a></div><div class="ttdeci">bool isFullscreen() const </div><div class="ttdoc">Returns whether fullscreen is enabled. </div></div>
-<div class="ttc" id="classhect_1_1_video_mode_html_a60f2246e99feb62ece211d4d3aa9e9a8"><div class="ttname"><a href="classhect_1_1_video_mode.html#a60f2246e99feb62ece211d4d3aa9e9a8">hect::VideoMode::width</a></div><div class="ttdeci">unsigned width() const </div><div class="ttdoc">Returns the width. </div></div>
-<div class="ttc" id="classhect_1_1_encoder_html"><div class="ttname"><a href="classhect_1_1_encoder.html">hect::Encoder</a></div><div class="ttdoc">Provides access for encoding structured data to a persistent format. </div><div class="ttdef"><b>Definition:</b> Encoder.h:35</div></div>
-<div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:37</div></div>
-<div class="ttc" id="classhect_1_1_video_mode_html_a841101e1024637ee8ab2ec1f17957873"><div class="ttname"><a href="classhect_1_1_video_mode.html#a841101e1024637ee8ab2ec1f17957873">hect::VideoMode::height</a></div><div class="ttdeci">unsigned height() const </div><div class="ttdoc">Returns the height. </div></div>
-<div class="ttc" id="classhect_1_1_video_mode_html_a6d3d9ffc70c94dc701660618422726a9"><div class="ttname"><a href="classhect_1_1_video_mode.html#a6d3d9ffc70c94dc701660618422726a9">hect::VideoMode::VideoMode</a></div><div class="ttdeci">VideoMode()</div><div class="ttdoc">Constructs a default video mode. </div></div>
-<div class="ttc" id="classhect_1_1_video_mode_html"><div class="ttname"><a href="classhect_1_1_video_mode.html">hect::VideoMode</a></div><div class="ttdoc">Describes the video mode a window uses. </div><div class="ttdef"><b>Definition:</b> VideoMode.h:34</div></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Decoder.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Encoder.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classhect_1_1_video_mode.html">   35</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>(<span class="keywordtype">unsigned</span> width, <span class="keywordtype">unsigned</span> height, <span class="keywordtype">bool</span> fullscreen);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">unsigned</span> width() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">unsigned</span> height() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> isFullscreen() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">friend</span> HECT_EXPORT <a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; encoder, <span class="keyword">const</span> <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>&amp; videoMode);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">friend</span> HECT_EXPORT <a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; operator&gt;&gt;(<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; decoder, <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>&amp; videoMode);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">unsigned</span> _width { 800 };</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">unsigned</span> _height { 600 };</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">bool</span> _fullscreen { <span class="keyword">false</span> };</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;};</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_encoder_html"><div class="ttname"><a href="classhect_1_1_encoder.html">hect::Encoder</a></div><div class="ttdoc">Provides access for encoding structured data to a persistent format. </div><div class="ttdef"><b>Definition:</b> Encoder.h:37</div></div>
+<div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:39</div></div>
+<div class="ttc" id="classhect_1_1_video_mode_html"><div class="ttname"><a href="classhect_1_1_video_mode.html">hect::VideoMode</a></div><div class="ttdoc">Describes the video mode a window uses. </div><div class="ttdef"><b>Definition:</b> VideoMode.h:35</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

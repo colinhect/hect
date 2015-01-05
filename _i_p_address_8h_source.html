@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -109,43 +109,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="namespacehect.html#a015d4253c8a642da517e697355177680">   34</a></span>&#160;<span class="keyword">typedef</span> uint16_t <a class="code" href="namespacehect.html#a015d4253c8a642da517e697355177680">Port</a>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classhect_1_1_i_p_address.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_i_p_address.html">IPAddress</a></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classhect_1_1_i_p_address.html#a51cfa7e47a03c8dcd8abe3b2d9cf2e40">IPAddress</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classhect_1_1_i_p_address.html#a51cfa7e47a03c8dcd8abe3b2d9cf2e40">IPAddress</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* hostName);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classhect_1_1_i_p_address.html#a51cfa7e47a03c8dcd8abe3b2d9cf2e40">IPAddress</a>(<span class="keyword">const</span> std::string&amp; hostName);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="classhect_1_1_i_p_address.html#a51cfa7e47a03c8dcd8abe3b2d9cf2e40">IPAddress</a>(uint32_t address);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_i_p_address.html#a53f21f9993989dcbebc4d3f49e3fd8f3">isValid</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    std::string <a class="code" href="classhect_1_1_i_p_address.html#a689ee235f1ed29d2ba78ba49c9d86f81">asString</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">operator</span> uint32_t() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    uint32_t _address { 0 };</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_i_p_address_html"><div class="ttname"><a href="classhect_1_1_i_p_address.html">hect::IPAddress</a></div><div class="ttdoc">An IPv4 address. </div><div class="ttdef"><b>Definition:</b> IPAddress.h:38</div></div>
-<div class="ttc" id="classhect_1_1_i_p_address_html_a51cfa7e47a03c8dcd8abe3b2d9cf2e40"><div class="ttname"><a href="classhect_1_1_i_p_address.html#a51cfa7e47a03c8dcd8abe3b2d9cf2e40">hect::IPAddress::IPAddress</a></div><div class="ttdeci">IPAddress()</div><div class="ttdoc">Constructs an invalid IP address. </div></div>
-<div class="ttc" id="classhect_1_1_i_p_address_html_a689ee235f1ed29d2ba78ba49c9d86f81"><div class="ttname"><a href="classhect_1_1_i_p_address.html#a689ee235f1ed29d2ba78ba49c9d86f81">hect::IPAddress::asString</a></div><div class="ttdeci">std::string asString() const </div><div class="ttdoc">Returns a string representation of the address. </div></div>
-<div class="ttc" id="classhect_1_1_i_p_address_html_a53f21f9993989dcbebc4d3f49e3fd8f3"><div class="ttname"><a href="classhect_1_1_i_p_address.html#a53f21f9993989dcbebc4d3f49e3fd8f3">hect::IPAddress::isValid</a></div><div class="ttdeci">bool isValid() const </div><div class="ttdoc">Returns whether the address is a valid IP address. </div></div>
-<div class="ttc" id="namespacehect_html_a015d4253c8a642da517e697355177680"><div class="ttname"><a href="namespacehect.html#a015d4253c8a642da517e697355177680">hect::Port</a></div><div class="ttdeci">uint16_t Port</div><div class="ttdoc">An Internet Protocol port. </div><div class="ttdef"><b>Definition:</b> IPAddress.h:34</div></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="namespacehect.html#a015d4253c8a642da517e697355177680">   36</a></span>&#160;<span class="keyword">typedef</span> uint16_t <a class="code" href="namespacehect.html#a015d4253c8a642da517e697355177680">Port</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classhect_1_1_i_p_address.html">   40</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_i_p_address.html">IPAddress</a></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classhect_1_1_i_p_address.html">IPAddress</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="classhect_1_1_i_p_address.html">IPAddress</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* hostName);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classhect_1_1_i_p_address.html">IPAddress</a>(<span class="keyword">const</span> std::string&amp; hostName);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="classhect_1_1_i_p_address.html">IPAddress</a>(uint32_t address);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">bool</span> isValid() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    std::string asString() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">operator</span> uint32_t() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    uint32_t _address { 0 };</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_i_p_address_html"><div class="ttname"><a href="classhect_1_1_i_p_address.html">hect::IPAddress</a></div><div class="ttdoc">An IPv4 address. </div><div class="ttdef"><b>Definition:</b> IPAddress.h:40</div></div>
+<div class="ttc" id="namespacehect_html_a015d4253c8a642da517e697355177680"><div class="ttname"><a href="namespacehect.html#a015d4253c8a642da517e697355177680">hect::Port</a></div><div class="ttdeci">uint16_t Port</div><div class="ttdoc">An Internet Protocol port. </div><div class="ttdef"><b>Definition:</b> IPAddress.h:36</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

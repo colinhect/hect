@@ -95,35 +95,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Provides the functionality for high level rendering algorithms (physically- based shading, deferred shading, shadows, reflections, etc).  
+<p>Provides the functionality for high-level rendering algorithms (physically- based shading, deferred shading, shadows, reflections, etc).  
  <a href="classhect_1_1_scene_renderer.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_scene_renderer_8h_source.html">SceneRenderer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac454d84e38fd6c94dc580aea6fc6aa83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene_renderer.html#ac454d84e38fd6c94dc580aea6fc6aa83">SceneRenderer</a> (<a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;renderer, <a class="el" href="classhect_1_1_asset_cache.html">AssetCache</a> &amp;assetCache)</td></tr>
-<tr class="memdesc:ac454d84e38fd6c94dc580aea6fc6aa83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a scene renderer.  <a href="#ac454d84e38fd6c94dc580aea6fc6aa83">More...</a><br /></td></tr>
-<tr class="separator:ac454d84e38fd6c94dc580aea6fc6aa83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9639d83c2409536459bc0183281d2e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene_renderer.html#ad9639d83c2409536459bc0183281d2e7">renderScene</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene, <a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
-<tr class="memdesc:ad9639d83c2409536459bc0183281d2e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders a scene in its current state to a given render target.  <a href="#ad9639d83c2409536459bc0183281d2e7">More...</a><br /></td></tr>
-<tr class="separator:ad9639d83c2409536459bc0183281d2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fbec36a978ecf7b87115c0210bacd10"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene_renderer.html#a7fbec36a978ecf7b87115c0210bacd10">SceneRenderer</a> (<a class="el" href="classhect_1_1_task_pool.html">TaskPool</a> &amp;taskPool, <a class="el" href="classhect_1_1_asset_cache.html">AssetCache</a> &amp;assetCache)</td></tr>
+<tr class="memdesc:a7fbec36a978ecf7b87115c0210bacd10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a scene renderer.  <a href="#a7fbec36a978ecf7b87115c0210bacd10">More...</a><br /></td></tr>
+<tr class="separator:a7fbec36a978ecf7b87115c0210bacd10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a273b68b7422a058fec8b617e9102bb29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene_renderer.html#a273b68b7422a058fec8b617e9102bb29">renderScene</a> (<a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;renderer, <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene, <a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
+<tr class="memdesc:a273b68b7422a058fec8b617e9102bb29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders a scene in its current state to a render target.  <a href="#a273b68b7422a058fec8b617e9102bb29">More...</a><br /></td></tr>
+<tr class="separator:a273b68b7422a058fec8b617e9102bb29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06cfb9b6f14f952376d488ef84d39575"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene_renderer.html#a06cfb9b6f14f952376d488ef84d39575">addRenderCall</a> (<a class="el" href="classhect_1_1_transform.html">Transform</a> &amp;transform, <a class="el" href="classhect_1_1_mesh.html">Mesh</a> &amp;mesh, <a class="el" href="classhect_1_1_material.html">Material</a> &amp;material)</td></tr>
 <tr class="memdesc:a06cfb9b6f14f952376d488ef84d39575"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enqueues a render call to be rendered on the upcoming frame.  <a href="#a06cfb9b6f14f952376d488ef84d39575">More...</a><br /></td></tr>
 <tr class="separator:a06cfb9b6f14f952376d488ef84d39575"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Provides the functionality for high level rendering algorithms (physically- based shading, deferred shading, shadows, reflections, etc). </p>
+<div class="textblock"><p>Provides the functionality for high-level rendering algorithms (physically- based shading, deferred shading, shadows, reflections, etc). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ac454d84e38fd6c94dc580aea6fc6aa83"></a>
+<a class="anchor" id="a7fbec36a978ecf7b87115c0210bacd10"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">hect::SceneRenderer::SceneRenderer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;&#160;</td>
-          <td class="paramname"><em>renderer</em>, </td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_task_pool.html">TaskPool</a> &amp;&#160;</td>
+          <td class="paramname"><em>taskPool</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -142,7 +142,7 @@ Public Member Functions</h2></td></tr>
 <p>Constructs a scene renderer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">renderer</td><td>The renderer to render using. </td></tr>
+    <tr><td class="paramname">taskPool</td><td>The task pool to perform concurrent tasks using. </td></tr>
     <tr><td class="paramname">assetCache</td><td>The asset cache to get needed assets from. </td></tr>
   </table>
   </dd>
@@ -193,13 +193,19 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad9639d83c2409536459bc0183281d2e7"></a>
+<a class="anchor" id="a273b68b7422a058fec8b617e9102bb29"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void hect::SceneRenderer::renderScene </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;&#160;</td>
+          <td class="paramname"><em>renderer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td>
           <td class="paramname"><em>scene</em>, </td>
         </tr>
@@ -217,9 +223,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Renders a scene in its current state to a given render target. </p>
+<p>Renders a scene in its current state to a render target. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">renderer</td><td>The renderer to render using. </td></tr>
     <tr><td class="paramname">scene</td><td>The scene to render. </td></tr>
     <tr><td class="paramname">target</td><td>The target to render to. </td></tr>
   </table>
@@ -231,7 +238,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

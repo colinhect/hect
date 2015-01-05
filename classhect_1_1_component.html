@@ -107,7 +107,7 @@ Inheritance diagram for hect::Component&lt; T &gt;:</div>
  <div class="center">
   <img src="classhect_1_1_component.png" usemap="#hect::Component&lt; T &gt;_map" alt=""/>
   <map id="hect::Component&lt; T &gt;_map" name="hect::Component&lt; T &gt;_map">
-<area href="classhect_1_1_component_base.html" title="Abstract base for components. " alt="hect::ComponentBase" shape="rect" coords="0,0,136,24"/>
+<area href="classhect_1_1_component_base.html" title="Abstract base for Component. " alt="hect::ComponentBase" shape="rect" coords="0,0,136,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -142,6 +142,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a98245e9e925924b8c0788d2934c49f6b"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhect_1_1_entity.html">Entity</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#a98245e9e925924b8c0788d2934c49f6b">entity</a> () const </td></tr>
 <tr class="memdesc:a98245e9e925924b8c0788d2934c49f6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the entity of the component.  <a href="#a98245e9e925924b8c0788d2934c49f6b">More...</a><br /></td></tr>
 <tr class="separator:a98245e9e925924b8c0788d2934c49f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4484f1f3407df1f26939da1f8a76c9a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae4484f1f3407df1f26939da1f8a76c9a"></a>
+<a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::<a class="el" href="classhect_1_1_component_1_1_iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#ae4484f1f3407df1f26939da1f8a76c9a">iterator</a> ()</td></tr>
+<tr class="memdesc:ae4484f1f3407df1f26939da1f8a76c9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a component iterator for the component. <br /></td></tr>
+<tr class="separator:ae4484f1f3407df1f26939da1f8a76c9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b00454a1777d751a354ecfe71072adf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b00454a1777d751a354ecfe71072adf"></a>
+<a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::<a class="el" href="classhect_1_1_component_1_1_const_iterator.html">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#a9b00454a1777d751a354ecfe71072adf">iterator</a> () const </td></tr>
+<tr class="memdesc:a9b00454a1777d751a354ecfe71072adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a constant component iterator for the component. <br /></td></tr>
+<tr class="separator:a9b00454a1777d751a354ecfe71072adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18587ae5ec67b3d34d9371d3ae11f98f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18587ae5ec67b3d34d9371d3ae11f98f"></a>
 <a class="el" href="namespacehect.html#a74474dc8aa2b27c1a3e54f09c21c9109">ComponentId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#a18587ae5ec67b3d34d9371d3ae11f98f">id</a> () const </td></tr>
 <tr class="memdesc:a18587ae5ec67b3d34d9371d3ae11f98f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the id of the component. <br /></td></tr>
@@ -182,7 +190,7 @@ template&lt;typename T&gt; </div>
 <p>Returns the entity of the component. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the component is not in a pool or the component does belong to an entity. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the component is not in a pool or the component does belong to an entity. </td></tr>
   </table>
   </dd>
 </dl>
@@ -207,7 +215,7 @@ template&lt;typename T&gt; </div>
 <p>Returns the entity of the component. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the component is not in a pool or the component does belong to an entity. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the component is not in a pool or the component does belong to an entity. </td></tr>
   </table>
   </dd>
 </dl>
@@ -232,7 +240,7 @@ template&lt;typename T&gt; </div>
 <p>Returns the pool that the component is in. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the component is not in a pool. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the component is not in a pool. </td></tr>
   </table>
   </dd>
 </dl>
@@ -257,7 +265,7 @@ template&lt;typename T&gt; </div>
 <p>Returns the pool that the component is in. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the component is not in a pool. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the component is not in a pool. </td></tr>
   </table>
   </dd>
 </dl>
@@ -267,7 +275,7 @@ template&lt;typename T&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

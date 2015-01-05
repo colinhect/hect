@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -106,37 +106,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Real.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classhect_1_1_sphere.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_sphere.html">Sphere</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classhect_1_1_sphere.html#a07ef39646ae6ae23261d42ff32738dd6">Sphere</a>();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classhect_1_1_sphere.html#a07ef39646ae6ae23261d42ff32738dd6">Sphere</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> <a class="code" href="classhect_1_1_sphere.html#a0621cbc42e3f1351ba36bc8741793d5e">radius</a>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> <a class="code" href="classhect_1_1_sphere.html#a0621cbc42e3f1351ba36bc8741793d5e">radius</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_sphere.html#a8c69facd2cb392adb51920de276ce359">setRadius</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> radius);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> _radius { 1 };</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_sphere_html_a8c69facd2cb392adb51920de276ce359"><div class="ttname"><a href="classhect_1_1_sphere.html#a8c69facd2cb392adb51920de276ce359">hect::Sphere::setRadius</a></div><div class="ttdeci">void setRadius(Real radius)</div><div class="ttdoc">Sets the radius. </div></div>
-<div class="ttc" id="classhect_1_1_sphere_html"><div class="ttname"><a href="classhect_1_1_sphere.html">hect::Sphere</a></div><div class="ttdoc">A sphere. </div><div class="ttdef"><b>Definition:</b> Sphere.h:33</div></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Real.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classhect_1_1_sphere.html">   34</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_sphere.html">Sphere</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classhect_1_1_sphere.html">Sphere</a>();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classhect_1_1_sphere.html">Sphere</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> radius);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> radius() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> setRadius(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> radius);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> _radius { 1 };</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_sphere_html"><div class="ttname"><a href="classhect_1_1_sphere.html">hect::Sphere</a></div><div class="ttdoc">A sphere. </div><div class="ttdef"><b>Definition:</b> Sphere.h:34</div></div>
 <div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="classhect_1_1_sphere_html_a0621cbc42e3f1351ba36bc8741793d5e"><div class="ttname"><a href="classhect_1_1_sphere.html#a0621cbc42e3f1351ba36bc8741793d5e">hect::Sphere::radius</a></div><div class="ttdeci">Real radius() const </div><div class="ttdoc">Returns the radius. </div></div>
-<div class="ttc" id="classhect_1_1_sphere_html_a07ef39646ae6ae23261d42ff32738dd6"><div class="ttname"><a href="classhect_1_1_sphere.html#a07ef39646ae6ae23261d42ff32738dd6">hect::Sphere::Sphere</a></div><div class="ttdeci">Sphere()</div><div class="ttdoc">Constructs a sphere with a radius of one. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['stringvalue',['stringValue',['../classhect_1_1_enum_value.html#a131c941b0a77c2fa7b967a2ce3d8a926',1,'hect::EnumValue']]],
-  ['surfaces',['surfaces',['../classhect_1_1_model.html#a98b51e65230063464240807db282edd7',1,'hect::Model']]]
+  ['range',['range',['../classhect_1_1_input_axis_binding.html#ab6e7d9f4de3583c8fc0be305d178f0ee',1,'hect::InputAxisBinding']]],
+  ['right',['right',['../classhect_1_1_camera.html#a6efb1041518ee9264bcfc95a50978224',1,'hect::Camera']]]
 ];

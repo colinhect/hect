@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -108,36 +108,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;deque&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classhect_1_1_id_pool.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_id_pool.html">IdPool</a></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classhect_1_1_id_pool.html#aaaed5808ff5808ae8744d233ef556cbc">IdPool</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    T <a class="code" href="classhect_1_1_id_pool.html#aa6d67f79ace8066b425a35f57837230a">create</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_id_pool.html#a0592d68f0ec04b9eca511bad088a2f12">destroy</a>(T <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    T _nextId;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    std::deque&lt;T&gt; _nextIds;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classhect_1_1_id_pool.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_id_pool.html">IdPool</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classhect_1_1_id_pool.html#aaaed5808ff5808ae8744d233ef556cbc">IdPool</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    T <a class="code" href="classhect_1_1_id_pool.html#aa6d67f79ace8066b425a35f57837230a">create</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_id_pool.html#a0592d68f0ec04b9eca511bad088a2f12">destroy</a>(T <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    T _nextId;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::deque&lt;T&gt; _nextIds;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#include &quot;IdPool.inl&quot;</span></div>
-<div class="ttc" id="classhect_1_1_id_pool_html"><div class="ttname"><a href="classhect_1_1_id_pool.html">hect::IdPool</a></div><div class="ttdoc">Maintains a pool of unique numeric identifiers. </div><div class="ttdef"><b>Definition:</b> IdPool.h:34</div></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#include &quot;IdPool.inl&quot;</span></div>
+<div class="ttc" id="classhect_1_1_id_pool_html"><div class="ttname"><a href="classhect_1_1_id_pool.html">hect::IdPool</a></div><div class="ttdoc">Maintains a pool of unique numeric identifiers. </div><div class="ttdef"><b>Definition:</b> IdPool.h:36</div></div>
 <div class="ttc" id="classhect_1_1_id_pool_html_aaaed5808ff5808ae8744d233ef556cbc"><div class="ttname"><a href="classhect_1_1_id_pool.html#aaaed5808ff5808ae8744d233ef556cbc">hect::IdPool::IdPool</a></div><div class="ttdeci">IdPool()</div><div class="ttdoc">Constructs an id pool. </div></div>
 <div class="ttc" id="classhect_1_1_id_pool_html_a0592d68f0ec04b9eca511bad088a2f12"><div class="ttname"><a href="classhect_1_1_id_pool.html#a0592d68f0ec04b9eca511bad088a2f12">hect::IdPool::destroy</a></div><div class="ttdeci">void destroy(T id)</div><div class="ttdoc">Destroys an id allowing it to be reused. </div></div>
 <div class="ttc" id="classhect_1_1_id_pool_html_aa6d67f79ace8066b425a35f57837230a"><div class="ttname"><a href="classhect_1_1_id_pool.html#aa6d67f79ace8066b425a35f57837230a">hect::IdPool::create</a></div><div class="ttdeci">T create()</div><div class="ttdoc">Creates a new unique id. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

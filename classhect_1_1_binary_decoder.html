@@ -308,7 +308,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section note"><dt>Note</dt><dd>Values decoded following this call will be decoded as elements from the array. Attempting to decode values past the end of the array will result in an error being thrown. Whether there are any more elements left in the array can be queried using <a class="el" href="classhect_1_1_binary_decoder.html#a6d397e76842aa67d2d257412d5586c23" title="Returns whether there are more elements available to be decoded in the current array. ">hasMoreElements()</a>.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the next value to decode is not an array. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the next value to decode is not an array. </td></tr>
   </table>
   </dd>
 </dl>
@@ -342,7 +342,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section note"><dt>Note</dt><dd>The specific members of an object can be targeted using <a class="el" href="classhect_1_1_binary_decoder.html#a407b66d6f0ddfc79972f110568f8723e" title="Selects a specific member of the object. ">selectMember()</a>.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the next value to decode is not an object. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the next value to decode is not an object. </td></tr>
   </table>
   </dd>
 </dl>
@@ -375,7 +375,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Returns the raw binary stream. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the decoder is not reading from a binary stream. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the decoder is not reading from a binary stream. </td></tr>
   </table>
   </dd>
 </dl>
@@ -745,7 +745,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section note"><dt>Note</dt><dd>An array cannot be ended before all elements are decoded from it.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_binary_decoder.html#ac58d94e17aca56408b203ce671c4cc9c" title="Begins an array. ">beginArray()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_binary_decoder.html#ac58d94e17aca56408b203ce671c4cc9c" title="Begins an array. ">beginArray()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -778,7 +778,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Ends an object. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_binary_decoder.html#a8bcab74e7807fba2eed2d7edd2322388" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_binary_decoder.html#a8bcab74e7807fba2eed2d7edd2322388" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -811,7 +811,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Returns whether there are more elements available to be decoded in the current array. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_binary_decoder.html#ac58d94e17aca56408b203ce671c4cc9c" title="Begins an array. ">beginArray()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_binary_decoder.html#ac58d94e17aca56408b203ce671c4cc9c" title="Begins an array. ">beginArray()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -844,7 +844,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Returns the names of the members of the object. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_binary_decoder.html#a8bcab74e7807fba2eed2d7edd2322388" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_binary_decoder.html#a8bcab74e7807fba2eed2d7edd2322388" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -886,7 +886,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section return"><dt>Returns</dt><dd>True if the member exists and was selected; false otherwise.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_binary_decoder.html#a8bcab74e7807fba2eed2d7edd2322388" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_binary_decoder.html#a8bcab74e7807fba2eed2d7edd2322388" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -898,7 +898,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

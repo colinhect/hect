@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -108,95 +108,79 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Decoder.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/JsonValue.h&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/MemoryReadStream.h&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Path.h&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classhect_1_1_asset_decoder.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_asset_decoder.html">AssetDecoder</a> :</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_decoder.html">Decoder</a>,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="classhect_1_1_asset_decoder.html#a0dd2b02eea68809115ce83a29019127d">AssetDecoder</a>(<a class="code" href="classhect_1_1_asset_cache.html">AssetCache</a>&amp; <a class="code" href="classhect_1_1_decoder.html#a01bd067e524e12875c28c87180b774ef">assetCache</a>, <span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; path);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    ~<a class="code" href="classhect_1_1_asset_decoder.html">AssetDecoder</a>();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_asset_decoder.html#a20fa91b9d5fd17c0e822b2fa2f782f49">isBinaryStream</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classhect_1_1_read_stream.html">ReadStream</a>&amp; <a class="code" href="classhect_1_1_asset_decoder.html#ae82a110c58d18627589ebae1dfcdd6b2">binaryStream</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_asset_decoder.html#ae16f91194f5cd08b6f3d7589e8ab9f09">beginArray</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_asset_decoder.html#a4897faea8a05ac32ca70642237d69131">endArray</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_asset_decoder.html#a1b88a60781d91c2309a25a1d51fe0b6d">hasMoreElements</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0">beginObject</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_asset_decoder.html#a59602c6326103a44ffd7b81c4a5308ec">endObject</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_asset_decoder.html#a4c90cd88e1fdd0cf7cdded266f081917">selectMember</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    std::vector&lt;std::string&gt; <a class="code" href="classhect_1_1_asset_decoder.html#a965818c50ac5411beaf70048371a9517">memberNames</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    std::string <a class="code" href="classhect_1_1_asset_decoder.html#acff2d4aec6922166801f4ab54bff3f1a">decodeString</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    int8_t <a class="code" href="classhect_1_1_asset_decoder.html#a83a64ec999c4274cb500e1f9dd494343">decodeInt8</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    uint8_t <a class="code" href="classhect_1_1_asset_decoder.html#a94c75ba182186420ac520f711c556436">decodeUInt8</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    int16_t <a class="code" href="classhect_1_1_asset_decoder.html#a88e6d35d8067c86931bd71b7ea630ef1">decodeInt16</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    uint16_t <a class="code" href="classhect_1_1_asset_decoder.html#a315084bbe0001401e86d05a23648c7f6">decodeUInt16</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    int32_t <a class="code" href="classhect_1_1_asset_decoder.html#adab1b142a9cea784b7943eb71411f2f5">decodeInt32</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    uint32_t <a class="code" href="classhect_1_1_asset_decoder.html#abde43d8ccbf270a26d2e131ae8f7f448">decodeUInt32</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    int64_t <a class="code" href="classhect_1_1_asset_decoder.html#a7ddc49c6899bfce301a7b3da6b66fd24">decodeInt64</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    uint64_t <a class="code" href="classhect_1_1_asset_decoder.html#aa7a90024d7b0b609e8691e250fb76c2e">decodeUInt64</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="classhect_1_1_asset_decoder.html#a9282a297db9f3eed37e804fa7d247337">decodeFloat32</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classhect_1_1_asset_decoder.html#ada1c6b1a41c306fa7a953735d8b9269d">decodeFloat64</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_asset_decoder.html#a04ccd8fbeb7706d681c157267a9533ed">decodeBool</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    std::unique_ptr&lt;Decoder&gt; _implementation;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="classhect_1_1_json_value.html">JsonValue</a> _jsonValue;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="namespacehect.html#a9f9cbccde9d4d04e53fa0276dbdaba04">ByteVector</a> _data;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    std::unique_ptr&lt;MemoryReadStream&gt; _stream;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a9282a297db9f3eed37e804fa7d247337"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a9282a297db9f3eed37e804fa7d247337">hect::AssetDecoder::decodeFloat32</a></div><div class="ttdeci">float decodeFloat32() override</div><div class="ttdoc">Decodes a 32-bit floating point number. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_aa7a90024d7b0b609e8691e250fb76c2e"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#aa7a90024d7b0b609e8691e250fb76c2e">hect::AssetDecoder::decodeUInt64</a></div><div class="ttdeci">uint64_t decodeUInt64() override</div><div class="ttdoc">Decodes a 64-bit unsigned integer. </div></div>
-<div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:37</div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_ae16f91194f5cd08b6f3d7589e8ab9f09"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#ae16f91194f5cd08b6f3d7589e8ab9f09">hect::AssetDecoder::beginArray</a></div><div class="ttdeci">void beginArray() override</div><div class="ttdoc">Begins an array. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_ada1c6b1a41c306fa7a953735d8b9269d"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#ada1c6b1a41c306fa7a953735d8b9269d">hect::AssetDecoder::decodeFloat64</a></div><div class="ttdeci">double decodeFloat64() override</div><div class="ttdoc">Decodes a 64-bit floating point number. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a965818c50ac5411beaf70048371a9517"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a965818c50ac5411beaf70048371a9517">hect::AssetDecoder::memberNames</a></div><div class="ttdeci">std::vector&lt; std::string &gt; memberNames() const override</div><div class="ttdoc">Returns the names of the members of the object. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_ae82a110c58d18627589ebae1dfcdd6b2"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#ae82a110c58d18627589ebae1dfcdd6b2">hect::AssetDecoder::binaryStream</a></div><div class="ttdeci">ReadStream &amp; binaryStream() override</div><div class="ttdoc">Returns the raw binary stream. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a1b88a60781d91c2309a25a1d51fe0b6d"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a1b88a60781d91c2309a25a1d51fe0b6d">hect::AssetDecoder::hasMoreElements</a></div><div class="ttdeci">bool hasMoreElements() const override</div><div class="ttdoc">Returns whether there are more elements available to be decoded in the current array. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a315084bbe0001401e86d05a23648c7f6"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a315084bbe0001401e86d05a23648c7f6">hect::AssetDecoder::decodeUInt16</a></div><div class="ttdeci">uint16_t decodeUInt16() override</div><div class="ttdoc">Decodes a 16-bit unsigned integer. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a83a64ec999c4274cb500e1f9dd494343"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a83a64ec999c4274cb500e1f9dd494343">hect::AssetDecoder::decodeInt8</a></div><div class="ttdeci">int8_t decodeInt8() override</div><div class="ttdoc">Decodes an 8-bit signed integer. </div></div>
-<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:31</div></div>
-<div class="ttc" id="classhect_1_1_decoder_html_a01bd067e524e12875c28c87180b774ef"><div class="ttname"><a href="classhect_1_1_decoder.html#a01bd067e524e12875c28c87180b774ef">hect::Decoder::assetCache</a></div><div class="ttdeci">AssetCache &amp; assetCache()</div><div class="ttdoc">Returns the asset cache to use to get needed assets from while decoding. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a0dd2b02eea68809115ce83a29019127d"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a0dd2b02eea68809115ce83a29019127d">hect::AssetDecoder::AssetDecoder</a></div><div class="ttdeci">AssetDecoder(AssetCache &amp;assetCache, const Path &amp;path)</div><div class="ttdoc">Constructs a decoder. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a94c75ba182186420ac520f711c556436"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a94c75ba182186420ac520f711c556436">hect::AssetDecoder::decodeUInt8</a></div><div class="ttdeci">uint8_t decodeUInt8() override</div><div class="ttdoc">Decodes an 8-bit unsigned integer. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_acff2d4aec6922166801f4ab54bff3f1a"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#acff2d4aec6922166801f4ab54bff3f1a">hect::AssetDecoder::decodeString</a></div><div class="ttdeci">std::string decodeString() override</div><div class="ttdoc">Decodes a string. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_abde43d8ccbf270a26d2e131ae8f7f448"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#abde43d8ccbf270a26d2e131ae8f7f448">hect::AssetDecoder::decodeUInt32</a></div><div class="ttdeci">uint32_t decodeUInt32() override</div><div class="ttdoc">Decodes a 32-bit unsigned integer. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a04ccd8fbeb7706d681c157267a9533ed"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a04ccd8fbeb7706d681c157267a9533ed">hect::AssetDecoder::decodeBool</a></div><div class="ttdeci">bool decodeBool() override</div><div class="ttdoc">Decodes a boolean. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_ac66b9023233f3804157fa8ed7df8c8a0"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0">hect::AssetDecoder::beginObject</a></div><div class="ttdeci">void beginObject() override</div><div class="ttdoc">Begins an object. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a20fa91b9d5fd17c0e822b2fa2f782f49"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a20fa91b9d5fd17c0e822b2fa2f782f49">hect::AssetDecoder::isBinaryStream</a></div><div class="ttdeci">bool isBinaryStream() const override</div><div class="ttdoc">Returns whether the decoder is reading from a binary stream. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html"><div class="ttname"><a href="classhect_1_1_asset_decoder.html">hect::AssetDecoder</a></div><div class="ttdoc">Provides the functionality to decode an asset directly from an asset cache, automatically detecting i...</div><div class="ttdef"><b>Definition:</b> AssetDecoder.h:39</div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a4897faea8a05ac32ca70642237d69131"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a4897faea8a05ac32ca70642237d69131">hect::AssetDecoder::endArray</a></div><div class="ttdeci">void endArray() override</div><div class="ttdoc">Ends an array. </div></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Decoder.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/DataValue.h&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/MemoryReadStream.h&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Path.h&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classhect_1_1_asset_decoder.html">   40</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_asset_decoder.html">AssetDecoder</a> :</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_decoder.html">Decoder</a>,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="classhect_1_1_asset_decoder.html">AssetDecoder</a>(<a class="code" href="classhect_1_1_asset_cache.html">AssetCache</a>&amp; assetCache, <span class="keyword">const</span> <a class="code" href="classhect_1_1_path.html">Path</a>&amp; path);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ~<a class="code" href="classhect_1_1_asset_decoder.html">AssetDecoder</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">bool</span> isBinaryStream() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="classhect_1_1_read_stream.html">ReadStream</a>&amp; binaryStream() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="namespacehect.html#a1ed19aed3d5ad01ab64e878c67e5cf83">beginArray</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="namespacehect.html#a0e49da2fab5560b58777dd1a711116db">endArray</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">bool</span> hasMoreElements() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="namespacehect.html#a4291bb3c8178ed312a1ae873a9116a2a">beginObject</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="namespacehect.html#ac66f4bcef9fe262203d6df63bae66e82">endObject</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">bool</span> selectMember(<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    std::vector&lt;std::string&gt; memberNames() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    std::string decodeString() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    int8_t decodeInt8() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    uint8_t decodeUInt8() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    int16_t decodeInt16() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    uint16_t decodeUInt16() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    int32_t decodeInt32() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    uint32_t decodeUInt32() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    int64_t decodeInt64() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    uint64_t decodeUInt64() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">float</span> decodeFloat32() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">double</span> decodeFloat64() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">bool</span> decodeBool() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> isYaml(<a class="code" href="classhect_1_1_read_stream.html">ReadStream</a>&amp; stream);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    std::unique_ptr&lt;Decoder&gt; _implementation;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="classhect_1_1_data_value.html">DataValue</a> _dataValue;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="namespacehect.html#a9f9cbccde9d4d04e53fa0276dbdaba04">ByteVector</a> _data;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    std::unique_ptr&lt;MemoryReadStream&gt; _stream;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
+<div class="ttc" id="namespacehect_html_ac66f4bcef9fe262203d6df63bae66e82"><div class="ttname"><a href="namespacehect.html#ac66f4bcef9fe262203d6df63bae66e82">hect::endObject</a></div><div class="ttdeci">HECT_EXPORT EndObject endObject()</div><div class="ttdoc">Creates an operation for ending the current object. </div></div>
+<div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:39</div></div>
+<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:33</div></div>
+<div class="ttc" id="classhect_1_1_data_value_html"><div class="ttname"><a href="classhect_1_1_data_value.html">hect::DataValue</a></div><div class="ttdoc">A node in a hierarchical structure of data. </div><div class="ttdef"><b>Definition:</b> DataValue.h:48</div></div>
+<div class="ttc" id="classhect_1_1_asset_decoder_html"><div class="ttname"><a href="classhect_1_1_asset_decoder.html">hect::AssetDecoder</a></div><div class="ttdoc">Provides the functionality to decode an Asset directly from an AssetCache, automatically detecting if...</div><div class="ttdef"><b>Definition:</b> AssetDecoder.h:40</div></div>
 <div class="ttc" id="namespacehect_html_a9f9cbccde9d4d04e53fa0276dbdaba04"><div class="ttname"><a href="namespacehect.html#a9f9cbccde9d4d04e53fa0276dbdaba04">hect::ByteVector</a></div><div class="ttdeci">std::vector&lt; uint8_t &gt; ByteVector</div><div class="ttdoc">A vector of bytes. </div><div class="ttdef"><b>Definition:</b> ByteVector.h:34</div></div>
-<div class="ttc" id="classhect_1_1_json_value_html"><div class="ttname"><a href="classhect_1_1_json_value.html">hect::JsonValue</a></div><div class="ttdoc">A hierarchical structure of JSON data. </div><div class="ttdef"><b>Definition:</b> JsonValue.h:76</div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a88e6d35d8067c86931bd71b7ea630ef1"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a88e6d35d8067c86931bd71b7ea630ef1">hect::AssetDecoder::decodeInt16</a></div><div class="ttdeci">int16_t decodeInt16() override</div><div class="ttdoc">Decodes a 16-bit signed integer. </div></div>
-<div class="ttc" id="classhect_1_1_path_html"><div class="ttname"><a href="classhect_1_1_path.html">hect::Path</a></div><div class="ttdoc">A path to a file or directory. </div><div class="ttdef"><b>Definition:</b> Path.h:34</div></div>
-<div class="ttc" id="classhect_1_1_read_stream_html"><div class="ttname"><a href="classhect_1_1_read_stream.html">hect::ReadStream</a></div><div class="ttdoc">An interface for reading streamed data. </div><div class="ttdef"><b>Definition:</b> ReadStream.h:34</div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a4c90cd88e1fdd0cf7cdded266f081917"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a4c90cd88e1fdd0cf7cdded266f081917">hect::AssetDecoder::selectMember</a></div><div class="ttdeci">bool selectMember(const char *name) override</div><div class="ttdoc">Selects a specific member of the object. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_adab1b142a9cea784b7943eb71411f2f5"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#adab1b142a9cea784b7943eb71411f2f5">hect::AssetDecoder::decodeInt32</a></div><div class="ttdeci">int32_t decodeInt32() override</div><div class="ttdoc">Decodes a 32-bit signed integer. </div></div>
-<div class="ttc" id="classhect_1_1_asset_cache_html"><div class="ttname"><a href="classhect_1_1_asset_cache.html">hect::AssetCache</a></div><div class="ttdoc">Provides cached access to assets from the file system. </div><div class="ttdef"><b>Definition:</b> AssetCache.h:40</div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a59602c6326103a44ffd7b81c4a5308ec"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a59602c6326103a44ffd7b81c4a5308ec">hect::AssetDecoder::endObject</a></div><div class="ttdeci">void endObject() override</div><div class="ttdoc">Ends an object. </div></div>
-<div class="ttc" id="classhect_1_1_asset_decoder_html_a7ddc49c6899bfce301a7b3da6b66fd24"><div class="ttname"><a href="classhect_1_1_asset_decoder.html#a7ddc49c6899bfce301a7b3da6b66fd24">hect::AssetDecoder::decodeInt64</a></div><div class="ttdeci">int64_t decodeInt64() override</div><div class="ttdoc">Decodes a 64-bit signed integer. </div></div>
+<div class="ttc" id="classhect_1_1_path_html"><div class="ttname"><a href="classhect_1_1_path.html">hect::Path</a></div><div class="ttdoc">A path to a file or directory. </div><div class="ttdef"><b>Definition:</b> Path.h:36</div></div>
+<div class="ttc" id="classhect_1_1_read_stream_html"><div class="ttname"><a href="classhect_1_1_read_stream.html">hect::ReadStream</a></div><div class="ttdoc">An interface for reading streamed data. </div><div class="ttdef"><b>Definition:</b> ReadStream.h:37</div></div>
+<div class="ttc" id="namespacehect_html_a4291bb3c8178ed312a1ae873a9116a2a"><div class="ttname"><a href="namespacehect.html#a4291bb3c8178ed312a1ae873a9116a2a">hect::beginObject</a></div><div class="ttdeci">HECT_EXPORT BeginObject beginObject()</div><div class="ttdoc">Creates an operation for beginning an object. </div></div>
+<div class="ttc" id="namespacehect_html_a1ed19aed3d5ad01ab64e878c67e5cf83"><div class="ttname"><a href="namespacehect.html#a1ed19aed3d5ad01ab64e878c67e5cf83">hect::beginArray</a></div><div class="ttdeci">HECT_EXPORT BeginArray beginArray()</div><div class="ttdoc">Creates an operation for beginning an array. </div></div>
+<div class="ttc" id="namespacehect_html_a0e49da2fab5560b58777dd1a711116db"><div class="ttname"><a href="namespacehect.html#a0e49da2fab5560b58777dd1a711116db">hect::endArray</a></div><div class="ttdeci">HECT_EXPORT EndArray endArray()</div><div class="ttdoc">Creates an operation for ending the current array. </div></div>
+<div class="ttc" id="classhect_1_1_asset_cache_html"><div class="ttname"><a href="classhect_1_1_asset_cache.html">hect::AssetCache</a></div><div class="ttdoc">Provides cached access to Assets from the FileSystem. </div><div class="ttdef"><b>Definition:</b> AssetCache.h:41</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

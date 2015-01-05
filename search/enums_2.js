@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['entityeventtype',['EntityEventType',['../namespacehect.html#ab46d25dc42994c264a6f4b7e8b0a3481',1,'hect']]]
+  ['datavaluetype',['DataValueType',['../namespacehect.html#ac1657d5e24692b83598eb2eccdf81b9a',1,'hect']]],
+  ['debugcolor',['DebugColor',['../namespacehect.html#adb98eb693f6b2f661b39126833850a52',1,'hect']]]
 ];

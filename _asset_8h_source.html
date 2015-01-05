@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -113,31 +113,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classhect_1_1_asset.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_asset.html">Asset</a></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="classhect_1_1_asset.html#a64e6ccf9b16f0217e22273e497b5a59b">Asset</a>();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classhect_1_1_asset.html#a64e6ccf9b16f0217e22273e497b5a59b">Asset</a>(<span class="keyword">const</span> std::string&amp; <a class="code" href="classhect_1_1_asset.html#a766366037505b957cc6ace69fad4dfe2">name</a>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">const</span> std::string&amp; <a class="code" href="classhect_1_1_asset.html#a766366037505b957cc6ace69fad4dfe2">name</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_asset.html#a97699607404c6a0c2c8d6ed3aeddb627">setName</a>(<span class="keyword">const</span> std::string&amp; name);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::string _name;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_asset_html_a766366037505b957cc6ace69fad4dfe2"><div class="ttname"><a href="classhect_1_1_asset.html#a766366037505b957cc6ace69fad4dfe2">hect::Asset::name</a></div><div class="ttdeci">const std::string &amp; name() const </div><div class="ttdoc">Returns the name. </div></div>
-<div class="ttc" id="classhect_1_1_asset_html_a64e6ccf9b16f0217e22273e497b5a59b"><div class="ttname"><a href="classhect_1_1_asset.html#a64e6ccf9b16f0217e22273e497b5a59b">hect::Asset::Asset</a></div><div class="ttdeci">Asset()</div><div class="ttdoc">Constructs an asset without a name. </div></div>
-<div class="ttc" id="classhect_1_1_asset_html"><div class="ttname"><a href="classhect_1_1_asset.html">hect::Asset</a></div><div class="ttdoc">Inheriting from this allows for caching/loading using an asset cache. </div><div class="ttdef"><b>Definition:</b> Asset.h:35</div></div>
-<div class="ttc" id="classhect_1_1_asset_html_a97699607404c6a0c2c8d6ed3aeddb627"><div class="ttname"><a href="classhect_1_1_asset.html#a97699607404c6a0c2c8d6ed3aeddb627">hect::Asset::setName</a></div><div class="ttdeci">void setName(const std::string &amp;name)</div><div class="ttdoc">Sets the name. </div></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classhect_1_1_asset.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_asset.html">Asset</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classhect_1_1_asset.html#a89bdb3686bb23adedbf0a5ec14d0cf8a">Asset</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classhect_1_1_asset.html#a89bdb3686bb23adedbf0a5ec14d0cf8a">Asset</a>(<span class="keyword">const</span> std::string&amp; <a class="code" href="classhect_1_1_asset.html#a718b3674d617d933d66c93d60f15b91a">name</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">const</span> std::string&amp; <a class="code" href="classhect_1_1_asset.html#a718b3674d617d933d66c93d60f15b91a">name</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_asset.html#a0f93317543a11cc6c4de865b7ea35873">setName</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;T&gt;</a> <a class="code" href="classhect_1_1_asset.html#a4b1aa4d7980c4f5b99c3ea49ee0090ee">createHandle</a>();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    std::string _name;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#include &quot;Asset.inl&quot;</span></div>
+<div class="ttc" id="classhect_1_1_asset_html_a0f93317543a11cc6c4de865b7ea35873"><div class="ttname"><a href="classhect_1_1_asset.html#a0f93317543a11cc6c4de865b7ea35873">hect::Asset::setName</a></div><div class="ttdeci">void setName(const std::string &amp;name)</div><div class="ttdoc">Sets the name. </div></div>
+<div class="ttc" id="classhect_1_1_asset_handle_html"><div class="ttname"><a href="classhect_1_1_asset_handle.html">hect::AssetHandle</a></div><div class="ttdoc">A reference-counted handle for an Asset. </div><div class="ttdef"><b>Definition:</b> AssetHandle.h:44</div></div>
+<div class="ttc" id="classhect_1_1_asset_html_a89bdb3686bb23adedbf0a5ec14d0cf8a"><div class="ttname"><a href="classhect_1_1_asset.html#a89bdb3686bb23adedbf0a5ec14d0cf8a">hect::Asset::Asset</a></div><div class="ttdeci">Asset()</div><div class="ttdoc">Constructs an asset. </div></div>
+<div class="ttc" id="classhect_1_1_asset_html"><div class="ttname"><a href="classhect_1_1_asset.html">hect::Asset</a></div><div class="ttdoc">Inheriting from this allows for caching/loading using an AssetCache. </div><div class="ttdef"><b>Definition:</b> Asset.h:36</div></div>
+<div class="ttc" id="classhect_1_1_asset_html_a718b3674d617d933d66c93d60f15b91a"><div class="ttname"><a href="classhect_1_1_asset.html#a718b3674d617d933d66c93d60f15b91a">hect::Asset::name</a></div><div class="ttdeci">const std::string &amp; name() const </div><div class="ttdoc">Returns the name. </div></div>
+<div class="ttc" id="classhect_1_1_asset_html_a4b1aa4d7980c4f5b99c3ea49ee0090ee"><div class="ttname"><a href="classhect_1_1_asset.html#a4b1aa4d7980c4f5b99c3ea49ee0090ee">hect::Asset::createHandle</a></div><div class="ttdeci">AssetHandle&lt; T &gt; createHandle()</div><div class="ttdoc">Returns an unowned handle to the asset. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

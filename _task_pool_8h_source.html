@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -116,56 +116,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &quot;Hect/Concurrency/Task.h&quot;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Error.h&quot;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Uncopyable.h&quot;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classhect_1_1_task_pool.html">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_task_pool.html">TaskPool</a> :</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="classhect_1_1_task_pool.html#a6c3bd73259164c419e03b3650b90f078">TaskPool</a>(<span class="keywordtype">size_t</span> threadCount, <span class="keywordtype">bool</span> adaptive = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="classhect_1_1_task_pool.html#a43f8d7dbadd90bf3dcf716b9d3d2244a">~TaskPool</a>();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="classhect_1_1_task_1_1_handle.html">Task::Handle</a> <a class="code" href="classhect_1_1_task_pool.html#a639c174e9ff4197c37744a216a994989">enqueue</a>(<a class="code" href="classhect_1_1_task.html#a50529667bf1b38b49b5f722b639e4fac">Task::Action</a> action);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_task_pool.html#a2ce2fa3bdaf318b25dda02d002daf297">wait</a>();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> initializeThreads(<span class="keywordtype">size_t</span> threadCount);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">void</span> threadLoop();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::deque&lt;Task::Handle&gt; _taskQueue;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    std::mutex _threadsMutex;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    std::vector&lt;std::thread&gt; _threads;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    std::mutex _queueMutex;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    std::condition_variable _condition;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">bool</span> _stop { <span class="keyword">false</span> };</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> _adaptive { <span class="keyword">true</span> };</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    std::atomic&lt;size_t&gt; _availableThreadCount { 0 };</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;};</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:31</div></div>
-<div class="ttc" id="classhect_1_1_task_pool_html_a639c174e9ff4197c37744a216a994989"><div class="ttname"><a href="classhect_1_1_task_pool.html#a639c174e9ff4197c37744a216a994989">hect::TaskPool::enqueue</a></div><div class="ttdeci">Task::Handle enqueue(Task::Action action)</div><div class="ttdoc">Enqueues a task to be executed asynchronously. </div></div>
-<div class="ttc" id="classhect_1_1_task_pool_html"><div class="ttname"><a href="classhect_1_1_task_pool.html">hect::TaskPool</a></div><div class="ttdoc">Provides the functionality for executing asynchronous tasks. </div><div class="ttdef"><b>Definition:</b> TaskPool.h:44</div></div>
-<div class="ttc" id="classhect_1_1_task_pool_html_a43f8d7dbadd90bf3dcf716b9d3d2244a"><div class="ttname"><a href="classhect_1_1_task_pool.html#a43f8d7dbadd90bf3dcf716b9d3d2244a">hect::TaskPool::~TaskPool</a></div><div class="ttdeci">~TaskPool()</div><div class="ttdoc">Waits until all running tasks complete (ignores any enqueued tasks remaining). </div></div>
-<div class="ttc" id="classhect_1_1_task_pool_html_a2ce2fa3bdaf318b25dda02d002daf297"><div class="ttname"><a href="classhect_1_1_task_pool.html#a2ce2fa3bdaf318b25dda02d002daf297">hect::TaskPool::wait</a></div><div class="ttdeci">void wait()</div><div class="ttdoc">Waits until all enqueued tasks complete. </div></div>
-<div class="ttc" id="classhect_1_1_task_1_1_handle_html"><div class="ttname"><a href="classhect_1_1_task_1_1_handle.html">hect::Task::Handle</a></div><div class="ttdoc">A handle for an enqueued task. </div><div class="ttdef"><b>Definition:</b> Task.h:50</div></div>
-<div class="ttc" id="classhect_1_1_task_html_a50529667bf1b38b49b5f722b639e4fac"><div class="ttname"><a href="classhect_1_1_task.html#a50529667bf1b38b49b5f722b639e4fac">hect::Task::Action</a></div><div class="ttdeci">std::function&lt; void()&gt; Action</div><div class="ttdoc">An action for a task to execute. </div><div class="ttdef"><b>Definition:</b> Task.h:46</div></div>
-<div class="ttc" id="classhect_1_1_task_pool_html_a6c3bd73259164c419e03b3650b90f078"><div class="ttname"><a href="classhect_1_1_task_pool.html#a6c3bd73259164c419e03b3650b90f078">hect::TaskPool::TaskPool</a></div><div class="ttdeci">TaskPool(size_t threadCount, bool adaptive=false)</div><div class="ttdoc">Constructs a task pool. </div></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Exception.h&quot;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Uncopyable.h&quot;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classhect_1_1_task_pool.html">   45</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_task_pool.html">TaskPool</a> :</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classhect_1_1_task_pool.html">TaskPool</a>(<span class="keywordtype">size_t</span> threadCount, <span class="keywordtype">bool</span> adaptive = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    ~<a class="code" href="classhect_1_1_task_pool.html">TaskPool</a>();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="classhect_1_1_task_1_1_handle.html">Task::Handle</a> enqueue(<a class="code" href="classhect_1_1_task.html#a50529667bf1b38b49b5f722b639e4fac">Task::Action</a> action);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> wait();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">void</span> initializeThreads(<span class="keywordtype">size_t</span> threadCount);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">void</span> threadLoop();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::deque&lt;Task::Handle&gt; _taskQueue;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    std::mutex _threadsMutex;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    std::vector&lt;std::thread&gt; _threads;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    std::mutex _queueMutex;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    std::condition_variable _condition;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> _stop { <span class="keyword">false</span> };</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">bool</span> _adaptive { <span class="keyword">true</span> };</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    std::atomic&lt;size_t&gt; _availableThreadCount { 0 };</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:33</div></div>
+<div class="ttc" id="classhect_1_1_task_pool_html"><div class="ttname"><a href="classhect_1_1_task_pool.html">hect::TaskPool</a></div><div class="ttdoc">Provides the functionality for executing asynchronous tasks. </div><div class="ttdef"><b>Definition:</b> TaskPool.h:45</div></div>
+<div class="ttc" id="classhect_1_1_task_1_1_handle_html"><div class="ttname"><a href="classhect_1_1_task_1_1_handle.html">hect::Task::Handle</a></div><div class="ttdoc">A handle for an enqueued task. </div><div class="ttdef"><b>Definition:</b> Task.h:52</div></div>
+<div class="ttc" id="classhect_1_1_task_html_a50529667bf1b38b49b5f722b639e4fac"><div class="ttname"><a href="classhect_1_1_task.html#a50529667bf1b38b49b5f722b639e4fac">hect::Task::Action</a></div><div class="ttdeci">std::function&lt; void()&gt; Action</div><div class="ttdoc">An action for a task to execute. </div><div class="ttdef"><b>Definition:</b> Task.h:48</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

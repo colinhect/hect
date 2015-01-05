@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -107,53 +107,49 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Event.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Components/Camera.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classhect_1_1_camera_system.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_camera_system.html">CameraSystem</a> :</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_system.html">System</a>,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_listener.html">Listener</a>&lt;ComponentEvent&lt;Camera&gt;&gt;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="classhect_1_1_camera_system.html">CameraSystem</a>(<a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; <a class="code" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classhect_1_1_component.html">Component&lt;Camera&gt;::Iterator</a> <a class="code" href="classhect_1_1_camera_system.html#a8c2fdbd40b71a65801e2387418b09806">activeCamera</a>();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_camera_system.html#aef1b98dc862db57e0b0ea1be5741bc7d">setActiveCamera</a>(<a class="code" href="classhect_1_1_camera.html">Camera</a>&amp; camera);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_camera_system.html#a12ffda1628fbb635320ed2eb2c42ea58">updateCamera</a>(<a class="code" href="classhect_1_1_camera.html">Camera</a>&amp; camera);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_camera_system.html#a951bdad15892b60b2b47fbe0aceec9a9">tick</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Components/Camera.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classhect_1_1_camera_system.html">   38</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_camera_system.html">CameraSystem</a> :</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_system.html">System</a>,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_listener.html">Listener</a>&lt;ComponentEvent&lt;Camera&gt;&gt;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classhect_1_1_camera_system.html">CameraSystem</a>(<a class="code" href="classhect_1_1_engine.html">Engine</a>&amp; engine, <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classhect_1_1_component.html">Component&lt;Camera&gt;::Iterator</a> activeCamera();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> setActiveCamera(<a class="code" href="classhect_1_1_camera.html">Camera</a>&amp; camera);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> update(<a class="code" href="classhect_1_1_camera.html">Camera</a>&amp; camera);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_camera_system.html#a13f31d83bd10fb26e775424b6a603b52">receiveEvent</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_component_event.html">ComponentEvent&lt;Camera&gt;</a>&amp; event) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> tick(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="classhect_1_1_entity_1_1_handle.html">Entity::Handle</a> _activeCameraEntity;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A scene of entities, components, and systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:50</div></div>
-<div class="ttc" id="classhect_1_1_camera_system_html_a12ffda1628fbb635320ed2eb2c42ea58"><div class="ttname"><a href="classhect_1_1_camera_system.html#a12ffda1628fbb635320ed2eb2c42ea58">hect::CameraSystem::updateCamera</a></div><div class="ttdeci">void updateCamera(Camera &amp;camera)</div><div class="ttdoc">Updates the view/projection matrices of a camera. </div></div>
-<div class="ttc" id="classhect_1_1_camera_system_html_aef1b98dc862db57e0b0ea1be5741bc7d"><div class="ttname"><a href="classhect_1_1_camera_system.html#aef1b98dc862db57e0b0ea1be5741bc7d">hect::CameraSystem::setActiveCamera</a></div><div class="ttdeci">void setActiveCamera(Camera &amp;camera)</div><div class="ttdoc">Sets the active camera in the scene. </div></div>
-<div class="ttc" id="classhect_1_1_camera_system_html_a951bdad15892b60b2b47fbe0aceec9a9"><div class="ttname"><a href="classhect_1_1_camera_system.html#a951bdad15892b60b2b47fbe0aceec9a9">hect::CameraSystem::tick</a></div><div class="ttdeci">void tick(Real timeStep) override</div><div class="ttdoc">Performs a single tick of simulation for the system. </div></div>
-<div class="ttc" id="classhect_1_1_system_html_a90c83603cd4d4ed463f77057c77aaaef"><div class="ttname"><a href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">hect::System::scene</a></div><div class="ttdeci">Scene &amp; scene()</div><div class="ttdoc">Gets the scene that the system affects. </div></div>
-<div class="ttc" id="classhect_1_1_component_event_html"><div class="ttname"><a href="classhect_1_1_component_event.html">hect::ComponentEvent</a></div><div class="ttdoc">A component-related event. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:57</div></div>
-<div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:77</div></div>
-<div class="ttc" id="classhect_1_1_camera_html"><div class="ttname"><a href="classhect_1_1_camera.html">hect::Camera</a></div><div class="ttdoc">A camera component. </div><div class="ttdef"><b>Definition:</b> Camera.h:38</div></div>
-<div class="ttc" id="classhect_1_1_camera_system_html_a13f31d83bd10fb26e775424b6a603b52"><div class="ttname"><a href="classhect_1_1_camera_system.html#a13f31d83bd10fb26e775424b6a603b52">hect::CameraSystem::receiveEvent</a></div><div class="ttdeci">void receiveEvent(const ComponentEvent&lt; Camera &gt; &amp;event) override</div><div class="ttdoc">Notifies the listener of an event. </div></div>
-<div class="ttc" id="classhect_1_1_entity_1_1_handle_html"><div class="ttname"><a href="classhect_1_1_entity_1_1_handle.html">hect::Entity::Handle</a></div><div class="ttdoc">A weak reference to an entity. </div><div class="ttdef"><b>Definition:</b> Entity.h:337</div></div>
-<div class="ttc" id="classhect_1_1_system_html"><div class="ttname"><a href="classhect_1_1_system.html">hect::System</a></div><div class="ttdoc">A system affecting entities within a scene. </div><div class="ttdef"><b>Definition:</b> System.h:44</div></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> receiveEvent(<span class="keyword">const</span> <a class="code" href="classhect_1_1_component_event.html">ComponentEvent&lt;Camera&gt;</a>&amp; event) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="classhect_1_1_entity_1_1_handle.html">Entity::Handle</a> _activeCameraEntity;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A dynamic collection of Entities , Components, and Systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:57</div></div>
+<div class="ttc" id="classhect_1_1_engine_html"><div class="ttname"><a href="classhect_1_1_engine.html">hect::Engine</a></div><div class="ttdoc">An instance of Hect Engine. </div><div class="ttdef"><b>Definition:</b> Engine.h:59</div></div>
+<div class="ttc" id="classhect_1_1_component_event_html"><div class="ttname"><a href="classhect_1_1_component_event.html">hect::ComponentEvent</a></div><div class="ttdoc">An event relating to a Component. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:58</div></div>
+<div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:78</div></div>
+<div class="ttc" id="classhect_1_1_camera_html"><div class="ttname"><a href="classhect_1_1_camera.html">hect::Camera</a></div><div class="ttdoc">A camera. </div><div class="ttdef"><b>Definition:</b> Camera.h:39</div></div>
+<div class="ttc" id="classhect_1_1_entity_1_1_handle_html"><div class="ttname"><a href="classhect_1_1_entity_1_1_handle.html">hect::Entity::Handle</a></div><div class="ttdoc">A weak reference to an Entity. </div><div class="ttdef"><b>Definition:</b> Entity.h:338</div></div>
+<div class="ttc" id="classhect_1_1_system_html"><div class="ttname"><a href="classhect_1_1_system.html">hect::System</a></div><div class="ttdoc">A system affecting entities within a scene. </div><div class="ttdef"><b>Definition:</b> System.h:46</div></div>
 <div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="classhect_1_1_listener_html"><div class="ttname"><a href="classhect_1_1_listener.html">hect::Listener</a></div><div class="ttdoc">An listener of specific events. </div><div class="ttdef"><b>Definition:</b> Event.h:39</div></div>
-<div class="ttc" id="classhect_1_1_camera_system_html"><div class="ttname"><a href="classhect_1_1_camera_system.html">hect::CameraSystem</a></div><div class="ttdoc">Updates and tracks the active camera(s). </div><div class="ttdef"><b>Definition:</b> CameraSystem.h:36</div></div>
-<div class="ttc" id="classhect_1_1_camera_system_html_a8c2fdbd40b71a65801e2387418b09806"><div class="ttname"><a href="classhect_1_1_camera_system.html#a8c2fdbd40b71a65801e2387418b09806">hect::CameraSystem::activeCamera</a></div><div class="ttdeci">Component&lt; Camera &gt;::Iterator activeCamera()</div><div class="ttdoc">Returns the active camera in the scene. </div></div>
+<div class="ttc" id="classhect_1_1_listener_html"><div class="ttname"><a href="classhect_1_1_listener.html">hect::Listener</a></div><div class="ttdoc">An listener of specific event. </div><div class="ttdef"><b>Definition:</b> Event.h:39</div></div>
+<div class="ttc" id="classhect_1_1_camera_system_html"><div class="ttname"><a href="classhect_1_1_camera_system.html">hect::CameraSystem</a></div><div class="ttdoc">Updates and tracks the active Camera in a Scene. </div><div class="ttdef"><b>Definition:</b> CameraSystem.h:38</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

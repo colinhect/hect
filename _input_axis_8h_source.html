@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -108,59 +108,54 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Input/InputAxisBinding.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Decoder.h&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Encoder.h&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Platform.h&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classhect_1_1_input_axis.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_input_axis.html">InputAxis</a></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classhect_1_1_input_axis.html#ae84876ca06e8b739ba76da8381bbb38e">InputAxis</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classhect_1_1_input_axis.html#ae84876ca06e8b739ba76da8381bbb38e">InputAxis</a>(<span class="keyword">const</span> std::string&amp; <a class="code" href="classhect_1_1_input_axis.html#ad8c0823f89b8245d0ba0649e5e220793">name</a>);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">const</span> std::string&amp; <a class="code" href="classhect_1_1_input_axis.html#ad8c0823f89b8245d0ba0649e5e220793">name</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_input_axis.html#a12064990f617c78114d0e23e2f21c347">setName</a>(<span class="keyword">const</span> std::string&amp; name);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_input_axis.html#a147db4bdafe5a557e7a28424da730e9c">addBinding</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_input_axis_binding.html">InputAxisBinding</a>&amp; binding);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_input_axis.html#a94eb0dab9407613d998bf8307c929150">update</a>(<a class="code" href="classhect_1_1_platform.html">Platform</a>&amp; platform, <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStepInSeconds);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> <a class="code" href="classhect_1_1_input_axis.html#a32fdafa51eb7f4aedf5fe107fcc28076">value</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">friend</span> <a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; encoder, <span class="keyword">const</span> <a class="code" href="classhect_1_1_input_axis.html">InputAxis</a>&amp; inputAxis);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">friend</span> <a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; operator&gt;&gt;(<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; decoder, <a class="code" href="classhect_1_1_input_axis.html">InputAxis</a>&amp; inputAxis);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    std::string _name;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    std::vector&lt;InputAxisBinding&gt; _bindings;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> _value { 0 };</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_encoder_html"><div class="ttname"><a href="classhect_1_1_encoder.html">hect::Encoder</a></div><div class="ttdoc">Provides access for encoding structured data to a persistent format. </div><div class="ttdef"><b>Definition:</b> Encoder.h:35</div></div>
-<div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:37</div></div>
-<div class="ttc" id="classhect_1_1_platform_html"><div class="ttname"><a href="classhect_1_1_platform.html">hect::Platform</a></div><div class="ttdoc">Provides access to platform functionality and peripherals. </div><div class="ttdef"><b>Definition:</b> Platform.h:40</div></div>
-<div class="ttc" id="classhect_1_1_input_axis_html_a32fdafa51eb7f4aedf5fe107fcc28076"><div class="ttname"><a href="classhect_1_1_input_axis.html#a32fdafa51eb7f4aedf5fe107fcc28076">hect::InputAxis::value</a></div><div class="ttdeci">Real value() const </div><div class="ttdoc">Returns the current value of the axis. </div></div>
-<div class="ttc" id="classhect_1_1_input_axis_html_ad8c0823f89b8245d0ba0649e5e220793"><div class="ttname"><a href="classhect_1_1_input_axis.html#ad8c0823f89b8245d0ba0649e5e220793">hect::InputAxis::name</a></div><div class="ttdeci">const std::string &amp; name() const </div><div class="ttdoc">Returns the name. </div></div>
-<div class="ttc" id="classhect_1_1_input_axis_binding_html"><div class="ttname"><a href="classhect_1_1_input_axis_binding.html">hect::InputAxisBinding</a></div><div class="ttdoc">A binding to an input axis. </div><div class="ttdef"><b>Definition:</b> InputAxisBinding.h:72</div></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Input/InputAxisBinding.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Decoder.h&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/Encoder.h&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Platform.h&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classhect_1_1_input_axis.html">   39</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_input_axis.html">InputAxis</a></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classhect_1_1_input_axis.html">InputAxis</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="classhect_1_1_input_axis.html">InputAxis</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">const</span> std::string&amp; name() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> setName(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> addBinding(<span class="keyword">const</span> <a class="code" href="classhect_1_1_input_axis_binding.html">InputAxisBinding</a>&amp; binding);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> update(<a class="code" href="classhect_1_1_platform.html">Platform</a>&amp; platform, <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStepInSeconds);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">friend</span> HECT_EXPORT <a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; encoder, <span class="keyword">const</span> <a class="code" href="classhect_1_1_input_axis.html">InputAxis</a>&amp; inputAxis);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">friend</span> HECT_EXPORT <a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; operator&gt;&gt;(<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; decoder, <a class="code" href="classhect_1_1_input_axis.html">InputAxis</a>&amp; inputAxis);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    std::string _name;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    std::vector&lt;InputAxisBinding&gt; _bindings;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> _value { 0 };</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_encoder_html"><div class="ttname"><a href="classhect_1_1_encoder.html">hect::Encoder</a></div><div class="ttdoc">Provides access for encoding structured data to a persistent format. </div><div class="ttdef"><b>Definition:</b> Encoder.h:37</div></div>
+<div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:39</div></div>
+<div class="ttc" id="classhect_1_1_platform_html"><div class="ttname"><a href="classhect_1_1_platform.html">hect::Platform</a></div><div class="ttdoc">Provides access to platform functionality and peripherals. </div><div class="ttdef"><b>Definition:</b> Platform.h:41</div></div>
+<div class="ttc" id="classhect_1_1_input_axis_binding_html"><div class="ttname"><a href="classhect_1_1_input_axis_binding.html">hect::InputAxisBinding</a></div><div class="ttdoc">A binding of an input device to the value of an InputAxis. </div><div class="ttdef"><b>Definition:</b> InputAxisBinding.h:74</div></div>
 <div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="classhect_1_1_input_axis_html"><div class="ttname"><a href="classhect_1_1_input_axis.html">hect::InputAxis</a></div><div class="ttdoc">An axis manipulated by bindings to input devices. </div><div class="ttdef"><b>Definition:</b> InputAxis.h:38</div></div>
-<div class="ttc" id="classhect_1_1_input_axis_html_a94eb0dab9407613d998bf8307c929150"><div class="ttname"><a href="classhect_1_1_input_axis.html#a94eb0dab9407613d998bf8307c929150">hect::InputAxis::update</a></div><div class="ttdeci">void update(Platform &amp;platform, Real timeStepInSeconds)</div><div class="ttdoc">Updates the input axis based on the current state of its bindings. </div></div>
-<div class="ttc" id="classhect_1_1_input_axis_html_a12064990f617c78114d0e23e2f21c347"><div class="ttname"><a href="classhect_1_1_input_axis.html#a12064990f617c78114d0e23e2f21c347">hect::InputAxis::setName</a></div><div class="ttdeci">void setName(const std::string &amp;name)</div><div class="ttdoc">Sets the name. </div></div>
-<div class="ttc" id="classhect_1_1_input_axis_html_a147db4bdafe5a557e7a28424da730e9c"><div class="ttname"><a href="classhect_1_1_input_axis.html#a147db4bdafe5a557e7a28424da730e9c">hect::InputAxis::addBinding</a></div><div class="ttdeci">void addBinding(const InputAxisBinding &amp;binding)</div><div class="ttdoc">Adds a binding to affect the input axis. </div></div>
-<div class="ttc" id="classhect_1_1_input_axis_html_ae84876ca06e8b739ba76da8381bbb38e"><div class="ttname"><a href="classhect_1_1_input_axis.html#ae84876ca06e8b739ba76da8381bbb38e">hect::InputAxis::InputAxis</a></div><div class="ttdeci">InputAxis()</div><div class="ttdoc">Constructs an input axis. </div></div>
+<div class="ttc" id="classhect_1_1_input_axis_html"><div class="ttname"><a href="classhect_1_1_input_axis.html">hect::InputAxis</a></div><div class="ttdoc">An axis manipulated by bindings to input devices. </div><div class="ttdef"><b>Definition:</b> InputAxis.h:39</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

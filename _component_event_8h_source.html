@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -107,47 +107,48 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Event.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">   33</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">ComponentEventType</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba07c6c0e160b0d8af93901926a0cb14f5">   41</a></span>&#160;    <a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba07c6c0e160b0d8af93901926a0cb14f5">ComponentEventType_Add</a>,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba7d9892fe32eb839243eebde73e4fe781">   49</a></span>&#160;    <a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba7d9892fe32eb839243eebde73e4fe781">ComponentEventType_Remove</a></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">class </span>Entity;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classhect_1_1_component_event.html">   57</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_component_event.html">ComponentEvent</a></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="classhect_1_1_component_event.html">ComponentEvent</a>(<a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">ComponentEventType</a> <a class="code" href="classhect_1_1_component_event.html#a885d544eebddfe1aa027639a806e4b07">type</a>, <a class="code" href="classhect_1_1_entity.html">Entity</a>&amp; <a class="code" href="classhect_1_1_component_event.html#aeef1cc0466194e21221445dcf37697e6">entity</a>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="classhect_1_1_component_event.html#a885d544eebddfe1aa027639a806e4b07">   64</a></span>&#160;    <a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">ComponentEventType</a> <a class="code" href="classhect_1_1_component_event.html#a885d544eebddfe1aa027639a806e4b07">type</a>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="classhect_1_1_entity.html">Entity</a>&amp; <a class="code" href="classhect_1_1_component_event.html#aeef1cc0466194e21221445dcf37697e6">entity</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">mutable</span> <a class="code" href="classhect_1_1_entity.html">Entity</a>* _entity;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#include &quot;ComponentEvent.inl&quot;</span></div>
-<div class="ttc" id="namespacehect_html_a7ee3d16246ce285a64c990e7efd7faab"><div class="ttname"><a href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">hect::ComponentEventType</a></div><div class="ttdeci">ComponentEventType</div><div class="ttdoc">A component-related event type. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:33</div></div>
-<div class="ttc" id="classhect_1_1_component_event_html"><div class="ttname"><a href="classhect_1_1_component_event.html">hect::ComponentEvent</a></div><div class="ttdoc">A component-related event. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:57</div></div>
-<div class="ttc" id="classhect_1_1_entity_html"><div class="ttname"><a href="classhect_1_1_entity.html">hect::Entity</a></div><div class="ttdoc">A dynamic object in a Scene. </div><div class="ttdef"><b>Definition:</b> Entity.h:43</div></div>
-<div class="ttc" id="classhect_1_1_component_event_html_a885d544eebddfe1aa027639a806e4b07"><div class="ttname"><a href="classhect_1_1_component_event.html#a885d544eebddfe1aa027639a806e4b07">hect::ComponentEvent::type</a></div><div class="ttdeci">ComponentEventType type</div><div class="ttdoc">The event type. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:64</div></div>
-<div class="ttc" id="namespacehect_html_a7ee3d16246ce285a64c990e7efd7faaba7d9892fe32eb839243eebde73e4fe781"><div class="ttname"><a href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba7d9892fe32eb839243eebde73e4fe781">hect::ComponentEventType_Remove</a></div><div class="ttdoc">A component was removed from an entity. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:49</div></div>
-<div class="ttc" id="classhect_1_1_component_event_html_aeef1cc0466194e21221445dcf37697e6"><div class="ttname"><a href="classhect_1_1_component_event.html#aeef1cc0466194e21221445dcf37697e6">hect::ComponentEvent::entity</a></div><div class="ttdeci">Entity &amp; entity() const </div><div class="ttdoc">Returns a reference to the entity that the event is for. </div></div>
-<div class="ttc" id="namespacehect_html_a7ee3d16246ce285a64c990e7efd7faaba07c6c0e160b0d8af93901926a0cb14f5"><div class="ttname"><a href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba07c6c0e160b0d8af93901926a0cb14f5">hect::ComponentEventType_Add</a></div><div class="ttdoc">A component was added to an entity. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:41</div></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">   34</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">ComponentEventType</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba07c6c0e160b0d8af93901926a0cb14f5">   42</a></span>&#160;    <a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba07c6c0e160b0d8af93901926a0cb14f5">ComponentEventType_Add</a>,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba7d9892fe32eb839243eebde73e4fe781">   50</a></span>&#160;    <a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba7d9892fe32eb839243eebde73e4fe781">ComponentEventType_Remove</a></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">class </span>Entity;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classhect_1_1_component_event.html">   58</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_component_event.html">ComponentEvent</a></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="classhect_1_1_component_event.html">ComponentEvent</a>(<a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">ComponentEventType</a> <a class="code" href="classhect_1_1_component_event.html#a885d544eebddfe1aa027639a806e4b07">type</a>, <a class="code" href="classhect_1_1_entity.html">Entity</a>&amp; <a class="code" href="classhect_1_1_component_event.html#aeef1cc0466194e21221445dcf37697e6">entity</a>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="classhect_1_1_component_event.html#a885d544eebddfe1aa027639a806e4b07">   65</a></span>&#160;    <a class="code" href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">ComponentEventType</a> <a class="code" href="classhect_1_1_component_event.html#a885d544eebddfe1aa027639a806e4b07">type</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="classhect_1_1_entity.html">Entity</a>&amp; <a class="code" href="classhect_1_1_component_event.html#aeef1cc0466194e21221445dcf37697e6">entity</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">mutable</span> <a class="code" href="classhect_1_1_entity.html">Entity</a>* _entity;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#include &quot;ComponentEvent.inl&quot;</span></div>
+<div class="ttc" id="namespacehect_html_a7ee3d16246ce285a64c990e7efd7faab"><div class="ttname"><a href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faab">hect::ComponentEventType</a></div><div class="ttdeci">ComponentEventType</div><div class="ttdoc">A type of ComponentEvent. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:34</div></div>
+<div class="ttc" id="classhect_1_1_component_event_html"><div class="ttname"><a href="classhect_1_1_component_event.html">hect::ComponentEvent</a></div><div class="ttdoc">An event relating to a Component. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:58</div></div>
+<div class="ttc" id="classhect_1_1_entity_html"><div class="ttname"><a href="classhect_1_1_entity.html">hect::Entity</a></div><div class="ttdoc">A dynamic object in a Scene. </div><div class="ttdef"><b>Definition:</b> Entity.h:44</div></div>
+<div class="ttc" id="classhect_1_1_component_event_html_a885d544eebddfe1aa027639a806e4b07"><div class="ttname"><a href="classhect_1_1_component_event.html#a885d544eebddfe1aa027639a806e4b07">hect::ComponentEvent::type</a></div><div class="ttdeci">ComponentEventType type</div><div class="ttdoc">The event type. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:65</div></div>
+<div class="ttc" id="namespacehect_html_a7ee3d16246ce285a64c990e7efd7faaba7d9892fe32eb839243eebde73e4fe781"><div class="ttname"><a href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba7d9892fe32eb839243eebde73e4fe781">hect::ComponentEventType_Remove</a></div><div class="ttdoc">A Component was removed from an Entity. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:50</div></div>
+<div class="ttc" id="classhect_1_1_component_event_html_aeef1cc0466194e21221445dcf37697e6"><div class="ttname"><a href="classhect_1_1_component_event.html#aeef1cc0466194e21221445dcf37697e6">hect::ComponentEvent::entity</a></div><div class="ttdeci">Entity &amp; entity() const </div><div class="ttdoc">Returns a reference to the Entity that the event is for. </div></div>
+<div class="ttc" id="namespacehect_html_a7ee3d16246ce285a64c990e7efd7faaba07c6c0e160b0d8af93901926a0cb14f5"><div class="ttname"><a href="namespacehect.html#a7ee3d16246ce285a64c990e7efd7faaba07c6c0e160b0d8af93901926a0cb14f5">hect::ComponentEventType_Add</a></div><div class="ttdoc">A Component was added to an Entity. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:42</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -106,52 +106,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector3.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Quaternion.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_transform.html">Transform</a> :</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_component.html">Component</a>&lt;Transform&gt;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classhect_1_1_transform_system.html">TransformSystem</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#a57acd2e25ce5641f4bb2969429547b73">   50</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> <a class="code" href="classhect_1_1_transform.html#a57acd2e25ce5641f4bb2969429547b73">localPosition</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#aa2ea2231bc6ddabac4e411d65b3af49f">   59</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> <a class="code" href="classhect_1_1_transform.html#aa2ea2231bc6ddabac4e411d65b3af49f">localScale</a> { <a class="code" href="classhect_1_1_vector3_t.html#ae09bf59ca49fdc8f96351478d60be714">Vector3::one</a>() };</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#abbabffdf91952ed53b561d4aecadbc01">   68</a></span>&#160;    <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a> <a class="code" href="classhect_1_1_transform.html#abbabffdf91952ed53b561d4aecadbc01">localRotation</a>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#ace6ada70956b1bfb2155ec68dfdb2c85">   77</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> <a class="code" href="classhect_1_1_transform.html#ace6ada70956b1bfb2155ec68dfdb2c85">globalPosition</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#a034e9d70cbfe532bec1da4ee475114ff">   86</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> <a class="code" href="classhect_1_1_transform.html#a034e9d70cbfe532bec1da4ee475114ff">globalScale</a> { <a class="code" href="classhect_1_1_vector3_t.html#ae09bf59ca49fdc8f96351478d60be714">Vector3::one</a>() };</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#adc814303a340b196686875eae74bdebc">   95</a></span>&#160;    <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a> <a class="code" href="classhect_1_1_transform.html#adc814303a340b196686875eae74bdebc">globalRotation</a>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">bool</span> _markedForUpdate { <span class="keyword">false</span> };</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_transform_system_html"><div class="ttname"><a href="classhect_1_1_transform_system.html">hect::TransformSystem</a></div><div class="ttdoc">Manages the transform hierarchies of the scene. </div><div class="ttdef"><b>Definition:</b> TransformSystem.h:37</div></div>
-<div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:77</div></div>
-<div class="ttc" id="classhect_1_1_transform_html_ace6ada70956b1bfb2155ec68dfdb2c85"><div class="ttname"><a href="classhect_1_1_transform.html#ace6ada70956b1bfb2155ec68dfdb2c85">hect::Transform::globalPosition</a></div><div class="ttdeci">Vector3 globalPosition</div><div class="ttdoc">The global position. </div><div class="ttdef"><b>Definition:</b> Transform.h:77</div></div>
-<div class="ttc" id="classhect_1_1_transform_html_a57acd2e25ce5641f4bb2969429547b73"><div class="ttname"><a href="classhect_1_1_transform.html#a57acd2e25ce5641f4bb2969429547b73">hect::Transform::localPosition</a></div><div class="ttdeci">Vector3 localPosition</div><div class="ttdoc">The local position. </div><div class="ttdef"><b>Definition:</b> Transform.h:50</div></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector3.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Quaternion.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html">   42</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_transform.html">Transform</a> :</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_component.html">Component</a>&lt;Transform&gt;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#a57acd2e25ce5641f4bb2969429547b73">   51</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> <a class="code" href="classhect_1_1_transform.html#a57acd2e25ce5641f4bb2969429547b73">localPosition</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#aa2ea2231bc6ddabac4e411d65b3af49f">   57</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> localScale { <a class="code" href="classhect_1_1_vector3_t.html#ae09bf59ca49fdc8f96351478d60be714">Vector3::one</a>() };</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#abbabffdf91952ed53b561d4aecadbc01">   63</a></span>&#160;    <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a> <a class="code" href="classhect_1_1_transform.html#abbabffdf91952ed53b561d4aecadbc01">localRotation</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#ace6ada70956b1bfb2155ec68dfdb2c85">   72</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> <a class="code" href="classhect_1_1_transform.html#ace6ada70956b1bfb2155ec68dfdb2c85">globalPosition</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#a034e9d70cbfe532bec1da4ee475114ff">   81</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> globalScale { <a class="code" href="classhect_1_1_vector3_t.html#ae09bf59ca49fdc8f96351478d60be714">Vector3::one</a>() };</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="classhect_1_1_transform.html#adc814303a340b196686875eae74bdebc">   90</a></span>&#160;    <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a> <a class="code" href="classhect_1_1_transform.html#adc814303a340b196686875eae74bdebc">globalRotation</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;};</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:78</div></div>
+<div class="ttc" id="classhect_1_1_transform_html_ace6ada70956b1bfb2155ec68dfdb2c85"><div class="ttname"><a href="classhect_1_1_transform.html#ace6ada70956b1bfb2155ec68dfdb2c85">hect::Transform::globalPosition</a></div><div class="ttdeci">Vector3 globalPosition</div><div class="ttdoc">The global position. </div><div class="ttdef"><b>Definition:</b> Transform.h:72</div></div>
+<div class="ttc" id="classhect_1_1_transform_html_a57acd2e25ce5641f4bb2969429547b73"><div class="ttname"><a href="classhect_1_1_transform.html#a57acd2e25ce5641f4bb2969429547b73">hect::Transform::localPosition</a></div><div class="ttdeci">Vector3 localPosition</div><div class="ttdoc">The local position. </div><div class="ttdef"><b>Definition:</b> Transform.h:51</div></div>
 <div class="ttc" id="classhect_1_1_quaternion_t_html"><div class="ttname"><a href="classhect_1_1_quaternion_t.html">hect::QuaternionT&lt; Real &gt;</a></div></div>
-<div class="ttc" id="classhect_1_1_transform_html"><div class="ttname"><a href="classhect_1_1_transform.html">hect::Transform</a></div><div class="ttdoc">A combination of a position, scale, and rotation. </div><div class="ttdef"><b>Definition:</b> Transform.h:37</div></div>
-<div class="ttc" id="classhect_1_1_transform_html_a034e9d70cbfe532bec1da4ee475114ff"><div class="ttname"><a href="classhect_1_1_transform.html#a034e9d70cbfe532bec1da4ee475114ff">hect::Transform::globalScale</a></div><div class="ttdeci">Vector3 globalScale</div><div class="ttdoc">The global scale. </div><div class="ttdef"><b>Definition:</b> Transform.h:86</div></div>
-<div class="ttc" id="classhect_1_1_transform_html_aa2ea2231bc6ddabac4e411d65b3af49f"><div class="ttname"><a href="classhect_1_1_transform.html#aa2ea2231bc6ddabac4e411d65b3af49f">hect::Transform::localScale</a></div><div class="ttdeci">Vector3 localScale</div><div class="ttdoc">The local scale. </div><div class="ttdef"><b>Definition:</b> Transform.h:59</div></div>
-<div class="ttc" id="classhect_1_1_transform_html_adc814303a340b196686875eae74bdebc"><div class="ttname"><a href="classhect_1_1_transform.html#adc814303a340b196686875eae74bdebc">hect::Transform::globalRotation</a></div><div class="ttdeci">Quaternion globalRotation</div><div class="ttdoc">The global rotation. </div><div class="ttdef"><b>Definition:</b> Transform.h:95</div></div>
-<div class="ttc" id="classhect_1_1_transform_html_abbabffdf91952ed53b561d4aecadbc01"><div class="ttname"><a href="classhect_1_1_transform.html#abbabffdf91952ed53b561d4aecadbc01">hect::Transform::localRotation</a></div><div class="ttdeci">Quaternion localRotation</div><div class="ttdoc">The local rotation. </div><div class="ttdef"><b>Definition:</b> Transform.h:68</div></div>
+<div class="ttc" id="classhect_1_1_transform_html"><div class="ttname"><a href="classhect_1_1_transform.html">hect::Transform</a></div><div class="ttdoc">A combination of a position, scale, and rotation. </div><div class="ttdef"><b>Definition:</b> Transform.h:42</div></div>
+<div class="ttc" id="classhect_1_1_transform_html_adc814303a340b196686875eae74bdebc"><div class="ttname"><a href="classhect_1_1_transform.html#adc814303a340b196686875eae74bdebc">hect::Transform::globalRotation</a></div><div class="ttdeci">Quaternion globalRotation</div><div class="ttdoc">The global rotation. </div><div class="ttdef"><b>Definition:</b> Transform.h:90</div></div>
+<div class="ttc" id="classhect_1_1_transform_html_abbabffdf91952ed53b561d4aecadbc01"><div class="ttname"><a href="classhect_1_1_transform.html#abbabffdf91952ed53b561d4aecadbc01">hect::Transform::localRotation</a></div><div class="ttdeci">Quaternion localRotation</div><div class="ttdoc">The local rotation. </div><div class="ttdef"><b>Definition:</b> Transform.h:63</div></div>
 <div class="ttc" id="classhect_1_1_vector3_t_html_ae09bf59ca49fdc8f96351478d60be714"><div class="ttname"><a href="classhect_1_1_vector3_t.html#ae09bf59ca49fdc8f96351478d60be714">hect::Vector3T&lt; Real &gt;::one</a></div><div class="ttdeci">static Vector3T one()</div><div class="ttdoc">Constructs a 3-dimensional vector with all components equal to one. </div></div>
 <div class="ttc" id="classhect_1_1_vector3_t_html"><div class="ttname"><a href="classhect_1_1_vector3_t.html">hect::Vector3T&lt; Real &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -106,20 +106,20 @@ Inheritance diagram for hect::System:</div>
   <img src="classhect_1_1_system.png" usemap="#hect::System_map" alt=""/>
   <map id="hect::System_map" name="hect::System_map">
 <area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="415,0,571,24"/>
-<area href="classhect_1_1_bounding_box_system.html" title="Manages the bounding box hierarchies of the scene. " alt="hect::BoundingBoxSystem" shape="rect" coords="0,112,156,136"/>
-<area href="classhect_1_1_camera_system.html" title="Updates and tracks the active camera(s). " alt="hect::CameraSystem" shape="rect" coords="166,112,322,136"/>
+<area href="classhect_1_1_bounding_box_system.html" title="Manages the BoundingBox hierarchies of a Scene. " alt="hect::BoundingBoxSystem" shape="rect" coords="0,112,156,136"/>
+<area href="classhect_1_1_camera_system.html" title="Updates and tracks the active Camera in a Scene. " alt="hect::CameraSystem" shape="rect" coords="166,112,322,136"/>
 <area href="classhect_1_1_debug_system.html" title="Provides debug functionality. " alt="hect::DebugSystem" shape="rect" coords="332,112,488,136"/>
 <area href="classhect_1_1_input_system.html" title="Maps user input to input axes. " alt="hect::InputSystem" shape="rect" coords="498,112,654,136"/>
 <area href="classhect_1_1_physics_system.html" title="Simulates physical interactions of physical bodies. " alt="hect::PhysicsSystem" shape="rect" coords="664,112,820,136"/>
-<area href="classhect_1_1_transform_system.html" title="Manages the transform hierarchies of the scene. " alt="hect::TransformSystem" shape="rect" coords="830,112,986,136"/>
+<area href="classhect_1_1_transform_system.html" title="Manages the Transform hierarchies of a Scene. " alt="hect::TransformSystem" shape="rect" coords="830,112,986,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0d3ce47cb99646fc784e8dc29767c1be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a0d3ce47cb99646fc784e8dc29767c1be">System</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;<a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>)</td></tr>
-<tr class="memdesc:a0d3ce47cb99646fc784e8dc29767c1be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a system.  <a href="#a0d3ce47cb99646fc784e8dc29767c1be">More...</a><br /></td></tr>
-<tr class="separator:a0d3ce47cb99646fc784e8dc29767c1be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e801d70e8869e871587e6914b15cf79"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a3e801d70e8869e871587e6914b15cf79">System</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;<a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>, <a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> <a class="el" href="classhect_1_1_system.html#a812bbf7b78e00e59b1f337f20104466f">tickStage</a>=<a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a>)</td></tr>
+<tr class="memdesc:a3e801d70e8869e871587e6914b15cf79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a system.  <a href="#a3e801d70e8869e871587e6914b15cf79">More...</a><br /></td></tr>
+<tr class="separator:a3e801d70e8869e871587e6914b15cf79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8d1add3e5d6481de4a7246acef2eeb9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#ae8d1add3e5d6481de4a7246acef2eeb9">tick</a> (<a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep)</td></tr>
 <tr class="memdesc:ae8d1add3e5d6481de4a7246acef2eeb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#ae8d1add3e5d6481de4a7246acef2eeb9">More...</a><br /></td></tr>
 <tr class="separator:ae8d1add3e5d6481de4a7246acef2eeb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,6 +131,10 @@ Public Member Functions</h2></td></tr>
 const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a02ff1d1563c21db2adfac2fb2a3013dc">scene</a> () const </td></tr>
 <tr class="memdesc:a02ff1d1563c21db2adfac2fb2a3013dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene that the system affects. <br /></td></tr>
 <tr class="separator:a02ff1d1563c21db2adfac2fb2a3013dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a812bbf7b78e00e59b1f337f20104466f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a812bbf7b78e00e59b1f337f20104466f"></a>
+<a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a812bbf7b78e00e59b1f337f20104466f">tickStage</a> () const </td></tr>
+<tr class="memdesc:a812bbf7b78e00e59b1f337f20104466f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the tick stage. <br /></td></tr>
+<tr class="separator:a812bbf7b78e00e59b1f337f20104466f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aded0f9cb47b65b66c41a121eb386d940"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#aded0f9cb47b65b66c41a121eb386d940">encode</a> (<a class="el" href="classhect_1_1_encoder.html">Encoder</a> &amp;encoder) const </td></tr>
 <tr class="memdesc:aded0f9cb47b65b66c41a121eb386d940"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encodes the system to an object.  <a href="#aded0f9cb47b65b66c41a121eb386d940">More...</a><br /></td></tr>
 <tr class="separator:aded0f9cb47b65b66c41a121eb386d940"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +145,7 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A system affecting entities within a scene. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a0d3ce47cb99646fc784e8dc29767c1be"></a>
+<a class="anchor" id="a3e801d70e8869e871587e6914b15cf79"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -149,8 +153,18 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
           <td class="memname">hect::System::System </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td>
-          <td class="paramname"><em>scene</em></td><td>)</td>
+          <td class="paramname"><em>scene</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a>&#160;</td>
+          <td class="paramname"><em>tickStage</em> = <code><a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -159,6 +173,7 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">scene</td><td>The scene that the system exists in. </td></tr>
+    <tr><td class="paramname">tickStage</td><td>The stage to tick the system in. </td></tr>
   </table>
   </dd>
 </dl>
@@ -260,14 +275,14 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classhect_1_1_physics_system.html#a1a388fb066b890a477c8c8ecaceb2356">hect::PhysicsSystem</a>, <a class="el" href="classhect_1_1_input_system.html#a4663380aeb214d8366628fa5160df97c">hect::InputSystem</a>, <a class="el" href="classhect_1_1_camera_system.html#a951bdad15892b60b2b47fbe0aceec9a9">hect::CameraSystem</a>, <a class="el" href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">hect::TransformSystem</a>, and <a class="el" href="classhect_1_1_bounding_box_system.html#a9aa59e6f916a4fa1d6ba2291124fb39b">hect::BoundingBoxSystem</a>.</p>
+<p>Reimplemented in <a class="el" href="classhect_1_1_debug_system.html#a4d0834041c7a71eaad3521a997175209">hect::DebugSystem</a>, <a class="el" href="classhect_1_1_physics_system.html#a1a388fb066b890a477c8c8ecaceb2356">hect::PhysicsSystem</a>, <a class="el" href="classhect_1_1_input_system.html#a4663380aeb214d8366628fa5160df97c">hect::InputSystem</a>, <a class="el" href="classhect_1_1_camera_system.html#a951bdad15892b60b2b47fbe0aceec9a9">hect::CameraSystem</a>, <a class="el" href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">hect::TransformSystem</a>, and <a class="el" href="classhect_1_1_bounding_box_system.html#a9aa59e6f916a4fa1d6ba2291124fb39b">hect::BoundingBoxSystem</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

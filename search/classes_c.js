@@ -1,8 +1,6 @@
 var searchData=
 [
   ['material',['Material',['../classhect_1_1_material.html',1,'hect']]],
-  ['materialparameter',['MaterialParameter',['../classhect_1_1_material_parameter.html',1,'hect']]],
-  ['materialvalue',['MaterialValue',['../classhect_1_1_material_value.html',1,'hect']]],
   ['matrix4t',['Matrix4T',['../classhect_1_1_matrix4_t.html',1,'hect']]],
   ['matrix4t_3c_20real_20_3e',['Matrix4T&lt; Real &gt;',['../classhect_1_1_matrix4_t.html',1,'hect']]],
   ['memoryreadstream',['MemoryReadStream',['../classhect_1_1_memory_read_stream.html',1,'hect']]],

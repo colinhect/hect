@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -109,56 +109,56 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/IOError.h&quot;</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classhect_1_1_write_stream.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_write_stream.html">WriteStream</a></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>() { }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_write_stream.html#a3166aa373d092da271ee2b375ca6e1d1">write</a>(<span class="keyword">const</span> uint8_t* bytes, <span class="keywordtype">size_t</span> byteCount) = 0;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classhect_1_1_write_stream.html#a86c72e31d5599d17d105202b6640e76f">position</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_write_stream.html#a210301a2ffbac18f435766dfdc0f44ab">seek</a>(<span class="keywordtype">size_t</span> <a class="code" href="classhect_1_1_write_stream.html#a86c72e31d5599d17d105202b6640e76f">position</a>) = 0;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keyword">const</span> <span class="keywordtype">char</span>* value);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keyword">const</span> std::string&amp; value);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, int8_t value);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, uint8_t value);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, int16_t value);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, uint16_t value);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, int32_t value);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, uint32_t value);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, int64_t value);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, uint64_t value);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keywordtype">float</span> value);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keywordtype">double</span> value);</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keywordtype">bool</span> value);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_write_stream_html_a3166aa373d092da271ee2b375ca6e1d1"><div class="ttname"><a href="classhect_1_1_write_stream.html#a3166aa373d092da271ee2b375ca6e1d1">hect::WriteStream::write</a></div><div class="ttdeci">virtual void write(const uint8_t *bytes, size_t byteCount)=0</div><div class="ttdoc">Writes raw bytes to the stream. </div></div>
-<div class="ttc" id="classhect_1_1_write_stream_html_a210301a2ffbac18f435766dfdc0f44ab"><div class="ttname"><a href="classhect_1_1_write_stream.html#a210301a2ffbac18f435766dfdc0f44ab">hect::WriteStream::seek</a></div><div class="ttdeci">virtual void seek(size_t position)=0</div><div class="ttdoc">Sets the current byte offset position in the stream. </div></div>
-<div class="ttc" id="classhect_1_1_write_stream_html"><div class="ttname"><a href="classhect_1_1_write_stream.html">hect::WriteStream</a></div><div class="ttdoc">An interface for writing streamed data. </div><div class="ttdef"><b>Definition:</b> WriteStream.h:34</div></div>
-<div class="ttc" id="classhect_1_1_write_stream_html_a86c72e31d5599d17d105202b6640e76f"><div class="ttname"><a href="classhect_1_1_write_stream.html#a86c72e31d5599d17d105202b6640e76f">hect::WriteStream::position</a></div><div class="ttdeci">virtual size_t position() const =0</div><div class="ttdoc">Returns the current byte offset position in the stream. </div></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classhect_1_1_write_stream.html">   37</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>() { }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> write(<span class="keyword">const</span> uint8_t* bytes, <span class="keywordtype">size_t</span> byteCount) = 0;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> position() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> seek(<span class="keywordtype">size_t</span> position) = 0;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keyword">const</span> <span class="keywordtype">char</span>* value);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keyword">const</span> std::string&amp; value);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, int8_t value);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, uint8_t value);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, int16_t value);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, uint16_t value);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, int32_t value);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, uint32_t value);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, int64_t value);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, uint64_t value);</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keywordtype">float</span> value);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keywordtype">double</span> value);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;HECT_EXPORT <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; operator&lt;&lt;(<a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream, <span class="keywordtype">bool</span> value);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_write_stream_html"><div class="ttname"><a href="classhect_1_1_write_stream.html">hect::WriteStream</a></div><div class="ttdoc">An interface for writing streamed data. </div><div class="ttdef"><b>Definition:</b> WriteStream.h:37</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

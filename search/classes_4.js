@@ -1,6 +1,7 @@
 var searchData=
 [
   ['encodeenum',['EncodeEnum',['../structhect_1_1_encode_enum.html',1,'hect']]],
+  ['encodeerror',['EncodeError',['../classhect_1_1_encode_error.html',1,'hect']]],
   ['encoder',['Encoder',['../classhect_1_1_encoder.html',1,'hect']]],
   ['encodevalue',['EncodeValue',['../structhect_1_1_encode_value.html',1,'hect']]],
   ['encodevector',['EncodeVector',['../structhect_1_1_encode_vector.html',1,'hect']]],
@@ -12,5 +13,5 @@ var searchData=
   ['entitypool',['EntityPool',['../classhect_1_1_entity_pool.html',1,'hect']]],
   ['enum',['Enum',['../classhect_1_1_enum.html',1,'hect']]],
   ['enumvalue',['EnumValue',['../classhect_1_1_enum_value.html',1,'hect']]],
-  ['error',['Error',['../classhect_1_1_error.html',1,'hect']]]
+  ['exception',['Exception',['../classhect_1_1_exception.html',1,'hect']]]
 ];

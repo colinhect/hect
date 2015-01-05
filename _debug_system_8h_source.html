@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -106,66 +106,80 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Material.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Components/Transform.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Spacial/Box.h&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">class </span>SceneRenderer;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classhect_1_1_debug_system.html">   40</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_debug_system.html">DebugSystem</a> :</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_system.html">System</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classhect_1_1_debug_system.html">DebugSystem</a>(<a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; <a class="code" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Material.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Components/Transform.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/Spacial/Box.h&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">class </span>SceneRenderer;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52">   39</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52">DebugColor</a></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52ac118c72843fbadf8734859b592735d5a">   44</a></span>&#160;    <a class="code" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52ac118c72843fbadf8734859b592735d5a">DebugColor_Primary</a>,</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_debug_system.html#a6d7edd4370339818b28629c2e4745d12">drawBox</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_box.html">Box</a>&amp; box, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; color, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; position, <span class="keyword">const</span> <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a>&amp; rotation = <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a>());</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52a1018d6c9b16abcfe7a91329b3ead572a">   48</a></span>&#160;    <a class="code" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52a1018d6c9b16abcfe7a91329b3ead572a">DebugColor_Secondary</a>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52a73b4d1e190baceb29b3f3ef51902eb16">   52</a></span>&#160;    <a class="code" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52a73b4d1e190baceb29b3f3ef51902eb16">DebugColor_Tertiary</a></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_debug_system.html#a0f8e74c48c4e83fdd307334abd91d87a">addRenderCalls</a>(<a class="code" href="classhect_1_1_scene_renderer.html">SceneRenderer</a>&amp; sceneRenderer);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_debug_system.html#a8f44612c3d2da182ffb991a48944ba42">clear</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classhect_1_1_debug_system.html">   59</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_debug_system.html">DebugSystem</a> :</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_system.html">System</a></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classhect_1_1_debug_system.html">DebugSystem</a>(<a class="code" href="classhect_1_1_engine.html">Engine</a>&amp; engine, <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene);</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">class </span>DebugBox</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        DebugBox();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        DebugBox(<span class="keyword">const</span> <a class="code" href="classhect_1_1_box.html">Box</a>&amp; box, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; position, <span class="keyword">const</span> <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a>&amp; rotation, <span class="keyword">const</span> <a class="code" href="classhect_1_1_material.html">Material</a>&amp; material);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="classhect_1_1_box.html">Box</a> box;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="classhect_1_1_transform.html">Transform</a> transform;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <a class="code" href="classhect_1_1_material.html">Material</a> material;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    };</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::vector&lt;DebugBox&gt; _boxes;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;Material&gt;</a> _coloredLineMaterial;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;Mesh&gt;</a> _boxMesh;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;};</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A scene of entities, components, and systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:50</div></div>
-<div class="ttc" id="classhect_1_1_asset_handle_html"><div class="ttname"><a href="classhect_1_1_asset_handle.html">hect::AssetHandle</a></div><div class="ttdoc">A reference-counted handle for an asset. </div><div class="ttdef"><b>Definition:</b> AssetHandle.h:44</div></div>
-<div class="ttc" id="classhect_1_1_system_html_a90c83603cd4d4ed463f77057c77aaaef"><div class="ttname"><a href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">hect::System::scene</a></div><div class="ttdeci">Scene &amp; scene()</div><div class="ttdoc">Gets the scene that the system affects. </div></div>
-<div class="ttc" id="classhect_1_1_debug_system_html_a8f44612c3d2da182ffb991a48944ba42"><div class="ttname"><a href="classhect_1_1_debug_system.html#a8f44612c3d2da182ffb991a48944ba42">hect::DebugSystem::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Clear all enqueued debug geometry. </div></div>
-<div class="ttc" id="classhect_1_1_scene_renderer_html"><div class="ttname"><a href="classhect_1_1_scene_renderer.html">hect::SceneRenderer</a></div><div class="ttdoc">Provides the functionality for high level rendering algorithms (physically- based shading...</div><div class="ttdef"><b>Definition:</b> SceneRenderer.h:42</div></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> drawBox(<a class="code" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52">DebugColor</a> color, <span class="keyword">const</span> <a class="code" href="classhect_1_1_box.html">Box</a>&amp; box, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; position, <span class="keyword">const</span> <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a>&amp; rotation = <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a>());</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> addRenderCalls(<a class="code" href="classhect_1_1_scene_renderer.html">SceneRenderer</a>&amp; sceneRenderer);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> tick(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">void</span> addColoredMaterial(<span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; color);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">class </span>DebugBox</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        DebugBox();</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        DebugBox(<span class="keyword">const</span> <a class="code" href="classhect_1_1_box.html">Box</a>&amp; box, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; position, <span class="keyword">const</span> <a class="code" href="classhect_1_1_quaternion_t.html">Quaternion</a>&amp; rotation, <a class="code" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52">DebugColor</a> color);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <a class="code" href="classhect_1_1_box.html">Box</a> box;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <a class="code" href="classhect_1_1_transform.html">Transform</a> transform;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52">DebugColor</a> color { <a class="code" href="namespacehect.html#adb98eb693f6b2f661b39126833850a52ac118c72843fbadf8734859b592735d5a">DebugColor_Primary</a> };</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    };</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    std::vector&lt;DebugBox&gt; _boxes;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    std::vector&lt;Material&gt; _coloredMaterials;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;Shader&gt;</a> _coloredLineShader;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;Mesh&gt;</a> _boxMesh;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;};</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A dynamic collection of Entities , Components, and Systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:57</div></div>
+<div class="ttc" id="classhect_1_1_engine_html"><div class="ttname"><a href="classhect_1_1_engine.html">hect::Engine</a></div><div class="ttdoc">An instance of Hect Engine. </div><div class="ttdef"><b>Definition:</b> Engine.h:59</div></div>
+<div class="ttc" id="namespacehect_html_adb98eb693f6b2f661b39126833850a52ac118c72843fbadf8734859b592735d5a"><div class="ttname"><a href="namespacehect.html#adb98eb693f6b2f661b39126833850a52ac118c72843fbadf8734859b592735d5a">hect::DebugColor_Primary</a></div><div class="ttdoc">The primary debug color. </div><div class="ttdef"><b>Definition:</b> DebugSystem.h:44</div></div>
+<div class="ttc" id="classhect_1_1_asset_handle_html"><div class="ttname"><a href="classhect_1_1_asset_handle.html">hect::AssetHandle</a></div><div class="ttdoc">A reference-counted handle for an Asset. </div><div class="ttdef"><b>Definition:</b> AssetHandle.h:44</div></div>
+<div class="ttc" id="namespacehect_html_adb98eb693f6b2f661b39126833850a52a1018d6c9b16abcfe7a91329b3ead572a"><div class="ttname"><a href="namespacehect.html#adb98eb693f6b2f661b39126833850a52a1018d6c9b16abcfe7a91329b3ead572a">hect::DebugColor_Secondary</a></div><div class="ttdoc">The secondary debug color. </div><div class="ttdef"><b>Definition:</b> DebugSystem.h:48</div></div>
+<div class="ttc" id="classhect_1_1_scene_renderer_html"><div class="ttname"><a href="classhect_1_1_scene_renderer.html">hect::SceneRenderer</a></div><div class="ttdoc">Provides the functionality for high-level rendering algorithms (physically- based shading...</div><div class="ttdef"><b>Definition:</b> SceneRenderer.h:44</div></div>
 <div class="ttc" id="classhect_1_1_quaternion_t_html"><div class="ttname"><a href="classhect_1_1_quaternion_t.html">hect::QuaternionT&lt; Real &gt;</a></div></div>
-<div class="ttc" id="classhect_1_1_system_html"><div class="ttname"><a href="classhect_1_1_system.html">hect::System</a></div><div class="ttdoc">A system affecting entities within a scene. </div><div class="ttdef"><b>Definition:</b> System.h:44</div></div>
-<div class="ttc" id="classhect_1_1_box_html"><div class="ttname"><a href="classhect_1_1_box.html">hect::Box</a></div><div class="ttdoc">A box. </div><div class="ttdef"><b>Definition:</b> Box.h:33</div></div>
-<div class="ttc" id="classhect_1_1_debug_system_html_a0f8e74c48c4e83fdd307334abd91d87a"><div class="ttname"><a href="classhect_1_1_debug_system.html#a0f8e74c48c4e83fdd307334abd91d87a">hect::DebugSystem::addRenderCalls</a></div><div class="ttdeci">void addRenderCalls(SceneRenderer &amp;sceneRenderer)</div><div class="ttdoc">Adds all enqueued debug geometery to the a scene renderer. </div></div>
-<div class="ttc" id="classhect_1_1_transform_html"><div class="ttname"><a href="classhect_1_1_transform.html">hect::Transform</a></div><div class="ttdoc">A combination of a position, scale, and rotation. </div><div class="ttdef"><b>Definition:</b> Transform.h:37</div></div>
-<div class="ttc" id="classhect_1_1_material_html"><div class="ttname"><a href="classhect_1_1_material.html">hect::Material</a></div><div class="ttdoc">The manner in which a surface is rendered. </div><div class="ttdef"><b>Definition:</b> Material.h:61</div></div>
-<div class="ttc" id="classhect_1_1_debug_system_html_a6d7edd4370339818b28629c2e4745d12"><div class="ttname"><a href="classhect_1_1_debug_system.html#a6d7edd4370339818b28629c2e4745d12">hect::DebugSystem::drawBox</a></div><div class="ttdeci">void drawBox(const Box &amp;box, const Vector3 &amp;color, const Vector3 &amp;position, const Quaternion &amp;rotation=Quaternion())</div><div class="ttdoc">Enqueues a wire-frame box to be rendered on the next frame. </div></div>
-<div class="ttc" id="classhect_1_1_debug_system_html"><div class="ttname"><a href="classhect_1_1_debug_system.html">hect::DebugSystem</a></div><div class="ttdoc">Provides debug functionality. </div><div class="ttdef"><b>Definition:</b> DebugSystem.h:40</div></div>
+<div class="ttc" id="classhect_1_1_system_html"><div class="ttname"><a href="classhect_1_1_system.html">hect::System</a></div><div class="ttdoc">A system affecting entities within a scene. </div><div class="ttdef"><b>Definition:</b> System.h:46</div></div>
+<div class="ttc" id="classhect_1_1_box_html"><div class="ttname"><a href="classhect_1_1_box.html">hect::Box</a></div><div class="ttdoc">A box. </div><div class="ttdef"><b>Definition:</b> Box.h:34</div></div>
+<div class="ttc" id="namespacehect_html_adb98eb693f6b2f661b39126833850a52a73b4d1e190baceb29b3f3ef51902eb16"><div class="ttname"><a href="namespacehect.html#adb98eb693f6b2f661b39126833850a52a73b4d1e190baceb29b3f3ef51902eb16">hect::DebugColor_Tertiary</a></div><div class="ttdoc">The tertiary debug color. </div><div class="ttdef"><b>Definition:</b> DebugSystem.h:52</div></div>
+<div class="ttc" id="classhect_1_1_transform_html"><div class="ttname"><a href="classhect_1_1_transform.html">hect::Transform</a></div><div class="ttdoc">A combination of a position, scale, and rotation. </div><div class="ttdef"><b>Definition:</b> Transform.h:42</div></div>
+<div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
+<div class="ttc" id="namespacehect_html_adb98eb693f6b2f661b39126833850a52"><div class="ttname"><a href="namespacehect.html#adb98eb693f6b2f661b39126833850a52">hect::DebugColor</a></div><div class="ttdeci">DebugColor</div><div class="ttdoc">A preset color for debug geometry. </div><div class="ttdef"><b>Definition:</b> DebugSystem.h:39</div></div>
+<div class="ttc" id="classhect_1_1_debug_system_html"><div class="ttname"><a href="classhect_1_1_debug_system.html">hect::DebugSystem</a></div><div class="ttdoc">Provides debug functionality. </div><div class="ttdef"><b>Definition:</b> DebugSystem.h:59</div></div>
 <div class="ttc" id="classhect_1_1_vector3_t_html"><div class="ttname"><a href="classhect_1_1_vector3_t.html">hect::Vector3T&lt; Real &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

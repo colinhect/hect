@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -106,46 +106,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector3.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classhect_1_1_plane.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_plane.html">Plane</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">static</span> <a class="code" href="classhect_1_1_plane.html">Plane</a> <a class="code" href="classhect_1_1_plane.html#a211e236f5b1b96ad63a1f4e226bb28cc">fromPoints</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; p0, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; p1, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; p2);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classhect_1_1_plane.html#aa11f4c3746a76ad9802ead77bce2b13e">Plane</a>();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classhect_1_1_plane.html#aa11f4c3746a76ad9802ead77bce2b13e">Plane</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; <a class="code" href="classhect_1_1_plane.html#a147646301b8fcd53cb4cc499891e4511">position</a>, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; <a class="code" href="classhect_1_1_plane.html#ac92bbb19e0bbd85d32fcc35adf8bab94">normal</a>, <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> <a class="code" href="classhect_1_1_plane.html#a54905d65bc77ed6944f1f0e7ff2ed22a">distance</a>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; <a class="code" href="classhect_1_1_plane.html#a147646301b8fcd53cb4cc499891e4511">position</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; <a class="code" href="classhect_1_1_plane.html#ac92bbb19e0bbd85d32fcc35adf8bab94">normal</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> <a class="code" href="classhect_1_1_plane.html#a54905d65bc77ed6944f1f0e7ff2ed22a">distance</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> _position;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> _normal;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> _distance { 0 };</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_plane_html_a54905d65bc77ed6944f1f0e7ff2ed22a"><div class="ttname"><a href="classhect_1_1_plane.html#a54905d65bc77ed6944f1f0e7ff2ed22a">hect::Plane::distance</a></div><div class="ttdeci">Real distance() const </div><div class="ttdoc">Returns the distance. </div></div>
-<div class="ttc" id="classhect_1_1_plane_html"><div class="ttname"><a href="classhect_1_1_plane.html">hect::Plane</a></div><div class="ttdoc">A plane in 3-dimensional space. </div><div class="ttdef"><b>Definition:</b> Plane.h:33</div></div>
-<div class="ttc" id="classhect_1_1_plane_html_aa11f4c3746a76ad9802ead77bce2b13e"><div class="ttname"><a href="classhect_1_1_plane.html#aa11f4c3746a76ad9802ead77bce2b13e">hect::Plane::Plane</a></div><div class="ttdeci">Plane()</div><div class="ttdoc">Constructs a default plane. </div></div>
-<div class="ttc" id="classhect_1_1_plane_html_a147646301b8fcd53cb4cc499891e4511"><div class="ttname"><a href="classhect_1_1_plane.html#a147646301b8fcd53cb4cc499891e4511">hect::Plane::position</a></div><div class="ttdeci">const Vector3 &amp; position() const </div><div class="ttdoc">Returns the position. </div></div>
-<div class="ttc" id="classhect_1_1_plane_html_ac92bbb19e0bbd85d32fcc35adf8bab94"><div class="ttname"><a href="classhect_1_1_plane.html#ac92bbb19e0bbd85d32fcc35adf8bab94">hect::Plane::normal</a></div><div class="ttdeci">const Vector3 &amp; normal() const </div><div class="ttdoc">Returns the normal. </div></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector3.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classhect_1_1_plane.html">   34</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_plane.html">Plane</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">static</span> <a class="code" href="classhect_1_1_plane.html">Plane</a> fromPoints(<span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; p0, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; p1, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; p2);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classhect_1_1_plane.html">Plane</a>();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classhect_1_1_plane.html">Plane</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; position, <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; normal, <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> distance);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; position() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a>&amp; normal() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> distance() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> _position;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> _normal;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> _distance { 0 };</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_plane_html"><div class="ttname"><a href="classhect_1_1_plane.html">hect::Plane</a></div><div class="ttdoc">A plane in 3-dimensional space. </div><div class="ttdef"><b>Definition:</b> Plane.h:34</div></div>
 <div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="classhect_1_1_plane_html_a211e236f5b1b96ad63a1f4e226bb28cc"><div class="ttname"><a href="classhect_1_1_plane.html#a211e236f5b1b96ad63a1f4e226bb28cc">hect::Plane::fromPoints</a></div><div class="ttdeci">static Plane fromPoints(const Vector3 &amp;p0, const Vector3 &amp;p1, const Vector3 &amp;p2)</div><div class="ttdoc">Constructs a plane from 3 points. </div></div>
 <div class="ttc" id="classhect_1_1_vector3_t_html"><div class="ttname"><a href="classhect_1_1_vector3_t.html">hect::Vector3T&lt; Real &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

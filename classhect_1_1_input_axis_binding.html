@@ -96,19 +96,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>A binding to an input axis.  
+<p>A binding of an input device to the value of an <a class="el" href="classhect_1_1_input_axis.html" title="An axis manipulated by bindings to input devices. ">InputAxis</a>.  
  <a href="classhect_1_1_input_axis_binding.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_input_axis_binding_8h_source.html">InputAxisBinding.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8dd1df0b4f6ba1a732224ed13aa528e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a8dd1df0b4f6ba1a732224ed13aa528e7">update</a> (<a class="el" href="classhect_1_1_platform.html">Platform</a> &amp;platform, <a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStepInSeconds)</td></tr>
-<tr class="memdesc:a8dd1df0b4f6ba1a732224ed13aa528e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the value.  <a href="#a8dd1df0b4f6ba1a732224ed13aa528e7">More...</a><br /></td></tr>
-<tr class="separator:a8dd1df0b4f6ba1a732224ed13aa528e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adffef2e9273dcfbc324944de261a55d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#adffef2e9273dcfbc324944de261a55d4">update</a> (<a class="el" href="classhect_1_1_platform.html">Platform</a> &amp;platform, <a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep)</td></tr>
+<tr class="memdesc:adffef2e9273dcfbc324944de261a55d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the contributing value of the binding.  <a href="#adffef2e9273dcfbc324944de261a55d4">More...</a><br /></td></tr>
+<tr class="separator:adffef2e9273dcfbc324944de261a55d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a026ab5d15922ab3d482d3f5d57963603"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a026ab5d15922ab3d482d3f5d57963603"></a>
 <a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a026ab5d15922ab3d482d3f5d57963603">value</a> () const </td></tr>
-<tr class="memdesc:a026ab5d15922ab3d482d3f5d57963603"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value. <br /></td></tr>
+<tr class="memdesc:a026ab5d15922ab3d482d3f5d57963603"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the contributing value. <br /></td></tr>
 <tr class="separator:a026ab5d15922ab3d482d3f5d57963603"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -120,34 +120,47 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a02cba82a7ebc8ac6d245326c2cad2b41"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a3a26c2199a98c779c67c68336ad661fd">MouseButton</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a02cba82a7ebc8ac6d245326c2cad2b41">mouseButton</a> { MouseButton_Button0 }</td></tr>
 <tr class="memdesc:a02cba82a7ebc8ac6d245326c2cad2b41"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mouse button controlling the axis.  <a href="#a02cba82a7ebc8ac6d245326c2cad2b41">More...</a><br /></td></tr>
 <tr class="separator:a02cba82a7ebc8ac6d245326c2cad2b41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e492dc8b006ab1940636bf5beed604a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a8e492dc8b006ab1940636bf5beed604a">mouseSensitivity</a> { 0.01 }</td></tr>
+<tr class="memdesc:a8e492dc8b006ab1940636bf5beed604a"><td class="mdescLeft">&#160;</td><td class="mdescRight">How sensitively mouse motion affects the input axis.  <a href="#a8e492dc8b006ab1940636bf5beed604a">More...</a><br /></td></tr>
+<tr class="separator:a8e492dc8b006ab1940636bf5beed604a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a572949c32872467a298b969c5d04a9a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#ac32eb11aff0348cb03d06aad5d2a0b45">Key</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a572949c32872467a298b969c5d04a9a4">key</a> { Key_A }</td></tr>
 <tr class="memdesc:a572949c32872467a298b969c5d04a9a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The key controlling the axis.  <a href="#a572949c32872467a298b969c5d04a9a4">More...</a><br /></td></tr>
 <tr class="separator:a572949c32872467a298b969c5d04a9a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae60de6736606d92b805a2600c7b4ea37"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#ae60de6736606d92b805a2600c7b4ea37">joystickIndex</a> { 0 }</td></tr>
-<tr class="memdesc:ae60de6736606d92b805a2600c7b4ea37"><td class="mdescLeft">&#160;</td><td class="mdescRight">The index of the joystick controlling the axis.  <a href="#ae60de6736606d92b805a2600c7b4ea37">More...</a><br /></td></tr>
-<tr class="separator:ae60de6736606d92b805a2600c7b4ea37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fba76b87b73bc44b70d1b5a3cccf9c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a9fba76b87b73bc44b70d1b5a3cccf9c6">joystickIndex</a> { 0 }</td></tr>
+<tr class="memdesc:a9fba76b87b73bc44b70d1b5a3cccf9c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The index of the joystick controlling the axis.  <a href="#a9fba76b87b73bc44b70d1b5a3cccf9c6">More...</a><br /></td></tr>
+<tr class="separator:a9fba76b87b73bc44b70d1b5a3cccf9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a485f266aa72c84cf313e70ab2f5259ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a4677abb6d90728ad82625761a6fae042">JoystickAxis</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a485f266aa72c84cf313e70ab2f5259ff">joystickAxis</a> { JoystickAxis_Axis0 }</td></tr>
 <tr class="memdesc:a485f266aa72c84cf313e70ab2f5259ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">The joystick axis controlling the axis.  <a href="#a485f266aa72c84cf313e70ab2f5259ff">More...</a><br /></td></tr>
 <tr class="separator:a485f266aa72c84cf313e70ab2f5259ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47ffa1284fd0b06552a5dcc6e96225d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a47ffa1284fd0b06552a5dcc6e96225d0">joystickAxisDeadZone</a> { 0 }</td></tr>
-<tr class="memdesc:a47ffa1284fd0b06552a5dcc6e96225d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The dead zone of the joystick axis controlling the axis.  <a href="#a47ffa1284fd0b06552a5dcc6e96225d0">More...</a><br /></td></tr>
-<tr class="separator:a47ffa1284fd0b06552a5dcc6e96225d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab405134272304671540ae3665e9f1b52"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#ab405134272304671540ae3665e9f1b52">joystickAxisDeadZone</a></td></tr>
+<tr class="memdesc:ab405134272304671540ae3665e9f1b52"><td class="mdescLeft">&#160;</td><td class="mdescRight">The dead zone of the joystick axis controlling the axis.  <a href="#ab405134272304671540ae3665e9f1b52">More...</a><br /></td></tr>
+<tr class="separator:ab405134272304671540ae3665e9f1b52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0fafdcaaff3f5c9c6bd7b9143c43754"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#aed949568939a63b77ea9d55ea61562df">JoystickButton</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#af0fafdcaaff3f5c9c6bd7b9143c43754">joystickButton</a> { JoystickButton_Button0 }</td></tr>
 <tr class="memdesc:af0fafdcaaff3f5c9c6bd7b9143c43754"><td class="mdescLeft">&#160;</td><td class="mdescRight">The joystick button controlling the axis.  <a href="#af0fafdcaaff3f5c9c6bd7b9143c43754">More...</a><br /></td></tr>
 <tr class="separator:af0fafdcaaff3f5c9c6bd7b9143c43754"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a403751f60ed2986f315208cc51c569ba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a403751f60ed2986f315208cc51c569ba"></a>
-<a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a403751f60ed2986f315208cc51c569ba">acceleration</a> { 1 }</td></tr>
-<tr class="memdesc:a403751f60ed2986f315208cc51c569ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">How fast a discrete source (such as key or mouse button) drives the axis. <br /></td></tr>
+<tr class="memitem:a403751f60ed2986f315208cc51c569ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a403751f60ed2986f315208cc51c569ba">acceleration</a> { 0 }</td></tr>
+<tr class="memdesc:a403751f60ed2986f315208cc51c569ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">How quickly the axis is affected by discrete input events.  <a href="#a403751f60ed2986f315208cc51c569ba">More...</a><br /></td></tr>
 <tr class="separator:a403751f60ed2986f315208cc51c569ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33cf0cffb289f8775cf2bcb7774e77be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a33cf0cffb289f8775cf2bcb7774e77be">gravity</a> { 0 }</td></tr>
+<tr class="memdesc:a33cf0cffb289f8775cf2bcb7774e77be"><td class="mdescLeft">&#160;</td><td class="mdescRight">How quickly the axis returns to zero.  <a href="#a33cf0cffb289f8775cf2bcb7774e77be">More...</a><br /></td></tr>
+<tr class="separator:a33cf0cffb289f8775cf2bcb7774e77be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6e7d9f4de3583c8fc0be305d178f0ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6e7d9f4de3583c8fc0be305d178f0ee"></a>
-<a class="el" href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#ab6e7d9f4de3583c8fc0be305d178f0ee">range</a> { 0, 0 }</td></tr>
+<a class="el" href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#ab6e7d9f4de3583c8fc0be305d178f0ee">range</a> { -1, 1 }</td></tr>
 <tr class="memdesc:ab6e7d9f4de3583c8fc0be305d178f0ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">The range that the binding affects the input axis. <br /></td></tr>
 <tr class="separator:ab6e7d9f4de3583c8fc0be305d178f0ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb4d6d5a40ae299de79f6d8c08286600"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afb4d6d5a40ae299de79f6d8c08286600"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#afb4d6d5a40ae299de79f6d8c08286600">invert</a> { false }</td></tr>
+<tr class="memdesc:afb4d6d5a40ae299de79f6d8c08286600"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the input binding is inverted. <br /></td></tr>
+<tr class="separator:afb4d6d5a40ae299de79f6d8c08286600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c6ba8355f57bd2f61b705236b165f11"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3c6ba8355f57bd2f61b705236b165f11"></a>
+<a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_axis_binding.html#a3c6ba8355f57bd2f61b705236b165f11">deadValue</a> { 0 }</td></tr>
+<tr class="memdesc:a3c6ba8355f57bd2f61b705236b165f11"><td class="mdescLeft">&#160;</td><td class="mdescRight">The value the binding falls back to due to lack of source input. <br /></td></tr>
+<tr class="separator:a3c6ba8355f57bd2f61b705236b165f11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A binding to an input axis. </p>
+<div class="textblock"><p>A binding of an input device to the value of an <a class="el" href="classhect_1_1_input_axis.html" title="An axis manipulated by bindings to input devices. ">InputAxis</a>. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a8dd1df0b4f6ba1a732224ed13aa528e7"></a>
+<a class="anchor" id="adffef2e9273dcfbc324944de261a55d4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -161,7 +174,7 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
-          <td class="paramname"><em>timeStepInSeconds</em>&#160;</td>
+          <td class="paramname"><em>timeStep</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -171,11 +184,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Updates the value. </p>
+<p>Updates the contributing value of the binding. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">platform</td><td>The platform. </td></tr>
-    <tr><td class="paramname">timeStepInSeconds</td><td>The duration of time elapsed in seconds since the last update. </td></tr>
+    <tr><td class="paramname">timeStep</td><td>The duration of time elapsed in seconds since the last update. </td></tr>
   </table>
   </dd>
 </dl>
@@ -183,6 +196,36 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a403751f60ed2986f315208cc51c569ba"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> hect::InputAxisBinding::acceleration { 0 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>How quickly the axis is affected by discrete input events. </p>
+<dl class="section note"><dt>Note</dt><dd>Only relevant when the type is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1add787e93dc74446099bbb91c51b7e7a9" title="A mouse button press. ">InputAxisBindingType_MouseButton</a>, <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a61d515b8912492194f22d48994d459bb" title="A mouse scroll. ">InputAxisBindingType_MouseScroll</a>, <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a4140ed790fb1dc9857ba9eef8ee9c5a4" title="A key press. ">InputAxisBindingType_Key</a>, or <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a76b93ec634462249cdf5cd993c6ec8e3" title="A joystick button. ">InputAxisBindingType_JoystickButton</a>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a33cf0cffb289f8775cf2bcb7774e77be"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> hect::InputAxisBinding::gravity { 0 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>How quickly the axis returns to zero. </p>
+<dl class="section note"><dt>Note</dt><dd>Only relevant when the type is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1add787e93dc74446099bbb91c51b7e7a9" title="A mouse button press. ">InputAxisBindingType_MouseButton</a>, <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a61d515b8912492194f22d48994d459bb" title="A mouse scroll. ">InputAxisBindingType_MouseScroll</a>, <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a4140ed790fb1dc9857ba9eef8ee9c5a4" title="A key press. ">InputAxisBindingType_Key</a>, or <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a76b93ec634462249cdf5cd993c6ec8e3" title="A joystick button. ">InputAxisBindingType_JoystickButton</a>. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a485f266aa72c84cf313e70ab2f5259ff"></a>
 <div class="memitem">
 <div class="memproto">
@@ -194,22 +237,22 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The joystick axis controlling the axis. </p>
-<dl class="section note"><dt>Note</dt><dd>Only relevant for when the source is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1aaaa73f9339a923bed55158463e01a4aa" title="A joystick axis. ">InputAxisBindingType_JoystickAxis</a>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Only relevant when the type is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1aaaa73f9339a923bed55158463e01a4aa" title="A joystick axis. ">InputAxisBindingType_JoystickAxis</a>. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a47ffa1284fd0b06552a5dcc6e96225d0"></a>
+<a class="anchor" id="ab405134272304671540ae3665e9f1b52"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> hect::InputAxisBinding::joystickAxisDeadZone { 0 }</td>
+          <td class="memname"><a class="el" href="namespacehect.html#a4e950f119b12aff2884bc0d38c36dd19">Vector2</a> hect::InputAxisBinding::joystickAxisDeadZone</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>The dead zone of the joystick axis controlling the axis. </p>
-<dl class="section note"><dt>Note</dt><dd>Only relevant for when the source is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1aaaa73f9339a923bed55158463e01a4aa" title="A joystick axis. ">InputAxisBindingType_JoystickAxis</a>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Only relevant when the type is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1aaaa73f9339a923bed55158463e01a4aa" title="A joystick axis. ">InputAxisBindingType_JoystickAxis</a>. </dd></dl>
 
 </div>
 </div>
@@ -224,22 +267,22 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The joystick button controlling the axis. </p>
-<dl class="section note"><dt>Note</dt><dd>Only relevant for when the source is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a76b93ec634462249cdf5cd993c6ec8e3" title="A joystick button. ">InputAxisBindingType_JoystickButton</a>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Only relevant when the type is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a76b93ec634462249cdf5cd993c6ec8e3" title="A joystick button. ">InputAxisBindingType_JoystickButton</a>. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ae60de6736606d92b805a2600c7b4ea37"></a>
+<a class="anchor" id="a9fba76b87b73bc44b70d1b5a3cccf9c6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t hect::InputAxisBinding::joystickIndex { 0 }</td>
+          <td class="memname"><a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> hect::InputAxisBinding::joystickIndex { 0 }</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>The index of the joystick controlling the axis. </p>
-<dl class="section note"><dt>Note</dt><dd>Only relevant for when the source is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1aaaa73f9339a923bed55158463e01a4aa" title="A joystick axis. ">InputAxisBindingType_JoystickAxis</a> or <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a76b93ec634462249cdf5cd993c6ec8e3" title="A joystick button. ">InputAxisBindingType_JoystickButton</a>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Only relevant when the type is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1aaaa73f9339a923bed55158463e01a4aa" title="A joystick axis. ">InputAxisBindingType_JoystickAxis</a> or <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a76b93ec634462249cdf5cd993c6ec8e3" title="A joystick button. ">InputAxisBindingType_JoystickButton</a>. </dd></dl>
 
 </div>
 </div>
@@ -254,7 +297,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The key controlling the axis. </p>
-<dl class="section note"><dt>Note</dt><dd>Only relevant for when the source is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a4140ed790fb1dc9857ba9eef8ee9c5a4" title="A key press. ">InputAxisBindingType_Key</a>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Only relevant when the type is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a4140ed790fb1dc9857ba9eef8ee9c5a4" title="A key press. ">InputAxisBindingType_Key</a>. </dd></dl>
 
 </div>
 </div>
@@ -269,14 +312,29 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The mouse button controlling the axis. </p>
-<dl class="section note"><dt>Note</dt><dd>Only relevant for when the source is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1add787e93dc74446099bbb91c51b7e7a9" title="A mouse button press. ">InputAxisBindingType_MouseButton</a>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Only relevant when the type is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1add787e93dc74446099bbb91c51b7e7a9" title="A mouse button press. ">InputAxisBindingType_MouseButton</a>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8e492dc8b006ab1940636bf5beed604a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> hect::InputAxisBinding::mouseSensitivity { 0.01 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>How sensitively mouse motion affects the input axis. </p>
+<dl class="section note"><dt>Note</dt><dd>Only relevant when the type is <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a62395bd6e030f7d7a89d5687770805d9" title="A mouse movement along the x axis. ">InputAxisBindingType_MouseMoveX</a> or <a class="el" href="namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1ab28031f2b46389859a27a9d00d69abf3" title="A mouse movement along the y axis. ">InputAxisBindingType_MouseMoveY</a>. </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

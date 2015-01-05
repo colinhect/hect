@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -108,60 +108,61 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Sequence.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Uncopyable.h&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/Input/Joystick.h&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/Input/Keyboard.h&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;Hect/Input/Mouse.h&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Window.h&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classhect_1_1_platform.html">   40</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_platform.html">Platform</a> :</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;Joystick&gt; JoystickContainer;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">   48</a></span>&#160;    <span class="keyword">typedef</span> <a class="code" href="classhect_1_1_sequence.html">Sequence&lt;Joystick, JoystickContainer&gt;</a> <a class="code" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">JoystickSequence</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classhect_1_1_platform.html">Platform</a>() { }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">virtual</span> std::unique_ptr&lt;Window&gt; <a class="code" href="classhect_1_1_platform.html#ac2d5d69a635fe2ba475e2add961b07ac">createWindow</a>(<span class="keyword">const</span> std::string&amp; title, <span class="keyword">const</span> <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>&amp; videoMode) = 0;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_platform.html#ae9a7319e0c02f7c31f36e5c293c3ce32">handleEvents</a>() = 0;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_platform.html#a32e9ef452d8563db73febd50b049f129">hasMouse</a>() = 0;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classhect_1_1_mouse.html">Mouse</a>&amp; <a class="code" href="classhect_1_1_platform.html#a936fa3ba1a5283a1e5c7c60284e240a8">mouse</a>() = 0;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_platform.html#aac770b25da90f2718ac51874265f66db">hasKeyboard</a>() = 0;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classhect_1_1_keyboard.html">Keyboard</a>&amp; <a class="code" href="classhect_1_1_platform.html#a4db6185329c64d2606e6872af4e70b0e">keyboard</a>() = 0;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">JoystickSequence</a> <a class="code" href="classhect_1_1_platform.html#af1a779247aaf7d9aedc637f38659a908">joysticks</a>() = 0;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_platform_html_aac770b25da90f2718ac51874265f66db"><div class="ttname"><a href="classhect_1_1_platform.html#aac770b25da90f2718ac51874265f66db">hect::Platform::hasKeyboard</a></div><div class="ttdeci">virtual bool hasKeyboard()=0</div><div class="ttdoc">Returns whether the platform has a keyboard connected. </div></div>
-<div class="ttc" id="classhect_1_1_platform_html_af1a779247aaf7d9aedc637f38659a908"><div class="ttname"><a href="classhect_1_1_platform.html#af1a779247aaf7d9aedc637f38659a908">hect::Platform::joysticks</a></div><div class="ttdeci">virtual JoystickSequence joysticks()=0</div><div class="ttdoc">Returns any joysticks connected to the platform. </div></div>
-<div class="ttc" id="classhect_1_1_platform_html_a936fa3ba1a5283a1e5c7c60284e240a8"><div class="ttname"><a href="classhect_1_1_platform.html#a936fa3ba1a5283a1e5c7c60284e240a8">hect::Platform::mouse</a></div><div class="ttdeci">virtual Mouse &amp; mouse()=0</div><div class="ttdoc">Returns the mouse. </div></div>
-<div class="ttc" id="classhect_1_1_platform_html_a32e9ef452d8563db73febd50b049f129"><div class="ttname"><a href="classhect_1_1_platform.html#a32e9ef452d8563db73febd50b049f129">hect::Platform::hasMouse</a></div><div class="ttdeci">virtual bool hasMouse()=0</div><div class="ttdoc">Returns whether the platform has a mouse connected. </div></div>
-<div class="ttc" id="classhect_1_1_platform_html"><div class="ttname"><a href="classhect_1_1_platform.html">hect::Platform</a></div><div class="ttdoc">Provides access to platform functionality and peripherals. </div><div class="ttdef"><b>Definition:</b> Platform.h:40</div></div>
-<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:31</div></div>
-<div class="ttc" id="classhect_1_1_platform_html_a4db6185329c64d2606e6872af4e70b0e"><div class="ttname"><a href="classhect_1_1_platform.html#a4db6185329c64d2606e6872af4e70b0e">hect::Platform::keyboard</a></div><div class="ttdeci">virtual Keyboard &amp; keyboard()=0</div><div class="ttdoc">Returns the keyboard. </div></div>
-<div class="ttc" id="classhect_1_1_mouse_html"><div class="ttname"><a href="classhect_1_1_mouse.html">hect::Mouse</a></div><div class="ttdoc">Provides access to the system mouse. </div><div class="ttdef"><b>Definition:</b> Mouse.h:112</div></div>
-<div class="ttc" id="classhect_1_1_platform_html_ac2d5d69a635fe2ba475e2add961b07ac"><div class="ttname"><a href="classhect_1_1_platform.html#ac2d5d69a635fe2ba475e2add961b07ac">hect::Platform::createWindow</a></div><div class="ttdeci">virtual std::unique_ptr&lt; Window &gt; createWindow(const std::string &amp;title, const VideoMode &amp;videoMode)=0</div><div class="ttdoc">Creates a window in the operating system of the platform. </div></div>
-<div class="ttc" id="classhect_1_1_video_mode_html"><div class="ttname"><a href="classhect_1_1_video_mode.html">hect::VideoMode</a></div><div class="ttdoc">Describes the video mode a window uses. </div><div class="ttdef"><b>Definition:</b> VideoMode.h:34</div></div>
-<div class="ttc" id="classhect_1_1_keyboard_html"><div class="ttname"><a href="classhect_1_1_keyboard.html">hect::Keyboard</a></div><div class="ttdoc">Provides access to the system keyboard. </div><div class="ttdef"><b>Definition:</b> Keyboard.h:125</div></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Sequence.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Uncopyable.h&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/Input/Joystick.h&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;Hect/Input/Keyboard.h&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;Hect/Input/Mouse.h&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/Window.h&quot;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classhect_1_1_platform.html">   41</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_platform.html">Platform</a> :</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;Joystick&gt; JoystickContainer;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">   49</a></span>&#160;    <span class="keyword">typedef</span> <a class="code" href="classhect_1_1_sequence.html">Sequence&lt;Joystick, JoystickContainer&gt;</a> <a class="code" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">JoystickSequence</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classhect_1_1_platform.html">Platform</a>() { }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">virtual</span> std::unique_ptr&lt;Window&gt; createWindow(<span class="keyword">const</span> std::string&amp; title, <span class="keyword">const</span> <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>&amp; videoMode) = 0;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> handleEvents() = 0;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> hasMouse() = 0;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classhect_1_1_mouse.html">Mouse</a>&amp; mouse() = 0;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> hasKeyboard() = 0;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classhect_1_1_keyboard.html">Keyboard</a>&amp; keyboard() = 0;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> hasJoystick(<a class="code" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index) = 0;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">// index.</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classhect_1_1_joystick.html">Joystick</a>&amp; joystick(<a class="code" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index) = 0;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">virtual</span> JoystickSequence joysticks() = 0;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
+<div class="ttc" id="namespacehect_html_aa610d2ba2b0b8a43042a3b7196fa376d"><div class="ttname"><a href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">hect::JoystickIndex</a></div><div class="ttdeci">size_t JoystickIndex</div><div class="ttdoc">An index to a Joystick. </div><div class="ttdef"><b>Definition:</b> Joystick.h:36</div></div>
+<div class="ttc" id="classhect_1_1_platform_html"><div class="ttname"><a href="classhect_1_1_platform.html">hect::Platform</a></div><div class="ttdoc">Provides access to platform functionality and peripherals. </div><div class="ttdef"><b>Definition:</b> Platform.h:41</div></div>
+<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:33</div></div>
+<div class="ttc" id="classhect_1_1_mouse_html"><div class="ttname"><a href="classhect_1_1_mouse.html">hect::Mouse</a></div><div class="ttdoc">Provides access to the system mouse. </div><div class="ttdef"><b>Definition:</b> Mouse.h:113</div></div>
+<div class="ttc" id="classhect_1_1_joystick_html"><div class="ttname"><a href="classhect_1_1_joystick.html">hect::Joystick</a></div><div class="ttdoc">Provides access to a joystick. </div><div class="ttdef"><b>Definition:</b> Joystick.h:165</div></div>
+<div class="ttc" id="classhect_1_1_video_mode_html"><div class="ttname"><a href="classhect_1_1_video_mode.html">hect::VideoMode</a></div><div class="ttdoc">Describes the video mode a window uses. </div><div class="ttdef"><b>Definition:</b> VideoMode.h:35</div></div>
+<div class="ttc" id="classhect_1_1_keyboard_html"><div class="ttname"><a href="classhect_1_1_keyboard.html">hect::Keyboard</a></div><div class="ttdoc">Provides access to the system keyboard. </div><div class="ttdef"><b>Definition:</b> Keyboard.h:126</div></div>
 <div class="ttc" id="classhect_1_1_sequence_html"><div class="ttname"><a href="classhect_1_1_sequence.html">hect::Sequence</a></div><div class="ttdoc">A wrapper around an STL container providing iteration access without providing the ability to modify ...</div><div class="ttdef"><b>Definition:</b> Sequence.h:37</div></div>
-<div class="ttc" id="classhect_1_1_platform_html_ae9a7319e0c02f7c31f36e5c293c3ce32"><div class="ttname"><a href="classhect_1_1_platform.html#ae9a7319e0c02f7c31f36e5c293c3ce32">hect::Platform::handleEvents</a></div><div class="ttdeci">virtual bool handleEvents()=0</div><div class="ttdoc">Handles and dispatches all platform events. </div></div>
-<div class="ttc" id="classhect_1_1_platform_html_ad63705f1748503aebd0b3b9c1fde482b"><div class="ttname"><a href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">hect::Platform::JoystickSequence</a></div><div class="ttdeci">Sequence&lt; Joystick, JoystickContainer &gt; JoystickSequence</div><div class="ttdoc">A sequence of joysticks. </div><div class="ttdef"><b>Definition:</b> Platform.h:48</div></div>
+<div class="ttc" id="classhect_1_1_platform_html_ad63705f1748503aebd0b3b9c1fde482b"><div class="ttname"><a href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">hect::Platform::JoystickSequence</a></div><div class="ttdeci">Sequence&lt; Joystick, JoystickContainer &gt; JoystickSequence</div><div class="ttdoc">A sequence of joysticks. </div><div class="ttdef"><b>Definition:</b> Platform.h:49</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -106,7 +106,7 @@ Inheritance diagram for hect::Transform:</div>
   <img src="classhect_1_1_transform.png" usemap="#hect::Transform_map" alt=""/>
   <map id="hect::Transform_map" name="hect::Transform_map">
 <area href="classhect_1_1_component.html" alt="hect::Component&lt; Transform &gt;" shape="rect" coords="0,56,186,80"/>
-<area href="classhect_1_1_component_base.html" title="Abstract base for components. " alt="hect::ComponentBase" shape="rect" coords="0,0,186,24"/>
+<area href="classhect_1_1_component_base.html" title="Abstract base for Component. " alt="hect::ComponentBase" shape="rect" coords="0,0,186,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -152,6 +152,15 @@ typedef std::function&lt; bool(const <br class="typebreak" />
 <tr class="memitem:a98245e9e925924b8c0788d2934c49f6b inherit pub_methods_classhect_1_1_component"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classhect_1_1_entity.html">Entity</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#a98245e9e925924b8c0788d2934c49f6b">entity</a> () const</td></tr>
 <tr class="memdesc:a98245e9e925924b8c0788d2934c49f6b inherit pub_methods_classhect_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the entity of the component.  <a href="#a98245e9e925924b8c0788d2934c49f6b">More...</a><br /></td></tr>
 <tr class="separator:a98245e9e925924b8c0788d2934c49f6b inherit pub_methods_classhect_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4484f1f3407df1f26939da1f8a76c9a inherit pub_methods_classhect_1_1_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae4484f1f3407df1f26939da1f8a76c9a"></a>
+<a class="el" href="classhect_1_1_component.html">Component</a>&lt; <a class="el" href="classhect_1_1_transform.html">Transform</a> &gt;::Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#ae4484f1f3407df1f26939da1f8a76c9a">iterator</a> ()</td></tr>
+<tr class="memdesc:ae4484f1f3407df1f26939da1f8a76c9a inherit pub_methods_classhect_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a component iterator for the component. <br /></td></tr>
+<tr class="separator:ae4484f1f3407df1f26939da1f8a76c9a inherit pub_methods_classhect_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b00454a1777d751a354ecfe71072adf inherit pub_methods_classhect_1_1_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b00454a1777d751a354ecfe71072adf"></a>
+<a class="el" href="classhect_1_1_component.html">Component</a>&lt; <a class="el" href="classhect_1_1_transform.html">Transform</a> &gt;<br class="typebreak" />
+::ConstIterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#a9b00454a1777d751a354ecfe71072adf">iterator</a> () const</td></tr>
+<tr class="memdesc:a9b00454a1777d751a354ecfe71072adf inherit pub_methods_classhect_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a constant component iterator for the component. <br /></td></tr>
+<tr class="separator:a9b00454a1777d751a354ecfe71072adf inherit pub_methods_classhect_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18587ae5ec67b3d34d9371d3ae11f98f inherit pub_methods_classhect_1_1_component"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18587ae5ec67b3d34d9371d3ae11f98f"></a>
 <a class="el" href="namespacehect.html#a74474dc8aa2b27c1a3e54f09c21c9109">ComponentId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component.html#a18587ae5ec67b3d34d9371d3ae11f98f">id</a> () const</td></tr>
 <tr class="memdesc:a18587ae5ec67b3d34d9371d3ae11f98f inherit pub_methods_classhect_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the id of the component. <br /></td></tr>
@@ -170,7 +179,8 @@ typedef std::function&lt; bool(const <br class="typebreak" />
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A combination of a position, scale, and rotation. </p>
-<dl class="section note"><dt>Note</dt><dd>This class is a registered with the <a class="el" href="classhect_1_1_component_registry.html" title="Provides the ability to dynamically create components and component pools based on type information...">ComponentRegistry</a>. </dd></dl>
+<p>If any changes are manually made to a transform, then the changes must be committed using <a class="el" href="classhect_1_1_transform_system.html#a76b4aba76b0fd4870e0fa57a2e4f32c5" title="Commits any changes made to a Transform to take effect. ">TransformSystem::commit()</a> or immediately updated using <a class="el" href="classhect_1_1_transform_system.html#aacbb76d6f916113afda8a60df225f6b6" title="Updates the global components of a Transform based on the transform hierarchy. ">TransformSystem::update()</a>.</p>
+<dl class="section note"><dt>Note</dt><dd>This class is a registered with the <a class="el" href="classhect_1_1_component_registry.html" title="Provides the ability to dynamically create Components and ComponentPools based on type information...">ComponentRegistry</a>. </dd></dl>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="ace6ada70956b1bfb2155ec68dfdb2c85"></a>
 <div class="memitem">
@@ -183,7 +193,7 @@ typedef std::function&lt; bool(const <br class="typebreak" />
 </div><div class="memdoc">
 
 <p>The global position. </p>
-<dl class="section note"><dt>Note</dt><dd>The global position is calculated as a function of the local position and the transform hierarchy. This should not be directly modified unless the local position and parent transforms are known to be static. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The global position is calculated as a function of the local position and the transform hierarchy. This should not be directly modified unless the local position and parent transforms are known to be static. </dd></dl>
 
 </div>
 </div>
@@ -198,7 +208,7 @@ typedef std::function&lt; bool(const <br class="typebreak" />
 </div><div class="memdoc">
 
 <p>The global rotation. </p>
-<dl class="section note"><dt>Note</dt><dd>The global rotation is calculated as a function of the local rotation and the transform hierarchy. This should not be directly modified unless the local rotation and parent transforms are known to be static. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The global rotation is calculated as a function of the local rotation and the transform hierarchy. This should not be directly modified unless the local rotation and parent transforms are known to be static. </dd></dl>
 
 </div>
 </div>
@@ -213,7 +223,7 @@ typedef std::function&lt; bool(const <br class="typebreak" />
 </div><div class="memdoc">
 
 <p>The global scale. </p>
-<dl class="section note"><dt>Note</dt><dd>The global scale is calculated as a function of the local scale and the transform hierarchy. This should not be directly modified unless the local scale and parent transforms are known to be static. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The global scale is calculated as a function of the local scale and the transform hierarchy. This should not be directly modified unless the local scale and parent transforms are known to be static. </dd></dl>
 
 </div>
 </div>
@@ -228,9 +238,7 @@ typedef std::function&lt; bool(const <br class="typebreak" />
 </div><div class="memdoc">
 
 <p>The local position. </p>
-<dl class="section note"><dt>Note</dt><dd>This member is a registered property.</dd>
-<dd>
-In order for changes to this to affect the global position of the transform, <a class="el" href="classhect_1_1_transform_system.html#aabdf25378139687cf390e51d2703b654" title="Marks a transform to be updated on the next TransformSystem::tick(). ">TransformSystem::markForUpdate()</a> should be called. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This member is a registered property. </dd></dl>
 
 </div>
 </div>
@@ -245,9 +253,7 @@ In order for changes to this to affect the global position of the transform, <a 
 </div><div class="memdoc">
 
 <p>The local rotation. </p>
-<dl class="section note"><dt>Note</dt><dd>This member is a registered property.</dd>
-<dd>
-In order for changes to this to affect the global rotation of the transform, <a class="el" href="classhect_1_1_transform_system.html#aabdf25378139687cf390e51d2703b654" title="Marks a transform to be updated on the next TransformSystem::tick(). ">TransformSystem::markForUpdate()</a> should be called. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This member is a registered property. </dd></dl>
 
 </div>
 </div>
@@ -262,16 +268,14 @@ In order for changes to this to affect the global rotation of the transform, <a 
 </div><div class="memdoc">
 
 <p>The local scale. </p>
-<dl class="section note"><dt>Note</dt><dd>This member is a registered property.</dd>
-<dd>
-In order for changes to this to affect the global scale of the transform, <a class="el" href="classhect_1_1_transform_system.html#aabdf25378139687cf390e51d2703b654" title="Marks a transform to be updated on the next TransformSystem::tick(). ">TransformSystem::markForUpdate()</a> should be called. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This member is a registered property. </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

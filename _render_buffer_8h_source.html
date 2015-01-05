@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -106,53 +106,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderer.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">   33</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">RenderBufferFormat</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c">   37</a></span>&#160;    <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c">RenderBufferFormat_DepthComponent</a></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classhect_1_1_render_buffer.html">   42</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_render_buffer.html">RenderBuffer</a> :</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_renderer_1_1_object.html">Renderer::Object</a>&lt;RenderBuffer&gt;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="classhect_1_1_render_buffer.html#a271762db3b5fbb2cf8618c4d7da9a6b4">RenderBuffer</a>();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classhect_1_1_render_buffer.html#a271762db3b5fbb2cf8618c4d7da9a6b4">RenderBuffer</a>(<a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">RenderBufferFormat</a> <a class="code" href="classhect_1_1_render_buffer.html#a1a709c86644345b7776cc3b38f9d9f75">format</a>, <span class="keywordtype">unsigned</span> <a class="code" href="classhect_1_1_render_buffer.html#a337c1bc0746d905e266509edf329155b">width</a>, <span class="keywordtype">unsigned</span> <a class="code" href="classhect_1_1_render_buffer.html#a155c441934cc4636966118eefd75bb36">height</a>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">RenderBufferFormat</a> <a class="code" href="classhect_1_1_render_buffer.html#a1a709c86644345b7776cc3b38f9d9f75">format</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">unsigned</span> <a class="code" href="classhect_1_1_render_buffer.html#a337c1bc0746d905e266509edf329155b">width</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">unsigned</span> <a class="code" href="classhect_1_1_render_buffer.html#a155c441934cc4636966118eefd75bb36">height</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">unsigned</span> <a class="code" href="classhect_1_1_render_buffer.html#adcc84a5417631915e88214423daf34ce">bytesPerPixel</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">RenderBufferFormat</a> _format { <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c">RenderBufferFormat_DepthComponent</a> };</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">unsigned</span> _width { 0 };</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">unsigned</span> _height { 0 };</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;};</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_render_buffer_html_a155c441934cc4636966118eefd75bb36"><div class="ttname"><a href="classhect_1_1_render_buffer.html#a155c441934cc4636966118eefd75bb36">hect::RenderBuffer::height</a></div><div class="ttdeci">unsigned height() const </div><div class="ttdoc">Returns the height. </div></div>
-<div class="ttc" id="classhect_1_1_renderer_1_1_object_html"><div class="ttname"><a href="classhect_1_1_renderer_1_1_object.html">hect::Renderer::Object</a></div><div class="ttdoc">An object which can be uploaded to a renderer. </div><div class="ttdef"><b>Definition:</b> Renderer.h:155</div></div>
-<div class="ttc" id="classhect_1_1_render_buffer_html_a1a709c86644345b7776cc3b38f9d9f75"><div class="ttname"><a href="classhect_1_1_render_buffer.html#a1a709c86644345b7776cc3b38f9d9f75">hect::RenderBuffer::format</a></div><div class="ttdeci">RenderBufferFormat format() const </div><div class="ttdoc">Returns the format. </div></div>
-<div class="ttc" id="namespacehect_html_a51b78400c70dc58f82ef0f728e5b84e0"><div class="ttname"><a href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">hect::RenderBufferFormat</a></div><div class="ttdeci">RenderBufferFormat</div><div class="ttdoc">The format of a render buffer. </div><div class="ttdef"><b>Definition:</b> RenderBuffer.h:33</div></div>
-<div class="ttc" id="namespacehect_html_a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c"><div class="ttname"><a href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c">hect::RenderBufferFormat_DepthComponent</a></div><div class="ttdoc">A depth render buffer. </div><div class="ttdef"><b>Definition:</b> RenderBuffer.h:37</div></div>
-<div class="ttc" id="classhect_1_1_render_buffer_html_a337c1bc0746d905e266509edf329155b"><div class="ttname"><a href="classhect_1_1_render_buffer.html#a337c1bc0746d905e266509edf329155b">hect::RenderBuffer::width</a></div><div class="ttdeci">unsigned width() const </div><div class="ttdoc">Returns the width. </div></div>
-<div class="ttc" id="classhect_1_1_render_buffer_html"><div class="ttname"><a href="classhect_1_1_render_buffer.html">hect::RenderBuffer</a></div><div class="ttdoc">A render buffer to be used with a frame buffer. </div><div class="ttdef"><b>Definition:</b> RenderBuffer.h:42</div></div>
-<div class="ttc" id="classhect_1_1_render_buffer_html_a271762db3b5fbb2cf8618c4d7da9a6b4"><div class="ttname"><a href="classhect_1_1_render_buffer.html#a271762db3b5fbb2cf8618c4d7da9a6b4">hect::RenderBuffer::RenderBuffer</a></div><div class="ttdeci">RenderBuffer()</div><div class="ttdoc">Constructs a render buffer. </div></div>
-<div class="ttc" id="classhect_1_1_render_buffer_html_adcc84a5417631915e88214423daf34ce"><div class="ttname"><a href="classhect_1_1_render_buffer.html#adcc84a5417631915e88214423daf34ce">hect::RenderBuffer::bytesPerPixel</a></div><div class="ttdeci">unsigned bytesPerPixel() const </div><div class="ttdoc">Returns the number of bytes in a pixel of this render buffer. </div></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Renderer.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">   34</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">RenderBufferFormat</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c">   38</a></span>&#160;    <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c">RenderBufferFormat_DepthComponent</a></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classhect_1_1_render_buffer.html">   43</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_render_buffer.html">RenderBuffer</a> :</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_renderer_1_1_object.html">Renderer::Object</a>&lt;RenderBuffer&gt;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classhect_1_1_render_buffer.html">RenderBuffer</a>();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classhect_1_1_render_buffer.html">RenderBuffer</a>(<a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">RenderBufferFormat</a> <a class="code" href="namespacehect.html#a3173b554562f7b044881756067510413">format</a>, <span class="keywordtype">unsigned</span> width, <span class="keywordtype">unsigned</span> height);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">RenderBufferFormat</a> <a class="code" href="namespacehect.html#a3173b554562f7b044881756067510413">format</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">unsigned</span> width() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">unsigned</span> height() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">unsigned</span> bytesPerPixel() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">RenderBufferFormat</a> _format { <a class="code" href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c">RenderBufferFormat_DepthComponent</a> };</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">unsigned</span> _width { 0 };</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">unsigned</span> _height { 0 };</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_renderer_1_1_object_html"><div class="ttname"><a href="classhect_1_1_renderer_1_1_object.html">hect::Renderer::Object</a></div><div class="ttdoc">An object which can be uploaded to a renderer. </div><div class="ttdef"><b>Definition:</b> Renderer.h:157</div></div>
+<div class="ttc" id="namespacehect_html_a51b78400c70dc58f82ef0f728e5b84e0"><div class="ttname"><a href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0">hect::RenderBufferFormat</a></div><div class="ttdeci">RenderBufferFormat</div><div class="ttdoc">The format of a render buffer. </div><div class="ttdef"><b>Definition:</b> RenderBuffer.h:34</div></div>
+<div class="ttc" id="namespacehect_html_a3173b554562f7b044881756067510413"><div class="ttname"><a href="namespacehect.html#a3173b554562f7b044881756067510413">hect::format</a></div><div class="ttdeci">HECT_EXPORT std::string format(const char *fmt,...)</div><div class="ttdoc">Performs printf-style formating on a string with arguments. </div></div>
+<div class="ttc" id="namespacehect_html_a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c"><div class="ttname"><a href="namespacehect.html#a51b78400c70dc58f82ef0f728e5b84e0a92fe1ee14c624d58510779fcb19fee1c">hect::RenderBufferFormat_DepthComponent</a></div><div class="ttdoc">A depth render buffer. </div><div class="ttdef"><b>Definition:</b> RenderBuffer.h:38</div></div>
+<div class="ttc" id="classhect_1_1_render_buffer_html"><div class="ttname"><a href="classhect_1_1_render_buffer.html">hect::RenderBuffer</a></div><div class="ttdoc">A render buffer to be used with a frame buffer. </div><div class="ttdef"><b>Definition:</b> RenderBuffer.h:43</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

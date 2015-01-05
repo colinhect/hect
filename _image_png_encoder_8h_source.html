@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -106,33 +106,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Image.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/ReadStream.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/WriteStream.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classhect_1_1_image_png_encoder.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_image_png_encoder.html">ImagePngEncoder</a></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_image_png_encoder.html#abfcc5cc5835ae17b09b6dfbeee1aaa92">encode</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_image.html">Image</a>&amp; image, <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_image_png_encoder.html#a0770785f422f520c32797f685b321d0d">decode</a>(<a class="code" href="classhect_1_1_image.html">Image</a>&amp; image, <a class="code" href="classhect_1_1_read_stream.html">ReadStream</a>&amp; stream);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_image_html"><div class="ttname"><a href="classhect_1_1_image.html">hect::Image</a></div><div class="ttdoc">A 2-dimensional image. </div><div class="ttdef"><b>Definition:</b> Image.h:85</div></div>
-<div class="ttc" id="classhect_1_1_image_png_encoder_html_a0770785f422f520c32797f685b321d0d"><div class="ttname"><a href="classhect_1_1_image_png_encoder.html#a0770785f422f520c32797f685b321d0d">hect::ImagePngEncoder::decode</a></div><div class="ttdeci">static void decode(Image &amp;image, ReadStream &amp;stream)</div><div class="ttdoc">Decodes an image from PNG data. </div></div>
-<div class="ttc" id="classhect_1_1_image_png_encoder_html_abfcc5cc5835ae17b09b6dfbeee1aaa92"><div class="ttname"><a href="classhect_1_1_image_png_encoder.html#abfcc5cc5835ae17b09b6dfbeee1aaa92">hect::ImagePngEncoder::encode</a></div><div class="ttdeci">static void encode(const Image &amp;image, WriteStream &amp;stream)</div><div class="ttdoc">Encodes an image to PNG data. </div></div>
-<div class="ttc" id="classhect_1_1_write_stream_html"><div class="ttname"><a href="classhect_1_1_write_stream.html">hect::WriteStream</a></div><div class="ttdoc">An interface for writing streamed data. </div><div class="ttdef"><b>Definition:</b> WriteStream.h:34</div></div>
-<div class="ttc" id="classhect_1_1_image_png_encoder_html"><div class="ttname"><a href="classhect_1_1_image_png_encoder.html">hect::ImagePngEncoder</a></div><div class="ttdoc">Provides functionality for encoding/decoding images from/to PNG data. </div><div class="ttdef"><b>Definition:</b> ImagePngEncoder.h:35</div></div>
-<div class="ttc" id="classhect_1_1_read_stream_html"><div class="ttname"><a href="classhect_1_1_read_stream.html">hect::ReadStream</a></div><div class="ttdoc">An interface for reading streamed data. </div><div class="ttdef"><b>Definition:</b> ReadStream.h:34</div></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Image.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/ReadStream.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/IO/WriteStream.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classhect_1_1_image_png_encoder.html">   36</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_image_png_encoder.html">ImagePngEncoder</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> encode(<span class="keyword">const</span> <a class="code" href="classhect_1_1_image.html">Image</a>&amp; image, <a class="code" href="classhect_1_1_write_stream.html">WriteStream</a>&amp; stream);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> decode(<a class="code" href="classhect_1_1_image.html">Image</a>&amp; image, <a class="code" href="classhect_1_1_read_stream.html">ReadStream</a>&amp; stream);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_image_html"><div class="ttname"><a href="classhect_1_1_image.html">hect::Image</a></div><div class="ttdoc">A 2-dimensional image. </div><div class="ttdef"><b>Definition:</b> Image.h:86</div></div>
+<div class="ttc" id="classhect_1_1_write_stream_html"><div class="ttname"><a href="classhect_1_1_write_stream.html">hect::WriteStream</a></div><div class="ttdoc">An interface for writing streamed data. </div><div class="ttdef"><b>Definition:</b> WriteStream.h:37</div></div>
+<div class="ttc" id="classhect_1_1_image_png_encoder_html"><div class="ttname"><a href="classhect_1_1_image_png_encoder.html">hect::ImagePngEncoder</a></div><div class="ttdoc">Provides functionality for encoding/decoding Images from/to PNG data. </div><div class="ttdef"><b>Definition:</b> ImagePngEncoder.h:36</div></div>
+<div class="ttc" id="classhect_1_1_read_stream_html"><div class="ttname"><a href="classhect_1_1_read_stream.html">hect::ReadStream</a></div><div class="ttdoc">An interface for reading streamed data. </div><div class="ttdef"><b>Definition:</b> ReadStream.h:37</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -95,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Provides the functionality to decode an asset directly from an asset cache, automatically detecting if the data is binary or JSON.  
+<p>Provides the functionality to decode an <a class="el" href="classhect_1_1_asset.html" title="Inheriting from this allows for caching/loading using an AssetCache. ">Asset</a> directly from an <a class="el" href="classhect_1_1_asset_cache.html" title="Provides cached access to Assets from the FileSystem. ">AssetCache</a>, automatically detecting if the data is binary or text-based.  
  <a href="classhect_1_1_asset_decoder.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_asset_decoder_8h_source.html">AssetDecoder.h</a>&gt;</code></p>
@@ -192,7 +192,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:a01bd067e524e12875c28c87180b774ef inherit pub_methods_classhect_1_1_decoder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Provides the functionality to decode an asset directly from an asset cache, automatically detecting if the data is binary or JSON. </p>
+<div class="textblock"><p>Provides the functionality to decode an <a class="el" href="classhect_1_1_asset.html" title="Inheriting from this allows for caching/loading using an AssetCache. ">Asset</a> directly from an <a class="el" href="classhect_1_1_asset_cache.html" title="Provides cached access to Assets from the FileSystem. ">AssetCache</a>, automatically detecting if the data is binary or text-based. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0dd2b02eea68809115ce83a29019127d"></a>
 <div class="memitem">
@@ -256,7 +256,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section note"><dt>Note</dt><dd>Values decoded following this call will be decoded as elements from the array. Attempting to decode values past the end of the array will result in an error being thrown. Whether there are any more elements left in the array can be queried using <a class="el" href="classhect_1_1_asset_decoder.html#a1b88a60781d91c2309a25a1d51fe0b6d" title="Returns whether there are more elements available to be decoded in the current array. ">hasMoreElements()</a>.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the next value to decode is not an array. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the next value to decode is not an array. </td></tr>
   </table>
   </dd>
 </dl>
@@ -290,7 +290,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section note"><dt>Note</dt><dd>The specific members of an object can be targeted using <a class="el" href="classhect_1_1_asset_decoder.html#a4c90cd88e1fdd0cf7cdded266f081917" title="Selects a specific member of the object. ">selectMember()</a>.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the next value to decode is not an object. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the next value to decode is not an object. </td></tr>
   </table>
   </dd>
 </dl>
@@ -323,7 +323,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Returns the raw binary stream. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the decoder is not reading from a binary stream. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the decoder is not reading from a binary stream. </td></tr>
   </table>
   </dd>
 </dl>
@@ -693,7 +693,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section note"><dt>Note</dt><dd>An array cannot be ended before all elements are decoded from it.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ae16f91194f5cd08b6f3d7589e8ab9f09" title="Begins an array. ">beginArray()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ae16f91194f5cd08b6f3d7589e8ab9f09" title="Begins an array. ">beginArray()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -726,7 +726,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Ends an object. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -759,7 +759,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Returns whether there are more elements available to be decoded in the current array. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ae16f91194f5cd08b6f3d7589e8ab9f09" title="Begins an array. ">beginArray()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ae16f91194f5cd08b6f3d7589e8ab9f09" title="Begins an array. ">beginArray()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -792,7 +792,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Returns the names of the members of the object. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -834,7 +834,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section return"><dt>Returns</dt><dd>True if the member exists and was selected; false otherwise.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_asset_decoder.html#ac66b9023233f3804157fa8ed7df8c8a0" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -846,7 +846,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

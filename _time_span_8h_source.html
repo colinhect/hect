@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -108,87 +108,69 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Real.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classhect_1_1_time_span.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_time_span.html">TimeSpan</a></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">static</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> <a class="code" href="classhect_1_1_time_span.html#aded7bdd4f35a9ac97fb404ce897b1074">fromMicroseconds</a>(int64_t <a class="code" href="classhect_1_1_time_span.html#ae57569b9f486e00f7c50c55de0b61ea7">microseconds</a>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">static</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> <a class="code" href="classhect_1_1_time_span.html#a6effed4b16b263fc58a806c04094679d">fromMilliseconds</a>(int64_t <a class="code" href="classhect_1_1_time_span.html#aa39cf0c6c1003316cbe25857ff38795f">milliseconds</a>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">static</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> <a class="code" href="classhect_1_1_time_span.html#ae9dba9b6c1be0e063a9318c0abf10048">fromSeconds</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> <a class="code" href="classhect_1_1_time_span.html#ad9952c5f2de2e80373747735ed4b3f6a">seconds</a>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="classhect_1_1_time_span.html#ada262d9de30eeda876be66f54d0c9aab">TimeSpan</a>();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    int64_t <a class="code" href="classhect_1_1_time_span.html#ae57569b9f486e00f7c50c55de0b61ea7">microseconds</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    int64_t <a class="code" href="classhect_1_1_time_span.html#aa39cf0c6c1003316cbe25857ff38795f">milliseconds</a>();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> <a class="code" href="classhect_1_1_time_span.html#ad9952c5f2de2e80373747735ed4b3f6a">seconds</a>();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> <a class="code" href="classhect_1_1_time_span.html#a0c462b4757ef7415e8602486e610f56b">operator+</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> <a class="code" href="classhect_1_1_time_span.html#afc7901c8019c933cf9debc5493044840">operator-</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> <a class="code" href="classhect_1_1_time_span.html#ad5f2f73097fb4edd93ddfc9d1b0ca784">operator*</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> <a class="code" href="classhect_1_1_time_span.html#a197fc503af6274d085aeba1c96338a61">operator/</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> <a class="code" href="classhect_1_1_time_span.html#afc7901c8019c933cf9debc5493044840">operator-</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; <a class="code" href="classhect_1_1_time_span.html#abff43537d9ac62f0c291f6ceb46d49ea">operator+=</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; <a class="code" href="classhect_1_1_time_span.html#aa71793fb438968de8afac574bff26244">operator-=</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; <a class="code" href="classhect_1_1_time_span.html#ad8a596168f6019d20c9eb20f11d69ad2">operator*=</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; <a class="code" href="classhect_1_1_time_span.html#aa0b0ca5f57063cfd137f89307ab150b9">operator/=</a>(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_time_span.html#a804c988e75142ba898f780e8af37c4e1">operator&lt;</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_time_span.html#a7697ad48903947c140e2d14d31fb9728">operator&lt;=</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_time_span.html#a1c11706a40567e7a2c160adf0af8a472">operator&gt;</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_time_span.html#adbfbda0cec18afa5c0b2bbff3159e42a">operator&gt;=</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <a class="code" href="classhect_1_1_time_span.html#ada262d9de30eeda876be66f54d0c9aab">TimeSpan</a>(int64_t microseconds);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    int64_t _microseconds { 0 };</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;};</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_time_span_html_afc7901c8019c933cf9debc5493044840"><div class="ttname"><a href="classhect_1_1_time_span.html#afc7901c8019c933cf9debc5493044840">hect::TimeSpan::operator-</a></div><div class="ttdeci">TimeSpan operator-() const </div><div class="ttdoc">Returns a negated copy of the time span. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html"><div class="ttname"><a href="classhect_1_1_time_span.html">hect::TimeSpan</a></div><div class="ttdoc">A duration of time. </div><div class="ttdef"><b>Definition:</b> TimeSpan.h:35</div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_aded7bdd4f35a9ac97fb404ce897b1074"><div class="ttname"><a href="classhect_1_1_time_span.html#aded7bdd4f35a9ac97fb404ce897b1074">hect::TimeSpan::fromMicroseconds</a></div><div class="ttdeci">static TimeSpan fromMicroseconds(int64_t microseconds)</div><div class="ttdoc">Creates a time span from microseconds. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_a0c462b4757ef7415e8602486e610f56b"><div class="ttname"><a href="classhect_1_1_time_span.html#a0c462b4757ef7415e8602486e610f56b">hect::TimeSpan::operator+</a></div><div class="ttdeci">TimeSpan operator+(const TimeSpan &amp;t) const </div><div class="ttdoc">Returns the sum of the time span and another time span. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_ada262d9de30eeda876be66f54d0c9aab"><div class="ttname"><a href="classhect_1_1_time_span.html#ada262d9de30eeda876be66f54d0c9aab">hect::TimeSpan::TimeSpan</a></div><div class="ttdeci">TimeSpan()</div><div class="ttdoc">Constructs a time span of zero seconds. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_aa71793fb438968de8afac574bff26244"><div class="ttname"><a href="classhect_1_1_time_span.html#aa71793fb438968de8afac574bff26244">hect::TimeSpan::operator-=</a></div><div class="ttdeci">TimeSpan &amp; operator-=(const TimeSpan &amp;t)</div><div class="ttdoc">Subtracts a time span from the time span. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_ad8a596168f6019d20c9eb20f11d69ad2"><div class="ttname"><a href="classhect_1_1_time_span.html#ad8a596168f6019d20c9eb20f11d69ad2">hect::TimeSpan::operator*=</a></div><div class="ttdeci">TimeSpan &amp; operator*=(Real value)</div><div class="ttdoc">Multiplies the time span by a scalar. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_abff43537d9ac62f0c291f6ceb46d49ea"><div class="ttname"><a href="classhect_1_1_time_span.html#abff43537d9ac62f0c291f6ceb46d49ea">hect::TimeSpan::operator+=</a></div><div class="ttdeci">TimeSpan &amp; operator+=(const TimeSpan &amp;t)</div><div class="ttdoc">Adds a time span to the time span. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_ad5f2f73097fb4edd93ddfc9d1b0ca784"><div class="ttname"><a href="classhect_1_1_time_span.html#ad5f2f73097fb4edd93ddfc9d1b0ca784">hect::TimeSpan::operator*</a></div><div class="ttdeci">TimeSpan operator*(Real value) const </div><div class="ttdoc">Returns the product of the time span and a scalar. </div></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Real.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classhect_1_1_time_span.html">   36</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">static</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> fromMicroseconds(int64_t microseconds);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">static</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> fromMilliseconds(int64_t milliseconds);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">static</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> fromSeconds(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> seconds);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    int64_t microseconds();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    int64_t milliseconds();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> seconds();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> operator+(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> operator-(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> operator*(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> operator/(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a> operator-() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; operator+=(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; operator-=(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; operator*=(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; operator/=(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> value);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">bool</span> operator&lt;=(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">bool</span> operator&gt;(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">bool</span> operator&gt;=(<span class="keyword">const</span> <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>&amp; t) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <a class="code" href="classhect_1_1_time_span.html">TimeSpan</a>(int64_t microseconds);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    int64_t _microseconds { 0 };</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;};</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_time_span_html"><div class="ttname"><a href="classhect_1_1_time_span.html">hect::TimeSpan</a></div><div class="ttdoc">A duration of time. </div><div class="ttdef"><b>Definition:</b> TimeSpan.h:36</div></div>
 <div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_ae57569b9f486e00f7c50c55de0b61ea7"><div class="ttname"><a href="classhect_1_1_time_span.html#ae57569b9f486e00f7c50c55de0b61ea7">hect::TimeSpan::microseconds</a></div><div class="ttdeci">int64_t microseconds()</div><div class="ttdoc">Returns the time span in microseconds. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_aa0b0ca5f57063cfd137f89307ab150b9"><div class="ttname"><a href="classhect_1_1_time_span.html#aa0b0ca5f57063cfd137f89307ab150b9">hect::TimeSpan::operator/=</a></div><div class="ttdeci">TimeSpan &amp; operator/=(Real value)</div><div class="ttdoc">Divides the time span by a scalar. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_a7697ad48903947c140e2d14d31fb9728"><div class="ttname"><a href="classhect_1_1_time_span.html#a7697ad48903947c140e2d14d31fb9728">hect::TimeSpan::operator&lt;=</a></div><div class="ttdeci">bool operator&lt;=(const TimeSpan &amp;t) const </div><div class="ttdoc">Returns whether the time span is less than or equal to another. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_ad9952c5f2de2e80373747735ed4b3f6a"><div class="ttname"><a href="classhect_1_1_time_span.html#ad9952c5f2de2e80373747735ed4b3f6a">hect::TimeSpan::seconds</a></div><div class="ttdeci">Real seconds()</div><div class="ttdoc">Returns the time span in seconds. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_ae9dba9b6c1be0e063a9318c0abf10048"><div class="ttname"><a href="classhect_1_1_time_span.html#ae9dba9b6c1be0e063a9318c0abf10048">hect::TimeSpan::fromSeconds</a></div><div class="ttdeci">static TimeSpan fromSeconds(Real seconds)</div><div class="ttdoc">Creates a time span from seconds. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_adbfbda0cec18afa5c0b2bbff3159e42a"><div class="ttname"><a href="classhect_1_1_time_span.html#adbfbda0cec18afa5c0b2bbff3159e42a">hect::TimeSpan::operator&gt;=</a></div><div class="ttdeci">bool operator&gt;=(const TimeSpan &amp;t) const </div><div class="ttdoc">Returns whether the time span is greater than or equal to another. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_a197fc503af6274d085aeba1c96338a61"><div class="ttname"><a href="classhect_1_1_time_span.html#a197fc503af6274d085aeba1c96338a61">hect::TimeSpan::operator/</a></div><div class="ttdeci">TimeSpan operator/(Real value) const </div><div class="ttdoc">Returns the quotient of the time span and a scalar. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_a804c988e75142ba898f780e8af37c4e1"><div class="ttname"><a href="classhect_1_1_time_span.html#a804c988e75142ba898f780e8af37c4e1">hect::TimeSpan::operator&lt;</a></div><div class="ttdeci">bool operator&lt;(const TimeSpan &amp;t) const </div><div class="ttdoc">Returns whether the time span is less than another. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_aa39cf0c6c1003316cbe25857ff38795f"><div class="ttname"><a href="classhect_1_1_time_span.html#aa39cf0c6c1003316cbe25857ff38795f">hect::TimeSpan::milliseconds</a></div><div class="ttdeci">int64_t milliseconds()</div><div class="ttdoc">Returns the time span in milliseconds. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_a1c11706a40567e7a2c160adf0af8a472"><div class="ttname"><a href="classhect_1_1_time_span.html#a1c11706a40567e7a2c160adf0af8a472">hect::TimeSpan::operator&gt;</a></div><div class="ttdeci">bool operator&gt;(const TimeSpan &amp;t) const </div><div class="ttdoc">Returns whether the time span is greater than another. </div></div>
-<div class="ttc" id="classhect_1_1_time_span_html_a6effed4b16b263fc58a806c04094679d"><div class="ttname"><a href="classhect_1_1_time_span.html#a6effed4b16b263fc58a806c04094679d">hect::TimeSpan::fromMilliseconds</a></div><div class="ttdeci">static TimeSpan fromMilliseconds(int64_t milliseconds)</div><div class="ttdoc">Creates a time span from milliseconds. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

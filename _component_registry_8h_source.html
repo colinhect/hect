@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -113,64 +113,59 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;typeindex&gt;</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Component.h&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/ComponentPool.h&quot;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classhect_1_1_component_registry.html">   42</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_component_registry.html">ComponentRegistry</a></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">static</span> std::shared_ptr&lt;ComponentBase&gt; <a class="code" href="classhect_1_1_component_registry.html#a8a17fde0c354892279199e821296ffdf">create</a>(<a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">static</span> std::shared_ptr&lt;ComponentPoolBase&gt; <a class="code" href="classhect_1_1_component_registry.html#a8f308606718eda530d0c9f4d6f68fe12">createPool</a>(<a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId, <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">static</span> <a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> <a class="code" href="classhect_1_1_component_registry.html#aae2339a442e011d50fb62e380892d76c">typeIdOf</a>(std::type_index typeIndex);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">static</span> <a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> <a class="code" href="classhect_1_1_component_registry.html#aae2339a442e011d50fb62e380892d76c">typeIdOf</a>(<span class="keyword">const</span> std::string&amp; typeName);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::string&amp; <a class="code" href="classhect_1_1_component_registry.html#a2f0c63aef371d2b646bc331190690153">typeNameOf</a>(<a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classhect_1_1_component_registry.html#aca310eaac4049b1ee97b725cc72ae64c">isRegisteredTypeId</a>(<a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_component_registry.html#a941873c67d023618c4a070774db05d63">registerType</a>();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">static</span> <a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> <a class="code" href="classhect_1_1_component_registry.html#aae2339a442e011d50fb62e380892d76c">typeIdOf</a>();</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <a class="code" href="classhect_1_1_component_registry.html">ComponentRegistry</a>();</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">static</span> std::map&lt;ComponentTypeId, std::string&gt; _typeIdToName;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keyword">static</span> std::map&lt;std::string, ComponentTypeId&gt; _typeNameToId;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">static</span> std::map&lt;std::type_index, ComponentTypeId&gt; _typeIndexToId;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">typedef</span> std::function&lt;std::shared_ptr&lt;ComponentBase&gt;(void)&gt; ComponentConstructor;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">typedef</span> std::function&lt;std::shared_ptr&lt;ComponentPoolBase&gt;(<a class="code" href="classhect_1_1_scene.html">Scene</a>&amp;)&gt; ComponentPoolConstructor;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keyword">static</span> std::vector&lt;ComponentConstructor&gt; _componentConstructors;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keyword">static</span> std::vector&lt;ComponentPoolConstructor&gt; _componentPoolConstructors;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;};</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;}</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Component.h&quot;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/ComponentPool.h&quot;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classhect_1_1_component_registry.html">   43</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_component_registry.html">ComponentRegistry</a></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">static</span> std::shared_ptr&lt;ComponentBase&gt; create(<a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">static</span> std::shared_ptr&lt;ComponentPoolBase&gt; createPool(<a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId, <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">static</span> <a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeIdOf(std::type_index typeIndex);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">static</span> <a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeIdOf(<span class="keyword">const</span> std::string&amp; typeName);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> std::string&amp; typeNameOf(<a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> isRegisteredTypeId(<a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeId);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> registerType();</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">static</span> <a class="code" href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">ComponentTypeId</a> typeIdOf();</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="classhect_1_1_component_registry.html">ComponentRegistry</a>();</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">static</span> std::map&lt;ComponentTypeId, std::string&gt; _typeIdToName;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">static</span> std::map&lt;std::string, ComponentTypeId&gt; _typeNameToId;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">static</span> std::map&lt;std::type_index, ComponentTypeId&gt; _typeIndexToId;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keyword">typedef</span> std::function&lt;std::shared_ptr&lt;ComponentBase&gt;(void)&gt; ComponentConstructor;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keyword">typedef</span> std::function&lt;std::shared_ptr&lt;ComponentPoolBase&gt;(<a class="code" href="classhect_1_1_scene.html">Scene</a>&amp;)&gt; ComponentPoolConstructor;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keyword">static</span> std::vector&lt;ComponentConstructor&gt; _componentConstructors;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keyword">static</span> std::vector&lt;ComponentPoolConstructor&gt; _componentPoolConstructors;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;};</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor">#include &quot;ComponentRegistry.inl&quot;</span></div>
-<div class="ttc" id="classhect_1_1_component_registry_html_a2f0c63aef371d2b646bc331190690153"><div class="ttname"><a href="classhect_1_1_component_registry.html#a2f0c63aef371d2b646bc331190690153">hect::ComponentRegistry::typeNameOf</a></div><div class="ttdeci">static const std::string &amp; typeNameOf(ComponentTypeId typeId)</div><div class="ttdoc">Returns the type name of the component type of the specified type id. </div></div>
-<div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A scene of entities, components, and systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:50</div></div>
-<div class="ttc" id="classhect_1_1_component_registry_html_aae2339a442e011d50fb62e380892d76c"><div class="ttname"><a href="classhect_1_1_component_registry.html#aae2339a442e011d50fb62e380892d76c">hect::ComponentRegistry::typeIdOf</a></div><div class="ttdeci">static ComponentTypeId typeIdOf()</div><div class="ttdoc">Returns the component type id for the given component type. </div></div>
-<div class="ttc" id="classhect_1_1_component_registry_html_a941873c67d023618c4a070774db05d63"><div class="ttname"><a href="classhect_1_1_component_registry.html#a941873c67d023618c4a070774db05d63">hect::ComponentRegistry::registerType</a></div><div class="ttdeci">static void registerType()</div><div class="ttdoc">Registers a component type. </div></div>
-<div class="ttc" id="classhect_1_1_component_registry_html"><div class="ttname"><a href="classhect_1_1_component_registry.html">hect::ComponentRegistry</a></div><div class="ttdoc">Provides the ability to dynamically create components and component pools based on type information...</div><div class="ttdef"><b>Definition:</b> ComponentRegistry.h:42</div></div>
-<div class="ttc" id="classhect_1_1_component_registry_html_aca310eaac4049b1ee97b725cc72ae64c"><div class="ttname"><a href="classhect_1_1_component_registry.html#aca310eaac4049b1ee97b725cc72ae64c">hect::ComponentRegistry::isRegisteredTypeId</a></div><div class="ttdeci">static bool isRegisteredTypeId(ComponentTypeId typeId)</div><div class="ttdoc">Returns whether the specified type id is the type id of a registered component type. </div></div>
-<div class="ttc" id="classhect_1_1_component_registry_html_a8f308606718eda530d0c9f4d6f68fe12"><div class="ttname"><a href="classhect_1_1_component_registry.html#a8f308606718eda530d0c9f4d6f68fe12">hect::ComponentRegistry::createPool</a></div><div class="ttdeci">static std::shared_ptr&lt; ComponentPoolBase &gt; createPool(ComponentTypeId typeId, Scene &amp;scene)</div><div class="ttdoc">Creates a component pool of the specified type. </div></div>
-<div class="ttc" id="namespacehect_html_aaf301b3d5fce0db1fbfc05f15fd4ed75"><div class="ttname"><a href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">hect::ComponentTypeId</a></div><div class="ttdeci">uint32_t ComponentTypeId</div><div class="ttdoc">A numeric identifier for a component type. </div><div class="ttdef"><b>Definition:</b> Component.h:45</div></div>
-<div class="ttc" id="classhect_1_1_component_registry_html_a8a17fde0c354892279199e821296ffdf"><div class="ttname"><a href="classhect_1_1_component_registry.html#a8a17fde0c354892279199e821296ffdf">hect::ComponentRegistry::create</a></div><div class="ttdeci">static std::shared_ptr&lt; ComponentBase &gt; create(ComponentTypeId typeId)</div><div class="ttdoc">Creates a component of the specified type. </div></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">#include &quot;ComponentRegistry.inl&quot;</span></div>
+<div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A dynamic collection of Entities , Components, and Systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:57</div></div>
+<div class="ttc" id="classhect_1_1_component_registry_html"><div class="ttname"><a href="classhect_1_1_component_registry.html">hect::ComponentRegistry</a></div><div class="ttdoc">Provides the ability to dynamically create Components and ComponentPools based on type information...</div><div class="ttdef"><b>Definition:</b> ComponentRegistry.h:43</div></div>
+<div class="ttc" id="namespacehect_html_aaf301b3d5fce0db1fbfc05f15fd4ed75"><div class="ttname"><a href="namespacehect.html#aaf301b3d5fce0db1fbfc05f15fd4ed75">hect::ComponentTypeId</a></div><div class="ttdeci">uint32_t ComponentTypeId</div><div class="ttdoc">A numeric identifier for a Component type. </div><div class="ttdef"><b>Definition:</b> Component.h:46</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:20 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

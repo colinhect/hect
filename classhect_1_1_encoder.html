@@ -105,8 +105,8 @@ Inheritance diagram for hect::Encoder:</div>
  <div class="center">
   <img src="classhect_1_1_encoder.png" usemap="#hect::Encoder_map" alt=""/>
   <map id="hect::Encoder_map" name="hect::Encoder_map">
-<area href="classhect_1_1_binary_encoder.html" title="Provides access for encoding structured data to binary data. " alt="hect::BinaryEncoder" shape="rect" coords="0,56,127,80"/>
-<area href="classhect_1_1_json_encoder.html" title="Provides access for encoding structured data to a JSON value. " alt="hect::JsonEncoder" shape="rect" coords="137,56,264,80"/>
+<area href="classhect_1_1_binary_encoder.html" title="Provides access for encoding structured data to binary data. " alt="hect::BinaryEncoder" shape="rect" coords="0,56,149,80"/>
+<area href="classhect_1_1_data_value_encoder.html" title="Provides access for encoding structured data to a DataValue. " alt="hect::DataValueEncoder" shape="rect" coords="159,56,308,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -198,7 +198,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Begins an array. </p>
 <dl class="section note"><dt>Note</dt><dd>Values encoded following this call will be encoded as elements in the array. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a8f379b97884da409e552e35e4121d9ca">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ac19a2b4d9ff64a23b993740bf854da5b">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a0d06678561bf8cec0f7a069fe201202d">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ac19a2b4d9ff64a23b993740bf854da5b">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -226,7 +226,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Begins an object. </p>
 <dl class="section note"><dt>Note</dt><dd>The specific members of an object can be targeted using <a class="el" href="classhect_1_1_encoder.html#a4f710dd0119fdd061245b1f25da344a7" title="Selects a specific member of the object. ">selectMember()</a>. </dd></dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#acde497f3968eb39ae0573d705b0e364f">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ada5ef4276e1bce2d9694bc63edb1391d">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#ad652e05eb2bba21a6bad8d822bc0a632">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ada5ef4276e1bce2d9694bc63edb1391d">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -254,12 +254,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Returns the raw binary stream. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If the encoder is not writing to a binary stream. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If the encoder is not writing to a binary stream. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a1197e5e480af71f1a875d95e9187afde">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ae9ac289a38081ec3b8aa6acfa8d6d6ef">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a65f07e1f2fd26894dfe4d886a77521b4">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ae9ac289a38081ec3b8aa6acfa8d6d6ef">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -293,7 +293,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a1700c638af93a9917831be783b9057d7">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a04df4855d9b0b36c17885f42c4445e59">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a04dd597670ef4a31aaa2eb4ab12e3db8">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a04df4855d9b0b36c17885f42c4445e59">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -327,7 +327,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a0f3946094e60d08bf35a3f94928ba8b2">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ac54e129085d1c2bb7172f2992fafe381">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a8665690dce8622f2b9e71a4c7af0b487">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ac54e129085d1c2bb7172f2992fafe381">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -361,7 +361,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a29b015d3a9dec169c4bf364be4a7f34a">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a346de56ecaebb5201f91fbfdb1e3fa61">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a41b763ceee79e1cdc3ec633d57b02863">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a346de56ecaebb5201f91fbfdb1e3fa61">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -395,7 +395,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a0a7005d1067bcbe3972b3a20056439cc">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a4faf57baed3357e94cb1650c6930cb8b">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a67de4b9b801bf2e0b0617aa7d471cd65">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a4faf57baed3357e94cb1650c6930cb8b">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -429,7 +429,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a0accc5f4588529c6ba3377ab571ac35a">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#acaaed42a8f1c77c99858810d274bcf46">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a2d235e98ace92851a213b3aafb43ae5f">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#acaaed42a8f1c77c99858810d274bcf46">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -463,7 +463,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a17ae7cc33a9c45abb2893ece5b31e13d">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a3f71930aa94bdbcc14d1f01ad8aafbfb">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#ad96d571ee12ae4b7d033e2756b7cf48a">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a3f71930aa94bdbcc14d1f01ad8aafbfb">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -497,7 +497,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#af88e60daf22cec5b8a70314180c23f00">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a31868cac7b292f565f27329322074285">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a04beb7504858198557ed39990e325146">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a31868cac7b292f565f27329322074285">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -531,7 +531,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#aae6a10213abc03bded8c3ba9e11c3104">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a11b705d9e4074fd09b94d48d5a232c22">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#ab9cc901be3cccc3d03040a00d874de88">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a11b705d9e4074fd09b94d48d5a232c22">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -565,7 +565,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a269979967334e3c0f7e9641658f446d5">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#afe37312a81f8143f5414e6af1a9d1037">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#acbe7594823dfe608214a967c9ae48bcf">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#afe37312a81f8143f5414e6af1a9d1037">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -599,7 +599,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a9f8096095a1ee31bfbc51c78b441be5d">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a40e65a8a3671713482e6027f0b1fc8f4">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a568829934267665d0581c2a6ab23d5dc">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a40e65a8a3671713482e6027f0b1fc8f4">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -633,7 +633,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#acce6809430528d3e77e2c8fd9da98d61">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ae2c3d657ac94cf48c368fe4ed795b471">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#af6acd74bfd2bde77caea98d0e98a3821">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#ae2c3d657ac94cf48c368fe4ed795b471">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -667,7 +667,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a393441ab852c378f801d45b787279f7a">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a0b46d13482eea32aee0e2e8a9db3c8e4">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a218131c3ffe9261055e97a4d6fc2ac2f">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a0b46d13482eea32aee0e2e8a9db3c8e4">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -696,12 +696,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <dl class="section note"><dt>Note</dt><dd>No more elements can be encoded to be the array after it is ended.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_encoder.html#a658efcbbaabc5f8499f0edae75eaee76" title="Begins an array. ">beginArray()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an array was not started using <a class="el" href="classhect_1_1_encoder.html#a658efcbbaabc5f8499f0edae75eaee76" title="Begins an array. ">beginArray()</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a5a6d3175d1c42f5cafcfbd542a0e41cd">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#acbc90646f3a080360f1a88ca21906e44">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#a44251ed40723cb690ab6981d1cbda4fe">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#acbc90646f3a080360f1a88ca21906e44">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -729,12 +729,12 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Ends an object. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_encoder.html#a9c84e7c4d38766185d9281be3c04a78a" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_encoder.html#a9c84e7c4d38766185d9281be3c04a78a" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#ac9c10aa50eed9a60d14239380d364d5d">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a6c7195b400bd14698aabe49ea94708bc">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#ae9f6bf84f4a28b61683445b0753134ac">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a6c7195b400bd14698aabe49ea94708bc">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
@@ -770,19 +770,19 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classhect_1_1_error.html" title="An error. ">Error</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_encoder.html#a9c84e7c4d38766185d9281be3c04a78a" title="Begins an object. ">beginObject()</a>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classhect_1_1_invalid_operation.html" title="An invalid operation was attempted. ">InvalidOperation</a></td><td>If an object was not started using <a class="el" href="classhect_1_1_encoder.html#a9c84e7c4d38766185d9281be3c04a78a" title="Begins an object. ">beginObject()</a>. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_json_encoder.html#a8538d03c5e499f39141cd2f167e4e684">hect::JsonEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a9b117ca73836e318265816687bedd1e7">hect::BinaryEncoder</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_data_value_encoder.html#aa13d36c06412b938071205f3b510c701">hect::DataValueEncoder</a>, and <a class="el" href="classhect_1_1_binary_encoder.html#a9b117ca73836e318265816687bedd1e7">hect::BinaryEncoder</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

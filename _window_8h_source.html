@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2014 Colin Hill</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Copyright (c) 2015 Colin Hill</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to</span></div>
@@ -108,41 +108,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Uncopyable.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/RenderTarget.h&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/VideoMode.h&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classhect_1_1_window.html">   39</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_window.html">Window</a> :</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_render_target.html">RenderTarget</a>,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classhect_1_1_window.html#ace45e10590d99533a5ee8bdf01168a47">Window</a>(<span class="keyword">const</span> std::string&amp; title, <span class="keyword">const</span> <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>&amp; videoMode);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classhect_1_1_window.html">Window</a>() { }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_window.html#a8d83322474a98af992333408fcd1072e">select</a>(<a class="code" href="classhect_1_1_renderer.html">Renderer</a>&amp; renderer) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_window.html#aee0daab7b2c01783f1fc18e625e20c7a">swapBuffers</a>() = 0;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_window_html_a8d83322474a98af992333408fcd1072e"><div class="ttname"><a href="classhect_1_1_window.html#a8d83322474a98af992333408fcd1072e">hect::Window::select</a></div><div class="ttdeci">void select(Renderer &amp;renderer) override</div><div class="ttdoc">Selects this target as the active target to the given renderer. </div></div>
-<div class="ttc" id="classhect_1_1_window_html_aee0daab7b2c01783f1fc18e625e20c7a"><div class="ttname"><a href="classhect_1_1_window.html#aee0daab7b2c01783f1fc18e625e20c7a">hect::Window::swapBuffers</a></div><div class="ttdeci">virtual void swapBuffers()=0</div><div class="ttdoc">Swaps the back buffer. </div></div>
-<div class="ttc" id="classhect_1_1_window_html"><div class="ttname"><a href="classhect_1_1_window.html">hect::Window</a></div><div class="ttdoc">The window that the application is rendering to. </div><div class="ttdef"><b>Definition:</b> Window.h:39</div></div>
-<div class="ttc" id="classhect_1_1_renderer_html"><div class="ttname"><a href="classhect_1_1_renderer.html">hect::Renderer</a></div><div class="ttdoc">A higher-level abstraction over a hardware-accelerated graphics API such as OpenGL or DirectX...</div><div class="ttdef"><b>Definition:</b> Renderer.h:45</div></div>
-<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:31</div></div>
-<div class="ttc" id="classhect_1_1_video_mode_html"><div class="ttname"><a href="classhect_1_1_video_mode.html">hect::VideoMode</a></div><div class="ttdoc">Describes the video mode a window uses. </div><div class="ttdef"><b>Definition:</b> VideoMode.h:34</div></div>
-<div class="ttc" id="classhect_1_1_window_html_ace45e10590d99533a5ee8bdf01168a47"><div class="ttname"><a href="classhect_1_1_window.html#ace45e10590d99533a5ee8bdf01168a47">hect::Window::Window</a></div><div class="ttdeci">Window(const std::string &amp;title, const VideoMode &amp;videoMode)</div><div class="ttdoc">Constructs a window. </div></div>
-<div class="ttc" id="classhect_1_1_render_target_html"><div class="ttname"><a href="classhect_1_1_render_target.html">hect::RenderTarget</a></div><div class="ttdoc">A target that can be rendered to. </div><div class="ttdef"><b>Definition:</b> RenderTarget.h:33</div></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Uncopyable.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/RenderTarget.h&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;Hect/Runtime/VideoMode.h&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classhect_1_1_window.html">   40</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_window.html">Window</a> :</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_render_target.html">RenderTarget</a>,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="classhect_1_1_window.html">Window</a>(<span class="keyword">const</span> std::string&amp; title, <span class="keyword">const</span> <a class="code" href="classhect_1_1_video_mode.html">VideoMode</a>&amp; videoMode);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classhect_1_1_window.html">Window</a>() { }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> select(<a class="code" href="classhect_1_1_renderer.html">Renderer</a>&amp; renderer) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> swapBuffers() = 0;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_window_html"><div class="ttname"><a href="classhect_1_1_window.html">hect::Window</a></div><div class="ttdoc">The window that the application is rendering to. </div><div class="ttdef"><b>Definition:</b> Window.h:40</div></div>
+<div class="ttc" id="classhect_1_1_renderer_html"><div class="ttname"><a href="classhect_1_1_renderer.html">hect::Renderer</a></div><div class="ttdoc">A higher-level abstraction over a hardware-accelerated graphics API such as OpenGL or DirectX...</div><div class="ttdef"><b>Definition:</b> Renderer.h:47</div></div>
+<div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:33</div></div>
+<div class="ttc" id="classhect_1_1_video_mode_html"><div class="ttname"><a href="classhect_1_1_video_mode.html">hect::VideoMode</a></div><div class="ttdoc">Describes the video mode a window uses. </div><div class="ttdef"><b>Definition:</b> VideoMode.h:35</div></div>
+<div class="ttc" id="classhect_1_1_render_target_html"><div class="ttname"><a href="classhect_1_1_render_target.html">hect::RenderTarget</a></div><div class="ttdoc">A target that can be rendered to. </div><div class="ttdef"><b>Definition:</b> RenderTarget.h:35</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 7 2014 23:27:21 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
