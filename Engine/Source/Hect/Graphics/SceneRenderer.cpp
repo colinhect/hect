@@ -70,7 +70,6 @@ void SceneRenderer::addRenderCall(Transform& transform, Mesh& mesh, Material& ma
         switch (shader->schema())
         {
         case ShaderSchema_None:
-            break;
         case ShaderSchema_OpaquePhysicalGeometry:
             _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
             break;
@@ -165,7 +164,7 @@ void SceneRenderer::prepareFrame(Renderer& renderer, Camera& camera, Scene& scen
 
 void SceneRenderer::renderFrame(Renderer& renderer, Camera& camera, RenderTarget& target)
 {
-    // Geometry buffer rendering
+    // Opaque geometry rendering
     {
         renderer.beginFrame();
         renderer.selectTarget(_geometryFrameBuffer);
@@ -173,7 +172,7 @@ void SceneRenderer::renderFrame(Renderer& renderer, Camera& camera, RenderTarget
 
         for (RenderCall& renderCall : _frameData.opaquePhysicalGeometry)
         {
-            renderMesh(renderer, camera, _geometryFrameBuffer, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            renderMesh(renderer, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
         }
 
         renderer.endFrame();
@@ -229,6 +228,14 @@ void SceneRenderer::renderFrame(Renderer& renderer, Camera& camera, RenderTarget
 
         renderer.selectMesh(*_screenMesh);
         renderer.draw();
+
+        // Transparent geometry rendering
+        {
+            for (RenderCall& renderCall : _frameData.transparentPhysicalGeometry)
+            {
+                renderMesh(renderer, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            }
+        }
 
         renderer.endFrame();
     }
