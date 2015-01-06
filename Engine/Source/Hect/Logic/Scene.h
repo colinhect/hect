@@ -206,6 +206,8 @@ private:
     size_t _entityCount { 0 };
     EntityPool _entityPool;
 
+    bool _refreshing { false };
+
     std::vector<EntityId> _entitiesPendingCreation;
     std::vector<EntityId> _entitiesPendingActivation;
     std::vector<EntityId> _entitiesPendingDestruction;

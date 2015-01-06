@@ -325,7 +325,7 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
                 if (boundingBox)
                 {
                     // Test the bounding box against the frustum
-                    FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox->axisAlignedBox);
+                    FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox->extents);
                     if (result == FrustumTestResult_Inside)
                     {
                         // No need to test any children

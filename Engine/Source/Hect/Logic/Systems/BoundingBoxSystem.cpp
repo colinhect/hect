@@ -34,6 +34,8 @@ BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
     System(scene, SystemTickStage_Subsequent)
 {
     (void)engine;
+
+    scene.components<BoundingBox>().addListener(*this);
 }
 
 void BoundingBoxSystem::update(BoundingBox& boundingBox)
@@ -53,9 +55,24 @@ void BoundingBoxSystem::tick(Real timeStep)
         // Draw a debug box for each bounding box
         for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
         {
-            AxisAlignedBox axisAlignedBox = boundingBox.axisAlignedBox;
+            AxisAlignedBox axisAlignedBox = boundingBox.extents;
             Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
             debugSystem.drawBox(DebugColor_Primary, box, axisAlignedBox.center());
+        }
+    }
+}
+
+void BoundingBoxSystem::receiveEvent(const ComponentEvent<BoundingBox>& event)
+{
+    // If a bounding box component was added to an entity
+    if (event.type == ComponentEventType_Add)
+    {
+        // Update the extents of the bounding box if it is adaptive
+        BoundingBox::Iterator boundingBox = event.entity().component<BoundingBox>();
+        if (boundingBox && boundingBox->adaptive)
+        {
+            // Update the extent of the bounding box
+            updateRecursively(event.entity());
         }
     }
 }
@@ -63,15 +80,15 @@ void BoundingBoxSystem::tick(Real timeStep)
 void BoundingBoxSystem::updateRecursively(Entity& entity)
 {
     // Compute the bounding box of this entity
-    auto boundingBox = entity.component<BoundingBox>();
-    if (boundingBox)
+    BoundingBox::Iterator boundingBox = entity.component<BoundingBox>();
+    if (boundingBox && boundingBox->adaptive)
     {
         // Start with an empty box
-        AxisAlignedBox& axisAlignedBox = boundingBox->axisAlignedBox;
+        AxisAlignedBox& axisAlignedBox = boundingBox->extents;
         axisAlignedBox = AxisAlignedBox();
 
         // Expand to fit all model that the component has
-        auto model = entity.component<Model>();
+        Model::Iterator model = entity.component<Model>();
         if (model)
         {
             for (const ModelSurface& surface : model->surfaces)
@@ -82,7 +99,7 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
         }
 
         // Transform the bounding box by the entity's global transform
-        auto transform = entity.component<Transform>();
+        Transform::Iterator transform = entity.component<Transform>();
         if (transform)
         {
             axisAlignedBox.scale(transform->globalScale);
@@ -97,13 +114,13 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
         updateRecursively(child);
 
         // If the child has a bounding box
-        auto childBoundingBox = child.component<BoundingBox>();
+        BoundingBox::Iterator childBoundingBox = child.component<BoundingBox>();
         if (childBoundingBox)
         {
             // Expand the bounding box to include this child
             if (boundingBox)
             {
-                boundingBox->axisAlignedBox.expandToInclude(childBoundingBox->axisAlignedBox);
+                boundingBox->extents.expandToInclude(childBoundingBox->extents);
             }
         }
     }

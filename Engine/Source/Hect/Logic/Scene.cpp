@@ -36,6 +36,8 @@ Scene::Scene(Engine& engine) :
 
 void Scene::refresh()
 {
+    _refreshing = true;
+
     // Create all entities pending creation
     for (EntityId entityId : _entitiesPendingCreation)
     {
@@ -60,6 +62,8 @@ void Scene::refresh()
         destroyEntity(entity);
     }
     _entitiesPendingDestruction.clear();
+
+    _refreshing = false;
 }
 
 void Scene::tick(Real timeStep)
@@ -281,6 +285,10 @@ void Scene::activateEntity(Entity& entity)
         throw InvalidOperation("Entity is already activated");
     }
 
+    ++_entityCount;
+    entity._activated = true;
+    entity._pendingActivation = false;
+
     for (ComponentTypeId typeId : _componentTypeIds)
     {
         auto& componentPool = _componentPools[typeId];
@@ -289,10 +297,6 @@ void Scene::activateEntity(Entity& entity)
             componentPool->dispatchEvent(ComponentEventType_Add, entity);
         }
     }
-
-    ++_entityCount;
-    entity._activated = true;
-    entity._pendingActivation = false;
 
     // Dispatch the entity activate event
     EntityEvent event(EntityEventType_Activate, entity);
@@ -332,7 +336,16 @@ void Scene::pendEntityActivation(Entity& entity)
     }
 
     entity._pendingActivation = true;
-    _entitiesPendingActivation.push_back(entity._id);
+    if (_refreshing)
+    {
+        // Activate the entity immediately if the scene is refreshing
+        activateEntity(entity);
+    }
+    else
+    {
+        // Enqueue the entity to activate on the next refresh
+        _entitiesPendingActivation.push_back(entity._id);
+    }
 }
 
 void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& component)

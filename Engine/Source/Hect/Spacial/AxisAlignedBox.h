@@ -24,6 +24,8 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
 #include "Hect/Math/Quaternion.h"
 #include "Hect/Math/Vector3.h"
 
@@ -92,6 +94,9 @@ public:
     ///
     /// Returns whether the box has a non-negligible size.
     bool hasSize() const;
+
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const AxisAlignedBox& box);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, AxisAlignedBox& box);
 
 private:
     void mergeMinimum(const Vector3& point);

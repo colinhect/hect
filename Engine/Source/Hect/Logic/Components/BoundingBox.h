@@ -31,7 +31,7 @@ namespace hect
 {
 
 ///
-/// The spacial extents of an Entity based on its components.
+/// The spacial extents of an Entity.
 ///
 /// \component
 class HECT_EXPORT BoundingBox :
@@ -40,8 +40,17 @@ class HECT_EXPORT BoundingBox :
 public:
 
     ///
-    /// The bounds as an axis aligned box.
-    AxisAlignedBox axisAlignedBox;
+    /// Whether the bounding box adapts to the bounds of the components of its
+    /// entity.
+    ///
+    /// \property
+    bool adaptive { true };
+
+    ///
+    /// The extents of the bounding box
+    ///
+    /// \property
+    AxisAlignedBox extents;
 };
 
 }

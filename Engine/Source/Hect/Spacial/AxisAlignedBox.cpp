@@ -23,8 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "AxisAlignedBox.h"
 
-namespace hect
-{
+using namespace hect;
 
 AxisAlignedBox::AxisAlignedBox() :
     _flags(0)
@@ -159,6 +158,30 @@ void AxisAlignedBox::mergeMaximum(const Vector3& point)
         _maximum.z = point.z;
         _flags |= MaxZ;
     }
+}
+
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const AxisAlignedBox& box)
+{
+    encoder << beginObject()
+            << encodeValue("minimum", box._minimum)
+            << encodeValue("maximum", box._maximum)
+            << endObject();
+
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, AxisAlignedBox& box)
+{
+    decoder >> beginObject()
+            >> decodeValue("minimum", box._minimum, true)
+            >> decodeValue("maximum", box._maximum, true)
+            >> endObject();
+
+    return decoder;
 }
 
 }

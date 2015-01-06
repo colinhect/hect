@@ -69,7 +69,6 @@ public:
     void commit(RigidBody& rigidBody);
 
     void tick(Real timeStep) override;
-
     void receiveEvent(const ComponentEvent<RigidBody>& event) override;
 
     ///

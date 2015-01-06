@@ -36,7 +36,8 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT TransformSystem :
-    public System
+    public System,
+    public Listener<ComponentEvent<Transform>>
 {
 public:
     TransformSystem(Engine& engine, Scene& scene);
@@ -55,6 +56,7 @@ public:
     void update(Transform& transform);
 
     void tick(Real timeStep) override;
+    void receiveEvent(const ComponentEvent<Transform>& event) override;
 
 private:
     void updateRecursively(Entity& parent, Entity& child);

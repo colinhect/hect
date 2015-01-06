@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
@@ -35,19 +36,21 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT BoundingBoxSystem :
-    public System
+    public System,
+    public Listener<ComponentEvent<BoundingBox>>
 {
     friend class TransformSystem;
 public:
     BoundingBoxSystem(Engine& engine, Scene& scene);
 
     ///
-    /// Updates the extents of a bounding box.
+    /// Updates the extents of a bounding box and all bounding boxes affected.
     ///
     /// \param boundingBox The bounding box to update.
     void update(BoundingBox& boundingBox);
 
     void tick(Real timeStep) override;
+    void receiveEvent(const ComponentEvent<BoundingBox>& event) override;
 
 private:
     void updateRecursively(Entity& entity);

@@ -32,6 +32,8 @@ TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
     System(scene, SystemTickStage_Subsequent)
 {
     (void)engine;
+
+    scene.components<Transform>().addListener(*this);
 }
 
 void TransformSystem::commit(Transform& transform)
@@ -81,27 +83,48 @@ void TransformSystem::tick(Real timeStep)
     _committed.clear();
 }
 
+void TransformSystem::receiveEvent(const ComponentEvent<Transform>& event)
+{
+    // If a transform component was added to an entity
+    if (event.type == ComponentEventType_Add)
+    {
+        // Update the transform
+        Transform::Iterator transform = event.entity().component<Transform>();
+        if (transform)
+        {
+            update(*transform);
+        }
+    }
+}
+
 void TransformSystem::updateRecursively(Entity& parent, Entity& child)
 {
-    // Get the parent transform
-    auto parentTransform = parent.component<Transform>();
-    if (parentTransform)
+    // Get the child transform
+    auto childTransform = child.component<Transform>();
+    if (childTransform)
     {
-        // Get the child transform
-        auto childTransform = child.component<Transform>();
-        if (childTransform)
+        // Get the parent transform
+        auto parentTransform = parent.component<Transform>();
+        if (parentTransform)
         {
             // Compute global components of the transform
             childTransform->globalPosition = parentTransform->globalRotation * childTransform->localPosition;
             childTransform->globalPosition += parentTransform->globalPosition;
             childTransform->globalScale = parentTransform->globalScale * childTransform->localScale;
             childTransform->globalRotation = parentTransform->globalRotation * childTransform->localRotation;
+        }
+        else
+        {
+            // Local and global are the same if there is no parent
+            childTransform->globalPosition = childTransform->localPosition;
+            childTransform->globalScale = childTransform->localScale;
+            childTransform->globalRotation = childTransform->localRotation;
+        }
 
-            // Recursively update for all children
-            for (Entity& nextChild : child.children())
-            {
-                updateRecursively(child, nextChild);
-            }
+        // Recursively update for all children
+        for (Entity& nextChild : child.children())
+        {
+            updateRecursively(child, nextChild);
         }
     }
 }

@@ -59,7 +59,6 @@ public:
     void update(Camera& camera);
 
     void tick(Real timeStep) override;
-
     void receiveEvent(const ComponentEvent<Camera>& event) override;
 
 private:
