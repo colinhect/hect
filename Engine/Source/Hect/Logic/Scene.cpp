@@ -41,8 +41,10 @@ void Scene::refresh()
     // Create all entities pending creation
     for (EntityId entityId : _entitiesPendingCreation)
     {
-        Entity& entity = _entityPool.entityWithId(entityId);
-        EntityEvent event(EntityEventType_Create, entity);
+        // Dispatch an entity create event
+        EntityEvent event;
+        event.type = EntityEventType_Create;
+        event.entity = EntityIterator(_entityPool, entityId);
         _entityPool.dispatchEvent(event);
     }
     _entitiesPendingCreation.clear();
@@ -234,7 +236,9 @@ void Scene::destroyEntity(Entity& entity)
     }
 
     // Dispatch the entity destroy event
-    EntityEvent event(EntityEventType_Destroy, entity);
+    EntityEvent event;
+    event.type = EntityEventType_Destroy;
+    event.entity = entity.iterator();
     _entityPool.dispatchEvent(event);
 
     // Destroy all children
@@ -299,7 +303,9 @@ void Scene::activateEntity(Entity& entity)
     }
 
     // Dispatch the entity activate event
-    EntityEvent event(EntityEventType_Activate, entity);
+    EntityEvent event;
+    event.type = EntityEventType_Activate;
+    event.entity = entity.iterator();
     _entityPool.dispatchEvent(event);
 }
 

@@ -927,7 +927,7 @@ TEST_CASE("Dispatch of the component add event", "[Scene]")
 
     REQUIRE(listener.receivedEvents.size() == 1);
     REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Add);
-    REQUIRE(&listener.receivedEvents[0].entity() == &*a);
+    REQUIRE(&*listener.receivedEvents[0].entity == &*a);
 }
 
 TEST_CASE("Dispatch of the component remove event", "[Scene]")
@@ -984,9 +984,9 @@ TEST_CASE("Component pool listeners", "[Scene]")
 
     REQUIRE(listener.receivedEvents.size() == 2);
     REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Add);
-    REQUIRE(&listener.receivedEvents[0].entity() == &*a);
+    REQUIRE(&*listener.receivedEvents[0].entity == &*a);
     REQUIRE(listener.receivedEvents[1].type == ComponentEventType_Add);
-    REQUIRE(&listener.receivedEvents[1].entity() == &*b);
+    REQUIRE(&*listener.receivedEvents[1].entity == &*b);
     listener.receivedEvents.clear();
 
     a->destroy();
@@ -995,7 +995,7 @@ TEST_CASE("Component pool listeners", "[Scene]")
 
     REQUIRE(listener.receivedEvents.size() == 1);
     REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
-    REQUIRE(listener.receivedEvents[0].entity().id() == (EntityId)-1);
+    REQUIRE(listener.receivedEvents[0].entity->id() == (EntityId)-1);
     listener.receivedEvents.clear();
 
     b->removeComponent<Test>();
@@ -1003,7 +1003,7 @@ TEST_CASE("Component pool listeners", "[Scene]")
 
     REQUIRE(listener.receivedEvents.size() == 1);
     REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
-    REQUIRE(&listener.receivedEvents[0].entity() == &*b);
+    REQUIRE(&*listener.receivedEvents[0].entity == &*b);
 }
 
 TEST_CASE("Find first component in a component pool with a match", "[Scene]")

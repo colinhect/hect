@@ -88,7 +88,7 @@ void CameraSystem::receiveEvent(const ComponentEvent<Camera>& event)
         // If there is no active camera then use the most recently added camera
         if (!_activeCameraEntity)
         {
-            _activeCameraEntity = event.entity().createHandle();
+            _activeCameraEntity = event.entity->createHandle();
         }
     }
 }

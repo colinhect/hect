@@ -55,7 +55,12 @@ public:
     /// A predicate for a Entity search or filter.
     typedef std::function<bool(const Entity&)> Predicate;
 
+    ///
+    /// \copydoc EntityIterator
     typedef EntityIterator Iterator;
+
+    ///
+    /// \copydoc ConstEntityIterator
     typedef ConstEntityIterator ConstIterator;
 
     ///

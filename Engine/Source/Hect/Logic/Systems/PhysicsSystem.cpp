@@ -95,7 +95,7 @@ void PhysicsSystem::tick(Real timeStep)
 
 void PhysicsSystem::receiveEvent(const ComponentEvent<RigidBody>& event)
 {
-    Entity& entity = event.entity();
+    Entity& entity = *event.entity;
 
     TransformSystem& transformSystem = scene().system<TransformSystem>();
 

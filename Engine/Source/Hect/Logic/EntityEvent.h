@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Logic/EntityIterator.h"
 
 namespace hect
 {
@@ -54,28 +55,19 @@ enum EntityEventType
     EntityEventType_Destroy
 };
 
-class Entity;
-
 ///
 /// An Entity related event.
 class HECT_EXPORT EntityEvent
 {
 public:
-    EntityEvent(EntityEventType type, Entity& entity);
 
     ///
     /// The event type.
-    EntityEventType type;
+    EntityEventType type { EntityEventType_Create };
 
     ///
-    /// Returns a reference to the Entity that the event is for.
-    ///
-    /// \warning This reference is only guaranteed to be valid for the duration
-    /// of the call to Listener::receiveEvent() when the event is dispatched.
-    Entity& entity() const;
-
-private:
-    Entity& _entity;
+    /// An iterator to the Entity that the event is for.
+    EntityIterator entity;
 };
 
 }

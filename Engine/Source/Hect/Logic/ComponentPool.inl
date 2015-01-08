@@ -149,7 +149,10 @@ const T& ComponentPool<T>::withId(ComponentId id) const
 template <typename T>
 void ComponentPool<T>::dispatchEvent(ComponentEventType type, Entity& entity)
 {
-    ComponentEvent<T> event(type, entity);
+    ComponentEvent<T> event;
+    event.type = type;
+    event.entity = entity.iterator();
+
     Dispatcher<ComponentEvent<T>>::dispatchEvent(event);
 }
 

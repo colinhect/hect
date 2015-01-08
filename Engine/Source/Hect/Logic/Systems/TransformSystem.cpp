@@ -89,7 +89,7 @@ void TransformSystem::receiveEvent(const ComponentEvent<Transform>& event)
     if (event.type == ComponentEventType_Add)
     {
         // Update the transform
-        Transform::Iterator transform = event.entity().component<Transform>();
+        Transform::Iterator transform = event.entity->component<Transform>();
         if (transform)
         {
             update(*transform);

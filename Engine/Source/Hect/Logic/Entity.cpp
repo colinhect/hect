@@ -284,7 +284,7 @@ Entity::Handle::Context::~Context()
 
 void Entity::Handle::Context::receiveEvent(const EntityEvent& event)
 {
-    if (valid && event.entity().id() == id)
+    if (valid && event.entity->id() == id)
     {
         if (event.type == EntityEventType_Destroy)
         {

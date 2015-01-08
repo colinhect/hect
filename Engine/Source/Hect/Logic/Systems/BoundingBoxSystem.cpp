@@ -67,12 +67,14 @@ void BoundingBoxSystem::receiveEvent(const ComponentEvent<BoundingBox>& event)
     // If a bounding box component was added to an entity
     if (event.type == ComponentEventType_Add)
     {
+        Entity& entity = *event.entity;
+
         // Update the extents of the bounding box if it is adaptive
-        BoundingBox::Iterator boundingBox = event.entity().component<BoundingBox>();
+        BoundingBox::Iterator boundingBox = entity.component<BoundingBox>();
         if (boundingBox && boundingBox->adaptive)
         {
             // Update the extent of the bounding box
-            updateRecursively(event.entity());
+            updateRecursively(entity);
         }
     }
 }

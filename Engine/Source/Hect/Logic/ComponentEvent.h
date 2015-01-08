@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Logic/EntityIterator.h"
 
 namespace hect
 {
@@ -50,31 +51,20 @@ enum ComponentEventType
     ComponentEventType_Remove
 };
 
-class Entity;
-
 ///
 /// An event relating to a Component.
 template <typename T>
 class ComponentEvent
 {
 public:
-    ComponentEvent(ComponentEventType type, Entity& entity);
 
     ///
     /// The event type.
-    ComponentEventType type;
+    ComponentEventType type { ComponentEventType_Add };
 
     ///
-    /// Returns a reference to the Entity that the event is for.
-    ///
-    /// \warning This reference is only guaranteed to be valid for the duration
-    /// of the call to Listener::receiveEvent() when the event is dispatched.
-    Entity& entity() const;
-
-private:
-    mutable Entity* _entity;
+    /// An iterator to the Entity that the event is for.
+    EntityIterator entity;
 };
 
 }
-
-#include "ComponentEvent.inl"
