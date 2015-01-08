@@ -501,13 +501,13 @@ void Entity::encode(Encoder& encoder) const
     scene.encodeComponents(*this, encoder);
 
     encoder << beginArray("children");
-
     for (const Entity& child : _children)
     {
         encoder << encodeValue(child);
     }
+    encoder << endArray();
 
-    encoder << endArray() << endObject();
+    encoder << endObject();
 }
 
 void Entity::decode(Decoder& decoder)
