@@ -29,13 +29,10 @@
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/Logic/EntityIterator.h"
 
 namespace hect
 {
-
-///
-/// A numeric identifier for an Entity.
-typedef uint32_t EntityId;
 
 ///
 /// A numeric identifier for a Component.
@@ -225,18 +222,18 @@ public:
     const ComponentPool<T>& pool() const;
 
     ///
-    /// Returns the entity of the component.
+    /// Returns an iterator to the entity of the component.
     ///
     /// \throws InvalidOperation If the component is not in a pool or the
     /// component does belong to an entity.
-    Entity& entity();
+    EntityIterator entity();
 
     ///
-    /// Returns the entity of the component.
+    /// Returns an iterator to the entity of the component.
     ///
     /// \throws InvalidOperation If the component is not in a pool or the
     /// component does belong to an entity.
-    const Entity& entity() const;
+    ConstEntityIterator entity() const;
 
     ///
     /// Creates a component iterator for the component.

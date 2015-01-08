@@ -32,6 +32,7 @@
 #include "Hect/IO/Encoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/EntityEvent.h"
+#include "Hect/Logic/EntityIterator.h"
 
 namespace hect
 {
@@ -47,21 +48,6 @@ class HECT_EXPORT Entity :
     friend class Scene;
     friend class EntityPool;
 private:
-    class HECT_EXPORT IteratorBase
-    {
-    public:
-        IteratorBase();
-        IteratorBase(EntityPool& pool, EntityId id);
-
-    protected:
-        void increment();
-        bool isValid() const;
-        void ensureValid() const;
-        bool equals(const IteratorBase& other) const;
-
-        mutable EntityPool* _pool { nullptr };
-        EntityId _id { EntityId(-1) };
-    };
 
 public:
 
@@ -69,111 +55,8 @@ public:
     /// A predicate for a Entity search or filter.
     typedef std::function<bool(const Entity&)> Predicate;
 
-    ///
-    /// A Entity iterator.
-    class HECT_EXPORT Iterator :
-        public IteratorBase
-    {
-        friend class Entity;
-    public:
-
-        ///
-        /// Constructs an invalid entity iterator.
-        Iterator();
-
-        Iterator(EntityPool& pool, EntityId id);
-
-        ///
-        /// Dereferences the iterator to a reference to the entity.
-        ///
-        /// \returns A reference to the entity.
-        ///
-        /// \throws InvalidOperation If the iterator is invalid.
-        Entity& operator*() const;
-
-        ///
-        /// Dereferences the iterator to a pointer to the entity.
-        ///
-        /// \returns A reference to the entity.
-        ///
-        /// \throws InvalidOperation If the iterator is invalid.
-        Entity* operator->() const;
-
-        ///
-        /// Moves to the next activated entity in the entity pool.
-        ///
-        /// \returns A reference to the iterator.
-        Iterator& operator++();
-
-        ///
-        /// Returns whether the iterator is equivalent to another.
-        ///
-        /// \param other The other iterator.
-        bool operator==(const Iterator& other) const;
-
-        ///
-        /// Returns whether the iterator is different from another.
-        ///
-        /// \param other The other iterator.
-        bool operator!=(const Iterator& other) const;
-
-        ///
-        /// Returns whether the iterator is valid.
-        operator bool() const;
-    };
-
-    ///
-    /// A constant Entity iterator.
-    class HECT_EXPORT ConstIterator :
-        public IteratorBase
-    {
-        friend class Entity;
-    public:
-
-        ///
-        /// Constructs an invalid entity iterator.
-        ConstIterator();
-
-        ConstIterator(const EntityPool& pool, EntityId id);
-
-        ///
-        /// Dereferences the iterator to a reference to the entity.
-        ///
-        /// \returns A reference to the entity.
-        ///
-        /// \throws InvalidOperation If the iterator is invalid.
-        const Entity& operator*() const;
-
-        ///
-        /// Dereferences the iterator to a pointer to the entity.
-        ///
-        /// \returns A reference to the entity.
-        ///
-        /// \throws InvalidOperation If the iterator is invalid.
-        const Entity* operator->() const;
-
-        ///
-        /// Moves to the next activated entity in the entity pool.
-        ///
-        /// \returns A reference to the iterator.
-        ConstIterator& operator++();
-
-        ///
-        /// Returns whether the iterator is equivalent to another.
-        ///
-        /// \param other The other iterator.
-        bool operator==(const ConstIterator& other) const;
-
-        ///
-        /// Returns whether the iterator is different from another.
-        ///
-        /// \param other The other iterator.
-        bool operator!=(const ConstIterator& other) const;
-
-        ///
-        /// Returns whether the iterator is valid.
-        operator bool() const;
-    };
+    typedef EntityIterator Iterator;
+    typedef ConstEntityIterator ConstIterator;
 
     ///
     /// An Entity's child entities.

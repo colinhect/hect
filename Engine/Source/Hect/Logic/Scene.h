@@ -59,6 +59,7 @@ class HECT_EXPORT Scene :
     public Asset<Scene>
 {
     friend class Entity;
+    template <typename T> friend class Component;
 public:
 
     ///

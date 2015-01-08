@@ -31,6 +31,7 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Logic/EntityIterator.h"
 #include "Hect/Logic/IdPool.h"
 
 namespace hect
@@ -157,6 +158,8 @@ private:
 
     Entity& entityForComponent(ComponentId id);
     const Entity& entityForComponent(ComponentId id) const;
+
+    EntityId componentIdToEntityId(ComponentId id) const;
 
     bool entityIdToComponentId(EntityId entityId, ComponentId& id) const;
 

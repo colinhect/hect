@@ -40,7 +40,7 @@ BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
 
 void BoundingBoxSystem::update(BoundingBox& boundingBox)
 {
-    updateRecursively(*boundingBox.entity().root());
+    updateRecursively(*boundingBox.entity()->root());
 }
 
 void BoundingBoxSystem::tick(Real timeStep)

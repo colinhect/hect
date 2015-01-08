@@ -72,7 +72,7 @@ void PhysicsSystem::tick(Real timeStep)
     // For each rigid body component
     for (RigidBody& rigidBody : scene().components<RigidBody>())
     {
-        Entity& entity = rigidBody.entity();
+        Entity& entity = *rigidBody.entity();
         auto transform = entity.component<Transform>();
         if (!entity.parent() && transform)
         {

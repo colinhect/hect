@@ -49,12 +49,12 @@ Component<Camera>::Iterator CameraSystem::activeCamera()
 
 void CameraSystem::setActiveCamera(Camera& camera)
 {
-    _activeCameraEntity = camera.entity().createHandle();
+    _activeCameraEntity = camera.entity()->createHandle();
 }
 
 void CameraSystem::update(Camera& camera)
 {
-    auto transform = camera.entity().component<Transform>();
+    auto transform = camera.entity()->component<Transform>();
     if (transform)
     {
         const Quaternion& rotation = transform->globalRotation;

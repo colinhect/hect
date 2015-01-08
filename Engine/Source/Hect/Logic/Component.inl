@@ -216,17 +216,17 @@ const ComponentPool<T>& Component<T>::pool() const
 }
 
 template <typename T>
-Entity& Component<T>::entity()
+EntityIterator Component<T>::entity()
 {
     this->ensureInPool();
-    return this->_pool->entityForComponent(this->_id);
+    return EntityIterator(this->_pool->_scene._entityPool, this->_pool->componentIdToEntityId(this->_id));
 }
 
 template <typename T>
-const Entity& Component<T>::entity() const
+ConstEntityIterator Component<T>::entity() const
 {
     this->ensureInPool();
-    return this->_pool->entityForComponent(this->_id);
+    return ConstEntityIterator(this->_pool->_scene._entityPool, this->_pool->componentIdToEntityId(this->_id));
 }
 
 template <typename T>

@@ -43,6 +43,9 @@ class HECT_EXPORT EntityPool :
 {
     friend class Scene;
     friend class Entity;
+    friend class EntityIteratorBase;
+    friend class EntityIterator;
+    friend class ConstEntityIterator;
     template <typename T> friend class ComponentPool;
 public:
     EntityPool(Scene& scene);

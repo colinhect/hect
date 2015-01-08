@@ -686,8 +686,8 @@ TEST_CASE("Clone an entity", "[Scene]")
 
     REQUIRE(a->isActivated());
     REQUIRE(!b->isActivated());
-    REQUIRE(&stringA->entity() == &*a);
-    REQUIRE(&stringB->entity() == &*b);
+    REQUIRE(&*stringA->entity() == &*a);
+    REQUIRE(&*stringB->entity() == &*b);
     REQUIRE(&*stringA != &*stringB);
     REQUIRE(stringA->id() != stringB->id());
 }
@@ -724,7 +724,7 @@ TEST_CASE("Add and remove a component to and from an entity", "[Scene]")
     REQUIRE(string == a->component<Test>());
     REQUIRE(string);
     REQUIRE(string->value == "Test");
-    REQUIRE(&string->entity() == &*a);
+    REQUIRE(&*string->entity() == &*a);
 
     a->removeComponent<Test>();
     REQUIRE(!string);
@@ -745,7 +745,7 @@ TEST_CASE("Replace a component of an entity", "[Scene]")
     REQUIRE(string == replacedString);
     REQUIRE(replacedString);
     REQUIRE(replacedString->value == "Replaced");
-    REQUIRE(&string->entity() == &*a);
+    REQUIRE(&*string->entity() == &*a);
 }
 
 TEST_CASE("Remove a non-existing component from an entity", "[Scene]")
@@ -813,10 +813,10 @@ TEST_CASE("Iterate over the components in a scene with some activated components
     scene.addComponentType<Test>();
 
     scene.createEntity();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
     scene.createEntity();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
     scene.createEntity();
 
     scene.refresh();
@@ -838,10 +838,10 @@ TEST_CASE("Iterate over the components in a scene with the first component activ
     Scene scene(*engine);
     scene.addComponentType<Test>();
 
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
     scene.createEntity();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
     scene.createEntity();
 
     scene.refresh();
@@ -864,10 +864,10 @@ TEST_CASE("Iterate over the components in a scene with the last component activa
     scene.addComponentType<Test>();
 
     scene.createEntity();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
     scene.createEntity();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
 
     scene.refresh();
 
@@ -890,10 +890,10 @@ TEST_CASE("Iterate over the components in a scene with the first and last compon
 
     Test string("Test");
 
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
     scene.createEntity();
-    scene.createEntity()->addComponent<Test>("Test")->entity().activate();
+    scene.createEntity()->addComponent<Test>("Test")->entity()->activate();
 
     scene.refresh();
 

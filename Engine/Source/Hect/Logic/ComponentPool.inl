@@ -38,7 +38,7 @@ typename Component<T>::Iterator ComponentPool<T>::begin()
     typename Component<T>::Iterator iterator(*this, 0);
 
     // Move to the first component with activated entity
-    if (!iterator || !iterator->entity().isActivated())
+    if (!iterator || !iterator->entity()->isActivated())
     {
         ++iterator;
     }
@@ -51,7 +51,7 @@ typename Component<T>::ConstIterator ComponentPool<T>::begin() const
     typename Component<T>::ConstIterator iterator(*this, 0);
 
     // Move to the first component with activated entity
-    if (!iterator || !iterator->entity().isActivated())
+    if (!iterator || !iterator->entity()->isActivated())
     {
         ++iterator;
     }
@@ -384,12 +384,19 @@ Entity& ComponentPool<T>::entityForComponent(ComponentId id)
 template <typename T>
 const Entity& ComponentPool<T>::entityForComponent(ComponentId id) const
 {
+    EntityId entityId = componentIdToEntityId(id);
+    return _scene.entities().entityWithId(entityId);
+}
+
+template <typename T>
+EntityId ComponentPool<T>::componentIdToEntityId(ComponentId id) const
+{
     if (id < _componentToEntity.size())
     {
         EntityId entityId = _componentToEntity[id];
         if (entityId != EntityId(-1))
         {
-            return _scene.entities().entityWithId(entityId);
+            return entityId;
         }
     }
     throw InvalidOperation("Component does not have an associated entity");
