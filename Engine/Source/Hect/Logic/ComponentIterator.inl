@@ -109,7 +109,7 @@ T* ComponentIterator<T>::operator->() const
 }
 
 template <typename T>
-typename ComponentIterator<T>& ComponentIterator<T>::operator++()
+ComponentIterator<T>& ComponentIterator<T>::operator++()
 {
     this->increment();
     return *this;
@@ -160,7 +160,7 @@ const T* ConstComponentIterator<T>::operator->() const
 }
 
 template <typename T>
-typename ConstComponentIterator<T>& ConstComponentIterator<T>::operator++()
+ConstComponentIterator<T>& ConstComponentIterator<T>::operator++()
 {
     this->increment();
     return *this;
