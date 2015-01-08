@@ -24,14 +24,14 @@
 #pragma once
 
 #include <functional>
-#include <memory>
 
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Logic/Component.h"
+#include "Hect/Logic/EntityChildren.h"
 #include "Hect/Logic/EntityEvent.h"
+#include "Hect/Logic/EntityHandle.h"
 #include "Hect/Logic/EntityIterator.h"
 
 namespace hect
@@ -46,6 +46,10 @@ class HECT_EXPORT Entity :
     public Uncopyable
 {
     friend class Scene;
+    friend class EntityChildren;
+    friend class EntityChildIteratorBase;
+    friend class EntityChildIterator;
+    friend class ConstEntityChildIterator;
     friend class EntityPool;
 private:
 
@@ -64,256 +68,12 @@ public:
     typedef ConstEntityIterator ConstIterator;
 
     ///
-    /// An Entity's child entities.
-    class HECT_EXPORT Children
-    {
-        class HECT_EXPORT IteratorBase
-        {
-        public:
-            IteratorBase();
-            IteratorBase(EntityPool& pool, EntityId parentId, size_t index);
-
-        protected:
-            void increment();
-            bool isValid() const;
-            void ensureValid() const;
-            bool equals(const IteratorBase& other) const;
-
-            EntityPool* _pool { nullptr };
-            EntityId _parentId { EntityId(-1) };
-            size_t _index { 0 };
-        };
-
-    public:
-
-        ///
-        /// A Entity child iterator.
-        class HECT_EXPORT Iterator :
-            public IteratorBase
-        {
-            friend class Entity;
-        public:
-
-            ///
-            /// Constructs an invalid entity iterator.
-            Iterator();
-
-            Iterator(EntityPool& pool, EntityId parentId, size_t index);
-
-            ///
-            /// Dereferences the iterator to a reference to the entity.
-            ///
-            /// \returns A reference to the entity.
-            ///
-            /// \throws InvalidOperation If the iterator is invalid.
-            Entity& operator*() const;
-
-            ///
-            /// Dereferences the iterator to a pointer to the entity.
-            ///
-            /// \returns A reference to the entity.
-            ///
-            /// \throws InvalidOperation If the iterator is invalid.
-            Entity* operator->() const;
-
-            ///
-            /// Moves to the next activated entity in the entity pool.
-            ///
-            /// \returns A reference to the iterator.
-            Iterator& operator++();
-
-            ///
-            /// Returns whether the iterator is equivalent to another.
-            ///
-            /// \param other The other iterator.
-            bool operator==(const Iterator& other) const;
-
-            ///
-            /// Returns whether the iterator is different from another.
-            ///
-            /// \param other The other iterator.
-            bool operator!=(const Iterator& other) const;
-
-            ///
-            /// Returns whether the iterator is valid.
-            operator bool() const;
-        };
-
-        ///
-        /// A constant Entity child iterator.
-        class HECT_EXPORT ConstIterator :
-            public IteratorBase
-        {
-            friend class Entity;
-        public:
-
-            ///
-            /// Constructs an invalid entity iterator.
-            ConstIterator();
-
-            ConstIterator(const EntityPool& pool, EntityId parentId, size_t index);
-
-            ///
-            /// Dereferences the iterator to a reference to the entity.
-            ///
-            /// \returns A reference to the entity.
-            ///
-            /// \throws InvalidOperation If the iterator is invalid.
-            const Entity& operator*() const;
-
-            ///
-            /// Dereferences the iterator to a pointer to the entity.
-            ///
-            /// \returns A reference to the entity.
-            ///
-            /// \throws InvalidOperation If the iterator is invalid.
-            const Entity* operator->() const;
-
-            ///
-            /// Moves to the next activated entity in the entity pool.
-            ///
-            /// \returns A reference to the iterator.
-            ConstIterator& operator++();
-
-            ///
-            /// Returns whether the iterator is equivalent to another.
-            ///
-            /// \param other The other iterator.
-            bool operator==(const ConstIterator& other) const;
-
-            ///
-            /// Returns whether the iterator is different from another.
-            ///
-            /// \param other The other iterator.
-            bool operator!=(const ConstIterator& other) const;
-
-            ///
-            /// Returns whether the iterator is valid.
-            operator bool() const;
-        };
-
-        ///
-        /// Returns an iterator to the beginning of the children.
-        Iterator begin();
-
-        ///
-        /// Returns an iterator to the beginning of the children.
-        ConstIterator begin() const;
-
-        ///
-        /// Returns an iterator to the end of the children.
-        Iterator end();
-
-        ///
-        /// Returns an iterator to the end of the children.
-        ConstIterator end() const;
-    };
+    /// \copydoc EntityChildren
+    typedef EntityChildren Children;
 
     ///
-    /// A weak reference to an Entity.
-    class HECT_EXPORT Handle
-    {
-        friend class Entity;
-    public:
-
-        ///
-        /// Constructs an invalid handle.
-        Handle();
-
-        ///
-        /// Contructs a handle copied from another.
-        ///
-        /// \param handle The handle to copy.
-        Handle(const Handle& handle);
-
-        ///
-        /// Contructs a handle moved from another.
-        ///
-        /// \param handle The handle to move.
-        Handle(Handle&& handle);
-
-        ///
-        /// Dereferences the handle to a reference to the entity.
-        ///
-        /// \returns A reference to the entity.
-        ///
-        /// \throws InvalidOperation If the handle is invalid.
-        Entity& operator*();
-
-        ///
-        /// Dereferences the handle to a reference to the entity.
-        ///
-        /// \returns A reference to the entity.
-        ///
-        /// \throws InvalidOperation If the handle is invalid.
-        const Entity& operator*() const;
-
-        ///
-        /// Dereferences the handle to a pointer to the entity.
-        ///
-        /// \returns A pointer to the entity.
-        ///
-        /// \throws InvalidOperation If the handle is invalid.
-        Entity* operator->();
-
-        ///
-        /// Dereferences the handle to a pointer to the entity.
-        ///
-        /// \returns A pointer to the entity.
-        ///
-        /// \throws InvalidOperation If the handle is invalid.
-        const Entity* operator->() const;
-
-        ///
-        /// Sets the handle as a copy of another.
-        ///
-        /// \param handle The handle to copy.
-        Handle& operator=(const Handle& handle);
-
-        ///
-        /// Sets the handle as being moved from another.
-        ///
-        /// \param handle The handle to move.
-        Handle& operator=(Handle&& handle);
-
-        ///
-        /// Returns whether the handle is equivalent to another.
-        ///
-        /// \param other The other iterator.
-        bool operator==(const Handle& other) const;
-
-        ///
-        /// Returns whether the handle is different from another.
-        ///
-        /// \param other The other iterator.
-        bool operator!=(const Handle& other) const;
-
-        ///
-        /// Returns whether the handle is valid.
-        operator bool() const;
-
-    private:
-        Handle(EntityPool& pool, EntityId id);
-
-        bool isValid() const;
-        void ensureValid() const;
-
-        class Context :
-            public Listener<EntityEvent>
-        {
-        public:
-            Context(EntityPool& pool, EntityId id);
-            ~Context();
-
-            void receiveEvent(const EntityEvent& event) override;
-
-            EntityPool* pool;
-            EntityId id;
-            bool valid { true };
-        };
-
-        std::shared_ptr<Context> _context;
-    };
+    /// \copydoc EntityHandle
+    typedef EntityHandle Handle;
 
     ///
     /// Adds a new Component of a specific type to the Entity.
@@ -616,7 +376,7 @@ private:
     void encode(Encoder& encoder) const;
     void decode(Decoder& decoder);
 
-    Children _children;
+    EntityChildren _children;
     EntityPool* _pool { nullptr };
     EntityId _id { EntityId(-1) };
     EntityId _parentId { EntityId(-1) };

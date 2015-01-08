@@ -43,6 +43,10 @@ class HECT_EXPORT EntityPool :
 {
     friend class Scene;
     friend class Entity;
+    friend class EntityChildIteratorBase;
+    friend class EntityChildIterator;
+    friend class ConstEntityChildIterator;
+    friend class EntityHandle;
     friend class EntityIteratorBase;
     friend class EntityIterator;
     friend class ConstEntityIterator;

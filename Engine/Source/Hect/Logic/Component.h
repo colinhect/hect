@@ -29,14 +29,11 @@
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/Logic/ComponentIterator.h"
 #include "Hect/Logic/EntityIterator.h"
 
 namespace hect
 {
-
-///
-/// A numeric identifier for a Component.
-typedef uint32_t ComponentId;
 
 ///
 /// A numeric identifier for a Component type.
@@ -76,23 +73,6 @@ class Component :
     public ComponentBase
 {
     friend class ComponentPool<T>;
-private:
-    class IteratorBase
-    {
-    public:
-        IteratorBase();
-        IteratorBase(ComponentPool<T>& pool, ComponentId id);
-
-    protected:
-        void increment();
-        bool isValid() const;
-        void ensureValid() const;
-        bool equals(const IteratorBase& other) const;
-
-        mutable ComponentPool<T>* _pool { nullptr };
-        ComponentId _id { ComponentId(-1) };
-    };
-
 public:
 
     ///
@@ -100,110 +80,12 @@ public:
     typedef std::function<bool(const T&)> Predicate;
 
     ///
-    /// A component iterator.
-    class Iterator :
-        public IteratorBase
-    {
-    public:
-
-        ///
-        /// Constructs an invalid component iterator.
-        Iterator();
-
-        Iterator(ComponentPool<T>& pool, ComponentId id);
-
-        ///
-        /// Dereferences the iterator to a reference to the component.
-        ///
-        /// \returns A reference to the component.
-        ///
-        /// \throws InvalidOperation If the iterator is invalid.
-        T& operator*() const;
-
-        ///
-        /// Dereferences the iterator to a pointer to the component.
-        ///
-        /// \returns A reference to the component.
-        ///
-        /// \throws InvalidOperation If the iterator is invalid.
-        T* operator->() const;
-
-        ///
-        /// Moves to the next component with an activated entity in the
-        /// component pool.
-        ///
-        /// \returns A reference to the iterator.
-        Iterator& operator++();
-
-        ///
-        /// Returns whether the iterator is equivalent to another.
-        ///
-        /// \param other The other iterator.
-        bool operator==(const Iterator& other) const;
-
-        ///
-        /// Returns whether the iterator is different from another.
-        ///
-        /// \param other The other iterator.
-        bool operator!=(const Iterator& other) const;
-
-        ///
-        /// Returns whether the iterator is valid.
-        operator bool() const;
-    };
+    /// \copydoc ComponentIterator
+    typedef ComponentIterator<T> Iterator;
 
     ///
-    /// A constant component iterator.
-    class ConstIterator :
-        public IteratorBase
-    {
-    public:
-
-        ///
-        /// Constructs an invalid component iterator.
-        ConstIterator();
-
-        ConstIterator(const ComponentPool<T>& pool, ComponentId id);
-
-        ///
-        /// Dereferences the iterator to a reference to the component.
-        ///
-        /// \returns A reference to the component.
-        ///
-        /// \throws InvalidOperation If the iterator is invalid.
-        const T& operator*() const;
-
-        ///
-        /// Dereferences the iterator to a pointer to the component.
-        ///
-        /// \returns A reference to the component.
-        ///
-        /// \throws InvalidOperation If the iterator is invalid.
-        const T* operator->() const;
-
-        ///
-        /// Moves to the next component with an activated entity in the
-        /// component pool.
-        ///
-        /// \returns A reference to the iterator.
-        ConstIterator& operator++();
-
-        ///
-        /// Returns whether the iterator is equivalent to another.
-        ///
-        /// \param other The other iterator.
-        bool operator==(const ConstIterator& other) const;
-
-        ///
-        /// Returns whether the iterator is different from another.
-        ///
-        /// \param other The other iterator.
-        bool operator!=(const ConstIterator& other) const;
-
-        ///
-        /// Returns whether the iterator is valid.
-        operator bool() const;
-    };
+    /// \copydoc ConstComponentIterator
+    typedef ConstComponentIterator<T> ConstIterator;
 
     Component();
     Component(const Component& component);

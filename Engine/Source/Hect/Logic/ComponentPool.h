@@ -66,7 +66,7 @@ class ComponentPool :
     friend class Scene;
     friend class Entity;
     friend class Component<T>;
-    friend class Component<T>::IteratorBase;
+    friend class ComponentIteratorBase<T>;
 public:
     ComponentPool(Scene& scene);
 

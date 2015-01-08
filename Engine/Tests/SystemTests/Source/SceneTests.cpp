@@ -995,7 +995,7 @@ TEST_CASE("Component pool listeners", "[Scene]")
 
     REQUIRE(listener.receivedEvents.size() == 1);
     REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
-    REQUIRE(listener.receivedEvents[0].entity->id() == (EntityId)-1);
+    REQUIRE(!listener.receivedEvents[0].entity);
     listener.receivedEvents.clear();
 
     b->removeComponent<Test>();
