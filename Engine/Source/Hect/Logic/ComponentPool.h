@@ -111,7 +111,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching components.
-    typename Component<T>::Iterator::Vector find(typename Component<T>::Predicate predicate);
+    std::vector<typename Component<T>::Iterator> find(typename Component<T>::Predicate predicate);
 
     ///
     /// Returns iterators to all Component%s matching the given predicate.
@@ -119,7 +119,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching components.
-    typename Component<T>::ConstIterator::Vector find(typename Component<T>::Predicate predicate) const;
+    std::vector<typename Component<T>::ConstIterator> find(typename Component<T>::Predicate predicate) const;
 
     ///
     /// Returns the Component with the given id.

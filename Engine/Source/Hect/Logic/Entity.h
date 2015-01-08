@@ -78,10 +78,6 @@ public:
     public:
 
         ///
-        /// A vector of entity iterators.
-        typedef std::vector<Iterator> Vector;
-
-        ///
         /// Constructs an invalid entity iterator.
         Iterator();
 
@@ -133,10 +129,6 @@ public:
     {
         friend class Entity;
     public:
-
-        ///
-        /// A vector of entity iterators.
-        typedef std::vector<ConstIterator> Vector;
 
         ///
         /// Constructs an invalid entity iterator.
@@ -213,10 +205,6 @@ public:
         {
             friend class Entity;
         public:
-
-            ///
-            /// A vector of entity iterators.
-            typedef std::vector<Iterator> Vector;
 
             ///
             /// Constructs an invalid entity iterator.
@@ -671,7 +659,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::Iterator::Vector findChildren(Predicate predicate);
+    std::vector<Entity::Iterator> findChildren(Predicate predicate);
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
@@ -679,7 +667,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::ConstIterator::Vector findChildren(Predicate predicate) const;
+    std::vector<Entity::ConstIterator> findChildren(Predicate predicate) const;
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -688,7 +676,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::Iterator::Vector findDescendants(Predicate predicate);
+    std::vector<Entity::Iterator> findDescendants(Predicate predicate);
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -697,7 +685,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::ConstIterator::Vector findDescendants(Predicate predicate) const;
+    std::vector<Entity::ConstIterator> findDescendants(Predicate predicate) const;
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -706,7 +694,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::Iterator::Vector findAncestors(Predicate predicate);
+    std::vector<Entity::Iterator> findAncestors(Predicate predicate);
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -715,7 +703,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::ConstIterator::Vector findAncestors(Predicate predicate) const;
+    std::vector<Entity::ConstIterator> findAncestors(Predicate predicate) const;
 
     Entity& operator=(const Entity& entity);
     Entity& operator=(Entity&& entity);

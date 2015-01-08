@@ -97,9 +97,9 @@ Entity::ConstIterator EntityPool::findFirst(Entity::Predicate predicate) const
     return end();
 }
 
-Entity::Iterator::Vector EntityPool::find(Entity::Predicate predicate)
+std::vector<Entity::Iterator> EntityPool::find(Entity::Predicate predicate)
 {
-    Entity::Iterator::Vector results;
+    std::vector<Entity::Iterator> results;
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
         if (predicate(*iterator))
@@ -110,9 +110,9 @@ Entity::Iterator::Vector EntityPool::find(Entity::Predicate predicate)
     return results;
 }
 
-Entity::ConstIterator::Vector EntityPool::find(Entity::Predicate predicate) const
+std::vector<Entity::ConstIterator> EntityPool::find(Entity::Predicate predicate) const
 {
-    Entity::ConstIterator::Vector results;
+    std::vector<Entity::ConstIterator> results;
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
         if (predicate(*iterator))

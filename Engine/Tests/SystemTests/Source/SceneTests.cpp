@@ -1069,7 +1069,7 @@ TEST_CASE("Find components in a component pool with matches", "[Scene]")
     scene.refresh();
 
     ComponentPool<Test>& strings = scene.components<Test>();
-    Component<Test>::Iterator::Vector iters = strings.find([](const Test& string)
+    std::vector<Component<Test>::Iterator> iters = strings.find([](const Test& string)
     {
         return string.value == "Match";
     });
@@ -1109,7 +1109,7 @@ TEST_CASE("Find components in a component pool without matches", "[Scene]")
     scene.refresh();
 
     ComponentPool<Test>& strings = scene.components<Test>();
-    Component<Test>::Iterator::Vector iters = strings.find([](const Test& string)
+    std::vector<Component<Test>::Iterator> iters = strings.find([](const Test& string)
     {
         return string.value == "Match";
     });
@@ -1203,7 +1203,7 @@ TEST_CASE("Find entities in a entity pool with matches", "[Scene]")
 
     scene.refresh();
 
-    Entity::Iterator::Vector iters = scene.entities().find([](const Entity& entity)
+    std::vector<Entity::Iterator> iters = scene.entities().find([](const Entity& entity)
     {
         return entity.component<Test>()->value == "Match";
     });
@@ -1240,7 +1240,7 @@ TEST_CASE("Find entities in a entity pool without matches", "[Scene]")
 
     scene.refresh();
 
-    Entity::Iterator::Vector iters = scene.entities().find([](const Entity& entity)
+    std::vector<Entity::Iterator> iters = scene.entities().find([](const Entity& entity)
     {
         return entity.component<Test>()->value == "Match";
     });
@@ -1315,7 +1315,7 @@ TEST_CASE("Find children entity", "[Scene]")
 
     scene.refresh();
 
-    Entity::Iterator::Vector iters = a->findChildren([](const Entity& entity)
+    std::vector<Entity::Iterator> iters = a->findChildren([](const Entity& entity)
     {
         return entity.component<Test>()->value == "B" ||
                entity.component<Test>()->value == "C";
@@ -1412,7 +1412,7 @@ TEST_CASE("Find descendant entities", "[Scene]")
 
     scene.refresh();
 
-    Entity::Iterator::Vector iters = a->findDescendants([](const Entity& entity)
+    std::vector<Entity::Iterator> iters = a->findDescendants([](const Entity& entity)
     {
         return entity.component<Test>()->value == "B" ||
                entity.component<Test>()->value == "C";
@@ -1515,7 +1515,7 @@ TEST_CASE("Find ancestor entities", "[Scene]")
 
     scene.refresh();
 
-    Entity::Iterator::Vector iters = d->findAncestors([](const Entity& entity)
+    std::vector<Entity::Iterator> iters = d->findAncestors([](const Entity& entity)
     {
         return entity.component<Test>()->value == "C" ||
                entity.component<Test>()->value == "A";

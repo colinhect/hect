@@ -110,10 +110,6 @@ public:
     public:
 
         ///
-        /// A vector of component iterators.
-        typedef std::vector<Iterator> Vector;
-
-        ///
         /// Constructs an invalid component iterator.
         Iterator();
 
@@ -165,10 +161,6 @@ public:
         public IteratorBase
     {
     public:
-
-        ///
-        /// A vector of component iterators.
-        typedef std::vector<ConstIterator> Vector;
 
         ///
         /// Constructs an invalid component iterator.

@@ -90,7 +90,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::Iterator::Vector find(Entity::Predicate predicate);
+    std::vector<Entity::Iterator> find(Entity::Predicate predicate);
 
     ///
     /// Returns iterators to all \link Entity Entities \endlink matching the
@@ -99,7 +99,7 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    Entity::ConstIterator::Vector find(Entity::Predicate predicate) const;
+    std::vector<Entity::ConstIterator> find(Entity::Predicate predicate) const;
 
     ///
     /// Returns the Entity with the given id.

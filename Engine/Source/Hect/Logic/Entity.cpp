@@ -711,9 +711,9 @@ Entity::ConstIterator Entity::findFirstAncestor(Entity::Predicate predicate) con
     return static_cast<const EntityPool*>(_pool)->end();
 }
 
-Entity::Iterator::Vector Entity::findChildren(Entity::Predicate predicate)
+std::vector<Entity::Iterator> Entity::findChildren(Entity::Predicate predicate)
 {
-    Entity::Iterator::Vector results;
+    std::vector<Entity::Iterator> results;
     for (Entity& child : _children)
     {
         if (predicate(child))
@@ -724,9 +724,9 @@ Entity::Iterator::Vector Entity::findChildren(Entity::Predicate predicate)
     return results;
 }
 
-Entity::ConstIterator::Vector Entity::findChildren(Entity::Predicate predicate) const
+std::vector<Entity::ConstIterator> Entity::findChildren(Entity::Predicate predicate) const
 {
-    Entity::ConstIterator::Vector results;
+    std::vector<Entity::ConstIterator> results;
     for (const Entity& child : _children)
     {
         if (predicate(child))
@@ -737,9 +737,9 @@ Entity::ConstIterator::Vector Entity::findChildren(Entity::Predicate predicate) 
     return results;
 }
 
-Entity::Iterator::Vector Entity::findDescendants(Entity::Predicate predicate)
+std::vector<Entity::Iterator> Entity::findDescendants(Entity::Predicate predicate)
 {
-    Entity::Iterator::Vector results;
+    std::vector<Entity::Iterator> results;
     for (Entity& child : _children)
     {
         if (predicate(child))
@@ -755,9 +755,9 @@ Entity::Iterator::Vector Entity::findDescendants(Entity::Predicate predicate)
     return results;
 }
 
-Entity::ConstIterator::Vector Entity::findDescendants(Entity::Predicate predicate) const
+std::vector<Entity::ConstIterator> Entity::findDescendants(Entity::Predicate predicate) const
 {
-    Entity::ConstIterator::Vector results;
+    std::vector<Entity::ConstIterator> results;
     for (const Entity& child : _children)
     {
         if (predicate(child))
@@ -773,9 +773,9 @@ Entity::ConstIterator::Vector Entity::findDescendants(Entity::Predicate predicat
     return results;
 }
 
-Entity::Iterator::Vector Entity::findAncestors(Entity::Predicate predicate)
+std::vector<Entity::Iterator> Entity::findAncestors(Entity::Predicate predicate)
 {
-    Entity::Iterator::Vector results;
+    std::vector<Entity::Iterator> results;
     Entity::Iterator iterator = parent();
     while (iterator)
     {
@@ -788,9 +788,9 @@ Entity::Iterator::Vector Entity::findAncestors(Entity::Predicate predicate)
     return results;
 }
 
-Entity::ConstIterator::Vector Entity::findAncestors(Entity::Predicate predicate) const
+std::vector<Entity::ConstIterator> Entity::findAncestors(Entity::Predicate predicate) const
 {
-    Entity::ConstIterator::Vector results;
+    std::vector<Entity::ConstIterator> results;
     Entity::ConstIterator iterator = parent();
     while (iterator)
     {
