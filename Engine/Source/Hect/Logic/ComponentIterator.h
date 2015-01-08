@@ -161,5 +161,3 @@ public:
 };
 
 }
-
-#include "ComponentIterator.inl"

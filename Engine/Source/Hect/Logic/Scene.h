@@ -225,5 +225,6 @@ private:
 
 #include "Entity.inl"
 #include "Component.inl"
+#include "ComponentIterator.inl"
 #include "ComponentPool.inl"
 #include "Scene.inl"
