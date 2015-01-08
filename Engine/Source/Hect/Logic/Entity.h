@@ -586,6 +586,10 @@ public:
     void removeChild(Entity& entity);
 
     ///
+    /// Destroys all child entities from the entity.
+    void destroyAllChildren();
+
+    ///
     /// Returns the children of the entity.
     Entity::Children& children();
 

@@ -578,32 +578,59 @@ TEST_CASE("Destroy an entity with children", "[Scene]")
     Entity::Iterator a = scene.createEntity();
     Entity::Iterator b = scene.createEntity();
     Entity::Iterator c = scene.createEntity();
-    Entity::Iterator d = scene.createEntity();
 
     a->addChild(*b);
     a->addChild(*c);
-    c->addChild(*d);
 
     a->activate();
 
     scene.refresh();
 
-    REQUIRE(scene.entityCount() == 4);
+    REQUIRE(scene.entityCount() == 3);
 
     a->destroy();
     REQUIRE(a->isPendingDestruction());
     REQUIRE(b->isPendingDestruction());
     REQUIRE(c->isPendingDestruction());
-    REQUIRE(d->isPendingDestruction());
 
     scene.refresh();
 
     REQUIRE(!a);
     REQUIRE(!b);
     REQUIRE(!c);
-    REQUIRE(!d);
 
     REQUIRE(scene.entityCount() == 0);
+}
+
+TEST_CASE("Destroy all children from an entity", "[Scene]")
+{
+    Scene scene(*engine);
+
+    Entity::Iterator a = scene.createEntity();
+    Entity::Iterator b = scene.createEntity();
+    Entity::Iterator c = scene.createEntity();
+
+    a->addChild(*b);
+    a->addChild(*c);
+
+    a->activate();
+
+    scene.refresh();
+
+    REQUIRE(scene.entityCount() == 3);
+
+    a->destroyAllChildren();
+    REQUIRE(!a->isPendingDestruction());
+    REQUIRE(b->isPendingDestruction());
+    REQUIRE(c->isPendingDestruction());
+
+    scene.refresh();
+
+    REQUIRE(a);
+    REQUIRE(!b);
+    REQUIRE(!c);
+
+    REQUIRE(scene.entityCount() == 1);
 }
 
 TEST_CASE("Destroy an entity with a parent", "[Scene]")

@@ -603,6 +603,14 @@ void Entity::removeChild(Entity& entity)
     entity._parentId = EntityId(-1);
 }
 
+void Entity::destroyAllChildren()
+{
+    for (Entity& child : _children)
+    {
+        child.destroy();
+    }
+}
+
 Entity::Children& Entity::children()
 {
     return _children;
