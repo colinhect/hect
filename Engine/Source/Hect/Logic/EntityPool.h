@@ -42,15 +42,14 @@ class HECT_EXPORT EntityPool :
     public Dispatcher<EntityEvent>
 {
     friend class Scene;
+
+    template <typename T>
+    friend class ComponentPool;
+
     friend class Entity;
-    friend class EntityChildIteratorBase;
-    friend class EntityChildIterator;
-    friend class ConstEntityChildIterator;
     friend class EntityHandle;
     friend class EntityIteratorBase;
-    friend class EntityIterator;
-    friend class ConstEntityIterator;
-    template <typename T> friend class ComponentPool;
+    friend class EntityChildIteratorBase;
 public:
     EntityPool(Scene& scene);
 

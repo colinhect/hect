@@ -62,7 +62,7 @@ class HECT_EXPORT EntityEvent
 public:
 
     ///
-    /// The event type.
+    /// The type of event.
     EntityEventType type { EntityEventType_Create };
 
     ///

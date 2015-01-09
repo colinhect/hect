@@ -92,7 +92,7 @@ class HECT_EXPORT PeerEvent
 public:
 
     ///
-    /// The event type.
+    /// The type of event.
     PeerEventType type { PeerEventType_None };
 
     ///

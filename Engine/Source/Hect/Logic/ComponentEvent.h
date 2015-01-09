@@ -59,7 +59,7 @@ class ComponentEvent
 public:
 
     ///
-    /// The event type.
+    /// The type of event.
     ComponentEventType type { ComponentEventType_Add };
 
     ///

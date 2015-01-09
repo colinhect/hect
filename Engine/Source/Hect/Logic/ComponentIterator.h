@@ -35,25 +35,47 @@ typedef uint32_t ComponentId;
 template <typename T>
 class ComponentPool;
 
+///
+/// The base functionality for a component iterator.
 template <typename T>
 class ComponentIteratorBase
 {
 public:
+
+    ///
+    /// Constructs an invalid component iterator.
     ComponentIteratorBase();
+
+    ///
+    /// Constructs a valid component iterator.
+    ///
+    /// \param pool The component pool that the component belongs to.
+    /// \param id The id of the component.
     ComponentIteratorBase(ComponentPool<T>& pool, ComponentId id);
 
 protected:
+    T& dereference() const;
     void increment();
     bool isValid() const;
-    void ensureValid() const;
     bool equals(const ComponentIteratorBase& other) const;
 
+private:
     mutable ComponentPool<T>* _pool { nullptr };
     ComponentId _id { ComponentId(-1) };
 };
 
 ///
-/// A component iterator.
+/// An iterator referring to a Component in a ComponentPool with a specific
+/// id.
+///
+/// \note The prefered alias for this type is Component::Iterator or
+/// Component::ConstIterator.
+///
+/// A component iterator will remain valid as components are added to and
+/// removed from the component pool.  However, if the referred component is
+/// removed, a newly added component may re-use the same id, leaving the
+/// iterator valid but referring to a new component.  An iterator can be
+/// created from a component using Component::iterator().
 template <typename T>
 class ComponentIterator :
     public ComponentIteratorBase<T>
@@ -64,6 +86,11 @@ public:
     /// Constructs an invalid component iterator.
     ComponentIterator();
 
+    ///
+    /// Constructs a valid component iterator.
+    ///
+    /// \param pool The component pool that the component belongs to.
+    /// \param id The id of the component.
     ComponentIterator(ComponentPool<T>& pool, ComponentId id);
 
     ///
@@ -107,18 +134,23 @@ public:
 };
 
 ///
-/// A constant component iterator.
+/// \copydoc ComponentIterator
 template <typename T>
-class ConstComponentIterator :
+class ComponentConstIterator :
     public ComponentIteratorBase<T>
 {
 public:
 
     ///
     /// Constructs an invalid component iterator.
-    ConstComponentIterator();
+    ComponentConstIterator();
 
-    ConstComponentIterator(const ComponentPool<T>& pool, ComponentId id);
+    ///
+    /// Constructs a valid component iterator.
+    ///
+    /// \param pool The component pool that the component belongs to.
+    /// \param id The id of the component.
+    ComponentConstIterator(const ComponentPool<T>& pool, ComponentId id);
 
     ///
     /// Dereferences the iterator to a reference to the component.
@@ -141,19 +173,19 @@ public:
     /// component pool.
     ///
     /// \returns A reference to the iterator.
-    ConstComponentIterator& operator++();
+    ComponentConstIterator& operator++();
 
     ///
     /// Returns whether the iterator is equivalent to another.
     ///
     /// \param other The other iterator.
-    bool operator==(const ConstComponentIterator& other) const;
+    bool operator==(const ComponentConstIterator& other) const;
 
     ///
     /// Returns whether the iterator is different from another.
     ///
     /// \param other The other iterator.
-    bool operator!=(const ConstComponentIterator& other) const;
+    bool operator!=(const ComponentConstIterator& other) const;
 
     ///
     /// Returns whether the iterator is valid.

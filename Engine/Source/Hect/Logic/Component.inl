@@ -59,14 +59,20 @@ template <typename T>
 EntityIterator Component<T>::entity()
 {
     this->ensureInPool();
-    return EntityIterator(this->_pool->_scene._entityPool, this->_pool->componentIdToEntityId(this->_id));
+
+    EntityPool& entityPool = this->_pool->_scene._entityPool;
+    EntityId entityId = this->_pool->componentIdToEntityId(this->_id);
+    return EntityIterator(entityPool, entityId);
 }
 
 template <typename T>
-ConstEntityIterator Component<T>::entity() const
+EntityConstIterator Component<T>::entity() const
 {
     this->ensureInPool();
-    return ConstEntityIterator(this->_pool->_scene._entityPool, this->_pool->componentIdToEntityId(this->_id));
+
+    EntityPool& entityPool = this->_pool->_scene._entityPool;
+    EntityId entityId = this->_pool->componentIdToEntityId(this->_id);
+    return EntityConstIterator(entityPool, entityId);
 }
 
 template <typename T>

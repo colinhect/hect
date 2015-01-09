@@ -37,6 +37,17 @@ ComponentIteratorBase<T>::ComponentIteratorBase(ComponentPool<T>& pool, Componen
 }
 
 template <typename T>
+T& ComponentIteratorBase<T>::dereference() const
+{
+    if (!this->isValid())
+    {
+        throw InvalidOperation("Invalid component iterator");
+    }
+
+    return this->_pool->withId(this->_id);
+}
+
+template <typename T>
 void ComponentIteratorBase<T>::increment()
 {
     ++this->_id;
@@ -68,15 +79,6 @@ bool ComponentIteratorBase<T>::isValid() const
 }
 
 template <typename T>
-void ComponentIteratorBase<T>::ensureValid() const
-{
-    if (!this->isValid())
-    {
-        throw InvalidOperation("Invalid component iterator");
-    }
-}
-
-template <typename T>
 bool ComponentIteratorBase<T>::equals(const ComponentIteratorBase<T>& other) const
 {
     return this->_pool == other._pool && this->_id == other._id;
@@ -97,15 +99,13 @@ ComponentIterator<T>::ComponentIterator(ComponentPool<T>& pool, ComponentId id) 
 template <typename T>
 T& ComponentIterator<T>::operator*() const
 {
-    this->ensureValid();
-    return this->_pool->withId(this->_id);
+    return this->dereference();
 }
 
 template <typename T>
 T* ComponentIterator<T>::operator->() const
 {
-    this->ensureValid();
-    return &this->_pool->withId(this->_id);
+    return &this->dereference();
 }
 
 template <typename T>
@@ -134,52 +134,50 @@ ComponentIterator<T>::operator bool() const
 }
 
 template <typename T>
-ConstComponentIterator<T>::ConstComponentIterator() :
+ComponentConstIterator<T>::ComponentConstIterator() :
     ComponentIteratorBase<T>()
 {
 }
 
 template <typename T>
-ConstComponentIterator<T>::ConstComponentIterator(const ComponentPool<T>& pool, ComponentId id) :
+ComponentConstIterator<T>::ComponentConstIterator(const ComponentPool<T>& pool, ComponentId id) :
     ComponentIteratorBase<T>(*const_cast<ComponentPool<T>*>(&pool), id)
 {
 }
 
 template <typename T>
-const T& ConstComponentIterator<T>::operator*() const
+const T& ComponentConstIterator<T>::operator*() const
 {
-    this->ensureValid();
-    return this->_pool->withId(this->_id);
+    return this->dereference();
 }
 
 template <typename T>
-const T* ConstComponentIterator<T>::operator->() const
+const T* ComponentConstIterator<T>::operator->() const
 {
-    this->ensureValid();
-    return &this->_pool->withId(this->_id);
+    return &this->dereference();
 }
 
 template <typename T>
-ConstComponentIterator<T>& ConstComponentIterator<T>::operator++()
+ComponentConstIterator<T>& ComponentConstIterator<T>::operator++()
 {
     this->increment();
     return *this;
 }
 
 template <typename T>
-bool ConstComponentIterator<T>::operator==(const ConstComponentIterator<T>& other) const
+bool ComponentConstIterator<T>::operator==(const ComponentConstIterator<T>& other) const
 {
     return this->equals(other);
 }
 
 template <typename T>
-bool ConstComponentIterator<T>::operator!=(const ConstComponentIterator<T>& other) const
+bool ComponentConstIterator<T>::operator!=(const ComponentConstIterator<T>& other) const
 {
     return !this->equals(other);
 }
 
 template <typename T>
-ConstComponentIterator<T>::operator bool() const
+ComponentConstIterator<T>::operator bool() const
 {
     return this->isValid();
 }

@@ -38,6 +38,18 @@ EntityChildIteratorBase::EntityChildIteratorBase(EntityPool& pool, EntityId pare
 {
 }
 
+Entity& EntityChildIteratorBase::dereference() const
+{
+    if (!isValid())
+    {
+        throw InvalidOperation("Invalid entity iterator");
+    }
+
+    Entity& entity = _pool->entityWithId(_parentId);
+    EntityId id = entity._childIds[_index];
+    return _pool->entityWithId(id);
+}
+
 void EntityChildIteratorBase::increment()
 {
     if (isValid())
@@ -49,14 +61,6 @@ void EntityChildIteratorBase::increment()
 bool EntityChildIteratorBase::isValid() const
 {
     return _pool && _index < _pool->entityWithId(_parentId)._childIds.size();
-}
-
-void EntityChildIteratorBase::ensureValid() const
-{
-    if (!isValid())
-    {
-        throw InvalidOperation("Invalid entity iterator");
-    }
 }
 
 bool EntityChildIteratorBase::equals(const EntityChildIteratorBase& other) const
@@ -76,18 +80,12 @@ EntityChildIterator::EntityChildIterator(EntityPool& pool, EntityId parentId, si
 
 Entity& EntityChildIterator::operator*() const
 {
-    ensureValid();
-    Entity& entity = _pool->entityWithId(_parentId);
-    EntityId id = entity._childIds[_index];
-    return _pool->entityWithId(id);
+    return dereference();
 }
 
 Entity* EntityChildIterator::operator->() const
 {
-    ensureValid();
-    Entity& entity = _pool->entityWithId(_parentId);
-    EntityId id = entity._childIds[_index];
-    return &_pool->entityWithId(id);
+    return &dereference();
 }
 
 EntityChildIterator& EntityChildIterator::operator++()
@@ -111,49 +109,43 @@ EntityChildIterator::operator bool() const
     return isValid();
 }
 
-ConstEntityChildIterator::ConstEntityChildIterator() :
+EntityChildConstIterator::EntityChildConstIterator() :
     EntityChildIteratorBase()
 {
 }
 
-ConstEntityChildIterator::ConstEntityChildIterator(const EntityPool& pool, EntityId parentId, size_t index) :
+EntityChildConstIterator::EntityChildConstIterator(const EntityPool& pool, EntityId parentId, size_t index) :
     EntityChildIteratorBase(*const_cast<EntityPool*>(&pool), parentId, index)
 {
 }
 
-const Entity& ConstEntityChildIterator::operator*() const
+const Entity& EntityChildConstIterator::operator*() const
 {
-    ensureValid();
-    const Entity& entity = _pool->entityWithId(_parentId);
-    EntityId id = entity._childIds[_index];
-    return _pool->entityWithId(id);
+    return dereference();
 }
 
-const Entity* ConstEntityChildIterator::operator->() const
+const Entity* EntityChildConstIterator::operator->() const
 {
-    ensureValid();
-    const Entity& entity = _pool->entityWithId(_parentId);
-    EntityId id = entity._childIds[_index];
-    return &_pool->entityWithId(id);
+    return &dereference();
 }
 
-ConstEntityChildIterator& ConstEntityChildIterator::operator++()
+EntityChildConstIterator& EntityChildConstIterator::operator++()
 {
     increment();
     return *this;
 }
 
-bool ConstEntityChildIterator::operator==(const ConstEntityChildIterator& other) const
+bool EntityChildConstIterator::operator==(const EntityChildConstIterator& other) const
 {
     return equals(other);
 }
 
-bool ConstEntityChildIterator::operator!=(const ConstEntityChildIterator& other) const
+bool EntityChildConstIterator::operator!=(const EntityChildConstIterator& other) const
 {
     return !equals(other);
 }
 
-ConstEntityChildIterator::operator bool() const
+EntityChildConstIterator::operator bool() const
 {
     return isValid();
 }

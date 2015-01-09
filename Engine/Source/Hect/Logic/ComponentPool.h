@@ -31,6 +31,7 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Logic/ComponentIterator.h"
 #include "Hect/Logic/EntityIterator.h"
 #include "Hect/Logic/IdPool.h"
 
@@ -64,10 +65,15 @@ class ComponentPool :
     public Dispatcher<ComponentEvent<T>>
 {
     friend class Scene;
-    friend class Entity;
     friend class Component<T>;
     friend class ComponentIteratorBase<T>;
+    friend class Entity;
 public:
+
+    ///
+    /// Constructs a component pool
+    ///
+    /// \param scene The scene.
     ComponentPool(Scene& scene);
 
     ///

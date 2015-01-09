@@ -439,7 +439,6 @@ Entity& Entity::operator=(Entity&& entity)
     return *this;
 }
 
-
 Entity::Entity()
 {
 }

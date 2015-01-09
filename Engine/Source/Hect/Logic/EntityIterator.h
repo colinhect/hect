@@ -37,24 +37,46 @@ class EntityPool;
 /// A numeric identifier for an Entity.
 typedef uint32_t EntityId;
 
+///
+/// The base functionality for an entity iterator.
 class HECT_EXPORT EntityIteratorBase
 {
 public:
+
+    ///
+    /// Constructs an invalid entity iterator.
     EntityIteratorBase();
+
+    ///
+    /// Constructs a valid entity iterator.
+    ///
+    /// \param pool The entity pool that the entity belongs to.
+    /// \param id The id of the entity.
     EntityIteratorBase(EntityPool& pool, EntityId id);
 
 protected:
+    Entity& dereference() const;
     void increment();
     bool isValid() const;
-    void ensureValid() const;
     bool equals(const EntityIteratorBase& other) const;
 
+private:
     mutable EntityPool* _pool { nullptr };
     EntityId _id { EntityId(-1) };
 };
 
 ///
-/// A Entity iterator.
+/// An iterator referring to a Entity in an EntityPool with a specific id.
+///
+/// \note The prefered alias for this type is Entity::Iterator or
+/// Entity::ConstIterator.
+///
+/// An entity iterator will remain valid as entities are created and destroyed
+/// in the entity pool.  However, if the referred enitity is destroy, a newly
+/// added entity may re-use the same id, leaving the iterator valid but
+/// referring to a new entity.  To hold a reference to an entity that is
+/// guaranteed to refer to the same entity, use an Entity::Handle.  An iterator
+/// can be created from an entity using Entity::iterator().
 class HECT_EXPORT EntityIterator :
     public EntityIteratorBase
 {
@@ -65,6 +87,11 @@ public:
     /// Constructs an invalid entity iterator.
     EntityIterator();
 
+    ///
+    /// Constructs a valid entity iterator.
+    ///
+    /// \param pool The entity pool that the entity belongs to.
+    /// \param id The id of the entity.
     EntityIterator(EntityPool& pool, EntityId id);
 
     ///
@@ -107,8 +134,8 @@ public:
 };
 
 ///
-/// A constant Entity iterator.
-class HECT_EXPORT ConstEntityIterator :
+/// \copydoc EntityIterator
+class HECT_EXPORT EntityConstIterator :
     public EntityIteratorBase
 {
     friend class Entity;
@@ -116,9 +143,14 @@ public:
 
     ///
     /// Constructs an invalid entity iterator.
-    ConstEntityIterator();
+    EntityConstIterator();
 
-    ConstEntityIterator(const EntityPool& pool, EntityId id);
+    ///
+    /// Constructs a valid entity iterator.
+    ///
+    /// \param pool The entity pool that the entity belongs to.
+    /// \param id The id of the entity.
+    EntityConstIterator(const EntityPool& pool, EntityId id);
 
     ///
     /// Dereferences the iterator to a reference to the entity.
@@ -140,19 +172,19 @@ public:
     /// Moves to the next activated entity in the entity pool.
     ///
     /// \returns A reference to the iterator.
-    ConstEntityIterator& operator++();
+    EntityConstIterator& operator++();
 
     ///
     /// Returns whether the iterator is equivalent to another.
     ///
     /// \param other The other iterator.
-    bool operator==(const ConstEntityIterator& other) const;
+    bool operator==(const EntityConstIterator& other) const;
 
     ///
     /// Returns whether the iterator is different from another.
     ///
     /// \param other The other iterator.
-    bool operator!=(const ConstEntityIterator& other) const;
+    bool operator!=(const EntityConstIterator& other) const;
 
     ///
     /// Returns whether the iterator is valid.

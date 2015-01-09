@@ -38,6 +38,16 @@ EntityIteratorBase::EntityIteratorBase(EntityPool& pool, EntityId id) :
 {
 }
 
+Entity& EntityIteratorBase::dereference() const
+{
+    if (!isValid())
+    {
+        throw InvalidOperation("Invalid entity iterator");
+    }
+
+    return _pool->entityWithId(_id);
+}
+
 void EntityIteratorBase::increment()
 {
     ++_id;
@@ -58,14 +68,6 @@ bool EntityIteratorBase::isValid() const
     return _pool && _pool->entityIsValid(_id);
 }
 
-void EntityIteratorBase::ensureValid() const
-{
-    if (!isValid())
-    {
-        throw InvalidOperation("Invalid entity iterator");
-    }
-}
-
 bool EntityIteratorBase::equals(const EntityIteratorBase& other) const
 {
     return _pool == other._pool && _id == other._id;
@@ -83,14 +85,12 @@ EntityIterator::EntityIterator(EntityPool& pool, EntityId id) :
 
 Entity& EntityIterator::operator*() const
 {
-    ensureValid();
-    return _pool->entityWithId(_id);
+    return dereference();
 }
 
 Entity* EntityIterator::operator->() const
 {
-    ensureValid();
-    return &_pool->entityWithId(_id);
+    return &dereference();
 }
 
 EntityIterator& EntityIterator::operator++()
@@ -114,45 +114,43 @@ EntityIterator::operator bool() const
     return isValid();
 }
 
-ConstEntityIterator::ConstEntityIterator() :
+EntityConstIterator::EntityConstIterator() :
     EntityIteratorBase()
 {
 }
 
-ConstEntityIterator::ConstEntityIterator(const EntityPool& pool, EntityId id) :
+EntityConstIterator::EntityConstIterator(const EntityPool& pool, EntityId id) :
     EntityIteratorBase(*const_cast<EntityPool*>(&pool), id)
 {
 }
 
-const Entity& ConstEntityIterator::operator*() const
+const Entity& EntityConstIterator::operator*() const
 {
-    ensureValid();
-    return _pool->entityWithId(_id);
+    return dereference();
 }
 
-const Entity* ConstEntityIterator::operator->() const
+const Entity* EntityConstIterator::operator->() const
 {
-    ensureValid();
-    return &_pool->entityWithId(_id);
+    return &dereference();
 }
 
-ConstEntityIterator& ConstEntityIterator::operator++()
+EntityConstIterator& EntityConstIterator::operator++()
 {
     increment();
     return *this;
 }
 
-bool ConstEntityIterator::operator==(const ConstEntityIterator& other) const
+bool EntityConstIterator::operator==(const EntityConstIterator& other) const
 {
     return equals(other);
 }
 
-bool ConstEntityIterator::operator!=(const ConstEntityIterator& other) const
+bool EntityConstIterator::operator!=(const EntityConstIterator& other) const
 {
     return !equals(other);
 }
 
-ConstEntityIterator::operator bool() const
+EntityConstIterator::operator bool() const
 {
     return isValid();
 }

@@ -30,7 +30,7 @@ namespace hect
 {
 
 ///
-/// An Entity's child entities.
+/// An Entity's children.
 class HECT_EXPORT EntityChildren
 {
 public:
@@ -40,8 +40,8 @@ public:
     typedef EntityChildIterator Iterator;
 
     ///
-    /// \copydoc ConstEntityChildIterator
-    typedef ConstEntityChildIterator ConstIterator;
+    /// \copydoc EntityChildConstIterator
+    typedef EntityChildConstIterator ConstIterator;
 
     ///
     /// Returns an iterator to the beginning of the children.

@@ -42,14 +42,16 @@ class EntityPool;
 
 ///
 /// A dynamic object in a Scene.
+///
+/// \warning Raw references and pointers to an entity may be invalidated as new
+/// entities are created and destroyed in the entity pool.  To maintain a valid
+/// reference to an entity, use Entity::Iterator or Entity::Handle.
 class HECT_EXPORT Entity :
     public Uncopyable
 {
     friend class Scene;
     friend class EntityChildren;
     friend class EntityChildIteratorBase;
-    friend class EntityChildIterator;
-    friend class ConstEntityChildIterator;
     friend class EntityPool;
 private:
 
@@ -64,8 +66,8 @@ public:
     typedef EntityIterator Iterator;
 
     ///
-    /// \copydoc ConstEntityIterator
-    typedef ConstEntityIterator ConstIterator;
+    /// \copydoc EntityConstIterator
+    typedef EntityConstIterator ConstIterator;
 
     ///
     /// \copydoc EntityChildren

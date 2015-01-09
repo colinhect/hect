@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <typeindex>
 #include <functional>
 
 #include "Hect/Core/Export.h"
@@ -58,16 +57,22 @@ public:
     /// \param decoder The decoder to use.
     virtual void decode(Decoder& decoder);
 
+    ///
+    /// Returns the if of the component's type.
     virtual ComponentTypeId typeId() const = 0;
 };
-
-class Entity;
 
 template <typename T>
 class ComponentPool;
 
+class Entity;
+
 ///
 /// A component of an Entity.
+///
+/// \warning Raw references and pointers to a component may be invalidated as
+/// new components are added to and removed from the entity pool.  To maintain
+/// a valid reference to an component, use Component::Iterator.
 template <typename T>
 class Component :
     public ComponentBase
@@ -84,11 +89,23 @@ public:
     typedef ComponentIterator<T> Iterator;
 
     ///
-    /// \copydoc ConstComponentIterator
-    typedef ConstComponentIterator<T> ConstIterator;
+    /// \copydoc ComponentConstIterator
+    typedef ComponentConstIterator<T> ConstIterator;
 
+    ///
+    /// Constructs a default component.
     Component();
+
+    ///
+    /// Constructs a component as a copy from another component.
+    ///
+    /// \param component The component to copy.
     Component(const Component& component);
+
+    ///
+    /// Constructs a component moved from another component.
+    ///
+    /// \param component The component to move.
     Component(Component&& component);
 
     ///
@@ -111,29 +128,33 @@ public:
     EntityIterator entity();
 
     ///
-    /// Returns an iterator to the entity of the component.
-    ///
-    /// \throws InvalidOperation If the component is not in a pool or the
-    /// component does belong to an entity.
-    ConstEntityIterator entity() const;
+    /// \copydoc Component::entity()
+    EntityConstIterator entity() const;
 
     ///
     /// Creates a component iterator for the component.
     typename Component<T>::Iterator iterator();
 
     ///
-    /// Creates a constant component iterator for the component.
+    /// \copydoc Component::iterator()
     typename Component<T>::ConstIterator iterator() const;
 
     ///
     /// Returns the id of the component.
     ComponentId id() const;
 
-    ///
-    /// Returns the id for the component's type.
     ComponentTypeId typeId() const override;
 
+    ///
+    /// Assigns the component as a copy from another component.
+    ///
+    /// \param component The component to copy.
     Component<T>& operator=(const Component& component);
+
+    ///
+    /// Assigns the component moved from another component.
+    ///
+    /// \param component The component to move.
     Component<T>& operator=(Component&& component);
 
 private:

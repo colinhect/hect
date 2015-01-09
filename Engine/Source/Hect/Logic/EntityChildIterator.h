@@ -30,34 +30,60 @@
 namespace hect
 {
 
+///
+/// The base functionality for an entity iterator.
 class HECT_EXPORT EntityChildIteratorBase
 {
 public:
+
+    ///
+    /// Constructs an invalid entity child iterator.
     EntityChildIteratorBase();
+
+    ///
+    /// Constructs a valid entity child iterator.
+    ///
+    /// \param pool The entity pool that the entity belongs to.
+    /// \param parentId The id of the parent entity.
+    /// \param index The index of the child entity.
     EntityChildIteratorBase(EntityPool& pool, EntityId parentId, size_t index);
 
 protected:
+    Entity& dereference() const;
     void increment();
     bool isValid() const;
-    void ensureValid() const;
     bool equals(const EntityChildIteratorBase& other) const;
 
+private:
     EntityPool* _pool { nullptr };
     EntityId _parentId { EntityId(-1) };
     size_t _index { 0 };
 };
 
 ///
-/// A Entity child iterator.
+/// An iterator referring to a child Entity at a specific index.
+///
+/// \note The prefered alias for this type is Entity::Children::Iterator or
+/// Entity::Children::ConstIterator.
+///
+/// An entity child iterator is only intended for iterating.  To maintain a
+/// reference to a child entity create a standard iterator using
+/// Entity::iterator().
 class HECT_EXPORT EntityChildIterator :
     public EntityChildIteratorBase
 {
 public:
 
     ///
-    /// Constructs an invalid entity iterator.
+    /// Constructs an invalid entity child iterator.
     EntityChildIterator();
 
+    ///
+    /// Constructs a valid entity child iterator.
+    ///
+    /// \param pool The entity pool that the entity belongs to.
+    /// \param parentId The id of the parent entity.
+    /// \param index The index of the child entity.
     EntityChildIterator(EntityPool& pool, EntityId parentId, size_t index);
 
     ///
@@ -100,8 +126,8 @@ public:
 };
 
 ///
-/// A constant Entity child iterator.
-class HECT_EXPORT ConstEntityChildIterator :
+/// \copydoc EntityChildIterator
+class HECT_EXPORT EntityChildConstIterator :
     public EntityChildIteratorBase
 {
     friend class Entity;
@@ -109,9 +135,15 @@ public:
 
     ///
     /// Constructs an invalid entity iterator.
-    ConstEntityChildIterator();
+    EntityChildConstIterator();
 
-    ConstEntityChildIterator(const EntityPool& pool, EntityId parentId, size_t index);
+    ///
+    /// Constructs a valid entity child iterator.
+    ///
+    /// \param pool The entity pool that the entity belongs to.
+    /// \param parentId The id of the parent entity.
+    /// \param index The index of the child entity.
+    EntityChildConstIterator(const EntityPool& pool, EntityId parentId, size_t index);
 
     ///
     /// Dereferences the iterator to a reference to the entity.
@@ -133,19 +165,19 @@ public:
     /// Moves to the next activated entity in the entity pool.
     ///
     /// \returns A reference to the iterator.
-    ConstEntityChildIterator& operator++();
+    EntityChildConstIterator& operator++();
 
     ///
     /// Returns whether the iterator is equivalent to another.
     ///
     /// \param other The other iterator.
-    bool operator==(const ConstEntityChildIterator& other) const;
+    bool operator==(const EntityChildConstIterator& other) const;
 
     ///
     /// Returns whether the iterator is different from another.
     ///
     /// \param other The other iterator.
-    bool operator!=(const ConstEntityChildIterator& other) const;
+    bool operator!=(const EntityChildConstIterator& other) const;
 
     ///
     /// Returns whether the iterator is valid.
