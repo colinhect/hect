@@ -16,6 +16,7 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LibYaml"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng"
+    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/NanoVG"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS"
     "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Tclap/include"
     )
@@ -29,7 +30,7 @@ add_dependencies(Hect HectAssets)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Source/Hect/Generated)
 add_dependencies(Hect HectTypes)
 
-set(LINK_LIBRARIES Bullet ENet Glew LibYaml LodePng PhysFS)
+set(LINK_LIBRARIES Bullet ENet Glew LibYaml LodePng NanoVG PhysFS)
 
 # Add OpenGL and SDL dependencies if not building headless
 if(NOT HEADLESS)
