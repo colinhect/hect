@@ -134,6 +134,7 @@ namespace hect {}
 #include "Hect/Spacial/Box.h"
 #include "Hect/Spacial/Frustum.h"
 #include "Hect/Spacial/Plane.h"
+#include "Hect/Spacial/Rectangle.h"
 #include "Hect/Spacial/Sphere.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"

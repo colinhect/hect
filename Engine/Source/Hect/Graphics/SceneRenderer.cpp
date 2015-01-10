@@ -50,6 +50,15 @@ SceneRenderer::SceneRenderer(Renderer& renderer, TaskPool& taskPool, AssetCache&
 
     _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
+
+    renderer.uploadShader(*_exposeShader);
+    renderer.uploadShader(*_compositeShader);
+    renderer.uploadShader(*_environmentShader);
+    renderer.uploadShader(*_directionalLightShader);
+    renderer.uploadShader(*_skyBoxMaterial->shader());
+
+    renderer.uploadMesh(*_screenMesh);
+    renderer.uploadMesh(*_skyBoxMesh);
 }
 
 void SceneRenderer::render(Scene& scene, RenderTarget& target)
@@ -78,6 +87,33 @@ void SceneRenderer::addRenderCall(Transform& transform, Mesh& mesh, Material& ma
             _frameData.transparentPhysicalGeometry.emplace_back(transform, mesh, material);
             break;
         }
+    }
+}
+
+void SceneRenderer::uploadRendererObjects(Scene& scene)
+{
+    for (Model& model : scene.components<Model>())
+    {
+        for (ModelSurface& surface : model.surfaces)
+        {
+            Mesh& mesh = *surface.mesh;
+            Material& material = *surface.material;
+
+            _renderer->uploadMesh(mesh);
+            _renderer->uploadShader(*material.shader());
+            for (UniformValue& uniformValue : material.uniformValues())
+            {
+                if (uniformValue.type() == UniformType_Texture)
+                {
+                    _renderer->uploadTexture(*uniformValue.asTexture());
+                }
+            }
+        }
+    }
+
+    for (SkyBox& skyBox : scene.components<SkyBox>())
+    {
+        _renderer->uploadTexture(*skyBox.texture);
     }
 }
 

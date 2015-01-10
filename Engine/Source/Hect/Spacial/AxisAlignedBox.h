@@ -43,7 +43,7 @@ public:
     AxisAlignedBox();
 
     ///
-    /// Constructs an axis aligned box given a minimum and maximum point.
+    /// Constructs an axis aligned box.
     ///
     /// \param minimum The minimum point.
     /// \param maximum The maximum point.

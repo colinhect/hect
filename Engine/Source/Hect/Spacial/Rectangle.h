@@ -24,54 +24,61 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/Timing/TimeSpan.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/Math/Vector2.h"
 
 namespace hect
 {
 
-class Engine;
-class Renderer;
-class RenderTarget;
-
 ///
-/// The highest-level logic of a game.
-class HECT_EXPORT GameMode :
-    public Uncopyable
+/// A 2-dimensional box in screen-space.
+class HECT_EXPORT Rectangle
 {
 public:
 
     ///
-    /// Constructs a game mode.
-    ///
-    /// \param timeStep The amount of time between logic ticks.
-    GameMode(TimeSpan timeStep);
-
-    virtual ~GameMode() { }
+    /// Constructs a default rectangle
+    Rectangle();
 
     ///
-    /// Performs a single step of logic.
+    /// Constructs a rectangle.
     ///
-    /// \param engine The engine.
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// simulate.
-    ///
-    /// \returns True if the game mode is still active; false if it is not.
-    virtual bool tick(Engine& engine, Real timeStep) = 0;
+    /// \param minX The x coordinate of the minimum point.
+    /// \param minY The y coordinate of the minimum point.
+    /// \param maxX The x coordinate of the maximum point.
+    /// \param maxY The y coordinate of the maximum point.
+    Rectangle(Real minX, Real minY, Real maxX, Real maxY);
 
     ///
-    /// Renders the current state of the game to a target.
+    /// Constructs a rectangle.
     ///
-    /// \param engine The engine.
-    /// \param target The target to render to.
-    virtual void render(Engine& engine, RenderTarget& target) = 0;
+    /// \param minimum The minimum point.
+    /// \param maximum The maximum point.
+    Rectangle(const Vector2& minimum, const Vector2& maximum);
 
     ///
-    /// Returns the amount of time between logic ticks.
-    TimeSpan timeStep() const;
+    /// Returns the minimum point.
+    const Vector2& minimum() const;
+
+    ///
+    /// Returns the maximum point.
+    const Vector2& maximum() const;
+
+    ///
+    /// Returns the width and hight.
+    Vector2 size() const;
+
+    ///
+    /// Returns the center point.
+    Vector2 center() const;
+
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Rectangle& rectangle);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Rectangle& rectangle);
 
 private:
-    TimeSpan _timeStep;
+    Vector2 _minimum;
+    Vector2 _maximum;
 };
 
 }

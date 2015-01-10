@@ -28,9 +28,24 @@
 #include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Math/Vector2.h"
+#include "Hect/Spacial/Rectangle.h"
 
 namespace hect
 {
+
+enum VerticalAlign
+{
+    VerticalAlign_Bottom,
+    VerticalAlign_Center,
+    VerticalAlign_Top
+};
+
+enum HorizontalAlign
+{
+    HorizontalAlign_Left,
+    HorizontalAlign_Center,
+    HorizontalAlign_Right
+};
 
 ///
 /// Provides the functionality for rendering vector graphics.
@@ -52,8 +67,16 @@ public:
     /// Establishes the ending of a frame.
     virtual void endFrame() = 0;
 
+    virtual void pushState() = 0;
+    virtual void popState() = 0;
+
+    virtual void beginPath() = 0;
+    virtual void selectFillColor(const Vector4& color) = 0;
+    virtual void fill() = 0;
+    virtual void rectangle(const Rectangle& bounds) = 0;
+
     virtual void selectFont(Font& font, Real size) = 0;
-    virtual void drawText(const Vector2& position, const std::string& text) = 0;
+    virtual void text(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign = HorizontalAlign_Center, VerticalAlign verticalAlign = VerticalAlign_Center) = 0;
 };
 
 }

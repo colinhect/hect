@@ -558,6 +558,8 @@ void Scene::decode(Decoder& decoder)
     }
 
     decoder >> endObject();
+
+    refresh();
 }
 
 void Scene::encodeComponents(const Entity& entity, Encoder& encoder)

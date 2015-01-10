@@ -160,7 +160,6 @@ void AxisAlignedBox::mergeMaximum(const Vector3& point)
     }
 }
 
-
 namespace hect
 {
 

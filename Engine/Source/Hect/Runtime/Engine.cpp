@@ -154,7 +154,8 @@ int Engine::main()
 
         Real timeStep = gameMode->timeStep().seconds();
 
-        while (_platform->handleEvents())
+        bool active = true;
+        while (_platform->handleEvents() && active)
         {
             TimeSpan deltaTime = timer.elapsed();
             timer.reset();
@@ -162,9 +163,9 @@ int Engine::main()
             accumulator += deltaTime;
             delta += deltaTime;
 
-            while (accumulator.microseconds() >= gameMode->timeStep().microseconds())
+            while (active && accumulator.microseconds() >= gameMode->timeStep().microseconds())
             {
-                gameMode->tick(*this, timeStep);
+                active = gameMode->tick(*this, timeStep);
 
                 delta = TimeSpan();
                 accumulator -= gameMode->timeStep();

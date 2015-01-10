@@ -21,57 +21,67 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Rectangle.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/Timing/TimeSpan.h"
+using namespace hect;
+
+Rectangle::Rectangle()
+{
+}
+
+Rectangle::Rectangle(Real minX, Real minY, Real maxX, Real maxY) :
+    _minimum(minX, minY),
+    _maximum(maxX, maxY)
+{
+}
+
+Rectangle::Rectangle(const Vector2& minimum, const Vector2& maximum) :
+    _minimum(minimum),
+    _maximum(maximum)
+{
+}
+
+const Vector2& Rectangle::minimum() const
+{
+    return _minimum;
+}
+
+const Vector2& Rectangle::maximum() const
+{
+    return _maximum;
+}
+
+Vector2 Rectangle::size() const
+{
+    return _maximum - _minimum;
+}
+
+Vector2 Rectangle::center() const
+{
+    return _minimum + size() * Real(0.5);
+}
 
 namespace hect
 {
 
-class Engine;
-class Renderer;
-class RenderTarget;
-
-///
-/// The highest-level logic of a game.
-class HECT_EXPORT GameMode :
-    public Uncopyable
+Encoder& operator<<(Encoder& encoder, const Rectangle& rectangle)
 {
-public:
+    encoder << beginObject()
+            << encodeValue("minimum", rectangle._minimum)
+            << encodeValue("maximum", rectangle._maximum)
+            << endObject();
 
-    ///
-    /// Constructs a game mode.
-    ///
-    /// \param timeStep The amount of time between logic ticks.
-    GameMode(TimeSpan timeStep);
+    return encoder;
+}
 
-    virtual ~GameMode() { }
+Decoder& operator>>(Decoder& decoder, Rectangle& rectangle)
+{
+    decoder >> beginObject()
+            >> decodeValue("minimum", rectangle._minimum, true)
+            >> decodeValue("maximum", rectangle._maximum, true)
+            >> endObject();
 
-    ///
-    /// Performs a single step of logic.
-    ///
-    /// \param engine The engine.
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// simulate.
-    ///
-    /// \returns True if the game mode is still active; false if it is not.
-    virtual bool tick(Engine& engine, Real timeStep) = 0;
-
-    ///
-    /// Renders the current state of the game to a target.
-    ///
-    /// \param engine The engine.
-    /// \param target The target to render to.
-    virtual void render(Engine& engine, RenderTarget& target) = 0;
-
-    ///
-    /// Returns the amount of time between logic ticks.
-    TimeSpan timeStep() const;
-
-private:
-    TimeSpan _timeStep;
-};
+    return decoder;
+}
 
 }

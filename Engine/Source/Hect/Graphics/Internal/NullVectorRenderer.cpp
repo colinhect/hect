@@ -34,14 +34,42 @@ void NullVectorRenderer::endFrame()
 {
 }
 
+void NullVectorRenderer::pushState()
+{
+}
+
+void NullVectorRenderer::popState()
+{
+}
+
+void NullVectorRenderer::beginPath()
+{
+}
+
+void NullVectorRenderer::selectFillColor(const Vector4& color)
+{
+    (void)color;
+}
+
+void NullVectorRenderer::fill()
+{
+}
+
+void NullVectorRenderer::rectangle(const Rectangle& bounds)
+{
+    (void)bounds;
+}
+
 void NullVectorRenderer::selectFont(Font& font, Real size)
 {
     (void)font;
     (void)size;
 }
 
-void NullVectorRenderer::drawText(const Vector2& position, const std::string& text)
+void NullVectorRenderer::text(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
 {
-    (void)position;
     (void)text;
+    (void)bounds;
+    (void)horizontalAlign;
+    (void)verticalAlign;
 }

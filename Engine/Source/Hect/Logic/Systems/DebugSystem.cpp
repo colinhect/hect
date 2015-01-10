@@ -36,6 +36,10 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
     _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");
 
+    Renderer& renderer = engine.renderer();
+    renderer.uploadShader(*_coloredLineShader);
+    renderer.uploadMesh(*_boxMesh);
+
     addColoredMaterial(Vector3(100, 0, 0)); // Primary
     addColoredMaterial(Vector3(0, 100, 0)); // Secondary
     addColoredMaterial(Vector3(0, 0, 100)); // Tertiary

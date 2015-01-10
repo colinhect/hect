@@ -35,8 +35,14 @@ class HECT_EXPORT NullVectorRenderer :
 public:
     void beginFrame(RenderTarget& target) override;
     void endFrame() override;
+    void pushState() override;
+    void popState() override;
+    void beginPath() override;
+    void selectFillColor(const Vector4& color) override;
+    void fill() override;
+    void rectangle(const Rectangle& bounds) override;
     void selectFont(Font& font, Real size) override;
-    void drawText(const Vector2& position, const std::string& text) override;
+    void text(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign) override;
 };
 
 }

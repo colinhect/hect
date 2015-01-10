@@ -68,6 +68,12 @@ public:
     /// \param material The material to use.
     void addRenderCall(Transform& transform, Mesh& mesh, Material& material);
 
+    ///
+    /// Immediately uploads all render objects in a scene.
+    ///
+    /// \param scene The scene to upload the render objects for.
+    void uploadRendererObjects(Scene& scene);
+
 private:
     void prepareFrame(Camera& camera, Scene& scene, RenderTarget& target);
     void renderFrame(Camera& camera, RenderTarget& target);

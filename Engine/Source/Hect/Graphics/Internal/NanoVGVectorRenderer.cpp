@@ -32,7 +32,6 @@
 
 #include <cassert>
 #include <GL/glew.h>
-#include <nanovg.h>
 #include <nanovg_gl.h>
 
 using namespace hect;
@@ -73,6 +72,38 @@ void NanoVGVectorRenderer::endFrame()
     _renderer.endFrame();
 }
 
+void NanoVGVectorRenderer::pushState()
+{
+    nvgSave(_nvgContext);
+}
+
+void NanoVGVectorRenderer::popState()
+{
+    nvgRestore(_nvgContext);
+}
+
+void NanoVGVectorRenderer::beginPath()
+{
+    nvgBeginPath(_nvgContext);
+}
+
+void NanoVGVectorRenderer::selectFillColor(const Vector4& color)
+{
+    nvgFillColor(_nvgContext, convertColor(color));
+}
+
+void NanoVGVectorRenderer::fill()
+{
+    nvgFill(_nvgContext);
+}
+
+void NanoVGVectorRenderer::rectangle(const Rectangle& bounds)
+{
+    Vector2T<float> position = bounds.minimum();
+    Vector2T<float> size = bounds.size();
+    nvgRect(_nvgContext, position.x, position.y, size.x, size.y);
+}
+
 void NanoVGVectorRenderer::selectFont(Font& font, Real size)
 {
     // If the font was not loaded in NanoVG yet
@@ -92,9 +123,58 @@ void NanoVGVectorRenderer::selectFont(Font& font, Real size)
     nvgFontFaceId(_nvgContext, font.id());
 }
 
-void NanoVGVectorRenderer::drawText(const Vector2& position, const std::string& text)
+void NanoVGVectorRenderer::text(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
 {
-    nvgText(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), text.c_str(), nullptr);
+    Vector2T<float> position = bounds.minimum();
+    Vector2T<float> size = bounds.size();
+
+    // Compute the text bounds
+    float measuredBounds[4];
+    nvgTextBounds(_nvgContext, 0, 0, text.c_str(), nullptr, measuredBounds);
+    Vector2T<float> textPosition(measuredBounds[0], measuredBounds[1]);
+    Vector2T<float> textSize(measuredBounds[2] - measuredBounds[0], measuredBounds[3] - measuredBounds[1]);
+    Vector2T<float> actual(position - textPosition);
+
+    // Align horizontally
+    switch (horizontalAlign)
+    {
+    case HorizontalAlign_Left:
+        break;
+    case HorizontalAlign_Center:
+        actual.x += size.x / 2 - textSize.x / 2;
+        break;
+    case HorizontalAlign_Right:
+        actual.x += size.x - textSize.x;
+        break;
+    }
+
+    // Align vertically
+    switch (verticalAlign)
+    {
+    case VerticalAlign_Bottom:
+        actual.y += size.y - textSize.y;
+        break;
+    case VerticalAlign_Center:
+        actual.y += size.y / 2 - textSize.y / 2;
+        break;
+    case VerticalAlign_Top:
+        break;
+    }
+
+    // Draw the text
+    nvgScissor(_nvgContext, position.x, position.y, size.x, size.y);
+    nvgText(_nvgContext, actual.x, actual.y, text.c_str(), nullptr);
+    nvgResetScissor(_nvgContext);
+}
+
+NVGcolor NanoVGVectorRenderer::convertColor(const Vector4& color) const
+{
+    NVGcolor result;
+    result.r = static_cast<float>(color[0]);
+    result.g = static_cast<float>(color[1]);
+    result.b = static_cast<float>(color[2]);
+    result.a = static_cast<float>(color[3]);
+    return result;
 }
 
 #endif
