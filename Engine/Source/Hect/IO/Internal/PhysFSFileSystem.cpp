@@ -31,8 +31,8 @@
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/IO/FileSystems/PhysFSReadStream.h"
-#include "Hect/IO/FileSystems/PhysFSWriteStream.h"
+#include "Hect/IO/Internal/PhysFSReadStream.h"
+#include "Hect/IO/Internal/PhysFSWriteStream.h"
 
 #ifdef HECT_WINDOWS_BUILD
 #include <Windows.h>
