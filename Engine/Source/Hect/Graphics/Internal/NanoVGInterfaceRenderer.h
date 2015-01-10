@@ -27,6 +27,9 @@
 #include "Hect/Core/Exception.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/InterfaceRenderer.h"
+#include "Hect/Graphics/Renderer.h"
+
+#ifdef HECT_RENDERER_OPENGL
 
 typedef struct NVGcontext NVGcontext;
 
@@ -37,13 +40,19 @@ class HECT_EXPORT NanoVGInterfaceRenderer :
     public InterfaceRenderer
 {
 public:
-    NanoVGInterfaceRenderer();
+    NanoVGInterfaceRenderer(Renderer& renderer);
+    ~NanoVGInterfaceRenderer();
 
     void beginFrame(RenderTarget& target) override;
     void endFrame() override;
+    void selectFont(Font& font, Real size) override;
+    void drawText(const Vector2& position, const std::string& text) override;
 
 private:
+    Renderer& _renderer;
     NVGcontext* _nvgContext { nullptr };
 };
 
 }
+
+#endif

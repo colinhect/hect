@@ -23,9 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <cstdint>
-#include <vector>
-
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/ByteVector.h"

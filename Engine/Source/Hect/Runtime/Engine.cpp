@@ -125,7 +125,7 @@ Engine::Engine(int argc, char* const argv[])
         // Create renderer
 #ifdef HECT_RENDERER_OPENGL
         _renderer.reset(new OpenGLRenderer());
-        _interfaceRenderer.reset(new NanoVGInterfaceRenderer());
+        _interfaceRenderer.reset(new NanoVGInterfaceRenderer(*_renderer));
 #else
         _renderer.reset(new NullRenderer());
         _interfaceRenderer.reset(new NullInterfaceRenderer());
@@ -164,13 +164,13 @@ int Engine::main()
 
             while (accumulator.microseconds() >= gameMode->timeStep().microseconds())
             {
-                gameMode->tick(timeStep);
+                gameMode->tick(*this, timeStep);
 
                 delta = TimeSpan();
                 accumulator -= gameMode->timeStep();
             }
 
-            gameMode->render(*_window);
+            gameMode->render(*this, *_window);
             _window->swapBuffers();
         }
     }
@@ -199,6 +199,12 @@ SceneRenderer& Engine::sceneRenderer()
 {
     assert(_sceneRenderer);
     return *_sceneRenderer;
+}
+
+InterfaceRenderer& Engine::interfaceRenderer()
+{
+    assert(_interfaceRenderer);
+    return *_interfaceRenderer;
 }
 
 Window& Engine::window()

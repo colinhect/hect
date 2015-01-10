@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "NanoVGInterfaceRenderer.h"
 
+#include "Hect/Timing/Timer.h"
+
 #ifdef HECT_RENDERER_OPENGL
 
 #define NANOVG_GLEW
@@ -35,7 +37,8 @@
 
 using namespace hect;
 
-NanoVGInterfaceRenderer::NanoVGInterfaceRenderer()
+NanoVGInterfaceRenderer::NanoVGInterfaceRenderer(Renderer& renderer) :
+    _renderer(renderer)
 {
     // Initialize NanoVG
 #ifdef HECT_DEBUG_BUILD
@@ -49,8 +52,16 @@ NanoVGInterfaceRenderer::NanoVGInterfaceRenderer()
     }
 }
 
+NanoVGInterfaceRenderer::~NanoVGInterfaceRenderer()
+{
+    nvgDeleteGL3(_nvgContext);
+}
+
 void NanoVGInterfaceRenderer::beginFrame(RenderTarget& target)
 {
+    _renderer.beginFrame();
+    _renderer.selectTarget(target);
+
     assert(_nvgContext);
     nvgBeginFrame(_nvgContext, target.width(), target.height(), 1);
 }
@@ -58,6 +69,32 @@ void NanoVGInterfaceRenderer::beginFrame(RenderTarget& target)
 void NanoVGInterfaceRenderer::endFrame()
 {
     nvgEndFrame(_nvgContext);
+
+    _renderer.endFrame();
+}
+
+void NanoVGInterfaceRenderer::selectFont(Font& font, Real size)
+{
+    // If the font was not loaded in NanoVG yet
+    if (font.id() == FontId(-1))
+    {
+        Timer timer;
+
+        // Create the NanoVG font and set the id
+        FontId id = nvgCreateFontMem(_nvgContext, font.name().c_str(), const_cast<unsigned char*>(&font.rawData()[0]), static_cast<int>(font.rawData().size()), 0);
+        font.setId(id);
+
+        HECT_TRACE(format("Built font '%s' in %ims", font.name().c_str(), timer.elapsed().milliseconds()));
+    }
+
+    // Select the font
+    nvgFontSize(_nvgContext, static_cast<float>(size));
+    nvgFontFaceId(_nvgContext, font.id());
+}
+
+void NanoVGInterfaceRenderer::drawText(const Vector2& position, const std::string& text)
+{
+    nvgText(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), text.c_str(), nullptr);
 }
 
 #endif

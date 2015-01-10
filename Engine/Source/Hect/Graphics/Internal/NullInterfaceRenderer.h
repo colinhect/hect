@@ -35,6 +35,8 @@ class HECT_EXPORT NullInterfaceRenderer :
 public:
     void beginFrame(RenderTarget& target) override;
     void endFrame() override;
+    void selectFont(Font& font, Real size) override;
+    void drawText(const Vector2& position, const std::string& text) override;
 };
 
 }

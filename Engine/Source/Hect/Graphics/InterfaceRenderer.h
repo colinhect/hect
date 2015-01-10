@@ -25,19 +25,35 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
+#include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/RenderTarget.h"
+#include "Hect/Math/Vector2.h"
 
 namespace hect
 {
 
+///
+/// Provides the functionality for rendering graphical user interface elements.
 class HECT_EXPORT InterfaceRenderer :
     public Uncopyable
 {
 public:
     virtual ~InterfaceRenderer() { }
 
+    ///
+    /// Establishes the beginning of a frame.
+    ///
+    /// \note Any state changes are only persistent within a frame.
+    ///
+    /// \param target The target to render to.
     virtual void beginFrame(RenderTarget& target) = 0;
+
+    ///
+    /// Establishes the ending of a frame.
     virtual void endFrame() = 0;
+
+    virtual void selectFont(Font& font, Real size) = 0;
+    virtual void drawText(const Vector2& position, const std::string& text) = 0;
 };
 
 }

@@ -52,15 +52,17 @@ public:
     ///
     /// Performs a single step of logic.
     ///
+    /// \param engine The engine.
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    virtual void tick(Real timeStep) = 0;
+    virtual void tick(Engine& engine, Real timeStep) = 0;
 
     ///
     /// Renders the current state of the game to a target.
     ///
+    /// \param engine The engine.
     /// \param target The target to render to.
-    virtual void render(RenderTarget& target) = 0;
+    virtual void render(Engine& engine, RenderTarget& target) = 0;
 
     ///
     /// Returns the amount of time between logic ticks.

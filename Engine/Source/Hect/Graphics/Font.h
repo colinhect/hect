@@ -21,6 +21,48 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "InterfaceRenderer.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/IO/Asset.h"
+#include "Hect/IO/ByteVector.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encoder.h"
+
+namespace hect
+{
+
+///
+/// A numeric identifier for a Font.
+typedef int32_t FontId;
+
+///
+/// A font.
+class HECT_EXPORT Font :
+    public Asset<Font>
+{
+public:
+
+    ///
+    /// Returns the id.
+    FontId id() const;
+
+    ///
+    /// Sets the id.
+    ///
+    /// \param id The new id.
+    void setId(FontId id);
+
+    ///
+    /// Returns the raw font data.
+    const ByteVector& rawData() const;
+
+    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Font& font);
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Font& font);
+
+private:
+    FontId _id { FontId(-1) };
+    ByteVector _rawData;
+};
+
+}

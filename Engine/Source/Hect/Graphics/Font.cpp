@@ -21,27 +21,42 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "NullInterfaceRenderer.h"
+#include "Font.h"
 
 using namespace hect;
 
-void NullInterfaceRenderer::beginFrame(RenderTarget& target)
+FontId Font::id() const
 {
-    (void)target;
+    return _id;
 }
 
-void NullInterfaceRenderer::endFrame()
+void Font::setId(FontId id)
 {
+    _id = id;
 }
 
-void NullInterfaceRenderer::selectFont(Font& font, Real size)
+const ByteVector& Font::rawData() const
 {
-    (void)font;
-    (void)size;
+    return _rawData;
 }
 
-void NullInterfaceRenderer::drawText(const Vector2& position, const std::string& text)
+namespace hect
 {
-    (void)position;
-    (void)text;
+
+Encoder& operator<<(Encoder& encoder, const Font& font)
+{
+    WriteStream& stream = encoder.binaryStream();
+    stream.write(&font._rawData[0], font._rawData.size());
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, Font& font)
+{
+    ReadStream& stream = decoder.binaryStream();
+    size_t length = stream.length();
+    font._rawData = ByteVector(length, 0);
+    stream.read(&font._rawData[0], length);
+    return decoder;
+}
+
 }
