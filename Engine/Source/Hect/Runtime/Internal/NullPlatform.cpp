@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "NullPlatform.h"
 
-#include "Hect/Runtime/Platforms/NullWindow.h"
+#include "Hect/Runtime/Internal/NullWindow.h"
 
 using namespace hect;
 

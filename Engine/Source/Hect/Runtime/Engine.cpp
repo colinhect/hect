@@ -33,21 +33,21 @@
 #include "Hect/Timing/TimeSpan.h"
 
 #ifdef HECT_FILESYSTEM_PHYSFS
-#include "Hect/IO/FileSystems/PhysFSFileSystem.h"
+#include "Hect/IO/Internal/PhysFSFileSystem.h"
 #endif
 
 #ifdef HECT_PLATFORM_SDL
-#include "Hect/Runtime/Platforms/SdlPlatform.h"
+#include "Hect/Runtime/Internal/SdlPlatform.h"
 #else
-#include "Hect/Runtime/Platforms/NullPlatform.h"
+#include "Hect/Runtime/Internal/NullPlatform.h"
 #endif
 
 #ifdef HECT_RENDERER_OPENGL
-#include "Hect/Graphics/Renderers/OpenGLRenderer.h"
-#include "Hect/Graphics/Renderers/NanoVGInterfaceRenderer.h"
+#include "Hect/Graphics/Internal/OpenGLRenderer.h"
+#include "Hect/Graphics/Internal/NanoVGInterfaceRenderer.h"
 #else
-#include "Hect/Graphics/Renderers/NullRenderer.h"
-#include "Hect/Graphics/Renderers/NullInterfaceRenderer.h"
+#include "Hect/Graphics/Internal/NullRenderer.h"
+#include "Hect/Graphics/Internal/NullInterfaceRenderer.h"
 #endif
 
 #include "Hect/Generated/RegisterTypes.h"

@@ -30,7 +30,7 @@
 #include <SDL.h>
 
 #include "Hect/Core/Logging.h"
-#include "Hect/Runtime/Platforms/SdlWindow.h"
+#include "Hect/Runtime/Internal/SdlWindow.h"
 
 using namespace hect;
 
