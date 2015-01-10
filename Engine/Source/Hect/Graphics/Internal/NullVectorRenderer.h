@@ -24,13 +24,13 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/InterfaceRenderer.h"
+#include "Hect/Graphics/VectorRenderer.h"
 
 namespace hect
 {
 
-class HECT_EXPORT NullInterfaceRenderer :
-    public InterfaceRenderer
+class HECT_EXPORT NullVectorRenderer :
+    public VectorRenderer
 {
 public:
     void beginFrame(RenderTarget& target) override;

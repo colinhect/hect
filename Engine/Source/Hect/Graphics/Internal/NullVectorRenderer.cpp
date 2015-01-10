@@ -21,38 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "NullVectorRenderer.h"
 
-#include "Hect/Core/Configuration.h"
-#include "Hect/Core/Exception.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Graphics/InterfaceRenderer.h"
-#include "Hect/Graphics/Renderer.h"
+using namespace hect;
 
-#ifdef HECT_RENDERER_OPENGL
-
-typedef struct NVGcontext NVGcontext;
-
-namespace hect
+void NullVectorRenderer::beginFrame(RenderTarget& target)
 {
-
-class HECT_EXPORT NanoVGInterfaceRenderer :
-    public InterfaceRenderer
-{
-public:
-    NanoVGInterfaceRenderer(Renderer& renderer);
-    ~NanoVGInterfaceRenderer();
-
-    void beginFrame(RenderTarget& target) override;
-    void endFrame() override;
-    void selectFont(Font& font, Real size) override;
-    void drawText(const Vector2& position, const std::string& text) override;
-
-private:
-    Renderer& _renderer;
-    NVGcontext* _nvgContext { nullptr };
-};
-
+    (void)target;
 }
 
-#endif
+void NullVectorRenderer::endFrame()
+{
+}
+
+void NullVectorRenderer::selectFont(Font& font, Real size)
+{
+    (void)font;
+    (void)size;
+}
+
+void NullVectorRenderer::drawText(const Vector2& position, const std::string& text)
+{
+    (void)position;
+    (void)text;
+}

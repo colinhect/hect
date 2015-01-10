@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "NanoVGInterfaceRenderer.h"
+#include "NanoVGVectorRenderer.h"
 
 #include "Hect/Timing/Timer.h"
 
@@ -37,7 +37,7 @@
 
 using namespace hect;
 
-NanoVGInterfaceRenderer::NanoVGInterfaceRenderer(Renderer& renderer) :
+NanoVGVectorRenderer::NanoVGVectorRenderer(Renderer& renderer) :
     _renderer(renderer)
 {
     // Initialize NanoVG
@@ -52,12 +52,12 @@ NanoVGInterfaceRenderer::NanoVGInterfaceRenderer(Renderer& renderer) :
     }
 }
 
-NanoVGInterfaceRenderer::~NanoVGInterfaceRenderer()
+NanoVGVectorRenderer::~NanoVGVectorRenderer()
 {
     nvgDeleteGL3(_nvgContext);
 }
 
-void NanoVGInterfaceRenderer::beginFrame(RenderTarget& target)
+void NanoVGVectorRenderer::beginFrame(RenderTarget& target)
 {
     _renderer.beginFrame();
     _renderer.selectTarget(target);
@@ -66,14 +66,14 @@ void NanoVGInterfaceRenderer::beginFrame(RenderTarget& target)
     nvgBeginFrame(_nvgContext, target.width(), target.height(), 1);
 }
 
-void NanoVGInterfaceRenderer::endFrame()
+void NanoVGVectorRenderer::endFrame()
 {
     nvgEndFrame(_nvgContext);
 
     _renderer.endFrame();
 }
 
-void NanoVGInterfaceRenderer::selectFont(Font& font, Real size)
+void NanoVGVectorRenderer::selectFont(Font& font, Real size)
 {
     // If the font was not loaded in NanoVG yet
     if (font.id() == FontId(-1))
@@ -92,7 +92,7 @@ void NanoVGInterfaceRenderer::selectFont(Font& font, Real size)
     nvgFontFaceId(_nvgContext, font.id());
 }
 
-void NanoVGInterfaceRenderer::drawText(const Vector2& position, const std::string& text)
+void NanoVGVectorRenderer::drawText(const Vector2& position, const std::string& text)
 {
     nvgText(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), text.c_str(), nullptr);
 }

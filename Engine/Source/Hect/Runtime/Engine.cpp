@@ -44,10 +44,10 @@
 
 #ifdef HECT_RENDERER_OPENGL
 #include "Hect/Graphics/Internal/OpenGLRenderer.h"
-#include "Hect/Graphics/Internal/NanoVGInterfaceRenderer.h"
+#include "Hect/Graphics/Internal/NanoVGVectorRenderer.h"
 #else
 #include "Hect/Graphics/Internal/NullRenderer.h"
-#include "Hect/Graphics/Internal/NullInterfaceRenderer.h"
+#include "Hect/Graphics/Internal/NullVectorRenderer.h"
 #endif
 
 #include "Hect/Generated/RegisterTypes.h"
@@ -125,10 +125,10 @@ Engine::Engine(int argc, char* const argv[])
         // Create renderer
 #ifdef HECT_RENDERER_OPENGL
         _renderer.reset(new OpenGLRenderer());
-        _interfaceRenderer.reset(new NanoVGInterfaceRenderer(*_renderer));
+        _vectorRenderer.reset(new NanoVGVectorRenderer(*_renderer));
 #else
         _renderer.reset(new NullRenderer());
-        _interfaceRenderer.reset(new NullInterfaceRenderer());
+        _vectorRenderer.reset(new NullVectorRenderer());
 #endif
 
         _sceneRenderer.reset(new SceneRenderer(*_renderer, *_taskPool, *_assetCache));
@@ -201,10 +201,10 @@ SceneRenderer& Engine::sceneRenderer()
     return *_sceneRenderer;
 }
 
-InterfaceRenderer& Engine::interfaceRenderer()
+VectorRenderer& Engine::vectorRenderer()
 {
-    assert(_interfaceRenderer);
-    return *_interfaceRenderer;
+    assert(_vectorRenderer);
+    return *_vectorRenderer;
 }
 
 Window& Engine::window()

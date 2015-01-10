@@ -33,12 +33,12 @@ namespace hect
 {
 
 ///
-/// Provides the functionality for rendering graphical user interface elements.
-class HECT_EXPORT InterfaceRenderer :
+/// Provides the functionality for rendering vector graphics.
+class HECT_EXPORT VectorRenderer :
     public Uncopyable
 {
 public:
-    virtual ~InterfaceRenderer() { }
+    virtual ~VectorRenderer() { }
 
     ///
     /// Establishes the beginning of a frame.

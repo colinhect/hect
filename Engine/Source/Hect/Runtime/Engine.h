@@ -28,9 +28,9 @@
 #include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/InterfaceRenderer.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/SceneRenderer.h"
+#include "Hect/Graphics/VectorRenderer.h"
 #include "Hect/IO/DataValue.h"
 #include "Hect/IO/FileSystem.h"
 #include "Hect/Runtime/Platform.h"
@@ -78,8 +78,8 @@ public:
     SceneRenderer& sceneRenderer();
 
     ///
-    /// Returns the user interface renderer.
-    InterfaceRenderer& interfaceRenderer();
+    /// Returns the vector renderer.
+    VectorRenderer& vectorRenderer();
 
     ///
     /// Returns the main window.
@@ -114,7 +114,7 @@ private:
     std::unique_ptr<AssetCache> _assetCache;
     std::unique_ptr<TaskPool> _taskPool;
     std::unique_ptr<SceneRenderer> _sceneRenderer;
-    std::unique_ptr<InterfaceRenderer> _interfaceRenderer;
+    std::unique_ptr<VectorRenderer> _vectorRenderer;
     DataValue _settings;
 };
 
