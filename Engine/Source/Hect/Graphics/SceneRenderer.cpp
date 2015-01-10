@@ -36,7 +36,8 @@
 
 using namespace hect;
 
-SceneRenderer::SceneRenderer(TaskPool& taskPool, AssetCache& assetCache) :
+SceneRenderer::SceneRenderer(Renderer& renderer, TaskPool& taskPool, AssetCache& assetCache) :
+    _renderer(&renderer),
     _taskPool(&taskPool),
     _buffersInitialized(false)
 {
@@ -51,14 +52,14 @@ SceneRenderer::SceneRenderer(TaskPool& taskPool, AssetCache& assetCache) :
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 }
 
-void SceneRenderer::renderScene(Renderer& renderer, Scene& scene, RenderTarget& target)
+void SceneRenderer::render(Scene& scene, RenderTarget& target)
 {
     CameraSystem& cameraSystem = scene.system<CameraSystem>();
     Component<Camera>::Iterator camera = cameraSystem.activeCamera();
     if (camera)
     {
-        prepareFrame(renderer, *camera, scene, target);
-        renderFrame(renderer, *camera, target);
+        prepareFrame(*camera, scene, target);
+        renderFrame(*camera, target);
     }
 }
 
@@ -80,7 +81,7 @@ void SceneRenderer::addRenderCall(Transform& transform, Mesh& mesh, Material& ma
     }
 }
 
-void SceneRenderer::prepareFrame(Renderer& renderer, Camera& camera, Scene& scene, RenderTarget& target)
+void SceneRenderer::prepareFrame(Camera& camera, Scene& scene, RenderTarget& target)
 {
     // Clear the state from the last frame
     _frameData.clear();
@@ -100,7 +101,7 @@ void SceneRenderer::prepareFrame(Renderer& renderer, Camera& camera, Scene& scen
     // Initialize buffers if needed
     if (!_buffersInitialized)
     {
-        initializeBuffers(renderer, target.width(), target.height());
+        initializeBuffers(target.width(), target.height());
     }
 
     // Get the cube map of the active light probe
@@ -162,50 +163,50 @@ void SceneRenderer::prepareFrame(Renderer& renderer, Camera& camera, Scene& scen
     }
 }
 
-void SceneRenderer::renderFrame(Renderer& renderer, Camera& camera, RenderTarget& target)
+void SceneRenderer::renderFrame(Camera& camera, RenderTarget& target)
 {
     // Opaque geometry rendering
     {
-        renderer.beginFrame();
-        renderer.selectTarget(_geometryFrameBuffer);
-        renderer.clear();
+        _renderer->beginFrame();
+        _renderer->selectTarget(_geometryFrameBuffer);
+        _renderer->clear();
 
         for (RenderCall& renderCall : _frameData.opaquePhysicalGeometry)
         {
-            renderMesh(renderer, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            renderMesh(camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
         }
 
-        renderer.endFrame();
+        _renderer->endFrame();
     }
 
     // Light rendering
     {
-        renderer.beginFrame();
-        renderer.selectTarget(backFrameBuffer());
-        renderer.clear();
+        _renderer->beginFrame();
+        _renderer->selectTarget(backFrameBuffer());
+        _renderer->clear();
 
-        renderer.selectMesh(*_screenMesh);
+        _renderer->selectMesh(*_screenMesh);
 
         // Render environment light
         if (_frameData.lightProbeCubeMap)
         {
-            renderer.selectShader(*_environmentShader);
-            setBoundUniforms(renderer, *_environmentShader, camera, target, _identityTransform);
+            _renderer->selectShader(*_environmentShader);
+            setBoundUniforms(*_environmentShader, camera, target, _identityTransform);
 
-            renderer.draw();
+            _renderer->draw();
         }
 
         // Render directional lights
         {
-            renderer.selectShader(*_directionalLightShader);
+            _renderer->selectShader(*_directionalLightShader);
 
             // Render each directional light in the scene
             for (DirectionalLight::ConstIterator light : _frameData.directionalLights)
             {
                 _frameData.primaryLightDirection = light->direction;
                 _frameData.primaryLightColor = light->color;
-                setBoundUniforms(renderer, *_directionalLightShader, camera, target, _identityTransform);
-                renderer.draw();
+                setBoundUniforms(*_directionalLightShader, camera, target, _identityTransform);
+                _renderer->draw();
             }
         }
 
@@ -213,51 +214,51 @@ void SceneRenderer::renderFrame(Renderer& renderer, Camera& camera, RenderTarget
         {
         }
 
-        renderer.endFrame();
+        _renderer->endFrame();
     }
 
     swapBackBuffer();
 
     // Composite
     {
-        renderer.beginFrame();
-        renderer.selectTarget(backFrameBuffer());
-        renderer.clear();
-        renderer.selectShader(*_compositeShader);
-        setBoundUniforms(renderer, *_compositeShader, camera, target, _identityTransform);
+        _renderer->beginFrame();
+        _renderer->selectTarget(backFrameBuffer());
+        _renderer->clear();
+        _renderer->selectShader(*_compositeShader);
+        setBoundUniforms(*_compositeShader, camera, target, _identityTransform);
 
-        renderer.selectMesh(*_screenMesh);
-        renderer.draw();
+        _renderer->selectMesh(*_screenMesh);
+        _renderer->draw();
 
         // Transparent geometry rendering
         {
             for (RenderCall& renderCall : _frameData.transparentPhysicalGeometry)
             {
-                renderMesh(renderer, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+                renderMesh(camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
             }
         }
 
-        renderer.endFrame();
+        _renderer->endFrame();
     }
 
     swapBackBuffer();
 
     // Expose
     {
-        renderer.beginFrame();
-        renderer.selectTarget(target);
-        renderer.clear();
-        renderer.selectShader(*_exposeShader);
-        setBoundUniforms(renderer, *_exposeShader, camera, target, _identityTransform);
+        _renderer->beginFrame();
+        _renderer->selectTarget(target);
+        _renderer->clear();
+        _renderer->selectShader(*_exposeShader);
+        setBoundUniforms(*_exposeShader, camera, target, _identityTransform);
 
-        renderer.selectMesh(*_screenMesh);
-        renderer.draw();
+        _renderer->selectMesh(*_screenMesh);
+        _renderer->draw();
 
-        renderer.endFrame();
+        _renderer->endFrame();
     }
 }
 
-void SceneRenderer::initializeBuffers(Renderer& renderer, unsigned width, unsigned height)
+void SceneRenderer::initializeBuffers(unsigned width, unsigned height)
 {
     _buffersInitialized = true;
 
@@ -299,9 +300,9 @@ void SceneRenderer::initializeBuffers(Renderer& renderer, unsigned width, unsign
     _backFrameBuffers[1].attachTexture(FrameBufferSlot_Color0, _backBuffers[1]);
     _backFrameBuffers[1].attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
 
-    renderer.uploadFrameBuffer(_geometryFrameBuffer);
-    renderer.uploadFrameBuffer(_backFrameBuffers[0]);
-    renderer.uploadFrameBuffer(_backFrameBuffers[1]);
+    _renderer->uploadFrameBuffer(_geometryFrameBuffer);
+    _renderer->uploadFrameBuffer(_backFrameBuffers[0]);
+    _renderer->uploadFrameBuffer(_backFrameBuffers[1]);
 }
 
 void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest)
@@ -374,13 +375,13 @@ void SceneRenderer::buildRenderCalls(Camera& camera, Entity& entity, bool frustu
     }
 }
 
-void SceneRenderer::renderMesh(Renderer& renderer, const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
+void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
 {
     Shader& shader = *material.shader();
 
     // Select the shader
-    renderer.selectShader(shader);
-    setBoundUniforms(renderer, shader, camera, target, transform);
+    _renderer->selectShader(shader);
+    setBoundUniforms(shader, camera, target, transform);
 
     // Set the uniform values of the material
     UniformIndex index = 0;
@@ -389,17 +390,17 @@ void SceneRenderer::renderMesh(Renderer& renderer, const Camera& camera, const R
         if (value)
         {
             const Uniform& uniform = shader.uniform(index);
-            renderer.setUniform(uniform, value);
+            _renderer->setUniform(uniform, value);
         }
         ++index;
     }
 
     // Select and draw the mesh
-    renderer.selectMesh(mesh);
-    renderer.draw();
+    _renderer->selectMesh(mesh);
+    _renderer->draw();
 }
 
-void SceneRenderer::setBoundUniforms(Renderer& renderer, Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
+void SceneRenderer::setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
 {
     // Buid the model matrix
     Matrix4 model;
@@ -430,69 +431,69 @@ void SceneRenderer::setBoundUniforms(Renderer& renderer, Shader& shader, const C
         case UniformBinding_None:
             break;
         case UniformBinding_RenderTargetSize:
-            renderer.setUniform(uniform, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
+            _renderer->setUniform(uniform, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
             break;
         case UniformBinding_CameraPosition:
-            renderer.setUniform(uniform, camera.position);
+            _renderer->setUniform(uniform, camera.position);
             break;
         case UniformBinding_CameraFront:
-            renderer.setUniform(uniform, camera.front);
+            _renderer->setUniform(uniform, camera.front);
             break;
         case UniformBinding_CameraUp:
-            renderer.setUniform(uniform, camera.up);
+            _renderer->setUniform(uniform, camera.up);
             break;
         case UniformBinding_CameraExposure:
-            renderer.setUniform(uniform, camera.exposure);
+            _renderer->setUniform(uniform, camera.exposure);
             break;
         case UniformBinding_CameraOneOverGamma:
-            renderer.setUniform(uniform, Real(1) / camera.gamma);
+            _renderer->setUniform(uniform, Real(1) / camera.gamma);
             break;
         case UniformBinding_PrimaryLightDirection:
-            renderer.setUniform(uniform, _frameData.primaryLightDirection);
+            _renderer->setUniform(uniform, _frameData.primaryLightDirection);
             break;
         case UniformBinding_PrimaryLightColor:
-            renderer.setUniform(uniform, _frameData.primaryLightColor);
+            _renderer->setUniform(uniform, _frameData.primaryLightColor);
             break;
         case UniformBinding_ViewMatrix:
-            renderer.setUniform(uniform, camera.viewMatrix);
+            _renderer->setUniform(uniform, camera.viewMatrix);
             break;
         case UniformBinding_ProjectionMatrix:
-            renderer.setUniform(uniform, camera.projectionMatrix);
+            _renderer->setUniform(uniform, camera.projectionMatrix);
             break;
         case UniformBinding_ViewProjectionMatrix:
-            renderer.setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
+            _renderer->setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
             break;
         case UniformBinding_ModelMatrix:
-            renderer.setUniform(uniform, model);
+            _renderer->setUniform(uniform, model);
             break;
         case UniformBinding_ModelViewMatrix:
-            renderer.setUniform(uniform, camera.viewMatrix * model);
+            _renderer->setUniform(uniform, camera.viewMatrix * model);
             break;
         case UniformBinding_ModelViewProjectionMatrix:
-            renderer.setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
+            _renderer->setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
             break;
         case UniformBinding_LightProbeCubeMap:
             assert(_frameData.lightProbeCubeMap);
-            renderer.setUniform(uniform, *_frameData.lightProbeCubeMap);
+            _renderer->setUniform(uniform, *_frameData.lightProbeCubeMap);
             break;
         case UniformBinding_SkyBoxCubeMap:
             assert(_frameData.skyBoxCubeMap);
-            renderer.setUniform(uniform, *_frameData.skyBoxCubeMap);
+            _renderer->setUniform(uniform, *_frameData.skyBoxCubeMap);
             break;
         case UniformBinding_DiffuseBuffer:
-            renderer.setUniform(uniform, _diffuseBuffer);
+            _renderer->setUniform(uniform, _diffuseBuffer);
             break;
         case UniformBinding_MaterialBuffer:
-            renderer.setUniform(uniform, _materialBuffer);
+            _renderer->setUniform(uniform, _materialBuffer);
             break;
         case UniformBinding_PositionBuffer:
-            renderer.setUniform(uniform, _positionBuffer);
+            _renderer->setUniform(uniform, _positionBuffer);
             break;
         case UniformBinding_NormalBuffer:
-            renderer.setUniform(uniform, _normalBuffer);
+            _renderer->setUniform(uniform, _normalBuffer);
             break;
         case UniformBinding_BackBuffer:
-            renderer.setUniform(uniform, lastBackBuffer());
+            _renderer->setUniform(uniform, lastBackBuffer());
             break;
         }
     }

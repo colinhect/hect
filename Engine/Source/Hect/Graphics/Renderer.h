@@ -186,12 +186,6 @@ public:
     virtual ~Renderer() { }
 
     ///
-    /// Initialize the renderer.
-    ///
-    /// \param window The window that the renderer is used for.
-    virtual void initialize(Window& window) = 0;
-
-    ///
     /// Establishes the beginning of a frame.
     ///
     /// \note Any state changes (target, shader, or mesh selections) are only

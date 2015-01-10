@@ -130,11 +130,6 @@ public:
 
 }
 
-void NullRenderer::initialize(Window& window)
-{
-    (void)window;
-}
-
 void NullRenderer::beginFrame()
 {
 }

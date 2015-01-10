@@ -330,10 +330,8 @@ GLenum _frameBufferSlotLookUp[18] =
 
 }
 
-void OpenGLRenderer::initialize(Window& window)
+OpenGLRenderer::OpenGLRenderer()
 {
-    (void)window;
-
     glewExperimental = GL_TRUE;
     GLenum error = glewInit();
     if (error != GLEW_OK)

@@ -37,7 +37,8 @@ class HECT_EXPORT OpenGLRenderer :
     public Renderer
 {
 public:
-    void initialize(Window& window) override;
+    OpenGLRenderer();
+
     void beginFrame() override;
     void endFrame() override;
     void selectTarget(RenderTarget& renderTarget) override;

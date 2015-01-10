@@ -23,14 +23,32 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Engine.h"
 
-#include "Hect/Runtime/Platform.h"
-#include "Hect/Timing/Timer.h"
-#include "Hect/Timing/TimeSpan.h"
+#include "Hect/Core/Configuration.h"
 #include "Hect/IO/DataValueDecoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/GameMode.h"
 #include "Hect/Logic/GameModeRegistry.h"
+#include "Hect/Timing/Timer.h"
+#include "Hect/Timing/TimeSpan.h"
+
+#ifdef HECT_FILESYSTEM_PHYSFS
+#include "Hect/IO/FileSystems/PhysFSFileSystem.h"
+#endif
+
+#ifdef HECT_PLATFORM_SDL
+#include "Hect/Runtime/Platforms/SdlPlatform.h"
+#else
+#include "Hect/Runtime/Platforms/NullPlatform.h"
+#endif
+
+#ifdef HECT_RENDERER_OPENGL
+#include "Hect/Graphics/Renderers/OpenGLRenderer.h"
+#include "Hect/Graphics/Renderers/NanoVGInterfaceRenderer.h"
+#else
+#include "Hect/Graphics/Renderers/NullRenderer.h"
+#include "Hect/Graphics/Renderers/NullInterfaceRenderer.h"
+#endif
 
 #include "Hect/Generated/RegisterTypes.h"
 
@@ -40,9 +58,18 @@
 
 using namespace hect;
 
-Engine::Engine(int argc, char* const argv[]) :
-    _fileSystem(argc, argv)
+Engine::Engine(int argc, char* const argv[])
 {
+#ifdef HECT_FILESYSTEM_PHYSFS
+    _fileSystem.reset(new PhysFSFileSystem(argc, argv));
+#endif
+
+#ifdef HECT_PLATFORM_SDL
+    _platform.reset(new SdlPlatform());
+#else
+    _platform.reset(new NullPlatform());
+#endif
+
     auto arguments = parseCommandLineArgument(argc, argv);
 
     // Register all of the Hect types
@@ -50,8 +77,8 @@ Engine::Engine(int argc, char* const argv[]) :
 
 #ifdef HECT_WINDOWS_BUILD
     // Set the base directory as the write directory
-    auto baseDirectory = _fileSystem.baseDirectory();
-    _fileSystem.setWriteDirectory(baseDirectory);
+    auto baseDirectory = _fileSystem->baseDirectory();
+    _fileSystem->setWriteDirectory(baseDirectory);
 #endif
 
     // Load the settings specified on the command-line
@@ -65,7 +92,7 @@ Engine::Engine(int argc, char* const argv[]) :
     {
         if (!archive["path"].isNull())
         {
-            _fileSystem.mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
+            _fileSystem->mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
         }
     }
 
@@ -75,7 +102,7 @@ Engine::Engine(int argc, char* const argv[]) :
 
     // Create the asset cache
     bool concurrent = _settings["assetCache"]["concurrent"].orDefault(false).asBool();
-    _assetCache.reset(new AssetCache(_fileSystem, concurrent));
+    _assetCache.reset(new AssetCache(*_fileSystem, concurrent));
 
     const DataValue& videoModeValue = _settings["videoMode"];
     if (!videoModeValue.isNull())
@@ -92,9 +119,19 @@ Engine::Engine(int argc, char* const argv[]) :
             HECT_ERROR(format("Invalid video mode: %s", error.what()));
         }
 
-        // Create window and renderer
-        _window = _platform.createWindow("Hect", videoMode);
-        _renderer.initialize(*_window);
+        // Create window
+        _window = _platform->createWindow("Hect", videoMode);
+
+        // Create renderer
+#ifdef HECT_RENDERER_OPENGL
+        _renderer.reset(new OpenGLRenderer());
+        _interfaceRenderer.reset(new NanoVGInterfaceRenderer());
+#else
+        _renderer.reset(new NullRenderer());
+        _interfaceRenderer.reset(new NullInterfaceRenderer());
+#endif
+
+        _sceneRenderer.reset(new SceneRenderer(*_renderer, *_taskPool, *_assetCache));
     }
 }
 
@@ -117,7 +154,7 @@ int Engine::main()
 
         Real timeStep = gameMode->timeStep().seconds();
 
-        while (_platform.handleEvents())
+        while (_platform->handleEvents())
         {
             TimeSpan deltaTime = timer.elapsed();
             timer.reset();
@@ -133,7 +170,7 @@ int Engine::main()
                 accumulator -= gameMode->timeStep();
             }
 
-            gameMode->render(_renderer, *_window);
+            gameMode->render(*_window);
             _window->swapBuffers();
         }
     }
@@ -142,17 +179,26 @@ int Engine::main()
 
 FileSystem& Engine::fileSystem()
 {
-    return _fileSystem;
+    assert(_fileSystem);
+    return *_fileSystem;
 }
 
 Platform& Engine::platform()
 {
-    return _platform;
+    assert(_platform);
+    return *_platform;
 }
 
 Renderer& Engine::renderer()
 {
-    return _renderer;
+    assert(_renderer);
+    return *_renderer;
+}
+
+SceneRenderer& Engine::sceneRenderer()
+{
+    assert(_sceneRenderer);
+    return *_sceneRenderer;
 }
 
 Window& Engine::window()

@@ -21,53 +21,43 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "NanoVGInterfaceRenderer.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/Timing/TimeSpan.h"
+#ifdef HECT_RENDERER_OPENGL
 
-namespace hect
+#define NANOVG_GLEW
+#define NANOVG_GL3_IMPLEMENTATION
+
+#include <cassert>
+#include <GL/glew.h>
+#include <nanovg.h>
+#include <nanovg_gl.h>
+
+using namespace hect;
+
+NanoVGInterfaceRenderer::NanoVGInterfaceRenderer()
 {
-
-class Engine;
-class Renderer;
-class RenderTarget;
-
-///
-/// The highest-level logic of a game.
-class HECT_EXPORT GameMode :
-    public Uncopyable
-{
-public:
-
-    ///
-    /// Constructs a game mode.
-    ///
-    /// \param timeStep The amount of time between logic ticks.
-    GameMode(TimeSpan timeStep);
-
-    virtual ~GameMode() { }
-
-    ///
-    /// Performs a single step of logic.
-    ///
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// simulate.
-    virtual void tick(Real timeStep) = 0;
-
-    ///
-    /// Renders the current state of the game to a target.
-    ///
-    /// \param target The target to render to.
-    virtual void render(RenderTarget& target) = 0;
-
-    ///
-    /// Returns the amount of time between logic ticks.
-    TimeSpan timeStep() const;
-
-private:
-    TimeSpan _timeStep;
-};
-
+    // Initialize NanoVG
+#ifdef HECT_DEBUG_BUILD
+    _nvgContext = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
+#else
+    _nvgContext = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES);
+#endif
+    if (!_nvgContext)
+    {
+        throw FatalError("Failed to initialize NanoVG");
+    }
 }
+
+void NanoVGInterfaceRenderer::beginFrame(RenderTarget& target)
+{
+    assert(_nvgContext);
+    nvgBeginFrame(_nvgContext, target.width(), target.height(), 1);
+}
+
+void NanoVGInterfaceRenderer::endFrame()
+{
+    nvgEndFrame(_nvgContext);
+}
+
+#endif

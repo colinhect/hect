@@ -23,51 +23,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/Configuration.h"
+#include "Hect/Core/Exception.h"
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/Timing/TimeSpan.h"
+#include "Hect/Graphics/InterfaceRenderer.h"
+
+typedef struct NVGcontext NVGcontext;
 
 namespace hect
 {
 
-class Engine;
-class Renderer;
-class RenderTarget;
-
-///
-/// The highest-level logic of a game.
-class HECT_EXPORT GameMode :
-    public Uncopyable
+class HECT_EXPORT NanoVGInterfaceRenderer :
+    public InterfaceRenderer
 {
 public:
+    NanoVGInterfaceRenderer();
 
-    ///
-    /// Constructs a game mode.
-    ///
-    /// \param timeStep The amount of time between logic ticks.
-    GameMode(TimeSpan timeStep);
-
-    virtual ~GameMode() { }
-
-    ///
-    /// Performs a single step of logic.
-    ///
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// simulate.
-    virtual void tick(Real timeStep) = 0;
-
-    ///
-    /// Renders the current state of the game to a target.
-    ///
-    /// \param target The target to render to.
-    virtual void render(RenderTarget& target) = 0;
-
-    ///
-    /// Returns the amount of time between logic ticks.
-    TimeSpan timeStep() const;
+    void beginFrame(RenderTarget& target) override;
+    void endFrame() override;
 
 private:
-    TimeSpan _timeStep;
+    NVGcontext* _nvgContext { nullptr };
 };
 
 }

@@ -34,7 +34,6 @@ class HECT_EXPORT NullRenderer :
     public Renderer
 {
 public:
-    void initialize(Window& window) override;
     void beginFrame() override;
     void endFrame() override;
     void selectTarget(RenderTarget& renderTarget) override;

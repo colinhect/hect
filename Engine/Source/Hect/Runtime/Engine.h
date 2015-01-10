@@ -26,28 +26,15 @@
 #include <memory>
 
 #include "Hect/Concurrency/TaskPool.h"
-#include "Hect/Core/Configuration.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
+#include "Hect/Graphics/InterfaceRenderer.h"
 #include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/SceneRenderer.h"
 #include "Hect/IO/DataValue.h"
+#include "Hect/IO/FileSystem.h"
+#include "Hect/Runtime/Platform.h"
 #include "Hect/Runtime/Window.h"
-
-#ifdef HECT_FILESYSTEM_PHYSFS
-#include "Hect/IO/FileSystems/PhysFSFileSystem.h"
-#endif
-
-#ifdef HECT_PLATFORM_SDL
-#include "Hect/Runtime/Platforms/SdlPlatform.h"
-#else
-#include "Hect/Runtime/Platforms/NullPlatform.h"
-#endif
-
-#ifdef HECT_RENDERER_OPENGL
-#include "Hect/Graphics/Renderers/OpenGLRenderer.h"
-#else
-#include "Hect/Graphics/Renderers/NullRenderer.h"
-#endif
 
 namespace hect
 {
@@ -87,6 +74,14 @@ public:
     Renderer& renderer();
 
     ///
+    /// Returns the scene renderer.
+    SceneRenderer& sceneRenderer();
+
+    ///
+    /// Returns the user interface renderer.
+    InterfaceRenderer& interfaceRenderer();
+
+    ///
     /// Returns the main window.
     Window& window();
 
@@ -103,7 +98,7 @@ public:
     const DataValue& settings();
 
 private:
-    struct HECT_EXPORT CommandLineArguments
+    struct CommandLineArguments
     {
         std::string settingsFilePath;
     };
@@ -112,25 +107,14 @@ private:
 
     CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 
-#ifdef HECT_FILESYSTEM_PHYSFS
-    PhysFSFileSystem _fileSystem;
-#endif
-
-#ifdef HECT_PLATFORM_SDL
-    SdlPlatform _platform;
-#else
-    NullPlatform _platform;
-#endif
-
-#ifdef HECT_RENDERER_OPENGL
-    OpenGLRenderer _renderer;
-#else
-    NullRenderer _renderer;
-#endif
-
+    std::unique_ptr<FileSystem> _fileSystem;
+    std::unique_ptr<Platform> _platform;
+    std::unique_ptr<Renderer> _renderer;
     std::unique_ptr<Window> _window;
     std::unique_ptr<AssetCache> _assetCache;
     std::unique_ptr<TaskPool> _taskPool;
+    std::unique_ptr<SceneRenderer> _sceneRenderer;
+    std::unique_ptr<InterfaceRenderer> _interfaceRenderer;
     DataValue _settings;
 };
 
