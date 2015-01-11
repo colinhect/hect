@@ -222,8 +222,8 @@ public:
     /// \param entity The entity to add as a child.
     ///
     /// \throws InvalidOperation If the entity is invalid, in another scene,
-    /// in a differing activation state, is pending activation/destruction,
-    /// or is a child of another entity.
+    /// in a differing activation state, is pending destruction, or is a child
+    /// of another entity.
     void addChild(Entity& entity);
 
     ///

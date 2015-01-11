@@ -176,22 +176,18 @@ void Entity::addChild(Entity& entity)
     {
         throw InvalidOperation("Cannot add a child entity from another scene");
     }
-
-    if (_pendingActivation)
-    {
-        throw InvalidOperation("Cannot add a child entity to an entity pending activation");
-    }
-    else if (_pendingDestruction)
+    
+    if (_pendingDestruction)
     {
         throw InvalidOperation("Cannot add a child entity to an entity pending destruction");
     }
 
-    if (_activated && !entity._activated)
+    if ((_activated || _pendingActivation) && (!entity._activated && !entity._pendingActivation))
     {
         throw InvalidOperation("Cannot add unactivated entity as child of activated entity");
     }
 
-    if (!_activated && entity._activated)
+    if ((!_activated && !_pendingActivation) && (entity._activated || entity._pendingActivation))
     {
         throw InvalidOperation("Cannot add activated entity as child of unactivated entity");
     }

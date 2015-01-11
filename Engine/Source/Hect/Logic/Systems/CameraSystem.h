@@ -44,7 +44,7 @@ public:
 
     ///
     /// Returns the active camera in the scene.
-    Component<Camera>::Iterator activeCamera();
+    Camera::Iterator activeCamera();
 
     ///
     /// Sets the active camera in the scene.

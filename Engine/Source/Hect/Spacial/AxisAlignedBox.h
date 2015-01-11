@@ -88,6 +88,10 @@ public:
     const Vector3& maximum() const;
 
     ///
+    /// Returns the width, height, and depth.
+    Vector3 size() const;
+
+    ///
     /// Returns the center point.
     Vector3 center() const;
 

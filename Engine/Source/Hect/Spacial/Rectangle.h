@@ -66,7 +66,7 @@ public:
     const Vector2& maximum() const;
 
     ///
-    /// Returns the width and hight.
+    /// Returns the width and height.
     Vector2 size() const;
 
     ///

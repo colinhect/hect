@@ -35,9 +35,9 @@ CameraSystem::CameraSystem(Engine& engine, Scene& scene) :
     scene.components<Camera>().addListener(*this);
 }
 
-Component<Camera>::Iterator CameraSystem::activeCamera()
+Camera::Iterator CameraSystem::activeCamera()
 {
-    Component<Camera>::Iterator camera;
+    Camera::Iterator camera;
 
     if (_activeCameraEntity)
     {

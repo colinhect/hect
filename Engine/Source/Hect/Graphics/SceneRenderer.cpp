@@ -64,7 +64,7 @@ SceneRenderer::SceneRenderer(Renderer& renderer, TaskPool& taskPool, AssetCache&
 void SceneRenderer::render(Scene& scene, RenderTarget& target)
 {
     CameraSystem& cameraSystem = scene.system<CameraSystem>();
-    Component<Camera>::Iterator camera = cameraSystem.activeCamera();
+    Camera::Iterator camera = cameraSystem.activeCamera();
     if (camera)
     {
         prepareFrame(*camera, scene, target);
