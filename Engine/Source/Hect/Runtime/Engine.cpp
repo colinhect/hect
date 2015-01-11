@@ -38,8 +38,10 @@
 
 #ifdef HECT_PLATFORM_SDL
 #include "Hect/Runtime/Internal/SdlPlatform.h"
+#include "Hect/Runtime/Internal/SdlWindow.h"
 #else
 #include "Hect/Runtime/Internal/NullPlatform.h"
+#include "Hect/Runtime/Internal/NullWindow.h"
 #endif
 
 #ifdef HECT_RENDERER_OPENGL
@@ -120,7 +122,11 @@ Engine::Engine(int argc, char* const argv[])
         }
 
         // Create window
-        _window = _platform->createWindow("Hect", videoMode);
+#ifdef HECT_PLATFORM_SDL
+        _window.reset(new SdlWindow("Hect", videoMode));
+#else
+        _window.reset(new NullWindow());
+#endif
 
         // Create renderer
 #ifdef HECT_RENDERER_OPENGL

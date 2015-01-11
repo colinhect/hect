@@ -36,14 +36,14 @@ class HECT_EXPORT NullRenderer :
 public:
     void beginFrame() override;
     void endFrame() override;
-    void selectTarget(RenderTarget& renderTarget) override;
-    void selectTarget(Window& window) override;
-    void selectTarget(FrameBuffer& frameBuffer) override;
+    void setTarget(RenderTarget& renderTarget) override;
+    void setTarget(Window& window) override;
+    void setTarget(FrameBuffer& frameBuffer) override;
     void uploadFrameBuffer(FrameBuffer& frameBuffer) override;
     void destroyFrameBuffer(FrameBuffer& frameBuffer) override;
     void uploadRenderBuffer(RenderBuffer& renderBuffer) override;
     void destroyRenderBuffer(RenderBuffer& renderBuffer) override;
-    void selectShader(Shader& shader) override;
+    void setShader(Shader& shader) override;
     void uploadShader(Shader& shader) override;
     void destroyShader(Shader& shader) override;
     void setUniform(const Uniform& uniform, const UniformValue& value) override;
@@ -57,11 +57,11 @@ public:
     void uploadTexture(Texture& texture) override;
     void destroyTexture(Texture& texture) override;
     Image downloadTextureImage(const Texture& texture) override;
-    void selectMesh(Mesh& mesh) override;
+    void setMesh(Mesh& mesh) override;
     void uploadMesh(Mesh& mesh) override;
     void destroyMesh(Mesh& mesh) override;
     void setCullMode(CullMode cullMode) override;
-    void draw() override;
+    void render() override;
     void clear() override;
 };
 

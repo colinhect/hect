@@ -33,17 +33,37 @@
 namespace hect
 {
 
+///
+/// Vertical alignment mode.
 enum VerticalAlign
 {
+    ///
+    /// Align to the bottom.
     VerticalAlign_Bottom,
+
+    ///
+    /// Align to the center.
     VerticalAlign_Center,
+
+    ///
+    /// Align to the top.
     VerticalAlign_Top
 };
 
+///
+/// Horizontal alignment mode.
 enum HorizontalAlign
 {
+    ///
+    /// Align to the left.
     HorizontalAlign_Left,
+
+    ///
+    /// Align to the center.
     HorizontalAlign_Center,
+
+    ///
+    /// Align to the right.
     HorizontalAlign_Right
 };
 
@@ -67,15 +87,48 @@ public:
     /// Establishes the ending of a frame.
     virtual void endFrame() = 0;
 
+    ///
+    /// Pushes the current state onto the stack.
     virtual void pushState() = 0;
+
+    ///
+    /// Pops the previously pushed state as the new current state.
     virtual void popState() = 0;
 
+    ///
+    /// Begins a new path.
     virtual void beginPath() = 0;
-    virtual void selectFillColor(const Vector4& color) = 0;
+
+    ///
+    /// Sets the active fill style to a solid color.
+    ///
+    /// \param color The color to set.
+    virtual void setFillColor(const Vector4& color) = 0;
+
+    ///
+    /// Fills the current path with the current fill style.
     virtual void fill() = 0;
+
+    ///
+    /// Creates a new rectangle shape sub-path.
+    ///
+    /// \param bounds The bounds of the rectangle.
     virtual void rectangle(const Rectangle& bounds) = 0;
 
-    virtual void selectFont(Font& font, Real size) = 0;
+    ///
+    /// Sets the current font face and size.
+    ///
+    /// \param font The font.
+    /// \param size The font size.
+    virtual void setFont(Font& font, Real size) = 0;
+
+    ///
+    /// Renders text.
+    ///
+    /// \param text The text to render.
+    /// \param bounds The bounds of the text.
+    /// \param horizontalAlign The horizontal alignment within the bounds.
+    /// \param verticalAlign The vertical alignment within the bounds.
     virtual void text(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign = HorizontalAlign_Center, VerticalAlign verticalAlign = VerticalAlign_Center) = 0;
 };
 

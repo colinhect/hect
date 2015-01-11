@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <memory>
-
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/Uncopyable.h"
@@ -49,14 +47,7 @@ public:
     typedef Sequence<Joystick, JoystickContainer> JoystickSequence;
 
     virtual ~Platform() { }
-
-    ///
-    /// Creates a window in the operating system of the platform.
-    ///
-    /// \param title The title of the window.
-    /// \param videoMode The video mode of the window.
-    virtual std::unique_ptr<Window> createWindow(const std::string& title, const VideoMode& videoMode) = 0;
-
+    
     ///
     /// Handles and dispatches all platform events.
     virtual bool handleEvents() = 0;

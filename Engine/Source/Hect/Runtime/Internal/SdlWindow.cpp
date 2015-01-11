@@ -30,7 +30,7 @@
 using namespace hect;
 
 SdlWindow::SdlWindow(const std::string& title, const VideoMode& videoMode) :
-    Window(title, videoMode)
+    Window(title, videoMode)    
 {
     // Create the window flags
     uint32_t flags = SDL_WINDOW_OPENGL;
@@ -40,7 +40,7 @@ SdlWindow::SdlWindow(const std::string& title, const VideoMode& videoMode) :
     }
 
     // Create the window
-    _window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), SDL_WINDOW_OPENGL);
+    _window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), flags);
     if (!_window)
     {
         throw FatalError(format("Failed to create SDL window: %s", SDL_GetError()));

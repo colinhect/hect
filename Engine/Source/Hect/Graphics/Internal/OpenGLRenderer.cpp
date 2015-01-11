@@ -388,18 +388,18 @@ void OpenGLRenderer::endFrame()
 {
 }
 
-void OpenGLRenderer::selectTarget(RenderTarget& renderTarget)
+void OpenGLRenderer::setTarget(RenderTarget& renderTarget)
 {
-    renderTarget.select(*this);
+    renderTarget.bind(*this);
 }
 
-void OpenGLRenderer::selectTarget(Window& window)
+void OpenGLRenderer::setTarget(Window& window)
 {
     GL_ASSERT(glViewport(0, 0, window.width(), window.height()));
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void OpenGLRenderer::selectTarget(FrameBuffer& frameBuffer)
+void OpenGLRenderer::setTarget(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -520,7 +520,7 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void OpenGLRenderer::selectShader(Shader& shader)
+void OpenGLRenderer::setShader(Shader& shader)
 {
     // Upload the shader if needed
     if (!shader.isUploaded())
@@ -965,7 +965,7 @@ Image OpenGLRenderer::downloadTextureImage(const Texture& texture)
     return image;
 }
 
-void OpenGLRenderer::selectMesh(Mesh& mesh)
+void OpenGLRenderer::setMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
     {
@@ -1102,7 +1102,7 @@ void OpenGLRenderer::setCullMode(CullMode cullMode)
     }
 }
 
-void OpenGLRenderer::draw()
+void OpenGLRenderer::render()
 {
     GL_ASSERT(
         glDrawElements(
@@ -1123,7 +1123,7 @@ void OpenGLRenderer::bindTexture(Texture& texture, size_t index)
 {
     if (index >= capabilities().maxTextureUnits)
     {
-        throw InvalidOperation("Cannot select a texture unit beyond hardware capabilities");
+        throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
     }
 
     if (!texture.isUploaded())

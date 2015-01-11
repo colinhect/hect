@@ -50,10 +50,10 @@ public:
     virtual ~RenderTarget() { }
 
     ///
-    /// Selects this target as the active target to the given renderer.
+    /// Sets this target as the active target to the given renderer.
     ///
-    /// \param renderer The renderer to select the target for.
-    virtual void select(Renderer& renderer) = 0;
+    /// \param renderer The renderer to set the target for.
+    virtual void bind(Renderer& renderer) = 0;
 
     ///
     /// Swaps the back buffer.

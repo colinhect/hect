@@ -76,9 +76,9 @@ FrameBuffer::FrameBuffer(unsigned width, unsigned height) :
 {
 }
 
-void FrameBuffer::select(Renderer& renderer)
+void FrameBuffer::bind(Renderer& renderer)
 {
-    renderer.selectTarget(*this);
+    renderer.setTarget(*this);
 }
 
 void FrameBuffer::attachTexture(FrameBufferSlot slot, Texture& texture)

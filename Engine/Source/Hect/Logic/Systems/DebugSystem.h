@@ -66,10 +66,10 @@ public:
     /// Enqueues a wire-frame box to be rendered on the next frame.
     ///
     /// \param color The color of the lines of the box.
-    /// \param box The box to draw.
+    /// \param box The box to render.
     /// \param position The world-space position of the box.
     /// \param rotation The world-space rotation of the box.
-    void drawBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation = Quaternion());
+    void renderBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation = Quaternion());
 
     ///
     /// Adds all enqueued debug geometery to the a scene renderer.

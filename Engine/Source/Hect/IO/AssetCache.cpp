@@ -69,7 +69,7 @@ Path AssetCache::resolvePath(const Path& path)
 
     Path resolvedPath = path;
 
-    const std::stack<Path>& pathStack = _selectedDirectoryStack[std::this_thread::get_id()];
+    const std::stack<Path>& pathStack = _directoryStack[std::this_thread::get_id()];
 
     // If there is a selected directory
     if (!pathStack.empty())
@@ -85,18 +85,18 @@ Path AssetCache::resolvePath(const Path& path)
     return resolvedPath;
 }
 
-void AssetCache::selectDirectory(const Path& directoryPath)
+void AssetCache::pushDirectory(const Path& directoryPath)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
-    std::stack<Path>& pathStack = _selectedDirectoryStack[std::this_thread::get_id()];
+    std::stack<Path>& pathStack = _directoryStack[std::this_thread::get_id()];
     pathStack.push(directoryPath);
 }
 
-void AssetCache::restoreDirectory()
+void AssetCache::popDirectory()
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
-    std::stack<Path>& pathStack = _selectedDirectoryStack[std::this_thread::get_id()];
+    std::stack<Path>& pathStack = _directoryStack[std::this_thread::get_id()];
     pathStack.pop();
 }

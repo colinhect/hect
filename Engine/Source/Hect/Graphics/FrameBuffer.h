@@ -203,7 +203,7 @@ public:
     /// \param height The height.
     FrameBuffer(unsigned width, unsigned height);
 
-    void select(Renderer& renderer) override;
+    void bind(Renderer& renderer) override;
 
     ///
     /// Attaches a texture to the frame buffer.

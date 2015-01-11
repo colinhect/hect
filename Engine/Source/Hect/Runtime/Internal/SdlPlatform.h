@@ -43,7 +43,6 @@ public:
     SdlPlatform();
     ~SdlPlatform();
 
-    std::unique_ptr<Window> createWindow(const std::string& title, const VideoMode& videoMode) override;
     bool handleEvents() override;
     bool hasMouse() override;
     Mouse& mouse() override;

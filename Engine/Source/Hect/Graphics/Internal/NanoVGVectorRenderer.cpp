@@ -59,7 +59,7 @@ NanoVGVectorRenderer::~NanoVGVectorRenderer()
 void NanoVGVectorRenderer::beginFrame(RenderTarget& target)
 {
     _renderer.beginFrame();
-    _renderer.selectTarget(target);
+    _renderer.setTarget(target);
 
     assert(_nvgContext);
     nvgBeginFrame(_nvgContext, target.width(), target.height(), 1);
@@ -87,7 +87,7 @@ void NanoVGVectorRenderer::beginPath()
     nvgBeginPath(_nvgContext);
 }
 
-void NanoVGVectorRenderer::selectFillColor(const Vector4& color)
+void NanoVGVectorRenderer::setFillColor(const Vector4& color)
 {
     nvgFillColor(_nvgContext, convertColor(color));
 }
@@ -104,7 +104,7 @@ void NanoVGVectorRenderer::rectangle(const Rectangle& bounds)
     nvgRect(_nvgContext, position.x, position.y, size.x, size.y);
 }
 
-void NanoVGVectorRenderer::selectFont(Font& font, Real size)
+void NanoVGVectorRenderer::setFont(Font& font, Real size)
 {
     // If the font was not loaded in NanoVG yet
     if (font.id() == FontId(-1))
@@ -118,7 +118,7 @@ void NanoVGVectorRenderer::selectFont(Font& font, Real size)
         HECT_TRACE(format("Built font '%s' in %ims", font.name().c_str(), timer.elapsed().milliseconds()));
     }
 
-    // Select the font
+    // Set the font
     nvgFontSize(_nvgContext, static_cast<float>(size));
     nvgFontFaceId(_nvgContext, font.id());
 }
@@ -161,7 +161,7 @@ void NanoVGVectorRenderer::text(const std::string& text, const Rectangle& bounds
         break;
     }
 
-    // Draw the text
+    // Render the text
     nvgScissor(_nvgContext, position.x, position.y, size.x, size.y);
     nvgText(_nvgContext, actual.x, actual.y, text.c_str(), nullptr);
     nvgResetScissor(_nvgContext);

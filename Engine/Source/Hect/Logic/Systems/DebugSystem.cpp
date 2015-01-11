@@ -45,7 +45,7 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     addColoredMaterial(Vector3(0, 0, 100)); // Tertiary
 }
 
-void DebugSystem::drawBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation)
+void DebugSystem::renderBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation)
 {
     _boxes.emplace_back(box, position, rotation, color);
 }

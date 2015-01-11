@@ -54,7 +54,7 @@ public:
     struct HECT_EXPORT Capabilities
     {
         ///
-        /// The maximum number of textures that can be selected.
+        /// The maximum number of textures that can be bound.
         unsigned maxTextureUnits { 0 };
     };
 
@@ -188,8 +188,8 @@ public:
     ///
     /// Establishes the beginning of a frame.
     ///
-    /// \note Any state changes (target, shader, or mesh selections) are only
-    /// persistent within a frame.
+    /// \note Any state changes (e.g. setting the active target, shader, o
+    /// mesh) are only persistent within a frame.
     virtual void beginFrame() = 0;
 
     ///
@@ -197,31 +197,31 @@ public:
     virtual void endFrame() = 0;
 
     ///
-    /// Selects a render target to begin rendering to.
+    /// Sets the active render target to begin rendering to.
     ///
     /// \note All rendering occurring after this call will render to the
-    /// selected target.
+    /// active target.
     ///
-    /// \param renderTarget The render target to select.
-    virtual void selectTarget(RenderTarget& renderTarget) = 0;
+    /// \param renderTarget The render target to set.
+    virtual void setTarget(RenderTarget& renderTarget) = 0;
 
     ///
-    /// Selects a window to begin rendering to.
+    /// Sets the active render target to begin rendering to.
     ///
     /// \note All rendering occurring after this call will render to the
-    /// selected target.
+    /// active target.
     ///
-    /// \param window The window to select.
-    virtual void selectTarget(Window& window) = 0;
+    /// \param window The window to set.
+    virtual void setTarget(Window& window) = 0;
 
     ///
-    /// Selects a frame buffer to begin rendering to.
+    /// Sets the active render target to begin rendering to.
     ///
     /// \note All rendering occurring after this call will render to the
-    /// selected target.
+    /// active target.
     ///
-    /// \param frameBuffer The frame buffer to select.
-    virtual void selectTarget(FrameBuffer& frameBuffer) = 0;
+    /// \param frameBuffer The frame buffer to set.
+    virtual void setTarget(FrameBuffer& frameBuffer) = 0;
 
     ///
     /// Uploads a frame buffer.
@@ -252,12 +252,12 @@ public:
     virtual void destroyRenderBuffer(RenderBuffer& renderBuffer) = 0;
 
     ///
-    /// Selects the shader affecting following draw calls.
+    /// Sets the active shader affecting following render calls.
     ///
     /// \note The shader will be uploaded if it was not already uploaded.
     ///
-    /// \param shader The shader to select.
-    virtual void selectShader(Shader& shader) = 0;
+    /// \param shader The shader to set.
+    virtual void setShader(Shader& shader) = 0;
 
     ///
     /// Uploads a shader.
@@ -276,9 +276,9 @@ public:
     virtual void destroyShader(Shader& shader) = 0;
 
     ///
-    /// Sets the value for a uniform of the selected shader.
+    /// Sets the value for a uniform of the active shader.
     ///
-    /// \warning The uniform is expected to belong to the selected shader.
+    /// \warning The uniform is expected to belong to the active shader.
     ///
     /// \param uniform The uniform to set the value for.
     /// \param value The value.
@@ -340,12 +340,12 @@ public:
     virtual Image downloadTextureImage(const Texture& texture) = 0;
 
     ///
-    /// Selects the mesh affecting following draw calls.
+    /// Sets the active mesh affecting following render calls.
     ///
     /// \note The mesh will be uploaded if it was not already uploaded.
     ///
-    /// \param mesh The mesh to select.
-    virtual void selectMesh(Mesh& mesh) = 0;
+    /// \param mesh The mesh to set.
+    virtual void setMesh(Mesh& mesh) = 0;
 
     ///
     /// Uploads a mesh.
@@ -362,15 +362,15 @@ public:
     virtual void destroyMesh(Mesh& mesh) = 0;
 
     ///
-    /// Sets which cull mode to use for subsequent draw calls.
+    /// Sets the active cull mode to use for subsequent render calls.
     ///
     /// \param cullMode The cull mode.
     virtual void setCullMode(CullMode cullMode) = 0;
 
     ///
-    /// Draw the selected mesh using the selected shader to the selected
-    /// render target.
-    virtual void draw() = 0;
+    /// Render the active mesh using the active shader to the active render
+    /// target.
+    virtual void render() = 0;
 
     ///
     /// Clears the render target.

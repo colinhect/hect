@@ -31,12 +31,13 @@ namespace hect
 enum CullMode
 {
     ///
-    /// Triangles are drawn in counter-clockwise order and the back-faces are
-    /// culled (default).
+    /// Triangles are rendered in counter-clockwise order and the back-faces
+    /// are culled (default).
     CullMode_CounterClockwise,
 
     ///
-    /// Triangles are drawn in clockwise order and the back-faces are culled.
+    /// Triangles are rendered in clockwise order and the back-faces are
+    /// culled.
     CullMode_Clockwise,
 
     ///

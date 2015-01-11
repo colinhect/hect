@@ -52,12 +52,12 @@ void BoundingBoxSystem::tick(Real timeStep)
     {
         DebugSystem& debugSystem = scene().system<DebugSystem>();
 
-        // Draw a debug box for each bounding box
+        // Render a debug box for each bounding box
         for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
         {
             AxisAlignedBox axisAlignedBox = boundingBox.extents;
             Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
-            debugSystem.drawBox(DebugColor_Primary, box, axisAlignedBox.center());
+            debugSystem.renderBox(DebugColor_Primary, box, axisAlignedBox.center());
         }
     }
 }

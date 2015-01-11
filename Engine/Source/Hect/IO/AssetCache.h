@@ -108,29 +108,29 @@ public:
 
     ///
     /// Returns the full path to an asset given a partial path based on the
-    /// the selected directory.
+    /// the current preferred directory.
     ///
     /// \param path The path to resolve.
     Path resolvePath(const Path& path);
 
     ///
-    /// Selects the given directory as the preferred directory for the current
+    /// Push the given directory as the preferred directory for the current
     /// thread.
     ///
-    /// \param directoryPath The path to the directory to select.
-    void selectDirectory(const Path& directoryPath);
+    /// \param directoryPath The path to the directory to push.
+    void pushDirectory(const Path& directoryPath);
 
     ///
-    /// Restores the previously selected directory (if any) for the current
-    /// thread.
-    void restoreDirectory();
+    /// Pops the previously pushed directory (if any) as the preferred
+    /// directory for the current thread.
+    void popDirectory();
 
 private:
     FileSystem& _fileSystem;
     TaskPool _taskPool;
 
     std::recursive_mutex _mutex;
-    std::map<std::thread::id, std::stack<Path>> _selectedDirectoryStack;
+    std::map<std::thread::id, std::stack<Path>> _directoryStack;
     std::map<Path, std::shared_ptr<AssetEntryBase>> _entries;
 };
 

@@ -33,11 +33,6 @@ NullPlatform::NullPlatform()
     _keyboard.reset(new Keyboard());
 }
 
-std::unique_ptr<Window> NullPlatform::createWindow(const std::string& title, const VideoMode& videoMode)
-{
-    return std::unique_ptr<Window>(new NullWindow(title, videoMode));
-}
-
 bool NullPlatform::handleEvents()
 {
     bool active = true;

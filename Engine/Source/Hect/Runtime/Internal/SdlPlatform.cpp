@@ -194,11 +194,6 @@ SdlPlatform::~SdlPlatform()
     SDL_Quit();
 }
 
-std::unique_ptr<Window> SdlPlatform::createWindow(const std::string& title, const VideoMode& videoMode)
-{
-    return std::unique_ptr<Window>(new SdlWindow(title, videoMode));
-}
-
 bool SdlPlatform::handleEvents()
 {
     _mouse->clearMovement();

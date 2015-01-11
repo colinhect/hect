@@ -204,7 +204,7 @@ void SceneRenderer::renderFrame(Camera& camera, RenderTarget& target)
     // Opaque geometry rendering
     {
         _renderer->beginFrame();
-        _renderer->selectTarget(_geometryFrameBuffer);
+        _renderer->setTarget(_geometryFrameBuffer);
         _renderer->clear();
 
         for (RenderCall& renderCall : _frameData.opaquePhysicalGeometry)
@@ -218,23 +218,23 @@ void SceneRenderer::renderFrame(Camera& camera, RenderTarget& target)
     // Light rendering
     {
         _renderer->beginFrame();
-        _renderer->selectTarget(backFrameBuffer());
+        _renderer->setTarget(backFrameBuffer());
         _renderer->clear();
 
-        _renderer->selectMesh(*_screenMesh);
+        _renderer->setMesh(*_screenMesh);
 
         // Render environment light
         if (_frameData.lightProbeCubeMap)
         {
-            _renderer->selectShader(*_environmentShader);
+            _renderer->setShader(*_environmentShader);
             setBoundUniforms(*_environmentShader, camera, target, _identityTransform);
 
-            _renderer->draw();
+            _renderer->render();
         }
 
         // Render directional lights
         {
-            _renderer->selectShader(*_directionalLightShader);
+            _renderer->setShader(*_directionalLightShader);
 
             // Render each directional light in the scene
             for (DirectionalLight::ConstIterator light : _frameData.directionalLights)
@@ -242,7 +242,7 @@ void SceneRenderer::renderFrame(Camera& camera, RenderTarget& target)
                 _frameData.primaryLightDirection = light->direction;
                 _frameData.primaryLightColor = light->color;
                 setBoundUniforms(*_directionalLightShader, camera, target, _identityTransform);
-                _renderer->draw();
+                _renderer->render();
             }
         }
 
@@ -258,13 +258,13 @@ void SceneRenderer::renderFrame(Camera& camera, RenderTarget& target)
     // Composite
     {
         _renderer->beginFrame();
-        _renderer->selectTarget(backFrameBuffer());
+        _renderer->setTarget(backFrameBuffer());
         _renderer->clear();
-        _renderer->selectShader(*_compositeShader);
+        _renderer->setShader(*_compositeShader);
         setBoundUniforms(*_compositeShader, camera, target, _identityTransform);
 
-        _renderer->selectMesh(*_screenMesh);
-        _renderer->draw();
+        _renderer->setMesh(*_screenMesh);
+        _renderer->render();
 
         // Transparent geometry rendering
         {
@@ -282,13 +282,13 @@ void SceneRenderer::renderFrame(Camera& camera, RenderTarget& target)
     // Expose
     {
         _renderer->beginFrame();
-        _renderer->selectTarget(target);
+        _renderer->setTarget(target);
         _renderer->clear();
-        _renderer->selectShader(*_exposeShader);
+        _renderer->setShader(*_exposeShader);
         setBoundUniforms(*_exposeShader, camera, target, _identityTransform);
 
-        _renderer->selectMesh(*_screenMesh);
-        _renderer->draw();
+        _renderer->setMesh(*_screenMesh);
+        _renderer->render();
 
         _renderer->endFrame();
     }
@@ -415,8 +415,8 @@ void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target,
 {
     Shader& shader = *material.shader();
 
-    // Select the shader
-    _renderer->selectShader(shader);
+    // Set the shader
+    _renderer->setShader(shader);
     setBoundUniforms(shader, camera, target, transform);
 
     // Set the uniform values of the material
@@ -431,9 +431,9 @@ void SceneRenderer::renderMesh(const Camera& camera, const RenderTarget& target,
         ++index;
     }
 
-    // Select and draw the mesh
-    _renderer->selectMesh(mesh);
-    _renderer->draw();
+    // Render the mesh
+    _renderer->setMesh(mesh);
+    _renderer->render();
 }
 
 void SceneRenderer::setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)

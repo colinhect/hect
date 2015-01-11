@@ -51,12 +51,12 @@ AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
         _implementation.reset(new BinaryDecoder(*_stream, assetCache));
     }
 
-    assetCache.selectDirectory(resolvedPath.parentDirectory());
+    assetCache.pushDirectory(resolvedPath.parentDirectory());
 }
 
 AssetDecoder::~AssetDecoder()
 {
-    assetCache().restoreDirectory();
+    assetCache().popDirectory();
 }
 
 bool AssetDecoder::isBinaryStream() const

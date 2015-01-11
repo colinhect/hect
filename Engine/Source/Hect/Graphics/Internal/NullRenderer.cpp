@@ -138,17 +138,17 @@ void NullRenderer::endFrame()
 {
 }
 
-void NullRenderer::selectTarget(RenderTarget& renderTarget)
+void NullRenderer::setTarget(RenderTarget& renderTarget)
 {
     (void)renderTarget;
 }
 
-void NullRenderer::selectTarget(Window& window)
+void NullRenderer::setTarget(Window& window)
 {
     (void)window;
 }
 
-void NullRenderer::selectTarget(FrameBuffer& frameBuffer)
+void NullRenderer::setTarget(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -196,7 +196,7 @@ void NullRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void NullRenderer::selectShader(Shader& shader)
+void NullRenderer::setShader(Shader& shader)
 {
     if (!shader.isUploaded())
     {
@@ -299,7 +299,7 @@ Image NullRenderer::downloadTextureImage(const Texture& texture)
     return Image();
 }
 
-void NullRenderer::selectMesh(Mesh& mesh)
+void NullRenderer::setMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
     {
@@ -332,7 +332,7 @@ void NullRenderer::setCullMode(CullMode cullMode)
     (void)cullMode;
 }
 
-void NullRenderer::draw()
+void NullRenderer::render()
 {
 }
 
