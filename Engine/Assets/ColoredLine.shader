@@ -8,5 +8,5 @@ uniforms:
   - name: modelViewProjection
     binding: ModelViewProjectionMatrix
   - name: color
-    type: Vector3
+    type: Color
     value: [ 1, 1, 1 ]

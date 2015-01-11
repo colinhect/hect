@@ -1,11 +1,11 @@
 #version 410
 
 uniform mat4 modelViewProjection;
-uniform vec3 color;
+uniform vec4 color;
 
 in vec3 position;
 
-out vec3 vertexColor;
+out vec4 vertexColor;
 
 void main()
 {

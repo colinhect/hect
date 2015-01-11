@@ -55,6 +55,10 @@ enum UniformType
     UniformType_Matrix4,
 
     ///
+    /// A color.
+    UniformType_Color,
+
+    ///
     /// A texture.
     UniformType_Texture
 };

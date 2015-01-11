@@ -46,7 +46,7 @@ void NullVectorRenderer::beginPath()
 {
 }
 
-void NullVectorRenderer::setFillColor(const Vector4& color)
+void NullVectorRenderer::setFillColor(const Color& color)
 {
     (void)color;
 }

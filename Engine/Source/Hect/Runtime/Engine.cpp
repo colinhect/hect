@@ -72,7 +72,7 @@ Engine::Engine(int argc, char* const argv[])
     _platform.reset(new NullPlatform());
 #endif
 
-    auto arguments = parseCommandLineArgument(argc, argv);
+    CommandLineArguments arguments = parseCommandLineArgument(argc, argv);
 
     // Register all of the Hect types
     registerTypes();
@@ -90,7 +90,7 @@ Engine::Engine(int argc, char* const argv[])
     }
 
     // Mount the archives specified in the settings
-    for (auto& archive : _settings["archives"])
+    for (const DataValue& archive : _settings["archives"])
     {
         if (!archive["path"].isNull())
         {
@@ -125,10 +125,10 @@ Engine::Engine(int argc, char* const argv[])
 #ifdef HECT_PLATFORM_SDL
         _window.reset(new SdlWindow("Hect", videoMode));
 #else
-        _window.reset(new NullWindow());
+        _window.reset(new NullWindow("Hect", videoMode));
 #endif
 
-        // Create renderer
+        // Create renderer and vector renderer
 #ifdef HECT_RENDERER_OPENGL
         _renderer.reset(new OpenGLRenderer());
         _vectorRenderer.reset(new NanoVGVectorRenderer(*_renderer));
@@ -137,6 +137,7 @@ Engine::Engine(int argc, char* const argv[])
         _vectorRenderer.reset(new NullVectorRenderer());
 #endif
 
+        // Create scene renderer
         _sceneRenderer.reset(new SceneRenderer(*_renderer, *_taskPool, *_assetCache));
     }
 }
@@ -181,6 +182,7 @@ int Engine::main()
             _window->swapBuffers();
         }
     }
+
     return 0;
 }
 

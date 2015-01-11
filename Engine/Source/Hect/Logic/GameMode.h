@@ -43,6 +43,10 @@ public:
 
     ///
     /// Constructs a game mode.
+    GameMode();
+
+    ///
+    /// Constructs a game mode.
     ///
     /// \param timeStep The amount of time between logic ticks.
     GameMode(TimeSpan timeStep);

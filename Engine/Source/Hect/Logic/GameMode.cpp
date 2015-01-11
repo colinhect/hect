@@ -27,6 +27,11 @@
 
 using namespace hect;
 
+GameMode::GameMode() :
+    _timeStep(TimeSpan::fromSeconds(Real(1) / Real(60)))
+{
+}
+
 GameMode::GameMode(TimeSpan timeStep) :
     _timeStep(timeStep)
 {

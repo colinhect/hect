@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Any.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/UniformType.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Decoder.h"
@@ -94,6 +95,12 @@ public:
     UniformValue(const Matrix4& value);
 
     ///
+    /// Constructs a color uniform value.
+    ///
+    /// \param value The value.
+    UniformValue(const Color& value);
+
+    ///
     /// Constructs a texture uniform value.
     ///
     /// \param value The texture.
@@ -160,6 +167,14 @@ public:
     void setValue(const Matrix4& value);
 
     ///
+    /// Sets the value of the uniform value as a color.
+    ///
+    /// \param value The value.
+    ///
+    /// \throws InvalidOperation If the uniform value is not a color.
+    void setValue(const Color& value);
+
+    ///
     /// Sets the value of the uniform value as a texture.
     ///
     /// \param value The value.
@@ -190,6 +205,10 @@ public:
     ///
     /// Returns the value as a 4 by 4 matrix.
     Matrix4 asMatrix4() const;
+
+    ///
+    /// Returns the value as a color.
+    Color asColor() const;
 
     ///
     /// Returns the value as a texture.

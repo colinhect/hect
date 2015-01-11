@@ -7,7 +7,7 @@ modules:
     path: Solid.Fragment.glsl
 uniforms:
   - name: diffuse
-    type: Vector3
+    type: Color
     value: [ 1, 1, 1 ]
   - name: roughness
     type: Float

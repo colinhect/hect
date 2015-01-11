@@ -266,6 +266,12 @@ void NullRenderer::setUniform(const Uniform& uniform, const Matrix4& value)
     (void)value;
 }
 
+void NullRenderer::setUniform(const Uniform& uniform, const Color& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
 void NullRenderer::setUniform(const Uniform& uniform, Texture& value)
 {
     (void)uniform;

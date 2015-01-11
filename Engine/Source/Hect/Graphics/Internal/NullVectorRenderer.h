@@ -38,7 +38,7 @@ public:
     void pushState() override;
     void popState() override;
     void beginPath() override;
-    void setFillColor(const Vector4& color) override;
+    void setFillColor(const Color& color) override;
     void fill() override;
     void rectangle(const Rectangle& bounds) override;
     void setFont(Font& font, Real size) override;

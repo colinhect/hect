@@ -40,9 +40,9 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     renderer.uploadShader(*_coloredLineShader);
     renderer.uploadMesh(*_boxMesh);
 
-    addColoredMaterial(Vector3(100, 0, 0)); // Primary
-    addColoredMaterial(Vector3(0, 100, 0)); // Secondary
-    addColoredMaterial(Vector3(0, 0, 100)); // Tertiary
+    addColoredMaterial(Color(100, 0, 0)); // Primary
+    addColoredMaterial(Color(0, 100, 0)); // Secondary
+    addColoredMaterial(Color(0, 0, 100)); // Tertiary
 }
 
 void DebugSystem::renderBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation)
@@ -77,7 +77,7 @@ DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& position, const Q
     transform.globalRotation = rotation;
 }
 
-void DebugSystem::addColoredMaterial(const Vector3& color)
+void DebugSystem::addColoredMaterial(const Color& color)
 {
     // Create a material for this color
     Material material;

@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
+#include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/CullMode.h"
 #include "Hect/Graphics/Image.h"
 
@@ -310,6 +311,10 @@ public:
     ///
     /// \copydoc Renderer::setUniform()
     virtual void setUniform(const Uniform& uniform, const Matrix4& value) = 0;
+
+    ///
+    /// \copydoc Renderer::setUniform()
+    virtual void setUniform(const Uniform& uniform, const Color& value) = 0;
 
     ///
     /// \copydoc Renderer::setUniform()

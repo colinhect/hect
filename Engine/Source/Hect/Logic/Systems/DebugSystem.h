@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Transform.h"
@@ -81,7 +82,7 @@ public:
     void tick(Real timeStep) override;
 
 private:
-    void addColoredMaterial(const Vector3& color);
+    void addColoredMaterial(const Color& color);
 
     class DebugBox
     {

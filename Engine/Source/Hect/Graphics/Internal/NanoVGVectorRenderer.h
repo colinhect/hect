@@ -48,14 +48,14 @@ public:
     void pushState() override;
     void popState() override;
     void beginPath() override;
-    void setFillColor(const Vector4& color) override;
+    void setFillColor(const Color& color) override;
     void fill() override;
     void rectangle(const Rectangle& bounds) override;
     void setFont(Font& font, Real size) override;
     void text(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign) override;
 
 private:
-    NVGcolor convertColor(const Vector4& color) const;
+    NVGcolor convertColor(const Color& color) const;
 
     Renderer& _renderer;
     NVGcontext* _nvgContext { nullptr };

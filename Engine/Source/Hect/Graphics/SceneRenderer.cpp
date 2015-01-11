@@ -579,7 +579,7 @@ void SceneRenderer::FrameData::clear()
 
     cameraTransform = Transform();
     primaryLightDirection = Vector3();
-    primaryLightColor = Vector3();
+    primaryLightColor = Color();
     lightProbeCubeMap =  nullptr;
     skyBoxCubeMap = nullptr;
     backBufferIndex = 0;

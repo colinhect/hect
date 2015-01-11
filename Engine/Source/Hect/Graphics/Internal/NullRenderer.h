@@ -53,6 +53,7 @@ public:
     void setUniform(const Uniform& uniform, const Vector3& value) override;
     void setUniform(const Uniform& uniform, const Vector4& value) override;
     void setUniform(const Uniform& uniform, const Matrix4& value) override;
+    void setUniform(const Uniform& uniform, const Color& value) override;
     void setUniform(const Uniform& uniform, Texture& value) override;
     void uploadTexture(Texture& texture) override;
     void destroyTexture(Texture& texture) override;

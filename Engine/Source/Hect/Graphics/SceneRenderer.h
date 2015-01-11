@@ -114,7 +114,7 @@ private:
 
         Transform cameraTransform;
         Vector3 primaryLightDirection;
-        Vector3 primaryLightColor;
+        Color primaryLightColor;
         Texture* lightProbeCubeMap { nullptr };
         Texture* skyBoxCubeMap { nullptr };
         size_t backBufferIndex { 0 };

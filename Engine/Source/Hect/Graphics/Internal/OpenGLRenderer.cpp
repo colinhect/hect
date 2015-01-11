@@ -704,6 +704,9 @@ void OpenGLRenderer::setUniform(const Uniform& uniform, const UniformValue& valu
     case UniformType_Matrix4:
         setUniform(uniform, value.asMatrix4());
         break;
+    case UniformType_Color:
+        setUniform(uniform, value.asColor());
+        break;
     case UniformType_Texture:
     {
         AssetHandle<Texture> texture = value.asTexture();
@@ -809,6 +812,21 @@ void OpenGLRenderer::setUniform(const Uniform& uniform, const Matrix4& value)
         };
 
         GL_ASSERT(glUniformMatrix4fv(location, 1, false, temp));
+    }
+}
+
+void OpenGLRenderer::setUniform(const Uniform& uniform, const Color& value)
+{
+    if (uniform.type() != UniformType_Color)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
+        GL_ASSERT(glUniform4fv(location, 1, temp));
     }
 }
 

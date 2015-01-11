@@ -75,6 +75,12 @@ UniformValue::UniformValue(const Matrix4& value) :
     setValue(value);
 }
 
+UniformValue::UniformValue(const Color& value) :
+    _type(UniformType_Color)
+{
+    setValue(value);
+}
+
 UniformValue::UniformValue(const AssetHandle<Texture>& value) :
     _type(UniformType_Texture)
 {
@@ -107,6 +113,9 @@ void UniformValue::setDefaultValue()
         break;
     case UniformType_Matrix4:
         _value = Matrix4();
+        break;
+    case UniformType_Color:
+        _value = Color();
         break;
     case UniformType_Texture:
         _value = AssetHandle<Texture>();
@@ -169,6 +178,16 @@ void UniformValue::setValue(const Matrix4& value)
     if (_type != UniformType_Matrix4)
     {
         throw InvalidOperation("Uniform value is not of type 'Matrix4'");
+    }
+
+    _value = value;
+}
+
+void UniformValue::setValue(const Color& value)
+{
+    if (_type != UniformType_Color)
+    {
+        throw InvalidOperation("Uniform value is not of type 'Color'");
     }
 
     _value = value;
@@ -244,6 +263,16 @@ Matrix4 UniformValue::asMatrix4() const
     return _value.as<Matrix4>();
 }
 
+Color UniformValue::asColor() const
+{
+    if (_type != UniformType_Color)
+    {
+        throw InvalidOperation("Uniform value is not of type 'Color'");
+    }
+
+    return _value.as<Color>();
+}
+
 AssetHandle<Texture> UniformValue::asTexture() const
 {
     if (_type != UniformType_Texture)
@@ -282,6 +311,8 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
         return asVector4() == uniformValue.asVector4();
     case UniformType_Matrix4:
         return asMatrix4() == uniformValue.asMatrix4();
+    case UniformType_Color:
+        return asColor() == uniformValue.asColor();
     case UniformType_Texture:
         return asTexture() == uniformValue.asTexture();
     }
@@ -322,6 +353,9 @@ Encoder& operator<<(Encoder& encoder, const UniformValue& uniformValue)
         break;
     case UniformType_Matrix4:
         encoder << encodeValue("value", uniformValue.asMatrix4());
+        break;
+    case UniformType_Color:
+        encoder << encodeValue("value", uniformValue.asColor());
         break;
     case UniformType_Texture:
         encoder << encodeValue("value", uniformValue.asTexture());
@@ -380,6 +414,13 @@ Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue)
         case UniformType_Matrix4:
         {
             Matrix4 value;
+            decoder >> decodeValue(value);
+            uniformValue.setValue(value);
+        }
+        break;
+        case UniformType_Color:
+        {
+            Color value;
             decoder >> decodeValue(value);
             uniformValue.setValue(value);
         }

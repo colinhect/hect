@@ -87,7 +87,7 @@ void NanoVGVectorRenderer::beginPath()
     nvgBeginPath(_nvgContext);
 }
 
-void NanoVGVectorRenderer::setFillColor(const Vector4& color)
+void NanoVGVectorRenderer::setFillColor(const Color& color)
 {
     nvgFillColor(_nvgContext, convertColor(color));
 }
@@ -167,7 +167,7 @@ void NanoVGVectorRenderer::text(const std::string& text, const Rectangle& bounds
     nvgResetScissor(_nvgContext);
 }
 
-NVGcolor NanoVGVectorRenderer::convertColor(const Vector4& color) const
+NVGcolor NanoVGVectorRenderer::convertColor(const Color& color) const
 {
     NVGcolor result;
     result.r = static_cast<float>(color[0]);

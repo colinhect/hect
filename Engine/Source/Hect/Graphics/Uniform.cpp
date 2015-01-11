@@ -150,7 +150,6 @@ void Uniform::resolveType()
     case UniformBinding_CameraFront:
     case UniformBinding_CameraUp:
     case UniformBinding_PrimaryLightDirection:
-    case UniformBinding_PrimaryLightColor:
         _type = UniformType_Vector3;
         break;
     case UniformBinding_ViewMatrix:
@@ -160,6 +159,9 @@ void Uniform::resolveType()
     case UniformBinding_ModelViewMatrix:
     case UniformBinding_ModelViewProjectionMatrix:
         _type = UniformType_Matrix4;
+        break;
+    case UniformBinding_PrimaryLightColor:
+        _type = UniformType_Color;
         break;
     case UniformBinding_LightProbeCubeMap:
     case UniformBinding_SkyBoxCubeMap:

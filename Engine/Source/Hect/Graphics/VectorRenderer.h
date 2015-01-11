@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
+#include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Math/Vector2.h"
@@ -103,7 +104,7 @@ public:
     /// Sets the active fill style to a solid color.
     ///
     /// \param color The color to set.
-    virtual void setFillColor(const Vector4& color) = 0;
+    virtual void setFillColor(const Color& color) = 0;
 
     ///
     /// Fills the current path with the current fill style.

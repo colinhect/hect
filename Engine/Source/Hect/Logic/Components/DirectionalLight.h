@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/Color.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Logic/Scene.h"
 
@@ -49,7 +50,7 @@ public:
     /// The color.
     ///
     /// \property
-    Vector3 color { Vector3::one() };
+    Color color;
 };
 
 }

@@ -3,7 +3,7 @@
 #define PI 3.1415926535897932384626433832795
 
 uniform vec3 lightDirection;
-uniform vec3 lightColor;
+uniform vec4 lightColor;
 uniform vec3 cameraPosition;
 uniform sampler2D diffuseBuffer;
 uniform sampler2D materialBuffer;
@@ -89,7 +89,7 @@ vec3 computeLight(
     vec3 d = diffuse / PI;
     vec3 s = clamp(computeSpecular(specular, h, v, l, a, nDotL, nDotV, nDotH, vDotH, lDotV), 0.0, 1.0);
 
-    return lightColor * nDotL * (d * (1.0 - s) + s);
+    return lightColor.rgb * nDotL * (d * (1.0 - s) + s);
 }
 
 void main()

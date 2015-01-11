@@ -145,6 +145,7 @@ public:
     /// Returns a negated copy of the vector.
     Vector2T operator-() const;
 
+    ///
     /// Adds a vector to the vector.
     ///
     /// \param v The vector to add.
@@ -152,6 +153,7 @@ public:
     /// \returns A reference to the vector.
     Vector2T& operator+=(const Vector2T& v);
 
+    ///
     /// Subtracts a vector from the vector.
     ///
     /// \param v The vector to subtract.
@@ -159,6 +161,7 @@ public:
     /// \returns A reference to the vector.
     Vector2T& operator-=(const Vector2T& v);
 
+    ///
     /// Multiplies the vector by a scalar.
     ///
     /// \param value The scalar to multiply by.
@@ -166,6 +169,7 @@ public:
     /// \returns A reference to the vector.
     Vector2T& operator*=(T value);
 
+    ///
     /// Multiplies the vector by another vector.
     ///
     /// \param v The vector to multiply by.
@@ -173,6 +177,7 @@ public:
     /// \returns A reference to the vector.
     Vector2T& operator*=(const Vector2T& v);
 
+    ///
     /// Divides the vector by a scalar.
     ///
     /// \param value The scalar to divide by.
@@ -180,6 +185,7 @@ public:
     /// \returns A reference to the vector.
     Vector2T& operator/=(T value);
 
+    ///
     /// Divides the vector by another vector.
     ///
     /// \param v The vector to divide by.

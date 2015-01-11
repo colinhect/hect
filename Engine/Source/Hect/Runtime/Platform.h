@@ -47,7 +47,7 @@ public:
     typedef Sequence<Joystick, JoystickContainer> JoystickSequence;
 
     virtual ~Platform() { }
-    
+
     ///
     /// Handles and dispatches all platform events.
     virtual bool handleEvents() = 0;

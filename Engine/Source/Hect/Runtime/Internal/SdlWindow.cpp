@@ -30,7 +30,7 @@
 using namespace hect;
 
 SdlWindow::SdlWindow(const std::string& title, const VideoMode& videoMode) :
-    Window(title, videoMode)    
+    Window(title, videoMode)
 {
     // Create the window flags
     uint32_t flags = SDL_WINDOW_OPENGL;
