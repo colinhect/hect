@@ -29,10 +29,10 @@ using namespace hect;
 TEST_CASE("Construct a default color", "[Color]")
 {
     Color a;
-    REQUIRE(a.r == 0.0);
-    REQUIRE(a.g == 0.0);
-    REQUIRE(a.b == 0.0);
-    REQUIRE(a.a == 0.0);
+    REQUIRE(a.r == 1.0);
+    REQUIRE(a.g == 1.0);
+    REQUIRE(a.b == 1.0);
+    REQUIRE(a.a == 1.0);
 }
 
 TEST_CASE("Construct a color given its components", "[Color]")
