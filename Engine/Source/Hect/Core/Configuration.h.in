@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+// Detect build platform and mode
 #ifdef _MSC_VER
 #define HECT_WINDOWS_BUILD
 #ifdef _DEBUG
@@ -35,19 +36,26 @@
 
 #define HECT_HEADLESS @HEADLESS@
 
+// Set platform/renderer implementation
 #if HECT_HEADLESS != ON
 #define HECT_PLATFORM_SDL
 #define HECT_RENDERER_OPENGL
 #endif
 
+// Set file system implementation
 #define HECT_FILESYSTEM_PHYSFS
 
+// Set floating point precision
 #define HECT_DOUBLE_PRECISION
 
+// Enable logger levels
 #define HECT_ENABLE_LOG_INFO
 #define HECT_ENABLE_LOG_DEBUG
 #define HECT_ENABLE_LOG_WARNING
 #define HECT_ENABLE_LOG_ERROR
 #define HECT_ENABLE_LOG_TRACE
 
+// Use VLD on debug builds if it is available
+#ifdef HECT_DEBUG_BUILD
 #cmakedefine HECT_USE_VLD
+#endif
