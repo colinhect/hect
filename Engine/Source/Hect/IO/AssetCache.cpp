@@ -52,6 +52,12 @@ void AssetCache::refresh(bool onlyModified)
     }
 }
 
+void AssetCache::remove(const Path& path)
+{
+    std::lock_guard<std::recursive_mutex> lock(_mutex);
+    _entries.erase(path);
+}
+
 void AssetCache::clear()
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);

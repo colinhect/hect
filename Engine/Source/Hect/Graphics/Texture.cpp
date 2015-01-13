@@ -312,6 +312,10 @@ Decoder& operator>>(Decoder& decoder, Texture& texture)
 
         for (AssetHandle<Image>& image : images)
         {
+            // Remove the image from the asset cache because we don't want to
+            // store uncompressed image data in main memory
+            decoder.assetCache().remove(image.path());
+
             texture.addSourceImage(image);
         }
     }

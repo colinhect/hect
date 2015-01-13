@@ -99,6 +99,12 @@ public:
     void refresh(bool onlyModified);
 
     ///
+    /// Removes an asset at the given path from the cache.
+    ///
+    /// \param path The case-sensitive path to the asset to remove.
+    void remove(const Path& path);
+
+    ///
     /// Clears all cached assets.
     void clear();
 
