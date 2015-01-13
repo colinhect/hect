@@ -58,24 +58,36 @@
 #include <streambuf>
 #include <tclap/CmdLine.h>
 
+#ifdef HECT_USE_VLD
+#include <vld.h>
+#endif
+
 using namespace hect;
 
 Engine::Engine(int argc, char* const argv[])
 {
+    // Register all of the Hect types
+    registerTypes();
+
+    // Ignore false positive memory leaks from static variables
+#ifdef HECT_USE_VLD
+    VLDMarkAllLeaksAsReported();
+#endif
+
+    // Create file system
 #ifdef HECT_FILESYSTEM_PHYSFS
     _fileSystem.reset(new PhysFSFileSystem(argc, argv));
 #endif
 
+    // Create platform
 #ifdef HECT_PLATFORM_SDL
     _platform.reset(new SdlPlatform());
 #else
     _platform.reset(new NullPlatform());
 #endif
 
+    // Parse command line arguments
     CommandLineArguments arguments = parseCommandLineArgument(argc, argv);
-
-    // Register all of the Hect types
-    registerTypes();
 
 #ifdef HECT_WINDOWS_BUILD
     // Set the base directory as the write directory

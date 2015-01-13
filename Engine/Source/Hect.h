@@ -27,10 +27,15 @@
 /// The namespace containing the Hect %Engine API.
 namespace hect {}
 
+#include "Hect/Core/Configuration.h"
+
+#ifdef HECT_USE_VLD
+#include <vld.h>
+#endif
+
 #include "Hect/Concurrency/Task.h"
 #include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Any.h"
-#include "Hect/Core/Configuration.h"
 #include "Hect/Core/Exception.h"
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Format.h"
