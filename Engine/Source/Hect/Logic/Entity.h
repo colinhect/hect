@@ -197,6 +197,16 @@ public:
     bool isPendingDestruction() const;
 
     ///
+    /// Returns whether the entity is transient.
+    bool isTransient() const;
+
+    ///
+    /// Sets whether the entity is transient.
+    ///
+    /// \param transient True if the entity is transient; false otherwise.
+    void setTransient(bool transient);
+
+    ///
     /// Returns the id of the entity.
     EntityId id() const;
 

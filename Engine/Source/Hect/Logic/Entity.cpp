@@ -110,6 +110,18 @@ bool Entity::isPendingDestruction() const
     return _flags[Flag_PendingDestruction];
 }
 
+bool Entity::isTransient() const
+{
+    ensureInPool();
+    return _flags[Flag_Transient];
+}
+
+void Entity::setTransient(bool transient)
+{
+    ensureInPool();
+    _flags[Flag_Transient] = transient;
+}
+
 EntityId Entity::id() const
 {
     return _id;
@@ -487,20 +499,23 @@ void Entity::encode(Encoder& encoder) const
 {
     ensureInPool();
 
-    Scene& scene = _pool->_scene;
-
-    encoder << beginObject();
-
-    scene.encodeComponents(*this, encoder);
-
-    encoder << beginArray("children");
-    for (const Entity& child : _children)
+    if (!isTransient())
     {
-        encoder << encodeValue(child);
-    }
-    encoder << endArray();
+        Scene& scene = _pool->_scene;
 
-    encoder << endObject();
+        encoder << beginObject();
+
+        scene.encodeComponents(*this, encoder);
+
+        encoder << beginArray("children");
+        for (const Entity& child : _children)
+        {
+            encoder << encodeValue(child);
+        }
+        encoder << endArray();
+
+        encoder << endObject();
+    }
 }
 
 void Entity::decode(Decoder& decoder)
@@ -537,16 +552,20 @@ void Entity::decode(Decoder& decoder)
 
     if (decoder.selectMember("children"))
     {
+        // Use an iterator since the "this" pointer might be invalidated as new
+        // entities are created
+        Entity::Iterator entity = iterator();
+
         decoder >> beginArray();
         while (decoder.hasMoreElements())
         {
-            Entity::Iterator child = _pool->_scene.createEntity();
+            Entity::Iterator child = scene.createEntity();
 
             decoder >> beginObject();
             child->decode(decoder);
             decoder >> endObject();
 
-            addChild(*child);
+            entity->addChild(*child);
         }
         decoder >> endArray();
     }
