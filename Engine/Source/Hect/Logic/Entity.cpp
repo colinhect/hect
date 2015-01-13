@@ -188,7 +188,7 @@ void Entity::addChild(Entity& entity)
     {
         throw InvalidOperation("Cannot add a child entity from another scene");
     }
-    
+
     if (isPendingDestruction())
     {
         throw InvalidOperation("Cannot add a child entity to an entity pending destruction");
