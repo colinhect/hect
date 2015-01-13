@@ -27,8 +27,8 @@
 #include "Hect/IO/DataValueDecoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentRegistry.h"
-#include "Hect/Logic/GameMode.h"
-#include "Hect/Logic/GameModeRegistry.h"
+#include "Hect/Logic/Mode.h"
+#include "Hect/Logic/ModeRegistry.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
 
@@ -144,22 +144,22 @@ Engine::Engine(int argc, char* const argv[])
 
 int Engine::main()
 {
-    const DataValue& gameModeValue = _settings["gameMode"];
-    if (gameModeValue.isNull())
+    const DataValue& modeValue = _settings["mode"];
+    if (modeValue.isNull())
     {
-        HECT_ERROR("No game mode specified in settings");
+        HECT_ERROR("No mode specified in settings");
     }
     else
     {
-        const std::string& gameModeTypeName = gameModeValue.asString();
+        const std::string& modeTypeName = modeValue.asString();
 
-        auto gameMode = GameModeRegistry::create(gameModeTypeName, *this);
+        auto mode = ModeRegistry::create(modeTypeName, *this);
 
         Timer timer;
         TimeSpan accumulator;
         TimeSpan delta;
 
-        Real timeStep = gameMode->timeStep().seconds();
+        Real timeStep = mode->timeStep().seconds();
 
         bool active = true;
         while (_platform->handleEvents() && active)
@@ -170,15 +170,15 @@ int Engine::main()
             accumulator += deltaTime;
             delta += deltaTime;
 
-            while (active && accumulator.microseconds() >= gameMode->timeStep().microseconds())
+            while (active && accumulator.microseconds() >= mode->timeStep().microseconds())
             {
-                active = gameMode->tick(*this, timeStep);
+                active = mode->tick(*this, timeStep);
 
                 delta = TimeSpan();
-                accumulator -= gameMode->timeStep();
+                accumulator -= mode->timeStep();
             }
 
-            gameMode->render(*this, *_window);
+            mode->render(*this, *_window);
             _window->swapBuffers();
         }
     }

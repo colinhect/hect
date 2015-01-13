@@ -21,24 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "GameModeRegistry.h"
+#include "Hect/Reflection/Type.h"
 
-#include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
+#include "Hect/Core/Logging.h"
 
-using namespace hect;
-
-std::unique_ptr<GameMode> GameModeRegistry::create(const std::string& typeName, Engine& engine)
+namespace hect
 {
-    // Find the constructor
-    auto it = _constructors.find(typeName);
-    if (it == _constructors.end())
-    {
-        throw InvalidOperation(format("Unknown game mode type '%s'", typeName.c_str()));
-    }
 
-    // Create the game mode
-    return it->second(engine);
+template <typename T>
+void ModeRegistry::registerType()
+{
+    std::string typeName = Type::get<T>().name();
+    if (_constructors.find(typeName) == _constructors.end())
+    {
+        _constructors[typeName] = [](Engine& engine)
+        {
+            return std::unique_ptr<Mode>(new T(engine));
+        };
+
+        HECT_DEBUG(format("Registered mode type '%s'", typeName.c_str()));
+    }
 }
 
-std::map<std::string, GameModeRegistry::GameModeConstructor> GameModeRegistry::_constructors;
+}

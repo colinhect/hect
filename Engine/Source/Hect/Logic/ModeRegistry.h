@@ -30,43 +30,43 @@
 #include <vector>
 
 #include "Hect/Core/Export.h"
-#include "Hect/Logic/GameMode.h"
+#include "Hect/Logic/Mode.h"
 
 namespace hect
 {
 
 ///
-/// Provides the ability to dynamically create GameMode%s based on type
+/// Provides the ability to dynamically create Mode%s based on type
 /// information.
-class HECT_EXPORT GameModeRegistry
+class HECT_EXPORT ModeRegistry
 {
 public:
 
     ///
-    /// Creates a GameMode of the specified type.
+    /// Creates a Mode of the specified type.
     ///
-    /// \param typeName The type name of type of game mode to create.
-    /// \param engine The engine that the game mode is being created for.
+    /// \param typeName The type name of type of mode to create.
+    /// \param engine The engine that the mode is being created for.
     ///
     /// \throws InvalidOperation If the specified type name does not correspond
-    /// to a registered game mode type.
-    static std::unique_ptr<GameMode> create(const std::string& typeName, Engine& engine);
+    /// to a registered mode type.
+    static std::unique_ptr<Mode> create(const std::string& typeName, Engine& engine);
 
     ///
-    /// Registers a game mode type.
+    /// Registers a mode type.
     ///
     /// \warning The type must be registered with Type.
     template <typename T>
     static void registerType();
 
 private:
-    GameModeRegistry();
+    ModeRegistry();
 
-    typedef std::function<std::unique_ptr<GameMode>(Engine&)> GameModeConstructor;
+    typedef std::function<std::unique_ptr<Mode>(Engine&)> ModeConstructor;
 
-    static std::map<std::string, GameModeConstructor> _constructors;
+    static std::map<std::string, ModeConstructor> _constructors;
 };
 
 }
 
-#include "GameModeRegistry.inl"
+#include "ModeRegistry.inl"

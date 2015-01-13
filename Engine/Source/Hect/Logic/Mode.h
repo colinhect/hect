@@ -21,23 +21,61 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "GameMode.h"
+#pragma once
 
-#include <cassert>
+#include "Hect/Core/Export.h"
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/Timing/TimeSpan.h"
 
-using namespace hect;
-
-GameMode::GameMode() :
-    _timeStep(TimeSpan::fromSeconds(Real(1) / Real(60)))
+namespace hect
 {
-}
 
-GameMode::GameMode(TimeSpan timeStep) :
-    _timeStep(timeStep)
-{
-}
+class Engine;
+class Renderer;
+class RenderTarget;
 
-TimeSpan GameMode::timeStep() const
+///
+/// The highest-level logic.
+class HECT_EXPORT Mode :
+    public Uncopyable
 {
-    return _timeStep;
+public:
+
+    ///
+    /// Constructs a mode.
+    Mode();
+
+    ///
+    /// Constructs a mode.
+    ///
+    /// \param timeStep The amount of time between logic ticks.
+    Mode(TimeSpan timeStep);
+
+    virtual ~Mode() { }
+
+    ///
+    /// Performs a single step of logic.
+    ///
+    /// \param engine The engine.
+    /// \param timeStep The duration of time in seconds for the tick to
+    /// simulate.
+    ///
+    /// \returns True if the mode is still active; false if it is not.
+    virtual bool tick(Engine& engine, Real timeStep) = 0;
+
+    ///
+    /// Renders the current state of the game to a target.
+    ///
+    /// \param engine The engine.
+    /// \param target The target to render to.
+    virtual void render(Engine& engine, RenderTarget& target) = 0;
+
+    ///
+    /// Returns the amount of time between logic ticks.
+    TimeSpan timeStep() const;
+
+private:
+    TimeSpan _timeStep;
+};
+
 }
