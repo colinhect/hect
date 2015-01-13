@@ -49,6 +49,7 @@ protected:
     virtual void dispatchEvent(ComponentEventType type, Entity& entity) = 0;
 
     virtual void addBase(Entity& entity, const ComponentBase& component) = 0;
+    virtual ComponentBase& getBase(Entity& entity) = 0;
     virtual const ComponentBase& getBase(const Entity& entity) const = 0;
 
     virtual void remove(Entity& entity) = 0;
@@ -145,6 +146,7 @@ private:
     void dispatchEvent(ComponentEventType type, Entity& entity) override;
 
     void addBase(Entity& entity, const ComponentBase& component) override;
+    ComponentBase& getBase(Entity& entity) override;
     const ComponentBase& getBase(const Entity& entity) const override;
 
     void remove(Entity& entity) override;

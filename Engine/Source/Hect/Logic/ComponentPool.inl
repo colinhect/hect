@@ -163,6 +163,14 @@ void ComponentPool<T>::addBase(Entity& entity, const ComponentBase& component)
 }
 
 template <typename T>
+ComponentBase& ComponentPool<T>::getBase(Entity& entity)
+{
+    auto component = get(entity);
+    assert(component);
+    return *component;
+}
+
+template <typename T>
 const ComponentBase& ComponentPool<T>::getBase(const Entity& entity) const
 {
     auto component = get(entity);

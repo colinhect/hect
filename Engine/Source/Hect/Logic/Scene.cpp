@@ -644,10 +644,22 @@ void Scene::decodeComponents(Entity& entity, Decoder& decoder)
                 decoder >> decodeValue("type", typeName);
 
                 ComponentTypeId typeId = ComponentRegistry::typeIdOf(typeName);
-                std::shared_ptr<ComponentBase> component = ComponentRegistry::create(typeId);
-                component->decode(decoder);
 
-                addEntityComponentBase(entity, *component);
+                // If the entity already has a component of this type
+                ComponentPoolBase& componentPool = componentPoolOfTypeId(typeId);
+                if (componentPool.has(entity))
+                {
+                    // Re-decode the existing component
+                    ComponentBase& component = componentPool.getBase(entity);
+                    component.decode(decoder);
+                }
+                else
+                {
+                    // Add and decode a new component of the type
+                    std::shared_ptr<ComponentBase> component = ComponentRegistry::create(typeId);
+                    component->decode(decoder);
+                    addEntityComponentBase(entity, *component);
+                }
 
                 decoder >> endObject();
             }
