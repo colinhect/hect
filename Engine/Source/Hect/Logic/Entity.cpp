@@ -95,19 +95,19 @@ void Entity::activate()
 
 bool Entity::isActivated() const
 {
-    return _activated;
+    return _flags[Flag_Activated];
 }
 
 bool Entity::isPendingActivation() const
 {
     ensureInPool();
-    return _pendingActivation;
+    return _flags[Flag_PendingActivation];
 }
 
 bool Entity::isPendingDestruction() const
 {
     ensureInPool();
-    return _pendingDestruction;
+    return _flags[Flag_PendingDestruction];
 }
 
 EntityId Entity::id() const
@@ -177,17 +177,17 @@ void Entity::addChild(Entity& entity)
         throw InvalidOperation("Cannot add a child entity from another scene");
     }
     
-    if (_pendingDestruction)
+    if (isPendingDestruction())
     {
         throw InvalidOperation("Cannot add a child entity to an entity pending destruction");
     }
 
-    if ((_activated || _pendingActivation) && (!entity._activated && !entity._pendingActivation))
+    if ((isActivated() || isPendingActivation()) && (!entity.isActivated() && !entity.isPendingActivation()))
     {
         throw InvalidOperation("Cannot add unactivated entity as child of activated entity");
     }
 
-    if ((!_activated && !_pendingActivation) && (entity._activated || entity._pendingActivation))
+    if ((!isActivated() && !isPendingActivation()) && (entity.isActivated() || entity.isPendingActivation()))
     {
         throw InvalidOperation("Cannot add activated entity as child of unactivated entity");
     }
@@ -421,7 +421,7 @@ Entity& Entity::operator=(const Entity& entity)
     _id = entity._id;
     _parentId = entity._parentId;
     _childIds = entity._childIds;
-    _activated = entity._activated;
+    _flags = entity._flags;
     return *this;
 }
 
@@ -431,7 +431,7 @@ Entity& Entity::operator=(Entity&& entity)
     _id = entity._id;
     _parentId = entity._parentId;
     _childIds = std::move(entity._childIds);
-    _activated = entity._activated;
+    _flags = entity._flags;
     return *this;
 }
 
@@ -444,7 +444,7 @@ Entity::Entity(const Entity& entity) :
     _id(entity._id),
     _parentId(entity._parentId),
     _childIds(entity._childIds),
-    _activated(entity._activated)
+    _flags(entity._flags)
 {
 }
 
@@ -453,7 +453,7 @@ Entity::Entity(Entity&& entity) :
     _id(entity._id),
     _parentId(entity._parentId),
     _childIds(std::move(entity._childIds)),
-    _activated(entity._activated)
+    _flags(entity._flags)
 {
 }
 
@@ -467,9 +467,7 @@ void Entity::exitPool()
 {
     _pool = nullptr;
     _id = EntityId(-1);
-    _activated = false;
-    _pendingActivation = false;
-    _pendingDestruction = false;
+    _flags = std::bitset<4>();
 }
 
 bool Entity::inPool() const

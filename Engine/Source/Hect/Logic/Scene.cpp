@@ -262,7 +262,7 @@ void Scene::destroyEntity(Entity& entity)
         }
     }
 
-    if (entity._activated)
+    if (entity.isActivated())
     {
         --_entityCount;
     }
@@ -284,14 +284,14 @@ void Scene::activateEntity(Entity& entity)
         throw InvalidOperation("Invalid entity");
     }
 
-    if (entity._activated)
+    if (entity.isActivated())
     {
         throw InvalidOperation("Entity is already activated");
     }
 
     ++_entityCount;
-    entity._activated = true;
-    entity._pendingActivation = false;
+    entity._flags[Entity::Flag_Activated] = true;
+    entity._flags[Entity::Flag_PendingActivation] = false;
 
     for (ComponentTypeId typeId : _componentTypeIds)
     {
@@ -316,12 +316,12 @@ void Scene::pendEntityDestruction(Entity& entity)
         throw InvalidOperation("Invalid entity");
     }
 
-    if (entity._pendingDestruction)
+    if (entity.isPendingDestruction())
     {
         throw InvalidOperation("Entity is already pending destruction");
     }
 
-    entity._pendingDestruction = true;
+    entity._flags[Entity::Flag_PendingDestruction] = true;
     _entitiesPendingDestruction.push_back(entity._id);
 }
 
@@ -332,16 +332,16 @@ void Scene::pendEntityActivation(Entity& entity)
         throw InvalidOperation("Invalid entity");
     }
 
-    if (entity._pendingActivation)
+    if (entity.isPendingActivation())
     {
         throw InvalidOperation("Entity is already pending activation");
     }
-    else if (entity._activated)
+    else if (entity.isActivated())
     {
         throw InvalidOperation("Entity is already activated");
     }
 
-    entity._pendingActivation = true;
+    entity._flags[Entity::Flag_PendingActivation] = true;
     if (_refreshing)
     {
         // Activate the entity immediately if the scene is refreshing

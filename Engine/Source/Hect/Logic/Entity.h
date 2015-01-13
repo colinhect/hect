@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <bitset>
 #include <functional>
 
 #include "Hect/Core/Export.h"
@@ -383,9 +384,16 @@ private:
     EntityId _id { EntityId(-1) };
     EntityId _parentId { EntityId(-1) };
     std::vector<EntityId> _childIds;
-    bool _activated { false };
-    bool _pendingActivation { false };
-    bool _pendingDestruction { false };
+
+    enum Flag
+    {
+        Flag_Transient,
+        Flag_Activated,
+        Flag_PendingActivation,
+        Flag_PendingDestruction
+    };
+
+    std::bitset<4> _flags;
 };
 
 }
