@@ -60,7 +60,6 @@ namespace hect {}
 #include "Hect/Graphics/Uniform.h"
 #include "Hect/Graphics/UniformBinding.h"
 #include "Hect/Graphics/UniformValue.h"
-#include "Hect/Graphics/VectorRenderer.h"
 #include "Hect/Graphics/VertexAttribute.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/Input/InputAxis.h"

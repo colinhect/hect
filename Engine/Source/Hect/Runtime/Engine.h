@@ -29,7 +29,6 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/VectorRenderer.h"
 #include "Hect/IO/DataValue.h"
 #include "Hect/IO/FileSystem.h"
 #include "Hect/Runtime/Platform.h"
@@ -73,10 +72,6 @@ public:
     Renderer& renderer();
 
     ///
-    /// Returns the vector renderer.
-    VectorRenderer& vectorRenderer();
-
-    ///
     /// Returns the main window.
     Window& window();
 
@@ -108,7 +103,6 @@ private:
     std::unique_ptr<Window> _window;
     std::unique_ptr<AssetCache> _assetCache;
     std::unique_ptr<TaskPool> _taskPool;
-    std::unique_ptr<VectorRenderer> _vectorRenderer;
     DataValue _settings;
 };
 

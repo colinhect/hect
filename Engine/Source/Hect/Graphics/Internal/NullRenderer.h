@@ -34,36 +34,48 @@ class HECT_EXPORT NullRenderer :
     public Renderer
 {
 public:
-    void beginFrame() override;
-    void endFrame() override;
-    void setTarget(RenderTarget& renderTarget) override;
-    void setTarget(Window& window) override;
-    void setTarget(FrameBuffer& frameBuffer) override;
     void uploadFrameBuffer(FrameBuffer& frameBuffer) override;
     void destroyFrameBuffer(FrameBuffer& frameBuffer) override;
     void uploadRenderBuffer(RenderBuffer& renderBuffer) override;
     void destroyRenderBuffer(RenderBuffer& renderBuffer) override;
-    void setShader(Shader& shader) override;
     void uploadShader(Shader& shader) override;
     void destroyShader(Shader& shader) override;
-    void setUniform(const Uniform& uniform, const UniformValue& value) override;
-    void setUniform(const Uniform& uniform, int value) override;
-    void setUniform(const Uniform& uniform, Real value) override;
-    void setUniform(const Uniform& uniform, const Vector2& value) override;
-    void setUniform(const Uniform& uniform, const Vector3& value) override;
-    void setUniform(const Uniform& uniform, const Vector4& value) override;
-    void setUniform(const Uniform& uniform, const Matrix4& value) override;
-    void setUniform(const Uniform& uniform, const Color& value) override;
-    void setUniform(const Uniform& uniform, Texture& value) override;
     void uploadTexture(Texture& texture) override;
     void destroyTexture(Texture& texture) override;
     Image downloadTextureImage(const Texture& texture) override;
-    void setMesh(Mesh& mesh) override;
     void uploadMesh(Mesh& mesh) override;
     void destroyMesh(Mesh& mesh) override;
-    void setCullMode(CullMode cullMode) override;
-    void render() override;
-    void clear() override;
+    void uploadFont(Font& font) override;
+    void destroyFont(Font& font) override;
+
+protected:
+    void setTarget(RenderTarget& target) override;
+    void setTarget(Window& window) override;
+    void setTarget(FrameBuffer& frameBuffer) override;
+
+    void frameBegin(RenderTarget& target) override;
+    void frameEnd() override;
+    void frameSetCullMode(CullMode cullMode) override;
+    void frameSetShader(Shader& shader) override;
+    void frameSetUniform(const Uniform& uniform, const UniformValue& value) override;
+    void frameSetUniform(const Uniform& uniform, int value) override;
+    void frameSetUniform(const Uniform& uniform, Real value) override;
+    void frameSetUniform(const Uniform& uniform, const Vector2& value) override;
+    void frameSetUniform(const Uniform& uniform, const Vector3& value) override;
+    void frameSetUniform(const Uniform& uniform, const Vector4& value) override;
+    void frameSetUniform(const Uniform& uniform, const Matrix4& value) override;
+    void frameSetUniform(const Uniform& uniform, const Color& value) override;
+    void frameSetUniform(const Uniform& uniform, Texture& value) override;
+    void frameRenderMesh(Mesh& mesh) override;
+    void frameClear() override;
+
+    void vectorFrameBegin(RenderTarget& target) override;
+    void vectorFrameEnd() override;
+    void vectorFrameSetFillColor(const Color& color) override;
+    void vectorFrameRectangle(const Rectangle& bounds) override;
+    void vectorFrameRenderPath() override;
+    void vectorFrameSetFont(Font& font, Real size) override;
+    void vectorFrameRenderText(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign) override;
 };
 
 }

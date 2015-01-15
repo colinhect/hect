@@ -25,12 +25,18 @@
 
 #ifdef HECT_RENDERER_OPENGL
 
-#include <GL/glew.h>
+#define NANOVG_GLEW
+#define NANOVG_GL3_IMPLEMENTATION
+
 #include <algorithm>
+#include <cassert>
+#include <GL/glew.h>
+#include <nanovg_gl.h>
 
 #include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
+#include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/FrameBuffer.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/RenderTarget.h"
@@ -168,6 +174,27 @@ public:
     GLuint vertexArrayId;
     GLuint vertexBufferId;
     GLuint indexBufferId;
+};
+
+class FontData :
+    public Renderer::Data<Font>
+{
+public:
+    FontData(Renderer& renderer, Font& object, int fontId) :
+        Renderer::Data<Font>(renderer, object),
+        fontId(fontId)
+    {
+    }
+
+    ~FontData()
+    {
+        if (object && object->isUploaded())
+        {
+            renderer->destroyFont(*object);
+        }
+    }
+
+    int fontId;
 };
 
 // Throws an error if an OpenGL error occurred
@@ -363,53 +390,21 @@ OpenGLRenderer::OpenGLRenderer()
     // Set up the cube map rendering profile
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-    clear();
-}
-
-void OpenGLRenderer::beginFrame()
-{
-    GL_ASSERT(glUseProgram(0));
-    GL_ASSERT(glBindVertexArray(0));
-
-    for (unsigned i = 0; i < capabilities().maxTextureUnits; ++i)
+    // Initialize NanoVG
+#ifdef HECT_DEBUG_BUILD
+    _nvgContext = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
+#else
+    _nvgContext = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES);
+#endif
+    if (!_nvgContext)
     {
-        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + i));
-        GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
+        throw FatalError("Failed to initialize NanoVG");
     }
-
-    _primitiveType = PrimitiveType_Triangles;
-    _indexType = IndexType_UInt8;
-    _indexCount = 0;
-
-    setCullMode(CullMode_CounterClockwise);
 }
 
-void OpenGLRenderer::endFrame()
+OpenGLRenderer::~OpenGLRenderer()
 {
-}
-
-void OpenGLRenderer::setTarget(RenderTarget& renderTarget)
-{
-    renderTarget.bind(*this);
-}
-
-void OpenGLRenderer::setTarget(Window& window)
-{
-    GL_ASSERT(glViewport(0, 0, window.width(), window.height()));
-    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-}
-
-void OpenGLRenderer::setTarget(FrameBuffer& frameBuffer)
-{
-    if (!frameBuffer.isUploaded())
-    {
-        uploadFrameBuffer(frameBuffer);
-    }
-
-    auto data = frameBuffer.dataAs<FrameBufferData>();
-
-    GL_ASSERT(glViewport(0, 0, frameBuffer.width(), frameBuffer.height()));
-    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
+    nvgDeleteGL3(_nvgContext);
 }
 
 void OpenGLRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
@@ -520,58 +515,6 @@ void OpenGLRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void OpenGLRenderer::setShader(Shader& shader)
-{
-    // Upload the shader if needed
-    if (!shader.isUploaded())
-    {
-        uploadShader(shader);
-    }
-
-    // Bind the shader
-    auto data = shader.dataAs<ShaderData>();
-    GL_ASSERT(glUseProgram(data->programId));
-
-    // If the blend mode is non-trivial
-    const BlendMode& blendMode = shader.blendMode();
-    if (blendMode != BlendMode())
-    {
-        GL_ASSERT(glEnable(GL_BLEND));
-
-        // Set the blend function
-        GLenum function = _blendFunctionLookUp[static_cast<GLenum>(blendMode.function())];
-        GL_ASSERT(glBlendEquation(function));
-
-        // Set the blend factors
-        GLenum sourceFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.sourceFactor())];
-        GLenum destinationFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.destinationFactor())];
-        GL_ASSERT(glBlendFunc(sourceFactor, destinationFactor));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_BLEND));
-    }
-
-    // Enable or disable depth testing
-    if (shader.isDepthTested())
-    {
-        GL_ASSERT(glEnable(GL_DEPTH_TEST));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_DEPTH_TEST));
-    }
-
-    // Set the values for each unbound uniform
-    for (const Uniform& uniform : shader.uniforms())
-    {
-        if (uniform.binding() == UniformBinding_None)
-        {
-            setUniform(uniform, uniform.value());
-        }
-    }
-}
-
 void OpenGLRenderer::uploadShader(Shader& shader)
 {
     if (shader.isUploaded())
@@ -680,169 +623,6 @@ void OpenGLRenderer::destroyShader(Shader& shader)
     shader.setAsDestroyed();
 
     HECT_TRACE(format("Destroyed shader '%s'", shader.name().c_str()));
-}
-
-void OpenGLRenderer::setUniform(const Uniform& uniform, const UniformValue& value)
-{
-    switch (value.type())
-    {
-    case UniformType_Int:
-        setUniform(uniform, value.asInt());
-        break;
-    case UniformType_Float:
-        setUniform(uniform, value.asReal());
-        break;
-    case UniformType_Vector2:
-        setUniform(uniform, value.asVector2());
-        break;
-    case UniformType_Vector3:
-        setUniform(uniform, value.asVector3());
-        break;
-    case UniformType_Vector4:
-        setUniform(uniform, value.asVector4());
-        break;
-    case UniformType_Matrix4:
-        setUniform(uniform, value.asMatrix4());
-        break;
-    case UniformType_Color:
-        setUniform(uniform, value.asColor());
-        break;
-    case UniformType_Texture:
-    {
-        AssetHandle<Texture> texture = value.asTexture();
-        if (texture)
-        {
-            setUniform(uniform, *texture);
-        }
-    }
-    break;
-    }
-}
-
-void OpenGLRenderer::setUniform(const Uniform& uniform, int value)
-{
-    if (uniform.type() != UniformType_Int)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GL_ASSERT(glUniform1i(location, value));
-    }
-}
-
-void OpenGLRenderer::setUniform(const Uniform& uniform, Real value)
-{
-    if (uniform.type() != UniformType_Float)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp = GLfloat(value);
-        GL_ASSERT(glUniform1f(location, temp));
-    }
-}
-
-void OpenGLRenderer::setUniform(const Uniform& uniform, const Vector2& value)
-{
-    if (uniform.type() != UniformType_Vector2)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[2] = { GLfloat(value[0]), GLfloat(value[1]) };
-        GL_ASSERT(glUniform2fv(location, 1, temp));
-    }
-}
-
-void OpenGLRenderer::setUniform(const Uniform& uniform, const Vector3& value)
-{
-    if (uniform.type() != UniformType_Vector3)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[3] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]) };
-        GL_ASSERT(glUniform3fv(location, 1, temp));
-    }
-}
-
-void OpenGLRenderer::setUniform(const Uniform& uniform, const Vector4& value)
-{
-    if (uniform.type() != UniformType_Vector4)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
-        GL_ASSERT(glUniform4fv(location, 1, temp));
-    }
-}
-
-void OpenGLRenderer::setUniform(const Uniform& uniform, const Matrix4& value)
-{
-    if (uniform.type() != UniformType_Matrix4)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[16] =
-        {
-            GLfloat(value[ 0]), GLfloat(value[ 1]), GLfloat(value[ 2]), GLfloat(value[ 3]),
-            GLfloat(value[ 4]), GLfloat(value[ 5]), GLfloat(value[ 6]), GLfloat(value[ 7]),
-            GLfloat(value[ 8]), GLfloat(value[ 9]), GLfloat(value[10]), GLfloat(value[11]),
-            GLfloat(value[12]), GLfloat(value[13]), GLfloat(value[14]), GLfloat(value[15])
-        };
-
-        GL_ASSERT(glUniformMatrix4fv(location, 1, false, temp));
-    }
-}
-
-void OpenGLRenderer::setUniform(const Uniform& uniform, const Color& value)
-{
-    if (uniform.type() != UniformType_Color)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
-        GL_ASSERT(glUniform4fv(location, 1, temp));
-    }
-}
-
-void OpenGLRenderer::setUniform(const Uniform& uniform, Texture& value)
-{
-    if (uniform.type() != UniformType_Texture)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
-        bindTexture(value, uniform.textureIndex());
-    }
 }
 
 void OpenGLRenderer::uploadTexture(Texture& texture)
@@ -983,21 +763,6 @@ Image OpenGLRenderer::downloadTextureImage(const Texture& texture)
     return image;
 }
 
-void OpenGLRenderer::setMesh(Mesh& mesh)
-{
-    if (!mesh.isUploaded())
-    {
-        uploadMesh(mesh);
-    }
-
-    auto data = mesh.dataAs<MeshData>();
-    GL_ASSERT(glBindVertexArray(data->vertexArrayId));
-
-    _primitiveType = mesh.primitiveType();
-    _indexType = mesh.indexType();
-    _indexCount = mesh.indexCount();
-}
-
 void OpenGLRenderer::uploadMesh(Mesh& mesh)
 {
     if (mesh.isUploaded())
@@ -1102,7 +867,68 @@ void OpenGLRenderer::destroyMesh(Mesh& mesh)
     HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().c_str()));
 }
 
-void OpenGLRenderer::setCullMode(CullMode cullMode)
+void OpenGLRenderer::uploadFont(Font& font)
+{
+    if (font.isUploaded())
+    {
+        return;
+    }
+
+    // Create the NanoVG font and set the id
+    int fontId = nvgCreateFontMem(_nvgContext, font.name().c_str(), const_cast<unsigned char*>(&font.rawData()[0]), static_cast<int>(font.rawData().size()), 0);
+    font.setAsUploaded(*this, new FontData(*this, font, fontId));
+
+    HECT_TRACE(format("Uploaded font '%s'", font.name().c_str()));
+}
+
+void OpenGLRenderer::destroyFont(Font& font)
+{
+    if (!font.isUploaded())
+    {
+        return;
+    }
+
+    font.setAsDestroyed();
+
+    HECT_TRACE(format("Destroyed font '%s'", font.name().c_str()));
+}
+
+void OpenGLRenderer::setTarget(RenderTarget& renderTarget)
+{
+    renderTarget.bind(*this);
+}
+
+void OpenGLRenderer::setTarget(Window& window)
+{
+    GL_ASSERT(glViewport(0, 0, window.width(), window.height()));
+    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+}
+
+void OpenGLRenderer::setTarget(FrameBuffer& frameBuffer)
+{
+    if (!frameBuffer.isUploaded())
+    {
+        uploadFrameBuffer(frameBuffer);
+    }
+
+    auto data = frameBuffer.dataAs<FrameBufferData>();
+
+    GL_ASSERT(glViewport(0, 0, frameBuffer.width(), frameBuffer.height()));
+    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
+}
+
+void OpenGLRenderer::frameBegin(RenderTarget& target)
+{
+    beginFrame();
+    setTarget(target);
+}
+
+void OpenGLRenderer::frameEnd()
+{
+    endFrame();
+}
+
+void OpenGLRenderer::frameSetCullMode(CullMode cullMode)
 {
     switch (cullMode)
     {
@@ -1120,21 +946,349 @@ void OpenGLRenderer::setCullMode(CullMode cullMode)
     }
 }
 
-void OpenGLRenderer::render()
+void OpenGLRenderer::frameSetShader(Shader& shader)
 {
+    // Upload the shader if needed
+    if (!shader.isUploaded())
+    {
+        uploadShader(shader);
+    }
+
+    // Bind the shader
+    auto data = shader.dataAs<ShaderData>();
+    GL_ASSERT(glUseProgram(data->programId));
+
+    // If the blend mode is non-trivial
+    const BlendMode& blendMode = shader.blendMode();
+    if (blendMode != BlendMode())
+    {
+        GL_ASSERT(glEnable(GL_BLEND));
+
+        // Set the blend function
+        GLenum function = _blendFunctionLookUp[static_cast<GLenum>(blendMode.function())];
+        GL_ASSERT(glBlendEquation(function));
+
+        // Set the blend factors
+        GLenum sourceFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.sourceFactor())];
+        GLenum destinationFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.destinationFactor())];
+        GL_ASSERT(glBlendFunc(sourceFactor, destinationFactor));
+    }
+    else
+    {
+        GL_ASSERT(glDisable(GL_BLEND));
+    }
+
+    // Enable or disable depth testing
+    if (shader.isDepthTested())
+    {
+        GL_ASSERT(glEnable(GL_DEPTH_TEST));
+    }
+    else
+    {
+        GL_ASSERT(glDisable(GL_DEPTH_TEST));
+    }
+
+    // Set the values for each unbound uniform
+    for (const Uniform& uniform : shader.uniforms())
+    {
+        if (uniform.binding() == UniformBinding_None)
+        {
+            frameSetUniform(uniform, uniform.value());
+        }
+    }
+}
+
+void OpenGLRenderer::frameSetUniform(const Uniform& uniform, const UniformValue& value)
+{
+    switch (value.type())
+    {
+    case UniformType_Int:
+        frameSetUniform(uniform, value.asInt());
+        break;
+    case UniformType_Float:
+        frameSetUniform(uniform, value.asReal());
+        break;
+    case UniformType_Vector2:
+        frameSetUniform(uniform, value.asVector2());
+        break;
+    case UniformType_Vector3:
+        frameSetUniform(uniform, value.asVector3());
+        break;
+    case UniformType_Vector4:
+        frameSetUniform(uniform, value.asVector4());
+        break;
+    case UniformType_Matrix4:
+        frameSetUniform(uniform, value.asMatrix4());
+        break;
+    case UniformType_Color:
+        frameSetUniform(uniform, value.asColor());
+        break;
+    case UniformType_Texture:
+    {
+        AssetHandle<Texture> texture = value.asTexture();
+        if (texture)
+        {
+            frameSetUniform(uniform, *texture);
+        }
+    }
+    break;
+    }
+}
+
+
+void OpenGLRenderer::frameSetUniform(const Uniform& uniform, int value)
+{
+    if (uniform.type() != UniformType_Int)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, value));
+    }
+}
+
+void OpenGLRenderer::frameSetUniform(const Uniform& uniform, Real value)
+{
+    if (uniform.type() != UniformType_Float)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp = GLfloat(value);
+        GL_ASSERT(glUniform1f(location, temp));
+    }
+}
+
+void OpenGLRenderer::frameSetUniform(const Uniform& uniform, const Vector2& value)
+{
+    if (uniform.type() != UniformType_Vector2)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[2] = { GLfloat(value[0]), GLfloat(value[1]) };
+        GL_ASSERT(glUniform2fv(location, 1, temp));
+    }
+}
+
+void OpenGLRenderer::frameSetUniform(const Uniform& uniform, const Vector3& value)
+{
+    if (uniform.type() != UniformType_Vector3)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[3] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]) };
+        GL_ASSERT(glUniform3fv(location, 1, temp));
+    }
+}
+
+void OpenGLRenderer::frameSetUniform(const Uniform& uniform, const Vector4& value)
+{
+    if (uniform.type() != UniformType_Vector4)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
+        GL_ASSERT(glUniform4fv(location, 1, temp));
+    }
+}
+
+void OpenGLRenderer::frameSetUniform(const Uniform& uniform, const Matrix4& value)
+{
+    if (uniform.type() != UniformType_Matrix4)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[16] =
+        {
+            GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]),
+            GLfloat(value[4]), GLfloat(value[5]), GLfloat(value[6]), GLfloat(value[7]),
+            GLfloat(value[8]), GLfloat(value[9]), GLfloat(value[10]), GLfloat(value[11]),
+            GLfloat(value[12]), GLfloat(value[13]), GLfloat(value[14]), GLfloat(value[15])
+        };
+
+        GL_ASSERT(glUniformMatrix4fv(location, 1, false, temp));
+    }
+}
+
+void OpenGLRenderer::frameSetUniform(const Uniform& uniform, const Color& value)
+{
+    if (uniform.type() != UniformType_Color)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
+        GL_ASSERT(glUniform4fv(location, 1, temp));
+    }
+}
+
+void OpenGLRenderer::frameSetUniform(const Uniform& uniform, Texture& value)
+{
+    if (uniform.type() != UniformType_Texture)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+        bindTexture(value, uniform.textureIndex());
+    }
+}
+
+void OpenGLRenderer::frameRenderMesh(Mesh& mesh)
+{
+    if (!mesh.isUploaded())
+    {
+        uploadMesh(mesh);
+    }
+
+    auto data = mesh.dataAs<MeshData>();
+    GL_ASSERT(glBindVertexArray(data->vertexArrayId));
+
     GL_ASSERT(
         glDrawElements(
-            _primitiveTypeLookUp[static_cast<int>(_primitiveType)],
-            static_cast<GLsizei>(_indexCount),
-            _indexTypeLookUp[static_cast<int>(_indexType)],
+            _primitiveTypeLookUp[static_cast<int>(mesh.primitiveType())],
+            static_cast<GLsizei>(mesh.indexCount()),
+            _indexTypeLookUp[static_cast<int>(mesh.indexType())],
             0
         )
     );
 }
 
-void OpenGLRenderer::clear()
+void OpenGLRenderer::frameClear()
 {
     GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+}
+
+void OpenGLRenderer::vectorFrameBegin(RenderTarget& target)
+{
+    beginFrame();
+    setTarget(target);
+
+    assert(_nvgContext);
+    nvgBeginFrame(_nvgContext, target.width(), target.height(), 1);
+}
+
+void OpenGLRenderer::vectorFrameEnd()
+{
+    nvgEndFrame(_nvgContext);
+    endFrame();
+}
+
+void OpenGLRenderer::vectorFrameSetFillColor(const Color& color)
+{
+    nvgFillColor(_nvgContext, convertColor(color));
+}
+
+void OpenGLRenderer::vectorFrameRectangle(const Rectangle& bounds)
+{
+    Vector2T<float> position = bounds.minimum();
+    Vector2T<float> size = bounds.size();
+    nvgRect(_nvgContext, position.x, position.y, size.x, size.y);
+}
+
+void OpenGLRenderer::vectorFrameRenderPath()
+{
+    nvgFill(_nvgContext);
+}
+
+void OpenGLRenderer::vectorFrameSetFont(Font& font, Real size)
+{
+    if (!font.isUploaded())
+    {
+        uploadFont(font);
+    }
+
+    // Set the font
+    nvgFontSize(_nvgContext, static_cast<float>(size));
+    nvgFontFaceId(_nvgContext, font.dataAs<FontData>()->fontId);
+}
+
+void OpenGLRenderer::vectorFrameRenderText(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
+{
+    Vector2T<float> position = bounds.minimum();
+    Vector2T<float> size = bounds.size();
+
+    // Compute the text bounds
+    float measuredBounds[4];
+    nvgTextBounds(_nvgContext, 0, 0, text.c_str(), nullptr, measuredBounds);
+    Vector2T<float> textPosition(measuredBounds[0], measuredBounds[1]);
+    Vector2T<float> textSize(measuredBounds[2] - measuredBounds[0], measuredBounds[3] - measuredBounds[1]);
+    Vector2T<float> actual(position - textPosition);
+
+    // Align horizontally
+    switch (horizontalAlign)
+    {
+    case HorizontalAlign_Left:
+        break;
+    case HorizontalAlign_Center:
+        actual.x += size.x / 2 - textSize.x / 2;
+        break;
+    case HorizontalAlign_Right:
+        actual.x += size.x - textSize.x;
+        break;
+    }
+
+    // Align vertically
+    switch (verticalAlign)
+    {
+    case VerticalAlign_Bottom:
+        actual.y += size.y - textSize.y;
+        break;
+    case VerticalAlign_Center:
+        actual.y += size.y / 2 - textSize.y / 2;
+        break;
+    case VerticalAlign_Top:
+        break;
+    }
+
+    // Render the text
+    nvgScissor(_nvgContext, position.x, position.y, size.x, size.y);
+    nvgText(_nvgContext, actual.x, actual.y, text.c_str(), nullptr);
+    nvgResetScissor(_nvgContext);
+}
+
+void OpenGLRenderer::beginFrame()
+{
+    GL_ASSERT(glUseProgram(0));
+    GL_ASSERT(glBindVertexArray(0));
+
+    for (unsigned i = 0; i < capabilities().maxTextureUnits; ++i)
+    {
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + i));
+        GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
+    }
+}
+
+void OpenGLRenderer::endFrame()
+{
 }
 
 void OpenGLRenderer::bindTexture(Texture& texture, size_t index)
@@ -1153,6 +1307,16 @@ void OpenGLRenderer::bindTexture(Texture& texture, size_t index)
 
     GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
     GL_ASSERT(glBindTexture(_textureTypeLookUp[texture.type()], data->textureId));
+}
+
+NVGcolor OpenGLRenderer::convertColor(const Color& color) const
+{
+    NVGcolor result;
+    result.r = static_cast<float>(color[0]);
+    result.g = static_cast<float>(color[1]);
+    result.b = static_cast<float>(color[2]);
+    result.a = static_cast<float>(color[3]);
+    return result;
 }
 
 #endif

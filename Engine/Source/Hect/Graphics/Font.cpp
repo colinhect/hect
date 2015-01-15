@@ -25,16 +25,6 @@
 
 using namespace hect;
 
-FontId Font::id() const
-{
-    return _id;
-}
-
-void Font::setId(FontId id)
-{
-    _id = id;
-}
-
 const ByteVector& Font::rawData() const
 {
     return _rawData;

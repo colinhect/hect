@@ -26,6 +26,7 @@
 #include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
+#include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/FrameBuffer.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/RenderTarget.h"
@@ -128,32 +129,24 @@ public:
     }
 };
 
-}
-
-void NullRenderer::beginFrame()
+class FontData :
+    public Renderer::Data<Font>
 {
-}
-
-void NullRenderer::endFrame()
-{
-}
-
-void NullRenderer::setTarget(RenderTarget& renderTarget)
-{
-    (void)renderTarget;
-}
-
-void NullRenderer::setTarget(Window& window)
-{
-    (void)window;
-}
-
-void NullRenderer::setTarget(FrameBuffer& frameBuffer)
-{
-    if (!frameBuffer.isUploaded())
+public:
+    FontData(Renderer& renderer, Font& object) :
+        Renderer::Data<Font>(renderer, object)
     {
-        uploadFrameBuffer(frameBuffer);
     }
+
+    ~FontData()
+    {
+        if (object && object->isUploaded())
+        {
+            renderer->destroyFont(*object);
+        }
+    }
+};
+
 }
 
 void NullRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
@@ -196,14 +189,6 @@ void NullRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void NullRenderer::setShader(Shader& shader)
-{
-    if (!shader.isUploaded())
-    {
-        uploadShader(shader);
-    }
-}
-
 void NullRenderer::uploadShader(Shader& shader)
 {
     if (shader.isUploaded())
@@ -222,60 +207,6 @@ void NullRenderer::destroyShader(Shader& shader)
     }
 
     shader.setAsDestroyed();
-}
-
-void NullRenderer::setUniform(const Uniform& uniform, const UniformValue& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::setUniform(const Uniform& uniform, int value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::setUniform(const Uniform& uniform, Real value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::setUniform(const Uniform& uniform, const Vector2& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::setUniform(const Uniform& uniform, const Vector3& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::setUniform(const Uniform& uniform, const Vector4& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::setUniform(const Uniform& uniform, const Matrix4& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::setUniform(const Uniform& uniform, const Color& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::setUniform(const Uniform& uniform, Texture& value)
-{
-    (void)uniform;
-    (void)value;
 }
 
 void NullRenderer::uploadTexture(Texture& texture)
@@ -305,14 +236,6 @@ Image NullRenderer::downloadTextureImage(const Texture& texture)
     return Image();
 }
 
-void NullRenderer::setMesh(Mesh& mesh)
-{
-    if (!mesh.isUploaded())
-    {
-        uploadMesh(mesh);
-    }
-}
-
 void NullRenderer::uploadMesh(Mesh& mesh)
 {
     if (mesh.isUploaded())
@@ -333,15 +256,165 @@ void NullRenderer::destroyMesh(Mesh& mesh)
     mesh.setAsDestroyed();
 }
 
-void NullRenderer::setCullMode(CullMode cullMode)
+void NullRenderer::uploadFont(Font& font)
+{
+    if (font.isUploaded())
+    {
+        return;
+    }
+
+    font.setAsUploaded(*this, new FontData(*this, font));
+}
+
+void NullRenderer::destroyFont(Font& font)
+{
+    if (!font.isUploaded())
+    {
+        return;
+    }
+
+    font.setAsDestroyed();
+}
+
+void NullRenderer::setTarget(RenderTarget& target)
+{
+    (void)target;
+}
+
+void NullRenderer::setTarget(Window& window)
+{
+    (void)window;
+}
+
+void NullRenderer::setTarget(FrameBuffer& frameBuffer)
+{
+    if (!frameBuffer.isUploaded())
+    {
+        uploadFrameBuffer(frameBuffer);
+    }
+}
+
+void NullRenderer::frameBegin(RenderTarget& target)
+{
+    setTarget(target);
+}
+
+void NullRenderer::frameEnd()
+{
+}
+
+void NullRenderer::frameSetCullMode(CullMode cullMode)
 {
     (void)cullMode;
 }
 
-void NullRenderer::render()
+void NullRenderer::frameSetShader(Shader& shader)
+{
+    if (!shader.isUploaded())
+    {
+        uploadShader(shader);
+    }
+}
+
+void NullRenderer::frameSetUniform(const Uniform& uniform, const UniformValue& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void NullRenderer::frameSetUniform(const Uniform& uniform, int value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void NullRenderer::frameSetUniform(const Uniform& uniform, Real value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void NullRenderer::frameSetUniform(const Uniform& uniform, const Vector2& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void NullRenderer::frameSetUniform(const Uniform& uniform, const Vector3& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void NullRenderer::frameSetUniform(const Uniform& uniform, const Vector4& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void NullRenderer::frameSetUniform(const Uniform& uniform, const Matrix4& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void NullRenderer::frameSetUniform(const Uniform& uniform, const Color& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void NullRenderer::frameSetUniform(const Uniform& uniform, Texture& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void NullRenderer::frameRenderMesh(Mesh& mesh)
+{
+    if (!mesh.isUploaded())
+    {
+        uploadMesh(mesh);
+    }
+}
+
+void NullRenderer::frameClear()
 {
 }
 
-void NullRenderer::clear()
+void NullRenderer::vectorFrameBegin(RenderTarget& target)
 {
+    (void)target;
+}
+
+void NullRenderer::vectorFrameEnd()
+{
+}
+
+void NullRenderer::vectorFrameSetFillColor(const Color& color)
+{
+    (void)color;
+}
+
+void NullRenderer::vectorFrameRectangle(const Rectangle& bounds)
+{
+    (void)bounds;
+}
+
+void NullRenderer::vectorFrameRenderPath()
+{
+}
+
+void NullRenderer::vectorFrameSetFont(Font& font, Real size)
+{
+    (void)font;
+    (void)size;
+}
+
+void NullRenderer::vectorFrameRenderText(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
+{
+    (void)text;
+    (void)bounds;
+    (void)horizontalAlign;
+    (void)verticalAlign;
 }

@@ -25,6 +25,162 @@
 
 using namespace hect;
 
+Renderer::Frame::Frame(Frame&& frame) :
+    _renderer(frame._renderer)
+{
+    frame._renderer = nullptr;
+}
+
+Renderer::Frame::~Frame()
+{
+    assert(_renderer);
+    _renderer->frameEnd();
+}
+
+void Renderer::Frame::setCullMode(CullMode cullMode)
+{
+    assert(_renderer);
+    _renderer->frameSetCullMode(cullMode);
+}
+
+void Renderer::Frame::setShader(Shader& shader)
+{
+    assert(_renderer);
+    _renderer->frameSetShader(shader);
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& value)
+{
+    assert(_renderer);
+    _renderer->frameSetUniform(uniform, value);
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, int value)
+{
+    assert(_renderer);
+    _renderer->frameSetUniform(uniform, value);
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, Real value)
+{
+    assert(_renderer);
+    _renderer->frameSetUniform(uniform, value);
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Vector2& value)
+{
+    assert(_renderer);
+    _renderer->frameSetUniform(uniform, value);
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Vector3& value)
+{
+    assert(_renderer);
+    _renderer->frameSetUniform(uniform, value);
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Vector4& value)
+{
+    assert(_renderer);
+    _renderer->frameSetUniform(uniform, value);
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Matrix4& value)
+{
+    assert(_renderer);
+    _renderer->frameSetUniform(uniform, value);
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
+{
+    assert(_renderer);
+    _renderer->frameSetUniform(uniform, value);
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, Texture& value)
+{
+    assert(_renderer);
+    _renderer->frameSetUniform(uniform, value);
+}
+
+void Renderer::Frame::renderMesh(Mesh& mesh)
+{
+    assert(_renderer);
+    _renderer->frameRenderMesh(mesh);
+}
+
+void Renderer::Frame::clear()
+{
+    assert(_renderer);
+    _renderer->frameClear();
+}
+
+Renderer::Frame::Frame(Renderer& renderer, RenderTarget& target) :
+    _renderer(&renderer)
+{
+    assert(_renderer);
+    _renderer->vectorFrameBegin(target);
+}
+
+Renderer::VectorFrame::VectorFrame(VectorFrame&& frame) :
+    _renderer(frame._renderer)
+{
+    frame._renderer = nullptr;
+}
+
+Renderer::VectorFrame::~VectorFrame()
+{
+    assert(_renderer);
+    _renderer->vectorFrameEnd();
+}
+
+void Renderer::VectorFrame::setFillColor(const Color& color)
+{
+    assert(_renderer);
+    _renderer->vectorFrameSetFillColor(color);
+}
+
+void Renderer::VectorFrame::rectangle(const Rectangle& bounds)
+{
+    assert(_renderer);
+    _renderer->vectorFrameRectangle(bounds);
+}
+
+void Renderer::VectorFrame::renderPath()
+{
+    assert(_renderer);
+    _renderer->vectorFrameRenderPath();
+}
+
+void Renderer::VectorFrame::setFont(Font& font, Real size)
+{
+    assert(_renderer);
+    _renderer->vectorFrameSetFont(font, size);
+}
+
+void Renderer::VectorFrame::renderText(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
+{
+    assert(_renderer);
+    _renderer->vectorFrameRenderText(text, bounds, horizontalAlign, verticalAlign);
+}
+
+Renderer::VectorFrame::VectorFrame(Renderer& renderer, RenderTarget& target) :
+    _renderer(&renderer)
+{
+    assert(_renderer);
+    _renderer->vectorFrameBegin(target);
+}
+
+Renderer::Frame Renderer::beginFrame(RenderTarget& target)
+{
+    return Frame(*this, target);
+}
+
+Renderer::VectorFrame Renderer::beginVectorFrame(RenderTarget& target)
+{
+    return VectorFrame(*this, target);
+}
+
 Renderer::Capabilities& Renderer::capabilities()
 {
     return _capabilities;

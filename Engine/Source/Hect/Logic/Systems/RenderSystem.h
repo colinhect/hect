@@ -70,8 +70,8 @@ private:
 
     void initializeBuffers(unsigned width, unsigned height);
     void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
-    void renderMesh(const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
-    void setBoundUniforms(Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
+    void renderMesh(Renderer::Frame& frame, const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
+    void setBoundUniforms(Renderer::Frame& frame, Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
     void swapBackBuffer();
     Texture& backBuffer();

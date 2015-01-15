@@ -28,10 +28,13 @@
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/CullMode.h"
 #include "Hect/Graphics/Image.h"
+#include "Hect/Math/Vector2.h"
+#include "Hect/Spacial/Rectangle.h"
 
 namespace hect
 {
 
+class Font;
 class FrameBuffer;
 class Uniform;
 class UniformValue;
@@ -43,11 +46,47 @@ class Texture;
 class Window;
 
 ///
+/// Vertical alignment mode.
+enum VerticalAlign
+{
+    ///
+    /// Align to the bottom.
+    VerticalAlign_Bottom,
+
+    ///
+    /// Align to the center.
+    VerticalAlign_Center,
+
+    ///
+    /// Align to the top.
+    VerticalAlign_Top
+};
+
+///
+/// Horizontal alignment mode.
+enum HorizontalAlign
+{
+    ///
+    /// Align to the left.
+    HorizontalAlign_Left,
+
+    ///
+    /// Align to the center.
+    HorizontalAlign_Center,
+
+    ///
+    /// Align to the right.
+    HorizontalAlign_Right
+};
+
+///
 /// A higher-level abstraction over a hardware-accelerated graphics API such as
 /// OpenGL or DirectX.
 class HECT_EXPORT Renderer :
     public Uncopyable
 {
+    friend class FrameBuffer;
+    friend class Window;
 public:
 
     ///
@@ -184,45 +223,141 @@ public:
         DataHandle<T> _handle;
     };
 
+    ///
+    /// A context for rendering at the lowest level.
+    class HECT_EXPORT Frame :
+        public Uncopyable
+    {
+        friend class Renderer;
+    public:
+        Frame(Frame&& frame);
+        ~Frame();
+
+        ///
+        /// Sets the active cull mode to use for subsequent render calls.
+        ///
+        /// \param cullMode The cull mode.
+        void setCullMode(CullMode cullMode);
+
+        ///
+        /// Sets the active shader affecting following render calls.
+        ///
+        /// \note The shader will be uploaded if it was not already uploaded.
+        ///
+        /// \param shader The shader to set.
+        void setShader(Shader& shader);
+
+        ///
+        /// Sets the value for a uniform of the active shader.
+        ///
+        /// \warning The uniform is expected to belong to the active shader.
+        ///
+        /// \param uniform The uniform to set the value for.
+        /// \param value The value.
+        ///
+        /// \throws InvalidOperation If the specified value type differs from
+        /// the uniform type.
+        void setUniform(const Uniform& uniform, const UniformValue& value);
+
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, int value);
+
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, Real value);
+
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, const Vector2& value);
+
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, const Vector3& value);
+
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, const Vector4& value);
+
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, const Matrix4& value);
+
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, const Color& value);
+
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, Texture& value);
+
+        ///
+        /// Render a mesh using the current state.
+        ///
+        /// \note The mesh will be uploaded if it was not already uploaded.
+        ///
+        /// \param mesh The mesh to set.
+        void renderMesh(Mesh& mesh);
+
+        ///
+        /// Clears the render target.
+        void clear();
+
+    private:
+        Frame(Renderer& renderer, RenderTarget& target);
+
+        Renderer* _renderer;
+    };
+
+    ///
+    /// A context for rendering 2-dimensional vector shapes and text.
+    class HECT_EXPORT VectorFrame :
+        public Uncopyable
+    {
+        friend class Renderer;
+    public:
+        VectorFrame(VectorFrame&& frame);
+        ~VectorFrame();
+
+        ///
+        /// Sets the active fill style to a solid color.
+        ///
+        /// \param color The color to set.
+        void setFillColor(const Color& color);
+
+        ///
+        /// Creates a new rectangle shape sub-path.
+        ///
+        /// \param bounds The bounds of the rectangle.
+        void rectangle(const Rectangle& bounds);
+
+        ///
+        /// Rasterizes the vector path.
+        void renderPath();
+
+        ///
+        /// Sets the active font face and size.
+        ///
+        /// \param font The font.
+        /// \param size The font size.
+        void setFont(Font& font, Real size);
+
+        ///
+        /// Renders text.
+        ///
+        /// \param text The text to render.
+        /// \param bounds The bounds of the text.
+        /// \param horizontalAlign The horizontal alignment within the bounds.
+        /// \param verticalAlign The vertical alignment within the bounds.
+        void renderText(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign = HorizontalAlign_Center, VerticalAlign verticalAlign = VerticalAlign_Center);
+
+    private:
+        VectorFrame(Renderer& renderer, RenderTarget& renderTarget);
+
+        Renderer* _renderer;
+    };
+
     virtual ~Renderer() { }
-
-    ///
-    /// Establishes the beginning of a frame.
-    ///
-    /// \note Any state changes (e.g. setting the active target, shader, o
-    /// mesh) are only persistent within a frame.
-    virtual void beginFrame() = 0;
-
-    ///
-    /// Establishes the ending of a frame.
-    virtual void endFrame() = 0;
-
-    ///
-    /// Sets the active render target to begin rendering to.
-    ///
-    /// \note All rendering occurring after this call will render to the
-    /// active target.
-    ///
-    /// \param renderTarget The render target to set.
-    virtual void setTarget(RenderTarget& renderTarget) = 0;
-
-    ///
-    /// Sets the active render target to begin rendering to.
-    ///
-    /// \note All rendering occurring after this call will render to the
-    /// active target.
-    ///
-    /// \param window The window to set.
-    virtual void setTarget(Window& window) = 0;
-
-    ///
-    /// Sets the active render target to begin rendering to.
-    ///
-    /// \note All rendering occurring after this call will render to the
-    /// active target.
-    ///
-    /// \param frameBuffer The frame buffer to set.
-    virtual void setTarget(FrameBuffer& frameBuffer) = 0;
 
     ///
     /// Uploads a frame buffer.
@@ -253,14 +388,6 @@ public:
     virtual void destroyRenderBuffer(RenderBuffer& renderBuffer) = 0;
 
     ///
-    /// Sets the active shader affecting following render calls.
-    ///
-    /// \note The shader will be uploaded if it was not already uploaded.
-    ///
-    /// \param shader The shader to set.
-    virtual void setShader(Shader& shader) = 0;
-
-    ///
     /// Uploads a shader.
     ///
     /// \note If the shader is already uploaded then no action is taken.
@@ -275,50 +402,6 @@ public:
     ///
     /// \param shader The shader to destroy.
     virtual void destroyShader(Shader& shader) = 0;
-
-    ///
-    /// Sets the value for a uniform of the active shader.
-    ///
-    /// \warning The uniform is expected to belong to the active shader.
-    ///
-    /// \param uniform The uniform to set the value for.
-    /// \param value The value.
-    ///
-    /// \throws InvalidOperation If the specified value type differs from
-    /// the uniform type.
-    virtual void setUniform(const Uniform& uniform, const UniformValue& value) = 0;
-
-    ///
-    /// \copydoc Renderer::setUniform()
-    virtual void setUniform(const Uniform& uniform, int value) = 0;
-
-    ///
-    /// \copydoc Renderer::setUniform()
-    virtual void setUniform(const Uniform& uniform, Real value) = 0;
-
-    ///
-    /// \copydoc Renderer::setUniform()
-    virtual void setUniform(const Uniform& uniform, const Vector2& value) = 0;
-
-    ///
-    /// \copydoc Renderer::setUniform()
-    virtual void setUniform(const Uniform& uniform, const Vector3& value) = 0;
-
-    ///
-    /// \copydoc Renderer::setUniform()
-    virtual void setUniform(const Uniform& uniform, const Vector4& value) = 0;
-
-    ///
-    /// \copydoc Renderer::setUniform()
-    virtual void setUniform(const Uniform& uniform, const Matrix4& value) = 0;
-
-    ///
-    /// \copydoc Renderer::setUniform()
-    virtual void setUniform(const Uniform& uniform, const Color& value) = 0;
-
-    ///
-    /// \copydoc Renderer::setUniform()
-    virtual void setUniform(const Uniform& uniform, Texture& value) = 0;
 
     ///
     /// Uploads a texture.
@@ -345,14 +428,6 @@ public:
     virtual Image downloadTextureImage(const Texture& texture) = 0;
 
     ///
-    /// Sets the active mesh affecting following render calls.
-    ///
-    /// \note The mesh will be uploaded if it was not already uploaded.
-    ///
-    /// \param mesh The mesh to set.
-    virtual void setMesh(Mesh& mesh) = 0;
-
-    ///
     /// Uploads a mesh.
     ///
     /// \note If the mesh is already uploaded then no action is taken.
@@ -367,19 +442,34 @@ public:
     virtual void destroyMesh(Mesh& mesh) = 0;
 
     ///
-    /// Sets the active cull mode to use for subsequent render calls.
+    /// Uploads a font.
     ///
-    /// \param cullMode The cull mode.
-    virtual void setCullMode(CullMode cullMode) = 0;
+    /// \note If the font is already uploaded then no action is taken.
+    ///
+    /// \param font The font to upload.
+    virtual void uploadFont(Font& font) = 0;
 
     ///
-    /// Render the active mesh using the active shader to the active render
-    /// target.
-    virtual void render() = 0;
+    /// Destroys a font.
+    ///
+    /// \param font The font to destroy.
+    virtual void destroyFont(Font& font) = 0;
 
     ///
-    /// Clears the render target.
-    virtual void clear() = 0;
+    /// Begins a new context for rendering graphics to a target.
+    ///
+    /// \param target The target to render the frame to.
+    ///
+    /// \throws InvalidOperation If another frame is already active.
+    Frame beginFrame(RenderTarget& target);
+
+    ///
+    /// Begins a new context for rendering vector graphics to a target.
+    ///
+    /// \param target The target to render the frame to.
+    ///
+    /// \throws InvalidOperation If another frame is already active.
+    VectorFrame beginVectorFrame(RenderTarget& target);
 
     ///
     /// Returns the capabilities of the underlying hardware.
@@ -396,6 +486,37 @@ public:
     ///
     /// Returns the statistics of the renderer's state.
     const Statistics& statistics() const;
+
+protected:
+    virtual void setTarget(RenderTarget& target) = 0;
+    virtual void setTarget(Window& window) = 0;
+    virtual void setTarget(FrameBuffer& frameBuffer) = 0;
+
+    // Frame operations
+    virtual void frameBegin(RenderTarget& target) = 0;
+    virtual void frameEnd() = 0;
+    virtual void frameSetCullMode(CullMode cullMode) = 0;
+    virtual void frameSetShader(Shader& shader) = 0;
+    virtual void frameSetUniform(const Uniform& uniform, const UniformValue& value) = 0;
+    virtual void frameSetUniform(const Uniform& uniform, int value) = 0;
+    virtual void frameSetUniform(const Uniform& uniform, Real value) = 0;
+    virtual void frameSetUniform(const Uniform& uniform, const Vector2& value) = 0;
+    virtual void frameSetUniform(const Uniform& uniform, const Vector3& value) = 0;
+    virtual void frameSetUniform(const Uniform& uniform, const Vector4& value) = 0;
+    virtual void frameSetUniform(const Uniform& uniform, const Matrix4& value) = 0;
+    virtual void frameSetUniform(const Uniform& uniform, const Color& value) = 0;
+    virtual void frameSetUniform(const Uniform& uniform, Texture& value) = 0;
+    virtual void frameRenderMesh(Mesh& mesh) = 0;
+    virtual void frameClear() = 0;
+
+    // Vector frame operations
+    virtual void vectorFrameBegin(RenderTarget& target) = 0;
+    virtual void vectorFrameEnd() = 0;
+    virtual void vectorFrameSetFillColor(const Color& color) = 0;
+    virtual void vectorFrameRectangle(const Rectangle& bounds) = 0;
+    virtual void vectorFrameRenderPath() = 0;
+    virtual void vectorFrameSetFont(Font& font, Real size) = 0;
+    virtual void vectorFrameRenderText(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign) = 0;
 
 private:
     Capabilities _capabilities;
