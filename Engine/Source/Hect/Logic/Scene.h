@@ -143,9 +143,10 @@ public:
     ///
     /// Ticks all of the Systems in the scene.
     ///
+    /// \param engine The engine.
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    void tick(Real timeStep);
+    void tick(Engine& engine, Real timeStep);
 
     ///
     /// Creates a new Entity.

@@ -55,8 +55,10 @@ void PhysicsSystem::commit(RigidBody& rigidBody)
     rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
 }
 
-void PhysicsSystem::tick(Real timeStep)
+void PhysicsSystem::tick(Engine& engine, Real timeStep)
 {
+    (void)engine;
+
     TransformSystem& transformSystem = scene().system<TransformSystem>();
 
     // Update gravity if needed

@@ -58,8 +58,9 @@ void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)
     }
 }
 
-void DebugSystem::tick(Real timeStep)
+void DebugSystem::tick(Engine& engine, Real timeStep)
 {
+    (void)engine;
     (void)timeStep;
     _boxes.clear();
 }

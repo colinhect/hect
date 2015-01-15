@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "System.h"
 
+#include "Hect/Runtime/Engine.h"
+
 using namespace hect;
 
 System::System(Scene& scene, SystemTickStage tickStage) :
@@ -41,9 +43,16 @@ const Scene& System::scene() const
     return _scene;
 }
 
-void System::tick(Real timeStep)
+void System::tick(Engine& engine, Real timeStep)
 {
+    (void)engine;
     (void)timeStep;
+}
+
+void System::render(Engine& engine, RenderTarget& target)
+{
+    (void)engine;
+    (void)target;
 }
 
 SystemTickStage System::tickStage() const

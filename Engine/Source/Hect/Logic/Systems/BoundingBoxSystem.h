@@ -49,7 +49,7 @@ public:
     /// \param boundingBox The bounding box to update.
     void update(BoundingBox& boundingBox);
 
-    void tick(Real timeStep) override;
+    void tick(Engine& engine, Real timeStep) override;
     void receiveEvent(const ComponentEvent<BoundingBox>& event) override;
 
 private:

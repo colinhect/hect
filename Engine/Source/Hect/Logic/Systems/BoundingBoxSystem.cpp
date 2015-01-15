@@ -43,8 +43,9 @@ void BoundingBoxSystem::update(BoundingBox& boundingBox)
     updateRecursively(*boundingBox.entity()->root());
 }
 
-void BoundingBoxSystem::tick(Real timeStep)
+void BoundingBoxSystem::tick(Engine& engine, Real timeStep)
 {
+    (void)engine;
     (void)timeStep;
 
     // If the scene has a debug system

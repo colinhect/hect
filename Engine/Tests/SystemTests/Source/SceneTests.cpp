@@ -74,8 +74,9 @@ public:
         (void)engine;
     }
 
-    void tick(Real timeStep) override
+    void tick(Engine& engine, Real timeStep) override
     {
+        (void)engine;
         (void)timeStep;
     }
 

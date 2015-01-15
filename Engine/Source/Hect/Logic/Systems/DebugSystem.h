@@ -79,7 +79,7 @@ public:
     /// to.
     void addRenderCalls(SceneRenderer& sceneRenderer);
 
-    void tick(Real timeStep) override;
+    void tick(Engine& engine, Real timeStep) override;
 
 private:
     void addColoredMaterial(const Color& color);

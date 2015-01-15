@@ -58,7 +58,7 @@ public:
     /// \param camera The camera to update.
     void update(Camera& camera);
 
-    void tick(Real timeStep) override;
+    void tick(Engine& engine, Real timeStep) override;
     void receiveEvent(const ComponentEvent<Camera>& event) override;
 
 private:

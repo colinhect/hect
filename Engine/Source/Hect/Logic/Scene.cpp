@@ -68,7 +68,7 @@ void Scene::refresh()
     _refreshing = false;
 }
 
-void Scene::tick(Real timeStep)
+void Scene::tick(Engine& engine, Real timeStep)
 {
     refresh();
 
@@ -77,7 +77,7 @@ void Scene::tick(Real timeStep)
     {
         for (SystemTypeId typeId : tickStage)
         {
-            _systems[typeId]->tick(timeStep);
+            _systems[typeId]->tick(engine, timeStep);
         }
     }
 }

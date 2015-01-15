@@ -71,8 +71,9 @@ void CameraSystem::update(Camera& camera)
     }
 }
 
-void CameraSystem::tick(Real timeStep)
+void CameraSystem::tick(Engine& engine, Real timeStep)
 {
+    (void)engine;
     (void)timeStep;
 
     for (Camera& camera : scene().components<Camera>())

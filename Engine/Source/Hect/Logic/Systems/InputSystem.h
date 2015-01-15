@@ -63,10 +63,9 @@ public:
     /// \copydoc InputSystem::axisValue()
     Real axisValue(const char* name) const;
 
-    void tick(Real timeStep) override;
+    void tick(Engine& engine, Real timeStep) override;
 
 private:
-    Platform& _platform;
     std::vector<InputAxis> _axes;
     StringMap<size_t> _axisIndices;
 };
