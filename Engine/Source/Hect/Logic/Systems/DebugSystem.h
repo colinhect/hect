@@ -28,12 +28,11 @@
 #include "Hect/Graphics/Material.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Systems/RenderSystem.h"
 #include "Hect/Spacial/Box.h"
 
 namespace hect
 {
-
-class SceneRenderer;
 
 ///
 /// A preset color for debug geometry.
@@ -75,9 +74,9 @@ public:
     ///
     /// Adds all enqueued debug geometery to the a scene renderer.
     ///
-    /// \param sceneRenderer The scene renderer to render the debug geometry
-    /// to.
-    void addRenderCalls(SceneRenderer& sceneRenderer);
+    /// \param renderSystem The render system to render the debug geometry
+    /// with.
+    void addRenderCalls(RenderSystem& renderSystem);
 
     void tick(Engine& engine, Real timeStep) override;
 

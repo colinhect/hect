@@ -55,7 +55,6 @@ namespace hect {}
 #include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
-#include "Hect/Graphics/SceneRenderer.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
 #include "Hect/Graphics/Uniform.h"

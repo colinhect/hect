@@ -14,3 +14,4 @@ systemTypes:
   - TransformSystem
   - BoundingBoxSystem
   - CameraSystem
+  - RenderSystem

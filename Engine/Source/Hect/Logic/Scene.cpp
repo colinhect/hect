@@ -82,12 +82,22 @@ void Scene::tick(Engine& engine, Real timeStep)
     }
 }
 
+void Scene::render(Engine& engine, RenderTarget& target)
+{
+    // Render all stages in order
+    for (std::vector<SystemTypeId>& tickStage : _tickStages)
+    {
+        for (SystemTypeId typeId : tickStage)
+        {
+            _systems[typeId]->render(engine, target);
+        }
+    }
+}
+
 Entity::Iterator Scene::createEntity()
 {
     Entity::Iterator entity = _entityPool.create();
-
     _entitiesPendingCreation.push_back(entity->id());
-
     return entity;
 }
 

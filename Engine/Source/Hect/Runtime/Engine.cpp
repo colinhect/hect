@@ -148,9 +148,6 @@ Engine::Engine(int argc, char* const argv[])
         _renderer.reset(new NullRenderer());
         _vectorRenderer.reset(new NullVectorRenderer());
 #endif
-
-        // Create scene renderer
-        _sceneRenderer.reset(new SceneRenderer(*_renderer, *_taskPool, *_assetCache));
     }
 }
 
@@ -214,12 +211,6 @@ Renderer& Engine::renderer()
 {
     assert(_renderer);
     return *_renderer;
-}
-
-SceneRenderer& Engine::sceneRenderer()
-{
-    assert(_sceneRenderer);
-    return *_sceneRenderer;
 }
 
 VectorRenderer& Engine::vectorRenderer()

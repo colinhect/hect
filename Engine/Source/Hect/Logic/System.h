@@ -69,7 +69,7 @@ public:
     virtual void tick(Engine& engine, Real timeStep);
 
     ///
-    /// Renders the current state of the game to a target.
+    /// Renders the current state of the system to a target.
     ///
     /// \param engine The engine.
     /// \param target The target to render to.

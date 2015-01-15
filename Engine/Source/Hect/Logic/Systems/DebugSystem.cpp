@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DebugSystem.h"
 
-#include "Hect/Graphics/SceneRenderer.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -36,10 +35,6 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
     _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");
 
-    Renderer& renderer = engine.renderer();
-    renderer.uploadShader(*_coloredLineShader);
-    renderer.uploadMesh(*_boxMesh);
-
     addColoredMaterial(Color(100, 0, 0)); // Primary
     addColoredMaterial(Color(0, 100, 0)); // Secondary
     addColoredMaterial(Color(0, 0, 100)); // Tertiary
@@ -50,11 +45,11 @@ void DebugSystem::renderBox(DebugColor color, const Box& box, const Vector3& pos
     _boxes.emplace_back(box, position, rotation, color);
 }
 
-void DebugSystem::addRenderCalls(SceneRenderer& sceneRenderer)
+void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
 {
     for (auto& box : _boxes)
     {
-        sceneRenderer.addRenderCall(box.transform, *_boxMesh, _coloredMaterials[box.color]);
+        renderSystem.addRenderCall(box.transform, *_boxMesh, _coloredMaterials[box.color]);
     }
 }
 

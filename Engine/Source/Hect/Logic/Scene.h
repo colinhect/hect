@@ -149,6 +149,13 @@ public:
     void tick(Engine& engine, Real timeStep);
 
     ///
+    /// Renders all of the Systems in the scene.
+    ///
+    /// \param engine The engine.
+    /// \param target The target to render to.
+    void render(Engine& engine, RenderTarget& target);
+
+    ///
     /// Creates a new Entity.
     ///
     /// \returns An iterator to the new entity.
