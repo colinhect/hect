@@ -33,18 +33,6 @@
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
 
-#ifdef HECT_FILESYSTEM_PHYSFS
-#include "Hect/IO/Internal/PhysFSFileSystem.h"
-#endif
-
-#ifdef HECT_PLATFORM_SDL
-#include "Hect/Runtime/Internal/SdlPlatform.h"
-#include "Hect/Runtime/Internal/SdlWindow.h"
-#else
-#include "Hect/Runtime/Internal/NullPlatform.h"
-#include "Hect/Runtime/Internal/NullWindow.h"
-#endif
-
 #include "Hect/Generated/RegisterTypes.h"
 
 #include <fstream>
@@ -68,25 +56,13 @@ Engine::Engine(int argc, char* const argv[])
 #endif
 
     // Create file system
-#ifdef HECT_FILESYSTEM_PHYSFS
-    _fileSystem.reset(new PhysFSFileSystem(argc, argv));
-#endif
+    _fileSystem.reset(new FileSystem(argc, argv));
 
     // Create platform
-#ifdef HECT_PLATFORM_SDL
-    _platform.reset(new SdlPlatform());
-#else
-    _platform.reset(new NullPlatform());
-#endif
+    _platform.reset(new Platform());
 
     // Parse command line arguments
     CommandLineArguments arguments = parseCommandLineArgument(argc, argv);
-
-#ifdef HECT_WINDOWS_BUILD
-    // Set the base directory as the write directory
-    auto baseDirectory = _fileSystem->baseDirectory();
-    _fileSystem->setWriteDirectory(baseDirectory);
-#endif
 
     // Load the settings specified on the command-line
     if (!arguments.settingsFilePath.empty())
@@ -126,14 +102,8 @@ Engine::Engine(int argc, char* const argv[])
             HECT_ERROR(format("Invalid video mode: %s", error.what()));
         }
 
-        // Create window
-#ifdef HECT_PLATFORM_SDL
-        _window.reset(new SdlWindow("Hect", videoMode));
-#else
-        _window.reset(new NullWindow("Hect", videoMode));
-#endif
-
-        // Create renderer
+        // Create window and renderer
+        _window.reset(new Window("Hect", videoMode));
         _renderer.reset(new Renderer());
     }
 }

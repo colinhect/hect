@@ -21,21 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "SdlPlatform.h"
+#include "Hect/Runtime/Platform.h"
+
+#include "Hect/Core/Configuration.h"
 
 #ifdef HECT_PLATFORM_SDL
 
 #include <algorithm>
-
 #include <SDL.h>
 
 #include "Hect/Core/Logging.h"
-#include "Hect/Runtime/Internal/SdlWindow.h"
 
 using namespace hect;
 
 namespace
 {
+
+std::unique_ptr<Mouse> _mouse;
+std::unique_ptr<Keyboard> _keyboard;
+std::vector<Joystick> _joysticks;
+std::vector<SDL_Joystick*> _openJoysticks;
+MouseMode _mouseMode { MouseMode_Cursor };
 
 Key convertKey(SDL_Keycode key)
 {
@@ -137,52 +143,7 @@ Key convertKey(SDL_Keycode key)
 
 }
 
-SdlPlatform::SdlPlatform()
-{
-    assert(!_initialized);
-
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
-    {
-        throw FatalError(format("Failed to initialize SDL: %s", SDL_GetError()));
-    }
-
-    SDL_version version;
-    SDL_GetVersion(&version);
-    HECT_INFO(format("SDL version %d.%d.%d", version.major, version.minor, version.patch));
-
-    for (int i = 0; i < SDL_NumJoysticks(); i++)
-    {
-        SDL_Joystick* joystick = SDL_JoystickOpen(i);
-        if (joystick)
-        {
-            _openJoysticks.push_back(joystick);
-
-            std::string name = SDL_JoystickName(joystick);
-            size_t buttonCount = SDL_JoystickNumButtons(joystick);
-            size_t axisCount = SDL_JoystickNumAxes(joystick);
-
-            HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
-
-            _joysticks.push_back(Joystick(name, buttonCount, axisCount));
-            for (size_t i = 0; i < axisCount; ++i)
-            {
-                JoystickEvent event;
-                event.type = JoystickEventType_AxisMotion;
-                event.index = _joysticks.size() - 1;
-                event.axis = static_cast<JoystickAxis>(i);
-                event.axisValue = std::max(static_cast<Real>(SDL_JoystickGetAxis(joystick, (int)i)) / Real(32767.0), Real(-1.0));
-                _joysticks[event.index].enqueueEvent(event);
-            }
-        }
-    }
-
-    _mouse.reset(new Mouse());
-    _keyboard.reset(new Keyboard());
-
-    _initialized = true;
-}
-
-SdlPlatform::~SdlPlatform()
+Platform::~Platform()
 {
     // Close all joysticks
     for (SDL_Joystick* joystick : _openJoysticks)
@@ -194,7 +155,7 @@ SdlPlatform::~SdlPlatform()
     SDL_Quit();
 }
 
-bool SdlPlatform::handleEvents()
+bool Platform::handleEvents()
 {
     _mouse->clearMovement();
 
@@ -290,32 +251,32 @@ bool SdlPlatform::handleEvents()
     return active;
 }
 
-bool SdlPlatform::hasMouse()
+bool Platform::hasMouse()
 {
     return true;
 }
 
-Mouse& SdlPlatform::mouse()
+Mouse& Platform::mouse()
 {
     return *_mouse;
 }
 
-bool SdlPlatform::hasKeyboard()
+bool Platform::hasKeyboard()
 {
     return true;
 }
 
-Keyboard& SdlPlatform::keyboard()
+Keyboard& Platform::keyboard()
 {
     return *_keyboard;
 }
 
-bool SdlPlatform::hasJoystick(JoystickIndex index)
+bool Platform::hasJoystick(JoystickIndex index)
 {
     return index < _joysticks.size();
 }
 
-Joystick& SdlPlatform::joystick(JoystickIndex index)
+Joystick& Platform::joystick(JoystickIndex index)
 {
     if (!hasJoystick(index))
     {
@@ -324,11 +285,50 @@ Joystick& SdlPlatform::joystick(JoystickIndex index)
     return _joysticks[index];
 }
 
-Platform::JoystickSequence SdlPlatform::joysticks()
+Platform::JoystickSequence Platform::joysticks()
 {
     return _joysticks;
 }
 
-bool SdlPlatform::_initialized = false;
+Platform::Platform()
+{
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)
+    {
+        throw FatalError(format("Failed to initialize SDL: %s", SDL_GetError()));
+    }
+
+    SDL_version version;
+    SDL_GetVersion(&version);
+    HECT_INFO(format("SDL version %d.%d.%d", version.major, version.minor, version.patch));
+
+    for (int i = 0; i < SDL_NumJoysticks(); i++)
+    {
+        SDL_Joystick* joystick = SDL_JoystickOpen(i);
+        if (joystick)
+        {
+            _openJoysticks.push_back(joystick);
+
+            std::string name = SDL_JoystickName(joystick);
+            size_t buttonCount = SDL_JoystickNumButtons(joystick);
+            size_t axisCount = SDL_JoystickNumAxes(joystick);
+
+            HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
+
+            _joysticks.push_back(Joystick(name, buttonCount, axisCount));
+            for (size_t i = 0; i < axisCount; ++i)
+            {
+                JoystickEvent event;
+                event.type = JoystickEventType_AxisMotion;
+                event.index = _joysticks.size() - 1;
+                event.axis = static_cast<JoystickAxis>(i);
+                event.axisValue = std::max(static_cast<Real>(SDL_JoystickGetAxis(joystick, (int)i)) / Real(32767.0), Real(-1.0));
+                _joysticks[event.index].enqueueEvent(event);
+            }
+        }
+    }
+
+    _mouse.reset(new Mouse());
+    _keyboard.reset(new Keyboard());
+}
 
 #endif

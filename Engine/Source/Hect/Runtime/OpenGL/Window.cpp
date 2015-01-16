@@ -21,47 +21,64 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Hect/Runtime/Window.h"
 
 #include "Hect/Core/Configuration.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Runtime/Platform.h"
 
 #ifdef HECT_PLATFORM_SDL
 
-// Forward declarations for SDL
-struct _SDL_Joystick;
-typedef struct _SDL_Joystick SDL_Joystick;
+#include <cassert>
+#include <SDL.h>
 
-namespace hect
+using namespace hect;
+
+namespace
 {
 
-class HECT_EXPORT SdlPlatform :
-    public Platform
+SDL_Window* _window = nullptr;
+SDL_GLContext _context = nullptr;
+
+}
+
+Window::~Window()
 {
-public:
-    SdlPlatform();
-    ~SdlPlatform();
+    if (_context)
+    {
+        SDL_GL_DeleteContext(_context);
+    }
 
-    bool handleEvents() override;
-    bool hasMouse() override;
-    Mouse& mouse() override;
-    bool hasKeyboard() override;
-    Keyboard& keyboard() override;
-    bool hasJoystick(JoystickIndex index) override;
-    Joystick& joystick(JoystickIndex index) override;
-    JoystickSequence joysticks() override;
+    if (_window)
+    {
+        SDL_DestroyWindow(_window);
+    }
+}
 
-private:
-    std::unique_ptr<Mouse> _mouse;
-    std::unique_ptr<Keyboard> _keyboard;
-    std::vector<Joystick> _joysticks;
-    std::vector<SDL_Joystick*> _openJoysticks;
-    MouseMode _mouseMode { MouseMode_Cursor };
+void Window::swapBuffers()
+{
+    SDL_GL_SwapWindow(_window);
+}
 
-    static bool _initialized;
-};
+Window::Window(const std::string& title, const VideoMode& videoMode) :
+    RenderTarget(videoMode.width(), videoMode.height())
+{
+    assert(!_window);
 
+    // Create the window flags
+    uint32_t flags = SDL_WINDOW_OPENGL;
+    if (videoMode.isFullscreen())
+    {
+        flags |= SDL_WINDOW_FULLSCREEN;
+    }
+
+    // Create the window
+    _window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), flags);
+    if (!_window)
+    {
+        throw FatalError(format("Failed to create SDL window: %s", SDL_GetError()));
+    }
+
+    // Create the OpenGL context
+    _context = SDL_GL_CreateContext(_window);
 }
 
 #endif

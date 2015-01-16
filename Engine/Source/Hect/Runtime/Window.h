@@ -41,20 +41,18 @@ class HECT_EXPORT Window :
     public RenderTarget,
     public Uncopyable
 {
+    friend class Engine;
 public:
-
-    ///
-    /// Constructs a window.
-    ///
-    /// \param title The window title.
-    /// \param videoMode The video mode to use.
-    Window(const std::string& title, const VideoMode& videoMode);
-
-    virtual ~Window() { }
+    ~Window();
 
     void bind(Renderer& renderer) override;
 
-    virtual void swapBuffers() = 0;
+    ///
+    /// Swaps the back buffer of the window.
+    void swapBuffers();
+
+private:
+    Window(const std::string& title, const VideoMode& videoMode);
 };
 
 }

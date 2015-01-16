@@ -39,47 +39,49 @@ namespace hect
 class HECT_EXPORT Platform :
     public Uncopyable
 {
-public:
+    friend class Engine;
+
     typedef std::vector<Joystick> JoystickContainer;
+public:
 
     ///
     /// A sequence of joysticks.
     typedef Sequence<Joystick, JoystickContainer> JoystickSequence;
 
-    virtual ~Platform() { }
+    ~Platform();
 
     ///
     /// Handles and dispatches all platform events.
-    virtual bool handleEvents() = 0;
+    bool handleEvents();
 
     ///
     /// Returns whether the platform has a mouse connected.
-    virtual bool hasMouse() = 0;
+    bool hasMouse();
 
     ///
     /// Returns the mouse.
     ///
     /// \throws InvalidOperation If the platform does not have a mouse
     /// connected.
-    virtual Mouse& mouse() = 0;
+    Mouse& mouse();
 
     ///
     /// Returns whether the platform has a keyboard connected.
-    virtual bool hasKeyboard() = 0;
+    bool hasKeyboard();
 
     ///
     /// Returns the keyboard.
     ///
     /// \throws InvalidOperation If the platform does not have a keyboard
     /// connected.
-    virtual Keyboard& keyboard() = 0;
+    Keyboard& keyboard();
 
     ///
     /// Returns whether the platform has a joystick connected at the given
     /// index.
     ///
     /// \param index The index of the joystick.
-    virtual bool hasJoystick(JoystickIndex index) = 0;
+    bool hasJoystick(JoystickIndex index);
 
     ///
     /// Returns the joystick connected at the specified index.
@@ -88,11 +90,14 @@ public:
     ///
     /// \throws InvalidOperation If no joystick is connected at the given
     // index.
-    virtual Joystick& joystick(JoystickIndex index) = 0;
+    Joystick& joystick(JoystickIndex index);
 
     ///
     /// Returns any joysticks connected to the platform.
-    virtual JoystickSequence joysticks() = 0;
+    JoystickSequence joysticks();
+
+private:
+    Platform();
 };
 
 }

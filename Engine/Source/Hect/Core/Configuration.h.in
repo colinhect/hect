@@ -42,9 +42,6 @@
 #define HECT_RENDERER_OPENGL
 #endif
 
-// Set file system implementation
-#define HECT_FILESYSTEM_PHYSFS
-
 // Set floating point precision
 #define HECT_DOUBLE_PRECISION
 

@@ -23,7 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Image.h"
 
-#include "Hect/IO/Encoders/ImagePngEncoder.h"
+#include <lodepng.h>
+
+#include "Hect/Core/Exception.h"
+#include "Hect/Core/Format.h"
 
 using namespace hect;
 
@@ -127,14 +130,62 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Image& image)
 {
     WriteStream& stream = encoder.binaryStream();
-    ImagePngEncoder::encode(image, stream);
+
+    // Verify pixel format and type.
+    if (image.pixelType() != PixelType_Byte || image.pixelFormat() != PixelFormat_Rgba)
+    {
+        throw InvalidOperation("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
+    }
+
+    // Flip the image from OpenGL ordering
+    Image flippedImage = image;
+    flippedImage.flipVertical();
+
+    // Encode to PNG data
+    ByteVector encodedPixelData;
+    unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), image.width(), image.height());
+    if (error)
+    {
+        throw EncodeError(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
+    }
+
+    // Write the encoded data to the stream
+    stream.write(&encodedPixelData[0], encodedPixelData.size());
+
     return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Image& image)
 {
     ReadStream& stream = decoder.binaryStream();
-    ImagePngEncoder::decode(image, stream);
+
+    // Read all of the encoded data from the stream
+    size_t length = stream.length();
+    ByteVector encodedPixelData(length, 0);
+    stream.read(&encodedPixelData[0], length);
+
+    ByteVector decodedPixelData;
+
+    // Decode the PNG pixel data
+    unsigned width = 0;
+    unsigned height = 0;
+    unsigned error = lodepng::decode(decodedPixelData, width, height, encodedPixelData);
+    if (error)
+    {
+        throw DecodeError(format("Failed to decode PNG data: %s", lodepng_error_text(error)));
+    }
+
+    // Set various properties for the image
+    image.setWidth(width);
+    image.setHeight(height);
+    image.setPixelType(PixelType_Byte);
+    image.setPixelFormat(PixelFormat_Rgba);
+    image.setColorSpace(ColorSpace_NonLinear); // Assume the image is sRGB
+    image.setPixelData(std::move(decodedPixelData));
+
+    // Flip the image to OpenGL ordering
+    image.flipVertical();
+
     return decoder;
 }
 

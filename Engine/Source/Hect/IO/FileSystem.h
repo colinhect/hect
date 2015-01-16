@@ -42,24 +42,25 @@ namespace hect
 class HECT_EXPORT FileSystem :
     public Uncopyable
 {
+    friend class Engine;
 public:
-    virtual ~FileSystem() { }
+    ~FileSystem();
 
     ///
     /// Returns the full path to the base directory of the executable.
-    virtual Path baseDirectory() = 0;
+    Path baseDirectory();
 
     ///
     /// Returns the full path to the working directory of the executable.
-    virtual Path workingDirectory() = 0;
+    Path workingDirectory();
 
     ///
     /// Returns the full path to the user's home directory.
-    virtual Path userDirectory() = 0;
+    Path userDirectory();
 
     ///
     /// Returns the full path to the application data directory.
-    virtual Path applicationDataDirectory() = 0;
+    Path applicationDataDirectory();
 
     ///
     /// Sets the directory where write access is allowed and directed to.
@@ -67,7 +68,7 @@ public:
     /// \param path The path to the directory to direct write access.
     ///
     /// \throws IOError If the write directory could not be set.
-    virtual void setWriteDirectory(const Path& path) = 0;
+    void setWriteDirectory(const Path& path);
 
     ///
     /// Mounts a directory or archive.
@@ -80,7 +81,7 @@ public:
     /// \param mountPoint The point to mount the path to.
     ///
     /// \throws IOError If the archive could not be mounted.
-    virtual void mountArchive(const Path& path, const Path& mountPoint = Path()) = 0;
+    void mountArchive(const Path& path, const Path& mountPoint = Path());
 
     ///
     /// Opens a file for reading.
@@ -90,7 +91,7 @@ public:
     /// \returns A stream for the opened file.
     ///
     /// \throws IOError If the file could not be opened.
-    virtual std::unique_ptr<ReadStream> openFileForRead(const Path& path) = 0;
+    std::unique_ptr<ReadStream> openFileForRead(const Path& path);
 
     ///
     /// Opens a file for writing.
@@ -104,7 +105,7 @@ public:
     /// \returns A stream for the opened file.
     ///
     /// \throws IOError If the file could not be opened.
-    virtual std::unique_ptr<WriteStream> openFileForWrite(const Path& path) = 0;
+    std::unique_ptr<WriteStream> openFileForWrite(const Path& path);
 
     ///
     /// Creates a directory.
@@ -119,14 +120,14 @@ public:
     /// write directory path.
     ///
     /// \throws IOError If the directory could not be created.
-    virtual void createDirectory(const Path& path) = 0;
+    void createDirectory(const Path& path);
 
     ///
     /// Returns the paths to all files in a given directory.
     ///
     /// \param path The path of the directory to return the paths of the files
     /// it contains.
-    virtual std::vector<Path> filesInDirectory(const Path& path) = 0;
+    std::vector<Path> filesInDirectory(const Path& path);
 
     ///
     /// Removes the file or directory at the given path.  If the path does
@@ -139,20 +140,25 @@ public:
     /// the write directory path.
     ///
     /// \throws IOError If the file or directory could not be removed.
-    virtual void remove(const Path& path) = 0;
+    void remove(const Path& path);
 
     ///
     /// Returns whether there is a file or directory at the given path.
     ///
     /// \param path The path to check the existence of.
-    virtual bool exists(const Path& path) = 0;
+    bool exists(const Path& path);
 
     ///
     /// Returns the time the given file was last modified.
     ///
     /// \note If the last modified time cannot be determined then -1 is
     /// returned.
-    virtual TimeStamp lastModified(const Path& path) = 0;
+    TimeStamp lastModified(const Path& path);
+
+private:
+    FileSystem(int argc, char* const argv[]);
+
+    Path convertPath(const char* rawPath);
 };
 
 }

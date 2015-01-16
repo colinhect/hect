@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "../Renderer.h"
+#include "Hect/Graphics/Renderer.h"
 
 #include "Hect/Core/Configuration.h"
 

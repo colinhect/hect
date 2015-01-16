@@ -21,21 +21,76 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Hect/Runtime/Platform.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Runtime/Window.h"
+#include "Hect/Core/Configuration.h"
 
-namespace hect
+#ifndef HECT_PLATFORM_SDL
+
+using namespace hect;
+
+namespace
 {
 
-class HECT_EXPORT NullWindow :
-    public Window
-{
-public:
-    NullWindow(const std::string& title, const VideoMode& videoMode);
-
-    void swapBuffers() override;
-};
+Mouse _mouse;
+Keyboard _keyboard;
+std::vector<Joystick> _joysticks;
 
 }
+
+Platform::~Platform()
+{
+}
+
+bool Platform::handleEvents()
+{
+    bool active = true;
+
+    _mouse.dispatchEvents();
+    _keyboard.dispatchEvents();
+
+    return active;
+}
+
+bool Platform::hasMouse()
+{
+    return true;
+}
+
+Mouse& Platform::mouse()
+{
+    return _mouse;
+}
+
+bool Platform::hasKeyboard()
+{
+    return true;
+}
+
+Keyboard& Platform::keyboard()
+{
+    return _keyboard;
+}
+
+bool Platform::hasJoystick(JoystickIndex index)
+{
+    (void)index;
+    return false;
+}
+
+Joystick& Platform::joystick(JoystickIndex index)
+{
+    (void)index;
+    throw InvalidOperation("No joysticks connected");
+}
+
+Platform::JoystickSequence Platform::joysticks()
+{
+    return _joysticks;
+}
+
+Platform::Platform()
+{
+}
+
+#endif

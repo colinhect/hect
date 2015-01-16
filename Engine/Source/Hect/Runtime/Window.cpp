@@ -27,12 +27,6 @@
 
 using namespace hect;
 
-Window::Window(const std::string& title, const VideoMode& videoMode) :
-    RenderTarget(videoMode.width(), videoMode.height())
-{
-    (void)title;
-}
-
 void Window::bind(Renderer& renderer)
 {
     renderer.setTarget(*this);

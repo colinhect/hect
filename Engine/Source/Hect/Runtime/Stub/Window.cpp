@@ -21,33 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "Hect/Runtime/Window.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Runtime/Platform.h"
+#include "Hect/Core/Configuration.h"
 
-namespace hect
+#ifndef HECT_PLATFORM_SDL
+
+using namespace hect;
+
+Window::~Window()
 {
-
-class HECT_EXPORT NullPlatform :
-    public Platform
-{
-public:
-    NullPlatform();
-
-    bool handleEvents() override;
-    bool hasMouse() override;
-    Mouse& mouse() override;
-    bool hasKeyboard() override;
-    Keyboard& keyboard() override;
-    bool hasJoystick(JoystickIndex index) override;
-    Joystick& joystick(JoystickIndex index) override;
-    JoystickSequence joysticks() override;
-
-private:
-    std::unique_ptr<Mouse> _mouse;
-    std::unique_ptr<Keyboard> _keyboard;
-    std::vector<Joystick> _joysticks;
-};
-
 }
+
+void Window::swapBuffers()
+{
+}
+
+Window::Window(const std::string& title, const VideoMode& videoMode) :
+    RenderTarget(videoMode.width(), videoMode.height())
+{
+    (void)title;
+}
+
+#endif
