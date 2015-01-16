@@ -212,7 +212,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     {
         Renderer::Frame frame = _renderer->beginFrame(backFrameBuffer());
         frame.clear();
-        
+
         // Render environment light
         if (_frameData.lightProbeCubeMap)
         {

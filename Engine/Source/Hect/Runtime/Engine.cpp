@@ -24,6 +24,7 @@
 #include "Engine.h"
 
 #include "Hect/Core/Configuration.h"
+#include "Hect/Graphics/Renderer.h"
 #include "Hect/IO/DataValueDecoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentRegistry.h"
@@ -42,12 +43,6 @@
 #else
 #include "Hect/Runtime/Internal/NullPlatform.h"
 #include "Hect/Runtime/Internal/NullWindow.h"
-#endif
-
-#ifdef HECT_RENDERER_OPENGL
-#include "Hect/Graphics/Internal/OpenGLRenderer.h"
-#else
-#include "Hect/Graphics/Internal/NullRenderer.h"
 #endif
 
 #include "Hect/Generated/RegisterTypes.h"
@@ -138,12 +133,8 @@ Engine::Engine(int argc, char* const argv[])
         _window.reset(new NullWindow("Hect", videoMode));
 #endif
 
-        // Create renderer and vector renderer
-#ifdef HECT_RENDERER_OPENGL
-        _renderer.reset(new OpenGLRenderer());
-#else
-        _renderer.reset(new NullRenderer());
-#endif
+        // Create renderer
+        _renderer.reset(new Renderer());
     }
 }
 

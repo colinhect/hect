@@ -45,7 +45,6 @@ namespace hect {}
 #include "Hect/Core/StringMap.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/BlendFactor.h"
-#include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/FrameBuffer.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/Material.h"

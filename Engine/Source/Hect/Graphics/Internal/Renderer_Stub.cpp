@@ -21,12 +21,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "NullRenderer.h"
+#include "../Renderer.h"
 
-#include "Hect/Core/Exception.h"
-#include "Hect/Core/Format.h"
-#include "Hect/Core/Logging.h"
-#include "Hect/Graphics/Font.h"
+#include "Hect/Core/Configuration.h"
+
+#ifndef HECT_RENDERER_OPENGL
+
 #include "Hect/Graphics/FrameBuffer.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/RenderTarget.h"
@@ -129,27 +129,94 @@ public:
     }
 };
 
-class FontData :
-    public Renderer::Data<Font>
-{
-public:
-    FontData(Renderer& renderer, Font& object) :
-        Renderer::Data<Font>(renderer, object)
-    {
-    }
-
-    ~FontData()
-    {
-        if (object && object->isUploaded())
-        {
-            renderer->destroyFont(*object);
-        }
-    }
-};
-
 }
 
-void NullRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
+void Renderer::Frame::setCullMode(CullMode cullMode)
+{
+    (void)cullMode;
+}
+
+void Renderer::Frame::setShader(Shader& shader)
+{
+    if (!shader.isUploaded())
+    {
+        _renderer.uploadShader(shader);
+    }
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, int value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, Real value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Vector2& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Vector3& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Vector4& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Matrix4& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, Texture& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::Frame::renderMesh(Mesh& mesh)
+{
+    if (!mesh.isUploaded())
+    {
+        _renderer.uploadMesh(mesh);
+    }
+}
+
+void Renderer::Frame::clear()
+{
+}
+
+Renderer::Frame::Frame(Renderer& renderer, RenderTarget& target) :
+    _renderer(renderer)
+{
+    _renderer.setTarget(target);
+}
+
+void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (frameBuffer.isUploaded())
     {
@@ -159,7 +226,7 @@ void NullRenderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     frameBuffer.setAsUploaded(*this, new FrameBufferData(*this, frameBuffer));
 }
 
-void NullRenderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
+void Renderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -169,7 +236,7 @@ void NullRenderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
     frameBuffer.setAsDestroyed();
 }
 
-void NullRenderer::uploadRenderBuffer(RenderBuffer& renderBuffer)
+void Renderer::uploadRenderBuffer(RenderBuffer& renderBuffer)
 {
     if (renderBuffer.isUploaded())
     {
@@ -179,7 +246,7 @@ void NullRenderer::uploadRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsUploaded(*this, new RenderBufferData(*this, renderBuffer));
 }
 
-void NullRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
+void Renderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
 {
     if (!renderBuffer.isUploaded())
     {
@@ -189,7 +256,7 @@ void NullRenderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
     renderBuffer.setAsDestroyed();
 }
 
-void NullRenderer::uploadShader(Shader& shader)
+void Renderer::uploadShader(Shader& shader)
 {
     if (shader.isUploaded())
     {
@@ -199,7 +266,7 @@ void NullRenderer::uploadShader(Shader& shader)
     shader.setAsUploaded(*this, new ShaderData(*this, shader));
 }
 
-void NullRenderer::destroyShader(Shader& shader)
+void Renderer::destroyShader(Shader& shader)
 {
     if (!shader.isUploaded())
     {
@@ -209,7 +276,7 @@ void NullRenderer::destroyShader(Shader& shader)
     shader.setAsDestroyed();
 }
 
-void NullRenderer::uploadTexture(Texture& texture)
+void Renderer::uploadTexture(Texture& texture)
 {
     if (texture.isUploaded())
     {
@@ -219,7 +286,7 @@ void NullRenderer::uploadTexture(Texture& texture)
     texture.setAsUploaded(*this, new TextureData(*this, texture));
 }
 
-void NullRenderer::destroyTexture(Texture& texture)
+void Renderer::destroyTexture(Texture& texture)
 {
     if (!texture.isUploaded())
     {
@@ -229,14 +296,14 @@ void NullRenderer::destroyTexture(Texture& texture)
     texture.setAsDestroyed();
 }
 
-Image NullRenderer::downloadTextureImage(const Texture& texture)
+Image Renderer::downloadTextureImage(const Texture& texture)
 {
     (void)texture;
 
     return Image();
 }
 
-void NullRenderer::uploadMesh(Mesh& mesh)
+void Renderer::uploadMesh(Mesh& mesh)
 {
     if (mesh.isUploaded())
     {
@@ -246,7 +313,7 @@ void NullRenderer::uploadMesh(Mesh& mesh)
     mesh.setAsUploaded(*this, new MeshData(*this, mesh));
 }
 
-void NullRenderer::destroyMesh(Mesh& mesh)
+void Renderer::destroyMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
     {
@@ -256,37 +323,17 @@ void NullRenderer::destroyMesh(Mesh& mesh)
     mesh.setAsDestroyed();
 }
 
-void NullRenderer::uploadFont(Font& font)
-{
-    if (font.isUploaded())
-    {
-        return;
-    }
-
-    font.setAsUploaded(*this, new FontData(*this, font));
-}
-
-void NullRenderer::destroyFont(Font& font)
-{
-    if (!font.isUploaded())
-    {
-        return;
-    }
-
-    font.setAsDestroyed();
-}
-
-void NullRenderer::setTarget(RenderTarget& target)
+void Renderer::setTarget(RenderTarget& target)
 {
     (void)target;
 }
 
-void NullRenderer::setTarget(Window& window)
+void Renderer::setTarget(Window& window)
 {
     (void)window;
 }
 
-void NullRenderer::setTarget(FrameBuffer& frameBuffer)
+void Renderer::setTarget(FrameBuffer& frameBuffer)
 {
     if (!frameBuffer.isUploaded())
     {
@@ -294,127 +341,4 @@ void NullRenderer::setTarget(FrameBuffer& frameBuffer)
     }
 }
 
-void NullRenderer::frameBegin(RenderTarget& target)
-{
-    setTarget(target);
-}
-
-void NullRenderer::frameEnd()
-{
-}
-
-void NullRenderer::frameSetCullMode(CullMode cullMode)
-{
-    (void)cullMode;
-}
-
-void NullRenderer::frameSetShader(Shader& shader)
-{
-    if (!shader.isUploaded())
-    {
-        uploadShader(shader);
-    }
-}
-
-void NullRenderer::frameSetUniform(const Uniform& uniform, const UniformValue& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::frameSetUniform(const Uniform& uniform, int value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::frameSetUniform(const Uniform& uniform, Real value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::frameSetUniform(const Uniform& uniform, const Vector2& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::frameSetUniform(const Uniform& uniform, const Vector3& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::frameSetUniform(const Uniform& uniform, const Vector4& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::frameSetUniform(const Uniform& uniform, const Matrix4& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::frameSetUniform(const Uniform& uniform, const Color& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::frameSetUniform(const Uniform& uniform, Texture& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void NullRenderer::frameRenderMesh(Mesh& mesh)
-{
-    if (!mesh.isUploaded())
-    {
-        uploadMesh(mesh);
-    }
-}
-
-void NullRenderer::frameClear()
-{
-}
-
-void NullRenderer::vectorFrameBegin(RenderTarget& target)
-{
-    (void)target;
-}
-
-void NullRenderer::vectorFrameEnd()
-{
-}
-
-void NullRenderer::vectorFrameSetFillColor(const Color& color)
-{
-    (void)color;
-}
-
-void NullRenderer::vectorFrameRectangle(const Rectangle& bounds)
-{
-    (void)bounds;
-}
-
-void NullRenderer::vectorFrameRenderPath()
-{
-}
-
-void NullRenderer::vectorFrameSetFont(Font& font, Real size)
-{
-    (void)font;
-    (void)size;
-}
-
-void NullRenderer::vectorFrameRenderText(const std::string& text, const Rectangle& bounds, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
-{
-    (void)text;
-    (void)bounds;
-    (void)horizontalAlign;
-    (void)verticalAlign;
-}
+#endif
