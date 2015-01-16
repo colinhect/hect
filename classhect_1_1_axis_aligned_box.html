@@ -107,7 +107,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af0f181016f5406d74e236c2167a30f66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an axis aligned box at the origin without a size. <br /></td></tr>
 <tr class="separator:af0f181016f5406d74e236c2167a30f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecce346750f8c2132e1e3cc6a0f8f4d7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_axis_aligned_box.html#aecce346750f8c2132e1e3cc6a0f8f4d7">AxisAlignedBox</a> (const <a class="el" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a> &amp;<a class="el" href="classhect_1_1_axis_aligned_box.html#a29775f2d96926f8ed559bdcc549fb738">minimum</a>, const <a class="el" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a> &amp;<a class="el" href="classhect_1_1_axis_aligned_box.html#a3bf257d07b1385d822e3cb01f941c4f7">maximum</a>)</td></tr>
-<tr class="memdesc:aecce346750f8c2132e1e3cc6a0f8f4d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an axis aligned box given a minimum and maximum point.  <a href="#aecce346750f8c2132e1e3cc6a0f8f4d7">More...</a><br /></td></tr>
+<tr class="memdesc:aecce346750f8c2132e1e3cc6a0f8f4d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an axis aligned box.  <a href="#aecce346750f8c2132e1e3cc6a0f8f4d7">More...</a><br /></td></tr>
 <tr class="separator:aecce346750f8c2132e1e3cc6a0f8f4d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9092f399fcfde353c3c3fc43bc8902db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_axis_aligned_box.html#a9092f399fcfde353c3c3fc43bc8902db">expandToInclude</a> (const <a class="el" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a> &amp;point)</td></tr>
 <tr class="memdesc:a9092f399fcfde353c3c3fc43bc8902db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands the bounds of the box to include point.  <a href="#a9092f399fcfde353c3c3fc43bc8902db">More...</a><br /></td></tr>
@@ -132,6 +132,10 @@ const <a class="el" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">
 const <a class="el" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_axis_aligned_box.html#a3bf257d07b1385d822e3cb01f941c4f7">maximum</a> () const </td></tr>
 <tr class="memdesc:a3bf257d07b1385d822e3cb01f941c4f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the maximum point. <br /></td></tr>
 <tr class="separator:a3bf257d07b1385d822e3cb01f941c4f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c54c6b46df23716eef7dba5eb101868"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c54c6b46df23716eef7dba5eb101868"></a>
+<a class="el" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_axis_aligned_box.html#a8c54c6b46df23716eef7dba5eb101868">size</a> () const </td></tr>
+<tr class="memdesc:a8c54c6b46df23716eef7dba5eb101868"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the width, height, and depth. <br /></td></tr>
+<tr class="separator:a8c54c6b46df23716eef7dba5eb101868"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a8ae77cc6323f9c46106e86d984dc2f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a8ae77cc6323f9c46106e86d984dc2f"></a>
 <a class="el" href="namespacehect.html#a41f52fe87f2c287d76f212d1683b148d">Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_axis_aligned_box.html#a0a8ae77cc6323f9c46106e86d984dc2f">center</a> () const </td></tr>
 <tr class="memdesc:a0a8ae77cc6323f9c46106e86d984dc2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the center point. <br /></td></tr>
@@ -168,7 +172,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
       </table>
 </div><div class="memdoc">
 
-<p>Constructs an axis aligned box given a minimum and maximum point. </p>
+<p>Constructs an axis aligned box. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">minimum</td><td>The minimum point. </td></tr>
@@ -303,7 +307,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

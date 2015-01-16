@@ -120,9 +120,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ade92e8481596884b3fef570e810e429e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_physics_system.html#ade92e8481596884b3fef570e810e429e">commit</a> (<a class="el" href="classhect_1_1_rigid_body.html">RigidBody</a> &amp;rigidBody)</td></tr>
 <tr class="memdesc:ade92e8481596884b3fef570e810e429e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commits any changes made to a <a class="el" href="classhect_1_1_rigid_body.html" title="A simulated physical body. ">RigidBody</a> to take effect.  <a href="#ade92e8481596884b3fef570e810e429e">More...</a><br /></td></tr>
 <tr class="separator:ade92e8481596884b3fef570e810e429e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a388fb066b890a477c8c8ecaceb2356"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_physics_system.html#a1a388fb066b890a477c8c8ecaceb2356">tick</a> (<a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) override</td></tr>
-<tr class="memdesc:a1a388fb066b890a477c8c8ecaceb2356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#a1a388fb066b890a477c8c8ecaceb2356">More...</a><br /></td></tr>
-<tr class="separator:a1a388fb066b890a477c8c8ecaceb2356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab189ff96e38139959faf460eac15694a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_physics_system.html#ab189ff96e38139959faf460eac15694a">tick</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) override</td></tr>
+<tr class="memdesc:ab189ff96e38139959faf460eac15694a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#ab189ff96e38139959faf460eac15694a">More...</a><br /></td></tr>
+<tr class="separator:ab189ff96e38139959faf460eac15694a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4486f328687235982d77fc0818f64a2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_physics_system.html#a4486f328687235982d77fc0818f64a2a">receiveEvent</a> (const <a class="el" href="classhect_1_1_component_event.html">ComponentEvent</a>&lt; <a class="el" href="classhect_1_1_rigid_body.html">RigidBody</a> &gt; &amp;event) override</td></tr>
 <tr class="memdesc:a4486f328687235982d77fc0818f64a2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifies the listener of an event.  <a href="#a4486f328687235982d77fc0818f64a2a">More...</a><br /></td></tr>
 <tr class="separator:a4486f328687235982d77fc0818f64a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,6 +130,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3e801d70e8869e871587e6914b15cf79 inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a3e801d70e8869e871587e6914b15cf79">System</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;<a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>, <a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> <a class="el" href="classhect_1_1_system.html#a812bbf7b78e00e59b1f337f20104466f">tickStage</a>=<a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a>)</td></tr>
 <tr class="memdesc:a3e801d70e8869e871587e6914b15cf79 inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a system.  <a href="#a3e801d70e8869e871587e6914b15cf79">More...</a><br /></td></tr>
 <tr class="separator:a3e801d70e8869e871587e6914b15cf79 inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515b40a13cfd39aa06a263c4a8f43c0f inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a515b40a13cfd39aa06a263c4a8f43c0f">render</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
+<tr class="memdesc:a515b40a13cfd39aa06a263c4a8f43c0f inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the current state of the system to a target.  <a href="#a515b40a13cfd39aa06a263c4a8f43c0f">More...</a><br /></td></tr>
+<tr class="separator:a515b40a13cfd39aa06a263c4a8f43c0f inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90c83603cd4d4ed463f77057c77aaaef inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90c83603cd4d4ed463f77057c77aaaef"></a>
 <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a> ()</td></tr>
 <tr class="memdesc:a90c83603cd4d4ed463f77057c77aaaef inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene that the system affects. <br /></td></tr>
@@ -263,7 +266,7 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1a388fb066b890a477c8c8ecaceb2356"></a>
+<a class="anchor" id="ab189ff96e38139959faf460eac15694a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -273,9 +276,19 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">void hect::PhysicsSystem::tick </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
-          <td class="paramname"><em>timeStep</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
+          <td class="paramname"><em>engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
+          <td class="paramname"><em>timeStep</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -288,12 +301,13 @@ Public Attributes</h2></td></tr>
 <p>Performs a single tick of simulation for the system. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">engine</td><td>The engine. </td></tr>
     <tr><td class="paramname">timeStep</td><td>The duration of time in seconds for the tick to simulate. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Reimplemented from <a class="el" href="classhect_1_1_system.html#ae8d1add3e5d6481de4a7246acef2eeb9">hect::System</a>.</p>
+<p>Reimplemented from <a class="el" href="classhect_1_1_system.html#a76465d755c009143a21bd88546cb9612">hect::System</a>.</p>
 
 </div>
 </div>
@@ -316,7 +330,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

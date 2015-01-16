@@ -105,8 +105,9 @@ Inheritance diagram for hect::TransformSystem:</div>
  <div class="center">
   <img src="classhect_1_1_transform_system.png" usemap="#hect::TransformSystem_map" alt=""/>
   <map id="hect::TransformSystem_map" name="hect::TransformSystem_map">
-<area href="classhect_1_1_system.html" title="A system affecting entities within a scene. " alt="hect::System" shape="rect" coords="0,56,139,80"/>
-<area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="0,0,139,24"/>
+<area href="classhect_1_1_system.html" title="A system affecting entities within a scene. " alt="hect::System" shape="rect" coords="0,56,287,80"/>
+<area href="classhect_1_1_listener.html" alt="hect::Listener&lt; ComponentEvent&lt; Transform &gt; &gt;" shape="rect" coords="297,56,584,80"/>
+<area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="0,0,287,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -118,13 +119,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aacbb76d6f916113afda8a60df225f6b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_transform_system.html#aacbb76d6f916113afda8a60df225f6b6">update</a> (<a class="el" href="classhect_1_1_transform.html">Transform</a> &amp;transform)</td></tr>
 <tr class="memdesc:aacbb76d6f916113afda8a60df225f6b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the global components of a <a class="el" href="classhect_1_1_transform.html" title="A combination of a position, scale, and rotation. ">Transform</a> based on the transform hierarchy.  <a href="#aacbb76d6f916113afda8a60df225f6b6">More...</a><br /></td></tr>
 <tr class="separator:aacbb76d6f916113afda8a60df225f6b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52bc17fcb8bfc0926c767367ac52aa61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">tick</a> (<a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) override</td></tr>
-<tr class="memdesc:a52bc17fcb8bfc0926c767367ac52aa61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#a52bc17fcb8bfc0926c767367ac52aa61">More...</a><br /></td></tr>
-<tr class="separator:a52bc17fcb8bfc0926c767367ac52aa61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47d37106b1225d419285cda7877a2688"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_transform_system.html#a47d37106b1225d419285cda7877a2688">tick</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) override</td></tr>
+<tr class="memdesc:a47d37106b1225d419285cda7877a2688"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#a47d37106b1225d419285cda7877a2688">More...</a><br /></td></tr>
+<tr class="separator:a47d37106b1225d419285cda7877a2688"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16356c7b1c222c7abe796c268fedac75"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_transform_system.html#a16356c7b1c222c7abe796c268fedac75">receiveEvent</a> (const <a class="el" href="classhect_1_1_component_event.html">ComponentEvent</a>&lt; <a class="el" href="classhect_1_1_transform.html">Transform</a> &gt; &amp;event) override</td></tr>
+<tr class="memdesc:a16356c7b1c222c7abe796c268fedac75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifies the listener of an event.  <a href="#a16356c7b1c222c7abe796c268fedac75">More...</a><br /></td></tr>
+<tr class="separator:a16356c7b1c222c7abe796c268fedac75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classhect_1_1_system"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhect_1_1_system')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhect_1_1_system.html">hect::System</a></td></tr>
 <tr class="memitem:a3e801d70e8869e871587e6914b15cf79 inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a3e801d70e8869e871587e6914b15cf79">System</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;<a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>, <a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> <a class="el" href="classhect_1_1_system.html#a812bbf7b78e00e59b1f337f20104466f">tickStage</a>=<a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a>)</td></tr>
 <tr class="memdesc:a3e801d70e8869e871587e6914b15cf79 inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a system.  <a href="#a3e801d70e8869e871587e6914b15cf79">More...</a><br /></td></tr>
 <tr class="separator:a3e801d70e8869e871587e6914b15cf79 inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515b40a13cfd39aa06a263c4a8f43c0f inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a515b40a13cfd39aa06a263c4a8f43c0f">render</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
+<tr class="memdesc:a515b40a13cfd39aa06a263c4a8f43c0f inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the current state of the system to a target.  <a href="#a515b40a13cfd39aa06a263c4a8f43c0f">More...</a><br /></td></tr>
+<tr class="separator:a515b40a13cfd39aa06a263c4a8f43c0f inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90c83603cd4d4ed463f77057c77aaaef inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90c83603cd4d4ed463f77057c77aaaef"></a>
 <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a> ()</td></tr>
 <tr class="memdesc:a90c83603cd4d4ed463f77057c77aaaef inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene that the system affects. <br /></td></tr>
@@ -143,6 +150,10 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 <tr class="memitem:a8fd8e9e3ff73782d38aa2a6c3bfa12c9 inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a8fd8e9e3ff73782d38aa2a6c3bfa12c9">decode</a> (<a class="el" href="classhect_1_1_decoder.html">Decoder</a> &amp;decoder)</td></tr>
 <tr class="memdesc:a8fd8e9e3ff73782d38aa2a6c3bfa12c9 inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes the system from an object.  <a href="#a8fd8e9e3ff73782d38aa2a6c3bfa12c9">More...</a><br /></td></tr>
 <tr class="separator:a8fd8e9e3ff73782d38aa2a6c3bfa12c9 inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classhect_1_1_listener"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhect_1_1_listener')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhect_1_1_listener.html">hect::Listener&lt; ComponentEvent&lt; Transform &gt; &gt;</a></td></tr>
+<tr class="memitem:a8d34aa40336f5a077fbfd5432172b639 inherit pub_methods_classhect_1_1_listener"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_listener.html#a8d34aa40336f5a077fbfd5432172b639">~Listener</a> ()</td></tr>
+<tr class="memdesc:a8d34aa40336f5a077fbfd5432172b639 inherit pub_methods_classhect_1_1_listener"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregister the listener from all Dispatchers that the listener is registered to.  <a href="#a8d34aa40336f5a077fbfd5432172b639">More...</a><br /></td></tr>
+<tr class="separator:a8d34aa40336f5a077fbfd5432172b639 inherit pub_methods_classhect_1_1_listener"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Manages the <a class="el" href="classhect_1_1_transform.html" title="A combination of a position, scale, and rotation. ">Transform</a> hierarchies of a <a class="el" href="classhect_1_1_scene.html" title="A dynamic collection of Entities , Components, and Systems. ">Scene</a>. </p>
@@ -172,7 +183,41 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 
 </div>
 </div>
-<a class="anchor" id="a52bc17fcb8bfc0926c767367ac52aa61"></a>
+<a class="anchor" id="a16356c7b1c222c7abe796c268fedac75"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hect::TransformSystem::receiveEvent </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_component_event.html">ComponentEvent</a>&lt; <a class="el" href="classhect_1_1_transform.html">Transform</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Notifies the listener of an event. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>The event. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classhect_1_1_listener.html#ac722cc3df9342d747d3168010aa4d88e">hect::Listener&lt; ComponentEvent&lt; Transform &gt; &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a47d37106b1225d419285cda7877a2688"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -182,9 +227,19 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
         <tr>
           <td class="memname">void hect::TransformSystem::tick </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
-          <td class="paramname"><em>timeStep</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
+          <td class="paramname"><em>engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
+          <td class="paramname"><em>timeStep</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -197,12 +252,13 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 <p>Performs a single tick of simulation for the system. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">engine</td><td>The engine. </td></tr>
     <tr><td class="paramname">timeStep</td><td>The duration of time in seconds for the tick to simulate. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Reimplemented from <a class="el" href="classhect_1_1_system.html#ae8d1add3e5d6481de4a7246acef2eeb9">hect::System</a>.</p>
+<p>Reimplemented from <a class="el" href="classhect_1_1_system.html#a76465d755c009143a21bd88546cb9612">hect::System</a>.</p>
 
 </div>
 </div>
@@ -233,7 +289,7 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

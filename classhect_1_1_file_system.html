@@ -91,7 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classhect_1_1_file_system-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hect::FileSystem Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">hect::FileSystem Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -111,80 +111,70 @@ Inheritance diagram for hect::FileSystem:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae886ff6c9296096e7b7e4d7abfffdf59"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae886ff6c9296096e7b7e4d7abfffdf59"></a>
-virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#ae886ff6c9296096e7b7e4d7abfffdf59">baseDirectory</a> ()=0</td></tr>
-<tr class="memdesc:ae886ff6c9296096e7b7e4d7abfffdf59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the base directory of the executable. <br /></td></tr>
-<tr class="separator:ae886ff6c9296096e7b7e4d7abfffdf59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab1581a6dbf03e1b395d197de7df8e0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab1581a6dbf03e1b395d197de7df8e0c"></a>
-virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#aab1581a6dbf03e1b395d197de7df8e0c">workingDirectory</a> ()=0</td></tr>
-<tr class="memdesc:aab1581a6dbf03e1b395d197de7df8e0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the working directory of the executable. <br /></td></tr>
-<tr class="separator:aab1581a6dbf03e1b395d197de7df8e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1a9bdb22968c6950b870e19abbf1c95"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1a9bdb22968c6950b870e19abbf1c95"></a>
-virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#ae1a9bdb22968c6950b870e19abbf1c95">userDirectory</a> ()=0</td></tr>
-<tr class="memdesc:ae1a9bdb22968c6950b870e19abbf1c95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the user's home directory. <br /></td></tr>
-<tr class="separator:ae1a9bdb22968c6950b870e19abbf1c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3465c95070144e93190161e0a89b683"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af3465c95070144e93190161e0a89b683"></a>
-virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#af3465c95070144e93190161e0a89b683">applicationDataDirectory</a> ()=0</td></tr>
-<tr class="memdesc:af3465c95070144e93190161e0a89b683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the application data directory. <br /></td></tr>
-<tr class="separator:af3465c95070144e93190161e0a89b683"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bdc9ad140ffdfa77017727acbadf5fd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a1bdc9ad140ffdfa77017727acbadf5fd">setWriteDirectory</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)=0</td></tr>
-<tr class="memdesc:a1bdc9ad140ffdfa77017727acbadf5fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the directory where write access is allowed and directed to.  <a href="#a1bdc9ad140ffdfa77017727acbadf5fd">More...</a><br /></td></tr>
-<tr class="separator:a1bdc9ad140ffdfa77017727acbadf5fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a411c4a296ff021563f19bb7a1fb27caf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a411c4a296ff021563f19bb7a1fb27caf">mountArchive</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path, const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;mountPoint=<a class="el" href="classhect_1_1_path.html">Path</a>())=0</td></tr>
-<tr class="memdesc:a411c4a296ff021563f19bb7a1fb27caf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mounts a directory or archive.  <a href="#a411c4a296ff021563f19bb7a1fb27caf">More...</a><br /></td></tr>
-<tr class="separator:a411c4a296ff021563f19bb7a1fb27caf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca094488bc7a9f78af46ca91d5885a3d"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr<br class="typebreak" />
-&lt; <a class="el" href="classhect_1_1_read_stream.html">ReadStream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#aca094488bc7a9f78af46ca91d5885a3d">openFileForRead</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)=0</td></tr>
-<tr class="memdesc:aca094488bc7a9f78af46ca91d5885a3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a file for reading.  <a href="#aca094488bc7a9f78af46ca91d5885a3d">More...</a><br /></td></tr>
-<tr class="separator:aca094488bc7a9f78af46ca91d5885a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a15fbdceb27e193447cb8cb89164e44"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr<br class="typebreak" />
-&lt; <a class="el" href="classhect_1_1_write_stream.html">WriteStream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a5a15fbdceb27e193447cb8cb89164e44">openFileForWrite</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)=0</td></tr>
-<tr class="memdesc:a5a15fbdceb27e193447cb8cb89164e44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a file for writing.  <a href="#a5a15fbdceb27e193447cb8cb89164e44">More...</a><br /></td></tr>
-<tr class="separator:a5a15fbdceb27e193447cb8cb89164e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0d91be750d6110c9d9c9fbadf42864e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#af0d91be750d6110c9d9c9fbadf42864e">createDirectory</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)=0</td></tr>
-<tr class="memdesc:af0d91be750d6110c9d9c9fbadf42864e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a directory.  <a href="#af0d91be750d6110c9d9c9fbadf42864e">More...</a><br /></td></tr>
-<tr class="separator:af0d91be750d6110c9d9c9fbadf42864e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaf41892d0418dc8bbb1396e82423af1"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="classhect_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#aeaf41892d0418dc8bbb1396e82423af1">filesInDirectory</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)=0</td></tr>
-<tr class="memdesc:aeaf41892d0418dc8bbb1396e82423af1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the paths to all files in a given directory.  <a href="#aeaf41892d0418dc8bbb1396e82423af1">More...</a><br /></td></tr>
-<tr class="separator:aeaf41892d0418dc8bbb1396e82423af1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f28e844f21b0f7450c315a8175a243b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a2f28e844f21b0f7450c315a8175a243b">remove</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)=0</td></tr>
-<tr class="memdesc:a2f28e844f21b0f7450c315a8175a243b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the file or directory at the given path.  <a href="#a2f28e844f21b0f7450c315a8175a243b">More...</a><br /></td></tr>
-<tr class="separator:a2f28e844f21b0f7450c315a8175a243b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac835cf6f4def491b98d984df9bec2b20"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#ac835cf6f4def491b98d984df9bec2b20">exists</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)=0</td></tr>
-<tr class="memdesc:ac835cf6f4def491b98d984df9bec2b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether there is a file or directory at the given path.  <a href="#ac835cf6f4def491b98d984df9bec2b20">More...</a><br /></td></tr>
-<tr class="separator:ac835cf6f4def491b98d984df9bec2b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a5323f32ea4632f1bda9ec2626139ee"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacehect.html#a9b346f319d597a855457ad7ec9123afc">TimeStamp</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a7a5323f32ea4632f1bda9ec2626139ee">lastModified</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)=0</td></tr>
-<tr class="memdesc:a7a5323f32ea4632f1bda9ec2626139ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time the given file was last modified.  <a href="#a7a5323f32ea4632f1bda9ec2626139ee">More...</a><br /></td></tr>
-<tr class="separator:a7a5323f32ea4632f1bda9ec2626139ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af70e2b93a6d41ee437c96418b69c2369"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af70e2b93a6d41ee437c96418b69c2369"></a>
+<a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#af70e2b93a6d41ee437c96418b69c2369">baseDirectory</a> ()</td></tr>
+<tr class="memdesc:af70e2b93a6d41ee437c96418b69c2369"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the base directory of the executable. <br /></td></tr>
+<tr class="separator:af70e2b93a6d41ee437c96418b69c2369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a509e564d477de8942ca45a2b7504112b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a509e564d477de8942ca45a2b7504112b"></a>
+<a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a509e564d477de8942ca45a2b7504112b">workingDirectory</a> ()</td></tr>
+<tr class="memdesc:a509e564d477de8942ca45a2b7504112b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the working directory of the executable. <br /></td></tr>
+<tr class="separator:a509e564d477de8942ca45a2b7504112b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ef6ad549b6a7e4ec52b3bcbad575d04"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ef6ad549b6a7e4ec52b3bcbad575d04"></a>
+<a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a0ef6ad549b6a7e4ec52b3bcbad575d04">userDirectory</a> ()</td></tr>
+<tr class="memdesc:a0ef6ad549b6a7e4ec52b3bcbad575d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the user's home directory. <br /></td></tr>
+<tr class="separator:a0ef6ad549b6a7e4ec52b3bcbad575d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a421af6944849ab9f0a4d8e0c6668bd4a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a421af6944849ab9f0a4d8e0c6668bd4a"></a>
+<a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a421af6944849ab9f0a4d8e0c6668bd4a">applicationDataDirectory</a> ()</td></tr>
+<tr class="memdesc:a421af6944849ab9f0a4d8e0c6668bd4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full path to the application data directory. <br /></td></tr>
+<tr class="separator:a421af6944849ab9f0a4d8e0c6668bd4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99752859ecde58e9fd4622a129478493"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a99752859ecde58e9fd4622a129478493">setWriteDirectory</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
+<tr class="memdesc:a99752859ecde58e9fd4622a129478493"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the directory where write access is allowed and directed to.  <a href="#a99752859ecde58e9fd4622a129478493">More...</a><br /></td></tr>
+<tr class="separator:a99752859ecde58e9fd4622a129478493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85bca99db2790ee0963fd716dc19f011"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a85bca99db2790ee0963fd716dc19f011">mountArchive</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path, const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;mountPoint=<a class="el" href="classhect_1_1_path.html">Path</a>())</td></tr>
+<tr class="memdesc:a85bca99db2790ee0963fd716dc19f011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mounts a directory or archive.  <a href="#a85bca99db2790ee0963fd716dc19f011">More...</a><br /></td></tr>
+<tr class="separator:a85bca99db2790ee0963fd716dc19f011"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9815c54e44db1ce5d5e40cf2b9ff6dfd"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classhect_1_1_read_stream.html">ReadStream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a9815c54e44db1ce5d5e40cf2b9ff6dfd">openFileForRead</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
+<tr class="memdesc:a9815c54e44db1ce5d5e40cf2b9ff6dfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a file for reading.  <a href="#a9815c54e44db1ce5d5e40cf2b9ff6dfd">More...</a><br /></td></tr>
+<tr class="separator:a9815c54e44db1ce5d5e40cf2b9ff6dfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeed8970281fe3f1472fc0a817732a3bb"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classhect_1_1_write_stream.html">WriteStream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#aeed8970281fe3f1472fc0a817732a3bb">openFileForWrite</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
+<tr class="memdesc:aeed8970281fe3f1472fc0a817732a3bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a file for writing.  <a href="#aeed8970281fe3f1472fc0a817732a3bb">More...</a><br /></td></tr>
+<tr class="separator:aeed8970281fe3f1472fc0a817732a3bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47ac28e335e3f32ecd59efa50afece60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#a47ac28e335e3f32ecd59efa50afece60">createDirectory</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
+<tr class="memdesc:a47ac28e335e3f32ecd59efa50afece60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a directory.  <a href="#a47ac28e335e3f32ecd59efa50afece60">More...</a><br /></td></tr>
+<tr class="separator:a47ac28e335e3f32ecd59efa50afece60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7a80a9778003a8bbc0dcf602bbe236f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classhect_1_1_path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#aa7a80a9778003a8bbc0dcf602bbe236f">filesInDirectory</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
+<tr class="memdesc:aa7a80a9778003a8bbc0dcf602bbe236f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the paths to all files in a given directory.  <a href="#aa7a80a9778003a8bbc0dcf602bbe236f">More...</a><br /></td></tr>
+<tr class="separator:aa7a80a9778003a8bbc0dcf602bbe236f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b0ff918f0b3d8450a787555183033a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#ab8b0ff918f0b3d8450a787555183033a">remove</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
+<tr class="memdesc:ab8b0ff918f0b3d8450a787555183033a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the file or directory at the given path.  <a href="#ab8b0ff918f0b3d8450a787555183033a">More...</a><br /></td></tr>
+<tr class="separator:ab8b0ff918f0b3d8450a787555183033a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedb3041283a5f945dbd6d9714cc50b93"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#aedb3041283a5f945dbd6d9714cc50b93">exists</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
+<tr class="memdesc:aedb3041283a5f945dbd6d9714cc50b93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether there is a file or directory at the given path.  <a href="#aedb3041283a5f945dbd6d9714cc50b93">More...</a><br /></td></tr>
+<tr class="separator:aedb3041283a5f945dbd6d9714cc50b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8c3bbff14d505baa3d64714a8ef4714"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a9b346f319d597a855457ad7ec9123afc">TimeStamp</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_file_system.html#af8c3bbff14d505baa3d64714a8ef4714">lastModified</a> (const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;path)</td></tr>
+<tr class="memdesc:af8c3bbff14d505baa3d64714a8ef4714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time the given file was last modified.  <a href="#af8c3bbff14d505baa3d64714a8ef4714">More...</a><br /></td></tr>
+<tr class="separator:af8c3bbff14d505baa3d64714a8ef4714"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides read and write access to files. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af0d91be750d6110c9d9c9fbadf42864e"></a>
+<a class="anchor" id="a47ac28e335e3f32ecd59efa50afece60"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void hect::FileSystem::createDirectory </td>
+          <td class="memname">void hect::FileSystem::createDirectory </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Creates a directory. </p>
 <dl class="section note"><dt>Note</dt><dd>Any missing parent directories are also created if they don't exist. If the directory already exists then nothing happens.</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The write directory must first be set using the <a class="el" href="classhect_1_1_file_system.html#a1bdc9ad140ffdfa77017727acbadf5fd" title="Sets the directory where write access is allowed and directed to. ">setWriteDirectory()</a> method.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The write directory must first be set using the <a class="el" href="classhect_1_1_file_system.html#a99752859ecde58e9fd4622a129478493" title="Sets the directory where write access is allowed and directed to. ">setWriteDirectory()</a> method.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to the directory to create relative to the write directory path.</td></tr>
@@ -200,26 +190,18 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 
 </div>
 </div>
-<a class="anchor" id="ac835cf6f4def491b98d984df9bec2b20"></a>
+<a class="anchor" id="aedb3041283a5f945dbd6d9714cc50b93"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool hect::FileSystem::exists </td>
+          <td class="memname">bool hect::FileSystem::exists </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns whether there is a file or directory at the given path. </p>
@@ -232,26 +214,18 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 
 </div>
 </div>
-<a class="anchor" id="aeaf41892d0418dc8bbb1396e82423af1"></a>
+<a class="anchor" id="aa7a80a9778003a8bbc0dcf602bbe236f"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::vector&lt;<a class="el" href="classhect_1_1_path.html">Path</a>&gt; hect::FileSystem::filesInDirectory </td>
+          <td class="memname">std::vector&lt;<a class="el" href="classhect_1_1_path.html">Path</a>&gt; hect::FileSystem::filesInDirectory </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns the paths to all files in a given directory. </p>
@@ -264,26 +238,18 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 
 </div>
 </div>
-<a class="anchor" id="a7a5323f32ea4632f1bda9ec2626139ee"></a>
+<a class="anchor" id="af8c3bbff14d505baa3d64714a8ef4714"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="namespacehect.html#a9b346f319d597a855457ad7ec9123afc">TimeStamp</a> hect::FileSystem::lastModified </td>
+          <td class="memname"><a class="el" href="namespacehect.html#a9b346f319d597a855457ad7ec9123afc">TimeStamp</a> hect::FileSystem::lastModified </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns the time the given file was last modified. </p>
@@ -291,15 +257,12 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 
 </div>
 </div>
-<a class="anchor" id="a411c4a296ff021563f19bb7a1fb27caf"></a>
+<a class="anchor" id="a85bca99db2790ee0963fd716dc19f011"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void hect::FileSystem::mountArchive </td>
+          <td class="memname">void hect::FileSystem::mountArchive </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
@@ -316,11 +279,6 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Mounts a directory or archive. </p>
@@ -341,26 +299,18 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 
 </div>
 </div>
-<a class="anchor" id="aca094488bc7a9f78af46ca91d5885a3d"></a>
+<a class="anchor" id="a9815c54e44db1ce5d5e40cf2b9ff6dfd"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::unique_ptr&lt;<a class="el" href="classhect_1_1_read_stream.html">ReadStream</a>&gt; hect::FileSystem::openFileForRead </td>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhect_1_1_read_stream.html">ReadStream</a>&gt; hect::FileSystem::openFileForRead </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Opens a file for reading. </p>
@@ -380,30 +330,22 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 
 </div>
 </div>
-<a class="anchor" id="a5a15fbdceb27e193447cb8cb89164e44"></a>
+<a class="anchor" id="aeed8970281fe3f1472fc0a817732a3bb"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::unique_ptr&lt;<a class="el" href="classhect_1_1_write_stream.html">WriteStream</a>&gt; hect::FileSystem::openFileForWrite </td>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhect_1_1_write_stream.html">WriteStream</a>&gt; hect::FileSystem::openFileForWrite </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Opens a file for writing. </p>
-<dl class="section warning"><dt>Warning</dt><dd>The write directory must be set using the <a class="el" href="classhect_1_1_file_system.html#a1bdc9ad140ffdfa77017727acbadf5fd" title="Sets the directory where write access is allowed and directed to. ">setWriteDirectory()</a> method.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The write directory must be set using the <a class="el" href="classhect_1_1_file_system.html#a99752859ecde58e9fd4622a129478493" title="Sets the directory where write access is allowed and directed to. ">setWriteDirectory()</a> method.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to the file to open for writing relative to the write directory path.</td></tr>
@@ -420,31 +362,23 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 
 </div>
 </div>
-<a class="anchor" id="a2f28e844f21b0f7450c315a8175a243b"></a>
+<a class="anchor" id="ab8b0ff918f0b3d8450a787555183033a"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void hect::FileSystem::remove </td>
+          <td class="memname">void hect::FileSystem::remove </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Removes the file or directory at the given path. </p>
 <p>If the path does not exist then nothing happens.</p>
-<dl class="section warning"><dt>Warning</dt><dd>The write directory mustfirst be set using the <a class="el" href="classhect_1_1_file_system.html#a1bdc9ad140ffdfa77017727acbadf5fd" title="Sets the directory where write access is allowed and directed to. ">setWriteDirectory()</a> method.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The write directory mustfirst be set using the <a class="el" href="classhect_1_1_file_system.html#a99752859ecde58e9fd4622a129478493" title="Sets the directory where write access is allowed and directed to. ">setWriteDirectory()</a> method.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The path to the file or directory to remove relative to the write directory path.</td></tr>
@@ -460,26 +394,18 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 
 </div>
 </div>
-<a class="anchor" id="a1bdc9ad140ffdfa77017727acbadf5fd"></a>
+<a class="anchor" id="a99752859ecde58e9fd4622a129478493"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void hect::FileSystem::setWriteDirectory </td>
+          <td class="memname">void hect::FileSystem::setWriteDirectory </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhect_1_1_path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Sets the directory where write access is allowed and directed to. </p>
@@ -501,7 +427,7 @@ virtual <a class="el" href="classhect_1_1_path.html">Path</a>&#160;</td><td clas
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

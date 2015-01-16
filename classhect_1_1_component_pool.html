@@ -112,6 +112,9 @@ Inheritance diagram for hect::ComponentPool&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a7e3f681a3e21a1960ffe117c4bd348b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_pool.html#a7e3f681a3e21a1960ffe117c4bd348b1">ComponentPool</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene)</td></tr>
+<tr class="memdesc:a7e3f681a3e21a1960ffe117c4bd348b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a component pool.  <a href="#a7e3f681a3e21a1960ffe117c4bd348b1">More...</a><br /></td></tr>
+<tr class="separator:a7e3f681a3e21a1960ffe117c4bd348b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affab6f00f21c437656bed2da104f20bc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="affab6f00f21c437656bed2da104f20bc"></a>
 <a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_pool.html#affab6f00f21c437656bed2da104f20bc">begin</a> ()</td></tr>
 <tr class="memdesc:affab6f00f21c437656bed2da104f20bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the beginning of the pool. <br /></td></tr>
@@ -134,13 +137,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4103d01aa7e04d9c09d4b9ebc770f159"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::ConstIterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_pool.html#a4103d01aa7e04d9c09d4b9ebc770f159">findFirst</a> (typename <a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Predicate predicate) const </td></tr>
 <tr class="memdesc:a4103d01aa7e04d9c09d4b9ebc770f159"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> matching the given predicate.  <a href="#a4103d01aa7e04d9c09d4b9ebc770f159">More...</a><br /></td></tr>
 <tr class="separator:a4103d01aa7e04d9c09d4b9ebc770f159"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cf96daa4a8bbf5cab78249f6a6d48f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Iterator::Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_pool.html#a2cf96daa4a8bbf5cab78249f6a6d48f0">find</a> (typename <a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Predicate predicate)</td></tr>
-<tr class="memdesc:a2cf96daa4a8bbf5cab78249f6a6d48f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns iterators to all <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a>s matching the given predicate.  <a href="#a2cf96daa4a8bbf5cab78249f6a6d48f0">More...</a><br /></td></tr>
-<tr class="separator:a2cf96daa4a8bbf5cab78249f6a6d48f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a403f844c00291e09ad7cb316fbf5244f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;<br class="typebreak" />
-::ConstIterator::Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_pool.html#a403f844c00291e09ad7cb316fbf5244f">find</a> (typename <a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Predicate predicate) const </td></tr>
-<tr class="memdesc:a403f844c00291e09ad7cb316fbf5244f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns iterators to all <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a>s matching the given predicate.  <a href="#a403f844c00291e09ad7cb316fbf5244f">More...</a><br /></td></tr>
-<tr class="separator:a403f844c00291e09ad7cb316fbf5244f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a05970fac38f175fd802806d03670d1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; typename <br class="typebreak" />
+<a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Iterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_pool.html#a3a05970fac38f175fd802806d03670d1">find</a> (typename <a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Predicate predicate)</td></tr>
+<tr class="memdesc:a3a05970fac38f175fd802806d03670d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns iterators to all <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a>s matching the given predicate.  <a href="#a3a05970fac38f175fd802806d03670d1">More...</a><br /></td></tr>
+<tr class="separator:a3a05970fac38f175fd802806d03670d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26f129f7129b390085adaff96dc34512"><td class="memItemLeft" align="right" valign="top">std::vector&lt; typename <br class="typebreak" />
+<a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::ConstIterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_pool.html#a26f129f7129b390085adaff96dc34512">find</a> (typename <a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Predicate predicate) const </td></tr>
+<tr class="memdesc:a26f129f7129b390085adaff96dc34512"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns iterators to all <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a>s matching the given predicate.  <a href="#a26f129f7129b390085adaff96dc34512">More...</a><br /></td></tr>
+<tr class="separator:a26f129f7129b390085adaff96dc34512"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9457d9305af448fe5efec9cf610d0b54"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_pool.html#a9457d9305af448fe5efec9cf610d0b54">withId</a> (<a class="el" href="namespacehect.html#a74474dc8aa2b27c1a3e54f09c21c9109">ComponentId</a> id)</td></tr>
 <tr class="memdesc:a9457d9305af448fe5efec9cf610d0b54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a> with the given id.  <a href="#a9457d9305af448fe5efec9cf610d0b54">More...</a><br /></td></tr>
 <tr class="separator:a9457d9305af448fe5efec9cf610d0b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,15 +171,42 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 class hect::ComponentPool&lt; T &gt;</h3>
 
 <p>A pool of <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a>s of a specific type within a <a class="el" href="classhect_1_1_scene.html" title="A dynamic collection of Entities , Components, and Systems. ">Scene</a>. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a2cf96daa4a8bbf5cab78249f6a6d48f0"></a>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a7e3f681a3e21a1960ffe117c4bd348b1"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhect_1_1_component.html">Component</a>&lt;T&gt;::Iterator::Vector <a class="el" href="classhect_1_1_component_pool.html">hect::ComponentPool</a>&lt; T &gt;::find </td>
+          <td class="memname"><a class="el" href="classhect_1_1_component_pool.html">hect::ComponentPool</a>&lt; T &gt;::<a class="el" href="classhect_1_1_component_pool.html">ComponentPool</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td>
+          <td class="paramname"><em>scene</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a component pool. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scene</td><td>The scene. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a3a05970fac38f175fd802806d03670d1"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;typename <a class="el" href="classhect_1_1_component.html">Component</a>&lt;T&gt;::Iterator&gt; <a class="el" href="classhect_1_1_component_pool.html">hect::ComponentPool</a>&lt; T &gt;::find </td>
           <td>(</td>
           <td class="paramtype">typename <a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Predicate&#160;</td>
           <td class="paramname"><em>predicate</em></td><td>)</td>
@@ -195,14 +226,14 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a403f844c00291e09ad7cb316fbf5244f"></a>
+<a class="anchor" id="a26f129f7129b390085adaff96dc34512"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhect_1_1_component.html">Component</a>&lt;T&gt;::ConstIterator::Vector <a class="el" href="classhect_1_1_component_pool.html">hect::ComponentPool</a>&lt; T &gt;::find </td>
+          <td class="memname">std::vector&lt;typename <a class="el" href="classhect_1_1_component.html">Component</a>&lt;T&gt;::ConstIterator&gt; <a class="el" href="classhect_1_1_component_pool.html">hect::ComponentPool</a>&lt; T &gt;::find </td>
           <td>(</td>
           <td class="paramtype">typename <a class="el" href="classhect_1_1_component.html">Component</a>&lt; T &gt;::Predicate&#160;</td>
           <td class="paramname"><em>predicate</em></td><td>)</td>
@@ -343,7 +374,7 @@ template&lt;typename T&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

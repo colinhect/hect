@@ -105,13 +105,14 @@ Inheritance diagram for hect::System:</div>
  <div class="center">
   <img src="classhect_1_1_system.png" usemap="#hect::System_map" alt=""/>
   <map id="hect::System_map" name="hect::System_map">
-<area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="415,0,571,24"/>
+<area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="498,0,654,24"/>
 <area href="classhect_1_1_bounding_box_system.html" title="Manages the BoundingBox hierarchies of a Scene. " alt="hect::BoundingBoxSystem" shape="rect" coords="0,112,156,136"/>
 <area href="classhect_1_1_camera_system.html" title="Updates and tracks the active Camera in a Scene. " alt="hect::CameraSystem" shape="rect" coords="166,112,322,136"/>
 <area href="classhect_1_1_debug_system.html" title="Provides debug functionality. " alt="hect::DebugSystem" shape="rect" coords="332,112,488,136"/>
 <area href="classhect_1_1_input_system.html" title="Maps user input to input axes. " alt="hect::InputSystem" shape="rect" coords="498,112,654,136"/>
 <area href="classhect_1_1_physics_system.html" title="Simulates physical interactions of physical bodies. " alt="hect::PhysicsSystem" shape="rect" coords="664,112,820,136"/>
-<area href="classhect_1_1_transform_system.html" title="Manages the Transform hierarchies of a Scene. " alt="hect::TransformSystem" shape="rect" coords="830,112,986,136"/>
+<area href="classhect_1_1_render_system.html" title="Performs the high-level rendering algorithms (physically-based shading, deferred shading, shadows, reflections, etc). " alt="hect::RenderSystem" shape="rect" coords="830,112,986,136"/>
+<area href="classhect_1_1_transform_system.html" title="Manages the Transform hierarchies of a Scene. " alt="hect::TransformSystem" shape="rect" coords="996,112,1152,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -120,9 +121,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3e801d70e8869e871587e6914b15cf79"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a3e801d70e8869e871587e6914b15cf79">System</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;<a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>, <a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> <a class="el" href="classhect_1_1_system.html#a812bbf7b78e00e59b1f337f20104466f">tickStage</a>=<a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a>)</td></tr>
 <tr class="memdesc:a3e801d70e8869e871587e6914b15cf79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a system.  <a href="#a3e801d70e8869e871587e6914b15cf79">More...</a><br /></td></tr>
 <tr class="separator:a3e801d70e8869e871587e6914b15cf79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8d1add3e5d6481de4a7246acef2eeb9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#ae8d1add3e5d6481de4a7246acef2eeb9">tick</a> (<a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep)</td></tr>
-<tr class="memdesc:ae8d1add3e5d6481de4a7246acef2eeb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#ae8d1add3e5d6481de4a7246acef2eeb9">More...</a><br /></td></tr>
-<tr class="separator:ae8d1add3e5d6481de4a7246acef2eeb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76465d755c009143a21bd88546cb9612"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a76465d755c009143a21bd88546cb9612">tick</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep)</td></tr>
+<tr class="memdesc:a76465d755c009143a21bd88546cb9612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#a76465d755c009143a21bd88546cb9612">More...</a><br /></td></tr>
+<tr class="separator:a76465d755c009143a21bd88546cb9612"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515b40a13cfd39aa06a263c4a8f43c0f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a515b40a13cfd39aa06a263c4a8f43c0f">render</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
+<tr class="memdesc:a515b40a13cfd39aa06a263c4a8f43c0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the current state of the system to a target.  <a href="#a515b40a13cfd39aa06a263c4a8f43c0f">More...</a><br /></td></tr>
+<tr class="separator:a515b40a13cfd39aa06a263c4a8f43c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90c83603cd4d4ed463f77057c77aaaef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90c83603cd4d4ed463f77057c77aaaef"></a>
 <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a> ()</td></tr>
 <tr class="memdesc:a90c83603cd4d4ed463f77057c77aaaef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene that the system affects. <br /></td></tr>
@@ -245,7 +249,52 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 
 </div>
 </div>
-<a class="anchor" id="ae8d1add3e5d6481de4a7246acef2eeb9"></a>
+<a class="anchor" id="a515b40a13cfd39aa06a263c4a8f43c0f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void hect::System::render </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
+          <td class="paramname"><em>engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;&#160;</td>
+          <td class="paramname"><em>target</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Renders the current state of the system to a target. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">engine</td><td>The engine. </td></tr>
+    <tr><td class="paramname">target</td><td>The target to render to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="classhect_1_1_render_system.html#a7775585b316a9230431b97f734f07aef">hect::RenderSystem</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a76465d755c009143a21bd88546cb9612"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -255,9 +304,19 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
         <tr>
           <td class="memname">virtual void hect::System::tick </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
-          <td class="paramname"><em>timeStep</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
+          <td class="paramname"><em>engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
+          <td class="paramname"><em>timeStep</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -270,19 +329,20 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 <p>Performs a single tick of simulation for the system. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">engine</td><td>The engine. </td></tr>
     <tr><td class="paramname">timeStep</td><td>The duration of time in seconds for the tick to simulate. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classhect_1_1_debug_system.html#a4d0834041c7a71eaad3521a997175209">hect::DebugSystem</a>, <a class="el" href="classhect_1_1_physics_system.html#a1a388fb066b890a477c8c8ecaceb2356">hect::PhysicsSystem</a>, <a class="el" href="classhect_1_1_input_system.html#a4663380aeb214d8366628fa5160df97c">hect::InputSystem</a>, <a class="el" href="classhect_1_1_camera_system.html#a951bdad15892b60b2b47fbe0aceec9a9">hect::CameraSystem</a>, <a class="el" href="classhect_1_1_transform_system.html#a52bc17fcb8bfc0926c767367ac52aa61">hect::TransformSystem</a>, and <a class="el" href="classhect_1_1_bounding_box_system.html#a9aa59e6f916a4fa1d6ba2291124fb39b">hect::BoundingBoxSystem</a>.</p>
+<p>Reimplemented in <a class="el" href="classhect_1_1_debug_system.html#a940de2c64bf74f0a3707706605f10554">hect::DebugSystem</a>, <a class="el" href="classhect_1_1_physics_system.html#ab189ff96e38139959faf460eac15694a">hect::PhysicsSystem</a>, <a class="el" href="classhect_1_1_input_system.html#a7c73f15ee7d2e02746259b3deb83b33d">hect::InputSystem</a>, <a class="el" href="classhect_1_1_camera_system.html#a0a79fc4aa1e5580a81727d20a167a8eb">hect::CameraSystem</a>, <a class="el" href="classhect_1_1_transform_system.html#a47d37106b1225d419285cda7877a2688">hect::TransformSystem</a>, and <a class="el" href="classhect_1_1_bounding_box_system.html#a0292bad096164b0b7c798439eb42e581">hect::BoundingBoxSystem</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

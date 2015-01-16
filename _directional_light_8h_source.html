@@ -107,32 +107,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector3.h&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classhect_1_1_directional_light.html">   37</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_directional_light.html">DirectionalLight</a> :</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_component.html">Component</a>&lt;DirectionalLight&gt;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classhect_1_1_directional_light.html#a61d501a7bc342dbf86fde81213300c97">   46</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> direction { <a class="code" href="classhect_1_1_vector3_t.html#ab21031be94ff6721ad32dc9159ca6ca7">Vector3::unitX</a>() };</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classhect_1_1_directional_light.html#ad448ebab44322b3afaa71b21b1562468">   52</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> color { <a class="code" href="classhect_1_1_vector3_t.html#ae09bf59ca49fdc8f96351478d60be714">Vector3::one</a>() };</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
-<div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:78</div></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Graphics/Color.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Math/Vector3.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classhect_1_1_directional_light.html">   38</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_directional_light.html">DirectionalLight</a> :</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_component.html">Component</a>&lt;DirectionalLight&gt;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classhect_1_1_directional_light.html#a61d501a7bc342dbf86fde81213300c97">   47</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> direction { <a class="code" href="classhect_1_1_vector3_t.html#ab21031be94ff6721ad32dc9159ca6ca7">Vector3::unitX</a>() };</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="classhect_1_1_directional_light.html#ac76d5ae9701cadc3e37fbd07d8509cb8">   53</a></span>&#160;    <a class="code" href="classhect_1_1_color.html">Color</a> <a class="code" href="classhect_1_1_directional_light.html#ac76d5ae9701cadc3e37fbd07d8509cb8">color</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:77</div></div>
 <div class="ttc" id="classhect_1_1_vector3_t_html_ab21031be94ff6721ad32dc9159ca6ca7"><div class="ttname"><a href="classhect_1_1_vector3_t.html#ab21031be94ff6721ad32dc9159ca6ca7">hect::Vector3T&lt; Real &gt;::unitX</a></div><div class="ttdeci">static Vector3T unitX()</div><div class="ttdoc">Constructs a 3-dimensional vector with the x component equal to one. </div></div>
-<div class="ttc" id="classhect_1_1_vector3_t_html_ae09bf59ca49fdc8f96351478d60be714"><div class="ttname"><a href="classhect_1_1_vector3_t.html#ae09bf59ca49fdc8f96351478d60be714">hect::Vector3T&lt; Real &gt;::one</a></div><div class="ttdeci">static Vector3T one()</div><div class="ttdoc">Constructs a 3-dimensional vector with all components equal to one. </div></div>
-<div class="ttc" id="classhect_1_1_directional_light_html"><div class="ttname"><a href="classhect_1_1_directional_light.html">hect::DirectionalLight</a></div><div class="ttdoc">A directional light. </div><div class="ttdef"><b>Definition:</b> DirectionalLight.h:37</div></div>
+<div class="ttc" id="classhect_1_1_directional_light_html_ac76d5ae9701cadc3e37fbd07d8509cb8"><div class="ttname"><a href="classhect_1_1_directional_light.html#ac76d5ae9701cadc3e37fbd07d8509cb8">hect::DirectionalLight::color</a></div><div class="ttdeci">Color color</div><div class="ttdoc">The color. </div><div class="ttdef"><b>Definition:</b> DirectionalLight.h:53</div></div>
+<div class="ttc" id="classhect_1_1_color_html"><div class="ttname"><a href="classhect_1_1_color.html">hect::Color</a></div><div class="ttdoc">An RGBA color. </div><div class="ttdef"><b>Definition:</b> Color.h:36</div></div>
+<div class="ttc" id="classhect_1_1_directional_light_html"><div class="ttname"><a href="classhect_1_1_directional_light.html">hect::DirectionalLight</a></div><div class="ttdoc">A directional light. </div><div class="ttdef"><b>Definition:</b> DirectionalLight.h:38</div></div>
 <div class="ttc" id="classhect_1_1_vector3_t_html"><div class="ttname"><a href="classhect_1_1_vector3_t.html">hect::Vector3T&lt; Real &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

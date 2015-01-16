@@ -1,7 +1,7 @@
 var searchData=
 [
   ['key',['key',['../classhect_1_1_input_axis_binding.html#a572949c32872467a298b969c5d04a9a4',1,'hect::InputAxisBinding::key()'],['../classhect_1_1_keyboard_event.html#a8e84575d89435c2d0ae5d52f91deff75',1,'hect::KeyboardEvent::key()'],['../namespacehect.html#ac32eb11aff0348cb03d06aad5d2a0b45',1,'hect::Key()']]],
-  ['keyboard',['keyboard',['../classhect_1_1_platform.html#a4db6185329c64d2606e6872af4e70b0e',1,'hect::Platform']]],
+  ['keyboard',['keyboard',['../classhect_1_1_platform.html#a838a6fe93733d10c03b4f737c408f9ac',1,'hect::Platform']]],
   ['keyboard',['Keyboard',['../classhect_1_1_keyboard.html',1,'hect']]],
   ['keyboardevent',['KeyboardEvent',['../classhect_1_1_keyboard_event.html',1,'hect']]],
   ['keyboardeventtype',['KeyboardEventType',['../namespacehect.html#a3a624b5c35d40fcd1d7259b5fb806898',1,'hect']]],

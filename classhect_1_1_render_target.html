@@ -120,9 +120,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa4519bce2ac36a3be5c1e9fa873d2cbe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_render_target.html#aa4519bce2ac36a3be5c1e9fa873d2cbe">RenderTarget</a> (unsigned <a class="el" href="classhect_1_1_render_target.html#ae5ac0df0067d347523dd5288aebb5da1">width</a>, unsigned <a class="el" href="classhect_1_1_render_target.html#ac0103d3fc0f8b255567036219423cb39">height</a>)</td></tr>
 <tr class="memdesc:aa4519bce2ac36a3be5c1e9fa873d2cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a render target.  <a href="#aa4519bce2ac36a3be5c1e9fa873d2cbe">More...</a><br /></td></tr>
 <tr class="separator:aa4519bce2ac36a3be5c1e9fa873d2cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca877c309388802c212909adb25df492"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_render_target.html#aca877c309388802c212909adb25df492">select</a> (<a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;renderer)=0</td></tr>
-<tr class="memdesc:aca877c309388802c212909adb25df492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects this target as the active target to the given renderer.  <a href="#aca877c309388802c212909adb25df492">More...</a><br /></td></tr>
-<tr class="separator:aca877c309388802c212909adb25df492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69aba78b0f34f600446b5b525cd47ab6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_render_target.html#a69aba78b0f34f600446b5b525cd47ab6">bind</a> (<a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;renderer)=0</td></tr>
+<tr class="memdesc:a69aba78b0f34f600446b5b525cd47ab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets this target as the active target to the given renderer.  <a href="#a69aba78b0f34f600446b5b525cd47ab6">More...</a><br /></td></tr>
+<tr class="separator:a69aba78b0f34f600446b5b525cd47ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04a5333d50078459c0a4a66784f623fd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_render_target.html#a04a5333d50078459c0a4a66784f623fd">swapBuffers</a> ()</td></tr>
 <tr class="memdesc:a04a5333d50078459c0a4a66784f623fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps the back buffer.  <a href="#a04a5333d50078459c0a4a66784f623fd">More...</a><br /></td></tr>
 <tr class="separator:a04a5333d50078459c0a4a66784f623fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,7 +187,7 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aca877c309388802c212909adb25df492"></a>
+<a class="anchor" id="a69aba78b0f34f600446b5b525cd47ab6"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -195,7 +195,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void hect::RenderTarget::select </td>
+          <td class="memname">virtual void hect::RenderTarget::bind </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;&#160;</td>
           <td class="paramname"><em>renderer</em></td><td>)</td>
@@ -209,15 +209,15 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Selects this target as the active target to the given renderer. </p>
+<p>Sets this target as the active target to the given renderer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">renderer</td><td>The renderer to select the target for. </td></tr>
+    <tr><td class="paramname">renderer</td><td>The renderer to set the target for. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classhect_1_1_frame_buffer.html#a14c0f93ceaf60a61a7ba86ed585be9a5">hect::FrameBuffer</a>, and <a class="el" href="classhect_1_1_window.html#a8d83322474a98af992333408fcd1072e">hect::Window</a>.</p>
+<p>Implemented in <a class="el" href="classhect_1_1_frame_buffer.html#a312a41383d421a3082f658a4e2b0a9d0">hect::FrameBuffer</a>, and <a class="el" href="classhect_1_1_window.html#a56f98a2c3ac29ca76a06e3bfb6db7323">hect::Window</a>.</p>
 
 </div>
 </div>
@@ -314,14 +314,14 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classhect_1_1_window.html#aee0daab7b2c01783f1fc18e625e20c7a">hect::Window</a>.</p>
+<p>Reimplemented in <a class="el" href="classhect_1_1_window.html#a85835e60a1e290691e19685231e8743e">hect::Window</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

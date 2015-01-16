@@ -131,13 +131,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>center()
 : <a class="el" href="classhect_1_1_axis_aligned_box.html#a0a8ae77cc6323f9c46106e86d984dc2f">hect::AxisAlignedBox</a>
+, <a class="el" href="classhect_1_1_rectangle.html#ae8cdb1eadefa70ae9739ca3cd2d99e68">hect::Rectangle</a>
 </li>
 <li>children()
 : <a class="el" href="classhect_1_1_entity.html#a352dfe299d1173fd41cbd90eb04a47bf">hect::Entity</a>
 </li>
 <li>clear()
 : <a class="el" href="classhect_1_1_asset_cache.html#a418f099b57a2011b115328b03344c02d">hect::AssetCache</a>
-, <a class="el" href="classhect_1_1_renderer.html#a88bb44b11445fd4e6244811194762e18">hect::Renderer</a>
+, <a class="el" href="classhect_1_1_renderer_1_1_frame.html#a49a40f59616c919dfb655c9a81885c1c">hect::Renderer::Frame</a>
 </li>
 <li>clearAttributes()
 : <a class="el" href="classhect_1_1_vertex_layout.html#ac639467949329e0e8c2bee489095265a">hect::VertexLayout</a>
@@ -154,6 +155,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>clone()
 : <a class="el" href="classhect_1_1_entity.html#a425946f7aceb609d53ee01fb40da89dd">hect::Entity</a>
 </li>
+<li>Color()
+: <a class="el" href="classhect_1_1_color.html#af48964a5c35c980ff64984b11d5bdfe2">hect::Color</a>
+</li>
 <li>colorSpace()
 : <a class="el" href="classhect_1_1_image.html#a01ba2768783254bff30852456aa13867">hect::Image</a>
 </li>
@@ -161,8 +165,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_physics_system.html#ade92e8481596884b3fef570e810e429e">hect::PhysicsSystem</a>
 , <a class="el" href="classhect_1_1_transform_system.html#a76b4aba76b0fd4870e0fa57a2e4f32c5">hect::TransformSystem</a>
 </li>
+<li>Component()
+: <a class="el" href="classhect_1_1_component.html#abd7069dd053fdbeea3acbb71456aeb4c">hect::Component&lt; T &gt;</a>
+</li>
 <li>component()
 : <a class="el" href="classhect_1_1_entity.html#acb12ed4eca7f47a96c3bad774facac74">hect::Entity</a>
+</li>
+<li>ComponentConstIterator()
+: <a class="el" href="classhect_1_1_component_const_iterator.html#ac91d4f11310b463a000cf0fdaef3586f">hect::ComponentConstIterator&lt; T &gt;</a>
+</li>
+<li>ComponentIterator()
+: <a class="el" href="classhect_1_1_component_iterator.html#a849f9e815ffc64dbbd4643444dcbcfe6">hect::ComponentIterator&lt; T &gt;</a>
+</li>
+<li>ComponentIteratorBase()
+: <a class="el" href="classhect_1_1_component_iterator_base.html#a24076efd185cc05376ed1f967c75c43d">hect::ComponentIteratorBase&lt; T &gt;</a>
+</li>
+<li>ComponentPool()
+: <a class="el" href="classhect_1_1_component_pool.html#a7e3f681a3e21a1960ffe117c4bd348b1">hect::ComponentPool&lt; T &gt;</a>
 </li>
 <li>components()
 : <a class="el" href="classhect_1_1_scene.html#a47ebed2269741919a5b417169027e5ca">hect::Scene</a>
@@ -170,18 +189,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>conjugate()
 : <a class="el" href="classhect_1_1_quaternion_t.html#a1448e42c4f4ee269b2271b23959fe7ec">hect::QuaternionT&lt; T &gt;</a>
 </li>
-<li>ConstIterator()
-: <a class="el" href="classhect_1_1_component_1_1_const_iterator.html#a6279eeac81f62ce0edc7a6a4dbe80317">hect::Component&lt; T &gt;::ConstIterator</a>
-, <a class="el" href="classhect_1_1_entity_1_1_children_1_1_const_iterator.html#adffc200e07ea34f67d8780faaedb98a5">hect::Entity::Children::ConstIterator</a>
-, <a class="el" href="classhect_1_1_entity_1_1_const_iterator.html#acffe3692527940305004694dba45cca8">hect::Entity::ConstIterator</a>
-</li>
 <li>containsSphere()
 : <a class="el" href="classhect_1_1_frustum.html#a3672201fd1b1e502208929016577e834">hect::Frustum</a>
 </li>
 <li>create()
 : <a class="el" href="classhect_1_1_component_registry.html#a8a17fde0c354892279199e821296ffdf">hect::ComponentRegistry</a>
-, <a class="el" href="classhect_1_1_game_mode_registry.html#abcf653185326dcf5648cc083be2e0d27">hect::GameModeRegistry</a>
 , <a class="el" href="classhect_1_1_id_pool.html#aa6d67f79ace8066b425a35f57837230a">hect::IdPool&lt; T &gt;</a>
+, <a class="el" href="classhect_1_1_mode_registry.html#adaf398364bc583734debbccf5d85feb3">hect::ModeRegistry</a>
 , <a class="el" href="classhect_1_1_system_registry.html#a27fc3bfb043d1a18fc84b37b9010a775">hect::SystemRegistry</a>
 , <a class="el" href="classhect_1_1_type.html#aa10a963d93148be85612e892cbba6b39">hect::Type</a>
 </li>
@@ -189,10 +203,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classhect_1_1_vertex_layout.html#a0285d5db38ea62ff23a6900e7fb0a7ab">hect::VertexLayout</a>
 </li>
 <li>createDirectory()
-: <a class="el" href="classhect_1_1_file_system.html#af0d91be750d6110c9d9c9fbadf42864e">hect::FileSystem</a>
+: <a class="el" href="classhect_1_1_file_system.html#a47ac28e335e3f32ecd59efa50afece60">hect::FileSystem</a>
 </li>
 <li>createEntity()
-: <a class="el" href="classhect_1_1_scene.html#a1616bee1fe149b3e271a204a6c507c88">hect::Scene</a>
+: <a class="el" href="classhect_1_1_scene.html#aeb40c2596b40a885891fe325c261c218">hect::Scene</a>
 </li>
 <li>createHandle()
 : <a class="el" href="classhect_1_1_asset.html#a4b1aa4d7980c4f5b99c3ea49ee0090ee">hect::Asset&lt; T &gt;</a>
@@ -210,9 +224,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>createView()
 : <a class="el" href="classhect_1_1_matrix4_t.html#a069bdd1f2ae57f086590d105e200cf44">hect::Matrix4T&lt; T &gt;</a>
 </li>
-<li>createWindow()
-: <a class="el" href="classhect_1_1_platform.html#ac2d5d69a635fe2ba475e2add961b07ac">hect::Platform</a>
-</li>
 <li>cross()
 : <a class="el" href="classhect_1_1_vector3_t.html#aa603358ce0e1444165421f13ed324802">hect::Vector3T&lt; T &gt;</a>
 </li>
@@ -229,7 +240,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:44 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['g',['g',['../classhect_1_1_color.html#aaa1806e93b91b5c117cc57350a164f84',1,'hect::Color']]],
   ['gamma',['gamma',['../classhect_1_1_camera.html#a8b178472cda5d057753d9f2bcc90f054',1,'hect::Camera']]],
   ['globalposition',['globalPosition',['../classhect_1_1_transform.html#ace6ada70956b1bfb2155ec68dfdb2c85',1,'hect::Transform']]],
   ['globalrotation',['globalRotation',['../classhect_1_1_transform.html#adc814303a340b196686875eae74bdebc',1,'hect::Transform']]],

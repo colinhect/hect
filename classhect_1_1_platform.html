@@ -92,7 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classhect_1_1_platform-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">hect::Platform Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">hect::Platform Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -120,104 +120,50 @@ JoystickContainer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac2d5d69a635fe2ba475e2add961b07ac"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="classhect_1_1_window.html">Window</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#ac2d5d69a635fe2ba475e2add961b07ac">createWindow</a> (const std::string &amp;title, const <a class="el" href="classhect_1_1_video_mode.html">VideoMode</a> &amp;videoMode)=0</td></tr>
-<tr class="memdesc:ac2d5d69a635fe2ba475e2add961b07ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a window in the operating system of the platform.  <a href="#ac2d5d69a635fe2ba475e2add961b07ac">More...</a><br /></td></tr>
-<tr class="separator:ac2d5d69a635fe2ba475e2add961b07ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9a7319e0c02f7c31f36e5c293c3ce32"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9a7319e0c02f7c31f36e5c293c3ce32"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#ae9a7319e0c02f7c31f36e5c293c3ce32">handleEvents</a> ()=0</td></tr>
-<tr class="memdesc:ae9a7319e0c02f7c31f36e5c293c3ce32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles and dispatches all platform events. <br /></td></tr>
-<tr class="separator:ae9a7319e0c02f7c31f36e5c293c3ce32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32e9ef452d8563db73febd50b049f129"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a32e9ef452d8563db73febd50b049f129"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a32e9ef452d8563db73febd50b049f129">hasMouse</a> ()=0</td></tr>
-<tr class="memdesc:a32e9ef452d8563db73febd50b049f129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the platform has a mouse connected. <br /></td></tr>
-<tr class="separator:a32e9ef452d8563db73febd50b049f129"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a936fa3ba1a5283a1e5c7c60284e240a8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classhect_1_1_mouse.html">Mouse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a936fa3ba1a5283a1e5c7c60284e240a8">mouse</a> ()=0</td></tr>
-<tr class="memdesc:a936fa3ba1a5283a1e5c7c60284e240a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the mouse.  <a href="#a936fa3ba1a5283a1e5c7c60284e240a8">More...</a><br /></td></tr>
-<tr class="separator:a936fa3ba1a5283a1e5c7c60284e240a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac770b25da90f2718ac51874265f66db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac770b25da90f2718ac51874265f66db"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#aac770b25da90f2718ac51874265f66db">hasKeyboard</a> ()=0</td></tr>
-<tr class="memdesc:aac770b25da90f2718ac51874265f66db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the platform has a keyboard connected. <br /></td></tr>
-<tr class="separator:aac770b25da90f2718ac51874265f66db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4db6185329c64d2606e6872af4e70b0e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classhect_1_1_keyboard.html">Keyboard</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a4db6185329c64d2606e6872af4e70b0e">keyboard</a> ()=0</td></tr>
-<tr class="memdesc:a4db6185329c64d2606e6872af4e70b0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the keyboard.  <a href="#a4db6185329c64d2606e6872af4e70b0e">More...</a><br /></td></tr>
-<tr class="separator:a4db6185329c64d2606e6872af4e70b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f34178c69f0d1bdd7492913f9ddb30a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a3f34178c69f0d1bdd7492913f9ddb30a">hasJoystick</a> (<a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index)=0</td></tr>
-<tr class="memdesc:a3f34178c69f0d1bdd7492913f9ddb30a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the platform has a joystick connected at the given index.  <a href="#a3f34178c69f0d1bdd7492913f9ddb30a">More...</a><br /></td></tr>
-<tr class="separator:a3f34178c69f0d1bdd7492913f9ddb30a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a331f6621d7ee6a0b89ed19a0691cba74"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classhect_1_1_joystick.html">Joystick</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a331f6621d7ee6a0b89ed19a0691cba74">joystick</a> (<a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index)=0</td></tr>
-<tr class="memdesc:a331f6621d7ee6a0b89ed19a0691cba74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the joystick connected at the specified index.  <a href="#a331f6621d7ee6a0b89ed19a0691cba74">More...</a><br /></td></tr>
-<tr class="separator:a331f6621d7ee6a0b89ed19a0691cba74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1a779247aaf7d9aedc637f38659a908"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1a779247aaf7d9aedc637f38659a908"></a>
-virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">JoystickSequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#af1a779247aaf7d9aedc637f38659a908">joysticks</a> ()=0</td></tr>
-<tr class="memdesc:af1a779247aaf7d9aedc637f38659a908"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns any joysticks connected to the platform. <br /></td></tr>
-<tr class="separator:af1a779247aaf7d9aedc637f38659a908"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c96d8f0dd549dfebff32ab4b9733362"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c96d8f0dd549dfebff32ab4b9733362"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a9c96d8f0dd549dfebff32ab4b9733362">handleEvents</a> ()</td></tr>
+<tr class="memdesc:a9c96d8f0dd549dfebff32ab4b9733362"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles and dispatches all platform events. <br /></td></tr>
+<tr class="separator:a9c96d8f0dd549dfebff32ab4b9733362"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a130238a3e66af082ed6b12b992ae86c0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a130238a3e66af082ed6b12b992ae86c0"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a130238a3e66af082ed6b12b992ae86c0">hasMouse</a> ()</td></tr>
+<tr class="memdesc:a130238a3e66af082ed6b12b992ae86c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the platform has a mouse connected. <br /></td></tr>
+<tr class="separator:a130238a3e66af082ed6b12b992ae86c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a762187605f664fec41ff4161e0416958"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_mouse.html">Mouse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a762187605f664fec41ff4161e0416958">mouse</a> ()</td></tr>
+<tr class="memdesc:a762187605f664fec41ff4161e0416958"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the mouse.  <a href="#a762187605f664fec41ff4161e0416958">More...</a><br /></td></tr>
+<tr class="separator:a762187605f664fec41ff4161e0416958"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad53e08276d75f490c7aadb49cebf2a29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad53e08276d75f490c7aadb49cebf2a29"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#ad53e08276d75f490c7aadb49cebf2a29">hasKeyboard</a> ()</td></tr>
+<tr class="memdesc:ad53e08276d75f490c7aadb49cebf2a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the platform has a keyboard connected. <br /></td></tr>
+<tr class="separator:ad53e08276d75f490c7aadb49cebf2a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a838a6fe93733d10c03b4f737c408f9ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_keyboard.html">Keyboard</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a838a6fe93733d10c03b4f737c408f9ac">keyboard</a> ()</td></tr>
+<tr class="memdesc:a838a6fe93733d10c03b4f737c408f9ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the keyboard.  <a href="#a838a6fe93733d10c03b4f737c408f9ac">More...</a><br /></td></tr>
+<tr class="separator:a838a6fe93733d10c03b4f737c408f9ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16a0d160adf3cd83a86378bfa3ece296"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a16a0d160adf3cd83a86378bfa3ece296">hasJoystick</a> (<a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index)</td></tr>
+<tr class="memdesc:a16a0d160adf3cd83a86378bfa3ece296"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the platform has a joystick connected at the given index.  <a href="#a16a0d160adf3cd83a86378bfa3ece296">More...</a><br /></td></tr>
+<tr class="separator:a16a0d160adf3cd83a86378bfa3ece296"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4666cbd4c73fc1282a88452ad62d51ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_joystick.html">Joystick</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#a4666cbd4c73fc1282a88452ad62d51ab">joystick</a> (<a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a> index)</td></tr>
+<tr class="memdesc:a4666cbd4c73fc1282a88452ad62d51ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the joystick connected at the specified index.  <a href="#a4666cbd4c73fc1282a88452ad62d51ab">More...</a><br /></td></tr>
+<tr class="separator:a4666cbd4c73fc1282a88452ad62d51ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab83394b58ffbff9f5f15bc19ba06b987"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab83394b58ffbff9f5f15bc19ba06b987"></a>
+<a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9c1fde482b">JoystickSequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_platform.html#ab83394b58ffbff9f5f15bc19ba06b987">joysticks</a> ()</td></tr>
+<tr class="memdesc:ab83394b58ffbff9f5f15bc19ba06b987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns any joysticks connected to the platform. <br /></td></tr>
+<tr class="separator:ab83394b58ffbff9f5f15bc19ba06b987"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides access to platform functionality and peripherals. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ac2d5d69a635fe2ba475e2add961b07ac"></a>
+<a class="anchor" id="a16a0d160adf3cd83a86378bfa3ece296"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::unique_ptr&lt;<a class="el" href="classhect_1_1_window.html">Window</a>&gt; hect::Platform::createWindow </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>title</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classhect_1_1_video_mode.html">VideoMode</a> &amp;&#160;</td>
-          <td class="paramname"><em>videoMode</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a window in the operating system of the platform. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">title</td><td>The title of the window. </td></tr>
-    <tr><td class="paramname">videoMode</td><td>The video mode of the window. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a3f34178c69f0d1bdd7492913f9ddb30a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool hect::Platform::hasJoystick </td>
+          <td class="memname">bool hect::Platform::hasJoystick </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a>&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns whether the platform has a joystick connected at the given index. </p>
@@ -230,26 +176,18 @@ virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9
 
 </div>
 </div>
-<a class="anchor" id="a331f6621d7ee6a0b89ed19a0691cba74"></a>
+<a class="anchor" id="a4666cbd4c73fc1282a88452ad62d51ab"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classhect_1_1_joystick.html">Joystick</a>&amp; hect::Platform::joystick </td>
+          <td class="memname"><a class="el" href="classhect_1_1_joystick.html">Joystick</a>&amp; hect::Platform::joystick </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehect.html#aa610d2ba2b0b8a43042a3b7196fa376d">JoystickIndex</a>&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns the joystick connected at the specified index. </p>
@@ -268,25 +206,17 @@ virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9
 
 </div>
 </div>
-<a class="anchor" id="a4db6185329c64d2606e6872af4e70b0e"></a>
+<a class="anchor" id="a838a6fe93733d10c03b4f737c408f9ac"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classhect_1_1_keyboard.html">Keyboard</a>&amp; hect::Platform::keyboard </td>
+          <td class="memname"><a class="el" href="classhect_1_1_keyboard.html">Keyboard</a>&amp; hect::Platform::keyboard </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns the keyboard. </p>
@@ -299,25 +229,17 @@ virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9
 
 </div>
 </div>
-<a class="anchor" id="a936fa3ba1a5283a1e5c7c60284e240a8"></a>
+<a class="anchor" id="a762187605f664fec41ff4161e0416958"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classhect_1_1_mouse.html">Mouse</a>&amp; hect::Platform::mouse </td>
+          <td class="memname"><a class="el" href="classhect_1_1_mouse.html">Mouse</a>&amp; hect::Platform::mouse </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns the mouse. </p>
@@ -333,7 +255,7 @@ virtual <a class="el" href="classhect_1_1_platform.html#ad63705f1748503aebd0b3b9
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:51 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

@@ -7,7 +7,6 @@ var searchData=
   ['indexdata',['indexData',['../classhect_1_1_mesh.html#a3566568197cd3adeefa3aeb5e42b121b',1,'hect::Mesh']]],
   ['indexsize',['indexSize',['../classhect_1_1_mesh.html#a25047b672790597842b73700b862b35a',1,'hect::Mesh']]],
   ['indextype',['indexType',['../classhect_1_1_mesh.html#ae65ad5790dbbe22b5a755a255ea08507',1,'hect::Mesh']]],
-  ['initialize',['initialize',['../classhect_1_1_renderer.html#ab06ea729549ea9ac74b8344ff66785c9',1,'hect::Renderer']]],
   ['inputaxis',['InputAxis',['../classhect_1_1_input_axis.html#ae84876ca06e8b739ba76da8381bbb38e',1,'hect::InputAxis::InputAxis()'],['../classhect_1_1_input_axis.html#ac6dc75513fd9128d3235f069f04643e9',1,'hect::InputAxis::InputAxis(const std::string &amp;name)']]],
   ['invalidate',['invalidate',['../classhect_1_1_renderer_1_1_data.html#a6e799468da825fed16ef2e6b8c1fd4f0',1,'hect::Renderer::Data']]],
   ['invalidoperation',['InvalidOperation',['../classhect_1_1_invalid_operation.html#a4c11ee9e19a5b6e35dcfd6756e2bf116',1,'hect::InvalidOperation::InvalidOperation()'],['../classhect_1_1_invalid_operation.html#a920d1a6b0701abcbf8eaa3339e3b5a5f',1,'hect::InvalidOperation::InvalidOperation(const std::string &amp;message)']]],
@@ -31,9 +30,10 @@ var searchData=
   ['ispendingdestruction',['isPendingDestruction',['../classhect_1_1_entity.html#a871f6ab38308d61d21c176753953d65f',1,'hect::Entity']]],
   ['isregisteredtypeid',['isRegisteredTypeId',['../classhect_1_1_component_registry.html#aca310eaac4049b1ee97b725cc72ae64c',1,'hect::ComponentRegistry::isRegisteredTypeId()'],['../classhect_1_1_system_registry.html#ab85a417acdbfe4d4a2954bcc923dbe5d',1,'hect::SystemRegistry::isRegisteredTypeId()']]],
   ['isstring',['isString',['../classhect_1_1_data_value.html#a7eaba5600f98635b558e6804c4d9dce7',1,'hect::DataValue']]],
+  ['istransient',['isTransient',['../classhect_1_1_entity.html#a81c48b49b4f64cb7baa4c31f4baf4222',1,'hect::Entity']]],
   ['istype',['isType',['../classhect_1_1_any.html#a3405a95faf22c0ee583242b4ef10918b',1,'hect::Any']]],
   ['isuploaded',['isUploaded',['../classhect_1_1_renderer_1_1_object.html#a07f97d6e403ae1b1eff8dee1742eaf8e',1,'hect::Renderer::Object']]],
   ['isvalid',['isValid',['../classhect_1_1_i_p_address.html#a53f21f9993989dcbebc4d3f49e3fd8f3',1,'hect::IPAddress']]],
   ['iswrapped',['isWrapped',['../classhect_1_1_texture.html#a608dfb0f017a8cbba314410ccaf18835',1,'hect::Texture']]],
-  ['iterator',['iterator',['../classhect_1_1_component.html#ae4484f1f3407df1f26939da1f8a76c9a',1,'hect::Component::iterator()'],['../classhect_1_1_component.html#a9b00454a1777d751a354ecfe71072adf',1,'hect::Component::iterator() const '],['../classhect_1_1_entity.html#abb9b515d763e7e5a6e2f99b3dece881a',1,'hect::Entity::iterator()'],['../classhect_1_1_entity.html#ab441be79d69104a15537efac9fe77eda',1,'hect::Entity::iterator() const '],['../classhect_1_1_component_1_1_iterator.html#abc035ad20675f6b2eafa1de20620bb00',1,'hect::Component::Iterator::Iterator()'],['../classhect_1_1_entity_1_1_iterator.html#a9cb75ac95ede8dc2f82cf6530269e54f',1,'hect::Entity::Iterator::Iterator()'],['../classhect_1_1_entity_1_1_children_1_1_iterator.html#a91ed1f5bd7ab51ec095e5136ccaeadae',1,'hect::Entity::Children::Iterator::Iterator()']]]
+  ['iterator',['iterator',['../classhect_1_1_component.html#ae4484f1f3407df1f26939da1f8a76c9a',1,'hect::Component::iterator()'],['../classhect_1_1_component.html#a9b00454a1777d751a354ecfe71072adf',1,'hect::Component::iterator() const '],['../classhect_1_1_entity.html#abb9b515d763e7e5a6e2f99b3dece881a',1,'hect::Entity::iterator()'],['../classhect_1_1_entity.html#ab441be79d69104a15537efac9fe77eda',1,'hect::Entity::iterator() const ']]]
 ];

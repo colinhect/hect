@@ -4,7 +4,7 @@ var searchData=
   ['main',['main',['../classhect_1_1_engine.html#a5d5bde58421d11f6cfed51c99783f6f2',1,'hect::Engine']]],
   ['material',['Material',['../classhect_1_1_material.html#aede1a6bfa2a329bfbd0d6935e2742e71',1,'hect::Material::Material()'],['../classhect_1_1_material.html#a65bd9fcbba21518a78348d151555f5e7',1,'hect::Material::Material(const std::string &amp;name)']]],
   ['matrix4t',['Matrix4T',['../classhect_1_1_matrix4_t.html#a7f2f82c55cef39660fb5b6571afda8a3',1,'hect::Matrix4T']]],
-  ['maximum',['maximum',['../classhect_1_1_axis_aligned_box.html#a3bf257d07b1385d822e3cb01f941c4f7',1,'hect::AxisAlignedBox']]],
+  ['maximum',['maximum',['../classhect_1_1_axis_aligned_box.html#a3bf257d07b1385d822e3cb01f941c4f7',1,'hect::AxisAlignedBox::maximum()'],['../classhect_1_1_rectangle.html#a07dc1ee3ad22fdd81225803d9e823aec',1,'hect::Rectangle::maximum()']]],
   ['membernames',['memberNames',['../classhect_1_1_asset_decoder.html#a965818c50ac5411beaf70048371a9517',1,'hect::AssetDecoder::memberNames()'],['../classhect_1_1_binary_decoder.html#ab8d816b001e4dc3cf434401cbc82f779',1,'hect::BinaryDecoder::memberNames()'],['../classhect_1_1_data_value.html#a7d2ecccc912885d55adb3de6574f422d',1,'hect::DataValue::memberNames()'],['../classhect_1_1_data_value_decoder.html#a409ebbae430dff1fc718fa6551a6d3fc',1,'hect::DataValueDecoder::memberNames()'],['../classhect_1_1_decoder.html#ab50dd9b5a41a4fbb5e0c292e3f9f6bb3',1,'hect::Decoder::memberNames()']]],
   ['memoryreadstream',['MemoryReadStream',['../classhect_1_1_memory_read_stream.html#a10b14f0c044823cdc93b50c2e3152bcf',1,'hect::MemoryReadStream']]],
   ['memorywritestream',['MemoryWriteStream',['../classhect_1_1_memory_write_stream.html#a13ad700b0beddf2bd003a790ac629a63',1,'hect::MemoryWriteStream']]],
@@ -14,10 +14,10 @@ var searchData=
   ['microseconds',['microseconds',['../classhect_1_1_time_span.html#ae57569b9f486e00f7c50c55de0b61ea7',1,'hect::TimeSpan']]],
   ['milliseconds',['milliseconds',['../classhect_1_1_time_span.html#aa39cf0c6c1003316cbe25857ff38795f',1,'hect::TimeSpan']]],
   ['minfilter',['minFilter',['../classhect_1_1_texture.html#ab5f30e95215a3af819a2b3d94037533a',1,'hect::Texture']]],
-  ['minimum',['minimum',['../classhect_1_1_axis_aligned_box.html#a29775f2d96926f8ed559bdcc549fb738',1,'hect::AxisAlignedBox']]],
-  ['mode',['mode',['../classhect_1_1_mouse.html#a851644c678a5bc6cf695b18e9d29acbc',1,'hect::Mouse']]],
+  ['minimum',['minimum',['../classhect_1_1_axis_aligned_box.html#a29775f2d96926f8ed559bdcc549fb738',1,'hect::AxisAlignedBox::minimum()'],['../classhect_1_1_rectangle.html#aec805f0cdb654b4d8580923846d2f89e',1,'hect::Rectangle::minimum()']]],
+  ['mode',['Mode',['../classhect_1_1_mode.html#a53806e91b2022a297328252bc8a33f9f',1,'hect::Mode::Mode()'],['../classhect_1_1_mode.html#a820c44dd2ef655d517a27fb14b19b68a',1,'hect::Mode::Mode(TimeSpan timeStep)'],['../classhect_1_1_mouse.html#a851644c678a5bc6cf695b18e9d29acbc',1,'hect::Mouse::mode()']]],
   ['modelsurface',['ModelSurface',['../classhect_1_1_model_surface.html#ac39caf66e072b90c0f9c5a42c10ec002',1,'hect::ModelSurface']]],
   ['modules',['modules',['../classhect_1_1_shader.html#a253da0741cee459d9b9e8fc1447da130',1,'hect::Shader']]],
-  ['mountarchive',['mountArchive',['../classhect_1_1_file_system.html#a411c4a296ff021563f19bb7a1fb27caf',1,'hect::FileSystem']]],
-  ['mouse',['mouse',['../classhect_1_1_platform.html#a936fa3ba1a5283a1e5c7c60284e240a8',1,'hect::Platform']]]
+  ['mountarchive',['mountArchive',['../classhect_1_1_file_system.html#a85bca99db2790ee0963fd716dc19f011',1,'hect::FileSystem']]],
+  ['mouse',['mouse',['../classhect_1_1_platform.html#a762187605f664fec41ff4161e0416958',1,'hect::Platform']]]
 ];

@@ -118,51 +118,57 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>hect</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_scene.html">Scene</a>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">typedef</span> uint32_t <a class="code" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classhect_1_1_system.html">   46</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_system.html">System</a> :</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classhect_1_1_scene.html">Scene</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classhect_1_1_system.html">System</a>(<a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene, <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> tickStage = <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classhect_1_1_system.html">System</a>() { }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">class </span>Engine;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">class </span>RenderTarget;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">   40</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_scene.html">Scene</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">typedef</span> uint32_t <a class="code" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classhect_1_1_system.html">   48</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_system.html">System</a> :</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_uncopyable.html">Uncopyable</a></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classhect_1_1_scene.html">Scene</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="classhect_1_1_system.html">System</a>(<a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene, <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> tickStage = <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a>);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> tick(<a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> tickStage() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> encode(<a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; encoder) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classhect_1_1_system.html">System</a>() { }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> tick(<a class="code" href="classhect_1_1_engine.html">Engine</a>&amp; engine, <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> render(<a class="code" href="classhect_1_1_engine.html">Engine</a>&amp; engine, <a class="code" href="classhect_1_1_render_target.html">RenderTarget</a>&amp; target);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> decode(<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; decoder);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; _scene;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> _tickStage { <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a> };</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;};</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> tickStage() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> encode(<a class="code" href="classhect_1_1_encoder.html">Encoder</a>&amp; encoder) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> decode(<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; decoder);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; _scene;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> _tickStage { <a class="code" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a> };</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
 <div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A dynamic collection of Entities , Components, and Systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:57</div></div>
+<div class="ttc" id="classhect_1_1_engine_html"><div class="ttname"><a href="classhect_1_1_engine.html">hect::Engine</a></div><div class="ttdoc">An instance of Hect Engine. </div><div class="ttdef"><b>Definition:</b> Engine.h:44</div></div>
 <div class="ttc" id="classhect_1_1_encoder_html"><div class="ttname"><a href="classhect_1_1_encoder.html">hect::Encoder</a></div><div class="ttdoc">Provides access for encoding structured data to a persistent format. </div><div class="ttdef"><b>Definition:</b> Encoder.h:37</div></div>
 <div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:39</div></div>
 <div class="ttc" id="namespacehect_html_a48f11650ed0665796458a370639de5ca"><div class="ttname"><a href="namespacehect.html#a48f11650ed0665796458a370639de5ca">hect::SystemTickStage</a></div><div class="ttdeci">SystemTickStage</div><div class="ttdoc">The stage in which a System is ticked. </div><div class="ttdef"><b>Definition:</b> SystemTickStage.h:31</div></div>
 <div class="ttc" id="namespacehect_html_a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879"><div class="ttname"><a href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">hect::SystemTickStage_Normal</a></div><div class="ttdoc">The normal stage. </div><div class="ttdef"><b>Definition:</b> SystemTickStage.h:39</div></div>
 <div class="ttc" id="classhect_1_1_uncopyable_html"><div class="ttname"><a href="classhect_1_1_uncopyable.html">hect::Uncopyable</a></div><div class="ttdoc">Inheriting from this class makes object instances of the class uncopyable. </div><div class="ttdef"><b>Definition:</b> Uncopyable.h:33</div></div>
-<div class="ttc" id="classhect_1_1_system_html"><div class="ttname"><a href="classhect_1_1_system.html">hect::System</a></div><div class="ttdoc">A system affecting entities within a scene. </div><div class="ttdef"><b>Definition:</b> System.h:46</div></div>
+<div class="ttc" id="classhect_1_1_system_html"><div class="ttname"><a href="classhect_1_1_system.html">hect::System</a></div><div class="ttdoc">A system affecting entities within a scene. </div><div class="ttdef"><b>Definition:</b> System.h:48</div></div>
 <div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="namespacehect_html_a3a5005d6101f6a8e03f23ef14418b4af"><div class="ttname"><a href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">hect::SystemTypeId</a></div><div class="ttdeci">uint32_t SystemTypeId</div><div class="ttdoc">A numeric identifier for a system type. </div><div class="ttdef"><b>Definition:</b> System.h:38</div></div>
+<div class="ttc" id="classhect_1_1_render_target_html"><div class="ttname"><a href="classhect_1_1_render_target.html">hect::RenderTarget</a></div><div class="ttdoc">A target that can be rendered to. </div><div class="ttdef"><b>Definition:</b> RenderTarget.h:35</div></div>
+<div class="ttc" id="namespacehect_html_a3a5005d6101f6a8e03f23ef14418b4af"><div class="ttname"><a href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">hect::SystemTypeId</a></div><div class="ttdeci">uint32_t SystemTypeId</div><div class="ttdoc">A numeric identifier for a system type. </div><div class="ttdef"><b>Definition:</b> System.h:40</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

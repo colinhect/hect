@@ -22,6 +22,7 @@ var searchData=
   ['uniformbinding_5fskyboxcubemap',['UniformBinding_SkyBoxCubeMap',['../namespacehect.html#a7199852344e3be6463537f019a0f3646aa3f5ac9834f0ecf5f8080e89599242c9',1,'hect']]],
   ['uniformbinding_5fviewmatrix',['UniformBinding_ViewMatrix',['../namespacehect.html#a7199852344e3be6463537f019a0f3646a18447674fde8d912572b02f316952f50',1,'hect']]],
   ['uniformbinding_5fviewprojectionmatrix',['UniformBinding_ViewProjectionMatrix',['../namespacehect.html#a7199852344e3be6463537f019a0f3646aeeb183e6c1a0943ae4db3a5226a933cd',1,'hect']]],
+  ['uniformtype_5fcolor',['UniformType_Color',['../namespacehect.html#a3bf74a3e6d9f32380b035a08321ee6f4ae88e6e91edb30836ab879f6c7cf5587b',1,'hect']]],
   ['uniformtype_5ffloat',['UniformType_Float',['../namespacehect.html#a3bf74a3e6d9f32380b035a08321ee6f4aa804ab52dabe2eed4e8bd95fa1132ff6',1,'hect']]],
   ['uniformtype_5fint',['UniformType_Int',['../namespacehect.html#a3bf74a3e6d9f32380b035a08321ee6f4aad382ce12ba6e498dc7d1f34446e3546',1,'hect']]],
   ['uniformtype_5fmatrix4',['UniformType_Matrix4',['../namespacehect.html#a3bf74a3e6d9f32380b035a08321ee6f4a5c2c7d73d3b4a1181064379c6e418101',1,'hect']]],

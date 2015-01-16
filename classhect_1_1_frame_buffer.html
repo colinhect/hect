@@ -145,9 +145,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5ccba77b28ead9a5310a20eb4a951d83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_frame_buffer.html#a5ccba77b28ead9a5310a20eb4a951d83">FrameBuffer</a> (unsigned <a class="el" href="classhect_1_1_render_target.html#ae5ac0df0067d347523dd5288aebb5da1">width</a>, unsigned <a class="el" href="classhect_1_1_render_target.html#ac0103d3fc0f8b255567036219423cb39">height</a>)</td></tr>
 <tr class="memdesc:a5ccba77b28ead9a5310a20eb4a951d83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a frame buffer.  <a href="#a5ccba77b28ead9a5310a20eb4a951d83">More...</a><br /></td></tr>
 <tr class="separator:a5ccba77b28ead9a5310a20eb4a951d83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14c0f93ceaf60a61a7ba86ed585be9a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_frame_buffer.html#a14c0f93ceaf60a61a7ba86ed585be9a5">select</a> (<a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;<a class="el" href="classhect_1_1_renderer_1_1_object.html#a575a23abd79038c268af99debcb14db7">renderer</a>) override</td></tr>
-<tr class="memdesc:a14c0f93ceaf60a61a7ba86ed585be9a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects this target as the active target to the given renderer.  <a href="#a14c0f93ceaf60a61a7ba86ed585be9a5">More...</a><br /></td></tr>
-<tr class="separator:a14c0f93ceaf60a61a7ba86ed585be9a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a312a41383d421a3082f658a4e2b0a9d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_frame_buffer.html#a312a41383d421a3082f658a4e2b0a9d0">bind</a> (<a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;<a class="el" href="classhect_1_1_renderer_1_1_object.html#a575a23abd79038c268af99debcb14db7">renderer</a>) override</td></tr>
+<tr class="memdesc:a312a41383d421a3082f658a4e2b0a9d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets this target as the active target to the given renderer.  <a href="#a312a41383d421a3082f658a4e2b0a9d0">More...</a><br /></td></tr>
+<tr class="separator:a312a41383d421a3082f658a4e2b0a9d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f7f9f6a6baeec4c10e0662b1076ba8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_frame_buffer.html#a7f7f9f6a6baeec4c10e0662b1076ba8d">attachTexture</a> (<a class="el" href="namespacehect.html#ade6e38b47f06cf780bd9a67068775b77">FrameBufferSlot</a> slot, <a class="el" href="classhect_1_1_texture.html">Texture</a> &amp;texture)</td></tr>
 <tr class="memdesc:a7f7f9f6a6baeec4c10e0662b1076ba8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attaches a texture to the frame buffer.  <a href="#a7f7f9f6a6baeec4c10e0662b1076ba8d">More...</a><br /></td></tr>
 <tr class="separator:a7f7f9f6a6baeec4c10e0662b1076ba8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -331,7 +331,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a14c0f93ceaf60a61a7ba86ed585be9a5"></a>
+<a class="anchor" id="a312a41383d421a3082f658a4e2b0a9d0"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -339,7 +339,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hect::FrameBuffer::select </td>
+          <td class="memname">void hect::FrameBuffer::bind </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classhect_1_1_renderer.html">Renderer</a> &amp;&#160;</td>
           <td class="paramname"><em>renderer</em></td><td>)</td>
@@ -353,22 +353,22 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Selects this target as the active target to the given renderer. </p>
+<p>Sets this target as the active target to the given renderer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">renderer</td><td>The renderer to select the target for. </td></tr>
+    <tr><td class="paramname">renderer</td><td>The renderer to set the target for. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classhect_1_1_render_target.html#aca877c309388802c212909adb25df492">hect::RenderTarget</a>.</p>
+<p>Implements <a class="el" href="classhect_1_1_render_target.html#a69aba78b0f34f600446b5b525cd47ab6">hect::RenderTarget</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 4 2015 18:02:50 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
