@@ -29,8 +29,7 @@ namespace hect
 {
 
 ///
-/// A point in time represented as the number of seconds since the January 1st,
-/// 1970.
+/// A point in time represented as the number of seconds since January 1st, 1970.
 typedef int64_t TimeStamp;
 
 }

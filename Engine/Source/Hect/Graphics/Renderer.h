@@ -74,7 +74,7 @@ public:
     };
 
     ///
-    /// Data which provides a handle to the implementation-specific data.
+    /// Implementation-specific data providing a handle for a Renderer::Object.
     template <typename T>
     class Data
     {
