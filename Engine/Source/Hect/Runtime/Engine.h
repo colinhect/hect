@@ -107,3 +107,19 @@ private:
 };
 
 }
+
+#define HECT_MAIN(project) \
+    int main(int argc, char* const argv[]) \
+    { \
+        try \
+        { \
+            project::registerTypes(); \
+            hect::Engine engine(argc, argv); \
+            return engine.main(); \
+        } \
+        catch (hect::Exception& exception) \
+        { \
+            HECT_ERROR(exception.what()); \
+        } \
+        return 0; \
+    }
