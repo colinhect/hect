@@ -127,6 +127,7 @@ namespace hect {}
 #include "Hect/Network/Peer.h"
 #include "Hect/Noise/NoiseNode.h"
 #include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/NoiseTree.h"
 #include "Hect/Noise/Random.h"
 #include "Hect/Noise/Nodes/SimplexNoiseNode.h"
 #include "Hect/Reflection/Enum.h"
