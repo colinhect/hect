@@ -190,7 +190,7 @@ Vector4T<T> Vector4T<T>::step(const Vector4T& edge) const
     v.y = y < edge.y ? 0 : 1;
     v.z = z < edge.z ? 0 : 1;
     v.w = w < edge.w ? 0 : 1;
-    return result;
+    return v;
 }
 
 template <typename T>

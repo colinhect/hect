@@ -30,6 +30,18 @@
 
 using namespace hect;
 
+Image::Image()
+{
+}
+
+Image::Image(unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat) :
+    _width(width),
+    _height(height),
+    _pixelType(pixelType),
+    _pixelFormat(pixelFormat)
+{
+}
+
 void Image::flipVertical()
 {
     size_t bytesPerRow = bytesPerPixel() * _width;
@@ -61,6 +73,22 @@ const ByteVector& Image::pixelData() const
 void Image::setPixelData(ByteVector&& pixelData)
 {
     _pixelData = pixelData;
+}
+
+void Image::setPixel(unsigned x, unsigned y, const Color& color)
+{
+    unsigned pixelSize = bytesPerPixel();
+
+    if (_pixelData.empty())
+    {
+        _pixelData = ByteVector(_width * _height * pixelSize);
+    }
+
+    unsigned index = _width * y * pixelSize + x * pixelSize;
+    for (unsigned pixelOffset = 0; pixelOffset < pixelSize; ++pixelOffset)
+    {
+        _pixelData[index + pixelOffset] = static_cast<uint8_t>(color[pixelOffset] * 255);
+    }
 }
 
 unsigned Image::width() const

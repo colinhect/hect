@@ -182,7 +182,7 @@ Vector3T<T> Vector3T<T>::step(const Vector3T& edge) const
     v.x = x < edge.x ? 0 : 1;
     v.y = y < edge.y ? 0 : 1;
     v.z = z < edge.z ? 0 : 1;
-    return result;
+    return v;
 }
 
 template <typename T>

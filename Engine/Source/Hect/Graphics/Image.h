@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/Color.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/ByteVector.h"
 #include "Hect/IO/Decoder.h"
@@ -86,6 +87,19 @@ class HECT_EXPORT Image :
 public:
 
     ///
+    /// Constructs an empty image.
+    Image();
+
+    ///
+    /// Constructs an image.
+    ///
+    /// \param width The width.
+    /// \param height The height.
+    /// \param pixelType The pixel type.
+    /// \param pixelFormat The pixel format.
+    Image(unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat);
+
+    ///
     /// Flips the image vertically.
     void flipVertical();
 
@@ -107,6 +121,14 @@ public:
     /// \param pixelData The raw pixel data to move into the image's pixel
     /// data.
     void setPixelData(ByteVector&& pixelData);
+
+    ///
+    /// Writes a color value to a pixel.
+    ///
+    /// \param x The x coordinate.
+    /// \param y The y coordinate.
+    /// \param color The color to write to the pixel
+    void setPixel(unsigned x, unsigned y, const Color& color);
 
     ///
     /// Returns the width.

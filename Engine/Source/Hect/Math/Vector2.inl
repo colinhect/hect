@@ -162,7 +162,7 @@ Vector2T<T> Vector2T<T>::step(const Vector2T& edge) const
     Vector2T<T> v;
     v.x = x < edge.x ? 0 : 1;
     v.y = y < edge.y ? 0 : 1;
-    return result;
+    return v;
 }
 
 template <typename T>
