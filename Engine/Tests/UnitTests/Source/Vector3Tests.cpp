@@ -65,6 +65,53 @@ TEST_CASE("Get the length of a 3-dimensional vector", "[Vector3]")
     REQUIRE(a.length() == std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z));
 }
 
+TEST_CASE("Get the floor of a 3-dimensional vector", "[Vector3]")
+{
+    Vector3 a(1.8, 2.1, 3.5);
+    Vector3 b(a.floor());
+    REQUIRE(b.x == 1.0);
+    REQUIRE(b.y == 2.0);
+    REQUIRE(b.z == 3.0);
+}
+
+TEST_CASE("Get the ceil of a 3-dimensional vector", "[Vector3]")
+{
+    Vector3 a(1.8, 2.1, 3.5);
+    Vector3 b(a.ceil());
+    REQUIRE(b.x == 2.0);
+    REQUIRE(b.y == 3.0);
+    REQUIRE(b.z == 4.0);
+}
+
+TEST_CASE("Get the minimum of two 3-dimensional vectors", "[Vector3]")
+{
+    Vector3 a(1.0, 3.0, 3.0);
+    Vector3 b(2.0, 2.0, 4.0);
+    Vector3 c(a.min(b));
+    REQUIRE(c.x == 1.0);
+    REQUIRE(c.y == 2.0);
+    REQUIRE(c.z == 3.0);
+}
+
+TEST_CASE("Get the maximum of two 3-dimensional vectors", "[Vector3]")
+{
+    Vector3 a(1.0, 3.0, 3.0);
+    Vector3 b(2.0, 2.0, 4.0);
+    Vector3 c(a.max(b));
+    REQUIRE(c.x == 2.0);
+    REQUIRE(c.y == 3.0);
+    REQUIRE(c.z == 4.0);
+}
+
+TEST_CASE("Get the absolute value of a 3-dimensional vector", "[Vector3]")
+{
+    Vector3 a(-1.0, -2.0, -3.0);
+    a = a.abs();
+    REQUIRE(a.x == 1.0);
+    REQUIRE(a.y == 2.0);
+    REQUIRE(a.z == 3.0);
+}
+
 TEST_CASE("Get the squared length of a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);

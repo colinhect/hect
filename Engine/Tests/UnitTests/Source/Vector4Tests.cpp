@@ -75,6 +75,58 @@ TEST_CASE("Get the squared length of a 4-dimensional vector", "[Vector4]")
     REQUIRE(std::sqrt(a.lengthSquared()) == a.length());
 }
 
+TEST_CASE("Get the floor of a 4-dimensional vector", "[Vector4]")
+{
+    Vector4 a(1.8, 2.1, 3.5, 4.1);
+    Vector4 b(a.floor());
+    REQUIRE(b.x == 1.0);
+    REQUIRE(b.y == 2.0);
+    REQUIRE(b.z == 3.0);
+    REQUIRE(b.w == 4.0);
+}
+
+TEST_CASE("Get the ceil of a 4-dimensional vector", "[Vector4]")
+{
+    Vector4 a(1.8, 2.1, 3.5, 4.1);
+    Vector4 b(a.ceil());
+    REQUIRE(b.x == 2.0);
+    REQUIRE(b.y == 3.0);
+    REQUIRE(b.z == 4.0);
+    REQUIRE(b.w == 5.0);
+}
+
+TEST_CASE("Get the minimum of two 4-dimensional vectors", "[Vector4]")
+{
+    Vector4 a(1.0, 3.0, 3.0, 5.0);
+    Vector4 b(2.0, 2.0, 4.0, 4.0);
+    Vector4 c(a.min(b));
+    REQUIRE(c.x == 1.0);
+    REQUIRE(c.y == 2.0);
+    REQUIRE(c.z == 3.0);
+    REQUIRE(c.w == 4.0);
+}
+
+TEST_CASE("Get the maximum of two 4-dimensional vectors", "[Vector4]")
+{
+    Vector4 a(1.0, 3.0, 3.0, 5.0);
+    Vector4 b(2.0, 2.0, 4.0, 4.0);
+    Vector4 c(a.max(b));
+    REQUIRE(c.x == 2.0);
+    REQUIRE(c.y == 3.0);
+    REQUIRE(c.z == 4.0);
+    REQUIRE(c.w == 5.0);
+}
+
+TEST_CASE("Get the absolute value of a 4-dimensional vector", "[Vector4]")
+{
+    Vector4 a(-1.0, -2.0, -3.0, -4.0);
+    a = a.abs();
+    REQUIRE(a.x == 1.0);
+    REQUIRE(a.y == 2.0);
+    REQUIRE(a.z == 3.0);
+    REQUIRE(a.w == 4.0);
+}
+
 TEST_CASE("Normalize a 4-dimensional vector", "[Vector4]")
 {
     Vector4 a(1.0, 2.0, 3.0, 4.0);

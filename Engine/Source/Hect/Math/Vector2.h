@@ -106,6 +106,36 @@ public:
     T lengthSquared() const;
 
     ///
+    /// Returns a copy of the vector of the floor of each component.
+    Vector2T floor() const;
+
+    ///
+    /// Returns a copy of the vector of the ceil of each component.
+    Vector2T ceil() const;
+
+    ///
+    /// Returns the minimum between the vector and another vector.
+    ///
+    /// \param v The other vector.
+    Vector2T min(const Vector2T& v) const;
+
+    ///
+    /// Returns the maximum between the vector and another vector.
+    ///
+    /// \param v The other vector.
+    Vector2T max(const Vector2T& v) const;
+
+    ///
+    /// Returns a copy of the vector of the absolute value of each component.
+    Vector2T abs() const;
+
+    ///
+    /// Returns 0 if a component is smaller than the edge and otherise 1.
+    ///
+    /// \param edge The edge.
+    Vector2T step(const Vector2T& edge) const;
+
+    ///
     /// Returns the sum of the vector and another vector.
     ///
     /// \param v The vector to compute the sum with.

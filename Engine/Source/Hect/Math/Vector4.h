@@ -111,6 +111,30 @@ public:
     T lengthSquared() const;
 
     ///
+    /// \copydoc Vector2T::floor()
+    Vector4T floor() const;
+
+    ///
+    /// \copydoc Vector2T::ceil()
+    Vector4T ceil() const;
+
+    ///
+    /// \copydoc Vector2T::min()
+    Vector4T min(const Vector4T& v) const;
+
+    ///
+    /// \copydoc Vector2T::max()
+    Vector4T max(const Vector4T& v) const;
+
+    ///
+    /// \copydoc Vector2T::abs()
+    Vector4T abs() const;
+
+    ///
+    /// \copydoc Vector2T::step()
+    Vector4T step(const Vector4T& edge) const;
+
+    ///
     /// Returns the sum of the vector and another vector.
     ///
     /// \param v The vector to compute the sum with.

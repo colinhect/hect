@@ -67,6 +67,48 @@ TEST_CASE("Get the squared length of a 2-dimensional vector", "[Vector2]")
     REQUIRE(std::sqrt(a.lengthSquared()) == a.length());
 }
 
+TEST_CASE("Get the floor of a 2-dimensional vector", "[Vector2]")
+{
+    Vector2 a(1.8, 2.1);
+    Vector2 b(a.floor());
+    REQUIRE(b.x == 1.0);
+    REQUIRE(b.y == 2.0);
+}
+
+TEST_CASE("Get the ceil of a 2-dimensional vector", "[Vector2]")
+{
+    Vector2 a(1.8, 2.1);
+    Vector2 b(a.ceil());
+    REQUIRE(b.x == 2.0);
+    REQUIRE(b.y == 3.0);
+}
+
+TEST_CASE("Get the minimum of two 2-dimensional vectors", "[Vector2]")
+{
+    Vector2 a(1.0, 3.0);
+    Vector2 b(2.0, 2.0);
+    Vector2 c(a.min(b));
+    REQUIRE(c.x == 1.0);
+    REQUIRE(c.y == 2.0);
+}
+
+TEST_CASE("Get the maximum of two 2-dimensional vectors", "[Vector2]")
+{
+    Vector2 a(1.0, 3.0);
+    Vector2 b(2.0, 2.0);
+    Vector2 c(a.max(b));
+    REQUIRE(c.x == 2.0);
+    REQUIRE(c.y == 3.0);
+}
+
+TEST_CASE("Get the absolute value of a 2-dimensional vector", "[Vector2]")
+{
+    Vector2 a(-1.0, -2.0);
+    a = a.abs();
+    REQUIRE(a.x == 1.0);
+    REQUIRE(a.y == 2.0);
+}
+
 TEST_CASE("Normalize a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);

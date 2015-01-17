@@ -21,6 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 
@@ -122,6 +123,66 @@ template <typename T>
 T Vector3T<T>::lengthSquared() const
 {
     return dot(*this);
+}
+
+template <typename T>
+Vector3T<T> Vector3T<T>::floor() const
+{
+    Vector3T<T> v;
+    v.x = static_cast<T>(std::floor(x));
+    v.y = static_cast<T>(std::floor(y));
+    v.z = static_cast<T>(std::floor(z));
+    return v;
+}
+
+template <typename T>
+Vector3T<T> Vector3T<T>::ceil() const
+{
+    Vector3T<T> v;
+    v.x = static_cast<T>(std::ceil(x));
+    v.y = static_cast<T>(std::ceil(y));
+    v.z = static_cast<T>(std::ceil(z));
+    return v;
+}
+
+template <typename T>
+Vector3T<T> Vector3T<T>::min(const Vector3T& v) const
+{
+    Vector3T<T> m;
+    m.x = static_cast<T>(std::min(v.x, x));
+    m.y = static_cast<T>(std::min(v.y, y));
+    m.z = static_cast<T>(std::min(v.z, z));
+    return m;
+}
+
+template <typename T>
+Vector3T<T> Vector3T<T>::max(const Vector3T& v) const
+{
+    Vector3T<T> m;
+    m.x = static_cast<T>(std::max(v.x, x));
+    m.y = static_cast<T>(std::max(v.y, y));
+    m.z = static_cast<T>(std::max(v.z, z));
+    return m;
+}
+
+template <typename T>
+Vector3T<T> Vector3T<T>::abs() const
+{
+    Vector3T<T> v;
+    v.x = static_cast<T>(std::abs(x));
+    v.y = static_cast<T>(std::abs(y));
+    v.z = static_cast<T>(std::abs(z));
+    return v;
+}
+
+template <typename T>
+Vector3T<T> Vector3T<T>::step(const Vector3T& edge) const
+{
+    Vector3T<T> v;
+    v.x = x < edge.x ? 0 : 1;
+    v.y = y < edge.y ? 0 : 1;
+    v.z = z < edge.z ? 0 : 1;
+    return result;
 }
 
 template <typename T>

@@ -21,6 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 
@@ -124,6 +125,72 @@ template <typename T>
 T Vector4T<T>::lengthSquared() const
 {
     return dot(*this);
+}
+
+template <typename T>
+Vector4T<T> Vector4T<T>::floor() const
+{
+    Vector4T<T> v;
+    v.x = static_cast<T>(std::floor(x));
+    v.y = static_cast<T>(std::floor(y));
+    v.z = static_cast<T>(std::floor(z));
+    v.w = static_cast<T>(std::floor(w));
+    return v;
+}
+
+template <typename T>
+Vector4T<T> Vector4T<T>::ceil() const
+{
+    Vector4T<T> v;
+    v.x = static_cast<T>(std::ceil(x));
+    v.y = static_cast<T>(std::ceil(y));
+    v.z = static_cast<T>(std::ceil(z));
+    v.w = static_cast<T>(std::ceil(w));
+    return v;
+}
+
+template <typename T>
+Vector4T<T> Vector4T<T>::min(const Vector4T& v) const
+{
+    Vector4T<T> m;
+    m.x = static_cast<T>(std::min(v.x, x));
+    m.y = static_cast<T>(std::min(v.y, y));
+    m.z = static_cast<T>(std::min(v.z, z));
+    m.w = static_cast<T>(std::min(v.w, w));
+    return m;
+}
+
+template <typename T>
+Vector4T<T> Vector4T<T>::max(const Vector4T& v) const
+{
+    Vector4T<T> m;
+    m.x = static_cast<T>(std::max(v.x, x));
+    m.y = static_cast<T>(std::max(v.y, y));
+    m.z = static_cast<T>(std::max(v.z, z));
+    m.w = static_cast<T>(std::max(v.w, w));
+    return m;
+}
+
+template <typename T>
+Vector4T<T> Vector4T<T>::abs() const
+{
+    Vector4T<T> v;
+    v.x = static_cast<T>(std::abs(x));
+    v.y = static_cast<T>(std::abs(y));
+    v.z = static_cast<T>(std::abs(z));
+    v.w = static_cast<T>(std::abs(w));
+    return v;
+}
+
+template <typename T>
+Vector4T<T> Vector4T<T>::step(const Vector4T& edge) const
+{
+    Vector4T<T> v;
+    v.x = x < edge.x ? 0 : 1;
+    v.y = y < edge.y ? 0 : 1;
+    v.z = z < edge.z ? 0 : 1;
+    v.w = w < edge.w ? 0 : 1;
+    return result;
 }
 
 template <typename T>

@@ -21,6 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 
@@ -108,6 +109,60 @@ template <typename T>
 T Vector2T<T>::lengthSquared() const
 {
     return dot(*this);
+}
+
+template <typename T>
+Vector2T<T> Vector2T<T>::floor() const
+{
+    Vector2T<T> v;
+    v.x = static_cast<T>(std::floor(x));
+    v.y = static_cast<T>(std::floor(y));
+    return v;
+}
+
+template <typename T>
+Vector2T<T> Vector2T<T>::ceil() const
+{
+    Vector2T<T> v;
+    v.x = static_cast<T>(std::ceil(x));
+    v.y = static_cast<T>(std::ceil(y));
+    return v;
+}
+
+template <typename T>
+Vector2T<T> Vector2T<T>::min(const Vector2T& v) const
+{
+    Vector2T<T> m;
+    m.x = static_cast<T>(std::min(v.x, x));
+    m.y = static_cast<T>(std::min(v.y, y));
+    return m;
+}
+
+template <typename T>
+Vector2T<T> Vector2T<T>::max(const Vector2T& v) const
+{
+    Vector2T<T> m;
+    m.x = static_cast<T>(std::max(v.x, x));
+    m.y = static_cast<T>(std::max(v.y, y));
+    return m;
+}
+
+template <typename T>
+Vector2T<T> Vector2T<T>::abs() const
+{
+    Vector2T<T> v;
+    v.x = static_cast<T>(std::abs(x));
+    v.y = static_cast<T>(std::abs(y));
+    return v;
+}
+
+template <typename T>
+Vector2T<T> Vector2T<T>::step(const Vector2T& edge) const
+{
+    Vector2T<T> v;
+    v.x = x < edge.x ? 0 : 1;
+    v.y = y < edge.y ? 0 : 1;
+    return result;
 }
 
 template <typename T>
