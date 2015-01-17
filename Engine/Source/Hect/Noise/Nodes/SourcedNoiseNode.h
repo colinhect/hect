@@ -21,14 +21,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include "Hect/Core/Export.h"
+#include "Hect/Noise/NoiseNode.h"
+
 namespace hect
 {
 
-template <typename T, typename... Args>
-T& NoiseTree::createNode(Args&&... args)
+///
+/// A noise node that received input from a single source.
+class HECT_EXPORT SourcedNoiseNode :
+    public NoiseNode
 {
-    _nodes.emplace_back(new T(args...));
-    return *static_cast<T*>(_nodes.back().get());
-}
+public:
+    virtual ~SourcedNoiseNode() { }
+
+    ///
+    /// Sets the source node.
+    ///
+    /// \param node The source node.
+    void setSource(const NoiseNode& node);
+
+protected:
+    const NoiseNode& source() const;
+
+private:
+    const NoiseNode* _sourceNode
+    {
+        nullptr
+    };
+};
 
 }

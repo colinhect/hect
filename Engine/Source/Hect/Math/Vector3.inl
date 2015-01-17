@@ -80,6 +80,13 @@ Vector3T<T>::Vector3T(T x, T y, T z) :
 }
 
 template <typename T>
+Vector3T<T>::Vector3T(const Vector2T<T>& v) :
+    x(v.x),
+    y(v.y)
+{
+}
+
+template <typename T>
 void Vector3T<T>::normalize()
 {
     T inv = T(1) / length();

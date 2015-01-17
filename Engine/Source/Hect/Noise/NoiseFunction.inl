@@ -21,34 +21,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Nodes/ScaleNoiseNode.h"
-#include "Hect/Noise/Nodes/CoherentNoiseNode.h"
-
 namespace hect
 {
 
-///
-/// Abstract interface for visiting an entire noise node tree.
-class HECT_EXPORT NoiseNodeVisitor
+template <typename T, typename... Args>
+T& NoiseFunction::createNode(Args&&... args)
 {
-public:
-    virtual ~NoiseNodeVisitor() { }
-
-    ///
-    /// Visits a ScaleNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(ScaleNoiseNode& node) = 0;
-
-    ///
-    /// Visits a CoherentNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(CoherentNoiseNode& node) = 0;
-};
+    _nodes.emplace_back(new T(args...));
+    return *static_cast<T*>(_nodes.back().get());
+}
 
 }

@@ -21,34 +21,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "ScaleNoiseNode.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Nodes/ScaleNoiseNode.h"
-#include "Hect/Noise/Nodes/CoherentNoiseNode.h"
+#include "Hect/Noise/NoiseNodeVisitor.h"
 
-namespace hect
+using namespace hect;
+
+ScaleNoiseNode::ScaleNoiseNode(const Vector3& scale) :
+    _scale(scale)
 {
+}
 
-///
-/// Abstract interface for visiting an entire noise node tree.
-class HECT_EXPORT NoiseNodeVisitor
+Real ScaleNoiseNode::sample(const Vector3& position) const
 {
-public:
-    virtual ~NoiseNodeVisitor() { }
+    return source().sample(position * _scale);
+}
 
-    ///
-    /// Visits a ScaleNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(ScaleNoiseNode& node) = 0;
-
-    ///
-    /// Visits a CoherentNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(CoherentNoiseNode& node) = 0;
-};
-
+void ScaleNoiseNode::accept(NoiseNodeVisitor& visitor)
+{
+    visitor.visit(*this);
 }

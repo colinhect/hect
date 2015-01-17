@@ -24,8 +24,6 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Math/Vector2.h"
-#include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
 
 namespace hect
@@ -41,12 +39,6 @@ public:
     virtual ~NoiseNode() { }
 
     ///
-    /// Samples the noise function at the given 2-dimensional position.
-    ///
-    /// \param position The 2-dimensional position to sample.
-    virtual Real sample(const Vector2& position) const = 0;
-
-    ///
     /// Samples the noise function at the given 3-dimensional position.
     ///
     /// \param position The 3-dimensional position to sample.
@@ -56,7 +48,7 @@ public:
     /// Accepts a visitor, invoking the NoiseNodeVisitor::visit() function.
     ///
     /// \param visitor The visitor to invoke.
-    virtual void accept(NoiseNodeVisitor& visitor) = 0;
+    virtual void accept(NoiseNodeVisitor& visitor);
 };
 
 }

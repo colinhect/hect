@@ -21,34 +21,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "SourcedNoiseNode.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Nodes/ScaleNoiseNode.h"
-#include "Hect/Noise/Nodes/CoherentNoiseNode.h"
+using namespace hect;
 
-namespace hect
+void SourcedNoiseNode::setSource(const NoiseNode& node)
 {
+    _sourceNode = &node;
+}
 
-///
-/// Abstract interface for visiting an entire noise node tree.
-class HECT_EXPORT NoiseNodeVisitor
+const NoiseNode& SourcedNoiseNode::source() const
 {
-public:
-    virtual ~NoiseNodeVisitor() { }
-
-    ///
-    /// Visits a ScaleNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(ScaleNoiseNode& node) = 0;
-
-    ///
-    /// Visits a CoherentNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(CoherentNoiseNode& node) = 0;
-};
-
+    if (!_sourceNode)
+    {
+        throw InvalidOperation("No source noise node set");
+    }
+    return *_sourceNode;
 }

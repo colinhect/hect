@@ -88,6 +88,21 @@ Vector4T<T>::Vector4T(T x, T y, T z, T w) :
 }
 
 template <typename T>
+Vector4T<T>::Vector4T(const Vector2T<T>& v) :
+    x(v.x),
+    y(v.y)
+{
+}
+
+template <typename T>
+Vector4T<T>::Vector4T(const Vector3T<T>& v) :
+    x(v.x),
+    y(v.y),
+    z(v.z)
+{
+}
+
+template <typename T>
 void Vector4T<T>::normalize()
 {
     T inv = T(1) / length();

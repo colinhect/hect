@@ -21,74 +21,56 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "NoiseTree.h"
+#pragma once
 
-#include "Hect/Noise/Nodes/SimplexNoiseNode.h"
-
-using namespace hect;
-
-void NoiseTree::clear()
-{
-    _rootNode = nullptr;
-    _nodes.clear();
-}
-
-NoiseNode& NoiseTree::root()
-{
-    if (!_rootNode)
-    {
-        throw InvalidOperation("No root noise node set");
-    }
-    return *_rootNode;
-}
-
-const NoiseNode& NoiseTree::root() const
-{
-    if (!_rootNode)
-    {
-        throw InvalidOperation("No root noise node set");
-    }
-    return *_rootNode;
-}
-
-void NoiseTree::setRoot(NoiseNode& node)
-{
-    _rootNode = &node;
-}
-
-NoiseNode& NoiseTree::decodeNode(Decoder& decoder, std::string& type)
-{
-    // Decode the type
-    decoder >> beginObject()
-            >> decodeValue("type", type, true);
-
-    // SimplexNoiseNode
-    if (type == "Simplex")
-    {
-        uint32_t seed = 0;
-        decoder >> decodeValue("seed", seed);
-
-        SimplexNoiseNode& node = createNode<SimplexNoiseNode>(seed);
-        return node;
-    }
-    
-    throw DecodeError(format("Unknown noise node type '%s'", type.c_str()));
-}
+#include "Hect/Core/Export.h"
+#include "Hect/Core/Uncopyable.h"
+#include "Hect/IO/Asset.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/Noise/NoiseNode.h"
 
 namespace hect
 {
 
-Decoder& operator>>(Decoder& decoder, NoiseTree& noiseTree)
+///
+/// A tree of NoiseNode%s.
+class HECT_EXPORT NoiseFunction :
+    public Uncopyable,
+    public Asset<NoiseFunction>,
+    public NoiseNode
 {
-    // Clear the tree
-    noiseTree.clear();
+public:
 
-    // Decode from the root node
-    std::string type;
-    NoiseNode& node = noiseTree.decodeNode(decoder, type);
-    noiseTree.setRoot(node);
+    ///
+    /// Adds a new NoiseNode of the specified type.
+    ///
+    /// \param args The arguments to pass to the node's constructor.
+    ///
+    /// \returns A reference to the created node.
+    template <typename T, typename... Args>
+    T& createNode(Args&&... args);
 
-    return decoder;
+    ///
+    /// Clears all nodes in the tree.
+    void clear();
+
+    ///
+    /// Sets the root node in the tree.
+    ///
+    /// \param node The new root node.
+    void setRoot(NoiseNode& node);
+
+    Real sample(const Vector3& position) const override;
+
+    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, NoiseFunction& noiseFunction);
+
+private:
+    NoiseNode& decodeNode(Decoder& decoder);
+
+    NoiseNode* _rootNode { nullptr };
+    std::vector<std::unique_ptr<NoiseNode>> _nodes;
+};
+
 }
 
-}
+#include "NoiseFunction.inl"

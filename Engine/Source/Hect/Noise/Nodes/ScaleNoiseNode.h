@@ -24,31 +24,29 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Nodes/ScaleNoiseNode.h"
-#include "Hect/Noise/Nodes/CoherentNoiseNode.h"
+#include "Hect/Noise/Nodes/SourcedNoiseNode.h"
 
 namespace hect
 {
 
 ///
-/// Abstract interface for visiting an entire noise node tree.
-class HECT_EXPORT NoiseNodeVisitor
+/// Scales a noise source.
+class HECT_EXPORT ScaleNoiseNode :
+    public SourcedNoiseNode
 {
 public:
-    virtual ~NoiseNodeVisitor() { }
 
     ///
-    /// Visits a ScaleNoiseNode.
+    /// Constructs a scale noise node.
     ///
-    /// \param node The node to visit.
-    virtual void visit(ScaleNoiseNode& node) = 0;
+    /// \param scale The scale.
+    ScaleNoiseNode(const Vector3& scale = Vector3::one());
 
-    ///
-    /// Visits a CoherentNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(CoherentNoiseNode& node) = 0;
+    Real sample(const Vector3& position) const override;
+    void accept(NoiseNodeVisitor& visitor) override;
+
+private:
+    Vector3 _scale;
 };
 
 }

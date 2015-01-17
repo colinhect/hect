@@ -21,35 +21,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include"NoiseNode.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
+#include "Hect/Noise/NoiseNodeVisitor.h"
 
-namespace hect
+using namespace hect;
+
+void NoiseNode::accept(NoiseNodeVisitor& visitor)
 {
-
-///
-/// Implements the Simplex noise algorithm.
-class HECT_EXPORT SimplexNoiseNode :
-    public NoiseNode
-{
-public:
-
-    ///
-    /// Constructs a simplex noise node.
-    ///
-    /// \param seed The seed.
-    SimplexNoiseNode(uint32_t seed = 0);
-
-    Real sample(const Vector2& position) const override;
-    Real sample(const Vector3& position) const override;
-    void accept(NoiseNodeVisitor& visitor) override;
-
-private:
-    int fastFloor(Real x) const;
-
-    std::vector<int> _perm;
-};
-
+    (void)visitor;
 }

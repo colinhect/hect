@@ -21,7 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "SimplexNoiseNode.h"
+#include "CoherentNoiseNode.h"
 
 #include <algorithm>
 
@@ -29,7 +29,7 @@
 
 using namespace hect;
 
-SimplexNoiseNode::SimplexNoiseNode(uint32_t seed)
+CoherentNoiseNode::CoherentNoiseNode(uint32_t seed)
 {
     _perm.reserve(512);
 
@@ -50,12 +50,7 @@ SimplexNoiseNode::SimplexNoiseNode(uint32_t seed)
     }
 }
 
-Real SimplexNoiseNode::sample(const Vector2& position) const
-{
-    return sample(Vector3(position.x, position.y, 0));
-}
-
-Real SimplexNoiseNode::sample(const Vector3& position) const
+Real CoherentNoiseNode::sample(const Vector3& position) const
 {
     // Based on Simplex Noise Demystified (c) 2005 Stefan Gustavson
     // http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
@@ -188,12 +183,12 @@ Real SimplexNoiseNode::sample(const Vector3& position) const
     return Real(32) * (n0 + n1 + n2 + n3);
 }
 
-void SimplexNoiseNode::accept(NoiseNodeVisitor& visitor)
+void CoherentNoiseNode::accept(NoiseNodeVisitor& visitor)
 {
     visitor.visit(*this);
 }
 
-int SimplexNoiseNode::fastFloor(Real x) const
+int CoherentNoiseNode::fastFloor(Real x) const
 {
     return x > 0 ? static_cast<int>(x) : static_cast<int>(x) - 1;
 }

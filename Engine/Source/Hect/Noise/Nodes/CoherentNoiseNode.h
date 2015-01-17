@@ -24,60 +24,31 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/IO/Asset.h"
-#include "Hect/IO/Decoder.h"
 #include "Hect/Noise/NoiseNode.h"
 
 namespace hect
 {
 
 ///
-/// A tree of NoiseNode%s.
-class HECT_EXPORT NoiseTree :
-    public Uncopyable,
-    public Asset<NoiseTree>
+/// Generates coherent gradient noise.
+class HECT_EXPORT CoherentNoiseNode :
+    public NoiseNode
 {
 public:
 
     ///
-    /// Adds a new NoiseNode of the specified type.
+    /// Constructs a coherent noise node.
     ///
-    /// \param args The arguments to pass to the node's constructor.
-    ///
-    /// \returns A reference to the created node.
-    template <typename T, typename... Args>
-    T& createNode(Args&&... args);
+    /// \param seed The seed.
+    CoherentNoiseNode(uint32_t seed = 0);
 
-    ///
-    /// Clears all nodes in the tree.
-    void clear();
-
-    ///
-    /// Returns the root node in the tree.
-    ///
-    /// \throws InvalidOperation If no root node is set.
-    NoiseNode& root();
-
-    ///
-    /// \copydoc NoiseTree:root()
-    const NoiseNode& root() const;
-
-    ///
-    /// Sets the root node in the tree.
-    ///
-    /// \param node The new root node.
-    void setRoot(NoiseNode& node);
-
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, NoiseTree& noiseTree);
+    Real sample(const Vector3& position) const override;
+    void accept(NoiseNodeVisitor& visitor) override;
 
 private:
-    NoiseNode& decodeNode(Decoder& decoder, std::string& type);
+    int fastFloor(Real x) const;
 
-    NoiseNode* _rootNode { nullptr };
-    std::vector<std::unique_ptr<NoiseNode>> _nodes;
+    std::vector<int> _perm;
 };
 
 }
-
-#include "NoiseTree.inl"

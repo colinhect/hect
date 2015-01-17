@@ -27,6 +27,8 @@
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Math/Angle.h"
+#include "Hect/Math/Vector2.h"
+#include "Hect/Math/Vector3.h"
 
 namespace hect
 {
@@ -85,6 +87,18 @@ public:
     /// \param z The value for the z component.
     /// \param w The value for the w component.
     Vector4T(T x, T y, T z, T w);
+
+    ///
+    /// Constructs a vector from a 2-dimensional vector.
+    ///
+    /// \param v The vector.
+    Vector4T(const Vector2T<T>& v);
+
+    ///
+    /// Constructs a vector from a 3-dimensional vector.
+    ///
+    /// \param v The vector.
+    Vector4T(const Vector3T<T>& v);
 
     ///
     /// \copydoc Vector2T::normalize()
