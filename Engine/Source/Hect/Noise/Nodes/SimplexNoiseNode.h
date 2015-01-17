@@ -49,7 +49,6 @@ public:
 private:
     int fastFloor(Real x) const;
 
-    uint32_t _seed;
     std::vector<int> _perm;
 };
 

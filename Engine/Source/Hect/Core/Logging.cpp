@@ -23,14 +23,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Logging.h"
 
+#include "Hect/Timing/Timer.h"
+
 #ifdef HECT_WINDOWS_BUILD
 #include <Windows.h>
 
 static HANDLE stdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
+#include <iomanip>
 #include <iostream>
 #include <mutex>
+#include <sstream>
 
 namespace hect
 {
@@ -39,12 +43,29 @@ static std::mutex _logMutex;
 
 void log(LogLevel level, const std::string& message)
 {
+    static Timer timer;
     std::lock_guard<std::mutex> lock(_logMutex);
+
+    // Calculate timestamp parts
+    int64_t total = timer.elapsed().milliseconds();
+    int64_t milliseconds = total % 1000;
+    int64_t seconds = total / 1000 % 60;
+    int64_t minutes = total / 1000 / 60 % 60;
+    int64_t hours = total / 1000 / 60 / 60;
+
+    // Format message with timestamp prepended
+    std::stringstream ss;
+    ss << std::setfill('0') << "[" << hours << ":"
+       << std::setw(2) << minutes << ":"
+       << std::setw(2) << seconds << ":"
+       << std::setw(3) << milliseconds << "] "
+       << message << std::endl;
+    std::string formattedMessage = ss.str();
 
 #ifdef HECT_WINDOWS_BUILD
 
 #ifdef HECT_DEBUG_BUILD
-    OutputDebugString((message + "\n").c_str());
+    OutputDebugString(formattedMessage.c_str());
 #endif
 
     // Set the color text color
@@ -52,27 +73,23 @@ void log(LogLevel level, const std::string& message)
     {
     case LogLevel_Info:
         SetConsoleTextAttribute(stdOutHandle, 15);
-        std::cout << "I> ";
         break;
     case LogLevel_Debug:
         SetConsoleTextAttribute(stdOutHandle, 7);
-        std::cout << "D> ";
         break;
     case LogLevel_Warning:
         SetConsoleTextAttribute(stdOutHandle, 14);
-        std::cout << "W> ";
         break;
     case LogLevel_Error:
         SetConsoleTextAttribute(stdOutHandle, 12);
-        std::cout << "E> ";
         break;
     case LogLevel_Trace:
         SetConsoleTextAttribute(stdOutHandle, 8);
-        std::cout << "T> ";
         break;
     }
 
-    std::cout << message << std::endl;
+    std::cout << formattedMessage;
+    std::cout.flush();
 
     // Reset the console text color
     SetConsoleTextAttribute(stdOutHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -83,28 +100,8 @@ void log(LogLevel level, const std::string& message)
         MessageBoxA(NULL, message.c_str(), "Error", MB_ICONHAND | MB_OK);
     }
 #else
-
-    // Set the color text color
-    switch (level)
-    {
-    case LogLevel_Info:
-        std::cout << "I> ";
-        break;
-    case LogLevel_Debug:
-        std::cout << "D> ";
-        break;
-    case LogLevel_Warning:
-        std::cout << "W> ";
-        break;
-    case LogLevel_Error:
-        std::cout << "E> ";
-        break;
-    case LogLevel_Trace:
-        std::cout << "T> ";
-        break;
-    }
-
-    std::cout << message << std::endl;
+    std::cout << formattedMessage;
+    std::cout.flush();
 #endif
 }
 
