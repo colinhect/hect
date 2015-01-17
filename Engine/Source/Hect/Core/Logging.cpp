@@ -100,6 +100,7 @@ void log(LogLevel level, const std::string& message)
         MessageBoxA(NULL, message.c_str(), "Error", MB_ICONHAND | MB_OK);
     }
 #else
+    (void)level;
     std::cout << formattedMessage;
     std::cout.flush();
 #endif
