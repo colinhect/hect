@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Noise/NoiseNode.h"
+#include "Hect/Noise/Random.h"
 
 namespace hect
 {
@@ -40,15 +41,18 @@ public:
     /// Constructs a coherent noise node.
     ///
     /// \param seed The seed.
-    CoherentNoiseNode(uint32_t seed = 0);
+    CoherentNoiseNode(RandomSeed seed = 0);
 
-    Real sample(const Vector3& position) const override;
+    Real sample(const Vector3& position) override;
     void accept(NoiseNodeVisitor& visitor) override;
+    void decode(Decoder& decoder, NoiseFunction& noiseFunction) override;
 
 private:
+    void generatePermuationTable();
     int fastFloor(Real x) const;
 
-    std::vector<int> _perm;
+    RandomSeed _seed;
+    std::vector<uint8_t> _permutationTable;
 };
 
 }

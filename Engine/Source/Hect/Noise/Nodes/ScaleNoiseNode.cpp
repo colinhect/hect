@@ -23,21 +23,36 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ScaleNoiseNode.h"
 
+#include "Hect/Noise/NoiseFunction.h"
 #include "Hect/Noise/NoiseNodeVisitor.h"
 
 using namespace hect;
 
 ScaleNoiseNode::ScaleNoiseNode(const Vector3& scale) :
+    NoiseNode(1),
     _scale(scale)
 {
 }
 
-Real ScaleNoiseNode::sample(const Vector3& position) const
+Real ScaleNoiseNode::sample(const Vector3& position)
 {
-    return source().sample(position * _scale);
+    return source(0).sample(position * _scale);
 }
 
 void ScaleNoiseNode::accept(NoiseNodeVisitor& visitor)
 {
     visitor.visit(*this);
+}
+
+void ScaleNoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
+{
+    clearSources();
+    decoder >> decodeValue("scale", _scale);
+
+    // Decode the source node
+    if (decoder.selectMember("source"))
+    {
+        NoiseNode& node = noiseFunction.decodeNode(decoder);
+        addSource(node);
+    }
 }

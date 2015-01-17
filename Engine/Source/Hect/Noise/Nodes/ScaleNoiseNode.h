@@ -24,15 +24,15 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Noise/Nodes/SourcedNoiseNode.h"
+#include "Hect/Noise/NoiseNode.h"
 
 namespace hect
 {
 
 ///
-/// Scales a noise source.
+/// Scales the input position of a noise source.
 class HECT_EXPORT ScaleNoiseNode :
-    public SourcedNoiseNode
+    public NoiseNode
 {
 public:
 
@@ -42,8 +42,9 @@ public:
     /// \param scale The scale.
     ScaleNoiseNode(const Vector3& scale = Vector3::one());
 
-    Real sample(const Vector3& position) const override;
+    Real sample(const Vector3& position) override;
     void accept(NoiseNodeVisitor& visitor) override;
+    void decode(Decoder& decoder, NoiseFunction& noiseFunction) override;
 
 private:
     Vector3 _scale;

@@ -39,7 +39,7 @@ void NoiseFunction::setRoot(NoiseNode& node)
     _rootNode = &node;
 }
 
-Real NoiseFunction::sample(const Vector3& position) const
+Real NoiseFunction::sample(const Vector3& position)
 {
     if (!_rootNode)
     {
@@ -56,31 +56,19 @@ NoiseNode& NoiseFunction::decodeNode(Decoder& decoder)
     decoder >> beginObject()
             >> decodeValue("type", type, true);
 
-    // ScaleNoiseNode
-    if (type == "Scale")
+    // CoherentNoiseNode
+    if (type == "Coherent")
     {
-        Vector3 scale = Vector3::one();
-        decoder >> decodeValue("scale", scale);
-
-        ScaleNoiseNode& node = createNode<ScaleNoiseNode>(scale);
-
-        // Decode the source node
-        if (decoder.selectMember("source"))
-        {
-            NoiseNode& sourceNode = decodeNode(decoder);
-            node.setSource(sourceNode);
-        }
-
+        CoherentNoiseNode& node = createNode<CoherentNoiseNode>();
+        node.decode(decoder, *this);
         return node;
     }
 
-    // CoherentNoiseNode
-    else if (type == "Coherent")
+    // ScaleNoiseNode
+    else if (type == "Scale")
     {
-        uint32_t seed = 0;
-        decoder >> decodeValue("seed", seed);
-
-        CoherentNoiseNode& node = createNode<CoherentNoiseNode>(seed);
+        ScaleNoiseNode& node = createNode<ScaleNoiseNode>();
+        node.decode(decoder, *this);
         return node;
     }
 

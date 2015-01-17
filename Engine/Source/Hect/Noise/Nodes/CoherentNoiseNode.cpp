@@ -25,32 +25,20 @@
 
 #include <algorithm>
 
+#include "Hect/Noise/NoiseFunction.h"
 #include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/Random.h"
 
 using namespace hect;
 
-CoherentNoiseNode::CoherentNoiseNode(uint32_t seed)
+CoherentNoiseNode::CoherentNoiseNode(RandomSeed seed) :
+    _seed(seed)
 {
-    _perm.reserve(512);
-
-    // Build permutation table
-    for (int i = 0; i < 256; ++i)
-    {
-        _perm.push_back(i);
-    }
-
-    // Shuffle permutation table
-    std::srand(seed); // Not thread safe!
-    std::random_shuffle(_perm.begin(), _perm.end());
-
-    // Extend permutation table to avoid index wrapping
-    for (int i = 0; i < 256; ++i)
-    {
-        _perm.push_back(_perm[i]);
-    }
+    _permutationTable.reserve(512);
+    generatePermuationTable();
 }
 
-Real CoherentNoiseNode::sample(const Vector3& position) const
+Real CoherentNoiseNode::sample(const Vector3& position)
 {
     // Based on Simplex Noise Demystified (c) 2005 Stefan Gustavson
     // http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
@@ -143,10 +131,12 @@ Real CoherentNoiseNode::sample(const Vector3& position) const
     int ii = i & 255;
     int jj = j & 255;
     int kk = k & 255;
-    int gi0 = _perm[ii + _perm[jj + _perm[kk]]] % 12;
-    int gi1 = _perm[ii + i1 + _perm[jj + j1 + _perm[kk + k1]]] % 12;
-    int gi2 = _perm[ii + i2 + _perm[jj + j2 + _perm[kk + k2]]] % 12;
-    int gi3 = _perm[ii + 1 + _perm[jj + 1 + _perm[kk + 1]]] % 12;
+
+    std::vector<uint8_t>& perm = _permutationTable;
+    int gi0 = perm[ii + perm[jj + perm[kk]]] % 12;
+    int gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1]]] % 12;
+    int gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]] % 12;
+    int gi3 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]] % 12;
 
     Real n0 = 0;
     Real t0 = Real(0.5) - x0 * x0 - y0 * y0 - z0 * z0;
@@ -186,6 +176,38 @@ Real CoherentNoiseNode::sample(const Vector3& position) const
 void CoherentNoiseNode::accept(NoiseNodeVisitor& visitor)
 {
     visitor.visit(*this);
+}
+
+void CoherentNoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
+{
+    (void)noiseFunction;
+
+    decoder >> decodeValue("seed", _seed);
+    generatePermuationTable();
+}
+
+void CoherentNoiseNode::generatePermuationTable()
+{
+    _permutationTable.clear();
+
+    // Build permutation table
+    for (size_t i = 0; i < 256; ++i)
+    {
+        _permutationTable.push_back(static_cast<uint8_t>(i));
+    }
+
+    // Shuffle permutation table
+    Random random(_seed);
+    std::random_shuffle(_permutationTable.begin(), _permutationTable.end(), [&random] (int i)
+    {
+        return random.next() % i;
+    });
+
+    // Extend permutation table to avoid index wrapping
+    for (size_t i = 0; i < 256; ++i)
+    {
+        _permutationTable.push_back(_permutationTable[i]);
+    }
 }
 
 int CoherentNoiseNode::fastFloor(Real x) const

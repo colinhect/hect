@@ -24,31 +24,79 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Math/Vector4.h"
+#include "Hect/IO/Decoder.h"
+#include "Hect/Math/Vector3.h"
 
 namespace hect
 {
 
+class NoiseFunction;
 class NoiseNodeVisitor;
 
 ///
-/// A noise function that can be composed with other noise functions.
+/// A component of a NoiseFunction that can be composed with other components.
 class HECT_EXPORT NoiseNode
 {
 public:
+
+    ///
+    /// Constructs a noise node.
+    ///
+    /// \param maxSourceNodes The maximum number of source nodes the node
+    /// supports.
+    NoiseNode(size_t maxSourceNodes = 0);
+
     virtual ~NoiseNode() { }
 
     ///
     /// Samples the noise function at the given 3-dimensional position.
     ///
     /// \param position The 3-dimensional position to sample.
-    virtual Real sample(const Vector3& position) const = 0;
+    ///
+    /// \returns The value resulting from the sample.
+    virtual Real sample(const Vector3& position) = 0;
 
     ///
-    /// Accepts a visitor, invoking the NoiseNodeVisitor::visit() function.
+    /// Accepts a visitor, invoking the NoiseNodeVisitor::visit() function
+    /// defined for the specific node type.
     ///
     /// \param visitor The visitor to invoke.
     virtual void accept(NoiseNodeVisitor& visitor);
+
+    ///
+    /// Clears all source nodes.
+    void clearSources();
+
+    ///
+    /// Adds a source node.
+    ///
+    /// \param node The source node.
+    ///
+    /// \throws InvalidOperation If the node does not support source nodes or
+    /// already has the maximum number of source nodes.
+    void addSource(NoiseNode& node);
+
+    ///
+    /// Decodes the node from an object.
+    ///
+    /// \param decoder The decoder to use.
+    /// \param noiseFunction The noise function that the node belongs to.
+    virtual void decode(Decoder& decoder, NoiseFunction& noiseFunction);
+
+protected:
+
+    ///
+    /// Returns the source node at the given index.
+    ///
+    /// \param index The source node index.
+    ///
+    /// \throws InvalidOperation If the node does not have a source node at the
+    /// specified index.
+    NoiseNode& source(size_t index) const;
+
+private:
+    std::vector<NoiseNode*> _sourceNodes;
+    size_t _sourceNodeCount { 0 };
 };
 
 }

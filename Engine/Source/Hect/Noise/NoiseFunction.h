@@ -33,7 +33,12 @@ namespace hect
 {
 
 ///
-/// A tree of NoiseNode%s.
+/// An encapsulated composition of NoiseNode%s.
+///
+/// A noise function allows for the creation and ownership of multiple noise
+/// nodes or sub-functions (since a noise function is, itself, a node).  One of
+/// function's nodes must be set as the root node before the function can be
+/// sampled.
 class HECT_EXPORT NoiseFunction :
     public Uncopyable,
     public Asset<NoiseFunction>,
@@ -42,7 +47,10 @@ class HECT_EXPORT NoiseFunction :
 public:
 
     ///
-    /// Adds a new NoiseNode of the specified type.
+    /// Creates a new NoiseNode of the specified type.
+    ///
+    /// \note The lifetime of the created node is managed by the noise
+    /// function.
     ///
     /// \param args The arguments to pass to the node's constructor.
     ///
@@ -57,16 +65,32 @@ public:
     ///
     /// Sets the root node in the tree.
     ///
+    /// \note It is expected that the node was created by the noise function
+    /// itself using NoiseFunction::createNode().
+    ///
     /// \param node The new root node.
     void setRoot(NoiseNode& node);
 
-    Real sample(const Vector3& position) const override;
+    ///
+    /// \copydoc NoiseNode::sample()
+    ///
+    /// \throws InvalidOperation If no root node as been set.
+    Real sample(const Vector3& position) override;
+
+    ///
+    /// Decodes a noise node from a decoder and adds it as a node to the
+    /// function.
+    ///
+    /// \param decoder The decoder to use.
+    ///
+    /// \returns The decoded node.
+    ///
+    /// \throws DecodeError If the decoding failed.
+    NoiseNode& decodeNode(Decoder& decoder);
 
     friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, NoiseFunction& noiseFunction);
 
 private:
-    NoiseNode& decodeNode(Decoder& decoder);
-
     NoiseNode* _rootNode { nullptr };
     std::vector<std::unique_ptr<NoiseNode>> _nodes;
 };

@@ -23,10 +23,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <cstdint>
+
 #include "Hect/Core/Export.h"
 
 namespace hect
 {
+
+///
+/// A seed for a random number generator.
+typedef uint32_t RandomSeed;
 
 ///
 /// Provides the functionality for generating psuedo-random numbers.
@@ -38,35 +44,14 @@ public:
     /// Constructs a random number generator given a seed.
     ///
     /// \param seed The initial seed.
-    Random(unsigned seed);
+    Random(RandomSeed seed);
 
     ///
     /// Returns the next random number.
-    unsigned next();
-
-    ///
-    /// Returns the next random number as an integer within a range.
-    ///
-    /// \param min The minimum value (must be less than max).
-    /// \param max The maximum value (must be more than min).
-    int nextInt32(int min, int max);
-
-    ///
-    /// Returns the next random number as a float within a range.
-    ///
-    /// \param min The minimum value (must be less than max).
-    /// \param max The maximum value (must be more than min).
-    float nextFloat32(float min, float max);
-
-    ///
-    /// Returns the next random number as a double within a range.
-    ///
-    /// \param min The minimum value (must be less than max).
-    /// \param max The maximum value (must be more than min).
-    double nextFloat64(double min, double max);
+    uint32_t next();
 
 private:
-    unsigned _current;
+    uint32_t _current;
 };
 
 }
