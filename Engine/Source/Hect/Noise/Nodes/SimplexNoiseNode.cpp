@@ -29,8 +29,7 @@
 
 using namespace hect;
 
-SimplexNoiseNode::SimplexNoiseNode(uint32_t seed) :
-    _seed(seed)
+SimplexNoiseNode::SimplexNoiseNode(uint32_t seed)
 {
     _perm.reserve(512);
 
@@ -41,7 +40,7 @@ SimplexNoiseNode::SimplexNoiseNode(uint32_t seed) :
     }
 
     // Shuffle permutation table
-    std::srand(seed);
+    std::srand(seed); // Not thread safe!
     std::random_shuffle(_perm.begin(), _perm.end());
 
     // Extend permutation table to avoid index wrapping
