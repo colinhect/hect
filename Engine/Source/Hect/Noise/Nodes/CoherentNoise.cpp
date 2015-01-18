@@ -39,7 +39,7 @@ CoherentNoise::CoherentNoise(RandomSeed seed, Real frequency) :
     generatePermuationTable();
 }
 
-Real CoherentNoise::compute(const Vector3& position)
+Real CoherentNoise::compute(const Vector3& point)
 {
     // Based on Simplex Noise Demystified (c) 2005 Stefan Gustavson
     // http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
@@ -51,12 +51,12 @@ Real CoherentNoise::compute(const Vector3& position)
         Vector3(0, 1, 1), Vector3(0, -1, 1), Vector3(0, 1, -1), Vector3(0, -1, -1)
     };
 
-    static Real f3 = Real(1) / 3;
-    static Real g3 = Real(1) / 6;
+    static Real f3 = Real(1.0) / 3;
+    static Real g3 = Real(1.0) / 6;
 
-    Real x = position.x * _frequency;
-    Real y = position.y * _frequency;
-    Real z = position.z * _frequency;
+    Real x = point.x * _frequency;
+    Real y = point.y * _frequency;
+    Real z = point.z * _frequency;
 
     Real s = (x + y + z) * f3;
     int i = fastFloor(x + s);
@@ -125,9 +125,9 @@ Real CoherentNoise::compute(const Vector3& position)
     Real x2 = x0 - i2 + g3 * 2;
     Real y2 = y0 - j2 + g3 * 2;
     Real z2 = z0 - k2 + g3 * 2;
-    Real x3 = x0 - Real(1) + g3 * 3;
-    Real y3 = y0 - Real(1) + g3 * 3;
-    Real z3 = z0 - Real(1) + g3 * 3;
+    Real x3 = x0 - Real(1.0) + g3 * 3;
+    Real y3 = y0 - Real(1.0) + g3 * 3;
+    Real z3 = z0 - Real(1.0) + g3 * 3;
 
     int ii = i & 255;
     int jj = j & 255;
@@ -171,7 +171,7 @@ Real CoherentNoise::compute(const Vector3& position)
         n3 = t3 * t3 * grad[gi3].dot(Vector3(x3, y3, z3));
     }
 
-    return Real(32) * (n0 + n1 + n2 + n3);
+    return Real(32.0) * (n0 + n1 + n2 + n3);
 }
 
 void CoherentNoise::accept(NoiseNodeVisitor& visitor)

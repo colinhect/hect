@@ -28,7 +28,7 @@
 using namespace hect;
 
 Mode::Mode() :
-    _timeStep(TimeSpan::fromSeconds(Real(1) / Real(60)))
+    _timeStep(TimeSpan::fromSeconds(Real(1.0) / Real(60.0)))
 {
 }
 

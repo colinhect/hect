@@ -34,12 +34,12 @@ SubtractNoise::SubtractNoise(NoiseNode& minuendNode, NoiseNode& subtrahendNode) 
 {
 }
 
-Real SubtractNoise::compute(const Vector3& position)
+Real SubtractNoise::compute(const Vector3& point)
 {
-    Real value = 0;
+    Real value = Real(0.0);
     if (_minuendNode && _subtrahendNode)
     {
-        value = _minuendNode->compute(position) - _subtrahendNode->compute(position);
+        value = _minuendNode->compute(point) - _subtrahendNode->compute(point);
     }
     return value;
 }

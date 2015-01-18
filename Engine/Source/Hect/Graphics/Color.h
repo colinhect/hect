@@ -48,7 +48,7 @@ public:
     /// \param g The green component.
     /// \param b The blue component.
     /// \param a The alpha component.
-    Color(Real r, Real g, Real b, Real a = Real(1));
+    Color(Real r, Real g, Real b, Real a = Real(1.0));
 
     ///
     /// Returns the sum of the color and another color.

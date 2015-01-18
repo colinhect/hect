@@ -34,12 +34,12 @@ ScalePointNoise::ScalePointNoise(NoiseNode& node, const Vector3& factor) :
 {
 }
 
-Real ScalePointNoise::compute(const Vector3& position)
+Real ScalePointNoise::compute(const Vector3& point)
 {
-    Real value = 0;
+    Real value = Real(0.0);
     if (_node)
     {
-        value = _node->compute(position * _factor);
+        value = _node->compute(point * _factor);
     }
     return value;
 }

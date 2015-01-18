@@ -44,7 +44,7 @@ public:
     /// \param subtrahendNode The node whose value is being subtracted.
     SubtractNoise(NoiseNode& minuendNode, NoiseNode& subtrahendNode);
 
-    Real compute(const Vector3& position) override;
+    Real compute(const Vector3& point) override;
     void accept(NoiseNodeVisitor& visitor) override;
 
 private:

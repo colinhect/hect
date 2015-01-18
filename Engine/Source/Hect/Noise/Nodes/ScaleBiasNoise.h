@@ -42,9 +42,9 @@ public:
     /// \param node The node whose output to scale.
     /// \param factor The scale factor.
     /// \param bias The bias to add to the output after it is scaled.
-    ScaleBiasNoise(NoiseNode& node, Real factor, Real bias = Real(0));
+    ScaleBiasNoise(NoiseNode& node, Real factor, Real bias = Real(0.0));
 
-    Real compute(const Vector3& position) override;
+    Real compute(const Vector3& point) override;
     void accept(NoiseNodeVisitor& visitor) override;
 
 private:

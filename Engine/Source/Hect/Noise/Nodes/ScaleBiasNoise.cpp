@@ -35,12 +35,12 @@ ScaleBiasNoise::ScaleBiasNoise(NoiseNode& node, Real factor, Real bias) :
 {
 }
 
-Real ScaleBiasNoise::compute(const Vector3& position)
+Real ScaleBiasNoise::compute(const Vector3& point)
 {
-    Real value = 0;
+    Real value = Real(0.0);
     if (_node)
     {
-        value = _node->compute(position) * _factor + _bias;
+        value = _node->compute(point) * _factor + _bias;
     }
     return value;
 }

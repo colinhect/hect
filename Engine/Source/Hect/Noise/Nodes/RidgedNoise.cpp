@@ -34,45 +34,50 @@ RidgedNoise::RidgedNoise(RandomSeed seed, Real frequency, Real lacunarity, unsig
     _frequency(frequency),
     _lacunarity(lacunarity)
 {
-    Real h = 1;
-    Real weightFrequency = 1;
-
-    // Generate a coherent noise node and weight for each octave
     Random random(seed);
+    Real weightFrequency = Real(1.0);
     _octaveNoise.reserve(octaveCount);
+    _octaveWeights.reserve(octaveCount);
+    
+    // For each octave
     for (size_t octaveIndex = 0; octaveIndex < octaveCount; ++octaveIndex)
     {
+        // Create a coherent noise node for this octave
         RandomSeed nextSeed = static_cast<RandomSeed>(random.next());
         _octaveNoise.push_back(CoherentNoise(nextSeed));
 
-        _octaveWeights.push_back(std::pow(weightFrequency, -h));
+        // Compute the weight of this octave
+        _octaveWeights.push_back(std::pow(weightFrequency, Real(-1.0)));
         weightFrequency *= _lacunarity;
     }
 }
 
-Real RidgedNoise::compute(const Vector3& position)
+Real RidgedNoise::compute(const Vector3& point)
 {
-    Real value = 0;
-    Real weight = 1;
-    Real gain = 2;
-    Vector3 currentPosition = position * _frequency;
+    Real value = Real(0.0);
+    Real weight = Real(1.0);
+    Vector3 currentPoint = point * _frequency;
 
+    // For each octave
     size_t octaveIndex = 0;
     for (CoherentNoise& noise : _octaveNoise)
     {
-        Real octaveValue = noise.compute(currentPosition);
-        octaveValue = Real(1) - std::abs(octaveValue);
-        octaveValue *= octaveValue;
-        octaveValue *= weight;
+        // Compute the coherent noise for this octave
+        Real signal = noise.compute(currentPoint);
 
-        weight = octaveValue * gain;
-        weight = clamp(weight, Real(1), Real(0));
+        // Adjust the value to be ridged
+        signal = Real(1.0) - std::abs(signal);
+        signal *= signal;
+        signal *= weight;
 
-        value += octaveValue * _octaveWeights[octaveIndex++];
-        currentPosition *= _lacunarity;
+        weight = signal * Real(2.0);
+        weight = clamp(weight, Real(0.0), Real(1.0));
+
+        value += signal * _octaveWeights[octaveIndex++];
+        currentPoint *= _lacunarity;
     }
 
-    return value;
+    return (value * Real(1.25)) - Real(1.0);
 }
 
 void RidgedNoise::accept(NoiseNodeVisitor& visitor)

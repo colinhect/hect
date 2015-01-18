@@ -43,7 +43,7 @@ public:
     /// \param multiplierNode The node whose output is being mutliplied.
     MultiplyNoise(NoiseNode& multiplicandNode, NoiseNode& multiplierNode);
 
-    Real compute(const Vector3& position) override;
+    Real compute(const Vector3& point) override;
     void accept(NoiseNodeVisitor& visitor) override;
 
 private:

@@ -456,7 +456,7 @@ void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, cons
             frame.setUniform(uniform, camera.exposure);
             break;
         case UniformBinding_CameraOneOverGamma:
-            frame.setUniform(uniform, Real(1) / camera.gamma);
+            frame.setUniform(uniform, Real(1.0) / camera.gamma);
             break;
         case UniformBinding_PrimaryLightDirection:
             frame.setUniform(uniform, _frameData.primaryLightDirection);

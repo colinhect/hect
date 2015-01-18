@@ -68,7 +68,7 @@ public:
     /// \param node The new root node.
     void setRoot(NoiseNode& node);
 
-    Real compute(const Vector3& position) override;
+    Real compute(const Vector3& point) override;
 
 private:
     NoiseNode* _rootNode { nullptr };

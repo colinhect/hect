@@ -39,12 +39,12 @@ public:
     virtual ~NoiseNode() { }
 
     ///
-    /// Computes the noise node at the given 3-dimensional position.
+    /// Computes the noise node at the given 3-dimensional point.
     ///
-    /// \param position The 3-dimensional position to compute.
+    /// \param point The 3-dimensional point to compute.
     ///
     /// \returns The value resulting from the computation.
-    virtual Real compute(const Vector3& position) = 0;
+    virtual Real compute(const Vector3& point) = 0;
 
     ///
     /// Accepts a visitor, invoking the NoiseNodeVisitor::visit() function

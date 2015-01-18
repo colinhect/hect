@@ -30,20 +30,20 @@ namespace hect
 {
 
 ///
-/// Scales the position before a node is computed.
+/// Scales the point before a node is computed.
 class HECT_EXPORT ScalePointNoise :
     public NoiseNode
 {
 public:
 
     ///
-    /// Constructs a node that scales the position before a node is computed.
+    /// Constructs a node that scales the point before a node is computed.
     ///
-    /// \param node The node to perform the position scaling on.
+    /// \param node The node to perform the point scaling on.
     /// \param factor The scale factor.
     ScalePointNoise(NoiseNode& node, const Vector3& factor);
 
-    Real compute(const Vector3& position) override;
+    Real compute(const Vector3& point) override;
     void accept(NoiseNodeVisitor& visitor) override;
 
 private:

@@ -42,9 +42,9 @@ public:
     ///
     /// \param seed The seed.
     /// \param frequency The frequency.
-    CoherentNoise(RandomSeed seed, Real frequency = 1);
+    CoherentNoise(RandomSeed seed, Real frequency = Real(1.0));
 
-    Real compute(const Vector3& position) override;
+    Real compute(const Vector3& point) override;
     void accept(NoiseNodeVisitor& visitor) override;
 
 private:

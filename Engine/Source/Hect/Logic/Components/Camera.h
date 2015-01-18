@@ -51,7 +51,7 @@ public:
     /// The aspect ratio.
     ///
     /// \property
-    Real aspectRatio { 1 };
+    Real aspectRatio { Real(1.0) };
 
     ///
     /// The near clip distance.
@@ -69,7 +69,7 @@ public:
     /// The exposure.
     ///
     /// \property
-    Real exposure { Real(1) };
+    Real exposure { Real(1.0) };
 
     ///
     /// The gamma.

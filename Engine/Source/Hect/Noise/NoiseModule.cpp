@@ -36,12 +36,12 @@ void NoiseModule::setRoot(NoiseNode& node)
     _rootNode = &node;
 }
 
-Real NoiseModule::compute(const Vector3& position)
+Real NoiseModule::compute(const Vector3& point)
 {
-    Real value = 0;
+    Real value = Real(0.0);
     if (_rootNode)
     {
-        value = _rootNode->compute(position);
+        value = _rootNode->compute(point);
     }
     return value;
 }

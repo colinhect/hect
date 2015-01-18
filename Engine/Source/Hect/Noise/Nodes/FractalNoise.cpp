@@ -34,26 +34,31 @@ FractalNoise::FractalNoise(RandomSeed seed, Real frequency, Real lacunarity, Rea
     _lacunarity(lacunarity),
     _persistence(persistence)
 {
-    // Generate a coherent noise node for each octave
     Random random(seed);
     _octaveNoise.reserve(octaveCount);
+
+    // For each octave
     for (size_t octaveIndex = 0; octaveIndex < octaveCount; ++octaveIndex)
     {
+        // Create a coherent noise node for this octave
         RandomSeed nextSeed = static_cast<RandomSeed>(random.next());
         _octaveNoise.push_back(CoherentNoise(nextSeed));
     }
 }
 
-Real FractalNoise::compute(const Vector3& position)
+Real FractalNoise::compute(const Vector3& point)
 {
-    Real value = 0;
-    Real currentPersistence = 1;
-    Vector3 currentPosition = position * _frequency;
+    Real value = Real(0.0);
+    Real currentPersistence = Real(1.0);
+    Vector3 currentPoint = point * _frequency;
 
+    // For each octave
     for (CoherentNoise& noise : _octaveNoise)
     {
-        value += noise.compute(currentPosition) * currentPersistence;
-        currentPosition *= _lacunarity;
+        // Add the signal from this octave
+        value += noise.compute(currentPoint) * currentPersistence;
+
+        currentPoint *= _lacunarity;
         currentPersistence *= _persistence;
     }
 

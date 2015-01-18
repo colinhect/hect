@@ -45,9 +45,9 @@ public:
     /// \param lacunarity The lacunarity.
     /// \param persistence The persistence.
     /// \param octaveCount The number of octaves.
-    RidgedNoise(RandomSeed seed, Real frequency = 1, Real lacunarity = 2, unsigned octaveCount = 6);
+    RidgedNoise(RandomSeed seed, Real frequency = Real(1.0), Real lacunarity = Real(2.0), unsigned octaveCount = 6);
 
-    Real compute(const Vector3& position) override;
+    Real compute(const Vector3& point) override;
     void accept(NoiseNodeVisitor& visitor) override;
 
 private:

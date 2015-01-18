@@ -34,12 +34,12 @@ MultiplyNoise::MultiplyNoise(NoiseNode& multiplicandNode, NoiseNode& multiplierN
 {
 }
 
-Real MultiplyNoise::compute(const Vector3& position)
+Real MultiplyNoise::compute(const Vector3& point)
 {
-    Real value = 0;
+    Real value = Real(0.0);
     if (_multiplicandNode && _multiplierNode)
     {
-        value = _multiplicandNode->compute(position) * _multiplierNode->compute(position);
+        value = _multiplicandNode->compute(point) * _multiplierNode->compute(point);
     }
     return value;
 }

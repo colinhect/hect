@@ -34,12 +34,12 @@ AddNoise::AddNoise(NoiseNode& augendNode, NoiseNode& addendNode) :
 {
 }
 
-Real AddNoise::compute(const Vector3& position)
+Real AddNoise::compute(const Vector3& point)
 {
-    Real value = 0;
+    Real value = Real(0.0);
     if (_augendNode && _addendNode)
     {
-        value = _augendNode->compute(position) + _addendNode->compute(position);
+        value = _augendNode->compute(point) + _addendNode->compute(point);
     }
     return value;
 }
