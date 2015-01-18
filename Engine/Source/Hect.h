@@ -131,6 +131,7 @@ namespace hect {}
 #include "Hect/Noise/Random.h"
 #include "Hect/Noise/Nodes/AddNoise.h"
 #include "Hect/Noise/Nodes/CoherentNoise.h"
+#include "Hect/Noise/Nodes/MultiplyNoise.h"
 #include "Hect/Noise/Nodes/ScaleNoise.h"
 #include "Hect/Noise/Nodes/ScaleNoisePosition.h"
 #include "Hect/Noise/Nodes/SubtractNoise.h"

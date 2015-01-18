@@ -25,58 +25,30 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Nodes/AddNoise.h"
-#include "Hect/Noise/Nodes/CoherentNoise.h"
-#include "Hect/Noise/Nodes/MultiplyNoise.h"
-#include "Hect/Noise/Nodes/ScaleNoise.h"
-#include "Hect/Noise/Nodes/ScaleNoisePosition.h"
-#include "Hect/Noise/Nodes/SubtractNoise.h"
 
 namespace hect
 {
 
 ///
-/// Abstract interface for visiting an entire noise node tree.
-class HECT_EXPORT NoiseNodeVisitor
+/// Computes the product of the output of two nodes.
+class HECT_EXPORT MultiplyNoise :
+    public NoiseNode
 {
 public:
-    virtual ~NoiseNodeVisitor() { }
 
     ///
-    /// Visits a CoherentNoise node.
+    /// Constructs a node that computes the product of the output of two nodes.
     ///
-    /// \param node The node to visit.
-    virtual void visit(CoherentNoise& node) = 0;
+    /// \param multiplicandNode The node whose output is being mutliplied to.
+    /// \param multiplierNode The node whose output is being mutliplied.
+    MultiplyNoise(NoiseNode& multiplicandNode, NoiseNode& multiplierNode);
 
-    ///
-    /// Visits an AddNoise node.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(AddNoise& node) = 0;
+    Real compute(const Vector3& position) override;
+    void accept(NoiseNodeVisitor& visitor) override;
 
-    ///
-    /// Visits a SubtractNoise node.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(SubtractNoise& node) = 0;
-
-    ///
-    /// Visits a MultiplyNoise node.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(MultiplyNoise& node) = 0;
-
-    ///
-    /// Visits a ScaleNoise node.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(ScaleNoise& node) = 0;
-
-    ///
-    /// Visits a ScaleNoisePosition node.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(ScaleNoisePosition& node) = 0;
+private:
+    NoiseNode* _multiplicandNode;
+    NoiseNode* _multiplierNode;
 };
 
 }
