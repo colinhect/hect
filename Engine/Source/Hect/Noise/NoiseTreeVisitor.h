@@ -25,58 +25,72 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Noise/NoiseNode.h"
+#include "Hect/Noise/Nodes/AddNoise.h"
+#include "Hect/Noise/Nodes/CoherentNoise.h"
+#include "Hect/Noise/Nodes/FractalNoise.h"
+#include "Hect/Noise/Nodes/MultiplyNoise.h"
+#include "Hect/Noise/Nodes/RidgedNoise.h"
+#include "Hect/Noise/Nodes/ScaleBiasNoise.h"
+#include "Hect/Noise/Nodes/ScalePointNoise.h"
+#include "Hect/Noise/Nodes/SubtractNoise.h"
 
 namespace hect
 {
 
 ///
-/// Computes the sum of the output of two nodes.
-class HECT_EXPORT AddNoise :
-    public NoiseNode
+/// Abstract interface for visiting an entire noise tree.
+class HECT_EXPORT NoiseTreeVisitor
 {
 public:
+    virtual ~NoiseTreeVisitor() { }
 
     ///
-    /// Constructs a node that computes the sum of the output of two nodes.
-    AddNoise();
+    /// Visits a CoherentNoise node.
+    ///
+    /// \param node The node to visit.
+    virtual void visit(CoherentNoise& node) = 0;
 
     ///
-    /// Constructs a node that computes the sum of the output of two nodes.
+    /// Visits a FractalNoise node.
     ///
-    /// \param firstNode The node whose output is being added to.
-    /// \param secondNode The node whose output is being added.
-    AddNoise(NoiseNode& firstNode, NoiseNode& secondNode);
+    /// \param node The node to visit.
+    virtual void visit(FractalNoise& node) = 0;
 
     ///
-    /// Returns the node whose output is being added to.
+    /// Visits a RidgedNoise node.
     ///
-    /// \throws InvalidOperation if the first node is not set.
-    NoiseNode& firstNode();
+    /// \param node The node to visit.
+    virtual void visit(RidgedNoise& node) = 0;
 
     ///
-    /// Sets the node whose output is being added to.
+    /// Visits an AddNoise node.
     ///
-    /// \param node The node.
-    void setFirstNode(NoiseNode& node);
+    /// \param node The node to visit.
+    virtual void visit(AddNoise& node) = 0;
 
     ///
-    /// Returns the node whose output is being added.
+    /// Visits a SubtractNoise node.
     ///
-    /// \throws InvalidOperation if the second node is not set.
-    NoiseNode& secondNode();
+    /// \param node The node to visit.
+    virtual void visit(SubtractNoise& node) = 0;
 
     ///
-    /// Sets the node whose output is being added.
+    /// Visits a MultiplyNoise node.
     ///
-    /// \param node The node.
-    void setSecondNode(NoiseNode& node);
+    /// \param node The node to visit.
+    virtual void visit(MultiplyNoise& node) = 0;
 
-    Real compute(const Vector3& point) override;
-    void accept(NoiseTreeVisitor& visitor) override;
+    ///
+    /// Visits a ScaleBiasNoise node.
+    ///
+    /// \param node The node to visit.
+    virtual void visit(ScaleBiasNoise& node) = 0;
 
-private:
-    NoiseNode* _firstNode { nullptr };
-    NoiseNode* _secondNode { nullptr };
+    ///
+    /// Visits a ScalePointNoise node.
+    ///
+    /// \param node The node to visit.
+    virtual void visit(ScalePointNoise& node) = 0;
 };
 
 }

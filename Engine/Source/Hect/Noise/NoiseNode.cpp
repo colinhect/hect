@@ -23,11 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include"NoiseNode.h"
 
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/NoiseTreeVisitor.h"
 
 using namespace hect;
 
-void NoiseNode::accept(NoiseNodeVisitor& visitor)
+void NoiseNode::accept(NoiseTreeVisitor& visitor)
 {
     (void)visitor;
 }

@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "MultiplyNoise.h"
 
-#include "Hect/Noise/NoiseModule.h"
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/NoiseTree.h"
+#include "Hect/Noise/NoiseTreeVisitor.h"
 
 using namespace hect;
 
@@ -44,7 +44,7 @@ Real MultiplyNoise::compute(const Vector3& point)
     return value;
 }
 
-void MultiplyNoise::accept(NoiseNodeVisitor& visitor)
+void MultiplyNoise::accept(NoiseTreeVisitor& visitor)
 {
     visitor.visit(*this);
 }

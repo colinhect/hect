@@ -24,73 +24,74 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Core/Uncopyable.h"
 #include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Nodes/AddNoise.h"
-#include "Hect/Noise/Nodes/CoherentNoise.h"
-#include "Hect/Noise/Nodes/FractalNoise.h"
-#include "Hect/Noise/Nodes/MultiplyNoise.h"
-#include "Hect/Noise/Nodes/RidgedNoise.h"
-#include "Hect/Noise/Nodes/ScaleBiasNoise.h"
-#include "Hect/Noise/Nodes/ScalePointNoise.h"
-#include "Hect/Noise/Nodes/SubtractNoise.h"
 
 namespace hect
 {
 
 ///
-/// Abstract interface for visiting an entire noise node tree.
-class HECT_EXPORT NoiseNodeVisitor
+/// An encapsulated composition of NoiseNode%s.
+///
+/// A noise tree allows for the creation and ownership of multiple noise
+/// nodes, with a specfic node specified as the root.
+class HECT_EXPORT NoiseTree :
+    public Uncopyable
 {
 public:
-    virtual ~NoiseNodeVisitor() { }
 
     ///
-    /// Visits a CoherentNoise node.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(CoherentNoise& node) = 0;
+    /// Constructs an empty noise tree.
+    NoiseTree();
 
     ///
-    /// Visits a FractalNoise node.
+    /// Constructs a noise tree moved from another.
     ///
-    /// \param node The node to visit.
-    virtual void visit(FractalNoise& node) = 0;
+    /// \param noiseTree The noise tree to move.
+    NoiseTree(NoiseTree&& noiseTree);
 
     ///
-    /// Visits a RidgedNoise node.
+    /// Creates a new NoiseNode of the specified type.
     ///
-    /// \param node The node to visit.
-    virtual void visit(RidgedNoise& node) = 0;
+    /// \note The lifetime of the created node is managed by the noise
+    /// tree.
+    ///
+    /// \param args The arguments to pass to the node's constructor.
+    ///
+    /// \returns A reference to the created node.
+    template <typename T, typename... Args>
+    T& createNode(Args&&... args);
 
     ///
-    /// Visits an AddNoise node.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(AddNoise& node) = 0;
+    /// Clears all nodes in the tree.
+    void clear();
 
     ///
-    /// Visits a SubtractNoise node.
+    /// Returns the root node in the tree.
     ///
-    /// \param node The node to visit.
-    virtual void visit(SubtractNoise& node) = 0;
+    /// \throws InvalidOperation If no root node is set.
+    NoiseNode& root();
 
     ///
-    /// Visits a MultiplyNoise node.
+    /// Sets the root node in the tree.
     ///
-    /// \param node The node to visit.
-    virtual void visit(MultiplyNoise& node) = 0;
+    /// \note It is expected that the node was created by the noise tree
+    /// itself using NoiseTree::createNode().
+    ///
+    /// \param node The new root node.
+    void setRoot(NoiseNode& node);
 
     ///
-    /// Visits a ScaleBiasNoise node.
+    /// Sets the noise tree as being moved from another.
     ///
-    /// \param node The node to visit.
-    virtual void visit(ScaleBiasNoise& node) = 0;
+    /// \param noiseTree The noise tree to move.
+    NoiseTree& operator=(NoiseTree&& noiseTree);
 
-    ///
-    /// Visits a ScalePointNoise node.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(ScalePointNoise& node) = 0;
+private:
+    NoiseNode* _rootNode { nullptr };
+    std::vector<std::unique_ptr<NoiseNode>> _nodes;
 };
 
 }
+
+#include "NoiseTree.inl"

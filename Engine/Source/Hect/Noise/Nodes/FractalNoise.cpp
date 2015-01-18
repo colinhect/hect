@@ -23,34 +23,70 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "FractalNoise.h"
 
-#include "Hect/Noise/NoiseModule.h"
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/NoiseTree.h"
+#include "Hect/Noise/NoiseTreeVisitor.h"
 #include "Hect/Noise/Random.h"
 
 using namespace hect;
 
-FractalNoise::FractalNoise(RandomSeed seed, Real frequency, Real lacunarity, Real persistence, unsigned octaveCount) :
-    _frequency(frequency),
+FractalNoise::FractalNoise(RandomSeed seed, Real lacunarity, Real persistence, unsigned octaveCount) :
+    _seed(seed),
     _lacunarity(lacunarity),
-    _persistence(persistence)
+    _persistence(persistence),
+    _octaveCount(octaveCount)
 {
-    Random random(seed);
-    _octaveNoise.reserve(octaveCount);
+    generateOctaves();
+}
 
-    // For each octave
-    for (size_t octaveIndex = 0; octaveIndex < octaveCount; ++octaveIndex)
-    {
-        // Create a coherent noise node for this octave
-        RandomSeed nextSeed = static_cast<RandomSeed>(random.next());
-        _octaveNoise.push_back(CoherentNoise(nextSeed));
-    }
+RandomSeed FractalNoise::seed() const
+{
+    return _seed;
+}
+
+void FractalNoise::setSeed(RandomSeed seed)
+{
+    _seed = seed;
+    generateOctaves();
+}
+
+Real FractalNoise::lacunarity() const
+{
+    return _lacunarity;
+}
+
+void FractalNoise::setLacunarity(Real lacunarity)
+{
+    _lacunarity = lacunarity;
+    generateOctaves();
+}
+
+Real FractalNoise::persistence() const
+{
+    return _persistence;
+}
+
+void FractalNoise::setPersistence(Real persistence)
+{
+    _persistence = persistence;
+    generateOctaves();
+}
+
+unsigned FractalNoise::octaveCount() const
+{
+    return _octaveCount;
+}
+
+void FractalNoise::setOctaveCount(unsigned octaveCount)
+{
+    _octaveCount = octaveCount;
+    generateOctaves();
 }
 
 Real FractalNoise::compute(const Vector3& point)
 {
     Real value = Real(0.0);
     Real currentPersistence = Real(1.0);
-    Vector3 currentPoint = point * _frequency;
+    Vector3 currentPoint = point;
 
     // For each octave
     for (CoherentNoise& noise : _octaveNoise)
@@ -65,7 +101,22 @@ Real FractalNoise::compute(const Vector3& point)
     return value;
 }
 
-void FractalNoise::accept(NoiseNodeVisitor& visitor)
+void FractalNoise::accept(NoiseTreeVisitor& visitor)
 {
     visitor.visit(*this);
+}
+
+void FractalNoise::generateOctaves()
+{
+    Random random(_seed + 23);
+
+    // Create and octave noise and weight vectors
+    _octaveNoise = std::vector<CoherentNoise>(_octaveCount);
+
+    // For each octave
+    for (size_t octaveIndex = 0; octaveIndex < _octaveCount; ++octaveIndex)
+    {
+        // Randomly seed this octave
+        _octaveNoise[octaveIndex].setSeed(random.next());
+    }
 }

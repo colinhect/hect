@@ -25,17 +25,27 @@
 
 #include <algorithm>
 
-#include "Hect/Noise/NoiseModule.h"
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/NoiseTree.h"
+#include "Hect/Noise/NoiseTreeVisitor.h"
 #include "Hect/Noise/Random.h"
 
 using namespace hect;
 
-CoherentNoise::CoherentNoise(RandomSeed seed, Real frequency) :
-    _seed(seed),
-    _frequency(frequency)
+CoherentNoise::CoherentNoise(RandomSeed seed) :
+    _seed(seed)
 {
     _permutationTable.reserve(512);
+    generatePermuationTable();
+}
+
+RandomSeed CoherentNoise::seed() const
+{
+    return _seed;
+}
+
+void CoherentNoise::setSeed(RandomSeed seed)
+{
+    _seed = seed;
     generatePermuationTable();
 }
 
@@ -54,9 +64,9 @@ Real CoherentNoise::compute(const Vector3& point)
     static Real f3 = Real(1.0) / 3;
     static Real g3 = Real(1.0) / 6;
 
-    Real x = point.x * _frequency;
-    Real y = point.y * _frequency;
-    Real z = point.z * _frequency;
+    Real x = point.x;
+    Real y = point.y;
+    Real z = point.z;
 
     Real s = (x + y + z) * f3;
     int i = fastFloor(x + s);
@@ -174,7 +184,7 @@ Real CoherentNoise::compute(const Vector3& point)
     return Real(32.0) * (n0 + n1 + n2 + n3);
 }
 
-void CoherentNoise::accept(NoiseNodeVisitor& visitor)
+void CoherentNoise::accept(NoiseTreeVisitor& visitor)
 {
     visitor.visit(*this);
 }

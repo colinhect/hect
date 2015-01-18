@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ScalePointNoise.h"
 
-#include "Hect/Noise/NoiseModule.h"
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/NoiseTree.h"
+#include "Hect/Noise/NoiseTreeVisitor.h"
 
 using namespace hect;
 
@@ -44,7 +44,7 @@ Real ScalePointNoise::compute(const Vector3& point)
     return value;
 }
 
-void ScalePointNoise::accept(NoiseNodeVisitor& visitor)
+void ScalePointNoise::accept(NoiseTreeVisitor& visitor)
 {
     visitor.visit(*this);
 }

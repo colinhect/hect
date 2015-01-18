@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "SubtractNoise.h"
 
-#include "Hect/Noise/NoiseModule.h"
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/NoiseTree.h"
+#include "Hect/Noise/NoiseTreeVisitor.h"
 
 using namespace hect;
 
@@ -44,7 +44,7 @@ Real SubtractNoise::compute(const Vector3& point)
     return value;
 }
 
-void SubtractNoise::accept(NoiseNodeVisitor& visitor)
+void SubtractNoise::accept(NoiseTreeVisitor& visitor)
 {
     visitor.visit(*this);
 }

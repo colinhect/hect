@@ -41,19 +41,61 @@ public:
     /// Constructs a node that generates fractal Brownian motion noise.
     ///
     /// \param seed The seed.
-    /// \param frequency The frequency.
     /// \param lacunarity The lacunarity.
     /// \param persistence The persistence.
     /// \param octaveCount The number of octaves.
-    FractalNoise(RandomSeed seed, Real frequency = Real(1.0), Real lacunarity = Real(2.0), Real persistence = Real(0.5), unsigned octaveCount = 6);
+    FractalNoise(RandomSeed seed, Real lacunarity = Real(2.0), Real persistence = Real(0.5), unsigned octaveCount = 6);
+
+    ///
+    /// Returns the seed.
+    RandomSeed seed() const;
+
+    ///
+    /// Sets the seed.
+    ///
+    /// \param seed The new seed.
+    void setSeed(RandomSeed seed);
+
+    ///
+    /// Returns the lacunarity.
+    Real lacunarity() const;
+
+    ///
+    /// Sets the lacunarity.
+    ///
+    /// \param lacunarity The new lacunarity.
+    void setLacunarity(Real lacunarity);
+
+    ///
+    /// Returns the persistence.
+    Real persistence() const;
+
+    ///
+    /// Sets the persistence.
+    ///
+    /// \param persistence The new persistence.
+    void setPersistence(Real persistence);
+
+    ///
+    /// Returns the octave count.
+    unsigned octaveCount() const;
+
+    ///
+    /// Sets the octave count.
+    ///
+    /// \param octaveCount The new octave count.
+    void setOctaveCount(unsigned octaveCount);
 
     Real compute(const Vector3& point) override;
-    void accept(NoiseNodeVisitor& visitor) override;
+    void accept(NoiseTreeVisitor& visitor) override;
 
 private:
-    Real _frequency;
+    void generateOctaves();
+
+    RandomSeed _seed;
     Real _lacunarity;
     Real _persistence;
+    unsigned _octaveCount;
     std::vector<CoherentNoise> _octaveNoise;
 };
 

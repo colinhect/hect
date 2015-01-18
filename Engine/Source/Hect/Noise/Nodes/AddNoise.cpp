@@ -23,28 +23,60 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "AddNoise.h"
 
-#include "Hect/Noise/NoiseModule.h"
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/NoiseTree.h"
+#include "Hect/Noise/NoiseTreeVisitor.h"
 
 using namespace hect;
 
-AddNoise::AddNoise(NoiseNode& augendNode, NoiseNode& addendNode) :
-    _augendNode(&augendNode),
-    _addendNode(&addendNode)
+AddNoise::AddNoise()
 {
 }
+
+AddNoise::AddNoise(NoiseNode& firstNode, NoiseNode& secondNode) :
+    _firstNode(&firstNode),
+    _secondNode(&secondNode)
+{
+}
+
+NoiseNode& AddNoise::firstNode()
+{
+    if (!_firstNode)
+    {
+        throw InvalidOperation("First node is not set");
+    }
+    return *_firstNode;
+}
+
+void AddNoise::setFirstNode(NoiseNode& node);
+
+NoiseNode& AddNoise::secondNode()
+{
+    if (!_secondNode)
+    {
+        throw InvalidOperation("Second node is not set");
+    }
+    return *_firstNode;
+}
+
+void AddNoise::setSecondNode(NoiseNode& node);
 
 Real AddNoise::compute(const Vector3& point)
 {
     Real value = Real(0.0);
-    if (_augendNode && _addendNode)
+
+    if (_firstNode)
     {
-        value = _augendNode->compute(point) + _addendNode->compute(point);
+        value = _firstNode->compute(point);
+    }
+    
+    if (_secondNode)
+    {
+        value += _secondNode->compute(point);
     }
     return value;
 }
 
-void AddNoise::accept(NoiseNodeVisitor& visitor)
+void AddNoise::accept(NoiseTreeVisitor& visitor)
 {
     visitor.visit(*this);
 }

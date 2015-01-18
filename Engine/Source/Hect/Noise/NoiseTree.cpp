@@ -21,14 +21,45 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-namespace hect
-{
+#include "NoiseTree.h"
 
-template <typename T, typename... Args>
-T& NoiseModule::createNode(Args&&... args)
+using namespace hect;
+
+NoiseTree::NoiseTree()
 {
-    _nodes.emplace_back(new T(args...));
-    return *static_cast<T*>(_nodes.back().get());
 }
 
+NoiseTree::NoiseTree(NoiseTree&& noiseTree) :
+    _rootNode(noiseTree._rootNode),
+    _nodes(std::move(noiseTree._nodes))
+{
+    noiseTree._rootNode = nullptr;
+}
+
+void NoiseTree::clear()
+{
+    _rootNode = nullptr;
+    _nodes.clear();
+}
+
+NoiseNode& NoiseTree::root()
+{
+    if (!_rootNode)
+    {
+        throw InvalidOperation("No root noise node set");
+    }
+    return *_rootNode;
+}
+
+void NoiseTree::setRoot(NoiseNode& node)
+{
+    _rootNode = &node;
+}
+
+NoiseTree& NoiseTree::operator=(NoiseTree&& noiseTree)
+{
+    _rootNode = noiseTree._rootNode;
+    _nodes = std::move(noiseTree._nodes);
+    noiseTree._rootNode = nullptr;
+    return *this;
 }

@@ -44,7 +44,7 @@ public:
     ScalePointNoise(NoiseNode& node, const Vector3& factor);
 
     Real compute(const Vector3& point) override;
-    void accept(NoiseNodeVisitor& visitor) override;
+    void accept(NoiseTreeVisitor& visitor) override;
 
 private:
     NoiseNode* _node;

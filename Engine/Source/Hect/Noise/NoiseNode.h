@@ -29,10 +29,10 @@
 namespace hect
 {
 
-class NoiseNodeVisitor;
+class NoiseTreeVisitor;
 
 ///
-/// A component of a NoiseModule that can be composed with other components.
+/// A component of a NoiseTree that can be composed with other components.
 class HECT_EXPORT NoiseNode
 {
 public:
@@ -47,11 +47,11 @@ public:
     virtual Real compute(const Vector3& point) = 0;
 
     ///
-    /// Accepts a visitor, invoking the NoiseNodeVisitor::visit() function
+    /// Accepts a visitor, invoking the NoiseTreeVisitor::visit() function
     /// defined for the specific node type.
     ///
     /// \param visitor The visitor to invoke.
-    virtual void accept(NoiseNodeVisitor& visitor);
+    virtual void accept(NoiseTreeVisitor& visitor);
 };
 
 }

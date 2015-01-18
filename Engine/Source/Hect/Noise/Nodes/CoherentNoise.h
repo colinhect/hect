@@ -41,18 +41,26 @@ public:
     /// Constructs a node that generates coherent gradient noise.
     ///
     /// \param seed The seed.
-    /// \param frequency The frequency.
-    CoherentNoise(RandomSeed seed, Real frequency = Real(1.0));
+    CoherentNoise(RandomSeed seed = 0);
+
+    ///
+    /// Returns the seed.
+    RandomSeed seed() const;
+
+    ///
+    /// Sets the seed.
+    ///
+    /// \param seed The new seed.
+    void setSeed(RandomSeed seed);
 
     Real compute(const Vector3& point) override;
-    void accept(NoiseNodeVisitor& visitor) override;
+    void accept(NoiseTreeVisitor& visitor) override;
 
 private:
     void generatePermuationTable();
     int fastFloor(Real x) const;
 
     RandomSeed _seed;
-    Real _frequency;
     std::vector<uint8_t> _permutationTable;
 };
 

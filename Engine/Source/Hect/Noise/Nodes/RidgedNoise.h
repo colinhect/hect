@@ -41,18 +41,50 @@ public:
     /// Constructs a node that generates ridged multi-factal noise.
     ///
     /// \param seed The seed.
-    /// \param frequency The frequency.
     /// \param lacunarity The lacunarity.
     /// \param persistence The persistence.
     /// \param octaveCount The number of octaves.
-    RidgedNoise(RandomSeed seed, Real frequency = Real(1.0), Real lacunarity = Real(2.0), unsigned octaveCount = 6);
+    RidgedNoise(RandomSeed seed = 0, Real lacunarity = Real(2.0), unsigned octaveCount = 6);
+
+    ///
+    /// Returns the seed.
+    RandomSeed seed() const;
+
+    ///
+    /// Sets the seed.
+    ///
+    /// \param seed The new seed.
+    void setSeed(RandomSeed seed);
+
+    ///
+    /// Returns the lacunarity.
+    Real lacunarity() const;
+
+    ///
+    /// Sets the lacunarity.
+    ///
+    /// \param lacunarity The new lacunarity.
+    void setLacunarity(Real lacunarity);
+
+    ///
+    /// Returns the octave count.
+    unsigned octaveCount() const;
+
+    ///
+    /// Sets the octave count.
+    ///
+    /// \param octaveCount The new octave count.
+    void setOctaveCount(unsigned octaveCount);
 
     Real compute(const Vector3& point) override;
-    void accept(NoiseNodeVisitor& visitor) override;
+    void accept(NoiseTreeVisitor& visitor) override;
 
 private:
-    Real _frequency;
+    void generateOctaves();
+
+    RandomSeed _seed;
     Real _lacunarity;
+    unsigned _octaveCount;
     std::vector<CoherentNoise> _octaveNoise;
     std::vector<Real> _octaveWeights;
 };

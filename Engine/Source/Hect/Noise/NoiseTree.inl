@@ -21,27 +21,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "NoiseModule.h"
-
-using namespace hect;
-
-void NoiseModule::clear()
+namespace hect
 {
-    _rootNode = nullptr;
-    _nodes.clear();
+
+template <typename T, typename... Args>
+T& NoiseTree::createNode(Args&&... args)
+{
+    _nodes.emplace_back(new T(args...));
+    return *static_cast<T*>(_nodes.back().get());
 }
 
-void NoiseModule::setRoot(NoiseNode& node)
-{
-    _rootNode = &node;
-}
-
-Real NoiseModule::compute(const Vector3& point)
-{
-    Real value = Real(0.0);
-    if (_rootNode)
-    {
-        value = _rootNode->compute(point);
-    }
-    return value;
 }

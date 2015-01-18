@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "ScaleBiasNoise.h"
 
-#include "Hect/Noise/NoiseModule.h"
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/NoiseTree.h"
+#include "Hect/Noise/NoiseTreeVisitor.h"
 
 using namespace hect;
 
@@ -45,7 +45,7 @@ Real ScaleBiasNoise::compute(const Vector3& point)
     return value;
 }
 
-void ScaleBiasNoise::accept(NoiseNodeVisitor& visitor)
+void ScaleBiasNoise::accept(NoiseTreeVisitor& visitor)
 {
     visitor.visit(*this);
 }
