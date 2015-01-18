@@ -21,21 +21,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ScaleNoise.h"
+#include "ScaleBiasNoise.h"
 
 #include "Hect/Noise/NoiseModule.h"
 #include "Hect/Noise/NoiseNodeVisitor.h"
 
 using namespace hect;
 
-ScaleNoise::ScaleNoise(NoiseNode& node, Real factor, Real bias) :
+ScaleBiasNoise::ScaleBiasNoise(NoiseNode& node, Real factor, Real bias) :
     _node(&node),
     _factor(factor),
     _bias(bias)
 {
 }
 
-Real ScaleNoise::compute(const Vector3& position)
+Real ScaleBiasNoise::compute(const Vector3& position)
 {
     Real value = 0;
     if (_node)
@@ -45,7 +45,7 @@ Real ScaleNoise::compute(const Vector3& position)
     return value;
 }
 
-void ScaleNoise::accept(NoiseNodeVisitor& visitor)
+void ScaleBiasNoise::accept(NoiseNodeVisitor& visitor)
 {
     visitor.visit(*this);
 }

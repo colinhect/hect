@@ -31,8 +31,9 @@
 
 using namespace hect;
 
-CoherentNoise::CoherentNoise(RandomSeed seed) :
-    _seed(seed)
+CoherentNoise::CoherentNoise(RandomSeed seed, Real frequency) :
+    _seed(seed),
+    _frequency(frequency)
 {
     _permutationTable.reserve(512);
     generatePermuationTable();
@@ -53,9 +54,9 @@ Real CoherentNoise::compute(const Vector3& position)
     static Real f3 = Real(1) / 3;
     static Real g3 = Real(1) / 6;
 
-    Real x = position.x;
-    Real y = position.y;
-    Real z = position.z;
+    Real x = position.x * _frequency;
+    Real y = position.y * _frequency;
+    Real z = position.z * _frequency;
 
     Real s = (x + y + z) * f3;
     int i = fastFloor(x + s);

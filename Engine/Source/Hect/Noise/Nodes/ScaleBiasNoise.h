@@ -30,25 +30,27 @@ namespace hect
 {
 
 ///
-/// Scales the position before a node is computed.
-class HECT_EXPORT ScaleNoisePosition :
+/// Scales and adds a bias to the output of a node.
+class HECT_EXPORT ScaleBiasNoise :
     public NoiseNode
 {
 public:
 
     ///
-    /// Constructs a node that scales the position before a node is computed.
+    /// Constructs a node that scales and adds a bias to the output of a node.
     ///
-    /// \param node The node to perform the position scaling on.
+    /// \param node The node whose output to scale.
     /// \param factor The scale factor.
-    ScaleNoisePosition(NoiseNode& node, const Vector3& factor);
+    /// \param bias The bias to add to the output after it is scaled.
+    ScaleBiasNoise(NoiseNode& node, Real factor, Real bias = Real(0));
 
     Real compute(const Vector3& position) override;
     void accept(NoiseNodeVisitor& visitor) override;
 
 private:
     NoiseNode* _node;
-    Vector3 _factor;
+    Real _factor;
+    Real _bias;
 };
 
 }

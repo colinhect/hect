@@ -25,35 +25,36 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Random.h"
+#include "Hect/Noise/Nodes/CoherentNoise.h"
 
 namespace hect
 {
 
 ///
-/// Generates coherent gradient noise.
-class HECT_EXPORT CoherentNoise :
+/// Generates fractal Brownian motion noise.
+class HECT_EXPORT FractalNoise :
     public NoiseNode
 {
 public:
 
     ///
-    /// Constructs a node that generates coherent gradient noise.
+    /// Constructs a node that generates fractal Brownian motion noise.
     ///
     /// \param seed The seed.
     /// \param frequency The frequency.
-    CoherentNoise(RandomSeed seed, Real frequency = 1);
+    /// \param lacunarity The lacunarity.
+    /// \param persistence The persistence.
+    /// \param octaveCount The number of octaves.
+    FractalNoise(RandomSeed seed, Real frequency = 1, Real lacunarity = 2, Real persistence = Real(0.5), unsigned octaveCount = 6);
 
     Real compute(const Vector3& position) override;
     void accept(NoiseNodeVisitor& visitor) override;
 
 private:
-    void generatePermuationTable();
-    int fastFloor(Real x) const;
-
-    RandomSeed _seed;
     Real _frequency;
-    std::vector<uint8_t> _permutationTable;
+    Real _lacunarity;
+    Real _persistence;
+    std::vector<CoherentNoise> _octaveNoise;
 };
 
 }

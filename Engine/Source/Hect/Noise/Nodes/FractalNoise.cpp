@@ -21,39 +21,46 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "FractalNoise.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
+#include "Hect/Noise/NoiseModule.h"
+#include "Hect/Noise/NoiseNodeVisitor.h"
 #include "Hect/Noise/Random.h"
 
-namespace hect
+using namespace hect;
+
+FractalNoise::FractalNoise(RandomSeed seed, Real frequency, Real lacunarity, Real persistence, unsigned octaveCount) :
+    _frequency(frequency),
+    _lacunarity(lacunarity),
+    _persistence(persistence)
 {
+    // Generate a coherent noise node for each octave
+    Random random(seed);
+    _octaveNoise.reserve(octaveCount);
+    for (size_t octaveIndex = 0; octaveIndex < octaveCount; ++octaveIndex)
+    {
+        RandomSeed nextSeed = static_cast<RandomSeed>(random.next());
+        _octaveNoise.push_back(CoherentNoise(nextSeed));
+    }
+}
 
-///
-/// Generates coherent gradient noise.
-class HECT_EXPORT CoherentNoise :
-    public NoiseNode
+Real FractalNoise::compute(const Vector3& position)
 {
-public:
+    Real value = 0;
+    Real currentPersistence = 1;
+    Vector3 currentPosition = position * _frequency;
 
-    ///
-    /// Constructs a node that generates coherent gradient noise.
-    ///
-    /// \param seed The seed.
-    /// \param frequency The frequency.
-    CoherentNoise(RandomSeed seed, Real frequency = 1);
+    for (CoherentNoise& noise : _octaveNoise)
+    {
+        value += noise.compute(currentPosition) * currentPersistence;
+        currentPosition *= _lacunarity;
+        currentPersistence *= _persistence;
+    }
 
-    Real compute(const Vector3& position) override;
-    void accept(NoiseNodeVisitor& visitor) override;
+    return value;
+}
 
-private:
-    void generatePermuationTable();
-    int fastFloor(Real x) const;
-
-    RandomSeed _seed;
-    Real _frequency;
-    std::vector<uint8_t> _permutationTable;
-};
-
+void FractalNoise::accept(NoiseNodeVisitor& visitor)
+{
+    visitor.visit(*this);
 }

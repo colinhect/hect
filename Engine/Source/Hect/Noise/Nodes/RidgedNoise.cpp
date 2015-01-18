@@ -21,30 +21,61 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ScaleNoisePosition.h"
+#include "RidgedNoise.h"
 
+#include "Hect/Math/Utilities.h"
 #include "Hect/Noise/NoiseModule.h"
 #include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Noise/Random.h"
 
 using namespace hect;
 
-ScaleNoisePosition::ScaleNoisePosition(NoiseNode& node, const Vector3& factor) :
-    _node(&node),
-    _factor(factor)
+RidgedNoise::RidgedNoise(RandomSeed seed, Real frequency, Real lacunarity, unsigned octaveCount) :
+    _frequency(frequency),
+    _lacunarity(lacunarity)
 {
+    Real h = 1;
+    Real weightFrequency = 1;
+
+    // Generate a coherent noise node and weight for each octave
+    Random random(seed);
+    _octaveNoise.reserve(octaveCount);
+    for (size_t octaveIndex = 0; octaveIndex < octaveCount; ++octaveIndex)
+    {
+        RandomSeed nextSeed = static_cast<RandomSeed>(random.next());
+        _octaveNoise.push_back(CoherentNoise(nextSeed));
+
+        _octaveWeights.push_back(std::pow(weightFrequency, -h));
+        weightFrequency *= _lacunarity;
+    }
 }
 
-Real ScaleNoisePosition::compute(const Vector3& position)
+Real RidgedNoise::compute(const Vector3& position)
 {
     Real value = 0;
-    if (_node)
+    Real weight = 1;
+    Real gain = 2;
+    Vector3 currentPosition = position * _frequency;
+
+    size_t octaveIndex = 0;
+    for (CoherentNoise& noise : _octaveNoise)
     {
-        value = _node->compute(position * _factor);
+        Real octaveValue = noise.compute(currentPosition);
+        octaveValue = Real(1) - std::abs(octaveValue);
+        octaveValue *= octaveValue;
+        octaveValue *= weight;
+
+        weight = octaveValue * gain;
+        weight = clamp(weight, Real(1), Real(0));
+
+        value += octaveValue * _octaveWeights[octaveIndex++];
+        currentPosition *= _lacunarity;
     }
+
     return value;
 }
 
-void ScaleNoisePosition::accept(NoiseNodeVisitor& visitor)
+void RidgedNoise::accept(NoiseNodeVisitor& visitor)
 {
     visitor.visit(*this);
 }

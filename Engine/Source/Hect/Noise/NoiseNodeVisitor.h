@@ -27,9 +27,11 @@
 #include "Hect/Noise/NoiseNode.h"
 #include "Hect/Noise/Nodes/AddNoise.h"
 #include "Hect/Noise/Nodes/CoherentNoise.h"
+#include "Hect/Noise/Nodes/FractalNoise.h"
 #include "Hect/Noise/Nodes/MultiplyNoise.h"
-#include "Hect/Noise/Nodes/ScaleNoise.h"
-#include "Hect/Noise/Nodes/ScaleNoisePosition.h"
+#include "Hect/Noise/Nodes/RidgedNoise.h"
+#include "Hect/Noise/Nodes/ScaleBiasNoise.h"
+#include "Hect/Noise/Nodes/ScalePointNoise.h"
 #include "Hect/Noise/Nodes/SubtractNoise.h"
 
 namespace hect
@@ -47,6 +49,18 @@ public:
     ///
     /// \param node The node to visit.
     virtual void visit(CoherentNoise& node) = 0;
+
+    ///
+    /// Visits a FractalNoise node.
+    ///
+    /// \param node The node to visit.
+    virtual void visit(FractalNoise& node) = 0;
+
+    ///
+    /// Visits a RidgedNoise node.
+    ///
+    /// \param node The node to visit.
+    virtual void visit(RidgedNoise& node) = 0;
 
     ///
     /// Visits an AddNoise node.
@@ -67,16 +81,16 @@ public:
     virtual void visit(MultiplyNoise& node) = 0;
 
     ///
-    /// Visits a ScaleNoise node.
+    /// Visits a ScaleBiasNoise node.
     ///
     /// \param node The node to visit.
-    virtual void visit(ScaleNoise& node) = 0;
+    virtual void visit(ScaleBiasNoise& node) = 0;
 
     ///
-    /// Visits a ScaleNoisePosition node.
+    /// Visits a ScalePointNoise node.
     ///
     /// \param node The node to visit.
-    virtual void visit(ScaleNoisePosition& node) = 0;
+    virtual void visit(ScalePointNoise& node) = 0;
 };
 
 }

@@ -21,39 +21,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "ScalePointNoise.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Random.h"
+#include "Hect/Noise/NoiseModule.h"
+#include "Hect/Noise/NoiseNodeVisitor.h"
 
-namespace hect
+using namespace hect;
+
+ScalePointNoise::ScalePointNoise(NoiseNode& node, const Vector3& factor) :
+    _node(&node),
+    _factor(factor)
 {
+}
 
-///
-/// Generates coherent gradient noise.
-class HECT_EXPORT CoherentNoise :
-    public NoiseNode
+Real ScalePointNoise::compute(const Vector3& position)
 {
-public:
+    Real value = 0;
+    if (_node)
+    {
+        value = _node->compute(position * _factor);
+    }
+    return value;
+}
 
-    ///
-    /// Constructs a node that generates coherent gradient noise.
-    ///
-    /// \param seed The seed.
-    /// \param frequency The frequency.
-    CoherentNoise(RandomSeed seed, Real frequency = 1);
-
-    Real compute(const Vector3& position) override;
-    void accept(NoiseNodeVisitor& visitor) override;
-
-private:
-    void generatePermuationTable();
-    int fastFloor(Real x) const;
-
-    RandomSeed _seed;
-    Real _frequency;
-    std::vector<uint8_t> _permutationTable;
-};
-
+void ScalePointNoise::accept(NoiseNodeVisitor& visitor)
+{
+    visitor.visit(*this);
 }
