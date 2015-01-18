@@ -24,34 +24,32 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Math/Vector3.h"
+#include "Hect/Noise/NoiseNode.h"
 
 namespace hect
 {
 
-class NoiseNodeVisitor;
-
 ///
-/// A component of a NoiseModule that can be composed with other components.
-class HECT_EXPORT NoiseNode
+/// Computes the difference of the output of two nodes.
+class HECT_EXPORT SubtractNoise :
+    public NoiseNode
 {
 public:
-    virtual ~NoiseNode() { }
 
     ///
-    /// Computes the noise node at the given 3-dimensional position.
+    /// Constructs a node that computes the difference of the output of two
+    /// nodes.
     ///
-    /// \param position The 3-dimensional position to compute.
-    ///
-    /// \returns The value resulting from the computation.
-    virtual Real compute(const Vector3& position) = 0;
+    /// \param minuendNode The node whose value is being subtracted from.
+    /// \param subtrahendNode The node whose value is being subtracted.
+    SubtractNoise(NoiseNode& minuendNode, NoiseNode& subtrahendNode);
 
-    ///
-    /// Accepts a visitor, invoking the NoiseNodeVisitor::visit() function
-    /// defined for the specific node type.
-    ///
-    /// \param visitor The visitor to invoke.
-    virtual void accept(NoiseNodeVisitor& visitor);
+    Real compute(const Vector3& position) override;
+    void accept(NoiseNodeVisitor& visitor) override;
+
+private:
+    NoiseNode* _minuendNode;
+    NoiseNode* _subtrahendNode;
 };
 
 }

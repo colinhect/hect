@@ -21,24 +21,24 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "CoherentNoiseNode.h"
+#include "CoherentNoise.h"
 
 #include <algorithm>
 
-#include "Hect/Noise/NoiseFunction.h"
+#include "Hect/Noise/NoiseModule.h"
 #include "Hect/Noise/NoiseNodeVisitor.h"
 #include "Hect/Noise/Random.h"
 
 using namespace hect;
 
-CoherentNoiseNode::CoherentNoiseNode(RandomSeed seed) :
+CoherentNoise::CoherentNoise(RandomSeed seed) :
     _seed(seed)
 {
     _permutationTable.reserve(512);
     generatePermuationTable();
 }
 
-Real CoherentNoiseNode::sample(const Vector3& position)
+Real CoherentNoise::compute(const Vector3& position)
 {
     // Based on Simplex Noise Demystified (c) 2005 Stefan Gustavson
     // http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
@@ -173,20 +173,12 @@ Real CoherentNoiseNode::sample(const Vector3& position)
     return Real(32) * (n0 + n1 + n2 + n3);
 }
 
-void CoherentNoiseNode::accept(NoiseNodeVisitor& visitor)
+void CoherentNoise::accept(NoiseNodeVisitor& visitor)
 {
     visitor.visit(*this);
 }
 
-void CoherentNoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
-{
-    (void)noiseFunction;
-
-    decoder >> decodeValue("seed", _seed);
-    generatePermuationTable();
-}
-
-void CoherentNoiseNode::generatePermuationTable()
+void CoherentNoise::generatePermuationTable()
 {
     _permutationTable.clear();
 
@@ -210,7 +202,7 @@ void CoherentNoiseNode::generatePermuationTable()
     }
 }
 
-int CoherentNoiseNode::fastFloor(Real x) const
+int CoherentNoise::fastFloor(Real x) const
 {
     return x > 0 ? static_cast<int>(x) : static_cast<int>(x) - 1;
 }

@@ -21,55 +21,37 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "AddNoiseNode.h"
+#pragma once
 
-#include "Hect/Noise/NoiseFunction.h"
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Core/Export.h"
+#include "Hect/Noise/NoiseNode.h"
+#include "Hect/Noise/Random.h"
 
-using namespace hect;
-
-void AddNoiseNode::setInputNodes(NoiseNode& leftNode, NoiseNode& rightNode)
+namespace hect
 {
-    _leftNode = &leftNode;
-    _rightNode = &rightNode;
-}
 
-Real AddNoiseNode::sample(const Vector3& position)
+///
+/// Generates coherent gradient noise.
+class HECT_EXPORT CoherentNoise :
+    public NoiseNode
 {
-    Real value = 0;
-    if (_leftNode && _rightNode)
-    {
-        value = _leftNode->sample(position) + _rightNode->sample(position);
-    }
-    return value;
-}
+public:
 
-void AddNoiseNode::accept(NoiseNodeVisitor& visitor)
-{
-    visitor.visit(*this);
-}
+    ///
+    /// Constructs a node that generates coherent gradient noise.
+    ///
+    /// \param seed The seed.
+    CoherentNoise(RandomSeed seed = 0);
 
-void AddNoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
-{
-    if (decoder.selectMember("input"))
-    {
-        decoder >> beginArray();
-        
-        size_t index = 0;
-        while (decoder.hasMoreElements())
-        {
-            if (index == 0)
-            {
-                _leftNode = &noiseFunction.decodeNode(decoder);
-            }
-            else if (index == 1)
-            {
-                _rightNode = &noiseFunction.decodeNode(decoder);
-            }
+    Real compute(const Vector3& position) override;
+    void accept(NoiseNodeVisitor& visitor) override;
 
-            ++index;
-        }
+private:
+    void generatePermuationTable();
+    int fastFloor(Real x) const;
 
-        decoder >> endArray();
-    }
+    RandomSeed _seed;
+    std::vector<uint8_t> _permutationTable;
+};
+
 }

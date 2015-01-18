@@ -21,46 +21,31 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ScalePositionNoiseNode.h"
+#include "SubtractNoise.h"
 
-#include "Hect/Noise/NoiseFunction.h"
+#include "Hect/Noise/NoiseModule.h"
 #include "Hect/Noise/NoiseNodeVisitor.h"
 
 using namespace hect;
 
-ScalePositionNoiseNode::ScalePositionNoiseNode(const Vector3& factor) :
-    _factor(factor)
+SubtractNoise::SubtractNoise(NoiseNode& minuendNode, NoiseNode& subtrahendNode) :
+    _minuendNode(&minuendNode),
+    _subtrahendNode(&subtrahendNode)
 {
 }
 
-void ScalePositionNoiseNode::setInputNode(NoiseNode& node)
-{
-    _inputNode = &node;
-}
-
-Real ScalePositionNoiseNode::sample(const Vector3& position)
+Real SubtractNoise::compute(const Vector3& position)
 {
     Real value = 0;
-    if (_inputNode)
+    if (_minuendNode && _subtrahendNode)
     {
-        value = _inputNode->sample(position * _factor);
+        value = _minuendNode->compute(position) - _subtrahendNode->compute(position);
     }
     return value;
 }
 
-void ScalePositionNoiseNode::accept(NoiseNodeVisitor& visitor)
+void SubtractNoise::accept(NoiseNodeVisitor& visitor)
 {
     visitor.visit(*this);
 }
 
-void ScalePositionNoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
-{
-    decoder >> decodeValue("factor", _factor);
-
-    // Decode the source node
-    if (decoder.selectMember("input"))
-    {
-        NoiseNode& node = noiseFunction.decodeNode(decoder);
-        _inputNode = &node;
-    }
-}

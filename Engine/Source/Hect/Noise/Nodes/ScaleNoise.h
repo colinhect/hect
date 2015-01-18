@@ -23,42 +23,34 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Configuration.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Math/Quaternion.h"
-#include "Hect/Logic/Components/Transform.h"
-
-#ifdef HECT_WINDOWS_BUILD
-#pragma warning(push, 0)
-#else
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wall"
-#pragma clang diagnostic ignored "-Wextra"
-#endif
-
-#ifdef HECT_DOUBLE_PRECISION
-#define BT_USE_DOUBLE_PRECISION
-#endif
-
-#include <btBulletDynamicsCommon.h>
-
-#ifdef HECT_WINDOWS_BUILD
-#pragma warning(pop)
-#else
-#pragma clang diagnostic pop
-#endif
+#include "Hect/Core/Export.h"
+#include "Hect/Noise/NoiseNode.h"
 
 namespace hect
 {
 
-btVector3 convertToBullet(const Vector3& v);
-btQuaternion convertToBullet(const Quaternion& q);
-btTransform convertToBullet(const Transform& t);
-btTriangleMesh* convertToBullet(const Mesh& m);
+///
+/// Scales the output of a node.
+class HECT_EXPORT ScaleNoise :
+    public NoiseNode
+{
+public:
 
-Vector3 convertFromBullet(const btVector3& v);
-Quaternion convertFromBullet(const btQuaternion& q);
-Transform convertFromBullet(const btTransform& t);
+    ///
+    /// Constructs a node that scales the output of a node.
+    ///
+    /// \param node The node whose output to scale.
+    /// \param factor The scale factor.
+    /// \param bias The bias to add to the output after it is scaled.
+    ScaleNoise(NoiseNode& node, Real factor, Real bias = Real(0));
+
+    Real compute(const Vector3& position) override;
+    void accept(NoiseNodeVisitor& visitor) override;
+
+private:
+    NoiseNode* _node;
+    Real _factor;
+    Real _bias;
+};
 
 }

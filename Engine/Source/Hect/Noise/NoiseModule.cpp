@@ -21,35 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "NoiseModule.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
+using namespace hect;
 
-namespace hect
+void NoiseModule::clear()
 {
+    _rootNode = nullptr;
+    _nodes.clear();
+}
 
-///
-/// Adds the result of two input nodes.
-class HECT_EXPORT AddNoiseNode :
-    public NoiseNode
+void NoiseModule::setRoot(NoiseNode& node)
 {
-public:
+    _rootNode = &node;
+}
 
-    ///
-    /// Sets the input noise nodes to perform the addition on.
-    ///
-    /// \param leftNode The left node.
-    /// \param rightNode The right node.
-    void setInputNodes(NoiseNode& leftNode, NoiseNode& rightNode);
-
-    Real sample(const Vector3& position) override;
-    void accept(NoiseNodeVisitor& visitor) override;
-    void decode(Decoder& decoder, NoiseFunction& noiseFunction) override;
-
-private:
-    NoiseNode* _leftNode { nullptr };
-    NoiseNode* _rightNode { nullptr };
-};
-
+Real NoiseModule::compute(const Vector3& position)
+{
+    Real value = 0;
+    if (_rootNode)
+    {
+        value = _rootNode->compute(position);
+    }
+    return value;
 }

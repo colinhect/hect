@@ -24,34 +24,31 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Math/Vector3.h"
+#include "Hect/Noise/NoiseNode.h"
 
 namespace hect
 {
 
-class NoiseNodeVisitor;
-
 ///
-/// A component of a NoiseModule that can be composed with other components.
-class HECT_EXPORT NoiseNode
+/// Scales the position before a node is computed.
+class HECT_EXPORT ScaleNoisePosition :
+    public NoiseNode
 {
 public:
-    virtual ~NoiseNode() { }
 
     ///
-    /// Computes the noise node at the given 3-dimensional position.
+    /// Constructs a node that scales the position before a node is computed.
     ///
-    /// \param position The 3-dimensional position to compute.
-    ///
-    /// \returns The value resulting from the computation.
-    virtual Real compute(const Vector3& position) = 0;
+    /// \param node The node to perform the position scaling on.
+    /// \param factor The scale factor.
+    ScaleNoisePosition(NoiseNode& node, const Vector3& factor);
 
-    ///
-    /// Accepts a visitor, invoking the NoiseNodeVisitor::visit() function
-    /// defined for the specific node type.
-    ///
-    /// \param visitor The visitor to invoke.
-    virtual void accept(NoiseNodeVisitor& visitor);
+    Real compute(const Vector3& position) override;
+    void accept(NoiseNodeVisitor& visitor) override;
+
+private:
+    NoiseNode* _node;
+    Vector3 _factor;
 };
 
 }

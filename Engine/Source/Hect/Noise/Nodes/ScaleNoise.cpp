@@ -21,37 +21,31 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "ScaleNoise.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Math/Vector3.h"
+#include "Hect/Noise/NoiseModule.h"
+#include "Hect/Noise/NoiseNodeVisitor.h"
 
-namespace hect
+using namespace hect;
+
+ScaleNoise::ScaleNoise(NoiseNode& node, Real factor, Real bias) :
+    _node(&node),
+    _factor(factor),
+    _bias(bias)
 {
+}
 
-class NoiseNodeVisitor;
-
-///
-/// A component of a NoiseModule that can be composed with other components.
-class HECT_EXPORT NoiseNode
+Real ScaleNoise::compute(const Vector3& position)
 {
-public:
-    virtual ~NoiseNode() { }
+    Real value = 0;
+    if (_node)
+    {
+        value = _node->compute(position) * _factor + _bias;
+    }
+    return value;
+}
 
-    ///
-    /// Computes the noise node at the given 3-dimensional position.
-    ///
-    /// \param position The 3-dimensional position to compute.
-    ///
-    /// \returns The value resulting from the computation.
-    virtual Real compute(const Vector3& position) = 0;
-
-    ///
-    /// Accepts a visitor, invoking the NoiseNodeVisitor::visit() function
-    /// defined for the specific node type.
-    ///
-    /// \param visitor The visitor to invoke.
-    virtual void accept(NoiseNodeVisitor& visitor);
-};
-
+void ScaleNoise::accept(NoiseNodeVisitor& visitor)
+{
+    visitor.visit(*this);
 }

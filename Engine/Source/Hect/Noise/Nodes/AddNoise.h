@@ -21,14 +21,34 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include "Hect/Core/Export.h"
+#include "Hect/Noise/NoiseNode.h"
+
 namespace hect
 {
 
-template <typename T, typename... Args>
-T& NoiseFunction::createNode(Args&&... args)
+///
+/// Computes the sum of the output of two nodes.
+class HECT_EXPORT AddNoise :
+    public NoiseNode
 {
-    _nodes.emplace_back(new T(args...));
-    return *static_cast<T*>(_nodes.back().get());
-}
+public:
+
+    ///
+    /// Constructs a node that computes the sum of the output of two nodes.
+    ///
+    /// \param augendNode The node whose output is being added to.
+    /// \param addendNode The node whose output is being added.
+    AddNoise(NoiseNode& augendNode, NoiseNode& addendNode);
+
+    Real compute(const Vector3& position) override;
+    void accept(NoiseNodeVisitor& visitor) override;
+
+private:
+    NoiseNode* _augendNode;
+    NoiseNode* _addendNode;
+};
 
 }

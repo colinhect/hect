@@ -25,8 +25,6 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/IO/Asset.h"
-#include "Hect/IO/Decoder.h"
 #include "Hect/Noise/NoiseNode.h"
 
 namespace hect
@@ -35,13 +33,12 @@ namespace hect
 ///
 /// An encapsulated composition of NoiseNode%s.
 ///
-/// A noise function allows for the creation and ownership of multiple noise
-/// nodes or sub-functions (since a noise function is, itself, a node).  One of
-/// function's nodes must be set as the root node before the function can be
+/// A noise module allows for the creation and ownership of multiple noise
+/// nodes or sub-modules (since a noise module is, itself, a node).  One of
+/// module's nodes must be set as the root node before the module can be
 /// sampled.
-class HECT_EXPORT NoiseFunction :
+class HECT_EXPORT NoiseModule :
     public Uncopyable,
-    public Asset<NoiseFunction>,
     public NoiseNode
 {
 public:
@@ -50,7 +47,7 @@ public:
     /// Creates a new NoiseNode of the specified type.
     ///
     /// \note The lifetime of the created node is managed by the noise
-    /// function.
+    /// module.
     ///
     /// \param args The arguments to pass to the node's constructor.
     ///
@@ -59,32 +56,19 @@ public:
     T& createNode(Args&&... args);
 
     ///
-    /// Clears all nodes in the tree.
+    /// Clears all nodes in the module.
     void clear();
 
     ///
-    /// Sets the root node in the tree.
+    /// Sets the root node in the module.
     ///
-    /// \note It is expected that the node was created by the noise function
-    /// itself using NoiseFunction::createNode().
+    /// \note It is expected that the node was created by the noise module
+    /// itself using NoiseModule::createNode().
     ///
     /// \param node The new root node.
     void setRoot(NoiseNode& node);
 
-    Real sample(const Vector3& position) override;
-
-    ///
-    /// Decodes a noise node from a decoder and adds it as a node to the
-    /// function.
-    ///
-    /// \param decoder The decoder to use.
-    ///
-    /// \returns The decoded node.
-    ///
-    /// \throws DecodeError If the decoding failed.
-    NoiseNode& decodeNode(Decoder& decoder);
-
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, NoiseFunction& noiseFunction);
+    Real compute(const Vector3& position) override;
 
 private:
     NoiseNode* _rootNode { nullptr };
@@ -93,4 +77,4 @@ private:
 
 }
 
-#include "NoiseFunction.inl"
+#include "NoiseModule.inl"

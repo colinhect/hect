@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include"NoiseNode.h"
 
-#include "Hect/Noise/NoiseFunction.h"
 #include "Hect/Noise/NoiseNodeVisitor.h"
 
 using namespace hect;
@@ -31,10 +30,4 @@ using namespace hect;
 void NoiseNode::accept(NoiseNodeVisitor& visitor)
 {
     (void)visitor;
-}
-
-void NoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
-{
-    (void)decoder;
-    (void)noiseFunction;
 }

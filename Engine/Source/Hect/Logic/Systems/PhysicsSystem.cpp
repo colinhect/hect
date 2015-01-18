@@ -23,13 +23,100 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "PhysicsSystem.h"
 
-#include "Hect/Physics/Bullet.h"
+#include "Hect/Graphics/MeshReader.h"
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Logic/Components/Transform.h"
 #include "Hect/Logic/Systems/TransformSystem.h"
 #include "Hect/Runtime/Engine.h"
 
+#ifdef HECT_WINDOWS_BUILD
+#pragma warning(push, 0)
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wall"
+#pragma clang diagnostic ignored "-Wextra"
+#endif
+
+#ifdef HECT_DOUBLE_PRECISION
+#define BT_USE_DOUBLE_PRECISION
+#endif
+
+#include <btBulletDynamicsCommon.h>
+
+#ifdef HECT_WINDOWS_BUILD
+#pragma warning(pop)
+#else
+#pragma clang diagnostic pop
+#endif
+
 using namespace hect;
+
+namespace
+{
+
+btVector3 convertToBullet(const Vector3& v)
+{
+    return btVector3(v.x, v.y, v.z);
+}
+
+btQuaternion convertToBullet(const Quaternion& q)
+{
+    return btQuaternion(q.x, q.y, q.z, -q.w);
+}
+
+btTransform convertToBullet(const Transform& t)
+{
+    btTransform transform;
+    transform.setOrigin(convertToBullet(t.globalPosition));
+    transform.setRotation(convertToBullet(t.globalRotation));
+    return transform;
+}
+
+btTriangleMesh* convertToBullet(const Mesh& m)
+{
+    MeshReader meshReader(m);
+
+    std::vector<btVector3> vertices;
+    while (meshReader.nextVertex())
+    {
+        Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic_Position);
+        vertices.push_back(convertToBullet(position));
+    }
+
+    std::vector<size_t> indices;
+    while (meshReader.nextIndex())
+    {
+        indices.push_back(meshReader.readIndexUInt32());
+    }
+
+    btTriangleMesh* mesh = new btTriangleMesh();
+    for (size_t i = 0; i < indices.size() - 2; i += 3)
+    {
+        mesh->addTriangle(vertices[indices[i]], vertices[indices[i + 1]], vertices[indices[i + 2]]);
+    }
+
+    return mesh;
+}
+
+Vector3 convertFromBullet(const btVector3& v)
+{
+    return Vector3(v.x(), v.y(), v.z());
+}
+
+Quaternion convertFromBullet(const btQuaternion& q)
+{
+    return Quaternion(q.x(), q.y(), q.z(), -q.w());
+}
+
+Transform convertFromBullet(const btTransform& t)
+{
+    Transform transform;
+    transform.localPosition = convertFromBullet(t.getOrigin());
+    transform.localRotation = convertFromBullet(t.getRotation());
+    return transform;
+}
+
+}
 
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
     System(scene, SystemTickStage_Subsequent),

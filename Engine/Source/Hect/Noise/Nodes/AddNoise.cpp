@@ -21,38 +21,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "AddNoise.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Random.h"
+#include "Hect/Noise/NoiseModule.h"
+#include "Hect/Noise/NoiseNodeVisitor.h"
 
-namespace hect
+using namespace hect;
+
+AddNoise::AddNoise(NoiseNode& augendNode, NoiseNode& addendNode) :
+    _augendNode(&augendNode),
+    _addendNode(&addendNode)
 {
+}
 
-///
-/// Generates coherent gradient noise.
-class HECT_EXPORT CoherentNoiseNode :
-    public NoiseNode
+Real AddNoise::compute(const Vector3& position)
 {
-public:
+    Real value = 0;
+    if (_augendNode && _addendNode)
+    {
+        value = _augendNode->compute(position) + _addendNode->compute(position);
+    }
+    return value;
+}
 
-    ///
-    /// Constructs a coherent noise node.
-    ///
-    /// \param seed The seed.
-    CoherentNoiseNode(RandomSeed seed = 0);
-
-    Real sample(const Vector3& position) override;
-    void accept(NoiseNodeVisitor& visitor) override;
-    void decode(Decoder& decoder, NoiseFunction& noiseFunction) override;
-
-private:
-    void generatePermuationTable();
-    int fastFloor(Real x) const;
-
-    RandomSeed _seed;
-    std::vector<uint8_t> _permutationTable;
-};
-
+void AddNoise::accept(NoiseNodeVisitor& visitor)
+{
+    visitor.visit(*this);
 }
