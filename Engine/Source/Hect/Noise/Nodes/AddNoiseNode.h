@@ -25,37 +25,31 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Nodes/AddNoiseNode.h"
-#include "Hect/Noise/Nodes/CoherentNoiseNode.h"
-#include "Hect/Noise/Nodes/ScalePositionNoiseNode.h"
 
 namespace hect
 {
 
 ///
-/// Abstract interface for visiting an entire noise node tree.
-class HECT_EXPORT NoiseNodeVisitor
+/// Adds the result of two input nodes.
+class HECT_EXPORT AddNoiseNode :
+    public NoiseNode
 {
 public:
-    virtual ~NoiseNodeVisitor() { }
 
     ///
-    /// Visits an AddNoiseNode.
+    /// Sets the input noise nodes to perform the addition on.
     ///
-    /// \param node The node to visit.
-    virtual void visit(AddNoiseNode& node) = 0;
+    /// \param leftNode The left node.
+    /// \param rightNode The right node.
+    void setInputNodes(NoiseNode& leftNode, NoiseNode& rightNode);
 
-    ///
-    /// Visits a CoherentNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(CoherentNoiseNode& node) = 0;
+    Real sample(const Vector3& position) override;
+    void accept(NoiseNodeVisitor& visitor) override;
+    void decode(Decoder& decoder, NoiseFunction& noiseFunction) override;
 
-    ///
-    /// Visits a ScalePositionNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(ScalePositionNoiseNode& node) = 0;
+private:
+    NoiseNode* _leftNode { nullptr };
+    NoiseNode* _rightNode { nullptr };
 };
 
 }

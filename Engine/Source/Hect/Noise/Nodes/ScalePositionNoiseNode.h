@@ -21,38 +21,40 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ScaleNoiseNode.h"
+#pragma once
 
-#include "Hect/Noise/NoiseFunction.h"
-#include "Hect/Noise/NoiseNodeVisitor.h"
+#include "Hect/Core/Export.h"
+#include "Hect/Noise/NoiseNode.h"
 
-using namespace hect;
-
-ScaleNoiseNode::ScaleNoiseNode(const Vector3& scale) :
-    NoiseNode(1),
-    _scale(scale)
+namespace hect
 {
-}
 
-Real ScaleNoiseNode::sample(const Vector3& position)
+///
+/// Scales the position of an input node.
+class HECT_EXPORT ScalePositionNoiseNode :
+    public NoiseNode
 {
-    return source(0).sample(position * _scale);
-}
+public:
 
-void ScaleNoiseNode::accept(NoiseNodeVisitor& visitor)
-{
-    visitor.visit(*this);
-}
+    ///
+    /// Constructs a scale position noise node.
+    ///
+    /// \param factor The scale factor.
+    ScalePositionNoiseNode(const Vector3& factor = Vector3::one());
 
-void ScaleNoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
-{
-    clearSources();
-    decoder >> decodeValue("scale", _scale);
+    ///
+    /// Sets the input node to perform the position scaling on.
+    ///
+    /// \param node The node.
+    void setInputNode(NoiseNode& node);
 
-    // Decode the source node
-    if (decoder.selectMember("source"))
-    {
-        NoiseNode& node = noiseFunction.decodeNode(decoder);
-        addSource(node);
-    }
+    Real sample(const Vector3& position) override;
+    void accept(NoiseNodeVisitor& visitor) override;
+    void decode(Decoder& decoder, NoiseFunction& noiseFunction) override;
+
+private:
+    Vector3 _factor;
+    NoiseNode* _inputNode { nullptr };
+};
+
 }

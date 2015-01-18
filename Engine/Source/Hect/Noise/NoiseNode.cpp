@@ -28,49 +28,13 @@
 
 using namespace hect;
 
-NoiseNode::NoiseNode(size_t maxSourceNodes) :
-    _sourceNodes(maxSourceNodes, nullptr)
-{
-}
-
 void NoiseNode::accept(NoiseNodeVisitor& visitor)
 {
     (void)visitor;
-}
-
-void NoiseNode::clearSources()
-{
-    for (size_t index = 0; index < _sourceNodeCount; ++index)
-    {
-        _sourceNodes[index] = nullptr;
-    }
-    _sourceNodeCount = 0;
-}
-
-void NoiseNode::addSource(NoiseNode& node)
-{
-    if (_sourceNodes.empty())
-    {
-        throw InvalidOperation("Noise node does not support sources");
-    }
-    else if (_sourceNodeCount >= _sourceNodes.size())
-    {
-        throw InvalidOperation("Noise node already has the maximum allowed sources");
-    }
-    _sourceNodes[_sourceNodeCount++] = &node;
 }
 
 void NoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
 {
     (void)decoder;
     (void)noiseFunction;
-}
-
-NoiseNode& NoiseNode::source(size_t index) const
-{
-    if (index >= _sourceNodes.size())
-    {
-        throw InvalidOperation(format("Noise node does not have a source at index %i", index));
-    }
-    return *_sourceNodes[index];
 }

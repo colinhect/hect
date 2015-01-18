@@ -23,8 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoiseFunction.h"
 
-#include "Hect/Noise/Nodes/ScaleNoiseNode.h"
+#include "Hect/Noise/Nodes/AddNoiseNode.h"
 #include "Hect/Noise/Nodes/CoherentNoiseNode.h"
+#include "Hect/Noise/Nodes/ScalePositionNoiseNode.h"
 
 using namespace hect;
 
@@ -41,11 +42,12 @@ void NoiseFunction::setRoot(NoiseNode& node)
 
 Real NoiseFunction::sample(const Vector3& position)
 {
-    if (!_rootNode)
+    Real value = 0;
+    if (_rootNode)
     {
-        throw InvalidOperation("No root noise node set");
+        value = _rootNode->sample(position);
     }
-    return _rootNode->sample(position);
+    return value;
 }
 
 NoiseNode& NoiseFunction::decodeNode(Decoder& decoder)
@@ -56,19 +58,30 @@ NoiseNode& NoiseFunction::decodeNode(Decoder& decoder)
     decoder >> beginObject()
             >> decodeValue("type", type, true);
 
-    // CoherentNoiseNode
-    if (type == "Coherent")
+    // AddNoiseNode
+    if (type == "Add")
     {
-        CoherentNoiseNode& node = createNode<CoherentNoiseNode>();
+        AddNoiseNode& node = createNode<AddNoiseNode>();
         node.decode(decoder, *this);
+        decoder >> endObject();
         return node;
     }
 
-    // ScaleNoiseNode
-    else if (type == "Scale")
+    // CoherentNoiseNode
+    else if (type == "Coherent")
     {
-        ScaleNoiseNode& node = createNode<ScaleNoiseNode>();
+        CoherentNoiseNode& node = createNode<CoherentNoiseNode>();
         node.decode(decoder, *this);
+        decoder >> endObject();
+        return node;
+    }
+
+    // ScalePositionNoiseNode
+    else if (type == "ScalePosition")
+    {
+        ScalePositionNoiseNode& node = createNode<ScalePositionNoiseNode>();
+        node.decode(decoder, *this);
+        decoder >> endObject();
         return node;
     }
 

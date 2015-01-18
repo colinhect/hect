@@ -21,41 +21,46 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "ScalePositionNoiseNode.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
-#include "Hect/Noise/Nodes/AddNoiseNode.h"
-#include "Hect/Noise/Nodes/CoherentNoiseNode.h"
-#include "Hect/Noise/Nodes/ScalePositionNoiseNode.h"
+#include "Hect/Noise/NoiseFunction.h"
+#include "Hect/Noise/NoiseNodeVisitor.h"
 
-namespace hect
+using namespace hect;
+
+ScalePositionNoiseNode::ScalePositionNoiseNode(const Vector3& factor) :
+    _factor(factor)
 {
+}
 
-///
-/// Abstract interface for visiting an entire noise node tree.
-class HECT_EXPORT NoiseNodeVisitor
+void ScalePositionNoiseNode::setInputNode(NoiseNode& node)
 {
-public:
-    virtual ~NoiseNodeVisitor() { }
+    _inputNode = &node;
+}
 
-    ///
-    /// Visits an AddNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(AddNoiseNode& node) = 0;
+Real ScalePositionNoiseNode::sample(const Vector3& position)
+{
+    Real value = 0;
+    if (_inputNode)
+    {
+        value = _inputNode->sample(position * _factor);
+    }
+    return value;
+}
 
-    ///
-    /// Visits a CoherentNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(CoherentNoiseNode& node) = 0;
+void ScalePositionNoiseNode::accept(NoiseNodeVisitor& visitor)
+{
+    visitor.visit(*this);
+}
 
-    ///
-    /// Visits a ScalePositionNoiseNode.
-    ///
-    /// \param node The node to visit.
-    virtual void visit(ScalePositionNoiseNode& node) = 0;
-};
+void ScalePositionNoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
+{
+    decoder >> decodeValue("factor", _factor);
 
+    // Decode the source node
+    if (decoder.selectMember("input"))
+    {
+        NoiseNode& node = noiseFunction.decodeNode(decoder);
+        _inputNode = &node;
+    }
 }

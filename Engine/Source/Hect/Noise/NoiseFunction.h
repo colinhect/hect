@@ -71,10 +71,6 @@ public:
     /// \param node The new root node.
     void setRoot(NoiseNode& node);
 
-    ///
-    /// \copydoc NoiseNode::sample()
-    ///
-    /// \throws InvalidOperation If no root node as been set.
     Real sample(const Vector3& position) override;
 
     ///

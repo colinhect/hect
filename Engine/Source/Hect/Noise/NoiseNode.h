@@ -38,14 +38,6 @@ class NoiseNodeVisitor;
 class HECT_EXPORT NoiseNode
 {
 public:
-
-    ///
-    /// Constructs a noise node.
-    ///
-    /// \param maxSourceNodes The maximum number of source nodes the node
-    /// supports.
-    NoiseNode(size_t maxSourceNodes = 0);
-
     virtual ~NoiseNode() { }
 
     ///
@@ -64,39 +56,11 @@ public:
     virtual void accept(NoiseNodeVisitor& visitor);
 
     ///
-    /// Clears all source nodes.
-    void clearSources();
-
-    ///
-    /// Adds a source node.
-    ///
-    /// \param node The source node.
-    ///
-    /// \throws InvalidOperation If the node does not support source nodes or
-    /// already has the maximum number of source nodes.
-    void addSource(NoiseNode& node);
-
-    ///
     /// Decodes the node from an object.
     ///
     /// \param decoder The decoder to use.
     /// \param noiseFunction The noise function that the node belongs to.
     virtual void decode(Decoder& decoder, NoiseFunction& noiseFunction);
-
-protected:
-
-    ///
-    /// Returns the source node at the given index.
-    ///
-    /// \param index The source node index.
-    ///
-    /// \throws InvalidOperation If the node does not have a source node at the
-    /// specified index.
-    NoiseNode& source(size_t index) const;
-
-private:
-    std::vector<NoiseNode*> _sourceNodes;
-    size_t _sourceNodeCount { 0 };
 };
 
 }

@@ -130,7 +130,7 @@ namespace hect {}
 #include "Hect/Noise/NoiseFunction.h"
 #include "Hect/Noise/Random.h"
 #include "Hect/Noise/Nodes/CoherentNoiseNode.h"
-#include "Hect/Noise/Nodes/ScaleNoiseNode.h"
+#include "Hect/Noise/Nodes/ScalePositionNoiseNode.h"
 #include "Hect/Reflection/Enum.h"
 #include "Hect/Reflection/Type.h"
 #include "Hect/Runtime/Engine.h"

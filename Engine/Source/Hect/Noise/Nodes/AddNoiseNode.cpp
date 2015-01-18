@@ -21,33 +21,55 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "AddNoiseNode.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Noise/NoiseNode.h"
+#include "Hect/Noise/NoiseFunction.h"
+#include "Hect/Noise/NoiseNodeVisitor.h"
 
-namespace hect
+using namespace hect;
+
+void AddNoiseNode::setInputNodes(NoiseNode& leftNode, NoiseNode& rightNode)
 {
+    _leftNode = &leftNode;
+    _rightNode = &rightNode;
+}
 
-///
-/// Scales the input position of a noise source.
-class HECT_EXPORT ScaleNoiseNode :
-    public NoiseNode
+Real AddNoiseNode::sample(const Vector3& position)
 {
-public:
+    Real value = 0;
+    if (_leftNode && _rightNode)
+    {
+        value = _leftNode->sample(position) + _rightNode->sample(position);
+    }
+    return value;
+}
 
-    ///
-    /// Constructs a scale noise node.
-    ///
-    /// \param scale The scale.
-    ScaleNoiseNode(const Vector3& scale = Vector3::one());
+void AddNoiseNode::accept(NoiseNodeVisitor& visitor)
+{
+    visitor.visit(*this);
+}
 
-    Real sample(const Vector3& position) override;
-    void accept(NoiseNodeVisitor& visitor) override;
-    void decode(Decoder& decoder, NoiseFunction& noiseFunction) override;
+void AddNoiseNode::decode(Decoder& decoder, NoiseFunction& noiseFunction)
+{
+    if (decoder.selectMember("input"))
+    {
+        decoder >> beginArray();
+        
+        size_t index = 0;
+        while (decoder.hasMoreElements())
+        {
+            if (index == 0)
+            {
+                _leftNode = &noiseFunction.decodeNode(decoder);
+            }
+            else if (index == 1)
+            {
+                _rightNode = &noiseFunction.decodeNode(decoder);
+            }
 
-private:
-    Vector3 _scale;
-};
+            ++index;
+        }
 
+        decoder >> endArray();
+    }
 }
