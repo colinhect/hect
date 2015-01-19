@@ -34,7 +34,7 @@ namespace hect
 /// An encapsulated composition of NoiseNode%s.
 ///
 /// A noise tree allows for the creation and ownership of multiple noise
-/// nodes, with a specfic node specified as the root.
+/// nodes with a specfic node specified as the root.
 class HECT_EXPORT NoiseTree :
     public Uncopyable
 {
@@ -44,17 +44,13 @@ public:
     /// Constructs an empty noise tree.
     NoiseTree();
 
-    ///
-    /// Constructs a noise tree moved from another.
-    ///
-    /// \param noiseTree The noise tree to move.
     NoiseTree(NoiseTree&& noiseTree);
 
     ///
     /// Creates a new NoiseNode of the specified type.
     ///
-    /// \note The lifetime of the created node is managed by the noise
-    /// tree.
+    /// \note The lifetime of the created node is bound to the lifetime of
+    /// the noise tree.
     ///
     /// \param args The arguments to pass to the node's constructor.
     ///
@@ -81,10 +77,6 @@ public:
     /// \param node The new root node.
     void setRoot(NoiseNode& node);
 
-    ///
-    /// Sets the noise tree as being moved from another.
-    ///
-    /// \param noiseTree The noise tree to move.
     NoiseTree& operator=(NoiseTree&& noiseTree);
 
 private:

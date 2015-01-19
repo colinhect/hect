@@ -32,14 +32,14 @@ namespace hect
 class NoiseTreeVisitor;
 
 ///
-/// A component of a NoiseTree that can be composed with other components.
+/// A component of a NoiseTree that can be composed with other nodes.
 class HECT_EXPORT NoiseNode
 {
 public:
     virtual ~NoiseNode() { }
 
     ///
-    /// Computes the noise node at the given 3-dimensional point.
+    /// Computes the value at the given 3-dimensional point.
     ///
     /// \param point The 3-dimensional point to compute.
     ///
