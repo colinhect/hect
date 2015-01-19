@@ -42,7 +42,6 @@ public:
     ///
     /// \param seed The seed.
     /// \param lacunarity The lacunarity.
-    /// \param persistence The persistence.
     /// \param octaveCount The number of octaves.
     RidgedNoise(RandomSeed seed = 0, Real lacunarity = Real(2.0), unsigned octaveCount = 6);
 

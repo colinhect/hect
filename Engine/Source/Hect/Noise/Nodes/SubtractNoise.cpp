@@ -28,19 +28,58 @@
 
 using namespace hect;
 
-SubtractNoise::SubtractNoise(NoiseNode& minuendNode, NoiseNode& subtrahendNode) :
-    _minuendNode(&minuendNode),
-    _subtrahendNode(&subtrahendNode)
+SubtractNoise::SubtractNoise()
 {
+}
+
+SubtractNoise::SubtractNoise(NoiseNode& firstNode, NoiseNode& secondNode) :
+    _firstNode(&firstNode),
+    _secondNode(&secondNode)
+{
+}
+
+NoiseNode& SubtractNoise::firstNode()
+{
+    if (!_firstNode)
+    {
+        throw InvalidOperation("First node is not set");
+    }
+    return *_firstNode;
+}
+
+void SubtractNoise::setFirstNode(NoiseNode& node)
+{
+    _firstNode = &node;
+}
+
+NoiseNode& SubtractNoise::secondNode()
+{
+    if (!_secondNode)
+    {
+        throw InvalidOperation("Second node is not set");
+    }
+    return *_secondNode;
+}
+
+void SubtractNoise::setSecondNode(NoiseNode& node)
+{
+    _secondNode = &node;
 }
 
 Real SubtractNoise::compute(const Vector3& point)
 {
     Real value = Real(0.0);
-    if (_minuendNode && _subtrahendNode)
+
+    if (_firstNode)
     {
-        value = _minuendNode->compute(point) - _subtrahendNode->compute(point);
+        value = _firstNode->compute(point);
     }
+
+    if (_secondNode)
+    {
+        value -= _secondNode->compute(point);
+    }
+
     return value;
 }
 
@@ -48,4 +87,3 @@ void SubtractNoise::accept(NoiseTreeVisitor& visitor)
 {
     visitor.visit(*this);
 }
-

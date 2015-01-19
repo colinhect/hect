@@ -39,17 +39,46 @@ public:
     ///
     /// Constructs a node that computes the difference of the output of two
     /// nodes.
+    SubtractNoise();
+
     ///
-    /// \param minuendNode The node whose value is being subtracted from.
-    /// \param subtrahendNode The node whose value is being subtracted.
-    SubtractNoise(NoiseNode& minuendNode, NoiseNode& subtrahendNode);
+    /// Constructs a node that computes the difference of the output of two
+    /// nodes.
+    ///
+    /// \param firstNode The node whose value is being subtracted from.
+    /// \param secondNode The node whose value is being subtracted.
+    SubtractNoise(NoiseNode& firstNode, NoiseNode& secondNode);
+
+    ///
+    /// Returns the node whose value is being subtracted from.
+    ///
+    /// \throws InvalidOperation if the first node is not set.
+    NoiseNode& firstNode();
+
+    ///
+    /// Sets the node whose value is being subtracted from.
+    ///
+    /// \param node The node.
+    void setFirstNode(NoiseNode& node);
+
+    ///
+    /// Returns the node whose value is being subtracted.
+    ///
+    /// \throws InvalidOperation if the second node is not set.
+    NoiseNode& secondNode();
+
+    ///
+    /// Sets the node whose value is being subtracted.
+    ///
+    /// \param node The node.
+    void setSecondNode(NoiseNode& node);
 
     Real compute(const Vector3& point) override;
     void accept(NoiseTreeVisitor& visitor) override;
 
 private:
-    NoiseNode* _minuendNode;
-    NoiseNode* _subtrahendNode;
+    NoiseNode* _firstNode { nullptr };
+    NoiseNode* _secondNode { nullptr };
 };
 
 }

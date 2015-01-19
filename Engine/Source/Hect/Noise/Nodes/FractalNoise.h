@@ -44,7 +44,7 @@ public:
     /// \param lacunarity The lacunarity.
     /// \param persistence The persistence.
     /// \param octaveCount The number of octaves.
-    FractalNoise(RandomSeed seed, Real lacunarity = Real(2.0), Real persistence = Real(0.5), unsigned octaveCount = 6);
+    FractalNoise(RandomSeed seed = 0, Real lacunarity = Real(2.0), Real persistence = Real(0.5), unsigned octaveCount = 6);
 
     ///
     /// Returns the seed.

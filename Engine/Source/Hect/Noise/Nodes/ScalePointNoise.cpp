@@ -28,18 +28,46 @@
 
 using namespace hect;
 
-ScalePointNoise::ScalePointNoise(NoiseNode& node, const Vector3& factor) :
-    _node(&node),
+ScalePointNoise::ScalePointNoise()
+{
+}
+
+ScalePointNoise::ScalePointNoise(NoiseNode& sourceNode, const Vector3& factor) :
+    _sourceNode(&sourceNode),
     _factor(factor)
 {
+}
+
+NoiseNode& ScalePointNoise::sourceNode() const
+{
+    if (!_sourceNode)
+    {
+        throw InvalidOperation("Source node is not set");
+    }
+    return *_sourceNode;
+}
+
+void ScalePointNoise::setSourceNode(NoiseNode& node)
+{
+    _sourceNode = &node;
+}
+
+const Vector3& ScalePointNoise::factor() const
+{
+    return _factor;
+}
+
+void ScalePointNoise::setFactor(const Vector3& factor)
+{
+    _factor = factor;
 }
 
 Real ScalePointNoise::compute(const Vector3& point)
 {
     Real value = Real(0.0);
-    if (_node)
+    if (_sourceNode)
     {
-        value = _node->compute(point * _factor);
+        value = _sourceNode->compute(point * _factor);
     }
     return value;
 }

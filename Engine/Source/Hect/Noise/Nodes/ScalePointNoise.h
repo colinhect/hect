@@ -38,17 +38,43 @@ public:
 
     ///
     /// Constructs a node that scales the point before a node is computed.
+    ScalePointNoise();
+
     ///
-    /// \param node The node to perform the point scaling on.
+    /// Constructs a node that scales the point before a node is computed.
+    ///
+    /// \param sourceNode The node to perform the point scaling on.
     /// \param factor The scale factor.
-    ScalePointNoise(NoiseNode& node, const Vector3& factor);
+    ScalePointNoise(NoiseNode& sourceNode, const Vector3& factor = Vector3::one());
+
+    ///
+    /// Returns the node to perform the point scaling on.
+    ///
+    /// \throws InvalidOperation if the source node is not set.
+    NoiseNode& sourceNode() const;
+
+    ///
+    /// Sets the node to perform the point scaling on.
+    ///
+    /// \param node The node.
+    void setSourceNode(NoiseNode& node);
+
+    ///
+    /// Returns the scale factor.
+    const Vector3& factor() const;
+
+    ///
+    /// Sets the scale factor.
+    ///
+    /// \param factor The scale factor.
+    void setFactor(const Vector3& factor);
 
     Real compute(const Vector3& point) override;
     void accept(NoiseTreeVisitor& visitor) override;
 
 private:
-    NoiseNode* _node;
-    Vector3 _factor;
+    NoiseNode* _sourceNode { nullptr };
+    Vector3 _factor { Vector3::one() };
 };
 
 }

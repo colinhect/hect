@@ -38,19 +38,55 @@ public:
 
     ///
     /// Constructs a node that scales and adds a bias to the output of a node.
+    ScaleBiasNoise();
+
     ///
-    /// \param node The node whose output to scale.
+    /// Constructs a node that scales and adds a bias to the output of a node.
+    ///
+    /// \param sourceNode The node whose output to scale.
     /// \param factor The scale factor.
     /// \param bias The bias to add to the output after it is scaled.
-    ScaleBiasNoise(NoiseNode& node, Real factor, Real bias = Real(0.0));
+    ScaleBiasNoise(NoiseNode& sourceNode, Real factor = Real(1.0), Real bias = Real(0.0));
+
+    ///
+    /// Returns the node whose output to scale.
+    ///
+    /// \throws InvalidOperation if the source node is not set.
+    NoiseNode& sourceNode() const;
+
+    ///
+    /// Sets the node whose output to scale.
+    ///
+    /// \param node The node.
+    void setSourceNode(NoiseNode& node);
+
+    ///
+    /// Returns the scale factor.
+    Real factor() const;
+
+    ///
+    /// Sets the scale factor.
+    ///
+    /// \param factor The scale factor.
+    void setFactor(Real factor);
+
+    ///
+    /// Returns the bias to add to the output after it is scaled.
+    Real bias() const;
+
+    ///
+    /// Sets the bias to add to the output after it is scaled.
+    ///
+    /// \param bias The bias.
+    void setBias(Real bias);
 
     Real compute(const Vector3& point) override;
     void accept(NoiseTreeVisitor& visitor) override;
 
 private:
-    NoiseNode* _node;
-    Real _factor;
-    Real _bias;
+    NoiseNode* _sourceNode { nullptr };
+    Real _factor { Real(1.0) };
+    Real _bias { Real(0.0) };
 };
 
 }

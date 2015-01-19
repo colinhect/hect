@@ -47,7 +47,10 @@ NoiseNode& AddNoise::firstNode()
     return *_firstNode;
 }
 
-void AddNoise::setFirstNode(NoiseNode& node);
+void AddNoise::setFirstNode(NoiseNode& node)
+{
+    _firstNode = &node;
+}
 
 NoiseNode& AddNoise::secondNode()
 {
@@ -55,10 +58,13 @@ NoiseNode& AddNoise::secondNode()
     {
         throw InvalidOperation("Second node is not set");
     }
-    return *_firstNode;
+    return *_secondNode;
 }
 
-void AddNoise::setSecondNode(NoiseNode& node);
+void AddNoise::setSecondNode(NoiseNode& node)
+{
+    _secondNode = &node;
+}
 
 Real AddNoise::compute(const Vector3& point)
 {
@@ -68,11 +74,12 @@ Real AddNoise::compute(const Vector3& point)
     {
         value = _firstNode->compute(point);
     }
-    
+
     if (_secondNode)
     {
         value += _secondNode->compute(point);
     }
+
     return value;
 }
 

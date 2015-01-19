@@ -28,19 +28,58 @@
 
 using namespace hect;
 
-MultiplyNoise::MultiplyNoise(NoiseNode& multiplicandNode, NoiseNode& multiplierNode) :
-    _multiplicandNode(&multiplicandNode),
-    _multiplierNode(&multiplierNode)
+MultiplyNoise::MultiplyNoise()
 {
+}
+
+MultiplyNoise::MultiplyNoise(NoiseNode& firstNode, NoiseNode& secondNode) :
+    _firstNode(&firstNode),
+    _secondNode(&secondNode)
+{
+}
+
+NoiseNode& MultiplyNoise::firstNode()
+{
+    if (!_firstNode)
+    {
+        throw InvalidOperation("First node is not set");
+    }
+    return *_firstNode;
+}
+
+void MultiplyNoise::setFirstNode(NoiseNode& node)
+{
+    _firstNode = &node;
+}
+
+NoiseNode& MultiplyNoise::secondNode()
+{
+    if (!_secondNode)
+    {
+        throw InvalidOperation("Second node is not set");
+    }
+    return *_secondNode;
+}
+
+void MultiplyNoise::setSecondNode(NoiseNode& node)
+{
+    _secondNode = &node;
 }
 
 Real MultiplyNoise::compute(const Vector3& point)
 {
     Real value = Real(0.0);
-    if (_multiplicandNode && _multiplierNode)
+
+    if (_firstNode)
     {
-        value = _multiplicandNode->compute(point) * _multiplierNode->compute(point);
+        value = _firstNode->compute(point);
     }
+
+    if (_secondNode)
+    {
+        value *= _secondNode->compute(point);
+    }
+
     return value;
 }
 

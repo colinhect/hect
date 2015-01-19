@@ -28,19 +28,57 @@
 
 using namespace hect;
 
-ScaleBiasNoise::ScaleBiasNoise(NoiseNode& node, Real factor, Real bias) :
-    _node(&node),
+ScaleBiasNoise::ScaleBiasNoise()
+{
+}
+
+ScaleBiasNoise::ScaleBiasNoise(NoiseNode& sourceNode, Real factor, Real bias) :
+    _sourceNode(&sourceNode),
     _factor(factor),
     _bias(bias)
 {
 }
 
+NoiseNode& ScaleBiasNoise::sourceNode() const
+{
+    if (!_sourceNode)
+    {
+        throw InvalidOperation("Source node is not set");
+    }
+    return *_sourceNode;
+}
+
+void ScaleBiasNoise::setSourceNode(NoiseNode& node)
+{
+    _sourceNode = &node;
+}
+
+Real ScaleBiasNoise::factor() const
+{
+    return _factor;
+}
+
+void ScaleBiasNoise::setFactor(Real factor)
+{
+    _factor = factor;
+}
+
+Real ScaleBiasNoise::bias() const
+{
+    return _bias;
+}
+
+void ScaleBiasNoise::setBias(Real bias)
+{
+    _bias = bias;
+}
+
 Real ScaleBiasNoise::compute(const Vector3& point)
 {
     Real value = Real(0.0);
-    if (_node)
+    if (_sourceNode)
     {
-        value = _node->compute(point) * _factor + _bias;
+        value = _sourceNode->compute(point) * _factor + _bias;
     }
     return value;
 }

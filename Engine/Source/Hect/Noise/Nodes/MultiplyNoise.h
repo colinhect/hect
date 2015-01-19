@@ -38,17 +38,45 @@ public:
 
     ///
     /// Constructs a node that computes the product of the output of two nodes.
+    MultiplyNoise();
+
     ///
-    /// \param multiplicandNode The node whose output is being mutliplied to.
-    /// \param multiplierNode The node whose output is being mutliplied.
-    MultiplyNoise(NoiseNode& multiplicandNode, NoiseNode& multiplierNode);
+    /// Constructs a node that computes the product of the output of two nodes.
+    ///
+    /// \param firstNode The node whose output is being mutliplied to.
+    /// \param secondNode The node whose output is being mutliplied.
+    MultiplyNoise(NoiseNode& firstNode, NoiseNode& secondNode);
+
+    ///
+    /// Returns the node whose output is being mutliplied to.
+    ///
+    /// \throws InvalidOperation if the first node is not set.
+    NoiseNode& firstNode();
+
+    ///
+    /// Sets the node whose output is being mutliplied to.
+    ///
+    /// \param node The node.
+    void setFirstNode(NoiseNode& node);
+
+    ///
+    /// Returns the node whose output is being mutliplied.
+    ///
+    /// \throws InvalidOperation if the second node is not set.
+    NoiseNode& secondNode();
+
+    ///
+    /// Sets the node whose output is being mutliplied.
+    ///
+    /// \param node The node.
+    void setSecondNode(NoiseNode& node);
 
     Real compute(const Vector3& point) override;
     void accept(NoiseTreeVisitor& visitor) override;
 
 private:
-    NoiseNode* _multiplicandNode;
-    NoiseNode* _multiplierNode;
+    NoiseNode* _firstNode { nullptr };
+    NoiseNode* _secondNode { nullptr };
 };
 
 }
