@@ -43,7 +43,7 @@ TEST_CASE("Construct a number data value", "[DataValue]")
 {
     DataValue value(5.0);
     REQUIRE(value.isNumber());
-    REQUIRE(value.asReal() == 5.0);
+    REQUIRE(value.asDouble() == 5.0);
 }
 
 TEST_CASE("Construct a string data value", "[DataValue]")
@@ -73,7 +73,7 @@ TEST_CASE("Construct an array data value", "[DataValue]")
         else if (i == 1)
         {
             REQUIRE(value[i].isNumber());
-            REQUIRE(value[i].asReal() == 5.0);
+            REQUIRE(value[i].asDouble() == 5.0);
         }
         else if (i == 2)
         {
@@ -96,7 +96,7 @@ TEST_CASE("Construct an object data value", "[DataValue]")
     REQUIRE(value["someBool"].isBool());
     REQUIRE(value["someBool"].asBool());
     REQUIRE(value["someNumber"].isNumber());
-    REQUIRE(value["someNumber"].asReal() == 5.0);
+    REQUIRE(value["someNumber"].asDouble() == 5.0);
     REQUIRE(value["someString"].isString());
     REQUIRE(value["someString"].asString() == "Testing");
 }
@@ -176,7 +176,7 @@ TEST_CASE("Iterate over array data value", "[DataValue]")
     for (const DataValue& element : value)
     {
         REQUIRE(element.isNumber());
-        REQUIRE(element.asReal() == i++);
+        REQUIRE(element.asDouble() == i++);
     }
 }
 
@@ -207,7 +207,7 @@ TEST_CASE("Decode data value from a YAML string", "[DataValue][Yaml]")
     REQUIRE(value["someBool"].isBool());
     REQUIRE(value["someBool"].asBool());
     REQUIRE(value["someNumber"].isNumber());
-    REQUIRE(value["someNumber"].asReal() == 1.0);
+    REQUIRE(value["someNumber"].asDouble() == 1.0);
     REQUIRE(value["someString"].isString());
     REQUIRE(value["someString"].asString() == "Testing 1 2 3");
     REQUIRE(value["someArray"].isArray());

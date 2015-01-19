@@ -43,7 +43,7 @@ public:
     /// \param seed The seed.
     /// \param lacunarity The lacunarity.
     /// \param octaveCount The number of octaves.
-    RidgedNoise(RandomSeed seed = 0, Real lacunarity = Real(2.0), unsigned octaveCount = 6);
+    RidgedNoise(RandomSeed seed = 0, double lacunarity = 2.0, unsigned octaveCount = 6);
 
     ///
     /// Returns the seed.
@@ -57,13 +57,13 @@ public:
 
     ///
     /// Returns the lacunarity.
-    Real lacunarity() const;
+    double lacunarity() const;
 
     ///
     /// Sets the lacunarity.
     ///
     /// \param lacunarity The new lacunarity.
-    void setLacunarity(Real lacunarity);
+    void setLacunarity(double lacunarity);
 
     ///
     /// Returns the octave count.
@@ -75,17 +75,17 @@ public:
     /// \param octaveCount The new octave count.
     void setOctaveCount(unsigned octaveCount);
 
-    Real compute(const Vector3& point) override;
+    double compute(const Vector3& point) override;
     void accept(NoiseTreeVisitor& visitor) override;
 
 private:
     void generateOctaves();
 
     RandomSeed _seed;
-    Real _lacunarity;
+    double _lacunarity;
     unsigned _octaveCount;
     std::vector<CoherentNoise> _octaveNoise;
-    std::vector<Real> _octaveWeights;
+    std::vector<double> _octaveWeights;
 };
 
 }

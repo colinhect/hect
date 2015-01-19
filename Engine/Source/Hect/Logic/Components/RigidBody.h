@@ -53,7 +53,7 @@ public:
     /// The mass.
     ///
     /// \property
-    Real mass { 0 };
+    double mass { 0 };
 
     ///
     /// The linear velocity.

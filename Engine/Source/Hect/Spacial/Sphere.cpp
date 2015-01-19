@@ -30,17 +30,17 @@ Sphere::Sphere()
 {
 }
 
-Sphere::Sphere(Real radius) :
+Sphere::Sphere(double radius) :
     _radius(radius)
 {
 }
 
-Real Sphere::radius() const
+double Sphere::radius() const
 {
     return _radius;
 }
 
-void Sphere::setRadius(Real radius)
+void Sphere::setRadius(double radius)
 {
     _radius = radius;
 }

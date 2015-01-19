@@ -37,9 +37,7 @@
 #pragma clang diagnostic ignored "-Wextra"
 #endif
 
-#ifdef HECT_DOUBLE_PRECISION
 #define BT_USE_DOUBLE_PRECISION
-#endif
 
 #include <btBulletDynamicsCommon.h>
 
@@ -120,7 +118,7 @@ Transform convertFromBullet(const btTransform& t)
 
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
     System(scene, SystemTickStage_Subsequent),
-    gravity(Vector3::unitY() * Real(-9.8)),
+    gravity(Vector3::unitY() * -9.8),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -142,7 +140,7 @@ void PhysicsSystem::commit(RigidBody& rigidBody)
     rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
 }
 
-void PhysicsSystem::tick(Engine& engine, Real timeStep)
+void PhysicsSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
 

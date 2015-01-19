@@ -441,7 +441,7 @@ void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, cons
         case UniformBinding_None:
             break;
         case UniformBinding_RenderTargetSize:
-            frame.setUniform(uniform, Vector2(static_cast<Real>(target.width()), static_cast<Real>(target.height())));
+            frame.setUniform(uniform, Vector2(static_cast<double>(target.width()), static_cast<double>(target.height())));
             break;
         case UniformBinding_CameraPosition:
             frame.setUniform(uniform, camera.position);
@@ -456,7 +456,7 @@ void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, cons
             frame.setUniform(uniform, camera.exposure);
             break;
         case UniformBinding_CameraOneOverGamma:
-            frame.setUniform(uniform, Real(1.0) / camera.gamma);
+            frame.setUniform(uniform, 1.0 / camera.gamma);
             break;
         case UniformBinding_PrimaryLightDirection:
             frame.setUniform(uniform, _frameData.primaryLightDirection);

@@ -25,7 +25,6 @@
 
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Real.h"
 #include "Hect/Timing/TimeSpan.h"
 
 namespace hect
@@ -157,7 +156,7 @@ public:
     /// The value of the joystick axis related to the event.
     ///
     /// \note Only relevant for a ::JoystickEventType_AxisMotion event.
-    Real axisValue { 0 };
+    double axisValue { 0 };
 };
 
 ///
@@ -183,7 +182,7 @@ public:
     /// \param axis The axis to get the value of.
     ///
     /// \throws InvalidOperation If the joystick does not have the given axis.
-    Real axisValue(JoystickAxis axis) const;
+    double axisValue(JoystickAxis axis) const;
 
     void enqueueEvent(const JoystickEvent& event);
     void dispatchEvents();
@@ -194,7 +193,7 @@ private:
     std::string _name;
 
     std::vector<bool> _buttonStates;
-    std::vector<Real> _axisStates;
+    std::vector<double> _axisStates;
 };
 
 };

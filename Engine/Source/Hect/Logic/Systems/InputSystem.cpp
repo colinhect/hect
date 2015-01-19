@@ -70,7 +70,7 @@ void InputSystem::addAxis(const InputAxis& axis)
     HECT_INFO(format("Added input axis '%s'", axis.name().c_str()));
 }
 
-Real InputSystem::axisValue(const std::string& name) const
+double InputSystem::axisValue(const std::string& name) const
 {
     auto it = _axisIndices.get(name);
     if (!it)
@@ -80,7 +80,7 @@ Real InputSystem::axisValue(const std::string& name) const
     return 0;
 }
 
-Real InputSystem::axisValue(const char* name) const
+double InputSystem::axisValue(const char* name) const
 {
     auto it = _axisIndices.get(name);
     if (it)
@@ -90,7 +90,7 @@ Real InputSystem::axisValue(const char* name) const
     return 0;
 }
 
-void InputSystem::tick(Engine& engine, Real timeStep)
+void InputSystem::tick(Engine& engine, double timeStep)
 {
     // Update each axis
     for (InputAxis& axis : _axes)

@@ -44,7 +44,7 @@ public:
     /// \param lacunarity The lacunarity.
     /// \param persistence The persistence.
     /// \param octaveCount The number of octaves.
-    FractalNoise(RandomSeed seed = 0, Real lacunarity = Real(2.0), Real persistence = Real(0.5), unsigned octaveCount = 6);
+    FractalNoise(RandomSeed seed = 0, double lacunarity = 2.0, double persistence = 0.5, unsigned octaveCount = 6);
 
     ///
     /// Returns the seed.
@@ -58,23 +58,23 @@ public:
 
     ///
     /// Returns the lacunarity.
-    Real lacunarity() const;
+    double lacunarity() const;
 
     ///
     /// Sets the lacunarity.
     ///
     /// \param lacunarity The new lacunarity.
-    void setLacunarity(Real lacunarity);
+    void setLacunarity(double lacunarity);
 
     ///
     /// Returns the persistence.
-    Real persistence() const;
+    double persistence() const;
 
     ///
     /// Sets the persistence.
     ///
     /// \param persistence The new persistence.
-    void setPersistence(Real persistence);
+    void setPersistence(double persistence);
 
     ///
     /// Returns the octave count.
@@ -86,15 +86,15 @@ public:
     /// \param octaveCount The new octave count.
     void setOctaveCount(unsigned octaveCount);
 
-    Real compute(const Vector3& point) override;
+    double compute(const Vector3& point) override;
     void accept(NoiseTreeVisitor& visitor) override;
 
 private:
     void generateOctaves();
 
     RandomSeed _seed;
-    Real _lacunarity;
-    Real _persistence;
+    double _lacunarity;
+    double _persistence;
     unsigned _octaveCount;
     std::vector<CoherentNoise> _octaveNoise;
 };

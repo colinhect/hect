@@ -53,11 +53,11 @@ public:
     bool nextVertex();
 
     ///
-    /// Reads an the attribute with the given semantic as a real.
+    /// Reads an the attribute with the given semantic as a double.
     ///
     /// \throws InvalidOperation If the first vertex has not been moved to or
     /// attempting to read past the last vertex.
-    Real readAttributeReal(VertexAttributeSemantic semantic) const;
+    double readAttributeDouble(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 2-dimensional

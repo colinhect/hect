@@ -71,7 +71,7 @@ void CameraSystem::update(Camera& camera)
     }
 }
 
-void CameraSystem::tick(Engine& engine, Real timeStep)
+void CameraSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
     (void)timeStep;

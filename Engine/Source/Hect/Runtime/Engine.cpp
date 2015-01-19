@@ -125,7 +125,7 @@ int Engine::main()
         TimeSpan accumulator;
         TimeSpan delta;
 
-        Real timeStep = mode->timeStep().seconds();
+        double timeStep = mode->timeStep().seconds();
 
         bool active = true;
         while (_platform->handleEvents() && active)

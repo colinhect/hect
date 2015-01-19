@@ -29,7 +29,7 @@
 
 using namespace hect;
 
-FractalNoise::FractalNoise(RandomSeed seed, Real lacunarity, Real persistence, unsigned octaveCount) :
+FractalNoise::FractalNoise(RandomSeed seed, double lacunarity, double persistence, unsigned octaveCount) :
     _seed(seed),
     _lacunarity(lacunarity),
     _persistence(persistence),
@@ -49,23 +49,23 @@ void FractalNoise::setSeed(RandomSeed seed)
     generateOctaves();
 }
 
-Real FractalNoise::lacunarity() const
+double FractalNoise::lacunarity() const
 {
     return _lacunarity;
 }
 
-void FractalNoise::setLacunarity(Real lacunarity)
+void FractalNoise::setLacunarity(double lacunarity)
 {
     _lacunarity = lacunarity;
     generateOctaves();
 }
 
-Real FractalNoise::persistence() const
+double FractalNoise::persistence() const
 {
     return _persistence;
 }
 
-void FractalNoise::setPersistence(Real persistence)
+void FractalNoise::setPersistence(double persistence)
 {
     _persistence = persistence;
     generateOctaves();
@@ -82,10 +82,10 @@ void FractalNoise::setOctaveCount(unsigned octaveCount)
     generateOctaves();
 }
 
-Real FractalNoise::compute(const Vector3& point)
+double FractalNoise::compute(const Vector3& point)
 {
-    Real value = Real(0.0);
-    Real currentPersistence = Real(1.0);
+    double value = 0.0;
+    double currentPersistence = 1.0;
     Vector3 currentPoint = point;
 
     // For each octave

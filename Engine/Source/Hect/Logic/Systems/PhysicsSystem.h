@@ -68,7 +68,7 @@ public:
     /// \param rigidBody The rigid body to commit.
     void commit(RigidBody& rigidBody);
 
-    void tick(Engine& engine, Real timeStep) override;
+    void tick(Engine& engine, double timeStep) override;
     void receiveEvent(const ComponentEvent<RigidBody>& event) override;
 
     ///

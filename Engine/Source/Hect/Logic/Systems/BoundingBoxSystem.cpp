@@ -43,7 +43,7 @@ void BoundingBoxSystem::update(BoundingBox& boundingBox)
     updateRecursively(*boundingBox.entity()->root());
 }
 
-void BoundingBoxSystem::tick(Engine& engine, Real timeStep)
+void BoundingBoxSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
     (void)timeStep;

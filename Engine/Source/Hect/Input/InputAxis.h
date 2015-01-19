@@ -68,11 +68,11 @@ public:
 
     ///
     /// Updates the input axis based on the current state of its bindings.
-    void update(Platform& platform, Real timeStepInSeconds);
+    void update(Platform& platform, double timeStepInSeconds);
 
     ///
     /// Returns the current value of the axis.
-    Real value() const;
+    double value() const;
 
     friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis);
     friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis);
@@ -81,7 +81,7 @@ private:
     std::string _name;
 
     std::vector<InputAxisBinding> _bindings;
-    Real _value { 0 };
+    double _value { 0 };
 };
 
 }

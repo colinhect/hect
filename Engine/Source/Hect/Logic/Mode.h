@@ -61,7 +61,7 @@ public:
     /// simulate.
     ///
     /// \returns True if the mode is still active; false if it is not.
-    virtual bool tick(Engine& engine, Real timeStep) = 0;
+    virtual bool tick(Engine& engine, double timeStep) = 0;
 
     ///
     /// Renders the current state of the game to a target.

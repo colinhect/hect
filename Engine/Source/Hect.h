@@ -40,7 +40,6 @@ namespace hect {}
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Logging.h"
-#include "Hect/Core/Real.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/StringMap.h"
 #include "Hect/Core/Uncopyable.h"

@@ -257,7 +257,7 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
                 auto cardinality = attribute.cardinality();
                 if (cardinality == 1)
                 {
-                    encoder << encodeValue(reader.readAttributeReal(semantic));
+                    encoder << encodeValue(reader.readAttributeDouble(semantic));
                 }
                 else if (cardinality == 2)
                 {
@@ -368,7 +368,7 @@ Decoder& operator>>(Decoder& decoder, Mesh& mesh)
 
                         if (cardinality == 1)
                         {
-                            Real value;
+                            double value;
                             decoder >> decodeValue(value);
                             meshWriter.writeAttributeData(semantic, value);
                         }

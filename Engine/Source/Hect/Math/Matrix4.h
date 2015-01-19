@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Real.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Math/Angle.h"
@@ -182,7 +181,7 @@ private:
     T _c[16];
 };
 
-typedef Matrix4T<Real> Matrix4;
+typedef Matrix4T<double> Matrix4;
 
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const Matrix4T<T>& m);

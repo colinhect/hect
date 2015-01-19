@@ -126,7 +126,7 @@ T Vector4T<T>::dot(const Vector4T& v) const
 template <typename T>
 Angle Vector4T<T>::angleFrom(const Vector4T& v) const
 {
-    Real radians = static_cast<Real>(std::acos(dot(v)));
+    double radians = static_cast<double>(std::acos(dot(v)));
     return Angle::fromRadians(radians);
 }
 

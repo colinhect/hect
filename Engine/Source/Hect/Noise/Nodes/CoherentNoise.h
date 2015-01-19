@@ -53,12 +53,12 @@ public:
     /// \param seed The new seed.
     void setSeed(RandomSeed seed);
 
-    Real compute(const Vector3& point) override;
+    double compute(const Vector3& point) override;
     void accept(NoiseTreeVisitor& visitor) override;
 
 private:
     void generatePermuationTable();
-    int fastFloor(Real x) const;
+    int fastFloor(double x) const;
 
     RandomSeed _seed;
     std::vector<uint8_t> _permutationTable;

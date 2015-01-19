@@ -51,31 +51,31 @@ public:
     /// The aspect ratio.
     ///
     /// \property
-    Real aspectRatio { Real(1.0) };
+    double aspectRatio { 1.0 };
 
     ///
     /// The near clip distance.
     ///
     /// \property
-    Real nearClip { Real(0.1) };
+    double nearClip { 0.1 };
 
     ///
     /// The far clip distance.
     ///
     /// \property
-    Real farClip { Real(10000) };
+    double farClip { 10000 };
 
     ///
     /// The exposure.
     ///
     /// \property
-    Real exposure { Real(1.0) };
+    double exposure { 1.0 };
 
     ///
     /// The gamma.
     ///
     /// \property
-    Real gamma { Real(2.2) };
+    double gamma { 2.2 };
 
     ///
     /// The front vector.

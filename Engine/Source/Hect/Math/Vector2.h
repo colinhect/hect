@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Real.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Math/Angle.h"
@@ -268,8 +267,8 @@ public:
 };
 
 ///
-/// A 2-dimensional vector of real numbers.
-typedef Vector2T<Real> Vector2;
+/// A 2-dimensional vector of doubles.
+typedef Vector2T<double> Vector2;
 
 ///
 /// A 2-dimensional vector of integers.

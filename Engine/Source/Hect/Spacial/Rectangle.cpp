@@ -29,7 +29,7 @@ Rectangle::Rectangle()
 {
 }
 
-Rectangle::Rectangle(Real minX, Real minY, Real maxX, Real maxY) :
+Rectangle::Rectangle(double minX, double minY, double maxX, double maxY) :
     _minimum(minX, minY),
     _maximum(maxX, maxY)
 {
@@ -58,7 +58,7 @@ Vector2 Rectangle::size() const
 
 Vector2 Rectangle::center() const
 {
-    return _minimum + size() * Real(0.5);
+    return _minimum + size() * 0.5;
 }
 
 namespace hect

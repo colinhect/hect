@@ -42,9 +42,6 @@
 #define HECT_RENDERER_OPENGL
 #endif
 
-// Set floating point precision
-#define HECT_DOUBLE_PRECISION
-
 // Enable logger levels
 #define HECT_ENABLE_LOG_INFO
 #define HECT_ENABLE_LOG_DEBUG

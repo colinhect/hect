@@ -125,52 +125,52 @@ std::string DataValueDecoder::decodeString()
 
 int8_t DataValueDecoder::decodeInt8()
 {
-    return (int8_t)decode().asReal();
+    return (int8_t)decode().asDouble();
 }
 
 uint8_t DataValueDecoder::decodeUInt8()
 {
-    return (uint8_t)decode().asReal();
+    return (uint8_t)decode().asDouble();
 }
 
 int16_t DataValueDecoder::decodeInt16()
 {
-    return (int16_t)decode().asReal();
+    return (int16_t)decode().asDouble();
 }
 
 uint16_t DataValueDecoder::decodeUInt16()
 {
-    return (uint16_t)decode().asReal();
+    return (uint16_t)decode().asDouble();
 }
 
 int32_t DataValueDecoder::decodeInt32()
 {
-    return (int32_t)decode().asReal();
+    return (int32_t)decode().asDouble();
 }
 
 uint32_t DataValueDecoder::decodeUInt32()
 {
-    return (uint32_t)decode().asReal();
+    return (uint32_t)decode().asDouble();
 }
 
 int64_t DataValueDecoder::decodeInt64()
 {
-    return (int64_t)decode().asReal();
+    return (int64_t)decode().asDouble();
 }
 
 uint64_t DataValueDecoder::decodeUInt64()
 {
-    return (uint64_t)decode().asReal();
+    return (uint64_t)decode().asDouble();
 }
 
 float DataValueDecoder::decodeFloat32()
 {
-    return (float)decode().asReal();
+    return (float)decode().asDouble();
 }
 
 double DataValueDecoder::decodeFloat64()
 {
-    return decode().asReal();
+    return decode().asDouble();
 }
 
 bool DataValueDecoder::decodeBool()

@@ -35,18 +35,18 @@ Frustum::Frustum(
     const Vector3& front,
     const Vector3& up,
     Angle fieldOfView,
-    Real aspectRatio,
-    Real nearClip,
-    Real farClip) :
+    double aspectRatio,
+    double nearClip,
+    double farClip) :
     _position(position)
 {
-    Real tangent = static_cast<Real>(std::tan(fieldOfView.radians() * Real(0.5)));
+    double tangent = static_cast<double>(std::tan(fieldOfView.radians() * 0.5));
 
-    Real nearHeight = nearClip * tangent;
-    Real nearWidth = nearHeight * aspectRatio;
+    double nearHeight = nearClip * tangent;
+    double nearWidth = nearHeight * aspectRatio;
 
-    Real farHeight = farClip * tangent;
-    Real farWidth = farHeight * aspectRatio;
+    double farHeight = farClip * tangent;
+    double farWidth = farHeight * aspectRatio;
 
     Vector3 z = -front;
     z.normalize();
@@ -118,8 +118,8 @@ FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
             n.z = minimum.z;
         }
 
-        Real distanceP = _planes[i].distance() + normal.dot(p);
-        Real distanceN = _planes[i].distance() + normal.dot(n);
+        double distanceP = _planes[i].distance() + normal.dot(p);
+        double distanceN = _planes[i].distance() + normal.dot(n);
 
         if (distanceP < 0)
         {
@@ -136,11 +136,11 @@ FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
 
 bool Frustum::containsSphere(const Sphere& sphere, const Vector3& position) const
 {
-    Real radius = sphere.radius();
+    double radius = sphere.radius();
 
     for (int i = 0; i < 6; ++i)
     {
-        Real distance = _planes[i].distance() + _planes[i].normal().dot(position);
+        double distance = _planes[i].distance() + _planes[i].normal().dot(position);
 
         if (distance < -radius)
         {

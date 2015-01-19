@@ -28,7 +28,7 @@
 
 using namespace hect;
 
-void InputAxisBinding::update(Platform& platform, Real timeStep)
+void InputAxisBinding::update(Platform& platform, double timeStep)
 {
     switch (type)
     {
@@ -94,13 +94,13 @@ void InputAxisBinding::update(Platform& platform, Real timeStep)
         if (platform.hasJoystick(joystickIndex))
         {
             Joystick& joystick = platform.joystick(joystickIndex);
-            Real value = joystick.axisValue(joystickAxis);
+            double value = joystick.axisValue(joystickAxis);
 
             // If the value is outside of the dead zone
             if (value < joystickAxisDeadZone.x || value > joystickAxisDeadZone.y)
             {
                 // Scale the value to be a delta for the range
-                Real delta = value * Real(0.5) + Real(0.5);
+                double delta = value * 0.5 + 0.5;
                 if (invert)
                 {
                     delta = 1.0 - delta;
@@ -134,16 +134,16 @@ void InputAxisBinding::update(Platform& platform, Real timeStep)
     _value = clamp(_value, range.x, range.y);
 }
 
-Real InputAxisBinding::value() const
+double InputAxisBinding::value() const
 {
     return _value;
 }
 
-void InputAxisBinding::applyGravity(Real timeStep)
+void InputAxisBinding::applyGravity(double timeStep)
 {
     if (_value != 0)
     {
-        Real delta = gravity * timeStep;
+        double delta = gravity * timeStep;
         if (_value > 0)
         {
             _value -= delta;
@@ -160,7 +160,7 @@ void InputAxisBinding::applyGravity(Real timeStep)
     }
 }
 
-void InputAxisBinding::modifyValue(Real delta)
+void InputAxisBinding::modifyValue(double delta)
 {
     if (invert)
     {

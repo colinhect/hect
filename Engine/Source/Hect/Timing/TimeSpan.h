@@ -26,7 +26,6 @@
 #include <cstdint>
 
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Real.h"
 
 namespace hect
 {
@@ -53,7 +52,7 @@ public:
     /// Creates a time span from seconds.
     ///
     /// \param seconds The duration of time in seconds.
-    static TimeSpan fromSeconds(Real seconds);
+    static TimeSpan fromSeconds(double seconds);
 
     ///
     /// Constructs a time span of zero seconds.
@@ -69,7 +68,7 @@ public:
 
     ///
     /// Returns the time span in seconds.
-    Real seconds();
+    double seconds();
 
     ///
     /// Returns the sum of the time span and another time span.
@@ -87,13 +86,13 @@ public:
     /// Returns the product of the time span and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    TimeSpan operator*(Real value) const;
+    TimeSpan operator*(double value) const;
 
     ///
     /// Returns the quotient of the time span and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    TimeSpan operator/(Real value) const;
+    TimeSpan operator/(double value) const;
 
     ///
     /// Returns a negated copy of the time span.
@@ -121,7 +120,7 @@ public:
     /// \param value The value to multiply by.
     ///
     /// \returns A reference to the time span.
-    TimeSpan& operator*=(Real value);
+    TimeSpan& operator*=(double value);
 
     ///
     /// Divides the time span by a scalar.
@@ -129,7 +128,7 @@ public:
     /// \param value The value to divide by.
     ///
     /// \returns A reference to the time span.
-    TimeSpan& operator/=(Real value);
+    TimeSpan& operator/=(double value);
 
     ///
     /// Returns whether the time span is less than another.

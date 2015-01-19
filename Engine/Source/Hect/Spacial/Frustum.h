@@ -77,9 +77,9 @@ public:
         const Vector3& front,
         const Vector3& up,
         Angle fieldOfView,
-        Real aspectRatio,
-        Real nearClip,
-        Real farClip);
+        double aspectRatio,
+        double nearClip,
+        double farClip);
 
     ///
     /// Tests an axis aligned box against the frustum.

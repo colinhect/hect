@@ -53,7 +53,7 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
     }
 }
 
-void DebugSystem::tick(Engine& engine, Real timeStep)
+void DebugSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
     (void)timeStep;

@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Real.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/Math/Angle.h"
@@ -289,8 +288,8 @@ public:
 };
 
 ///
-/// A 4-dimensional vector of real numbers.
-typedef Vector4T<Real> Vector4;
+/// A 4-dimensional vector of doubles.
+typedef Vector4T<double> Vector4;
 
 ///
 /// A 4-dimensional vector of integers.

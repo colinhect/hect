@@ -115,7 +115,7 @@ Vector3 AxisAlignedBox::size() const
 
 Vector3 AxisAlignedBox::center() const
 {
-    return _minimum + size() * Real(0.5);
+    return _minimum + size() * 0.5;
 }
 
 bool AxisAlignedBox::hasSize() const

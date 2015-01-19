@@ -222,7 +222,7 @@ bool Platform::handleEvents()
             event.type = JoystickEventType_AxisMotion;
             event.index = e.jaxis.which;
             event.axis = static_cast<JoystickAxis>(e.jaxis.axis);
-            event.axisValue = std::max(static_cast<Real>(e.jaxis.value) / Real(32767.0), Real(-1.0));
+            event.axisValue = std::max(static_cast<double>(e.jaxis.value) / 32767.0, -1.0);
             _joysticks[event.index].enqueueEvent(event);
         }
         break;
@@ -321,7 +321,7 @@ Platform::Platform()
                 event.type = JoystickEventType_AxisMotion;
                 event.index = _joysticks.size() - 1;
                 event.axis = static_cast<JoystickAxis>(i);
-                event.axisValue = std::max(static_cast<Real>(SDL_JoystickGetAxis(joystick, (int)i)) / Real(32767.0), Real(-1.0));
+                event.axisValue = std::max(static_cast<double>(SDL_JoystickGetAxis(joystick, static_cast<int>(i))) / 32767.0, -1.0);
                 _joysticks[event.index].enqueueEvent(event);
             }
         }

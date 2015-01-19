@@ -68,7 +68,7 @@ void Scene::refresh()
     _refreshing = false;
 }
 
-void Scene::tick(Engine& engine, Real timeStep)
+void Scene::tick(Engine& engine, double timeStep)
 {
     refresh();
 

@@ -35,9 +35,9 @@ TimeSpan TimeSpan::fromMilliseconds(int64_t milliseconds)
     return TimeSpan(milliseconds * 1000);
 }
 
-TimeSpan TimeSpan::fromSeconds(Real seconds)
+TimeSpan TimeSpan::fromSeconds(double seconds)
 {
-    return TimeSpan((int64_t)(seconds * 1000 * 1000));
+    return TimeSpan((int64_t)(seconds * 1000.0 * 1000.0));
 }
 
 TimeSpan::TimeSpan()
@@ -54,9 +54,9 @@ int64_t TimeSpan::milliseconds()
     return _microseconds / 1000;
 }
 
-Real TimeSpan::seconds()
+double TimeSpan::seconds()
 {
-    return static_cast<Real>(milliseconds()) / Real(1000);
+    return static_cast<double>(milliseconds()) / 1000.0;
 }
 
 TimeSpan TimeSpan::operator+(const TimeSpan& t) const
@@ -69,14 +69,14 @@ TimeSpan TimeSpan::operator-(const TimeSpan& t) const
     return TimeSpan(_microseconds - t._microseconds);
 }
 
-TimeSpan TimeSpan::operator*(Real value) const
+TimeSpan TimeSpan::operator*(double value) const
 {
     return TimeSpan((int64_t)(value * _microseconds));
 }
 
-TimeSpan TimeSpan::operator/(Real value) const
+TimeSpan TimeSpan::operator/(double value) const
 {
-    return TimeSpan(static_cast<int64_t>((static_cast<Real>(_microseconds) / value)));
+    return TimeSpan(static_cast<int64_t>((static_cast<double>(_microseconds) / value)));
 }
 
 TimeSpan TimeSpan::operator-() const
@@ -96,15 +96,15 @@ TimeSpan& TimeSpan::operator-=(const TimeSpan& t)
     return *this;
 }
 
-TimeSpan& TimeSpan::operator*=(Real value)
+TimeSpan& TimeSpan::operator*=(double value)
 {
     _microseconds = static_cast<int64_t>(value * _microseconds);
     return *this;
 }
 
-TimeSpan& TimeSpan::operator/=(Real value)
+TimeSpan& TimeSpan::operator/=(double value)
 {
-    _microseconds = static_cast<int64_t>(static_cast<Real>(_microseconds) / value);
+    _microseconds = static_cast<int64_t>(static_cast<double>(_microseconds) / value);
     return *this;
 }
 

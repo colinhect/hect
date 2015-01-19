@@ -66,9 +66,9 @@ void MultiplyNoise::setSecondNode(NoiseNode& node)
     _secondNode = &node;
 }
 
-Real MultiplyNoise::compute(const Vector3& point)
+double MultiplyNoise::compute(const Vector3& point)
 {
-    Real value = Real(0.0);
+    double value = 0.0;
 
     if (_firstNode)
     {

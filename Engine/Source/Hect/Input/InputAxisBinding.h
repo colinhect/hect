@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Real.h"
 #include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
@@ -81,11 +80,11 @@ public:
     /// \param platform The platform.
     /// \param timeStep The duration of time elapsed in seconds since the last
     /// update.
-    void update(Platform& platform, Real timeStep);
+    void update(Platform& platform, double timeStep);
 
     ///
     /// Returns the contributing value.
-    Real value() const;
+    double value() const;
 
     ///
     /// The type.
@@ -103,7 +102,7 @@ public:
     ///
     /// \note Only relevant when the type is
     /// ::InputAxisBindingType_MouseMoveX or ::InputAxisBindingType_MouseMoveY.
-    Real mouseSensitivity { 0.01 };
+    double mouseSensitivity { 0.01 };
 
     ///
     /// The key controlling the axis.
@@ -146,7 +145,7 @@ public:
     /// \note Only relevant when the type is
     /// ::InputAxisBindingType_MouseButton, ::InputAxisBindingType_MouseScroll,
     /// ::InputAxisBindingType_Key, or ::InputAxisBindingType_JoystickButton.
-    Real acceleration { 0 };
+    double acceleration { 0 };
 
     ///
     /// How quickly the axis returns to zero.
@@ -154,7 +153,7 @@ public:
     /// \note Only relevant when the type is
     /// ::InputAxisBindingType_MouseButton, ::InputAxisBindingType_MouseScroll,
     /// ::InputAxisBindingType_Key, or ::InputAxisBindingType_JoystickButton.
-    Real gravity { 0 };
+    double gravity { 0 };
 
     ///
     /// The range that the binding affects the input axis.
@@ -166,16 +165,16 @@ public:
 
     ///
     /// The value the binding falls back to due to lack of source input.
-    Real deadValue { 0 };
+    double deadValue { 0 };
 
     friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding);
     friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding);
 
 private:
-    void applyGravity(Real timeStep);
-    void modifyValue(Real delta);
+    void applyGravity(double timeStep);
+    void modifyValue(double delta);
 
-    Real _value { 0 };
+    double _value { 0 };
 };
 
 }

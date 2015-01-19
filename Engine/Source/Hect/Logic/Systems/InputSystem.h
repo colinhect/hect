@@ -57,13 +57,13 @@ public:
     /// \param name The name of the axis.
     ///
     /// \returns The value of the axis; 0 if the axis does not exist.
-    Real axisValue(const std::string& name) const;
+    double axisValue(const std::string& name) const;
 
     ///
     /// \copydoc InputSystem::axisValue()
-    Real axisValue(const char* name) const;
+    double axisValue(const char* name) const;
 
-    void tick(Engine& engine, Real timeStep) override;
+    void tick(Engine& engine, double timeStep) override;
 
 private:
     std::vector<InputAxis> _axes;

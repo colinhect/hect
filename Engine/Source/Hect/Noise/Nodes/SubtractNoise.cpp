@@ -66,9 +66,9 @@ void SubtractNoise::setSecondNode(NoiseNode& node)
     _secondNode = &node;
 }
 
-Real SubtractNoise::compute(const Vector3& point)
+double SubtractNoise::compute(const Vector3& point)
 {
-    Real value = Real(0.0);
+    double value = 0.0;
 
     if (_firstNode)
     {

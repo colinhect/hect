@@ -55,7 +55,7 @@ public:
     /// \param transform The transform to update.
     void update(Transform& transform);
 
-    void tick(Engine& engine, Real timeStep) override;
+    void tick(Engine& engine, double timeStep) override;
     void receiveEvent(const ComponentEvent<Transform>& event) override;
 
 private:

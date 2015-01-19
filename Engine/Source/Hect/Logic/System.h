@@ -26,7 +26,6 @@
 #include <cstdint>
 
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Real.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
@@ -66,7 +65,7 @@ public:
     /// \param engine The engine.
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    virtual void tick(Engine& engine, Real timeStep);
+    virtual void tick(Engine& engine, double timeStep);
 
     ///
     /// Renders the current state of the system to a target.

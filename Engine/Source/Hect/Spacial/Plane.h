@@ -53,7 +53,7 @@ public:
     /// \param position The origin of the plane.
     /// \param normal The direction from the origin the plane faces.
     /// \param distance The distance from the origin along the normal.
-    Plane(const Vector3& position, const Vector3& normal, Real distance);
+    Plane(const Vector3& position, const Vector3& normal, double distance);
 
     ///
     /// Returns the position.
@@ -65,12 +65,12 @@ public:
 
     ///
     /// Returns the distance.
-    Real distance() const;
+    double distance() const;
 
 private:
     Vector3 _position;
     Vector3 _normal;
-    Real _distance { 0 };
+    double _distance { 0 };
 };
 
 }

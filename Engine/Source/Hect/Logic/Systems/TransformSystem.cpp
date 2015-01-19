@@ -70,7 +70,7 @@ void TransformSystem::update(Transform& transform)
     boundingBoxSystem.updateRecursively(entity);
 }
 
-void TransformSystem::tick(Engine& engine, Real timeStep)
+void TransformSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
     (void)timeStep;

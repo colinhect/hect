@@ -28,12 +28,12 @@
 namespace hect
 {
 
-Angle Angle::fromDegrees(Real degrees)
+Angle Angle::fromDegrees(double degrees)
 {
-    return Angle((pi / Real(180)) * degrees);
+    return Angle((pi / 180.0) * degrees);
 }
 
-Angle Angle::fromRadians(Real radians)
+Angle Angle::fromRadians(double radians)
 {
     return Angle(radians);
 }
@@ -42,22 +42,22 @@ Angle::Angle()
 {
 }
 
-Angle::Angle(Real radians) :
+Angle::Angle(double radians) :
     _radians(radians)
 {
 }
 
-Real Angle::degrees() const
+double Angle::degrees() const
 {
-    Real degrees = (Real(180) / pi) * _radians;
-    if (degrees == Real(360))
+    double degrees = (180.0 / pi) * _radians;
+    if (degrees == 360.0)
     {
         degrees = 0;
     }
     return degrees;
 }
 
-Real Angle::radians() const
+double Angle::radians() const
 {
     return _radians;
 }
@@ -72,12 +72,12 @@ Angle Angle::operator-(const Angle& a) const
     return Angle(_radians - a._radians);
 }
 
-Angle Angle::operator*(Real value) const
+Angle Angle::operator*(double value) const
 {
     return Angle(_radians * value);
 }
 
-Angle Angle::operator/(Real value) const
+Angle Angle::operator/(double value) const
 {
     return Angle(_radians / value);
 }
@@ -99,13 +99,13 @@ Angle& Angle::operator-=(const Angle& a)
     return *this;
 }
 
-Angle& Angle::operator*=(Real value)
+Angle& Angle::operator*=(double value)
 {
     _radians *= value;
     return *this;
 }
 
-Angle& Angle::operator/=(Real value)
+Angle& Angle::operator/=(double value)
 {
     _radians /= value;
     return *this;
@@ -119,7 +119,7 @@ Encoder& operator<<(Encoder& encoder, Angle angle)
 
 Decoder& operator>>(Decoder& decoder, Angle& angle)
 {
-    Real degrees;
+    double degrees;
     decoder >> decodeValue(degrees);
     angle = Angle::fromDegrees(degrees);
     return decoder;

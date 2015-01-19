@@ -65,10 +65,10 @@ public:
     UniformValue(int value);
 
     ///
-    /// Constructs a real uniform value.
+    /// Constructs a floating point uniform value.
     ///
     /// \param value The value.
-    UniformValue(Real value);
+    UniformValue(double value);
 
     ///
     /// Constructs a 2-dimensional vector uniform value.
@@ -119,17 +119,16 @@ public:
     ///
     /// \param value The value.
     ///
-    /// \throws InvalidOperation If the uniform value is not an integer or
-    /// texture.
+    /// \throws InvalidOperation If the uniform value is not an integer.
     void setValue(int value);
 
     ///
-    /// Sets the value of the uniform value as a real number.
+    /// Sets the value of the uniform value as a double.
     ///
     /// \param value The value.
     ///
-    /// \throws InvalidOperation If the uniform value is not a real.
-    void setValue(Real value);
+    /// \throws InvalidOperation If the uniform value is not a floating point.
+    void setValue(double value);
 
     ///
     /// Sets the value of the uniform value as a 2-dimensional vector.
@@ -187,8 +186,8 @@ public:
     int asInt() const;
 
     ///
-    /// Returns the value as a real.
-    Real asReal() const;
+    /// Returns the value as a double.
+    double asDouble() const;
 
     ///
     /// Returns the value as a 2-dimensional vector.

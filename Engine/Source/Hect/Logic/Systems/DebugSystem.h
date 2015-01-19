@@ -78,7 +78,7 @@ public:
     /// with.
     void addRenderCalls(RenderSystem& renderSystem);
 
-    void tick(Engine& engine, Real timeStep) override;
+    void tick(Engine& engine, double timeStep) override;
 
 private:
     void addColoredMaterial(const Color& color);

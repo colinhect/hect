@@ -146,7 +146,7 @@ public:
     /// \param engine The engine.
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    void tick(Engine& engine, Real timeStep);
+    void tick(Engine& engine, double timeStep);
 
     ///
     /// Renders all of the Systems in the scene.

@@ -53,7 +53,7 @@ void InputAxis::addBinding(const InputAxisBinding& binding)
     _bindings.push_back(binding);
 }
 
-void InputAxis::update(Platform& platform, Real timeStepInSeconds)
+void InputAxis::update(Platform& platform, double timeStepInSeconds)
 {
     _value = 0;
     for (InputAxisBinding& binding : _bindings)
@@ -61,10 +61,10 @@ void InputAxis::update(Platform& platform, Real timeStepInSeconds)
         binding.update(platform, timeStepInSeconds);
         _value += binding.value();
     }
-    _value = clamp<Real>(_value, -1, 1);
+    _value = clamp<double>(_value, -1, 1);
 }
 
-Real InputAxis::value() const
+double InputAxis::value() const
 {
     return _value;
 }

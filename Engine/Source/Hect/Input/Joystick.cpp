@@ -50,7 +50,7 @@ bool Joystick::isButtonDown(JoystickButton button) const
     }
 }
 
-Real Joystick::axisValue(JoystickAxis axis) const
+double Joystick::axisValue(JoystickAxis axis) const
 {
     if (axis < _axisStates.size())
     {

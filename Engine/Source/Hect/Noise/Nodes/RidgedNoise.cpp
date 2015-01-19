@@ -30,7 +30,7 @@
 
 using namespace hect;
 
-RidgedNoise::RidgedNoise(RandomSeed seed, Real lacunarity, unsigned octaveCount) :
+RidgedNoise::RidgedNoise(RandomSeed seed, double lacunarity, unsigned octaveCount) :
     _seed(seed),
     _lacunarity(lacunarity),
     _octaveCount(octaveCount)
@@ -49,12 +49,12 @@ void RidgedNoise::setSeed(RandomSeed seed)
     generateOctaves();
 }
 
-Real RidgedNoise::lacunarity() const
+double RidgedNoise::lacunarity() const
 {
     return _lacunarity;
 }
 
-void RidgedNoise::setLacunarity(Real lacunarity)
+void RidgedNoise::setLacunarity(double lacunarity)
 {
     _lacunarity = lacunarity;
     generateOctaves();
@@ -71,10 +71,10 @@ void RidgedNoise::setOctaveCount(unsigned octaveCount)
     generateOctaves();
 }
 
-Real RidgedNoise::compute(const Vector3& point)
+double RidgedNoise::compute(const Vector3& point)
 {
-    Real value = Real(0.0);
-    Real weight = Real(1.0);
+    double value = 0.0;
+    double weight = 1.0;
     Vector3 currentPoint = point;
 
     // For each octave
@@ -82,21 +82,21 @@ Real RidgedNoise::compute(const Vector3& point)
     for (CoherentNoise& noise : _octaveNoise)
     {
         // Compute the coherent noise for this octave
-        Real signal = noise.compute(currentPoint);
+        double signal = noise.compute(currentPoint);
 
         // Adjust the value to be ridged
-        signal = Real(1.0) - std::abs(signal);
+        signal = 1.0 - std::abs(signal);
         signal *= signal;
         signal *= weight;
 
-        weight = signal * Real(2.0);
-        weight = clamp(weight, Real(0.0), Real(1.0));
+        weight = signal * 2.0;
+        weight = clamp(weight, 0.0, 1.0);
 
         value += signal * _octaveWeights[octaveIndex++];
         currentPoint *= _lacunarity;
     }
 
-    return (value * Real(1.25)) - Real(1.0);
+    return value * 1.25 - 1.0;
 }
 
 void RidgedNoise::accept(NoiseTreeVisitor& visitor)
@@ -107,11 +107,11 @@ void RidgedNoise::accept(NoiseTreeVisitor& visitor)
 void RidgedNoise::generateOctaves()
 {
     Random random(_seed + 42);
-    Real frequency = Real(1.0);
+    double frequency = 1.0;
 
     // Create and octave noise and weight vectors
     _octaveNoise = std::vector<CoherentNoise>(_octaveCount);
-    _octaveWeights = std::vector<Real>(_octaveCount);
+    _octaveWeights = std::vector<double>(_octaveCount);
 
     // For each octave
     for (size_t octaveIndex = 0; octaveIndex < _octaveCount; ++octaveIndex)
@@ -120,7 +120,7 @@ void RidgedNoise::generateOctaves()
         _octaveNoise[octaveIndex].setSeed(random.next());
 
         // Compute the weight of this octave
-        _octaveWeights[octaveIndex] = std::pow(frequency, Real(-1.0));
+        _octaveWeights[octaveIndex] = std::pow(frequency, -1.0);
         frequency *= _lacunarity;
     }
 }

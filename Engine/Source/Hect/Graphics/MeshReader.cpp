@@ -43,7 +43,7 @@ bool MeshReader::nextVertex()
     return _mesh.vertexCount() >= _vertexCount;
 }
 
-Real MeshReader::readAttributeReal(VertexAttributeSemantic semantic) const
+double MeshReader::readAttributeDouble(VertexAttributeSemantic semantic) const
 {
     checkVertexBoundary();
 

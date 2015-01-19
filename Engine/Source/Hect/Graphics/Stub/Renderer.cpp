@@ -156,7 +156,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, int value)
     (void)value;
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Real value)
+void Renderer::Frame::setUniform(const Uniform& uniform, double value)
 {
     (void)uniform;
     (void)value;

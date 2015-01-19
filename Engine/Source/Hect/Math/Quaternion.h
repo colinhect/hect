@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Real.h"
 #include "Hect/Math/Angle.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -200,7 +199,7 @@ public:
     T w { 1 };
 };
 
-typedef QuaternionT<Real> Quaternion;
+typedef QuaternionT<double> Quaternion;
 
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const QuaternionT<T>& q);

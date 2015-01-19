@@ -248,7 +248,7 @@ unsigned DataValue::asUnsigned() const
     }
 }
 
-Real DataValue::asReal() const
+double DataValue::asDouble() const
 {
     if (isNumber())
     {
@@ -269,7 +269,7 @@ Vector2 DataValue::asVector2() const
     {
         if (i < 2)
         {
-            result[i++] = component.asReal();
+            result[i++] = component.asDouble();
         }
         else
         {
@@ -289,7 +289,7 @@ Vector3 DataValue::asVector3() const
     {
         if (i < 3)
         {
-            result[i++] = component.asReal();
+            result[i++] = component.asDouble();
         }
         else
         {
@@ -309,7 +309,7 @@ Vector4 DataValue::asVector4() const
     {
         if (i < 4)
         {
-            result[i++] = component.asReal();
+            result[i++] = component.asDouble();
         }
         else
         {
@@ -329,7 +329,7 @@ Matrix4 DataValue::asMatrix4() const
     {
         if (i < 16)
         {
-            result[i++] = component.asReal();
+            result[i++] = component.asDouble();
         }
         else
         {
@@ -349,7 +349,7 @@ Quaternion DataValue::asQuaternion() const
     {
         if (i < 4)
         {
-            result[i++] = component.asReal();
+            result[i++] = component.asDouble();
         }
         else
         {

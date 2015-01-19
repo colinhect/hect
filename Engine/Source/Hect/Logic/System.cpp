@@ -43,7 +43,7 @@ const Scene& System::scene() const
     return _scene;
 }
 
-void System::tick(Engine& engine, Real timeStep)
+void System::tick(Engine& engine, double timeStep)
 {
     (void)engine;
     (void)timeStep;

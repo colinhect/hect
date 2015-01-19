@@ -69,7 +69,7 @@ public:
     /// \param factor The scale factor.
     void setFactor(const Vector3& factor);
 
-    Real compute(const Vector3& point) override;
+    double compute(const Vector3& point) override;
     void accept(NoiseTreeVisitor& visitor) override;
 
 private:

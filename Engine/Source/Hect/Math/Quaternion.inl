@@ -141,7 +141,7 @@ void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, Angle& angle) const
         q.normalize();
 
         axis = Vector3T<T>(q.x, q.y, q.z).normalized();
-        angle = Angle::fromRadians(static_cast<Real>(std::acos(w)) * 2);
+        angle = Angle::fromRadians(static_cast<double>(std::acos(w)) * 2);
     }
 }
 

@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Real.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
 
@@ -43,7 +42,7 @@ public:
     /// \param degrees The angle in degrees.
     ///
     /// \returns The angle.
-    static Angle fromDegrees(Real degrees);
+    static Angle fromDegrees(double degrees);
 
     ///
     /// Constructs an angle from a value in radians.
@@ -51,7 +50,7 @@ public:
     /// \param radians The angle in radians.
     ///
     /// \returns The angle.
-    static Angle fromRadians(Real radians);
+    static Angle fromRadians(double radians);
 
     ///
     /// Constructs a zero-degree angle.
@@ -61,15 +60,15 @@ public:
     /// Constructs an angle.
     ///
     /// \param radians The angle in radians.
-    Angle(Real radians);
+    Angle(double radians);
 
     ///
     /// Returns the value of the angle in degrees.
-    Real degrees() const;
+    double degrees() const;
 
     ///
     /// Returns the value of the angle in radians.
-    Real radians() const;
+    double radians() const;
 
     ///
     /// Returns the sum of the angle and another angle.
@@ -87,13 +86,13 @@ public:
     /// Returns the product of the angle and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    Angle operator*(Real value) const;
+    Angle operator*(double value) const;
 
     ///
     /// Returns the quotient of the angle and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    Angle operator/(Real value) const;
+    Angle operator/(double value) const;
 
     ///
     /// Returns a negated copy of the angle.
@@ -121,7 +120,7 @@ public:
     /// \param value The scalar to multiply by.
     ///
     /// \returns A reference to the angle.
-    Angle& operator*=(Real value);
+    Angle& operator*=(double value);
 
     ///
     /// Divides the angle by a scalar.
@@ -129,10 +128,10 @@ public:
     /// \param value The scalar to divide by.
     ///
     /// \returns A reference to the angle.
-    Angle& operator/=(Real value);
+    Angle& operator/=(double value);
 
 private:
-    Real _radians { 0 };
+    double _radians { 0.0 };
 };
 
 Encoder& operator<<(Encoder& encoder, Angle angle);

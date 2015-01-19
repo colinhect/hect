@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Real.h"
 
 namespace hect
 {
@@ -43,20 +42,20 @@ public:
     /// Constructs a sphere given its radius
     ///
     /// \param radius The radius of the sphere.
-    Sphere(Real radius);
+    Sphere(double radius);
 
     ///
     /// Returns the radius.
-    Real radius() const;
+    double radius() const;
 
     ///
     /// Sets the radius.
     ///
     /// \param radius The new radius.
-    void setRadius(Real radius);
+    void setRadius(double radius);
 
 private:
-    Real _radius { 1 };
+    double _radius { 1 };
 };
 
 }

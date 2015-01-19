@@ -73,7 +73,7 @@ public:
     /// \param node The node.
     void setSecondNode(NoiseNode& node);
 
-    Real compute(const Vector3& point) override;
+    double compute(const Vector3& point) override;
     void accept(NoiseTreeVisitor& visitor) override;
 
 private:

@@ -31,7 +31,7 @@ Color::Color()
 {
 }
 
-Color::Color(Real r, Real g, Real b, Real a) :
+Color::Color(double r, double g, double b, double a) :
     r(r),
     g(g),
     b(b),
@@ -49,7 +49,7 @@ Color Color::operator-(const Color& color) const
     return Color(r - color.r, g - color.g, b - color.b, a - color.a);
 }
 
-Color Color::operator*(Real value) const
+Color Color::operator*(double value) const
 {
     return Color(r * value, g * value, b * value, a * value);
 }
@@ -59,7 +59,7 @@ Color Color::operator*(const Color& color) const
     return Color(r * color.r, g * color.g, b * color.b, a * color.a);
 }
 
-Color Color::operator/(Real value) const
+Color Color::operator/(double value) const
 {
     return Color(r / value, g / value, b / value, a / value);
 }
@@ -92,7 +92,7 @@ Color& Color::operator-=(const Color& color)
     return *this;
 }
 
-Color& Color::operator*=(Real value)
+Color& Color::operator*=(double value)
 {
     r *= value;
     g *= value;
@@ -110,7 +110,7 @@ Color& Color::operator*=(const Color& color)
     return *this;
 }
 
-Color& Color::operator/=(Real value)
+Color& Color::operator/=(double value)
 {
     r /= value;
     g /= value;
@@ -128,16 +128,16 @@ Color& Color::operator/=(const Color& color)
     return *this;
 }
 
-Real& Color::operator[](size_t i)
+double& Color::operator[](size_t i)
 {
     assert(i < 4);
-    return reinterpret_cast<Real*>(this)[i];
+    return reinterpret_cast<double*>(this)[i];
 }
 
-const Real& Color::operator[](size_t i) const
+const double& Color::operator[](size_t i) const
 {
     assert(i < 4);
-    return reinterpret_cast<const Real*>(this)[i];
+    return reinterpret_cast<const double*>(this)[i];
 }
 
 bool Color::operator<(const Color& color) const

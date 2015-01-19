@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Real.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -48,7 +47,7 @@ public:
     /// \param g The green component.
     /// \param b The blue component.
     /// \param a The alpha component.
-    Color(Real r, Real g, Real b, Real a = Real(1.0));
+    Color(double r, double g, double b, double a = 1.0);
 
     ///
     /// Returns the sum of the color and another color.
@@ -66,7 +65,7 @@ public:
     /// Returns the product of the color and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    Color operator*(Real value) const;
+    Color operator*(double value) const;
 
     ///
     /// Returns the product of the color and another color.
@@ -78,7 +77,7 @@ public:
     /// Returns the quotient of the color and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    Color operator/(Real value) const;
+    Color operator/(double value) const;
 
     ///
     /// Returns the quotient of the color and another color.
@@ -112,7 +111,7 @@ public:
     /// \param value The scalar to multiply by.
     ///
     /// \returns A reference to the color.
-    Color& operator*=(Real value);
+    Color& operator*=(double value);
 
     ///
     /// Multiplies the color by another color.
@@ -128,7 +127,7 @@ public:
     /// \param value The scalar to divide by.
     ///
     /// \returns A reference to the color.
-    Color& operator/=(Real value);
+    Color& operator/=(double value);
 
     ///
     /// Divides the color by another color.
@@ -142,13 +141,13 @@ public:
     /// Returns the ith component of the vertex.
     ///
     /// \param i The index of which component to access.
-    Real& operator[](size_t i);
+    double& operator[](size_t i);
 
     ///
     /// Returns a constant reference to the ith component of the vertex.
     ///
     /// \param i The index of which component to access.
-    const Real& operator[](size_t i) const;
+    const double& operator[](size_t i) const;
 
     ///
     /// Returns whether the color is less than another.
@@ -170,19 +169,19 @@ public:
 
     ///
     /// The red component of the color.
-    Real r { 1 };
+    double r { 1.0 };
 
     ///
     /// The green component of the color.
-    Real g { 1 };
+    double g { 1.0 };
 
     ///
     /// The blue component of the color.
-    Real b { 1 };
+    double b { 1.0 };
 
     ///
     /// The alpha component of the color.
-    Real a { 1 };
+    double a { 1.0 };
 };
 
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Color& color);

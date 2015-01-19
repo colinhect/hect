@@ -232,7 +232,7 @@ public:
 
         ///
         /// \copydoc Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, Real value);
+        void setUniform(const Uniform& uniform, double value);
 
         ///
         /// \copydoc Renderer::Frame::setUniform()

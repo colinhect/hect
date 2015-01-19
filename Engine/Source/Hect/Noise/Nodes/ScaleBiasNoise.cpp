@@ -32,7 +32,7 @@ ScaleBiasNoise::ScaleBiasNoise()
 {
 }
 
-ScaleBiasNoise::ScaleBiasNoise(NoiseNode& sourceNode, Real factor, Real bias) :
+ScaleBiasNoise::ScaleBiasNoise(NoiseNode& sourceNode, double factor, double bias) :
     _sourceNode(&sourceNode),
     _factor(factor),
     _bias(bias)
@@ -53,29 +53,29 @@ void ScaleBiasNoise::setSourceNode(NoiseNode& node)
     _sourceNode = &node;
 }
 
-Real ScaleBiasNoise::factor() const
+double ScaleBiasNoise::factor() const
 {
     return _factor;
 }
 
-void ScaleBiasNoise::setFactor(Real factor)
+void ScaleBiasNoise::setFactor(double factor)
 {
     _factor = factor;
 }
 
-Real ScaleBiasNoise::bias() const
+double ScaleBiasNoise::bias() const
 {
     return _bias;
 }
 
-void ScaleBiasNoise::setBias(Real bias)
+void ScaleBiasNoise::setBias(double bias)
 {
     _bias = bias;
 }
 
-Real ScaleBiasNoise::compute(const Vector3& point)
+double ScaleBiasNoise::compute(const Vector3& point)
 {
-    Real value = Real(0.0);
+    double value = 0.0;
     if (_sourceNode)
     {
         value = _sourceNode->compute(point) * _factor + _bias;

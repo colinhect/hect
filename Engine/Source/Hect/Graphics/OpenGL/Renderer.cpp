@@ -409,7 +409,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& val
         setUniform(uniform, value.asInt());
         break;
     case UniformType_Float:
-        setUniform(uniform, value.asReal());
+        setUniform(uniform, value.asDouble());
         break;
     case UniformType_Vector2:
         setUniform(uniform, value.asVector2());
@@ -452,7 +452,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, int value)
     }
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Real value)
+void Renderer::Frame::setUniform(const Uniform& uniform, double value)
 {
     if (uniform.type() != UniformType_Float)
     {

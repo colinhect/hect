@@ -49,7 +49,7 @@ void CoherentNoise::setSeed(RandomSeed seed)
     generatePermuationTable();
 }
 
-Real CoherentNoise::compute(const Vector3& point)
+double CoherentNoise::compute(const Vector3& point)
 {
     // Based on Simplex Noise Demystified (c) 2005 Stefan Gustavson
     // http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
@@ -61,24 +61,24 @@ Real CoherentNoise::compute(const Vector3& point)
         Vector3(0, 1, 1), Vector3(0, -1, 1), Vector3(0, 1, -1), Vector3(0, -1, -1)
     };
 
-    static Real f3 = Real(1.0) / 3;
-    static Real g3 = Real(1.0) / 6;
+    static double f3 = 1.0 / 3.0;
+    static double g3 = 1.0 / 6.0;
 
-    Real x = point.x;
-    Real y = point.y;
-    Real z = point.z;
+    double x = point.x;
+    double y = point.y;
+    double z = point.z;
 
-    Real s = (x + y + z) * f3;
+    double s = (x + y + z) * f3;
     int i = fastFloor(x + s);
     int j = fastFloor(y + s);
     int k = fastFloor(z + s);
-    Real t = (i + j + k) * g3;
-    Real X0 = i - t;
-    Real Y0 = j - t;
-    Real Z0 = k - t;
-    Real x0 = x - X0;
-    Real y0 = y - Y0;
-    Real z0 = z - Z0;
+    double t = (i + j + k) * g3;
+    double X0 = i - t;
+    double Y0 = j - t;
+    double Z0 = k - t;
+    double x0 = x - X0;
+    double y0 = y - Y0;
+    double z0 = z - Z0;
 
     int i1 = 0;
     int j1 = 0;
@@ -129,15 +129,15 @@ Real CoherentNoise::compute(const Vector3& point)
         }
     }
 
-    Real x1 = x0 - i1 + g3;
-    Real y1 = y0 - j1 + g3;
-    Real z1 = z0 - k1 + g3;
-    Real x2 = x0 - i2 + g3 * 2;
-    Real y2 = y0 - j2 + g3 * 2;
-    Real z2 = z0 - k2 + g3 * 2;
-    Real x3 = x0 - Real(1.0) + g3 * 3;
-    Real y3 = y0 - Real(1.0) + g3 * 3;
-    Real z3 = z0 - Real(1.0) + g3 * 3;
+    double x1 = x0 - i1 + g3;
+    double y1 = y0 - j1 + g3;
+    double z1 = z0 - k1 + g3;
+    double x2 = x0 - i2 + g3 * 2.0;
+    double y2 = y0 - j2 + g3 * 2.0;
+    double z2 = z0 - k2 + g3 * 2.0;
+    double x3 = x0 - 1.0 + g3 * 3.0;
+    double y3 = y0 - 1.0 + g3 * 3.0;
+    double z3 = z0 - 1.0 + g3 * 3.0;
 
     int ii = i & 255;
     int jj = j & 255;
@@ -149,39 +149,39 @@ Real CoherentNoise::compute(const Vector3& point)
     int gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]] % 12;
     int gi3 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]] % 12;
 
-    Real n0 = 0;
-    Real t0 = Real(0.5) - x0 * x0 - y0 * y0 - z0 * z0;
+    double n0 = 0;
+    double t0 = 0.5 - x0 * x0 - y0 * y0 - z0 * z0;
     if (t0 >= 0)
     {
         t0 *= t0;
         n0 = t0 * t0 * grad[gi0].dot(Vector3(x0, y0, z0));
     }
 
-    Real n1 = 0;
-    Real t1 = Real(0.5) - x1 * x1 - y1 * y1 - z1 * z1;
+    double n1 = 0;
+    double t1 = 0.5 - x1 * x1 - y1 * y1 - z1 * z1;
     if (t1 >= 0)
     {
         t1 *= t1;
         n1 = t1 * t1 * grad[gi1].dot(Vector3(x1, y1, z1));
     }
 
-    Real n2 = 0;
-    Real t2 = Real(0.5) - x2 * x2 - y2 * y2 - z2 * z2;
+    double n2 = 0;
+    double t2 = 0.5 - x2 * x2 - y2 * y2 - z2 * z2;
     if (t2 >= 0)
     {
         t2 *= t2;
         n2 = t2 * t2 * grad[gi2].dot(Vector3(x2, y2, z2));
     }
 
-    Real n3 = 0;
-    Real t3 = Real(0.5) - x3 * x3 - y3 * y3 - z3 * z3;
+    double n3 = 0;
+    double t3 = 0.5 - x3 * x3 - y3 * y3 - z3 * z3;
     if (t3 >= 0)
     {
         t3 *= t3;
         n3 = t3 * t3 * grad[gi3].dot(Vector3(x3, y3, z3));
     }
 
-    return Real(32.0) * (n0 + n1 + n2 + n3);
+    return 32.0 * (n0 + n1 + n2 + n3);
 }
 
 void CoherentNoise::accept(NoiseTreeVisitor& visitor)
@@ -194,7 +194,7 @@ void CoherentNoise::generatePermuationTable()
     _permutationTable.clear();
 
     // Build permutation table
-    for (size_t i = 0; i < 256; ++i)
+    for (unsigned i = 0; i < 256; ++i)
     {
         _permutationTable.push_back(static_cast<uint8_t>(i));
     }
@@ -207,13 +207,13 @@ void CoherentNoise::generatePermuationTable()
     });
 
     // Extend permutation table to avoid index wrapping
-    for (size_t i = 0; i < 256; ++i)
+    for (unsigned i = 0; i < 256; ++i)
     {
         _permutationTable.push_back(_permutationTable[i]);
     }
 }
 
-int CoherentNoise::fastFloor(Real x) const
+int CoherentNoise::fastFloor(double x) const
 {
     return x > 0 ? static_cast<int>(x) : static_cast<int>(x) - 1;
 }

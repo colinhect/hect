@@ -62,9 +62,9 @@ void ScalePointNoise::setFactor(const Vector3& factor)
     _factor = factor;
 }
 
-Real ScalePointNoise::compute(const Vector3& point)
+double ScalePointNoise::compute(const Vector3& point)
 {
-    Real value = Real(0.0);
+    double value = 0.0;
     if (_sourceNode)
     {
         value = _sourceNode->compute(point * _factor);

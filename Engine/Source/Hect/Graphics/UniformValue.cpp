@@ -45,7 +45,7 @@ UniformValue::UniformValue(int value) :
     setValue(value);
 }
 
-UniformValue::UniformValue(Real value) :
+UniformValue::UniformValue(double value) :
     _type(UniformType_Float)
 {
     setValue(value);
@@ -100,7 +100,7 @@ void UniformValue::setDefaultValue()
         _value = int(0);
         break;
     case UniformType_Float:
-        _value = Real(0);
+        _value = double(0.0);
         break;
     case UniformType_Vector2:
         _value = Vector2();
@@ -133,7 +133,7 @@ void UniformValue::setValue(int value)
     _value = value;
 }
 
-void UniformValue::setValue(Real value)
+void UniformValue::setValue(double value)
 {
     if (_type != UniformType_Float)
     {
@@ -213,14 +213,14 @@ int UniformValue::asInt() const
     return _value.as<int>();
 }
 
-Real UniformValue::asReal() const
+double UniformValue::asDouble() const
 {
     if (_type != UniformType_Float)
     {
         throw InvalidOperation("Uniform value is not of type 'Float'");
     }
 
-    return _value.as<Real>();
+    return _value.as<double>();
 }
 
 Vector2 UniformValue::asVector2() const
@@ -302,7 +302,7 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
     case UniformType_Int:
         return asInt() == uniformValue.asInt();
     case UniformType_Float:
-        return asReal() == uniformValue.asReal();
+        return asDouble() == uniformValue.asDouble();
     case UniformType_Vector2:
         return asVector2() == uniformValue.asVector2();
     case UniformType_Vector3:
@@ -340,7 +340,7 @@ Encoder& operator<<(Encoder& encoder, const UniformValue& uniformValue)
         encoder << encodeValue("value", uniformValue.asInt());
         break;
     case UniformType_Float:
-        encoder << encodeValue("value", uniformValue.asReal());
+        encoder << encodeValue("value", uniformValue.asDouble());
         break;
     case UniformType_Vector2:
         encoder << encodeValue("value", uniformValue.asVector2());
@@ -385,7 +385,7 @@ Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue)
         break;
         case UniformType_Float:
         {
-            Real value;
+            double value;
             decoder >> decodeValue(value);
             uniformValue.setValue(value);
         }

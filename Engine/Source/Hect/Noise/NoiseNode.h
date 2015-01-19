@@ -44,7 +44,7 @@ public:
     /// \param point The 3-dimensional point to compute.
     ///
     /// \returns The value resulting from the computation.
-    virtual Real compute(const Vector3& point) = 0;
+    virtual double compute(const Vector3& point) = 0;
 
     ///
     /// Accepts a visitor, invoking the NoiseTreeVisitor::visit() function
