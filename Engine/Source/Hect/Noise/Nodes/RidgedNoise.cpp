@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "RidgedNoise.h"
 
-#include "Hect/Math/Utilities.h"
 #include "Hect/Noise/NoiseTree.h"
 #include "Hect/Noise/NoiseTreeVisitor.h"
 #include "Hect/Noise/Random.h"
@@ -90,7 +89,7 @@ double RidgedNoise::compute(const Vector3& point)
         signal *= weight;
 
         weight = signal * 2.0;
-        weight = clamp(weight, 0.0, 1.0);
+        weight = std::max(0.0, std::min(weight, 1.0));
 
         value += signal * _octaveWeights[octaveIndex++];
         currentPoint *= _lacunarity;

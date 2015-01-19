@@ -117,7 +117,6 @@ namespace hect {}
 #include "Hect/Math/Constants.h"
 #include "Hect/Math/Matrix4.h"
 #include "Hect/Math/Quaternion.h"
-#include "Hect/Math/Utilities.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"

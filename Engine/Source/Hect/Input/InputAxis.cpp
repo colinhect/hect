@@ -25,8 +25,6 @@
 
 #include <algorithm>
 
-#include "Hect/Math/Utilities.h"
-
 using namespace hect;
 
 InputAxis::InputAxis()
@@ -61,7 +59,7 @@ void InputAxis::update(Platform& platform, double timeStepInSeconds)
         binding.update(platform, timeStepInSeconds);
         _value += binding.value();
     }
-    _value = clamp<double>(_value, -1, 1);
+    _value = std::max(-1.0, std::min(_value, 1.0));
 }
 
 double InputAxis::value() const

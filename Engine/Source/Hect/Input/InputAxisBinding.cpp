@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputAxisBinding.h"
 
-#include "Hect/Math/Utilities.h"
 #include "Hect/Runtime/Platform.h"
 
 using namespace hect;
@@ -107,7 +106,7 @@ void InputAxisBinding::update(Platform& platform, double timeStep)
                 }
 
                 // Interpolate between the range using the delta
-                _value = interpolate(range.x, range.y, delta);
+                _value = (1 - delta) * range.x + delta * range.y;
             }
         }
     }
@@ -131,7 +130,7 @@ void InputAxisBinding::update(Platform& platform, double timeStep)
     }
 
     // Clamp within the effective range
-    _value = clamp(_value, range.x, range.y);
+    _value = std::max(range.x, std::min(_value, range.y));
 }
 
 double InputAxisBinding::value() const
