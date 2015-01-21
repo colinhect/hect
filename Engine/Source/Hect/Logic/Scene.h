@@ -143,17 +143,15 @@ public:
     ///
     /// Ticks all of the Systems in the scene.
     ///
-    /// \param engine The engine.
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    void tick(Engine& engine, double timeStep);
+    void tick(double timeStep);
 
     ///
     /// Renders all of the Systems in the scene.
     ///
-    /// \param engine The engine.
     /// \param target The target to render to.
-    void render(Engine& engine, RenderTarget& target);
+    void render(RenderTarget& target);
 
     ///
     /// Creates a new Entity.

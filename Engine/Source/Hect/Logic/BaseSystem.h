@@ -34,7 +34,6 @@
 namespace hect
 {
 
-class Engine;
 class RenderTarget;
 class Scene;
 
@@ -66,17 +65,15 @@ public:
     ///
     /// Performs a single tick of simulation for the system.
     ///
-    /// \param engine The engine.
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    virtual void tick(Engine& engine, double timeStep);
+    virtual void tick(double timeStep);
 
     ///
     /// Renders the current state of the system to a target.
     ///
-    /// \param engine The engine.
     /// \param target The target to render to.
-    virtual void render(Engine& engine, RenderTarget& target);
+    virtual void render(RenderTarget& target);
 
     ///
     /// Gets the scene that the system affects.

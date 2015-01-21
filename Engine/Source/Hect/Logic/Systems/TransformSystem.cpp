@@ -29,9 +29,8 @@
 using namespace hect;
 
 TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Subsequent)
+    System(engine, scene, SystemTickStage_Subsequent)
 {
-    (void)engine;
 }
 
 void TransformSystem::commit(Transform& transform)
@@ -68,9 +67,8 @@ void TransformSystem::update(Transform& transform)
     boundingBoxSystem.updateRecursively(entity);
 }
 
-void TransformSystem::tick(Engine& engine, double timeStep)
+void TransformSystem::tick(double timeStep)
 {
-    (void)engine;
     (void)timeStep;
 
     // Update all committed transforms

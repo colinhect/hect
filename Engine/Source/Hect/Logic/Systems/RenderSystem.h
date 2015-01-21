@@ -59,7 +59,7 @@ public:
     void addRenderCall(Transform& transform, Mesh& mesh, Material& material);
 
     void initialize() override;
-    void render(Engine& engine, RenderTarget& target) override;
+    void render(RenderTarget& target) override;
 
 private:
     void prepareFrame(Camera& camera, Scene& scene, RenderTarget& target);

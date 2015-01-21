@@ -36,7 +36,7 @@
 using namespace hect;
 
 RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Subsequent),
+    System(engine, scene, SystemTickStage_Subsequent),
     _renderer(&engine.renderer()),
     _taskPool(&engine.taskPool()),
     _buffersInitialized(false)
@@ -81,10 +81,8 @@ void RenderSystem::initialize()
     }
 }
 
-void RenderSystem::render(Engine& engine, RenderTarget& target)
+void RenderSystem::render(RenderTarget& target)
 {
-    (void)engine;
-
     CameraSystem& cameraSystem = scene().system<CameraSystem>();
     Camera::Iterator camera = cameraSystem.activeCamera();
     if (camera)

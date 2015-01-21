@@ -29,9 +29,8 @@
 using namespace hect;
 
 CameraSystem::CameraSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Subsequent)
+    System(engine, scene, SystemTickStage_Subsequent)
 {
-    (void)engine;
 }
 
 Camera::Iterator CameraSystem::activeCamera()
@@ -70,9 +69,8 @@ void CameraSystem::update(Camera& camera)
     }
 }
 
-void CameraSystem::tick(Engine& engine, double timeStep)
+void CameraSystem::tick(double timeStep)
 {
-    (void)engine;
     (void)timeStep;
 
     for (Camera& camera : scene().components<Camera>())

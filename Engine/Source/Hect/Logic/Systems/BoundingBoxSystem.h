@@ -47,7 +47,7 @@ public:
     /// \param boundingBox The bounding box to update.
     void update(BoundingBox& boundingBox);
 
-    void tick(Engine& engine, double timeStep) override;
+    void tick(double timeStep) override;
     void onComponentAdded(BoundingBox::Iterator boundingBox) override;
 
 private:

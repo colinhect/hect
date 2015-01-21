@@ -66,7 +66,7 @@ public:
     /// \param rigidBody The rigid body to commit.
     void commit(RigidBody& rigidBody);
 
-    void tick(Engine& engine, double timeStep) override;
+    void tick(double timeStep) override;
     void onComponentAdded(RigidBody::Iterator rigidBody) override;
     void onComponentRemoved(RigidBody::Iterator rigidBody) override;
 

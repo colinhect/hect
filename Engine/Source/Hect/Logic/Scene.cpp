@@ -82,7 +82,7 @@ void Scene::refresh()
     _refreshing = false;
 }
 
-void Scene::tick(Engine& engine, double timeStep)
+void Scene::tick(double timeStep)
 {
     refresh();
 
@@ -91,19 +91,19 @@ void Scene::tick(Engine& engine, double timeStep)
     {
         for (SystemTypeId typeId : tickStage)
         {
-            _systems[typeId]->tick(engine, timeStep);
+            _systems[typeId]->tick(timeStep);
         }
     }
 }
 
-void Scene::render(Engine& engine, RenderTarget& target)
+void Scene::render(RenderTarget& target)
 {
     // Render all stages in order
     for (std::vector<SystemTypeId>& tickStage : _tickStages)
     {
         for (SystemTypeId typeId : tickStage)
         {
-            _systems[typeId]->render(engine, target);
+            _systems[typeId]->render(target);
         }
     }
 }

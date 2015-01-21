@@ -53,7 +53,7 @@ public:
     /// \param transform The transform to update.
     void update(Transform& transform);
 
-    void tick(Engine& engine, double timeStep) override;
+    void tick(double timeStep) override;
     void onComponentAdded(Transform::Iterator transform) override;
 
 private:

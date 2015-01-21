@@ -47,15 +47,13 @@ void BaseSystem::initialize()
 {
 }
 
-void BaseSystem::tick(Engine& engine, double timeStep)
+void BaseSystem::tick(double timeStep)
 {
-    (void)engine;
     (void)timeStep;
 }
 
-void BaseSystem::render(Engine& engine, RenderTarget& target)
+void BaseSystem::render(RenderTarget& target)
 {
-    (void)engine;
     (void)target;
 }
 

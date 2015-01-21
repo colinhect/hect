@@ -56,7 +56,7 @@ public:
     /// \param camera The camera to update.
     void update(Camera& camera);
 
-    void tick(Engine& engine, double timeStep) override;
+    void tick(double timeStep) override;
     void onComponentAdded(Camera::Iterator camera) override;
 
 private:

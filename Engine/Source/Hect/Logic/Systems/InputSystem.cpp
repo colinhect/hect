@@ -30,7 +30,8 @@
 using namespace hect;
 
 InputSystem::InputSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Precedent)
+    System(engine, scene, SystemTickStage_Precedent),
+    _platform(engine.platform())
 {
     for (const DataValue& axisValue : engine.settings()["inputAxes"])
     {
@@ -90,11 +91,11 @@ double InputSystem::axisValue(const char* name) const
     return 0;
 }
 
-void InputSystem::tick(Engine& engine, double timeStep)
+void InputSystem::tick(double timeStep)
 {
     // Update each axis
     for (InputAxis& axis : _axes)
     {
-        axis.update(engine.platform(), timeStep);
+        axis.update(_platform, timeStep);
     }
 }

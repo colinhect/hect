@@ -21,14 +21,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include "Hect/Runtime/Engine.h"
 namespace hect
 {
 
 template <typename... ComponentTypes>
-System<ComponentTypes...>::System(Scene& scene, SystemTickStage tickStage) :
+System<ComponentTypes...>::System(Engine& engine, Scene& scene, SystemTickStage tickStage) :
     ComponentListener<ComponentTypes>(scene)...,
     BaseSystem(scene, tickStage)
 {
+    (void)engine;
 }
 
 }

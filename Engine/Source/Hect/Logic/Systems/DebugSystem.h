@@ -79,7 +79,7 @@ public:
     void addRenderCalls(RenderSystem& renderSystem);
 
     void initialize() override;
-    void tick(Engine& engine, double timeStep) override;
+    void tick(double timeStep) override;
 
 private:
     void addColoredMaterial(const Color& color);

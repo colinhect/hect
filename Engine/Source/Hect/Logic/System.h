@@ -28,6 +28,7 @@
 namespace hect
 {
 
+class Engine;
 
 ///
 /// A system affecting entities within a scene.
@@ -41,9 +42,10 @@ public:
     ///
     /// Constructs a system.
     ///
+    /// \param engine The engine.
     /// \param scene The scene that the system exists in.
     /// \param tickStage The stage to tick the system in.
-    System(Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
+    System(Engine& engine, Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
 
     virtual ~System() { }
 };

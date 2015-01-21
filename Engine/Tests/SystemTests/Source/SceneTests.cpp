@@ -101,9 +101,8 @@ public:
         (void)engine;
     }
 
-    void tick(Engine& engine, double timeStep) override
+    void tick(double timeStep) override
     {
-        (void)engine;
         (void)timeStep;
     }
 
@@ -137,14 +136,13 @@ public:
     std::string value;
 
     TestSystemB(Engine& engine, Scene& scene) :
-        System(scene)
+        System(engine, scene)
     {
         (void)engine;
     }
 
-    void tick(Engine& engine, double timeStep) override
+    void tick(double timeStep) override
     {
-        (void)engine;
         (void)timeStep;
     }
 

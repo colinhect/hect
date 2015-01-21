@@ -117,7 +117,7 @@ Transform convertFromBullet(const btTransform& t)
 }
 
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Subsequent),
+    System(engine, scene, SystemTickStage_Subsequent),
     gravity(Vector3::zero()),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
@@ -125,7 +125,6 @@ PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
     _solver(new btSequentialImpulseConstraintSolver()),
     _world(new btDiscreteDynamicsWorld(_dispatcher.get(), _broadphase.get(), _solver.get(), _configuration.get()))
 {
-    (void)engine;
 }
 
 void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition)
@@ -139,10 +138,8 @@ void PhysicsSystem::commit(RigidBody& rigidBody)
     rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
 }
 
-void PhysicsSystem::tick(Engine& engine, double timeStep)
+void PhysicsSystem::tick(double timeStep)
 {
-    (void)engine;
-
     TransformSystem& transformSystem = scene().system<TransformSystem>();
 
     // Update gravity if needed

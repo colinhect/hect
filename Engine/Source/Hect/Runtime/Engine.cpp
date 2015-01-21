@@ -139,13 +139,13 @@ int Engine::main()
 
             while (active && accumulator.microseconds() >= timeStepMicroseconds)
             {
-                scene.tick(*this, timeStepSeconds);
+                scene.tick(timeStepSeconds);
 
                 delta = TimeSpan();
                 accumulator -= timeStep;
             }
 
-            scene.render(*this, *_window);
+            scene.render(*_window);
             _window->swapBuffers();
         }
     }

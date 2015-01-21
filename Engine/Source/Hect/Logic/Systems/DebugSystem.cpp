@@ -28,7 +28,7 @@
 using namespace hect;
 
 DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Precedent),
+    System(engine, scene, SystemTickStage_Precedent),
     _renderer(engine.renderer())
 {
     AssetCache& assetCache = engine.assetCache();
@@ -60,9 +60,8 @@ void DebugSystem::initialize()
     _renderer.uploadMesh(*_boxMesh);
 }
 
-void DebugSystem::tick(Engine& engine, double timeStep)
+void DebugSystem::tick(double timeStep)
 {
-    (void)engine;
     (void)timeStep;
     _boxes.clear();
 }

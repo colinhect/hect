@@ -31,9 +31,8 @@
 using namespace hect;
 
 BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Subsequent)
+    System(engine, scene, SystemTickStage_Subsequent)
 {
-    (void)engine;
 }
 
 void BoundingBoxSystem::update(BoundingBox& boundingBox)
@@ -41,9 +40,8 @@ void BoundingBoxSystem::update(BoundingBox& boundingBox)
     updateRecursively(*boundingBox.entity()->root());
 }
 
-void BoundingBoxSystem::tick(Engine& engine, double timeStep)
+void BoundingBoxSystem::tick(double timeStep)
 {
-    (void)engine;
     (void)timeStep;
 
     // If the scene has a debug system
