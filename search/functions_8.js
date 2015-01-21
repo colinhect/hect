@@ -2,11 +2,13 @@ var searchData=
 [
   ['id',['id',['../classhect_1_1_component.html#a18587ae5ec67b3d34d9371d3ae11f98f',1,'hect::Component::id()'],['../classhect_1_1_entity.html#a698648f0632b7e4840873625b45e1fd7',1,'hect::Entity::id()'],['../classhect_1_1_peer.html#a7162a1797fcc58236705e046accc5158',1,'hect::Peer::id()']]],
   ['idpool',['IdPool',['../classhect_1_1_id_pool.html#aaaed5808ff5808ae8744d233ef556cbc',1,'hect::IdPool']]],
+  ['image',['Image',['../classhect_1_1_image.html#ae697ff8a97205b57379b54cde50b3b29',1,'hect::Image::Image()'],['../classhect_1_1_image.html#abfb563ccce161f5f19d94f0dfbb8a600',1,'hect::Image::Image(unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat)']]],
   ['index',['index',['../classhect_1_1_uniform.html#a693439008047855845118d551cb702c7',1,'hect::Uniform']]],
   ['indexcount',['indexCount',['../classhect_1_1_mesh.html#ac39cf95cd13a1dc6b53838e49388a711',1,'hect::Mesh']]],
   ['indexdata',['indexData',['../classhect_1_1_mesh.html#a3566568197cd3adeefa3aeb5e42b121b',1,'hect::Mesh']]],
   ['indexsize',['indexSize',['../classhect_1_1_mesh.html#a25047b672790597842b73700b862b35a',1,'hect::Mesh']]],
   ['indextype',['indexType',['../classhect_1_1_mesh.html#ae65ad5790dbbe22b5a755a255ea08507',1,'hect::Mesh']]],
+  ['initialize',['initialize',['../classhect_1_1_base_system.html#af6dfdab35fb01dedeae5c9537ae4a2a3',1,'hect::BaseSystem::initialize()'],['../classhect_1_1_debug_system.html#a1c49149226b4a254df518b0c671a046d',1,'hect::DebugSystem::initialize()'],['../classhect_1_1_render_system.html#a69d162201afaeefbf579954059ba9096',1,'hect::RenderSystem::initialize()']]],
   ['inputaxis',['InputAxis',['../classhect_1_1_input_axis.html#ae84876ca06e8b739ba76da8381bbb38e',1,'hect::InputAxis::InputAxis()'],['../classhect_1_1_input_axis.html#ac6dc75513fd9128d3235f069f04643e9',1,'hect::InputAxis::InputAxis(const std::string &amp;name)']]],
   ['invalidate',['invalidate',['../classhect_1_1_renderer_1_1_data.html#a6e799468da825fed16ef2e6b8c1fd4f0',1,'hect::Renderer::Data']]],
   ['invalidoperation',['InvalidOperation',['../classhect_1_1_invalid_operation.html#a4c11ee9e19a5b6e35dcfd6756e2bf116',1,'hect::InvalidOperation::InvalidOperation()'],['../classhect_1_1_invalid_operation.html#a920d1a6b0701abcbf8eaa3339e3b5a5f',1,'hect::InvalidOperation::InvalidOperation(const std::string &amp;message)']]],

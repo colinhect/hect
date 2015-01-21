@@ -1,7 +1,7 @@
 var searchData=
 [
   ['handle',['Handle',['../classhect_1_1_task_1_1_handle.html',1,'hect::Task']]],
-  ['handle',['Handle',['../classhect_1_1_entity.html#a62a50d0a3f240027ef2ce6bf24dd8303',1,'hect::Entity::Handle()'],['../classhect_1_1_task_1_1_handle.html#a8a8ec56021680f1c92a0387ffddba199',1,'hect::Task::Handle::Handle()']]],
+  ['handle',['Handle',['../classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1',1,'hect::Asset::Handle()'],['../classhect_1_1_entity.html#a62a50d0a3f240027ef2ce6bf24dd8303',1,'hect::Entity::Handle()'],['../classhect_1_1_task_1_1_handle.html#a8a8ec56021680f1c92a0387ffddba199',1,'hect::Task::Handle::Handle()']]],
   ['handleevents',['handleEvents',['../classhect_1_1_platform.html#a9c96d8f0dd549dfebff32ab4b9733362',1,'hect::Platform']]],
   ['hasattributewithsemantic',['hasAttributeWithSemantic',['../classhect_1_1_vertex_layout.html#a3d99be2ea68bd45eaebf00f8ab12b96f',1,'hect::VertexLayout']]],
   ['hascomponenttype',['hasComponentType',['../classhect_1_1_scene.html#a986ac0fa2e9a2ef1a205f03a1283db9d',1,'hect::Scene']]],

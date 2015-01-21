@@ -152,12 +152,12 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ac73d0d3c117ea3f3fa376ea90981a1ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#ac73d0d3c117ea3f3fa376ea90981a1ba">refresh</a> ()</td></tr>
 <tr class="memdesc:ac73d0d3c117ea3f3fa376ea90981a1ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates entities pending creation, activates entities pending activation, and destroys entities pending destruction.  <a href="#ac73d0d3c117ea3f3fa376ea90981a1ba">More...</a><br /></td></tr>
 <tr class="separator:ac73d0d3c117ea3f3fa376ea90981a1ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afae165a1092d67d013846bb293b49cd5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#afae165a1092d67d013846bb293b49cd5">tick</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep)</td></tr>
-<tr class="memdesc:afae165a1092d67d013846bb293b49cd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ticks all of the Systems in the scene.  <a href="#afae165a1092d67d013846bb293b49cd5">More...</a><br /></td></tr>
-<tr class="separator:afae165a1092d67d013846bb293b49cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb6119fca362b2b625ea5f8b8dd10c89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#adb6119fca362b2b625ea5f8b8dd10c89">render</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
-<tr class="memdesc:adb6119fca362b2b625ea5f8b8dd10c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders all of the Systems in the scene.  <a href="#adb6119fca362b2b625ea5f8b8dd10c89">More...</a><br /></td></tr>
-<tr class="separator:adb6119fca362b2b625ea5f8b8dd10c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b58b034cf23defbc0c20b57f8af024f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#a2b58b034cf23defbc0c20b57f8af024f">tick</a> (double timeStep)</td></tr>
+<tr class="memdesc:a2b58b034cf23defbc0c20b57f8af024f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ticks all of the Systems in the scene.  <a href="#a2b58b034cf23defbc0c20b57f8af024f">More...</a><br /></td></tr>
+<tr class="separator:a2b58b034cf23defbc0c20b57f8af024f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad20b09cbf9e2a2b4b227ede9dd097b7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#ad20b09cbf9e2a2b4b227ede9dd097b7e">render</a> (<a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
+<tr class="memdesc:ad20b09cbf9e2a2b4b227ede9dd097b7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders all of the Systems in the scene.  <a href="#ad20b09cbf9e2a2b4b227ede9dd097b7e">More...</a><br /></td></tr>
+<tr class="separator:ad20b09cbf9e2a2b4b227ede9dd097b7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1616bee1fe149b3e271a204a6c507c88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_entity.html#a5b1ed1ba26789bfdc0e04b33312f53c0">Entity::Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_scene.html#a1616bee1fe149b3e271a204a6c507c88">createEntity</a> ()</td></tr>
 <tr class="memdesc:a1616bee1fe149b3e271a204a6c507c88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="classhect_1_1_entity.html" title="A dynamic object in a Scene. ">Entity</a>.  <a href="#a1616bee1fe149b3e271a204a6c507c88">More...</a><br /></td></tr>
 <tr class="separator:a1616bee1fe149b3e271a204a6c507c88"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,6 +193,12 @@ const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a cl
 <tr class="memitem:a4b1aa4d7980c4f5b99c3ea49ee0090ee inherit pub_methods_classhect_1_1_asset"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; <a class="el" href="classhect_1_1_scene.html">Scene</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a4b1aa4d7980c4f5b99c3ea49ee0090ee">createHandle</a> ()</td></tr>
 <tr class="memdesc:a4b1aa4d7980c4f5b99c3ea49ee0090ee inherit pub_methods_classhect_1_1_asset"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an unowned handle to the asset.  <a href="#a4b1aa4d7980c4f5b99c3ea49ee0090ee">More...</a><br /></td></tr>
 <tr class="separator:a4b1aa4d7980c4f5b99c3ea49ee0090ee inherit pub_methods_classhect_1_1_asset"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classhect_1_1_asset"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classhect_1_1_asset')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classhect_1_1_asset.html">hect::Asset&lt; Scene &gt;</a></td></tr>
+<tr class="memitem:a700e0df0c7cd2b91bc1be458c68d34e1 inherit pub_types_classhect_1_1_asset"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; <a class="el" href="classhect_1_1_scene.html">Scene</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Handle</a></td></tr>
+<tr class="separator:a700e0df0c7cd2b91bc1be458c68d34e1 inherit pub_types_classhect_1_1_asset"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A dynamic collection of <a class="el" href="classhect_1_1_entity.html">Entities </a>, <a class="el" href="classhect_1_1_component.html" title="A component of an Entity. ">Component</a>s, and <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a>s. </p>
@@ -406,7 +412,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Creates entities pending creation, activates entities pending activation, and destroys entities pending destruction. </p>
-<dl class="section note"><dt>Note</dt><dd>This is always called at the beginning of <a class="el" href="classhect_1_1_scene.html#afae165a1092d67d013846bb293b49cd5" title="Ticks all of the Systems in the scene. ">Scene::tick()</a>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This is always called at the beginning of <a class="el" href="classhect_1_1_scene.html#a2b58b034cf23defbc0c20b57f8af024f" title="Ticks all of the Systems in the scene. ">Scene::tick()</a>. </dd></dl>
 
 </div>
 </div>
@@ -436,26 +442,16 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="adb6119fca362b2b625ea5f8b8dd10c89"></a>
+<a class="anchor" id="ad20b09cbf9e2a2b4b227ede9dd097b7e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void hect::Scene::render </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
-          <td class="paramname"><em>engine</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;&#160;</td>
-          <td class="paramname"><em>target</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>target</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -463,7 +459,6 @@ template&lt;typename T &gt; </div>
 <p>Renders all of the Systems in the scene. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">engine</td><td>The engine. </td></tr>
     <tr><td class="paramname">target</td><td>The target to render to. </td></tr>
   </table>
   </dd>
@@ -496,26 +491,16 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="afae165a1092d67d013846bb293b49cd5"></a>
+<a class="anchor" id="a2b58b034cf23defbc0c20b57f8af024f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void hect::Scene::tick </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
-          <td class="paramname"><em>engine</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>timeStep</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
-          <td class="paramname"><em>timeStep</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -523,7 +508,6 @@ template&lt;typename T &gt; </div>
 <p>Ticks all of the Systems in the scene. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">engine</td><td>The engine. </td></tr>
     <tr><td class="paramname">timeStep</td><td>The duration of time in seconds for the tick to simulate. </td></tr>
   </table>
   </dd>
@@ -534,7 +518,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

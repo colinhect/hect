@@ -127,9 +127,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classhect_1_1_material.html">Material</a>(<span class="keyword">const</span> std::string&amp; name);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;Shader&gt;</a>&amp; shader() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> <a class="code" href="classhect_1_1_asset_handle.html">Shader::Handle</a>&amp; shader() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> setShader(<span class="keyword">const</span> <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;Shader&gt;</a>&amp; shader);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> setShader(<span class="keyword">const</span> <a class="code" href="classhect_1_1_asset_handle.html">Shader::Handle</a>&amp; shader);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="classhect_1_1_sequence.html">UniformValueSequence</a> uniformValues();</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
@@ -151,7 +151,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">friend</span> HECT_EXPORT <a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; operator&gt;&gt;(<a class="code" href="classhect_1_1_decoder.html">Decoder</a>&amp; decoder, <a class="code" href="classhect_1_1_material.html">Material</a>&amp; material);</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;Shader&gt;</a> _shader;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html">Shader::Handle</a> _shader;</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    UniformValueContainer _uniformValues;</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <a class="code" href="namespacehect.html#a07f97e784396e194a5eabcd5a328b35e">CullMode</a> _cullMode { <a class="code" href="namespacehect.html#a07f97e784396e194a5eabcd5a328b35ea10431da2f6906f17e494fe0de1d74ca0">CullMode_CounterClockwise</a> };</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;};</div>
@@ -160,17 +160,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classhect_1_1_encoder_html"><div class="ttname"><a href="classhect_1_1_encoder.html">hect::Encoder</a></div><div class="ttdoc">Provides access for encoding structured data to a persistent format. </div><div class="ttdef"><b>Definition:</b> Encoder.h:37</div></div>
 <div class="ttc" id="classhect_1_1_decoder_html"><div class="ttname"><a href="classhect_1_1_decoder.html">hect::Decoder</a></div><div class="ttdoc">Provides access for decoding structured data from a persistent format. </div><div class="ttdef"><b>Definition:</b> Decoder.h:39</div></div>
 <div class="ttc" id="namespacehect_html_a07f97e784396e194a5eabcd5a328b35e"><div class="ttname"><a href="namespacehect.html#a07f97e784396e194a5eabcd5a328b35e">hect::CullMode</a></div><div class="ttdeci">CullMode</div><div class="ttdoc">Specifies the orientation of front-facing triangles. </div><div class="ttdef"><b>Definition:</b> CullMode.h:31</div></div>
-<div class="ttc" id="classhect_1_1_asset_handle_html"><div class="ttname"><a href="classhect_1_1_asset_handle.html">hect::AssetHandle</a></div><div class="ttdoc">A reference-counted handle for an Asset. </div><div class="ttdef"><b>Definition:</b> AssetHandle.h:44</div></div>
+<div class="ttc" id="classhect_1_1_asset_handle_html"><div class="ttname"><a href="classhect_1_1_asset_handle.html">hect::AssetHandle</a></div><div class="ttdoc">A reference-counted handle for an Asset. </div><div class="ttdef"><b>Definition:</b> AssetHandle.h:46</div></div>
 <div class="ttc" id="classhect_1_1_material_html_a2dfb61bcbbdd57e31986409109ade61c"><div class="ttname"><a href="classhect_1_1_material.html#a2dfb61bcbbdd57e31986409109ade61c">hect::Material::UniformValueSequence</a></div><div class="ttdeci">Sequence&lt; UniformValue, UniformValueContainer &gt; UniformValueSequence</div><div class="ttdoc">A sequence of uniform values. </div><div class="ttdef"><b>Definition:</b> Material.h:45</div></div>
 <div class="ttc" id="classhect_1_1_asset_html"><div class="ttname"><a href="classhect_1_1_asset.html">hect::Asset</a></div><div class="ttdoc">Inheriting from this allows for caching/loading using an AssetCache. </div><div class="ttdef"><b>Definition:</b> Asset.h:36</div></div>
 <div class="ttc" id="namespacehect_html_a07f97e784396e194a5eabcd5a328b35ea10431da2f6906f17e494fe0de1d74ca0"><div class="ttname"><a href="namespacehect.html#a07f97e784396e194a5eabcd5a328b35ea10431da2f6906f17e494fe0de1d74ca0">hect::CullMode_CounterClockwise</a></div><div class="ttdoc">Triangles are rendered in counter-clockwise order and the back-faces are culled (default). </div><div class="ttdef"><b>Definition:</b> CullMode.h:36</div></div>
-<div class="ttc" id="classhect_1_1_uniform_value_html"><div class="ttname"><a href="classhect_1_1_uniform_value.html">hect::UniformValue</a></div><div class="ttdoc">A value for a uniform. </div><div class="ttdef"><b>Definition:</b> UniformValue.h:47</div></div>
+<div class="ttc" id="classhect_1_1_uniform_value_html"><div class="ttname"><a href="classhect_1_1_uniform_value.html">hect::UniformValue</a></div><div class="ttdoc">A value for a uniform. </div><div class="ttdef"><b>Definition:</b> UniformValue.h:48</div></div>
 <div class="ttc" id="classhect_1_1_material_html"><div class="ttname"><a href="classhect_1_1_material.html">hect::Material</a></div><div class="ttdoc">Describes how a surface is rendered within the render flow. </div><div class="ttdef"><b>Definition:</b> Material.h:37</div></div>
 <div class="ttc" id="classhect_1_1_sequence_html"><div class="ttname"><a href="classhect_1_1_sequence.html">hect::Sequence</a></div><div class="ttdoc">A wrapper around an STL container providing iteration access without providing the ability to modify ...</div><div class="ttdef"><b>Definition:</b> Sequence.h:37</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:41 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

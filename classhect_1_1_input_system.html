@@ -105,8 +105,11 @@ Inheritance diagram for hect::InputSystem:</div>
  <div class="center">
   <img src="classhect_1_1_input_system.png" usemap="#hect::InputSystem_map" alt=""/>
   <map id="hect::InputSystem_map" name="hect::InputSystem_map">
-<area href="classhect_1_1_system.html" title="A system affecting entities within a scene. " alt="hect::System" shape="rect" coords="0,56,109,80"/>
-<area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="0,0,109,24"/>
+<area href="classhect_1_1_system.html" alt="hect::System&lt;&gt;" shape="rect" coords="168,112,495,136"/>
+<area href="classhect_1_1_component_listener.html" alt="hect::ComponentListener&lt; ComponentTypes &gt;" shape="rect" coords="0,56,327,80"/>
+<area href="classhect_1_1_base_system.html" title="Abstract base for System. " alt="hect::BaseSystem" shape="rect" coords="337,56,664,80"/>
+<area href="classhect_1_1_listener.html" alt="hect::Listener&lt; ComponentEvent&lt; ComponentTypes &gt; &gt;" shape="rect" coords="0,0,327,24"/>
+<area href="classhect_1_1_uncopyable.html" title="Inheriting from this class makes object instances of the class uncopyable. " alt="hect::Uncopyable" shape="rect" coords="337,0,664,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -115,40 +118,62 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8972fe66cd7bed60c8a935dc4012a586"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#a8972fe66cd7bed60c8a935dc4012a586">addAxis</a> (const <a class="el" href="classhect_1_1_input_axis.html">InputAxis</a> &amp;axis)</td></tr>
 <tr class="memdesc:a8972fe66cd7bed60c8a935dc4012a586"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an axis.  <a href="#a8972fe66cd7bed60c8a935dc4012a586">More...</a><br /></td></tr>
 <tr class="separator:a8972fe66cd7bed60c8a935dc4012a586"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab78e531c8ba6adc326ad586db2ec96df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#ab78e531c8ba6adc326ad586db2ec96df">axisValue</a> (const std::string &amp;name) const </td></tr>
-<tr class="memdesc:ab78e531c8ba6adc326ad586db2ec96df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the axis with the given name.  <a href="#ab78e531c8ba6adc326ad586db2ec96df">More...</a><br /></td></tr>
-<tr class="separator:ab78e531c8ba6adc326ad586db2ec96df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52992d2c8c4fca27ea30df96e93f74d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#a52992d2c8c4fca27ea30df96e93f74d8">axisValue</a> (const char *name) const </td></tr>
-<tr class="memdesc:a52992d2c8c4fca27ea30df96e93f74d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the axis with the given name.  <a href="#a52992d2c8c4fca27ea30df96e93f74d8">More...</a><br /></td></tr>
-<tr class="separator:a52992d2c8c4fca27ea30df96e93f74d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c73f15ee7d2e02746259b3deb83b33d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#a7c73f15ee7d2e02746259b3deb83b33d">tick</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> timeStep) override</td></tr>
-<tr class="memdesc:a7c73f15ee7d2e02746259b3deb83b33d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#a7c73f15ee7d2e02746259b3deb83b33d">More...</a><br /></td></tr>
-<tr class="separator:a7c73f15ee7d2e02746259b3deb83b33d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classhect_1_1_system"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhect_1_1_system')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhect_1_1_system.html">hect::System</a></td></tr>
-<tr class="memitem:a3e801d70e8869e871587e6914b15cf79 inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a3e801d70e8869e871587e6914b15cf79">System</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;<a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a>, <a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> <a class="el" href="classhect_1_1_system.html#a812bbf7b78e00e59b1f337f20104466f">tickStage</a>=<a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a>)</td></tr>
-<tr class="memdesc:a3e801d70e8869e871587e6914b15cf79 inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a system.  <a href="#a3e801d70e8869e871587e6914b15cf79">More...</a><br /></td></tr>
-<tr class="separator:a3e801d70e8869e871587e6914b15cf79 inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a515b40a13cfd39aa06a263c4a8f43c0f inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a515b40a13cfd39aa06a263c4a8f43c0f">render</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
-<tr class="memdesc:a515b40a13cfd39aa06a263c4a8f43c0f inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the current state of the system to a target.  <a href="#a515b40a13cfd39aa06a263c4a8f43c0f">More...</a><br /></td></tr>
-<tr class="separator:a515b40a13cfd39aa06a263c4a8f43c0f inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90c83603cd4d4ed463f77057c77aaaef inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90c83603cd4d4ed463f77057c77aaaef"></a>
-<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a90c83603cd4d4ed463f77057c77aaaef">scene</a> ()</td></tr>
-<tr class="memdesc:a90c83603cd4d4ed463f77057c77aaaef inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene that the system affects. <br /></td></tr>
-<tr class="separator:a90c83603cd4d4ed463f77057c77aaaef inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02ff1d1563c21db2adfac2fb2a3013dc inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a02ff1d1563c21db2adfac2fb2a3013dc"></a>
-const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a02ff1d1563c21db2adfac2fb2a3013dc">scene</a> () const </td></tr>
-<tr class="memdesc:a02ff1d1563c21db2adfac2fb2a3013dc inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene that the system affects. <br /></td></tr>
-<tr class="separator:a02ff1d1563c21db2adfac2fb2a3013dc inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a812bbf7b78e00e59b1f337f20104466f inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a812bbf7b78e00e59b1f337f20104466f"></a>
-<a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a812bbf7b78e00e59b1f337f20104466f">tickStage</a> () const </td></tr>
-<tr class="memdesc:a812bbf7b78e00e59b1f337f20104466f inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the tick stage. <br /></td></tr>
-<tr class="separator:a812bbf7b78e00e59b1f337f20104466f inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aded0f9cb47b65b66c41a121eb386d940 inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#aded0f9cb47b65b66c41a121eb386d940">encode</a> (<a class="el" href="classhect_1_1_encoder.html">Encoder</a> &amp;encoder) const </td></tr>
-<tr class="memdesc:aded0f9cb47b65b66c41a121eb386d940 inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encodes the system to an object.  <a href="#aded0f9cb47b65b66c41a121eb386d940">More...</a><br /></td></tr>
-<tr class="separator:aded0f9cb47b65b66c41a121eb386d940 inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fd8e9e3ff73782d38aa2a6c3bfa12c9 inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a8fd8e9e3ff73782d38aa2a6c3bfa12c9">decode</a> (<a class="el" href="classhect_1_1_decoder.html">Decoder</a> &amp;decoder)</td></tr>
-<tr class="memdesc:a8fd8e9e3ff73782d38aa2a6c3bfa12c9 inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes the system from an object.  <a href="#a8fd8e9e3ff73782d38aa2a6c3bfa12c9">More...</a><br /></td></tr>
-<tr class="separator:a8fd8e9e3ff73782d38aa2a6c3bfa12c9 inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13c8a9aa0d5b6d6c85fe81d29cc63d5d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#a13c8a9aa0d5b6d6c85fe81d29cc63d5d">axisValue</a> (const std::string &amp;name) const </td></tr>
+<tr class="memdesc:a13c8a9aa0d5b6d6c85fe81d29cc63d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the axis with the given name.  <a href="#a13c8a9aa0d5b6d6c85fe81d29cc63d5d">More...</a><br /></td></tr>
+<tr class="separator:a13c8a9aa0d5b6d6c85fe81d29cc63d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8982423da06d8de8808f9f2582b86e1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#ac8982423da06d8de8808f9f2582b86e1">axisValue</a> (const char *name) const </td></tr>
+<tr class="memdesc:ac8982423da06d8de8808f9f2582b86e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the axis with the given name.  <a href="#ac8982423da06d8de8808f9f2582b86e1">More...</a><br /></td></tr>
+<tr class="separator:ac8982423da06d8de8808f9f2582b86e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64cbbf4013a28550d70fba096c189eb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_input_system.html#a64cbbf4013a28550d70fba096c189eb1">tick</a> (double timeStep) override</td></tr>
+<tr class="memdesc:a64cbbf4013a28550d70fba096c189eb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a single tick of simulation for the system.  <a href="#a64cbbf4013a28550d70fba096c189eb1">More...</a><br /></td></tr>
+<tr class="separator:a64cbbf4013a28550d70fba096c189eb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classhect_1_1_system"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhect_1_1_system')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhect_1_1_system.html">hect::System&lt;&gt;</a></td></tr>
+<tr class="memitem:a496147eff5c1dcc4b48e6179069bb65d inherit pub_methods_classhect_1_1_system"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system.html#a496147eff5c1dcc4b48e6179069bb65d">System</a> (<a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;<a class="el" href="classhect_1_1_base_system.html#a37b17cff3784ec0ce4bcfe192de99f1f">scene</a>, <a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> <a class="el" href="classhect_1_1_base_system.html#a97e143d842d89e0faef1799345d8b143">tickStage</a>=SystemTickStage_Normal)</td></tr>
+<tr class="memdesc:a496147eff5c1dcc4b48e6179069bb65d inherit pub_methods_classhect_1_1_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a system.  <a href="#a496147eff5c1dcc4b48e6179069bb65d">More...</a><br /></td></tr>
+<tr class="separator:a496147eff5c1dcc4b48e6179069bb65d inherit pub_methods_classhect_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classhect_1_1_component_listener"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhect_1_1_component_listener')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhect_1_1_component_listener.html">hect::ComponentListener&lt; ComponentTypes &gt;</a></td></tr>
+<tr class="memitem:a3f38b8da331d3c02f172a38bc40a462b inherit pub_methods_classhect_1_1_component_listener"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_listener.html#a3f38b8da331d3c02f172a38bc40a462b">ComponentListener</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene)</td></tr>
+<tr class="memdesc:a3f38b8da331d3c02f172a38bc40a462b inherit pub_methods_classhect_1_1_component_listener"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a component listener.  <a href="#a3f38b8da331d3c02f172a38bc40a462b">More...</a><br /></td></tr>
+<tr class="separator:a3f38b8da331d3c02f172a38bc40a462b inherit pub_methods_classhect_1_1_component_listener"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b242d2f981628acb2ed1d20cccc0157 inherit pub_methods_classhect_1_1_component_listener"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_listener.html#a7b242d2f981628acb2ed1d20cccc0157">onComponentAdded</a> (typename ComponentTypes::Iterator component)</td></tr>
+<tr class="memdesc:a7b242d2f981628acb2ed1d20cccc0157 inherit pub_methods_classhect_1_1_component_listener"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoked when an entity is activated with a component of the specified type or a component is added to an activated entity.  <a href="#a7b242d2f981628acb2ed1d20cccc0157">More...</a><br /></td></tr>
+<tr class="separator:a7b242d2f981628acb2ed1d20cccc0157 inherit pub_methods_classhect_1_1_component_listener"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70d49dc54de99bbf035adb1d7628513c inherit pub_methods_classhect_1_1_component_listener"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_component_listener.html#a70d49dc54de99bbf035adb1d7628513c">onComponentRemoved</a> (typename ComponentTypes::Iterator component)</td></tr>
+<tr class="memdesc:a70d49dc54de99bbf035adb1d7628513c inherit pub_methods_classhect_1_1_component_listener"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoked when an entity is destroyed with a component of the specified type or a component is removed from an activated entity.  <a href="#a70d49dc54de99bbf035adb1d7628513c">More...</a><br /></td></tr>
+<tr class="separator:a70d49dc54de99bbf035adb1d7628513c inherit pub_methods_classhect_1_1_component_listener"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classhect_1_1_listener"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhect_1_1_listener')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhect_1_1_listener.html">hect::Listener&lt; ComponentEvent&lt; ComponentTypes &gt; &gt;</a></td></tr>
+<tr class="memitem:a8d34aa40336f5a077fbfd5432172b639 inherit pub_methods_classhect_1_1_listener"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_listener.html#a8d34aa40336f5a077fbfd5432172b639">~Listener</a> ()</td></tr>
+<tr class="memdesc:a8d34aa40336f5a077fbfd5432172b639 inherit pub_methods_classhect_1_1_listener"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregister the listener from all Dispatchers that the listener is registered to.  <a href="#a8d34aa40336f5a077fbfd5432172b639">More...</a><br /></td></tr>
+<tr class="separator:a8d34aa40336f5a077fbfd5432172b639 inherit pub_methods_classhect_1_1_listener"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classhect_1_1_base_system"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhect_1_1_base_system')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td></tr>
+<tr class="memitem:a0370c746d76cb5787210de08ef01bc2a inherit pub_methods_classhect_1_1_base_system"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_base_system.html#a0370c746d76cb5787210de08ef01bc2a">BaseSystem</a> (<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;<a class="el" href="classhect_1_1_base_system.html#a37b17cff3784ec0ce4bcfe192de99f1f">scene</a>, <a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a> <a class="el" href="classhect_1_1_base_system.html#a97e143d842d89e0faef1799345d8b143">tickStage</a>=<a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5caaf241d51d652820891bf4aa5554da1879">SystemTickStage_Normal</a>)</td></tr>
+<tr class="memdesc:a0370c746d76cb5787210de08ef01bc2a inherit pub_methods_classhect_1_1_base_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a system.  <a href="#a0370c746d76cb5787210de08ef01bc2a">More...</a><br /></td></tr>
+<tr class="separator:a0370c746d76cb5787210de08ef01bc2a inherit pub_methods_classhect_1_1_base_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6dfdab35fb01dedeae5c9537ae4a2a3 inherit pub_methods_classhect_1_1_base_system"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6dfdab35fb01dedeae5c9537ae4a2a3"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_base_system.html#af6dfdab35fb01dedeae5c9537ae4a2a3">initialize</a> ()</td></tr>
+<tr class="memdesc:af6dfdab35fb01dedeae5c9537ae4a2a3 inherit pub_methods_classhect_1_1_base_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called before the first call to <a class="el" href="classhect_1_1_scene.html#ac73d0d3c117ea3f3fa376ea90981a1ba" title="Creates entities pending creation, activates entities pending activation, and destroys entities pendi...">Scene::refresh()</a>. <br /></td></tr>
+<tr class="separator:af6dfdab35fb01dedeae5c9537ae4a2a3 inherit pub_methods_classhect_1_1_base_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa04859cf2373085d35fab20ecee39ec3 inherit pub_methods_classhect_1_1_base_system"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_base_system.html#aa04859cf2373085d35fab20ecee39ec3">render</a> (<a class="el" href="classhect_1_1_render_target.html">RenderTarget</a> &amp;target)</td></tr>
+<tr class="memdesc:aa04859cf2373085d35fab20ecee39ec3 inherit pub_methods_classhect_1_1_base_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders the current state of the system to a target.  <a href="#aa04859cf2373085d35fab20ecee39ec3">More...</a><br /></td></tr>
+<tr class="separator:aa04859cf2373085d35fab20ecee39ec3 inherit pub_methods_classhect_1_1_base_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37b17cff3784ec0ce4bcfe192de99f1f inherit pub_methods_classhect_1_1_base_system"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a37b17cff3784ec0ce4bcfe192de99f1f"></a>
+<a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_base_system.html#a37b17cff3784ec0ce4bcfe192de99f1f">scene</a> ()</td></tr>
+<tr class="memdesc:a37b17cff3784ec0ce4bcfe192de99f1f inherit pub_methods_classhect_1_1_base_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene that the system affects. <br /></td></tr>
+<tr class="separator:a37b17cff3784ec0ce4bcfe192de99f1f inherit pub_methods_classhect_1_1_base_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af343e0b11195d1f8e45a11c2b418654c inherit pub_methods_classhect_1_1_base_system"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af343e0b11195d1f8e45a11c2b418654c"></a>
+const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_base_system.html#af343e0b11195d1f8e45a11c2b418654c">scene</a> () const </td></tr>
+<tr class="memdesc:af343e0b11195d1f8e45a11c2b418654c inherit pub_methods_classhect_1_1_base_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the scene that the system affects. <br /></td></tr>
+<tr class="separator:af343e0b11195d1f8e45a11c2b418654c inherit pub_methods_classhect_1_1_base_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97e143d842d89e0faef1799345d8b143 inherit pub_methods_classhect_1_1_base_system"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97e143d842d89e0faef1799345d8b143"></a>
+<a class="el" href="namespacehect.html#a48f11650ed0665796458a370639de5ca">SystemTickStage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_base_system.html#a97e143d842d89e0faef1799345d8b143">tickStage</a> () const </td></tr>
+<tr class="memdesc:a97e143d842d89e0faef1799345d8b143 inherit pub_methods_classhect_1_1_base_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the tick stage. <br /></td></tr>
+<tr class="separator:a97e143d842d89e0faef1799345d8b143 inherit pub_methods_classhect_1_1_base_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6221826eececfe196b8c98fc93ae3a22 inherit pub_methods_classhect_1_1_base_system"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_base_system.html#a6221826eececfe196b8c98fc93ae3a22">encode</a> (<a class="el" href="classhect_1_1_encoder.html">Encoder</a> &amp;encoder) const </td></tr>
+<tr class="memdesc:a6221826eececfe196b8c98fc93ae3a22 inherit pub_methods_classhect_1_1_base_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encodes the system to an object.  <a href="#a6221826eececfe196b8c98fc93ae3a22">More...</a><br /></td></tr>
+<tr class="separator:a6221826eececfe196b8c98fc93ae3a22 inherit pub_methods_classhect_1_1_base_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac644890bda310b8d22fd32d11a0296fb inherit pub_methods_classhect_1_1_base_system"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_base_system.html#ac644890bda310b8d22fd32d11a0296fb">decode</a> (<a class="el" href="classhect_1_1_decoder.html">Decoder</a> &amp;decoder)</td></tr>
+<tr class="memdesc:ac644890bda310b8d22fd32d11a0296fb inherit pub_methods_classhect_1_1_base_system"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes the system from an object.  <a href="#ac644890bda310b8d22fd32d11a0296fb">More...</a><br /></td></tr>
+<tr class="separator:ac644890bda310b8d22fd32d11a0296fb inherit pub_methods_classhect_1_1_base_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Maps user input to input axes. </p>
@@ -184,12 +209,12 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 
 </div>
 </div>
-<a class="anchor" id="ab78e531c8ba6adc326ad586db2ec96df"></a>
+<a class="anchor" id="a13c8a9aa0d5b6d6c85fe81d29cc63d5d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> hect::InputSystem::axisValue </td>
+          <td class="memname">double hect::InputSystem::axisValue </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -209,12 +234,12 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 
 </div>
 </div>
-<a class="anchor" id="a52992d2c8c4fca27ea30df96e93f74d8"></a>
+<a class="anchor" id="ac8982423da06d8de8808f9f2582b86e1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> hect::InputSystem::axisValue </td>
+          <td class="memname">double hect::InputSystem::axisValue </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -234,7 +259,7 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 
 </div>
 </div>
-<a class="anchor" id="a7c73f15ee7d2e02746259b3deb83b33d"></a>
+<a class="anchor" id="a64cbbf4013a28550d70fba096c189eb1"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -244,19 +269,9 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
         <tr>
           <td class="memname">void hect::InputSystem::tick </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;&#160;</td>
-          <td class="paramname"><em>engine</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>timeStep</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a>&#160;</td>
-          <td class="paramname"><em>timeStep</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -269,20 +284,19 @@ const <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;&#160;</td><t
 <p>Performs a single tick of simulation for the system. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">engine</td><td>The engine. </td></tr>
     <tr><td class="paramname">timeStep</td><td>The duration of time in seconds for the tick to simulate. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Reimplemented from <a class="el" href="classhect_1_1_system.html#a76465d755c009143a21bd88546cb9612">hect::System</a>.</p>
+<p>Reimplemented from <a class="el" href="classhect_1_1_base_system.html#ab1eba9a3266bc2829c94a8efcd2fdeaf">hect::BaseSystem</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

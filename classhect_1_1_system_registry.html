@@ -102,9 +102,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a27fc3bfb043d1a18fc84b37b9010a775"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classhect_1_1_system.html">System</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#a27fc3bfb043d1a18fc84b37b9010a775">create</a> (<a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a> typeId, <a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene)</td></tr>
-<tr class="memdesc:a27fc3bfb043d1a18fc84b37b9010a775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> of the specified type.  <a href="#a27fc3bfb043d1a18fc84b37b9010a775">More...</a><br /></td></tr>
-<tr class="separator:a27fc3bfb043d1a18fc84b37b9010a775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5f817afa43157aa7cf9e773c09a6c99"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr<br class="typebreak" />
+&lt; <a class="el" href="classhect_1_1_base_system.html">BaseSystem</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#ae5f817afa43157aa7cf9e773c09a6c99">create</a> (<a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a> typeId, <a class="el" href="classhect_1_1_engine.html">Engine</a> &amp;engine, <a class="el" href="classhect_1_1_scene.html">Scene</a> &amp;scene)</td></tr>
+<tr class="memdesc:ae5f817afa43157aa7cf9e773c09a6c99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> of the specified type.  <a href="#ae5f817afa43157aa7cf9e773c09a6c99">More...</a><br /></td></tr>
+<tr class="separator:ae5f817afa43157aa7cf9e773c09a6c99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a872ab9a043737877a4f3b41fcc3e3e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_system_registry.html#a1a872ab9a043737877a4f3b41fcc3e3e">typeIdOf</a> (std::type_index typeIndex)</td></tr>
 <tr class="memdesc:a1a872ab9a043737877a4f3b41fcc3e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type id for the specified <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a> type index.  <a href="#a1a872ab9a043737877a4f3b41fcc3e3e">More...</a><br /></td></tr>
 <tr class="separator:a1a872ab9a043737877a4f3b41fcc3e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,7 +130,7 @@ Static Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides the ability to dynamically create <a class="el" href="classhect_1_1_system.html" title="A system affecting entities within a scene. ">System</a>s based on type information. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a27fc3bfb043d1a18fc84b37b9010a775"></a>
+<a class="anchor" id="ae5f817afa43157aa7cf9e773c09a6c99"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -137,7 +138,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::shared_ptr&lt;<a class="el" href="classhect_1_1_system.html">System</a>&gt; hect::SystemRegistry::create </td>
+          <td class="memname">static std::shared_ptr&lt;<a class="el" href="classhect_1_1_base_system.html">BaseSystem</a>&gt; hect::SystemRegistry::create </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehect.html#a3a5005d6101f6a8e03f23ef14418b4af">SystemTypeId</a>&#160;</td>
           <td class="paramname"><em>typeId</em>, </td>
@@ -390,7 +391,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

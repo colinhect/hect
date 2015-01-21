@@ -125,13 +125,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classhect_1_1_physics_system.html">PhysicsSystem</a>;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classhect_1_1_rigid_body.html#a37b818ae9d04ab7e1681ae079930aeb7">   56</a></span>&#160;    <a class="code" href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">Real</a> mass { 0 };</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classhect_1_1_rigid_body.html#ae86d4710e04fbc4a3c67b3f3d41eebe4">   56</a></span>&#160;    <span class="keywordtype">double</span> mass { 0 };</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classhect_1_1_rigid_body.html#af8f778725edb86573245c4ed7f7f2384">   62</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> <a class="code" href="classhect_1_1_rigid_body.html#af8f778725edb86573245c4ed7f7f2384">linearVelocity</a>;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
 <div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classhect_1_1_rigid_body.html#a5eddf9ae8281ab1510714ff45ccf83fd">   68</a></span>&#160;    <a class="code" href="classhect_1_1_vector3_t.html">Vector3</a> <a class="code" href="classhect_1_1_rigid_body.html#a5eddf9ae8281ab1510714ff45ccf83fd">angularVelocity</a>;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classhect_1_1_rigid_body.html#a9a65759d7853b5c2bd53b0f3af877b44">   74</a></span>&#160;    <a class="code" href="classhect_1_1_asset_handle.html">AssetHandle&lt;Mesh&gt;</a> <a class="code" href="classhect_1_1_rigid_body.html#a9a65759d7853b5c2bd53b0f3af877b44">mesh</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classhect_1_1_rigid_body.html#a3af3d0cd5e940f7f4d6f7dfc3a214caf">   74</a></span>&#160;    <a class="code" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Mesh::Handle</a> <a class="code" href="classhect_1_1_rigid_body.html#a3af3d0cd5e940f7f4d6f7dfc3a214caf">mesh</a>;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::shared_ptr&lt;btRigidBody&gt; _rigidBody;</div>
@@ -141,18 +141,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
 <div class="ttc" id="classhect_1_1_rigid_body_html_a5eddf9ae8281ab1510714ff45ccf83fd"><div class="ttname"><a href="classhect_1_1_rigid_body.html#a5eddf9ae8281ab1510714ff45ccf83fd">hect::RigidBody::angularVelocity</a></div><div class="ttdeci">Vector3 angularVelocity</div><div class="ttdoc">The angular velocity. </div><div class="ttdef"><b>Definition:</b> RigidBody.h:68</div></div>
+<div class="ttc" id="classhect_1_1_rigid_body_html_a3af3d0cd5e940f7f4d6f7dfc3a214caf"><div class="ttname"><a href="classhect_1_1_rigid_body.html#a3af3d0cd5e940f7f4d6f7dfc3a214caf">hect::RigidBody::mesh</a></div><div class="ttdeci">Mesh::Handle mesh</div><div class="ttdoc">The collision mesh. </div><div class="ttdef"><b>Definition:</b> RigidBody.h:74</div></div>
+<div class="ttc" id="classhect_1_1_asset_html_a700e0df0c7cd2b91bc1be458c68d34e1"><div class="ttname"><a href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">hect::Asset&lt; Mesh &gt;::Handle</a></div><div class="ttdeci">AssetHandle&lt; Mesh &gt; Handle</div><div class="ttdef"><b>Definition:</b> Asset.h:42</div></div>
 <div class="ttc" id="classhect_1_1_rigid_body_html_af8f778725edb86573245c4ed7f7f2384"><div class="ttname"><a href="classhect_1_1_rigid_body.html#af8f778725edb86573245c4ed7f7f2384">hect::RigidBody::linearVelocity</a></div><div class="ttdeci">Vector3 linearVelocity</div><div class="ttdoc">The linear velocity. </div><div class="ttdef"><b>Definition:</b> RigidBody.h:62</div></div>
-<div class="ttc" id="classhect_1_1_asset_handle_html"><div class="ttname"><a href="classhect_1_1_asset_handle.html">hect::AssetHandle</a></div><div class="ttdoc">A reference-counted handle for an Asset. </div><div class="ttdef"><b>Definition:</b> AssetHandle.h:44</div></div>
-<div class="ttc" id="classhect_1_1_rigid_body_html_a9a65759d7853b5c2bd53b0f3af877b44"><div class="ttname"><a href="classhect_1_1_rigid_body.html#a9a65759d7853b5c2bd53b0f3af877b44">hect::RigidBody::mesh</a></div><div class="ttdeci">AssetHandle&lt; Mesh &gt; mesh</div><div class="ttdoc">The collision mesh. </div><div class="ttdef"><b>Definition:</b> RigidBody.h:74</div></div>
 <div class="ttc" id="classhect_1_1_component_html"><div class="ttname"><a href="classhect_1_1_component.html">hect::Component</a></div><div class="ttdoc">A component of an Entity. </div><div class="ttdef"><b>Definition:</b> Component.h:77</div></div>
 <div class="ttc" id="classhect_1_1_rigid_body_html"><div class="ttname"><a href="classhect_1_1_rigid_body.html">hect::RigidBody</a></div><div class="ttdoc">A simulated physical body. </div><div class="ttdef"><b>Definition:</b> RigidBody.h:46</div></div>
-<div class="ttc" id="namespacehect_html_a26781e29224dc426b2985cbc16c9bf6b"><div class="ttname"><a href="namespacehect.html#a26781e29224dc426b2985cbc16c9bf6b">hect::Real</a></div><div class="ttdeci">float Real</div><div class="ttdoc">A 32-bit floating point number. </div><div class="ttdef"><b>Definition:</b> Real.h:41</div></div>
-<div class="ttc" id="classhect_1_1_physics_system_html"><div class="ttname"><a href="classhect_1_1_physics_system.html">hect::PhysicsSystem</a></div><div class="ttdoc">Simulates physical interactions of physical bodies. </div><div class="ttdef"><b>Definition:</b> PhysicsSystem.h:49</div></div>
-<div class="ttc" id="classhect_1_1_vector3_t_html"><div class="ttname"><a href="classhect_1_1_vector3_t.html">hect::Vector3T&lt; Real &gt;</a></div></div>
+<div class="ttc" id="classhect_1_1_physics_system_html"><div class="ttname"><a href="classhect_1_1_physics_system.html">hect::PhysicsSystem</a></div><div class="ttdoc">Simulates physical interactions of physical bodies. </div><div class="ttdef"><b>Definition:</b> PhysicsSystem.h:48</div></div>
+<div class="ttc" id="classhect_1_1_vector3_t_html"><div class="ttname"><a href="classhect_1_1_vector3_t.html">hect::Vector3T&lt; double &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:41 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

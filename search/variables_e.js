@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['r',['r',['../classhect_1_1_color.html#a4e56762664fcee2ecf02be5f24669e67',1,'hect::Color']]],
+  ['r',['r',['../classhect_1_1_color.html#a46c465efa34a6bfe557fed3dffa63c13',1,'hect::Color']]],
   ['range',['range',['../classhect_1_1_input_axis_binding.html#ab6e7d9f4de3583c8fc0be305d178f0ee',1,'hect::InputAxisBinding']]],
   ['right',['right',['../classhect_1_1_camera.html#a6efb1041518ee9264bcfc95a50978224',1,'hect::Camera']]]
 ];

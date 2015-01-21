@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>Hect Engine: Source/Hect/Logic/ModeRegistry.h Source File</title>
+<title>Hect Engine: Source/Hect/Logic/ComponentListener.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -80,7 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">ModeRegistry.h</div>  </div>
+<div class="title">ComponentListener.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// This source file is part of Hect.</span></div>
@@ -106,44 +106,45 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// IN THE SOFTWARE.</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Export.h&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Mode.h&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">namespace </span>hect</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classhect_1_1_mode_registry.html">   41</a></span>&#160;<span class="keyword">class </span>HECT_EXPORT <a class="code" href="classhect_1_1_mode_registry.html">ModeRegistry</a></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">static</span> std::unique_ptr&lt;Mode&gt; create(<span class="keyword">const</span> std::string&amp; typeName, <a class="code" href="classhect_1_1_engine.html">Engine</a>&amp; engine);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> registerType();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classhect_1_1_mode_registry.html">ModeRegistry</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">typedef</span> std::function&lt;std::unique_ptr&lt;Mode&gt;(<a class="code" href="classhect_1_1_engine.html">Engine</a>&amp;)&gt; ModeConstructor;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;Hect/Core/Event.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/ComponentEvent.h&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;Hect/Logic/Scene.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">namespace </span>hect</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classhect_1_1_component_listener.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="classhect_1_1_component_listener.html">ComponentListener</a> :</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span> <a class="code" href="classhect_1_1_listener.html">Listener</a>&lt;ComponentEvent&lt;T&gt;&gt;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classhect_1_1_component_listener.html#a3f38b8da331d3c02f172a38bc40a462b">ComponentListener</a>(<a class="code" href="classhect_1_1_scene.html">Scene</a>&amp; scene);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classhect_1_1_component_listener.html">ComponentListener</a>() { }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_component_listener.html#a7b242d2f981628acb2ed1d20cccc0157">onComponentAdded</a>(<span class="keyword">typename</span> T::Iterator component);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_component_listener.html#a70d49dc54de99bbf035adb1d7628513c">onComponentRemoved</a>(<span class="keyword">typename</span> T::Iterator component);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classhect_1_1_component_listener.html#ad4ed5695b700d290f97e03eadd5a399e">receiveEvent</a>(<span class="keyword">const</span> <a class="code" href="classhect_1_1_component_event.html">ComponentEvent&lt;T&gt;</a>&amp; event) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">static</span> std::map&lt;std::string, ModeConstructor&gt; _constructors;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#include &quot;ModeRegistry.inl&quot;</span></div>
-<div class="ttc" id="classhect_1_1_engine_html"><div class="ttname"><a href="classhect_1_1_engine.html">hect::Engine</a></div><div class="ttdoc">An instance of Hect Engine. </div><div class="ttdef"><b>Definition:</b> Engine.h:44</div></div>
-<div class="ttc" id="classhect_1_1_mode_registry_html"><div class="ttname"><a href="classhect_1_1_mode_registry.html">hect::ModeRegistry</a></div><div class="ttdoc">Provides the ability to dynamically create Modes based on type information. </div><div class="ttdef"><b>Definition:</b> ModeRegistry.h:41</div></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#include &quot;ComponentListener.inl&quot;</span></div>
+<div class="ttc" id="classhect_1_1_scene_html"><div class="ttname"><a href="classhect_1_1_scene.html">hect::Scene</a></div><div class="ttdoc">A dynamic collection of Entities , Components, and Systems. </div><div class="ttdef"><b>Definition:</b> Scene.h:57</div></div>
+<div class="ttc" id="classhect_1_1_component_listener_html_a70d49dc54de99bbf035adb1d7628513c"><div class="ttname"><a href="classhect_1_1_component_listener.html#a70d49dc54de99bbf035adb1d7628513c">hect::ComponentListener::onComponentRemoved</a></div><div class="ttdeci">virtual void onComponentRemoved(typename T::Iterator component)</div><div class="ttdoc">Invoked when an entity is destroyed with a component of the specified type or a component is removed ...</div></div>
+<div class="ttc" id="classhect_1_1_component_listener_html_a3f38b8da331d3c02f172a38bc40a462b"><div class="ttname"><a href="classhect_1_1_component_listener.html#a3f38b8da331d3c02f172a38bc40a462b">hect::ComponentListener::ComponentListener</a></div><div class="ttdeci">ComponentListener(Scene &amp;scene)</div><div class="ttdoc">Constructs a component listener. </div></div>
+<div class="ttc" id="classhect_1_1_component_event_html"><div class="ttname"><a href="classhect_1_1_component_event.html">hect::ComponentEvent</a></div><div class="ttdoc">An event relating to a Component. </div><div class="ttdef"><b>Definition:</b> ComponentEvent.h:57</div></div>
+<div class="ttc" id="classhect_1_1_component_listener_html_a7b242d2f981628acb2ed1d20cccc0157"><div class="ttname"><a href="classhect_1_1_component_listener.html#a7b242d2f981628acb2ed1d20cccc0157">hect::ComponentListener::onComponentAdded</a></div><div class="ttdeci">virtual void onComponentAdded(typename T::Iterator component)</div><div class="ttdoc">Invoked when an entity is activated with a component of the specified type or a component is added to...</div></div>
+<div class="ttc" id="classhect_1_1_component_listener_html_ad4ed5695b700d290f97e03eadd5a399e"><div class="ttname"><a href="classhect_1_1_component_listener.html#ad4ed5695b700d290f97e03eadd5a399e">hect::ComponentListener::receiveEvent</a></div><div class="ttdeci">void receiveEvent(const ComponentEvent&lt; T &gt; &amp;event) override</div><div class="ttdoc">Notifies the listener of an event. </div></div>
+<div class="ttc" id="classhect_1_1_listener_html"><div class="ttname"><a href="classhect_1_1_listener.html">hect::Listener</a></div><div class="ttdoc">An listener of specific event. </div><div class="ttdef"><b>Definition:</b> Event.h:39</div></div>
+<div class="ttc" id="classhect_1_1_component_listener_html"><div class="ttname"><a href="classhect_1_1_component_listener.html">hect::ComponentListener</a></div><div class="ttdoc">Receives events when certain type of Component is added to and removed from a Scene. </div><div class="ttdef"><b>Definition:</b> ComponentListener.h:37</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:41 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

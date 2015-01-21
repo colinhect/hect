@@ -113,11 +113,15 @@ Inheritance diagram for hect::Texture:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:af4e9c128cd9fcf8110d3d4e63c70615e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4e9c128cd9fcf8110d3d4e63c70615e"></a>
-typedef <a class="el" href="classhect_1_1_sequence.html">Sequence</a>&lt; <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a><br class="typebreak" />
-&lt; <a class="el" href="classhect_1_1_image.html">Image</a> &gt;, ImageContainer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#af4e9c128cd9fcf8110d3d4e63c70615e">ImageSequence</a></td></tr>
-<tr class="memdesc:af4e9c128cd9fcf8110d3d4e63c70615e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A sequence of images. <br /></td></tr>
-<tr class="separator:af4e9c128cd9fcf8110d3d4e63c70615e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6c8ec7b5ff56e6f28df51ad678eeb12"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6c8ec7b5ff56e6f28df51ad678eeb12"></a>
+typedef <a class="el" href="classhect_1_1_sequence.html">Sequence</a><br class="typebreak" />
+&lt; <a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Image::Handle</a>, <br class="typebreak" />
+ImageContainer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#ae6c8ec7b5ff56e6f28df51ad678eeb12">ImageSequence</a></td></tr>
+<tr class="memdesc:ae6c8ec7b5ff56e6f28df51ad678eeb12"><td class="mdescLeft">&#160;</td><td class="mdescRight">A sequence of images. <br /></td></tr>
+<tr class="separator:ae6c8ec7b5ff56e6f28df51ad678eeb12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classhect_1_1_asset"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classhect_1_1_asset')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classhect_1_1_asset.html">hect::Asset&lt; Texture &gt;</a></td></tr>
+<tr class="memitem:a700e0df0c7cd2b91bc1be458c68d34e1 inherit pub_types_classhect_1_1_asset"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; <a class="el" href="classhect_1_1_texture.html">Texture</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Handle</a></td></tr>
+<tr class="separator:a700e0df0c7cd2b91bc1be458c68d34e1 inherit pub_types_classhect_1_1_asset"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -128,9 +132,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2fb86f755cde64d86beec03e509679d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#a2fb86f755cde64d86beec03e509679d9">Texture</a> (const std::string &amp;<a class="el" href="classhect_1_1_asset.html#a718b3674d617d933d66c93d60f15b91a">name</a>, unsigned <a class="el" href="classhect_1_1_texture.html#ac3bb950150d370e22014a2a3bed36ffd">width</a>, unsigned <a class="el" href="classhect_1_1_texture.html#a6fcbebf81051db9c1738757435d73d08">height</a>, <a class="el" href="namespacehect.html#a2f094efd6c018cc87b85c222debb1694">PixelType</a> <a class="el" href="classhect_1_1_texture.html#adcaedc61fda1b89e653ca999d7670e41">pixelType</a>, <a class="el" href="namespacehect.html#a550f0e1b5c17530f19032df9547afd04">PixelFormat</a> <a class="el" href="classhect_1_1_texture.html#a08548bb6a346fe471dab7c7cfd44b4f7">pixelFormat</a>, <a class="el" href="namespacehect.html#aca1f093425ecc8ba504e563f9fb169a1">TextureFilter</a> <a class="el" href="classhect_1_1_texture.html#ab5f30e95215a3af819a2b3d94037533a">minFilter</a>, <a class="el" href="namespacehect.html#aca1f093425ecc8ba504e563f9fb169a1">TextureFilter</a> <a class="el" href="classhect_1_1_texture.html#a0e60e275a1b01b5cec81a6660d273164">magFilter</a>, bool mipmapped, bool wrapped)</td></tr>
 <tr class="memdesc:a2fb86f755cde64d86beec03e509679d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a 2-dimensional texture.  <a href="#a2fb86f755cde64d86beec03e509679d9">More...</a><br /></td></tr>
 <tr class="separator:a2fb86f755cde64d86beec03e509679d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ee88dd8c8bedb1e5bdfd72ff14a017b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#a7ee88dd8c8bedb1e5bdfd72ff14a017b">Texture</a> (const std::string &amp;<a class="el" href="classhect_1_1_asset.html#a718b3674d617d933d66c93d60f15b91a">name</a>, const <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; <a class="el" href="classhect_1_1_image.html">Image</a> &gt; &amp;image)</td></tr>
-<tr class="memdesc:a7ee88dd8c8bedb1e5bdfd72ff14a017b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a 2-dimensional texture.  <a href="#a7ee88dd8c8bedb1e5bdfd72ff14a017b">More...</a><br /></td></tr>
-<tr class="separator:a7ee88dd8c8bedb1e5bdfd72ff14a017b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0fbfc08787de741024451c3efbd87fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#af0fbfc08787de741024451c3efbd87fe">Texture</a> (const std::string &amp;<a class="el" href="classhect_1_1_asset.html#a718b3674d617d933d66c93d60f15b91a">name</a>, const <a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Image::Handle</a> &amp;image)</td></tr>
+<tr class="memdesc:af0fbfc08787de741024451c3efbd87fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a 2-dimensional texture.  <a href="#af0fbfc08787de741024451c3efbd87fe">More...</a><br /></td></tr>
+<tr class="separator:af0fbfc08787de741024451c3efbd87fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a790f970da1d1cecb502d51f93fb67872"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a790f970da1d1cecb502d51f93fb67872"></a>
 <a class="el" href="namespacehect.html#a3e733c18e9fb257cdbc3417b060811a3">TextureType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#a790f970da1d1cecb502d51f93fb67872">type</a> ()</td></tr>
 <tr class="memdesc:a790f970da1d1cecb502d51f93fb67872"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the texture type. <br /></td></tr>
@@ -139,12 +143,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a538245190b1f70955e6d6c6a14ba65a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the texture type.  <a href="#a538245190b1f70955e6d6c6a14ba65a3">More...</a><br /></td></tr>
 <tr class="separator:a538245190b1f70955e6d6c6a14ba65a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6df3bb1222a1f8397809b45aa7f15cc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad6df3bb1222a1f8397809b45aa7f15cc"></a>
-<a class="el" href="classhect_1_1_texture.html#af4e9c128cd9fcf8110d3d4e63c70615e">ImageSequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#ad6df3bb1222a1f8397809b45aa7f15cc">sourceImages</a> ()</td></tr>
+<a class="el" href="classhect_1_1_texture.html#ae6c8ec7b5ff56e6f28df51ad678eeb12">ImageSequence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#ad6df3bb1222a1f8397809b45aa7f15cc">sourceImages</a> ()</td></tr>
 <tr class="memdesc:ad6df3bb1222a1f8397809b45aa7f15cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the source images. <br /></td></tr>
 <tr class="separator:ad6df3bb1222a1f8397809b45aa7f15cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f52d133a416c9132d361d82c42bad15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#a5f52d133a416c9132d361d82c42bad15">addSourceImage</a> (const <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; <a class="el" href="classhect_1_1_image.html">Image</a> &gt; &amp;image)</td></tr>
-<tr class="memdesc:a5f52d133a416c9132d361d82c42bad15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a source image to the texture (may affect width/height of texture).  <a href="#a5f52d133a416c9132d361d82c42bad15">More...</a><br /></td></tr>
-<tr class="separator:a5f52d133a416c9132d361d82c42bad15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abad7d014e79639fd3aedafd7406a2710"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#abad7d014e79639fd3aedafd7406a2710">addSourceImage</a> (const <a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Image::Handle</a> &amp;image)</td></tr>
+<tr class="memdesc:abad7d014e79639fd3aedafd7406a2710"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a source image to the texture (may affect width/height of texture).  <a href="#abad7d014e79639fd3aedafd7406a2710">More...</a><br /></td></tr>
+<tr class="separator:abad7d014e79639fd3aedafd7406a2710"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4bbd3962f83ff217460f02cb1530224"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa4bbd3962f83ff217460f02cb1530224"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_texture.html#aa4bbd3962f83ff217460f02cb1530224">clearSourceImages</a> ()</td></tr>
 <tr class="memdesc:aa4bbd3962f83ff217460f02cb1530224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all source images that were added to the texture. <br /></td></tr>
@@ -321,7 +325,7 @@ U *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 </div>
 </div>
-<a class="anchor" id="a7ee88dd8c8bedb1e5bdfd72ff14a017b"></a>
+<a class="anchor" id="af0fbfc08787de741024451c3efbd87fe"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -334,7 +338,7 @@ U *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; <a class="el" href="classhect_1_1_image.html">Image</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Image::Handle</a> &amp;&#160;</td>
           <td class="paramname"><em>image</em>&#160;</td>
         </tr>
         <tr>
@@ -357,14 +361,14 @@ U *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a5f52d133a416c9132d361d82c42bad15"></a>
+<a class="anchor" id="abad7d014e79639fd3aedafd7406a2710"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void hect::Texture::addSourceImage </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; <a class="el" href="classhect_1_1_image.html">Image</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Image::Handle</a> &amp;&#160;</td>
           <td class="paramname"><em>image</em></td><td>)</td>
           <td></td>
         </tr>
@@ -565,7 +569,7 @@ U *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

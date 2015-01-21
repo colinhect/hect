@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['basesystem',['BaseSystem',['../classhect_1_1_base_system.html',1,'hect']]],
   ['beginarray',['BeginArray',['../structhect_1_1_begin_array.html',1,'hect']]],
   ['beginobject',['BeginObject',['../structhect_1_1_begin_object.html',1,'hect']]],
   ['binarydecoder',['BinaryDecoder',['../classhect_1_1_binary_decoder.html',1,'hect']]],

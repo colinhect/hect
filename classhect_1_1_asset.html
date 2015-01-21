@@ -88,6 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classhect_1_1_asset-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -100,6 +101,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="_asset_8h_source.html">Asset.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a700e0df0c7cd2b91bc1be458c68d34e1"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Handle</a></td></tr>
+<tr class="memdesc:a700e0df0c7cd2b91bc1be458c68d34e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reference-counted handle for an <a class="el" href="classhect_1_1_asset.html" title="Inheriting from this allows for caching/loading using an AssetCache. ">Asset</a>.  <a href="#a700e0df0c7cd2b91bc1be458c68d34e1">More...</a><br /></td></tr>
+<tr class="separator:a700e0df0c7cd2b91bc1be458c68d34e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a89bdb3686bb23adedbf0a5ec14d0cf8a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a89bdb3686bb23adedbf0a5ec14d0cf8a"></a>
@@ -125,7 +132,26 @@ const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a cl
 class hect::Asset&lt; T &gt;</h3>
 
 <p>Inheriting from this allows for caching/loading using an <a class="el" href="classhect_1_1_asset_cache.html" title="Provides cached access to Assets from the FileSystem. ">AssetCache</a>. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="a700e0df0c7cd2b91bc1be458c68d34e1"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt;T&gt; <a class="el" href="classhect_1_1_asset.html">hect::Asset</a>&lt; T &gt;::<a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Handle</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A reference-counted handle for an <a class="el" href="classhect_1_1_asset.html" title="Inheriting from this allows for caching/loading using an AssetCache. ">Asset</a>. </p>
+<p>The prefered alias for this type is <a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1" title="A reference-counted handle for an Asset. ">Asset::Handle</a>.</p>
+<dl class="section note"><dt>Note</dt><dd>An asset handle may reference an asset which was loaded from the file system and is cached in an asset cache. Alternatively, it may reference a manually created asset. A handle works much like a smart pointer. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a4a8bcc7cfe7b2fad8a900c360bc41df7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -202,7 +228,7 @@ template&lt;typename T&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:41 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

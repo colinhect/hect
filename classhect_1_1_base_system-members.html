@@ -83,26 +83,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacehect.html">hect</a></li><li class="navelem"><a class="el" href="classhect_1_1_mode.html">Mode</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacehect.html">hect</a></li><li class="navelem"><a class="el" href="classhect_1_1_base_system.html">BaseSystem</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">hect::Mode Member List</div>  </div>
+<div class="title">hect::BaseSystem Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="classhect_1_1_mode.html">hect::Mode</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classhect_1_1_mode.html#a53806e91b2022a297328252bc8a33f9f">Mode</a>()</td><td class="entry"><a class="el" href="classhect_1_1_mode.html">hect::Mode</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classhect_1_1_mode.html#a820c44dd2ef655d517a27fb14b19b68a">Mode</a>(TimeSpan timeStep)</td><td class="entry"><a class="el" href="classhect_1_1_mode.html">hect::Mode</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhect_1_1_mode.html#a5b20ff83ae2622c31173c88d6a10959d">render</a>(Engine &amp;engine, RenderTarget &amp;target)=0</td><td class="entry"><a class="el" href="classhect_1_1_mode.html">hect::Mode</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classhect_1_1_mode.html#addbdfa7bc5a4ff0b1e7d5a3938763bb2">tick</a>(Engine &amp;engine, Real timeStep)=0</td><td class="entry"><a class="el" href="classhect_1_1_mode.html">hect::Mode</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhect_1_1_mode.html#abdaa86e9efbc7167051f14811bc01573">timeStep</a>() const </td><td class="entry"><a class="el" href="classhect_1_1_mode.html">hect::Mode</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhect_1_1_base_system.html#a0370c746d76cb5787210de08ef01bc2a">BaseSystem</a>(Scene &amp;scene, SystemTickStage tickStage=SystemTickStage_Normal)</td><td class="entry"><a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhect_1_1_base_system.html#ac644890bda310b8d22fd32d11a0296fb">decode</a>(Decoder &amp;decoder)</td><td class="entry"><a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhect_1_1_base_system.html#a6221826eececfe196b8c98fc93ae3a22">encode</a>(Encoder &amp;encoder) const </td><td class="entry"><a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhect_1_1_base_system.html#af6dfdab35fb01dedeae5c9537ae4a2a3">initialize</a>()</td><td class="entry"><a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhect_1_1_base_system.html#aa04859cf2373085d35fab20ecee39ec3">render</a>(RenderTarget &amp;target)</td><td class="entry"><a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classhect_1_1_base_system.html#a37b17cff3784ec0ce4bcfe192de99f1f">scene</a>()</td><td class="entry"><a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhect_1_1_base_system.html#af343e0b11195d1f8e45a11c2b418654c">scene</a>() const </td><td class="entry"><a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classhect_1_1_base_system.html#ab1eba9a3266bc2829c94a8efcd2fdeaf">tick</a>(double timeStep)</td><td class="entry"><a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhect_1_1_base_system.html#a97e143d842d89e0faef1799345d8b143">tickStage</a>() const </td><td class="entry"><a class="el" href="classhect_1_1_base_system.html">hect::BaseSystem</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

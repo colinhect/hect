@@ -111,6 +111,13 @@ Inheritance diagram for hect::Image:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ae697ff8a97205b57379b54cde50b3b29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae697ff8a97205b57379b54cde50b3b29"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_image.html#ae697ff8a97205b57379b54cde50b3b29">Image</a> ()</td></tr>
+<tr class="memdesc:ae697ff8a97205b57379b54cde50b3b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty image. <br /></td></tr>
+<tr class="separator:ae697ff8a97205b57379b54cde50b3b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfb563ccce161f5f19d94f0dfbb8a600"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_image.html#abfb563ccce161f5f19d94f0dfbb8a600">Image</a> (unsigned <a class="el" href="classhect_1_1_image.html#a778b9c9ec502a7705590303bd6450b21">width</a>, unsigned <a class="el" href="classhect_1_1_image.html#a67149dda57bb85f3fe345668ade08109">height</a>, <a class="el" href="namespacehect.html#a2f094efd6c018cc87b85c222debb1694">PixelType</a> <a class="el" href="classhect_1_1_image.html#a63d6c76d08e66a9b79660338ba6ae525">pixelType</a>, <a class="el" href="namespacehect.html#a550f0e1b5c17530f19032df9547afd04">PixelFormat</a> <a class="el" href="classhect_1_1_image.html#a0bd8bb9b9d6c54ae766d882b6a6f3ecb">pixelFormat</a>)</td></tr>
+<tr class="memdesc:abfb563ccce161f5f19d94f0dfbb8a600"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an image.  <a href="#abfb563ccce161f5f19d94f0dfbb8a600">More...</a><br /></td></tr>
+<tr class="separator:abfb563ccce161f5f19d94f0dfbb8a600"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92080ff0e4bbbab0ca686fd2ffee3fb6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a92080ff0e4bbbab0ca686fd2ffee3fb6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_image.html#a92080ff0e4bbbab0ca686fd2ffee3fb6">flipVertical</a> ()</td></tr>
 <tr class="memdesc:a92080ff0e4bbbab0ca686fd2ffee3fb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flips the image vertically. <br /></td></tr>
@@ -130,6 +137,9 @@ const <a class="el" href="namespacehect.html#a9f9cbccde9d4d04e53fa0276dbdaba04">
 <tr class="memitem:a94ac4922f4ca9099b72063974fa8e8a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_image.html#a94ac4922f4ca9099b72063974fa8e8a7">setPixelData</a> (<a class="el" href="namespacehect.html#a9f9cbccde9d4d04e53fa0276dbdaba04">ByteVector</a> &amp;&amp;<a class="el" href="classhect_1_1_image.html#a33c53f2e1aa4ffee6972d89737974762">pixelData</a>)</td></tr>
 <tr class="memdesc:a94ac4922f4ca9099b72063974fa8e8a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pixel data for the image.  <a href="#a94ac4922f4ca9099b72063974fa8e8a7">More...</a><br /></td></tr>
 <tr class="separator:a94ac4922f4ca9099b72063974fa8e8a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e9821af08519ccfb2b0e7e71fff4188"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_image.html#a4e9821af08519ccfb2b0e7e71fff4188">setPixel</a> (unsigned x, unsigned y, const <a class="el" href="classhect_1_1_color.html">Color</a> &amp;color)</td></tr>
+<tr class="memdesc:a4e9821af08519ccfb2b0e7e71fff4188"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a color value to a pixel.  <a href="#a4e9821af08519ccfb2b0e7e71fff4188">More...</a><br /></td></tr>
+<tr class="separator:a4e9821af08519ccfb2b0e7e71fff4188"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a778b9c9ec502a7705590303bd6450b21"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a778b9c9ec502a7705590303bd6450b21"></a>
 unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_image.html#a778b9c9ec502a7705590303bd6450b21">width</a> () const </td></tr>
 <tr class="memdesc:a778b9c9ec502a7705590303bd6450b21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the width. <br /></td></tr>
@@ -187,10 +197,66 @@ const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a cl
 <tr class="memitem:a4b1aa4d7980c4f5b99c3ea49ee0090ee inherit pub_methods_classhect_1_1_asset"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; <a class="el" href="classhect_1_1_image.html">Image</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a4b1aa4d7980c4f5b99c3ea49ee0090ee">createHandle</a> ()</td></tr>
 <tr class="memdesc:a4b1aa4d7980c4f5b99c3ea49ee0090ee inherit pub_methods_classhect_1_1_asset"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an unowned handle to the asset.  <a href="#a4b1aa4d7980c4f5b99c3ea49ee0090ee">More...</a><br /></td></tr>
 <tr class="separator:a4b1aa4d7980c4f5b99c3ea49ee0090ee inherit pub_methods_classhect_1_1_asset"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classhect_1_1_asset"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classhect_1_1_asset')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classhect_1_1_asset.html">hect::Asset&lt; Image &gt;</a></td></tr>
+<tr class="memitem:a700e0df0c7cd2b91bc1be458c68d34e1 inherit pub_types_classhect_1_1_asset"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classhect_1_1_asset_handle.html">AssetHandle</a>&lt; <a class="el" href="classhect_1_1_image.html">Image</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhect_1_1_asset.html#a700e0df0c7cd2b91bc1be458c68d34e1">Handle</a></td></tr>
+<tr class="separator:a700e0df0c7cd2b91bc1be458c68d34e1 inherit pub_types_classhect_1_1_asset"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A 2-dimensional image. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="abfb563ccce161f5f19d94f0dfbb8a600"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hect::Image::Image </td>
+          <td>(</td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacehect.html#a2f094efd6c018cc87b85c222debb1694">PixelType</a>&#160;</td>
+          <td class="paramname"><em>pixelType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacehect.html#a550f0e1b5c17530f19032df9547afd04">PixelFormat</a>&#160;</td>
+          <td class="paramname"><em>pixelFormat</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs an image. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>The width. </td></tr>
+    <tr><td class="paramname">height</td><td>The height. </td></tr>
+    <tr><td class="paramname">pixelType</td><td>The pixel type. </td></tr>
+    <tr><td class="paramname">pixelFormat</td><td>The pixel format. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a26ac7f2639e9afc7f69e090c8e587711"></a>
 <div class="memitem">
 <div class="memproto">
@@ -233,6 +299,48 @@ const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a cl
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">height</td><td>The new height. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a4e9821af08519ccfb2b0e7e71fff4188"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hect::Image::setPixel </td>
+          <td>(</td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhect_1_1_color.html">Color</a> &amp;&#160;</td>
+          <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Writes a color value to a pixel. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>The x coordinate. </td></tr>
+    <tr><td class="paramname">y</td><td>The y coordinate. </td></tr>
+    <tr><td class="paramname">color</td><td>The color to write to the pixel </td></tr>
   </table>
   </dd>
 </dl>
@@ -338,7 +446,7 @@ const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a cl
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 15 2015 21:30:43 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 20 2015 22:37:42 for Hect Engine by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
