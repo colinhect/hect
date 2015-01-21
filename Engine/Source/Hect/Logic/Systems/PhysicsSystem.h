@@ -23,11 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/System.h"
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Timing/TimeSpan.h"
 
@@ -47,8 +46,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT PhysicsSystem :
-    public BaseSystem,
-    public Listener<ComponentEvent<RigidBody>>
+    public System<RigidBody>
 {
 public:
     PhysicsSystem(Engine& engine, Scene& scene);
@@ -69,11 +67,9 @@ public:
     void commit(RigidBody& rigidBody);
 
     void tick(Engine& engine, double timeStep) override;
-    void receiveEvent(const ComponentEvent<RigidBody>& event) override;
+    void onComponentAdded(RigidBody::Iterator rigidBody) override;
+    void onComponentRemoved(RigidBody::Iterator rigidBody) override;
 
-    ///
-    /// The gravitational acceleration applied to all rigid bodies.
-    /// \property
     Vector3 gravity;
 
 private:

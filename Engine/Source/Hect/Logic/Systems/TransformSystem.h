@@ -23,9 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/System.h"
 #include "Hect/Logic/Components/Transform.h"
 
 namespace hect
@@ -36,8 +35,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT TransformSystem :
-    public BaseSystem,
-    public Listener<ComponentEvent<Transform>>
+    public System<Transform>
 {
 public:
     TransformSystem(Engine& engine, Scene& scene);
@@ -56,7 +54,7 @@ public:
     void update(Transform& transform);
 
     void tick(Engine& engine, double timeStep) override;
-    void receiveEvent(const ComponentEvent<Transform>& event) override;
+    void onComponentAdded(Transform::Iterator transform) override;
 
 private:
     void updateRecursively(Entity& parent, Entity& child);

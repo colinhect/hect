@@ -31,7 +31,7 @@
 #include <vector>
 
 #include "Hect/Core/Export.h"
-#include "Hect/Logic/System.h"
+#include "Hect/Logic/BaseSystem.h"
 
 namespace hect
 {

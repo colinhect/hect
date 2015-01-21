@@ -37,7 +37,7 @@
 #include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/Entity.h"
 #include "Hect/Logic/EntityPool.h"
-#include "Hect/Logic/System.h"
+#include "Hect/Logic/BaseSystem.h"
 #include "Hect/Logic/SystemRegistry.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"

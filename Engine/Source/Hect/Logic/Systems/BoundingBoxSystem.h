@@ -23,9 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/System.h"
 #include "Hect/Logic/Components/BoundingBox.h"
 
 namespace hect
@@ -36,8 +35,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT BoundingBoxSystem :
-    public BaseSystem,
-    public Listener<ComponentEvent<BoundingBox>>
+    public System<BoundingBox>
 {
     friend class TransformSystem;
 public:
@@ -50,7 +48,7 @@ public:
     void update(BoundingBox& boundingBox);
 
     void tick(Engine& engine, double timeStep) override;
-    void receiveEvent(const ComponentEvent<BoundingBox>& event) override;
+    void onComponentAdded(BoundingBox::Iterator boundingBox) override;
 
 private:
     void updateRecursively(Entity& entity);

@@ -21,42 +21,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include "Hect/Core/Event.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Logic/ComponentEvent.h"
-#include "Hect/Logic/ComponentPool.h"
-#include "Hect/Logic/Entity.h"
-#include "Hect/Logic/Scene.h"
-
 namespace hect
 {
 
-template <typename T>
-class ListeningSystem :
-    public Listener<ComponentEvent<T>>
-{
-public:
-    ListeningSystem(Scene& scene);
-    virtual ~ListeningSystem() { }
-
-    virtual void onComponentAdded(typename T::Iterator component);
-    virtual void onComponentRemoved(typename T::Iterator component);
-
-    void receiveEvent(const ComponentEvent<T>& event) override;
-};
-
 template <typename... ComponentTypes>
-class System :
-    public ListeningSystem<ComponentTypes>...,
-    public BaseSystem
+System<ComponentTypes...>::System(Scene& scene, SystemTickStage tickStage) :
+    ComponentListener<ComponentTypes>(scene)...,
+    BaseSystem(scene, tickStage)
 {
-public:
-    System(Scene& scene);
-    virtual ~System() { }
-};
-
 }
 
-#include "ListeningSystem.inl"
+}

@@ -23,9 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/System.h"
 #include "Hect/Logic/Components/Camera.h"
 
 namespace hect
@@ -36,8 +35,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT CameraSystem :
-    public BaseSystem,
-    public Listener<ComponentEvent<Camera>>
+    public System<Camera>
 {
 public:
     CameraSystem(Engine& engine, Scene& scene);
@@ -59,7 +57,7 @@ public:
     void update(Camera& camera);
 
     void tick(Engine& engine, double timeStep) override;
-    void receiveEvent(const ComponentEvent<Camera>& event) override;
+    void onComponentAdded(Camera::Iterator camera) override;
 
 private:
     Entity::Handle _activeCameraEntity;

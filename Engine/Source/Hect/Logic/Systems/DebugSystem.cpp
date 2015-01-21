@@ -28,7 +28,7 @@
 using namespace hect;
 
 DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
-    BaseSystem(scene, SystemTickStage_Precedent)
+    System(scene, SystemTickStage_Precedent)
 {
     AssetCache& assetCache = engine.assetCache();
 

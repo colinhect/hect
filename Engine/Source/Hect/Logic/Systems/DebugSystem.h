@@ -26,7 +26,7 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/Material.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/System.h"
 #include "Hect/Logic/Components/Transform.h"
 #include "Hect/Logic/Systems/RenderSystem.h"
 #include "Hect/Spacial/Box.h"
@@ -57,7 +57,7 @@ enum DebugColor
 ///
 /// \system
 class HECT_EXPORT DebugSystem :
-    public BaseSystem
+    public System<>
 {
 public:
     DebugSystem(Engine& engine, Scene& scene);

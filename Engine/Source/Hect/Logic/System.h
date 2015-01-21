@@ -23,31 +23,19 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <cstdint>
-
-#include "Hect/Core/Export.h"
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
-#include "Hect/Logic/SystemTickStage.h"
+#include "Hect/Logic/ComponentListener.h"
 
 namespace hect
 {
 
-class Engine;
-class RenderTarget;
-class Scene;
-
-///
-/// A numeric identifier for a system type.
-typedef uint32_t SystemTypeId;
 
 ///
 /// A system affecting entities within a scene.
-class HECT_EXPORT BaseSystem :
-    public Uncopyable
+template <typename... ComponentTypes>
+class System :
+    public ComponentListener<ComponentTypes>...,
+    public BaseSystem
 {
-    friend class Scene;
 public:
 
     ///
@@ -55,52 +43,11 @@ public:
     ///
     /// \param scene The scene that the system exists in.
     /// \param tickStage The stage to tick the system in.
-    BaseSystem(Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
+    System(Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
 
-    virtual ~BaseSystem() { }
-
-    ///
-    /// Performs a single tick of simulation for the system.
-    ///
-    /// \param engine The engine.
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// simulate.
-    virtual void tick(Engine& engine, double timeStep);
-
-    ///
-    /// Renders the current state of the system to a target.
-    ///
-    /// \param engine The engine.
-    /// \param target The target to render to.
-    virtual void render(Engine& engine, RenderTarget& target);
-
-    ///
-    /// Gets the scene that the system affects.
-    Scene& scene();
-
-    ///
-    /// Gets the scene that the system affects.
-    const Scene& scene() const;
-
-    ///
-    /// Returns the tick stage.
-    SystemTickStage tickStage() const;
-
-    ///
-    /// Encodes the system to an object.
-    ///
-    /// \param encoder The encoder to use.
-    virtual void encode(Encoder& encoder) const;
-
-    ///
-    /// Decodes the system from an object
-    ///
-    /// \param decoder The decoder to use.
-    virtual void decode(Decoder& decoder);
-
-private:
-    Scene& _scene;
-    SystemTickStage _tickStage { SystemTickStage_Normal };
+    virtual ~System() { }
 };
 
 }
+
+#include "System.inl"

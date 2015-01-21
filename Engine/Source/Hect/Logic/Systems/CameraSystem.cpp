@@ -29,10 +29,9 @@
 using namespace hect;
 
 CameraSystem::CameraSystem(Engine& engine, Scene& scene) :
-    BaseSystem(scene, SystemTickStage_Subsequent)
+    System(scene, SystemTickStage_Subsequent)
 {
     (void)engine;
-    scene.components<Camera>().addListener(*this);
 }
 
 Camera::Iterator CameraSystem::activeCamera()
@@ -82,14 +81,11 @@ void CameraSystem::tick(Engine& engine, double timeStep)
     }
 }
 
-void CameraSystem::receiveEvent(const ComponentEvent<Camera>& event)
+void CameraSystem::onComponentAdded(Camera::Iterator camera)
 {
-    if (event.type == ComponentEventType_Add)
+    // If there is no active camera then use the most recently added camera
+    if (!_activeCameraEntity)
     {
-        // If there is no active camera then use the most recently added camera
-        if (!_activeCameraEntity)
-        {
-            _activeCameraEntity = event.entity->createHandle();
-        }
+        _activeCameraEntity = camera->entity()->createHandle();
     }
 }

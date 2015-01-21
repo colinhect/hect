@@ -31,7 +31,7 @@
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/Renderer.h"
-#include "Hect/Logic/Scene.h"
+#include "Hect/Logic/System.h"
 #include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/Components/DirectionalLight.h"
 #include "Hect/Logic/Components/Transform.h"
@@ -45,7 +45,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT RenderSystem :
-    public BaseSystem
+    public System<>
 {
 public:
     RenderSystem(Engine& engine, Scene& scene);

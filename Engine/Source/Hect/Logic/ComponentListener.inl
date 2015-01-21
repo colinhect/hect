@@ -21,53 +21,44 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include <vector>
-
-#include "Hect/Core/Export.h"
-#include "Hect/Core/StringMap.h"
-#include "Hect/Input/InputAxis.h"
-#include "Hect/Logic/System.h"
+#include "Hect/Logic/ComponentPool.h"
+#include "Hect/Logic/Entity.h"
 
 namespace hect
 {
 
-///
-/// Maps user input to input axes.
-///
-/// \system
-class HECT_EXPORT InputSystem :
-    public System<>
+template <typename T>
+ComponentListener<T>::ComponentListener(Scene& scene)
 {
-public:
-    InputSystem(Engine& engine, Scene& scene);
+    scene.components<T>().addListener(*this);
+}
 
-    ///
-    /// Adds an axis.
-    ///
-    /// \param axis The axis to add.
-    ///
-    /// \throws InvalidOperation If an axis already exists with the same name.
-    void addAxis(const InputAxis& axis);
+template <typename T>
+void ComponentListener<T>::onComponentAdded(typename T::Iterator component)
+{
+    (void)component;
+}
 
-    ///
-    /// Returns the value of the axis with the given name.
-    ///
-    /// \param name The name of the axis.
-    ///
-    /// \returns The value of the axis; 0 if the axis does not exist.
-    double axisValue(const std::string& name) const;
+template <typename T>
+void ComponentListener<T>::onComponentRemoved(typename T::Iterator component)
+{
+    (void)component;
+}
 
-    ///
-    /// \copydoc InputSystem::axisValue()
-    double axisValue(const char* name) const;
+template <typename T>
+void ComponentListener<T>::receiveEvent(const ComponentEvent<T>& event)
+{
+    Entity& entity = *event.entity;
+    typename T::Iterator component = entity.component<T>();
 
-    void tick(Engine& engine, double timeStep) override;
-
-private:
-    std::vector<InputAxis> _axes;
-    StringMap<size_t> _axisIndices;
-};
+    if (event.type == ComponentEventType_Add)
+    {
+        onComponentAdded(component);
+    }
+    else
+    {
+        onComponentRemoved(component);
+    }
+}
 
 }

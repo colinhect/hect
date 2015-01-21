@@ -21,48 +21,49 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+#include "Hect/Core/Event.h"
+#include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Logic/Scene.h"
+
 namespace hect
 {
 
+///
+/// Receives events when certain type of Component is added to and removed
+/// from a Scene.
 template <typename T>
-ListeningSystem<T>::ListeningSystem(Scene& scene)
+class ComponentListener :
+    public Listener<ComponentEvent<T>>
 {
-    scene.components<T>().addListener(*this);
-}
+public:
 
-template <typename T>
-void ListeningSystem<T>::onComponentAdded(typename T::Iterator component)
-{
-    (void)component;
-}
+    ///
+    /// Constructs a component listener.
+    ///
+    /// \param scene The scene to receive component events from.
+    ComponentListener(Scene& scene);
 
-template <typename T>
-void ListeningSystem<T>::onComponentRemoved(typename T::Iterator component)
-{
-    (void)component;
-}
+    virtual ~ComponentListener() { }
 
-template <typename T>
-void ListeningSystem<T>::receiveEvent(const ComponentEvent<T>& event)
-{
-    Entity& entity = *event.entity;
-    typename T::Iterator component = entity.component<T>();
+    ///
+    /// Invoked when an entity is activated with a component of the specified
+    /// type or a component is added to an activated entity.
+    ///
+    /// \param component The component that was added.
+    virtual void onComponentAdded(typename T::Iterator component);
 
-    if (event.type == ComponentEventType_Add)
-    {
-        onComponentAdded(component);
-    }
-    else
-    {
-        onComponentRemoved(component);
-    }
-}
+    ///
+    /// Invoked when an entity is destroyed with a component of the specified
+    /// type or a component is removed from an activated entity.
+    ///
+    /// \param component The component that was removed.
+    virtual void onComponentRemoved(typename T::Iterator component);
 
-template <typename... ComponentTypes>
-System<ComponentTypes...>::System(Scene& scene) :
-    ListeningSystem<ComponentTypes>(scene)...,
-    BaseSystem(scene)
-{
-}
+    void receiveEvent(const ComponentEvent<T>& event) override;
+};
 
 }
+
+#include "ComponentListener.inl"

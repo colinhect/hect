@@ -25,7 +25,6 @@
 
 #include <algorithm>
 
-#include "Hect/Logic/Scene.h"
 #include "Hect/Logic/Components/BoundingBox.h"
 #include "Hect/Logic/Components/LightProbe.h"
 #include "Hect/Logic/Components/Model.h"
@@ -37,7 +36,7 @@
 using namespace hect;
 
 RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
-    BaseSystem(scene, SystemTickStage_Subsequent),
+    System(scene, SystemTickStage_Subsequent),
     _renderer(&engine.renderer()),
     _taskPool(&engine.taskPool()),
     _buffersInitialized(false)

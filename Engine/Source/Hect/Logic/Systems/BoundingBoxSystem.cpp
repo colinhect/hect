@@ -31,11 +31,9 @@
 using namespace hect;
 
 BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
-    BaseSystem(scene, SystemTickStage_Subsequent)
+    System(scene, SystemTickStage_Subsequent)
 {
     (void)engine;
-
-    scene.components<BoundingBox>().addListener(*this);
 }
 
 void BoundingBoxSystem::update(BoundingBox& boundingBox)
@@ -63,20 +61,15 @@ void BoundingBoxSystem::tick(Engine& engine, double timeStep)
     }
 }
 
-void BoundingBoxSystem::receiveEvent(const ComponentEvent<BoundingBox>& event)
+void BoundingBoxSystem::onComponentAdded(BoundingBox::Iterator boundingBox)
 {
-    // If a bounding box component was added to an entity
-    if (event.type == ComponentEventType_Add)
-    {
-        Entity& entity = *event.entity;
+    Entity::Iterator entity = boundingBox->entity();
 
-        // Update the extents of the bounding box if it is adaptive
-        BoundingBox::Iterator boundingBox = entity.component<BoundingBox>();
-        if (boundingBox && boundingBox->adaptive)
-        {
-            // Update the extent of the bounding box
-            updateRecursively(entity);
-        }
+    // Update the extents of the bounding box if it is adaptive
+    if (boundingBox && boundingBox->adaptive)
+    {
+        // Update the extent of the bounding box
+        updateRecursively(*entity);
     }
 }
 

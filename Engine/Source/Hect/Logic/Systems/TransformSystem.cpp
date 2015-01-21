@@ -29,11 +29,9 @@
 using namespace hect;
 
 TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
-    BaseSystem(scene, SystemTickStage_Subsequent)
+    System(scene, SystemTickStage_Subsequent)
 {
     (void)engine;
-
-    scene.components<Transform>().addListener(*this);
 }
 
 void TransformSystem::commit(Transform& transform)
@@ -84,18 +82,9 @@ void TransformSystem::tick(Engine& engine, double timeStep)
     _committed.clear();
 }
 
-void TransformSystem::receiveEvent(const ComponentEvent<Transform>& event)
+void TransformSystem::onComponentAdded(Transform::Iterator transform)
 {
-    // If a transform component was added to an entity
-    if (event.type == ComponentEventType_Add)
-    {
-        // Update the transform
-        Transform::Iterator transform = event.entity->component<Transform>();
-        if (transform)
-        {
-            update(*transform);
-        }
-    }
+    update(*transform);
 }
 
 void TransformSystem::updateRecursively(Entity& parent, Entity& child)
