@@ -30,7 +30,7 @@
 using namespace hect;
 
 InputSystem::InputSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Precedent)
+    BaseSystem(scene, SystemTickStage_Precedent)
 {
     for (const DataValue& axisValue : engine.settings()["inputAxes"])
     {

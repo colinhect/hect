@@ -29,7 +29,7 @@
 using namespace hect;
 
 CameraSystem::CameraSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Subsequent)
+    BaseSystem(scene, SystemTickStage_Subsequent)
 {
     (void)engine;
     scene.components<Camera>().addListener(*this);

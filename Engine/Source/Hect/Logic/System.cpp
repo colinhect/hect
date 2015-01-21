@@ -27,47 +27,47 @@
 
 using namespace hect;
 
-System::System(Scene& scene, SystemTickStage tickStage) :
+BaseSystem::BaseSystem(Scene& scene, SystemTickStage tickStage) :
     _scene(scene),
     _tickStage(tickStage)
 {
 }
 
-Scene& System::scene()
+Scene& BaseSystem::scene()
 {
     return _scene;
 }
 
-const Scene& System::scene() const
+const Scene& BaseSystem::scene() const
 {
     return _scene;
 }
 
-void System::tick(Engine& engine, double timeStep)
+void BaseSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;
     (void)timeStep;
 }
 
-void System::render(Engine& engine, RenderTarget& target)
+void BaseSystem::render(Engine& engine, RenderTarget& target)
 {
     (void)engine;
     (void)target;
 }
 
-SystemTickStage System::tickStage() const
+SystemTickStage BaseSystem::tickStage() const
 {
     return _tickStage;
 }
 
-void System::encode(Encoder& encoder) const
+void BaseSystem::encode(Encoder& encoder) const
 {
     // Default to the encoding registered with the reflected type
     const Type& type = Type::of(*this);
     type.encode(this, encoder);
 }
 
-void System::decode(Decoder& decoder)
+void BaseSystem::decode(Decoder& decoder)
 {
     // Default to the decoding registered with the reflected type
     const Type& type = Type::of(*this);

@@ -57,7 +57,7 @@ enum DebugColor
 ///
 /// \system
 class HECT_EXPORT DebugSystem :
-    public System
+    public BaseSystem
 {
 public:
     DebugSystem(Engine& engine, Scene& scene);

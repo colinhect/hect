@@ -28,7 +28,7 @@
 
 using namespace hect;
 
-std::shared_ptr<System> SystemRegistry::create(SystemTypeId typeId, Engine& engine, Scene& scene)
+std::shared_ptr<BaseSystem> SystemRegistry::create(SystemTypeId typeId, Engine& engine, Scene& scene)
 {
     if (!isRegisteredTypeId(typeId))
     {

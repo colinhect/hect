@@ -47,7 +47,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT PhysicsSystem :
-    public System,
+    public BaseSystem,
     public Listener<ComponentEvent<RigidBody>>
 {
 public:

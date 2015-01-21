@@ -189,7 +189,7 @@ public:
 
 private:
     void addSystemType(SystemTypeId typeId);
-    System& systemOfTypeId(SystemTypeId typeId);
+    BaseSystem& systemOfTypeId(SystemTypeId typeId);
 
     void addComponentType(ComponentTypeId typeId);
     ComponentPoolBase& componentPoolOfTypeId(ComponentTypeId typeId);
@@ -225,7 +225,7 @@ private:
     std::vector<std::shared_ptr<ComponentPoolBase>> _componentPools;
 
     std::vector<SystemTypeId> _systemTypeIds;
-    std::vector<std::shared_ptr<System>> _systems;
+    std::vector<std::shared_ptr<BaseSystem>> _systems;
     std::array<std::vector<SystemTypeId>, 3> _tickStages;
 };
 

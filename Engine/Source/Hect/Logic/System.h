@@ -44,7 +44,7 @@ typedef uint32_t SystemTypeId;
 
 ///
 /// A system affecting entities within a scene.
-class HECT_EXPORT System :
+class HECT_EXPORT BaseSystem :
     public Uncopyable
 {
     friend class Scene;
@@ -55,9 +55,9 @@ public:
     ///
     /// \param scene The scene that the system exists in.
     /// \param tickStage The stage to tick the system in.
-    System(Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
+    BaseSystem(Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
 
-    virtual ~System() { }
+    virtual ~BaseSystem() { }
 
     ///
     /// Performs a single tick of simulation for the system.

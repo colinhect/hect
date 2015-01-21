@@ -22,6 +22,7 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Logic/Scene.h>
+#include <Hect/Logic/ListeningSystem.h>
 #include <Hect/IO/BinaryDecoder.h>
 #include <Hect/IO/BinaryEncoder.h>
 #include <Hect/IO/DataValueDecoder.h>
@@ -62,14 +63,41 @@ public:
     }
 };
 
+
+class TestB :
+    public Component<TestB>
+{
+public:
+    std::string value;
+
+    TestB()
+    {
+    }
+
+    TestB(const std::string& value) :
+        value(value)
+    {
+    }
+
+    void encode(Encoder& encoder) const
+    {
+        encoder << encodeValue("value", value);
+    }
+
+    void decode(Decoder& decoder)
+    {
+        decoder >> decodeValue("value", value);
+    }
+};
+
 class TestSystem :
-    public System
+    public BaseSystem
 {
 public:
     std::string value;
 
     TestSystem(Engine& engine, Scene& scene) :
-        System(scene)
+        BaseSystem(scene)
     {
         (void)engine;
     }
@@ -101,6 +129,47 @@ public:
     }
 
     std::vector<ComponentEvent<Test>> receivedEvents;
+};
+
+class TestSystemB :
+    public System<Test, TestB>
+{
+public:
+    std::string value;
+
+    TestSystemB(Engine& engine, Scene& scene) :
+        System(scene)
+    {
+        (void)engine;
+    }
+
+    void tick(Engine& engine, double timeStep) override
+    {
+        (void)engine;
+        (void)timeStep;
+    }
+
+    void onComponentAdded(Test::Iterator test) override
+    {
+        (void)test;
+        value = "Test";
+    }
+
+    void onComponentAdded(TestB::Iterator test) override
+    {
+        (void)test;
+        value = "TestB";
+    }
+
+    void encode(Encoder& encoder) const
+    {
+        encoder << encodeValue("value", value);
+    }
+
+    void decode(Decoder& decoder)
+    {
+        decoder >> decodeValue("value", value);
+    }
 };
 
 void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::function<void(Scene& scene)> verifyScene)
@@ -158,12 +227,16 @@ TEST_CASE("Register a component type", "[Scene]")
 {
     Type::create<Test>(Kind_Class, "Test");
     ComponentRegistry::registerType<Test>();
+    Type::create<TestB>(Kind_Class, "TestB");
+    ComponentRegistry::registerType<TestB>();
 }
 
 TEST_CASE("Register a system type", "[Scene]")
 {
     Type::create<TestSystem>(Kind_Class, "TestSystem");
     SystemRegistry::registerType<TestSystem>();
+    Type::create<TestSystemB>(Kind_Class, "TestSystemB");
+    SystemRegistry::registerType<TestSystemB>();
 }
 
 TEST_CASE("Create and destroy entities in a scene", "[Scene]")
@@ -1705,4 +1778,24 @@ TEST_CASE("Encode and decode a simple scene with systems", "[Scene]")
     {
         REQUIRE(scene.system<TestSystem>().value == "Test");
     });
+}
+
+TEST_CASE("Temp...", "[Scene]")
+{
+    Scene scene(*engine);
+    scene.addComponentType<Test>();
+    scene.addComponentType<TestB>();
+
+    scene.addSystemType<TestSystem>();
+    scene.addSystemType<TestSystemB>();
+
+    Entity::Iterator entity = scene.createEntity();
+    entity->addComponent<Test>();
+    entity->activate();
+    scene.refresh();
+
+    REQUIRE(scene.system<TestSystemB>().value == "Test");
+
+    entity->addComponent<TestB>();
+    REQUIRE(scene.system<TestSystemB>().value == "TestB");
 }

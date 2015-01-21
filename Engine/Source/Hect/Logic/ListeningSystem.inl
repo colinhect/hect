@@ -21,39 +21,47 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include "Hect/Core/Event.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Logic/Scene.h"
-#include "Hect/Logic/Components/BoundingBox.h"
-
 namespace hect
 {
 
-///
-/// Manages the BoundingBox hierarchies of a Scene.
-///
-/// \system
-class HECT_EXPORT BoundingBoxSystem :
-    public BaseSystem,
-    public Listener<ComponentEvent<BoundingBox>>
+template <typename T>
+ListeningSystem<T>::ListeningSystem(Scene& scene)
 {
-    friend class TransformSystem;
-public:
-    BoundingBoxSystem(Engine& engine, Scene& scene);
+    scene.components<T>().addListener(*this);
+}
 
-    ///
-    /// Updates the extents of a bounding box and all bounding boxes affected.
-    ///
-    /// \param boundingBox The bounding box to update.
-    void update(BoundingBox& boundingBox);
+template <typename T>
+void ListeningSystem<T>::onComponentAdded(typename T::Iterator component)
+{
+    (void)component;
+}
 
-    void tick(Engine& engine, double timeStep) override;
-    void receiveEvent(const ComponentEvent<BoundingBox>& event) override;
+template <typename T>
+void ListeningSystem<T>::onComponentRemoved(typename T::Iterator component)
+{
+    (void)component;
+}
 
-private:
-    void updateRecursively(Entity& entity);
-};
+template <typename T>
+void ListeningSystem<T>::receiveEvent(const typename ComponentEvent<T>& event)
+{
+    typename T::Iterator component = event.entity->component<T>();
+
+    if (event.type == ComponentEventType_Add)
+    {
+        onComponentAdded(component);
+    }
+    else
+    {
+        onComponentRemoved(component);
+    }
+}
+
+template <typename... ComponentTypes>
+System<ComponentTypes...>::System(Scene& scene) :
+    ListeningSystem<ComponentTypes>(scene)...,
+    BaseSystem(scene)
+{
+}
 
 }

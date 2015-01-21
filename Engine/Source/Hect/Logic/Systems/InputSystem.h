@@ -38,7 +38,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT InputSystem :
-    public System
+    public BaseSystem
 {
 public:
     InputSystem(Engine& engine, Scene& scene);

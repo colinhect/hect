@@ -31,7 +31,7 @@
 using namespace hect;
 
 BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Subsequent)
+    BaseSystem(scene, SystemTickStage_Subsequent)
 {
     (void)engine;
 

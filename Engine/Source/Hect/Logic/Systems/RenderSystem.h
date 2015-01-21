@@ -45,7 +45,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT RenderSystem :
-    public System
+    public BaseSystem
 {
 public:
     RenderSystem(Engine& engine, Scene& scene);

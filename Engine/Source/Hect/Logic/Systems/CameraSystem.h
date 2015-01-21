@@ -36,7 +36,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT CameraSystem :
-    public System,
+    public BaseSystem,
     public Listener<ComponentEvent<Camera>>
 {
 public:

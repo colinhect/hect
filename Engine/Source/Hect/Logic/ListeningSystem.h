@@ -25,35 +25,38 @@
 
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Logic/ComponentEvent.h"
+#include "Hect/Logic/ComponentPool.h"
+#include "Hect/Logic/Entity.h"
 #include "Hect/Logic/Scene.h"
-#include "Hect/Logic/Components/BoundingBox.h"
 
 namespace hect
 {
 
-///
-/// Manages the BoundingBox hierarchies of a Scene.
-///
-/// \system
-class HECT_EXPORT BoundingBoxSystem :
-    public BaseSystem,
-    public Listener<ComponentEvent<BoundingBox>>
+template <typename T>
+class ListeningSystem :
+    public Listener<ComponentEvent<T>>
 {
-    friend class TransformSystem;
 public:
-    BoundingBoxSystem(Engine& engine, Scene& scene);
+    ListeningSystem(Scene& scene);
+    virtual ~ListeningSystem() { }
 
-    ///
-    /// Updates the extents of a bounding box and all bounding boxes affected.
-    ///
-    /// \param boundingBox The bounding box to update.
-    void update(BoundingBox& boundingBox);
+    virtual void onComponentAdded(typename T::Iterator component);
+    virtual void onComponentRemoved(typename T::Iterator component);
 
-    void tick(Engine& engine, double timeStep) override;
-    void receiveEvent(const ComponentEvent<BoundingBox>& event) override;
+    void receiveEvent(const typename ComponentEvent<T>& event) override;
+};
 
-private:
-    void updateRecursively(Entity& entity);
+template <typename... ComponentTypes>
+class System :
+    public ListeningSystem<ComponentTypes>...,
+    public BaseSystem
+{
+public:
+    System(Scene& scene);
+    virtual ~System() { }
 };
 
 }
+
+#include "ListeningSystem.inl"

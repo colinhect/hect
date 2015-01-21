@@ -37,7 +37,7 @@
 using namespace hect;
 
 RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Subsequent),
+    BaseSystem(scene, SystemTickStage_Subsequent),
     _renderer(&engine.renderer()),
     _taskPool(&engine.taskPool()),
     _buffersInitialized(false)
@@ -407,6 +407,7 @@ void RenderSystem::renderMesh(Renderer::Frame& frame, const Camera& camera, cons
     }
 
     // Render the mesh
+    frame.setCullMode(material.cullMode());
     frame.renderMesh(mesh);
 }
 

@@ -36,7 +36,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT TransformSystem :
-    public System,
+    public BaseSystem,
     public Listener<ComponentEvent<Transform>>
 {
 public:
