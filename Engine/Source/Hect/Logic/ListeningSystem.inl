@@ -43,7 +43,7 @@ void ListeningSystem<T>::onComponentRemoved(typename T::Iterator component)
 }
 
 template <typename T>
-void ListeningSystem<T>::receiveEvent(const typename ComponentEvent<T>& event)
+void ListeningSystem<T>::receiveEvent(const ComponentEvent<T>& event)
 {
     typename T::Iterator component = event.entity->component<T>();
 

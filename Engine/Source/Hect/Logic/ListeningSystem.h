@@ -44,7 +44,7 @@ public:
     virtual void onComponentAdded(typename T::Iterator component);
     virtual void onComponentRemoved(typename T::Iterator component);
 
-    void receiveEvent(const typename ComponentEvent<T>& event) override;
+    void receiveEvent(const ComponentEvent<T>& event) override;
 };
 
 template <typename... ComponentTypes>
