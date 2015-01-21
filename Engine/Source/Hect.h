@@ -93,8 +93,6 @@ namespace hect {}
 #include "Hect/Logic/Entity.h"
 #include "Hect/Logic/EntityEvent.h"
 #include "Hect/Logic/EntityPool.h"
-#include "Hect/Logic/Mode.h"
-#include "Hect/Logic/ModeRegistry.h"
 #include "Hect/Logic/IdPool.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Logic/System.h"

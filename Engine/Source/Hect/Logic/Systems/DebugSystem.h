@@ -78,6 +78,7 @@ public:
     /// with.
     void addRenderCalls(RenderSystem& renderSystem);
 
+    void initialize() override;
     void tick(Engine& engine, double timeStep) override;
 
 private:
@@ -93,6 +94,8 @@ private:
         Transform transform;
         DebugColor color { DebugColor_Primary };
     };
+
+    Renderer& _renderer;
 
     std::vector<DebugBox> _boxes;
     std::vector<Material> _coloredMaterials;

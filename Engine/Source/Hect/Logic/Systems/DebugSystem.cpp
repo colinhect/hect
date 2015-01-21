@@ -28,7 +28,8 @@
 using namespace hect;
 
 DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
-    System(scene, SystemTickStage_Precedent)
+    System(scene, SystemTickStage_Precedent),
+    _renderer(engine.renderer())
 {
     AssetCache& assetCache = engine.assetCache();
 
@@ -51,6 +52,12 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
     {
         renderSystem.addRenderCall(box.transform, *_boxMesh, _coloredMaterials[box.color]);
     }
+}
+
+void DebugSystem::initialize()
+{
+    _renderer.uploadShader(*_coloredLineShader);
+    _renderer.uploadMesh(*_boxMesh);
 }
 
 void DebugSystem::tick(Engine& engine, double timeStep)

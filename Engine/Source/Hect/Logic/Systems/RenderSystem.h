@@ -58,10 +58,7 @@ public:
     /// \param material The material to use.
     void addRenderCall(Transform& transform, Mesh& mesh, Material& material);
 
-    ///
-    /// Immediately uploads all render objects in the scene.
-    void uploadRendererObjects();
-
+    void initialize() override;
     void render(Engine& engine, RenderTarget& target) override;
 
 private:

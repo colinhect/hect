@@ -43,6 +43,10 @@ const Scene& BaseSystem::scene() const
     return _scene;
 }
 
+void BaseSystem::initialize()
+{
+}
+
 void BaseSystem::tick(Engine& engine, double timeStep)
 {
     (void)engine;

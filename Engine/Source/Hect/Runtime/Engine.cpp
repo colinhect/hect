@@ -28,8 +28,6 @@
 #include "Hect/IO/DataValueDecoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentRegistry.h"
-#include "Hect/Logic/Mode.h"
-#include "Hect/Logic/ModeRegistry.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
 
@@ -110,22 +108,25 @@ Engine::Engine(int argc, char* const argv[])
 
 int Engine::main()
 {
-    const DataValue& modeValue = _settings["mode"];
-    if (modeValue.isNull())
+    const DataValue& sceneValue = _settings["scene"];
+    if (sceneValue.isNull())
     {
-        HECT_ERROR("No mode specified in settings");
+        HECT_ERROR("No scene specified in settings");
     }
     else
     {
-        const std::string& modeTypeName = modeValue.asString();
+        Path scenePath = sceneValue.asString();
 
-        auto mode = ModeRegistry::create(modeTypeName, *this);
+        Scene& scene = _assetCache->get<Scene>(scenePath, *this);
 
         Timer timer;
         TimeSpan accumulator;
         TimeSpan delta;
 
-        double timeStep = mode->timeStep().seconds();
+        TimeSpan timeStep = TimeSpan::fromSeconds(1.0 / 60.0);
+
+        double timeStepSeconds = timeStep.seconds();
+        int64_t timeStepMicroseconds = timeStep.microseconds();
 
         bool active = true;
         while (_platform->handleEvents() && active)
@@ -136,15 +137,15 @@ int Engine::main()
             accumulator += deltaTime;
             delta += deltaTime;
 
-            while (active && accumulator.microseconds() >= mode->timeStep().microseconds())
+            while (active && accumulator.microseconds() >= timeStepMicroseconds)
             {
-                active = mode->tick(*this, timeStep);
+                scene.tick(*this, timeStepSeconds);
 
                 delta = TimeSpan();
-                accumulator -= mode->timeStep();
+                accumulator -= timeStep;
             }
 
-            mode->render(*this, *_window);
+            scene.render(*this, *_window);
             _window->swapBuffers();
         }
     }

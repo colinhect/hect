@@ -60,6 +60,10 @@ public:
     virtual ~BaseSystem() { }
 
     ///
+    /// Called before the first call to Scene::refresh().
+    virtual void initialize();
+
+    ///
     /// Performs a single tick of simulation for the system.
     ///
     /// \param engine The engine.

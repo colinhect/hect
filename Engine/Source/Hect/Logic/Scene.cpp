@@ -36,6 +36,20 @@ Scene::Scene(Engine& engine) :
 
 void Scene::refresh()
 {
+    if (!_initialized)
+    {
+        _initialized = true;
+
+        // Initialize all systems in order
+        for (std::vector<SystemTypeId>& tickStage : _tickStages)
+        {
+            for (SystemTypeId typeId : tickStage)
+            {
+                _systems[typeId]->initialize();
+            }
+        }
+    }
+
     _refreshing = true;
 
     // Create all entities pending creation

@@ -54,6 +54,33 @@ RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
     _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 }
 
+void RenderSystem::initialize()
+{
+    for (Model& model : scene().components<Model>())
+    {
+        for (ModelSurface& surface : model.surfaces)
+        {
+            Mesh& mesh = *surface.mesh;
+            Material& material = *surface.material;
+
+            _renderer->uploadMesh(mesh);
+            _renderer->uploadShader(*material.shader());
+            for (UniformValue& uniformValue : material.uniformValues())
+            {
+                if (uniformValue.type() == UniformType_Texture)
+                {
+                    _renderer->uploadTexture(*uniformValue.asTexture());
+                }
+            }
+        }
+    }
+
+    for (SkyBox& skyBox : scene().components<SkyBox>())
+    {
+        _renderer->uploadTexture(*skyBox.texture);
+    }
+}
+
 void RenderSystem::render(Engine& engine, RenderTarget& target)
 {
     (void)engine;
@@ -82,33 +109,6 @@ void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& mat
             _frameData.transparentPhysicalGeometry.emplace_back(transform, mesh, material);
             break;
         }
-    }
-}
-
-void RenderSystem::uploadRendererObjects()
-{
-    for (Model& model : scene().components<Model>())
-    {
-        for (ModelSurface& surface : model.surfaces)
-        {
-            Mesh& mesh = *surface.mesh;
-            Material& material = *surface.material;
-
-            _renderer->uploadMesh(mesh);
-            _renderer->uploadShader(*material.shader());
-            for (UniformValue& uniformValue : material.uniformValues())
-            {
-                if (uniformValue.type() == UniformType_Texture)
-                {
-                    _renderer->uploadTexture(*uniformValue.asTexture());
-                }
-            }
-        }
-    }
-
-    for (SkyBox& skyBox : scene().components<SkyBox>())
-    {
-        _renderer->uploadTexture(*skyBox.texture);
     }
 }
 

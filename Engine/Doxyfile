@@ -240,7 +240,6 @@ TAB_SIZE               = 4
 
 ALIASES                = "component=\note This class is a registered with the ComponentRegistry." \
                          "system=\note This class is a registered with the SystemRegistry." \
-                         "mode=\note This class is a registered with the ModeRegistry." \
                          "property=\note This member is a registered property." \
                          "property{1}=\note This member is a registered property." \
                          "property{2}=\note This member is a registered property." \
