@@ -71,7 +71,7 @@ public:
     /// The collision mesh.
     ///
     /// \property
-    AssetHandle<Mesh> mesh;
+    Mesh::Handle mesh;
 
 private:
     std::shared_ptr<btRigidBody> _rigidBody;

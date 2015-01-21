@@ -27,6 +27,7 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/UniformType.h"
+#include "Hect/Graphics/Texture.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
@@ -104,7 +105,7 @@ public:
     /// Constructs a texture uniform value.
     ///
     /// \param value The texture.
-    UniformValue(const AssetHandle<Texture>& value);
+    UniformValue(const Texture::Handle& value);
 
     ///
     /// Returns the type.
@@ -179,7 +180,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a texture.
-    void setValue(const AssetHandle<Texture>& value);
+    void setValue(const Texture::Handle& value);
 
     ///
     /// Returns the value as an integer.
@@ -211,7 +212,7 @@ public:
 
     ///
     /// Returns the value as a texture.
-    AssetHandle<Texture> asTexture() const;
+    Texture::Handle asTexture() const;
 
     ///
     /// Returns whether the value is not null.

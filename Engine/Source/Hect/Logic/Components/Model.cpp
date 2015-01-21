@@ -29,7 +29,7 @@ ModelSurface::ModelSurface()
 {
 }
 
-ModelSurface::ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material) :
+ModelSurface::ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material) :
     mesh(mesh),
     material(material)
 {

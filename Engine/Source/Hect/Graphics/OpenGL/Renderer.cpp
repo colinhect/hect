@@ -428,7 +428,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& val
         break;
     case UniformType_Texture:
     {
-        AssetHandle<Texture> texture = value.asTexture();
+        Texture::Handle texture = value.asTexture();
         if (texture)
         {
             setUniform(uniform, *texture);
@@ -885,7 +885,7 @@ void Renderer::uploadTexture(Texture& texture)
         target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
     }
 
-    for (AssetHandle<Image>& imageHandle : texture.sourceImages())
+    for (Image::Handle& imageHandle : texture.sourceImages())
     {
         Image& image = *imageHandle;
 

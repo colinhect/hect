@@ -124,13 +124,13 @@ private:
     FrameBuffer _geometryFrameBuffer;
     std::array<FrameBuffer, 2> _backFrameBuffers;
 
-    AssetHandle<Shader> _exposeShader;
-    AssetHandle<Shader> _compositeShader;
-    AssetHandle<Shader> _environmentShader;
-    AssetHandle<Shader> _directionalLightShader;
-    AssetHandle<Material> _skyBoxMaterial;
-    AssetHandle<Mesh> _screenMesh;
-    AssetHandle<Mesh> _skyBoxMesh;
+    Shader::Handle _exposeShader;
+    Shader::Handle _compositeShader;
+    Shader::Handle _environmentShader;
+    Shader::Handle _directionalLightShader;
+    Material::Handle _skyBoxMaterial;
+    Mesh::Handle _screenMesh;
+    Mesh::Handle _skyBoxMesh;
 
     Transform _identityTransform;
 

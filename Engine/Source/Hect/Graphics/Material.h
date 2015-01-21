@@ -56,7 +56,7 @@ public:
 
     ///
     /// Returns the shader.
-    const AssetHandle<Shader>& shader() const;
+    const Shader::Handle& shader() const;
 
     ///
     /// Sets the shader.
@@ -65,7 +65,7 @@ public:
     /// changes.
     ///
     /// \param shader The shader.
-    void setShader(const AssetHandle<Shader>& shader);
+    void setShader(const Shader::Handle& shader);
 
     ///
     /// Returns the values for the shader's uniforms.
@@ -120,7 +120,7 @@ public:
     friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Material& material);
 
 private:
-    AssetHandle<Shader> _shader;
+    Shader::Handle _shader;
     UniformValueContainer _uniformValues;
     CullMode _cullMode { CullMode_CounterClockwise };
 };

@@ -38,6 +38,10 @@ class Asset
 public:
 
     ///
+    /// \copydoc AssetHandle
+    typedef AssetHandle<T> Handle;
+
+    ///
     /// Constructs an asset.
     Asset();
 

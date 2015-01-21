@@ -65,12 +65,12 @@ class HECT_EXPORT Texture :
     public Asset<Texture>,
     public Renderer::Object<Texture>
 {
-    typedef std::vector<AssetHandle<Image>> ImageContainer;
+    typedef std::vector<Image::Handle> ImageContainer;
 public:
 
     ///
     /// A sequence of images.
-    typedef Sequence<AssetHandle<Image>, ImageContainer> ImageSequence;
+    typedef Sequence<Image::Handle, ImageContainer> ImageSequence;
 
     ///
     /// Constructs an empty 2-dimensional texture.
@@ -95,7 +95,7 @@ public:
     ///
     /// \param name The name.
     /// \param image The source image.
-    Texture(const std::string& name, const AssetHandle<Image>& image);
+    Texture(const std::string& name, const Image::Handle& image);
 
     ///
     /// Returns the texture type.
@@ -123,7 +123,7 @@ public:
     /// \throws InvalidOperation If the maximum number of source images have
     /// been added based on the texture type or the image does not match the
     /// width/height of the texture.
-    void addSourceImage(const AssetHandle<Image>& image);
+    void addSourceImage(const Image::Handle& image);
 
     ///
     /// Clears all source images that were added to the texture.

@@ -34,12 +34,12 @@ Material::Material(const std::string& name) :
 {
 }
 
-const AssetHandle<Shader>& Material::shader() const
+const Shader::Handle& Material::shader() const
 {
     return _shader;
 }
 
-void Material::setShader(const AssetHandle<Shader>& shader)
+void Material::setShader(const Shader::Handle& shader)
 {
     clearUniformValues();
     _shader = shader;

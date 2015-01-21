@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "UniformValue.h"
 
-#include "Hect/Graphics/Texture.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Path.h"
 
@@ -81,7 +80,7 @@ UniformValue::UniformValue(const Color& value) :
     setValue(value);
 }
 
-UniformValue::UniformValue(const AssetHandle<Texture>& value) :
+UniformValue::UniformValue(const Texture::Handle& value) :
     _type(UniformType_Texture)
 {
     setValue(value);
@@ -118,7 +117,7 @@ void UniformValue::setDefaultValue()
         _value = Color();
         break;
     case UniformType_Texture:
-        _value = AssetHandle<Texture>();
+        _value = Texture::Handle();
         break;
     }
 }
@@ -193,7 +192,7 @@ void UniformValue::setValue(const Color& value)
     _value = value;
 }
 
-void UniformValue::setValue(const AssetHandle<Texture>& value)
+void UniformValue::setValue(const Texture::Handle& value)
 {
     if (_type != UniformType_Texture)
     {
@@ -273,14 +272,14 @@ Color UniformValue::asColor() const
     return _value.as<Color>();
 }
 
-AssetHandle<Texture> UniformValue::asTexture() const
+Texture::Handle UniformValue::asTexture() const
 {
     if (_type != UniformType_Texture)
     {
         throw InvalidOperation("Uniform value is not of type 'Texture'");
     }
 
-    return _value.as<AssetHandle<Texture>>();
+    return _value.as<Texture::Handle>();
 }
 
 UniformValue::operator bool() const
@@ -427,7 +426,7 @@ Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue)
         break;
         case UniformType_Texture:
         {
-            AssetHandle<Texture> texture;
+            Texture::Handle texture;
             decoder >> decodeValue(texture);
             uniformValue.setValue(texture);
         }

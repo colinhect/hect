@@ -44,7 +44,7 @@ public:
     /// The texture.
     ///
     /// \property
-    AssetHandle<Texture> texture;
+    Texture::Handle texture;
 };
 
 }

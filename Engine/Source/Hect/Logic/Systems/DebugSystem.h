@@ -97,8 +97,8 @@ private:
     std::vector<DebugBox> _boxes;
     std::vector<Material> _coloredMaterials;
 
-    AssetHandle<Shader> _coloredLineShader;
-    AssetHandle<Mesh> _boxMesh;
+    Shader::Handle _coloredLineShader;
+    Mesh::Handle _boxMesh;
 };
 
 }

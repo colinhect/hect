@@ -36,6 +36,8 @@ namespace hect
 ///
 /// A reference-counted handle for an Asset.
 ///
+/// The prefered alias for this type is Asset::Handle.
+///
 /// \note An asset handle may reference an asset which was loaded from the
 /// file system and is cached in an asset cache.  Alternatively, it may
 /// reference a manually created asset.  A handle works much like a smart

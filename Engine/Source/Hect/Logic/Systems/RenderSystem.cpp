@@ -69,7 +69,7 @@ void RenderSystem::render(Engine& engine, RenderTarget& target)
 
 void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& material)
 {
-    const AssetHandle<Shader>& shader = material.shader();
+    const Shader::Handle& shader = material.shader();
     if (shader)
     {
         switch (shader->schema())

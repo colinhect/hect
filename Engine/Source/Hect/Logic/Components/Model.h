@@ -43,15 +43,15 @@ public:
     ///
     /// \param mesh The mesh.
     /// \param material The material.
-    ModelSurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material);
+    ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material);
 
     ///
     /// The mesh.
-    AssetHandle<Mesh> mesh;
+    Mesh::Handle mesh;
 
     ///
     /// The material.
-    AssetHandle<Material> material;
+    Material::Handle material;
 
     friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const ModelSurface& modelSurface);
     friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, ModelSurface& modelSurface);

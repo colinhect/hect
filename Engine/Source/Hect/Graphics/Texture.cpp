@@ -43,7 +43,7 @@ Texture::Texture(const std::string& name, unsigned width, unsigned height, Pixel
     _mipmapped(mipmapped),
     _wrapped(wrapped)
 {
-    AssetHandle<Image> sourceImage(new Image());
+    Image::Handle sourceImage(new Image());
     sourceImage->setWidth(width);
     sourceImage->setHeight(height);
     sourceImage->setPixelType(pixelType);
@@ -51,7 +51,7 @@ Texture::Texture(const std::string& name, unsigned width, unsigned height, Pixel
     addSourceImage(sourceImage);
 }
 
-Texture::Texture(const std::string& name, const AssetHandle<Image>& image) :
+Texture::Texture(const std::string& name, const Image::Handle& image) :
     Asset(name)
 {
     addSourceImage(image);
@@ -76,7 +76,7 @@ Texture::ImageSequence Texture::sourceImages()
     return _sourceImages;
 }
 
-void Texture::addSourceImage(const AssetHandle<Image>& image)
+void Texture::addSourceImage(const Image::Handle& image)
 {
     if (_type == TextureType_2D)
     {
@@ -307,10 +307,10 @@ Decoder& operator>>(Decoder& decoder, Texture& texture)
     // Images
     if (decoder.selectMember("images"))
     {
-        std::vector<AssetHandle<Image>> images;
+        std::vector<Image::Handle> images;
         decoder >> decodeVector(images);
 
-        for (AssetHandle<Image>& image : images)
+        for (Image::Handle& image : images)
         {
             // Remove the image from the asset cache because we don't want to
             // store uncompressed image data in main memory
