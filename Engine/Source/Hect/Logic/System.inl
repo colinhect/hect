@@ -28,6 +28,8 @@ namespace hect
 
 template <typename... ComponentTypes>
 System<ComponentTypes...>::System(Engine& engine, Scene& scene, SystemTickStage tickStage) :
+
+// Work-around for Visual Studio 2013 compiler bug (issue #167)
 #ifdef _MSC_VER
     ComponentListener<ComponentTypes>(scene)...,
     SystemBase(scene, tickStage)
@@ -35,6 +37,7 @@ System<ComponentTypes...>::System(Engine& engine, Scene& scene, SystemTickStage 
     SystemBase(scene, tickStage),
     ComponentListener<ComponentTypes>(scene)...
 #endif
+
 {
     (void)engine;
 }

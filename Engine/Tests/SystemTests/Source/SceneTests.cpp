@@ -21,16 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Logic/Scene.h>
-#include <Hect/Logic/System.h>
-#include <Hect/IO/BinaryDecoder.h>
-#include <Hect/IO/BinaryEncoder.h>
-#include <Hect/IO/DataValueDecoder.h>
-#include <Hect/IO/DataValueEncoder.h>
-#include <Hect/IO/MemoryReadStream.h>
-#include <Hect/IO/MemoryWriteStream.h>
-#include <Hect/Runtime/Engine.h>
-
+#include <Hect.h>
 using namespace hect;
 
 #include <catch.hpp>
@@ -90,15 +81,14 @@ public:
 };
 
 class TestSystemA :
-    public SystemBase
+    public System<>
 {
 public:
     std::string value;
 
     TestSystemA(Engine& engine, Scene& scene) :
-        SystemBase(scene)
+        System(engine, scene)
     {
-        (void)engine;
     }
 
     void tick(double timeStep) override
@@ -162,51 +152,47 @@ public:
 void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::function<void(Scene& scene)> verifyScene)
 {
     // Json
+    DataValue dataValue;
+
     {
-        DataValue dataValue;
+        Scene scene(*engine);
 
-        {
-            Scene scene(*engine);
+        createScene(scene);
 
-            createScene(scene);
+        DataValueEncoder encoder;
+        encoder << encodeValue(scene);
+        dataValue = encoder.dataValues()[0];
+    }
 
-            DataValueEncoder encoder;
-            encoder << encodeValue(scene);
-            dataValue = encoder.dataValues()[0];
-        }
+    {
+        Scene scene(*engine);
 
-        {
-            Scene scene(*engine);
+        DataValueDecoder decoder(dataValue);
+        decoder >> decodeValue(scene);
 
-            DataValueDecoder decoder(dataValue);
-            decoder >> decodeValue(scene);
-
-            verifyScene(scene);
-        }
+        verifyScene(scene);
     }
 
     // Binary
+    std::vector<uint8_t> data;
+
     {
-        std::vector<uint8_t> data;
+        Scene scene(*engine);
+        createScene(scene);
 
-        {
-            Scene scene(*engine);
-            createScene(scene);
+        MemoryWriteStream writeStream(data);
+        BinaryEncoder encoder(writeStream);
+        encoder << encodeValue(scene);
+    }
 
-            MemoryWriteStream writeStream(data);
-            BinaryEncoder encoder(writeStream);
-            encoder << encodeValue(scene);
-        }
+    {
+        Scene scene(*engine);
 
-        {
-            Scene scene(*engine);
+        MemoryReadStream readStream(data);
+        BinaryDecoder decoder(readStream);
+        decoder >> decodeValue(scene);
 
-            MemoryReadStream readStream(data);
-            BinaryDecoder decoder(readStream);
-            decoder >> decodeValue(scene);
-
-            verifyScene(scene);
-        }
+        verifyScene(scene);
     }
 }
 
@@ -435,7 +421,7 @@ TEST_CASE("Create and activate many entities in a scene", "[Scene]")
     Scene scene(*engine);
 
     std::vector<Entity::Iterator> entities;
-    for (EntityId id = 0; id < 128; ++id)
+    for (EntityId id = 0; id < 16; ++id)
     {
         {
             Entity::Iterator entity = scene.createEntity();

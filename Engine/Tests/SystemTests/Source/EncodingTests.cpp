@@ -21,18 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Graphics/Material.h>
-#include <Hect/Graphics/Mesh.h>
-#include <Hect/Graphics/Shader.h>
-#include <Hect/Graphics/Texture.h>
-#include <Hect/IO/BinaryDecoder.h>
-#include <Hect/IO/BinaryEncoder.h>
-#include <Hect/IO/DataValueDecoder.h>
-#include <Hect/IO/DataValueEncoder.h>
-#include <Hect/IO/MemoryReadStream.h>
-#include <Hect/IO/MemoryWriteStream.h>
-#include <Hect/Runtime/Engine.h>
-
+#include <Hect.h>
 using namespace hect;
 
 #include <catch.hpp>
