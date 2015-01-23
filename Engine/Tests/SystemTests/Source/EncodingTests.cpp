@@ -40,40 +40,36 @@ void testEncoding(const Path& assetPath)
     T& asset = *handle;
 
     // JSON
+    DataValue dataValue;
     {
-        DataValue dataValue;
-        {
-            DataValueEncoder encoder;
-            encoder << asset;
-            dataValue = *encoder.dataValues().begin();
-        }
-        {
-            T decodedAsset;
+        DataValueEncoder encoder;
+        encoder << asset;
+        dataValue = *encoder.dataValues().begin();
+    }
+    {
+        T decodedAsset;
 
-            DataValueDecoder decoder(dataValue, engine->assetCache());
-            decoder >> decodedAsset;
+        DataValueDecoder decoder(dataValue, engine->assetCache());
+        decoder >> decodedAsset;
 
-            REQUIRE(asset == decodedAsset);
-        }
+        REQUIRE(asset == decodedAsset);
     }
 
     // Binary
+    std::vector<uint8_t> data;
     {
-        std::vector<uint8_t> data;
-        {
-            MemoryWriteStream stream(data);
-            BinaryEncoder encoder(stream);
-            encoder << asset;
-        }
-        {
-            T decodedAsset;
+        MemoryWriteStream stream(data);
+        BinaryEncoder encoder(stream);
+        encoder << asset;
+    }
+    {
+        T decodedAsset;
 
-            MemoryReadStream stream(data);
-            BinaryDecoder decoder(stream, engine->assetCache());
-            decoder >> decodedAsset;
+        MemoryReadStream stream(data);
+        BinaryDecoder decoder(stream, engine->assetCache());
+        decoder >> decodedAsset;
 
-            REQUIRE(asset == decodedAsset);
-        }
+        REQUIRE(asset == decodedAsset);
     }
 }
 

@@ -223,7 +223,7 @@ private:
     size_t _entityCount { 0 };
     EntityPool _entityPool;
 
-    bool _initialized{ false };
+    bool _initialized { false };
     bool _active { true };
     bool _refreshing { false };
 
