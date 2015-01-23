@@ -22,13 +22,19 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Runtime/Engine.h"
+
 namespace hect
 {
 
 template <typename... ComponentTypes>
 System<ComponentTypes...>::System(Engine& engine, Scene& scene, SystemTickStage tickStage) :
+#ifdef _MSC_VER
     ComponentListener<ComponentTypes>(scene)...,
     SystemBase(scene, tickStage)
+#else
+    SystemBase(scene, tickStage),
+    ComponentListener<ComponentTypes>(scene)...
+#endif
 {
     (void)engine;
 }
