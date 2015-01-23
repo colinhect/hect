@@ -70,6 +70,10 @@ public:
     void onComponentAdded(RigidBody::Iterator rigidBody) override;
     void onComponentRemoved(RigidBody::Iterator rigidBody) override;
 
+    ///
+    /// The gravitational force to apply to all rigid bodies.
+    ///
+    /// \property
     Vector3 gravity;
 
 private:

@@ -118,7 +118,7 @@ Transform convertFromBullet(const btTransform& t)
 
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
     System(engine, scene, SystemTickStage_Subsequent),
-    gravity(Vector3::zero()),
+    gravity(Vector3(0, 0, -9.8)),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
