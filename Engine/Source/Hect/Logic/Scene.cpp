@@ -34,6 +34,16 @@ Scene::Scene(Engine& engine) :
 {
 }
 
+bool Scene::active() const
+{
+    return _active;
+}
+
+void Scene::setActivate(bool active)
+{
+    _active = active;
+}
+
 void Scene::refresh()
 {
     if (!_initialized)

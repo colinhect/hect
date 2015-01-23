@@ -115,42 +115,47 @@ int Engine::main()
     }
     else
     {
+        // Load the specified scene
         Path scenePath = sceneValue.asString();
-
         Scene& scene = _assetCache->get<Scene>(scenePath, *this);
 
-        Timer timer;
-        TimeSpan accumulator;
-        TimeSpan delta;
-
-        TimeSpan timeStep = TimeSpan::fromSeconds(1.0 / 60.0);
-
-        double timeStepSeconds = timeStep.seconds();
-        int64_t timeStepMicroseconds = timeStep.microseconds();
-
-        bool active = true;
-        while (_platform->handleEvents() && active)
-        {
-            TimeSpan deltaTime = timer.elapsed();
-            timer.reset();
-
-            accumulator += deltaTime;
-            delta += deltaTime;
-
-            while (active && accumulator.microseconds() >= timeStepMicroseconds)
-            {
-                scene.tick(timeStepSeconds);
-
-                delta = TimeSpan();
-                accumulator -= timeStep;
-            }
-
-            scene.render(*_window);
-            _window->swapBuffers();
-        }
+        // Play the scene
+        playScene(scene);
     }
 
     return 0;
+}
+
+void Engine::playScene(Scene& scene)
+{
+    Timer timer;
+    TimeSpan accumulator;
+    TimeSpan delta;
+
+    TimeSpan timeStep = TimeSpan::fromSeconds(1.0 / 60.0);
+
+    double timeStepSeconds = timeStep.seconds();
+    int64_t timeStepMicroseconds = timeStep.microseconds();
+
+    while (_platform->handleEvents() && scene.active())
+    {
+        TimeSpan deltaTime = timer.elapsed();
+        timer.reset();
+
+        accumulator += deltaTime;
+        delta += deltaTime;
+
+        while (scene.active() && accumulator.microseconds() >= timeStepMicroseconds)
+        {
+            scene.tick(timeStepSeconds);
+
+            delta = TimeSpan();
+            accumulator -= timeStep;
+        }
+
+        scene.render(*_window);
+        _window->swapBuffers();
+    }
 }
 
 FileSystem& Engine::fileSystem()

@@ -134,6 +134,16 @@ public:
     const ComponentPool<T>& components() const;
 
     ///
+    /// Returns whether the scene is active.
+    bool active() const;
+
+    ///
+    /// Sets whether the scene is active.
+    ///
+    /// \param active True if the scene is active; false otherwise.
+    void setActivate(bool active);
+
+    ///
     /// Creates entities pending creation, activates entities pending
     /// activation, and destroys entities pending destruction.
     ///
@@ -213,7 +223,8 @@ private:
     size_t _entityCount { 0 };
     EntityPool _entityPool;
 
-    bool _initialized { false };
+    bool _initialized{ false };
+    bool _active { true };
     bool _refreshing { false };
 
     std::vector<EntityId> _entitiesPendingCreation;

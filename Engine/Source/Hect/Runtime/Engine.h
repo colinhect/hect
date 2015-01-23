@@ -37,6 +37,8 @@
 namespace hect
 {
 
+class Scene;
+
 ///
 /// An instance of Hect %Engine.
 ///
@@ -58,6 +60,12 @@ public:
     ///
     /// \returns The process return code.
     int main();
+
+    ///
+    /// Plays a scene for as long as it remains active.
+    ///
+    /// \param scene The scene to play.
+    void playScene(Scene& scene);
 
     ///
     /// Returns the file system.
