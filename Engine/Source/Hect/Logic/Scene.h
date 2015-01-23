@@ -37,7 +37,7 @@
 #include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/Entity.h"
 #include "Hect/Logic/EntityPool.h"
-#include "Hect/Logic/BaseSystem.h"
+#include "Hect/Logic/SystemBase.h"
 #include "Hect/Logic/SystemRegistry.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
@@ -197,7 +197,7 @@ public:
 
 private:
     void addSystemType(SystemTypeId typeId);
-    BaseSystem& systemOfTypeId(SystemTypeId typeId);
+    SystemBase& systemOfTypeId(SystemTypeId typeId);
 
     void addComponentType(ComponentTypeId typeId);
     ComponentPoolBase& componentPoolOfTypeId(ComponentTypeId typeId);
@@ -235,7 +235,7 @@ private:
     std::vector<std::shared_ptr<ComponentPoolBase>> _componentPools;
 
     std::vector<SystemTypeId> _systemTypeIds;
-    std::vector<std::shared_ptr<BaseSystem>> _systems;
+    std::vector<std::shared_ptr<SystemBase>> _systems;
     std::array<std::vector<SystemTypeId>, 3> _tickStages;
 };
 

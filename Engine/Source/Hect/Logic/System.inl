@@ -28,7 +28,7 @@ namespace hect
 template <typename... ComponentTypes>
 System<ComponentTypes...>::System(Engine& engine, Scene& scene, SystemTickStage tickStage) :
     ComponentListener<ComponentTypes>(scene)...,
-    BaseSystem(scene, tickStage)
+    SystemBase(scene, tickStage)
 {
     (void)engine;
 }

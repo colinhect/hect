@@ -179,7 +179,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     _systemTypeIds.push_back(typeId);
 }
 
-BaseSystem& Scene::systemOfTypeId(SystemTypeId typeId)
+SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
 {
     if (!SystemRegistry::isRegisteredTypeId(typeId))
     {
@@ -442,7 +442,7 @@ void Scene::encode(Encoder& encoder) const
     {
         for (SystemTypeId typeId : tickStage)
         {
-            BaseSystem* system = _systems[typeId].get();
+            SystemBase* system = _systems[typeId].get();
 
             encoder << beginObject();
 
@@ -570,7 +570,7 @@ void Scene::decode(Decoder& decoder)
                 typeId = SystemRegistry::typeIdOf(typeName);
             }
 
-            BaseSystem& system = systemOfTypeId(typeId);
+            SystemBase& system = systemOfTypeId(typeId);
             system.decode(decoder);
 
             decoder >> endObject();

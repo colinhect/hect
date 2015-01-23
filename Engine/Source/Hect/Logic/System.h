@@ -34,7 +34,7 @@ class Engine;
 /// A system affecting entities within a scene.
 template <typename... ComponentTypes>
 class System :
-    public BaseSystem,
+    public SystemBase,
     public ComponentListener<ComponentTypes>...
 {
 public:

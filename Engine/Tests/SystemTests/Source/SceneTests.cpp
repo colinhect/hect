@@ -90,13 +90,13 @@ public:
 };
 
 class TestSystemA :
-    public BaseSystem
+    public SystemBase
 {
 public:
     std::string value;
 
     TestSystemA(Engine& engine, Scene& scene) :
-        BaseSystem(scene)
+        SystemBase(scene)
     {
         (void)engine;
     }

@@ -21,55 +21,55 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "BaseSystem.h"
+#include "SystemBase.h"
 
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
-BaseSystem::BaseSystem(Scene& scene, SystemTickStage tickStage) :
+SystemBase::SystemBase(Scene& scene, SystemTickStage tickStage) :
     _scene(scene),
     _tickStage(tickStage)
 {
 }
 
-Scene& BaseSystem::scene()
+Scene& SystemBase::scene()
 {
     return _scene;
 }
 
-const Scene& BaseSystem::scene() const
+const Scene& SystemBase::scene() const
 {
     return _scene;
 }
 
-void BaseSystem::initialize()
+void SystemBase::initialize()
 {
 }
 
-void BaseSystem::tick(double timeStep)
+void SystemBase::tick(double timeStep)
 {
     (void)timeStep;
 }
 
-void BaseSystem::render(RenderTarget& target)
+void SystemBase::render(RenderTarget& target)
 {
     (void)target;
 }
 
-SystemTickStage BaseSystem::tickStage() const
+SystemTickStage SystemBase::tickStage() const
 {
     return _tickStage;
 }
 
-void BaseSystem::encode(Encoder& encoder) const
+void SystemBase::encode(Encoder& encoder) const
 {
     // Default to the encoding registered with the reflected type
     const Type& type = Type::of(*this);
     type.encode(this, encoder);
 }
 
-void BaseSystem::decode(Decoder& decoder)
+void SystemBase::decode(Decoder& decoder)
 {
     // Default to the decoding registered with the reflected type
     const Type& type = Type::of(*this);

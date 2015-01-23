@@ -31,7 +31,7 @@
 #include <vector>
 
 #include "Hect/Core/Export.h"
-#include "Hect/Logic/BaseSystem.h"
+#include "Hect/Logic/SystemBase.h"
 
 namespace hect
 {
@@ -54,7 +54,7 @@ public:
     ///
     /// \throws InvalidOperation If the specified type id does not correspond
     /// to a registered system type.
-    static std::shared_ptr<BaseSystem> create(SystemTypeId typeId, Engine& engine, Scene& scene);
+    static std::shared_ptr<SystemBase> create(SystemTypeId typeId, Engine& engine, Scene& scene);
 
     ///
     /// Returns the type id for the specified System type index.
@@ -112,7 +112,7 @@ private:
     static std::map<std::string, SystemTypeId> _typeNameToId;
     static std::map<std::type_index, SystemTypeId> _typeIndexToId;
 
-    typedef std::function<std::shared_ptr<BaseSystem>(Engine&, Scene&)> SystemConstructor;
+    typedef std::function<std::shared_ptr<SystemBase>(Engine&, Scene&)> SystemConstructor;
 
     static std::vector<SystemConstructor> _constructors;
 };

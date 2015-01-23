@@ -41,7 +41,7 @@ void SystemRegistry::registerType()
 
         _constructors.push_back([](Engine& engine, Scene& scene)
         {
-            return std::shared_ptr<BaseSystem>(new T(engine, scene));
+            return std::shared_ptr<SystemBase>(new T(engine, scene));
         });
 
         _typeIndexToId[typeIndex] = typeId;

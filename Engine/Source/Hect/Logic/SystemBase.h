@@ -43,7 +43,7 @@ typedef uint32_t SystemTypeId;
 
 ///
 /// Abstract base for System.
-class HECT_EXPORT BaseSystem :
+class HECT_EXPORT SystemBase :
     public Uncopyable
 {
     friend class Scene;
@@ -54,9 +54,9 @@ public:
     ///
     /// \param scene The scene that the system exists in.
     /// \param tickStage The stage to tick the system in.
-    BaseSystem(Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
+    SystemBase(Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
 
-    virtual ~BaseSystem() { }
+    virtual ~SystemBase() { }
 
     ///
     /// Called before the first call to Scene::refresh().
