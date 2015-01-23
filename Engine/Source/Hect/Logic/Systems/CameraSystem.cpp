@@ -56,8 +56,8 @@ void CameraSystem::update(Camera& camera)
     if (transform)
     {
         const Quaternion& rotation = transform->globalRotation;
-        camera.front = (rotation * Vector3::unitZ()).normalized();
-        camera.up = (rotation * Vector3::unitY()).normalized();
+        camera.front = (rotation * Vector3::unitY()).normalized();
+        camera.up = (rotation * Vector3::unitZ()).normalized();
         camera.right = camera.front.cross(camera.up).normalized();
 
         camera.position = transform->globalPosition;
