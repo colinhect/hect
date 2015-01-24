@@ -30,7 +30,7 @@ namespace hect
 template <typename T>
 ComponentListener<T>::ComponentListener(Scene& scene)
 {
-    scene.components<T>().addListener(*this);
+    scene.components<T>().registerListener(*this);
 }
 
 template <typename T>

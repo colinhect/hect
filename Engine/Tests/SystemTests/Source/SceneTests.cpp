@@ -962,7 +962,7 @@ TEST_CASE("Dispatch of the component add event", "[Scene]")
     scene.addComponentType<TestA>();
 
     TestComponentPoolListener listener;
-    scene.components<TestA>().addListener(listener);
+    scene.components<TestA>().registerListener(listener);
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<TestA>("A");
@@ -997,7 +997,7 @@ TEST_CASE("Dispatch of the component remove event", "[Scene]")
         }
     }
 
-    scene.components<TestA>().addListener(listener);
+    scene.components<TestA>().registerListener(listener);
     a->destroy();
 
     scene.refresh();
@@ -1012,7 +1012,7 @@ TEST_CASE("Component pool listeners", "[Scene]")
     scene.addComponentType<TestA>();
 
     TestComponentPoolListener listener;
-    scene.components<TestA>().addListener(listener);
+    scene.components<TestA>().registerListener(listener);
 
     Entity::Iterator a = scene.createEntity();
     a->addComponent<TestA>("A");

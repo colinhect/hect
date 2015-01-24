@@ -114,12 +114,12 @@ EntityHandle::Context::Context(EntityPool& pool, EntityId id) :
     pool(&pool),
     id(id)
 {
-    pool.addListener(*this);
+    pool.registerListener(*this);
 }
 
 EntityHandle::Context::~Context()
 {
-    pool->removeListener(*this);
+    pool->unregisterListener(*this);
 }
 
 void EntityHandle::Context::receiveEvent(const EntityEvent& event)

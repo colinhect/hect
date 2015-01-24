@@ -77,7 +77,7 @@ public:
     ///
     /// \throws InvalidOperation If the listener is already registered to the
     /// dispatcher.
-    void addListener(Listener<T>& listener);
+    void registerListener(Listener<T>& listener);
 
     ///
     /// Un-registers a Listener from receiving events from the dispatcher.
@@ -86,7 +86,7 @@ public:
     ///
     /// \throws InvalidOperation If the listener is not registered to the
     /// dispatcher.
-    void removeListener(Listener<T>& listener);
+    void unregisterListener(Listener<T>& listener);
 
     ///
     /// Dispatches an event to all registered Listener%s.

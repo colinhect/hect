@@ -58,33 +58,33 @@ public:
     TestEventB lastTestEventB;
 };
 
-TEST_CASE("Add a listener, dispatch event, and remove listener", "[Event]")
+TEST_CASE("Register a listener, dispatch event, and unregister listener", "[Event]")
 {
     Dispatcher<TestEventA> dispatcher;
 
     TestListener listener;
 
-    dispatcher.addListener(listener);
+    dispatcher.registerListener(listener);
     dispatcher.dispatchEvent(TestEventA::A);
     REQUIRE(TestEventA::A == listener.lastTestEventA);
     dispatcher.dispatchEvent(TestEventA::B);
     REQUIRE(TestEventA::B == listener.lastTestEventA);
 
-    dispatcher.removeListener(listener);
+    dispatcher.unregisterListener(listener);
     dispatcher.dispatchEvent(TestEventA::A);
 
     REQUIRE(TestEventA::B == listener.lastTestEventA);
 }
 
-TEST_CASE("Add listener to multiple dispatcher types", "[Event]")
+TEST_CASE("Register listener to multiple dispatcher types", "[Event]")
 {
     Dispatcher<TestEventA> dispatcherA;
     Dispatcher<TestEventB> dispatcherB;
 
     TestListener listener;
 
-    dispatcherA.addListener(listener);
-    dispatcherB.addListener(listener);
+    dispatcherA.registerListener(listener);
+    dispatcherB.registerListener(listener);
 
     dispatcherA.dispatchEvent(TestEventA::A);
     REQUIRE(TestEventA::A == listener.lastTestEventA);
@@ -96,23 +96,23 @@ TEST_CASE("Add listener to multiple dispatcher types", "[Event]")
     REQUIRE(TestEventB::B == listener.lastTestEventB);
 }
 
-TEST_CASE("Add a listener that is already added", "[Event]")
+TEST_CASE("Register a listener that is already registered", "[Event]")
 {
     Dispatcher<TestEventA> dispatcher;
 
     TestListener listener;
 
-    dispatcher.addListener(listener);
-    REQUIRE_THROWS_AS(dispatcher.addListener(listener), InvalidOperation);
+    dispatcher.registerListener(listener);
+    REQUIRE_THROWS_AS(dispatcher.registerListener(listener), InvalidOperation);
 
     dispatcher.dispatchEvent(TestEventA::A);
     REQUIRE(TestEventA::A == listener.lastTestEventA);
 }
 
-TEST_CASE("Remove a listener that is not added", "[Event]")
+TEST_CASE("Unregister a listener that is not registered", "[Event]")
 {
     Dispatcher<TestEventA> dispatcher;
 
     TestListener listener;
-    REQUIRE_THROWS_AS(dispatcher.removeListener(listener), InvalidOperation);
+    REQUIRE_THROWS_AS(dispatcher.unregisterListener(listener), InvalidOperation);
 }

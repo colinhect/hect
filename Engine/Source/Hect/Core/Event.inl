@@ -36,7 +36,7 @@ Listener<T>::~Listener()
     // Unregister the listener from all dispatchers
     for (auto& dispatcher : dispatchers)
     {
-        dispatcher->removeListener(*this);
+        dispatcher->unregisterListener(*this);
     }
 }
 
@@ -77,12 +77,12 @@ Dispatcher<T>::~Dispatcher()
     // Unregister all listeners from the dispatcher
     for (auto& listener : listeners)
     {
-        removeListener(*listener);
+        unregisterListener(*listener);
     }
 }
 
 template <typename T>
-void Dispatcher<T>::addListener(Listener<T>& listener)
+void Dispatcher<T>::registerListener(Listener<T>& listener)
 {
     auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
     if (it != _listeners.end())
@@ -97,7 +97,7 @@ void Dispatcher<T>::addListener(Listener<T>& listener)
 }
 
 template <typename T>
-void Dispatcher<T>::removeListener(Listener<T>& listener)
+void Dispatcher<T>::unregisterListener(Listener<T>& listener)
 {
     auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
     if (it == _listeners.end())
