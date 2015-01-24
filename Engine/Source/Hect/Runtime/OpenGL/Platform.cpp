@@ -215,6 +215,14 @@ bool Platform::handleEvents()
             _mouse->enqueueEvent(event);
         }
         break;
+        case SDL_MOUSEWHEEL:
+        {
+            // Enqueue the event
+            MouseEvent event;
+            event.type = e.wheel.y > 0 ? MouseEventType_ScrollUp : MouseEventType_ScrollDown;
+            _mouse->enqueueEvent(event);
+        }
+        break;
         case SDL_JOYAXISMOTION:
         {
             // Enqueue the event

@@ -168,11 +168,11 @@ void PhysicsSystem::tick(double timeStep)
             transform->localScale = newTransform.localScale;
             transform->localRotation = newTransform.localRotation;
             transformSystem.commit(*transform);
-        }
 
-        // Update rigid body properties to what Bullet says it should be
-        rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
-        rigidBody.angularVelocity = convertFromBullet(rigidBody._rigidBody->getAngularVelocity());
+            // Update rigid body properties to what Bullet says it should be
+            rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
+            rigidBody.angularVelocity = convertFromBullet(rigidBody._rigidBody->getAngularVelocity());
+        }
     }
 }
 
