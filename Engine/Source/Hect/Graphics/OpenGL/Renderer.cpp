@@ -385,10 +385,12 @@ void Renderer::Frame::setShader(Shader& shader)
     if (shader.isDepthTested())
     {
         GL_ASSERT(glEnable(GL_DEPTH_TEST));
+        GL_ASSERT(glDepthMask(GL_TRUE));
     }
     else
     {
         GL_ASSERT(glDisable(GL_DEPTH_TEST));
+        GL_ASSERT(glDepthMask(GL_FALSE));
     }
 
     // Set the values for each unbound uniform
