@@ -116,8 +116,10 @@ int Engine::main()
     else
     {
         // Load the specified scene
+        Scene scene(*this);
         Path scenePath = sceneValue.asString();
-        Scene& scene = _assetCache->get<Scene>(scenePath, *this);
+        AssetDecoder decoder(*_assetCache, scenePath);
+        decoder >> decodeValue(scene);
 
         // Play the scene
         playScene(scene);

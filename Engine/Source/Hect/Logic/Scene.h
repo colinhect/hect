@@ -223,7 +223,6 @@ private:
     size_t _entityCount { 0 };
     EntityPool _entityPool;
 
-    bool _initialized { false };
     bool _active { true };
     bool _refreshing { false };
 
@@ -236,6 +235,7 @@ private:
 
     std::vector<SystemTypeId> _systemTypeIds;
     std::vector<std::shared_ptr<SystemBase>> _systems;
+    std::vector<SystemBase*> _systemsToInitialize;
     std::array<std::vector<SystemTypeId>, 3> _tickStages;
 };
 

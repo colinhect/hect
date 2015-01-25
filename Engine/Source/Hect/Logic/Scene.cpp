@@ -46,18 +46,13 @@ void Scene::setActivate(bool active)
 
 void Scene::refresh()
 {
-    if (!_initialized)
+    if (!_systemsToInitialize.empty())
     {
-        _initialized = true;
-
-        // Initialize all systems in order
-        for (std::vector<SystemTypeId>& tickStage : _tickStages)
+        for (SystemBase* system : _systemsToInitialize)
         {
-            for (SystemTypeId typeId : tickStage)
-            {
-                _systems[typeId]->initialize();
-            }
+            system->initialize();
         }
+        _systemsToInitialize.clear();
     }
 
     _refreshing = true;
@@ -177,6 +172,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     _systems[typeId] = system;
     _tickStages[system->tickStage()].push_back(typeId);
     _systemTypeIds.push_back(typeId);
+    _systemsToInitialize.push_back(system.get());
 }
 
 SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
