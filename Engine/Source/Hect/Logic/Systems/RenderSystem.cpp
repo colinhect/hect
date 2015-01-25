@@ -315,70 +315,73 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
 
 void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest)
 {
-    // If the entity has a model component
-    auto model = entity.component<Model>();
-    if (model)
+    // By default, assume that the entity is visible
+    bool visible = true;
+
+    // If we need to test this entity against the frustum
+    if (frustumTest)
     {
-        // If the entity has a transform component
-        auto transform = entity.component<Transform>();
-        if (transform)
+        // If the entity has a bounding box
+        auto boundingBox = entity.component<BoundingBox>();
+        if (boundingBox)
         {
-            // By default, assume that the entity is visible
-            bool visible = true;
-
-            // If we need to test this entity against the frustum
-            if (frustumTest)
+            // Test the bounding box against the frustum
+            FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox->extents);
+            if (result == FrustumTestResult_Inside)
             {
-                // If the entity has a bounding box
-                auto boundingBox = entity.component<BoundingBox>();
-                if (boundingBox)
-                {
-                    // Test the bounding box against the frustum
-                    FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox->extents);
-                    if (result == FrustumTestResult_Inside)
-                    {
-                        // No need to test any children
-                        frustumTest = false;
-                    }
-                    else if (result == FrustumTestResult_Intersect)
-                    {
-                        // Need to test children
-                        frustumTest = true;
-                    }
-                    else
-                    {
-                        // The entity is outside of the frustum
-                        visible = false;
-                    }
-                }
+                // No need to test any children
+                frustumTest = false;
             }
-
-            // If the entity is visible
-            if (visible)
+            else if (result == FrustumTestResult_Intersect)
             {
-                // Render the model
-                for (const ModelSurface& surface : model->surfaces)
-                {
-                    Mesh& mesh = *surface.mesh;
-                    Material& material = *surface.material;
-
-                    addRenderCall(*transform, mesh, material);
-                }
-
-                // Render all children
-                for (Entity& child : entity.children())
-                {
-                    buildRenderCalls(camera, child, frustumTest);
-                }
+                // Need to test children
+                frustumTest = true;
+            }
+            else
+            {
+                // The entity is outside of the frustum
+                visible = false;
             }
         }
     }
-    else
+
+    // If the entity is visible
+    if (visible)
     {
+        // If the entity has a model component
+        auto model = entity.component<Model>();
+        if (model)
+        {
+            // Render the model
+            for (const ModelSurface& surface : model->surfaces)
+            {
+                Mesh& mesh = *surface.mesh;
+                Material& material = *surface.material;
+
+                // If the entity has a transform component
+                auto transform = entity.component<Transform>();
+                if (transform)
+                {
+                    addRenderCall(*transform, mesh, material);
+                }
+                else
+                {
+                    addRenderCall(_identityTransform, mesh, material);
+                }
+            }
+        }
+
+        // If the entity has a skybox component
         auto skyBox = entity.component<SkyBox>();
         if (skyBox)
         {
             addRenderCall(_frameData.cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
+        }
+
+        // Render all children
+        for (Entity& child : entity.children())
+        {
+            buildRenderCalls(camera, child, frustumTest);
         }
     }
 }
