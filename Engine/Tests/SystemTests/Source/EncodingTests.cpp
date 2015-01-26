@@ -52,6 +52,7 @@ void testEncoding(const Path& assetPath)
         DataValueDecoder decoder(dataValue, engine->assetCache());
         decoder >> decodedAsset;
 
+        INFO(assetPath.asString());
         REQUIRE(asset == decodedAsset);
     }
 
@@ -69,6 +70,7 @@ void testEncoding(const Path& assetPath)
         BinaryDecoder decoder(stream, engine->assetCache());
         decoder >> decodedAsset;
 
+        INFO(assetPath.asString());
         REQUIRE(asset == decodedAsset);
     }
 }

@@ -129,7 +129,10 @@ Decoder& operator>>(Decoder& decoder, AssetHandle<T>& assetHandle)
 {
     std::string path;
     decoder >> decodeValue(path);
-    assetHandle = decoder.assetCache().getHandle<T>(path);
+    if (!path.empty())
+    {
+        assetHandle = decoder.assetCache().getHandle<T>(path);
+    }
     return decoder;
 }
 
