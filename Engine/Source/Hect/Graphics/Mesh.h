@@ -32,7 +32,7 @@
 #include "Hect/IO/ByteVector.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
-#include "Hect/Spacial/AxisAlignedBox.h"
+#include "Hect/Math/AxisAlignedBox.h"
 
 namespace hect
 {

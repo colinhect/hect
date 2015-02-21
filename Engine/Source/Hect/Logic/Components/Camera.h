@@ -25,7 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
-#include "Hect/Spacial/Frustum.h"
+#include "Hect/Math/Frustum.h"
 
 namespace hect
 {

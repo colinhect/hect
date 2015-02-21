@@ -25,7 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/Scene.h"
-#include "Hect/Spacial/AxisAlignedBox.h"
+#include "Hect/Math/AxisAlignedBox.h"
 
 namespace hect
 {

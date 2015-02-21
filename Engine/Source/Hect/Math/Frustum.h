@@ -24,10 +24,10 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Math/AxisAlignedBox.h"
+#include "Hect/Math/Plane.h"
+#include "Hect/Math/Sphere.h"
 #include "Hect/Math/Vector3.h"
-#include "Hect/Spacial/AxisAlignedBox.h"
-#include "Hect/Spacial/Plane.h"
-#include "Hect/Spacial/Sphere.h"
 
 namespace hect
 {

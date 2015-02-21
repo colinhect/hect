@@ -29,7 +29,7 @@
 #include "Hect/Logic/System.h"
 #include "Hect/Logic/Components/Transform.h"
 #include "Hect/Logic/Systems/RenderSystem.h"
-#include "Hect/Spacial/Box.h"
+#include "Hect/Math/Box.h"
 
 namespace hect
 {

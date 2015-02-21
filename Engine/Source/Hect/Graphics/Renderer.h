@@ -29,7 +29,7 @@
 #include "Hect/Graphics/CullMode.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Math/Vector2.h"
-#include "Hect/Spacial/Rectangle.h"
+#include "Hect/Math/Rectangle.h"
 
 namespace hect
 {
