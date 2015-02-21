@@ -14,6 +14,7 @@ bl_info = {
     "category": "Import-Export"}
 
 import os
+import bmesh
 import bpy
 import struct
 
@@ -25,21 +26,29 @@ VertexAttributeSemantic_Normal = 1
 VertexAttributeSemantic_Color = 2
 VertexAttributeSemantic_Tangent = 3
 VertexAttributeSemantic_Binormal = 4
+VertexAttributeSemantic_Weight0 = 5
+VertexAttributeSemantic_Weight1 = 6
+VertexAttributeSemantic_Weight2 = 7
+VertexAttributeSemantic_Weight3 = 8
+VertexAttributeSemantic_TextureCoords0 = 9
+VertexAttributeSemantic_TextureCoords1 = 10
+VertexAttributeSemantic_TextureCoords2 = 11
+VertexAttributeSemantic_TextureCoords3 = 2
 
 # VertexAttributeType (Hect/Graphics/VertexAttributeType.h)
-VertexAttributeType_Byte = 0
-VertexAttributeType_UnsignedByte = 1
-VertexAttributeType_Short = 2
-VertexAttributeType_UnsignedShort = 3
-VertexAttributeType_Int = 4
-VertexAttributeType_UnsignedInt = 5
-VertexAttributeType_Half = 6
-VertexAttributeType_Float = 7
+VertexAttributeType_Int8 = 0
+VertexAttributeType_UInt8 = 1
+VertexAttributeType_Int16 = 2
+VertexAttributeType_UInt16 = 3
+VertexAttributeType_Int32 = 4
+VertexAttributeType_UInt32 = 5
+VertexAttributeType_Float16 = 6
+VertexAttributeType_Float32 = 7
 
 # IndexType (Hect/Graphics/IndexType.h)
-IndexType_UnsignedByte = 0
-IndexType_UnsignedShort = 1
-IndexType_UnsignedInt = 2
+IndexType_UInt8 = 0
+IndexType_UInt16 = 1
+IndexType_UInt32 = 2
 
 # PrimitiveType (Hect/Graphics/PrimitiveType.h)
 PrimitiveType_Triangles = 0
@@ -48,15 +57,7 @@ PrimitiveType_Lines = 2
 PrimitiveType_LineStrip = 3
 PrimitiveType_Points = 4
 
-def mesh_triangulate(me):
-    import bmesh
-    bm = bmesh.new()
-    bm.from_mesh(me)
-    bmesh.ops.triangulate(bm, faces=bm.faces)
-    bm.to_mesh(me)
-    bm.free()
-
-def export_mesh(obj, path):
+def export_mesh(obj, path, append_name):
     mesh = obj.data
 
     if not mesh.tessfaces and mesh.polygons:
@@ -64,42 +65,72 @@ def export_mesh(obj, path):
 
     mesh.calc_normals()
 
-    mesh_triangulate(mesh)
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bmesh.ops.triangulate(bm, faces=bm.faces)
+    uv_lay = bm.loops.layers.uv.active
 
-    out = open(path + "." + obj.name + ".mesh", 'wb')
+    filepath = path
+    if append_name:
+        filepath += "." + obj.name + ".mesh"
+    
+    filepath += ".mesh"
 
-    out.write(struct.pack("<I", 2))
+    out = open(filepath, 'wb')
+
+    out.write(struct.pack("<I", 4))
 
     out.write(struct.pack("<B", VertexAttributeSemantic_Position))
-    out.write(struct.pack("<B", VertexAttributeType_Float))
+    out.write(struct.pack("<B", VertexAttributeType_Float32))
     out.write(struct.pack("<I", 3))
 
     out.write(struct.pack("<B", VertexAttributeSemantic_Normal))
-    out.write(struct.pack("<B", VertexAttributeType_Float))
+    out.write(struct.pack("<B", VertexAttributeType_Float32))
     out.write(struct.pack("<I", 3))
 
-    out.write(struct.pack("<B", IndexType_UnsignedInt))
+    out.write(struct.pack("<B", VertexAttributeSemantic_Tangent))
+    out.write(struct.pack("<B", VertexAttributeType_Float32))
+    out.write(struct.pack("<I", 3))
+
+    out.write(struct.pack("<B", VertexAttributeSemantic_TextureCoords0))
+    out.write(struct.pack("<B", VertexAttributeType_Float32))
+    out.write(struct.pack("<I", 2))
+
+    out.write(struct.pack("<B", IndexType_UInt32))
     out.write(struct.pack("<B", PrimitiveType_Triangles))
 
-    vertex_count = len(mesh.vertices)
-    out.write(struct.pack("<I", vertex_count * 4 * 3 * 2))
+    vertex_count = len(bm.verts)
+    out.write(struct.pack("<I", vertex_count * 4 * (3 + 3 + 3 + 2)))
     for i in range(vertex_count):
-        co = mesh.vertices[i].co
+        vertex = bm.verts[i]
+
+        co = vertex.co
         for j in range(3):
             out.write(struct.pack("<f", co[j]))
 
-        normal = mesh.vertices[i].normal
+        normal = vertex.normal
         for j in range(3):
             out.write(struct.pack("<f", normal[j]))
 
-    polygon_count = len(mesh.polygons)
-    out.write(struct.pack("<I", polygon_count * 3 * 4))
-    for i in range(polygon_count):
-        indices = mesh.polygons[i].vertices
+        loop = vertex.link_loops[0]
+
+        tangent = loop.calc_tangent()
         for j in range(3):
-            out.write(struct.pack("<I", indices[j]))
+            out.write(struct.pack("<f", tangent[j]))
+
+        uv = loop[uv_lay].uv if not uv_lay is None else [0, 0]
+        for j in range(2):
+            out.write(struct.pack("<f", uv[j]))
+
+    face_count = len(bm.faces)
+    out.write(struct.pack("<I", face_count * 4 * 3))
+    for i in range(face_count):
+        verts = bm.faces[i].verts
+        for j in range(3):
+            out.write(struct.pack("<I", verts[j].index))
 
     out.close()
+    bm.free()
 
 class HectExporter(bpy.types.Operator):
     """Export to the Hect mesh format (.mesh)"""
@@ -110,12 +141,20 @@ class HectExporter(bpy.types.Operator):
     filepath = StringProperty(subtype='FILE_PATH')
 
     def execute(self, context):
+        # Remove the file extension from the path
         path = bpy.path.ensure_ext(self.filepath, ".mesh")
         path = path[:-5]
 
+        # Get all of the mesh objects
+        objs = []
         for obj in bpy.context.scene.objects:
             if obj.type == 'MESH':
-                export_mesh(obj, path)
+                objs.append(obj)
+
+        # Only append the object name if we are exporting more than one mesh
+        append_name = len(objs) > 1
+        for obj in objs:
+            export_mesh(obj, path, append_name)
 
         return {"FINISHED"}
 
