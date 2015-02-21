@@ -24,6 +24,8 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/IndexType.h"
+#include "Hect/Graphics/PrimitiveType.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/IO/Asset.h"
@@ -34,34 +36,6 @@
 
 namespace hect
 {
-
-///
-/// How the primitives of a mesh are rendered.
-enum PrimitiveType
-{
-    PrimitiveType_Triangles,
-    PrimitiveType_TriangleStrip,
-    PrimitiveType_Lines,
-    PrimitiveType_LineStrip,
-    PrimitiveType_Points
-};
-
-///
-/// The type of each index in an index sequence.
-enum IndexType
-{
-    ///
-    /// An 8-bit unsigned integer.
-    IndexType_UInt8,
-
-    ///
-    /// A 16-bit unsigned integer.
-    IndexType_UInt16,
-
-    ///
-    /// A 32-bit unsigned integer.
-    IndexType_UInt32
-};
 
 ///
 /// A mesh of vertices and indices.

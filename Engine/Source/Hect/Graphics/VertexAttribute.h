@@ -24,105 +24,13 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/VertexAttributeSemantic.h"
+#include "Hect/Graphics/VertexAttributeType.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
 namespace hect
 {
-
-///
-/// A semantic describing how a vertex attribute is used.
-enum VertexAttributeSemantic
-{
-
-    ///
-    /// The position of a vertex.
-    VertexAttributeSemantic_Position,
-
-    ///
-    /// The normal of a vertex.
-    VertexAttributeSemantic_Normal,
-
-    ///
-    /// The color of a vertex.
-    VertexAttributeSemantic_Color,
-
-    ///
-    /// The tangent of a vertex.
-    VertexAttributeSemantic_Tangent,
-
-    ///
-    /// The binormal of a vertex.
-    VertexAttributeSemantic_Binormal,
-
-    ///
-    /// The first weight of a vertex.
-    VertexAttributeSemantic_Weight0,
-
-    ///
-    /// The second weight of a vertex.
-    VertexAttributeSemantic_Weight1,
-
-    ///
-    /// The third weight of a vertex.
-    VertexAttributeSemantic_Weight2,
-
-    ///
-    /// The fourth weight of a vertex.
-    VertexAttributeSemantic_Weight3,
-
-    ///
-    /// The texture coordinates of a vertex for the first texture.
-    VertexAttributeSemantic_TextureCoords0,
-
-    ///
-    /// The texture coordinates of a vertex for the second texture.
-    VertexAttributeSemantic_TextureCoords1,
-
-    ///
-    /// The texture coordinates of a vertex for the third texture.
-    VertexAttributeSemantic_TextureCoords2,
-
-    ///
-    /// The texture coordinates of a vertex for the fourth texture.
-    VertexAttributeSemantic_TextureCoords3
-};
-
-///
-/// A type of a vertex attribute.
-enum VertexAttributeType
-{
-    ///
-    /// An 8-bit signed integer.
-    VertexAttributeType_Int8,
-
-    ///
-    /// An 8-bit unsigned integer.
-    VertexAttributeType_UInt8,
-
-    ///
-    /// A 16-bit signed integer.
-    VertexAttributeType_Int16,
-
-    ///
-    /// A 16-bit unsigned integer.
-    VertexAttributeType_UInt16,
-
-    ///
-    /// A 32-bit signed integer.
-    VertexAttributeType_Int32,
-
-    ///
-    /// A 32-bit unsigned integer.
-    VertexAttributeType_UInt32,
-
-    // Reserved for Float16
-    VertexAttributeType_Reserved,
-
-    ///
-    /// A 32-bit float.
-    VertexAttributeType_Float32
-};
 
 ///
 /// An attribute of a vertex (position, normal, etc).
