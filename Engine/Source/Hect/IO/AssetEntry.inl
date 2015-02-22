@@ -67,12 +67,6 @@ std::unique_ptr<T>& AssetEntry<T>::get()
         _taskHandle->wait();
     }
 
-    // Log the error if the asset failed to load
-    if (_exceptionOccurred)
-    {
-        HECT_ERROR(format("Failed to load asset '%s': %s", _path.asString().c_str(), _exceptionMessage.c_str()));
-    }
-
     return _asset;
 }
 
@@ -118,6 +112,9 @@ void AssetEntry<T>::load()
         // Save the error message
         _exceptionOccurred = true;
         _exceptionMessage = error.what();
+
+        // Log the error
+        HECT_ERROR(format("Failed to load asset '%s': %s", _path.asString().c_str(), _exceptionMessage.c_str()));
     }
 }
 

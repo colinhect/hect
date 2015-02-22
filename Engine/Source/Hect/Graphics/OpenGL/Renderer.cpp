@@ -1002,7 +1002,7 @@ void Renderer::uploadMesh(Mesh& mesh)
         glBufferData(
             GL_ARRAY_BUFFER,
             mesh.vertexLayout().vertexSize() * mesh.vertexCount(),
-            &mesh.vertexData()[0],
+            !mesh.vertexData().empty() ? &mesh.vertexData()[0] : nullptr,
             GL_STATIC_DRAW
         )
     );
@@ -1049,7 +1049,7 @@ void Renderer::uploadMesh(Mesh& mesh)
         glBufferData(
             GL_ELEMENT_ARRAY_BUFFER,
             mesh.indexSize() * mesh.indexCount(),
-            &mesh.indexData()[0],
+            !mesh.indexData().empty() ? &mesh.indexData()[0] : nullptr,
             GL_STATIC_DRAW
         )
     );

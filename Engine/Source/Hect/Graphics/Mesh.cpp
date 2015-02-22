@@ -246,34 +246,43 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
         encoder << beginArray("vertices");
         while (reader.nextVertex())
         {
-            encoder << beginArray();
+            encoder << beginObject()
+                    << beginArray("attributes");
+
             for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
             {
                 VertexAttributeSemantic semantic = attribute.semantic();
 
-                encoder << beginArray()
-                        << encodeEnum(semantic);
+                encoder << beginObject()
+                        << encodeEnum("semantic", semantic);
 
                 auto cardinality = attribute.cardinality();
                 if (cardinality == 1)
                 {
-                    encoder << encodeValue(reader.readAttributeDouble(semantic));
+                    double value = reader.readAttributeDouble(semantic);
+                    encoder << encodeValue("data", value);
                 }
                 else if (cardinality == 2)
                 {
-                    encoder << encodeValue(reader.readAttributeVector2(semantic));
+                    Vector2 value = reader.readAttributeVector2(semantic);
+                    encoder << encodeValue("data", value);
                 }
                 else if (cardinality == 3)
                 {
-                    encoder << encodeValue(reader.readAttributeVector3(semantic));
+                    Vector3 value = reader.readAttributeVector3(semantic);
+                    encoder << encodeValue("data", value);
                 }
                 else if (cardinality == 4)
                 {
-                    encoder << encodeValue(reader.readAttributeVector4(semantic));
+                    Vector4 value = reader.readAttributeVector4(semantic);
+                    encoder << encodeValue("data", value);
                 }
-                encoder << endArray();
+
+                encoder << endObject();
             }
-            encoder << endArray();
+
+            encoder << endArray()
+                    << endObject();
         }
         encoder << endArray();
 
@@ -351,15 +360,22 @@ Decoder& operator>>(Decoder& decoder, Mesh& mesh)
             while (decoder.hasMoreElements())
             {
                 meshWriter.addVertex();
+                decoder >> beginObject();
+
+                if (!decoder.selectMember("attributes"))
+                {
+                    decoder >> endObject();
+                    continue;
+                }
 
                 // For each attribute
                 decoder >> beginArray();
                 while (decoder.hasMoreElements())
                 {
-                    decoder >> beginArray();
+                    decoder.beginObject();
 
                     VertexAttributeSemantic semantic;
-                    decoder >> decodeEnum(semantic);
+                    decoder >> decodeEnum("semantic", semantic, true);
 
                     if (vertexLayout.hasAttributeWithSemantic(semantic))
                     {
@@ -369,32 +385,33 @@ Decoder& operator>>(Decoder& decoder, Mesh& mesh)
                         if (cardinality == 1)
                         {
                             double value;
-                            decoder >> decodeValue(value);
+                            decoder >> decodeValue("data", value, true);
                             meshWriter.writeAttributeData(semantic, value);
                         }
                         else if (cardinality == 2)
                         {
                             Vector2 value;
-                            decoder >> decodeValue(value);
+                            decoder >> decodeValue("data", value, true);
                             meshWriter.writeAttributeData(semantic, value);
                         }
                         else if (cardinality == 3)
                         {
                             Vector3 value;
-                            decoder >> decodeValue(value);
+                            decoder >> decodeValue("data", value, true);
                             meshWriter.writeAttributeData(semantic, value);
                         }
                         else if (cardinality == 4)
                         {
                             Vector4 value;
-                            decoder >> decodeValue(value);
+                            decoder >> decodeValue("data", value, true);
                             meshWriter.writeAttributeData(semantic, value);
                         }
                     }
-
-                    decoder >> endArray();
+                    decoder >> endObject();
                 }
                 decoder >> endArray();
+
+                decoder >> endObject();
             }
             decoder >> endArray();
         }

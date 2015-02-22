@@ -1,5 +1,4 @@
 ---
-indices: [ 0, 1, 2, 2, 3, 0 ]
 vertexLayout:
     attributes:
       - type: Float32
@@ -9,31 +8,24 @@ vertexLayout:
         semantic: TextureCoords0
         cardinality: 2
 vertices:
-  - 
-    - 
-      - Position
-      - [-1, -1, 0]
-    - 
-      - TextureCoords0
-      - [ 0, 0 ]
-  - 
-    - 
-      - Position
-      - [1, -1, 0]
-    - 
-      - TextureCoords0
-      - [ 1, 0 ]
-  - 
-    - 
-      - Position
-      - [1, 1, 0]
-    - 
-      - TextureCoords0
-      - [ 1, 1 ]
-  - 
-    - 
-      - Position
-      - [-1, 1, 0]
-    - 
-      - TextureCoords0
-      - [ 0, 1 ]
+  - attributes:
+    - semantic: Position
+      data: [ -1, -1, 0 ]
+    - semantic: TextureCoords0
+      data: [ 0, 0 ]
+  - attributes:
+    - semantic: Position
+      data: [ 1, -1, 0 ]
+    - semantic: TextureCoords0
+      data: [ 1, 0 ]
+  - attributes:
+    - semantic: Position
+      data: [ 1, 1, 0 ]
+    - semantic: TextureCoords0
+      data: [ 1, 1 ]
+  - attributes:
+    - semantic: Position
+      data: [ -1, 1, 0 ]
+    - semantic: TextureCoords0
+      data: [ 0, 1 ]
+indices: [ 0, 1, 2, 2, 3, 0 ]
