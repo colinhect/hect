@@ -108,6 +108,7 @@ def export_mesh(obj, path, append_name):
         for j in range(3):
             out.write(struct.pack("<f", co[j]))
 
+        vertex.normal_update()
         normal = vertex.normal
         for j in range(3):
             out.write(struct.pack("<f", normal[j]))
