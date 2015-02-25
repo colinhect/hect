@@ -21,41 +21,60 @@ import struct
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 
 # VertexAttributeSemantic (Hect/Graphics/VertexAttributeSemantic.h)
-VertexAttributeSemantic_Position = 0
-VertexAttributeSemantic_Normal = 1
-VertexAttributeSemantic_Color = 2
-VertexAttributeSemantic_Tangent = 3
-VertexAttributeSemantic_Binormal = 4
-VertexAttributeSemantic_Weight0 = 5
-VertexAttributeSemantic_Weight1 = 6
-VertexAttributeSemantic_Weight2 = 7
-VertexAttributeSemantic_Weight3 = 8
-VertexAttributeSemantic_TextureCoords0 = 9
-VertexAttributeSemantic_TextureCoords1 = 10
-VertexAttributeSemantic_TextureCoords2 = 11
-VertexAttributeSemantic_TextureCoords3 = 2
+class VertexAttributeSemantic:
+    position = 0
+    normal = 1
+    color = 2
+    tangent = 3
+    binormal = 4
+    weight0 = 5
+    weight1 = 6
+    weight2 = 7
+    weight3 = 8
+    texturecoords0 = 9
+    texturecoords1 = 10
+    texturecoords2 = 11
+    texturecoords3 = 12
 
 # VertexAttributeType (Hect/Graphics/VertexAttributeType.h)
-VertexAttributeType_Int8 = 0
-VertexAttributeType_UInt8 = 1
-VertexAttributeType_Int16 = 2
-VertexAttributeType_UInt16 = 3
-VertexAttributeType_Int32 = 4
-VertexAttributeType_UInt32 = 5
-VertexAttributeType_Float16 = 6
-VertexAttributeType_Float32 = 7
+class VertexAttributeType:
+    int8 = 0
+    uint8 = 1
+    int16 = 2
+    uint16 = 3
+    int32 = 4
+    uint32 = 5
+    float16 = 6
+    float32 = 7
 
 # IndexType (Hect/Graphics/IndexType.h)
-IndexType_UInt8 = 0
-IndexType_UInt16 = 1
-IndexType_UInt32 = 2
+class IndexType:
+    uint8 = 0
+    uint16 = 1
+    uint32 = 2
 
 # PrimitiveType (Hect/Graphics/PrimitiveType.h)
-PrimitiveType_Triangles = 0
-PrimitiveType_TriangleStrip = 1
-PrimitiveType_Lines = 2
-PrimitiveType_LineStrip = 3
-PrimitiveType_Points = 4
+class PrimitiveType:
+    triangles = 0
+    trianglestrip = 1
+    lines = 2
+    linestrip = 3
+    points = 4
+
+class Vertex:
+    def __init__(self, co, normal, tangent, uv):
+        self.co = co
+        self.normal = normal
+        self.tangent = tangent
+        self.uv = uv
+
+def mesh_triangulate(me):
+    import bmesh
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bmesh.ops.triangulate(bm, faces=bm.faces)
+    bm.to_mesh(me)
+    bm.free()
 
 def export_mesh(obj, path, append_name):
     mesh = obj.data
@@ -64,11 +83,7 @@ def export_mesh(obj, path, append_name):
         mesh.calc_tessface()
 
     mesh.calc_normals()
-
-    bm = bmesh.new()
-    bm.from_mesh(mesh)
-    bmesh.ops.triangulate(bm, faces=bm.faces)
-    uv_lay = bm.loops.layers.uv.active
+    mesh_triangulate(mesh)
 
     filepath = path
     if append_name:
@@ -80,58 +95,54 @@ def export_mesh(obj, path, append_name):
 
     out.write(struct.pack("<I", 4))
 
-    out.write(struct.pack("<B", VertexAttributeSemantic_Position))
-    out.write(struct.pack("<B", VertexAttributeType_Float32))
+    out.write(struct.pack("<B", VertexAttributeSemantic.position))
+    out.write(struct.pack("<B", VertexAttributeType.float32))
     out.write(struct.pack("<I", 3))
 
-    out.write(struct.pack("<B", VertexAttributeSemantic_Normal))
-    out.write(struct.pack("<B", VertexAttributeType_Float32))
+    out.write(struct.pack("<B", VertexAttributeSemantic.normal))
+    out.write(struct.pack("<B", VertexAttributeType.float32))
     out.write(struct.pack("<I", 3))
 
-    out.write(struct.pack("<B", VertexAttributeSemantic_Tangent))
-    out.write(struct.pack("<B", VertexAttributeType_Float32))
+    out.write(struct.pack("<B", VertexAttributeSemantic.tangent))
+    out.write(struct.pack("<B", VertexAttributeType.float32))
     out.write(struct.pack("<I", 3))
 
-    out.write(struct.pack("<B", VertexAttributeSemantic_TextureCoords0))
-    out.write(struct.pack("<B", VertexAttributeType_Float32))
+    out.write(struct.pack("<B", VertexAttributeSemantic.texturecoords0))
+    out.write(struct.pack("<B", VertexAttributeType.float32))
     out.write(struct.pack("<I", 2))
 
-    out.write(struct.pack("<B", IndexType_UInt32))
-    out.write(struct.pack("<B", PrimitiveType_Triangles))
+    out.write(struct.pack("<B", IndexType.uint32))
+    out.write(struct.pack("<B", PrimitiveType.triangles))
 
-    vertex_count = len(bm.verts)
-    out.write(struct.pack("<I", vertex_count * 4 * (3 + 3 + 3 + 2)))
-    for i in range(vertex_count):
-        vertex = bm.verts[i]
+    uv_layer = mesh.uv_layers.active
 
-        co = vertex.co
-        for j in range(3):
-            out.write(struct.pack("<f", co[j]))
+    vertices = []
+    for polygon in mesh.polygons:
+        indices = polygon.vertices
+        loop_indices = polygon.loop_indices
+        for i in range(3):
+            co = mesh.vertices[indices[i]].co
+            normal = mesh.vertices[indices[i]].normal
+            tangent = [0, 0, 0]
+            uv = uv_layer.data[loop_indices[i]].uv
+            vertices.append(Vertex(co, normal, tangent, uv))
 
-        vertex.normal_update()
-        normal = vertex.normal
-        for j in range(3):
-            out.write(struct.pack("<f", normal[j]))
+    out.write(struct.pack("<I", len(vertices) * 4 * (3 + 3 + 3 + 2)))
+    for vertex in vertices:
+        for i in range(3):
+            out.write(struct.pack("<f", vertex.co[i]))
+        for i in range(3):
+            out.write(struct.pack("<f", vertex.normal[i]))
+        for i in range(3):
+            out.write(struct.pack("<f", vertex.tangent[i]))
+        for i in range(2):
+            out.write(struct.pack("<f", vertex.uv[i]))
 
-        loop = vertex.link_loops[0]
-
-        tangent = loop.calc_tangent()
-        for j in range(3):
-            out.write(struct.pack("<f", tangent[j]))
-
-        uv = loop[uv_lay].uv if not uv_lay is None else [0, 0]
-        for j in range(2):
-            out.write(struct.pack("<f", uv[j]))
-
-    face_count = len(bm.faces)
-    out.write(struct.pack("<I", face_count * 4 * 3))
-    for i in range(face_count):
-        verts = bm.faces[i].verts
-        for j in range(3):
-            out.write(struct.pack("<I", verts[j].index))
+    out.write(struct.pack("<I", len(mesh.polygons) * 4 * 3))
+    for i in range(len(mesh.polygons) * 3):
+        out.write(struct.pack("<I", i))
 
     out.close()
-    bm.free()
 
 class HectExporter(bpy.types.Operator):
     """Export to the Hect mesh format (.mesh)"""
