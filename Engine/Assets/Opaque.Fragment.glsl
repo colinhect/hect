@@ -5,6 +5,7 @@ uniform sampler2D materialTexture;
 
 in vec3 vertexWorldPosition;
 in vec3 vertexWorldNormal;
+in vec3 vertexWorldTangent;
 in vec2 vertexTextureCoords;
 
 out vec4 diffuseBuffer;

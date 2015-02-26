@@ -4,8 +4,8 @@ bl_info = {
     "name": "Hect Mesh Format (.mesh)",
     "author": "Colin Hill",
     "version": (1, 0),
-    "blender": (2, 6, 9),
-    "api": 37702,
+    "blender": (2, 7, 1),
+    "api": 35622,
     "location": "File > Export > Hect (.mesh)",
     "description": "Export Hect Mesh Format (.mesh)",
     "warning": "",
@@ -14,11 +14,11 @@ bl_info = {
     "category": "Import-Export"}
 
 import os
-import bmesh
 import bpy
 import struct
 
 from bpy.props import StringProperty, EnumProperty, BoolProperty
+from bpy_extras.io_utils import ExportHelper
 
 # VertexAttributeSemantic (Hect/Graphics/VertexAttributeSemantic.h)
 class VertexAttributeSemantic:
@@ -68,65 +68,103 @@ class Vertex:
         self.tangent = tangent
         self.uv = uv
 
-def mesh_triangulate(me):
-    import bmesh
-    bm = bmesh.new()
-    bm.from_mesh(me)
-    bmesh.ops.triangulate(bm, faces=bm.faces)
-    bm.to_mesh(me)
-    bm.free()
+def triangulate_mesh(object):
+    triangulate = False
+    scene = bpy.context.scene
+    bpy.ops.object.mode_set(mode='OBJECT')
 
-def export_mesh(obj, path, append_name):
-    mesh = obj.data
+    # Deselect all objects
+    for obj in scene.objects:
+        obj.select = False
 
-    if not mesh.tessfaces and mesh.polygons:
-        mesh.calc_tessface()
-
-    mesh.calc_normals()
-    mesh_triangulate(mesh)
-
-    filepath = path
-    if append_name:
-        filepath += "." + obj.name + ".mesh"
+    # Set the mesh object as active
+    object.select = True
+    scene.objects.active = object
     
-    filepath += ".mesh"
+    object.data.update(calc_tessface=True)
+    for face in object.data.tessfaces:
+        if len(face.vertices) > 3:
+            triangulate = True
+            break
+    
+    bpy.ops.object.mode_set(mode='OBJECT')
+    if triangulate:
+        # Copy the mesh
+        mesh_data = object.data.copy()
+        mesh_obj = object.copy()
+        mesh_obj.data = mesh_data
+        bpy.context.scene.objects.link(mesh_obj)
 
-    out = open(filepath, 'wb')
+        # Deselect all objects
+        for obj in scene.objects:
+            obj.select = False
 
+        # Set the mesh object as active
+        mesh_obj.select = True
+        scene.objects.active = mesh_obj
+
+        bpy.ops.object.mode_set(mode='EDIT')
+        bpy.ops.mesh.select_all(action='SELECT')
+        bpy.ops.mesh.quads_convert_to_tris()
+        bpy.context.scene.update()
+        bpy.ops.object.mode_set(mode='OBJECT')
+
+        # Remove temp mesh from scene
+        bpy.ops.object.mode_set(mode='OBJECT')
+        bpy.context.scene.objects.unlink(mesh_obj)
+    else:
+        mesh_obj = object
+    return mesh_obj
+
+def export_mesh(context, obj, path):
+    # Prepare the mesh
+    mesh_obj = triangulate_mesh(obj)
+    mesh = mesh_obj.to_mesh(context.scene, True, 'PREVIEW')
+    mesh.transform(obj.matrix_world)
+    mesh.calc_normals()
+    mesh.calc_tangents()
+
+    out = open(path + "." + obj.name + ".mesh", 'wb')
+
+    # Write vertex layout
     out.write(struct.pack("<I", 4))
-
     out.write(struct.pack("<B", VertexAttributeSemantic.position))
     out.write(struct.pack("<B", VertexAttributeType.float32))
     out.write(struct.pack("<I", 3))
-
     out.write(struct.pack("<B", VertexAttributeSemantic.normal))
     out.write(struct.pack("<B", VertexAttributeType.float32))
     out.write(struct.pack("<I", 3))
-
     out.write(struct.pack("<B", VertexAttributeSemantic.tangent))
     out.write(struct.pack("<B", VertexAttributeType.float32))
     out.write(struct.pack("<I", 3))
-
     out.write(struct.pack("<B", VertexAttributeSemantic.texturecoords0))
     out.write(struct.pack("<B", VertexAttributeType.float32))
     out.write(struct.pack("<I", 2))
 
+    # Write index layout and primitive type
     out.write(struct.pack("<B", IndexType.uint32))
     out.write(struct.pack("<B", PrimitiveType.triangles))
 
-    uv_layer = mesh.uv_layers.active
-
+    # Build vertex list
+    uv_layer = mesh.tessface_uv_textures.active.data
     vertices = []
-    for polygon in mesh.polygons:
-        indices = polygon.vertices
-        loop_indices = polygon.loop_indices
-        for i in range(3):
-            co = mesh.vertices[indices[i]].co
-            normal = mesh.vertices[indices[i]].normal
-            tangent = [0, 0, 0]
-            uv = uv_layer.data[loop_indices[i]].uv
-            vertices.append(Vertex(co, normal, tangent, uv))
+    for face in mesh.tessfaces:
+        uvs = uv_layer[face.index]
+        indices = face.vertices
+        if len(indices) == 3:
+            for i in range(3):
+                vert = mesh.vertices[indices[i]]
+                tangent = [0, 0, 0]
+                if i == 0:
+                    uv = uvs.uv1
+                elif i == 1:
+                    uv = uvs.uv2
+                else:
+                    uv = uvs.uv3
+                print(uv)
+                vertices.append(Vertex(vert.co, vert.normal, tangent, uv))
 
+    # Write the vertex list
     out.write(struct.pack("<I", len(vertices) * 4 * (3 + 3 + 3 + 2)))
     for vertex in vertices:
         for i in range(3):
@@ -135,44 +173,44 @@ def export_mesh(obj, path, append_name):
             out.write(struct.pack("<f", vertex.normal[i]))
         for i in range(3):
             out.write(struct.pack("<f", vertex.tangent[i]))
+        print(vertex.uv)
         for i in range(2):
             out.write(struct.pack("<f", vertex.uv[i]))
 
+    # Write the index list
     out.write(struct.pack("<I", len(mesh.polygons) * 4 * 3))
     for i in range(len(mesh.polygons) * 3):
         out.write(struct.pack("<I", i))
 
     out.close()
 
-class HectExporter(bpy.types.Operator):
+class HectExporter(bpy.types.Operator, ExportHelper):
     """Export to the Hect mesh format (.mesh)"""
 
     bl_idname = "export.hect"
-    bl_label = "Export Hect"
+    bl_label = "Export Hect Mesh (.mesh)"
+    filename_ext = ".mesh"
 
     filepath = StringProperty(subtype='FILE_PATH')
 
     def execute(self, context):
-        # Remove the file extension from the path
+        # Remove the file extension
         path = bpy.path.ensure_ext(self.filepath, ".mesh")
         path = path[:-5]
 
-        # Get all of the mesh objects
+        # Get all of the selected mesh objects
         objs = []
         for obj in bpy.context.scene.objects:
-            if obj.type == 'MESH':
+            if obj.type == 'MESH' and obj.select:
                 objs.append(obj)
 
-        # Only append the object name if we are exporting more than one mesh
-        append_name = len(objs) > 1
+        # Export the selected mesh objects
         for obj in objs:
-            export_mesh(obj, path, append_name)
+            export_mesh(context, obj, path)
 
         return {"FINISHED"}
 
     def invoke(self, context, event):
-        if not self.filepath:
-            self.filepath = bpy.path.ensure_ext(bpy.data.filepath, ".mesh")
         WindowManager = context.window_manager
         WindowManager.fileselect_add(self)
         return {"RUNNING_MODAL"}

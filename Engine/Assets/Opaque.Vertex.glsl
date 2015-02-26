@@ -10,6 +10,7 @@ in vec2 textureCoords;
 
 out vec3 vertexWorldPosition;
 out vec3 vertexWorldNormal;
+out vec3 vertexWorldTangent;
 out vec2 vertexTextureCoords;
 
 mat3 normalMatrix = mat3(
@@ -23,5 +24,6 @@ void main()
 	vertexWorldPosition = (model * vec4(position, 1.0)).xyz;
     gl_Position = modelViewProjection * vec4(position, 1.0);
     vertexWorldNormal = normalize(normalMatrix * normal);
+    vertexWorldTangent = normalize(normalMatrix * tangent);
     vertexTextureCoords = textureCoords;
 }
