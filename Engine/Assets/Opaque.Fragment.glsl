@@ -16,9 +16,7 @@ out vec4 normalBuffer;
 void main()
 {
     diffuseBuffer = texture(diffuseTexture, vertexTextureCoords);
-    //materialBuffer = texture(materialTexture, vertexTextureCoords).rgb;
-    //diffuseBuffer = vec4(vertexTextureCoords, 0.0, 1.0);
-    materialBuffer = vec3(0.5, 1.0, 0.0);
+    materialBuffer = texture(materialTexture, vertexTextureCoords).rgb;
     normalBuffer = vec4(normalize(vertexWorldNormal), gl_FragCoord.z);
     positionBuffer = vertexWorldPosition;
 }
