@@ -68,63 +68,24 @@ class Vertex:
         self.tangent = tangent
         self.uv = uv
 
-def triangulate_mesh(object):
-    triangulate = False
-    scene = bpy.context.scene
+def vertex_from_loop(mesh, loop_index):
+    uv_layer = mesh.uv_layers.active.data
+    loop = mesh.loops[loop_index]
+    vert = mesh.vertices[loop.vertex_index]
+    normal = loop.normal
+    uv = uv_layer[loop_index].uv
+    return Vertex(vert.co, vert.normal, loop.tangent, uv)
+
+def export_mesh(context, mesh_obj, path):
     bpy.ops.object.mode_set(mode='OBJECT')
 
-    # Deselect all objects
-    for obj in scene.objects:
-        obj.select = False
-
-    # Set the mesh object as active
-    object.select = True
-    scene.objects.active = object
-    
-    object.data.update(calc_tessface=True)
-    for face in object.data.tessfaces:
-        if len(face.vertices) > 3:
-            triangulate = True
-            break
-    
-    bpy.ops.object.mode_set(mode='OBJECT')
-    if triangulate:
-        # Copy the mesh
-        mesh_data = object.data.copy()
-        mesh_obj = object.copy()
-        mesh_obj.data = mesh_data
-        bpy.context.scene.objects.link(mesh_obj)
-
-        # Deselect all objects
-        for obj in scene.objects:
-            obj.select = False
-
-        # Set the mesh object as active
-        mesh_obj.select = True
-        scene.objects.active = mesh_obj
-
-        bpy.ops.object.mode_set(mode='EDIT')
-        bpy.ops.mesh.select_all(action='SELECT')
-        bpy.ops.mesh.quads_convert_to_tris()
-        bpy.context.scene.update()
-        bpy.ops.object.mode_set(mode='OBJECT')
-
-        # Remove temp mesh from scene
-        bpy.ops.object.mode_set(mode='OBJECT')
-        bpy.context.scene.objects.unlink(mesh_obj)
-    else:
-        mesh_obj = object
-    return mesh_obj
-
-def export_mesh(context, obj, path):
     # Prepare the mesh
-    mesh_obj = triangulate_mesh(obj)
     mesh = mesh_obj.to_mesh(context.scene, True, 'PREVIEW')
-    mesh.transform(obj.matrix_world)
+    mesh.transform(mesh_obj.matrix_world)
     mesh.calc_normals()
     mesh.calc_tangents()
 
-    out = open(path + "." + obj.name + ".mesh", 'wb')
+    out = open(path + "." + mesh_obj.name + ".mesh", 'wb')
 
     # Write vertex layout
     out.write(struct.pack("<I", 4))
@@ -146,23 +107,17 @@ def export_mesh(context, obj, path):
     out.write(struct.pack("<B", PrimitiveType.triangles))
 
     # Build vertex list
-    uv_layer = mesh.tessface_uv_textures.active.data
     vertices = []
-    for face in mesh.tessfaces:
-        uvs = uv_layer[face.index]
-        indices = face.vertices
-        if len(indices) == 3:
-            for i in range(3):
-                vert = mesh.vertices[indices[i]]
-                tangent = [0, 0, 0]
-                if i == 0:
-                    uv = uvs.uv1
-                elif i == 1:
-                    uv = uvs.uv2
-                else:
-                    uv = uvs.uv3
-                print(uv)
-                vertices.append(Vertex(vert.co, vert.normal, tangent, uv))
+    for poly in mesh.polygons:
+        loop_indices = poly.loop_indices
+        if len(loop_indices) >= 3:
+            vertices.append(vertex_from_loop(mesh, loop_indices[0]))
+            vertices.append(vertex_from_loop(mesh, loop_indices[1]))
+            vertices.append(vertex_from_loop(mesh, loop_indices[2]))
+        if len(loop_indices) == 4:
+            vertices.append(vertex_from_loop(mesh, loop_indices[2]))
+            vertices.append(vertex_from_loop(mesh, loop_indices[3]))
+            vertices.append(vertex_from_loop(mesh, loop_indices[0]))
 
     # Write the vertex list
     out.write(struct.pack("<I", len(vertices) * 4 * (3 + 3 + 3 + 2)))
@@ -173,7 +128,6 @@ def export_mesh(context, obj, path):
             out.write(struct.pack("<f", vertex.normal[i]))
         for i in range(3):
             out.write(struct.pack("<f", vertex.tangent[i]))
-        print(vertex.uv)
         for i in range(2):
             out.write(struct.pack("<f", vertex.uv[i]))
 
