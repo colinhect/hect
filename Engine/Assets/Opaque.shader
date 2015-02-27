@@ -14,3 +14,5 @@ uniforms:
     type: Texture
   - name: materialTexture
     type: Texture
+  - name: normalTexture
+    type: Texture

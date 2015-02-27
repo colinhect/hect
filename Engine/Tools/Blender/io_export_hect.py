@@ -74,6 +74,7 @@ def vertex_from_loop(mesh, loop_index):
     vert = mesh.vertices[loop.vertex_index]
     normal = loop.normal
     uv = uv_layer[loop_index].uv
+    print(loop.tangent)
     return Vertex(vert.co, vert.normal, loop.tangent, uv)
 
 def export_mesh(context, mesh_obj, path):
@@ -82,8 +83,8 @@ def export_mesh(context, mesh_obj, path):
     # Prepare the mesh
     mesh = mesh_obj.to_mesh(context.scene, True, 'PREVIEW')
     mesh.transform(mesh_obj.matrix_world)
-    mesh.calc_normals()
     mesh.calc_tangents()
+    mesh.calc_normals()
 
     out = open(path + "." + mesh_obj.name + ".mesh", 'wb')
 

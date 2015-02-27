@@ -9,21 +9,15 @@ in vec3 tangent;
 in vec2 textureCoords;
 
 out vec3 vertexWorldPosition;
-out vec3 vertexWorldNormal;
-out vec3 vertexWorldTangent;
+out vec3 vertexNormal;
+out vec3 vertexTangent;
 out vec2 vertexTextureCoords;
-
-mat3 normalMatrix = mat3(
-    model[0][0], model[0][1], model[0][2],
-    model[1][0], model[1][1], model[1][2],
-    model[2][0], model[2][1], model[2][2]
-);
 
 void main()
 {
 	vertexWorldPosition = (model * vec4(position, 1.0)).xyz;
     gl_Position = modelViewProjection * vec4(position, 1.0);
-    vertexWorldNormal = normalize(normalMatrix * normal);
-    vertexWorldTangent = normalize(normalMatrix * tangent);
+    vertexNormal = (model * vec4(normal, 0.0)).xyz;
+    vertexTangent = (model * vec4(tangent, 0.0)).xyz;
     vertexTextureCoords = textureCoords;
 }
