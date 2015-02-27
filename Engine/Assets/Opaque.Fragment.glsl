@@ -23,13 +23,12 @@ void main()
 
     vec3 normal = normalize(vertexNormal);
     vec3 tangent = normalize(vertexTangent);
-    diffuseBuffer = vec4(tangent * 10.0, 1.0);
+    tangent = normalize(tangent - dot(tangent, normal) * normal);
 
-    //tangent = normalize(tangent - dot(tangent, normal) * normal);
     vec3 bitangent = normalize(cross(tangent, normal));
-    mat3 tbn = transpose(mat3(tangent, bitangent, normal));
+    mat3 tbn = mat3(tangent, bitangent, normal);
     normalSample *= tbn;
 
-    normalBuffer = vec4(normalize(normal), gl_FragCoord.z);
+    normalBuffer = vec4(normalize(normalSample), gl_FragCoord.z);
     positionBuffer = vertexWorldPosition;
 }
