@@ -5,7 +5,7 @@ uniform float roughness;
 uniform float metallic;
 
 in vec3 vertexWorldPosition;
-in vec3 vertexWorldNormal;
+in vec3 vertexNormal;
 
 out vec4 diffuseBuffer;
 out vec3 materialBuffer;
@@ -16,6 +16,6 @@ void main()
 {
     diffuseBuffer = diffuse;
     materialBuffer = vec3(roughness, metallic, 0.0);
-    normalBuffer = vec4(normalize(vertexWorldNormal), gl_FragCoord.z);
+    normalBuffer = vec4(normalize(vertexNormal), gl_FragCoord.z);
     positionBuffer = vertexWorldPosition;
 }

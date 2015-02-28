@@ -75,16 +75,22 @@ void testEncoding(const Path& assetPath)
     }
 }
 
+const std::vector<Path> directoryPaths { "Hect/Rendering", "Hect/Scenes", "Hect/Shaders" };
+
 // Loads all files of a certain extension and verifies that re-encoding and
 // decoding the asset results in equivalence for both binary and data encoding
 template <typename T>
 void testEncodingForExtension(const std::string& extension)
 {
-    for (auto& filePath : engine->fileSystem().filesInDirectory("Hect"))
+    for (const Path& directoryPath : directoryPaths)
     {
-        if (filePath.extension() == extension)
+        FileSystem& fileSystem = engine->fileSystem();
+        for (const Path& filePath : fileSystem.filesInDirectory(directoryPath))
         {
-            testEncoding<T>(filePath);
+            if (filePath.extension() == extension)
+            {
+                testEncoding<T>(filePath);
+            }
         }
     }
 }
@@ -108,4 +114,3 @@ TEST_CASE("Decode and re-encode built-in Hect textures", "[Encoding][Texture]")
 {
     testEncodingForExtension<Texture>("texture");
 }
-

@@ -28,12 +28,30 @@ using namespace hect;
 
 extern Engine* engine;
 
+Mesh createTestMesh()
+{
+    Mesh mesh("Test");
+
+    MeshWriter meshWriter(mesh);
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic_Position, Vector3::unitX());
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic_Position, Vector3::unitY());
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic_Position, Vector3::unitZ());
+    meshWriter.addIndex(0);
+    meshWriter.addIndex(1);
+    meshWriter.addIndex(2);
+
+    return mesh;
+}
+
 TEST_CASE("Upload and destroy render object", "[Renderer]")
 {
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
 
-    Mesh mesh = assetCache.get<Mesh>("Hect/Box.mesh");
+    Mesh mesh = createTestMesh();
     REQUIRE(!mesh.isUploaded());
     renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
@@ -46,7 +64,7 @@ TEST_CASE("Re-upload destroyed render object", "[Renderer]")
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
 
-    Mesh mesh = assetCache.get<Mesh>("Hect/Box.mesh");
+    Mesh mesh = createTestMesh();
     REQUIRE(!mesh.isUploaded());
     renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
@@ -61,7 +79,7 @@ TEST_CASE("Copy uploaded render object", "[Renderer]")
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
 
-    Mesh mesh = assetCache.get<Mesh>("Hect/Box.mesh");
+    Mesh mesh = createTestMesh();
     renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
 
@@ -83,7 +101,7 @@ TEST_CASE("Move uploaded render object", "[Renderer]")
     AssetCache& assetCache = engine->assetCache();
     Renderer& renderer = engine->renderer();
 
-    Mesh mesh = assetCache.get<Mesh>("Hect/Box.mesh");
+    Mesh mesh = createTestMesh();
     renderer.uploadMesh(mesh);
     REQUIRE(mesh.isUploaded());
 

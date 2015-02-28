@@ -29,16 +29,9 @@ using namespace hect;
 
 DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     System(engine, scene, SystemTickStage_Precedent),
-    _renderer(engine.renderer())
+    _renderer(engine.renderer()),
+    _enabled(false)
 {
-    AssetCache& assetCache = engine.assetCache();
-
-    _coloredLineShader = assetCache.getHandle<Shader>("Hect/ColoredLine.shader");
-    _boxMesh = assetCache.getHandle<Mesh>("Hect/Box.mesh");
-
-    addColoredMaterial(Color(100, 0, 0)); // Primary
-    addColoredMaterial(Color(0, 100, 0)); // Secondary
-    addColoredMaterial(Color(0, 0, 100)); // Tertiary
 }
 
 void DebugSystem::renderBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation)
@@ -50,20 +43,34 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
 {
     for (auto& box : _boxes)
     {
-        renderSystem.addRenderCall(box.transform, *_boxMesh, _coloredMaterials[box.color]);
+        renderSystem.addRenderCall(box.transform, *boxMesh, _coloredMaterials[box.color]);
     }
 }
 
 void DebugSystem::initialize()
 {
-    _renderer.uploadShader(*_coloredLineShader);
-    _renderer.uploadMesh(*_boxMesh);
+    addColoredMaterial(Color(100, 0, 0)); // Primary
+    addColoredMaterial(Color(0, 100, 0)); // Secondary
+    addColoredMaterial(Color(0, 0, 100)); // Tertiary
+
+    _renderer.uploadShader(*coloredLineShader);
+    _renderer.uploadMesh(*boxMesh);
 }
 
 void DebugSystem::tick(double timeStep)
 {
     (void)timeStep;
     _boxes.clear();
+}
+
+bool DebugSystem::isEnabled() const
+{
+    return _enabled;
+}
+
+void DebugSystem::setEnabled(bool enabled)
+{
+    _enabled = enabled;
 }
 
 DebugSystem::DebugBox::DebugBox()
@@ -83,7 +90,7 @@ void DebugSystem::addColoredMaterial(const Color& color)
 {
     // Create a material for this color
     Material material;
-    material.setShader(_coloredLineShader);
+    material.setShader(coloredLineShader);
     material.setUniformValue("color", color);
 
     _coloredMaterials.push_back(material);

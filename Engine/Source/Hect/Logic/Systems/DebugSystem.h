@@ -81,6 +81,28 @@ public:
     void initialize() override;
     void tick(double timeStep) override;
 
+    ///
+    /// Returns whether the debug system is enabled.
+    bool isEnabled() const;
+
+    ///
+    /// Sets whether the debug system is enabled.
+    ///
+    /// \param enabled True to enabled; false to disable.
+    void setEnabled(bool enabled);
+
+    ///
+    /// The shader used to render colored lines.
+    ///
+    /// \property{required}
+    Shader::Handle coloredLineShader;
+
+    ///
+    /// The mesh used to render bounding boxes.
+    ///
+    /// \property{required}
+    Mesh::Handle boxMesh;
+
 private:
     void addColoredMaterial(const Color& color);
 
@@ -97,11 +119,10 @@ private:
 
     Renderer& _renderer;
 
+    bool _enabled;
+
     std::vector<DebugBox> _boxes;
     std::vector<Material> _coloredMaterials;
-
-    Shader::Handle _coloredLineShader;
-    Mesh::Handle _boxMesh;
 };
 
 }

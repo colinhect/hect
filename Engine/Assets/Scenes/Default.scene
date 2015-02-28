@@ -1,0 +1,30 @@
+---
+componentTypes:
+  - BoundingBox
+  - Camera
+  - DirectionalLight
+  - LightProbe
+  - Model
+  - RigidBody
+  - SkyBox
+  - Transform
+systemTypes:
+  - InputSystem
+  - PhysicsSystem
+  - TransformSystem
+  - BoundingBoxSystem
+  - CameraSystem
+  - RenderSystem
+  - DebugSystem
+systems:
+  - type: RenderSystem
+    exposeShader: Hect/Rendering/Expose.shader
+    compositeShader: Hect/Rendering/Composite.shader
+    environmentShader: Hect/Rendering/Environment.shader
+    directionalLightShader: Hect/Rendering/DirectionalLight.shader
+    skyBoxShader: Hect/Shaders/SkyBox.shader
+    screenMesh: Hect/Rendering/Screen.mesh
+    skyBoxMesh: Hect/Rendering/SkyBox.mesh
+  - type: DebugSystem
+    coloredLineShader: Hect/Shaders/ColoredLine.shader
+    boxMesh: Hect/Rendering/Box.mesh

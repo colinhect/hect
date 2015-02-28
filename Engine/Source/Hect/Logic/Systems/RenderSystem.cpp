@@ -41,21 +41,13 @@ RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
     _taskPool(&engine.taskPool()),
     _buffersInitialized(false)
 {
-    AssetCache& assetCache = engine.assetCache();
-
-    _exposeShader = assetCache.getHandle<Shader>("Hect/Expose.shader");
-    _compositeShader = assetCache.getHandle<Shader>("Hect/Composite.shader");
-    _environmentShader = assetCache.getHandle<Shader>("Hect/Environment.shader");
-    _directionalLightShader = assetCache.getHandle<Shader>("Hect/DirectionalLight.shader");
-
-    _skyBoxMaterial = assetCache.getHandle<Material>("Hect/SkyBox.material");
-
-    _screenMesh = assetCache.getHandle<Mesh>("Hect/Screen.mesh");
-    _skyBoxMesh = assetCache.getHandle<Mesh>("Hect/SkyBox.mesh");
 }
 
 void RenderSystem::initialize()
 {
+    _skyBoxMaterial = Material::Handle(new Material("Skybox"));
+    _skyBoxMaterial->setShader(skyBoxShader);
+
     for (Model& model : scene().components<Model>())
     {
         for (ModelSurface& surface : model.surfaces)
@@ -160,7 +152,10 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     if (scene.hasSystemType<DebugSystem>())
     {
         DebugSystem& debugSystem = scene.system<DebugSystem>();
-        debugSystem.addRenderCalls(*this);
+        if (debugSystem.isEnabled())
+        {
+            debugSystem.addRenderCalls(*this);
+        }
     }
 
     // Add each directional light to the frame data
@@ -213,22 +208,22 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         // Render environment light
         if (_frameData.lightProbeCubeMap)
         {
-            frame.setShader(*_environmentShader);
-            setBoundUniforms(frame, *_environmentShader, camera, target, _identityTransform);
-            frame.renderMesh(*_screenMesh);
+            frame.setShader(*environmentShader);
+            setBoundUniforms(frame, *environmentShader, camera, target, _identityTransform);
+            frame.renderMesh(*screenMesh);
         }
 
         // Render directional lights
         {
-            frame.setShader(*_directionalLightShader);
+            frame.setShader(*directionalLightShader);
 
             // Render each directional light in the scene
             for (DirectionalLight::ConstIterator light : _frameData.directionalLights)
             {
                 _frameData.primaryLightDirection = light->direction;
                 _frameData.primaryLightColor = light->color;
-                setBoundUniforms(frame, *_directionalLightShader, camera, target, _identityTransform);
-                frame.renderMesh(*_screenMesh);
+                setBoundUniforms(frame, *directionalLightShader, camera, target, _identityTransform);
+                frame.renderMesh(*screenMesh);
             }
         }
     }
@@ -239,10 +234,10 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     {
         Renderer::Frame frame = _renderer->beginFrame(backFrameBuffer());
         frame.clear();
-        frame.setShader(*_compositeShader);
-        setBoundUniforms(frame, *_compositeShader, camera, target, _identityTransform);
+        frame.setShader(*compositeShader);
+        setBoundUniforms(frame, *compositeShader, camera, target, _identityTransform);
 
-        frame.renderMesh(*_screenMesh);
+        frame.renderMesh(*screenMesh);
 
         // Transparent geometry rendering
         {
@@ -259,10 +254,10 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     {
         Renderer::Frame frame = _renderer->beginFrame(target);
         frame.clear();
-        frame.setShader(*_exposeShader);
-        setBoundUniforms(frame, *_exposeShader, camera, target, _identityTransform);
+        frame.setShader(*exposeShader);
+        setBoundUniforms(frame, *exposeShader, camera, target, _identityTransform);
 
-        frame.renderMesh(*_screenMesh);
+        frame.renderMesh(*screenMesh);
     }
 }
 
@@ -375,7 +370,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
         auto skyBox = entity.component<SkyBox>();
         if (skyBox)
         {
-            addRenderCall(_frameData.cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
+            addRenderCall(_frameData.cameraTransform, *skyBoxMesh, *_skyBoxMaterial);
         }
 
         // Render all children

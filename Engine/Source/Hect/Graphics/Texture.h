@@ -239,7 +239,7 @@ private:
     unsigned _height { 0 };
 
     PixelType _pixelType { PixelType_Byte };
-    PixelFormat _pixelFormat{ PixelFormat_Rgba };
+    PixelFormat _pixelFormat { PixelFormat_Rgba };
 
     ColorSpace _colorSpace { ColorSpace_NonLinear };
 

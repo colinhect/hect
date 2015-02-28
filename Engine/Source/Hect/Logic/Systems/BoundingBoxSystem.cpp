@@ -48,13 +48,15 @@ void BoundingBoxSystem::tick(double timeStep)
     if (scene().hasSystemType<DebugSystem>())
     {
         DebugSystem& debugSystem = scene().system<DebugSystem>();
-
-        // Render a debug box for each bounding box
-        for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
+        if (debugSystem.isEnabled())
         {
-            AxisAlignedBox axisAlignedBox = boundingBox.extents;
-            Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
-            debugSystem.renderBox(DebugColor_Primary, box, axisAlignedBox.center());
+            // Render a debug box for each bounding box
+            for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
+            {
+                AxisAlignedBox axisAlignedBox = boundingBox.extents;
+                Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
+                debugSystem.renderBox(DebugColor_Primary, box, axisAlignedBox.center());
+            }
         }
     }
 }

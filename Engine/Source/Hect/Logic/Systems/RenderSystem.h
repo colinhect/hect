@@ -61,6 +61,51 @@ public:
     void initialize() override;
     void render(RenderTarget& target) override;
 
+    ///
+    /// The shader used to expose the final image to the window.
+    ///
+    /// \property{required}
+    Shader::Handle exposeShader;
+
+    ///
+    /// The shader used to composite all components of the image into the
+    /// final image.
+    ///
+    /// \property{required}
+    Shader::Handle compositeShader;
+
+    ///
+    /// The shader used to perform environmental lighting on physically lit
+    /// objects.
+    ///
+    /// \property{required}
+    Shader::Handle environmentShader;
+
+    ///
+    /// The shader used to perform directional lighting on physically lit
+    /// objects.
+    ///
+    /// \property{required}
+    Shader::Handle directionalLightShader;
+
+    ///
+    /// The shader used to render sky boxes.
+    ///
+    /// \property{required}
+    Shader::Handle skyBoxShader;
+
+    ///
+    /// The mesh used to render to the screen.
+    ///
+    /// \property{required}
+    Mesh::Handle screenMesh;
+
+    ///
+    /// The mesh used to render sky boxes.
+    ///
+    /// \property{required}
+    Mesh::Handle skyBoxMesh;
+
 private:
     void prepareFrame(Camera& camera, Scene& scene, RenderTarget& target);
     void renderFrame(Camera& camera, RenderTarget& target);
@@ -121,13 +166,7 @@ private:
     FrameBuffer _geometryFrameBuffer;
     std::array<FrameBuffer, 2> _backFrameBuffers;
 
-    Shader::Handle _exposeShader;
-    Shader::Handle _compositeShader;
-    Shader::Handle _environmentShader;
-    Shader::Handle _directionalLightShader;
     Material::Handle _skyBoxMaterial;
-    Mesh::Handle _screenMesh;
-    Mesh::Handle _skyBoxMesh;
 
     Transform _identityTransform;
 
