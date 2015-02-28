@@ -17,7 +17,7 @@ void main()
 {
 	vertexWorldPosition = (model * vec4(position, 1.0)).xyz;
     gl_Position = modelViewProjection * vec4(position, 1.0);
-    vertexNormal = (model * vec4(normal, 0.0)).xyz;
-    vertexTangent = (model * vec4(tangent, 0.0)).xyz;
+    vertexNormal = normalize((model * vec4(normal, 0.0)).xyz);
+    vertexTangent = normalize((model * vec4(tangent, 0.0)).xyz);
     vertexTextureCoords = textureCoords;
 }

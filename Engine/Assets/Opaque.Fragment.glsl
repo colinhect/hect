@@ -16,18 +16,16 @@ out vec4 normalBuffer;
 
 void main()
 {
-    diffuseBuffer = texture(diffuseTexture, vertexTextureCoords);
+    diffuseBuffer = vec4(texture(diffuseTexture, vertexTextureCoords).rgb, 1.0);
     materialBuffer = texture(materialTexture, vertexTextureCoords).rgb;
-    
-    vec3 normalSample = 2.0 * texture(normalTexture, vertexTextureCoords).xyz - vec3(1.0, 1.0, 1.0);
+
+    vec3 normalSample = texture(normalTexture, vertexTextureCoords).xyz * 2.0 - 1.0;
+    normalSample.y = -normalSample.y;
 
     vec3 normal = normalize(vertexNormal);
     vec3 tangent = normalize(vertexTangent);
-    tangent = normalize(tangent - dot(tangent, normal) * normal);
-
-    vec3 bitangent = normalize(cross(tangent, normal));
-    mat3 tbn = mat3(tangent, bitangent, normal);
-    normalSample *= tbn;
+    vec3 bitangent = normalize(cross(normal, tangent));
+    normalSample = mat3(tangent, bitangent, normal) * normalize(normalSample);
 
     normalBuffer = vec4(normalize(normalSample), gl_FragCoord.z);
     positionBuffer = vertexWorldPosition;

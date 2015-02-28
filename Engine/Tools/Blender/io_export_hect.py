@@ -75,7 +75,7 @@ def vertex_from_loop(mesh, loop_index):
     normal = loop.normal
     uv = uv_layer[loop_index].uv
     print(loop.tangent)
-    return Vertex(vert.co, vert.normal, loop.tangent, uv)
+    return Vertex(vert.co, loop.normal, loop.tangent, uv)
 
 def export_mesh(context, mesh_obj, path):
     bpy.ops.object.mode_set(mode='OBJECT')

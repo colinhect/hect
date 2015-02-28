@@ -208,7 +208,6 @@ Decoder& operator>>(Decoder& decoder, Image& image)
     image.setHeight(height);
     image.setPixelType(PixelType_Byte);
     image.setPixelFormat(PixelFormat_Rgba);
-    image.setColorSpace(ColorSpace_NonLinear); // Assume the image is sRGB
     image.setPixelData(std::move(decodedPixelData));
 
     // Flip the image to OpenGL ordering

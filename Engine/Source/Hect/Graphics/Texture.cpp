@@ -71,6 +71,22 @@ void Texture::setType(TextureType type)
     }
 }
 
+ColorSpace Texture::colorSpace() const
+{
+    return _colorSpace;
+}
+
+void Texture::setColorSpace(ColorSpace colorSpace)
+{
+    _colorSpace = colorSpace;
+
+    // Update the color space of the source images
+    for (Image::Handle& image : _sourceImages)
+    {
+        image->setColorSpace(colorSpace);
+    }
+}
+
 Texture::ImageSequence Texture::sourceImages()
 {
     return _sourceImages;
@@ -228,6 +244,12 @@ bool Texture::operator==(const Texture& texture) const
         return false;
     }
 
+    // Color space
+    if (_colorSpace != texture._colorSpace)
+    {
+        return false;
+    }
+
     // Source image count
     if (_sourceImages.size() != texture._sourceImages.size())
     {
@@ -282,6 +304,7 @@ Encoder& operator<<(Encoder& encoder, const Texture& texture)
 {
     encoder << beginObject()
             << encodeEnum("type", texture._type)
+            << encodeEnum("colorSpace", texture._colorSpace)
             << encodeVector("images", texture._sourceImages)
             << encodeEnum("minFilter", texture._minFilter)
             << encodeEnum("magFilter", texture._magFilter)
@@ -304,6 +327,14 @@ Decoder& operator>>(Decoder& decoder, Texture& texture)
         texture.setType(type);
     }
 
+    // Color space
+    if (decoder.selectMember("colorSpace"))
+    {
+        ColorSpace colorSpace;
+        decoder >> decodeEnum(colorSpace);
+        texture.setColorSpace(colorSpace);
+    }
+
     // Images
     if (decoder.selectMember("images"))
     {
@@ -316,6 +347,7 @@ Decoder& operator>>(Decoder& decoder, Texture& texture)
             // store uncompressed image data in main memory
             decoder.assetCache().remove(image.path());
 
+            image->setColorSpace(texture._colorSpace);
             texture.addSourceImage(image);
         }
     }
