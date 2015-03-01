@@ -5,8 +5,8 @@ modules:
   - type: Fragment
     path: Environment.glsl
 uniforms:
-  - name: cameraPosition
-    binding: CameraPosition
+  - name: view
+    binding: ViewMatrix
   - name: diffuseBuffer
     binding: DiffuseBuffer
   - name: materialBuffer

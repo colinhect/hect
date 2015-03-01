@@ -15,7 +15,7 @@ uniforms:
   - name: metallic
     type: Float
     value: 0
-  - name: model
-    binding: ModelMatrix
+  - name: modelView
+    binding: ModelViewMatrix
   - name: modelViewProjection
     binding: ModelViewProjectionMatrix

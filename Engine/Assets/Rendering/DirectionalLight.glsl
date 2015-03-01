@@ -2,9 +2,9 @@
 
 #define PI 3.1415926535897932384626433832795
 
+uniform mat4 modelView;
 uniform vec3 lightDirection;
 uniform vec4 lightColor;
-uniform vec3 cameraPosition;
 uniform sampler2D diffuseBuffer;
 uniform sampler2D materialBuffer;
 uniform sampler2D positionBuffer;
@@ -111,10 +111,11 @@ void main()
         vec3 realSpecular = mix(vec3(0.03), diffuse, metallic);
 
         // Compute the view direction
-        vec3 viewDirection = normalize(cameraPosition - position);
+        vec3 viewDirection = normalize(-position);
+        vec3 viewLightDirection = normalize((modelView * vec4(lightDirection, 0.0)).xyz);
 
         // Compute and output the total light accumulation
-        backBuffer = computeLight(realDiffuse, realSpecular, normal, roughness, -lightDirection, viewDirection);
+        backBuffer = computeLight(realDiffuse, realSpecular, normal, roughness, -viewLightDirection, viewDirection);
     }
     else
     {

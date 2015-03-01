@@ -4,7 +4,7 @@ uniform sampler2D diffuseTexture;
 uniform sampler2D materialTexture;
 uniform sampler2D normalTexture;
 
-in vec3 vertexWorldPosition;
+in vec3 vertexPosition;
 in vec3 vertexNormal;
 in vec3 vertexTangent;
 in vec2 vertexTextureCoords;
@@ -28,5 +28,5 @@ void main()
     normalSample = mat3(tangent, bitangent, normal) * normalize(normalSample);
 
     normalBuffer = vec4(normalize(normalSample), gl_FragCoord.z);
-    positionBuffer = vertexWorldPosition;
+    positionBuffer = vertexPosition;
 }

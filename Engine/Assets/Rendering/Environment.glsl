@@ -1,6 +1,6 @@
 #version 410
 
-uniform vec3 cameraPosition;
+uniform mat4 view;
 uniform sampler2D diffuseBuffer;
 uniform sampler2D materialBuffer;
 uniform sampler2D positionBuffer;
@@ -42,13 +42,14 @@ void main()
         vec3 realSpecular = mix(vec3(0.03), diffuse, metallic);
 
         // Compute the view direction
-        vec3 viewDirection = normalize(cameraPosition - position);
+        vec3 viewDirection = normalize(-position);
 
         // Compute the mip map level based on the roughness
         float mipMapLevel = roughness * 8.0 + 4.0;
    
         // Sample the reflectance from the light probe
         vec3 reflectDirection = normalize(reflect(viewDirection, normal));
+        reflectDirection = normalize((inverse(view) * vec4(reflectDirection, 0.0)).xyz);
         vec3 reflectance = textureLod(lightProbeCubeMap, reflectDirection, mipMapLevel).rgb;
 
         // Sample the ambience from the light probe

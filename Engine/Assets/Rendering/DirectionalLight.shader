@@ -5,12 +5,12 @@ modules:
   - type: Fragment
     path: DirectionalLight.glsl
 uniforms:
+  - name: modelView
+    binding: ModelViewMatrix
   - name: lightDirection
     binding: PrimaryLightDirection
   - name: lightColor
     binding: PrimaryLightColor
-  - name: cameraPosition
-    binding: CameraPosition
   - name: diffuseBuffer
     binding: DiffuseBuffer
   - name: materialBuffer
