@@ -601,9 +601,9 @@ void Renderer::Frame::renderMesh(Mesh& mesh)
     );
 }
 
-void Renderer::Frame::clear()
+void Renderer::Frame::clear(bool depth)
 {
-    GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+    GL_ASSERT(glClear(depth ? (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) : GL_COLOR_BUFFER_BIT));
 }
 
 Renderer::Frame::Frame(Renderer& renderer, RenderTarget& target) :

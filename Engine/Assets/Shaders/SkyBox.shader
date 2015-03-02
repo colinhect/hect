@@ -1,4 +1,5 @@
 ---
+schema: PrePhysicalGeometry
 modules:
   - type: Vertex
     path: SkyBox.Vertex.glsl
@@ -10,4 +11,3 @@ uniforms:
   - name: skyBoxCubeMap
     binding: SkyBoxCubeMap
 depthTested: false
-priority: 1000

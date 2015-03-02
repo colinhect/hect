@@ -268,7 +268,9 @@ public:
 
         ///
         /// Clears the render target.
-        void clear();
+        ///
+        /// \param depth Whether the depth channel is cleared.
+        void clear(bool depth = true);
 
     private:
         Frame(Renderer& renderer, RenderTarget& target);

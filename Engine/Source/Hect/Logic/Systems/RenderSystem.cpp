@@ -92,11 +92,19 @@ void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& mat
         switch (shader->schema())
         {
         case ShaderSchema_None:
+            HECT_WARNING("Render call without shader schema");
+            break;
+        case ShaderSchema_PrePhysicalGeometry:
+            _frameData.prePhysicalGeometry.emplace_back(transform, mesh, material);
+            break;
         case ShaderSchema_OpaquePhysicalGeometry:
             _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
             break;
-        case ShaderSchema_TransparentPhysicalGeometry:
-            _frameData.transparentPhysicalGeometry.emplace_back(transform, mesh, material);
+        case ShaderSchema_TranslucentPhysicalGeometry:
+            _frameData.translucentPhysicalGeometry.emplace_back(transform, mesh, material);
+            break;
+        case ShaderSchema_PostPhysicalGeometry:
+            _frameData.postPhysicalGeometry.emplace_back(transform, mesh, material);
             break;
         }
     }
@@ -166,17 +174,24 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
 
     std::vector<Task::Handle> sortingTasks;
 
-    // Spin up a task to sort the opaque render calls
+    // Spin up a task to sort the pre-physical geometry render calls
+    sortingTasks.push_back(_taskPool->enqueue([this]
+    {
+        std::vector<RenderCall>& renderCalls = _frameData.prePhysicalGeometry;
+        std::sort(renderCalls.begin(), renderCalls.end());
+    }));
+
+    // Spin up a task to sort the opaque physical geometry render calls
     sortingTasks.push_back(_taskPool->enqueue([this]
     {
         std::vector<RenderCall>& renderCalls = _frameData.opaquePhysicalGeometry;
         std::sort(renderCalls.begin(), renderCalls.end());
     }));
 
-    // Spin up a task to sort the transparent render calls
+    // Spin up a task to sort the translucent physical geometry render calls
     sortingTasks.push_back(_taskPool->enqueue([this]
     {
-        std::vector<RenderCall>& renderCalls = _frameData.transparentPhysicalGeometry;
+        std::vector<RenderCall>& renderCalls = _frameData.translucentPhysicalGeometry;
         std::sort(renderCalls.begin(), renderCalls.end());
     }));
 
@@ -194,6 +209,11 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         Renderer::Frame frame = _renderer->beginFrame(_geometryFrameBuffer);
         frame.clear();
 
+        for (RenderCall& renderCall : _frameData.prePhysicalGeometry)
+        {
+            renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+        }
+
         for (RenderCall& renderCall : _frameData.opaquePhysicalGeometry)
         {
             renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
@@ -203,7 +223,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     // Light rendering
     {
         Renderer::Frame frame = _renderer->beginFrame(backFrameBuffer());
-        frame.clear();
+        frame.clear(false);
 
         // Render environment light
         if (_frameData.lightProbeCubeMap)
@@ -233,15 +253,23 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     // Composite
     {
         Renderer::Frame frame = _renderer->beginFrame(backFrameBuffer());
-        frame.clear();
+        frame.clear(false);
         frame.setShader(*compositeShader);
         setBoundUniforms(frame, *compositeShader, camera, target, _identityTransform);
 
         frame.renderMesh(*screenMesh);
 
-        // Transparent geometry rendering
+        // Translucent geometry rendering
         {
-            for (RenderCall& renderCall : _frameData.transparentPhysicalGeometry)
+            for (RenderCall& renderCall : _frameData.translucentPhysicalGeometry)
+            {
+                renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            }
+        }
+
+        // Post physical geometry rendering
+        {
+            for (RenderCall& renderCall : _frameData.postPhysicalGeometry)
             {
                 renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
             }
@@ -543,8 +571,10 @@ RenderSystem::RenderCall::RenderCall(Transform& transform, Mesh& mesh, Material&
 
 void RenderSystem::FrameData::clear()
 {
+    prePhysicalGeometry.clear();
     opaquePhysicalGeometry.clear();
-    transparentPhysicalGeometry.clear();
+    translucentPhysicalGeometry.clear();
+    postPhysicalGeometry.clear();
     directionalLights.clear();
 
     cameraTransform = Transform();

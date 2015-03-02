@@ -229,7 +229,6 @@ Decoder& operator>>(Decoder& decoder, Material& material)
                 }
                 else
                 {
-
                     decoder >> beginObject()
                             >> decodeValue("name", name, true)
                             >> decodeValue(value)

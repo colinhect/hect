@@ -139,8 +139,10 @@ private:
     public:
         void clear();
 
+        std::vector<RenderCall> prePhysicalGeometry;
         std::vector<RenderCall> opaquePhysicalGeometry;
-        std::vector<RenderCall> transparentPhysicalGeometry;
+        std::vector<RenderCall> translucentPhysicalGeometry;
+        std::vector<RenderCall> postPhysicalGeometry;
 
         std::vector<DirectionalLight::ConstIterator> directionalLights;
 

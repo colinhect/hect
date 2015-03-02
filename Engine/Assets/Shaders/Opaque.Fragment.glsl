@@ -27,6 +27,6 @@ void main()
     vec3 bitangent = normalize(cross(normal, tangent));
     normalSample = mat3(tangent, bitangent, normal) * normalize(normalSample);
 
-    normalBuffer = vec4(normalize(normalSample), gl_FragCoord.z);
+    normalBuffer = vec4(normalize(normalSample), 0.0);
     positionBuffer = vertexPosition;
 }

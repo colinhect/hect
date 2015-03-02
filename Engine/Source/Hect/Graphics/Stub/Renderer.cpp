@@ -206,8 +206,9 @@ void Renderer::Frame::renderMesh(Mesh& mesh)
     }
 }
 
-void Renderer::Frame::clear()
+void Renderer::Frame::clear(bool depth)
 {
+    (void)depth;
 }
 
 Renderer::Frame::Frame(Renderer& renderer, RenderTarget& target) :

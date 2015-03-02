@@ -1,4 +1,5 @@
 ---
+schema: PostPhysicalGeometry
 modules:
   - type: Vertex
     path: ColoredLine.Vertex.glsl

@@ -16,6 +16,6 @@ void main()
 {
     diffuseBuffer = diffuse;
     materialBuffer = vec3(roughness, metallic, 0.0);
-    normalBuffer = vec4(normalize(vertexNormal), gl_FragCoord.z);
+    normalBuffer = vec4(normalize(vertexNormal), 0.0);
     positionBuffer = vertexPosition;
 }

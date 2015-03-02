@@ -13,6 +13,6 @@ void main()
 {
     diffuseBuffer = vec4(texture(skyBoxCubeMap, -vertexPosition).rgb, 0.0);
     materialBuffer = vec3(0.0, 0.0, 0.0);
-    normalBuffer = vec4(vec3(0.0), gl_FragCoord.z);
+    normalBuffer = vec4(vec3(0.0), 0.0);
     positionBuffer = vec3(0.0);
 }
