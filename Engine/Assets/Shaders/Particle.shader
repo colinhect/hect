@@ -17,6 +17,5 @@ uniforms:
   - name: particleSize
     type: Float
 blendMode:
-  function: Add
   sourceFactor: One
   destinationFacto: One
