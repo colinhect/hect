@@ -43,12 +43,7 @@ enum ShaderSchema
     ///
     /// Physically lit opaque geometry.
     /// Issue #154
-    ShaderSchema_OpaquePhysicalGeometry,
-
-    ///
-    /// Physically lit translucent geometry.
-    /// Issue #154
-    ShaderSchema_TranslucentPhysicalGeometry,
+    ShaderSchema_PhysicalGeometry,
 
     ///
     /// After physical geometry is rendered.

@@ -1,5 +1,5 @@
 ---
-schema: OpaquePhysicalGeometry
+schema: PhysicalGeometry
 modules:
   - type: Vertex
     path: Opaque.Vertex.glsl

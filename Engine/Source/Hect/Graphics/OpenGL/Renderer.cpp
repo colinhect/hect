@@ -618,6 +618,10 @@ Renderer::Frame::Frame(Renderer& renderer, RenderTarget& target) :
         GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
     }
 
+    GL_ASSERT(glDisable(GL_BLEND));
+    GL_ASSERT(glEnable(GL_DEPTH_TEST));
+    GL_ASSERT(glDepthMask(GL_TRUE));
+
     _renderer.setTarget(target);
 }
 

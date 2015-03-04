@@ -86,8 +86,8 @@ TEST_CASE("Get and set the schema of a shader", "[Shader]")
 {
     Shader shader;
     REQUIRE(shader.schema() == ShaderSchema_None);
-    shader.setSchema(ShaderSchema_OpaquePhysicalGeometry);
-    REQUIRE(shader.schema() == ShaderSchema_OpaquePhysicalGeometry);
+    shader.setSchema(ShaderSchema_PhysicalGeometry);
+    REQUIRE(shader.schema() == ShaderSchema_PhysicalGeometry);
 }
 
 TEST_CASE("Get and set the blend mode of a shader", "[Shader]")

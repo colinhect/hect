@@ -91,18 +91,13 @@ void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& mat
     {
         switch (shader->schema())
         {
-        case ShaderSchema_None:
-            HECT_WARNING("Render call without shader schema");
-            break;
         case ShaderSchema_PrePhysicalGeometry:
             _frameData.prePhysicalGeometry.emplace_back(transform, mesh, material);
             break;
-        case ShaderSchema_OpaquePhysicalGeometry:
+        case ShaderSchema_PhysicalGeometry:
             _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
             break;
-        case ShaderSchema_TranslucentPhysicalGeometry:
-            _frameData.translucentPhysicalGeometry.emplace_back(transform, mesh, material);
-            break;
+        case ShaderSchema_None:
         case ShaderSchema_PostPhysicalGeometry:
             _frameData.postPhysicalGeometry.emplace_back(transform, mesh, material);
             break;
@@ -209,11 +204,13 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         Renderer::Frame frame = _renderer->beginFrame(_geometryFrameBuffer);
         frame.clear();
 
+        // Render pre-physical geometry
         for (RenderCall& renderCall : _frameData.prePhysicalGeometry)
         {
             renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
         }
 
+        // Render opaque physical geometry
         for (RenderCall& renderCall : _frameData.opaquePhysicalGeometry)
         {
             renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
@@ -233,18 +230,14 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
             frame.renderMesh(*screenMesh);
         }
 
-        // Render directional lights
+        // Render each directional light in the scene
+        frame.setShader(*directionalLightShader);
+        for (DirectionalLight::ConstIterator light : _frameData.directionalLights)
         {
-            frame.setShader(*directionalLightShader);
-
-            // Render each directional light in the scene
-            for (DirectionalLight::ConstIterator light : _frameData.directionalLights)
-            {
-                _frameData.primaryLightDirection = light->direction;
-                _frameData.primaryLightColor = light->color;
-                setBoundUniforms(frame, *directionalLightShader, camera, target, _identityTransform);
-                frame.renderMesh(*screenMesh);
-            }
+            _frameData.primaryLightDirection = light->direction;
+            _frameData.primaryLightColor = light->color;
+            setBoundUniforms(frame, *directionalLightShader, camera, target, _identityTransform);
+            frame.renderMesh(*screenMesh);
         }
     }
 
@@ -254,25 +247,22 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     {
         Renderer::Frame frame = _renderer->beginFrame(backFrameBuffer());
         frame.clear(false);
+
+        // Composite
         frame.setShader(*compositeShader);
         setBoundUniforms(frame, *compositeShader, camera, target, _identityTransform);
-
         frame.renderMesh(*screenMesh);
 
-        // Translucent geometry rendering
+        // Render translucent geometry
+        for (RenderCall& renderCall : _frameData.translucentPhysicalGeometry)
         {
-            for (RenderCall& renderCall : _frameData.translucentPhysicalGeometry)
-            {
-                renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
-            }
+            renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
         }
 
-        // Post physical geometry rendering
+        // Render post-physical geometry
+        for (RenderCall& renderCall : _frameData.postPhysicalGeometry)
         {
-            for (RenderCall& renderCall : _frameData.postPhysicalGeometry)
-            {
-                renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
-            }
+            renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
         }
     }
 
@@ -304,10 +294,10 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
     // Material buffer: Roughness Metallic ?
     _materialBuffer = Texture("MaterialBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
 
-    // World position buffer: X Y Z
+    // Position buffer: X Y Z
     _positionBuffer = Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
 
-    // World normal buffer: X Y Z Depth
+    // Normal buffer: X Y Z Depth
     _normalBuffer = Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
 
     // Back buffers

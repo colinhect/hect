@@ -1,12 +1,15 @@
 ---
-schema: TranslucentPhysicalGeometry
+schema: PostPhysicalGeometry
 modules:
   - type: Vertex
-    path: Translucent.Vertex.glsl
+    path: Additive.Vertex.glsl
   - type: Fragment
-    path: Translucent.Fragment.glsl
+    path: Additive.Fragment.glsl
 uniforms:
   - name: modelViewProjection
     binding: ModelViewProjectionMatrix
   - name: diffuseTexture
     type: Texture
+blendMode:
+    sourceFactor: One
+    destinationFactor: One
