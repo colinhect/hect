@@ -1,4 +1,4 @@
-#version 410
+#version 440
 
 in vec4 vertexColor;
 

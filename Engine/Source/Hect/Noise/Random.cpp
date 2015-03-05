@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Random.h"
 
+#include <cassert>
+#include <limits>
+
 using namespace hect;
 
 Random::Random(RandomSeed seed) :
@@ -44,4 +47,42 @@ uint32_t Random::next()
     }
 
     return output;
+}
+
+float Random::next(float min, float max)
+{
+    assert(min < max);
+    float random = static_cast<float>(next()) / static_cast<float>(std::numeric_limits<uint32_t>::max());
+    return random * (max - min) + min;
+}
+
+double Random::next(double min, double max)
+{
+    assert(min < max);
+    double random = static_cast<double>(next()) / static_cast<double>(std::numeric_limits<uint32_t>::max());
+    return random * (max - min) + min;
+}
+
+Vector2 Random::next(const Vector2& min, const Vector2& max)
+{
+    double x = next(min.x, max.x);
+    double y = next(min.y, max.y);
+    return Vector2(x, y);
+}
+
+Vector3 Random::next(const Vector3& min, const Vector3& max)
+{
+    double x = next(min.x, max.x);
+    double y = next(min.y, max.y);
+    double z = next(min.z, max.z);
+    return Vector3(x, y, z);
+}
+
+Vector4 Random::next(const Vector4& min, const Vector4& max)
+{
+    double x = next(min.x, max.x);
+    double y = next(min.y, max.y);
+    double z = next(min.z, max.z);
+    double w = next(min.w, max.w);
+    return Vector4(x, y, z, w);
 }

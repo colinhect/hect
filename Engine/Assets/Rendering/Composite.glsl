@@ -1,4 +1,4 @@
-#version 410
+#version 440
 
 uniform sampler2D diffuseBuffer;
 uniform sampler2D backBuffer;

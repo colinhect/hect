@@ -26,6 +26,9 @@
 #include <cstdint>
 
 #include "Hect/Core/Export.h"
+#include "Hect/Math/Vector2.h"
+#include "Hect/Math/Vector3.h"
+#include "Hect/Math/Vector4.h"
 
 namespace hect
 {
@@ -49,6 +52,44 @@ public:
     ///
     /// Returns the next random number.
     uint32_t next();
+
+    ///
+    /// Returns the next random float within the specified range.
+    ///
+    /// \param min The minimum.
+    /// \param max The maximum.
+    float next(float min, float max);
+
+    ///
+    /// Returns the next random double within the specified range.
+    ///
+    /// \param min The minimum.
+    /// \param max The maximum.
+    double next(double min, double max);
+
+    ///
+    /// Returns the next random 2-dimensional vector within the specified
+    /// range.
+    ///
+    /// \param min The minimum.
+    /// \param max The maximum.
+    Vector2 next(const Vector2& min, const Vector2& max);
+
+    ///
+    /// Returns the next random 3-dimensional vector within the specified
+    /// range.
+    ///
+    /// \param min The minimum.
+    /// \param max The maximum.
+    Vector3 next(const Vector3& min, const Vector3& max);
+
+    ///
+    /// Returns the next random 4-dimensional vector within the specified
+    /// range.
+    ///
+    /// \param min The minimum.
+    /// \param max The maximum.
+    Vector4 next(const Vector4& min, const Vector4& max);
 
 private:
     uint32_t _current;

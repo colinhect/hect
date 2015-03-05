@@ -1,4 +1,4 @@
-#version 410
+#version 440
 
 uniform sampler2D diffuseTexture;
 uniform sampler2D materialTexture;
