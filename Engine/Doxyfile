@@ -240,6 +240,7 @@ TAB_SIZE               = 4
 
 ALIASES                = "component=\note This class is a registered with the ComponentRegistry." \
                          "system=\note This class is a registered with the SystemRegistry." \
+                         "encodable=\note This class is encodable." \
                          "property=\note This member is a registered property." \
                          "property{1}=\note This member is a registered property." \
                          "property{2}=\note This member is a registered property." \

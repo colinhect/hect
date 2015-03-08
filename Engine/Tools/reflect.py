@@ -56,6 +56,7 @@ class ClassType(Type):
         Type.__init__(self, header, id, name)
         self.is_component = False
         self.is_system = False
+        self.is_encodable = False
         
 class EnumType(Type):
     def __init__(self, header, id, name):
@@ -103,6 +104,8 @@ def process_xml(root):
                                 class_type.is_component = True
                             elif "[system]" in para.text:
                                 class_type.is_system = True
+                            elif "[encodable]" in para.text:
+                                class_type.is_encodable = True
 
                 templateparamlist = compounddef.find("templateparamlist")
                 if not templateparamlist is None:
@@ -175,6 +178,7 @@ if __name__ == "__main__":
             doxyfile.write(key + " = " + value + "\n")
         doxyfile.write("ALIASES += component=\"[component]\"\n")
         doxyfile.write("ALIASES += system=\"[system]\"\n")
+        doxyfile.write("ALIASES += encodable=\"[encodable]\"\n")
         doxyfile.write("ALIASES += property=\"[property]\"\n")
         doxyfile.write("ALIASES += property{1}=\"[property]\\1\"\n")
         doxyfile.write("ALIASES += property{2}=\"[property]\\1 \2\"\n")
@@ -226,7 +230,7 @@ if __name__ == "__main__":
             if isinstance(type, ClassType) and not type.is_template and not "Iterator" in type.name:
                 f.write("    {\n")
                 f.write("        hect::Type& type = hect::Type::create<" + type.name + ">(hect::Kind_Class, \"" + sanitize_name(type.name) + "\");\n")
-                if len(type.properties) > 0:
+                if len(type.properties) > 0 and (type.is_component or type.is_system or type.is_encodable):
                     f.write("        type.setEncodeFunction([](const void* value, Encoder& encoder)\n")
                     f.write("        {\n")
                     f.write("            const " + type.name + "& typedValue = *reinterpret_cast<const " + type.name + "*>(value);\n")

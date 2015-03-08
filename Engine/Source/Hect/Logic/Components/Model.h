@@ -34,6 +34,8 @@ namespace hect
 
 ///
 /// A Mesh surface with a specific Material in a Model.
+///
+/// \encodable
 class HECT_EXPORT ModelSurface :
     public Encodable
 {
