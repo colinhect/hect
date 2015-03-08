@@ -24,16 +24,18 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Logic/Scene.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
+#include "Hect/IO/Encodable.h"
+#include "Hect/Logic/Scene.h"
 
 namespace hect
 {
 
 ///
 /// A Mesh surface with a specific Material in a Model.
-class HECT_EXPORT ModelSurface
+class HECT_EXPORT ModelSurface :
+    public Encodable
 {
 public:
     ModelSurface();
@@ -47,14 +49,15 @@ public:
 
     ///
     /// The mesh.
+    ///
+    /// \property
     Mesh::Handle mesh;
 
     ///
     /// The material.
+    ///
+    /// \property
     Material::Handle material;
-
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const ModelSurface& modelSurface);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, ModelSurface& modelSurface);
 };
 
 ///

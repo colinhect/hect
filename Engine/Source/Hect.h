@@ -78,6 +78,7 @@ namespace hect {}
 #include "Hect/IO/DataValueEncoder.h"
 #include "Hect/IO/DataValueType.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/IO/EncodeOperations.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/FileSystem.h"

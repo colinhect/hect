@@ -21,16 +21,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Model.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Decoder.h"
 
-ModelSurface::ModelSurface()
+namespace hect
 {
-}
 
-ModelSurface::ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material) :
-    mesh(mesh),
-    material(material)
+///
+/// An object that can be encoded and decoded.
+class HECT_EXPORT Encodable
 {
+public:
+    virtual ~Encodable() { }
+
+    ///
+    /// Encodes the value to an object.
+    ///
+    /// \param encoder The encoder to use.
+    virtual void encode(Encoder& encoder) const;
+
+    ///
+    /// Decodes the value from an object.
+    ///
+    /// \param decoder The decoder to use.
+    virtual void decode(Decoder& decoder);
+};
+
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Encodable& value);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, Encodable& value);
+
 }

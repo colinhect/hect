@@ -21,16 +21,43 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Model.h"
+#include "Encodable.h"
+
+#include "Hect/Reflection/Type.h"
 
 using namespace hect;
 
-ModelSurface::ModelSurface()
+void Encodable::encode(Encoder& encoder) const
 {
+    // Default to the encoding registered with the reflected type
+    const Type& type = Type::of(*this);
+    type.encode(this, encoder);
 }
 
-ModelSurface::ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material) :
-    mesh(mesh),
-    material(material)
+void Encodable::decode(Decoder& decoder)
 {
+    // Default to the decoding registered with the reflected type
+    const Type& type = Type::of(*this);
+    type.decode(this, decoder);
+}
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const Encodable& value)
+{
+    encoder << beginObject();
+    value.encode(encoder);
+    encoder << endObject();
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, Encodable& value)
+{
+    decoder >> beginObject();
+    value.decode(decoder);
+    decoder >> endObject();
+    return decoder;
+}
+
 }
