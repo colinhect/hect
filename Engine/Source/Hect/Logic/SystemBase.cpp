@@ -61,17 +61,3 @@ SystemTickStage SystemBase::tickStage() const
 {
     return _tickStage;
 }
-
-void SystemBase::encode(Encoder& encoder) const
-{
-    // Default to the encoding registered with the reflected type
-    const Type& type = Type::of(*this);
-    type.encode(this, encoder);
-}
-
-void SystemBase::decode(Decoder& decoder)
-{
-    // Default to the decoding registered with the reflected type
-    const Type& type = Type::of(*this);
-    type.decode(this, decoder);
-}

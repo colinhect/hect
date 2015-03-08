@@ -27,8 +27,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Logic/SystemTickStage.h"
 
 namespace hect
@@ -44,7 +43,8 @@ typedef uint32_t SystemTypeId;
 ///
 /// Abstract base for System.
 class HECT_EXPORT SystemBase :
-    public Uncopyable
+    public Uncopyable,
+    public Encodable
 {
     friend class Scene;
 public:
@@ -86,18 +86,6 @@ public:
     ///
     /// Returns the tick stage.
     SystemTickStage tickStage() const;
-
-    ///
-    /// Encodes the system to an object.
-    ///
-    /// \param encoder The encoder to use.
-    virtual void encode(Encoder& encoder) const;
-
-    ///
-    /// Decodes the system from an object
-    ///
-    /// \param decoder The decoder to use.
-    virtual void decode(Decoder& decoder);
 
 private:
     Scene& _scene;

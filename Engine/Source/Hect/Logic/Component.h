@@ -26,6 +26,7 @@
 #include <functional>
 
 #include "Hect/Core/Export.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/Logic/ComponentIterator.h"
@@ -40,22 +41,11 @@ typedef uint32_t ComponentTypeId;
 
 ///
 /// Abstract base for Component.
-class HECT_EXPORT ComponentBase
+class HECT_EXPORT ComponentBase :
+    public Encodable
 {
 public:
     virtual ~ComponentBase() { }
-
-    ///
-    /// Encodes the component to an object.
-    ///
-    /// \param encoder The encoder to use.
-    virtual void encode(Encoder& encoder) const;
-
-    ///
-    /// Decodes the component from an object.
-    ///
-    /// \param decoder The decoder to use.
-    virtual void decode(Decoder& decoder);
 
     ///
     /// Returns the if of the component's type.
