@@ -35,7 +35,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT TransformSystem :
-    public System<Transform>
+    public System<TransformSystem, Transform>
 {
 public:
     TransformSystem(Engine& engine, Scene& scene);

@@ -32,7 +32,7 @@ class Engine;
 
 ///
 /// A system affecting entities within a scene.
-template <typename... ComponentTypes>
+template <typename T, typename... ComponentTypes>
 class System :
     public SystemBase,
     public ComponentListener<ComponentTypes>...

@@ -26,8 +26,8 @@
 namespace hect
 {
 
-template <typename... ComponentTypes>
-System<ComponentTypes...>::System(Engine& engine, Scene& scene, SystemTickStage tickStage) :
+template <typename T, typename... ComponentTypes>
+System<T, ComponentTypes...>::System(Engine& engine, Scene& scene, SystemTickStage tickStage) :
 
 // Work-around for Visual Studio 2013 compiler bug (issue #167)
 #ifdef _MSC_VER

@@ -35,7 +35,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT BoundingBoxSystem :
-    public System<BoundingBox>
+    public System<BoundingBoxSystem, BoundingBox>
 {
     friend class TransformSystem;
 public:

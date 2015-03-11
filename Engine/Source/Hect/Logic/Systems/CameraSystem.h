@@ -35,7 +35,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT CameraSystem :
-    public System<Camera>
+    public System<CameraSystem, Camera>
 {
 public:
     CameraSystem(Engine& engine, Scene& scene);

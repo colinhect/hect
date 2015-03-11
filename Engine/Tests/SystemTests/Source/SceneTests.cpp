@@ -81,7 +81,7 @@ public:
 };
 
 class TestSystemA :
-    public System<>
+    public System<TestSystemA>
 {
 public:
     std::string value;
@@ -120,7 +120,7 @@ public:
 };
 
 class TestSystemB :
-    public System<TestA, TestB>
+    public System<TestSystemB, TestA, TestB>
 {
 public:
     std::string value;
