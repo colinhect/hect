@@ -140,74 +140,78 @@ void PhysicsSystem::commit(RigidBody& rigidBody)
 
 void PhysicsSystem::tick(double timeStep)
 {
-    TransformSystem& transformSystem = scene().system<TransformSystem>();
-
-    // Update gravity if needed
-    Vector3 bulletGravity = convertFromBullet(_world->getGravity());
-    if (gravity != bulletGravity)
+    auto transformSystem = scene().system<TransformSystem>();
+    if (transformSystem)
     {
-        _world->setGravity(convertToBullet(gravity));
-    }
-
-    // Update the dynamics scene
-    _world->stepSimulation(timeStep, 4);
-
-    // For each rigid body component
-    for (RigidBody& rigidBody : scene().components<RigidBody>())
-    {
-        Entity& entity = *rigidBody.entity();
-        auto transform = entity.component<Transform>();
-        if (!entity.parent() && transform)
+        // Update gravity if needed
+        Vector3 bulletGravity = convertFromBullet(_world->getGravity());
+        if (gravity != bulletGravity)
         {
-            // Update the transform to what Bullet says it should be
-            btTransform bulletTransform;
-            ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
+            _world->setGravity(convertToBullet(gravity));
+        }
 
-            Transform newTransform = convertFromBullet(bulletTransform);
-            transform->localPosition = newTransform.localPosition;
-            transform->localScale = newTransform.localScale;
-            transform->localRotation = newTransform.localRotation;
-            transformSystem.commit(*transform);
+        // Update the dynamics scene
+        _world->stepSimulation(timeStep, 4);
 
-            // Update rigid body properties to what Bullet says it should be
-            rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
-            rigidBody.angularVelocity = convertFromBullet(rigidBody._rigidBody->getAngularVelocity());
+        // For each rigid body component
+        for (auto& rigidBody : scene().components<RigidBody>())
+        {
+            auto entity = rigidBody.entity();
+            auto transform = entity->component<Transform>();
+            if (!entity->parent() && transform)
+            {
+                // Update the transform to what Bullet says it should be
+                btTransform bulletTransform;
+                ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
+
+                Transform newTransform = convertFromBullet(bulletTransform);
+                transform->localPosition = newTransform.localPosition;
+                transform->localScale = newTransform.localScale;
+                transform->localRotation = newTransform.localRotation;
+                transformSystem->commit(*transform);
+
+                // Update rigid body properties to what Bullet says it should be
+                rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
+                rigidBody.angularVelocity = convertFromBullet(rigidBody._rigidBody->getAngularVelocity());
+            }
         }
     }
 }
 
 void PhysicsSystem::onComponentAdded(RigidBody::Iterator rigidBody)
 {
-    TransformSystem& transformSystem = scene().system<TransformSystem>();
-    Entity::Iterator entity = rigidBody->entity();
-
-    Transform::Iterator transform = entity->component<Transform>();
-    if (transform)
+    auto transformSystem = scene().system<TransformSystem>();
+    if (transformSystem)
     {
-        Mesh& mesh = *rigidBody->mesh;
-        rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
-
-        btScalar mass = rigidBody->mass;
-        btVector3 localInertia(0, 0, 0);
-        if (mass != 0.0)
+        auto entity = rigidBody->entity();
+        auto transform = entity->component<Transform>();
+        if (transform)
         {
-            rigidBody->_collisionShape->calculateLocalInertia(mass, localInertia);
+            Mesh& mesh = *rigidBody->mesh;
+            rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
+
+            btScalar mass = rigidBody->mass;
+            btVector3 localInertia(0, 0, 0);
+            if (mass != 0.0)
+            {
+                rigidBody->_collisionShape->calculateLocalInertia(mass, localInertia);
+            }
+
+            btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
+            btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
+
+            transformSystem->update(*transform);
+
+            rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
+            btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);
+            rigidBody->_rigidBody.reset(new btRigidBody(info));
+            rigidBody->_rigidBody->setSleepingThresholds(0, 0);
+            rigidBody->_rigidBody->setLinearVelocity(linearVelocity);
+            rigidBody->_rigidBody->setAngularVelocity(angularVelocity);
+            rigidBody->_rigidBody->setAngularFactor(0.5);
+
+            _world->addRigidBody(rigidBody->_rigidBody.get());
         }
-
-        btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
-        btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
-
-        transformSystem.update(*transform);
-
-        rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
-        btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);
-        rigidBody->_rigidBody.reset(new btRigidBody(info));
-        rigidBody->_rigidBody->setSleepingThresholds(0, 0);
-        rigidBody->_rigidBody->setLinearVelocity(linearVelocity);
-        rigidBody->_rigidBody->setAngularVelocity(angularVelocity);
-        rigidBody->_rigidBody->setAngularFactor(0.5);
-
-        _world->addRigidBody(rigidBody->_rigidBody.get());
     }
 }
 

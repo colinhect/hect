@@ -97,12 +97,20 @@ public:
     bool hasSystemType();
 
     ///
-    /// Returns the System of a specific type.
+    /// Returns a handle to the System of a specific type.
     ///
-    /// \throws InvalidOperation If the scene does not have the system of the
-    /// specified type.
+    /// \note If the specified system type is not supported by the scene, then
+    /// the resulting handle is invalid.
     template <typename T>
-    T& system();
+    typename T::Handle system();
+
+    ///
+    /// Returns a handle to the System of a specific type.
+    ///
+    /// \note If the specified system type is not supported by the scene, then
+    /// the resulting handle is invalid.
+    template <typename T>
+    typename T::ConstHandle system() const;
 
     ///
     /// Adds support for a Component type to the scene.

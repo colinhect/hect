@@ -1660,8 +1660,10 @@ TEST_CASE("Add a system type to a scene", "[Scene]")
     scene.addSystemType<TestSystemA>();
     REQUIRE(scene.hasSystemType<TestSystemA>());
 
-    TestSystemA& testSystemA = scene.system<TestSystemA>();
-    TestSystemA& testSystemB = scene.system<TestSystemA>();
+    auto testSystemA = scene.system<TestSystemA>();
+    REQUIRE(testSystemA);
+    auto testSystemB = scene.system<TestSystemA>();
+    REQUIRE(testSystemB);
 
     REQUIRE(&testSystemA == &testSystemB);
 }
@@ -1672,13 +1674,6 @@ TEST_CASE("Add an existing system type to a scene", "[Scene]")
 
     scene.addSystemType<TestSystemA>();
     REQUIRE_THROWS_AS(scene.addSystemType<TestSystemA>(), InvalidOperation);
-}
-
-TEST_CASE("Get a non-existing system type", "[Scene]")
-{
-    Scene scene(*engine);
-
-    REQUIRE_THROWS_AS(scene.system<TestSystemA>(), InvalidOperation);
 }
 
 TEST_CASE("Remove an existing system type from a scene", "[Scene]")
@@ -1746,10 +1741,10 @@ TEST_CASE("Encode and decode a simple scene with systems", "[Scene]")
     testEncodeDecode([](Scene& scene)
     {
         scene.addSystemType<TestSystemA>();
-        scene.system<TestSystemA>().value = "TestA";
+        scene.system<TestSystemA>()->value = "TestA";
     }, [](Scene& scene)
     {
-        REQUIRE(scene.system<TestSystemA>().value == "TestA");
+        REQUIRE(scene.system<TestSystemA>()->value == "TestA");
     });
 }
 
@@ -1767,8 +1762,8 @@ TEST_CASE("Systems are notified about the additions and removals of component ty
     entity->activate();
     scene.refresh();
 
-    REQUIRE(scene.system<TestSystemB>().value == "TestA added");
+    REQUIRE(scene.system<TestSystemB>()->value == "TestA added");
 
     entity->addComponent<TestB>();
-    REQUIRE(scene.system<TestSystemB>().value == "TestB added");
+    REQUIRE(scene.system<TestSystemB>()->value == "TestB added");
 }

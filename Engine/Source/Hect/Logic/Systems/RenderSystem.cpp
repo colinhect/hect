@@ -48,7 +48,7 @@ void RenderSystem::initialize()
     _skyBoxMaterial = Material::Handle(new Material("Skybox"));
     _skyBoxMaterial->setShader(skyBoxShader);
 
-    for (Model& model : scene().components<Model>())
+    for (auto& model : scene().components<Model>())
     {
         for (ModelSurface& surface : model.surfaces)
         {
@@ -67,7 +67,7 @@ void RenderSystem::initialize()
         }
     }
 
-    for (SkyBox& skyBox : scene().components<SkyBox>())
+    for (auto& skyBox : scene().components<SkyBox>())
     {
         _renderer->uploadTexture(*skyBox.texture);
     }
@@ -75,12 +75,15 @@ void RenderSystem::initialize()
 
 void RenderSystem::render(RenderTarget& target)
 {
-    CameraSystem& cameraSystem = scene().system<CameraSystem>();
-    Camera::Iterator camera = cameraSystem.activeCamera();
-    if (camera)
+    auto cameraSystem = scene().system<CameraSystem>();
+    if (cameraSystem)
     {
-        prepareFrame(*camera, scene(), target);
-        renderFrame(*camera, target);
+        Camera::Iterator camera = cameraSystem->activeCamera();
+        if (camera)
+        {
+            prepareFrame(*camera, scene(), target);
+            renderFrame(*camera, target);
+        }
     }
 }
 
@@ -118,8 +121,11 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     {
         camera.aspectRatio = target.aspectRatio();
 
-        CameraSystem& cameraSystem = scene.system<CameraSystem>();
-        cameraSystem.update(camera);
+        auto cameraSystem = scene.system<CameraSystem>();
+        if (cameraSystem)
+        {
+            cameraSystem->update(camera);
+        }
     }
 
     // Initialize buffers if needed
@@ -143,7 +149,7 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     }
 
     // Build all render calls and sort by priority
-    for (Entity& entity : scene.entities())
+    for (auto& entity : scene.entities())
     {
         if (!entity.parent())
         {
@@ -152,17 +158,14 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     }
 
     // Add render calls for debug geometry
-    if (scene.hasSystemType<DebugSystem>())
+    auto debugSystem = scene.system<DebugSystem>();
+    if (debugSystem && debugSystem->isEnabled())
     {
-        DebugSystem& debugSystem = scene.system<DebugSystem>();
-        if (debugSystem.isEnabled())
-        {
-            debugSystem.addRenderCalls(*this);
-        }
+        debugSystem->addRenderCalls(*this);
     }
 
     // Add each directional light to the frame data
-    for (const DirectionalLight& light : scene.components<DirectionalLight>())
+    for (const auto& light : scene.components<DirectionalLight>())
     {
         _frameData.directionalLights.push_back(light.iterator());
     }
@@ -392,7 +395,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
         }
 
         // Render all children
-        for (Entity& child : entity.children())
+        for (auto& child : entity.children())
         {
             buildRenderCalls(camera, child, frustumTest);
         }

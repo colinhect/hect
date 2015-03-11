@@ -41,12 +41,12 @@ void TransformSystem::commit(Transform& transform)
 
 void TransformSystem::update(Transform& transform)
 {
-    Entity& entity = *transform.entity();
-    auto parent = entity.parent();
+    auto& entity = transform.entity();
+    auto parent = entity->parent();
     if (parent)
     {
         // Update the transform hierarchy starting at this entity's parent
-        updateRecursively(*parent, entity);
+        updateRecursively(*parent, *entity);
     }
     else
     {
@@ -56,15 +56,18 @@ void TransformSystem::update(Transform& transform)
         transform.globalRotation = transform.localRotation;
 
         // Update the transform hierachy for all children
-        for (Entity& child : entity.children())
+        for (auto& child : entity->children())
         {
-            updateRecursively(entity, child);
+            updateRecursively(*entity, child);
         }
     }
 
     // Force the bounding box to update
-    BoundingBoxSystem& boundingBoxSystem = scene().system<BoundingBoxSystem>();
-    boundingBoxSystem.updateRecursively(entity);
+    auto boundingBoxSystem = scene().system<BoundingBoxSystem>();
+    if (boundingBoxSystem)
+    {
+        boundingBoxSystem->updateRecursively(*entity);
+    }
 }
 
 void TransformSystem::tick(double timeStep)
@@ -74,7 +77,7 @@ void TransformSystem::tick(double timeStep)
     // Update all committed transforms
     for (ComponentId id : _committed)
     {
-        Transform& transform = scene().components<Transform>().withId(id);
+        auto& transform = scene().components<Transform>().withId(id);
         update(transform);
     }
     _committed.clear();
@@ -110,7 +113,7 @@ void TransformSystem::updateRecursively(Entity& parent, Entity& child)
         }
 
         // Recursively update for all children
-        for (Entity& nextChild : child.children())
+        for (auto& nextChild : child.children())
         {
             updateRecursively(child, nextChild);
         }

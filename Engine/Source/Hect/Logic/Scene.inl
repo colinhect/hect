@@ -37,7 +37,10 @@ void Scene::removeSystemType()
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
 
     // Ensure that the system is supported
-    system<T>();
+    if (!hasSystemType<T>())
+    {
+        throw InvalidOperation(format("Scene does not support system type '%s'", Type::get<T>().name().c_str()));
+    }
 
     // Remove the system from the tick stages
     for (std::vector<SystemTypeId>& tickStage : _tickStages)
@@ -57,14 +60,31 @@ bool Scene::hasSystemType()
 }
 
 template <typename T>
-T& Scene::system()
+typename T::Handle Scene::system()
 {
-    SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
-    if (typeId >= _systems.size() || !_systems[typeId])
+    typename SystemHandle<T> handle;
+
+    if (hasSystemType<T>())
     {
-        throw InvalidOperation(format("Scene does not support system type '%s'", Type::get<T>().name().c_str()));
+        SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
+        handle = typename SystemHandle<T>((T&)*_systems[typeId]);
     }
-    return (T&)*_systems[typeId];
+
+    return handle;
+}
+
+template <typename T>
+typename T::ConstHandle Scene::system() const
+{
+    typename SystemConstHandle<T> handle;
+
+    if (hasSystemType<T>())
+    {
+        SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
+        handle = typename SystemConstHandle<T>((const T&)*_systems[typeId]);
+    }
+
+    return handle;
 }
 
 template <typename T>

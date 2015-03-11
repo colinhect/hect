@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Logic/ComponentListener.h"
+#include "Hect/Logic/SystemHandle.h"
 
 namespace hect
 {
@@ -53,6 +54,14 @@ class System :
     public ComponentListenersType
 {
 public:
+
+    ///
+    /// \copydoc SystemHandle
+    typedef SystemHandle<SystemType> Handle;
+
+    ///
+    /// \copydoc SystemConstHandle
+    typedef SystemHandle<SystemType> ConstHandle;
 
     ///
     /// Constructs a system.
