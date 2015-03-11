@@ -41,7 +41,7 @@ void TransformSystem::commit(Transform& transform)
 
 void TransformSystem::update(Transform& transform)
 {
-    auto& entity = transform.entity();
+    auto entity = transform.entity();
     auto parent = entity->parent();
     if (parent)
     {
