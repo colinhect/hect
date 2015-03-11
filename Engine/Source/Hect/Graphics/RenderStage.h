@@ -27,28 +27,30 @@ namespace hect
 {
 
 ///
+/// The stage in which a shader is rendered in the render flow.
+///
 /// Describes the inputs and outputs of a shader, allowing the renderer to
 /// execute the shader in the proper context within the render flow.
-enum ShaderSchema
+enum RenderStage
 {
     ///
-    /// No schema.
-    ShaderSchema_None,
+    /// No stage.
+    RenderStage_None,
 
     ///
     /// Before physical geometry is rendered.
     /// Issue #154
-    ShaderSchema_PrePhysicalGeometry,
+    RenderStage_PrePhysicalGeometry,
 
     ///
     /// Physically lit opaque geometry.
     /// Issue #154
-    ShaderSchema_PhysicalGeometry,
+    RenderStage_PhysicalGeometry,
 
     ///
     /// After physical geometry is rendered.
     /// Issue #154
-    ShaderSchema_PostPhysicalGeometry
+    RenderStage_PostPhysicalGeometry
 };
 
 }

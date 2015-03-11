@@ -34,7 +34,7 @@
 #include "Hect/Graphics/BlendMode.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/ShaderModule.h"
-#include "Hect/Graphics/ShaderSchema.h"
+#include "Hect/Graphics/RenderStage.h"
 #include "Hect/Graphics/Uniform.h"
 
 namespace hect
@@ -74,14 +74,14 @@ public:
     Shader(const std::string& name);
 
     ///
-    /// Returns the schema.
-    ShaderSchema schema() const;
+    /// Returns the render stage.
+    RenderStage renderStage() const;
 
     ///
-    /// Sets the schema.
+    /// Sets the render stage.
     ///
-    /// \param schema The new schema.
-    void setSchema(ShaderSchema schema);
+    /// \param renderStage The new render stage.
+    void setRenderStage(RenderStage renderStage);
 
     ///
     /// Adds a module to the shader.
@@ -205,7 +205,7 @@ public:
 private:
     void resolveUniforms();
 
-    ShaderSchema _schema { ShaderSchema_None };
+    RenderStage _renderStage { RenderStage_None };
 
     ModuleContainer _modules;
     UniformContainer _uniforms;

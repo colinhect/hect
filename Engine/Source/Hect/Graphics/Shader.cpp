@@ -34,14 +34,14 @@ Shader::Shader(const std::string& name) :
 {
 }
 
-ShaderSchema Shader::schema() const
+RenderStage Shader::renderStage() const
 {
-    return _schema;
+    return _renderStage;
 }
 
-void Shader::setSchema(ShaderSchema schema)
+void Shader::setRenderStage(RenderStage renderStage)
 {
-    _schema = schema;
+    _renderStage = renderStage;
 }
 
 void Shader::addModule(const ShaderModule& module)
@@ -241,7 +241,7 @@ namespace hect
 Encoder& operator<<(Encoder& encoder, const Shader& shader)
 {
     encoder << beginObject()
-            << encodeEnum("schema", shader._schema)
+            << encodeEnum("renderStage", shader._renderStage)
             << encodeVector("modules", shader._modules)
             << encodeVector("uniforms", shader._uniforms)
             << encodeValue("depthTested", shader._depthTested)
@@ -255,7 +255,7 @@ Encoder& operator<<(Encoder& encoder, const Shader& shader)
 Decoder& operator>>(Decoder& decoder, Shader& shader)
 {
     decoder >> beginObject()
-            >> decodeEnum("schema", shader._schema)
+            >> decodeEnum("renderStage", shader._renderStage)
             >> decodeVector("modules", shader._modules, true)
             >> decodeVector("uniforms", shader._uniforms)
             >> decodeValue("depthTested", shader._depthTested)

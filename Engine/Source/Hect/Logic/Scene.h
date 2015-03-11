@@ -38,6 +38,7 @@
 #include "Hect/Logic/Entity.h"
 #include "Hect/Logic/EntityPool.h"
 #include "Hect/Logic/SystemBase.h"
+#include "Hect/Logic/SystemHandle.h"
 #include "Hect/Logic/SystemRegistry.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"

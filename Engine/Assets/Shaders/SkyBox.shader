@@ -1,5 +1,5 @@
 ---
-schema: PrePhysicalGeometry
+renderStage: PrePhysicalGeometry
 modules:
   - type: Vertex
     path: SkyBox.Vertex.glsl

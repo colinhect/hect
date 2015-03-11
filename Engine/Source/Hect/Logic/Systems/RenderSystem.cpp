@@ -92,16 +92,16 @@ void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& mat
     const Shader::Handle& shader = material.shader();
     if (shader)
     {
-        switch (shader->schema())
+        switch (shader->renderStage())
         {
-        case ShaderSchema_PrePhysicalGeometry:
+        case RenderStage_PrePhysicalGeometry:
             _frameData.prePhysicalGeometry.emplace_back(transform, mesh, material);
             break;
-        case ShaderSchema_PhysicalGeometry:
+        case RenderStage_PhysicalGeometry:
             _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
             break;
-        case ShaderSchema_None:
-        case ShaderSchema_PostPhysicalGeometry:
+        case RenderStage_None:
+        case RenderStage_PostPhysicalGeometry:
             _frameData.postPhysicalGeometry.emplace_back(transform, mesh, material);
             break;
         }
