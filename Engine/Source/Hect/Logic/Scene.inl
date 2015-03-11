@@ -62,12 +62,12 @@ bool Scene::hasSystemType()
 template <typename T>
 typename T::Handle Scene::system()
 {
-    typename SystemHandle<T> handle;
+    SystemHandle<T> handle;
 
     if (hasSystemType<T>())
     {
         SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
-        handle = typename SystemHandle<T>((T&)*_systems[typeId]);
+        handle = SystemHandle<T>((T&)*_systems[typeId]);
     }
 
     return handle;
@@ -76,12 +76,12 @@ typename T::Handle Scene::system()
 template <typename T>
 typename T::ConstHandle Scene::system() const
 {
-    typename SystemConstHandle<T> handle;
+    SystemConstHandle<T> handle;
 
     if (hasSystemType<T>())
     {
         SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
-        handle = typename SystemConstHandle<T>((const T&)*_systems[typeId]);
+        handle = SystemConstHandle<T>((const T&)*_systems[typeId]);
     }
 
     return handle;
