@@ -46,7 +46,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT PhysicsSystem :
-    public System<PhysicsSystem, RigidBody>
+    public System<PhysicsSystem, Components<RigidBody>>
 {
 public:
     PhysicsSystem(Engine& engine, Scene& scene);

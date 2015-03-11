@@ -26,18 +26,16 @@
 namespace hect
 {
 
-template <typename T, typename... ComponentTypes>
-System<T, ComponentTypes...>::System(Engine& engine, Scene& scene, SystemTickStage tickStage) :
-
-// Work-around for Visual Studio 2013 compiler bug (issue #167)
-#ifdef _MSC_VER
-    ComponentListener<ComponentTypes>(scene)...,
-    SystemBase(scene, tickStage)
-#else
-    SystemBase(scene, tickStage),
+template <typename... ComponentTypes>
+Components<ComponentTypes...>::Components(Scene& scene) :
     ComponentListener<ComponentTypes>(scene)...
-#endif
+{
+}
 
+template <typename SystemType, typename ComponentListenersType>
+System<SystemType, ComponentListenersType>::System(Engine& engine, Scene& scene, SystemTickStage tickStage) :
+    SystemBase(scene, tickStage),
+    ComponentListenersType(scene)
 {
     (void)engine;
 }

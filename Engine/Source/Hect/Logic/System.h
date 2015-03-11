@@ -31,11 +31,26 @@ namespace hect
 class Engine;
 
 ///
+/// A template list of the component types that a system is notified about.
+///
+/// \note This class inherits from ComponentListener for each component type
+/// listed.
+template <typename... ComponentTypes>
+class Components :
+    public ComponentListener<ComponentTypes>...
+{
+public:
+    Components(Scene& scene);
+
+    virtual ~Components() { }
+};
+
+///
 /// A system affecting entities within a scene.
-template <typename T, typename... ComponentTypes>
+template <typename SystemType, typename ComponentListenersType = Components<>>
 class System :
     public SystemBase,
-    public ComponentListener<ComponentTypes>...
+    public ComponentListenersType
 {
 public:
 
