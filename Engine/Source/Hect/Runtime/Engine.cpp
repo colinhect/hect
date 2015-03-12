@@ -220,16 +220,16 @@ DataValue Engine::loadConfig(const Path& settingsFilePath)
 
         // Load additional settings files
         std::vector<DataValue> includedConfigs;
-        for (auto& settingsFilePath : settings["include"])
+        for (const DataValue& settingsFilePath : settings["include"])
         {
             DataValue settings = loadConfig(settingsFilePath.asString());
             includedConfigs.push_back(std::move(settings));
         }
 
         // Merge additional settingss back to the main settings
-        for (auto& includedConfig : includedConfigs)
+        for (const DataValue& includedConfig : includedConfigs)
         {
-            for (auto& memberName : includedConfig.memberNames())
+            for (std::string& memberName : includedConfig.memberNames())
             {
                 settings.addMember(memberName, includedConfig[memberName]);
             }

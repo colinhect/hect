@@ -26,7 +26,6 @@
 #include "Hect/Graphics/MeshReader.h"
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Logic/Components/Transform.h"
-#include "Hect/Logic/Systems/TransformSystem.h"
 #include "Hect/Runtime/Engine.h"
 
 #ifdef HECT_WINDOWS_BUILD
@@ -119,6 +118,7 @@ Transform convertFromBullet(const btTransform& t)
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
     System(engine, scene, SystemTickStage_Subsequent),
     gravity(Vector3(0, 0, -9.8)),
+    _transformSystem(scene.system<TransformSystem>()),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -140,8 +140,7 @@ void PhysicsSystem::commit(RigidBody& rigidBody)
 
 void PhysicsSystem::tick(double timeStep)
 {
-    auto transformSystem = scene().system<TransformSystem>();
-    if (transformSystem)
+    if (_transformSystem)
     {
         // Update gravity if needed
         Vector3 bulletGravity = convertFromBullet(_world->getGravity());
@@ -154,10 +153,10 @@ void PhysicsSystem::tick(double timeStep)
         _world->stepSimulation(timeStep, 4);
 
         // For each rigid body component
-        for (auto& rigidBody : scene().components<RigidBody>())
+        for (RigidBody& rigidBody : scene().components<RigidBody>())
         {
-            auto entity = rigidBody.entity();
-            auto transform = entity->component<Transform>();
+            Entity::Iterator entity = rigidBody.entity();
+            Transform::Iterator transform = entity->component<Transform>();
             if (!entity->parent() && transform)
             {
                 // Update the transform to what Bullet says it should be
@@ -168,7 +167,7 @@ void PhysicsSystem::tick(double timeStep)
                 transform->localPosition = newTransform.localPosition;
                 transform->localScale = newTransform.localScale;
                 transform->localRotation = newTransform.localRotation;
-                transformSystem->commit(*transform);
+                _transformSystem->commit(*transform);
 
                 // Update rigid body properties to what Bullet says it should be
                 rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
@@ -180,11 +179,10 @@ void PhysicsSystem::tick(double timeStep)
 
 void PhysicsSystem::onComponentAdded(RigidBody::Iterator rigidBody)
 {
-    auto transformSystem = scene().system<TransformSystem>();
-    if (transformSystem)
+    if (_transformSystem)
     {
-        auto entity = rigidBody->entity();
-        auto transform = entity->component<Transform>();
+        Entity::Iterator entity = rigidBody->entity();
+        Transform::Iterator transform = entity->component<Transform>();
         if (transform)
         {
             Mesh& mesh = *rigidBody->mesh;
@@ -200,7 +198,7 @@ void PhysicsSystem::onComponentAdded(RigidBody::Iterator rigidBody)
             btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
             btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
 
-            transformSystem->update(*transform);
+            _transformSystem->update(*transform);
 
             rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
             btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);

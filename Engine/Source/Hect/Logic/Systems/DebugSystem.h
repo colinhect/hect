@@ -26,13 +26,15 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/Material.h"
+#include "Hect/Graphics/Mesh.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Logic/Components/Transform.h"
-#include "Hect/Logic/Systems/RenderSystem.h"
 #include "Hect/Math/Box.h"
 
 namespace hect
 {
+
+class RenderSystem;
 
 ///
 /// A preset color for debug geometry.

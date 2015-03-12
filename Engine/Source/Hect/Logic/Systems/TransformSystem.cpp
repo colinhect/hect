@@ -23,13 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "TransformSystem.h"
 
-#include "Hect/Logic/Systems/BoundingBoxSystem.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
 TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage_Subsequent)
+    System(engine, scene, SystemTickStage_Subsequent),
+    _boundingBoxSystem(scene.system<BoundingBoxSystem>())
 {
 }
 
@@ -41,8 +41,8 @@ void TransformSystem::commit(Transform& transform)
 
 void TransformSystem::update(Transform& transform)
 {
-    auto entity = transform.entity();
-    auto parent = entity->parent();
+    Entity::Iterator entity = transform.entity();
+    Entity::Iterator parent = entity->parent();
     if (parent)
     {
         // Update the transform hierarchy starting at this entity's parent
@@ -56,17 +56,16 @@ void TransformSystem::update(Transform& transform)
         transform.globalRotation = transform.localRotation;
 
         // Update the transform hierachy for all children
-        for (auto& child : entity->children())
+        for (Entity& child : entity->children())
         {
             updateRecursively(*entity, child);
         }
     }
 
     // Force the bounding box to update
-    auto boundingBoxSystem = scene().system<BoundingBoxSystem>();
-    if (boundingBoxSystem)
+    if (_boundingBoxSystem)
     {
-        boundingBoxSystem->updateRecursively(*entity);
+        _boundingBoxSystem->updateRecursively(*entity);
     }
 }
 
@@ -77,7 +76,7 @@ void TransformSystem::tick(double timeStep)
     // Update all committed transforms
     for (ComponentId id : _committed)
     {
-        auto& transform = scene().components<Transform>().withId(id);
+        Transform& transform = scene().components<Transform>().withId(id);
         update(transform);
     }
     _committed.clear();
@@ -91,11 +90,11 @@ void TransformSystem::onComponentAdded(Transform::Iterator transform)
 void TransformSystem::updateRecursively(Entity& parent, Entity& child)
 {
     // Get the child transform
-    auto childTransform = child.component<Transform>();
+    Transform::Iterator childTransform = child.component<Transform>();
     if (childTransform)
     {
         // Get the parent transform
-        auto parentTransform = parent.component<Transform>();
+        Transform::Iterator parentTransform = parent.component<Transform>();
         if (parentTransform)
         {
             // Compute global components of the transform
@@ -113,7 +112,7 @@ void TransformSystem::updateRecursively(Entity& parent, Entity& child)
         }
 
         // Recursively update for all children
-        for (auto& nextChild : child.children())
+        for (Entity& nextChild : child.children())
         {
             updateRecursively(child, nextChild);
         }

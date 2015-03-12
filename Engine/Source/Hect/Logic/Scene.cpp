@@ -249,7 +249,7 @@ Entity::Iterator Scene::cloneEntity(const Entity& entity)
 
     for (ComponentTypeId typeId : _componentTypeIds)
     {
-        auto& componentPool = componentPoolOfTypeId(typeId);
+        ComponentPoolBase& componentPool = componentPoolOfTypeId(typeId);
         componentPool.clone(*sourceEntity, *clonedEntity);
     }
 
@@ -290,10 +290,10 @@ void Scene::destroyEntity(Entity& entity)
     // Remove all components
     for (ComponentTypeId typeId : _componentTypeIds)
     {
-        auto& componentPool = _componentPools[typeId];
-        if (componentPool->has(entity))
+        ComponentPoolBase& componentPool = *_componentPools[typeId];
+        if (componentPool.has(entity))
         {
-            componentPool->remove(entity);
+            componentPool.remove(entity);
         }
     }
 
@@ -330,10 +330,10 @@ void Scene::activateEntity(Entity& entity)
 
     for (ComponentTypeId typeId : _componentTypeIds)
     {
-        auto& componentPool = _componentPools[typeId];
-        if (componentPool->has(entity))
+        ComponentPoolBase& componentPool = *_componentPools[typeId];
+        if (componentPool.has(entity))
         {
-            componentPool->dispatchEvent(ComponentEventType_Add, entity);
+            componentPool.dispatchEvent(ComponentEventType_Add, entity);
         }
     }
 
@@ -397,7 +397,7 @@ void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     }
 
     ComponentTypeId typeId = component.typeId();
-    auto& componentPool = componentPoolOfTypeId(typeId);
+    ComponentPoolBase& componentPool = componentPoolOfTypeId(typeId);
     componentPool.addBase(entity, component);
 }
 
@@ -609,12 +609,12 @@ void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
 
         for (ComponentTypeId typeId : _componentTypeIds)
         {
-            auto& componentPool = _componentPools[typeId];
-            if (componentPool->has(entity))
+            ComponentPoolBase& componentPool = *_componentPools[typeId];
+            if (componentPool.has(entity))
             {
                 ++componentCount;
 
-                const ComponentBase& component = componentPool->getBase(entity);
+                const ComponentBase& component = componentPool.getBase(entity);
                 stream << component.typeId();
                 component.encode(encoder);
             }
@@ -631,12 +631,12 @@ void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
 
         for (ComponentTypeId typeId : _componentTypeIds)
         {
-            auto& componentPool = _componentPools[typeId];
-            if (componentPool->has(entity))
+            ComponentPoolBase& componentPool = *_componentPools[typeId];
+            if (componentPool.has(entity))
             {
                 encoder << beginObject();
 
-                const ComponentBase& component = componentPool->getBase(entity);
+                const ComponentBase& component = componentPool.getBase(entity);
                 std::string typeName = Type::of(component).name();
 
                 encoder << encodeValue("type", typeName);

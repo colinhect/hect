@@ -1660,9 +1660,9 @@ TEST_CASE("Add a system type to a scene", "[Scene]")
     scene.addSystemType<TestSystemA>();
     REQUIRE(scene.hasSystemType<TestSystemA>());
 
-    auto testSystemA = scene.system<TestSystemA>();
+    TestSystemA::Handle testSystemA = scene.system<TestSystemA>();
     REQUIRE(testSystemA);
-    auto testSystemB = scene.system<TestSystemA>();
+    TestSystemA::Handle testSystemB = scene.system<TestSystemA>();
     REQUIRE(testSystemB);
 
     REQUIRE(&*testSystemA == &*testSystemB);

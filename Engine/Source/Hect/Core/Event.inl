@@ -34,7 +34,7 @@ Listener<T>::~Listener()
     auto dispatchers = _dispatchers;
 
     // Unregister the listener from all dispatchers
-    for (auto& dispatcher : dispatchers)
+    for (Dispatcher<T>* dispatcher : dispatchers)
     {
         dispatcher->unregisterListener(*this);
     }
@@ -75,7 +75,7 @@ Dispatcher<T>::~Dispatcher()
     auto listeners = _listeners;
 
     // Unregister all listeners from the dispatcher
-    for (auto& listener : listeners)
+    for (Listener<T>* listener : listeners)
     {
         unregisterListener(*listener);
     }
@@ -114,7 +114,7 @@ void Dispatcher<T>::unregisterListener(Listener<T>& listener)
 template <typename T>
 void Dispatcher<T>::dispatchEvent(const T& event)
 {
-    for (auto& listener : _listeners)
+    for (Listener<T>* listener : _listeners)
     {
         listener->receiveEvent(event);
     }

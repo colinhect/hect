@@ -26,15 +26,15 @@ using namespace hect;
 
 #include <catch.hpp>
 
-const auto maxThreadCount = 6u;
-const auto maxTaskCount = 8u;
+const unsigned maxThreadCount = 6;
+const unsigned maxTaskCount = 8;
 
 void emptyTask() { }
 
 void shortTask()
 {
-    volatile auto total = 0.0f;
-    for (auto i = 0; i < 1024; ++i)
+    volatile float total = 0.0f;
+    for (unsigned i = 0; i < 1024; ++i)
     {
         total += i;
         total *= 1.0f / static_cast<float>(i);
@@ -43,8 +43,8 @@ void shortTask()
 
 void longTask()
 {
-    volatile auto total = 0.0f;
-    for (auto i = 0; i < 4096 * 4; ++i)
+    volatile float total = 0.0f;
+    for (unsigned i = 0; i < 4096 * 4; ++i)
     {
         total += i;
         total *= 1.0f / static_cast<float>(i);
@@ -58,9 +58,9 @@ void testTasks(unsigned threadCount, unsigned taskCount, Task::Action action)
     bool taskDone[maxTaskCount];
     std::vector<Task::Handle> tasks;
 
-    for (auto i = 0u; i < taskCount; ++i)
+    for (unsigned i = 0; i < taskCount; ++i)
     {
-        auto thisTaskDone = &taskDone[i];
+        bool* thisTaskDone = &taskDone[i];
         tasks.push_back(taskPool.enqueue([action, thisTaskDone]
         {
             action();
@@ -68,8 +68,8 @@ void testTasks(unsigned threadCount, unsigned taskCount, Task::Action action)
         }));
     }
 
-    auto i = 0u;
-    for (auto& taskHandle : tasks)
+    unsigned i = 0;
+    for (Task::Handle& taskHandle : tasks)
     {
         REQUIRE(taskHandle);
         taskHandle->wait();
@@ -85,7 +85,7 @@ void testTasksWithExceptions(unsigned threadCount, unsigned taskCount, Task::Act
 
     std::vector<Task::Handle> taskHandles;
 
-    for (auto i = 0u; i < taskCount; ++i)
+    for (unsigned i = 0; i < taskCount; ++i)
     {
         taskHandles.push_back(taskPool.enqueue([action]
         {
@@ -94,9 +94,9 @@ void testTasksWithExceptions(unsigned threadCount, unsigned taskCount, Task::Act
         }));
     }
 
-    for (auto& taskHandle : taskHandles)
+    for (Task::Handle& taskHandle : taskHandles)
     {
-        auto exceptionThrown = false;
+        bool exceptionThrown = false;
         try
         {
             REQUIRE(taskHandle);
@@ -112,15 +112,15 @@ void testTasksWithExceptions(unsigned threadCount, unsigned taskCount, Task::Act
 }
 
 #define TEST_TASKS(action)\
-for (auto threadCount = 0u; threadCount < maxThreadCount; ++threadCount) {\
-    for (auto taskCount = 1u; taskCount < maxTaskCount; ++taskCount) {\
+for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) {\
+    for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) {\
         testTasks(threadCount, taskCount, action); \
     }\
 }
 
 #define TEST_TASKS_WITH_EXCEPTIONS(action)\
-for (auto threadCount = 0u; threadCount < maxThreadCount; ++threadCount) {\
-    for (auto taskCount = 1u; taskCount < maxTaskCount; ++taskCount) {\
+for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) {\
+    for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) {\
         testTasksWithExceptions(threadCount, taskCount, action); \
     }\
 }

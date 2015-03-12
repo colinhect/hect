@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/System.h"
+#include "Hect/Logic/Systems/DebugSystem.h"
 #include "Hect/Logic/Components/BoundingBox.h"
 
 namespace hect
@@ -52,6 +53,8 @@ public:
 
 private:
     void updateRecursively(Entity& entity);
+
+    DebugSystem::Handle _debugSystem;
 };
 
 }

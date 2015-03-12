@@ -27,6 +27,7 @@
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Logic/System.h"
+#include "Hect/Logic/Systems/TransformSystem.h"
 #include "Hect/Logic/Components/RigidBody.h"
 #include "Hect/Timing/TimeSpan.h"
 
@@ -77,6 +78,8 @@ public:
     Vector3 gravity;
 
 private:
+    TransformSystem::Handle _transformSystem;
+
     btTriangleMesh* toBulletMesh(Mesh* mesh);
 
     std::shared_ptr<btCollisionConfiguration> _configuration;

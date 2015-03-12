@@ -256,7 +256,7 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
                 encoder << beginObject()
                         << encodeEnum("semantic", semantic);
 
-                auto cardinality = attribute.cardinality();
+                unsigned cardinality = attribute.cardinality();
                 if (cardinality == 1)
                 {
                     double value = reader.readAttributeDouble(semantic);

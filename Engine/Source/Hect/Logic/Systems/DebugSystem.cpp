@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DebugSystem.h"
 
+#include "Hect/Logic/Systems/RenderSystem.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -41,7 +42,7 @@ void DebugSystem::renderBox(DebugColor color, const Box& box, const Vector3& pos
 
 void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
 {
-    for (auto& box : _boxes)
+    for (DebugBox& box : _boxes)
     {
         renderSystem.addRenderCall(box.transform, *boxMesh, _coloredMaterials[box.color]);
     }

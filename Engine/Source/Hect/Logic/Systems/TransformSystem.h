@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/System.h"
+#include "Hect/Logic/Systems/BoundingBoxSystem.h"
 #include "Hect/Logic/Components/Transform.h"
 
 namespace hect
@@ -58,6 +59,8 @@ public:
 
 private:
     void updateRecursively(Entity& parent, Entity& child);
+
+    BoundingBoxSystem::Handle _boundingBoxSystem;
 
     std::vector<ComponentId> _committed;
 };

@@ -32,6 +32,8 @@
 #include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Logic/System.h"
+#include "Hect/Logic/Systems/CameraSystem.h"
+#include "Hect/Logic/Systems/DebugSystem.h"
 #include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/Components/DirectionalLight.h"
 #include "Hect/Logic/Components/Transform.h"
@@ -156,6 +158,9 @@ private:
 
     Renderer* _renderer { nullptr };
     TaskPool* _taskPool { nullptr };
+
+    CameraSystem::Handle _cameraSystem;
+    DebugSystem::Handle _debugSystem;
 
     RenderBuffer _depthBuffer;
 

@@ -29,8 +29,6 @@
 #include "Hect/Logic/Components/LightProbe.h"
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/SkyBox.h"
-#include "Hect/Logic/Systems/CameraSystem.h"
-#include "Hect/Logic/Systems/DebugSystem.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -39,6 +37,8 @@ RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
     System(engine, scene, SystemTickStage_Subsequent),
     _renderer(&engine.renderer()),
     _taskPool(&engine.taskPool()),
+    _cameraSystem(scene.system<CameraSystem>()),
+    _debugSystem(scene.system<DebugSystem>()),
     _buffersInitialized(false)
 {
 }
@@ -48,7 +48,7 @@ void RenderSystem::initialize()
     _skyBoxMaterial = Material::Handle(new Material("Skybox"));
     _skyBoxMaterial->setShader(skyBoxShader);
 
-    for (auto& model : scene().components<Model>())
+    for (Model& model : scene().components<Model>())
     {
         for (ModelSurface& surface : model.surfaces)
         {
@@ -67,7 +67,7 @@ void RenderSystem::initialize()
         }
     }
 
-    for (auto& skyBox : scene().components<SkyBox>())
+    for (SkyBox& skyBox : scene().components<SkyBox>())
     {
         _renderer->uploadTexture(*skyBox.texture);
     }
@@ -75,10 +75,9 @@ void RenderSystem::initialize()
 
 void RenderSystem::render(RenderTarget& target)
 {
-    auto cameraSystem = scene().system<CameraSystem>();
-    if (cameraSystem)
+    if (_cameraSystem)
     {
-        Camera::Iterator camera = cameraSystem->activeCamera();
+        Camera::Iterator camera = _cameraSystem->activeCamera();
         if (camera)
         {
             prepareFrame(*camera, scene(), target);
@@ -121,10 +120,9 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     {
         camera.aspectRatio = target.aspectRatio();
 
-        auto cameraSystem = scene.system<CameraSystem>();
-        if (cameraSystem)
+        if (_cameraSystem)
         {
-            cameraSystem->update(camera);
+            _cameraSystem->update(camera);
         }
     }
 
@@ -135,21 +133,21 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     }
 
     // Get the cube map of the active light probe
-    auto lightProbe = scene.components<LightProbe>().begin();
+    LightProbe::Iterator lightProbe = scene.components<LightProbe>().begin();
     if (lightProbe)
     {
         _frameData.lightProbeCubeMap = &*lightProbe->texture;
     }
 
     // Get the cube map of the active sky box
-    auto skyBox = scene.components<SkyBox>().begin();
+    SkyBox::Iterator skyBox = scene.components<SkyBox>().begin();
     if (skyBox)
     {
         _frameData.skyBoxCubeMap = &*skyBox->texture;
     }
 
     // Build all render calls and sort by priority
-    for (auto& entity : scene.entities())
+    for (Entity& entity : scene.entities())
     {
         if (!entity.parent())
         {
@@ -158,14 +156,13 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     }
 
     // Add render calls for debug geometry
-    auto debugSystem = scene.system<DebugSystem>();
-    if (debugSystem && debugSystem->isEnabled())
+    if (_debugSystem && _debugSystem->isEnabled())
     {
-        debugSystem->addRenderCalls(*this);
+        _debugSystem->addRenderCalls(*this);
     }
 
     // Add each directional light to the frame data
-    for (const auto& light : scene.components<DirectionalLight>())
+    for (const DirectionalLight& light : scene.components<DirectionalLight>())
     {
         _frameData.directionalLights.push_back(light.iterator());
     }
@@ -338,7 +335,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
     if (frustumTest)
     {
         // If the entity has a bounding box
-        auto boundingBox = entity.component<BoundingBox>();
+        BoundingBox::Iterator boundingBox = entity.component<BoundingBox>();
         if (boundingBox)
         {
             // Test the bounding box against the frustum
@@ -365,7 +362,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
     if (visible)
     {
         // If the entity has a model component
-        auto model = entity.component<Model>();
+        Model::Iterator model = entity.component<Model>();
         if (model)
         {
             // Render the model
@@ -375,7 +372,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
                 Material& material = *surface.material;
 
                 // If the entity has a transform component
-                auto transform = entity.component<Transform>();
+                Transform::Iterator transform = entity.component<Transform>();
                 if (transform)
                 {
                     addRenderCall(*transform, mesh, material);
@@ -388,14 +385,14 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
         }
 
         // If the entity has a skybox component
-        auto skyBox = entity.component<SkyBox>();
+        SkyBox::Iterator skyBox = entity.component<SkyBox>();
         if (skyBox)
         {
             addRenderCall(_frameData.cameraTransform, *skyBoxMesh, *_skyBoxMaterial);
         }
 
         // Render all children
-        for (auto& child : entity.children())
+        for (Entity& child : entity.children())
         {
             buildRenderCalls(camera, child, frustumTest);
         }

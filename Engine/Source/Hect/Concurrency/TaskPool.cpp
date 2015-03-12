@@ -41,7 +41,7 @@ TaskPool::~TaskPool()
     }
 
     // Join all of the threads
-    for (auto& thread : _threads)
+    for (std::thread& thread : _threads)
     {
         thread.join();
     }
