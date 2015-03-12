@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Logic/SystemBase.h"
+
 namespace hect
 {
 
@@ -42,15 +44,17 @@ public:
     ///
     /// Constructs a valid system handle.
     ///
-    /// \param system The system.
-    SystemHandle(T& system);
+    /// \param scene The scene.
+    /// \param typeId The type id of the system.
+    SystemHandle(Scene& scene, SystemTypeId typeId);
 
     ///
     /// Dereferences the handle to a reference to the system.
     ///
     /// \returns A reference to the system.
     ///
-    /// \throws InvalidOperation If the handle is invalid.
+    /// \throws InvalidOperation If the handle is invalid or the scene does
+    /// not support the system type.
     T& operator*() const;
 
     ///
@@ -58,7 +62,8 @@ public:
     ///
     /// \returns A reference to the system.
     ///
-    /// \throws InvalidOperation If the handle is invalid.
+    /// \throws InvalidOperation If the handle is invalid or the scene does
+    /// not support the system type.
     T* operator->() const;
 
     ///
@@ -78,9 +83,9 @@ public:
     operator bool() const;
 
 private:
-    T* _system;
+    Scene* _scene { nullptr };
+    SystemTypeId _typeId { SystemTypeId(-1) };
 };
-
 
 ///
 /// A constant handle referring to a System
@@ -98,15 +103,17 @@ public:
     ///
     /// Constructs a valid system handle.
     ///
-    /// \param system The system.
-    SystemConstHandle(const T& system);
+    /// \param scene The scene.
+    /// \param typeId The type id of the system.
+    SystemConstHandle(const Scene& scene, SystemTypeId typeId);
 
     ///
     /// Dereferences the handle to a reference to the system.
     ///
     /// \returns A reference to the system.
     ///
-    /// \throws InvalidOperation If the handle is invalid.
+    /// \throws InvalidOperation If the handle is invalid or the scene does
+    /// not support the system type.
     const T& operator*() const;
 
     ///
@@ -114,7 +121,8 @@ public:
     ///
     /// \returns A reference to the system.
     ///
-    /// \throws InvalidOperation If the handle is invalid.
+    /// \throws InvalidOperation If the handle is invalid or the scene does
+    /// not support the system type.
     const T* operator->() const;
 
     ///
@@ -134,9 +142,11 @@ public:
     operator bool() const;
 
 private:
-    const T* _system;
+    const Scene* _scene
+    {
+        nullptr
+    };
+    SystemTypeId _typeId { SystemTypeId(-1) };
 };
 
 }
-
-#include "SystemHandle.inl"

@@ -1692,6 +1692,35 @@ TEST_CASE("Remove a non-existing system type from a scene", "[Scene]")
     REQUIRE_THROWS_AS(scene.removeSystemType<TestSystemA>(), InvalidOperation);
 }
 
+TEST_CASE("Create a system handle before a system type is added to a scene", "[Scene]")
+{
+    Scene scene(*engine);
+
+    TestSystemA::Handle testSystemA = scene.system<TestSystemA>();
+    REQUIRE(!testSystemA);
+    REQUIRE_THROWS_AS(*testSystemA, InvalidOperation);
+
+    scene.addSystemType<TestSystemA>();
+
+    REQUIRE(testSystemA);
+    testSystemA->value = "Test";
+}
+
+TEST_CASE("Dereference a system handle after a system type is removed from a scene", "[Scene]")
+{
+    Scene scene(*engine);
+
+    scene.addSystemType<TestSystemA>();
+
+    TestSystemA::Handle testSystemA = scene.system<TestSystemA>();
+    REQUIRE(testSystemA);
+
+    scene.removeSystemType<TestSystemA>();
+
+    REQUIRE(!testSystemA);
+    REQUIRE_THROWS_AS(*testSystemA, InvalidOperation);
+}
+
 TEST_CASE("Encode and decode a simple scene", "[Scene]")
 {
     testEncodeDecode([](Scene& scene)

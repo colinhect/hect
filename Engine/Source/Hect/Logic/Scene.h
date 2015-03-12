@@ -61,6 +61,7 @@ class HECT_EXPORT Scene :
 {
     friend class Entity;
     template <typename T> friend class Component;
+    template <typename T> friend class SystemHandle;
 public:
 
     ///
@@ -207,6 +208,7 @@ public:
 private:
     void addSystemType(SystemTypeId typeId);
     SystemBase& systemOfTypeId(SystemTypeId typeId);
+    const SystemBase& systemOfTypeId(SystemTypeId typeId) const;
 
     void addComponentType(ComponentTypeId typeId);
     ComponentPoolBase& componentPoolOfTypeId(ComponentTypeId typeId);
@@ -254,4 +256,5 @@ private:
 #include "Component.inl"
 #include "ComponentIterator.inl"
 #include "ComponentPool.inl"
+#include "SystemHandle.inl"
 #include "Scene.inl"

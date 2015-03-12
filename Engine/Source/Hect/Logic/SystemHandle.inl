@@ -25,107 +25,107 @@ namespace hect
 {
 
 template <typename T>
-SystemHandle<T>::SystemHandle() :
-    _system(nullptr)
+SystemHandle<T>::SystemHandle()
 {
 }
 
 template <typename T>
-SystemHandle<T>::SystemHandle(T& system) :
-    _system(&system)
+SystemHandle<T>::SystemHandle(Scene& scene, SystemTypeId typeId) :
+    _scene(&scene),
+    _typeId(typeId)
 {
 }
 
 template <typename T>
 T& SystemHandle<T>::operator*() const
 {
-    if (!_system)
+    if (!_scene)
     {
         throw InvalidOperation("Invalid system handle");
     }
 
-    return *_system;
+    return *reinterpret_cast<T*>(&_scene->systemOfTypeId(_typeId));
 }
 
 template <typename T>
 T* SystemHandle<T>::operator->() const
 {
-    if (!_system)
+    if (!_scene)
     {
         throw InvalidOperation("Invalid system handle");
     }
 
-    return _system;
+    return reinterpret_cast<T*>(&_scene->systemOfTypeId(_typeId));
 }
 
 template <typename T>
 bool SystemHandle<T>::operator==(const SystemHandle<T>& other) const
 {
-    return _system == other._system;
+    return _scene == other._scene && _typeId == other._typeId;
 }
 
 template <typename T>
 bool SystemHandle<T>::operator!=(const SystemHandle<T>& other) const
 {
-    return _system != other._system;
+    return _scene != other._scene || _typeId != other._typeId;
 }
 
 template <typename T>
 SystemHandle<T>::operator bool() const
 {
-    return _system != nullptr;
+    return _scene != nullptr && _scene->hasSystemType<T>();
 }
 
 template <typename T>
-SystemConstHandle<T>::SystemConstHandle() :
-    _system(nullptr)
+SystemConstHandle<T>::SystemConstHandle()
 {
 }
 
 template <typename T>
-SystemConstHandle<T>::SystemConstHandle(const T& system) :
-    _system(&system)
+SystemConstHandle<T>::SystemConstHandle(const Scene& scene, SystemTypeId typeId) :
+    _scene(&scene),
+    _typeId(typeId)
 {
 }
 
 template <typename T>
 const T& SystemConstHandle<T>::operator*() const
 {
-    if (!_system)
+    if (!_scene)
     {
         throw InvalidOperation("Invalid system handle");
     }
 
-    return *_system;
+    return *reinterpret_cast<const T*>(&_scene->systemOfTypeId(_typeId));
 }
 
 template <typename T>
 const T* SystemConstHandle<T>::operator->() const
 {
-    if (!_system)
+    if (!_scene)
     {
         throw InvalidOperation("Invalid system handle");
     }
 
-    return _system;
+    return reinterpret_cast<const T*>(&_scene->systemOfTypeId(_typeId));
 }
 
 template <typename T>
 bool SystemConstHandle<T>::operator==(const SystemConstHandle<T>& other) const
 {
-    return _system == other._system;
+    return _scene == other._scene && _typeId == other._typeId;
 }
 
 template <typename T>
 bool SystemConstHandle<T>::operator!=(const SystemConstHandle<T>& other) const
 {
-    return _system != other._system;
+    return _scene != other._scene || _typeId != other._typeId;
 }
 
 template <typename T>
 SystemConstHandle<T>::operator bool() const
 {
-    return _system != nullptr;
+    return _scene != nullptr && _scene->hasSystemType<T>();
 }
 
 }

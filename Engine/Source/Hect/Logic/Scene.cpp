@@ -192,6 +192,11 @@ SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
     }
 }
 
+const SystemBase& Scene::systemOfTypeId(SystemTypeId typeId) const
+{
+    return const_cast<Scene*>(this)->systemOfTypeId(typeId);
+}
+
 void Scene::addComponentType(ComponentTypeId typeId)
 {
     // Make sure the component type isn't already added
