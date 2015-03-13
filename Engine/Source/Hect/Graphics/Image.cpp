@@ -75,20 +75,73 @@ void Image::setPixelData(ByteVector&& pixelData)
     _pixelData = pixelData;
 }
 
-void Image::setPixel(unsigned x, unsigned y, const Color& color)
+void Image::writePixel(unsigned x, unsigned y, const Color& color)
 {
-    unsigned pixelSize = bytesPerPixel();
+    ensurePixelData();
 
-    if (_pixelData.empty())
+    size_t offset = computePixelOffset(x, y);
+
+    unsigned componentCount = componentsPerPixel();
+    for (unsigned componentIndex = 0; componentIndex < componentCount; ++componentIndex)
     {
-        _pixelData = ByteVector(_width * _height * pixelSize);
+        double value = color[componentIndex];
+
+        switch (_pixelType)
+        {
+        case PixelType_Byte:
+            _pixelData[offset + componentIndex] = static_cast<uint8_t>(color[componentIndex] * 255);
+            break;
+        case PixelType_Float16:
+            throw InvalidOperation("16-bit floats are not implemented");
+            break;
+        case PixelType_Float32:
+            *reinterpret_cast<float*>(&_pixelData[offset + (componentIndex * 4)]) = static_cast<float>(value);
+            break;
+        }
+    }
+}
+
+void Image::writePixel(const Vector2& coords, const Color& color)
+{
+    unsigned x = static_cast<unsigned>(coords.x * _width) % _width;
+    unsigned y = static_cast<unsigned>(coords.y * _height) % _height;
+    writePixel(x, y, color);
+}
+
+Color Image::readPixel(unsigned x, unsigned y) const
+{
+    Color color;
+
+    if (hasPixelData())
+    {
+        size_t offset = computePixelOffset(x, y);
+
+        unsigned componentCount = componentsPerPixel();
+        for (unsigned componentIndex = 0; componentIndex < componentCount; ++componentIndex)
+        {
+            switch (_pixelType)
+            {
+            case PixelType_Byte:
+                color[componentIndex] = static_cast<double>(_pixelData[offset + componentIndex]) / 255.0;
+                break;
+            case PixelType_Float16:
+                throw InvalidOperation("16-bit floats are not implemented");
+                break;
+            case PixelType_Float32:
+                color[componentIndex] = *reinterpret_cast<const float*>(&_pixelData[offset + (componentIndex * 4)]);
+                break;
+            }
+        }
     }
 
-    unsigned index = _width * y * pixelSize + x * pixelSize;
-    for (unsigned pixelOffset = 0; pixelOffset < pixelSize; ++pixelOffset)
-    {
-        _pixelData[index + pixelOffset] = static_cast<uint8_t>(color[pixelOffset] * 255);
-    }
+    return color;
+}
+
+Color Image::readPixel(const Vector2& coords) const
+{
+    unsigned x = static_cast<unsigned>(coords.x * _width) % _width;
+    unsigned y = static_cast<unsigned>(coords.y * _height) % _height;
+    return readPixel(x, y);
 }
 
 unsigned Image::width() const
@@ -143,13 +196,56 @@ void Image::setColorSpace(ColorSpace colorSpace)
 
 unsigned Image::bytesPerPixel() const
 {
-    static const unsigned _bytesPerPixelLookUp[2][3] =
-    {
-        { 3, 6, 12 },
-        { 4, 8, 16 }
-    };
+    return bytesPerComponent() * componentsPerPixel();
+}
 
-    return _bytesPerPixelLookUp[_pixelFormat][_pixelType];
+void Image::ensurePixelData()
+{
+    if (_pixelData.empty())
+    {
+        unsigned pixelSize = bytesPerPixel();
+        _pixelData = ByteVector(_width * _height * pixelSize);
+    }
+}
+
+unsigned Image::componentsPerPixel() const
+{
+    unsigned componentCount = 0;
+    switch (_pixelFormat)
+    {
+    case PixelFormat_Rgb:
+        componentCount = 3;
+        break;
+    case PixelFormat_Rgba:
+        componentCount = 4;
+        break;
+    }
+    return componentCount;
+}
+
+unsigned Image::bytesPerComponent() const
+{
+    unsigned byteCount = 0;
+    switch (_pixelType)
+    {
+    case PixelType_Byte:
+        byteCount = 1;
+        break;
+    case PixelType_Float16:
+        byteCount = 2;
+        break;
+    case PixelType_Float32:
+        byteCount = 4;
+        break;
+    }
+    return byteCount;
+}
+
+size_t Image::computePixelOffset(unsigned x, unsigned y) const
+{
+    unsigned pixelSize = bytesPerPixel();
+    size_t offset = _width * y * pixelSize + x * pixelSize;
+    return offset;
 }
 
 namespace hect

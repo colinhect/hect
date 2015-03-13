@@ -54,6 +54,14 @@ public:
     uint32_t next();
 
     ///
+    /// Returns the next random 8-bit unsigned integer within the specified
+    /// range.
+    ///
+    /// \param min The minimum.
+    /// \param max The maximum.
+    uint8_t next(uint8_t min, uint8_t max);
+
+    ///
     /// Returns the next random float within the specified range.
     ///
     /// \param min The minimum.

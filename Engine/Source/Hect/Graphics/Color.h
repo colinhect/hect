@@ -26,6 +26,8 @@
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
+#include "Hect/Math/Vector3.h"
+#include "Hect/Math/Vector4.h"
 
 namespace hect
 {
@@ -48,6 +50,18 @@ public:
     /// \param b The blue component.
     /// \param a The alpha component.
     Color(double r, double g, double b, double a = 1.0);
+
+    ///
+    /// Constructs a color from a 3-dimensional vector.
+    ///
+    /// \param v The vector.
+    Color(const Vector3& v);
+
+    ///
+    /// Constructs a color from a 4-dimensional vector.
+    ///
+    /// \param v The vector.
+    Color(const Vector4& v);
 
     ///
     /// Returns the sum of the color and another color.

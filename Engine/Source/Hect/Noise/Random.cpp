@@ -49,6 +49,12 @@ uint32_t Random::next()
     return output;
 }
 
+uint8_t Random::next(uint8_t min, uint8_t max)
+{
+    assert(min < max);
+    return next() % (max - min) + min;
+}
+
 float Random::next(float min, float max)
 {
     assert(min < max);

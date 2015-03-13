@@ -39,6 +39,21 @@ Color::Color(double r, double g, double b, double a) :
 {
 }
 
+Color::Color(const Vector3& v) :
+    r(v.x),
+    g(v.y),
+    b(v.z)
+{
+}
+
+Color::Color(const Vector4& v) :
+    r(v.x),
+    g(v.y),
+    b(v.z),
+    a(v.w)
+{
+}
+
 Color Color::operator+(const Color& color) const
 {
     return Color(r + color.r, g + color.g, b + color.b, a + color.a);

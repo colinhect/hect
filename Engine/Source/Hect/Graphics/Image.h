@@ -127,8 +127,28 @@ public:
     ///
     /// \param x The x coordinate.
     /// \param y The y coordinate.
-    /// \param color The color to write to the pixel
-    void setPixel(unsigned x, unsigned y, const Color& color);
+    /// \param color The color to write to the pixel.
+    void writePixel(unsigned x, unsigned y, const Color& color);
+
+    ///
+    /// Writes a color value to a pixel.
+    ///
+    /// \param coords The UV coordinates.
+    /// \param color The color to write to the pixel.
+    void writePixel(const Vector2& coords, const Color& color);
+
+    ///
+    /// Reads a color value of a pixel.
+    ///
+    /// \param x The x coordinate.
+    /// \param y The y coordinate.
+    Color readPixel(unsigned x, unsigned y) const;
+
+    ///
+    /// Reads a color value of a pixel.
+    ///
+    /// \param coords The UV coordinates.
+    Color readPixel(const Vector2& coords) const;
 
     ///
     /// Returns the width.
@@ -188,6 +208,11 @@ public:
     friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Image& image);
 
 private:
+    void ensurePixelData();
+    unsigned componentsPerPixel() const;
+    unsigned bytesPerComponent() const;
+    size_t computePixelOffset(unsigned x, unsigned y) const;
+
     unsigned _width { 0 };
     unsigned _height { 0 };
 
