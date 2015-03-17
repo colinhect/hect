@@ -48,6 +48,7 @@ class EntityPool;
 /// reference to an entity, use Entity::Iterator or Entity::Handle.
 class HECT_EXPORT Entity :
     public Uncopyable
+    //public Encodable (Issue #175)
 {
     friend class Scene;
     friend class EntityChildren;
