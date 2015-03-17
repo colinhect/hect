@@ -4,7 +4,7 @@ if(WIN32)
     include(CheckIncludeFiles)
     check_include_files(vld.h HECT_USE_VLD)
 elseif(UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -Werror -pedantic")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -Werror -pedantic -Winvalid-offsetof")
 endif()
 
 configure_file(
