@@ -218,6 +218,28 @@ bool Shader::operator!=(const Shader& shader) const
     return !(*this == shader);
 }
 
+void Shader::encode(Encoder& encoder) const
+{
+    encoder << encodeEnum("renderStage", _renderStage)
+            << encodeVector("modules", _modules)
+            << encodeVector("uniforms", _uniforms)
+            << encodeValue("depthTested", _depthTested)
+            << encodeValue("blendMode", _blendMode)
+            << encodeValue("priority", _priority);
+}
+
+void Shader::decode(Decoder& decoder)
+{
+    decoder >> decodeEnum("renderStage", _renderStage)
+            >> decodeVector("modules", _modules, true)
+            >> decodeVector("uniforms", _uniforms)
+            >> decodeValue("depthTested", _depthTested)
+            >> decodeValue("blendMode", _blendMode)
+            >> decodeValue("priority", _priority);
+
+    resolveUniforms();
+}
+
 void Shader::resolveUniforms()
 {
     size_t textureIndex = 0;
@@ -233,39 +255,4 @@ void Shader::resolveUniforms()
             ++textureIndex;
         }
     }
-}
-
-namespace hect
-{
-
-Encoder& operator<<(Encoder& encoder, const Shader& shader)
-{
-    encoder << beginObject()
-            << encodeEnum("renderStage", shader._renderStage)
-            << encodeVector("modules", shader._modules)
-            << encodeVector("uniforms", shader._uniforms)
-            << encodeValue("depthTested", shader._depthTested)
-            << encodeValue("blendMode", shader._blendMode)
-            << encodeValue("priority", shader._priority)
-            << endObject();
-
-    return encoder;
-}
-
-Decoder& operator>>(Decoder& decoder, Shader& shader)
-{
-    decoder >> beginObject()
-            >> decodeEnum("renderStage", shader._renderStage)
-            >> decodeVector("modules", shader._modules, true)
-            >> decodeVector("uniforms", shader._uniforms)
-            >> decodeValue("depthTested", shader._depthTested)
-            >> decodeValue("blendMode", shader._blendMode)
-            >> decodeValue("priority", shader._priority)
-            >> endObject();
-
-    shader.resolveUniforms();
-
-    return decoder;
-}
-
 }

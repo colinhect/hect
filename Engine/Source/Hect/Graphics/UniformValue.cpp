@@ -324,123 +324,113 @@ bool UniformValue::operator!=(const UniformValue& uniformValue) const
     return !(*this == uniformValue);
 }
 
-namespace hect
-{
-
-Encoder& operator<<(Encoder& encoder, const UniformValue& uniformValue)
+void UniformValue::encode(Encoder& encoder) const
 {
     // Type
-    encoder << encodeEnum("type", uniformValue.type());
+    encoder << encodeEnum("type", _type);
 
     // Value
-    switch (uniformValue.type())
+    switch (_type)
     {
     case UniformType_Int:
-        encoder << encodeValue("value", uniformValue.asInt());
+        encoder << encodeValue("value", asInt());
         break;
     case UniformType_Float:
-        encoder << encodeValue("value", uniformValue.asDouble());
+        encoder << encodeValue("value", asDouble());
         break;
     case UniformType_Vector2:
-        encoder << encodeValue("value", uniformValue.asVector2());
+        encoder << encodeValue("value", asVector2());
         break;
     case UniformType_Vector3:
-        encoder << encodeValue("value", uniformValue.asVector3());
+        encoder << encodeValue("value", asVector3());
         break;
     case UniformType_Vector4:
-        encoder << encodeValue("value", uniformValue.asVector4());
+        encoder << encodeValue("value", asVector4());
         break;
     case UniformType_Matrix4:
-        encoder << encodeValue("value", uniformValue.asMatrix4());
+        encoder << encodeValue("value", asMatrix4());
         break;
     case UniformType_Color:
-        encoder << encodeValue("value", uniformValue.asColor());
+        encoder << encodeValue("value", asColor());
         break;
     case UniformType_Texture:
-        encoder << encodeValue("value", uniformValue.asTexture());
+        encoder << encodeValue("value", asTexture());
         break;
     }
-
-    return encoder;
 }
 
-Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue)
+void UniformValue::decode(Decoder& decoder)
 {
     // Type
-    decoder >> decodeEnum("type", uniformValue._type);
+    decoder >> decodeEnum("type", _type);
 
     // Value
     if (decoder.selectMember("value"))
     {
-        UniformType type = uniformValue.type();
-        switch (type)
+        switch (_type)
         {
         case UniformType_Int:
         {
             int value;
             decoder >> decodeValue(value);
-            uniformValue.setValue(value);
+            setValue(value);
         }
         break;
         case UniformType_Float:
         {
             double value;
             decoder >> decodeValue(value);
-            uniformValue.setValue(value);
+            setValue(value);
         }
         break;
         case UniformType_Vector2:
         {
             Vector2 value;
             decoder >> decodeValue(value);
-            uniformValue.setValue(value);
+            setValue(value);
         }
         break;
         case UniformType_Vector3:
         {
             Vector3 value;
             decoder >> decodeValue(value);
-            uniformValue.setValue(value);
+            setValue(value);
         }
         break;
         case UniformType_Vector4:
         {
             Vector4 value;
             decoder >> decodeValue(value);
-            uniformValue.setValue(value);
+            setValue(value);
         }
         break;
         case UniformType_Matrix4:
         {
             Matrix4 value;
             decoder >> decodeValue(value);
-            uniformValue.setValue(value);
+            setValue(value);
         }
         break;
         case UniformType_Color:
         {
             Color value;
             decoder >> decodeValue(value);
-            uniformValue.setValue(value);
+            setValue(value);
         }
         break;
         case UniformType_Texture:
         {
             Texture::Handle texture;
             decoder >> decodeValue(texture);
-            uniformValue.setValue(texture);
+            setValue(texture);
         }
         break;
         default:
-            throw DecodeError(format("Unknown uniform type '%s'", Enum::toString(type).c_str()));
+            throw DecodeError(format("Unknown uniform type '%s'", Enum::toString(_type).c_str()));
         }
     }
     else
     {
-        uniformValue.setDefaultValue();
+        setDefaultValue();
     }
-
-    return decoder;
-}
-
 }

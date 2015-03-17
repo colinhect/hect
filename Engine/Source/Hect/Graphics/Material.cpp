@@ -137,50 +137,45 @@ bool Material::operator!=(const Material& material) const
     return !(*this == material);
 }
 
-namespace hect
-{
 
-Encoder& operator<<(Encoder& encoder, const Material& material)
+void Material::encode(Encoder& encoder) const
 {
-    encoder << beginObject();
-
     // Shader
-    encoder << encodeValue("shader", material._shader);
+    encoder << encodeValue("shader", _shader);
 
     // Uniform values
     encoder << beginArray("uniformValues");
-    for (UniformIndex index = 0; index < material._uniformValues.size(); ++index)
+    for (UniformIndex index = 0; index < _uniformValues.size(); ++index)
     {
-        const UniformValue& value = material._uniformValues[index];
+        const UniformValue& value = _uniformValues[index];
         if (value)
         {
             if (encoder.isBinaryStream())
             {
                 encoder << beginObject()
-                        << encodeValue(static_cast<uint8_t>(index))
-                        << encodeValue(value)
-                        << endObject();
+                        << encodeValue(static_cast<uint8_t>(index));
+
+                value.encode(encoder);
+
+                encoder << endObject();
             }
             else
             {
-                const Uniform& uniform = material._shader->uniform(index);
+                const Uniform& uniform = _shader->uniform(index);
                 encoder << beginObject()
-                        << encodeValue("name", uniform.name())
-                        << encodeValue(value)
-                        << endObject();
+                        << encodeValue("name", uniform.name());
+
+                value.encode(encoder);
+
+                encoder << endObject();
             }
         }
     }
     encoder << endArray();
-
-    encoder << endObject();
-    return encoder;
 }
 
-Decoder& operator>>(Decoder& decoder, Material& material)
+void Material::decode(Decoder& decoder)
 {
-    decoder >> beginObject();
-
     // Base
     if (!decoder.isBinaryStream())
     {
@@ -192,7 +187,7 @@ Decoder& operator>>(Decoder& decoder, Material& material)
             try
             {
                 AssetDecoder baseDecoder(decoder.assetCache(), basePath);
-                baseDecoder >> decodeValue(material);
+                baseDecoder >> decodeValue(*this);
             }
             catch (const Exception& exception)
             {
@@ -202,7 +197,7 @@ Decoder& operator>>(Decoder& decoder, Material& material)
     }
 
     // Shader
-    decoder >> decodeValue("shader", material._shader);
+    decoder >> decodeValue("shader", _shader);
 
     // Uniform values
     if (decoder.selectMember("uniformValues"))
@@ -220,22 +215,26 @@ Decoder& operator>>(Decoder& decoder, Material& material)
                     uint8_t index = 0;
 
                     decoder >> beginObject()
-                            >> decodeValue(index)
-                            >> decodeValue(value)
-                            >> endObject();
+                            >> decodeValue(index);
 
-                    const Uniform& uniform = material._shader->uniform(index);
+                    value.decode(decoder);
+
+                    decoder>> endObject();
+
+                    const Uniform& uniform = _shader->uniform(index);
                     name = uniform.name();
                 }
                 else
                 {
                     decoder >> beginObject()
-                            >> decodeValue("name", name, true)
-                            >> decodeValue(value)
-                            >> endObject();
+                            >> decodeValue("name", name, true);
+
+                    value.decode(decoder);
+
+                    decoder >> endObject();
                 }
 
-                material.setUniformValue(name, value);
+                setUniformValue(name, value);
             }
             catch (const InvalidOperation& exception)
             {
@@ -244,9 +243,4 @@ Decoder& operator>>(Decoder& decoder, Material& material)
         }
         decoder >> endArray();
     }
-
-    decoder >> endObject();
-    return decoder;
-}
-
 }

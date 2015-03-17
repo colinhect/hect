@@ -30,8 +30,6 @@
 #include "Hect/Graphics/VertexLayout.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/ByteVector.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/Math/AxisAlignedBox.h"
 
 namespace hect
@@ -173,8 +171,8 @@ public:
     /// \param mesh The other mesh.
     bool operator!=(const Mesh& mesh) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Mesh& mesh);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Mesh& mesh);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     VertexLayout _vertexLayout;

@@ -297,34 +297,25 @@ bool Texture::operator!=(const Texture& texture) const
     return !(*this == texture);
 }
 
-namespace hect
+void Texture::encode(Encoder& encoder) const
 {
-
-Encoder& operator<<(Encoder& encoder, const Texture& texture)
-{
-    encoder << beginObject()
-            << encodeEnum("type", texture._type)
-            << encodeEnum("colorSpace", texture._colorSpace)
-            << encodeVector("images", texture._sourceImages)
-            << encodeEnum("minFilter", texture._minFilter)
-            << encodeEnum("magFilter", texture._magFilter)
-            << encodeValue("wrapped", texture._wrapped)
-            << encodeValue("mipmapped", texture._mipmapped)
-            << endObject();
-
-    return encoder;
+    encoder << encodeEnum("type", _type)
+            << encodeEnum("colorSpace", _colorSpace)
+            << encodeVector("images", _sourceImages)
+            << encodeEnum("minFilter", _minFilter)
+            << encodeEnum("magFilter", _magFilter)
+            << encodeValue("wrapped", _wrapped)
+            << encodeValue("mipmapped", _mipmapped);
 }
 
-Decoder& operator>>(Decoder& decoder, Texture& texture)
+void Texture::decode(Decoder& decoder)
 {
-    decoder >> beginObject();
-
     // Type
     if (decoder.selectMember("type"))
     {
         TextureType type;
         decoder >> decodeEnum(type);
-        texture.setType(type);
+        setType(type);
     }
 
     // Color space
@@ -332,7 +323,7 @@ Decoder& operator>>(Decoder& decoder, Texture& texture)
     {
         ColorSpace colorSpace;
         decoder >> decodeEnum(colorSpace);
-        texture.setColorSpace(colorSpace);
+        setColorSpace(colorSpace);
     }
 
     // Images
@@ -347,19 +338,13 @@ Decoder& operator>>(Decoder& decoder, Texture& texture)
             // store uncompressed image data in main memory
             decoder.assetCache().remove(image.path());
 
-            image->setColorSpace(texture._colorSpace);
-            texture.addSourceImage(image);
+            image->setColorSpace(_colorSpace);
+            addSourceImage(image);
         }
     }
 
-    decoder >> decodeEnum("minFilter", texture._minFilter)
-            >> decodeEnum("magFilter", texture._magFilter)
-            >> decodeValue("wrapped", texture._wrapped)
-            >> decodeValue("mipmapped", texture._mipmapped);
-
-    decoder >> endObject();
-
-    return decoder;
-}
-
+    decoder >> decodeEnum("minFilter", _minFilter)
+            >> decodeEnum("magFilter", _magFilter)
+            >> decodeValue("wrapped", _wrapped)
+            >> decodeValue("mipmapped", _mipmapped);
 }

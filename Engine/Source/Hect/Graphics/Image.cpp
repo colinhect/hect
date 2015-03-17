@@ -248,26 +248,23 @@ size_t Image::computePixelOffset(unsigned x, unsigned y) const
     return offset;
 }
 
-namespace hect
-{
-
-Encoder& operator<<(Encoder& encoder, const Image& image)
+void Image::encode(Encoder& encoder) const
 {
     WriteStream& stream = encoder.binaryStream();
 
     // Verify pixel format and type.
-    if (image.pixelType() != PixelType_Byte || image.pixelFormat() != PixelFormat_Rgba)
+    if (_pixelType != PixelType_Byte || _pixelFormat != PixelFormat_Rgba)
     {
         throw InvalidOperation("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
     }
 
     // Flip the image from OpenGL ordering
-    Image flippedImage = image;
+    Image flippedImage = *this;
     flippedImage.flipVertical();
 
     // Encode to PNG data
     ByteVector encodedPixelData;
-    unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), image.width(), image.height());
+    unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), _width, _height);
     if (error)
     {
         throw EncodeError(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
@@ -275,11 +272,9 @@ Encoder& operator<<(Encoder& encoder, const Image& image)
 
     // Write the encoded data to the stream
     stream.write(&encodedPixelData[0], encodedPixelData.size());
-
-    return encoder;
 }
 
-Decoder& operator>>(Decoder& decoder, Image& image)
+void Image::decode(Decoder& decoder)
 {
     ReadStream& stream = decoder.binaryStream();
 
@@ -300,16 +295,12 @@ Decoder& operator>>(Decoder& decoder, Image& image)
     }
 
     // Set various properties for the image
-    image.setWidth(width);
-    image.setHeight(height);
-    image.setPixelType(PixelType_Byte);
-    image.setPixelFormat(PixelFormat_Rgba);
-    image.setPixelData(std::move(decodedPixelData));
+    setWidth(width);
+    setHeight(height);
+    setPixelType(PixelType_Byte);
+    setPixelFormat(PixelFormat_Rgba);
+    setPixelData(std::move(decodedPixelData));
 
     // Flip the image to OpenGL ordering
-    image.flipVertical();
-
-    return decoder;
-}
-
+    flipVertical();
 }

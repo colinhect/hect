@@ -24,8 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Math/Vector2.h"
 
 namespace hect
@@ -33,7 +32,8 @@ namespace hect
 
 ///
 /// A 2-dimensional box in screen-space.
-class HECT_EXPORT Rectangle
+class HECT_EXPORT Rectangle :
+    public Encodable
 {
 public:
 
@@ -73,8 +73,8 @@ public:
     /// Returns the center point.
     Vector2 center() const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Rectangle& rectangle);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Rectangle& rectangle);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     Vector2 _minimum;

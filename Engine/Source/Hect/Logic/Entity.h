@@ -27,8 +27,7 @@
 #include <functional>
 
 #include "Hect/Core/Export.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/EntityChildren.h"
 #include "Hect/Logic/EntityEvent.h"
@@ -48,7 +47,8 @@ class EntityPool;
 /// entities are created and destroyed in the entity pool.  To maintain a valid
 /// reference to an entity, use Entity::Iterator or Entity::Handle.
 class HECT_EXPORT Entity :
-    public Uncopyable
+    public Uncopyable,
+    public Encodable
 {
     friend class Scene;
     friend class EntityChildren;
@@ -373,8 +373,8 @@ public:
     Entity& operator=(const Entity& entity);
     Entity& operator=(Entity&& entity);
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Entity& entity);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Entity& entity);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     Entity();
@@ -385,9 +385,6 @@ private:
     void exitPool();
     bool inPool() const;
     void ensureInPool() const;
-
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
 
     EntityChildren _children;
     EntityPool* _pool { nullptr };

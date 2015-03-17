@@ -165,27 +165,14 @@ void AxisAlignedBox::mergeMaximum(const Vector3& point)
     }
 }
 
-namespace hect
+void AxisAlignedBox::encode(Encoder& encoder) const
 {
-
-Encoder& operator<<(Encoder& encoder, const AxisAlignedBox& box)
-{
-    encoder << beginObject()
-            << encodeValue("minimum", box._minimum)
-            << encodeValue("maximum", box._maximum)
-            << endObject();
-
-    return encoder;
+    encoder << encodeValue("minimum", _minimum)
+            << encodeValue("maximum", _maximum);
 }
 
-Decoder& operator>>(Decoder& decoder, AxisAlignedBox& box)
+void AxisAlignedBox::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("minimum", box._minimum, true)
-            >> decodeValue("maximum", box._maximum, true)
-            >> endObject();
-
-    return decoder;
-}
-
+    decoder >> decodeValue("minimum", _minimum, true)
+            >> decodeValue("maximum", _maximum, true);
 }

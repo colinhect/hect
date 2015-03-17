@@ -29,8 +29,7 @@
 #include "Hect/Graphics/UniformType.h"
 #include "Hect/Graphics/Texture.h"
 #include "Hect/IO/AssetCache.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
@@ -45,7 +44,8 @@ class Texture;
 /// A value for a uniform.
 ///
 /// \note A uniform value's type cannot change.
-class HECT_EXPORT UniformValue
+class HECT_EXPORT UniformValue :
+    public Encodable
 {
 public:
 
@@ -230,8 +230,8 @@ public:
     /// \param uniformValue The other uniform value.
     bool operator!=(const UniformValue& uniformValue) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const UniformValue& uniformValue);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, UniformValue& uniformValue);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     UniformType _type { UniformType_Float };

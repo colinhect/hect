@@ -138,6 +138,52 @@ double InputAxisBinding::value() const
     return _value;
 }
 
+void InputAxisBinding::encode(Encoder& encoder) const
+{
+    encoder << encodeEnum<InputAxisBindingType>("type", type)
+            << encodeEnum<MouseButton>("mouseButton", mouseButton)
+            << encodeValue("mouseSensitivity", mouseSensitivity)
+            << encodeEnum<Key>("key", key)
+            << encodeValue("joystickIndex", joystickIndex)
+            << encodeEnum<JoystickAxis>("joystickAxis", joystickAxis)
+            << encodeValue("joystickAxisDeadZone", joystickAxisDeadZone)
+            << encodeEnum<JoystickButton>("joystickButton", joystickButton)
+            << encodeValue("acceleration", acceleration)
+            << encodeValue("gravity", gravity)
+            << encodeValue("range", range)
+            << encodeValue("invert", invert)
+            << encodeValue("deadValue", deadValue);
+}
+
+void InputAxisBinding::decode(Decoder& decoder)
+{
+    decoder >> decodeEnum<InputAxisBindingType>("type", type)
+            >> decodeEnum<MouseButton>("mouseButton", mouseButton)
+            >> decodeValue("mouseSensitivity", mouseSensitivity)
+            >> decodeEnum<Key>("key", key)
+            >> decodeValue("joystickIndex", joystickIndex)
+            >> decodeEnum<JoystickAxis>("joystickAxis", joystickAxis)
+            >> decodeValue("joystickAxisDeadZone", joystickAxisDeadZone)
+            >> decodeEnum<JoystickButton>("joystickButton", joystickButton)
+            >> decodeValue("acceleration", acceleration)
+            >> decodeValue("gravity", gravity)
+            >> decodeValue("range", range)
+            >> decodeValue("invert", invert)
+            >> decodeValue("deadValue", deadValue);
+
+    // Make sure joystick dead zone is defined in the correct order
+    if (joystickAxisDeadZone.x > joystickAxisDeadZone.y)
+    {
+        std::swap(joystickAxisDeadZone.x, joystickAxisDeadZone.y);
+    }
+
+    // Make sure range is defined in the correct order
+    if (range.x > range.y)
+    {
+        std::swap(range.x, range.y);
+    }
+}
+
 void InputAxisBinding::applyGravity(double timeStep)
 {
     if (_value != 0)
@@ -169,63 +215,4 @@ void InputAxisBinding::modifyValue(double delta)
     {
         _value += delta;
     }
-}
-
-namespace hect
-{
-
-Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding)
-{
-    encoder << beginObject()
-            << encodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
-            << encodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
-            << encodeValue("mouseSensitivity", inputAxisBinding.mouseSensitivity)
-            << encodeEnum<Key>("key", inputAxisBinding.key)
-            << encodeValue("joystickIndex", inputAxisBinding.joystickIndex)
-            << encodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
-            << encodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
-            << encodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
-            << encodeValue("acceleration", inputAxisBinding.acceleration)
-            << encodeValue("gravity", inputAxisBinding.gravity)
-            << encodeValue("range", inputAxisBinding.range)
-            << encodeValue("invert", inputAxisBinding.invert)
-            << encodeValue("deadValue", inputAxisBinding.deadValue)
-            << endObject();
-
-    return encoder;
-}
-
-Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding)
-{
-    decoder >> beginObject()
-            >> decodeEnum<InputAxisBindingType>("type", inputAxisBinding.type)
-            >> decodeEnum<MouseButton>("mouseButton", inputAxisBinding.mouseButton)
-            >> decodeValue("mouseSensitivity", inputAxisBinding.mouseSensitivity)
-            >> decodeEnum<Key>("key", inputAxisBinding.key)
-            >> decodeValue("joystickIndex", inputAxisBinding.joystickIndex)
-            >> decodeEnum<JoystickAxis>("joystickAxis", inputAxisBinding.joystickAxis)
-            >> decodeValue("joystickAxisDeadZone", inputAxisBinding.joystickAxisDeadZone)
-            >> decodeEnum<JoystickButton>("joystickButton", inputAxisBinding.joystickButton)
-            >> decodeValue("acceleration", inputAxisBinding.acceleration)
-            >> decodeValue("gravity", inputAxisBinding.gravity)
-            >> decodeValue("range", inputAxisBinding.range)
-            >> decodeValue("invert", inputAxisBinding.invert)
-            >> decodeValue("deadValue", inputAxisBinding.deadValue)
-            >> endObject();
-
-    // Make sure joystick dead zone is defined in the correct order
-    if (inputAxisBinding.joystickAxisDeadZone.x > inputAxisBinding.joystickAxisDeadZone.y)
-    {
-        std::swap(inputAxisBinding.joystickAxisDeadZone.x, inputAxisBinding.joystickAxisDeadZone.y);
-    }
-
-    // Make sure range is defined in the correct order
-    if (inputAxisBinding.range.x > inputAxisBinding.range.y)
-    {
-        std::swap(inputAxisBinding.range.x, inputAxisBinding.range.y);
-    }
-
-    return decoder;
-}
-
 }

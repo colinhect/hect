@@ -25,8 +25,6 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Asset.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/Graphics/Shader.h"
 
 namespace hect
@@ -116,8 +114,8 @@ public:
     /// \param material The other material.
     bool operator!=(const Material& material) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Material& material);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Material& material);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     Shader::Handle _shader;

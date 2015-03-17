@@ -61,27 +61,14 @@ Vector2 Rectangle::center() const
     return _minimum + size() * 0.5;
 }
 
-namespace hect
+void Rectangle::encode(Encoder& encoder) const
 {
-
-Encoder& operator<<(Encoder& encoder, const Rectangle& rectangle)
-{
-    encoder << beginObject()
-            << encodeValue("minimum", rectangle._minimum)
-            << encodeValue("maximum", rectangle._maximum)
-            << endObject();
-
-    return encoder;
+    encoder << encodeValue("minimum", _minimum)
+            << encodeValue("maximum", _maximum);
 }
 
-Decoder& operator>>(Decoder& decoder, Rectangle& rectangle)
+void Rectangle::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("minimum", rectangle._minimum, true)
-            >> decodeValue("maximum", rectangle._maximum, true)
-            >> endObject();
-
-    return decoder;
-}
-
+    decoder >> decodeValue("minimum", _minimum, true)
+            >> decodeValue("maximum", _maximum, true);
 }

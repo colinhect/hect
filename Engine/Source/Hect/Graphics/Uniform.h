@@ -26,8 +26,7 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/UniformBinding.h"
 #include "Hect/Graphics/UniformValue.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -48,7 +47,8 @@ typedef size_t TextureIndex;
 /// A parameter of a shader.
 ///
 /// \note A uniform must either have a binding or a type.
-class HECT_EXPORT Uniform
+class HECT_EXPORT Uniform :
+    public Encodable
 {
     friend class Shader;
 public:
@@ -133,8 +133,8 @@ public:
     /// \param uniform The other uniform.
     bool operator!=(const Uniform& uniform) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Uniform& uniform);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Uniform& uniform);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     void resolveType();

@@ -27,8 +27,7 @@
 #include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -70,7 +69,8 @@ enum InputAxisBindingType
 
 ///
 /// A binding of an input device to the value of an InputAxis.
-class HECT_EXPORT InputAxisBinding
+class HECT_EXPORT InputAxisBinding :
+    public Encodable
 {
 public:
 
@@ -167,8 +167,8 @@ public:
     /// The value the binding falls back to due to lack of source input.
     double deadValue { 0 };
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const InputAxisBinding& inputAxisBinding);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, InputAxisBinding& inputAxisBinding);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     void applyGravity(double timeStep);

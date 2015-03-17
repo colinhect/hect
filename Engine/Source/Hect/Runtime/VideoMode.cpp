@@ -51,29 +51,16 @@ bool VideoMode::isFullscreen() const
     return _fullscreen;
 }
 
-namespace hect
+void VideoMode::encode(Encoder& encoder) const
 {
-
-Encoder& operator<<(Encoder& encoder, const VideoMode& videoMode)
-{
-    encoder << beginObject()
-            << encodeValue("width", videoMode._width)
-            << encodeValue("height", videoMode._height)
-            << encodeValue("fullscreen", videoMode._fullscreen)
-            << endObject();
-
-    return encoder;
+    encoder << encodeValue("width", _width)
+            << encodeValue("height", _height)
+            << encodeValue("fullscreen", _fullscreen);
 }
 
-Decoder& operator>>(Decoder& decoder, VideoMode& videoMode)
+void VideoMode::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("width", videoMode._width)
-            >> decodeValue("height", videoMode._height)
-            >> decodeValue("fullscreen", videoMode._fullscreen)
-            >> endObject();
-
-    return decoder;
-}
-
+    decoder >> decodeValue("width", _width)
+            >> decodeValue("height", _height)
+            >> decodeValue("fullscreen", _fullscreen);
 }

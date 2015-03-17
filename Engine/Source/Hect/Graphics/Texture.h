@@ -26,8 +26,6 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/Asset.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/Renderer.h"
 
@@ -227,8 +225,8 @@ public:
     /// \param texture The other texture.
     bool operator!=(const Texture& texture) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Texture& texture);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Texture& texture);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     TextureType _type { TextureType_2D };

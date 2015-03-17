@@ -24,8 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Math/Quaternion.h"
 #include "Hect/Math/Vector3.h"
 
@@ -34,7 +33,8 @@ namespace hect
 
 ///
 /// A box aligned with the global axes in world-space.
-class HECT_EXPORT AxisAlignedBox
+class HECT_EXPORT AxisAlignedBox :
+    public Encodable
 {
 public:
 
@@ -99,8 +99,8 @@ public:
     /// Returns whether the box has a non-negligible size.
     bool hasSize() const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const AxisAlignedBox& box);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, AxisAlignedBox& box);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     void mergeMinimum(const Vector3& point);

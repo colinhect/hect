@@ -26,6 +26,7 @@
 #include <string>
 
 #include "Hect/IO/AssetCache.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -33,7 +34,8 @@ namespace hect
 ///
 /// Inheriting from this allows for caching/loading using an AssetCache.
 template <typename T>
-class Asset
+class Asset :
+    public Encodable
 {
 public:
 

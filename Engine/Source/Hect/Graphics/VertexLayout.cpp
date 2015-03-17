@@ -121,6 +121,20 @@ bool VertexLayout::operator!=(const VertexLayout& vertexLayout) const
     return !(*this == vertexLayout);
 }
 
+void VertexLayout::encode(Encoder& encoder) const
+{
+    encoder << encodeVector("attributes", _attributes);
+}
+
+void VertexLayout::decode(Decoder& decoder)
+{
+    clearAttributes();
+
+    decoder >> decodeVector("attributes", _attributes);
+
+    computeAttributeOffsets();
+}
+
 void VertexLayout::computeAttributeOffsets()
 {
     _vertexSize = 0;
@@ -129,31 +143,4 @@ void VertexLayout::computeAttributeOffsets()
         attribute._offset = _vertexSize;
         _vertexSize += attribute.size();
     }
-}
-
-namespace hect
-{
-
-Encoder& operator<<(Encoder& encoder, const VertexLayout& vertexLayout)
-{
-    encoder << beginObject()
-            << encodeVector("attributes", vertexLayout._attributes)
-            << endObject();
-
-    return encoder;
-}
-
-Decoder& operator>>(Decoder& decoder, VertexLayout& vertexLayout)
-{
-    vertexLayout.clearAttributes();
-
-    decoder >> beginObject()
-            >> decodeVector("attributes", vertexLayout._attributes)
-            >> endObject();
-
-    vertexLayout.computeAttributeOffsets();
-
-    return decoder;
-}
-
 }

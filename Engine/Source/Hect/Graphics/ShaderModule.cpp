@@ -65,37 +65,24 @@ bool ShaderModule::operator!=(const ShaderModule& shaderSource) const
     return !(*this == shaderSource);
 }
 
-namespace hect
+void ShaderModule::encode(Encoder& encoder) const
 {
-
-Encoder& operator<<(Encoder& encoder, const ShaderModule& shaderModule)
-{
-    encoder << beginObject()
-            << encodeEnum("type", shaderModule._type)
-            << encodeValue("path", shaderModule._name)
-            << endObject();
-
-    return encoder;
+    encoder << encodeEnum("type", _type)
+            << encodeValue("path", _name);
 }
 
-Decoder& operator>>(Decoder& decoder, ShaderModule& shaderModule)
+void ShaderModule::decode(Decoder& decoder)
 {
     Path path;
-    decoder >> beginObject()
-            >> decodeEnum("type", shaderModule._type, true)
-            >> decodeValue("path", path, true)
-            >> endObject();
+    decoder >> decodeEnum("type", _type, true)
+            >> decodeValue("path", path, true);
 
     // Resolve the path
     AssetCache& assetCache = decoder.assetCache();
     path = assetCache.resolvePath(path);
-    shaderModule._name = path.asString();
+    _name = path.asString();
 
     // Load the shader source
     auto stream = assetCache.fileSystem().openFileForRead(path);
-    shaderModule._source = stream->readAllToString();
-
-    return decoder;
-}
-
+    _source = stream->readAllToString();
 }

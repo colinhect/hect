@@ -30,8 +30,6 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Asset.h"
-#include "Hect/IO/Encoder.h"
-#include "Hect/IO/Decoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentPool.h"
 #include "Hect/Logic/ComponentRegistry.h"
@@ -202,8 +200,8 @@ public:
     /// scene.
     size_t entityCount() const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Scene& scene);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Scene& scene);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     void addSystemType(SystemTypeId typeId);
@@ -222,9 +220,6 @@ private:
     void pendEntityActivation(Entity& entity);
 
     void addEntityComponentBase(Entity& entity, const ComponentBase& component);
-
-    void encode(Encoder& encoder) const;
-    void decode(Decoder& decoder);
 
     void encodeComponents(const Entity& entity, Encoder& encoder);
     void decodeComponents(Entity& entity, Decoder& decoder);

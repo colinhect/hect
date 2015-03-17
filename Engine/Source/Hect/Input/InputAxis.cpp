@@ -67,27 +67,14 @@ double InputAxis::value() const
     return _value;
 }
 
-namespace hect
+void InputAxis::encode(Encoder& encoder) const
 {
-
-Encoder& operator<<(Encoder& encoder, const InputAxis& inputAxis)
-{
-    encoder << beginObject()
-            << encodeValue("name", inputAxis._name)
-            << encodeVector("bindings", inputAxis._bindings)
-            << endObject();
-
-    return encoder;
+    encoder << encodeValue("name", _name)
+            << encodeVector("bindings", _bindings);
 }
 
-Decoder& operator>>(Decoder& decoder, InputAxis& inputAxis)
+void InputAxis::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeValue("name", inputAxis._name, true)
-            >> decodeVector("bindings", inputAxis._bindings)
-            >> endObject();
-
-    return decoder;
-}
-
+    decoder >> decodeValue("name", _name, true)
+            >> decodeVector("bindings", _bindings);
 }

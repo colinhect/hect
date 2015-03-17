@@ -208,39 +208,35 @@ bool Mesh::operator!=(const Mesh& mesh) const
     return !(*this == mesh);
 }
 
-namespace hect
+void Mesh::encode(Encoder& encoder) const
 {
-
-Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
-{
-    encoder << beginObject()
-            << encodeValue("vertexLayout", mesh.vertexLayout())
-            << encodeEnum("indexType", mesh.indexType())
-            << encodeEnum("primitiveType", mesh.primitiveType());
+    encoder << encodeValue("vertexLayout", _vertexLayout)
+            << encodeEnum("indexType", _indexType)
+            << encodeEnum("primitiveType", _primitiveType);
 
     if (encoder.isBinaryStream())
     {
         WriteStream& stream = encoder.binaryStream();
 
         // Vertex data
-        uint32_t vertexDataSize = (uint32_t)mesh.vertexData().size();
+        uint32_t vertexDataSize = (uint32_t)_vertexData.size();
         stream << vertexDataSize;
         if (vertexDataSize > 0)
         {
-            stream.write(&mesh.vertexData()[0], vertexDataSize);
+            stream.write(&_vertexData[0], vertexDataSize);
         }
 
         // Index data
-        uint32_t indexDataSize = (uint32_t)mesh.indexData().size();
+        uint32_t indexDataSize = (uint32_t)_indexData.size();
         stream << indexDataSize;
         if (indexDataSize > 0)
         {
-            stream.write(&mesh.indexData()[0], indexDataSize);
+            stream.write(&_indexData[0], indexDataSize);
         }
     }
     else
     {
-        MeshReader reader(mesh);
+        MeshReader reader(*this);
 
         // Vertex data
         encoder << beginArray("vertices");
@@ -249,7 +245,7 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
             encoder << beginObject()
                     << beginArray("attributes");
 
-            for (const VertexAttribute& attribute : mesh.vertexLayout().attributes())
+            for (const VertexAttribute& attribute : _vertexLayout.attributes())
             {
                 VertexAttributeSemantic semantic = attribute.semantic();
 
@@ -294,20 +290,16 @@ Encoder& operator<<(Encoder& encoder, const Mesh& mesh)
         }
         encoder << endArray();
     }
-    encoder << endObject();
-
-    return encoder;
 }
 
-Decoder& operator>>(Decoder& decoder, Mesh& mesh)
+void Mesh::decode(Decoder& decoder)
 {
     // Clear any data the mesh already had
-    mesh = Mesh(mesh.name());
+    *this = Mesh(name());
 
-    decoder >> beginObject()
-            >> decodeValue("vertexLayout", mesh._vertexLayout)
-            >> decodeEnum("indexType", mesh._indexType)
-            >> decodeEnum("primitiveType", mesh._primitiveType);
+    decoder >> decodeValue("vertexLayout", _vertexLayout)
+            >> decodeEnum("indexType", _indexType)
+            >> decodeEnum("primitiveType", _primitiveType);
 
     // Vertex and index data
     if (decoder.isBinaryStream())
@@ -335,23 +327,23 @@ Decoder& operator>>(Decoder& decoder, Mesh& mesh)
         }
 
         // Set vertex/index data
-        mesh.setVertexData(vertexData);
-        mesh.setIndexData(indexData);
+        setVertexData(vertexData);
+        setIndexData(indexData);
 
         // Compute the bounding box based on the vertex positions
-        MeshReader meshReader(mesh);
+        MeshReader meshReader(*this);
         while (meshReader.nextVertex())
         {
             Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic_Position);
-            mesh.axisAlignedBox().expandToInclude(position);
+            _axisAlignedBox.expandToInclude(position);
         }
     }
     else
     {
-        const VertexLayout& vertexLayout = mesh.vertexLayout();
+        const VertexLayout& vertexLayout = _vertexLayout;
 
         // Use a mesh writer to write vertex and index data
-        MeshWriter meshWriter(mesh);
+        MeshWriter meshWriter(*this);
 
         // Vertex data
         if (decoder.selectMember("vertices"))
@@ -427,9 +419,4 @@ Decoder& operator>>(Decoder& decoder, Mesh& mesh)
             decoder >> endArray();
         }
     }
-    decoder >> endObject();
-
-    return decoder;
-}
-
 }

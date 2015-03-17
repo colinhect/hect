@@ -26,8 +26,7 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/BlendFactor.h"
 #include "Hect/Graphics/BlendFunction.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -35,7 +34,8 @@ namespace hect
 ///
 /// Describes how rendered pixels combine with the pixels already rendered to
 /// target.
-class HECT_EXPORT BlendMode
+class HECT_EXPORT BlendMode :
+    public Encodable
 {
 public:
 
@@ -97,8 +97,8 @@ public:
     /// \param blendMode The other blend mode.
     bool operator!=(const BlendMode& blendMode) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BlendMode& blendMode);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, BlendMode& blendMode);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder);
 
 private:
     BlendFunction _function { BlendFunction_Add };

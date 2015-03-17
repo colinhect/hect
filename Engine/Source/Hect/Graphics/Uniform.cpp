@@ -132,6 +132,55 @@ bool Uniform::operator!=(const Uniform& uniform) const
     return !(*this == uniform);
 }
 
+void Uniform::encode(Encoder& encoder) const
+{
+    bool isBound = _binding != UniformBinding_None;
+
+    if (encoder.isBinaryStream())
+    {
+        encoder << encodeValue(isBound);
+    }
+
+    if (isBound)
+    {
+        encoder << encodeValue("name", _name)
+                << encodeEnum("binding", _binding);
+    }
+    else
+    {
+        encoder << encodeValue("name", _name);
+        _value.encode(encoder);
+    }
+}
+
+void Uniform::decode(Decoder& decoder)
+{
+    if (decoder.isBinaryStream())
+    {
+        bool isBound = false;
+        decoder >> decodeValue(isBound);
+
+        if (isBound)
+        {
+            decoder >> decodeValue("name", _name)
+                    >> decodeEnum("binding", _binding);
+        }
+        else
+        {
+            decoder >> decodeValue("name", _name);
+            _value.decode(decoder);
+        }
+    }
+    else
+    {
+        decoder >> decodeValue("name", _name)
+                >> decodeEnum("binding", _binding);
+
+        _value.decode(decoder);
+    }
+    resolveType();
+}
+
 void Uniform::resolveType()
 {
     switch (_binding)
@@ -173,68 +222,4 @@ void Uniform::resolveType()
         _type = UniformType_Texture;
         break;
     }
-}
-
-namespace hect
-{
-
-Encoder& operator<<(Encoder& encoder, const Uniform& uniform)
-{
-    bool isBound = uniform._binding != UniformBinding_None;
-
-    encoder << beginObject();
-
-    if (encoder.isBinaryStream())
-    {
-        encoder << encodeValue(isBound);
-    }
-
-    if (isBound)
-    {
-        encoder << encodeValue("name", uniform._name)
-                << encodeEnum("binding", uniform._binding);
-    }
-    else
-    {
-        encoder << encodeValue("name", uniform._name)
-                << encodeValue(uniform._value);
-    }
-
-    encoder << endObject();
-    return encoder;
-}
-
-Decoder& operator>>(Decoder& decoder, Uniform& uniform)
-{
-    decoder >> beginObject();
-
-    if (decoder.isBinaryStream())
-    {
-        bool isBound = false;
-        decoder >> decodeValue(isBound);
-
-        if (isBound)
-        {
-            decoder >> decodeValue("name", uniform._name)
-                    >> decodeEnum("binding", uniform._binding);
-        }
-        else
-        {
-            decoder >> decodeValue("name", uniform._name)
-                    >> decodeValue(uniform._value);
-        }
-    }
-    else
-    {
-        decoder >> decodeValue("name", uniform._name)
-                >> decodeEnum("binding", uniform._binding)
-                >> decodeValue(uniform._value);
-    }
-    uniform.resolveType();
-
-    decoder >> endObject();
-
-    return decoder;
-}
-
 }

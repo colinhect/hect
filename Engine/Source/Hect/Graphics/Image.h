@@ -27,8 +27,6 @@
 #include "Hect/Graphics/Color.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/ByteVector.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
 
 namespace hect
 {
@@ -204,8 +202,8 @@ public:
     /// Returns the number of bytes in a pixel of this image.
     unsigned bytesPerPixel() const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Image& image);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Image& image);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     void ensurePixelData();

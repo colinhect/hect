@@ -29,8 +29,6 @@
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/StringMap.h"
 #include "Hect/IO/Asset.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
 #include "Hect/Graphics/BlendMode.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/ShaderModule.h"
@@ -199,8 +197,8 @@ public:
     /// \param shader The other shader.
     bool operator!=(const Shader& shader) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Shader& shader);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, Shader& shader);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     void resolveUniforms();

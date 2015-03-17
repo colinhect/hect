@@ -78,29 +78,16 @@ bool BlendMode::operator!=(const BlendMode& blendMode) const
     return !(*this == blendMode);
 }
 
-namespace hect
+void BlendMode::encode(Encoder& encoder) const
 {
-
-Encoder& operator<<(Encoder& encoder, const BlendMode& blendMode)
-{
-    encoder << beginObject()
-            << encodeEnum("function", blendMode._function)
-            << encodeEnum("sourceFactor", blendMode._sourceFactor)
-            << encodeEnum("destinationFactor", blendMode._destinationFactor)
-            << endObject();
-
-    return encoder;
+    encoder << encodeEnum("function", _function)
+            << encodeEnum("sourceFactor", _sourceFactor)
+            << encodeEnum("destinationFactor", _destinationFactor);
 }
 
-Decoder& operator>>(Decoder& decoder, BlendMode& blendMode)
+void BlendMode::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeEnum("function", blendMode._function)
-            >> decodeEnum("sourceFactor", blendMode._sourceFactor)
-            >> decodeEnum("destinationFactor", blendMode._destinationFactor)
-            >> endObject();
-
-    return decoder;
-}
-
+    decoder >> decodeEnum("function", _function)
+            >> decodeEnum("sourceFactor", _sourceFactor)
+            >> decodeEnum("destinationFactor", _destinationFactor);
 }

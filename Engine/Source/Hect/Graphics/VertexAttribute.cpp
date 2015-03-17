@@ -91,29 +91,16 @@ bool VertexAttribute::operator!=(const VertexAttribute& vertexAttribute) const
     return !(*this == vertexAttribute);
 }
 
-namespace hect
+void VertexAttribute::encode(Encoder& encoder) const
 {
-
-Encoder& operator<<(Encoder& encoder, const VertexAttribute& vertexAttribute)
-{
-    encoder << beginObject()
-            << encodeEnum("semantic", vertexAttribute._semantic)
-            << encodeEnum("type", vertexAttribute._type)
-            << encodeValue("cardinality", vertexAttribute._cardinality)
-            << endObject();
-
-    return encoder;
+    encoder << encodeEnum("semantic", _semantic)
+            << encodeEnum("type", _type)
+            << encodeValue("cardinality", _cardinality);
 }
 
-Decoder& operator>>(Decoder& decoder, VertexAttribute& vertexAttribute)
+void VertexAttribute::decode(Decoder& decoder)
 {
-    decoder >> beginObject()
-            >> decodeEnum("semantic", vertexAttribute._semantic)
-            >> decodeEnum("type", vertexAttribute._type)
-            >> decodeValue("cardinality", vertexAttribute._cardinality)
-            >> endObject();
-
-    return decoder;
-}
-
+    decoder >> decodeEnum("semantic", _semantic)
+            >> decodeEnum("type", _type)
+            >> decodeValue("cardinality", _cardinality);
 }

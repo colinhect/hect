@@ -145,6 +145,194 @@ size_t Scene::entityCount() const
     return _entityCount;
 }
 
+void Scene::encode(Encoder& encoder) const
+{
+    // Component types
+    encoder << beginArray("componentTypes");
+    for (ComponentTypeId typeId : _componentTypeIds)
+    {
+        if (encoder.isBinaryStream())
+        {
+            encoder << encodeValue(typeId);
+        }
+        else
+        {
+            const std::string& typeName = ComponentRegistry::typeNameOf(typeId);
+            encoder << encodeValue(typeName);
+        }
+    }
+    encoder << endArray();
+
+    // System types
+    encoder << beginArray("systemTypes");
+    for (SystemTypeId typeId : _systemTypeIds)
+    {
+        if (encoder.isBinaryStream())
+        {
+            encoder << encodeValue(typeId);
+        }
+        else
+        {
+            const std::string& typeName = SystemRegistry::typeNameOf(typeId);
+            encoder << encodeValue(typeName);
+        }
+    }
+    encoder << endArray();
+
+    // Systems
+    encoder << beginArray("systems");
+    for (const std::vector<SystemTypeId>& tickStage : _tickStages)
+    {
+        for (SystemTypeId typeId : tickStage)
+        {
+            SystemBase* system = _systems[typeId].get();
+
+            encoder << beginObject();
+
+            if (encoder.isBinaryStream())
+            {
+                std::type_index typeIndex(typeid(*system));
+                encoder << encodeValue(SystemRegistry::typeIdOf(typeIndex));
+            }
+            else
+            {
+                std::string typeName = Type::of(*system).name();
+                encoder << encodeValue("type", typeName);
+            }
+
+            system->encode(encoder);
+
+            encoder << endObject();
+        }
+    }
+    encoder << endArray();
+
+    // Entities
+    encoder << beginArray("entities");
+    for (const Entity& entity : entities())
+    {
+        // Only encode the root entities (children are encoded recursively)
+        if (!entity.parent())
+        {
+            encoder << encodeValue(entity);
+        }
+    }
+    encoder << endArray();
+}
+
+void Scene::decode(Decoder& decoder)
+{
+    // Base
+    if (!decoder.isBinaryStream())
+    {
+        if (decoder.selectMember("base"))
+        {
+            Path basePath;
+            decoder >> decodeValue(basePath);
+
+            try
+            {
+                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
+                baseDecoder >> beginObject() >> decodeValue(*this) >> endObject();
+            }
+            catch (const Exception& exception)
+            {
+                throw DecodeError(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), exception.what()));
+            }
+        }
+    }
+
+    // Component types
+    if (decoder.selectMember("componentTypes"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            ComponentTypeId typeId;
+            if (decoder.isBinaryStream())
+            {
+                decoder >> decodeValue(typeId);
+            }
+            else
+            {
+                std::string typeName;
+                decoder >> decodeValue(typeName);
+                typeId = ComponentRegistry::typeIdOf(typeName);
+            }
+
+            addComponentType(typeId);
+        }
+        decoder >> endArray();
+    }
+
+    // System types
+    if (decoder.selectMember("systemTypes"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            SystemTypeId typeId;
+            if (decoder.isBinaryStream())
+            {
+                decoder >> decodeValue(typeId);
+            }
+            else
+            {
+                std::string typeName;
+                decoder >> decodeValue(typeName);
+                typeId = SystemRegistry::typeIdOf(typeName);
+            }
+
+            addSystemType(typeId);
+        }
+        decoder >> endArray();
+    }
+
+    // Systems
+    if (decoder.selectMember("systems"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            decoder >> beginObject();
+
+            SystemTypeId typeId;
+            if (decoder.isBinaryStream())
+            {
+                ReadStream& stream = decoder.binaryStream();
+                stream >> typeId;
+            }
+            else
+            {
+                std::string typeName;
+                decoder >> decodeValue("type", typeName, true);
+                typeId = SystemRegistry::typeIdOf(typeName);
+            }
+
+            SystemBase& system = systemOfTypeId(typeId);
+            system.decode(decoder);
+
+            decoder >> endObject();
+        }
+        decoder >> endArray();
+    }
+
+    // Entities
+    if (decoder.selectMember("entities"))
+    {
+        decoder >> beginArray();
+        while (decoder.hasMoreElements())
+        {
+            Entity::Iterator entity = createEntity();
+            decoder >> decodeValue(*entity);
+            entity->activate();
+        }
+        decoder >> endArray();
+    }
+
+    refresh();
+}
+
 void Scene::addSystemType(SystemTypeId typeId)
 {
     // Make sure the system isn't already added
@@ -401,202 +589,6 @@ void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& componen
     componentPool.addBase(entity, component);
 }
 
-void Scene::encode(Encoder& encoder) const
-{
-    encoder << beginObject();
-
-    // Component types
-    encoder << beginArray("componentTypes");
-    for (ComponentTypeId typeId : _componentTypeIds)
-    {
-        if (encoder.isBinaryStream())
-        {
-            encoder << encodeValue(typeId);
-        }
-        else
-        {
-            const std::string& typeName = ComponentRegistry::typeNameOf(typeId);
-            encoder << encodeValue(typeName);
-        }
-    }
-    encoder << endArray();
-
-    // System types
-    encoder << beginArray("systemTypes");
-    for (SystemTypeId typeId : _systemTypeIds)
-    {
-        if (encoder.isBinaryStream())
-        {
-            encoder << encodeValue(typeId);
-        }
-        else
-        {
-            const std::string& typeName = SystemRegistry::typeNameOf(typeId);
-            encoder << encodeValue(typeName);
-        }
-    }
-    encoder << endArray();
-
-    // Systems
-    encoder << beginArray("systems");
-    for (const std::vector<SystemTypeId>& tickStage : _tickStages)
-    {
-        for (SystemTypeId typeId : tickStage)
-        {
-            SystemBase* system = _systems[typeId].get();
-
-            encoder << beginObject();
-
-            if (encoder.isBinaryStream())
-            {
-                std::type_index typeIndex(typeid(*system));
-                encoder << encodeValue(SystemRegistry::typeIdOf(typeIndex));
-            }
-            else
-            {
-                std::string typeName = Type::of(*system).name();
-                encoder << encodeValue("type", typeName);
-            }
-
-            system->encode(encoder);
-
-            encoder << endObject();
-        }
-    }
-    encoder << endArray();
-
-    // Entities
-    encoder << beginArray("entities");
-    for (const Entity& entity : entities())
-    {
-        // Only encode the root entities (children are encoded recursively)
-        if (!entity.parent())
-        {
-            encoder << encodeValue(entity);
-        }
-    }
-    encoder << endArray();
-
-    encoder << endObject();
-}
-
-void Scene::decode(Decoder& decoder)
-{
-    decoder >> beginObject();
-
-    // Base
-    if (!decoder.isBinaryStream())
-    {
-        if (decoder.selectMember("base"))
-        {
-            Path basePath;
-            decoder >> decodeValue(basePath);
-
-            try
-            {
-                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
-                baseDecoder >> beginObject() >> decodeValue(*this) >> endObject();
-            }
-            catch (const Exception& exception)
-            {
-                throw DecodeError(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), exception.what()));
-            }
-        }
-    }
-
-    // Component types
-    if (decoder.selectMember("componentTypes"))
-    {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
-        {
-            ComponentTypeId typeId;
-            if (decoder.isBinaryStream())
-            {
-                decoder >> decodeValue(typeId);
-            }
-            else
-            {
-                std::string typeName;
-                decoder >> decodeValue(typeName);
-                typeId = ComponentRegistry::typeIdOf(typeName);
-            }
-
-            addComponentType(typeId);
-        }
-        decoder >> endArray();
-    }
-
-    // System types
-    if (decoder.selectMember("systemTypes"))
-    {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
-        {
-            SystemTypeId typeId;
-            if (decoder.isBinaryStream())
-            {
-                decoder >> decodeValue(typeId);
-            }
-            else
-            {
-                std::string typeName;
-                decoder >> decodeValue(typeName);
-                typeId = SystemRegistry::typeIdOf(typeName);
-            }
-
-            addSystemType(typeId);
-        }
-        decoder >> endArray();
-    }
-
-    // Systems
-    if (decoder.selectMember("systems"))
-    {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
-        {
-            decoder >> beginObject();
-
-            SystemTypeId typeId;
-            if (decoder.isBinaryStream())
-            {
-                ReadStream& stream = decoder.binaryStream();
-                stream >> typeId;
-            }
-            else
-            {
-                std::string typeName;
-                decoder >> decodeValue("type", typeName, true);
-                typeId = SystemRegistry::typeIdOf(typeName);
-            }
-
-            SystemBase& system = systemOfTypeId(typeId);
-            system.decode(decoder);
-
-            decoder >> endObject();
-        }
-        decoder >> endArray();
-    }
-
-    // Entities
-    if (decoder.selectMember("entities"))
-    {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
-        {
-            Entity::Iterator entity = createEntity();
-            decoder >> decodeValue(*entity);
-            entity->activate();
-        }
-        decoder >> endArray();
-    }
-
-    decoder >> endObject();
-
-    refresh();
-}
-
 void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
 {
     if (encoder.isBinaryStream())
@@ -701,21 +693,4 @@ void Scene::decodeComponents(Entity& entity, Decoder& decoder)
             decoder >> endArray();
         }
     }
-}
-
-namespace hect
-{
-
-Encoder& operator<<(Encoder& encoder, const Scene& scene)
-{
-    scene.encode(encoder);
-    return encoder;
-}
-
-Decoder& operator>>(Decoder& decoder, Scene& scene)
-{
-    scene.decode(decoder);
-    return decoder;
-}
-
 }

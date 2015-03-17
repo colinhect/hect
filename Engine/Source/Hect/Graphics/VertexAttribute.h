@@ -26,8 +26,7 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/VertexAttributeSemantic.h"
 #include "Hect/Graphics/VertexAttributeType.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 
 namespace hect
 {
@@ -40,7 +39,8 @@ namespace hect
 /// type describes the type of each component in the attribute.  The
 /// cardinality is number of components (of the attribute's type) the
 /// attribute has.
-class HECT_EXPORT VertexAttribute
+class HECT_EXPORT VertexAttribute :
+    public Encodable
 {
     friend class VertexLayout;
 public:
@@ -89,8 +89,8 @@ public:
     /// \param vertexAttribute The other attribute.
     bool operator!=(const VertexAttribute& vertexAttribute) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const VertexAttribute& vertexAttribute);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, VertexAttribute& vertexAttribute);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     VertexAttributeSemantic _semantic { VertexAttributeSemantic_Position };

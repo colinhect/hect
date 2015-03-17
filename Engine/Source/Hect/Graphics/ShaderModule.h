@@ -26,8 +26,7 @@
 #include <string>
 
 #include "Hect/Core/Export.h"
-#include "Hect/IO/Decoder.h"
-#include "Hect/IO/Encoder.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Graphics/ShaderModuleType.h"
 
 namespace hect
@@ -35,7 +34,8 @@ namespace hect
 
 ///
 /// A shader module.
-class HECT_EXPORT ShaderModule
+class HECT_EXPORT ShaderModule :
+    public Encodable
 {
 public:
 
@@ -75,8 +75,8 @@ public:
     /// \param shaderModule The other shader module.
     bool operator!=(const ShaderModule& shaderModule) const;
 
-    friend HECT_EXPORT Encoder& operator<<(Encoder& encoder, const ShaderModule& shaderModule);
-    friend HECT_EXPORT Decoder& operator>>(Decoder& decoder, ShaderModule& shaderModule);
+    void encode(Encoder& encoder) const override;
+    void decode(Decoder& decoder) override;
 
 private:
     ShaderModuleType _type { ShaderModuleType_Vertex };

@@ -502,9 +502,6 @@ void Entity::encode(Encoder& encoder) const
     if (!isTransient())
     {
         Scene& scene = _pool->_scene;
-
-        encoder << beginObject();
-
         scene.encodeComponents(*this, encoder);
 
         encoder << beginArray("children");
@@ -513,8 +510,6 @@ void Entity::encode(Encoder& encoder) const
             encoder << encodeValue(child);
         }
         encoder << endArray();
-
-        encoder << endObject();
     }
 }
 
@@ -523,8 +518,6 @@ void Entity::decode(Decoder& decoder)
     ensureInPool();
 
     Scene& scene = _pool->_scene;
-
-    decoder >> beginObject();
 
     if (!decoder.isBinaryStream())
     {
@@ -569,23 +562,4 @@ void Entity::decode(Decoder& decoder)
         }
         decoder >> endArray();
     }
-
-    decoder >> endObject();
-}
-
-namespace hect
-{
-
-Encoder& operator<<(Encoder& encoder, const Entity& entity)
-{
-    entity.encode(encoder);
-    return encoder;
-}
-
-Decoder& operator>>(Decoder& decoder, Entity& entity)
-{
-    entity.decode(decoder);
-    return decoder;
-}
-
 }
