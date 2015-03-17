@@ -47,8 +47,7 @@ class EntityPool;
 /// entities are created and destroyed in the entity pool.  To maintain a valid
 /// reference to an entity, use Entity::Iterator or Entity::Handle.
 class HECT_EXPORT Entity :
-    public Uncopyable,
-    public Encodable
+    public Uncopyable
 {
     friend class Scene;
     friend class EntityChildren;
@@ -373,8 +372,8 @@ public:
     Entity& operator=(const Entity& entity);
     Entity& operator=(Entity&& entity);
 
-    void encode(Encoder& encoder) const override;
-    void decode(Decoder& decoder) override;
+    void encode(Encoder& encoder) const;
+    void decode(Decoder& decoder);
 
 private:
     Entity();
@@ -402,5 +401,8 @@ private:
 
     std::bitset<4> _flags;
 };
+
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Entity& entity);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, Entity& entity);
 
 }

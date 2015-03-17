@@ -563,3 +563,24 @@ void Entity::decode(Decoder& decoder)
         decoder >> endArray();
     }
 }
+
+namespace hect
+{
+
+Encoder& operator<<(Encoder& encoder, const Entity& entity)
+{
+    encoder << beginObject();
+    entity.encode(encoder);
+    encoder << endObject();
+    return encoder;
+}
+
+Decoder& operator>>(Decoder& decoder, Entity& entity)
+{
+    decoder >> beginObject();
+    entity.decode(decoder);
+    decoder >> endObject();
+    return decoder;
+}
+
+}
