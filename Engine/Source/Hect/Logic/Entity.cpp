@@ -72,7 +72,7 @@ void Entity::destroy()
     ensureInPool();
 
     // Destroy all children first
-    for (Entity& child : _children)
+    for (Entity& child : children())
     {
         child.destroy();
     }
@@ -85,7 +85,7 @@ void Entity::activate()
     ensureInPool();
 
     // Activate all children first
-    for (Entity& child : _children)
+    for (Entity& child : children())
     {
         child.activate();
     }
@@ -221,7 +221,7 @@ void Entity::removeChild(Entity& entity)
 
 void Entity::destroyAllChildren()
 {
-    for (Entity& child : _children)
+    for (Entity& child : children())
     {
         child.destroy();
     }
@@ -229,17 +229,17 @@ void Entity::destroyAllChildren()
 
 Entity::Children& Entity::children()
 {
-    return _children;
+    return *reinterpret_cast<EntityChildren*>(this);
 }
 
 const Entity::Children& Entity::children() const
 {
-    return _children;
+    return *reinterpret_cast<const EntityChildren*>(this);
 }
 
 Entity::Iterator Entity::findFirstChild(Entity::Predicate predicate)
 {
-    for (Entity& child : _children)
+    for (Entity& child : children())
     {
         if (predicate(child))
         {
@@ -251,7 +251,7 @@ Entity::Iterator Entity::findFirstChild(Entity::Predicate predicate)
 
 Entity::ConstIterator Entity::findFirstChild(Entity::Predicate predicate) const
 {
-    for (const Entity& child : _children)
+    for (const Entity& child : children())
     {
         if (predicate(child))
         {
@@ -263,7 +263,7 @@ Entity::ConstIterator Entity::findFirstChild(Entity::Predicate predicate) const
 
 Entity::Iterator Entity::findFirstDescendant(Entity::Predicate predicate)
 {
-    for (Entity& child : _children)
+    for (Entity& child : children())
     {
         if (predicate(child))
         {
@@ -283,7 +283,7 @@ Entity::Iterator Entity::findFirstDescendant(Entity::Predicate predicate)
 
 Entity::ConstIterator Entity::findFirstDescendant(Entity::Predicate predicate) const
 {
-    for (const Entity& child : _children)
+    for (const Entity& child : children())
     {
         if (predicate(child))
         {
@@ -338,7 +338,7 @@ Entity::ConstIterator Entity::findFirstAncestor(Entity::Predicate predicate) con
 std::vector<Entity::Iterator> Entity::findChildren(Entity::Predicate predicate)
 {
     std::vector<Entity::Iterator> results;
-    for (Entity& child : _children)
+    for (Entity& child : children())
     {
         if (predicate(child))
         {
@@ -351,7 +351,7 @@ std::vector<Entity::Iterator> Entity::findChildren(Entity::Predicate predicate)
 std::vector<Entity::ConstIterator> Entity::findChildren(Entity::Predicate predicate) const
 {
     std::vector<Entity::ConstIterator> results;
-    for (const Entity& child : _children)
+    for (const Entity& child : children())
     {
         if (predicate(child))
         {
@@ -364,7 +364,7 @@ std::vector<Entity::ConstIterator> Entity::findChildren(Entity::Predicate predic
 std::vector<Entity::Iterator> Entity::findDescendants(Entity::Predicate predicate)
 {
     std::vector<Entity::Iterator> results;
-    for (Entity& child : _children)
+    for (Entity& child : children())
     {
         if (predicate(child))
         {
@@ -382,7 +382,7 @@ std::vector<Entity::Iterator> Entity::findDescendants(Entity::Predicate predicat
 std::vector<Entity::ConstIterator> Entity::findDescendants(Entity::Predicate predicate) const
 {
     std::vector<Entity::ConstIterator> results;
-    for (const Entity& child : _children)
+    for (const Entity& child : children())
     {
         if (predicate(child))
         {
@@ -505,7 +505,7 @@ void Entity::encode(Encoder& encoder) const
         scene.encodeComponents(*this, encoder);
 
         encoder << beginArray("children");
-        for (const Entity& child : _children)
+        for (const Entity& child : children())
         {
             encoder << encodeValue(child);
         }

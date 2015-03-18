@@ -31,24 +31,24 @@ using namespace hect;
 
 EntityChildren::Iterator EntityChildren::begin()
 {
-    Entity* entity = reinterpret_cast<Entity*>(this - offsetof(Entity, _children));
+    Entity* entity = reinterpret_cast<Entity*>(this);
     return EntityChildren::Iterator(*entity->_pool, entity->_id, 0);
 }
 
 EntityChildren::ConstIterator EntityChildren::begin() const
 {
-    const Entity* entity = reinterpret_cast<const Entity*>(this - offsetof(Entity, _children));
+    const Entity* entity = reinterpret_cast<const Entity*>(this);
     return EntityChildren::ConstIterator(*entity->_pool, entity->_id, 0);
 }
 
 EntityChildren::Iterator EntityChildren::end()
 {
-    Entity* entity = reinterpret_cast<Entity*>(this - offsetof(Entity, _children));
+    Entity* entity = reinterpret_cast<Entity*>(this);
     return EntityChildren::Iterator(*entity->_pool, entity->_id, entity->_childIds.size());
 }
 
 EntityChildren::ConstIterator EntityChildren::end() const
 {
-    const Entity* entity = reinterpret_cast<const Entity*>(this - offsetof(Entity, _children));
+    const Entity* entity = reinterpret_cast<const Entity*>(this);
     return EntityChildren::ConstIterator(*entity->_pool, entity->_id, entity->_childIds.size());
 }
