@@ -130,6 +130,12 @@ const Uniform& Shader::uniform(const char* name) const
     return const_cast<Shader*>(this)->uniform(name);
 }
 
+bool Shader::hasUniform(const std::string& name) const
+{
+    auto it = _uniformIndices.get(name);
+    return static_cast<bool>(it);
+}
+
 const BlendMode& Shader::blendMode() const
 {
     return _blendMode;
@@ -230,6 +236,26 @@ void Shader::encode(Encoder& encoder) const
 
 void Shader::decode(Decoder& decoder)
 {
+    // Base
+    if (!decoder.isBinaryStream())
+    {
+        if (decoder.selectMember("base"))
+        {
+            Path basePath;
+            decoder >> decodeValue(basePath);
+
+            try
+            {
+                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
+                baseDecoder >> decodeValue(*this);
+            }
+            catch (const Exception& exception)
+            {
+                throw DecodeError(format("Failed to load base shader '%s': %s", basePath.asString().c_str(), exception.what()));
+            }
+        }
+    }
+
     decoder >> decodeEnum("renderStage", _renderStage)
             >> decodeVector("modules", _modules, true)
             >> decodeVector("uniforms", _uniforms)

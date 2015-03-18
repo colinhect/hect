@@ -150,6 +150,15 @@ public:
     const Uniform& uniform(const char* name) const;
 
     ///
+    /// Returns whether the shader has a uniform of the specified name.
+    ///
+    /// \param name The name of the uniform.
+    ///
+    /// \returns True if the shader has a uniform of the specified name; false
+    /// otherwise.
+    bool hasUniform(const std::string& name) const;
+
+    ///
     /// Returns the blend mode that the shader uses.
     const BlendMode& blendMode() const;
 
