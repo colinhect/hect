@@ -62,11 +62,11 @@ TEST_CASE("Connect and disconnect from local host", "[Host]")
             PeerEvent event;
             if (host.pollEvent(event))
             {
-                if (event.type == PeerEventType_Connect)
+                if (event.type == PeerEventType::Connect)
                 {
                     connectEvent = true;
                 }
-                else if (event.type == PeerEventType_Disconnect)
+                else if (event.type == PeerEventType::Disconnect)
                 {
                     disconnectEvent = true;
                     break;
@@ -91,29 +91,29 @@ TEST_CASE("Connect and disconnect from local host", "[Host]")
         Host host(_maxPeerCount, _channelCount);
 
         Peer peer = host.requestConnectTo(_host, _port);
-        THREADSAFE_REQUIRE(peer.state() == PeerState_Connecting);
+        THREADSAFE_REQUIRE(peer.state() == PeerState::Connecting);
 
         PeerEvent event;
         while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == PeerEventType_Connect)
+            if (event.type == PeerEventType::Connect)
             {
                 THREADSAFE_REQUIRE(event.peer == peer);
-                THREADSAFE_REQUIRE(peer.state() == PeerState_Connected);
+                THREADSAFE_REQUIRE(peer.state() == PeerState::Connected);
                 connectEvent = true;
             }
         }
         THREADSAFE_REQUIRE(connectEvent == true);
 
         host.requestDisconnectFrom(peer);
-        THREADSAFE_REQUIRE(peer.state() == PeerState_Disconnecting);
+        THREADSAFE_REQUIRE(peer.state() == PeerState::Disconnecting);
 
         while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == PeerEventType_Disconnect)
+            if (event.type == PeerEventType::Disconnect)
             {
                 THREADSAFE_REQUIRE(event.peer == peer);
-                THREADSAFE_REQUIRE(peer.state() == PeerState_Disconnected);
+                THREADSAFE_REQUIRE(peer.state() == PeerState::Disconnected);
                 disconnectEvent = true;
             }
         }
@@ -140,7 +140,7 @@ TEST_CASE("Send a packet from the server host", "[Host]")
             PeerEvent event;
             if (host.pollEvent(event))
             {
-                if (event.type == PeerEventType_Connect)
+                if (event.type == PeerEventType::Connect)
                 {
                     ByteVector packetData;
 
@@ -150,7 +150,7 @@ TEST_CASE("Send a packet from the server host", "[Host]")
                     host.sendPacket(event.peer, 0, packetData);
                     host.flush();
                 }
-                else if (event.type == PeerEventType_Disconnect)
+                else if (event.type == PeerEventType::Disconnect)
                 {
                     break;
                 }
@@ -174,7 +174,7 @@ TEST_CASE("Send a packet from the server host", "[Host]")
         PeerEvent event;
         while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == PeerEventType_ReceivePacket)
+            if (event.type == PeerEventType::ReceivePacket)
             {
                 packetReceived = true;
 
@@ -192,7 +192,7 @@ TEST_CASE("Send a packet from the server host", "[Host]")
 
         while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == PeerEventType_Disconnect)
+            if (event.type == PeerEventType::Disconnect)
             {
                 break;
             }
@@ -220,7 +220,7 @@ TEST_CASE("Send a packet from the client host", "[Host]")
             PeerEvent event;
             if (host.pollEvent(event))
             {
-                if (event.type == PeerEventType_ReceivePacket)
+                if (event.type == PeerEventType::ReceivePacket)
                 {
                     packetReceived = true;
 
@@ -231,7 +231,7 @@ TEST_CASE("Send a packet from the client host", "[Host]")
 
                     THREADSAFE_REQUIRE(string == "Testing...");
                 }
-                else if (event.type == PeerEventType_Disconnect)
+                else if (event.type == PeerEventType::Disconnect)
                 {
                     break;
                 }
@@ -255,7 +255,7 @@ TEST_CASE("Send a packet from the client host", "[Host]")
         PeerEvent event;
         while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == PeerEventType_Connect)
+            if (event.type == PeerEventType::Connect)
             {
                 ByteVector packetData;
 
@@ -271,7 +271,7 @@ TEST_CASE("Send a packet from the client host", "[Host]")
 
         while (host.pollEvent(event, _timeOut))
         {
-            if (event.type == PeerEventType_Disconnect)
+            if (event.type == PeerEventType::Disconnect)
             {
                 break;
             }

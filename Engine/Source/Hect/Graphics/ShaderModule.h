@@ -79,7 +79,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    ShaderModuleType _type { ShaderModuleType_Vertex };
+    ShaderModuleType _type { ShaderModuleType::Vertex };
     std::string _name;
     std::string _source;
 };

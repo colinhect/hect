@@ -141,8 +141,8 @@ private:
 
     std::string _name;
 
-    UniformType _type { UniformType_Float };
-    UniformBinding _binding { UniformBinding_None };
+    UniformType _type { UniformType::Float };
+    UniformBinding _binding { UniformBinding::None };
     UniformValue _value;
 
     UniformIndex _index { UniformIndex(-1) };

@@ -126,7 +126,7 @@ void EntityHandle::Context::receiveEvent(const EntityEvent& event)
 {
     if (valid && event.entity->id() == id)
     {
-        if (event.type == EntityEventType_Destroy)
+        if (event.type == EntityEventType::Destroy)
         {
             valid = false;
         }

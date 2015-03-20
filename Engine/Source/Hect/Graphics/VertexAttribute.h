@@ -93,8 +93,8 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    VertexAttributeSemantic _semantic { VertexAttributeSemantic_Position };
-    VertexAttributeType _type { VertexAttributeType_Float32 };
+    VertexAttributeSemantic _semantic { VertexAttributeSemantic::Position };
+    VertexAttributeType _type { VertexAttributeType::Float32 };
     unsigned _cardinality { 3 };
     unsigned _offset { 0 };
 };

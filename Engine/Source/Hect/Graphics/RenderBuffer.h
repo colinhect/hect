@@ -31,11 +31,11 @@ namespace hect
 
 ///
 /// The format of a render buffer.
-enum RenderBufferFormat
+enum class RenderBufferFormat
 {
     ///
     /// A depth render buffer.
-    RenderBufferFormat_DepthComponent
+    DepthComponent
 };
 
 ///
@@ -74,7 +74,7 @@ public:
     unsigned bytesPerPixel() const;
 
 private:
-    RenderBufferFormat _format { RenderBufferFormat_DepthComponent };
+    RenderBufferFormat _format { RenderBufferFormat::DepthComponent };
     unsigned _width { 0 };
     unsigned _height { 0 };
 };

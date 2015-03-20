@@ -29,8 +29,8 @@ using namespace hect;
 TEST_CASE("Add modules to a shader and iterate over them", "[Shader]")
 {
     Shader shader;
-    shader.addModule(ShaderModule(ShaderModuleType_Vertex, "A", "..."));
-    shader.addModule(ShaderModule(ShaderModuleType_Fragment, "B", "..."));
+    shader.addModule(ShaderModule(ShaderModuleType::Vertex, "A", "..."));
+    shader.addModule(ShaderModule(ShaderModuleType::Fragment, "B", "..."));
 
     REQUIRE(shader.modules()[0].name() == "A");
     REQUIRE(shader.modules()[1].name() == "B");
@@ -39,9 +39,9 @@ TEST_CASE("Add modules to a shader and iterate over them", "[Shader]")
 TEST_CASE("Add uniforms to a shader and iterate over them", "[Shader]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType_Float));
-    shader.addUniform(Uniform("B", UniformType_Vector2));
-    shader.addUniform(Uniform("C", UniformType_Vector3));
+    shader.addUniform(Uniform("A", UniformType::Float));
+    shader.addUniform(Uniform("B", UniformType::Vector2));
+    shader.addUniform(Uniform("C", UniformType::Vector3));
 
     REQUIRE(shader.uniforms()[0].name() == "A");
     REQUIRE(shader.uniforms()[1].name() == "B");
@@ -51,7 +51,7 @@ TEST_CASE("Add uniforms to a shader and iterate over them", "[Shader]")
 TEST_CASE("Get an existing uniform from a shader by name", "[Shader]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType_Float));
+    shader.addUniform(Uniform("A", UniformType::Float));
 
     REQUIRE(shader.uniform("A").name() == "A");
     REQUIRE(shader.uniform(std::string("A")).name() == "A");
@@ -60,7 +60,7 @@ TEST_CASE("Get an existing uniform from a shader by name", "[Shader]")
 TEST_CASE("Get a non-existing uniform from a shader by name", "[Shader]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType_Float));
+    shader.addUniform(Uniform("A", UniformType::Float));
 
     REQUIRE_THROWS_AS(shader.uniform("B"), InvalidOperation);
     REQUIRE_THROWS_AS(shader.uniform(std::string("B")), InvalidOperation);
@@ -69,7 +69,7 @@ TEST_CASE("Get a non-existing uniform from a shader by name", "[Shader]")
 TEST_CASE("Get an existing uniform from a shader by index", "[Shader]")
 {
     Shader shader;
-    UniformIndex index = shader.addUniform(Uniform("A", UniformType_Float));
+    UniformIndex index = shader.addUniform(Uniform("A", UniformType::Float));
 
     REQUIRE(shader.uniform(index).name() == "A");
 }
@@ -77,7 +77,7 @@ TEST_CASE("Get an existing uniform from a shader by index", "[Shader]")
 TEST_CASE("Get a non-existing uniform from a shader by index", "[Shader]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType_Float));
+    shader.addUniform(Uniform("A", UniformType::Float));
 
     REQUIRE_THROWS_AS(shader.uniform(1), InvalidOperation);
 }
@@ -85,16 +85,16 @@ TEST_CASE("Get a non-existing uniform from a shader by index", "[Shader]")
 TEST_CASE("Get and set the render stage of a shader", "[Shader]")
 {
     Shader shader;
-    REQUIRE(shader.renderStage() == RenderStage_None);
-    shader.setRenderStage(RenderStage_PhysicalGeometry);
-    REQUIRE(shader.renderStage() == RenderStage_PhysicalGeometry);
+    REQUIRE(shader.renderStage() == RenderStage::None);
+    shader.setRenderStage(RenderStage::PhysicalGeometry);
+    REQUIRE(shader.renderStage() == RenderStage::PhysicalGeometry);
 }
 
 TEST_CASE("Get and set the blend mode of a shader", "[Shader]")
 {
     Shader shader;
     REQUIRE(shader.blendMode() == BlendMode());
-    BlendMode blendMode(BlendFunction_Subtract, BlendFactor_One, BlendFactor_One);
+    BlendMode blendMode(BlendFunction::Subtract, BlendFactor::One, BlendFactor::One);
     shader.setBlendMode(blendMode);
     REQUIRE(shader.blendMode() == blendMode);
 }

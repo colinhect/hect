@@ -81,7 +81,7 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
 void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vector3& value)
 {
     // If this data is a position then expand the bounding box to include it
-    if (semantic == VertexAttributeSemantic_Position)
+    if (semantic == VertexAttributeSemantic::Position)
     {
         _mesh.axisAlignedBox().expandToInclude(value);
     }
@@ -146,13 +146,13 @@ void MeshWriter::addIndex(uint64_t value)
     // Write the index data based on the type
     switch (_mesh.indexType())
     {
-    case IndexType_UInt8:
+    case IndexType::UInt8:
         _indexStream << static_cast<uint8_t>(value);
         break;
-    case IndexType_UInt16:
+    case IndexType::UInt16:
         _indexStream << static_cast<uint16_t>(value);
         break;
-    case IndexType_UInt32:
+    case IndexType::UInt32:
         _indexStream << static_cast<uint32_t>(value);
         break;
     }
@@ -168,34 +168,34 @@ void MeshWriter::setComponentValue(const VertexAttribute& attribute, unsigned in
     // Write the vertex data based on the type
     switch (attribute.type())
     {
-    case VertexAttributeType_Int8:
+    case VertexAttributeType::Int8:
         _vertexStream.seek(offset + index * sizeof(int8_t));
         _vertexStream << static_cast<int8_t>(value);
         break;
-    case VertexAttributeType_UInt8:
+    case VertexAttributeType::UInt8:
         _vertexStream.seek(offset + index * sizeof(uint8_t));
         _vertexStream << static_cast<uint8_t>(value);
         break;
-    case VertexAttributeType_Int16:
+    case VertexAttributeType::Int16:
         _vertexStream.seek(offset + index * sizeof(int16_t));
         _vertexStream << static_cast<int16_t>(value);
         break;
-    case VertexAttributeType_UInt16:
+    case VertexAttributeType::UInt16:
         _vertexStream.seek(offset + index * sizeof(uint16_t));
         _vertexStream << static_cast<uint16_t>(value);
         break;
-    case VertexAttributeType_Int32:
+    case VertexAttributeType::Int32:
         _vertexStream.seek(offset + index * sizeof(int32_t));
         _vertexStream << static_cast<int32_t>(value);
         break;
-    case VertexAttributeType_UInt32:
+    case VertexAttributeType::UInt32:
         _vertexStream.seek(offset + index * sizeof(uint32_t));
         _vertexStream << static_cast<uint32_t>(value);
         break;
-    case VertexAttributeType_Reserved:
+    case VertexAttributeType::Reserved:
         // Float 16
         break;
-    case VertexAttributeType_Float32:
+    case VertexAttributeType::Float32:
         _vertexStream.seek(offset + index * sizeof(float));
         _vertexStream << value;
         break;

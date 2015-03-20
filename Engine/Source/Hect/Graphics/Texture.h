@@ -197,7 +197,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    TextureType _type { TextureType_2D };
+    TextureType _type { TextureType::TwoDimensional };
 
     ImageContainer _sourceImages;
 
@@ -206,10 +206,10 @@ private:
 
     PixelFormat _pixelFormat;
 
-    ColorSpace _colorSpace { ColorSpace_NonLinear };
+    ColorSpace _colorSpace { ColorSpace::NonLinear };
 
-    TextureFilter _minFilter { TextureFilter_Linear };
-    TextureFilter _magFilter { TextureFilter_Linear };
+    TextureFilter _minFilter { TextureFilter::Linear };
+    TextureFilter _magFilter { TextureFilter::Linear };
 
     bool _mipmapped { true };
     bool _wrapped { false };

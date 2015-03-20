@@ -28,30 +28,30 @@ using namespace hect;
 
 TEST_CASE("Construct a vertex attribute", "[VertexAttribute]")
 {
-    VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
+    VertexAttribute attribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
 
-    REQUIRE(VertexAttributeSemantic_Position == attribute.semantic());
-    REQUIRE(VertexAttributeType_Float32 == attribute.type());
+    REQUIRE(VertexAttributeSemantic::Position == attribute.semantic());
+    REQUIRE(VertexAttributeType::Float32 == attribute.type());
     REQUIRE(attribute.cardinality() == 3u);
 }
 
 TEST_CASE("Compute the size of a vertex attribute", "[VertexAttribute]")
 {
-    VertexAttribute attribute(VertexAttributeSemantic_Position, VertexAttributeType_Int16, 3);
+    VertexAttribute attribute(VertexAttributeSemantic::Position, VertexAttributeType::Int16, 3);
     REQUIRE(attribute.size() == 2u * 3u);
 
-    attribute = VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
+    attribute = VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
     REQUIRE(attribute.size() == 4u * 3u);
 
-    attribute = VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 2);
+    attribute = VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 2);
     REQUIRE(attribute.size() == 4u * 2u);
 }
 
 TEST_CASE("Compare two vertex attributes", "[VertexAttribute]")
 {
-    VertexAttribute a(VertexAttributeSemantic_Position, VertexAttributeType_Int16, 3);
-    VertexAttribute b(VertexAttributeSemantic_Position, VertexAttributeType_Int16, 3);
-    VertexAttribute c(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3);
+    VertexAttribute a(VertexAttributeSemantic::Position, VertexAttributeType::Int16, 3);
+    VertexAttribute b(VertexAttributeSemantic::Position, VertexAttributeType::Int16, 3);
+    VertexAttribute c(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
 
     REQUIRE(a == b);
     REQUIRE(a != c);

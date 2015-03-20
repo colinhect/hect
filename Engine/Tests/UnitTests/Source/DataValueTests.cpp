@@ -55,7 +55,7 @@ TEST_CASE("Construct a string data value", "[DataValue]")
 
 TEST_CASE("Construct an array data value", "[DataValue]")
 {
-    DataValue value(DataValueType_Array);
+    DataValue value(DataValueType::Array);
     value.addElement(true);
     value.addElement(5.0);
     value.addElement("Testing");
@@ -85,7 +85,7 @@ TEST_CASE("Construct an array data value", "[DataValue]")
 
 TEST_CASE("Construct an object data value", "[DataValue]")
 {
-    DataValue value(DataValueType_Object);
+    DataValue value(DataValueType::Object);
     value.addMember("someBool", true);
     value.addMember("someNumber", 5.0);
     value.addMember("someString", "Testing");
@@ -136,7 +136,7 @@ TEST_CASE("Construct a 4-dimensional vector data value", "[DataValue]")
 
 TEST_CASE("Get the member names of an object data value", "[DataValue]")
 {
-    DataValue value(DataValueType_Object);
+    DataValue value(DataValueType::Object);
     value.addMember("someBool", true);
     value.addMember("someNumber", 5.0);
     value.addMember("someString", "Testing");
@@ -163,7 +163,7 @@ TEST_CASE("Null switch on a non-null data value", "[DataValue]")
 
 TEST_CASE("Iterate over array data value", "[DataValue]")
 {
-    DataValue value(DataValueType_Array);
+    DataValue value(DataValueType::Array);
     for (int i = 0; i < 10; ++i)
     {
         value.addElement(static_cast<double>(i));

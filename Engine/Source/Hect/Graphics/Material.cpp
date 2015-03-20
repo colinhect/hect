@@ -72,7 +72,7 @@ void Material::setUniformValue(const std::string& name, const UniformValue& valu
         const char* actualType = Enum::toString(value.type()).c_str();
         throw InvalidOperation(format("Uniform '%s' in shader '%s' is of type '%s' and cannot be assigned a value of type '%s'", uniformName, shaderName, expectedType, actualType));
     }
-    else if (uniform.binding() != UniformBinding_None)
+    else if (uniform.binding() != UniformBinding::None)
     {
         const char* uniformName = uniform.name().c_str();
         const char* shaderName = _shader->name().c_str();

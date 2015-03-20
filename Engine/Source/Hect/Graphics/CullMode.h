@@ -28,21 +28,21 @@ namespace hect
 
 ///
 /// Specifies the orientation of front-facing triangles.
-enum CullMode
+enum class CullMode
 {
     ///
     /// Triangles are rendered in counter-clockwise order and the back-faces
     /// are culled (default).
-    CullMode_CounterClockwise,
+    CounterClockwise,
 
     ///
     /// Triangles are rendered in clockwise order and the back-faces are
     /// culled.
-    CullMode_Clockwise,
+    Clockwise,
 
     ///
     /// Both sides of triangles are rendered.
-    CullMode_None
+    None
 };
 
 }

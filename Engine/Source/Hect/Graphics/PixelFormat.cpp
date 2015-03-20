@@ -53,11 +53,11 @@ unsigned PixelFormat::size() const
 {
     switch (_type)
     {
-    case PixelType_Byte:
+    case PixelType::Byte:
         return 1 * _cardinality;
-    case PixelType_Float16:
+    case PixelType::Float16:
         return 2 * _cardinality;
-    case PixelType_Float32:
+    case PixelType::Float32:
         return 4 * _cardinality;
     default:
         break;

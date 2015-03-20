@@ -41,10 +41,10 @@ TEST_CASE("Get and set the shader of a material", "[Material]")
 TEST_CASE("Get and set the cull mode of a material", "[Material]")
 {
     Material material;
-    REQUIRE(material.cullMode() == CullMode_CounterClockwise);
+    REQUIRE(material.cullMode() == CullMode::CounterClockwise);
 
-    material.setCullMode(CullMode_None);
-    REQUIRE(material.cullMode() == CullMode_None);
+    material.setCullMode(CullMode::None);
+    REQUIRE(material.cullMode() == CullMode::None);
 }
 
 TEST_CASE("Set a uniform value in a material without a set shader", "[Material]")
@@ -64,21 +64,21 @@ TEST_CASE("Set a uniform value in a material for a non-existing uniform in the s
 TEST_CASE("Set and get a uniform value in a material for a uniform of the same type in the shader", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType_Int));
+    shader.addUniform(Uniform("A", UniformType::Int));
 
     Material material;
     material.setShader(shader.createHandle());
     material.setUniformValue("A", 1);
 
     const UniformValue& uniformValue = material.uniformValues()[0];
-    REQUIRE(uniformValue.type() == UniformType_Int);
+    REQUIRE(uniformValue.type() == UniformType::Int);
     REQUIRE(uniformValue.asInt() == 1);
 }
 
 TEST_CASE("Set and get a uniform value in a material for a uniform of a different type in the shader", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType_Texture));
+    shader.addUniform(Uniform("A", UniformType::Texture));
 
     Material material;
     material.setShader(shader.createHandle());
@@ -88,7 +88,7 @@ TEST_CASE("Set and get a uniform value in a material for a uniform of a differen
 TEST_CASE("Set and get a uniform value in a material for a bound uniform in the shader", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformBinding_CameraPosition));
+    shader.addUniform(Uniform("A", UniformBinding::CameraPosition));
 
     Material material;
     material.setShader(shader.createHandle());
@@ -98,7 +98,7 @@ TEST_CASE("Set and get a uniform value in a material for a bound uniform in the 
 TEST_CASE("Clear the uniform values of a material", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType_Int));
+    shader.addUniform(Uniform("A", UniformType::Int));
 
     Material material;
     material.setShader(shader.createHandle());
@@ -114,7 +114,7 @@ TEST_CASE("Clear the uniform values of a material", "[Material]")
 TEST_CASE("Set the shader of a material with uniform values", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType_Int));
+    shader.addUniform(Uniform("A", UniformType::Int));
 
     Material material;
     material.setShader(shader.createHandle());

@@ -29,7 +29,7 @@
 using namespace hect;
 
 DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage_Precedent),
+    System(engine, scene, SystemTickStage::Precedent),
     _renderer(engine.renderer()),
     _enabled(false)
 {
@@ -44,7 +44,7 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
 {
     for (DebugBox& box : _boxes)
     {
-        renderSystem.addRenderCall(box.transform, *boxMesh, _coloredMaterials[box.color]);
+        renderSystem.addRenderCall(box.transform, *boxMesh, _coloredMaterials[static_cast<size_t>(box.color)]);
     }
 }
 

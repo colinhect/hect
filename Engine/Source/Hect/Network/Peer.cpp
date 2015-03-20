@@ -59,7 +59,7 @@ IPAddress Peer::address() const
 
 PeerState Peer::state() const
 {
-    PeerState state = PeerState_Disconnected;
+    PeerState state = PeerState::Disconnected;
 
     if (_enetPeer)
     {

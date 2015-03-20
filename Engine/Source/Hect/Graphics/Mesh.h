@@ -176,8 +176,8 @@ public:
 
 private:
     VertexLayout _vertexLayout;
-    PrimitiveType _primitiveType { PrimitiveType_Triangles };
-    IndexType _indexType { IndexType_UInt16 };
+    PrimitiveType _primitiveType { PrimitiveType::Triangles };
+    IndexType _indexType { IndexType::UInt16 };
 
     VertexData _vertexData;
     size_t _vertexCount { 0 };

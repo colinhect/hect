@@ -28,15 +28,15 @@
 using namespace hect;
 
 Mouse::Mouse() :
-    _mode(MouseMode_Cursor),
+    _mode(MouseMode::Cursor),
     _buttonStates(16, false)
 {
 }
 
 bool Mouse::isButtonDown(MouseButton button) const
 {
-    assert(button >= _buttonStates.size());
-    return _buttonStates[static_cast<int>(button)];
+    assert(static_cast<size_t>(button) >= _buttonStates.size());
+    return _buttonStates[static_cast<size_t>(button)];
 }
 
 const IntVector2& Mouse::cursorPosition() const
@@ -67,17 +67,17 @@ void Mouse::setMode(MouseMode mode)
 void Mouse::enqueueEvent(const MouseEvent& event)
 {
     // Update the state of the buttons
-    if (event.type == MouseEventType_ButtonDown)
+    if (event.type == MouseEventType::ButtonDown)
     {
-        _buttonStates[static_cast<int>(event.button)] = true;
+        _buttonStates[static_cast<size_t>(event.button)] = true;
     }
-    else if (event.type == MouseEventType_ButtonUp)
+    else if (event.type == MouseEventType::ButtonUp)
     {
-        _buttonStates[static_cast<int>(event.button)] = false;
+        _buttonStates[static_cast<size_t>(event.button)] = false;
     }
 
     // Update the relative cursor movement
-    if (event.type == MouseEventType_Movement)
+    if (event.type == MouseEventType::Movement)
     {
         _cursorMovement += event.cursorMovement;
     }

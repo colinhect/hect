@@ -142,11 +142,11 @@ unsigned Mesh::indexSize() const
 {
     switch (_indexType)
     {
-    case IndexType_UInt8:
+    case IndexType::UInt8:
         return 1;
-    case IndexType_UInt16:
+    case IndexType::UInt16:
         return 2;
-    case IndexType_UInt32:
+    case IndexType::UInt32:
         return 4;
     }
     return 0;
@@ -334,7 +334,7 @@ void Mesh::decode(Decoder& decoder)
         MeshReader meshReader(*this);
         while (meshReader.nextVertex())
         {
-            Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic_Position);
+            Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
             _axisAlignedBox.expandToInclude(position);
         }
     }

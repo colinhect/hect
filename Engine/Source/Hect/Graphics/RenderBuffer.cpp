@@ -56,7 +56,7 @@ unsigned RenderBuffer::bytesPerPixel() const
     unsigned byteCount = 0;
     switch (_format)
     {
-    case RenderBufferFormat_DepthComponent:
+    case RenderBufferFormat::DepthComponent:
         byteCount = 4;
         break;
     }

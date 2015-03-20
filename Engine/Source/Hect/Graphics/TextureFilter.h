@@ -28,14 +28,14 @@ namespace hect
 
 ///
 /// Describes how a texture pixel is rendered when magnified or minified.
-enum TextureFilter
+enum class TextureFilter
 {
     ///
     /// The nearest pixel is selected.
-    TextureFilter_Nearest,
+    Nearest,
 
     /// The pixel is interpolated linearly.
-    TextureFilter_Linear
+    Linear
 };
 
 }

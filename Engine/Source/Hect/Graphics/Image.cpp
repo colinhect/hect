@@ -86,13 +86,13 @@ void Image::writePixel(unsigned x, unsigned y, const Color& color)
 
         switch (_pixelFormat.type())
         {
-        case PixelType_Byte:
+        case PixelType::Byte:
             _pixelData[offset + componentIndex] = static_cast<uint8_t>(color[componentIndex] * 255);
             break;
-        case PixelType_Float16:
+        case PixelType::Float16:
             throw InvalidOperation("16-bit floats are not implemented");
             break;
-        case PixelType_Float32:
+        case PixelType::Float32:
             *reinterpret_cast<float*>(&_pixelData[offset + (componentIndex * 4)]) = static_cast<float>(value);
             break;
         }
@@ -118,13 +118,13 @@ Color Image::readPixel(unsigned x, unsigned y) const
         {
             switch (_pixelFormat.type())
             {
-            case PixelType_Byte:
+            case PixelType::Byte:
                 color[componentIndex] = static_cast<double>(_pixelData[offset + componentIndex]) / 255.0;
                 break;
-            case PixelType_Float16:
+            case PixelType::Float16:
                 throw InvalidOperation("16-bit floats are not implemented");
                 break;
-            case PixelType_Float32:
+            case PixelType::Float32:
                 color[componentIndex] = *reinterpret_cast<const float*>(&_pixelData[offset + (componentIndex * 4)]);
                 break;
             }
@@ -200,9 +200,9 @@ size_t Image::computePixelOffset(unsigned x, unsigned y) const
 
 void Image::ensureCompatible(const PixelFormat& pixelFormat, ColorSpace colorSpace)
 {
-    if (colorSpace == ColorSpace_NonLinear)
+    if (colorSpace == ColorSpace::NonLinear)
     {
-        if (_pixelFormat.type() != PixelType_Byte ||
+        if (_pixelFormat.type() != PixelType::Byte ||
                 (_pixelFormat.cardinality() != 3 &&
                  _pixelFormat.cardinality() != 4))
         {
@@ -216,7 +216,7 @@ void Image::encode(Encoder& encoder) const
     WriteStream& stream = encoder.binaryStream();
 
     // Verify pixel format and type.
-    if (_pixelFormat.type() != PixelType_Byte || _pixelFormat.cardinality() != 4)
+    if (_pixelFormat.type() != PixelType::Byte || _pixelFormat.cardinality() != 4)
     {
         throw InvalidOperation("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
     }
@@ -260,7 +260,7 @@ void Image::decode(Decoder& decoder)
     // Set various properties for the image
     setWidth(width);
     setHeight(height);
-    setPixelFormat(PixelFormat(PixelType_Byte, 4));
+    setPixelFormat(PixelFormat(PixelType::Byte, 4));
     setPixelData(std::move(decodedPixelData));
 
     // Flip the image to OpenGL ordering

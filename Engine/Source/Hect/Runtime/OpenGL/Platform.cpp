@@ -41,103 +41,103 @@ std::unique_ptr<Mouse> _mouse;
 std::unique_ptr<Keyboard> _keyboard;
 std::vector<Joystick> _joysticks;
 std::vector<SDL_Joystick*> _openJoysticks;
-MouseMode _mouseMode { MouseMode_Cursor };
+MouseMode _mouseMode { MouseMode::Cursor };
 
 Key convertKey(SDL_Keycode key)
 {
     switch (key)
     {
     case SDLK_a:
-        return Key_A;
+        return Key::A;
     case SDLK_b:
-        return Key_B;
+        return Key::B;
     case SDLK_c:
-        return Key_C;
+        return Key::C;
     case SDLK_d:
-        return Key_D;
+        return Key::D;
     case SDLK_e:
-        return Key_E;
+        return Key::E;
     case SDLK_f:
-        return Key_F;
+        return Key::F;
     case SDLK_g:
-        return Key_G;
+        return Key::G;
     case SDLK_h:
-        return Key_H;
+        return Key::H;
     case SDLK_i:
-        return Key_I;
+        return Key::I;
     case SDLK_j:
-        return Key_J;
+        return Key::J;
     case SDLK_k:
-        return Key_K;
+        return Key::K;
     case SDLK_l:
-        return Key_L;
+        return Key::L;
     case SDLK_m:
-        return Key_M;
+        return Key::M;
     case SDLK_n:
-        return Key_N;
+        return Key::N;
     case SDLK_o:
-        return Key_O;
+        return Key::O;
     case SDLK_p:
-        return Key_P;
+        return Key::P;
     case SDLK_q:
-        return Key_Q;
+        return Key::Q;
     case SDLK_r:
-        return Key_R;
+        return Key::R;
     case SDLK_s:
-        return Key_S;
+        return Key::S;
     case SDLK_t:
-        return Key_T;
+        return Key::T;
     case SDLK_u:
-        return Key_U;
+        return Key::U;
     case SDLK_v:
-        return Key_V;
+        return Key::V;
     case SDLK_w:
-        return Key_W;
+        return Key::W;
     case SDLK_x:
-        return Key_X;
+        return Key::X;
     case SDLK_y:
-        return Key_Y;
+        return Key::Y;
     case SDLK_z:
-        return Key_Z;
+        return Key::Z;
     case SDLK_ESCAPE:
-        return Key_Esc;
+        return Key::Esc;
     case SDLK_TAB:
-        return Key_Tab;
+        return Key::Tab;
 
     case SDLK_F1:
-        return Key_F1;
+        return Key::F1;
     case SDLK_F2:
-        return Key_F2;
+        return Key::F2;
     case SDLK_F3:
-        return Key_F3;
+        return Key::F3;
     case SDLK_F4:
-        return Key_F4;
+        return Key::F4;
     case SDLK_F5:
-        return Key_F5;
+        return Key::F5;
     case SDLK_F6:
-        return Key_F6;
+        return Key::F6;
     case SDLK_F7:
-        return Key_F7;
+        return Key::F7;
     case SDLK_F8:
-        return Key_F8;
+        return Key::F8;
     case SDLK_F9:
-        return Key_F9;
+        return Key::F9;
     case SDLK_F10:
-        return Key_F10;
+        return Key::F10;
     case SDLK_F11:
-        return Key_F11;
+        return Key::F11;
     case SDLK_F12:
-        return Key_F12;
+        return Key::F12;
 
     case SDLK_LCTRL:
-        return Key_LeftCtrl;
+        return Key::LeftCtrl;
     case SDLK_LSHIFT:
-        return Key_LeftShift;
+        return Key::LeftShift;
     case SDLK_LALT:
-        return Key_LeftAlt;
+        return Key::LeftAlt;
 
     default:
-        return Key_Unknown;
+        return Key::Unknown;
     }
 }
 
@@ -167,10 +167,10 @@ bool Platform::handleEvents()
 
         switch (currentMouseMode)
         {
-        case MouseMode_Cursor:
+        case MouseMode::Cursor:
             SDL_SetRelativeMouseMode(SDL_FALSE);
             break;
-        case MouseMode_Relative:
+        case MouseMode::Relative:
             SDL_SetRelativeMouseMode(SDL_TRUE);
             break;
         }
@@ -190,7 +190,7 @@ bool Platform::handleEvents()
         case SDL_KEYUP:
         {
             KeyboardEvent event;
-            event.type = e.type == SDL_KEYDOWN ? KeyboardEventType_KeyDown : KeyboardEventType_KeyUp;
+            event.type = e.type == SDL_KEYDOWN ? KeyboardEventType::KeyDown : KeyboardEventType::KeyUp;
             event.key = convertKey(e.key.keysym.sym);
             _keyboard->enqueueEvent(event);
         }
@@ -209,7 +209,7 @@ bool Platform::handleEvents()
 
             // Enqueue the event
             MouseEvent event;
-            event.type = MouseEventType_Movement;
+            event.type = MouseEventType::Movement;
             event.cursorMovement = IntVector2(movementX, -movementY);
             event.cursorPosition = IntVector2(positionX, positionY);
             _mouse->enqueueEvent(event);
@@ -219,7 +219,7 @@ bool Platform::handleEvents()
         {
             // Enqueue the event
             MouseEvent event;
-            event.type = e.wheel.y > 0 ? MouseEventType_ScrollUp : MouseEventType_ScrollDown;
+            event.type = e.wheel.y > 0 ? MouseEventType::ScrollUp : MouseEventType::ScrollDown;
             _mouse->enqueueEvent(event);
         }
         break;
@@ -227,7 +227,7 @@ bool Platform::handleEvents()
         {
             // Enqueue the event
             JoystickEvent event;
-            event.type = JoystickEventType_AxisMotion;
+            event.type = JoystickEventType::AxisMotion;
             event.index = e.jaxis.which;
             event.axis = static_cast<JoystickAxis>(e.jaxis.axis);
             event.axisValue = std::max(static_cast<double>(e.jaxis.value) / 32767.0, -1.0);
@@ -239,7 +239,7 @@ bool Platform::handleEvents()
         {
             // Enqueue the event
             JoystickEvent event;
-            event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType_ButtonDown : JoystickEventType_ButtonUp;
+            event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType::ButtonDown : JoystickEventType::ButtonUp;
             event.index = e.jbutton.which;
             event.button = static_cast<JoystickButton>(e.jbutton.button);
             _joysticks[event.index].enqueueEvent(event);
@@ -326,7 +326,7 @@ Platform::Platform()
             for (size_t i = 0; i < axisCount; ++i)
             {
                 JoystickEvent event;
-                event.type = JoystickEventType_AxisMotion;
+                event.type = JoystickEventType::AxisMotion;
                 event.index = _joysticks.size() - 1;
                 event.axis = static_cast<JoystickAxis>(i);
                 event.axisValue = std::max(static_cast<double>(SDL_JoystickGetAxis(joystick, static_cast<int>(i))) / 32767.0, -1.0);

@@ -27,34 +27,10 @@
 
 #include "Hect/Core/Configuration.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Core/LogLevel.h"
 
 namespace hect
 {
-
-///
-/// The category of a log message.
-enum LogLevel
-{
-    ///
-    /// An informational message for the user.
-    LogLevel_Info,
-
-    ///
-    /// An informational message for the developer.
-    LogLevel_Debug,
-
-    ///
-    /// A warning message to the user.
-    LogLevel_Warning,
-
-    ///
-    /// An error message to the user.
-    LogLevel_Error,
-
-    ///
-    /// A verbose debug message for the developer.
-    LogLevel_Trace,
-};
 
 ///
 /// Logs a message.
@@ -65,35 +41,35 @@ HECT_EXPORT void log(LogLevel level, const std::string& message);
 
 // Info
 #if defined(HECT_ENABLE_LOG_INFO)
-#define HECT_INFO(message)      log(hect::LogLevel_Info, message)
+#define HECT_INFO(message)      log(hect::LogLevel::Info, message)
 #else
 #define HECT_INFO(message)
 #endif
 
 // Debug
 #if defined(HECT_ENABLE_LOG_DEBUG)
-#define HECT_DEBUG(message)     log(hect::LogLevel_Debug, message)
+#define HECT_DEBUG(message)     log(hect::LogLevel::Debug, message)
 #else
 #define HECT_DEBUG(message)
 #endif
 
 // Warning
 #if defined(HECT_ENABLE_LOG_WARNING)
-#define HECT_WARNING(message)   log(hect::LogLevel_Warning, message)
+#define HECT_WARNING(message)   log(hect::LogLevel::Warning, message)
 #else
 #define HECT_WARNING(message)
 #endif
 
 // Error
 #if defined(HECT_ENABLE_LOG_ERROR)
-#define HECT_ERROR(message)     log(hect::LogLevel_Error, message)
+#define HECT_ERROR(message)     log(hect::LogLevel::Error, message)
 #else
 #define HECT_ERROR(message)
 #endif
 
 // Trace
 #if defined(HECT_ENABLE_LOG_TRACE)
-#define HECT_TRACE(message)     log(hect::LogLevel_Trace, message)
+#define HECT_TRACE(message)     log(hect::LogLevel::Trace, message)
 #else
 #define HECT_TRACE(message)
 #endif

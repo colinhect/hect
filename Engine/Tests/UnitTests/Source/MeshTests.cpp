@@ -31,41 +31,41 @@ TEST_CASE("Construct empty mesh", "[Mesh]")
     Mesh mesh;
 
     const VertexLayout& meshVertexLayout = mesh.vertexLayout();
-    REQUIRE(VertexAttributeSemantic_Position == meshVertexLayout.attributes().begin()->semantic());
-    REQUIRE(PrimitiveType_Triangles == mesh.primitiveType());
-    REQUIRE(IndexType_UInt16 == mesh.indexType());
+    REQUIRE(VertexAttributeSemantic::Position == meshVertexLayout.attributes().begin()->semantic());
+    REQUIRE(PrimitiveType::Triangles == mesh.primitiveType());
+    REQUIRE(IndexType::UInt16 == mesh.indexType());
 }
 
 TEST_CASE("Construct mesh with vertex layout, primitive type, and index type", "[Mesh]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
     Mesh mesh("Test");
     mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType_Triangles);
-    mesh.setIndexType(IndexType_UInt8);
+    mesh.setPrimitiveType(PrimitiveType::Triangles);
+    mesh.setIndexType(IndexType::UInt8);
 
     const VertexLayout& meshVertexLayout = mesh.vertexLayout();
     REQUIRE(meshVertexLayout.attributeCount() == 2u);
-    REQUIRE(VertexAttributeSemantic_Position == meshVertexLayout.attributes().begin()->semantic());
-    REQUIRE(VertexAttributeType_Float32 == meshVertexLayout.attributes().begin()->type());
+    REQUIRE(VertexAttributeSemantic::Position == meshVertexLayout.attributes().begin()->semantic());
+    REQUIRE(VertexAttributeType::Float32 == meshVertexLayout.attributes().begin()->type());
     REQUIRE(meshVertexLayout.attributes().begin()->cardinality() == 3u);
 
-    REQUIRE(PrimitiveType_Triangles == mesh.primitiveType());
-    REQUIRE(IndexType_UInt8 == mesh.indexType());
+    REQUIRE(PrimitiveType::Triangles == mesh.primitiveType());
+    REQUIRE(IndexType::UInt8 == mesh.indexType());
 }
 
 TEST_CASE("Set the vertex data of a mesh", "[Mesh]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
 
     Mesh mesh("Test");
     mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType_Triangles);
-    mesh.setIndexType(IndexType_UInt8);
+    mesh.setPrimitiveType(PrimitiveType::Triangles);
+    mesh.setIndexType(IndexType::UInt8);
 
     const float rawVertexData[9] =
     {
@@ -84,12 +84,12 @@ TEST_CASE("Set the vertex data of a mesh", "[Mesh]")
 TEST_CASE("Get the vertex data of a mesh", "[Mesh]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
 
     Mesh mesh("Test");
     mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType_Triangles);
-    mesh.setIndexType(IndexType_UInt8);
+    mesh.setPrimitiveType(PrimitiveType::Triangles);
+    mesh.setIndexType(IndexType::UInt8);
 
     const float rawOriginalVertexData[9] =
     {
@@ -118,12 +118,12 @@ TEST_CASE("Get the vertex data of a mesh", "[Mesh]")
 TEST_CASE("Set the index data of a mesh", "[Mesh]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
 
     Mesh mesh("Test");
     mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType_Triangles);
-    mesh.setIndexType(IndexType_UInt8);
+    mesh.setPrimitiveType(PrimitiveType::Triangles);
+    mesh.setIndexType(IndexType::UInt8);
 
     std::vector<uint8_t> indexData;
     indexData.push_back(0);
@@ -141,12 +141,12 @@ TEST_CASE("Set the index data of a mesh", "[Mesh]")
 TEST_CASE("Get the index data of a mesh", "[Mesh]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
 
     Mesh mesh("Test");
     mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType_Triangles);
-    mesh.setIndexType(IndexType_UInt8);
+    mesh.setPrimitiveType(PrimitiveType::Triangles);
+    mesh.setIndexType(IndexType::UInt8);
 
     std::vector<uint8_t> originalIndexData;
     originalIndexData.push_back(0);

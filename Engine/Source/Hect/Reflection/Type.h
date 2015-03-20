@@ -39,23 +39,23 @@ class Enum;
 
 ///
 /// The kind of a reflected type.
-enum Kind
+enum class Kind
 {
     ///
     /// Not a type.
-    Kind_None,
+    None,
 
     ///
     /// A namespace.
-    Kind_Namespace,
+    Namespace,
 
     ///
     /// A class or struct.
-    Kind_Class,
+    Class,
 
     ///
     /// An enum.
-    Kind_Enum
+    Enum
 };
 
 ///
@@ -159,7 +159,7 @@ private:
 
     static const Type& fromTypeInfo(const std::type_info& typeInfo);
 
-    Kind _kind { Kind_None };
+    Kind _kind { Kind::None };
     std::string _name;
     std::shared_ptr<Enum> _enum;
 

@@ -35,79 +35,79 @@ namespace hect
 
 ///
 /// A slot for a frame buffer attachment.
-enum FrameBufferSlot
+enum class FrameBufferSlot
 {
     ///
     /// The 1st color component.
-    FrameBufferSlot_Color0,
+    Color0,
 
     ///
     /// The 2nd color component.
-    FrameBufferSlot_Color1,
+    Color1,
 
     ///
     /// The 3rd color component.
-    FrameBufferSlot_Color2,
+    Color2,
 
     ///
     /// The 4th color component.
-    FrameBufferSlot_Color3,
+    Color3,
 
     ///
     /// The 5th color component.
-    FrameBufferSlot_Color4,
+    Color4,
 
     ///
     /// The 6th color component.
-    FrameBufferSlot_Color5,
+    Color5,
 
     ///
     /// The 7th color component.
-    FrameBufferSlot_Color6,
+    Color6,
 
     ///
     /// The 8th color component.
-    FrameBufferSlot_Color7,
+    Color7,
 
     ///
     /// The 9th color component.
-    FrameBufferSlot_Color8,
+    Color8,
 
     ///
     /// The 10th color component.
-    FrameBufferSlot_Color9,
+    Color9,
 
     ///
     /// The 11th color component.
-    FrameBufferSlot_Color10,
+    Color10,
 
     ///
     /// The 12th color component.
-    FrameBufferSlot_Color11,
+    Color11,
 
     ///
     /// The 13th color component.
-    FrameBufferSlot_Color12,
+    Color12,
 
     ///
     /// The 14th color component.
-    FrameBufferSlot_Color13,
+    Color13,
 
     ///
     /// The 15th color component.
-    FrameBufferSlot_Color14,
+    Color14,
 
     ///
     /// The 16th color component.
-    FrameBufferSlot_Color15,
+    Color15,
 
     ///
     /// The depth component.
-    FrameBufferSlot_Depth,
+    Depth,
 
     ///
     /// The stencil component.
-    FrameBufferSlot_Stencil
+    Stencil
 };
 
 ///

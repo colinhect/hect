@@ -38,91 +38,91 @@ typedef size_t JoystickIndex;
 /// A Joystick button.
 enum JoystickButton
 {
-    JoystickButton_Button0,
-    JoystickButton_Button1,
-    JoystickButton_Button2,
-    JoystickButton_Button3,
-    JoystickButton_Button4,
-    JoystickButton_Button5,
-    JoystickButton_Button6,
-    JoystickButton_Button7,
-    JoystickButton_Button8,
-    JoystickButton_Button9,
-    JoystickButton_Button11,
-    JoystickButton_Button12,
-    JoystickButton_Button13,
-    JoystickButton_Button14,
-    JoystickButton_Button15,
-    JoystickButton_Button16,
-    JoystickButton_Button17,
-    JoystickButton_Button18,
-    JoystickButton_Button19,
-    JoystickButton_Button20,
-    JoystickButton_Button21,
-    JoystickButton_Button22,
-    JoystickButton_Button23,
-    JoystickButton_Button24,
-    JoystickButton_Button25,
-    JoystickButton_Button26,
-    JoystickButton_Button27,
-    JoystickButton_Button28,
-    JoystickButton_Button29,
-    JoystickButton_Button30,
-    JoystickButton_Button31
+    Button0,
+    Button1,
+    Button2,
+    Button3,
+    Button4,
+    Button5,
+    Button6,
+    Button7,
+    Button8,
+    Button9,
+    Button11,
+    Button12,
+    Button13,
+    Button14,
+    Button15,
+    Button16,
+    Button17,
+    Button18,
+    Button19,
+    Button20,
+    Button21,
+    Button22,
+    Button23,
+    Button24,
+    Button25,
+    Button26,
+    Button27,
+    Button28,
+    Button29,
+    Button30,
+    Button31
 };
 
 ///
 /// A Joystick axis.
-enum JoystickAxis
+enum class JoystickAxis
 {
-    JoystickAxis_Axis0,
-    JoystickAxis_Axis1,
-    JoystickAxis_Axis2,
-    JoystickAxis_Axis3,
-    JoystickAxis_Axis4,
-    JoystickAxis_Axis5,
-    JoystickAxis_Axis6,
-    JoystickAxis_Axis7,
-    JoystickAxis_Axis8,
-    JoystickAxis_Axis9,
-    JoystickAxis_Axis11,
-    JoystickAxis_Axis12,
-    JoystickAxis_Axis13,
-    JoystickAxis_Axis14,
-    JoystickAxis_Axis15,
-    JoystickAxis_Axis16,
-    JoystickAxis_Axis17,
-    JoystickAxis_Axis18,
-    JoystickAxis_Axis19,
-    JoystickAxis_Axis20,
-    JoystickAxis_Axis21,
-    JoystickAxis_Axis22,
-    JoystickAxis_Axis23,
-    JoystickAxis_Axis24,
-    JoystickAxis_Axis25,
-    JoystickAxis_Axis26,
-    JoystickAxis_Axis27,
-    JoystickAxis_Axis28,
-    JoystickAxis_Axis29,
-    JoystickAxis_Axis30,
-    JoystickAxis_Axis31
+    Axis0,
+    Axis1,
+    Axis2,
+    Axis3,
+    Axis4,
+    Axis5,
+    Axis6,
+    Axis7,
+    Axis8,
+    Axis9,
+    Axis11,
+    Axis12,
+    Axis13,
+    Axis14,
+    Axis15,
+    Axis16,
+    Axis17,
+    Axis18,
+    Axis19,
+    Axis20,
+    Axis21,
+    Axis22,
+    Axis23,
+    Axis24,
+    Axis25,
+    Axis26,
+    Axis27,
+    Axis28,
+    Axis29,
+    Axis30,
+    Axis31
 };
 
 ///
 /// A JoystickEvent type.
-enum JoystickEventType
+enum class JoystickEventType
 {
     ///
     /// A joystick axis was moved.
-    JoystickEventType_AxisMotion,
+    AxisMotion,
 
     ///
     /// A joystick button was pressed down.
-    JoystickEventType_ButtonDown,
+    ButtonDown,
 
     ///
     /// A joystick button was released up.
-    JoystickEventType_ButtonUp
+    ButtonUp
 };
 
 ///
@@ -133,7 +133,7 @@ public:
 
     ///
     /// The type of the event.
-    JoystickEventType type { JoystickEventType_AxisMotion };
+    JoystickEventType type { JoystickEventType::AxisMotion };
 
     ///
     /// The index of the joystick related to the event.
@@ -142,20 +142,20 @@ public:
     ///
     /// The joystick button related to the event.
     ///
-    /// \note Only relevant for a ::JoystickEventType_ButtonDown or
-    /// ::JoystickEventType_ButtonUp event.
-    JoystickButton button { JoystickButton_Button0 };
+    /// \note Only relevant for a ::JoystickEventType::ButtonDown or
+    /// ::JoystickEventType::ButtonUp event.
+    JoystickButton button { JoystickButton::Button0 };
 
     ///
     /// The joystick axis related to the event.
     ///
-    /// \note Only relevant for a ::JoystickEventType_AxisMotion event.
-    JoystickAxis axis { JoystickAxis_Axis0 };
+    /// \note Only relevant for a ::JoystickEventType::AxisMotion event.
+    JoystickAxis axis { JoystickAxis::Axis0 };
 
     ///
     /// The value of the joystick axis related to the event.
     ///
-    /// \note Only relevant for a ::JoystickEventType_AxisMotion event.
+    /// \note Only relevant for a ::JoystickEventType::AxisMotion event.
     double axisValue { 0 };
 };
 

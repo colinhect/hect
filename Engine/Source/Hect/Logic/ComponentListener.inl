@@ -51,7 +51,7 @@ void ComponentListener<T>::receiveEvent(const ComponentEvent<T>& event)
     Entity& entity = *event.entity;
     typename T::Iterator component = entity.component<T>();
 
-    if (event.type == ComponentEventType_Add)
+    if (event.type == ComponentEventType::Add)
     {
         onComponentAdded(component);
     }

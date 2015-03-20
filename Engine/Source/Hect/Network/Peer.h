@@ -34,47 +34,47 @@ namespace hect
 
 ///
 /// A state that a Peer is in.
-enum PeerState
+enum class PeerState
 {
     ///
     /// Not connected.
-    PeerState_Disconnected,
+    Disconnected,
 
     ///
     /// Connection in progress.
-    PeerState_Connecting,
+    Connecting,
 
     ///
     /// Acknowledgement of connection received.
-    PeerState_AcknowledgingConnect,
+    AcknowledgingConnect,
 
     ///
     /// Connection pending.
-    PeerState_ConnectionPending,
+    ConnectionPending,
 
     ///
     /// Connection succeeded.
-    PeerState_ConnectionSucceeded,
+    ConnectionSucceeded,
 
     ///
     /// Connection fully established.
-    PeerState_Connected,
+    Connected,
 
     ///
     /// Disconnection will triggered.
-    PeerState_DisconnectLater,
+    DisconnectLater,
 
     ///
     /// Disconnection in progress.
-    PeerState_Disconnecting,
+    Disconnecting,
 
     ///
     /// Acknowledgement of disconnection received.
-    PeerState_AcknowledgeDisconnect,
+    AcknowledgeDisconnect,
 
     ///
     /// Unknown state.
-    PeerState_Unknown
+    Unknown
 };
 
 ///

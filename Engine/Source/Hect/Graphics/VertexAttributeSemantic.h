@@ -28,60 +28,60 @@ namespace hect
 
 ///
 /// A semantic describing how a vertex attribute is used.
-enum VertexAttributeSemantic
+enum class VertexAttributeSemantic
 {
 
     ///
     /// The position of a vertex.
-    VertexAttributeSemantic_Position,
+    Position,
 
     ///
     /// The normal of a vertex.
-    VertexAttributeSemantic_Normal,
+    Normal,
 
     ///
     /// The color of a vertex.
-    VertexAttributeSemantic_Color,
+    Color,
 
     ///
     /// The tangent of a vertex.
-    VertexAttributeSemantic_Tangent,
+    Tangent,
 
     ///
     /// The binormal of a vertex.
-    VertexAttributeSemantic_Binormal,
+    Binormal,
 
     ///
     /// The first weight of a vertex.
-    VertexAttributeSemantic_Weight0,
+    Weight0,
 
     ///
     /// The second weight of a vertex.
-    VertexAttributeSemantic_Weight1,
+    Weight1,
 
     ///
     /// The third weight of a vertex.
-    VertexAttributeSemantic_Weight2,
+    Weight2,
 
     ///
     /// The fourth weight of a vertex.
-    VertexAttributeSemantic_Weight3,
+    Weight3,
 
     ///
     /// The texture coordinates of a vertex for the first texture.
-    VertexAttributeSemantic_TextureCoords0,
+    TextureCoords0,
 
     ///
     /// The texture coordinates of a vertex for the second texture.
-    VertexAttributeSemantic_TextureCoords1,
+    TextureCoords1,
 
     ///
     /// The texture coordinates of a vertex for the third texture.
-    VertexAttributeSemantic_TextureCoords2,
+    TextureCoords2,
 
     ///
     /// The texture coordinates of a vertex for the fourth texture.
-    VertexAttributeSemantic_TextureCoords3
+    TextureCoords3
 };
 
 }

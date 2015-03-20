@@ -166,7 +166,7 @@ private:
 
     PixelFormat _pixelFormat;
 
-    ColorSpace _colorSpace { ColorSpace_Linear };
+    ColorSpace _colorSpace { ColorSpace::Linear };
 
     ByteVector _pixelData;
 };

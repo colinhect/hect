@@ -35,8 +35,8 @@ TEST_CASE("Constrct an empty vertex layout", "[VertexLayout]")
 TEST_CASE("Add attributes to a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
     REQUIRE(vertexLayout.attributeCount() == 2u);
 }
@@ -44,18 +44,18 @@ TEST_CASE("Add attributes to a vertex layout", "[VertexLayout]")
 TEST_CASE("Index attributes in a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
-    REQUIRE(VertexAttributeSemantic_Position == vertexLayout.attributes()[0].semantic());
-    REQUIRE(VertexAttributeSemantic_Normal == vertexLayout.attributes()[1].semantic());
+    REQUIRE(VertexAttributeSemantic::Position == vertexLayout.attributes()[0].semantic());
+    REQUIRE(VertexAttributeSemantic::Normal == vertexLayout.attributes()[1].semantic());
 }
 
 TEST_CASE("Get the offsets of the attributes in a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
     REQUIRE(vertexLayout.attributes()[0].offset() == 0u);
     REQUIRE(vertexLayout.attributes()[1].offset() == vertexLayout.attributes()[0].size());
@@ -64,36 +64,36 @@ TEST_CASE("Get the offsets of the attributes in a vertex layout", "[VertexLayout
 TEST_CASE("Get the attribute of a specified semantic in a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 4));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 4));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
-    REQUIRE(vertexLayout.attributeWithSemantic(VertexAttributeSemantic_Position).cardinality() == 4u);
-    REQUIRE(vertexLayout.attributeWithSemantic(VertexAttributeSemantic_Normal).cardinality() == 3u);
+    REQUIRE(vertexLayout.attributeWithSemantic(VertexAttributeSemantic::Position).cardinality() == 4u);
+    REQUIRE(vertexLayout.attributeWithSemantic(VertexAttributeSemantic::Normal).cardinality() == 3u);
 }
 
 TEST_CASE("Check if a vertex layout has an attribute with a specified semantic", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 4));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 4));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
-    REQUIRE(vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic_Position));
+    REQUIRE(vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic::Position));
 }
 
 TEST_CASE("Check if a vertex layout does not have an attribute with a specified semantic", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
-    REQUIRE(!vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic_Color));
+    REQUIRE(!vertexLayout.hasAttributeWithSemantic(VertexAttributeSemantic::Color));
 }
 
 TEST_CASE("Get the vertex size of a vertex layout", "[VertexLayout]")
 {
     VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Position, VertexAttributeType_Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic_Normal, VertexAttributeType_Int16, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
     REQUIRE(vertexLayout.vertexSize() == 4u * 3u + 2u * 3u);
 }

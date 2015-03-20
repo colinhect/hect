@@ -47,7 +47,7 @@ WriteStream& DataValueEncoder::binaryStream()
 void DataValueEncoder::beginArray()
 {
     _memberSelected = false;
-    _valueStack.push(DataValue(DataValueType_Array));
+    _valueStack.push(DataValue(DataValueType::Array));
 }
 
 void DataValueEncoder::endArray()
@@ -58,7 +58,7 @@ void DataValueEncoder::endArray()
 void DataValueEncoder::beginObject()
 {
     _memberSelected = false;
-    _valueStack.push(DataValue(DataValueType_Object));
+    _valueStack.push(DataValue(DataValueType::Object));
 }
 
 void DataValueEncoder::endObject()

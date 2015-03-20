@@ -76,7 +76,7 @@ btTriangleMesh* convertToBullet(const Mesh& m)
     std::vector<btVector3> vertices;
     while (meshReader.nextVertex())
     {
-        Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic_Position);
+        Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
         vertices.push_back(convertToBullet(position));
     }
 
@@ -116,7 +116,7 @@ Transform convertFromBullet(const btTransform& t)
 }
 
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage_Subsequent),
+    System(engine, scene, SystemTickStage::Subsequent),
     gravity(Vector3(0, 0, -9.8)),
     _transformSystem(scene.system<TransformSystem>()),
     _configuration(new btDefaultCollisionConfiguration()),

@@ -31,7 +31,7 @@ void InputAxisBinding::update(Platform& platform, double timeStep)
 {
     switch (type)
     {
-    case InputAxisBindingType_MouseMoveX:
+    case InputAxisBindingType::MouseMoveX:
     {
         _value = deadValue;
         if (platform.hasMouse())
@@ -41,7 +41,7 @@ void InputAxisBinding::update(Platform& platform, double timeStep)
         }
     }
     break;
-    case InputAxisBindingType_MouseMoveY:
+    case InputAxisBindingType::MouseMoveY:
     {
         _value = deadValue;
         if (platform.hasMouse())
@@ -51,7 +51,7 @@ void InputAxisBinding::update(Platform& platform, double timeStep)
         }
     }
     break;
-    case InputAxisBindingType_MouseButton:
+    case InputAxisBindingType::MouseButton:
     {
         if (platform.hasMouse())
         {
@@ -67,11 +67,11 @@ void InputAxisBinding::update(Platform& platform, double timeStep)
         }
     }
     break;
-    case InputAxisBindingType_MouseScroll:
+    case InputAxisBindingType::MouseScroll:
     {
     }
     break;
-    case InputAxisBindingType_Key:
+    case InputAxisBindingType::Key:
     {
         if (platform.hasKeyboard())
         {
@@ -87,7 +87,7 @@ void InputAxisBinding::update(Platform& platform, double timeStep)
         }
     }
     break;
-    case InputAxisBindingType_JoystickAxis:
+    case InputAxisBindingType::JoystickAxis:
     {
         _value = deadValue;
         if (platform.hasJoystick(joystickIndex))
@@ -111,7 +111,7 @@ void InputAxisBinding::update(Platform& platform, double timeStep)
         }
     }
     break;
-    case InputAxisBindingType_JoystickButton:
+    case InputAxisBindingType::JoystickButton:
     {
         if (platform.hasJoystick(joystickIndex))
         {

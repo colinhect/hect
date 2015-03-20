@@ -212,7 +212,7 @@ public:
 private:
     void resolveUniforms();
 
-    RenderStage _renderStage { RenderStage_None };
+    RenderStage _renderStage { RenderStage::None };
 
     ModuleContainer _modules;
     UniformContainer _uniforms;

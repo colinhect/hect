@@ -120,7 +120,7 @@ public:
 private:
     Shader::Handle _shader;
     UniformValueContainer _uniformValues;
-    CullMode _cullMode { CullMode_CounterClockwise };
+    CullMode _cullMode { CullMode::CounterClockwise };
 };
 
 }

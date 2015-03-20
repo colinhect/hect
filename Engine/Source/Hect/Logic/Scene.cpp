@@ -62,7 +62,7 @@ void Scene::refresh()
     {
         // Dispatch an entity create event
         EntityEvent event;
-        event.type = EntityEventType_Create;
+        event.type = EntityEventType::Create;
         event.entity = EntityIterator(_entityPool, entityId);
         _entityPool.dispatchEvent(event);
     }
@@ -358,7 +358,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     // Add the system
     auto system = SystemRegistry::create(typeId, _engine, *this);
     _systems[typeId] = system;
-    _tickStages[system->tickStage()].push_back(typeId);
+    _tickStages[static_cast<size_t>(system->tickStage())].push_back(typeId);
     _systemTypeIds.push_back(typeId);
     _systemsToInitialize.push_back(system.get());
 }
@@ -460,7 +460,7 @@ void Scene::destroyEntity(Entity& entity)
 
     // Dispatch the entity destroy event
     EntityEvent event;
-    event.type = EntityEventType_Destroy;
+    event.type = EntityEventType::Destroy;
     event.entity = entity.iterator();
     _entityPool.dispatchEvent(event);
 
@@ -521,13 +521,13 @@ void Scene::activateEntity(Entity& entity)
         ComponentPoolBase& componentPool = *_componentPools[typeId];
         if (componentPool.has(entity))
         {
-            componentPool.dispatchEvent(ComponentEventType_Add, entity);
+            componentPool.dispatchEvent(ComponentEventType::Add, entity);
         }
     }
 
     // Dispatch the entity activate event
     EntityEvent event;
-    event.type = EntityEventType_Activate;
+    event.type = EntityEventType::Activate;
     event.entity = entity.iterator();
     _entityPool.dispatchEvent(event);
 }

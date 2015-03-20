@@ -78,7 +78,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    PixelType _type { PixelType_Byte };
+    PixelType _type { PixelType::Byte };
     unsigned _cardinality { 4 };
 };
 

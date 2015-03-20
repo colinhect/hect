@@ -101,9 +101,9 @@ public:
     void decode(Decoder& decoder);
 
 private:
-    BlendFunction _function { BlendFunction_Add };
-    BlendFactor _sourceFactor { BlendFactor_One };
-    BlendFactor _destinationFactor { BlendFactor_Zero };
+    BlendFunction _function { BlendFunction::Add };
+    BlendFactor _sourceFactor { BlendFactor::One };
+    BlendFactor _destinationFactor { BlendFactor::Zero };
 };
 
 }

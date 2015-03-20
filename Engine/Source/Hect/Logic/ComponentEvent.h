@@ -32,7 +32,7 @@ namespace hect
 
 ///
 /// A type of ComponentEvent.
-enum ComponentEventType
+enum class ComponentEventType
 {
     ///
     /// A Component was added to an Entity.
@@ -40,7 +40,7 @@ enum ComponentEventType
     /// This event type is triggered when an entity pending activation is
     /// activated during Scene::refresh().  It also may be triggered
     /// immediately if an activated entity has a component added or replaced.
-    ComponentEventType_Add,
+    Add,
 
     ///
     /// A Component was removed from an Entity.
@@ -48,7 +48,7 @@ enum ComponentEventType
     /// This event type is triggered when an entity pending destruction is
     /// destroyed during Scene::refresh().  It also may be triggered
     /// immediately if an activated entity has a component removed or replaced.
-    ComponentEventType_Remove
+   Remove
 };
 
 ///
@@ -60,7 +60,7 @@ public:
 
     ///
     /// The type of event.
-    ComponentEventType type { ComponentEventType_Add };
+    ComponentEventType type { ComponentEventType::Add };
 
     ///
     /// An iterator to the Entity that the event is for.

@@ -30,7 +30,7 @@
 using namespace hect;
 
 BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage_Subsequent),
+    System(engine, scene, SystemTickStage::Subsequent),
     _debugSystem(scene.system<DebugSystem>())
 {
 }
@@ -52,7 +52,7 @@ void BoundingBoxSystem::tick(double timeStep)
         {
             AxisAlignedBox axisAlignedBox = boundingBox.extents;
             Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
-            _debugSystem->renderBox(DebugColor_Primary, box, axisAlignedBox.center());
+            _debugSystem->renderBox(DebugColor::Primary, box, axisAlignedBox.center());
         }
     }
 }

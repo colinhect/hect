@@ -46,18 +46,18 @@ enum PacketFlag
 {
     ///
     /// Indicates no packet flags.
-    PacketFlag_None = 0,
+    None = 0,
 
     ///
     /// Packet must be received by the target peer and resend attempts should
     /// be made until the packet is delivered.
-    PacketFlag_Reliable = 1,
+    Reliable = 1,
 
     ///
     /// Packet will not be sequenced with other packets.
     ///
     /// \warning Not supported for reliable packets.
-    PacketFlag_Unsequenced = 2
+    Unsequenced = 2
 };
 
 ///
@@ -66,23 +66,23 @@ typedef uint8_t PacketFlags;
 
 ///
 /// A PeerEvent type.
-enum PeerEventType
+enum class PeerEventType
 {
     ///
     /// No event occurred.
-    PeerEventType_None = 0,
+    None = 0,
 
     ///
     /// A connection to a peer has been established.
-    PeerEventType_Connect,
+    Connect,
 
     ///
     /// A connection to a peer has been lost.
-    PeerEventType_Disconnect,
+    Disconnect,
 
     ///
     /// A packet has been received from a peer.
-    PeerEventType_ReceivePacket
+    ReceivePacket
 };
 
 ///
@@ -93,7 +93,7 @@ public:
 
     ///
     /// The type of event.
-    PeerEventType type { PeerEventType_None };
+    PeerEventType type { PeerEventType::None };
 
     ///
     /// The remote host triggering the event.
@@ -102,7 +102,7 @@ public:
     ///
     /// The packet data received.
     ///
-    /// \note Only valid for events of type PeerEventType_ReceivePacket.
+    /// \note Only valid for events of type PeerEventType::ReceivePacket.
     ByteVector packetData;
 };
 
@@ -132,7 +132,7 @@ public:
     /// \note Although a peer is always returned successfully, the
     /// connection to that peer may or may not successfully establish.  If the
     /// connection succeeds then an event will be received and the peer's state
-    /// will change to PeerState_Connected.
+    /// will change to PeerState::Connected.
     ///
     /// \param address The address of the peer.
     /// \param port The port the remote host is listening on.
@@ -145,7 +145,7 @@ public:
     /// Triggers a disconnection handshake attempt with a remote host.
     ///
     /// \note If the disconnection succeeds then an event will be received and
-    /// the peer's state will change to to PeerState_Disconnected.
+    /// the peer's state will change to to PeerState::Disconnected.
     ///
     /// \param peer The peer representing the remove host to disconnect from.
     ///
@@ -172,7 +172,7 @@ public:
     /// \param channel The channel to send the packet on.
     /// \param packetData The packet data to send.
     /// \param packetFlags The flags describing how the packet is transported.
-    void sendPacket(Peer peer, Channel channel, const ByteVector& packetData, PacketFlags packetFlags = PacketFlag_Reliable);
+    void sendPacket(Peer peer, Channel channel, const ByteVector& packetData, PacketFlags packetFlags = PacketFlag::Reliable);
 
     ///
     /// Broadcasts a packet to all connected Peer%s.
@@ -183,7 +183,7 @@ public:
     /// \param channel The channel to send the packet on.
     /// \param packetData The packet data to send.
     /// \param packetFlags The flags describing how the packet is transported.
-    void broadcastPacket(Channel channel, const ByteVector& packetData, PacketFlags packetFlags = PacketFlag_Reliable);
+    void broadcastPacket(Channel channel, const ByteVector& packetData, PacketFlags packetFlags = PacketFlag::Reliable);
 
     ///
     /// Force any enqueued packet transmissions to occur.

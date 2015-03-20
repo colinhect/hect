@@ -184,21 +184,21 @@ uint32_t MeshReader::readIndexUInt32() const
     uint32_t index = 0;
     switch (_mesh.indexType())
     {
-    case IndexType_UInt8:
+    case IndexType::UInt8:
     {
         uint8_t value;
         _indexStream >> value;
         index = value;
     }
     break;
-    case IndexType_UInt16:
+    case IndexType::UInt16:
     {
         uint16_t value;
         _indexStream >> value;
         index = value;
     }
     break;
-    case IndexType_UInt32:
+    case IndexType::UInt32:
         _indexStream >> index;
         break;
     }
@@ -240,7 +240,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
     float value = 0;
     switch (attribute.type())
     {
-    case VertexAttributeType_Int8:
+    case VertexAttributeType::Int8:
     {
         _vertexStream.seek(offset + index * sizeof(int8_t));
         int8_t readValue;
@@ -248,7 +248,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         value = static_cast<float>(readValue);
     }
     break;
-    case VertexAttributeType_UInt8:
+    case VertexAttributeType::UInt8:
     {
         _vertexStream.seek(offset + index * sizeof(uint8_t));
         uint8_t readValue;
@@ -256,7 +256,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         value = static_cast<float>(readValue);
     }
     break;
-    case VertexAttributeType_Int16:
+    case VertexAttributeType::Int16:
     {
         _vertexStream.seek(offset + index * sizeof(int16_t));
         int16_t readValue;
@@ -264,7 +264,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         value = static_cast<float>(readValue);
     }
     break;
-    case VertexAttributeType_UInt16:
+    case VertexAttributeType::UInt16:
     {
         _vertexStream.seek(offset + index * sizeof(uint16_t));
         uint16_t readValue;
@@ -272,7 +272,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         value = static_cast<float>(readValue);
     }
     break;
-    case VertexAttributeType_Int32:
+    case VertexAttributeType::Int32:
     {
         _vertexStream.seek(offset + index * sizeof(int32_t));
         int32_t readValue;
@@ -280,7 +280,7 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         value = static_cast<float>(readValue);
     }
     break;
-    case VertexAttributeType_UInt32:
+    case VertexAttributeType::UInt32:
     {
         _vertexStream.seek(offset + index * sizeof(uint32_t));
         uint32_t readValue;
@@ -288,10 +288,10 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
         value = static_cast<float>(readValue);
     }
     break;
-    case VertexAttributeType_Reserved:
+    case VertexAttributeType::Reserved:
         // Float 16
         break;
-    case VertexAttributeType_Float32:
+    case VertexAttributeType::Float32:
         _vertexStream.seek(offset + index * sizeof(float));
         _vertexStream >> value;
         break;

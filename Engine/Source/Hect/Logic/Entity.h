@@ -82,7 +82,7 @@ public:
     /// Adds a new Component of a specific type to the Entity.
     ///
     /// \note If the entity is activated then this call will immediately
-    /// trigger a ::ComponentEventType_Add event.
+    /// trigger a ::ComponentEventType::Add event.
     ///
     /// \param args The arguments to pass to the component's constructor.
     ///
@@ -97,8 +97,8 @@ public:
     /// Replaces an existing Component that the Entity has.
     ///
     /// \note If the entity is activated then this call will immediately
-    /// trigger a ::ComponentEventType_Add event and a
-    /// ::ComponentEventType_Remove event.
+    /// trigger a ::ComponentEventType::Add event and a
+    /// ::ComponentEventType::Remove event.
     ///
     /// \param args The arguments to pass to the component's constructor.
     ///
@@ -113,7 +113,7 @@ public:
     /// Removes the Component of a specific type from the Entity.
     ///
     /// \note If the entity is activated then this call will immediately
-    /// trigger a ::ComponentEventType_Remove event.
+    /// trigger a ::ComponentEventType::Remove event.
     ///
     /// \throws InvalidOperation If the entity does not have a component of the
     /// type or if the entity is invalid.

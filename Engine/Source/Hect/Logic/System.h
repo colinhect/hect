@@ -69,7 +69,7 @@ public:
     /// \param engine The engine.
     /// \param scene The scene that the system exists in.
     /// \param tickStage The stage to tick the system in.
-    System(Engine& engine, Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
+    System(Engine& engine, Scene& scene, SystemTickStage tickStage = SystemTickStage::Normal);
 
     virtual ~System() { }
 };

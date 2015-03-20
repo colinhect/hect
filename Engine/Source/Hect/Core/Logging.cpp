@@ -71,19 +71,19 @@ void log(LogLevel level, const std::string& message)
     // Set the color text color
     switch (level)
     {
-    case LogLevel_Info:
+    case LogLevel::Info:
         SetConsoleTextAttribute(stdOutHandle, 15);
         break;
-    case LogLevel_Debug:
+    case LogLevel::Debug:
         SetConsoleTextAttribute(stdOutHandle, 7);
         break;
-    case LogLevel_Warning:
+    case LogLevel::Warning:
         SetConsoleTextAttribute(stdOutHandle, 14);
         break;
-    case LogLevel_Error:
+    case LogLevel::Error:
         SetConsoleTextAttribute(stdOutHandle, 12);
         break;
-    case LogLevel_Trace:
+    case LogLevel::Trace:
         SetConsoleTextAttribute(stdOutHandle, 8);
         break;
     }
@@ -95,7 +95,7 @@ void log(LogLevel level, const std::string& message)
     SetConsoleTextAttribute(stdOutHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
     // Show a message box when logging an error
-    if (level == LogLevel_Error)
+    if (level == LogLevel::Error)
     {
         MessageBoxA(NULL, message.c_str(), "Error", MB_ICONHAND | MB_OK);
     }

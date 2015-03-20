@@ -28,38 +28,38 @@ namespace hect
 
 ///
 /// A type of a vertex attribute.
-enum VertexAttributeType
+enum class VertexAttributeType
 {
     ///
     /// An 8-bit signed integer.
-    VertexAttributeType_Int8,
+    Int8,
 
     ///
     /// An 8-bit unsigned integer.
-    VertexAttributeType_UInt8,
+    UInt8,
 
     ///
     /// A 16-bit signed integer.
-    VertexAttributeType_Int16,
+    Int16,
 
     ///
     /// A 16-bit unsigned integer.
-    VertexAttributeType_UInt16,
+    UInt16,
 
     ///
     /// A 32-bit signed integer.
-    VertexAttributeType_Int32,
+    Int32,
 
     ///
     /// A 32-bit unsigned integer.
-    VertexAttributeType_UInt32,
+    UInt32,
 
     // Reserved for Float16
-    VertexAttributeType_Reserved,
+    Reserved,
 
     ///
     /// A 32-bit float.
-    VertexAttributeType_Float32
+    Float32
 };
 
 }

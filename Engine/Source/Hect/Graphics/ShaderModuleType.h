@@ -28,20 +28,20 @@ namespace hect
 
 ///
 /// A shader source module type.
-enum ShaderModuleType
+enum class ShaderModuleType
 {
 
     ///
     /// A vertex program source.
-    ShaderModuleType_Vertex,
+    Vertex,
 
     ///
     /// A fragment program source.
-    ShaderModuleType_Fragment,
+    Fragment,
 
     ///
     /// A geometry program source.
-    ShaderModuleType_Geometry
+    Geometry
 };
 
 }

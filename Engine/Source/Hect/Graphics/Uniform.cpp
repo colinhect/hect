@@ -72,7 +72,7 @@ const UniformValue& Uniform::value() const
 
 void Uniform::setValue(const UniformValue& value)
 {
-    _binding = UniformBinding_None;
+    _binding = UniformBinding::None;
     _type = value.type();
     _value = value;
 }
@@ -119,7 +119,7 @@ bool Uniform::operator==(const Uniform& uniform) const
     }
 
     // Value
-    if (_binding == UniformBinding_None && _value != uniform._value)
+    if (_binding == UniformBinding::None && _value != uniform._value)
     {
         return false;
     }
@@ -134,7 +134,7 @@ bool Uniform::operator!=(const Uniform& uniform) const
 
 void Uniform::encode(Encoder& encoder) const
 {
-    bool isBound = _binding != UniformBinding_None;
+    bool isBound = _binding != UniformBinding::None;
 
     if (encoder.isBinaryStream())
     {
@@ -185,41 +185,41 @@ void Uniform::resolveType()
 {
     switch (_binding)
     {
-    case UniformBinding_None:
+    case UniformBinding::None:
         _type = _value.type();
         break;
-    case UniformBinding_CameraExposure:
-    case UniformBinding_CameraOneOverGamma:
-        _type = UniformType_Float;
+    case UniformBinding::CameraExposure:
+    case UniformBinding::CameraOneOverGamma:
+        _type = UniformType::Float;
         break;
-    case UniformBinding_RenderTargetSize:
-        _type = UniformType_Vector2;
+    case UniformBinding::RenderTargetSize:
+        _type = UniformType::Vector2;
         break;
-    case UniformBinding_CameraPosition:
-    case UniformBinding_CameraFront:
-    case UniformBinding_CameraUp:
-    case UniformBinding_PrimaryLightDirection:
-        _type = UniformType_Vector3;
+    case UniformBinding::CameraPosition:
+    case UniformBinding::CameraFront:
+    case UniformBinding::CameraUp:
+    case UniformBinding::PrimaryLightDirection:
+        _type = UniformType::Vector3;
         break;
-    case UniformBinding_ViewMatrix:
-    case UniformBinding_ProjectionMatrix:
-    case UniformBinding_ViewProjectionMatrix:
-    case UniformBinding_ModelMatrix:
-    case UniformBinding_ModelViewMatrix:
-    case UniformBinding_ModelViewProjectionMatrix:
-        _type = UniformType_Matrix4;
+    case UniformBinding::ViewMatrix:
+    case UniformBinding::ProjectionMatrix:
+    case UniformBinding::ViewProjectionMatrix:
+    case UniformBinding::ModelMatrix:
+    case UniformBinding::ModelViewMatrix:
+    case UniformBinding::ModelViewProjectionMatrix:
+        _type = UniformType::Matrix4;
         break;
-    case UniformBinding_PrimaryLightColor:
-        _type = UniformType_Color;
+    case UniformBinding::PrimaryLightColor:
+        _type = UniformType::Color;
         break;
-    case UniformBinding_LightProbeCubeMap:
-    case UniformBinding_SkyBoxCubeMap:
-    case UniformBinding_DiffuseBuffer:
-    case UniformBinding_MaterialBuffer:
-    case UniformBinding_PositionBuffer:
-    case UniformBinding_NormalBuffer:
-    case UniformBinding_BackBuffer:
-        _type = UniformType_Texture;
+    case UniformBinding::LightProbeCubeMap:
+    case UniformBinding::SkyBoxCubeMap:
+    case UniformBinding::DiffuseBuffer:
+    case UniformBinding::MaterialBuffer:
+    case UniformBinding::PositionBuffer:
+    case UniformBinding::NormalBuffer:
+    case UniformBinding::BackBuffer:
+        _type = UniformType::Texture;
         break;
     }
 }

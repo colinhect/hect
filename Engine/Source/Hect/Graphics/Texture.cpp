@@ -63,7 +63,7 @@ TextureType Texture::type()
 void Texture::setType(TextureType type)
 {
     _type = type;
-    if (type == TextureType_CubeMap)
+    if (type == TextureType::CubeMap)
     {
         _wrapped = false;
     }
@@ -92,14 +92,14 @@ Texture::ImageSequence Texture::sourceImages()
 
 void Texture::addSourceImage(const Image::Handle& image)
 {
-    if (_type == TextureType_2D)
+    if (_type == TextureType::TwoDimensional)
     {
         if (!_sourceImages.empty())
         {
             throw InvalidOperation("A 2-dimensional texture cannot have more than one source image");
         }
     }
-    else if (_type == TextureType_CubeMap)
+    else if (_type == TextureType::CubeMap)
     {
         if (_sourceImages.size() >= 6)
         {

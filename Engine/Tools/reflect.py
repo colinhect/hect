@@ -217,19 +217,19 @@ if __name__ == "__main__":
         for type in types:
             if isinstance(type, EnumType):
                 f.write("    {\n")
-                f.write("        hect::Type& type = hect::Type::create<" + type.name + ">(hect::Kind_Enum, \"" + sanitize_name(type.name) + "\");\n")
+                f.write("        hect::Type& type = hect::Type::create<" + type.name + ">(hect::Kind::Enum, \"" + sanitize_name(type.name) + "\");\n")
                 f.write("        hect::Enum& enumType = type.asEnum();\n")
                 for value in type.values:
                     str_value = value
                     if "_" in str_value:
                         str_value = str_value.split("_", 1)[1]
-                    f.write("        enumType.addValue(" + value + ", \""  + str_value + "\");\n");
+                    f.write("        enumType.addValue(static_cast<hect::EnumValue::Type>(" + type.name + "::" + value + "), \""  + str_value + "\");\n");
                 f.write("    }\n")
         f.write("\n    // Types\n")
         for type in types:
             if isinstance(type, ClassType) and not type.is_template and not "Iterator" in type.name:
                 f.write("    {\n")
-                f.write("        hect::Type& type = hect::Type::create<" + type.name + ">(hect::Kind_Class, \"" + sanitize_name(type.name) + "\");\n")
+                f.write("        hect::Type& type = hect::Type::create<" + type.name + ">(hect::Kind::Class, \"" + sanitize_name(type.name) + "\");\n")
                 if len(type.properties) > 0 and (type.is_component or type.is_system or type.is_encodable):
                     f.write("        type.setEncodeFunction([](const void* value, Encoder& encoder)\n")
                     f.write("        {\n")

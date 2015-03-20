@@ -28,32 +28,32 @@ namespace hect
 
 ///
 /// A data value type.
-enum DataValueType
+enum class DataValueType
 {
 
     ///
     /// The data value holds no data.
-    DataValueType_Null,
+    Null,
 
     ///
     /// A bool value.
-    DataValueType_Bool,
+    Bool,
 
     ///
     /// A floating point number.
-    DataValueType_Number,
+    Number,
 
     ///
     /// A string.
-    DataValueType_String,
+    String,
 
     ///
     /// An collection of other data values.
-    DataValueType_Array,
+    Array,
 
     ///
     /// A collection of key/value pairs of data values.
-    DataValueType_Object
+    Object
 };
 
 }

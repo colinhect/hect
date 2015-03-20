@@ -38,20 +38,20 @@ class RenderSystem;
 
 ///
 /// A preset color for debug geometry.
-enum DebugColor
+enum class DebugColor
 {
 
     ///
     /// The primary debug color.
-    DebugColor_Primary,
+    Primary,
 
     ///
     /// The secondary debug color.
-    DebugColor_Secondary,
+    Secondary,
 
     ///
     /// The tertiary debug color.
-    DebugColor_Tertiary
+    Tertiary
 };
 
 ///
@@ -116,7 +116,7 @@ private:
 
         Box box;
         Transform transform;
-        DebugColor color { DebugColor_Primary };
+        DebugColor color { DebugColor::Primary };
     };
 
     Renderer& _renderer;

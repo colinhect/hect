@@ -54,7 +54,7 @@ public:
     ///
     /// \param scene The scene that the system exists in.
     /// \param tickStage The stage to tick the system in.
-    SystemBase(Scene& scene, SystemTickStage tickStage = SystemTickStage_Normal);
+    SystemBase(Scene& scene, SystemTickStage tickStage = SystemTickStage::Normal);
 
     virtual ~SystemBase() { }
 
@@ -89,7 +89,7 @@ public:
 
 private:
     Scene& _scene;
-    SystemTickStage _tickStage { SystemTickStage_Normal };
+    SystemTickStage _tickStage { SystemTickStage::Normal };
 };
 
 }

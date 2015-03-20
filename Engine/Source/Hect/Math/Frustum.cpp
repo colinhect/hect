@@ -83,7 +83,7 @@ Frustum::Frustum(
 
 FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
 {
-    FrustumTestResult result = FrustumTestResult_Inside;
+    FrustumTestResult result = FrustumTestResult::Inside;
 
     if (!box.hasSize())
     {
@@ -123,11 +123,11 @@ FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
 
         if (distanceP < 0)
         {
-            return FrustumTestResult_Outside;
+            return FrustumTestResult::Outside;
         }
         else if (distanceN < 0)
         {
-            result = FrustumTestResult_Intersect;
+            result = FrustumTestResult::Intersect;
         }
     }
 

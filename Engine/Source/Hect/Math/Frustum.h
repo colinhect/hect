@@ -34,19 +34,19 @@ namespace hect
 
 ///
 /// The result of a frustum test.
-enum FrustumTestResult
+enum class FrustumTestResult
 {
     ///
     /// The tested geometry is outside of the frustum.
-    FrustumTestResult_Outside,
+    Outside,
 
     ///
     /// The tested geometry is completely inside of the frustum.
-    FrustumTestResult_Inside,
+    Inside,
 
     ///
     /// The tested geometry is partially inside of the frustum.
-    FrustumTestResult_Intersect
+    Intersect
 };
 
 ///

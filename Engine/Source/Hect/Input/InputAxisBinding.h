@@ -36,35 +36,35 @@ class Platform;
 
 ///
 /// An InputAxisBinding type.
-enum InputAxisBindingType
+enum class InputAxisBindingType
 {
     ///
     /// A mouse movement along the x axis.
-    InputAxisBindingType_MouseMoveX,
+    MouseMoveX,
 
     ///
     /// A mouse movement along the y axis.
-    InputAxisBindingType_MouseMoveY,
+    MouseMoveY,
 
     ///
     /// A mouse button press.
-    InputAxisBindingType_MouseButton,
+    MouseButton,
 
     ///
     /// A mouse scroll.
-    InputAxisBindingType_MouseScroll,
+    MouseScroll,
 
     ///
     /// A key press.
-    InputAxisBindingType_Key,
+    Key,
 
     ///
     /// A joystick axis.
-    InputAxisBindingType_JoystickAxis,
+    JoystickAxis,
 
     ///
     /// A joystick button.
-    InputAxisBindingType_JoystickButton
+    JoystickButton
 };
 
 ///
@@ -88,71 +88,71 @@ public:
 
     ///
     /// The type.
-    InputAxisBindingType type { InputAxisBindingType_Key };
+    InputAxisBindingType type { InputAxisBindingType::Key };
 
     ///
     /// The mouse button controlling the axis.
     ///
     /// \note Only relevant when the type is
-    /// ::InputAxisBindingType_MouseButton.
-    MouseButton mouseButton { MouseButton_Button0 };
+    /// ::InputAxisBindingType::MouseButton.
+    MouseButton mouseButton { MouseButton::Button0 };
 
     ///
     /// How sensitively mouse motion affects the input axis.
     ///
     /// \note Only relevant when the type is
-    /// ::InputAxisBindingType_MouseMoveX or ::InputAxisBindingType_MouseMoveY.
+    /// ::InputAxisBindingType::MouseMoveX or ::InputAxisBindingType::MouseMoveY.
     double mouseSensitivity { 0.01 };
 
     ///
     /// The key controlling the axis.
     ///
-    /// \note Only relevant when the type is ::InputAxisBindingType_Key.
-    Key key { Key_A };
+    /// \note Only relevant when the type is ::InputAxisBindingType::Key.
+    Key key { Key::A };
 
     ///
     /// The index of the joystick controlling the axis.
     ///
     /// \note Only relevant when the type is
-    /// ::InputAxisBindingType_JoystickAxis or
-    /// ::InputAxisBindingType_JoystickButton.
+    /// ::InputAxisBindingType::JoystickAxis or
+    /// ::InputAxisBindingType::JoystickButton.
     JoystickIndex joystickIndex { 0 };
 
     ///
     /// The joystick axis controlling the axis.
     ///
     /// \note Only relevant when the type is
-    /// ::InputAxisBindingType_JoystickAxis.
-    JoystickAxis joystickAxis { JoystickAxis_Axis0 };
+    /// ::InputAxisBindingType::JoystickAxis.
+    JoystickAxis joystickAxis { JoystickAxis::Axis0 };
 
     ///
     /// The dead zone of the joystick axis controlling the axis.
     ///
     /// \note Only relevant when the type is
-    /// ::InputAxisBindingType_JoystickAxis.
+    /// ::InputAxisBindingType::JoystickAxis.
     Vector2 joystickAxisDeadZone;
 
     ///
     /// The joystick button controlling the axis.
     ///
     /// \note Only relevant when the type is
-    /// ::InputAxisBindingType_JoystickButton.
-    JoystickButton joystickButton { JoystickButton_Button0 };
+    /// ::InputAxisBindingType::JoystickButton.
+    JoystickButton joystickButton { JoystickButton::Button0 };
 
     ///
     /// How quickly the axis is affected by discrete input events.
     ///
     /// \note Only relevant when the type is
-    /// ::InputAxisBindingType_MouseButton, ::InputAxisBindingType_MouseScroll,
-    /// ::InputAxisBindingType_Key, or ::InputAxisBindingType_JoystickButton.
+    /// ::InputAxisBindingType::MouseButton, ::InputAxisBindingType::MouseScroll,
+    /// ::InputAxisBindingType::Key, or ::InputAxisBindingType::JoystickButton.
     double acceleration { 0 };
 
     ///
     /// How quickly the axis returns to zero.
     ///
     /// \note Only relevant when the type is
-    /// ::InputAxisBindingType_MouseButton, ::InputAxisBindingType_MouseScroll,
-    /// ::InputAxisBindingType_Key, or ::InputAxisBindingType_JoystickButton.
+    /// ::InputAxisBindingType::MouseButton, ::InputAxisBindingType::MouseScroll,
+    /// ::InputAxisBindingType::Key, or ::InputAxisBindingType::JoystickButton.
     double gravity { 0 };
 
     ///

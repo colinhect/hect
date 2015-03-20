@@ -32,54 +32,54 @@ namespace hect
 
 ///
 /// A Mouse button.
-enum MouseButton
+enum class MouseButton
 {
-    MouseButton_Button0,
-    MouseButton_Button1,
-    MouseButton_Button2,
-    MouseButton_Button3,
-    MouseButton_Button4,
-    MouseButton_Button5,
-    MouseButton_Button6,
-    MouseButton_Button7
+    Button0,
+    Button1,
+    Button2,
+    Button3,
+    Button4,
+    Button5,
+    Button6,
+    Button7
 };
 
 ///
 /// The mode a Mouse is in.
-enum MouseMode
+enum class MouseMode
 {
     ///
     /// The cursor is active.
-    MouseMode_Cursor,
+    Cursor,
 
     ///
     /// The cursor is inactive and only relative movement is dispatched.
-    MouseMode_Relative
+    Relative
 };
 
 ///
 /// A MouseEvent type.
-enum MouseEventType
+enum class MouseEventType
 {
     ///
     /// The mouse was moved.
-    MouseEventType_Movement,
+    Movement,
 
     ///
     /// A mouse button was pressed down.
-    MouseEventType_ButtonDown,
+    ButtonDown,
 
     ///
     /// A mouse button was released up.
-    MouseEventType_ButtonUp,
+    ButtonUp,
 
     ///
     /// The scroll wheel was moved down.
-    MouseEventType_ScrollDown,
+    ScrollDown,
 
     ///
     /// The scroll wheel was moved up.
-    MouseEventType_ScrollUp
+    ScrollUp
 };
 
 ///
@@ -90,14 +90,14 @@ public:
 
     ///
     /// The type of the event.
-    MouseEventType type { MouseEventType_Movement };
+    MouseEventType type { MouseEventType::Movement };
 
     ///
     /// The mouse button related to the event.
     ///
-    /// \note Only relevant for a ::MouseEventType_ButtonDown or
-    /// ::MouseEventType_ButtonUp event.
-    MouseButton button { MouseButton_Button0 };
+    /// \note Only relevant for a ::MouseEventType::ButtonDown or
+    /// ::MouseEventType::ButtonUp event.
+    MouseButton button { MouseButton::Button0 };
 
     ///
     /// The coordinates of the cursor.

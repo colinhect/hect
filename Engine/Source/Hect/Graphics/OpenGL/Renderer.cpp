@@ -374,15 +374,15 @@ void Renderer::Frame::setCullMode(CullMode cullMode)
 {
     switch (cullMode)
     {
-    case CullMode_CounterClockwise:
+    case CullMode::CounterClockwise:
         glEnable(GL_CULL_FACE);
         glFrontFace(GL_CCW);
         break;
-    case CullMode_Clockwise:
+    case CullMode::Clockwise:
         glEnable(GL_CULL_FACE);
         glFrontFace(GL_CW);
         break;
-    case CullMode_None:
+    case CullMode::None:
         glDisable(GL_CULL_FACE);
         break;
     }
@@ -435,7 +435,7 @@ void Renderer::Frame::setShader(Shader& shader)
     // Set the values for each unbound uniform
     for (const Uniform& uniform : shader.uniforms())
     {
-        if (uniform.binding() == UniformBinding_None)
+        if (uniform.binding() == UniformBinding::None)
         {
             setUniform(uniform, uniform.value());
         }
@@ -446,28 +446,28 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& val
 {
     switch (value.type())
     {
-    case UniformType_Int:
+    case UniformType::Int:
         setUniform(uniform, value.asInt());
         break;
-    case UniformType_Float:
+    case UniformType::Float:
         setUniform(uniform, value.asDouble());
         break;
-    case UniformType_Vector2:
+    case UniformType::Vector2:
         setUniform(uniform, value.asVector2());
         break;
-    case UniformType_Vector3:
+    case UniformType::Vector3:
         setUniform(uniform, value.asVector3());
         break;
-    case UniformType_Vector4:
+    case UniformType::Vector4:
         setUniform(uniform, value.asVector4());
         break;
-    case UniformType_Matrix4:
+    case UniformType::Matrix4:
         setUniform(uniform, value.asMatrix4());
         break;
-    case UniformType_Color:
+    case UniformType::Color:
         setUniform(uniform, value.asColor());
         break;
-    case UniformType_Texture:
+    case UniformType::Texture:
     {
         Texture::Handle texture = value.asTexture();
         if (texture)
@@ -481,7 +481,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& val
 
 void Renderer::Frame::setUniform(const Uniform& uniform, int value)
 {
-    if (uniform.type() != UniformType_Int)
+    if (uniform.type() != UniformType::Int)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
@@ -495,7 +495,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, int value)
 
 void Renderer::Frame::setUniform(const Uniform& uniform, double value)
 {
-    if (uniform.type() != UniformType_Float)
+    if (uniform.type() != UniformType::Float)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
@@ -510,7 +510,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, double value)
 
 void Renderer::Frame::setUniform(const Uniform& uniform, const Vector2& value)
 {
-    if (uniform.type() != UniformType_Vector2)
+    if (uniform.type() != UniformType::Vector2)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
@@ -525,7 +525,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Vector2& value)
 
 void Renderer::Frame::setUniform(const Uniform& uniform, const Vector3& value)
 {
-    if (uniform.type() != UniformType_Vector3)
+    if (uniform.type() != UniformType::Vector3)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
@@ -540,7 +540,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Vector3& value)
 
 void Renderer::Frame::setUniform(const Uniform& uniform, const Vector4& value)
 {
-    if (uniform.type() != UniformType_Vector4)
+    if (uniform.type() != UniformType::Vector4)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
@@ -555,7 +555,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Vector4& value)
 
 void Renderer::Frame::setUniform(const Uniform& uniform, const Matrix4& value)
 {
-    if (uniform.type() != UniformType_Matrix4)
+    if (uniform.type() != UniformType::Matrix4)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
@@ -577,7 +577,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Matrix4& value)
 
 void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
 {
-    if (uniform.type() != UniformType_Color)
+    if (uniform.type() != UniformType::Color)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
@@ -592,7 +592,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
 
 void Renderer::Frame::setUniform(const Uniform& uniform, Texture& value)
 {
-    if (uniform.type() != UniformType_Texture)
+    if (uniform.type() != UniformType::Texture)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
@@ -616,7 +616,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, Texture& value)
         auto data = value.dataAs<TextureData>();
 
         GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
-        GL_ASSERT(glBindTexture(_textureTypeLookUp[value.type()], data->textureId));
+        GL_ASSERT(glBindTexture(_textureTypeLookUp[(int)value.type()], data->textureId));
     }
 }
 
@@ -689,7 +689,7 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 
         // Attach the render buffer to the frame buffer
         auto renderBufferData = renderBuffer.dataAs<RenderBufferData>();
-        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, _frameBufferSlotLookUp[attachment.slot()], GL_RENDERBUFFER, renderBufferData->renderBufferId));
+        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, _frameBufferSlotLookUp[(int)attachment.slot()], GL_RENDERBUFFER, renderBufferData->renderBufferId));
     }
 
     GLenum mrt[16];
@@ -707,9 +707,9 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
         }
 
         auto targetData = texture.dataAs<TextureData>();
-        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, _frameBufferSlotLookUp[attachment.slot()], GL_TEXTURE_2D, targetData->textureId, 0));
+        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, _frameBufferSlotLookUp[(int)attachment.slot()], GL_TEXTURE_2D, targetData->textureId, 0));
 
-        mrt[textureIndex++] = _frameBufferSlotLookUp[attachment.slot()];
+        mrt[textureIndex++] = _frameBufferSlotLookUp[(int)attachment.slot()];
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
@@ -749,7 +749,7 @@ void Renderer::uploadRenderBuffer(RenderBuffer& renderBuffer)
 
     GL_ASSERT(glGenRenderbuffers(1, &renderBufferId));
     GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, renderBufferId));
-    GL_ASSERT(glRenderbufferStorage(GL_RENDERBUFFER, _renderBufferFormatLookUp[renderBuffer.format()], renderBuffer.width(), renderBuffer.height()));
+    GL_ASSERT(glRenderbufferStorage(GL_RENDERBUFFER, _renderBufferFormatLookUp[(int)renderBuffer.format()], renderBuffer.width(), renderBuffer.height()));
 
     renderBuffer.setAsUploaded(*this, new RenderBufferData(*this, renderBuffer, renderBufferId));
     statistics().memoryUsage += renderBuffer.width() * renderBuffer.height() * renderBuffer.bytesPerPixel();
@@ -889,7 +889,7 @@ void Renderer::uploadTexture(Texture& texture)
         return;
     }
 
-    GLenum type = _textureTypeLookUp[texture.type()];
+    GLenum type = _textureTypeLookUp[(int)texture.type()];
 
     GLuint textureId = 0;
     GL_ASSERT(glGenTextures(1, &textureId));
@@ -925,7 +925,7 @@ void Renderer::uploadTexture(Texture& texture)
 
     GLenum target = GL_TEXTURE_2D;
 
-    if (texture.type() == TextureType_CubeMap)
+    if (texture.type() == TextureType::CubeMap)
     {
         target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
     }
@@ -949,7 +949,7 @@ void Renderer::uploadTexture(Texture& texture)
             )
         );
 
-        if (texture.type() == TextureType_CubeMap)
+        if (texture.type() == TextureType::CubeMap)
         {
             ++target;
         }
@@ -1057,7 +1057,7 @@ void Renderer::uploadMesh(Mesh& mesh)
     {
         GL_ASSERT(glEnableVertexAttribArray(attributeIndex));
 
-        if (attribute.type() == VertexAttributeType_Float32)
+        if (attribute.type() == VertexAttributeType::Float32)
         {
             GL_ASSERT(
                 glVertexAttribPointer(

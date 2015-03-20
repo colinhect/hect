@@ -40,9 +40,9 @@ Joystick::Joystick(const std::string& name, size_t buttonCount, size_t axisCount
 
 bool Joystick::isButtonDown(JoystickButton button) const
 {
-    if (button < _buttonStates.size())
+    if (static_cast<size_t>(button) < _buttonStates.size())
     {
-        return _buttonStates[button];
+        return _buttonStates[static_cast<size_t>(button)];
     }
     else
     {
@@ -52,9 +52,9 @@ bool Joystick::isButtonDown(JoystickButton button) const
 
 double Joystick::axisValue(JoystickAxis axis) const
 {
-    if (axis < _axisStates.size())
+    if (static_cast<size_t>(axis) < _axisStates.size())
     {
-        return _axisStates[axis];
+        return _axisStates[static_cast<size_t>(axis)];
     }
     else
     {
@@ -64,20 +64,20 @@ double Joystick::axisValue(JoystickAxis axis) const
 
 void Joystick::enqueueEvent(const JoystickEvent& event)
 {
-    if (event.type == JoystickEventType_ButtonDown)
+    if (event.type == JoystickEventType::ButtonDown)
     {
-        assert(event.button <= _buttonStates.size());
-        _buttonStates[event.button] = true;
+        assert(static_cast<size_t>(event.button) <= _buttonStates.size());
+        _buttonStates[static_cast<size_t>(event.button)] = true;
     }
-    else if (event.type == JoystickEventType_ButtonUp)
+    else if (event.type == JoystickEventType::ButtonUp)
     {
-        assert(event.button <= _buttonStates.size());
-        _buttonStates[event.button] = false;
+        assert(static_cast<size_t>(event.button) <= _buttonStates.size());
+        _buttonStates[static_cast<size_t>(event.button)] = false;
     }
-    else if (event.type == JoystickEventType_AxisMotion)
+    else if (event.type == JoystickEventType::AxisMotion)
     {
-        assert(event.axis <= _axisStates.size());
-        _axisStates[event.axis] = event.axisValue;
+        assert(static_cast<size_t>(event.axis) <= _axisStates.size());
+        _axisStates[static_cast<size_t>(event.axis)] = event.axisValue;
     }
     _events.push_back(event);
 }

@@ -28,19 +28,19 @@ namespace hect
 
 ///
 /// The stage in which a System is ticked.
-enum SystemTickStage
+enum class SystemTickStage
 {
     ///
     /// Tick before normal systems.
-    SystemTickStage_Precedent,
+    Precedent,
 
     ///
     /// The normal stage.
-    SystemTickStage_Normal,
+    Normal,
 
     ///
     /// Tick after normal systems.
-    SystemTickStage_Subsequent
+    Subsequent
 };
 
 }

@@ -198,17 +198,17 @@ void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::functi
 
 TEST_CASE("Register a component type", "[Scene]")
 {
-    Type::create<TestA>(Kind_Class, "TestA");
+    Type::create<TestA>(Kind::Class, "TestA");
     ComponentRegistry::registerType<TestA>();
-    Type::create<TestB>(Kind_Class, "TestB");
+    Type::create<TestB>(Kind::Class, "TestB");
     ComponentRegistry::registerType<TestB>();
 }
 
 TEST_CASE("Register a system type", "[Scene]")
 {
-    Type::create<TestSystemA>(Kind_Class, "TestSystemA");
+    Type::create<TestSystemA>(Kind::Class, "TestSystemA");
     SystemRegistry::registerType<TestSystemA>();
-    Type::create<TestSystemB>(Kind_Class, "TestSystemB");
+    Type::create<TestSystemB>(Kind::Class, "TestSystemB");
     SystemRegistry::registerType<TestSystemB>();
 }
 
@@ -973,7 +973,7 @@ TEST_CASE("Dispatch of the component add event", "[Scene]")
     scene.refresh();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Add);
+    REQUIRE(listener.receivedEvents[0].type == ComponentEventType::Add);
     REQUIRE(&*listener.receivedEvents[0].entity == &*a);
 }
 
@@ -1003,7 +1003,7 @@ TEST_CASE("Dispatch of the component remove event", "[Scene]")
     scene.refresh();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
+    REQUIRE(listener.receivedEvents[0].type == ComponentEventType::Remove);
 }
 
 TEST_CASE("Component pool listeners", "[Scene]")
@@ -1030,9 +1030,9 @@ TEST_CASE("Component pool listeners", "[Scene]")
     scene.refresh();
 
     REQUIRE(listener.receivedEvents.size() == 2);
-    REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Add);
+    REQUIRE(listener.receivedEvents[0].type == ComponentEventType::Add);
     REQUIRE(&*listener.receivedEvents[0].entity == &*a);
-    REQUIRE(listener.receivedEvents[1].type == ComponentEventType_Add);
+    REQUIRE(listener.receivedEvents[1].type == ComponentEventType::Add);
     REQUIRE(&*listener.receivedEvents[1].entity == &*b);
     listener.receivedEvents.clear();
 
@@ -1041,7 +1041,7 @@ TEST_CASE("Component pool listeners", "[Scene]")
     scene.refresh();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
+    REQUIRE(listener.receivedEvents[0].type == ComponentEventType::Remove);
     REQUIRE(!listener.receivedEvents[0].entity);
     listener.receivedEvents.clear();
 
@@ -1049,7 +1049,7 @@ TEST_CASE("Component pool listeners", "[Scene]")
     scene.refresh();
 
     REQUIRE(listener.receivedEvents.size() == 1);
-    REQUIRE(listener.receivedEvents[0].type == ComponentEventType_Remove);
+    REQUIRE(listener.receivedEvents[0].type == ComponentEventType::Remove);
     REQUIRE(&*listener.receivedEvents[0].entity == &*b);
 }
 

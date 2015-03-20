@@ -27,17 +27,28 @@ namespace hect
 {
 
 ///
-/// A function describing how the source pixel affects the destination pixel
-/// when blending.
-enum class BlendFunction
+/// The category of a log message.
+enum class LogLevel
 {
     ///
-    /// Add to the destination pixel.
-    Add,
+    /// An informational message for the user.
+    Info,
 
     ///
-    /// Subtract from the destination pixel.
-    Subtract
+    /// An informational message for the developer.
+    Debug,
+
+    ///
+    /// A warning message to the user.
+    Warning,
+
+    ///
+    /// An error message to the user.
+    Error,
+
+    ///
+    /// A verbose debug message for the developer.
+    Trace,
 };
 
 }

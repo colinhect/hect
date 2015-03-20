@@ -35,7 +35,7 @@ const DataValue DataValue::_null;
 const DataValue::Array DataValue::_emptyArray;
 
 DataValue::DataValue() :
-    _type(DataValueType_Null)
+    _type(DataValueType::Null)
 {
 }
 
@@ -44,19 +44,19 @@ DataValue::DataValue(DataValueType type) :
 {
     switch (type)
     {
-    case DataValueType_Bool:
+    case DataValueType::Bool:
         _any = false;
         break;
-    case DataValueType_Number:
+    case DataValueType::Number:
         _any = 0.0;
         break;
-    case DataValueType_String:
+    case DataValueType::String:
         _any = std::string();
         break;
-    case DataValueType_Array:
+    case DataValueType::Array:
         _any = DataValue::Array();
         break;
-    case DataValueType_Object:
+    case DataValueType::Object:
         _any = DataValue::Object();
         break;
     default:
@@ -65,31 +65,31 @@ DataValue::DataValue(DataValueType type) :
 }
 
 DataValue::DataValue(bool value) :
-    _type(DataValueType_Bool),
+    _type(DataValueType::Bool),
     _any(value)
 {
 }
 
 DataValue::DataValue(int value) :
-    _type(DataValueType_Number),
+    _type(DataValueType::Number),
     _any((double)value)
 {
 }
 
 DataValue::DataValue(unsigned value) :
-    _type(DataValueType_Number),
+    _type(DataValueType::Number),
     _any((double)value)
 {
 }
 
 DataValue::DataValue(double value) :
-    _type(DataValueType_Number),
+    _type(DataValueType::Number),
     _any(value)
 {
 }
 
 DataValue::DataValue(const Vector2& value) :
-    _type(DataValueType_Array),
+    _type(DataValueType::Array),
     _any(DataValue::Array())
 {
     DataValue::Array& elements = _any.as<DataValue::Array>();
@@ -98,7 +98,7 @@ DataValue::DataValue(const Vector2& value) :
 }
 
 DataValue::DataValue(const Vector3& value) :
-    _type(DataValueType_Array),
+    _type(DataValueType::Array),
     _any(DataValue::Array())
 {
     DataValue::Array& elements = _any.as<DataValue::Array>();
@@ -108,7 +108,7 @@ DataValue::DataValue(const Vector3& value) :
 }
 
 DataValue::DataValue(const Vector4& value) :
-    _type(DataValueType_Array),
+    _type(DataValueType::Array),
     _any(DataValue::Array())
 {
     DataValue::Array& elements = _any.as<DataValue::Array>();
@@ -119,7 +119,7 @@ DataValue::DataValue(const Vector4& value) :
 }
 
 DataValue::DataValue(const Matrix4& value) :
-    _type(DataValueType_Array),
+    _type(DataValueType::Array),
     _any(DataValue::Array())
 {
     DataValue::Array& elements = _any.as<DataValue::Array>();
@@ -130,7 +130,7 @@ DataValue::DataValue(const Matrix4& value) :
 }
 
 DataValue::DataValue(const Quaternion& value) :
-    _type(DataValueType_Array),
+    _type(DataValueType::Array),
     _any(DataValue::Array())
 {
     DataValue::Array& elements = _any.as<DataValue::Array>();
@@ -141,13 +141,13 @@ DataValue::DataValue(const Quaternion& value) :
 }
 
 DataValue::DataValue(const char* value) :
-    _type(DataValueType_String),
+    _type(DataValueType::String),
     _any(std::string(value))
 {
 }
 
 DataValue::DataValue(const std::string& value) :
-    _type(DataValueType_String),
+    _type(DataValueType::String),
     _any(value)
 {
 }
@@ -162,7 +162,7 @@ DataValue::DataValue(DataValue&& dataValue) :
     _type(dataValue._type),
     _any(std::move(dataValue._any))
 {
-    dataValue._type = DataValueType_Null;
+    dataValue._type = DataValueType::Null;
 }
 
 DataValueType DataValue::type() const
@@ -184,32 +184,32 @@ const DataValue& DataValue::orDefault(const DataValue& dataValue) const
 
 bool DataValue::isNull() const
 {
-    return _type == DataValueType_Null;
+    return _type == DataValueType::Null;
 }
 
 bool DataValue::isBool() const
 {
-    return _type == DataValueType_Bool;
+    return _type == DataValueType::Bool;
 }
 
 bool DataValue::isNumber() const
 {
-    return _type == DataValueType_Number;
+    return _type == DataValueType::Number;
 }
 
 bool DataValue::isString() const
 {
-    return _type == DataValueType_String;
+    return _type == DataValueType::String;
 }
 
 bool DataValue::isArray() const
 {
-    return _type == DataValueType_Array;
+    return _type == DataValueType::Array;
 }
 
 bool DataValue::isObject() const
 {
-    return _type == DataValueType_Object;
+    return _type == DataValueType::Object;
 }
 
 bool DataValue::asBool() const
@@ -546,7 +546,7 @@ DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
     }
     case YAML_SEQUENCE_NODE:
     {
-        DataValue dataValue(DataValueType_Array);
+        DataValue dataValue(DataValueType::Array);
 
         // For each item in the sequence
         for (yaml_node_item_t* item = node->data.sequence.items.start;
@@ -564,7 +564,7 @@ DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
     }
     case YAML_MAPPING_NODE:
     {
-        DataValue dataValue(DataValueType_Object);
+        DataValue dataValue(DataValueType::Object);
 
         // For each pair in the mapping
         for (yaml_node_pair_t* pair = node->data.mapping.pairs.start;

@@ -104,7 +104,7 @@ Peer Host::requestConnectTo(IPAddress address, Port port)
 void Host::requestDisconnectFrom(Peer peer)
 {
     // Trigger the disconnect
-    if (peer.state() == PeerState_Connected)
+    if (peer.state() == PeerState::Connected)
     {
         enet_peer_disconnect(peer._enetPeer, 0);
         HECT_INFO(format("Requested disconnection from remote host at address %s", peer.address().asString().c_str()));
@@ -141,10 +141,10 @@ bool Host::pollEvent(PeerEvent& event, TimeSpan timeOut)
         // Log connection/disconnection events
         switch (event.type)
         {
-        case PeerEventType_Connect:
+        case PeerEventType::Connect:
             HECT_INFO(format("Connected to remote host at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id()));
             break;
-        case PeerEventType_Disconnect:
+        case PeerEventType::Disconnect:
             HECT_INFO(format("Disconnected from remote host at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id()));
             break;
         default:

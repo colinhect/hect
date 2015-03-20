@@ -189,7 +189,7 @@ void ComponentPool<T>::remove(Entity& entity)
         // If the entity is activated then dispatch the remove event
         if (entity.isActivated())
         {
-            dispatchEvent(ComponentEventType_Remove, entity);
+            dispatchEvent(ComponentEventType::Remove, entity);
         }
 
         // Destory the component id to be re-used
@@ -287,7 +287,7 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     // Dispatch the add event if the entity is activated
     if (entity.isActivated())
     {
-        dispatchEvent(ComponentEventType_Add, entity);
+        dispatchEvent(ComponentEventType::Add, entity);
     }
 
     return typename Component<T>::Iterator(*this, id);
@@ -304,7 +304,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
         // If the entity is activated then dispatch the remove event
         if (entity.isActivated())
         {
-            dispatchEvent(ComponentEventType_Remove, entity);
+            dispatchEvent(ComponentEventType::Remove, entity);
         }
 
         // Get the old component
@@ -322,7 +322,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
         // If the entity is activated then dispatch the add event
         if (entity.isActivated())
         {
-            dispatchEvent(ComponentEventType_Add, entity);
+            dispatchEvent(ComponentEventType::Add, entity);
         }
 
         return typename Component<T>::Iterator(*this, id);

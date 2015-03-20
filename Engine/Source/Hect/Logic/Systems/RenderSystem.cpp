@@ -34,7 +34,7 @@
 using namespace hect;
 
 RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage_Subsequent),
+    System(engine, scene, SystemTickStage::Subsequent),
     _renderer(&engine.renderer()),
     _taskPool(&engine.taskPool()),
     _cameraSystem(scene.system<CameraSystem>()),
@@ -59,7 +59,7 @@ void RenderSystem::initialize()
             _renderer->uploadShader(*material.shader());
             for (UniformValue& uniformValue : material.uniformValues())
             {
-                if (uniformValue.type() == UniformType_Texture)
+                if (uniformValue.type() == UniformType::Texture)
                 {
                     _renderer->uploadTexture(*uniformValue.asTexture());
                 }
@@ -93,14 +93,14 @@ void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& mat
     {
         switch (shader->renderStage())
         {
-        case RenderStage_PrePhysicalGeometry:
+        case RenderStage::PrePhysicalGeometry:
             _frameData.prePhysicalGeometry.emplace_back(transform, mesh, material);
             break;
-        case RenderStage_PhysicalGeometry:
+        case RenderStage::PhysicalGeometry:
             _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
             break;
-        case RenderStage_None:
-        case RenderStage_PostPhysicalGeometry:
+        case RenderStage::None:
+        case RenderStage::PostPhysicalGeometry:
             _frameData.postPhysicalGeometry.emplace_back(transform, mesh, material);
             break;
         }
@@ -283,43 +283,43 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
 {
     _buffersInitialized = true;
 
-    TextureFilter nearest = TextureFilter_Nearest;
+    TextureFilter nearest = TextureFilter::Nearest;
 
     // Depth buffer
-    _depthBuffer = RenderBuffer(RenderBufferFormat_DepthComponent, width, height);
+    _depthBuffer = RenderBuffer(RenderBufferFormat::DepthComponent, width, height);
 
     // Diffuse buffer: Red Green Blue Lighting
-    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelFormat(PixelType_Float32, 4), nearest, nearest, false, false);
+    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelFormat(PixelType::Float32, 4), nearest, nearest, false, false);
 
     // Material buffer: Roughness Metallic ?
-    _materialBuffer = Texture("MaterialBuffer", width, height, PixelFormat(PixelType_Float32, 3), nearest, nearest, false, false);
+    _materialBuffer = Texture("MaterialBuffer", width, height, PixelFormat(PixelType::Float32, 3), nearest, nearest, false, false);
 
     // Position buffer: X Y Z
-    _positionBuffer = Texture("PositionBuffer", width, height, PixelFormat(PixelType_Float32, 3), nearest, nearest, false, false);
+    _positionBuffer = Texture("PositionBuffer", width, height, PixelFormat(PixelType::Float32, 3), nearest, nearest, false, false);
 
     // Normal buffer: X Y Z Depth
-    _normalBuffer = Texture("NormalBuffer", width, height, PixelFormat(PixelType_Float16, 4), nearest, nearest, false, false);
+    _normalBuffer = Texture("NormalBuffer", width, height, PixelFormat(PixelType::Float16, 4), nearest, nearest, false, false);
 
     // Back buffers
-    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelFormat(PixelType_Float32, 3), nearest, nearest, false, false);
-    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelFormat(PixelType_Float32, 3), nearest, nearest, false, false);
+    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelFormat(PixelType::Float32, 3), nearest, nearest, false, false);
+    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelFormat(PixelType::Float32, 3), nearest, nearest, false, false);
 
     // Geometry frame buffer
     _geometryFrameBuffer = FrameBuffer(width, height);
-    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color0, _diffuseBuffer);
-    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color1, _materialBuffer);
-    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color2, _positionBuffer);
-    _geometryFrameBuffer.attachTexture(FrameBufferSlot_Color3, _normalBuffer);
-    _geometryFrameBuffer.attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
+    _geometryFrameBuffer.attachTexture(FrameBufferSlot::Color0, _diffuseBuffer);
+    _geometryFrameBuffer.attachTexture(FrameBufferSlot::Color1, _materialBuffer);
+    _geometryFrameBuffer.attachTexture(FrameBufferSlot::Color2, _positionBuffer);
+    _geometryFrameBuffer.attachTexture(FrameBufferSlot::Color3, _normalBuffer);
+    _geometryFrameBuffer.attachRenderBuffer(FrameBufferSlot::Depth, _depthBuffer);
 
     // Back frame buffers
     _backFrameBuffers[0] = FrameBuffer(width, height);
-    _backFrameBuffers[0].attachTexture(FrameBufferSlot_Color0, _backBuffers[0]);
-    _backFrameBuffers[0].attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
+    _backFrameBuffers[0].attachTexture(FrameBufferSlot::Color0, _backBuffers[0]);
+    _backFrameBuffers[0].attachRenderBuffer(FrameBufferSlot::Depth, _depthBuffer);
 
     _backFrameBuffers[1] = FrameBuffer(width, height);
-    _backFrameBuffers[1].attachTexture(FrameBufferSlot_Color0, _backBuffers[1]);
-    _backFrameBuffers[1].attachRenderBuffer(FrameBufferSlot_Depth, _depthBuffer);
+    _backFrameBuffers[1].attachTexture(FrameBufferSlot::Color0, _backBuffers[1]);
+    _backFrameBuffers[1].attachRenderBuffer(FrameBufferSlot::Depth, _depthBuffer);
 
     _renderer->uploadFrameBuffer(_geometryFrameBuffer);
     _renderer->uploadFrameBuffer(_backFrameBuffers[0]);
@@ -340,12 +340,12 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
         {
             // Test the bounding box against the frustum
             FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox->extents);
-            if (result == FrustumTestResult_Inside)
+            if (result == FrustumTestResult::Inside)
             {
                 // No need to test any children
                 frustumTest = false;
             }
-            else if (result == FrustumTestResult_Intersect)
+            else if (result == FrustumTestResult::Intersect)
             {
                 // Need to test children
                 frustumTest = true;
@@ -452,71 +452,71 @@ void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, cons
         UniformBinding binding = uniform.binding();
         switch (binding)
         {
-        case UniformBinding_None:
+        case UniformBinding::None:
             break;
-        case UniformBinding_RenderTargetSize:
+        case UniformBinding::RenderTargetSize:
             frame.setUniform(uniform, Vector2(static_cast<double>(target.width()), static_cast<double>(target.height())));
             break;
-        case UniformBinding_CameraPosition:
+        case UniformBinding::CameraPosition:
             frame.setUniform(uniform, camera.position);
             break;
-        case UniformBinding_CameraFront:
+        case UniformBinding::CameraFront:
             frame.setUniform(uniform, camera.front);
             break;
-        case UniformBinding_CameraUp:
+        case UniformBinding::CameraUp:
             frame.setUniform(uniform, camera.up);
             break;
-        case UniformBinding_CameraExposure:
+        case UniformBinding::CameraExposure:
             frame.setUniform(uniform, camera.exposure);
             break;
-        case UniformBinding_CameraOneOverGamma:
+        case UniformBinding::CameraOneOverGamma:
             frame.setUniform(uniform, 1.0 / camera.gamma);
             break;
-        case UniformBinding_PrimaryLightDirection:
+        case UniformBinding::PrimaryLightDirection:
             frame.setUniform(uniform, _frameData.primaryLightDirection);
             break;
-        case UniformBinding_PrimaryLightColor:
+        case UniformBinding::PrimaryLightColor:
             frame.setUniform(uniform, _frameData.primaryLightColor);
             break;
-        case UniformBinding_ViewMatrix:
+        case UniformBinding::ViewMatrix:
             frame.setUniform(uniform, camera.viewMatrix);
             break;
-        case UniformBinding_ProjectionMatrix:
+        case UniformBinding::ProjectionMatrix:
             frame.setUniform(uniform, camera.projectionMatrix);
             break;
-        case UniformBinding_ViewProjectionMatrix:
+        case UniformBinding::ViewProjectionMatrix:
             frame.setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
             break;
-        case UniformBinding_ModelMatrix:
+        case UniformBinding::ModelMatrix:
             frame.setUniform(uniform, model);
             break;
-        case UniformBinding_ModelViewMatrix:
+        case UniformBinding::ModelViewMatrix:
             frame.setUniform(uniform, camera.viewMatrix * model);
             break;
-        case UniformBinding_ModelViewProjectionMatrix:
+        case UniformBinding::ModelViewProjectionMatrix:
             frame.setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
             break;
-        case UniformBinding_LightProbeCubeMap:
+        case UniformBinding::LightProbeCubeMap:
             assert(_frameData.lightProbeCubeMap);
             frame.setUniform(uniform, *_frameData.lightProbeCubeMap);
             break;
-        case UniformBinding_SkyBoxCubeMap:
+        case UniformBinding::SkyBoxCubeMap:
             assert(_frameData.skyBoxCubeMap);
             frame.setUniform(uniform, *_frameData.skyBoxCubeMap);
             break;
-        case UniformBinding_DiffuseBuffer:
+        case UniformBinding::DiffuseBuffer:
             frame.setUniform(uniform, _diffuseBuffer);
             break;
-        case UniformBinding_MaterialBuffer:
+        case UniformBinding::MaterialBuffer:
             frame.setUniform(uniform, _materialBuffer);
             break;
-        case UniformBinding_PositionBuffer:
+        case UniformBinding::PositionBuffer:
             frame.setUniform(uniform, _positionBuffer);
             break;
-        case UniformBinding_NormalBuffer:
+        case UniformBinding::NormalBuffer:
             frame.setUniform(uniform, _normalBuffer);
             break;
-        case UniformBinding_BackBuffer:
+        case UniformBinding::BackBuffer:
             frame.setUniform(uniform, lastBackBuffer());
             break;
         }

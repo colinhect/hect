@@ -234,7 +234,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    UniformType _type { UniformType_Float };
+    UniformType _type { UniformType::Float };
     Any _value;
 };
 

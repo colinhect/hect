@@ -28,55 +28,55 @@ namespace hect
 
 ///
 /// A factor applied to either the source or destination pixel when blending.
-enum BlendFactor
+enum class BlendFactor
 {
     ///
     /// \code (0, 0, 0, 0) \endcode
-    BlendFactor_Zero,
+    Zero,
 
     ///
     /// \code (1, 1, 1, 1) \endcode
-    BlendFactor_One,
+    One,
 
     ///
     /// \code (s.r, s.g, s.b, s.a) \endcode where
     /// \code s = source \endcode
-    BlendFactor_SourceColor,
+    SourceColor,
 
     ///
     /// \code (1, 1, 1, 1) - (s.r, s.g, s.b, s.a) \endcode where
     /// \code s = source \endcode
-    BlendFactor_OneMinusSourceColor,
+    OneMinusSourceColor,
 
     ///
     /// \code (d.r, d.g, d.b, d.a) \endcode where
     /// \code d = destination \endcode
-    BlendFactor_DestinationColor,
+    DestinationColor,
 
     ///
     /// \code (1, 1, 1, 1) - (d.r, d.g, d.b, d.a) \endcode
     /// \code d = destination \endcode
-    BlendFactor_OneMinusDestinationColor,
+    OneMinusDestinationColor,
 
     ///
     /// \code (s.a, s.a, s.a, s.a) \endcode where
     /// \code s = source \endcode
-    BlendFactor_SourceAlpha,
+    SourceAlpha,
 
     ///
     /// \code (1, 1, 1, 1) - (s.a, s.a, s.a, s.a) \endcode where
     /// \code s = source \endcode
-    BlendFactor_OneMinusSourceAlpha,
+    OneMinusSourceAlpha,
 
     ///
     /// \code (d.a, d.a, d.a, d.a) \endcode where
     /// \code d = destination \endcode
-    BlendFactor_DestinationAlpha,
+    DestinationAlpha,
 
     ///
     /// \code (1, 1, 1, 1) - (d.a, d.a, d.a, d.a) \endcode where
     /// \code d = destination \endcode
-    BlendFactor_OneMinusDestinationAlpha
+    OneMinusDestinationAlpha
 };
 
 }

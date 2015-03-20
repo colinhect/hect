@@ -29,95 +29,95 @@ namespace hect
 ///
 /// A binding from a uniform to a built-in value in the rendering
 /// pipeline.
-enum UniformBinding
+enum class UniformBinding
 {
     ///
     /// No binding.
-    UniformBinding_None,
+    None,
 
     ///
     /// Bound to the size of the active render target.
-    UniformBinding_RenderTargetSize,
+    RenderTargetSize,
 
     ///
     /// Bound to the world-space position of the active camera.
-    UniformBinding_CameraPosition,
+    CameraPosition,
 
     ///
     /// Bound to the world-space front direction of the active camera.
-    UniformBinding_CameraFront,
+    CameraFront,
 
     ///
     /// Bound to the world-space up direction of the active camera.
-    UniformBinding_CameraUp,
+    CameraUp,
 
     ///
     /// Bound to the exposure of the active camera.
-    UniformBinding_CameraExposure,
+    CameraExposure,
 
     ///
     /// Bound to the one divided by the gamma of the active camera.
-    UniformBinding_CameraOneOverGamma,
+    CameraOneOverGamma,
 
     ///
     /// Bound to the direction of the primary light.
-    UniformBinding_PrimaryLightDirection,
+    PrimaryLightDirection,
 
     ///
     /// Bound to the color of the primary light.
-    UniformBinding_PrimaryLightColor,
+    PrimaryLightColor,
 
     ///
     /// Bound to the view matrix.
-    UniformBinding_ViewMatrix,
+    ViewMatrix,
 
     ///
     /// Bound to the projection matrix.
-    UniformBinding_ProjectionMatrix,
+    ProjectionMatrix,
 
     ///
     /// Bound to the product of the view and projection matrices.
-    UniformBinding_ViewProjectionMatrix,
+    ViewProjectionMatrix,
 
     ///
     /// Bound to the model matrix.
-    UniformBinding_ModelMatrix,
+    ModelMatrix,
 
     ///
     /// Bound to the product of the model and the view matrix.
-    UniformBinding_ModelViewMatrix,
+    ModelViewMatrix,
 
     ///
     /// Bound to the product of the model, view, and projection matrices.
-    UniformBinding_ModelViewProjectionMatrix,
+    ModelViewProjectionMatrix,
 
     ///
     /// Bound to the nearest light probe's ambient environment cube map.
-    UniformBinding_LightProbeCubeMap,
+    LightProbeCubeMap,
 
     ///
     /// Bound to the active sky box cube map.
-    UniformBinding_SkyBoxCubeMap,
+    SkyBoxCubeMap,
 
     ///
     /// Bound to the diffuse component of the geometry frame buffer.
-    UniformBinding_DiffuseBuffer,
+    DiffuseBuffer,
 
     ///
     /// Bound to the material component of the geometry frame buffer.
-    UniformBinding_MaterialBuffer,
+    MaterialBuffer,
 
     ///
     /// Bound to the position component of the geometry frame buffer.
-    UniformBinding_PositionBuffer,
+    PositionBuffer,
 
     ///
     /// Bound to the normal component of the geometry frame buffer.
-    UniformBinding_NormalBuffer,
+    NormalBuffer,
 
     ///
     /// Bound to the back buffer.
-    UniformBinding_BackBuffer
+    BackBuffer
 };
 
 }

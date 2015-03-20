@@ -28,15 +28,15 @@ namespace hect
 
 ///
 /// A type of texture.
-enum TextureType
+enum class TextureType
 {
     ///
     /// A 2-dimensional texture.
-    TextureType_2D,
+    TwoDimensional,
 
     ///
     /// A cube map texture.
-    TextureType_CubeMap
+    CubeMap
 };
 
 }
