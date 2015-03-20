@@ -23,7 +23,6 @@ systems:
     environmentShader: Hect/Rendering/Environment.shader
     directionalLightShader: Hect/Rendering/DirectionalLight.shader
     skyBoxShader: Hect/Shaders/SkyBox.shader
-    screenMesh: Hect/Rendering/Screen.mesh
     skyBoxMesh: Hect/Rendering/SkyBox.mesh
   - type: DebugSystem
     coloredLineShader: Hect/Shaders/ColoredLine.shader

@@ -267,6 +267,10 @@ public:
         void renderMesh(Mesh& mesh);
 
         ///
+        /// Render a viewport using the active state of the frame.
+        void renderViewport();
+
+        ///
         /// Clears the render target.
         ///
         /// \param depth Whether the depth channel is cleared.
@@ -277,8 +281,6 @@ public:
 
         Renderer& _renderer;
     };
-
-    virtual ~Renderer() { }
 
     ///
     /// Begins a new context for rendering graphics to a target.

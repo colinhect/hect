@@ -206,6 +206,10 @@ void Renderer::Frame::renderMesh(Mesh& mesh)
     }
 }
 
+void Renderer::Frame::renderViewport()
+{
+}
+
 void Renderer::Frame::clear(bool depth)
 {
     (void)depth;

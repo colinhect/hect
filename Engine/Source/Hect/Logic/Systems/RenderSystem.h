@@ -97,12 +97,6 @@ public:
     Shader::Handle skyBoxShader;
 
     ///
-    /// The mesh used to render to the screen.
-    ///
-    /// \property{required}
-    Mesh::Handle screenMesh;
-
-    ///
     /// The mesh used to render sky boxes.
     ///
     /// \property{required}

@@ -227,7 +227,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         {
             frame.setShader(*environmentShader);
             setBoundUniforms(frame, *environmentShader, camera, target, _identityTransform);
-            frame.renderMesh(*screenMesh);
+            frame.renderViewport();
         }
 
         // Render each directional light in the scene
@@ -237,7 +237,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
             _frameData.primaryLightDirection = light->direction;
             _frameData.primaryLightColor = light->color;
             setBoundUniforms(frame, *directionalLightShader, camera, target, _identityTransform);
-            frame.renderMesh(*screenMesh);
+            frame.renderViewport();
         }
     }
 
@@ -251,7 +251,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         // Composite
         frame.setShader(*compositeShader);
         setBoundUniforms(frame, *compositeShader, camera, target, _identityTransform);
-        frame.renderMesh(*screenMesh);
+        frame.renderViewport();
 
         // Render translucent geometry
         for (RenderCall& renderCall : _frameData.translucentPhysicalGeometry)
@@ -275,7 +275,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         frame.setShader(*exposeShader);
         setBoundUniforms(frame, *exposeShader, camera, target, _identityTransform);
 
-        frame.renderMesh(*screenMesh);
+        frame.renderViewport();
     }
 }
 

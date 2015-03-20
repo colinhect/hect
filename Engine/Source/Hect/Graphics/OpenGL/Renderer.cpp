@@ -34,6 +34,7 @@
 #include "Hect/Core/Logging.h"
 #include "Hect/Graphics/FrameBuffer.h"
 #include "Hect/Graphics/Mesh.h"
+#include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture.h"
@@ -49,6 +50,8 @@ using namespace hect;
 
 namespace
 {
+
+static Mesh _viewportMesh = Mesh("Viewport");
 
 // OpenGL-specific data for a shader program
 class ShaderData :
@@ -640,6 +643,11 @@ void Renderer::Frame::renderMesh(Mesh& mesh)
     );
 }
 
+void Renderer::Frame::renderViewport()
+{
+    renderMesh(_viewportMesh);
+}
+
 void Renderer::Frame::clear(bool depth)
 {
     GL_ASSERT(glClear(depth ? (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) : GL_COLOR_BUFFER_BIT));
@@ -1180,6 +1188,33 @@ Renderer::Renderer()
 
     // Set up the cube map rendering profile
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+    VertexLayout vertexLayout;
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::TextureCoords0, VertexAttributeType::Float32, 3));
+
+    _viewportMesh.setVertexLayout(vertexLayout);
+
+    MeshWriter meshWriter(_viewportMesh);
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-1, -1, 0));
+    meshWriter.writeAttributeData(VertexAttributeSemantic::TextureCoords0, Vector2(0, 0));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(1, -1, 0));
+    meshWriter.writeAttributeData(VertexAttributeSemantic::TextureCoords0, Vector2(1, 0));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(1, 1, 0));
+    meshWriter.writeAttributeData(VertexAttributeSemantic::TextureCoords0, Vector2(1, 1));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-1, 1, 0));
+    meshWriter.writeAttributeData(VertexAttributeSemantic::TextureCoords0, Vector2(0, 1));
+    meshWriter.addIndex(0);
+    meshWriter.addIndex(1);
+    meshWriter.addIndex(2);
+    meshWriter.addIndex(2);
+    meshWriter.addIndex(3);
+    meshWriter.addIndex(0);
+
 }
 
 #endif
