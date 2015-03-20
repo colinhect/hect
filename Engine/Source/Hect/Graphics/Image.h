@@ -25,57 +25,13 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Color.h"
+#include "Hect/Graphics/ColorSpace.h"
+#include "Hect/Graphics/PixelFormat.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/ByteVector.h"
 
 namespace hect
 {
-
-///
-/// The color space a pixel is in.
-enum ColorSpace
-{
-    ///
-    /// Non-linear color space (sRGB).
-    ///
-    /// \note Only an image with a pixel type of PixelType_Byte can
-    /// be non-linear.
-    ColorSpace_NonLinear,
-
-    ///
-    /// Linear color space.
-    ColorSpace_Linear
-};
-
-///
-/// The type of each component in a pixel.
-enum PixelType
-{
-    ///
-    /// A byte.
-    PixelType_Byte,
-
-    ///
-    /// 16-bit floating point.
-    PixelType_Float16,
-
-    ///
-    /// 32-bit floating point.
-    PixelType_Float32
-};
-
-///
-/// The layout of the component(s) in a pixel.
-enum PixelFormat
-{
-    ///
-    /// Red, green, and blue channels.
-    PixelFormat_Rgb,
-
-    ///
-    /// Red, green, blue, and alpha channels.
-    PixelFormat_Rgba
-};
 
 ///
 /// A 2-dimensional image.
@@ -93,9 +49,8 @@ public:
     ///
     /// \param width The width.
     /// \param height The height.
-    /// \param pixelType The pixel type.
     /// \param pixelFormat The pixel format.
-    Image(unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat);
+    Image(unsigned width, unsigned height, const PixelFormat& pixelFormat);
 
     ///
     /// Flips the image vertically.
@@ -169,23 +124,18 @@ public:
     void setHeight(unsigned height);
 
     ///
-    /// Returns the pixel type.
-    PixelType pixelType() const;
-
-    ///
-    /// Sets the pixel type.
-    ///
-    /// \param pixelType The new pixel type.
-    void setPixelType(PixelType pixelType);
-
-    ///
     /// Returns the pixel format.
-    PixelFormat pixelFormat() const;
+    const PixelFormat& pixelFormat() const;
 
     ///
     /// Sets the pixel format.
     ///
+    /// \note Does not affect the raw pixel data.
+    ///
     /// \param pixelFormat The new pixel format.
+    ///
+    /// \throws InvalidOperation If the pixel format is incompatible with the
+    /// color space.
     void setPixelFormat(PixelFormat pixelFormat);
 
     ///
@@ -195,27 +145,26 @@ public:
     ///
     /// Sets the color space.
     ///
-    /// \param colorSpace The new color space.
-    void setColorSpace(ColorSpace colorSpace);
-
+    /// \note Does not affect the raw pixel data.
     ///
-    /// Returns the number of bytes in a pixel of this image.
-    unsigned bytesPerPixel() const;
+    /// \param colorSpace The new color space.
+    ///
+    /// \throws InvalidOperation If the color space is incompatible with the
+    /// pixel format.
+    void setColorSpace(ColorSpace colorSpace);
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
 
 private:
     void ensurePixelData();
-    unsigned componentsPerPixel() const;
-    unsigned bytesPerComponent() const;
+    void ensureCompatible(const PixelFormat& pixelFormat, ColorSpace colorSpace);
     size_t computePixelOffset(unsigned x, unsigned y) const;
 
     unsigned _width { 0 };
     unsigned _height { 0 };
 
-    PixelType _pixelType { PixelType_Byte };
-    PixelFormat _pixelFormat { PixelFormat_Rgba };
+    PixelFormat _pixelFormat;
 
     ColorSpace _colorSpace { ColorSpace_Linear };
 

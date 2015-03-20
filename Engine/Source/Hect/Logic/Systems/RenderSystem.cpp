@@ -289,20 +289,20 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
     _depthBuffer = RenderBuffer(RenderBufferFormat_DepthComponent, width, height);
 
     // Diffuse buffer: Red Green Blue Lighting
-    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelType_Float32, PixelFormat_Rgba, nearest, nearest, false, false);
+    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelFormat(PixelType_Float32, 4), nearest, nearest, false, false);
 
     // Material buffer: Roughness Metallic ?
-    _materialBuffer = Texture("MaterialBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
+    _materialBuffer = Texture("MaterialBuffer", width, height, PixelFormat(PixelType_Float32, 3), nearest, nearest, false, false);
 
     // Position buffer: X Y Z
-    _positionBuffer = Texture("PositionBuffer", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
+    _positionBuffer = Texture("PositionBuffer", width, height, PixelFormat(PixelType_Float32, 3), nearest, nearest, false, false);
 
     // Normal buffer: X Y Z Depth
-    _normalBuffer = Texture("NormalBuffer", width, height, PixelType_Float16, PixelFormat_Rgba, nearest, nearest, false, false);
+    _normalBuffer = Texture("NormalBuffer", width, height, PixelFormat(PixelType_Float16, 4), nearest, nearest, false, false);
 
     // Back buffers
-    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
-    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelType_Float32, PixelFormat_Rgb, nearest, nearest, false, false);
+    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelFormat(PixelType_Float32, 3), nearest, nearest, false, false);
+    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelFormat(PixelType_Float32, 3), nearest, nearest, false, false);
 
     // Geometry frame buffer
     _geometryFrameBuffer = FrameBuffer(width, height);

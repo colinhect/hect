@@ -248,39 +248,78 @@ GLenum _pixelTypeLookUp[3] =
     GL_FLOAT // Float32
 };
 
-GLenum _pixelFormatLookUp[2] =
+GLenum _pixelFormatLookUp[5] =
 {
-    GL_RGB, // Rgb
-    GL_RGBA // Rgba
+    -1, // 0
+    GL_R, // 1
+    GL_RG, // 2
+    GL_RGB, // 3
+    GL_RGBA // 4
 };
 
-GLenum _internalImageFormatLookUp[2][2][3] =
+GLenum _internalImageFormatLookUp[2][5][3] =
 {
     // NonLinear
     {
-        // Rgb
+        // 0
+        {
+            -1, // Byte
+            -1, // Float16
+            -1 // Float32
+        },
+        // 1
+        {
+            -1, // Byte
+            -1, // Float16
+            -1 // Float32
+        },
+        // 2
+        {
+            -1, // Byte
+            -1, // Float16
+            -1 // Float32
+        },
+        // 3
         {
             GL_SRGB8, // Byte
-            GL_RGB16F, // Float16
-            GL_RGB32F // Float32
+            -1, // Float16
+            -1 // Float32
         },
-        // Rgba
+        // 4
         {
             GL_SRGB8_ALPHA8, // Byte
-            GL_RGBA16F, // Float16
-            GL_RGBA32F // Float32
+            -1, // Float16
+            -1 // Float32
         }
     },
 
     // Linear
     {
-        // Rgb
+        // 0
+        {
+            -1, // Byte
+            -1, // Float16
+            -1 // Float32
+        },
+        // 1
+        {
+            GL_R8, // Byte
+            GL_R16F, // Float16
+            GL_R32F // Float32
+        },
+        // 2
+        {
+            GL_RG8, // Byte
+            GL_RG16F, // Float16
+            GL_RG32F // Float32
+        },
+        // 3
         {
             GL_RGB8, // Byte
             GL_RGB16F, // Float16
             GL_RGB32F // Float32
         },
-        // Rgba
+        // 4
         {
             GL_RGBA8, // Byte
             GL_RGBA16F, // Float16
@@ -894,17 +933,18 @@ void Renderer::uploadTexture(Texture& texture)
     for (Image::Handle& imageHandle : texture.sourceImages())
     {
         Image& image = *imageHandle;
+        const PixelFormat& pixelFormat = image.pixelFormat();
 
         GL_ASSERT(
             glTexImage2D(
                 target,
                 0,
-                _internalImageFormatLookUp[(int)image.colorSpace()][(int)image.pixelFormat()][(int)image.pixelType()],
+                _internalImageFormatLookUp[(int)image.colorSpace()][(int)pixelFormat.cardinality()][(int)pixelFormat.type()],
                 image.width(),
                 image.height(),
                 0,
-                _pixelFormatLookUp[(int)image.pixelFormat()],
-                _pixelTypeLookUp[(int)image.pixelType()],
+                _pixelFormatLookUp[(int)pixelFormat.cardinality()],
+                _pixelTypeLookUp[(int)pixelFormat.type()],
                 image.hasPixelData() ? &image.pixelData()[0] : 0
             )
         );
@@ -924,7 +964,7 @@ void Renderer::uploadTexture(Texture& texture)
     GL_ASSERT(glBindTexture(type, 0));
 
     texture.setAsUploaded(*this, new TextureData(*this, texture, textureId));
-    statistics().memoryUsage += texture.width() * texture.height() * texture.bytesPerPixel();
+    statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
     HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
@@ -939,7 +979,7 @@ void Renderer::destroyTexture(Texture& texture)
     auto data = texture.dataAs<TextureData>();
     GL_ASSERT(glDeleteTextures(1, &data->textureId));
 
-    statistics().memoryUsage -= texture.width() * texture.height() * texture.bytesPerPixel();
+    statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
     texture.setAsDestroyed();
 
     HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
@@ -959,17 +999,16 @@ Image Renderer::downloadTextureImage(const Texture& texture)
     Image image;
     image.setWidth(texture.width());
     image.setHeight(texture.height());
-    image.setPixelType(texture.pixelType());
     image.setPixelFormat(texture.pixelFormat());
 
-    ByteVector pixelData(image.bytesPerPixel() * image.width() * image.height(), 0);
+    ByteVector pixelData(image.pixelFormat().size() * image.width() * image.height(), 0);
 
     GL_ASSERT(
         glGetTexImage(
             GL_TEXTURE_2D,
             0,
-            _pixelFormatLookUp[(int)texture.pixelFormat()],
-            _pixelTypeLookUp[(int)texture.pixelType()],
+            _pixelFormatLookUp[(int)texture.pixelFormat().cardinality()],
+            _pixelTypeLookUp[(int)texture.pixelFormat().type()],
             &pixelData[0]
         )
     );

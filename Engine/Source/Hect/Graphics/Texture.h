@@ -28,34 +28,11 @@
 #include "Hect/IO/Asset.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/TextureFilter.h"
+#include "Hect/Graphics/TextureType.h"
 
 namespace hect
 {
-
-///
-/// Describes how a texture pixel is rendered when magnified or minified.
-enum TextureFilter
-{
-    ///
-    /// The nearest pixel is selected.
-    TextureFilter_Nearest,
-
-    /// The pixel is interpolated linearly.
-    TextureFilter_Linear
-};
-
-///
-/// A type of texture.
-enum TextureType
-{
-    ///
-    /// A 2-dimensional texture.
-    TextureType_2D,
-
-    ///
-    /// A cube map texture.
-    TextureType_CubeMap
-};
 
 ///
 /// A texture with one or more source images that can be sampled.
@@ -80,13 +57,12 @@ public:
     /// \param name The name.
     /// \param width The width.
     /// \param height The height.
-    /// \param pixelType The pixel type.
     /// \param pixelFormat The pixel format.
     /// \param minFilter The minification filter.
     /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
     /// \param wrapped True if the texture is wrapped; false otherwise.
-    Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped);
+    Texture(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped);
 
     ///
     /// Constructs a 2-dimensional texture.
@@ -198,16 +174,8 @@ public:
     unsigned height() const;
 
     ///
-    /// Returns the pixel type.
-    PixelType pixelType() const;
-
-    ///
     /// Returns the pixel format.
-    PixelFormat pixelFormat() const;
-
-    ///
-    /// Returns the number of bytes in a pixel of this texture.
-    unsigned bytesPerPixel() const;
+    const PixelFormat& pixelFormat() const;
 
     ///
     /// Returns whether the texture is equivalent to another.
@@ -236,8 +204,7 @@ private:
     unsigned _width { 0 };
     unsigned _height { 0 };
 
-    PixelType _pixelType { PixelType_Byte };
-    PixelFormat _pixelFormat { PixelFormat_Rgba };
+    PixelFormat _pixelFormat;
 
     ColorSpace _colorSpace { ColorSpace_NonLinear };
 

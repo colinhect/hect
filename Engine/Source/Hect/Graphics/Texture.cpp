@@ -32,11 +32,10 @@ Texture::Texture()
 {
 }
 
-Texture::Texture(const std::string& name, unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
+Texture::Texture(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
     Asset(name),
     _width(width),
     _height(height),
-    _pixelType(pixelType),
     _pixelFormat(pixelFormat),
     _minFilter(minFilter),
     _magFilter(magFilter),
@@ -46,7 +45,6 @@ Texture::Texture(const std::string& name, unsigned width, unsigned height, Pixel
     Image::Handle sourceImage(new Image());
     sourceImage->setWidth(width);
     sourceImage->setHeight(height);
-    sourceImage->setPixelType(pixelType);
     sourceImage->setPixelFormat(pixelFormat);
     addSourceImage(sourceImage);
 }
@@ -120,10 +118,6 @@ void Texture::addSourceImage(const Image::Handle& image)
         {
             throw InvalidOperation("The source image does not match the dimensions of the texture");
         }
-        else if (_pixelType != image->pixelType())
-        {
-            throw InvalidOperation("The source image pixel type does not match the pixel type of the texture");
-        }
         else if (_pixelFormat != image->pixelFormat())
         {
             throw InvalidOperation("The source image pixel format does not match the pixel format of the texture");
@@ -133,7 +127,6 @@ void Texture::addSourceImage(const Image::Handle& image)
     {
         _width = image->width();
         _height = image->height();
-        _pixelType = image->pixelType();
         _pixelFormat = image->pixelFormat();
     }
 
@@ -215,25 +208,9 @@ unsigned Texture::height() const
     return _height;
 }
 
-PixelFormat Texture::pixelFormat() const
+const PixelFormat& Texture::pixelFormat() const
 {
     return _pixelFormat;
-}
-
-PixelType Texture::pixelType() const
-{
-    return _pixelType;
-}
-
-unsigned Texture::bytesPerPixel() const
-{
-    static const unsigned _bytesPerPixelLookUp[2][3] =
-    {
-        { 3, 6, 12 },
-        { 4, 8, 16 }
-    };
-
-    return _bytesPerPixelLookUp[_pixelFormat][_pixelType];
 }
 
 bool Texture::operator==(const Texture& texture) const
@@ -271,8 +248,8 @@ bool Texture::operator==(const Texture& texture) const
         return false;
     }
 
-    // Pixel type/format
-    if (_pixelType != texture._pixelType && _pixelFormat != texture._pixelFormat)
+    // Pixel format
+    if (_pixelFormat != texture._pixelFormat)
     {
         return false;
     }

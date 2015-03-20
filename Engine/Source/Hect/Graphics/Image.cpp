@@ -34,17 +34,16 @@ Image::Image()
 {
 }
 
-Image::Image(unsigned width, unsigned height, PixelType pixelType, PixelFormat pixelFormat) :
+Image::Image(unsigned width, unsigned height, const PixelFormat& pixelFormat) :
     _width(width),
     _height(height),
-    _pixelType(pixelType),
     _pixelFormat(pixelFormat)
 {
 }
 
 void Image::flipVertical()
 {
-    size_t bytesPerRow = bytesPerPixel() * _width;
+    size_t bytesPerRow = _pixelFormat.size() * _width;
     ByteVector newPixelData(_pixelData.size(), 0);
     for (unsigned i = 0; i < _height; ++i)
     {
@@ -81,12 +80,11 @@ void Image::writePixel(unsigned x, unsigned y, const Color& color)
 
     size_t offset = computePixelOffset(x, y);
 
-    unsigned componentCount = componentsPerPixel();
-    for (unsigned componentIndex = 0; componentIndex < componentCount; ++componentIndex)
+    for (unsigned componentIndex = 0; componentIndex < _pixelFormat.cardinality(); ++componentIndex)
     {
         double value = color[componentIndex];
 
-        switch (_pixelType)
+        switch (_pixelFormat.type())
         {
         case PixelType_Byte:
             _pixelData[offset + componentIndex] = static_cast<uint8_t>(color[componentIndex] * 255);
@@ -116,10 +114,9 @@ Color Image::readPixel(unsigned x, unsigned y) const
     {
         size_t offset = computePixelOffset(x, y);
 
-        unsigned componentCount = componentsPerPixel();
-        for (unsigned componentIndex = 0; componentIndex < componentCount; ++componentIndex)
+        for (unsigned componentIndex = 0; componentIndex < _pixelFormat.cardinality(); ++componentIndex)
         {
-            switch (_pixelType)
+            switch (_pixelFormat.type())
             {
             case PixelType_Byte:
                 color[componentIndex] = static_cast<double>(_pixelData[offset + componentIndex]) / 255.0;
@@ -164,23 +161,14 @@ void Image::setHeight(unsigned height)
     _height = height;
 }
 
-PixelType Image::pixelType() const
-{
-    return _pixelType;
-}
-
-void Image::setPixelType(PixelType pixelType)
-{
-    _pixelType = pixelType;
-}
-
-PixelFormat Image::pixelFormat() const
+const PixelFormat& Image::pixelFormat() const
 {
     return _pixelFormat;
 }
 
 void Image::setPixelFormat(PixelFormat pixelFormat)
 {
+    ensureCompatible(pixelFormat, _colorSpace);
     _pixelFormat = pixelFormat;
 }
 
@@ -191,61 +179,36 @@ ColorSpace Image::colorSpace() const
 
 void Image::setColorSpace(ColorSpace colorSpace)
 {
+    ensureCompatible(_pixelFormat, colorSpace);
     _colorSpace = colorSpace;
-}
-
-unsigned Image::bytesPerPixel() const
-{
-    return bytesPerComponent() * componentsPerPixel();
 }
 
 void Image::ensurePixelData()
 {
     if (_pixelData.empty())
     {
-        unsigned pixelSize = bytesPerPixel();
-        _pixelData = ByteVector(_width * _height * pixelSize);
+        _pixelData = ByteVector(_width * _height * _pixelFormat.size());
     }
-}
-
-unsigned Image::componentsPerPixel() const
-{
-    unsigned componentCount = 0;
-    switch (_pixelFormat)
-    {
-    case PixelFormat_Rgb:
-        componentCount = 3;
-        break;
-    case PixelFormat_Rgba:
-        componentCount = 4;
-        break;
-    }
-    return componentCount;
-}
-
-unsigned Image::bytesPerComponent() const
-{
-    unsigned byteCount = 0;
-    switch (_pixelType)
-    {
-    case PixelType_Byte:
-        byteCount = 1;
-        break;
-    case PixelType_Float16:
-        byteCount = 2;
-        break;
-    case PixelType_Float32:
-        byteCount = 4;
-        break;
-    }
-    return byteCount;
 }
 
 size_t Image::computePixelOffset(unsigned x, unsigned y) const
 {
-    unsigned pixelSize = bytesPerPixel();
+    unsigned pixelSize = _pixelFormat.size();
     size_t offset = _width * y * pixelSize + x * pixelSize;
     return offset;
+}
+
+void Image::ensureCompatible(const PixelFormat& pixelFormat, ColorSpace colorSpace)
+{
+    if (colorSpace == ColorSpace_NonLinear)
+    {
+        if (_pixelFormat.type() != PixelType_Byte ||
+                (_pixelFormat.cardinality() != 3 &&
+                 _pixelFormat.cardinality() != 4))
+        {
+            throw InvalidOperation("Color space is incompatible with pixel format");
+        }
+    }
 }
 
 void Image::encode(Encoder& encoder) const
@@ -253,7 +216,7 @@ void Image::encode(Encoder& encoder) const
     WriteStream& stream = encoder.binaryStream();
 
     // Verify pixel format and type.
-    if (_pixelType != PixelType_Byte || _pixelFormat != PixelFormat_Rgba)
+    if (_pixelFormat.type() != PixelType_Byte || _pixelFormat.cardinality() != 4)
     {
         throw InvalidOperation("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
     }
@@ -297,8 +260,7 @@ void Image::decode(Decoder& decoder)
     // Set various properties for the image
     setWidth(width);
     setHeight(height);
-    setPixelType(PixelType_Byte);
-    setPixelFormat(PixelFormat_Rgba);
+    setPixelFormat(PixelFormat(PixelType_Byte, 4));
     setPixelData(std::move(decodedPixelData));
 
     // Flip the image to OpenGL ordering
