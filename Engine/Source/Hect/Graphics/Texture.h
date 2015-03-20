@@ -82,16 +82,6 @@ public:
     void setType(TextureType type);
 
     ///
-    /// Returns the color space.
-    ColorSpace colorSpace() const;
-
-    ///
-    /// Sets the color space.
-    ///
-    /// \param colorSpace The new color space.
-    void setColorSpace(ColorSpace colorSpace);
-
-    ///
     /// Returns the source images.
     ImageSequence sourceImages();
 
@@ -205,8 +195,6 @@ private:
     unsigned _height { 0 };
 
     PixelFormat _pixelFormat;
-
-    ColorSpace _colorSpace { ColorSpace::NonLinear };
 
     TextureFilter _minFilter { TextureFilter::Linear };
     TextureFilter _magFilter { TextureFilter::Linear };

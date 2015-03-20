@@ -202,9 +202,9 @@ void Image::ensureCompatible(const PixelFormat& pixelFormat, ColorSpace colorSpa
 {
     if (colorSpace == ColorSpace::NonLinear)
     {
-        if (_pixelFormat.type() != PixelType::Byte ||
-                (_pixelFormat.cardinality() != 3 &&
-                 _pixelFormat.cardinality() != 4))
+        if (pixelFormat.type() != PixelType::Byte ||
+                (pixelFormat.cardinality() != 3 &&
+                 pixelFormat.cardinality() != 4))
         {
             throw InvalidOperation("Color space is incompatible with pixel format");
         }
