@@ -76,12 +76,12 @@ public:
     Platform& platform();
 
     ///
-    /// Returns the renderer.
-    Renderer& renderer();
-
-    ///
     /// Returns the main window.
     Window& window();
+
+    ///
+    /// Returns the renderer.
+    Renderer& renderer();
 
     ///
     /// Returns the asset cache.
@@ -107,8 +107,8 @@ private:
 
     std::unique_ptr<FileSystem> _fileSystem;
     std::unique_ptr<Platform> _platform;
-    std::unique_ptr<Renderer> _renderer;
     std::unique_ptr<Window> _window;
+    std::unique_ptr<Renderer> _renderer;
     std::unique_ptr<AssetCache> _assetCache;
     std::unique_ptr<TaskPool> _taskPool;
     DataValue _settings;

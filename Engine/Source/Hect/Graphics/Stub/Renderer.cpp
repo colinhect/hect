@@ -221,6 +221,10 @@ Renderer::Frame::Frame(Renderer& renderer, RenderTarget& target) :
     _renderer.setTarget(target);
 }
 
+Renderer::~Renderer()
+{
+}
+
 void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (frameBuffer.isUploaded())

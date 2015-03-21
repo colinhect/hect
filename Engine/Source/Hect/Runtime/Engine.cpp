@@ -172,12 +172,6 @@ Platform& Engine::platform()
     return *_platform;
 }
 
-Renderer& Engine::renderer()
-{
-    assert(_renderer);
-    return *_renderer;
-}
-
 Window& Engine::window()
 {
     if (!_window)
@@ -185,6 +179,12 @@ Window& Engine::window()
         throw InvalidOperation("No available window");
     }
     return *_window;
+}
+
+Renderer& Engine::renderer()
+{
+    assert(_renderer);
+    return *_renderer;
 }
 
 TaskPool& Engine::taskPool()

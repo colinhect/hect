@@ -282,6 +282,8 @@ public:
         Renderer& _renderer;
     };
 
+    ~Renderer();
+
     ///
     /// Begins a new context for rendering graphics to a target.
     ///
