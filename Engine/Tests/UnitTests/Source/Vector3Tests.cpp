@@ -133,44 +133,44 @@ TEST_CASE("Get a normalized copy of a 3-dimensional vector", "[Vector3]")
 
 TEST_CASE("Compute the angle betwen two 3-dimensional vectors", "[Vector3]")
 {
-    REQUIRE(Vector3::unitX().angleFrom(Vector3::unitX()).degrees() == 0.0);
-    REQUIRE(Vector3::unitX().angleFrom(-Vector3::unitX()).degrees() == 180.0);
+    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitX).degrees() == 0.0);
+    REQUIRE(Vector3::UnitX.angleFrom(-Vector3::UnitX).degrees() == 180.0);
 
-    REQUIRE(Vector3::unitY().angleFrom(Vector3::unitY()).degrees() == 0.0);
-    REQUIRE(Vector3::unitY().angleFrom(-Vector3::unitY()).degrees() == 180.0);
+    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitY).degrees() == 0.0);
+    REQUIRE(Vector3::UnitY.angleFrom(-Vector3::UnitY).degrees() == 180.0);
 
-    REQUIRE(Vector3::unitZ().angleFrom(Vector3::unitZ()).degrees() == 0.0);
-    REQUIRE(Vector3::unitZ().angleFrom(-Vector3::unitZ()).degrees() == 180.0);
+    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitZ).degrees() == 0.0);
+    REQUIRE(Vector3::UnitZ.angleFrom(-Vector3::UnitZ).degrees() == 180.0);
 
-    REQUIRE(Vector3::unitX().angleFrom(Vector3::unitY()).degrees() == 90.0);
-    REQUIRE(Vector3::unitX().angleFrom(Vector3::unitZ()).degrees() == 90.0);
-    REQUIRE(Vector3::unitY().angleFrom(Vector3::unitX()).degrees() == 90.0);
-    REQUIRE(Vector3::unitY().angleFrom(Vector3::unitZ()).degrees() == 90.0);
-    REQUIRE(Vector3::unitZ().angleFrom(Vector3::unitX()).degrees() == 90.0);
-    REQUIRE(Vector3::unitZ().angleFrom(Vector3::unitY()).degrees() == 90.0);
+    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitY).degrees() == 90.0);
+    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitZ).degrees() == 90.0);
+    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitX).degrees() == 90.0);
+    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitZ).degrees() == 90.0);
+    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitX).degrees() == 90.0);
+    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitY).degrees() == 90.0);
 }
 
 TEST_CASE("Compute the cross product of two 3-dimensional vectors", "[Vector3]")
 {
-    Vector3 a = Vector3::unitX().cross(Vector3::unitY());
+    Vector3 a = Vector3::UnitX.cross(Vector3::UnitY);
 
     REQUIRE(a.x == 0.0);
     REQUIRE(a.y == 0.0);
     REQUIRE(a.z == 1.0);
 
-    a = Vector3::unitY().cross(Vector3::unitX());
+    a = Vector3::UnitY.cross(Vector3::UnitX);
 
     REQUIRE(a.x == 0.0);
     REQUIRE(a.y == 0.0);
     REQUIRE(a.z == -1.0);
 
-    a = Vector3::unitX().cross(Vector3::unitZ());
+    a = Vector3::UnitX.cross(Vector3::UnitZ);
 
     REQUIRE(a.x == 0.0);
     REQUIRE(a.y == -1.0);
     REQUIRE(a.z == 0.0);
 
-    a = Vector3::unitZ().cross(Vector3::unitX());
+    a = Vector3::UnitZ.cross(Vector3::UnitX);
 
     REQUIRE(a.x == 0.0);
     REQUIRE(a.y == 1.0);

@@ -27,7 +27,7 @@ namespace hect
 {
 
 Box::Box() :
-    _scale(Vector3::one())
+    _scale(Vector3::One)
 {
 }
 

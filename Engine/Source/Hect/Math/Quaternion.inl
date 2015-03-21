@@ -132,7 +132,7 @@ void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, Angle& angle) const
     // Special case for identity quaternion
     if (w == T(0) || (x + y + z) == T(0))
     {
-        axis = Vector3T<T>::zero();
+        axis = Vector3T<T>::Zero;
         angle = Angle::fromRadians(0);
     }
     else

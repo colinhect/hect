@@ -45,7 +45,7 @@ public:
     Image();
 
     ///
-    /// Constructs an image.
+    /// Constructs a blank image.
     ///
     /// \param width The width.
     /// \param height The height.
@@ -139,11 +139,13 @@ public:
     void setPixelFormat(PixelFormat pixelFormat);
 
     ///
-    /// Returns the color space.
+    /// Returns the color space that the image's pixel data is in.
+    ///
+    /// The color space that the
     ColorSpace colorSpace() const;
 
     ///
-    /// Sets the color space.
+    /// Set the color space that the image's pixel data is in.
     ///
     /// \note Does not affect the raw pixel data.
     ///

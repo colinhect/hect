@@ -73,7 +73,7 @@ TEST_CASE("Copy a quaternion", "[Quaternion]")
 
 TEST_CASE("Construct a quaternion from an axis and an angle", "[Quaternion]")
 {
-    Quaternion a = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
+    Quaternion a = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
 
     Vector3 axis;
     Angle angle;
@@ -92,8 +92,8 @@ TEST_CASE("Multiply two quaternions", "[Quaternion]")
     Quaternion a;
     Quaternion b;
 
-    a = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(90));
-    b = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
+    a = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(90));
+    b = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
     a = b * a;
     a.toAxisAngle(axis, angle);
 
@@ -102,8 +102,8 @@ TEST_CASE("Multiply two quaternions", "[Quaternion]")
     REQUIRE(axis.z == 0.0);
     REQUIRE(angle.degrees() == 270);
 
-    a = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(90));
-    b = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
+    a = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(90));
+    b = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
     a *= b;
     a.toAxisAngle(axis, angle);
 
@@ -118,14 +118,14 @@ TEST_CASE("Multply a quaternion and a vector", "[Quaternion]")
     Quaternion r;
     Vector3 v;
 
-    r = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
-    v = r * Vector3::unitX();
+    r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
+    v = r * Vector3::UnitX;
     REQUIRE(v.x == -1.0);
     REQUIRE(v.y == 0.0);
     REQUIRE(std::abs(v.z - 0.0) < 0.01);
 
-    r = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(90));
-    v = r * Vector3::unitX();
+    r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(90));
+    v = r * Vector3::UnitX;
     REQUIRE(std::abs(v.x - 0.0) < 0.01);
     REQUIRE(v.y == 0.0);
     REQUIRE(std::abs(v.z - 1.0) < 0.01);
@@ -135,17 +135,17 @@ TEST_CASE("Multiply a vector by an identity quaternion", "[Quaternion]")
 {
     Vector3 v;
 
-    v = Quaternion() * Vector3::unitX();
+    v = Quaternion() * Vector3::UnitX;
     REQUIRE(v.x == 1.0);
     REQUIRE(v.y == 0.0);
     REQUIRE(v.z == 0.0);
 
-    v = Quaternion() * Vector3::unitY();
+    v = Quaternion() * Vector3::UnitY;
     REQUIRE(v.x == 0.0);
     REQUIRE(v.y == 1.0);
     REQUIRE(v.z == 0.0);
 
-    v = Quaternion() * Vector3::unitZ();
+    v = Quaternion() * Vector3::UnitZ;
     REQUIRE(v.x == 0.0);
     REQUIRE(v.y == 0.0);
     REQUIRE(v.z == 1.0);

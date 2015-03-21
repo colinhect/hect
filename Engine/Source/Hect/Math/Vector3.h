@@ -39,28 +39,24 @@ class Vector3T
 public:
 
     ///
-    /// Constructs a 3-dimensional vector with all components equal to
-    /// zero.
-    static Vector3T zero();
+    /// A 3-dimensional vector with all components equal to zero.
+    static const Vector3T Zero;
 
     ///
-    /// Constructs a 3-dimensional vector with all components equal to one.
-    static Vector3T one();
+    /// A 3-dimensional vector with all components equal to one.
+    static const Vector3T One;
 
     ///
-    /// Constructs a 3-dimensional vector with the x component equal to
-    /// one.
-    static Vector3T unitX();
+    /// A 3-dimensional vector with the x component equal to one.
+    static const Vector3T UnitX;
 
     ///
-    /// Constructs a 3-dimensional vector with the y component equal to
-    /// one.
-    static Vector3T unitY();
+    /// A 3-dimensional vector with the y component equal to one.
+    static const Vector3T UnitY;
 
     ///
-    /// Constructs a 3-dimensional vector with the z component equal to
-    /// one.
-    static Vector3T unitZ();
+    /// A 3-dimensional vector with the z component equal to one.
+    static const Vector3T UnitZ;
 
     ///
     /// Constructs a vector with all components equal to zero.

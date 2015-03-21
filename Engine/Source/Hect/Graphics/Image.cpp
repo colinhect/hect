@@ -260,7 +260,7 @@ void Image::decode(Decoder& decoder)
     // Set various properties for the image
     setWidth(width);
     setHeight(height);
-    setPixelFormat(PixelFormat(PixelType::Byte, 4));
+    setPixelFormat(PixelFormat::Rgba8);
     setPixelData(std::move(decodedPixelData));
 
     // Flip the image to OpenGL ordering

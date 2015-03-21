@@ -29,34 +29,19 @@ namespace hect
 {
 
 template <typename T>
-Vector3T<T> Vector3T<T>::zero()
-{
-    return Vector3T(0);
-}
+const Vector3T<T> Vector3T<T>::Zero = Vector3T<T>(0);
 
 template <typename T>
-Vector3T<T> Vector3T<T>::one()
-{
-    return Vector3T(1);
-}
+const Vector3T<T> Vector3T<T>::One = Vector3T<T>(1);
 
 template <typename T>
-Vector3T<T> Vector3T<T>::unitX()
-{
-    return Vector3T(1, 0, 0);
-}
+const Vector3T<T> Vector3T<T>::UnitX = Vector3T<T>(1, 0, 0);
 
 template <typename T>
-Vector3T<T> Vector3T<T>::unitY()
-{
-    return Vector3T(0, 1, 0);
-}
+const Vector3T<T> Vector3T<T>::UnitY = Vector3T<T>(0, 1, 0);
 
 template <typename T>
-Vector3T<T> Vector3T<T>::unitZ()
-{
-    return Vector3T(0, 0, 1);
-}
+const Vector3T<T> Vector3T<T>::UnitZ = Vector3T<T>(0, 0, 1);
 
 template <typename T>
 Vector3T<T>::Vector3T()

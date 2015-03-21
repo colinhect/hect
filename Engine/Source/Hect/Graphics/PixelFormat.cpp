@@ -25,6 +25,19 @@
 
 using namespace hect;
 
+const PixelFormat PixelFormat::R8 = PixelFormat(PixelType::Byte, 1);
+const PixelFormat PixelFormat::R16 = PixelFormat(PixelType::Float16, 1);
+const PixelFormat PixelFormat::R32 = PixelFormat(PixelType::Float32, 1);
+const PixelFormat PixelFormat::Rg8 = PixelFormat(PixelType::Byte, 2);
+const PixelFormat PixelFormat::Rg16 = PixelFormat(PixelType::Float16, 2);
+const PixelFormat PixelFormat::Rg32 = PixelFormat(PixelType::Float32, 2);
+const PixelFormat PixelFormat::Rgb8 = PixelFormat(PixelType::Byte, 3);
+const PixelFormat PixelFormat::Rgb16 = PixelFormat(PixelType::Float16, 3);
+const PixelFormat PixelFormat::Rgb32 = PixelFormat(PixelType::Float32, 3);
+const PixelFormat PixelFormat::Rgba8 = PixelFormat(PixelType::Byte, 4);
+const PixelFormat PixelFormat::Rgba16 = PixelFormat(PixelType::Float16, 4);
+const PixelFormat PixelFormat::Rgba32 = PixelFormat(PixelType::Float32, 4);
+
 PixelFormat::PixelFormat()
 {
 }

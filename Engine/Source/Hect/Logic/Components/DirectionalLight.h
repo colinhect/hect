@@ -44,7 +44,7 @@ public:
     /// The world-space direction.
     ///
     /// \property
-    Vector3 direction { Vector3::unitX() };
+    Vector3 direction { Vector3::UnitX };
 
     ///
     /// The color.

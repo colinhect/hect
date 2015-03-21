@@ -48,7 +48,7 @@ enum class ComponentEventType
     /// This event type is triggered when an entity pending destruction is
     /// destroyed during Scene::refresh().  It also may be triggered
     /// immediately if an activated entity has a component removed or replaced.
-   Remove
+    Remove
 };
 
 ///

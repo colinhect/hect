@@ -37,11 +37,11 @@ TEST_CASE("Construct a default image", "[Image]")
 
 TEST_CASE("Construct a sized image", "[Image]")
 {
-    Image image(256, 512, PixelFormat(PixelType::Byte, 3));
+    Image image(256, 512, PixelFormat::Rgb8);
 
     REQUIRE(image.width() == 256);
     REQUIRE(image.height() == 512);
-    REQUIRE(image.pixelFormat() == PixelFormat(PixelType::Byte, 3));
+    REQUIRE(image.pixelFormat() == PixelFormat::Rgb8);
     REQUIRE(!image.hasPixelData());
 }
 
@@ -53,7 +53,7 @@ TEST_CASE("Write and read pixels", "[Image]")
     {
         SECTION("Single byte pixel type")
         {
-            Image image(4, 8, PixelFormat(PixelType::Byte, 3));
+            Image image(4, 8, PixelFormat::Rgb8);
 
             for (unsigned x = 0; x < image.width(); ++x)
             {
@@ -77,7 +77,7 @@ TEST_CASE("Write and read pixels", "[Image]")
 
         SECTION("32-bit float pixel type")
         {
-            Image image(4, 8, PixelFormat(PixelType::Float32, 3));
+            Image image(4, 8, PixelFormat::Rgb32);
 
             for (unsigned x = 0; x < image.width(); ++x)
             {
@@ -101,7 +101,7 @@ TEST_CASE("Write and read pixels", "[Image]")
     {
         SECTION("Single byte pixel type")
         {
-            Image image(4, 8, PixelFormat(PixelType::Byte, 4));
+            Image image(4, 8, PixelFormat::Rgba8);
 
             for (unsigned x = 0; x < image.width(); ++x)
             {
@@ -126,7 +126,7 @@ TEST_CASE("Write and read pixels", "[Image]")
 
         SECTION("32-bit float pixel type")
         {
-            Image image(4, 8, PixelFormat(PixelType::Float32, 4));
+            Image image(4, 8, PixelFormat::Rgba32);
 
             for (unsigned x = 0; x < image.width(); ++x)
             {

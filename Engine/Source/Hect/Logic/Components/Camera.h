@@ -79,15 +79,15 @@ public:
 
     ///
     /// The front vector.
-    Vector3 front { Vector3::unitY() };
+    Vector3 front { Vector3::UnitY };
 
     ///
     /// The up vector.
-    Vector3 up { Vector3::unitZ() };
+    Vector3 up { Vector3::UnitZ };
 
     ///
     /// The right vector.
-    Vector3 right { Vector3::unitX() };
+    Vector3 right { Vector3::UnitX };
 
     ///
     /// The position.

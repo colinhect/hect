@@ -38,23 +38,20 @@ class Vector2T
 public:
 
     ///
-    /// Constructs a 2-dimensional vector with all components equal to
-    /// zero.
-    static Vector2T zero();
+    /// A 2-dimensional vector with all components equal to zero.
+    static const Vector2T Zero;
 
     ///
-    /// Constructs a 2-dimensional vector with all components equal to one.
-    static Vector2T one();
+    /// A 2-dimensional vector with all components equal to one.
+    static const Vector2T One;
 
     ///
-    /// Constructs a 2-dimensional vector with the x component equal to
-    /// one.
-    static Vector2T unitX();
+    /// A 2-dimensional vector with the x component equal to one.
+    static const Vector2T UnitX;
 
     ///
-    /// Constructs a 2-dimensional vector with the y component equal to
-    /// one.
-    static Vector2T unitY();
+    /// A 2-dimensional vector with the y component equal to one.
+    static const Vector2T UnitY;
 
     ///
     /// Constructs a vector with all components equal to zero.

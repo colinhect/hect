@@ -32,16 +32,16 @@ TEST_CASE("Multiply a 3-dimensional vector by a 4x4 matrix", "[Matrix]")
     Matrix4 m;
     Vector3 v;
 
-    r = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
+    r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
     m = Matrix4::fromRotation(r);
-    v = m * Vector3::unitX();
+    v = m * Vector3::UnitX;
     REQUIRE(-1.0 == v.x);
     REQUIRE(0.0 == v.y);
     REQUIRE(std::abs(v.z - 0.0) < 0.01);
 
-    r = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(90));
+    r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(90));
     m = Matrix4::fromRotation(r);
-    v = m * Vector3::unitX();
+    v = m * Vector3::UnitX;
     REQUIRE(std::abs(v.x - 0.0) < 0.01);
     REQUIRE(0.0 == v.y);
     REQUIRE(std::abs(v.z - 1.0) < 0.01);
@@ -49,17 +49,17 @@ TEST_CASE("Multiply a 3-dimensional vector by a 4x4 matrix", "[Matrix]")
 
 TEST_CASE("Multiply a 3-dimensional vector by the identity 4x4 matrix", "[Matrix]")
 {
-    Vector3 v = Matrix4() * Vector3::unitX();
+    Vector3 v = Matrix4() * Vector3::UnitX;
     REQUIRE(1.0 == v.x);
     REQUIRE(0.0 == v.y);
     REQUIRE(0.0 == v.z);
 
-    v = Matrix4() * Vector3::unitY();
+    v = Matrix4() * Vector3::UnitY;
     REQUIRE(0.0 == v.x);
     REQUIRE(1.0 == v.y);
     REQUIRE(0.0 == v.z);
 
-    v = Matrix4() * Vector3::unitZ();
+    v = Matrix4() * Vector3::UnitZ;
     REQUIRE(0.0 == v.x);
     REQUIRE(0.0 == v.y);
     REQUIRE(1.0 == v.z);
@@ -67,7 +67,7 @@ TEST_CASE("Multiply a 3-dimensional vector by the identity 4x4 matrix", "[Matrix
 
 TEST_CASE("Cast a 4x4 matrix from double to float", "[Matrix]")
 {
-    Quaternion r = Quaternion::fromAxisAngle(Vector3::unitY(), Angle::fromDegrees(180));
+    Quaternion r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
     Matrix4 a = Matrix4::fromRotation(r);
     Matrix4T<float> b = a;
 

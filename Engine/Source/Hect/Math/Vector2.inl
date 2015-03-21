@@ -29,28 +29,16 @@ namespace hect
 {
 
 template <typename T>
-Vector2T<T> Vector2T<T>::zero()
-{
-    return Vector2T(0);
-}
+const Vector2T<T> Vector2T<T>::Zero = Vector2T<T>(0);
 
 template <typename T>
-Vector2T<T> Vector2T<T>::one()
-{
-    return Vector2T(1);
-}
+const Vector2T<T> Vector2T<T>::One = Vector2T<T>(1);
 
 template <typename T>
-Vector2T<T> Vector2T<T>::unitX()
-{
-    return Vector2T(1, 0);
-}
+const Vector2T<T> Vector2T<T>::UnitX = Vector2T<T>(1, 0);
 
 template <typename T>
-Vector2T<T> Vector2T<T>::unitY()
-{
-    return Vector2T(0, 1);
-}
+const Vector2T<T> Vector2T<T>::UnitY = Vector2T<T>(0, 1);
 
 template <typename T>
 Vector2T<T>::Vector2T()

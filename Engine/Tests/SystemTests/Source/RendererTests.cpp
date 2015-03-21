@@ -34,11 +34,11 @@ Mesh createTestMesh()
 
     MeshWriter meshWriter(mesh);
     meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3::unitX());
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3::UnitX);
     meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3::unitY());
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3::UnitY);
     meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3::unitZ());
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3::UnitZ);
     meshWriter.addIndex(0);
     meshWriter.addIndex(1);
     meshWriter.addIndex(2);

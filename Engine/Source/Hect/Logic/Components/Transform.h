@@ -54,7 +54,7 @@ public:
     /// The local scale.
     ///
     /// \property
-    Vector3 localScale { Vector3::one() };
+    Vector3 localScale { Vector3::One };
 
     ///
     /// The local rotation.
@@ -78,7 +78,7 @@ public:
     /// scale and the transform hierarchy.  This should not be directly
     /// modified unless the local scale and parent transforms are known
     /// to be static.
-    Vector3 globalScale { Vector3::one() };
+    Vector3 globalScale { Vector3::One };
 
     ///
     /// The global rotation.

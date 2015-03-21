@@ -44,7 +44,7 @@ TEST_CASE("Construct frame buffer with size", "[FrameBuffer]")
 
 TEST_CASE("Attach a texture to a frame buffer of the same size", "[FrameBuffer]")
 {
-    Texture texture("Test", 512, 1024, PixelFormat(PixelType::Float32, 3), TextureFilter::Nearest, TextureFilter::Nearest, false, false);
+    Texture texture("Test", 512, 1024, PixelFormat::Rgb32, TextureFilter::Nearest, TextureFilter::Nearest, false, false);
 
     FrameBuffer frameBuffer(512, 1024);
 
@@ -55,7 +55,7 @@ TEST_CASE("Attach a texture to a frame buffer of the same size", "[FrameBuffer]"
 
 TEST_CASE("Attach a texture to a frame buffer of a different size", "[FrameBuffer]")
 {
-    Texture texture("Test", 256, 1024, PixelFormat(PixelType::Float32, 3), TextureFilter::Nearest, TextureFilter::Nearest, false, false);
+    Texture texture("Test", 256, 1024, PixelFormat::Rgb32, TextureFilter::Nearest, TextureFilter::Nearest, false, false);
 
     FrameBuffer frameBuffer(512, 1024);
 
@@ -66,8 +66,8 @@ TEST_CASE("Attach a texture to a frame buffer of a different size", "[FrameBuffe
 
 TEST_CASE("Attach a texture to a non-empty slot of a frame buffer", "[FrameBuffer]")
 {
-    Texture textureA("TestA", 512, 1024, PixelFormat(PixelType::Float32, 3), TextureFilter::Nearest, TextureFilter::Nearest, false, false);
-    Texture textureB("TestB", 512, 1024, PixelFormat(PixelType::Float32, 3), TextureFilter::Nearest, TextureFilter::Nearest, false, false);
+    Texture textureA("TestA", 512, 1024, PixelFormat::Rgb32, TextureFilter::Nearest, TextureFilter::Nearest, false, false);
+    Texture textureB("TestB", 512, 1024, PixelFormat::Rgb32, TextureFilter::Nearest, TextureFilter::Nearest, false, false);
 
     FrameBuffer frameBuffer(512, 1024);
 

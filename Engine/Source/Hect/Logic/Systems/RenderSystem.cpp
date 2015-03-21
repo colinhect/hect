@@ -289,20 +289,20 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
     _depthBuffer = RenderBuffer(RenderBufferFormat::DepthComponent, width, height);
 
     // Diffuse buffer: Red Green Blue Lighting
-    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelFormat(PixelType::Float32, 4), nearest, nearest, false, false);
+    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelFormat::Rgba32, nearest, nearest, false, false);
 
     // Material buffer: Roughness Metallic ?
-    _materialBuffer = Texture("MaterialBuffer", width, height, PixelFormat(PixelType::Float32, 3), nearest, nearest, false, false);
+    _materialBuffer = Texture("MaterialBuffer", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
 
     // Position buffer: X Y Z
-    _positionBuffer = Texture("PositionBuffer", width, height, PixelFormat(PixelType::Float32, 3), nearest, nearest, false, false);
+    _positionBuffer = Texture("PositionBuffer", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
 
     // Normal buffer: X Y Z Depth
-    _normalBuffer = Texture("NormalBuffer", width, height, PixelFormat(PixelType::Float16, 4), nearest, nearest, false, false);
+    _normalBuffer = Texture("NormalBuffer", width, height, PixelFormat::Rgba16, nearest, nearest, false, false);
 
     // Back buffers
-    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelFormat(PixelType::Float32, 3), nearest, nearest, false, false);
-    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelFormat(PixelType::Float32, 3), nearest, nearest, false, false);
+    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
+    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
 
     // Geometry frame buffer
     _geometryFrameBuffer = FrameBuffer(width, height);
@@ -430,13 +430,13 @@ void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, cons
     Matrix4 model;
 
     // Translate the matrix to the global position
-    if (transform.globalPosition != Vector3::zero())
+    if (transform.globalPosition != Vector3::Zero)
     {
         model.translate(transform.globalPosition);
     }
 
     // Scale the matrix by the global scale
-    if (transform.globalScale != Vector3::zero())
+    if (transform.globalScale != Vector3::Zero)
     {
         model.scale(transform.globalScale);
     }

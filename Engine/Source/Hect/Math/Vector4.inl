@@ -29,40 +29,22 @@ namespace hect
 {
 
 template <typename T>
-Vector4T<T> Vector4T<T>::zero()
-{
-    return Vector4T(0);
-}
+const Vector4T<T> Vector4T<T>::Zero = Vector4T<T>(0);
 
 template <typename T>
-Vector4T<T> Vector4T<T>::one()
-{
-    return Vector4T(1);
-}
+const Vector4T<T> Vector4T<T>::One = Vector4T<T>(1);
 
 template <typename T>
-Vector4T<T> Vector4T<T>::unitX()
-{
-    return Vector4T(1, 0, 0, 0);
-}
+const Vector4T<T> Vector4T<T>::UnitX = Vector4T<T>(1, 0, 0, 0);
 
 template <typename T>
-Vector4T<T> Vector4T<T>::unitY()
-{
-    return Vector4T(0, 1, 0, 0);
-}
+const Vector4T<T> Vector4T<T>::UnitY = Vector4T<T>(0, 1, 0, 0);
 
 template <typename T>
-Vector4T<T> Vector4T<T>::unitZ()
-{
-    return Vector4T(0, 0, 1, 0);
-}
+const Vector4T<T> Vector4T<T>::UnitZ = Vector4T<T>(0, 0, 1, 0);
 
 template <typename T>
-Vector4T<T> Vector4T<T>::unitW()
-{
-    return Vector4T(0, 0, 0, 1);
-}
+const Vector4T<T> Vector4T<T>::UnitW = Vector4T<T>(0, 0, 0, 1);
 
 template <typename T>
 Vector4T<T>::Vector4T()

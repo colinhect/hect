@@ -40,33 +40,28 @@ class Vector4T
 public:
 
     ///
-    /// Constructs a 4-dimensional vector with all components equal to
-    /// zero.
-    static Vector4T zero();
+    /// A 4-dimensional vector with all components equal to zero.
+    static const Vector4T Zero;
 
     ///
-    /// Constructs a 4-dimensional vector with all components equal to one.
-    static Vector4T one();
+    /// A 4-dimensional vector with all components equal to one.
+    static const Vector4T One;
 
     ///
-    /// Constructs a 4-dimensional vector with the x component equal to
-    /// one.
-    static Vector4T unitX();
+    /// A 4-dimensional vector with the x component equal to one.
+    static const Vector4T UnitX;
 
     ///
-    /// Constructs a 4-dimensional vector with the y component equal to
-    /// one.
-    static Vector4T unitY();
+    /// A 4-dimensional vector with the y component equal to one.
+    static const Vector4T UnitY;
 
     ///
-    /// Constructs a 4-dimensional vector with the z component equal to
-    /// one.
-    static Vector4T unitZ();
+    /// A 4-dimensional vector with the z component equal to one.
+    static const Vector4T UnitZ;
 
     ///
-    /// Constructs a 4-dimensional vector with the w component equal to
-    /// one.
-    static Vector4T unitW();
+    /// A 4-dimensional vector with the w component equal to one.
+    static const Vector4T UnitW;
 
     ///
     /// Constructs a vector with all components equal to zero.

@@ -38,11 +38,59 @@ class HECT_EXPORT PixelFormat :
 public:
 
     ///
-    /// Constructs a default vertex attribute.
+    /// 8-bit single-channel pixel format.
+    static const PixelFormat R8;
+
+    ///
+    /// 16-bit floating-point single-channel pixel format.
+    static const PixelFormat R16;
+
+    ///
+    /// 32-bit floating-point single-channel pixel format.
+    static const PixelFormat R32;
+
+    ///
+    /// 8-bit single-channel pixel format.
+    static const PixelFormat Rg8;
+
+    ///
+    /// 16-bit floating-point dual-channel pixel format.
+    static const PixelFormat Rg16;
+
+    ///
+    /// 32-bit floating-point dual-channel pixel format.
+    static const PixelFormat Rg32;
+
+    ///
+    /// 8-bit red/green/blue pixel format.
+    static const PixelFormat Rgb8;
+
+    ///
+    /// 16-bit floating-point red/green/blue pixel format.
+    static const PixelFormat Rgb16;
+
+    ///
+    /// 32-bit floating-point red/green/blue pixel format.
+    static const PixelFormat Rgb32;
+
+    ///
+    /// 8-bit red/green/blue/alpha pixel format.
+    static const PixelFormat Rgba8;
+
+    ///
+    /// 16-bit floating-point red/green/blue/alpha pixel format.
+    static const PixelFormat Rgba16;
+
+    ///
+    /// 32-bit floating-point red/green/blue/alpha pixel format.
+    static const PixelFormat Rgba32;
+
+    ///
+    /// Constructs a default pixel format (PixelFormat::Rgba8).
     PixelFormat();
 
     ///
-    /// Constructs a vertex attribute.
+    /// Constructs a pixel format.
     ///
     /// \param type The type.
     /// \param cardinality The number of components in a pixel.
