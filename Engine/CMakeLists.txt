@@ -1,5 +1,5 @@
 if(WIN32)
-    add_definitions("/D_CRT_SECURE_NO_WARNINGS /DHECT_EXPORTS")
+    add_definitions("/D_CRT_SECURE_NO_WARNINGS /DHECT_EXPORTS /bigobj")
 
     include(CheckIncludeFiles)
     check_include_files(vld.h HECT_USE_VLD)
