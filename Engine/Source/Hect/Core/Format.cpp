@@ -32,11 +32,12 @@ namespace hect
 
 std::string format(const char* fmt, ...)
 {
+	static char buffer[16384];
+
     va_list args;
 
     va_start(args, fmt);
 
-    char buffer[16384];
     vsprintf(buffer, fmt, args);
 
     va_end(args);

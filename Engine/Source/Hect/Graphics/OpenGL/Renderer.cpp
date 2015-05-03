@@ -286,7 +286,7 @@ GLenum _pixelTypeLookUp[3] =
 
 GLenum _pixelFormatLookUp[5] =
 {
-    -1, // 0
+	GLenum(-1), // 0
     GL_R, // 1
     GL_RG, // 2
     GL_RGB, // 3
@@ -299,33 +299,33 @@ GLenum _internalImageFormatLookUp[2][5][3] =
     {
         // 0
         {
-            -1, // Byte
-            -1, // Float16
-            -1 // Float32
+            GLenum(-1), // Byte
+            GLenum(-1), // Float16
+            GLenum(-1) // Float32
         },
         // 1
         {
-            -1, // Byte
-            -1, // Float16
-            -1 // Float32
+            GLenum(-1), // Byte
+            GLenum(-1), // Float16
+            GLenum(-1) // Float32
         },
         // 2
         {
-            -1, // Byte
-            -1, // Float16
-            -1 // Float32
+            GLenum(-1), // Byte
+            GLenum(-1), // Float16
+            GLenum(-1) // Float32
         },
         // 3
         {
             GL_SRGB8, // Byte
-            -1, // Float16
-            -1 // Float32
+            GLenum(-1), // Float16
+            GLenum(-1) // Float32
         },
         // 4
         {
             GL_SRGB8_ALPHA8, // Byte
-            -1, // Float16
-            -1 // Float32
+            GLenum(-1), // Float16
+            GLenum(-1) // Float32
         }
     },
 
@@ -333,9 +333,9 @@ GLenum _internalImageFormatLookUp[2][5][3] =
     {
         // 0
         {
-            -1, // Byte
-            -1, // Float16
-            -1 // Float32
+            GLenum(-1), // Byte
+            GLenum(-1), // Float16
+            GLenum(-1) // Float32
         },
         // 1
         {
@@ -1103,8 +1103,11 @@ void Renderer::uploadMesh(Mesh& mesh)
     {
         GL_ASSERT(glEnableVertexAttribArray(attributeIndex));
 
+		size_t offset = attribute.offset();
+
         if (attribute.type() == VertexAttributeType::Float32)
         {
+
             GL_ASSERT(
                 glVertexAttribPointer(
                     attributeIndex,
@@ -1112,7 +1115,7 @@ void Renderer::uploadMesh(Mesh& mesh)
                     _vertexAttributeTypeLookUp[(int)attribute.type()],
                     GL_FALSE,
                     vertexLayout.vertexSize(),
-                    (GLfloat*)attribute.offset()
+                    reinterpret_cast<GLvoid*>(offset)
                 )
             );
         }
@@ -1124,7 +1127,7 @@ void Renderer::uploadMesh(Mesh& mesh)
                     attribute.cardinality(),
                     _vertexAttributeTypeLookUp[(int)attribute.type()],
                     vertexLayout.vertexSize(),
-                    (GLfloat*)attribute.offset()
+					reinterpret_cast<GLvoid*>(offset)
                 )
             );
         }

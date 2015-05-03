@@ -140,8 +140,6 @@ public:
 
     ///
     /// Returns the color space that the image's pixel data is in.
-    ///
-    /// The color space that the
     ColorSpace colorSpace() const;
 
     ///
