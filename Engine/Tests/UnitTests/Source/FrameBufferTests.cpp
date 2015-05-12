@@ -48,9 +48,9 @@ TEST_CASE("Attach a texture to a frame buffer of the same size", "[FrameBuffer]"
 
     FrameBuffer frameBuffer(512, 1024);
 
-    REQUIRE(frameBuffer.textureAttachments().size() == 0);
-    frameBuffer.attachTexture(FrameBufferSlot::Color0, texture);
-    REQUIRE(frameBuffer.textureAttachments().size() == 1);
+    REQUIRE(frameBuffer.attachments().size() == 0);
+    frameBuffer.attach(FrameBufferSlot::Color0, texture);
+    REQUIRE(frameBuffer.attachments().size() == 1);
 }
 
 TEST_CASE("Attach a texture to a frame buffer of a different size", "[FrameBuffer]")
@@ -59,9 +59,9 @@ TEST_CASE("Attach a texture to a frame buffer of a different size", "[FrameBuffe
 
     FrameBuffer frameBuffer(512, 1024);
 
-    REQUIRE(frameBuffer.textureAttachments().size() == 0);
-    REQUIRE_THROWS_AS(frameBuffer.attachTexture(FrameBufferSlot::Color0, texture), InvalidOperation);
-    REQUIRE(frameBuffer.textureAttachments().size() == 0);
+    REQUIRE(frameBuffer.attachments().size() == 0);
+    REQUIRE_THROWS_AS(frameBuffer.attach(FrameBufferSlot::Color0, texture), InvalidOperation);
+    REQUIRE(frameBuffer.attachments().size() == 0);
 }
 
 TEST_CASE("Attach a texture to a non-empty slot of a frame buffer", "[FrameBuffer]")
@@ -71,45 +71,9 @@ TEST_CASE("Attach a texture to a non-empty slot of a frame buffer", "[FrameBuffe
 
     FrameBuffer frameBuffer(512, 1024);
 
-    REQUIRE(frameBuffer.textureAttachments().size() == 0);
-    frameBuffer.attachTexture(FrameBufferSlot::Color0, textureA);
-    REQUIRE(frameBuffer.textureAttachments().size() == 1);
-    REQUIRE_THROWS_AS(frameBuffer.attachTexture(FrameBufferSlot::Color0, textureB), InvalidOperation);
-    REQUIRE(frameBuffer.textureAttachments().size() == 1);
-}
-
-TEST_CASE("Attach a render buffer to a frame buffer of the same size", "[FrameBuffer]")
-{
-    RenderBuffer renderBuffer(RenderBufferFormat::DepthComponent, 512, 1024);
-
-    FrameBuffer frameBuffer(512, 1024);
-
-    REQUIRE(frameBuffer.renderBufferAttachments().size() == 0);
-    frameBuffer.attachRenderBuffer(FrameBufferSlot::Color0, renderBuffer);
-    REQUIRE(frameBuffer.renderBufferAttachments().size() == 1);
-}
-
-TEST_CASE("Attach a render buffer to a frame buffer of a different size", "[FrameBuffer]")
-{
-    RenderBuffer renderBuffer(RenderBufferFormat::DepthComponent, 256, 1024);
-
-    FrameBuffer frameBuffer(512, 1024);
-
-    REQUIRE(frameBuffer.renderBufferAttachments().size() == 0);
-    REQUIRE_THROWS_AS(frameBuffer.attachRenderBuffer(FrameBufferSlot::Color0, renderBuffer), InvalidOperation);
-    REQUIRE(frameBuffer.renderBufferAttachments().size() == 0);
-}
-
-TEST_CASE("Attach a render buffer to a non-empty slot of a frame buffer", "[FrameBuffer]")
-{
-    RenderBuffer renderBufferA(RenderBufferFormat::DepthComponent, 512, 1024);
-    RenderBuffer renderBufferB(RenderBufferFormat::DepthComponent, 512, 1024);
-
-    FrameBuffer frameBuffer(512, 1024);
-
-    REQUIRE(frameBuffer.renderBufferAttachments().size() == 0);
-    frameBuffer.attachRenderBuffer(FrameBufferSlot::Color0, renderBufferA);
-    REQUIRE(frameBuffer.renderBufferAttachments().size() == 1);
-    REQUIRE_THROWS_AS(frameBuffer.attachRenderBuffer(FrameBufferSlot::Color0, renderBufferB), InvalidOperation);
-    REQUIRE(frameBuffer.renderBufferAttachments().size() == 1);
+    REQUIRE(frameBuffer.attachments().size() == 0);
+    frameBuffer.attach(FrameBufferSlot::Color0, textureA);
+    REQUIRE(frameBuffer.attachments().size() == 1);
+    REQUIRE_THROWS_AS(frameBuffer.attach(FrameBufferSlot::Color0, textureB), InvalidOperation);
+    REQUIRE(frameBuffer.attachments().size() == 1);
 }

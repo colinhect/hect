@@ -286,7 +286,7 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
     TextureFilter nearest = TextureFilter::Nearest;
 
     // Depth buffer
-    _depthBuffer = RenderBuffer(RenderBufferFormat::DepthComponent, width, height);
+    _depthBuffer = Texture("DepthBuffer", width, height, PixelFormat::R32, nearest, nearest, false, false);
 
     // Diffuse buffer: Red Green Blue Lighting
     _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelFormat::Rgba32, nearest, nearest, false, false);
@@ -306,20 +306,20 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
 
     // Geometry frame buffer
     _geometryFrameBuffer = FrameBuffer(width, height);
-    _geometryFrameBuffer.attachTexture(FrameBufferSlot::Color0, _diffuseBuffer);
-    _geometryFrameBuffer.attachTexture(FrameBufferSlot::Color1, _materialBuffer);
-    _geometryFrameBuffer.attachTexture(FrameBufferSlot::Color2, _positionBuffer);
-    _geometryFrameBuffer.attachTexture(FrameBufferSlot::Color3, _normalBuffer);
-    _geometryFrameBuffer.attachRenderBuffer(FrameBufferSlot::Depth, _depthBuffer);
+	_geometryFrameBuffer.attach(FrameBufferSlot::Depth, _depthBuffer);
+    _geometryFrameBuffer.attach(FrameBufferSlot::Color0, _diffuseBuffer);
+    _geometryFrameBuffer.attach(FrameBufferSlot::Color1, _materialBuffer);
+    _geometryFrameBuffer.attach(FrameBufferSlot::Color2, _positionBuffer);
+    _geometryFrameBuffer.attach(FrameBufferSlot::Color3, _normalBuffer);
 
     // Back frame buffers
     _backFrameBuffers[0] = FrameBuffer(width, height);
-    _backFrameBuffers[0].attachTexture(FrameBufferSlot::Color0, _backBuffers[0]);
-    _backFrameBuffers[0].attachRenderBuffer(FrameBufferSlot::Depth, _depthBuffer);
+	_backFrameBuffers[0].attach(FrameBufferSlot::Depth, _depthBuffer);
+    _backFrameBuffers[0].attach(FrameBufferSlot::Color0, _backBuffers[0]);
 
     _backFrameBuffers[1] = FrameBuffer(width, height);
-    _backFrameBuffers[1].attachTexture(FrameBufferSlot::Color0, _backBuffers[1]);
-    _backFrameBuffers[1].attachRenderBuffer(FrameBufferSlot::Depth, _depthBuffer);
+	_backFrameBuffers[1].attach(FrameBufferSlot::Depth, _depthBuffer);
+    _backFrameBuffers[1].attach(FrameBufferSlot::Color0, _backBuffers[1]);
 
     _renderer->uploadFrameBuffer(_geometryFrameBuffer);
     _renderer->uploadFrameBuffer(_backFrameBuffers[0]);

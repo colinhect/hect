@@ -93,23 +93,6 @@ public:
     }
 };
 
-class RenderBufferData :
-    public Renderer::Data<RenderBuffer>
-{
-public:
-    RenderBufferData(Renderer& renderer, RenderBuffer& object) :
-        Renderer::Data<RenderBuffer>(renderer, object)
-    {
-    }
-
-    ~RenderBufferData()
-    {
-        if (object && object->isUploaded())
-        {
-            renderer->destroyRenderBuffer(*object);
-        }
-    }
-};
 
 class MeshData :
     public Renderer::Data<Mesh>
@@ -243,26 +226,6 @@ void Renderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
     }
 
     frameBuffer.setAsDestroyed();
-}
-
-void Renderer::uploadRenderBuffer(RenderBuffer& renderBuffer)
-{
-    if (renderBuffer.isUploaded())
-    {
-        return;
-    }
-
-    renderBuffer.setAsUploaded(*this, new RenderBufferData(*this, renderBuffer));
-}
-
-void Renderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
-{
-    if (!renderBuffer.isUploaded())
-    {
-        return;
-    }
-
-    renderBuffer.setAsDestroyed();
 }
 
 void Renderer::uploadShader(Shader& shader)

@@ -38,7 +38,6 @@ class FrameBuffer;
 class Uniform;
 class UniformValue;
 class Mesh;
-class RenderBuffer;
 class RenderTarget;
 class Shader;
 class Texture;
@@ -305,20 +304,6 @@ public:
     ///
     /// \param frameBuffer The frame buffer to destroy.
     void destroyFrameBuffer(FrameBuffer& frameBuffer);
-
-    ///
-    /// Uploads a render buffer.
-    ///
-    /// \note If the render buffer is already uploaded then no action is taken.
-    ///
-    /// \param renderBuffer The render buffer to upload.
-    void uploadRenderBuffer(RenderBuffer& renderBuffer);
-
-    ///
-    /// Destroys a render buffer.
-    ///
-    /// \param renderBuffer The render buffer to destroy.
-    void destroyRenderBuffer(RenderBuffer& renderBuffer);
 
     ///
     /// Uploads a shader.

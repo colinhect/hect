@@ -50,7 +50,6 @@ namespace hect {}
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/MeshReader.h"
 #include "Hect/Graphics/MeshWriter.h"
-#include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"

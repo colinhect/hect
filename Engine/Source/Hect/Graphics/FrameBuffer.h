@@ -25,7 +25,6 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture.h"
@@ -103,11 +102,7 @@ enum class FrameBufferSlot
 
     ///
     /// The depth component.
-    Depth,
-
-    ///
-    /// The stencil component.
-    Stencil
+    Depth
 };
 
 ///
@@ -119,17 +114,17 @@ class HECT_EXPORT FrameBuffer :
 public:
 
     ///
-    /// A texture attachment.
-    struct HECT_EXPORT TextureAttachment
+    /// A frame buffer attachment.
+    struct HECT_EXPORT Attachment
     {
     public:
 
         ///
-        /// Constructs a texture attachment.
+        /// Constructs a frame buffer attachment.
         ///
         /// \param slot The slot that the texture is attached to.
         /// \param texture The attached texture.
-        TextureAttachment(FrameBufferSlot slot, Texture& texture);
+        Attachment(FrameBufferSlot slot, Texture& texture);
 
         ///
         /// Returns the slot that the texture is attached to.
@@ -148,49 +143,14 @@ public:
         Texture* _texture;
     };
 
-    ///
-    /// A render buffer attachment.
-    class HECT_EXPORT RenderBufferAttachment
-    {
-    public:
-
-        ///
-        /// Constructs a render buffer attachment.
-        ///
-        /// \param slot The slot that the render buffer is attached to.
-        /// \param renderBuffer The attached render buffer.
-        RenderBufferAttachment(FrameBufferSlot slot, RenderBuffer& renderBuffer);
-
-        ///
-        /// Returns the slot that the render buffer is attached to.
-        FrameBufferSlot slot() const;
-
-        ///
-        /// Returns the attached render buffer.
-        RenderBuffer& renderBuffer();
-
-        ///
-        /// Returns the attached render buffer.
-        const RenderBuffer& renderBuffer() const;
-
-    private:
-        FrameBufferSlot _slot;
-        RenderBuffer* _renderBuffer;
-    };
-
 private:
-    typedef std::vector<TextureAttachment> TextureAttachmentContainer;
-    typedef std::vector<RenderBufferAttachment> RenderBufferAttachmentContainer;
+    typedef std::vector<Attachment> AttachmentContainer;
 
 public:
 
     ///
     /// A sequence of texture attachments.
-    typedef Sequence<TextureAttachment, TextureAttachmentContainer> TextureAttachmentSequence;
-
-    ///
-    /// A sequence of render buffer attachments.
-    typedef Sequence<RenderBufferAttachment, RenderBufferAttachmentContainer> RenderBufferAttachmentSequence;
+    typedef Sequence<Attachment, AttachmentContainer> AttachmentSequence;
 
     ///
     /// Constructs a frame buffer.
@@ -216,34 +176,16 @@ public:
     ///
     /// \throws InvalidOperation If something is already attached to the given
     /// slot or if the texture is not the same size as the frame buffer.
-    void attachTexture(FrameBufferSlot slot, Texture& texture);
+    void attach(FrameBufferSlot slot, Texture& texture);
 
     ///
     /// Returns the texture attachments.
-    TextureAttachmentSequence textureAttachments();
-
-    ///
-    /// Attaches a render buffer to the frame buffer.
-    ///
-    /// \note If the frame buffer is uploaded to a renderer then it
-    /// will be destroyed before the render buffer is attached.
-    ///
-    /// \param slot The slot to attach the texture to.
-    /// \param renderBuffer The render buffer to attach to the frame buffer.
-    ///
-    /// \throws InvalidOperation If something is already attached to the given
-    /// slot or if the render buffer is not the same size as the frame buffer.
-    void attachRenderBuffer(FrameBufferSlot slot, RenderBuffer& renderBuffer);
-
-    ///
-    /// Returns the render buffer attachments.
-    RenderBufferAttachmentSequence renderBufferAttachments();
+    AttachmentSequence attachments();
 
 private:
     void ensureSlotEmpty(FrameBufferSlot slot);
 
-    TextureAttachmentContainer _textureAttachments;
-    RenderBufferAttachmentContainer _renderBufferAttachments;
+    AttachmentContainer _attachments;
 };
 
 }

@@ -29,7 +29,6 @@
 #include "Hect/Graphics/FrameBuffer.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Graphics/RenderBuffer.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Logic/Systems/CameraSystem.h"
@@ -156,8 +155,7 @@ private:
     CameraSystem::Handle _cameraSystem;
     DebugSystem::Handle _debugSystem;
 
-    RenderBuffer _depthBuffer;
-
+	Texture _depthBuffer;
     Texture _diffuseBuffer;
     Texture _materialBuffer;
     Texture _positionBuffer;

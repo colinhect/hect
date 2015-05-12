@@ -25,46 +25,25 @@
 
 using namespace hect;
 
-FrameBuffer::TextureAttachment::TextureAttachment(FrameBufferSlot slot, Texture& texture) :
+FrameBuffer::Attachment::Attachment(FrameBufferSlot slot, Texture& texture) :
     _slot(slot),
     _texture(&texture)
 {
 }
 
-FrameBufferSlot FrameBuffer::TextureAttachment::slot() const
+FrameBufferSlot FrameBuffer::Attachment::slot() const
 {
     return _slot;
 }
 
-Texture& FrameBuffer::TextureAttachment::texture()
+Texture& FrameBuffer::Attachment::texture()
 {
     return *_texture;
 }
 
-const Texture& FrameBuffer::TextureAttachment::texture() const
+const Texture& FrameBuffer::Attachment::texture() const
 {
     return *_texture;
-}
-
-FrameBuffer::RenderBufferAttachment::RenderBufferAttachment(FrameBufferSlot slot, RenderBuffer& renderBuffer) :
-    _slot(slot),
-    _renderBuffer(&renderBuffer)
-{
-}
-
-FrameBufferSlot FrameBuffer::RenderBufferAttachment::slot() const
-{
-    return _slot;
-}
-
-RenderBuffer& FrameBuffer::RenderBufferAttachment::renderBuffer()
-{
-    return *_renderBuffer;
-}
-
-const RenderBuffer& FrameBuffer::RenderBufferAttachment::renderBuffer() const
-{
-    return *_renderBuffer;
 }
 
 FrameBuffer::FrameBuffer()
@@ -81,7 +60,7 @@ void FrameBuffer::bind(Renderer& renderer)
     renderer.setTarget(*this);
 }
 
-void FrameBuffer::attachTexture(FrameBufferSlot slot, Texture& texture)
+void FrameBuffer::attach(FrameBufferSlot slot, Texture& texture)
 {
     ensureSlotEmpty(slot);
 
@@ -89,40 +68,26 @@ void FrameBuffer::attachTexture(FrameBufferSlot slot, Texture& texture)
     {
         throw InvalidOperation("Cannot attach texture to a frame buffer of a different size");
     }
+	else if (slot == FrameBufferSlot::Depth)
+	{
+		PixelFormat pixelFormat = texture.pixelFormat();
+		if (pixelFormat.cardinality() != 1)
+		{
+			throw InvalidOperation("Cannot attach multi-channel texture to the depth slot of a frame buffer");
+		}
+	}
 
     if (isUploaded())
     {
         renderer().destroyFrameBuffer(*this);
     }
 
-    _textureAttachments.push_back(TextureAttachment(slot, texture));
+    _attachments.push_back(Attachment(slot, texture));
 }
 
-FrameBuffer::TextureAttachmentSequence FrameBuffer::textureAttachments()
+FrameBuffer::AttachmentSequence FrameBuffer::attachments()
 {
-    return _textureAttachments;
-}
-
-void FrameBuffer::attachRenderBuffer(FrameBufferSlot slot, RenderBuffer& renderBuffer)
-{
-    ensureSlotEmpty(slot);
-
-    if (renderBuffer.width() != width() || renderBuffer.height() != height())
-    {
-        throw InvalidOperation("Cannot attach render buffer to a frame buffer of a different size");
-    }
-
-    if (isUploaded())
-    {
-        renderer().destroyFrameBuffer(*this);
-    }
-
-    _renderBufferAttachments.push_back(RenderBufferAttachment(slot, renderBuffer));
-}
-
-FrameBuffer::RenderBufferAttachmentSequence FrameBuffer::renderBufferAttachments()
-{
-    return _renderBufferAttachments;
+    return _attachments;
 }
 
 void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
@@ -130,16 +95,7 @@ void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
     bool empty = true;
 
     // Check if any textures are attached to this slot
-    for (const TextureAttachment& attachment : _textureAttachments)
-    {
-        if (attachment.slot() == slot)
-        {
-            empty = false;
-        }
-    }
-
-    // Check if any render buffers are attached to this slot
-    for (const RenderBufferAttachment& attachment : _renderBufferAttachments)
+    for (const Attachment& attachment : _attachments)
     {
         if (attachment.slot() == slot)
         {

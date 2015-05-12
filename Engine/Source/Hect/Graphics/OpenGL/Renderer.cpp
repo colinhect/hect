@@ -157,29 +157,6 @@ public:
     GLuint frameBufferId;
 };
 
-// OpenGL-specific data for a render buffer
-class RenderBufferData :
-    public Renderer::Data<RenderBuffer>
-{
-public:
-    RenderBufferData(Renderer& renderer, RenderBuffer& object, GLuint renderBufferId) :
-        Renderer::Data<RenderBuffer>(renderer, object),
-        renderBufferId(renderBufferId)
-    {
-    }
-
-    ~RenderBufferData()
-    {
-        // Destroy the frame buffer if it is uploaded
-        if (object && object->isUploaded())
-        {
-            renderer->destroyRenderBuffer(*object);
-        }
-    }
-
-    GLuint renderBufferId;
-};
-
 // OpenGL-specific data for a mesh
 class MeshData :
     public Renderer::Data<Mesh>
@@ -377,11 +354,6 @@ GLenum _textureTypeLookUp[3] =
     GL_TEXTURE_CUBE_MAP
 };
 
-GLenum _renderBufferFormatLookUp[1] =
-{
-    GL_DEPTH_COMPONENT // DepthComponent
-};
-
 GLenum _frameBufferSlotLookUp[18] =
 {
     GL_COLOR_ATTACHMENT0, // Color0
@@ -401,7 +373,6 @@ GLenum _frameBufferSlotLookUp[18] =
     GL_COLOR_ATTACHMENT14, // Color14
     GL_COLOR_ATTACHMENT15, // Color15
     GL_DEPTH_ATTACHMENT, // Depth
-    GL_STENCIL_ATTACHMENT // Stencil
 };
 
 }
@@ -722,40 +693,120 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     GL_ASSERT(glGenFramebuffers(1, &frameBufferId));
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId));
 
-    // Attach all render buffers
-    for (FrameBuffer::RenderBufferAttachment& attachment : frameBuffer.renderBufferAttachments())
-    {
-        RenderBuffer& renderBuffer = attachment.renderBuffer();
-
-        // Upload the render buffer if needed
-        if (!renderBuffer.isUploaded())
-        {
-            uploadRenderBuffer(renderBuffer);
-        }
-
-        // Attach the render buffer to the frame buffer
-        auto renderBufferData = renderBuffer.dataAs<RenderBufferData>();
-        GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, _frameBufferSlotLookUp[(int)attachment.slot()], GL_RENDERBUFFER, renderBufferData->renderBufferId));
-    }
-
     GLenum mrt[16];
 
     // Attach all textures
     int textureIndex = 0;
-    for (FrameBuffer::TextureAttachment& attachment : frameBuffer.textureAttachments())
+    for (FrameBuffer::Attachment& attachment : frameBuffer.attachments())
     {
         Texture& texture = attachment.texture();
 
         // Upload the texture if needed
         if (!texture.isUploaded())
         {
-            uploadTexture(texture);
+			if (attachment.slot() == FrameBufferSlot::Depth)
+			{
+				GLenum type = _textureTypeLookUp[(int)texture.type()];
+
+				GLuint textureId = 0;
+				GL_ASSERT(glGenTextures(1, &textureId));
+				GL_ASSERT(glBindTexture(type, textureId));
+				GL_ASSERT(
+					glTexParameteri(
+						type,
+						GL_TEXTURE_MIN_FILTER,
+						texture.isMipmapped() ?
+						_textureMipmapFilterLookUp[(int)texture.minFilter()] :
+						_textureFilterLookUp[(int)texture.minFilter()]
+						)
+					);
+
+				GL_ASSERT(
+					glTexParameteri(
+						type,
+						GL_TEXTURE_MAG_FILTER,
+						_textureFilterLookUp[(int)texture.magFilter()]
+						)
+					);
+
+				glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+
+				if (texture.isWrapped())
+				{
+					GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_REPEAT));
+					GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_REPEAT));
+				}
+				else
+				{
+					GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+					GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+				}
+
+				GLenum target = GL_TEXTURE_2D;
+
+				for (Image::Handle& imageHandle : texture.sourceImages())
+				{
+					Image& image = *imageHandle;
+					const PixelFormat& pixelFormat = image.pixelFormat();
+
+					GLint internalFormat = -1;
+					if (pixelFormat.type() == PixelType::Float16)
+					{
+						internalFormat = GL_DEPTH_COMPONENT16;
+					}
+					else if(pixelFormat.type() == PixelType::Float32)
+					{
+						internalFormat = GL_DEPTH_COMPONENT32;
+					}
+
+					GL_ASSERT(
+						glTexImage2D(
+							target,
+							0,
+							internalFormat,
+							image.width(),
+							image.height(),
+							0,
+							GL_DEPTH_COMPONENT,
+							_pixelTypeLookUp[(int)pixelFormat.type()],
+							image.hasPixelData() ? &image.pixelData()[0] : 0
+							)
+						);
+
+					if (texture.type() == TextureType::CubeMap)
+					{
+						++target;
+					}
+				}
+				texture.clearSourceImages();
+
+				if (texture.isMipmapped())
+				{
+					GL_ASSERT(glGenerateMipmap(type));
+				}
+
+				GL_ASSERT(glBindTexture(type, 0));
+
+				texture.setAsUploaded(*this, new TextureData(*this, texture, textureId));
+				statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
+
+				HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
+			}
+			else
+			{
+				uploadTexture(texture);
+			}
         }
 
         auto targetData = texture.dataAs<TextureData>();
         GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, _frameBufferSlotLookUp[(int)attachment.slot()], GL_TEXTURE_2D, targetData->textureId, 0));
 
-        mrt[textureIndex++] = _frameBufferSlotLookUp[(int)attachment.slot()];
+		if (attachment.slot() != FrameBufferSlot::Depth)
+		{
+			mrt[textureIndex++] = _frameBufferSlotLookUp[(int)attachment.slot()];
+		}
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
@@ -782,40 +833,6 @@ void Renderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
     GL_ASSERT(glDeleteFramebuffers(1, &data->frameBufferId));
 
     frameBuffer.setAsDestroyed();
-}
-
-void Renderer::uploadRenderBuffer(RenderBuffer& renderBuffer)
-{
-    if (renderBuffer.isUploaded())
-    {
-        return;
-    }
-
-    GLuint renderBufferId = 0;
-
-    GL_ASSERT(glGenRenderbuffers(1, &renderBufferId));
-    GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, renderBufferId));
-    GL_ASSERT(glRenderbufferStorage(GL_RENDERBUFFER, _renderBufferFormatLookUp[(int)renderBuffer.format()], renderBuffer.width(), renderBuffer.height()));
-
-    renderBuffer.setAsUploaded(*this, new RenderBufferData(*this, renderBuffer, renderBufferId));
-    statistics().memoryUsage += renderBuffer.width() * renderBuffer.height() * renderBuffer.bytesPerPixel();
-
-    GL_ASSERT(glBindRenderbuffer(GL_RENDERBUFFER, 0));
-}
-
-void Renderer::destroyRenderBuffer(RenderBuffer& renderBuffer)
-{
-    if (!renderBuffer.isUploaded())
-    {
-        return;
-    }
-
-    auto data = renderBuffer.dataAs<RenderBufferData>();
-
-    GL_ASSERT(glDeleteRenderbuffers(1, &data->renderBufferId));
-
-    statistics().memoryUsage += renderBuffer.width() * renderBuffer.height() * renderBuffer.bytesPerPixel();
-    renderBuffer.setAsDestroyed();
 }
 
 void Renderer::uploadShader(Shader& shader)
