@@ -53,7 +53,7 @@ namespace hect {}
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"
-#include "Hect/Graphics/Texture.h"
+#include "Hect/Graphics/Texture2.h"
 #include "Hect/Graphics/Uniform.h"
 #include "Hect/Graphics/UniformBinding.h"
 #include "Hect/Graphics/UniformValue.h"

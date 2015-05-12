@@ -92,12 +92,12 @@ enum class UniformBinding
     ModelViewProjectionMatrix,
 
     ///
-    /// Bound to the nearest light probe's ambient environment cube map.
-    LightProbeCubeMap,
+    /// Bound to the nearest light probe's ambient environment cubic texture.
+    LightProbeTexture,
 
     ///
-    /// Bound to the active sky box cube map.
-    SkyBoxCubeMap,
+    /// Bound to the active sky box cubic texture.
+    SkyBoxTexture,
 
     ///
     /// Bound to the diffuse component of the geometry frame buffer.

@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/Texture.h"
+#include "Hect/Graphics/CubicTexture.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/Logic/Scene.h"
 
@@ -44,7 +44,7 @@ public:
     /// The texture.
     ///
     /// \property{required}
-    Texture::Handle texture;
+    CubicTexture::Handle texture;
 };
 
 }

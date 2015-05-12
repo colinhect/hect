@@ -27,7 +27,8 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/UniformType.h"
-#include "Hect/Graphics/Texture.h"
+#include "Hect/Graphics/Texture2.h"
+#include "Hect/Graphics/CubicTexture.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Math/Vector2.h"
@@ -38,7 +39,7 @@
 namespace hect
 {
 
-class Texture;
+class Texture2;
 
 ///
 /// A value for a uniform.
@@ -101,11 +102,17 @@ public:
     /// \param value The value.
     UniformValue(const Color& value);
 
-    ///
-    /// Constructs a texture uniform value.
-    ///
-    /// \param value The texture.
-    UniformValue(const Texture::Handle& value);
+	///
+	/// Constructs a 2-dimensional texture uniform value.
+	///
+	/// \param value The texture.
+	UniformValue(const Texture2::Handle& value);
+
+	///
+	/// Constructs a cubic texture uniform value.
+	///
+	/// \param value The texture.
+	UniformValue(const CubicTexture::Handle& value);
 
     ///
     /// Returns the type.
@@ -174,13 +181,21 @@ public:
     /// \throws InvalidOperation If the uniform value is not a color.
     void setValue(const Color& value);
 
-    ///
-    /// Sets the value of the uniform value as a texture.
-    ///
-    /// \param value The value.
-    ///
-    /// \throws InvalidOperation If the uniform value is not a texture.
-    void setValue(const Texture::Handle& value);
+	///
+	/// Sets the value of the uniform value as a 2-dimensional texture.
+	///
+	/// \param value The value.
+	///
+	/// \throws InvalidOperation If the uniform value is not a texture.
+	void setValue(const Texture2::Handle& value);
+
+	///
+	/// Sets the value of the uniform value as a cubic texture.
+	///
+	/// \param value The value.
+	///
+	/// \throws InvalidOperation If the uniform value is not a texture.
+	void setValue(const CubicTexture::Handle& value);
 
     ///
     /// Returns the value as an integer.
@@ -210,9 +225,13 @@ public:
     /// Returns the value as a color.
     Color asColor() const;
 
-    ///
-    /// Returns the value as a texture.
-    Texture::Handle asTexture() const;
+	///
+	/// Returns the value as a 2-dimensional texture.
+	Texture2::Handle asTexture2() const;
+
+	///
+	/// Returns the value as a cubic texture.
+	CubicTexture::Handle asCubicTexture() const;
 
     ///
     /// Returns whether the value is not null.

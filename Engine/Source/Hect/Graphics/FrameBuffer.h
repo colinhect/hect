@@ -27,7 +27,7 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
-#include "Hect/Graphics/Texture.h"
+#include "Hect/Graphics/Texture2.h"
 
 namespace hect
 {
@@ -124,7 +124,7 @@ public:
         ///
         /// \param slot The slot that the texture is attached to.
         /// \param texture The attached texture.
-        Attachment(FrameBufferSlot slot, Texture& texture);
+        Attachment(FrameBufferSlot slot, Texture2& texture);
 
         ///
         /// Returns the slot that the texture is attached to.
@@ -132,15 +132,15 @@ public:
 
         ///
         /// Returns the attached texture.
-        Texture& texture();
+        Texture2& texture();
 
         ///
         /// Returns the attached texture.
-        const Texture& texture() const;
+        const Texture2& texture() const;
 
     private:
         FrameBufferSlot _slot;
-        Texture* _texture;
+        Texture2* _texture;
     };
 
 private:
@@ -176,7 +176,7 @@ public:
     ///
     /// \throws InvalidOperation If something is already attached to the given
     /// slot or if the texture is not the same size as the frame buffer.
-    void attach(FrameBufferSlot slot, Texture& texture);
+    void attach(FrameBufferSlot slot, Texture2& texture);
 
     ///
     /// Returns the texture attachments.

@@ -15,8 +15,8 @@ uniforms:
     binding: PositionBuffer
   - name: normalBuffer
     binding: NormalBuffer
-  - name: lightProbeCubeMap
-    binding: LightProbeCubeMap
+  - name: lightProbeTexture
+    binding: LightProbeTexture
 depthTested: false
 blendMode:
     sourceFactor: One

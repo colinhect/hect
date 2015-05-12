@@ -8,6 +8,6 @@ modules:
 uniforms:
   - name: modelViewProjection
     binding: ModelViewProjectionMatrix
-  - name: skyBoxCubeMap
-    binding: SkyBoxCubeMap
+  - name: skyBoxTexture
+    binding: SkyBoxTexture
 depthTested: false

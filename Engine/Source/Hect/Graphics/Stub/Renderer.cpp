@@ -31,7 +31,7 @@
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"
-#include "Hect/Graphics/Texture.h"
+#include "Hect/Graphics/Texture2.h"
 #include "Hect/Runtime/Window.h"
 
 using namespace hect;
@@ -57,22 +57,40 @@ public:
     }
 };
 
-class TextureData :
-    public Renderer::Data<Texture>
+class Texture2Data :
+	public Renderer::Data<Texture2>
 {
 public:
-    TextureData(Renderer& renderer, Texture& object) :
-        Renderer::Data<Texture>(renderer, object)
-    {
-    }
+	Texture2Data(Renderer& renderer, Texture2& object) :
+		Renderer::Data<Texture2>(renderer, object)
+	{
+	}
 
-    ~TextureData()
-    {
-        if (object && object->isUploaded())
-        {
-            renderer->destroyTexture(*object);
-        }
-    }
+	~Texture2Data()
+	{
+		if (object && object->isUploaded())
+		{
+			renderer->destroyTexture(*object);
+		}
+	}
+};
+
+class CubicTextureData :
+	public Renderer::Data<CubicTexture>
+{
+public:
+	CubicTextureData(Renderer& renderer, CubicTexture& object) :
+		Renderer::Data<CubicTexture>(renderer, object)
+	{
+	}
+
+	~CubicTextureData()
+	{
+		if (object && object->isUploaded())
+		{
+			renderer->destroyTexture(*object);
+		}
+	}
 };
 
 class FrameBufferData :
@@ -175,10 +193,16 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
     (void)value;
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Texture& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
 {
-    (void)uniform;
-    (void)value;
+	(void)uniform;
+	(void)value;
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, CubicTexture& value)
+{
+	(void)uniform;
+	(void)value;
 }
 
 void Renderer::Frame::renderMesh(Mesh& mesh)
@@ -248,27 +272,47 @@ void Renderer::destroyShader(Shader& shader)
     shader.setAsDestroyed();
 }
 
-void Renderer::uploadTexture(Texture& texture)
+void Renderer::uploadTexture(Texture2& texture)
 {
-    if (texture.isUploaded())
-    {
-        return;
-    }
+	if (texture.isUploaded())
+	{
+		return;
+	}
 
-    texture.setAsUploaded(*this, new TextureData(*this, texture));
+	texture.setAsUploaded(*this, new Texture2Data(*this, texture));
 }
 
-void Renderer::destroyTexture(Texture& texture)
+void Renderer::uploadTexture(CubicTexture& texture)
 {
-    if (!texture.isUploaded())
-    {
-        return;
-    }
+	if (texture.isUploaded())
+	{
+		return;
+	}
 
-    texture.setAsDestroyed();
+	texture.setAsUploaded(*this, new Texture2Data(*this, texture));
 }
 
-Image Renderer::downloadTextureImage(const Texture& texture)
+void Renderer::destroyTexture(Texture2& texture)
+{
+	if (!texture.isUploaded())
+	{
+		return;
+	}
+
+	texture.setAsDestroyed();
+}
+
+void Renderer::destroyTexture(CubicTexture& texture)
+{
+	if (!texture.isUploaded())
+	{
+		return;
+	}
+
+	texture.setAsDestroyed();
+}
+
+Image Renderer::downloadTextureImage(const Texture2& texture)
 {
     (void)texture;
 

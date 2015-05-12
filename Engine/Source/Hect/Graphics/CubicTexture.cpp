@@ -21,75 +21,47 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Texture.h"
+#include "CubicTexture.h"
 
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Exception.h"
 
 using namespace hect;
 
-Texture::Texture()
+CubicTexture::CubicTexture()
 {
 }
 
-Texture::Texture(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
+CubicTexture::CubicTexture(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped) :
     Asset(name),
     _width(width),
     _height(height),
     _pixelFormat(pixelFormat),
     _minFilter(minFilter),
     _magFilter(magFilter),
-    _mipmapped(mipmapped),
-    _wrapped(wrapped)
+    _mipmapped(mipmapped)
 {
-    Image::Handle sourceImage(new Image());
-    sourceImage->setWidth(width);
-    sourceImage->setHeight(height);
-    sourceImage->setPixelFormat(pixelFormat);
-    addSourceImage(sourceImage);
+	for (int i = 0; i < 6; ++i)
+	{
+		Image::Handle sourceImage(new Image());
+		sourceImage->setWidth(width);
+		sourceImage->setHeight(height);
+		sourceImage->setPixelFormat(pixelFormat);
+		addSourceImage(sourceImage);
+	}
 }
 
-Texture::Texture(const std::string& name, const Image::Handle& image) :
-    Asset(name)
-{
-    addSourceImage(image);
-}
-
-TextureType Texture::type()
-{
-    return _type;
-}
-
-void Texture::setType(TextureType type)
-{
-    _type = type;
-    if (type == TextureType::CubeMap)
-    {
-        _wrapped = false;
-    }
-}
-
-Texture::ImageSequence Texture::sourceImages()
+CubicTexture::ImageSequence CubicTexture::sourceImages()
 {
     return _sourceImages;
 }
 
-void Texture::addSourceImage(const Image::Handle& image)
+void CubicTexture::addSourceImage(const Image::Handle& image)
 {
-    if (_type == TextureType::TwoDimensional)
-    {
-        if (!_sourceImages.empty())
-        {
-            throw InvalidOperation("A 2-dimensional texture cannot have more than one source image");
-        }
-    }
-    else if (_type == TextureType::CubeMap)
-    {
-        if (_sourceImages.size() >= 6)
-        {
-            throw InvalidOperation("A cube map texture cannot have more than six source images");
-        }
-    }
+	if (_sourceImages.size() >= 6)
+	{
+		throw InvalidOperation("A cubic texture cannot have more than six source images");
+	}
 
     if (isUploaded())
     {
@@ -117,17 +89,17 @@ void Texture::addSourceImage(const Image::Handle& image)
     _sourceImages.push_back(image);
 }
 
-void Texture::clearSourceImages()
+void CubicTexture::clearSourceImages()
 {
     _sourceImages.clear();
 }
 
-TextureFilter Texture::minFilter() const
+TextureFilter CubicTexture::minFilter() const
 {
     return _minFilter;
 }
 
-void Texture::setMinFilter(TextureFilter filter)
+void CubicTexture::setMinFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
@@ -137,12 +109,12 @@ void Texture::setMinFilter(TextureFilter filter)
     _minFilter = filter;
 }
 
-TextureFilter Texture::magFilter() const
+TextureFilter CubicTexture::magFilter() const
 {
     return _magFilter;
 }
 
-void Texture::setMagFilter(TextureFilter filter)
+void CubicTexture::setMagFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
@@ -152,12 +124,12 @@ void Texture::setMagFilter(TextureFilter filter)
     _magFilter = filter;
 }
 
-bool Texture::isMipmapped() const
+bool CubicTexture::isMipmapped() const
 {
     return _mipmapped;
 }
 
-void Texture::setMipmapped(bool mipmapped)
+void CubicTexture::setMipmapped(bool mipmapped)
 {
     if (isUploaded())
     {
@@ -167,44 +139,23 @@ void Texture::setMipmapped(bool mipmapped)
     _mipmapped = mipmapped;
 }
 
-bool Texture::isWrapped() const
-{
-    return _wrapped;
-}
-
-void Texture::setWrapped(bool wrapped)
-{
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
-    _wrapped = wrapped;
-}
-
-unsigned Texture::width() const
+unsigned CubicTexture::width() const
 {
     return _width;
 }
 
-unsigned Texture::height() const
+unsigned CubicTexture::height() const
 {
     return _height;
 }
 
-const PixelFormat& Texture::pixelFormat() const
+const PixelFormat& CubicTexture::pixelFormat() const
 {
     return _pixelFormat;
 }
 
-bool Texture::operator==(const Texture& texture) const
+bool CubicTexture::operator==(const CubicTexture& texture) const
 {
-    // Type
-    if (_type != texture._type)
-    {
-        return false;
-    }
-
     // Source image count
     if (_sourceImages.size() != texture._sourceImages.size())
     {
@@ -238,40 +189,24 @@ bool Texture::operator==(const Texture& texture) const
         return false;
     }
 
-    // Mipmapped/wrapped flags
-    if (_mipmapped != texture._mipmapped && _wrapped != texture._wrapped)
-    {
-        return false;
-    }
-
     return true;
 }
 
-bool Texture::operator!=(const Texture& texture) const
+bool CubicTexture::operator!=(const CubicTexture& texture) const
 {
     return !(*this == texture);
 }
 
-void Texture::encode(Encoder& encoder) const
+void CubicTexture::encode(Encoder& encoder) const
 {
-    encoder << encodeEnum("type", _type)
-            << encodeVector("images", _sourceImages)
+    encoder << encodeVector("images", _sourceImages)
             << encodeEnum("minFilter", _minFilter)
             << encodeEnum("magFilter", _magFilter)
-            << encodeValue("wrapped", _wrapped)
             << encodeValue("mipmapped", _mipmapped);
 }
 
-void Texture::decode(Decoder& decoder)
+void CubicTexture::decode(Decoder& decoder)
 {
-    // Type
-    if (decoder.selectMember("type"))
-    {
-        TextureType type;
-        decoder >> decodeEnum(type);
-        setType(type);
-    }
-
     // Color space
     ColorSpace colorSpace = ColorSpace::NonLinear;
     if (decoder.selectMember("colorSpace"))
@@ -298,6 +233,5 @@ void Texture::decode(Decoder& decoder)
 
     decoder >> decodeEnum("minFilter", _minFilter)
             >> decodeEnum("magFilter", _magFilter)
-            >> decodeValue("wrapped", _wrapped)
             >> decodeValue("mipmapped", _mipmapped);
 }

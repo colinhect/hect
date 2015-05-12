@@ -37,7 +37,8 @@
 #include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"
-#include "Hect/Graphics/Texture.h"
+#include "Hect/Graphics/Texture2.h"
+#include "Hect/Graphics/CubicTexture.h"
 #include "Hect/Runtime/Window.h"
 
 using namespace hect;
@@ -112,26 +113,49 @@ public:
 };
 
 // OpenGL-specific data for a texture
-class TextureData :
-    public Renderer::Data<Texture>
+class Texture2Data :
+	public Renderer::Data<Texture2>
 {
 public:
-    TextureData(Renderer& renderer, Texture& object, GLuint textureId) :
-        Renderer::Data<Texture>(renderer, object),
-        textureId(textureId)
-    {
-    }
+	Texture2Data(Renderer& renderer, Texture2& object, GLuint textureId) :
+		Renderer::Data<Texture2>(renderer, object),
+		textureId(textureId)
+	{
+	}
 
-    ~TextureData()
-    {
-        // Destroy the texture if it is uploaded
-        if (object && object->isUploaded())
-        {
-            renderer->destroyTexture(*object);
-        }
-    }
+	~Texture2Data()
+	{
+		// Destroy the texture if it is uploaded
+		if (object && object->isUploaded())
+		{
+			renderer->destroyTexture(*object);
+		}
+	}
 
-    GLuint textureId;
+	GLuint textureId;
+};
+
+// OpenGL-specific data for a cubic texture
+class CubicTextureData :
+	public Renderer::Data<CubicTexture>
+{
+public:
+	CubicTextureData(Renderer& renderer, CubicTexture& object, GLuint textureId) :
+		Renderer::Data<CubicTexture>(renderer, object),
+		textureId(textureId)
+	{
+	}
+
+	~CubicTextureData()
+	{
+		// Destroy the texture if it is uploaded
+		if (object && object->isUploaded())
+		{
+			renderer->destroyTexture(*object);
+		}
+	}
+
+	GLuint textureId;
 };
 
 // OpenGL-specific data for a frame buffer
@@ -348,12 +372,6 @@ GLenum _shaderSourceTypeLookUp[3] =
     GL_GEOMETRY_SHADER // Geometry
 };
 
-GLenum _textureTypeLookUp[3] =
-{
-    GL_TEXTURE_2D,
-    GL_TEXTURE_CUBE_MAP
-};
-
 GLenum _frameBufferSlotLookUp[18] =
 {
     GL_COLOR_ATTACHMENT0, // Color0
@@ -474,15 +492,24 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& val
     case UniformType::Color:
         setUniform(uniform, value.asColor());
         break;
-    case UniformType::Texture:
-    {
-        Texture::Handle texture = value.asTexture();
-        if (texture)
-        {
-            setUniform(uniform, *texture);
-        }
-    }
-    break;
+	case UniformType::Texture2:
+	{
+		Texture2::Handle texture = value.asTexture2();
+		if (texture)
+		{
+			setUniform(uniform, *texture);
+		}
+	}
+	break;
+	case UniformType::CubicTexture:
+	{
+		CubicTexture::Handle texture = value.asCubicTexture();
+		if (texture)
+		{
+			setUniform(uniform, *texture);
+		}
+	}
+	break;
     }
 }
 
@@ -597,34 +624,64 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
     }
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Texture& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
 {
-    if (uniform.type() != UniformType::Texture)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
+	if (uniform.type() != UniformType::Texture2)
+	{
+		throw InvalidOperation("Invalid value for uniform");
+	}
 
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
-        TextureIndex index = uniform.textureIndex();
+	int location = uniform.location();
+	if (location >= 0)
+	{
+		GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+		TextureIndex index = uniform.textureIndex();
 
-        if (index >= _renderer.capabilities().maxTextureUnits)
-        {
-            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
-        }
+		if (index >= _renderer.capabilities().maxTextureUnits)
+		{
+			throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
+		}
 
-        if (!value.isUploaded())
-        {
-            _renderer.uploadTexture(value);
-        }
+		if (!value.isUploaded())
+		{
+			_renderer.uploadTexture(value);
+		}
 
-        auto data = value.dataAs<TextureData>();
+		auto data = value.dataAs<Texture2Data>();
 
-        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
-        GL_ASSERT(glBindTexture(_textureTypeLookUp[(int)value.type()], data->textureId));
-    }
+		GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
+		GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
+	}
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, CubicTexture& value)
+{
+	if (uniform.type() != UniformType::CubicTexture)
+	{
+		throw InvalidOperation("Invalid value for uniform");
+	}
+
+	int location = uniform.location();
+	if (location >= 0)
+	{
+		GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+		TextureIndex index = uniform.textureIndex();
+
+		if (index >= _renderer.capabilities().maxTextureUnits)
+		{
+			throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
+		}
+
+		if (!value.isUploaded())
+		{
+			_renderer.uploadTexture(value);
+		}
+
+		auto data = value.dataAs<CubicTextureData>();
+
+		GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
+		GL_ASSERT(glBindTexture(GL_TEXTURE_CUBE_MAP, data->textureId));
+	}
 }
 
 void Renderer::Frame::renderMesh(Mesh& mesh)
@@ -699,14 +756,14 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     int textureIndex = 0;
     for (FrameBuffer::Attachment& attachment : frameBuffer.attachments())
     {
-        Texture& texture = attachment.texture();
+        Texture2& texture = attachment.texture();
 
         // Upload the texture if needed
         if (!texture.isUploaded())
         {
 			if (attachment.slot() == FrameBufferSlot::Depth)
 			{
-				GLenum type = _textureTypeLookUp[(int)texture.type()];
+				GLenum type = GL_TEXTURE_2D;
 
 				GLuint textureId = 0;
 				GL_ASSERT(glGenTextures(1, &textureId));
@@ -746,41 +803,33 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 
 				GLenum target = GL_TEXTURE_2D;
 
-				for (Image::Handle& imageHandle : texture.sourceImages())
+				const PixelFormat& pixelFormat = texture.pixelFormat();
+
+				GLint internalFormat = -1;
+				if (pixelFormat.type() == PixelType::Float16)
 				{
-					Image& image = *imageHandle;
-					const PixelFormat& pixelFormat = image.pixelFormat();
-
-					GLint internalFormat = -1;
-					if (pixelFormat.type() == PixelType::Float16)
-					{
-						internalFormat = GL_DEPTH_COMPONENT16;
-					}
-					else if(pixelFormat.type() == PixelType::Float32)
-					{
-						internalFormat = GL_DEPTH_COMPONENT32;
-					}
-
-					GL_ASSERT(
-						glTexImage2D(
-							target,
-							0,
-							internalFormat,
-							image.width(),
-							image.height(),
-							0,
-							GL_DEPTH_COMPONENT,
-							_pixelTypeLookUp[(int)pixelFormat.type()],
-							image.hasPixelData() ? &image.pixelData()[0] : 0
-							)
-						);
-
-					if (texture.type() == TextureType::CubeMap)
-					{
-						++target;
-					}
+					internalFormat = GL_DEPTH_COMPONENT16;
 				}
-				texture.clearSourceImages();
+				else if(pixelFormat.type() == PixelType::Float32)
+				{
+					internalFormat = GL_DEPTH_COMPONENT32;
+				}
+
+				GL_ASSERT(
+					glTexImage2D(
+						target,
+						0,
+						internalFormat,
+						texture.width(),
+						texture.height(),
+						0,
+						GL_DEPTH_COMPONENT,
+						_pixelTypeLookUp[(int)pixelFormat.type()],
+						0
+						)
+					);
+
+				texture.clearSourceImage();
 
 				if (texture.isMipmapped())
 				{
@@ -789,7 +838,7 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 
 				GL_ASSERT(glBindTexture(type, 0));
 
-				texture.setAsUploaded(*this, new TextureData(*this, texture, textureId));
+				texture.setAsUploaded(*this, new Texture2Data(*this, texture, textureId));
 				statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
 				HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
@@ -800,7 +849,7 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 			}
         }
 
-        auto targetData = texture.dataAs<TextureData>();
+        auto targetData = texture.dataAs<Texture2Data>();
         GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, _frameBufferSlotLookUp[(int)attachment.slot()], GL_TEXTURE_2D, targetData->textureId, 0));
 
 		if (attachment.slot() != FrameBufferSlot::Depth)
@@ -945,14 +994,14 @@ void Renderer::destroyShader(Shader& shader)
     HECT_TRACE(format("Destroyed shader '%s'", shader.name().c_str()));
 }
 
-void Renderer::uploadTexture(Texture& texture)
+void Renderer::uploadTexture(Texture2& texture)
 {
     if (texture.isUploaded())
     {
         return;
     }
 
-    GLenum type = _textureTypeLookUp[(int)texture.type()];
+    GLenum type = GL_TEXTURE_2D;
 
     GLuint textureId = 0;
     GL_ASSERT(glGenTextures(1, &textureId));
@@ -985,39 +1034,25 @@ void Renderer::uploadTexture(Texture& texture)
         GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
         GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
     }
+	
+    Image& image = *texture.sourceImage();
+    const PixelFormat& pixelFormat = image.pixelFormat();
 
-    GLenum target = GL_TEXTURE_2D;
+    GL_ASSERT(
+        glTexImage2D(
+			GL_TEXTURE_2D,
+            0,
+            _internalImageFormatLookUp[(int)image.colorSpace()][(int)pixelFormat.cardinality()][(int)pixelFormat.type()],
+            image.width(),
+            image.height(),
+            0,
+            _pixelFormatLookUp[(int)pixelFormat.cardinality()],
+            _pixelTypeLookUp[(int)pixelFormat.type()],
+            image.hasPixelData() ? &image.pixelData()[0] : 0
+        )
+    );
 
-    if (texture.type() == TextureType::CubeMap)
-    {
-        target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-    }
-
-    for (Image::Handle& imageHandle : texture.sourceImages())
-    {
-        Image& image = *imageHandle;
-        const PixelFormat& pixelFormat = image.pixelFormat();
-
-        GL_ASSERT(
-            glTexImage2D(
-                target,
-                0,
-                _internalImageFormatLookUp[(int)image.colorSpace()][(int)pixelFormat.cardinality()][(int)pixelFormat.type()],
-                image.width(),
-                image.height(),
-                0,
-                _pixelFormatLookUp[(int)pixelFormat.cardinality()],
-                _pixelTypeLookUp[(int)pixelFormat.type()],
-                image.hasPixelData() ? &image.pixelData()[0] : 0
-            )
-        );
-
-        if (texture.type() == TextureType::CubeMap)
-        {
-            ++target;
-        }
-    }
-    texture.clearSourceImages();
+    texture.clearSourceImage();
 
     if (texture.isMipmapped())
     {
@@ -1026,36 +1061,123 @@ void Renderer::uploadTexture(Texture& texture)
 
     GL_ASSERT(glBindTexture(type, 0));
 
-    texture.setAsUploaded(*this, new TextureData(*this, texture, textureId));
+    texture.setAsUploaded(*this, new Texture2Data(*this, texture, textureId));
     statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
     HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
 
-void Renderer::destroyTexture(Texture& texture)
+void Renderer::uploadTexture(CubicTexture& texture)
 {
-    if (!texture.isUploaded())
-    {
-        return;
-    }
+	if (texture.isUploaded())
+	{
+		return;
+	}
 
-    auto data = texture.dataAs<TextureData>();
-    GL_ASSERT(glDeleteTextures(1, &data->textureId));
+	GLenum type = GL_TEXTURE_CUBE_MAP;
 
-    statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
-    texture.setAsDestroyed();
+	GLuint textureId = 0;
+	GL_ASSERT(glGenTextures(1, &textureId));
+	GL_ASSERT(glBindTexture(type, textureId));
+	GL_ASSERT(
+		glTexParameteri(
+			type,
+			GL_TEXTURE_MIN_FILTER,
+			texture.isMipmapped() ?
+			_textureMipmapFilterLookUp[(int)texture.minFilter()] :
+			_textureFilterLookUp[(int)texture.minFilter()]
+			)
+		);
 
-    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
+	GL_ASSERT(
+		glTexParameteri(
+			type,
+			GL_TEXTURE_MAG_FILTER,
+			_textureFilterLookUp[(int)texture.magFilter()]
+			)
+		);
+
+	GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+	GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+
+	GLenum target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+
+	for (Image::Handle& imageHandle : texture.sourceImages())
+	{
+		Image& image = *imageHandle;
+		const PixelFormat& pixelFormat = image.pixelFormat();
+
+		GL_ASSERT(
+			glTexImage2D(
+				target,
+				0,
+				_internalImageFormatLookUp[(int)image.colorSpace()][(int)pixelFormat.cardinality()][(int)pixelFormat.type()],
+				image.width(),
+				image.height(),
+				0,
+				_pixelFormatLookUp[(int)pixelFormat.cardinality()],
+				_pixelTypeLookUp[(int)pixelFormat.type()],
+				image.hasPixelData() ? &image.pixelData()[0] : 0
+				)
+			);
+		
+		++target;
+	}
+	texture.clearSourceImages();
+
+	if (texture.isMipmapped())
+	{
+		GL_ASSERT(glGenerateMipmap(type));
+	}
+
+	GL_ASSERT(glBindTexture(type, 0));
+
+	texture.setAsUploaded(*this, new CubicTextureData(*this, texture, textureId));
+	statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
+
+	HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
 
-Image Renderer::downloadTextureImage(const Texture& texture)
+void Renderer::destroyTexture(Texture2& texture)
+{
+	if (!texture.isUploaded())
+	{
+		return;
+	}
+
+	auto data = texture.dataAs<Texture2Data>();
+	GL_ASSERT(glDeleteTextures(1, &data->textureId));
+
+	statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
+	texture.setAsDestroyed();
+
+	HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
+}
+
+void Renderer::destroyTexture(CubicTexture& texture)
+{
+	if (!texture.isUploaded())
+	{
+		return;
+	}
+
+	auto data = texture.dataAs<CubicTextureData>();
+	GL_ASSERT(glDeleteTextures(1, &data->textureId));
+
+	statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
+	texture.setAsDestroyed();
+
+	HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
+}
+
+Image Renderer::downloadTextureImage(const Texture2& texture)
 {
     if (!texture.isUploaded())
     {
         throw InvalidOperation("The texture is not uploaded");
     }
 
-    auto data = texture.dataAs<TextureData>();
+    auto data = texture.dataAs<Texture2Data>();
 
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
 

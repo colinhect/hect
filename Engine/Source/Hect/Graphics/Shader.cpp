@@ -275,7 +275,8 @@ void Shader::resolveUniforms()
         uniform._index = index;
 
         _uniformIndices.set(uniform._name, index);
-        if (uniform.type() == UniformType::Texture)
+        if (uniform.type() == UniformType::Texture2 ||
+			uniform.type() == UniformType::CubicTexture)
         {
             uniform._textureIndex = textureIndex;
             ++textureIndex;

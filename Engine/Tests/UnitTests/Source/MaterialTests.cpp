@@ -78,7 +78,7 @@ TEST_CASE("Set and get a uniform value in a material for a uniform of the same t
 TEST_CASE("Set and get a uniform value in a material for a uniform of a different type in the shader", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType::Texture));
+    shader.addUniform(Uniform("A", UniformType::Texture2));
 
     Material material;
     material.setShader(shader.createHandle());

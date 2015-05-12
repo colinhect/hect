@@ -59,9 +59,9 @@ void RenderSystem::initialize()
             _renderer->uploadShader(*material.shader());
             for (UniformValue& uniformValue : material.uniformValues())
             {
-                if (uniformValue.type() == UniformType::Texture)
+                if (uniformValue.type() == UniformType::Texture2)
                 {
-                    _renderer->uploadTexture(*uniformValue.asTexture());
+                    _renderer->uploadTexture(*uniformValue.asTexture2());
                 }
             }
         }
@@ -136,14 +136,14 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     LightProbe::Iterator lightProbe = scene.components<LightProbe>().begin();
     if (lightProbe)
     {
-        _frameData.lightProbeCubeMap = &*lightProbe->texture;
+        _frameData.lightProbeTexture = &*lightProbe->texture;
     }
 
     // Get the cube map of the active sky box
     SkyBox::Iterator skyBox = scene.components<SkyBox>().begin();
     if (skyBox)
     {
-        _frameData.skyBoxCubeMap = &*skyBox->texture;
+        _frameData.skyBoxTexture = &*skyBox->texture;
     }
 
     // Build all render calls and sort by priority
@@ -223,7 +223,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         frame.clear(false);
 
         // Render environment light
-        if (_frameData.lightProbeCubeMap)
+        if (_frameData.lightProbeTexture)
         {
             frame.setShader(*environmentShader);
             setBoundUniforms(frame, *environmentShader, camera, target, _identityTransform);
@@ -286,23 +286,23 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
     TextureFilter nearest = TextureFilter::Nearest;
 
     // Depth buffer
-    _depthBuffer = Texture("DepthBuffer", width, height, PixelFormat::R32, nearest, nearest, false, false);
+    _depthBuffer = Texture2("DepthBuffer", width, height, PixelFormat::R32, nearest, nearest, false, false);
 
     // Diffuse buffer: Red Green Blue Lighting
-    _diffuseBuffer = Texture("DiffuseBuffer", width, height, PixelFormat::Rgba32, nearest, nearest, false, false);
+    _diffuseBuffer = Texture2("DiffuseBuffer", width, height, PixelFormat::Rgba32, nearest, nearest, false, false);
 
     // Material buffer: Roughness Metallic ?
-    _materialBuffer = Texture("MaterialBuffer", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
+    _materialBuffer = Texture2("MaterialBuffer", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
 
     // Position buffer: X Y Z
-    _positionBuffer = Texture("PositionBuffer", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
+    _positionBuffer = Texture2("PositionBuffer", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
 
     // Normal buffer: X Y Z Depth
-    _normalBuffer = Texture("NormalBuffer", width, height, PixelFormat::Rgba16, nearest, nearest, false, false);
+    _normalBuffer = Texture2("NormalBuffer", width, height, PixelFormat::Rgba16, nearest, nearest, false, false);
 
     // Back buffers
-    _backBuffers[0] = Texture("BackBuffer0", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
-    _backBuffers[1] = Texture("BackBuffer1", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
+    _backBuffers[0] = Texture2("BackBuffer0", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
+    _backBuffers[1] = Texture2("BackBuffer1", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
 
     // Geometry frame buffer
     _geometryFrameBuffer = FrameBuffer(width, height);
@@ -496,13 +496,13 @@ void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, cons
         case UniformBinding::ModelViewProjectionMatrix:
             frame.setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
             break;
-        case UniformBinding::LightProbeCubeMap:
-            assert(_frameData.lightProbeCubeMap);
-            frame.setUniform(uniform, *_frameData.lightProbeCubeMap);
+        case UniformBinding::LightProbeTexture:
+            assert(_frameData.lightProbeTexture);
+            frame.setUniform(uniform, *_frameData.lightProbeTexture);
             break;
-        case UniformBinding::SkyBoxCubeMap:
-            assert(_frameData.skyBoxCubeMap);
-            frame.setUniform(uniform, *_frameData.skyBoxCubeMap);
+        case UniformBinding::SkyBoxTexture:
+            assert(_frameData.skyBoxTexture);
+            frame.setUniform(uniform, *_frameData.skyBoxTexture);
             break;
         case UniformBinding::DiffuseBuffer:
             frame.setUniform(uniform, _diffuseBuffer);
@@ -528,12 +528,12 @@ void RenderSystem::swapBackBuffer()
     _frameData.backBufferIndex = (_frameData.backBufferIndex + 1) % 2;
 }
 
-Texture& RenderSystem::backBuffer()
+Texture2& RenderSystem::backBuffer()
 {
     return _backBuffers[_frameData.backBufferIndex];
 }
 
-Texture& RenderSystem::lastBackBuffer()
+Texture2& RenderSystem::lastBackBuffer()
 {
     return _backBuffers[(_frameData.backBufferIndex + 1) % 2];
 }
@@ -570,7 +570,7 @@ void RenderSystem::FrameData::clear()
     cameraTransform = Transform();
     primaryLightDirection = Vector3();
     primaryLightColor = Color();
-    lightProbeCubeMap =  nullptr;
-    skyBoxCubeMap = nullptr;
+    lightProbeTexture =  nullptr;
+    skyBoxTexture = nullptr;
     backBufferIndex = 0;
 }

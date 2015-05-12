@@ -80,10 +80,16 @@ UniformValue::UniformValue(const Color& value) :
     setValue(value);
 }
 
-UniformValue::UniformValue(const Texture::Handle& value) :
-    _type(UniformType::Texture)
+UniformValue::UniformValue(const Texture2::Handle& value) :
+	_type(UniformType::Texture2)
 {
-    setValue(value);
+	setValue(value);
+}
+
+UniformValue::UniformValue(const CubicTexture::Handle& value) :
+	_type(UniformType::CubicTexture)
+{
+	setValue(value);
 }
 
 UniformType UniformValue::type() const
@@ -116,9 +122,12 @@ void UniformValue::setDefaultValue()
     case UniformType::Color:
         _value = Color();
         break;
-    case UniformType::Texture:
-        _value = Texture::Handle();
-        break;
+	case UniformType::Texture2:
+		_value = Texture2::Handle();
+		break;
+	case UniformType::CubicTexture:
+		_value = CubicTexture::Handle();
+		break;
     }
 }
 
@@ -192,14 +201,24 @@ void UniformValue::setValue(const Color& value)
     _value = value;
 }
 
-void UniformValue::setValue(const Texture::Handle& value)
+void UniformValue::setValue(const Texture2::Handle& value)
 {
-    if (_type != UniformType::Texture)
-    {
-        throw InvalidOperation("Uniform value is not of type 'Texture'");
-    }
+	if (_type != UniformType::Texture2)
+	{
+		throw InvalidOperation("Uniform value is not of type 'Texture2'");
+	}
 
-    _value = value;
+	_value = value;
+}
+
+void UniformValue::setValue(const CubicTexture::Handle& value)
+{
+	if (_type != UniformType::CubicTexture)
+	{
+		throw InvalidOperation("Uniform value is not of type 'CubicTexture'");
+	}
+
+	_value = value;
 }
 
 int UniformValue::asInt() const
@@ -272,14 +291,24 @@ Color UniformValue::asColor() const
     return _value.as<Color>();
 }
 
-Texture::Handle UniformValue::asTexture() const
+Texture2::Handle UniformValue::asTexture2() const
 {
-    if (_type != UniformType::Texture)
-    {
-        throw InvalidOperation("Uniform value is not of type 'Texture'");
-    }
+	if (_type != UniformType::Texture2)
+	{
+		throw InvalidOperation("Uniform value is not of type 'Texture2'");
+	}
 
-    return _value.as<Texture::Handle>();
+	return _value.as<Texture2::Handle>();
+}
+
+CubicTexture::Handle UniformValue::asCubicTexture() const
+{
+	if (_type != UniformType::CubicTexture)
+	{
+		throw InvalidOperation("Uniform value is not of type 'CubicTexture'");
+	}
+
+	return _value.as<CubicTexture::Handle>();
 }
 
 UniformValue::operator bool() const
@@ -312,8 +341,10 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
         return asMatrix4() == uniformValue.asMatrix4();
     case UniformType::Color:
         return asColor() == uniformValue.asColor();
-    case UniformType::Texture:
-        return asTexture() == uniformValue.asTexture();
+	case UniformType::Texture2:
+		return asTexture2() == uniformValue.asTexture2();
+	case UniformType::CubicTexture:
+		return asCubicTexture() == uniformValue.asCubicTexture();
     }
 
     return false;
@@ -353,9 +384,12 @@ void UniformValue::encode(Encoder& encoder) const
     case UniformType::Color:
         encoder << encodeValue("value", asColor());
         break;
-    case UniformType::Texture:
-        encoder << encodeValue("value", asTexture());
-        break;
+	case UniformType::Texture2:
+		encoder << encodeValue("value", asTexture2());
+		break;
+	case UniformType::CubicTexture:
+		encoder << encodeValue("value", asCubicTexture());
+		break;
     }
 }
 
@@ -418,13 +452,20 @@ void UniformValue::decode(Decoder& decoder)
             setValue(value);
         }
         break;
-        case UniformType::Texture:
-        {
-            Texture::Handle texture;
-            decoder >> decodeValue(texture);
-            setValue(texture);
-        }
-        break;
+		case UniformType::Texture2:
+		{
+			Texture2::Handle texture;
+			decoder >> decodeValue(texture);
+			setValue(texture);
+		}
+		break;
+		case UniformType::CubicTexture:
+		{
+			CubicTexture::Handle texture;
+			decoder >> decodeValue(texture);
+			setValue(texture);
+		}
+		break;
         default:
             throw DecodeError(format("Unknown uniform type '%s'", Enum::toString(_type).c_str()));
         }

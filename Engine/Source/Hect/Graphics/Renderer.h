@@ -40,7 +40,8 @@ class UniformValue;
 class Mesh;
 class RenderTarget;
 class Shader;
-class Texture;
+class Texture2;
+class CubicTexture;
 class Window;
 
 ///
@@ -253,9 +254,13 @@ public:
         /// \copydoc Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, const Color& value);
 
-        ///
-        /// \copydoc Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, Texture& value);
+		///
+		/// \copydoc Renderer::Frame::setUniform()
+		void setUniform(const Uniform& uniform, Texture2& value);
+
+		///
+		/// \copydoc Renderer::Frame::setUniform()
+		void setUniform(const Uniform& uniform, CubicTexture& value);
 
         ///
         /// Render a mesh using the active state of the frame.
@@ -321,19 +326,27 @@ public:
     /// \param shader The shader to destroy.
     void destroyShader(Shader& shader);
 
-    ///
-    /// Uploads a texture.
-    ///
-    /// \note If the texture is already uploaded then no action is taken.
-    ///
-    /// \param texture The texture to upload.
-    void uploadTexture(Texture& texture);
+	///
+	/// Uploads a texture.
+	///
+	/// \note If the texture is already uploaded then no action is taken.
+	///
+	/// \param texture The texture to upload.
+	void uploadTexture(Texture2& texture);
+
+	///
+	/// \copydoc Renderer::uploadTexture()
+	void uploadTexture(CubicTexture& texture);
 
     ///
     /// Destroys a texture.
     ///
     /// \param texture The texture to destroy.
-    void destroyTexture(Texture& texture);
+    void destroyTexture(Texture2& texture);
+
+	///
+	/// \copydoc Renderer::destroyTexture()
+	void destroyTexture(CubicTexture& texture);
 
     ///
     /// Downloads the 2-dimensional image of the given uploaded texture.
@@ -343,7 +356,7 @@ public:
     /// \returns The downloaded image.
     ///
     /// \throws InvalidOperation If the texture is not uploaded.
-    Image downloadTextureImage(const Texture& texture);
+    Image downloadTextureImage(const Texture2& texture);
 
     ///
     /// Uploads a mesh.

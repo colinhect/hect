@@ -110,7 +110,7 @@ TEST_CASE("Decode and re-encode all built-in Hect shaders", "[Encoding][Shader]"
     testEncodingForExtension<Shader>("shader");
 }
 
-TEST_CASE("Decode and re-encode built-in Hect textures", "[Encoding][Texture]")
+TEST_CASE("Decode and re-encode built-in Hect textures", "[Encoding][Texture2]")
 {
-    testEncodingForExtension<Texture>("texture");
+    testEncodingForExtension<Texture2>("texture2");
 }

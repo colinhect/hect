@@ -25,7 +25,7 @@
 
 using namespace hect;
 
-FrameBuffer::Attachment::Attachment(FrameBufferSlot slot, Texture& texture) :
+FrameBuffer::Attachment::Attachment(FrameBufferSlot slot, Texture2& texture) :
     _slot(slot),
     _texture(&texture)
 {
@@ -36,12 +36,12 @@ FrameBufferSlot FrameBuffer::Attachment::slot() const
     return _slot;
 }
 
-Texture& FrameBuffer::Attachment::texture()
+Texture2& FrameBuffer::Attachment::texture()
 {
     return *_texture;
 }
 
-const Texture& FrameBuffer::Attachment::texture() const
+const Texture2& FrameBuffer::Attachment::texture() const
 {
     return *_texture;
 }
@@ -60,7 +60,7 @@ void FrameBuffer::bind(Renderer& renderer)
     renderer.setTarget(*this);
 }
 
-void FrameBuffer::attach(FrameBufferSlot slot, Texture& texture)
+void FrameBuffer::attach(FrameBufferSlot slot, Texture2& texture)
 {
     ensureSlotEmpty(slot);
 

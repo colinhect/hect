@@ -111,8 +111,8 @@ private:
     void setBoundUniforms(Renderer::Frame& frame, Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
     void swapBackBuffer();
-    Texture& backBuffer();
-    Texture& lastBackBuffer();
+    Texture2& backBuffer();
+    Texture2& lastBackBuffer();
     FrameBuffer& backFrameBuffer();
 
     class RenderCall
@@ -144,8 +144,8 @@ private:
         Transform cameraTransform;
         Vector3 primaryLightDirection;
         Color primaryLightColor;
-        Texture* lightProbeCubeMap { nullptr };
-        Texture* skyBoxCubeMap { nullptr };
+        CubicTexture* lightProbeTexture { nullptr };
+        CubicTexture* skyBoxTexture { nullptr };
         size_t backBufferIndex { 0 };
     } _frameData;
 
@@ -155,12 +155,12 @@ private:
     CameraSystem::Handle _cameraSystem;
     DebugSystem::Handle _debugSystem;
 
-	Texture _depthBuffer;
-    Texture _diffuseBuffer;
-    Texture _materialBuffer;
-    Texture _positionBuffer;
-    Texture _normalBuffer;
-    std::array<Texture, 2> _backBuffers;
+	Texture2 _depthBuffer;
+    Texture2 _diffuseBuffer;
+    Texture2 _materialBuffer;
+    Texture2 _positionBuffer;
+    Texture2 _normalBuffer;
+    std::array<Texture2, 2> _backBuffers;
 
     FrameBuffer _geometryFrameBuffer;
     std::array<FrameBuffer, 2> _backFrameBuffers;

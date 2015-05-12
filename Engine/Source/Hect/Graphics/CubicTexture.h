@@ -29,16 +29,15 @@
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/TextureFilter.h"
-#include "Hect/Graphics/TextureType.h"
 
 namespace hect
 {
 
 ///
-/// A texture with one or more source images that can be sampled.
-class HECT_EXPORT Texture :
-    public Asset<Texture>,
-    public Renderer::Object<Texture>
+/// A cube map texture.
+class HECT_EXPORT CubicTexture :
+    public Asset<CubicTexture>,
+    public Renderer::Object<CubicTexture>
 {
     typedef std::vector<Image::Handle> ImageContainer;
 public:
@@ -48,11 +47,11 @@ public:
     typedef Sequence<Image::Handle, ImageContainer> ImageSequence;
 
     ///
-    /// Constructs an empty 2-dimensional texture.
-    Texture();
+    /// Constructs an empty cubic texture.
+	CubicTexture();
 
     ///
-    /// Constructs a 2-dimensional texture.
+    /// Constructs an cubic texture.
     ///
     /// \param name The name.
     /// \param width The width.
@@ -61,25 +60,7 @@ public:
     /// \param minFilter The minification filter.
     /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
-    /// \param wrapped True if the texture is wrapped; false otherwise.
-    Texture(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped);
-
-    ///
-    /// Constructs a 2-dimensional texture.
-    ///
-    /// \param name The name.
-    /// \param image The source image.
-    Texture(const std::string& name, const Image::Handle& image);
-
-    ///
-    /// Returns the texture type.
-    TextureType type();
-
-    ///
-    /// Sets the texture type.
-    ///
-    /// \param type The new texture type.
-    void setType(TextureType type);
+	CubicTexture(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped);
 
     ///
     /// Returns the source images.
@@ -94,9 +75,8 @@ public:
     ///
     /// \param image The source image to add.
     ///
-    /// \throws InvalidOperation If the maximum number of source images have
-    /// been added based on the texture type or the image does not match the
-    /// width/height of the texture.
+    /// \throws InvalidOperation If the image does not match the width/height
+	/// of the texture.
     void addSourceImage(const Image::Handle& image);
 
     ///
@@ -143,19 +123,6 @@ public:
     void setMipmapped(bool mipmapped);
 
     ///
-    /// Returns whether the texture is wrapped.
-    bool isWrapped() const;
-
-    ///
-    /// Sets whether the texture is wrapped.
-    ///
-    /// \note If the texture is uploaded to a renderer then it will be
-    /// destroyed before the wrap value is set.
-    ///
-    /// \param wrapped True if the texture is wrapped; false otherwise.
-    void setWrapped(bool wrapped);
-
-    ///
     /// Returns the width.
     unsigned width() const;
 
@@ -173,7 +140,7 @@ public:
     /// \note Does not compare the name.
     ///
     /// \param texture The other texture.
-    bool operator==(const Texture& texture) const;
+    bool operator==(const CubicTexture& texture) const;
 
     ///
     /// Returns whether the texture is different from another.
@@ -181,14 +148,12 @@ public:
     /// \note Does not compare the name.
     ///
     /// \param texture The other texture.
-    bool operator!=(const Texture& texture) const;
+    bool operator!=(const CubicTexture& texture) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
 
 private:
-    TextureType _type { TextureType::TwoDimensional };
-
     ImageContainer _sourceImages;
 
     unsigned _width { 0 };
@@ -200,7 +165,6 @@ private:
     TextureFilter _magFilter { TextureFilter::Linear };
 
     bool _mipmapped { true };
-    bool _wrapped { false };
 };
 
 }

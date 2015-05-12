@@ -212,14 +212,16 @@ void Uniform::resolveType()
     case UniformBinding::PrimaryLightColor:
         _type = UniformType::Color;
         break;
-    case UniformBinding::LightProbeCubeMap:
-    case UniformBinding::SkyBoxCubeMap:
+    case UniformBinding::LightProbeTexture:
+    case UniformBinding::SkyBoxTexture:
+		_type = UniformType::CubicTexture;
+		break;
     case UniformBinding::DiffuseBuffer:
     case UniformBinding::MaterialBuffer:
     case UniformBinding::PositionBuffer:
     case UniformBinding::NormalBuffer:
     case UniformBinding::BackBuffer:
-        _type = UniformType::Texture;
+        _type = UniformType::Texture2;
         break;
     }
 }
