@@ -11,8 +11,8 @@ uniforms:
   - name: modelViewProjection
     binding: ModelViewProjectionMatrix
   - name: diffuseTexture
-    type: Texture
+    type: Texture2
   - name: materialTexture
-    type: Texture
+    type: Texture2
   - name: normalTexture
-    type: Texture
+    type: Texture2
