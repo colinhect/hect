@@ -289,7 +289,7 @@ void Renderer::uploadTexture(CubicTexture& texture)
 		return;
 	}
 
-	texture.setAsUploaded(*this, new Texture2Data(*this, texture));
+	texture.setAsUploaded(*this, new CubicTextureData(*this, texture));
 }
 
 void Renderer::destroyTexture(Texture2& texture)
