@@ -77,10 +77,9 @@ public:
     ///
     /// Updates the contributing value of the binding.
     ///
-    /// \param platform The platform.
     /// \param timeStep The duration of time elapsed in seconds since the last
     /// update.
-    void update(Platform& platform, double timeStep);
+    void update(double timeStep);
 
     ///
     /// Returns the contributing value.

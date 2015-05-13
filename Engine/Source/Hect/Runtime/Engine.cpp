@@ -28,6 +28,7 @@
 #include "Hect/IO/DataValueDecoder.h"
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentRegistry.h"
+#include "Hect/Runtime/Platform.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
 
@@ -185,16 +186,46 @@ void Engine::playScene(Scene& scene)
     }
 }
 
+bool Engine::hasMouse()
+{
+	assert(_platform);
+	return _platform->hasMouse();
+}
+
+Mouse& Engine::mouse()
+{
+	assert(_platform);
+	return _platform->mouse();
+}
+
+bool Engine::hasKeyboard()
+{
+	assert(_platform);
+	return _platform->hasKeyboard();
+}
+
+Keyboard& Engine::keyboard()
+{
+	assert(_platform);
+	return _platform->keyboard();
+}
+
+bool Engine::hasJoystick(JoystickIndex index)
+{
+	assert(_platform);
+	return _platform->hasJoystick(index);
+}
+
+Joystick& Engine::joystick(JoystickIndex index)
+{
+	assert(_platform);
+	return _platform->joystick(index);
+}
+
 FileSystem& Engine::fileSystem()
 {
     assert(_fileSystem);
     return *_fileSystem;
-}
-
-Platform& Engine::platform()
-{
-    assert(_platform);
-    return *_platform;
 }
 
 Window& Engine::window()

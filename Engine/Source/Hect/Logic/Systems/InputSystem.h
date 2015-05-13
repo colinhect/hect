@@ -66,7 +66,6 @@ public:
     void tick(double timeStep) override;
 
 private:
-    Platform& _platform;
     std::vector<InputAxis> _axes;
     StringMap<size_t> _axisIndices;
 };

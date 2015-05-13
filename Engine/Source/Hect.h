@@ -131,7 +131,6 @@ namespace hect {}
 #include "Hect/Reflection/Enum.h"
 #include "Hect/Reflection/Type.h"
 #include "Hect/Runtime/Engine.h"
-#include "Hect/Runtime/Platform.h"
 #include "Hect/Runtime/VideoMode.h"
 #include "Hect/Runtime/Window.h"
 #include "Hect/Timing/Timer.h"

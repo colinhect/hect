@@ -28,7 +28,6 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Input/InputAxisBinding.h"
 #include "Hect/IO/Encodable.h"
-#include "Hect/Runtime/Platform.h"
 
 namespace hect
 {
@@ -68,7 +67,7 @@ public:
 
     ///
     /// Updates the input axis based on the current state of its bindings.
-    void update(Platform& platform, double timeStepInSeconds);
+    void update(double timeStepInSeconds);
 
     ///
     /// Returns the current value of the axis.

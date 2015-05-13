@@ -24,14 +24,12 @@
 #include "InputSystem.h"
 
 #include "Hect/IO/DataValueDecoder.h"
-#include "Hect/Runtime/Platform.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
 InputSystem::InputSystem(Scene& scene) :
-    System(scene, SystemTickStage::Precedent),
-    _platform(Engine::instance().platform())
+    System(scene, SystemTickStage::Precedent)
 {
 	Engine& engine = Engine::instance();
     for (const DataValue& axisValue : engine.settings()["inputAxes"])
@@ -97,6 +95,6 @@ void InputSystem::tick(double timeStep)
     // Update each axis
     for (InputAxis& axis : _axes)
     {
-        axis.update(_platform, timeStep);
+        axis.update(timeStep);
     }
 }
