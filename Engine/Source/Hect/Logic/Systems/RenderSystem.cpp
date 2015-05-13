@@ -306,7 +306,7 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
 
     // Geometry frame buffer
     _geometryFrameBuffer = FrameBuffer(width, height);
-	_geometryFrameBuffer.attach(FrameBufferSlot::Depth, _depthBuffer);
+    _geometryFrameBuffer.attach(FrameBufferSlot::Depth, _depthBuffer);
     _geometryFrameBuffer.attach(FrameBufferSlot::Color0, _diffuseBuffer);
     _geometryFrameBuffer.attach(FrameBufferSlot::Color1, _materialBuffer);
     _geometryFrameBuffer.attach(FrameBufferSlot::Color2, _positionBuffer);
@@ -314,11 +314,11 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
 
     // Back frame buffers
     _backFrameBuffers[0] = FrameBuffer(width, height);
-	_backFrameBuffers[0].attach(FrameBufferSlot::Depth, _depthBuffer);
+    _backFrameBuffers[0].attach(FrameBufferSlot::Depth, _depthBuffer);
     _backFrameBuffers[0].attach(FrameBufferSlot::Color0, _backBuffers[0]);
 
     _backFrameBuffers[1] = FrameBuffer(width, height);
-	_backFrameBuffers[1].attach(FrameBufferSlot::Depth, _depthBuffer);
+    _backFrameBuffers[1].attach(FrameBufferSlot::Depth, _depthBuffer);
     _backFrameBuffers[1].attach(FrameBufferSlot::Color0, _backBuffers[1]);
 
     _renderer->uploadFrameBuffer(_geometryFrameBuffer);

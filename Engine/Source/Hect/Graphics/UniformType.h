@@ -58,13 +58,13 @@ enum class UniformType
     /// A color.
     Color,
 
-	///
-	/// A 2-dimensional texture.
-	Texture2,
+    ///
+    /// A 2-dimensional texture.
+    Texture2,
 
-	///
-	/// A cubic texture.
-	TextureCube
+    ///
+    /// A cubic texture.
+    TextureCube
 };
 
 }

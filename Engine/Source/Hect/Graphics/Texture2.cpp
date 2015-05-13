@@ -47,20 +47,20 @@ Texture2::Texture2(const std::string& name, unsigned width, unsigned height, con
 Texture2::Texture2(const std::string& name, const Image::Handle& image) :
     Asset(name)
 {
-	setImage(image);
+    setImage(image);
 }
 
 Image& Texture2::image()
 {
-	if (isUploaded() && !_image)
-	{
-		_image = renderer().downloadTextureImage(*this);
-	}
+    if (isUploaded() && !_image)
+    {
+        _image = renderer().downloadTextureImage(*this);
+    }
 
-	if (!_image)
-	{
-		_image = Image::Handle(new Image(_width, _height, _pixelFormat));
-	}
+    if (!_image)
+    {
+        _image = Image::Handle(new Image(_width, _height, _pixelFormat));
+    }
 
     return *_image;
 }
@@ -81,17 +81,17 @@ void Texture2::setImage(const Image::Handle& image)
 
 void Texture2::markAsDirty()
 {
-	_image = Image::Handle();
+    _image = Image::Handle();
 }
 
 Color Texture2::readPixel(unsigned x, unsigned y)
 {
-	return image().readPixel(x, y);
+    return image().readPixel(x, y);
 }
 
 Color Texture2::readPixel(const Vector2& coords)
 {
-	return image().readPixel(coords);
+    return image().readPixel(coords);
 }
 
 TextureFilter Texture2::minFilter() const
@@ -238,7 +238,7 @@ void Texture2::decode(Decoder& decoder)
         decoder.assetCache().remove(image.path());
 
         image->setColorSpace(colorSpace);
-		setImage(image);
+        setImage(image);
     }
 
     decoder >> decodeEnum("minFilter", _minFilter)

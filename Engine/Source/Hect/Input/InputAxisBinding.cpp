@@ -29,7 +29,7 @@ using namespace hect;
 
 void InputAxisBinding::update(double timeStep)
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     switch (type)
     {
     case InputAxisBindingType::MouseMoveX:

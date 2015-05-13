@@ -46,7 +46,7 @@ Mesh createTestMesh()
 
 TEST_CASE("Upload and destroy render object", "[Renderer]")
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     Renderer& renderer = engine.renderer();
 
     Mesh mesh = createTestMesh();
@@ -59,7 +59,7 @@ TEST_CASE("Upload and destroy render object", "[Renderer]")
 
 TEST_CASE("Re-upload destroyed render object", "[Renderer]")
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     Renderer& renderer = engine.renderer();
 
     Mesh mesh = createTestMesh();
@@ -74,7 +74,7 @@ TEST_CASE("Re-upload destroyed render object", "[Renderer]")
 
 TEST_CASE("Copy uploaded render object", "[Renderer]")
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     Renderer& renderer = engine.renderer();
 
     Mesh mesh = createTestMesh();
@@ -96,7 +96,7 @@ TEST_CASE("Copy uploaded render object", "[Renderer]")
 
 TEST_CASE("Move uploaded render object", "[Renderer]")
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     Renderer& renderer = engine.renderer();
 
     Mesh mesh = createTestMesh();

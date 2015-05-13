@@ -123,7 +123,7 @@ Entity::Iterator Scene::createEntity(const Path& path)
 {
     Entity::Iterator entity = createEntity();
 
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     AssetDecoder decoder(engine.assetCache(), path);
     decoder >> decodeValue(*entity);
 

@@ -28,7 +28,7 @@ using namespace hect;
 
 TEST_CASE("Create and remove directories", "[FileSystem]")
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();
@@ -46,7 +46,7 @@ TEST_CASE("Create and remove directories", "[FileSystem]")
 
 TEST_CASE("Open non-existing file for write", "[FileSystem]")
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();
@@ -66,7 +66,7 @@ TEST_CASE("Open non-existing file for write", "[FileSystem]")
 
 TEST_CASE("Open existing file for write", "[FileSystem]")
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();
@@ -90,7 +90,7 @@ TEST_CASE("Open existing file for write", "[FileSystem]")
 
 TEST_CASE("Open existing file for read", "[FileSystem]")
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();
@@ -114,7 +114,7 @@ TEST_CASE("Open existing file for read", "[FileSystem]")
 
 TEST_CASE("Open non-existing file for read", "[FileSystem]")
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();

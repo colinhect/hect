@@ -45,11 +45,11 @@ TextureCube::TextureCube(const std::string& name, unsigned width, unsigned heigh
 
 Image& TextureCube::image(CubeSide side)
 {
-	Image::Handle& image = _images[static_cast<int>(side)];
-	if (!image)
-	{
-		image = Image::Handle(new Image(_width, _height, _pixelFormat));
-	}
+    Image::Handle& image = _images[static_cast<int>(side)];
+    if (!image)
+    {
+        image = Image::Handle(new Image(_width, _height, _pixelFormat));
+    }
     return *image;
 }
 
@@ -69,15 +69,15 @@ void TextureCube::setImage(CubeSide side, const Image::Handle& image)
         throw InvalidOperation("The source image pixel format does not match the pixel format of the texture");
     }
 
-	_images[static_cast<int>(side)] = image;
+    _images[static_cast<int>(side)] = image;
 }
 
 void TextureCube::markAsDirty()
 {
-	for (Image::Handle& image : _images)
-	{
-		image = Image::Handle();
-	}
+    for (Image::Handle& image : _images)
+    {
+        image = Image::Handle();
+    }
 }
 
 TextureFilter TextureCube::minFilter() const
@@ -179,14 +179,14 @@ bool TextureCube::operator!=(const TextureCube& texture) const
 
 void TextureCube::encode(Encoder& encoder) const
 {
-	encoder << beginObject("images")
-			<< encodeValue("positiveX", _images[0])
-			<< encodeValue("negativeX", _images[1])
-			<< encodeValue("positiveY", _images[2])
-			<< encodeValue("negativeY", _images[3])
-			<< encodeValue("positiveZ", _images[4])
-			<< encodeValue("negativeZ", _images[5])
-			<< endObject()
+    encoder << beginObject("images")
+            << encodeValue("positiveX", _images[0])
+            << encodeValue("negativeX", _images[1])
+            << encodeValue("positiveY", _images[2])
+            << encodeValue("negativeY", _images[3])
+            << encodeValue("positiveZ", _images[4])
+            << encodeValue("negativeZ", _images[5])
+            << endObject()
             << encodeEnum("minFilter", _minFilter)
             << encodeEnum("magFilter", _magFilter)
             << encodeValue("mipmapped", _mipmapped);
@@ -202,14 +202,14 @@ void TextureCube::decode(Decoder& decoder)
     }
 
     // Images
-	decoder >> beginObject("images")
-			>> decodeValue("positiveX", _images[0], true)
-			>> decodeValue("negativeX", _images[1])
-			>> decodeValue("positiveY", _images[2])
-			>> decodeValue("negativeY", _images[3])
-			>> decodeValue("positiveZ", _images[4])
-			>> decodeValue("negativeZ", _images[5])
-			>> endObject();
+    decoder >> beginObject("images")
+            >> decodeValue("positiveX", _images[0], true)
+            >> decodeValue("negativeX", _images[1])
+            >> decodeValue("positiveY", _images[2])
+            >> decodeValue("negativeY", _images[3])
+            >> decodeValue("positiveZ", _images[4])
+            >> decodeValue("negativeZ", _images[5])
+            >> endObject();
 
     for (Image::Handle& image : _images)
     {

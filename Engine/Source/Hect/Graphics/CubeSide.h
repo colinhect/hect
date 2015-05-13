@@ -30,29 +30,29 @@ namespace hect
 /// The side of a cube.
 enum class CubeSide
 {
-	///
-	/// The positive X side.
-	PositiveX,
+    ///
+    /// The positive X side.
+    PositiveX,
 
-	///
-	/// The negative X side.
-	NegativeX,
+    ///
+    /// The negative X side.
+    NegativeX,
 
-	///
-	/// The positive Y side.
-	PositiveY,
+    ///
+    /// The positive Y side.
+    PositiveY,
 
-	///
-	/// The negative Y side.
-	NegativeY,
+    ///
+    /// The negative Y side.
+    NegativeY,
 
-	///
-	/// The positive Z side.
-	PositiveZ,
+    ///
+    /// The positive Z side.
+    PositiveZ,
 
-	///
-	/// The negative Z side.
-	NegativeZ
+    ///
+    /// The negative Z side.
+    NegativeZ
 };
 
 }

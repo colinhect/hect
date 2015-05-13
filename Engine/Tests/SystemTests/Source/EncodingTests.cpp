@@ -31,7 +31,7 @@ using namespace hect;
 template <typename T>
 void testEncoding(const Path& assetPath)
 {
-	Engine& engine = Engine::instance();
+    Engine& engine = Engine::instance();
     auto handle = engine.assetCache().getHandle<T>(assetPath);
     REQUIRE(handle);
 
@@ -82,7 +82,7 @@ void testEncodingForExtension(const std::string& extension)
 {
     for (const Path& directoryPath : directoryPaths)
     {
-		Engine& engine = Engine::instance();
+        Engine& engine = Engine::instance();
         FileSystem& fileSystem = engine.fileSystem();
         for (const Path& filePath : fileSystem.filesInDirectory(directoryPath))
         {

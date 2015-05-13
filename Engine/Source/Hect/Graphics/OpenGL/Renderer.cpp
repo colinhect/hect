@@ -114,48 +114,48 @@ public:
 
 // OpenGL-specific data for a texture
 class Texture2Data :
-	public Renderer::Data<Texture2>
+    public Renderer::Data<Texture2>
 {
 public:
-	Texture2Data(Renderer& renderer, Texture2& object, GLuint textureId) :
-		Renderer::Data<Texture2>(renderer, object),
-		textureId(textureId)
-	{
-	}
+    Texture2Data(Renderer& renderer, Texture2& object, GLuint textureId) :
+        Renderer::Data<Texture2>(renderer, object),
+        textureId(textureId)
+    {
+    }
 
-	~Texture2Data()
-	{
-		// Destroy the texture if it is uploaded
-		if (object && object->isUploaded())
-		{
-			renderer->destroyTexture(*object);
-		}
-	}
+    ~Texture2Data()
+    {
+        // Destroy the texture if it is uploaded
+        if (object && object->isUploaded())
+        {
+            renderer->destroyTexture(*object);
+        }
+    }
 
-	GLuint textureId;
+    GLuint textureId;
 };
 
 // OpenGL-specific data for a cubic texture
 class TextureCubeData :
-	public Renderer::Data<TextureCube>
+    public Renderer::Data<TextureCube>
 {
 public:
-	TextureCubeData(Renderer& renderer, TextureCube& object, GLuint textureId) :
-		Renderer::Data<TextureCube>(renderer, object),
-		textureId(textureId)
-	{
-	}
+    TextureCubeData(Renderer& renderer, TextureCube& object, GLuint textureId) :
+        Renderer::Data<TextureCube>(renderer, object),
+        textureId(textureId)
+    {
+    }
 
-	~TextureCubeData()
-	{
-		// Destroy the texture if it is uploaded
-		if (object && object->isUploaded())
-		{
-			renderer->destroyTexture(*object);
-		}
-	}
+    ~TextureCubeData()
+    {
+        // Destroy the texture if it is uploaded
+        if (object && object->isUploaded())
+        {
+            renderer->destroyTexture(*object);
+        }
+    }
 
-	GLuint textureId;
+    GLuint textureId;
 };
 
 // OpenGL-specific data for a frame buffer
@@ -287,7 +287,7 @@ GLenum _pixelTypeLookUp[3] =
 
 GLenum _pixelFormatLookUp[5] =
 {
-	GLenum(-1), // 0
+    GLenum(-1), // 0
     GL_R, // 1
     GL_RG, // 2
     GL_RGB, // 3
@@ -492,24 +492,24 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& val
     case UniformType::Color:
         setUniform(uniform, value.asColor());
         break;
-	case UniformType::Texture2:
-	{
-		Texture2::Handle texture = value.asTexture2();
-		if (texture)
-		{
-			setUniform(uniform, *texture);
-		}
-	}
-	break;
-	case UniformType::TextureCube:
-	{
-		TextureCube::Handle texture = value.asTextureCube();
-		if (texture)
-		{
-			setUniform(uniform, *texture);
-		}
-	}
-	break;
+    case UniformType::Texture2:
+    {
+        Texture2::Handle texture = value.asTexture2();
+        if (texture)
+        {
+            setUniform(uniform, *texture);
+        }
+    }
+    break;
+    case UniformType::TextureCube:
+    {
+        TextureCube::Handle texture = value.asTextureCube();
+        if (texture)
+        {
+            setUniform(uniform, *texture);
+        }
+    }
+    break;
     }
 }
 
@@ -626,62 +626,62 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
 
 void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
 {
-	if (uniform.type() != UniformType::Texture2)
-	{
-		throw InvalidOperation("Invalid value for uniform");
-	}
+    if (uniform.type() != UniformType::Texture2)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
 
-	int location = uniform.location();
-	if (location >= 0)
-	{
-		GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
-		TextureIndex index = uniform.textureIndex();
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+        TextureIndex index = uniform.textureIndex();
 
-		if (index >= _renderer.capabilities().maxTextureUnits)
-		{
-			throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
-		}
+        if (index >= _renderer.capabilities().maxTextureUnits)
+        {
+            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
+        }
 
-		if (!value.isUploaded())
-		{
-			_renderer.uploadTexture(value);
-		}
+        if (!value.isUploaded())
+        {
+            _renderer.uploadTexture(value);
+        }
 
-		auto data = value.dataAs<Texture2Data>();
+        auto data = value.dataAs<Texture2Data>();
 
-		GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
-		GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
-	}
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
+        GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
+    }
 }
 
 void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
 {
-	if (uniform.type() != UniformType::TextureCube)
-	{
-		throw InvalidOperation("Invalid value for uniform");
-	}
+    if (uniform.type() != UniformType::TextureCube)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
 
-	int location = uniform.location();
-	if (location >= 0)
-	{
-		GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
-		TextureIndex index = uniform.textureIndex();
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+        TextureIndex index = uniform.textureIndex();
 
-		if (index >= _renderer.capabilities().maxTextureUnits)
-		{
-			throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
-		}
+        if (index >= _renderer.capabilities().maxTextureUnits)
+        {
+            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
+        }
 
-		if (!value.isUploaded())
-		{
-			_renderer.uploadTexture(value);
-		}
+        if (!value.isUploaded())
+        {
+            _renderer.uploadTexture(value);
+        }
 
-		auto data = value.dataAs<TextureCubeData>();
+        auto data = value.dataAs<TextureCubeData>();
 
-		GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
-		GL_ASSERT(glBindTexture(GL_TEXTURE_CUBE_MAP, data->textureId));
-	}
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
+        GL_ASSERT(glBindTexture(GL_TEXTURE_CUBE_MAP, data->textureId));
+    }
 }
 
 void Renderer::Frame::renderMesh(Mesh& mesh)
@@ -761,101 +761,101 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
         // Upload the texture if needed
         if (!texture.isUploaded())
         {
-			if (attachment.slot() == FrameBufferSlot::Depth)
-			{
-				GLenum type = GL_TEXTURE_2D;
+            if (attachment.slot() == FrameBufferSlot::Depth)
+            {
+                GLenum type = GL_TEXTURE_2D;
 
-				GLuint textureId = 0;
-				GL_ASSERT(glGenTextures(1, &textureId));
-				GL_ASSERT(glBindTexture(type, textureId));
-				GL_ASSERT(
-					glTexParameteri(
-						type,
-						GL_TEXTURE_MIN_FILTER,
-						texture.isMipmapped() ?
-						_textureMipmapFilterLookUp[(int)texture.minFilter()] :
-						_textureFilterLookUp[(int)texture.minFilter()]
-						)
-					);
+                GLuint textureId = 0;
+                GL_ASSERT(glGenTextures(1, &textureId));
+                GL_ASSERT(glBindTexture(type, textureId));
+                GL_ASSERT(
+                    glTexParameteri(
+                        type,
+                        GL_TEXTURE_MIN_FILTER,
+                        texture.isMipmapped() ?
+                        _textureMipmapFilterLookUp[(int)texture.minFilter()] :
+                        _textureFilterLookUp[(int)texture.minFilter()]
+                    )
+                );
 
-				GL_ASSERT(
-					glTexParameteri(
-						type,
-						GL_TEXTURE_MAG_FILTER,
-						_textureFilterLookUp[(int)texture.magFilter()]
-						)
-					);
+                GL_ASSERT(
+                    glTexParameteri(
+                        type,
+                        GL_TEXTURE_MAG_FILTER,
+                        _textureFilterLookUp[(int)texture.magFilter()]
+                    )
+                );
 
-				glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+                glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 
-				if (texture.isWrapped())
-				{
-					GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_REPEAT));
-					GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_REPEAT));
-				}
-				else
-				{
-					GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-					GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-				}
+                if (texture.isWrapped())
+                {
+                    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_REPEAT));
+                    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_REPEAT));
+                }
+                else
+                {
+                    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+                    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+                }
 
-				GLenum target = GL_TEXTURE_2D;
+                GLenum target = GL_TEXTURE_2D;
 
-				const PixelFormat& pixelFormat = texture.pixelFormat();
+                const PixelFormat& pixelFormat = texture.pixelFormat();
 
-				GLint internalFormat = -1;
-				if (pixelFormat.type() == PixelType::Float16)
-				{
-					internalFormat = GL_DEPTH_COMPONENT16;
-				}
-				else if(pixelFormat.type() == PixelType::Float32)
-				{
-					internalFormat = GL_DEPTH_COMPONENT32;
-				}
+                GLint internalFormat = -1;
+                if (pixelFormat.type() == PixelType::Float16)
+                {
+                    internalFormat = GL_DEPTH_COMPONENT16;
+                }
+                else if(pixelFormat.type() == PixelType::Float32)
+                {
+                    internalFormat = GL_DEPTH_COMPONENT32;
+                }
 
-				GL_ASSERT(
-					glTexImage2D(
-						target,
-						0,
-						internalFormat,
-						texture.width(),
-						texture.height(),
-						0,
-						GL_DEPTH_COMPONENT,
-						_pixelTypeLookUp[(int)pixelFormat.type()],
-						0
-						)
-					);
+                GL_ASSERT(
+                    glTexImage2D(
+                        target,
+                        0,
+                        internalFormat,
+                        texture.width(),
+                        texture.height(),
+                        0,
+                        GL_DEPTH_COMPONENT,
+                        _pixelTypeLookUp[(int)pixelFormat.type()],
+                        0
+                    )
+                );
 
-				texture.markAsDirty();
+                texture.markAsDirty();
 
-				if (texture.isMipmapped())
-				{
-					GL_ASSERT(glGenerateMipmap(type));
-				}
+                if (texture.isMipmapped())
+                {
+                    GL_ASSERT(glGenerateMipmap(type));
+                }
 
-				GL_ASSERT(glBindTexture(type, 0));
+                GL_ASSERT(glBindTexture(type, 0));
 
-				texture.setAsUploaded(*this, new Texture2Data(*this, texture, textureId));
-				statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
+                texture.setAsUploaded(*this, new Texture2Data(*this, texture, textureId));
+                statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
-				HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
-			}
-			else
-			{
-				uploadTexture(texture);
-			}
+                HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
+            }
+            else
+            {
+                uploadTexture(texture);
+            }
         }
 
         auto targetData = texture.dataAs<Texture2Data>();
         GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, _frameBufferSlotLookUp[(int)attachment.slot()], GL_TEXTURE_2D, targetData->textureId, 0));
 
-		if (attachment.slot() != FrameBufferSlot::Depth)
-		{
-			mrt[textureIndex++] = _frameBufferSlotLookUp[(int)attachment.slot()];
-		}
+        if (attachment.slot() != FrameBufferSlot::Depth)
+        {
+            mrt[textureIndex++] = _frameBufferSlotLookUp[(int)attachment.slot()];
+        }
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
@@ -1034,13 +1034,13 @@ void Renderer::uploadTexture(Texture2& texture)
         GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
         GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
     }
-	
+
     Image& image = texture.image();
     const PixelFormat& pixelFormat = image.pixelFormat();
 
     GL_ASSERT(
         glTexImage2D(
-			GL_TEXTURE_2D,
+            GL_TEXTURE_2D,
             0,
             _internalImageFormatLookUp[(int)image.colorSpace()][(int)pixelFormat.cardinality()][(int)pixelFormat.type()],
             image.width(),
@@ -1069,120 +1069,121 @@ void Renderer::uploadTexture(Texture2& texture)
 
 void Renderer::uploadTexture(TextureCube& texture)
 {
-	if (texture.isUploaded())
-	{
-		return;
-	}
+    if (texture.isUploaded())
+    {
+        return;
+    }
 
-	GLenum type = GL_TEXTURE_CUBE_MAP;
+    GLenum type = GL_TEXTURE_CUBE_MAP;
 
-	GLuint textureId = 0;
-	GL_ASSERT(glGenTextures(1, &textureId));
-	GL_ASSERT(glBindTexture(type, textureId));
-	GL_ASSERT(
-		glTexParameteri(
-			type,
-			GL_TEXTURE_MIN_FILTER,
-			texture.isMipmapped() ?
-			_textureMipmapFilterLookUp[(int)texture.minFilter()] :
-			_textureFilterLookUp[(int)texture.minFilter()]
-			)
-		);
+    GLuint textureId = 0;
+    GL_ASSERT(glGenTextures(1, &textureId));
+    GL_ASSERT(glBindTexture(type, textureId));
+    GL_ASSERT(
+        glTexParameteri(
+            type,
+            GL_TEXTURE_MIN_FILTER,
+            texture.isMipmapped() ?
+            _textureMipmapFilterLookUp[(int)texture.minFilter()] :
+            _textureFilterLookUp[(int)texture.minFilter()]
+        )
+    );
 
-	GL_ASSERT(
-		glTexParameteri(
-			type,
-			GL_TEXTURE_MAG_FILTER,
-			_textureFilterLookUp[(int)texture.magFilter()]
-			)
-		);
+    GL_ASSERT(
+        glTexParameteri(
+            type,
+            GL_TEXTURE_MAG_FILTER,
+            _textureFilterLookUp[(int)texture.magFilter()]
+        )
+    );
 
-	GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-	GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
 
-	GLenum target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+    GLenum target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
 
-	static const std::vector<CubeSide> sides = {
-		CubeSide::PositiveX,
-		CubeSide::NegativeX,
-		CubeSide::PositiveY,
-		CubeSide::NegativeY,
-		CubeSide::PositiveZ,
-		CubeSide::NegativeZ
-	};
+    static const std::vector<CubeSide> sides =
+    {
+        CubeSide::PositiveX,
+        CubeSide::NegativeX,
+        CubeSide::PositiveY,
+        CubeSide::NegativeY,
+        CubeSide::PositiveZ,
+        CubeSide::NegativeZ
+    };
 
-	for (CubeSide side : sides)
-	{
-		Image& image = texture.image(side);
-		const PixelFormat& pixelFormat = image.pixelFormat();
+    for (CubeSide side : sides)
+    {
+        Image& image = texture.image(side);
+        const PixelFormat& pixelFormat = image.pixelFormat();
 
-		GL_ASSERT(
-			glTexImage2D(
-				target,
-				0,
-				_internalImageFormatLookUp[(int)image.colorSpace()][(int)pixelFormat.cardinality()][(int)pixelFormat.type()],
-				image.width(),
-				image.height(),
-				0,
-				_pixelFormatLookUp[(int)pixelFormat.cardinality()],
-				_pixelTypeLookUp[(int)pixelFormat.type()],
-				image.hasPixelData() ? &image.pixelData()[0] : 0
-				)
-			);
-		
-		++target;
-	}
-	texture.markAsDirty();
+        GL_ASSERT(
+            glTexImage2D(
+                target,
+                0,
+                _internalImageFormatLookUp[(int)image.colorSpace()][(int)pixelFormat.cardinality()][(int)pixelFormat.type()],
+                image.width(),
+                image.height(),
+                0,
+                _pixelFormatLookUp[(int)pixelFormat.cardinality()],
+                _pixelTypeLookUp[(int)pixelFormat.type()],
+                image.hasPixelData() ? &image.pixelData()[0] : 0
+            )
+        );
 
-	if (texture.isMipmapped())
-	{
-		GL_ASSERT(glGenerateMipmap(type));
-	}
+        ++target;
+    }
+    texture.markAsDirty();
 
-	GL_ASSERT(glBindTexture(type, 0));
+    if (texture.isMipmapped())
+    {
+        GL_ASSERT(glGenerateMipmap(type));
+    }
 
-	texture.setAsUploaded(*this, new TextureCubeData(*this, texture, textureId));
-	statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
+    GL_ASSERT(glBindTexture(type, 0));
 
-	HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
+    texture.setAsUploaded(*this, new TextureCubeData(*this, texture, textureId));
+    statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
+
+    HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
 
 void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
 {
-	if (!texture.isUploaded())
-	{
-		return;
-	}
+    if (!texture.isUploaded())
+    {
+        return;
+    }
 
-	if (downloadImage)
-	{
-		// Force the texture to download its image
-		texture.image();
-	}
+    if (downloadImage)
+    {
+        // Force the texture to download its image
+        texture.image();
+    }
 
-	auto data = texture.dataAs<Texture2Data>();
-	GL_ASSERT(glDeleteTextures(1, &data->textureId));
+    auto data = texture.dataAs<Texture2Data>();
+    GL_ASSERT(glDeleteTextures(1, &data->textureId));
 
-	statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
-	texture.setAsDestroyed();
+    statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
+    texture.setAsDestroyed();
 
-	HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
 void Renderer::destroyTexture(TextureCube& texture)
 {
-	if (!texture.isUploaded())
-	{
-		return;
-	}
+    if (!texture.isUploaded())
+    {
+        return;
+    }
 
-	auto data = texture.dataAs<TextureCubeData>();
-	GL_ASSERT(glDeleteTextures(1, &data->textureId));
+    auto data = texture.dataAs<TextureCubeData>();
+    GL_ASSERT(glDeleteTextures(1, &data->textureId));
 
-	statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
-	texture.setAsDestroyed();
+    statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
+    texture.setAsDestroyed();
 
-	HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
 Image::Handle Renderer::downloadTextureImage(const Texture2& texture)
@@ -1196,9 +1197,9 @@ Image::Handle Renderer::downloadTextureImage(const Texture2& texture)
 
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
 
-	unsigned width = texture.width();
-	unsigned height = texture.height();
-	const PixelFormat& pixelFormat = texture.pixelFormat();
+    unsigned width = texture.width();
+    unsigned height = texture.height();
+    const PixelFormat& pixelFormat = texture.pixelFormat();
 
     Image::Handle image(new Image(width, height, pixelFormat));
 
@@ -1258,7 +1259,7 @@ void Renderer::uploadMesh(Mesh& mesh)
     {
         GL_ASSERT(glEnableVertexAttribArray(attributeIndex));
 
-		size_t offset = attribute.offset();
+        size_t offset = attribute.offset();
 
         if (attribute.type() == VertexAttributeType::Float32)
         {
@@ -1282,7 +1283,7 @@ void Renderer::uploadMesh(Mesh& mesh)
                     attribute.cardinality(),
                     _vertexAttributeTypeLookUp[(int)attribute.type()],
                     vertexLayout.vertexSize(),
-					reinterpret_cast<GLvoid*>(offset)
+                    reinterpret_cast<GLvoid*>(offset)
                 )
             );
         }
@@ -1346,11 +1347,11 @@ void Renderer::setTarget(FrameBuffer& frameBuffer)
         uploadFrameBuffer(frameBuffer);
     }
 
-	// Mark all attached textures as dirty
-	for (FrameBuffer::Attachment& attachment : frameBuffer.attachments())
-	{
-		attachment.texture().markAsDirty();
-	}
+    // Mark all attached textures as dirty
+    for (FrameBuffer::Attachment& attachment : frameBuffer.attachments())
+    {
+        attachment.texture().markAsDirty();
+    }
 
     auto data = frameBuffer.dataAs<FrameBufferData>();
 

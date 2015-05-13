@@ -58,39 +58,39 @@ public:
 };
 
 class Texture2Data :
-	public Renderer::Data<Texture2>
+    public Renderer::Data<Texture2>
 {
 public:
-	Texture2Data(Renderer& renderer, Texture2& object) :
-		Renderer::Data<Texture2>(renderer, object)
-	{
-	}
+    Texture2Data(Renderer& renderer, Texture2& object) :
+        Renderer::Data<Texture2>(renderer, object)
+    {
+    }
 
-	~Texture2Data()
-	{
-		if (object && object->isUploaded())
-		{
-			renderer->destroyTexture(*object);
-		}
-	}
+    ~Texture2Data()
+    {
+        if (object && object->isUploaded())
+        {
+            renderer->destroyTexture(*object);
+        }
+    }
 };
 
 class TextureCubeData :
-	public Renderer::Data<TextureCube>
+    public Renderer::Data<TextureCube>
 {
 public:
-	TextureCubeData(Renderer& renderer, TextureCube& object) :
-		Renderer::Data<TextureCube>(renderer, object)
-	{
-	}
+    TextureCubeData(Renderer& renderer, TextureCube& object) :
+        Renderer::Data<TextureCube>(renderer, object)
+    {
+    }
 
-	~TextureCubeData()
-	{
-		if (object && object->isUploaded())
-		{
-			renderer->destroyTexture(*object);
-		}
-	}
+    ~TextureCubeData()
+    {
+        if (object && object->isUploaded())
+        {
+            renderer->destroyTexture(*object);
+        }
+    }
 };
 
 class FrameBufferData :
@@ -195,14 +195,14 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
 
 void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
 {
-	(void)uniform;
-	(void)value;
+    (void)uniform;
+    (void)value;
 }
 
 void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
 {
-	(void)uniform;
-	(void)value;
+    (void)uniform;
+    (void)value;
 }
 
 void Renderer::Frame::renderMesh(Mesh& mesh)
@@ -274,44 +274,44 @@ void Renderer::destroyShader(Shader& shader)
 
 void Renderer::uploadTexture(Texture2& texture)
 {
-	if (texture.isUploaded())
-	{
-		return;
-	}
+    if (texture.isUploaded())
+    {
+        return;
+    }
 
-	texture.setAsUploaded(*this, new Texture2Data(*this, texture));
+    texture.setAsUploaded(*this, new Texture2Data(*this, texture));
 }
 
 void Renderer::uploadTexture(TextureCube& texture)
 {
-	if (texture.isUploaded())
-	{
-		return;
-	}
+    if (texture.isUploaded())
+    {
+        return;
+    }
 
-	texture.setAsUploaded(*this, new TextureCubeData(*this, texture));
+    texture.setAsUploaded(*this, new TextureCubeData(*this, texture));
 }
 
 void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
 {
-	(void)downloadImage;
+    (void)downloadImage;
 
-	if (!texture.isUploaded())
-	{
-		return;
-	}
+    if (!texture.isUploaded())
+    {
+        return;
+    }
 
-	texture.setAsDestroyed();
+    texture.setAsDestroyed();
 }
 
 void Renderer::destroyTexture(TextureCube& texture)
 {
-	if (!texture.isUploaded())
-	{
-		return;
-	}
+    if (!texture.isUploaded())
+    {
+        return;
+    }
 
-	texture.setAsDestroyed();
+    texture.setAsDestroyed();
 }
 
 Image::Handle Renderer::downloadTextureImage(const Texture2& texture)

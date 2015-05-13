@@ -51,25 +51,25 @@ class HECT_EXPORT Engine :
 {
 public:
 
-	///
-	/// Returns the instance of Engine.
-	///
-	///
-	/// \throws InvalidOperation If an instance of Engine has not been
-	/// instantiated.
-	static Engine& instance();
+    ///
+    /// Returns the instance of Engine.
+    ///
+    ///
+    /// \throws InvalidOperation If an instance of Engine has not been
+    /// instantiated.
+    static Engine& instance();
 
     ///
     /// Constructs an engine.
     ///
     /// \param argc The number of command-line arguments passed to main().
     /// \param argv The array of command-line arguments passed to main().
-	///
-	/// \throws InvalidOperation If an instance of Engine has already been
-	/// instantiated.
+    ///
+    /// \throws InvalidOperation If an instance of Engine has already been
+    /// instantiated.
     Engine(int argc, char* const argv[]);
 
-	~Engine();
+    ~Engine();
 
     ///
     /// Executes the engine to completion.
@@ -83,43 +83,43 @@ public:
     /// \param scene The scene to play.
     void playScene(Scene& scene);
 
-	///
-	/// Returns whether the platform has a mouse connected.
-	bool hasMouse();
+    ///
+    /// Returns whether the platform has a mouse connected.
+    bool hasMouse();
 
-	///
-	/// Returns the mouse.
-	///
-	/// \throws InvalidOperation If the platform does not have a mouse
-	/// connected.
-	Mouse& mouse();
+    ///
+    /// Returns the mouse.
+    ///
+    /// \throws InvalidOperation If the platform does not have a mouse
+    /// connected.
+    Mouse& mouse();
 
-	///
-	/// Returns whether the platform has a keyboard connected.
-	bool hasKeyboard();
+    ///
+    /// Returns whether the platform has a keyboard connected.
+    bool hasKeyboard();
 
-	///
-	/// Returns the keyboard.
-	///
-	/// \throws InvalidOperation If the platform does not have a keyboard
-	/// connected.
-	Keyboard& keyboard();
+    ///
+    /// Returns the keyboard.
+    ///
+    /// \throws InvalidOperation If the platform does not have a keyboard
+    /// connected.
+    Keyboard& keyboard();
 
-	///
-	/// Returns whether the platform has a joystick connected at the given
-	/// index.
-	///
-	/// \param index The index of the joystick.
-	bool hasJoystick(JoystickIndex index);
+    ///
+    /// Returns whether the platform has a joystick connected at the given
+    /// index.
+    ///
+    /// \param index The index of the joystick.
+    bool hasJoystick(JoystickIndex index);
 
-	///
-	/// Returns the joystick connected at the specified index.
-	///
-	/// \param index The index of the joystick.
-	///
-	/// \throws InvalidOperation If no joystick is connected at the given
-	// index.
-	Joystick& joystick(JoystickIndex index);
+    ///
+    /// Returns the joystick connected at the specified index.
+    ///
+    /// \param index The index of the joystick.
+    ///
+    /// \throws InvalidOperation If no joystick is connected at the given
+    // index.
+    Joystick& joystick(JoystickIndex index);
 
     ///
     /// Returns the file system.

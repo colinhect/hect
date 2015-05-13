@@ -81,15 +81,15 @@ UniformValue::UniformValue(const Color& value) :
 }
 
 UniformValue::UniformValue(const Texture2::Handle& value) :
-	_type(UniformType::Texture2)
+    _type(UniformType::Texture2)
 {
-	setValue(value);
+    setValue(value);
 }
 
 UniformValue::UniformValue(const TextureCube::Handle& value) :
-	_type(UniformType::TextureCube)
+    _type(UniformType::TextureCube)
 {
-	setValue(value);
+    setValue(value);
 }
 
 UniformType UniformValue::type() const
@@ -122,12 +122,12 @@ void UniformValue::setDefaultValue()
     case UniformType::Color:
         _value = Color();
         break;
-	case UniformType::Texture2:
-		_value = Texture2::Handle();
-		break;
-	case UniformType::TextureCube:
-		_value = TextureCube::Handle();
-		break;
+    case UniformType::Texture2:
+        _value = Texture2::Handle();
+        break;
+    case UniformType::TextureCube:
+        _value = TextureCube::Handle();
+        break;
     }
 }
 
@@ -203,22 +203,22 @@ void UniformValue::setValue(const Color& value)
 
 void UniformValue::setValue(const Texture2::Handle& value)
 {
-	if (_type != UniformType::Texture2)
-	{
-		throw InvalidOperation("Uniform value is not of type 'Texture2'");
-	}
+    if (_type != UniformType::Texture2)
+    {
+        throw InvalidOperation("Uniform value is not of type 'Texture2'");
+    }
 
-	_value = value;
+    _value = value;
 }
 
 void UniformValue::setValue(const TextureCube::Handle& value)
 {
-	if (_type != UniformType::TextureCube)
-	{
-		throw InvalidOperation("Uniform value is not of type 'TextureCube'");
-	}
+    if (_type != UniformType::TextureCube)
+    {
+        throw InvalidOperation("Uniform value is not of type 'TextureCube'");
+    }
 
-	_value = value;
+    _value = value;
 }
 
 int UniformValue::asInt() const
@@ -293,22 +293,22 @@ Color UniformValue::asColor() const
 
 Texture2::Handle UniformValue::asTexture2() const
 {
-	if (_type != UniformType::Texture2)
-	{
-		throw InvalidOperation("Uniform value is not of type 'Texture2'");
-	}
+    if (_type != UniformType::Texture2)
+    {
+        throw InvalidOperation("Uniform value is not of type 'Texture2'");
+    }
 
-	return _value.as<Texture2::Handle>();
+    return _value.as<Texture2::Handle>();
 }
 
 TextureCube::Handle UniformValue::asTextureCube() const
 {
-	if (_type != UniformType::TextureCube)
-	{
-		throw InvalidOperation("Uniform value is not of type 'TextureCube'");
-	}
+    if (_type != UniformType::TextureCube)
+    {
+        throw InvalidOperation("Uniform value is not of type 'TextureCube'");
+    }
 
-	return _value.as<TextureCube::Handle>();
+    return _value.as<TextureCube::Handle>();
 }
 
 UniformValue::operator bool() const
@@ -341,10 +341,10 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
         return asMatrix4() == uniformValue.asMatrix4();
     case UniformType::Color:
         return asColor() == uniformValue.asColor();
-	case UniformType::Texture2:
-		return asTexture2() == uniformValue.asTexture2();
-	case UniformType::TextureCube:
-		return asTextureCube() == uniformValue.asTextureCube();
+    case UniformType::Texture2:
+        return asTexture2() == uniformValue.asTexture2();
+    case UniformType::TextureCube:
+        return asTextureCube() == uniformValue.asTextureCube();
     }
 
     return false;
@@ -384,12 +384,12 @@ void UniformValue::encode(Encoder& encoder) const
     case UniformType::Color:
         encoder << encodeValue("value", asColor());
         break;
-	case UniformType::Texture2:
-		encoder << encodeValue("value", asTexture2());
-		break;
-	case UniformType::TextureCube:
-		encoder << encodeValue("value", asTextureCube());
-		break;
+    case UniformType::Texture2:
+        encoder << encodeValue("value", asTexture2());
+        break;
+    case UniformType::TextureCube:
+        encoder << encodeValue("value", asTextureCube());
+        break;
     }
 }
 
@@ -452,20 +452,20 @@ void UniformValue::decode(Decoder& decoder)
             setValue(value);
         }
         break;
-		case UniformType::Texture2:
-		{
-			Texture2::Handle texture;
-			decoder >> decodeValue(texture);
-			setValue(texture);
-		}
-		break;
-		case UniformType::TextureCube:
-		{
-			TextureCube::Handle texture;
-			decoder >> decodeValue(texture);
-			setValue(texture);
-		}
-		break;
+        case UniformType::Texture2:
+        {
+            Texture2::Handle texture;
+            decoder >> decodeValue(texture);
+            setValue(texture);
+        }
+        break;
+        case UniformType::TextureCube:
+        {
+            TextureCube::Handle texture;
+            decoder >> decodeValue(texture);
+            setValue(texture);
+        }
+        break;
         default:
             throw DecodeError(format("Unknown uniform type '%s'", Enum::toString(_type).c_str()));
         }

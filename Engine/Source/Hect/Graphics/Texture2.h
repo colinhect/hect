@@ -67,7 +67,7 @@ public:
 
     ///
     /// Returns the image of the texture.
-	Image& image();
+    Image& image();
 
     ///
     /// Sets the source image to the texture (may affect width/height of
@@ -81,21 +81,21 @@ public:
 
     ///
     /// Marks the texture to download its image from the renderer the next time
-	/// the image is accessed.
+    /// the image is accessed.
     void markAsDirty();
 
-	///
-	/// Reads a color value of a pixel.
-	///
-	/// \param x The x coordinate.
-	/// \param y The y coordinate.
-	Color readPixel(unsigned x, unsigned y);
+    ///
+    /// Reads a color value of a pixel.
+    ///
+    /// \param x The x coordinate.
+    /// \param y The y coordinate.
+    Color readPixel(unsigned x, unsigned y);
 
-	///
-	/// Reads a color value of a pixel.
-	///
-	/// \param coords The UV coordinates.
-	Color readPixel(const Vector2& coords);
+    ///
+    /// Reads a color value of a pixel.
+    ///
+    /// \param coords The UV coordinates.
+    Color readPixel(const Vector2& coords);
 
     ///
     /// Returns the minification filter.

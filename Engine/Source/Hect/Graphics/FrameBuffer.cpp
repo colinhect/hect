@@ -68,14 +68,14 @@ void FrameBuffer::attach(FrameBufferSlot slot, Texture2& texture)
     {
         throw InvalidOperation("Cannot attach texture to a frame buffer of a different size");
     }
-	else if (slot == FrameBufferSlot::Depth)
-	{
-		PixelFormat pixelFormat = texture.pixelFormat();
-		if (pixelFormat.cardinality() != 1)
-		{
-			throw InvalidOperation("Cannot attach multi-channel texture to the depth slot of a frame buffer");
-		}
-	}
+    else if (slot == FrameBufferSlot::Depth)
+    {
+        PixelFormat pixelFormat = texture.pixelFormat();
+        if (pixelFormat.cardinality() != 1)
+        {
+            throw InvalidOperation("Cannot attach multi-channel texture to the depth slot of a frame buffer");
+        }
+    }
 
     if (isUploaded())
     {

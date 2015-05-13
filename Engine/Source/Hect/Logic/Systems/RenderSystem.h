@@ -155,7 +155,7 @@ private:
     CameraSystem::Handle _cameraSystem;
     DebugSystem::Handle _debugSystem;
 
-	Texture2 _depthBuffer;
+    Texture2 _depthBuffer;
     Texture2 _diffuseBuffer;
     Texture2 _materialBuffer;
     Texture2 _positionBuffer;

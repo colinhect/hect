@@ -46,25 +46,25 @@ using namespace hect;
 
 namespace
 {
-	static Engine* _instance = nullptr;
+static Engine* _instance = nullptr;
 }
 
 Engine& Engine::instance()
 {
-	if (!_instance)
-	{
-		throw InvalidOperation("An engine instance has not been instantiated");
-	}
-	return *_instance;
+    if (!_instance)
+    {
+        throw InvalidOperation("An engine instance has not been instantiated");
+    }
+    return *_instance;
 }
 
 Engine::Engine(int argc, char* const argv[])
 {
-	if (_instance)
-	{
-		throw InvalidOperation("An engine instance has already been instantiated");
-	}
-	_instance = this;
+    if (_instance)
+    {
+        throw InvalidOperation("An engine instance has already been instantiated");
+    }
+    _instance = this;
 
     // Register all of the Hect types
     registerTypes();
@@ -129,7 +129,7 @@ Engine::Engine(int argc, char* const argv[])
 
 Engine::~Engine()
 {
-	_instance = nullptr;
+    _instance = nullptr;
 }
 
 int Engine::main()
@@ -188,38 +188,38 @@ void Engine::playScene(Scene& scene)
 
 bool Engine::hasMouse()
 {
-	assert(_platform);
-	return _platform->hasMouse();
+    assert(_platform);
+    return _platform->hasMouse();
 }
 
 Mouse& Engine::mouse()
 {
-	assert(_platform);
-	return _platform->mouse();
+    assert(_platform);
+    return _platform->mouse();
 }
 
 bool Engine::hasKeyboard()
 {
-	assert(_platform);
-	return _platform->hasKeyboard();
+    assert(_platform);
+    return _platform->hasKeyboard();
 }
 
 Keyboard& Engine::keyboard()
 {
-	assert(_platform);
-	return _platform->keyboard();
+    assert(_platform);
+    return _platform->keyboard();
 }
 
 bool Engine::hasJoystick(JoystickIndex index)
 {
-	assert(_platform);
-	return _platform->hasJoystick(index);
+    assert(_platform);
+    return _platform->hasJoystick(index);
 }
 
 Joystick& Engine::joystick(JoystickIndex index)
 {
-	assert(_platform);
-	return _platform->joystick(index);
+    assert(_platform);
+    return _platform->joystick(index);
 }
 
 FileSystem& Engine::fileSystem()

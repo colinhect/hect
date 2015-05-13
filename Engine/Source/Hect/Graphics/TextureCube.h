@@ -46,7 +46,7 @@ public:
 
     ///
     /// Constructs an empty cubic texture.
-	TextureCube();
+    TextureCube();
 
     ///
     /// Constructs an cubic texture.
@@ -58,12 +58,12 @@ public:
     /// \param minFilter The minification filter.
     /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
-	TextureCube(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped);
+    TextureCube(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped);
 
     ///
     /// Returns the image of the specified side.
-	///
-	/// \param side The side of the cube to get the image of.
+    ///
+    /// \param side The side of the cube to get the image of.
     Image& image(CubeSide side);
 
     ///
@@ -72,16 +72,16 @@ public:
     /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed.
     ///
-	/// \param side The side of the cube to set the image for.
+    /// \param side The side of the cube to set the image for.
     /// \param image The image.
     ///
     /// \throws InvalidOperation If the image does not match the width/height
-	/// of the texture.
+    /// of the texture.
     void setImage(CubeSide side, const Image::Handle& image);
 
-	///
-	/// Marks the texture to download its image from the renderer the next time
-	/// an image is accessed.
+    ///
+    /// Marks the texture to download its image from the renderer the next time
+    /// an image is accessed.
     void markAsDirty();
 
     ///
@@ -155,7 +155,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-	std::array<Image::Handle, 6> _images;
+    std::array<Image::Handle, 6> _images;
 
     unsigned _width { 0 };
     unsigned _height { 0 };

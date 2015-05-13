@@ -170,7 +170,7 @@ FileWriteStream::~FileWriteStream()
     {
         if (!PHYSFS_close(_handle))
         {
-			HECT_ERROR(format("Failed to close file for writing: %s", PHYSFS_getLastError()));
+            HECT_ERROR(format("Failed to close file for writing: %s", PHYSFS_getLastError()));
         }
     }
 }
@@ -206,7 +206,7 @@ FileSystem::~FileSystem()
 {
     if (!PHYSFS_deinit())
     {
-		HECT_ERROR(format("Failed to shutdown PhysFS: %s", PHYSFS_getLastError()));
+        HECT_ERROR(format("Failed to shutdown PhysFS: %s", PHYSFS_getLastError()));
     }
 }
 

@@ -254,13 +254,13 @@ public:
         /// \copydoc Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, const Color& value);
 
-		///
-		/// \copydoc Renderer::Frame::setUniform()
-		void setUniform(const Uniform& uniform, Texture2& value);
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, Texture2& value);
 
-		///
-		/// \copydoc Renderer::Frame::setUniform()
-		void setUniform(const Uniform& uniform, TextureCube& value);
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, TextureCube& value);
 
         ///
         /// Render a mesh using the active state of the frame.
@@ -326,29 +326,29 @@ public:
     /// \param shader The shader to destroy.
     void destroyShader(Shader& shader);
 
-	///
-	/// Uploads a texture.
-	///
-	/// \note If the texture is already uploaded then no action is taken.
-	///
-	/// \param texture The texture to upload.
-	void uploadTexture(Texture2& texture);
+    ///
+    /// Uploads a texture.
+    ///
+    /// \note If the texture is already uploaded then no action is taken.
+    ///
+    /// \param texture The texture to upload.
+    void uploadTexture(Texture2& texture);
 
-	///
-	/// \copydoc Renderer::uploadTexture()
-	void uploadTexture(TextureCube& texture);
+    ///
+    /// \copydoc Renderer::uploadTexture()
+    void uploadTexture(TextureCube& texture);
 
     ///
     /// Destroys a texture.
     ///
     /// \param texture The texture to destroy.
-	/// \param downloadImage Whether to download the texture's image before it
-	/// it is destroyed.
+    /// \param downloadImage Whether to download the texture's image before it
+    /// it is destroyed.
     void destroyTexture(Texture2& texture, bool downloadImage = false);
 
-	///
-	/// \copydoc Renderer::destroyTexture()
-	void destroyTexture(TextureCube& texture);
+    ///
+    /// \copydoc Renderer::destroyTexture()
+    void destroyTexture(TextureCube& texture);
 
     ///
     /// Downloads the 2-dimensional image of the given uploaded texture.
