@@ -28,8 +28,7 @@
 
 using namespace hect;
 
-Scene::Scene(Engine& engine) :
-    _engine(engine),
+Scene::Scene() :
     _entityPool(*this)
 {
 }
@@ -124,7 +123,8 @@ Entity::Iterator Scene::createEntity(const Path& path)
 {
     Entity::Iterator entity = createEntity();
 
-    AssetDecoder decoder(_engine.assetCache(), path);
+	Engine& engine = Engine::instance();
+    AssetDecoder decoder(engine.assetCache(), path);
     decoder >> decodeValue(*entity);
 
     return entity;
@@ -356,7 +356,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     }
 
     // Add the system
-    auto system = SystemRegistry::create(typeId, _engine, *this);
+    auto system = SystemRegistry::create(typeId, *this);
     _systems[typeId] = system;
     _tickStages[static_cast<size_t>(system->tickStage())].push_back(typeId);
     _systemTypeIds.push_back(typeId);

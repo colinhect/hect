@@ -29,10 +29,11 @@
 
 using namespace hect;
 
-InputSystem::InputSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage::Precedent),
-    _platform(engine.platform())
+InputSystem::InputSystem(Scene& scene) :
+    System(scene, SystemTickStage::Precedent),
+    _platform(Engine::instance().platform())
 {
+	Engine& engine = Engine::instance();
     for (const DataValue& axisValue : engine.settings()["inputAxes"])
     {
         try

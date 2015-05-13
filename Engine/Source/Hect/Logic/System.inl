@@ -33,11 +33,10 @@ Components<ComponentTypes...>::Components(Scene& scene) :
 }
 
 template <typename SystemType, typename ComponentListenersType>
-System<SystemType, ComponentListenersType>::System(Engine& engine, Scene& scene, SystemTickStage tickStage) :
+System<SystemType, ComponentListenersType>::System(Scene& scene, SystemTickStage tickStage) :
     SystemBase(scene, tickStage),
     ComponentListenersType(scene)
 {
-    (void)engine;
 }
 
 }

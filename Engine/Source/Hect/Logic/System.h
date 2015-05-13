@@ -29,8 +29,6 @@
 namespace hect
 {
 
-class Engine;
-
 ///
 /// A template list of the component types that a system is notified about.
 ///
@@ -66,10 +64,9 @@ public:
     ///
     /// Constructs a system.
     ///
-    /// \param engine The engine.
     /// \param scene The scene that the system exists in.
     /// \param tickStage The stage to tick the system in.
-    System(Engine& engine, Scene& scene, SystemTickStage tickStage = SystemTickStage::Normal);
+    System(Scene& scene, SystemTickStage tickStage = SystemTickStage::Normal);
 
     virtual ~System() { }
 };

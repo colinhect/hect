@@ -48,12 +48,25 @@ class HECT_EXPORT Engine :
 {
 public:
 
+	///
+	/// Returns the instance of Engine.
+	///
+	///
+	/// \throws InvalidOperation If an instance of Engine has not been
+	/// instantiated.
+	static Engine& instance();
+
     ///
     /// Constructs an engine.
     ///
     /// \param argc The number of command-line arguments passed to main().
     /// \param argv The array of command-line arguments passed to main().
+	///
+	/// \throws InvalidOperation If an instance of Engine has already been
+	/// instantiated.
     Engine(int argc, char* const argv[]);
+
+	~Engine();
 
     ///
     /// Executes the engine to completion.

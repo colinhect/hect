@@ -41,7 +41,7 @@ class HECT_EXPORT InputSystem :
     public System<InputSystem>
 {
 public:
-    InputSystem(Engine& engine, Scene& scene);
+    InputSystem(Scene& scene);
 
     ///
     /// Adds an axis.

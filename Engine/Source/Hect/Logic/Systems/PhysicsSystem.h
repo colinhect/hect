@@ -50,7 +50,7 @@ class HECT_EXPORT PhysicsSystem :
     public System<PhysicsSystem, Components<RigidBody>>
 {
 public:
-    PhysicsSystem(Engine& engine, Scene& scene);
+    PhysicsSystem(Scene& scene);
 
     ///
     /// Applies a force to a rigid body.

@@ -26,8 +26,6 @@
 #define CATCH_CONFIG_RUNNER
 #include <catch.hpp>
 
-hect::Engine* engine = nullptr;
-
 int main(int argc, char* const argv[])
 {
     try
@@ -41,7 +39,6 @@ int main(int argc, char* const argv[])
         };
 
         hect::Engine engine(2, engineArgv);
-        ::engine = &engine;
 
         return Catch::Session().run(argc, argv);
     }

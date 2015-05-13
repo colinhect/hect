@@ -38,7 +38,7 @@ class HECT_EXPORT CameraSystem :
     public System<CameraSystem, Components<Camera>>
 {
 public:
-    CameraSystem(Engine& engine, Scene& scene);
+    CameraSystem(Scene& scene);
 
     ///
     /// Returns the active camera in the scene.

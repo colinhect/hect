@@ -43,8 +43,28 @@
 
 using namespace hect;
 
+namespace
+{
+	static Engine* _instance = nullptr;
+}
+
+Engine& Engine::instance()
+{
+	if (!_instance)
+	{
+		throw InvalidOperation("An engine instance has not been instantiated");
+	}
+	return *_instance;
+}
+
 Engine::Engine(int argc, char* const argv[])
 {
+	if (_instance)
+	{
+		throw InvalidOperation("An engine instance has already been instantiated");
+	}
+	_instance = this;
+
     // Register all of the Hect types
     registerTypes();
 
@@ -106,6 +126,11 @@ Engine::Engine(int argc, char* const argv[])
     }
 }
 
+Engine::~Engine()
+{
+	_instance = nullptr;
+}
+
 int Engine::main()
 {
     const DataValue& sceneValue = _settings["scene"];
@@ -116,7 +141,7 @@ int Engine::main()
     else
     {
         // Load the specified scene
-        Scene scene(*this);
+        Scene scene;
         Path scenePath = sceneValue.asString();
         AssetDecoder decoder(*_assetCache, scenePath);
         decoder >> decodeValue(scene);

@@ -49,7 +49,7 @@ class HECT_EXPORT RenderSystem :
     public System<RenderSystem>
 {
 public:
-    RenderSystem(Engine& engine, Scene& scene);
+    RenderSystem(Scene& scene);
 
     ///
     /// Enqueues a render call to be rendered on the upcoming frame.

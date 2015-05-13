@@ -33,10 +33,10 @@
 
 using namespace hect;
 
-RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage::Subsequent),
-    _renderer(&engine.renderer()),
-    _taskPool(&engine.taskPool()),
+RenderSystem::RenderSystem(Scene& scene) :
+    System(scene, SystemTickStage::Subsequent),
+    _renderer(&Engine::instance().renderer()),
+    _taskPool(&Engine::instance().taskPool()),
     _cameraSystem(scene.system<CameraSystem>()),
     _debugSystem(scene.system<DebugSystem>()),
     _buffersInitialized(false)

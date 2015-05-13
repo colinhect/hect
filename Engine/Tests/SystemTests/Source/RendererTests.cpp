@@ -26,8 +26,6 @@ using namespace hect;
 
 #include <catch.hpp>
 
-extern Engine* engine;
-
 Mesh createTestMesh()
 {
     Mesh mesh("Test");
@@ -48,7 +46,8 @@ Mesh createTestMesh()
 
 TEST_CASE("Upload and destroy render object", "[Renderer]")
 {
-    Renderer& renderer = engine->renderer();
+	Engine& engine = Engine::instance();
+    Renderer& renderer = engine.renderer();
 
     Mesh mesh = createTestMesh();
     REQUIRE(!mesh.isUploaded());
@@ -60,7 +59,8 @@ TEST_CASE("Upload and destroy render object", "[Renderer]")
 
 TEST_CASE("Re-upload destroyed render object", "[Renderer]")
 {
-    Renderer& renderer = engine->renderer();
+	Engine& engine = Engine::instance();
+    Renderer& renderer = engine.renderer();
 
     Mesh mesh = createTestMesh();
     REQUIRE(!mesh.isUploaded());
@@ -74,7 +74,8 @@ TEST_CASE("Re-upload destroyed render object", "[Renderer]")
 
 TEST_CASE("Copy uploaded render object", "[Renderer]")
 {
-    Renderer& renderer = engine->renderer();
+	Engine& engine = Engine::instance();
+    Renderer& renderer = engine.renderer();
 
     Mesh mesh = createTestMesh();
     renderer.uploadMesh(mesh);
@@ -95,7 +96,8 @@ TEST_CASE("Copy uploaded render object", "[Renderer]")
 
 TEST_CASE("Move uploaded render object", "[Renderer]")
 {
-    Renderer& renderer = engine->renderer();
+	Engine& engine = Engine::instance();
+    Renderer& renderer = engine.renderer();
 
     Mesh mesh = createTestMesh();
     renderer.uploadMesh(mesh);

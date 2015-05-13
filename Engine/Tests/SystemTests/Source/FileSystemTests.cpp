@@ -26,11 +26,10 @@ using namespace hect;
 
 #include <catch.hpp>
 
-extern Engine* engine;
-
 TEST_CASE("Create and remove directories", "[FileSystem]")
 {
-    FileSystem& fileSystem = engine->fileSystem();
+	Engine& engine = Engine::instance();
+    FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();
     fileSystem.mountArchive(baseDirectory);
@@ -47,7 +46,8 @@ TEST_CASE("Create and remove directories", "[FileSystem]")
 
 TEST_CASE("Open non-existing file for write", "[FileSystem]")
 {
-    FileSystem& fileSystem = engine->fileSystem();
+	Engine& engine = Engine::instance();
+    FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();
     fileSystem.mountArchive(baseDirectory);
@@ -66,7 +66,8 @@ TEST_CASE("Open non-existing file for write", "[FileSystem]")
 
 TEST_CASE("Open existing file for write", "[FileSystem]")
 {
-    FileSystem& fileSystem = engine->fileSystem();
+	Engine& engine = Engine::instance();
+    FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();
     fileSystem.mountArchive(baseDirectory);
@@ -89,7 +90,8 @@ TEST_CASE("Open existing file for write", "[FileSystem]")
 
 TEST_CASE("Open existing file for read", "[FileSystem]")
 {
-    FileSystem& fileSystem = engine->fileSystem();
+	Engine& engine = Engine::instance();
+    FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();
     fileSystem.mountArchive(baseDirectory);
@@ -112,7 +114,8 @@ TEST_CASE("Open existing file for read", "[FileSystem]")
 
 TEST_CASE("Open non-existing file for read", "[FileSystem]")
 {
-    FileSystem& fileSystem = engine->fileSystem();
+	Engine& engine = Engine::instance();
+    FileSystem& fileSystem = engine.fileSystem();
 
     Path baseDirectory = fileSystem.baseDirectory();
     fileSystem.mountArchive(baseDirectory);

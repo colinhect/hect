@@ -39,7 +39,7 @@ class HECT_EXPORT TransformSystem :
     public System<TransformSystem, Components<Transform>>
 {
 public:
-    TransformSystem(Engine& engine, Scene& scene);
+    TransformSystem(Scene& scene);
 
     ///
     /// Commits any changes made to a Transform to take effect.

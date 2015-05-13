@@ -44,8 +44,6 @@
 namespace hect
 {
 
-class Engine;
-
 ///
 /// A dynamic collection of \link Entity Entities \endlink, Component%s, and
 /// System%s.
@@ -64,9 +62,7 @@ public:
 
     ///
     /// Constructs an empty scene.
-    ///
-    /// \param engine The engine.
-    Scene(Engine& engine);
+    Scene();
 
     ///
     /// Adds support for a System type to the scene.
@@ -223,8 +219,6 @@ private:
 
     void encodeComponents(const Entity& entity, Encoder& encoder);
     void decodeComponents(Entity& entity, Decoder& decoder);
-
-    Engine& _engine;
 
     size_t _entityCount { 0 };
     EntityPool _entityPool;

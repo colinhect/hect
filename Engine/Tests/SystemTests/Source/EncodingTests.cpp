@@ -26,15 +26,13 @@ using namespace hect;
 
 #include <catch.hpp>
 
-extern Engine* engine;
-
 // Loads the asset at the given path and verifies that re-encoding and decoding
 // the asset results in equivalence for both binary and data encoding
 template <typename T>
 void testEncoding(const Path& assetPath)
 {
-    REQUIRE(engine);
-    auto handle = engine->assetCache().getHandle<T>(assetPath);
+	Engine& engine = Engine::instance();
+    auto handle = engine.assetCache().getHandle<T>(assetPath);
     REQUIRE(handle);
 
     T& asset = *handle;
@@ -49,7 +47,7 @@ void testEncoding(const Path& assetPath)
     {
         T decodedAsset;
 
-        DataValueDecoder decoder(dataValue, engine->assetCache());
+        DataValueDecoder decoder(dataValue, engine.assetCache());
         decoder >> decodedAsset;
 
         INFO(assetPath.asString());
@@ -67,7 +65,7 @@ void testEncoding(const Path& assetPath)
         T decodedAsset;
 
         MemoryReadStream stream(data);
-        BinaryDecoder decoder(stream, engine->assetCache());
+        BinaryDecoder decoder(stream, engine.assetCache());
         decoder >> decodedAsset;
 
         INFO(assetPath.asString());
@@ -84,7 +82,8 @@ void testEncodingForExtension(const std::string& extension)
 {
     for (const Path& directoryPath : directoryPaths)
     {
-        FileSystem& fileSystem = engine->fileSystem();
+		Engine& engine = Engine::instance();
+        FileSystem& fileSystem = engine.fileSystem();
         for (const Path& filePath : fileSystem.filesInDirectory(directoryPath))
         {
             if (filePath.extension() == extension)
