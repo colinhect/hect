@@ -42,25 +42,30 @@ Texture2::Texture2(const std::string& name, unsigned width, unsigned height, con
     _mipmapped(mipmapped),
     _wrapped(wrapped)
 {
-    Image::Handle sourceImage(new Image());
-    sourceImage->setWidth(width);
-    sourceImage->setHeight(height);
-    sourceImage->setPixelFormat(pixelFormat);
-    setSourceImage(sourceImage);
 }
 
 Texture2::Texture2(const std::string& name, const Image::Handle& image) :
     Asset(name)
 {
-	setSourceImage(image);
+	setImage(image);
 }
 
-Image::Handle Texture2::sourceImage()
+Image& Texture2::image()
 {
-    return _sourceImage;
+	if (isUploaded() && !_image)
+	{
+		_image = renderer().downloadTextureImage(*this);
+	}
+
+	if (!_image)
+	{
+		_image = Image::Handle(new Image(_width, _height, _pixelFormat));
+	}
+
+    return *_image;
 }
 
-void Texture2::setSourceImage(const Image::Handle& image)
+void Texture2::setImage(const Image::Handle& image)
 {
     if (isUploaded())
     {
@@ -71,12 +76,22 @@ void Texture2::setSourceImage(const Image::Handle& image)
     _height = image->height();
     _pixelFormat = image->pixelFormat();
 
-    _sourceImage = image;
+    _image = image;
 }
 
-void Texture2::clearSourceImage()
+void Texture2::markAsDirty()
 {
-	_sourceImage = Image::Handle();
+	_image = Image::Handle();
+}
+
+Color Texture2::readPixel(unsigned x, unsigned y)
+{
+	return image().readPixel(x, y);
+}
+
+Color Texture2::readPixel(const Vector2& coords)
+{
+	return image().readPixel(coords);
 }
 
 TextureFilter Texture2::minFilter() const
@@ -156,8 +171,8 @@ const PixelFormat& Texture2::pixelFormat() const
 
 bool Texture2::operator==(const Texture2& texture) const
 {
-    // Source image
-    if (_sourceImage != texture._sourceImage)
+    // Image
+    if (_image != texture._image)
     {
         return false;
     }
@@ -196,7 +211,7 @@ bool Texture2::operator!=(const Texture2& texture) const
 
 void Texture2::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("image", _sourceImage)
+    encoder << encodeValue("image", _image)
             << encodeEnum("minFilter", _minFilter)
             << encodeEnum("magFilter", _magFilter)
             << encodeValue("wrapped", _wrapped)
@@ -223,7 +238,7 @@ void Texture2::decode(Decoder& decoder)
         decoder.assetCache().remove(image.path());
 
         image->setColorSpace(colorSpace);
-		setSourceImage(image);
+		setImage(image);
     }
 
     decoder >> decodeEnum("minFilter", _minFilter)

@@ -41,57 +41,43 @@ TextureCube::TextureCube(const std::string& name, unsigned width, unsigned heigh
     _magFilter(magFilter),
     _mipmapped(mipmapped)
 {
-	for (int i = 0; i < 6; ++i)
-	{
-		Image::Handle sourceImage(new Image());
-		sourceImage->setWidth(width);
-		sourceImage->setHeight(height);
-		sourceImage->setPixelFormat(pixelFormat);
-		addSourceImage(sourceImage);
-	}
 }
 
-TextureCube::ImageSequence TextureCube::sourceImages()
+Image& TextureCube::image(CubeSide side)
 {
-    return _sourceImages;
+	Image::Handle& image = _images[static_cast<int>(side)];
+	if (!image)
+	{
+		image = Image::Handle(new Image(_width, _height, _pixelFormat));
+	}
+    return *image;
 }
 
-void TextureCube::addSourceImage(const Image::Handle& image)
+void TextureCube::setImage(CubeSide side, const Image::Handle& image)
 {
-	if (_sourceImages.size() >= 6)
-	{
-		throw InvalidOperation("A cubic texture cannot have more than six source images");
-	}
-
     if (isUploaded())
     {
         renderer().destroyTexture(*this);
     }
 
-    if (!_sourceImages.empty())
+    if (_width != image->width() || _height != image->height())
     {
-        if (_width != image->width() || _height != image->height())
-        {
-            throw InvalidOperation("The source image does not match the dimensions of the texture");
-        }
-        else if (_pixelFormat != image->pixelFormat())
-        {
-            throw InvalidOperation("The source image pixel format does not match the pixel format of the texture");
-        }
+        throw InvalidOperation("The source image does not match the dimensions of the texture");
     }
-    else
+    else if (_pixelFormat != image->pixelFormat())
     {
-        _width = image->width();
-        _height = image->height();
-        _pixelFormat = image->pixelFormat();
+        throw InvalidOperation("The source image pixel format does not match the pixel format of the texture");
     }
 
-    _sourceImages.push_back(image);
+	_images[static_cast<int>(side)] = image;
 }
 
-void TextureCube::clearSourceImages()
+void TextureCube::markAsDirty()
 {
-    _sourceImages.clear();
+	for (Image::Handle& image : _images)
+	{
+		image = Image::Handle();
+	}
 }
 
 TextureFilter TextureCube::minFilter() const
@@ -156,16 +142,10 @@ const PixelFormat& TextureCube::pixelFormat() const
 
 bool TextureCube::operator==(const TextureCube& texture) const
 {
-    // Source image count
-    if (_sourceImages.size() != texture._sourceImages.size())
-    {
-        return false;
-    }
-
     // Source images
-    for (size_t i = 0; i < _sourceImages.size(); ++i)
+    for (size_t i = 0; i < 6; ++i)
     {
-        if (_sourceImages[i] != texture._sourceImages[i])
+        if (_images[i] != texture._images[i])
         {
             return false;
         }
@@ -199,7 +179,14 @@ bool TextureCube::operator!=(const TextureCube& texture) const
 
 void TextureCube::encode(Encoder& encoder) const
 {
-    encoder << encodeVector("images", _sourceImages)
+	encoder << beginObject("images")
+			<< encodeValue("positiveX", _images[0])
+			<< encodeValue("negativeX", _images[1])
+			<< encodeValue("positiveY", _images[2])
+			<< encodeValue("negativeY", _images[3])
+			<< encodeValue("positiveZ", _images[4])
+			<< encodeValue("negativeZ", _images[5])
+			<< endObject()
             << encodeEnum("minFilter", _minFilter)
             << encodeEnum("magFilter", _magFilter)
             << encodeValue("mipmapped", _mipmapped);
@@ -215,20 +202,22 @@ void TextureCube::decode(Decoder& decoder)
     }
 
     // Images
-    if (decoder.selectMember("images"))
+	decoder >> beginObject("images")
+			>> decodeValue("positiveX", _images[0], true)
+			>> decodeValue("negativeX", _images[1])
+			>> decodeValue("positiveY", _images[2])
+			>> decodeValue("negativeY", _images[3])
+			>> decodeValue("positiveZ", _images[4])
+			>> decodeValue("negativeZ", _images[5])
+			>> endObject();
+
+    for (Image::Handle& image : _images)
     {
-        std::vector<Image::Handle> images;
-        decoder >> decodeVector(images);
+        // Remove the image from the asset cache because we don't want to
+        // store uncompressed image data in main memory
+        decoder.assetCache().remove(image.path());
 
-        for (Image::Handle& image : images)
-        {
-            // Remove the image from the asset cache because we don't want to
-            // store uncompressed image data in main memory
-            decoder.assetCache().remove(image.path());
-
-            image->setColorSpace(colorSpace);
-            addSourceImage(image);
-        }
+        image->setColorSpace(colorSpace);
     }
 
     decoder >> decodeEnum("minFilter", _minFilter)

@@ -342,7 +342,9 @@ public:
     /// Destroys a texture.
     ///
     /// \param texture The texture to destroy.
-    void destroyTexture(Texture2& texture);
+	/// \param downloadImage Whether to download the texture's image before it
+	/// it is destroyed.
+    void destroyTexture(Texture2& texture, bool downloadImage = false);
 
 	///
 	/// \copydoc Renderer::destroyTexture()
@@ -356,7 +358,7 @@ public:
     /// \returns The downloaded image.
     ///
     /// \throws InvalidOperation If the texture is not uploaded.
-    Image downloadTextureImage(const Texture2& texture);
+    Image::Handle downloadTextureImage(const Texture2& texture);
 
     ///
     /// Uploads a mesh.

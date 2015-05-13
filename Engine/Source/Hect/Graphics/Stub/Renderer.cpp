@@ -292,8 +292,10 @@ void Renderer::uploadTexture(TextureCube& texture)
 	texture.setAsUploaded(*this, new TextureCubeData(*this, texture));
 }
 
-void Renderer::destroyTexture(Texture2& texture)
+void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
 {
+	(void)downloadImage;
+
 	if (!texture.isUploaded())
 	{
 		return;
@@ -312,11 +314,11 @@ void Renderer::destroyTexture(TextureCube& texture)
 	texture.setAsDestroyed();
 }
 
-Image Renderer::downloadTextureImage(const Texture2& texture)
+Image::Handle Renderer::downloadTextureImage(const Texture2& texture)
 {
     (void)texture;
 
-    return Image();
+    return Image::Handle();
 }
 
 void Renderer::uploadMesh(Mesh& mesh)

@@ -66,8 +66,8 @@ public:
     Texture2(const std::string& name, const Image::Handle& image);
 
     ///
-    /// Returns the source image.
-	Image::Handle sourceImage();
+    /// Returns the image of the texture.
+	Image& image();
 
     ///
     /// Sets the source image to the texture (may affect width/height of
@@ -77,14 +77,25 @@ public:
     /// destroyed.
     ///
     /// \param image The source image.
-    ///
-    /// \throws InvalidOperation If the image does not match the width/height
-	/// of the texture.
-    void setSourceImage(const Image::Handle& image);
+    void setImage(const Image::Handle& image);
 
     ///
-    /// Clears the source image of the texture.
-    void clearSourceImage();
+    /// Marks the texture to download its image from the renderer the next time
+	/// the image is accessed.
+    void markAsDirty();
+
+	///
+	/// Reads a color value of a pixel.
+	///
+	/// \param x The x coordinate.
+	/// \param y The y coordinate.
+	Color readPixel(unsigned x, unsigned y);
+
+	///
+	/// Reads a color value of a pixel.
+	///
+	/// \param coords The UV coordinates.
+	Color readPixel(const Vector2& coords);
 
     ///
     /// Returns the minification filter.
@@ -170,7 +181,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    Image::Handle _sourceImage;
+    Image::Handle _image;
 
     unsigned _width { 0 };
     unsigned _height { 0 };

@@ -829,7 +829,7 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 						)
 					);
 
-				texture.clearSourceImage();
+				texture.markAsDirty();
 
 				if (texture.isMipmapped())
 				{
@@ -1035,7 +1035,7 @@ void Renderer::uploadTexture(Texture2& texture)
         GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
     }
 	
-    Image& image = *texture.sourceImage();
+    Image& image = texture.image();
     const PixelFormat& pixelFormat = image.pixelFormat();
 
     GL_ASSERT(
@@ -1052,7 +1052,7 @@ void Renderer::uploadTexture(Texture2& texture)
         )
     );
 
-    texture.clearSourceImage();
+    texture.markAsDirty();
 
     if (texture.isMipmapped())
     {
@@ -1102,9 +1102,18 @@ void Renderer::uploadTexture(TextureCube& texture)
 
 	GLenum target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
 
-	for (Image::Handle& imageHandle : texture.sourceImages())
+	static const std::vector<CubeSide> sides = {
+		CubeSide::PositiveX,
+		CubeSide::NegativeX,
+		CubeSide::PositiveY,
+		CubeSide::NegativeY,
+		CubeSide::PositiveZ,
+		CubeSide::NegativeZ
+	};
+
+	for (CubeSide side : sides)
 	{
-		Image& image = *imageHandle;
+		Image& image = texture.image(side);
 		const PixelFormat& pixelFormat = image.pixelFormat();
 
 		GL_ASSERT(
@@ -1123,7 +1132,7 @@ void Renderer::uploadTexture(TextureCube& texture)
 		
 		++target;
 	}
-	texture.clearSourceImages();
+	texture.markAsDirty();
 
 	if (texture.isMipmapped())
 	{
@@ -1138,11 +1147,17 @@ void Renderer::uploadTexture(TextureCube& texture)
 	HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
 
-void Renderer::destroyTexture(Texture2& texture)
+void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
 {
 	if (!texture.isUploaded())
 	{
 		return;
+	}
+
+	if (downloadImage)
+	{
+		// Force the texture to download its image
+		texture.image();
 	}
 
 	auto data = texture.dataAs<Texture2Data>();
@@ -1170,7 +1185,7 @@ void Renderer::destroyTexture(TextureCube& texture)
 	HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
-Image Renderer::downloadTextureImage(const Texture2& texture)
+Image::Handle Renderer::downloadTextureImage(const Texture2& texture)
 {
     if (!texture.isUploaded())
     {
@@ -1181,12 +1196,13 @@ Image Renderer::downloadTextureImage(const Texture2& texture)
 
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
 
-    Image image;
-    image.setWidth(texture.width());
-    image.setHeight(texture.height());
-    image.setPixelFormat(texture.pixelFormat());
+	unsigned width = texture.width();
+	unsigned height = texture.height();
+	const PixelFormat& pixelFormat = texture.pixelFormat();
 
-    ByteVector pixelData(image.pixelFormat().size() * image.width() * image.height(), 0);
+    Image::Handle image(new Image(width, height, pixelFormat));
+
+    ByteVector pixelData(pixelFormat.size() * width * height, 0);
 
     GL_ASSERT(
         glGetTexImage(
@@ -1198,7 +1214,7 @@ Image Renderer::downloadTextureImage(const Texture2& texture)
         )
     );
 
-    image.setPixelData(std::move(pixelData));
+    image->setPixelData(std::move(pixelData));
 
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
 
@@ -1329,6 +1345,12 @@ void Renderer::setTarget(FrameBuffer& frameBuffer)
     {
         uploadFrameBuffer(frameBuffer);
     }
+
+	// Mark all attached textures as dirty
+	for (FrameBuffer::Attachment& attachment : frameBuffer.attachments())
+	{
+		attachment.texture().markAsDirty();
+	}
 
     auto data = frameBuffer.dataAs<FrameBufferData>();
 

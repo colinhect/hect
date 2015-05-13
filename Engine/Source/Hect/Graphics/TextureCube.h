@@ -26,9 +26,12 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/Asset.h"
+#include "Hect/Graphics/CubeSide.h"
 #include "Hect/Graphics/Image.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/TextureFilter.h"
+
+#include <array>
 
 namespace hect
 {
@@ -39,12 +42,7 @@ class HECT_EXPORT TextureCube :
     public Asset<TextureCube>,
     public Renderer::Object<TextureCube>
 {
-    typedef std::vector<Image::Handle> ImageContainer;
 public:
-
-    ///
-    /// A sequence of images.
-    typedef Sequence<Image::Handle, ImageContainer> ImageSequence;
 
     ///
     /// Constructs an empty cubic texture.
@@ -63,25 +61,28 @@ public:
 	TextureCube(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped);
 
     ///
-    /// Returns the source images.
-    ImageSequence sourceImages();
+    /// Returns the image of the specified side.
+	///
+	/// \param side The side of the cube to get the image of.
+    Image& image(CubeSide side);
 
     ///
-    /// Adds a source image to the texture (may affect width/height of
-    /// texture).
+    /// Sets the image of the specified side of the texture.
     ///
     /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed.
     ///
-    /// \param image The source image to add.
+	/// \param side The side of the cube to set the image for.
+    /// \param image The image.
     ///
     /// \throws InvalidOperation If the image does not match the width/height
 	/// of the texture.
-    void addSourceImage(const Image::Handle& image);
+    void setImage(CubeSide side, const Image::Handle& image);
 
-    ///
-    /// Clears all source images that were added to the texture.
-    void clearSourceImages();
+	///
+	/// Marks the texture to download its image from the renderer the next time
+	/// an image is accessed.
+    void markAsDirty();
 
     ///
     /// Returns the minification filter.
@@ -154,7 +155,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    ImageContainer _sourceImages;
+	std::array<Image::Handle, 6> _images;
 
     unsigned _width { 0 };
     unsigned _height { 0 };
