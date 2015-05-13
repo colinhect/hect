@@ -91,9 +91,6 @@ TEST_CASE("Copy uploaded render object", "[Renderer]")
     REQUIRE(!meshCopy.isUploaded());
 }
 
-// Disabled due to Visual Studio 2013 compiler bug (issue #111)
-#ifndef HECT_WINDOWS_BUILD
-
 TEST_CASE("Move uploaded render object", "[Renderer]")
 {
     Engine& engine = Engine::instance();
@@ -110,5 +107,3 @@ TEST_CASE("Move uploaded render object", "[Renderer]")
     renderer.destroyMesh(meshMove);
     REQUIRE(!meshMove.isUploaded());
 }
-
-#endif
