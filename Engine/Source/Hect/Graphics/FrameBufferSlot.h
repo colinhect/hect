@@ -23,51 +23,80 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Input/JoystickAxis.h"
-#include "Hect/Input/JoystickButton.h"
-#include "Hect/Input/JoystickEvent.h"
-#include "Hect/Input/JoystickIndex.h"
-
 namespace hect
 {
 
 ///
-/// Provides access to a joystick.
-class HECT_EXPORT Joystick :
-    public Dispatcher<JoystickEvent>
+/// A slot for a frame buffer attachment.
+enum class FrameBufferSlot
 {
-public:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
+    ///
+    /// The 1st color component.
+    Color0,
 
     ///
-    /// Returns whether the given button is down.
-    ///
-    /// \param button The button to get the state of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given
-    /// button.
-    bool isButtonDown(JoystickButton button) const;
+    /// The 2nd color component.
+    Color1,
 
     ///
-    /// Returns the value of an axis of the joystick.
+    /// The 3rd color component.
+    Color2,
+
     ///
-    /// \param axis The axis to get the value of.
+    /// The 4th color component.
+    Color3,
+
     ///
-    /// \throws InvalidOperation If the joystick does not have the given axis.
-    double axisValue(JoystickAxis axis) const;
+    /// The 5th color component.
+    Color4,
 
-    void enqueueEvent(const JoystickEvent& event);
-    void dispatchEvents();
+    ///
+    /// The 6th color component.
+    Color5,
 
-private:
-    std::vector<JoystickEvent> _events;
+    ///
+    /// The 7th color component.
+    Color6,
 
-    std::string _name;
+    ///
+    /// The 8th color component.
+    Color7,
 
-    std::vector<bool> _buttonStates;
-    std::vector<double> _axisStates;
+    ///
+    /// The 9th color component.
+    Color8,
+
+    ///
+    /// The 10th color component.
+    Color9,
+
+    ///
+    /// The 11th color component.
+    Color10,
+
+    ///
+    /// The 12th color component.
+    Color11,
+
+    ///
+    /// The 13th color component.
+    Color12,
+
+    ///
+    /// The 14th color component.
+    Color13,
+
+    ///
+    /// The 15th color component.
+    Color14,
+
+    ///
+    /// The 16th color component.
+    Color15,
+
+    ///
+    /// The depth component.
+    Depth
 };
 
 }

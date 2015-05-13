@@ -23,51 +23,44 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Input/JoystickAxis.h"
-#include "Hect/Input/JoystickButton.h"
-#include "Hect/Input/JoystickEvent.h"
-#include "Hect/Input/JoystickIndex.h"
-
 namespace hect
 {
 
 ///
-/// Provides access to a joystick.
-class HECT_EXPORT Joystick :
-    public Dispatcher<JoystickEvent>
+/// A Joystick button.
+enum JoystickButton
 {
-public:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
-
-    ///
-    /// Returns whether the given button is down.
-    ///
-    /// \param button The button to get the state of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given
-    /// button.
-    bool isButtonDown(JoystickButton button) const;
-
-    ///
-    /// Returns the value of an axis of the joystick.
-    ///
-    /// \param axis The axis to get the value of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given axis.
-    double axisValue(JoystickAxis axis) const;
-
-    void enqueueEvent(const JoystickEvent& event);
-    void dispatchEvents();
-
-private:
-    std::vector<JoystickEvent> _events;
-
-    std::string _name;
-
-    std::vector<bool> _buttonStates;
-    std::vector<double> _axisStates;
+    Button0,
+    Button1,
+    Button2,
+    Button3,
+    Button4,
+    Button5,
+    Button6,
+    Button7,
+    Button8,
+    Button9,
+    Button11,
+    Button12,
+    Button13,
+    Button14,
+    Button15,
+    Button16,
+    Button17,
+    Button18,
+    Button19,
+    Button20,
+    Button21,
+    Button22,
+    Button23,
+    Button24,
+    Button25,
+    Button26,
+    Button27,
+    Button28,
+    Button29,
+    Button30,
+    Button31
 };
 
 }

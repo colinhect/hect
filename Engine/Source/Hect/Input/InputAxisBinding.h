@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Input/InputAxisBindingType.h"
 #include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
@@ -31,41 +32,6 @@
 
 namespace hect
 {
-
-class Platform;
-
-///
-/// An InputAxisBinding type.
-enum class InputAxisBindingType
-{
-    ///
-    /// A mouse movement along the x axis.
-    MouseMoveX,
-
-    ///
-    /// A mouse movement along the y axis.
-    MouseMoveY,
-
-    ///
-    /// A mouse button press.
-    MouseButton,
-
-    ///
-    /// A mouse scroll.
-    MouseScroll,
-
-    ///
-    /// A key press.
-    Key,
-
-    ///
-    /// A joystick axis.
-    JoystickAxis,
-
-    ///
-    /// A joystick button.
-    JoystickButton
-};
 
 ///
 /// A binding of an input device to the value of an InputAxis.

@@ -25,31 +25,11 @@
 
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Logic/ComponentEventType.h"
 #include "Hect/Logic/EntityIterator.h"
 
 namespace hect
 {
-
-///
-/// A type of ComponentEvent.
-enum class ComponentEventType
-{
-    ///
-    /// A Component was added to an Entity.
-    ///
-    /// This event type is triggered when an entity pending activation is
-    /// activated during Scene::refresh().  It also may be triggered
-    /// immediately if an activated entity has a component added or replaced.
-    Add,
-
-    ///
-    /// A Component was removed from an Entity.
-    ///
-    /// This event type is triggered when an entity pending destruction is
-    /// destroyed during Scene::refresh().  It also may be triggered
-    /// immediately if an activated entity has a component removed or replaced.
-    Remove
-};
 
 ///
 /// An event relating to a Component.

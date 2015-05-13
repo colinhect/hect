@@ -23,51 +23,38 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
-#include "Hect/Input/JoystickAxis.h"
-#include "Hect/Input/JoystickButton.h"
-#include "Hect/Input/JoystickEvent.h"
-#include "Hect/Input/JoystickIndex.h"
+#include "Hect/Input/MouseButton.h"
+#include "Hect/Input/MouseEventType.h"
+#include "Hect/Math/Vector2.h"
 
 namespace hect
 {
 
 ///
-/// Provides access to a joystick.
-class HECT_EXPORT Joystick :
-    public Dispatcher<JoystickEvent>
+/// An event caused by the alteration of the Mouse.
+class HECT_EXPORT MouseEvent
 {
 public:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
 
     ///
-    /// Returns whether the given button is down.
-    ///
-    /// \param button The button to get the state of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given
-    /// button.
-    bool isButtonDown(JoystickButton button) const;
+    /// The type of the event.
+    MouseEventType type { MouseEventType::Movement };
 
     ///
-    /// Returns the value of an axis of the joystick.
+    /// The mouse button related to the event.
     ///
-    /// \param axis The axis to get the value of.
+    /// \note Only relevant for a ::MouseEventType::ButtonDown or
+    /// ::MouseEventType::ButtonUp event.
+    MouseButton button { MouseButton::Button0 };
+
     ///
-    /// \throws InvalidOperation If the joystick does not have the given axis.
-    double axisValue(JoystickAxis axis) const;
+    /// The coordinates of the cursor.
+    IntVector2 cursorPosition;
 
-    void enqueueEvent(const JoystickEvent& event);
-    void dispatchEvents();
-
-private:
-    std::vector<JoystickEvent> _events;
-
-    std::string _name;
-
-    std::vector<bool> _buttonStates;
-    std::vector<double> _axisStates;
+    ///
+    /// The movement of the cursor.
+    IntVector2 cursorMovement;
 };
 
 }

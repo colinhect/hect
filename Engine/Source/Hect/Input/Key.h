@@ -23,51 +23,71 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Input/JoystickAxis.h"
-#include "Hect/Input/JoystickButton.h"
-#include "Hect/Input/JoystickEvent.h"
-#include "Hect/Input/JoystickIndex.h"
-
 namespace hect
 {
 
 ///
-/// Provides access to a joystick.
-class HECT_EXPORT Joystick :
-    public Dispatcher<JoystickEvent>
+/// A key on a Keyboard.
+enum class Key
 {
-public:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
-
-    ///
-    /// Returns whether the given button is down.
-    ///
-    /// \param button The button to get the state of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given
-    /// button.
-    bool isButtonDown(JoystickButton button) const;
-
-    ///
-    /// Returns the value of an axis of the joystick.
-    ///
-    /// \param axis The axis to get the value of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given axis.
-    double axisValue(JoystickAxis axis) const;
-
-    void enqueueEvent(const JoystickEvent& event);
-    void dispatchEvents();
-
-private:
-    std::vector<JoystickEvent> _events;
-
-    std::string _name;
-
-    std::vector<bool> _buttonStates;
-    std::vector<double> _axisStates;
+    Unknown,
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    H,
+    I,
+    J,
+    K,
+    L,
+    M,
+    N,
+    O,
+    P,
+    Q,
+    R,
+    S,
+    T,
+    U,
+    V,
+    W,
+    X,
+    Y,
+    Z,
+    Num0,
+    Num1,
+    Num2,
+    Num3,
+    Num4,
+    Num5,
+    Num6,
+    Num7,
+    Num8,
+    Num9,
+    Esc,
+    Space,
+    Enter,
+    Backspace,
+    Tab,
+    Tick,
+    F1,
+    F2,
+    F3,
+    F4,
+    F5,
+    F6,
+    F7,
+    F8,
+    F9,
+    F10,
+    F11,
+    F12,
+    LeftCtrl,
+    LeftShift,
+    LeftAlt,
 };
 
 }

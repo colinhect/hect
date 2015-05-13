@@ -25,101 +25,11 @@
 
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Input/Key.h"
+#include "Hect/Input/KeyboardEvent.h"
 
 namespace hect
 {
-
-///
-/// A key on a Keyboard.
-enum class Key
-{
-    Unknown,
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-    I,
-    J,
-    K,
-    L,
-    M,
-    N,
-    O,
-    P,
-    Q,
-    R,
-    S,
-    T,
-    U,
-    V,
-    W,
-    X,
-    Y,
-    Z,
-    Num0,
-    Num1,
-    Num2,
-    Num3,
-    Num4,
-    Num5,
-    Num6,
-    Num7,
-    Num8,
-    Num9,
-    Esc,
-    Space,
-    Enter,
-    Backspace,
-    Tab,
-    Tick,
-    F1,
-    F2,
-    F3,
-    F4,
-    F5,
-    F6,
-    F7,
-    F8,
-    F9,
-    F10,
-    F11,
-    F12,
-    LeftCtrl,
-    LeftShift,
-    LeftAlt,
-};
-
-///
-/// A KeyboardEvent type.
-enum class KeyboardEventType
-{
-    ///
-    /// A key was pressed down.
-    KeyDown,
-
-    ///
-    /// A key was released up.
-    KeyUp
-};
-
-///
-/// An event triggered by pressing or releasing a key on the Keyboard.
-class HECT_EXPORT KeyboardEvent
-{
-public:
-
-    ///
-    /// The type of the event.
-    KeyboardEventType type { KeyboardEventType::KeyDown };
-
-    ///
-    /// The key relating to the event.
-    Key key { Key::Esc };
-};
 
 ///
 /// Provides access to the system keyboard.
@@ -143,4 +53,4 @@ private:
     std::vector<bool> _keyStates;
 };
 
-};
+}

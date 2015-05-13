@@ -25,85 +25,13 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/FrameBufferSlot.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture2.h"
 
 namespace hect
 {
-
-///
-/// A slot for a frame buffer attachment.
-enum class FrameBufferSlot
-{
-    ///
-    /// The 1st color component.
-    Color0,
-
-    ///
-    /// The 2nd color component.
-    Color1,
-
-    ///
-    /// The 3rd color component.
-    Color2,
-
-    ///
-    /// The 4th color component.
-    Color3,
-
-    ///
-    /// The 5th color component.
-    Color4,
-
-    ///
-    /// The 6th color component.
-    Color5,
-
-    ///
-    /// The 7th color component.
-    Color6,
-
-    ///
-    /// The 8th color component.
-    Color7,
-
-    ///
-    /// The 9th color component.
-    Color8,
-
-    ///
-    /// The 10th color component.
-    Color9,
-
-    ///
-    /// The 11th color component.
-    Color10,
-
-    ///
-    /// The 12th color component.
-    Color11,
-
-    ///
-    /// The 13th color component.
-    Color12,
-
-    ///
-    /// The 14th color component.
-    Color13,
-
-    ///
-    /// The 15th color component.
-    Color14,
-
-    ///
-    /// The 16th color component.
-    Color15,
-
-    ///
-    /// The depth component.
-    Depth
-};
 
 ///
 /// A multi-target buffer on the GPU that can be rendered to.

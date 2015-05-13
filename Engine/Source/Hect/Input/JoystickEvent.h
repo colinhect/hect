@@ -23,51 +23,47 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Input/JoystickAxis.h"
 #include "Hect/Input/JoystickButton.h"
-#include "Hect/Input/JoystickEvent.h"
+#include "Hect/Input/JoystickEventType.h"
 #include "Hect/Input/JoystickIndex.h"
 
 namespace hect
 {
 
 ///
-/// Provides access to a joystick.
-class HECT_EXPORT Joystick :
-    public Dispatcher<JoystickEvent>
+/// An event caused by the alteration of a Joystick.
+class HECT_EXPORT JoystickEvent
 {
 public:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
 
     ///
-    /// Returns whether the given button is down.
-    ///
-    /// \param button The button to get the state of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given
-    /// button.
-    bool isButtonDown(JoystickButton button) const;
+    /// The type of the event.
+    JoystickEventType type { JoystickEventType::AxisMotion };
 
     ///
-    /// Returns the value of an axis of the joystick.
+    /// The index of the joystick related to the event.
+    JoystickIndex index { 0 };
+
     ///
-    /// \param axis The axis to get the value of.
+    /// The joystick button related to the event.
     ///
-    /// \throws InvalidOperation If the joystick does not have the given axis.
-    double axisValue(JoystickAxis axis) const;
+    /// \note Only relevant for a ::JoystickEventType::ButtonDown or
+    /// ::JoystickEventType::ButtonUp event.
+    JoystickButton button { JoystickButton::Button0 };
 
-    void enqueueEvent(const JoystickEvent& event);
-    void dispatchEvents();
+    ///
+    /// The joystick axis related to the event.
+    ///
+    /// \note Only relevant for a ::JoystickEventType::AxisMotion event.
+    JoystickAxis axis { JoystickAxis::Axis0 };
 
-private:
-    std::vector<JoystickEvent> _events;
-
-    std::string _name;
-
-    std::vector<bool> _buttonStates;
-    std::vector<double> _axisStates;
+    ///
+    /// The value of the joystick axis related to the event.
+    ///
+    /// \note Only relevant for a ::JoystickEventType::AxisMotion event.
+    double axisValue { 0 };
 };
 
 }

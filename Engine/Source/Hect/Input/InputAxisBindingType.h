@@ -23,51 +23,40 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Input/JoystickAxis.h"
-#include "Hect/Input/JoystickButton.h"
-#include "Hect/Input/JoystickEvent.h"
-#include "Hect/Input/JoystickIndex.h"
-
 namespace hect
 {
 
 ///
-/// Provides access to a joystick.
-class HECT_EXPORT Joystick :
-    public Dispatcher<JoystickEvent>
+/// An InputAxisBinding type.
+enum class InputAxisBindingType
 {
-public:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
+    ///
+    /// A mouse movement along the x axis.
+    MouseMoveX,
 
     ///
-    /// Returns whether the given button is down.
-    ///
-    /// \param button The button to get the state of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given
-    /// button.
-    bool isButtonDown(JoystickButton button) const;
+    /// A mouse movement along the y axis.
+    MouseMoveY,
 
     ///
-    /// Returns the value of an axis of the joystick.
+    /// A mouse button press.
+    MouseButton,
+
     ///
-    /// \param axis The axis to get the value of.
+    /// A mouse scroll.
+    MouseScroll,
+
     ///
-    /// \throws InvalidOperation If the joystick does not have the given axis.
-    double axisValue(JoystickAxis axis) const;
+    /// A key press.
+    Key,
 
-    void enqueueEvent(const JoystickEvent& event);
-    void dispatchEvents();
+    ///
+    /// A joystick axis.
+    JoystickAxis,
 
-private:
-    std::vector<JoystickEvent> _events;
-
-    std::string _name;
-
-    std::vector<bool> _buttonStates;
-    std::vector<double> _axisStates;
+    ///
+    /// A joystick button.
+    JoystickButton
 };
 
 }

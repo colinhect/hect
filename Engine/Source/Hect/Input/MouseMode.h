@@ -23,51 +23,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Input/JoystickAxis.h"
-#include "Hect/Input/JoystickButton.h"
-#include "Hect/Input/JoystickEvent.h"
-#include "Hect/Input/JoystickIndex.h"
-
 namespace hect
 {
 
 ///
-/// Provides access to a joystick.
-class HECT_EXPORT Joystick :
-    public Dispatcher<JoystickEvent>
+/// The mode a Mouse is in.
+enum class MouseMode
 {
-public:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
+    ///
+    /// The cursor is active.
+    Cursor,
 
     ///
-    /// Returns whether the given button is down.
-    ///
-    /// \param button The button to get the state of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given
-    /// button.
-    bool isButtonDown(JoystickButton button) const;
-
-    ///
-    /// Returns the value of an axis of the joystick.
-    ///
-    /// \param axis The axis to get the value of.
-    ///
-    /// \throws InvalidOperation If the joystick does not have the given axis.
-    double axisValue(JoystickAxis axis) const;
-
-    void enqueueEvent(const JoystickEvent& event);
-    void dispatchEvents();
-
-private:
-    std::vector<JoystickEvent> _events;
-
-    std::string _name;
-
-    std::vector<bool> _buttonStates;
-    std::vector<double> _axisStates;
+    /// The cursor is inactive and only relative movement is dispatched.
+    Relative
 };
 
 }
