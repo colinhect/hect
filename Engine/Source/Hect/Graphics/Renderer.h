@@ -41,7 +41,7 @@ class Mesh;
 class RenderTarget;
 class Shader;
 class Texture2;
-class CubicTexture;
+class TextureCube;
 class Window;
 
 ///
@@ -260,7 +260,7 @@ public:
 
 		///
 		/// \copydoc Renderer::Frame::setUniform()
-		void setUniform(const Uniform& uniform, CubicTexture& value);
+		void setUniform(const Uniform& uniform, TextureCube& value);
 
         ///
         /// Render a mesh using the active state of the frame.
@@ -336,7 +336,7 @@ public:
 
 	///
 	/// \copydoc Renderer::uploadTexture()
-	void uploadTexture(CubicTexture& texture);
+	void uploadTexture(TextureCube& texture);
 
     ///
     /// Destroys a texture.
@@ -346,7 +346,7 @@ public:
 
 	///
 	/// \copydoc Renderer::destroyTexture()
-	void destroyTexture(CubicTexture& texture);
+	void destroyTexture(TextureCube& texture);
 
     ///
     /// Downloads the 2-dimensional image of the given uploaded texture.

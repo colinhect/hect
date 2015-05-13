@@ -38,7 +38,7 @@
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture2.h"
-#include "Hect/Graphics/CubicTexture.h"
+#include "Hect/Graphics/TextureCube.h"
 #include "Hect/Runtime/Window.h"
 
 using namespace hect;
@@ -136,17 +136,17 @@ public:
 };
 
 // OpenGL-specific data for a cubic texture
-class CubicTextureData :
-	public Renderer::Data<CubicTexture>
+class TextureCubeData :
+	public Renderer::Data<TextureCube>
 {
 public:
-	CubicTextureData(Renderer& renderer, CubicTexture& object, GLuint textureId) :
-		Renderer::Data<CubicTexture>(renderer, object),
+	TextureCubeData(Renderer& renderer, TextureCube& object, GLuint textureId) :
+		Renderer::Data<TextureCube>(renderer, object),
 		textureId(textureId)
 	{
 	}
 
-	~CubicTextureData()
+	~TextureCubeData()
 	{
 		// Destroy the texture if it is uploaded
 		if (object && object->isUploaded())
@@ -501,9 +501,9 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& val
 		}
 	}
 	break;
-	case UniformType::CubicTexture:
+	case UniformType::TextureCube:
 	{
-		CubicTexture::Handle texture = value.asCubicTexture();
+		TextureCube::Handle texture = value.asTextureCube();
 		if (texture)
 		{
 			setUniform(uniform, *texture);
@@ -654,9 +654,9 @@ void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
 	}
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, CubicTexture& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
 {
-	if (uniform.type() != UniformType::CubicTexture)
+	if (uniform.type() != UniformType::TextureCube)
 	{
 		throw InvalidOperation("Invalid value for uniform");
 	}
@@ -677,7 +677,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, CubicTexture& value)
 			_renderer.uploadTexture(value);
 		}
 
-		auto data = value.dataAs<CubicTextureData>();
+		auto data = value.dataAs<TextureCubeData>();
 
 		GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
 		GL_ASSERT(glBindTexture(GL_TEXTURE_CUBE_MAP, data->textureId));
@@ -1067,7 +1067,7 @@ void Renderer::uploadTexture(Texture2& texture)
     HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 }
 
-void Renderer::uploadTexture(CubicTexture& texture)
+void Renderer::uploadTexture(TextureCube& texture)
 {
 	if (texture.isUploaded())
 	{
@@ -1132,7 +1132,7 @@ void Renderer::uploadTexture(CubicTexture& texture)
 
 	GL_ASSERT(glBindTexture(type, 0));
 
-	texture.setAsUploaded(*this, new CubicTextureData(*this, texture, textureId));
+	texture.setAsUploaded(*this, new TextureCubeData(*this, texture, textureId));
 	statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
 	HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
@@ -1154,14 +1154,14 @@ void Renderer::destroyTexture(Texture2& texture)
 	HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
-void Renderer::destroyTexture(CubicTexture& texture)
+void Renderer::destroyTexture(TextureCube& texture)
 {
 	if (!texture.isUploaded())
 	{
 		return;
 	}
 
-	auto data = texture.dataAs<CubicTextureData>();
+	auto data = texture.dataAs<TextureCubeData>();
 	GL_ASSERT(glDeleteTextures(1, &data->textureId));
 
 	statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();

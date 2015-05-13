@@ -35,9 +35,9 @@ namespace hect
 
 ///
 /// A cube map texture.
-class HECT_EXPORT CubicTexture :
-    public Asset<CubicTexture>,
-    public Renderer::Object<CubicTexture>
+class HECT_EXPORT TextureCube :
+    public Asset<TextureCube>,
+    public Renderer::Object<TextureCube>
 {
     typedef std::vector<Image::Handle> ImageContainer;
 public:
@@ -48,7 +48,7 @@ public:
 
     ///
     /// Constructs an empty cubic texture.
-	CubicTexture();
+	TextureCube();
 
     ///
     /// Constructs an cubic texture.
@@ -60,7 +60,7 @@ public:
     /// \param minFilter The minification filter.
     /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
-	CubicTexture(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped);
+	TextureCube(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped);
 
     ///
     /// Returns the source images.
@@ -140,7 +140,7 @@ public:
     /// \note Does not compare the name.
     ///
     /// \param texture The other texture.
-    bool operator==(const CubicTexture& texture) const;
+    bool operator==(const TextureCube& texture) const;
 
     ///
     /// Returns whether the texture is different from another.
@@ -148,7 +148,7 @@ public:
     /// \note Does not compare the name.
     ///
     /// \param texture The other texture.
-    bool operator!=(const CubicTexture& texture) const;
+    bool operator!=(const TextureCube& texture) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;

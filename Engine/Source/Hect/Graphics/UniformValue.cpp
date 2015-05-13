@@ -86,8 +86,8 @@ UniformValue::UniformValue(const Texture2::Handle& value) :
 	setValue(value);
 }
 
-UniformValue::UniformValue(const CubicTexture::Handle& value) :
-	_type(UniformType::CubicTexture)
+UniformValue::UniformValue(const TextureCube::Handle& value) :
+	_type(UniformType::TextureCube)
 {
 	setValue(value);
 }
@@ -125,8 +125,8 @@ void UniformValue::setDefaultValue()
 	case UniformType::Texture2:
 		_value = Texture2::Handle();
 		break;
-	case UniformType::CubicTexture:
-		_value = CubicTexture::Handle();
+	case UniformType::TextureCube:
+		_value = TextureCube::Handle();
 		break;
     }
 }
@@ -211,11 +211,11 @@ void UniformValue::setValue(const Texture2::Handle& value)
 	_value = value;
 }
 
-void UniformValue::setValue(const CubicTexture::Handle& value)
+void UniformValue::setValue(const TextureCube::Handle& value)
 {
-	if (_type != UniformType::CubicTexture)
+	if (_type != UniformType::TextureCube)
 	{
-		throw InvalidOperation("Uniform value is not of type 'CubicTexture'");
+		throw InvalidOperation("Uniform value is not of type 'TextureCube'");
 	}
 
 	_value = value;
@@ -301,14 +301,14 @@ Texture2::Handle UniformValue::asTexture2() const
 	return _value.as<Texture2::Handle>();
 }
 
-CubicTexture::Handle UniformValue::asCubicTexture() const
+TextureCube::Handle UniformValue::asTextureCube() const
 {
-	if (_type != UniformType::CubicTexture)
+	if (_type != UniformType::TextureCube)
 	{
-		throw InvalidOperation("Uniform value is not of type 'CubicTexture'");
+		throw InvalidOperation("Uniform value is not of type 'TextureCube'");
 	}
 
-	return _value.as<CubicTexture::Handle>();
+	return _value.as<TextureCube::Handle>();
 }
 
 UniformValue::operator bool() const
@@ -343,8 +343,8 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
         return asColor() == uniformValue.asColor();
 	case UniformType::Texture2:
 		return asTexture2() == uniformValue.asTexture2();
-	case UniformType::CubicTexture:
-		return asCubicTexture() == uniformValue.asCubicTexture();
+	case UniformType::TextureCube:
+		return asTextureCube() == uniformValue.asTextureCube();
     }
 
     return false;
@@ -387,8 +387,8 @@ void UniformValue::encode(Encoder& encoder) const
 	case UniformType::Texture2:
 		encoder << encodeValue("value", asTexture2());
 		break;
-	case UniformType::CubicTexture:
-		encoder << encodeValue("value", asCubicTexture());
+	case UniformType::TextureCube:
+		encoder << encodeValue("value", asTextureCube());
 		break;
     }
 }
@@ -459,9 +459,9 @@ void UniformValue::decode(Decoder& decoder)
 			setValue(texture);
 		}
 		break;
-		case UniformType::CubicTexture:
+		case UniformType::TextureCube:
 		{
-			CubicTexture::Handle texture;
+			TextureCube::Handle texture;
 			decoder >> decodeValue(texture);
 			setValue(texture);
 		}

@@ -28,7 +28,7 @@
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/UniformType.h"
 #include "Hect/Graphics/Texture2.h"
-#include "Hect/Graphics/CubicTexture.h"
+#include "Hect/Graphics/TextureCube.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Math/Vector2.h"
@@ -112,7 +112,7 @@ public:
 	/// Constructs a cubic texture uniform value.
 	///
 	/// \param value The texture.
-	UniformValue(const CubicTexture::Handle& value);
+	UniformValue(const TextureCube::Handle& value);
 
     ///
     /// Returns the type.
@@ -195,7 +195,7 @@ public:
 	/// \param value The value.
 	///
 	/// \throws InvalidOperation If the uniform value is not a texture.
-	void setValue(const CubicTexture::Handle& value);
+	void setValue(const TextureCube::Handle& value);
 
     ///
     /// Returns the value as an integer.
@@ -231,7 +231,7 @@ public:
 
 	///
 	/// Returns the value as a cubic texture.
-	CubicTexture::Handle asCubicTexture() const;
+	TextureCube::Handle asTextureCube() const;
 
     ///
     /// Returns whether the value is not null.

@@ -21,18 +21,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "CubicTexture.h"
+#include "TextureCube.h"
 
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Exception.h"
 
 using namespace hect;
 
-CubicTexture::CubicTexture()
+TextureCube::TextureCube()
 {
 }
 
-CubicTexture::CubicTexture(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped) :
+TextureCube::TextureCube(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped) :
     Asset(name),
     _width(width),
     _height(height),
@@ -51,12 +51,12 @@ CubicTexture::CubicTexture(const std::string& name, unsigned width, unsigned hei
 	}
 }
 
-CubicTexture::ImageSequence CubicTexture::sourceImages()
+TextureCube::ImageSequence TextureCube::sourceImages()
 {
     return _sourceImages;
 }
 
-void CubicTexture::addSourceImage(const Image::Handle& image)
+void TextureCube::addSourceImage(const Image::Handle& image)
 {
 	if (_sourceImages.size() >= 6)
 	{
@@ -89,17 +89,17 @@ void CubicTexture::addSourceImage(const Image::Handle& image)
     _sourceImages.push_back(image);
 }
 
-void CubicTexture::clearSourceImages()
+void TextureCube::clearSourceImages()
 {
     _sourceImages.clear();
 }
 
-TextureFilter CubicTexture::minFilter() const
+TextureFilter TextureCube::minFilter() const
 {
     return _minFilter;
 }
 
-void CubicTexture::setMinFilter(TextureFilter filter)
+void TextureCube::setMinFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
@@ -109,12 +109,12 @@ void CubicTexture::setMinFilter(TextureFilter filter)
     _minFilter = filter;
 }
 
-TextureFilter CubicTexture::magFilter() const
+TextureFilter TextureCube::magFilter() const
 {
     return _magFilter;
 }
 
-void CubicTexture::setMagFilter(TextureFilter filter)
+void TextureCube::setMagFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
@@ -124,12 +124,12 @@ void CubicTexture::setMagFilter(TextureFilter filter)
     _magFilter = filter;
 }
 
-bool CubicTexture::isMipmapped() const
+bool TextureCube::isMipmapped() const
 {
     return _mipmapped;
 }
 
-void CubicTexture::setMipmapped(bool mipmapped)
+void TextureCube::setMipmapped(bool mipmapped)
 {
     if (isUploaded())
     {
@@ -139,22 +139,22 @@ void CubicTexture::setMipmapped(bool mipmapped)
     _mipmapped = mipmapped;
 }
 
-unsigned CubicTexture::width() const
+unsigned TextureCube::width() const
 {
     return _width;
 }
 
-unsigned CubicTexture::height() const
+unsigned TextureCube::height() const
 {
     return _height;
 }
 
-const PixelFormat& CubicTexture::pixelFormat() const
+const PixelFormat& TextureCube::pixelFormat() const
 {
     return _pixelFormat;
 }
 
-bool CubicTexture::operator==(const CubicTexture& texture) const
+bool TextureCube::operator==(const TextureCube& texture) const
 {
     // Source image count
     if (_sourceImages.size() != texture._sourceImages.size())
@@ -192,12 +192,12 @@ bool CubicTexture::operator==(const CubicTexture& texture) const
     return true;
 }
 
-bool CubicTexture::operator!=(const CubicTexture& texture) const
+bool TextureCube::operator!=(const TextureCube& texture) const
 {
     return !(*this == texture);
 }
 
-void CubicTexture::encode(Encoder& encoder) const
+void TextureCube::encode(Encoder& encoder) const
 {
     encoder << encodeVector("images", _sourceImages)
             << encodeEnum("minFilter", _minFilter)
@@ -205,7 +205,7 @@ void CubicTexture::encode(Encoder& encoder) const
             << encodeValue("mipmapped", _mipmapped);
 }
 
-void CubicTexture::decode(Decoder& decoder)
+void TextureCube::decode(Decoder& decoder)
 {
     // Color space
     ColorSpace colorSpace = ColorSpace::NonLinear;

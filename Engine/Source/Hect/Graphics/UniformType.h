@@ -64,7 +64,7 @@ enum class UniformType
 
 	///
 	/// A cubic texture.
-	CubicTexture
+	TextureCube
 };
 
 }

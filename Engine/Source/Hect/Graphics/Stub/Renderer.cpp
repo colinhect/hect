@@ -75,16 +75,16 @@ public:
 	}
 };
 
-class CubicTextureData :
-	public Renderer::Data<CubicTexture>
+class TextureCubeData :
+	public Renderer::Data<TextureCube>
 {
 public:
-	CubicTextureData(Renderer& renderer, CubicTexture& object) :
-		Renderer::Data<CubicTexture>(renderer, object)
+	TextureCubeData(Renderer& renderer, TextureCube& object) :
+		Renderer::Data<TextureCube>(renderer, object)
 	{
 	}
 
-	~CubicTextureData()
+	~TextureCubeData()
 	{
 		if (object && object->isUploaded())
 		{
@@ -199,7 +199,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
 	(void)value;
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, CubicTexture& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
 {
 	(void)uniform;
 	(void)value;
@@ -282,14 +282,14 @@ void Renderer::uploadTexture(Texture2& texture)
 	texture.setAsUploaded(*this, new Texture2Data(*this, texture));
 }
 
-void Renderer::uploadTexture(CubicTexture& texture)
+void Renderer::uploadTexture(TextureCube& texture)
 {
 	if (texture.isUploaded())
 	{
 		return;
 	}
 
-	texture.setAsUploaded(*this, new CubicTextureData(*this, texture));
+	texture.setAsUploaded(*this, new TextureCubeData(*this, texture));
 }
 
 void Renderer::destroyTexture(Texture2& texture)
@@ -302,7 +302,7 @@ void Renderer::destroyTexture(Texture2& texture)
 	texture.setAsDestroyed();
 }
 
-void Renderer::destroyTexture(CubicTexture& texture)
+void Renderer::destroyTexture(TextureCube& texture)
 {
 	if (!texture.isUploaded())
 	{

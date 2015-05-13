@@ -214,7 +214,7 @@ void Uniform::resolveType()
         break;
     case UniformBinding::LightProbeTexture:
     case UniformBinding::SkyBoxTexture:
-		_type = UniformType::CubicTexture;
+		_type = UniformType::TextureCube;
 		break;
     case UniformBinding::DiffuseBuffer:
     case UniformBinding::MaterialBuffer:
