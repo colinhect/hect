@@ -180,10 +180,18 @@ public:
         template <typename U>
         U* dataAs() const;
 
-    private:
+        ///
+        /// Sets the object as being uploaded to the renderer.
+        ///
+        /// \param renderer The renderer.
+        /// \param data The renderer-specific data of the object.
         void setAsUploaded(Renderer& renderer, Data<T>* data);
+
+        ///
+        /// Sets the object as being destroyed from the renderer.
         void setAsDestroyed();
 
+    private:
         Renderer* _renderer { nullptr };
         DataHandle<T> _handle;
     };

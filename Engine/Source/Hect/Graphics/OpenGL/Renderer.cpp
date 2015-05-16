@@ -208,16 +208,6 @@ public:
     GLuint indexBufferId;
 };
 
-// Throws an error if an OpenGL error occurred
-void checkGLError()
-{
-    GLenum errorCode;
-    if ((errorCode = glGetError()) != GL_NO_ERROR)
-    {
-        throw FatalError(format("OpenGL error: %s", gluErrorString(errorCode)));
-    }
-}
-
 GLenum _vertexAttributeTypeLookUp[8] =
 {
     GL_BYTE, // Int8
@@ -392,6 +382,108 @@ GLenum _frameBufferSlotLookUp[18] =
     GL_COLOR_ATTACHMENT15, // Color15
     GL_DEPTH_ATTACHMENT, // Depth
 };
+
+// Throws an error if an OpenGL error occurred
+void checkGLError()
+{
+    GLenum errorCode;
+    if ((errorCode = glGetError()) != GL_NO_ERROR)
+    {
+        throw FatalError(format("OpenGL error: %s", gluErrorString(errorCode)));
+    }
+}
+
+void uploadTexture(Renderer& renderer, Texture2& texture, bool depthComponent)
+{
+    if (texture.isUploaded())
+    {
+        return;
+    }
+
+    GLuint textureId = 0;
+    GL_ASSERT(glGenTextures(1, &textureId));
+    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, textureId));
+    GL_ASSERT(
+        glTexParameteri(
+            GL_TEXTURE_2D,
+            GL_TEXTURE_MIN_FILTER,
+            texture.isMipmapped() ?
+            _textureMipmapFilterLookUp[(int)texture.minFilter()] :
+            _textureFilterLookUp[(int)texture.minFilter()]
+            )
+        );
+
+    GL_ASSERT(
+        glTexParameteri(
+            GL_TEXTURE_2D,
+            GL_TEXTURE_MAG_FILTER,
+            _textureFilterLookUp[(int)texture.magFilter()]
+            )
+        );
+
+    if (texture.isWrapped())
+    {
+        GL_ASSERT(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        GL_ASSERT(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+    }
+    else
+    {
+        GL_ASSERT(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+        GL_ASSERT(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+    }
+
+    Image& image = texture.image();
+    const PixelFormat& pixelFormat = image.pixelFormat();
+
+    GLint internalFormat = _internalImageFormatLookUp[(int)image.colorSpace()][(int)pixelFormat.cardinality()][(int)pixelFormat.type()];
+    if (depthComponent)
+    {
+        if (pixelFormat.type() == PixelType::Float16)
+        {
+            internalFormat = GL_DEPTH_COMPONENT16;
+        }
+        else if (pixelFormat.type() == PixelType::Float32)
+        {
+            internalFormat = GL_DEPTH_COMPONENT32;
+        }
+    }
+
+    GLenum format = _pixelFormatLookUp[(int)pixelFormat.cardinality()];
+    if (depthComponent)
+    {
+        format = GL_DEPTH_COMPONENT;
+    }
+
+    GLenum type = _pixelTypeLookUp[(int)pixelFormat.type()];
+
+    GL_ASSERT(
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            internalFormat,
+            image.width(),
+            image.height(),
+            0,
+            format,
+            type,
+            image.hasPixelData() ? &image.pixelData()[0] : 0
+            )
+        );
+
+    texture.markAsDirty();
+
+    if (texture.isMipmapped())
+    {
+        GL_ASSERT(glGenerateMipmap(GL_TEXTURE_2D));
+    }
+
+    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
+
+    texture.setAsUploaded(renderer, new Texture2Data(renderer, texture, textureId));
+    renderer.statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
+
+    HECT_TRACE(::format("Uploaded texture '%s'", texture.name().c_str()));
+}
 
 }
 
@@ -761,92 +853,8 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
         // Upload the texture if needed
         if (!texture.isUploaded())
         {
-            if (attachment.slot() == FrameBufferSlot::Depth)
-            {
-                GLenum type = GL_TEXTURE_2D;
-
-                GLuint textureId = 0;
-                GL_ASSERT(glGenTextures(1, &textureId));
-                GL_ASSERT(glBindTexture(type, textureId));
-                GL_ASSERT(
-                    glTexParameteri(
-                        type,
-                        GL_TEXTURE_MIN_FILTER,
-                        texture.isMipmapped() ?
-                        _textureMipmapFilterLookUp[(int)texture.minFilter()] :
-                        _textureFilterLookUp[(int)texture.minFilter()]
-                    )
-                );
-
-                GL_ASSERT(
-                    glTexParameteri(
-                        type,
-                        GL_TEXTURE_MAG_FILTER,
-                        _textureFilterLookUp[(int)texture.magFilter()]
-                    )
-                );
-
-                glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-
-                if (texture.isWrapped())
-                {
-                    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_REPEAT));
-                    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_REPEAT));
-                }
-                else
-                {
-                    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-                    GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-                }
-
-                GLenum target = GL_TEXTURE_2D;
-
-                const PixelFormat& pixelFormat = texture.pixelFormat();
-
-                GLint internalFormat = -1;
-                if (pixelFormat.type() == PixelType::Float16)
-                {
-                    internalFormat = GL_DEPTH_COMPONENT16;
-                }
-                else if(pixelFormat.type() == PixelType::Float32)
-                {
-                    internalFormat = GL_DEPTH_COMPONENT32;
-                }
-
-                GL_ASSERT(
-                    glTexImage2D(
-                        target,
-                        0,
-                        internalFormat,
-                        texture.width(),
-                        texture.height(),
-                        0,
-                        GL_DEPTH_COMPONENT,
-                        _pixelTypeLookUp[(int)pixelFormat.type()],
-                        0
-                    )
-                );
-
-                texture.markAsDirty();
-
-                if (texture.isMipmapped())
-                {
-                    GL_ASSERT(glGenerateMipmap(type));
-                }
-
-                GL_ASSERT(glBindTexture(type, 0));
-
-                texture.setAsUploaded(*this, new Texture2Data(*this, texture, textureId));
-                statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
-
-                HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
-            }
-            else
-            {
-                uploadTexture(texture);
-            }
+            bool depthComponent = attachment.slot() == FrameBufferSlot::Depth;
+            ::uploadTexture(*this, texture, depthComponent);
         }
 
         auto targetData = texture.dataAs<Texture2Data>();
@@ -996,75 +1004,7 @@ void Renderer::destroyShader(Shader& shader)
 
 void Renderer::uploadTexture(Texture2& texture)
 {
-    if (texture.isUploaded())
-    {
-        return;
-    }
-
-    GLenum type = GL_TEXTURE_2D;
-
-    GLuint textureId = 0;
-    GL_ASSERT(glGenTextures(1, &textureId));
-    GL_ASSERT(glBindTexture(type, textureId));
-    GL_ASSERT(
-        glTexParameteri(
-            type,
-            GL_TEXTURE_MIN_FILTER,
-            texture.isMipmapped() ?
-            _textureMipmapFilterLookUp[(int)texture.minFilter()] :
-            _textureFilterLookUp[(int)texture.minFilter()]
-        )
-    );
-
-    GL_ASSERT(
-        glTexParameteri(
-            type,
-            GL_TEXTURE_MAG_FILTER,
-            _textureFilterLookUp[(int)texture.magFilter()]
-        )
-    );
-
-    if (texture.isWrapped())
-    {
-        GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_REPEAT));
-        GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_REPEAT));
-    }
-    else
-    {
-        GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-        GL_ASSERT(glTexParameterf(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-    }
-
-    Image& image = texture.image();
-    const PixelFormat& pixelFormat = image.pixelFormat();
-
-    GL_ASSERT(
-        glTexImage2D(
-            GL_TEXTURE_2D,
-            0,
-            _internalImageFormatLookUp[(int)image.colorSpace()][(int)pixelFormat.cardinality()][(int)pixelFormat.type()],
-            image.width(),
-            image.height(),
-            0,
-            _pixelFormatLookUp[(int)pixelFormat.cardinality()],
-            _pixelTypeLookUp[(int)pixelFormat.type()],
-            image.hasPixelData() ? &image.pixelData()[0] : 0
-        )
-    );
-
-    texture.markAsDirty();
-
-    if (texture.isMipmapped())
-    {
-        GL_ASSERT(glGenerateMipmap(type));
-    }
-
-    GL_ASSERT(glBindTexture(type, 0));
-
-    texture.setAsUploaded(*this, new Texture2Data(*this, texture, textureId));
-    statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
-
-    HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
+    ::uploadTexture(*this, texture, false);
 }
 
 void Renderer::uploadTexture(TextureCube& texture)
