@@ -1063,6 +1063,7 @@ void Renderer::uploadTexture(Texture2& texture)
 
 void Renderer::uploadTexture(Texture3& texture)
 {
+    (void)texture;
     throw InvalidOperation();
 }
 

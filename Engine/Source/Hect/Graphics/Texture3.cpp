@@ -47,11 +47,14 @@ Texture3::Texture3(const std::string& name, unsigned width, unsigned height, uns
 
 Image& Texture3::image(unsigned depth)
 {
+    (void)depth;
     throw InvalidOperation();
 }
 
 void Texture3::setImage(unsigned depth, const Image::Handle& image)
 {
+    (void)depth;
+    (void)image;
     throw InvalidOperation();
 }
 
@@ -67,11 +70,15 @@ void Texture3::invalidateLocalImages()
 
 Color Texture3::readPixel(unsigned x, unsigned y, unsigned z)
 {
+    (void)x;
+    (void)y;
+    (void)z;
     throw InvalidOperation();
 }
 
 Color Texture3::readPixel(const Vector3& coords)
 {
+    (void)coords;
     throw InvalidOperation();
 }
 
