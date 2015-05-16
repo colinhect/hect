@@ -63,6 +63,10 @@ enum class UniformType
     Texture2,
 
     ///
+    /// A 3-dimensional texture.
+    Texture3,
+
+    ///
     /// A cubic texture.
     TextureCube
 };

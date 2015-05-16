@@ -34,29 +34,30 @@ namespace hect
 {
 
 ///
-/// A 2-dimensional texture.
-class HECT_EXPORT Texture2 :
-    public Asset<Texture2>,
-    public Renderer::Object<Texture2>
+/// A 3-dimensional texture.
+class HECT_EXPORT Texture3 :
+    public Asset<Texture3>,
+    public Renderer::Object<Texture3>
 {
 public:
 
     ///
-    /// Constructs an empty 2-dimensional texture.
-    Texture2();
+    /// Constructs an empty 3-dimensional texture.
+    Texture3();
 
     ///
-    /// Constructs a 2-dimensional texture.
+    /// Constructs a 3-dimensional texture.
     ///
     /// \param name The name.
     /// \param width The width.
     /// \param height The height.
+    /// \param depth The height.
     /// \param pixelFormat The pixel format.
     /// \param minFilter The minification filter.
     /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
     /// \param wrapped True if the texture is wrapped; false otherwise.
-    Texture2(const std::string& name, unsigned width, unsigned height,
+    Texture3(const std::string& name, unsigned width, unsigned height, unsigned depth,
              const PixelFormat& pixelFormat = PixelFormat::Rgb8,
              TextureFilter minFilter = TextureFilter::Linear,
              TextureFilter magFilter = TextureFilter::Linear,
@@ -64,47 +65,44 @@ public:
              bool wrapped = true);
 
     ///
-    /// Constructs a 2-dimensional texture.
+    /// Returns the image of the texture for the specified depth.
     ///
-    /// \param name The name.
-    /// \param image The source image.
-    Texture2(const std::string& name, const Image::Handle& image);
+    /// \param depth The depth.
+    Image& image(unsigned depth);
 
     ///
-    /// Returns the image of the texture.
-    Image& image();
-
-    ///
-    /// Sets the source image to the texture.
+    /// Sets the source image to the texture for the specified depth.
     ///
     /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed.
     ///
-    /// \param image The source image.
+    /// \param depth The depth.
+    /// \param image The image.
     ///
     /// \throws InvalidOperation If the image is not compatible with the
     /// texture.
-    void setImage(const Image::Handle& image);
+    void setImage(unsigned depth, const Image::Handle& image);
 
     ///
-    /// Invalidate the local image of the texture, forcing the image to be
-    /// downloaded from the renderer the next time the image is accessed.
+    /// Invalidate the local images of the texture, forcing the images to be
+    /// downloaded from the renderer the next time the images are accessed.
     ///
     /// \throws InvalidOperation If the texture is not uploaded.
-    void invalidateLocalImage();
+    void invalidateLocalImages();
 
     ///
     /// Reads a color value of a pixel.
     ///
     /// \param x The x coordinate.
     /// \param y The y coordinate.
-    Color readPixel(unsigned x, unsigned y);
+    /// \param z The z coordinate.
+    Color readPixel(unsigned x, unsigned y, unsigned z);
 
     ///
     /// Reads a color value of a pixel.
     ///
-    /// \param coords The UV coordinates.
-    Color readPixel(const Vector2& coords);
+    /// \param coords The UVW coordinates.
+    Color readPixel(const Vector3& coords);
 
     ///
     /// Returns the minification filter.
@@ -167,6 +165,10 @@ public:
     unsigned height() const;
 
     ///
+    /// Returns the depth.
+    unsigned depth() const;
+
+    ///
     /// Returns the pixel format.
     const PixelFormat& pixelFormat() const;
 
@@ -176,7 +178,7 @@ public:
     /// \note Does not compare the name.
     ///
     /// \param texture The other texture.
-    bool operator==(const Texture2& texture) const;
+    bool operator==(const Texture3& texture) const;
 
     ///
     /// Returns whether the texture is different from another.
@@ -184,16 +186,17 @@ public:
     /// \note Does not compare the name.
     ///
     /// \param texture The other texture.
-    bool operator!=(const Texture2& texture) const;
+    bool operator!=(const Texture3& texture) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
 
 private:
-    Image::Handle _image;
+    std::vector<Image::Handle> _images;
 
     unsigned _width { 0 };
     unsigned _height { 0 };
+    unsigned _depth { 0 };
 
     PixelFormat _pixelFormat;
 

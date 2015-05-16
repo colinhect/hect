@@ -86,6 +86,12 @@ UniformValue::UniformValue(const Texture2::Handle& value) :
     setValue(value);
 }
 
+UniformValue::UniformValue(const Texture3::Handle& value) :
+    _type(UniformType::Texture3)
+{
+    setValue(value);
+}
+
 UniformValue::UniformValue(const TextureCube::Handle& value) :
     _type(UniformType::TextureCube)
 {
@@ -124,6 +130,9 @@ void UniformValue::setDefaultValue()
         break;
     case UniformType::Texture2:
         _value = Texture2::Handle();
+        break;
+    case UniformType::Texture3:
+        _value = Texture3::Handle();
         break;
     case UniformType::TextureCube:
         _value = TextureCube::Handle();
@@ -206,6 +215,16 @@ void UniformValue::setValue(const Texture2::Handle& value)
     if (_type != UniformType::Texture2)
     {
         throw InvalidOperation("Uniform value is not of type 'Texture2'");
+    }
+
+    _value = value;
+}
+
+void UniformValue::setValue(const Texture3::Handle& value)
+{
+    if (_type != UniformType::Texture3)
+    {
+        throw InvalidOperation("Uniform value is not of type 'Texture3'");
     }
 
     _value = value;
@@ -301,6 +320,16 @@ Texture2::Handle UniformValue::asTexture2() const
     return _value.as<Texture2::Handle>();
 }
 
+Texture3::Handle UniformValue::asTexture3() const
+{
+    if (_type != UniformType::Texture3)
+    {
+        throw InvalidOperation("Uniform value is not of type 'Texture3'");
+    }
+
+    return _value.as<Texture3::Handle>();
+}
+
 TextureCube::Handle UniformValue::asTextureCube() const
 {
     if (_type != UniformType::TextureCube)
@@ -343,6 +372,8 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
         return asColor() == uniformValue.asColor();
     case UniformType::Texture2:
         return asTexture2() == uniformValue.asTexture2();
+    case UniformType::Texture3:
+        return asTexture3() == uniformValue.asTexture3();
     case UniformType::TextureCube:
         return asTextureCube() == uniformValue.asTextureCube();
     }
@@ -386,6 +417,9 @@ void UniformValue::encode(Encoder& encoder) const
         break;
     case UniformType::Texture2:
         encoder << encodeValue("value", asTexture2());
+        break;
+    case UniformType::Texture3:
+        encoder << encodeValue("value", asTexture3());
         break;
     case UniformType::TextureCube:
         encoder << encodeValue("value", asTextureCube());
@@ -455,6 +489,13 @@ void UniformValue::decode(Decoder& decoder)
         case UniformType::Texture2:
         {
             Texture2::Handle texture;
+            decoder >> decodeValue(texture);
+            setValue(texture);
+        }
+        break;
+        case UniformType::Texture3:
+        {
+            Texture3::Handle texture;
             decoder >> decodeValue(texture);
             setValue(texture);
         }

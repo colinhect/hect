@@ -41,6 +41,7 @@ class Mesh;
 class RenderTarget;
 class Shader;
 class Texture2;
+class Texture3;
 class TextureCube;
 class Window;
 
@@ -268,6 +269,10 @@ public:
 
         ///
         /// \copydoc Renderer::Frame::setUniform()
+        void setUniform(const Uniform& uniform, Texture3& value);
+
+        ///
+        /// \copydoc Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, TextureCube& value);
 
         ///
@@ -335,7 +340,7 @@ public:
     void destroyShader(Shader& shader);
 
     ///
-    /// Uploads a texture.
+    /// Uploads a 2-dimensional texture.
     ///
     /// \note If the texture is already uploaded then no action is taken.
     ///
@@ -343,11 +348,23 @@ public:
     void uploadTexture(Texture2& texture);
 
     ///
-    /// \copydoc Renderer::uploadTexture()
+    /// Uploads a 3-dimensional texture.
+    ///
+    /// \note If the texture is already uploaded then no action is taken.
+    ///
+    /// \param texture The texture to upload.
+    void uploadTexture(Texture3& texture);
+
+    ///
+    /// Uploads a cubic texture.
+    ///
+    /// \note If the texture is already uploaded then no action is taken.
+    ///
+    /// \param texture The texture to upload.
     void uploadTexture(TextureCube& texture);
 
     ///
-    /// Destroys a texture.
+    /// Destroys a 2-dimensional texture.
     ///
     /// \param texture The texture to destroy.
     /// \param downloadImage Whether to download the texture's image before it
@@ -355,8 +372,20 @@ public:
     void destroyTexture(Texture2& texture, bool downloadImage = false);
 
     ///
-    /// \copydoc Renderer::destroyTexture()
-    void destroyTexture(TextureCube& texture);
+    /// Destroys a 3-dimensional texture.
+    ///
+    /// \param texture The texture to destroy.
+    /// \param downloadImage Whether to download the texture's image before it
+    /// it is destroyed.
+    void destroyTexture(Texture3& texture, bool downloadImage = false);
+
+    ///
+    /// Destroys a cubic texture.
+    ///
+    /// \param texture The texture to destroy.
+    /// \param downloadImage Whether to download the texture's image before it
+    /// it is destroyed.
+    void destroyTexture(TextureCube& texture, bool downloadImage = false);
 
     ///
     /// Downloads the 2-dimensional image of the given uploaded texture.

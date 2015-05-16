@@ -37,7 +37,7 @@ namespace hect
 {
 
 ///
-/// A cube map texture.
+/// A cubic texture.
 class HECT_EXPORT TextureCube :
     public Asset<TextureCube>,
     public Renderer::Object<TextureCube>
@@ -58,7 +58,11 @@ public:
     /// \param minFilter The minification filter.
     /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
-    TextureCube(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped);
+    TextureCube(const std::string& name, unsigned width, unsigned height,
+                const PixelFormat& pixelFormat = PixelFormat::Rgb8,
+                TextureFilter minFilter = TextureFilter::Linear,
+                TextureFilter magFilter = TextureFilter::Linear,
+                bool mipmapped = true);
 
     ///
     /// Returns the image of the specified side.
@@ -75,14 +79,16 @@ public:
     /// \param side The side of the cube to set the image for.
     /// \param image The image.
     ///
-    /// \throws InvalidOperation If the image does not match the width/height
-    /// of the texture.
+    /// \throws InvalidOperation If the image is not compatible with the
+    /// texture.
     void setImage(CubeSide side, const Image::Handle& image);
 
     ///
-    /// Marks the texture to download its image from the renderer the next time
-    /// an image is accessed.
-    void markAsDirty();
+    /// Invalidate the local images of the texture, forcing the images to be
+    /// downloaded from the renderer the next time the images are accessed.
+    ///
+    /// \throws InvalidOperation If the texture is not uploaded.
+    void invalidateLocalImages();
 
     ///
     /// Returns the minification filter.

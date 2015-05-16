@@ -60,20 +60,29 @@ void TextureCube::setImage(CubeSide side, const Image::Handle& image)
         renderer().destroyTexture(*this);
     }
 
-    if (_width != image->width() || _height != image->height())
+    // If the texture is empty
+    if (_width == 0 && _height == 0)
     {
-        throw InvalidOperation("The source image does not match the dimensions of the texture");
+        // Use the width/height/pixel format of the image
+        _width = image->width();
+        _height = image->height();
+        _pixelFormat = image->pixelFormat();
     }
-    else if (_pixelFormat != image->pixelFormat())
+    else if (_width != image->width() || _height != image->height() || _pixelFormat != image->pixelFormat())
     {
-        throw InvalidOperation("The source image pixel format does not match the pixel format of the texture");
+        throw InvalidOperation("Image is incompatible with the texture");
     }
 
     _images[static_cast<int>(side)] = image;
 }
 
-void TextureCube::markAsDirty()
+void TextureCube::invalidateLocalImages()
 {
+    if (!isUploaded())
+    {
+        throw InvalidOperation("Texture is not uploaded");
+    }
+
     for (Image::Handle& image : _images)
     {
         image = Image::Handle();

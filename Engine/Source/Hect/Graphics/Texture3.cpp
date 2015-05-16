@@ -21,21 +21,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Texture2.h"
+#include "Texture3.h"
 
 #include "Hect/Core/Format.h"
 #include "Hect/Core/Exception.h"
 
 using namespace hect;
 
-Texture2::Texture2()
+Texture3::Texture3()
 {
 }
 
-Texture2::Texture2(const std::string& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
+Texture3::Texture3(const std::string& name, unsigned width, unsigned height, unsigned depth, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
     Asset(name),
     _width(width),
     _height(height),
+    _depth(depth),
     _pixelFormat(pixelFormat),
     _minFilter(minFilter),
     _magFilter(magFilter),
@@ -44,76 +45,42 @@ Texture2::Texture2(const std::string& name, unsigned width, unsigned height, con
 {
 }
 
-Texture2::Texture2(const std::string& name, const Image::Handle& image) :
-    Asset(name)
+Image& Texture3::image(unsigned depth)
 {
-    setImage(image);
+    throw InvalidOperation();
 }
 
-Image& Texture2::image()
+void Texture3::setImage(unsigned depth, const Image::Handle& image)
 {
-    if (isUploaded() && !_image)
-    {
-        _image = renderer().downloadTextureImage(*this);
-    }
-
-    if (!_image)
-    {
-        _image = Image::Handle(new Image(_width, _height, _pixelFormat));
-    }
-
-    return *_image;
+    throw InvalidOperation();
 }
 
-void Texture2::setImage(const Image::Handle& image)
-{
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
-    // If the texture is empty
-    if (_width == 0 && _height == 0)
-    {
-        // Use the width/height/pixel format of the image
-        _width = image->width();
-        _height = image->height();
-        _pixelFormat = image->pixelFormat();
-    }
-    else if (_width != image->width() || _height != image->height() || _pixelFormat != image->pixelFormat())
-    {
-        throw InvalidOperation("Image is incompatible with the texture");
-    }
-
-    _image = image;
-}
-
-void Texture2::invalidateLocalImage()
+void Texture3::invalidateLocalImages()
 {
     if (!isUploaded())
     {
         throw InvalidOperation("Texture is not uploaded");
     }
 
-    _image = Image::Handle();
+    _images.clear();
 }
 
-Color Texture2::readPixel(unsigned x, unsigned y)
+Color Texture3::readPixel(unsigned x, unsigned y, unsigned z)
 {
-    return image().readPixel(x, y);
+    throw InvalidOperation();
 }
 
-Color Texture2::readPixel(const Vector2& coords)
+Color Texture3::readPixel(const Vector3& coords)
 {
-    return image().readPixel(coords);
+    throw InvalidOperation();
 }
 
-TextureFilter Texture2::minFilter() const
+TextureFilter Texture3::minFilter() const
 {
     return _minFilter;
 }
 
-void Texture2::setMinFilter(TextureFilter filter)
+void Texture3::setMinFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
@@ -123,12 +90,12 @@ void Texture2::setMinFilter(TextureFilter filter)
     _minFilter = filter;
 }
 
-TextureFilter Texture2::magFilter() const
+TextureFilter Texture3::magFilter() const
 {
     return _magFilter;
 }
 
-void Texture2::setMagFilter(TextureFilter filter)
+void Texture3::setMagFilter(TextureFilter filter)
 {
     if (isUploaded())
     {
@@ -138,12 +105,12 @@ void Texture2::setMagFilter(TextureFilter filter)
     _magFilter = filter;
 }
 
-bool Texture2::isMipmapped() const
+bool Texture3::isMipmapped() const
 {
     return _mipmapped;
 }
 
-void Texture2::setMipmapped(bool mipmapped)
+void Texture3::setMipmapped(bool mipmapped)
 {
     if (isUploaded())
     {
@@ -153,12 +120,12 @@ void Texture2::setMipmapped(bool mipmapped)
     _mipmapped = mipmapped;
 }
 
-bool Texture2::isWrapped() const
+bool Texture3::isWrapped() const
 {
     return _wrapped;
 }
 
-void Texture2::setWrapped(bool wrapped)
+void Texture3::setWrapped(bool wrapped)
 {
     if (isUploaded())
     {
@@ -168,31 +135,30 @@ void Texture2::setWrapped(bool wrapped)
     _wrapped = wrapped;
 }
 
-unsigned Texture2::width() const
+unsigned Texture3::width() const
 {
     return _width;
 }
 
-unsigned Texture2::height() const
+unsigned Texture3::height() const
 {
     return _height;
 }
 
-const PixelFormat& Texture2::pixelFormat() const
+unsigned Texture3::depth() const
+{
+    return _depth;
+}
+
+const PixelFormat& Texture3::pixelFormat() const
 {
     return _pixelFormat;
 }
 
-bool Texture2::operator==(const Texture2& texture) const
+bool Texture3::operator==(const Texture3& texture) const
 {
-    // Image
-    if (_image != texture._image)
-    {
-        return false;
-    }
-
     // Dimensions
-    if (_width != texture._width && _height != texture._height)
+    if (_width != texture._width && _height != texture._height && _depth != texture._depth)
     {
         return false;
     }
@@ -218,21 +184,21 @@ bool Texture2::operator==(const Texture2& texture) const
     return true;
 }
 
-bool Texture2::operator!=(const Texture2& texture) const
+bool Texture3::operator!=(const Texture3& texture) const
 {
     return !(*this == texture);
 }
 
-void Texture2::encode(Encoder& encoder) const
+void Texture3::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("image", _image)
+    encoder << encodeVector("image", _images)
             << encodeEnum("minFilter", _minFilter)
             << encodeEnum("magFilter", _magFilter)
             << encodeValue("wrapped", _wrapped)
             << encodeValue("mipmapped", _mipmapped);
 }
 
-void Texture2::decode(Decoder& decoder)
+void Texture3::decode(Decoder& decoder)
 {
     // Color space
     ColorSpace colorSpace = ColorSpace::NonLinear;
@@ -242,17 +208,21 @@ void Texture2::decode(Decoder& decoder)
     }
 
     // Images
-    if (decoder.selectMember("image"))
+    if (decoder.selectMember("images"))
     {
-        Image::Handle image;
-        decoder >> decodeValue(image);
+        std::vector<Image::Handle> images;
+        decoder >> decodeVector(images);
 
-        // Remove the image from the asset cache because we don't want to
-        // store uncompressed image data in main memory
-        decoder.assetCache().remove(image.path());
+        unsigned depth = 0;
+        for (Image::Handle& image : images)
+        {
+            // Remove the image from the asset cache because we don't want to
+            // store uncompressed image data in main memory
+            decoder.assetCache().remove(image.path());
 
-        image->setColorSpace(colorSpace);
-        setImage(image);
+            image->setColorSpace(colorSpace);
+            setImage(depth, image);
+        }
     }
 
     decoder >> decodeEnum("minFilter", _minFilter)

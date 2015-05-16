@@ -28,6 +28,7 @@
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/UniformType.h"
 #include "Hect/Graphics/Texture2.h"
+#include "Hect/Graphics/Texture3.h"
 #include "Hect/Graphics/TextureCube.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Encodable.h"
@@ -107,6 +108,12 @@ public:
     ///
     /// \param value The texture.
     UniformValue(const Texture2::Handle& value);
+
+    ///
+    /// Constructs a 3-dimensional texture uniform value.
+    ///
+    /// \param value The texture.
+    UniformValue(const Texture3::Handle& value);
 
     ///
     /// Constructs a cubic texture uniform value.
@@ -190,6 +197,14 @@ public:
     void setValue(const Texture2::Handle& value);
 
     ///
+    /// Sets the value of the uniform value as a 3-dimensional texture.
+    ///
+    /// \param value The value.
+    ///
+    /// \throws InvalidOperation If the uniform value is not a texture.
+    void setValue(const Texture3::Handle& value);
+
+    ///
     /// Sets the value of the uniform value as a cubic texture.
     ///
     /// \param value The value.
@@ -228,6 +243,10 @@ public:
     ///
     /// Returns the value as a 2-dimensional texture.
     Texture2::Handle asTexture2() const;
+
+    ///
+    /// Returns the value as a 3-dimensional texture.
+    Texture3::Handle asTexture3() const;
 
     ///
     /// Returns the value as a cubic texture.

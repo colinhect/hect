@@ -38,6 +38,7 @@
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture2.h"
+#include "Hect/Graphics/Texture3.h"
 #include "Hect/Graphics/TextureCube.h"
 #include "Hect/Runtime/Window.h"
 
@@ -124,6 +125,29 @@ public:
     }
 
     ~Texture2Data()
+    {
+        // Destroy the texture if it is uploaded
+        if (object && object->isUploaded())
+        {
+            renderer->destroyTexture(*object);
+        }
+    }
+
+    GLuint textureId;
+};
+
+// OpenGL-specific data for a texture
+class Texture3Data :
+    public Renderer::Data<Texture3>
+{
+public:
+    Texture3Data(Renderer& renderer, Texture3& object, GLuint textureId) :
+        Renderer::Data<Texture3>(renderer, object),
+        textureId(textureId)
+    {
+    }
+
+    ~Texture3Data()
     {
         // Destroy the texture if it is uploaded
         if (object && object->isUploaded())
@@ -410,16 +434,16 @@ void uploadTexture(Renderer& renderer, Texture2& texture, bool depthComponent)
             texture.isMipmapped() ?
             _textureMipmapFilterLookUp[(int)texture.minFilter()] :
             _textureFilterLookUp[(int)texture.minFilter()]
-            )
-        );
+        )
+    );
 
     GL_ASSERT(
         glTexParameteri(
             GL_TEXTURE_2D,
             GL_TEXTURE_MAG_FILTER,
             _textureFilterLookUp[(int)texture.magFilter()]
-            )
-        );
+        )
+    );
 
     if (texture.isWrapped())
     {
@@ -467,10 +491,8 @@ void uploadTexture(Renderer& renderer, Texture2& texture, bool depthComponent)
             format,
             type,
             image.hasPixelData() ? &image.pixelData()[0] : 0
-            )
-        );
-
-    texture.markAsDirty();
+        )
+    );
 
     if (texture.isMipmapped())
     {
@@ -483,6 +505,8 @@ void uploadTexture(Renderer& renderer, Texture2& texture, bool depthComponent)
     renderer.statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
     HECT_TRACE(::format("Uploaded texture '%s'", texture.name().c_str()));
+
+    texture.invalidateLocalImage();
 }
 
 }
@@ -743,6 +767,36 @@ void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
 
         GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
         GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
+    }
+}
+
+void Renderer::Frame::setUniform(const Uniform& uniform, Texture3& value)
+{
+    if (uniform.type() != UniformType::Texture3)
+    {
+        throw InvalidOperation("Invalid value for uniform");
+    }
+
+    int location = uniform.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+        TextureIndex index = uniform.textureIndex();
+
+        if (index >= _renderer.capabilities().maxTextureUnits)
+        {
+            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
+        }
+
+        if (!value.isUploaded())
+        {
+            _renderer.uploadTexture(value);
+        }
+
+        auto data = value.dataAs<Texture3Data>();
+
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
+        GL_ASSERT(glBindTexture(GL_TEXTURE_3D, data->textureId));
     }
 }
 
@@ -1007,6 +1061,11 @@ void Renderer::uploadTexture(Texture2& texture)
     ::uploadTexture(*this, texture, false);
 }
 
+void Renderer::uploadTexture(Texture3& texture)
+{
+    throw InvalidOperation();
+}
+
 void Renderer::uploadTexture(TextureCube& texture)
 {
     if (texture.isUploaded())
@@ -1073,7 +1132,6 @@ void Renderer::uploadTexture(TextureCube& texture)
 
         ++target;
     }
-    texture.markAsDirty();
 
     if (texture.isMipmapped())
     {
@@ -1086,6 +1144,8 @@ void Renderer::uploadTexture(TextureCube& texture)
     statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
     HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
+
+    texture.invalidateLocalImages();
 }
 
 void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
@@ -1110,8 +1170,35 @@ void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
     HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
-void Renderer::destroyTexture(TextureCube& texture)
+void Renderer::destroyTexture(Texture3& texture, bool downloadImage)
 {
+    if (!texture.isUploaded())
+    {
+        return;
+    }
+
+    if (downloadImage)
+    {
+        // Force the texture to download its image
+        texture.image(0);
+    }
+
+    auto data = texture.dataAs<Texture3Data>();
+    GL_ASSERT(glDeleteTextures(1, &data->textureId));
+
+    statistics().memoryUsage -= texture.width() * texture.height() * texture.depth() * texture.pixelFormat().size();
+    texture.setAsDestroyed();
+
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
+}
+
+void Renderer::destroyTexture(TextureCube& texture, bool downloadImage)
+{
+    if (downloadImage)
+    {
+        throw InvalidOperation();
+    }
+
     if (!texture.isUploaded())
     {
         return;
@@ -1290,7 +1377,7 @@ void Renderer::setTarget(FrameBuffer& frameBuffer)
     // Mark all attached textures as dirty
     for (FrameBuffer::Attachment& attachment : frameBuffer.attachments())
     {
-        attachment.texture().markAsDirty();
+        attachment.texture().invalidateLocalImage();
     }
 
     auto data = frameBuffer.dataAs<FrameBufferData>();
@@ -1323,6 +1410,9 @@ Renderer::Renderer()
     glGetError(); // Clear errors
 
     GL_ASSERT(glClearColor(0, 0, 0, 0));
+
+    // Enable 3-dimensional texturing
+    glEnable(GL_TEXTURE_3D);
 
     // Set up the point rendering profile
     GL_ASSERT(glEnable(GL_PROGRAM_POINT_SIZE));

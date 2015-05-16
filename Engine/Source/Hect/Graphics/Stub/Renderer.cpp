@@ -32,6 +32,7 @@
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Shader.h"
 #include "Hect/Graphics/Texture2.h"
+#include "Hect/Graphics/Texture3.h"
 #include "Hect/Runtime/Window.h"
 
 using namespace hect;
@@ -67,6 +68,24 @@ public:
     }
 
     ~Texture2Data()
+    {
+        if (object && object->isUploaded())
+        {
+            renderer->destroyTexture(*object);
+        }
+    }
+};
+
+class Texture3Data :
+    public Renderer::Data<Texture3>
+{
+public:
+    Texture3Data(Renderer& renderer, Texture3& object) :
+        Renderer::Data<Texture3>(renderer, object)
+    {
+    }
+
+    ~Texture3Data()
     {
         if (object && object->isUploaded())
         {
@@ -199,6 +218,12 @@ void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
     (void)value;
 }
 
+void Renderer::Frame::setUniform(const Uniform& uniform, Texture3& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
 void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
 {
     (void)uniform;
@@ -282,6 +307,16 @@ void Renderer::uploadTexture(Texture2& texture)
     texture.setAsUploaded(*this, new Texture2Data(*this, texture));
 }
 
+void Renderer::uploadTexture(Texture3& texture)
+{
+    if (texture.isUploaded())
+    {
+        return;
+    }
+
+    texture.setAsUploaded(*this, new Texture3Data(*this, texture));
+}
+
 void Renderer::uploadTexture(TextureCube& texture)
 {
     if (texture.isUploaded())
@@ -304,8 +339,22 @@ void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
     texture.setAsDestroyed();
 }
 
-void Renderer::destroyTexture(TextureCube& texture)
+void Renderer::destroyTexture(Texture3& texture, bool downloadImage)
 {
+    (void)downloadImage;
+
+    if (!texture.isUploaded())
+    {
+        return;
+    }
+
+    texture.setAsDestroyed();
+}
+
+void Renderer::destroyTexture(TextureCube& texture, bool downloadImage)
+{
+    (void)downloadImage;
+
     if (!texture.isUploaded())
     {
         return;
