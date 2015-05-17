@@ -1063,8 +1063,91 @@ void Renderer::uploadTexture(Texture2& texture)
 
 void Renderer::uploadTexture(Texture3& texture)
 {
-    (void)texture;
-    throw InvalidOperation();
+    if (texture.isUploaded())
+    {
+        return;
+    }
+
+    GLuint textureId = 0;
+    GL_ASSERT(glGenTextures(1, &textureId));
+    GL_ASSERT(glBindTexture(GL_TEXTURE_3D, textureId));
+    GL_ASSERT(
+        glTexParameteri(
+            GL_TEXTURE_3D,
+            GL_TEXTURE_MIN_FILTER,
+            texture.isMipmapped() ?
+            _textureMipmapFilterLookUp[(int)texture.minFilter()] :
+            _textureFilterLookUp[(int)texture.minFilter()]
+            )
+        );
+
+    GL_ASSERT(
+        glTexParameteri(
+            GL_TEXTURE_3D,
+            GL_TEXTURE_MAG_FILTER,
+            _textureFilterLookUp[(int)texture.magFilter()]
+            )
+        );
+
+    if (texture.isWrapped())
+    {
+        GL_ASSERT(glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        GL_ASSERT(glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+    }
+    else
+    {
+        GL_ASSERT(glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+        GL_ASSERT(glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+    }
+
+    const PixelFormat& pixelFormat = texture.pixelFormat();
+
+    unsigned width = texture.width();
+    unsigned height = texture.height();
+    unsigned depth = texture.depth();
+
+    GLint internalFormat = _internalImageFormatLookUp[(int)ColorSpace::Linear][(int)pixelFormat.cardinality()][(int)pixelFormat.type()];
+    GLenum format = _pixelFormatLookUp[(int)pixelFormat.cardinality()];
+    GLenum type = _pixelTypeLookUp[(int)pixelFormat.type()];
+
+    // Build a vector of all pixel data for each depth in the 3-dimensional
+    // texture
+    ByteVector pixelData;
+    for (unsigned i = 0; i < depth; ++i)
+    {
+        // Get the image at this depth
+        Image& image = texture.image(i);
+
+        // If any of the images do not have pixel data then don't upload any
+        // pixel data
+        if (!image.hasPixelData())
+        {
+            pixelData.clear();
+            break;
+        }
+        else
+        {
+            // Append the images pixel data to the vector
+            ByteVector& imagePixelData = image.pixelData();
+            pixelData.insert(pixelData.end(), imagePixelData.begin(), imagePixelData.end());
+        }
+    }
+
+    GL_ASSERT(glTexImage3D(GL_TEXTURE_3D, 0, internalFormat, width, height, depth, 0, format, type, !pixelData.empty() ? &pixelData[0] : nullptr));
+
+    if (texture.isMipmapped())
+    {
+        GL_ASSERT(glGenerateMipmap(GL_TEXTURE_3D));
+    }
+
+    GL_ASSERT(glBindTexture(GL_TEXTURE_3D, 0));
+
+    texture.setAsUploaded(*this, new Texture3Data(*this, texture, textureId));
+    statistics().memoryUsage += texture.width() * texture.height() * texture.depth() * texture.pixelFormat().size();
+
+    HECT_TRACE(::format("Uploaded texture '%s'", texture.name().c_str()));
+
+    texture.invalidateLocalImages();
 }
 
 void Renderer::uploadTexture(TextureCube& texture)
@@ -1180,7 +1263,7 @@ void Renderer::destroyTexture(Texture3& texture, bool downloadImage)
 
     if (downloadImage)
     {
-        // Force the texture to download its image
+        // Force the texture to download its images
         texture.image(0);
     }
 
@@ -1214,7 +1297,7 @@ void Renderer::destroyTexture(TextureCube& texture, bool downloadImage)
     HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
-Image::Handle Renderer::downloadTextureImage(const Texture2& texture)
+void Renderer::downloadTextureImage(Texture2& texture)
 {
     if (!texture.isUploaded())
     {
@@ -1229,25 +1312,27 @@ Image::Handle Renderer::downloadTextureImage(const Texture2& texture)
     unsigned height = texture.height();
     const PixelFormat& pixelFormat = texture.pixelFormat();
 
-    Image::Handle image(new Image(width, height, pixelFormat));
+    // Get the texture's image
+    Image& image = texture.image();
 
-    ByteVector pixelData(pixelFormat.size() * width * height, 0);
-
+    // If the image has no pixel data
+    if (!image.hasPixelData())
+    {
+        // Allocate the expected amount of pixel data
+        ByteVector pixelData(pixelFormat.size() * width * height, 0);
+        image.setPixelData(std::move(pixelData));
+    }
     GL_ASSERT(
         glGetTexImage(
             GL_TEXTURE_2D,
             0,
             _pixelFormatLookUp[(int)texture.pixelFormat().cardinality()],
             _pixelTypeLookUp[(int)texture.pixelFormat().type()],
-            &pixelData[0]
+            &image.pixelData()[0]
         )
     );
 
-    image->setPixelData(std::move(pixelData));
-
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
-
-    return image;
 }
 
 void Renderer::uploadMesh(Mesh& mesh)

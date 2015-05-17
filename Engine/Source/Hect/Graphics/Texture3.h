@@ -68,6 +68,9 @@ public:
     /// Returns the image of the texture for the specified depth.
     ///
     /// \param depth The depth.
+    ///
+    /// \throws InvalidOperation If the specified depth is greater than the
+    /// depth of the texture.
     Image& image(unsigned depth);
 
     ///

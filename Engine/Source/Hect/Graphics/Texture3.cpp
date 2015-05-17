@@ -47,15 +47,45 @@ Texture3::Texture3(const std::string& name, unsigned width, unsigned height, uns
 
 Image& Texture3::image(unsigned depth)
 {
-    (void)depth;
-    throw InvalidOperation();
+    if (_images.empty())
+    {
+        _images = std::vector<Image::Handle>(_depth);
+    }
+
+    if (depth >= _depth)
+    {
+        throw InvalidOperation("Depth is greater than the depth of the texture");
+    }
+
+    Image::Handle& image = _images[depth];
+    if (!image)
+    {
+        image = Image::Handle(new Image(_width, _height, _pixelFormat));
+    }
+
+    return *image;
 }
 
 void Texture3::setImage(unsigned depth, const Image::Handle& image)
 {
-    (void)depth;
-    (void)image;
-    throw InvalidOperation();
+    // If the texture is empty
+    if (_width == 0 && _height == 0)
+    {
+        // Use the width/height/pixel format of the image
+        _width = image->width();
+        _height = image->height();
+        _pixelFormat = image->pixelFormat();
+    }
+    else if (_width != image->width() || _height != image->height() || _pixelFormat != image->pixelFormat())
+    {
+        throw InvalidOperation("Image is incompatible with the texture");
+    }
+
+    // Ensure that the image vector is intialized and the depth is within
+    // the bounds of the texture
+    this->image(depth);
+
+    _images[depth] = image;
 }
 
 void Texture3::invalidateLocalImages()
@@ -70,16 +100,13 @@ void Texture3::invalidateLocalImages()
 
 Color Texture3::readPixel(unsigned x, unsigned y, unsigned z)
 {
-    (void)x;
-    (void)y;
-    (void)z;
-    throw InvalidOperation();
+    return image(z).readPixel(x, y);
 }
 
 Color Texture3::readPixel(const Vector3& coords)
 {
-    (void)coords;
-    throw InvalidOperation();
+    unsigned z = static_cast<unsigned>(coords.z * _depth) % _depth;
+    return image(z).readPixel(Vector2(coords.x, coords.y));
 }
 
 TextureFilter Texture3::minFilter() const
@@ -220,6 +247,8 @@ void Texture3::decode(Decoder& decoder)
         std::vector<Image::Handle> images;
         decoder >> decodeVector(images);
 
+        _depth = static_cast<unsigned>(images.size());
+
         unsigned depth = 0;
         for (Image::Handle& image : images)
         {
@@ -229,6 +258,8 @@ void Texture3::decode(Decoder& decoder)
 
             image->setColorSpace(colorSpace);
             setImage(depth, image);
+
+            ++depth;
         }
     }
 

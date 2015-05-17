@@ -52,14 +52,14 @@ Texture2::Texture2(const std::string& name, const Image::Handle& image) :
 
 Image& Texture2::image()
 {
-    if (isUploaded() && !_image)
-    {
-        _image = renderer().downloadTextureImage(*this);
-    }
-
     if (!_image)
     {
         _image = Image::Handle(new Image(_width, _height, _pixelFormat));
+
+        if (isUploaded())
+        {
+            renderer().downloadTextureImage(*this);
+        }
     }
 
     return *_image;

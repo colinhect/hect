@@ -392,10 +392,8 @@ public:
     ///
     /// \param texture The texture the download the image of.
     ///
-    /// \returns The downloaded image.
-    ///
     /// \throws InvalidOperation If the texture is not uploaded.
-    Image::Handle downloadTextureImage(const Texture2& texture);
+    void downloadTextureImage(Texture2& texture);
 
     ///
     /// Uploads a mesh.
