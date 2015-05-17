@@ -44,6 +44,46 @@ Mesh createTestMesh()
     return mesh;
 }
 
+Texture2 createTestTexture2()
+{
+    const unsigned width = 4;
+    const unsigned height = 8;
+
+    Texture2 texture("Test", width, height);
+    for (unsigned x = 0; x < width; ++x)
+    {
+        for (unsigned y = 0; y < height; ++y)
+        {
+            Color color(static_cast<double>(x) / width, static_cast<double>(y) / height, 1.0);
+            texture.image().writePixel(x, y, color);
+        }
+    }
+
+    return texture;
+}
+
+Texture3 createTestTexture3()
+{
+    const unsigned width = 4;
+    const unsigned height = 8;
+    const unsigned depth = 2;
+
+    Texture3 texture("Test", width, height, depth);
+    for (unsigned x = 0; x < width; ++x)
+    {
+        for (unsigned y = 0; y < height; ++y)
+        {
+            for (unsigned z = 0; z < depth; ++z)
+            {
+                Color color(static_cast<double>(x) / width, static_cast<double>(y) / height, static_cast<double>(z) / depth);
+                texture.image(z).writePixel(x, y, color);
+            }
+        }
+    }
+
+    return texture;
+}
+
 TEST_CASE("Upload and destroy render object", "[Renderer]")
 {
     Engine& engine = Engine::instance();
@@ -106,4 +146,70 @@ TEST_CASE("Move uploaded render object", "[Renderer]")
 
     renderer.destroyMesh(meshMove);
     REQUIRE(!meshMove.isUploaded());
+}
+
+TEST_CASE("Upload and download a 2-dimensional texture", "[Renderer]")
+{
+    Engine& engine = Engine::instance();
+    Renderer& renderer = engine.renderer();
+
+    Texture2 texture = createTestTexture2();
+    REQUIRE(!texture.isUploaded());
+
+    // Remember the bytes that were uploaded
+    ByteVector uploadedPixelData = texture.image().pixelData();
+
+    // Upload the texture
+    renderer.uploadTexture(texture);
+    REQUIRE(texture.isUploaded());
+
+    // Get the downloaded pixel data
+    texture.invalidateLocalImage();
+    ByteVector downloadedPixelData = texture.image().pixelData();
+
+    // Verify that the downloaded pixel data is equal to the uploaded pixel data
+    REQUIRE(uploadedPixelData.size() == downloadedPixelData.size());
+    for (size_t i = 0; i < uploadedPixelData.size(); ++i)
+    {
+        REQUIRE(uploadedPixelData[i] == downloadedPixelData[i]);
+    }
+}
+
+TEST_CASE("Upload and download a 3-dimensional texture", "[Renderer]")
+{
+    Engine& engine = Engine::instance();
+    Renderer& renderer = engine.renderer();
+
+    Texture3 texture = createTestTexture3();
+    REQUIRE(!texture.isUploaded());
+
+    // Remember the bytes that were uploaded
+    std::vector<ByteVector> uploadedPixelData;
+    for (unsigned z = 0; z < texture.depth(); ++z)
+    {
+        uploadedPixelData.push_back(texture.image(z).pixelData());
+    }
+
+    // Upload the texture
+    renderer.uploadTexture(texture);
+    REQUIRE(texture.isUploaded());
+
+    // Get the downloaded pixel data
+    texture.invalidateLocalImages();
+    std::vector<ByteVector> downloadedPixelData;
+    for (unsigned z = 0; z < texture.depth(); ++z)
+    {
+        downloadedPixelData.push_back(texture.image(z).pixelData());
+    }
+
+    // Verify that the downloaded pixel data is equal to the uploaded pixel data
+    REQUIRE(uploadedPixelData.size() == downloadedPixelData.size());
+    for (size_t i = 0; i < uploadedPixelData.size(); ++i)
+    {
+        REQUIRE(uploadedPixelData[i].size() == downloadedPixelData[i].size());
+        for (size_t j = 0; j < uploadedPixelData[i].size(); ++j)
+        {
+            REQUIRE(uploadedPixelData[i][j] == downloadedPixelData[i][j]);
+        }
+    }
 }

@@ -396,6 +396,14 @@ public:
     void downloadTextureImage(Texture2& texture);
 
     ///
+    /// Downloads the 2-dimensional images of the given uploaded texture.
+    ///
+    /// \param texture The texture the download the image of.
+    ///
+    /// \throws InvalidOperation If the texture is not uploaded.
+    void downloadTextureImages(Texture3& texture);
+
+    ///
     /// Uploads a mesh.
     ///
     /// \note If the mesh is already uploaded then no action is taken.

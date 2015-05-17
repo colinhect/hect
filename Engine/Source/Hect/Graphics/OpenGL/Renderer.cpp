@@ -1078,16 +1078,16 @@ void Renderer::uploadTexture(Texture3& texture)
             texture.isMipmapped() ?
             _textureMipmapFilterLookUp[(int)texture.minFilter()] :
             _textureFilterLookUp[(int)texture.minFilter()]
-            )
-        );
+        )
+    );
 
     GL_ASSERT(
         glTexParameteri(
             GL_TEXTURE_3D,
             GL_TEXTURE_MAG_FILTER,
             _textureFilterLookUp[(int)texture.magFilter()]
-            )
-        );
+        )
+    );
 
     if (texture.isWrapped())
     {
@@ -1333,6 +1333,52 @@ void Renderer::downloadTextureImage(Texture2& texture)
     );
 
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
+}
+
+void Renderer::downloadTextureImages(Texture3& texture)
+{
+    if (!texture.isUploaded())
+    {
+        throw InvalidOperation("The texture is not uploaded");
+    }
+
+    auto data = texture.dataAs<Texture3Data>();
+
+    GL_ASSERT(glBindTexture(GL_TEXTURE_3D, data->textureId));
+
+    unsigned width = texture.width();
+    unsigned height = texture.height();
+    unsigned depth = texture.depth();
+    const PixelFormat& pixelFormat = texture.pixelFormat();
+
+    // Allocate the expected amount of pixel data
+    ByteVector pixelData(width * height * depth * pixelFormat.size());
+
+    GL_ASSERT(
+        glGetTexImage(
+            GL_TEXTURE_3D,
+            0,
+            _pixelFormatLookUp[(int)texture.pixelFormat().cardinality()],
+            _pixelTypeLookUp[(int)texture.pixelFormat().type()],
+            &pixelData[0]
+        )
+    );
+
+    // For each layer
+    unsigned sizePerLayer = width * height * pixelFormat.size();
+    for (unsigned z = 0; z < depth; ++z)
+    {
+        // Copy the pixel data for this layer
+        auto first = pixelData.begin() + sizePerLayer * z;
+        auto last = pixelData.begin() + sizePerLayer * (z + 1);
+        ByteVector imagePixelData(first, last);
+
+        // Set the pixel data for this layer
+        Image& image = texture.image(z);
+        image.setPixelData(std::move(imagePixelData));
+    }
+
+    GL_ASSERT(glBindTexture(GL_TEXTURE_3D, 0));
 }
 
 void Renderer::uploadMesh(Mesh& mesh)

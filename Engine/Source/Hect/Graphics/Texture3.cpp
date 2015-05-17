@@ -47,9 +47,11 @@ Texture3::Texture3(const std::string& name, unsigned width, unsigned height, uns
 
 Image& Texture3::image(unsigned depth)
 {
+    bool downloadImages = false;
     if (_images.empty())
     {
         _images = std::vector<Image::Handle>(_depth);
+        downloadImages = isUploaded();
     }
 
     if (depth >= _depth)
@@ -61,6 +63,11 @@ Image& Texture3::image(unsigned depth)
     if (!image)
     {
         image = Image::Handle(new Image(_width, _height, _pixelFormat));
+    }
+
+    if (downloadImages)
+    {
+        renderer().downloadTextureImages(*this);
     }
 
     return *image;

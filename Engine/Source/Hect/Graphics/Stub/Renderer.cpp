@@ -63,7 +63,8 @@ class Texture2Data :
 {
 public:
     Texture2Data(Renderer& renderer, Texture2& object) :
-        Renderer::Data<Texture2>(renderer, object)
+        Renderer::Data<Texture2>(renderer, object),
+        pixelData(object.image().pixelData())
     {
     }
 
@@ -74,6 +75,8 @@ public:
             renderer->destroyTexture(*object);
         }
     }
+
+    ByteVector pixelData;
 };
 
 class Texture3Data :
@@ -83,6 +86,11 @@ public:
     Texture3Data(Renderer& renderer, Texture3& object) :
         Renderer::Data<Texture3>(renderer, object)
     {
+        for (unsigned z = 0; z < object.depth(); ++z)
+        {
+            ByteVector& imagePixelData = object.image(z).pixelData();
+            pixelData.push_back(imagePixelData);
+        }
     }
 
     ~Texture3Data()
@@ -92,6 +100,8 @@ public:
             renderer->destroyTexture(*object);
         }
     }
+
+    std::vector<ByteVector> pixelData;
 };
 
 class TextureCubeData :
@@ -129,7 +139,6 @@ public:
         }
     }
 };
-
 
 class MeshData :
     public Renderer::Data<Mesh>
@@ -329,11 +338,15 @@ void Renderer::uploadTexture(TextureCube& texture)
 
 void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
 {
-    (void)downloadImage;
-
     if (!texture.isUploaded())
     {
         return;
+    }
+
+    if (downloadImage)
+    {
+        // Force the texture to download its image
+        texture.image();
     }
 
     texture.setAsDestroyed();
@@ -341,11 +354,15 @@ void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
 
 void Renderer::destroyTexture(Texture3& texture, bool downloadImage)
 {
-    (void)downloadImage;
-
     if (!texture.isUploaded())
     {
         return;
+    }
+
+    if (downloadImage)
+    {
+        // Force the texture to download its images
+        texture.image(0);
     }
 
     texture.setAsDestroyed();
@@ -365,7 +382,29 @@ void Renderer::destroyTexture(TextureCube& texture, bool downloadImage)
 
 void Renderer::downloadTextureImage(Texture2& texture)
 {
-    (void)texture;
+    if (!texture.isUploaded())
+    {
+        throw InvalidOperation("The texture is not uploaded");
+    }
+
+    auto data = texture.dataAs<Texture2Data>();
+    ByteVector pixelData = data->pixelData;
+    texture.image().setPixelData(std::move(pixelData));
+}
+
+void Renderer::downloadTextureImages(Texture3& texture)
+{
+    if (!texture.isUploaded())
+    {
+        throw InvalidOperation("The texture is not uploaded");
+    }
+
+    auto data = texture.dataAs<Texture3Data>();
+    for (unsigned z = 0; z < texture.depth(); ++z)
+    {
+        ByteVector pixelData = data->pixelData[z];
+        texture.image(z).setPixelData(std::move(pixelData));
+    }
 }
 
 void Renderer::uploadMesh(Mesh& mesh)
