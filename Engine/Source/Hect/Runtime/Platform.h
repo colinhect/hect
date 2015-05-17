@@ -40,13 +40,7 @@ class HECT_EXPORT Platform :
     public Uncopyable
 {
     friend class Engine;
-
-    typedef std::vector<Joystick> JoystickContainer;
 public:
-
-    ///
-    /// A sequence of joysticks.
-    typedef Sequence<Joystick, JoystickContainer> JoystickSequence;
 
     ~Platform();
 
@@ -91,10 +85,6 @@ public:
     /// \throws InvalidOperation If no joystick is connected at the given
     // index.
     Joystick& joystick(JoystickIndex index);
-
-    ///
-    /// Returns any joysticks connected to the platform.
-    JoystickSequence joysticks();
 
 private:
     Platform();

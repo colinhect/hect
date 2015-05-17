@@ -293,11 +293,6 @@ Joystick& Platform::joystick(JoystickIndex index)
     return _joysticks[index];
 }
 
-Platform::JoystickSequence Platform::joysticks()
-{
-    return _joysticks;
-}
-
 Platform::Platform()
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC) != 0)

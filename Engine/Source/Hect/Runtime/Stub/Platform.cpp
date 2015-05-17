@@ -34,7 +34,6 @@ namespace
 
 Mouse _mouse;
 Keyboard _keyboard;
-std::vector<Joystick> _joysticks;
 
 }
 
@@ -82,11 +81,6 @@ Joystick& Platform::joystick(JoystickIndex index)
 {
     (void)index;
     throw InvalidOperation("No joysticks connected");
-}
-
-Platform::JoystickSequence Platform::joysticks()
-{
-    return _joysticks;
 }
 
 Platform::Platform()
