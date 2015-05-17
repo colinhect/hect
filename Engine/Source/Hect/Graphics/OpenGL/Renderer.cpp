@@ -897,10 +897,10 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId));
 
     GLenum mrt[16];
-
-    // Attach all textures
     int textureIndex = 0;
-    for (FrameBuffer::Attachment& attachment : frameBuffer.attachments())
+
+    // Attach all 2-dimensional textures
+    for (FrameBuffer::Attachment2& attachment : frameBuffer.attachments2())
     {
         Texture2& texture = attachment.texture();
 
@@ -912,12 +912,34 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
         }
 
         auto targetData = texture.dataAs<Texture2Data>();
-        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, _frameBufferSlotLookUp[(int)attachment.slot()], GL_TEXTURE_2D, targetData->textureId, 0));
+        GL_ASSERT(glFramebufferTexture(GL_FRAMEBUFFER, _frameBufferSlotLookUp[(int)attachment.slot()], targetData->textureId, 0));
 
         if (attachment.slot() != FrameBufferSlot::Depth)
         {
             mrt[textureIndex++] = _frameBufferSlotLookUp[(int)attachment.slot()];
         }
+
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        {
+            throw InvalidOperation("Invalid frame buffer");
+        }
+    }
+
+    // Attach all 3-dimensional textures
+    for (FrameBuffer::Attachment3& attachment : frameBuffer.attachments3())
+    {
+        Texture3& texture = attachment.texture();
+
+        // Upload the texture if needed
+        if (!texture.isUploaded())
+        {
+            uploadTexture(texture);
+        }
+
+        auto targetData = texture.dataAs<Texture3Data>();
+        GL_ASSERT(glFramebufferTexture(GL_FRAMEBUFFER, _frameBufferSlotLookUp[(int)attachment.slot()], targetData->textureId, 0));
+
+        mrt[textureIndex++] = _frameBufferSlotLookUp[(int)attachment.slot()];
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
@@ -1506,10 +1528,16 @@ void Renderer::setTarget(FrameBuffer& frameBuffer)
         uploadFrameBuffer(frameBuffer);
     }
 
-    // Mark all attached textures as dirty
-    for (FrameBuffer::Attachment& attachment : frameBuffer.attachments())
+    // Invalidate local images for 2-dimensional textures
+    for (FrameBuffer::Attachment2& attachment : frameBuffer.attachments2())
     {
         attachment.texture().invalidateLocalImage();
+    }
+
+    // Invalidate local images for 3-dimensional textures
+    for (FrameBuffer::Attachment3& attachment : frameBuffer.attachments3())
+    {
+        attachment.texture().invalidateLocalImages();
     }
 
     auto data = frameBuffer.dataAs<FrameBufferData>();

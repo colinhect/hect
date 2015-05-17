@@ -29,6 +29,7 @@
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture2.h"
+#include "Hect/Graphics/Texture3.h"
 
 namespace hect
 {
@@ -42,8 +43,8 @@ class HECT_EXPORT FrameBuffer :
 public:
 
     ///
-    /// A frame buffer attachment.
-    struct HECT_EXPORT Attachment
+    /// A 2-dimensional frame buffer attachment.
+    struct HECT_EXPORT Attachment2
     {
     public:
 
@@ -52,7 +53,7 @@ public:
         ///
         /// \param slot The slot that the texture is attached to.
         /// \param texture The attached texture.
-        Attachment(FrameBufferSlot slot, Texture2& texture);
+        Attachment2(FrameBufferSlot slot, Texture2& texture);
 
         ///
         /// Returns the slot that the texture is attached to.
@@ -71,14 +72,49 @@ public:
         Texture2* _texture;
     };
 
+    ///
+    /// A 3-dimensional frame buffer attachment.
+    struct HECT_EXPORT Attachment3
+    {
+    public:
+
+        ///
+        /// Constructs a frame buffer attachment.
+        ///
+        /// \param slot The slot that the texture is attached to.
+        /// \param texture The attached texture.
+        Attachment3(FrameBufferSlot slot, Texture3& texture);
+
+        ///
+        /// Returns the slot that the texture is attached to.
+        FrameBufferSlot slot() const;
+
+        ///
+        /// Returns the attached texture.
+        Texture3& texture();
+
+        ///
+        /// Returns the attached texture.
+        const Texture3& texture() const;
+
+    private:
+        FrameBufferSlot _slot;
+        Texture3* _texture;
+    };
+
 private:
-    typedef std::vector<Attachment> AttachmentContainer;
+    typedef std::vector<Attachment2> Attachment2Container;
+    typedef std::vector<Attachment3> Attachment3Container;
 
 public:
 
     ///
-    /// A sequence of texture attachments.
-    typedef Sequence<Attachment, AttachmentContainer> AttachmentSequence;
+    /// A sequence of 2-dimensional texture attachments.
+    typedef Sequence<Attachment2, Attachment2Container> Attachment2Sequence;
+
+    ///
+    /// A sequence of 3-dimensional texture attachments.
+    typedef Sequence<Attachment3, Attachment3Container> Attachment3Sequence;
 
     ///
     /// Constructs a frame buffer.
@@ -94,7 +130,7 @@ public:
     void bind(Renderer& renderer) override;
 
     ///
-    /// Attaches a texture to the frame buffer.
+    /// Attaches a 2-dimensional texture to the frame buffer.
     ///
     /// \note If the frame buffer is uploaded to a renderer then it
     /// will be destroyed before the texture is attached.
@@ -107,13 +143,31 @@ public:
     void attach(FrameBufferSlot slot, Texture2& texture);
 
     ///
-    /// Returns the texture attachments.
-    AttachmentSequence attachments();
+    /// Attaches a 3-dimensional texture to the frame buffer.
+    ///
+    /// \note If the frame buffer is uploaded to a renderer then it
+    /// will be destroyed before the texture is attached.
+    ///
+    /// \param slot The slot to attach the texture to.
+    /// \param texture The texture to attach to the frame buffer.
+    ///
+    /// \throws InvalidOperation If something is already attached to the given
+    /// slot or if the texture is not the same size as the frame buffer.
+    void attach(FrameBufferSlot slot, Texture3& texture);
+
+    ///
+    /// Returns the 2-dimensional texture attachments.
+    Attachment2Sequence attachments2();
+
+    ///
+    /// Returns the 3-dimensional texture attachments.
+    Attachment3Sequence attachments3();
 
 private:
     void ensureSlotEmpty(FrameBufferSlot slot);
 
-    AttachmentContainer _attachments;
+    Attachment2Container _attachments2;
+    Attachment3Container _attachments3;
 };
 
 }

@@ -42,38 +42,74 @@ TEST_CASE("Construct frame buffer with size", "[FrameBuffer]")
     REQUIRE(frameBuffer.height() == 1024);
 }
 
-TEST_CASE("Attach a texture to a frame buffer of the same size", "[FrameBuffer]")
+TEST_CASE("Attach a 2-dimensional texture to a frame buffer of the same size", "[FrameBuffer]")
 {
-    Texture2 texture("Test", 512, 1024, PixelFormat::Rgb32, TextureFilter::Nearest, TextureFilter::Nearest, false, false);
+    Texture2 texture("Test", 512, 1024);
 
     FrameBuffer frameBuffer(512, 1024);
 
-    REQUIRE(frameBuffer.attachments().size() == 0);
+    REQUIRE(frameBuffer.attachments2().size() == 0);
     frameBuffer.attach(FrameBufferSlot::Color0, texture);
-    REQUIRE(frameBuffer.attachments().size() == 1);
+    REQUIRE(frameBuffer.attachments2().size() == 1);
 }
 
-TEST_CASE("Attach a texture to a frame buffer of a different size", "[FrameBuffer]")
+TEST_CASE("Attach a 2-dimensional texture to a frame buffer of a different size", "[FrameBuffer]")
 {
-    Texture2 texture("Test", 256, 1024, PixelFormat::Rgb32, TextureFilter::Nearest, TextureFilter::Nearest, false, false);
+    Texture2 texture("Test", 256, 1024);
 
     FrameBuffer frameBuffer(512, 1024);
 
-    REQUIRE(frameBuffer.attachments().size() == 0);
+    REQUIRE(frameBuffer.attachments2().size() == 0);
     REQUIRE_THROWS_AS(frameBuffer.attach(FrameBufferSlot::Color0, texture), InvalidOperation);
-    REQUIRE(frameBuffer.attachments().size() == 0);
+    REQUIRE(frameBuffer.attachments2().size() == 0);
 }
 
-TEST_CASE("Attach a texture to a non-empty slot of a frame buffer", "[FrameBuffer]")
+TEST_CASE("Attach a 2-dimensional texture to a non-empty slot of a frame buffer", "[FrameBuffer]")
 {
-    Texture2 textureA("TestA", 512, 1024, PixelFormat::Rgb32, TextureFilter::Nearest, TextureFilter::Nearest, false, false);
-    Texture2 textureB("TestB", 512, 1024, PixelFormat::Rgb32, TextureFilter::Nearest, TextureFilter::Nearest, false, false);
+    Texture2 textureA("TestA", 512, 1024);
+    Texture2 textureB("TestB", 512, 1024);
 
     FrameBuffer frameBuffer(512, 1024);
 
-    REQUIRE(frameBuffer.attachments().size() == 0);
+    REQUIRE(frameBuffer.attachments2().size() == 0);
     frameBuffer.attach(FrameBufferSlot::Color0, textureA);
-    REQUIRE(frameBuffer.attachments().size() == 1);
+    REQUIRE(frameBuffer.attachments2().size() == 1);
     REQUIRE_THROWS_AS(frameBuffer.attach(FrameBufferSlot::Color0, textureB), InvalidOperation);
-    REQUIRE(frameBuffer.attachments().size() == 1);
+    REQUIRE(frameBuffer.attachments2().size() == 1);
+}
+
+TEST_CASE("Attach a 3-dimensional texture to a frame buffer of the same size", "[FrameBuffer]")
+{
+    Texture3 texture("Test", 512, 1024, 8);
+
+    FrameBuffer frameBuffer(512, 1024);
+
+    REQUIRE(frameBuffer.attachments3().size() == 0);
+    frameBuffer.attach(FrameBufferSlot::Color0, texture);
+    REQUIRE(frameBuffer.attachments3().size() == 1);
+}
+
+TEST_CASE("Attach a 3-dimensional texture to a frame buffer of a different size", "[FrameBuffer]")
+{
+    Texture3 texture("Test", 256, 1024, 8);
+
+    FrameBuffer frameBuffer(512, 1024);
+
+    REQUIRE(frameBuffer.attachments3().size() == 0);
+    REQUIRE_THROWS_AS(frameBuffer.attach(FrameBufferSlot::Color0, texture), InvalidOperation);
+    REQUIRE(frameBuffer.attachments3().size() == 0);
+}
+
+TEST_CASE("Attach a 3-dimensional texture to a non-empty slot of a frame buffer", "[FrameBuffer]")
+{
+    Texture3 textureA("TestA", 512, 1024, 8);
+    Texture3 textureB("TestB", 512, 1024, 8);
+
+    FrameBuffer frameBuffer(512, 1024);
+
+    REQUIRE(frameBuffer.attachments3().size() == 0);
+    frameBuffer.attach(FrameBufferSlot::Color0, textureA);
+    REQUIRE(frameBuffer.attachments3().size() == 1);
+    REQUIRE_THROWS_AS(frameBuffer.attach(FrameBufferSlot::Color0, textureB), InvalidOperation);
+    REQUIRE(frameBuffer.attachments3().size() == 1);
 }

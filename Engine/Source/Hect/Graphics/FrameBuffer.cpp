@@ -25,23 +25,44 @@
 
 using namespace hect;
 
-FrameBuffer::Attachment::Attachment(FrameBufferSlot slot, Texture2& texture) :
+FrameBuffer::Attachment2::Attachment2(FrameBufferSlot slot, Texture2& texture) :
     _slot(slot),
     _texture(&texture)
 {
 }
 
-FrameBufferSlot FrameBuffer::Attachment::slot() const
+FrameBufferSlot FrameBuffer::Attachment2::slot() const
 {
     return _slot;
 }
 
-Texture2& FrameBuffer::Attachment::texture()
+Texture2& FrameBuffer::Attachment2::texture()
 {
     return *_texture;
 }
 
-const Texture2& FrameBuffer::Attachment::texture() const
+const Texture2& FrameBuffer::Attachment2::texture() const
+{
+    return *_texture;
+}
+
+FrameBuffer::Attachment3::Attachment3(FrameBufferSlot slot, Texture3& texture) :
+    _slot(slot),
+    _texture(&texture)
+{
+}
+
+FrameBufferSlot FrameBuffer::Attachment3::slot() const
+{
+    return _slot;
+}
+
+Texture3& FrameBuffer::Attachment3::texture()
+{
+    return *_texture;
+}
+
+const Texture3& FrameBuffer::Attachment3::texture() const
 {
     return *_texture;
 }
@@ -82,20 +103,55 @@ void FrameBuffer::attach(FrameBufferSlot slot, Texture2& texture)
         renderer().destroyFrameBuffer(*this);
     }
 
-    _attachments.push_back(Attachment(slot, texture));
+    _attachments2.push_back(Attachment2(slot, texture));
 }
 
-FrameBuffer::AttachmentSequence FrameBuffer::attachments()
+void FrameBuffer::attach(FrameBufferSlot slot, Texture3& texture)
 {
-    return _attachments;
+    ensureSlotEmpty(slot);
+
+    if (texture.width() != width() || texture.height() != height())
+    {
+        throw InvalidOperation("Cannot attach texture to a frame buffer of a different size");
+    }
+    else if (slot == FrameBufferSlot::Depth)
+    {
+        throw InvalidOperation("Cannot attach 3-dimensional texture to the depth slot of a frame buffer");
+    }
+
+    if (isUploaded())
+    {
+        renderer().destroyFrameBuffer(*this);
+    }
+
+    _attachments3.push_back(Attachment3(slot, texture));
+}
+
+FrameBuffer::Attachment2Sequence FrameBuffer::attachments2()
+{
+    return _attachments2;
+}
+
+FrameBuffer::Attachment3Sequence FrameBuffer::attachments3()
+{
+    return _attachments3;
 }
 
 void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
 {
     bool empty = true;
 
-    // Check if any textures are attached to this slot
-    for (const Attachment& attachment : _attachments)
+    // Check if any 2-dimensional textures are attached to this slot
+    for (const Attachment2& attachment : _attachments2)
+    {
+        if (attachment.slot() == slot)
+        {
+            empty = false;
+        }
+    }
+
+    // Check if any 3-dimensional textures are attached to this slot
+    for (const Attachment3& attachment : _attachments3)
     {
         if (attachment.slot() == slot)
         {

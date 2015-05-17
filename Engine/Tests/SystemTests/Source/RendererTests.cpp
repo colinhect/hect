@@ -213,3 +213,16 @@ TEST_CASE("Upload and download a 3-dimensional texture", "[Renderer]")
         }
     }
 }
+
+TEST_CASE("Attach a 3-dimensional texture to a frame buffer", "[Renderer]")
+{
+    Engine& engine = Engine::instance();
+    Renderer& renderer = engine.renderer();
+
+    FrameBuffer frameBuffer(128, 128);
+
+    Texture3 texture("Test", 128, 128, 64);
+    frameBuffer.attach(FrameBufferSlot::Color0, texture);
+
+    Renderer::Frame frame = renderer.beginFrame(frameBuffer);
+}
