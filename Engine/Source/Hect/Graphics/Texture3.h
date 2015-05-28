@@ -61,8 +61,8 @@ public:
              const PixelFormat& pixelFormat = PixelFormat::Rgb8,
              TextureFilter minFilter = TextureFilter::Linear,
              TextureFilter magFilter = TextureFilter::Linear,
-             bool mipmapped = true,
-             bool wrapped = true);
+             bool mipmapped = false,
+             bool wrapped = false);
 
     ///
     /// Returns the image of the texture for the specified depth.

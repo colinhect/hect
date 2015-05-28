@@ -447,13 +447,13 @@ void uploadTexture(Renderer& renderer, Texture2& texture, bool depthComponent)
 
     if (texture.isWrapped())
     {
-        GL_ASSERT(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
-        GL_ASSERT(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
     }
     else
     {
-        GL_ASSERT(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-        GL_ASSERT(glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
     }
 
     Image& image = texture.image();
@@ -1082,7 +1082,7 @@ void Renderer::uploadTexture(Texture2& texture)
 {
     ::uploadTexture(*this, texture, false);
 }
-
+    
 void Renderer::uploadTexture(Texture3& texture)
 {
     if (texture.isUploaded())
@@ -1113,13 +1113,15 @@ void Renderer::uploadTexture(Texture3& texture)
 
     if (texture.isWrapped())
     {
-        GL_ASSERT(glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT));
-        GL_ASSERT(glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT));
     }
     else
     {
-        GL_ASSERT(glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-        GL_ASSERT(glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER));
+        GL_ASSERT(glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER));
     }
 
     const PixelFormat& pixelFormat = texture.pixelFormat();
@@ -1574,10 +1576,12 @@ Renderer::Renderer()
     // Enable 3-dimensional texturing
     glEnable(GL_TEXTURE_3D);
 
+    /*
     // Set up the point rendering profile
     GL_ASSERT(glEnable(GL_PROGRAM_POINT_SIZE));
     GL_ASSERT(glEnable(GL_POINT_SPRITE));
     GL_ASSERT(glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT));
+    */
 
     // Set up the cube map rendering profile
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
