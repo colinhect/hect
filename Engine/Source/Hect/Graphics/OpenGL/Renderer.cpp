@@ -251,13 +251,14 @@ GLenum _indexTypeLookUp[3] =
     GL_UNSIGNED_INT // UInt32
 };
 
-GLenum _primitiveTypeLookUp[5] =
+GLenum _primitiveTypeLookUp[6] =
 {
     GL_TRIANGLES, // Triangles
     GL_TRIANGLE_STRIP, // TriangleStrip
     GL_LINES, // Lines
     GL_LINE_STRIP, // LineStrip
-    GL_POINTS // Points
+    GL_POINTS, // Points
+    GL_POINTS // PointSprites
 };
 
 GLenum _blendFunctionLookUp[2] =
@@ -837,6 +838,19 @@ void Renderer::Frame::renderMesh(Mesh& mesh)
         _renderer.uploadMesh(mesh);
     }
 
+    if (mesh.primitiveType() == PrimitiveType::PointSprites)
+    {
+        // Set up the point rendering profile
+        GL_ASSERT(glEnable(GL_PROGRAM_POINT_SIZE));
+        GL_ASSERT(glEnable(GL_POINT_SPRITE));
+        GL_ASSERT(glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT));
+    }
+    else
+    {
+        GL_ASSERT(glDisable(GL_PROGRAM_POINT_SIZE));
+        GL_ASSERT(glDisable(GL_POINT_SPRITE));
+    }
+
     auto data = mesh.dataAs<MeshData>();
     GL_ASSERT(glBindVertexArray(data->vertexArrayId));
 
@@ -1082,7 +1096,7 @@ void Renderer::uploadTexture(Texture2& texture)
 {
     ::uploadTexture(*this, texture, false);
 }
-    
+
 void Renderer::uploadTexture(Texture3& texture)
 {
     if (texture.isUploaded())
@@ -1575,13 +1589,6 @@ Renderer::Renderer()
 
     // Enable 3-dimensional texturing
     glEnable(GL_TEXTURE_3D);
-
-    /*
-    // Set up the point rendering profile
-    GL_ASSERT(glEnable(GL_PROGRAM_POINT_SIZE));
-    GL_ASSERT(glEnable(GL_POINT_SPRITE));
-    GL_ASSERT(glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT));
-    */
 
     // Set up the cube map rendering profile
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
