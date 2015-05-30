@@ -34,7 +34,8 @@ enum class PrimitiveType
     TriangleStrip,
     Lines,
     LineStrip,
-    Points
+    Points,
+    PointSprites
 };
 
 }
