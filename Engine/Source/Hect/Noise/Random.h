@@ -44,6 +44,11 @@ class HECT_EXPORT Random
 public:
 
     ///
+    /// Constructs a random number generator using a seed generated from the
+    /// wall clock time.
+    Random();
+
+    ///
     /// Constructs a random number generator given a seed.
     ///
     /// \param seed The initial seed.

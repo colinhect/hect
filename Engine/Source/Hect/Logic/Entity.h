@@ -381,23 +381,25 @@ private:
     Entity(const Entity& entity);
     Entity(Entity&& entity);
 
+    enum class Flag
+    {
+        Transient,
+        Activated,
+        PendingActivation,
+        PendingDestruction
+    };
+
     void enterPool(EntityPool& pool, EntityId id);
     void exitPool();
     bool inPool() const;
     void ensureInPool() const;
+    void setFlag(Flag flag, bool value);
+    bool flag(Flag flag) const;
 
     EntityPool* _pool { nullptr };
     EntityId _id { EntityId(-1) };
     EntityId _parentId { EntityId(-1) };
     std::vector<EntityId> _childIds;
-
-    enum Flag
-    {
-        Flag_Transient,
-        Flag_Activated,
-        Flag_PendingActivation,
-        Flag_PendingDestruction
-    };
 
     std::bitset<4> _flags;
 };

@@ -95,31 +95,31 @@ void Entity::activate()
 
 bool Entity::isActivated() const
 {
-    return _flags[Flag_Activated];
+    return flag(Flag::Activated);
 }
 
 bool Entity::isPendingActivation() const
 {
     ensureInPool();
-    return _flags[Flag_PendingActivation];
+    return flag(Flag::PendingActivation);
 }
 
 bool Entity::isPendingDestruction() const
 {
     ensureInPool();
-    return _flags[Flag_PendingDestruction];
+    return flag(Flag::PendingDestruction);
 }
 
 bool Entity::isTransient() const
 {
     ensureInPool();
-    return _flags[Flag_Transient];
+    return flag(Flag::Transient);
 }
 
 void Entity::setTransient(bool transient)
 {
     ensureInPool();
-    _flags[Flag_Transient] = transient;
+    setFlag(Flag::Transient, transient);
 }
 
 EntityId Entity::id() const
@@ -493,6 +493,16 @@ void Entity::ensureInPool() const
     {
         throw InvalidOperation("Invalid entity");
     }
+}
+
+void Entity::setFlag(Flag flag, bool value)
+{
+    _flags[static_cast<size_t>(flag)] = value;
+}
+
+bool Entity::flag(Flag flag) const
+{
+    return _flags[static_cast<size_t>(flag)];
 }
 
 void Entity::encode(Encoder& encoder) const

@@ -1,10 +1,10 @@
 ---
 primitiveType: Lines
 vertexLayout:
-    attributes:
-      - semantic: Position
-        cardinality: 3
-        type: Float32
+  attributes:
+    - semantic: Position
+      cardinality: 3
+      type: Float32
 vertices:
   - attributes:
     - semantic: Position

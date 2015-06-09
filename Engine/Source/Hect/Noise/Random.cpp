@@ -24,9 +24,15 @@
 #include "Random.h"
 
 #include <cassert>
+#include <ctime>
 #include <limits>
 
 using namespace hect;
+
+Random::Random() :
+    _current(static_cast<RandomSeed>(std::time(nullptr)))
+{
+}
 
 Random::Random(RandomSeed seed) :
     _current(seed)

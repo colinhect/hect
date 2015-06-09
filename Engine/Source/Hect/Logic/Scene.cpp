@@ -56,7 +56,7 @@ void Scene::refresh()
 
     _refreshing = true;
 
-    // Create all entities pending creation
+    // Dispatch the entity creation event for all entities pending creation
     for (EntityId entityId : _entitiesPendingCreation)
     {
         // Dispatch an entity create event
@@ -513,22 +513,24 @@ void Scene::activateEntity(Entity& entity)
     }
 
     ++_entityCount;
-    entity._flags[Entity::Flag_Activated] = true;
-    entity._flags[Entity::Flag_PendingActivation] = false;
+    entity.setFlag(Entity::Flag::Activated, true);
+    entity.setFlag(Entity::Flag::PendingActivation, false);
+
+    Entity::Iterator entityIterator = entity.iterator();
 
     for (ComponentTypeId typeId : _componentTypeIds)
     {
         ComponentPoolBase& componentPool = *_componentPools[typeId];
-        if (componentPool.has(entity))
+        if (componentPool.has(*entityIterator))
         {
-            componentPool.dispatchEvent(ComponentEventType::Add, entity);
+            componentPool.dispatchEvent(ComponentEventType::Add, *entityIterator);
         }
     }
 
     // Dispatch the entity activate event
     EntityEvent event;
     event.type = EntityEventType::Activate;
-    event.entity = entity.iterator();
+    event.entity = entityIterator;
     _entityPool.dispatchEvent(event);
 }
 
@@ -544,7 +546,7 @@ void Scene::pendEntityDestruction(Entity& entity)
         throw InvalidOperation("Entity is already pending destruction");
     }
 
-    entity._flags[Entity::Flag_PendingDestruction] = true;
+    entity.setFlag(Entity::Flag::PendingDestruction, true);
     _entitiesPendingDestruction.push_back(entity._id);
 }
 
@@ -564,7 +566,7 @@ void Scene::pendEntityActivation(Entity& entity)
         throw InvalidOperation("Entity is already activated");
     }
 
-    entity._flags[Entity::Flag_PendingActivation] = true;
+    entity.setFlag(Entity::Flag::PendingActivation, true);
     if (_refreshing)
     {
         // Activate the entity immediately if the scene is refreshing
