@@ -34,6 +34,7 @@ using namespace hect;
 
 Host::Host(size_t maxPeerCount, size_t channelCount, Port port)
 {
+    int* x = new int(123);
     initializeENet();
 
     // If a port was specified
