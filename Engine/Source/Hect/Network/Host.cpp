@@ -25,7 +25,6 @@
 
 #include <cstring>
 #include <enet/enet.h>
-#include <iostream>
 
 #include "Hect/Core/Exception.h"
 #include "Hect/Core/Format.h"
@@ -35,9 +34,6 @@ using namespace hect;
 
 Host::Host(size_t maxPeerCount, size_t channelCount, Port port)
 {
-    int* x = new int(123);
-    std::cout << *x << std::endl;
-    
     initializeENet();
 
     // If a port was specified
