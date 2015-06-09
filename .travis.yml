@@ -19,5 +19,5 @@ install:
 
 script:
  - cd Build/Output
- - valgrind -q --error-exitcode=1 ./HectUnitTests
- - valgrind -q --error-exitcode=1 ./HectSystemTests
+ - valgrind --error-exitcode=1 ./HectUnitTests
+ - valgrind --error-exitcode=1 ./HectSystemTests
