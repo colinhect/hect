@@ -8,7 +8,7 @@ modules:
 uniforms:
   - name: modelViewProjection
     binding: ModelViewProjectionMatrix
-  - name: additiveTexture
+  - name: texture
     type: Texture2
 depthTested: false
 blendMode:

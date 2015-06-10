@@ -10,4 +10,5 @@ out vec2 vertexTextureCoords;
 void main()
 {
     gl_Position = modelViewProjection * vec4(position, 1.0);
+    vertexTextureCoords = textureCoords;
 }
