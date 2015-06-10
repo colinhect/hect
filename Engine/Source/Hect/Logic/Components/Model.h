@@ -76,6 +76,19 @@ public:
     ///
     /// \property
     std::vector<ModelSurface> surfaces;
+
+    ///
+    /// Adds a surface to the model.
+    ///
+    /// \param mesh The mesh.
+    /// \param material The material.
+    void addSurface(const Mesh::Handle& mesh, const Material::Handle& material);
+
+    ///
+    /// Adds a surface to the model.
+    ///
+    /// \param surface The surface to add.
+    void addSurface(const ModelSurface& surface);
 };
 
 }

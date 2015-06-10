@@ -2,7 +2,7 @@
 
 uniform mat4 modelViewProjection;
 
-in vec3 position;
+layout(location = 0) in vec3 position;
 
 out vec3 vertexPosition;
 

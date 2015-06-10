@@ -34,3 +34,13 @@ ModelSurface::ModelSurface(const Mesh::Handle& mesh, const Material::Handle& mat
     material(material)
 {
 }
+
+void Model::addSurface(const Mesh::Handle& mesh, const Material::Handle& material)
+{
+    surfaces.push_back(ModelSurface(mesh, material));
+}
+
+void Model::addSurface(const ModelSurface& surface)
+{
+    surfaces.push_back(surface);
+}

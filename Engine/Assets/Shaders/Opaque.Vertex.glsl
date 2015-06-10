@@ -3,10 +3,10 @@
 uniform mat4 modelView;
 uniform mat4 modelViewProjection;
 
-in vec3 position;
-in vec3 normal;
-in vec3 tangent;
-in vec2 textureCoords;
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec3 normal;
+layout(location = 2) in vec3 tangent;
+layout(location = 3) in vec2 textureCoords;
 
 out vec3 vertexPosition;
 out vec3 vertexNormal;

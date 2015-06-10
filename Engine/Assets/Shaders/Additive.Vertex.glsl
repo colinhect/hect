@@ -1,14 +1,13 @@
 #version 440
 
 uniform mat4 modelViewProjection;
-uniform vec4 color;
 
 layout(location = 0) in vec3 position;
+layout(location = 3) in vec2 textureCoords;
 
-out vec4 vertexColor;
+out vec2 vertexTextureCoords;
 
 void main()
 {
-    vertexColor = color;
     gl_Position = modelViewProjection * vec4(position, 1.0);
 }
