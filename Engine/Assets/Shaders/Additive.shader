@@ -10,6 +10,9 @@ uniforms:
     binding: ModelViewProjectionMatrix
   - name: additiveTexture
     type: Texture2
+  - name: intensity
+    type: Float
+    value: 1.0
 depthTested: false
 blendMode:
   sourceFactor: One
