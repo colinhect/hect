@@ -12,7 +12,7 @@ uniforms:
     type: Texture2
   - name: intensity
     type: Float
-    value: 1.0
+    value: 1
 depthTested: false
 blendMode:
   sourceFactor: One
