@@ -1,5 +1,5 @@
 ---
-renderStage: PostPhysicalGeometry
+base: RenderStages/PostPhysicalGeometry.shader
 modules:
   - type: Vertex
     path: Additive.Vertex.glsl

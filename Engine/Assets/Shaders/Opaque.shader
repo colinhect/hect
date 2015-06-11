@@ -1,5 +1,5 @@
 ---
-renderStage: PhysicalGeometry
+base: RenderStages/PhysicalGeometry.shader
 modules:
   - type: Vertex
     path: Opaque.Vertex.glsl

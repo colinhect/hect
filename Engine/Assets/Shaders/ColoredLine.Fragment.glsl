@@ -2,9 +2,9 @@
 
 in vec4 vertexColor;
 
-out vec4 color;
-
-void main()
+bool renderStage(
+    out vec4    color)
 {
     color = vertexColor;
+    return true;
 }

@@ -9,24 +9,28 @@ in vec3 vertexNormal;
 in vec3 vertexTangent;
 in vec2 vertexTextureCoords;
 
-out vec4 diffuseBuffer;
-out vec3 materialBuffer;
-out vec3 positionBuffer;
-out vec4 normalBuffer;
-
-void main()
+bool renderStage(
+    out vec4    diffuse,
+    out float   roughness,
+    out float   metallic,
+    out vec3    position,
+    out vec3    normal)
 {
-    diffuseBuffer = vec4(texture(diffuseTexture, vertexTextureCoords).rgb, 1.0);
-    materialBuffer = texture(materialTexture, vertexTextureCoords).rgb;
+    vec3 diffuseSample = texture(diffuseTexture, vertexTextureCoords).rgb;
+    diffuse = vec4(diffuseSample, 1.0);
+
+    vec2 materialSample = texture(materialTexture, vertexTextureCoords).rg;
+    roughness = materialSample.r;
+    metallic = materialSample.g;
+
+    position = vertexPosition;
 
     vec3 normalSample = texture(normalTexture, vertexTextureCoords).xyz * 2.0 - 1.0;
     normalSample.y = -normalSample.y;
 
-    vec3 normal = normalize(vertexNormal);
     vec3 tangent = normalize(vertexTangent);
-    vec3 bitangent = normalize(cross(normal, tangent));
-    normalSample = mat3(tangent, bitangent, normal) * normalize(normalSample);
+    vec3 bitangent = normalize(cross(normalize(vertexNormal), tangent));
+    normal = mat3(tangent, bitangent, normalize(vertexNormal)) * normalize(normalSample);
 
-    normalBuffer = vec4(normalize(normalSample), 0.0);
-    positionBuffer = vertexPosition;
+    return true;
 }

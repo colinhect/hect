@@ -4,9 +4,9 @@ uniform sampler2D texture;
 
 in vec2 vertexTextureCoords;
 
-out vec4 outputColor;
-
-void main()
+bool renderStage(
+    out vec4    color)
 {
-    outputColor = texture2D(texture, vertexTextureCoords);
+    color = texture2D(texture, vertexTextureCoords);
+    return true;
 }
