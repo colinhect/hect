@@ -14,14 +14,14 @@ configure_file(
 
 include_directories(
     "${PROJECT_SOURCE_DIR}/Engine/Source"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/ENet"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LibYaml"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/NanoVG"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS"
-    "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Tclap/include"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/ENet"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LibYaml"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/NanoVG"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Tclap/include"
     )
 
 grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Engine/Source)
