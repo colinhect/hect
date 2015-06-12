@@ -30,16 +30,15 @@
 
 #ifdef HECT_WINDOWS_BUILD
 #pragma warning(push, 0)
-#else
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wall"
-#pragma GCC diagnostic ignored "-Wextra"
-#pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
 #define BT_USE_DOUBLE_PRECISION
 
 #include <btBulletDynamicsCommon.h>
+
+#ifdef HECT_WINDOWS_BUILD
+#pragma warning(pop)
+#endif
 
 using namespace hect;
 
@@ -229,9 +228,3 @@ btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
         return bulletMesh;
     }
 }
-
-#ifdef HECT_WINDOWS_BUILD
-#pragma warning(pop)
-#else
-#pragma GCC diagnostic pop
-#endif
