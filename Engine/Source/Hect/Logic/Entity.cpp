@@ -452,6 +452,7 @@ Entity::Entity()
 }
 
 Entity::Entity(const Entity& entity) :
+    Uncopyable(),
     _pool(entity._pool),
     _id(entity._id),
     _parentId(entity._parentId),
