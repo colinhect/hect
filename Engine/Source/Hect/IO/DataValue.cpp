@@ -26,6 +26,8 @@
 #define YAML_DECLARE_STATIC
 #include <yaml.h>
 
+#include <sstream>
+
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
 
@@ -527,20 +529,22 @@ DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
             bool boolValue = string == "true";
             return DataValue(boolValue);
         }
-        else if (value)
+        else
         {
             // Attempt to parse a double from the value
             char* end = nullptr;
-            double numberValue = std::strtod(value, &end);
+            double numberValue = std::strtod(string.c_str(), &end);
             if (end && *end == '\0')
             {
                 // It is a valid number
                 return DataValue(numberValue);
             }
+            else
+            {
+                // Otherwise it is just a string
+                return DataValue(string);
+            }
         }
-        
-        // Otherwise it is just a string
-        return DataValue(string);
     }
     case YAML_SEQUENCE_NODE:
     {
