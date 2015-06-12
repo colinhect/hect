@@ -31,9 +31,9 @@
 #ifdef HECT_WINDOWS_BUILD
 #pragma warning(push, 0)
 #else
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wall"
-#pragma clang diagnostic ignored "-Wextra"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wextra"
 #endif
 
 #define BT_USE_DOUBLE_PRECISION
@@ -43,7 +43,7 @@
 #ifdef HECT_WINDOWS_BUILD
 #pragma warning(pop)
 #else
-#pragma clang diagnostic pop
+#pragma GCC diagnostic pop
 #endif
 
 using namespace hect;
