@@ -10,9 +10,9 @@ env:
 before_install:
  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
  - sudo apt-get update -qq
- - sudo apt-get install -qq g++-5 doxygen valgrind
- - export C=gcc-5
- - export CXX=g++-5
+ - sudo apt-get install -qq g++-4.9 doxygen valgrind
+ - export C=gcc-4.9
+ - export CXX=g++-4.9
 
 install:
  - cmake -H./ -BBuild -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DHEADLESS=ON
