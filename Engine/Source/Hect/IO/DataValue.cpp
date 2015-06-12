@@ -26,6 +26,9 @@
 #define YAML_DECLARE_STATIC
 #include <yaml.h>
 
+#include <regex>
+#include <sstream>
+
 #include "Hect/IO/ReadStream.h"
 #include "Hect/IO/WriteStream.h"
 
@@ -508,6 +511,8 @@ DataValue::Array::const_iterator DataValue::end() const
 namespace hect
 {
 
+    static std::regex numberRegex("[-+]?[0-9]*\\.?[0-9]+");
+
 // Converts a YAML node to a DataValue
 DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
 {
@@ -527,21 +532,22 @@ DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
             bool boolValue = string == "true";
             return DataValue(boolValue);
         }
+
+        // Check if it is a number
+        else if (std::regex_match(string, numberRegex))
+        {
+            // Parse the number
+            double numberValue = 0.0;
+            std::istringstream ss(string);
+            ss >> numberValue;
+            
+            return DataValue(numberValue);
+        }
+
+        // Otherwise it is just a string
         else
         {
-            // Attempt to parse a double from the value
-            char* end = nullptr;
-            double numberValue = std::strtod(value, &end);
-            if (end && *end == '\0')
-            {
-                // It is a valid number
-                return DataValue(numberValue);
-            }
-            else
-            {
-                // Otherwise it is just a string
-                return DataValue(string);
-            }
+            return DataValue(string);
         }
     }
     case YAML_SEQUENCE_NODE:
