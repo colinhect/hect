@@ -41,12 +41,6 @@
 
 #include <btBulletDynamicsCommon.h>
 
-#ifdef HECT_WINDOWS_BUILD
-#pragma warning(pop)
-#else
-#pragma GCC diagnostic pop
-#endif
-
 using namespace hect;
 
 namespace
@@ -235,3 +229,9 @@ btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
         return bulletMesh;
     }
 }
+
+#ifdef HECT_WINDOWS_BUILD
+#pragma warning(pop)
+#else
+#pragma GCC diagnostic pop
+#endif
