@@ -1,5 +1,8 @@
 language: cpp
 
+compiler:
+ - gcc
+
 env:
  - BUILD_TYPE=Debug
  - BUILD_TYPE=Release
@@ -7,9 +10,9 @@ env:
 before_install:
  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
  - sudo apt-get update -qq
- - sudo apt-get install -qq clang-3.5 g++-5 doxygen valgrind
- - export C=clang-3.5
- - export CXX=clang-3.5++
+ - sudo apt-get install -qq g++-5 doxygen valgrind
+ - export C=gcc-5
+ - export CXX=g++-5
 
 install:
  - cmake -H./ -BBuild -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DHEADLESS=ON
