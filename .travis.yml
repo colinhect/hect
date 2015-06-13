@@ -10,7 +10,6 @@ before_install:
  - sudo apt-get install -qq g++-5 doxygen valgrind
  - export CC=gcc-5
  - export CXX=g++-5
- - CC --version
 
 install:
  - cmake -H./ -BBuild -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DHEADLESS=ON
