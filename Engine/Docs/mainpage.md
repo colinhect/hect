@@ -11,10 +11,9 @@ Hect Engine is a 3D game engine written in modern C++.  It strives to be flexabl
 * [Doxygen](https://www.doxygen.org)
 
 ## Linux Requirements {#mainpage_linuxrequirements}
-* [Clang 3.4](https://clang.llvm.org)
-* [GCC 4.8](https://gcc.gnu.org)
+* [GCC 5](https://gcc.gnu.org)
 * [Make](http://www.gnu.org/software/make)
-* [SDL2](https://www.libsdl.org)
+* [SDL 2](https://www.libsdl.org)
 * [OpenGL](https://www.opengl.org)
 
 ## Windows Requirements {#mainpage_windowsrequirements}
