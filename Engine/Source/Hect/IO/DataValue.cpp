@@ -511,7 +511,7 @@ DataValue::Array::const_iterator DataValue::end() const
 namespace hect
 {
 
-    static std::regex numberRegex("[-+]?[0-9]*\\.?[0-9]+");
+static std::regex numberRegex("[-+]?[0-9]*\\.?[0-9]+");
 
 // Converts a YAML node to a DataValue
 DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
@@ -540,7 +540,7 @@ DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
             double numberValue = 0.0;
             std::istringstream ss(string);
             ss >> numberValue;
-            
+
             return DataValue(numberValue);
         }
 
