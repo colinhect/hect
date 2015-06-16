@@ -67,6 +67,13 @@ public:
     uint8_t next(uint8_t min, uint8_t max);
 
     ///
+    /// Returns the next random size within the specified range.
+    ///
+    /// \param min The minimum.
+    /// \param max The maximum.
+    size_t next(size_t min, size_t max);
+
+    ///
     /// Returns the next random float within the specified range.
     ///
     /// \param min The minimum.
