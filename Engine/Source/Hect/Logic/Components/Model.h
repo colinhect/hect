@@ -78,18 +78,6 @@ class HECT_EXPORT Model :
 public:
 
     ///
-    /// The surfaces.
-    ///
-    /// \property
-    std::vector<ModelSurface> surfaces;
-
-    ///
-    /// Whether the surfaces are visible.
-    ///
-    /// \property
-    bool visible { true };
-
-    ///
     /// Adds a surface to the model.
     ///
     /// \param mesh The mesh.
@@ -101,6 +89,18 @@ public:
     ///
     /// \param surface The surface to add.
     void addSurface(const ModelSurface& surface);
+
+    ///
+    /// The surfaces.
+    ///
+    /// \property
+    std::vector<ModelSurface> surfaces;
+
+    ///
+    /// Whether the surfaces are visible.
+    ///
+    /// \property
+    bool visible { true };
 };
 
 }
