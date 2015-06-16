@@ -368,6 +368,11 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
             // Render the model
             for (const ModelSurface& surface : model->surfaces)
             {
+                if (!surface.visible)
+                {
+                    continue;
+                }
+
                 Mesh& mesh = *surface.mesh;
                 Material& material = *surface.material;
 

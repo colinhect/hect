@@ -25,13 +25,15 @@
 
 using namespace hect;
 
-ModelSurface::ModelSurface()
+ModelSurface::ModelSurface() :
+    visible(true)
 {
 }
 
 ModelSurface::ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material) :
     mesh(mesh),
-    material(material)
+    material(material),
+    visible(true)
 {
 }
 

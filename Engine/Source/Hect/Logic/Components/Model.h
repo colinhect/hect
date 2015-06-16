@@ -60,6 +60,12 @@ public:
     ///
     /// \property
     Material::Handle material;
+
+    ///
+    /// Whether the surface is visible.
+    ///
+    /// \property
+    bool visible;
 };
 
 ///
