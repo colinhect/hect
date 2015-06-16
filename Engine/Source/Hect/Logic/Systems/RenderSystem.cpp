@@ -363,7 +363,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
     {
         // If the entity has a model component
         Model::Iterator model = entity.component<Model>();
-        if (model)
+        if (model && model->visible)
         {
             // Render the model
             for (const ModelSurface& surface : model->surfaces)

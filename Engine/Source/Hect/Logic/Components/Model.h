@@ -65,7 +65,7 @@ public:
     /// Whether the surface is visible.
     ///
     /// \property
-    bool visible;
+    bool visible { true };
 };
 
 ///
@@ -82,6 +82,12 @@ public:
     ///
     /// \property
     std::vector<ModelSurface> surfaces;
+
+    ///
+    /// Whether the surfaces are visible.
+    ///
+    /// \property
+    bool visible { true };
 
     ///
     /// Adds a surface to the model.
