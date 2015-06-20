@@ -25,7 +25,62 @@
 
 using namespace hect;
 
+WidgetBase::WidgetBase()
+{
+}
+
+WidgetBase::WidgetBase(const Vector2& position) :
+    _position(position)
+{
+}
+
+WidgetBase::WidgetBase(const Vector2& position, const Vector2& dimensions) :
+    _position(position),
+    _dimensions(dimensions)
+{
+}
+
 void WidgetBase::tick(double timeStep)
 {
     (void)timeStep;
+}
+
+const Vector2& WidgetBase::position() const
+{
+    return _position;
+}
+
+void WidgetBase::setPosition(const Vector2& position)
+{
+    _position = position;
+}
+
+const Vector2& WidgetBase::dimensions() const
+{
+    return _dimensions;
+}
+
+void WidgetBase::setDimensions(const Vector2& dimensions)
+{
+    _dimensions = dimensions;
+}
+
+const std::string& WidgetBase::tooltip() const
+{
+    return _tooltip;
+}
+
+void WidgetBase::setTooltip(const std::string& tooltip)
+{
+    _tooltip = tooltip;
+}
+
+bool WidgetBase::visible() const
+{
+    return _visible;
+}
+
+void WidgetBase::setVisible(bool visible)
+{
+    _visible = visible;
 }

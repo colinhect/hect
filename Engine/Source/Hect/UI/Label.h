@@ -47,9 +47,29 @@ public:
 
     void render(VectorRenderer::Frame& frame) override;
 
+    ///
+    /// Returns the text of the label.
+    const std::string& text() const;
+
+    ///
+    /// Sets the text of the label.
+    ///
+    /// \param text The new text of the label.
+    void setText(const std::string& text);
+
+    ///
+    /// Returns the font of the label.
+    Font::Handle font() const;
+
+    ///
+    /// Sets the font of the label.
+    ///
+    /// \param font The font.
+    /// \param size The font size.
+    void setFont(Font::Handle font, double size);
+
 private:
     std::string _text;
-    Vector2 _position;
     Font::Handle _font;
     double _size;
 };

@@ -23,43 +23,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/UI/WidgetBase.h"
-
 namespace hect
 {
 
-///
-/// A user interface control.
 template <typename T>
-class Widget :
-    public WidgetBase
+Widget<T>::Widget()
 {
-public:
-
-    ///
-    /// A handle to a widget.
-    typedef std::shared_ptr<Widget<T>> Handle;
-
-    ///
-    /// Constructs a widget.
-    Widget();
-
-    ///
-    /// Constructs a widget.
-    ///
-    /// \param position The position of the widget.
-    Widget(const Vector2& position);
-
-    ///
-    /// Constructs a widget.
-    ///
-    /// \param position The position of the widget.
-    /// \param dimensions The dimensions of the widget.
-    Widget(const Vector2& position, const Vector2& dimensions);
-
-    virtual ~Widget() { }
-};
-
 }
 
-#include "Widget.inl"
+template <typename T>
+Widget<T>::Widget(const Vector2& position) :
+    WidgetBase(position)
+{
+}
+
+template <typename T>
+Widget<T>::Widget(const Vector2& position, const Vector2& dimensions) :
+    WidgetBase(position, dimensions)
+{
+}
+
+}

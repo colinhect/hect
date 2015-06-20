@@ -25,8 +25,10 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/VectorRenderer.h"
+#include "Hect/Math/Vector2.h"
 
 #include <memory>
+#include <string>
 
 namespace hect
 {
@@ -42,6 +44,23 @@ public:
     /// A handle to a widget.
     typedef std::shared_ptr<WidgetBase> Handle;
 
+    ///
+    /// Constructs a widget.
+    WidgetBase();
+
+    ///
+    /// Constructs a widget.
+    ///
+    /// \param position The position of the widget.
+    WidgetBase(const Vector2& position);
+
+    ///
+    /// Constructs a widget.
+    ///
+    /// \param position The position of the widget.
+    /// \param dimensions The dimensions of the widget.
+    WidgetBase(const Vector2& position, const Vector2& dimensions);
+
     virtual ~WidgetBase() { }
 
     ///
@@ -56,6 +75,52 @@ public:
     ///
     /// \param frame The frame to render to.
     virtual void render(VectorRenderer::Frame& frame) = 0;
+
+    ///
+    /// Returns the position of the widget.
+    const Vector2& position() const;
+
+    ///
+    /// Sets the position of the widget.
+    ///
+    /// \param position The new position of the widget.
+    void setPosition(const Vector2& position);
+
+    ///
+    /// Returns the dimensions of the widget.
+    const Vector2& dimensions() const;
+
+    ///
+    /// Sets the dimensions of the widget.
+    ///
+    /// \param dimensions The new dimensions of the widget.
+    void setDimensions(const Vector2& dimensions);
+
+    ///
+    /// Returns the tooltip of the widget.
+    const std::string& tooltip() const;
+
+    ///
+    /// Sets the tooltip of the widget.
+    ///
+    /// \param tooltip The new tooltip of the widget.
+    void setTooltip(const std::string& tooltip);
+
+    ///
+    /// Returns whether the widget is visible.
+    bool visible() const;
+
+    ///
+    /// Sets whether the widget is visible.
+    ///
+    /// \param visible Whether the widget is visible.
+    void setVisible(bool visible);
+
+private:
+    Vector2 _position;
+    Vector2 _dimensions;
+    std::string _tooltip;
+    bool _visible { true };
 };
 
 }
