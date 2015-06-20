@@ -121,9 +121,10 @@ Engine::Engine(int argc, char* const argv[])
             HECT_ERROR(format("Invalid video mode: %s", error.what()));
         }
 
-        // Create window and renderer
+        // Create window and renderers
         _window.reset(new Window("Hect", videoMode));
         _renderer.reset(new Renderer());
+        _vectorRenderer.reset(new VectorRenderer(*_renderer));
     }
 }
 
@@ -241,6 +242,12 @@ Renderer& Engine::renderer()
 {
     assert(_renderer);
     return *_renderer;
+}
+
+VectorRenderer& Engine::vectorRenderer()
+{
+    assert(_vectorRenderer);
+    return *_vectorRenderer;
 }
 
 TaskPool& Engine::taskPool()

@@ -29,6 +29,7 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/VectorRenderer.h"
 #include "Hect/Input/Joystick.h"
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
@@ -134,6 +135,10 @@ public:
     Renderer& renderer();
 
     ///
+    /// Returns the vector renderer.
+    VectorRenderer& vectorRenderer();
+
+    ///
     /// Returns the asset cache.
     AssetCache& assetCache();
 
@@ -159,6 +164,7 @@ private:
     std::unique_ptr<Platform> _platform;
     std::unique_ptr<Window> _window;
     std::unique_ptr<Renderer> _renderer;
+    std::unique_ptr<VectorRenderer> _vectorRenderer;
     std::unique_ptr<AssetCache> _assetCache;
     std::unique_ptr<TaskPool> _taskPool;
     DataValue _settings;

@@ -16,6 +16,7 @@ systemTypes:
   - CameraSystem
   - RenderSystem
   - DebugSystem
+  - WidgetSystem
 systems:
   - type: RenderSystem
     exposeShader: Hect/Rendering/Expose.shader
