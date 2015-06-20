@@ -29,6 +29,39 @@
 
 using namespace hect;
 
+void VectorRenderer::Frame::pushState()
+{
+}
+
+void VectorRenderer::Frame::popState()
+{
+}
+
+void VectorRenderer::Frame::beginPath()
+{
+}
+
+void VectorRenderer::Frame::setColor(const Color& color)
+{
+    (void)color;
+}
+
+void VectorRenderer::Frame::fillPath()
+{
+}
+
+void VectorRenderer::Frame::rectangle(const Vector2& position, const Vector2& dimensions)
+{
+    (void)position;
+    (void)dimensions;
+}
+
+void VectorRenderer::Frame::setClipping(const Vector2& position, const Vector2& dimensions)
+{
+    (void)position;
+    (void)dimensions;
+}
+
 void VectorRenderer::Frame::setFont(const Font& font, double size)
 {
     (void)font;
@@ -39,6 +72,7 @@ void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& p
 {
     (void)text;
     (void)position;
+    (void)dimensions;
     (void)horizontalAlign;
     (void)verticalAlign;
 }

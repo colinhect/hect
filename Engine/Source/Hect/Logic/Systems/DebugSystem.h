@@ -80,9 +80,6 @@ public:
     /// with.
     void addRenderCalls(RenderSystem& renderSystem);
 
-    void initialize() override;
-    void tick(double timeStep) override;
-
     ///
     /// Returns whether the debug system is enabled.
     bool isEnabled() const;
@@ -92,6 +89,9 @@ public:
     ///
     /// \param enabled True to enabled; false to disable.
     void setEnabled(bool enabled);
+
+    void initialize() override;
+    void tick(double timeStep) override;
 
     ///
     /// The shader used to render colored lines.

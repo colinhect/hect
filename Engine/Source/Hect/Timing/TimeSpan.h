@@ -60,15 +60,15 @@ public:
 
     ///
     /// Returns the time span in microseconds.
-    int64_t microseconds();
+    int64_t microseconds() const;
 
     ///
     /// Returns the time span in milliseconds.
-    int64_t milliseconds();
+    int64_t milliseconds() const;
 
     ///
     /// Returns the time span in seconds.
-    double seconds();
+    double seconds() const;
 
     ///
     /// Returns the sum of the time span and another time span.

@@ -56,8 +56,52 @@ NVGcolor convertColor(const Color& color)
 
 }
 
+void VectorRenderer::Frame::pushState()
+{
+    assert(_nvgContext);
+    nvgSave(_nvgContext);
+}
+
+void VectorRenderer::Frame::popState()
+{
+    assert(_nvgContext);
+    nvgRestore(_nvgContext);
+}
+
+void VectorRenderer::Frame::beginPath()
+{
+    assert(_nvgContext);
+    nvgBeginPath(_nvgContext);
+}
+
+void VectorRenderer::Frame::setColor(const Color& color)
+{
+    assert(_nvgContext);
+    nvgFillColor(_nvgContext, convertColor(color));
+}
+
+void VectorRenderer::Frame::fillPath()
+{
+    assert(_nvgContext);
+    nvgFill(_nvgContext);
+}
+
+void VectorRenderer::Frame::rectangle(const Vector2& position, const Vector2& dimensions)
+{
+    assert(_nvgContext);
+    nvgRect(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
+}
+
+void VectorRenderer::Frame::setClipping(const Vector2& position, const Vector2& dimensions)
+{
+    assert(_nvgContext);
+    nvgScissor(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
+}
+
 void VectorRenderer::Frame::setFont(const Font& font, double size)
 {
+    assert(_nvgContext);
+
     auto it = _fontToId.find(&font);
     if (it == _fontToId.end())
     {
@@ -74,6 +118,8 @@ void VectorRenderer::Frame::setFont(const Font& font, double size)
 
 void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& position, const Vector2& dimensions, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
 {
+    assert(_nvgContext);
+
     // Compute the text bounds
     float measuredBounds[4];
     nvgTextBounds(_nvgContext, 0, 0, text.c_str(), nullptr, measuredBounds);
@@ -108,7 +154,7 @@ void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& p
     }
 
     // Render the text
-    nvgScissor(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
+    setClipping(position, dimensions);
     nvgText(_nvgContext, static_cast<float>(actual.x), static_cast<float>(actual.y), text.c_str(), nullptr);
     nvgResetScissor(_nvgContext);
 }
@@ -129,16 +175,19 @@ void VectorRenderer::initialize()
 
 void VectorRenderer::shutdown()
 {
+    assert(_nvgContext);
     nvgDeleteGL3(_nvgContext);
 }
 
 void VectorRenderer::onBeginFrame(RenderTarget& target)
 {
+    assert(_nvgContext);
     nvgBeginFrame(_nvgContext, target.width(), target.height(), 1);
 }
 
 void VectorRenderer::onEndFrame()
 {
+    assert(_nvgContext);
     nvgEndFrame(_nvgContext);
 }
 

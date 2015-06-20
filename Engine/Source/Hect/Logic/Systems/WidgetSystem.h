@@ -26,6 +26,7 @@
 #include <array>
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/VectorRenderer.h"
 #include "Hect/Logic/System.h"
@@ -44,13 +45,22 @@ class HECT_EXPORT WidgetSystem :
 public:
     WidgetSystem(Engine& engine, Scene& scene);
 
-    void render(RenderTarget& target) override;
-
     ///
     /// Adds a new widget.
     ///
     /// \param widget The widget to add.
     void add(WidgetBase::Handle widget);
+
+    void render(RenderTarget& target) override;
+    void tick(double timeStep) override;
+
+    ///
+    /// \property{required}
+    Font::Handle defaultFont;
+
+    ///
+    /// \property{required}
+    double defaultFontSize;
 
 private:
     Renderer& _renderer;

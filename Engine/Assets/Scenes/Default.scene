@@ -28,3 +28,6 @@ systems:
   - type: DebugSystem
     coloredLineShader: Hect/Shaders/ColoredLine.shader
     boxMesh: Hect/Rendering/Box.mesh
+  - type: WidgetSystem
+    defaultFont: Hect/UI/Vera.font
+    defaultFontSize: 13

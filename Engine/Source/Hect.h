@@ -140,4 +140,6 @@ namespace hect {}
 #include "Hect/Timing/TimeSpan.h"
 #include "Hect/Timing/TimeStamp.h"
 #include "Hect/UI/Label.h"
+#include "Hect/UI/MessageLog.h"
+#include "Hect/UI/Panel.h"
 #include "Hect/UI/Widget.h"

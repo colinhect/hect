@@ -40,11 +40,18 @@ namespace hect
 {
 
 static std::mutex _logMutex;
+static Dispatcher<LogMessageEvent> _dispatcher;
 
 void log(LogLevel level, const std::string& message)
 {
     static Timer timer;
     std::lock_guard<std::mutex> lock(_logMutex);
+
+    // Dispatch the log message event
+    LogMessageEvent event;
+    event.level = level;
+    event.message = message;
+    _dispatcher.dispatchEvent(event);
 
     // Calculate timestamp parts
     int64_t total = timer.elapsed().milliseconds();
@@ -104,6 +111,11 @@ void log(LogLevel level, const std::string& message)
     std::cout << formattedMessage;
     std::cout.flush();
 #endif
+}
+
+void registerLogListener(Listener<LogMessageEvent>& listener)
+{
+    _dispatcher.registerListener(listener);
 }
 
 }

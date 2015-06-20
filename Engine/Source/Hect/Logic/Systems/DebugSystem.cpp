@@ -48,6 +48,16 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
     }
 }
 
+bool DebugSystem::isEnabled() const
+{
+    return _enabled;
+}
+
+void DebugSystem::setEnabled(bool enabled)
+{
+    _enabled = enabled;
+}
+
 void DebugSystem::initialize()
 {
     addColoredMaterial(Color(100, 0, 0)); // Primary
@@ -62,16 +72,6 @@ void DebugSystem::tick(double timeStep)
 {
     (void)timeStep;
     _boxes.clear();
-}
-
-bool DebugSystem::isEnabled() const
-{
-    return _enabled;
-}
-
-void DebugSystem::setEnabled(bool enabled)
-{
-    _enabled = enabled;
 }
 
 DebugSystem::DebugBox::DebugBox()

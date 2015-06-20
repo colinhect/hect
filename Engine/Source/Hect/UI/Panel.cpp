@@ -21,50 +21,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Label.h"
+#include "Panel.h"
 
 using namespace hect;
 
-Label::Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size) :
-    Widget(position, dimensions),
-    _text(text),
-    _font(font),
-    _size(size)
+Panel::Panel(const Vector2& position, const Vector2& dimensions) :
+    Widget(position, dimensions)
 {
 }
 
-const std::string& Label::text() const
+const Color& Panel::backgroundColor() const
 {
-    return _text;
+    return _backgroundColor;
 }
 
-void Label::setText(const std::string& text)
+void Panel::setBackgroundColor(const Color& color)
 {
-    _text = text;
+    _backgroundColor = color;
 }
 
-void Label::setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
+void Panel::render(VectorRenderer::Frame& frame)
 {
-    _horizontalAlign = horizontalAlign;
-    _verticalAlign = verticalAlign;
-}
-
-Font::Handle Label::font() const
-{
-    return _font;
-}
-
-void Label::setFont(Font::Handle font, double size)
-{
-    _font = font;
-    _size = size;
-}
-
-void Label::render(VectorRenderer::Frame& frame)
-{
-    if (_font)
-    {
-        frame.setFont(*_font, _size);
-        frame.renderText(_text, position(), dimensions(), _horizontalAlign, _verticalAlign);
-    }
+    frame.beginPath();
+    frame.setColor(_backgroundColor);
+    frame.rectangle(position(), dimensions());
+    frame.fillPath();
 }

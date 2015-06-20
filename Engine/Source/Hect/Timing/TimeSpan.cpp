@@ -44,17 +44,17 @@ TimeSpan::TimeSpan()
 {
 }
 
-int64_t TimeSpan::microseconds()
+int64_t TimeSpan::microseconds() const
 {
     return _microseconds;
 }
 
-int64_t TimeSpan::milliseconds()
+int64_t TimeSpan::milliseconds() const
 {
     return _microseconds / 1000;
 }
 
-double TimeSpan::seconds()
+double TimeSpan::seconds() const
 {
     return static_cast<double>(milliseconds()) / 1000.0;
 }

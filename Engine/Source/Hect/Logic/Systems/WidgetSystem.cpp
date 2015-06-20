@@ -34,6 +34,11 @@ WidgetSystem::WidgetSystem(Engine& engine, Scene& scene) :
 {
 }
 
+void WidgetSystem::add(WidgetBase::Handle widget)
+{
+    _widgets.push_back(widget);
+}
+
 void WidgetSystem::render(RenderTarget& target)
 {
     Renderer::Frame frame = _renderer.beginFrame(target);
@@ -41,11 +46,20 @@ void WidgetSystem::render(RenderTarget& target)
 
     for (const WidgetBase::Handle& widget : _widgets)
     {
-        widget->render(vectorFrame);
+        if (widget->visible())
+        {
+            vectorFrame.pushState();
+            vectorFrame.setClipping(widget->position(), widget->dimensions());
+            widget->render(vectorFrame);
+            vectorFrame.popState();
+        }
     }
 }
 
-void WidgetSystem::add(WidgetBase::Handle widget)
+void WidgetSystem::tick(double timeStep)
 {
-    _widgets.push_back(widget);
+    for (const WidgetBase::Handle& widget : _widgets)
+    {
+        widget->tick(timeStep);
+    }
 }

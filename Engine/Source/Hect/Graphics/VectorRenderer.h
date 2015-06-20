@@ -54,7 +54,45 @@ public:
         ~Frame();
 
         ///
-        /// Sets the font used for subsequenty render calls within the frame.
+        /// Pushes the current state of the frame onto the stack.
+        void pushState();
+
+        ///
+        /// Pops the previously pushed state as the new current state of the
+        /// frame.
+        void popState();
+
+        ///
+        /// Begins a new path.
+        void beginPath();
+
+        ///
+        /// Sets the active fill style to a solid color.
+        ///
+        /// \param color The color to set.
+        void setColor(const Color& color);
+
+        ///
+        /// Fills the current path with the current fill style.
+        void fillPath();
+
+        ///
+        /// Creates a new rectangle shape sub-path.
+        ///
+        /// \param position The position of the rectangle.
+        /// \param dimensions The dimensions of the rectangle.
+        void rectangle(const Vector2& position, const Vector2& dimensions);
+
+        ///
+        /// Sets the clipping bounds for subsequent render calls within the
+        /// frame.
+        ///
+        /// \param position The position.
+        /// \param dimensions The dimensions.
+        void setClipping(const Vector2& position, const Vector2& dimensions);
+
+        ///
+        /// Sets the font used for subsequent render calls within the frame.
         ///
         /// \param font The font to set.
         /// \param size The font size.

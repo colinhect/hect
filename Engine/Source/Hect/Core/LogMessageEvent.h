@@ -21,50 +21,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Label.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Core/LogLevel.h"
 
-Label::Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size) :
-    Widget(position, dimensions),
-    _text(text),
-    _font(font),
-    _size(size)
+#include <string>
+
+namespace hect
 {
-}
 
-const std::string& Label::text() const
+///
+/// An event triggered by a message being logged.
+class HECT_EXPORT LogMessageEvent
 {
-    return _text;
-}
+public:
 
-void Label::setText(const std::string& text)
-{
-    _text = text;
-}
+    ///
+    /// The level of the log message.
+    LogLevel level { LogLevel::Info };
 
-void Label::setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
-{
-    _horizontalAlign = horizontalAlign;
-    _verticalAlign = verticalAlign;
-}
+    ///
+    /// The log message.
+    std::string message;
+};
 
-Font::Handle Label::font() const
-{
-    return _font;
-}
-
-void Label::setFont(Font::Handle font, double size)
-{
-    _font = font;
-    _size = size;
-}
-
-void Label::render(VectorRenderer::Frame& frame)
-{
-    if (_font)
-    {
-        frame.setFont(*_font, _size);
-        frame.renderText(_text, position(), dimensions(), _horizontalAlign, _verticalAlign);
-    }
 }

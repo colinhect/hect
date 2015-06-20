@@ -21,50 +21,43 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Label.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Graphics/Color.h"
+#include "Hect/UI/Widget.h"
 
-Label::Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size) :
-    Widget(position, dimensions),
-    _text(text),
-    _font(font),
-    _size(size)
+namespace hect
 {
-}
 
-const std::string& Label::text() const
+///
+/// A panel.
+class HECT_EXPORT Panel :
+    public Widget<Panel>
 {
-    return _text;
-}
+public:
 
-void Label::setText(const std::string& text)
-{
-    _text = text;
-}
+    ///
+    /// Constructs a panel widget.
+    ///
+    /// \param position The position.
+    /// \param dimensions The dimensions.
+    Panel(const Vector2& position, const Vector2& dimensions);
 
-void Label::setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
-{
-    _horizontalAlign = horizontalAlign;
-    _verticalAlign = verticalAlign;
-}
+    ///
+    /// Returns the background color of the panel.
+    const Color& backgroundColor() const;
 
-Font::Handle Label::font() const
-{
-    return _font;
-}
+    ///
+    /// Sets the background color of the panel.
+    ///
+    /// \param color The new background color of the panel.
+    void setBackgroundColor(const Color& color);
 
-void Label::setFont(Font::Handle font, double size)
-{
-    _font = font;
-    _size = size;
-}
+    void render(VectorRenderer::Frame& frame) override;
 
-void Label::render(VectorRenderer::Frame& frame)
-{
-    if (_font)
-    {
-        frame.setFont(*_font, _size);
-        frame.renderText(_text, position(), dimensions(), _horizontalAlign, _verticalAlign);
-    }
+private:
+    Color _backgroundColor { Color(0.0, 0.0, 0.0, 0.8) };
+};
+
 }

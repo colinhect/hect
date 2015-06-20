@@ -26,8 +26,9 @@
 #include <string>
 
 #include "Hect/Core/Configuration.h"
-#include "Hect/Core/Export.h"
+#include "Hect/Core/Event.h"
 #include "Hect/Core/LogLevel.h"
+#include "Hect/Core/LogMessageEvent.h"
 
 namespace hect
 {
@@ -38,6 +39,12 @@ namespace hect
 /// \param level The level of the message.
 /// \param message The message.
 HECT_EXPORT void log(LogLevel level, const std::string& message);
+
+///
+/// Registers a listener of log message events.
+///
+/// \param listener The listener.
+HECT_EXPORT void registerLogListener(Listener<LogMessageEvent>& listener);
 
 // Info
 #if defined(HECT_ENABLE_LOG_INFO)

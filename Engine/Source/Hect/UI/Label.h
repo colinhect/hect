@@ -24,9 +24,12 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/Font.h"
 #include "Hect/UI/HorizontalAlign.h"
 #include "Hect/UI/VerticalAlign.h"
 #include "Hect/UI/Widget.h"
+
+#include <string>
 
 namespace hect
 {
@@ -39,7 +42,7 @@ class HECT_EXPORT Label :
 public:
 
     ///
-    /// Constructs a label.
+    /// Constructs a label widget.
     ///
     /// \param text The text.
     /// \param position The position.
@@ -47,8 +50,6 @@ public:
     /// \param font The font.
     /// \param size The font size.
     Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size);
-
-    void render(VectorRenderer::Frame& frame) override;
 
     ///
     /// Returns the text of the label.
@@ -77,6 +78,8 @@ public:
     /// \param font The font.
     /// \param size The font size.
     void setFont(Font::Handle font, double size);
+
+    void render(VectorRenderer::Frame& frame) override;
 
 private:
     std::string _text;
