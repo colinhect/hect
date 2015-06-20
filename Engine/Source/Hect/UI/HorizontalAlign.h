@@ -21,50 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Label.h"
+#pragma once
 
-using namespace hect;
-
-Label::Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size) :
-    Widget(position, dimensions),
-    _text(text),
-    _font(font),
-    _size(size)
+namespace hect
 {
-}
 
-void Label::render(VectorRenderer::Frame& frame)
+///
+/// Horizontal alignment mode.
+enum class HorizontalAlign
 {
-    if (_font)
-    {
-        frame.setFont(*_font, _size);
-        frame.renderText(_text, position(), dimensions(), _horizontalAlign, _verticalAlign);
-    }
-}
+    ///
+    /// Align to the left.
+    Left,
 
-const std::string& Label::text() const
-{
-    return _text;
-}
+    ///
+    /// Align to the center.
+    Center,
 
-void Label::setText(const std::string& text)
-{
-    _text = text;
-}
+    ///
+    /// Align to the right.
+    Right
+};
 
-void Label::setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
-{
-    _horizontalAlign = horizontalAlign;
-    _verticalAlign = verticalAlign;
-}
-
-Font::Handle Label::font() const
-{
-    return _font;
-}
-
-void Label::setFont(Font::Handle font, double size)
-{
-    _font = font;
-    _size = size;
 }

@@ -24,6 +24,8 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/UI/HorizontalAlign.h"
+#include "Hect/UI/VerticalAlign.h"
 #include "Hect/UI/Widget.h"
 
 namespace hect
@@ -41,9 +43,10 @@ public:
     ///
     /// \param text The text.
     /// \param position The position.
+    /// \param dimensions The dimensions.
     /// \param font The font.
     /// \param size The font size.
-    Label(const std::string& text, const Vector2& position, Font::Handle font, double size);
+    Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size);
 
     void render(VectorRenderer::Frame& frame) override;
 
@@ -56,6 +59,13 @@ public:
     ///
     /// \param text The new text of the label.
     void setText(const std::string& text);
+
+    ///
+    /// Sets the alignment of the label's text.
+    ///
+    /// \param horizontalAlign The horizontal alignment.
+    /// \param verticalAlign The vertical alignment.
+    void setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign);
 
     ///
     /// Returns the font of the label.
@@ -72,6 +82,9 @@ private:
     std::string _text;
     Font::Handle _font;
     double _size;
+
+    HorizontalAlign _horizontalAlign { HorizontalAlign::Left };
+    VerticalAlign _verticalAlign { VerticalAlign::Top };
 };
 
 }

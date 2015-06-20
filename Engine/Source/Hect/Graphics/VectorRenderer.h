@@ -29,6 +29,8 @@
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Math/Vector2.h"
+#include "Hect/UI/HorizontalAlign.h"
+#include "Hect/UI/VerticalAlign.h"
 
 namespace hect
 {
@@ -63,7 +65,10 @@ public:
         ///
         /// \param text The text string to render.
         /// \param position The position to render the text.
-        void renderText(const std::string& text, const Vector2& position);
+        /// \param dimensions The dimensions to render the text.
+        /// \param horizontalAlign The horizontal alignment.
+        /// \param verticalAlign The vertical alignment.
+        void renderText(const std::string& text, const Vector2& position, const Vector2& dimensions, HorizontalAlign horizontalAlign = HorizontalAlign::Left, VerticalAlign verticalAlign = VerticalAlign::Top);
 
     private:
         Frame(VectorRenderer& renderer, RenderTarget& target);

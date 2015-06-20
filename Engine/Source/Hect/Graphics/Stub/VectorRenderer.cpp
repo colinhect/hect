@@ -35,10 +35,12 @@ void VectorRenderer::Frame::setFont(const Font& font, double size)
     (void)size;
 }
 
-void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& position)
+void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& position, const Vector2& dimensions, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
 {
     (void)text;
     (void)position;
+    (void)horizontalAlign;
+    (void)verticalAlign;
 }
 
 void VectorRenderer::initialize()
