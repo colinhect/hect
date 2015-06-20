@@ -47,7 +47,7 @@
 #define HECT_ENABLE_LOG_DEBUG
 #define HECT_ENABLE_LOG_WARNING
 #define HECT_ENABLE_LOG_ERROR
-#define HECT_ENABLE_LOG_TRACE
+//#define HECT_ENABLE_LOG_TRACE
 
 // Use VLD on debug builds if it is available
 #ifdef HECT_DEBUG_BUILD

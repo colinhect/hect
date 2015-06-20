@@ -154,6 +154,12 @@ Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
     return value;
 }
 
+Color MeshReader::readAttributeColor(VertexAttributeSemantic semantic) const
+{
+    Vector4 value = readAttributeVector4(semantic);
+    return Color(value.x, value.y, value.z, value.w);
+}
+
 bool MeshReader::nextIndex()
 {
     if (_indexCount != 0)

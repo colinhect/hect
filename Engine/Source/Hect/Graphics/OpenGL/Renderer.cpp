@@ -405,7 +405,7 @@ GLenum _frameBufferSlotLookUp[18] =
     GL_COLOR_ATTACHMENT13, // Color13
     GL_COLOR_ATTACHMENT14, // Color14
     GL_COLOR_ATTACHMENT15, // Color15
-    GL_DEPTH_ATTACHMENT, // Depth
+    GL_DEPTH_ATTACHMENT // Depth
 };
 
 // Throws an error if an OpenGL error occurred

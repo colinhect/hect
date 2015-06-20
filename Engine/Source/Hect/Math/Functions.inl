@@ -23,67 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
-#include "Hect/Timing/TimeSpan.h"
-#include "Hect/UI/Widget.h"
-
-#include <deque>
-
 namespace hect
 {
 
-///
-/// A temporal message log.
-class HECT_EXPORT MessageLog :
-    public Widget<MessageLog>
+template <typename T>
+T lerp(T a, T b, T delta)
 {
-public:
-
-    ///
-    /// Constructs a message log widget.
-    ///
-    /// \param position The position.
-    /// \param dimensions The dimensions.
-    /// \param font The font.
-    /// \param size The font size.
-    MessageLog(const Vector2& position, const Vector2& dimensions, Font::Handle font, double size);
-
-    ///
-    /// Adds a message to the message log.
-    ///
-    /// \param text The text of the message.
-    void addMessage(const std::string& text);
-
-    ///
-    /// Returns the font of the message log.
-    Font::Handle font() const;
-
-    ///
-    /// Sets the font of the message log.
-    ///
-    /// \param font The font.
-    /// \param size The font size.
-    void setFont(Font::Handle font, double size);
-
-    void tick(double timeStep) override;
-    void render(VectorRenderer::Frame& frame) override;
-
-private:
-    void removeExpiredMessages();
-
-    struct Message
-    {
-        TimeSpan added;
-        std::string text;
-    };
-
-    Font::Handle _font;
-    double _size;
-
-    double _lineHeight { 16.0 };
-    TimeSpan _messageExpiration { TimeSpan::fromSeconds(3.0) };
-
-    std::deque<Message> _messages;
-};
+    return (T(1) - delta) * a + delta * b;
+}
 
 }

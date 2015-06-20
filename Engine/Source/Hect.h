@@ -119,6 +119,7 @@ namespace hect {}
 #include "Hect/Math/Box.h"
 #include "Hect/Math/Constants.h"
 #include "Hect/Math/Frustum.h"
+#include "Hect/Math/Functions.h"
 #include "Hect/Math/Matrix4.h"
 #include "Hect/Math/Plane.h"
 #include "Hect/Math/Quaternion.h"

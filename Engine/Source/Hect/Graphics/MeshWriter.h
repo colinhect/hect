@@ -61,28 +61,20 @@ public:
     void writeAttributeData(VertexAttributeSemantic semantic, double value);
 
     ///
-    /// Writes attribute data of the most recently added vertex for a given
-    /// semantic.
-    ///
-    /// \param semantic The semantic of the attribute to set the data for.
-    /// \param value The value.
+    /// \copydoc MeshWriter::writeAttributeData()
     void writeAttributeData(VertexAttributeSemantic semantic, const Vector2& value);
 
     ///
-    /// Writes attribute data of the most recently added vertex for a given
-    /// semantic.
-    ///
-    /// \param semantic The semantic of the attribute to set the data for.
-    /// \param value The value.
+    /// \copydoc MeshWriter::writeAttributeData()
     void writeAttributeData(VertexAttributeSemantic semantic, const Vector3& value);
 
     ///
-    /// Writes attribute data of the most recently added vertex for a given
-    /// semantic.
-    ///
-    /// \param semantic The semantic of the attribute to set the data for.
-    /// \param value The value.
+    /// \copydoc MeshWriter::writeAttributeData()
     void writeAttributeData(VertexAttributeSemantic semantic, const Vector4& value);
+
+    ///
+    /// \copydoc MeshWriter::writeAttributeData()
+    void writeAttributeData(VertexAttributeSemantic semantic, const Color& value);
 
     ///
     /// Adds an index to the mesh.

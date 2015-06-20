@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Random.h"
 
+#include "Hect/Timing/Timer.h"
+
 #include <cassert>
 #include <ctime>
 #include <limits>
@@ -30,7 +32,7 @@
 using namespace hect;
 
 Random::Random() :
-    _current(static_cast<RandomSeed>(std::time(nullptr)))
+    _current(static_cast<RandomSeed>(std::time(nullptr) + Timer::totalElapsed().microseconds()))
 {
 }
 

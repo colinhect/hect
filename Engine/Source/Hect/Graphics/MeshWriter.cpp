@@ -141,6 +141,11 @@ void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Vect
     }
 }
 
+void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, const Color& value)
+{
+    writeAttributeData(semantic, Vector4(value.r, value.g, value.b, value.a));
+}
+
 void MeshWriter::addIndex(uint64_t value)
 {
     // Write the index data based on the type
