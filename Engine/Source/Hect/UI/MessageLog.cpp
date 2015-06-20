@@ -56,6 +56,7 @@ void MessageLog::setFont(Font::Handle font, double size)
 
 void MessageLog::tick(double timeStep)
 {
+    (void)timeStep;
     removeExpiredMessages();
 }
 
@@ -77,7 +78,7 @@ void MessageLog::render(VectorRenderer::Frame& frame)
 
             // Set the color of the text
             const TimeSpan lifeTime = Timer::totalElapsed() - message.added;
-            double alpha = 1.0 - lifeTime.seconds() / messageExpiration.seconds();
+            double alpha = 1.0 - lifeTime.seconds() / _messageExpiration.seconds();
             frame.setColor(Color(1.0, 1.0, 1.0, alpha));
 
             // Render the text
@@ -91,7 +92,7 @@ void MessageLog::removeExpiredMessages()
     _messages.erase(std::remove_if(_messages.begin(), _messages.end(),
                                    [=](const Message& message)
     {
-        return Timer::totalElapsed() - message.added > messageExpiration;
+        return Timer::totalElapsed() - message.added > _messageExpiration;
     }),
     _messages.end());
 }

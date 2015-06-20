@@ -81,7 +81,7 @@ private:
     double _size;
 
     double _lineHeight { 20.0 };
-    TimeSpan messageExpiration { TimeSpan::fromSeconds(3.0) };
+    TimeSpan _messageExpiration { TimeSpan::fromSeconds(3.0) };
 
     std::deque<Message> _messages;
 };
