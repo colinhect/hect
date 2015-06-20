@@ -51,12 +51,12 @@ void InputAxis::addBinding(const InputAxisBinding& binding)
     _bindings.push_back(binding);
 }
 
-void InputAxis::update(double timeStepInSeconds)
+void InputAxis::update(Engine& engine, double timeStep)
 {
     _value = 0;
     for (InputAxisBinding& binding : _bindings)
     {
-        binding.update(timeStepInSeconds);
+        binding.update(engine, timeStep);
         _value += binding.value();
     }
     _value = std::max(-1.0, std::min(_value, 1.0));

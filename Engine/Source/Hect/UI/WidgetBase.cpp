@@ -27,4 +27,5 @@ using namespace hect;
 
 void WidgetBase::tick(double timeStep)
 {
+    (void)timeStep;
 }

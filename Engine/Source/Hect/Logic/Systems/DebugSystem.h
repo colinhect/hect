@@ -62,7 +62,7 @@ class HECT_EXPORT DebugSystem :
     public System<DebugSystem>
 {
 public:
-    DebugSystem(Scene& scene);
+    DebugSystem(Engine& engine, Scene& scene);
 
     ///
     /// Enqueues a wire-frame box to be rendered on the next frame.

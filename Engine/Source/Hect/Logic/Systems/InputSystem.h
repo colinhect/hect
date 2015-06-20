@@ -41,7 +41,7 @@ class HECT_EXPORT InputSystem :
     public System<InputSystem>
 {
 public:
-    InputSystem(Scene& scene);
+    InputSystem(Engine& engine, Scene& scene);
 
     ///
     /// Adds an axis.
@@ -68,6 +68,8 @@ public:
 private:
     std::vector<InputAxis> _axes;
     StringMap<size_t> _axisIndices;
+
+    Engine& _engine;
 };
 
 }

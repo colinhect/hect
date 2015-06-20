@@ -33,6 +33,8 @@
 namespace hect
 {
 
+class Engine;
+
 ///
 /// A binding of an input device to the value of an InputAxis.
 class HECT_EXPORT InputAxisBinding :
@@ -43,9 +45,10 @@ public:
     ///
     /// Updates the contributing value of the binding.
     ///
+    /// \param engine The engine.
     /// \param timeStep The duration of time elapsed in seconds since the last
     /// update.
-    void update(double timeStep);
+    void update(Engine& engine, double timeStep);
 
     ///
     /// Returns the contributing value.

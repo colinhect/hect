@@ -28,9 +28,9 @@
 
 using namespace hect;
 
-DebugSystem::DebugSystem(Scene& scene) :
-    System(scene, SystemTickStage::Precedent),
-    _renderer(Engine::instance().renderer()),
+DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
+    System(engine, scene, SystemTickStage::Precedent),
+    _renderer(engine.renderer()),
     _enabled(false)
 {
 }

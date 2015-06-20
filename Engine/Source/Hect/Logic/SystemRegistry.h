@@ -36,6 +36,8 @@
 namespace hect
 {
 
+class Engine;
+
 ///
 /// Provides the ability to dynamically create System%s based on type
 /// information.
@@ -47,11 +49,12 @@ public:
     /// Creates a System of the specified type.
     ///
     /// \param typeId The type id representing the type of system to create.
+    /// \param engine The engine.
     /// \param scene The scene that the system is being created for.
     ///
     /// \throws InvalidOperation If the specified type id does not correspond
     /// to a registered system type.
-    static std::shared_ptr<SystemBase> create(SystemTypeId typeId, Scene& scene);
+    static std::shared_ptr<SystemBase> create(SystemTypeId typeId, Engine& engine, Scene& scene);
 
     ///
     /// Returns the type id for the specified System type index.
@@ -109,7 +112,7 @@ private:
     static std::map<std::string, SystemTypeId> _typeNameToId;
     static std::map<std::type_index, SystemTypeId> _typeIndexToId;
 
-    typedef std::function<std::shared_ptr<SystemBase>(Scene&)> SystemConstructor;
+    typedef std::function<std::shared_ptr<SystemBase>(Engine&, Scene&)> SystemConstructor;
 
     static std::vector<SystemConstructor> _constructors;
 };

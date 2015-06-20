@@ -53,7 +53,7 @@ class HECT_EXPORT Engine :
 public:
 
     ///
-    /// Returns the instance of Engine.
+    /// Returns the primary instance of Engine.
     ///
     ///
     /// \throws InvalidOperation If an instance of Engine has not been

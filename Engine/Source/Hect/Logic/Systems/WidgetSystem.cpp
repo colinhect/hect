@@ -27,17 +27,17 @@
 
 using namespace hect;
 
-WidgetSystem::WidgetSystem(Scene& scene) :
-    System(scene, SystemTickStage::Subsequent),
-    _renderer(&Engine::instance().renderer()),
-    _vectorRenderer(&Engine::instance().vectorRenderer())
+WidgetSystem::WidgetSystem(Engine& engine, Scene& scene) :
+    System(engine, scene, SystemTickStage::Subsequent),
+    _renderer(engine.renderer()),
+    _vectorRenderer(engine.vectorRenderer())
 {
 }
 
 void WidgetSystem::render(RenderTarget& target)
 {
-    Renderer::Frame frame = _renderer->beginFrame(target);
-    VectorRenderer::Frame vectorFrame = _vectorRenderer->beginFrame(target);
+    Renderer::Frame frame = _renderer.beginFrame(target);
+    VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(target);
 
     for (const WidgetBase::Handle& widget : _widgets)
     {

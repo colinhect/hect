@@ -27,9 +27,8 @@
 
 using namespace hect;
 
-void InputAxisBinding::update(double timeStep)
+void InputAxisBinding::update(Engine& engine, double timeStep)
 {
-    Engine& engine = Engine::instance();
     switch (type)
     {
     case InputAxisBindingType::MouseMoveX:

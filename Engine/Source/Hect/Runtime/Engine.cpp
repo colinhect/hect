@@ -143,7 +143,7 @@ int Engine::main()
     else
     {
         // Load the specified scene
-        Scene scene;
+        Scene scene(*this);
         Path scenePath = sceneValue.asString();
         AssetDecoder decoder(*_assetCache, scenePath);
         decoder >> decodeValue(scene);

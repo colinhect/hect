@@ -49,7 +49,7 @@ class HECT_EXPORT RenderSystem :
     public System<RenderSystem>
 {
 public:
-    RenderSystem(Scene& scene);
+    RenderSystem(Engine& engine, Scene& scene);
 
     ///
     /// Enqueues a render call to be rendered on the upcoming frame.
@@ -149,8 +149,8 @@ private:
         size_t backBufferIndex { 0 };
     } _frameData;
 
-    Renderer* _renderer { nullptr };
-    TaskPool* _taskPool { nullptr };
+    Renderer& _renderer;
+    TaskPool& _taskPool;
 
     CameraSystem::Handle _cameraSystem;
     DebugSystem::Handle _debugSystem;

@@ -29,8 +29,8 @@
 
 using namespace hect;
 
-BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
-    System(scene, SystemTickStage::Subsequent),
+BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
+    System(engine, scene, SystemTickStage::Subsequent),
     _debugSystem(scene.system<DebugSystem>())
 {
 }

@@ -42,7 +42,7 @@ class HECT_EXPORT WidgetSystem :
     public System<WidgetSystem>
 {
 public:
-    WidgetSystem(Scene& scene);
+    WidgetSystem(Engine& engine, Scene& scene);
 
     void render(RenderTarget& target) override;
 
@@ -53,8 +53,8 @@ public:
     void add(WidgetBase::Handle widget);
 
 private:
-    Renderer* _renderer { nullptr };
-    VectorRenderer* _vectorRenderer { nullptr };
+    Renderer& _renderer;
+    VectorRenderer& _vectorRenderer;
 
     std::vector<WidgetBase::Handle> _widgets;
 };

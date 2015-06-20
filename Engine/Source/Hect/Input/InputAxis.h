@@ -32,6 +32,8 @@
 namespace hect
 {
 
+class Engine;
+
 ///
 /// An axis manipulated by bindings to input devices.
 class HECT_EXPORT InputAxis :
@@ -67,7 +69,10 @@ public:
 
     ///
     /// Updates the input axis based on the current state of its bindings.
-    void update(double timeStepInSeconds);
+    ///
+    /// \param engine The engine.
+    /// \param timeStep The time step in seconds.
+    void update(Engine& engine, double timeStep);
 
     ///
     /// Returns the current value of the axis.

@@ -33,10 +33,10 @@
 
 using namespace hect;
 
-RenderSystem::RenderSystem(Scene& scene) :
-    System(scene, SystemTickStage::Subsequent),
-    _renderer(&Engine::instance().renderer()),
-    _taskPool(&Engine::instance().taskPool()),
+RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
+    System(engine, scene, SystemTickStage::Subsequent),
+    _renderer(engine.renderer()),
+    _taskPool(engine.taskPool()),
     _cameraSystem(scene.system<CameraSystem>()),
     _debugSystem(scene.system<DebugSystem>()),
     _buffersInitialized(false)
@@ -55,13 +55,13 @@ void RenderSystem::initialize()
             Mesh& mesh = *surface.mesh;
             Material& material = *surface.material;
 
-            _renderer->uploadMesh(mesh);
-            _renderer->uploadShader(*material.shader());
+            _renderer.uploadMesh(mesh);
+            _renderer.uploadShader(*material.shader());
             for (UniformValue& uniformValue : material.uniformValues())
             {
                 if (uniformValue.type() == UniformType::Texture2)
                 {
-                    _renderer->uploadTexture(*uniformValue.asTexture2());
+                    _renderer.uploadTexture(*uniformValue.asTexture2());
                 }
             }
         }
@@ -69,7 +69,7 @@ void RenderSystem::initialize()
 
     for (SkyBox& skyBox : scene().components<SkyBox>())
     {
-        _renderer->uploadTexture(*skyBox.texture);
+        _renderer.uploadTexture(*skyBox.texture);
     }
 }
 
@@ -170,21 +170,21 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     std::vector<Task::Handle> sortingTasks;
 
     // Spin up a task to sort the pre-physical geometry render calls
-    sortingTasks.push_back(_taskPool->enqueue([this]
+    sortingTasks.push_back(_taskPool.enqueue([this]
     {
         std::vector<RenderCall>& renderCalls = _frameData.prePhysicalGeometry;
         std::sort(renderCalls.begin(), renderCalls.end());
     }));
 
     // Spin up a task to sort the opaque physical geometry render calls
-    sortingTasks.push_back(_taskPool->enqueue([this]
+    sortingTasks.push_back(_taskPool.enqueue([this]
     {
         std::vector<RenderCall>& renderCalls = _frameData.opaquePhysicalGeometry;
         std::sort(renderCalls.begin(), renderCalls.end());
     }));
 
     // Spin up a task to sort the translucent physical geometry render calls
-    sortingTasks.push_back(_taskPool->enqueue([this]
+    sortingTasks.push_back(_taskPool.enqueue([this]
     {
         std::vector<RenderCall>& renderCalls = _frameData.translucentPhysicalGeometry;
         std::sort(renderCalls.begin(), renderCalls.end());
@@ -201,7 +201,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 {
     // Opaque geometry rendering
     {
-        Renderer::Frame frame = _renderer->beginFrame(_geometryFrameBuffer);
+        Renderer::Frame frame = _renderer.beginFrame(_geometryFrameBuffer);
         frame.clear();
 
         // Render pre-physical geometry
@@ -219,7 +219,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 
     // Light rendering
     {
-        Renderer::Frame frame = _renderer->beginFrame(backFrameBuffer());
+        Renderer::Frame frame = _renderer.beginFrame(backFrameBuffer());
         frame.clear(false);
 
         // Render environment light
@@ -245,7 +245,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 
     // Composite
     {
-        Renderer::Frame frame = _renderer->beginFrame(backFrameBuffer());
+        Renderer::Frame frame = _renderer.beginFrame(backFrameBuffer());
         frame.clear(false);
 
         // Composite
@@ -270,7 +270,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 
     // Expose
     {
-        Renderer::Frame frame = _renderer->beginFrame(target);
+        Renderer::Frame frame = _renderer.beginFrame(target);
         frame.clear();
         frame.setShader(*exposeShader);
         setBoundUniforms(frame, *exposeShader, camera, target, _identityTransform);
@@ -321,9 +321,9 @@ void RenderSystem::initializeBuffers(unsigned width, unsigned height)
     _backFrameBuffers[1].attach(FrameBufferSlot::Depth, _depthBuffer);
     _backFrameBuffers[1].attach(FrameBufferSlot::Color0, _backBuffers[1]);
 
-    _renderer->uploadFrameBuffer(_geometryFrameBuffer);
-    _renderer->uploadFrameBuffer(_backFrameBuffers[0]);
-    _renderer->uploadFrameBuffer(_backFrameBuffers[1]);
+    _renderer.uploadFrameBuffer(_geometryFrameBuffer);
+    _renderer.uploadFrameBuffer(_backFrameBuffers[0]);
+    _renderer.uploadFrameBuffer(_backFrameBuffers[1]);
 }
 
 void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest)

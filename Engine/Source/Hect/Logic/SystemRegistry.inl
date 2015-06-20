@@ -39,9 +39,9 @@ void SystemRegistry::registerType()
         std::string typeName = Type::get<T>().name();
         SystemTypeId typeId = static_cast<SystemTypeId>(_constructors.size());
 
-        _constructors.push_back([](Scene& scene)
+        _constructors.push_back([](Engine& engine, Scene& scene)
         {
-            return std::shared_ptr<SystemBase>(new T(scene));
+            return std::shared_ptr<SystemBase>(new T(engine, scene));
         });
 
         _typeIndexToId[typeIndex] = typeId;
