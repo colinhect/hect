@@ -46,7 +46,9 @@ using namespace hect;
 
 namespace
 {
+
 static Engine* _instance = nullptr;
+
 }
 
 Engine& Engine::instance()
@@ -76,6 +78,7 @@ Engine::Engine(int argc, char* const argv[])
 
     // Create file system
     _fileSystem.reset(new FileSystem(argc, argv));
+    _fileSystem->setWriteDirectory(_fileSystem->baseDirectory());
 
     // Create platform
     _platform.reset(new Platform());

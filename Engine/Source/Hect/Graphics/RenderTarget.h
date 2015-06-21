@@ -25,9 +25,12 @@
 
 #include "Hect/Core/Export.h"
 
+#include <memory>
+
 namespace hect
 {
 
+class GeometryBuffer;
 class Renderer;
 
 ///
@@ -63,6 +66,10 @@ public:
     virtual void swapBuffers();
 
     ///
+    /// Returns the primary geometry buffer for the window.
+    GeometryBuffer& geometryBuffer();
+
+    ///
     /// Returns the width.
     unsigned width() const;
 
@@ -91,6 +98,8 @@ protected:
 private:
     unsigned _width { 0 };
     unsigned _height { 0 };
+
+    std::shared_ptr<GeometryBuffer> _geometryBuffer;
 };
 
 }

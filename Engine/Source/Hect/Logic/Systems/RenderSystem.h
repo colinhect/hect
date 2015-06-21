@@ -103,10 +103,9 @@ public:
     Mesh::Handle skyBoxMesh;
 
 private:
-    void prepareFrame(Camera& camera, Scene& scene, RenderTarget& target);
+    void prepareFrame(Camera& camera, Scene& scene, RenderTarget& target, GeometryBuffer& geometryBuffer);
     void renderFrame(Camera& camera, RenderTarget& target);
 
-    void initializeBuffers(unsigned width, unsigned height);
     void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
     void renderMesh(Renderer::Frame& frame, const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
     void setBoundUniforms(Renderer::Frame& frame, Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
@@ -151,8 +150,6 @@ private:
 
     CameraSystem::Handle _cameraSystem;
     DebugSystem::Handle _debugSystem;
-
-    std::unique_ptr<GeometryBuffer> _geometryBuffer;
 
     Material::Handle _skyBoxMaterial;
 

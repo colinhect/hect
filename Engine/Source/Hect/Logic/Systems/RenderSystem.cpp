@@ -79,7 +79,7 @@ void RenderSystem::render(RenderTarget& target)
         Camera::Iterator camera = _cameraSystem->activeCamera();
         if (camera)
         {
-            prepareFrame(*camera, scene(), target);
+            prepareFrame(*camera, scene(), target, target.geometryBuffer());
             renderFrame(*camera, target);
         }
     }
@@ -106,12 +106,13 @@ void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& mat
     }
 }
 
-void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& target)
+void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& target, GeometryBuffer& geometryBuffer)
 {
     // Clear the state from the last frame
     _frameData.clear();
+    _frameData.geometryBuffer = &geometryBuffer;
 
-    // Update the camer transform
+    // Update the camera transform
     _frameData.cameraTransform.globalPosition = camera.position;
 
     // Update the camera's aspect ratio if needed
@@ -124,11 +125,7 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
             _cameraSystem->update(camera);
         }
     }
-
-    // Initialize buffers if needed
-    initializeBuffers(target.width(), target.height());
-    _frameData.geometryBuffer = _geometryBuffer.get();
-
+    
     // Get the cube map of the active light probe
     LightProbe::Iterator lightProbe = scene.components<LightProbe>().begin();
     if (lightProbe)
@@ -275,14 +272,6 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         setBoundUniforms(frame, *exposeShader, camera, target, _identityTransform);
 
         frame.renderViewport();
-    }
-}
-
-void RenderSystem::initializeBuffers(unsigned width, unsigned height)
-{
-    if (!_geometryBuffer)
-    {
-        _geometryBuffer.reset(new GeometryBuffer(width, height));
     }
 }
 

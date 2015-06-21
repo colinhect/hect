@@ -112,6 +112,7 @@ namespace hect {}
 #include "Hect/Logic/Systems/DebugSystem.h"
 #include "Hect/Logic/Systems/InputSystem.h"
 #include "Hect/Logic/Systems/PhysicsSystem.h"
+#include "Hect/Logic/Systems/RenderSystem.h"
 #include "Hect/Logic/Systems/TransformSystem.h"
 #include "Hect/Logic/Systems/WidgetSystem.h"
 #include "Hect/Math/Angle.h"
