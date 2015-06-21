@@ -38,8 +38,7 @@ RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
     _renderer(engine.renderer()),
     _taskPool(engine.taskPool()),
     _cameraSystem(scene.system<CameraSystem>()),
-    _debugSystem(scene.system<DebugSystem>()),
-    _buffersInitialized(false)
+    _debugSystem(scene.system<DebugSystem>())
 {
 }
 
@@ -127,10 +126,8 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     }
 
     // Initialize buffers if needed
-    if (!_buffersInitialized)
-    {
-        initializeBuffers(target.width(), target.height());
-    }
+    initializeBuffers(target.width(), target.height());
+    _frameData.geometryBuffer = _geometryBuffer.get();
 
     // Get the cube map of the active light probe
     LightProbe::Iterator lightProbe = scene.components<LightProbe>().begin();
@@ -199,9 +196,11 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
 
 void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 {
+    GeometryBuffer& geometryBuffer = *_frameData.geometryBuffer;
+
     // Opaque geometry rendering
     {
-        Renderer::Frame frame = _renderer.beginFrame(_geometryFrameBuffer);
+        Renderer::Frame frame = _renderer.beginFrame(geometryBuffer.frameBuffer());
         frame.clear();
 
         // Render pre-physical geometry
@@ -219,7 +218,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 
     // Light rendering
     {
-        Renderer::Frame frame = _renderer.beginFrame(backFrameBuffer());
+        Renderer::Frame frame = _renderer.beginFrame(geometryBuffer.backFrameBuffer());
         frame.clear(false);
 
         // Render environment light
@@ -241,11 +240,11 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         }
     }
 
-    swapBackBuffer();
+    geometryBuffer.swapBackBuffers();
 
     // Composite
     {
-        Renderer::Frame frame = _renderer.beginFrame(backFrameBuffer());
+        Renderer::Frame frame = _renderer.beginFrame(geometryBuffer.backFrameBuffer());
         frame.clear(false);
 
         // Composite
@@ -266,7 +265,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         }
     }
 
-    swapBackBuffer();
+    geometryBuffer.swapBackBuffers();
 
     // Expose
     {
@@ -281,49 +280,10 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 
 void RenderSystem::initializeBuffers(unsigned width, unsigned height)
 {
-    _buffersInitialized = true;
-
-    TextureFilter nearest = TextureFilter::Nearest;
-
-    // Depth buffer
-    _depthBuffer = Texture2("DepthBuffer", width, height, PixelFormat::R32, nearest, nearest, false, false);
-
-    // Diffuse buffer: Red Green Blue Lighting
-    _diffuseBuffer = Texture2("DiffuseBuffer", width, height, PixelFormat::Rgba32, nearest, nearest, false, false);
-
-    // Material buffer: Roughness Metallic ?
-    _materialBuffer = Texture2("MaterialBuffer", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
-
-    // Position buffer: X Y Z
-    _positionBuffer = Texture2("PositionBuffer", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
-
-    // Normal buffer: X Y Z Depth
-    _normalBuffer = Texture2("NormalBuffer", width, height, PixelFormat::Rgba16, nearest, nearest, false, false);
-
-    // Back buffers
-    _backBuffers[0] = Texture2("BackBuffer0", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
-    _backBuffers[1] = Texture2("BackBuffer1", width, height, PixelFormat::Rgb32, nearest, nearest, false, false);
-
-    // Geometry frame buffer
-    _geometryFrameBuffer = FrameBuffer(width, height);
-    _geometryFrameBuffer.attach(FrameBufferSlot::Depth, _depthBuffer);
-    _geometryFrameBuffer.attach(FrameBufferSlot::Color0, _diffuseBuffer);
-    _geometryFrameBuffer.attach(FrameBufferSlot::Color1, _materialBuffer);
-    _geometryFrameBuffer.attach(FrameBufferSlot::Color2, _positionBuffer);
-    _geometryFrameBuffer.attach(FrameBufferSlot::Color3, _normalBuffer);
-
-    // Back frame buffers
-    _backFrameBuffers[0] = FrameBuffer(width, height);
-    _backFrameBuffers[0].attach(FrameBufferSlot::Depth, _depthBuffer);
-    _backFrameBuffers[0].attach(FrameBufferSlot::Color0, _backBuffers[0]);
-
-    _backFrameBuffers[1] = FrameBuffer(width, height);
-    _backFrameBuffers[1].attach(FrameBufferSlot::Depth, _depthBuffer);
-    _backFrameBuffers[1].attach(FrameBufferSlot::Color0, _backBuffers[1]);
-
-    _renderer.uploadFrameBuffer(_geometryFrameBuffer);
-    _renderer.uploadFrameBuffer(_backFrameBuffers[0]);
-    _renderer.uploadFrameBuffer(_backFrameBuffers[1]);
+    if (!_geometryBuffer)
+    {
+        _geometryBuffer.reset(new GeometryBuffer(width, height));
+    }
 }
 
 void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest)
@@ -510,42 +470,27 @@ void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, cons
             frame.setUniform(uniform, *_frameData.skyBoxTexture);
             break;
         case UniformBinding::DiffuseBuffer:
-            frame.setUniform(uniform, _diffuseBuffer);
+            assert(_frameData.geometryBuffer);
+            frame.setUniform(uniform, _frameData.geometryBuffer->diffuseBuffer());
             break;
         case UniformBinding::MaterialBuffer:
-            frame.setUniform(uniform, _materialBuffer);
+            assert(_frameData.geometryBuffer);
+            frame.setUniform(uniform, _frameData.geometryBuffer->materialBuffer());
             break;
         case UniformBinding::PositionBuffer:
-            frame.setUniform(uniform, _positionBuffer);
+            assert(_frameData.geometryBuffer);
+            frame.setUniform(uniform, _frameData.geometryBuffer->positionBuffer());
             break;
         case UniformBinding::NormalBuffer:
-            frame.setUniform(uniform, _normalBuffer);
+            assert(_frameData.geometryBuffer);
+            frame.setUniform(uniform, _frameData.geometryBuffer->normalBuffer());
             break;
         case UniformBinding::BackBuffer:
-            frame.setUniform(uniform, lastBackBuffer());
+            assert(_frameData.geometryBuffer);
+            frame.setUniform(uniform, _frameData.geometryBuffer->lastBackBuffer());
             break;
         }
     }
-}
-
-void RenderSystem::swapBackBuffer()
-{
-    _frameData.backBufferIndex = (_frameData.backBufferIndex + 1) % 2;
-}
-
-Texture2& RenderSystem::backBuffer()
-{
-    return _backBuffers[_frameData.backBufferIndex];
-}
-
-Texture2& RenderSystem::lastBackBuffer()
-{
-    return _backBuffers[(_frameData.backBufferIndex + 1) % 2];
-}
-
-FrameBuffer& RenderSystem::backFrameBuffer()
-{
-    return _backFrameBuffers[_frameData.backBufferIndex];
 }
 
 bool RenderSystem::RenderCall::operator<(const RenderCall& other) const
@@ -577,5 +522,4 @@ void RenderSystem::FrameData::clear()
     primaryLightColor = Color();
     lightProbeTexture =  nullptr;
     skyBoxTexture = nullptr;
-    backBufferIndex = 0;
 }

@@ -27,6 +27,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/FrameBuffer.h"
+#include "Hect/Graphics/GeometryBuffer.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/Renderer.h"
@@ -110,11 +111,6 @@ private:
     void renderMesh(Renderer::Frame& frame, const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
     void setBoundUniforms(Renderer::Frame& frame, Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
 
-    void swapBackBuffer();
-    Texture2& backBuffer();
-    Texture2& lastBackBuffer();
-    FrameBuffer& backFrameBuffer();
-
     class RenderCall
     {
     public:
@@ -146,7 +142,8 @@ private:
         Color primaryLightColor;
         TextureCube* lightProbeTexture { nullptr };
         TextureCube* skyBoxTexture { nullptr };
-        size_t backBufferIndex { 0 };
+
+        GeometryBuffer* geometryBuffer { nullptr };
     } _frameData;
 
     Renderer& _renderer;
@@ -155,21 +152,11 @@ private:
     CameraSystem::Handle _cameraSystem;
     DebugSystem::Handle _debugSystem;
 
-    Texture2 _depthBuffer;
-    Texture2 _diffuseBuffer;
-    Texture2 _materialBuffer;
-    Texture2 _positionBuffer;
-    Texture2 _normalBuffer;
-    std::array<Texture2, 2> _backBuffers;
-
-    FrameBuffer _geometryFrameBuffer;
-    std::array<FrameBuffer, 2> _backFrameBuffers;
+    std::unique_ptr<GeometryBuffer> _geometryBuffer;
 
     Material::Handle _skyBoxMaterial;
 
     Transform _identityTransform;
-
-    bool _buffersInitialized { false };
 };
 
 }
