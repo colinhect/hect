@@ -45,6 +45,12 @@ class HECT_EXPORT Transform :
 public:
 
     ///
+    /// Whether the transform can change dynamically.
+    ///
+    /// \property
+    bool dynamic { true };
+
+    ///
     /// The local position.
     ///
     /// \property

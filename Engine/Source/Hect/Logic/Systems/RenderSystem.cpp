@@ -128,7 +128,7 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
 
     // Get the cube map of the active light probe
     LightProbe::Iterator lightProbe = scene.components<LightProbe>().begin();
-    if (lightProbe)
+    if (lightProbe && lightProbe->texture)
     {
         _frameData.lightProbeTexture = &*lightProbe->texture;
     }

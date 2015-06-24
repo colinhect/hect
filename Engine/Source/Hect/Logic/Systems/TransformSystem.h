@@ -45,6 +45,8 @@ public:
     /// Commits any changes made to a Transform to take effect.
     ///
     /// \param transform The transform to commit.
+    ///
+    /// \throws InvalidOperation If the transform is not dynamic.
     void commit(Transform& transform);
 
     ///
@@ -52,6 +54,8 @@ public:
     /// hierarchy.
     ///
     /// \param transform The transform to update.
+    ///
+    /// \throws InvalidOperation If the transform is not dynamic.
     void update(Transform& transform);
 
     void tick(double timeStep) override;

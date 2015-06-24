@@ -35,12 +35,22 @@ TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
 
 void TransformSystem::commit(Transform& transform)
 {
+    if (!transform.dynamic)
+    {
+        throw InvalidOperation("Transform is not dynamic");
+    }
+
     ComponentId id = transform.id();
     _committed.push_back(id);
 }
 
 void TransformSystem::update(Transform& transform)
 {
+    if (!transform.dynamic)
+    {
+        throw InvalidOperation("Transform is not dynamic");
+    }
+
     Entity::Iterator entity = transform.entity();
     Entity::Iterator parent = entity->parent();
     if (parent)
@@ -84,7 +94,15 @@ void TransformSystem::tick(double timeStep)
 
 void TransformSystem::onComponentAdded(Transform::Iterator transform)
 {
+    // Temporarily make the transform dynamic so it can be initially updated
+    bool dynamic = transform->dynamic;
+    transform->dynamic = true;
+
+    // Update the transform
     update(*transform);
+
+    // Restore the transforms dynamicness
+    transform->dynamic = dynamic;
 }
 
 void TransformSystem::updateRecursively(Entity& parent, Entity& child)
