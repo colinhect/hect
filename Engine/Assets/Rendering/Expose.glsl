@@ -6,7 +6,7 @@ uniform sampler2D backBuffer;
 
 in vec2 vertexTextureCoords;
 
-out vec3 outputColor;
+out vec4 outputColor;
 
 vec3 correctGamma(
     in  vec3    color,
@@ -26,8 +26,12 @@ void main()
 {
     vec3 color = texture(backBuffer, vertexTextureCoords).rgb;
 
-    // Color-correct and output the final pixel
-    color = expose(color, exposure);
-    color = correctGamma(color, oneOverGamma);
-    outputColor = color;
+    if (exposure > 0.0)
+    {
+        // Color correct
+        color = expose(color, exposure);
+        color = correctGamma(color, oneOverGamma);
+    }
+    
+    outputColor = vec4(color, 1.0);
 }

@@ -30,6 +30,7 @@
 #include "Hect/Graphics/RenderTarget.h"
 #include "Hect/Graphics/Texture2.h"
 #include "Hect/Graphics/Texture3.h"
+#include "Hect/Graphics/TextureCube.h"
 
 namespace hect
 {
@@ -102,9 +103,46 @@ public:
         Texture3* _texture;
     };
 
+    ///
+    /// A cubic frame buffer attachment.
+    struct HECT_EXPORT AttachmentCube
+    {
+    public:
+
+        ///
+        /// Constructs a frame buffer attachment.
+        ///
+        /// \param slot The slot that the texture is attached to.
+        /// \param side The side of the cubic texture to attach.
+        /// \param texture The attached texture.
+        AttachmentCube(FrameBufferSlot slot, CubeSide side, TextureCube& texture);
+
+        ///
+        /// Returns the slot that the texture is attached to.
+        FrameBufferSlot slot() const;
+
+        ///
+        /// Returns the side of the texture that is attached.
+        CubeSide side() const;
+
+        ///
+        /// Returns the attached texture.
+        TextureCube& texture();
+
+        ///
+        /// Returns the attached texture.
+        const TextureCube& texture() const;
+
+    private:
+        FrameBufferSlot _slot;
+        CubeSide _side;
+        TextureCube* _texture;
+    };
+
 private:
     typedef std::vector<Attachment2> Attachment2Container;
     typedef std::vector<Attachment3> Attachment3Container;
+    typedef std::vector<AttachmentCube> AttachmentCubeContainer;
 
 public:
 
@@ -115,6 +153,10 @@ public:
     ///
     /// A sequence of 3-dimensional texture attachments.
     typedef Sequence<Attachment3, Attachment3Container> Attachment3Sequence;
+
+    ///
+    /// A sequence of cubic texture attachments.
+    typedef Sequence<AttachmentCube, AttachmentCubeContainer> AttachmentCubeSequence;
 
     ///
     /// Constructs a frame buffer.
@@ -156,6 +198,20 @@ public:
     void attach(FrameBufferSlot slot, Texture3& texture);
 
     ///
+    /// Attaches a cubic texture to the frame buffer.
+    ///
+    /// \note If the frame buffer is uploaded to a renderer then it
+    /// will be destroyed before the texture is attached.
+    ///
+    /// \param slot The slot to attach the texture to.
+    /// \param side The side of the cubic texture to attach.
+    /// \param texture The texture to attach to the frame buffer.
+    ///
+    /// \throws InvalidOperation If something is already attached to the given
+    /// slot or if the texture is not the same size as the frame buffer.
+    void attach(FrameBufferSlot slot, CubeSide side, TextureCube& texture);
+
+    ///
     /// Returns the 2-dimensional texture attachments.
     Attachment2Sequence attachments2();
 
@@ -163,11 +219,16 @@ public:
     /// Returns the 3-dimensional texture attachments.
     Attachment3Sequence attachments3();
 
+    ///
+    /// Returns the cubic texture attachments.
+    AttachmentCubeSequence attachmentsCube();
+
 private:
     void ensureSlotEmpty(FrameBufferSlot slot);
 
     Attachment2Container _attachments2;
     Attachment3Container _attachments3;
+    AttachmentCubeContainer _attachmentsCube;
 };
 
 }

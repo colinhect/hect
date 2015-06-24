@@ -37,6 +37,7 @@
 #include "Hect/Logic/Components/Camera.h"
 #include "Hect/Logic/Components/DirectionalLight.h"
 #include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Components/LightProbe.h"
 
 namespace hect
 {
@@ -59,6 +60,15 @@ public:
     /// \param mesh The mesh to render.
     /// \param material The material to use.
     void addRenderCall(Transform& transform, Mesh& mesh, Material& material);
+
+    ///
+    /// Renders the scene to a texture cube at the specified location.
+    ///
+    /// \note The near/far clip of the active camera is used.
+    ///
+    /// \param position The position to render from.
+    /// \param texture The texture to render to.
+    void renderToTextureCube(const Vector3& position, TextureCube& texture);
 
     void initialize() override;
     void render(RenderTarget& target) override;
@@ -141,12 +151,13 @@ private:
         Color primaryLightColor;
         TextureCube* lightProbeTexture { nullptr };
         TextureCube* skyBoxTexture { nullptr };
-
         GeometryBuffer* geometryBuffer { nullptr };
     } _frameData;
 
     Renderer& _renderer;
     TaskPool& _taskPool;
+
+    std::unique_ptr<GeometryBuffer> _geometryBuffer;
 
     CameraSystem::Handle _cameraSystem;
     DebugSystem::Handle _debugSystem;

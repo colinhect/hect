@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "FrameBuffer.h"
 
+#include <cassert>
+
 using namespace hect;
 
 FrameBuffer::Attachment2::Attachment2(FrameBufferSlot slot, Texture2& texture) :
@@ -38,11 +40,13 @@ FrameBufferSlot FrameBuffer::Attachment2::slot() const
 
 Texture2& FrameBuffer::Attachment2::texture()
 {
+    assert(_texture);
     return *_texture;
 }
 
 const Texture2& FrameBuffer::Attachment2::texture() const
 {
+    assert(_texture);
     return *_texture;
 }
 
@@ -59,11 +63,42 @@ FrameBufferSlot FrameBuffer::Attachment3::slot() const
 
 Texture3& FrameBuffer::Attachment3::texture()
 {
+    assert(_texture);
     return *_texture;
 }
 
 const Texture3& FrameBuffer::Attachment3::texture() const
 {
+    assert(_texture);
+    return *_texture;
+}
+
+FrameBuffer::AttachmentCube::AttachmentCube(FrameBufferSlot slot, CubeSide side, TextureCube& texture) :
+    _slot(slot),
+    _side(side),
+    _texture(&texture)
+{
+}
+
+FrameBufferSlot FrameBuffer::AttachmentCube::slot() const
+{
+    return _slot;
+}
+
+CubeSide FrameBuffer::AttachmentCube::side() const
+{
+    return _side;
+}
+
+TextureCube& FrameBuffer::AttachmentCube::texture()
+{
+    assert(_texture);
+    return *_texture;
+}
+
+const TextureCube& FrameBuffer::AttachmentCube::texture() const
+{
+    assert(_texture);
     return *_texture;
 }
 
@@ -127,6 +162,27 @@ void FrameBuffer::attach(FrameBufferSlot slot, Texture3& texture)
     _attachments3.push_back(Attachment3(slot, texture));
 }
 
+void FrameBuffer::attach(FrameBufferSlot slot, CubeSide side, TextureCube& texture)
+{
+    ensureSlotEmpty(slot);
+
+    if (texture.width() != width() || texture.height() != height())
+    {
+        throw InvalidOperation("Cannot attach texture to a frame buffer of a different size");
+    }
+    else if (slot == FrameBufferSlot::Depth)
+    {
+        throw InvalidOperation("Cannot attach cubic texture to the depth slot of a frame buffer");
+    }
+
+    if (isUploaded())
+    {
+        renderer().destroyFrameBuffer(*this);
+    }
+
+    _attachmentsCube.push_back(AttachmentCube(slot, side, texture));
+}
+
 FrameBuffer::Attachment2Sequence FrameBuffer::attachments2()
 {
     return _attachments2;
@@ -135,6 +191,11 @@ FrameBuffer::Attachment2Sequence FrameBuffer::attachments2()
 FrameBuffer::Attachment3Sequence FrameBuffer::attachments3()
 {
     return _attachments3;
+}
+
+FrameBuffer::AttachmentCubeSequence FrameBuffer::attachmentsCube()
+{
+    return _attachmentsCube;
 }
 
 void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
@@ -152,6 +213,15 @@ void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
 
     // Check if any 3-dimensional textures are attached to this slot
     for (const Attachment3& attachment : _attachments3)
+    {
+        if (attachment.slot() == slot)
+        {
+            empty = false;
+        }
+    }
+
+    // Check if any cubic textures are attached to this slot
+    for (const AttachmentCube& attachment : _attachmentsCube)
     {
         if (attachment.slot() == slot)
         {

@@ -256,16 +256,6 @@ void Renderer::Frame::clear(bool depth)
     (void)depth;
 }
 
-Renderer::Frame::Frame(Renderer& renderer, RenderTarget& target) :
-    _renderer(renderer)
-{
-    _renderer.setTarget(target);
-}
-
-Renderer::~Renderer()
-{
-}
-
 void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (frameBuffer.isUploaded())
@@ -445,7 +435,20 @@ void Renderer::setTarget(FrameBuffer& frameBuffer)
     }
 }
 
-Renderer::Renderer()
+void Renderer::initialize()
+{
+}
+
+void Renderer::shutdown()
+{
+}
+
+void Renderer::onBeginFrame(RenderTarget& target)
+{
+    (void)target;
+}
+
+void Renderer::onEndFrame()
 {
 }
 

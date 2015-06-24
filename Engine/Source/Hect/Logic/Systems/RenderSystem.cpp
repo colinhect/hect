@@ -42,9 +42,100 @@ RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
 {
 }
 
+void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& material)
+{
+    const Shader::Handle& shader = material.shader();
+    if (shader)
+    {
+        switch (shader->renderStage())
+        {
+        case RenderStage::PrePhysicalGeometry:
+            _frameData.prePhysicalGeometry.emplace_back(transform, mesh, material);
+            break;
+        case RenderStage::PhysicalGeometry:
+            _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
+            break;
+        case RenderStage::None:
+        case RenderStage::PostPhysicalGeometry:
+            _frameData.postPhysicalGeometry.emplace_back(transform, mesh, material);
+            break;
+        }
+    }
+}
+
+void RenderSystem::renderToTextureCube(const Vector3& position, TextureCube& texture)
+{
+    static std::vector<CubeSide> cubeSides =
+    {
+        CubeSide::PositiveX,
+        CubeSide::NegativeX,
+        CubeSide::PositiveY,
+        CubeSide::NegativeY,
+        CubeSide::PositiveZ,
+        CubeSide::NegativeZ,
+    };
+
+    static std::vector<Vector3> fronts =
+    {
+        -Vector3::UnitX,
+        Vector3::UnitX,
+        -Vector3::UnitY,
+        Vector3::UnitY,
+        -Vector3::UnitZ,
+        Vector3::UnitZ,
+    };
+
+    static std::vector<Vector3> ups =
+    {
+        Vector3::UnitY,
+        Vector3::UnitY,
+        Vector3::UnitZ,
+        Vector3::UnitZ,
+        Vector3::UnitY,
+        -Vector3::UnitY,
+    };
+
+    if (_cameraSystem)
+    {
+        unsigned width = texture.width();
+        unsigned height = texture.height();
+
+        GeometryBuffer geometryBuffer(width, height);
+
+        Camera::Iterator activeCamera = _cameraSystem->activeCamera();
+        if (activeCamera)
+        {
+            Camera camera;
+            camera.position = position;
+            camera.exposure = -1.0;
+            camera.nearClip = activeCamera->nearClip;
+            camera.farClip = activeCamera->farClip;;
+            camera.fieldOfView = Angle::fromDegrees(90.0);
+
+            for (unsigned i = 0; i < 6; ++i)
+            {
+                camera.front = fronts[i];
+                camera.up = ups[i];
+                camera.right = camera.front.cross(camera.up).normalized();
+
+                camera.viewMatrix = Matrix4::createView(camera.position, camera.front, camera.up);
+                camera.projectionMatrix = Matrix4::createPerspective(camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
+
+                camera.frustum = Frustum(camera.position, camera.front, camera.up, camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
+
+                FrameBuffer frameBuffer(width, height);
+                frameBuffer.attach(FrameBufferSlot::Color0, cubeSides[i], texture);
+
+                prepareFrame(camera, scene(), frameBuffer, geometryBuffer);
+                renderFrame(camera, frameBuffer);
+            }
+        }
+    }
+}
+
 void RenderSystem::initialize()
 {
-    _skyBoxMaterial = Material::Handle(new Material("Skybox"));
+    _skyBoxMaterial = new Material("Skybox");
     _skyBoxMaterial->setShader(skyBoxShader);
 
     for (Model& model : scene().components<Model>())
@@ -79,36 +170,21 @@ void RenderSystem::render(RenderTarget& target)
         Camera::Iterator camera = _cameraSystem->activeCamera();
         if (camera)
         {
-            prepareFrame(*camera, scene(), target, target.geometryBuffer());
-            renderFrame(*camera, target);
-        }
-    }
-}
+            if (!_geometryBuffer)
+            {
+                _geometryBuffer.reset(new GeometryBuffer(target.width(), target.height()));
+            }
 
-void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& material)
-{
-    const Shader::Handle& shader = material.shader();
-    if (shader)
-    {
-        switch (shader->renderStage())
-        {
-        case RenderStage::PrePhysicalGeometry:
-            _frameData.prePhysicalGeometry.emplace_back(transform, mesh, material);
-            break;
-        case RenderStage::PhysicalGeometry:
-            _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
-            break;
-        case RenderStage::None:
-        case RenderStage::PostPhysicalGeometry:
-            _frameData.postPhysicalGeometry.emplace_back(transform, mesh, material);
-            break;
+            prepareFrame(*camera, scene(), target, *_geometryBuffer);
+            renderFrame(*camera, target);
         }
     }
 }
 
 void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& target, GeometryBuffer& geometryBuffer)
 {
-    // Clear the state from the last frame
+    // Clear the state from the last frame and begin initializing it for the
+    // next frame
     _frameData.clear();
     _frameData.geometryBuffer = &geometryBuffer;
 
@@ -135,7 +211,7 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
 
     // Get the cube map of the active sky box
     SkyBox::Iterator skyBox = scene.components<SkyBox>().begin();
-    if (skyBox)
+    if (skyBox && skyBox->texture)
     {
         _frameData.skyBoxTexture = &*skyBox->texture;
     }
@@ -511,4 +587,5 @@ void RenderSystem::FrameData::clear()
     primaryLightColor = Color();
     lightProbeTexture =  nullptr;
     skyBoxTexture = nullptr;
+    geometryBuffer = nullptr;
 }

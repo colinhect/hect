@@ -24,7 +24,6 @@
 #include "RenderTarget.h"
 
 #include "Hect/Core/Exception.h"
-#include "Hect/Graphics/GeometryBuffer.h"
 
 using namespace hect;
 
@@ -41,16 +40,6 @@ RenderTarget::RenderTarget(unsigned width, unsigned height) :
 void RenderTarget::swapBuffers()
 {
     throw InvalidOperation("Render target does not have a back buffer");
-}
-
-GeometryBuffer& RenderTarget::geometryBuffer()
-{
-    if (!_geometryBuffer)
-    {
-        _geometryBuffer.reset(new GeometryBuffer(width(), height()));
-    }
-
-    return *_geometryBuffer;
 }
 
 unsigned RenderTarget::width() const

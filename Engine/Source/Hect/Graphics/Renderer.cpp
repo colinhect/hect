@@ -27,12 +27,24 @@ using namespace hect;
 
 Renderer::Frame::~Frame()
 {
+    _renderer.onEndFrame();
     _renderer._inFrame = false;
 }
 
 Renderer::Frame::Frame(Frame&& frame) :
     _renderer(frame._renderer)
 {
+}
+
+Renderer::Frame::Frame(Renderer& renderer, RenderTarget& target) :
+    _renderer(renderer)
+{
+    renderer.onBeginFrame(target);
+}
+
+Renderer::~Renderer()
+{
+    shutdown();
 }
 
 Renderer::Frame Renderer::beginFrame(RenderTarget& target)
@@ -64,4 +76,9 @@ Renderer::Statistics& Renderer::statistics()
 const Renderer::Statistics& Renderer::statistics() const
 {
     return _statistics;
+}
+
+Renderer::Renderer()
+{
+    initialize();
 }

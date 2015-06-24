@@ -440,6 +440,11 @@ private:
     void setTarget(Window& window);
     void setTarget(FrameBuffer& frameBuffer);
 
+    void initialize();
+    void shutdown();
+    void onBeginFrame(RenderTarget& target);
+    void onEndFrame();
+
     Capabilities _capabilities;
     Statistics _statistics;
     bool _inFrame { false };
