@@ -50,10 +50,10 @@ void main()
         // Sample the reflectance from the light probe
         vec3 reflectDirection = normalize(reflect(viewDirection, normal));
         reflectDirection = normalize((inverse(view) * vec4(reflectDirection, 0.0)).xyz);
-        vec3 reflectance = textureLod(lightProbeTexture, reflectDirection, mipMapLevel).rgb;
+        vec3 reflectance = textureLod(lightProbeTexture, -reflectDirection, mipMapLevel).rgb;
 
         // Sample the ambience from the light probe
-        vec3 ambience = textureLod(lightProbeTexture, normal, 32.0).rgb * 0.5;
+        vec3 ambience = textureLod(lightProbeTexture, -normal, 32.0).rgb * 0.5;
 
         // Compute the fresnel attenuated by the roughness
         vec3 fresnel = computeRoughFresnel(realSpecular, roughness * roughness, normal, viewDirection);

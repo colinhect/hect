@@ -77,21 +77,21 @@ void RenderSystem::renderToTextureCube(const Vector3& position, TextureCube& tex
 
     static std::vector<Vector3> fronts =
     {
-        -Vector3::UnitX,
         Vector3::UnitX,
-        -Vector3::UnitY,
+        -Vector3::UnitX,
         Vector3::UnitY,
-        -Vector3::UnitZ,
+        -Vector3::UnitY,
         Vector3::UnitZ,
+        -Vector3::UnitZ,
     };
 
     static std::vector<Vector3> ups =
     {
-        Vector3::UnitY,
-        Vector3::UnitY,
+        -Vector3::UnitY,
+        -Vector3::UnitY,
         Vector3::UnitZ,
-        Vector3::UnitZ,
-        Vector3::UnitY,
+        -Vector3::UnitZ,
+        -Vector3::UnitY,
         -Vector3::UnitY,
     };
 
@@ -137,6 +137,7 @@ void RenderSystem::initialize()
 {
     _skyBoxMaterial = new Material("Skybox");
     _skyBoxMaterial->setShader(skyBoxShader);
+    _skyBoxMaterial->setCullMode(CullMode::None);
 
     for (Model& model : scene().components<Model>())
     {
