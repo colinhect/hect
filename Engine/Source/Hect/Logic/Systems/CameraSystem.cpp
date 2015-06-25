@@ -52,21 +52,24 @@ void CameraSystem::setActiveCamera(Camera& camera)
 
 void CameraSystem::update(Camera& camera)
 {
+    // If the camera's entity has a transform then use it to compute the
+    // camera's position, front, and up vectors
     Transform::Iterator transform = camera.entity()->component<Transform>();
     if (transform)
     {
+        camera.position = transform->globalPosition;
+
         const Quaternion& rotation = transform->globalRotation;
         camera.front = (rotation * Vector3::UnitY).normalized();
         camera.up = (rotation * Vector3::UnitZ).normalized();
-        camera.right = camera.front.cross(camera.up).normalized();
-
-        camera.position = transform->globalPosition;
-
-        camera.viewMatrix = Matrix4::createView(camera.position, camera.front, camera.up);
-        camera.projectionMatrix = Matrix4::createPerspective(camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
-
-        camera.frustum = Frustum(camera.position, camera.front, camera.up, camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
     }
+
+    camera.right = camera.front.cross(camera.up).normalized();
+
+    camera.viewMatrix = Matrix4::createView(camera.position, camera.front, camera.up);
+    camera.projectionMatrix = Matrix4::createPerspective(camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
+
+    camera.frustum = Frustum(camera.position, camera.front, camera.up, camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
 }
 
 void CameraSystem::tick(double timeStep)

@@ -28,6 +28,6 @@ namespace hect
 
 ///
 /// An approximation of Pi.
-const double pi = 3.14159265358979323846;
+const double Pi = 3.14159265358979323846;
 
 }

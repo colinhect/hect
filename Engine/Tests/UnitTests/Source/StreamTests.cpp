@@ -207,13 +207,13 @@ TEST_CASE("Write and read a 32-bit float to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        float value = static_cast<float>(pi);
+        float value = static_cast<float>(Pi);
         stream << value;
     }, [](ReadStream& stream)
     {
         float value;
         stream >> value;
-        REQUIRE(std::abs(value - pi) < 0.01);
+        REQUIRE(std::abs(value - Pi) < 0.01);
         REQUIRE(stream.endOfStream());
     });
 }
@@ -222,13 +222,13 @@ TEST_CASE("Write and read a 64-bit float to and from a stream", "[Stream]")
 {
     testWriteAndReadStream([](WriteStream& stream)
     {
-        double value = pi;
+        double value = Pi;
         stream << value;
     }, [](ReadStream& stream)
     {
         double value;
         stream >> value;
-        REQUIRE(std::abs(value - pi) < 0.01);
+        REQUIRE(std::abs(value - Pi) < 0.01);
         REQUIRE(stream.endOfStream());
     });
 }

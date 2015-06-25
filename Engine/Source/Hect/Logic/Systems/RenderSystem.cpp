@@ -29,6 +29,7 @@
 #include "Hect/Logic/Components/LightProbe.h"
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/SkyBox.h"
+#include "Hect/Math/Constants.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -65,70 +66,60 @@ void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& mat
 
 void RenderSystem::renderToTextureCube(const Vector3& position, TextureCube& texture)
 {
-    static std::vector<CubeSide> cubeSides =
+    // These values are specific to OpenGL's cube map conventions (issue #189)
+    static std::vector<std::pair<Vector3, Vector3>> cameraVectors =
     {
-        CubeSide::PositiveX,
-        CubeSide::NegativeX,
-        CubeSide::PositiveY,
-        CubeSide::NegativeY,
-        CubeSide::PositiveZ,
-        CubeSide::NegativeZ,
-    };
-
-    static std::vector<Vector3> fronts =
-    {
-        Vector3::UnitX,
-        -Vector3::UnitX,
-        Vector3::UnitY,
-        -Vector3::UnitY,
-        Vector3::UnitZ,
-        -Vector3::UnitZ,
-    };
-
-    static std::vector<Vector3> ups =
-    {
-        -Vector3::UnitY,
-        -Vector3::UnitY,
-        Vector3::UnitZ,
-        -Vector3::UnitZ,
-        -Vector3::UnitY,
-        -Vector3::UnitY,
+        std::pair<Vector3, Vector3>(Vector3::UnitX, -Vector3::UnitY),
+        std::pair<Vector3, Vector3>(-Vector3::UnitX, -Vector3::UnitY),
+        std::pair<Vector3, Vector3>(Vector3::UnitY, Vector3::UnitZ),
+        std::pair<Vector3, Vector3>(-Vector3::UnitY, -Vector3::UnitZ),
+        std::pair<Vector3, Vector3>(Vector3::UnitZ, -Vector3::UnitY),
+        std::pair<Vector3, Vector3>(-Vector3::UnitZ, -Vector3::UnitY),
     };
 
     if (_cameraSystem)
     {
+        // Create a geometry buffer for rendering to the texture cube
         unsigned width = texture.width();
         unsigned height = texture.height();
-
         GeometryBuffer geometryBuffer(width, height);
 
+        // Get the active camera
         Camera::Iterator activeCamera = _cameraSystem->activeCamera();
         if (activeCamera)
         {
-            Camera camera;
-            camera.position = position;
-            camera.exposure = -1.0;
-            camera.nearClip = activeCamera->nearClip;
-            camera.farClip = activeCamera->farClip;;
-            camera.fieldOfView = Angle::fromDegrees(90.0);
+            // Create a transient entity for holding our camera
+            Entity::Iterator entity = scene().createEntity();
+            entity->setTransient(true);
 
+            // Create the camera
+            Camera::Iterator camera = entity->addComponent<Camera>();
+            camera->position = position;
+            camera->exposure = -1.0;
+            camera->nearClip = activeCamera->nearClip;
+            camera->farClip = activeCamera->farClip;;
+            camera->fieldOfView = Angle::fromRadians(Pi / 2);
+
+            // For each side of the cube face
             for (unsigned i = 0; i < 6; ++i)
             {
-                camera.front = fronts[i];
-                camera.up = ups[i];
-                camera.right = camera.front.cross(camera.up).normalized();
+                // Update the camera's matrices
+                camera->front = cameraVectors[i].first;
+                camera->up = cameraVectors[i].second;
+                _cameraSystem->update(*camera);
 
-                camera.viewMatrix = Matrix4::createView(camera.position, camera.front, camera.up);
-                camera.projectionMatrix = Matrix4::createPerspective(camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
-
-                camera.frustum = Frustum(camera.position, camera.front, camera.up, camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
-
+                // Create the frame buffer and attach the corresponding face
+                // of the cubic texture
                 FrameBuffer frameBuffer(width, height);
-                frameBuffer.attach(FrameBufferSlot::Color0, cubeSides[i], texture);
+                frameBuffer.attach(FrameBufferSlot::Color0, static_cast<CubeSide>(i), texture);
 
-                prepareFrame(camera, scene(), frameBuffer, geometryBuffer);
-                renderFrame(camera, frameBuffer);
+                // Render the frame
+                prepareFrame(*camera, scene(), frameBuffer, geometryBuffer);
+                renderFrame(*camera, frameBuffer);
             }
+
+            // Destroy the transient entity holding the camera
+            entity->destroy();
         }
     }
 }

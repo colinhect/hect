@@ -46,6 +46,11 @@ void Scene::setActivate(bool active)
 
 void Scene::refresh()
 {
+    if (_refreshing)
+    {
+        return;
+    }
+
     if (!_systemsToInitialize.empty())
     {
         for (SystemBase* system : _systemsToInitialize)

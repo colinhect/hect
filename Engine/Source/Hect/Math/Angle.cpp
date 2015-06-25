@@ -30,7 +30,7 @@ namespace hect
 
 Angle Angle::fromDegrees(double degrees)
 {
-    return Angle((pi / 180.0) * degrees);
+    return Angle((Pi / 180.0) * degrees);
 }
 
 Angle Angle::fromRadians(double radians)
@@ -49,7 +49,7 @@ Angle::Angle(double radians) :
 
 double Angle::degrees() const
 {
-    double degrees = (180.0 / pi) * _radians;
+    double degrees = (180.0 / Pi) * _radians;
     if (degrees == 360.0)
     {
         degrees = 0;
