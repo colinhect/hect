@@ -870,8 +870,9 @@ void Renderer::Frame::renderViewport()
     renderMesh(_viewportMesh);
 }
 
-void Renderer::Frame::clear(bool depth)
+void Renderer::Frame::clear(const Color& color, bool depth)
 {
+    GL_ASSERT(glClearColor(static_cast<float>(color.r), static_cast<float>(color.g), static_cast<float>(color.b), static_cast<float>(color.a)));
     GL_ASSERT(glClear(depth ? (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) : GL_COLOR_BUFFER_BIT));
 }
 
@@ -1602,8 +1603,6 @@ void Renderer::initialize()
     HECT_INFO(format("Max texture units: %d", capabilities().maxTextureUnits));
 
     glGetError(); // Clear errors
-
-    GL_ASSERT(glClearColor(0, 0, 0, 0));
 
     // Enable 3-dimensional texturing
     glEnable(GL_TEXTURE_3D);

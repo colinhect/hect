@@ -27,6 +27,12 @@
 
 using namespace hect;
 
+const Color Color::Zero = Color(0.0, 0.0, 0.0, 0.0);
+const Color Color::One = Color(1.0, 1.0, 1.0, 1.0);
+const Color Color::Red = Color(1.0, 0.0, 0.0, 1.0);
+const Color Color::Green = Color(0.0, 1.0, 0.0, 1.0);
+const Color Color::Blue = Color(0.0, 0.0, 1.0, 1.0);
+
 Color::Color()
 {
 }

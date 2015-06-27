@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/Color.h"
 #include "Hect/Logic/Scene.h"
 #include "Hect/Math/Frustum.h"
 
@@ -76,6 +77,12 @@ public:
     ///
     /// \property
     double gamma { 2.2 };
+
+    ///
+    /// The color used to clear the render target.
+    ///
+    /// \property
+    Color clearColor { Color::Zero };
 
     ///
     /// The front vector.

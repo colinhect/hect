@@ -251,8 +251,9 @@ void Renderer::Frame::renderViewport()
 {
 }
 
-void Renderer::Frame::clear(bool depth)
+void Renderer::Frame::clear(const Color& color, bool depth)
 {
+    (void)color;
     (void)depth;
 }
 

@@ -290,8 +290,9 @@ public:
         ///
         /// Clears the render target.
         ///
+        /// \param color The color to clear the render target to.
         /// \param depth Whether the depth channel is cleared.
-        void clear(bool depth = true);
+        void clear(const Color& color = Color::Zero, bool depth = true);
 
     private:
         Frame(Renderer& renderer, RenderTarget& target);

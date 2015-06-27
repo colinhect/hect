@@ -39,6 +39,26 @@ class HECT_EXPORT Color
 public:
 
     ///
+    /// A black color with an alpha of zero.
+    static const Color Zero;
+
+    ///
+    /// A white color with an alpha of one.
+    static const Color One;
+
+    ///
+    /// A red color with an alpha of one.
+    static const Color Red;
+
+    ///
+    /// A green color with an alpha of one.
+    static const Color Green;
+
+    ///
+    /// A blue color with an alpha of one.
+    static const Color Blue;
+
+    ///
     /// Constructs a white color.
     Color();
 

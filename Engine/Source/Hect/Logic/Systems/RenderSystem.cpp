@@ -266,7 +266,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     // Opaque geometry rendering
     {
         Renderer::Frame frame = _renderer.beginFrame(geometryBuffer.frameBuffer());
-        frame.clear();
+        frame.clear(camera.clearColor);
 
         // Render pre-physical geometry
         for (RenderCall& renderCall : _frameData.prePhysicalGeometry)
@@ -284,7 +284,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     // Light rendering
     {
         Renderer::Frame frame = _renderer.beginFrame(geometryBuffer.backFrameBuffer());
-        frame.clear(false);
+        frame.clear(Color::Zero, false);
 
         // Render environment light
         if (_frameData.lightProbeTexture)
@@ -310,7 +310,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     // Composite
     {
         Renderer::Frame frame = _renderer.beginFrame(geometryBuffer.backFrameBuffer());
-        frame.clear(false);
+        frame.clear(Color::Zero, false);
 
         // Composite
         frame.setShader(*compositeShader);
