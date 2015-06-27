@@ -21,52 +21,45 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "UserInterfaceSystem.h"
 
-#include <array>
+#include "Hect/Runtime/Engine.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Graphics/Font.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/VectorRenderer.h"
-#include "Hect/Logic/System.h"
-#include "Hect/UI/Widget.h"
+using namespace hect;
 
-namespace hect
+UserInterfaceSystem::UserInterfaceSystem(Engine& engine, Scene& scene) :
+    System(engine, scene, SystemTickStage::Subsequent),
+    _renderer(engine.renderer()),
+    _vectorRenderer(engine.vectorRenderer())
 {
+}
 
-///
-/// Manages the user interface control Widget%s of a Scene.
-///
-/// \system
-class HECT_EXPORT WidgetSystem :
-    public System<WidgetSystem>
+void UserInterfaceSystem::add(WidgetBase::Handle widget)
 {
-public:
-    WidgetSystem(Engine& engine, Scene& scene);
+    _widgets.push_back(widget);
+}
 
-    ///
-    /// Adds a new widget.
-    ///
-    /// \param widget The widget to add.
-    void add(WidgetBase::Handle widget);
+void UserInterfaceSystem::render(RenderTarget& target)
+{
+    Renderer::Frame frame = _renderer.beginFrame(target);
+    VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(target);
 
-    void render(RenderTarget& target) override;
-    void tick(double timeStep) override;
+    for (const WidgetBase::Handle& widget : _widgets)
+    {
+        if (widget->visible())
+        {
+            vectorFrame.pushState();
+            vectorFrame.setClipping(widget->position(), widget->dimensions());
+            widget->render(vectorFrame);
+            vectorFrame.popState();
+        }
+    }
+}
 
-    ///
-    /// \property{required}
-    Font::Handle defaultFont;
-
-    ///
-    /// \property{required}
-    double defaultFontSize;
-
-private:
-    Renderer& _renderer;
-    VectorRenderer& _vectorRenderer;
-
-    std::vector<WidgetBase::Handle> _widgets;
-};
-
+void UserInterfaceSystem::tick(double timeStep)
+{
+    for (const WidgetBase::Handle& widget : _widgets)
+    {
+        widget->tick(timeStep);
+    }
 }

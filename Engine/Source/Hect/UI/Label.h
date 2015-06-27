@@ -42,14 +42,18 @@ class HECT_EXPORT Label :
 public:
 
     ///
+    /// Constructs an empty label widget.
+    Label();
+
+    ///
     /// Constructs a label widget.
     ///
     /// \param text The text.
     /// \param position The position.
     /// \param dimensions The dimensions.
     /// \param font The font.
-    /// \param size The font size.
-    Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size);
+    /// \param fontSize The font size.
+    Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double fontSize);
 
     ///
     /// Returns the text of the label.
@@ -84,7 +88,7 @@ public:
 private:
     std::string _text;
     Font::Handle _font;
-    double _size;
+    double _fontSize;
 
     HorizontalAlign _horizontalAlign { HorizontalAlign::Left };
     VerticalAlign _verticalAlign { VerticalAlign::Top };

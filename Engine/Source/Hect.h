@@ -114,7 +114,7 @@ namespace hect {}
 #include "Hect/Logic/Systems/PhysicsSystem.h"
 #include "Hect/Logic/Systems/RenderSystem.h"
 #include "Hect/Logic/Systems/TransformSystem.h"
-#include "Hect/Logic/Systems/WidgetSystem.h"
+#include "Hect/Logic/Systems/UserInterfaceSystem.h"
 #include "Hect/Math/Angle.h"
 #include "Hect/Math/AxisAlignedBox.h"
 #include "Hect/Math/Box.h"

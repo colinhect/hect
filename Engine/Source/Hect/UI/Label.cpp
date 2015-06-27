@@ -25,11 +25,16 @@
 
 using namespace hect;
 
-Label::Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size) :
+Label::Label() :
+    _fontSize(0)
+{
+}
+
+Label::Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double fontSize) :
     Widget(position, dimensions),
     _text(text),
     _font(font),
-    _size(size)
+    _fontSize(fontSize)
 {
 }
 
@@ -57,14 +62,14 @@ Font::Handle Label::font() const
 void Label::setFont(Font::Handle font, double size)
 {
     _font = font;
-    _size = size;
+    _fontSize = size;
 }
 
 void Label::render(VectorRenderer::Frame& frame)
 {
-    if (_font)
+    if (_font && _fontSize > 0.0 && !_text.empty())
     {
-        frame.setFont(*_font, _size);
+        frame.setFont(*_font, _fontSize);
         frame.renderText(_text, position(), dimensions(), _horizontalAlign, _verticalAlign);
     }
 }

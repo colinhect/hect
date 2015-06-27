@@ -170,6 +170,12 @@ void RenderSystem::render(RenderTarget& target)
             prepareFrame(*camera, scene(), target, *_geometryBuffer);
             renderFrame(*camera, target);
         }
+        else
+        {
+            // If there is no camera then just clear the target
+            Renderer::Frame frame = _renderer.beginFrame(target);
+            frame.clear();
+        }
     }
 }
 
