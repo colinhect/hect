@@ -16,7 +16,7 @@ systemTypes:
   - CameraSystem
   - RenderSystem
   - DebugSystem
-  - WidgetSystem
+  - InterfaceSystem
 systems:
   - type: RenderSystem
     exposeShader: Hect/Rendering/Expose.shader
@@ -28,6 +28,6 @@ systems:
   - type: DebugSystem
     coloredLineShader: Hect/Shaders/ColoredLine.shader
     boxMesh: Hect/Rendering/Box.mesh
-  - type: WidgetSystem
-    defaultFont: Hect/UI/Vera.font
+  - type: InterfaceSystem
+    defaultFont: Hect/Interface/Vera.font
     defaultFontSize: 13

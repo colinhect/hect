@@ -21,45 +21,52 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "UserInterfaceSystem.h"
+#pragma once
 
-#include "Hect/Runtime/Engine.h"
+#include <array>
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Graphics/Font.h"
+#include "Hect/Graphics/Renderer.h"
+#include "Hect/Graphics/VectorRenderer.h"
+#include "Hect/Logic/System.h"
+#include "Hect/UI/Widget.h"
 
-UserInterfaceSystem::UserInterfaceSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage::Subsequent),
-    _renderer(engine.renderer()),
-    _vectorRenderer(engine.vectorRenderer())
+namespace hect
 {
-}
 
-void UserInterfaceSystem::add(WidgetBase::Handle widget)
+///
+/// Manages the user interface control Widget%s of a Scene.
+///
+/// \system
+class HECT_EXPORT InterfaceSystem :
+    public System<InterfaceSystem>
 {
-    _widgets.push_back(widget);
-}
+public:
+    InterfaceSystem(Engine& engine, Scene& scene);
 
-void UserInterfaceSystem::render(RenderTarget& target)
-{
-    Renderer::Frame frame = _renderer.beginFrame(target);
-    VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(target);
+    ///
+    /// Adds a new widget.
+    ///
+    /// \param widget The widget to add.
+    void add(WidgetBase::Handle widget);
 
-    for (const WidgetBase::Handle& widget : _widgets)
-    {
-        if (widget->visible())
-        {
-            vectorFrame.pushState();
-            vectorFrame.setClipping(widget->position(), widget->dimensions());
-            widget->render(vectorFrame);
-            vectorFrame.popState();
-        }
-    }
-}
+    void render(RenderTarget& target) override;
+    void tick(double timeStep) override;
 
-void UserInterfaceSystem::tick(double timeStep)
-{
-    for (const WidgetBase::Handle& widget : _widgets)
-    {
-        widget->tick(timeStep);
-    }
+    ///
+    /// \property{required}
+    Font::Handle defaultFont;
+
+    ///
+    /// \property{required}
+    double defaultFontSize;
+
+private:
+    Renderer& _renderer;
+    VectorRenderer& _vectorRenderer;
+
+    std::vector<WidgetBase::Handle> _widgets;
+};
+
 }
