@@ -83,15 +83,15 @@ public:
     Vector3T(const Vector2T<T>& v);
 
     ///
-    /// \copydoc Vector2T::normalize()
+    /// \copydoc hect::Vector2T::normalize()
     void normalize();
 
     ///
-    /// \copydoc Vector2T::normalized()
+    /// \copydoc hect::Vector2T::normalized()
     Vector3T normalized() const;
 
     ///
-    /// \copydoc Vector2T::dot()
+    /// \copydoc hect::Vector2T::dot()
     T dot(const Vector3T& v) const;
 
     ///
@@ -101,39 +101,39 @@ public:
     Vector3T cross(const Vector3T& v) const;
 
     ///
-    /// \copydoc Vector2T::angleFrom()
+    /// \copydoc hect::Vector2T::angleFrom()
     Angle angleFrom(const Vector3T& v) const;
 
     ///
-    /// \copydoc Vector2T::length()
+    /// \copydoc hect::Vector2T::length()
     T length() const;
 
     ///
-    /// \copydoc Vector2T::lengthSquared()
+    /// \copydoc hect::Vector2T::lengthSquared()
     T lengthSquared() const;
 
     ///
-    /// \copydoc Vector2T::floor()
+    /// \copydoc hect::Vector2T::floor()
     Vector3T floor() const;
 
     ///
-    /// \copydoc Vector2T::ceil()
+    /// \copydoc hect::Vector2T::ceil()
     Vector3T ceil() const;
 
     ///
-    /// \copydoc Vector2T::min()
+    /// \copydoc hect::Vector2T::min()
     Vector3T min(const Vector3T& v) const;
 
     ///
-    /// \copydoc Vector2T::max()
+    /// \copydoc hect::Vector2T::max()
     Vector3T max(const Vector3T& v) const;
 
     ///
-    /// \copydoc Vector2T::abs()
+    /// \copydoc hect::Vector2T::abs()
     Vector3T abs() const;
 
     ///
-    /// \copydoc Vector2T::step()
+    /// \copydoc hect::Vector2T::step()
     Vector3T step(const Vector3T& edge) const;
 
     ///

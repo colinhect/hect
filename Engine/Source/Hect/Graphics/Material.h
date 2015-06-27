@@ -70,7 +70,7 @@ public:
     UniformValueSequence uniformValues();
 
     ///
-    /// \copydoc Material::uniformValues()
+    /// \copydoc hect::Material::uniformValues()
     const UniformValueSequence uniformValues() const;
 
     ///

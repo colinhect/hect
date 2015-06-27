@@ -40,7 +40,7 @@ class Asset :
 public:
 
     ///
-    /// \copydoc AssetHandle
+    /// \copydoc hect::AssetHandle
     typedef AssetHandle<T> Handle;
 
     ///

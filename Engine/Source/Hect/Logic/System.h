@@ -56,11 +56,11 @@ class System :
 public:
 
     ///
-    /// \copydoc SystemHandle
+    /// \copydoc hect::SystemHandle
     typedef SystemHandle<SystemType> Handle;
 
     ///
-    /// \copydoc SystemConstHandle
+    /// \copydoc hect::SystemConstHandle
     typedef SystemHandle<SystemType> ConstHandle;
 
     ///

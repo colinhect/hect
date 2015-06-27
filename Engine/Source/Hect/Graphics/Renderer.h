@@ -236,43 +236,43 @@ public:
         void setUniform(const Uniform& uniform, const UniformValue& value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, int value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, double value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, const Vector2& value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, const Vector3& value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, const Vector4& value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, const Matrix4& value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, const Color& value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, Texture2& value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, Texture3& value);
 
         ///
-        /// \copydoc Renderer::Frame::setUniform()
+        /// \copydoc hect::Renderer::Frame::setUniform()
         void setUniform(const Uniform& uniform, TextureCube& value);
 
         ///

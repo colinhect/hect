@@ -63,19 +63,19 @@ public:
     typedef std::function<bool(const Entity&)> Predicate;
 
     ///
-    /// \copydoc EntityIterator
+    /// \copydoc hect::EntityIterator
     typedef EntityIterator Iterator;
 
     ///
-    /// \copydoc EntityConstIterator
+    /// \copydoc hect::EntityConstIterator
     typedef EntityConstIterator ConstIterator;
 
     ///
-    /// \copydoc EntityChildren
+    /// \copydoc hect::EntityChildren
     typedef EntityChildren Children;
 
     ///
-    /// \copydoc EntityHandle
+    /// \copydoc hect::EntityHandle
     typedef EntityHandle Handle;
 
     ///
@@ -145,7 +145,7 @@ public:
     Scene& scene();
 
     ///
-    /// \copydoc Entity::scene()
+    /// \copydoc hect::Entity::scene()
     const Scene& scene() const;
 
     ///
@@ -216,7 +216,7 @@ public:
     Entity::Iterator parent();
 
     ///
-    /// \copydoc Entity::parent()
+    /// \copydoc hect::Entity::parent()
     Entity::ConstIterator parent() const;
 
     ///
@@ -224,7 +224,7 @@ public:
     Entity::Iterator root();
 
     ///
-    /// \copydoc Entity::root()
+    /// \copydoc hect::Entity::root()
     Entity::ConstIterator root() const;
 
     ///

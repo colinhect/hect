@@ -60,7 +60,7 @@ public:
     double axisValue(const std::string& name) const;
 
     ///
-    /// \copydoc InputSystem::axisValue()
+    /// \copydoc hect::InputSystem::axisValue()
     double axisValue(const char* name) const;
 
     void tick(double timeStep) override;

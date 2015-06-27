@@ -37,11 +37,11 @@ class HECT_EXPORT IOError :
 public:
 
     ///
-    /// \copydoc Exception::Exception()
+    /// \copydoc hect::Exception::Exception()
     IOError();
 
     ///
-    /// \copydoc Exception::Exception(const std::string&)
+    /// \copydoc hect::Exception::Exception(const std::string&)
     IOError(const std::string& message);
 };
 

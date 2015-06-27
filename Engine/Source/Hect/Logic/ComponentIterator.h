@@ -134,7 +134,7 @@ public:
 };
 
 ///
-/// \copydoc ComponentIterator
+/// \copydoc hect::ComponentIterator
 template <typename T>
 class ComponentConstIterator :
     public ComponentIteratorBase<T>

@@ -37,11 +37,11 @@ class HECT_EXPORT TaskError :
 public:
 
     ///
-    /// \copydoc Exception::Exception()
+    /// \copydoc hect::Exception::Exception()
     TaskError();
 
     ///
-    /// \copydoc Exception::Exception(const std::string&)
+    /// \copydoc hect::Exception::Exception(const std::string&)
     TaskError(const std::string& message);
 };
 

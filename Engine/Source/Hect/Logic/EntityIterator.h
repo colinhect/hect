@@ -134,7 +134,7 @@ public:
 };
 
 ///
-/// \copydoc EntityIterator
+/// \copydoc hect::EntityIterator
 class HECT_EXPORT EntityConstIterator :
     public EntityIteratorBase
 {

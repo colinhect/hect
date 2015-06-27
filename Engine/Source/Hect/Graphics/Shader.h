@@ -122,7 +122,7 @@ public:
     Uniform& uniform(UniformIndex index);
 
     ///
-    /// \copydoc Shader::uniform(UniformIndex)
+    /// \copydoc hect::Shader::uniform(UniformIndex)
     const Uniform& uniform(UniformIndex index) const;
 
     ///
@@ -134,7 +134,7 @@ public:
     Uniform& uniform(const std::string& name);
 
     ///
-    /// \copydoc Shader::uniform(const std::string&)
+    /// \copydoc hect::Shader::uniform(const std::string&)
     const Uniform& uniform(const std::string& name) const;
 
     ///
@@ -146,7 +146,7 @@ public:
     Uniform& uniform(const char* name);
 
     ///
-    /// \copydoc Shader::uniform(const char*)
+    /// \copydoc hect::Shader::uniform(const char*)
     const Uniform& uniform(const char* name) const;
 
     ///

@@ -95,51 +95,51 @@ public:
     Vector4T(const Vector3T<T>& v);
 
     ///
-    /// \copydoc Vector2T::normalize()
+    /// \copydoc hect::Vector2T::normalize()
     void normalize();
 
     ///
-    /// \copydoc Vector2T::normalized()
+    /// \copydoc hect::Vector2T::normalized()
     Vector4T normalized() const;
 
     ///
-    /// \copydoc Vector2T::dot()
+    /// \copydoc hect::Vector2T::dot()
     T dot(const Vector4T& v) const;
 
     ///
-    /// \copydoc Vector2T::angleFrom()
+    /// \copydoc hect::Vector2T::angleFrom()
     Angle angleFrom(const Vector4T& v) const;
 
     ///
-    /// \copydoc Vector2T::length()
+    /// \copydoc hect::Vector2T::length()
     T length() const;
 
     ///
-    /// \copydoc Vector2T::lengthSquared()
+    /// \copydoc hect::Vector2T::lengthSquared()
     T lengthSquared() const;
 
     ///
-    /// \copydoc Vector2T::floor()
+    /// \copydoc hect::Vector2T::floor()
     Vector4T floor() const;
 
     ///
-    /// \copydoc Vector2T::ceil()
+    /// \copydoc hect::Vector2T::ceil()
     Vector4T ceil() const;
 
     ///
-    /// \copydoc Vector2T::min()
+    /// \copydoc hect::Vector2T::min()
     Vector4T min(const Vector4T& v) const;
 
     ///
-    /// \copydoc Vector2T::max()
+    /// \copydoc hect::Vector2T::max()
     Vector4T max(const Vector4T& v) const;
 
     ///
-    /// \copydoc Vector2T::abs()
+    /// \copydoc hect::Vector2T::abs()
     Vector4T abs() const;
 
     ///
-    /// \copydoc Vector2T::step()
+    /// \copydoc hect::Vector2T::step()
     Vector4T step(const Vector4T& edge) const;
 
     ///

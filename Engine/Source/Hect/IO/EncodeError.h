@@ -37,11 +37,11 @@ class HECT_EXPORT EncodeError :
 public:
 
     ///
-    /// \copydoc Exception::Exception()
+    /// \copydoc hect::Exception::Exception()
     EncodeError();
 
     ///
-    /// \copydoc Exception::Exception(const std::string&)
+    /// \copydoc hect::Exception::Exception(const std::string&)
     EncodeError(const std::string& message);
 };
 

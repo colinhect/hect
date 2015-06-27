@@ -61,19 +61,19 @@ public:
     void writeAttributeData(VertexAttributeSemantic semantic, double value);
 
     ///
-    /// \copydoc MeshWriter::writeAttributeData()
+    /// \copydoc hect::MeshWriter::writeAttributeData()
     void writeAttributeData(VertexAttributeSemantic semantic, const Vector2& value);
 
     ///
-    /// \copydoc MeshWriter::writeAttributeData()
+    /// \copydoc hect::MeshWriter::writeAttributeData()
     void writeAttributeData(VertexAttributeSemantic semantic, const Vector3& value);
 
     ///
-    /// \copydoc MeshWriter::writeAttributeData()
+    /// \copydoc hect::MeshWriter::writeAttributeData()
     void writeAttributeData(VertexAttributeSemantic semantic, const Vector4& value);
 
     ///
-    /// \copydoc MeshWriter::writeAttributeData()
+    /// \copydoc hect::MeshWriter::writeAttributeData()
     void writeAttributeData(VertexAttributeSemantic semantic, const Color& value);
 
     ///

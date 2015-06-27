@@ -139,7 +139,7 @@ public:
     T& withId(ComponentId id);
 
     ///
-    /// \copydoc ComponentPool::withId()
+    /// \copydoc hect::ComponentPool::withId()
     const T& withId(ComponentId id) const;
 
 private:

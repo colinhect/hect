@@ -75,11 +75,11 @@ public:
     typedef std::function<bool(const T&)> Predicate;
 
     ///
-    /// \copydoc ComponentIterator
+    /// \copydoc hect::ComponentIterator
     typedef ComponentIterator<T> Iterator;
 
     ///
-    /// \copydoc ComponentConstIterator
+    /// \copydoc hect::ComponentConstIterator
     typedef ComponentConstIterator<T> ConstIterator;
 
     ///
@@ -118,7 +118,7 @@ public:
     EntityIterator entity();
 
     ///
-    /// \copydoc Component::entity()
+    /// \copydoc hect::Component::entity()
     EntityConstIterator entity() const;
 
     ///
@@ -126,7 +126,7 @@ public:
     typename Component<T>::Iterator iterator();
 
     ///
-    /// \copydoc Component::iterator()
+    /// \copydoc hect::Component::iterator()
     typename Component<T>::ConstIterator iterator() const;
 
     ///

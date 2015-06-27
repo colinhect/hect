@@ -117,7 +117,7 @@ public:
     Entity& withId(EntityId id);
 
     ///
-    /// \copydoc EntityPool::withId()
+    /// \copydoc hect::EntityPool::withId()
     const Entity& withId(EntityId id) const;
 
 private:

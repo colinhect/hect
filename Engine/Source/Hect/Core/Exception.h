@@ -61,11 +61,11 @@ class HECT_EXPORT FatalError :
 public:
 
     ///
-    /// \copydoc Exception::Exception()
+    /// \copydoc hect::Exception::Exception()
     FatalError();
 
     ///
-    /// \copydoc Exception::Exception(const std::string&)
+    /// \copydoc hect::Exception::Exception(const std::string&)
     FatalError(const std::string& message);
 };
 
@@ -77,11 +77,11 @@ class HECT_EXPORT InvalidOperation :
 public:
 
     ///
-    /// \copydoc Exception::Exception()
+    /// \copydoc hect::Exception::Exception()
     InvalidOperation();
 
     ///
-    /// \copydoc Exception::Exception(const std::string&)
+    /// \copydoc hect::Exception::Exception(const std::string&)
     InvalidOperation(const std::string& message);
 };
 

@@ -36,11 +36,11 @@ class HECT_EXPORT EntityChildren
 public:
 
     ///
-    /// \copydoc EntityChildIterator
+    /// \copydoc hect::EntityChildIterator
     typedef EntityChildIterator Iterator;
 
     ///
-    /// \copydoc EntityChildConstIterator
+    /// \copydoc hect::EntityChildConstIterator
     typedef EntityChildConstIterator ConstIterator;
 
     ///
