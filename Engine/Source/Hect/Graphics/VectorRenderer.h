@@ -28,9 +28,9 @@
 #include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
+#include "Hect/Interface/HorizontalAlign.h"
+#include "Hect/Interface/VerticalAlign.h"
 #include "Hect/Math/Vector2.h"
-#include "Hect/UI/HorizontalAlign.h"
-#include "Hect/UI/VerticalAlign.h"
 
 namespace hect
 {

@@ -23,41 +23,43 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
-#include "Hect/Graphics/Color.h"
-#include "Hect/UI/Widget.h"
+#include "Hect/Interface/WidgetBase.h"
 
 namespace hect
 {
 
 ///
-/// A panel.
-class HECT_EXPORT Panel :
-    public Widget<Panel>
+/// A user interface control.
+template <typename T>
+class Widget :
+    public WidgetBase
 {
 public:
 
     ///
-    /// Constructs a panel widget.
-    ///
-    /// \param position The position.
-    /// \param dimensions The dimensions.
-    Panel(const Vector2& position, const Vector2& dimensions);
+    /// A handle to a widget.
+    typedef std::shared_ptr<T> Handle;
 
     ///
-    /// Returns the background color of the panel.
-    const Color& backgroundColor() const;
+    /// Constructs a widget.
+    Widget();
 
     ///
-    /// Sets the background color of the panel.
+    /// Constructs a widget.
     ///
-    /// \param color The new background color of the panel.
-    void setBackgroundColor(const Color& color);
+    /// \param position The position of the widget.
+    Widget(const Vector2& position);
 
-    void render(VectorRenderer::Frame& frame) override;
+    ///
+    /// Constructs a widget.
+    ///
+    /// \param position The position of the widget.
+    /// \param dimensions The dimensions of the widget.
+    Widget(const Vector2& position, const Vector2& dimensions);
 
-private:
-    Color _backgroundColor { Color(0.0, 0.0, 0.0, 0.8) };
+    virtual ~Widget() { }
 };
 
 }
+
+#include "Widget.inl"

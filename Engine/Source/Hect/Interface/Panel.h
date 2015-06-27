@@ -24,66 +24,40 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Timing/TimeSpan.h"
-#include "Hect/UI/Widget.h"
-
-#include <deque>
+#include "Hect/Graphics/Color.h"
+#include "Hect/Interface/Widget.h"
 
 namespace hect
 {
 
 ///
-/// A temporal message log.
-class HECT_EXPORT MessageLog :
-    public Widget<MessageLog>
+/// A panel.
+class HECT_EXPORT Panel :
+    public Widget<Panel>
 {
 public:
 
     ///
-    /// Constructs a message log widget.
+    /// Constructs a panel widget.
     ///
     /// \param position The position.
     /// \param dimensions The dimensions.
-    /// \param font The font.
-    /// \param size The font size.
-    MessageLog(const Vector2& position, const Vector2& dimensions, Font::Handle font, double size);
+    Panel(const Vector2& position, const Vector2& dimensions);
 
     ///
-    /// Adds a message to the message log.
-    ///
-    /// \param text The text of the message.
-    void addMessage(const std::string& text);
+    /// Returns the background color of the panel.
+    const Color& backgroundColor() const;
 
     ///
-    /// Returns the font of the message log.
-    Font::Handle font() const;
-
+    /// Sets the background color of the panel.
     ///
-    /// Sets the font of the message log.
-    ///
-    /// \param font The font.
-    /// \param size The font size.
-    void setFont(Font::Handle font, double size);
+    /// \param color The new background color of the panel.
+    void setBackgroundColor(const Color& color);
 
-    void tick(double timeStep) override;
     void render(VectorRenderer::Frame& frame) override;
 
 private:
-    void removeExpiredMessages();
-
-    struct Message
-    {
-        TimeSpan added;
-        std::string text;
-    };
-
-    Font::Handle _font;
-    double _size;
-
-    double _lineHeight { 16.0 };
-    TimeSpan _messageExpiration { TimeSpan::fromSeconds(3.0) };
-
-    std::deque<Message> _messages;
+    Color _backgroundColor { Color(0.0, 0.0, 0.0, 0.8) };
 };
 
 }

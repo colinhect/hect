@@ -25,9 +25,9 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Font.h"
-#include "Hect/UI/HorizontalAlign.h"
-#include "Hect/UI/VerticalAlign.h"
-#include "Hect/UI/Widget.h"
+#include "Hect/Interface/HorizontalAlign.h"
+#include "Hect/Interface/VerticalAlign.h"
+#include "Hect/Interface/Widget.h"
 
 #include <string>
 
