@@ -38,6 +38,10 @@ class HECT_EXPORT Panel :
 public:
 
     ///
+    /// Constructs an empty panel widget.
+    Panel();
+
+    ///
     /// Constructs a panel widget.
     ///
     /// \param position The position.
@@ -54,7 +58,7 @@ public:
     /// \param color The new background color of the panel.
     void setBackgroundColor(const Color& color);
 
-    void render(VectorRenderer::Frame& frame) override;
+    void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 
 private:
     Color _backgroundColor { Color(0.0, 0.0, 0.0, 0.8) };

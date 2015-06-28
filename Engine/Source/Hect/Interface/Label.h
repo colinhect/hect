@@ -83,7 +83,7 @@ public:
     /// \param size The font size.
     void setFont(Font::Handle font, double size);
 
-    void render(VectorRenderer::Frame& frame) override;
+    void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 
 private:
     std::string _text;

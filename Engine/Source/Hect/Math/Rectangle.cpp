@@ -51,14 +51,32 @@ const Vector2& Rectangle::maximum() const
     return _maximum;
 }
 
+Vector2 Rectangle::center() const
+{
+    return _minimum + size() * 0.5;
+}
+
 Vector2 Rectangle::size() const
 {
     return _maximum - _minimum;
 }
 
-Vector2 Rectangle::center() const
+Rectangle Rectangle::intersect(const Rectangle& rectangle) const
 {
-    return _minimum + size() * 0.5;
+    Vector2 minimum(std::max(_minimum.x, rectangle._minimum.x), std::max(_minimum.y, rectangle._minimum.y));
+    Vector2 maximum(std::min(_maximum.x, rectangle._maximum.x), std::min(_maximum.y, rectangle._maximum.y));
+
+    return Rectangle(minimum, maximum);
+}
+
+bool Rectangle::operator==(const Rectangle& rectangle) const
+{
+    return _minimum == rectangle._minimum && _maximum == rectangle._maximum;
+}
+
+bool Rectangle::operator!=(const Rectangle& rectangle) const
+{
+    return _minimum != rectangle._minimum || _maximum != rectangle._maximum;
 }
 
 void Rectangle::encode(Encoder& encoder) const

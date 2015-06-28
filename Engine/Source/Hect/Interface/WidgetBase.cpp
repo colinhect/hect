@@ -32,12 +32,14 @@ WidgetBase::WidgetBase()
 WidgetBase::WidgetBase(const Vector2& position) :
     _position(position)
 {
+    updateBounds();
 }
 
 WidgetBase::WidgetBase(const Vector2& position, const Vector2& dimensions) :
     _position(position),
     _dimensions(dimensions)
 {
+    updateBounds();
 }
 
 void WidgetBase::tick(double timeStep)
@@ -53,6 +55,7 @@ const Vector2& WidgetBase::position() const
 void WidgetBase::setPosition(const Vector2& position)
 {
     _position = position;
+    updateBounds();
 }
 
 const Vector2& WidgetBase::dimensions() const
@@ -63,6 +66,12 @@ const Vector2& WidgetBase::dimensions() const
 void WidgetBase::setDimensions(const Vector2& dimensions)
 {
     _dimensions = dimensions;
+    updateBounds();
+}
+
+const Rectangle& WidgetBase::bounds() const
+{
+    return _bounds;
 }
 
 const std::string& WidgetBase::tooltip() const
@@ -83,4 +92,9 @@ bool WidgetBase::visible() const
 void WidgetBase::setVisible(bool visible)
 {
     _visible = visible;
+}
+
+void WidgetBase::updateBounds()
+{
+    _bounds = Rectangle(_position, _position + _dimensions);
 }

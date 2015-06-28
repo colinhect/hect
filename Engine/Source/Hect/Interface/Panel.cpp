@@ -25,6 +25,10 @@
 
 using namespace hect;
 
+Panel::Panel()
+{
+}
+
 Panel::Panel(const Vector2& position, const Vector2& dimensions) :
     Widget(position, dimensions)
 {
@@ -40,8 +44,9 @@ void Panel::setBackgroundColor(const Color& color)
     _backgroundColor = color;
 }
 
-void Panel::render(VectorRenderer::Frame& frame)
+void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
+    frame.setClipping(bounds);
     frame.beginPath();
     frame.setColor(_backgroundColor);
     frame.rectangle(position(), dimensions());

@@ -44,14 +44,18 @@ void InterfaceSystem::render(RenderTarget& target)
     Renderer::Frame frame = _renderer.beginFrame(target);
     VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(target);
 
+    Rectangle targetBounds(0.0, 0.0, target.width(), target.height());
     for (const WidgetBase::Handle& widget : _widgets)
     {
         if (widget->visible())
         {
-            vectorFrame.pushState();
-            vectorFrame.setClipping(widget->position(), widget->dimensions());
-            widget->render(vectorFrame);
-            vectorFrame.popState();
+            Rectangle bounds = widget->bounds().intersect(targetBounds);
+            if (bounds.size() != Vector2::Zero)
+            {
+                vectorFrame.pushState();
+                widget->render(vectorFrame, bounds);
+                vectorFrame.popState();
+            }
         }
     }
 }

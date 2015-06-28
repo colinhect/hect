@@ -87,9 +87,8 @@ public:
         /// Sets the clipping bounds for subsequent render calls within the
         /// frame.
         ///
-        /// \param position The position.
-        /// \param dimensions The dimensions.
-        void setClipping(const Vector2& position, const Vector2& dimensions);
+        /// \param bounds The clipping bounds.
+        void setClipping(const Rectangle& bounds);
 
         ///
         /// Sets the font used for subsequent render calls within the frame.

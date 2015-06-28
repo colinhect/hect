@@ -56,10 +56,9 @@ void VectorRenderer::Frame::rectangle(const Vector2& position, const Vector2& di
     (void)dimensions;
 }
 
-void VectorRenderer::Frame::setClipping(const Vector2& position, const Vector2& dimensions)
+void VectorRenderer::Frame::setClipping(const Rectangle& bounds)
 {
-    (void)position;
-    (void)dimensions;
+    (void)bounds;
 }
 
 void VectorRenderer::Frame::setFont(const Font& font, double size)

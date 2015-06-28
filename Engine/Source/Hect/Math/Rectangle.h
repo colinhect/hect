@@ -66,12 +66,30 @@ public:
     const Vector2& maximum() const;
 
     ///
+    /// Returns the center point.
+    Vector2 center() const;
+
+    ///
     /// Returns the width and height.
     Vector2 size() const;
 
     ///
-    /// Returns the center point.
-    Vector2 center() const;
+    /// Returns the intersection between the rectangle and another.
+    ///
+    /// \param rectangle The other rectangle.
+    Rectangle intersect(const Rectangle& rectangle) const;
+
+    ///
+    /// Returns whether the rectangle is equivalent to another.
+    ///
+    /// \param rectangle The other rectangle.
+    bool operator==(const Rectangle& rectangle) const;
+
+    ///
+    /// Returns whether the rectangle is different from another.
+    ///
+    /// \param rectangle The other rectangle.
+    bool operator!=(const Rectangle& rectangle) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;

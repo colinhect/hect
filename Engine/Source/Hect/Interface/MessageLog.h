@@ -66,7 +66,7 @@ public:
     void setFont(Font::Handle font, double size);
 
     void tick(double timeStep) override;
-    void render(VectorRenderer::Frame& frame) override;
+    void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 
 private:
     void removeExpiredMessages();

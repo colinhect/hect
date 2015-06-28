@@ -65,10 +65,11 @@ void Label::setFont(Font::Handle font, double size)
     _fontSize = size;
 }
 
-void Label::render(VectorRenderer::Frame& frame)
+void Label::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
     if (_font && _fontSize > 0.0 && !_text.empty())
     {
+        frame.setClipping(bounds);
         frame.setFont(*_font, _fontSize);
         frame.renderText(_text, position(), dimensions(), _horizontalAlign, _verticalAlign);
     }

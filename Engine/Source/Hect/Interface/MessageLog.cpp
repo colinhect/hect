@@ -60,10 +60,13 @@ void MessageLog::tick(double timeStep)
     removeExpiredMessages();
 }
 
-void MessageLog::render(VectorRenderer::Frame& frame)
+void MessageLog::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
+    frame.setClipping(bounds);
+
     if (_font)
     {
+
         const Vector2 origin = position() + Vector2::UnitY * dimensions().y;
 
         frame.setFont(*_font, _size);

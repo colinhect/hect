@@ -341,7 +341,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
     // Expose
     {
         Renderer::Frame frame = _renderer.beginFrame(target);
-        frame.clear();
+        frame.clear(camera.clearColor);
         frame.setShader(*exposeShader);
         setBoundUniforms(frame, *exposeShader, camera, target, _identityTransform);
 

@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/VectorRenderer.h"
+#include "Hect/Math/Rectangle.h"
 #include "Hect/Math/Vector2.h"
 
 #include <memory>
@@ -74,7 +75,8 @@ public:
     /// Renders the widget to a frame.
     ///
     /// \param frame The frame to render to.
-    virtual void render(VectorRenderer::Frame& frame) = 0;
+    /// \param bounds The bounds of the render area.
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) = 0;
 
     ///
     /// Returns the position of the widget.
@@ -97,6 +99,10 @@ public:
     void setDimensions(const Vector2& dimensions);
 
     ///
+    /// Returns the effective bounds of the widget.
+    const Rectangle& bounds() const;
+
+    ///
     /// Returns the tooltip of the widget.
     const std::string& tooltip() const;
 
@@ -117,8 +123,11 @@ public:
     void setVisible(bool visible);
 
 private:
+    void updateBounds();
+
     Vector2 _position;
     Vector2 _dimensions;
+    Rectangle _bounds;
     std::string _tooltip;
     bool _visible { true };
 };

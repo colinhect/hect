@@ -92,9 +92,12 @@ void VectorRenderer::Frame::rectangle(const Vector2& position, const Vector2& di
     nvgRect(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
 }
 
-void VectorRenderer::Frame::setClipping(const Vector2& position, const Vector2& dimensions)
+void VectorRenderer::Frame::setClipping(const Rectangle& bounds)
 {
     assert(_nvgContext);
+
+    const Vector2& position = bounds.minimum();
+    Vector2 dimensions = bounds.size();
     nvgScissor(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
 }
 
@@ -154,9 +157,7 @@ void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& p
     }
 
     // Render the text
-    setClipping(position, dimensions);
     nvgText(_nvgContext, static_cast<float>(actual.x), static_cast<float>(actual.y), text.c_str(), nullptr);
-    nvgResetScissor(_nvgContext);
 }
 
 void VectorRenderer::initialize()
