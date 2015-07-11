@@ -41,12 +41,29 @@ void VectorRenderer::Frame::beginPath()
 {
 }
 
-void VectorRenderer::Frame::setColor(const Color& color)
+void VectorRenderer::Frame::setFillColor(const Color& color)
 {
     (void)color;
 }
 
-void VectorRenderer::Frame::fillPath()
+void VectorRenderer::Frame::setFillGradient(const Vector2& startPosition, const Vector2& endPosition, const Color& startColor, const Color& endColor)
+{
+    (void)startPosition;
+    (void)endPosition;
+    (void)startColor;
+    (void)endColor;
+}
+
+void VectorRenderer::Frame::fill()
+{
+}
+
+void VectorRenderer::Frame::setStrokeColor(const Color& color)
+{
+    (void)color;
+}
+
+void VectorRenderer::Frame::stroke()
 {
 }
 

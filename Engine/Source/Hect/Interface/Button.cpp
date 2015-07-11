@@ -21,34 +21,45 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Panel.h"
+#include "Button.h"
 
 using namespace hect;
 
-Panel::Panel()
+Button::Button()
 {
 }
 
-Panel::Panel(const Vector2& position, const Vector2& dimensions) :
+Button::Button(const Vector2& position, const Vector2& dimensions) :
     Widget(position, dimensions)
 {
 }
 
-const Color& Panel::backgroundColor() const
+const Color& Button::color() const
 {
-    return _backgroundColor;
+    return _color;
 }
 
-void Panel::setBackgroundColor(const Color& color)
+void Button::setColor(const Color& color)
 {
-    _backgroundColor = color;
+    _color = color;
 }
 
-void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
     frame.setClipping(bounds);
     frame.beginPath();
-    frame.setFillColor(_backgroundColor);
     frame.rectangle(position(), dimensions());
+
+    Color lightColor = _color * 1.1;
+    lightColor.a = 1.0;
+    Color darkColor = _color * 0.9;
+    darkColor.a = 1.0;
+    frame.setFillGradient(position(), position() + Vector2::UnitY * dimensions().y, lightColor, darkColor);
+
     frame.fill();
+
+    frame.beginPath();
+    frame.rectangle(position(), dimensions());
+    frame.setStrokeColor(Color::Black);
+    frame.stroke();
 }

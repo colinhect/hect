@@ -82,7 +82,7 @@ void MessageLog::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
             // Set the color of the text
             const TimeSpan lifeTime = Timer::totalElapsed() - message.added;
             double alpha = 1.0 - lifeTime.seconds() / _messageExpiration.seconds();
-            frame.setColor(Color(1.0, 1.0, 1.0, alpha));
+            frame.setFillColor(Color(1.0, 1.0, 1.0, alpha));
 
             // Render the text
             frame.renderText(message.text, textPosition, textDimensions);

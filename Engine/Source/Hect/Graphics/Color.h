@@ -47,6 +47,10 @@ public:
     static const Color One;
 
     ///
+    /// A black color with an alpha of one.
+    static const Color Black;
+
+    ///
     /// A red color with an alpha of one.
     static const Color Red;
 

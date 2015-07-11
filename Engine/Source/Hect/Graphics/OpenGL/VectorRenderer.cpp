@@ -74,16 +74,43 @@ void VectorRenderer::Frame::beginPath()
     nvgBeginPath(_nvgContext);
 }
 
-void VectorRenderer::Frame::setColor(const Color& color)
+void VectorRenderer::Frame::setFillColor(const Color& color)
 {
     assert(_nvgContext);
     nvgFillColor(_nvgContext, convertColor(color));
 }
 
-void VectorRenderer::Frame::fillPath()
+void VectorRenderer::Frame::setFillGradient(const Vector2& startPosition, const Vector2& endPosition, const Color& startColor, const Color& endColor)
+{
+    assert(_nvgContext);
+
+    // Create the gradient
+    float sx = static_cast<float>(startPosition.x);
+    float sy = static_cast<float>(startPosition.y);
+    float ex = static_cast<float>(endPosition.x);
+    float ey = static_cast<float>(endPosition.y);
+    NVGpaint gradient = nvgLinearGradient(_nvgContext, sx, sy, ex, ey, convertColor(startColor), convertColor(endColor));
+
+    // Fill the gradient
+    nvgFillPaint(_nvgContext, gradient);
+}
+
+void VectorRenderer::Frame::fill()
 {
     assert(_nvgContext);
     nvgFill(_nvgContext);
+}
+
+void VectorRenderer::Frame::setStrokeColor(const Color& color)
+{
+    assert(_nvgContext);
+    nvgStrokeColor(_nvgContext, convertColor(color));
+}
+
+void VectorRenderer::Frame::stroke()
+{
+    assert(_nvgContext);
+    nvgStroke(_nvgContext);
 }
 
 void VectorRenderer::Frame::rectangle(const Vector2& position, const Vector2& dimensions)
@@ -95,7 +122,6 @@ void VectorRenderer::Frame::rectangle(const Vector2& position, const Vector2& di
 void VectorRenderer::Frame::setClipping(const Rectangle& bounds)
 {
     assert(_nvgContext);
-
     const Vector2& position = bounds.minimum();
     Vector2 dimensions = bounds.size();
     nvgScissor(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));

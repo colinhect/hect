@@ -21,34 +21,47 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Panel.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Graphics/Color.h"
+#include "Hect/Interface/Widget.h"
 
-Panel::Panel()
+namespace hect
 {
-}
 
-Panel::Panel(const Vector2& position, const Vector2& dimensions) :
-    Widget(position, dimensions)
+///
+/// A button.
+class HECT_EXPORT Button :
+    public Widget<Button>
 {
-}
+public:
 
-const Color& Panel::backgroundColor() const
-{
-    return _backgroundColor;
-}
+    ///
+    /// Constructs an empty button widget.
+    Button();
 
-void Panel::setBackgroundColor(const Color& color)
-{
-    _backgroundColor = color;
-}
+    ///
+    /// Constructs a button widget.
+    ///
+    /// \param position The position.
+    /// \param dimensions The dimensions.
+    Button(const Vector2& position, const Vector2& dimensions);
 
-void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
-{
-    frame.setClipping(bounds);
-    frame.beginPath();
-    frame.setFillColor(_backgroundColor);
-    frame.rectangle(position(), dimensions());
-    frame.fill();
+    ///
+    /// Returns the color of the button.
+    const Color& color() const;
+
+    ///
+    /// Sets the color of the button.
+    ///
+    /// \param color The new color of the button.
+    void setColor(const Color& color);
+
+    void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+
+private:
+    Color _color { Color::Black };
+};
+
 }
