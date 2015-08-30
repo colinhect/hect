@@ -46,16 +46,6 @@ public:
     Label();
 
     ///
-    /// Constructs a label widget.
-    ///
-    /// \param text The text.
-    /// \param position The position.
-    /// \param dimensions The dimensions.
-    /// \param font The font.
-    /// \param fontSize The font size.
-    Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double fontSize);
-
-    ///
     /// Returns the text of the label.
     const std::string& text() const;
 

@@ -34,14 +34,24 @@ Button::Button(const Vector2& position, const Vector2& dimensions) :
 {
 }
 
-const Color& Button::color() const
+const Color& Button::backgroundColor() const
 {
-    return _color;
+    return _backgroundColor;
 }
 
-void Button::setColor(const Color& color)
+void Button::setBackgroundColor(const Color& color)
 {
-    _color = color;
+    _backgroundColor = color;
+}
+
+const Color& Button::borderColor() const
+{
+    return _borderColor;
+}
+
+void Button::setBorderColor(const Color& color)
+{
+    _borderColor = color;
 }
 
 void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
@@ -50,9 +60,9 @@ void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
     frame.beginPath();
     frame.rectangle(position(), dimensions());
 
-    Color lightColor = _color * 1.1;
+    Color lightColor = _backgroundColor * 1.1;
     lightColor.a = 1.0;
-    Color darkColor = _color * 0.9;
+    Color darkColor = _backgroundColor * 0.9;
     darkColor.a = 1.0;
     frame.setFillGradient(position(), position() + Vector2::UnitY * dimensions().y, lightColor, darkColor);
 
@@ -60,6 +70,6 @@ void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 
     frame.beginPath();
     frame.rectangle(position(), dimensions());
-    frame.setStrokeColor(Color::Black);
+    frame.setStrokeColor(_borderColor);
     frame.stroke();
 }

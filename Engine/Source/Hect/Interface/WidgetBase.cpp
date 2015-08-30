@@ -47,6 +47,14 @@ void WidgetBase::tick(double timeStep)
     (void)timeStep;
 }
 
+void WidgetBase::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+{
+    for (const WidgetBase::Handle& child : _children)
+    {
+        child->render(frame, bounds);
+    }
+}
+
 const Vector2& WidgetBase::position() const
 {
     return _position;
@@ -92,6 +100,20 @@ bool WidgetBase::visible() const
 void WidgetBase::setVisible(bool visible)
 {
     _visible = visible;
+}
+
+void WidgetBase::addChild(const WidgetBase::Handle& child)
+{
+    _children.push_back(child);
+}
+
+void WidgetBase::removeChild(const WidgetBase::Handle& child)
+{
+    auto it = std::find(_children.begin(), _children.end(), child);
+    if (it != _children.end())
+    {
+        _children.erase(it);
+    }
 }
 
 void WidgetBase::updateBounds()

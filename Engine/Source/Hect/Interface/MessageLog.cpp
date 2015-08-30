@@ -27,6 +27,10 @@
 
 using namespace hect;
 
+MessageLog::MessageLog()
+{
+}
+
 MessageLog::MessageLog(const Vector2& position, const Vector2& dimensions, Font::Handle font, double size) :
     Widget(position, dimensions),
     _font(font),

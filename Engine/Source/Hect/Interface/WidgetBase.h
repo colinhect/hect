@@ -36,8 +36,7 @@ namespace hect
 
 ///
 /// Abstract base for Widget.
-class HECT_EXPORT WidgetBase :
-    public std::enable_shared_from_this<WidgetBase>
+class HECT_EXPORT WidgetBase
 {
 public:
 
@@ -76,7 +75,7 @@ public:
     ///
     /// \param frame The frame to render to.
     /// \param bounds The bounds of the render area.
-    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) = 0;
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds);
 
     ///
     /// Returns the position of the widget.
@@ -122,6 +121,18 @@ public:
     /// \param visible Whether the widget is visible.
     void setVisible(bool visible);
 
+    ///
+    /// Adds a child widget.
+    ///
+    /// \param child The child widget to add.
+    void addChild(const WidgetBase::Handle& child);
+
+    ///
+    /// Removes a child widget.
+    ///
+    /// \param child The child widget to remove.
+    void removeChild(const WidgetBase::Handle& child);
+
 private:
     void updateBounds();
 
@@ -130,6 +141,7 @@ private:
     Rectangle _bounds;
     std::string _tooltip;
     bool _visible { true };
+    std::vector<WidgetBase::Handle> _children;
 };
 
 }

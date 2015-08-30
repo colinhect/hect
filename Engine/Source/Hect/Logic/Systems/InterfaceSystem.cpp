@@ -34,11 +34,6 @@ InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void InterfaceSystem::add(WidgetBase::Handle widget)
-{
-    _widgets.push_back(widget);
-}
-
 void InterfaceSystem::render(RenderTarget& target)
 {
     Renderer::Frame frame = _renderer.beginFrame(target);

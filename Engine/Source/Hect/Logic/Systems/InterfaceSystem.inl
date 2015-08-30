@@ -21,57 +21,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
-
-#include <array>
-
-#include "Hect/Core/Export.h"
-#include "Hect/Graphics/Font.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/VectorRenderer.h"
-#include "Hect/Interface/Widget.h"
-#include "Hect/Logic/System.h"
 
 namespace hect
 {
 
-///
-/// Manages the user interface control Widget%s of a Scene.
-///
-/// \system
-class HECT_EXPORT InterfaceSystem :
-    public System<InterfaceSystem>
+template <typename T, typename... Args>
+typename T::Handle InterfaceSystem::add(Args&&... args)
 {
-public:
-    InterfaceSystem(Engine& engine, Scene& scene);
-
-    ///
-    /// Adds a new widget.
-    ///
-    /// \param args The arguments to pass to the widget's constructor.
-    ///
-    /// \returns A handle to the added widget.
-    template <typename T, typename... Args>
-    typename T::Handle add(Args&&... args);
-
-    void render(RenderTarget& target) override;
-    void tick(double timeStep) override;
-
-    ///
-    /// \property{required}
-    Font::Handle defaultFont;
-
-    ///
-    /// \property{required}
-    double defaultFontSize;
-
-private:
-    Renderer& _renderer;
-    VectorRenderer& _vectorRenderer;
-
-    std::vector<WidgetBase::Handle> _widgets;
-};
-
+    typename T::Handle widget(new T(args...));
+    _widgets.push_back(widget);
+    return widget;
 }
 
-#include "InterfaceSystem.inl"
+}

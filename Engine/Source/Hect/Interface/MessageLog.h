@@ -40,6 +40,10 @@ class HECT_EXPORT MessageLog :
 public:
 
     ///
+    /// Constructs an empty message log widget.
+    MessageLog();
+
+    ///
     /// Constructs a message log widget.
     ///
     /// \param position The position.

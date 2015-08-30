@@ -30,14 +30,6 @@ Label::Label() :
 {
 }
 
-Label::Label(const std::string& text, const Vector2& position, const Vector2& dimensions, Font::Handle font, double fontSize) :
-    Widget(position, dimensions),
-    _text(text),
-    _font(font),
-    _fontSize(fontSize)
-{
-}
-
 const std::string& Label::text() const
 {
     return _text;

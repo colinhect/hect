@@ -49,19 +49,30 @@ public:
     Button(const Vector2& position, const Vector2& dimensions);
 
     ///
-    /// Returns the color of the button.
-    const Color& color() const;
+    /// Returns the background color of the button.
+    const Color& backgroundColor() const;
 
     ///
-    /// Sets the color of the button.
+    /// Sets the background color of the button.
     ///
-    /// \param color The new color of the button.
-    void setColor(const Color& color);
+    /// \param color The new background color of the button.
+    void setBackgroundColor(const Color& color);
+
+    ///
+    /// Returns the border color of the button.
+    const Color& borderColor() const;
+
+    ///
+    /// Sets the background color of the button.
+    ///
+    /// \param color The new background color of the button.
+    void setBorderColor(const Color& color);
 
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 
 private:
-    Color _color { Color::Black };
+    Color _backgroundColor { Color(0.1, 0.1, 0.1) };
+    Color _borderColor { Color(0.5, 0.5, 0.5) };
 };
 
 }
