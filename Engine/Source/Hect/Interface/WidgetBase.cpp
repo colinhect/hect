@@ -30,13 +30,13 @@ WidgetBase::WidgetBase()
 }
 
 WidgetBase::WidgetBase(const Vector2& position) :
-    _position(position)
+    _localPosition(position)
 {
     updateBounds();
 }
 
 WidgetBase::WidgetBase(const Vector2& position, const Vector2& dimensions) :
-    _position(position),
+    _localPosition(position),
     _dimensions(dimensions)
 {
     updateBounds();
@@ -47,23 +47,20 @@ void WidgetBase::tick(double timeStep)
     (void)timeStep;
 }
 
-void WidgetBase::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+const Vector2& WidgetBase::localPosition() const
 {
-    for (const WidgetBase::Handle& child : _children)
-    {
-        child->render(frame, bounds);
-    }
+    return _localPosition;
 }
 
-const Vector2& WidgetBase::position() const
+void WidgetBase::setLocalPosition(const Vector2& position)
 {
-    return _position;
-}
-
-void WidgetBase::setPosition(const Vector2& position)
-{
-    _position = position;
+    _localPosition = position;
     updateBounds();
+}
+
+const Vector2& WidgetBase::globalPosition() const
+{
+    return _globalPosition;
 }
 
 const Vector2& WidgetBase::dimensions() const
@@ -104,19 +101,84 @@ void WidgetBase::setVisible(bool visible)
 
 void WidgetBase::addChild(const WidgetBase::Handle& child)
 {
-    _children.push_back(child);
+    if (child)
+    {
+        if (child->_parent)
+        {
+            throw InvalidOperation("Widget is already a child");
+        }
+        else
+        {
+            _children.push_back(child);
+            child->_parent = this;
+            child->updateBounds();
+        }
+    }
 }
 
 void WidgetBase::removeChild(const WidgetBase::Handle& child)
 {
     auto it = std::find(_children.begin(), _children.end(), child);
-    if (it != _children.end())
+    if (it == _children.end())
+    {
+        throw InvalidOperation("Widget is not a child of this widget");
+    }
+    else
     {
         _children.erase(it);
+        child->_parent = nullptr;
+        child->updateBounds();
     }
+}
+
+InterfaceSystem& WidgetBase::interfaceSystem()
+{
+    if (!_interfaceSystem)
+    {
+        throw InvalidOperation("Widget does not belong to an interface system");
+    }
+
+    return *_interfaceSystem;
+}
+
+const InterfaceSystem& WidgetBase::interfaceSystem() const
+{
+    if (!_interfaceSystem)
+    {
+        throw InvalidOperation("Widget does not belong to an interface system");
+    }
+
+    return *_interfaceSystem;
+}
+
+void WidgetBase::renderChildren(VectorRenderer::Frame& frame, const Rectangle& bounds)
+{
+    for (const WidgetBase::Handle& child : _children)
+    {
+        child->render(frame, bounds);
+    }
+}
+
+void WidgetBase::setInterfaceSystem(InterfaceSystem& interfaceSystem)
+{
+    _interfaceSystem = &interfaceSystem;
 }
 
 void WidgetBase::updateBounds()
 {
-    _bounds = Rectangle(_position, _position + _dimensions);
+    // Update the global position
+    _globalPosition = _localPosition;
+    if (_parent)
+    {
+        _globalPosition += _parent->globalPosition();
+    }
+
+    // Compute the bounds
+    _bounds = Rectangle(_globalPosition, _globalPosition + _dimensions);
+
+    // Recursively update the bounds for each child
+    for (const WidgetBase::Handle& child : _children)
+    {
+        child->updateBounds();
+    }
 }

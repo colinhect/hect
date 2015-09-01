@@ -46,7 +46,7 @@ public:
     ///
     /// Constructs a message log widget.
     ///
-    /// \param position The position.
+    /// \param position The local position.
     /// \param dimensions The dimensions.
     /// \param font The font.
     /// \param size The font size.

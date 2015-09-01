@@ -46,6 +46,13 @@ public:
     Label();
 
     ///
+    /// Constructs a label widget.
+    ///
+    /// \param position The local position.
+    /// \param dimensions The dimensions.
+    Label(const Vector2& position, const Vector2& dimensions);
+
+    ///
     /// Returns the text of the label.
     const std::string& text() const;
 
@@ -78,7 +85,7 @@ public:
 private:
     std::string _text;
     Font::Handle _font;
-    double _fontSize;
+    double _fontSize { 0.0 };
 
     HorizontalAlign _horizontalAlign { HorizontalAlign::Left };
     VerticalAlign _verticalAlign { VerticalAlign::Top };

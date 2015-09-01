@@ -38,6 +38,7 @@ namespace hect
 /// Abstract base for Widget.
 class HECT_EXPORT WidgetBase
 {
+    friend class InterfaceSystem;
 public:
 
     ///
@@ -51,13 +52,13 @@ public:
     ///
     /// Constructs a widget.
     ///
-    /// \param position The position of the widget.
+    /// \param position The local position of the widget.
     WidgetBase(const Vector2& position);
 
     ///
     /// Constructs a widget.
     ///
-    /// \param position The position of the widget.
+    /// \param position The local position of the widget.
     /// \param dimensions The dimensions of the widget.
     WidgetBase(const Vector2& position, const Vector2& dimensions);
 
@@ -75,17 +76,24 @@ public:
     ///
     /// \param frame The frame to render to.
     /// \param bounds The bounds of the render area.
-    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds);
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) = 0;
+
+    virtual void onPrimaryCursorClick() { }
+    virtual void onPrimaryCursorRelease() { }
 
     ///
-    /// Returns the position of the widget.
-    const Vector2& position() const;
+    /// Returns the local position of the widget.
+    const Vector2& localPosition() const;
 
     ///
-    /// Sets the position of the widget.
+    /// Sets the local position of the widget.
     ///
     /// \param position The new position of the widget.
-    void setPosition(const Vector2& position);
+    void setLocalPosition(const Vector2& position);
+
+    ///
+    /// Returns the global position of the widget.
+    const Vector2& globalPosition() const;
 
     ///
     /// Returns the dimensions of the widget.
@@ -125,18 +133,48 @@ public:
     /// Adds a child widget.
     ///
     /// \param child The child widget to add.
+    ///
+    /// \throws InvalidOperation If the widget is already a child of a widget.
     void addChild(const WidgetBase::Handle& child);
 
     ///
     /// Removes a child widget.
     ///
     /// \param child The child widget to remove.
+    ///
+    /// \throws InvalidOperation If the widget is not a child of this widget.
     void removeChild(const WidgetBase::Handle& child);
 
+    ///
+    /// Returns the interface system that the widget belongs to.
+    ///
+    /// \throws InvalidOperation If the widget does not belong to an interface
+    /// system.
+    InterfaceSystem& interfaceSystem();
+
+    ///
+    /// \copydoc WidgetBase::interfaceSystem()
+    const InterfaceSystem& interfaceSystem() const;
+
+protected:
+
+    ///
+    /// Renders the child widgets to a frame.
+    ///
+    /// \param frame The frame to render to.
+    /// \param bounds The bounds of the render area.
+    void renderChildren(VectorRenderer::Frame& frame, const Rectangle& bounds);
+
 private:
+    void setInterfaceSystem(InterfaceSystem& interfaceSystem);
     void updateBounds();
 
-    Vector2 _position;
+    InterfaceSystem* _interfaceSystem { nullptr };
+
+    WidgetBase* _parent { nullptr };
+
+    Vector2 _localPosition;
+    Vector2 _globalPosition;
     Vector2 _dimensions;
     Rectangle _bounds;
     std::string _tooltip;

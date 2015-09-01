@@ -47,13 +47,13 @@ public:
     ///
     /// Constructs a widget.
     ///
-    /// \param position The position of the widget.
+    /// \param position The local position of the widget.
     Widget(const Vector2& position);
 
     ///
     /// Constructs a widget.
     ///
-    /// \param position The position of the widget.
+    /// \param position The local position of the widget.
     /// \param dimensions The dimensions of the widget.
     Widget(const Vector2& position, const Vector2& dimensions);
 

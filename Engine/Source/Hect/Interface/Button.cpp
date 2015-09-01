@@ -34,6 +34,11 @@ Button::Button(const Vector2& position, const Vector2& dimensions) :
 {
 }
 
+void Button::setPressAction(const Button::Action& action)
+{
+    _pressAction = action;
+}
+
 const Color& Button::backgroundColor() const
 {
     return _backgroundColor;
@@ -58,18 +63,32 @@ void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
     frame.setClipping(bounds);
     frame.beginPath();
-    frame.rectangle(position(), dimensions());
+    frame.rectangle(globalPosition(), dimensions());
 
     Color lightColor = _backgroundColor * 1.1;
     lightColor.a = 1.0;
     Color darkColor = _backgroundColor * 0.9;
     darkColor.a = 1.0;
-    frame.setFillGradient(position(), position() + Vector2::UnitY * dimensions().y, lightColor, darkColor);
+    frame.setFillGradient(globalPosition(), globalPosition() + Vector2::UnitY * dimensions().y, lightColor, darkColor);
 
     frame.fill();
 
     frame.beginPath();
-    frame.rectangle(position(), dimensions());
+    frame.rectangle(globalPosition(), dimensions());
     frame.setStrokeColor(_borderColor);
     frame.stroke();
+
+    renderChildren(frame, bounds);
+}
+
+void Button::onPrimaryCursorClick()
+{
+}
+
+void Button::onPrimaryCursorRelease()
+{
+    if (_pressAction)
+    {
+        _pressAction();
+    }
 }

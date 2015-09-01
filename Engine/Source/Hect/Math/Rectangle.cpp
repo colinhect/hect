@@ -61,6 +61,12 @@ Vector2 Rectangle::size() const
     return _maximum - _minimum;
 }
 
+bool Rectangle::contains(const Vector2& point) const
+{
+    return point.x >= _minimum.x && point.x <= _maximum.x
+           && point.y >= _minimum.y && point.y <= _maximum.y;
+}
+
 Rectangle Rectangle::intersect(const Rectangle& rectangle) const
 {
     Vector2 minimum(std::max(_minimum.x, rectangle._minimum.x), std::max(_minimum.y, rectangle._minimum.y));

@@ -29,6 +29,7 @@ template <typename T, typename... Args>
 typename T::Handle InterfaceSystem::add(Args&&... args)
 {
     typename T::Handle widget(new T(args...));
+    widget->setInterfaceSystem(*this);
     _widgets.push_back(widget);
     return widget;
 }

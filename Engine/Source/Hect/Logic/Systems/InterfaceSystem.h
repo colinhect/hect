@@ -40,7 +40,8 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT InterfaceSystem :
-    public System<InterfaceSystem>
+    public System<InterfaceSystem>,
+    public Listener<MouseEvent>
 {
 public:
     InterfaceSystem(Engine& engine, Scene& scene);
@@ -56,6 +57,8 @@ public:
 
     void render(RenderTarget& target) override;
     void tick(double timeStep) override;
+
+    void receiveEvent(const MouseEvent& event) override;
 
     ///
     /// \property{required}

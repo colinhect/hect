@@ -74,6 +74,14 @@ public:
     Vector2 size() const;
 
     ///
+    /// Returns whether the rectangle contains a point.
+    ///
+    /// \param point The point.
+    ///
+    /// \returns True if the rectangle contains the point; false otherwise.
+    bool contains(const Vector2& point) const;
+
+    ///
     /// Returns the intersection between the rectangle and another.
     ///
     /// \param rectangle The other rectangle.

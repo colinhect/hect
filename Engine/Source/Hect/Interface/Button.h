@@ -38,15 +38,25 @@ class HECT_EXPORT Button :
 public:
 
     ///
+    /// An action bound to a button event.
+    typedef std::function<void()> Action;
+
+    ///
     /// Constructs an empty button widget.
     Button();
 
     ///
     /// Constructs a button widget.
     ///
-    /// \param position The position.
+    /// \param position The local position.
     /// \param dimensions The dimensions.
     Button(const Vector2& position, const Vector2& dimensions);
+
+    ///
+    /// Sets the action that is invoked when the button is pressed.
+    ///
+    /// \param action The action to perform when the button is pressed.
+    void setPressAction(const Button::Action& action);
 
     ///
     /// Returns the background color of the button.
@@ -70,7 +80,12 @@ public:
 
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 
+    void onPrimaryCursorClick() override;
+    void onPrimaryCursorRelease() override;
+
 private:
+    Action _pressAction;
+
     Color _backgroundColor { Color(0.1, 0.1, 0.1) };
     Color _borderColor { Color(0.5, 0.5, 0.5) };
 };

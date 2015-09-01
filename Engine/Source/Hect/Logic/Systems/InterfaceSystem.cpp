@@ -32,6 +32,10 @@ InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
     _renderer(engine.renderer()),
     _vectorRenderer(engine.vectorRenderer())
 {
+    if (engine.hasMouse())
+    {
+        engine.mouse().registerListener(*this);
+    }
 }
 
 void InterfaceSystem::render(RenderTarget& target)
@@ -60,5 +64,19 @@ void InterfaceSystem::tick(double timeStep)
     for (const WidgetBase::Handle& widget : _widgets)
     {
         widget->tick(timeStep);
+    }
+}
+
+void InterfaceSystem::receiveEvent(const MouseEvent& event)
+{
+    if (event.type == MouseEventType::ButtonUp)
+    {
+        for (const WidgetBase::Handle& widget : _widgets)
+        {
+            if (widget->bounds().contains(event.cursorPosition))
+            {
+                widget->onPrimaryCursorRelease();
+            }
+        }
     }
 }

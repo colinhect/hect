@@ -44,7 +44,7 @@ public:
     ///
     /// Constructs a panel widget.
     ///
-    /// \param position The position.
+    /// \param position The local position.
     /// \param dimensions The dimensions.
     Panel(const Vector2& position, const Vector2& dimensions);
 

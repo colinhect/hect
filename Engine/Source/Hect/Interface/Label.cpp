@@ -23,10 +23,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Label.h"
 
+#include "Hect/Logic/Systems/InterfaceSystem.h"
+
 using namespace hect;
 
-Label::Label() :
-    _fontSize(0)
+Label::Label()
+{
+}
+
+Label::Label(const Vector2& position, const Vector2& dimensions) :
+    Widget(position, dimensions)
 {
 }
 
@@ -59,10 +65,27 @@ void Label::setFont(Font::Handle font, double size)
 
 void Label::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
-    if (_font && _fontSize > 0.0 && !_text.empty())
+    if (!_text.empty())
     {
-        frame.setClipping(bounds);
-        frame.setFont(*_font, _fontSize);
-        frame.renderText(_text, position(), dimensions(), _horizontalAlign, _verticalAlign);
+        Font::Handle font = _font;
+        if (!font)
+        {
+            font = interfaceSystem().defaultFont;
+        }
+
+        double fontSize = _fontSize;
+        if (fontSize <= 0.0)
+        {
+            fontSize = interfaceSystem().defaultFontSize;
+        }
+
+        if (font && fontSize > 0.0)
+        {
+            frame.setClipping(bounds);
+            frame.setFont(*font, fontSize);
+            frame.renderText(_text, globalPosition(), dimensions(), _horizontalAlign, _verticalAlign);
+        }
     }
+
+    renderChildren(frame, bounds);
 }

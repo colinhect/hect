@@ -49,6 +49,8 @@ void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
     frame.setClipping(bounds);
     frame.beginPath();
     frame.setFillColor(_backgroundColor);
-    frame.rectangle(position(), dimensions());
+    frame.rectangle(globalPosition(), dimensions());
     frame.fill();
+
+    renderChildren(frame, bounds);
 }

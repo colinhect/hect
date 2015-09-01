@@ -223,6 +223,21 @@ bool Platform::handleEvents()
             _mouse->enqueueEvent(event);
         }
         break;
+        case SDL_MOUSEBUTTONDOWN:
+        case SDL_MOUSEBUTTONUP:
+        {
+            // Get absolute cursor position
+            int positionX = 0;
+            int positionY = 0;
+            SDL_GetMouseState(&positionX, &positionY);
+
+            // Enqueue the event
+            MouseEvent event;
+            event.type = e.type == SDL_MOUSEBUTTONDOWN ? MouseEventType::ButtonDown : MouseEventType::ButtonUp;
+            event.cursorPosition = IntVector2(positionX, positionY);
+            _mouse->enqueueEvent(event);
+        }
+        break;
         case SDL_JOYAXISMOTION:
         {
             // Enqueue the event
