@@ -67,8 +67,10 @@ public:
     /// \note The near/far clip of the active camera is used.
     ///
     /// \param position The position to render from.
+    /// \param nearClip The near clipping distance.
+    /// \param farClip The far clipping distance.
     /// \param texture The texture to render to.
-    void renderToTextureCube(const Vector3& position, TextureCube& texture);
+    void renderToTextureCube(const Vector3& position, double nearClip, double farClip, TextureCube& texture);
 
     void initialize() override;
     void render(RenderTarget& target) override;

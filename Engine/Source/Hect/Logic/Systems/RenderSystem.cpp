@@ -64,7 +64,7 @@ void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& mat
     }
 }
 
-void RenderSystem::renderToTextureCube(const Vector3& position, TextureCube& texture)
+void RenderSystem::renderToTextureCube(const Vector3& position, double nearClip, double farClip, TextureCube& texture)
 {
     // These values are specific to OpenGL's cube map conventions (issue #189)
     static std::vector<std::pair<Vector3, Vector3>> cameraVectors =
@@ -84,43 +84,38 @@ void RenderSystem::renderToTextureCube(const Vector3& position, TextureCube& tex
         unsigned height = texture.height();
         GeometryBuffer geometryBuffer(width, height);
 
-        // Get the active camera
-        Camera::Iterator activeCamera = _cameraSystem->activeCamera();
-        if (activeCamera)
+        // Create a transient entity for holding our camera
+        Entity::Iterator entity = scene().createEntity();
+        entity->setTransient(true);
+
+        // Create the camera
+        Camera::Iterator camera = entity->addComponent<Camera>();
+        camera->position = position;
+        camera->exposure = -1.0;
+        camera->nearClip = nearClip;
+        camera->farClip = farClip;
+        camera->fieldOfView = Angle::fromRadians(Pi / 2);
+
+        // For each side of the cube face
+        for (unsigned i = 0; i < 6; ++i)
         {
-            // Create a transient entity for holding our camera
-            Entity::Iterator entity = scene().createEntity();
-            entity->setTransient(true);
+            // Update the camera's matrices
+            camera->front = cameraVectors[i].first;
+            camera->up = cameraVectors[i].second;
+            _cameraSystem->update(*camera);
 
-            // Create the camera
-            Camera::Iterator camera = entity->addComponent<Camera>();
-            camera->position = position;
-            camera->exposure = -1.0;
-            camera->nearClip = activeCamera->nearClip;
-            camera->farClip = activeCamera->farClip;;
-            camera->fieldOfView = Angle::fromRadians(Pi / 2);
+            // Create the frame buffer and attach the corresponding face
+            // of the cubic texture
+            FrameBuffer frameBuffer(width, height);
+            frameBuffer.attach(FrameBufferSlot::Color0, static_cast<CubeSide>(i), texture);
 
-            // For each side of the cube face
-            for (unsigned i = 0; i < 6; ++i)
-            {
-                // Update the camera's matrices
-                camera->front = cameraVectors[i].first;
-                camera->up = cameraVectors[i].second;
-                _cameraSystem->update(*camera);
-
-                // Create the frame buffer and attach the corresponding face
-                // of the cubic texture
-                FrameBuffer frameBuffer(width, height);
-                frameBuffer.attach(FrameBufferSlot::Color0, static_cast<CubeSide>(i), texture);
-
-                // Render the frame
-                prepareFrame(*camera, scene(), frameBuffer, geometryBuffer);
-                renderFrame(*camera, frameBuffer);
-            }
-
-            // Destroy the transient entity holding the camera
-            entity->destroy();
+            // Render the frame
+            prepareFrame(*camera, scene(), frameBuffer, geometryBuffer);
+            renderFrame(*camera, frameBuffer);
         }
+
+        // Destroy the transient entity holding the camera
+        entity->destroy();
     }
 }
 

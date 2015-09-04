@@ -121,7 +121,18 @@ void Scene::render(RenderTarget& target)
 Entity::Iterator Scene::createEntity()
 {
     Entity::Iterator entity = _entityPool.create();
-    _entitiesPendingCreation.push_back(entity->id());
+    if (_refreshing)
+    {
+        // Dispatch an entity create event
+        EntityEvent event;
+        event.type = EntityEventType::Create;
+        event.entity = entity;
+        _entityPool.dispatchEvent(event);
+    }
+    else
+    {
+        _entitiesPendingCreation.push_back(entity->id());
+    }
     return entity;
 }
 
