@@ -33,6 +33,8 @@
 
 namespace hect
 {
+    
+class InterfaceSystem;
 
 ///
 /// Abstract base for Widget.
