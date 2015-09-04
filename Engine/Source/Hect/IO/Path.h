@@ -110,7 +110,7 @@ private:
 class Encoder;
 class Decoder;
 
-Encoder& operator<<(Encoder& encoder, const Path& path);
-Decoder& operator>>(Decoder& decoder, Path& path);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Path& path);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, Path& path);
 
 }
