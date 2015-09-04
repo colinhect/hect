@@ -64,7 +64,7 @@ void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& mat
     }
 }
 
-void RenderSystem::renderToTextureCube(const Vector3& position, double nearClip, double farClip, TextureCube& texture)
+void RenderSystem::renderToTextureCube(const Vector3& position, TextureCube& texture)
 {
     // These values are specific to OpenGL's cube map conventions (issue #189)
     static std::vector<std::pair<Vector3, Vector3>> cameraVectors =
@@ -92,9 +92,14 @@ void RenderSystem::renderToTextureCube(const Vector3& position, double nearClip,
         Camera::Iterator camera = entity->addComponent<Camera>();
         camera->position = position;
         camera->exposure = -1.0;
-        camera->nearClip = nearClip;
-        camera->farClip = farClip;
         camera->fieldOfView = Angle::fromRadians(Pi / 2);
+
+        Camera::Iterator activeCamera = _cameraSystem->activeCamera();
+        if (activeCamera)
+        {
+            camera->nearClip = activeCamera->nearClip;
+            camera->farClip = activeCamera->farClip;
+        }
 
         // For each side of the cube face
         for (unsigned i = 0; i < 6; ++i)

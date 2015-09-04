@@ -64,13 +64,11 @@ public:
     ///
     /// Renders the scene to a texture cube at the specified location.
     ///
-    /// \note The near/far clip of the active camera is used.
+    /// \note The properties of the camera camera are used.
     ///
     /// \param position The position to render from.
-    /// \param nearClip The near clipping distance.
-    /// \param farClip The far clipping distance.
     /// \param texture The texture to render to.
-    void renderToTextureCube(const Vector3& position, double nearClip, double farClip, TextureCube& texture);
+    void renderToTextureCube(const Vector3& position, TextureCube& texture);
 
     void initialize() override;
     void render(RenderTarget& target) override;
