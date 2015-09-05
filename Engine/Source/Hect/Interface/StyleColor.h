@@ -23,59 +23,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <array>
-
-#include "Hect/Core/Export.h"
-#include "Hect/Graphics/Font.h"
-#include "Hect/Graphics/Renderer.h"
-#include "Hect/Graphics/VectorRenderer.h"
-#include "Hect/Interface/Widget.h"
-#include "Hect/Logic/System.h"
-
 namespace hect
 {
 
 ///
-/// Manages the user interface control Widget%s of a Scene.
-///
-/// \system
-class HECT_EXPORT InterfaceSystem :
-    public System<InterfaceSystem>,
-    public Listener<MouseEvent>
+/// The uses of color on an interface widget.
+enum class StyleColor
 {
-public:
-    InterfaceSystem(Engine& engine, Scene& scene);
-
-    ///
-    /// Adds a new widget.
-    ///
-    /// \param args The arguments to pass to the widget's constructor.
-    ///
-    /// \returns A handle to the added widget.
-    template <typename T, typename... Args>
-    typename T::Handle add(Args&&... args);
-
-    void render(RenderTarget& target) override;
-    void tick(double timeStep) override;
-
-    void receiveEvent(const MouseEvent& event) override;
-
-    ///
-    /// \property{required}
-    Font::Handle defaultFont;
-
-    ///
-    /// \property{required}
-    double defaultFontSize;
-
-private:
-    Mouse& _mouse;
-    Renderer& _renderer;
-    VectorRenderer& _vectorRenderer;
-
-    std::vector<WidgetBase::Handle> _widgets;
+    Background,
+    BackgroundPressed,
+    BackgroundMouseOver,
+    Foreground,
+    ForegroundPressed,
+    ForegroundMouseOver,
+    Border,
+    BorderPressed,
+    BorderMouseOver
 };
 
 }
-
-#include "InterfaceSystem.inl"

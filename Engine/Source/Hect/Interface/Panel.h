@@ -48,19 +48,11 @@ public:
     /// \param dimensions The dimensions.
     Panel(const Vector2& position, const Vector2& dimensions);
 
-    ///
-    /// Returns the background color of the panel.
-    const Color& backgroundColor() const;
-
-    ///
-    /// Sets the background color of the panel.
-    ///
-    /// \param color The new background color of the panel.
-    void setBackgroundColor(const Color& color);
-
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 
 private:
+    void useDefaultStyleColors();
+
     Color _backgroundColor { Color(0.0, 0.0, 0.0, 0.8) };
 };
 

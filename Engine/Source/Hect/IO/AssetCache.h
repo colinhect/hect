@@ -99,6 +99,11 @@ public:
     void refresh(bool onlyModified);
 
     ///
+    /// Removes an asset from a handle from the cache.
+    template <typename T>
+    void remove(const AssetHandle<T>& handle);
+
+    ///
     /// Removes an asset at the given path from the cache.
     ///
     /// \param path The case-sensitive path to the asset to remove.

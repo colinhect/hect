@@ -85,4 +85,10 @@ void AssetCache::refresh(bool onlyModified)
     }
 }
 
+template <typename T>
+void AssetCache::remove(const AssetHandle<T>& handle)
+{
+    remove(handle.path());
+}
+
 }

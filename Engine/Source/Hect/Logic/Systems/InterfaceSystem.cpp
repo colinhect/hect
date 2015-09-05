@@ -29,6 +29,7 @@ using namespace hect;
 
 InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
     System(engine, scene, SystemTickStage::Subsequent),
+    _mouse(engine.mouse()),
     _renderer(engine.renderer()),
     _vectorRenderer(engine.vectorRenderer())
 {
@@ -46,7 +47,7 @@ void InterfaceSystem::render(RenderTarget& target)
     Rectangle targetBounds(0.0, 0.0, target.width(), target.height());
     for (const WidgetBase::Handle& widget : _widgets)
     {
-        if (widget->visible())
+        if (widget->isVisible())
         {
             Rectangle bounds = widget->bounds().intersect(targetBounds);
             if (bounds.size() != Vector2::Zero)
@@ -69,13 +70,36 @@ void InterfaceSystem::tick(double timeStep)
 
 void InterfaceSystem::receiveEvent(const MouseEvent& event)
 {
-    if (event.type == MouseEventType::ButtonUp)
+    if (_mouse.mode() == MouseMode::Cursor)
     {
+        if (event.type == MouseEventType::Movement)
+        {
+            for (const WidgetBase::Handle& widget : _widgets)
+            {
+                if (widget->bounds().contains(event.cursorPosition))
+                {
+                    if (!widget->isMouseOver())
+                    {
+                        widget->onMouseEnter();
+                        widget->setMouseOver(true);
+                    }
+                }
+                else if (widget->isMouseOver())
+                {
+                    widget->onMouseExit();
+                    widget->setMouseOver(false);
+                }
+            }
+        }
+
         for (const WidgetBase::Handle& widget : _widgets)
         {
-            if (widget->bounds().contains(event.cursorPosition))
+            if (!widget->hasParent())
             {
-                widget->onPrimaryCursorRelease();
+                if (widget->bounds().contains(event.cursorPosition))
+                {
+                    widget->receiveEvent(event);
+                }
             }
         }
     }

@@ -27,12 +27,14 @@ using namespace hect;
 
 WidgetBase::WidgetBase()
 {
+    useDefaultStyleColors();
 }
 
 WidgetBase::WidgetBase(const Vector2& position) :
     _localPosition(position)
 {
     updateBounds();
+    useDefaultStyleColors();
 }
 
 WidgetBase::WidgetBase(const Vector2& position, const Vector2& dimensions) :
@@ -40,11 +42,31 @@ WidgetBase::WidgetBase(const Vector2& position, const Vector2& dimensions) :
     _dimensions(dimensions)
 {
     updateBounds();
+    useDefaultStyleColors();
 }
 
 void WidgetBase::tick(double timeStep)
 {
     (void)timeStep;
+}
+
+void WidgetBase::onMouseEnter()
+{
+}
+
+void WidgetBase::onMouseExit()
+{
+}
+
+void WidgetBase::receiveEvent(const MouseEvent& event)
+{
+    for (const WidgetBase::Handle& child : _children)
+    {
+        if (child->bounds().contains(event.cursorPosition))
+        {
+            child->receiveEvent(event);
+        }
+    }
 }
 
 const Vector2& WidgetBase::localPosition() const
@@ -89,7 +111,7 @@ void WidgetBase::setTooltip(const std::string& tooltip)
     _tooltip = tooltip;
 }
 
-bool WidgetBase::visible() const
+bool WidgetBase::isVisible() const
 {
     return _visible;
 }
@@ -97,6 +119,21 @@ bool WidgetBase::visible() const
 void WidgetBase::setVisible(bool visible)
 {
     _visible = visible;
+}
+
+void WidgetBase::setStyleColor(StyleColor styleColor, const Color& color)
+{
+    _styleColors[styleColor] = color;
+}
+
+const Color& WidgetBase::styleColor(StyleColor styleColor) const
+{
+    return _styleColors[styleColor];
+}
+
+bool WidgetBase::isMouseOver() const
+{
+    return _mouseOver;
 }
 
 void WidgetBase::addChild(const WidgetBase::Handle& child)
@@ -129,6 +166,11 @@ void WidgetBase::removeChild(const WidgetBase::Handle& child)
         child->_parent = nullptr;
         child->updateBounds();
     }
+}
+
+bool WidgetBase::hasParent() const
+{
+    return _parent != nullptr;
 }
 
 InterfaceSystem& WidgetBase::interfaceSystem()
@@ -164,6 +206,11 @@ void WidgetBase::setInterfaceSystem(InterfaceSystem& interfaceSystem)
     _interfaceSystem = &interfaceSystem;
 }
 
+void WidgetBase::setMouseOver(bool value)
+{
+    _mouseOver = value;
+}
+
 void WidgetBase::updateBounds()
 {
     // Update the global position
@@ -181,4 +228,17 @@ void WidgetBase::updateBounds()
     {
         child->updateBounds();
     }
+}
+
+void WidgetBase::useDefaultStyleColors()
+{
+    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15));
+    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15));
+    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0));
+    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
+    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
+    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
+    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
+    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
+    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 }

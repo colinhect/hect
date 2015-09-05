@@ -58,36 +58,15 @@ public:
     /// \param action The action to perform when the button is pressed.
     void setPressAction(const Button::Action& action);
 
-    ///
-    /// Returns the background color of the button.
-    const Color& backgroundColor() const;
-
-    ///
-    /// Sets the background color of the button.
-    ///
-    /// \param color The new background color of the button.
-    void setBackgroundColor(const Color& color);
-
-    ///
-    /// Returns the border color of the button.
-    const Color& borderColor() const;
-
-    ///
-    /// Sets the background color of the button.
-    ///
-    /// \param color The new background color of the button.
-    void setBorderColor(const Color& color);
-
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 
-    void onPrimaryCursorClick() override;
-    void onPrimaryCursorRelease() override;
+    void onMouseExit() override;
+
+    void receiveEvent(const MouseEvent& event) override;
 
 private:
     Action _pressAction;
-
-    Color _backgroundColor { Color(0.1, 0.1, 0.1) };
-    Color _borderColor { Color(0.5, 0.5, 0.5) };
+    bool _pressed { false };
 };
 
 }

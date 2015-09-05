@@ -27,30 +27,34 @@ using namespace hect;
 
 Panel::Panel()
 {
+    useDefaultStyleColors();
 }
 
 Panel::Panel(const Vector2& position, const Vector2& dimensions) :
     Widget(position, dimensions)
 {
-}
-
-const Color& Panel::backgroundColor() const
-{
-    return _backgroundColor;
-}
-
-void Panel::setBackgroundColor(const Color& color)
-{
-    _backgroundColor = color;
+    useDefaultStyleColors();
 }
 
 void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
+    StyleColor backgroundStyleColor = StyleColor::Background;
+    if (isMouseOver())
+    {
+        backgroundStyleColor = StyleColor::BackgroundMouseOver;
+    }
+
     frame.setClipping(bounds);
     frame.beginPath();
-    frame.setFillColor(_backgroundColor);
+    frame.setFillColor(styleColor(backgroundStyleColor));
     frame.rectangle(globalPosition(), dimensions());
     frame.fill();
 
     renderChildren(frame, bounds);
+}
+
+void Panel::useDefaultStyleColors()
+{
+    setStyleColor(StyleColor::Background, Color(0.0, 0.0, 0.0, 0.8));
+    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));
 }

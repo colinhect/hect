@@ -39,56 +39,61 @@ void Button::setPressAction(const Button::Action& action)
     _pressAction = action;
 }
 
-const Color& Button::backgroundColor() const
-{
-    return _backgroundColor;
-}
-
-void Button::setBackgroundColor(const Color& color)
-{
-    _backgroundColor = color;
-}
-
-const Color& Button::borderColor() const
-{
-    return _borderColor;
-}
-
-void Button::setBorderColor(const Color& color)
-{
-    _borderColor = color;
-}
-
 void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
+    StyleColor backgroundStyleColor = StyleColor::Background;
+    StyleColor borderStyleColor = StyleColor::Border;
+
+    if (_pressed)
+    {
+        backgroundStyleColor = StyleColor::BackgroundPressed;
+        borderStyleColor = StyleColor::BorderPressed;
+    }
+    else if (isMouseOver())
+    {
+        backgroundStyleColor = StyleColor::BackgroundMouseOver;
+        borderStyleColor = StyleColor::BorderMouseOver;
+    }
+
     frame.setClipping(bounds);
     frame.beginPath();
     frame.rectangle(globalPosition(), dimensions());
 
-    Color lightColor = _backgroundColor * 1.1;
-    lightColor.a = 1.0;
-    Color darkColor = _backgroundColor * 0.9;
-    darkColor.a = 1.0;
-    frame.setFillGradient(globalPosition(), globalPosition() + Vector2::UnitY * dimensions().y, lightColor, darkColor);
+    frame.setFillColor(styleColor(backgroundStyleColor));
 
     frame.fill();
 
     frame.beginPath();
     frame.rectangle(globalPosition(), dimensions());
-    frame.setStrokeColor(_borderColor);
+
+    frame.setStrokeColor(styleColor(borderStyleColor));
     frame.stroke();
 
     renderChildren(frame, bounds);
 }
 
-void Button::onPrimaryCursorClick()
+void Button::onMouseExit()
 {
+    _pressed = false;
 }
 
-void Button::onPrimaryCursorRelease()
+void Button::receiveEvent(const MouseEvent& event)
 {
-    if (_pressAction)
+    if (event.button == MouseButton::Button0)
     {
-        _pressAction();
+        if (event.type == MouseEventType::ButtonDown)
+        {
+            _pressed = true;
+        }
+        else if (_pressed && event.type == MouseEventType::ButtonUp)
+        {
+            if (_pressAction)
+            {
+                _pressAction();
+                _pressed = false;
+            }
+        }
     }
+
+    Widget<Button>::receiveEvent(event);
 }

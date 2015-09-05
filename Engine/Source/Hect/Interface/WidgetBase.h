@@ -24,21 +24,26 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Core/Event.h"
 #include "Hect/Graphics/VectorRenderer.h"
+#include "Hect/Input/MouseEvent.h"
+#include "Hect/Interface/StyleColor.h"
 #include "Hect/Math/Rectangle.h"
 #include "Hect/Math/Vector2.h"
 
+#include <map>
 #include <memory>
 #include <string>
 
 namespace hect
 {
-    
+
 class InterfaceSystem;
 
 ///
 /// Abstract base for Widget.
-class HECT_EXPORT WidgetBase
+class HECT_EXPORT WidgetBase :
+    public Listener<MouseEvent>
 {
     friend class InterfaceSystem;
 public:
@@ -80,8 +85,15 @@ public:
     /// \param bounds The bounds of the render area.
     virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) = 0;
 
-    virtual void onPrimaryCursorClick() { }
-    virtual void onPrimaryCursorRelease() { }
+    ///
+    /// Invoked when the mouse cursor enters the bounds of the widget.
+    virtual void onMouseEnter();
+
+    ///
+    /// Invoked when the mouse cursor exits the bounds of the widget.
+    virtual void onMouseExit();
+
+    void receiveEvent(const MouseEvent& event);
 
     ///
     /// Returns the local position of the widget.
@@ -123,13 +135,31 @@ public:
 
     ///
     /// Returns whether the widget is visible.
-    bool visible() const;
+    bool isVisible() const;
 
     ///
     /// Sets whether the widget is visible.
     ///
     /// \param visible Whether the widget is visible.
     void setVisible(bool visible);
+
+    ///
+    /// Sets a style color.
+    ///
+    /// \param styleColor The style color to set.
+    /// \param color The new color value of the style color.
+    void setStyleColor(StyleColor styleColor, const Color& color);
+
+    ///
+    /// Returns a style color.
+    ///
+    /// \param styleColor The style color to get.
+    const Color& styleColor(StyleColor styleColor) const;
+
+    ///
+    /// Returns whether the mouse cursor is currently over the bounds of the
+    /// widget.
+    bool isMouseOver() const;
 
     ///
     /// Adds a child widget.
@@ -146,6 +176,10 @@ public:
     ///
     /// \throws InvalidOperation If the widget is not a child of this widget.
     void removeChild(const WidgetBase::Handle& child);
+
+    ///
+    /// Returns whether the widget is a child of another widget.
+    bool hasParent() const;
 
     ///
     /// Returns the interface system that the widget belongs to.
@@ -169,7 +203,10 @@ protected:
 
 private:
     void setInterfaceSystem(InterfaceSystem& interfaceSystem);
+    void setMouseOver(bool value);
+
     void updateBounds();
+    void useDefaultStyleColors();
 
     InterfaceSystem* _interfaceSystem { nullptr };
 
@@ -181,7 +218,9 @@ private:
     Rectangle _bounds;
     std::string _tooltip;
     bool _visible { true };
+    bool _mouseOver { false };
     std::vector<WidgetBase::Handle> _children;
+    mutable std::map<StyleColor, Color> _styleColors;
 };
 
 }
