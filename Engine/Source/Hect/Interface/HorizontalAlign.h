@@ -31,6 +31,10 @@ namespace hect
 enum class HorizontalAlign
 {
     ///
+    /// No alignment.
+    None,
+
+    ///
     /// Align to the left.
     Left,
 

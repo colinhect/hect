@@ -55,21 +55,20 @@ void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
         borderStyleColor = StyleColor::BorderMouseOver;
     }
 
+    frame.pushState();
     frame.setClipping(bounds);
     frame.beginPath();
     frame.rectangle(globalPosition(), dimensions());
-
     frame.setFillColor(styleColor(backgroundStyleColor));
-
     frame.fill();
-
     frame.beginPath();
     frame.rectangle(globalPosition(), dimensions());
-
     frame.setStrokeColor(styleColor(borderStyleColor));
     frame.stroke();
 
-    renderChildren(frame, bounds);
+    frame.popState();
+
+    WidgetBase::render(frame, bounds);
 }
 
 void Button::onMouseExit()

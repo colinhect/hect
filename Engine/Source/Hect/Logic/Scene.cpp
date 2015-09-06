@@ -39,7 +39,7 @@ bool Scene::active() const
     return _active;
 }
 
-void Scene::setActivate(bool active)
+void Scene::setActive(bool active)
 {
     _active = active;
 }

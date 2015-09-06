@@ -46,10 +46,10 @@ void Label::setText(const std::string& text)
     _text = text;
 }
 
-void Label::setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
+void Label::setTextAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
 {
-    _horizontalAlign = horizontalAlign;
-    _verticalAlign = verticalAlign;
+    _horizontalTextAlign = horizontalAlign;
+    _verticalTextAlign = verticalAlign;
 }
 
 Font::Handle Label::font() const
@@ -81,11 +81,13 @@ void Label::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 
         if (font && fontSize > 0.0)
         {
+            frame.pushState();
             frame.setClipping(bounds);
             frame.setFont(*font, fontSize);
-            frame.renderText(_text, globalPosition(), dimensions(), _horizontalAlign, _verticalAlign);
+            frame.renderText(_text, globalPosition(), dimensions(), _horizontalTextAlign, _verticalTextAlign);
+            frame.popState();
         }
     }
 
-    renderChildren(frame, bounds);
+    WidgetBase::render(frame, bounds);
 }

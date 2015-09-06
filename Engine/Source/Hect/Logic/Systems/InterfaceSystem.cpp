@@ -47,14 +47,12 @@ void InterfaceSystem::render(RenderTarget& target)
     Rectangle targetBounds(0.0, 0.0, target.width(), target.height());
     for (const WidgetBase::Handle& widget : _widgets)
     {
-        if (widget->isVisible())
+        if (!widget->hasParent() && widget->isVisible())
         {
             Rectangle bounds = widget->bounds().intersect(targetBounds);
             if (bounds.size() != Vector2::Zero)
             {
-                vectorFrame.pushState();
                 widget->render(vectorFrame, bounds);
-                vectorFrame.popState();
             }
         }
     }
@@ -64,7 +62,9 @@ void InterfaceSystem::tick(double timeStep)
 {
     for (const WidgetBase::Handle& widget : _widgets)
     {
-        widget->tick(timeStep);
+        if (!widget->hasParent() && widget->isVisible())
+            widget->tick(timeStep);
+        }
     }
 }
 

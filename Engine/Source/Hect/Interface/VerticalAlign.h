@@ -31,6 +31,10 @@ namespace hect
 enum class VerticalAlign
 {
     ///
+    /// No alignment.
+    None,
+
+    ///
     /// Align to the bottom.
     Bottom,
 

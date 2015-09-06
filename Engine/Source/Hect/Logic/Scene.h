@@ -149,7 +149,7 @@ public:
     /// Sets whether the scene is active.
     ///
     /// \param active True if the scene is active; false otherwise.
-    void setActivate(bool active);
+    void setActive(bool active);
 
     ///
     /// Creates entities pending creation, activates entities pending

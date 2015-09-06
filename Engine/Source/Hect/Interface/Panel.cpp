@@ -44,13 +44,15 @@ void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
         backgroundStyleColor = StyleColor::BackgroundMouseOver;
     }
 
+    frame.pushState();
     frame.setClipping(bounds);
     frame.beginPath();
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.rectangle(globalPosition(), dimensions());
     frame.fill();
+    frame.popState();
 
-    renderChildren(frame, bounds);
+    WidgetBase::render(frame, bounds);
 }
 
 void Panel::useDefaultStyleColors()

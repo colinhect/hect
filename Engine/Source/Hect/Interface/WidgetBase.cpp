@@ -47,7 +47,25 @@ WidgetBase::WidgetBase(const Vector2& position, const Vector2& dimensions) :
 
 void WidgetBase::tick(double timeStep)
 {
-    (void)timeStep;
+    for (const WidgetBase::Handle& child : _children)
+    {
+        child->tick(timeStep);
+    }
+}
+
+void WidgetBase::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+{
+    for (const WidgetBase::Handle& child : _children)
+    {
+        if (child->isVisible())
+        {
+            Rectangle childBounds = child->bounds().intersect(bounds);
+            if (childBounds.size() != Vector2::Zero)
+            {
+                child->render(frame, childBounds);
+            }
+        }
+    }
 }
 
 void WidgetBase::onMouseEnter()
@@ -101,6 +119,23 @@ const Rectangle& WidgetBase::bounds() const
     return _bounds;
 }
 
+void WidgetBase::setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
+{
+    _horizontalAlign = horizontalAlign;
+    _verticalAlign = verticalAlign;
+    updateBounds();
+}
+
+HorizontalAlign WidgetBase::horizontalAlign() const
+{
+    return _horizontalAlign;
+}
+
+VerticalAlign WidgetBase::verticalAlign() const
+{
+    return _verticalAlign;
+}
+
 const std::string& WidgetBase::tooltip() const
 {
     return _tooltip;
@@ -121,14 +156,14 @@ void WidgetBase::setVisible(bool visible)
     _visible = visible;
 }
 
-void WidgetBase::setStyleColor(StyleColor styleColor, const Color& color)
-{
-    _styleColors[styleColor] = color;
-}
-
 const Color& WidgetBase::styleColor(StyleColor styleColor) const
 {
     return _styleColors[styleColor];
+}
+
+void WidgetBase::setStyleColor(StyleColor styleColor, const Color& color)
+{
+    _styleColors[styleColor] = color;
 }
 
 bool WidgetBase::isMouseOver() const
@@ -193,14 +228,6 @@ const InterfaceSystem& WidgetBase::interfaceSystem() const
     return *_interfaceSystem;
 }
 
-void WidgetBase::renderChildren(VectorRenderer::Frame& frame, const Rectangle& bounds)
-{
-    for (const WidgetBase::Handle& child : _children)
-    {
-        child->render(frame, bounds);
-    }
-}
-
 void WidgetBase::setInterfaceSystem(InterfaceSystem& interfaceSystem)
 {
     _interfaceSystem = &interfaceSystem;
@@ -218,6 +245,36 @@ void WidgetBase::updateBounds()
     if (_parent)
     {
         _globalPosition += _parent->globalPosition();
+
+        // Align horizontally
+        switch (_horizontalAlign)
+        {
+        case HorizontalAlign::None:
+            break;
+        case HorizontalAlign::Left:
+            break;
+        case HorizontalAlign::Center:
+            _globalPosition.x += (_parent->_dimensions.x - _dimensions.x) * 0.5;
+            break;
+        case HorizontalAlign::Right:
+            _globalPosition.x += (_parent->_dimensions.x - _dimensions.x);
+            break;
+        }
+
+        // Align vertically
+        switch (_verticalAlign)
+        {
+        case VerticalAlign::None:
+            break;
+        case VerticalAlign::Bottom:
+            _globalPosition.y += (_parent->_dimensions.y - _dimensions.y);
+            break;
+        case VerticalAlign::Center:
+            _globalPosition.y += (_parent->_dimensions.y - _dimensions.y) * 0.5;
+            break;
+        case VerticalAlign::Top:
+            break;
+        }
     }
 
     // Compute the bounds
@@ -232,9 +289,9 @@ void WidgetBase::updateBounds()
 
 void WidgetBase::useDefaultStyleColors()
 {
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0));
+    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
+    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
+    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
     setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
     setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
     setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));

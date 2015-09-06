@@ -59,9 +59,7 @@ public:
     void setPressAction(const Button::Action& action);
 
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
-
     void onMouseExit() override;
-
     void receiveEvent(const MouseEvent& event) override;
 
 private:

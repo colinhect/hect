@@ -67,7 +67,7 @@ public:
     ///
     /// \param horizontalAlign The horizontal alignment.
     /// \param verticalAlign The vertical alignment.
-    void setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign);
+    void setTextAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign);
 
     ///
     /// Returns the font of the label.
@@ -87,8 +87,8 @@ private:
     Font::Handle _font;
     double _fontSize { 0.0 };
 
-    HorizontalAlign _horizontalAlign { HorizontalAlign::Left };
-    VerticalAlign _verticalAlign { VerticalAlign::Top };
+    HorizontalAlign _horizontalTextAlign { HorizontalAlign::Left };
+    VerticalAlign _verticalTextAlign { VerticalAlign::Top };
 };
 
 }

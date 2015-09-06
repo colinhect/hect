@@ -30,14 +30,40 @@ namespace hect
 /// The uses of color on an interface widget.
 enum class StyleColor
 {
+    ///
+    /// The background color.
     Background,
+
+    ///
+    /// The background color when pressed.
     BackgroundPressed,
+
+    ///
+    /// The background color when the mouse cursor is over the widget.
     BackgroundMouseOver,
+
+    ///
+    /// The foreground color.
     Foreground,
+
+    ///
+    /// The foreground color when pressed.
     ForegroundPressed,
+
+    ///
+    /// The foreground color when the mouse cursor is over the widget.
     ForegroundMouseOver,
+
+    ///
+    /// The border color.
     Border,
+
+    ///
+    /// The border color when pressed.
     BorderPressed,
+
+    ///
+    /// The border color when the mouse cursor is over the widget.
     BorderMouseOver
 };
 

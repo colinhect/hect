@@ -24,34 +24,63 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/Color.h"
 #include "Hect/Interface/Widget.h"
 
 namespace hect
 {
 
 ///
-/// A panel.
-class HECT_EXPORT Panel :
-    public Widget<Panel>
+/// A grid.
+class HECT_EXPORT Grid :
+    public Widget<Grid>
 {
 public:
 
     ///
-    /// Constructs an empty panel widget.
-    Panel();
+    /// A numeric identifier to a column in grid.
+    typedef size_t ColumnId;
 
     ///
-    /// Constructs a panel widget.
-    ///
-    /// \param position The local position.
-    /// \param dimensions The dimensions.
-    Panel(const Vector2& position, const Vector2& dimensions);
+    /// A numeric identifier to a row in grid.
+    typedef size_t RowId;
 
-    void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+    ///
+    /// Constructs an empty grid widget.
+    Grid();
+
+    ///
+    /// Adds a column to the grid.
+    ///
+    /// \param width The width of the column.
+    ///
+    /// \returns The new column id.
+    ColumnId addColumn(double width);
+
+    ///
+    /// Adds a row to the grid.
+    ///
+    /// \param height The height of the row.
+    ///
+    /// \returns The new row id.
+    RowId addRow(double height);
+
+    ///
+    /// Sets the widget that exists in the specified cell.
+    ///
+    /// \param columnId The id of the column.
+    /// \param rowId The id of the row.
+    /// \param widget The widget.
+    ///
+    /// \throws InvalidOperation If the row id or column id is out of range.
+    void setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& widget);
 
 private:
-    void useDefaultStyleColors();
+    void updateDimensions();
+
+    std::map<ColumnId, std::map<RowId, WidgetBase::Handle>> _cells;
+
+    std::vector<double> _columns;
+    std::vector<double> _rows;
 };
 
 }

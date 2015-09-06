@@ -83,7 +83,7 @@ public:
     ///
     /// \param frame The frame to render to.
     /// \param bounds The bounds of the render area.
-    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) = 0;
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds);
 
     ///
     /// Invoked when the mouse cursor enters the bounds of the widget.
@@ -93,14 +93,18 @@ public:
     /// Invoked when the mouse cursor exits the bounds of the widget.
     virtual void onMouseExit();
 
+    ///
+    /// \copydoc Listener<T>::receiveEvent()
     void receiveEvent(const MouseEvent& event);
 
     ///
-    /// Returns the local position of the widget.
+    /// Returns the local position of the widget (only relevant if the widget
+    /// is not aligned).
     const Vector2& localPosition() const;
 
     ///
-    /// Sets the local position of the widget.
+    /// Sets the local position of the widget (only affects the widget if it is
+    /// not aligned).
     ///
     /// \param position The new position of the widget.
     void setLocalPosition(const Vector2& position);
@@ -124,6 +128,21 @@ public:
     const Rectangle& bounds() const;
 
     ///
+    /// Sets the alignment of the widget text.
+    ///
+    /// \param horizontalAlign The horizontal alignment.
+    /// \param verticalAlign The vertical alignment.
+    void setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign);
+
+    ///
+    /// Returns the horizontal alignment.
+    HorizontalAlign horizontalAlign() const;
+
+    ///
+    /// Returns the vertical alignment.
+    VerticalAlign verticalAlign() const;
+
+    ///
     /// Returns the tooltip of the widget.
     const std::string& tooltip() const;
 
@@ -144,17 +163,17 @@ public:
     void setVisible(bool visible);
 
     ///
+    /// Returns a style color.
+    ///
+    /// \param styleColor The style color to get.
+    const Color& styleColor(StyleColor styleColor) const;
+
+    ///
     /// Sets a style color.
     ///
     /// \param styleColor The style color to set.
     /// \param color The new color value of the style color.
     void setStyleColor(StyleColor styleColor, const Color& color);
-
-    ///
-    /// Returns a style color.
-    ///
-    /// \param styleColor The style color to get.
-    const Color& styleColor(StyleColor styleColor) const;
 
     ///
     /// Returns whether the mouse cursor is currently over the bounds of the
@@ -192,30 +211,20 @@ public:
     /// \copydoc WidgetBase::interfaceSystem()
     const InterfaceSystem& interfaceSystem() const;
 
-protected:
-
-    ///
-    /// Renders the child widgets to a frame.
-    ///
-    /// \param frame The frame to render to.
-    /// \param bounds The bounds of the render area.
-    void renderChildren(VectorRenderer::Frame& frame, const Rectangle& bounds);
-
 private:
     void setInterfaceSystem(InterfaceSystem& interfaceSystem);
     void setMouseOver(bool value);
-
     void updateBounds();
     void useDefaultStyleColors();
 
     InterfaceSystem* _interfaceSystem { nullptr };
-
     WidgetBase* _parent { nullptr };
-
     Vector2 _localPosition;
     Vector2 _globalPosition;
     Vector2 _dimensions;
     Rectangle _bounds;
+    HorizontalAlign _horizontalAlign { HorizontalAlign::None };
+    VerticalAlign _verticalAlign { VerticalAlign::None };
     std::string _tooltip;
     bool _visible { true };
     bool _mouseOver { false };
