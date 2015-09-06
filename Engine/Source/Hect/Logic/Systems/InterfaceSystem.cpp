@@ -63,6 +63,7 @@ void InterfaceSystem::tick(double timeStep)
     for (const WidgetBase::Handle& widget : _widgets)
     {
         if (!widget->hasParent() && widget->isVisible())
+        {
             widget->tick(timeStep);
         }
     }
