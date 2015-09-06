@@ -49,25 +49,32 @@ class HECT_EXPORT WidgetBase :
 public:
 
     ///
+    /// An action bound to a widget event.
+    typedef std::function<void()> Action;
+
+    ///
     /// A handle to a widget.
     typedef std::shared_ptr<WidgetBase> Handle;
 
     ///
     /// Constructs a widget.
-    WidgetBase();
+    ///
+    /// \param interfaceSystem The interface system.
+    WidgetBase(InterfaceSystem& interfaceSystem);
 
     ///
     /// Constructs a widget.
     ///
+    /// \param interfaceSystem The interface system.
     /// \param position The local position of the widget.
-    WidgetBase(const Vector2& position);
+    WidgetBase(InterfaceSystem& interfaceSystem, const Vector2& position);
 
     ///
     /// Constructs a widget.
     ///
     /// \param position The local position of the widget.
     /// \param dimensions The dimensions of the widget.
-    WidgetBase(const Vector2& position, const Vector2& dimensions);
+    WidgetBase(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
 
     virtual ~WidgetBase() { }
 
@@ -94,8 +101,18 @@ public:
     virtual void onMouseExit();
 
     ///
+    /// Invoked when the widget is pressed.
+    virtual void onPressed();
+
+    ///
     /// \copydoc Listener<T>::receiveEvent()
     void receiveEvent(const MouseEvent& event);
+
+    ///
+    /// Sets the action that is invoked when the widget is pressed.
+    ///
+    /// \param action The action to perform when the widget is pressed.
+    void setPressAction(const WidgetBase::Action& action);
 
     ///
     /// Returns the local position of the widget (only relevant if the widget
@@ -181,12 +198,16 @@ public:
     bool isMouseOver() const;
 
     ///
+    /// Returns whether the widget is currently pressed.
+    bool isPressed() const;
+
+    ///
     /// Adds a child widget.
     ///
     /// \param child The child widget to add.
     ///
     /// \throws InvalidOperation If the widget is already a child of a widget.
-    void addChild(const WidgetBase::Handle& child);
+    virtual void addChild(const WidgetBase::Handle& child);
 
     ///
     /// Removes a child widget.
@@ -194,7 +215,7 @@ public:
     /// \param child The child widget to remove.
     ///
     /// \throws InvalidOperation If the widget is not a child of this widget.
-    void removeChild(const WidgetBase::Handle& child);
+    virtual void removeChild(const WidgetBase::Handle& child);
 
     ///
     /// Returns whether the widget is a child of another widget.
@@ -211,10 +232,11 @@ public:
     /// \copydoc WidgetBase::interfaceSystem()
     const InterfaceSystem& interfaceSystem() const;
 
+protected:
+    virtual void updateBounds();
+
 private:
-    void setInterfaceSystem(InterfaceSystem& interfaceSystem);
     void setMouseOver(bool value);
-    void updateBounds();
     void useDefaultStyleColors();
 
     InterfaceSystem* _interfaceSystem { nullptr };
@@ -226,6 +248,8 @@ private:
     HorizontalAlign _horizontalAlign { HorizontalAlign::None };
     VerticalAlign _verticalAlign { VerticalAlign::None };
     std::string _tooltip;
+    Action _pressAction;
+    bool _pressed { false };
     bool _visible { true };
     bool _mouseOver { false };
     std::vector<WidgetBase::Handle> _children;

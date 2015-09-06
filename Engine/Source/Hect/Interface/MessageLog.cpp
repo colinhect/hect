@@ -27,12 +27,13 @@
 
 using namespace hect;
 
-MessageLog::MessageLog()
+MessageLog::MessageLog(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
 {
 }
 
-MessageLog::MessageLog(const Vector2& position, const Vector2& dimensions, Font::Handle font, double size) :
-    Widget(position, dimensions),
+MessageLog::MessageLog(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size) :
+    Widget(interfaceSystem, position, dimensions),
     _font(font),
     _size(size)
 {

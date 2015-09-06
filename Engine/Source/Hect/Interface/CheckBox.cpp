@@ -21,34 +21,38 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Button.h"
+#include "CheckBox.h"
 
 using namespace hect;
 
-Button::Button(InterfaceSystem& interfaceSystem) :
+CheckBox::CheckBox(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
 }
 
-Button::Button(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
+CheckBox::CheckBox(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
     Widget(interfaceSystem, position, dimensions)
 {
 }
 
-void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+bool CheckBox::isChecked() const
 {
-    StyleColor backgroundStyleColor = StyleColor::Background;
-    StyleColor borderStyleColor = StyleColor::Border;
+    return _checked;
+}
 
-    if (isPressed())
-    {
-        backgroundStyleColor = StyleColor::BackgroundPressed;
-        borderStyleColor = StyleColor::BorderPressed;
-    }
-    else if (isMouseOver())
+void CheckBox::setChecked(bool checked)
+{
+    _checked = checked;
+}
+
+void CheckBox::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+{
+    StyleColor forgroundStyleColor = StyleColor::Foreground;
+    StyleColor backgroundStyleColor = StyleColor::Background;
+
+    if (isMouseOver())
     {
         backgroundStyleColor = StyleColor::BackgroundMouseOver;
-        borderStyleColor = StyleColor::BorderMouseOver;
     }
 
     frame.pushState();
@@ -57,11 +61,24 @@ void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
     frame.rectangle(globalPosition(), dimensions());
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.fill();
-    frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
-    frame.setStrokeColor(styleColor(borderStyleColor));
-    frame.stroke();
+
+    if (_checked)
+    {
+        Vector2 checkPosition = globalPosition() + dimensions() * 0.25;
+        Vector2 checkDimensions = dimensions() * 0.5;
+
+        frame.beginPath();
+        frame.rectangle(checkPosition, checkDimensions);
+        frame.setFillColor(styleColor(forgroundStyleColor));
+        frame.fill();
+    }
+
     frame.popState();
 
     WidgetBase::render(frame, bounds);
+}
+
+void CheckBox::onPressed()
+{
+    _checked = !_checked;
 }

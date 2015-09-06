@@ -21,47 +21,50 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Button.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Interface/Widget.h"
 
-Button::Button(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+namespace hect
 {
-}
 
-Button::Button(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
-    Widget(interfaceSystem, position, dimensions)
+///
+/// A check box.
+class HECT_EXPORT CheckBox :
+    public Widget<CheckBox>
 {
-}
+public:
 
-void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
-{
-    StyleColor backgroundStyleColor = StyleColor::Background;
-    StyleColor borderStyleColor = StyleColor::Border;
+    ///
+    /// Constructs an empty check box widget.
+    ///
+    /// \param interfaceSystem The interface system.
+    CheckBox(InterfaceSystem& interfaceSystem);
 
-    if (isPressed())
-    {
-        backgroundStyleColor = StyleColor::BackgroundPressed;
-        borderStyleColor = StyleColor::BorderPressed;
-    }
-    else if (isMouseOver())
-    {
-        backgroundStyleColor = StyleColor::BackgroundMouseOver;
-        borderStyleColor = StyleColor::BorderMouseOver;
-    }
+    ///
+    /// Constructs a check box widget.
+    ///
+    /// \param interfaceSystem The interface system.
+    /// \param position The local position.
+    /// \param dimensions The dimensions.
+    CheckBox(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
 
-    frame.pushState();
-    frame.setClipping(bounds);
-    frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
-    frame.setFillColor(styleColor(backgroundStyleColor));
-    frame.fill();
-    frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
-    frame.setStrokeColor(styleColor(borderStyleColor));
-    frame.stroke();
-    frame.popState();
+    ///
+    /// Returns whether the check box is checked.
+    bool isChecked() const;
 
-    WidgetBase::render(frame, bounds);
+    ///
+    /// Sets whether the check box is checked.
+    ///
+    /// \param checked Whether the check box is checked.
+    void setChecked(bool checked);
+
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+    virtual void onPressed() override;
+
+private:
+    bool _checked { false };
+};
+
 }

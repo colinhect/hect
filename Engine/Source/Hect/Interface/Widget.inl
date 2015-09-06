@@ -27,19 +27,20 @@ namespace hect
 {
 
 template <typename T>
-Widget<T>::Widget()
+Widget<T>::Widget(InterfaceSystem& interfaceSystem) :
+    WidgetBase(interfaceSystem)
 {
 }
 
 template <typename T>
-Widget<T>::Widget(const Vector2& position) :
-    WidgetBase(position)
+Widget<T>::Widget(InterfaceSystem& interfaceSystem, const Vector2& position) :
+    WidgetBase(interfaceSystem, position)
 {
 }
 
 template <typename T>
-Widget<T>::Widget(const Vector2& position, const Vector2& dimensions) :
-    WidgetBase(position, dimensions)
+Widget<T>::Widget(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
+    WidgetBase(interfaceSystem, position, dimensions)
 {
 }
 

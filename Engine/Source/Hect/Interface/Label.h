@@ -43,14 +43,17 @@ public:
 
     ///
     /// Constructs an empty label widget.
-    Label();
+    ///
+    /// \param interfaceSystem The interface system.
+    Label(InterfaceSystem& interfaceSystem);
 
     ///
     /// Constructs a label widget.
     ///
+    /// \param interfaceSystem The interface system.
     /// \param position The local position.
     /// \param dimensions The dimensions.
-    Label(const Vector2& position, const Vector2& dimensions);
+    Label(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
 
     ///
     /// Returns the text of the label.

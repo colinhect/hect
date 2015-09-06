@@ -27,7 +27,8 @@
 
 using namespace hect;
 
-Grid::Grid()
+Grid::Grid(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
 {
 }
 
@@ -39,12 +40,34 @@ Grid::ColumnId Grid::addColumn(double width)
     return id;
 }
 
+void Grid::resizeColumn(ColumnId columnId, double width)
+{
+    if (columnId >= _columns.size())
+    {
+        throw InvalidOperation("Column id out of range");
+    }
+
+    _columns[columnId] = width;
+    updateDimensions();
+}
+
 Grid::RowId Grid::addRow(double height)
 {
     RowId id = static_cast<RowId>(_rows.size());
     _rows.push_back(height);
     updateDimensions();
     return id;
+}
+
+void Grid::resizeRow(RowId rowId, double height)
+{
+    if (rowId >= _rows.size())
+    {
+        throw InvalidOperation("Row id out of range");
+    }
+
+    _rows[rowId] = height;
+    updateDimensions();
 }
 
 void Grid::setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& widget)

@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/Color.h"
 #include "Hect/Interface/Widget.h"
 
 namespace hect
@@ -39,14 +38,17 @@ public:
 
     ///
     /// Constructs an empty panel widget.
-    Panel();
+    ///
+    /// \param interfaceSystem The interface system.
+    Panel(InterfaceSystem& interfaceSystem);
 
     ///
     /// Constructs a panel widget.
     ///
+    /// \param interfaceSystem The interface system.
     /// \param position The local position.
     /// \param dimensions The dimensions.
-    Panel(const Vector2& position, const Vector2& dimensions);
+    Panel(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
 
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 

@@ -25,13 +25,14 @@
 
 using namespace hect;
 
-Panel::Panel()
+Panel::Panel(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
 {
     useDefaultStyleColors();
 }
 
-Panel::Panel(const Vector2& position, const Vector2& dimensions) :
-    Widget(position, dimensions)
+Panel::Panel(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
+    Widget(interfaceSystem, position, dimensions)
 {
     useDefaultStyleColors();
 }
@@ -44,12 +45,18 @@ void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
         backgroundStyleColor = StyleColor::BackgroundMouseOver;
     }
 
+    StyleColor borderStyleColor = StyleColor::Border;
+
     frame.pushState();
     frame.setClipping(bounds);
     frame.beginPath();
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.rectangle(globalPosition(), dimensions());
     frame.fill();
+    frame.beginPath();
+    frame.rectangle(globalPosition(), dimensions());
+    frame.setStrokeColor(styleColor(borderStyleColor));
+    frame.stroke();
     frame.popState();
 
     WidgetBase::render(frame, bounds);

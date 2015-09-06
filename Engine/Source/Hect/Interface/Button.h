@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/Color.h"
 #include "Hect/Interface/Widget.h"
 
 namespace hect
@@ -38,33 +37,20 @@ class HECT_EXPORT Button :
 public:
 
     ///
-    /// An action bound to a button event.
-    typedef std::function<void()> Action;
-
-    ///
     /// Constructs an empty button widget.
-    Button();
+    ///
+    /// \param interfaceSystem The interface system.
+    Button(InterfaceSystem& interfaceSystem);
 
     ///
     /// Constructs a button widget.
     ///
+    /// \param interfaceSystem The interface system.
     /// \param position The local position.
     /// \param dimensions The dimensions.
-    Button(const Vector2& position, const Vector2& dimensions);
-
-    ///
-    /// Sets the action that is invoked when the button is pressed.
-    ///
-    /// \param action The action to perform when the button is pressed.
-    void setPressAction(const Button::Action& action);
+    Button(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
 
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
-    void onMouseExit() override;
-    void receiveEvent(const MouseEvent& event) override;
-
-private:
-    Action _pressAction;
-    bool _pressed { false };
 };
 
 }

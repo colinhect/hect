@@ -21,47 +21,35 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Button.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Interface/Grid.h"
 
-Button::Button(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+namespace hect
 {
-}
 
-Button::Button(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
-    Widget(interfaceSystem, position, dimensions)
+///
+/// A scroll panel.
+class HECT_EXPORT ScrollPanel :
+    public Widget<ScrollPanel>
 {
-}
+public:
 
-void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
-{
-    StyleColor backgroundStyleColor = StyleColor::Background;
-    StyleColor borderStyleColor = StyleColor::Border;
+    ///
+    /// Constructs an empty scroll panel widget.
+    ///
+    /// \param interfaceSystem The interface system.
+    ScrollPanel(InterfaceSystem& interfaceSystem);
 
-    if (isPressed())
-    {
-        backgroundStyleColor = StyleColor::BackgroundPressed;
-        borderStyleColor = StyleColor::BorderPressed;
-    }
-    else if (isMouseOver())
-    {
-        backgroundStyleColor = StyleColor::BackgroundMouseOver;
-        borderStyleColor = StyleColor::BorderMouseOver;
-    }
+    virtual void addChild(const WidgetBase::Handle& child) override;
+    virtual void removeChild(const WidgetBase::Handle& child) override;
 
-    frame.pushState();
-    frame.setClipping(bounds);
-    frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
-    frame.setFillColor(styleColor(backgroundStyleColor));
-    frame.fill();
-    frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
-    frame.setStrokeColor(styleColor(borderStyleColor));
-    frame.stroke();
-    frame.popState();
+protected:
+    virtual void updateBounds() override;
 
-    WidgetBase::render(frame, bounds);
+private:
+    Grid::Handle _grid;
+};
+
 }

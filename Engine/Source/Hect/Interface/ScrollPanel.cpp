@@ -21,47 +21,33 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Button.h"
+#include "ScrollPanel.h"
+
+#include "Hect/Logic/Systems/InterfaceSystem.h"
 
 using namespace hect;
 
-Button::Button(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+ScrollPanel::ScrollPanel(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem),
+    _grid(interfaceSystem.add<Grid>())
 {
+    _grid->addColumn();
+    _grid->addColumn(30);
+    _grid->addRow();
+    _grid->addRow(30);
 }
 
-Button::Button(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
-    Widget(interfaceSystem, position, dimensions)
+void ScrollPanel::addChild(const WidgetBase::Handle& child)
 {
+    WidgetBase::addChild(child);
 }
 
-void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void ScrollPanel::removeChild(const WidgetBase::Handle& child)
 {
-    StyleColor backgroundStyleColor = StyleColor::Background;
-    StyleColor borderStyleColor = StyleColor::Border;
+    WidgetBase::removeChild(child);
+}
 
-    if (isPressed())
-    {
-        backgroundStyleColor = StyleColor::BackgroundPressed;
-        borderStyleColor = StyleColor::BorderPressed;
-    }
-    else if (isMouseOver())
-    {
-        backgroundStyleColor = StyleColor::BackgroundMouseOver;
-        borderStyleColor = StyleColor::BorderMouseOver;
-    }
-
-    frame.pushState();
-    frame.setClipping(bounds);
-    frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
-    frame.setFillColor(styleColor(backgroundStyleColor));
-    frame.fill();
-    frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
-    frame.setStrokeColor(styleColor(borderStyleColor));
-    frame.stroke();
-    frame.popState();
-
-    WidgetBase::render(frame, bounds);
+void ScrollPanel::updateBounds()
+{
+    WidgetBase::updateBounds();
 }

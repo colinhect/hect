@@ -67,6 +67,7 @@ namespace hect {}
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
 #include "Hect/Interface/Button.h"
+#include "Hect/Interface/CheckBox.h"
 #include "Hect/Interface/Grid.h"
 #include "Hect/Interface/Label.h"
 #include "Hect/Interface/MessageLog.h"

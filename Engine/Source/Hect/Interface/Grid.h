@@ -46,15 +46,27 @@ public:
 
     ///
     /// Constructs an empty grid widget.
-    Grid();
+    ///
+    /// \param interfaceSystem The interface system.
+    Grid(InterfaceSystem& interfaceSystem);
 
     ///
     /// Adds a column to the grid.
     ///
+    /// \param interfaceSystem The interface system.
     /// \param width The width of the column.
     ///
     /// \returns The new column id.
-    ColumnId addColumn(double width);
+    ColumnId addColumn(double width = 0.0);
+
+    ///
+    /// Resizes the width of a column.
+    ///
+    /// \param columnId The id of the column to resize.
+    /// \param width The new width of the column
+    ///
+    /// \throws InvalidOperation If the column id is out of range.
+    void resizeColumn(ColumnId columnId, double width);
 
     ///
     /// Adds a row to the grid.
@@ -62,7 +74,16 @@ public:
     /// \param height The height of the row.
     ///
     /// \returns The new row id.
-    RowId addRow(double height);
+    RowId addRow(double height = 0.0);
+
+    ///
+    /// Resizes height width of a row.
+    ///
+    /// \param rowId The id of the row to resize.
+    /// \param height The new height of the column
+    ///
+    /// \throws InvalidOperation If the row id is out of range.
+    void resizeRow(RowId rowId, double height);
 
     ///
     /// Sets the widget that exists in the specified cell.

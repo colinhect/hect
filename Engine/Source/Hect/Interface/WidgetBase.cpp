@@ -25,19 +25,22 @@
 
 using namespace hect;
 
-WidgetBase::WidgetBase()
+WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
+    _interfaceSystem(&interfaceSystem)
 {
     useDefaultStyleColors();
 }
 
-WidgetBase::WidgetBase(const Vector2& position) :
+WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem, const Vector2& position) :
+    _interfaceSystem(&interfaceSystem),
     _localPosition(position)
 {
     updateBounds();
     useDefaultStyleColors();
 }
 
-WidgetBase::WidgetBase(const Vector2& position, const Vector2& dimensions) :
+WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
+    _interfaceSystem(&interfaceSystem),
     _localPosition(position),
     _dimensions(dimensions)
 {
@@ -74,10 +77,33 @@ void WidgetBase::onMouseEnter()
 
 void WidgetBase::onMouseExit()
 {
+    _pressed = false;
+}
+
+void WidgetBase::onPressed()
+{
 }
 
 void WidgetBase::receiveEvent(const MouseEvent& event)
 {
+    if (event.button == MouseButton::Button0)
+    {
+        if (event.type == MouseEventType::ButtonDown)
+        {
+            _pressed = true;
+        }
+        else if (_pressed && event.type == MouseEventType::ButtonUp)
+        {
+            onPressed();
+
+            if (_pressAction)
+            {
+                _pressAction();
+                _pressed = false;
+            }
+        }
+    }
+
     for (const WidgetBase::Handle& child : _children)
     {
         if (child->bounds().contains(event.cursorPosition))
@@ -85,6 +111,11 @@ void WidgetBase::receiveEvent(const MouseEvent& event)
             child->receiveEvent(event);
         }
     }
+}
+
+void WidgetBase::setPressAction(const WidgetBase::Action& action)
+{
+    _pressAction = action;
 }
 
 const Vector2& WidgetBase::localPosition() const
@@ -171,6 +202,11 @@ bool WidgetBase::isMouseOver() const
     return _mouseOver;
 }
 
+bool WidgetBase::isPressed() const
+{
+    return _pressed;
+}
+
 void WidgetBase::addChild(const WidgetBase::Handle& child)
 {
     if (child)
@@ -228,16 +264,6 @@ const InterfaceSystem& WidgetBase::interfaceSystem() const
     return *_interfaceSystem;
 }
 
-void WidgetBase::setInterfaceSystem(InterfaceSystem& interfaceSystem)
-{
-    _interfaceSystem = &interfaceSystem;
-}
-
-void WidgetBase::setMouseOver(bool value)
-{
-    _mouseOver = value;
-}
-
 void WidgetBase::updateBounds()
 {
     // Update the global position
@@ -285,6 +311,11 @@ void WidgetBase::updateBounds()
     {
         child->updateBounds();
     }
+}
+
+void WidgetBase::setMouseOver(bool value)
+{
+    _mouseOver = value;
 }
 
 void WidgetBase::useDefaultStyleColors()

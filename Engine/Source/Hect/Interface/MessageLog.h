@@ -41,16 +41,19 @@ public:
 
     ///
     /// Constructs an empty message log widget.
-    MessageLog();
+    ///
+    /// \param interfaceSystem The interface system.
+    MessageLog(InterfaceSystem& interfaceSystem);
 
     ///
     /// Constructs a message log widget.
     ///
+    /// \param interfaceSystem The interface system.
     /// \param position The local position.
     /// \param dimensions The dimensions.
     /// \param font The font.
     /// \param size The font size.
-    MessageLog(const Vector2& position, const Vector2& dimensions, Font::Handle font, double size);
+    MessageLog(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size);
 
     ///
     /// Adds a message to the message log.

@@ -42,20 +42,24 @@ public:
 
     ///
     /// Constructs a widget.
-    Widget();
+    ///
+    /// \param interfaceSystem The interface system.
+    Widget(InterfaceSystem& interfaceSystem);
 
     ///
     /// Constructs a widget.
     ///
+    /// \param interfaceSystem The interface system.
     /// \param position The local position of the widget.
-    Widget(const Vector2& position);
+    Widget(InterfaceSystem& interfaceSystem, const Vector2& position);
 
     ///
     /// Constructs a widget.
     ///
+    /// \param interfaceSystem The interface system.
     /// \param position The local position of the widget.
     /// \param dimensions The dimensions of the widget.
-    Widget(const Vector2& position, const Vector2& dimensions);
+    Widget(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
 
     virtual ~Widget() { }
 };

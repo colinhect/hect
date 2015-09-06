@@ -27,12 +27,13 @@
 
 using namespace hect;
 
-Label::Label()
+Label::Label(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
 {
 }
 
-Label::Label(const Vector2& position, const Vector2& dimensions) :
-    Widget(position, dimensions)
+Label::Label(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
+    Widget(interfaceSystem, position, dimensions)
 {
 }
 
