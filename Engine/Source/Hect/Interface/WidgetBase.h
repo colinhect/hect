@@ -72,6 +72,7 @@ public:
     ///
     /// Constructs a widget.
     ///
+    /// \param interfaceSystem The interface system.
     /// \param position The local position of the widget.
     /// \param dimensions The dimensions of the widget.
     WidgetBase(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
@@ -105,7 +106,7 @@ public:
     virtual void onPressed();
 
     ///
-    /// \copydoc Listener<T>::receiveEvent()
+    /// \copydoc Listener::receiveEvent()
     void receiveEvent(const MouseEvent& event);
 
     ///

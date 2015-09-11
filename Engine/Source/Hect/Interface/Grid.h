@@ -53,7 +53,6 @@ public:
     ///
     /// Adds a column to the grid.
     ///
-    /// \param interfaceSystem The interface system.
     /// \param width The width of the column.
     ///
     /// \returns The new column id.
