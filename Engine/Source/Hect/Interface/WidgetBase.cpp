@@ -321,9 +321,11 @@ void WidgetBase::setMouseOver(bool value)
 void WidgetBase::useDefaultStyleColors()
 {
     setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
+    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
     setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
     setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
     setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
+    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
     setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
     setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
     setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));

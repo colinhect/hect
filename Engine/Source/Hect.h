@@ -70,6 +70,7 @@ namespace hect {}
 #include "Hect/Interface/CheckBox.h"
 #include "Hect/Interface/Grid.h"
 #include "Hect/Interface/Label.h"
+#include "Hect/Interface/ListView.h"
 #include "Hect/Interface/MessageLog.h"
 #include "Hect/Interface/Panel.h"
 #include "Hect/Interface/Widget.h"

@@ -37,11 +37,11 @@ class HECT_EXPORT Grid :
 public:
 
     ///
-    /// A numeric identifier to a column in grid.
+    /// A numeric identifier to a column in a grid.
     typedef size_t ColumnId;
 
     ///
-    /// A numeric identifier to a row in grid.
+    /// A numeric identifier to a row in a grid.
     typedef size_t RowId;
 
     ///
@@ -76,10 +76,10 @@ public:
     RowId addRow(double height = 0.0);
 
     ///
-    /// Resizes height width of a row.
+    /// Resizes the height of a row.
     ///
     /// \param rowId The id of the row to resize.
-    /// \param height The new height of the column
+    /// \param height The new height of the column.
     ///
     /// \throws InvalidOperation If the row id is out of range.
     void resizeRow(RowId rowId, double height);
@@ -99,8 +99,18 @@ private:
 
     std::map<ColumnId, std::map<RowId, WidgetBase::Handle>> _cells;
 
-    std::vector<double> _columns;
-    std::vector<double> _rows;
+    struct Column
+    {
+        double width;
+    };
+
+    struct Row
+    {
+        double height;
+    };
+
+    std::vector<Column> _columns;
+    std::vector<Row> _rows;
 };
 
 }

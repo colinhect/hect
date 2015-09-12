@@ -26,7 +26,7 @@
 using namespace hect;
 
 CheckBox::CheckBox(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+    Widget(interfaceSystem, Vector2(), Vector2(10.0, 10.0))
 {
 }
 

@@ -94,7 +94,7 @@ Vector2 VectorRenderer::measureTextDimensions(const std::string& text, const Fon
 {
     (void)text;
     (void)font;
-    (double)size;
+    (void)size;
 
     return Vector2();
 }

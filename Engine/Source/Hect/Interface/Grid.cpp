@@ -35,7 +35,7 @@ Grid::Grid(InterfaceSystem& interfaceSystem) :
 Grid::ColumnId Grid::addColumn(double width)
 {
     ColumnId id = static_cast<ColumnId>(_columns.size());
-    _columns.push_back(width);
+    _columns.push_back(Column { width });
     updateDimensions();
     return id;
 }
@@ -47,14 +47,14 @@ void Grid::resizeColumn(ColumnId columnId, double width)
         throw InvalidOperation("Column id out of range");
     }
 
-    _columns[columnId] = width;
+    _columns[columnId] = Column { width };
     updateDimensions();
 }
 
 Grid::RowId Grid::addRow(double height)
 {
     RowId id = static_cast<RowId>(_rows.size());
-    _rows.push_back(height);
+    _rows.push_back(Row { height });
     updateDimensions();
     return id;
 }
@@ -66,7 +66,7 @@ void Grid::resizeRow(RowId rowId, double height)
         throw InvalidOperation("Row id out of range");
     }
 
-    _rows[rowId] = height;
+    _rows[rowId] = Row { height };
     updateDimensions();
 }
 
@@ -85,17 +85,17 @@ void Grid::setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& wid
     Vector2 position;
     for (ColumnId id = 0; id < columnId; ++id)
     {
-        position.x += _columns[id];
+        position.x += _columns[id].width;
     }
     for (RowId id = 0; id < rowId; ++id)
     {
-        position.y += _rows[id];
+        position.y += _rows[id].height;
     }
 
     // Compute the dimenions of the cell
     Vector2 dimensions;
-    dimensions.x = _columns[columnId];
-    dimensions.y = _rows[columnId];
+    dimensions.x = _columns[columnId].width;
+    dimensions.y = _rows[columnId].height;
 
     WidgetBase::Handle cellWidget = interfaceSystem().add<WidgetBase>(position, dimensions);
     cellWidget->addChild(widget);
@@ -108,14 +108,14 @@ void Grid::setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& wid
 void Grid::updateDimensions()
 {
     Vector2 dimensions;
-    for (double width : _columns)
+    for (const Column& column : _columns)
     {
-        dimensions.x += width;
+        dimensions.x += column.width;
     }
 
-    for (double height : _rows)
+    for (const Row& row : _rows)
     {
-        dimensions.y += height;
+        dimensions.y += row.height;
     }
 
     setDimensions(dimensions);

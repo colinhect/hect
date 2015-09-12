@@ -39,12 +39,20 @@ enum class StyleColor
     BackgroundPressed,
 
     ///
+    /// The background color when selected.
+    BackgroundSelected,
+
+    ///
     /// The background color when the mouse cursor is over the widget.
     BackgroundMouseOver,
 
     ///
     /// The foreground color.
     Foreground,
+
+    ///
+    /// The foreground color when selected.
+    ForegroundSelected,
 
     ///
     /// The foreground color when pressed.
