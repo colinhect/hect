@@ -43,14 +43,6 @@ public:
     CheckBox(InterfaceSystem& interfaceSystem);
 
     ///
-    /// Constructs a check box widget.
-    ///
-    /// \param interfaceSystem The interface system.
-    /// \param position The local position.
-    /// \param dimensions The dimensions.
-    CheckBox(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
-
-    ///
     /// Returns whether the check box is checked.
     bool isChecked() const;
 

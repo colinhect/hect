@@ -55,6 +55,15 @@ public:
     template <typename T, typename... Args>
     typename T::Handle add(Args&&... args);
 
+    ///
+    /// Returns the effective dimensions of the specified text using the given
+    /// font and size.
+    ///
+    /// \param text The text to measure.
+    /// \param font The font.
+    /// \param size The font size.
+    Vector2 measureTextDimensions(const std::string& text, const Font& font, double size) const;
+
     void render(RenderTarget& target) override;
     void tick(double timeStep) override;
 

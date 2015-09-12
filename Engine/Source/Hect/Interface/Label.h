@@ -25,8 +25,6 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Font.h"
-#include "Hect/Interface/HorizontalAlign.h"
-#include "Hect/Interface/VerticalAlign.h"
 #include "Hect/Interface/Widget.h"
 
 #include <string>
@@ -48,29 +46,17 @@ public:
     Label(InterfaceSystem& interfaceSystem);
 
     ///
-    /// Constructs a label widget.
-    ///
-    /// \param interfaceSystem The interface system.
-    /// \param position The local position.
-    /// \param dimensions The dimensions.
-    Label(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
-
-    ///
     /// Returns the text of the label.
     const std::string& text() const;
 
     ///
     /// Sets the text of the label.
     ///
+    /// \note The dimensions of the label will automatically size to fit the
+    /// text with the set font and font size.
+    ///
     /// \param text The new text of the label.
     void setText(const std::string& text);
-
-    ///
-    /// Sets the alignment of the label's text.
-    ///
-    /// \param horizontalAlign The horizontal alignment.
-    /// \param verticalAlign The vertical alignment.
-    void setTextAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign);
 
     ///
     /// Returns the font of the label.
@@ -79,6 +65,9 @@ public:
     ///
     /// Sets the font of the label.
     ///
+    /// \note The dimensions of the label will automatically size to fit the
+    /// text with the set font and font size.
+    ///
     /// \param font The font.
     /// \param size The font size.
     void setFont(Font::Handle font, double size);
@@ -86,12 +75,14 @@ public:
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 
 private:
+    void updateBounds() override;
+
+    Font& effectiveFont();
+    double effectiveFontSize();
+
     std::string _text;
     Font::Handle _font;
     double _fontSize { 0.0 };
-
-    HorizontalAlign _horizontalTextAlign { HorizontalAlign::Left };
-    VerticalAlign _verticalTextAlign { VerticalAlign::Top };
 };
 
 }

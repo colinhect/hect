@@ -31,12 +31,6 @@ Panel::Panel(InterfaceSystem& interfaceSystem) :
     useDefaultStyleColors();
 }
 
-Panel::Panel(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
-    Widget(interfaceSystem, position, dimensions)
-{
-    useDefaultStyleColors();
-}
-
 void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;

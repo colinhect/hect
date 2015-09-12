@@ -84,13 +84,19 @@ void VectorRenderer::Frame::setFont(const Font& font, double size)
     (void)size;
 }
 
-void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& position, const Vector2& dimensions, HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
+void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& position)
 {
     (void)text;
     (void)position;
-    (void)dimensions;
-    (void)horizontalAlign;
-    (void)verticalAlign;
+}
+
+Vector2 VectorRenderer::measureTextDimensions(const std::string& text, const Font& font, double size)
+{
+    (void)text;
+    (void)font;
+    (double)size;
+
+    return Vector2();
 }
 
 void VectorRenderer::initialize()

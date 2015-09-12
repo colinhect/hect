@@ -42,14 +42,6 @@ public:
     /// \param interfaceSystem The interface system.
     Button(InterfaceSystem& interfaceSystem);
 
-    ///
-    /// Constructs a button widget.
-    ///
-    /// \param interfaceSystem The interface system.
-    /// \param position The local position.
-    /// \param dimensions The dimensions.
-    Button(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
-
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 };
 

@@ -39,6 +39,11 @@ InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
     }
 }
 
+Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Font& font, double size) const
+{
+    return _vectorRenderer.measureTextDimensions(text, font, size);
+}
+
 void InterfaceSystem::render(RenderTarget& target)
 {
     Renderer::Frame frame = _renderer.beginFrame(target);

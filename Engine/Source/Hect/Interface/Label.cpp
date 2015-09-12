@@ -32,11 +32,6 @@ Label::Label(InterfaceSystem& interfaceSystem) :
 {
 }
 
-Label::Label(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
-    Widget(interfaceSystem, position, dimensions)
-{
-}
-
 const std::string& Label::text() const
 {
     return _text;
@@ -45,12 +40,7 @@ const std::string& Label::text() const
 void Label::setText(const std::string& text)
 {
     _text = text;
-}
-
-void Label::setTextAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
-{
-    _horizontalTextAlign = horizontalAlign;
-    _verticalTextAlign = verticalAlign;
+    updateBounds();
 }
 
 Font::Handle Label::font() const
@@ -62,33 +52,52 @@ void Label::setFont(Font::Handle font, double size)
 {
     _font = font;
     _fontSize = size;
+    updateBounds();
 }
 
 void Label::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
     if (!_text.empty())
     {
-        Font::Handle font = _font;
-        if (!font)
-        {
-            font = interfaceSystem().defaultFont;
-        }
+        Font& font = effectiveFont();
+        double fontSize = effectiveFontSize();
 
-        double fontSize = _fontSize;
-        if (fontSize <= 0.0)
-        {
-            fontSize = interfaceSystem().defaultFontSize;
-        }
-
-        if (font && fontSize > 0.0)
-        {
-            frame.pushState();
-            frame.setClipping(bounds);
-            frame.setFont(*font, fontSize);
-            frame.renderText(_text, globalPosition(), dimensions(), _horizontalTextAlign, _verticalTextAlign);
-            frame.popState();
-        }
+        frame.pushState();
+        frame.setClipping(bounds);
+        frame.setFont(font, fontSize);
+        frame.renderText(_text, globalPosition());
+        frame.popState();
     }
 
     WidgetBase::render(frame, bounds);
+}
+
+void Label::updateBounds()
+{
+    _dimensions = interfaceSystem().measureTextDimensions(_text, effectiveFont(), effectiveFontSize());
+    WidgetBase::updateBounds();
+}
+
+Font& Label::effectiveFont()
+{
+    // If no font is set then defer to the interface system
+    Font::Handle font = _font;
+    if (!font)
+    {
+        font = interfaceSystem().defaultFont;
+    }
+
+    return *font;
+}
+
+double Label::effectiveFontSize()
+{
+    // If no font size is set then defer to the interface system
+    double fontSize = _fontSize;
+    if (fontSize <= 0.0)
+    {
+        fontSize = interfaceSystem().defaultFontSize;
+    }
+
+    return fontSize;
 }

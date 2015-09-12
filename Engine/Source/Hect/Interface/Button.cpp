@@ -30,11 +30,6 @@ Button::Button(InterfaceSystem& interfaceSystem) :
 {
 }
 
-Button::Button(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
-    Widget(interfaceSystem, position, dimensions)
-{
-}
-
 void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;

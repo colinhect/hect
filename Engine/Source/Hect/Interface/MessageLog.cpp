@@ -89,7 +89,7 @@ void MessageLog::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
             frame.setFillColor(Color(1.0, 1.0, 1.0, alpha));
 
             // Render the text
-            frame.renderText(message.text, textPosition, textDimensions);
+            frame.renderText(message.text, textPosition);
         }
     }
 }

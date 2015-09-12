@@ -107,7 +107,7 @@ public:
 
     ///
     /// \copydoc Listener::receiveEvent()
-    void receiveEvent(const MouseEvent& event);
+    virtual void receiveEvent(const MouseEvent& event);
 
     ///
     /// Sets the action that is invoked when the widget is pressed.
@@ -236,7 +236,6 @@ public:
 protected:
     virtual void updateBounds();
 
-private:
     void setMouseOver(bool value);
     void useDefaultStyleColors();
 

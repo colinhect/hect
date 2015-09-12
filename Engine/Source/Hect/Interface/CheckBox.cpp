@@ -30,11 +30,6 @@ CheckBox::CheckBox(InterfaceSystem& interfaceSystem) :
 {
 }
 
-CheckBox::CheckBox(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
-    Widget(interfaceSystem, position, dimensions)
-{
-}
-
 bool CheckBox::isChecked() const
 {
     return _checked;

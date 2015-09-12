@@ -42,14 +42,6 @@ public:
     /// \param interfaceSystem The interface system.
     Panel(InterfaceSystem& interfaceSystem);
 
-    ///
-    /// Constructs a panel widget.
-    ///
-    /// \param interfaceSystem The interface system.
-    /// \param position The local position.
-    /// \param dimensions The dimensions.
-    Panel(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
-
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
 
 private:

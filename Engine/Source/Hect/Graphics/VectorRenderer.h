@@ -121,10 +121,7 @@ public:
         ///
         /// \param text The text string to render.
         /// \param position The position to render the text.
-        /// \param dimensions The dimensions to render the text.
-        /// \param horizontalAlign The horizontal alignment.
-        /// \param verticalAlign The vertical alignment.
-        void renderText(const std::string& text, const Vector2& position, const Vector2& dimensions, HorizontalAlign horizontalAlign = HorizontalAlign::Left, VerticalAlign verticalAlign = VerticalAlign::Top);
+        void renderText(const std::string& text, const Vector2& position);
 
     private:
         Frame(VectorRenderer& renderer, RenderTarget& target);
@@ -142,6 +139,15 @@ public:
     /// \throws InvalidOperation If another frame is already active.
     Frame beginFrame(RenderTarget& target);
 
+    ///
+    /// Returns the effective dimensions of the specified text using the given
+    /// font and size.
+    ///
+    /// \param text The text to measure.
+    /// \param font The font.
+    /// \param size The font size.
+    Vector2 measureTextDimensions(const std::string& text, const Font& font, double size);
+
 private:
     VectorRenderer(Renderer& renderer);
 
@@ -149,6 +155,8 @@ private:
     void shutdown();
     void onBeginFrame(RenderTarget& target);
     void onEndFrame();
+
+    void setFont(const Font& font, double size);
 
     Renderer& _renderer;
     bool _inFrame { false };
