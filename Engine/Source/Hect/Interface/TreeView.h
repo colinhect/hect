@@ -21,48 +21,61 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/Reflection/Type.h"
+#pragma once
 
-#include "Hect/Core/Format.h"
-#include "Hect/Core/Logging.h"
+#include "Hect/Core/Export.h"
+#include "Hect/Interface/Widget.h"
+
+#include <unordered_map>
 
 namespace hect
 {
 
-template <typename T>
-void SystemRegistry::registerType()
+///
+/// A tree view.
+class HECT_EXPORT TreeView :
+    public Widget<TreeView>
 {
-    std::type_index typeIndex(typeid(T));
+public:
 
-    if (_typeIndexToId.find(typeIndex) == _typeIndexToId.end())
+    ///
+    /// A numeric identifier to a node in a tree view.
+    typedef size_t NodeId;
+    ///
+    /// Constructs an empty tree view widget.
+    ///
+    /// \param interfaceSystem The interface system.
+    TreeView(InterfaceSystem& interfaceSystem);
+
+    ///
+    /// Adds a new root node to the tree view.
+    ///
+    /// \param widget The widget.
+    ///
+    /// \returns The new node id.
+    NodeId addNode(const WidgetBase::Handle& widget);
+
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+
+protected:
+    void updateBounds() override;
+
+private:
+    void updateItems();
+
+    class HECT_EXPORT Node :
+        public Widget<Node>
     {
-        std::string typeName = Type::get<T>().name();
-        SystemTypeId typeId = static_cast<SystemTypeId>(_constructors.size());
+    public:
+        Node(InterfaceSystem& interfaceSystem);
 
-        _constructors.push_back([](Engine& engine, Scene& scene)
-        {
-            return std::shared_ptr<SystemBase>(new T(engine, scene));
-        });
+        virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+        virtual void onPressed() override;
+    };
 
-        _typeIndexToId[typeIndex] = typeId;
-        _typeNameToId[typeName] = typeId;
-        _typeIdToName[typeId] = typeName;
-        _typeIds.push_back(typeId);
-
-        HECT_DEBUG(format("Registered system type '%s'", typeName.c_str()));
-    }
-}
-
-template <typename T>
-SystemTypeId SystemRegistry::typeIdOf()
-{
-    static SystemTypeId id = SystemTypeId(-1);
-    if (id == SystemTypeId(-1))
-    {
-        std::type_index typeIndex(typeid(T));
-        id = typeIdOf(typeIndex);
-    }
-    return id;
-}
+    NodeId _nextNodeId { 0 };
+    std::unordered_map<NodeId, Node::Handle> _nodes;
+    std::vector<NodeId> _rootNodes;
+};
 
 }

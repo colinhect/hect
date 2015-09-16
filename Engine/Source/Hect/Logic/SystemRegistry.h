@@ -43,7 +43,12 @@ class Engine;
 /// information.
 class HECT_EXPORT SystemRegistry
 {
+    typedef std::vector<SystemTypeId> SystemTypeIdContainer;
 public:
+
+    ///
+    /// A sequence of system type ids.
+    typedef Sequence<SystemTypeId, SystemTypeIdContainer> SystemTypeIdSequence;
 
     ///
     /// Creates a System of the specified type.
@@ -91,6 +96,10 @@ public:
     static bool isRegisteredTypeId(SystemTypeId typeId);
 
     ///
+    /// Returns a sequence of all of the registered type ids.
+    static SystemTypeIdSequence typeIds();
+
+    ///
     /// Registers a System type.
     ///
     /// \warning The type must be registered with Type.
@@ -111,6 +120,7 @@ private:
     static std::map<SystemTypeId, std::string> _typeIdToName;
     static std::map<std::string, SystemTypeId> _typeNameToId;
     static std::map<std::type_index, SystemTypeId> _typeIndexToId;
+    static SystemTypeIdContainer _typeIds;
 
     typedef std::function<std::shared_ptr<SystemBase>(Engine&, Scene&)> SystemConstructor;
 

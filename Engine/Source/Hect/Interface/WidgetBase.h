@@ -27,7 +27,9 @@
 #include "Hect/Core/Event.h"
 #include "Hect/Graphics/VectorRenderer.h"
 #include "Hect/Input/MouseEvent.h"
+#include "Hect/Interface/HorizontalAlign.h"
 #include "Hect/Interface/StyleColor.h"
+#include "Hect/Interface/VerticalAlign.h"
 #include "Hect/Math/Rectangle.h"
 #include "Hect/Math/Vector2.h"
 
@@ -146,19 +148,24 @@ public:
     const Rectangle& bounds() const;
 
     ///
-    /// Sets the alignment of the widget text.
-    ///
-    /// \param horizontalAlign The horizontal alignment.
-    /// \param verticalAlign The vertical alignment.
-    void setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign);
-
-    ///
     /// Returns the horizontal alignment.
     HorizontalAlign horizontalAlign() const;
 
     ///
+    /// Sets the horizontal alignment of the widget.
+    ///
+    /// \param align The alignment.
+    void setHorizontalAlign(HorizontalAlign align);
+
+    ///
     /// Returns the vertical alignment.
     VerticalAlign verticalAlign() const;
+
+    ///
+    /// Sets the vertical alignment of the widget.
+    ///
+    /// \param align The alignment.
+    void setVerticalAlign(VerticalAlign align);
 
     ///
     /// Returns the tooltip of the widget.

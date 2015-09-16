@@ -73,6 +73,7 @@ namespace hect {}
 #include "Hect/Interface/ListView.h"
 #include "Hect/Interface/MessageLog.h"
 #include "Hect/Interface/Panel.h"
+#include "Hect/Interface/TreeView.h"
 #include "Hect/Interface/Widget.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/IO/AssetCache.h"

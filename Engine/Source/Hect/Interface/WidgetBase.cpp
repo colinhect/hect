@@ -150,21 +150,26 @@ const Rectangle& WidgetBase::bounds() const
     return _bounds;
 }
 
-void WidgetBase::setAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
-{
-    _horizontalAlign = horizontalAlign;
-    _verticalAlign = verticalAlign;
-    updateBounds();
-}
-
 HorizontalAlign WidgetBase::horizontalAlign() const
 {
     return _horizontalAlign;
 }
 
+void WidgetBase::setHorizontalAlign(HorizontalAlign align)
+{
+    _horizontalAlign = align;
+    updateBounds();
+}
+
 VerticalAlign WidgetBase::verticalAlign() const
 {
     return _verticalAlign;
+}
+
+void WidgetBase::setVerticalAlign(VerticalAlign align)
+{
+    _verticalAlign = align;
+    updateBounds();
 }
 
 const std::string& WidgetBase::tooltip() const

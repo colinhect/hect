@@ -21,43 +21,35 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ListView.h"
+#include "TreeView.h"
 
 #include "Hect/Logic/Systems/InterfaceSystem.h"
 
 using namespace hect;
 
-ListView::ListView(InterfaceSystem& interfaceSystem) :
+TreeView::TreeView(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
 }
 
-ListViewSelectMode ListView::selectMode() const
+TreeView::NodeId TreeView::addNode(const WidgetBase::Handle& widget)
 {
-    return _selectMode;
-}
+    auto node = interfaceSystem().add<Node>();
+    node->setDimensions(widget->dimensions());
+    node->addChild(widget);
+    addChild(node);
 
-void ListView::setSelectMode(ListViewSelectMode selectMode)
-{
-    _selectMode = selectMode;
-}
+    NodeId nodeId = _nextNodeId++;
+    _nodes[nodeId] = node;
 
-size_t ListView::addItem(const WidgetBase::Handle& widget)
-{
-    auto item = interfaceSystem().add<Item>();
-    item->setDimensions(widget->dimensions());
-    item->addChild(widget);
-    addChild(item);
-
-    size_t index = _items.size();
-    _items.push_back(item);
+    _rootNodes.push_back(nodeId);
 
     updateBounds();
 
-    return index;
+    return nodeId;
 }
 
-void ListView::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void TreeView::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
 
@@ -72,37 +64,37 @@ void ListView::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
     WidgetBase::render(frame, bounds);
 }
 
-void ListView::updateBounds()
+void TreeView::updateBounds()
 {
     updateItems();
     WidgetBase::updateBounds();
 }
 
-void ListView::updateItems()
+void TreeView::updateItems()
 {
     // Compute the full dimensions
     _dimensions = Vector2();
-    for (const WidgetBase::Handle& widget : _items)
+    for (NodeId nodeId : _rootNodes)
     {
-        const Vector2& widgetDimensions = widget->dimensions();
+        const Vector2& widgetDimensions = _nodes[nodeId]->dimensions();
         _dimensions.x = std::max(_dimensions.x, widgetDimensions.x);
         _dimensions.y += widgetDimensions.y;
     }
 
     Vector2 localPosition = 0;
-    for (const WidgetBase::Handle& widget : _items)
+    for (NodeId nodeId : _rootNodes)
     {
-        widget->setLocalPosition(localPosition);
-        localPosition.y += widget->dimensions().y;
+        _nodes[nodeId]->setLocalPosition(localPosition);
+        localPosition.y += _nodes[nodeId]->dimensions().y;
     }
 }
 
-ListView::Item::Item(InterfaceSystem& interfaceSystem) :
+TreeView::Node::Node(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
 }
 
-void ListView::Item::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void TreeView::Node::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
 
@@ -110,10 +102,6 @@ void ListView::Item::render(VectorRenderer::Frame& frame, const Rectangle& bound
     {
         backgroundStyleColor = StyleColor::BackgroundMouseOver;
     }
-    else if (_selected)
-    {
-        backgroundStyleColor = StyleColor::BackgroundSelected;
-    }
 
     frame.pushState();
     frame.setClipping(bounds);
@@ -126,25 +114,6 @@ void ListView::Item::render(VectorRenderer::Frame& frame, const Rectangle& bound
     WidgetBase::render(frame, bounds);
 }
 
-void ListView::Item::onPressed()
+void TreeView::Node::onPressed()
 {
-    ListView& listView = *reinterpret_cast<ListView*>(_parent);
-    ListViewSelectMode selectMode = listView.selectMode();
-
-    if (selectMode != ListViewSelectMode::None)
-    {
-        _selected = !_selected;
-
-        // Deselect all other items if single select mode is set
-        if (_selected && selectMode == ListViewSelectMode::Single)
-        {
-            for (const Item::Handle& item : listView._items)
-            {
-                if (item.get() != this)
-                {
-                    item->_selected = false;
-                }
-            }
-        }
-    }
 }
