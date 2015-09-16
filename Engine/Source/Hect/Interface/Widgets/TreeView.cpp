@@ -81,11 +81,11 @@ void TreeView::updateItems()
         _dimensions.y += widgetDimensions.y;
     }
 
-    Vector2 localPosition = 0;
+    Vector2 position;
     for (NodeId nodeId : _rootNodes)
     {
-        _nodes[nodeId]->setLocalPosition(localPosition);
-        localPosition.y += _nodes[nodeId]->dimensions().y;
+        _nodes[nodeId]->setPosition(position);
+        position.y += _nodes[nodeId]->dimensions().y;
     }
 }
 

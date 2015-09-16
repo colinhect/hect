@@ -33,10 +33,12 @@ MessageLog::MessageLog(InterfaceSystem& interfaceSystem) :
 }
 
 MessageLog::MessageLog(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions, Font::Handle font, double size) :
-    Widget(interfaceSystem, position, dimensions),
+    Widget(interfaceSystem),
     _font(font),
     _size(size)
 {
+    setPosition(position);
+    setDimensions(dimensions);
 }
 
 void MessageLog::addMessage(const std::string& text)

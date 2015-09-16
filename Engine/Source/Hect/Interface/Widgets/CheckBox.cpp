@@ -21,35 +21,60 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "CheckBox.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Interface/Grid.h"
+using namespace hect;
 
-namespace hect
+CheckBox::CheckBox(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
 {
+    setDimensions(Vector2(10.0, 10.0));
+}
 
-///
-/// A scroll panel.
-class HECT_EXPORT ScrollPanel :
-    public Widget<ScrollPanel>
+bool CheckBox::isChecked() const
 {
-public:
+    return _checked;
+}
 
-    ///
-    /// Constructs an empty scroll panel widget.
-    ///
-    /// \param interfaceSystem The interface system.
-    ScrollPanel(InterfaceSystem& interfaceSystem);
+void CheckBox::setChecked(bool checked)
+{
+    _checked = checked;
+}
 
-    virtual void addChild(const WidgetBase::Handle& child) override;
-    virtual void removeChild(const WidgetBase::Handle& child) override;
+void CheckBox::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+{
+    StyleColor forgroundStyleColor = StyleColor::Foreground;
+    StyleColor backgroundStyleColor = StyleColor::Background;
 
-protected:
-    virtual void updateBounds() override;
+    if (isMouseOver())
+    {
+        backgroundStyleColor = StyleColor::BackgroundMouseOver;
+    }
 
-private:
-    Grid::Handle _grid;
-};
+    frame.pushState();
+    frame.setClipping(bounds);
+    frame.beginPath();
+    frame.rectangle(globalPosition(), dimensions());
+    frame.setFillColor(styleColor(backgroundStyleColor));
+    frame.fill();
 
+    if (_checked)
+    {
+        Vector2 checkPosition = globalPosition() + dimensions() * 0.25;
+        Vector2 checkDimensions = dimensions() * 0.5;
+
+        frame.beginPath();
+        frame.rectangle(checkPosition, checkDimensions);
+        frame.setFillColor(styleColor(forgroundStyleColor));
+        frame.fill();
+    }
+
+    frame.popState();
+
+    WidgetBase::render(frame, bounds);
+}
+
+void CheckBox::onPressed()
+{
+    _checked = !_checked;
 }

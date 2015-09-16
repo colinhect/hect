@@ -89,11 +89,11 @@ void ListView::updateItems()
         _dimensions.y += widgetDimensions.y;
     }
 
-    Vector2 localPosition = 0;
+    Vector2 position;
     for (const WidgetBase::Handle& widget : _items)
     {
-        widget->setLocalPosition(localPosition);
-        localPosition.y += widget->dimensions().y;
+        widget->setPosition(position);
+        position.y += widget->dimensions().y;
     }
 }
 

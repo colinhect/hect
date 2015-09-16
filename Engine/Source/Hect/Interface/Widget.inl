@@ -32,16 +32,4 @@ Widget<T>::Widget(InterfaceSystem& interfaceSystem) :
 {
 }
 
-template <typename T>
-Widget<T>::Widget(InterfaceSystem& interfaceSystem, const Vector2& position) :
-    WidgetBase(interfaceSystem, position)
-{
-}
-
-template <typename T>
-Widget<T>::Widget(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
-    WidgetBase(interfaceSystem, position, dimensions)
-{
-}
-
 }

@@ -64,21 +64,6 @@ public:
     /// \param interfaceSystem The interface system.
     WidgetBase(InterfaceSystem& interfaceSystem);
 
-    ///
-    /// Constructs a widget.
-    ///
-    /// \param interfaceSystem The interface system.
-    /// \param position The local position of the widget.
-    WidgetBase(InterfaceSystem& interfaceSystem, const Vector2& position);
-
-    ///
-    /// Constructs a widget.
-    ///
-    /// \param interfaceSystem The interface system.
-    /// \param position The local position of the widget.
-    /// \param dimensions The dimensions of the widget.
-    WidgetBase(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions);
-
     virtual ~WidgetBase() { }
 
     ///
@@ -120,14 +105,14 @@ public:
     ///
     /// Returns the local position of the widget (only relevant if the widget
     /// is not aligned).
-    const Vector2& localPosition() const;
+    const Vector2& position() const;
 
     ///
     /// Sets the local position of the widget (only affects the widget if it is
     /// not aligned).
     ///
     /// \param position The new position of the widget.
-    void setLocalPosition(const Vector2& position);
+    void setPosition(const Vector2& position);
 
     ///
     /// Returns the global position of the widget.

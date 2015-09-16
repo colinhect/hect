@@ -92,12 +92,14 @@ void Grid::setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& wid
         position.y += _rows[id].height;
     }
 
-    // Compute the dimenions of the cell
+    // Compute the dimensions of the cell
     Vector2 dimensions;
     dimensions.x = _columns[columnId].width;
     dimensions.y = _rows[columnId].height;
 
-    WidgetBase::Handle cellWidget = interfaceSystem().add<WidgetBase>(position, dimensions);
+    WidgetBase::Handle cellWidget = interfaceSystem().add<WidgetBase>();
+    cellWidget->setPosition(position);
+    cellWidget->setDimensions(dimensions);
     cellWidget->addChild(widget);
 
     addChild(cellWidget);

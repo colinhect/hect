@@ -31,23 +31,6 @@ WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
     useDefaultStyleColors();
 }
 
-WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem, const Vector2& position) :
-    _interfaceSystem(&interfaceSystem),
-    _localPosition(position)
-{
-    updateBounds();
-    useDefaultStyleColors();
-}
-
-WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem, const Vector2& position, const Vector2& dimensions) :
-    _interfaceSystem(&interfaceSystem),
-    _localPosition(position),
-    _dimensions(dimensions)
-{
-    updateBounds();
-    useDefaultStyleColors();
-}
-
 void WidgetBase::tick(double timeStep)
 {
     for (const WidgetBase::Handle& child : _children)
@@ -118,12 +101,12 @@ void WidgetBase::setPressAction(const WidgetBase::Action& action)
     _pressAction = action;
 }
 
-const Vector2& WidgetBase::localPosition() const
+const Vector2& WidgetBase::position() const
 {
     return _localPosition;
 }
 
-void WidgetBase::setLocalPosition(const Vector2& position)
+void WidgetBase::setPosition(const Vector2& position)
 {
     _localPosition = position;
     updateBounds();
