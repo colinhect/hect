@@ -37,11 +37,42 @@ InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
     {
         engine.mouse().registerListener(*this);
     }
+
+    // Set the default style colors
+    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
+    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
+    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
+    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
+    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
+    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
+    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
+    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
+    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
+    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
+    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 }
 
 Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Font& font, double size) const
 {
     return _vectorRenderer.measureTextDimensions(text, font, size);
+}
+
+const Color& InterfaceSystem::styleColor(StyleColor styleColor) const
+{
+    auto it = _styleColors.find(styleColor);
+    if (it != _styleColors.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return Color::One;
+    }
+}
+
+void InterfaceSystem::setStyleColor(StyleColor styleColor, const Color& color)
+{
+    _styleColors[styleColor] = color;
 }
 
 void InterfaceSystem::render(RenderTarget& target)

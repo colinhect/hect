@@ -43,9 +43,6 @@ public:
     Panel(InterfaceSystem& interfaceSystem);
 
     void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
-
-private:
-    void useDefaultStyleColors();
 };
 
 }

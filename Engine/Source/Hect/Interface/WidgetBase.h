@@ -215,6 +215,16 @@ public:
     bool hasParent() const;
 
     ///
+    /// Returns the parent of the widget.
+    ///
+    /// \throws InvalidOperation If the widget does not have a parent.
+    WidgetBase& parent();
+
+    ///
+    /// \copydoc WidgetBase::parent()
+    const WidgetBase& parent() const;
+
+    ///
     /// Returns the interface system that the widget belongs to.
     ///
     /// \throws InvalidOperation If the widget does not belong to an interface
@@ -228,24 +238,34 @@ public:
 protected:
     virtual void updateBounds();
 
-    void setMouseOver(bool value);
-    void useDefaultStyleColors();
+    void modifyDimensions(const Vector2& dimensions);
 
+    void setMouseOver(bool value);
+
+private:
     InterfaceSystem* _interfaceSystem { nullptr };
     WidgetBase* _parent { nullptr };
+
     Vector2 _localPosition;
     Vector2 _globalPosition;
+
     Vector2 _dimensions;
+
     Rectangle _bounds;
+
     HorizontalAlign _horizontalAlign { HorizontalAlign::None };
     VerticalAlign _verticalAlign { VerticalAlign::None };
+
     std::string _tooltip;
+
     Action _pressAction;
+
     bool _pressed { false };
     bool _visible { true };
     bool _mouseOver { false };
+
     std::vector<WidgetBase::Handle> _children;
-    mutable std::map<StyleColor, Color> _styleColors;
+    std::map<StyleColor, Color> _styleColors;
 };
 
 }

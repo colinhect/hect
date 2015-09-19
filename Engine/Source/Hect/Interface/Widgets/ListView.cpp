@@ -81,13 +81,15 @@ void ListView::updateBounds()
 void ListView::updateItems()
 {
     // Compute the full dimensions
-    _dimensions = Vector2();
+
+    Vector2 dimensions = Vector2();
     for (const WidgetBase::Handle& widget : _items)
     {
         const Vector2& widgetDimensions = widget->dimensions();
-        _dimensions.x = std::max(_dimensions.x, widgetDimensions.x);
-        _dimensions.y += widgetDimensions.y;
+        dimensions.x = std::max(dimensions.x, widgetDimensions.x);
+        dimensions.y += widgetDimensions.y;
     }
+    modifyDimensions(dimensions);
 
     Vector2 position;
     for (const WidgetBase::Handle& widget : _items)
@@ -128,7 +130,7 @@ void ListView::Item::render(VectorRenderer::Frame& frame, const Rectangle& bound
 
 void ListView::Item::onPressed()
 {
-    ListView& listView = *reinterpret_cast<ListView*>(_parent);
+    ListView& listView = *reinterpret_cast<ListView*>(&parent());
     ListViewSelectMode selectMode = listView.selectMode();
 
     if (selectMode != ListViewSelectMode::None)

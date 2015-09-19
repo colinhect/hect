@@ -28,7 +28,8 @@ using namespace hect;
 Panel::Panel(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
-    useDefaultStyleColors();
+    setStyleColor(StyleColor::Background, Color(0.0, 0.0, 0.0, 0.8));
+    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));
 }
 
 void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
@@ -54,10 +55,4 @@ void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
     frame.popState();
 
     WidgetBase::render(frame, bounds);
-}
-
-void Panel::useDefaultStyleColors()
-{
-    setStyleColor(StyleColor::Background, Color(0.0, 0.0, 0.0, 0.8));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));
 }

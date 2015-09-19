@@ -23,12 +23,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "WidgetBase.h"
 
+#include "Hect/Logic/Systems/InterfaceSystem.h"
+
 using namespace hect;
 
 WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
     _interfaceSystem(&interfaceSystem)
 {
-    useDefaultStyleColors();
 }
 
 void WidgetBase::tick(double timeStep)
@@ -124,7 +125,7 @@ const Vector2& WidgetBase::dimensions() const
 
 void WidgetBase::setDimensions(const Vector2& dimensions)
 {
-    _dimensions = dimensions;
+    modifyDimensions(dimensions);
     updateBounds();
 }
 
@@ -177,7 +178,19 @@ void WidgetBase::setVisible(bool visible)
 
 const Color& WidgetBase::styleColor(StyleColor styleColor) const
 {
-    return _styleColors[styleColor];
+    auto it = _styleColors.find(styleColor);
+    if (it != _styleColors.end())
+    {
+        return it->second;
+    }
+    else if (_interfaceSystem)
+    {
+        return _interfaceSystem->styleColor(styleColor);
+    }
+    else
+    {
+        return Color::One;
+    }
 }
 
 void WidgetBase::setStyleColor(StyleColor styleColor, const Color& color)
@@ -230,6 +243,26 @@ void WidgetBase::removeChild(const WidgetBase::Handle& child)
 bool WidgetBase::hasParent() const
 {
     return _parent != nullptr;
+}
+
+WidgetBase& WidgetBase::parent()
+{
+    if (_parent)
+    {
+        throw InvalidOperation("Widget does not have a parent");
+    }
+
+    return *_parent;
+}
+
+const WidgetBase& WidgetBase::parent() const
+{
+    if (_parent)
+    {
+        throw InvalidOperation("Widget does not have a parent");
+    }
+
+    return *_parent;
 }
 
 InterfaceSystem& WidgetBase::interfaceSystem()
@@ -301,22 +334,12 @@ void WidgetBase::updateBounds()
     }
 }
 
+void WidgetBase::modifyDimensions(const Vector2& dimensions)
+{
+    _dimensions = dimensions;
+}
+
 void WidgetBase::setMouseOver(bool value)
 {
     _mouseOver = value;
-}
-
-void WidgetBase::useDefaultStyleColors()
-{
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 }

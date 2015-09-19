@@ -29,6 +29,7 @@
 #include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/VectorRenderer.h"
+#include "Hect/Interface/StyleColor.h"
 #include "Hect/Interface/Widget.h"
 #include "Hect/Logic/System.h"
 
@@ -64,6 +65,19 @@ public:
     /// \param size The font size.
     Vector2 measureTextDimensions(const std::string& text, const Font& font, double size) const;
 
+    ///
+    /// Returns a style color.
+    ///
+    /// \param styleColor The style color to get.
+    const Color& styleColor(StyleColor styleColor) const;
+
+    ///
+    /// Sets a style color.
+    ///
+    /// \param styleColor The style color to set.
+    /// \param color The new color value of the style color.
+    void setStyleColor(StyleColor styleColor, const Color& color);
+
     void render(RenderTarget& target) override;
     void tick(double timeStep) override;
 
@@ -83,6 +97,7 @@ private:
     VectorRenderer& _vectorRenderer;
 
     std::vector<WidgetBase::Handle> _widgets;
+    std::map<StyleColor, Color> _styleColors;
 };
 
 }

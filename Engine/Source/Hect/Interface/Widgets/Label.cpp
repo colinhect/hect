@@ -74,7 +74,8 @@ void Label::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
 
 void Label::updateBounds()
 {
-    _dimensions = interfaceSystem().measureTextDimensions(_text, effectiveFont(), effectiveFontSize());
+    Vector2 dimensions = interfaceSystem().measureTextDimensions(_text, effectiveFont(), effectiveFontSize());
+    modifyDimensions(dimensions);
     WidgetBase::updateBounds();
 }
 

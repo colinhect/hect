@@ -73,13 +73,14 @@ void TreeView::updateBounds()
 void TreeView::updateItems()
 {
     // Compute the full dimensions
-    _dimensions = Vector2();
+    Vector2 dimensions = Vector2();
     for (NodeId nodeId : _rootNodes)
     {
         const Vector2& widgetDimensions = _nodes[nodeId]->dimensions();
-        _dimensions.x = std::max(_dimensions.x, widgetDimensions.x);
-        _dimensions.y += widgetDimensions.y;
+        dimensions.x = std::max(dimensions.x, widgetDimensions.x);
+        dimensions.y += widgetDimensions.y;
     }
+    modifyDimensions(dimensions);
 
     Vector2 position;
     for (NodeId nodeId : _rootNodes)
