@@ -52,7 +52,7 @@ public:
     /// \param checked Whether the check box is checked.
     void setChecked(bool checked);
 
-    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
     virtual void onPressed() override;
 
 private:

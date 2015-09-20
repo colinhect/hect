@@ -34,22 +34,24 @@ WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
 
 void WidgetBase::tick(double timeStep)
 {
+    updateLayout();
+
     for (const WidgetBase::Handle& child : _children)
     {
         child->tick(timeStep);
     }
 }
 
-void WidgetBase::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void WidgetBase::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     for (const WidgetBase::Handle& child : _children)
     {
         if (child->isVisible())
         {
-            Rectangle childBounds = child->bounds().intersect(bounds);
-            if (childBounds.size() != Vector2::Zero)
+            Rectangle childClipping = child->globalBounds().intersect(clipping);
+            if (childClipping.size() != Vector2::Zero)
             {
-                child->render(frame, childBounds);
+                child->render(frame, childClipping);
             }
         }
     }
@@ -104,18 +106,24 @@ void WidgetBase::setPressAction(const WidgetBase::Action& action)
 
 const Vector2& WidgetBase::position() const
 {
-    return _localPosition;
+    return _actualPosition;
 }
 
 void WidgetBase::setPosition(const Vector2& position)
 {
-    _localPosition = position;
-    updateBounds();
+    _assignedPosition = position;
+    markLayoutDirty();
 }
 
-const Vector2& WidgetBase::globalPosition() const
+Vector2 WidgetBase::globalPosition() const
 {
-    return _globalPosition;
+    Vector2 globalPosition = _actualPosition;
+    if (hasParent())
+    {
+        globalPosition += parent().globalPosition();
+    }
+
+    return globalPosition;
 }
 
 const Vector2& WidgetBase::dimensions() const
@@ -125,13 +133,20 @@ const Vector2& WidgetBase::dimensions() const
 
 void WidgetBase::setDimensions(const Vector2& dimensions)
 {
-    modifyDimensions(dimensions);
-    updateBounds();
+    _dimensions = dimensions;
+    markLayoutDirty();
 }
 
-const Rectangle& WidgetBase::bounds() const
+Rectangle WidgetBase::bounds() const
 {
-    return _bounds;
+    Vector2 origin = position();
+    return Rectangle(origin, origin + dimensions());
+}
+
+Rectangle WidgetBase::globalBounds() const
+{
+    Vector2 origin = globalPosition();
+    return Rectangle(origin, origin + dimensions());
 }
 
 HorizontalAlign WidgetBase::horizontalAlign() const
@@ -142,7 +157,7 @@ HorizontalAlign WidgetBase::horizontalAlign() const
 void WidgetBase::setHorizontalAlign(HorizontalAlign align)
 {
     _horizontalAlign = align;
-    updateBounds();
+    markLayoutDirty();
 }
 
 VerticalAlign WidgetBase::verticalAlign() const
@@ -153,7 +168,7 @@ VerticalAlign WidgetBase::verticalAlign() const
 void WidgetBase::setVerticalAlign(VerticalAlign align)
 {
     _verticalAlign = align;
-    updateBounds();
+    markLayoutDirty();
 }
 
 const std::string& WidgetBase::tooltip() const
@@ -220,7 +235,7 @@ void WidgetBase::addChild(const WidgetBase::Handle& child)
         {
             _children.push_back(child);
             child->_parent = this;
-            child->updateBounds();
+            markLayoutDirty();
         }
     }
 }
@@ -236,7 +251,7 @@ void WidgetBase::removeChild(const WidgetBase::Handle& child)
     {
         _children.erase(it);
         child->_parent = nullptr;
-        child->updateBounds();
+        markLayoutDirty();
     }
 }
 
@@ -247,7 +262,7 @@ bool WidgetBase::hasParent() const
 
 WidgetBase& WidgetBase::parent()
 {
-    if (_parent)
+    if (!_parent)
     {
         throw InvalidOperation("Widget does not have a parent");
     }
@@ -257,7 +272,7 @@ WidgetBase& WidgetBase::parent()
 
 const WidgetBase& WidgetBase::parent() const
 {
-    if (_parent)
+    if (!_parent)
     {
         throw InvalidOperation("Widget does not have a parent");
     }
@@ -285,58 +300,68 @@ const InterfaceSystem& WidgetBase::interfaceSystem() const
     return *_interfaceSystem;
 }
 
-void WidgetBase::updateBounds()
+void WidgetBase::updateLayout()
 {
-    // Update the global position
-    _globalPosition = _localPosition;
-    if (_parent)
+    if (_layoutDirty)
     {
-        _globalPosition += _parent->globalPosition();
+        _layoutDirty = false;
 
-        // Align horizontally
-        switch (_horizontalAlign)
+        // Update the global position
+        _actualPosition = _assignedPosition;
+        if (_parent)
         {
-        case HorizontalAlign::None:
-            break;
-        case HorizontalAlign::Left:
-            break;
-        case HorizontalAlign::Center:
-            _globalPosition.x += (_parent->_dimensions.x - _dimensions.x) * 0.5;
-            break;
-        case HorizontalAlign::Right:
-            _globalPosition.x += (_parent->_dimensions.x - _dimensions.x);
-            break;
+            // Align horizontally
+            switch (_horizontalAlign)
+            {
+            case HorizontalAlign::None:
+                break;
+            case HorizontalAlign::Left:
+                break;
+            case HorizontalAlign::Center:
+                _actualPosition.x = (_parent->_dimensions.x - _dimensions.x) * 0.5;
+                break;
+            case HorizontalAlign::Right:
+                _actualPosition.x = (_parent->_dimensions.x - _dimensions.x);
+                break;
+            }
+
+            // Align vertically
+            switch (_verticalAlign)
+            {
+            case VerticalAlign::None:
+                break;
+            case VerticalAlign::Bottom:
+                _actualPosition.y = (_parent->_dimensions.y - _dimensions.y);
+                break;
+            case VerticalAlign::Center:
+                _actualPosition.y = (_parent->_dimensions.y - _dimensions.y) * 0.5;
+                break;
+            case VerticalAlign::Top:
+                break;
+            }
         }
 
-        // Align vertically
-        switch (_verticalAlign)
+        // Recursively update the bounds for each child
+        for (const WidgetBase::Handle& child : _children)
         {
-        case VerticalAlign::None:
-            break;
-        case VerticalAlign::Bottom:
-            _globalPosition.y += (_parent->_dimensions.y - _dimensions.y);
-            break;
-        case VerticalAlign::Center:
-            _globalPosition.y += (_parent->_dimensions.y - _dimensions.y) * 0.5;
-            break;
-        case VerticalAlign::Top:
-            break;
+            child->updateLayout();
         }
-    }
-
-    // Compute the bounds
-    _bounds = Rectangle(_globalPosition, _globalPosition + _dimensions);
-
-    // Recursively update the bounds for each child
-    for (const WidgetBase::Handle& child : _children)
-    {
-        child->updateBounds();
     }
 }
 
-void WidgetBase::modifyDimensions(const Vector2& dimensions)
+bool WidgetBase::isLayoutDirty() const
 {
-    _dimensions = dimensions;
+    return _layoutDirty;
+}
+
+void WidgetBase::markLayoutDirty()
+{
+    _layoutDirty = true;
+
+    for (const WidgetBase::Handle& child : _children)
+    {
+        child->markLayoutDirty();
+    }
 }
 
 void WidgetBase::setMouseOver(bool value)

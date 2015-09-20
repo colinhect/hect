@@ -40,7 +40,7 @@ const std::string& Label::text() const
 void Label::setText(const std::string& text)
 {
     _text = text;
-    updateBounds();
+    updateLayout();
 }
 
 Font::Handle Label::font() const
@@ -52,31 +52,37 @@ void Label::setFont(Font::Handle font, double size)
 {
     _font = font;
     _fontSize = size;
-    updateBounds();
+    updateLayout();
 }
 
-void Label::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void Label::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
+    frame.pushState();
+    //frame.setClipping(bounds);
+
     if (!_text.empty())
     {
+        StyleColor forgroundStyleColor = StyleColor::Foreground;
+
         Font& font = effectiveFont();
         double fontSize = effectiveFontSize();
 
-        frame.pushState();
-        frame.setClipping(bounds);
+        frame.translate(position());
         frame.setFont(font, fontSize);
-        frame.renderText(_text, globalPosition());
-        frame.popState();
+        frame.setFillColor(styleColor(forgroundStyleColor));
+        frame.renderText(_text);
     }
 
-    WidgetBase::render(frame, bounds);
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }
 
-void Label::updateBounds()
+void Label::updateLayout()
 {
     Vector2 dimensions = interfaceSystem().measureTextDimensions(_text, effectiveFont(), effectiveFontSize());
-    modifyDimensions(dimensions);
-    WidgetBase::updateBounds();
+    setDimensions(dimensions);
+    WidgetBase::updateLayout();
 }
 
 Font& Label::effectiveFont()

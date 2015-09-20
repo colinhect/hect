@@ -74,6 +74,12 @@ void VectorRenderer::Frame::beginPath()
     nvgBeginPath(_nvgContext);
 }
 
+void VectorRenderer::Frame::translate(const Vector2& translation)
+{
+    assert(_nvgContext);
+    nvgTranslate(_nvgContext, static_cast<float>(translation.x), static_cast<float>(translation.y));
+}
+
 void VectorRenderer::Frame::setFillColor(const Color& color)
 {
     assert(_nvgContext);
@@ -113,17 +119,19 @@ void VectorRenderer::Frame::stroke()
     nvgStroke(_nvgContext);
 }
 
-void VectorRenderer::Frame::rectangle(const Vector2& position, const Vector2& dimensions)
+void VectorRenderer::Frame::rectangle(const Rectangle& rectangle)
 {
     assert(_nvgContext);
+    const Vector2& position = rectangle.minimum();
+    Vector2 dimensions = rectangle.size();
     nvgRect(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
 }
 
-void VectorRenderer::Frame::setClipping(const Rectangle& bounds)
+void VectorRenderer::Frame::setClipping(const Rectangle& clipping)
 {
     assert(_nvgContext);
-    const Vector2& position = bounds.minimum();
-    Vector2 dimensions = bounds.size();
+    const Vector2& position = clipping.minimum();
+    Vector2 dimensions = clipping.size();
     nvgScissor(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
 }
 
@@ -134,18 +142,17 @@ void VectorRenderer::Frame::setFont(const Font& font, double size)
     _renderer.setFont(font, size);
 }
 
-void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& position)
+void VectorRenderer::Frame::renderText(const std::string& text)
 {
     assert(_nvgContext);
 
     // Compute the text bounds
     float measuredBounds[4];
     nvgTextBounds(_nvgContext, 0, 0, text.c_str(), nullptr, measuredBounds);
-    Vector2 textPosition(measuredBounds[0], measuredBounds[1]);
-    Vector2 actual(position - textPosition);
+    Vector2 position(-measuredBounds[0], -measuredBounds[1]);
 
     // Render the text
-    nvgText(_nvgContext, static_cast<float>(actual.x), static_cast<float>(actual.y), text.c_str(), nullptr);
+    nvgText(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), text.c_str(), nullptr);
 }
 
 Vector2 VectorRenderer::measureTextDimensions(const std::string& text, const Font& font, double size)
@@ -157,9 +164,9 @@ Vector2 VectorRenderer::measureTextDimensions(const std::string& text, const Fon
     // Compute the text bounds
     float measuredBounds[4];
     nvgTextBounds(_nvgContext, 0, 0, text.c_str(), nullptr, measuredBounds);
-    Vector2 textDimensions(measuredBounds[2] - measuredBounds[0], measuredBounds[3] - measuredBounds[1]);
+    Vector2 dimensions(measuredBounds[2] - measuredBounds[0], measuredBounds[3] - measuredBounds[1]);
 
-    return textDimensions;
+    return dimensions;
 }
 
 void VectorRenderer::initialize()

@@ -30,7 +30,7 @@ Button::Button(InterfaceSystem& interfaceSystem) :
 {
 }
 
-void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void Button::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
     StyleColor borderStyleColor = StyleColor::Border;
@@ -47,16 +47,19 @@ void Button::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
     }
 
     frame.pushState();
-    frame.setClipping(bounds);
+    //frame.setClipping(clipping);
     frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
+    frame.rectangle(bounds());
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.fill();
     frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
+    frame.rectangle(bounds());
     frame.setStrokeColor(styleColor(borderStyleColor));
     frame.stroke();
-    frame.popState();
 
-    WidgetBase::render(frame, bounds);
+    frame.translate(position());
+
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }

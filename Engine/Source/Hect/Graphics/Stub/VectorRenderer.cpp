@@ -37,6 +37,11 @@ void VectorRenderer::Frame::popState()
 {
 }
 
+void VectorRenderer::Frame::translate(const Vector2& translation)
+{
+    (void)translation;
+}
+
 void VectorRenderer::Frame::beginPath()
 {
 }
@@ -67,15 +72,14 @@ void VectorRenderer::Frame::stroke()
 {
 }
 
-void VectorRenderer::Frame::rectangle(const Vector2& position, const Vector2& dimensions)
+void VectorRenderer::Frame::rectangle(const Rectangle& rectangle)
 {
-    (void)position;
-    (void)dimensions;
+    (void)rectangle;
 }
 
-void VectorRenderer::Frame::setClipping(const Rectangle& bounds)
+void VectorRenderer::Frame::setClipping(const Rectangle& clipping)
 {
-    (void)bounds;
+    (void)clipping;
 }
 
 void VectorRenderer::Frame::setFont(const Font& font, double size)
@@ -84,10 +88,9 @@ void VectorRenderer::Frame::setFont(const Font& font, double size)
     (void)size;
 }
 
-void VectorRenderer::Frame::renderText(const std::string& text, const Vector2& position)
+void VectorRenderer::Frame::renderText(const std::string& text)
 {
     (void)text;
-    (void)position;
 }
 
 Vector2 VectorRenderer::measureTextDimensions(const std::string& text, const Font& font, double size)

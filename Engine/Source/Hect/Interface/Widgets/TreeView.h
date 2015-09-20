@@ -55,10 +55,10 @@ public:
     /// \returns The new node id.
     NodeId addNode(const WidgetBase::Handle& widget);
 
-    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 
 protected:
-    void updateBounds() override;
+    void updateLayout() override;
 
 private:
     void updateItems();
@@ -69,7 +69,7 @@ private:
     public:
         Node(InterfaceSystem& interfaceSystem);
 
-        virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+        virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
         virtual void onPressed() override;
     };
 

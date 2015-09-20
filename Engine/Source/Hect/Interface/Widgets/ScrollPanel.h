@@ -46,7 +46,7 @@ public:
     virtual void removeChild(const WidgetBase::Handle& child) override;
 
 protected:
-    virtual void updateBounds() override;
+    virtual void updateLayout() override;
 
 private:
     Grid::Handle _grid;

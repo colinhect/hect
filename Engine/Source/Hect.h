@@ -72,7 +72,6 @@ namespace hect {}
 #include "Hect/Interface/Widgets/Grid.h"
 #include "Hect/Interface/Widgets/Label.h"
 #include "Hect/Interface/Widgets/ListView.h"
-#include "Hect/Interface/Widgets/MessageLog.h"
 #include "Hect/Interface/Widgets/Panel.h"
 #include "Hect/Interface/Widgets/TreeView.h"
 #include "Hect/IO/Asset.h"

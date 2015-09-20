@@ -41,7 +41,7 @@ void CheckBox::setChecked(bool checked)
     _checked = checked;
 }
 
-void CheckBox::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void CheckBox::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     StyleColor forgroundStyleColor = StyleColor::Foreground;
     StyleColor backgroundStyleColor = StyleColor::Background;
@@ -52,26 +52,28 @@ void CheckBox::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
     }
 
     frame.pushState();
-    frame.setClipping(bounds);
+    //frame.setClipping(bounds);
     frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
+    frame.rectangle(bounds());
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.fill();
 
     if (_checked)
     {
-        Vector2 checkPosition = globalPosition() + dimensions() * 0.25;
+        Vector2 checkPosition = dimensions() * 0.25;
         Vector2 checkDimensions = dimensions() * 0.5;
 
         frame.beginPath();
-        frame.rectangle(checkPosition, checkDimensions);
+        frame.rectangle(Rectangle(checkPosition, checkDimensions));
         frame.setFillColor(styleColor(forgroundStyleColor));
         frame.fill();
     }
 
-    frame.popState();
+    frame.translate(position());
 
-    WidgetBase::render(frame, bounds);
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }
 
 void CheckBox::onPressed()

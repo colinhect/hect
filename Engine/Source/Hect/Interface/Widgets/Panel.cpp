@@ -32,7 +32,7 @@ Panel::Panel(InterfaceSystem& interfaceSystem) :
     setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));
 }
 
-void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void Panel::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
     if (isMouseOver())
@@ -43,16 +43,18 @@ void Panel::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
     StyleColor borderStyleColor = StyleColor::Border;
 
     frame.pushState();
-    frame.setClipping(bounds);
+    //frame.setClipping(clipping);
+    frame.translate(position());
     frame.beginPath();
     frame.setFillColor(styleColor(backgroundStyleColor));
-    frame.rectangle(globalPosition(), dimensions());
+    frame.rectangle(bounds());
     frame.fill();
     frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
+    frame.rectangle(bounds());
     frame.setStrokeColor(styleColor(borderStyleColor));
     frame.stroke();
-    frame.popState();
 
-    WidgetBase::render(frame, bounds);
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }

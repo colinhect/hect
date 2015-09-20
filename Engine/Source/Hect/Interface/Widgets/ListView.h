@@ -77,10 +77,10 @@ public:
     /// \returns The index to the list view item.
     size_t addItem(const WidgetBase::Handle& widget);
 
-    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 
 protected:
-    void updateBounds() override;
+    void updateLayout() override;
 
 private:
     void updateItems();
@@ -91,7 +91,7 @@ private:
     public:
         Item(InterfaceSystem& interfaceSystem);
 
-        virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+        virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
         virtual void onPressed() override;
 
     private:

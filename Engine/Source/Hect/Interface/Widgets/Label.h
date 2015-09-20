@@ -72,10 +72,10 @@ public:
     /// \param size The font size.
     void setFont(Font::Handle font, double size);
 
-    void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+    void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 
 private:
-    void updateBounds() override;
+    void updateLayout() override;
 
     Font& effectiveFont();
     double effectiveFontSize();

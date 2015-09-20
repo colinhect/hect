@@ -63,6 +63,12 @@ public:
         void popState();
 
         ///
+        /// Translates the origin.
+        ///
+        /// \param translation The translation to apply.
+        void translate(const Vector2& translation);
+
+        ///
         /// Begins a new path.
         void beginPath();
 
@@ -98,16 +104,15 @@ public:
         ///
         /// Creates a new rectangle shape sub-path.
         ///
-        /// \param position The position of the rectangle.
-        /// \param dimensions The dimensions of the rectangle.
-        void rectangle(const Vector2& position, const Vector2& dimensions);
+        /// \param rectangle The rectangle.
+        void rectangle(const Rectangle& rectangle);
 
         ///
         /// Sets the clipping bounds for subsequent render calls within the
         /// frame.
         ///
-        /// \param bounds The clipping bounds.
-        void setClipping(const Rectangle& bounds);
+        /// \param clipping The clipping bounds.
+        void setClipping(const Rectangle& clipping);
 
         ///
         /// Sets the font used for subsequent render calls within the frame.
@@ -120,8 +125,7 @@ public:
         /// Renders a text string.
         ///
         /// \param text The text string to render.
-        /// \param position The position to render the text.
-        void renderText(const std::string& text, const Vector2& position);
+        void renderText(const std::string& text);
 
     private:
         Frame(VectorRenderer& renderer, RenderTarget& target);

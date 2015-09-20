@@ -80,15 +80,15 @@ void InterfaceSystem::render(RenderTarget& target)
     Renderer::Frame frame = _renderer.beginFrame(target);
     VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(target);
 
-    Rectangle targetBounds(0.0, 0.0, target.width(), target.height());
+    Rectangle clipping(0.0, 0.0, target.width(), target.height());
     for (const WidgetBase::Handle& widget : _widgets)
     {
         if (!widget->hasParent() && widget->isVisible())
         {
-            Rectangle bounds = widget->bounds().intersect(targetBounds);
-            if (bounds.size() != Vector2::Zero)
+            Rectangle widgetClipping = widget->bounds().intersect(clipping);
+            if (widgetClipping.size() != Vector2::Zero)
             {
-                widget->render(vectorFrame, bounds);
+                widget->render(vectorFrame, widgetClipping);
             }
         }
     }

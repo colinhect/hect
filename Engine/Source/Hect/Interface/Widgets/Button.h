@@ -42,7 +42,7 @@ public:
     /// \param interfaceSystem The interface system.
     Button(InterfaceSystem& interfaceSystem);
 
-    void render(VectorRenderer::Frame& frame, const Rectangle& bounds) override;
+    void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 };
 
 }

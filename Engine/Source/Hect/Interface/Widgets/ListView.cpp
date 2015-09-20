@@ -52,30 +52,31 @@ size_t ListView::addItem(const WidgetBase::Handle& widget)
     size_t index = _items.size();
     _items.push_back(item);
 
-    updateBounds();
+    updateLayout();
 
     return index;
 }
 
-void ListView::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void ListView::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
 
     frame.pushState();
-    frame.setClipping(bounds);
+    //frame.setClipping(clipping);
     frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
+    frame.rectangle(bounds());
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.fill();
-    frame.popState();
 
-    WidgetBase::render(frame, bounds);
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }
 
-void ListView::updateBounds()
+void ListView::updateLayout()
 {
     updateItems();
-    WidgetBase::updateBounds();
+    WidgetBase::updateLayout();
 }
 
 void ListView::updateItems()
@@ -89,7 +90,7 @@ void ListView::updateItems()
         dimensions.x = std::max(dimensions.x, widgetDimensions.x);
         dimensions.y += widgetDimensions.y;
     }
-    modifyDimensions(dimensions);
+    setDimensions(dimensions);
 
     Vector2 position;
     for (const WidgetBase::Handle& widget : _items)
@@ -104,7 +105,7 @@ ListView::Item::Item(InterfaceSystem& interfaceSystem) :
 {
 }
 
-void ListView::Item::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void ListView::Item::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
 
@@ -118,14 +119,15 @@ void ListView::Item::render(VectorRenderer::Frame& frame, const Rectangle& bound
     }
 
     frame.pushState();
-    frame.setClipping(bounds);
+    //frame.setClipping(clipping);
     frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
+    frame.rectangle(bounds());
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.fill();
-    frame.popState();
 
-    WidgetBase::render(frame, bounds);
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }
 
 void ListView::Item::onPressed()

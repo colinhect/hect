@@ -44,30 +44,31 @@ TreeView::NodeId TreeView::addNode(const WidgetBase::Handle& widget)
 
     _rootNodes.push_back(nodeId);
 
-    updateBounds();
+    updateLayout();
 
     return nodeId;
 }
 
-void TreeView::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void TreeView::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
 
     frame.pushState();
-    frame.setClipping(bounds);
+    //frame.setClipping(clipping);
     frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
+    frame.rectangle(bounds());
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.fill();
-    frame.popState();
 
-    WidgetBase::render(frame, bounds);
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }
 
-void TreeView::updateBounds()
+void TreeView::updateLayout()
 {
     updateItems();
-    WidgetBase::updateBounds();
+    WidgetBase::updateLayout();
 }
 
 void TreeView::updateItems()
@@ -80,7 +81,7 @@ void TreeView::updateItems()
         dimensions.x = std::max(dimensions.x, widgetDimensions.x);
         dimensions.y += widgetDimensions.y;
     }
-    modifyDimensions(dimensions);
+    setDimensions(dimensions);
 
     Vector2 position;
     for (NodeId nodeId : _rootNodes)
@@ -95,7 +96,7 @@ TreeView::Node::Node(InterfaceSystem& interfaceSystem) :
 {
 }
 
-void TreeView::Node::render(VectorRenderer::Frame& frame, const Rectangle& bounds)
+void TreeView::Node::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
 
@@ -105,14 +106,15 @@ void TreeView::Node::render(VectorRenderer::Frame& frame, const Rectangle& bound
     }
 
     frame.pushState();
-    frame.setClipping(bounds);
+    frame.setClipping(clipping);
     frame.beginPath();
-    frame.rectangle(globalPosition(), dimensions());
+    frame.rectangle(bounds());
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.fill();
-    frame.popState();
 
-    WidgetBase::render(frame, bounds);
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }
 
 void TreeView::Node::onPressed()

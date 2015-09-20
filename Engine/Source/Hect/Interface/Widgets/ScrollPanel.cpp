@@ -47,7 +47,7 @@ void ScrollPanel::removeChild(const WidgetBase::Handle& child)
     WidgetBase::removeChild(child);
 }
 
-void ScrollPanel::updateBounds()
+void ScrollPanel::updateLayout()
 {
-    WidgetBase::updateBounds();
+    WidgetBase::updateLayout();
 }

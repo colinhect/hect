@@ -45,7 +45,8 @@ class InterfaceSystem;
 ///
 /// Abstract base for Widget.
 class HECT_EXPORT WidgetBase :
-    public Listener<MouseEvent>
+    public Listener<MouseEvent>,
+    public std::enable_shared_from_this<WidgetBase>
 {
     friend class InterfaceSystem;
 public:
@@ -76,9 +77,9 @@ public:
     ///
     /// Renders the widget to a frame.
     ///
-    /// \param frame The frame to render to.
-    /// \param bounds The bounds of the render area.
-    virtual void render(VectorRenderer::Frame& frame, const Rectangle& bounds);
+    /// \param frame The frame to render to.updateLayout
+    /// \param clipping The clipping bounds of the render area.
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping);
 
     ///
     /// Invoked when the mouse cursor enters the bounds of the widget.
@@ -116,7 +117,7 @@ public:
 
     ///
     /// Returns the global position of the widget.
-    const Vector2& globalPosition() const;
+    Vector2 globalPosition() const;
 
     ///
     /// Returns the dimensions of the widget.
@@ -129,8 +130,12 @@ public:
     void setDimensions(const Vector2& dimensions);
 
     ///
-    /// Returns the effective bounds of the widget.
-    const Rectangle& bounds() const;
+    /// Returns the local bounds of the widget.
+    Rectangle bounds() const;
+
+    ///
+    /// Returns the global bounds of the widget.
+    Rectangle globalBounds() const;
 
     ///
     /// Returns the horizontal alignment.
@@ -236,25 +241,31 @@ public:
     const InterfaceSystem& interfaceSystem() const;
 
 protected:
-    virtual void updateBounds();
 
-    void modifyDimensions(const Vector2& dimensions);
+    ///
+    /// Updates the layout of the widget and its children.
+    virtual void updateLayout();
 
+    bool isLayoutDirty() const;
+    void markLayoutDirty();
+
+    ///
+    /// Sets whether the mouse cursor is currently hovering over the widget.
     void setMouseOver(bool value);
 
 private:
     InterfaceSystem* _interfaceSystem { nullptr };
     WidgetBase* _parent { nullptr };
 
-    Vector2 _localPosition;
-    Vector2 _globalPosition;
+    Vector2 _assignedPosition;
+    Vector2 _actualPosition;
 
     Vector2 _dimensions;
 
-    Rectangle _bounds;
-
     HorizontalAlign _horizontalAlign { HorizontalAlign::None };
     VerticalAlign _verticalAlign { VerticalAlign::None };
+
+    bool _layoutDirty { true };
 
     std::string _tooltip;
 
