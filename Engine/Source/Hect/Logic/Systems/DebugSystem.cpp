@@ -23,6 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DebugSystem.h"
 
+#include "Hect/Interface/Widgets/CheckBox.h"
+#include "Hect/Interface/Widgets/Grid.h"
+#include "Hect/Interface/Widgets/Label.h"
 #include "Hect/Logic/Systems/RenderSystem.h"
 #include "Hect/Runtime/Engine.h"
 
@@ -31,6 +34,8 @@ using namespace hect;
 DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     System(engine, scene, SystemTickStage::Precedent),
     _renderer(engine.renderer()),
+    _window(engine.window()),
+    _interfaceSystem(scene.system<InterfaceSystem>()),
     _enabled(false)
 {
 }
@@ -56,6 +61,7 @@ bool DebugSystem::isEnabled() const
 void DebugSystem::setEnabled(bool enabled)
 {
     _enabled = enabled;
+    _systemPanel->setVisible(enabled);
 }
 
 void DebugSystem::initialize()
@@ -66,6 +72,11 @@ void DebugSystem::initialize()
 
     _renderer.uploadShader(*coloredLineShader);
     _renderer.uploadMesh(*boxMesh);
+
+    if (_interfaceSystem)
+    {
+        createSystemPanel();
+    }
 }
 
 void DebugSystem::tick(double timeStep)
@@ -95,4 +106,53 @@ void DebugSystem::addColoredMaterial(const Color& color)
     material.setUniformValue("color", color);
 
     _coloredMaterials.push_back(material);
+}
+
+void DebugSystem::createSystemPanel()
+{
+    const double checkBoxColumnWidth = 16;
+    const double rowHeight = 18;
+    const double panelMargin = 10;
+
+    Grid::Handle grid = _interfaceSystem->addWidget<Grid>();
+    grid->setHorizontalAlign(HorizontalAlign::Center);
+    grid->setVerticalAlign(VerticalAlign::Center);
+
+    Grid::ColumnId checkBoxColumnId = grid->addColumn(checkBoxColumnWidth);
+    Grid::ColumnId systemNameColumnId = grid->addColumn();
+
+    double maxSystemNameLength = 0;
+
+    SystemRegistry::SystemTypeIdSequence typeIds = SystemRegistry::typeIds();
+    for (SystemTypeId typeId : typeIds)
+    {
+        Grid::RowId rowId = grid->addRow(rowHeight);
+        
+        const std::string& systemName = SystemRegistry::typeNameOf(typeId);
+
+        CheckBox::Handle checkBox = _interfaceSystem->addWidget<CheckBox>();
+        checkBox->setHorizontalAlign(HorizontalAlign::Center);
+        checkBox->setVerticalAlign(VerticalAlign::Center);
+        grid->setCell(checkBoxColumnId, rowId, checkBox);
+
+        Label::Handle label = _interfaceSystem->addWidget<Label>();
+        label->setText(systemName);
+        label->setHorizontalAlign(HorizontalAlign::Left);
+        label->setVerticalAlign(VerticalAlign::Bottom);
+        grid->setCell(systemNameColumnId, rowId, label);
+
+        maxSystemNameLength = std::max(maxSystemNameLength, label->dimensions().x);
+    }
+    
+    grid->resizeColumn(systemNameColumnId, maxSystemNameLength);
+
+    _systemPanel = _interfaceSystem->addWidget<Panel>();
+    _systemPanel->setDimensions(grid->dimensions() + panelMargin);
+    _systemPanel->addChild(grid);
+
+    Vector2 windowDimensions(_window.width(), _window.height());
+    Vector2 systemPanelPosition = windowDimensions * 0.5 - _systemPanel->dimensions() * 0.5;
+    _systemPanel->setPosition(systemPanelPosition);
+
+    _systemPanel->setVisible(false);
 }

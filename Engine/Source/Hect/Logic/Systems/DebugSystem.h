@@ -27,8 +27,10 @@
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
+#include "Hect/Interface/Widgets/Panel.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Systems/InterfaceSystem.h"
 #include "Hect/Math/Box.h"
 
 namespace hect
@@ -107,6 +109,7 @@ public:
 
 private:
     void addColoredMaterial(const Color& color);
+    void createSystemPanel();
 
     class DebugBox
     {
@@ -120,6 +123,10 @@ private:
     };
 
     Renderer& _renderer;
+    Window& _window;
+    InterfaceSystem::Handle _interfaceSystem;
+
+    Panel::Handle _systemPanel;
 
     bool _enabled;
 
