@@ -94,10 +94,10 @@ public:
     /// \throws InvalidOperation If the row id or column id is out of range.
     void setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& widget);
 
+    void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+
 private:
     void updateDimensions();
-
-    std::map<ColumnId, std::map<RowId, WidgetBase::Handle>> _cells;
 
     struct Column
     {
@@ -108,6 +108,17 @@ private:
     {
         double height;
     };
+
+    class Cell :
+        public Widget<Cell>
+    {
+    public:
+        Cell(InterfaceSystem& interfaceSystem);
+
+        void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+    };
+
+    std::map<ColumnId, std::map<RowId, WidgetBase::Handle>> _cells;
 
     std::vector<Column> _columns;
     std::vector<Row> _rows;

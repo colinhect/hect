@@ -95,9 +95,9 @@ void Grid::setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& wid
     // Compute the dimensions of the cell
     Vector2 dimensions;
     dimensions.x = _columns[columnId].width;
-    dimensions.y = _rows[columnId].height;
+    dimensions.y = _rows[rowId].height;
 
-    WidgetBase::Handle cellWidget = interfaceSystem().add<WidgetBase>();
+    Cell::Handle cellWidget = interfaceSystem().addWidget<Cell>();
     cellWidget->setPosition(position);
     cellWidget->setDimensions(dimensions);
     cellWidget->addChild(widget);
@@ -105,6 +105,17 @@ void Grid::setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& wid
     addChild(cellWidget);
 
     _cells[columnId][rowId] = cellWidget;
+}
+
+void Grid::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+{
+    frame.pushState();
+    //frame.setClipping(clipping);
+    frame.translate(position());
+
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }
 
 void Grid::updateDimensions()
@@ -121,4 +132,20 @@ void Grid::updateDimensions()
     }
 
     setDimensions(dimensions);
+}
+
+Grid::Cell::Cell(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
+{
+}
+
+void Grid::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+{
+    frame.pushState();
+    //frame.setClipping(clipping);
+    frame.translate(position());
+
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
 }

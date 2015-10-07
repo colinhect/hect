@@ -26,7 +26,7 @@ namespace hect
 {
 
 template <typename T, typename... Args>
-typename T::Handle InterfaceSystem::add(Args&&... args)
+typename T::Handle InterfaceSystem::addWidget(Args&&... args)
 {
     typename T::Handle widget(new T(*this, args...));
     _widgets.push_back(widget);

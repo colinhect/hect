@@ -54,7 +54,7 @@ public:
     ///
     /// \returns A handle to the added widget.
     template <typename T, typename... Args>
-    typename T::Handle add(Args&&... args);
+    typename T::Handle addWidget(Args&&... args);
 
     ///
     /// Returns the effective dimensions of the specified text using the given

@@ -113,7 +113,7 @@ void InterfaceSystem::receiveEvent(const MouseEvent& event)
         {
             for (const WidgetBase::Handle& widget : _widgets)
             {
-                if (widget->bounds().contains(event.cursorPosition))
+                if (widget->globalBounds().contains(event.cursorPosition))
                 {
                     if (!widget->isMouseOver())
                     {
@@ -133,7 +133,7 @@ void InterfaceSystem::receiveEvent(const MouseEvent& event)
         {
             if (!widget->hasParent())
             {
-                if (widget->bounds().contains(event.cursorPosition))
+                if (widget->globalBounds().contains(event.cursorPosition))
                 {
                     widget->receiveEvent(event);
                 }

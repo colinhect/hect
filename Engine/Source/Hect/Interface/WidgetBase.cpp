@@ -92,7 +92,7 @@ void WidgetBase::receiveEvent(const MouseEvent& event)
 
     for (const WidgetBase::Handle& child : _children)
     {
-        if (child->bounds().contains(event.cursorPosition))
+        if (child->globalBounds().contains(event.cursorPosition))
         {
             child->receiveEvent(event);
         }
@@ -111,7 +111,7 @@ const Vector2& WidgetBase::position() const
 
 void WidgetBase::setPosition(const Vector2& position)
 {
-    _assignedPosition = position;
+    _assignedPosition = position.floor();
     markLayoutDirty();
 }
 
@@ -340,6 +340,8 @@ void WidgetBase::updateLayout()
                 break;
             }
         }
+
+        _actualPosition = _actualPosition.floor();
 
         // Recursively update the bounds for each child
         for (const WidgetBase::Handle& child : _children)

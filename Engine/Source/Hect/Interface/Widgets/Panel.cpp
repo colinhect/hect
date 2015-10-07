@@ -44,7 +44,6 @@ void Panel::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 
     frame.pushState();
     //frame.setClipping(clipping);
-    frame.translate(position());
     frame.beginPath();
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.rectangle(bounds());
@@ -53,6 +52,8 @@ void Panel::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     frame.rectangle(bounds());
     frame.setStrokeColor(styleColor(borderStyleColor));
     frame.stroke();
+
+    frame.translate(position());
 
     WidgetBase::render(frame, clipping);
 

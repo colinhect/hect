@@ -28,7 +28,7 @@ using namespace hect;
 CheckBox::CheckBox(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
-    setDimensions(Vector2(10.0, 10.0));
+    setDimensions(Vector2(10));
 }
 
 bool CheckBox::isChecked() const
@@ -58,18 +58,18 @@ void CheckBox::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     frame.setFillColor(styleColor(backgroundStyleColor));
     frame.fill();
 
+    frame.translate(position());
+
     if (_checked)
     {
         Vector2 checkPosition = dimensions() * 0.25;
-        Vector2 checkDimensions = dimensions() * 0.5;
+        Vector2 checkDimensions = dimensions() * 0.75;
 
         frame.beginPath();
-        frame.rectangle(Rectangle(checkPosition, checkDimensions));
+        frame.rectangle(Rectangle(checkPosition.ceil(), checkDimensions.floor()));
         frame.setFillColor(styleColor(forgroundStyleColor));
         frame.fill();
     }
-
-    frame.translate(position());
 
     WidgetBase::render(frame, clipping);
 
