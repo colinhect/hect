@@ -9,7 +9,24 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../../Dependencies/Catch"
     )
     
-grouped_source_files(SOURCE_FILES ${PROJECT_SOURCE_DIR}/Source)
+set(SOURCE_FILES
+    "Source/EncodingTests.cpp"
+    "Source/FileSystemTests.cpp"
+    "Source/HostTests.cpp"
+    "Source/Main.cpp"
+    "Source/RendererTests.cpp"
+    "Source/SceneTests.cpp"
+    )
+    
+source_group("Source" FILES
+    "Source/EncodingTests.cpp"
+    "Source/FileSystemTests.cpp"
+    "Source/HostTests.cpp"
+    "Source/Main.cpp"
+    "Source/RendererTests.cpp"
+    "Source/SceneTests.cpp"
+    )
+    
 add_executable(HectSystemTests ${SOURCE_FILES})
     
 target_link_libraries(HectSystemTests Hect)
