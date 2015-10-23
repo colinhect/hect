@@ -34,6 +34,28 @@ Scene::Scene(Engine& engine) :
 {
 }
 
+SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
+{
+    if (!SystemRegistry::isRegisteredTypeId(typeId))
+    {
+        throw InvalidOperation("Unknown system type id");
+    }
+    else if (typeId >= _systems.size() || !_systems[typeId])
+    {
+        const std::string& typeName = SystemRegistry::typeNameOf(typeId);
+        throw InvalidOperation(format("Scene does not support system type '%s'", typeName.c_str()));
+    }
+    else
+    {
+        return *_systems[typeId];
+    }
+}
+
+const SystemBase& Scene::systemOfTypeId(SystemTypeId typeId) const
+{
+    return const_cast<Scene*>(this)->systemOfTypeId(typeId);
+}
+
 bool Scene::active() const
 {
     return _active;
@@ -97,23 +119,29 @@ void Scene::tick(double timeStep)
     refresh();
 
     // Tick all stages in order
-    for (std::vector<SystemTypeId>& tickStage : _tickStages)
+    for (const std::vector<SystemTypeId>& tickStage : _tickStages)
     {
         for (SystemTypeId typeId : tickStage)
         {
-            _systems[typeId]->tick(timeStep);
+            SystemBase& system = *_systems[typeId];
+            if (system.isDebugEnabled())
+            {
+                system.debugTick(timeStep);
+            }
+            system.tick(timeStep);
         }
     }
 }
 
 void Scene::render(RenderTarget& target)
 {
-    // Render all stages in order
-    for (std::vector<SystemTypeId>& tickStage : _tickStages)
+    // Perform rendering for all systems
+    for (const std::vector<SystemTypeId>& tickStage : _tickStages)
     {
         for (SystemTypeId typeId : tickStage)
         {
-            _systems[typeId]->render(target);
+            SystemBase& system = *_systems[typeId];
+            system.render(target);
         }
     }
 }
@@ -377,28 +405,6 @@ void Scene::addSystemType(SystemTypeId typeId)
     _tickStages[static_cast<size_t>(system->tickStage())].push_back(typeId);
     _systemTypeIds.push_back(typeId);
     _systemsToInitialize.push_back(system.get());
-}
-
-SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
-{
-    if (!SystemRegistry::isRegisteredTypeId(typeId))
-    {
-        throw InvalidOperation("Unknown system type id");
-    }
-    else if (typeId >= _systems.size() || !_systems[typeId])
-    {
-        const std::string& typeName = SystemRegistry::typeNameOf(typeId);
-        throw InvalidOperation(format("Scene does not support system type '%s'", typeName.c_str()));
-    }
-    else
-    {
-        return *_systems[typeId];
-    }
-}
-
-const SystemBase& Scene::systemOfTypeId(SystemTypeId typeId) const
-{
-    return const_cast<Scene*>(this)->systemOfTypeId(typeId);
 }
 
 void Scene::addComponentType(ComponentTypeId typeId)

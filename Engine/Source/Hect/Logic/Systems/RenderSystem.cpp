@@ -224,7 +224,7 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     }
 
     // Add render calls for debug geometry
-    if (_debugSystem && _debugSystem->isEnabled())
+    if (_debugSystem)
     {
         _debugSystem->addRenderCalls(*this);
     }

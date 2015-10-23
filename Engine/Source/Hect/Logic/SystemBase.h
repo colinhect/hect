@@ -70,6 +70,16 @@ public:
     virtual void tick(double timeStep);
 
     ///
+    /// Performs a single tick of debug for the system.
+    ///
+    /// \note This is only invoked if debug is enabled using
+    /// SystemBase::setDebugEnabled().
+    ///
+    /// \param timeStep The duration of time in seconds for the tick to
+    /// simulate.
+    virtual void debugTick(double timeStep);
+
+    ///
     /// Renders the current state of the system to a target.
     ///
     /// \param target The target to render to.
@@ -87,9 +97,20 @@ public:
     /// Returns the tick stage.
     SystemTickStage tickStage() const;
 
+    ///
+    /// Returns whether the system has debug-related functionality enabled.
+    bool isDebugEnabled() const;
+
+    ///
+    /// Sets whether the system has debug-related functionality enabled.
+    ///
+    /// \param enabled True to enable debug functionality; false to disable.
+    void setDebugEnabled(bool enabled);
+
 private:
     Scene& _scene;
     SystemTickStage _tickStage { SystemTickStage::Normal };
+    bool _debugEnabled { false };
 };
 
 }

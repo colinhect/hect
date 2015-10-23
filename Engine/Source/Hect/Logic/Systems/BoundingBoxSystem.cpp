@@ -41,11 +41,11 @@ void BoundingBoxSystem::update(BoundingBox& boundingBox)
     updateRecursively(*root);
 }
 
-void BoundingBoxSystem::tick(double timeStep)
+void BoundingBoxSystem::debugTick(double timeStep)
 {
     (void)timeStep;
 
-    if (_debugSystem && _debugSystem->isEnabled())
+    if (_debugSystem)
     {
         // Render a debug box for each bounding box
         for (const BoundingBox& boundingBox : scene().components<BoundingBox>())

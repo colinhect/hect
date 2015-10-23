@@ -52,6 +52,11 @@ void SystemBase::tick(double timeStep)
     (void)timeStep;
 }
 
+void SystemBase::debugTick(double timeStep)
+{
+    (void)timeStep;
+}
+
 void SystemBase::render(RenderTarget& target)
 {
     (void)target;
@@ -60,4 +65,14 @@ void SystemBase::render(RenderTarget& target)
 SystemTickStage SystemBase::tickStage() const
 {
     return _tickStage;
+}
+
+bool SystemBase::isDebugEnabled() const
+{
+    return _debugEnabled;
+}
+
+void SystemBase::setDebugEnabled(bool enabled)
+{
+    _debugEnabled = enabled;
 }

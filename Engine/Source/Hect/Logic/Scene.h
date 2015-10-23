@@ -113,6 +113,24 @@ public:
     typename T::ConstHandle system() const;
 
     ///
+    /// Returns a reference to the System of a specific type id.
+    ///
+    /// \param typeId The type id of the system.
+    ///
+    /// \throws InvalidOperation If the specified system type is not supported
+    /// by the scene.
+    SystemBase& systemOfTypeId(SystemTypeId typeId);
+
+    ///
+    /// Returns a reference to the System of a specific type id.
+    ///
+    /// \param typeId The type id of the system.
+    ///
+    /// \throws InvalidOperation If the specified system type is not supported
+    /// by the scene.
+    const SystemBase& systemOfTypeId(SystemTypeId typeId) const;
+
+    ///
     /// Adds support for a Component type to the scene.
     ///
     /// \warning The type must be registered with ComponentRegistry.
@@ -205,8 +223,6 @@ public:
 
 private:
     void addSystemType(SystemTypeId typeId);
-    SystemBase& systemOfTypeId(SystemTypeId typeId);
-    const SystemBase& systemOfTypeId(SystemTypeId typeId) const;
 
     void addComponentType(ComponentTypeId typeId);
     ComponentPoolBase& componentPoolOfTypeId(ComponentTypeId typeId);

@@ -35,8 +35,7 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     System(engine, scene, SystemTickStage::Precedent),
     _renderer(engine.renderer()),
     _window(engine.window()),
-    _interfaceSystem(scene.system<InterfaceSystem>()),
-    _enabled(false)
+    _interfaceSystem(scene.system<InterfaceSystem>())
 {
 }
 
@@ -53,15 +52,13 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
     }
 }
 
-bool DebugSystem::isEnabled() const
+void DebugSystem::toggleShowInterface()
 {
-    return _enabled;
-}
-
-void DebugSystem::setEnabled(bool enabled)
-{
-    _enabled = enabled;
-    _systemPanel->setVisible(enabled);
+    if (_systemPanel)
+    {
+        bool visible = _systemPanel->isVisible();
+        _systemPanel->setVisible(!visible);
+    }
 }
 
 void DebugSystem::initialize()
@@ -127,12 +124,17 @@ void DebugSystem::createSystemPanel()
     for (SystemTypeId typeId : typeIds)
     {
         Grid::RowId rowId = grid->addRow(rowHeight);
-        
+
         const std::string& systemName = SystemRegistry::typeNameOf(typeId);
 
         CheckBox::Handle checkBox = _interfaceSystem->addWidget<CheckBox>();
         checkBox->setHorizontalAlign(HorizontalAlign::Center);
         checkBox->setVerticalAlign(VerticalAlign::Center);
+        checkBox->setPressAction([this, typeId, checkBox]
+        {
+            SystemBase& system = scene().systemOfTypeId(typeId);
+            system.setDebugEnabled(checkBox->isChecked());
+        });
         grid->setCell(checkBoxColumnId, rowId, checkBox);
 
         Label::Handle label = _interfaceSystem->addWidget<Label>();
@@ -143,7 +145,7 @@ void DebugSystem::createSystemPanel()
 
         maxSystemNameLength = std::max(maxSystemNameLength, label->dimensions().x);
     }
-    
+
     grid->resizeColumn(systemNameColumnId, maxSystemNameLength);
 
     _systemPanel = _interfaceSystem->addWidget<Panel>();

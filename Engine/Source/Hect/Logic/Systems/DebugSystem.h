@@ -83,14 +83,8 @@ public:
     void addRenderCalls(RenderSystem& renderSystem);
 
     ///
-    /// Returns whether the debug system is enabled.
-    bool isEnabled() const;
-
-    ///
-    /// Sets whether the debug system is enabled.
-    ///
-    /// \param enabled True to enabled; false to disable.
-    void setEnabled(bool enabled);
+    /// Toggles whether the debug interface is displayed.
+    void toggleShowInterface();
 
     void initialize() override;
     void tick(double timeStep) override;
@@ -127,8 +121,6 @@ private:
     InterfaceSystem::Handle _interfaceSystem;
 
     Panel::Handle _systemPanel;
-
-    bool _enabled;
 
     std::vector<DebugBox> _boxes;
     std::vector<Material> _coloredMaterials;
