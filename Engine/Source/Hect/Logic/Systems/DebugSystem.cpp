@@ -97,7 +97,6 @@ DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& position, const Q
 
 void DebugSystem::addColoredMaterial(const Color& color)
 {
-    // Create a material for this color
     Material material;
     material.setShader(coloredLineShader);
     material.setUniformValue("color", color);
@@ -121,6 +120,11 @@ void DebugSystem::createSystemPanel()
     double maxSystemNameLength = 0;
 
     SystemRegistry::SystemTypeIdSequence typeIds = SystemRegistry::typeIds();
+    std::sort(typeIds.begin(), typeIds.end(), [] (SystemTypeId a, SystemTypeId b)
+    {
+        return SystemRegistry::typeNameOf(a) < SystemRegistry::typeNameOf(b);
+    });
+
     for (SystemTypeId typeId : typeIds)
     {
         Grid::RowId rowId = grid->addRow(rowHeight);
