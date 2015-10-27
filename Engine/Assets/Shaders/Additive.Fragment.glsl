@@ -6,8 +6,8 @@ uniform float intensity;
 in vec2 vertexTextureCoords;
 
 bool renderStage(
-    out vec4    color)
+    out vec4    outColor)
 {
-    color = texture(additiveTexture, vertexTextureCoords) * intensity;
+    outColor = texture(additiveTexture, vertexTextureCoords) * intensity;
     return true;
 }

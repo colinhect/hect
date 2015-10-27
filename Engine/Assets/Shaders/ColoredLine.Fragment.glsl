@@ -3,8 +3,8 @@
 in vec4 vertexColor;
 
 bool renderStage(
-    out vec4    color)
+    out vec4    outColor)
 {
-    color = vertexColor;
+    outColor = vertexColor;
     return true;
 }

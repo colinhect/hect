@@ -5,8 +5,8 @@ uniform samplerCube skyBoxTexture;
 in vec3 vertexPosition;
 
 bool renderStage(
-    out vec3    color)
+    out vec3    outColor)
 {
-    color = texture(skyBoxTexture, vertexPosition).rgb;
+    outColor = texture(skyBoxTexture, vertexPosition).rgb;
     return true;
 }
