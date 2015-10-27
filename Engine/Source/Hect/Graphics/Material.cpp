@@ -142,6 +142,7 @@ void Material::encode(Encoder& encoder) const
 {
     // Shader
     encoder << encodeValue("shader", _shader);
+    encoder << encodeEnum("cullMode", _cullMode);
 
     // Uniform values
     encoder << beginArray("uniformValues");
@@ -198,6 +199,7 @@ void Material::decode(Decoder& decoder)
 
     // Shader
     decoder >> decodeValue("shader", _shader);
+    decoder >> decodeEnum("cullMode", _cullMode);
 
     // Uniform values
     if (decoder.selectMember("uniformValues"))
