@@ -32,6 +32,19 @@ namespace hect
 {
 
 ///
+/// The mode of mobility of a Transform.
+enum class Mobility
+{
+    ///
+    /// The transform can move.
+    Dynamic,
+
+    ///
+    /// The transform can never move.
+    Static
+};
+
+///
 /// A combination of a position, scale, and rotation.
 ///
 /// If any changes are manually made to a transform, then the changes must be
@@ -45,10 +58,11 @@ class HECT_EXPORT Transform :
 public:
 
     ///
-    /// Whether the transform can change dynamically.
+    /// Indicates if and when the transform's position, orientation, or
+    /// rotation can change.
     ///
-    /// \property
-    bool dynamic { true };
+    /// \property{enum}
+    Mobility mobility { Mobility::Dynamic };
 
     ///
     /// The local position.

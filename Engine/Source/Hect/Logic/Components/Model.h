@@ -93,7 +93,7 @@ public:
     ///
     /// The surfaces.
     ///
-    /// \property
+    /// \property{vector}
     std::vector<ModelSurface> surfaces;
 
     ///

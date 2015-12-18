@@ -35,7 +35,7 @@ TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
 
 void TransformSystem::commit(Transform& transform)
 {
-    if (!transform.dynamic)
+    if (transform.mobility != Mobility::Dynamic)
     {
         throw InvalidOperation("Transform is not dynamic");
     }
@@ -46,7 +46,7 @@ void TransformSystem::commit(Transform& transform)
 
 void TransformSystem::update(Transform& transform)
 {
-    if (!transform.dynamic)
+    if (transform.mobility != Mobility::Dynamic)
     {
         throw InvalidOperation("Transform is not dynamic");
     }
@@ -95,14 +95,14 @@ void TransformSystem::tick(double timeStep)
 void TransformSystem::onComponentAdded(Transform::Iterator transform)
 {
     // Temporarily make the transform dynamic so it can be initially updated
-    bool dynamic = transform->dynamic;
-    transform->dynamic = true;
+    Mobility mobility = transform->mobility;
+    transform->mobility = Mobility::Dynamic;
 
     // Update the transform
     update(*transform);
 
-    // Restore the transforms dynamicness
-    transform->dynamic = dynamic;
+    // Restore the transforms mobility
+    transform->mobility = mobility;
 }
 
 void TransformSystem::updateRecursively(Entity& parent, Entity& child)
