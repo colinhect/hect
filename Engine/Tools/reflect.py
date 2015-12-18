@@ -129,11 +129,11 @@ def process_xml(root):
                                 if not para.text is None:
                                     if "[property]" in para.text:
                                         property = Property(name)
-                                        if "required" in para.text:
+                                        if "[required]" in para.text:
                                             property.is_required = True
-                                        if "enum" in para.text:
+                                        if "[enum]" in para.text:
                                             property.is_enum = True
-                                        if "vector" in para.text:
+                                        if "[vector]" in para.text:
                                             property.is_vector = True
                                         class_type.properties.append(property) 
 
@@ -184,10 +184,10 @@ if __name__ == "__main__":
         doxyfile.write("ALIASES += system=\"[system]\"\n")
         doxyfile.write("ALIASES += encodable=\"[encodable]\"\n")
         doxyfile.write("ALIASES += property=\"[property]\"\n")
-        doxyfile.write("ALIASES += property{1}=\"[property]\\1\"\n")
-        doxyfile.write("ALIASES += property{2}=\"[property]\\1 \2\"\n")
-        doxyfile.write("ALIASES += property{3}=\"[property]\\1 \2 \3\"\n")
-        doxyfile.write("ALIASES += property{4}=\"[property]\\1 \2 \3 \4\"\n")
+        doxyfile.write("ALIASES += property{1}=\"[property][\\1]\"\n")
+        doxyfile.write("ALIASES += property{2}=\"[property][\\1][\2]\"\n")
+        doxyfile.write("ALIASES += property{3}=\"[property][\\1][\2][\3]\"\n")
+        doxyfile.write("ALIASES += property{4}=\"[property][\\1][\2][\3][\4]\"\n")
     call("doxygen", shell=True)
     os.remove("Doxyfile")
     
