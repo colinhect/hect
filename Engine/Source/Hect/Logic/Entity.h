@@ -121,6 +121,11 @@ public:
     void removeComponent();
 
     ///
+    /// Returns whether the Entity has a Component of a specific type.
+    template <typename T>
+    bool hasComponent();
+
+    ///
     /// Returns an iterator to the Component of a specific type for the Entity.
     ///
     /// \note The returned iterator is invalid if the entity does not have a

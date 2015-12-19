@@ -819,6 +819,27 @@ TEST_CASE("Remove a non-existing unregistered component from an entity", "[Scene
     REQUIRE_THROWS_AS(a->removeComponent<TestA>(), InvalidOperation);
 }
 
+TEST_CASE("Check that an entity does not have a component of a specific type", "[Scene]")
+{
+    Scene scene(Engine::instance());
+    scene.addComponentType<TestA>();
+
+    Entity::Iterator a = scene.createEntity();
+
+    REQUIRE(a->hasComponent<TestA>() == false);
+}
+
+TEST_CASE("Check that an entity has a component of a specific type", "[Scene]")
+{
+    Scene scene(Engine::instance());
+    scene.addComponentType<TestA>();
+
+    Entity::Iterator a = scene.createEntity();
+    a->addComponent<TestA>("TestA");
+
+    REQUIRE(a->hasComponent<TestA>() == true);
+}
+
 TEST_CASE("Iterate over the components in a scene without any components", "[Scene]")
 {
     Scene scene(Engine::instance());

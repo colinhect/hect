@@ -49,6 +49,12 @@ void Entity::removeComponent()
 }
 
 template <typename T>
+bool Entity::hasComponent()
+{
+    return static_cast<bool>(component<T>());
+}
+
+template <typename T>
 typename Component<T>::Iterator Entity::component()
 {
     ensureInPool();
