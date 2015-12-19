@@ -26,7 +26,7 @@ doxygen_config = {
     "OUTPUT_DIRECTORY" : output_dir,
     "OUTPUT_LANGUAGE" : "English",
     "PROJECT_NAME" : "Hect Reflect",
-    "QUIET" : "NO",
+    "QUIET" : "YES",
     "RECURSIVE" : "YES",
     "WARN_IF_DOC_ERROR" : "YES",
     "WARN_IF_UNDOCUMENTED" : "NO",
