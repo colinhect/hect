@@ -38,6 +38,10 @@ class QuaternionT
 public:
 
     ///
+    /// An identity quaternion.
+    static const QuaternionT Identity;
+
+    ///
     /// Constructs a quaternion from an axis and an angle.
     ///
     /// \param axis The axis that the angle is relative to.

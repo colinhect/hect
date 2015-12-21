@@ -27,6 +27,9 @@ namespace hect
 {
 
 template <typename T>
+const QuaternionT<T> QuaternionT<T>::Identity = QuaternionT<T>();
+
+template <typename T>
 QuaternionT<T> QuaternionT<T>::fromAxisAngle(const Vector3T<T>& axis, Angle angle)
 {
     // Special case for identity quaternion
