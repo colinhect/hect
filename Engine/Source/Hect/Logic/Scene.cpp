@@ -131,6 +131,8 @@ void Scene::tick(double timeStep)
             system.tick(timeStep);
         }
     }
+
+    refresh();
 }
 
 void Scene::render(RenderTarget& target)
