@@ -103,7 +103,9 @@ public:
 
 private:
     void addColoredMaterial(const Color& color);
+
     void createSystemPanel();
+    void destroySystemPanel();
 
     class DebugBox
     {

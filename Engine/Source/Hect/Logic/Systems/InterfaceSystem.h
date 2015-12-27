@@ -57,6 +57,12 @@ public:
     typename T::Handle addWidget(Args&&... args);
 
     ///
+    /// Removes a widget.
+    ///
+    /// \param widget A handle to the widget to remove.
+    void removeWidget(const WidgetBase::Handle& widget);
+
+    ///
     /// Returns the effective dimensions of the specified text using the given
     /// font and size.
     ///
@@ -97,6 +103,7 @@ private:
     VectorRenderer& _vectorRenderer;
 
     std::vector<WidgetBase::Handle> _widgets;
+    std::vector<WidgetBase::Handle> _removedWidgets;
     std::map<StyleColor, Color> _styleColors;
 };
 

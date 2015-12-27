@@ -113,6 +113,12 @@ public:
     typename T::ConstHandle system() const;
 
     ///
+    /// Returns whether the scene supports the specified System type id.
+    ///
+    /// \param typeId The type id of the system.
+    bool hasSystemOfTypeId(SystemTypeId typeId);
+
+    ///
     /// Returns a reference to the System of a specific type id.
     ///
     /// \param typeId The type id of the system.

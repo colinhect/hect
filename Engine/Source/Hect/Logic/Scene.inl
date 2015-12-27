@@ -56,7 +56,7 @@ template <typename T>
 bool Scene::hasSystemType()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
-    return typeId < _systems.size() && _systems[typeId];
+    return hasSystemOfTypeId(typeId);
 }
 
 template <typename T>

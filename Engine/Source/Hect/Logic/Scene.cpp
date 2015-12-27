@@ -51,6 +51,11 @@ SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
     }
 }
 
+bool Scene::hasSystemOfTypeId(SystemTypeId typeId)
+{
+    return typeId < _systems.size() && _systems[typeId];
+}
+
 const SystemBase& Scene::systemOfTypeId(SystemTypeId typeId) const
 {
     return const_cast<Scene*>(this)->systemOfTypeId(typeId);

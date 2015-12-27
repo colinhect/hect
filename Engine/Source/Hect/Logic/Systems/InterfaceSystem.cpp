@@ -52,6 +52,22 @@ InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
     setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 }
 
+void InterfaceSystem::removeWidget(const WidgetBase::Handle& widget)
+{
+    // If the widget is not already marked for removal
+    auto it = std::find(_removedWidgets.begin(), _removedWidgets.end(), widget);
+    if (it == _removedWidgets.end())
+    {
+        _removedWidgets.push_back(widget);
+
+        // Recursively remove all descendant widgets
+        for (const WidgetBase::Handle& childWidget : widget->_children)
+        {
+            removeWidget(childWidget);
+        }
+    }
+}
+
 Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Font& font, double size) const
 {
     return _vectorRenderer.measureTextDimensions(text, font, size);
@@ -96,6 +112,14 @@ void InterfaceSystem::render(RenderTarget& target)
 
 void InterfaceSystem::tick(double timeStep)
 {
+    // Remove all widgets marked for removal
+    for (const WidgetBase::Handle& widget : _removedWidgets)
+    {
+        _widgets.erase(std::remove(_widgets.begin(), _widgets.end(), widget), _widgets.end());
+    }
+    _removedWidgets.clear();
+
+    // Tick all parent widgets
     for (const WidgetBase::Handle& widget : _widgets)
     {
         if (!widget->hasParent() && widget->isVisible())
