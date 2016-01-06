@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // This source file is part of Hect.
 //
-// Copyright (c) 2015 Colin Hill
+// Copyright (c) 2016 Colin Hill
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -77,7 +77,7 @@ public:
     ///
     /// Renders the widget to a frame.
     ///
-    /// \param frame The frame to render to.updateLayout
+    /// \param frame The frame to render to.
     /// \param clipping The clipping bounds of the render area.
     virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping);
 
@@ -246,7 +246,12 @@ protected:
     /// Updates the layout of the widget and its children.
     virtual void updateLayout();
 
+    ///
+    /// Returns whether the layout needs to be updated.
     bool isLayoutDirty() const;
+
+    ///
+    /// Mark the widget to update its layout when 
     void markLayoutDirty();
 
     ///

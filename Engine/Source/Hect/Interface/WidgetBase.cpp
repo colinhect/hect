@@ -34,7 +34,10 @@ WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
 
 void WidgetBase::tick(double timeStep)
 {
-    updateLayout();
+    if (isLayoutDirty())
+    {
+        updateLayout();
+    }
 
     for (const WidgetBase::Handle& child : _children)
     {
@@ -302,52 +305,49 @@ const InterfaceSystem& WidgetBase::interfaceSystem() const
 
 void WidgetBase::updateLayout()
 {
-    if (_layoutDirty)
+    _layoutDirty = false;
+
+    // Update the global position
+    _actualPosition = _assignedPosition;
+    if (_parent)
     {
-        _layoutDirty = false;
-
-        // Update the global position
-        _actualPosition = _assignedPosition;
-        if (_parent)
+        // Align horizontally
+        switch (_horizontalAlign)
         {
-            // Align horizontally
-            switch (_horizontalAlign)
-            {
-            case HorizontalAlign::None:
-                break;
-            case HorizontalAlign::Left:
-                break;
-            case HorizontalAlign::Center:
-                _actualPosition.x = (_parent->_dimensions.x - _dimensions.x) * 0.5;
-                break;
-            case HorizontalAlign::Right:
-                _actualPosition.x = (_parent->_dimensions.x - _dimensions.x);
-                break;
-            }
-
-            // Align vertically
-            switch (_verticalAlign)
-            {
-            case VerticalAlign::None:
-                break;
-            case VerticalAlign::Bottom:
-                _actualPosition.y = (_parent->_dimensions.y - _dimensions.y);
-                break;
-            case VerticalAlign::Center:
-                _actualPosition.y = (_parent->_dimensions.y - _dimensions.y) * 0.5;
-                break;
-            case VerticalAlign::Top:
-                break;
-            }
+        case HorizontalAlign::None:
+            break;
+        case HorizontalAlign::Left:
+            break;
+        case HorizontalAlign::Center:
+            _actualPosition.x = (_parent->_dimensions.x - _dimensions.x) * 0.5;
+            break;
+        case HorizontalAlign::Right:
+            _actualPosition.x = (_parent->_dimensions.x - _dimensions.x);
+            break;
         }
 
-        _actualPosition = _actualPosition.floor();
-
-        // Recursively update the bounds for each child
-        for (const WidgetBase::Handle& child : _children)
+        // Align vertically
+        switch (_verticalAlign)
         {
-            child->updateLayout();
+        case VerticalAlign::None:
+            break;
+        case VerticalAlign::Bottom:
+            _actualPosition.y = (_parent->_dimensions.y - _dimensions.y);
+            break;
+        case VerticalAlign::Center:
+            _actualPosition.y = (_parent->_dimensions.y - _dimensions.y) * 0.5;
+            break;
+        case VerticalAlign::Top:
+            break;
         }
+    }
+
+    _actualPosition = _actualPosition.floor();
+
+    // Recursively update the bounds for each child
+    for (const WidgetBase::Handle& child : _children)
+    {
+        child->updateLayout();
     }
 }
 
