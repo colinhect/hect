@@ -39,6 +39,8 @@
 namespace hect
 {
 
+class InterfaceSystem;
+
 ///
 /// A collection of widgets making up a user interface.
 class HECT_EXPORT Form :
