@@ -54,13 +54,21 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
 
 void DebugSystem::toggleShowInterface()
 {
-    if (_systemPanel)
+    if (_interfaceSystem)
     {
-        destroySystemPanel();
-    }
-    else
-    {
-        createSystemPanel();
+        if (!_form)
+        {
+            _form = _interfaceSystem->createForm();
+        }
+
+        if (_systemPanel)
+        {
+            destroySystemPanel();
+        }
+        else
+        {
+            createSystemPanel();
+        }
     }
 }
 
@@ -104,11 +112,13 @@ void DebugSystem::addColoredMaterial(const Color& color)
 
 void DebugSystem::createSystemPanel()
 {
+    assert(_form);
+
     const double checkBoxColumnWidth = 16;
     const double rowHeight = 18;
     const double panelMargin = 10;
 
-    Grid::Handle grid = _interfaceSystem->addWidget<Grid>();
+    Grid::Handle grid = _form->createWidget<Grid>();
     grid->setHorizontalAlign(HorizontalAlign::Center);
     grid->setVerticalAlign(VerticalAlign::Center);
 
@@ -131,7 +141,7 @@ void DebugSystem::createSystemPanel()
 
             const std::string& systemName = SystemRegistry::typeNameOf(typeId);
 
-            CheckBox::Handle checkBox = _interfaceSystem->addWidget<CheckBox>();
+            CheckBox::Handle checkBox = _form->createWidget<CheckBox>();
             checkBox->setHorizontalAlign(HorizontalAlign::Center);
             checkBox->setVerticalAlign(VerticalAlign::Center);
             checkBox->setPressAction([this, typeId, checkBox]
@@ -145,7 +155,7 @@ void DebugSystem::createSystemPanel()
 
             grid->setCell(checkBoxColumnId, rowId, checkBox);
 
-            Label::Handle label = _interfaceSystem->addWidget<Label>();
+            Label::Handle label = _form->createWidget<Label>();
             label->setText(systemName);
             label->setHorizontalAlign(HorizontalAlign::Left);
             label->setVerticalAlign(VerticalAlign::Bottom);
@@ -157,7 +167,7 @@ void DebugSystem::createSystemPanel()
 
     grid->resizeColumn(systemNameColumnId, maxSystemNameLength);
 
-    _systemPanel = _interfaceSystem->addWidget<Panel>();
+    _systemPanel = _form->createWidget<Panel>();
     _systemPanel->setDimensions(grid->dimensions() + panelMargin);
     _systemPanel->addChild(grid);
 
@@ -168,9 +178,11 @@ void DebugSystem::createSystemPanel()
 
 void DebugSystem::destroySystemPanel()
 {
+    assert(_form);
+
     if (_systemPanel)
     {
-        _interfaceSystem->removeWidget(_systemPanel);
+        _form->destroyWidget(_systemPanel);
         _systemPanel.reset();
     }
 }

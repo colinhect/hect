@@ -47,8 +47,8 @@ public:
     ///
     /// Constructs an empty grid widget.
     ///
-    /// \param interfaceSystem The interface system.
-    Grid(InterfaceSystem& interfaceSystem);
+    /// \param form The form.
+    Grid(Form& form);
 
     ///
     /// Adds a column to the grid.
@@ -113,7 +113,7 @@ private:
         public Widget<Cell>
     {
     public:
-        Cell(InterfaceSystem& interfaceSystem);
+        Cell(Form& form);
 
         void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
     };

@@ -39,8 +39,8 @@ public:
     ///
     /// Constructs an empty button widget.
     ///
-    /// \param interfaceSystem The interface system.
-    Button(InterfaceSystem& interfaceSystem);
+    /// \param form The form.
+    Button(Form& form);
 
     void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 };

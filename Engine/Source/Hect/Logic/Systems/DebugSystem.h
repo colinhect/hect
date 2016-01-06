@@ -122,6 +122,7 @@ private:
     Window& _window;
     InterfaceSystem::Handle _interfaceSystem;
 
+    Form::Handle _form;
     Panel::Handle _systemPanel;
 
     std::vector<DebugBox> _boxes;

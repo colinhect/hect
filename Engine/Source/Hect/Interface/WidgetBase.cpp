@@ -27,8 +27,8 @@
 
 using namespace hect;
 
-WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
-    _interfaceSystem(&interfaceSystem)
+WidgetBase::WidgetBase(Form& form) :
+    _form(&form)
 {
 }
 
@@ -201,9 +201,9 @@ const Color& WidgetBase::styleColor(StyleColor styleColor) const
     {
         return it->second;
     }
-    else if (_interfaceSystem)
+    else if (_form)
     {
-        return _interfaceSystem->styleColor(styleColor);
+        return _form->styleColor(styleColor);
     }
     else
     {
@@ -283,24 +283,24 @@ const WidgetBase& WidgetBase::parent() const
     return *_parent;
 }
 
-InterfaceSystem& WidgetBase::interfaceSystem()
+Form& WidgetBase::form()
 {
-    if (!_interfaceSystem)
+    if (!_form)
     {
-        throw InvalidOperation("Widget does not belong to an interface system");
+        throw InvalidOperation("Widget does not belong to a form");
     }
 
-    return *_interfaceSystem;
+    return *_form;
 }
 
-const InterfaceSystem& WidgetBase::interfaceSystem() const
+const Form& WidgetBase::form() const
 {
-    if (!_interfaceSystem)
+    if (!_form)
     {
-        throw InvalidOperation("Widget does not belong to an interface system");
+        throw InvalidOperation("Widget does not belong to a form");
     }
 
-    return *_interfaceSystem;
+    return *_form;
 }
 
 void WidgetBase::updateLayout()

@@ -23,21 +23,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <array>
+#include <vector>
 
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/VectorRenderer.h"
-#include "Hect/Interface/StyleColor.h"
-#include "Hect/Interface/Widget.h"
+#include "Hect/Interface/Form.h"
 #include "Hect/Logic/System.h"
 
 namespace hect
 {
 
 ///
-/// Manages the user interface control Widget%s of a Scene.
+/// Manages the user interface forms of a Scene.
 ///
 /// \system
 class HECT_EXPORT InterfaceSystem :
@@ -48,41 +47,10 @@ public:
     InterfaceSystem(Engine& engine, Scene& scene);
 
     ///
-    /// Adds a new widget.
+    /// Creates a new form.
     ///
-    /// \param args The arguments to pass to the widget's constructor.
-    ///
-    /// \returns A handle to the added widget.
-    template <typename T, typename... Args>
-    typename T::Handle addWidget(Args&&... args);
-
-    ///
-    /// Removes a widget.
-    ///
-    /// \param widget A handle to the widget to remove.
-    void removeWidget(const WidgetBase::Handle& widget);
-
-    ///
-    /// Returns the effective dimensions of the specified text using the given
-    /// font and size.
-    ///
-    /// \param text The text to measure.
-    /// \param font The font.
-    /// \param size The font size.
-    Vector2 measureTextDimensions(const std::string& text, const Font& font, double size) const;
-
-    ///
-    /// Returns a style color.
-    ///
-    /// \param styleColor The style color to get.
-    const Color& styleColor(StyleColor styleColor) const;
-
-    ///
-    /// Sets a style color.
-    ///
-    /// \param styleColor The style color to set.
-    /// \param color The new color value of the style color.
-    void setStyleColor(StyleColor styleColor, const Color& color);
+    /// \returns A handle to the new form.
+    Form::Handle createForm();
 
     void render(RenderTarget& target) override;
     void tick(double timeStep) override;
@@ -90,9 +58,13 @@ public:
     void receiveEvent(const MouseEvent& event) override;
 
     ///
+    /// The font used when none is specified.
+    ///
     /// \property{required}
     Font::Handle defaultFont;
 
+    ///
+    /// The font size used when none is specified.
     ///
     /// \property{required}
     double defaultFontSize;
@@ -102,11 +74,7 @@ private:
     Renderer& _renderer;
     VectorRenderer& _vectorRenderer;
 
-    std::vector<WidgetBase::Handle> _widgets;
-    std::vector<WidgetBase::Handle> _removedWidgets;
-    std::map<StyleColor, Color> _styleColors;
+    std::vector<Form::Handle> _forms;
 };
 
 }
-
-#include "InterfaceSystem.inl"

@@ -39,8 +39,8 @@ public:
     ///
     /// Constructs an empty panel widget.
     ///
-    /// \param interfaceSystem The interface system.
-    Panel(InterfaceSystem& interfaceSystem);
+    /// \param form The form.
+    Panel(Form& form);
 
     void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 };

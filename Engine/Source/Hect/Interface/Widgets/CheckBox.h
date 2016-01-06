@@ -39,8 +39,8 @@ public:
     ///
     /// Constructs an empty check box widget.
     ///
-    /// \param interfaceSystem The interface system.
-    CheckBox(InterfaceSystem& interfaceSystem);
+    /// \param form The form.
+    CheckBox(Form& form);
 
     ///
     /// Returns whether the check box is checked.

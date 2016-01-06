@@ -25,8 +25,8 @@
 
 using namespace hect;
 
-Button::Button(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+Button::Button(Form& form) :
+    Widget(form)
 {
 }
 

@@ -27,8 +27,8 @@
 
 using namespace hect;
 
-Grid::Grid(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+Grid::Grid(Form& form) :
+    Widget(form)
 {
 }
 
@@ -97,7 +97,7 @@ void Grid::setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& wid
     dimensions.x = _columns[columnId].width;
     dimensions.y = _rows[rowId].height;
 
-    Cell::Handle cellWidget = interfaceSystem().addWidget<Cell>();
+    Cell::Handle cellWidget = form().createWidget<Cell>();
     cellWidget->setPosition(position);
     cellWidget->setDimensions(dimensions);
     cellWidget->addChild(widget);
@@ -134,8 +134,8 @@ void Grid::updateDimensions()
     setDimensions(dimensions);
 }
 
-Grid::Cell::Cell(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+Grid::Cell::Cell(Form& form) :
+    Widget(form)
 {
 }
 

@@ -142,6 +142,9 @@ set(SOURCE_FILES
     "Source/Hect/Input/MouseEvent.h"
     "Source/Hect/Input/MouseEventType.h"
     "Source/Hect/Input/MouseMode.h"
+    "Source/Hect/Interface/Form.cpp"
+    "Source/Hect/Interface/Form.h"
+    "Source/Hect/Interface/Form.inl"
     "Source/Hect/Interface/HorizontalAlign.h"
     "Source/Hect/Interface/StyleColor.h"
     "Source/Hect/Interface/VerticalAlign.h"
@@ -273,7 +276,6 @@ set(SOURCE_FILES
     "Source/Hect/Logic/Systems/InputSystem.h"
     "Source/Hect/Logic/Systems/InterfaceSystem.cpp"
     "Source/Hect/Logic/Systems/InterfaceSystem.h"
-    "Source/Hect/Logic/Systems/InterfaceSystem.inl"
     "Source/Hect/Logic/Systems/PhysicsSystem.cpp"
     "Source/Hect/Logic/Systems/PhysicsSystem.h"
     "Source/Hect/Logic/Systems/RenderSystem.cpp"
@@ -478,6 +480,9 @@ source_group("Source\\Hect\\Input" FILES
     )
     
 source_group("Source\\Hect\\Interface" FILES
+    "Source/Hect/Interface/Form.cpp"
+    "Source/Hect/Interface/Form.h"
+    "Source/Hect/Interface/Form.inl"
     "Source/Hect/Interface/HorizontalAlign.h"
     "Source/Hect/Interface/StyleColor.h"
     "Source/Hect/Interface/VerticalAlign.h"
@@ -624,7 +629,6 @@ source_group("Source\\Hect\\Logic\\Systems" FILES
     "Source/Hect/Logic/Systems/InputSystem.h"
     "Source/Hect/Logic/Systems/InterfaceSystem.cpp"
     "Source/Hect/Logic/Systems/InterfaceSystem.h"
-    "Source/Hect/Logic/Systems/InterfaceSystem.inl"
     "Source/Hect/Logic/Systems/PhysicsSystem.cpp"
     "Source/Hect/Logic/Systems/PhysicsSystem.h"
     "Source/Hect/Logic/Systems/RenderSystem.cpp"

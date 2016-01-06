@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/VectorRenderer.h"
 #include "Hect/Input/MouseEvent.h"
 #include "Hect/Interface/HorizontalAlign.h"
@@ -40,15 +41,16 @@
 namespace hect
 {
 
-class InterfaceSystem;
+class Form;
 
 ///
 /// Abstract base for Widget.
 class HECT_EXPORT WidgetBase :
     public Listener<MouseEvent>,
+    public Uncopyable,
     public std::enable_shared_from_this<WidgetBase>
 {
-    friend class InterfaceSystem;
+    friend class Form;
 public:
 
     ///
@@ -62,8 +64,8 @@ public:
     ///
     /// Constructs a widget.
     ///
-    /// \param interfaceSystem The interface system.
-    WidgetBase(InterfaceSystem& interfaceSystem);
+    /// \param form The form.
+    WidgetBase(Form& form);
 
     virtual ~WidgetBase() { }
 
@@ -230,15 +232,14 @@ public:
     const WidgetBase& parent() const;
 
     ///
-    /// Returns the interface system that the widget belongs to.
+    /// Returns the form that the widget belongs to.
     ///
-    /// \throws InvalidOperation If the widget does not belong to an interface
-    /// system.
-    InterfaceSystem& interfaceSystem();
+    /// \throws InvalidOperation If the widget does not belong to a form.
+    Form& form();
 
     ///
-    /// \copydoc WidgetBase::interfaceSystem()
-    const InterfaceSystem& interfaceSystem() const;
+    /// \copydoc WidgetBase::form()
+    const Form& form() const;
 
 protected:
 
@@ -251,7 +252,7 @@ protected:
     bool isLayoutDirty() const;
 
     ///
-    /// Mark the widget to update its layout when 
+    /// Mark the widget to update its layout when necessary.
     void markLayoutDirty();
 
     ///
@@ -259,7 +260,7 @@ protected:
     void setMouseOver(bool value);
 
 private:
-    InterfaceSystem* _interfaceSystem { nullptr };
+    Form* _form { nullptr };
     WidgetBase* _parent { nullptr };
 
     Vector2 _assignedPosition;

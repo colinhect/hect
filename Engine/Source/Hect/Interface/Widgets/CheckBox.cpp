@@ -25,8 +25,8 @@
 
 using namespace hect;
 
-CheckBox::CheckBox(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+CheckBox::CheckBox(Form& form) :
+    Widget(form)
 {
     setDimensions(Vector2(10));
 }
