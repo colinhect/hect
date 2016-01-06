@@ -26,10 +26,10 @@ namespace hect
 {
 
 template <typename T, typename... Args>
-typename T::Handle Form::createChild(Args&&... args)
+typename T::Handle WidgetBase::createChild(Args&&... args)
 {
-    typename T::Handle widget(new T(*this, args...));
-    _widgets.push_back(widget);
+    typename T::Handle widget(new T(_form, args...));
+    addChild(widget);
     return widget;
 }
 

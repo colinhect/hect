@@ -23,7 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <array>
+#include <map>
+#include <vector>
 
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
@@ -61,7 +62,7 @@ public:
     ///
     /// \returns A handle to the added widget.
     template <typename T, typename... Args>
-    typename T::Handle createWidget(Args&&... args);
+    typename T::Handle createChild(Args&&... args);
 
     ///
     /// Destroys a widget.

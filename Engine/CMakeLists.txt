@@ -152,6 +152,7 @@ set(SOURCE_FILES
     "Source/Hect/Interface/Widget.inl"
     "Source/Hect/Interface/WidgetBase.cpp"
     "Source/Hect/Interface/WidgetBase.h"
+    "Source/Hect/Interface/WidgetBase.inl"
     "Source/Hect/Interface/Widgets/Button.cpp"
     "Source/Hect/Interface/Widgets/Button.h"
     "Source/Hect/Interface/Widgets/CheckBox.cpp"
@@ -490,6 +491,7 @@ source_group("Source\\Hect\\Interface" FILES
     "Source/Hect/Interface/Widget.inl"
     "Source/Hect/Interface/WidgetBase.cpp"
     "Source/Hect/Interface/WidgetBase.h"
+    "Source/Hect/Interface/WidgetBase.inl"
     )
     
 source_group("Source\\Hect\\Interface\\Widgets" FILES

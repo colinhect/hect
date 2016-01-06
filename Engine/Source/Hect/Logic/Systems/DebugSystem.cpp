@@ -115,18 +115,19 @@ void DebugSystem::createSystemPanel()
     assert(_form);
 
     const double checkBoxColumnWidth = 16;
+    const double systemNameColumnWidth = 256;
     const double rowHeight = 18;
     const double panelMargin = 10;
 
-    Grid::Handle grid = _form->createWidget<Grid>();
+    _systemPanel = _form->createChild<Panel>();
+
+    Grid::Handle grid = _systemPanel->createChild<Grid>();
     grid->setHorizontalAlign(HorizontalAlign::Center);
     grid->setVerticalAlign(VerticalAlign::Center);
 
     Grid::ColumnId checkBoxColumnId = grid->addColumn(checkBoxColumnWidth);
-    Grid::ColumnId systemNameColumnId = grid->addColumn();
-
-    double maxSystemNameLength = 0;
-
+    Grid::ColumnId systemNameColumnId = grid->addColumn(systemNameColumnWidth);
+    
     SystemRegistry::SystemTypeIdSequence typeIds = SystemRegistry::typeIds();
     std::sort(typeIds.begin(), typeIds.end(), [] (SystemTypeId a, SystemTypeId b)
     {
@@ -141,7 +142,8 @@ void DebugSystem::createSystemPanel()
 
             const std::string& systemName = SystemRegistry::typeNameOf(typeId);
 
-            CheckBox::Handle checkBox = _form->createWidget<CheckBox>();
+            Grid::Cell::Handle checkBoxCell = grid->createCell(checkBoxColumnId, rowId);
+            CheckBox::Handle checkBox = checkBoxCell->createChild<CheckBox>();
             checkBox->setHorizontalAlign(HorizontalAlign::Center);
             checkBox->setVerticalAlign(VerticalAlign::Center);
             checkBox->setPressAction([this, typeId, checkBox]
@@ -153,23 +155,15 @@ void DebugSystem::createSystemPanel()
             SystemBase& system = scene().systemOfTypeId(typeId);
             checkBox->setChecked(system.isDebugEnabled());
 
-            grid->setCell(checkBoxColumnId, rowId, checkBox);
-
-            Label::Handle label = _form->createWidget<Label>();
+            Grid::Cell::Handle labelCell = grid->createCell(systemNameColumnId, rowId);
+            Label::Handle label = labelCell->createChild<Label>();
             label->setText(systemName);
             label->setHorizontalAlign(HorizontalAlign::Left);
             label->setVerticalAlign(VerticalAlign::Bottom);
-            grid->setCell(systemNameColumnId, rowId, label);
-
-            maxSystemNameLength = std::max(maxSystemNameLength, label->dimensions().x);
         }
     }
 
-    grid->resizeColumn(systemNameColumnId, maxSystemNameLength);
-
-    _systemPanel = _form->createWidget<Panel>();
     _systemPanel->setDimensions(grid->dimensions() + panelMargin);
-    _systemPanel->addChild(grid);
 
     Vector2 windowDimensions(_window.width(), _window.height());
     Vector2 systemPanelPosition = windowDimensions * 0.5 - _systemPanel->dimensions() * 0.5;

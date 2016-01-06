@@ -28,7 +28,7 @@
 using namespace hect;
 
 WidgetBase::WidgetBase(Form& form) :
-    _form(&form)
+    _form(form)
 {
 }
 
@@ -201,13 +201,9 @@ const Color& WidgetBase::styleColor(StyleColor styleColor) const
     {
         return it->second;
     }
-    else if (_form)
-    {
-        return _form->styleColor(styleColor);
-    }
     else
     {
-        return Color::One;
+        return _form.styleColor(styleColor);
     }
 }
 
@@ -243,21 +239,6 @@ void WidgetBase::addChild(const WidgetBase::Handle& child)
     }
 }
 
-void WidgetBase::removeChild(const WidgetBase::Handle& child)
-{
-    auto it = std::find(_children.begin(), _children.end(), child);
-    if (it == _children.end())
-    {
-        throw InvalidOperation("Widget is not a child of this widget");
-    }
-    else
-    {
-        _children.erase(it);
-        child->_parent = nullptr;
-        markLayoutDirty();
-    }
-}
-
 bool WidgetBase::hasParent() const
 {
     return _parent != nullptr;
@@ -285,22 +266,12 @@ const WidgetBase& WidgetBase::parent() const
 
 Form& WidgetBase::form()
 {
-    if (!_form)
-    {
-        throw InvalidOperation("Widget does not belong to a form");
-    }
-
-    return *_form;
+    return _form;
 }
 
 const Form& WidgetBase::form() const
 {
-    if (!_form)
-    {
-        throw InvalidOperation("Widget does not belong to a form");
-    }
-
-    return *_form;
+    return _form;
 }
 
 void WidgetBase::updateLayout()

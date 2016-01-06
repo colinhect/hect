@@ -27,6 +27,22 @@
 
 using namespace hect;
 
+Grid::Cell::Cell(Form& form) :
+    Widget(form)
+{
+}
+
+void Grid::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+{
+    frame.pushState();
+    //frame.setClipping(clipping);
+    frame.translate(position());
+
+    WidgetBase::render(frame, clipping);
+
+    frame.popState();
+}
+
 Grid::Grid(Form& form) :
     Widget(form)
 {
@@ -70,7 +86,7 @@ void Grid::resizeRow(RowId rowId, double height)
     updateDimensions();
 }
 
-void Grid::setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& widget)
+Grid::Cell::Handle Grid::createCell(ColumnId columnId, RowId rowId)
 {
     if (columnId >= _columns.size())
     {
@@ -97,14 +113,13 @@ void Grid::setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& wid
     dimensions.x = _columns[columnId].width;
     dimensions.y = _rows[rowId].height;
 
-    Cell::Handle cellWidget = form().createWidget<Cell>();
+    Cell::Handle cellWidget = createChild<Cell>();
     cellWidget->setPosition(position);
     cellWidget->setDimensions(dimensions);
-    cellWidget->addChild(widget);
-
-    addChild(cellWidget);
 
     _cells[columnId][rowId] = cellWidget;
+
+    return cellWidget;
 }
 
 void Grid::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
@@ -132,20 +147,4 @@ void Grid::updateDimensions()
     }
 
     setDimensions(dimensions);
-}
-
-Grid::Cell::Cell(Form& form) :
-    Widget(form)
-{
-}
-
-void Grid::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
-{
-    frame.pushState();
-    //frame.setClipping(clipping);
-    frame.translate(position());
-
-    WidgetBase::render(frame, clipping);
-
-    frame.popState();
 }

@@ -45,6 +45,17 @@ public:
     typedef size_t RowId;
 
     ///
+    /// A cell in a Grid.
+    class Cell :
+        public Widget<Cell>
+    {
+    public:
+        Cell(Form& form);
+
+        void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+    };
+
+    ///
     /// Constructs an empty grid widget.
     ///
     /// \param form The form.
@@ -85,14 +96,14 @@ public:
     void resizeRow(RowId rowId, double height);
 
     ///
-    /// Sets the widget that exists in the specified cell.
+    /// Creates a cell widget at the specified coordinates.
     ///
     /// \param columnId The id of the column.
     /// \param rowId The id of the row.
-    /// \param widget The widget.
     ///
-    /// \throws InvalidOperation If the row id or column id is out of range.
-    void setCell(ColumnId columnId, RowId rowId, const WidgetBase::Handle& widget);
+    /// \throws InvalidOperation If the row id or column id is out of range or
+    /// a cell widget already exists in the specified cell.
+    Cell::Handle createCell(ColumnId columnId, RowId rowId);
 
     void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 
@@ -107,15 +118,6 @@ private:
     struct Row
     {
         double height;
-    };
-
-    class Cell :
-        public Widget<Cell>
-    {
-    public:
-        Cell(Form& form);
-
-        void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
     };
 
     std::map<ColumnId, std::map<RowId, WidgetBase::Handle>> _cells;

@@ -202,20 +202,21 @@ public:
     bool isPressed() const;
 
     ///
+    /// Creates a new child widget.
+    ///
+    /// \param args The arguments to pass to the widget's constructor.
+    ///
+    /// \returns A handle to the created child widget.
+    template <typename T, typename... Args>
+    typename T::Handle createChild(Args&&... args);
+
+    ///
     /// Adds a child widget.
     ///
     /// \param child The child widget to add.
     ///
     /// \throws InvalidOperation If the widget is already a child of a widget.
     virtual void addChild(const WidgetBase::Handle& child);
-
-    ///
-    /// Removes a child widget.
-    ///
-    /// \param child The child widget to remove.
-    ///
-    /// \throws InvalidOperation If the widget is not a child of this widget.
-    virtual void removeChild(const WidgetBase::Handle& child);
 
     ///
     /// Returns whether the widget is a child of another widget.
@@ -233,8 +234,6 @@ public:
 
     ///
     /// Returns the form that the widget belongs to.
-    ///
-    /// \throws InvalidOperation If the widget does not belong to a form.
     Form& form();
 
     ///
@@ -260,7 +259,7 @@ protected:
     void setMouseOver(bool value);
 
 private:
-    Form* _form { nullptr };
+    Form& _form;
     WidgetBase* _parent { nullptr };
 
     Vector2 _assignedPosition;
@@ -286,3 +285,5 @@ private:
 };
 
 }
+
+#include "WidgetBase.inl"
