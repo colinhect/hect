@@ -176,7 +176,7 @@ void DebugSystem::destroySystemPanel()
 
     if (_systemPanel)
     {
-        _form->destroyWidget(_systemPanel);
+        _form->destroyChild(_systemPanel);
         _systemPanel.reset();
     }
 }

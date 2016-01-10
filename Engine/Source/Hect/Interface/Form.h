@@ -68,7 +68,7 @@ public:
     /// Destroys a widget.
     ///
     /// \param widget A handle to the widget to remove.
-    void destroyWidget(const WidgetBase::Handle& widget);
+    void destroyChild(const WidgetBase::Handle& widget);
 
     ///
     /// Returns the effective dimensions of the specified text using the given

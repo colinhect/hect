@@ -46,7 +46,7 @@ Form::Form(InterfaceSystem& interfaceSystem, Renderer& renderer, VectorRenderer&
     setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 }
 
-void Form::destroyWidget(const WidgetBase::Handle& widget)
+void Form::destroyChild(const WidgetBase::Handle& widget)
 {
     // If the widget is not already marked for destruction
     auto it = std::find(_destroyedWidgets.begin(), _destroyedWidgets.end(), widget);
@@ -57,7 +57,7 @@ void Form::destroyWidget(const WidgetBase::Handle& widget)
         // Recursively remove all descendant widgets
         for (const WidgetBase::Handle& childWidget : widget->_children)
         {
-            destroyWidget(childWidget);
+            destroyChild(childWidget);
         }
     }
 }
