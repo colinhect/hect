@@ -27,10 +27,9 @@
 
 using namespace hect;
 
-Form::Form(InterfaceSystem& interfaceSystem, Renderer& renderer, VectorRenderer& vectorRenderer) :
-    _interfaceSystem(interfaceSystem),
-    _renderer(renderer),
-    _vectorRenderer(vectorRenderer)
+Form::Form(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
+    Widget(interfaceSystem),
+    _renderTarget(renderTarget)
 {
     // Set the default style colors
     setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
@@ -46,118 +45,7 @@ Form::Form(InterfaceSystem& interfaceSystem, Renderer& renderer, VectorRenderer&
     setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 }
 
-void Form::destroyChild(const WidgetBase::Handle& widget)
+RenderTarget& Form::renderTarget()
 {
-    // If the widget is not already marked for destruction
-    auto it = std::find(_destroyedWidgets.begin(), _destroyedWidgets.end(), widget);
-    if (it == _destroyedWidgets.end())
-    {
-        _destroyedWidgets.push_back(widget);
-
-        // Recursively remove all descendant widgets
-        for (const WidgetBase::Handle& childWidget : widget->_children)
-        {
-            destroyChild(childWidget);
-        }
-    }
-}
-
-const Color& Form::styleColor(StyleColor styleColor) const
-{
-    auto it = _styleColors.find(styleColor);
-    if (it != _styleColors.end())
-    {
-        return it->second;
-    }
-    else
-    {
-        return Color::One;
-    }
-}
-
-void Form::setStyleColor(StyleColor styleColor, const Color& color)
-{
-    _styleColors[styleColor] = color;
-}
-
-void Form::render(RenderTarget& target)
-{
-    Renderer::Frame frame = _renderer.beginFrame(target);
-    VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(target);
-
-    Rectangle clipping(0.0, 0.0, target.width(), target.height());
-    for (const WidgetBase::Handle& widget : _widgets)
-    {
-        if (!widget->hasParent() && widget->isVisible())
-        {
-            Rectangle widgetClipping = widget->bounds().intersect(clipping);
-            if (widgetClipping.size() != Vector2::Zero)
-            {
-                widget->render(vectorFrame, widgetClipping);
-            }
-        }
-    }
-}
-
-void Form::tick(double timeStep)
-{
-    // Remove all widgets marked for destruction
-    for (const WidgetBase::Handle& widget : _destroyedWidgets)
-    {
-        _widgets.erase(std::remove(_widgets.begin(), _widgets.end(), widget), _widgets.end());
-    }
-    _destroyedWidgets.clear();
-
-    // Tick all parent widgets
-    for (const WidgetBase::Handle& widget : _widgets)
-    {
-        if (!widget->hasParent() && widget->isVisible())
-        {
-            widget->tick(timeStep);
-        }
-    }
-}
-
-InterfaceSystem& Form::interfaceSystem()
-{
-    return _interfaceSystem;
-}
-
-const InterfaceSystem& Form::interfaceSystem() const
-{
-    return _interfaceSystem;
-}
-
-void Form::receiveEvent(const MouseEvent& event)
-{
-    if (event.type == MouseEventType::Movement)
-    {
-        for (const WidgetBase::Handle& widget : _widgets)
-        {
-            if (widget->globalBounds().contains(event.cursorPosition))
-            {
-                if (!widget->isMouseOver())
-                {
-                    widget->onMouseEnter();
-                    widget->setMouseOver(true);
-                }
-            }
-            else if (widget->isMouseOver())
-            {
-                widget->onMouseExit();
-                widget->setMouseOver(false);
-            }
-        }
-    }
-
-    for (const WidgetBase::Handle& widget : _widgets)
-    {
-        if (!widget->hasParent())
-        {
-            if (widget->globalBounds().contains(event.cursorPosition))
-            {
-                widget->receiveEvent(event);
-            }
-        }
-    }
+    return _renderTarget;
 }

@@ -144,7 +144,6 @@ set(SOURCE_FILES
     "Source/Hect/Input/MouseMode.h"
     "Source/Hect/Interface/Form.cpp"
     "Source/Hect/Interface/Form.h"
-    "Source/Hect/Interface/Form.inl"
     "Source/Hect/Interface/HorizontalAlign.h"
     "Source/Hect/Interface/StyleColor.h"
     "Source/Hect/Interface/VerticalAlign.h"
@@ -483,7 +482,6 @@ source_group("Source\\Hect\\Input" FILES
 source_group("Source\\Hect\\Interface" FILES
     "Source/Hect/Interface/Form.cpp"
     "Source/Hect/Interface/Form.h"
-    "Source/Hect/Interface/Form.inl"
     "Source/Hect/Interface/HorizontalAlign.h"
     "Source/Hect/Interface/StyleColor.h"
     "Source/Hect/Interface/VerticalAlign.h"

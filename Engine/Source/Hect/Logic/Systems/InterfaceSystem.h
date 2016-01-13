@@ -49,8 +49,10 @@ public:
     ///
     /// Creates a new form.
     ///
+    /// \param renderTarget The target to render to.
+    ///
     /// \returns A handle to the new form.
-    Form::Handle createForm();
+    Form::Handle createForm(RenderTarget& renderTarget);
 
     ///
     /// Returns the effective dimensions of the specified text using the given

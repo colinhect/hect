@@ -23,101 +23,29 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <map>
-#include <vector>
-
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Uncopyable.h"
-#include "Hect/Graphics/Font.h"
-#include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
-#include "Hect/Graphics/VectorRenderer.h"
-#include "Hect/Input/MouseEvent.h"
-#include "Hect/Interface/StyleColor.h"
 #include "Hect/Interface/Widget.h"
 
 namespace hect
 {
 
-class InterfaceSystem;
-
 ///
 /// A collection of widgets making up a user interface.
 class HECT_EXPORT Form :
-    public Listener<MouseEvent>,
-    public Uncopyable
+    public Widget<Form>
 {
     friend class InterfaceSystem;
 public:
 
     ///
-    /// A handle to a form.
-    typedef std::shared_ptr<Form> Handle;
-
-    ///
-    /// Creates a new widget.
-    ///
-    /// \param args The arguments to pass to the widget's constructor.
-    ///
-    /// \returns A handle to the added widget.
-    template <typename T, typename... Args>
-    typename T::Handle createChild(Args&&... args);
-
-    ///
-    /// Destroys a widget.
-    ///
-    /// \param widget A handle to the widget to remove.
-    void destroyChild(const WidgetBase::Handle& widget);
-
-    ///
-    /// Returns a style color.
-    ///
-    /// \param styleColor The style color to get.
-    const Color& styleColor(StyleColor styleColor) const;
-
-    ///
-    /// Sets a style color.
-    ///
-    /// \param styleColor The style color to set.
-    /// \param color The new color value of the style color.
-    void setStyleColor(StyleColor styleColor, const Color& color);
-
-    ///
-    /// Renders the form to its render target.
-    ///
-    /// \param target The target to render to.
-    void render(RenderTarget& target);
-
-    ///
-    /// Performs a single update tick for all widgets in the form.
-    ///
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// update.
-    void tick(double timeStep);
-
-    ///
-    /// Returns the interface system the form belongs to.
-    InterfaceSystem& interfaceSystem();
-
-    ///
-    /// \copydoc Form::interfaceSystem()
-    const InterfaceSystem& interfaceSystem() const;
-
-    void receiveEvent(const MouseEvent& event) override;
+    /// Returns the render target.
+    RenderTarget& renderTarget();
 
 private:
-    Form(InterfaceSystem& interfaceSystem, Renderer& renderer, VectorRenderer& vectorRenderer);
+    Form(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget);
 
-    InterfaceSystem& _interfaceSystem;
-    Renderer& _renderer;
-    VectorRenderer& _vectorRenderer;
-
-    std::vector<WidgetBase::Handle> _widgets;
-    std::vector<WidgetBase::Handle> _destroyedWidgets;
-    std::map<StyleColor, Color> _styleColors;
+    RenderTarget& _renderTarget;
 };
 
 }
-
-#include "Form.inl"

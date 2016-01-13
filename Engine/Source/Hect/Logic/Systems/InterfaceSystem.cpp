@@ -39,9 +39,9 @@ InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
     }
 }
 
-Form::Handle InterfaceSystem::createForm()
+Form::Handle InterfaceSystem::createForm(RenderTarget& renderTarget)
 {
-    Form::Handle form(new Form(*this, _renderer, _vectorRenderer));
+    Form::Handle form(new Form(*this, renderTarget));
     _forms.push_back(form);
     return form;
 }
@@ -55,7 +55,13 @@ void InterfaceSystem::render(RenderTarget& target)
 {
     for (const Form::Handle& form : _forms)
     {
-        form->render(target);
+        RenderTarget& formTarget = form->renderTarget();
+
+        Renderer::Frame frame = _renderer.beginFrame(formTarget);
+        VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(formTarget);
+
+        Rectangle clipping(0.0, 0.0, formTarget.width(), formTarget.height());
+        form->render(vectorFrame, clipping);
     }
 }
 
@@ -73,6 +79,36 @@ void InterfaceSystem::receiveEvent(const MouseEvent& event)
     {
         for (const Form::Handle& form : _forms)
         {
+            if (event.type == MouseEventType::Movement)
+            {
+                for (const Form::Handle& form : _forms)
+                {
+                    if (form->globalBounds().contains(event.cursorPosition))
+                    {
+                        if (!form->isMouseOver())
+                        {
+                            form->onMouseEnter();
+                            form->setMouseOver(true);
+                        }
+                    }
+                    else if (form->isMouseOver())
+                    {
+                        form->onMouseExit();
+                        form->setMouseOver(false);
+                    }
+                }
+            }
+
+            for (const Form::Handle& form : _forms)
+            {
+                if (!form->hasParent())
+                {
+                    if (form->globalBounds().contains(event.cursorPosition))
+                    {
+                        form->receiveEvent(event);
+                    }
+                }
+            }
             form->receiveEvent(event);
         }
     }

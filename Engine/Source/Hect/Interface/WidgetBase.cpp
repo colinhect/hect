@@ -34,6 +34,11 @@ WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
 
 void WidgetBase::tick(double timeStep)
 {
+    for (const WidgetBase::Handle& child : _childrenToDestroy)
+    {
+        _children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
+    }
+
     if (isLayoutDirty())
     {
         updateLayout();
@@ -226,21 +231,15 @@ bool WidgetBase::isPressed() const
     return _pressed;
 }
 
-void WidgetBase::addChild(const WidgetBase::Handle& child)
+void WidgetBase::destroyChild(const WidgetBase::Handle& child)
 {
-    if (child)
+    auto it = std::find(_children.begin(), _children.end(), child);
+    if (it == _children.end())
     {
-        if (child->_parent)
-        {
-            throw InvalidOperation("Widget is already a child");
-        }
-        else
-        {
-            _children.push_back(child);
-            child->_parent = this;
-            markLayoutDirty();
-        }
+        throw InvalidOperation("Widget is not a child of the widget");
     }
+
+    _childrenToDestroy.push_back(child);
 }
 
 bool WidgetBase::hasParent() const

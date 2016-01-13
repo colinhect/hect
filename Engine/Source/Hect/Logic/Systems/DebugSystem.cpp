@@ -58,7 +58,7 @@ void DebugSystem::toggleShowInterface()
     {
         if (!_form)
         {
-            _form = _interfaceSystem->createForm();
+            _form = _interfaceSystem->createForm(_window);
         }
 
         if (_systemPanel)
@@ -127,7 +127,7 @@ void DebugSystem::createSystemPanel()
 
     Grid::ColumnId checkBoxColumnId = grid->addColumn(checkBoxColumnWidth);
     Grid::ColumnId systemNameColumnId = grid->addColumn(systemNameColumnWidth);
-    
+
     SystemRegistry::SystemTypeIdSequence typeIds = SystemRegistry::typeIds();
     std::sort(typeIds.begin(), typeIds.end(), [] (SystemTypeId a, SystemTypeId b)
     {

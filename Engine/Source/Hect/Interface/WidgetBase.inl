@@ -29,7 +29,11 @@ template <typename T, typename... Args>
 typename T::Handle WidgetBase::createChild(Args&&... args)
 {
     typename T::Handle widget(new T(_interfaceSystem, args...));
-    addChild(widget);
+    widget->_parent = this;
+
+    _children.push_back(widget);
+    markLayoutDirty();
+
     return widget;
 }
 

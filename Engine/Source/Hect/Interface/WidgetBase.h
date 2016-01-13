@@ -212,12 +212,12 @@ public:
     typename T::Handle createChild(Args&&... args);
 
     ///
-    /// Adds a child widget.
+    /// Destroys a child widget.
     ///
-    /// \param child The child widget to add.
+    /// \param child The child widget to destroy.
     ///
-    /// \throws InvalidOperation If the widget is already a child of a widget.
-    virtual void addChild(const WidgetBase::Handle& child);
+    /// \throws InvalidOperation If the widget is not a child of the widget.
+    void destroyChild(const WidgetBase::Handle& child);
 
     ///
     /// Returns whether the widget is a child of another widget.
@@ -282,6 +282,7 @@ private:
     bool _mouseOver { false };
 
     std::vector<WidgetBase::Handle> _children;
+    std::vector<WidgetBase::Handle> _childrenToDestroy;
     std::map<StyleColor, Color> _styleColors;
 };
 
