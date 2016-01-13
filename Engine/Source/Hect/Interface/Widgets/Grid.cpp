@@ -27,8 +27,8 @@
 
 using namespace hect;
 
-Grid::Cell::Cell(Form& form) :
-    Widget(form)
+Grid::Cell::Cell(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
 {
 }
 
@@ -43,8 +43,8 @@ void Grid::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     frame.popState();
 }
 
-Grid::Grid(Form& form) :
-    Widget(form)
+Grid::Grid(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
 {
 }
 

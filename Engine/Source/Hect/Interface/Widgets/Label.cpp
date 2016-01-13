@@ -27,8 +27,8 @@
 
 using namespace hect;
 
-Label::Label(Form& form) :
-    Widget(form)
+Label::Label(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
 {
 }
 
@@ -80,7 +80,7 @@ void Label::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 
 void Label::updateLayout()
 {
-    Vector2 dimensions = form().measureTextDimensions(_text, effectiveFont(), effectiveFontSize());
+    Vector2 dimensions = interfaceSystem().measureTextDimensions(_text, effectiveFont(), effectiveFontSize());
     setDimensions(dimensions);
     WidgetBase::updateLayout();
 }
@@ -91,7 +91,7 @@ Font& Label::effectiveFont()
     Font::Handle font = _font;
     if (!font)
     {
-        font = form().interfaceSystem().defaultFont;
+        font = interfaceSystem().defaultFont;
     }
 
     return *font;
@@ -103,7 +103,7 @@ double Label::effectiveFontSize()
     double fontSize = _fontSize;
     if (fontSize <= 0.0)
     {
-        fontSize = form().interfaceSystem().defaultFontSize;
+        fontSize = interfaceSystem().defaultFontSize;
     }
 
     return fontSize;

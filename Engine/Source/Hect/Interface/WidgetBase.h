@@ -41,7 +41,7 @@
 namespace hect
 {
 
-class Form;
+class InterfaceSystem;
 
 ///
 /// Abstract base for Widget.
@@ -50,6 +50,7 @@ class HECT_EXPORT WidgetBase :
     public Uncopyable,
     public std::enable_shared_from_this<WidgetBase>
 {
+    friend class InterfaceSystem;
     friend class Form;
 public:
 
@@ -64,8 +65,8 @@ public:
     ///
     /// Constructs a widget.
     ///
-    /// \param form The form.
-    WidgetBase(Form& form);
+    /// \param interfaceSystem The interface system.
+    WidgetBase(InterfaceSystem& interfaceSystem);
 
     virtual ~WidgetBase() { }
 
@@ -233,12 +234,12 @@ public:
     const WidgetBase& parent() const;
 
     ///
-    /// Returns the form that the widget belongs to.
-    Form& form();
+    /// Returns the interface system that the widget belongs to.
+    InterfaceSystem& interfaceSystem();
 
     ///
-    /// \copydoc WidgetBase::form()
-    const Form& form() const;
+    /// \copydoc WidgetBase::interfaceSystem()
+    const InterfaceSystem& interfaceSystem() const;
 
 protected:
 
@@ -259,7 +260,7 @@ protected:
     void setMouseOver(bool value);
 
 private:
-    Form& _form;
+    InterfaceSystem& _interfaceSystem;
     WidgetBase* _parent { nullptr };
 
     Vector2 _assignedPosition;

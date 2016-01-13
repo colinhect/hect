@@ -27,8 +27,8 @@
 
 using namespace hect;
 
-WidgetBase::WidgetBase(Form& form) :
-    _form(form)
+WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
+    _interfaceSystem(interfaceSystem)
 {
 }
 
@@ -201,9 +201,13 @@ const Color& WidgetBase::styleColor(StyleColor styleColor) const
     {
         return it->second;
     }
+    else if (_parent)
+    {
+        return _parent->styleColor(styleColor);
+    }
     else
     {
-        return _form.styleColor(styleColor);
+        return Color::One;
     }
 }
 
@@ -264,14 +268,14 @@ const WidgetBase& WidgetBase::parent() const
     return *_parent;
 }
 
-Form& WidgetBase::form()
+InterfaceSystem& WidgetBase::interfaceSystem()
 {
-    return _form;
+    return _interfaceSystem;
 }
 
-const Form& WidgetBase::form() const
+const InterfaceSystem& WidgetBase::interfaceSystem() const
 {
-    return _form;
+    return _interfaceSystem;
 }
 
 void WidgetBase::updateLayout()

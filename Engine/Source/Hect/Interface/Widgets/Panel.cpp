@@ -25,8 +25,8 @@
 
 using namespace hect;
 
-Panel::Panel(Form& form) :
-    Widget(form)
+Panel::Panel(InterfaceSystem& interfaceSystem) :
+    Widget(interfaceSystem)
 {
     setStyleColor(StyleColor::Background, Color(0.0, 0.0, 0.0, 0.8));
     setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));

@@ -62,11 +62,6 @@ void Form::destroyChild(const WidgetBase::Handle& widget)
     }
 }
 
-Vector2 Form::measureTextDimensions(const std::string& text, const Font& font, double size) const
-{
-    return _vectorRenderer.measureTextDimensions(text, font, size);
-}
-
 const Color& Form::styleColor(StyleColor styleColor) const
 {
     auto it = _styleColors.find(styleColor);

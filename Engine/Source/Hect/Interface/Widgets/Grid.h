@@ -50,7 +50,7 @@ public:
         public Widget<Cell>
     {
     public:
-        Cell(Form& form);
+        Cell(InterfaceSystem& interfaceSystem);
 
         void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
     };
@@ -58,8 +58,8 @@ public:
     ///
     /// Constructs an empty grid widget.
     ///
-    /// \param form The form.
-    Grid(Form& form);
+    /// \param interfaceSystem The interface system.
+    Grid(InterfaceSystem& interfaceSystem);
 
     ///
     /// Adds a column to the grid.

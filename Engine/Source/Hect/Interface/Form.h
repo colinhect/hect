@@ -71,15 +71,6 @@ public:
     void destroyChild(const WidgetBase::Handle& widget);
 
     ///
-    /// Returns the effective dimensions of the specified text using the given
-    /// font and size.
-    ///
-    /// \param text The text to measure.
-    /// \param font The font.
-    /// \param size The font size.
-    Vector2 measureTextDimensions(const std::string& text, const Font& font, double size) const;
-
-    ///
     /// Returns a style color.
     ///
     /// \param styleColor The style color to get.

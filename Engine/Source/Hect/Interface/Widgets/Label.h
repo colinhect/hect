@@ -42,8 +42,8 @@ public:
     ///
     /// Constructs an empty label widget.
     ///
-    /// \param form The form.
-    Label(Form& form);
+    /// \param interfaceSystem The interface system.
+    Label(InterfaceSystem& interfaceSystem);
 
     ///
     /// Returns the text of the label.

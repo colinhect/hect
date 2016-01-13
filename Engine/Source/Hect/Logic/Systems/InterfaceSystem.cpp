@@ -46,6 +46,11 @@ Form::Handle InterfaceSystem::createForm()
     return form;
 }
 
+Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Font& font, double size) const
+{
+    return _vectorRenderer.measureTextDimensions(text, font, size);
+}
+
 void InterfaceSystem::render(RenderTarget& target)
 {
     for (const Form::Handle& form : _forms)
