@@ -53,6 +53,8 @@ Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Fo
 
 void InterfaceSystem::render(RenderTarget& target)
 {
+    (void)target;
+
     for (const Form::Handle& form : _forms)
     {
         RenderTarget& formTarget = form->renderTarget();
