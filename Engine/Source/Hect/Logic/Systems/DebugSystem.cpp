@@ -133,6 +133,7 @@ void DebugSystem::toggleShowInterface()
 
 Mesh& DebugSystem::meshForDuration(double duration)
 {
+    (void)duration;
     return _linesMesh;
 }
 
