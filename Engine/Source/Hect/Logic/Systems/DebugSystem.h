@@ -49,12 +49,15 @@ public:
     DebugSystem(Engine& engine, Scene& scene);
 
     ///
-    /// Enqueues a line to be rendered on the next frame.
+    /// Enqueues a line to be rendered for a duration of time.
     ///
     /// \param color The color of the line.
     /// \param startPosition The world-space start position of the line.
     /// \param endPosition The world-space end position of the line.
-    void renderLine(const Color& color, const Vector3& startPosition, const Vector3& endPosition);
+    /// \param duration The duration of time in seconds that the line will be
+    /// rendered henceforth.  If zero, then it will be rendered only until the
+    /// next frame.
+    void renderLine(const Color& color, const Vector3& startPosition, const Vector3& endPosition, double duration = 0.0);
 
     ///
     /// Enqueues a wire-frame box to be rendered on the next frame.
@@ -63,7 +66,10 @@ public:
     /// \param box The box to render.
     /// \param position The world-space position of the box.
     /// \param rotation The world-space rotation of the box.
-    void renderBox(const Color& color, const Box& box, const Vector3& position, const Quaternion& rotation = Quaternion());
+    /// \param duration The duration of time in seconds that the line will be
+    /// rendered henceforth.  If zero, then it will be rendered only until the
+    /// next frame.
+    void renderBox(const Color& color, const Box& box, const Vector3& position, const Quaternion& rotation = Quaternion(), double duration = 0.0);
 
     ///
     /// Adds all enqueued debug geometery to the a scene renderer.
@@ -87,6 +93,8 @@ public:
     Material::Handle linesMaterial;
 
 private:
+    Mesh& meshForDuration(double duration);
+
     void createSystemPanel();
     void destroySystemPanel();
 

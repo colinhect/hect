@@ -50,9 +50,9 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     _linesMesh.setPrimitiveType(PrimitiveType::Lines);
 }
 
-void DebugSystem::renderLine(const Color& color, const Vector3& startPosition, const Vector3& endPosition)
+void DebugSystem::renderLine(const Color& color, const Vector3& startPosition, const Vector3& endPosition, double duration)
 {
-    MeshWriter writer(_linesMesh);
+    MeshWriter writer(meshForDuration(duration));
 
     // Start vertex
     size_t startIndex = writer.addVertex();
@@ -69,48 +69,31 @@ void DebugSystem::renderLine(const Color& color, const Vector3& startPosition, c
     writer.addIndex(endIndex);
 }
 
-void DebugSystem::renderBox(const Color& color, const Box& box, const Vector3& position, const Quaternion& rotation)
+void DebugSystem::renderBox(const Color& color, const Box& box, const Vector3& position, const Quaternion& rotation, double duration)
 {
-    static std::array<const Vector3, 8> vertices =
+    // The lines of an axis-aligned box with a width of one
+    static const std::array<std::pair<Vector3, Vector3>, 12> unitBoxLines =
     {
-        Vector3(-0.5, -0.5, -0.5),
-        Vector3(0.5, -0.5, -0.5),
-        Vector3(-0.5, 0.5, -0.5),
-        Vector3(0.5, 0.5, -0.5),
-        Vector3(-0.5, -0.5, 0.5),
-        Vector3(0.5, -0.5, 0.5),
-        Vector3(-0.5, 0.5, 0.5),
-        Vector3(0.5, 0.5, 0.5)
+        std::make_pair(Vector3(-0.5, -0.5, -0.5), Vector3(0.5, -0.5, -0.5)),
+        std::make_pair(Vector3(-0.5, 0.5, -0.5), Vector3(0.5, 0.5, -0.5)),
+        std::make_pair(Vector3(-0.5, -0.5, 0.5), Vector3(0.5, -0.5, 0.5)),
+        std::make_pair(Vector3(-0.5, 0.5, 0.5), Vector3(0.5, 0.5, 0.5)),
+        std::make_pair(Vector3(-0.5, -0.5, -0.5), Vector3(-0.5, -0.5, 0.5)),
+        std::make_pair(Vector3(0.5, -0.5, -0.5), Vector3(0.5, -0.5, 0.5)),
+        std::make_pair(Vector3(-0.5, 0.5, -0.5), Vector3(-0.5, 0.5, 0.5)),
+        std::make_pair(Vector3(0.5, 0.5, -0.5), Vector3(0.5, 0.5, 0.5)),
+        std::make_pair(Vector3(-0.5, -0.5, -0.5), Vector3(-0.5, 0.5, -0.5)),
+        std::make_pair(Vector3(0.5, -0.5, -0.5), Vector3(0.5, 0.5, -0.5)),
+        std::make_pair(Vector3(-0.5, -0.5, 0.5), Vector3(-0.5, 0.5, 0.5)),
+        std::make_pair(Vector3(0.5, -0.5, 0.5), Vector3(0.5, 0.5, 0.5))
     };
 
-    static std::array<const uint64_t, 24> indices =
+    for (auto& line : unitBoxLines)
     {
-        0, 1, 2, 3, 4, 5, 6, 7, 0, 4, 1, 5,
-        2, 6, 3, 7, 0, 2, 1, 3, 4, 6, 5, 7
-    };
-
-    MeshWriter writer(_linesMesh);
-
-    uint64_t indexOffset = 0;
-    bool indexOffsetSet = false; // Issue #195
-
-    for (const Vector3& vertex : vertices)
-    {
-        uint64_t index = writer.addVertex();
-        if (!indexOffsetSet)
-        {
-            indexOffset = index;
-            indexOffsetSet = true;
-        }
-
-        Vector3 vertexPosition = position + rotation * (vertex * box.scale());
-        writer.writeAttributeData(VertexAttributeSemantic::Position, vertexPosition);
-        writer.writeAttributeData(VertexAttributeSemantic::Color, color);
-    }
-
-    for (uint64_t index : indices)
-    {
-        writer.addIndex(indexOffset + index);
+        const Vector3& scale = box.scale();
+        const Vector3 start = position + rotation * (line.first * scale);
+        const Vector3 end = position + rotation * (line.second * scale);
+        renderLine(color, start, end, duration);
     }
 }
 
@@ -146,6 +129,11 @@ void DebugSystem::toggleShowInterface()
             createSystemPanel();
         }
     }
+}
+
+Mesh& DebugSystem::meshForDuration(double duration)
+{
+    return _linesMesh;
 }
 
 void DebugSystem::createSystemPanel()
