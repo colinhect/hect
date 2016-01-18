@@ -248,7 +248,7 @@ void Scene::encode(Encoder& encoder) const
             else
             {
                 std::string typeName = Type::of(*system).name();
-                encoder << encodeValue("type", typeName);
+                encoder << encodeValue("systemType", typeName);
             }
 
             system->encode(encoder);
@@ -356,7 +356,7 @@ void Scene::decode(Decoder& decoder)
             else
             {
                 std::string typeName;
-                decoder >> decodeValue("type", typeName, true);
+                decoder >> decodeValue("systemType", typeName, true);
                 typeId = SystemRegistry::typeIdOf(typeName);
             }
 
@@ -662,7 +662,7 @@ void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
                 const ComponentBase& component = componentPool.getBase(entity);
                 std::string typeName = Type::of(component).name();
 
-                encoder << encodeValue("type", typeName);
+                encoder << encodeValue("componentType", typeName);
                 component.encode(encoder);
 
                 encoder << endObject();
@@ -699,7 +699,7 @@ void Scene::decodeComponents(Entity& entity, Decoder& decoder)
                 decoder >> beginObject();
 
                 std::string typeName;
-                decoder >> decodeValue("type", typeName);
+                decoder >> decodeValue("componentType", typeName);
 
                 ComponentTypeId typeId = ComponentRegistry::typeIdOf(typeName);
 
