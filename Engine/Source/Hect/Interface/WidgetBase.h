@@ -47,8 +47,7 @@ class InterfaceSystem;
 /// Abstract base for Widget.
 class HECT_EXPORT WidgetBase :
     public Listener<MouseEvent>,
-    public Uncopyable,
-    public std::enable_shared_from_this<WidgetBase>
+    public Uncopyable
 {
     friend class InterfaceSystem;
     friend class Form;
