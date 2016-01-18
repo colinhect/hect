@@ -347,11 +347,6 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 
         frame.renderViewport();
     }
-
-    if (_debugSystem)
-    {
-        _debugSystem->clearPendingRenderCalls();
-    }
 }
 
 void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest)

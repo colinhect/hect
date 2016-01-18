@@ -50,6 +50,13 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     _linesMesh.setPrimitiveType(PrimitiveType::Lines);
 }
 
+void DebugSystem::tick(double timeStep)
+{
+    (void)timeStep;
+    _linesMesh.clearVertexData();
+    _linesMesh.clearIndexData();
+}
+
 void DebugSystem::renderLine(const Color& color, const Vector3& startPosition, const Vector3& endPosition, double duration)
 {
     MeshWriter writer(meshForDuration(duration));
@@ -103,12 +110,6 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
     {
         renderSystem.addRenderCall(Transform::Identity, _linesMesh, *linesMaterial);
     }
-}
-
-void DebugSystem::clearPendingRenderCalls()
-{
-    _linesMesh.clearVertexData();
-    _linesMesh.clearIndexData();
 }
 
 void DebugSystem::toggleShowInterface()

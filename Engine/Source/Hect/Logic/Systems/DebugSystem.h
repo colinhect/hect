@@ -48,6 +48,8 @@ class HECT_EXPORT DebugSystem :
 public:
     DebugSystem(Engine& engine, Scene& scene);
 
+    void tick(double timeStep) override;
+
     ///
     /// Enqueues a line to be rendered for a duration of time.
     ///
@@ -77,10 +79,6 @@ public:
     /// \param renderSystem The render system to render the debug geometry
     /// with.
     void addRenderCalls(RenderSystem& renderSystem);
-
-    ///
-    /// Clears all enqueued debug geometry.
-    void clearPendingRenderCalls();
 
     ///
     /// Toggles whether the debug interface is displayed.
