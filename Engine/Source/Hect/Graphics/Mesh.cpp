@@ -112,6 +112,17 @@ void Mesh::setVertexData(const VertexData& vertexData)
     _vertexCount = vertexData.size() / _vertexLayout.vertexSize();
 }
 
+void Mesh::clearVertexData()
+{
+    if (isUploaded())
+    {
+        renderer().destroyMesh(*this);
+    }
+
+    _vertexData.clear();
+    _vertexCount = 0;
+}
+
 size_t Mesh::vertexCount() const
 {
     return _vertexCount;
@@ -131,6 +142,17 @@ void Mesh::setIndexData(const IndexData& indexData)
 
     _indexData = indexData;
     _indexCount = indexData.size() / indexSize();
+}
+
+void Mesh::clearIndexData()
+{
+    if (isUploaded())
+    {
+        renderer().destroyMesh(*this);
+    }
+
+    _indexData.clear();
+    _indexCount = 0;
 }
 
 size_t Mesh::indexCount() const

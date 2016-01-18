@@ -122,6 +122,10 @@ public:
     void setVertexData(const VertexData& vertexData);
 
     ///
+    /// Clears all vertex data.
+    void clearVertexData();
+
+    ///
     /// Returns the number of vertices.
     size_t vertexCount() const;
 
@@ -138,6 +142,10 @@ public:
     /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the index data is set.
     void setIndexData(const IndexData& indexData);
+
+    ///
+    /// Clears all index data.
+    void clearIndexData();
 
     ///
     /// Returns the number of indices.

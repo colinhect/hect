@@ -58,6 +58,10 @@ class HECT_EXPORT Transform :
 public:
 
     ///
+    /// An identity transform.
+    static const Transform Identity;
+
+    ///
     /// Indicates if and when the transform's position, orientation, or
     /// rotation can change.
     ///

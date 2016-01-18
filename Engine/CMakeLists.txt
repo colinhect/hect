@@ -265,6 +265,7 @@ set(SOURCE_FILES
     "Source/Hect/Logic/Components/Model.h"
     "Source/Hect/Logic/Components/RigidBody.h"
     "Source/Hect/Logic/Components/SkyBox.h"
+    "Source/Hect/Logic/Components/Transform.cpp"
     "Source/Hect/Logic/Components/Transform.h"
     "Source/Hect/Logic/Systems/BoundingBoxSystem.cpp"
     "Source/Hect/Logic/Systems/BoundingBoxSystem.h"
@@ -615,6 +616,7 @@ source_group("Source\\Hect\\Logic\\Components" FILES
     "Source/Hect/Logic/Components/Model.h"
     "Source/Hect/Logic/Components/RigidBody.h"
     "Source/Hect/Logic/Components/SkyBox.h"
+    "Source/Hect/Logic/Components/Transform.cpp"
     "Source/Hect/Logic/Components/Transform.h"
     )
     

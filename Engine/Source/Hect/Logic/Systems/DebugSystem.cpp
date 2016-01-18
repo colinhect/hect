@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DebugSystem.h"
 
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Interface/Widgets/CheckBox.h"
 #include "Hect/Interface/Widgets/Grid.h"
 #include "Hect/Interface/Widgets/Label.h"
@@ -35,21 +37,95 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     System(engine, scene, SystemTickStage::Precedent),
     _renderer(engine.renderer()),
     _window(engine.window()),
-    _interfaceSystem(scene.system<InterfaceSystem>())
+    _interfaceSystem(scene.system<InterfaceSystem>()),
+    _linesMesh("DebugLines")
 {
+    VertexLayout vertexLayout;
+    VertexAttribute positionAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
+    vertexLayout.addAttribute(positionAttribute);
+    VertexAttribute colorAttribute(VertexAttributeSemantic::Color, VertexAttributeType::Float32, 4);
+    vertexLayout.addAttribute(colorAttribute);
+
+    _linesMesh.setVertexLayout(vertexLayout);
+    _linesMesh.setPrimitiveType(PrimitiveType::Lines);
 }
 
-void DebugSystem::renderBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation)
+void DebugSystem::renderLine(const Color& color, const Vector3& startPosition, const Vector3& endPosition)
 {
-    _boxes.emplace_back(box, position, rotation, color);
+    MeshWriter writer(_linesMesh);
+
+    // Start vertex
+    size_t startIndex = writer.addVertex();
+    writer.writeAttributeData(VertexAttributeSemantic::Position, startPosition);
+    writer.writeAttributeData(VertexAttributeSemantic::Color, color);
+
+    // End vertex
+    size_t endIndex = writer.addVertex();
+    writer.writeAttributeData(VertexAttributeSemantic::Position, endPosition);
+    writer.writeAttributeData(VertexAttributeSemantic::Color, color);
+
+    // Add indices
+    writer.addIndex(startIndex);
+    writer.addIndex(endIndex);
+}
+
+void DebugSystem::renderBox(const Color& color, const Box& box, const Vector3& position, const Quaternion& rotation)
+{
+    static std::array<const Vector3, 8> vertices =
+    {
+        Vector3(-0.5, -0.5, -0.5),
+        Vector3(0.5, -0.5, -0.5),
+        Vector3(-0.5, 0.5, -0.5),
+        Vector3(0.5, 0.5, -0.5),
+        Vector3(-0.5, -0.5, 0.5),
+        Vector3(0.5, -0.5, 0.5),
+        Vector3(-0.5, 0.5, 0.5),
+        Vector3(0.5, 0.5, 0.5)
+    };
+
+    static std::array<const uint64_t, 24> indices =
+    {
+        0, 1, 2, 3, 4, 5, 6, 7, 0, 4, 1, 5,
+        2, 6, 3, 7, 0, 2, 1, 3, 4, 6, 5, 7
+    };
+
+    MeshWriter writer(_linesMesh);
+
+    uint64_t indexOffset = 0;
+    bool indexOffsetSet = false; // Issue #195
+
+    for (const Vector3& vertex : vertices)
+    {
+        uint64_t index = writer.addVertex();
+        if (!indexOffsetSet)
+        {
+            indexOffset = index;
+            indexOffsetSet = true;
+        }
+
+        Vector3 vertexPosition = position + rotation * (vertex * box.scale());
+        writer.writeAttributeData(VertexAttributeSemantic::Position, vertexPosition);
+        writer.writeAttributeData(VertexAttributeSemantic::Color, color);
+    }
+
+    for (uint64_t index : indices)
+    {
+        writer.addIndex(indexOffset + index);
+    }
 }
 
 void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
 {
-    for (DebugBox& box : _boxes)
+    if (!_linesMesh.vertexData().empty())
     {
-        renderSystem.addRenderCall(box.transform, *boxMesh, _coloredMaterials[static_cast<size_t>(box.color)]);
+        renderSystem.addRenderCall(Transform::Identity, _linesMesh, *linesMaterial);
     }
+}
+
+void DebugSystem::clearPendingRenderCalls()
+{
+    _linesMesh.clearVertexData();
+    _linesMesh.clearIndexData();
 }
 
 void DebugSystem::toggleShowInterface()
@@ -70,44 +146,6 @@ void DebugSystem::toggleShowInterface()
             createSystemPanel();
         }
     }
-}
-
-void DebugSystem::initialize()
-{
-    addColoredMaterial(Color(100, 0, 0)); // Primary
-    addColoredMaterial(Color(0, 100, 0)); // Secondary
-    addColoredMaterial(Color(0, 0, 100)); // Tertiary
-
-    _renderer.uploadShader(*coloredLineShader);
-    _renderer.uploadMesh(*boxMesh);
-}
-
-void DebugSystem::tick(double timeStep)
-{
-    (void)timeStep;
-    _boxes.clear();
-}
-
-DebugSystem::DebugBox::DebugBox()
-{
-}
-
-DebugSystem::DebugBox::DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, DebugColor color) :
-    box(box),
-    color(color)
-{
-    transform.globalPosition = position;
-    transform.globalScale = box.scale();
-    transform.globalRotation = rotation;
-}
-
-void DebugSystem::addColoredMaterial(const Color& color)
-{
-    Material material;
-    material.setShader(coloredLineShader);
-    material.setUniformValue("color", color);
-
-    _coloredMaterials.push_back(material);
 }
 
 void DebugSystem::createSystemPanel()

@@ -43,7 +43,7 @@ RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void RenderSystem::addRenderCall(Transform& transform, Mesh& mesh, Material& material)
+void RenderSystem::addRenderCall(const Transform& transform, Mesh& mesh, Material& material)
 {
     const Shader::Handle& shader = material.shader();
     if (shader)
@@ -296,7 +296,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         if (_frameData.lightProbeTexture)
         {
             frame.setShader(*environmentShader);
-            setBoundUniforms(frame, *environmentShader, camera, target, _identityTransform);
+            setBoundUniforms(frame, *environmentShader, camera, target, Transform::Identity);
             frame.renderViewport();
         }
 
@@ -306,7 +306,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         {
             _frameData.primaryLightDirection = light->direction;
             _frameData.primaryLightColor = light->color;
-            setBoundUniforms(frame, *directionalLightShader, camera, target, _identityTransform);
+            setBoundUniforms(frame, *directionalLightShader, camera, target, Transform::Identity);
             frame.renderViewport();
         }
     }
@@ -320,7 +320,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 
         // Composite
         frame.setShader(*compositeShader);
-        setBoundUniforms(frame, *compositeShader, camera, target, _identityTransform);
+        setBoundUniforms(frame, *compositeShader, camera, target, Transform::Identity);
         frame.renderViewport();
 
         // Render translucent geometry
@@ -343,9 +343,14 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         Renderer::Frame frame = _renderer.beginFrame(target);
         frame.clear(camera.clearColor);
         frame.setShader(*exposeShader);
-        setBoundUniforms(frame, *exposeShader, camera, target, _identityTransform);
+        setBoundUniforms(frame, *exposeShader, camera, target, Transform::Identity);
 
         frame.renderViewport();
+    }
+
+    if (_debugSystem)
+    {
+        _debugSystem->clearPendingRenderCalls();
     }
 }
 
@@ -407,7 +412,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
                 }
                 else
                 {
-                    addRenderCall(_identityTransform, mesh, material);
+                    addRenderCall(Transform::Identity, mesh, material);
                 }
             }
         }
@@ -565,7 +570,7 @@ RenderSystem::RenderCall::RenderCall()
 {
 }
 
-RenderSystem::RenderCall::RenderCall(Transform& transform, Mesh& mesh, Material& material) :
+RenderSystem::RenderCall::RenderCall(const Transform& transform, Mesh& mesh, Material& material) :
     transform(&transform),
     mesh(&mesh),
     material(&material)

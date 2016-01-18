@@ -52,7 +52,7 @@ void BoundingBoxSystem::debugTick(double timeStep)
         {
             AxisAlignedBox axisAlignedBox = boundingBox.extents;
             Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
-            _debugSystem->renderBox(DebugColor::Primary, box, axisAlignedBox.center());
+            _debugSystem->renderBox(Color::Green, box, axisAlignedBox.center());
         }
     }
 }

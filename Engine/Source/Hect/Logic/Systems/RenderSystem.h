@@ -59,7 +59,7 @@ public:
     /// \param transform The world-space transform.
     /// \param mesh The mesh to render.
     /// \param material The material to use.
-    void addRenderCall(Transform& transform, Mesh& mesh, Material& material);
+    void addRenderCall(const Transform& transform, Mesh& mesh, Material& material);
 
     ///
     /// Renders the scene to a texture cube at the specified location.
@@ -124,9 +124,12 @@ private:
     {
     public:
         RenderCall();
-        RenderCall(Transform& transform, Mesh& mesh, Material& material);
+        RenderCall(const Transform& transform, Mesh& mesh, Material& material);
 
-        Transform* transform { nullptr };
+        const Transform* transform
+        {
+            nullptr
+        };
         Mesh* mesh { nullptr };
         Material* material { nullptr };
 
@@ -163,8 +166,6 @@ private:
     DebugSystem::Handle _debugSystem;
 
     Material::Handle _skyBoxMaterial;
-
-    Transform _identityTransform;
 };
 
 }

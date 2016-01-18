@@ -39,24 +39,6 @@ namespace hect
 class RenderSystem;
 
 ///
-/// A preset color for debug geometry.
-enum class DebugColor
-{
-
-    ///
-    /// The primary debug color.
-    Primary,
-
-    ///
-    /// The secondary debug color.
-    Secondary,
-
-    ///
-    /// The tertiary debug color.
-    Tertiary
-};
-
-///
 /// Provides debug functionality.
 ///
 /// \system
@@ -67,13 +49,21 @@ public:
     DebugSystem(Engine& engine, Scene& scene);
 
     ///
+    /// Enqueues a line to be rendered on the next frame.
+    ///
+    /// \param color The color of the line.
+    /// \param startPosition The world-space start position of the line.
+    /// \param endPosition The world-space end position of the line.
+    void renderLine(const Color& color, const Vector3& startPosition, const Vector3& endPosition);
+
+    ///
     /// Enqueues a wire-frame box to be rendered on the next frame.
     ///
     /// \param color The color of the lines of the box.
     /// \param box The box to render.
     /// \param position The world-space position of the box.
     /// \param rotation The world-space rotation of the box.
-    void renderBox(DebugColor color, const Box& box, const Vector3& position, const Quaternion& rotation = Quaternion());
+    void renderBox(const Color& color, const Box& box, const Vector3& position, const Quaternion& rotation = Quaternion());
 
     ///
     /// Adds all enqueued debug geometery to the a scene renderer.
@@ -83,40 +73,22 @@ public:
     void addRenderCalls(RenderSystem& renderSystem);
 
     ///
+    /// Clears all enqueued debug geometry.
+    void clearPendingRenderCalls();
+
+    ///
     /// Toggles whether the debug interface is displayed.
     void toggleShowInterface();
 
-    void initialize() override;
-    void tick(double timeStep) override;
-
     ///
-    /// The shader used to render colored lines.
+    /// Thee material used to render lines.
     ///
-    /// \property{required}
-    Shader::Handle coloredLineShader;
-
-    ///
-    /// The mesh used to render bounding boxes.
-    ///
-    /// \property{required}
-    Mesh::Handle boxMesh;
+    /// \property
+    Material::Handle linesMaterial;
 
 private:
-    void addColoredMaterial(const Color& color);
-
     void createSystemPanel();
     void destroySystemPanel();
-
-    class DebugBox
-    {
-    public:
-        DebugBox();
-        DebugBox(const Box& box, const Vector3& position, const Quaternion& rotation, DebugColor color);
-
-        Box box;
-        Transform transform;
-        DebugColor color { DebugColor::Primary };
-    };
 
     Renderer& _renderer;
     Window& _window;
@@ -125,8 +97,7 @@ private:
     Form::Handle _form;
     Panel::Handle _systemPanel;
 
-    std::vector<DebugBox> _boxes;
-    std::vector<Material> _coloredMaterials;
+    Mesh _linesMesh;
 };
 
 }

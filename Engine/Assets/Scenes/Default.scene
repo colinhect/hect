@@ -26,8 +26,7 @@ systems:
     skyBoxShader: Hect/Shaders/SkyBox.shader
     skyBoxMesh: Hect/Rendering/SkyBox.mesh
   - systemType: DebugSystem
-    coloredLineShader: Hect/Shaders/ColoredLine.shader
-    boxMesh: Hect/Rendering/Box.mesh
+    linesMaterial: Hect/Materials/DebugLines.material
   - systemType: InterfaceSystem
     defaultFont: Hect/Interface/Vera.font
     defaultFontSize: 13
