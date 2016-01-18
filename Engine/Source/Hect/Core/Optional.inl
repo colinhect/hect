@@ -106,7 +106,7 @@ const T* Optional<T>::operator->() const
 }
 
 template <typename T>
-typename Optional<T>& Optional<T>::operator=(const T& value)
+Optional<T>& Optional<T>::operator=(const T& value)
 {
     _hasValue = true;
     _value = value;
@@ -114,7 +114,7 @@ typename Optional<T>& Optional<T>::operator=(const T& value)
 }
 
 template <typename T>
-typename Optional<T>& Optional<T>::operator=(T&& value)
+Optional<T>& Optional<T>::operator=(T&& value)
 {
     _hasValue = true;
     _value = std::move(value);
@@ -122,7 +122,7 @@ typename Optional<T>& Optional<T>::operator=(T&& value)
 }
 
 template <typename T>
-typename Optional<T>& Optional<T>::operator=(const Optional<T>& optional)
+Optional<T>& Optional<T>::operator=(const Optional<T>& optional)
 {
     _hasValue = optional._hasValue;
     if (_hasValue)
@@ -133,7 +133,7 @@ typename Optional<T>& Optional<T>::operator=(const Optional<T>& optional)
 }
 
 template <typename T>
-typename Optional<T>& Optional<T>::operator=(Optional<T>&& optional)
+Optional<T>& Optional<T>::operator=(Optional<T>&& optional)
 {
     _hasValue = optional._hasValue;
     if (_hasValue)
