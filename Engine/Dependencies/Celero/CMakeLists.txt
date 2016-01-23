@@ -9,7 +9,7 @@ endif()
 add_definitions(-DCELERO_STATIC)
 
 include_directories(
-    "${PROJECT_SOURCE_DIR}/Include"
+    "${PROJECT_SOURCE_DIR}/include"
     )
 
 add_library(Celero STATIC
