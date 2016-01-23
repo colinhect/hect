@@ -23,6 +23,7 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/Engine")
 
 # Add Hect dependencies
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Bullet")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Celero")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/ENet")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/LibYaml")
@@ -31,8 +32,9 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/NanoVG")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS")
 
 # Add Hect tests
-add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/UnitTests")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/PerformanceTests")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/SystemTests")
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/UnitTests")
 
 # Add Hect projects
 macro(subdirectory_list result curdir)
