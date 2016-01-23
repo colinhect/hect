@@ -73,56 +73,6 @@ Entity::ConstIterator EntityPool::end() const
     return Entity::ConstIterator(*this, std::max(maxId(), (EntityId)1));
 }
 
-Entity::Iterator EntityPool::findFirst(Entity::Predicate predicate)
-{
-    for (auto iterator = begin(); iterator != end(); ++iterator)
-    {
-        if (predicate(*iterator))
-        {
-            return iterator;
-        }
-    }
-    return end();
-}
-
-Entity::ConstIterator EntityPool::findFirst(Entity::Predicate predicate) const
-{
-    for (auto iterator = begin(); iterator != end(); ++iterator)
-    {
-        if (predicate(*iterator))
-        {
-            return iterator;
-        }
-    }
-    return end();
-}
-
-std::vector<Entity::Iterator> EntityPool::find(Entity::Predicate predicate)
-{
-    std::vector<Entity::Iterator> results;
-    for (auto iterator = begin(); iterator != end(); ++iterator)
-    {
-        if (predicate(*iterator))
-        {
-            results.push_back(iterator);
-        }
-    }
-    return results;
-}
-
-std::vector<Entity::ConstIterator> EntityPool::find(Entity::Predicate predicate) const
-{
-    std::vector<Entity::ConstIterator> results;
-    for (auto iterator = begin(); iterator != end(); ++iterator)
-    {
-        if (predicate(*iterator))
-        {
-            results.push_back(iterator);
-        }
-    }
-    return results;
-}
-
 Entity& EntityPool::withId(EntityId id)
 {
     const Entity& entity = const_cast<const EntityPool*>(this)->withId(id);

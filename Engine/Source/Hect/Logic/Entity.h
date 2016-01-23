@@ -54,13 +54,7 @@ class HECT_EXPORT Entity :
     friend class EntityChildren;
     friend class EntityChildIteratorBase;
     friend class EntityPool;
-private:
-
 public:
-
-    ///
-    /// A predicate for a Entity search or filter.
-    typedef std::function<bool(const Entity&)> Predicate;
 
     ///
     /// \copydoc hect::EntityIterator
@@ -123,7 +117,7 @@ public:
     ///
     /// Returns whether the Entity has a Component of a specific type.
     template <typename T>
-    bool hasComponent();
+    bool hasComponent() const;
 
     ///
     /// Returns an iterator to the Component of a specific type for the Entity.
@@ -264,14 +258,8 @@ public:
     const Entity::Children& children() const;
 
     ///
-    /// Returns an iterator to the first child entity matching the given
-    /// predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns An iterator to the first matching entity; invalid if there
-    /// was no matching entity.
-    Entity::Iterator findFirstChild(Predicate predicate);
+    /// Returns whether the entity has any children.
+    bool hasChildren() const;
 
     ///
     /// Returns an iterator to the first child entity matching the given
@@ -281,7 +269,19 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::ConstIterator findFirstChild(Predicate predicate) const;
+    template <typename T>
+    Entity::Iterator findFirstChild(T&& predicate);
+
+    ///
+    /// Returns an iterator to the first child entity matching the given
+    /// predicate.
+    ///
+    /// \param predicate The predicate to use in the search.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    template <typename T>
+    Entity::ConstIterator findFirstChild(T&& predicate) const;
 
     ///
     /// Returns an iterator to the first descendant entity matching the given
@@ -291,7 +291,8 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Iterator findFirstDescendant(Predicate predicate);
+    template <typename T>
+    Entity::Iterator findFirstDescendant(T&& predicate);
 
     ///
     /// Returns an iterator to the first descendant entity matching the given
@@ -301,7 +302,8 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::ConstIterator findFirstDescendant(Predicate predicate) const;
+    template <typename T>
+    Entity::ConstIterator findFirstDescendant(T&& predicate) const;
 
     ///
     /// Returns an iterator to the first ancestor entity matching the given
@@ -311,7 +313,8 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Iterator findFirstAncestor(Predicate predicate);
+    template <typename T>
+    Entity::Iterator findFirstAncestor(T&& predicate);
 
     ///
     /// Returns an iterator to the first ancestor entity matching the given
@@ -321,7 +324,8 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::ConstIterator findFirstAncestor(Predicate predicate) const;
+    template <typename T>
+    Entity::ConstIterator findFirstAncestor(T&& predicate) const;
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
@@ -329,7 +333,8 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    std::vector<Entity::Iterator> findChildren(Predicate predicate);
+    template <typename T>
+    std::vector<Entity::Iterator> findChildren(T&& predicate);
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
@@ -337,7 +342,8 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    std::vector<Entity::ConstIterator> findChildren(Predicate predicate) const;
+    template <typename T>
+    std::vector<Entity::ConstIterator> findChildren(T&& predicate) const;
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -346,7 +352,8 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    std::vector<Entity::Iterator> findDescendants(Predicate predicate);
+    template <typename T>
+    std::vector<Entity::Iterator> findDescendants(T&& predicate);
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -355,7 +362,8 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    std::vector<Entity::ConstIterator> findDescendants(Predicate predicate) const;
+    template <typename T>
+    std::vector<Entity::ConstIterator> findDescendants(T&& predicate) const;
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -364,7 +372,8 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    std::vector<Entity::Iterator> findAncestors(Predicate predicate);
+    template <typename T>
+    std::vector<Entity::Iterator> findAncestors(T&& predicate);
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -373,7 +382,8 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    std::vector<Entity::ConstIterator> findAncestors(Predicate predicate) const;
+    template <typename T>
+    std::vector<Entity::ConstIterator> findAncestors(T&& predicate) const;
 
     Entity& operator=(const Entity& entity);
     Entity& operator=(Entity&& entity);

@@ -77,7 +77,8 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Iterator findFirst(Entity::Predicate predicate);
+    template <typename T>
+    Entity::Iterator findFirst(T&& predicate);
 
     ///
     /// Returns an iterator to the first Entity matching the given
@@ -87,7 +88,8 @@ public:
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::ConstIterator findFirst(Entity::Predicate predicate) const;
+    template <typename T>
+    Entity::ConstIterator findFirst(T&& predicate) const;
 
     ///
     /// Returns iterators to all \link Entity Entities \endlink matching the
@@ -96,7 +98,8 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    std::vector<Entity::Iterator> find(Entity::Predicate predicate);
+    template <typename T>
+    std::vector<Entity::Iterator> find(T&& predicate);
 
     ///
     /// Returns iterators to all \link Entity Entities \endlink matching the
@@ -105,7 +108,8 @@ public:
     /// \param predicate The predicate to use in the search.
     ///
     /// \returns A vector of iterators to the matching entities.
-    std::vector<Entity::ConstIterator> find(Entity::Predicate predicate) const;
+    template <typename T>
+    std::vector<Entity::ConstIterator> find(T&& predicate) const;
 
     ///
     /// Returns the Entity with the given id.
@@ -142,3 +146,5 @@ private:
 };
 
 }
+
+#include "EntityPool.inl"

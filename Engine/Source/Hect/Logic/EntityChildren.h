@@ -58,6 +58,10 @@ public:
     ///
     /// Returns an iterator to the end of the children.
     ConstIterator end() const;
+
+    ///
+    /// Returns the number of child entities.
+    size_t count() const;
 };
 
 }

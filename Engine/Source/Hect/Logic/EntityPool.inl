@@ -21,40 +21,61 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "EntityChildren.h"
-
-#include <cstddef>
-
-#include "Hect/Logic/Entity.h"
-
-using namespace hect;
-
-EntityChildren::Iterator EntityChildren::begin()
+namespace hect
 {
-    Entity* entity = reinterpret_cast<Entity*>(this);
-    return EntityChildren::Iterator(*entity->_pool, entity->_id, 0);
+
+template <typename T>
+Entity::Iterator EntityPool::findFirst(T&& predicate)
+{
+    for (auto iterator = begin(); iterator != end(); ++iterator)
+    {
+        if (predicate(*iterator))
+        {
+            return iterator;
+        }
+    }
+    return end();
 }
 
-EntityChildren::ConstIterator EntityChildren::begin() const
+template <typename T>
+Entity::ConstIterator EntityPool::findFirst(T&& predicate) const
 {
-    const Entity* entity = reinterpret_cast<const Entity*>(this);
-    return EntityChildren::ConstIterator(*entity->_pool, entity->_id, 0);
+    for (auto iterator = begin(); iterator != end(); ++iterator)
+    {
+        if (predicate(*iterator))
+        {
+            return iterator;
+        }
+    }
+    return end();
 }
 
-EntityChildren::Iterator EntityChildren::end()
+template <typename T>
+std::vector<Entity::Iterator> EntityPool::find(T&& predicate)
 {
-    Entity* entity = reinterpret_cast<Entity*>(this);
-    return EntityChildren::Iterator(*entity->_pool, entity->_id, entity->_childIds.size());
+    std::vector<Entity::Iterator> results;
+    for (auto iterator = begin(); iterator != end(); ++iterator)
+    {
+        if (predicate(*iterator))
+        {
+            results.push_back(iterator);
+        }
+    }
+    return results;
 }
 
-EntityChildren::ConstIterator EntityChildren::end() const
+template <typename T>
+std::vector<Entity::ConstIterator> EntityPool::find(T&& predicate) const
 {
-    const Entity* entity = reinterpret_cast<const Entity*>(this);
-    return EntityChildren::ConstIterator(*entity->_pool, entity->_id, entity->_childIds.size());
+    std::vector<Entity::ConstIterator> results;
+    for (auto iterator = begin(); iterator != end(); ++iterator)
+    {
+        if (predicate(*iterator))
+        {
+            results.push_back(iterator);
+        }
+    }
+    return results;
 }
 
-size_t EntityChildren::count() const
-{
-    const Entity* entity = reinterpret_cast<const Entity*>(this);
-    return entity->_childIds.size();
 }
