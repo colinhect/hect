@@ -1384,7 +1384,7 @@ TEST_CASE("Find first child entity", "[Scene]")
     REQUIRE(!iterator);
 }
 
-TEST_CASE("Find children entity", "[Scene]")
+TEST_CASE("Find children entities", "[Scene]")
 {
     Scene scene(Engine::instance());
     scene.addComponentType<TestA>();
@@ -1428,6 +1428,39 @@ TEST_CASE("Find children entity", "[Scene]")
         return entity.component<TestA>()->value == "D";
     });
     REQUIRE(iters.size() == 0);
+}
+
+TEST_CASE("Iterate over children entities", "[Scene]")
+{
+    Scene scene(Engine::instance());
+    scene.addComponentType<TestA>();
+
+    Entity::Iterator a = scene.createEntity();
+
+    Entity::Iterator b = scene.createEntity();
+    b->addComponent<TestA>("B");
+    a->addChild(*b);
+
+    Entity::Iterator c = scene.createEntity();
+    c->addComponent<TestA>("C");
+    a->addChild(*c);
+
+    Entity::Iterator d = scene.createEntity();
+    d->addComponent<TestA>("D");
+    c->addChild(*d);
+
+    a->activate();
+
+    scene.refresh();
+
+    std::vector<Entity::Iterator> iters;
+    a->forChildren([&](Entity& entity)
+    {
+        iters.emplace_back(entity.iterator());
+    });
+    REQUIRE(iters.size() == 2);
+    REQUIRE(iters[0] == b);
+    REQUIRE(iters[1] == c);
 }
 
 TEST_CASE("Find first descendant entity", "[Scene]")
@@ -1538,6 +1571,40 @@ TEST_CASE("Find descendant entities", "[Scene]")
     REQUIRE(iters[2] == d);
 }
 
+TEST_CASE("Iterate over descendant entities", "[Scene]")
+{
+    Scene scene(Engine::instance());
+    scene.addComponentType<TestA>();
+
+    Entity::Iterator a = scene.createEntity();
+
+    Entity::Iterator b = scene.createEntity();
+    b->addComponent<TestA>("B");
+    a->addChild(*b);
+
+    Entity::Iterator c = scene.createEntity();
+    c->addComponent<TestA>("C");
+    a->addChild(*c);
+
+    Entity::Iterator d = scene.createEntity();
+    d->addComponent<TestA>("D");
+    c->addChild(*d);
+
+    a->activate();
+
+    scene.refresh();
+
+    std::vector<Entity::Iterator> iters;
+    a->forDescendants([&](Entity& entity)
+    {
+        iters.emplace_back(entity.iterator());
+    });
+    REQUIRE(iters.size() == 3);
+    REQUIRE(iters[0] == b);
+    REQUIRE(iters[1] == c);
+    REQUIRE(iters[2] == d);
+}
+
 TEST_CASE("Find first ancestor entity", "[Scene]")
 {
     Scene scene(Engine::instance());
@@ -1628,6 +1695,40 @@ TEST_CASE("Find ancestor entities", "[Scene]")
         return entity.component<TestA>()->value == "E";
     });
     REQUIRE(iters.size() == 0);
+}
+
+TEST_CASE("Iterate over ancestor entities", "[Scene]")
+{
+    Scene scene(Engine::instance());
+    scene.addComponentType<TestA>();
+
+    Entity::Iterator a = scene.createEntity();
+    a->addComponent<TestA>("A");
+
+    Entity::Iterator b = scene.createEntity();
+    b->addComponent<TestA>("B");
+    a->addChild(*b);
+
+    Entity::Iterator c = scene.createEntity();
+    c->addComponent<TestA>("C");
+    a->addChild(*c);
+
+    Entity::Iterator d = scene.createEntity();
+    d->addComponent<TestA>("D");
+    c->addChild(*d);
+
+    a->activate();
+
+    scene.refresh();
+
+    std::vector<Entity::Iterator> iters;
+    d->forAncestors([&](Entity& entity)
+    {
+        iters.emplace_back(entity.iterator());
+    });
+    REQUIRE(iters.size() == 2);
+    REQUIRE(iters[0] == c);
+    REQUIRE(iters[1] == a);
 }
 
 TEST_CASE("Create an entity handle", "[Scene]")

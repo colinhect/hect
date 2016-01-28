@@ -157,16 +157,16 @@ Entity::ConstIterator Entity::findFirstDescendant(T&& predicate) const
 template <typename T>
 Entity::Iterator Entity::findFirstAncestor(T&& predicate)
 {
-    Entity::Iterator parentIter = parent();
-    if (parentIter)
+    Entity::Iterator iterator = parent();
+    if (iterator)
     {
-        if (predicate(*parentIter))
+        if (predicate(*iterator))
         {
-            return parentIter;
+            return iterator;
         }
         else
         {
-            return parentIter->findFirstAncestor(predicate);
+            return iterator->findFirstAncestor(predicate);
         }
     }
 
@@ -176,16 +176,16 @@ Entity::Iterator Entity::findFirstAncestor(T&& predicate)
 template <typename T>
 Entity::ConstIterator Entity::findFirstAncestor(T&& predicate) const
 {
-    Entity::ConstIterator parentIter = parent();
-    if (parentIter)
+    Entity::ConstIterator iterator = parent();
+    if (iterator)
     {
-        if (predicate(*parentIter))
+        if (predicate(*iterator))
         {
-            return parentIter;
+            return iterator;
         }
         else
         {
-            return parentIter->findFirstAncestor(predicate);
+            return iterator->findFirstAncestor(predicate);
         }
     }
 
@@ -237,21 +237,13 @@ std::vector<Entity::Iterator> Entity::findDescendants(T&& predicate)
 
     if (hasChildren())
     {
-        for (Entity& child : children())
+        forDescendants([&](Entity& entity)
         {
-            if (predicate(child))
+            if (predicate(entity))
             {
-                results.emplace_back(child.iterator());
+                results.emplace_back(entity.iterator());
             }
-
-            if (child.hasChildren())
-            {
-                for (Entity::Iterator descendant : child.findDescendants(predicate))
-                {
-                    results.emplace_back(descendant);
-                }
-            }
-        }
+        });
     }
 
     return results;
@@ -264,21 +256,13 @@ std::vector<Entity::ConstIterator> Entity::findDescendants(T&& predicate) const
 
     if (hasChildren())
     {
-        for (const Entity& child : children())
+        forDescendants([&](const Entity& entity)
         {
-            if (predicate(child))
+            if (predicate(entity))
             {
-                results.emplace_back(child.iterator());
+                results.emplace_back(entity.iterator());
             }
-
-            if (child.hasChildren())
-            {
-                for (Entity::ConstIterator descendant : child.findDescendants(predicate))
-                {
-                    results.emplace_back(descendant);
-                }
-            }
-        }
+        });
     }
 
     return results;
@@ -288,6 +272,7 @@ template <typename T>
 std::vector<Entity::Iterator> Entity::findAncestors(T&& predicate)
 {
     std::vector<Entity::Iterator> results;
+
     Entity::Iterator iterator = parent();
     while (iterator)
     {
@@ -295,8 +280,10 @@ std::vector<Entity::Iterator> Entity::findAncestors(T&& predicate)
         {
             results.push_back(iterator);
         }
+
         iterator = iterator->parent();
     }
+
     return results;
 }
 
@@ -304,6 +291,7 @@ template <typename T>
 std::vector<Entity::ConstIterator> Entity::findAncestors(T&& predicate) const
 {
     std::vector<Entity::ConstIterator> results;
+
     Entity::ConstIterator iterator = parent();
     while (iterator)
     {
@@ -311,9 +299,91 @@ std::vector<Entity::ConstIterator> Entity::findAncestors(T&& predicate) const
         {
             results.push_back(iterator);
         }
+
         iterator = iterator->parent();
     }
+
     return results;
+}
+
+template <typename T>
+void Entity::forChildren(T&& action)
+{
+    if (hasChildren())
+    {
+        for (Entity& child : children())
+        {
+            action(child);
+        }
+    }
+}
+
+template <typename T>
+void Entity::forChildren(T&& action) const
+{
+    if (hasChildren())
+    {
+        for (const Entity& child : children())
+        {
+            action(child);
+        }
+    }
+}
+
+template <typename T>
+void Entity::forDescendants(T&& action)
+{
+    if (hasChildren())
+    {
+        for (Entity& child : children())
+        {
+            action(child);
+
+            if (child.hasChildren())
+            {
+                child.forDescendants(action);
+            }
+        }
+    }
+}
+
+template <typename T>
+void Entity::forDescendants(T&& action) const
+{
+    if (hasChildren())
+    {
+        for (const Entity& child : children())
+        {
+            action(child);
+
+            if (child.hasChildren())
+            {
+                child.forDescendants(action);
+            }
+        }
+    }
+}
+
+template <typename T>
+void Entity::forAncestors(T&& action)
+{
+    Entity::Iterator iterator = parent();
+    while (iterator)
+    {
+        action(*iterator);
+        iterator = iterator->parent();
+    }
+}
+
+template <typename T>
+void Entity::forAncestors(T&& action) const
+{
+    Entity::ConstIterator iterator = parent();
+    while (iterator)
+    {
+        action(*iterator);
+        iterator = iterator->parent();
+    }
 }
 
 }

@@ -265,7 +265,9 @@ public:
     /// Returns an iterator to the first child entity matching the given
     /// predicate.
     ///
-    /// \param predicate The predicate to use in the search.
+    /// \param predicate The predicate to use in the search; must be callable
+    /// as a function accepting a reference to an Entity, returning whether
+    /// the entity matches the predicate.
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
@@ -273,13 +275,7 @@ public:
     Entity::Iterator findFirstChild(T&& predicate);
 
     ///
-    /// Returns an iterator to the first child entity matching the given
-    /// predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns An iterator to the first matching entity; invalid if there
-    /// was no matching entity.
+    /// \copydoc Entity::findFirstChild()
     template <typename T>
     Entity::ConstIterator findFirstChild(T&& predicate) const;
 
@@ -287,7 +283,9 @@ public:
     /// Returns an iterator to the first descendant entity matching the given
     /// predicate.
     ///
-    /// \param predicate The predicate to use in the search.
+    /// \param predicate The predicate to use in the search; must be callable
+    /// as a function accepting a reference to an Entity, returning whether
+    /// the entity matches the predicate.
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
@@ -295,13 +293,7 @@ public:
     Entity::Iterator findFirstDescendant(T&& predicate);
 
     ///
-    /// Returns an iterator to the first descendant entity matching the given
-    /// predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns An iterator to the first matching entity; invalid if there
-    /// was no matching entity.
+    /// \copydoc Entity::findFirstDescendant()
     template <typename T>
     Entity::ConstIterator findFirstDescendant(T&& predicate) const;
 
@@ -309,7 +301,9 @@ public:
     /// Returns an iterator to the first ancestor entity matching the given
     /// predicate.
     ///
-    /// \param predicate The predicate to use in the search.
+    /// \param predicate The predicate to use in the search; must be callable
+    /// as a function accepting a reference to an Entity, returning whether
+    /// the entity matches the predicate.
     ///
     /// \returns An iterator to the first matching entity; invalid if there
     /// was no matching entity.
@@ -317,31 +311,23 @@ public:
     Entity::Iterator findFirstAncestor(T&& predicate);
 
     ///
-    /// Returns an iterator to the first ancestor entity matching the given
-    /// predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns An iterator to the first matching entity; invalid if there
-    /// was no matching entity.
+    /// \copydoc Entity::findFirstAncestor()
     template <typename T>
     Entity::ConstIterator findFirstAncestor(T&& predicate) const;
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
     ///
-    /// \param predicate The predicate to use in the search.
+    /// \param predicate The predicate to use in the search; must be callable
+    /// as a function accepting a reference to an Entity, returning whether
+    /// the entity matches the predicate.
     ///
     /// \returns A vector of iterators to the matching entities.
     template <typename T>
     std::vector<Entity::Iterator> findChildren(T&& predicate);
 
     ///
-    /// Returns iterators to all child entities matching the given predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns A vector of iterators to the matching entities.
+    /// \copydoc Entity::findChildren()
     template <typename T>
     std::vector<Entity::ConstIterator> findChildren(T&& predicate) const;
 
@@ -349,19 +335,16 @@ public:
     /// Returns iterators to all descendant entities matching the given
     /// predicate.
     ///
-    /// \param predicate The predicate to use in the search.
+    /// \param predicate The predicate to use in the search; must be callable
+    /// as a function accepting a reference to an Entity, returning whether
+    /// the entity matches the predicate.
     ///
     /// \returns A vector of iterators to the matching entities.
     template <typename T>
     std::vector<Entity::Iterator> findDescendants(T&& predicate);
 
     ///
-    /// Returns iterators to all descendant entities matching the given
-    /// predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns A vector of iterators to the matching entities.
+    /// \copydoc Entity::findDescendants()
     template <typename T>
     std::vector<Entity::ConstIterator> findDescendants(T&& predicate) const;
 
@@ -369,21 +352,57 @@ public:
     /// Returns iterators to all ancestor entities matching the given
     /// predicate.
     ///
-    /// \param predicate The predicate to use in the search.
+    /// \param predicate The predicate to use in the search; must be callable
+    /// as a function accepting a reference to an Entity, returning whether
+    /// the entity matches the predicate.
     ///
     /// \returns A vector of iterators to the matching entities.
     template <typename T>
     std::vector<Entity::Iterator> findAncestors(T&& predicate);
 
     ///
-    /// Returns iterators to all ancestor entities matching the given
-    /// predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns A vector of iterators to the matching entities.
+    /// \copydoc Entity::findAncestors()
     template <typename T>
     std::vector<Entity::ConstIterator> findAncestors(T&& predicate) const;
+
+    ///
+    /// Iterates over all child entities.
+    ///
+    /// \param action The action to perform on each entity; must be callable
+    /// as a function accepting a reference to an Entity.
+    template <typename T>
+    void forChildren(T&& action);
+
+    ///
+    /// \copydoc Entity::forChildren()
+    template <typename T>
+    void forChildren(T&& action) const;
+
+    ///
+    /// Iterates over all descendant entities.
+    ///
+    /// \param action The action to perform on each entity; must be callable
+    /// as a function accepting a reference to an Entity.
+    template <typename T>
+    void forDescendants(T&& action);
+
+    ///
+    /// \copydoc Entity::forDescendants()
+    template <typename T>
+    void forDescendants(T&& action) const;
+
+    ///
+    /// Iterates over all ancestor entities.
+    ///
+    /// \param action The action to perform on each entity; must be callable
+    /// as a function accepting a reference to an Entity.
+    template <typename T>
+    void forAncestors(T&& action);
+
+    ///
+    /// \copydoc Entity::forAncestors()
+    template <typename T>
+    void forAncestors(T&& action) const;
 
     Entity& operator=(const Entity& entity);
     Entity& operator=(Entity&& entity);

@@ -25,7 +25,7 @@
 
 namespace
 {
-    Context* _instance = nullptr;
+Context* _instance = nullptr;
 }
 
 Context& Context::instance()
