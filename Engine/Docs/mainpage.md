@@ -3,7 +3,7 @@ Main Page {#mainpage}
 
 [TOC]
 
-Hect Engine is a 3D game engine written in modern C++.  It strives to be flexable, clean, consistent, and powerful.  The engine is in the very early stages of development and should not be used for any serious projects.
+Hect Engine is a 3D game engine written in modern C++.  It strives to be flexible, clean, consistent, and powerful.  The engine is in the very early stages of development and should not be used for any serious projects.
 
 # Requirements {#mainpage_requirements}
 * [CMake 3.2.x](http://www.cmake.org)
