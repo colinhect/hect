@@ -18,7 +18,7 @@ Hect Engine is a 3D game engine written in modern C++.  It strives to be flexibl
 * [SDL 2](https://www.libsdl.org)
 * [OpenGL](https://www.opengl.org)
 
-## Windows Requirements {#mainpage_windowsrequirements}
+## Windows Requirements
 * [Microsoft Visual Studio 2015 (Community or Professional)](http://www.visualstudio.com)
 * [Visual Leak Detector (Optional)](https://vld.codeplex.com/)
 
