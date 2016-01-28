@@ -71,7 +71,8 @@ typename Component<T>::ConstIterator ComponentPool<T>::end() const
 }
 
 template <typename T>
-typename Component<T>::Iterator ComponentPool<T>::findFirst(typename Component<T>::Predicate predicate)
+template <typename U>
+typename Component<T>::Iterator ComponentPool<T>::findFirst(U&& predicate)
 {
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
@@ -84,7 +85,8 @@ typename Component<T>::Iterator ComponentPool<T>::findFirst(typename Component<T
 }
 
 template <typename T>
-typename Component<T>::ConstIterator ComponentPool<T>::findFirst(typename Component<T>::Predicate predicate) const
+template <typename U>
+typename Component<T>::ConstIterator ComponentPool<T>::findFirst(U&& predicate) const
 {
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
@@ -97,7 +99,8 @@ typename Component<T>::ConstIterator ComponentPool<T>::findFirst(typename Compon
 }
 
 template <typename T>
-std::vector<typename Component<T>::Iterator> ComponentPool<T>::find(typename Component<T>::Predicate predicate)
+template <typename U>
+std::vector<typename Component<T>::Iterator> ComponentPool<T>::find(U&& predicate)
 {
     std::vector<typename Component<T>::Iterator> results;
     for (auto iterator = begin(); iterator != end(); ++iterator)
@@ -111,7 +114,8 @@ std::vector<typename Component<T>::Iterator> ComponentPool<T>::find(typename Com
 }
 
 template <typename T>
-std::vector<typename Component<T>::ConstIterator> ComponentPool<T>::find(typename Component<T>::Predicate predicate) const
+template <typename U>
+std::vector<typename Component<T>::ConstIterator> ComponentPool<T>::find(U&& predicate) const
 {
     std::vector<typename Component<T>::ConstIterator> results;
     for (auto iterator = begin(); iterator != end(); ++iterator)

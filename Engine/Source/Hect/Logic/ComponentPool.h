@@ -97,37 +97,35 @@ public:
     /// Returns an iterator to the first Component matching the given
     /// predicate.
     ///
-    /// \param predicate The predicate to use in the search.
+    /// \param predicate The predicate to use in the search; must be callable
+    /// as a function accepting a reference to an Entity, returning whether
+    /// the entity matches the predicate.
     ///
     /// \returns An iterator to the first matching component; invalid if there
     /// was no matching component.
-    typename Component<T>::Iterator findFirst(typename Component<T>::Predicate predicate);
+    template <typename U>
+    typename Component<T>::Iterator findFirst(U&& predicate);
 
     ///
-    /// Returns an iterator to the first Component matching the given
-    /// predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns An iterator to the first matching component; invalid if there
-    /// was no matching component.
-    typename Component<T>::ConstIterator findFirst(typename Component<T>::Predicate predicate) const;
+    /// \copydoc ComponentPool::findFirst()
+    template <typename U>
+    typename Component<T>::ConstIterator findFirst(U&& predicate) const;
 
     ///
     /// Returns iterators to all Component%s matching the given predicate.
     ///
-    /// \param predicate The predicate to use in the search.
+    /// \param predicate The predicate to use in the search; must be callable
+    /// as a function accepting a reference to an Entity, returning whether
+    /// the entity matches the predicate.
     ///
     /// \returns A vector of iterators to the matching components.
-    std::vector<typename Component<T>::Iterator> find(typename Component<T>::Predicate predicate);
+    template <typename U>
+    std::vector<typename Component<T>::Iterator> find(U&& predicate);
 
     ///
-    /// Returns iterators to all Component%s matching the given predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns A vector of iterators to the matching components.
-    std::vector<typename Component<T>::ConstIterator> find(typename Component<T>::Predicate predicate) const;
+    /// \copydoc ComponentPool::find()
+    template <typename U>
+    std::vector<typename Component<T>::ConstIterator> find(U&& predicate) const;
 
     ///
     /// Returns the Component with the given id.

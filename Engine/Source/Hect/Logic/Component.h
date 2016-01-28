@@ -71,10 +71,6 @@ class Component :
 public:
 
     ///
-    /// A predicate for a component search or filter.
-    typedef std::function<bool(const T&)> Predicate;
-
-    ///
     /// \copydoc hect::ComponentIterator
     typedef ComponentIterator<T> Iterator;
 
