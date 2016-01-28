@@ -21,13 +21,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Form.h"
+#include "Interface.h"
 
 #include "Hect/Logic/Systems/InterfaceSystem.h"
 
 using namespace hect;
 
-Form::Form(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
+Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
     Widget(interfaceSystem),
     _renderTarget(renderTarget)
 {
@@ -45,7 +45,7 @@ Form::Form(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
     setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 }
 
-RenderTarget& Form::renderTarget()
+RenderTarget& Interface::renderTarget()
 {
     return _renderTarget;
 }

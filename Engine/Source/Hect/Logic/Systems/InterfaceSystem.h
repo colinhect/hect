@@ -29,14 +29,14 @@
 #include "Hect/Graphics/Font.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/VectorRenderer.h"
-#include "Hect/Interface/Form.h"
+#include "Hect/Interface/Interface.h"
 #include "Hect/Logic/System.h"
 
 namespace hect
 {
 
 ///
-/// Manages the user interface forms of a Scene.
+/// Manages the user interfaces of a Scene.
 ///
 /// \system
 class HECT_EXPORT InterfaceSystem :
@@ -47,12 +47,12 @@ public:
     InterfaceSystem(Engine& engine, Scene& scene);
 
     ///
-    /// Creates a new form.
+    /// Creates a new interface.
     ///
     /// \param renderTarget The target to render to.
     ///
-    /// \returns A handle to the new form.
-    Form::Handle createForm(RenderTarget& renderTarget);
+    /// \returns A handle to the new interface.
+    Interface::Handle createInterface(RenderTarget& renderTarget);
 
     ///
     /// Returns the effective dimensions of the specified text using the given
@@ -85,7 +85,7 @@ private:
     Renderer& _renderer;
     VectorRenderer& _vectorRenderer;
 
-    std::vector<Form::Handle> _forms;
+    std::vector<Interface::Handle> _interfaces;
 };
 
 }

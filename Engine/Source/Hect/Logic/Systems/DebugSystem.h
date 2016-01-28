@@ -100,7 +100,7 @@ private:
     Window& _window;
     InterfaceSystem::Handle _interfaceSystem;
 
-    Form::Handle _form;
+    Interface::Handle _interface;
     Panel::Handle _systemPanel;
 
     Mesh _linesMesh;

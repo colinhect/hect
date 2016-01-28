@@ -39,11 +39,11 @@ InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
     }
 }
 
-Form::Handle InterfaceSystem::createForm(RenderTarget& renderTarget)
+Interface::Handle InterfaceSystem::createInterface(RenderTarget& renderTarget)
 {
-    Form::Handle form(new Form(*this, renderTarget));
-    _forms.push_back(form);
-    return form;
+    Interface::Handle interface(new Interface(*this, renderTarget));
+    _interfaces.push_back(interface);
+    return interface;
 }
 
 Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Font& font, double size) const
@@ -55,23 +55,23 @@ void InterfaceSystem::render(RenderTarget& target)
 {
     (void)target;
 
-    for (const Form::Handle& form : _forms)
+    for (const Interface::Handle& interface : _interfaces)
     {
-        RenderTarget& formTarget = form->renderTarget();
+        RenderTarget& interfaceTarget = interface->renderTarget();
 
-        Renderer::Frame frame = _renderer.beginFrame(formTarget);
-        VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(formTarget);
+        Renderer::Frame frame = _renderer.beginFrame(interfaceTarget);
+        VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(interfaceTarget);
 
-        Rectangle clipping(0.0, 0.0, formTarget.width(), formTarget.height());
-        form->render(vectorFrame, clipping);
+        Rectangle clipping(0.0, 0.0, interfaceTarget.width(), interfaceTarget.height());
+        interface->render(vectorFrame, clipping);
     }
 }
 
 void InterfaceSystem::tick(double timeStep)
 {
-    for (const Form::Handle& form : _forms)
+    for (const Interface::Handle& interface : _interfaces)
     {
-        form->tick(timeStep);
+        interface->tick(timeStep);
     }
 }
 
@@ -79,39 +79,39 @@ void InterfaceSystem::receiveEvent(const MouseEvent& event)
 {
     if (_mouse.mode() == MouseMode::Cursor)
     {
-        for (const Form::Handle& form : _forms)
+        for (const Interface::Handle& interface : _interfaces)
         {
             if (event.type == MouseEventType::Movement)
             {
-                for (const Form::Handle& form : _forms)
+                for (const Interface::Handle& interface : _interfaces)
                 {
-                    if (form->globalBounds().contains(event.cursorPosition))
+                    if (interface->globalBounds().contains(event.cursorPosition))
                     {
-                        if (!form->isMouseOver())
+                        if (!interface->isMouseOver())
                         {
-                            form->onMouseEnter();
-                            form->setMouseOver(true);
+                            interface->onMouseEnter();
+                            interface->setMouseOver(true);
                         }
                     }
-                    else if (form->isMouseOver())
+                    else if (interface->isMouseOver())
                     {
-                        form->onMouseExit();
-                        form->setMouseOver(false);
+                        interface->onMouseExit();
+                        interface->setMouseOver(false);
                     }
                 }
             }
 
-            for (const Form::Handle& form : _forms)
+            for (const Interface::Handle& interface : _interfaces)
             {
-                if (!form->hasParent())
+                if (!interface->hasParent())
                 {
-                    if (form->globalBounds().contains(event.cursorPosition))
+                    if (interface->globalBounds().contains(event.cursorPosition))
                     {
-                        form->receiveEvent(event);
+                        interface->receiveEvent(event);
                     }
                 }
             }
-            form->receiveEvent(event);
+            interface->receiveEvent(event);
         }
     }
 }

@@ -116,9 +116,9 @@ void DebugSystem::toggleShowInterface()
 {
     if (_interfaceSystem)
     {
-        if (!_form)
+        if (!_interface)
         {
-            _form = _interfaceSystem->createForm(_window);
+            _interface = _interfaceSystem->createInterface(_window);
         }
 
         if (_systemPanel)
@@ -140,14 +140,14 @@ Mesh& DebugSystem::meshForDuration(double duration)
 
 void DebugSystem::createSystemPanel()
 {
-    assert(_form);
+    assert(_interface);
 
     const double checkBoxColumnWidth = 16;
     const double systemNameColumnWidth = 256;
     const double rowHeight = 18;
     const double panelMargin = 10;
 
-    _systemPanel = _form->createChild<Panel>();
+    _systemPanel = _interface->createChild<Panel>();
 
     Grid::Handle grid = _systemPanel->createChild<Grid>();
     grid->setHorizontalAlign(HorizontalAlign::Center);
@@ -200,11 +200,11 @@ void DebugSystem::createSystemPanel()
 
 void DebugSystem::destroySystemPanel()
 {
-    assert(_form);
+    assert(_interface);
 
     if (_systemPanel)
     {
-        _form->destroyChild(_systemPanel);
+        _interface->destroyChild(_systemPanel);
         _systemPanel.reset();
     }
 }

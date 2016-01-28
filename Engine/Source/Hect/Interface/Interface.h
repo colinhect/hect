@@ -32,8 +32,8 @@ namespace hect
 
 ///
 /// A collection of widgets making up a user interface.
-class HECT_EXPORT Form :
-    public Widget<Form>
+class HECT_EXPORT Interface :
+    public Widget<Interface>
 {
     friend class InterfaceSystem;
 public:
@@ -43,7 +43,7 @@ public:
     RenderTarget& renderTarget();
 
 private:
-    Form(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget);
+    Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget);
 
     RenderTarget& _renderTarget;
 };

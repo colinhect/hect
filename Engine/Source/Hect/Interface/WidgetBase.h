@@ -50,7 +50,7 @@ class HECT_EXPORT WidgetBase :
     public Uncopyable
 {
     friend class InterfaceSystem;
-    friend class Form;
+    friend class Interface;
 public:
 
     ///
