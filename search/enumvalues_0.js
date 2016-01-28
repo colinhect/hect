@@ -1,15 +1,9 @@
 var searchData=
 [
-  ['blendfactor_5fdestinationalpha',['BlendFactor_DestinationAlpha',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa162405cc5091f5b8257f9a85fde01859',1,'hect']]],
-  ['blendfactor_5fdestinationcolor',['BlendFactor_DestinationColor',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa67327a09cebb84a0e85ff7bb89effef4',1,'hect']]],
-  ['blendfactor_5fone',['BlendFactor_One',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa3ae34dba888541e8fecbd1a937c381ad',1,'hect']]],
-  ['blendfactor_5foneminusdestinationalpha',['BlendFactor_OneMinusDestinationAlpha',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa770185f7f89512b94c61e880313b2a0e',1,'hect']]],
-  ['blendfactor_5foneminusdestinationcolor',['BlendFactor_OneMinusDestinationColor',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa4da9a6e8897e05ad1cea80401daa3807',1,'hect']]],
-  ['blendfactor_5foneminussourcealpha',['BlendFactor_OneMinusSourceAlpha',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa1eaa5a6d6546ffbae9407947b693e29c',1,'hect']]],
-  ['blendfactor_5foneminussourcecolor',['BlendFactor_OneMinusSourceColor',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa574a9db02a9985d5f8f34835a245f4f9',1,'hect']]],
-  ['blendfactor_5fsourcealpha',['BlendFactor_SourceAlpha',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa130535f6dd1ff46b0c17ba6c07a58a3f',1,'hect']]],
-  ['blendfactor_5fsourcecolor',['BlendFactor_SourceColor',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa8c3198f86f78c404bf19ea68d37722ac',1,'hect']]],
-  ['blendfactor_5fzero',['BlendFactor_Zero',['../namespacehect.html#a8fdd6b67b99b4cc2c3440fc868697bafa6c470f1e12ef36086fc48dbd6eeadbd5',1,'hect']]],
-  ['blendfunction_5fadd',['BlendFunction_Add',['../namespacehect.html#acad401d50e814595cd013cb07a3bc353ac6e8ed9b6540ca91fc280b23cabbd079',1,'hect']]],
-  ['blendfunction_5fsubtract',['BlendFunction_Subtract',['../namespacehect.html#acad401d50e814595cd013cb07a3bc353a3e2336bb7d3e0f7eb7ffc74928a0331c',1,'hect']]]
+  ['acknowledgedisconnect',['AcknowledgeDisconnect',['../namespacehect.html#aab940e1b1fcbcc5d412b1ca8d9360c4ca67292105bce16a63f28d571d41f3229c',1,'hect']]],
+  ['acknowledgingconnect',['AcknowledgingConnect',['../namespacehect.html#aab940e1b1fcbcc5d412b1ca8d9360c4ca8ebe403d1a757a7da890a22f11177152',1,'hect']]],
+  ['activate',['Activate',['../namespacehect.html#ab46d25dc42994c264a6f4b7e8b0a3481aa13367a8e2a3f3bf4f3409079e3fdf87',1,'hect']]],
+  ['add',['Add',['../namespacehect.html#acad401d50e814595cd013cb07a3bc353aec211f7c20af43e742bf2570c3cb84f9',1,'hect::Add()'],['../namespacehect.html#a7ee3d16246ce285a64c990e7efd7faabaec211f7c20af43e742bf2570c3cb84f9',1,'hect::Add()']]],
+  ['array',['Array',['../namespacehect.html#ac1657d5e24692b83598eb2eccdf81b9aa4410ec34d9e6c1a68100ca0ce033fb17',1,'hect']]],
+  ['axismotion',['AxisMotion',['../namespacehect.html#acec166fbe4a11bacf3a16b0621086d10a3ff51a3537198f4d5832590493aacff6',1,'hect']]]
 ];

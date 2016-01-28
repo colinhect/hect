@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['key',['Key',['../namespacehect.html#ac32eb11aff0348cb03d06aad5d2a0b45',1,'hect']]],
-  ['keyboardeventtype',['KeyboardEventType',['../namespacehect.html#a3a624b5c35d40fcd1d7259b5fb806898',1,'hect']]],
-  ['kind',['Kind',['../namespacehect.html#a9307fce53720ac8b4c8aa07d9dadd8ac',1,'hect']]]
+  ['joystickaxis',['JoystickAxis',['../namespacehect.html#a4677abb6d90728ad82625761a6fae042',1,'hect']]],
+  ['joystickbutton',['JoystickButton',['../namespacehect.html#aed949568939a63b77ea9d55ea61562df',1,'hect']]],
+  ['joystickeventtype',['JoystickEventType',['../namespacehect.html#acec166fbe4a11bacf3a16b0621086d10',1,'hect']]]
 ];

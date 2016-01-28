@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['encodable',['Encodable',['../classhect_1_1_encodable.html',1,'hect']]],
   ['encodeenum',['EncodeEnum',['../structhect_1_1_encode_enum.html',1,'hect']]],
   ['encodeerror',['EncodeError',['../classhect_1_1_encode_error.html',1,'hect']]],
   ['encoder',['Encoder',['../classhect_1_1_encoder.html',1,'hect']]],

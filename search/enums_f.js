@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['vertexattributesemantic',['VertexAttributeSemantic',['../namespacehect.html#adc5b2992f2c3a5aae32e10d40dd796cc',1,'hect']]],
-  ['vertexattributetype',['VertexAttributeType',['../namespacehect.html#a4133b0f2a0f4c05fd5d35e3715692aff',1,'hect']]]
+  ['uniformbinding',['UniformBinding',['../namespacehect.html#a7199852344e3be6463537f019a0f3646',1,'hect']]],
+  ['uniformtype',['UniformType',['../namespacehect.html#a3bf74a3e6d9f32380b035a08321ee6f4',1,'hect']]]
 ];

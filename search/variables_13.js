@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['w',['w',['../classhect_1_1_quaternion_t.html#a599c9f89f36f0ca1e3b3e6323f6b79a9',1,'hect::QuaternionT::w()'],['../classhect_1_1_vector4_t.html#a31ff67a1ed8a9a51e49d57d0ff35669f',1,'hect::Vector4T::w()']]]
+  ['viewmatrix',['viewMatrix',['../classhect_1_1_camera.html#a83d2ce82661573d3963a99fbcfd0e79c',1,'hect::Camera']]],
+  ['visible',['visible',['../classhect_1_1_model_surface.html#a63c25affa4e5f6d2fc7a7c360ab8e807',1,'hect::ModelSurface::visible()'],['../classhect_1_1_model.html#a421e4d22c5d2c1087765673c1b86490c',1,'hect::Model::visible()']]]
 ];

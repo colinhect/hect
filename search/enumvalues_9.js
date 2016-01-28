@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['mouseeventtype_5fbuttondown',['MouseEventType_ButtonDown',['../namespacehect.html#ad8a0aee619ac7df7cb25dca15c2e89deae29f58f29e08dbf559052863d6f7f9a7',1,'hect']]],
-  ['mouseeventtype_5fbuttonup',['MouseEventType_ButtonUp',['../namespacehect.html#ad8a0aee619ac7df7cb25dca15c2e89deafaf3cd16bd103e20b5f7aedfed47501c',1,'hect']]],
-  ['mouseeventtype_5fmovement',['MouseEventType_Movement',['../namespacehect.html#ad8a0aee619ac7df7cb25dca15c2e89dea257823af1eb920b4aaa381bbc198c2c1',1,'hect']]],
-  ['mouseeventtype_5fscrolldown',['MouseEventType_ScrollDown',['../namespacehect.html#ad8a0aee619ac7df7cb25dca15c2e89deabddedae4da90ce72526279cfa0c07289',1,'hect']]],
-  ['mouseeventtype_5fscrollup',['MouseEventType_ScrollUp',['../namespacehect.html#ad8a0aee619ac7df7cb25dca15c2e89dea23f093396d498fabf583238825a2268d',1,'hect']]],
-  ['mousemode_5fcursor',['MouseMode_Cursor',['../namespacehect.html#a473b208031498364ed2cb0909060eb65a8b45f77ed55a30e3b5b8e59f6ce02d0f',1,'hect']]],
-  ['mousemode_5frelative',['MouseMode_Relative',['../namespacehect.html#a473b208031498364ed2cb0909060eb65abb8a2242ecba61836ae9315c0d816118',1,'hect']]]
+  ['key',['Key',['../namespacehect.html#a3015185ecd4c38e23e4c0c7b89b39cd1a897356954c2cd3d41b221e3f24f99bba',1,'hect']]],
+  ['keydown',['KeyDown',['../namespacehect.html#a3a624b5c35d40fcd1d7259b5fb806898acfd07bf1effd88bca04a12a087777354',1,'hect']]],
+  ['keyup',['KeyUp',['../namespacehect.html#a3a624b5c35d40fcd1d7259b5fb806898a0f8baa14654b1f6ef00fed708c7f198a',1,'hect']]]
 ];
