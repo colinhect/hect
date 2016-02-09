@@ -59,7 +59,6 @@ protected:
     bool isValid() const;
     bool equals(const ComponentIteratorBase& other) const;
 
-private:
     mutable ComponentPool<T>* _pool { nullptr };
     ComponentId _id { ComponentId(-1) };
 };
@@ -80,6 +79,7 @@ template <typename T>
 class ComponentIterator :
     public ComponentIteratorBase<T>
 {
+    template <typename U> friend class ComponentConstIterator;
 public:
 
     ///
@@ -151,6 +151,12 @@ public:
     /// \param pool The component pool that the component belongs to.
     /// \param id The id of the component.
     ComponentConstIterator(const ComponentPool<T>& pool, ComponentId id);
+
+    ///
+    /// Constructs a valid component iterator.
+    ///
+    /// \param iterator The iterator to copy.
+    ComponentConstIterator(const ComponentIterator<T>& iterator);
 
     ///
     /// Dereferences the iterator to a reference to the component.

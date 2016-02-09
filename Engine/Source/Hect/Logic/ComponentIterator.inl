@@ -146,6 +146,12 @@ ComponentConstIterator<T>::ComponentConstIterator(const ComponentPool<T>& pool, 
 }
 
 template <typename T>
+ComponentConstIterator<T>::ComponentConstIterator(const ComponentIterator<T>& iterator) :
+    ComponentIteratorBase<T>(*iterator._pool, iterator._id)
+{
+}
+
+template <typename T>
 const T& ComponentConstIterator<T>::operator*() const
 {
     return this->dereference();
