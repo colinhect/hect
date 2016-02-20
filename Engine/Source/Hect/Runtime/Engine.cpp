@@ -69,6 +69,17 @@ Engine::Engine(int argc, char* const argv[])
     }
     _instance = this;
 
+    // Parse command line arguments
+    CommandLineArguments arguments = parseCommandLineArgument(argc, argv);
+
+    // Load the settings specified on the command-line
+    if (!arguments.settingsFilePath.empty())
+    {
+        _settings = loadConfig(arguments.settingsFilePath);
+    }
+
+    setConfiguredLogLevels();
+
     // Register all of the Hect types
     registerTypes();
 
@@ -83,15 +94,6 @@ Engine::Engine(int argc, char* const argv[])
 
     // Create platform
     _platform.reset(new Platform());
-
-    // Parse command line arguments
-    CommandLineArguments arguments = parseCommandLineArgument(argc, argv);
-
-    // Load the settings specified on the command-line
-    if (!arguments.settingsFilePath.empty())
-    {
-        _settings = loadConfig(arguments.settingsFilePath);
-    }
 
     // Mount the archives specified in the settings
     for (const DataValue& archive : _settings["archives"])
@@ -307,6 +309,34 @@ DataValue Engine::loadConfig(const Path& settingsFilePath)
     catch (const std::exception& exception)
     {
         throw FatalError(format("Failed to load settings file '%s': %s", settingsFilePath.asString().c_str(), exception.what()));
+    }
+}
+
+void Engine::setConfiguredLogLevels()
+{
+    std::unordered_map<std::string, LogLevel> stringToLogLevel;
+    stringToLogLevel["Info"] = LogLevel::Info;
+    stringToLogLevel["Debug"] = LogLevel::Debug;
+    stringToLogLevel["Warning"] = LogLevel::Warning;
+    stringToLogLevel["Error"] = LogLevel::Error;
+    stringToLogLevel["Trace"] = LogLevel::Trace;
+
+    const DataValue& levels = _settings["logging"]["levels"];
+    if (!levels.isNull())
+    {
+        for (const DataValue& level : levels)
+        {
+            if (level.isString())
+            {
+                const std::string& levelString = level.asString();
+                auto it = stringToLogLevel.find(levelString);
+                if (it != stringToLogLevel.end())
+                {
+                    LogLevel logLevel = it->second;
+                    setLogLevelEnabled(logLevel, true);
+                }
+            }
+        }
     }
 }
 

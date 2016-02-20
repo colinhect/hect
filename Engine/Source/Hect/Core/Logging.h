@@ -46,6 +46,19 @@ HECT_EXPORT void log(LogLevel level, const std::string& message);
 /// \param listener The listener.
 HECT_EXPORT void registerLogListener(Listener<LogMessageEvent>& listener);
 
+///
+/// Sets whether messages at the specified level are logged.
+///
+/// \param level The level.
+/// \param enabled Whether messages at the specified level are logged.
+HECT_EXPORT void setLogLevelEnabled(LogLevel level, bool enabled);
+
+///
+/// Returns whether messages at the specified level are logged.
+///
+/// \param level The level in question.
+HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
+
 // Info
 #if defined(HECT_ENABLE_LOG_INFO)
 #define HECT_INFO(message)      log(hect::LogLevel::Info, message)

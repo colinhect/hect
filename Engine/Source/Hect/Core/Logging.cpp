@@ -39,13 +39,21 @@ static HANDLE stdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 namespace hect
 {
 
-static std::mutex _logMutex;
+static std::recursive_mutex _logMutex;
 static Dispatcher<LogMessageEvent> _dispatcher;
+static std::vector<bool> _logLevels;
+static std::vector<std::string> _logLevelStrings;
 
 void log(LogLevel level, const std::string& message)
 {
     static Timer timer;
-    std::lock_guard<std::mutex> lock(_logMutex);
+    std::lock_guard<std::recursive_mutex> lock(_logMutex);
+
+    // Ignore the message if the level is not enabled
+    if (!isLogLevelEnabled(level))
+    {
+        return;
+    }
 
     // Dispatch the log message event
     LogMessageEvent event;
@@ -115,7 +123,34 @@ void log(LogLevel level, const std::string& message)
 
 void registerLogListener(Listener<LogMessageEvent>& listener)
 {
+    std::lock_guard<std::recursive_mutex> lock(_logMutex);
+
     _dispatcher.registerListener(listener);
+}
+
+void setLogLevelEnabled(LogLevel level, bool enabled)
+{
+    std::lock_guard<std::recursive_mutex> lock(_logMutex);
+    if (_logLevels.empty())
+    {
+        _logLevels = std::vector<bool>(5, false);
+    }
+
+    _logLevels[static_cast<int>(level)] = enabled;
+}
+
+bool isLogLevelEnabled(LogLevel level)
+{
+    std::lock_guard<std::recursive_mutex> lock(_logMutex);
+
+    bool enabled = false;
+
+    if (!_logLevels.empty())
+    {
+        enabled = _logLevels[static_cast<int>(level)];
+    }
+
+    return enabled;
 }
 
 }

@@ -157,6 +157,7 @@ private:
     };
 
     DataValue loadConfig(const Path& settingsFilePath);
+    void setConfiguredLogLevels();
 
     CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
 

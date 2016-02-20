@@ -126,6 +126,14 @@ void Scene::tick(double timeStep)
     // Tick all stages in order
     for (const std::vector<SystemTypeId>& tickStage : _tickStages)
     {
+        // Tick all systems
+        for (SystemTypeId typeId : tickStage)
+        {
+            SystemBase& system = *_systems[typeId];
+            system.tick(timeStep);
+        }
+
+        // Debug tick all systems
         for (SystemTypeId typeId : tickStage)
         {
             SystemBase& system = *_systems[typeId];
@@ -133,7 +141,6 @@ void Scene::tick(double timeStep)
             {
                 system.debugTick(timeStep);
             }
-            system.tick(timeStep);
         }
     }
 

@@ -48,7 +48,7 @@ enum class LogLevel
 
     ///
     /// A verbose debug message for the developer.
-    Trace,
+    Trace
 };
 
 }
