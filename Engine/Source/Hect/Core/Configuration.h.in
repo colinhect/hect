@@ -42,17 +42,14 @@
 #define HECT_RENDERER_OPENGL
 #endif
 
-// Enable logger levels for debug builds
+// Enable logger levels for debug/release builds
 #ifdef HECT_DEBUG_BUILD
 #define HECT_ENABLE_LOG_INFO
 #define HECT_ENABLE_LOG_DEBUG
 #define HECT_ENABLE_LOG_WARNING
 #define HECT_ENABLE_LOG_ERROR
 #define HECT_ENABLE_LOG_TRACE
-#endif
-
-// Enable logger levels for release builds
-#ifdef HECT_RELEASE_BUILD
+#else
 #define HECT_ENABLE_LOG_INFO
 #define HECT_ENABLE_LOG_WARNING
 #define HECT_ENABLE_LOG_ERROR
