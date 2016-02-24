@@ -45,7 +45,7 @@ InputSystem::InputSystem(Engine& engine, Scene& scene) :
         }
         catch (const DecodeError& error)
         {
-            HECT_ERROR(format("Invalid input axes: %s", error.what()));
+            HECT_ERROR("Invalid input axes: %s", error.what());
         }
     }
 }
@@ -67,7 +67,7 @@ void InputSystem::addAxis(const InputAxis& axis)
     _axes.push_back(axis);
     _axisIndices.set(axis.name(), index);
 
-    HECT_INFO(format("Added input axis '%s'", axis.name().c_str()));
+    HECT_INFO("Added input axis '%s'", axis.name().c_str());
 }
 
 double InputSystem::axisValue(const std::string& name) const

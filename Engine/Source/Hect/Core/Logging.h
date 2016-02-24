@@ -27,6 +27,7 @@
 
 #include "Hect/Core/Configuration.h"
 #include "Hect/Core/Event.h"
+#include "Hect/Core/Format.h"
 #include "Hect/Core/LogLevel.h"
 #include "Hect/Core/LogMessageEvent.h"
 
@@ -61,35 +62,55 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
 
 // Info
 #if defined(HECT_ENABLE_LOG_INFO)
-#define HECT_INFO(message)      log(hect::LogLevel::Info, message)
+#define HECT_INFO(fmt, ...) \
+    if (hect::isLogLevelEnabled(hect::LogLevel::Info)) \
+    { \
+        log(hect::LogLevel::Info, hect::format(fmt, __VA_ARGS__)); \
+    }
 #else
 #define HECT_INFO(message)
 #endif
 
 // Debug
 #if defined(HECT_ENABLE_LOG_DEBUG)
-#define HECT_DEBUG(message)     log(hect::LogLevel::Debug, message)
+#define HECT_DEBUG(fmt, ...) \
+    if (hect::isLogLevelEnabled(hect::LogLevel::Debug)) \
+    { \
+        log(hect::LogLevel::Debug, hect::format(fmt, __VA_ARGS__)); \
+    }
 #else
 #define HECT_DEBUG(message)
 #endif
 
 // Warning
 #if defined(HECT_ENABLE_LOG_WARNING)
-#define HECT_WARNING(message)   log(hect::LogLevel::Warning, message)
+#define HECT_WARNING(fmt, ...) \
+    if (hect::isLogLevelEnabled(hect::LogLevel::Warning)) \
+    { \
+        log(hect::LogLevel::Warning, hect::format(fmt, __VA_ARGS__)); \
+    }
 #else
 #define HECT_WARNING(message)
 #endif
 
 // Error
 #if defined(HECT_ENABLE_LOG_ERROR)
-#define HECT_ERROR(message)     log(hect::LogLevel::Error, message)
+#define HECT_ERROR(fmt, ...) \
+    if (hect::isLogLevelEnabled(hect::LogLevel::Error)) \
+    { \
+        log(hect::LogLevel::Error, hect::format(fmt, __VA_ARGS__)); \
+    }
 #else
 #define HECT_ERROR(message)
 #endif
 
 // Trace
 #if defined(HECT_ENABLE_LOG_TRACE)
-#define HECT_TRACE(message)     log(hect::LogLevel::Trace, message)
+#define HECT_TRACE(fmt, ...) \
+    if (hect::isLogLevelEnabled(hect::LogLevel::Trace)) \
+    { \
+        log(hect::LogLevel::Trace, hect::format(fmt, __VA_ARGS__)); \
+    }
 #else
 #define HECT_TRACE(message)
 #endif

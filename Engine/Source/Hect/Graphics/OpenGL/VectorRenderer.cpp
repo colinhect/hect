@@ -211,7 +211,7 @@ void VectorRenderer::setFont(const Font& font, double size)
         int id = nvgCreateFontMem(_nvgContext, font.name().c_str(), const_cast<unsigned char*>(&font._data[0]), static_cast<int>(font._data.size()), 0);
         _fontToId[&font] = id;
 
-        HECT_TRACE(format("Built font '%s'", font.name().c_str()));
+        HECT_TRACE("Built font '%s'", font.name().c_str());
     }
 
     // Set the font

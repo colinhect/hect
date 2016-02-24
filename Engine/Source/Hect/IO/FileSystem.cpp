@@ -77,7 +77,7 @@ FileReadStream::~FileReadStream()
     {
         if (!PHYSFS_close(_handle))
         {
-            HECT_ERROR(format("Failed to close file for reading: %s", PHYSFS_getLastError()));
+            HECT_ERROR("Failed to close file for reading: %s", PHYSFS_getLastError());
         }
     }
 }
@@ -170,7 +170,7 @@ FileWriteStream::~FileWriteStream()
     {
         if (!PHYSFS_close(_handle))
         {
-            HECT_ERROR(format("Failed to close file for writing: %s", PHYSFS_getLastError()));
+            HECT_ERROR("Failed to close file for writing: %s", PHYSFS_getLastError());
         }
     }
 }
@@ -206,7 +206,7 @@ FileSystem::~FileSystem()
 {
     if (!PHYSFS_deinit())
     {
-        HECT_ERROR(format("Failed to shutdown PhysFS: %s", PHYSFS_getLastError()));
+        HECT_ERROR("Failed to shutdown PhysFS: %s", PHYSFS_getLastError());
     }
 }
 
@@ -265,11 +265,11 @@ void FileSystem::mountArchive(const Path& path, const Path& mountPoint)
 
     if (mountPoint.empty())
     {
-        HECT_INFO(format("Mounted archive '%s'", pathString));
+        HECT_INFO("Mounted archive '%s'", pathString);
     }
     else
     {
-        HECT_INFO(format("Mounted archive '%s' to '%s'", pathString, mountPointString));
+        HECT_INFO("Mounted archive '%s' to '%s'", pathString, mountPointString);
     }
 }
 
