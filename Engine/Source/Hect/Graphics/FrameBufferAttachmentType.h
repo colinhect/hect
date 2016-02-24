@@ -28,19 +28,19 @@ namespace hect
 
 ///
 /// The type of each component in a pixel.
-enum class PixelType
+enum class FrameBufferAttachmentType
 {
     ///
-    /// A byte.
-    Byte,
+    /// A 2-dimensional texture attachment.
+    Texture2,
 
     ///
-    /// 16-bit floating point.
-    Float16,
+    /// A 3-dimensional texture attachment.
+    Texture3,
 
     ///
-    /// 32-bit floating point.
-    Float32
+    /// A cubic texture attachment.
+    TextureCube
 };
 
 }

@@ -892,79 +892,69 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     int textureIndex = 0;
 
     // Attach all 2-dimensional textures
-    for (FrameBuffer::Attachment2& attachment : frameBuffer.attachments2())
+    for (FrameBufferAttachment& attachment : frameBuffer.attachments())
     {
+        FrameBufferAttachmentType type = attachment.type();
         FrameBufferSlot slot = attachment.slot();
-        Texture2& texture = attachment.texture();
 
-        // Upload the texture if needed
-        if (!texture.isUploaded())
+        if (type == FrameBufferAttachmentType::Texture2)
         {
-            bool depthComponent = attachment.slot() == FrameBufferSlot::Depth;
-            ::uploadTexture(*this, texture, depthComponent);
+            Texture2& texture = attachment.texture2();
+
+            // Upload the texture if needed
+            if (!texture.isUploaded())
+            {
+                bool depthComponent = attachment.slot() == FrameBufferSlot::Depth;
+                ::uploadTexture(*this, texture, depthComponent);
+            }
+
+            GLenum attachment = _frameBufferSlotLookUp[static_cast<int>(slot)];
+
+            auto targetData = texture.dataAs<Texture2Data>();
+            GL_ASSERT(glFramebufferTexture(GL_FRAMEBUFFER, attachment, targetData->textureId, 0));
+
+            if (slot != FrameBufferSlot::Depth)
+            {
+                mrt[textureIndex++] = attachment;
+            }
         }
-
-        GLenum attachment = _frameBufferSlotLookUp[static_cast<int>(slot)];
-
-        auto targetData = texture.dataAs<Texture2Data>();
-        GL_ASSERT(glFramebufferTexture(GL_FRAMEBUFFER, attachment, targetData->textureId, 0));
-
-        if (slot != FrameBufferSlot::Depth)
+        else if (type == FrameBufferAttachmentType::Texture3)
         {
+            Texture3& texture = attachment.texture3();
+
+            // Upload the texture if needed
+            if (!texture.isUploaded())
+            {
+                uploadTexture(texture);
+            }
+
+            GLenum attachment = _frameBufferSlotLookUp[static_cast<int>(slot)];
+
+            auto targetData = texture.dataAs<Texture3Data>();
+            GL_ASSERT(glFramebufferTexture(GL_FRAMEBUFFER, attachment, targetData->textureId, 0));
+
             mrt[textureIndex++] = attachment;
         }
-
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        else if (type == FrameBufferAttachmentType::TextureCube)
         {
-            throw InvalidOperation("Invalid frame buffer");
+            FrameBufferSlot slot = attachment.slot();
+            CubeSide side = attachment.side();
+            TextureCube& texture = attachment.textureCube();
+
+            // Upload the texture if needed
+            if (!texture.isUploaded())
+            {
+                uploadTexture(texture);
+            }
+
+            GLenum attachment = _frameBufferSlotLookUp[static_cast<int>(slot)];
+            GLenum target = GL_TEXTURE_CUBE_MAP_POSITIVE_X + static_cast<int>(side);
+
+            auto targetData = texture.dataAs<TextureCubeData>();
+            GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, targetData->textureId, 0));
+
+            mrt[textureIndex++] = attachment;
         }
-    }
-
-    // Attach all 3-dimensional textures
-    for (FrameBuffer::Attachment3& attachment : frameBuffer.attachments3())
-    {
-        FrameBufferSlot slot = attachment.slot();
-        Texture3& texture = attachment.texture();
-
-        // Upload the texture if needed
-        if (!texture.isUploaded())
-        {
-            uploadTexture(texture);
-        }
-
-        GLenum attachment = _frameBufferSlotLookUp[static_cast<int>(slot)];
-
-        auto targetData = texture.dataAs<Texture3Data>();
-        GL_ASSERT(glFramebufferTexture(GL_FRAMEBUFFER, attachment, targetData->textureId, 0));
-
-        mrt[textureIndex++] = attachment;
-
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        {
-            throw InvalidOperation("Invalid frame buffer");
-        }
-    }
-
-    // Attach all cubic textures
-    for (FrameBuffer::AttachmentCube& attachment : frameBuffer.attachmentsCube())
-    {
-        FrameBufferSlot slot = attachment.slot();
-        CubeSide side = attachment.side();
-        TextureCube& texture = attachment.texture();
-
-        // Upload the texture if needed
-        if (!texture.isUploaded())
-        {
-            uploadTexture(texture);
-        }
-
-        GLenum attachment = _frameBufferSlotLookUp[static_cast<int>(slot)];
-        GLenum target = GL_TEXTURE_CUBE_MAP_POSITIVE_X + static_cast<int>(side);
-
-        auto targetData = texture.dataAs<TextureCubeData>();
-        GL_ASSERT(glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, target, targetData->textureId, 0));
-
-        mrt[textureIndex++] = attachment;
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
@@ -1557,22 +1547,22 @@ void Renderer::setTarget(FrameBuffer& frameBuffer)
         uploadFrameBuffer(frameBuffer);
     }
 
-    // Invalidate local images for 2-dimensional textures
-    for (FrameBuffer::Attachment2& attachment : frameBuffer.attachments2())
+    // Invalidate local images for textures
+    for (FrameBufferAttachment& attachment : frameBuffer.attachments())
     {
-        attachment.texture().invalidateLocalImage();
-    }
-
-    // Invalidate local images for 3-dimensional textures
-    for (FrameBuffer::Attachment3& attachment : frameBuffer.attachments3())
-    {
-        attachment.texture().invalidateLocalImages();
-    }
-
-    // Invalidate local images for cubic textures
-    for (FrameBuffer::AttachmentCube& attachment : frameBuffer.attachmentsCube())
-    {
-        attachment.texture().invalidateLocalImages();
+        FrameBufferAttachmentType type = attachment.type();
+        if (type == FrameBufferAttachmentType::Texture2)
+        {
+            attachment.texture2().invalidateLocalImage();
+        }
+        else if (type == FrameBufferAttachmentType::Texture2)
+        {
+            attachment.texture3().invalidateLocalImages();
+        }
+        else if (type == FrameBufferAttachmentType::Texture2)
+        {
+            attachment.textureCube().invalidateLocalImages();
+        }
     }
 
     auto data = frameBuffer.dataAs<FrameBufferData>();
@@ -1641,47 +1631,47 @@ void Renderer::onEndFrame()
 {
     if (_currentFrameBuffer)
     {
-        // Generate mipmap for any 2-dimensional attachments that are mipmaped
-        for (FrameBuffer::Attachment2& attachment : _currentFrameBuffer->attachments2())
+        for (FrameBufferAttachment& attachment : _currentFrameBuffer->attachments())
         {
-            Texture2& texture = attachment.texture();
-            if (texture.isMipmapped())
+            FrameBufferAttachmentType type = attachment.type();
+            if (type == FrameBufferAttachmentType::Texture2)
             {
-                GLenum type = GL_TEXTURE_2D;
+                Texture2& texture = attachment.texture2();
+                if (texture.isMipmapped())
+                {
+                    GLenum type = GL_TEXTURE_2D;
 
-                auto textureData = texture.dataAs<Texture2Data>();
-                GL_ASSERT(glBindTexture(type, textureData->textureId));
-                GL_ASSERT(glGenerateMipmap(type));
+                    auto textureData = texture.dataAs<Texture2Data>();
+                    GL_ASSERT(glBindTexture(type, textureData->textureId));
+                    GL_ASSERT(glGenerateMipmap(type));
+                }
+            }
+            else if (type == FrameBufferAttachmentType::Texture2)
+            {
+                Texture3& texture = attachment.texture3();
+                if (texture.isMipmapped())
+                {
+                    GLenum type = GL_TEXTURE_3D;
+
+                    auto textureData = texture.dataAs<Texture3Data>();
+                    GL_ASSERT(glBindTexture(type, textureData->textureId));
+                    GL_ASSERT(glGenerateMipmap(type));
+                }
+            }
+            else if (type == FrameBufferAttachmentType::Texture2)
+            {
+                TextureCube& texture = attachment.textureCube();
+                if (texture.isMipmapped())
+                {
+                    GLenum type = GL_TEXTURE_CUBE_MAP;
+
+                    auto textureData = texture.dataAs<TextureCubeData>();
+                    GL_ASSERT(glBindTexture(type, textureData->textureId));
+                    GL_ASSERT(glGenerateMipmap(type));
+                }
             }
         }
 
-        // Generate mipmap for any 3-dimensional attachments that are mipmaped
-        for (FrameBuffer::Attachment3& attachment : _currentFrameBuffer->attachments3())
-        {
-            Texture3& texture = attachment.texture();
-            if (texture.isMipmapped())
-            {
-                GLenum type = GL_TEXTURE_3D;
-
-                auto textureData = texture.dataAs<Texture3Data>();
-                GL_ASSERT(glBindTexture(type, textureData->textureId));
-                GL_ASSERT(glGenerateMipmap(type));
-            }
-        }
-
-        // Generate mipmap for any cubic attachments that are mipmaped
-        for (FrameBuffer::AttachmentCube& attachment : _currentFrameBuffer->attachmentsCube())
-        {
-            TextureCube& texture = attachment.texture();
-            if (texture.isMipmapped())
-            {
-                GLenum type = GL_TEXTURE_CUBE_MAP;
-
-                auto textureData = texture.dataAs<TextureCubeData>();
-                GL_ASSERT(glBindTexture(type, textureData->textureId));
-                GL_ASSERT(glGenerateMipmap(type));
-            }
-        }
         _currentFrameBuffer = nullptr;
     }
 }

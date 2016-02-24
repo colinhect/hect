@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Sequence.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/FrameBufferAttachment.h"
 #include "Hect/Graphics/FrameBufferSlot.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/RenderTarget.h"
@@ -41,122 +42,13 @@ class HECT_EXPORT FrameBuffer :
     public RenderTarget,
     public Renderer::Object<FrameBuffer>
 {
-public:
-
-    ///
-    /// A 2-dimensional frame buffer attachment.
-    struct HECT_EXPORT Attachment2
-    {
-    public:
-
-        ///
-        /// Constructs a frame buffer attachment.
-        ///
-        /// \param slot The slot that the texture is attached to.
-        /// \param texture The attached texture.
-        Attachment2(FrameBufferSlot slot, Texture2& texture);
-
-        ///
-        /// Returns the slot that the texture is attached to.
-        FrameBufferSlot slot() const;
-
-        ///
-        /// Returns the attached texture.
-        Texture2& texture();
-
-        ///
-        /// Returns the attached texture.
-        const Texture2& texture() const;
-
-    private:
-        FrameBufferSlot _slot;
-        Texture2* _texture;
-    };
-
-    ///
-    /// A 3-dimensional frame buffer attachment.
-    struct HECT_EXPORT Attachment3
-    {
-    public:
-
-        ///
-        /// Constructs a frame buffer attachment.
-        ///
-        /// \param slot The slot that the texture is attached to.
-        /// \param texture The attached texture.
-        Attachment3(FrameBufferSlot slot, Texture3& texture);
-
-        ///
-        /// Returns the slot that the texture is attached to.
-        FrameBufferSlot slot() const;
-
-        ///
-        /// Returns the attached texture.
-        Texture3& texture();
-
-        ///
-        /// Returns the attached texture.
-        const Texture3& texture() const;
-
-    private:
-        FrameBufferSlot _slot;
-        Texture3* _texture;
-    };
-
-    ///
-    /// A cubic frame buffer attachment.
-    struct HECT_EXPORT AttachmentCube
-    {
-    public:
-
-        ///
-        /// Constructs a frame buffer attachment.
-        ///
-        /// \param slot The slot that the texture is attached to.
-        /// \param side The side of the cubic texture to attach.
-        /// \param texture The attached texture.
-        AttachmentCube(FrameBufferSlot slot, CubeSide side, TextureCube& texture);
-
-        ///
-        /// Returns the slot that the texture is attached to.
-        FrameBufferSlot slot() const;
-
-        ///
-        /// Returns the side of the texture that is attached.
-        CubeSide side() const;
-
-        ///
-        /// Returns the attached texture.
-        TextureCube& texture();
-
-        ///
-        /// Returns the attached texture.
-        const TextureCube& texture() const;
-
-    private:
-        FrameBufferSlot _slot;
-        CubeSide _side;
-        TextureCube* _texture;
-    };
-
-private:
-    typedef std::vector<Attachment2> Attachment2Container;
-    typedef std::vector<Attachment3> Attachment3Container;
-    typedef std::vector<AttachmentCube> AttachmentCubeContainer;
+    typedef std::vector<FrameBufferAttachment> AttachmentContainer;
 
 public:
 
     ///
-    /// A sequence of 2-dimensional texture attachments.
-    typedef Sequence<Attachment2, Attachment2Container> Attachment2Sequence;
-
-    ///
-    /// A sequence of 3-dimensional texture attachments.
-    typedef Sequence<Attachment3, Attachment3Container> Attachment3Sequence;
-
-    ///
-    /// A sequence of cubic texture attachments.
-    typedef Sequence<AttachmentCube, AttachmentCubeContainer> AttachmentCubeSequence;
+    /// A sequence of frame buffer attachments.
+    typedef Sequence<FrameBufferAttachment, AttachmentContainer> AttachmentSequence;
 
     ///
     /// Constructs a frame buffer.
@@ -212,23 +104,13 @@ public:
     void attach(FrameBufferSlot slot, CubeSide side, TextureCube& texture);
 
     ///
-    /// Returns the 2-dimensional texture attachments.
-    Attachment2Sequence attachments2();
-
-    ///
-    /// Returns the 3-dimensional texture attachments.
-    Attachment3Sequence attachments3();
-
-    ///
-    /// Returns the cubic texture attachments.
-    AttachmentCubeSequence attachmentsCube();
+    /// Returns the attachments.
+    AttachmentSequence attachments();
 
 private:
     void ensureSlotEmpty(FrameBufferSlot slot);
 
-    Attachment2Container _attachments2;
-    Attachment3Container _attachments3;
-    AttachmentCubeContainer _attachmentsCube;
+    AttachmentContainer _attachments;
 };
 
 }
