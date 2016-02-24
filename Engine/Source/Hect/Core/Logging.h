@@ -68,7 +68,7 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
         log(hect::LogLevel::Info, hect::format(fmt, __VA_ARGS__)); \
     }
 #else
-#define HECT_INFO(message)
+#define HECT_INFO(fmt, ...)
 #endif
 
 // Debug
@@ -79,7 +79,7 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
         log(hect::LogLevel::Debug, hect::format(fmt, __VA_ARGS__)); \
     }
 #else
-#define HECT_DEBUG(message)
+#define HECT_DEBUG(fmt, ...)
 #endif
 
 // Warning
@@ -90,7 +90,7 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
         log(hect::LogLevel::Warning, hect::format(fmt, __VA_ARGS__)); \
     }
 #else
-#define HECT_WARNING(message)
+#define HECT_WARNING(fmt, ...)
 #endif
 
 // Error
@@ -101,7 +101,7 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
         log(hect::LogLevel::Error, hect::format(fmt, __VA_ARGS__)); \
     }
 #else
-#define HECT_ERROR(message)
+#define HECT_ERROR(fmt, ...)
 #endif
 
 // Trace
@@ -112,7 +112,7 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
         log(hect::LogLevel::Trace, hect::format(fmt, __VA_ARGS__)); \
     }
 #else
-#define HECT_TRACE(message)
+#define HECT_TRACE(fmt, ...)
 #endif
 
 }
