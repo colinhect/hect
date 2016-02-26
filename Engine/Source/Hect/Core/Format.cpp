@@ -32,7 +32,7 @@ namespace hect
 
 std::string format(const char* fmt, ...)
 {
-    static char buffer[16384];
+    thread_local static char buffer[16384];
 
     va_list args;
 

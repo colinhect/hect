@@ -891,7 +891,7 @@ void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
     GLenum mrt[16];
     int textureIndex = 0;
 
-    // Attach all 2-dimensional textures
+    // Attach all textures
     for (FrameBufferAttachment& attachment : frameBuffer.attachments())
     {
         FrameBufferAttachmentType type = attachment.type();
@@ -990,7 +990,7 @@ void Renderer::uploadShader(Shader& shader)
         return;
     }
 
-    // Create the shader.
+    // Create the shader
     GLuint programId = 0;
     programId = GL_ASSERT(glCreateProgram());
 
