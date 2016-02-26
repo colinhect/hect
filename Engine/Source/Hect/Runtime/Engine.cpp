@@ -124,7 +124,7 @@ Engine::Engine(int argc, char* const argv[])
         }
         catch (const DecodeError& error)
         {
-            HECT_ERROR("Invalid video mode: %s", error.what());
+            HECT_ERROR(format("Invalid video mode: %s", error.what()));
         }
 
         // Create window and renderers

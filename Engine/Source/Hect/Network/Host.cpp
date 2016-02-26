@@ -47,7 +47,7 @@ Host::Host(size_t maxPeerCount, size_t channelCount, Port port)
         // Create a listening ENet host
         _enetHost = enet_host_create(&address, maxPeerCount, channelCount, 0, 0);
 
-        HECT_INFO("Created local host listening on port %d", port);
+        HECT_INFO(format("Created local host listening on port %d", port));
     }
     else
     {
@@ -70,7 +70,7 @@ Host::~Host()
     {
         if (_enetHost->address.port)
         {
-            HECT_INFO("Destroyed local host listening on port %d", _enetHost->address.port);
+            HECT_INFO(format("Destroyed local host listening on port %d", _enetHost->address.port));
         }
         else
         {
@@ -95,7 +95,7 @@ Peer Host::requestConnectTo(IPAddress address, Port port)
         throw FatalError("Failed to create peer");
     }
 
-    HECT_INFO("Requested connection to remote host at address %s on port %d", address.asString().c_str(), port);
+    HECT_INFO(format("Requested connection to remote host at address %s on port %d", address.asString().c_str(), port));
 
     // Return the associated peer
     return Peer(enetPeer);
@@ -107,7 +107,7 @@ void Host::requestDisconnectFrom(Peer peer)
     if (peer.state() == PeerState::Connected)
     {
         enet_peer_disconnect(peer._enetPeer, 0);
-        HECT_INFO("Requested disconnection from remote host at address %s", peer.address().asString().c_str());
+        HECT_INFO(format("Requested disconnection from remote host at address %s", peer.address().asString().c_str()));
     }
     else
     {
@@ -142,10 +142,10 @@ bool Host::pollEvent(PeerEvent& event, TimeSpan timeOut)
         switch (event.type)
         {
         case PeerEventType::Connect:
-            HECT_INFO("Connected to remote host at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id());
+            HECT_INFO(format("Connected to remote host at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id()));
             break;
         case PeerEventType::Disconnect:
-            HECT_INFO("Disconnected from remote host at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id());
+            HECT_INFO(format("Disconnected from remote host at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id()));
             break;
         default:
             break;
@@ -192,7 +192,7 @@ void Host::initializeENet()
 
         // Log the ENet version
         ENetVersion version = ENET_VERSION;
-        HECT_INFO("ENet version %d.%d.%d", ENET_VERSION_GET_MAJOR(version), ENET_VERSION_GET_MINOR(version), ENET_VERSION_GET_PATCH(version));
+        HECT_INFO(format("ENet version %d.%d.%d", ENET_VERSION_GET_MAJOR(version), ENET_VERSION_GET_MINOR(version), ENET_VERSION_GET_PATCH(version)));
 
         // Deininitialize ENet at exit
         atexit(enet_deinitialize);

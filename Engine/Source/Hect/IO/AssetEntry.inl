@@ -102,7 +102,7 @@ void AssetEntry<T>::load()
         AssetDecoder decoder(_assetCache, _path);
         decoder >> decodeValue(*_asset);
 
-        HECT_INFO("Loaded '%s' in %ims", _path.asString().c_str(), timer.elapsed().milliseconds());
+        HECT_INFO(format("Loaded '%s' in %ims", _path.asString().c_str(), timer.elapsed().milliseconds()));
 
         // Remember when the file was last modified
         _lastModified = _assetCache.fileSystem().lastModified(_path);
@@ -114,7 +114,7 @@ void AssetEntry<T>::load()
         _exceptionMessage = error.what();
 
         // Log the error
-        HECT_ERROR("Failed to load asset '%s': %s", _path.asString().c_str(), _exceptionMessage.c_str());
+        HECT_ERROR(format("Failed to load asset '%s': %s", _path.asString().c_str(), _exceptionMessage.c_str()));
     }
 }
 

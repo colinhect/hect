@@ -506,7 +506,7 @@ void uploadTexture(Renderer& renderer, Texture2& texture, bool depthComponent)
     texture.setAsUploaded(renderer, new Texture2Data(renderer, texture, textureId));
     renderer.statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
-    HECT_TRACE("Uploaded texture '%s'", texture.name().c_str());
+    HECT_TRACE(::format("Uploaded texture '%s'", texture.name().c_str()));
 
     texture.invalidateLocalImage();
 }
@@ -1058,7 +1058,7 @@ void Renderer::uploadShader(Shader& shader)
         }
         else
         {
-            HECT_WARNING("Uniform '%s' is not referenced in shader '%s'", uniform.name().c_str(), shader.name().c_str());
+            HECT_WARNING(format("Uniform '%s' is not referenced in shader '%s'", uniform.name().c_str(), shader.name().c_str()));
         }
     }
 
@@ -1066,7 +1066,7 @@ void Renderer::uploadShader(Shader& shader)
 
     shader.setAsUploaded(*this, new ShaderData(*this, shader, programId, shaderIds));
 
-    HECT_TRACE("Uploaded shader '%s'", shader.name().c_str());
+    HECT_TRACE(format("Uploaded shader '%s'", shader.name().c_str()));
 }
 
 void Renderer::destroyShader(Shader& shader)
@@ -1090,7 +1090,7 @@ void Renderer::destroyShader(Shader& shader)
 
     shader.setAsDestroyed();
 
-    HECT_TRACE("Destroyed shader '%s'", shader.name().c_str());
+    HECT_TRACE(format("Destroyed shader '%s'", shader.name().c_str()));
 }
 
 void Renderer::uploadTexture(Texture2& texture)
@@ -1184,7 +1184,7 @@ void Renderer::uploadTexture(Texture3& texture)
     texture.setAsUploaded(*this, new Texture3Data(*this, texture, textureId));
     statistics().memoryUsage += texture.width() * texture.height() * texture.depth() * texture.pixelFormat().size();
 
-    HECT_TRACE("Uploaded texture '%s'", texture.name().c_str());
+    HECT_TRACE(::format("Uploaded texture '%s'", texture.name().c_str()));
 
     texture.invalidateLocalImages();
 }
@@ -1266,7 +1266,7 @@ void Renderer::uploadTexture(TextureCube& texture)
     texture.setAsUploaded(*this, new TextureCubeData(*this, texture, textureId));
     statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
-    HECT_TRACE("Uploaded texture '%s'", texture.name().c_str());
+    HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
 
     texture.invalidateLocalImages();
 }
@@ -1290,7 +1290,7 @@ void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
     statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
     texture.setAsDestroyed();
 
-    HECT_TRACE("Destroyed texture '%s'", texture.name().c_str());
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
 void Renderer::destroyTexture(Texture3& texture, bool downloadImage)
@@ -1312,7 +1312,7 @@ void Renderer::destroyTexture(Texture3& texture, bool downloadImage)
     statistics().memoryUsage -= texture.width() * texture.height() * texture.depth() * texture.pixelFormat().size();
     texture.setAsDestroyed();
 
-    HECT_TRACE("Destroyed texture '%s'", texture.name().c_str());
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
 void Renderer::destroyTexture(TextureCube& texture, bool downloadImage)
@@ -1333,7 +1333,7 @@ void Renderer::destroyTexture(TextureCube& texture, bool downloadImage)
     statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
     texture.setAsDestroyed();
 
-    HECT_TRACE("Destroyed texture '%s'", texture.name().c_str());
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
 }
 
 void Renderer::downloadTextureImage(Texture2& texture)
@@ -1504,7 +1504,7 @@ void Renderer::uploadMesh(Mesh& mesh)
 
     mesh.setAsUploaded(*this, new MeshData(*this, mesh, vertexArrayId, vertexBufferId, indexBufferId));
 
-    HECT_TRACE("Uploaded mesh '%s'", mesh.name().c_str());
+    HECT_TRACE(format("Uploaded mesh '%s'", mesh.name().c_str()));
 }
 
 void Renderer::destroyMesh(Mesh& mesh)
@@ -1524,7 +1524,7 @@ void Renderer::destroyMesh(Mesh& mesh)
 
     mesh.setAsDestroyed();
 
-    HECT_TRACE("Destroyed mesh '%s'", mesh.name().c_str());
+    HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().c_str()));
 }
 
 void Renderer::setTarget(RenderTarget& renderTarget)
@@ -1581,16 +1581,16 @@ void Renderer::initialize()
         throw FatalError(format("Failed to initialize OpenGL: %s", errorString));
     }
 
-    HECT_INFO("OpenGL version %s", glGetString(GL_VERSION));
-    HECT_INFO("GLSL version %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
-    HECT_INFO("%s", glGetString(GL_VENDOR));
-    HECT_INFO("%s", glGetString(GL_RENDERER));
+    HECT_INFO(format("OpenGL version %s", glGetString(GL_VERSION)));
+    HECT_INFO(format("GLSL version %s", glGetString(GL_SHADING_LANGUAGE_VERSION)));
+    HECT_INFO(format("%s", glGetString(GL_VENDOR)));
+    HECT_INFO(format("%s", glGetString(GL_RENDERER)));
 
     GLint maxTextureUnits = 0;
     glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
     capabilities().maxTextureUnits = (unsigned)maxTextureUnits;
 
-    HECT_INFO("Max texture units: %d", capabilities().maxTextureUnits);
+    HECT_INFO(format("Max texture units: %d", capabilities().maxTextureUnits));
 
     glGetError(); // Clear errors
 
