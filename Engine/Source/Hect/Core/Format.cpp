@@ -32,19 +32,17 @@ namespace hect
 
 std::string format(const char* fmt, ...)
 {
+    static char buffer[16384];
+
     va_list args;
+
     va_start(args, fmt);
 
-    // Check the length of the resulting string and allocate the string
-    int length = vsnprintf(nullptr, 0, fmt, args);
-    std::string result(length, '\0');
-
-    // Print to the result
-    vsprintf(&result[0], fmt, args);
+    vsprintf(buffer, fmt, args);
 
     va_end(args);
 
-    return result;
+    return std::string(buffer);
 }
 
 }
