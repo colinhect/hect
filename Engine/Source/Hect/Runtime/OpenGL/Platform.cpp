@@ -330,7 +330,7 @@ Platform::Platform()
             size_t buttonCount = SDL_JoystickNumButtons(joystick);
             size_t axisCount = SDL_JoystickNumAxes(joystick);
 
-            HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.c_str(), buttonCount, axisCount));
+            HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.data(), buttonCount, axisCount));
 
             _joysticks.push_back(Joystick(name, buttonCount, axisCount));
             for (size_t i = 0; i < axisCount; ++i)

@@ -46,7 +46,7 @@ bool Joystick::isButtonDown(JoystickButton button) const
     }
     else
     {
-        throw InvalidOperation(format("Joystick does not have button '%s'", Enum::toString(button).c_str()));
+        throw InvalidOperation(format("Joystick does not have button '%s'", Enum::toString(button).data()));
     }
 }
 
@@ -58,7 +58,7 @@ double Joystick::axisValue(JoystickAxis axis) const
     }
     else
     {
-        throw InvalidOperation(format("Joystick does not have axis '%s'", Enum::toString(axis).c_str()));
+        throw InvalidOperation(format("Joystick does not have axis '%s'", Enum::toString(axis).data()));
     }
 }
 

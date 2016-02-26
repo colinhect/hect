@@ -508,7 +508,7 @@ void UniformValue::decode(Decoder& decoder)
         }
         break;
         default:
-            throw DecodeError(format("Unknown uniform type '%s'", Enum::toString(_type).c_str()));
+            throw DecodeError(format("Unknown uniform type '%s'", Enum::toString(_type).data()));
         }
     }
     else

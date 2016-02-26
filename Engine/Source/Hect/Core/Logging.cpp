@@ -80,7 +80,7 @@ void log(LogLevel level, const std::string& message)
 #ifdef HECT_WINDOWS_BUILD
 
 #ifdef HECT_DEBUG_BUILD
-    OutputDebugString(formattedMessage.c_str());
+    OutputDebugString(formattedMessage.data());
 #endif
 
     // Set the color text color
@@ -112,7 +112,7 @@ void log(LogLevel level, const std::string& message)
     // Show a message box when logging an error
     if (level == LogLevel::Error)
     {
-        MessageBoxA(NULL, message.c_str(), "Error", MB_ICONHAND | MB_OK);
+        MessageBoxA(NULL, message.data(), "Error", MB_ICONHAND | MB_OK);
     }
 #else
     (void)level;

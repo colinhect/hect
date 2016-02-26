@@ -55,7 +55,7 @@ void InputSystem::addAxis(const InputAxis& axis)
     auto it = _axisIndices.get(axis.name());
     if (it)
     {
-        throw InvalidOperation(format("Input axis with name '%s' already exists", axis.name().c_str()));
+        throw InvalidOperation(format("Input axis with name '%s' already exists", axis.name().data()));
     }
 
     if (axis.name().empty())
@@ -67,7 +67,7 @@ void InputSystem::addAxis(const InputAxis& axis)
     _axes.push_back(axis);
     _axisIndices.set(axis.name(), index);
 
-    HECT_INFO(format("Added input axis '%s'", axis.name().c_str()));
+    HECT_INFO(format("Added input axis '%s'", axis.name().data()));
 }
 
 double InputSystem::axisValue(const std::string& name) const

@@ -62,7 +62,7 @@ AssetHandle<T> AssetCache::getHandle(const Path& path, Args&&... args)
         // type
         if (!entry)
         {
-            throw InvalidOperation(format("Asset '%s' is not of the expected type", resolvedPath.asString().c_str()));
+            throw InvalidOperation(format("Asset '%s' is not of the expected type", resolvedPath.asString().data()));
         }
     }
 

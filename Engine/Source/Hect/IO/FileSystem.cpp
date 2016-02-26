@@ -64,7 +64,7 @@ private:
 FileReadStream::FileReadStream(const Path& path) :
     _path(path)
 {
-    _handle = PHYSFS_openRead(path.asString().c_str());
+    _handle = PHYSFS_openRead(path.asString().data());
     if (!_handle)
     {
         throw IOError(format("Failed to open file for reading: %s", PHYSFS_getLastError()));
@@ -157,7 +157,7 @@ private:
 FileWriteStream::FileWriteStream(const Path& path) :
     _path(path)
 {
-    _handle = PHYSFS_openWrite(path.asString().c_str());
+    _handle = PHYSFS_openWrite(path.asString().data());
     if (!_handle)
     {
         throw IOError(format("Failed to open file for writing: %s", PHYSFS_getLastError()));
@@ -247,16 +247,16 @@ Path FileSystem::applicationDataDirectory()
 
 void FileSystem::setWriteDirectory(const Path& path)
 {
-    if (!PHYSFS_setWriteDir(path.asString().c_str()))
+    if (!PHYSFS_setWriteDir(path.asString().data()))
     {
-        throw IOError(format("Failed to set write directory to '%s': %s", path.asString().c_str(), PHYSFS_getLastError()));
+        throw IOError(format("Failed to set write directory to '%s': %s", path.asString().data(), PHYSFS_getLastError()));
     }
 }
 
 void FileSystem::mountArchive(const Path& path, const Path& mountPoint)
 {
-    const char* pathString = path.asString().c_str();
-    const char* mountPointString = mountPoint.asString().c_str();
+    const char* pathString = path.asString().data();
+    const char* mountPointString = mountPoint.asString().data();
 
     if (!PHYSFS_mount(pathString, mountPointString, 0))
     {
@@ -285,7 +285,7 @@ std::unique_ptr<WriteStream> FileSystem::openFileForWrite(const Path& path)
 
 void FileSystem::createDirectory(const Path& path)
 {
-    if (!PHYSFS_mkdir(path.asString().c_str()))
+    if (!PHYSFS_mkdir(path.asString().data()))
     {
         throw IOError(format("Failed to create directory: %s", PHYSFS_getLastError()));
     }
@@ -293,7 +293,7 @@ void FileSystem::createDirectory(const Path& path)
 
 std::vector<Path> FileSystem::filesInDirectory(const Path& path)
 {
-    char** paths = PHYSFS_enumerateFiles(path.asString().c_str());
+    char** paths = PHYSFS_enumerateFiles(path.asString().data());
 
     std::vector<Path> resultingPaths;
     for (char** i = paths; *i != nullptr; ++i)
@@ -308,7 +308,7 @@ std::vector<Path> FileSystem::filesInDirectory(const Path& path)
 
 void FileSystem::remove(const Path& path)
 {
-    if (!PHYSFS_delete(path.asString().c_str()))
+    if (!PHYSFS_delete(path.asString().data()))
     {
         throw IOError(format("Failed to remove directory: %s", PHYSFS_getLastError()));
     }
@@ -316,12 +316,12 @@ void FileSystem::remove(const Path& path)
 
 bool FileSystem::exists(const Path& path)
 {
-    return PHYSFS_exists(path.asString().c_str()) != 0;
+    return PHYSFS_exists(path.asString().data()) != 0;
 }
 
 TimeStamp FileSystem::lastModified(const Path& path)
 {
-    return PHYSFS_getLastModTime(path.asString().c_str());
+    return PHYSFS_getLastModTime(path.asString().data());
 }
 
 FileSystem::FileSystem(int argc, char* const argv[])

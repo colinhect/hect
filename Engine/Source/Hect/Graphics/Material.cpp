@@ -66,16 +66,16 @@ void Material::setUniformValue(const std::string& name, const UniformValue& valu
     const Uniform& uniform = _shader->uniform(name);
     if (uniform.type() != value.type())
     {
-        const char* uniformName = uniform.name().c_str();
-        const char* shaderName = _shader->name().c_str();
-        const char* expectedType = Enum::toString(uniform.type()).c_str();
-        const char* actualType = Enum::toString(value.type()).c_str();
+        const char* uniformName = uniform.name().data();
+        const char* shaderName = _shader->name().data();
+        const char* expectedType = Enum::toString(uniform.type()).data();
+        const char* actualType = Enum::toString(value.type()).data();
         throw InvalidOperation(format("Uniform '%s' in shader '%s' is of type '%s' and cannot be assigned a value of type '%s'", uniformName, shaderName, expectedType, actualType));
     }
     else if (uniform.binding() != UniformBinding::None)
     {
-        const char* uniformName = uniform.name().c_str();
-        const char* shaderName = _shader->name().c_str();
+        const char* uniformName = uniform.name().data();
+        const char* shaderName = _shader->name().data();
         throw InvalidOperation(format("Uniform '%s' in shader '%s' is bound and cannot be assigned a value", uniformName, shaderName));
     }
 
@@ -192,7 +192,7 @@ void Material::decode(Decoder& decoder)
             }
             catch (const Exception& exception)
             {
-                throw DecodeError(format("Failed to load base material '%s': %s", basePath.asString().c_str(), exception.what()));
+                throw DecodeError(format("Failed to load base material '%s': %s", basePath.asString().data(), exception.what()));
             }
         }
     }

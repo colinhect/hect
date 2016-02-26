@@ -71,7 +71,7 @@ const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemant
             return attribute;
         }
     }
-    throw InvalidOperation(format("Vertex layout does not have an attribute with semantic '%s'", Enum::toString(semantic).c_str()));
+    throw InvalidOperation(format("Vertex layout does not have an attribute with semantic '%s'", Enum::toString(semantic).data()));
 }
 
 const VertexLayout::AttributeSequence VertexLayout::attributes() const

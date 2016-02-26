@@ -95,7 +95,7 @@ Peer Host::requestConnectTo(IPAddress address, Port port)
         throw FatalError("Failed to create peer");
     }
 
-    HECT_INFO(format("Requested connection to remote host at address %s on port %d", address.asString().c_str(), port));
+    HECT_INFO(format("Requested connection to remote host at address %s on port %d", address.asString().data(), port));
 
     // Return the associated peer
     return Peer(enetPeer);
@@ -107,7 +107,7 @@ void Host::requestDisconnectFrom(Peer peer)
     if (peer.state() == PeerState::Connected)
     {
         enet_peer_disconnect(peer._enetPeer, 0);
-        HECT_INFO(format("Requested disconnection from remote host at address %s", peer.address().asString().c_str()));
+        HECT_INFO(format("Requested disconnection from remote host at address %s", peer.address().asString().data()));
     }
     else
     {
@@ -142,10 +142,10 @@ bool Host::pollEvent(PeerEvent& event, TimeSpan timeOut)
         switch (event.type)
         {
         case PeerEventType::Connect:
-            HECT_INFO(format("Connected to remote host at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id()));
+            HECT_INFO(format("Connected to remote host at address %s (peer id = %d)", peer.address().asString().data(), peer.id()));
             break;
         case PeerEventType::Disconnect:
-            HECT_INFO(format("Disconnected from remote host at address %s (peer id = %d)", peer.address().asString().c_str(), peer.id()));
+            HECT_INFO(format("Disconnected from remote host at address %s (peer id = %d)", peer.address().asString().data(), peer.id()));
             break;
         default:
             break;

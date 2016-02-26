@@ -71,7 +71,7 @@ Window::Window(const std::string& title, const VideoMode& videoMode) :
     }
 
     // Create the window
-    _window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), flags);
+    _window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), flags);
     if (!_window)
     {
         throw FatalError(format("Failed to create SDL window: %s", SDL_GetError()));

@@ -41,7 +41,7 @@ IPAddress::IPAddress(const char* hostName)
 }
 
 IPAddress::IPAddress(const std::string& hostName) :
-    IPAddress(hostName.c_str())
+    IPAddress(hostName.data())
 {
 }
 

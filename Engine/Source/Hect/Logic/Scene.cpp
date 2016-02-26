@@ -43,7 +43,7 @@ SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
     else if (typeId >= _systems.size() || !_systems[typeId])
     {
         const std::string& typeName = SystemRegistry::typeNameOf(typeId);
-        throw InvalidOperation(format("Scene does not support system type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Scene does not support system type '%s'", typeName.data()));
     }
     else
     {
@@ -295,7 +295,7 @@ void Scene::decode(Decoder& decoder)
             }
             catch (const Exception& exception)
             {
-                throw DecodeError(format("Failed to load base scene '%s': %s", basePath.asString().c_str(), exception.what()));
+                throw DecodeError(format("Failed to load base scene '%s': %s", basePath.asString().data(), exception.what()));
             }
         }
     }
@@ -397,7 +397,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     if (typeId < _systems.size() && _systems[typeId])
     {
         const std::string typeName = SystemRegistry::typeNameOf(typeId);
-        throw InvalidOperation(format("Scene already supports system type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Scene already supports system type '%s'", typeName.data()));
     }
 
     // Make sure the type id is a real type id
@@ -427,7 +427,7 @@ void Scene::addComponentType(ComponentTypeId typeId)
     if (typeId < _componentPools.size() && _componentPools[typeId])
     {
         const std::string typeName = ComponentRegistry::typeNameOf(typeId);
-        throw InvalidOperation(format("Scene already supports component type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Scene already supports component type '%s'", typeName.data()));
     }
 
     // Make sure the type id is a real type id
@@ -458,7 +458,7 @@ ComponentPoolBase& Scene::componentPoolOfTypeId(ComponentTypeId typeId)
     else if (typeId >= _componentPools.size() || !_componentPools[typeId])
     {
         const std::string& typeName = ComponentRegistry::typeNameOf(typeId);
-        throw InvalidOperation(format("Scene does not support component type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Scene does not support component type '%s'", typeName.data()));
     }
     else
     {

@@ -46,7 +46,7 @@ Path::Path(const char* path)
 
 Path::Path(const std::string& path)
 {
-    setRawPath(path.c_str());
+    setRawPath(path.data());
 }
 
 std::string Path::extension() const

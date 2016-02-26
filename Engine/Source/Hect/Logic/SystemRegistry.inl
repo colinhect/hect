@@ -49,7 +49,7 @@ void SystemRegistry::registerType()
         _typeIdToName[typeId] = typeName;
         _typeIds.push_back(typeId);
 
-        HECT_DEBUG(format("Registered system type '%s'", typeName.c_str()));
+        HECT_DEBUG(format("Registered system type '%s'", typeName.data()));
     }
 }
 

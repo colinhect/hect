@@ -602,7 +602,7 @@ void DataValue::decodeFromYaml(const std::string& yaml)
     // Initialize the parser
     yaml_parser_t parser;
     yaml_parser_initialize(&parser);
-    yaml_parser_set_input_string(&parser, reinterpret_cast<const unsigned char*>(yaml.c_str()), yaml.size());
+    yaml_parser_set_input_string(&parser, reinterpret_cast<const unsigned char*>(yaml.data()), yaml.size());
 
     // Attempt to parse the document
     yaml_document_t document;

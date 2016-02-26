@@ -506,7 +506,7 @@ void uploadTexture(Renderer& renderer, Texture2& texture, bool depthComponent)
     texture.setAsUploaded(renderer, new Texture2Data(renderer, texture, textureId));
     renderer.statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
-    HECT_TRACE(::format("Uploaded texture '%s'", texture.name().c_str()));
+    HECT_TRACE(::format("Uploaded texture '%s'", texture.name().data()));
 
     texture.invalidateLocalImage();
 }
@@ -1004,7 +1004,7 @@ void Renderer::uploadShader(Shader& shader)
         GL_ASSERT(shaderId = glCreateShader(_shaderSourceTypeLookUp[static_cast<int>(module.type())]));
 
         // Compile shader
-        const GLchar* source = module.source().c_str();
+        const GLchar* source = module.source().data();
         GL_ASSERT(glShaderSource(shaderId, 1, &source, nullptr));
         GL_ASSERT(glCompileShader(shaderId));
 
@@ -1019,7 +1019,7 @@ void Renderer::uploadShader(Shader& shader)
 
             if (infoLog.size() > 0)
             {
-                throw InvalidOperation(format("Invalid shader: Failed to compile GLSL shader source file '%s': %s", module.name().c_str(), infoLog.c_str()));
+                throw InvalidOperation(format("Invalid shader: Failed to compile GLSL shader source file '%s': %s", module.name().data(), infoLog.data()));
             }
         }
 
@@ -1041,7 +1041,7 @@ void Renderer::uploadShader(Shader& shader)
 
         if (infoLog.size() > 0)
         {
-            throw InvalidOperation(format("Invalid shader: Failed to link GLSL shaders for shader '%s': %s", shader.name().c_str(), infoLog.c_str()));
+            throw InvalidOperation(format("Invalid shader: Failed to link GLSL shaders for shader '%s': %s", shader.name().data(), infoLog.data()));
         }
     }
 
@@ -1050,7 +1050,7 @@ void Renderer::uploadShader(Shader& shader)
     // Get the locations of each uniform
     for (Uniform& uniform : shader.uniforms())
     {
-        GL_ASSERT(int location = glGetUniformLocation(programId, uniform.name().c_str()));
+        GL_ASSERT(int location = glGetUniformLocation(programId, uniform.name().data()));
 
         if (location != -1)
         {
@@ -1058,7 +1058,7 @@ void Renderer::uploadShader(Shader& shader)
         }
         else
         {
-            HECT_WARNING(format("Uniform '%s' is not referenced in shader '%s'", uniform.name().c_str(), shader.name().c_str()));
+            HECT_WARNING(format("Uniform '%s' is not referenced in shader '%s'", uniform.name().data(), shader.name().data()));
         }
     }
 
@@ -1066,7 +1066,7 @@ void Renderer::uploadShader(Shader& shader)
 
     shader.setAsUploaded(*this, new ShaderData(*this, shader, programId, shaderIds));
 
-    HECT_TRACE(format("Uploaded shader '%s'", shader.name().c_str()));
+    HECT_TRACE(format("Uploaded shader '%s'", shader.name().data()));
 }
 
 void Renderer::destroyShader(Shader& shader)
@@ -1090,7 +1090,7 @@ void Renderer::destroyShader(Shader& shader)
 
     shader.setAsDestroyed();
 
-    HECT_TRACE(format("Destroyed shader '%s'", shader.name().c_str()));
+    HECT_TRACE(format("Destroyed shader '%s'", shader.name().data()));
 }
 
 void Renderer::uploadTexture(Texture2& texture)
@@ -1184,7 +1184,7 @@ void Renderer::uploadTexture(Texture3& texture)
     texture.setAsUploaded(*this, new Texture3Data(*this, texture, textureId));
     statistics().memoryUsage += texture.width() * texture.height() * texture.depth() * texture.pixelFormat().size();
 
-    HECT_TRACE(::format("Uploaded texture '%s'", texture.name().c_str()));
+    HECT_TRACE(::format("Uploaded texture '%s'", texture.name().data()));
 
     texture.invalidateLocalImages();
 }
@@ -1266,7 +1266,7 @@ void Renderer::uploadTexture(TextureCube& texture)
     texture.setAsUploaded(*this, new TextureCubeData(*this, texture, textureId));
     statistics().memoryUsage += texture.width() * texture.height() * texture.pixelFormat().size();
 
-    HECT_TRACE(format("Uploaded texture '%s'", texture.name().c_str()));
+    HECT_TRACE(format("Uploaded texture '%s'", texture.name().data()));
 
     texture.invalidateLocalImages();
 }
@@ -1290,7 +1290,7 @@ void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
     statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
     texture.setAsDestroyed();
 
-    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().data()));
 }
 
 void Renderer::destroyTexture(Texture3& texture, bool downloadImage)
@@ -1312,7 +1312,7 @@ void Renderer::destroyTexture(Texture3& texture, bool downloadImage)
     statistics().memoryUsage -= texture.width() * texture.height() * texture.depth() * texture.pixelFormat().size();
     texture.setAsDestroyed();
 
-    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().data()));
 }
 
 void Renderer::destroyTexture(TextureCube& texture, bool downloadImage)
@@ -1333,7 +1333,7 @@ void Renderer::destroyTexture(TextureCube& texture, bool downloadImage)
     statistics().memoryUsage -= texture.width() * texture.height() * texture.pixelFormat().size();
     texture.setAsDestroyed();
 
-    HECT_TRACE(format("Destroyed texture '%s'", texture.name().c_str()));
+    HECT_TRACE(format("Destroyed texture '%s'", texture.name().data()));
 }
 
 void Renderer::downloadTextureImage(Texture2& texture)
@@ -1504,7 +1504,7 @@ void Renderer::uploadMesh(Mesh& mesh)
 
     mesh.setAsUploaded(*this, new MeshData(*this, mesh, vertexArrayId, vertexBufferId, indexBufferId));
 
-    HECT_TRACE(format("Uploaded mesh '%s'", mesh.name().c_str()));
+    HECT_TRACE(format("Uploaded mesh '%s'", mesh.name().data()));
 }
 
 void Renderer::destroyMesh(Mesh& mesh)
@@ -1524,7 +1524,7 @@ void Renderer::destroyMesh(Mesh& mesh)
 
     mesh.setAsDestroyed();
 
-    HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().c_str()));
+    HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().data()));
 }
 
 void Renderer::setTarget(RenderTarget& renderTarget)

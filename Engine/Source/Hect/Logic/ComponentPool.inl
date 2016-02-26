@@ -210,7 +210,7 @@ void ComponentPool<T>::remove(Entity& entity)
     else
     {
         const std::string& typeName = Type::get<T>().name();
-        throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.data()));
     }
 }
 
@@ -255,7 +255,7 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     if (id != ComponentId(-1))
     {
         const std::string& typeName = Type::get<T>().name();
-        throw InvalidOperation(format("Entity already has component of type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Entity already has component of type '%s'", typeName.data()));
     }
 
     // Create the new component id
@@ -334,7 +334,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
     else
     {
         const std::string& typeName = Type::get<T>().name();
-        throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.data()));
     }
 }
 

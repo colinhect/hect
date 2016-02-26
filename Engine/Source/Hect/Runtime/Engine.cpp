@@ -280,7 +280,7 @@ DataValue Engine::loadConfig(const Path& settingsFilePath)
         // Read the file to a YAML string
         std::string yaml;
         {
-            std::ifstream stream(settingsFilePath.asString().c_str());
+            std::ifstream stream(settingsFilePath.asString().data());
             yaml.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
         }
 
@@ -308,7 +308,7 @@ DataValue Engine::loadConfig(const Path& settingsFilePath)
     }
     catch (const std::exception& exception)
     {
-        throw FatalError(format("Failed to load settings file '%s': %s", settingsFilePath.asString().c_str(), exception.what()));
+        throw FatalError(format("Failed to load settings file '%s': %s", settingsFilePath.asString().data(), exception.what()));
     }
 }
 

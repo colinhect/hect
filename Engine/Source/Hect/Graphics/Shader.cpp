@@ -105,7 +105,7 @@ Uniform& Shader::uniform(const std::string& name)
     auto it = _uniformIndices.get(name);
     if (!it)
     {
-        throw InvalidOperation(format("Shader does not have a uniform named '%s'", name.c_str()));
+        throw InvalidOperation(format("Shader does not have a uniform named '%s'", name.data()));
     }
     return _uniforms[*it];
 }
@@ -251,7 +251,7 @@ void Shader::decode(Decoder& decoder)
             }
             catch (const Exception& exception)
             {
-                throw DecodeError(format("Failed to load base shader '%s': %s", basePath.asString().c_str(), exception.what()));
+                throw DecodeError(format("Failed to load base shader '%s': %s", basePath.asString().data(), exception.what()));
             }
         }
     }

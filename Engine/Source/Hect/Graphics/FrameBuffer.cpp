@@ -128,6 +128,6 @@ void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
 
     if (!empty)
     {
-        throw InvalidOperation(format("Frame buffer slot '%s' is not empty", Enum::toString(slot).c_str()));
+        throw InvalidOperation(format("Frame buffer slot '%s' is not empty", Enum::toString(slot).data()));
     }
 }

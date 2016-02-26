@@ -148,11 +148,11 @@ void VectorRenderer::Frame::renderText(const std::string& text)
 
     // Compute the text bounds
     float measuredBounds[4];
-    nvgTextBounds(_nvgContext, 0, 0, text.c_str(), nullptr, measuredBounds);
+    nvgTextBounds(_nvgContext, 0, 0, text.data(), nullptr, measuredBounds);
     Vector2 position(-measuredBounds[0], -measuredBounds[1]);
 
     // Render the text
-    nvgText(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), text.c_str(), nullptr);
+    nvgText(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), text.data(), nullptr);
 }
 
 Vector2 VectorRenderer::measureTextDimensions(const std::string& text, const Font& font, double size)
@@ -163,7 +163,7 @@ Vector2 VectorRenderer::measureTextDimensions(const std::string& text, const Fon
 
     // Compute the text bounds
     float measuredBounds[4];
-    nvgTextBounds(_nvgContext, 0, 0, text.c_str(), nullptr, measuredBounds);
+    nvgTextBounds(_nvgContext, 0, 0, text.data(), nullptr, measuredBounds);
     Vector2 dimensions(measuredBounds[2] - measuredBounds[0], measuredBounds[3] - measuredBounds[1]);
 
     return dimensions;
@@ -208,10 +208,10 @@ void VectorRenderer::setFont(const Font& font, double size)
     auto it = _fontToId.find(&font);
     if (it == _fontToId.end())
     {
-        int id = nvgCreateFontMem(_nvgContext, font.name().c_str(), const_cast<unsigned char*>(&font._data[0]), static_cast<int>(font._data.size()), 0);
+        int id = nvgCreateFontMem(_nvgContext, font.name().data(), const_cast<unsigned char*>(&font._data[0]), static_cast<int>(font._data.size()), 0);
         _fontToId[&font] = id;
 
-        HECT_TRACE(format("Built font '%s'", font.name().c_str()));
+        HECT_TRACE(format("Built font '%s'", font.name().data()));
     }
 
     // Set the font

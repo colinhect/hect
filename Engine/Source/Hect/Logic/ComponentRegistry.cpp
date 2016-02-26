@@ -61,7 +61,7 @@ ComponentTypeId ComponentRegistry::typeIdOf(const std::string& typeName)
     auto it = _typeNameToId.find(typeName);
     if (it == _typeNameToId.end())
     {
-        throw InvalidOperation(format("Unknown component type '%s'", typeName.c_str()));
+        throw InvalidOperation(format("Unknown component type '%s'", typeName.data()));
     }
     return it->second;
 }

@@ -359,7 +359,7 @@ void Entity::decode(Decoder& decoder)
             }
             catch (const Exception& exception)
             {
-                throw DecodeError(format("Failed to load base entity '%s': %s", basePath.asString().c_str(), exception.what()));
+                throw DecodeError(format("Failed to load base entity '%s': %s", basePath.asString().data(), exception.what()));
             }
         }
     }

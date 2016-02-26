@@ -39,7 +39,7 @@ void Scene::removeSystemType()
     // Ensure that the system is supported
     if (!hasSystemType<T>())
     {
-        throw InvalidOperation(format("Scene does not support system type '%s'", Type::get<T>().name().c_str()));
+        throw InvalidOperation(format("Scene does not support system type '%s'", Type::get<T>().name().data()));
     }
 
     // Remove the system from the tick stages
@@ -93,7 +93,7 @@ ComponentPool<T>& Scene::components()
     ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
     if (typeId >= _componentPools.size() || !_componentPools[typeId])
     {
-        throw InvalidOperation(format("Scene does not support component type '%s'", Type::get<T>().name().c_str()));
+        throw InvalidOperation(format("Scene does not support component type '%s'", Type::get<T>().name().data()));
     }
     return static_cast<ComponentPool<T>&>(*_componentPools[typeId]);
 }
