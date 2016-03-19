@@ -35,11 +35,8 @@ std::string format(const char* fmt, ...)
     thread_local static char buffer[16384];
 
     va_list args;
-
     va_start(args, fmt);
-
     vsprintf(buffer, fmt, args);
-
     va_end(args);
 
     return std::string(buffer);

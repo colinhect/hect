@@ -26,6 +26,7 @@
 #include <atomic>
 #include <functional>
 #include <memory>
+#include <string>
 
 #include "Hect/Concurrency/TaskError.h"
 #include "Hect/Core/Exception.h"
@@ -36,7 +37,7 @@ namespace hect
 {
 
 ///
-/// A task performed potentially in parallel.
+/// An asynchronous action performed in the context of a TaskPool.
 class HECT_EXPORT Task :
     public Uncopyable
 {
@@ -44,18 +45,20 @@ class HECT_EXPORT Task :
 public:
 
     ///
-    /// An action for a task to execute.
+    /// An action for a Task to execute.
     typedef std::function<void()> Action;
 
     ///
-    /// A handle for an enqueued task.
+    /// A handle to a Task that has been enqueued in a TaskPool.
+    ///
+    /// A task handle behaves as a reference counted shared pointer.
     class HECT_EXPORT Handle
     {
         friend class TaskPool;
     public:
 
         ///
-        /// Creates an invalid task handle.
+        /// Creates an invalid handle.
         Handle();
 
         ///
@@ -81,19 +84,20 @@ public:
     private:
         Handle(const std::shared_ptr<Task>& task);
 
+        Task& dereference() const;
+
         std::shared_ptr<Task> _task;
     };
 
     ///
     /// Waits until the task has completed.
     ///
-    /// \throws TaskError If an error occurred while executing the task's
-    /// action.
+    /// \throws TaskError If an error occurred while executing the task.
     void wait();
 
     ///
-    /// Returns whether the task is done.
-    bool isDone() const;
+    /// Returns whether the task has completed.
+    bool hasCompleted() const;
 
 private:
     Task(Task::Action action);
@@ -101,7 +105,7 @@ private:
     void execute();
 
     Task::Action _action;
-    std::atomic<bool> _done { false };
+    std::atomic<bool> _completed { false };
     bool _exceptionOccurred { false };
     std::string _exceptionMessage;
 };

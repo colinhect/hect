@@ -23,7 +23,19 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "TaskPool.h"
 
+#include <algorithm>
+
 using namespace hect;
+
+TaskPool::TaskPool(bool adaptive) :
+    _adaptive(adaptive)
+{
+    const unsigned hardwareThreadCount = std::max(std::thread::hardware_concurrency(), 1u);
+    if (hardwareThreadCount > 1)
+    {
+        initializeThreads(hardwareThreadCount - 1);
+    }
+}
 
 TaskPool::TaskPool(size_t threadCount, bool adaptive) :
     _adaptive(adaptive)
@@ -66,8 +78,8 @@ Task::Handle TaskPool::enqueue(Task::Action action)
         {
             std::unique_lock<std::mutex> lock(_queueMutex);
 
-            // If this task pool is adaptive and there are no threads available,
-            // then initialize another thread
+            // If this task pool is adaptive and there are no threads
+            // available then initialize another thread
             if (_adaptive && _availableThreadCount.load() == 0)
             {
                 initializeThreads(1);

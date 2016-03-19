@@ -25,10 +25,10 @@
 
 #include <atomic>
 #include <condition_variable>
+#include <deque>
 #include <functional>
 #include <memory>
 #include <mutex>
-#include <queue>
 #include <thread>
 #include <vector>
 
@@ -41,17 +41,24 @@ namespace hect
 {
 
 ///
-/// Provides the functionality for executing asynchronous tasks.
+/// Provides the functionality for executing asynchronous Task%s.
 class HECT_EXPORT TaskPool :
     public Uncopyable
 {
 public:
 
     ///
-    /// Constructs a task pool.
+    /// Constructs a task pool with a worker thread for each concurrent thread
+    /// available in hardware on the system.
+    ///
+    /// \param adaptive Whether to spawn additional worker threads as needed.
+    TaskPool(bool adaptive = false);
+
+    ///
+    /// Constructs a task pool with a specific number of worker threads.
     ///
     /// \param threadCount The number of worker threads.
-    /// \param adaptive Whether to spawn additional worker threads if needed.
+    /// \param adaptive Whether to spawn additional worker threads as needed.
     TaskPool(size_t threadCount, bool adaptive = false);
 
     ///
@@ -64,7 +71,14 @@ public:
     ///
     /// \param action The action for the task to perform.
     ///
-    /// \returns The handle to the queued task.
+    /// \returns The handle to the enqueued task.
+    ///
+    /// \b Example
+    /// \code{.cpp}
+    /// TaskPool taskPool;
+    /// Task::Handle taskA = taskPool.enqueue([] { doSomething(); });
+    /// Task::Handle taskB = taskPool.enqueue([] { doSomethingElse(); });
+    /// \endcode
     Task::Handle enqueue(Task::Action action);
 
     ///

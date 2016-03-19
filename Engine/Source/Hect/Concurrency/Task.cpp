@@ -33,22 +33,14 @@ Task::Handle::Handle()
 
 Task& Task::Handle::operator*() const
 {
-    if (!_task)
-    {
-        throw InvalidOperation("Invalid task handle");
-    }
-
-    return *_task;
+    Task& task = dereference();
+    return task;
 }
 
 Task* Task::Handle::operator->() const
 {
-    if (!_task)
-    {
-        throw InvalidOperation("Invalid task handle");
-    }
-
-    return _task.get();
+    Task& task = dereference();
+    return &task;
 }
 
 Task::Handle::operator bool() const
@@ -61,9 +53,19 @@ Task::Handle::Handle(const std::shared_ptr<Task>& task) :
 {
 }
 
+Task& Task::Handle::dereference() const
+{
+    if (!_task)
+    {
+        throw InvalidOperation("Invalid task handle");
+    }
+
+    return *_task;
+}
+
 void Task::wait()
 {
-    while (!_done)
+    while (!_completed)
     {
         std::this_thread::yield();
     }
@@ -75,9 +77,9 @@ void Task::wait()
     }
 }
 
-bool Task::isDone() const
+bool Task::hasCompleted() const
 {
-    return _done;
+    return _completed;
 }
 
 Task::Task(Action action) :
@@ -102,5 +104,5 @@ void Task::execute()
         _exceptionMessage = "Unknown exception";
     }
 
-    _done = true;
+    _completed = true;
 }
