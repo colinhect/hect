@@ -19,9 +19,11 @@ include_directories(
     SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Glew"
     SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LibYaml"
     SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/LodePng"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Lua"
     SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/NanoVG"
     SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS"
-    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Tclap/include"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Selene"
+    SYSTEM "${PROJECT_SOURCE_DIR}/Engine/Dependencies/Tclap"
     )
 
 set(SOURCE_FILES
@@ -287,6 +289,8 @@ set(SOURCE_FILES
     "Source/Hect/Logic/Systems/PhysicsSystem.h"
     "Source/Hect/Logic/Systems/RenderSystem.cpp"
     "Source/Hect/Logic/Systems/RenderSystem.h"
+    "Source/Hect/Logic/Systems/ScriptSystem.cpp"
+    "Source/Hect/Logic/Systems/ScriptSystem.h"
     "Source/Hect/Logic/Systems/TransformSystem.cpp"
     "Source/Hect/Logic/Systems/TransformSystem.h"
     "Source/Hect/Math/Angle.cpp"
@@ -647,6 +651,8 @@ source_group("Source\\Hect\\Logic\\Systems" FILES
     "Source/Hect/Logic/Systems/PhysicsSystem.h"
     "Source/Hect/Logic/Systems/RenderSystem.cpp"
     "Source/Hect/Logic/Systems/RenderSystem.h"
+    "Source/Hect/Logic/Systems/ScriptSystem.cpp"
+    "Source/Hect/Logic/Systems/ScriptSystem.h"
     "Source/Hect/Logic/Systems/TransformSystem.cpp"
     "Source/Hect/Logic/Systems/TransformSystem.h"
     )
@@ -740,7 +746,7 @@ add_dependencies(Hect HectAssets)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Source/Hect/Generated)
 add_dependencies(Hect HectTypes)
 
-set(LINK_LIBRARIES Bullet ENet Glew LibYaml LodePng NanoVG PhysFS)
+set(LINK_LIBRARIES Bullet ENet Glew LibYaml LodePng NanoVG PhysFS Lua)
 
 # Add OpenGL and SDL dependencies if not building headless
 if(NOT HEADLESS)
