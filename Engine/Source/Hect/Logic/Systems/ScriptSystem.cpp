@@ -33,26 +33,31 @@ namespace
 {
     void info(const std::string& message)
     {
+        (void)message;
         HECT_INFO(message);
     }
 
     void debug(const std::string& message)
     {
+        (void)message;
         HECT_DEBUG(message);
     }
 
     void warning(const std::string& message)
     {
+        (void)message;
         HECT_WARNING(message);
     }
 
     void error(const std::string& message)
     {
+        (void)message;
         HECT_ERROR(message);
     }
 
     void trace(const std::string& message)
     {
+        (void)message;
         HECT_TRACE(message);
     }
 }
