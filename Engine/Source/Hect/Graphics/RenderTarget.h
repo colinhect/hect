@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Math/Vector2.h"
 
 #include <memory>
 
@@ -73,7 +74,11 @@ public:
     unsigned height() const;
 
     ///
-    /// Returns the component ratio.
+    /// Returns the dimensions.
+    Vector2 dimensions() const;
+
+    ///
+    /// Returns the aspect ratio.
     float aspectRatio() const;
 
 protected:

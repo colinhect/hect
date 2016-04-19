@@ -80,6 +80,23 @@ void WidgetBase::onPressed()
 
 void WidgetBase::receiveEvent(const MouseEvent& event)
 {
+    if (event.type == MouseEventType::Movement)
+    {
+        if (globalBounds().contains(event.cursorPosition))
+        {
+            if (!isMouseOver())
+            {
+                onMouseEnter();
+                setMouseOver(true);
+            }
+        }
+        else if (isMouseOver())
+        {
+            onMouseExit();
+            setMouseOver(false);
+        }
+    }
+
     if (event.button == MouseButton::Button0)
     {
         if (event.type == MouseEventType::ButtonDown)

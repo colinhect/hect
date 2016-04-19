@@ -81,37 +81,13 @@ void InterfaceSystem::receiveEvent(const MouseEvent& event)
     {
         for (const Interface::Handle& interface : _interfaces)
         {
-            if (event.type == MouseEventType::Movement)
+            if (!interface->hasParent())
             {
-                for (const Interface::Handle& interface : _interfaces)
+                if (interface->globalBounds().contains(event.cursorPosition))
                 {
-                    if (interface->globalBounds().contains(event.cursorPosition))
-                    {
-                        if (!interface->isMouseOver())
-                        {
-                            interface->onMouseEnter();
-                            interface->setMouseOver(true);
-                        }
-                    }
-                    else if (interface->isMouseOver())
-                    {
-                        interface->onMouseExit();
-                        interface->setMouseOver(false);
-                    }
+                    interface->receiveEvent(event);
                 }
             }
-
-            for (const Interface::Handle& interface : _interfaces)
-            {
-                if (!interface->hasParent())
-                {
-                    if (interface->globalBounds().contains(event.cursorPosition))
-                    {
-                        interface->receiveEvent(event);
-                    }
-                }
-            }
-            interface->receiveEvent(event);
         }
     }
 }

@@ -52,6 +52,11 @@ unsigned RenderTarget::height() const
     return _height;
 }
 
+Vector2 RenderTarget::dimensions() const
+{
+    return Vector2(_width, _height);
+}
+
 float RenderTarget::aspectRatio() const
 {
     return static_cast<float>(_width) / static_cast<float>(_height);

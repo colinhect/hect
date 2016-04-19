@@ -21,34 +21,48 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Interface.h"
-
-#include "Hect/Logic/Systems/InterfaceSystem.h"
-
+#include <Hect.h>
 using namespace hect;
 
-Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
-    Widget(interfaceSystem),
-    _renderTarget(renderTarget)
-{
-    // Set the default style colors
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
+#include <catch.hpp>
 
-    // Set the dimensions of the interface to match the render target
-    setDimensions(renderTarget.dimensions());
+TEST_CASE("Create an interface", "[InterfaceSystem]")
+{
+    Engine& engine = Engine::instance();
+
+    Scene scene(engine);
+    scene.addSystemType<InterfaceSystem>();
+
+    InterfaceSystem::Handle interfaceSystem = scene.system<InterfaceSystem>();
+    REQUIRE(interfaceSystem);
+
+    Window& window = engine.window();
+    Interface::Handle interface = interfaceSystem->createInterface(engine.window());
+    REQUIRE(interface);
+    REQUIRE(interface->dimensions() == window.dimensions());
 }
 
-RenderTarget& Interface::renderTarget()
+TEST_CASE("Create a button", "[InterfaceSystem]")
 {
-    return _renderTarget;
+    Engine& engine = Engine::instance();
+
+    Scene scene(engine);
+    scene.addSystemType<InputSystem>();
+    scene.addSystemType<InterfaceSystem>();
+
+    InterfaceSystem::Handle interfaceSystem = scene.system<InterfaceSystem>();
+    REQUIRE(interfaceSystem);
+
+    Interface::Handle interface = interfaceSystem->createInterface(engine.window());
+    REQUIRE(interface);
+
+    Button::Handle button = interface->createChild<Button>();
+    REQUIRE(button);
+
+    button->setPressAction([] { HECT_DEBUG("Press"); });
+    button->setDimensions(Vector2(100, 100));
+    button->setHorizontalAlign(HorizontalAlign::Center);
+    button->setVerticalAlign(VerticalAlign::Center);
+
+    //engine.playScene(scene);
 }
