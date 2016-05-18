@@ -73,7 +73,7 @@ void testEncoding(const Path& assetPath)
     }
 }
 
-const std::vector<Path> directoryPaths { "Hect/Rendering", "Hect/Scenes", "Hect/Shaders" };
+const std::vector<Path> directoryPaths { "Hect/Materials", "Hect/Rendering", "Hect/Scenes", "Hect/Shaders" };
 
 // Loads all files of a certain extension and verifies that re-encoding and
 // decoding the asset results in equivalence for both binary and data encoding
