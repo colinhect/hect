@@ -31,7 +31,9 @@
 // Forward declare Selene classes
 namespace sel
 {
-    class State;
+
+class State;
+
 }
 
 namespace hect

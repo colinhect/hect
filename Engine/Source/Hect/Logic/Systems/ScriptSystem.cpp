@@ -31,35 +31,35 @@ using namespace hect;
 
 namespace
 {
-    void info(const std::string& message)
-    {
-        (void)message;
-        HECT_INFO(message);
-    }
+void info(const std::string& message)
+{
+    (void)message;
+    HECT_INFO(message);
+}
 
-    void debug(const std::string& message)
-    {
-        (void)message;
-        HECT_DEBUG(message);
-    }
+void debug(const std::string& message)
+{
+    (void)message;
+    HECT_DEBUG(message);
+}
 
-    void warning(const std::string& message)
-    {
-        (void)message;
-        HECT_WARNING(message);
-    }
+void warning(const std::string& message)
+{
+    (void)message;
+    HECT_WARNING(message);
+}
 
-    void error(const std::string& message)
-    {
-        (void)message;
-        HECT_ERROR(message);
-    }
+void error(const std::string& message)
+{
+    (void)message;
+    HECT_ERROR(message);
+}
 
-    void trace(const std::string& message)
-    {
-        (void)message;
-        HECT_TRACE(message);
-    }
+void trace(const std::string& message)
+{
+    (void)message;
+    HECT_TRACE(message);
+}
 }
 
 ScriptSystem::ScriptSystem(Engine& engine, Scene& scene) :
