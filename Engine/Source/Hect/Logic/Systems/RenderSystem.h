@@ -126,10 +126,7 @@ private:
         RenderCall();
         RenderCall(const Transform& transform, Mesh& mesh, Material& material);
 
-        const Transform* transform
-        {
-            nullptr
-        };
+        const Transform* transform { nullptr };
         Mesh* mesh { nullptr };
         Material* material { nullptr };
 

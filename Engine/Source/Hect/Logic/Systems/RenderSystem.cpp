@@ -56,8 +56,8 @@ void RenderSystem::addRenderCall(const Transform& transform, Mesh& mesh, Materia
         case RenderStage::PhysicalGeometry:
             _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
             break;
-        case RenderStage::None:
         case RenderStage::PostPhysicalGeometry:
+        case RenderStage::None:
             _frameData.postPhysicalGeometry.emplace_back(transform, mesh, material);
             break;
         }
@@ -578,12 +578,13 @@ void RenderSystem::FrameData::clear()
     opaquePhysicalGeometry.clear();
     translucentPhysicalGeometry.clear();
     postPhysicalGeometry.clear();
+
     directionalLights.clear();
 
     cameraTransform = Transform();
     primaryLightDirection = Vector3();
     primaryLightColor = Color();
-    lightProbeTexture =  nullptr;
+    lightProbeTexture = nullptr;
     skyBoxTexture = nullptr;
     geometryBuffer = nullptr;
 }
