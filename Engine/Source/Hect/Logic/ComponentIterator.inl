@@ -37,6 +37,13 @@ ComponentIteratorBase<T>::ComponentIteratorBase(ComponentPool<T>& pool, Componen
 }
 
 template <typename T>
+void ComponentIteratorBase<T>::invalidate()
+{
+    _pool = nullptr;
+    _id = ComponentId(-1);
+}
+
+template <typename T>
 T& ComponentIteratorBase<T>::dereference() const
 {
     if (!this->isValid())

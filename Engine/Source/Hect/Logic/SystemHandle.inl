@@ -37,6 +37,13 @@ SystemHandle<T>::SystemHandle(Scene& scene, SystemTypeId typeId) :
 }
 
 template <typename T>
+void SystemHandle<T>::invalidate()
+{
+    _scene = nullptr;
+    _typeId = SystemTypeId(-1);
+}
+
+template <typename T>
 T& SystemHandle<T>::operator*() const
 {
     if (!_scene)

@@ -53,6 +53,10 @@ public:
     /// \param id The id of the component.
     ComponentIteratorBase(ComponentPool<T>& pool, ComponentId id);
 
+    ///
+    /// Invalidates the iterator.
+    void invalidate();
+
 protected:
     T& dereference() const;
     void increment();

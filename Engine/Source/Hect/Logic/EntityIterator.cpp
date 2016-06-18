@@ -38,6 +38,12 @@ EntityIteratorBase::EntityIteratorBase(EntityPool& pool, EntityId id) :
 {
 }
 
+void EntityIteratorBase::invalidate()
+{
+    _pool = nullptr;
+    _id = EntityId(-1);
+}
+
 Entity& EntityIteratorBase::dereference() const
 {
     if (!isValid())

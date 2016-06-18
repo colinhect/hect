@@ -73,7 +73,11 @@ public:
     const Path& path() const;
 
     ///
-    /// Returns whether the handle refers to a asset.
+    /// Invalidates the handle.
+    void invalidate();
+
+    ///
+    /// Returns whether the handle refers to an asset.
     operator bool() const;
 
     ///

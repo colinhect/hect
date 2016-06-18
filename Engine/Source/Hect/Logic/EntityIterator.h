@@ -54,6 +54,10 @@ public:
     /// \param id The id of the entity.
     EntityIteratorBase(EntityPool& pool, EntityId id);
 
+    ///
+    /// Invalidates the iterator.
+    void invalidate();
+
 protected:
     Entity& dereference() const;
     void increment();

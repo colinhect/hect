@@ -49,6 +49,10 @@ public:
     SystemHandle(Scene& scene, SystemTypeId typeId);
 
     ///
+    /// Invalidates the handle.
+    void invalidate();
+
+    ///
     /// Dereferences the handle to a reference to the system.
     ///
     /// \returns A reference to the system.

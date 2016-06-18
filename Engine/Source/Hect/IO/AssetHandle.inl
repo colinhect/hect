@@ -63,6 +63,14 @@ const Path& AssetHandle<T>::path() const
 }
 
 template <typename T>
+void AssetHandle<T>::invalidate()
+{
+    _owned.reset();
+    _unowned = nullptr;
+    _entry.reset();
+}
+
+template <typename T>
 AssetHandle<T>::operator bool() const
 {
     return _entry || _owned || _unowned;
