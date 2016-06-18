@@ -148,14 +148,11 @@ int Engine::main()
     }
     else
     {
-        // Load the specified scene
-        Scene scene(*this);
-        Path scenePath = sceneValue.asString();
-        AssetDecoder decoder(*_assetCache, scenePath);
-        decoder >> decodeValue(scene);
+        const Path scenePath = sceneValue.asString();
 
-        // Play the scene
-        playScene(scene);
+        // Load and play the specified scene
+        Scene::Handle scene = assetCache().getHandle<Scene>(scenePath, *this);
+        playScene(*scene);
     }
 
     return 0;
