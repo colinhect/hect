@@ -21,7 +21,65 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect.h>
-#include <celero/Celero.h>
+#include <Hect/Core/Name.h>
+using namespace hect;
 
-HECT_MAIN_TEST_HARNESS("HectPerformanceTests.settings", { celero::Run(argc, const_cast<char**>(argv)); })
+#include <catch.hpp>
+
+// Initializes the static look-up tables required for name usage for the scope
+// of a single test
+class NameTestScope
+{
+public:
+    NameTestScope()
+    {
+        Name::initialize();
+    }
+
+    ~NameTestScope()
+    {
+        Name::uninitialize();
+    }
+};
+
+TEST_CASE("Construct empty name", "[Name]")
+{
+    NameTestScope scope;
+
+    Name name;
+
+    REQUIRE(name.empty());
+    REQUIRE(name.asString() == "");
+}
+
+TEST_CASE("Construct non-empty name", "[Name]")
+{
+    NameTestScope scope;
+
+    Name name("Test");
+
+    REQUIRE(!name.empty());
+    REQUIRE(name.asString() == "Test");
+}
+
+TEST_CASE("Compare two different names", "[Name]")
+{
+    NameTestScope scope;
+
+    Name nameA("TestA");
+    Name nameB("TestB");
+
+    REQUIRE(nameA != nameB);
+    REQUIRE(!(nameA == nameB));
+}
+
+TEST_CASE("Compare two equivalent names", "[Name]")
+{
+    NameTestScope scope;
+
+    Name nameA("Test");
+    Name nameB("Test");
+
+    REQUIRE(nameA == nameB);
+    REQUIRE(!(nameA != nameB));
+}

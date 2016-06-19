@@ -8,7 +8,7 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../../Source"
     "${PROJECT_SOURCE_DIR}/../../Dependencies/Catch"
     )
-    
+
 set(SOURCE_FILES
     "Source/AngleTests.cpp"
     "Source/AnyTests.cpp"
@@ -26,6 +26,7 @@ set(SOURCE_FILES
     "Source/Matrix4Tests.cpp"
     "Source/MeshReaderTests.cpp"
     "Source/MeshTests.cpp"
+    "Source/NameTests.cpp"
     "Source/OptionalTests.cpp"
     "Source/PathTests.cpp"
     "Source/PlaneTests.cpp"
@@ -44,7 +45,7 @@ set(SOURCE_FILES
     "Source/VertexAttributeTests.cpp"
     "Source/VertexLayoutTests.cpp"
     )
-    
+
 source_group("Source" FILES
     "Source/AngleTests.cpp"
     "Source/AnyTests.cpp"
@@ -62,6 +63,7 @@ source_group("Source" FILES
     "Source/Matrix4Tests.cpp"
     "Source/MeshReaderTests.cpp"
     "Source/MeshTests.cpp"
+    "Source/NameTests.cpp"
     "Source/OptionalTests.cpp"
     "Source/PathTests.cpp"
     "Source/PlaneTests.cpp"
@@ -82,9 +84,9 @@ source_group("Source" FILES
     )
 
 add_executable(HectUnitTests ${SOURCE_FILES})
-    
+
 target_link_libraries(HectUnitTests Hect)
-    
+
 set_target_properties(HectUnitTests PROPERTIES
     PROJECT_LABEL HectUnitTests
     LINKER_LANGUAGE CXX

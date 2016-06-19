@@ -27,6 +27,7 @@
 
 #include "Hect/Concurrency/TaskPool.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Core/Name.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Renderer.h"
 #include "Hect/Graphics/VectorRenderer.h"
@@ -58,6 +59,14 @@ public:
     /// \throws InvalidOperation If an instance of Engine has not been
     /// instantiated.
     static Engine& instance();
+
+    ///
+    /// Performs the pre-initialization flow.
+    static void preInitialize();
+
+    ///
+    /// Performs the post-uninitialization flow.
+    static void postUninitialize();
 
     ///
     /// Constructs an engine.
@@ -172,18 +181,67 @@ private:
 
 }
 
-#define HECT_MAIN(project) \
+#define HECT_PROJECT_MAIN(project) \
     int main(int argc, char* const argv[]) \
     { \
         try \
         { \
+            hect::Engine::preInitialize(); \
             project::registerTypes(); \
             hect::Engine engine(argc, argv); \
-            return engine.main(); \
+            int code = engine.main(); \
+            hect::Engine::postUninitialize(); \
+            return code; \
         } \
         catch (hect::Exception& exception) \
         { \
             HECT_ERROR(exception.what()); \
+            hect::Engine::postUninitialize(); \
+        } \
+        return 0; \
+    }
+
+#define HECT_PROJECT_MAIN_TEST_HARNESS(project, settingsFile, block) \
+    int main(int argc, char* const argv[]) \
+    { \
+        try \
+        { \
+            hect::Engine::preInitialize(); \
+            project::registerTypes(); \
+            char settingsPath[] = settingsFile; \
+            char* const engineArgv[] = { argv[0], settingsPath }; \
+            hect::Engine engine(argc, argv); \
+            int code = 0; \
+            block; \
+            hect::Engine::postUninitialize(); \
+            return code; \
+        } \
+        catch (hect::Exception& exception) \
+        { \
+            HECT_ERROR(exception.what()); \
+            hect::Engine::postUninitialize(); \
+        } \
+        return 0; \
+    }
+
+#define HECT_MAIN_TEST_HARNESS(settingsFile, block) \
+    int main(int argc, char* const argv[]) \
+    { \
+        try \
+        { \
+            hect::Engine::preInitialize(); \
+            char settingsPath[] = settingsFile; \
+            char* const engineArgv[] = { argv[0], settingsPath }; \
+            hect::Engine engine(argc, argv); \
+            int code = 0; \
+            block; \
+            hect::Engine::postUninitialize(); \
+            return code; \
+        } \
+        catch (hect::Exception& exception) \
+        { \
+            HECT_ERROR(exception.what()); \
+            hect::Engine::postUninitialize(); \
         } \
         return 0; \
     }

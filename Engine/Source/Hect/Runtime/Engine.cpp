@@ -61,6 +61,16 @@ Engine& Engine::instance()
     return *_instance;
 }
 
+void Engine::preInitialize()
+{
+    Name::initialize();
+}
+
+void Engine::postUninitialize()
+{
+    Name::uninitialize();
+}
+
 Engine::Engine(int argc, char* const argv[])
 {
     if (_instance)

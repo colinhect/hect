@@ -26,22 +26,4 @@
 #define CATCH_CONFIG_RUNNER
 #include <catch.hpp>
 
-int main(int argc, char* const argv[])
-{
-    try
-    {
-        // Use hardcoded command-line arguments for the engine to use
-        char settingsPath[] = "HectSystemTests.settings";
-        char* const engineArgv[] = { argv[0], settingsPath };
-
-        hect::Engine engine(2, engineArgv);
-
-        return Catch::Session().run(argc, argv);
-    }
-    catch (hect::Exception& exception)
-    {
-        HECT_ERROR(exception.what());
-    }
-
-    return EXIT_SUCCESS;
-}
+HECT_MAIN_TEST_HARNESS("HectSystemTests.settings", { code = Catch::Session().run(argc, argv); })

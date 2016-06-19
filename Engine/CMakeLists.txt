@@ -48,6 +48,8 @@ set(SOURCE_FILES
     "Source/Hect/Core/Logging.h"
     "Source/Hect/Core/LogLevel.h"
     "Source/Hect/Core/LogMessageEvent.h"
+    "Source/Hect/Core/Name.cpp"
+    "Source/Hect/Core/Name.h"
     "Source/Hect/Core/Optional.h"
     "Source/Hect/Core/Optional.inl"
     "Source/Hect/Core/Sequence.h"
@@ -351,11 +353,11 @@ set(SOURCE_FILES
     "Source/Hect/Timing/TimeSpan.h"
     "Source/Hect/Timing/TimeStamp.h"
     )
-    
+
 source_group("Source" FILES
     "Source/Hect.h"
     )
-    
+
 source_group("Source\\Hect\\Concurrency" FILES
     "Source/Hect/Concurrency/Task.cpp"
     "Source/Hect/Concurrency/Task.h"
@@ -364,7 +366,7 @@ source_group("Source\\Hect\\Concurrency" FILES
     "Source/Hect/Concurrency/TaskPool.cpp"
     "Source/Hect/Concurrency/TaskPool.h"
     )
-    
+
 source_group("Source\\Hect\\Core" FILES
     "Source/Hect/Core/Any.cpp"
     "Source/Hect/Core/Any.h"
@@ -380,6 +382,8 @@ source_group("Source\\Hect\\Core" FILES
     "Source/Hect/Core/Logging.h"
     "Source/Hect/Core/LogLevel.h"
     "Source/Hect/Core/LogMessageEvent.h"
+    "Source/Hect/Core/Name.cpp"
+    "Source/Hect/Core/Name.h"
     "Source/Hect/Core/Optional.h"
     "Source/Hect/Core/Optional.inl"
     "Source/Hect/Core/Sequence.h"
@@ -389,7 +393,7 @@ source_group("Source\\Hect\\Core" FILES
     "Source/Hect/Core/Uncopyable.cpp"
     "Source/Hect/Core/Uncopyable.h"
     )
-    
+
 source_group("Source\\Hect\\Graphics" FILES
     "Source/Hect/Graphics/BlendFactor.h"
     "Source/Hect/Graphics/BlendFunction.h"
@@ -458,17 +462,17 @@ source_group("Source\\Hect\\Graphics" FILES
     "Source/Hect/Graphics/VertexLayout.cpp"
     "Source/Hect/Graphics/VertexLayout.h"
     )
-    
+
 source_group("Source\\Hect\\Graphics\\OpenGL" FILES
     "Source/Hect/Graphics/OpenGL/Renderer.cpp"
     "Source/Hect/Graphics/OpenGL/VectorRenderer.cpp"
     )
-    
+
 source_group("Source\\Hect\\Graphics\\Stub" FILES
     "Source/Hect/Graphics/Stub/Renderer.cpp"
     "Source/Hect/Graphics/Stub/VectorRenderer.cpp"
     )
-    
+
 source_group("Source\\Hect\\Input" FILES
     "Source/Hect/Input/InputAxis.cpp"
     "Source/Hect/Input/InputAxis.h"
@@ -494,7 +498,7 @@ source_group("Source\\Hect\\Input" FILES
     "Source/Hect/Input/MouseEventType.h"
     "Source/Hect/Input/MouseMode.h"
     )
-    
+
 source_group("Source\\Hect\\Interface" FILES
     "Source/Hect/Interface/HorizontalAlign.h"
     "Source/Hect/Interface/Interface.cpp"
@@ -507,7 +511,7 @@ source_group("Source\\Hect\\Interface" FILES
     "Source/Hect/Interface/WidgetBase.h"
     "Source/Hect/Interface/WidgetBase.inl"
     )
-    
+
 source_group("Source\\Hect\\Interface\\Widgets" FILES
     "Source/Hect/Interface/Widgets/Button.cpp"
     "Source/Hect/Interface/Widgets/Button.h"
@@ -520,7 +524,7 @@ source_group("Source\\Hect\\Interface\\Widgets" FILES
     "Source/Hect/Interface/Widgets/Panel.cpp"
     "Source/Hect/Interface/Widgets/Panel.h"
     )
-    
+
 source_group("Source\\Hect\\IO" FILES
     "Source/Hect/IO/Asset.h"
     "Source/Hect/IO/Asset.inl"
@@ -575,7 +579,7 @@ source_group("Source\\Hect\\IO" FILES
     "Source/Hect/IO/WriteStream.cpp"
     "Source/Hect/IO/WriteStream.h"
     )
-    
+
 source_group("Source\\Hect\\Logic" FILES
     "Source/Hect/Logic/Component.h"
     "Source/Hect/Logic/Component.inl"
@@ -622,7 +626,7 @@ source_group("Source\\Hect\\Logic" FILES
     "Source/Hect/Logic/SystemRegistry.inl"
     "Source/Hect/Logic/SystemTickStage.h"
     )
-    
+
 source_group("Source\\Hect\\Logic\\Components" FILES
     "Source/Hect/Logic/Components/BoundingBox.h"
     "Source/Hect/Logic/Components/Camera.h"
@@ -635,7 +639,7 @@ source_group("Source\\Hect\\Logic\\Components" FILES
     "Source/Hect/Logic/Components/Transform.cpp"
     "Source/Hect/Logic/Components/Transform.h"
     )
-    
+
 source_group("Source\\Hect\\Logic\\Systems" FILES
     "Source/Hect/Logic/Systems/BoundingBoxSystem.cpp"
     "Source/Hect/Logic/Systems/BoundingBoxSystem.h"
@@ -656,7 +660,7 @@ source_group("Source\\Hect\\Logic\\Systems" FILES
     "Source/Hect/Logic/Systems/TransformSystem.cpp"
     "Source/Hect/Logic/Systems/TransformSystem.h"
     )
-    
+
 source_group("Source\\Hect\\Math" FILES
     "Source/Hect/Math/Angle.cpp"
     "Source/Hect/Math/Angle.h"
@@ -686,7 +690,7 @@ source_group("Source\\Hect\\Math" FILES
     "Source/Hect/Math/Vector4.h"
     "Source/Hect/Math/Vector4.inl"
     )
-    
+
 source_group("Source\\Hect\\Network" FILES
     "Source/Hect/Network/Host.cpp"
     "Source/Hect/Network/Host.h"
@@ -695,12 +699,12 @@ source_group("Source\\Hect\\Network" FILES
     "Source/Hect/Network/Peer.cpp"
     "Source/Hect/Network/Peer.h"
     )
-    
+
 source_group("Source\\Hect\\Noise" FILES
     "Source/Hect/Noise/Random.cpp"
     "Source/Hect/Noise/Random.h"
     )
-    
+
 source_group("Source\\Hect\\Reflection" FILES
     "Source/Hect/Reflection/Enum.cpp"
     "Source/Hect/Reflection/Enum.h"
@@ -709,7 +713,7 @@ source_group("Source\\Hect\\Reflection" FILES
     "Source/Hect/Reflection/Type.h"
     "Source/Hect/Reflection/Type.inl"
     )
-    
+
 source_group("Source\\Hect\\Runtime" FILES
     "Source/Hect/Runtime/Engine.cpp"
     "Source/Hect/Runtime/Engine.h"
@@ -719,17 +723,17 @@ source_group("Source\\Hect\\Runtime" FILES
     "Source/Hect/Runtime/Window.cpp"
     "Source/Hect/Runtime/Window.h"
     )
-    
+
 source_group("Source\\Hect\\Runtime\\OpenGL" FILES
     "Source/Hect/Runtime/OpenGL/Platform.cpp"
     "Source/Hect/Runtime/OpenGL/Window.cpp"
     )
-    
+
 source_group("Source\\Hect\\Runtime\\Stub" FILES
     "Source/Hect/Runtime/Stub/Platform.cpp"
     "Source/Hect/Runtime/Stub/Window.cpp"
     )
-    
+
 source_group("Source\\Hect\\Timing" FILES
     "Source/Hect/Timing/Timer.cpp"
     "Source/Hect/Timing/Timer.h"
@@ -737,7 +741,7 @@ source_group("Source\\Hect\\Timing" FILES
     "Source/Hect/Timing/TimeSpan.h"
     "Source/Hect/Timing/TimeStamp.h"
     )
-    
+
 add_library(Hect SHARED ${SOURCE_FILES})
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Assets)

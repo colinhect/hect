@@ -86,7 +86,9 @@ public:
     const std::string& asString() const;
 
     ///
-    /// Returns true if the path is less than the given path.
+    /// Returns true if the path is less than another.
+    ///
+    /// \param path The other path.
     bool operator<(const Path& path) const;
 
     ///
