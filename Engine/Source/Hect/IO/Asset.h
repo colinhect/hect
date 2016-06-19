@@ -52,17 +52,17 @@ public:
     /// Constructs an asset.
     ///
     /// \param name The name of the asset.
-    Asset(const Name& name);
+    Asset(Name name);
 
     ///
     /// Returns the name.
-    const Name& name() const;
+    Name name() const;
 
     ///
     /// Sets the name.
     ///
     /// \param name The new name.
-    void setName(const Name& name);
+    void setName(Name name);
 
     ///
     /// Returns an unowned handle to the asset.

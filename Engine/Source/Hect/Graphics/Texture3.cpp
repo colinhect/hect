@@ -32,7 +32,7 @@ Texture3::Texture3()
 {
 }
 
-Texture3::Texture3(const Name& name, unsigned width, unsigned height, unsigned depth, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
+Texture3::Texture3(Name name, unsigned width, unsigned height, unsigned depth, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
     Asset(name),
     _width(width),
     _height(height),

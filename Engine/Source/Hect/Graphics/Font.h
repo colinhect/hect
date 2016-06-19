@@ -46,7 +46,7 @@ public:
     /// Constructs a blank font.
     ///
     /// \param name The name of the font.
-    Font(const Name& name);
+    Font(Name name);
 
     ///
     /// Returns whether the font is equivalent to another.

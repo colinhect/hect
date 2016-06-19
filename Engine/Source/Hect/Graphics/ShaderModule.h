@@ -50,7 +50,7 @@ public:
     /// \param type The module type.
     /// \param name The name of the module.
     /// \param source The source code of the module.
-    ShaderModule(ShaderModuleType type, const Name& name, const std::string& source);
+    ShaderModule(ShaderModuleType type, Name name, const std::string& source);
 
     ///
     /// Returns the type.
@@ -58,7 +58,7 @@ public:
 
     ///
     /// Returns the name of the module.
-    const Name& name() const;
+    Name name() const;
 
     ///
     /// Returns the source code.

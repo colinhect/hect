@@ -56,7 +56,7 @@ ComponentTypeId ComponentRegistry::typeIdOf(std::type_index typeIndex)
     return it->second;
 }
 
-ComponentTypeId ComponentRegistry::typeIdOf(const std::string& typeName)
+ComponentTypeId ComponentRegistry::typeIdOf(Name typeName)
 {
     auto it = _typeNameToId.find(typeName);
     if (it == _typeNameToId.end())
@@ -66,7 +66,7 @@ ComponentTypeId ComponentRegistry::typeIdOf(const std::string& typeName)
     return it->second;
 }
 
-const std::string& ComponentRegistry::typeNameOf(ComponentTypeId typeId)
+Name ComponentRegistry::typeNameOf(ComponentTypeId typeId)
 {
     auto it = _typeIdToName.find(typeId);
     if (it == _typeIdToName.end())
@@ -81,8 +81,8 @@ bool ComponentRegistry::isRegisteredTypeId(ComponentTypeId typeId)
     return typeId < _componentConstructors.size();
 }
 
-std::map<ComponentTypeId, std::string> ComponentRegistry::_typeIdToName;
-std::map<std::string, ComponentTypeId> ComponentRegistry::_typeNameToId;
+std::map<ComponentTypeId, Name> ComponentRegistry::_typeIdToName;
+std::map<Name, ComponentTypeId> ComponentRegistry::_typeNameToId;
 std::map<std::type_index, ComponentTypeId> ComponentRegistry::_typeIndexToId;
 std::vector<ComponentRegistry::ComponentConstructor> ComponentRegistry::_componentConstructors;
 std::vector<ComponentRegistry::ComponentPoolConstructor> ComponentRegistry::_componentPoolConstructors;

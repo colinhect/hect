@@ -168,7 +168,7 @@ void DebugSystem::createSystemPanel()
         {
             Grid::RowId rowId = grid->addRow(rowHeight);
 
-            const std::string& systemName = SystemRegistry::typeNameOf(typeId);
+            Name systemName = SystemRegistry::typeNameOf(typeId);
 
             Grid::Cell::Handle checkBoxCell = grid->createCell(checkBoxColumnId, rowId);
             CheckBox::Handle checkBox = checkBoxCell->createChild<CheckBox>();
@@ -185,7 +185,7 @@ void DebugSystem::createSystemPanel()
 
             Grid::Cell::Handle labelCell = grid->createCell(systemNameColumnId, rowId);
             Label::Handle label = labelCell->createChild<Label>();
-            label->setText(systemName);
+            label->setText(systemName.asString());
             label->setHorizontalAlign(HorizontalAlign::Left);
             label->setVerticalAlign(VerticalAlign::Bottom);
         }

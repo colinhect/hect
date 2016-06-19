@@ -80,13 +80,13 @@ public:
     ///
     /// \throws InvalidOperation If the specified type name does not correspond
     /// to a registered component type.
-    static ComponentTypeId typeIdOf(const std::string& typeName);
+    static ComponentTypeId typeIdOf(Name typeName);
 
     ///
     /// Returns the Component type name with the specified type id.
     ///
     /// \param typeId The type id of the component type to get the type name of.
-    static const std::string& typeNameOf(ComponentTypeId typeId);
+    static Name typeNameOf(ComponentTypeId typeId);
 
     ///
     /// Returns whether the specified type id is registered with a
@@ -116,8 +116,8 @@ public:
 private:
     ComponentRegistry();
 
-    static std::map<ComponentTypeId, std::string> _typeIdToName;
-    static std::map<std::string, ComponentTypeId> _typeNameToId;
+    static std::map<ComponentTypeId, Name> _typeIdToName;
+    static std::map<Name, ComponentTypeId> _typeNameToId;
     static std::map<std::type_index, ComponentTypeId> _typeIndexToId;
 
     typedef std::function<std::shared_ptr<ComponentBase>(void)> ComponentConstructor;

@@ -40,7 +40,7 @@ class HECT_EXPORT Joystick :
     public Dispatcher<JoystickEvent>
 {
 public:
-    Joystick(const Name& name, size_t buttonCount, size_t axisCount);
+    Joystick(Name name, size_t buttonCount, size_t axisCount);
 
     ///
     /// Returns whether the given button is down.

@@ -31,7 +31,7 @@ ShaderModule::ShaderModule()
 {
 }
 
-ShaderModule::ShaderModule(ShaderModuleType type, const Name& name, const std::string& source) :
+ShaderModule::ShaderModule(ShaderModuleType type, Name name, const std::string& source) :
     _type(type),
     _name(name),
     _source(source)
@@ -43,7 +43,7 @@ ShaderModuleType ShaderModule::type() const
     return _type;
 }
 
-const Name& ShaderModule::name() const
+Name ShaderModule::name() const
 {
     return _name;
 }

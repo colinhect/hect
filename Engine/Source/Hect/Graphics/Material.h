@@ -50,7 +50,7 @@ public:
     /// Constructs a blank material.
     ///
     /// \param name The name of the material.
-    Material(const Name& name);
+    Material(Name name);
 
     ///
     /// Returns the shader.
@@ -82,7 +82,7 @@ public:
     /// \throws InvalidOperation If no shader is set, the shader does not
     /// have a uniform of the specified name, the value is of the wrong
     /// type, or the uniform is bound.
-    void setUniformValue(const Name& name, const UniformValue& value);
+    void setUniformValue(Name name, const UniformValue& value);
 
     ///
     /// Clears all set uniform values.

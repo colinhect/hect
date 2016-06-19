@@ -85,17 +85,17 @@ bool Name::empty() const
     return _index == Index(-1);
 }
 
-bool Name::operator<(const Name& name) const
+bool Name::operator<(Name name) const
 {
     return _index < name._index;
 }
 
-bool Name::operator==(const Name& name) const
+bool Name::operator==(Name name) const
 {
     return _index == name._index;
 }
 
-bool Name::operator!=(const Name& name) const
+bool Name::operator!=(Name name) const
 {
     return _index != name._index;
 }

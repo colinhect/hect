@@ -154,7 +154,7 @@ public:
     ///
     /// \returns An iterator to the found value (invalid if no value exists
     /// for the given key).
-    Iterator get(const Name& key);
+    Iterator get(Name key);
 
     ///
     /// Gets the value for a key.
@@ -163,7 +163,7 @@ public:
     ///
     /// \returns An iterator to the found value (invalid if no value exists
     /// for the given key).
-    ConstIterator get(const Name& key) const;
+    ConstIterator get(Name key) const;
 
     ///
     /// Gets the value for a key.

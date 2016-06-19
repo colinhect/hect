@@ -42,7 +42,7 @@ SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
     }
     else if (typeId >= _systems.size() || !_systems[typeId])
     {
-        const std::string& typeName = SystemRegistry::typeNameOf(typeId);
+        Name typeName = SystemRegistry::typeNameOf(typeId);
         throw InvalidOperation(format("Scene does not support system type '%s'", typeName.data()));
     }
     else
@@ -215,7 +215,7 @@ void Scene::encode(Encoder& encoder) const
         }
         else
         {
-            const std::string& typeName = ComponentRegistry::typeNameOf(typeId);
+            Name typeName = ComponentRegistry::typeNameOf(typeId);
             encoder << encodeValue(typeName);
         }
     }
@@ -231,7 +231,7 @@ void Scene::encode(Encoder& encoder) const
         }
         else
         {
-            const std::string& typeName = SystemRegistry::typeNameOf(typeId);
+            Name typeName = SystemRegistry::typeNameOf(typeId);
             encoder << encodeValue(typeName);
         }
     }
@@ -254,7 +254,7 @@ void Scene::encode(Encoder& encoder) const
             }
             else
             {
-                std::string typeName = Type::of(*system).name();
+                Name typeName = Type::of(*system).name();
                 encoder << encodeValue("systemType", typeName);
             }
 
@@ -396,7 +396,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     // Make sure the system isn't already added
     if (typeId < _systems.size() && _systems[typeId])
     {
-        const std::string typeName = SystemRegistry::typeNameOf(typeId);
+        Name typeName = SystemRegistry::typeNameOf(typeId);
         throw InvalidOperation(format("Scene already supports system type '%s'", typeName.data()));
     }
 
@@ -426,7 +426,7 @@ void Scene::addComponentType(ComponentTypeId typeId)
     // Make sure the component type isn't already added
     if (typeId < _componentPools.size() && _componentPools[typeId])
     {
-        const std::string typeName = ComponentRegistry::typeNameOf(typeId);
+        Name typeName = ComponentRegistry::typeNameOf(typeId);
         throw InvalidOperation(format("Scene already supports component type '%s'", typeName.data()));
     }
 
@@ -457,7 +457,7 @@ ComponentPoolBase& Scene::componentPoolOfTypeId(ComponentTypeId typeId)
     }
     else if (typeId >= _componentPools.size() || !_componentPools[typeId])
     {
-        const std::string& typeName = ComponentRegistry::typeNameOf(typeId);
+        Name typeName = ComponentRegistry::typeNameOf(typeId);
         throw InvalidOperation(format("Scene does not support component type '%s'", typeName.data()));
     }
     else
@@ -667,7 +667,7 @@ void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
                 encoder << beginObject();
 
                 const ComponentBase& component = componentPool.getBase(entity);
-                std::string typeName = Type::of(component).name();
+                Name typeName = Type::of(component).name();
 
                 encoder << encodeValue("componentType", typeName);
                 component.encode(encoder);

@@ -133,7 +133,7 @@ public:
 
 private:
     Enum();
-    Enum(const Name& name);
+    Enum(Name name);
 
     Name _name;
     ValueContainer _values;

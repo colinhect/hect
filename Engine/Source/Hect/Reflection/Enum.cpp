@@ -71,7 +71,7 @@ Enum::Enum()
 {
 }
 
-Enum::Enum(const Name& name) :
+Enum::Enum(Name name) :
     _name(name)
 {
 }

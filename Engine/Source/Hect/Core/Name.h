@@ -76,19 +76,19 @@ public:
     /// Returns true if the name is less than another.
     ///
     /// \param name The other name.
-    bool operator<(const Name& name) const;
+    bool operator<(Name name) const;
 
     ///
     /// Returns whether the name is equivalent to another.
     ///
     /// \param name The other name.
-    bool operator==(const Name& name) const;
+    bool operator==(Name name) const;
 
     ///
     /// Returns whether the name is different from another.
     ///
     /// \param name The other name.
-    bool operator!=(const Name& name) const;
+    bool operator!=(Name name) const;
 
 private:
     static Index lookUpIndex(const std::string& string);

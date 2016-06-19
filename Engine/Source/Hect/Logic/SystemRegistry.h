@@ -77,13 +77,13 @@ public:
     ///
     /// \throws InvalidOperation If the specified type name does not
     /// correspond to a registered system type.
-    static SystemTypeId typeIdOf(const std::string& typeName);
+    static SystemTypeId typeIdOf(Name typeName);
 
     ///
     /// Returns the System type name with the specified SystemTypeId.
     ///
     /// \param typeId The type id of the system type to get the type name of.
-    static const std::string& typeNameOf(SystemTypeId typeId);
+    static Name typeNameOf(SystemTypeId typeId);
 
     ///
     /// Returns whether the specified type id is registered with a
@@ -117,8 +117,8 @@ public:
 private:
     SystemRegistry();
 
-    static std::map<SystemTypeId, std::string> _typeIdToName;
-    static std::map<std::string, SystemTypeId> _typeNameToId;
+    static std::map<SystemTypeId, Name> _typeIdToName;
+    static std::map<Name, SystemTypeId> _typeNameToId;
     static std::map<std::type_index, SystemTypeId> _typeIndexToId;
     static SystemTypeIdContainer _typeIds;
 

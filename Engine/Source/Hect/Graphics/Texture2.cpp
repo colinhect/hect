@@ -32,7 +32,7 @@ Texture2::Texture2()
 {
 }
 
-Texture2::Texture2(const Name& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
+Texture2::Texture2(Name name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
     Asset(name),
     _width(width),
     _height(height),
@@ -44,7 +44,7 @@ Texture2::Texture2(const Name& name, unsigned width, unsigned height, const Pixe
 {
 }
 
-Texture2::Texture2(const Name& name, const Image::Handle& image) :
+Texture2::Texture2(Name name, const Image::Handle& image) :
     Asset(name)
 {
     setImage(image);

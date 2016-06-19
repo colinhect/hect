@@ -40,7 +40,7 @@ Kind Type::kind() const
     return _kind;
 }
 
-const Name& Type::name() const
+Name Type::name() const
 {
     return _name;
 }
@@ -83,12 +83,12 @@ void Type::decode(void* value, Decoder& decoder) const
     _decodeFunction(value, decoder);
 }
 
-Type::Type(Kind kind, const std::string& name) :
+Type::Type(Kind kind, Name name) :
     _kind(kind),
     _name(name),
     _enum(new Enum(name)),
     _encodeFunction([](const void*, Encoder&) { }),
-_decodeFunction([](void*, Decoder&) { })
+    _decodeFunction([](void*, Decoder&) { })
 {
 }
 

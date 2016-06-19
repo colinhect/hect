@@ -57,7 +57,7 @@ public:
     /// \param name The name of the axis.
     ///
     /// \returns The value of the axis; 0 if the axis does not exist.
-    double axisValue(const Name& name) const;
+    double axisValue(Name name) const;
 
     void tick(double timeStep) override;
 

@@ -69,7 +69,7 @@ public:
     /// Constructs a blank shader.
     ///
     /// \param name The name of the shader.
-    Shader(const Name& name);
+    Shader(Name name);
 
     ///
     /// Returns the render stage.
@@ -131,11 +131,11 @@ public:
     /// \param name The name of the uniform.
     ///
     /// \throws InvalidOperation If no uniform with the specified name exists.
-    Uniform& uniform(const Name& name);
+    Uniform& uniform(Name name);
 
     ///
-    /// \copydoc hect::Shader::uniform(const Name&)
-    const Uniform& uniform(const Name& name) const;
+    /// \copydoc hect::Shader::uniform(Name)
+    const Uniform& uniform(Name name) const;
 
     ///
     /// Returns the uniform of the specified name.
@@ -156,7 +156,7 @@ public:
     ///
     /// \returns True if the shader has a uniform of the specified name; false
     /// otherwise.
-    bool hasUniform(const Name& name) const;
+    bool hasUniform(Name name) const;
 
     ///
     /// Returns the blend mode that the shader uses.

@@ -47,7 +47,7 @@ SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
     return it->second;
 }
 
-SystemTypeId SystemRegistry::typeIdOf(const std::string& typeName)
+SystemTypeId SystemRegistry::typeIdOf(Name typeName)
 {
     auto it = _typeNameToId.find(typeName);
     if (it == _typeNameToId.end())
@@ -57,7 +57,7 @@ SystemTypeId SystemRegistry::typeIdOf(const std::string& typeName)
     return it->second;
 }
 
-const std::string& SystemRegistry::typeNameOf(SystemTypeId typeId)
+Name SystemRegistry::typeNameOf(SystemTypeId typeId)
 {
     auto it = _typeIdToName.find(typeId);
     if (it == _typeIdToName.end())
@@ -77,8 +77,8 @@ SystemRegistry::SystemTypeIdSequence SystemRegistry::typeIds()
     return SystemTypeIdSequence(_typeIds);
 }
 
-std::map<SystemTypeId, std::string> SystemRegistry::_typeIdToName;
-std::map<std::string, SystemTypeId> SystemRegistry::_typeNameToId;
+std::map<SystemTypeId, Name> SystemRegistry::_typeIdToName;
+std::map<Name, SystemTypeId> SystemRegistry::_typeNameToId;
 std::map<std::type_index, SystemTypeId> SystemRegistry::_typeIndexToId;
 std::vector<SystemRegistry::SystemConstructor> SystemRegistry::_constructors;
 SystemRegistry::SystemTypeIdContainer SystemRegistry::_typeIds;

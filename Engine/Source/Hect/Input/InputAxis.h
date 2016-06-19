@@ -50,17 +50,17 @@ public:
     /// Constructs an input axis.
     ///
     /// \param name The name of the axis (must be unique).
-    InputAxis(const Name& name);
+    InputAxis(Name name);
 
     ///
     /// Returns the name.
-    const Name& name() const;
+    Name name() const;
 
     ///
     /// Sets the name.
     ///
     /// \param name The new name.
-    void setName(const Name& name);
+    void setName(Name name);
 
     ///
     /// Adds a binding to affect the input axis.

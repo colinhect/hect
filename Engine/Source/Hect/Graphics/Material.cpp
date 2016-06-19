@@ -29,7 +29,7 @@ Material::Material()
 {
 }
 
-Material::Material(const Name& name) :
+Material::Material(Name name) :
     Asset(name)
 {
 }
@@ -55,7 +55,7 @@ const Material::UniformValueSequence Material::uniformValues() const
     return _uniformValues;
 }
 
-void Material::setUniformValue(const Name& name, const UniformValue& value)
+void Material::setUniformValue(Name name, const UniformValue& value)
 {
     if (!_shader)
     {

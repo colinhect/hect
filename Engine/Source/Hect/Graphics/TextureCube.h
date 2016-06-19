@@ -58,7 +58,7 @@ public:
     /// \param minFilter The minification filter.
     /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
-    TextureCube(const Name& name, unsigned width, unsigned height,
+    TextureCube(Name name, unsigned width, unsigned height,
                 const PixelFormat& pixelFormat = PixelFormat::Rgb8,
                 TextureFilter minFilter = TextureFilter::Linear,
                 TextureFilter magFilter = TextureFilter::Linear,

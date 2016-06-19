@@ -83,7 +83,7 @@ public:
     ///
     /// \throws InvalidOperation If the type already exists.
     template <typename T>
-    static Type& create(Kind kind, const Name& name);
+    static Type& create(Kind kind, Name name);
 
     ///
     /// Returns a reflected type.
@@ -109,7 +109,7 @@ public:
 
     ///
     /// Returns the name.
-    const Name& name() const;
+    Name name() const;
 
     ///
     /// Returns the type as an enum.
@@ -156,7 +156,7 @@ public:
     void decode(void* value, Decoder& decoder) const;
 
 private:
-    Type(Kind kind, const std::string& name);
+    Type(Kind kind, Name name);
 
     static const Type& fromTypeInfo(const std::type_info& typeInfo);
 

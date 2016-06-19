@@ -29,7 +29,7 @@ Shader::Shader()
 {
 }
 
-Shader::Shader(const Name& name) :
+Shader::Shader(Name name) :
     Asset(name)
 {
 }
@@ -100,7 +100,7 @@ const Uniform& Shader::uniform(UniformIndex index) const
     return const_cast<Shader*>(this)->uniform(index);
 }
 
-Uniform& Shader::uniform(const Name& name)
+Uniform& Shader::uniform(Name name)
 {
     auto it = _uniformIndices.find(name);
     if (it == _uniformIndices.end())
@@ -110,7 +110,7 @@ Uniform& Shader::uniform(const Name& name)
     return _uniforms[it->second];
 }
 
-const Uniform& Shader::uniform(const Name& name) const
+const Uniform& Shader::uniform(Name name) const
 {
     return const_cast<Shader*>(this)->uniform(name);
 }
@@ -130,7 +130,7 @@ const Uniform& Shader::uniform(const char* name) const
     return const_cast<Shader*>(this)->uniform(name);
 }
 
-bool Shader::hasUniform(const Name& name) const
+bool Shader::hasUniform(Name name) const
 {
     auto it = _uniformIndices.find(name);
     return it != _uniformIndices.end();

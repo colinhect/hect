@@ -33,19 +33,19 @@ Asset<T>::Asset() :
 }
 
 template <typename T>
-Asset<T>::Asset(const Name& name) :
+Asset<T>::Asset(Name name) :
     _name(name)
 {
 }
 
 template <typename T>
-const Name& Asset<T>::name() const
+Name Asset<T>::name() const
 {
     return _name;
 }
 
 template <typename T>
-void Asset<T>::setName(const Name& name)
+void Asset<T>::setName(Name name)
 {
     _name = name;
 }

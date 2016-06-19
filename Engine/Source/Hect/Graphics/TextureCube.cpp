@@ -32,7 +32,7 @@ TextureCube::TextureCube()
 {
 }
 
-TextureCube::TextureCube(const Name& name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped) :
+TextureCube::TextureCube(Name name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped) :
     Asset(name),
     _width(width),
     _height(height),

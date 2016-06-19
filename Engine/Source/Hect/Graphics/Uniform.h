@@ -62,25 +62,25 @@ public:
     ///
     /// \param name The name.
     /// \param type The type.
-    Uniform(const Name& name, UniformType type);
+    Uniform(Name name, UniformType type);
 
     ///
     /// Constructs a uniform bound to a built-in value.
     ///
     /// \param name The name.
     /// \param binding The binding.
-    Uniform(const Name& name, UniformBinding binding);
+    Uniform(Name name, UniformBinding binding);
 
     ///
     /// Constructs a uniform with a default value.
     ///
     /// \param name The name.
     /// \param value The default value.
-    Uniform(const Name& name, const UniformValue& value);
+    Uniform(Name name, const UniformValue& value);
 
     ///
     /// Returns the name.
-    const Name& name() const;
+    Name name() const;
 
     ///
     /// Returns the type.

@@ -68,7 +68,7 @@ void InputSystem::addAxis(const InputAxis& axis)
     HECT_INFO(format("Added input axis '%s'", axis.name().data()));
 }
 
-double InputSystem::axisValue(const Name& name) const
+double InputSystem::axisValue(Name name) const
 {
     auto it = _axes.find(name);
     if (it != _axes.end())

@@ -202,14 +202,14 @@ void ComponentPool<T>::remove(Entity& entity)
         // Remove the component from the pool
         _components[id].exitPool();
 
-        // Clear the mapping from entity tocomponent and component to
+        // Clear the mapping from entity to component and component to
         // entity
         _componentToEntity[id] = EntityId(-1);
         _entityToComponent[entityId] = ComponentId(-1);
     }
     else
     {
-        const std::string& typeName = Type::get<T>().name();
+        Name typeName = Type::get<T>().name();
         throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.data()));
     }
 }
@@ -254,7 +254,7 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     // Ensure that the entity does not already have a component of this type
     if (id != ComponentId(-1))
     {
-        const std::string& typeName = Type::get<T>().name();
+        Name typeName = Type::get<T>().name();
         throw InvalidOperation(format("Entity already has component of type '%s'", typeName.data()));
     }
 
@@ -333,7 +333,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
     }
     else
     {
-        const std::string& typeName = Type::get<T>().name();
+        Name typeName = Type::get<T>().name();
         throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.data()));
     }
 }

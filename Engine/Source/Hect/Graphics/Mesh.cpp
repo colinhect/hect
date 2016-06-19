@@ -35,7 +35,7 @@ Mesh::Mesh() :
 {
 }
 
-Mesh::Mesh(const Name& name) :
+Mesh::Mesh(Name name) :
     Asset(name),
     _vertexLayout(VertexLayout::createDefault())
 {

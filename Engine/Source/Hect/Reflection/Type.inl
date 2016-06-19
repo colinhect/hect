@@ -39,7 +39,7 @@ const Type& Type::get()
 }
 
 template <typename T>
-Type& Type::create(Kind kind, const std::string& name)
+Type& Type::create(Kind kind, Name name)
 {
     std::type_index typeIndex(typeid(T));
 
