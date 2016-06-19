@@ -62,25 +62,25 @@ public:
     ///
     /// \param name The name.
     /// \param type The type.
-    Uniform(const std::string& name, UniformType type);
+    Uniform(const Name& name, UniformType type);
 
     ///
     /// Constructs a uniform bound to a built-in value.
     ///
     /// \param name The name.
     /// \param binding The binding.
-    Uniform(const std::string& name, UniformBinding binding);
+    Uniform(const Name& name, UniformBinding binding);
 
     ///
     /// Constructs a uniform with a default value.
     ///
     /// \param name The name.
     /// \param value The default value.
-    Uniform(const std::string& name, const UniformValue& value);
+    Uniform(const Name& name, const UniformValue& value);
 
     ///
     /// Returns the name.
-    const std::string& name() const;
+    const Name& name() const;
 
     ///
     /// Returns the type.
@@ -139,7 +139,7 @@ public:
 private:
     void resolveType();
 
-    std::string _name;
+    Name _name;
 
     UniformType _type { UniformType::Float };
     UniformBinding _binding { UniformBinding::None };

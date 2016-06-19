@@ -29,7 +29,7 @@ Material::Material()
 {
 }
 
-Material::Material(const std::string& name) :
+Material::Material(const Name& name) :
     Asset(name)
 {
 }
@@ -55,7 +55,7 @@ const Material::UniformValueSequence Material::uniformValues() const
     return _uniformValues;
 }
 
-void Material::setUniformValue(const std::string& name, const UniformValue& value)
+void Material::setUniformValue(const Name& name, const UniformValue& value)
 {
     if (!_shader)
     {
@@ -209,7 +209,7 @@ void Material::decode(Decoder& decoder)
         {
             try
             {
-                std::string name;
+                Name name;
                 UniformValue value;
 
                 if (decoder.isBinaryStream())

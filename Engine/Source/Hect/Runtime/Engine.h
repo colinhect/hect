@@ -181,7 +181,7 @@ private:
 
 }
 
-#define HECT_PROJECT_MAIN(project) \
+#define HECT_MAIN_PROJECT(project) \
     int main(int argc, char* const argv[]) \
     { \
         try \
@@ -201,16 +201,15 @@ private:
         return 0; \
     }
 
-#define HECT_PROJECT_MAIN_TEST_HARNESS(project, settingsFile, block) \
+#define HECT_MAIN_SYSTEM_TEST_HARNESS(settingsFile, block) \
     int main(int argc, char* const argv[]) \
     { \
         try \
         { \
             hect::Engine::preInitialize(); \
-            project::registerTypes(); \
             char settingsPath[] = settingsFile; \
             char* const engineArgv[] = { argv[0], settingsPath }; \
-            hect::Engine engine(argc, argv); \
+            hect::Engine engine(2, engineArgv); \
             int code = 0; \
             block; \
             hect::Engine::postUninitialize(); \
@@ -224,15 +223,55 @@ private:
         return 0; \
     }
 
-#define HECT_MAIN_TEST_HARNESS(settingsFile, block) \
+#define HECT_MAIN_SYSTEM_TEST_HARNESS_PROJECT(project, settingsFile, block) \
     int main(int argc, char* const argv[]) \
     { \
         try \
         { \
             hect::Engine::preInitialize(); \
+            project::registerTypes(); \
             char settingsPath[] = settingsFile; \
             char* const engineArgv[] = { argv[0], settingsPath }; \
-            hect::Engine engine(argc, argv); \
+            hect::Engine engine(2, engineArgv); \
+            int code = 0; \
+            block; \
+            hect::Engine::postUninitialize(); \
+            return code; \
+        } \
+        catch (hect::Exception& exception) \
+        { \
+            HECT_ERROR(exception.what()); \
+            hect::Engine::postUninitialize(); \
+        } \
+        return 0; \
+    }
+
+#define HECT_MAIN_UNIT_TEST_HARNESS(block) \
+    int main(int argc, char* const argv[]) \
+    { \
+        try \
+        { \
+            hect::Engine::preInitialize(); \
+            int code = 0; \
+            block; \
+            hect::Engine::postUninitialize(); \
+            return code; \
+        } \
+        catch (hect::Exception& exception) \
+        { \
+            HECT_ERROR(exception.what()); \
+            hect::Engine::postUninitialize(); \
+        } \
+        return 0; \
+    }
+
+#define HECT_MAIN_UNIT_TEST_HARNESS_PROJECT(project, block) \
+    int main(int argc, char* const argv[]) \
+    { \
+        try \
+        { \
+            hect::Engine::preInitialize(); \
+            project::registerTypes(); \
             int code = 0; \
             block; \
             hect::Engine::postUninitialize(); \

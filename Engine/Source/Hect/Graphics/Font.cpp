@@ -29,7 +29,7 @@ Font::Font()
 {
 }
 
-Font::Font(const std::string& name) :
+Font::Font(const Name& name) :
     Asset(name)
 {
 }

@@ -29,7 +29,7 @@ Shader::Shader()
 {
 }
 
-Shader::Shader(const std::string& name) :
+Shader::Shader(const Name& name) :
     Asset(name)
 {
 }
@@ -100,29 +100,29 @@ const Uniform& Shader::uniform(UniformIndex index) const
     return const_cast<Shader*>(this)->uniform(index);
 }
 
-Uniform& Shader::uniform(const std::string& name)
+Uniform& Shader::uniform(const Name& name)
 {
-    auto it = _uniformIndices.get(name);
-    if (!it)
+    auto it = _uniformIndices.find(name);
+    if (it == _uniformIndices.end())
     {
         throw InvalidOperation(format("Shader does not have a uniform named '%s'", name.data()));
     }
-    return _uniforms[*it];
+    return _uniforms[it->second];
 }
 
-const Uniform& Shader::uniform(const std::string& name) const
+const Uniform& Shader::uniform(const Name& name) const
 {
     return const_cast<Shader*>(this)->uniform(name);
 }
 
 Uniform& Shader::uniform(const char* name)
 {
-    auto it = _uniformIndices.get(name);
-    if (!it)
+    auto it = _uniformIndices.find(name);
+    if (it == _uniformIndices.end())
     {
         throw InvalidOperation(format("Shader does not have a uniform named '%s'", name));
     }
-    return _uniforms[*it];
+    return _uniforms[it->second];
 }
 
 const Uniform& Shader::uniform(const char* name) const
@@ -130,10 +130,10 @@ const Uniform& Shader::uniform(const char* name) const
     return const_cast<Shader*>(this)->uniform(name);
 }
 
-bool Shader::hasUniform(const std::string& name) const
+bool Shader::hasUniform(const Name& name) const
 {
-    auto it = _uniformIndices.get(name);
-    return static_cast<bool>(it);
+    auto it = _uniformIndices.find(name);
+    return it != _uniformIndices.end();
 }
 
 const BlendMode& Shader::blendMode() const
@@ -274,7 +274,7 @@ void Shader::resolveUniforms()
         Uniform& uniform = _uniforms[index];
         uniform._index = index;
 
-        _uniformIndices.set(uniform._name, index);
+        _uniformIndices[uniform._name] = index;
         if (uniform.type() == UniformType::Texture2 ||
                 uniform.type() == UniformType::Texture3 ||
                 uniform.type() == UniformType::TextureCube)

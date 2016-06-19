@@ -23,10 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <vector>
+#include <unordered_map>
 
 #include "Hect/Core/Export.h"
-#include "Hect/Core/StringMap.h"
+#include "Hect/Core/Name.h"
 #include "Hect/Input/InputAxis.h"
 #include "Hect/Logic/System.h"
 
@@ -57,17 +57,12 @@ public:
     /// \param name The name of the axis.
     ///
     /// \returns The value of the axis; 0 if the axis does not exist.
-    double axisValue(const std::string& name) const;
-
-    ///
-    /// \copydoc hect::InputSystem::axisValue()
-    double axisValue(const char* name) const;
+    double axisValue(const Name& name) const;
 
     void tick(double timeStep) override;
 
 private:
-    std::vector<InputAxis> _axes;
-    StringMap<size_t> _axisIndices;
+    std::unordered_map<Name, InputAxis> _axes;
 
     Engine& _engine;
 };

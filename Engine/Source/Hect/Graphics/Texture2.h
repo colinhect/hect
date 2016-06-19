@@ -56,7 +56,7 @@ public:
     /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
     /// \param wrapped True if the texture is wrapped; false otherwise.
-    Texture2(const std::string& name, unsigned width, unsigned height,
+    Texture2(const Name& name, unsigned width, unsigned height,
              const PixelFormat& pixelFormat = PixelFormat::Rgb8,
              TextureFilter minFilter = TextureFilter::Linear,
              TextureFilter magFilter = TextureFilter::Linear,
@@ -68,7 +68,7 @@ public:
     ///
     /// \param name The name.
     /// \param image The source image.
-    Texture2(const std::string& name, const Image::Handle& image);
+    Texture2(const Name& name, const Image::Handle& image);
 
     ///
     /// Returns the image of the texture.

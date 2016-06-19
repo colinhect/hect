@@ -62,7 +62,7 @@ public:
     /// and index type and a name.
     ///
     /// \param name The name of the mesh.
-    Mesh(const std::string& name);
+    Mesh(const Name& name);
 
     ///
     /// Returns the vertex layout.

@@ -24,4 +24,4 @@
 #include <Hect.h>
 #include <celero/Celero.h>
 
-HECT_MAIN_TEST_HARNESS("HectPerformanceTests.settings", { celero::Run(argc, const_cast<char**>(argv)); })
+HECT_MAIN_SYSTEM_TEST_HARNESS("HectPerformanceTests.settings", { celero::Run(argc, const_cast<char**>(argv)); })

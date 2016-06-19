@@ -26,6 +26,8 @@
 #include <unordered_map>
 #include <map>
 
+#include "Hect/Core/Name.h"
+
 namespace hect
 {
 
@@ -144,6 +146,24 @@ public:
     /// \returns An iterator to the found value (invalid if no value exists
     /// for the given key).
     ConstIterator get(const std::string& key) const;
+
+    ///
+    /// Gets the value for a key.
+    ///
+    /// \param key The key to get the value for.
+    ///
+    /// \returns An iterator to the found value (invalid if no value exists
+    /// for the given key).
+    Iterator get(const Name& key);
+
+    ///
+    /// Gets the value for a key.
+    ///
+    /// \param key The key to get the value for.
+    ///
+    /// \returns An iterator to the found value (invalid if no value exists
+    /// for the given key).
+    ConstIterator get(const Name& key) const;
 
     ///
     /// Gets the value for a key.

@@ -31,6 +31,7 @@
 #include "Hect/Core/Exception.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Format.h"
+#include "Hect/Core/Name.h"
 #include "Hect/Core/Sequence.h"
 #include "Hect/IO/DecodeError.h"
 #include "Hect/IO/EncodeError.h"
@@ -132,9 +133,9 @@ public:
 
 private:
     Enum();
-    Enum(const std::string& name);
+    Enum(const Name& name);
 
-    std::string _name;
+    Name _name;
     ValueContainer _values;
     std::map<std::string, EnumValue::Type> _stringToNumeric;
     std::map<EnumValue::Type, std::string> _numericToString;

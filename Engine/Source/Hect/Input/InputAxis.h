@@ -26,6 +26,7 @@
 #include <vector>
 
 #include "Hect/Core/Export.h"
+#include "Hect/Core/Name.h"
 #include "Hect/Input/InputAxisBinding.h"
 #include "Hect/IO/Encodable.h"
 
@@ -49,17 +50,17 @@ public:
     /// Constructs an input axis.
     ///
     /// \param name The name of the axis (must be unique).
-    InputAxis(const std::string& name);
+    InputAxis(const Name& name);
 
     ///
     /// Returns the name.
-    const std::string& name() const;
+    const Name& name() const;
 
     ///
     /// Sets the name.
     ///
     /// \param name The new name.
-    void setName(const std::string& name);
+    void setName(const Name& name);
 
     ///
     /// Adds a binding to affect the input axis.
@@ -82,7 +83,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    std::string _name;
+    Name _name;
 
     std::vector<InputAxisBinding> _bindings;
     double _value { 0 };

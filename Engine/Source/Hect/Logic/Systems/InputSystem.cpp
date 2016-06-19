@@ -52,8 +52,8 @@ InputSystem::InputSystem(Engine& engine, Scene& scene) :
 
 void InputSystem::addAxis(const InputAxis& axis)
 {
-    auto it = _axisIndices.get(axis.name());
-    if (it)
+    auto it = _axes.find(axis.name());
+    if (it != _axes.end())
     {
         throw InvalidOperation(format("Input axis with name '%s' already exists", axis.name().data()));
     }
@@ -63,38 +63,28 @@ void InputSystem::addAxis(const InputAxis& axis)
         throw InvalidOperation("Input axis name cannot be empty");
     }
 
-    size_t index = _axes.size();
-    _axes.push_back(axis);
-    _axisIndices.set(axis.name(), index);
+    _axes[axis.name()] = axis;
 
     HECT_INFO(format("Added input axis '%s'", axis.name().data()));
 }
 
-double InputSystem::axisValue(const std::string& name) const
+double InputSystem::axisValue(const Name& name) const
 {
-    auto it = _axisIndices.get(name);
-    if (!it)
+    auto it = _axes.find(name);
+    if (it != _axes.end())
     {
-        return _axes[*it].value();
+        return it->second.value();
     }
-    return 0;
-}
 
-double InputSystem::axisValue(const char* name) const
-{
-    auto it = _axisIndices.get(name);
-    if (it)
-    {
-        return _axes[*it].value();
-    }
-    return 0;
+    return 0.0;
 }
 
 void InputSystem::tick(double timeStep)
 {
     // Update each axis
-    for (InputAxis& axis : _axes)
+    for (auto& pair : _axes)
     {
+        InputAxis& axis = pair.second;
         axis.update(_engine, timeStep);
     }
 }

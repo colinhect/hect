@@ -31,7 +31,7 @@
 
 using namespace hect;
 
-Joystick::Joystick(const std::string& name, size_t buttonCount, size_t axisCount) :
+Joystick::Joystick(const Name& name, size_t buttonCount, size_t axisCount) :
     _name(name),
     _buttonStates(buttonCount, false),
     _axisStates(axisCount, 0)

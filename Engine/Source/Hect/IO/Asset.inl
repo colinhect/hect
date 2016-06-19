@@ -33,19 +33,19 @@ Asset<T>::Asset() :
 }
 
 template <typename T>
-Asset<T>::Asset(const std::string& name) :
+Asset<T>::Asset(const Name& name) :
     _name(name)
 {
 }
 
 template <typename T>
-const std::string& Asset<T>::name() const
+const Name& Asset<T>::name() const
 {
     return _name;
 }
 
 template <typename T>
-void Asset<T>::setName(const std::string& name)
+void Asset<T>::setName(const Name& name)
 {
     _name = name;
 }

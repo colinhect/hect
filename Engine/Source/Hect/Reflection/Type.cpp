@@ -40,7 +40,7 @@ Kind Type::kind() const
     return _kind;
 }
 
-const std::string& Type::name() const
+const Name& Type::name() const
 {
     return _name;
 }

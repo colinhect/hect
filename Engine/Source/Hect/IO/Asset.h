@@ -25,6 +25,7 @@
 
 #include <string>
 
+#include "Hect/Core/Name.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Encodable.h"
 
@@ -51,17 +52,17 @@ public:
     /// Constructs an asset.
     ///
     /// \param name The name of the asset.
-    Asset(const std::string& name);
+    Asset(const Name& name);
 
     ///
     /// Returns the name.
-    const std::string& name() const;
+    const Name& name() const;
 
     ///
     /// Sets the name.
     ///
     /// \param name The new name.
-    void setName(const std::string& name);
+    void setName(const Name& name);
 
     ///
     /// Returns an unowned handle to the asset.
@@ -70,7 +71,7 @@ public:
     AssetHandle<T> createHandle();
 
 private:
-    std::string _name;
+    Name _name;
 };
 
 }

@@ -30,27 +30,27 @@ Uniform::Uniform() :
 {
 }
 
-Uniform::Uniform(const std::string& name, UniformType type) :
+Uniform::Uniform(const Name& name, UniformType type) :
     _name(name),
     _type(type)
 {
 }
 
-Uniform::Uniform(const std::string& name, UniformBinding binding) :
+Uniform::Uniform(const Name& name, UniformBinding binding) :
     _name(name),
     _binding(binding)
 {
     resolveType();
 }
 
-Uniform::Uniform(const std::string& name, const UniformValue& value) :
+Uniform::Uniform(const Name& name, const UniformValue& value) :
     _name(name),
     _value(value)
 {
     resolveType();
 }
 
-const std::string& Uniform::name() const
+const Name& Uniform::name() const
 {
     return _name;
 }

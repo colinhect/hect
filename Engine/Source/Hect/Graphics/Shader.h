@@ -23,11 +23,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <unordered_map>
 #include <vector>
 
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Sequence.h"
-#include "Hect/Core/StringMap.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/Graphics/BlendMode.h"
 #include "Hect/Graphics/Renderer.h"
@@ -69,7 +69,7 @@ public:
     /// Constructs a blank shader.
     ///
     /// \param name The name of the shader.
-    Shader(const std::string& name);
+    Shader(const Name& name);
 
     ///
     /// Returns the render stage.
@@ -131,11 +131,11 @@ public:
     /// \param name The name of the uniform.
     ///
     /// \throws InvalidOperation If no uniform with the specified name exists.
-    Uniform& uniform(const std::string& name);
+    Uniform& uniform(const Name& name);
 
     ///
-    /// \copydoc hect::Shader::uniform(const std::string&)
-    const Uniform& uniform(const std::string& name) const;
+    /// \copydoc hect::Shader::uniform(const Name&)
+    const Uniform& uniform(const Name& name) const;
 
     ///
     /// Returns the uniform of the specified name.
@@ -156,7 +156,7 @@ public:
     ///
     /// \returns True if the shader has a uniform of the specified name; false
     /// otherwise.
-    bool hasUniform(const std::string& name) const;
+    bool hasUniform(const Name& name) const;
 
     ///
     /// Returns the blend mode that the shader uses.
@@ -216,7 +216,7 @@ private:
 
     ModuleContainer _modules;
     UniformContainer _uniforms;
-    StringMap<UniformIndex> _uniformIndices;
+    std::unordered_map<Name, UniformIndex> _uniformIndices;
 
     BlendMode _blendMode;
     bool _depthTested { true };

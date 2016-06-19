@@ -35,30 +35,11 @@ using namespace hect;
 
 namespace
 {
-    static std::mutex _nameIndexLookUpMutex;
-    static std::unique_ptr<std::unordered_map<std::string, Name::Index>> _nameStringToIndex;
-    static std::vector<std::string> _nameIndexToString;
-}
 
-void Name::initialize()
-{
-    std::lock_guard<std::mutex> lock(_nameIndexLookUpMutex);
+static std::mutex _nameIndexLookUpMutex;
+static std::unordered_map<std::string, Name::Index> _nameStringToIndex;
+static std::vector<std::string> _nameIndexToString;
 
-    if (!_nameStringToIndex)
-    {
-        _nameStringToIndex.reset(new std::unordered_map<std::string, Name::Index>());
-        _nameIndexToString.clear();
-    }
-}
-
-void Name::uninitialize()
-{
-    std::lock_guard<std::mutex> lock(_nameIndexLookUpMutex);
-
-    if (_nameStringToIndex)
-    {
-        _nameStringToIndex.reset();
-    }
 }
 
 Name::Name() :
@@ -89,9 +70,19 @@ const std::string& Name::asString() const
     }
 }
 
+const char* Name::data() const
+{
+    return asString().data();
+}
+
+Name::Index Name::index() const
+{
+    return _index;
+}
+
 bool Name::empty() const
 {
-    return _index == -1;
+    return _index == Index(-1);
 }
 
 bool Name::operator<(const Name& name) const
@@ -111,16 +102,11 @@ bool Name::operator!=(const Name& name) const
 
 Name::Index Name::lookUpIndex(const std::string& string)
 {
-    if (!_nameStringToIndex)
-    {
-        throw InvalidOperation("Name look-up table is not allocated");
-    }
-
     Name::Index index = -1;
 
     // If this is the first encounter of this name
-    auto it = _nameStringToIndex->find(string);
-    if (it == _nameStringToIndex->end())
+    auto it = _nameStringToIndex.find(string);
+    if (it == _nameStringToIndex.end())
     {
         std::lock_guard<std::mutex> lock(_nameIndexLookUpMutex);
 
@@ -129,7 +115,7 @@ Name::Index Name::lookUpIndex(const std::string& string)
         _nameIndexToString.push_back(string);
 
         // Add the index to the index look-up table
-        (*_nameStringToIndex)[string] = index;
+        _nameStringToIndex[string] = index;
     }
     else
     {
@@ -154,6 +140,16 @@ Decoder& operator>>(Decoder& decoder, Name& name)
     decoder >> decodeValue(nameString);
     name = Name(nameString);
     return decoder;
+}
+
+}
+
+namespace std
+{
+
+std::size_t hash<hect::Name>::operator()(const hect::Name& name) const
+{
+    return static_cast<std::size_t>(name.index());
 }
 
 }

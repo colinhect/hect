@@ -29,6 +29,7 @@
 #include <typeindex>
 
 #include "Hect/Core/Export.h"
+#include "Hect/Core/Name.h"
 
 namespace hect
 {
@@ -82,7 +83,7 @@ public:
     ///
     /// \throws InvalidOperation If the type already exists.
     template <typename T>
-    static Type& create(Kind kind, const std::string& name);
+    static Type& create(Kind kind, const Name& name);
 
     ///
     /// Returns a reflected type.
@@ -108,7 +109,7 @@ public:
 
     ///
     /// Returns the name.
-    const std::string& name() const;
+    const Name& name() const;
 
     ///
     /// Returns the type as an enum.
@@ -160,7 +161,7 @@ private:
     static const Type& fromTypeInfo(const std::type_info& typeInfo);
 
     Kind _kind { Kind::None };
-    std::string _name;
+    Name _name;
     std::shared_ptr<Enum> _enum;
 
     EncodeFunction _encodeFunction;

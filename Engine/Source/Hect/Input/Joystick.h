@@ -25,6 +25,7 @@
 
 #include "Hect/Core/Event.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Core/Name.h"
 #include "Hect/Input/JoystickAxis.h"
 #include "Hect/Input/JoystickButton.h"
 #include "Hect/Input/JoystickEvent.h"
@@ -39,7 +40,7 @@ class HECT_EXPORT Joystick :
     public Dispatcher<JoystickEvent>
 {
 public:
-    Joystick(const std::string& name, size_t buttonCount, size_t axisCount);
+    Joystick(const Name& name, size_t buttonCount, size_t axisCount);
 
     ///
     /// Returns whether the given button is down.
@@ -64,7 +65,7 @@ public:
 private:
     std::vector<JoystickEvent> _events;
 
-    std::string _name;
+    Name _name;
 
     std::vector<bool> _buttonStates;
     std::vector<double> _axisStates;

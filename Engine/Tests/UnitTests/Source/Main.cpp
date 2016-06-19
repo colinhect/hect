@@ -21,5 +21,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#define CATCH_CONFIG_MAIN
+#include <Hect.h>
+
+#define CATCH_CONFIG_RUNNER
 #include <catch.hpp>
+
+HECT_MAIN_UNIT_TEST_HARNESS({ code = Catch::Session().run(argc, argv); })

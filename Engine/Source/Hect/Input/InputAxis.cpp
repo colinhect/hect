@@ -31,17 +31,17 @@ InputAxis::InputAxis()
 {
 }
 
-InputAxis::InputAxis(const std::string& name) :
+InputAxis::InputAxis(const Name& name) :
     _name(name)
 {
 }
 
-const std::string& InputAxis::name() const
+const Name& InputAxis::name() const
 {
     return _name;
 }
 
-void InputAxis::setName(const std::string& name)
+void InputAxis::setName(const Name& name)
 {
     _name = name;
 }

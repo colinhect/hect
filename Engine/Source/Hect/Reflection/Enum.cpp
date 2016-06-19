@@ -71,7 +71,7 @@ Enum::Enum()
 {
 }
 
-Enum::Enum(const std::string& name) :
+Enum::Enum(const Name& name) :
     _name(name)
 {
 }

@@ -26,26 +26,8 @@ using namespace hect;
 
 #include <catch.hpp>
 
-// Initializes the static look-up tables required for name usage for the scope
-// of a single test
-class NameTestScope
-{
-public:
-    NameTestScope()
-    {
-        Name::initialize();
-    }
-
-    ~NameTestScope()
-    {
-        Name::uninitialize();
-    }
-};
-
 TEST_CASE("Construct empty name", "[Name]")
 {
-    NameTestScope scope;
-
     Name name;
 
     REQUIRE(name.empty());
@@ -54,8 +36,6 @@ TEST_CASE("Construct empty name", "[Name]")
 
 TEST_CASE("Construct non-empty name", "[Name]")
 {
-    NameTestScope scope;
-
     Name name("Test");
 
     REQUIRE(!name.empty());
@@ -64,8 +44,6 @@ TEST_CASE("Construct non-empty name", "[Name]")
 
 TEST_CASE("Compare two different names", "[Name]")
 {
-    NameTestScope scope;
-
     Name nameA("TestA");
     Name nameB("TestB");
 
@@ -75,8 +53,6 @@ TEST_CASE("Compare two different names", "[Name]")
 
 TEST_CASE("Compare two equivalent names", "[Name]")
 {
-    NameTestScope scope;
-
     Name nameA("Test");
     Name nameB("Test");
 

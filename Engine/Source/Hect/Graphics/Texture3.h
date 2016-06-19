@@ -57,7 +57,7 @@ public:
     /// \param magFilter The magnification filter.
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
     /// \param wrapped True if the texture is wrapped; false otherwise.
-    Texture3(const std::string& name, unsigned width, unsigned height, unsigned depth,
+    Texture3(const Name& name, unsigned width, unsigned height, unsigned depth,
              const PixelFormat& pixelFormat = PixelFormat::Rgb8,
              TextureFilter minFilter = TextureFilter::Linear,
              TextureFilter magFilter = TextureFilter::Linear,

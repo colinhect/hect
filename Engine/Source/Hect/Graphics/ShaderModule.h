@@ -26,6 +26,7 @@
 #include <string>
 
 #include "Hect/Core/Export.h"
+#include "Hect/Core/Name.h"
 #include "Hect/IO/Encodable.h"
 #include "Hect/Graphics/ShaderModuleType.h"
 
@@ -49,7 +50,7 @@ public:
     /// \param type The module type.
     /// \param name The name of the module.
     /// \param source The source code of the module.
-    ShaderModule(ShaderModuleType type, const std::string& name, const std::string& source);
+    ShaderModule(ShaderModuleType type, const Name& name, const std::string& source);
 
     ///
     /// Returns the type.
@@ -57,7 +58,7 @@ public:
 
     ///
     /// Returns the name of the module.
-    const std::string& name() const;
+    const Name& name() const;
 
     ///
     /// Returns the source code.
@@ -80,7 +81,7 @@ public:
 
 private:
     ShaderModuleType _type { ShaderModuleType::Vertex };
-    std::string _name;
+    Name _name;
     std::string _source;
 };
 

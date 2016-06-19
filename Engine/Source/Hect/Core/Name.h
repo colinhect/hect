@@ -41,14 +41,6 @@ public:
     typedef uint32_t Index;
 
     ///
-    /// Allocates the static look-up table.
-    static void initialize();
-
-    ///
-    /// Deallocates the static look-up table.
-    static void uninitialize();
-
-    ///
     /// Constructs an empty name.
     Name();
 
@@ -67,6 +59,14 @@ public:
     ///
     /// Returns the name as a string.
     const std::string& asString() const;
+
+    ///
+    /// Returns a pointer to the raw data of the name's string.
+    const char* data() const;
+
+    ///
+    /// Returns the index of the name.
+    Index index() const;
 
     ///
     /// Returns whether the name is empty.
@@ -101,5 +101,16 @@ class Decoder;
 
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Name& name);
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, Name& name);
+
+}
+
+namespace std
+{
+
+template <>
+struct hash<hect::Name>
+{
+    std::size_t operator()(const hect::Name& name) const;
+};
 
 }
