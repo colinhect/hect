@@ -30,6 +30,16 @@
 
 using namespace hect;
 
+Name Entity::name() const
+{
+    return _name;
+}
+
+void Entity::setName(Name name)
+{
+    _name = name;
+}
+
 Scene& Entity::scene()
 {
     ensureInPool();
@@ -262,7 +272,8 @@ Entity& Entity::operator=(Entity&& entity)
     return *this;
 }
 
-Entity::Entity()
+Entity::Entity() :
+    _name(Name::Unnamed)
 {
 }
 
@@ -327,6 +338,17 @@ void Entity::encode(Encoder& encoder) const
 
     if (!isTransient())
     {
+        const bool hasName = _name != Name::Unnamed;
+        if (encoder.isBinaryStream())
+        {
+            encoder << encodeValue(hasName);
+        }
+
+        if (hasName)
+        {
+            encoder << encodeValue("name", _name);
+        }
+
         Scene& scene = _pool->_scene;
         scene.encodeComponents(*this, encoder);
 
@@ -345,6 +367,10 @@ void Entity::decode(Decoder& decoder)
 
     Scene& scene = _pool->_scene;
 
+    // Use an iterator since the "this" pointer might be invalidated as new
+    // entities are created
+    Entity::Iterator entity = iterator();
+
     if (!decoder.isBinaryStream())
     {
         if (decoder.selectMember("base"))
@@ -355,13 +381,24 @@ void Entity::decode(Decoder& decoder)
             try
             {
                 AssetDecoder baseDecoder(decoder.assetCache(), basePath);
-                baseDecoder >> decodeValue(*this);
+                baseDecoder >> decodeValue(*entity);
             }
             catch (const Exception& exception)
             {
                 throw DecodeError(format("Failed to load base entity '%s': %s", basePath.asString().data(), exception.what()));
             }
         }
+    }
+
+    bool hasName = true;
+    if (decoder.isBinaryStream())
+    {
+        decoder >> decodeValue(hasName);
+    }
+
+    if (hasName)
+    {
+        decoder >> decodeValue("name", entity->_name);
     }
 
     if (decoder.selectMember("components"))
@@ -371,10 +408,6 @@ void Entity::decode(Decoder& decoder)
 
     if (decoder.selectMember("children"))
     {
-        // Use an iterator since the "this" pointer might be invalidated as new
-        // entities are created
-        Entity::Iterator entity = iterator();
-
         decoder >> beginArray();
         while (decoder.hasMoreElements())
         {

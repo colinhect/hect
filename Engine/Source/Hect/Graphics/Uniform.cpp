@@ -26,7 +26,7 @@
 using namespace hect;
 
 Uniform::Uniform() :
-    _name("<unnamed>")
+    _name(Name::Unnamed)
 {
 }
 

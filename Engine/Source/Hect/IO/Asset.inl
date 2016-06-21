@@ -28,7 +28,7 @@ namespace hect
 
 template <typename T>
 Asset<T>::Asset() :
-    _name("<unnamed>")
+    _name(Name::Unnamed)
 {
 }
 

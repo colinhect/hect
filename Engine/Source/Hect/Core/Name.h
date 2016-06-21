@@ -37,6 +37,10 @@ class HECT_EXPORT Name
 public:
 
     ///
+    /// A name indicating no name.
+    static const Name Unnamed;
+
+    ///
     /// An index value of a name.
     typedef uint32_t Index;
 

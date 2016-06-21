@@ -93,18 +93,21 @@ const Entity& EntityPool::withId(EntityId id) const
     throw InvalidOperation("Invalid entity");
 }
 
-Entity::Iterator EntityPool::create()
+Entity::Iterator EntityPool::create(Name name)
 {
-    EntityId entityId = _idPool.create();
+    EntityId id = _idPool.create();
 
     // Expand the pool if needed
-    if (entityId >= _entityCount)
+    if (id >= _entityCount)
     {
         expand();
     }
 
-    _entities[entityId].enterPool(*this, entityId);
-    return Entity::Iterator(*this, entityId);
+    Entity& entity = _entities[id];
+    entity.setName(name);
+    entity.enterPool(*this, id);
+
+    return Entity::Iterator(*this, id);
 }
 
 void EntityPool::destroy(EntityId id)

@@ -160,9 +160,9 @@ void Scene::render(RenderTarget& target)
     }
 }
 
-Entity::Iterator Scene::createEntity()
+Entity::Iterator Scene::createEntity(Name name)
 {
-    Entity::Iterator entity = _entityPool.create();
+    Entity::Iterator entity = _entityPool.create(name);
     if (_refreshing)
     {
         // Dispatch an entity create event
@@ -178,7 +178,7 @@ Entity::Iterator Scene::createEntity()
     return entity;
 }
 
-Entity::Iterator Scene::createEntity(const Path& path)
+Entity::Iterator Scene::loadEntity(const Path& path)
 {
     Entity::Iterator entity = createEntity();
 
@@ -469,7 +469,7 @@ ComponentPoolBase& Scene::componentPoolOfTypeId(ComponentTypeId typeId)
 Entity::Iterator Scene::cloneEntity(const Entity& entity)
 {
     Entity::ConstIterator sourceEntity = entity.iterator();
-    Entity::Iterator clonedEntity = createEntity();
+    Entity::Iterator clonedEntity = createEntity(sourceEntity->name());
 
     for (ComponentTypeId typeId : _componentTypeIds)
     {

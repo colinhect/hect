@@ -125,7 +125,7 @@ public:
     const Entity& withId(EntityId id) const;
 
 private:
-    Entity::Iterator create();
+    Entity::Iterator create(Name name);
     void destroy(EntityId id);
 
     bool entityIsValid(EntityId id);

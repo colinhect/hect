@@ -42,6 +42,8 @@ static std::vector<std::string> _nameIndexToString;
 
 }
 
+const Name Name::Unnamed("<unnamed>");
+
 Name::Name() :
     _index(-1)
 {
@@ -109,6 +111,12 @@ Name::Index Name::lookUpIndex(const std::string& string)
     if (it == _nameStringToIndex.end())
     {
         std::lock_guard<std::mutex> lock(_nameIndexLookUpMutex);
+
+        // If this is the first name added to the index then reserve space
+        if (_nameIndexToString.size() == 0)
+        {
+            _nameIndexToString.reserve(1024);
+        }
 
         // Add the string to the string look-up table
         index = static_cast<Name::Index>(_nameIndexToString.size());

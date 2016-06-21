@@ -213,13 +213,15 @@ TEST_CASE("Create and destroy entities in a scene", "[Scene]")
 {
     Scene scene(Engine::instance());
 
-    Entity::Iterator a = scene.createEntity();
+    Entity::Iterator a = scene.createEntity("A");
     REQUIRE(a);
     REQUIRE(a->id() == 0);
+    REQUIRE(a->name() == "A");
 
-    Entity::Iterator b = scene.createEntity();
+    Entity::Iterator b = scene.createEntity("B");
     REQUIRE(b);
     REQUIRE(b->id() == 1);
+    REQUIRE(b->name() == "B");
 
     a->destroy();
     REQUIRE(a);

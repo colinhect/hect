@@ -140,6 +140,16 @@ public:
     typename Component<T>::ConstIterator component() const;
 
     ///
+    /// Returns the name.
+    Name name() const;
+
+    ///
+    /// Sets the name.
+    ///
+    /// \param name The new name.
+    void setName(Name name);
+
+    ///
     /// Returns the Scene that the Entity is in.
     Scene& scene();
 
@@ -434,7 +444,7 @@ private:
     EntityId _id { EntityId(-1) };
     EntityId _parentId { EntityId(-1) };
     std::vector<EntityId> _childIds;
-
+    Name _name;
     std::bitset<4> _flags;
 };
 

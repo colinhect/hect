@@ -198,18 +198,20 @@ public:
     ///
     /// Creates a new Entity.
     ///
+    /// \param name The name of the entity.
+    ///
     /// \returns An iterator to the new entity.
-    Entity::Iterator createEntity();
+    Entity::Iterator createEntity(Name name = Name::Unnamed);
 
     ///
-    /// Creates a new Entity decoded from a file.
+    /// Loads an Entity from an asset.
     ///
-    /// \param path The path to the entity.
+    /// \param path The path to the entity asset.
     ///
     /// \returns An iterator to the new entity.
     ///
     /// \throws FatalError If the entity failed to decode.
-    Entity::Iterator createEntity(const Path& path);
+    Entity::Iterator loadEntity(const Path& path);
 
     ///
     /// Returns the pool of \link Entity Entities \endlink.
