@@ -42,7 +42,6 @@ namespace hect {}
 #include "Hect/Core/Logging.h"
 #include "Hect/Core/Optional.h"
 #include "Hect/Core/Sequence.h"
-#include "Hect/Core/StringMap.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/BlendFactor.h"
 #include "Hect/Graphics/Font.h"

@@ -54,8 +54,6 @@ set(SOURCE_FILES
     "Source/Hect/Core/Optional.inl"
     "Source/Hect/Core/Sequence.h"
     "Source/Hect/Core/Sequence.inl"
-    "Source/Hect/Core/StringMap.h"
-    "Source/Hect/Core/StringMap.inl"
     "Source/Hect/Core/Uncopyable.cpp"
     "Source/Hect/Core/Uncopyable.h"
     "Source/Hect/Graphics/BlendFactor.h"
@@ -388,8 +386,6 @@ source_group("Source\\Hect\\Core" FILES
     "Source/Hect/Core/Optional.inl"
     "Source/Hect/Core/Sequence.h"
     "Source/Hect/Core/Sequence.inl"
-    "Source/Hect/Core/StringMap.h"
-    "Source/Hect/Core/StringMap.inl"
     "Source/Hect/Core/Uncopyable.cpp"
     "Source/Hect/Core/Uncopyable.h"
     )
