@@ -134,6 +134,16 @@ TEST_CASE("Construct a 4-dimensional vector data value", "[DataValue]")
     REQUIRE(v.w == 4);
 }
 
+TEST_CASE("Get the value of a data value as a name", "[DataValue]")
+{
+    static Name testing("Testing");
+
+    DataValue value(testing);
+    REQUIRE(value.isString());
+    REQUIRE(value.asString() == "Testing");
+    REQUIRE(value.asName() == testing);
+}
+
 TEST_CASE("Get the member names of an object data value", "[DataValue]")
 {
     DataValue value(DataValueType::Object);

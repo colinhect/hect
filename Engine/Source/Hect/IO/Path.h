@@ -27,6 +27,7 @@
 #include <iostream>
 
 #include "Hect/Core/Export.h"
+#include "Hect/Core/Name.h"
 
 namespace hect
 {
@@ -58,6 +59,14 @@ public:
     Path(const std::string& path);
 
     ///
+    /// Constructs a path from a name.
+    ///
+    /// \note %Any trailing slashes are ignored.
+    ///
+    /// \param path The path with each part delimited by a forward slash.
+    Path(Name path);
+
+    ///
     /// Returns the file extension of the path.
     std::string extension() const;
 
@@ -84,6 +93,10 @@ public:
     ///
     /// Returns the raw path.
     const std::string& asString() const;
+
+    ///
+    /// Returns the raw path.
+    Name asName() const;
 
     ///
     /// Returns true if the path is less than another.

@@ -28,6 +28,7 @@
 #include <unordered_map>
 
 #include "Hect/Core/Exception.h"
+#include "Hect/Core/Logging.h"
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
 
@@ -124,6 +125,8 @@ Name::Index Name::lookUpIndex(const std::string& string)
 
         // Add the index to the index look-up table
         _nameStringToIndex[string] = index;
+
+        HECT_TRACE(format("Indexed '%s' to name table at index %i", string.data(), index))
     }
     else
     {

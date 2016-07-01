@@ -155,6 +155,12 @@ DataValue::DataValue(const std::string& value) :
 {
 }
 
+DataValue::DataValue(Name value) :
+    _type(DataValueType::String),
+    _any(value.asString())
+{
+}
+
 DataValue::DataValue(const DataValue& dataValue) :
     _type(dataValue._type),
     _any(dataValue._any)
@@ -375,6 +381,18 @@ const std::string& DataValue::asString() const
     {
         return empty;
     }
+}
+
+Name DataValue::asName() const
+{
+    Name name;
+
+    if (isString())
+    {
+        name = _any.as<std::string>();
+    }
+
+    return name;
 }
 
 size_t DataValue::size() const

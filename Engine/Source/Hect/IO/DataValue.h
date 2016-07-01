@@ -30,6 +30,7 @@
 
 #include "Hect/Core/Any.h"
 #include "Hect/Core/Export.h"
+#include "Hect/Core/Name.h"
 #include "Hect/IO/DataValueType.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
@@ -135,6 +136,12 @@ public:
     DataValue(const std::string& value);
 
     ///
+    /// Constructs a string data value.
+    ///
+    /// \param value The string value.
+    DataValue(Name value);
+
+    ///
     /// Constructs a data value copied from another.
     ///
     /// \param dataValue The data value to copy.
@@ -225,6 +232,11 @@ public:
     /// Returns the value as a string (empty string if the data value is not a
     /// string).
     const std::string& asString() const;
+
+    ///
+    /// Returns the value as a name (empty string if the data value is not a
+    /// string).
+    Name asName() const;
 
     ///
     /// Returns the number of elements or members.

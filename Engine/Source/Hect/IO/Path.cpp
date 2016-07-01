@@ -49,6 +49,11 @@ Path::Path(const std::string& path)
     setRawPath(path.data());
 }
 
+Path::Path(Name path)
+{
+    setRawPath(path.data());
+}
+
 std::string Path::extension() const
 {
     // Find the position of the first '.' starting from the right
@@ -135,6 +140,11 @@ Path& Path::operator+=(const Path& path)
 const std::string& Path::asString() const
 {
     return _rawPath;
+}
+
+Name Path::asName() const
+{
+    return Name(_rawPath);
 }
 
 bool Path::operator<(const Path& path) const
