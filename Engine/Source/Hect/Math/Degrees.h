@@ -24,94 +24,24 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/Color.h"
-#include "Hect/Logic/Scene.h"
-#include "Hect/Math/Degrees.h"
-#include "Hect/Math/Frustum.h"
+#include "Hect/Math/Angle.h"
 
 namespace hect
 {
 
-class Transform;
-
 ///
-/// A camera.
-///
-/// \component
-class HECT_EXPORT Camera :
-    public Component<Camera>
+/// An angle in degrees.
+class HECT_EXPORT Degrees :
+    public Angle
 {
 public:
 
     ///
-    /// The horizontal field of view.
+    /// Constructs an angle from a value in degrees.
     ///
-    /// \property
-    Angle fieldOfView { Degrees(90) };
+    /// \param degrees The angle in degrees.
+    Degrees(double degrees);
 
-    ///
-    /// The aspect ratio.
-    ///
-    /// \property
-    double aspectRatio { 1.0 };
-
-    ///
-    /// The near clip distance.
-    ///
-    /// \property
-    double nearClip { 0.1 };
-
-    ///
-    /// The far clip distance.
-    ///
-    /// \property
-    double farClip { 10000 };
-
-    ///
-    /// The exposure.
-    ///
-    /// \property
-    double exposure { 1.0 };
-
-    ///
-    /// The gamma.
-    ///
-    /// \property
-    double gamma { 2.2 };
-
-    ///
-    /// The color used to clear the render target.
-    ///
-    /// \property
-    Color clearColor { Color::Zero };
-
-    ///
-    /// The front vector.
-    Vector3 front { Vector3::UnitY };
-
-    ///
-    /// The up vector.
-    Vector3 up { Vector3::UnitZ };
-
-    ///
-    /// The right vector.
-    Vector3 right { Vector3::UnitX };
-
-    ///
-    /// The position.
-    Vector3 position;
-
-    ///
-    /// The view matrix.
-    Matrix4 viewMatrix;
-
-    ///
-    /// The projection matrix.
-    Matrix4 projectionMatrix;
-
-    ///
-    /// The frustum.
-    Frustum frustum;
 };
 
 }

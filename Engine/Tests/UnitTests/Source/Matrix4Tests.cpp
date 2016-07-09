@@ -21,6 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include <Hect/Math/Degrees.h>
 #include <Hect/Math/Matrix4.h>
 using namespace hect;
 
@@ -32,14 +33,14 @@ TEST_CASE("Multiply a 3-dimensional vector by a 4x4 matrix", "[Matrix]")
     Matrix4 m;
     Vector3 v;
 
-    r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
+    r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
     m = Matrix4::fromRotation(r);
     v = m * Vector3::UnitX;
     REQUIRE(-1.0 == v.x);
     REQUIRE(0.0 == v.y);
     REQUIRE(std::abs(v.z - 0.0) < 0.01);
 
-    r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(90));
+    r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(90));
     m = Matrix4::fromRotation(r);
     v = m * Vector3::UnitX;
     REQUIRE(std::abs(v.x - 0.0) < 0.01);
@@ -67,7 +68,7 @@ TEST_CASE("Multiply a 3-dimensional vector by the identity 4x4 matrix", "[Matrix
 
 TEST_CASE("Cast a 4x4 matrix from double to float", "[Matrix]")
 {
-    Quaternion r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
+    Quaternion r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
     Matrix4 a = Matrix4::fromRotation(r);
     Matrix4T<float> b = a;
 

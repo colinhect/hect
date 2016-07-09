@@ -100,7 +100,7 @@ Matrix4T<T> Matrix4T<T>::createPerspective(Angle fieldOfView, T aspectRatio, T n
 {
     Matrix4T m;
 
-    T h = T(1) / std::tan(fieldOfView.radians() * T(0.5));
+    T h = T(1) / std::tan(fieldOfView.inRadians() * T(0.5));
     m[ 0] = h / aspectRatio;
     m[ 5] = h;
     m[10] = (farClip + nearClip) / (nearClip - farClip);

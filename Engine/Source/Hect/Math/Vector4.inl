@@ -25,6 +25,8 @@
 #include <cassert>
 #include <cmath>
 
+#include "Hect/Math/Radians.h"
+
 namespace hect
 {
 
@@ -109,7 +111,7 @@ template <typename T>
 Angle Vector4T<T>::angleFrom(const Vector4T& v) const
 {
     double radians = static_cast<double>(std::acos(dot(v)));
-    return Angle::fromRadians(radians);
+    return Radians(radians);
 }
 
 template <typename T>

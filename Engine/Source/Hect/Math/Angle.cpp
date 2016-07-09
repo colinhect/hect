@@ -24,30 +24,16 @@
 #include "Angle.h"
 
 #include "Hect/Math/Constants.h"
+#include "Hect/Math/Degrees.h"
 
 namespace hect
 {
-
-Angle Angle::fromDegrees(double degrees)
-{
-    return Angle((Pi / 180.0) * degrees);
-}
-
-Angle Angle::fromRadians(double radians)
-{
-    return Angle(radians);
-}
 
 Angle::Angle()
 {
 }
 
-Angle::Angle(double radians) :
-    _radians(radians)
-{
-}
-
-double Angle::degrees() const
+double Angle::inDegrees() const
 {
     double degrees = (180.0 / Pi) * _radians;
     if (degrees == 360.0)
@@ -57,7 +43,7 @@ double Angle::degrees() const
     return degrees;
 }
 
-double Angle::radians() const
+double Angle::inRadians() const
 {
     return _radians;
 }
@@ -111,9 +97,14 @@ Angle& Angle::operator/=(double value)
     return *this;
 }
 
+Angle::Angle(double radians) :
+    _radians(radians)
+{
+}
+
 Encoder& operator<<(Encoder& encoder, Angle angle)
 {
-    encoder << angle.degrees();
+    encoder << angle.inDegrees();
     return encoder;
 }
 
@@ -121,7 +112,7 @@ Decoder& operator>>(Decoder& decoder, Angle& angle)
 {
     double degrees;
     decoder >> decodeValue(degrees);
-    angle = Angle::fromDegrees(degrees);
+    angle = Degrees(degrees);
     return decoder;
 }
 

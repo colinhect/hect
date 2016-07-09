@@ -37,38 +37,16 @@ class HECT_EXPORT Angle
 public:
 
     ///
-    /// Constructs an angle from a value in degrees.
-    ///
-    /// \param degrees The angle in degrees.
-    ///
-    /// \returns The angle.
-    static Angle fromDegrees(double degrees);
-
-    ///
-    /// Constructs an angle from a value in radians.
-    ///
-    /// \param radians The angle in radians.
-    ///
-    /// \returns The angle.
-    static Angle fromRadians(double radians);
-
-    ///
     /// Constructs a zero-degree angle.
     Angle();
 
     ///
-    /// Constructs an angle.
-    ///
-    /// \param radians The angle in radians.
-    Angle(double radians);
-
-    ///
     /// Returns the value of the angle in degrees.
-    double degrees() const;
+    double inDegrees() const;
 
     ///
     /// Returns the value of the angle in radians.
-    double radians() const;
+    double inRadians() const;
 
     ///
     /// Returns the sum of the angle and another angle.
@@ -129,6 +107,14 @@ public:
     ///
     /// \returns A reference to the angle.
     Angle& operator/=(double value);
+
+protected:
+
+    ///
+    /// Constructs an angle.
+    ///
+    /// \param radians The angle in radians.
+    Angle(double radians);
 
 private:
     double _radians { 0.0 };

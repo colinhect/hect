@@ -21,6 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include <Hect/Math/Degrees.h>
 #include <Hect/Math/Frustum.h>
 using namespace hect;
 
@@ -32,7 +33,7 @@ TEST_CASE("Test an axis-aligned box behind a frustum", "[Frustum]")
         Vector3(0, 0, 0),
         Vector3(0, 0, -1),
         Vector3(0, 1, 0),
-        Angle::fromDegrees(90),
+        Degrees(90),
         1,
         0.1,
         100);
@@ -48,7 +49,7 @@ TEST_CASE("Test an axis-aligned box on the outside-left of a frustum", "[Frustum
         Vector3(0, 0, 0),
         Vector3(0, 0, -1),
         Vector3(0, 1, 0),
-        Angle::fromDegrees(90),
+        Degrees(90),
         1,
         0.1,
         100);
@@ -64,7 +65,7 @@ TEST_CASE("Test an axis-aligned box on the inside of a frustum", "[Frustum]")
         Vector3(0, 0, 0),
         Vector3(0, 0, -1),
         Vector3(0, 1, 0),
-        Angle::fromDegrees(90),
+        Degrees(90),
         1,
         0.1,
         100);
@@ -80,7 +81,7 @@ TEST_CASE("Test an axis-aligned box intersecting a frustum", "[Frustum]")
         Vector3(0, 0, 0),
         Vector3(0, 0, -1),
         Vector3(0, 1, 0),
-        Angle::fromDegrees(90),
+        Degrees(90),
         1,
         0.1,
         100);

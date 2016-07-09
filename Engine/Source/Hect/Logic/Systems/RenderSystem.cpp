@@ -30,6 +30,7 @@
 #include "Hect/Logic/Components/Model.h"
 #include "Hect/Logic/Components/SkyBox.h"
 #include "Hect/Math/Constants.h"
+#include "Hect/Math/Radians.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -92,7 +93,7 @@ void RenderSystem::renderToTextureCube(const Vector3& position, TextureCube& tex
         Camera::Iterator camera = entity->addComponent<Camera>();
         camera->position = position;
         camera->exposure = -1.0;
-        camera->fieldOfView = Angle::fromRadians(Pi / 2);
+        camera->fieldOfView = Radians(Pi / 2);
 
         Camera::Iterator activeCamera = _cameraSystem->activeCamera();
         if (activeCamera)

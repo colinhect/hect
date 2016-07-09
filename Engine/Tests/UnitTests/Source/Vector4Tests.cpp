@@ -142,30 +142,30 @@ TEST_CASE("Get a normalized copy of a 4-dimensional vector", "[Vector4]")
 
 TEST_CASE("Compute the angle betwen two 4-dimensional vectors", "[Vector4]")
 {
-    REQUIRE(Vector4::UnitX.angleFrom(Vector4::UnitX).degrees() == 0.0);
-    REQUIRE(Vector4::UnitX.angleFrom(-Vector4::UnitX).degrees() == 180.0);
+    REQUIRE(Vector4::UnitX.angleFrom(Vector4::UnitX).inDegrees() == 0.0);
+    REQUIRE(Vector4::UnitX.angleFrom(-Vector4::UnitX).inDegrees() == 180.0);
 
-    REQUIRE(Vector4::UnitY.angleFrom(Vector4::UnitY).degrees() == 0.0);
-    REQUIRE(Vector4::UnitY.angleFrom(-Vector4::UnitY).degrees() == 180.0);
+    REQUIRE(Vector4::UnitY.angleFrom(Vector4::UnitY).inDegrees() == 0.0);
+    REQUIRE(Vector4::UnitY.angleFrom(-Vector4::UnitY).inDegrees() == 180.0);
 
-    REQUIRE(Vector4::UnitZ.angleFrom(Vector4::UnitZ).degrees() == 0.0);
-    REQUIRE(Vector4::UnitZ.angleFrom(-Vector4::UnitZ).degrees() == 180.0);
+    REQUIRE(Vector4::UnitZ.angleFrom(Vector4::UnitZ).inDegrees() == 0.0);
+    REQUIRE(Vector4::UnitZ.angleFrom(-Vector4::UnitZ).inDegrees() == 180.0);
 
-    REQUIRE(Vector4::UnitW.angleFrom(Vector4::UnitW).degrees() == 0.0);
-    REQUIRE(Vector4::UnitW.angleFrom(-Vector4::UnitW).degrees() == 180.0);
+    REQUIRE(Vector4::UnitW.angleFrom(Vector4::UnitW).inDegrees() == 0.0);
+    REQUIRE(Vector4::UnitW.angleFrom(-Vector4::UnitW).inDegrees() == 180.0);
 
-    REQUIRE(Vector4::UnitX.angleFrom(Vector4::UnitY).degrees() == 90.0);
-    REQUIRE(Vector4::UnitX.angleFrom(Vector4::UnitZ).degrees() == 90.0);
-    REQUIRE(Vector4::UnitX.angleFrom(Vector4::UnitW).degrees() == 90.0);
-    REQUIRE(Vector4::UnitY.angleFrom(Vector4::UnitX).degrees() == 90.0);
-    REQUIRE(Vector4::UnitY.angleFrom(Vector4::UnitZ).degrees() == 90.0);
-    REQUIRE(Vector4::UnitY.angleFrom(Vector4::UnitW).degrees() == 90.0);
-    REQUIRE(Vector4::UnitZ.angleFrom(Vector4::UnitX).degrees() == 90.0);
-    REQUIRE(Vector4::UnitZ.angleFrom(Vector4::UnitY).degrees() == 90.0);
-    REQUIRE(Vector4::UnitZ.angleFrom(Vector4::UnitW).degrees() == 90.0);
-    REQUIRE(Vector4::UnitW.angleFrom(Vector4::UnitX).degrees() == 90.0);
-    REQUIRE(Vector4::UnitW.angleFrom(Vector4::UnitY).degrees() == 90.0);
-    REQUIRE(Vector4::UnitW.angleFrom(Vector4::UnitZ).degrees() == 90.0);
+    REQUIRE(Vector4::UnitX.angleFrom(Vector4::UnitY).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitX.angleFrom(Vector4::UnitZ).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitX.angleFrom(Vector4::UnitW).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitY.angleFrom(Vector4::UnitX).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitY.angleFrom(Vector4::UnitZ).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitY.angleFrom(Vector4::UnitW).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitZ.angleFrom(Vector4::UnitX).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitZ.angleFrom(Vector4::UnitY).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitZ.angleFrom(Vector4::UnitW).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitW.angleFrom(Vector4::UnitX).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitW.angleFrom(Vector4::UnitY).inDegrees() == 90.0);
+    REQUIRE(Vector4::UnitW.angleFrom(Vector4::UnitZ).inDegrees() == 90.0);
 }
 
 TEST_CASE("Compute the sum of two 4-dimensional vectors", "[Vector4]")

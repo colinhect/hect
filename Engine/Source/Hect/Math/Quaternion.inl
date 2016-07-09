@@ -33,13 +33,13 @@ template <typename T>
 QuaternionT<T> QuaternionT<T>::fromAxisAngle(const Vector3T<T>& axis, Angle angle)
 {
     // Special case for identity quaternion
-    if (angle.degrees() == 0 || axis.lengthSquared() == T(0))
+    if (angle.inDegrees() == 0 || axis.lengthSquared() == T(0))
     {
         return QuaternionT();
     }
     else
     {
-        T halfRadians = static_cast<T>(angle.radians()) / T(2);
+        T halfRadians = static_cast<T>(angle.inRadians()) / T(2);
 
         Vector3T<T> v = axis.normalized() * static_cast<T>(std::sin(halfRadians));
         T w = static_cast<T>(std::cos(halfRadians));
@@ -136,7 +136,7 @@ void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, Angle& angle) const
     if (w == T(0) || (x + y + z) == T(0))
     {
         axis = Vector3T<T>::Zero;
-        angle = Angle::fromRadians(0);
+        angle = Radians(0);
     }
     else
     {
@@ -144,7 +144,7 @@ void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, Angle& angle) const
         q.normalize();
 
         axis = Vector3T<T>(q.x, q.y, q.z).normalized();
-        angle = Angle::fromRadians(static_cast<double>(std::acos(w)) * 2);
+        angle = Radians(static_cast<double>(std::acos(w)) * 2);
     }
 }
 

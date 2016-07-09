@@ -133,21 +133,21 @@ TEST_CASE("Get a normalized copy of a 3-dimensional vector", "[Vector3]")
 
 TEST_CASE("Compute the angle betwen two 3-dimensional vectors", "[Vector3]")
 {
-    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitX).degrees() == 0.0);
-    REQUIRE(Vector3::UnitX.angleFrom(-Vector3::UnitX).degrees() == 180.0);
+    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitX).inDegrees() == 0.0);
+    REQUIRE(Vector3::UnitX.angleFrom(-Vector3::UnitX).inDegrees() == 180.0);
 
-    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitY).degrees() == 0.0);
-    REQUIRE(Vector3::UnitY.angleFrom(-Vector3::UnitY).degrees() == 180.0);
+    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitY).inDegrees() == 0.0);
+    REQUIRE(Vector3::UnitY.angleFrom(-Vector3::UnitY).inDegrees() == 180.0);
 
-    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitZ).degrees() == 0.0);
-    REQUIRE(Vector3::UnitZ.angleFrom(-Vector3::UnitZ).degrees() == 180.0);
+    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitZ).inDegrees() == 0.0);
+    REQUIRE(Vector3::UnitZ.angleFrom(-Vector3::UnitZ).inDegrees() == 180.0);
 
-    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitY).degrees() == 90.0);
-    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitZ).degrees() == 90.0);
-    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitX).degrees() == 90.0);
-    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitZ).degrees() == 90.0);
-    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitX).degrees() == 90.0);
-    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitY).degrees() == 90.0);
+    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitY).inDegrees() == 90.0);
+    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitZ).inDegrees() == 90.0);
+    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitX).inDegrees() == 90.0);
+    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitZ).inDegrees() == 90.0);
+    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitX).inDegrees() == 90.0);
+    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitY).inDegrees() == 90.0);
 }
 
 TEST_CASE("Compute the cross product of two 3-dimensional vectors", "[Vector3]")

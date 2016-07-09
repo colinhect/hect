@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <Hect/Math/Angle.h>
 #include <Hect/Math/Constants.h>
+#include <Hect/Math/Degrees.h>
+#include <Hect/Math/Radians.h>
 using namespace hect;
 
 #include <catch.hpp>
@@ -31,109 +33,119 @@ TEST_CASE("Construct a default angle", "[Angle]")
 {
     Angle a;
 
-    REQUIRE(a.degrees() == 0);
-    REQUIRE(a.radians() == 0);
+    REQUIRE(a.inDegrees() == 0);
+    REQUIRE(a.inRadians() == 0);
 }
 
 TEST_CASE("Construct an angle from degrees", "[Angle]")
 {
-    Angle a = Angle::fromDegrees(180);
+    Angle a = Degrees(180);
 
-    REQUIRE(a.degrees() == 180);
-    REQUIRE(a.radians() == Pi);
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
+
+    a = Degrees(180);
+
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
 }
 
 TEST_CASE("Construct an angle from radians", "[Angle]")
 {
-    Angle a = Angle::fromRadians(Pi);
+    Angle a = Radians(Pi);
 
-    REQUIRE(a.degrees() == 180);
-    REQUIRE(a.radians() == Pi);
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
+
+    a = Radians(Pi);
+
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
 }
 
 TEST_CASE("Negate an angle", "[Angle]")
 {
-    Angle a = Angle::fromRadians(Pi);
+    Angle a = Radians(Pi);
     a = -a;
 
-    REQUIRE(a.degrees() == -180);
-    REQUIRE(a.radians() == -Pi);
+    REQUIRE(a.inDegrees() == -180);
+    REQUIRE(a.inRadians() == -Pi);
 }
 
 TEST_CASE("Compute the sum of two angles", "[Angle]")
 {
     SECTION("Constructed from the same unit units")
     {
-        Angle a = Angle::fromDegrees(45) + Angle::fromDegrees(135);
+        Angle a = Degrees(45) + Degrees(135);
 
-        REQUIRE(a.degrees() == 180);
-        REQUIRE(a.radians() == Pi);
+        REQUIRE(a.inDegrees() == 180);
+        REQUIRE(a.inRadians() == Pi);
     }
 
     SECTION("Constructed from different units")
     {
-        Angle a = Angle::fromRadians(Pi / 4) + Angle::fromDegrees(135);
+        Angle a = Radians(Pi / 4) + Degrees(135);
 
-        REQUIRE(a.degrees() == 180);
-        REQUIRE(a.radians() == Pi);
+        REQUIRE(a.inDegrees() == 180);
+        REQUIRE(a.inRadians() == Pi);
     }
 }
 
 TEST_CASE("Add an angle to another angle", "[Angle]")
 {
-    Angle a = Angle::fromDegrees(45);
-    a += Angle::fromDegrees(135);
+    Angle a = Degrees(45);
+    a += Degrees(135);
 
-    REQUIRE(a.degrees() == 180);
-    REQUIRE(a.radians() == Pi);
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
 }
 
 TEST_CASE("Compute the difference between two angles", "[Angle]")
 {
-    Angle a = Angle::fromDegrees(270) - Angle::fromDegrees(90);
+    Angle a = Degrees(270) - Degrees(90);
 
-    REQUIRE(a.degrees() == 180);
-    REQUIRE(a.radians() == Pi);
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
 }
 
 TEST_CASE("Subtract an angle from another angle", "[Angle]")
 {
-    Angle a = Angle::fromDegrees(270);
-    a -= Angle::fromDegrees(90);
+    Angle a = Degrees(270);
+    a -= Degrees(90);
 
-    REQUIRE(a.degrees() == 180);
-    REQUIRE(a.radians() == Pi);
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
 }
 
 TEST_CASE("Compute the product of an angle and a scalar", "[Angle]")
 {
-    Angle a = Angle::fromDegrees(90) * 2;
+    Angle a = Degrees(90) * 2;
 
-    REQUIRE(a.degrees() == 180);
-    REQUIRE(a.radians() == Pi);
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
 }
 
 TEST_CASE("Multiple an angle by a scalar", "[Angle]")
 {
-    Angle a = Angle::fromDegrees(90);
+    Angle a = Degrees(90);
     a *= 2;
-    REQUIRE(a.degrees() == 180);
-    REQUIRE(a.radians() == Pi);
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
 }
 
 TEST_CASE("Compute the quotient of an angle and a scalar", "[Angle]")
 {
-    Angle a = Angle::fromDegrees(360) / 2;
+    Angle a = Degrees(360) / 2;
 
-    REQUIRE(a.degrees() == 180);
-    REQUIRE(a.radians() == Pi);
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
 }
 
 TEST_CASE("Divide an angle by a scalar", "[Angle]")
 {
-    Angle a = Angle::fromDegrees(360);
+    Angle a = Degrees(360);
     a /= 2;
 
-    REQUIRE(a.degrees() == 180);
-    REQUIRE(a.radians() == Pi);
+    REQUIRE(a.inDegrees() == 180);
+    REQUIRE(a.inRadians() == Pi);
 }

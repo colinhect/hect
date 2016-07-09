@@ -21,6 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
+#include <Hect/Math/Degrees.h>
 #include <Hect/Math/Quaternion.h>
 using namespace hect;
 
@@ -73,7 +74,7 @@ TEST_CASE("Copy a quaternion", "[Quaternion]")
 
 TEST_CASE("Construct a quaternion from an axis and an angle", "[Quaternion]")
 {
-    Quaternion a = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
+    Quaternion a = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
 
     Vector3 axis;
     Angle angle;
@@ -82,7 +83,7 @@ TEST_CASE("Construct a quaternion from an axis and an angle", "[Quaternion]")
     REQUIRE(axis.x == 0.0);
     REQUIRE(axis.y == 1.0);
     REQUIRE(axis.z == 0.0);
-    REQUIRE(std::abs(angle.degrees() - 180.0) < 0.01);
+    REQUIRE(std::abs(angle.inDegrees() - 180.0) < 0.01);
 }
 
 TEST_CASE("Multiply two quaternions", "[Quaternion]")
@@ -92,25 +93,25 @@ TEST_CASE("Multiply two quaternions", "[Quaternion]")
     Quaternion a;
     Quaternion b;
 
-    a = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(90));
-    b = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
+    a = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(90));
+    b = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
     a = b * a;
     a.toAxisAngle(axis, angle);
 
     REQUIRE(axis.x == 0.0);
     REQUIRE(std::abs(axis.y - 1.0) < 0.01);
     REQUIRE(axis.z == 0.0);
-    REQUIRE(angle.degrees() == 270);
+    REQUIRE(angle.inDegrees() == 270);
 
-    a = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(90));
-    b = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
+    a = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(90));
+    b = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
     a *= b;
     a.toAxisAngle(axis, angle);
 
     REQUIRE(axis.x == 0.0);
     REQUIRE(axis.y == 1.0);
     REQUIRE(axis.z == 0.0);
-    REQUIRE(angle.degrees() == 270);
+    REQUIRE(angle.inDegrees() == 270);
 }
 
 TEST_CASE("Multply a quaternion and a vector", "[Quaternion]")
@@ -118,13 +119,13 @@ TEST_CASE("Multply a quaternion and a vector", "[Quaternion]")
     Quaternion r;
     Vector3 v;
 
-    r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(180));
+    r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
     v = r * Vector3::UnitX;
     REQUIRE(v.x == -1.0);
     REQUIRE(v.y == 0.0);
     REQUIRE(std::abs(v.z - 0.0) < 0.01);
 
-    r = Quaternion::fromAxisAngle(Vector3::UnitY, Angle::fromDegrees(90));
+    r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(90));
     v = r * Vector3::UnitX;
     REQUIRE(std::abs(v.x - 0.0) < 0.01);
     REQUIRE(v.y == 0.0);

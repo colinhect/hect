@@ -124,14 +124,14 @@ TEST_CASE("Get a normalized copy of a 2-dimensional vector", "[Vector2]")
 
 TEST_CASE("Compute the angle betwen two 2-dimensional vectors", "[Vector2]")
 {
-    REQUIRE(Vector2::UnitX.angleFrom(Vector2::UnitX).degrees() == 0.0);
-    REQUIRE(std::abs(Vector2::UnitX.angleFrom(-Vector2::UnitX).degrees() - 180.0) < 0.01);
+    REQUIRE(Vector2::UnitX.angleFrom(Vector2::UnitX).inDegrees() == 0.0);
+    REQUIRE(std::abs(Vector2::UnitX.angleFrom(-Vector2::UnitX).inDegrees() - 180.0) < 0.01);
 
-    REQUIRE(Vector2::UnitY.angleFrom(Vector2::UnitY).degrees() == 0.0);
-    REQUIRE(Vector2::UnitY.angleFrom(-Vector2::UnitY).degrees() == 180.0);
+    REQUIRE(Vector2::UnitY.angleFrom(Vector2::UnitY).inDegrees() == 0.0);
+    REQUIRE(Vector2::UnitY.angleFrom(-Vector2::UnitY).inDegrees() == 180.0);
 
-    REQUIRE(Vector2::UnitX.angleFrom(Vector2::UnitY).degrees() == 90.0);
-    REQUIRE(Vector2::UnitY.angleFrom(Vector2::UnitX).degrees() == 90.0);
+    REQUIRE(Vector2::UnitX.angleFrom(Vector2::UnitY).inDegrees() == 90.0);
+    REQUIRE(Vector2::UnitY.angleFrom(Vector2::UnitX).inDegrees() == 90.0);
 }
 
 TEST_CASE("Compute the sum of two 2-dimensional vectors", "[Vector2]")
