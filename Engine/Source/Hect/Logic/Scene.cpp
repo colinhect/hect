@@ -32,6 +32,11 @@ Scene::Scene(Engine& engine) :
     _engine(engine),
     _entityPool(*this)
 {
+    // Register to entity events if trace-level logging is enabled
+    if (isLogLevelEnabled(LogLevel::Trace))
+    {
+        _entityPool.registerListener(*this);
+    }
 }
 
 SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
@@ -729,6 +734,27 @@ void Scene::decodeComponents(Entity& entity, Decoder& decoder)
                 decoder >> endObject();
             }
             decoder >> endArray();
+        }
+    }
+}
+
+void Scene::receiveEvent(const EntityEvent& event)
+{
+    if (event.entity)
+    {
+        const char* entityName = event.entity->name().asString().data();
+        const EntityId entityId = event.entity->id();
+        switch (event.type)
+        {
+        case EntityEventType::Create:
+            HECT_TRACE(format("Created entity '%s' (id: 0x%08x)", entityName, entityId));
+            break;
+        case EntityEventType::Activate:
+            HECT_TRACE(format("Activated entity '%s' (id: 0x%08x)", entityName, entityId));
+            break;
+        case EntityEventType::Destroy:
+            HECT_TRACE(format("Destroyed entity '%s' (id: 0x%08x)", entityName, entityId));
+            break;
         }
     }
 }

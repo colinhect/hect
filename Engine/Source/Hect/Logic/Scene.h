@@ -55,7 +55,8 @@ class Engine;
 /// higher-level game state is stored in the systems.
 class HECT_EXPORT Scene :
     public Uncopyable,
-    public Asset<Scene>
+    public Asset<Scene>,
+    public Listener<EntityEvent>
 {
     friend class Entity;
     template <typename T> friend class Component;
@@ -247,6 +248,8 @@ private:
 
     void encodeComponents(const Entity& entity, Encoder& encoder);
     void decodeComponents(Entity& entity, Decoder& decoder);
+
+    void receiveEvent(const EntityEvent& event) override;
 
     Engine& _engine;
 
